@@ -63,7 +63,7 @@ As a quick-start, you can use this command to start clamav with local volume mou
 ```bash
 docker run -it --rm \
     --name clamav \
-    --publish 3310
+    --publish 3310 \
     --mount source=clam_db,target=/var/lib/clamav \
     clamav/clamav:stable_base
 ```

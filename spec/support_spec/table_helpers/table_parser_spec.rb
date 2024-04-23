@@ -147,4 +147,18 @@ RSpec.describe TableHelpers::TableParser do
       expect(parsed_data.first[:attributes]).to include(derived_remaining_hours: 9)
     end
   end
+
+  describe "status column" do
+    let!(:status) { create(:status, name: "New") }
+    let(:table) do
+      <<~TABLE
+        subject | status
+        wp      | New
+      TABLE
+    end
+
+    it "sets the status attribute to its name, to be looked up later" do
+      expect(parsed_data.first[:attributes]).to include(status: "New")
+    end
+  end
 end

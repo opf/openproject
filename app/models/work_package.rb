@@ -43,7 +43,7 @@ class WorkPackage < ApplicationRecord
 
   include OpenProject::Journal::AttachmentHelper
 
-  DONE_RATIO_OPTIONS = %w(field status disabled).freeze
+  DONE_RATIO_OPTIONS = %w[field status].freeze
 
   belongs_to :project
   belongs_to :type
@@ -206,10 +206,6 @@ class WorkPackage < ApplicationRecord
   include WorkPackage::Journalized
   prepend Journable::Timestamps
 
-  def self.done_ratio_disabled?
-    Setting.work_package_done_ratio == "disabled"
-  end
-
   def self.use_status_for_done_ratio?
     Setting.work_package_done_ratio == "status"
   end
@@ -308,6 +304,11 @@ class WorkPackage < ApplicationRecord
   def estimated_hours=(hours)
     converted_hours = (hours.is_a?(String) ? hours.to_hours : hours)
     write_attribute :estimated_hours, !!converted_hours ? converted_hours : hours
+  end
+
+  def remaining_hours=(hours)
+    converted_hours = (hours.is_a?(String) ? hours.to_hours : hours)
+    write_attribute :remaining_hours, !!converted_hours ? converted_hours : hours
   end
 
   def duration_in_hours

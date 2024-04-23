@@ -320,59 +320,59 @@ lt:
       wp_shares: "Darbo paketų bendrinimai"
       groups: "Grupės"
     delete_member_dialog:
-      title: "Remove member"
-      will_remove_the_users_role: "This will remove the user’s role from this project."
-      will_remove_the_groups_role: "This will remove the group role from this project."
+      title: "Išimti narį"
+      will_remove_the_users_role: "Tai išims naudotojo vaidmenį iš šio projekto."
+      will_remove_the_groups_role: "Tai išims grupės vaidmenį iš šio projekto."
       however_work_packages_shared_with_user_html:
-        one: "However, %{shared_work_packages_link} has also been shared with this user."
-        few: "However, %{shared_work_packages_link} have also been shared with this user."
-        many: "However, %{shared_work_packages_link} have also been shared with this user."
-        other: "However, %{shared_work_packages_link} have also been shared with this user."
+        one: "Kaip bebūtų, %{shared_work_packages_link} taipogi bendrinamas su šiuo naudotoju."
+        few: "Kaip bebūtų, %{shared_work_packages_link} taipogi bendrinami su šiuo naudotoju."
+        many: "Kaip bebūtų, %{shared_work_packages_link} taipogi bendrinami su šiuo naudotoju."
+        other: "Kaip bebūtų, %{shared_work_packages_link} taipogi bendrinami su šiuo naudotoju."
       however_work_packages_shared_with_group_html:
-        one: "However, %{shared_work_packages_link} has also been shared with this group."
-        few: "However, %{shared_work_packages_link} have also been shared with this group."
-        many: "However, %{shared_work_packages_link} have also been shared with this group."
-        other: "However, %{shared_work_packages_link} have also been shared with this group."
-      remove_work_packages_shared_with_user_too: "A user that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
-      remove_work_packages_shared_with_group_too: "A group that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
-      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
-      can_remove_direct_but_not_shared_roles: "You can remove this user as a direct project member but a group they are in is also a member of this project, so they will continue being a member via the group."
+        one: "Kaip bebūtų, %{shared_work_packages_link} taipogi bendrinamas su šia grupe."
+        few: "Kaip bebūtų, %{shared_work_packages_link} taipogi bendrinami su šia grupe."
+        many: "Kaip bebūtų, %{shared_work_packages_link} taipogi bendrinami su šia grupe."
+        other: "Kaip bebūtų, %{shared_work_packages_link} taipogi bendrinami su šia grupe."
+      remove_work_packages_shared_with_user_too: "Naudotojas, kuris buvo išimtas kaip narys, vis dar gali prieiti prie bendrinamų darbo paketų. Ar norėtumėte taipogi išimti šiuos bendrinimus?"
+      remove_work_packages_shared_with_group_too: "Grupė, kuri buvo pašlinta kaip narys, vis dar turi prieigą prie bendrinamų darbo paketų. Ar norėtumėte taipogi panaikinti ir bendrinimus?"
+      will_not_affect_inherited_shares: "(Tai neįtakos darbo paketų, bendrinamų su jų grupe)"
+      can_remove_direct_but_not_shared_roles: "Jūs galite išimti šį naudotoją kaip tiesioginį projekto narį, bet grupė, kurios narys jis yra, taipogi yra šiame projekte, taigi jie ir toliau bus nariai per grupę."
       also_work_packages_shared_with_user_html:
-        one: "Also, %{shared_work_packages_link} has been shared with this user."
-        few: "Also, %{shared_work_packages_link} have been shared with this user."
-        many: "Also, %{shared_work_packages_link} have been shared with this user."
-        other: "Also, %{shared_work_packages_link} have been shared with this user."
-      remove_project_membership_or_work_package_shares_too: "Do you want to remove just the user as a direct member (and keep the shares) or remove the work package shares too?"
-      will_remove_all_user_access_priveleges: "Deleting this member will remove all access privileges of the user to the project. The user will still exist as part of the instance."
-      will_remove_all_group_access_priveleges: "Deleting this member will remove all access privileges of the group to the project. The group will still exist as part of the instance."
-      cannot_delete_inherited_membership: "You cannot delete this member because they belong to a group that is itself a member of this project."
-      cannot_delete_inherited_membership_note_admin_html: "You can either remove the group as a member of the project or this specific member from the group in the %{administration_settings_link}."
-      cannot_delete_inherited_membership_note_non_admin: "You can either remove the group as a member of the project or contact your administrator to remove this specific member from the group."
+        one: "Taipogi, %{shared_work_packages_link} bendrinamas su šiuo naudotoju."
+        few: "Taipogi, %{shared_work_packages_link} bendrinamas su šiuo naudotoju."
+        many: "Taipogi, %{shared_work_packages_link} bendrinama su šiuo naudotoju."
+        other: "Taipogi, %{shared_work_packages_link} bendrinami su šiuo naudotoju."
+      remove_project_membership_or_work_package_shares_too: "Ar norite išimti tik naudotoją kaip tiesioginį narį (ir palikti bendrinimus), ar taipogi išimti darbo paketų bendrinimus?"
+      will_remove_all_user_access_priveleges: "Išėmus šį narį taipogi bus išimtos visos naudotojo privilegijos projektui. Naudotojas vis dar egzistuos kaip šios egzemplioriaus dalis."
+      will_remove_all_group_access_priveleges: "Išėmus šį narį taipogi bus išimtos visos grupės privilegijos projektui. Grupė vis dar egzistuos kaip šios egzemplioriaus dalis."
+      cannot_delete_inherited_membership: "Jūs negalite ištrinti šio nario, nes jis priklauso grupei, kuri pati yra šio projekto narys."
+      cannot_delete_inherited_membership_note_admin_html: "Jūs galite arba išimti grupę iš šio projekto arba konkretų narį iš grupės %{administration_settings_link}."
+      cannot_delete_inherited_membership_note_non_admin: "Jūs galite arba išimti grupę iš projekto arba susisiekti su jūsų administratoriumi, kad išimtų šį konkretų narį iš grupės."
     delete_work_package_shares_dialog:
-      title: "Revoke work package shares"
+      title: "Atšaukti darbo paketų bendrinimus"
       shared_with_this_user_html:
-        one: "%{all_shared_work_packages_link} has been shared with this user."
-        few: "%{all_shared_work_packages_link} have been shared with this user."
-        many: "%{all_shared_work_packages_link} have been shared with this user."
-        other: "%{all_shared_work_packages_link} have been shared with this user."
+        one: "%{all_shared_work_packages_link} bendrinamas su šiuo naudotoju."
+        few: "%{all_shared_work_packages_link} bendrinami su šiuo naudotoju."
+        many: "%{all_shared_work_packages_link} bendrinami su šiuo naudotoju."
+        other: "%{all_shared_work_packages_link} bendrinami su šiuo naudotoju."
       shared_with_this_group_html:
-        one: "%{all_shared_work_packages_link} has been shared with this group."
-        few: "%{all_shared_work_packages_link} have been shared with this group."
-        many: "%{all_shared_work_packages_link} have been shared with this group."
-        other: "%{all_shared_work_packages_link} have been shared with this group."
+        one: "%{all_shared_work_packages_link} pabendrintas su šia grupe."
+        few: "%{all_shared_work_packages_link} pabendrinti su šia grupe."
+        many: "%{all_shared_work_packages_link} pabendrinti su šia grupe."
+        other: "%{all_shared_work_packages_link} pabendrinti su šia grupe."
       shared_with_permission_html:
-        one: "Only %{shared_work_packages_link} has been shared with %{shared_role_name} permissions."
-        few: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
-        many: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
-        other: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
-      revoke_all_or_with_role: "Would you like to revoke access to all shared work packages, or only those with %{shared_role_name} permissions?"
-      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
-      cannot_remove_inherited: "The work packages shares shared via groups cannot be removed."
-      cannot_remove_inherited_with_role: "The work packages shares with role %{shared_role_name} are shared via groups and cannot be removed."
-      cannot_remove_inherited_note_admin_html: "You can either revoke the share to the group or remove this specific member from the group in the %{administration_settings_link}."
-      cannot_remove_inherited_note_non_admin: "You can either revoke the share to the group or contact your administrator to remove this specific member from the group."
-      will_revoke_directly_granted_access: "This action will revoke their access to all of them, but the work packages shared with a group."
-      will_revoke_access_to_all: "This action will revoke their access to all of them."
+        one: "Tik %{shared_work_packages_link} pabendrintas su %{shared_role_name} teisėmis."
+        few: "Tik %{shared_work_packages_link} pabendrinti su %{shared_role_name} teisėmis."
+        many: "Tik %{shared_work_packages_link} pabendrinti su %{shared_role_name} teisėmis."
+        other: "Tik %{shared_work_packages_link} pabendrinti su %{shared_role_name} teisėmis."
+      revoke_all_or_with_role: "Ar norite atšaukti prieigą prie visų bendrinamų darbo paketų, ar tik su %{shared_role_name} teisėmis?"
+      will_not_affect_inherited_shares: "(Tai neįtakos darbo paketų, bendrinamų su jų grupe)"
+      cannot_remove_inherited: "Darbo paketų bendrinimai, pabendrinti per grupes, negali būti išimti."
+      cannot_remove_inherited_with_role: "Darbo paketų bendrinimai su vaidmeniu %{shared_role_name} bendrinami per grupes ir negali būti išimti."
+      cannot_remove_inherited_note_admin_html: "Jūs galite arba atšaukti bendrinimą grupei arba išimti šį konkretų narį iš grupės %{administration_settings_link}."
+      cannot_remove_inherited_note_non_admin: "Jūs galite arba atšaukti bendrinimą su grupe arba susisiekti su administratoriumi, kad jis išimtų šį konkretų narį iš grupės."
+      will_revoke_directly_granted_access: "Šis veiksmas atšauks jų prieigą prie visų iš jų, išskyrus darbo paketus, bendrinamus su grupe."
+      will_revoke_access_to_all: "Šis veiksmas atšauks jų prieigą prie jų visų."
   my:
     access_token:
       failed_to_reset_token: "Atpažinimo rakto nepavyko nustatyti iš naujo: %{error}"
@@ -609,7 +609,7 @@ lt:
       oauth_client:
         client: "Kliento ID"
       relation:
-        delay: "Vėlavimas"
+        lag: "Vėlavimas"
         from: "Darbų paketas"
         to: "Susijusių darbų paketas"
       status:
@@ -1004,7 +1004,14 @@ lt:
               only_same_project_categories_allowed: "Darbų paketo kategorija turi būti tame pačiame projekte kaip ir darbų paketas."
               does_not_exist: "Nurodyta kategorija neegzistuoja."
             estimated_hours:
-              only_values_greater_or_equal_zeroes_allowed: "turi būti >= 0."
+              cant_be_inferior_to_remaining_work: "Negali būti mažesnis už likusį darbą."
+              must_be_set_when_remaining_work_is_set: "Privaloma, kai nustatytas likęs darbas."
+              only_values_greater_or_equal_zeroes_allowed: "Turi būti >= 0."
+              format: "%{message}"
+            remaining_hours:
+              cant_exceed_work: "Negali būdi daugiau nei Darbas."
+              must_be_set_when_work_is_set: "Privaloma, kai nustatytas Darbas."
+              format: "%{message}"
           readonly_status: "Darbo paketas yra tik skaitymo būsenoje, taigi jo atributų keisti negalima."
         type:
           attributes:
@@ -1121,6 +1128,10 @@ lt:
       updated_on_time_entry: "registruotą laiką atnaujino %{datetime}"
       deleted_on: "ištrinta %{datetime}"
       deleted_by_on: "%{datetime} ištrynė %{user}"
+      added_on: "pridėta %{datetime}"
+      added_by_on: " %{user} pridėjo %{datetime}"
+      removed_on: "išimta %{datetime}"
+      removed_by_on: "%{user} išėmė %{datetime}"
       parent_without_of: "Sub-projektas"
       parent_no_longer: "Nebėra dalis"
       time_entry:
@@ -1138,16 +1149,16 @@ lt:
         logged_for: "Registruota"
       meeting_agenda_item:
         duration:
-          added: "set to %{value}"
-          added_html: "set to <i>%{value}</i>"
+          added: "nustatyti %{value}"
+          added_html: "nustatyti <i>%{value}</i>"
           removed: "išimta"
           updated: "pakeitė iš %{old_value} į %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+          updated_html: "pakeista iš <i>%{old_value}</i> į <i>%{value}</i>"
         position:
           updated: "perrikiuota"
         work_package:
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+          updated: "pakeista iš %{old_value} į %{value}"
+          updated_html: "pakeista iš <i>%{old_value}</i> į <i>%{value}</i>"
     filter:
       changeset: "Pakeitimų paketai"
       message: "Forumai"
@@ -1245,7 +1256,7 @@ lt:
       token_cooldown: Atsarginės kopijos žetonas bus tinkamas po %{hours} valandų.
       backup_pending: Atsarginės kopijos darymas jau paleistas.
       limit_reached: Jūs galite daryti tik %{limit} atsarginės kopijas per dieną.
-  button_actions: "Actions"
+  button_actions: "Veiksmai"
   button_add: "Pridėti"
   button_add_comment: "Pridėti komentarą"
   button_add_member: Pridėti narį
@@ -1316,14 +1327,14 @@ lt:
   button_add_menu_entry: "Pridėti meniu punktą"
   button_configure_menu_entry: "Konfigūruoti meniu punktą"
   button_delete_menu_entry: "Panaikinti meniu punktą"
-  button_view_shared_work_packages: "View shared work packages"
-  button_manage_roles: "Manage roles"
-  button_remove_member: "Remove member"
-  button_remove_member_and_shares: "Remove member and shares"
-  button_revoke_work_package_shares: "Revoke work package shares"
-  button_revoke_access: "Revoke access"
-  button_revoke_all: "Revoke all"
-  button_revoke_only: "Revoke only %{shared_role_name}"
+  button_view_shared_work_packages: "Žiūrėti bendrinamus darbų paketus"
+  button_manage_roles: "Tvarkyti vaidmenis"
+  button_remove_member: "Išimti narį"
+  button_remove_member_and_shares: "Išimti narį ir bendrinimus"
+  button_revoke_work_package_shares: "Atšaukti darbo paketų bendrinimus"
+  button_revoke_access: "Atšaukti prieigą"
+  button_revoke_all: "Atšaukti viską"
+  button_revoke_only: "Atšaukti tik %{shared_role_name}"
   consent:
     checkbox_label: Perskaičiau ir sutinku su tekstu aukščiau.
     failure_message: Sutikimas negautas. Tęsti negalima.
@@ -1575,7 +1586,6 @@ lt:
   error_pdf_export_too_many_columns: "PDF eksportavimui pasirinkta per daug stulpelių. Prašome sumažinti stulpelių skaičių."
   error_pdf_failed_to_export: "PDF eksportas negali būti išsaugotas: %{error}"
   error_token_authenticity: "Neįmanoma patikrinti Cross-Site Request Forgery žetono. Gal bandėte nusiųsti duomenis iš kelių naršyklių ar kortelių? Prašome uždaryti visas korteles ir pabandyti dar kartą."
-  error_work_package_done_ratios_not_updated: "Darbo paketo % baigta reikšmės neatnaujintos."
   error_work_package_not_found_in_project: "Darbų paketas nerastas arba nepriklauso šiam projektui"
   error_must_be_project_member: "turi būti projekto narys"
   error_migrations_are_pending: "Jūsų OpenProject instaliacijai trūksta duomenų bazės migracijos. Greičiausiai atnaujinimo metu buvo nepaleistas migravimas. Atnaujinimo gide aprašyta kaip tinkamai atnaujinti jūsų instaliaciją."
@@ -1680,8 +1690,10 @@ lt:
   journals:
     changes_retracted: "Pakeitimai buvo atšaukti."
     caused_changes:
-      default_attribute_written: "Tik-skaitymo atributai įrašyti"
       dates_changed: "Datos pasikeitė"
+      default_attribute_written: "Tik-skaitymo atributai įrašyti"
+      progress_mode_changed_to_status_based: "Eigos skaičiavimas atnaujintas"
+      status_p_complete_changed: "Būsenos % baigta pakeista"
       system_update: "OpenProject sistemos atnaujinimas"
     cause_descriptions:
       work_package_predecessor_changed_times: dėl pirmtako pakeitimų %{link}
@@ -1697,9 +1709,16 @@ lt:
         dates:
           working: "%{date} dabar yra darbo"
           non_working: "%{date} dabar yra nedarbo"
+      progress_mode_changed_to_status_based: Nustatytas eigos skaičiavimo režimas priklausantis-nuo-būsenos
+      status_p_complete_changed: >-
+        % baigta reikšmė būsenai „%{status_name}“ pakeista iš %{old_value}% į %{new_value}%
       system_update:
         file_links_journal: >
           Nuo dabar, su failų nuorodomis (failais, saugomais išorinse saugyklose) susiję veiksmai bus rodomi Veiksmų kortelėje. Žemiau pateikiamas jau egzistavusių nuorodų veiksmų sąrašas:
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Eigos skaičiavimas automatiškai <a href="%{href}" target="_blank">nustatytas į paremtą darbu ir pakeistas su versijos atnaujinimu</a>.
+        progress_calculation_adjusted: >-
+          Eigos skaičiavimas automatiškai <a href="%{href}" target="_blank">pakeistas su versijos atnaujinimu</a>.
   links:
     configuration_guide: "Konfigūravimo vadovas"
     get_in_touch: "Turite klausimų? Susisiekite su mumis."
@@ -1714,6 +1733,8 @@ lt:
       api_and_webhooks: "API ir tinklo jungtys"
     quick_add:
       label: "Atidaryti greitą pridėjimo meniu"
+    breadcrumb:
+      nested_element: "%{section_header}: <b>%{title}</b>"
   my_account:
     access_tokens:
       no_results:
@@ -1953,7 +1974,7 @@ lt:
   label_enterprise_support: "„Enterprise“ palaikymas"
   label_enterprise_addon: "Enterprise priedas"
   label_environment: "Aplinka"
-  label_estimates_and_time: "Sąmatos ir laikas"
+  label_estimates_and_time: "Įvertinimai ir eiga"
   label_equals: "yra"
   label_everywhere: "visur"
   label_example: "Pavyzdys"
@@ -2037,6 +2058,7 @@ lt:
   label_latest_revision: "Paskutinė revizija"
   label_latest_revision_plural: "Paskutinės revizijos"
   label_ldap_authentication: "LDAP autentifikacija"
+  label_learn_more: "Sužinoti daugiau"
   label_less_or_equal: "<="
   label_less_than_ago: "mažiau nei prieš dieną"
   label_list: "Sąrašas"
@@ -2162,6 +2184,7 @@ lt:
   label_privacy_policy: "Duomenų privatumo ir saugumo politika"
   label_product_version: "Produkto versija"
   label_profile: "Profilis"
+  label_percent_complete: "% baigta"
   label_project_activity: "Projekto aktyvumas"
   label_project_attribute_plural: "Projekto atributai"
   label_project_count: "Bendras projektų skaičius"
@@ -2171,6 +2194,7 @@ lt:
   label_project_hierarchy: "Projekto hierarchija"
   label_project_new: "Naujas projektas"
   label_project_plural: "Projektai"
+  label_project_list_plural: "Projektų sąrašai"
   label_project_attributes_plural: "Projekto atributai"
   label_project_custom_field_plural: "Projekto atributai"
   label_project_settings: "Projekto nustatymai"
@@ -2197,6 +2221,7 @@ lt:
   label_relation_delete: "Pašalinti ryšį"
   label_relation_new: "Naujas ryšys"
   label_release_notes: "Išleidimo informacija"
+  label_remaining_work: "Liko darbo"
   label_remove_columns: "Pašalinti pažymėtus stulpelius"
   label_renamed: "pervadintas"
   label_reply_plural: "Atsakymai"
@@ -2275,7 +2300,6 @@ lt:
   label_type_new: "Naujas tipas"
   label_type_plural: "Tipai"
   label_ui: "Vartotojo sąsaja"
-  label_update_work_package_done_ratios: "Atnaujinti darbo paketo % baigta reikšmes"
   label_updated_time: "Atnaujinta prieš %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "%{author} atnaujino prieš %{age}"
@@ -2330,6 +2354,7 @@ lt:
   label_wiki_show_new_page_link: "Rodyti submeniu punktą „Sukurti naują vaiko puslapį“"
   label_wiki_show_submenu_item: "Rodyti kaip submeniu punktą "
   label_wiki_start: "Pradžios puslapis"
+  label_work: "Darbas"
   label_work_package: "Darbų paketas"
   label_work_package_attachments: "Darbų paketo prisegti failai"
   label_work_package_category_new: "Nauja kategorija"
@@ -2373,6 +2398,7 @@ lt:
     other: "%{count} failai"
     zero: "nėra failų"
   label_yesterday: "vakar"
+  label_zen_mode: "„Zen“ režimas"
   label_role_type: "Tipas"
   label_member_role: "Vaidmuo projekte"
   label_global_role: "Visuotinis vaidmuo"
@@ -2582,7 +2608,6 @@ lt:
   notice_file_not_found: "Puslapis, į kurį norite patekti, neegzistuoja arba yra pašalintas."
   notice_forced_logout: "Jūs buvo automatiškai atjungti po %{ttl_time} minučių (-ės) neveiklumo."
   notice_internal_server_error: "Bandant prisijungti prie puslapio įvyko klaida. Jei klaida kartosis, susisiekite su %{app_title} administratoriumi."
-  notice_work_package_done_ratios_updated: "% baigta atnaujinta"
   notice_locking_conflict: "Mažiausiai vienas vartotojas per tą laiką atnaujino informaciją."
   notice_locking_conflict_additional_information: "%{users} vartotojas (-ai) pateikė atnaujinimų."
   notice_locking_conflict_reload_page: "Įkelkite puslapį iš naujo, peržiūrėkite pakeitimus ir pateikite savo atnaujinimus."
@@ -2961,10 +2986,11 @@ lt:
   setting_file_max_size_displayed: "Maksimalus tekstinių failų dydis rodomas vienoje eilutėje"
   setting_host_name: "Serverio vardas"
   setting_invitation_expiration_days: "Aktyvavimo laiško galiojimas baigiasi po"
-  setting_work_package_done_ratio: "Skaičiuoti darbo paketo % baigta su"
-  setting_work_package_done_ratio_field: "Darbo paketo lauku"
-  setting_work_package_done_ratio_status: "Darbų paketo būsena"
-  setting_work_package_done_ratio_disabled: "Išjungti (paslėpti lauką % baigta)"
+  setting_work_package_done_ratio: "Eigos skaičiavimas"
+  setting_work_package_done_ratio_field: "Pagal-darbą"
+  setting_work_package_done_ratio_status: "Pagal-būseną"
+  setting_work_package_done_ratio_explanation_html: >
+    Režime <b>pagal-darbą</b>, pabaigimo % skaičiuojami pagal tai, kiek darbo atlikta lyginant su visu darbo kiekiu. Režime <b>pagal-būseną</b>, kiekvienas būsenas turi savo susijusią baigtumo % reikšmę. Pakeitus būseną pasikeis ir % baigta.
   setting_work_package_properties: "Darbų paketo ypatybės"
   setting_work_package_startdate_is_adddate: "Naudoti dabartinę datą kaip naujų darbų paketų pradžios datą"
   setting_work_packages_projects_export_limit: "Darbo paketų / Projektų eksporto limitas"
@@ -3115,6 +3141,7 @@ lt:
   text_are_you_sure: "Ar esate įsitikinę?"
   text_are_you_sure_continue: "Ar tikrai norite tęsti?"
   text_are_you_sure_with_children: "Ištrinti darbų paketą ir visus jo vaikų paketus?"
+  text_are_you_sure_with_project_custom_fields: "Ištrynus šį atributą taipogi bus ištrintos ir jo reikšmės visuose projektuose. Ar tikrai norite tai padaryti?"
   text_assign_to_project: "Priskirti projektui"
   text_form_configuration: >
     Jūs galite nustatyti, kurie laukeliai bus rodomi darbų paketų formoje. Jūs galite laisvai grupuoti laukelius pagal savo poreikius.
@@ -3338,6 +3365,12 @@ lt:
     destroy:
       info: "Darbų paketo ištrynimas yra negrįžtamas veiksmas."
       title: "Ištrinti darbų paketą"
+    progress:
+      label_note: "Pastaba:"
+      modal:
+        work_based_help_text: "% baigta automatiškai skaičiuojama pagal Darbą ir Likusį darbą."
+        status_based_help_text: "% baigta nustatoma pagal paketo būseną."
+        migration_warning_text: "Darbu paremtame eigos skaičiavimo režime % baigta negali būti nustatomas rankomis ir yra susietas su darbu. Esamos reikšmės buvo išlaikytos, bet negali būti keičiamos. Prašome iš pradžių įveskite darbą."
     sharing:
       count:
         zero: "0 naudotojų"
@@ -3446,9 +3479,7 @@ lt:
         unsupported_context: "Duotas resursas nėra palaikomas kaip kontekstas."
         context_object_not_found: "Nepavyko rasti resurso, duoto kaip kontekstas."
       validation:
-        done_ratio: "% baigta negali būti nurodytas tėviniams darbų paketams, kai paketas apibrėžtas pagal būseną arba kai jis deaktyvuotas."
         due_date: "Tėviniams darbo paketams negalima nurodyti pabaigos datos."
-        estimated_hours: "Darbo negalima nustatyti tėviniams darbo paketams." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Pasirinktas vartotojas negali būti '%{property}' šiam darbų paketui."
         start_date: "Pradžios data negali būti nustatyta tėviniams darbų paketams."
       eprops:

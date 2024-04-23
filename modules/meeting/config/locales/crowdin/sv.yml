@@ -45,7 +45,7 @@ sv:
       meeting_agenda_item:
         title: "Title"
         author: "Author"
-        duration_in_minutes: "Duration (min)"
+        duration_in_minutes: "min"
         description: "Notes"
         presenter: "Presenter"
     errors:
@@ -97,7 +97,7 @@ sv:
   label_start_date: "Startdatum"
   meeting:
     attachments:
-      text: "Attached files are available to all meeting participants. You can also drag and drop tehse into agenda item notes."
+      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
       title: "Copy meeting %{title}"
       attachments: "Kopiera bilagor"
@@ -168,14 +168,16 @@ sv:
   label_agenda_item_add_notes: "Lägg till anteckningar"
   label_agenda_item_work_package: "Agenda item work package"
   text_agenda_item_title: 'Agenda item "%{title}"'
-  text_agenda_work_package_title: 'Agenda item for %{work_package}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
   text_deleted_agenda_item: 'Deleted agenda item'
   label_initial_meeting_details: "Meeting"
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
+  label_meeting_state: "Meeting status"
   label_meeting_state_open: "Öppna"
+  label_meeting_state_open_html: "<i>Open</i>"
   label_meeting_state_closed: "Stängt"
+  label_meeting_state_closed_html: "<i>Closed</i>"
   label_meeting_reopen_action: "Reopen meeting"
   label_meeting_close_action: "Close meeting"
   text_meeting_open_description: "This meeting is open. You can add/remove agenda items and edit them as you please. After the meeting is over, close it to lock it."

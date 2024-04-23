@@ -18,7 +18,7 @@ permissions:
   contents: read # to fetch code (actions/checkout)
 
 env:
-  REGISTRY_IMAGE: openproject/community
+  REGISTRY_IMAGE: openproject/openproject
 
 jobs:
   extract_version:
@@ -107,6 +107,11 @@ jobs:
       - name: Prepare docker files
         run: |
           cp ./docker/prod/Dockerfile ./Dockerfile
+
+          # Add build information
+          echo "${{ steps.extract_version.outputs.checkout_ref }}" > PRODUCT_VERSION
+          echo "https://github.com/opf/openproject/commits/${{ steps.extract_version.outputs.checkout_ref }}" > PRODUCT_URL
+          date -u +"%Y-%m-%dT%H:%M:%SZ" > RELEASE_DATE
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx

@@ -39,10 +39,10 @@ RSpec.describe "Refreshing query menu item", :js do
   before do
     login_as(user)
     work_package
-    wp_table.visit!
   end
 
   it "allows refreshing the current query (Bug #26921)" do
+    wp_table.visit!
     wp_table.expect_work_package_listed work_package
     # Instantiate lazy let here
     wp_table.ensure_work_package_not_listed! other_work_package
@@ -64,5 +64,23 @@ RSpec.describe "Refreshing query menu item", :js do
     query_item.click
 
     wp_table.expect_work_package_listed work_package, other_work_package
+  end
+
+  describe "making a public query from another user private" do
+    let!(:other_public_view) do
+      create(:view,
+             query: create(:query, project:, public: true, name: "Other user query"))
+    end
+
+    it "redirects to the default query page" do
+      wp_table.visit_query(other_public_view.query)
+
+      wp_table.click_setting_item I18n.t("js.toolbar.settings.visibility_settings")
+      find_by_id("show-public").set false
+      find(".button", text: "Save").click
+
+      wp_table.expect_and_dismiss_toaster message: "Successful update."
+      expect(page).to have_current_path(project_work_packages_path(project))
+    end
   end
 end

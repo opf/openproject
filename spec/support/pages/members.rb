@@ -42,7 +42,6 @@ module Pages
 
     def visit!
       super
-      expect(page).to have_css("h2", text: I18n.t(:label_member_plural))
 
       self
     end

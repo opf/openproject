@@ -45,7 +45,7 @@ nl:
       meeting_agenda_item:
         title: "Title"
         author: "Author"
-        duration_in_minutes: "Duration (min)"
+        duration_in_minutes: "min"
         description: "Notes"
         presenter: "Presenter"
     errors:
@@ -97,7 +97,7 @@ nl:
   label_start_date: "Startdatum"
   meeting:
     attachments:
-      text: "Attached files are available to all meeting participants. You can also drag and drop tehse into agenda item notes."
+      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
       title: "Copy meeting %{title}"
       attachments: "Copy attachments"
@@ -168,14 +168,16 @@ nl:
   label_agenda_item_add_notes: "Notities toevoegen"
   label_agenda_item_work_package: "Agenda item work package"
   text_agenda_item_title: 'Agenda item "%{title}"'
-  text_agenda_work_package_title: 'Agenda item for %{work_package}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
   text_deleted_agenda_item: 'Deleted agenda item'
   label_initial_meeting_details: "Meeting"
   label_meeting_details: "Vergaderdetails"
   label_meeting_details_edit: "Bewerk vergader details"
+  label_meeting_state: "Meeting status"
   label_meeting_state_open: "Openen"
+  label_meeting_state_open_html: "<i>Open</i>"
   label_meeting_state_closed: "Gesloten"
+  label_meeting_state_closed_html: "<i>Closed</i>"
   label_meeting_reopen_action: "Heropen vergadering"
   label_meeting_close_action: "Vergadering sluiten"
   text_meeting_open_description: "Deze vergadering is open. Je kunt agenda-items toevoegen/verwijderen en bewerken naar eigen goeddunken. Na afloop van de vergadering kun je deze sluiten, om te vergrendelen."

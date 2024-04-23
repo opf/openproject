@@ -15,6 +15,28 @@ A user is any individual who can log into your OpenProject instance.
 
 Permissions control what users can see and do within OpenProject. Permission are granted to users by assigning one or more roles to the users.
 
+### File storages permissions
+
+File storages permissions include the following: 
+
+![Files storages permissions in OpenProject](openproject_user_guide_file_storages_permissions.png)
+
+Following are the permissions for file storages within OpenProject:
+
+- **View file links**: Allows a user to see file links to external storages Files tab of work packages
+- **Manage file links**: Allows a user to create and edit file links to work packages
+- **Manage file storages in project**: Allows a user to add or edit file storages for a project
+
+Following user permissions are set on files and folder in **External Storages**:
+
+- **External Storage: Read files (Nextcloud, OneDrive/SharePoint)**
+- **External Storage: Write files (Nextcloud, OneDrive/SharePoint)**
+- **External Storage: Create files (Nextcloud)**
+- **External Storage: Share files (Nextcloud)**
+- **External Storage: Delete files (Nextcloud)**
+
+> Please note that not all file permissions are applicable to all storage providers.
+
 ## Roles
 
 A role bundles a collection of permissions. It is an convenient way of granting permissions to multiple users in your organization that need the same permissions or restrictions.

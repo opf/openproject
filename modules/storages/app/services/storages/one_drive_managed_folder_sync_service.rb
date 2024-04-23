@@ -136,13 +136,17 @@ module Storages
       using_admin_token do |http|
         response = http.get("/v1.0/drives/#{@storage.drive_id}/root/children")
 
-        if response.status == 200
+        case response
+        in { status: 200 }
           ServiceResult.success(result: filter_folders_from(response.json(symbolize_keys: true)))
         else
-          errors = ::Storages::StorageError.new(code: response.status,
-                                                data: ::Storages::StorageErrorData.new(
-                                                  source: self.class, payload: response
-                                                ))
+          errors = ::Storages::StorageError.new(
+            code: response.try(:status),
+            data: ::Storages::StorageErrorData.new(
+              source: self.class,
+              payload: response
+            )
+          )
           format_and_log_error(errors)
           ServiceResult.failure(result: :error, errors:)
         end

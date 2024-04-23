@@ -39,14 +39,14 @@ pl:
   api_v3:
     errors:
       too_many_elements_created_at_once: Zbyt wiele elementów utworzonych jednocześnie. Oczekiwano co najwyżej %{max} , otrzymano %{actual}.
-  permission_create_files: Tworzenie plików
-  permission_delete_files: Usuwanie plików
+  permission_create_files: 'Magazyn zewnętrzny: tworzenie plików'
+  permission_delete_files: 'Magazyn zewnętrzny: usuwanie plików'
   permission_manage_file_links: Zarządzaj linkami do plików
   permission_manage_storages_in_project: Zarządzaj magazynami plików w projekcie
-  permission_read_files: Odczyt plików
-  permission_share_files: Udostępnianie plików
+  permission_read_files: 'Magazyn zewnętrzny: odczyt plików'
+  permission_share_files: 'Magazyn zewnętrzny: udostępnianie plików'
   permission_view_file_links: Wyświetl linki do plików
-  permission_write_files: Zapisywanie w plikach
+  permission_write_files: 'Magazyn zewnętrzny: zapis plików'
   project_module_storages: Magazyny plików
   storages:
     buttons:
@@ -78,14 +78,14 @@ pl:
     error_invalid_provider_type: Wybierz właściwego dostawcę magazynu.
     file_storage_view:
       access_management:
-        automatic_management: Automatically managed access and folders
-        automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
-        description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
-        manual_management: Manually managed access and folders
-        manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
-        setup_incomplete: Select the type of management of user access and folder creation.
-        subtitle: Access management
-        title: Access and project folders
+        automatic_management: Automatycznie zarządzany dostęp i foldery
+        automatic_management_description: Zezwól OpenProject automatycznie tworzyć foldery dla każdego projektu i zarządzać dostępem użytkowników. Jest to zalecane, ponieważ zapewnia, że każdy członek zespołu ma zawsze prawidłowe uprawnienia dostępu.
+        description: Wybierz typ zarządzania dostępem użytkowników i tworzeniem folderów. Zalecamy skorzystanie z opcji Automatycznie zarządzany dostęp, pozwalającej uzyskać bardziej uporządkowaną strukturę i zagwarantować dostęp wszystkim odpowiednim użytkownikom.
+        manual_management: Ręcznie zarządzany dostęp i foldery
+        manual_management_description: Samodzielnie ręcznie twórz foldery każdego projektu i zarządzaj nimi. Trzeba będzie ręcznie zapewnić dostęp odpowiednim użytkownikom.
+        setup_incomplete: Wybierz typ zarządzania dostępem użytkowników i tworzeniem folderów.
+        subtitle: Zarządzanie dostępem
+        title: Dostęp i foldery projektu
       automatically_managed_folders: Automatycznie zarządzane foldery
       general_information: Informacje ogólne
       nextcloud_oauth: Nextcloud OAuth
@@ -103,6 +103,13 @@ pl:
       since: od %{datetime}
       subtitle: Automatycznie zarządzane foldery projektu
       title: Status kondycji
+    health_email_notifications:
+      description_subscribed: Wszyscy administratorzy otrzymują powiadomienia e-mail o kondycji tego magazynu.
+      description_unsubscribed: Powiadomienia e-mail o statusie kondycji tego magazynu zostały wyłączone dla wszystkich administratorów.
+      error_could_not_be_saved: Nie można zapisać ustawień powiadomień e-mail. Spróbuj ponownie.
+      subscribe: Subskrybuj
+      title: Powiadomienia e-mail
+      unsubscribe: Anuluj subskrypcję
     help_texts:
       project_folder: Folder projektu jest domyślnym folderem do przesyłania plików tego projektu. Użytkownicy mogą jednak przesyłać pliki do innych lokalizacji.
     instructions:
@@ -152,7 +159,7 @@ pl:
     label_creator: Twórca
     label_delete_storage: Usuń magazyn
     label_edit_storage: Edytuj magazyn
-    label_edit_storage_access_management: Edit storage access management
+    label_edit_storage_access_management: Edytuj zarządzania dostępem do magazynu
     label_edit_storage_automatically_managed_folders: Edytuj automatycznie zarządzane foldery magazynu
     label_edit_storage_host: Edytuj hosta magazynu
     label_existing_manual_folder: Istniejący folder z ręcznie zarządzanymi uprawnieniami
@@ -221,6 +228,7 @@ pl:
       project_storage_members:
         subtitle: Sprawdź status połączenia magazynu %{storage_name_link} wszystkich członków projektu.
         title: Status połączenia członków
+    permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
     provider_types:
       label: Typ dostawcy
       nextcloud:

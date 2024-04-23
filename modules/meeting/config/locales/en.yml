@@ -194,7 +194,6 @@ en:
   label_agenda_item_work_package: "Agenda item work package"
 
   text_agenda_item_title: 'Agenda item "%{title}"'
-  text_agenda_work_package_title: 'Agenda item for %{work_package}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
   text_deleted_agenda_item: 'Deleted agenda item'
 
@@ -202,7 +201,7 @@ en:
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
 
-  label_meeting_state: "Meeting state"
+  label_meeting_state: "Meeting status"
   label_meeting_state_open: "Open"
   label_meeting_state_open_html: "<i>Open</i>"
   label_meeting_state_closed: "Closed"

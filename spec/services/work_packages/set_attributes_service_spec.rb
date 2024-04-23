@@ -26,10 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe WorkPackages::SetAttributesService,
                type: :model do
+  shared_let(:status_0_pct_complete) { create(:status, default_done_ratio: 0, name: "0% complete") }
+  shared_let(:status_50_pct_complete) { create(:status, default_done_ratio: 50, name: "50% complete") }
+  shared_let(:status_70_pct_complete) { create(:status, default_done_ratio: 70, name: "70% complete") }
+
   let(:today) { Time.zone.today }
   let(:user) { build_stubbed(:user) }
   let(:project) do
@@ -39,7 +43,7 @@ RSpec.describe WorkPackages::SetAttributesService,
     p
   end
   let(:work_package) do
-    wp = build_stubbed(:work_package, project:)
+    wp = build_stubbed(:work_package, project:, status: status_0_pct_complete)
     wp.type = initial_type
     wp.send(:clear_changes_information)
 
@@ -72,7 +76,7 @@ RSpec.describe WorkPackages::SetAttributesService,
                         contract_class: mock_contract)
   end
 
-  shared_examples_for 'service call' do
+  shared_examples_for "service call" do |description: nil|
     subject do
       allow(work_package)
         .to receive(:save)
@@ -80,39 +84,47 @@ RSpec.describe WorkPackages::SetAttributesService,
       instance.call(call_attributes)
     end
 
-    it 'is successful' do
+    it "is successful" do
       expect(subject).to be_success
     end
 
-    it 'sets the value' do
-      next if !defined?(expected_attributes) || expected_attributes.blank?
+    it description || "sets the value" do
+      all_expected_attributes = {}
+      all_expected_attributes.merge!(expected_attributes) if defined?(expected_attributes)
+      if defined?(expected_kept_attributes)
+        kept = work_package.attributes.slice(*expected_kept_attributes)
+        if kept.size != expected_kept_attributes.size
+          raise ArgumentError, "expected_kept_attributes contains attributes that are not present in the work_package: " \
+                               "#{expected_kept_attributes - kept.keys} not present in #{work_package.attributes}"
+        end
+        all_expected_attributes.merge!(kept)
+      end
+      next if all_expected_attributes.blank?
 
       subject
 
-      expected_attributes.each do |attribute, key|
-        expect(work_package.send(attribute)).to eql key
-      end
+      expect(work_package).to have_attributes(all_expected_attributes)
     end
 
-    it 'does not persist the work_package' do
+    it "does not persist the work_package" do
       subject
 
       expect(work_package)
         .not_to have_received(:save)
     end
 
-    it 'has no errors' do
+    it "has no errors" do
       expect(subject.errors).to be_empty
     end
 
-    context 'when the contract does not validate' do
+    context "when the contract does not validate" do
       let(:contract_valid) { false }
 
-      it 'is unsuccessful' do
+      it "is unsuccessful" do
         expect(subject).not_to be_success
       end
 
-      it 'does not persist the changes' do
+      it "does not persist the changes" do
         subject
 
         expect(work_package)
@@ -127,25 +139,510 @@ RSpec.describe WorkPackages::SetAttributesService,
     end
   end
 
-  context 'when updating subject before calling the service' do
+  context "when updating subject before calling the service" do
     let(:call_attributes) { {} }
-    let(:expected_attributes) { { subject: 'blubs blubs' } }
+    let(:expected_attributes) { { subject: "blubs blubs" } }
 
     before do
       work_package.attributes = expected_attributes
     end
 
-    it_behaves_like 'service call'
+    it_behaves_like "service call"
   end
 
-  context 'when updating subject via attributes' do
+  context "when updating subject via attributes" do
     let(:call_attributes) { expected_attributes }
-    let(:expected_attributes) { { subject: 'blubs blubs' } }
+    let(:expected_attributes) { { subject: "blubs blubs" } }
 
-    it_behaves_like 'service call'
+    it_behaves_like "service call"
   end
 
-  context 'for status' do
+  # Scenarios specified in https://community.openproject.org/wp/40749
+  describe "deriving remaining work attribute (remaining_hours)" do
+    context "in status-based mode",
+            with_settings: { work_package_done_ratio: "status" } do
+      context "given a work package with work, remaining work, and status with % complete being set" do
+        before do
+          work_package.status = status_50_pct_complete
+          work_package.done_ratio = work_package.status.default_done_ratio
+          work_package.estimated_hours = 10.0
+          work_package.remaining_hours = 5.0
+          work_package.send(:clear_changes_information)
+        end
+
+        context "when work is unset" do
+          let(:call_attributes) { { estimated_hours: nil } }
+          let(:expected_attributes) { { remaining_hours: nil } }
+
+          it_behaves_like "service call", description: "unsets remaining work"
+        end
+
+        context "when work is changed" do
+          let(:call_attributes) { { estimated_hours: 5.0 } }
+          let(:expected_attributes) { { remaining_hours: 2.5 } }
+
+          it_behaves_like "service call", description: "recomputes remaining work accordingly"
+        end
+
+        context "when work is changed to a negative value" do
+          let(:call_attributes) { { estimated_hours: -1.0 } }
+          let(:expected_kept_attributes) { %w[remaining_hours] }
+
+          it_behaves_like "service call",
+                          description: "is an error state (to be detected by contract), and remaining work is kept"
+        end
+
+        context "when another status is set" do
+          let(:call_attributes) { { status: status_70_pct_complete } }
+          let(:expected_attributes) { { remaining_hours: 3.0 } }
+
+          it_behaves_like "service call",
+                          description: "recomputes remaining work according to the % complete value of the new status"
+        end
+      end
+
+      context "given a work package with work and remaining work unset, and a status with 0% complete" do
+        before do
+          work_package.status = status_0_pct_complete
+          work_package.done_ratio = work_package.status.default_done_ratio
+          work_package.estimated_hours = nil
+          work_package.remaining_hours = nil
+          work_package.send(:clear_changes_information)
+        end
+
+        context "when another status with another % complete value is set" do
+          let(:call_attributes) { { status: status_70_pct_complete } }
+          let(:expected_attributes) { { remaining_hours: nil } }
+
+          it_behaves_like "service call",
+                          description: "remaining work remains unset"
+        end
+
+        context "when work is set" do
+          let(:call_attributes) { { estimated_hours: 10.0 } }
+          let(:expected_attributes) { { remaining_hours: 10.0 } }
+
+          it_behaves_like "service call",
+                          description: "remaining work is updated accordingly from work and % complete value of the status"
+        end
+
+        context "when work is set to a negative value" do
+          let(:call_attributes) { { estimated_hours: -1.0 } }
+          let(:expected_kept_attributes) { %w[remaining_hours] }
+
+          it_behaves_like "service call",
+                          description: "is an error state (to be detected by contract), and remaining work is kept"
+        end
+
+        context "when work is set with 2nd decimal rounding up" do
+          let(:call_attributes) { { estimated_hours: 3.567 } }
+          let(:expected_attributes) { { estimated_hours: 3.57, remaining_hours: 3.57 } }
+
+          it_behaves_like "service call",
+                          description: "values are rounded up to 2 decimals and set to the same value"
+        end
+      end
+    end
+  end
+
+  # Scenarios specified in https://community.openproject.org/wp/40749
+  describe "deriving % complete attribute (done_ratio)" do
+    context "in status-based mode",
+            with_settings: { work_package_done_ratio: "status" } do
+      context "given a work package with a status with 50% complete" do
+        before do
+          work_package.status = status_50_pct_complete
+          work_package.done_ratio = work_package.status.default_done_ratio
+          work_package.send(:clear_changes_information)
+        end
+
+        context "when another status with another % complete value is set" do
+          let(:call_attributes) { { status: status_70_pct_complete } }
+          let(:expected_attributes) { { done_ratio: 70 } }
+
+          it_behaves_like "service call", description: "sets the % complete value to the status default % complete value"
+        end
+      end
+    end
+
+    context "in work-based mode",
+            with_settings: { work_package_done_ratio: "field" } do
+      context "given a work package with work, remaining work, and % complete being set" do
+        before do
+          work_package.estimated_hours = 10.0
+          work_package.remaining_hours = 3.0
+          work_package.done_ratio = 70
+          work_package.send(:clear_changes_information)
+        end
+
+        context "when work is unset" do
+          let(:call_attributes) { { estimated_hours: nil } }
+          let(:expected_attributes) { { remaining_hours: nil, done_ratio: nil } }
+
+          it_behaves_like "service call", description: "unsets remaining work and % complete"
+        end
+
+        context "when remaining work is unset" do
+          let(:call_attributes) { { remaining_hours: nil } }
+          let(:expected_attributes) { { estimated_hours: 10.0, done_ratio: nil } }
+
+          it_behaves_like "service call", description: "keeps work, and unsets % complete"
+        end
+
+        context "when both work and remaining work are unset" do
+          let(:call_attributes) { { estimated_hours: nil, remaining_hours: nil } }
+          let(:expected_attributes) { { done_ratio: nil } }
+
+          it_behaves_like "service call", description: "unsets % complete"
+        end
+
+        context "when work is increased" do
+          # work changed by +10h
+          let(:call_attributes) { { estimated_hours: 10.0 + 10.0 } }
+          let(:expected_attributes) do
+            { remaining_hours: 3.0 + 10.0, done_ratio: 35 }
+          end
+
+          it_behaves_like "service call",
+                          description: "remaining work is increased by the same amount, and % complete is updated accordingly"
+        end
+
+        context "when work is set to 0h" do
+          let(:call_attributes) { { estimated_hours: 0 } }
+          let(:expected_attributes) do
+            { remaining_hours: 0, done_ratio: nil }
+          end
+
+          it_behaves_like "service call",
+                          description: "remaining work is set to 0h and % Complete is unset"
+        end
+
+        context "when work is decreased" do
+          # work changed by -2h
+          let(:call_attributes) { { estimated_hours: 10.0 - 2.0 } }
+          let(:expected_attributes) do
+            { remaining_hours: 3.0 - 2.0, done_ratio: 87 }
+          end
+
+          it_behaves_like "service call",
+                          description: "remaining work is decreased by the same amount, and % complete is updated accordingly"
+        end
+
+        context "when work is decreased below remaining work value" do
+          # work changed by -8h
+          let(:call_attributes) { { estimated_hours: 10.0 - 8.0 } }
+          let(:expected_attributes) do
+            { remaining_hours: 0, done_ratio: 100 }
+          end
+
+          it_behaves_like "service call",
+                          description: "remaining work becomes 0h, and % complete becomes 100%"
+        end
+
+        context "when work is changed to a negative value" do
+          let(:call_attributes) { { estimated_hours: -1.0 } }
+          let(:expected_kept_attributes) { %w[remaining_hours done_ratio] }
+
+          it_behaves_like "service call",
+                          description: "is an error state (to be detected by contract), " \
+                                       "and % complete and remaining work are kept"
+        end
+
+        context "when remaining work is changed" do
+          let(:call_attributes) { { remaining_hours: 2 } }
+          let(:expected_attributes) { { done_ratio: 80 } }
+          let(:expected_kept_attributes) { %w[estimated_hours] }
+
+          it_behaves_like "service call", description: "updates % complete accordingly"
+        end
+
+        context "when work and remaining work are both changed to negative values" do
+          let(:call_attributes) { { estimated_hours: -10, remaining_hours: -5 } }
+          let(:expected_kept_attributes) { %w[done_ratio] }
+
+          it_behaves_like "service call", description: "is an error state (to be detected by contract), and % Complete is kept"
+        end
+
+        context "when work and remaining work are both changed to values with more than 2 decimals" do
+          let(:call_attributes) { { estimated_hours: 10.123456, remaining_hours: 5.6789 } }
+          let(:expected_attributes) { { estimated_hours: 10.12, remaining_hours: 5.68, done_ratio: 43 } }
+
+          it_behaves_like "service call", description: "rounds work and remaining work to 2 decimals " \
+                                                       "and updates % complete accordingly"
+        end
+
+        context "when remaining work is changed to a value greater than work" do
+          let(:call_attributes) { { remaining_hours: 200.0 } }
+          let(:expected_kept_attributes) { %w[done_ratio] }
+
+          it_behaves_like "service call", description: "is an error state (to be detected by contract), and % Complete is kept"
+        end
+
+        context "when remaining work is changed to a negative value" do
+          let(:call_attributes) { { remaining_hours: -1.0 } }
+          let(:expected_kept_attributes) { %w[done_ratio] }
+
+          it_behaves_like "service call", description: "is an error state (to be detected by contract), and % Complete is kept"
+        end
+
+        context "when both work and remaining work are changed" do
+          let(:call_attributes) { { estimated_hours: 20, remaining_hours: 2 } }
+          let(:expected_attributes) { call_attributes.merge(done_ratio: 90) }
+
+          it_behaves_like "service call", description: "updates % complete accordingly"
+        end
+
+        context "when work is changed and remaining work is unset" do
+          let(:call_attributes) { { estimated_hours: 8.0, remaining_hours: nil } }
+          let(:expected_attributes) { { remaining_hours: 2.4 } } # would be 2.4000000000000004 without rounding
+          let(:expected_kept_attributes) { %w[done_ratio] }
+
+          it_behaves_like "service call", description: "% complete is kept and remaining work is recomputed (and rounded)"
+        end
+      end
+
+      context "given a work package with work and % complete being set, and remaining work being unset" do
+        before do
+          work_package.estimated_hours = 10
+          work_package.remaining_hours = nil
+          work_package.done_ratio = 30
+          work_package.send(:clear_changes_information)
+        end
+
+        context "when work is changed" do
+          let(:call_attributes) { { estimated_hours: 20.0 } }
+          let(:expected_attributes) { { remaining_hours: 14.0 } }
+          let(:expected_kept_attributes) { %w[done_ratio] }
+
+          it_behaves_like "service call", description: "% complete is kept and remaining work is updated accordingly"
+        end
+
+        context "when work is changed to a negative value" do
+          let(:call_attributes) { { estimated_hours: -1.0 } }
+          let(:expected_kept_attributes) { %w[remaining_hours done_ratio] }
+
+          it_behaves_like "service call",
+                          description: "is an error state (to be detected by contract), " \
+                                       "and % complete and remaining work are kept"
+        end
+
+        context "when remaining work is set" do
+          let(:call_attributes) { { remaining_hours: 1.0 } }
+          let(:expected_attributes) { call_attributes.merge(done_ratio: 90.0) }
+          let(:expected_kept_attributes) { %w[estimated_hours] }
+
+          it_behaves_like "service call", description: "work is kept and % complete is updated accordingly"
+        end
+      end
+
+      context "given a work package with remaining work and % complete being set, and work being unset" do
+        before do
+          work_package.estimated_hours = nil
+          work_package.remaining_hours = 2.0
+          work_package.done_ratio = 50
+          work_package.send(:clear_changes_information)
+        end
+
+        context "when remaining work is changed" do
+          let(:call_attributes) { { remaining_hours: 10.0 } }
+          let(:expected_attributes) { call_attributes.merge(estimated_hours: 20.0) }
+          let(:expected_kept_attributes) { %w[done_ratio] }
+
+          it_behaves_like "service call", description: "% complete is kept and work is updated accordingly"
+        end
+
+        context "when % complete is 0% and remaining work is changed to a decimal rounded up" do
+          let(:call_attributes) { { remaining_hours: 5.679 } }
+          let(:expected_attributes) { { estimated_hours: 5.68, remaining_hours: 5.68 } }
+          let(:expected_kept_attributes) { %w[done_ratio] }
+
+          before do
+            work_package.done_ratio = 0
+            work_package.send(:clear_changes_information)
+          end
+
+          it_behaves_like "service call",
+                          description: "% complete is kept, values are rounded, and work is updated accordingly"
+        end
+
+        context "when work is set" do
+          let(:call_attributes) { { estimated_hours: 10.0 } }
+          let(:expected_attributes) { call_attributes.merge(done_ratio: 80.0) }
+          let(:expected_kept_attributes) { %w[remaining_hours] }
+
+          it_behaves_like "service call", description: "remaining work is kept and % complete is updated accordingly"
+        end
+      end
+
+      context "given a work package with work being set, and remaining work and % complete being unset" do
+        before do
+          work_package.estimated_hours = 10
+          work_package.remaining_hours = nil
+          work_package.done_ratio = nil
+          work_package.send(:clear_changes_information)
+        end
+
+        context "when work is changed" do
+          let(:call_attributes) { { estimated_hours: 20.0 } }
+          let(:expected_attributes) { { remaining_hours: 20.0, done_ratio: 0 } }
+
+          it_behaves_like "service call", description: "remaining work is set to the same value and % complete is set to 0%"
+        end
+
+        context "when work is changed to a negative value" do
+          let(:call_attributes) { { estimated_hours: -1.0 } }
+          let(:expected_kept_attributes) { %w[remaining_hours done_ratio] }
+
+          it_behaves_like "service call",
+                          description: "is an error state (to be detected by contract), " \
+                                       "and % complete and remaining work are kept"
+        end
+      end
+
+      context "given a work package with remaining work being set, and work and % complete being unset" do
+        before do
+          work_package.estimated_hours = nil
+          work_package.remaining_hours = 6.0
+          work_package.done_ratio = nil
+          work_package.send(:clear_changes_information)
+        end
+
+        context "when work is set" do
+          let(:call_attributes) { { estimated_hours: 10.0 } }
+          let(:expected_attributes) { { done_ratio: 40 } }
+          let(:expected_kept_attributes) { %w[remaining_hours] }
+
+          it_behaves_like "service call",
+                          description: "remaining work is kept to the same value and % complete is updated accordingly"
+        end
+
+        context "when work is changed to a negative value" do
+          let(:call_attributes) { { estimated_hours: -1.0 } }
+          let(:expected_kept_attributes) { %w[remaining_hours done_ratio] }
+
+          it_behaves_like "service call",
+                          description: "is an error state (to be detected by contract), " \
+                                       "and % complete and remaining work are kept"
+        end
+
+        context "when remaining work is changed" do
+          let(:call_attributes) { { remaining_hours: 12.0 } }
+          let(:expected_attributes) { { estimated_hours: 12.0, done_ratio: 0 } }
+
+          it_behaves_like "service call",
+                          description: "work is set to the same value and % complete is set to 0%"
+        end
+
+        context "when remaining work is changed to a negative value" do
+          let(:call_attributes) { { remaining_hours: -1.0 } }
+          let(:expected_kept_attributes) { %w[estimated_hours done_ratio] }
+
+          it_behaves_like "service call",
+                          description: "is an error state (to be detected by contract), " \
+                                       "and % complete and work are kept"
+        end
+      end
+
+      context "given a work package with work and remaining work unset, and % complete being set" do
+        before do
+          work_package.estimated_hours = nil
+          work_package.remaining_hours = nil
+          work_package.done_ratio = 60
+          work_package.send(:clear_changes_information)
+        end
+
+        context "when work is set" do
+          let(:call_attributes) { { estimated_hours: 10.0 } }
+          let(:expected_attributes) { { remaining_hours: 4.0 } }
+          let(:expected_kept_attributes) { %w[done_ratio] }
+
+          it_behaves_like "service call", description: "% complete is kept and remaining work is updated accordingly"
+        end
+
+        context "when work is set to a number with with 4 decimals" do
+          let(:call_attributes) { { estimated_hours: 2.5678 } }
+          let(:expected_attributes) { { estimated_hours: 2.57, remaining_hours: 1.03 } }
+          let(:expected_kept_attributes) { %w[done_ratio] }
+
+          it_behaves_like "service call",
+                          description: "% complete is kept, work is rounded to 2 decimals, " \
+                                       "and remaining work is updated and rounded to 2 decimals"
+        end
+
+        context "when work is set to a string" do
+          let(:call_attributes) { { estimated_hours: "I am a string" } }
+          let(:expected_attributes) { { estimated_hours: 0.0, remaining_hours: 0.0 } }
+
+          it "keeps the original string value in the _before_type_cast method " \
+             "so that validation can detect it is invalid" do
+            allow(work_package).to receive(:save)
+            instance.call(call_attributes)
+
+            expect(work_package.estimated_hours_before_type_cast).to eq("I am a string")
+          end
+        end
+
+        context "when work and remaining work are set" do
+          let(:call_attributes) { { estimated_hours: 10.0, remaining_hours: 0 } }
+          let(:expected_attributes) { call_attributes.merge(done_ratio: 100) }
+
+          it_behaves_like "service call", description: "% complete is updated accordingly"
+        end
+
+        context "when work and remaining work are both set to negative values" do
+          let(:call_attributes) { { estimated_hours: -10, remaining_hours: -5 } }
+          let(:expected_kept_attributes) { %w[done_ratio] }
+
+          it_behaves_like "service call", description: "is an error state (to be detected by contract), and % Complete is kept"
+        end
+      end
+
+      context "given a work package with work, remaining work, and % complete being unset" do
+        before do
+          work_package.estimated_hours = nil
+          work_package.remaining_hours = nil
+          work_package.done_ratio = nil
+          work_package.send(:clear_changes_information)
+        end
+
+        context "when work is set" do
+          let(:call_attributes) { { estimated_hours: 10.0 } }
+          let(:expected_attributes) do
+            { remaining_hours: 10.0, done_ratio: 0 }
+          end
+
+          it_behaves_like "service call", description: "remaining work is set to the same value and % complete is set to 0%"
+        end
+
+        context "when work is set to a negative value" do
+          let(:call_attributes) { { estimated_hours: -1.0 } }
+          let(:expected_kept_attributes) { %w[remaining_hours done_ratio] }
+
+          it_behaves_like "service call",
+                          description: "is an error state (to be detected by contract), " \
+                                       "and % complete and remaining work are kept"
+        end
+
+        context "when remaining work is set" do
+          let(:call_attributes) { { remaining_hours: 10.0 } }
+          let(:expected_attributes) { { estimated_hours: 10.0, done_ratio: 0 } }
+
+          it_behaves_like "service call", description: "work is set to the same value and % complete is set to 0%"
+        end
+
+        context "when remaining work is set to a negative value" do
+          let(:call_attributes) { { remaining_hours: -1.0 } }
+          let(:expected_kept_attributes) { %w[estimated_hours done_ratio] }
+
+          it_behaves_like "service call",
+                          description: "is an error state (to be detected by contract), " \
+                                       "and % complete and work are kept"
+        end
+      end
+    end
+  end
+
+  context "for status" do
     let(:default_status) { build_stubbed(:default_status) }
     let(:other_status) { build_stubbed(:status) }
     let(:new_statuses) { [other_status, default_status] }
@@ -156,7 +653,7 @@ RSpec.describe WorkPackages::SetAttributesService,
               .and_return(default_status)
     end
 
-    context 'with no value set before for a new work package' do
+    context "with no value set before for a new work package" do
       let(:call_attributes) { {} }
       let(:expected_attributes) { { status: default_status } }
       let(:work_package) { new_work_package }
@@ -165,39 +662,39 @@ RSpec.describe WorkPackages::SetAttributesService,
         work_package.status = nil
       end
 
-      it_behaves_like 'service call'
+      it_behaves_like "service call"
     end
 
-    context 'with an invalid value that is not part of the type.statuses for a new work package' do
+    context "with an invalid value that is not part of the type.statuses for a new work package" do
       let(:invalid_status) { create(:status) }
       let(:type) { create(:type) }
       let(:call_attributes) { { status: invalid_status, type: } }
       let(:expected_attributes) { { status: default_status, type: } }
       let(:work_package) { new_work_package }
 
-      it_behaves_like 'service call'
+      it_behaves_like "service call"
     end
 
-    context 'with valid value and without a type present for a new work package' do
+    context "with valid value and without a type present for a new work package" do
       let(:status) { create(:status) }
       let(:call_attributes) { { status:, type: nil } }
       let(:expected_attributes) { { status: } }
       let(:work_package) { new_work_package }
 
-      it_behaves_like 'service call'
+      it_behaves_like "service call"
     end
 
-    context 'with a valid value that is part of the type.statuses for a new work package' do
+    context "with a valid value that is part of the type.statuses for a new work package" do
       let(:type) { create(:type) }
       let(:status) { create(:status, workflow_for_type: type) }
       let(:call_attributes) { { status:, type: } }
       let(:expected_attributes) { { status:, type: } }
       let(:work_package) { new_work_package }
 
-      it_behaves_like 'service call'
+      it_behaves_like "service call"
     end
 
-    context 'with no value set on existing work package' do
+    context "with no value set on existing work package" do
       let(:call_attributes) { {} }
       let(:expected_attributes) { {} }
 
@@ -205,8 +702,8 @@ RSpec.describe WorkPackages::SetAttributesService,
         work_package.status = nil
       end
 
-      it_behaves_like 'service call' do
-        it 'stays nil' do
+      it_behaves_like "service call" do
+        it "stays nil" do
           subject
 
           expect(work_package.status)
@@ -215,7 +712,7 @@ RSpec.describe WorkPackages::SetAttributesService,
       end
     end
 
-    context 'when updating status before calling the service' do
+    context "when updating status before calling the service" do
       let(:call_attributes) { {} }
       let(:expected_attributes) { { status: other_status } }
 
@@ -223,26 +720,26 @@ RSpec.describe WorkPackages::SetAttributesService,
         work_package.attributes = expected_attributes
       end
 
-      it_behaves_like 'service call'
+      it_behaves_like "service call"
     end
 
-    context 'when updating status via attributes' do
+    context "when updating status via attributes" do
       let(:call_attributes) { expected_attributes }
       let(:expected_attributes) { { status: other_status } }
 
-      it_behaves_like 'service call'
+      it_behaves_like "service call"
     end
   end
 
-  context 'for author' do
+  context "for author" do
     let(:other_user) { build_stubbed(:user) }
 
-    context 'with no value set before for a new work package' do
+    context "with no value set before for a new work package" do
       let(:call_attributes) { {} }
       let(:expected_attributes) { {} }
       let(:work_package) { new_work_package }
 
-      it_behaves_like 'service call' do
+      it_behaves_like "service call" do
         it "sets the service's author" do
           subject
 
@@ -250,16 +747,16 @@ RSpec.describe WorkPackages::SetAttributesService,
             .to eql user
         end
 
-        it 'notes the author to be system changed' do
+        it "notes the author to be system changed" do
           subject
 
-          expect(work_package.changed_by_system['author_id'])
+          expect(work_package.changed_by_system["author_id"])
             .to eql [nil, user.id]
         end
       end
     end
 
-    context 'with no value set on existing work package' do
+    context "with no value set on existing work package" do
       let(:call_attributes) { {} }
       let(:expected_attributes) { {} }
 
@@ -267,8 +764,8 @@ RSpec.describe WorkPackages::SetAttributesService,
         work_package.author = nil
       end
 
-      it_behaves_like 'service call' do
-        it 'stays nil' do
+      it_behaves_like "service call" do
+        it "stays nil" do
           subject
 
           expect(work_package.author)
@@ -277,7 +774,7 @@ RSpec.describe WorkPackages::SetAttributesService,
       end
     end
 
-    context 'when updating author before calling the service' do
+    context "when updating author before calling the service" do
       let(:call_attributes) { {} }
       let(:expected_attributes) { { author: other_user } }
 
@@ -285,20 +782,20 @@ RSpec.describe WorkPackages::SetAttributesService,
         work_package.attributes = expected_attributes
       end
 
-      it_behaves_like 'service call'
+      it_behaves_like "service call"
     end
 
-    context 'when updating author via attributes' do
+    context "when updating author via attributes" do
       let(:call_attributes) { expected_attributes }
       let(:expected_attributes) { { author: other_user } }
 
-      it_behaves_like 'service call'
+      it_behaves_like "service call"
     end
   end
 
-  context 'with the actual contract' do
+  context "with the actual contract" do
     let(:invalid_wp) do
-      build(:work_package, subject: '').tap do |wp|
+      build(:work_package, subject: "").tap do |wp|
         wp.save!(validate: false)
       end
     end
@@ -309,22 +806,22 @@ RSpec.describe WorkPackages::SetAttributesService,
                           contract_class:)
     end
 
-    context 'with a currently invalid subject' do
+    context "with a currently invalid subject" do
       let(:call_attributes) { expected_attributes }
-      let(:expected_attributes) { { subject: 'ABC' } }
+      let(:expected_attributes) { { subject: "ABC" } }
       let(:contract_valid) { true }
 
       subject { instance.call(call_attributes) }
 
-      it 'is successful' do
+      it "is successful" do
         expect(subject).to be_success
         expect(subject.errors).to be_empty
       end
     end
   end
 
-  context 'for start_date & due_date & duration' do
-    context 'with a parent' do
+  context "for start_date & due_date & duration" do
+    context "with a parent" do
       let(:expected_attributes) { {} }
       let(:work_package) { new_work_package }
       let(:parent) do
@@ -335,10 +832,10 @@ RSpec.describe WorkPackages::SetAttributesService,
       let(:parent_start_date) { Time.zone.today - 5.days }
       let(:parent_due_date) { Time.zone.today + 10.days }
 
-      context 'with the parent having dates and not providing own dates' do
+      context "with the parent having dates and not providing own dates" do
         let(:call_attributes) { { parent: } }
 
-        it_behaves_like 'service call' do
+        it_behaves_like "service call" do
           it "sets the start_date to the parent`s start_date" do
             subject
 
@@ -355,8 +852,8 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
       end
 
-      context 'with the parent having dates and not providing own dates and with the parent`s' \
-              'soonest_start being before the start_date (e.g. because the parent is manually scheduled)' do
+      context "with the parent having dates and not providing own dates and with the parent`s" \
+              "soonest_start being before the start_date (e.g. because the parent is manually scheduled)" do
         let(:call_attributes) { { parent: } }
 
         before do
@@ -365,7 +862,7 @@ RSpec.describe WorkPackages::SetAttributesService,
                   .and_return(parent_start_date + 3.days)
         end
 
-        it_behaves_like 'service call' do
+        it_behaves_like "service call" do
           it "sets the start_date to the parent`s start_date" do
             subject
 
@@ -382,11 +879,11 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
       end
 
-      context 'with the parent having start date (no due) and not providing own dates' do
+      context "with the parent having start date (no due) and not providing own dates" do
         let(:call_attributes) { { parent: } }
         let(:parent_due_date) { nil }
 
-        it_behaves_like 'service call' do
+        it_behaves_like "service call" do
           it "sets the start_date to the parent`s start_date" do
             subject
 
@@ -403,11 +900,11 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
       end
 
-      context 'with the parent having due date (no start) and not providing own dates' do
+      context "with the parent having due date (no start) and not providing own dates" do
         let(:call_attributes) { { parent: } }
         let(:parent_start_date) { nil }
 
-        it_behaves_like 'service call' do
+        it_behaves_like "service call" do
           it "sets the start_date to nil" do
             subject
 
@@ -424,10 +921,10 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
       end
 
-      context 'with the parent having dates but providing own dates' do
+      context "with the parent having dates but providing own dates" do
         let(:call_attributes) { { parent:, start_date: Time.zone.today, due_date: Time.zone.today + 1.day } }
 
-        it_behaves_like 'service call' do
+        it_behaves_like "service call" do
           it "sets the start_date to the provided date" do
             subject
 
@@ -444,10 +941,10 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
       end
 
-      context 'with the parent having dates but providing own start_date' do
+      context "with the parent having dates but providing own start_date" do
         let(:call_attributes) { { parent:, start_date: Time.zone.today } }
 
-        it_behaves_like 'service call' do
+        it_behaves_like "service call" do
           it "sets the start_date to the provided date" do
             subject
 
@@ -464,10 +961,10 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
       end
 
-      context 'with the parent having dates but providing own due_date' do
+      context "with the parent having dates but providing own due_date" do
         let(:call_attributes) { { parent:, due_date: Time.zone.today + 4.days } }
 
-        it_behaves_like 'service call' do
+        it_behaves_like "service call" do
           it "sets the start_date to the parent's start date" do
             subject
 
@@ -484,10 +981,10 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
       end
 
-      context 'with the parent having dates but providing own empty start_date' do
+      context "with the parent having dates but providing own empty start_date" do
         let(:call_attributes) { { parent:, start_date: nil } }
 
-        it_behaves_like 'service call' do
+        it_behaves_like "service call" do
           it "sets the start_date to nil" do
             subject
 
@@ -504,10 +1001,10 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
       end
 
-      context 'with the parent having dates but providing own empty due_date' do
+      context "with the parent having dates but providing own empty due_date" do
         let(:call_attributes) { { parent:, due_date: nil } }
 
-        it_behaves_like 'service call' do
+        it_behaves_like "service call" do
           it "sets the start_date to the parent's start date" do
             subject
 
@@ -524,10 +1021,10 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
       end
 
-      context 'with the parent having dates but providing a start date that is before parent`s due date`' do
+      context "with the parent having dates but providing a start date that is before parent`s due date`" do
         let(:call_attributes) { { parent:, start_date: parent_due_date - 4.days } }
 
-        it_behaves_like 'service call' do
+        it_behaves_like "service call" do
           it "sets the start_date to the provided date" do
             subject
 
@@ -544,10 +1041,10 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
       end
 
-      context 'with the parent having dates but providing a start date that is after the parent`s due date`' do
+      context "with the parent having dates but providing a start date that is after the parent`s due date`" do
         let(:call_attributes) { { parent:, start_date: parent_due_date + 1.day } }
 
-        it_behaves_like 'service call' do
+        it_behaves_like "service call" do
           it "sets the start_date to the provided date" do
             subject
 
@@ -564,10 +1061,10 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
       end
 
-      context 'with the parent having dates but providing a due date that is before the parent`s start date`' do
+      context "with the parent having dates but providing a due date that is before the parent`s start date`" do
         let(:call_attributes) { { parent:, due_date: parent_start_date - 3.days } }
 
-        it_behaves_like 'service call' do
+        it_behaves_like "service call" do
           it "leaves the start date empty" do
             subject
 
@@ -584,11 +1081,11 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
       end
 
-      context 'with providing a parent_id that is invalid' do
+      context "with providing a parent_id that is invalid" do
         let(:call_attributes) { { parent_id: -1 } }
         let(:work_package) { build_stubbed(:work_package, start_date: Time.zone.today, due_date: Time.zone.today + 2.days) }
 
-        it_behaves_like 'service call' do
+        it_behaves_like "service call" do
           it "sets the start_date to the parent`s start_date" do
             subject
 
@@ -606,13 +1103,13 @@ RSpec.describe WorkPackages::SetAttributesService,
       end
     end
 
-    context 'with no value set for a new work package and with default setting active',
+    context "with no value set for a new work package and with default setting active",
             with_settings: { work_package_startdate_is_adddate: true } do
       let(:call_attributes) { {} }
       let(:expected_attributes) { {} }
       let(:work_package) { new_work_package }
 
-      it_behaves_like 'service call' do
+      it_behaves_like "service call" do
         it "sets the start date to today" do
           subject
 
@@ -627,7 +1124,7 @@ RSpec.describe WorkPackages::SetAttributesService,
             .to be_nil
         end
 
-        context 'when the work package type is milestone' do
+        context "when the work package type is milestone" do
           before do
             work_package.type = milestone_type
           end
@@ -642,14 +1139,14 @@ RSpec.describe WorkPackages::SetAttributesService,
       end
     end
 
-    context 'with a value set for a new work package and with default setting active',
+    context "with a value set for a new work package and with default setting active",
             with_settings: { work_package_startdate_is_adddate: true } do
       let(:call_attributes) { { start_date: Time.zone.today + 1.day } }
       let(:expected_attributes) { {} }
       let(:work_package) { new_work_package }
 
-      it_behaves_like 'service call' do
-        it 'stays that value' do
+      it_behaves_like "service call" do
+        it "stays that value" do
           subject
 
           expect(work_package.start_date)
@@ -663,7 +1160,7 @@ RSpec.describe WorkPackages::SetAttributesService,
             .to be_nil
         end
 
-        context 'when the work package type is milestone' do
+        context "when the work package type is milestone" do
           before do
             work_package.type = milestone_type
           end
@@ -678,20 +1175,20 @@ RSpec.describe WorkPackages::SetAttributesService,
       end
     end
 
-    context 'with date values set to the same date on a new work package' do
+    context "with date values set to the same date on a new work package" do
       let(:call_attributes) { { start_date: Time.zone.today, due_date: Time.zone.today } }
       let(:expected_attributes) { {} }
       let(:work_package) { new_work_package }
 
-      it_behaves_like 'service call' do
-        it 'sets the start date value' do
+      it_behaves_like "service call" do
+        it "sets the start date value" do
           subject
 
           expect(work_package.start_date)
             .to eq(Time.zone.today)
         end
 
-        it 'sets the due date value' do
+        it "sets the due date value" do
           subject
 
           expect(work_package.due_date)
@@ -707,20 +1204,20 @@ RSpec.describe WorkPackages::SetAttributesService,
       end
     end
 
-    context 'with date values set on a new work package' do
+    context "with date values set on a new work package" do
       let(:call_attributes) { { start_date: Time.zone.today, due_date: Time.zone.today + 5.days } }
       let(:expected_attributes) { {} }
       let(:work_package) { new_work_package }
 
-      it_behaves_like 'service call' do
-        it 'sets the start date value' do
+      it_behaves_like "service call" do
+        it "sets the start date value" do
           subject
 
           expect(work_package.start_date)
             .to eq(Time.zone.today)
         end
 
-        it 'sets the due date value' do
+        it "sets the due date value" do
           subject
 
           expect(work_package.due_date)
@@ -736,20 +1233,20 @@ RSpec.describe WorkPackages::SetAttributesService,
       end
     end
 
-    context 'with start date changed' do
+    context "with start date changed" do
       let(:work_package) { build_stubbed(:work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
       let(:call_attributes) { { start_date: Time.zone.today + 1.day } }
       let(:expected_attributes) { {} }
 
-      it_behaves_like 'service call' do
-        it 'sets the start date value' do
+      it_behaves_like "service call" do
+        it "sets the start date value" do
           subject
 
           expect(work_package.start_date)
             .to eq(Time.zone.today + 1.day)
         end
 
-        it 'keeps the due date value' do
+        it "keeps the due date value" do
           subject
 
           expect(work_package.due_date)
@@ -765,20 +1262,20 @@ RSpec.describe WorkPackages::SetAttributesService,
       end
     end
 
-    context 'with due date changed' do
+    context "with due date changed" do
       let(:work_package) { build_stubbed(:work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
       let(:call_attributes) { { due_date: Time.zone.today + 1.day } }
       let(:expected_attributes) { {} }
 
-      it_behaves_like 'service call' do
-        it 'keeps the start date value' do
+      it_behaves_like "service call" do
+        it "keeps the start date value" do
           subject
 
           expect(work_package.start_date)
             .to eq(Time.zone.today)
         end
 
-        it 'sets the due date value' do
+        it "sets the due date value" do
           subject
 
           expect(work_package.due_date)
@@ -794,7 +1291,7 @@ RSpec.describe WorkPackages::SetAttributesService,
       end
     end
 
-    context 'with start date nilled' do
+    context "with start date nilled" do
       let(:traits) { [] }
       let(:work_package) do
         build_stubbed(:work_package, *traits, start_date: Time.zone.today, due_date: Time.zone.today + 5.days)
@@ -802,15 +1299,15 @@ RSpec.describe WorkPackages::SetAttributesService,
       let(:call_attributes) { { start_date: nil } }
       let(:expected_attributes) { {} }
 
-      it_behaves_like 'service call' do
-        it 'sets the start date to nil' do
+      it_behaves_like "service call" do
+        it "sets the start date to nil" do
           subject
 
           expect(work_package.start_date)
             .to be_nil
         end
 
-        it 'keeps the due date value' do
+        it "keeps the due date value" do
           subject
 
           expect(work_package.due_date)
@@ -824,7 +1321,7 @@ RSpec.describe WorkPackages::SetAttributesService,
             .to be_nil
         end
 
-        context 'when the work package type is milestone' do
+        context "when the work package type is milestone" do
           let(:traits) { [:is_milestone] }
 
           it "sets the duration to 1" do
@@ -837,7 +1334,7 @@ RSpec.describe WorkPackages::SetAttributesService,
       end
     end
 
-    context 'with due date nilled' do
+    context "with due date nilled" do
       let(:traits) { [] }
       let(:work_package) do
         build_stubbed(:work_package, *traits, start_date: Time.zone.today, due_date: Time.zone.today + 5.days)
@@ -845,15 +1342,15 @@ RSpec.describe WorkPackages::SetAttributesService,
       let(:call_attributes) { { due_date: nil } }
       let(:expected_attributes) { {} }
 
-      it_behaves_like 'service call' do
-        it 'keeps the start date' do
+      it_behaves_like "service call" do
+        it "keeps the start date" do
           subject
 
           expect(work_package.start_date)
             .to eq(Time.zone.today)
         end
 
-        it 'nils the due date' do
+        it "nils the due date" do
           subject
 
           expect(work_package.due_date)
@@ -867,7 +1364,7 @@ RSpec.describe WorkPackages::SetAttributesService,
             .to be_nil
         end
 
-        context 'when the work package type is milestone' do
+        context "when the work package type is milestone" do
           let(:traits) { [:is_milestone] }
 
           it "sets the duration to 1" do
@@ -880,7 +1377,7 @@ RSpec.describe WorkPackages::SetAttributesService,
       end
     end
 
-    context 'when deriving one value from the two others' do
+    context "when deriving one value from the two others" do
       # rubocop:disable Layout/ExtraSpacing, Layout/SpaceInsideArrayPercentLiteral, Layout/SpaceInsidePercentLiteralDelimiters, Layout/LineLength
       all_possible_scenarios = [
         { initial: %i[start_date  due_date  duration], set: %i[], expected: {} },
@@ -1031,7 +1528,7 @@ RSpec.describe WorkPackages::SetAttributesService,
           let(:work_package) { build_stubbed(:work_package, work_package_attributes) }
           let(:call_attributes) { nil_attributes.slice(*nilled).merge(set_attributes.slice(*set)) }
 
-          it_behaves_like 'service call' do
+          it_behaves_like "service call" do
             if expected_change
               it "changes #{expected_change.inspect}" do
                 expect { subject }
@@ -1057,7 +1554,7 @@ RSpec.describe WorkPackages::SetAttributesService,
       end
     end
 
-    context 'with non-working days' do
+    context "with non-working days" do
       shared_let(:working_days) { week_with_saturday_and_sunday_as_weekend }
       let(:monday) { Time.zone.today.beginning_of_week }
       let(:tuesday) { monday + 1.day }
@@ -1067,13 +1564,13 @@ RSpec.describe WorkPackages::SetAttributesService,
       let(:next_monday) { monday + 7.days }
       let(:next_tuesday) { monday + 8.days }
 
-      context 'when start date changes' do
+      context "when start date changes" do
         let(:work_package) do
           build_stubbed(:work_package, start_date: monday, due_date: next_monday)
         end
         let(:call_attributes) { { start_date: wednesday } }
 
-        it_behaves_like 'service call' do
+        it_behaves_like "service call" do
           it "updates the duration without including non-working days" do
             expect { subject }
               .to change(work_package, :duration)
@@ -1083,13 +1580,13 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
       end
 
-      context 'when due date changes' do
+      context "when due date changes" do
         let(:work_package) do
           build_stubbed(:work_package, start_date: monday, due_date: next_monday)
         end
         let(:call_attributes) { { due_date: monday + 14.days } }
 
-        it_behaves_like 'service call' do
+        it_behaves_like "service call" do
           it "updates the duration without including non-working days" do
             expect { subject }
               .to change(work_package, :duration)
@@ -1099,13 +1596,13 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
       end
 
-      context 'when duration changes' do
+      context "when duration changes" do
         let(:work_package) do
           build_stubbed(:work_package, start_date: monday, due_date: next_monday)
         end
         let(:call_attributes) { { duration: "13" } }
 
-        it_behaves_like 'service call' do
+        it_behaves_like "service call" do
           it "updates the due date from start date and duration and skips the non-working days" do
             expect { subject }
               .to change(work_package, :due_date)
@@ -1115,13 +1612,13 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
       end
 
-      context 'when duration and end_date both change' do
+      context "when duration and end_date both change" do
         let(:work_package) do
           build_stubbed(:work_package, start_date: monday, due_date: next_monday)
         end
         let(:call_attributes) { { due_date: next_tuesday, duration: 4 } }
 
-        it_behaves_like 'service call' do
+        it_behaves_like "service call" do
           it "updates the start date and skips the non-working days" do
             expect { subject }
               .to change(work_package, :start_date)
@@ -1137,7 +1634,7 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
         let(:call_attributes) { { ignore_non_working_days: true } }
 
-        it_behaves_like 'service call' do
+        it_behaves_like "service call" do
           it "updates the due date from start date and duration to include the non-working days" do
             # start_date and duration are checked too to ensure they did not change
             expect { subject }
@@ -1154,7 +1651,7 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
         let(:call_attributes) { { ignore_non_working_days: false } }
 
-        it_behaves_like 'service call' do
+        it_behaves_like "service call" do
           it "updates the due date from start date and duration to skip the non-working days" do
             # start_date and duration are checked too to ensure they did not change
             expect { subject }
@@ -1171,7 +1668,7 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
         let(:call_attributes) { { ignore_non_working_days: false } }
 
-        it_behaves_like 'service call' do
+        it_behaves_like "service call" do
           it "updates the start date to be on next working day, and due date to accommodate duration" do
             expect { subject }
               .to change { work_package.slice(:start_date, :due_date, :duration) }
@@ -1180,13 +1677,13 @@ RSpec.describe WorkPackages::SetAttributesService,
           end
         end
 
-        context 'with a new work package' do
+        context "with a new work package" do
           let(:work_package) do
             build(:work_package, start_date: monday - 1.day, due_date: friday, ignore_non_working_days: true)
           end
           let(:call_attributes) { { ignore_non_working_days: false, duration: 6 } }
 
-          it_behaves_like 'service call' do
+          it_behaves_like "service call" do
             it "updates the start date to be on next working day, and due date to accommodate duration" do
               expect { subject }
                 .to change { work_package.slice(:start_date, :due_date, :duration) }
@@ -1203,7 +1700,7 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
         let(:call_attributes) { { ignore_non_working_days: false } }
 
-        it_behaves_like 'service call' do
+        it_behaves_like "service call" do
           it "updates the finish date to be on next working day" do
             expect { subject }
               .to change { work_package.slice(:start_date, :due_date, :duration) }
@@ -1219,7 +1716,7 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
         let(:call_attributes) { { ignore_non_working_days: false, due_date: nil } }
 
-        it_behaves_like 'service call' do
+        it_behaves_like "service call" do
           it "does not recompute the due date and nilifies the due date and the duration instead" do
             expect { subject }
               .to change { work_package.slice(:start_date, :due_date, :duration) }
@@ -1235,7 +1732,7 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
         let(:call_attributes) { { due_date: wednesday, ignore_non_working_days: false } }
 
-        it_behaves_like 'service call' do
+        it_behaves_like "service call" do
           it "updates the start date from due date and duration to skip the non-working days" do
             expect { subject }
               .to change { work_package.slice(:start_date, :due_date, :duration) }
@@ -1251,7 +1748,7 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
         let(:call_attributes) { { start_date: friday, due_date: next_tuesday, ignore_non_working_days: false } }
 
-        it_behaves_like 'service call' do
+        it_behaves_like "service call" do
           it "updates the duration from start date and due date" do
             expect { subject }
               .to change { work_package.slice(:start_date, :due_date, :duration) }
@@ -1263,7 +1760,7 @@ RSpec.describe WorkPackages::SetAttributesService,
     end
   end
 
-  context 'for priority' do
+  context "for priority" do
     let(:default_priority) { build_stubbed(:priority) }
     let(:other_priority) { build_stubbed(:priority) }
 
@@ -1278,7 +1775,7 @@ RSpec.describe WorkPackages::SetAttributesService,
               .and_return(default_priority)
     end
 
-    context 'with no value set before for a new work package' do
+    context "with no value set before for a new work package" do
       let(:call_attributes) { {} }
       let(:expected_attributes) { {} }
       let(:work_package) { new_work_package }
@@ -1287,7 +1784,7 @@ RSpec.describe WorkPackages::SetAttributesService,
         work_package.priority = nil
       end
 
-      it_behaves_like 'service call' do
+      it_behaves_like "service call" do
         it "sets the default priority" do
           subject
 
@@ -1297,7 +1794,7 @@ RSpec.describe WorkPackages::SetAttributesService,
       end
     end
 
-    context 'when updating priority before calling the service' do
+    context "when updating priority before calling the service" do
       let(:call_attributes) { {} }
       let(:expected_attributes) { { priority: other_priority } }
 
@@ -1305,94 +1802,94 @@ RSpec.describe WorkPackages::SetAttributesService,
         work_package.attributes = expected_attributes
       end
 
-      it_behaves_like 'service call'
+      it_behaves_like "service call"
     end
 
-    context 'when updating priority via attributes' do
+    context "when updating priority via attributes" do
       let(:call_attributes) { expected_attributes }
       let(:expected_attributes) { { priority: other_priority } }
 
-      it_behaves_like 'service call'
+      it_behaves_like "service call"
     end
   end
 
-  context 'when switching the type' do
+  context "when switching the type" do
     let(:target_type) { build_stubbed(:type, is_milestone:) }
     let(:work_package) do
       build_stubbed(:work_package, start_date: Time.zone.today - 6.days, due_date: Time.zone.today)
     end
 
-    context 'to a non-milestone type' do
+    context "to a non-milestone type" do
       let(:is_milestone) { false }
 
-      it 'keeps the start date' do
+      it "keeps the start date" do
         instance.call(type: target_type)
 
         expect(work_package.start_date)
           .to eql Time.zone.today - 6.days
       end
 
-      it 'keeps the due date' do
+      it "keeps the due date" do
         instance.call(type: target_type)
 
         expect(work_package.due_date)
           .to eql Time.zone.today
       end
 
-      it 'keeps duration' do
+      it "keeps duration" do
         instance.call(type: target_type)
 
         expect(work_package.duration).to be 7
       end
     end
 
-    context 'to a milestone type' do
+    context "to a milestone type" do
       let(:is_milestone) { true }
 
-      context 'with both dates set' do
-        it 'sets the start date to the due date' do
+      context "with both dates set" do
+        it "sets the start date to the due date" do
           instance.call(type: target_type)
 
           expect(work_package.start_date).to eq work_package.due_date
         end
 
-        it 'keeps the due date' do
+        it "keeps the due date" do
           instance.call(type: target_type)
 
           expect(work_package.due_date).to eql Time.zone.today
         end
 
-        it 'sets the duration to 1 (to be changed to 0 later on)' do
+        it "sets the duration to 1 (to be changed to 0 later on)" do
           instance.call(type: target_type)
 
           expect(work_package.duration).to eq 1
         end
       end
 
-      context 'with only the start date set' do
+      context "with only the start date set" do
         let(:work_package) do
           build_stubbed(:work_package, start_date: Time.zone.today - 6.days)
         end
 
-        it 'keeps the start date' do
+        it "keeps the start date" do
           instance.call(type: target_type)
 
           expect(work_package.start_date).to eql Time.zone.today - 6.days
         end
 
-        it 'set the due date to the start date' do
+        it "set the due date to the start date" do
           instance.call(type: target_type)
 
           expect(work_package.due_date).to eql work_package.start_date
         end
 
-        it 'keeps the duration at 1 (to be changed to 0 later on)' do
+        it "keeps the duration at 1 (to be changed to 0 later on)" do
           instance.call(type: target_type)
 
           expect(work_package.duration).to eq 1
         end
 
-        context 'with a new work package' do
+        context "with a new work package" do
           let(:work_package) do
             build(:work_package, start_date: Time.zone.today - 6.days)
           end
@@ -1402,15 +1899,15 @@ RSpec.describe WorkPackages::SetAttributesService,
             instance.call(call_attributes)
           end
 
-          it 'keeps the start date' do
+          it "keeps the start date" do
             expect(work_package.start_date).to eq Time.zone.today - 6.days
           end
 
-          it 'set the due date to the start date' do
+          it "set the due date to the start date" do
             expect(work_package.due_date).to eq work_package.start_date
           end
 
-          it 'keeps the duration at 1 (to be changed to 0 later on)' do
+          it "keeps the duration at 1 (to be changed to 0 later on)" do
             expect(work_package.duration).to eq 1
           end
         end
@@ -1418,7 +1915,7 @@ RSpec.describe WorkPackages::SetAttributesService,
     end
   end
 
-  context 'when switching the project' do
+  context "when switching the project" do
     let(:new_project) { build_stubbed(:project) }
     let(:version) { build_stubbed(:version) }
     let(:category) { build_stubbed(:category) }
@@ -1457,14 +1954,14 @@ RSpec.describe WorkPackages::SetAttributesService,
               .and_return(new_types)
     end
 
-    shared_examples_for 'updating the project' do
-      context 'for version' do
+    shared_examples_for "updating the project" do
+      context "for version" do
         before do
           work_package.version = version
         end
 
-        context 'when not shared in new project' do
-          it 'sets to nil' do
+        context "when not shared in new project" do
+          it "sets to nil" do
             subject
 
             expect(work_package.version)
@@ -1472,10 +1969,10 @@ RSpec.describe WorkPackages::SetAttributesService,
           end
         end
 
-        context 'when shared in the new project' do
+        context "when shared in the new project" do
           let(:new_versions) { [version] }
 
-          it 'keeps the version' do
+          it "keeps the version" do
             subject
 
             expect(work_package.version)
@@ -1484,13 +1981,13 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
       end
 
-      context 'for category' do
+      context "for category" do
         before do
           work_package.category = category
         end
 
-        context 'when no category of same name in new project' do
-          it 'sets to nil' do
+        context "when no category of same name in new project" do
+          it "sets to nil" do
             subject
 
             expect(work_package.category)
@@ -1498,7 +1995,7 @@ RSpec.describe WorkPackages::SetAttributesService,
           end
         end
 
-        context 'when category of same name in new project' do
+        context "when category of same name in new project" do
           before do
             allow(new_project_categories)
               .to receive(:find_by)
@@ -1506,25 +2003,25 @@ RSpec.describe WorkPackages::SetAttributesService,
                     .and_return new_category
           end
 
-          it 'uses the equally named category' do
+          it "uses the equally named category" do
             subject
 
             expect(work_package.category)
               .to eql new_category
           end
 
-          it 'adds change to system changes' do
+          it "adds change to system changes" do
             subject
 
-            expect(work_package.changed_by_system['category_id'])
+            expect(work_package.changed_by_system["category_id"])
               .to eql [nil, new_category.id]
           end
         end
       end
 
-      context 'for type' do
-        context 'when current type exists in new project' do
-          it 'leaves the type' do
+      context "for type" do
+        context "when current type exists in new project" do
+          it "leaves the type" do
             subject
 
             expect(work_package.type)
@@ -1532,69 +2029,69 @@ RSpec.describe WorkPackages::SetAttributesService,
           end
         end
 
-        context 'when a default type exists in new project' do
+        context "when a default type exists in new project" do
           let(:new_types) { [other_type, default_type] }
 
-          it 'uses the first type (by position)' do
+          it "uses the first type (by position)" do
             subject
 
             expect(work_package.type)
               .to eql other_type
           end
 
-          it 'adds change to system changes' do
+          it "adds change to system changes" do
             subject
 
-            expect(work_package.changed_by_system['type_id'])
+            expect(work_package.changed_by_system["type_id"])
               .to eql [initial_type.id, other_type.id]
           end
         end
 
-        context 'when no default type exists in new project' do
+        context "when no default type exists in new project" do
           let(:new_types) { [other_type, yet_another_type] }
 
-          it 'uses the first type (by position)' do
+          it "uses the first type (by position)" do
             subject
 
             expect(work_package.type)
               .to eql other_type
           end
 
-          it 'adds change to system changes' do
+          it "adds change to system changes" do
             subject
 
-            expect(work_package.changed_by_system['type_id'])
+            expect(work_package.changed_by_system["type_id"])
               .to eql [initial_type.id, other_type.id]
           end
         end
 
-        context 'when also setting a new type via attributes' do
+        context "when also setting a new type via attributes" do
           let(:expected_attributes) { { project: new_project, type: yet_another_type } }
 
-          it 'sets the desired type' do
+          it "sets the desired type" do
             subject
 
             expect(work_package.type)
               .to eql yet_another_type
           end
 
-          it 'does not set the change to system changes' do
+          it "does not set the change to system changes" do
             subject
 
             expect(work_package.changed_by_system)
-              .not_to include('type_id')
+              .not_to include("type_id")
           end
         end
       end
 
-      context 'for parent' do
+      context "for parent" do
         let(:parent_work_package) { build_stubbed(:work_package, project:) }
         let(:work_package) do
           build_stubbed(:work_package, project:, type: initial_type, parent: parent_work_package)
         end
 
-        context 'with cross project relations allowed', with_settings: { cross_project_work_package_relations: true } do
-          it 'keeps the parent' do
+        context "with cross project relations allowed", with_settings: { cross_project_work_package_relations: true } do
+          it "keeps the parent" do
             expect(subject)
               .to be_success
 
@@ -1603,8 +2100,8 @@ RSpec.describe WorkPackages::SetAttributesService,
           end
         end
 
-        context 'with cross project relations disabled', with_settings: { cross_project_work_package_relations: false } do
-          it 'deletes the parent' do
+        context "with cross project relations disabled", with_settings: { cross_project_work_package_relations: false } do
+          it "deletes the parent" do
             expect(subject)
               .to be_success
 
@@ -1615,7 +2112,7 @@ RSpec.describe WorkPackages::SetAttributesService,
       end
     end
 
-    context 'when updating project before calling the service' do
+    context "when updating project before calling the service" do
       let(:call_attributes) { {} }
       let(:expected_attributes) { { project: new_project } }
 
@@ -1623,38 +2120,38 @@ RSpec.describe WorkPackages::SetAttributesService,
         work_package.attributes = expected_attributes
       end
 
-      it_behaves_like 'service call' do
-        it_behaves_like 'updating the project'
+      it_behaves_like "service call" do
+        it_behaves_like "updating the project"
       end
     end
 
-    context 'when updating project via attributes' do
+    context "when updating project via attributes" do
       let(:call_attributes) { expected_attributes }
       let(:expected_attributes) { { project: new_project } }
 
-      it_behaves_like 'service call' do
-        it_behaves_like 'updating the project'
+      it_behaves_like "service call" do
+        it_behaves_like "updating the project"
       end
     end
   end
 
-  context 'for custom fields' do
+  context "for custom fields" do
     subject { instance.call(call_attributes) }
 
-    context 'for non existing fields' do
-      let(:call_attributes) { { custom_field_891: '1' } } # rubocop:disable Naming/VariableNumber
+    context "for non existing fields" do
+      let(:call_attributes) { { custom_field_891: "1" } } # rubocop:disable Naming/VariableNumber
 
       before do
         subject
       end
 
-      it 'is successful' do
+      it "is successful" do
         expect(subject).to be_success
       end
     end
   end
 
-  context 'when switching back to automatic scheduling' do
+  context "when switching back to automatic scheduling" do
     let(:work_package) do
       wp = build_stubbed(:work_package,
                          project:,
@@ -1675,11 +2172,11 @@ RSpec.describe WorkPackages::SetAttributesService,
     let(:expected_attributes) { {} }
     let(:soonest_start) { Time.zone.today + 1.day }
 
-    context 'when the soonest start date is later than the current start date' do
+    context "when the soonest start date is later than the current start date" do
       let(:soonest_start) { Time.zone.today + 3.days }
 
-      it_behaves_like 'service call' do
-        it 'sets the start date to the soonest possible start date' do
+      it_behaves_like "service call" do
+        it "sets the start date to the soonest possible start date" do
           subject
 
           expect(work_package.start_date).to eql(Time.zone.today + 3.days)
@@ -1688,7 +2185,7 @@ RSpec.describe WorkPackages::SetAttributesService,
       end
     end
 
-    context 'when the soonest start date is a non-working day' do
+    context "when the soonest start date is a non-working day" do
       shared_let(:working_days) { week_with_saturday_and_sunday_as_weekend }
       let(:saturday) { Time.zone.today.beginning_of_week.next_occurring(:saturday) }
       let(:next_monday) { saturday.next_occurring(:monday) }
@@ -1698,8 +2195,8 @@ RSpec.describe WorkPackages::SetAttributesService,
         work_package.ignore_non_working_days = false
       end
 
-      it_behaves_like 'service call' do
-        it 'sets the start date to the soonest possible start date being a working day' do
+      it_behaves_like "service call" do
+        it "sets the start date to the soonest possible start date being a working day" do
           subject
 
           expect(work_package).to have_attributes(
@@ -1710,11 +2207,11 @@ RSpec.describe WorkPackages::SetAttributesService,
       end
     end
 
-    context 'when the soonest start date is before the current start date' do
+    context "when the soonest start date is before the current start date" do
       let(:soonest_start) { Time.zone.today - 3.days }
 
-      it_behaves_like 'service call' do
-        it 'sets the start date to the soonest possible start date' do
+      it_behaves_like "service call" do
+        it "sets the start date to the soonest possible start date" do
           subject
 
           expect(work_package.start_date).to eql(soonest_start)
@@ -1723,11 +2220,11 @@ RSpec.describe WorkPackages::SetAttributesService,
       end
     end
 
-    context 'when the soonest start date is nil' do
+    context "when the soonest start date is nil" do
       let(:soonest_start) { nil }
 
-      it_behaves_like 'service call' do
-        it 'sets the start date to the soonest possible start date' do
+      it_behaves_like "service call" do
+        it "sets the start date to the soonest possible start date" do
           subject
 
           expect(work_package.start_date).to eql(Time.zone.today)
@@ -1736,7 +2233,7 @@ RSpec.describe WorkPackages::SetAttributesService,
       end
     end
 
-    context 'when the work package also has a child' do
+    context "when the work package also has a child" do
       let(:child) do
         build_stubbed(:work_package,
                       start_date: child_start_date,
@@ -1751,9 +2248,9 @@ RSpec.describe WorkPackages::SetAttributesService,
                 .and_return([child])
       end
 
-      context 'when the child`s start date is after soonest_start' do
-        it_behaves_like 'service call' do
-          it 'sets the dates to the child dates' do
+      context "when the child`s start date is after soonest_start" do
+        it_behaves_like "service call" do
+          it "sets the dates to the child dates" do
             subject
 
             expect(work_package.start_date).to eql(Time.zone.today + 2.days)
@@ -1762,11 +2259,11 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
       end
 
-      context 'when the child`s start date is before soonest_start' do
+      context "when the child`s start date is before soonest_start" do
         let(:soonest_start) { Time.zone.today + 3.days }
 
-        it_behaves_like 'service call' do
-          it 'sets the dates to soonest date and to the duration of the child' do
+        it_behaves_like "service call" do
+          it "sets the dates to soonest date and to the duration of the child" do
             subject
 
             expect(work_package.start_date).to eql(Time.zone.today + 3.days)

@@ -34,26 +34,10 @@
 
 $input-elements: input, 'input.form--text-field', select, 'select.form--select', '.form--field-affix', 'a.button'
 
-$toolbar-height: 80px
-$toolbar-height--mobile: 100px
-
 .generic-table--flex-container
   display: flex
   flex-direction: column
-  // Calculate table size by subtracting the space above
-  max-height: calc(100vh - #{var(--header-height)} - #{$toolbar-height})
-
-  @media screen and (max-width: $breakpoint-sm)
-    max-height: calc(100vh - #{var(--header-height)} - #{$toolbar-height--mobile})
-
-  .generic-table--results-container
-    padding-bottom: $spot-spacing-10
-
-  .generic-table--container
-    display: contents
-
-  .generic-table
-    position: relative
+  flex: 1
 
 .generic-table--container
   position:     relative
@@ -67,9 +51,7 @@ $toolbar-height--mobile: 100px
     padding-bottom: var(--generic-table--footer-height)
 
   &_visible-overflow
-    &,
-    .generic-table--results-container
-      overflow: visible
+    overflow: visible
 
 .generic-table--results-container
   height:       100%

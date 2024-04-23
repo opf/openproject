@@ -217,8 +217,12 @@ export class PrincipalRendererService {
     const characters = [...name];
     const lastSpace = name.lastIndexOf(' ');
     const first = characters[0]?.toUpperCase();
-    const last = name[lastSpace + 1]?.toUpperCase();
 
-    return [first, last].join('');
+    if (lastSpace === -1) {
+      return first;
+    } else {
+      const last = name[lastSpace + 1]?.toUpperCase();
+      return [first, last].join('');
+    }
   }
 }

@@ -16,7 +16,7 @@ The packager.io website observes changes in the repository through webhooks and 
 
 - `dev`: https://packager.io/gh/opf/openproject
 - `release/*` (e.g.,) https://packager.io/gh/opf/openproject/refs/release/13.0
-- `stable/*` (e.g.,) https://packager.io/gh/opf/openproject/refs/stable/13
+- `stable/*` (e.g.,) https://packager.io/gh/opf/openproject/refs/stable/14
 - `packaging/*`
 
 To see the status of a build, simply follow one of the links and choose a distribution whose logs you want to look at.

@@ -60,6 +60,10 @@ class Activities::ItemComponent < ViewComponent::Base # rubocop:disable OpenProj
     rendered_details.present?
   end
 
+  def noop?
+    !initial? && !deletion? && @event.journal.noop?
+  end
+
   def rendered_details
     if data[:details]
       render_event_details

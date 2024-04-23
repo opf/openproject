@@ -9,21 +9,21 @@ ja:
         demo-project:
           meetings:
             item_0:
-              title: Weekly
+              title: 毎週
           meeting_agenda_items:
             item_0:
-              title: Good news
+              title: 朗報
             item_1:
-              title: Updates from development team
+              title: 開発チームからの最新情報
             item_2:
-              title: Updates from product team
+              title: 製品チームからの最新情報
             item_3:
-              title: Updates from marketing team
+              title: 製品チームからの最新情報
             item_4:
-              title: Updates from sales team
+              title: 製品チームからの最新情報
             item_5:
-              title: Review of quarterly goals
+              title: 四半期目標の見直し
             item_6:
               title: Core values feedback
             item_7:
-              title: General topics
+              title: 一般的なトピック

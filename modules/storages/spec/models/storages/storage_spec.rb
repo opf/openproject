@@ -32,6 +32,40 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Storage do
+  describe "#health_notifications_should_be_sent?" do
+    let(:storage) { build(:storage, provider_fields: {}) }
+
+    context "when health_notifications_enabled is nil" do
+      it "relies on automatic_management_enabled" do
+        storage.automatic_management_enabled = false
+        expect(storage.health_notifications_should_be_sent?).to be(false)
+
+        storage.automatic_management_enabled = true
+        expect(storage.health_notifications_should_be_sent?).to be(true)
+      end
+    end
+
+    context "when health_notifications_enabled is not nil" do
+      it "relies on health_notifications_enabled" do
+        storage.automatic_management_enabled = false
+        storage.health_notifications_enabled = false
+        expect(storage.health_notifications_should_be_sent?).to be(false)
+
+        storage.automatic_management_enabled = true
+        storage.health_notifications_enabled = false
+        expect(storage.health_notifications_should_be_sent?).to be(false)
+
+        storage.automatic_management_enabled = false
+        storage.health_notifications_enabled = true
+        expect(storage.health_notifications_should_be_sent?).to be(true)
+
+        storage.automatic_management_enabled = false
+        storage.health_notifications_enabled = true
+        expect(storage.health_notifications_should_be_sent?).to be(true)
+      end
+    end
+  end
+
   describe "provider_fields" do
     let(:storage) { build(:storage, provider_fields: {}) }
 

@@ -331,21 +331,27 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :admin_work_packages
 
   menu.push :admin_projects_settings,
-            { controller: '/admin/settings/project_custom_fields', action: :index },
+            { controller: "/admin/settings/project_custom_fields", action: :index },
             if: Proc.new { User.current.admin? },
             caption: :label_project_plural,
-            icon: 'projects'
+            icon: "projects"
 
   menu.push :project_custom_fields_settings,
-            { controller: '/admin/settings/project_custom_fields', action: :index },
+            { controller: "/admin/settings/project_custom_fields", action: :index },
             if: Proc.new { User.current.admin? },
             caption: :label_project_attributes_plural,
             parent: :admin_projects_settings
 
-  menu.push :projects_settings,
-            { controller: '/admin/settings/projects_settings', action: :show },
+  menu.push :new_project_settings,
+            { controller: "/admin/settings/new_project_settings", action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :label_setting_plural,
+            caption: :label_project_new,
+            parent: :admin_projects_settings
+
+  menu.push :project_lists_settings,
+            { controller: "/admin/settings/projects_settings", action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_project_list_plural,
             parent: :admin_projects_settings
 
   menu.push :custom_fields,

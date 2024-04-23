@@ -60,19 +60,6 @@ class Status < ApplicationRecord
     where(is_default: true)
   end
 
-  # Update all the +Issues+ setting their done_ratio to the value of their +Status+
-  def self.update_work_package_done_ratios
-    if WorkPackage.use_status_for_done_ratio?
-      Status.where(["default_done_ratio >= 0"]).find_each do |status|
-        WorkPackage
-          .where(["status_id = ?", status.id])
-          .update_all(["done_ratio = ?", status.default_done_ratio])
-      end
-    end
-
-    WorkPackage.use_status_for_done_ratio?
-  end
-
   def self.order_by_position
     order(:position)
   end

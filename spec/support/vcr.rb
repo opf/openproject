@@ -30,6 +30,16 @@
 
 require "vcr"
 
+module VCRTimeoutHelper
+  def stub_request_with_timeout(method, path_matcher)
+    request_mock = HTTPX::Request.new(method.to_s.upcase, "https://example.com")
+    error_response_mock = HTTPX::ErrorResponse.new(request_mock,
+                                                   HTTPX::ConnectTimeoutError.new(60, "timed out while waiting on select"), {})
+    allow_any_instance_of(HTTPX::Session).to receive(method.to_sym).with(any_args).and_call_original
+    allow_any_instance_of(HTTPX::Session).to receive(method.to_sym).with(path_matcher, any_args).and_return(error_response_mock)
+  end
+end
+
 VCR.configure do |config|
   config.cassette_library_dir = "spec/support/fixtures/vcr_cassettes"
   config.hook_into :webmock
@@ -64,6 +74,7 @@ end
 VCR.turn_off!
 
 RSpec.configure do |config|
+  config.include(VCRTimeoutHelper)
   config.around(:example, :vcr) do |example|
     # Only enable VCR's webmock integration for tests tagged with :vcr otherwise interferes with WebMock
     # See: https://github.com/vcr/vcr/issues/146

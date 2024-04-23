@@ -140,6 +140,22 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
         expect(current_roles).not_to include("read")
       end
     end
+
+    context "when there is a timeout" do
+      it "logs a warnig and does not raise NoMethodError", vcr: "one_drive/set_permissions_delete_permission_read" do
+        stub_request_with_timeout(:post, /invite$/)
+        allow(OpenProject.logger).to receive(:warn)
+
+        permissions_command.call(path:, permissions: { read: ["d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce"] })
+
+        expect(OpenProject.logger)
+          .to have_received(:warn)
+                .with(command: described_class,
+                      message: nil,
+                      data: { body: "/usr/local/bundle/gems/httpx-1.2.3/lib/httpx/response.rb:260:in `full_message': timed out while waiting on select (HTTPX::ConnectTimeoutError)\n",
+                              status: nil }).once
+      end
+    end
   end
 
   private

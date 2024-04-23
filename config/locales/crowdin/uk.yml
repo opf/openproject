@@ -26,8 +26,8 @@ uk:
       no_results_title_text: Протягом цього часу не було жодної діяльності для проекту.
   admin:
     plugins:
-      no_results_title_text: There are currently no plugins installed.
-      no_results_content_text: See our integrations and plugins page for more information.
+      no_results_title_text: Зараз немає встановлених плагінів.
+      no_results_content_text: Щоб дізнатися більше, ознайомтеся з нашою сторінкою інтеграцій і планів.
     custom_styles:
       color_theme: "Колірна тема"
       color_theme_custom: "(Власний)"
@@ -280,15 +280,15 @@ uk:
         no_results_title_text: Наразі немає спеціальних полів.
       project_custom_fields:
         header:
-          title: "Project attributes"
-          description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
+          title: "Атрибути проєкту"
+          description: "Ці атрибути проєкту відображатимуться на вашій <a href=%{overview_url} target=\"_blank\">сторінці огляду проєкту</a></a> у відповідних розділах. Ви можете ввімкнути або вимкнути окремі атрибути. Атрибути проєкту й розділи визначає адміністратор екземпляра в <a href=%{admin_settings_url} target=\"_blank\">налаштуваннях адміністрування</a>. "
         filter:
           label: "Search project attribute"
         actions:
-          label_enable_single: "Active in this project, click to disable"
-          label_disable_single: "Inactive in this project, click to enable"
-          label_enable_all: "Enable all"
-          label_disable_all: "Disable all"
+          label_enable_single: "Увімкнено в цьому проєкті; натисніть, щоб вимкнути"
+          label_disable_single: "Вимкнено в цьому проєкті; натисніть, щоб увімкнути"
+          label_enable_all: "Увімкнути все"
+          label_disable_all: "Вимкнути все"
       types:
         no_results_title_text: Наразі немає доступних типів.
         form:
@@ -318,57 +318,57 @@ uk:
       wp_shares: "Поширення пакета робіт"
       groups: "Групи"
     delete_member_dialog:
-      title: "Remove member"
-      will_remove_the_users_role: "This will remove the user’s role from this project."
-      will_remove_the_groups_role: "This will remove the group role from this project."
+      title: "Вилучити учасника"
+      will_remove_the_users_role: "Роль користувача буде вилучено із цього проєкту."
+      will_remove_the_groups_role: "Роль групи буде вилучено із цього проєкту."
       however_work_packages_shared_with_user_html:
-        one: "However, %{shared_work_packages_link} has also been shared with this user."
-        few: "However, %{shared_work_packages_link} have also been shared with this user."
-        many: "However, %{shared_work_packages_link} have also been shared with this user."
-        other: "However, %{shared_work_packages_link} have also been shared with this user."
+        one: "Однак цьому користувачу також надано доступ до %{shared_work_packages_link}."
+        few: "Однак цьому користувачу також надано доступ до %{shared_work_packages_link}."
+        many: "Однак цьому користувачу також надано доступ до %{shared_work_packages_link}."
+        other: "Однак цьому користувачу також надано доступ до %{shared_work_packages_link}."
       however_work_packages_shared_with_group_html:
-        one: "However, %{shared_work_packages_link} has also been shared with this group."
-        few: "However, %{shared_work_packages_link} have also been shared with this group."
-        many: "However, %{shared_work_packages_link} have also been shared with this group."
-        other: "However, %{shared_work_packages_link} have also been shared with this group."
-      remove_work_packages_shared_with_user_too: "A user that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
-      remove_work_packages_shared_with_group_too: "A group that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
-      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
-      can_remove_direct_but_not_shared_roles: "You can remove this user as a direct project member but a group they are in is also a member of this project, so they will continue being a member via the group."
+        one: "Однак цій групі також надано доступ до %{shared_work_packages_link}."
+        few: "Однак цій групі також надано доступ до %{shared_work_packages_link}."
+        many: "Однак цій групі також надано доступ до %{shared_work_packages_link}."
+        other: "Однак цій групі також надано доступ до %{shared_work_packages_link}."
+      remove_work_packages_shared_with_user_too: "Користувач, якого було вилучено як учасника, досі має доступ до спільних пакетів робіт. Вилучити також його дозволи на доступ?"
+      remove_work_packages_shared_with_group_too: "Група, яку було вилучено як учасника, досі має доступ до спільних пакетів робіт. Вилучити також її дозволи на доступ?"
+      will_not_affect_inherited_shares: "(Це не вплине на пакети робіт, які спільно використовуються в межах відповідних груп)."
+      can_remove_direct_but_not_shared_roles: "Ви можете вилучити цього користувача як безпосереднього учасника проєкту, але він буде й надалі його учасником, оскільки група, до якої він належить, також є учасником цього проєкту."
       also_work_packages_shared_with_user_html:
-        one: "Also, %{shared_work_packages_link} has been shared with this user."
-        few: "Also, %{shared_work_packages_link} have been shared with this user."
-        many: "Also, %{shared_work_packages_link} have been shared with this user."
-        other: "Also, %{shared_work_packages_link} have been shared with this user."
-      remove_project_membership_or_work_package_shares_too: "Do you want to remove just the user as a direct member (and keep the shares) or remove the work package shares too?"
-      will_remove_all_user_access_priveleges: "Deleting this member will remove all access privileges of the user to the project. The user will still exist as part of the instance."
-      will_remove_all_group_access_priveleges: "Deleting this member will remove all access privileges of the group to the project. The group will still exist as part of the instance."
-      cannot_delete_inherited_membership: "You cannot delete this member because they belong to a group that is itself a member of this project."
-      cannot_delete_inherited_membership_note_admin_html: "You can either remove the group as a member of the project or this specific member from the group in the %{administration_settings_link}."
-      cannot_delete_inherited_membership_note_non_admin: "You can either remove the group as a member of the project or contact your administrator to remove this specific member from the group."
+        one: " Крім того, цьому користувачу надано доступ до %{shared_work_packages_link}."
+        few: " Крім того, цьому користувачу надано доступ до %{shared_work_packages_link}."
+        many: " Крім того, цьому користувачу надано доступ до %{shared_work_packages_link}."
+        other: " Крім того, цьому користувачу надано доступ до %{shared_work_packages_link}."
+      remove_project_membership_or_work_package_shares_too: "Вилучити користувача лише як безпосереднього учасника (і зберегти дозволи на доступ) чи вилучити також ці дозволи?"
+      will_remove_all_user_access_priveleges: "Видалення цього учасника призведе до вилучення всіх дозволів на доступ користувача до проєкту. Користувач буде й надалі частиною екземпляра."
+      will_remove_all_group_access_priveleges: "Видалення цього учасника призведе до вилучення всіх дозволів на доступ групи до проєкту. Група буде й надалі частиною екземпляра."
+      cannot_delete_inherited_membership: "Неможливо видалити цього учасника, оскільки він належить до групи, яка сама є учасником цього проєкту."
+      cannot_delete_inherited_membership_note_admin_html: "Ви можете вилучити групу як учасника проєкту або цього конкретного учасника з групи в %{administration_settings_link}."
+      cannot_delete_inherited_membership_note_non_admin: "Ви можете або вилучити групу як учасника проєкту, або звернутися до адміністратора з проханням вилучити цього конкретного учасника з групи."
     delete_work_package_shares_dialog:
-      title: "Revoke work package shares"
+      title: "Відкликати дозволи на доступ до пакета робіт"
       shared_with_this_user_html:
-        one: "%{all_shared_work_packages_link} has been shared with this user."
-        few: "%{all_shared_work_packages_link} have been shared with this user."
-        many: "%{all_shared_work_packages_link} have been shared with this user."
-        other: "%{all_shared_work_packages_link} have been shared with this user."
+        one: "Цьому користувачу надано доступ до %{shared_work_packages_link}."
+        few: "Цьому користувачу надано доступ до %{shared_work_packages_link}."
+        many: "Цьому користувачу надано доступ до %{shared_work_packages_link}."
+        other: "Цьому користувачу надано доступ до %{shared_work_packages_link}."
       shared_with_this_group_html:
-        one: "%{all_shared_work_packages_link} has been shared with this group."
-        few: "%{all_shared_work_packages_link} have been shared with this group."
-        many: "%{all_shared_work_packages_link} have been shared with this group."
-        other: "%{all_shared_work_packages_link} have been shared with this group."
+        one: "Цій групі надано доступ до %{all_shared_work_packages_link}."
+        few: "Цій групі надано доступ до %{shared_work_packages_link}."
+        many: "Цій групі надано доступ до %{shared_work_packages_link}."
+        other: "Цій групі надано доступ до %{shared_work_packages_link}."
       shared_with_permission_html:
-        one: "Only %{shared_work_packages_link} has been shared with %{shared_role_name} permissions."
-        few: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
-        many: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
-        other: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
-      revoke_all_or_with_role: "Would you like to revoke access to all shared work packages, or only those with %{shared_role_name} permissions?"
-      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
-      cannot_remove_inherited: "The work packages shares shared via groups cannot be removed."
-      cannot_remove_inherited_with_role: "The work packages shares with role %{shared_role_name} are shared via groups and cannot be removed."
-      cannot_remove_inherited_note_admin_html: "You can either revoke the share to the group or remove this specific member from the group in the %{administration_settings_link}."
-      cannot_remove_inherited_note_non_admin: "You can either revoke the share to the group or contact your administrator to remove this specific member from the group."
+        one: "Доступ із дозволами ролі «%{shared_role_name}» надано лише до %{shared_work_packages_link}."
+        few: "Доступ із дозволами ролі «%{shared_role_name}» надано лише до %{shared_work_packages_link}."
+        many: "Доступ із дозволами ролі «%{shared_role_name}» надано лише до %{shared_work_packages_link}."
+        other: "Доступ із дозволами ролі «%{shared_role_name}» надано лише до %{shared_work_packages_link}."
+      revoke_all_or_with_role: "Хочете відкликати доступ до всіх спільних пакетів робіт чи тільки до тих, доступ до яких надано з дозволами ролі %«{shared_role_name}»?"
+      will_not_affect_inherited_shares: "(Це не вплине на пакети робіт, які спільно використовуються в межах відповідних груп)."
+      cannot_remove_inherited: "Дозволи на доступ до пакетів робіт, надані на рівні груп, не можна вилучити."
+      cannot_remove_inherited_with_role: "Пакети робіт, до яких надано доступ із дозволами ролі «%{shared_role_name}», використовуються в групах, і їх не можна вилучити."
+      cannot_remove_inherited_note_admin_html: "Ви можете відкликати дозвіл на доступ групи або вилучити цього конкретного учасника з групи в %{administration_settings_link}."
+      cannot_remove_inherited_note_non_admin: "Ви можете або відкликати дозвіл на доступ групи або звернутися до адміністратора з проханням вилучити цього конкретного учасника з групи."
       will_revoke_directly_granted_access: "This action will revoke their access to all of them, but the work packages shared with a group."
       will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
@@ -607,7 +607,7 @@ uk:
       oauth_client:
         client: "ID клієнта"
       relation:
-        delay: "Затримка"
+        lag: "Затримка"
         from: "Пакет робіт"
         to: "Пов'язаний робочий пакет"
       status:
@@ -701,7 +701,7 @@ uk:
       planning_element_type_color:
         hexcode: Двійковий код
       project_custom_field:
-        custom_field_section: Section
+        custom_field_section: Розділ
       work_package:
         begin_insertion: "Початок вставки"
         begin_deletion: "Початок видалення"
@@ -1002,7 +1002,14 @@ uk:
               only_same_project_categories_allowed: "Категорія комплекс робіт повинен бути в межах одного проекту як комплексу робіт."
               does_not_exist: "Указана категорія не існує."
             estimated_hours:
-              only_values_greater_or_equal_zeroes_allowed: "повинно бути >= 0."
+              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              format: "%{message}"
+            remaining_hours:
+              cant_exceed_work: "Cannot be higher than Work."
+              must_be_set_when_work_is_set: "Required when Work is set."
+              format: "%{message}"
           readonly_status: "Пакет робіт перебуває в стані лише для читання, тому його атрибути не можна змінити."
         type:
           attributes:
@@ -1117,8 +1124,12 @@ uk:
       updated_by_on_time_entry: "зареєстрований час оновлено о %{datetime} користувачем %{user}"
       updated_on: "оновлено %{datetime}"
       updated_on_time_entry: "зареєстрований час оновлено о %{datetime}"
-      deleted_on: "deleted on %{datetime}"
-      deleted_by_on: "deleted by %{user} on %{datetime}"
+      deleted_on: "видалено %{datetime}"
+      deleted_by_on: "видалено %{datetime} користувачем %{user}"
+      added_on: "додано %{datetime}"
+      added_by_on: "додано %{datetime} користувачем %{user}"
+      removed_on: "вилучено %{datetime}"
+      removed_by_on: "вилучено %{datetime} користувачем %{user}"
       parent_without_of: "Підпроєкт"
       parent_no_longer: "Більше не входить у проєкт"
       time_entry:
@@ -1136,16 +1147,16 @@ uk:
         logged_for: "Зареєстровано для"
       meeting_agenda_item:
         duration:
-          added: "set to %{value}"
-          added_html: "set to <i>%{value}</i>"
-          removed: "removed"
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+          added: "встановлено значення %{value}"
+          added_html: "встановлено значення <i>%{value}</i>"
+          removed: "вилучено"
+          updated: "змінено %{old_value} на %{value}"
+          updated_html: "змінено з <i>%{old_value}</i> на <i>%{value}</i>"
         position:
-          updated: "reordered"
+          updated: "перевпорядковано"
         work_package:
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+          updated: "змінено з %{old_value} на %{value}"
+          updated_html: "змінено з <i>%{old_value}</i> на <i>%{value}</i>"
     filter:
       changeset: "Набори змін"
       message: "Форуми"
@@ -1243,7 +1254,7 @@ uk:
       token_cooldown: Маркер резервного копіювання буде дійсний протягом %{hours} год.
       backup_pending: Очікується початок резервного копіювання.
       limit_reached: 'Ви можете створити лише стільки резервних копій на день: %{limit}.'
-  button_actions: "Actions"
+  button_actions: "Дії"
   button_add: "Додати"
   button_add_comment: "Додати коментар"
   button_add_member: Додати учасника
@@ -1314,14 +1325,14 @@ uk:
   button_add_menu_entry: "Додати пункт меню"
   button_configure_menu_entry: "Налаштувати пункт меню"
   button_delete_menu_entry: "Видалити пункт меню"
-  button_view_shared_work_packages: "View shared work packages"
-  button_manage_roles: "Manage roles"
-  button_remove_member: "Remove member"
-  button_remove_member_and_shares: "Remove member and shares"
-  button_revoke_work_package_shares: "Revoke work package shares"
-  button_revoke_access: "Revoke access"
-  button_revoke_all: "Revoke all"
-  button_revoke_only: "Revoke only %{shared_role_name}"
+  button_view_shared_work_packages: "Переглянути спільні пакети робіт"
+  button_manage_roles: "Керувати ролями"
+  button_remove_member: "Вилучити учасника"
+  button_remove_member_and_shares: "Вилучити учасника й дозволи на доступ"
+  button_revoke_work_package_shares: "Відкликати дозволи на доступ до пакета робіт"
+  button_revoke_access: "Відкликати доступ"
+  button_revoke_all: "Відкликати все"
+  button_revoke_only: "Відкликати лише для ролі «%{shared_role_name}»"
   consent:
     checkbox_label: Я проінформований і згоден з вищесказаним.
     failure_message: Згода не отримана, продовження неможливе.
@@ -1573,7 +1584,6 @@ uk:
   error_pdf_export_too_many_columns: "Для експорту PDF-файлу вибрано занадто багато стовпців. Скоротіть кількість стовпців."
   error_pdf_failed_to_export: "Експорт PDF не вдалося зберегти: %{error}"
   error_token_authenticity: "Неможливо підтвердити маркер підробки для запиту між сайтами. Чи спробували ви надіслати дані для кількох веб-переглядачів або вкладок? Закрийте всі вкладки та повторіть спробу."
-  error_work_package_done_ratios_not_updated: "Значення «% завершення» для пакета робіт не оновлено."
   error_work_package_not_found_in_project: "Робочий пакет не був знайдений або не належить до цього проекту"
   error_must_be_project_member: "повинен бути учасником проекту"
   error_migrations_are_pending: "У вашій установці OpenProject міститься міграція бази даних. Можливо, ви пропустили міграції під час останнього оновлення. Перевірте керівництво з оновлення, щоб належним чином оновити інсталяцію."
@@ -1678,8 +1688,10 @@ uk:
   journals:
     changes_retracted: "Зміни було відхилено."
     caused_changes:
-      default_attribute_written: "Read-only attributes written"
       dates_changed: "Дати змінено"
+      default_attribute_written: "Атрибути лише для читання записано"
+      progress_mode_changed_to_status_based: "Обчислення прогресу оновлено"
+      status_p_complete_changed: "Значення параметра «% завершення» змінено"
       system_update: "Оновлення системи OpenProject"
     cause_descriptions:
       work_package_predecessor_changed_times: внесенням змін у попередній елемент %{link}
@@ -1695,9 +1707,16 @@ uk:
         dates:
           working: "%{day} – зараз робочий день"
           non_working: "%{day} – зараз неробочий день"
+      progress_mode_changed_to_status_based: Установлено режим обчислення прогресу на основі статусу
+      status_p_complete_changed: >-
+        Значення параметра «% завершення» для статусу «%{status_name}» змінилося з %{old_value} на %{new_value}
       system_update:
         file_links_journal: >
           Тепер дії, пов’язані з посиланнями на файли (файли, що зберігаються в зовнішніх сховищах), з’являтимуться на вкладці «Активність». Наявні дії, пов’язані із посиланнями:
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
   links:
     configuration_guide: "Посібник з налаштування"
     get_in_touch: "У вас виникли запитання? Зв'яжіться з нами."
@@ -1712,6 +1731,8 @@ uk:
       api_and_webhooks: "API та вебгуки"
     quick_add:
       label: "Відкрити меню швидкого додавання"
+    breadcrumb:
+      nested_element: "%{section_header}: <b>%{title}</b>"
   my_account:
     access_tokens:
       no_results:
@@ -1813,13 +1834,13 @@ uk:
   label_ascending: "За зростанням"
   label_assigned_to_me_work_packages: "Робочі пакети призначені мені"
   label_associated_revisions: "Пов'язані редакції"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Вкладення"
   label_attribute: "Атрибут"
   label_attribute_plural: "Атрибути"
   label_ldap_auth_source_new: "Нове LDAP-підключення"
   label_ldap_auth_source: "LDAP-підключення"
   label_ldap_auth_source_plural: "LDAP-підключення"
-  label_attribute_expand_text: "The complete text for '%{attribute}'"
+  label_attribute_expand_text: "Повний текст для атрибута «%{attribute}»"
   label_authentication: "Автентифікація"
   label_available_global_roles: "Доступні глобальні ролі"
   label_available_project_forums: "Доступні форуми"
@@ -1951,7 +1972,7 @@ uk:
   label_enterprise_support: "Корпоративна підтримка"
   label_enterprise_addon: "Доповнення версії Enterprise"
   label_environment: "Навколишнє середовище"
-  label_estimates_and_time: "Оцінки та час"
+  label_estimates_and_time: "Estimates and progress"
   label_equals: "є"
   label_everywhere: "скрізь"
   label_example: "Приклад"
@@ -1961,7 +1982,7 @@ uk:
   label_ifc_model_plural: "Моделі Ifc"
   label_import: "Імпортувати"
   label_export_to: "Також вам доступні:"
-  label_expand: "Expand"
+  label_expand: "Розгорнути"
   label_expanded_click_to_collapse: "Розширено. Натисніть, щоб згорнути"
   label_f_hour: "%{value} година"
   label_f_hour_plural: "%{value} годин(и)"
@@ -2010,7 +2031,7 @@ uk:
   label_index_by_title: "Індекс за назвою"
   label_information: "Інформація"
   label_information_plural: "Інформація"
-  label_installation_guides: "Інструкції зі встановлення"
+  label_installation_guides: "Інструкції із встановлення"
   label_integer: "Ціле число"
   label_internal: "Власне"
   label_introduction_video: "Введення відео"
@@ -2035,6 +2056,7 @@ uk:
   label_latest_revision: "Остання версія"
   label_latest_revision_plural: "Останні версії"
   label_ldap_authentication: "Авторизація за допомогою LDAP"
+  label_learn_more: "Докладніше"
   label_less_or_equal: "<="
   label_less_than_ago: "менше, ніж день тому"
   label_list: "Список"
@@ -2152,7 +2174,7 @@ uk:
   label_precedes: "переважати"
   label_preferences: "Налаштування"
   label_preview: "Попередній перегляд"
-  label_preview_not_available: "Preview not available"
+  label_preview_not_available: "Попередній перегляд недоступний"
   label_previous: "Попередній"
   label_previous_week: "Попередній тиждень"
   label_principal_invite_via_email: "або запрошувати нових користувачів електронною поштою"
@@ -2160,6 +2182,7 @@ uk:
   label_privacy_policy: "Політика конфіденційності та безпеки даних"
   label_product_version: "Версія продукту"
   label_profile: "Профіль"
+  label_percent_complete: "% завершення"
   label_project_activity: "Дії в проєкті"
   label_project_attribute_plural: "Атрибути проєкту"
   label_project_count: "Загальна кількість проектів"
@@ -2169,10 +2192,11 @@ uk:
   label_project_hierarchy: "Ієрархія проектів"
   label_project_new: "Новий проект"
   label_project_plural: "Проекти"
-  label_project_attributes_plural: "Project attributes"
-  label_project_custom_field_plural: "Project attributes"
+  label_project_list_plural: "Списки проєкту"
+  label_project_attributes_plural: "Атрибути проєкту"
+  label_project_custom_field_plural: "Атрибути проєкту"
   label_project_settings: "Налаштування проекту"
-  label_project_attributes_settings: "Project attributes settings"
+  label_project_attributes_settings: "Налаштування атрибутів проєкту"
   label_project_storage_plural: "Файлові сховища"
   label_project_storage_project_folder: "Файлові сховища: папки проєкту"
   label_projects_storage_information: "%{count} використання проектів %{storage} дискового сховища"
@@ -2195,6 +2219,7 @@ uk:
   label_relation_delete: "Видалити зв'язок"
   label_relation_new: "Новий зв'язок"
   label_release_notes: "Примітки до випуску"
+  label_remaining_work: "Залишок роботи"
   label_remove_columns: "Видалити вибрані стовпці"
   label_renamed: "перейменовано"
   label_reply_plural: "Відповіді"
@@ -2273,7 +2298,6 @@ uk:
   label_type_new: "Новий тип"
   label_type_plural: "Типи"
   label_ui: "Користувацький інтерфейс"
-  label_update_work_package_done_ratios: "Оновити значення «% завершення» для пакета робіт"
   label_updated_time: "Оновлений %{value} назад"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Оновлено %{author} %{age} назад"
@@ -2328,6 +2352,7 @@ uk:
   label_wiki_show_new_page_link: "Показати елемент підменю \"Створити нову початкову сторінку\""
   label_wiki_show_submenu_item: "Показати як пункт підменю "
   label_wiki_start: "Початкова сторінка"
+  label_work: "Робота"
   label_work_package: "Пакет робіт"
   label_work_package_attachments: "Додатки до робочого пакету"
   label_work_package_category_new: "Нова категорія"
@@ -2371,6 +2396,7 @@ uk:
     other: "Файлів: %{count}"
     zero: "немає файлів"
   label_yesterday: "вчора"
+  label_zen_mode: "Режим «Дзен»"
   label_role_type: "Тип"
   label_member_role: "Роль у проєкті"
   label_global_role: "Глобальна роль"
@@ -2449,32 +2475,32 @@ uk:
     storages:
       health:
         plaintext:
-          storage: "Storage"
+          storage: "Сховище"
           healthy:
-            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
-            error-solved-on: "Solved On"
-            recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
-            details: "For more details or to make any necessary amendments, you can visit your storage configuration"
+            summary: "Чудові новини! Зараз статус вашого сховища «%{storage_name}» – «Справне»."
+            error-solved-on: "Вирішено"
+            recommendation: "Ми продовжуватимемо відстежувати систему, щоб переконатися, що вона залишається справною. Ми сповістимо вас, якщо виявимо будь-які невідповідності."
+            details: "Щоб дізнатися більше або внести необхідні зміни, перейдіть на сторінку конфігурації свого сховища"
           unhealthy:
-            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
-            error-details: "Error Details"
-            error-message: "Error Message"
+            summary: "Зараз статус вашого сховища, %{storage_name}, – «Помилка». Ми виявили проблему, яка може потребувати вашої уваги."
+            error-details: "Деталі помилки"
+            error-message: "Повідомлення про помилку"
             error-occurred-on: "Occurred On"
-            recommendation: "We recommend heading over to the storage configuration page to address this issue"
-            unsubscribe: "If you would no longer like to receive these notifications, you can unsubscribe at any time. To unsubscribe, please follow the instructions on this page"
-        email_notification_settings: "Storage email notification settings"
-        see_storage_settings: "See storage settings"
+            recommendation: "Щоб вирішити цю проблему, рекомендуємо перейти на сторінку конфігурації сховища"
+            unsubscribe: "Щоб більше не отримувати ці сповіщення, можете відписатися. Для цього виконайте вказівки на цій сторінці"
+        email_notification_settings: "Налаштування сповіщень електронною поштою для сховища"
+        see_storage_settings: "Переглянути налаштування сховища"
         healthy:
-          subject: "Storage \"%{name}\" is now healthy!"
-          solved_at: "solved at"
-          summary: "The problem with your %{storage_name} storage integration is now solved"
+          subject: "Сховище «%{name}» зараз справне!"
+          solved_at: "вирішено о"
+          summary: "Проблему з інтеграцією вашого сховища «%{storage_name}» вирішено"
         unhealthy:
-          subject: "Storage \"%{name}\" is unhealthy!"
-          since: "since"
-          summary: "There is a problem with your %{storage_name} storage integration"
+          subject: "Сховище «%{name}» несправне!"
+          since: "з"
+          summary: "Існує проблема з інтеграцією вашого сховища «%{storage_name}»"
           troubleshooting:
-            text: "For more information, check file storages"
-            link_text: "troubleshooting documentation"
+            text: "Щоб дізнатися більше, перевірте файлові сховища"
+            link_text: "документація з вирішення проблем"
   mail_body_account_activation_request: "Новий користувач (%{value}) зареєструвався. Його обліковий запис чекає на ваше підтвердження:"
   mail_body_account_information: "Інформація по Вашому обліковому запису"
   mail_body_account_information_external: "Ви можете використовувати ваш %{value} обліковий запис для входу."
@@ -2579,7 +2605,6 @@ uk:
   notice_file_not_found: "Сторінка, на яку ви намагаєтеся зайти, не існує або видалена."
   notice_forced_logout: "Ви автоматично вийшли з системи після %{ttl_time} хвилин бездіяльності."
   notice_internal_server_error: "Сталася помилка на сторінці, до якої ви намагалися отримати доступ. Якщо ви продовжуєте відчувати проблеми, зверніться до свого адміністратора %{app_title} за допомогою."
-  notice_work_package_done_ratios_updated: "«% завершення» оновлено"
   notice_locking_conflict: "Інформація була оновлена принаймні один інший користувач в той же час."
   notice_locking_conflict_additional_information: "Оновлення надійшли від %{users}."
   notice_locking_conflict_reload_page: "Будь ласка поновіть сторінку, перевірте зміни та застосувати оновлення."
@@ -2705,9 +2730,9 @@ uk:
   permission_save_queries: "Зберегти перегляди"
   permission_search_project: "Пошук проєктів"
   permission_select_custom_fields: "Вибирати власні поля"
-  permission_select_project_custom_fields: "Select project attributes"
+  permission_select_project_custom_fields: "Виберіть атрибути проєкту"
   permission_select_project_modules: "Вибір модулів проекту"
-  permission_share_work_packages: "Спільний доступ до пакетів робіт"
+  permission_share_work_packages: "Надати доступ до пакетів робіт"
   permission_manage_types: "Виберіть типи"
   permission_view_project: "Перегляд проєктів"
   permission_view_changesets: "Перегляд змін репозиторію (сховища) в OpenProject"
@@ -2719,7 +2744,7 @@ uk:
   permission_view_news: "Перегляд новин"
   permission_view_members: "Перегляд учасників"
   permission_view_reportings: "Перегляд звітів"
-  permission_view_shared_work_packages: "Переглянути поширення пакета робіт"
+  permission_view_shared_work_packages: "Переглянути дозволи на доступ до пакета робіт"
   permission_view_time_entries: "Перегляд трудовитрат"
   permission_view_timelines: "Переглянути часові рамки"
   permission_view_wiki_edits: "Перегляд історії wiki"
@@ -2755,9 +2780,9 @@ uk:
       are_you_sure: "Дійсно архівувати проект %{name} ?"
       archived: "Архівований"
     count:
-      zero: "0 Projects"
-      one: "1 Project"
-      other: "%{count} Projects"
+      zero: "0 проєктів"
+      one: "1 проєкт"
+      other: "Проєктів: %{count}"
   project_module_activity: "Активність"
   project_module_forums: "Форуми"
   project_module_work_package_tracking: "Пакети робіт"
@@ -2895,9 +2920,9 @@ uk:
   setting_apiv3_cors_origins: "Дозволені джерела CORS (Cross-Origin Resource Sharing) в API версії 3"
   setting_apiv3_cors_origins_text_html: >
     Якщо CORS увімкнено, це джерела, які можуть отримувати доступ до OpenProject API. <br/>Щоб дізнатися, як указати очікувані значення, ознайомтеся з <a href="%{origin_link}" target="_blank">Документацією щодо заголовка джерела</a>.
-  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes: "Дозвіл для записування атрибутів лише для читання"
   setting_apiv3_write_readonly_attributes_instructions_html: >
-    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and author. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
+    Якщо ввімкнено, адміністратори можуть записувати в API статичні атрибути лише для читання під час створення, такі як createdAt і author. <br/> <strong>Попередження.</strong> Цей параметр призначений, наприклад, для імпорту даних, але дає змогу адміністраторам створювати елементи від імені інших користувачів. Однак усі запити на створення реєструються із зазначенням справжнього автора. </br> Щоб дізнатися більше про атрибути й підтримувані ресурси, перейдіть на сторінку %{api_documentation_link}.
   setting_apiv3_max_page_size: "Максимальний розмір сторінки API"
   setting_apiv3_max_page_instructions_html: >
     Встановіть максимальний розмір сторінки, яка відповідатиме API. Неможливо виконати запити API, які повертають більше значень на сторінці. Увага: Будь ласка, змінюйте значення тільки у тому разі, якщо ви впевнені у необхідності цієї дії.  Внаслідок встановлення високого значення спостерігатиметься значний вплив на продуктивність, тоді як значення, що є меншим за сторінку, призведе до появи помилок у переглядах сторінок.
@@ -2960,10 +2985,11 @@ uk:
   setting_file_max_size_displayed: "Максимальний розмір текстового файлу для відображення"
   setting_host_name: "Ім'я хоста"
   setting_invitation_expiration_days: "Повідомлення про активацію закінчується"
-  setting_work_package_done_ratio: "Обчислити значення «% завершення» для пакета робіт за допомогою"
-  setting_work_package_done_ratio_field: "Поле пакета робіт"
-  setting_work_package_done_ratio_status: "Статус пакета робіт"
-  setting_work_package_done_ratio_disabled: "Вимкнути (приховати поле «Відсоток завершення»)"
+  setting_work_package_done_ratio: "Обчислення прогресу"
+  setting_work_package_done_ratio_field: "На основі роботи"
+  setting_work_package_done_ratio_status: "На основі статусу"
+  setting_work_package_done_ratio_explanation_html: >
+    У режимі <b>на основі роботи</b> значення параметра «% завершення» залежить від частки виконаної роботи відносно загального обсягу робіт. У режимі <b>на основі статусу</b> кожен статус має пов’язане з ним значення параметра «% завершення». У разі змінення статусу змінюється й значення параметра «% завершення».
   setting_work_package_properties: "Властивості робочого пакета"
   setting_work_package_startdate_is_adddate: "Використовувати поточну дату в якості дати початку роботи для нових пакетів"
   setting_work_packages_projects_export_limit: "Ліміт експорту пакетів робіт / проєктів"
@@ -3069,19 +3095,19 @@ uk:
     other: "Інше"
     passwords: "Паролі"
     project_attributes:
-      heading: "Project attributes"
-      label_new_attribute: "Project attribute"
-      label_new_section: "Section"
-      label_edit_section: "Edit title"
-      label_section_actions: "Section actions"
-      heading_description: "These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level."
-      label_project_custom_field_actions: "Project attribute actions"
-      label_no_project_custom_fields: "No project attributes defined in this section"
+      heading: "Атрибути проєкту"
+      label_new_attribute: "Атрибут проєкту"
+      label_new_section: "Розділ"
+      label_edit_section: "Редагувати назву"
+      label_section_actions: "Дії з розділом"
+      heading_description: "Ці атрибути проєкту відображаються на сторінці огляду кожного проєкту. Ви можете додавати нові атрибути, групувати їх за розділами й перевпорядковувати за бажанням. Ці атрибути можна вмикати або вимикати, але не можна перевпорядковувати на рівні проєкту."
+      label_project_custom_field_actions: "Дії з атрибутами проєкту"
+      label_no_project_custom_fields: "У цьому розділі не визначено жодних атрибутів проєкту"
       edit:
-        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
+        description: "Зміни цього атрибута проєкту відобразяться в усіх проєктах, де його ввімкнено. Обов’язкові атрибути не можна вимикати для окремого проєкту."
       new:
-        heading: "New attribute"
-        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
+        heading: "Новий атрибут"
+        description: "Зміни цього атрибута проєкту відобразяться в усіх проєктах, де його ввімкнено. Обов’язкові атрибути не можна вимикати для окремого проєкту."
     projects:
       missing_dependencies: "Перевірено модуль проєкту %{module}, який містить залежності від %{dependencies}. Ці залежності потрібно також перевірити."
       section_new_projects: "Налаштування нових проєктів"
@@ -3114,6 +3140,7 @@ uk:
   text_are_you_sure: "Ви впевненені?"
   text_are_you_sure_continue: "Хочете продовжити?"
   text_are_you_sure_with_children: "Видалити робочий пакет і всі дочірні робочі пакети?"
+  text_are_you_sure_with_project_custom_fields: "Видалення цього атрибута також призведе до видалення його значень у всіх проєктах. Ви впевнені?"
   text_assign_to_project: "Призначити на проект"
   text_form_configuration: >
     Можна налаштувати, які поля будуть відображатися у формах робочих пакетів. Ви можете вільно групувати поля для відображення потреб вашого домену.
@@ -3292,7 +3319,7 @@ uk:
     status_user_and_brute_force: "%{user} і %{brute_force}"
     status_change: "Зміна стану"
     text_change_disabled_for_provider_login: "Це ім’я встановив ваш постачальник облікових даних, тому його не можна змінити."
-    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
+    text_change_disabled_for_ldap_login: "Назву й електронну адресу отримано за протоколом LDAP, тому їх не можна змінити. "
     unlock: "Розблокувати"
     unlock_and_reset_failed_logins: "Розблокувати та скинути помилки входу до системи"
   version_status_closed: "зачинено"
@@ -3337,6 +3364,12 @@ uk:
     destroy:
       info: "Видалення робочого пакету є незворотною дією."
       title: "Видаліть робочий пакет"
+    progress:
+      label_note: "Примітка."
+      modal:
+        work_based_help_text: "Значення параметра «% завершення» автоматично виводиться зі значень параметрів «Робота» й «Залишок роботи»."
+        status_based_help_text: "Значення параметра «% завершення» визначається статусом пакета робіт."
+        migration_warning_text: "У режимі обчислення прогресу на основі робіт значення параметра «% завершення» не можна встановити вручну й прив’язати до значення параметра «Робота». Наявне значення збережено, але його не можна змінити. Спочатку визначте параметр «Робота»."
     sharing:
       count:
         zero: "0 користувачів"
@@ -3445,9 +3478,7 @@ uk:
         unsupported_context: "Даний ресурс не підтримується як контекст."
         context_object_not_found: "Не можу знайти ресурс з урахуванням контексту."
       validation:
-        done_ratio: "Значення «% завершення» не можна встановити для батьківських пакетів робіт, коли воно успадковується за статусом або коли його вимкнено."
         due_date: "Дата закінчення не може бути встановлена на початкових робочих пакетах."
-        estimated_hours: "Значення «Робота» не можна встановити для батьківських пакетів робіт." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Вибраному користувачеві не дозволяється %{property} для цього робочого пакету."
         start_date: "Дата початку не може бути встановлена на базових робочих пакетах."
       eprops:
@@ -3562,7 +3593,7 @@ uk:
       label_request_token: "Маркер запиту"
       label_refresh_token: "Маркер оновлення"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
+      oauth_authorization_code_grant_had_errors: "Не вдалося надати дозвіл на авторизацію OAuth2"
       oauth_reported: "Постачальник OAuth2 повідомив:"
       oauth_returned_error: "Клієнт OAuth2 повернув помилку"
       oauth_returned_json_error: "Клієнт OAuth2 повернув помилку JSON"
