@@ -53,7 +53,7 @@ This allows you to edit Work or Remaining work and get a preview of the updated 
 
 Administrators can also switch to [status-based progress reporting mode](../../../system-admin-guide/manage-work-packages/work-package-settings/) for their instance. 
 
-In this mode, each status is associated with a fixed %&nbsp;Complete value in the [admin settings for each one]((../../../system-admin-guide/manage-work-packages/work-package-status/)), which can be freely updated by changing the status of a work package. This allows teams to report progress simply by changing the status of their work packages over time.
+In this mode, each status is associated with a fixed %&nbsp;Complete value in the [admin settings for each one](../../../system-admin-guide/manage-work-packages/work-package-status/), which can be freely updated by changing the status of a work package. This allows teams to report progress simply by changing the status of their work packages over time.
 
 > For example, "New" could be set to 0%, "In progress" to 30%, "In test" to 60% and "Implemented" to 100%. Then, as project members update the status, the %&nbsp;Complete values would reflect these changes automatically.
 
