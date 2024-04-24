@@ -212,25 +212,16 @@ module Storages
       folder_name = project_storage.managed_project_folder_path
       parent_location = Peripherals::ParentFolder.new("/")
 
-      Peripherals::Registry
-        .resolve("nextcloud.commands.create_folder")
-        .call(storage: @storage, auth_strategy:, folder_name:, parent_location:)
-        .result_or do |error|
+      created_folder = Peripherals::Registry
+                         .resolve("nextcloud.commands.create_folder")
+                         .call(storage: @storage, auth_strategy:, folder_name:, parent_location:)
+                         .result_or do |error|
         format_and_log_error(error, folder: folder_name)
 
         return ServiceResult.failure(errors: error)
       end
 
-      folder_id_result = Peripherals::Registry
-                           .resolve("nextcloud.queries.file_ids")
-                           .call(storage: @storage, path: folder_path)
-                           .result_or do |error|
-        format_and_log_error(error, path:)
-
-        return ServiceResult.failure(errors: error)
-      end
-
-      project_folder_id = folder_id_result.dig(folder_path, "fileid")
+      project_folder_id = created_folder.id
       last_project_folder = ::Storages::LastProjectFolder
                               .find_by(
                                 project_storage_id: project_storage.id,
