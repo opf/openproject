@@ -30,7 +30,7 @@ import { ComponentType, PortalInjector } from '@angular/cdk/portal';
 import {
   Injectable,
   InjectionToken,
-  Injector,
+  Injector, Renderer2, RendererFactory2,
 } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
@@ -54,8 +54,11 @@ export class OpModalService {
 
   public activeModalData$ = new BehaviorSubject<ModalData|null>(null);
 
+  private bodyRenderer:Renderer2;
+
   constructor(
     private readonly injector:Injector,
+    private readonly rendererFactory:RendererFactory2,
   ) {
     // Listen to keystrokes on window to close context menus
     window.addEventListener('keydown', (evt:KeyboardEvent) => {
@@ -65,6 +68,8 @@ export class OpModalService {
 
       this.close();
     });
+
+    this.bodyRenderer = rendererFactory.createRenderer('body', null);
   }
 
   /**
@@ -101,6 +106,8 @@ export class OpModalService {
       target,
     });
 
+    this.fixBodyPosition();
+
     return this.activeModalInstance$
       .pipe(
         filter((m) => m instanceof modal),
@@ -112,7 +119,24 @@ export class OpModalService {
    * Closes currently open modal window
    */
   public close():void {
+    this.unfixBodyPosition();
+
     this.activeModalData$.next(null);
+  }
+
+  private fixBodyPosition():void {
+    const scrollY:string = document.documentElement.style.getPropertyValue('--scroll-y');
+    this.bodyRenderer.setStyle(document.body, 'position', 'fixed');
+    this.bodyRenderer.setStyle(document.body, 'top', `-${scrollY}`);
+  }
+
+  private unfixBodyPosition():void {
+    const scrollY:string = document.body.style.top;
+
+    this.bodyRenderer.setStyle(document.body, 'position', '');
+    this.bodyRenderer.setStyle(document.body, 'top', ``);
+
+    window.scrollTo(0, parseInt(scrollY || '0') * -1);
   }
 
   /**
