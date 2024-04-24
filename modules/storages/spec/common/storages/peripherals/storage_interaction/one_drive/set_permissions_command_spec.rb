@@ -145,7 +145,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
     end
 
     context "when there is a timeout" do
-      it "logs a warnig and does not raise NoMethodError", vcr: "one_drive/set_permissions_delete_permission_read" do
+      it "logs a warning and does not raise NoMethodError", vcr: "one_drive/set_permissions_delete_permission_read" do
         stub_request_with_timeout(:post, /invite$/)
         allow(OpenProject.logger).to receive(:warn)
 

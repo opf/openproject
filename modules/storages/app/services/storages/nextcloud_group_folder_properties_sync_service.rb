@@ -280,7 +280,7 @@ module Storages
         in { status: Integer }
           { status: payload.status, body: payload.body.to_s }
         else
-          payload.error.to_s
+          payload.to_s
         end
 
       error_message = context.merge({ command: error.data.source, message: error.log_message, data: })
