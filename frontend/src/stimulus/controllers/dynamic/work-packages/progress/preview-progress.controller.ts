@@ -46,9 +46,10 @@ export default class PreviewProgressController extends Controller {
 
   private debouncedPreview:(event:Event) => void;
   private frameMorphRenderer:(event:CustomEvent<TurboBeforeFrameRenderEventDetail>) => void;
+  private setPermanentAttribute:(event:Event) => void;
 
   connect() {
-    this.debouncedPreview = debounce((event:Event) => { void this.preview(event); }, 500);
+    this.debouncedPreview = debounce((event:Event) => { void this.preview(event); }, 100);
     // TODO: Ideally morphing in this single controller should not be necessary.
     // Turbo supports morphing, by adding the <turbo-frame refresh="morph"> attribute.
     // However, it has a bug, and it doesn't morphs when reloading the frame via javascript.
@@ -56,11 +57,25 @@ export default class PreviewProgressController extends Controller {
     // this code and just use <turbo-frame refresh="morph"> instead.
     this.frameMorphRenderer = (event:CustomEvent<TurboBeforeFrameRenderEventDetail>) => {
       event.detail.render = (currentElement:HTMLElement, newElement:HTMLElement) => {
-        morphdom(currentElement, newElement, { childrenOnly: true });
+        morphdom(currentElement, newElement, {
+          childrenOnly: true,
+          onBeforeElUpdated: (fromEl) => {
+            return !fromEl.hasAttribute('data-turbo-permanent');
+          },
+        });
       };
     };
 
+    this.setPermanentAttribute = (event:FocusEvent) => {
+      if (event.target) {
+        (event.target as HTMLInputElement).toggleAttribute('data-turbo-permanent', event.type === 'focus');
+      }
+    };
+
     this.progressInputTargets.forEach((target) => {
+      target.addEventListener('focus', this.setPermanentAttribute);
+      target.addEventListener('blur', this.setPermanentAttribute);
+
       target.addEventListener('input', this.debouncedPreview);
     });
 
