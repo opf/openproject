@@ -53,7 +53,7 @@ module Components
 
     def open!
       SeleniumHubWaiter.wait
-      container.find("[data-qa-help-text-for='#{help_text.attribute_name}']").click
+      container.find("[data-qa-help-text-for='#{help_text.attribute_name.camelize(:lower)}']").click
       expect(page).to have_css('[data-test-selector="attribute-help-text--header"]', text: help_text.attribute_caption)
     end
 
