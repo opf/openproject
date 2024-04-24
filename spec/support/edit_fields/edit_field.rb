@@ -51,6 +51,14 @@ class EditField
     context.find "#{@selector} #{display_selector}"
   end
 
+  def display_trigger_element
+    if display_element.has_selector?(".inline-edit--display-trigger")
+      display_element.find(".inline-edit--display-trigger")
+    else
+      display_element
+    end
+  end
+
   def input_element
     context.find "#{@selector} #{input_selector}"
   end
@@ -93,7 +101,7 @@ class EditField
     retry_block(args: { tries: 2 }) do
       unless active?
         SeleniumHubWaiter.wait unless using_cuprite?
-        scroll_to_and_click(display_element)
+        scroll_to_and_click(display_trigger_element)
         SeleniumHubWaiter.wait unless using_cuprite?
       end
 

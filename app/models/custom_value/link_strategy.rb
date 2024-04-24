@@ -26,24 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Setting
-  ##
-  # Shorthand to common setting aliases to avoid checking values
-  module Aliases
-    ##
-    # Restore the previous Setting.protocol now replaced by https?
-    def protocol
-      if OpenProject::Configuration.https?
-        "https"
-      else
-        "http"
-      end
-    end
+class CustomValue::LinkStrategy < CustomValue::FormatStrategy
+  def typed_value
+    formatted_value
+  end
 
-    ##
-    # Host name without protocol
-    def host_without_protocol
-      Setting.host_name.split(":").first
+  def parse_value(val)
+    parsed_url(val)&.to_s
+  end
+
+  def validate_type_of_value
+    unless parsed_url(value)&.absolute?
+      :invalid_url
     end
+  end
+
+  private
+
+  def parsed_url(val)
+    Addressable::URI.heuristic_parse(val, scheme: "http")
   end
 end
