@@ -281,7 +281,7 @@ module ApplicationHelper
     [
       [t("themes.light"), "light"],
       [t("themes.light_high_contrast"), "light_high_contrast"],
-      [t("themes.dark"), "dark"]
+      ([t("themes.dark"), "dark"] if OpenProject::FeatureDecisions.dark_mode_active?)
     ]
   end
 
