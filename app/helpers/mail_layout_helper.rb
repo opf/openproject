@@ -29,32 +29,32 @@
 module MailLayoutHelper
   def placeholder_table_styles(options = {})
     default_options = {
-      style: 'table-layout:fixed;border-collapse:separate;border-spacing:0;font-family:Helvetica;' <<
-        (options[:style].present? ? options.delete(:style) : ''),
+      style: "table-layout:fixed;border-collapse:separate;border-spacing:0;font-family:Helvetica;" <<
+        (options[:style].present? ? options.delete(:style) : ""),
       cellspacing: "0",
       cellpadding: "0"
     }
 
-    default_options.merge(options).map { |k, v| "#{k}=#{v}" }.join(' ')
+    default_options.merge(options).map { |k, v| "#{k}=#{v}" }.join(" ")
   end
 
   def placeholder_text_styles(**overwrites)
     {
-      color: '#878787',
-      'line-height': '24px',
-      'font-size': '14px',
-      'white-space': 'normal',
-      overflow: 'hidden',
-      'max-width': '100%',
-      width: '100%'
+      color: "#878787",
+      "line-height": "24px",
+      "font-size": "14px",
+      "white-space": "normal",
+      overflow: "hidden",
+      "max-width": "100%",
+      width: "100%"
     }.merge(overwrites)
      .map { |k, v| "#{k}: #{v}" }
-     .join('; ')
+     .join("; ")
   end
 
   def action_button(&block)
     render(
-      partial: 'mailer/mailer_button',
+      partial: "mailer/mailer_button",
       locals: { block: }
     )
   end
@@ -66,15 +66,15 @@ module MailLayoutHelper
               "line-height:#{number}; max-width:0; min-width:0; height:#{number}; width:0; font-size:#{number}"
             end
 
-    content_tag('td', '&nbsp;'.html_safe, style:)
+    content_tag("td", "&nbsp;".html_safe, style:)
   end
 
   def user_salutation(user)
     case Setting.emails_salutation
     when :name
-      I18n.t(:'mail.salutation', user: user.name)
+      I18n.t(:"mail.salutation", user: user.name)
     else
-      I18n.t(:'mail.salutation', user: user.firstname)
+      I18n.t(:"mail.salutation", user: user.firstname)
     end
   end
 end

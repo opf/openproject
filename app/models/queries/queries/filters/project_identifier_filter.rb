@@ -40,7 +40,7 @@ class Queries::Queries::Filters::ProjectIdentifierFilter < Queries::Queries::Fil
   end
 
   def where
-    operator_strategy.sql_for_field(values, 'projects', 'identifier')
+    operator_strategy.sql_for_field(values, "projects", "identifier")
   end
 
   def allowed_values

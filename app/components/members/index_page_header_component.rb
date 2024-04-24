@@ -41,20 +41,20 @@ class Members::IndexPageHeaderComponent < ApplicationComponent
 
   def add_button_data_attributes
     attributes = {
-      'members-form-target': 'addMemberButton',
-      action: 'members-form#showAddMemberForm',
-      'test-selector': 'member-add-button'
+      "members-form-target": "addMemberButton",
+      action: "members-form#showAddMemberForm",
+      "test-selector": "member-add-button"
     }
 
-    attributes['trigger-initially'] = "true" if params[:show_add_members]
+    attributes["trigger-initially"] = "true" if params[:show_add_members]
 
     attributes
   end
 
   def filter_button_data_attributes
     {
-      'members-form-target': 'filterMemberButton',
-      action: 'members-form#toggleMemberFilter'
+      "members-form-target": "filterMemberButton",
+      action: "members-form#toggleMemberFilter"
     }
   end
 end

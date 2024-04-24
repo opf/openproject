@@ -1,4 +1,4 @@
-pt:
+pt-BR:
   plugin_openproject_xls_export:
     name: "Exportação XLS do OpenProject"
     description: "Exportar listas de problemas como planilhas Excel (.xls)."

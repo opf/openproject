@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
+require "support/pages/page"
 
-require_relative '../../../../grids/spec/support/pages/grid'
+require_relative "../../../../grids/spec/support/pages/grid"
 
 module Pages
   class Dashboard < ::Pages::Grid

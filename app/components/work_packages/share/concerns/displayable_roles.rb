@@ -34,15 +34,15 @@ module WorkPackages
       module DisplayableRoles
         def options
           [
-            { label: I18n.t('work_package.sharing.permissions.edit'),
+            { label: I18n.t("work_package.sharing.permissions.edit"),
               value: Role::BUILTIN_WORK_PACKAGE_EDITOR,
-              description: I18n.t('work_package.sharing.permissions.edit_description') },
-            { label: I18n.t('work_package.sharing.permissions.comment'),
+              description: I18n.t("work_package.sharing.permissions.edit_description") },
+            { label: I18n.t("work_package.sharing.permissions.comment"),
               value: Role::BUILTIN_WORK_PACKAGE_COMMENTER,
-              description: I18n.t('work_package.sharing.permissions.comment_description') },
-            { label: I18n.t('work_package.sharing.permissions.view'),
+              description: I18n.t("work_package.sharing.permissions.comment_description") },
+            { label: I18n.t("work_package.sharing.permissions.view"),
               value: Role::BUILTIN_WORK_PACKAGE_VIEWER,
-              description: I18n.t('work_package.sharing.permissions.view_description') }
+              description: I18n.t("work_package.sharing.permissions.view_description") }
           ]
         end
       end

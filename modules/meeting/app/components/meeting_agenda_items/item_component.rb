@@ -86,7 +86,7 @@ module MeetingAgendaItems
         scheme: :default,
         data: {
           id: @meeting_agenda_item.id,
-          'drop-url': drop_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item)
+          "drop-url": drop_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item)
         }
       }
     end

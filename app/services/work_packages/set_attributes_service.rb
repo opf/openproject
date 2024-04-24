@@ -66,6 +66,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     update_project_dependent_attributes
     reassign_invalid_status_if_type_changed
     set_templated_description
+    set_cause_for_readonly_attributes
   end
 
   def derivable_attribute
@@ -415,5 +416,13 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     start = work_package.start_date || work_package.parent&.start_date
 
     (due && !start) || ((due && start) && (due > start))
+  end
+
+  def set_cause_for_readonly_attributes
+    return unless work_package.changes.keys.intersect?(%w(created_at updated_at author))
+
+    work_package.journal_cause = {
+      "type" => "default_attribute_written"
+    }
   end
 end

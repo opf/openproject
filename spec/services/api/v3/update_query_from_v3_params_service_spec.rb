@@ -26,18 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::UpdateQueryFromV3ParamsService,
                type: :model do
   let(:user) { build_stubbed(:user) }
   let(:query) { build_stubbed(:query) }
 
-  let(:params) { double('params') }
-  let(:parsed_params) { double('parsed_params') }
+  let(:params) { double("params") }
+  let(:parsed_params) { double("parsed_params") }
 
   let(:mock_parse_query_service) do
-    mock = double('ParseQueryParamsService')
+    mock = double("ParseQueryParamsService")
 
     allow(mock)
       .to receive(:call)
@@ -58,7 +58,7 @@ RSpec.describe API::V3::UpdateQueryFromV3ParamsService,
   let(:mock_parse_query_service_result) { parsed_params }
 
   let(:mock_update_query_service) do
-    mock = double('UpdateQueryFromParamsService')
+    mock = double("UpdateQueryFromParamsService")
 
     allow(mock)
       .to receive(:call)
@@ -91,20 +91,20 @@ RSpec.describe API::V3::UpdateQueryFromV3ParamsService,
       .and_return(mock_parse_query_service)
   end
 
-  describe '#call' do
+  describe "#call" do
     subject { instance.call(params) }
 
-    it 'returns the update result' do
+    it "returns the update result" do
       expect(subject)
         .to eql(mock_update_query_service_response)
     end
 
-    context 'when parsing fails' do
+    context "when parsing fails" do
       let(:mock_parse_query_service_success) { false }
-      let(:mock_parse_query_service_errors) { double 'error' }
+      let(:mock_parse_query_service_errors) { double "error" }
       let(:mock_parse_query_service_result) { nil }
 
-      it 'returns the parse result' do
+      it "returns the parse result" do
         expect(subject)
           .to eql(mock_parse_query_service_response)
       end

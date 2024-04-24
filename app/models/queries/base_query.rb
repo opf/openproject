@@ -43,7 +43,7 @@ module Queries::BaseQuery
 
   class_methods do
     def model
-      @model ||= name.demodulize.gsub('Query', '').constantize
+      @model ||= name.demodulize.gsub("Query", "").constantize
     end
 
     def i18n_scope
@@ -74,11 +74,11 @@ module Queries::BaseQuery
     return empty_scope unless valid?
 
     apply_group_by(apply_filters(default_scope))
-      .select(group_by.name, Arel.sql('COUNT(*)'))
+      .select(group_by.name, Arel.sql("COUNT(*)"))
   end
 
   def group_values
-    groups_hash = groups.pluck(group_by.name, Arel.sql('COUNT(*)')).to_h
+    groups_hash = groups.pluck(group_by.name, Arel.sql("COUNT(*)")).to_h
     instantiate_group_keys groups_hash
   end
 
@@ -238,7 +238,7 @@ module Queries::BaseQuery
     scope.order_values.any? do |order|
       order.respond_to?(:value) && order.value.respond_to?(:relation) &&
         order.value.relation.name == self.class.model.table_name &&
-        order.value.name == 'id'
+        order.value.name == "id"
     end
   end
 end

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'open_project/plugins'
+require "open_project/plugins"
 
 module OpenProject::JobStatus
   class Engine < ::Rails::Engine
@@ -34,11 +34,11 @@ module OpenProject::JobStatus
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    register 'openproject-job_status',
-             author_url: 'https://www.openproject.org',
+    register "openproject-job_status",
+             author_url: "https://www.openproject.org",
              bundled: true
 
-    add_api_endpoint 'API::V3::Root' do
+    add_api_endpoint "API::V3::Root" do
       mount ::API::V3::JobStatus::JobStatusAPI
     end
 
@@ -48,8 +48,8 @@ module OpenProject::JobStatus
 
     add_cron_jobs do
       {
-        'JobStatus::Cron::ClearOldJobStatusJob': {
-          cron: '15 4 * * *', # runs at 4:15 nightly
+        "JobStatus::Cron::ClearOldJobStatusJob": {
+          cron: "15 4 * * *", # runs at 4:15 nightly
           class: ::JobStatus::Cron::ClearOldJobStatusJob.name
         }
       }

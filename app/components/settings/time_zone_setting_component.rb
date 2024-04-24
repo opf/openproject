@@ -79,7 +79,7 @@ module Settings
     private
 
     def time_zone_option(canonical_zone, zones)
-      zone_names = zones.map(&:name).join(', ')
+      zone_names = zones.map(&:name).join(", ")
       [
         "(UTC#{ActiveSupport::TimeZone.seconds_to_utc_offset(canonical_zone.base_utc_offset)}) #{zone_names}",
         canonical_zone.identifier

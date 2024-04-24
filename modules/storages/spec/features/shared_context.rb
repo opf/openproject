@@ -28,11 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-require_relative '../support/pages/storage_tab'
+require_relative "../support/pages/storage_tab"
 
-RSpec.shared_context 'with storages full access' do
+RSpec.shared_context "with storages full access" do
   current_user { user }
 end

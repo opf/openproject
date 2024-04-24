@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 action resource', content_type: :json do
+RSpec.describe "API v3 action resource", content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -39,7 +39,7 @@ RSpec.describe 'API v3 action resource', content_type: :json do
     create(:user)
   end
 
-  describe 'GET api/v3/actions' do
+  describe "GET api/v3/actions" do
     let(:path) { api_v3_paths.actions }
 
     before do
@@ -47,62 +47,62 @@ RSpec.describe 'API v3 action resource', content_type: :json do
     end
 
     # 20 because this is the standard pagination size
-    it_behaves_like 'API V3 collection response', Action.count, 20, 'Action' do
+    it_behaves_like "API V3 collection response", Action.count, 20, "Action" do
       let(:elements) { Action.order(id: :asc).limit(20).to_a }
     end
   end
 
-  describe 'GET /api/v3/actions/:id' do
+  describe "GET /api/v3/actions/:id" do
     let(:path) { api_v3_paths.action("memberships/create") }
 
     before do
       get path
     end
 
-    it 'returns 200 OK' do
+    it "returns 200 OK" do
       expect(subject.status)
         .to be(200)
     end
 
-    it 'returns the action' do
+    it "returns the action" do
       expect(subject.body)
-        .to be_json_eql('Action'.to_json)
-        .at_path('_type')
+        .to be_json_eql("Action".to_json)
+        .at_path("_type")
 
       expect(subject.body)
         .to be_json_eql("memberships/create".to_json)
-        .at_path('id')
+        .at_path("id")
     end
 
-    context 'with an action that has an underscore' do
+    context "with an action that has an underscore" do
       let(:path) { api_v3_paths.action("work_packages/read") }
 
-      it 'returns 200 OK' do
+      it "returns 200 OK" do
         expect(subject.status)
           .to be(200)
       end
 
-      it 'returns the action' do
+      it "returns the action" do
         expect(subject.body)
-          .to be_json_eql('Action'.to_json)
-                .at_path('_type')
+          .to be_json_eql("Action".to_json)
+                .at_path("_type")
 
         expect(subject.body)
           .to be_json_eql("work_packages/read".to_json)
-                .at_path('id')
+                .at_path("id")
       end
     end
 
-    context 'if querying a non existing action' do
+    context "if querying a non existing action" do
       let(:path) { api_v3_paths.action("foo/bar") }
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
 
-    context 'if querying with malformed id' do
+    context "if querying with malformed id" do
       let(:path) { api_v3_paths.action("foobar") }
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
   end
 end

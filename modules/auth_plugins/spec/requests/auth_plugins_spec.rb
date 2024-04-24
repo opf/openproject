@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'open_project/auth_plugins'
+require "spec_helper"
+require "open_project/auth_plugins"
 
 RSpec.describe OpenProject::Plugins::AuthPlugin, with_ee: %i[board_view] do
   let(:dummy_engine_klass) do
@@ -35,13 +35,13 @@ RSpec.describe OpenProject::Plugins::AuthPlugin, with_ee: %i[board_view] do
   end
   let(:strategies) { {} }
   let(:providers_a) do
-    lambda { [{ name: 'a1' }, { name: 'a2' }] }
+    lambda { [{ name: "a1" }, { name: "a2" }] }
   end
   let(:providers_b) do
-    lambda { [{ name: 'b1' }] }
+    lambda { [{ name: "b1" }] }
   end
   let(:providers_c) do
-    lambda { [{ name: 'c1' }] }
+    lambda { [{ name: "c1" }] }
   end
 
   let(:middlewares) { [] }
@@ -59,11 +59,11 @@ RSpec.describe OpenProject::Plugins::AuthPlugin, with_ee: %i[board_view] do
     }
 
     allow(described_class).to receive(:strategies).and_return(strategies)
-    allow(dummy_engine_klass).to receive(:engine_name).and_return('foobar')
+    allow(dummy_engine_klass).to receive(:engine_name).and_return("foobar")
     allow(dummy_engine_klass).to receive(:initializer) { |_, &block| app.instance_eval(&block) }
   end
 
-  describe 'ProviderBuilder' do
+  describe "ProviderBuilder" do
     before do
       pa = providers_a.call
       pb = providers_b.call
@@ -89,16 +89,16 @@ RSpec.describe OpenProject::Plugins::AuthPlugin, with_ee: %i[board_view] do
       end
     end
 
-    it 'registers all strategies' do
+    it "registers all strategies" do
       expect(strategies.keys.to_a).to eq %i[strategy_a strategy_b]
     end
 
-    it 'registers register each strategy (i.e. middleware) only once' do
+    it "registers register each strategy (i.e. middleware) only once" do
       expect(middlewares.size).to eq 2
       expect(middlewares).to eq %i[strategy_a strategy_b]
     end
 
-    it 'associates the correct providers with their respective strategies' do
+    it "associates the correct providers with their respective strategies" do
       described_class.providers_for(:strategy_a)
       expect(described_class.providers_for(:strategy_a)).to eq [providers_a.call, providers_c.call].flatten
       expect(described_class.providers_for(:strategy_b)).to eq providers_b.call

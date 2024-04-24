@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Work package resource',
+RSpec.describe "API v3 Work package resource",
                content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:project) do
-    create(:project, identifier: 'test_project', public: false)
+    create(:project, identifier: "test_project", public: false)
   end
   let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i[add_work_packages view_project view_work_packages] + extra_permissions }
@@ -44,7 +44,7 @@ RSpec.describe 'API v3 Work package resource',
     create(:user, member_with_roles: { project => role })
   end
 
-  describe 'POST /api/v3/work_packages' do
+  describe "POST /api/v3/work_packages" do
     let(:path) { api_v3_paths.work_packages }
     let(:other_user) { nil }
     let(:status) { build(:status, is_default: true) }
@@ -52,7 +52,7 @@ RSpec.describe 'API v3 Work package resource',
     let(:type) { project.types.first }
     let(:parameters) do
       {
-        subject: 'new work packages',
+        subject: "new work packages",
         _links: {
           type: {
             href: api_v3_paths.type(type.id)
@@ -74,7 +74,7 @@ RSpec.describe 'API v3 Work package resource',
       end
     end
 
-    describe 'notifications' do
+    describe "notifications" do
       let(:other_user) do
         create(:user,
                member_with_permissions: { project => permissions },
@@ -84,82 +84,82 @@ RSpec.describe 'API v3 Work package resource',
                ])
       end
 
-      it 'creates a notification' do
+      it "creates a notification" do
         expect(Notification.where(recipient: other_user, resource: WorkPackage.last))
           .to exist
       end
 
-      context 'without notifications' do
+      context "without notifications" do
         let(:path) { "#{api_v3_paths.work_packages}?notify=false" }
 
-        it 'creates no notification' do
+        it "creates no notification" do
           expect(Notification)
             .not_to exist
         end
       end
 
-      context 'with notifications' do
+      context "with notifications" do
         let(:path) { "#{api_v3_paths.work_packages}?notify=true" }
 
-        it 'creates a notification' do
+        it "creates a notification" do
           expect(Notification.where(recipient: other_user, resource: WorkPackage.last))
             .to exist
         end
       end
     end
 
-    it 'returns Created(201)' do
+    it "returns Created(201)" do
       expect(last_response.status).to eq(201)
     end
 
-    it 'creates a work package' do
+    it "creates a work package" do
       expect(WorkPackage.all.count).to eq(1)
     end
 
-    it 'uses the given parameters' do
+    it "uses the given parameters" do
       expect(WorkPackage.first.subject).to eq(parameters[:subject])
     end
 
-    it 'is associated with the provided project' do
+    it "is associated with the provided project" do
       expect(WorkPackage.first.project).to eq(project)
     end
 
-    it 'is associated with the provided type' do
+    it "is associated with the provided type" do
       expect(WorkPackage.first.type).to eq(type)
     end
 
-    context 'without any permissions' do
+    context "without any permissions" do
       let(:current_user) { create(:user) }
 
-      it 'hides the endpoint' do
+      it "hides the endpoint" do
         expect(last_response.status).to eq(403)
       end
     end
 
-    context 'when view_project permission is enabled' do
+    context "when view_project permission is enabled" do
       # Note that this just removes the add_work_packages permission
       # view_project is actually provided by being a member of the project
       let(:permissions) { [:view_project] }
 
-      it 'points out the missing permission' do
+      it "points out the missing permission" do
         expect(last_response.status).to eq(403)
       end
     end
 
-    context 'with empty parameters' do
+    context "with empty parameters" do
       let(:parameters) { {} }
 
-      it_behaves_like 'multiple errors', 422
+      it_behaves_like "multiple errors", 422
 
-      it 'does not create a work package' do
+      it "does not create a work package" do
         expect(WorkPackage.all.count).to eq(0)
       end
     end
 
-    context 'with bogus parameters' do
+    context "with bogus parameters" do
       let(:parameters) do
         {
-          bogus: 'bogus',
+          bogus: "bogus",
           _links: {
             type: {
               href: api_v3_paths.type(project.types.first.id)
@@ -171,43 +171,43 @@ RSpec.describe 'API v3 Work package resource',
         }
       end
 
-      it_behaves_like 'constraint violation' do
+      it_behaves_like "constraint violation" do
         let(:message) { "Subject can't be blank" }
       end
 
-      it 'does not create a work package' do
+      it "does not create a work package" do
         expect(WorkPackage.all.count).to eq(0)
       end
     end
 
-    context 'when scheduled manually' do
+    context "when scheduled manually" do
       let(:work_package) { WorkPackage.first }
 
-      context 'with true' do
+      context "with true" do
         # mind the () for the super call, those are required in rspec's super
         let(:parameters) { super().merge(scheduleManually: true) }
 
-        it 'sets the scheduling mode to true' do
+        it "sets the scheduling mode to true" do
           expect(work_package.schedule_manually).to be true
         end
       end
 
-      context 'with false' do
+      context "with false" do
         let(:parameters) { super().merge(scheduleManually: false) }
 
-        it 'sets the scheduling mode to false' do
+        it "sets the scheduling mode to false" do
           expect(work_package.schedule_manually).to be false
         end
       end
 
-      context 'with scheduleManually absent' do
-        it 'sets the scheduling mode to false (default)' do
+      context "with scheduleManually absent" do
+        it "sets the scheduling mode to false (default)" do
           expect(work_package.schedule_manually).to be false
         end
       end
     end
 
-    context 'with invalid value' do
+    context "with invalid value" do
       let(:parameters) do
         {
           subject: nil,
@@ -222,20 +222,20 @@ RSpec.describe 'API v3 Work package resource',
         }
       end
 
-      it_behaves_like 'constraint violation' do
+      it_behaves_like "constraint violation" do
         let(:message) { "Subject can't be blank" }
       end
 
-      it 'does not create a work package' do
+      it "does not create a work package" do
         expect(WorkPackage.all.count).to eq(0)
       end
     end
 
-    context 'when attachments are being claimed' do
+    context "when attachments are being claimed" do
       let(:attachment) { create(:attachment, container: nil, author: current_user) }
       let(:parameters) do
         {
-          subject: 'subject',
+          subject: "subject",
           _links: {
             type: {
               href: api_v3_paths.type(project.types.first.id)
@@ -250,7 +250,7 @@ RSpec.describe 'API v3 Work package resource',
         }
       end
 
-      it 'creates the work package and assigns the attachments' do
+      it "creates the work package and assigns the attachments" do
         expect(WorkPackage.count).to eq(1)
 
         work_package = WorkPackage.last
@@ -260,7 +260,7 @@ RSpec.describe 'API v3 Work package resource',
       end
     end
 
-    context 'when file links are being claimed' do
+    context "when file links are being claimed" do
       let(:storage) { create(:nextcloud_storage) }
       let(:file_link) do
         create(:file_link,
@@ -271,7 +271,7 @@ RSpec.describe 'API v3 Work package resource',
       end
       let(:parameters) do
         {
-          subject: 'subject',
+          subject: "subject",
           _links: {
             type: {
               href: api_v3_paths.type(project.types.first.id)
@@ -289,28 +289,28 @@ RSpec.describe 'API v3 Work package resource',
         %i[view_file_links]
       end
 
-      it 'does not create a work packages and responds with an error ' \
-         'when user is not allowed to manage file links', :aggregate_failtures do
+      it "does not create a work packages and responds with an error " \
+         "when user is not allowed to manage file links", :aggregate_failtures do
         expect(WorkPackage.count).to eq(0)
         expect(last_response.body).to be_json_eql(
-          'urn:openproject-org:api:v3:errors:MissingPermission'.to_json
-        ).at_path('errorIdentifier')
+          "urn:openproject-org:api:v3:errors:MissingPermission".to_json
+        ).at_path("errorIdentifier")
       end
 
-      context 'when user is allowed to manage file links' do
+      context "when user is allowed to manage file links" do
         let(:extra_permissions) do
           %i[view_file_links manage_file_links]
         end
 
-        it 'creates a work package and assigns the file links', :aggregate_failtures do
+        it "creates a work package and assigns the file links", :aggregate_failtures do
           expect(WorkPackage.count).to eq(1)
           work_package = WorkPackage.first
           expect(work_package.file_links).to eq([file_link])
-          expect(work_package.file_links.first.container_type).to eq('WorkPackage')
+          expect(work_package.file_links.first.container_type).to eq("WorkPackage")
           expect(last_response.body).to be_json_eql(
             api_v3_paths.file_links(work_package.id).to_json
-          ).at_path('_links/fileLinks/href')
-          expect(last_response.body).to be_json_eql("1").at_path('_embedded/fileLinks/total')
+          ).at_path("_links/fileLinks/href")
+          expect(last_response.body).to be_json_eql("1").at_path("_embedded/fileLinks/total")
         end
       end
     end

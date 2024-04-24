@@ -41,7 +41,7 @@ class Queries::Principals::Filters::TypeFilter < Queries::Principals::Filters::P
   end
 
   def scope
-    if operator == '='
+    if operator == "="
       Principal.where(type: values)
     else
       Principal.where.not(type: values)

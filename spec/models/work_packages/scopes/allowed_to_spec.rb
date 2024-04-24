@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe WorkPackage, '.allowed_to' do
+RSpec.describe WorkPackage, ".allowed_to" do
   let(:user) { create(:user) }
 
   let!(:private_project) { create(:project, public: false, active: project_status) }
@@ -57,28 +57,28 @@ RSpec.describe WorkPackage, '.allowed_to' do
   let(:public_non_module_action) { :view_project }
   let(:non_module_action) { :edit_project }
 
-  context 'when querying for a permission that does not exist' do
-    it 'raises an error' do
+  context "when querying for a permission that does not exist" do
+    it "raises an error" do
       expect do
         described_class.allowed_to(build(:user), :non_existing_permission)
       end.to raise_error(Authorization::UnknownPermissionError)
     end
   end
 
-  context 'when querying for a permission that does not apply to the context' do
-    it 'raises an error' do
+  context "when querying for a permission that does not apply to the context" do
+    it "raises an error" do
       expect do
         described_class.allowed_to(build(:user), public_action)
       end.to raise_error(Authorization::IllegalPermissionContextError)
     end
   end
 
-  context 'when the user is an admin' do
+  context "when the user is an admin" do
     let(:user) { create(:admin) }
 
     subject { described_class.allowed_to(user, action) }
 
-    it 'returns all work packages' do
+    it "returns all work packages" do
       expect(subject).to contain_exactly(
         work_package_in_public_project,
         work_package_in_private_project,
@@ -86,29 +86,29 @@ RSpec.describe WorkPackage, '.allowed_to' do
       )
     end
 
-    context 'when the project is archived' do
+    context "when the project is archived" do
       before do
         public_project.update!(active: false)
         private_project.update!(active: false)
       end
 
-      it 'returns no work packages' do
+      it "returns no work packages" do
         expect(subject).to be_empty
       end
     end
 
-    context 'when the user is locked' do
+    context "when the user is locked" do
       before do
         user.locked!
       end
 
-      it 'returns no work packages' do
+      it "returns no work packages" do
         expect(subject).to be_empty
       end
     end
   end
 
-  context 'when the user has the permission directly on the work package' do
+  context "when the user has the permission directly on the work package" do
     let(:work_package_permissions) { [action] }
 
     before do
@@ -118,33 +118,33 @@ RSpec.describe WorkPackage, '.allowed_to' do
 
     subject { described_class.allowed_to(user, action) }
 
-    it 'returns the authorized work package' do
+    it "returns the authorized work package" do
       expect(subject).to contain_exactly(work_package_in_private_project)
     end
 
-    context 'when the project is archived' do
+    context "when the project is archived" do
       before do
         public_project.update!(active: false)
         private_project.update!(active: false)
       end
 
-      it 'returns no work packages' do
+      it "returns no work packages" do
         expect(subject).to be_empty
       end
     end
 
-    context 'when the user is locked' do
+    context "when the user is locked" do
       before do
         user.locked!
       end
 
-      it 'returns no work packages' do
+      it "returns no work packages" do
         expect(subject).to be_empty
       end
     end
   end
 
-  context 'when the user has the permission on the project the work package belongs to' do
+  context "when the user has the permission on the project the work package belongs to" do
     let(:project_permissions) { [action] }
 
     before do
@@ -153,36 +153,36 @@ RSpec.describe WorkPackage, '.allowed_to' do
 
     subject { described_class.allowed_to(user, action) }
 
-    it 'returns the authorized work packages' do
+    it "returns the authorized work packages" do
       expect(subject).to contain_exactly(
         work_package_in_private_project,
         other_work_package_in_private_project
       )
     end
 
-    context 'when the project is archived' do
+    context "when the project is archived" do
       before do
         public_project.update!(active: false)
         private_project.update!(active: false)
       end
 
-      it 'returns no work packages' do
+      it "returns no work packages" do
         expect(subject).to be_empty
       end
     end
 
-    context 'when the user is locked' do
+    context "when the user is locked" do
       before do
         user.locked!
       end
 
-      it 'returns no work packages' do
+      it "returns no work packages" do
         expect(subject).to be_empty
       end
     end
   end
 
-  context 'when the user has a different permission on the project, but the requested one on a specific work package' do
+  context "when the user has a different permission on the project, but the requested one on a specific work package" do
     let(:project_permissions) { [:view_work_packages] }
     let(:work_package_permissions) { %i[view_work_packages edit_work_packages] }
 
@@ -191,24 +191,24 @@ RSpec.describe WorkPackage, '.allowed_to' do
       create(:member, project: private_project, user:, roles: [project_role])
     end
 
-    context 'and requesting a permission that is only granted on the single work package' do
+    context "and requesting a permission that is only granted on the single work package" do
       subject { described_class.allowed_to(user, :edit_work_packages) }
 
-      it 'returns the authorized work packages' do
+      it "returns the authorized work packages" do
         expect(subject).to contain_exactly(work_package_in_private_project)
       end
     end
 
-    context 'and requesting a permission that is granted on the project and the work package' do
+    context "and requesting a permission that is granted on the project and the work package" do
       subject { described_class.allowed_to(user, :view_work_packages) }
 
-      it 'returns the authorized work packages' do
+      it "returns the authorized work packages" do
         expect(subject).to contain_exactly(work_package_in_private_project, other_work_package_in_private_project)
       end
     end
   end
 
-  context 'when the user is not logged in (anonymous)' do
+  context "when the user is not logged in (anonymous)" do
     let(:user) { User.anonymous }
     let(:action) { :view_work_packages }
 
@@ -218,24 +218,24 @@ RSpec.describe WorkPackage, '.allowed_to' do
 
     subject { described_class.allowed_to(user, action) }
 
-    context 'with the anonymous role having the permission' do
+    context "with the anonymous role having the permission" do
       let(:anonymous_permissions) { [action] }
 
-      it 'returns work packages in the public project' do
+      it "returns work packages in the public project" do
         expect(subject).to contain_exactly(work_package_in_public_project)
       end
     end
 
-    context 'with the anonymous role lacking the permission' do
+    context "with the anonymous role lacking the permission" do
       let(:anonymous_permissions) { [] }
 
-      it 'is empty' do
+      it "is empty" do
         expect(subject).to be_empty
       end
     end
   end
 
-  context 'when the user isn`t member in the project' do
+  context "when the user isn`t member in the project" do
     let(:user) { create(:user) }
     let(:action) { :view_work_packages }
 
@@ -245,18 +245,18 @@ RSpec.describe WorkPackage, '.allowed_to' do
 
     subject { described_class.allowed_to(user, action) }
 
-    context 'with the non member role having the permission' do
+    context "with the non member role having the permission" do
       let(:non_member_permissions) { [action] }
 
-      it 'returns work packages in the public project' do
+      it "returns work packages in the public project" do
         expect(subject).to contain_exactly(work_package_in_public_project)
       end
     end
 
-    context 'with the non member role lacking the permission' do
+    context "with the non member role lacking the permission" do
       let(:non_member_permissions) { [] }
 
-      it 'is empty' do
+      it "is empty" do
         expect(subject).to be_empty
       end
     end

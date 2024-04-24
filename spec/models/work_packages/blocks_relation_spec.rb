@@ -26,19 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe WorkPackage, 'blocks/blocked_by relations' do
+RSpec.describe WorkPackage, "blocks/blocked_by relations" do
   create_shared_association_defaults_for_work_package_factory
-  shared_let(:work_package) { create(:work_package, subject: 'blocked wp') }
+  shared_let(:work_package) { create(:work_package, subject: "blocked wp") }
 
-  it 'is not blocked by default' do
+  it "is not blocked by default" do
     expect(work_package).not_to be_blocked
     expect(work_package.blockers).to be_empty
   end
 
-  context 'with blocking work package' do
-    shared_let(:blocker) { create(:work_package, subject: 'blocking wp') }
+  context "with blocking work package" do
+    shared_let(:blocker) { create(:work_package, subject: "blocking wp") }
     shared_let(:relation) do
       create(:relation,
              from: blocker,
@@ -46,19 +46,19 @@ RSpec.describe WorkPackage, 'blocks/blocked_by relations' do
              relation_type: Relation::TYPE_BLOCKS)
     end
 
-    it 'is being blocked' do
+    it "is being blocked" do
       expect(work_package).to be_blocked
       expect(work_package.blockers).to include blocker
     end
 
-    context 'when work package is closed' do
+    context "when work package is closed" do
       let(:closed_status) { create(:closed_status) }
 
       before do
         work_package.update_column :status_id, closed_status.id
       end
 
-      it 'is not blocked' do
+      it "is not blocked" do
         expect(work_package).not_to be_blocked
         expect(work_package.blockers).to be_empty
       end

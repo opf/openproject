@@ -30,7 +30,7 @@ module Meetings
   module DemoData
     class MeetingSeeder < ::BasicData::ModelSeeder
       self.model_class = StructuredMeeting
-      self.seed_data_model_key = 'meetings'
+      self.seed_data_model_key = "meetings"
 
       attr_reader :project
 
@@ -41,9 +41,9 @@ module Meetings
 
       def model_attributes(meeting_data)
         {
-          title: meeting_data['title'],
-          author: seed_data.find_reference(meeting_data['author']),
-          duration: minutes_to_hours(meeting_data['duration']),
+          title: meeting_data["title"],
+          author: seed_data.find_reference(meeting_data["author"]),
+          duration: minutes_to_hours(meeting_data["duration"]),
           project:
         }
       end

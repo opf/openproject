@@ -7,7 +7,7 @@ module Components
 
     attr_reader :context_selector
 
-    def initialize(context = '#content')
+    def initialize(context = "#content")
       @context_selector = context
     end
 

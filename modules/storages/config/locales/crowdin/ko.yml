@@ -53,8 +53,8 @@ ko:
       complete_without_setup: 이것 없이 완료
       done_complete_setup: 완료, 설정 완료
       done_continue: 완료, 계속
-      replace_oauth_application: Replace OpenProject OAuth
-      replace_oauth_client: Replace %{provider_type} OAuth
+      replace_oauth_application: OpenProject OAuth 바꾸기
+      replace_oauth_client: '%{provider_type} OAuth 바꾸기'
       save_and_continue: 저장 및 계속
       select_folder: 폴더 선택
     configuration_checks:
@@ -63,8 +63,8 @@ ko:
         one_drive: OpenProject가 OAuth를 사용하여 Azure 데이터에 액세스하고 OneDrive/Sharepoint에 연결하도록 허용합니다.
       redirect_uri_incomplete:
         one_drive: 올바른 URI 리디렉션으로 설정을 완료합니다.
-    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
-    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
+    confirm_replace_oauth_application: 이 작업은 현재 OAuth 자격 증명을 재설정합니다. 확인 후 저장소 공급자에서 자격 증명을 다시 입력해야 하며 모든 원격 사용자는 OpenProject에 대해 다시 인증해야 합니다. 계속하시겠습니까?
+    confirm_replace_oauth_client: 이 작업은 현재 OAuth 자격 증명을 재설정합니다. 확인 후 저장소 공급자의 새로운 자격 증명을 입력해야 하며 모든 사용자는 %{provider_type}에 대해 다시 인증해야 합니다. 계속하시겠습니까?
     delete_warning:
       input_delete_confirmation: 파일 저장소 이름 %{file_storage}을(를) 입력하여 삭제를 확인합니다.
       irreversible_notice: 파일 저장소를 삭제하면 되돌릴 수 없습니다.
@@ -178,12 +178,12 @@ ko:
       저장소가 연결되었습니다! 이 저장소를 사용하려면 원하는 각 프로젝트의 프로젝트 설정에서 모듈과 특정 저장소를 활성화해야 합니다.
     oauth_grant_nudge_modal:
       access_granted: 액세스 승인됨
-      access_granted_screen_reader: Access granted. You are now ready to use %{storage}.
+      access_granted_screen_reader: 액세스 권한이 부여되었습니다. 이제 %{storage} 사용 준비가 완료되었습니다.
       body: 프로젝트 폴더에 액세스하려면 %{storage}에 로그인해야 합니다.
       cancel_button_label: 나중에 하겠습니다
-      confirm_button_aria_label: Login to %{storage}
+      confirm_button_aria_label: '%{storage}에 로그인'
       confirm_button_label: 로그인
-      requesting_access_to: Requesting access to %{storage}
+      requesting_access_to: '%{storage}에 대한 액세스 요청'
       storage_ready: 이제 %{storage}을(를) 사용할 준비가 되었습니다
       title: 한 단계 더...
     open_project_storage_modal:

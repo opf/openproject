@@ -46,13 +46,13 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       response = OpenProject
                    .httpx
                    .basic_auth(@username, @password)
-                   .with(headers: { 'OCS-APIRequest' => 'true' })
+                   .with(headers: { "OCS-APIRequest" => "true" })
                    .post(
                      Util.join_uri_path(
                        @uri,
-                       'ocs/v1.php/cloud/users',
+                       "ocs/v1.php/cloud/users",
                        CGI.escapeURIComponent(user),
-                       'groups'
+                       "groups"
                      ),
                      form: { "groupid" => CGI.escapeURIComponent(group) }
                    )
@@ -61,7 +61,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
       case response
       in { status: 200..299 }
-        statuscode = Nokogiri::XML(response.body.to_s).xpath('/ocs/meta/statuscode').text
+        statuscode = Nokogiri::XML(response.body.to_s).xpath("/ocs/meta/statuscode").text
 
         case statuscode
         when "100"
@@ -78,15 +78,15 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           Util.error(:error, "Failed to add user to group", error_data)
         end
       in { status: 405 }
-        Util.error(:not_allowed, 'Outbound request method not allowed', error_data)
+        Util.error(:not_allowed, "Outbound request method not allowed", error_data)
       in { status: 401 }
-        Util.error(:not_found, 'Outbound request destination not found', error_data)
+        Util.error(:not_found, "Outbound request destination not found", error_data)
       in { status: 404 }
-        Util.error(:unauthorized, 'Outbound request not authorized', error_data)
+        Util.error(:unauthorized, "Outbound request not authorized", error_data)
       in { status: 409 }
         Util.error(:conflict, Util.error_text_from_response(response), error_data)
       else
-        Util.error(:error, 'Outbound request failed', error_data)
+        Util.error(:error, "Outbound request failed", error_data)
       end
     end
 

@@ -78,6 +78,9 @@ jobs:
         env:
           OPENPROJECT_CROWDIN_PROJECT: ${{ secrets.OPENPROJECT_CROWDINV2_PROJECT }}
           OPENPROJECT_CROWDIN_API_KEY: ${{ secrets.OPENPROJECT_CROWDINV2_API_KEY }}
+      - name: "Fix root key in Portuguese crowdin translation files"
+        run: |
+          script/i18n/fix_crowdin_pt_language_root_key
       - name: "Commit translations"
         run: |
           git config user.name "OpenProject Actions CI"

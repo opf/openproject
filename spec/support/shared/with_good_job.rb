@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,27 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_module_spec_helper
+# Disable the test adapter for the given classes
+# allowing GoodJob to handle execution and scheduling,
+# which in turn allows us to check concurrency controls etc.
+RSpec.configure do |config|
+  config.around(:example, :with_good_job) do |example|
+    original_adapter = ActiveJob::Base.queue_adapter
+    good_job_adapter = GoodJob::Adapter.new(execution_mode: :inline)
 
-RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::Util do
-  describe '.basic_auth_header' do
-    subject { described_class.basic_auth_header(username, password) }
-
-    context 'when password is more than 60 symbols' do
-      let(:username) { 'Dart Scuadron' }
-      let(:password) { "#{'StarWars' * 10}Forever!" }
-
-      it 'has no newline characters in encoded string' do
-        expect(subject['Authorization']).not_to match(/\n/)
-        expect(subject).to eq(
-          {
-            "Authorization" => "Basic RGFydCBTY3VhZHJvbjpTdGFyV2Fyc1N0YXJXYXJzU3Rhcl" \
-                               "dhcnNTdGFyV2Fyc1N0YXJXYXJzU3RhcldhcnNTdGFyV2Fyc1N0YX" \
-                               "JXYXJzU3RhcldhcnNTdGFyV2Fyc0ZvcmV2ZXIh"
-          }
-        )
+    begin
+      classes = Array(example.metadata[:with_good_job])
+      unless classes.all? { |cls| cls <= ApplicationJob }
+        raise ArgumentError.new("Pass the ApplicationJob subclasses you want to disable the test adapter on.")
       end
+
+      classes.each(&:disable_test_adapter)
+      ActiveJob::Base.queue_adapter = good_job_adapter
+      example.run
+
+    ensure
+      ActiveJob::Base.queue_adapter = original_adapter
+      classes.each { |cls| cls.enable_test_adapter(original_adapter) }
+      good_job_adapter&.shutdown
     end
   end
 end

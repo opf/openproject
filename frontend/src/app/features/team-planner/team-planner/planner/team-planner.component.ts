@@ -114,8 +114,9 @@ import {
   removeBackgroundEvents,
 } from 'core-app/features/team-planner/team-planner/planner/background-events';
 import * as moment from 'moment-timezone';
+import allLocales from '@fullcalendar/core/locales-all';
 
-export type TeamPlannerViewOptionKey = 'resourceTimelineWorkWeek'|'resourceTimelineWeek'|'resourceTimelineTwoWeeks';
+export type TeamPlannerViewOptionKey = 'resourceTimelineWorkWeek'|'resourceTimelineWeek'|'resourceTimelineTwoWeeks'|'resourceTimelineFourWeeks'|'resourceTimelineEightWeeks';
 export type TeamPlannerViewOptions = { [K in TeamPlannerViewOptionKey]:RawOptionsFromRefiners<Required<ViewOptionRefiners>> };
 
 @Component({
@@ -286,6 +287,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     work_week: this.I18n.t('js.team_planner.work_week'),
     two_weeks: this.I18n.t('js.team_planner.two_weeks'),
     one_week: this.I18n.t('js.team_planner.one_week'),
+    four_weeks: this.I18n.t('js.team_planner.four_weeks'),
+    eight_weeks: this.I18n.t('js.team_planner.eight_weeks'),
     today: this.I18n.t('js.team_planner.today'),
     drag_here_to_remove: this.I18n.t('js.team_planner.drag_here_to_remove'),
     cannot_drag_here: this.I18n.t('js.team_planner.cannot_drag_here'),
@@ -347,6 +350,28 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         buttonText: this.text.two_weeks,
         duration: { weeks: 2 },
         dateIncrement: { weeks: 1 },
+        slotLabelFormat: [
+          { weekday: 'short', day: '2-digit' },
+        ],
+      },
+    },
+    resourceTimelineFourWeeks: {
+      ...this.viewOptionDefaults,
+      ...{
+        buttonText: this.text.four_weeks,
+        duration: { weeks: 4 },
+        dateIncrement: { weeks: 2 },
+        slotLabelFormat: [
+          { weekday: 'short', day: '2-digit' },
+        ],
+      },
+    },
+    resourceTimelineEightWeeks: {
+      ...this.viewOptionDefaults,
+      ...{
+        buttonText: this.text.eight_weeks,
+        duration: { weeks: 8 },
+        dateIncrement: { weeks: 4 },
         slotLabelFormat: [
           { weekday: 'short', day: '2-digit' },
         ],
@@ -459,11 +484,12 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       .then(() => {
         this.calendarOptions$.next(
           this.workPackagesCalendar.calendarOptions({
+            locales: allLocales,
+            locale: this.I18n.locale,
             schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
             selectable: true,
             plugins: [resourceTimelinePlugin, interactionPlugin],
             titleFormat: { year: 'numeric', month: 'long', day: 'numeric' },
-            buttonText: { today: this.text.today },
             initialView: this.initialCalendarView,
             headerToolbar: {
               left: '',

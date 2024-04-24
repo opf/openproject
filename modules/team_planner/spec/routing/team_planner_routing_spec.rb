@@ -26,71 +26,71 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Team planner routing' do
-  it 'routes to team_planner#overview' do
+RSpec.describe "Team planner routing" do
+  it "routes to team_planner#overview" do
     expect(subject)
-      .to route(:get, '/team_planners')
-            .to(controller: 'team_planner/team_planner', action: :overview)
+      .to route(:get, "/team_planners")
+            .to(controller: "team_planner/team_planner", action: :overview)
   end
 
-  it 'routes to team_planner#index' do
+  it "routes to team_planner#index" do
     expect(subject)
-      .to route(:get, '/projects/foobar/team_planners')
-            .to(controller: 'team_planner/team_planner', action: :index, project_id: 'foobar')
+      .to route(:get, "/projects/foobar/team_planners")
+            .to(controller: "team_planner/team_planner", action: :index, project_id: "foobar")
   end
 
-  it 'routes to team_planner#show' do
+  it "routes to team_planner#show" do
     expect(subject)
-      .to route(:get, '/projects/foobar/team_planners/1234')
-            .to(controller: 'team_planner/team_planner', action: :show, project_id: 'foobar', id: '1234')
+      .to route(:get, "/projects/foobar/team_planners/1234")
+            .to(controller: "team_planner/team_planner", action: :show, project_id: "foobar", id: "1234")
   end
 
-  context 'with :project_id' do
-    it 'routes to team_planner#upsale' do
+  context "with :project_id" do
+    it "routes to team_planner#upsale" do
       expect(subject)
-        .to route(:get, '/projects/foobar/team_planners/upsale')
-              .to(controller: 'team_planner/team_planner', action: :upsale, project_id: 'foobar')
+        .to route(:get, "/projects/foobar/team_planners/upsale")
+              .to(controller: "team_planner/team_planner", action: :upsale, project_id: "foobar")
     end
 
-    it 'routes to team_planner#show' do
+    it "routes to team_planner#show" do
       expect(subject)
-        .to route(:get, '/projects/foobar/team_planners/new')
-              .to(controller: 'team_planner/team_planner', action: :show, project_id: 'foobar')
-    end
-  end
-
-  context 'without :project_id' do
-    it 'routes to team_planner#upsale' do
-      expect(subject)
-        .to route(:get, '/team_planners/upsale')
-              .to(controller: 'team_planner/team_planner', action: :upsale)
-    end
-
-    it 'routes to team_planner#new' do
-      expect(subject)
-        .to route(:get, '/team_planners/new')
-              .to(controller: 'team_planner/team_planner', action: :new)
+        .to route(:get, "/projects/foobar/team_planners/new")
+              .to(controller: "team_planner/team_planner", action: :show, project_id: "foobar")
     end
   end
 
-  it 'routes to team_planner#create' do
-    expect(subject)
-      .to route(:post, '/team_planners')
-            .to(controller: 'team_planner/team_planner', action: :create)
+  context "without :project_id" do
+    it "routes to team_planner#upsale" do
+      expect(subject)
+        .to route(:get, "/team_planners/upsale")
+              .to(controller: "team_planner/team_planner", action: :upsale)
+    end
+
+    it "routes to team_planner#new" do
+      expect(subject)
+        .to route(:get, "/team_planners/new")
+              .to(controller: "team_planner/team_planner", action: :new)
+    end
   end
 
-  it 'routes to team_planner#show with state' do
+  it "routes to team_planner#create" do
     expect(subject)
-      .to route(:get, '/projects/foobar/team_planners/1234/details/555')
-            .to(controller: 'team_planner/team_planner', action: :show, project_id: 'foobar', id: '1234',
-                state: 'details/555')
+      .to route(:post, "/team_planners")
+            .to(controller: "team_planner/team_planner", action: :create)
   end
 
-  it 'routes to team_planner#destroy' do
+  it "routes to team_planner#show with state" do
     expect(subject)
-      .to route(:delete, '/projects/foobar/team_planners/1234')
-            .to(controller: 'team_planner/team_planner', action: :destroy, project_id: 'foobar', id: '1234')
+      .to route(:get, "/projects/foobar/team_planners/1234/details/555")
+            .to(controller: "team_planner/team_planner", action: :show, project_id: "foobar", id: "1234",
+                state: "details/555")
+  end
+
+  it "routes to team_planner#destroy" do
+    expect(subject)
+      .to route(:delete, "/projects/foobar/team_planners/1234")
+            .to(controller: "team_planner/team_planner", action: :destroy, project_id: "foobar", id: "1234")
   end
 end

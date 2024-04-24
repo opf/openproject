@@ -26,27 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::Users::Filters::AnyNameAttributeFilter do
-  include_context 'filter tests'
-  let(:values) { ['A name'] }
+  include_context "filter tests"
+  let(:values) { ["A name"] }
   let(:model) { User.user }
   let(:filter_str) { instance.send :sql_concat_name }
 
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :any_name_attribute }
     let(:type) { :string }
     let(:model) { User.user }
 
-    describe '#allowed_values' do
-      it 'is nil' do
+    describe "#allowed_values" do
+      it "is nil" do
         expect(instance.allowed_values).to be_nil
       end
     end
 
-    describe '#available_operators' do
-      it 'supports = and !' do
+    describe "#available_operators" do
+      it "supports = and !" do
         expect(instance.available_operators)
           .to contain_exactly Queries::Operators::Contains,
                               Queries::Operators::NotContains,
@@ -55,11 +55,11 @@ RSpec.describe Queries::Users::Filters::AnyNameAttributeFilter do
     end
   end
 
-  describe '#scope' do
+  describe "#scope" do
     context 'for "~"' do
-      let(:operator) { '~' }
+      let(:operator) { "~" }
 
-      it 'is the same as handwriting the query' do
+      it "is the same as handwriting the query" do
         expected = model.where("unaccent(#{filter_str}) LIKE unaccent('%#{values.first.downcase}%')")
 
         expect(instance.scope.to_sql).to eql expected.to_sql
@@ -67,9 +67,9 @@ RSpec.describe Queries::Users::Filters::AnyNameAttributeFilter do
     end
 
     context 'for "!~"' do
-      let(:operator) { '!~' }
+      let(:operator) { "!~" }
 
-      it 'is the same as handwriting the query' do
+      it "is the same as handwriting the query" do
         expected = model.where("unaccent(#{filter_str}) NOT LIKE unaccent('%#{values.first.downcase}%')")
 
         expect(instance.scope.to_sql).to eql expected.to_sql

@@ -30,20 +30,20 @@ module DevelopmentData
   class ProjectsSeeder < Seeder
     def seed_data!
       # We are relying on the default_projects_modules setting to set the desired project modules
-      print_status ' ↳ Creating development projects...'
+      print_status " ↳ Creating development projects..."
 
-      print_status '   -Creating/Resetting development projects'
+      print_status "   -Creating/Resetting development projects"
       projects = reset_projects
 
-      print_status '   -Setting members.'
+      print_status "   -Setting members."
       set_members(projects)
 
-      print_status '   -Creating versions.'
+      print_status "   -Creating versions."
       seed_versions(projects)
 
-      print_status '   -Linking custom fields.'
+      print_status "   -Linking custom fields."
 
-      link_custom_fields(projects.detect { |p| p.identifier == 'dev-custom-fields' })
+      link_custom_fields(projects.detect { |p| p.identifier == "dev-custom-fields" })
     end
 
     def applicable?
@@ -59,8 +59,8 @@ module DevelopmentData
       project_identifiers.map do |id|
         project = Project.new project_data(id)
 
-        if id == 'dev-large-child'
-          project.parent_id = Project.find_by(identifier: 'dev-large').id
+        if id == "dev-large-child"
+          project.parent_id = Project.find_by(identifier: "dev-large").id
         end
 
         project.save!
@@ -80,15 +80,15 @@ module DevelopmentData
     end
 
     def seed_versions(projects)
-      version_data = seed_data.lookup('projects.scrum-project.versions')
+      version_data = seed_data.lookup("projects.scrum-project.versions")
       return unless version_data.is_a? Array
 
       projects.each do |project|
         version_data.each do |attributes|
           project.versions.create!(
-            name: attributes['name'],
-            status: attributes['status'],
-            sharing: attributes['sharing']
+            name: attributes["name"],
+            status: attributes["status"],
+            sharing: attributes["sharing"]
           )
         end
       end
@@ -109,7 +109,7 @@ module DevelopmentData
     end
 
     def project_name(identifier)
-      _dev, *parts = identifier.split('-')
+      _dev, *parts = identifier.split("-")
       "[dev] #{parts.join(' ').capitalize}"
     end
 

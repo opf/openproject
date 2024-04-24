@@ -26,6 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].sort.each { |f| require f }
+Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].sort.each { |f| require f }

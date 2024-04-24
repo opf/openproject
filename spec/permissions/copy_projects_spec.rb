@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require File.expand_path('../support/permission_specs', __dir__)
+require "spec_helper"
+require File.expand_path("../support/permission_specs", __dir__)
 
-RSpec.describe ProjectsController, 'copy_projects permission', type: :controller do
+RSpec.describe ProjectsController, "copy_projects permission", type: :controller do
   include PermissionSpecs
 
-  check_permission_required_for('projects#copy', :copy_projects)
+  check_permission_required_for("projects#copy", :copy_projects)
 end

@@ -44,13 +44,13 @@ module Enumerations
 
     def headers
       [
-        ['name', { caption: Enumeration.human_attribute_name(:name) }],
-        ['is_default', { caption: Enumeration.human_attribute_name(:is_default) }],
-        ['active', { caption: Enumeration.human_attribute_name(:active) }],
-        ['sort', { caption: I18n.t(:label_sort) }]
+        ["name", { caption: Enumeration.human_attribute_name(:name) }],
+        ["is_default", { caption: Enumeration.human_attribute_name(:is_default) }],
+        ["active", { caption: Enumeration.human_attribute_name(:active) }],
+        ["sort", { caption: I18n.t(:label_sort) }]
       ].tap do |default|
         if with_colors
-          default.insert 3, ['color', { caption: Enumeration.human_attribute_name(:color) }]
+          default.insert 3, ["color", { caption: Enumeration.human_attribute_name(:color) }]
         end
       end
     end
@@ -62,10 +62,10 @@ module Enumerations
     def inline_create_link
       link_to new_enumeration_path(type: rows.name),
               aria: { label: t(:label_enumeration_new) },
-              class: 'wp-inline-create--add-link',
-              data: { 'test-selector': "create-enumeration-#{rows.name.underscore.dasherize}" },
+              class: "wp-inline-create--add-link",
+              data: { "test-selector": "create-enumeration-#{rows.name.underscore.dasherize}" },
               title: t(:label_enumeration_new) do
-        helpers.op_icon('icon icon-add')
+        helpers.op_icon("icon icon-add")
       end
     end
   end

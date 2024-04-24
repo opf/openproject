@@ -28,10 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Content-Type header' do
+RSpec.describe "API v3 Content-Type header" do
   include Rack::Test::Methods
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
@@ -46,28 +46,28 @@ RSpec.describe 'API v3 Content-Type header' do
     end
   end
 
-  describe 'a missing Content-Type header' do
-    context 'on a GET request' do
-      it 'is successful' do
+  describe "a missing Content-Type header" do
+    context "on a GET request" do
+      it "is successful" do
         get api_v3_paths.work_package(work_package.id)
         expect(last_response.status).not_to eq(406)
         expect(last_response).to be_ok
       end
     end
 
-    context 'on a DELETE request' do
-      it 'is successful' do
+    context "on a DELETE request" do
+      it "is successful" do
         delete api_v3_paths.work_package(work_package.id)
         expect(last_response.status).not_to eq(406)
         expect(last_response).to be_no_content
       end
     end
 
-    context 'on any other HTTP method' do
-      it 'responds with a 406 status and a missing Content-Type header message' do
+    context "on any other HTTP method" do
+      it "responds with a 406 status and a missing Content-Type header message" do
         patch api_v3_paths.work_package(work_package.id), {}
         expect(last_response.status).to eq(406)
-        expect(last_response.body).to include('Missing content-type header')
+        expect(last_response.body).to include("Missing content-type header")
       end
     end
   end

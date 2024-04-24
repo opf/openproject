@@ -29,10 +29,10 @@
 class Status < ApplicationRecord
   default_scope { order_by_position }
   before_destroy :check_integrity
-  has_many :workflows, foreign_key: 'old_status_id'
+  has_many :workflows, foreign_key: "old_status_id"
   acts_as_list
 
-  belongs_to :color, class_name: 'Color'
+  belongs_to :color, class_name: "Color"
 
   before_destroy :delete_workflows
 
@@ -63,10 +63,10 @@ class Status < ApplicationRecord
   # Update all the +Issues+ setting their done_ratio to the value of their +Status+
   def self.update_work_package_done_ratios
     if WorkPackage.use_status_for_done_ratio?
-      Status.where(['default_done_ratio >= 0']).find_each do |status|
+      Status.where(["default_done_ratio >= 0"]).find_each do |status|
         WorkPackage
-          .where(['status_id = ?', status.id])
-          .update_all(['done_ratio = ?', status.default_done_ratio])
+          .where(["status_id = ?", status.id])
+          .update_all(["done_ratio = ?", status.default_done_ratio])
       end
     end
 
@@ -98,7 +98,7 @@ class Status < ApplicationRecord
   ##
   # Overrides cache key so that changes to EE state are reflected
   def cache_key
-    super + '/' + can_readonly?.to_s
+    super + "/" + can_readonly?.to_s
   end
 
   private

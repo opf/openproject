@@ -32,6 +32,6 @@ class Queries::Projects::Selects::Status < Queries::Selects::Base
   end
 
   def caption
-    I18n.t(:'attributes.status')
+    I18n.t(:"attributes.status")
   end
 end

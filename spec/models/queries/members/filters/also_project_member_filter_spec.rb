@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::Members::Filters::AlsoProjectMemberFilter do
-  it_behaves_like 'boolean query filter', scope: false do
+  it_behaves_like "boolean query filter", scope: false do
     let(:model) { Member }
     let(:attribute) { nil }
 
@@ -45,22 +45,22 @@ RSpec.describe Queries::Members::Filters::AlsoProjectMemberFilter do
       SQL
     end
 
-    describe '#where' do
-      let(:operator) { '=' }
+    describe "#where" do
+      let(:operator) { "=" }
 
-      context 'for true' do
+      context "for true" do
         let(:values) { [OpenProject::Database::DB_VALUE_TRUE] }
 
-        it 'is the same as handwriting the query' do
+        it "is the same as handwriting the query" do
           expected = expected_base_scope.where("EXISTS (#{exists_query})")
           expect(instance.scope.to_sql).to eql expected.to_sql
         end
       end
 
-      context 'for false' do
+      context "for false" do
         let(:values) { [OpenProject::Database::DB_VALUE_FALSE] }
 
-        it 'is the same as handwriting the query' do
+        it "is the same as handwriting the query" do
           expected = expected_base_scope.where("NOT EXISTS (#{exists_query})")
           expect(instance.scope.to_sql).to eql expected.to_sql
         end

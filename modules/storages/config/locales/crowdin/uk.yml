@@ -53,8 +53,8 @@ uk:
       complete_without_setup: Завершити без налаштування
       done_complete_setup: Готово – завершити налаштування
       done_continue: Виконано, продовжити
-      replace_oauth_application: Replace OpenProject OAuth
-      replace_oauth_client: Replace %{provider_type} OAuth
+      replace_oauth_application: Замінити OpenProject OAuth
+      replace_oauth_client: Замінити %{provider_type} OAuth
       save_and_continue: Зберегти та продовжити
       select_folder: Вибрати папку
     configuration_checks:
@@ -63,8 +63,8 @@ uk:
         one_drive: Надайте OpenProject доступ до даних Azure із використанням OAuth для підключення OneDrive / Sharepoint.
       redirect_uri_incomplete:
         one_drive: Завершіть налаштування за допомогою правильного URI переспрямування.
-    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
-    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
+    confirm_replace_oauth_application: Ця дія призведе до скидання поточних облікових даних OAuth. Коли ви підтвердите дію, вам потрібно буде повторно ввести облікові дані в системі постачальника сховища. У такому разі всім віддаленим користувачам знадобиться знову пройти автентифікацію в OpenProject. Продовжити?
+    confirm_replace_oauth_client: Ця дія призведе до скидання поточних облікових даних OAuth. Коли ви підтвердите дію, вам потрібно буде ввести нові облікові дані в системі постачальника сховища. У такому разі всім користувачам знадобиться знову пройти автентифікацію в %{provider_type}. Продовжити?
     delete_warning:
       input_delete_confirmation: Введіть ім’я файлового сховища %{file_storage}, щоб підтвердити видалення.
       irreversible_notice: Видалення файлового сховища не можна скасувати.
@@ -179,12 +179,12 @@ uk:
       кожного потрібного проєкту.
     oauth_grant_nudge_modal:
       access_granted: Доступ надано
-      access_granted_screen_reader: Access granted. You are now ready to use %{storage}.
+      access_granted_screen_reader: Доступ надано. Тепер %{storage} готове до використання.
       body: Щоб отримати доступ до папки проєкту, потрібно ввійти в %{storage}.
       cancel_button_label: Я зроблю це пізніше
-      confirm_button_aria_label: Login to %{storage}
+      confirm_button_aria_label: Увійти в %{storage}
       confirm_button_label: Увійти
-      requesting_access_to: Requesting access to %{storage}
+      requesting_access_to: Надсилаємо запит на доступ до %{storage}
       storage_ready: Тепер ви можете використовувати сховище %{storage}
       title: Ще один крок...
     open_project_storage_modal:

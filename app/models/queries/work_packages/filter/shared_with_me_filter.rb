@@ -40,7 +40,7 @@ class Queries::WorkPackages::Filter::SharedWithMeFilter < Queries::WorkPackages:
   end
 
   def dependency_class
-    '::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter'
+    "::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter"
   end
 
   def where
@@ -52,12 +52,12 @@ class Queries::WorkPackages::Filter::SharedWithMeFilter < Queries::WorkPackages:
   end
 
   def positive?
-    (operator == '=' && values == [OpenProject::Database::DB_VALUE_TRUE]) ||
-      (operator == '!' && values == [OpenProject::Database::DB_VALUE_FALSE])
+    (operator == "=" && values == [OpenProject::Database::DB_VALUE_TRUE]) ||
+      (operator == "!" && values == [OpenProject::Database::DB_VALUE_FALSE])
   end
 
   def human_name
-    I18n.t('query_fields.shared_with_me')
+    I18n.t("query_fields.shared_with_me")
   end
 
   private

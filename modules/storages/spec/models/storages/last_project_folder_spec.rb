@@ -28,16 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::LastProjectFolder do
-  describe '#mode' do
+  describe "#mode" do
     let(:last_project_folder) { build(:last_project_folder) }
 
     it do
       expect(last_project_folder).to define_enum_for(:mode)
-        .with_values(inactive: 'inactive', manual: 'manual', automatic: 'automatic')
+        .with_values(inactive: "inactive", manual: "manual", automatic: "automatic")
         .backed_by_column_of_type(:string)
     end
   end

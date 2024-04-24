@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require Rails.root.join('db/migrate/migration_utils/permission_adder')
+require Rails.root.join("db/migrate/migration_utils/permission_adder")
 
 class AddStoragesPermissionsToRoles < ActiveRecord::Migration[6.1]
   def up

@@ -27,5 +27,5 @@
 #++
 
 class Journal::ProjectJournal < Journal::BaseJournal
-  self.table_name = 'project_journals'
+  self.table_name = "project_journals"
 end

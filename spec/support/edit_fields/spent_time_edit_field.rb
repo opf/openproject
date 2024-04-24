@@ -1,4 +1,4 @@
-require_relative 'edit_field'
+require_relative "edit_field"
 
 class SpentTimeEditField < EditField
   def time_log_icon_visible(visible)
@@ -16,6 +16,6 @@ class SpentTimeEditField < EditField
   private
 
   def icon
-    '.icon-time'
+    ".icon-time"
   end
 end

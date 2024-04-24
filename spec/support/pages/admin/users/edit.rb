@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
+require "support/pages/page"
 
 module Pages
   module Admin
@@ -43,8 +43,8 @@ module Pages
         end
 
         def open_projects_tab!
-          within('.content--tabs') do
-            click_on 'Projects'
+          within(".content--tabs") do
+            click_on "Projects"
           end
         end
 
@@ -52,61 +52,61 @@ module Pages
           open_projects_tab!
           select_project! project_name
           Array(as).each { |role| check role }
-          click_on 'Add'
+          click_on "Add"
 
           expect_project(project_name)
         end
 
         def remove_from_project!(name)
           open_projects_tab!
-          find_project(name).find('a[data-method=delete]').click
+          find_project(name).find("a[data-method=delete]").click
         end
 
         def edit_roles!(membership, roles)
           find("#member-#{membership.id} .user-memberships--edit-button").click
 
           page.within("#member-#{membership.id}-roles-form") do
-            page.all('.form--check-box').each do |f|
+            page.all(".form--check-box").each do |f|
               f.set false
             rescue Selenium::WebDriver::Error::InvalidElementStateError
               # Happens if an element is disabled
             end
             Array(roles).each { |role| page.check role }
-            page.find('.user-memberships--edit-submit-button').click
+            page.find(".user-memberships--edit-submit-button").click
           end
         end
 
         def expect_project(project_name)
-          expect(page).to have_css('tr', text: project_name, wait: 10)
+          expect(page).to have_css("tr", text: project_name, wait: 10)
         end
 
         def expect_no_membership(project_name)
-          expect(page).to have_no_css('tr', text: project_name)
+          expect(page).to have_no_css("tr", text: project_name)
         end
 
         def expect_roles(project_name, roles)
-          row = page.find('tr', text: project_name, wait: 10)
+          row = page.find("tr", text: project_name, wait: 10)
 
           roles.each do |role|
-            expect(row).to have_css('span', text: role)
+            expect(row).to have_css("span", text: role)
           end
         end
 
         def find_project(name)
-          find('tr', text: name)
+          find("tr", text: name)
         end
 
         def has_project?(name)
-          has_selector? 'tr', text: name
+          has_selector? "tr", text: name
         end
 
         def select_project!(project_name)
-          select(project_name, from: 'membership_project_id')
+          select(project_name, from: "membership_project_id")
         end
 
         def activate!
-          within '.toolbar-items' do
-            click_button 'Activate'
+          within ".toolbar-items" do
+            click_button "Activate"
           end
         end
       end

@@ -47,7 +47,7 @@ module Queries
 
         def where
           # Handled by scope
-          '1 = 1'
+          "1 = 1"
         end
 
         def type

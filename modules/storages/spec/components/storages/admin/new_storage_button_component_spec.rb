@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 #
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Admin::NewStorageButtonComponent, type: :component do
@@ -34,9 +34,9 @@ RSpec.describe Storages::Admin::NewStorageButtonComponent, type: :component do
 
   it 'renders a "New Storage" Action Menu' do
     render_inline(described_class.new)
-    expect(page).to have_button 'Storage', aria: { label: 'Add new storage' }
+    expect(page).to have_button "Storage", aria: { label: "Add new storage" }
 
-    expect(page).to have_link 'Nextcloud', href: select_provider_admin_settings_storages_path(provider: 'nextcloud')
-    expect(page).to have_link 'OneDrive/SharePoint', href: select_provider_admin_settings_storages_path(provider: 'one_drive')
+    expect(page).to have_link "Nextcloud", href: select_provider_admin_settings_storages_path(provider: "nextcloud")
+    expect(page).to have_link "OneDrive/SharePoint", href: select_provider_admin_settings_storages_path(provider: "one_drive")
   end
 end

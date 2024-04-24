@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'support/board_index_page'
-require_relative 'support/board_page'
+require "spec_helper"
+require_relative "support/board_index_page"
+require_relative "support/board_page"
 
-RSpec.describe 'Work Package boards sorting spec', :js, with_ee: %i[board_view] do
+RSpec.describe "Work Package boards sorting spec", :js, with_ee: %i[board_view] do
   let(:admin) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   let(:board_index) { Pages::BoardIndex.new(project) }
@@ -46,28 +46,28 @@ RSpec.describe 'Work Package boards sorting spec', :js, with_ee: %i[board_view] 
 
   # By adding each board the sort of table will change
   # The currently added board should be at the top
-  it 'sorts the boards grid and menu based on their names' do
-    board_page = board_index.create_board title: 'My Basic Board'
+  it "sorts the boards grid and menu based on their names" do
+    board_page = board_index.create_board title: "My Basic Board"
 
     board_page.back_to_index
-    board_index.expect_boards_listed 'My Basic Board'
-    query_menu.expect_menu_entry 'My Basic Board'
+    board_index.expect_boards_listed "My Basic Board"
+    query_menu.expect_menu_entry "My Basic Board"
 
-    board_page = board_index.create_board title: 'My Action Board',
-                                          action: 'Version',
+    board_page = board_index.create_board title: "My Action Board",
+                                          action: "Version",
                                           expect_empty: true
     board_page.back_to_index
-    board_index.expect_boards_listed 'My Action Board',
-                                     'My Basic Board'
-    query_menu.expect_menu_entry 'My Action Board'
+    board_index.expect_boards_listed "My Action Board",
+                                     "My Basic Board"
+    query_menu.expect_menu_entry "My Action Board"
 
-    board_page = board_index.create_board title: 'My Status Board',
-                                          action: 'Status'
+    board_page = board_index.create_board title: "My Status Board",
+                                          action: "Status"
     board_page.back_to_index
 
-    board_index.expect_boards_listed 'My Status Board',
-                                     'My Action Board',
-                                     'My Basic Board'
-    query_menu.expect_menu_entry 'My Status Board'
+    board_index.expect_boards_listed "My Status Board",
+                                     "My Action Board",
+                                     "My Basic Board"
+    query_menu.expect_menu_entry "My Status Board"
   end
 end

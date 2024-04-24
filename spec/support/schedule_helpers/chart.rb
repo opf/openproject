@@ -57,8 +57,8 @@ module ScheduleHelpers
   # * +_+: ignored but useful as a placeholder to highlight particular days, for
   #   instance to highlight the previous dates of a work package.
   class Chart
-    FIRST_CELL_TEXT = 'days'.freeze
-    WEEK_DAYS_TEXT = 'MTWTFSS'.freeze
+    FIRST_CELL_TEXT = "days".freeze
+    WEEK_DAYS_TEXT = "MTWTFSS".freeze
 
     attr_reader :id_column_size, :first_day, :last_day, :monday
 
@@ -226,15 +226,15 @@ module ScheduleHelpers
     def span(attributes)
       case attributes
       in { start_date: nil, due_date: nil }
-        ''
+        ""
       in { start_date:, due_date: nil }
-        spaced_at(start_date, '[')
+        spaced_at(start_date, "[")
       in { start_date: nil, due_date: }
-        spaced_at(due_date, ']')
+        spaced_at(due_date, "]")
       in { start_date:, due_date: }
         days = days_for(attributes)
         span = (start_date..due_date).map do |date|
-          days.working?(date) ? 'X' : '.'
+          days.working?(date) ? "X" : "."
         end.join
         spaced_at(start_date, span)
       end

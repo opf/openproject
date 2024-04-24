@@ -26,32 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Homescreen', 'index', :with_cuprite do
+RSpec.describe "Homescreen", "index", :with_cuprite do
   let(:admin) { create(:admin) }
   let(:user) { build_stubbed(:user) }
-  let!(:project) { create(:public_project, identifier: 'public-project') }
+  let!(:project) { create(:public_project, identifier: "public-project") }
   let(:general_settings_page) { Pages::Admin::SystemSettings::General.new }
 
-  it 'is reachable by the global menu' do
+  it "is reachable by the global menu" do
     login_as user
     visit root_url
 
-    within '#main-menu' do
-      click_on 'Home'
+    within "#main-menu" do
+      click_on "Home"
     end
 
     expect(page).to have_current_path(home_path)
   end
 
-  context 'with a dynamic URL in the welcome text' do
+  context "with a dynamic URL in the welcome text" do
     before do
       Setting.welcome_text = "With [a link to the public project]({{opSetting:base_url}}/projects/public-project)"
       Setting.welcome_on_homescreen = true
     end
 
-    it 'renders the correct link' do
+    it "renders the correct link" do
       login_as user
       visit root_url
       expect(page)
@@ -61,14 +61,14 @@ RSpec.describe 'Homescreen', 'index', :with_cuprite do
       expect(page).to have_current_path project_path(project)
     end
 
-    it 'can change the welcome text and still have a valid link', :js do
+    it "can change the welcome text and still have a valid link", :js do
       login_as admin
 
       general_settings_page.visit!
 
       welcome_text_editor = general_settings_page.welcome_text_editor
       scroll_to_element(welcome_text_editor.container)
-      welcome_text_editor.click_and_type_slowly('Hello! ')
+      welcome_text_editor.click_and_type_slowly("Hello! ")
 
       general_settings_page.press_save_button
       general_settings_page.expect_and_dismiss_toaster
@@ -82,15 +82,15 @@ RSpec.describe 'Homescreen', 'index', :with_cuprite do
     end
   end
 
-  describe 'Enterprise Support Link' do
-    include_context 'support links'
+  describe "Enterprise Support Link" do
+    include_context "support links"
 
-    context 'on an Enterprise Edition' do
+    context "on an Enterprise Edition" do
       before do
         allow(EnterpriseToken).to receive(:active?).and_return(true)
       end
 
-      it 'renders the correct link' do
+      it "renders the correct link" do
         login_as user
         visit root_url
         expect(page).to have_link(I18n.t(:label_enterprise_support),
@@ -98,12 +98,12 @@ RSpec.describe 'Homescreen', 'index', :with_cuprite do
       end
     end
 
-    context 'on a Community Edition' do
+    context "on a Community Edition" do
       before do
         allow(EnterpriseToken).to receive(:active?).and_return(false)
       end
 
-      it 'renders the correct link' do
+      it "renders the correct link" do
         login_as user
         visit root_url
         expect(page).to have_link(I18n.t(:label_enterprise_support),

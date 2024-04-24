@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Admin::Settings::ProjectsSettingsController do
   shared_let(:user) { create(:admin) }
@@ -36,43 +36,43 @@ RSpec.describe Admin::Settings::ProjectsSettingsController do
     allow(controller).to receive(:set_localization)
   end
 
-  describe 'GET #show' do
+  describe "GET #show" do
     render_views
 
-    describe 'default project modules' do
-      it 'contains a check box for the activity module on the projects tab' do
-        get 'show', params: { tab: 'projects' }
+    describe "default project modules" do
+      it "contains a check box for the activity module on the projects tab" do
+        get "show", params: { tab: "projects" }
 
         expect(response).to be_successful
-        expect(response).to render_template 'admin/settings/projects_settings/show'
+        expect(response).to render_template "admin/settings/projects_settings/show"
         expect(response.body).to have_css "input[@name='settings[default_projects_modules][]'][@value='activity']"
       end
 
-      context 'without activated activity module' do
+      context "without activated activity module" do
         before do
           Setting.default_projects_modules = %w[wiki]
         end
 
-        it 'contains an unchecked checkbox for activity' do
-          get 'show', params: { tab: 'projects' }
+        it "contains an unchecked checkbox for activity" do
+          get "show", params: { tab: "projects" }
 
           expect(response).to be_successful
-          expect(response).to render_template 'admin/settings/projects_settings/show'
+          expect(response).to render_template "admin/settings/projects_settings/show"
 
           expect(response.body).to have_no_css "input[@name='settings[default_projects_modules][]'][@value='activity'][@checked='checked']"
         end
       end
 
-      context 'with activity in Setting.default_projects_modules' do
+      context "with activity in Setting.default_projects_modules" do
         before do
           Setting.default_projects_modules = %w[activity]
         end
 
-        it 'contains a checked checkbox for activity' do
-          get 'show', params: { tab: 'projects' }
+        it "contains a checked checkbox for activity" do
+          get "show", params: { tab: "projects" }
 
           expect(response).to be_successful
-          expect(response).to render_template 'admin/settings/projects_settings/show'
+          expect(response).to render_template "admin/settings/projects_settings/show"
 
           expect(response.body).to have_css "input[@name='settings[default_projects_modules][]'][@value='activity'][@checked='checked']"
         end
@@ -80,42 +80,42 @@ RSpec.describe Admin::Settings::ProjectsSettingsController do
     end
   end
 
-  describe 'PATCH #update' do
+  describe "PATCH #update" do
     render_views
 
-    describe 'default project modules' do
-      it 'does not store the activity in the default_projects_modules if unchecked' do
-        patch 'update',
+    describe "default project modules" do
+      it "does not store the activity in the default_projects_modules if unchecked" do
+        patch "update",
               params: {
-                tab: 'projects',
+                tab: "projects",
                 settings: {
-                  default_projects_modules: ['wiki']
+                  default_projects_modules: ["wiki"]
                 }
               }
 
         expect(response).to be_redirect
-        expect(response).to redirect_to action: 'show', tab: 'projects'
+        expect(response).to redirect_to action: "show", tab: "projects"
 
-        expect(Setting.default_projects_modules).to eq(['wiki'])
+        expect(Setting.default_projects_modules).to eq(["wiki"])
       end
 
-      it 'stores the activity in the default_projects_modules if checked' do
-        patch 'update',
+      it "stores the activity in the default_projects_modules if checked" do
+        patch "update",
               params: {
-                tab: 'projects',
+                tab: "projects",
                 settings: {
-                  default_projects_modules: ['activity', 'wiki']
+                  default_projects_modules: ["activity", "wiki"]
                 }
               }
 
         expect(response).to be_redirect
-        expect(response).to redirect_to action: 'show', tab: 'projects'
+        expect(response).to redirect_to action: "show", tab: "projects"
 
-        expect(Setting.default_projects_modules).to eq(['activity', 'wiki'])
+        expect(Setting.default_projects_modules).to eq(["activity", "wiki"])
       end
     end
 
-    describe 'password settings' do
+    describe "password settings" do
       let(:new_settings) do
         {
           password_min_length: 42,
@@ -142,74 +142,74 @@ RSpec.describe Admin::Settings::ProjectsSettingsController do
         end
       end
 
-      context 'with password login enabled' do
+      context "with password login enabled" do
         before do
           allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
 
-          patch 'update', params: { tab: 'authentication', settings: new_settings }
+          patch "update", params: { tab: "authentication", settings: new_settings }
         end
 
-        it 'is successful' do
+        it "is successful" do
           expect(response).to be_redirect # to auth tab
         end
 
-        it 'sets the minimum password length to 42' do
+        it "sets the minimum password length to 42" do
           expect(Setting[:password_min_length]).to eq 42
         end
 
-        it 'sets the active character classes to lowercase and uppercase' do
+        it "sets the active character classes to lowercase and uppercase" do
           expect(Setting[:password_active_rules]).to eq %w[uppercase lowercase]
         end
 
-        it 'sets the required number of classes to 7' do
+        it "sets the required number of classes to 7" do
           expect(Setting[:password_min_adhered_rules]).to eq 7
         end
 
-        it 'sets passwords to expire after 13 days' do
+        it "sets passwords to expire after 13 days" do
           expect(Setting[:password_days_valid]).to eq 13
         end
 
-        it 'bans the last 80 passwords' do
+        it "bans the last 80 passwords" do
           expect(Setting[:password_count_former_banned]).to eq 80
         end
 
-        it 'sets the lost password option to false' do
+        it "sets the lost password option to false" do
           expect(Setting[:lost_password]).to be false
         end
       end
 
-      describe 'with password login disabled' do
+      describe "with password login disabled" do
         before do
           allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
 
-          patch 'update', params: { tab: 'authentication', settings: new_settings }
+          patch "update", params: { tab: "authentication", settings: new_settings }
         end
 
-        it 'is successful' do
+        it "is successful" do
           expect(response).to be_redirect # to auth tab
         end
 
-        it 'does not set the minimum password length to 42' do
+        it "does not set the minimum password length to 42" do
           expect(Setting[:password_min_length]).to eq 10
         end
 
-        it 'does not set the active character classes to lowercase and uppercase' do
+        it "does not set the active character classes to lowercase and uppercase" do
           expect(Setting[:password_active_rules]).to eq []
         end
 
-        it 'does not set the required number of classes to 7' do
+        it "does not set the required number of classes to 7" do
           expect(Setting[:password_min_adhered_rules]).to eq 0
         end
 
-        it 'does not set passwords to expire after 13 days' do
+        it "does not set passwords to expire after 13 days" do
           expect(Setting[:password_days_valid]).to eq 365
         end
 
-        it 'does not ban the last 80 passwords' do
+        it "does not ban the last 80 passwords" do
           expect(Setting[:password_count_former_banned]).to eq 2
         end
 
-        it 'keeps the lost password option' do
+        it "keeps the lost password option" do
           expect(Setting[:lost_password]).to be true
         end
       end

@@ -48,7 +48,7 @@ module Projects
     end
 
     def table_id
-      'project-table'
+      "project-table"
     end
 
     ##
@@ -80,13 +80,13 @@ module Projects
 
     def deactivate_class_on_lft_sort
       if sorted_by_lft?
-        'spot-link_inactive'
+        "spot-link_inactive"
       end
     end
 
     def href_only_when_not_sort_lft
       unless sorted_by_lft?
-        projects_path(sortBy: JSON::dump([['lft', 'asc']]))
+        projects_path(sortBy: JSON::dump([["lft", "asc"]]))
       end
     end
 
@@ -96,9 +96,9 @@ module Projects
         data:
           {
             controller: "params-from-query",
-            'application-target': "dynamic",
-            'params-from-query-allowed-value': '["query_id"]',
-            'params-from-query-all-anchors-value': "true"
+            "application-target": "dynamic",
+            "params-from-query-allowed-value": '["query_id"]',
+            "params-from-query-all-anchors-value": "true"
           }
       }
     end

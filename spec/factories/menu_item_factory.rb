@@ -31,7 +31,7 @@ FactoryBot.define do
     sequence(:name) { |n| "Item No. #{n}" }
     sequence(:title) { |n| "Menu item Title #{n}" }
 
-    factory :wiki_menu_item, class: 'MenuItems::WikiMenuItem' do
+    factory :wiki_menu_item, class: "MenuItems::WikiMenuItem" do
       wiki
 
       sequence(:title) { |n| "Wiki Title #{n}" }

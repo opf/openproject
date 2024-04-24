@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe API::V3::Grids::GridRepresenter, 'rendering' do
+RSpec.describe API::V3::Grids::GridRepresenter, "rendering" do
   include OpenProject::StaticRouting::UrlHelpers
   include API::V3::Utilities::PathHelper
 
@@ -40,7 +40,7 @@ RSpec.describe API::V3::Grids::GridRepresenter, 'rendering' do
       widgets: [
         build_stubbed(
           :grid_widget,
-          identifier: 'work_packages_assigned',
+          identifier: "work_packages_assigned",
           start_row: 4,
           end_row: 5,
           start_column: 1,
@@ -48,7 +48,7 @@ RSpec.describe API::V3::Grids::GridRepresenter, 'rendering' do
         ),
         build_stubbed(
           :grid_widget,
-          identifier: 'work_packages_created',
+          identifier: "work_packages_created",
           start_row: 1,
           end_row: 2,
           start_column: 1,
@@ -56,7 +56,7 @@ RSpec.describe API::V3::Grids::GridRepresenter, 'rendering' do
         ),
         build_stubbed(
           :grid_widget,
-          identifier: 'work_packages_watched',
+          identifier: "work_packages_watched",
           start_row: 2,
           end_row: 4,
           start_column: 4,
@@ -71,7 +71,7 @@ RSpec.describe API::V3::Grids::GridRepresenter, 'rendering' do
   let(:representer) { described_class.new(grid, current_user:, embed_links:) }
 
   let(:writable) { true }
-  let(:scope_path) { 'bogus_scope' }
+  let(:scope_path) { "bogus_scope" }
   let(:attachment_addable) { true }
 
   before do
@@ -93,54 +93,54 @@ RSpec.describe API::V3::Grids::GridRepresenter, 'rendering' do
       .and_return(attachment_addable)
   end
 
-  context 'generation' do
+  context "generation" do
     subject(:generated) { representer.to_json }
 
-    context 'properties' do
-      it 'denotes its type' do
+    context "properties" do
+      it "denotes its type" do
         expect(subject)
-          .to be_json_eql('Grid'.to_json)
-          .at_path('_type')
+          .to be_json_eql("Grid".to_json)
+          .at_path("_type")
       end
 
-      it 'has an id' do
+      it "has an id" do
         expect(subject)
           .to be_json_eql(grid.id)
-          .at_path('id')
+          .at_path("id")
       end
 
-      it 'has a rowCount' do
+      it "has a rowCount" do
         expect(subject)
           .to be_json_eql(4)
-          .at_path('rowCount')
+          .at_path("rowCount")
       end
 
-      it 'has a columnCount' do
+      it "has a columnCount" do
         expect(subject)
           .to be_json_eql(5)
-          .at_path('columnCount')
+          .at_path("columnCount")
       end
 
-      describe 'createdAt' do
-        it_behaves_like 'has UTC ISO 8601 date and time' do
+      describe "createdAt" do
+        it_behaves_like "has UTC ISO 8601 date and time" do
           let(:date) { grid.created_at }
-          let(:json_path) { 'createdAt' }
+          let(:json_path) { "createdAt" }
         end
       end
 
-      describe 'updatedAt' do
-        it_behaves_like 'has UTC ISO 8601 date and time' do
+      describe "updatedAt" do
+        it_behaves_like "has UTC ISO 8601 date and time" do
           let(:date) { grid.updated_at }
-          let(:json_path) { 'updatedAt' }
+          let(:json_path) { "updatedAt" }
         end
       end
 
-      it 'has a list of widgets' do
+      it "has a list of widgets" do
         widgets = [
           {
             _type: "GridWidget",
             id: grid.widgets[0].id,
-            identifier: 'work_packages_assigned',
+            identifier: "work_packages_assigned",
             options: {},
             startRow: 4,
             endRow: 5,
@@ -150,7 +150,7 @@ RSpec.describe API::V3::Grids::GridRepresenter, 'rendering' do
           {
             _type: "GridWidget",
             id: grid.widgets[1].id,
-            identifier: 'work_packages_created',
+            identifier: "work_packages_created",
             options: {},
             startRow: 1,
             endRow: 2,
@@ -160,7 +160,7 @@ RSpec.describe API::V3::Grids::GridRepresenter, 'rendering' do
           {
             _type: "GridWidget",
             id: grid.widgets[2].id,
-            identifier: 'work_packages_watched',
+            identifier: "work_packages_watched",
             options: {},
             startRow: 2,
             endRow: 4,
@@ -171,41 +171,41 @@ RSpec.describe API::V3::Grids::GridRepresenter, 'rendering' do
 
         expect(subject)
           .to be_json_eql(widgets.to_json)
-          .at_path('widgets')
+          .at_path("widgets")
       end
     end
 
-    context '_links' do
-      context 'self link' do
-        it_behaves_like 'has an untitled link' do
-          let(:link) { 'self' }
+    context "_links" do
+      context "self link" do
+        it_behaves_like "has an untitled link" do
+          let(:link) { "self" }
           let(:href) { "/api/v3/grids/#{grid.id}" }
         end
       end
 
-      context 'update link' do
-        it_behaves_like 'has an untitled link' do
-          let(:link) { 'update' }
+      context "update link" do
+        it_behaves_like "has an untitled link" do
+          let(:link) { "update" }
           let(:href) { "/api/v3/grids/#{grid.id}/form" }
           let(:method) { :post }
         end
       end
 
-      context 'updateImmediately link' do
-        it_behaves_like 'has an untitled link' do
-          let(:link) { 'updateImmediately' }
+      context "updateImmediately link" do
+        it_behaves_like "has an untitled link" do
+          let(:link) { "updateImmediately" }
           let(:href) { "/api/v3/grids/#{grid.id}" }
           let(:method) { :patch }
         end
       end
 
-      context 'scope link' do
-        it_behaves_like 'has an untitled link' do
-          let(:link) { 'scope' }
+      context "scope link" do
+        it_behaves_like "has an untitled link" do
+          let(:link) { "scope" }
           let(:href) { scope_path }
           let(:type) { "text/html" }
 
-          it 'has a content type of html' do
+          it "has a content type of html" do
             expect(subject)
               .to be_json_eql(type.to_json)
               .at_path("_links/#{link}/type")
@@ -213,32 +213,32 @@ RSpec.describe API::V3::Grids::GridRepresenter, 'rendering' do
         end
       end
 
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'attachments' }
+      it_behaves_like "has an untitled link" do
+        let(:link) { "attachments" }
         let(:href) { api_v3_paths.attachments_by_grid(grid.id) }
       end
 
-      context 'addAttachments link' do
-        it_behaves_like 'has an untitled link' do
-          let(:link) { 'addAttachment' }
+      context "addAttachments link" do
+        it_behaves_like "has an untitled link" do
+          let(:link) { "addAttachment" }
           let(:href) { api_v3_paths.attachments_by_grid(grid.id) }
         end
 
-        context 'user is not allowed to edit work packages' do
+        context "user is not allowed to edit work packages" do
           let(:attachment_addable) { false }
 
-          it_behaves_like 'has no link' do
-            let(:link) { 'addAttachment' }
+          it_behaves_like "has no link" do
+            let(:link) { "addAttachment" }
           end
         end
       end
     end
 
-    context 'embedded' do
-      it 'embeds the attachments as collection' do
+    context "embedded" do
+      it "embeds the attachments as collection" do
         expect(subject)
-          .to be_json_eql('Collection'.to_json)
-          .at_path('_embedded/attachments/_type')
+          .to be_json_eql("Collection".to_json)
+          .at_path("_embedded/attachments/_type")
       end
     end
   end

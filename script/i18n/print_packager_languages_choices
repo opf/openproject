@@ -5,8 +5,8 @@
 #
 # The template is located at packaging/addons/openproject/templates
 
-require 'pathname'
-require 'yaml'
+require "pathname"
+require "yaml"
 
 class App
   class << self
@@ -14,7 +14,7 @@ class App
       @rails_root ||=
         Pathname.new(__dir__)
           .ascend
-          .find { |dir| dir.join('Gemfile').exist? }
+          .find { |dir| dir.join("Gemfile").exist? }
           .tap { |dir| raise "Unable to find Rails root directory (looking up from #{__dir__})" if dir.nil? }
     end
   end
@@ -38,12 +38,12 @@ class PrintPackagerLanguagesChoices
     end
 
     def translations_files
-      App.rails_root.glob('config/locales/generated/*.yml')
+      App.rails_root.glob("config/locales/generated/*.yml")
     end
 
     def language_code_and_name_from(translation_file)
       YAML.load_file(translation_file.to_s)
-        .map { |(lang, data)| [lang, data.dig('cldr', 'language_name')] }
+        .map { |(lang, data)| [lang, data.dig("cldr", "language_name")] }
     end
   end
 end

@@ -26,28 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe IndividualPrincipalHooksHelper do
   let(:user) { build(:user) }
   let(:placeholder_user) { build(:placeholder_user) }
 
-  describe '#individual_principal_key' do
-    it 'returns the class name in underscore format' do
+  describe "#individual_principal_key" do
+    it "returns the class name in underscore format" do
       expect(helper.individual_principal_key(user)).to be(:user)
       expect(helper.individual_principal_key(placeholder_user)).to be(:placeholder_user)
     end
   end
 
-  describe '#call_individual_principals_memberships_hook' do
+  describe "#call_individual_principals_memberships_hook" do
     before do
       allow(helper)
         .to receive(:call_hook)
     end
 
-    context 'with user and without context' do
-      it 'call call_hook with the correct arguments' do
-        helper.call_individual_principals_memberships_hook(user, 'foo')
+    context "with user and without context" do
+      it "call call_hook with the correct arguments" do
+        helper.call_individual_principals_memberships_hook(user, "foo")
 
         expect(helper)
           .to have_received(:call_hook)
@@ -56,9 +56,9 @@ RSpec.describe IndividualPrincipalHooksHelper do
       end
     end
 
-    context 'with placeholder user and without context' do
-      it 'call call_hook with the correct arguments' do
-        helper.call_individual_principals_memberships_hook(placeholder_user, 'foo')
+    context "with placeholder user and without context" do
+      it "call call_hook with the correct arguments" do
+        helper.call_individual_principals_memberships_hook(placeholder_user, "foo")
 
         expect(helper)
           .to have_received(:call_hook)
@@ -67,15 +67,15 @@ RSpec.describe IndividualPrincipalHooksHelper do
       end
     end
 
-    context 'with user and with context' do
-      it 'call call_hook with the correct arguments' do
-        helper.call_individual_principals_memberships_hook(user, 'foo', yay: 'yo')
+    context "with user and with context" do
+      it "call call_hook with the correct arguments" do
+        helper.call_individual_principals_memberships_hook(user, "foo", yay: "yo")
 
         expect(helper)
           .to have_received(:call_hook)
                 .with(:view_users_memberships_table_foo,
                       user:,
-                      yay: 'yo')
+                      yay: "yo")
       end
     end
   end

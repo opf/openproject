@@ -13,6 +13,7 @@
   aria-labelledby="spotModalTitle"
 >
   <button
+    *ngIf="(activeModalInstance$ | async)?.showCloseButton !== false"
     type="button"
     class="spot-button spot-modal-overlay--close-button"
     (click)="close($event)"

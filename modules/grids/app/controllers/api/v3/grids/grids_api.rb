@@ -57,12 +57,12 @@ module API
           mount ::API::V3::Grids::CreateFormAPI
           mount ::API::V3::Grids::Schemas::GridSchemaAPI
 
-          route_param :id, type: Integer, desc: 'Grid ID' do
+          route_param :id, type: Integer, desc: "Grid ID" do
             after_validation do
               @grid = ::Grids::Query
                       .new(user: current_user)
                       .results
-                      .find(params['id'])
+                      .find(params["id"])
             end
 
             get do

@@ -4,8 +4,8 @@ class AddTrgmIndexToMeetingAgendaItemNotes < ActiveRecord::Migration[7.0]
     # already enabled on the extension. Hence we do not attempt to enable it here, just
     # to use it if it's available.
 
-    if extensions.include?('pg_trgm')
-      add_index(:meeting_agenda_items, :notes, using: 'gin', opclass: :gin_trgm_ops)
+    if extensions.include?("pg_trgm")
+      add_index(:meeting_agenda_items, :notes, using: "gin", opclass: :gin_trgm_ops)
     end
   end
 end

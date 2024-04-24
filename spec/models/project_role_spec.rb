@@ -26,21 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe ProjectRole do
   let(:permissions) { %i[permission1 permission2] }
   let(:build_role) { build(:project_role, permissions:) }
   let(:created_role) { create(:project_role, permissions:) }
 
-  describe '.givable' do
+  describe ".givable" do
     let!(:project_role) { create(:project_role) }
     let!(:builtin_role) { create(:non_member) }
 
     it { expect(described_class.givable).to contain_exactly project_role }
   end
 
-  describe '.in_new_project' do
+  describe ".in_new_project" do
     let!(:ungivable_role) { create(:non_member) }
     let!(:second_role) do
       create(:project_role).tap do |r|
@@ -53,83 +53,83 @@ RSpec.describe ProjectRole do
       end
     end
 
-    context 'without a specified role' do
-      it 'returns the first role (by position)' do
+    context "without a specified role" do
+      it "returns the first role (by position)" do
         expect(described_class.in_new_project)
           .to eql first_role
       end
     end
 
-    context 'with a specified role' do
+    context "with a specified role" do
       before do
         allow(Setting)
           .to receive(:new_project_user_role_id)
                 .and_return(second_role.id.to_s)
       end
 
-      it 'returns that role' do
+      it "returns that role" do
         expect(described_class.in_new_project)
           .to eql second_role
       end
     end
 
-    context 'with a specified role but that one is faulty (e.g. does not exist any more)' do
+    context "with a specified role but that one is faulty (e.g. does not exist any more)" do
       before do
         allow(Setting)
           .to receive(:new_project_user_role_id)
                 .and_return("-1")
       end
 
-      it 'returns the first role (by position)' do
+      it "returns the first role (by position)" do
         expect(described_class.in_new_project)
           .to eql first_role
       end
     end
   end
 
-  describe '.anonymous' do
+  describe ".anonymous" do
     subject { described_class.anonymous }
 
-    it 'has the constant\'s builtin value' do
+    it "has the constant's builtin value" do
       expect(subject.builtin)
         .to eql(Role::BUILTIN_ANONYMOUS)
     end
 
-    it 'is builtin' do
+    it "is builtin" do
       expect(subject)
         .to be_builtin
     end
 
-    context 'with a missing anonymous role' do
+    context "with a missing anonymous role" do
       before do
         described_class.where(builtin: Role::BUILTIN_ANONYMOUS).delete_all
       end
 
-      it 'creates a new anonymous role' do
+      it "creates a new anonymous role" do
         expect { subject }.to change(described_class, :count).by(1)
       end
     end
   end
 
-  describe '.non_member' do
+  describe ".non_member" do
     subject { described_class.non_member }
 
-    it 'has the constant\'s builtin value' do
+    it "has the constant's builtin value" do
       expect(subject.builtin)
         .to eql(Role::BUILTIN_NON_MEMBER)
     end
 
-    it 'is builtin' do
+    it "is builtin" do
       expect(subject)
         .to be_builtin
     end
 
-    context 'with a missing non_member role' do
+    context "with a missing non_member role" do
       before do
         described_class.where(builtin: Role::BUILTIN_NON_MEMBER).delete_all
       end
 
-      it 'creates a new non_member role' do
+      it "creates a new non_member role" do
         expect { subject }.to change(described_class, :count).by(1)
       end
     end

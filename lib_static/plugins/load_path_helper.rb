@@ -29,7 +29,7 @@
 module Plugins
   module LoadPathHelper
     def self.spec_load_paths
-      plugin_load_paths.map { |path| File.join(path, 'spec') }
+      plugin_load_paths.map { |path| File.join(path, "spec") }
                        .keep_if { |path| File.directory?(path) }
     end
 

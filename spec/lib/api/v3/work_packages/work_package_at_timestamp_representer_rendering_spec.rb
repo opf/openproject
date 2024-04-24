@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 # Note: The specs in this file do not attempt to test the properties themselves with all their possible
 # variations. This is done in length in the work_package_representer_spec.rb. Instead, the focus of the tests
 # here are on the selection of properties.
-RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'rendering' do
+RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "rendering" do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) { build_stubbed(:user) }
@@ -57,7 +57,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
   let(:project) { build_stubbed(:project) }
   let(:custom_field) do
     build_stubbed(:string_wp_custom_field,
-                  name: 'String CF',
+                  name: "String CF",
                   types: project.types,
                   projects: [project])
   end
@@ -66,7 +66,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
   let(:custom_value) do
     build_stubbed(:custom_value,
                   custom_field:,
-                  value: 'This is a string value')
+                  value: "This is a string value")
   end
 
   let(:work_package) do
@@ -134,169 +134,169 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
 
   subject(:generated) { representer.to_json }
 
-  context 'with all supported properties requested' do
+  context "with all supported properties requested" do
     let(:expected_json) do
       {
-        'subject' => work_package.subject,
-        'startDate' => work_package.start_date,
-        'dueDate' => work_package.due_date,
-        "customField#{custom_field.id}" => 'This is a string value',
-        '_meta' => {
-          'matchesFilters' => true,
-          'exists' => true,
-          'timestamp' => timestamp.to_s
+        "subject" => work_package.subject,
+        "startDate" => work_package.start_date,
+        "dueDate" => work_package.due_date,
+        "customField#{custom_field.id}" => "This is a string value",
+        "_meta" => {
+          "matchesFilters" => true,
+          "exists" => true,
+          "timestamp" => timestamp.to_s
         },
-        '_links' => {
-          'assignee' => {
-            'href' => api_v3_paths.user(assigned_to.id),
-            'title' => assigned_to.name
+        "_links" => {
+          "assignee" => {
+            "href" => api_v3_paths.user(assigned_to.id),
+            "title" => assigned_to.name
           },
-          'responsible' => {
-            'href' => api_v3_paths.user(responsible.id),
-            'title' => responsible.name
+          "responsible" => {
+            "href" => api_v3_paths.user(responsible.id),
+            "title" => responsible.name
           },
-          'project' => {
-            'href' => api_v3_paths.project(project.id),
-            'title' => project.name
+          "project" => {
+            "href" => api_v3_paths.project(project.id),
+            "title" => project.name
           },
-          'status' => {
-            'href' => api_v3_paths.status(status.id),
-            'title' => status.name
+          "status" => {
+            "href" => api_v3_paths.status(status.id),
+            "title" => status.name
           },
-          'type' => {
-            'href' => api_v3_paths.type(type.id),
-            'title' => type.name
+          "type" => {
+            "href" => api_v3_paths.type(type.id),
+            "title" => type.name
           },
-          'priority' => {
-            'href' => api_v3_paths.priority(priority.id),
-            'title' => priority.name
+          "priority" => {
+            "href" => api_v3_paths.priority(priority.id),
+            "title" => priority.name
           },
-          'version' => {
-            'href' => api_v3_paths.version(version.id),
-            'title' => version.name
+          "version" => {
+            "href" => api_v3_paths.version(version.id),
+            "title" => version.name
           },
-          'parent' => {
-            'href' => api_v3_paths.work_package(parent.id),
-            'title' => parent.subject
+          "parent" => {
+            "href" => api_v3_paths.work_package(parent.id),
+            "title" => parent.subject
           },
-          'self' => {
-            'href' => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
-            'title' => work_package.subject
+          "self" => {
+            "href" => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
+            "title" => work_package.subject
           },
-          'schema' => {
-            'href' => api_v3_paths.work_package_schema(work_package.project_id, work_package.type_id)
+          "schema" => {
+            "href" => api_v3_paths.work_package_schema(work_package.project_id, work_package.type_id)
           }
         }
       }.to_json
     end
 
-    it 'renders as expected' do
+    it "renders as expected" do
       expect(subject)
         .to be_json_eql(expected_json)
     end
   end
 
-  context 'with a subset of supported properties' do
+  context "with a subset of supported properties" do
     let(:attributes_changed_to_baseline) { %w[start_date assigned_to_id version_id] }
 
     let(:expected_json) do
       {
-        'startDate' => work_package.start_date,
-        '_meta' => {
-          'matchesFilters' => true,
-          'exists' => true,
-          'timestamp' => timestamp.to_s
+        "startDate" => work_package.start_date,
+        "_meta" => {
+          "matchesFilters" => true,
+          "exists" => true,
+          "timestamp" => timestamp.to_s
         },
-        '_links' => {
-          'assignee' => {
-            'href' => api_v3_paths.user(assigned_to.id),
-            'title' => assigned_to.name
+        "_links" => {
+          "assignee" => {
+            "href" => api_v3_paths.user(assigned_to.id),
+            "title" => assigned_to.name
           },
-          'version' => {
-            'href' => api_v3_paths.version(version.id),
-            'title' => version.name
+          "version" => {
+            "href" => api_v3_paths.version(version.id),
+            "title" => version.name
           },
-          'self' => {
-            'href' => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
-            'title' => work_package.subject
+          "self" => {
+            "href" => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
+            "title" => work_package.subject
           },
-          'schema' => {
-            'href' => api_v3_paths.work_package_schema(work_package.project_id, work_package.type_id)
+          "schema" => {
+            "href" => api_v3_paths.work_package_schema(work_package.project_id, work_package.type_id)
           }
         }
       }.to_json
     end
 
-    it 'renders as expected' do
+    it "renders as expected" do
       expect(subject)
         .to be_json_eql(expected_json)
     end
   end
 
-  context 'without a linked property' do
+  context "without a linked property" do
     let(:attributes_changed_to_baseline) { %w[subject start_date] }
 
     let(:expected_json) do
       {
-        'subject' => work_package.subject,
-        'startDate' => work_package.start_date,
-        '_meta' => {
-          'matchesFilters' => true,
-          'exists' => true,
-          'timestamp' => timestamp.to_s
+        "subject" => work_package.subject,
+        "startDate" => work_package.start_date,
+        "_meta" => {
+          "matchesFilters" => true,
+          "exists" => true,
+          "timestamp" => timestamp.to_s
         },
-        '_links' => {
-          'self' => {
-            'href' => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
-            'title' => work_package.subject
+        "_links" => {
+          "self" => {
+            "href" => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
+            "title" => work_package.subject
           },
-          'schema' => {
-            'href' => api_v3_paths.work_package_schema(work_package.project_id, work_package.type_id)
+          "schema" => {
+            "href" => api_v3_paths.work_package_schema(work_package.project_id, work_package.type_id)
           }
         }
       }.to_json
     end
 
-    it 'renders with only `self` in links' do
+    it "renders with only `self` in links" do
       expect(subject)
         .to be_json_eql(expected_json)
     end
   end
 
-  context 'with a nil value for a linked property' do
+  context "with a nil value for a linked property" do
     let(:assigned_to) { nil }
 
     let(:attributes_changed_to_baseline) { %w[assigned_to_id] }
 
     let(:expected_json) do
       {
-        '_meta' => {
-          'matchesFilters' => true,
-          'exists' => true,
-          'timestamp' => timestamp.to_s
+        "_meta" => {
+          "matchesFilters" => true,
+          "exists" => true,
+          "timestamp" => timestamp.to_s
         },
-        '_links' => {
-          'assignee' => {
-            'href' => nil
+        "_links" => {
+          "assignee" => {
+            "href" => nil
           },
-          'self' => {
-            'href' => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
-            'title' => work_package.subject
+          "self" => {
+            "href" => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
+            "title" => work_package.subject
           },
-          'schema' => {
-            'href' => api_v3_paths.work_package_schema(work_package.project_id, work_package.type_id)
+          "schema" => {
+            "href" => api_v3_paths.work_package_schema(work_package.project_id, work_package.type_id)
           }
         }
       }.to_json
     end
 
-    it 'renders as expected' do
+    it "renders as expected" do
       expect(subject)
         .to be_json_eql(expected_json)
     end
   end
 
-  context 'without the timestamp being in the attributes_by_timestamp collection' do
+  context "without the timestamp being in the attributes_by_timestamp collection" do
     let(:attributes_changed_to_baseline) { %w[] }
 
     let(:exists_at_timestamp) { false }
@@ -305,21 +305,21 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
 
     let(:expected_json) do
       {
-        '_meta' => {
-          'matchesFilters' => false,
-          'exists' => false,
-          'timestamp' => timestamp.to_s
+        "_meta" => {
+          "matchesFilters" => false,
+          "exists" => false,
+          "timestamp" => timestamp.to_s
         }
       }.to_json
     end
 
-    it 'has only the meta noting that the wp did not exist' do
+    it "has only the meta noting that the wp did not exist" do
       expect(subject)
         .to be_json_eql(expected_json)
     end
   end
 
-  context 'with a milestone typed work package' do
+  context "with a milestone typed work package" do
     let(:type) { build_stubbed(:type_milestone) }
     # On a milestone, both dates will be the same
     let(:start_date) { due_date }
@@ -327,31 +327,31 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
 
     let(:expected_json) do
       {
-        'date' => work_package.start_date,
-        '_meta' => {
-          'matchesFilters' => true,
-          'exists' => true,
-          'timestamp' => timestamp.to_s
+        "date" => work_package.start_date,
+        "_meta" => {
+          "matchesFilters" => true,
+          "exists" => true,
+          "timestamp" => timestamp.to_s
         },
-        '_links' => {
-          'self' => {
-            'href' => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
-            'title' => work_package.subject
+        "_links" => {
+          "self" => {
+            "href" => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
+            "title" => work_package.subject
           },
-          'schema' => {
-            'href' => api_v3_paths.work_package_schema(work_package.project_id, work_package.type_id)
+          "schema" => {
+            "href" => api_v3_paths.work_package_schema(work_package.project_id, work_package.type_id)
           }
         }
       }.to_json
     end
 
-    it 'renders as expected' do
+    it "renders as expected" do
       expect(subject)
         .to be_json_eql(expected_json)
     end
   end
 
-  context 'with only one attribute changed to baseline but with the work package not existing (not visible) at current time' do
+  context "with only one attribute changed to baseline but with the work package not existing (not visible) at current time" do
     # Note that while the work package in this test is configured to not exist at the current time (not visible),
     # the timestamp passed in isn't the current time. So this represents a case where the work package is no longer
     # visible but was visible at the timestamp provided.
@@ -399,59 +399,59 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
 
     let(:expected_json) do
       {
-        'subject' => work_package.subject,
-        'startDate' => work_package.start_date,
-        'dueDate' => work_package.due_date,
-        '_meta' => {
-          'matchesFilters' => true,
-          'exists' => true,
-          'timestamp' => timestamp.to_s
+        "subject" => work_package.subject,
+        "startDate" => work_package.start_date,
+        "dueDate" => work_package.due_date,
+        "_meta" => {
+          "matchesFilters" => true,
+          "exists" => true,
+          "timestamp" => timestamp.to_s
         },
-        '_links' => {
-          'assignee' => {
-            'href' => api_v3_paths.user(assigned_to.id),
-            'title' => assigned_to.name
+        "_links" => {
+          "assignee" => {
+            "href" => api_v3_paths.user(assigned_to.id),
+            "title" => assigned_to.name
           },
-          'responsible' => {
-            'href' => api_v3_paths.user(responsible.id),
-            'title' => responsible.name
+          "responsible" => {
+            "href" => api_v3_paths.user(responsible.id),
+            "title" => responsible.name
           },
-          'project' => {
-            'href' => api_v3_paths.project(project.id),
-            'title' => project.name
+          "project" => {
+            "href" => api_v3_paths.project(project.id),
+            "title" => project.name
           },
-          'status' => {
-            'href' => api_v3_paths.status(status.id),
-            'title' => status.name
+          "status" => {
+            "href" => api_v3_paths.status(status.id),
+            "title" => status.name
           },
-          'type' => {
-            'href' => api_v3_paths.type(type.id),
-            'title' => type.name
+          "type" => {
+            "href" => api_v3_paths.type(type.id),
+            "title" => type.name
           },
-          'priority' => {
-            'href' => api_v3_paths.priority(priority.id),
-            'title' => priority.name
+          "priority" => {
+            "href" => api_v3_paths.priority(priority.id),
+            "title" => priority.name
           },
-          'version' => {
-            'href' => api_v3_paths.version(version.id),
-            'title' => version.name
+          "version" => {
+            "href" => api_v3_paths.version(version.id),
+            "title" => version.name
           },
-          'parent' => {
-            'href' => api_v3_paths.work_package(parent.id),
-            'title' => parent.subject
+          "parent" => {
+            "href" => api_v3_paths.work_package(parent.id),
+            "title" => parent.subject
           },
-          'self' => {
-            'href' => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
-            'title' => work_package.subject
+          "self" => {
+            "href" => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
+            "title" => work_package.subject
           },
-          'schema' => {
-            'href' => api_v3_paths.work_package_schema(work_package.project_id, work_package.type_id)
+          "schema" => {
+            "href" => api_v3_paths.work_package_schema(work_package.project_id, work_package.type_id)
           }
         }
       }.to_json
     end
 
-    it 'renders as expected' do
+    it "renders as expected" do
       expect(subject)
         .to be_json_eql(expected_json)
     end

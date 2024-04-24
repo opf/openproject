@@ -29,7 +29,7 @@
 class ProjectRole < Role
   def self.givable
     super
-      .where(type: 'ProjectRole')
+      .where(type: "ProjectRole")
   end
 
   # Return the builtin 'non member' role.  If the role doesn't exist,
@@ -37,10 +37,10 @@ class ProjectRole < Role
   def self.non_member
     non_member_role = where(builtin: BUILTIN_NON_MEMBER).first
     if non_member_role.nil?
-      non_member_role = create(name: 'Non member', position: 0) do |role|
+      non_member_role = create(name: "Non member", position: 0) do |role|
         role.builtin = BUILTIN_NON_MEMBER
       end
-      raise 'Unable to create the non-member role.' if non_member_role.new_record?
+      raise "Unable to create the non-member role." if non_member_role.new_record?
     end
     non_member_role
   end
@@ -50,10 +50,10 @@ class ProjectRole < Role
   def self.anonymous
     anonymous_role = where(builtin: BUILTIN_ANONYMOUS).first
     if anonymous_role.nil?
-      anonymous_role = create(name: 'Anonymous', position: 0) do |role|
+      anonymous_role = create(name: "Anonymous", position: 0) do |role|
         role.builtin = BUILTIN_ANONYMOUS
       end
-      raise 'Unable to create the anonymous role.' if anonymous_role.new_record?
+      raise "Unable to create the anonymous role." if anonymous_role.new_record?
     end
     anonymous_role
   end

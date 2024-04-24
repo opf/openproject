@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe WorkPackages::CreateService, 'integration', type: :model do
+RSpec.describe WorkPackages::CreateService, "integration", type: :model do
   let(:user) do
     create(:user, member_with_roles: { project => role })
   end
@@ -47,7 +47,7 @@ RSpec.describe WorkPackages::CreateService, 'integration', type: :model do
   let(:project) { create(:project, types: [type, default_type]) }
   let(:parent) do
     create(:work_package,
-           subject: 'parent',
+           subject: "parent",
            project:,
            type:)
   end
@@ -77,45 +77,45 @@ RSpec.describe WorkPackages::CreateService, 'integration', type: :model do
     login_as(user)
   end
 
-  context 'when the only type of the project is a milestone' do
+  context "when the only type of the project is a milestone" do
     let(:default_type) do
       create(:type_milestone)
     end
     let(:project) { create(:project, types: [default_type]) }
 
-    describe 'call without date attributes' do
+    describe "call without date attributes" do
       let(:attributes) do
-        { subject: 'blubs', project: }
+        { subject: "blubs", project: }
       end
 
-      it 'creates the default type without errors' do
+      it "creates the default type without errors" do
         expect(service_result).to be_success
         expect(service_result.errors).to be_empty
       end
     end
 
-    describe 'call with a parent non-milestone with dates' do
+    describe "call with a parent non-milestone with dates" do
       let(:parent) do
         create(:work_package,
                project:,
-               start_date: '2024-01-01',
-               due_date: '2024-01-10',
+               start_date: "2024-01-01",
+               due_date: "2024-01-10",
                type: create(:type))
       end
       let(:attributes) do
-        { subject: 'blubs', project:, parent: }
+        { subject: "blubs", project:, parent: }
       end
 
-      it 'creates the default type without errors' do
+      it "creates the default type without errors" do
         expect(service_result).to be_success
         expect(service_result.errors).to be_empty
       end
     end
   end
 
-  describe '#call' do
+  describe "#call" do
     let(:attributes) do
-      { subject: 'blubs',
+      { subject: "blubs",
         project:,
         done_ratio: 50,
         parent:,
@@ -123,7 +123,7 @@ RSpec.describe WorkPackages::CreateService, 'integration', type: :model do
         due_date: Date.today + 3.days }
     end
 
-    it 'creates the work_package with the provided attributes and sets the user as a watcher' do
+    it "creates the work_package with the provided attributes and sets the user as a watcher" do
       # successful
       expect(service_result)
         .to be_success
@@ -164,7 +164,7 @@ RSpec.describe WorkPackages::CreateService, 'integration', type: :model do
         .to contain_exactly(user)
     end
 
-    describe 'setting the attachments' do
+    describe "setting the attachments" do
       let!(:other_users_attachment) do
         create(:attachment, container: nil, author: create(:user))
       end
@@ -172,7 +172,7 @@ RSpec.describe WorkPackages::CreateService, 'integration', type: :model do
         create(:attachment, container: nil, author: user)
       end
 
-      it 'reports on invalid attachments and sets the new if everything is valid' do
+      it "reports on invalid attachments and sets the new if everything is valid" do
         result = instance.call(**attributes.merge(attachment_ids: [other_users_attachment.id]))
 
         expect(result)
@@ -201,12 +201,12 @@ RSpec.describe WorkPackages::CreateService, 'integration', type: :model do
       end
     end
 
-    describe 'with a child creation with both dates and work' do
+    describe "with a child creation with both dates and work" do
       let(:start_date) { Date.current }
       let(:due_date) { start_date + 3.days }
       let(:attributes) do
         {
-          subject: 'child',
+          subject: "child",
           project:,
           parent:,
           estimated_hours: 5,
@@ -215,7 +215,7 @@ RSpec.describe WorkPackages::CreateService, 'integration', type: :model do
         }
       end
 
-      it 'correctly updates the parent values' do
+      it "correctly updates the parent values" do
         expect(service_result)
           .to be_success
 
@@ -223,6 +223,47 @@ RSpec.describe WorkPackages::CreateService, 'integration', type: :model do
         expect(parent.derived_estimated_hours).to eq(5)
         expect(parent.start_date).to eq(start_date)
         expect(parent.due_date).to eq(due_date)
+      end
+    end
+
+    describe "writing timestamps" do
+      shared_let(:user) { create(:admin) }
+      shared_let(:other_user) { create(:user) }
+
+      let(:created_at) { 11.days.ago }
+      let(:updated_at) { 10.days.ago }
+
+      let(:attributes) do
+        {
+          subject: "child",
+          project:,
+          author: other_user,
+          created_at:,
+          updated_at:
+        }
+      end
+
+      context "when enabled", with_settings: { apiv3_write_readonly_attributes: true } do
+        it "updates the timestamps correctly" do
+          expect(service_result)
+            .to be_success
+
+          expect(new_work_package.created_at).to be_within(1.second).of(created_at)
+          expect(new_work_package.updated_at).to be_within(1.second).of(updated_at)
+        end
+      end
+
+      context "when disabled", with_settings: { apiv3_write_readonly_attributes: false } do
+        it "rejects the creation" do
+          expect(service_result)
+            .not_to be_success
+
+          expect(new_work_package.errors.symbols_for(:created_at))
+            .to contain_exactly(:error_readonly)
+
+          expect(new_work_package.errors.symbols_for(:updated_at))
+            .to contain_exactly(:error_readonly)
+        end
       end
     end
   end

@@ -26,9 +26,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe User, '.having_reminder_mail_to_send' do
+RSpec.describe User, ".having_reminder_mail_to_send" do
   subject(:scope) do
     described_class.having_reminder_mail_to_send(scope_time)
   end
@@ -48,7 +48,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
   let(:paris_user) do
     create(
       :user,
-      firstname: 'Europe-Paris',
+      firstname: "Europe-Paris",
       preferences: {
         time_zone: "Europe/Paris",
         workdays: paris_user_workdays,
@@ -77,84 +77,84 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     users
   end
 
-  context 'for a user whose local time is matching the configured time' do
-    it 'contains the user' do
+  context "for a user whose local time is matching the configured time" do
+    it "contains the user" do
       expect(scope)
         .to contain_exactly(paris_user)
     end
   end
 
-  context 'for a user whose local time is matching but the workday is disabled' do
+  context "for a user whose local time is matching but the workday is disabled" do
     # Configured date is a thursday = 4
     let(:paris_user_workdays) { [1, 2] }
 
-    it 'is empty' do
+    it "is empty" do
       expect(scope)
         .to be_empty
     end
   end
 
-  context 'for a user whose local time is matching but the reminders are paused' do
+  context "for a user whose local time is matching but the reminders are paused" do
     let(:paris_user_pause_reminders) do
       {
         enabled: true,
-        first_day: '2021-09-20',
-        last_day: '2021-10-05'
+        first_day: "2021-09-20",
+        last_day: "2021-10-05"
       }
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(scope)
         .to be_empty
     end
   end
 
-  context 'for a user whose local time is matching but the reminders are paused until today' do
+  context "for a user whose local time is matching but the reminders are paused until today" do
     let(:paris_user_pause_reminders) do
       {
         enabled: true,
-        first_day: '2021-09-10',
-        last_day: '2021-09-30'
+        first_day: "2021-09-10",
+        last_day: "2021-09-30"
       }
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(scope)
         .to be_empty
     end
   end
 
-  context 'for a user whose local time is matching and the pause reminders is expired' do
+  context "for a user whose local time is matching and the pause reminders is expired" do
     let(:paris_user_pause_reminders) do
       {
         enabled: true,
-        first_day: '2021-09-10',
-        last_day: '2021-09-29'
+        first_day: "2021-09-10",
+        last_day: "2021-09-29"
       }
     end
 
-    it 'contains the user' do
+    it "contains the user" do
       expect(scope)
         .to contain_exactly(paris_user)
     end
   end
 
-  context 'for a user whose local time is not matching the configured time' do
+  context "for a user whose local time is not matching the configured time" do
     let(:current_time) { "2021-09-30T08:20:59Z".to_datetime }
     let(:scope_time) { "2021-09-30T08:15:00Z".to_datetime }
 
-    it 'is empty' do
+    it "is empty" do
       expect(scope)
         .to be_empty
     end
   end
 
-  context 'for a user whose local time is on the previous workday' do
+  context "for a user whose local time is on the previous workday" do
     # 8:00 thursday Etc/UTC = 22:00 wednesday Pacific/Honolulu
     let(:hawaii_user) do
       create(
         :user,
-        firstname: 'Pacific-Honolulu',
+        firstname: "Pacific-Honolulu",
         preferences: {
           time_zone: "Pacific/Honolulu",
           workdays: hawaii_user_workdays,
@@ -177,52 +177,52 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:users) { [hawaii_user] }
     let(:hawaii_user_workdays) { paris_user_workdays }
 
-    it 'contains the user' do
+    it "contains the user" do
       expect(scope)
         .to contain_exactly(hawaii_user)
     end
 
-    context 'when the user disables Wednesday as a workday' do
+    context "when the user disables Wednesday as a workday" do
       let(:hawaii_user_workdays) { [1, 2, 4, 5, 6, 7] }
 
-      it 'is empty' do
+      it "is empty" do
         expect(scope)
           .to be_empty
       end
     end
 
-    context 'with local date range for pausing that includes scope_time' do
+    context "with local date range for pausing that includes scope_time" do
       let(:hawaii_user_pause_reminders) do
         {
           enabled: true,
-          first_day: '2021-09-29',
-          last_day: '2021-09-29'
+          first_day: "2021-09-29",
+          last_day: "2021-09-29"
         }
       end
 
-      it 'is empty' do
+      it "is empty" do
         expect(scope)
           .to be_empty
       end
     end
 
-    context 'with local date range for pausing that excludes scope_time' do
+    context "with local date range for pausing that excludes scope_time" do
       let(:hawaii_user_pause_reminders) do
         {
           enabled: true,
-          first_day: '2021-09-30',
-          last_day: '2021-09-30'
+          first_day: "2021-09-30",
+          last_day: "2021-09-30"
         }
       end
 
-      it 'contains the user' do
+      it "contains the user" do
         expect(scope)
           .to contain_exactly(hawaii_user)
       end
     end
   end
 
-  context 'for a user whose local time is on the next workday' do
+  context "for a user whose local time is on the next workday" do
     # 12:00 thursday Etc/UTC = 03:00 friday @ Pacific/Apia
     let(:current_time) { "2021-09-30T12:05:59Z".to_datetime }
     let(:scope_time) { "2021-09-30T12:00:00Z".to_datetime }
@@ -230,7 +230,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:samoa_user) do
       create(
         :user,
-        firstname: 'Pacific-Apia',
+        firstname: "Pacific-Apia",
         preferences: {
           time_zone: "Pacific/Apia",
           workdays: samoa_user_workdays,
@@ -247,26 +247,26 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:users) { [samoa_user] }
     let(:samoa_user_workdays) { paris_user_workdays }
 
-    it 'contains the user' do
+    it "contains the user" do
       expect(scope)
         .to contain_exactly(samoa_user)
     end
 
-    context 'when the user disables Wednesday as a workday' do
+    context "when the user disables Wednesday as a workday" do
       let(:samoa_user_workdays) { [1, 2, 3, 4, 6, 7] }
 
-      it 'is empty' do
+      it "is empty" do
         expect(scope)
           .to be_empty
       end
     end
   end
 
-  context 'for a user whose local time is matching the configured time (in a non CET time zone)' do
+  context "for a user whose local time is matching the configured time (in a non CET time zone)" do
     let(:moscow_user) do
       create(
         :user,
-        firstname: 'Europe-Moscow',
+        firstname: "Europe-Moscow",
         preferences: {
           time_zone: "Europe/Moscow",
           daily_reminders: {
@@ -281,13 +281,13 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     end
     let(:users) { [moscow_user] }
 
-    it 'contains the user' do
+    it "contains the user" do
       expect(scope)
         .to contain_exactly(moscow_user)
     end
   end
 
-  context 'for a user whose local time is matching one of the configured times' do
+  context "for a user whose local time is matching one of the configured times" do
     let(:paris_user_daily_reminders) do
       {
         enabled: true,
@@ -299,13 +299,13 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
       }
     end
 
-    it 'contains the user' do
+    it "contains the user" do
       expect(scope)
         .to contain_exactly(paris_user)
     end
   end
 
-  context 'for a user who has configured a slot between the earliest_time (in local time) and his current local time' do
+  context "for a user who has configured a slot between the earliest_time (in local time) and his current local time" do
     let(:paris_user_daily_reminders) do
       {
         enabled: true,
@@ -315,15 +315,15 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
         ]
       }
     end
-    let(:scope_time) { ActiveSupport::TimeZone['Etc/UTC'].parse("06:00") }
+    let(:scope_time) { ActiveSupport::TimeZone["Etc/UTC"].parse("06:00") }
 
-    it 'contains the user' do
+    it "contains the user" do
       expect(scope)
         .to contain_exactly(paris_user)
     end
   end
 
-  context 'for a user who has configured a slot before the earliest_time (in local time) and after his current local time' do
+  context "for a user who has configured a slot before the earliest_time (in local time) and after his current local time" do
     let(:paris_user_daily_reminders) do
       {
         enabled: true,
@@ -335,24 +335,24 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     end
     let(:scope_time) { current_time - 2.hours }
 
-    it 'is empty' do
+    it "is empty" do
       expect(scope)
         .to be_empty
     end
   end
 
-  context 'for a user whose local time is matching the configured time but without a notification' do
+  context "for a user whose local time is matching the configured time but without a notification" do
     let(:notifications) do
       nil
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(scope)
         .to be_empty
     end
   end
 
-  context 'for a user whose local time is matching the configured time but with the reminder being deactivated' do
+  context "for a user whose local time is matching the configured time but with the reminder being deactivated" do
     let(:paris_user_daily_reminders) do
       {
         enabled: false,
@@ -360,55 +360,55 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
       }
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(scope)
         .to be_empty
     end
   end
 
-  context 'for a user whose local time is matching the configured time but without a daily_reminders setting at 8:00' do
+  context "for a user whose local time is matching the configured time but without a daily_reminders setting at 8:00" do
     let(:paris_user) do
       create(
         :user,
-        firstname: 'Europe-Paris',
+        firstname: "Europe-Paris",
         preferences: {
           time_zone: "Europe/Paris"
         }
       )
     end
-    let(:current_time) { ActiveSupport::TimeZone['Europe/Paris'].parse("2021-09-30T08:09").utc }
-    let(:scope_time) { ActiveSupport::TimeZone['Europe/Paris'].parse("2021-09-30T08:00") }
+    let(:current_time) { ActiveSupport::TimeZone["Europe/Paris"].parse("2021-09-30T08:09").utc }
+    let(:scope_time) { ActiveSupport::TimeZone["Europe/Paris"].parse("2021-09-30T08:00") }
 
-    it 'contains the user' do
+    it "contains the user" do
       expect(scope)
         .to contain_exactly(paris_user)
     end
   end
 
-  context 'for a user whose local time is matching the configured time but without a daily_reminders setting at 10:00' do
+  context "for a user whose local time is matching the configured time but without a daily_reminders setting at 10:00" do
     let(:paris_user) do
       create(
         :user,
-        firstname: 'Europe-Paris',
+        firstname: "Europe-Paris",
         preferences: {
           time_zone: "Europe/Paris"
         }
       )
     end
-    let(:current_time) { ActiveSupport::TimeZone['Europe/Paris'].parse("2021-09-30T10:00").utc }
-    let(:scope_time) { ActiveSupport::TimeZone['Europe/Paris'].parse("2021-09-30T10:00") }
+    let(:current_time) { ActiveSupport::TimeZone["Europe/Paris"].parse("2021-09-30T10:00").utc }
+    let(:scope_time) { ActiveSupport::TimeZone["Europe/Paris"].parse("2021-09-30T10:00") }
 
-    it 'is empty' do
+    it "is empty" do
       expect(scope)
         .to be_empty
     end
   end
 
-  context 'for a user who is in a 45 min time zone and having reminder set to 8:00 and being executed at 8:10' do
+  context "for a user who is in a 45 min time zone and having reminder set to 8:00 and being executed at 8:10" do
     let(:kathmandu_user) do
       create(
         :user,
-        firstname: 'Asia-Kathmandu',
+        firstname: "Asia-Kathmandu",
         preferences: {
           time_zone: "Asia/Kathmandu",
           daily_reminders: {
@@ -418,25 +418,25 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
         }
       )
     end
-    let(:current_time) { ActiveSupport::TimeZone['Asia/Kathmandu'].parse("2021-09-30T08:10").utc }
-    let(:scope_time) { ActiveSupport::TimeZone['Asia/Kathmandu'].parse("2021-09-30T08:00").utc }
+    let(:current_time) { ActiveSupport::TimeZone["Asia/Kathmandu"].parse("2021-09-30T08:10").utc }
+    let(:scope_time) { ActiveSupport::TimeZone["Asia/Kathmandu"].parse("2021-09-30T08:00").utc }
     let(:notifications) do
       create(:notification, recipient: kathmandu_user, created_at: 5.minutes.ago)
     end
 
     let(:users) { [kathmandu_user] }
 
-    it 'contains the user' do
+    it "contains the user" do
       expect(scope)
         .to contain_exactly(kathmandu_user)
     end
   end
 
-  context 'for a user who is in a 45 min time zone and having reminder set to 8:00 and being executed at 8:40' do
+  context "for a user who is in a 45 min time zone and having reminder set to 8:00 and being executed at 8:40" do
     let(:kathmandu_user) do
       create(
         :user,
-        firstname: 'Asia-Kathmandu',
+        firstname: "Asia-Kathmandu",
         preferences: {
           time_zone: "Asia/Kathmandu",
           daily_reminders: {
@@ -446,25 +446,25 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
         }
       )
     end
-    let(:current_time) { ActiveSupport::TimeZone['Asia/Kathmandu'].parse("2021-09-30T08:40").utc }
-    let(:scope_time) { ActiveSupport::TimeZone['Asia/Kathmandu'].parse("2021-09-30T08:30").utc }
+    let(:current_time) { ActiveSupport::TimeZone["Asia/Kathmandu"].parse("2021-09-30T08:40").utc }
+    let(:scope_time) { ActiveSupport::TimeZone["Asia/Kathmandu"].parse("2021-09-30T08:30").utc }
     let(:notifications) do
       create(:notification, recipient: kathmandu_user, created_at: 5.minutes.ago)
     end
 
     let(:users) { [kathmandu_user] }
 
-    it 'is empty' do
+    it "is empty" do
       expect(scope)
         .to be_empty
     end
   end
 
-  context 'for a user who is in a 45 min time zone and having reminder set to 8:00 and being executed at 7:55' do
+  context "for a user who is in a 45 min time zone and having reminder set to 8:00 and being executed at 7:55" do
     let(:kathmandu_user) do
       create(
         :user,
-        firstname: 'Asia-Kathmandu',
+        firstname: "Asia-Kathmandu",
         preferences: {
           time_zone: "Asia/Kathmandu",
           daily_reminders: {
@@ -474,43 +474,43 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
         }
       )
     end
-    let(:current_time) { ActiveSupport::TimeZone['Asia/Kathmandu'].parse("2021-09-30T07:55").utc }
-    let(:scope_time) { ActiveSupport::TimeZone['Asia/Kathmandu'].parse("2021-09-30T07:45").utc }
+    let(:current_time) { ActiveSupport::TimeZone["Asia/Kathmandu"].parse("2021-09-30T07:55").utc }
+    let(:scope_time) { ActiveSupport::TimeZone["Asia/Kathmandu"].parse("2021-09-30T07:45").utc }
     let(:notifications) do
       create(:notification, recipient: kathmandu_user, created_at: 5.minutes.ago)
     end
 
     let(:users) { [kathmandu_user] }
 
-    it 'is empty' do
+    it "is empty" do
       expect(scope)
         .to be_empty
     end
   end
 
-  context 'for a user whose local time is matching the configured time but with an already read notification (IAN)' do
+  context "for a user whose local time is matching the configured time but with an already read notification (IAN)" do
     let(:notifications) do
       create(:notification, recipient: paris_user, created_at: 5.minutes.ago, read_ian: true)
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(scope)
         .to be_empty
     end
   end
 
-  context 'for a user whose local time is matching the configured time but with an already read notification (reminder)' do
+  context "for a user whose local time is matching the configured time but with an already read notification (reminder)" do
     let(:notifications) do
       create(:notification, recipient: paris_user, created_at: 5.minutes.ago, mail_reminder_sent: true)
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(scope)
         .to be_empty
     end
   end
 
-  context 'for a user whose local time is matching the configured time but with the user being inactive' do
+  context "for a user whose local time is matching the configured time but with the user being inactive" do
     let(:notifications) do
       create(:notification, recipient: paris_user, created_at: 5.minutes.ago)
     end
@@ -519,13 +519,13 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
       paris_user.locked!
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(scope)
         .to be_empty
     end
   end
 
-  context 'for a user whose local time is before the configured time' do
+  context "for a user whose local time is before the configured time" do
     let(:paris_user_daily_reminders) do
       {
         enabled: true,
@@ -533,13 +533,13 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
       }
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(scope)
         .to be_empty
     end
   end
 
-  context 'for a user whose local time is after the configured time' do
+  context "for a user whose local time is after the configured time" do
     let(:paris_user_daily_reminders) do
       {
         enabled: true,
@@ -547,17 +547,17 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
       }
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(scope)
         .to be_empty
     end
   end
 
-  context 'for a user without a time zone' do
+  context "for a user without a time zone" do
     let(:paris_user) do
       create(
         :user,
-        firstname: 'Europe-Paris',
+        firstname: "Europe-Paris",
         preferences: {
           daily_reminders: {
             enabled: true,
@@ -567,19 +567,19 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
       )
     end
 
-    it 'is including the user as Etc/UTC is assumed' do
+    it "is including the user as Etc/UTC is assumed" do
       expect(scope)
         .to contain_exactly(paris_user)
     end
   end
 
-  context 'for a user without a blank time zone' do
+  context "for a user without a blank time zone" do
     let(:paris_user) do
       create(
         :user,
-        firstname: 'Europe-Paris',
+        firstname: "Europe-Paris",
         preferences: {
-          time_zone: '',
+          time_zone: "",
           daily_reminders: {
             enabled: true,
             times: [hitting_reminder_slot_for("Etc/UTC", current_time)]
@@ -588,51 +588,51 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
       )
     end
 
-    it 'is including the user as Etc/UTC is assumed' do
+    it "is including the user as Etc/UTC is assumed" do
       expect(scope)
         .to contain_exactly(paris_user)
     end
   end
 
-  context 'for a user without a time zone and daily_reminders at 08:00' do
+  context "for a user without a time zone and daily_reminders at 08:00" do
     let(:paris_user) do
       create(
         :user,
-        firstname: 'Europe-Paris',
+        firstname: "Europe-Paris",
         preferences: {}
       )
     end
-    let(:current_time) { ActiveSupport::TimeZone['Etc/UTC'].parse("2021-09-30T08:00").utc }
+    let(:current_time) { ActiveSupport::TimeZone["Etc/UTC"].parse("2021-09-30T08:00").utc }
 
-    it 'is including the user as Etc/UTC at 08:00 is assumed' do
+    it "is including the user as Etc/UTC at 08:00 is assumed" do
       expect(scope)
         .to contain_exactly(paris_user)
     end
   end
 
-  context 'for a user without a time zone and daily_reminders at 10:00' do
+  context "for a user without a time zone and daily_reminders at 10:00" do
     let(:paris_user) do
       create(
         :user,
-        firstname: 'Europe-Paris',
+        firstname: "Europe-Paris",
         preferences: {}
       )
     end
-    let(:current_time) { ActiveSupport::TimeZone['Etc/UTC'].parse("2021-09-30T10:00").utc }
-    let(:scope_time) { ActiveSupport::TimeZone['Etc/UTC'].parse("2021-09-30T10:00").utc }
+    let(:current_time) { ActiveSupport::TimeZone["Etc/UTC"].parse("2021-09-30T10:00").utc }
+    let(:scope_time) { ActiveSupport::TimeZone["Etc/UTC"].parse("2021-09-30T10:00").utc }
 
-    it 'is empty as Etc/UTC at 08:00 is assumed' do
+    it "is empty as Etc/UTC at 08:00 is assumed" do
       expect(scope)
         .to be_empty
     end
   end
 
-  context 'for a user without a time zone and a default time zone configured',
-          with_settings: { user_default_timezone: 'Europe/Moscow' } do
+  context "for a user without a time zone and a default time zone configured",
+          with_settings: { user_default_timezone: "Europe/Moscow" } do
     let(:moscow_user) do
       create(
         :user,
-        firstname: 'Europe-Moscow',
+        firstname: "Europe-Moscow",
         preferences: {
           daily_reminders: {
             enabled: true,
@@ -646,44 +646,44 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     end
     let(:users) { [moscow_user] }
 
-    it 'is including the configured default timezone is assumed' do
+    it "is including the configured default timezone is assumed" do
       expect(scope)
         .to contain_exactly(moscow_user)
     end
   end
 
-  context 'when the provided scope_time is after the current time' do
+  context "when the provided scope_time is after the current time" do
     let(:scope_time) { 1.minute.from_now }
 
-    it 'raises an error' do
+    it "raises an error" do
       expect { scope }
         .to raise_error ArgumentError
     end
   end
 
-  context 'for a user without preferences at 08:00' do
-    let(:current_time) { ActiveSupport::TimeZone['Etc/UTC'].parse("2021-09-30T08:00").utc }
-    let(:scope_time) { ActiveSupport::TimeZone['Etc/UTC'].parse("2021-09-30T08:00").utc }
+  context "for a user without preferences at 08:00" do
+    let(:current_time) { ActiveSupport::TimeZone["Etc/UTC"].parse("2021-09-30T08:00").utc }
+    let(:scope_time) { ActiveSupport::TimeZone["Etc/UTC"].parse("2021-09-30T08:00").utc }
 
     before do
       paris_user.pref.destroy
     end
 
-    it 'is including the user as Etc/UTC at 08:00 is assumed' do
+    it "is including the user as Etc/UTC at 08:00 is assumed" do
       expect(scope)
         .to contain_exactly(paris_user)
     end
   end
 
-  context 'for a user without preferences at 10:00' do
-    let(:current_time) { ActiveSupport::TimeZone['Etc/UTC'].parse("2021-09-30T10:00").utc }
-    let(:scope_time) { ActiveSupport::TimeZone['Etc/UTC'].parse("2021-09-30T10:00").utc }
+  context "for a user without preferences at 10:00" do
+    let(:current_time) { ActiveSupport::TimeZone["Etc/UTC"].parse("2021-09-30T10:00").utc }
+    let(:scope_time) { ActiveSupport::TimeZone["Etc/UTC"].parse("2021-09-30T10:00").utc }
 
     before do
       paris_user.pref.destroy
     end
 
-    it 'is empty as Etc/UTC at 08:00 is assumed' do
+    it "is empty as Etc/UTC at 08:00 is assumed" do
       expect(scope)
         .to be_empty
     end

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../meetings/show'
+require_relative "../meetings/show"
 
 module Pages::StructuredMeeting
   class Show < ::Pages::Meetings::Show
@@ -44,12 +44,12 @@ module Pages::StructuredMeeting
 
       in_agenda_form do
         yield
-        click_button('Save') if save
+        click_button("Save") if save
       end
     end
 
     def cancel_add_form
-      page.within('#meeting-agenda-items-new-component') do
+      page.within("#meeting-agenda-items-new-component") do
         click_link I18n.t(:button_cancel)
         expect(page).to have_no_link I18n.t(:button_cancel)
       end
@@ -63,18 +63,18 @@ module Pages::StructuredMeeting
     end
 
     def in_agenda_form(&)
-      page.within('#meeting-agenda-items-form-component', &)
+      page.within("#meeting-agenda-items-form-component", &)
     end
 
     def assert_agenda_order!(*titles)
       retry_block do
-        found = page.all(:test_id, 'op-meeting-agenda-title').map(&:text)
+        found = page.all(:test_id, "op-meeting-agenda-title").map(&:text)
         raise "Expected order of agenda items #{titles.inspect}, but found #{found.inspect}" if titles != found
       end
     end
 
     def remove_agenda_item(item)
-      accept_confirm(I18n.t('text_are_you_sure')) do
+      accept_confirm(I18n.t("text_are_you_sure")) do
         select_action item, I18n.t(:button_delete)
       end
 
@@ -82,7 +82,7 @@ module Pages::StructuredMeeting
     end
 
     def expect_agenda_item(title:)
-      expect(page).to have_test_selector('op-meeting-agenda-title', text: title)
+      expect(page).to have_test_selector("op-meeting-agenda-title", text: title)
     end
 
     def expect_agenda_link(item)
@@ -94,7 +94,7 @@ module Pages::StructuredMeeting
     end
 
     def expect_agenda_author(name)
-      expect(page).to have_test_selector('op-principal', text: name)
+      expect(page).to have_test_selector("op-principal", text: name)
     end
 
     def expect_undisclosed_agenda_link(item)
@@ -103,24 +103,24 @@ module Pages::StructuredMeeting
     end
 
     def expect_no_agenda_item(title:)
-      expect(page).not_to have_test_selector('op-meeting-agenda-title', text: title)
+      expect(page).not_to have_test_selector("op-meeting-agenda-title", text: title)
     end
 
     def select_action(item, action)
       retry_block do
         page.within("#meeting-agenda-items-item-component-#{item.id}") do
-          page.find_test_selector('op-meeting-agenda-actions').click
+          page.find_test_selector("op-meeting-agenda-actions").click
         end
-        page.find('.Overlay')
+        page.find(".Overlay")
       end
 
-      page.within('.Overlay') do
+      page.within(".Overlay") do
         click_on action
       end
     end
 
     def edit_agenda_item(item, &)
-      select_action item, 'Edit'
+      select_action item, "Edit"
       expect_item_edit_form(item)
       page.within("#meeting-agenda-items-form-component-#{item.id}", &)
     end
@@ -135,7 +135,7 @@ module Pages::StructuredMeeting
 
     def expect_item_edit_title(item, value)
       page.within("#meeting-agenda-items-form-component-#{item.id}") do
-        find_field('Title', with: value)
+        find_field("Title", with: value)
       end
     end
 
@@ -151,7 +151,7 @@ module Pages::StructuredMeeting
     end
 
     def in_participant_form(&)
-      page.within('#meetings-sidebar-participants-form-component form', &)
+      page.within("#meetings-sidebar-participants-form-component form", &)
     end
 
     def expect_participant(participant, invited: false, attended: false, editable: true)
@@ -165,25 +165,25 @@ module Pages::StructuredMeeting
     end
 
     def expect_available_participants(count:)
-      expect(page).to have_link(class: 'op-principal--name', count:)
+      expect(page).to have_link(class: "op-principal--name", count:)
     end
 
     def close_meeting
-      click_button('Close meeting')
-      expect(page).to have_button('Reopen meeting')
+      click_button("Close meeting")
+      expect(page).to have_button("Reopen meeting")
     end
 
     def reopen_meeting
-      click_button('Reopen meeting')
-      expect(page).to have_button('Close meeting')
+      click_button("Reopen meeting")
+      expect(page).to have_button("Close meeting")
     end
 
     def close_dialog
-      click_button(class: 'Overlay-closeButton')
+      click_button(class: "Overlay-closeButton")
     end
 
     def meeting_details_container
-      find_by_id('meetings-sidebar-details-component')
+      find_by_id("meetings-sidebar-details-component")
     end
   end
 end

@@ -30,8 +30,8 @@ class DocumentsMailer < UserMailer
   def document_added(user, document)
     @document = document
 
-    open_project_headers 'Project' => @document.project.identifier,
-                         'Type' => 'Document'
+    open_project_headers "Project" => @document.project.identifier,
+                         "Type" => "Document"
 
     send_localized_mail(user) do
       "[#{@document.project.name}] #{t(:label_document_new)}: #{@document.title}"
@@ -42,7 +42,7 @@ class DocumentsMailer < UserMailer
     container = attachments.first.container
 
     @added_to     = "#{Document.model_name.human}: #{container.title}"
-    @added_to_url = url_for(controller: '/documents', action: 'show', id: container.id)
+    @added_to_url = url_for(controller: "/documents", action: "show", id: container.id)
 
     super
   end

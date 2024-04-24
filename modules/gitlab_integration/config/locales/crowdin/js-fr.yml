@@ -26,25 +26,25 @@ fr:
       work_packages:
         tab_name: "GitLab"
       tab_header_issue:
-        title: "Issues"
+        title: "Problèmes"
       tab_header_mr:
-        title: "Merge requests"
+        title: "Demandes de fusion"
         create_mr:
-          label: Create MR
-          description: Create a Merge Request
+          label: Créer une MR
+          description: Créer une demande de fusion
         copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
+          label: Extraits de code Git
+          description: Copier les extraits de code git dans le presse-papiers
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          branch_name: Nom de la branche
+          commit_message: Message de commit
+          cmd: Créer une branche avec un commit vide
+          title: Extraits de code rapides pour Git
+          copy_success: '✅ Copié !'
+          copy_error: '❌ La copie a échoué !'
       tab_issue:
-        empty: 'There are no issues linked yet. Link an existing issue by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the issue title/description or create a new issue.'
+        empty: 'Aucun problème n''a encore été associé. Associez un problème existant en utilisant le code <code>OP#%{wp_id}</code> (ou <code>PP#%{wp_id}</code> pour les liens privés) dans le titre/la description du problème ou créez un nouveau problème.'
       tab_mrs:
-        empty: 'There are no merge requests linked yet. Link an existing MR by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the MR title/description or create a new MR.'
+        empty: 'Aucune demande de fusion (MR) n''a encore été associée. Associez une MR existante en utilisant le code <code>OP#%{wp_id}</code> (ou <code>PP#%{wp_id}</code> pour les liens privés) dans le titre/la description de la M ou créez une nouvelle MR.'
       gitlab_pipelines: Pipelines
-      updated_on: Updated on
+      updated_on: Mis à jour le

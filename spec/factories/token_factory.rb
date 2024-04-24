@@ -26,30 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'securerandom'
+require "securerandom"
 
 FactoryBot.define do
-  factory :invitation_token, class: '::Token::Invitation' do
+  factory :invitation_token, class: "::Token::Invitation" do
     user
   end
 
-  factory :api_token, class: '::Token::API' do
+  factory :api_token, class: "::Token::API" do
     user
   end
 
-  factory :rss_token, class: '::Token::RSS' do
+  factory :rss_token, class: "::Token::RSS" do
     user
   end
 
-  factory :recovery_token, class: '::Token::Recovery' do
+  factory :recovery_token, class: "::Token::Recovery" do
     user
   end
 
-  factory :autologin_token, class: '::Token::AutoLogin' do
+  factory :autologin_token, class: "::Token::AutoLogin" do
     user
   end
 
-  factory :backup_token, class: '::Token::Backup' do
+  factory :backup_token, class: "::Token::Backup" do
     user
 
     after(:build) do |token|
@@ -67,7 +67,7 @@ FactoryBot.define do
     end
   end
 
-  factory :ical_token, class: '::Token::ICal' do
+  factory :ical_token, class: "::Token::ICal" do
     user
 
     transient do

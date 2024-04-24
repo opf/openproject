@@ -26,26 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'robots.txt' do
+RSpec.describe "robots.txt" do
   let!(:project) { create(:public_project) }
 
   before do
-    visit '/robots.txt'
+    visit "/robots.txt"
   end
 
-  context 'when login_required', with_settings: { login_required: true } do
-    it 'disallows everything' do
-      expect(page).to have_content('Disallow: /')
+  context "when login_required", with_settings: { login_required: true } do
+    it "disallows everything" do
+      expect(page).to have_content("Disallow: /")
     end
   end
 
-  context 'when not login_required', with_settings: { login_required: false } do
-    it 'disallows global paths and paths from public project' do
-      expect(page).to have_content('Disallow: /activity')
-      expect(page).to have_content('Disallow: /activities')
-      expect(page).to have_content('Disallow: /search')
+  context "when not login_required", with_settings: { login_required: false } do
+    it "disallows global paths and paths from public project" do
+      expect(page).to have_content("Disallow: /activity")
+      expect(page).to have_content("Disallow: /activities")
+      expect(page).to have_content("Disallow: /search")
 
       [project.identifier, project.id].each do |identifier|
         expect(page).to have_content("Disallow: /projects/#{identifier}/repository")

@@ -21,7 +21,7 @@
 #++
 zh-TW:
   plugin_openproject_documents:
-    name: "OpenProject Documents"
+    name: "OpenProject 文件"
     description: "An OpenProject plugin to allow creation of documents in projects."
   activerecord:
     models:

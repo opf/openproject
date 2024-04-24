@@ -30,7 +30,7 @@ FactoryBot.define do
   factory :story do
     priority factory: :priority
     sequence(:subject) { |n| "story#{n}" }
-    description { 'story story story' }
+    description { "story story story" }
     type factory: :type_feature
     author factory: :user
   end

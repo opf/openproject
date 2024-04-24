@@ -27,12 +27,12 @@
 # ++
 
 class Queries::Projects::Factory
-  STATIC_ACTIVE = 'active'.freeze
-  STATIC_MY = 'my'.freeze
-  STATIC_ARCHIVED = 'archived'.freeze
-  STATIC_ON_TRACK = 'on_track'.freeze
-  STATIC_OFF_TRACK = 'off_track'.freeze
-  STATIC_AT_RISK = 'at_risk'.freeze
+  STATIC_ACTIVE = "active".freeze
+  STATIC_MY = "my".freeze
+  STATIC_ARCHIVED = "archived".freeze
+  STATIC_ON_TRACK = "on_track".freeze
+  STATIC_OFF_TRACK = "off_track".freeze
+  STATIC_AT_RISK = "at_risk".freeze
 
   class << self
     def find(id, params:, user:)
@@ -57,38 +57,38 @@ class Queries::Projects::Factory
     end
 
     def static_query_active
-      list_with(:'projects.lists.active') do |query|
-        query.where('active', '=', OpenProject::Database::DB_VALUE_TRUE)
+      list_with(:"projects.lists.active") do |query|
+        query.where("active", "=", OpenProject::Database::DB_VALUE_TRUE)
       end
     end
 
     def static_query_my
-      list_with(:'projects.lists.my') do |query|
-        query.where('member_of', '=', OpenProject::Database::DB_VALUE_TRUE)
+      list_with(:"projects.lists.my") do |query|
+        query.where("member_of", "=", OpenProject::Database::DB_VALUE_TRUE)
       end
     end
 
     def static_query_archived
-      list_with(:'projects.lists.archived') do |query|
-        query.where('active', '=', OpenProject::Database::DB_VALUE_FALSE)
+      list_with(:"projects.lists.archived") do |query|
+        query.where("active", "=", OpenProject::Database::DB_VALUE_FALSE)
       end
     end
 
     def static_query_status_on_track
-      list_with(:'activerecord.attributes.project.status_codes.on_track') do |query|
-        query.where('project_status_code', '=', Project.status_codes[:on_track])
+      list_with(:"activerecord.attributes.project.status_codes.on_track") do |query|
+        query.where("project_status_code", "=", Project.status_codes[:on_track])
       end
     end
 
     def static_query_status_off_track
-      list_with(:'activerecord.attributes.project.status_codes.off_track') do |query|
-        query.where('project_status_code', '=', Project.status_codes[:off_track])
+      list_with(:"activerecord.attributes.project.status_codes.off_track") do |query|
+        query.where("project_status_code", "=", Project.status_codes[:off_track])
       end
     end
 
     def static_query_status_at_risk
-      list_with(:'activerecord.attributes.project.status_codes.at_risk') do |query|
-        query.where('project_status_code', '=', Project.status_codes[:at_risk])
+      list_with(:"activerecord.attributes.project.status_codes.at_risk") do |query|
+        query.where("project_status_code", "=", Project.status_codes[:at_risk])
       end
     end
 
@@ -96,8 +96,8 @@ class Queries::Projects::Factory
 
     def list_with(name)
       Queries::Projects::ProjectQuery.new(name: I18n.t(name)) do |query|
-        query.order('lft' => 'asc')
-        query.select(*(['name'] + Setting.enabled_projects_columns).uniq, add_not_existing: false)
+        query.order("lft" => "asc")
+        query.select(*(["name"] + Setting.enabled_projects_columns).uniq, add_not_existing: false)
 
         yield query
       end
@@ -128,7 +128,7 @@ class Queries::Projects::Factory
     end
 
     def new_query(source_query, params, user)
-      update_query(Queries::Projects::ProjectQuery.new(source_query.attributes.slice('filters', 'orders', 'selects')),
+      update_query(Queries::Projects::ProjectQuery.new(source_query.attributes.slice("filters", "orders", "selects")),
                    params,
                    user)
     end

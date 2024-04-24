@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'securerandom'
-require 'api/v3/queries/query_representer'
+require "securerandom"
+require "api/v3/queries/query_representer"
 
 module API
   module V3
@@ -68,7 +68,7 @@ module API
                                                                     params)
           end
 
-          namespace 'available_projects' do
+          namespace "available_projects" do
             after_validation do
               authorize_in_any_work_package(:view_work_packages)
             end
@@ -83,7 +83,7 @@ module API
             end
           end
 
-          namespace 'default' do
+          namespace "default" do
             params do
               optional :valid_subset, type: Boolean
             end
@@ -101,7 +101,7 @@ module API
             .new(model: Query)
             .mount
 
-          route_param :id, type: Integer, desc: 'Query ID' do
+          route_param :id, type: Integer, desc: "Query ID" do
             after_validation do
               @query = Query.find(params[:id])
 

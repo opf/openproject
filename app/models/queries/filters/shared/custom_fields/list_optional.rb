@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'base'
+require_relative "base"
 
 module Queries::Filters::Shared
   module CustomFields
     class ListOptional < Base
       def value_objects
         case custom_field.field_format
-        when 'version'
+        when "version"
           ::Version.where(id: values)
-        when 'list'
+        when "list"
           custom_field.custom_options.where(id: values)
         else
           super

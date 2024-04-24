@@ -43,15 +43,15 @@
 #
 
 begin
-  require 'rspec/core/rake_task'
+  require "rspec/core/rake_task"
 
   namespace :spec do
-    desc 'Run core and plugin specs'
+    desc "Run core and plugin specs"
     RSpec::Core::RakeTask.new(all: [:environment]) do |t|
-      t.pattern = [Rails.root.join('spec').to_s] + Plugins::LoadPathHelper.spec_load_paths
+      t.pattern = [Rails.root.join("spec").to_s] + Plugins::LoadPathHelper.spec_load_paths
     end
 
-    desc 'Run plugin specs'
+    desc "Run plugin specs"
     RSpec::Core::RakeTask.new(plugins: [:environment]) do |t|
       t.pattern = Plugins::LoadPathHelper.spec_load_paths
 
@@ -59,7 +59,7 @@ begin
       # we exit with positive message
       if t.pattern.empty?
         puts
-        puts '##### There are no specs for OpenProject plugins to be run.'
+        puts "##### There are no specs for OpenProject plugins to be run."
         puts
         exit(0)
       end

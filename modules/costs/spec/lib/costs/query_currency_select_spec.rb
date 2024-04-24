@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Costs::QueryCurrencySelect, type: :model do
   let(:project) do
@@ -40,51 +40,51 @@ RSpec.describe Costs::QueryCurrencySelect, type: :model do
   let(:costs_enabled) { true }
   let(:column_name) { :material_costs }
 
-  describe '.instances' do
+  describe ".instances" do
     subject { described_class.instances(project).map(&:name) }
 
-    context 'with costs enabled' do
-      it 'returns the four costs columns' do
+    context "with costs enabled" do
+      it "returns the four costs columns" do
         expect(subject)
           .to match_array %i[budget material_costs labor_costs overall_costs]
       end
     end
 
-    context 'with costs disabled' do
+    context "with costs disabled" do
       let(:costs_enabled) { false }
 
-      it 'returns no columns' do
+      it "returns no columns" do
         expect(subject)
           .to be_empty
       end
     end
 
-    context 'with no context' do
-      it 'returns the four costs columns' do
+    context "with no context" do
+      it "returns the four costs columns" do
         expect(subject)
           .to match_array %i[budget material_costs labor_costs overall_costs]
       end
     end
   end
 
-  context 'material_costs' do
-    describe '#summable?' do
-      it 'is true' do
+  context "material_costs" do
+    describe "#summable?" do
+      it "is true" do
         expect(instance)
           .to be_summable
       end
     end
 
-    describe '#summable' do
-      it 'is callable' do
+    describe "#summable" do
+      it "is callable" do
         expect(instance.summable)
           .to respond_to(:call)
       end
 
       # Not testing the results here, this is done by an integration test
-      it 'returns an AR scope that has an id and a material_costs column' do
-        query = double('query')
-        result = double('result')
+      it "returns an AR scope that has an id and a material_costs column" do
+        query = double("query")
+        result = double("result")
 
         allow(query)
           .to receive(:results)
@@ -96,7 +96,7 @@ RSpec.describe Costs::QueryCurrencySelect, type: :model do
 
         allow(query)
           .to receive(:group_by_statement)
-          .and_return('author_id')
+          .and_return("author_id")
 
         expect(ActiveRecord::Base.connection.select_all(instance.summable.(query, true).to_sql).columns)
           .to match_array %w(id material_costs)
@@ -104,26 +104,26 @@ RSpec.describe Costs::QueryCurrencySelect, type: :model do
     end
   end
 
-  context 'labor_costs' do
+  context "labor_costs" do
     let(:column_name) { :labor_costs }
 
-    describe '#summable?' do
-      it 'is true' do
+    describe "#summable?" do
+      it "is true" do
         expect(instance)
           .to be_summable
       end
     end
 
-    describe '#summable' do
-      it 'is callable' do
+    describe "#summable" do
+      it "is callable" do
         expect(instance.summable)
           .to respond_to(:call)
       end
 
       # Not testing the results here, this is done by an integration test
-      it 'returns an AR scope that has an id and a labor_costs column' do
-        query = double('query')
-        result = double('result')
+      it "returns an AR scope that has an id and a labor_costs column" do
+        query = double("query")
+        result = double("result")
 
         allow(query)
           .to receive(:results)
@@ -135,7 +135,7 @@ RSpec.describe Costs::QueryCurrencySelect, type: :model do
 
         allow(query)
           .to receive(:group_by_statement)
-          .and_return('author_id')
+          .and_return("author_id")
 
         expect(ActiveRecord::Base.connection.select_all(instance.summable.(query, true).to_sql).columns)
           .to match_array %w(id labor_costs)

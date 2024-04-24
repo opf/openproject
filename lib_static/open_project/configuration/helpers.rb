@@ -35,7 +35,7 @@ module OpenProject
       def direct_uploads
         return false unless direct_uploads_supported?
 
-        self['direct_uploads']
+        self["direct_uploads"]
       end
 
       ##
@@ -66,7 +66,7 @@ module OpenProject
       end
 
       def using_custom_remote_storage_hosts?
-        self['remote_storage_upload_host'].present? && self['remote_storage_download_host'].present?
+        self["remote_storage_upload_host"].present? && self["remote_storage_download_host"].present?
       end
 
       def direct_uploads?
@@ -76,9 +76,9 @@ module OpenProject
       # Augur connect host
       def enterprise_trial_creation_host
         if Rails.env.production?
-          self['enterprise_trial_creation_host']
+          self["enterprise_trial_creation_host"]
         else
-          'https://start.openproject-edge.com'
+          "https://start.openproject-edge.com"
         end
       end
 
@@ -95,13 +95,13 @@ module OpenProject
       end
 
       def remote_storage_upload_host
-        self['remote_storage_upload_host'].presence ||
+        self["remote_storage_upload_host"].presence ||
           (remote_storage_aws? && "#{fog_directory}.s3.amazonaws.com") ||
           nil
       end
 
       def remote_storage_download_host
-        self['remote_storage_download_host'].presence ||
+        self["remote_storage_download_host"].presence ||
           (remote_storage_aws? && "#{fog_directory}.s3.#{fog_credentials[:region]}.amazonaws.com") ||
           nil
       end
@@ -115,7 +115,7 @@ module OpenProject
       end
 
       def attachments_storage_path
-        Rails.root.join(self['attachments_storage_path'] || 'files')
+        Rails.root.join(self["attachments_storage_path"] || "files")
       end
 
       def use_iam_profile?
@@ -123,11 +123,11 @@ module OpenProject
       end
 
       def fog_credentials
-        (Hash(self['fog'])['credentials'] || {}).map { |key, value| [key.to_sym, value] }.to_h
+        (Hash(self["fog"])["credentials"] || {}).map { |key, value| [key.to_sym, value] }.to_h
       end
 
       def fog_directory
-        Hash(self['fog'])['directory']
+        Hash(self["fog"])["directory"]
       end
 
       def file_uploader
@@ -135,7 +135,7 @@ module OpenProject
       end
 
       def hidden_menu_items
-        menus = self['hidden_menu_items'].map do |label, nodes|
+        menus = self["hidden_menu_items"].map do |label, nodes|
           [label, array(nodes)]
         end
 
@@ -145,7 +145,7 @@ module OpenProject
       ##
       # Whether we're running a bim edition
       def bim?
-        self['edition'] == 'bim'
+        self["edition"] == "bim"
       end
 
       def available_file_uploaders
@@ -156,42 +156,42 @@ module OpenProject
         # Do not load Fog uploader unless configured,
         # it will fail with missing configuration
         unless OpenProject::Configuration.fog_credentials.empty?
-          uploaders[:fog] = '::FogFileUploader'.constantize
+          uploaders[:fog] = "::FogFileUploader".constantize
         end
 
         uploaders
       end
 
       def web_workers
-        Integer(web['workers'].presence)
+        Integer(web["workers"].presence)
       end
 
       def web_timeout
-        Integer(ENV['RACK_TIMEOUT_SERVICE_TIMEOUT'].presence || web['timeout'].presence)
+        Integer(ENV["RACK_TIMEOUT_SERVICE_TIMEOUT"].presence || web["timeout"].presence)
       end
 
       def web_wait_timeout
-        Integer(ENV['RACK_TIMEOUT_WAIT_TIMEOUT'].presence || web['wait_timeout'].presence)
+        Integer(ENV["RACK_TIMEOUT_WAIT_TIMEOUT"].presence || web["wait_timeout"].presence)
       end
 
       def web_min_threads
-        Integer(ENV['RAILS_MIN_THREADS'].presence || web['min_threads'].presence)
+        Integer(ENV["RAILS_MIN_THREADS"].presence || web["min_threads"].presence)
       end
 
       def web_max_threads
-        Integer(ENV['RAILS_MAX_THREADS'].presence || web['max_threads'].presence)
+        Integer(ENV["RAILS_MAX_THREADS"].presence || web["max_threads"].presence)
       end
 
       def statsd_host
-        ENV['STATSD_HOST'].presence || statsd['host'].presence
+        ENV["STATSD_HOST"].presence || statsd["host"].presence
       end
 
       def statsd_port
-        Integer(ENV['STATSD_PORT'].presence || statsd['port'].presence)
+        Integer(ENV["STATSD_PORT"].presence || statsd["port"].presence)
       end
 
       def lookbook_enabled?
-        self['lookbook_enabled']
+        self["lookbook_enabled"]
       end
 
       private
@@ -201,7 +201,7 @@ module OpenProject
       # Either the value already is an array or a string with values separated by spaces.
       # In the latter case the string will be split and the values returned as an array.
       def array(value)
-        if value.is_a?(String) && value.include?(' ')
+        if value.is_a?(String) && value.include?(" ")
           value.split
         else
           Array(value)

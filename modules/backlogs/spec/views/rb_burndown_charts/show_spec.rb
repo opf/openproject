@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'rb_burndown_charts/show' do
+RSpec.describe "rb_burndown_charts/show" do
   let(:user1) { create(:user) }
   let(:user2) { create(:user) }
   let(:role_allowed) do
@@ -88,25 +88,25 @@ RSpec.describe 'rb_burndown_charts/show' do
   end
 
   before do
-    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [type_feature.id],
-                                                                         'task_type' => type_task.id })
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ "story_types" => [type_feature.id],
+                                                                         "task_type" => type_task.id })
     view.extend BurndownChartsHelper
 
     # We directly force the creation of stories,statuses by calling the method
     stories
   end
 
-  describe 'burndown chart' do
-    it 'renders a version with dates' do
+  describe "burndown chart" do
+    it "renders a version with dates" do
       assign(:sprint, sprint)
       assign(:project, project)
       assign(:burndown, sprint.burndown(project))
       render
 
-      expect(view).to render_template(partial: '_burndown', count: 1)
+      expect(view).to render_template(partial: "_burndown", count: 1)
     end
 
-    it 'renders a version without dates' do
+    it "renders a version without dates" do
       sprint.start_date = nil
       sprint.effective_date = nil
       sprint.save
@@ -116,8 +116,8 @@ RSpec.describe 'rb_burndown_charts/show' do
 
       render
 
-      expect(view).to render_template(partial: '_burndown', count: 0)
-      expect(rendered).to include(I18n.t('backlogs.no_burndown_data'))
+      expect(view).to render_template(partial: "_burndown", count: 0)
+      expect(rendered).to include(I18n.t("backlogs.no_burndown_data"))
     end
   end
 end

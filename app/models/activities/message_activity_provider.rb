@@ -27,7 +27,7 @@
 #++
 
 class Activities::MessageActivityProvider < Activities::BaseActivityProvider
-  activity_provider_for type: 'messages',
+  activity_provider_for type: "messages",
                         permission: :view_messages
 
   def extend_event_query(query)
@@ -36,12 +36,12 @@ class Activities::MessageActivityProvider < Activities::BaseActivityProvider
 
   def event_query_projection
     [
-      activity_journal_projection_statement(:subject, 'message_subject'),
-      activity_journal_projection_statement(:content, 'message_content'),
-      activity_journal_projection_statement(:parent_id, 'message_parent_id'),
-      projection_statement(forums_table, :id, 'forum_id'),
-      projection_statement(forums_table, :name, 'forum_name'),
-      projection_statement(forums_table, :project_id, 'project_id')
+      activity_journal_projection_statement(:subject, "message_subject"),
+      activity_journal_projection_statement(:content, "message_content"),
+      activity_journal_projection_statement(:parent_id, "message_parent_id"),
+      projection_statement(forums_table, :id, "forum_id"),
+      projection_statement(forums_table, :name, "forum_name"),
+      projection_statement(forums_table, :project_id, "project_id")
     ]
   end
 
@@ -56,11 +56,11 @@ class Activities::MessageActivityProvider < Activities::BaseActivityProvider
   end
 
   def event_description(event)
-    event['message_content']
+    event["message_content"]
   end
 
   def event_type(event)
-    event['parent_id'].blank? ? 'message' : 'reply'
+    event["parent_id"].blank? ? "message" : "reply"
   end
 
   def event_path(event)
@@ -78,12 +78,12 @@ class Activities::MessageActivityProvider < Activities::BaseActivityProvider
   end
 
   def url_helper_parameter(event)
-    is_reply = event['parent_id'].present?
+    is_reply = event["parent_id"].present?
 
     if is_reply
-      { id: event['parent_id'], r: event['journable_id'], anchor: "message-#{event['journable_id']}" }
+      { id: event["parent_id"], r: event["journable_id"], anchor: "message-#{event['journable_id']}" }
     else
-      [event['journable_id']]
+      [event["journable_id"]]
     end
   end
 end

@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::UploadLinkQuery, :webmock do
@@ -38,7 +38,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::UploadLinkQ
   let(:url) { storage.uri.to_s }
 
   let(:query_payload) { Struct.new(:parent).new(42) }
-  let(:upload_token) { 'valid-token' }
+  let(:upload_token) { "valid-token" }
 
   subject(:query) { described_class }
 
@@ -49,14 +49,14 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::UploadLinkQ
       .to_return(status: 200, body: { token: upload_token, expires_on: 1673883865 }.to_json)
   end
 
-  it '.call requires 3 arguments: storage, user, and data' do
+  it ".call requires 3 arguments: storage, user, and data" do
     expect(described_class).to respond_to(:call)
 
     method = described_class.method(:call)
     expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq user], %i[keyreq data])
   end
 
-  it 'must return an upload link URL' do
+  it "must return an upload link URL" do
     link = query.call(storage:, user:, data: query_payload).result
     expect(link.destination.path).to eql("/index.php/apps/integration_openproject/direct-upload/#{upload_token}")
     expect(link.destination.host).to eql(URI(url).host)
@@ -66,7 +66,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::UploadLinkQ
     expect(link.method).to eq(:post)
   end
 
-  shared_examples_for 'outbound is failing' do |code, symbol|
+  shared_examples_for "outbound is failing" do |code, symbol|
     describe "with outbound request returning #{code}" do
       before do
         stub_request(:post, "#{url}index.php/apps/integration_openproject/direct-upload-token").and_return(status: code)
@@ -81,8 +81,8 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::UploadLinkQ
     end
   end
 
-  include_examples 'outbound is failing', 400, :error
-  include_examples 'outbound is failing', 401, :unauthorized
-  include_examples 'outbound is failing', 404, :not_found
-  include_examples 'outbound is failing', 500, :error
+  include_examples "outbound is failing", 400, :error
+  include_examples "outbound is failing", 401, :unauthorized
+  include_examples "outbound is failing", 404, :not_found
+  include_examples "outbound is failing", 500, :error
 end

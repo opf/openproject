@@ -76,7 +76,7 @@ ko:
       button_register_mobile_phone_for_user: "휴대폰 등록"
       text_2fa_enabled: "로그인할 때마다 기본 2FA 장치에서 OTP 토큰을 입력하라는 메시지가 이 사용자에게 표시됩니다."
       text_2fa_disabled: "사용자가 '내 계정 페이지'에서 2FA 장치를 설정하지 않았습니다."
-      only_sms_allowed: "Only SMS delivery can be set up for other users."
+      only_sms_allowed: "다른 사용자의 경우 SNS 배달만 설정할 수 있습니다."
     upsale:
       title: "2단계 인증"
       description: "모든 프로젝트 멤버에게 2단계 인증을 제공(또는 적용)하여 OpenProject 인스턴스의 보안을 강화하세요."
@@ -114,12 +114,12 @@ ko:
       failed_to_delete: "2FA 장치를 삭제하지 못했습니다."
       is_default_cannot_delete: "장치가 기본으로 표시되고 활성 보안 정책으로 인해 삭제할 수 없습니다. 삭제하기 전에 다른 장치를 기본으로 표시하세요."
       not_existing: "2FA 장치가 해당 계정에 대해 등록되지 않았습니다."
-      2fa_from_input: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
-      2fa_from_webauthn: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
+      2fa_from_input: <strong>%{device_name}</strong>의 코드를 입력하여 ID를 인증하세요.
+      2fa_from_webauthn: WebAuthn 장치 <strong>%{device_name}</strong> 제공을 해주세요. USB 기반인 경우 장치를 연결하고 터치하세요. 그런 다음 로그인 버튼을 클릭하세요.
       webauthn:
         title: "WebAuthn"
-        description: Use Web Authentication to register a FIDO2 device (like a YubiKey) or the secure enclave of your mobile device as a second factor.
-        further_steps: After you have chosen a name, you can click the Continue button. Your browser will prompt you to present your WebAuthn device. When you have done so, you are done registering the device.
+        description: '웹 인증을 사용하여 2단계 인증으로 FIDO2 장치(예: YubiKey)를 등록하거나 모바일 장치의 Secure Enclave를 등록합니다.'
+        further_steps: 이름을 선택한 후 계속 버튼을 클릭할 수 있습니다. 브라우저에서 WebAuthn 장치를 제공하라는 메시지가 표시됩니다. 이렇게 하면 장치 등록이 완료됩니다.
       totp:
         title: "앱 기반 인증자 사용"
         provisioning_uri: "프로비저닝 URI"

@@ -4,7 +4,7 @@ module ::Grids
     before_action :authorize
 
     def show
-      render layout: 'angular/angular'
+      render layout: "angular/angular"
     end
   end
 end

@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'features/page_objects/notification'
+require "spec_helper"
+require "features/page_objects/notification"
 
-RSpec.describe 'Upload attachment to forum message', :js do
+RSpec.describe "Upload attachment to forum message", :js do
   let(:forum) { create(:forum) }
   let(:user) do
     create(:user,
@@ -38,7 +38,7 @@ RSpec.describe 'Upload attachment to forum message', :js do
                                                     edit_messages] })
   end
   let(:project) { forum.project }
-  let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
+  let(:image_fixture) { UploadedFile.load_from("spec/fixtures/files/image.png") }
   let(:editor) { Components::WysiwygEditor.new }
   let(:attachments_list) { Components::AttachmentsList.new }
   let(:index_page) { Pages::Messages::Index.new(forum.project) }
@@ -47,55 +47,55 @@ RSpec.describe 'Upload attachment to forum message', :js do
     login_as(user)
   end
 
-  it 'can upload an image to new and existing messages via drag & drop' do
+  it "can upload an image to new and existing messages via drag & drop" do
     index_page.visit!
     click_link forum.name
 
     create_page = index_page.click_create_message
-    create_page.set_subject 'A new message'
+    create_page.set_subject "A new message"
 
     # adding an image
     sleep 20
-    editor.drag_attachment image_fixture.path, 'Image uploaded on creation'
+    editor.drag_attachment image_fixture.path, "Image uploaded on creation"
 
-    editor.attachments_list.expect_attached('image.png')
+    editor.attachments_list.expect_attached("image.png")
     editor.wait_until_upload_progress_toaster_cleared
 
-    click_button 'Create'
+    click_button "Create"
 
-    expect(page).to have_css('#content .wiki img', count: 1)
-    expect(page).to have_content('Image uploaded on creation')
-    attachments_list.expect_attached('image.png')
+    expect(page).to have_css("#content .wiki img", count: 1)
+    expect(page).to have_content("Image uploaded on creation")
+    attachments_list.expect_attached("image.png")
 
-    within '.toolbar-items' do
+    within ".toolbar-items" do
       click_on "Edit"
     end
 
-    find('.op-uc-figure').click
-    find('.ck-widget__type-around__button_after').click
+    find(".op-uc-figure").click
+    find(".ck-widget__type-around__button_after").click
 
     editor.type_slowly("A spacer text")
 
-    editor.drag_attachment image_fixture.path, 'Image uploaded the second time'
+    editor.drag_attachment image_fixture.path, "Image uploaded the second time"
 
-    editor.attachments_list.expect_attached('image.png', count: 2)
+    editor.attachments_list.expect_attached("image.png", count: 2)
     editor.wait_until_upload_progress_toaster_cleared
 
-    click_button 'Save'
+    click_button "Save"
 
-    expect(page).to have_css('#content .wiki img', count: 2)
-    expect(page).to have_content('Image uploaded on creation')
-    expect(page).to have_content('Image uploaded the second time')
+    expect(page).to have_css("#content .wiki img", count: 2)
+    expect(page).to have_content("Image uploaded on creation")
+    expect(page).to have_content("Image uploaded the second time")
 
-    attachments_list.expect_attached('image.png', count: 2)
+    attachments_list.expect_attached("image.png", count: 2)
   end
 
-  it 'can upload an image to new and existing messages via drag & drop on attachments' do
+  it "can upload an image to new and existing messages via drag & drop on attachments" do
     index_page.visit!
     click_link forum.name
 
     create_page = index_page.click_create_message
-    create_page.set_subject 'A new message'
+    create_page.set_subject "A new message"
 
     editor.attachments_list.expect_empty
 
@@ -104,24 +104,24 @@ RSpec.describe 'Upload attachment to forum message', :js do
     # adding an image
     editor.attachments_list.drop(image_fixture)
 
-    editor.attachments_list.expect_attached('image.png')
+    editor.attachments_list.expect_attached("image.png")
     editor.wait_until_upload_progress_toaster_cleared
 
-    click_button 'Create'
+    click_button "Create"
 
-    attachments_list.expect_attached('image.png')
-    within '.toolbar-items' do
+    attachments_list.expect_attached("image.png")
+    within ".toolbar-items" do
       click_on "Edit"
     end
 
     editor.attachments_list.drag_enter
     editor.attachments_list.drop(image_fixture)
 
-    editor.attachments_list.expect_attached('image.png', count: 2)
+    editor.attachments_list.expect_attached("image.png", count: 2)
     editor.wait_until_upload_progress_toaster_cleared
 
-    click_button 'Save'
+    click_button "Save"
 
-    attachments_list.expect_attached('image.png', count: 2)
+    attachments_list.expect_attached("image.png", count: 2)
   end
 end

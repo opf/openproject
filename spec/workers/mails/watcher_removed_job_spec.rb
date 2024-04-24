@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared/watcher_job'
+require "spec_helper"
+require_relative "shared/watcher_job"
 
 RSpec.describe Mails::WatcherRemovedJob, type: :model do
-  include_examples "watcher job", 'removed' do
+  include_examples "watcher job", "removed" do
     let(:watcher_parameter) { watcher.attributes }
 
     before do

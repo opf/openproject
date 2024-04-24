@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Login with auth source SSO' do
+RSpec.describe "Login with auth source SSO" do
   before do
     if sso_config
       allow(OpenProject::Configuration)
@@ -44,15 +44,15 @@ RSpec.describe 'Login with auth source SSO' do
     }
   end
 
-  let(:user_password) { 'bob' * 4 }
+  let(:user_password) { "bob" * 4 }
   let(:user) do
     create(:user,
-           login: 'bob',
+           login: "bob",
            password: user_password,
            password_confirmation: user_password)
   end
 
-  it 'can still login' do
+  it "can still login" do
     login_with(user.login, user_password)
 
     # on the my page

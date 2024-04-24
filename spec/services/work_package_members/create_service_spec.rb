@@ -28,8 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
-require 'services/base_services/behaves_like_create_service'
+require "spec_helper"
+require "services/base_services/behaves_like_create_service"
 
 RSpec.describe WorkPackageMembers::CreateService, type: :model do
   subject(:service_call) { instance.call(call_attributes) }
@@ -69,13 +69,13 @@ RSpec.describe WorkPackageMembers::CreateService, type: :model do
 
   before { stub_notifications }
 
-  it_behaves_like 'BaseServices create service' do
+  it_behaves_like "BaseServices create service" do
     let(:model_class) { Member }
     let(:principal) { richard }
     let(:call_attributes) { { principal:, roles: [role], entity: work_package, project: work_package.project } }
 
-    context 'when successful' do
-      it 'sends a notification' do
+    context "when successful" do
+      it "sends a notification" do
         service_call
 
         expect(OpenProject::Notifications)
@@ -85,8 +85,8 @@ RSpec.describe WorkPackageMembers::CreateService, type: :model do
                       send_notifications: true)
       end
 
-      context 'for a User' do
-        it 'does not create any inherited roles' do
+      context "for a User" do
+        it "does not create any inherited roles" do
           service_call
 
           expect(Groups::CreateInheritedRolesService)
@@ -94,7 +94,7 @@ RSpec.describe WorkPackageMembers::CreateService, type: :model do
         end
       end
 
-      context 'for a Group' do
+      context "for a Group" do
         let(:principal) { cool_group }
         let(:model_instance) { build_stubbed(:member, principal:) }
 

@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Gantt charts menu',
+RSpec.describe "Gantt charts menu",
                :js,
                :selenium do
   let(:user) { create(:admin) }
@@ -84,29 +84,29 @@ RSpec.describe 'Gantt charts menu',
     login_as(user)
   end
 
-  describe 'on the global Gantt charts page' do
-    it 'shows all queries without a project' do
+  describe "on the global Gantt charts page" do
+    it "shows all queries without a project" do
       wp_global_timeline.visit!
       loading_indicator_saveguard
 
       # Show global queries only
-      expect(page).to have_css('.op-sidemenu--item-action', text: global_starred_query)
-      expect(page).to have_css('.op-sidemenu--item-action', text: global_public_query)
-      expect(page).to have_css('.op-sidemenu--item-action', text: global_private_query)
-      expect(page).to have_no_css('.op-sidemenu--item-action', text: private_project_query)
+      expect(page).to have_css(".op-sidemenu--item-action", text: global_starred_query)
+      expect(page).to have_css(".op-sidemenu--item-action", text: global_public_query)
+      expect(page).to have_css(".op-sidemenu--item-action", text: global_private_query)
+      expect(page).to have_no_css(".op-sidemenu--item-action", text: private_project_query)
     end
   end
 
-  describe 'on the project Gantt charts page' do
-    it 'shows all queries that belong to the project' do
+  describe "on the project Gantt charts page" do
+    it "shows all queries that belong to the project" do
       wp_project_timeline.visit!
       loading_indicator_saveguard
 
       # Show project queries only
-      expect(page).to have_no_css('.op-sidemenu--item-action', text: global_starred_query)
-      expect(page).to have_no_css('.op-sidemenu--item-action', text: global_public_query)
-      expect(page).to have_no_css('.op-sidemenu--item-action', text: global_private_query)
-      expect(page).to have_css('.op-sidemenu--item-action', text: private_project_query)
+      expect(page).to have_no_css(".op-sidemenu--item-action", text: global_starred_query)
+      expect(page).to have_no_css(".op-sidemenu--item-action", text: global_public_query)
+      expect(page).to have_no_css(".op-sidemenu--item-action", text: global_private_query)
+      expect(page).to have_css(".op-sidemenu--item-action", text: private_project_query)
     end
   end
 end

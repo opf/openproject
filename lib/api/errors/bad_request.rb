@@ -29,11 +29,11 @@
 module API
   module Errors
     class BadRequest < ErrorBase
-      identifier 'BadRequest'
+      identifier "BadRequest"
       code 400
 
       def initialize(message, **)
-        super(I18n.t('api_v3.errors.code_400', message:))
+        super(I18n.t("api_v3.errors.code_400", message:))
       end
     end
   end

@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'uri'
-require 'cgi'
+require "uri"
+require "cgi"
 
 # This capsulates the validation of a requested redirect URL.
 #
@@ -91,7 +91,7 @@ class RedirectPolicy
   # Postprocesses the validated URL
   def postprocess(redirect_url)
     # Remove basic auth credentials
-    redirect_url.userinfo = ''
+    redirect_url.userinfo = ""
 
     if @return_escaped
       redirect_url.to_s
@@ -103,7 +103,7 @@ class RedirectPolicy
   ##
   # Avoid paths with references to parent paths
   def no_upper_levels
-    !@requested_url.path.include? '../'
+    !@requested_url.path.include? "../"
   end
 
   ##
@@ -143,7 +143,7 @@ class RedirectPolicy
   ##
   # Requires the redirect URL to reside inside the relative root, when given.
   def matches_relative_root
-    relative_root = OpenProject::Configuration['rails_relative_url_root']
+    relative_root = OpenProject::Configuration["rails_relative_url_root"]
     relative_root.blank? || @requested_url.path.starts_with?(relative_root)
   end
 end

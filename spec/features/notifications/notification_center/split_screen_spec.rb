@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe "Split screen in the notification center", :js, :with_cuprite do
   let(:global_html_title) { Components::HtmlTitle.new }
@@ -29,7 +29,7 @@ RSpec.describe "Split screen in the notification center", :js, :with_cuprite do
            journal: second_work_package.journals.last)
   end
 
-  describe 'basic use case' do
+  describe "basic use case" do
     current_user { recipient }
 
     before do
@@ -38,7 +38,7 @@ RSpec.describe "Split screen in the notification center", :js, :with_cuprite do
       center.open
     end
 
-    it 'can switch between multiple notifications and the split screen remains open and updates accordingly' do
+    it "can switch between multiple notifications and the split screen remains open and updates accordingly" do
       center.expect_bell_count 2
       center.click_item notification
 
@@ -54,7 +54,7 @@ RSpec.describe "Split screen in the notification center", :js, :with_cuprite do
       center.expect_work_package_item second_notification
     end
 
-    it 'can navigate between the tabs' do
+    it "can navigate between the tabs" do
       center.expect_bell_count 2
 
       center.click_item notification
@@ -66,7 +66,7 @@ RSpec.describe "Split screen in the notification center", :js, :with_cuprite do
       activity_tab.expect_wp_has_been_created_activity work_package
 
       # Navigate to the relations tab
-      split_screen.switch_to_tab tab: 'relations'
+      split_screen.switch_to_tab tab: "relations"
       split_screen.expect_tab :relations
       relations_tab = Components::WorkPackages::Relations.new(work_package)
       relations_tab.expect_no_relation work_package
@@ -82,8 +82,8 @@ RSpec.describe "Split screen in the notification center", :js, :with_cuprite do
       split_screen.close
     end
 
-    it 'can show the correct html title while opening and closing the split view' do
-      global_html_title.expect_first_segment 'Notifications'
+    it "can show the correct html title while opening and closing the split view" do
+      global_html_title.expect_first_segment "Notifications"
 
       # The split view should be opened and html title should change
       first_title = "#{work_package.type.name}: #{work_package.subject} (##{work_package.id})"
@@ -92,7 +92,7 @@ RSpec.describe "Split screen in the notification center", :js, :with_cuprite do
 
       # The split view should be closed and html title should change to the previous title
       split_screen.close
-      global_html_title.expect_first_segment 'Notifications'
+      global_html_title.expect_first_segment "Notifications"
 
       # Html title should be updated with next WP data after making the current one as read
       second_title = "#{second_work_package.type.name}: #{second_work_package.subject} (##{second_work_package.id})"
@@ -103,11 +103,11 @@ RSpec.describe "Split screen in the notification center", :js, :with_cuprite do
 
       # After making all notifications as read, html title should show the base route
       center.mark_notification_as_read second_notification
-      global_html_title.expect_first_segment 'Notifications'
+      global_html_title.expect_first_segment "Notifications"
     end
   end
 
-  context 'with no unread notification' do
+  context "with no unread notification" do
     current_user { recipient }
 
     before do
@@ -117,7 +117,7 @@ RSpec.describe "Split screen in the notification center", :js, :with_cuprite do
       center.open
     end
 
-    it 'can switch between multiple notifications and bell count will be updated' do
+    it "can switch between multiple notifications and bell count will be updated" do
       center.expect_bell_count 0
     end
   end

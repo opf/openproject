@@ -30,7 +30,7 @@ class CleanupWebhookLogsJob < ApplicationJob
   # Clean any logs older than 7 days
   def perform
     ::Webhooks::Log
-      .where('created_at < ?', 7.days.ago)
+      .where("created_at < ?", 7.days.ago)
       .delete_all
   end
 end

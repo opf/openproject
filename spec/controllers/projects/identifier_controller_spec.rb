@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Projects::IdentifierController do
   let(:project) { create(:project) }
@@ -34,22 +34,22 @@ RSpec.describe Projects::IdentifierController do
   current_user { create(:admin) }
   render_views
 
-  describe 'update' do
-    it 'sets the project identifier to the provided value' do
-      put :update, params: { project_id: project.id, project: { identifier: 'new-identifier' } }
+  describe "update" do
+    it "sets the project identifier to the provided value" do
+      put :update, params: { project_id: project.id, project: { identifier: "new-identifier" } }
 
       # Upon success, the user is redirected to the general project settings page
       expect(response).to have_http_status(:redirect)
-      expect(project.reload.identifier).to eq('new-identifier')
+      expect(project.reload.identifier).to eq("new-identifier")
     end
 
-    context 'with an invalid identifier' do
-      it 'does not change the project identifier and correctly renders the view' do
+    context "with an invalid identifier" do
+      it "does not change the project identifier and correctly renders the view" do
         previous_identifier = project.identifier
-        put :update, params: { project_id: project.id, project: { identifier: 'bad identifier' } }
+        put :update, params: { project_id: project.id, project: { identifier: "bad identifier" } }
 
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include('Identifier is invalid')
+        expect(response.body).to include("Identifier is invalid")
         expect(project.reload.identifier).to eq(previous_identifier)
       end
     end

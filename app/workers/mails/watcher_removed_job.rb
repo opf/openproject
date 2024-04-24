@@ -36,6 +36,6 @@ class Mails::WatcherRemovedJob < Mails::WatcherJob
   private
 
   def action
-    'removed'
+    "removed"
   end
 end

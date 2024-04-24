@@ -26,97 +26,97 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Users::Scopes::WithTimeZone do
   shared_let(:user_besancon) do
     create(
       :user,
-      firstname: 'Besançon',
-      preferences: { time_zone: 'Europe/Paris' }
+      firstname: "Besançon",
+      preferences: { time_zone: "Europe/Paris" }
     )
   end
   shared_let(:user_kathmandu) do
     create(
       :user,
-      firstname: 'Kathmandu',
-      preferences: { time_zone: 'Asia/Kathmandu' }
+      firstname: "Kathmandu",
+      preferences: { time_zone: "Asia/Kathmandu" }
     )
   end
   shared_let(:user_new_york) do
     create(
       :user,
-      firstname: 'New York',
-      preferences: { time_zone: 'America/New_York' }
+      firstname: "New York",
+      preferences: { time_zone: "America/New_York" }
     )
   end
   shared_let(:user_paris) do
     create(
       :user,
-      firstname: 'Paris',
-      preferences: { time_zone: 'Europe/Paris' }
+      firstname: "Paris",
+      preferences: { time_zone: "Europe/Paris" }
     )
   end
   shared_let(:user_without_preferences) do
     create(
       :user,
-      firstname: 'no preference',
+      firstname: "no preference",
       preferences: nil
     )
   end
   shared_let(:user_without_time_zone) do
     create(
       :user,
-      firstname: 'no preference',
+      firstname: "no preference",
       preferences: {}
     )
   end
   shared_let(:user_with_empty_time_zone) do
     create(
       :user,
-      firstname: 'no preference',
-      preferences: { time_zone: '' }
+      firstname: "no preference",
+      preferences: { time_zone: "" }
     )
   end
 
-  describe '.with_time_zone' do
-    it 'returns user having set a time zone in their preference matching the specified time zone(s)' do
-      expect(User.with_time_zone('Europe/Paris'))
+  describe ".with_time_zone" do
+    it "returns user having set a time zone in their preference matching the specified time zone(s)" do
+      expect(User.with_time_zone("Europe/Paris"))
         .to contain_exactly(user_paris, user_besancon)
 
       expect(User.with_time_zone([]))
         .to eq([])
 
-      expect(User.with_time_zone(['America/New_York', 'Asia/Kathmandu']))
+      expect(User.with_time_zone(["America/New_York", "Asia/Kathmandu"]))
         .to contain_exactly(user_new_york, user_kathmandu)
     end
 
-    context 'when users have no preferences' do
-      it 'uses the default time zone returned by Setting.user_default_timezone',
+    context "when users have no preferences" do
+      it "uses the default time zone returned by Setting.user_default_timezone",
          with_settings: { user_default_timezone: "Europe/Berlin" } do
         expect(User.with_time_zone("Europe/Berlin"))
           .to include(user_without_preferences)
       end
     end
 
-    context 'when users have preferences without time zone set' do
-      it 'uses the default time zone returned by Setting.user_default_timezone',
+    context "when users have preferences without time zone set" do
+      it "uses the default time zone returned by Setting.user_default_timezone",
          with_settings: { user_default_timezone: "Europe/Berlin" } do
         expect(User.with_time_zone("Europe/Berlin"))
           .to include(user_without_time_zone)
       end
     end
 
-    context 'when users have preferences with time zone set to empty string' do
-      it 'uses the default time zone returned by Setting.user_default_timezone',
+    context "when users have preferences with time zone set to empty string" do
+      it "uses the default time zone returned by Setting.user_default_timezone",
          with_settings: { user_default_timezone: "Europe/Berlin" } do
         expect(User.with_time_zone("Europe/Berlin"))
           .to include(user_with_empty_time_zone)
       end
     end
 
-    context 'when users have no time zone and default user time zone is not set' do
-      it 'assumes Etc/UTC as default time zone',
+    context "when users have no time zone and default user time zone is not set" do
+      it "assumes Etc/UTC as default time zone",
          with_settings: { user_default_timezone: nil } do
         expect(User.with_time_zone("Etc/UTC"))
           .to contain_exactly(user_without_preferences, user_without_time_zone, user_with_empty_time_zone)

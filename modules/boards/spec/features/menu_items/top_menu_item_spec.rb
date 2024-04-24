@@ -26,23 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Top menu item for boards', :js, :with_cuprite do
+RSpec.describe "Top menu item for boards", :js, :with_cuprite do
   let(:user) { create(:admin) }
 
   let(:menu) { find(".op-app-menu a[title='#{I18n.t('label_modules')}']") }
-  let(:boards) { I18n.t('boards.label_boards') }
+  let(:boards) { I18n.t("boards.label_boards") }
 
   before do
     allow(User).to receive(:current).and_return user
   end
 
-  shared_examples_for 'the boards menu item' do
+  shared_examples_for "the boards menu item" do
     it "sends the user to the boards overview when clicked" do
       menu.click
 
-      within '#more-menu' do
+      within "#more-menu" do
         click_on boards
       end
 
@@ -51,28 +51,28 @@ RSpec.describe 'Top menu item for boards', :js, :with_cuprite do
     end
   end
 
-  context 'when in the project settings' do
+  context "when in the project settings" do
     let!(:project) { create(:project) }
 
     before do
       visit "/projects/#{project.identifier}/settings/general"
     end
 
-    it_behaves_like 'the boards menu item'
+    it_behaves_like "the boards menu item"
   end
 
-  context 'on the landing page' do
+  context "on the landing page" do
     before do
       visit root_path
     end
 
-    it_behaves_like 'the boards menu item'
+    it_behaves_like "the boards menu item"
 
-    context 'with missing permissions' do
+    context "with missing permissions" do
       let(:user) { create(:user) }
 
       it "does not display the menu item" do
-        within '#more-menu', visible: false do
+        within "#more-menu", visible: false do
           expect(page).to have_no_link boards
         end
       end

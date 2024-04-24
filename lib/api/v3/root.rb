@@ -37,7 +37,7 @@ module API
 
       before do
         # Add Link header for openapi spec
-        header 'Link', '</api/v3/openapi.json>; rel="service-desc"'
+        header "Link", '</api/v3/openapi.json>; rel="service-desc"'
 
         # All endpoint accept query props as gzipped and base64 encoded json objects
         transform_eprops
@@ -84,20 +84,20 @@ module API
       mount ::API::V3::WorkPackages::WorkPackagesAPI
       mount ::API::V3::WikiPages::WikiPagesAPI
 
-      get '/' do
+      get "/" do
         RootRepresenter.new({}, current_user:)
       end
 
-      get '/spec.json' do
+      get "/spec.json" do
         API::OpenAPI.spec
       end
 
-      get '/openapi.json' do
+      get "/openapi.json" do
         API::OpenAPI.spec
       end
 
-      get '/spec.yml' do
-        content_type 'text/vnd.yaml'
+      get "/spec.yml" do
+        content_type "text/vnd.yaml"
 
         API::OpenAPI.spec.to_yaml
       end

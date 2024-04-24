@@ -51,7 +51,7 @@ module Attachments
       when :clamav_socket
         { unix_socket: connection_target }
       when :clamav_host
-        tcp_host, tcp_port = connection_target.split(':')
+        tcp_host, tcp_port = connection_target.split(":")
         { tcp_host:, tcp_port: }
       else
         raise ArgumentError.new("Unknown clamav scan mode #{scan_mode}")

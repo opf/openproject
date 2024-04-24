@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 # TODO: Fix tests here
 
@@ -34,7 +34,7 @@ RSpec.describe Authorization::UserAllowedService do
   let(:user) { build_stubbed(:user) }
   let(:instance) { described_class.new(user) }
   let(:action) { :an_action }
-  let(:action_hash) { { controller: '/controller', action: 'action' } }
+  let(:action_hash) { { controller: "/controller", action: "action" } }
   let(:project) { build_stubbed(:project) }
   let(:other_project) { build_stubbed(:project) }
   let(:role) { build_stubbed(:project_role) }
@@ -51,13 +51,13 @@ RSpec.describe Authorization::UserAllowedService do
 
   subject { instance.call(action, context) }
 
-  describe '#initialize' do
-    it 'has the user' do
+  describe "#initialize" do
+    it "has the user" do
       expect(instance.user).to eql user
     end
   end
 
-  shared_examples_for 'allowed to checked' do
+  shared_examples_for "allowed to checked" do
     before do
       Array(context).each do |project|
         project.active = true
@@ -69,12 +69,12 @@ RSpec.describe Authorization::UserAllowedService do
       allow(role).to receive(:allowed_to?).with(action).and_return(role_grants_action)
     end
 
-    context 'with the user having a granting role' do
-      it 'is true' do
+    context "with the user having a granting role" do
+      it "is true" do
         expect(subject).to be_truthy
       end
 
-      it 'does not call the db twice for a project' do
+      it "does not call the db twice for a project" do
         Array(context).each do |project|
           allow(Authorization).to receive(:roles).with(user, project).and_return(user_roles_in_project)
         end
@@ -90,21 +90,21 @@ RSpec.describe Authorization::UserAllowedService do
         end
       end
 
-      context 'but the user not being active' do
+      context "but the user not being active" do
         before do
           user.lock
         end
 
-        it 'returns false', :aggregate_failures do
+        it "returns false", :aggregate_failures do
           expect(instance.call(action, nil, global: true)).not_to be_truthy
         end
       end
     end
 
-    context 'with the user having a nongranting role' do
+    context "with the user having a nongranting role" do
       let(:role_grants_action) { false }
 
-      it 'is false' do
+      it "is false" do
         expect(subject).to be_falsey
       end
     end
@@ -117,12 +117,12 @@ RSpec.describe Authorization::UserAllowedService do
         user.admin = true
       end
 
-      it 'is true' do
+      it "is true" do
         expect(subject).to be_truthy
       end
     end
 
-    context 'with the project not being active' do
+    context "with the project not being active" do
       before do
         Array(context).each do |project|
           project.active = false
@@ -130,46 +130,46 @@ RSpec.describe Authorization::UserAllowedService do
         end
       end
 
-      it 'is false' do
+      it "is false" do
         expect(subject).to be_falsey
       end
 
-      it 'is false even if the user is admin' do
+      it "is false even if the user is admin" do
         user.admin = true
 
         expect(subject).to be_falsey
       end
     end
 
-    context 'with the project being archived' do
+    context "with the project being archived" do
       before do
         Array(context).each do |project|
           project.active = false
         end
       end
 
-      it 'is true' do
+      it "is true" do
         expect(subject).to be_truthy
       end
     end
 
-    context 'with the project not having the action enabled' do
+    context "with the project not having the action enabled" do
       let(:project_allows_to) { false }
 
-      it 'is false' do
+      it "is false" do
         expect(subject).to be_falsey
       end
 
-      it 'is false even if the user is admin' do
+      it "is false even if the user is admin" do
         user.admin = true
 
         expect(subject).to be_falsey
       end
     end
 
-    context 'with having precached the results' do
+    context "with having precached the results" do
       before do
-        auth_cache = double('auth_cache')
+        auth_cache = double("auth_cache")
 
         allow(Users::ProjectAuthorizationCache)
           .to receive(:new)
@@ -194,11 +194,11 @@ RSpec.describe Authorization::UserAllowedService do
         instance.preload_projects_allowed_to(action)
       end
 
-      it 'is true' do
+      it "is true" do
         expect(subject).to be_truthy
       end
 
-      it 'does not call the db' do
+      it "does not call the db" do
         subject
 
         expect(Authorization)
@@ -207,23 +207,23 @@ RSpec.describe Authorization::UserAllowedService do
     end
   end
 
-  describe '#call' do
-    context 'for a project' do
+  describe "#call" do
+    context "for a project" do
       let(:context) { project }
 
-      it_behaves_like 'allowed to checked'
+      it_behaves_like "allowed to checked"
     end
 
-    context 'for an array of projects' do
+    context "for an array of projects" do
       let(:context) { [project, other_project] }
 
-      it_behaves_like 'allowed to checked'
+      it_behaves_like "allowed to checked"
 
-      it 'is false' do
+      it "is false" do
         expect(instance.call(action, [])).to be_falsey
       end
 
-      context 'with one project not allowing an action' do
+      context "with one project not allowing an action" do
         before do
           allow(project)
             .to receive(:allows_to?)
@@ -231,65 +231,65 @@ RSpec.describe Authorization::UserAllowedService do
             .and_return(false)
         end
 
-        it 'is false' do
+        it "is false" do
           expect(instance.call(action, [project, other_project])).to be_falsey
         end
       end
     end
 
-    context 'for a relation of projects' do
-      let(:context) { double('relation', class: ActiveRecord::Relation, to_a: [project]) }
+    context "for a relation of projects" do
+      let(:context) { double("relation", class: ActiveRecord::Relation, to_a: [project]) }
 
-      it_behaves_like 'allowed to checked'
+      it_behaves_like "allowed to checked"
     end
 
-    context 'for anything else' do
+    context "for anything else" do
       let(:context) { nil }
 
-      it 'is false' do
+      it "is false" do
         expect(subject).to be_falsey
       end
     end
 
-    context 'for a global check' do
-      context 'with the user being admin' do
+    context "for a global check" do
+      context "with the user being admin" do
         before do
           user.admin = true
         end
 
-        it 'is true' do
+        it "is true" do
           expect(instance.call(action, nil, global: true)).to be_truthy
         end
       end
 
-      context 'with the user having a granting role' do
+      context "with the user having a granting role" do
         before do
           allow(Authorization).to receive(:roles).with(user, nil).and_return(user_roles_in_project)
           allow(role).to receive(:allowed_to?).with(action).and_return(true)
         end
 
-        context 'but the user not being active' do
+        context "but the user not being active" do
           before do
             user.lock
           end
 
-          it 'is unsuccessful', :aggregate_failures do
+          it "is unsuccessful", :aggregate_failures do
             expect(instance.call(action, nil, global: true)).not_to be_truthy
           end
         end
 
-        it 'is successful', :aggregate_failures do
+        it "is successful", :aggregate_failures do
           expect(instance.call(action, nil, global: true)).to be_truthy
         end
       end
 
-      context 'with the user not having a granting role' do
+      context "with the user not having a granting role" do
         before do
           allow(Authorization).to receive(:roles).with(user, nil).and_return(user_roles_in_project)
           allow(role).to receive(:allowed_to?).with(action).and_return(false)
         end
 
-        it 'is false' do
+        it "is false" do
           expect(instance.call(action, nil, global: true)).to be_falsey
         end
       end

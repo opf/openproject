@@ -35,9 +35,9 @@ class Queries::Projects::Create < ApplicationForm
         visually_hide_label: true,
         required: true,
         autofocus: true,
-        name: 'name',
+        name: "name",
         label: Queries::Projects::ProjectQuery.human_attribute_name(:name),
-        placeholder: I18n.t(:'projects.lists.new.placeholder')
+        placeholder: I18n.t(:"projects.lists.new.placeholder")
       )
 
       group.submit(
@@ -51,7 +51,7 @@ class Queries::Projects::Create < ApplicationForm
         scheme: :secondary,
         label: I18n.t(:button_cancel),
         tag: :a,
-        data: { 'params-from-query-target': 'anchor' },
+        data: { "params-from-query-target": "anchor" },
         href: OpenProject::StaticRouting::StaticUrlHelpers.new.projects_path
       )
     end

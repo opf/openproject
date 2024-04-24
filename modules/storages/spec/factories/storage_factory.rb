@@ -44,19 +44,6 @@ FactoryBot.define do
     trait :as_generic do
       provider_type { 'Storages::Storage' }
     end
-  end
-
-  factory :nextcloud_storage,
-          parent: :storage,
-          class: '::Storages::NextcloudStorage' do
-    provider_type { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
-    sequence(:host) { |n| "https://host#{n}.example.com" }
-
-    trait :as_automatically_managed do
-      automatically_managed { true }
-      username { 'OpenProject' }
-      password { 'Password123' }
-    end
 
     trait :as_not_automatically_managed do
       automatically_managed { false }
@@ -88,6 +75,19 @@ FactoryBot.define do
       health_reason { nil }
       health_changed_at { Time.now.utc }
       health_checked_at { Time.now.utc }
+    end
+  end
+
+  factory :nextcloud_storage,
+          parent: :storage,
+          class: '::Storages::NextcloudStorage' do
+    provider_type { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
+    sequence(:host) { |n| "https://host#{n}.example.com" }
+
+    trait :as_automatically_managed do
+      automatically_managed { true }
+      username { 'OpenProject' }
+      password { 'Password123' }
     end
   end
 
@@ -155,6 +155,10 @@ FactoryBot.define do
     host { nil }
     tenant_id { SecureRandom.uuid }
     drive_id { SecureRandom.uuid }
+
+    trait :as_automatically_managed do
+      automatically_managed { true }
+    end
   end
 
   factory :sharepoint_dev_drive_storage,

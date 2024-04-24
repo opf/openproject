@@ -36,7 +36,7 @@ class ProjectMailer < ApplicationMailer
     @dependent_projects = dependent_projects
 
     send_localized_mail(user) do
-      I18n.t('projects.delete.completed', name: project.name)
+      I18n.t("projects.delete.completed", name: project.name)
     end
   end
 
@@ -48,7 +48,7 @@ class ProjectMailer < ApplicationMailer
     @project = project
 
     send_localized_mail(user) do
-      I18n.t('projects.delete.failed', name: project.name)
+      I18n.t("projects.delete.failed", name: project.name)
     end
   end
 
@@ -57,13 +57,13 @@ class ProjectMailer < ApplicationMailer
     @target_project_name = target_project_name
     @errors = errors
 
-    open_project_headers 'Source-Project' => source_project.identifier,
-                         'Author' => user.login
+    open_project_headers "Source-Project" => source_project.identifier,
+                         "Author" => user.login
 
     message_id source_project, user
 
     send_localized_mail(user) do
-      I18n.t('copy_project.failed', source_project_name: source_project.name)
+      I18n.t("copy_project.failed", source_project_name: source_project.name)
     end
   end
 
@@ -72,14 +72,14 @@ class ProjectMailer < ApplicationMailer
     @target_project = target_project
     @errors = errors
 
-    open_project_headers 'Source-Project' => source_project.identifier,
-                         'Target-Project' => target_project.identifier,
-                         'Author' => user.login
+    open_project_headers "Source-Project" => source_project.identifier,
+                         "Target-Project" => target_project.identifier,
+                         "Author" => user.login
 
     message_id target_project, user
 
     send_localized_mail(user) do
-      I18n.t('copy_project.succeeded', target_project_name: target_project.name)
+      I18n.t("copy_project.succeeded", target_project_name: target_project.name)
     end
   end
 end

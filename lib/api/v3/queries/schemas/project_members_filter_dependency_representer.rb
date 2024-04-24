@@ -43,13 +43,13 @@ module API
           private
 
           def filter_query
-            params = [{ status: { operator: '!',
+            params = [{ status: { operator: "!",
                                   values: [Principal.statuses[:locked].to_s] } }]
 
             params << if filter.project
-                        { member: { operator: '=', values: [filter.project.id.to_s] } }
+                        { member: { operator: "=", values: [filter.project.id.to_s] } }
                       else
-                        { member: { operator: '*', values: [] } }
+                        { member: { operator: "*", values: [] } }
                       end
 
             params

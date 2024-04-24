@@ -28,7 +28,7 @@
 
 FactoryBot.define do
   factory :design_color do
-    hexcode { ('#%0.6x' % rand(0xFFFFFF)).upcase }
+    hexcode { ("#%0.6x" % rand(0xFFFFFF)).upcase }
   end
 end
 

@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_context'
+require "spec_helper"
+require_relative "shared_context"
 
-RSpec.describe 'Calendar create new work package', :js do
-  include_context 'with calendar full access'
+RSpec.describe "Calendar create new work package", :js do
+  include_context "with calendar full access"
 
   let(:type_task) { create(:type_task) }
   let!(:status) { create(:default_status) }
@@ -41,7 +41,7 @@ RSpec.describe 'Calendar create new work package', :js do
     project.types << type_task
   end
 
-  it 'can create a new work package' do
+  it "can create a new work package" do
     calendar.visit!
 
     start_of_week = Time.zone.today.beginning_of_week(:sunday)
@@ -49,18 +49,18 @@ RSpec.describe 'Calendar create new work package', :js do
                                      (start_of_week + 1.day).iso8601
 
     subject = split_create.edit_field(:subject)
-    subject.set_value 'Newly planned task'
+    subject.set_value "Newly planned task"
 
     split_create.save!
 
-    split_create.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_create'))
+    split_create.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_create"))
 
     split_create.expect_attributes(
       combinedDate: "#{start_of_week.strftime('%m/%d/%Y')} - #{(start_of_week + 1.day).strftime('%m/%d/%Y')}"
     )
 
     wp = WorkPackage.last
-    expect(wp.subject).to eq 'Newly planned task'
+    expect(wp.subject).to eq "Newly planned task"
     expect(wp.start_date).to eq start_of_week
     expect(wp.due_date).to eq (start_of_week + 1.day)
 

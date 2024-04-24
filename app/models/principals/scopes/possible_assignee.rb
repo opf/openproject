@@ -74,18 +74,18 @@ module Principals::Scopes
         Member
           .assignable
           .of_work_package(work_package)
-          .group('user_id')
+          .group("user_id")
           .having(["COUNT(DISTINCT(project_id, entity_type, entity_id, user_id)) = ?", work_package.size])
-          .select('user_id')
+          .select("user_id")
       end
 
       def on_project_user_ids(project)
         Member
           .assignable
           .of_project(project)
-          .group('user_id')
+          .group("user_id")
           .having(["COUNT(DISTINCT(project_id, user_id)) = ?", project.size])
-          .select('user_id')
+          .select("user_id")
       end
     end
   end

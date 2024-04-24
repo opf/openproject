@@ -43,7 +43,7 @@ class FixDeletedDataJournals < ActiveRecord::Migration[7.0]
   end
 
   def unfixed_journals_found(journable_type, relation, count)
-    unless ENV['SKIP_MISSING_JOURNALS'] == 'true'
+    unless ENV["SKIP_MISSING_JOURNALS"] == "true"
       warning = <<~WARNING
         There shouldn't be any missing data left for #{journable_type}, but found #{count}.
 
@@ -95,7 +95,7 @@ class FixDeletedDataJournals < ActiveRecord::Migration[7.0]
 
   def insert_journal_data(journal, write_message: false)
     service = Journals::CreateService.new(journal.journable, User.system)
-    insert_sql = service.instance_eval { insert_data_sql('placeholder', nil) }
+    insert_sql = service.instance_eval { insert_data_sql("placeholder", nil) }
 
     result = Journal.connection.uncached do
       ::Journal
@@ -103,18 +103,18 @@ class FixDeletedDataJournals < ActiveRecord::Migration[7.0]
         .select_one(insert_sql)
     end
 
-    raise "ID is missing #{result.inspect}" unless result['id']
+    raise "ID is missing #{result.inspect}" unless result["id"]
 
     if write_message
-      update_with_new_data!(journal, result['id'])
+      update_with_new_data!(journal, result["id"])
     else
-      journal.update_column(:data_id, result['id'])
+      journal.update_column(:data_id, result["id"])
     end
   end
 
   def get_missing_journals
     Journal
-      .pluck('DISTINCT(journable_type)')
+      .pluck("DISTINCT(journable_type)")
       .to_h do |journable_type|
       journal_class = journable_type.constantize.journal_class
       table_name = journal_class.table_name
@@ -124,7 +124,7 @@ class FixDeletedDataJournals < ActiveRecord::Migration[7.0]
         .where("#{table_name}.id IS NULL")
         .where(journable_type:)
         .where.not(data_type: nil) # Ignore special tenants with data_type nil errors
-        .order('journals.version ASC')
+        .order("journals.version ASC")
         .includes(:journable)
 
       [journable_type, relation]
@@ -153,7 +153,7 @@ class FixDeletedDataJournals < ActiveRecord::Migration[7.0]
   end
 
   def update_with_new_data!(journal, data_id)
-    notes = journal.notes || ''
+    notes = journal.notes || ""
     notes << "\n" unless notes.empty?
     notes << "_(This activity had to be modified by the system and may be missing some changes or contain changes from previous or following activities.)_"
 

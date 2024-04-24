@@ -29,6 +29,6 @@
 class GlobalRole < Role
   def self.givable
     super
-      .where(type: 'GlobalRole')
+      .where(type: "GlobalRole")
   end
 end

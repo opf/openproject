@@ -49,7 +49,7 @@ module API
           alias :id :converted_key
 
           def _type
-            'QueryFilter'
+            "QueryFilter"
           end
 
           def convert_attribute(attribute)

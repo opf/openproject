@@ -26,7 +26,8 @@ ro:
       no_results_title_text: Nu s-a înregistrat nicio activitate pentru acest proiect în această perioadă de timp.
   admin:
     plugins:
-      no_results_title_text: În acest moment nu există plugin-uri disponibile.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Culoarea temei"
       color_theme_custom: "(Personalizat)"
@@ -1555,6 +1556,7 @@ ro:
       postgres_migration: "Migrarea instalației dvs. către PostgreSQL"
       user_guides: "Ghiduri utilizator"
       faq: "Întrebări Frecvente"
+      impressum: "Legal notice"
       glossary: "Glosar"
       shortcuts: "Scurtături"
       blog: "Blog-ul OpenProject"
@@ -1565,6 +1567,7 @@ ro:
   journals:
     changes_retracted: "Modificările au fost retrase."
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "Dates changed"
       system_update: "OpenProject system update:"
     cause_descriptions:
@@ -1886,7 +1889,6 @@ ro:
   label_subject_or_id: "Subiect sau ID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
-  label_impressum: "Notificare legala"
   label_in: "în"
   label_in_less_than: "în mai puțin de"
   label_in_more_than: "în mai mult de"
@@ -2745,6 +2747,9 @@ ro:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) origini permise"
   setting_apiv3_cors_origins_text_html: >
     Dacă CORS este activat, acestea sunt originile cărora li se permite accesul la OpenProject API. <br/> Vă rugăm să consultați <a href="%{origin_link}" target="_blank">documentația privind antetul Origin</a> pentru a specifica valorile așteptate.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Dimensiunea maximă a paginii API"
   setting_apiv3_max_page_instructions_html: >
     Setaţi dimensiunea maximă a paginii cu care API-ul va răspunde. Nu va fi posibil să efectuați cereri API care returnează mai multe valori pe o singură pagină. <br/> <strong>Avertisment:</strong> Vă rugăm să schimbaţi această valoare numai dacă sunteţi sigur de ce aveţi nevoie. Stabilirea unei valori ridicate va avea ca rezultat un impact semnificativ asupra performanței; în timp ce o valoare mai mică decât opţiunile per pagină va cauza erori în vizualizările paginate.
@@ -3124,6 +3129,7 @@ ro:
     status_user_and_brute_force: "%{user} şi %{brute_force}"
     status_change: "Schimbare de stare"
     text_change_disabled_for_provider_login: "Numele este setat de furnizorul de logare și, prin urmare, nu poate fi modificat."
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "Deblocare"
     unlock_and_reset_failed_logins: "Deblocare şi resetare autentificări eşuate"
   version_status_closed: "închis"

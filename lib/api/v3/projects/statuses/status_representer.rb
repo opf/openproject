@@ -45,7 +45,7 @@ module API
                    getter: ->(*) { I18n.t(:"activerecord.attributes.project.status_codes.#{self}") }
 
           def _type
-            'ProjectStatus'
+            "ProjectStatus"
           end
         end
       end

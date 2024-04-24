@@ -56,7 +56,7 @@ class WikiPages::AtVersion < SimpleDelegator
   # rubocop:disable Style/OptionalBooleanParameter
   # Overwriting a superclass method.
   def respond_to?(method_name, include_all = false)
-    if method_name.to_s == 'to_model'
+    if method_name.to_s == "to_model"
       false
     else
       super

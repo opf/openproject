@@ -98,7 +98,7 @@ module ::Query::Results::GroupBy
 
     groups.transform_keys do |key|
       if custom_field.multi_value?
-        key.split('.').map do |subkey|
+        key.split(".").map do |subkey|
           options[subkey].first
         end
       else
@@ -108,7 +108,7 @@ module ::Query::Results::GroupBy
   end
 
   def custom_options_for_keys(custom_field, groups)
-    keys = groups.keys.map { |k| k.split('.') }
+    keys = groups.keys.map { |k| k.split(".") }
     # Because of multi select cfs we might end up having overlapping groups
     # (e.g group "1" and group "1.3" and group "3" which represent concatenated ids).
     # This can result in us having ids in the keys array multiple times (e.g. ["1", "1", "3", "3"]).
@@ -149,7 +149,7 @@ module ::Query::Results::GroupBy
         direction = order ? order_for_group_by(column) : nil
 
         aliased_group_by_sort_order(alias_name, s, columns_hash, direction)
-      end.join(', ')
+      end.join(", ")
     end
   end
 

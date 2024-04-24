@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 time_entry_activity resource' do
+RSpec.describe "API v3 time_entry_activity resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -47,33 +47,33 @@ RSpec.describe 'API v3 time_entry_activity resource' do
     login_as(current_user)
   end
 
-  describe 'GET /api/v3/time_entries/activities/:id' do
+  describe "GET /api/v3/time_entries/activities/:id" do
     let(:path) { api_v3_paths.time_entries_activity(activity.id) }
 
-    context 'for a visible root activity' do
+    context "for a visible root activity" do
       before do
         activity
 
         get path
       end
 
-      it 'returns 200 OK' do
+      it "returns 200 OK" do
         expect(subject.status)
           .to be(200)
       end
 
-      it 'returns the time entry' do
+      it "returns the time entry" do
         expect(subject.body)
-          .to be_json_eql('TimeEntriesActivity'.to_json)
-          .at_path('_type')
+          .to be_json_eql("TimeEntriesActivity".to_json)
+          .at_path("_type")
 
         expect(subject.body)
           .to be_json_eql(activity.id.to_json)
-          .at_path('id')
+          .at_path("id")
       end
     end
 
-    context 'for non shared activities' do
+    context "for non shared activities" do
       before do
         activity.project_id = 234
         activity.save(validate: false)
@@ -81,13 +81,13 @@ RSpec.describe 'API v3 time_entry_activity resource' do
         get path
       end
 
-      it 'returns 404 NOT FOUND' do
+      it "returns 404 NOT FOUND" do
         expect(subject.status)
           .to be(404)
       end
     end
 
-    context 'when lacking permissions' do
+    context "when lacking permissions" do
       let(:permissions) { [] }
 
       before do
@@ -96,7 +96,7 @@ RSpec.describe 'API v3 time_entry_activity resource' do
         get path
       end
 
-      it 'returns 404 NOT FOUND' do
+      it "returns 404 NOT FOUND" do
         expect(subject.status)
           .to be(404)
       end

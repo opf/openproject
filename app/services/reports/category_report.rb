@@ -28,11 +28,11 @@
 
 class Reports::CategoryReport < Reports::Report
   def self.report_type
-    'category'
+    "category"
   end
 
   def field
-    'category_id'
+    "category_id"
   end
 
   def rows

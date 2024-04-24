@@ -26,7 +26,8 @@ ms:
       no_results_title_text: There has not been any activity for the project within this time frame.
   admin:
     plugins:
-      no_results_title_text: There are currently no plugins available.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Color theme"
       color_theme_custom: "(Custom)"
@@ -537,10 +538,10 @@ ms:
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "Maximum active users"
       grids/grid:
-        page: "Page"
-        row_count: "Number of rows"
-        column_count: "Number of columns"
-        widgets: "Widgets"
+        page: "Halaman"
+        row_count: "Bilangan baris"
+        column_count: "Bilangan lajur"
+        widgets: "Widget"
       oauth_client:
         client: "Client ID"
       relation:
@@ -782,9 +783,9 @@ ms:
         enterprise_token:
           unreadable: "can't be read. Are you sure it is a support token?"
         grids/grid:
-          overlaps: "overlap."
-          outside: "is outside of the grid."
-          end_before_start: "end value needs to be larger than the start value."
+          overlaps: "bertindih."
+          outside: "luar daripada grid"
+          end_before_start: "nilai akhir perlu lebih besar daripada nilai mula."
         ical_token_query_assignment:
           attributes:
             name:
@@ -1062,7 +1063,7 @@ ms:
     base: "General Error:"
     blocks_ids: "IDs of blocked work packages"
     category: "Category"
-    comment: "Comment"
+    comment: "Komen"
     comments: "Comment"
     content: "Content"
     color: "Color"
@@ -1501,6 +1502,7 @@ ms:
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "User guides"
       faq: "FAQ"
+      impressum: "Legal notice"
       glossary: "Glossary"
       shortcuts: "Shortcuts"
       blog: "OpenProject blog"
@@ -1511,6 +1513,7 @@ ms:
   journals:
     changes_retracted: "The changes were retracted."
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "Dates changed"
       system_update: "OpenProject system update:"
     cause_descriptions:
@@ -1664,7 +1667,7 @@ ms:
   label_api_doc: "API documentation"
   label_backup: "Backup"
   label_backup_code: "Backup code"
-  label_between: "between"
+  label_between: "antara"
   label_blocked_by: "blocked by"
   label_blocks: "blocks"
   label_blog: "Blog"
@@ -1818,7 +1821,7 @@ ms:
   label_generate_key: "Generate a key"
   label_git_path: "Path to .git directory"
   label_greater_or_equal: ">="
-  label_group_by: "Group by"
+  label_group_by: "Kumpulkan mengikut"
   label_group_new: "New group"
   label_group: "Group"
   label_group_named: "Group %{name}"
@@ -1832,7 +1835,6 @@ ms:
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
-  label_impressum: "Legal notice"
   label_in: "in"
   label_in_less_than: "in less than"
   label_in_more_than: "in more than"
@@ -2111,7 +2113,7 @@ ms:
   label_used_by: "Used by"
   label_used_by_types: "Used by types"
   label_used_in_projects: "Used in projects"
-  label_user: "User"
+  label_user: "Pengguna"
   label_user_and_permission: "Users and permissions"
   label_user_named: "User %{name}"
   label_user_activity: "%{value}'s activity"
@@ -2688,6 +2690,9 @@ ms:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Maximum API page size"
   setting_apiv3_max_page_instructions_html: >
     Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
@@ -3065,6 +3070,7 @@ ms:
     status_user_and_brute_force: "%{user} and %{brute_force}"
     status_change: "Status change"
     text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "Unlock"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
   version_status_closed: "closed"

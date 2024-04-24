@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require Rails.root.join("db/migrate/20220818074150_fix_invalid_journals.rb")
 
 RSpec.describe FixInvalidJournals, type: :model do
@@ -100,7 +100,7 @@ RSpec.describe FixInvalidJournals, type: :model do
     run_migration
   end
 
-  it 'removes invalid journals and its associations', :aggregate_failures do
+  it "removes invalid journals and its associations", :aggregate_failures do
     expect(Journal.find_by(id: invalid_journal.id)).to be_nil
 
     expect(Journal::AttachableJournal.find_by(journal_id: invalid_journal.id)).to be_nil

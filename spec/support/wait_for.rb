@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'wait/handler'
-require_relative 'wait/target'
+require_relative "wait/handler"
+require_relative "wait/target"
 
 # borrowed from rspec-wait, avoiding usage of Timeout
 module RSpec

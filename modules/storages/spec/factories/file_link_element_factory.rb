@@ -41,12 +41,12 @@ FactoryBot.define do
     storage_url { "https://nextcloud.example.com" }
 
     trait :invalid do
-      origin_id { ' ' }
+      origin_id { " " }
     end
 
     initialize_with do
-      origin_data = attributes.select { |key, _| key.starts_with?('origin_') }
-                              .transform_keys { |key| key.to_s.gsub('origin_', '').camelcase(:lower).to_sym }
+      origin_data = attributes.select { |key, _| key.starts_with?("origin_") }
+                              .transform_keys { |key| key.to_s.gsub("origin_", "").camelcase(:lower).to_sym }
                               .then { |data| data.transform_values { |v| v.respond_to?(:iso8601) ? v.iso8601 : v } }
                               .then { |data| data.transform_keys { |k| k.to_sym == :updatedAt ? :lastModifiedAt : k } }
       {

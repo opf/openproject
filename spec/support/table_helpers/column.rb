@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'identifier'
+require_relative "identifier"
 
 module TableHelpers
   module Column
@@ -131,7 +131,7 @@ module TableHelpers
 
       def format(value)
         if value.nil?
-          ''
+          ""
         elsif value == value.truncate
           "%sh" % value.to_i
         else

@@ -57,7 +57,7 @@ module OpenProject
       end
 
       def display_expand_button_value
-        multi_type? || text_ast.xpath('html/body').children.length > 1 ? :block : :none
+        multi_type? || body_children.length > 1 ? :block : :none
       end
 
       def text_color
@@ -67,16 +67,24 @@ module OpenProject
       private
 
       def first_paragraph
-        @first_paragraph ||= text_ast
-                             .xpath('html/body')
-                             .children
-                             .first
-                             .inner_html
-                             .html_safe # rubocop:disable Rails/OutputSafety
+        @first_paragraph ||= if body_children.any?
+                               body_children
+                                 .first
+                                 .inner_html
+                                 .html_safe # rubocop:disable Rails/OutputSafety
+                             else
+                               ''
+                             end
       end
 
       def text_ast
         @text_ast ||= Nokogiri::HTML(full_text)
+      end
+
+      def body_children
+        text_ast
+          .xpath('html/body')
+          .children
       end
 
       def multi_type?

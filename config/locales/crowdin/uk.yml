@@ -26,13 +26,14 @@ uk:
       no_results_title_text: Протягом цього часу не було жодної діяльності для проекту.
   admin:
     plugins:
-      no_results_title_text: Наразі немає доступних плагінів.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Колірна тема"
       color_theme_custom: "(Власний)"
       colors:
-        primary-button-color: "Primary button"
-        accent-color: "Accent"
+        primary-button-color: "Основна кнопка"
+        accent-color: "Акцент"
         header-bg-color: "Фон заголовка"
         header-item-bg-hover-color: "Фон заголовка в разі наведення курсора"
         header-item-font-color: "Шрифт заголовка"
@@ -51,8 +52,8 @@ uk:
       enterprise_more_info: "Примітка: використаний логотип буде загальнодоступний."
       manage_colors: "Редагувати параметри вибору кольору"
       instructions:
-        primary-button-color: "Strong accent color, used for the most important button on a screen."
-        accent-color: "Color for links and other decently highlighted elements."
+        primary-button-color: "Насичений акцентний колір використовується для більшості важливих кнопок на екрані."
+        accent-color: "Колір для посилань та інших елементів, які має бути виділено."
         header-item-bg-hover-color: "Колір фону в заголовках інтерактивних елементів під курсором миші."
         header-item-font-color: "Колір шрифту в заголовках інтерактивних елементів."
         header-item-font-hover-color: "Колір шрифту в заголовках інтерактивних елементів під курсором миші."
@@ -87,16 +88,16 @@ uk:
     is_active: наразі відображається
     is_inactive: наразі не відображається
   antivirus_scan:
-    not_processed_yet_message: "Downloading is blocked, as file was not scanned for viruses yet. Please try again later."
-    quarantined_message: "A virus was detected in file '%{filename}'. It has been quarantined and is not available for download."
-    deleted_message: "A virus was detected in file '%{filename}'. The file has been deleted."
-    deleted_by_admin: "The quarantined file '%{filename}' has been deleted by an administrator."
-    overridden_by_admin: "The quarantine for file '%{filename}' has been removed by %{user}. The file can now be acccessed."
+    not_processed_yet_message: "Завантаження заблоковано, оскільки файл ще не перевірено на віруси. Повторіть спробу пізніше."
+    quarantined_message: "У файлі «%{filename}» виявлено вірус. Файл перенесено в карантин, і його не можна завантажити."
+    deleted_message: "У файлі «%{filename}» виявлено вірус. Файл видалено."
+    deleted_by_admin: "Файл «%{filename}», перенесений у карантин, видалено адміністратором."
+    overridden_by_admin: "Файл «%{filename}», перенесений у карантин, вилучено користувачем %{user}. Доступ до файлу відновлено."
     quarantined_attachments:
-      container: "Container"
-      delete: "Delete the quarantined file"
-      title: "Quarantined attachments"
-      error_cannot_act_self: "Cannot perform actions on your own uploaded files."
+      container: "Контейнер"
+      delete: "Видалити файл на карантині"
+      title: "Вкладення на карантині"
+      error_cannot_act_self: "Неможливо виконати дії з файлами, вивантаженими вами."
   attribute_help_texts:
     note_public: "Будь який доданий вами текст чи зображення видимі для усіх активних користувачів!"
     text_overview: "У цьому поданні можна створювати спеціальні тексти довідки для перегляду атрибутів. Коли вони визначені, ці тексти можна показувати, натиснувши піктограму довідки поруч з її атрибутом."
@@ -263,8 +264,8 @@ uk:
       new:
         placeholder: "Новий список проєктів"
       delete_modal:
-        title: "Delete project list"
-        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
+        title: "Видалити список проєктів"
+        text: "Ця дія не призведе до видалення жодного проєкту зі списку. Справді видалити цей список проєктів?"
     settings:
       change_identifier: Ідентифікатор змін
       activities:
@@ -287,7 +288,7 @@ uk:
       storage:
         no_results_title_text: Цей проєкт не потребує додаткового дискового простору.
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    can_be_saved_as: "Зміни можна зберегти лише в новому списку."
   members:
     index:
       no_results_title_text: Наразі учасників цього проекту немає.
@@ -565,7 +566,7 @@ uk:
           false: "приватний"
         queries: "Запити"
         status_code: "Статус Проекту"
-        description: "Description"
+        description: "Опис"
         status_explanation: "Опис стану проєкту"
         status_codes:
           not_started: "Не почато"
@@ -639,9 +640,9 @@ uk:
         begin_insertion: "Початок вставки"
         begin_deletion: "Початок видалення"
         children: "Субелементи"
-        derived_done_ratio: "Total % complete"
-        derived_remaining_hours: "Total remaining work"
-        derived_remaining_time: "Total remaining work"
+        derived_done_ratio: "Загальний % завершення"
+        derived_remaining_hours: "Загальний залишок роботи"
+        derived_remaining_time: "Загальний залишок роботи"
         done_ratio: "% завершення"
         duration: "Тривалість"
         end_insertion: "Кінець вставки"
@@ -841,8 +842,8 @@ uk:
               forbidden: "Мітки часу містять заборонені значення: %{values}"
               format: "%{message}"
             selects:
-              name_not_included: "The 'Name' column needs to be included"
-              nonexistent: "The column '%{column}' does not exist."
+              name_not_included: "Потрібно додати стовпець «Ім’я»"
+              nonexistent: "Стовпець «%{column}» не існує."
               format: "%{message}"
           group_by_hierarchies_exclusive: "є взаємовиключним з групою %{group_by} Ви не можете активувати обидва."
           filters:
@@ -1095,7 +1096,7 @@ uk:
     default_columns: "Типові колонки"
     description: "Опис"
     derived_due_date: "Отримана дата завершення"
-    derived_estimated_hours: "Total work"
+    derived_estimated_hours: "Загальний обсяг робіт"
     derived_start_date: "Отримана дата початку"
     display_sums: "Відображати суми"
     due_date: "Дата закінчення"
@@ -1212,7 +1213,7 @@ uk:
   button_reset: "Скинути"
   button_rollback: "Відкотити до даної версії"
   button_save: "Зберегти"
-  button_save_as: "Save as"
+  button_save_as: "Зберегти як"
   button_apply_changes: "Застосувати зміни"
   button_save_back: "Зберегти та повернутися назад"
   button_show: "Показати"
@@ -1577,6 +1578,7 @@ uk:
       postgres_migration: "Міграція інсталяції в PostgreSQL"
       user_guides: "Посібники користувача"
       faq: "ЧаПи"
+      impressum: "Юридична інформація"
       glossary: "Глосарій"
       shortcuts: "Ярлики"
       blog: "Openproject блог"
@@ -1587,6 +1589,7 @@ uk:
   journals:
     changes_retracted: "Зміни було відхилено."
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "Дати змінено"
       system_update: "Оновлення системи OpenProject"
     cause_descriptions:
@@ -1833,7 +1836,7 @@ uk:
   label_diff_side_by_side: "поряд"
   label_digital_accessibility: "Цифрова доступність (ЦД)"
   label_disabled: "Вимкнено"
-  label_disabled_uppercase: "Disabled"
+  label_disabled_uppercase: "Вимкнено"
   label_display: "Дисплей"
   label_display_per_page: "На сторінку: %{value}"
   label_display_used_statuses_only: "Відображати тільки ті статуси, які використовуються в цьому трекері"
@@ -1908,7 +1911,6 @@ uk:
   label_subject_or_id: "Тема або ідентифікатор"
   label_calendar_subscriptions: "Підписки на календарі"
   label_identifier: "Ідентифікатор"
-  label_impressum: "Правове повідомлення"
   label_in: "в"
   label_in_less_than: "менш ніж"
   label_in_more_than: "більше ніж"
@@ -1968,7 +1970,7 @@ uk:
   label_member_new: "Новий учасник"
   label_member_all_admin: "(Усі ролі через статус адміністратора)"
   label_member_plural: "Учасники"
-  label_membership_plural: "Memberships"
+  label_membership_plural: "Членство"
   lable_membership_added: "Учасника додано"
   lable_membership_updated: "Учасника оновлено"
   label_menu_badge:
@@ -2061,7 +2063,7 @@ uk:
   label_precedes: "переважати"
   label_preferences: "Налаштування"
   label_preview: "Попередній перегляд"
-  label_preview_not_available: "(Preview not available)"
+  label_preview_not_available: "(Попередній перегляд недоступний)"
   label_previous: "Попередній"
   label_previous_week: "Попередній тиждень"
   label_principal_invite_via_email: "або запрошувати нових користувачів електронною поштою"
@@ -2273,9 +2275,9 @@ uk:
     other: "%{count} проектів"
     zero: "немає проєктів"
   label_x_files:
-    one: "1 file"
-    other: "%{count} files"
-    zero: "no files"
+    one: "1 файл"
+    other: "Файлів: %{count}"
+    zero: "немає файлів"
   label_yesterday: "вчора"
   label_role_type: "Тип"
   label_member_role: "Роль у проєкті"
@@ -2636,7 +2638,7 @@ uk:
   project_module_news: "Новини"
   project_module_repository: "Репозиторій"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
+  permission_header_for_project_module_work_package_tracking: "Пакети робіт і діаграми Ґанта"
   query:
     attribute_and_direction: "%{attribute}%{direction}"
   #possible query parameters (e.g. issue queries),
@@ -2649,7 +2651,7 @@ uk:
     name_or_identifier: "Ім'я або ідентифікатор"
     only_subproject_id: "Лише підпроєкт"
     shared_with_user: "Надано доступ користувачу"
-    shared_with_me: "Shared with me"
+    shared_with_me: "Доступ надано мені"
     subproject_id: "Включно з підпроєктом"
   repositories:
     at_identifier: "на %{identifier}"
@@ -2767,6 +2769,9 @@ uk:
   setting_apiv3_cors_origins: "Дозволені джерела CORS (Cross-Origin Resource Sharing) в API версії 3"
   setting_apiv3_cors_origins_text_html: >
     Якщо CORS увімкнено, це джерела, які можуть отримувати доступ до OpenProject API. <br/>Щоб дізнатися, як указати очікувані значення, ознайомтеся з <a href="%{origin_link}" target="_blank">Документацією щодо заголовка джерела</a>.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Максимальний розмір сторінки API"
   setting_apiv3_max_page_instructions_html: >
     Встановіть максимальний розмір сторінки, яка відповідатиме API. Неможливо виконати запити API, які повертають більше значень на сторінці. Увага: Будь ласка, змінюйте значення тільки у тому разі, якщо ви впевнені у необхідності цієї дії.  Внаслідок встановлення високого значення спостерігатиметься значний вплив на продуктивність, тоді як значення, що є меншим за сторінку, призведе до появи помилок у переглядах сторінок.
@@ -2790,8 +2795,8 @@ uk:
   setting_app_subtitle: "Підзаголовок додатку"
   setting_app_title: "Назва додатку"
   setting_attachment_max_size: "Максимальний розмір вкладення"
-  setting_antivirus_scan_mode: "Scan mode"
-  setting_antivirus_scan_action: "Infected file action"
+  setting_antivirus_scan_mode: "Режим перевірки"
+  setting_antivirus_scan_action: "Дія із зараженим файлом"
   setting_autofetch_changesets: "Змінюється сховище автозбірки"
   setting_autologin: "Автовхід"
   setting_available_languages: "Доступні мови"
@@ -2800,7 +2805,7 @@ uk:
   setting_brute_force_block_minutes: "Час, коли користувач заблоковано"
   setting_cache_formatted_text: "Кешувати форматований текст"
   setting_use_wysiwyg_description: "Виберіть, щоб увімкнути редактор CKEditor5 WYSIWYG для всіх користувачів за умовчанням. CKEditor має обмежену функціональність для GFM Markdown."
-  setting_column_options: "Default work package lists columns"
+  setting_column_options: "Стовпці списків пакетів робіт за замовчуванням"
   setting_commit_fix_keywords: "Призначення ключових слів"
   setting_commit_logs_encoding: "Кодування повідомлень"
   setting_commit_logtime_activity_id: "Активність для реєстрації часу"
@@ -2822,7 +2827,7 @@ uk:
   setting_emails_header: "Заголовок листа"
   setting_email_login: "Використовуйте електронну пошту як логін"
   setting_enabled_scm: "Увімкнені SCM"
-  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
+  setting_enabled_projects_columns: "Стовпці в списку проєктів відображаються за замовчуванням"
   setting_feeds_enabled: "Увімкнути канали"
   setting_ical_enabled: "Дозволити підписки на iCalendar"
   setting_feeds_limit: "Обмеження вмісту каналу"
@@ -2891,26 +2896,26 @@ uk:
       whitelist_text_html: >
         Визначте список дійсних розширень файлів і/або типів MIME для завантажених файлів. <br/>Введіть розширення файлу (напр., <code>%{ext_example}</code>) або типи MIME (напр., <code>%{mime_example}</code>). Не вказуйте нічого, щоб дозволити завантаження будь-яких типів файлів. Ви можете вводити кілька значень (по одному в кожному рядку).
     antivirus:
-      title: "Virus scanning"
-      clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
+      title: "Перевірка на віруси"
+      clamav_ping_failed: "Не вдалося підключити демон ClamAV. Перевірте конфігурацію і повторіть спробу."
       remaining_quarantined_files_html: >
-        Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+        Перевірку на віруси вимкнено. Залишок файлів на карантині: %{file_count}. Переглянути файли на карантині можна за цим посиланням: %{link}
       remaining_scan_complete_html: >
-        Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
+        Решту файлів перевірено. Файлів на карантині: %{file_count}. Зараз ви перейдете на сторінку карантину, де можна видалити або замінити файли, перенесені в карантин.
       remaining_rescanned_files: >
-        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Перевірку на віруси ввімкнено. Потрібно ще перевірити деякі вивантажені раніше файли (%{file_count}). Цей процес заплановано у фоновому режимі. Файли будуть доступні під час перевірки.
       upsale:
-        description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
+        description: "Переконайтеся, що вивантажені в OpenProject файли перевіряються на віруси перед тим, як стають доступними для інших користувачів."
       actions:
-        delete: "Delete the file"
-        quarantine: "Quarantine the file"
+        delete: "Видалити файл"
+        quarantine: "Перенести файл на карантин"
         instructions_html: >
-          Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
+          Виберіть дію, яку потрібно виконати з файлами, у яких виявлено вірус: <br/> <ul> <li><strong>%{quarantine_option}</strong>: помістити файл на карантин, заборонивши користувачам доступ до нього. Адміністратори можуть переглядати й видаляти файли на карантині на панелі адмініструванні.</li> <li><strong>%{delete_option}</strong>: негайно видалити файл.</li> </ul>
       modes:
-        clamav_socket_html: Enter the socket to the clamd daemon, e.g., %{example}
-        clamav_host_html: Enter the hostname and port to the clamd daemon separated by colon. e.g., %{example}
+        clamav_socket_html: Введіть сокет до демона clamd, наприклад %{example}
+        clamav_host_html: Введіть ім’я хоста й порт до демона clamd через двокрапку, наприклад %{example}
         description_html: >
-          Select the mode in which the antivirus scanner integration should operate. <br/> <ul> <li><strong>%{disabled_option}</strong>: Uploaded files are not scanned for viruses.</li> <li><strong>%{socket_option}</strong>: You have set up ClamAV on the same server as OpenProject and the scan daemon clamd is running in the background</li> <li><strong>%{host_option}</strong>: You are streaming files to an external virus scanning host.</li> </ul>
+          Виберіть режим, у якому має працювати інтеграція з антивірусним сканером. <br/> <ul> <li><strong>%{disabled_option}</strong>: вивантажені файли не перевіряються на віруси.</li> <li><strong>%{socket_option}</strong>: ви встановили ClamAV на тому ж сервері, що й OpenProject, і демон сканування clamd працює у фоновому режимі</li> <li><strong>%{host_option}</strong>: ви передаєте файли на зовнішній хост для перевірки на віруси.</li> </ul>
     brute_force_prevention: "Автоматизоване блокування користувачів"
     date_format:
       first_date_of_week_and_year_set: >
@@ -2940,7 +2945,7 @@ uk:
     projects:
       missing_dependencies: "Перевірено модуль проєкту %{module}, який містить залежності від %{dependencies}. Ці залежності потрібно також перевірити."
       section_new_projects: "Налаштування нових проєктів"
-      section_project_overview: "Settings for project lists"
+      section_project_overview: "Налаштування для списків проєктів"
     session: "Сесія"
     user:
       default_preferences: "Параметри за умовчанням"
@@ -3106,11 +3111,11 @@ uk:
   queries:
     apply_filter: Застосувати попередньо налаштований фільтр
     configure_view:
-      heading: Configure view
+      heading: Налаштувати режим перегляду
       columns:
-        input_label: "Add columns"
-        input_placeholder: "Select a column"
-        drag_area_label: "Manage and reorder columns"
+        input_label: "Додати стовпці"
+        input_placeholder: "Вибрати стовпець"
+        drag_area_label: "Керування стовпцями і їх перевпорядкування"
   top_menu:
     additional_resources: "Додаткові ресурси"
     getting_started: "Починаємо"
@@ -3147,6 +3152,7 @@ uk:
     status_user_and_brute_force: "%{user} і %{brute_force}"
     status_change: "Зміна стану"
     text_change_disabled_for_provider_login: "Це ім’я встановив ваш постачальник облікових даних, тому його не можна змінити."
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "Розблокувати"
     unlock_and_reset_failed_logins: "Розблокувати та скинути помилки входу до системи"
   version_status_closed: "зачинено"

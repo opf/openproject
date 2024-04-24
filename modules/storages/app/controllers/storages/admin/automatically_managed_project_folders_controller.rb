@@ -33,7 +33,7 @@
 #
 class Storages::Admin::AutomaticallyManagedProjectFoldersController < ApplicationController
   # See https://guides.rubyonrails.org/layouts_and_rendering.html for reference on layout
-  layout 'admin'
+  layout "admin"
 
   # Before executing any action below: Make sure the current user is an admin
   # and set the @<controller_name> variable to the object referenced in the URL.
@@ -65,7 +65,7 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
                 .result
 
     respond_to do |format|
-      format.html { render '/storages/admin/storages/automatically_managed_project_folders/edit' }
+      format.html { render "/storages/admin/storages/automatically_managed_project_folders/edit" }
       format.turbo_stream { render :edit }
     end
   end
@@ -75,13 +75,13 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
 
     if service_result.success?
       flash[:primer_banner] = {
-        message: I18n.t(:'storages.notice_successful_storage_connection'),
+        message: I18n.t(:"storages.notice_successful_storage_connection"),
         scheme: :success
       }
       redirect_to admin_settings_storages_path
     else
       respond_to do |format|
-        format.html { render '/storages/admin/storages/automatically_managed_project_folders/edit' }
+        format.html { render "/storages/admin/storages/automatically_managed_project_folders/edit" }
         format.turbo_stream
       end
     end
@@ -92,7 +92,7 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
   # Called by: Global app/config/routes.rb to serve Web page
   def edit
     respond_to do |format|
-      format.html { render '/storages/admin/storages/automatically_managed_project_folders/edit' }
+      format.html { render "/storages/admin/storages/automatically_managed_project_folders/edit" }
       format.turbo_stream
     end
   end
@@ -106,7 +106,7 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
     if service_result.success?
       redirect_to edit_admin_settings_storage_path(@storage)
     else
-      render '/storages/admin/storages/automatically_managed_project_folders/edit'
+      render "/storages/admin/storages/automatically_managed_project_folders/edit"
     end
   end
 
@@ -144,7 +144,7 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
     permitted_storage_params.tap do |permitted_params|
       # If a checkbox is unchecked when its form is submitted, neither the name nor the value is submitted to the server.
       # See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
-      permitted_params.merge!(automatic_management_enabled: false) unless permitted_params.key?('automatic_management_enabled')
+      permitted_params.merge!(automatic_management_enabled: false) unless permitted_params.key?("automatic_management_enabled")
     end
   end
 
@@ -153,6 +153,6 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
   def permitted_storage_params
     params
       .require(:storages_nextcloud_storage)
-      .permit('automatic_management_enabled', 'password')
+      .permit("automatic_management_enabled", "password")
   end
 end

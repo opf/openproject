@@ -33,8 +33,8 @@ module Costs::Patches::NumberToCurrencyConverterPatch
 
   module InstanceMethods
     def i18n_opts
-      super.merge(unit: ERB::Util.h(Setting.plugin_costs['costs_currency']),
-                  format: ERB::Util.h(Setting.plugin_costs['costs_currency_format']))
+      super.merge(unit: ERB::Util.h(Setting.plugin_costs["costs_currency"]),
+                  format: ERB::Util.h(Setting.plugin_costs["costs_currency_format"]))
     end
   end
 end

@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Work package resource' do
+RSpec.describe "API v3 Work package resource" do
   include Rack::Test::Methods
   include Capybara::RSpecMatchers
 
@@ -47,8 +47,8 @@ RSpec.describe 'API v3 Work package resource' do
     allow(Story).to receive(:types).and_return([work_package.type_id])
   end
 
-  describe '#get' do
-    shared_context 'query work package' do
+  describe "#get" do
+    shared_context "query work package" do
       before do
         allow(User).to receive(:current).and_return(current_user)
         get wp_path
@@ -57,29 +57,29 @@ RSpec.describe 'API v3 Work package resource' do
       subject { last_response.body }
     end
 
-    context 'backlogs activated' do
-      include_context 'query work package'
+    context "backlogs activated" do
+      include_context "query work package"
 
-      it { is_expected.to be_json_eql(work_package.story_points.to_json).at_path('storyPoints') }
+      it { is_expected.to be_json_eql(work_package.story_points.to_json).at_path("storyPoints") }
     end
 
-    context 'backlogs deactivated' do
+    context "backlogs deactivated" do
       let(:project) do
-        create(:project, disable_modules: 'backlogs')
+        create(:project, disable_modules: "backlogs")
       end
 
-      include_context 'query work package'
+      include_context "query work package"
 
       it { expect(last_response.status).to be 200 }
 
-      it { is_expected.not_to have_json_path('storyPoints') }
+      it { is_expected.not_to have_json_path("storyPoints") }
     end
   end
 
-  describe '#patch' do
+  describe "#patch" do
     let(:valid_params) do
       {
-        _type: 'WorkPackage',
+        _type: "WorkPackage",
         lockVersion: work_package.lock_version
       }
     end
@@ -88,14 +88,14 @@ RSpec.describe 'API v3 Work package resource' do
 
     before do
       allow(User).to receive(:current).and_return current_user
-      patch wp_path, params.to_json, 'CONTENT_TYPE' => 'application/json'
+      patch wp_path, params.to_json, "CONTENT_TYPE" => "application/json"
     end
 
-    describe 'storyPoints' do
+    describe "storyPoints" do
       let(:params) { valid_params.merge(storyPoints: 12) }
 
       it { expect(subject.status).to eq(200) }
-      it { expect(subject.body).to be_json_eql(12.to_json).at_path('storyPoints') }
+      it { expect(subject.body).to be_json_eql(12.to_json).at_path("storyPoints") }
     end
   end
 end

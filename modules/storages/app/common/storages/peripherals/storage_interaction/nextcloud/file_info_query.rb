@@ -32,7 +32,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
   class FileInfoQuery
     using Storages::Peripherals::ServiceResultRefinements
 
-    FILE_INFO_PATH = 'ocs/v1.php/apps/integration_openproject/fileinfo'
+    FILE_INFO_PATH = "ocs/v1.php/apps/integration_openproject/fileinfo"
 
     def initialize(storage)
       @uri = storage.uri
@@ -54,20 +54,20 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     def file_info(file_id, token)
       response = OpenProject
                    .httpx
-                   .with(headers: { 'Authorization' => "Bearer #{token.access_token}",
-                                    'Accept' => 'application/json',
-                                    'OCS-APIRequest' => 'true' })
+                   .with(headers: { "Authorization" => "Bearer #{token.access_token}",
+                                    "Accept" => "application/json",
+                                    "OCS-APIRequest" => "true" })
                    .get(Util.join_uri_path(@uri, FILE_INFO_PATH, file_id))
 
       case response
       in { status: 200..299 }
         ServiceResult.success(result: response.body)
       in { status: 404 }
-        Util.error(:not_found, 'Outbound request destination not found!', response)
+        Util.error(:not_found, "Outbound request destination not found!", response)
       in { status: 401 }
-        Util.error(:unauthorized, 'Outbound request not authorized!', response)
+        Util.error(:unauthorized, "Outbound request not authorized!", response)
       else
-        Util.error(:error, 'Outbound request failed!')
+        Util.error(:error, "Outbound request failed!")
       end
     end
 
@@ -85,11 +85,11 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         when 200..299
           ServiceResult.success(result: response_object)
         when 403
-          Util.error(:forbidden, 'Access to storage file forbidden!', response_object)
+          Util.error(:forbidden, "Access to storage file forbidden!", response_object)
         when 404
-          Util.error(:not_found, 'Storage file not found!', response_object)
+          Util.error(:not_found, "Storage file not found!", response_object)
         else
-          Util.error(:error, 'Outbound request failed!', response_object)
+          Util.error(:error, "Outbound request failed!", response_object)
         end
       end
     end
@@ -123,9 +123,9 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     # rubocop:enable Metrics/AbcSize
 
     def location(file_path)
-      prefix = 'files/'
+      prefix = "files/"
       idx = file_path.rindex(prefix)
-      return '/' if idx == nil
+      return "/" if idx == nil
 
       idx += prefix.length - 1
 

@@ -352,7 +352,7 @@ lt:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                Laidoje yra naujų funkcijų bei patobulinimų: <br> <ul class="%{list_styling_class}"> <li>GitLab integracija (originaliai sukurta Bendruomenės talkininkų)</li> <li>Sudėtingesnis projektų sąrašu funkcionalumas</li> <li>Sudėtingesnis susitikimų modulio funkcionalumas</li> <li>Administratoriai raginami pereiti per OAuth seką aktyvuojant saugyklą</li> <li>Virusų skenavimo su ClamAV funkcionalumas (Enterprise priedas)</li> <li>PDF eksportas: palaikomi sąrašai lentelėse</li> <li>WebAuthn/FIDO/U2F pridėtas kaip antras kriterijus</li> <li>Į pradinį rinkinį pridėta daugiau kalbų</li> </ul>
+                Laidoje yra naujų funkcijų bei patobulinimų: <br> <ul class="%{list_styling_class}"> <li>GitLab integracija (originaliai sukurta Bendruomenės talkininkų)</li> <li>Sudėtingesnis projektų sąrašu funkcionalumas</li> <li>Sudėtingesnis susitikimų modulio funkcionalumas</li> <li>Virusų skenavimo su ClamAV funkcionalumas (Enterprise priedas)</li> <li>PDF eksportas: palaikomi sąrašai lentelėse</li> <li>WebAuthn/FIDO/U2F pridėtas kaip antras kriterijus</li> <li>Į pradinį rinkinį pridėta daugiau kalbų</li> </ul>
     ical_sharing_modal:
       title: "Prenumeruoti kalendorių"
       inital_setup_error_message: "Gaunant duomenis įvyko klaida."

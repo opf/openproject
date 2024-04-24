@@ -27,7 +27,7 @@
 #++
 
 class Activities::WikiPageActivityProvider < Activities::BaseActivityProvider
-  activity_provider_for type: 'wiki_edits',
+  activity_provider_for type: "wiki_edits",
                         permission: :view_wiki_edits
 
   def extend_event_query(query)
@@ -37,9 +37,9 @@ class Activities::WikiPageActivityProvider < Activities::BaseActivityProvider
 
   def event_query_projection
     [
-      projection_statement(wikis_table, :project_id, 'project_id'),
-      projection_statement(wiki_pages_table, :title, 'wiki_title'),
-      projection_statement(wiki_pages_table, :slug, 'wiki_slug')
+      projection_statement(wikis_table, :project_id, "project_id"),
+      projection_statement(wiki_pages_table, :title, "wiki_title"),
+      projection_statement(wiki_pages_table, :slug, "wiki_slug")
     ]
   end
 
@@ -54,7 +54,7 @@ class Activities::WikiPageActivityProvider < Activities::BaseActivityProvider
   end
 
   def event_type(_event)
-    'wiki-page'
+    "wiki-page"
   end
 
   def event_path(event)
@@ -76,6 +76,6 @@ class Activities::WikiPageActivityProvider < Activities::BaseActivityProvider
   end
 
   def url_helper_parameter(event)
-    [event['project_id'], event['wiki_slug']]
+    [event["project_id"], event["wiki_slug"]]
   end
 end

@@ -26,18 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'preview' do
-  it 'connects POST /meetings/:meeting_id/agenda/preview to meeting_agendas#preview' do
-    expect(post('/meetings/1/agenda/preview')).to route_to(controller: 'meeting_agendas',
-                                                           meeting_id: '1',
-                                                           action: 'preview')
+RSpec.describe "preview" do
+  it "connects POST /meetings/:meeting_id/agenda/preview to meeting_agendas#preview" do
+    expect(post("/meetings/1/agenda/preview")).to route_to(controller: "meeting_agendas",
+                                                           meeting_id: "1",
+                                                           action: "preview")
   end
 
-  it 'connects POST /meetings/:meeting_id/agenda/preview to meeting_minutes#preview' do
-    expect(post('/meetings/1/minutes/preview')).to route_to(controller: 'meeting_minutes',
-                                                            meeting_id: '1',
-                                                            action: 'preview')
+  it "connects POST /meetings/:meeting_id/agenda/preview to meeting_minutes#preview" do
+    expect(post("/meetings/1/minutes/preview")).to route_to(controller: "meeting_minutes",
+                                                            meeting_id: "1",
+                                                            action: "preview")
   end
 end

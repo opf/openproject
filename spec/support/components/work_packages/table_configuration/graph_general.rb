@@ -62,14 +62,14 @@ module Components
 
         def apply
           within_modal do
-            click_button('Apply')
+            click_button("Apply")
           end
         end
 
         private
 
         def within_modal(&)
-          page.within('.wp-table--configuration-modal', &)
+          page.within(".wp-table--configuration-modal", &)
         end
       end
     end

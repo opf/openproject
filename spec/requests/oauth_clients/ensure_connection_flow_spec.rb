@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :webmock do
@@ -34,34 +34,34 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
   shared_let(:storage) { create(:nextcloud_storage, :with_oauth_client) }
   shared_let(:oauth_client) { storage.oauth_client }
 
-  describe '#ensure_connection' do
-    context 'when user is not logged in' do
-      it 'requires login' do
+  describe "#ensure_connection" do
+    context "when user is not logged in" do
+      it "requires login" do
         get oauth_clients_ensure_connection_url(oauth_client_id: oauth_client.client_id)
         expect(last_response.status).to eq(401)
       end
     end
 
-    context 'when user is logged in' do
+    context "when user is logged in" do
       before { login_as(user) }
 
-      it 'responds with 400 when storage_id parameter is absent' do
+      it "responds with 400 when storage_id parameter is absent" do
         get oauth_clients_ensure_connection_url(oauth_client_id: oauth_client.client_id)
         expect(last_response.status).to eq(400)
         expect(last_response.body).to eq("Required parameter missing: storage_id")
       end
 
-      context 'when storage_id parameter is present' do
+      context "when storage_id parameter is present" do
         context 'when user is not "connected"' do
-          let(:nonce) { '57a17c3f-b2ed-446e-9dd8-651ba3aec37d' }
+          let(:nonce) { "57a17c3f-b2ed-446e-9dd8-651ba3aec37d" }
 
           before do
             allow(SecureRandom).to receive(:uuid).and_call_original.ordered
             allow(SecureRandom).to receive(:uuid).and_return(nonce).ordered
           end
 
-          context 'when destination_url parameter is absent' do
-            it 'redirects to storage authorization_uri with oauth_state_* cookie set' do
+          context "when destination_url parameter is absent" do
+            it "redirects to storage authorization_uri with oauth_state_* cookie set" do
               get oauth_clients_ensure_connection_url(oauth_client_id: oauth_client.client_id, storage_id: storage.id)
 
               oauth_client = storage.oauth_client
@@ -76,9 +76,9 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
             end
           end
 
-          context 'when destination_url parameter is present' do
-            context 'when destination_url is the same origin as OP' do
-              it 'redirects to storage authorization_uri with oauth_state_* cookie set' do
+          context "when destination_url parameter is present" do
+            context "when destination_url is the same origin as OP" do
+              it "redirects to storage authorization_uri with oauth_state_* cookie set" do
                 get oauth_clients_ensure_connection_url(oauth_client_id: storage.oauth_client.client_id,
                                                         storage_id: storage.id,
                                                         destination_url: "#{root_url}123")
@@ -95,8 +95,8 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
               end
             end
 
-            context 'when destination_url is not the same origin as OP' do
-              it 'redirects to storage authorization_uri with oauth_state_* cookie set' do
+            context "when destination_url is not the same origin as OP" do
+              it "redirects to storage authorization_uri with oauth_state_* cookie set" do
                 get oauth_clients_ensure_connection_url(oauth_client_id: storage.oauth_client.client_id,
                                                         storage_id: storage.id,
                                                         destination_url: "#{storage.host}/index.php")
@@ -124,15 +124,15 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
             stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/user")
               .with(
                 headers: {
-                  'Accept' => 'application/json',
-                  'Authorization' => "Bearer #{oauth_client_token.access_token}",
-                  'Ocs-Apirequest' => 'true'
+                  "Accept" => "application/json",
+                  "Authorization" => "Bearer #{oauth_client_token.access_token}",
+                  "Ocs-Apirequest" => "true"
                 }
               ).to_return(status: 200, body: "", headers: {})
           end
 
-          context 'when destination_url parameter is absent' do
-            it 'redirects to root_url' do
+          context "when destination_url parameter is absent" do
+            it "redirects to root_url" do
               get oauth_clients_ensure_connection_url(oauth_client_id: oauth_client.client_id, storage_id: storage.id)
 
               expect(last_response.status).to eq(302)
@@ -141,9 +141,9 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
             end
           end
 
-          context 'when destination_url parameter is present' do
-            context 'when destination_url is the same origin as OP' do
-              it 'redirects to destination_url' do
+          context "when destination_url parameter is present" do
+            context "when destination_url is the same origin as OP" do
+              it "redirects to destination_url" do
                 get oauth_clients_ensure_connection_url(oauth_client_id: storage.oauth_client.client_id,
                                                         storage_id: storage.id,
                                                         destination_url: "#{root_url}123")
@@ -155,8 +155,8 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
               end
             end
 
-            context 'when destination_url is not the same origin as OP' do
-              it 'redirects to root_url' do
+            context "when destination_url is not the same origin as OP" do
+              it "redirects to root_url" do
                 get oauth_clients_ensure_connection_url(oauth_client_id: storage.oauth_client.client_id,
                                                         storage_id: storage.id,
                                                         destination_url: "#{storage.host}/index.php")

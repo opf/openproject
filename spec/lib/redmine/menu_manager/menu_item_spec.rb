@@ -24,62 +24,62 @@
 #
 #  See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Redmine::MenuManager::MenuItem do
-  describe '.new' do
-    it 'creates an item with all required parameters' do
-      expect(described_class.new(:test_good_menu, '/test', {}))
+  describe ".new" do
+    it "creates an item with all required parameters" do
+      expect(described_class.new(:test_good_menu, "/test", {}))
         .to be_a described_class
     end
 
-    it 'creates an item with an if condition' do
-      expect(described_class.new(:test_good_menu, '/test', if: ->(*) {}))
+    it "creates an item with an if condition" do
+      expect(described_class.new(:test_good_menu, "/test", if: ->(*) {}))
         .to be_a described_class
     end
 
-    it 'creates an item with extra html options' do
-      expect(described_class.new(:test_good_menu, '/test', html: { data: 'foo' }))
+    it "creates an item with extra html options" do
+      expect(described_class.new(:test_good_menu, "/test", html: { data: "foo" }))
         .to be_a described_class
     end
 
-    it 'creates an item with a children proc' do
-      expect(described_class.new(:test_good_menu, '/test', children: ->(*) {}))
+    it "creates an item with a children proc" do
+      expect(described_class.new(:test_good_menu, "/test", children: ->(*) {}))
         .to be_a described_class
     end
 
-    it 'fails without a name' do
+    it "fails without a name" do
       expect { described_class.new }
         .to raise_error ArgumentError
     end
 
-    it 'fails without a url' do
+    it "fails without a url" do
       expect { described_class.new(:missing_url) }
         .to raise_error ArgumentError
     end
 
-    it 'fails without an options' do
-      expect { described_class.new(:missing_url, '/test') }
+    it "fails without an options" do
+      expect { described_class.new(:missing_url, "/test") }
         .to raise_error ArgumentError
     end
 
-    it 'fails when setting the parent item to the current item' do
-      expect { described_class.new(:test_error, '/test', parent: :test_error) }
+    it "fails when setting the parent item to the current item" do
+      expect { described_class.new(:test_error, "/test", parent: :test_error) }
         .to raise_error ArgumentError
     end
 
-    it 'fails for an if condition without a proc' do
-      expect { described_class.new(:test_error, '/test', if: ['not_a_proc']) }
+    it "fails for an if condition without a proc" do
+      expect { described_class.new(:test_error, "/test", if: ["not_a_proc"]) }
         .to raise_error ArgumentError
     end
 
-    it 'fails for an html condition without a hash' do
-      expect { described_class.new(:test_error, '/test', html: ['not_a_hash']) }
+    it "fails for an html condition without a hash" do
+      expect { described_class.new(:test_error, "/test", html: ["not_a_hash"]) }
         .to raise_error ArgumentError
     end
 
-    it 'fails for an children optiono without a proc' do
-      expect { described_class.new(:test_error, '/test', children: ['not_a_proc']) }
+    it "fails for an children optiono without a proc" do
+      expect { described_class.new(:test_error, "/test", children: ["not_a_proc"]) }
         .to raise_error ArgumentError
     end
   end

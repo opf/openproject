@@ -26,33 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'OpenIDConnect Providers' do
-  it 'routes to index' do
-    expect(get('/admin/openid_connect/providers')).to route_to('openid_connect/providers#index')
+RSpec.describe "OpenIDConnect Providers" do
+  it "routes to index" do
+    expect(get("/admin/openid_connect/providers")).to route_to("openid_connect/providers#index")
   end
 
-  it 'routes to new' do
-    expect(get('/admin/openid_connect/providers/new')).to route_to('openid_connect/providers#new')
+  it "routes to new" do
+    expect(get("/admin/openid_connect/providers/new")).to route_to("openid_connect/providers#new")
   end
 
-  it 'routes to edit' do
-    expect(get('/admin/openid_connect/providers/azure/edit')).to(
+  it "routes to edit" do
+    expect(get("/admin/openid_connect/providers/azure/edit")).to(
       route_to(
-        controller: 'openid_connect/providers',
-        action: 'edit',
-        id: 'azure'
+        controller: "openid_connect/providers",
+        action: "edit",
+        id: "azure"
       )
     )
   end
 
-  it 'routes to destroy' do
-    expect(delete('/admin/openid_connect/providers/azure')).to(
+  it "routes to destroy" do
+    expect(delete("/admin/openid_connect/providers/azure")).to(
       route_to(
-        controller: 'openid_connect/providers',
-        action: 'destroy',
-        id: 'azure'
+        controller: "openid_connect/providers",
+        action: "destroy",
+        id: "azure"
       )
     )
   end

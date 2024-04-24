@@ -10,7 +10,7 @@ zh-TW:
       login: "%{storageType} login"
       login_to: "Login to %{storageType}"
       no_connection: "No %{storageType} connection"
-      open_storage: "Open %{storageType}"
+      open_storage: "開啟 %{storageType}"
       select_location: "選擇位置"
       choose_location: "選擇位置"
       types:
@@ -27,7 +27,7 @@ zh-TW:
         not_logged_in: >
           To add a link, see or upload files related to this work package, please login to %{storageType}.
       files:
-        already_existing_header: "This file already exists"
+        already_existing_header: "此檔案已存在"
         already_existing_body: >
           A file with the name "%{fileName}" already exists in the location where you are trying to upload this file. What would you like to do?
         directory_not_writeable: "You do not have permission to add files to this folder."
@@ -78,6 +78,6 @@ zh-TW:
         tooltip:
           not_logged_in: "Please log in to the storage to access this file."
           view_not_allowed: "您無權查看此文件。"
-          not_found: "This file cannot be found."
+          not_found: "找不到檔案。"
         already_linked_file: "This file is already linked to this work package."
         already_linked_directory: "This directory is already linked to this work package."

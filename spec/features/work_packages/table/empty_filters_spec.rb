@@ -1,6 +1,6 @@
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Empty query filters', :js do
+RSpec.describe "Empty query filters", :js do
   let(:user) { create(:admin) }
   let(:work_package) { create(:work_package) }
   let(:wp_table) { Pages::WorkPackagesTable.new }
@@ -14,7 +14,7 @@ RSpec.describe 'Empty query filters', :js do
   end
 
   # Tests for regression #23739
-  it 'allows to delete the last query filter' do
+  it "allows to delete the last query filter" do
     # Open filter menu
     filters.expect_filter_count(1)
     filters.open

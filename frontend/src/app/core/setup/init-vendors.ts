@@ -67,6 +67,3 @@ require('@openproject/primer-view-components/app/assets/javascripts/primer_view_
 
 require('expose-loader?URI!urijs');
 require('urijs/src/URITemplate');
-
-// Localization for fullcalendar
-require('@fullcalendar/core/locales-all');

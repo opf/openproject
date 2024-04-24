@@ -45,20 +45,25 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   private
 
   def cause_type_translation(type)
+    mapped_type = mapped_cause_type(type)
+    I18n.t("journals.caused_changes.#{mapped_type}", default: mapped_type)
+  end
+
+  def mapped_cause_type(type)
     case type
-    when 'system_update'
-      I18n.t("journals.caused_changes.system_update")
+    when /changed_times/, "working_days_changed"
+      "dates_changed"
     else
-      I18n.t("journals.caused_changes.dates_changed")
+      type
     end
   end
 
   def cause_description(cause, html)
-    case cause['type']
-    when 'system_update'
+    case cause["type"]
+    when "system_update"
       system_update_message(cause)
-    when 'working_days_changed'
-      working_days_changed_message(cause['changed_days'])
+    when "working_days_changed"
+      working_days_changed_message(cause["changed_days"])
     else
       related_work_package_changed_message(cause, html)
     end
@@ -69,7 +74,7 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   end
 
   def related_work_package_changed_message(cause, html)
-    related_work_package = WorkPackage.includes(:project).visible(User.current).find_by(id: cause['work_package_id'])
+    related_work_package = WorkPackage.includes(:project).visible(User.current).find_by(id: cause["work_package_id"])
 
     if related_work_package
       I18n.t(
@@ -78,19 +83,19 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
       )
 
     else
-      I18n.t('journals.cause_descriptions.unaccessable_work_package_changed')
+      I18n.t("journals.cause_descriptions.unaccessable_work_package_changed")
     end
   end
 
   def working_days_changed_message(changed_dates)
-    day_changes_messages = changed_dates['working_days'].collect do |day, working|
+    day_changes_messages = changed_dates["working_days"].collect do |day, working|
       working_day_change_message(day.to_i, working)
     end
-    date_changes_messages = changed_dates['non_working_days'].collect do |date, working|
+    date_changes_messages = changed_dates["non_working_days"].collect do |date, working|
       working_date_change_message(date, working)
     end
-    I18n.t('journals.cause_descriptions.working_days_changed.changed',
-           changes: (day_changes_messages + date_changes_messages).join(', '))
+    I18n.t("journals.cause_descriptions.working_days_changed.changed",
+           changes: (day_changes_messages + date_changes_messages).join(", "))
   end
 
   def working_day_change_message(day, working)

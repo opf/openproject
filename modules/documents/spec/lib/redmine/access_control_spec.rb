@@ -25,19 +25,19 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require File.dirname(__FILE__) + '/../../spec_helper'
+require File.dirname(__FILE__) + "/../../spec_helper"
 
 RSpec.describe OpenProject::AccessControl do
-  describe 'manage documents permission' do
-    it 'is part of the documents project module' do
+  describe "manage documents permission" do
+    it "is part of the documents project module" do
       permission = OpenProject::AccessControl.permission(:manage_documents)
 
       expect(permission.project_module).to be(:documents)
     end
   end
 
-  describe 'view documents permission' do
-    it 'is part of the documents project module' do
+  describe "view documents permission" do
+    it "is part of the documents project module" do
       permission = OpenProject::AccessControl.permission(:view_documents)
 
       expect(permission.project_module).to be(:documents)

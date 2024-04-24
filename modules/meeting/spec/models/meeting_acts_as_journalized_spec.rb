@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Meeting do
   shared_let (:user) { create(:user) }
@@ -38,59 +38,59 @@ RSpec.describe Meeting do
     end
   end
 
-  describe '#journal' do
-    context 'for meeting creation' do
+  describe "#journal" do
+    context "for meeting creation" do
       it { expect(Journal.for_meeting.count).to eq(1) }
 
-      it 'has a journal entry' do
+      it "has a journal entry" do
         expect(Journal.for_meeting.first.journable).to eq(meeting)
       end
 
-      it 'notes the changes to title' do
+      it "notes the changes to title" do
         expect(meeting.last_journal.details[:title])
           .to contain_exactly(nil, meeting.title)
       end
 
-      it 'notes the changes to project' do
+      it "notes the changes to project" do
         expect(meeting.last_journal.details[:project_id])
           .to contain_exactly(nil, meeting.project_id)
       end
 
-      it 'notes the location' do
+      it "notes the location" do
         expect(meeting.last_journal.details[:location])
           .to contain_exactly(nil, meeting.location)
       end
 
-      it 'notes the start time' do
+      it "notes the start time" do
         expect(meeting.last_journal.details[:start_time])
           .to contain_exactly(nil, meeting.start_time)
       end
 
-      it 'notes the duration' do
+      it "notes the duration" do
         expect(meeting.last_journal.details[:duration])
           .to contain_exactly(nil, meeting.duration)
       end
 
-      it 'has the timestamp of the meeting update time for created_at' do
+      it "has the timestamp of the meeting update time for created_at" do
         expect(meeting.last_journal.created_at)
           .to eql(meeting.reload.updated_at)
       end
 
-      it 'has the updated_at of the meeting as the lower bound for validity_period and no upper bound' do
+      it "has the updated_at of the meeting as the lower bound for validity_period and no upper bound" do
         expect(meeting.last_journal.validity_period)
           .to eql(meeting.reload.updated_at...)
       end
     end
 
-    context 'when nothing is changed' do
+    context "when nothing is changed" do
       it { expect { meeting.save! }.not_to change(Journal, :count) }
 
-      it 'does not update the updated_at time of the work package' do
+      it "does not update the updated_at time of the work package" do
         expect { meeting.save! }.not_to change(meeting, :updated_at)
       end
     end
 
-    describe 'agenda_items' do
+    describe "agenda_items" do
       let(:work_package) { nil }
       let(:agenda_item_attributes) { {} }
       let(:agenda_item) { meeting.agenda_items.first }
@@ -101,32 +101,32 @@ RSpec.describe Meeting do
         meeting.save
       end
 
-      context 'for a new agenda item within aggregation time' do
+      context "for a new agenda item within aggregation time" do
         it { expect(meeting.journals.count).to eq(1) }
         it { expect(agenda_item_journals.count).to eq(1) }
 
         it {
           expect(agenda_item_journals.last).to have_attributes agenda_item.attributes.slice(
-            'author_id', 'title', 'notes', 'position', 'duration_in_minutes',
-            'start_time', 'end_time', 'work_package_id', 'item_type'
+            "author_id", "title", "notes", "position", "duration_in_minutes",
+            "start_time", "end_time", "work_package_id", "item_type"
           )
         }
       end
 
-      context 'for a new agenda item outside aggregation time', with_settings: { journal_aggregation_time_minutes: 0 } do
+      context "for a new agenda item outside aggregation time", with_settings: { journal_aggregation_time_minutes: 0 } do
         it { expect(meeting.journals.count).to eq(2) }
         it { expect(meeting.journals.first.agenda_item_journals).to be_empty }
         it { expect(agenda_item_journals.count).to eq(1) }
 
         it {
           expect(agenda_item_journals.last).to have_attributes agenda_item.attributes.slice(
-            'author_id', 'title', 'notes', 'position', 'duration_in_minutes',
-            'start_time', 'end_time', 'work_package_id', 'item_type'
+            "author_id", "title", "notes", "position", "duration_in_minutes",
+            "start_time", "end_time", "work_package_id", "item_type"
           )
         }
       end
 
-      context 'when agenda item saved w/o change' do
+      context "when agenda item saved w/o change" do
         it {
           expect do
             agenda_item.save
@@ -136,21 +136,21 @@ RSpec.describe Meeting do
       end
 
       Journal::MeetingAgendaItemJournal.columns_hash.slice(
-        'notes', 'position', 'duration_in_minutes', 'work_package_id', 'item_type'
+        "notes", "position", "duration_in_minutes", "work_package_id", "item_type"
       ).each do |column_name, column_info|
         column_value =
-          if column_name == 'item_type' then 'work_package'
+          if column_name == "item_type" then "work_package"
           elsif column_info.type == :integer then 11
-          else 'A string'
+          else "A string"
           end
 
-        if column_name == 'item_type'
+        if column_name == "item_type"
           # When testing the work_package item_type, a work_package is required.
           let(:work_package) { create(:work_package) }
         end
 
-        context 'when updating an agenda_item within the aggregation time' do
-          shared_examples 'it updates the existing journals' do
+        context "when updating an agenda_item within the aggregation time" do
+          shared_examples "it updates the existing journals" do
             subject(:update_agenda_item) do
               agenda_item.update(column_name => updated_value)
               meeting.save_journals
@@ -158,7 +158,7 @@ RSpec.describe Meeting do
 
             it { expect { update_agenda_item }.not_to change(Journal, :count) }
 
-            it 'updates the agenda item journal' do
+            it "updates the agenda item journal" do
               expect { update_agenda_item }
                  .to change { agenda_item_journals.last.send(column_name) }
                  .to(updated_value)
@@ -166,7 +166,7 @@ RSpec.describe Meeting do
           end
 
           describe "setting a value for the #{column_name} column" do
-            it_behaves_like 'it updates the existing journals' do
+            it_behaves_like "it updates the existing journals" do
               let(:updated_value) { column_value }
             end
           end
@@ -174,15 +174,15 @@ RSpec.describe Meeting do
           describe "unsetting a value for the #{column_name} column" do
             let(:agenda_item_attributes) { { column_name => column_value } }
 
-            it_behaves_like 'it updates the existing journals' do
+            it_behaves_like "it updates the existing journals" do
               let(:updated_value) { nil }
             end
           end
         end
 
-        context 'when updating an agenda_item outside the aggregation time',
+        context "when updating an agenda_item outside the aggregation time",
                 with_settings: { journal_aggregation_time_minutes: 0 } do
-          shared_examples 'creates a new journal and keeps old journal intact' do
+          shared_examples "creates a new journal and keeps old journal intact" do
             subject(:update_agenda_item) do
               agenda_item.update(column_name => updated_value)
               meeting.save_journals
@@ -192,13 +192,13 @@ RSpec.describe Meeting do
             it { expect { update_agenda_item }.to change(Journal::MeetingJournal, :count).by(1) }
             it { expect { update_agenda_item }.to change(Journal::MeetingAgendaItemJournal, :count).by(1) }
 
-            it 'does not update the previous agenda item journal' do
+            it "does not update the previous agenda item journal" do
               previous_journal_agenda_items = agenda_item_journals
               expect { update_agenda_item }
                 .not_to change { previous_journal_agenda_items.reload }
             end
 
-            it 'updates the new agenda item journal' do
+            it "updates the new agenda item journal" do
               expect { update_agenda_item }
                 .to change { Journal::MeetingAgendaItemJournal.last.send(column_name) }
                 .to(updated_value)
@@ -206,7 +206,7 @@ RSpec.describe Meeting do
           end
 
           describe "setting a value for the #{column_name} column" do
-            it_behaves_like 'creates a new journal and keeps old journal intact' do
+            it_behaves_like "creates a new journal and keeps old journal intact" do
               let(:updated_value) { column_value }
             end
           end
@@ -214,14 +214,14 @@ RSpec.describe Meeting do
           describe "unsetting a value for the #{column_name} column" do
             let(:agenda_item_attributes) { { column_name => column_value } }
 
-            it_behaves_like 'creates a new journal and keeps old journal intact' do
+            it_behaves_like "creates a new journal and keeps old journal intact" do
               let(:updated_value) { nil }
             end
           end
         end
       end
 
-      context 'for a removed agenda_item within aggregation time' do
+      context "for a removed agenda_item within aggregation time" do
         subject(:remove_agenda_item) do
           agenda_item.destroy
           meeting.save_journals
@@ -237,7 +237,7 @@ RSpec.describe Meeting do
         }
       end
 
-      context 'for a removed agenda_item outside aggregation time', with_settings: { journal_aggregation_time_minutes: 0 } do
+      context "for a removed agenda_item outside aggregation time", with_settings: { journal_aggregation_time_minutes: 0 } do
         let(:agenda_item_journals) { meeting.journals.second.agenda_item_journals }
 
         subject(:remove_agenda_item) do
@@ -265,12 +265,12 @@ RSpec.describe Meeting do
         it {
           remove_agenda_item
           expect(agenda_item_journals.last).to have_attributes agenda_item.attributes.slice(
-            'author_id', 'title', 'notes', 'position', 'duration_in_minutes',
-            'start_time', 'end_time', 'work_package_id'
+            "author_id", "title", "notes", "position", "duration_in_minutes",
+            "start_time", "end_time", "work_package_id"
           )
         }
 
-        it 'removes the agenda_item_journals from the new journal' do
+        it "removes the agenda_item_journals from the new journal" do
           remove_agenda_item
           expect(meeting.journals.last.agenda_item_journals).to be_empty
         end
@@ -278,7 +278,7 @@ RSpec.describe Meeting do
     end
   end
 
-  describe '#destroy' do
+  describe "#destroy" do
     before do
       meeting.agenda_items << create(:meeting_agenda_item)
       meeting.save
@@ -289,21 +289,21 @@ RSpec.describe Meeting do
 
     subject { meeting.destroy }
 
-    it 'removes the journal' do
+    it "removes the journal" do
       expect { subject }
         .to change { Journal.exists?(journal.id) }
         .from(true)
         .to(false)
     end
 
-    it 'removes the journal data' do
+    it "removes the journal data" do
       expect { subject }
         .to change { Journal::MeetingJournal.exists?(id: journal.data_id) }
         .from(true)
         .to(false)
     end
 
-    it 'removes the meeting agenda items journals' do
+    it "removes the meeting agenda items journals" do
       expect { subject }
         .to change {
           Journal::MeetingAgendaItemJournal.where(id: agenda_item_journals.map(&:id)).count

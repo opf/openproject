@@ -12,6 +12,8 @@ uk:
       remove_assignee: 'Вилучити виконавця'
       two_weeks: '2 тижні'
       one_week: '1 тиждень'
+      four_weeks: '4 тижні'
+      eight_weeks: '8 тижнів'
       work_week: 'Робочий тиждень'
       today: 'Сьогодні'
       drag_here_to_remove: 'Перетягніть сюди, щоб вилучити виконавця, а також дати початку й закінчення.'

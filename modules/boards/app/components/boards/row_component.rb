@@ -45,9 +45,9 @@ module Boards
     def type
       case model.board_type
       when :action
-        t('boards.board_types.action', attribute: t(model.board_type_attribute, scope: 'boards.board_type_attributes'))
+        t("boards.board_types.action", attribute: t(model.board_type_attribute, scope: "boards.board_type_attributes"))
       else
-        t('boards.board_types.free')
+        t("boards.board_types.free")
       end
     end
 
@@ -58,13 +58,13 @@ module Boards
     def delete_link
       if render_delete_link?
         link_to(
-          '',
+          "",
           work_package_board_path(model),
           method: :delete,
-          class: 'icon icon-delete',
+          class: "icon icon-delete",
           data: {
             confirm: I18n.t(:text_are_you_sure),
-            'test-selector': "board-remove-#{model.id}"
+            "test-selector": "board-remove-#{model.id}"
           },
           title: t(:button_delete)
         )

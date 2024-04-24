@@ -88,13 +88,13 @@ module TwoFactorAuthentication
     ##
     # Perform service checks for the request and validate endpoints of this service
     def verify_device_and_strategy
-      raise I18n.t('two_factor_authentication.error_2fa_disabled') unless manager.enabled?
+      raise I18n.t("two_factor_authentication.error_2fa_disabled") unless manager.enabled?
 
       # Ensure the user's default device for OTP exists
-      raise I18n.t('two_factor_authentication.error_no_device') if device.nil?
+      raise I18n.t("two_factor_authentication.error_no_device") if device.nil?
 
       # Ensure a matching registered strategy for the device's channel exists
-      raise I18n.t('two_factor_authentication.error_no_matching_strategy') if strategy.nil?
+      raise I18n.t("two_factor_authentication.error_no_matching_strategy") if strategy.nil?
     end
 
     def manager

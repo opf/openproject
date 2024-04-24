@@ -32,7 +32,7 @@ module TableHelpers
   class TableParser
     def parse(representation)
       headers, *rows = representation.split("\n")
-      headers = headers.split('|')
+      headers = headers.split("|")
       rows = rows.filter_map { |row| parse_row(row, headers) }
       work_packages_data = rows.map.with_index do |row, index|
         {
@@ -52,10 +52,10 @@ module TableHelpers
 
     def parse_row(row, headers)
       case row
-      when '', /^\s*#/
+      when "", /^\s*#/
         # noop
       else
-        values = row.split('|')
+        values = row.split("|")
         headers.zip(values).to_h.compact_blank
       end
     end

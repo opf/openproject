@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQuery, :webmock do
@@ -42,12 +42,12 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQu
 
   subject { described_class.new(storage) }
 
-  describe '#call' do
+  describe "#call" do
     let(:file_ids) { %w[182 203 222] }
 
-    context 'without outbound request involved' do
-      context 'with an empty array of file ids' do
-        it 'returns an empty array' do
+    context "without outbound request involved" do
+      context "with an empty array of file ids" do
+        it "returns an empty array" do
           result = subject.call(user:, file_ids: [])
 
           expect(result).to be_success
@@ -55,8 +55,8 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQu
         end
       end
 
-      context 'with nil' do
-        it 'returns an error' do
+      context "with nil" do
+        it "returns an error" do
           result = subject.call(user:, file_ids: nil)
 
           expect(result).to be_failure
@@ -65,10 +65,10 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQu
       end
     end
 
-    context 'with outbound request successful',
-            vcr: 'nextcloud/files_info_query_success' do
-      context 'with an array of file ids' do
-        it 'must return an array of file information when called' do
+    context "with outbound request successful",
+            vcr: "nextcloud/files_info_query_success" do
+      context "with an array of file ids" do
+        it "must return an array of file information when called" do
           result = subject.call(user:, file_ids:)
           expect(result).to be_success
 
@@ -83,9 +83,9 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQu
       end
     end
 
-    context 'with outbound request not authorized',
-            vcr: 'nextcloud/files_info_query_unauthorized' do
-      context 'with an array of file ids' do
+    context "with outbound request not authorized",
+            vcr: "nextcloud/files_info_query_unauthorized" do
+      context "with an array of file ids" do
         before do
           token = build_stubbed(:oauth_client_token, oauth_client: storage.oauth_client)
           allow(Storages::Peripherals::StorageInteraction::Nextcloud::Util)
@@ -93,7 +93,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQu
             .and_yield(token)
         end
 
-        it 'must return an error when called' do
+        it "must return an error when called" do
           subject.call(user:, file_ids:).match(
             on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" },
             on_failure: ->(error) { expect(error.code).to eq(:unauthorized) }
@@ -102,16 +102,16 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQu
       end
     end
 
-    context 'with outbound request not found' do
-      context 'with a single file id',
-              vcr: 'nextcloud/files_info_query_not_found' do
+    context "with outbound request not found" do
+      context "with a single file id",
+              vcr: "nextcloud/files_info_query_not_found" do
         let(:file_ids) { %w[1234] }
 
-        it 'returns an HTTP 200 with individual status code per file ID' do
+        it "returns an HTTP 200 with individual status code per file ID" do
           subject.call(user:, file_ids:).match(
             on_success: ->(file_infos) do
               expect(file_infos.size).to eq(1)
-              expect(file_infos.first.to_h).to include(status: 'Not Found', status_code: 404)
+              expect(file_infos.first.to_h).to include(status: "Not Found", status_code: 404)
             end,
             on_failure: ->(error) { fail "Expected success, got #{error}" }
           )
@@ -119,12 +119,12 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQu
       end
     end
 
-    context 'with outbound request not authorized' do
-      context 'with multiple file IDs, one of which is not authorized',
-              vcr: 'nextcloud/files_info_query_only_one_not_authorized' do
+    context "with outbound request not authorized" do
+      context "with multiple file IDs, one of which is not authorized",
+              vcr: "nextcloud/files_info_query_only_one_not_authorized" do
         let(:file_ids) { %w[182 1234] }
 
-        it 'returns an HTTP 200 with individual status code per file ID' do
+        it "returns an HTTP 200 with individual status code per file ID" do
           subject.call(user:, file_ids:).match(
             on_success: ->(file_infos) do
               expect(file_infos.size).to eq(2)

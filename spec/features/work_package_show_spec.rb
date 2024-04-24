@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Work package show page', :selenium do
+RSpec.describe "Work package show page", :selenium do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:work_package) do
@@ -43,7 +43,7 @@ RSpec.describe 'Work package show page', :selenium do
     work_package.save!
   end
 
-  it 'all different angular based work package views', :js do
+  it "all different angular based work package views", :js do
     wp_page = Pages::FullWorkPackage.new(work_package)
 
     wp_page.visit!

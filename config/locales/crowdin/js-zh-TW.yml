@@ -230,7 +230,7 @@ zh-TW:
           session_timeout: "Your session timed out. Please try to reload the page or resend email."
           status_label: "狀態："
           status_confirmed: "已確認"
-          status_waiting: "email sent - waiting for confirmation"
+          status_waiting: "電子郵件已寄發-等待確認"
           test_ee: "免費體驗企業版 14 天"
           quick_overview: "用 OpenProject 企業版，快速瞭解項目管理和團隊協作的概況。"
         upsale:
@@ -262,7 +262,7 @@ zh-TW:
       working_days:
         calendar:
           empty_state_header: "非工作日"
-          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
+          empty_state_description: '尚未設定非工作日。點擊下面的“+ 非工作日”新增非工作日期。'
           new_date: "（新）"
         add_non_working_day: "非工作日"
         already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
@@ -351,10 +351,10 @@ zh-TW:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Admins are nudged to go through OAuth flow when activating a storage</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to calendar"
-      inital_setup_error_message: "An error occured while fetching data."
+      title: "訂閱日曆"
+      inital_setup_error_message: "更新資料時發生錯誤"
       description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
       warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
       token_name_label: "Where will you be using this?"
@@ -368,8 +368,8 @@ zh-TW:
     label_add_column_after: "在後面增加一欄"
     label_add_column_before: "在前面增加一欄"
     label_add_columns: "增加欄"
-    label_add_comment: "新增評論"
-    label_add_comment_title: "點此發表意見，可輸入「 @使用者」，系統立即發郵件通知該成員"
+    label_add_comment: "新增留言"
+    label_add_comment_title: "點此留言，可輸入「 @使用者」，系統立即發郵件通知該成員"
     label_add_row_after: "在後面增加一列"
     label_add_row_before: "在前面增加一列"
     label_add_selected_columns: "新增所選欄"
@@ -403,12 +403,12 @@ zh-TW:
     label_collapse: "折疊"
     label_collapsed: "已收合"
     label_collapse_all: "全部摺疊"
-    label_comment: "評論"
+    label_comment: "留言"
     label_committed_at: "在 %{date} %{committed_revision_link}"
     label_committed_link: "上傳修訂的 %{revision_identifier}"
     label_contains: "包含"
     label_created_on: "建立於"
-    label_edit_comment: "編輯此評論"
+    label_edit_comment: "編輯此留言"
     label_edit_status: "修改工作項目的狀態"
     label_email: "電子郵件"
     label_equals: "是"
@@ -472,7 +472,7 @@ zh-TW:
     label_project_list: "列出專案"
     label_project_plural: "專案"
     label_visibility_settings: "可見度設定"
-    label_quote_comment: "引述這個評論"
+    label_quote_comment: "引述這個留言"
     label_recent: "最近"
     label_reset: "重置"
     label_remove: "刪除"
@@ -482,7 +482,7 @@ zh-TW:
     label_report: "報表"
     label_repository_plural: "版本庫"
     label_save_as: "保存為"
-    label_search_columns: "Search a column"
+    label_search_columns: "選取欄位"
     label_select_project: "選擇專案"
     label_select_watcher: "選擇監看者"
     label_selected_filter_list: "所選的篩選條件"
@@ -506,7 +506,7 @@ zh-TW:
     label_time_entry_plural: "耗時"
     label_up: "向上"
     label_user_plural: "使用者"
-    label_activity_show_only_comments: "只顯示活動和其評論"
+    label_activity_show_only_comments: "只顯示活動與留言"
     label_activity_show_all: "顯示所有的活動"
     label_total_progress: "%{percent}%總進度"
     label_total_amount: "總計: %{amount}"
@@ -515,7 +515,7 @@ zh-TW:
     label_children_derived_duration: "Work package's children derived duration"
     label_warning: "警告"
     label_work_package: "工作項目"
-    label_work_package_parent: "Parent work package"
+    label_work_package_parent: "主工作項目"
     label_work_package_plural: "工作項目"
     label_watch: "監看"
     label_watch_work_package: "關注工作項目"
@@ -602,7 +602,7 @@ zh-TW:
         responsible: "負責人"
         created: "已建立"
         scheduled: "已排程"
-        commented: "已評論"
+        commented: "已留言"
         processed: "已處理"
         prioritized: "優先"
         dateAlert: "日期提醒"
@@ -662,7 +662,7 @@ zh-TW:
               PT0S: 當日
               P1D: 一天前
               P3D: 3 天前
-              P7D: a week before
+              P7D: 1 週前
             overdue:
               P1D: 每天
               P3D: 每 3 天
@@ -675,7 +675,7 @@ zh-TW:
           responsible: "負責人"
           shared: "共享"
           watched: "監看者\n"
-          work_package_commented: "有新評論"
+          work_package_commented: "有新留言"
           work_package_created: "新增工作項目"
           work_package_processed: "所有狀態改變"
           work_package_prioritized: "優先順序已變更"
@@ -720,7 +720,7 @@ zh-TW:
       click_to_switch_to_project: "Project: %{projectname}"
       confirm_template_load: "Switching the template will reload the page and you will lose all input to this form. Continue?"
       use_template: "使用範本"
-      no_template_selected: "(None)"
+      no_template_selected: "(無)"
       copy:
         copy_options: "Copy options"
       autocompleter:
@@ -744,7 +744,7 @@ zh-TW:
           explanation: >
             Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
           news_added: "已新增最新消息"
-          news_commented: "最新消息有評論"
+          news_commented: "最新消息有留言"
           document_added: "文件已新增"
           forum_messages: "有新的討論區訊息"
           wiki_page_added: "維基頁面已新增"
@@ -892,7 +892,7 @@ zh-TW:
         delete: "整批刪除"
       button_clear: "清除"
       comment_added: "成功發表意見。"
-      comment_send_failed: "發生錯誤。無法提交評論。"
+      comment_send_failed: "發生錯誤。無法留言。"
       comment_updated: "注釋已成功更新。"
       confirm_edit_cancel: "是否確定取消編輯中的工作項目"
       datepicker_modal:
@@ -922,7 +922,7 @@ zh-TW:
       message_view_spent_time: "顯示這個工作項目所花費的時間"
       message_work_package_read_only: "工作項目被鎖定在此狀態。任何屬性以外的狀態都不能更改。"
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      placeholder_filter_by_text: "主旨, 描述, 評論 ..."
+      placeholder_filter_by_text: "主旨, 描述, 留言 ..."
       baseline:
         addition_label: "Added to view within the comparison time period"
         removal_label: "Removed from view within the comparison time period"
@@ -997,7 +997,7 @@ zh-TW:
         assigned_to_me: "分配給我"
         recently_created: "最近創建的"
         all_open: "所有「進行中」工作"
-        summary: "大綱"
+        summary: "總覽"
         shared_with_users: "分配給成員"
         shared_with_me: "分享給我的"
       jump_marks:
@@ -1038,9 +1038,9 @@ zh-TW:
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
         share: "分享"
-        title: "Share work package"
+        title: "分享工作項目"
         show_all_users: "顯示所有使用者"
-        selected_count: "%{count} selected"
+        selected_count: "已選取 %{count} 個"
         selection:
           mixed: "Mixed"
         upsale:
@@ -1097,7 +1097,7 @@ zh-TW:
         months: "月"
     toolbar:
       settings:
-        configure_view: "Configure view"
+        configure_view: "版面設定"
         columns: "欄"
         sort_by: "排序方式"
         group_by: "分組依據"
@@ -1109,7 +1109,7 @@ zh-TW:
         save_as: "保存為"
         export: "匯出"
         visibility_settings: "可見度設定"
-        share_calendar: "Subscribe to calendar"
+        share_calendar: "訂閱日曆"
         page_settings: "重新命名版面"
         delete: "删除"
       filter: "篩選條件"
@@ -1230,7 +1230,7 @@ zh-TW:
           description_no_ee: '由於沒有存取專案權限，所以不會發送電子郵件。<br>請查看<a href="%{eeHref}" target="_blank">企業版</a>。'
       principal:
         label:
-          name_or_email: "Name or email address"
+          name_or_email: "名稱或電子郵件地址"
           name: "名稱"
         already_member_message: "已是「 %{project} 」成員"
         no_results_user: "找不到使用者。"
@@ -1286,7 +1286,7 @@ zh-TW:
       show_changes_since: "顯示差異"
       baseline_comparison: "基準日比較"
       help_description: "Reference time zone for the baseline."
-      time_description: "In your local time: %{datetime}"
+      time_description: "當地時間： %{datetime}"
       time: "時間"
       from: "寄件者"
       to: "到"

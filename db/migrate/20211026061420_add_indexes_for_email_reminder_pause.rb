@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'migration_utils/utils'
+require_relative "migration_utils/utils"
 
 class AddIndexesForEmailReminderPause < ActiveRecord::Migration[6.1]
   include ::Migration::Utils

@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Users::ChangePasswordService do
   let(:user) do
@@ -33,8 +33,8 @@ RSpec.describe Users::ChangePasswordService do
            password: old_password,
            password_confirmation: old_password)
   end
-  let(:old_password) { 'AdminAdmin42' }
-  let(:new_password) { 'SoreThroat33' }
+  let(:old_password) { "AdminAdmin42" }
+  let(:new_password) { "SoreThroat33" }
   let(:session) { ActionController::TestSession.new }
   let(:instance) { described_class.new current_user: user, session: }
 
@@ -42,7 +42,7 @@ RSpec.describe Users::ChangePasswordService do
     instance.call new_password:, new_password_confirmation: new_password
   end
 
-  it 'is successful' do
+  it "is successful" do
     expect(result).to be_success
   end
 
@@ -52,9 +52,9 @@ RSpec.describe Users::ChangePasswordService do
     expect(user.check_password?(new_password)).to be true
   end
 
-  describe 'activating the user' do
+  describe "activating the user" do
     context 'when the user is "invited"' do
-      it 'activates the user' do
+      it "activates the user" do
         result
         expect(user).to be_active
       end
@@ -67,26 +67,26 @@ RSpec.describe Users::ChangePasswordService do
                password_confirmation: old_password)
       end
 
-      it 'does not activate the user' do
+      it "does not activate the user" do
         result
         expect(user).not_to be_active
       end
     end
   end
 
-  context 'with existing invitation tokens' do
+  context "with existing invitation tokens" do
     let!(:invitation_token) { create(:invitation_token, user:) }
 
-    it 'invalidates the existing token' do
+    it "invalidates the existing token" do
       expect(result).to be_success
       expect(Token::Invitation.where(user:)).to be_empty
     end
   end
 
-  context 'with existing password recovery tokens' do
+  context "with existing password recovery tokens" do
     let!(:recovery_token) { create(:recovery_token, user:) }
 
-    it 'invalidates the existing tokens' do
+    it "invalidates the existing tokens" do
       expect(result).to be_success
       expect(Token::Recovery.where(user:)).to be_empty
     end

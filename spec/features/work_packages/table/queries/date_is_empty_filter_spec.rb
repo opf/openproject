@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe 'Filter by date with "is empty"', :js, :with_cuprite do
   let(:user) { create(:admin) }
@@ -62,7 +62,7 @@ RSpec.describe 'Filter by date with "is empty"', :js, :with_cuprite do
 
   let(:custom_field_date) do
     create(:date_wp_custom_field,
-           name: 'Date CF',
+           name: "Date CF",
            is_filter: true,
            searchable: true) do |custom_field|
       project.work_package_custom_fields << custom_field
@@ -79,7 +79,7 @@ RSpec.describe 'Filter by date with "is empty"', :js, :with_cuprite do
     wp_table.expect_work_package_listed work_package_without_dates, work_package_with_start_date, work_package_with_custom_date
 
     filters.open
-    filters.remove_filter('status')
+    filters.remove_filter("status")
   end
 
   before do
@@ -93,19 +93,19 @@ RSpec.describe 'Filter by date with "is empty"', :js, :with_cuprite do
     wp_table.visit!
   end
 
-  it 'works as intended for regular fields' do
+  it "works as intended for regular fields" do
     remove_default
 
-    filters.add_filter_by('Start date', 'is empty', nil, 'startDate')
+    filters.add_filter_by("Start date", "is empty", nil, "startDate")
 
     wp_table.expect_work_package_listed work_package_without_dates
     wp_table.ensure_work_package_not_listed! work_package_with_start_date
   end
 
-  it 'works as intended for custom fields' do
+  it "works as intended for custom fields" do
     remove_default
 
-    filters.add_filter_by('Date CF', 'is empty', nil, "customField#{custom_field_date.id}")
+    filters.add_filter_by("Date CF", "is empty", nil, "customField#{custom_field_date.id}")
 
     wp_table.expect_work_package_listed work_package_without_dates
     wp_table.ensure_work_package_not_listed! work_package_with_custom_date

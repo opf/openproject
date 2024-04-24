@@ -68,7 +68,7 @@ class CopyProjectJob < ApplicationJob
     end
   rescue StandardError => e
     logger.error { "Failed to finish copy project job: #{e} #{e.message}" }
-    errors = [I18n.t('copy_project.failed_internal')]
+    errors = [I18n.t("copy_project.failed_internal")]
     failure_status_update
     ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_later
   end
@@ -98,12 +98,12 @@ class CopyProjectJob < ApplicationJob
     end
 
     upsert_status status: :success,
-                  message: I18n.t('copy_project.succeeded', target_project_name: target_project.name),
+                  message: I18n.t("copy_project.succeeded", target_project_name: target_project.name),
                   payload:
   end
 
   def failure_status_update
-    message = I18n.t('copy_project.failed', source_project_name: source_project.name)
+    message = I18n.t("copy_project.failed", source_project_name: source_project.name)
 
     if errors
       message << ": #{errors.join("\n")}"
@@ -150,11 +150,11 @@ class CopyProjectJob < ApplicationJob
   rescue ActiveRecord::RecordNotFound => e
     logger.error("Entity missing: #{e.message} #{e.backtrace.join("\n")}")
   rescue StandardError => e
-    logger.error('Encountered an error when trying to copy project ' \
+    logger.error("Encountered an error when trying to copy project " \
                  "'#{source_project_id}' : #{e.message} #{e.backtrace.join("\n")}")
   ensure
     unless errors.empty?
-      logger.error('Encountered an errors while trying to copy related objects for ' \
+      logger.error("Encountered an errors while trying to copy related objects for " \
                    "project '#{source_project_id}': #{errors.inspect}")
     end
   end

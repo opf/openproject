@@ -23,4 +23,4 @@ uk:
   js:
     two_factor_authentication:
       errors:
-        aborted: "The authentication was cancelled. Please try again."
+        aborted: "Автентифікацію скасовано. Повторіть спробу."

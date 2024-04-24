@@ -52,7 +52,7 @@ module Storages
     end
 
     def uri
-      @uri ||= URI('https://graph.microsoft.com').normalize
+      @uri ||= URI("https://graph.microsoft.com").normalize
     end
 
     def connect_src

@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-namespace 'openproject:cron' do
-  desc 'Ensure the cron-like background jobs are properly unscheduled if needed'
+namespace "openproject:cron" do
+  desc "Ensure the cron-like background jobs are properly unscheduled if needed"
   task schedule: [:environment] do
     Storages::ManageNextcloudIntegrationJob.disable_cron_job_if_needed
   end

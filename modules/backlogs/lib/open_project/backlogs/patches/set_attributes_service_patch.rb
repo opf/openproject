@@ -72,8 +72,8 @@ module OpenProject::Backlogs::Patches::SetAttributesServicePatch
         ancestors = real_parent
                     .ancestors
                     .includes(project: :enabled_modules)
-                    .order_by_ancestors('desc')
-                    .select('work_packages.*, COALESCE(max_depth.depth, 0)')
+                    .order_by_ancestors("desc")
+                    .select("work_packages.*, COALESCE(max_depth.depth, 0)")
 
         ancestors = [real_parent] + ancestors
       end

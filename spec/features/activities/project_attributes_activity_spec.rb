@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Project attributes activity', :js, :with_cuprite do
+RSpec.describe "Project attributes activity", :js, :with_cuprite do
   let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
-  let(:parent_project) { create(:project, name: 'parent') }
+  let(:parent_project) { create(:project, name: "parent") }
   let(:project) { create(:project, parent: parent_project, active: false) }
 
   let!(:list_project_custom_field) { create(:list_project_custom_field) }
@@ -43,20 +43,20 @@ RSpec.describe 'Project attributes activity', :js, :with_cuprite do
   let!(:string_project_custom_field) { create(:string_project_custom_field) }
   let!(:date_project_custom_field) { create(:date_project_custom_field) }
 
-  let(:old_version) { create(:version, project:, name: 'Ringbo 1.0') }
-  let(:next_version) { create(:version, project:, name: 'Turfu 2.0') }
+  let(:old_version) { create(:version, project:, name: "Ringbo 1.0") }
+  let(:next_version) { create(:version, project:, name: "Turfu 2.0") }
 
   current_user { user }
 
   def generate_trackable_activity_on_project
     new_project_attributes = {
-      name: 'a new project name',
-      description: 'a new project description',
-      status_code: 'on_track',
-      status_explanation: 'some explanation',
+      name: "a new project name",
+      description: "a new project description",
+      status_code: "on_track",
+      status_explanation: "some explanation",
       public: true,
       parent: nil,
-      identifier: 'a-new-project-name',
+      identifier: "a-new-project-name",
       active: true,
       templated: true,
       list_project_custom_field.attribute_name => list_project_custom_field.possible_values.first.id,
@@ -65,8 +65,8 @@ RSpec.describe 'Project attributes activity', :js, :with_cuprite do
       user_project_custom_field.attribute_name => current_user.id,
       int_project_custom_field.attribute_name => 42,
       float_project_custom_field.attribute_name => 3.14159,
-      text_project_custom_field.attribute_name => 'a new text CF value',
-      string_project_custom_field.attribute_name => 'a new string CF value',
+      text_project_custom_field.attribute_name => "a new text CF value",
+      string_project_custom_field.attribute_name => "a new string CF value",
       date_project_custom_field.attribute_name => Date.new(2023, 1, 31)
     }
 
@@ -79,38 +79,38 @@ RSpec.describe 'Project attributes activity', :js, :with_cuprite do
 
     visit project_activity_index_path(project)
 
-    check 'Project attributes'
+    check "Project attributes"
 
-    click_button 'Apply'
+    click_button "Apply"
 
     within("li.op-activity-list--item", match: :first) do
       expect(page)
         .to have_link("Project: #{project.name}")
 
       # own fields
-      expect(page).to have_css('li', text: "Name changed from #{previous_project_attributes['name']} to #{project.name}")
-      expect(page).to have_css('li', text: 'Description set (Details)')
-      expect(page).to have_css('li', text: "Project status set to On track")
-      expect(page).to have_css('li', text: 'Project status description set (Details)')
-      expect(page).to have_css('li', text: 'Visibility set to public')
-      expect(page).to have_css('li', text: "No longer subproject of #{parent_project.name}")
-      expect(page).to have_css('li', text: 'Project unarchived')
-      expect(page).to have_css('li', text: "Identifier changed from #{previous_project_attributes['identifier']} " \
+      expect(page).to have_css("li", text: "Name changed from #{previous_project_attributes['name']} to #{project.name}")
+      expect(page).to have_css("li", text: "Description set (Details)")
+      expect(page).to have_css("li", text: "Project status set to On track")
+      expect(page).to have_css("li", text: "Project status description set (Details)")
+      expect(page).to have_css("li", text: "Visibility set to public")
+      expect(page).to have_css("li", text: "No longer subproject of #{parent_project.name}")
+      expect(page).to have_css("li", text: "Project unarchived")
+      expect(page).to have_css("li", text: "Identifier changed from #{previous_project_attributes['identifier']} " \
                                            "to #{project.identifier}")
-      expect(page).to have_css('li', text: 'Project marked as template')
+      expect(page).to have_css("li", text: "Project marked as template")
 
       # custom fields
-      expect(page).to have_css('li', text: "#{list_project_custom_field.name} " \
+      expect(page).to have_css("li", text: "#{list_project_custom_field.name} " \
                                            "set to #{project.send(list_project_custom_field.attribute_getter)}")
-      expect(page).to have_css('li', text: "#{version_project_custom_field.name} " \
+      expect(page).to have_css("li", text: "#{version_project_custom_field.name} " \
                                            "set to #{old_version.name}, #{next_version.name}")
-      expect(page).to have_css('li', text: "#{bool_project_custom_field.name} set to Yes")
-      expect(page).to have_css('li', text: "#{user_project_custom_field.name} set to #{current_user.name}")
-      expect(page).to have_css('li', text: "#{int_project_custom_field.name} set to 42")
-      expect(page).to have_css('li', text: "#{float_project_custom_field.name} set to 3.14159")
-      expect(page).to have_css('li', text: "#{text_project_custom_field.name} set to\na new text CF value")
-      expect(page).to have_css('li', text: "#{string_project_custom_field.name} set to a new string CF value")
-      expect(page).to have_css('li', text: "#{date_project_custom_field.name} set to 01/31/2023")
+      expect(page).to have_css("li", text: "#{bool_project_custom_field.name} set to Yes")
+      expect(page).to have_css("li", text: "#{user_project_custom_field.name} set to #{current_user.name}")
+      expect(page).to have_css("li", text: "#{int_project_custom_field.name} set to 42")
+      expect(page).to have_css("li", text: "#{float_project_custom_field.name} set to 3.14159")
+      expect(page).to have_css("li", text: "#{text_project_custom_field.name} set to\na new text CF value")
+      expect(page).to have_css("li", text: "#{string_project_custom_field.name} set to a new string CF value")
+      expect(page).to have_css("li", text: "#{date_project_custom_field.name} set to 01/31/2023")
     end
   end
 end

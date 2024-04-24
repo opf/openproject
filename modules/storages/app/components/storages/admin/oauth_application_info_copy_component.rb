@@ -44,10 +44,10 @@ module Storages::Admin
       render(
         Primer::Beta::Link.new(
           href: Storages::Peripherals::StorageInteraction::Nextcloud::Util.join_uri_path(storage.host,
-                                                                                         'settings/admin/openproject'),
-          target: '_blank'
+                                                                                         "settings/admin/openproject"),
+          target: "_blank"
         )
-      ) { I18n.t('storages.instructions.oauth_application_details_link_text') }
+      ) { I18n.t("storages.instructions.oauth_application_details_link_text") }
     end
 
     def submit_button_options

@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
 RSpec.describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI do
   include API::V3::Utilities::PathHelper
@@ -43,7 +43,7 @@ RSpec.describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI do
            member_with_roles: { project => add_role })
   end
 
-  context 'with a type filter present' do
+  context "with a type filter present" do
     let(:type) { create(:type) }
     let(:type_id) { type.id }
     let(:project_with_type) { create(:project, types: [type]) }
@@ -56,36 +56,36 @@ RSpec.describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI do
       project_with_type
       member
 
-      params = [type_id: { operator: '=', values: [type_id] }]
+      params = [type_id: { operator: "=", values: [type_id] }]
       escaped = CGI.escape(JSON.dump(params))
 
       get "#{api_v3_paths.available_projects_on_create}?filters=#{escaped}"
     end
 
-    it_behaves_like 'API V3 collection response', 1, 1, 'Project' do
+    it_behaves_like "API V3 collection response", 1, 1, "Project" do
       let(:elements) { [project_with_type] }
     end
   end
 
-  describe 'with a single project' do
+  describe "with a single project" do
     before do
       project
 
       get api_v3_paths.available_projects_on_create
     end
 
-    context 'with the necessary permissions' do
-      it_behaves_like 'API V3 collection response', 1, 1, 'Project' do
+    context "with the necessary permissions" do
+      it_behaves_like "API V3 collection response", 1, 1, "Project" do
         let(:elements) { [project] }
       end
     end
 
-    context 'without any add_work_packages permission' do
+    context "without any add_work_packages permission" do
       let(:add_role) do
         create(:project_role, permissions: [])
       end
 
-      it_behaves_like 'unauthorized access'
+      it_behaves_like "unauthorized access"
     end
   end
 end

@@ -28,8 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'view_component/test_helpers'
-require 'capybara/rspec'
+require "view_component/test_helpers"
+require "capybara/rspec"
 
 RSpec.configure do |config|
   config.include ViewComponent::TestHelpers, type: :component

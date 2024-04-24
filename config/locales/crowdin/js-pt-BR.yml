@@ -19,7 +19,7 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
-pt:
+pt-BR:
   js:
     ajax:
       hide: "Ocultar"
@@ -31,7 +31,7 @@ pt:
         Tem certeza de que deseja excluir este arquivo? Esta ação é irreversível.
       draggable_hint: |
         Arraste sobre o campo do editor para incorporar uma imagem ou referenciar um anexo. Campos do editor fechados serão abertos enquanto você continuar arrastando.
-      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
+      quarantined_hint: "O arquivo foi colocado em quarentena devido à detecção de um vírus. Portanto, não está disponível para download."
     autocomplete_ng_select:
       add_tag: "Adicionar item"
       clear_all: "Remover tudo"
@@ -351,7 +351,7 @@ pt:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Admins are nudged to go through OAuth flow when activating a storage</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                A versão contém vários recursos e aprimoramentos novos: <br> <ul class="%{list_styling_class}"> <li>Integração com o GitLab (originalmente desenvolvido por colaboradores da Comunidade)</li> <li>Recursos avançados para listas de projetos personalizadas</li> <li>Recursos avançados para o módulo Meetings</li> <li>Funcionalidade de verificação de vírus com o ClamAV (complemento Enterprise)</li> <li>Exportação de PDF: Há suporte para listas em células de tabela</li> <li>O WebAuthn/FIDO/U2F foi adicionado como um segundo fator</li> <li>Mais idiomas adicionados ao conjunto padrão disponível</li> </ul>
     ical_sharing_modal:
       title: "Assinar calendário"
       inital_setup_error_message: "Ocorreu um erro ao buscar dados."
@@ -443,7 +443,7 @@ pt:
     label_less_than_ago: "menos do que dias atrás"
     label_loading: "Carregando..."
     label_mail_notification: "Notificações por e-mail"
-    label_manage_columns: "Manage and reorder columns"
+    label_manage_columns: "Gerenciar e reordenar colunas"
     label_me: "eu"
     label_meeting_agenda: "Agenda"
     label_meeting_minutes: "Atas"
@@ -482,7 +482,7 @@ pt:
     label_report: "Relatório"
     label_repository_plural: "Repositórios"
     label_save_as: "Salvar como"
-    label_search_columns: "Search a column"
+    label_search_columns: "Buscar uma coluna"
     label_select_project: "Selecionar um projeto"
     label_select_watcher: "Selecione um observador..."
     label_selected_filter_list: "Filtros selecionados"
@@ -1000,7 +1000,7 @@ pt:
         all_open: "Todos abertos"
         summary: "Sumário"
         shared_with_users: "Compartilhado com usuários"
-        shared_with_me: "Shared with me"
+        shared_with_me: "Compartilhados comigo"
       jump_marks:
         pagination: "Pular para a tabela de paginação"
         label_pagination: "Clique aqui para pular a tabela de pacotes de trabalho e ir para a paginação"

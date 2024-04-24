@@ -74,7 +74,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 <% end %>
 
-<% if @storage.provider_type_nextcloud? && @storage.automatic_management_enabled? %>
+<% if @storage.automatic_management_enabled? %>
   <%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |component| %>
     <% component.with_main() do %>
       <%= render(::Storages::Admin::StorageViewComponent.new(@storage)) %>

@@ -73,7 +73,7 @@ class Queries::WorkPackages::Filter::WatcherFilter <
 
   def where_any_watcher
     db_table = Watcher.table_name
-    db_field = 'user_id'
+    db_field = "user_id"
 
     <<-SQL
       #{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'}
@@ -94,7 +94,7 @@ class Queries::WorkPackages::Filter::WatcherFilter <
     # filter watchers only in projects the user has the permission to view watchers in
     sql_parts << where_watcher_in_view_watchers_allowed
 
-    sql_parts.join(' OR ')
+    sql_parts.join(" OR ")
   end
 
   def where_self_watcher(user_id)
@@ -124,7 +124,7 @@ class Queries::WorkPackages::Filter::WatcherFilter <
   end
 
   def db_field
-    'user_id'
+    "user_id"
   end
 
   def view_watcher_allowed_scoped

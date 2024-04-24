@@ -28,15 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::ManageNextcloudIntegrationJob, :webmock, type: :job do
-  describe '.debounce' do
-    context 'when has been debounced by other thread' do
+  describe ".debounce" do
+    context "when has been debounced by other thread" do
       before { ActiveJob::Base.disable_test_adapter }
 
-      it 'does not change the number of enqueued jobs' do
+      it "does not change the number of enqueued jobs" do
         expect(GoodJob::Job.count).to eq(0)
         expect(described_class.perform_later.successfully_enqueued?).to be(true)
         expect(described_class.perform_later).to be(false)
@@ -46,12 +46,12 @@ RSpec.describe Storages::ManageNextcloudIntegrationJob, :webmock, type: :job do
       end
     end
 
-    context 'when has not been debounced by other thread' do
-      it 'schedules a job' do
+    context "when has not been debounced by other thread" do
+      it "schedules a job" do
         expect { described_class.debounce }.to change(enqueued_jobs, :count).from(0).to(1)
       end
 
-      it 'tries to schedule once when called 1000 times in a short period of time' do
+      it "tries to schedule once when called 1000 times in a short period of time" do
         expect_any_instance_of(ActiveJob::ConfiguredJob)
           .to receive(:perform_later).once.and_call_original
 
@@ -62,16 +62,16 @@ RSpec.describe Storages::ManageNextcloudIntegrationJob, :webmock, type: :job do
     end
   end
 
-  describe '.disable_cron_job_if_needed' do
+  describe ".disable_cron_job_if_needed" do
     before { ActiveJob::Base.disable_test_adapter }
 
     subject { described_class.disable_cron_job_if_needed }
 
-    context 'when there is an active nextcloud project storage' do
+    context "when there is an active nextcloud project storage" do
       shared_let(:storage1) { create(:nextcloud_storage, :as_automatically_managed) }
       shared_let(:project_storage) { create(:project_storage, :as_automatically_managed, storage: storage1) }
 
-      it 'enables the cron_job if was disabled before' do
+      it "enables the cron_job if was disabled before" do
         GoodJob::Setting.cron_key_disable(described_class::CRON_JOB_KEY)
 
         good_job_setting = GoodJob::Setting.first
@@ -85,7 +85,7 @@ RSpec.describe Storages::ManageNextcloudIntegrationJob, :webmock, type: :job do
         expect(good_job_setting.value).to eq([])
       end
 
-      it 'does nothing if the cron_job is not disabled' do
+      it "does nothing if the cron_job is not disabled" do
         expect(GoodJob::Setting.cron_key_enabled?(described_class::CRON_JOB_KEY)).to be(true)
 
         expect { subject }.not_to change(GoodJob::Setting, :count).from(0)
@@ -94,8 +94,8 @@ RSpec.describe Storages::ManageNextcloudIntegrationJob, :webmock, type: :job do
       end
     end
 
-    context 'when there is no active nextcloud project storage' do
-      it 'disables the cron job' do
+    context "when there is no active nextcloud project storage" do
+      it "disables the cron job" do
         expect { subject }.to change(GoodJob::Setting, :count).from(0).to(1)
 
         good_job_setting = GoodJob::Setting.first
@@ -105,12 +105,12 @@ RSpec.describe Storages::ManageNextcloudIntegrationJob, :webmock, type: :job do
     end
   end
 
-  describe '.perform' do
+  describe ".perform" do
     let(:storage1) { create(:nextcloud_storage_configured, :as_automatically_managed) }
 
     subject { described_class.new.perform }
 
-    it 'calls NextcloudGroupFolderPropertiesSyncService for each automatically managed storage' do
+    it "calls NextcloudGroupFolderPropertiesSyncService for each automatically managed storage" do
       storage2 = create(:nextcloud_storage, :as_not_automatically_managed)
       storage3 = create(:nextcloud_storage, :as_automatically_managed)
 
@@ -124,35 +124,35 @@ RSpec.describe Storages::ManageNextcloudIntegrationJob, :webmock, type: :job do
       expect(Storages::NextcloudGroupFolderPropertiesSyncService).not_to have_received(:call).with(storage3)
     end
 
-    it 'marks storage as healthy if sync was successful' do
+    it "marks storage as healthy if sync was successful" do
       allow(Storages::NextcloudGroupFolderPropertiesSyncService)
         .to receive(:call).with(storage1).and_return(ServiceResult.success)
 
-      Timecop.freeze('2023-03-14T15:17:00Z') do
+      Timecop.freeze("2023-03-14T15:17:00Z") do
         expect do
           subject
           storage1.reload
         end.to(
           change(storage1, :health_changed_at).to(Time.now.utc)
-              .and(change(storage1, :health_status).from('pending').to('healthy'))
+              .and(change(storage1, :health_status).from("pending").to("healthy"))
         )
       end
     end
 
-    it 'marks storage as unhealthy if sync was unsuccessful' do
+    it "marks storage as unhealthy if sync was unsuccessful" do
       allow(Storages::NextcloudGroupFolderPropertiesSyncService)
         .to receive(:call)
               .with(storage1)
               .and_return(ServiceResult.failure(errors: Storages::StorageError.new(code: :not_found)))
 
-      Timecop.freeze('2023-03-14T15:17:00Z') do
+      Timecop.freeze("2023-03-14T15:17:00Z") do
         expect do
           subject
           storage1.reload
         end.to(
           change(storage1, :health_changed_at).to(Time.now.utc)
-              .and(change(storage1, :health_status).from('pending').to('unhealthy'))
-                    .and(change(storage1, :health_reason).from(nil).to('not_found'))
+              .and(change(storage1, :health_status).from("pending").to("unhealthy"))
+                    .and(change(storage1, :health_reason).from(nil).to("not_found"))
         )
       end
     end

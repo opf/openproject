@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'rbconfig'
-require 'support/pages/page'
+require "rbconfig"
+require "support/pages/page"
 
 module Pages
   class GitHubTab < Page
@@ -43,26 +43,26 @@ module Pages
     end
 
     def git_actions_menu_button
-      find('.github-git-copy:not([disabled])', text: 'Git')
+      find(".github-git-copy:not([disabled])", text: "Git")
     end
 
     def git_actions_copy_branch_name_button
-      find('.git-actions-menu .copy-button:not([disabled])', match: :first)
+      find(".git-actions-menu .copy-button:not([disabled])", match: :first)
     end
 
     def paste_clipboard_content
       meta_key = osx? ? :command : :control
-      page.send_keys(meta_key, 'v')
+      page.send_keys(meta_key, "v")
     end
 
     def expect_tab_not_present
-      expect(page).to have_no_css('.op-tab-row--link', text: 'GITHUB')
+      expect(page).to have_no_css(".op-tab-row--link", text: "GITHUB")
     end
 
     private
 
     def osx?
-      RbConfig::CONFIG['host_os'].include?('darwin')
+      RbConfig::CONFIG["host_os"].include?("darwin")
     end
   end
 end

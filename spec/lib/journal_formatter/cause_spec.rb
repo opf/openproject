@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe OpenProject::JournalFormatter::Cause do
   include ApplicationHelper
@@ -45,7 +45,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
 
   subject { instance.render("cause", [nil, cause], html:) }
 
-  context 'when the change was caused by a change to the parent' do
+  context "when the change was caused by a change to the parent" do
     let(:cause) do
       {
         "type" => "work_package_parent_changed_times",
@@ -53,10 +53,10 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       }
     end
 
-    context 'when rendering HTML variant' do
+    context "when rendering HTML variant" do
       let(:html) { true }
 
-      context 'when the user is able to access the related work package' do
+      context "when the user is able to access the related work package" do
         before do
           allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.where(id: work_package.id))
         end
@@ -67,7 +67,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
         end
       end
 
-      context 'when the user is not able to access the related work package' do
+      context "when the user is not able to access the related work package" do
         before do
           allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.none)
         end
@@ -79,10 +79,10 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       end
     end
 
-    context 'when rendering raw variant' do
+    context "when rendering raw variant" do
       let(:html) { false }
 
-      context 'when the user is able to access the related work package' do
+      context "when the user is able to access the related work package" do
         before do
           allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.where(id: work_package.id))
         end
@@ -95,7 +95,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
         end
       end
 
-      context 'when the user is not able to access the related work package' do
+      context "when the user is not able to access the related work package" do
         before do
           allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.none)
         end
@@ -108,7 +108,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     end
   end
 
-  context 'when the change was caused by a change to a predecessor' do
+  context "when the change was caused by a change to a predecessor" do
     let(:cause) do
       {
         "type" => "work_package_predecessor_changed_times",
@@ -116,10 +116,10 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       }
     end
 
-    context 'when rendering HTML variant' do
+    context "when rendering HTML variant" do
       let(:html) { true }
 
-      context 'when the user is able to access the related work package' do
+      context "when the user is able to access the related work package" do
         before do
           allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.where(id: work_package.id))
         end
@@ -130,7 +130,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
         end
       end
 
-      context 'when the user is not able to access the related work package' do
+      context "when the user is not able to access the related work package" do
         before do
           allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.none)
         end
@@ -142,10 +142,10 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       end
     end
 
-    context 'when rendering raw variant' do
+    context "when rendering raw variant" do
       let(:html) { false }
 
-      context 'when the user is able to access the related work package' do
+      context "when the user is able to access the related work package" do
         before do
           allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.where(id: work_package.id))
         end
@@ -158,7 +158,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
         end
       end
 
-      context 'when the user is not able to access the related work package' do
+      context "when the user is not able to access the related work package" do
         before do
           allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.none)
         end
@@ -171,7 +171,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     end
   end
 
-  context 'when the change was caused by a change to a child' do
+  context "when the change was caused by a change to a child" do
     let(:cause) do
       {
         "type" => "work_package_children_changed_times",
@@ -179,10 +179,10 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       }
     end
 
-    context 'when rendering HTML variant' do
+    context "when rendering HTML variant" do
       let(:html) { true }
 
-      context 'when the user is able to access the related work package' do
+      context "when the user is able to access the related work package" do
         before do
           allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.where(id: work_package.id))
         end
@@ -193,7 +193,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
         end
       end
 
-      context 'when the user is not able to access the related work package' do
+      context "when the user is not able to access the related work package" do
         before do
           allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.none)
         end
@@ -205,10 +205,10 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       end
     end
 
-    context 'when rendering raw variant' do
+    context "when rendering raw variant" do
       let(:html) { false }
 
-      context 'when the user is able to access the related work package' do
+      context "when the user is able to access the related work package" do
         before do
           allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.where(id: work_package.id))
         end
@@ -221,7 +221,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
         end
       end
 
-      context 'when the user is not able to access the related work package' do
+      context "when the user is not able to access the related work package" do
         before do
           allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.none)
         end
@@ -234,10 +234,10 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     end
   end
 
-  context 'when the change was caused by working day changes' do
+  context "when the change was caused by working day changes" do
     let(:cause) do
       {
-        "type" => 'working_days_changed',
+        "type" => "working_days_changed",
         "changed_days" => {
           "working_days" => {
             "2" => false,
@@ -252,7 +252,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       }
     end
 
-    context 'when rendering HTML variant' do
+    context "when rendering HTML variant" do
       let(:html) { true }
 
       it do
@@ -267,7 +267,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       end
     end
 
-    context 'when rendering raw variant' do
+    context "when rendering raw variant" do
       let(:html) { false }
 
       it do
@@ -283,15 +283,15 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     end
   end
 
-  context 'when the change was caused by a system update' do
+  context "when the change was caused by a system update" do
     let(:cause) do
       {
-        "type" => 'system_update',
-        "feature" => 'file_links_journal'
+        "type" => "system_update",
+        "feature" => "file_links_journal"
       }
     end
 
-    context 'when rendering HTML variant' do
+    context "when rendering HTML variant" do
       let(:html) { true }
 
       it do
@@ -300,7 +300,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       end
     end
 
-    context 'when rendering raw variant' do
+    context "when rendering raw variant" do
       let(:html) { false }
 
       it do

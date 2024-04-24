@@ -30,8 +30,8 @@ zh-TW:
           label: Git snippets
           description: Copy git snippets to clipboard
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
+          branch_name: 分支名稱
+          commit_message: 提交訊息
           cmd: Create branch with empty commit
           title: Quick snippets for Git
           copy_success: '✅ 已複製!'

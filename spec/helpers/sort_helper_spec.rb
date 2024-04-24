@@ -26,107 +26,107 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe SortHelper do
-  describe '#sort_init/#sort_update/#sort_clause' do
+  describe "#sort_init/#sort_update/#sort_clause" do
     # Needed to mimic being included in a controller
-    def controller_name; 'foo'; end
+    def controller_name; "foo"; end
 
-    def action_name; 'bar'; end
+    def action_name; "bar"; end
 
     before do
-      sort_init 'attr1', 'desc'
+      sort_init "attr1", "desc"
     end
 
-    context 'with arrays' do
+    context "with arrays" do
       before do
         sort_update(%w[attr1 attr2])
       end
 
-      it 'returns the first attr in descending order' do
+      it "returns the first attr in descending order" do
         expect(sort_clause)
-          .to eql 'attr1 DESC'
+          .to eql "attr1 DESC"
       end
     end
 
-    context 'with hashes' do
+    context "with hashes" do
       before do
-        sort_update('attr1' => 'table1.attr1', 'attr2' => 'table2.attr2')
+        sort_update("attr1" => "table1.attr1", "attr2" => "table2.attr2")
       end
 
-      it 'returns the first attr in descending order with the table name prefixed' do
+      it "returns the first attr in descending order with the table name prefixed" do
         expect(sort_clause)
-          .to eql 'table1.attr1 DESC'
+          .to eql "table1.attr1 DESC"
       end
     end
 
-    context 'with hashes sorting by multiple values' do
+    context "with hashes sorting by multiple values" do
       before do
-        sort_update('attr1' => %w[table1.attr1 table1.attr2], 'attr2' => 'table2.attr2')
+        sort_update("attr1" => %w[table1.attr1 table1.attr2], "attr2" => "table2.attr2")
       end
 
-      it 'returns the first attr in descending order' do
+      it "returns the first attr in descending order" do
         expect(sort_clause)
-          .to eql 'table1.attr1 DESC, table1.attr2 DESC'
+          .to eql "table1.attr1 DESC, table1.attr2 DESC"
       end
     end
   end
 
-  describe '#sort_init/#sort_update/params/session' do
+  describe "#sort_init/#sort_update/params/session" do
     # Needed to mimic being included in a controller
-    def controller_name; 'foo'; end
+    def controller_name; "foo"; end
 
-    def action_name; 'bar'; end
+    def action_name; "bar"; end
 
     def params; { sort: sort_param }; end
 
     def session; @session ||= {}; end
 
     before do
-      sort_init 'attr1', 'desc'
-      sort_update('attr1' => %w[table1.attr1 table1.attr2], 'attr2' => 'table2.attr2')
+      sort_init "attr1", "desc"
+      sort_update("attr1" => %w[table1.attr1 table1.attr2], "attr2" => "table2.attr2")
     end
 
-    context 'with valid sort params' do
-      let(:sort_param) { 'attr1,attr2:desc' }
+    context "with valid sort params" do
+      let(:sort_param) { "attr1,attr2:desc" }
 
-      it 'persists the order in the session' do
-        expect(session['foo_bar_sort'])
-          .to eql 'attr1,attr2:desc'
+      it "persists the order in the session" do
+        expect(session["foo_bar_sort"])
+          .to eql "attr1,attr2:desc"
       end
     end
 
-    context 'with invalid sort key' do
-      let(:sort_param) { 'invalid_key' }
+    context "with invalid sort key" do
+      let(:sort_param) { "invalid_key" }
 
-      it 'keeps the default sort in the session' do
-        expect(session['foo_bar_sort'])
-          .to eql 'attr1:desc'
+      it "keeps the default sort in the session" do
+        expect(session["foo_bar_sort"])
+          .to eql "attr1:desc"
       end
     end
 
-    context 'with invalid sort direction' do
-      let(:sort_param) { 'attr1:blubs,attr2' }
+    context "with invalid sort direction" do
+      let(:sort_param) { "attr1:blubs,attr2" }
 
-      it 'falls back to the default sort order in the session' do
-        expect(session['foo_bar_sort'])
-          .to eql 'attr1,attr2'
+      it "falls back to the default sort order in the session" do
+        expect(session["foo_bar_sort"])
+          .to eql "attr1,attr2"
       end
     end
   end
 
-  describe '#sort_header_tag' do
+  describe "#sort_header_tag" do
     let(:output) do
-      helper.sort_header_tag('id')
+      helper.sort_header_tag("id")
     end
-    let(:sort_key) { '' }
+    let(:sort_key) { "" }
     let(:sort_asc) { true }
     let(:sort_criteria) do
       instance_double(SortHelper::SortCriteria,
                       first_key: sort_key,
                       first_asc?: sort_asc,
-                      to_param: 'sort_criteria_params').as_null_object
+                      to_param: "sort_criteria_params").as_null_object
     end
 
     before do
@@ -136,10 +136,10 @@ RSpec.describe SortHelper do
       # fake having called '/work_packages'
       allow(helper)
         .to receive(:url_options)
-        .and_return(url_options.merge(controller: 'work_packages', action: 'index'))
+        .and_return(url_options.merge(controller: "work_packages", action: "index"))
     end
 
-    it 'renders a th with a sort link' do
+    it "renders a th with a sort link" do
       expect(output).to be_html_eql(%{
         <th title="Sort by &quot;Id&quot;">
           <div class="generic-table--sort-header-outer">
@@ -154,10 +154,10 @@ RSpec.describe SortHelper do
       })
     end
 
-    context 'when sorting by the column' do
-      let(:sort_key) { 'id' }
+    context "when sorting by the column" do
+      let(:sort_key) { "id" }
 
-      it 'adds the sort class' do
+      it "adds the sort class" do
         expect(output).to be_html_eql(%{
           <th title="Ascending sorted by &quot;Id&quot;">
             <div class="generic-table--sort-header-outer">
@@ -173,11 +173,11 @@ RSpec.describe SortHelper do
       end
     end
 
-    context 'when sorting desc by the column' do
-      let(:sort_key) { 'id' }
+    context "when sorting desc by the column" do
+      let(:sort_key) { "id" }
       let(:sort_asc) { false }
 
-      it 'adds the sort class' do
+      it "adds the sort class" do
         expect(output).to be_html_eql(%{
           <th title="Descending sorted by &quot;Id&quot;">
             <div class="generic-table--sort-header-outer">

@@ -1,4 +1,4 @@
-require_relative '../spec_helper'
+require_relative "../spec_helper"
 
 module OpenProject::TwoFactorAuthentication::Patches
   module UserSpec
@@ -32,7 +32,7 @@ module OpenProject::TwoFactorAuthentication::Patches
         create_user
       end
 
-      describe '#try_to_login', "with valid username but invalid pwd" do
+      describe "#try_to_login", "with valid username but invalid pwd" do
         it "returns nil" do
           expect(invalid_login).to be_nil
         end

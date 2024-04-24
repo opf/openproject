@@ -28,26 +28,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe JournalFormatter::Attribute do
-  describe '.render' do
+  describe ".render" do
     let(:journal) { build_stubbed(:work_package_journal) }
     let(:instance) { described_class.new(journal) }
 
-    context 'with two string values where one is longer than 100 characters' do
-      let(:old_value) { 'For strings longer than 100 characters, a line break is added between values for a better readability' }
-      let(:new_value) { 'Hello, World!' }
+    context "with two string values where one is longer than 100 characters" do
+      let(:old_value) { "For strings longer than 100 characters, a line break is added between values for a better readability" }
+      let(:new_value) { "Hello, World!" }
 
-      it 'adds a newline between values' do
-        expect(instance.render('name', [old_value, new_value]))
+      it "adds a newline between values" do
+        expect(instance.render("name", [old_value, new_value]))
           .to eq(I18n.t(:text_journal_changed_plain,
                         label: "<strong>Name</strong>",
                         linebreak: "<br/>",
                         old: "<i>#{old_value}</i>",
                         new: "<i>#{new_value}</i>"))
 
-        expect(instance.render('name', [old_value, new_value], html: false))
+        expect(instance.render("name", [old_value, new_value], html: false))
           .to eq(I18n.t(:text_journal_changed_plain,
                         label: "Name",
                         linebreak: "\n",

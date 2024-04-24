@@ -26,35 +26,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Projects autocomplete page', :js, :with_cuprite do
+RSpec.describe "Projects autocomplete page", :js, :with_cuprite do
   let!(:user) { create(:user) }
   let(:top_menu) { Components::Projects::TopMenu.new }
 
   let!(:project) do
     create(:project,
-           name: 'Plain project',
-           identifier: 'plain-project')
+           name: "Plain project",
+           identifier: "plain-project")
   end
 
   let!(:project2) do
     create(:project,
-           name: '<strong>foobar</strong>',
-           identifier: 'foobar')
+           name: "<strong>foobar</strong>",
+           identifier: "foobar")
   end
 
   let!(:project3) do
     create(:project,
-           name: 'Plain other project',
+           name: "Plain other project",
            parent: project2,
-           identifier: 'plain-project-2')
+           identifier: "plain-project-2")
   end
   let!(:project4) do
     create(:project,
-           name: 'Project with different name and identifier',
+           name: "Project with different name and identifier",
            parent: project2,
-           identifier: 'plain-project-4')
+           identifier: "plain-project-4")
   end
 
   let!(:other_projects) do
@@ -92,7 +92,7 @@ RSpec.describe 'Projects autocomplete page', :js, :with_cuprite do
     visit root_path
   end
 
-  it 'allows to filter and select projects' do
+  it "allows to filter and select projects" do
     retry_block do
       top_menu.toggle unless top_menu.open?
       top_menu.expect_open
@@ -106,69 +106,69 @@ RSpec.describe 'Projects autocomplete page', :js, :with_cuprite do
     end
 
     # Filter for projects
-    top_menu.search '<strong'
+    top_menu.search "<strong"
 
     # Expect highlights
     within(top_menu.search_results) do
-      expect(page).to have_css('.op-search-highlight', text: '<strong')
-      expect(page).to have_no_css('strong')
+      expect(page).to have_css(".op-search-highlight", text: "<strong")
+      expect(page).to have_no_css("strong")
     end
 
     # Expect fuzzy matches for plain
-    top_menu.search 'Plain pr'
-    top_menu.expect_result 'Plain project'
-    top_menu.expect_no_result 'Plain other project'
+    top_menu.search "Plain pr"
+    top_menu.expect_result "Plain project"
+    top_menu.expect_no_result "Plain other project"
 
     # Expect search to match names only and not the identifier
     top_menu.clear_search
 
-    top_menu.search 'plain'
-    top_menu.expect_result 'Plain project'
-    top_menu.expect_result 'Plain other project'
-    top_menu.expect_no_result 'Project with different name and identifier'
+    top_menu.search "plain"
+    top_menu.expect_result "Plain project"
+    top_menu.expect_result "Plain other project"
+    top_menu.expect_no_result "Project with different name and identifier"
 
     # Expect hierarchy
     top_menu.clear_search
 
-    top_menu.expect_result 'Plain project'
-    top_menu.expect_result '<strong>foobar</strong>', disabled: true
-    top_menu.expect_item_with_hierarchy_level hierarchy_level: 2, item_name: 'Plain other project'
+    top_menu.expect_result "Plain project"
+    top_menu.expect_result "<strong>foobar</strong>", disabled: true
+    top_menu.expect_item_with_hierarchy_level hierarchy_level: 2, item_name: "Plain other project"
 
     # Show hierarchy of project
-    top_menu.search 'Plain other project'
+    top_menu.search "Plain other project"
 
-    top_menu.expect_result '<strong>foobar</strong>', disabled: true
-    top_menu.expect_item_with_hierarchy_level hierarchy_level: 2, item_name: 'Plain other project'
+    top_menu.expect_result "<strong>foobar</strong>", disabled: true
+    top_menu.expect_item_with_hierarchy_level hierarchy_level: 2, item_name: "Plain other project"
 
     # find terms at the end of project names
-    top_menu.search 'END'
-    top_menu.expect_result 'Very long project name with term at the END'
+    top_menu.search "END"
+    top_menu.expect_result "Very long project name with term at the END"
 
     # Find literal matches exclusively if present
-    top_menu.search 'INK15'
-    top_menu.expect_result 'INK15 - Bar'
-    top_menu.expect_no_result 'INK14 - Foo'
-    top_menu.expect_no_result 'INK16 - Baz'
+    top_menu.search "INK15"
+    top_menu.expect_result "INK15 - Bar"
+    top_menu.expect_no_result "INK14 - Foo"
+    top_menu.expect_no_result "INK16 - Baz"
 
     # Visit a project
-    top_menu.search_and_select '<strong'
+    top_menu.search_and_select "<strong"
     top_menu.expect_current_project project2.name
 
     # Keeps the current module
     visit project_news_index_path(project2)
-    expect(page).to have_css('.news-menu-item.selected')
+    expect(page).to have_css(".news-menu-item.selected")
 
     retry_block do
       top_menu.toggle
       top_menu.expect_open
-      top_menu.search_and_select 'Plain project'
+      top_menu.search_and_select "Plain project"
     end
 
     expect(page).to have_current_path(project_news_index_path(project), ignore_query: true)
-    expect(page).to have_css('.news-menu-item.selected')
+    expect(page).to have_css(".news-menu-item.selected")
   end
 
-  it 'navigates to the first project upon hitting enter in the search bar' do
+  it "navigates to the first project upon hitting enter in the search bar" do
     retry_block do
       top_menu.toggle unless top_menu.open?
       top_menu.expect_open
@@ -178,7 +178,7 @@ RSpec.describe 'Projects autocomplete page', :js, :with_cuprite do
     end
 
     # Filter for projects
-    top_menu.search '<strong'
+    top_menu.search "<strong"
 
     # Visit a project
     top_menu.autocompleter.send_keys :enter

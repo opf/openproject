@@ -29,7 +29,7 @@
 # This file is required by `modules/storages/lib/openproject-storages.rb` and
 # loads the Rails engine associated with the plugin.
 
-require 'open_project/storages/engine'
+require "open_project/storages/engine"
 
 module OpenProject
   module Storages

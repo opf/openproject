@@ -28,8 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'base_create_service_shared_examples'
+require "spec_helper"
+require_relative "base_create_service_shared_examples"
 
 RSpec.describe Boards::StatusBoardCreateService do
   shared_let(:project) { create(:project) }
@@ -39,16 +39,16 @@ RSpec.describe Boards::StatusBoardCreateService do
 
   subject { instance.call(params) }
 
-  context 'with all valid params' do
+  context "with all valid params" do
     let(:params) do
       {
         name: "Gotham Renewal Board",
         project:,
-        attribute: 'status'
+        attribute: "status"
       }
     end
 
-    it 'is successful' do
+    it "is successful" do
       expect(subject).to be_success
     end
 
@@ -56,32 +56,32 @@ RSpec.describe Boards::StatusBoardCreateService do
       board = subject.result
 
       expect(board.name).to eq("Gotham Renewal Board")
-      expect(board.options[:attribute]).to eq('status')
-      expect(board.options[:type]).to eq('action')
+      expect(board.options[:attribute]).to eq("status")
+      expect(board.options[:type]).to eq("action")
     end
 
-    describe 'widgets and queries' do
+    describe "widgets and queries" do
       let(:board) { subject.result }
       let(:widgets) { board.widgets }
       let(:queries) { Query.all }
 
-      it 'creates one of each for the current default status', :aggregate_failures do
+      it "creates one of each for the current default status", :aggregate_failures do
         subject
 
         expect(widgets.count).to eq 1
         expect(queries.count).to eq 1
       end
 
-      it 'sets the filters on each' do
+      it "sets the filters on each" do
         subject
 
         query_filter = queries.flat_map(&:filters).map(&:to_hash).first
-        widget_filter = widgets.flat_map { _1.options['filters'] }.first
+        widget_filter = widgets.flat_map { _1.options["filters"] }.first
 
         expect(query_filter).to match_array(widget_filter)
       end
 
-      it_behaves_like 'sets the appropriate sort_criteria on each query'
+      it_behaves_like "sets the appropriate sort_criteria on each query"
     end
   end
 end

@@ -28,7 +28,7 @@
 module DemoData
   class GlobalQuerySeeder < Seeder
     def seed_data!
-      print_status '    ↳ Creating global queries' do
+      print_status "    ↳ Creating global queries" do
         seed_global_queries
       end
     end
@@ -40,7 +40,7 @@ module DemoData
     private
 
     def seed_global_queries
-      seed_data.each('global_queries') do |config|
+      seed_data.each("global_queries") do |config|
         DemoData::QueryBuilder.new(config, project: nil, user: admin_user, seed_data:).create!
       end
     end

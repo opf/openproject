@@ -37,19 +37,22 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
   let(:user) { create(:user) }
   let(:storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user) }
   let(:folder) { Storages::Peripherals::ParentFolder.new('/') }
+  let(:auth_strategy) do
+    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken.strategy.with_user(user)
+  end
 
   describe '#call' do
     it 'responds with correct parameters' do
       expect(described_class).to respond_to(:call)
 
       method = described_class.method(:call)
-      expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq user], %i[keyreq folder])
+      expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq auth_strategy], %i[keyreq folder])
     end
 
     context 'with outbound requests successful' do
       context 'with parent folder being root', vcr: 'one_drive/files_query_root' do
         it 'returns a StorageFiles object for root' do
-          storage_files = described_class.call(storage:, user:, folder:).result
+          storage_files = described_class.call(storage:, auth_strategy:, folder:).result
 
           expect(storage_files).to be_a(Storages::StorageFiles)
           expect(storage_files.ancestors).to be_empty
@@ -73,7 +76,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
         let(:folder) { Storages::Peripherals::ParentFolder.new('/Folder/Subfolder') }
 
         subject do
-          described_class.call(storage:, user:, folder:).result
+          described_class.call(storage:, auth_strategy:, folder:).result
         end
 
         # rubocop:disable RSpec/ExampleLength
@@ -133,7 +136,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
         let(:folder) { Storages::Peripherals::ParentFolder.new('/Folder with spaces/very empty folder') }
 
         it 'returns an empty StorageFiles object with parent and ancestors' do
-          storage_files = described_class.call(storage:, user:, folder:).result
+          storage_files = described_class.call(storage:, auth_strategy:, folder:).result
 
           expect(storage_files).to be_a(Storages::StorageFiles)
           expect(storage_files.files).to be_empty
@@ -147,7 +150,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
         let(:folder) { Storages::Peripherals::ParentFolder.new('/Folder/Ümlæûts') }
 
         it 'returns the correct StorageFiles object' do
-          storage_files = described_class.call(storage:, user:, folder:).result
+          storage_files = described_class.call(storage:, auth_strategy:, folder:).result
 
           expect(storage_files).to be_a(Storages::StorageFiles)
           expect(storage_files.parent.id).to eq('01AZJL5PNQYF5NM3KWYNA3RJHJIB2XMMMB')
@@ -176,7 +179,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
       let(:folder) { Storages::Peripherals::ParentFolder.new('/I/just/made/that/up') }
 
       it 'must return not found' do
-        result = described_class.call(storage:, user:, folder:)
+        result = described_class.call(storage:, auth_strategy:, folder:)
         expect(result).to be_failure
         expect(result.error_source).to be_a(described_class)
 
@@ -184,57 +187,6 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
           on_failure: ->(error) { expect(error.code).to eq(:not_found) },
           on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
         )
-      end
-    end
-
-    context 'with invalid oauth token', vcr: 'one_drive/files_query_invalid_token' do
-      before do
-        token = build_stubbed(:oauth_client_token, oauth_client: storage.oauth_client)
-        allow(Storages::Peripherals::StorageInteraction::OneDrive::Util)
-          .to receive(:using_user_token)
-                .and_yield(token)
-      end
-
-      it 'must return unauthorized' do
-        result = described_class.call(storage:, user:, folder:)
-        expect(result).to be_failure
-        expect(result.error_source).to be_a(described_class)
-
-        result.match(
-          on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
-          on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
-        )
-      end
-    end
-
-    context 'with not existent oauth token' do
-      let(:user_without_token) { create(:user) }
-
-      it 'must return unauthorized' do
-        result = described_class.call(storage:, user: user_without_token, folder:)
-        expect(result).to be_failure
-        expect(result.error_source).to be_a(OAuthClients::ConnectionManager)
-
-        result.match(
-          on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
-          on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
-        )
-      end
-    end
-
-    context 'with network errors' do
-      before do
-        request = HTTPX::Request.new(:get, 'https://my.timeout.org/')
-        httpx_double = class_double(HTTPX, get: HTTPX::ErrorResponse.new(request, 'Timeout happens', {}))
-
-        allow(OpenProject).to receive(:httpx).and_return(httpx_double)
-      end
-
-      it 'must return an error with wrapped network error response' do
-        error = described_class.call(storage:, user:, folder:)
-        expect(error).to be_failure
-        expect(error.result).to eq(:error)
-        expect(error.error_payload).to be_a(HTTPX::ErrorResponse)
       end
     end
   end

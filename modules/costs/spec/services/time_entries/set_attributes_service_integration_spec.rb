@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe TimeEntries::SetAttributesService, 'integration', type: :model do
+RSpec.describe TimeEntries::SetAttributesService, "integration", type: :model do
   let(:project) { create(:project) }
   let(:user) do
     create(:user,
@@ -52,14 +52,14 @@ RSpec.describe TimeEntries::SetAttributesService, 'integration', type: :model do
 
   subject { instance.call(params) }
 
-  context 'default activity not active in project' do
+  context "default activity not active in project" do
     let!(:default_activity) { create(:time_entry_activity, is_default: true) }
 
     before do
       project.time_entry_activities_projects.create(activity_id: default_activity.id, active: false)
     end
 
-    it 'does not assign the default activity' do
+    it "does not assign the default activity" do
       expect(subject).to be_success
       expect(subject.result.activity).to be_nil
     end

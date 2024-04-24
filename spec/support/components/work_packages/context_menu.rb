@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../../toasts/expectations'
+require_relative "../../toasts/expectations"
 
 module Components
   module WorkPackages
@@ -38,7 +38,7 @@ module Components
 
       def open_for(work_package, card_view: nil)
         # Close
-        find('body').send_keys :escape
+        find("body").send_keys :escape
         sleep 0.5 unless using_cuprite?
 
         if card_view
@@ -65,10 +65,10 @@ module Components
       end
 
       def choose_delete_and_confirm_deletion
-        choose 'Delete'
+        choose "Delete"
         # only handle the case where the modal does _not_ ask for descendants deletion confirmation
-        within_modal(I18n.t('js.modals.destroy_work_package.title', label: 'work package')) do
-          click_button 'Delete'
+        within_modal(I18n.t("js.modals.destroy_work_package.title", label: "work package")) do
+          click_button "Delete"
         end
         expect_and_dismiss_toaster
       end
@@ -98,7 +98,7 @@ module Components
       end
 
       def work_package_context_menu_label
-        I18n.t('js.label_work_package_context_menu')
+        I18n.t("js.label_work_package_context_menu")
       end
     end
   end

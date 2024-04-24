@@ -1,5 +1,5 @@
 #English strings go here for Rails i18n
-pt:
+pt-PT:
   plugin_openproject_recaptcha:
     name: "ReCaptcha do OpenProject"
     description: "Este módulo fornece verificações recaptcha durante o início de sessão."

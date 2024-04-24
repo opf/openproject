@@ -13,44 +13,57 @@
     --button-primary-bgColor-rest: var(--button--primary-background-color) !important;
     --button-primary-bgColor-hover: var(--button--primary-background-hover-color) !important;
   }
+
+  /* Generic color mapping for content variables */
   [data-light-theme=light_high_contrast],
-  [data-light-theme=dark] {
+  [data-dark-theme=dark] {
     --avatar-border-color: var(--color-avatar-border);
     --list-item-hover--border-color: var(--color-action-list-item-default-active-border);
-    --list-item-hover--color: var(--color-fg-default);
+    --list-item-hover--color: var(--color-action-list-item-default-hover-bg);
     --inplace-edit--border-color: var(--color-border-default);
     --ck-color-toolbar-border: var(--color-border-default);
     --ck-color-base-border: var(--color-border-default);
+    --ck-color-button-default-hover-background: var(--color-action-list-item-default-hover-bg);
+    --ck-color-toolbar-background: var(--body-background);
+    --ck-color-text: var(--body-font-color);
     --table-border-color: var(--color-border-default);
     --toolbar-item--bg-color: var(--color-btn-bg);
     --toolbar-item--border-color: var(--color-border-default);
-    --header-border-bottom-width: 1px;
-    --header-bg-color: var(--color-page-header-bg);
-    --header-item-font-color: var(--color-fg-default);
-    --header-item-bg-hover-color: var(--color-action-list-item-default-hover-bg);
-    --header-item-font-hover-color: var(--color-fg-default);
-    --header-border-bottom-color: var(--color-border-muted) !important;
-    --main-menu-bg-color: var(--color-page-header-bg);
-    --main-menu-hover-font-color: var(--color-fg-default);
-    --main-menu-bg-selected-background: var(--color-action-list-item-default-hover-bg);
-    --main-menu-bg-hover-background: var(--color-action-list-item-default-hover-bg);
-    --main-menu-font-color: var(--color-fg-default);
-    --main-menu-selected-font-color: var(--color-fg-default);
-    --main-menu-border-color: var(--color-border-muted);
-    --main-menu-resizer-color: var(--color-border-muted);
-    --main-menu-bg-selected-border: var(--color-border-muted);
-    --main-menu-hover-border-color: var(--color-fg-default) !important;
-    --main-menu-fieldset-header-color: var(--color-fg-subtle) !important;
-    --main-menu-border-width: 1px;
-    --button--border-color: var(--color-border-default);
+    --button--border-color: var(--color-btn-border);
+    --button--primary-font-color:  var(--color-btn-primary-text);
     --button--primary-background-hover-color: var(--color-btn-primary-hover-bg);
     --button--primary-background-color: var(--color-btn-primary-bg);
-    --button--active-border-color: var(--color-border-default);
+    --button--active-border-color: var(--color-btn-border);
+    --button--font-color: var(--color-btn-text);
     --button--background-hover-color: var(--color-btn-hover-bg);
     --button--background-color: var(--color-btn-bg);
-    --accent-color: var(--color-accent-fg);
     --primary-button-color: var(--color-btn-primary-bg);
     --status-selector-border-color: var(--button--border-color);
     --link-text-decoration: underline;
+    /* Todo: Only when color is not bright enough */
+    --accent-color: var(--accent-color--minor3);
+  }
+
+  /* For accessibility themes we are also overriding the header and the sidebar */
+  [data-light-theme=light_high_contrast] {
+      --header-border-bottom-width: 1px;
+      --header-bg-color: var(--color-page-header-bg);
+      --header-item-font-color: var(--color-fg-default);
+      --header-item-bg-hover-color: var(--color-action-list-item-default-hover-bg);
+      --header-item-font-hover-color: var(--color-fg-default);
+      --header-border-bottom-color: var(--color-border-muted) !important;
+      --main-menu-bg-color: var(--color-page-header-bg);
+      --main-menu-hover-font-color: var(--color-fg-default);
+      --main-menu-bg-selected-background: var(--color-action-list-item-default-hover-bg);
+      --main-menu-bg-hover-background: var(--color-action-list-item-default-hover-bg);
+      --main-menu-font-color: var(--color-fg-default);
+      --main-menu-selected-font-color: var(--color-fg-default);
+      --main-menu-border-color: var(--color-border-muted);
+      --main-menu-resizer-color: var(--color-border-muted);
+      --main-menu-bg-selected-border: var(--color-border-muted);
+      --main-menu-hover-border-color: var(--color-fg-default) !important;
+      --main-menu-fieldset-header-color: var(--color-fg-subtle) !important;
+      --main-menu-border-width: 1px;
+      --accent-color: var(--color-accent-fg);
   }
 </style>

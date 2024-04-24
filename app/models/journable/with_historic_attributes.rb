@@ -251,8 +251,8 @@ class Journable::WithHistoricAttributes < SimpleDelegator
       ::Acts::Journalized::JournableDiffer.association_changes(
         historic_journable,
         __getobj__,
-        'custom_values',
-        'custom_field',
+        "custom_values",
+        "custom_field",
         :custom_field_id,
         :value
       )

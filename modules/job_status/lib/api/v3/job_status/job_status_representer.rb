@@ -44,7 +44,7 @@ module API
                  render_nil: true
 
         def _type
-          'JobStatus'
+          "JobStatus"
         end
       end
     end

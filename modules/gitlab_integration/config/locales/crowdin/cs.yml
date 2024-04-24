@@ -27,20 +27,20 @@ cs:
         gitlab_issue:
           attributes:
             labels:
-              invalid_schema: "must be an array of hashes with keys: color, title"
+              invalid_schema: "musí být pole hash s klíči: barva, název"
         gitlab_merge_request:
           attributes:
             labels:
-              invalid_schema: "must be an array of hashes with keys: color, title"
-  project_module_gitlab: "Gitlab"
-  permission_show_gitlab_content: "Show Gitlab content"
+              invalid_schema: "musí být pole hashů s klíči: barva, název"
+  project_module_gitlab: "GitLab"
+  permission_show_gitlab_content: "Zobrazit obsah  GitLab"
   gitlab_integration:
     merge_request_opened_comment: >
       **MR Opened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).
     merge_request_closed_comment: >
       **MR Closed:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).
     merge_request_merged_comment: >
-      **MR Merged:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been merged by [%{gitlab_user}](%{gitlab_user_url}).
+      **MR sloučeno:** Požadavek na sloučení %{mr_number} [%{mr_title}](%{mr_url}) pro [%{repository}](%{repository_url}) byl sloučen [%{gitlab_user}](%{gitlab_user_url}).
     merge_request_reopened_comment: >
       **MR Reopened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been reopened by [%{gitlab_user}](%{gitlab_user_url}).
     note_commit_referenced_comment: >

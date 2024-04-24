@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-require_relative 'shared_responses'
+require_relative "shared_responses"
 
-RSpec.describe 'BCF 2.1 projects resource', content_type: :json do
+RSpec.describe "BCF 2.1 projects resource", content_type: :json do
   include Rack::Test::Methods
 
   let(:view_only_user) do
@@ -49,7 +49,7 @@ RSpec.describe 'BCF 2.1 projects resource', content_type: :json do
 
   subject(:response) { last_response }
 
-  describe 'GET /api/bcf/2.1/projects/:project_id' do
+  describe "GET /api/bcf/2.1/projects/:project_id" do
     let(:path) { "/api/bcf/2.1/projects/#{project.id}" }
     let(:current_user) { view_only_user }
 
@@ -58,7 +58,7 @@ RSpec.describe 'BCF 2.1 projects resource', content_type: :json do
       get path
     end
 
-    it_behaves_like 'bcf api successful response' do
+    it_behaves_like "bcf api successful response" do
       let(:expected_body) do
         {
           project_id: project.id,
@@ -67,20 +67,20 @@ RSpec.describe 'BCF 2.1 projects resource', content_type: :json do
       end
     end
 
-    context 'lacking permissions' do
+    context "lacking permissions" do
       let(:current_user) { non_member_user }
 
-      it_behaves_like 'bcf api not found response'
+      it_behaves_like "bcf api not found response"
     end
   end
 
-  describe 'PUT /api/bcf/2.1/projects/:project_id' do
+  describe "PUT /api/bcf/2.1/projects/:project_id" do
     let(:path) { "/api/bcf/2.1/projects/#{project.id}" }
     let(:current_user) { edit_user }
 
     let(:params) do
       {
-        name: 'new project name'
+        name: "new project name"
       }
     end
 
@@ -89,41 +89,41 @@ RSpec.describe 'BCF 2.1 projects resource', content_type: :json do
       put path, params.to_json
     end
 
-    it_behaves_like 'bcf api successful response' do
+    it_behaves_like "bcf api successful response" do
       let(:expected_body) do
         {
           project_id: project.id,
-          name: 'new project name'
+          name: "new project name"
         }
       end
     end
 
-    context 'lacking view permissions' do
+    context "lacking view permissions" do
       let(:current_user) { non_member_user }
 
-      it_behaves_like 'bcf api not found response'
+      it_behaves_like "bcf api not found response"
     end
 
-    context 'lacking edit permissions' do
+    context "lacking edit permissions" do
       let(:current_user) { view_only_user }
 
-      it_behaves_like 'bcf api not allowed response'
+      it_behaves_like "bcf api not allowed response"
     end
 
-    context 'attempting to alter the id' do
+    context "attempting to alter the id" do
       let(:params) do
         {
           project_id: 0
         }
       end
 
-      it_behaves_like 'bcf api unprocessable response' do
-        let(:message) { 'ID was attempted to be written but is not writable.' }
+      it_behaves_like "bcf api unprocessable response" do
+        let(:message) { "ID was attempted to be written but is not writable." }
       end
     end
   end
 
-  describe 'GET /api/bcf/2.1/projects' do
+  describe "GET /api/bcf/2.1/projects" do
     let(:path) { "/api/bcf/2.1/projects" }
     let(:current_user) { view_only_user }
     let!(:invisible_project) { create(:project, enabled_module_names: [:bcf]) }
@@ -141,7 +141,7 @@ RSpec.describe 'BCF 2.1 projects resource', content_type: :json do
       get path
     end
 
-    it_behaves_like 'bcf api successful response' do
+    it_behaves_like "bcf api successful response" do
       let(:expected_body) do
         [
           {

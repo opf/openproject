@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Queries::Columns::QueryRelationOfTypeColumnRepresenter do
   include API::V3::Utilities::PathHelper
@@ -37,57 +37,57 @@ RSpec.describe API::V3::Queries::Columns::QueryRelationOfTypeColumnRepresenter d
 
   subject { representer.to_json }
 
-  describe 'generation' do
-    describe '_links' do
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'self' }
+  describe "generation" do
+    describe "_links" do
+      it_behaves_like "has a titled link" do
+        let(:link) { "self" }
         let(:href) { api_v3_paths.query_column "relationsOfType#{type[:sym].to_s.camelcase}" }
         let(:title) { "#{I18n.t(type[:name]).capitalize} relations" }
       end
     end
 
-    it 'has _type QueryColumn::RelationOfType' do
+    it "has _type QueryColumn::RelationOfType" do
       expect(subject)
-        .to be_json_eql('QueryColumn::RelationOfType'.to_json)
-        .at_path('_type')
+        .to be_json_eql("QueryColumn::RelationOfType".to_json)
+        .at_path("_type")
     end
 
-    it 'has id attribute' do
+    it "has id attribute" do
       expect(subject)
         .to be_json_eql("relationsOfType#{type[:sym].to_s.camelcase}".to_json)
-        .at_path('id')
+        .at_path("id")
     end
 
-    it 'has relationType attribute' do
+    it "has relationType attribute" do
       expect(subject)
         .to be_json_eql(type[:sym].to_json)
-        .at_path('relationType')
+        .at_path("relationType")
     end
 
-    it 'has name attribute' do
+    it "has name attribute" do
       expect(subject)
         .to be_json_eql("#{I18n.t(type[:name]).capitalize} relations".to_json)
-        .at_path('name')
+        .at_path("name")
     end
   end
 
-  describe 'caching' do
+  describe "caching" do
     before do
       # fill the cache
       representer.to_json
     end
 
-    it 'is cached' do
+    it "is cached" do
       expect(representer)
         .not_to receive(:to_hash)
 
       representer.to_json
     end
 
-    it 'busts the cache on changes to the name' do
+    it "busts the cache on changes to the name" do
       allow(column)
         .to receive(:name)
-        .and_return('blubs')
+        .and_return("blubs")
 
       expect(representer)
         .to receive(:to_hash)
@@ -95,7 +95,7 @@ RSpec.describe API::V3::Queries::Columns::QueryRelationOfTypeColumnRepresenter d
       representer.to_json
     end
 
-    it 'busts the cache on changes to the locale' do
+    it "busts the cache on changes to the locale" do
       expect(representer)
         .to receive(:to_hash)
 

@@ -32,7 +32,7 @@ class OpenProject::JournalFormatter::ProjectStatusCode < JournalFormatter::Attri
   def format_values(values)
     values.map do |value|
       if value.nil?
-        ''
+        ""
       else
         I18n.t("activerecord.attributes.project.status_codes.#{status_code_key_for(value)}")
       end

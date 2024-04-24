@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe WorkPackageMembers::CreateOrUpdateService do
   let(:user) { build_stubbed(:user) }
@@ -48,11 +48,11 @@ RSpec.describe WorkPackageMembers::CreateOrUpdateService do
             .and_return(existing_member)
   end
 
-  context 'when the user has no work_package_member for that work package' do
+  context "when the user has no work_package_member for that work package" do
     let(:create_instance) { instance_double(WorkPackageMembers::CreateService) }
     let(:existing_member) { nil }
 
-    it 'calls the WorkPackageMembers::CreateService' do
+    it "calls the WorkPackageMembers::CreateService" do
       allow(WorkPackageMembers::CreateService).to receive(:new).and_return(create_instance)
       allow(create_instance).to receive(:call).and_return(service_result)
 
@@ -64,11 +64,11 @@ RSpec.describe WorkPackageMembers::CreateOrUpdateService do
     end
   end
 
-  context 'when the user already has a work_package_member for that work package' do
+  context "when the user already has a work_package_member for that work package" do
     let(:update_instance) { instance_double(WorkPackageMembers::UpdateService) }
     let(:existing_member) { build_stubbed(:work_package_member) }
 
-    it 'calls the WorkPackageMembers::UpdateService' do
+    it "calls the WorkPackageMembers::UpdateService" do
       allow(WorkPackageMembers::UpdateService).to receive(:new).and_return(update_instance)
       allow(update_instance).to receive(:call).and_return(service_result)
 

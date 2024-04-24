@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe StatusesController do
   shared_let(:user) { create(:admin) }
@@ -34,7 +34,7 @@ RSpec.describe StatusesController do
 
   before { login_as(user) }
 
-  shared_examples_for 'response' do
+  shared_examples_for "response" do
     subject { response }
 
     it { is_expected.to be_successful }
@@ -42,7 +42,7 @@ RSpec.describe StatusesController do
     it { is_expected.to render_template(template) }
   end
 
-  shared_examples_for 'redirect' do
+  shared_examples_for "redirect" do
     subject { response }
 
     it { is_expected.to be_redirect }
@@ -50,45 +50,45 @@ RSpec.describe StatusesController do
     it { is_expected.to redirect_to(action: :index) }
   end
 
-  shared_examples_for 'statuses' do
+  shared_examples_for "statuses" do
     subject { Status.find_by(name:) }
 
     it { is_expected.not_to be_nil }
   end
 
-  describe '#index' do
-    let(:template) { 'index' }
+  describe "#index" do
+    let(:template) { "index" }
 
     before { get :index }
 
-    it_behaves_like 'response'
+    it_behaves_like "response"
   end
 
-  describe '#new' do
-    let(:template) { 'new' }
+  describe "#new" do
+    let(:template) { "new" }
 
     before { get :new }
 
-    it_behaves_like 'response'
+    it_behaves_like "response"
   end
 
-  describe '#create' do
-    let(:name) { 'New Status' }
+  describe "#create" do
+    let(:name) { "New Status" }
 
     before do
       post :create,
            params: { status: { name: } }
     end
 
-    it_behaves_like 'statuses'
+    it_behaves_like "statuses"
 
-    it_behaves_like 'redirect'
+    it_behaves_like "redirect"
   end
 
-  describe '#edit' do
-    let(:template) { 'edit' }
+  describe "#edit" do
+    let(:template) { "edit" }
 
-    context 'default' do
+    context "default" do
       let!(:status_default) do
         create(:status,
                is_default: true)
@@ -99,41 +99,41 @@ RSpec.describe StatusesController do
             params: { id: status_default.id }
       end
 
-      it_behaves_like 'response'
+      it_behaves_like "response"
 
-      describe '#view' do
+      describe "#view" do
         render_views
 
         it do
-          assert_select 'p',
+          assert_select "p",
                         { content: Status.human_attribute_name(:is_default) },
                         false
         end
       end
     end
 
-    context 'no_default' do
+    context "no_default" do
       before do
         status
 
         get :edit, params: { id: status.id }
       end
 
-      it_behaves_like 'response'
+      it_behaves_like "response"
 
-      describe '#view' do
+      describe "#view" do
         render_views
 
         it do
-          assert_select 'div',
+          assert_select "div",
                         content: Status.human_attribute_name(:is_default)
         end
       end
     end
   end
 
-  describe '#update' do
-    let(:name) { 'Renamed Status' }
+  describe "#update" do
+    let(:name) { "Renamed Status" }
 
     before do
       status
@@ -145,21 +145,21 @@ RSpec.describe StatusesController do
             }
     end
 
-    it_behaves_like 'statuses'
+    it_behaves_like "statuses"
 
-    it_behaves_like 'redirect'
+    it_behaves_like "redirect"
   end
 
-  describe '#destroy' do
+  describe "#destroy" do
     let(:name) { status.name }
 
-    shared_examples_for 'destroyed' do
+    shared_examples_for "destroyed" do
       subject { Status.find_by(name:) }
 
       it { is_expected.to be_nil }
     end
 
-    context 'unused' do
+    context "unused" do
       before do
         delete :destroy, params: { id: status.id }
       end
@@ -168,12 +168,12 @@ RSpec.describe StatusesController do
         Status.delete_all
       end
 
-      it_behaves_like 'destroyed'
+      it_behaves_like "destroyed"
 
-      it_behaves_like 'redirect'
+      it_behaves_like "redirect"
     end
 
-    context 'used' do
+    context "used" do
       let(:work_package) do
         create(:work_package,
                status:)
@@ -185,12 +185,12 @@ RSpec.describe StatusesController do
         delete :destroy, params: { id: status.id }
       end
 
-      it_behaves_like 'statuses'
+      it_behaves_like "statuses"
 
-      it_behaves_like 'redirect'
+      it_behaves_like "redirect"
     end
 
-    context 'default' do
+    context "default" do
       let!(:status_default) do
         create(:status,
                is_default: true)
@@ -200,39 +200,39 @@ RSpec.describe StatusesController do
         delete :destroy, params: { id: status_default.id }
       end
 
-      it_behaves_like 'statuses'
+      it_behaves_like "statuses"
 
-      it_behaves_like 'redirect'
+      it_behaves_like "redirect"
 
-      it 'shows the right flash message' do
-        expect(flash[:error]).to eq(I18n.t('error_unable_delete_default_status'))
+      it "shows the right flash message" do
+        expect(flash[:error]).to eq(I18n.t("error_unable_delete_default_status"))
       end
     end
   end
 
-  describe '#update_work_package_done_ratio' do
+  describe "#update_work_package_done_ratio" do
     context "with 'work_package_done_ratio' using 'field'" do
       before do
-        allow(Setting).to receive(:work_package_done_ratio).and_return 'field'
+        allow(Setting).to receive(:work_package_done_ratio).and_return "field"
 
         post :update_work_package_done_ratio
       end
 
-      it { is_expected.to set_flash[:error].to(I18n.t('error_work_package_done_ratios_not_updated')) }
+      it { is_expected.to set_flash[:error].to(I18n.t("error_work_package_done_ratios_not_updated")) }
 
-      it_behaves_like 'redirect'
+      it_behaves_like "redirect"
     end
 
     context "with 'work_package_done_ratio' using 'status'" do
       before do
-        allow(Setting).to receive(:work_package_done_ratio).and_return 'status'
+        allow(Setting).to receive(:work_package_done_ratio).and_return "status"
 
         post :update_work_package_done_ratio
       end
 
-      it { is_expected.to set_flash[:notice].to(I18n.t('notice_work_package_done_ratios_updated')) }
+      it { is_expected.to set_flash[:notice].to(I18n.t("notice_work_package_done_ratios_updated")) }
 
-      it_behaves_like 'redirect'
+      it_behaves_like "redirect"
     end
   end
 end

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Stories::CreateService, type: :model do
   let(:priority) { create(:priority) }
@@ -60,14 +60,14 @@ RSpec.describe Stories::CreateService, type: :model do
       priority:,
       parent_id: story.id,
       remaining_hours:,
-      subject: 'some subject'
+      subject: "some subject"
     }
   end
 
   let(:version) { create(:version, project:) }
 
   let(:story) do
-    project.enabled_module_names += ['backlogs']
+    project.enabled_module_names += ["backlogs"]
 
     create(:story,
            version:,
@@ -88,18 +88,18 @@ RSpec.describe Stories::CreateService, type: :model do
       subject
     end
 
-    context 'with the story having remaining_hours' do
+    context "with the story having remaining_hours" do
       let(:remaining_hours) { 15.0 }
 
-      it 'does update the parents remaining hours' do
+      it "does update the parents remaining hours" do
         expect(story.reload.derived_remaining_hours).to eq(15)
       end
     end
 
-    context 'with the subtask not having remaining_hours' do
+    context "with the subtask not having remaining_hours" do
       let(:remaining_hours) { nil }
 
-      it 'does not note remaining hours to be changed' do
+      it "does not note remaining hours to be changed" do
         expect(story.reload.remaining_hours).to be_nil
       end
     end

@@ -23,7 +23,7 @@ OpenProject offers a basic GitHub integration. You will find more information ab
 
 ## GitLab
 
-There is a GitLab plugin from the Community. You will find the README and the code [here](https://github.com/btey/openproject-gitlab-integration). We are currently working on integrating the plugin into the OpenProject core with [#23673](https://community.openproject.org/projects/openproject/work_packages/23673/activity).
+OpenProject offers a GitLab integration, based on the [GitLab plugin contributed by the Community](https://github.com/btey/openproject-gitlab-integration). More information on the GitLab integration is available in our [GitLab integration guide](./gitlab-integration/).
 
 ## Jira
 

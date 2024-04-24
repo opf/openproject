@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe TimeEntries::DeleteContract do
   let(:current_user) { build_stubbed(:user) }
@@ -74,53 +74,53 @@ RSpec.describe TimeEntries::DeleteContract do
     end
   end
 
-  shared_examples 'is valid' do
-    it 'is valid' do
+  shared_examples "is valid" do
+    it "is valid" do
       expect_valid(true)
     end
   end
 
-  it_behaves_like 'is valid'
+  it_behaves_like "is valid"
 
-  context 'when user is not allowed to delete time entries' do
+  context "when user is not allowed to delete time entries" do
     let(:permissions) { [] }
 
-    it 'is invalid' do
+    it "is invalid" do
       expect_valid(false, base: %i(error_unauthorized))
     end
   end
 
-  context 'when time entry ongoing and user as log_time permission' do
+  context "when time entry ongoing and user as log_time permission" do
     let(:time_entry_ongoing) { true }
     let(:permissions) { %i[log_own_time] }
 
-    it_behaves_like 'is valid'
+    it_behaves_like "is valid"
   end
 
-  context 'when time entry not ongoing and user as log_time permission' do
+  context "when time entry not ongoing and user as log_time permission" do
     let(:time_entry_ongoing) { false }
     let(:permissions) { %i[log_own_time] }
 
-    it 'is invalid' do
+    it "is invalid" do
       expect_valid(false, base: %i(error_unauthorized))
     end
   end
 
-  context 'when time_entry user is not contract user' do
+  context "when time_entry user is not contract user" do
     let(:time_entry_user) { other_user }
 
-    context 'when has permission' do
+    context "when has permission" do
       let(:permissions) { %i[edit_time_entries] }
 
-      it 'is valid' do
+      it "is valid" do
         expect_valid(true)
       end
     end
 
-    context 'when has no permission' do
+    context "when has no permission" do
       let(:permissions) { %i[edit_own_time_entries] }
 
-      it 'is invalid' do
+      it "is invalid" do
         expect_valid(false, base: %i(error_unauthorized))
       end
     end

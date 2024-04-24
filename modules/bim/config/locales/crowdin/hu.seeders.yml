@@ -115,7 +115,7 @@ hu:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Üdvözlünk
               item_1:
                 options:
                   name: Kezdés
@@ -147,7 +147,7 @@ hu:
                   name: Munkacsomagok
               item_6:
                 options:
-                  name: Milestones
+                  name: Mérföldkövek
         demo-planning-constructing-project:
           name: "(Demo) Planning & constructing"
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
@@ -165,16 +165,16 @@ hu:
             item_0:
               name: Project plan
             item_1:
-              name: Milestones
+              name: Mérföldkövek
             item_2:
-              name: Tasks
+              name: Feladatok
             item_3:
               name: Csoport tervező
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Üdvözlünk
               item_1:
                 options:
                   name: Kezdés
@@ -202,7 +202,7 @@ hu:
                   name: Munkacsomagok
               item_6:
                 options:
-                  name: Milestones
+                  name: Mérföldkövek
           work_packages:
             item_0:
               subject: Project kick off construction project
@@ -246,7 +246,7 @@ hu:
                   subject: End of basic evaluation
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_2:
-              subject: Preliminary planning
+              subject: Előzetes tervezés
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:

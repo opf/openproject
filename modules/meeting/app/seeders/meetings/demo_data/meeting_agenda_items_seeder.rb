@@ -30,7 +30,7 @@ module Meetings
   module DemoData
     class MeetingAgendaItemsSeeder < ::BasicData::ModelSeeder
       self.model_class = MeetingAgendaItem
-      self.seed_data_model_key = 'meeting_agenda_items'
+      self.seed_data_model_key = "meeting_agenda_items"
 
       ##
       #
@@ -40,12 +40,12 @@ module Meetings
 
       def model_attributes(meeting_data)
         {
-          title: meeting_data['title'],
-          notes: meeting_data['notes'],
-          duration_in_minutes: meeting_data['duration'],
-          author: seed_data.find_reference(meeting_data['author']),
-          meeting: seed_data.find_reference(meeting_data['meeting']),
-          work_package: seed_data.find_reference(meeting_data['work_package'])
+          title: meeting_data["title"],
+          notes: meeting_data["notes"],
+          duration_in_minutes: meeting_data["duration"],
+          author: seed_data.find_reference(meeting_data["author"]),
+          meeting: seed_data.find_reference(meeting_data["meeting"]),
+          work_package: seed_data.find_reference(meeting_data["work_package"])
         }
       end
     end

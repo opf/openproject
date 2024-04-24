@@ -98,9 +98,9 @@ uk:
   label_start_date: "Дата початку"
   meeting:
     copy:
-      title: "Copy meeting %{title}"
-      agenda: "Copy agenda"
-      agenda_text: "Copy the agenda of the old meeting"
+      title: "Копіювати нараду «%{title}»"
+      agenda: "Копіювати порядок денний"
+      agenda_text: "Копіювати порядок денний старої наради"
     email:
       open_meeting_link: "Відкрити зустріч"
       invited:

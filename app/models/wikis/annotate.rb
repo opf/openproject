@@ -41,7 +41,7 @@ class Wikis::Annotate
       d.each_slice(3) do |s|
         sign = s[0]
         line = s[1]
-        if sign == '+' && positions[line] && positions[line] != -1 && @lines[positions[line]][0].nil?
+        if sign == "+" && positions[line] && positions[line] != -1 && @lines[positions[line]][0].nil?
           @lines[positions[line]][0] = current.version
           @lines[positions[line]][1] = current.data.author
         end
@@ -49,7 +49,7 @@ class Wikis::Annotate
       d.each_slice(3) do |s|
         sign = s[0]
         line = s[1]
-        if sign == '-'
+        if sign == "-"
           positions.insert(line, -1)
         else
           positions[line] = nil

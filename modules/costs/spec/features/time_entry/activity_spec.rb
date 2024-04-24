@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Time entry activity' do
+RSpec.describe "Time entry activity" do
   shared_let(:admin) { create(:admin) }
   let(:project) { create(:project) }
 
@@ -36,35 +36,35 @@ RSpec.describe 'Time entry activity' do
     login_as(admin)
   end
 
-  it 'supports CRUD' do
+  it "supports CRUD" do
     visit enumerations_path
 
-    page.find_test_selector('create-enumeration-time-entry-activity').click
+    page.find_test_selector("create-enumeration-time-entry-activity").click
 
-    fill_in 'Name', with: 'A new activity'
-    click_on('Create')
+    fill_in "Name", with: "A new activity"
+    click_on("Create")
 
     expect(page.current_path)
       .to eql enumerations_path
 
     expect(page)
-      .to have_content('A new activity')
+      .to have_content("A new activity")
 
     visit project_settings_general_path(project)
 
     click_on "Time tracking activities"
 
     expect(page)
-      .to have_field('A new activity', checked: true)
+      .to have_field("A new activity", checked: true)
 
-    uncheck 'A new activity'
+    uncheck "A new activity"
 
-    click_on 'Save'
+    click_on "Save"
 
     expect(page)
       .to have_content "Successful update."
 
     expect(page)
-      .to have_field('A new activity', checked: false)
+      .to have_field("A new activity", checked: false)
   end
 end

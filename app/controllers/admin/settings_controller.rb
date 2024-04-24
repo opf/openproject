@@ -28,7 +28,7 @@
 
 module Admin
   class SettingsController < ApplicationController
-    layout 'admin'
+    layout "admin"
     before_action :require_admin
     before_action :find_plugin, only: %i[show_plugin update_plugin]
 
@@ -99,12 +99,12 @@ module Admin
 
     def success_callback(_call)
       flash[:notice] = t(:notice_successful_update)
-      redirect_to action: 'show', tab: params[:tab]
+      redirect_to action: "show", tab: params[:tab]
     end
 
     def failure_callback(call)
       flash[:error] = call.message || I18n.t(:notice_internal_server_error)
-      redirect_to action: 'show', tab: params[:tab]
+      redirect_to action: "show", tab: params[:tab]
     end
   end
 end

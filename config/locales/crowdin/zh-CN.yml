@@ -26,7 +26,8 @@ zh-CN:
       no_results_title_text: 在这个时间范围内没有任何项目的活动。
   admin:
     plugins:
-      no_results_title_text: 目前没有插件可用。
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "主题颜色"
       color_theme_custom: "（自定义）"
@@ -93,10 +94,10 @@ zh-CN:
     deleted_by_admin: "管理员已删除被隔离的文件 \"%{filename}\"。"
     overridden_by_admin: "%{user}解除了文件 \"%{filename}\"的隔离。现在可以访问该文件了。"
     quarantined_attachments:
-      container: "Container"
-      delete: "Delete the quarantined file"
-      title: "Quarantined attachments"
-      error_cannot_act_self: "Cannot perform actions on your own uploaded files."
+      container: "容器"
+      delete: "删除被隔离的文件"
+      title: "被隔离的附件"
+      error_cannot_act_self: "无法对自己上传的文件执行操作。"
   attribute_help_texts:
     note_public: "您添加到此字段的任何文本和图像对所有已登录用户都是公开可见的！"
     text_overview: "在此视图中, 您可以为属性视图创建自定义帮助文本。定义后, 可以通过单击属性旁边的帮助图标来显示帮助文本。"
@@ -265,8 +266,8 @@ zh-CN:
       new:
         placeholder: "新项目列表"
       delete_modal:
-        title: "Delete project list"
-        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
+        title: "删除项目列表"
+        text: "此操作不会删除列表中包含的任何项目。确定要删除此项目列表吗？"
     settings:
       change_identifier: 更改标识符
       activities:
@@ -289,7 +290,7 @@ zh-CN:
       storage:
         no_results_title_text: 此项目没有已记录的额外磁盘空间消耗。
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    can_be_saved_as: "修改内容只能保存在新列表中。"
   members:
     index:
       no_results_title_text: 目前这个项目没有成员。
@@ -563,7 +564,7 @@ zh-CN:
           false: "私有"
         queries: "查询"
         status_code: "项目状态"
-        description: "Description"
+        description: "描述"
         status_explanation: "项目状态描述"
         status_codes:
           not_started: "未开始"
@@ -839,8 +840,8 @@ zh-CN:
               forbidden: "时间戳包含禁用值: %{values}"
               format: "%{message}"
             selects:
-              name_not_included: "The 'Name' column needs to be included"
-              nonexistent: "The column '%{column}' does not exist."
+              name_not_included: "需要包含“名称”列"
+              nonexistent: "列“%{column}”不存在。"
               format: "%{message}"
           group_by_hierarchies_exclusive: "与按照“%{group_by}”分组的组互相排斥。您无法将它们都激活。"
           filters:
@@ -1186,7 +1187,7 @@ zh-CN:
   button_reset: "重置"
   button_rollback: "回滚到此版本"
   button_save: "保存"
-  button_save_as: "Save as"
+  button_save_as: "另存为"
   button_apply_changes: "应用更改"
   button_save_back: "保存并返回"
   button_show: "显示"
@@ -1497,6 +1498,7 @@ zh-CN:
       postgres_migration: "将您的安装迁移到 PostgreSQL"
       user_guides: "用户指南"
       faq: "常见问题"
+      impressum: "法律声明"
       glossary: "术语表"
       shortcuts: "快捷键"
       blog: "OpenProject 博客"
@@ -1507,6 +1509,7 @@ zh-CN:
   journals:
     changes_retracted: "更改已撤回。"
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "日期已更改"
       system_update: "OpenProject 系统更新："
     cause_descriptions:
@@ -1753,7 +1756,7 @@ zh-CN:
   label_diff_side_by_side: "并排"
   label_digital_accessibility: "数字可访问性 (DE)"
   label_disabled: "已禁用"
-  label_disabled_uppercase: "Disabled"
+  label_disabled_uppercase: "已禁用"
   label_display: "显示"
   label_display_per_page: "每页: %{value}"
   label_display_used_statuses_only: "仅显示该类型使用的状态"
@@ -1828,7 +1831,6 @@ zh-CN:
   label_subject_or_id: "主题或ID"
   label_calendar_subscriptions: "日历订阅"
   label_identifier: "标识符"
-  label_impressum: "法律声明"
   label_in: "在"
   label_in_less_than: "在小于"
   label_in_more_than: "在多于"
@@ -1888,7 +1890,7 @@ zh-CN:
   label_member_new: "新成员"
   label_member_all_admin: "（所有角色都由管理员状态决定）"
   label_member_plural: "成员"
-  label_membership_plural: "Memberships"
+  label_membership_plural: "成员资格"
   lable_membership_added: "已添加成员"
   lable_membership_updated: "已更新成员"
   label_menu_badge:
@@ -1981,7 +1983,7 @@ zh-CN:
   label_precedes: "之前"
   label_preferences: "首选项"
   label_preview: "预览"
-  label_preview_not_available: "(Preview not available)"
+  label_preview_not_available: "（预览不可用）"
   label_previous: "上一个"
   label_previous_week: "前一周"
   label_principal_invite_via_email: " 或通过电子邮件邀请新用户"
@@ -2193,9 +2195,9 @@ zh-CN:
     other: "%{count} 个项目"
     zero: "没有项目"
   label_x_files:
-    one: "1 file"
-    other: "%{count} files"
-    zero: "no files"
+    one: "1 个文件"
+    other: "%{count} 个文件"
+    zero: "无文件"
   label_yesterday: "昨天"
   label_role_type: "类型"
   label_member_role: "项目角色"
@@ -2562,7 +2564,7 @@ zh-CN:
     name_or_identifier: "名称或标识符"
     only_subproject_id: "仅子项目"
     shared_with_user: "与用户共享"
-    shared_with_me: "Shared with me"
+    shared_with_me: "与我共享"
     subproject_id: "包括子项目"
   repositories:
     at_identifier: "在 %{identifier}"
@@ -2678,6 +2680,9 @@ zh-CN:
   setting_apiv3_cors_origins: "API v3 跨域资源共享 (CORS) 允许的域"
   setting_apiv3_cors_origins_text_html: >
     如果启用了 CORS ，这些是允许访问 OpenProject API 的源。<br/>请查看<a href="%{origin_link}" target="_blank">有关“源”标题的文档</a>，了解如何指定预期值。
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "最大 API 页面大小"
   setting_apiv3_max_page_instructions_html: >
     设置 API 将响应的最大页面大小。将无法执行在单个页面上返回更多值的 API 请求。<br/> <strong>警告</strong>：请仅在您确定为何需要更改的情况下更改此值。设置为较高的值将对性能造成显著影响，而值低于每页选项时将导致分页视图出错。
@@ -2701,8 +2706,8 @@ zh-CN:
   setting_app_subtitle: "应用副标题"
   setting_app_title: "应用程序标题"
   setting_attachment_max_size: "最大的附件大小"
-  setting_antivirus_scan_mode: "Scan mode"
-  setting_antivirus_scan_action: "Infected file action"
+  setting_antivirus_scan_mode: "扫描模式"
+  setting_antivirus_scan_action: "受感染文件的操作"
   setting_autofetch_changesets: "自动提取存储库更改"
   setting_autologin: "自动登录"
   setting_available_languages: "可用语言"
@@ -2711,7 +2716,7 @@ zh-CN:
   setting_brute_force_block_minutes: "账户锁定时长"
   setting_cache_formatted_text: "缓存带格式的文本"
   setting_use_wysiwyg_description: "选择为默认情况下为所有用户启用CKEditor5 所见即所得编辑器。 CKEditor对GFM Markdown的功能有限。"
-  setting_column_options: "Default work package lists columns"
+  setting_column_options: "默认工作包列表列"
   setting_commit_fix_keywords: "固定的关键字"
   setting_commit_logs_encoding: "提交消息编码"
   setting_commit_logtime_activity_id: "记录时间的活动"
@@ -2733,7 +2738,7 @@ zh-CN:
   setting_emails_header: "电子邮件页眉"
   setting_email_login: "使用电子邮件作为登录名"
   setting_enabled_scm: "启用 SCM"
-  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
+  setting_enabled_projects_columns: "默认显示的项目列表列"
   setting_feeds_enabled: "启用Feeds"
   setting_ical_enabled: "启用 iCalendar 订阅"
   setting_feeds_limit: "Feed 内容限制"
@@ -2802,26 +2807,26 @@ zh-CN:
       whitelist_text_html: >
         为上传的文件定义有效文件扩展名和/或 MIME 类型列表。<br/>输入文件扩展名（例如 <code>%{ext_example}</code>）或 MIME 类型（例如 <code>%{mime_example}</code>）。<br/>留空以允许上传任何文件类型。允许输入多个值（每个值一行）。
     antivirus:
-      title: "Virus scanning"
-      clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
+      title: "病毒扫描"
+      clamav_ping_failed: "无法连接 ClamAV 守护进程。请仔细检查配置，然后重试。"
       remaining_quarantined_files_html: >
-        Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+        病毒扫描已禁用。%{file_count} 个文件仍在隔离区。要查看被隔离的文件，请访问此链接：%{link}
       remaining_scan_complete_html: >
-        Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
+        剩余文件已扫描。%{file_count} 个文件位于隔离区。您将被重定向到隔离区页面。使用此页面可以删除或覆盖被隔离的文件。
       remaining_rescanned_files: >
-        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        已成功启用病毒扫描。之前上传的 %{file_count} 个文件仍需扫描。此过程已安排在后台执行。扫描期间，文件仍可访问。
       upsale:
-        description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
+        description: "确保在其他用户可以访问 OpenProject 中上传的文件之前对其进行病毒扫描。"
       actions:
-        delete: "Delete the file"
-        quarantine: "Quarantine the file"
+        delete: "删除文件"
+        quarantine: "隔离文件"
         instructions_html: >
-          Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
+          选择要对检测到病毒的文件执行的操作：<br/> <ul> <li><strong>%{quarantine_option}</strong>：隔离文件，阻止用户访问。管理员可以在“管理”中查看和删除被隔离的文件。</li> <li><strong>%{delete_option}</strong>：立即删除文件。</li> </ul>
       modes:
-        clamav_socket_html: Enter the socket to the clamd daemon, e.g., %{example}
-        clamav_host_html: Enter the hostname and port to the clamd daemon separated by colon. e.g., %{example}
+        clamav_socket_html: 输入 clamd 守护进程的套接字，例如：%{example}
+        clamav_host_html: 输入 clamd 守护进程的主机名和端口，用冒号分隔。例如：%{example}。
         description_html: >
-          Select the mode in which the antivirus scanner integration should operate. <br/> <ul> <li><strong>%{disabled_option}</strong>: Uploaded files are not scanned for viruses.</li> <li><strong>%{socket_option}</strong>: You have set up ClamAV on the same server as OpenProject and the scan daemon clamd is running in the background</li> <li><strong>%{host_option}</strong>: You are streaming files to an external virus scanning host.</li> </ul>
+          选择防病毒扫描程序集成的运行模式。<br/> <ul> <li><strong>%{disabled_option}</strong>：不对上传的文件进行病毒扫描。</li> <li><strong>%{socket_option}</strong>：您已经在与 OpenProject 相同的服务器上设置了 ClamAV，并且扫描守护程序 clamd 正在后台运行。</li> <li><strong>%{host_option}</strong>：您正在将文件流式传输到外部病毒扫描主机。</li> </ul>
     brute_force_prevention: "自动帐号锁定"
     date_format:
       first_date_of_week_and_year_set: >
@@ -2851,7 +2856,7 @@ zh-CN:
     projects:
       missing_dependencies: "已检查依赖于 %{dependencies} 的项目模块 %{module}。您也需要检查这些依赖项。"
       section_new_projects: "新项目的设置"
-      section_project_overview: "Settings for project lists"
+      section_project_overview: "项目列表设置"
     session: "会话"
     user:
       default_preferences: "默认偏好设置"
@@ -3017,11 +3022,11 @@ zh-CN:
   queries:
     apply_filter: 应用预配置筛选器
     configure_view:
-      heading: Configure view
+      heading: 配置视图
       columns:
-        input_label: "Add columns"
-        input_placeholder: "Select a column"
-        drag_area_label: "Manage and reorder columns"
+        input_label: "添加列"
+        input_placeholder: "选择列"
+        drag_area_label: "管理列并对其重新排序"
   top_menu:
     additional_resources: "其他资源"
     getting_started: "入门指南"
@@ -3055,6 +3060,7 @@ zh-CN:
     status_user_and_brute_force: "%{user} 和 %{brute_force}"
     status_change: "状态更改"
     text_change_disabled_for_provider_login: "名称由您的登录提供商设置，因此无法更改。"
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "解锁​​​​"
     unlock_and_reset_failed_logins: "解锁和重置失败的帐户"
   version_status_closed: "关闭"

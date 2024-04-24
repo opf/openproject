@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/json/hal"
 
 module API
   module V3
@@ -49,7 +49,7 @@ module API
         property :subject, render_nil: true
 
         def _type
-          'Budget'
+          "Budget"
         end
       end
     end

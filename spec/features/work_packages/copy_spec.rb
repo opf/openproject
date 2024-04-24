@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Work package copy', :js, :selenium do
+RSpec.describe "Work package copy", :js, :selenium do
   let(:user) do
     create(:user,
            member_with_roles: { project => create_role })
@@ -63,20 +63,20 @@ RSpec.describe 'Work package copy', :js, :selenium do
   let(:role) { build(:project_role, permissions: %i[view_work_packages work_package_assigned]) }
   let(:assignee) do
     create(:user,
-           firstname: 'An',
-           lastname: 'assignee',
+           firstname: "An",
+           lastname: "assignee",
            member_with_roles: { project => role })
   end
   let(:responsible) do
     create(:user,
-           firstname: 'The',
-           lastname: 'responsible',
+           firstname: "The",
+           lastname: "responsible",
            member_with_roles: { project => role })
   end
   let(:author) do
     create(:user,
-           firstname: 'The',
-           lastname: 'author',
+           firstname: "The",
+           lastname: "author",
            member_with_roles: { project => role })
   end
   let(:version) do
@@ -90,21 +90,21 @@ RSpec.describe 'Work package copy', :js, :selenium do
     work_flow.save!
   end
 
-  it 'on fullscreen page' do
+  it "on fullscreen page" do
     original_work_package_page = Pages::FullWorkPackage.new(original_work_package, project)
     to_copy_work_package_page = original_work_package_page.visit_copy!
 
     to_copy_work_package_page.expect_current_path
     to_copy_work_package_page.expect_fully_loaded
 
-    to_copy_work_package_page.update_attributes Description: 'Copied WP Description'
+    to_copy_work_package_page.update_attributes Description: "Copied WP Description"
     to_copy_work_package_page.save!
 
-    expect(page).to have_css('.op-toast--content',
-                             text: I18n.t('js.notice_successful_create'),
+    expect(page).to have_css(".op-toast--content",
+                             text: I18n.t("js.notice_successful_create"),
                              wait: 20)
 
-    copied_work_package = WorkPackage.order(created_at: 'desc').first
+    copied_work_package = WorkPackage.order(created_at: "desc").first
 
     expect(copied_work_package).not_to eql original_work_package
 
@@ -112,7 +112,7 @@ RSpec.describe 'Work package copy', :js, :selenium do
 
     work_package_page.ensure_page_loaded
     work_package_page.expect_attributes Subject: original_work_package.subject,
-                                        Description: 'Copied WP Description',
+                                        Description: "Copied WP Description",
                                         Version: original_work_package.version,
                                         Priority: original_work_package.priority,
                                         Assignee: original_work_package.assigned_to.name,
@@ -123,41 +123,41 @@ RSpec.describe 'Work package copy', :js, :selenium do
 
     work_package_page.visit_tab! :relations
     expect_angular_frontend_initialized
-    expect(page).to have_css('.relation-group--header', text: 'RELATED TO', wait: 20)
-    expect(page).to have_test_selector('op-relation--row-subject', text: original_work_package.subject)
+    expect(page).to have_css(".relation-group--header", text: "RELATED TO", wait: 20)
+    expect(page).to have_test_selector("op-relation--row-subject", text: original_work_package.subject)
   end
 
-  describe 'when source work package has an attachment' do
-    it 'still allows copying through menu (Regression #30518)' do
+  describe "when source work package has an attachment" do
+    it "still allows copying through menu (Regression #30518)" do
       wp_page = Pages::FullWorkPackage.new(original_work_package, project)
       wp_page.visit!
       wp_page.ensure_page_loaded
 
       # Go to add cost entry page
-      find('#action-show-more-dropdown-menu .button').click
-      find('.menu-item', text: 'Copy', exact_text: true).click
+      find("#action-show-more-dropdown-menu .button").click
+      find(".menu-item", text: "Copy", exact_text: true).click
 
       to_copy_work_package_page = Pages::FullWorkPackageCreate.new(original_work_package:)
-      to_copy_work_package_page.update_attributes Description: 'Copied WP Description'
+      to_copy_work_package_page.update_attributes Description: "Copied WP Description"
       to_copy_work_package_page.save!
 
-      to_copy_work_package_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_create')
+      to_copy_work_package_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_create")
     end
   end
 
-  it 'on split screen page' do
+  it "on split screen page" do
     original_work_package_page = Pages::SplitWorkPackage.new(original_work_package, project)
     to_copy_work_package_page = original_work_package_page.visit_copy!
 
     to_copy_work_package_page.expect_current_path
     to_copy_work_package_page.expect_fully_loaded
 
-    to_copy_work_package_page.update_attributes Description: 'Copied WP Description'
+    to_copy_work_package_page.update_attributes Description: "Copied WP Description"
 
     to_copy_work_package_page.save!
-    find('.op-toast--content', text: I18n.t('js.notice_successful_create'), wait: 20)
+    find(".op-toast--content", text: I18n.t("js.notice_successful_create"), wait: 20)
 
-    copied_work_package = WorkPackage.order(created_at: 'desc').first
+    copied_work_package = WorkPackage.order(created_at: "desc").first
 
     expect(copied_work_package).not_to eql original_work_package
 
@@ -165,7 +165,7 @@ RSpec.describe 'Work package copy', :js, :selenium do
 
     work_package_page.ensure_page_loaded
     work_package_page.expect_attributes Subject: original_work_package.subject,
-                                        Description: 'Copied WP Description',
+                                        Description: "Copied WP Description",
                                         Version: original_work_package.version,
                                         Priority: original_work_package.priority,
                                         Assignee: original_work_package.assigned_to,
@@ -174,9 +174,9 @@ RSpec.describe 'Work package copy', :js, :selenium do
     work_package_page.expect_activity user, number: 1
     work_package_page.expect_current_path
 
-    work_package_page.visit_tab!('relations')
+    work_package_page.visit_tab!("relations")
     expect_angular_frontend_initialized
-    expect(page).to have_css('.relation-group--header', text: 'RELATED TO', wait: 20)
-    expect(page).to have_test_selector('op-relation--row-subject', text: original_work_package.subject)
+    expect(page).to have_css(".relation-group--header", text: "RELATED TO", wait: 20)
+    expect(page).to have_test_selector("op-relation--row-subject", text: original_work_package.subject)
   end
 end

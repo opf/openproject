@@ -42,11 +42,11 @@ module ::Calendar
 
     def index
       @views = visible_views
-      render 'index', locals: { menu_name: project_or_global_menu }
+      render "index", locals: { menu_name: project_or_global_menu }
     end
 
     def show
-      render layout: 'angular/angular'
+      render layout: "angular/angular"
     end
 
     def new; end
@@ -93,13 +93,13 @@ module ::Calendar
       base_query = Query
                      .visible(current_user)
                      .joins(:views, :project)
-                     .where('views.type' => 'work_packages_calendar')
+                     .where("views.type" => "work_packages_calendar")
 
       if @project
-        base_query = base_query.where('queries.project_id' => @project.id)
+        base_query = base_query.where("queries.project_id" => @project.id)
       end
 
-      base_query.order('queries.name ASC')
+      base_query.order("queries.name ASC")
     end
 
     def find_calendar

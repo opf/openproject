@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe ScheduleHelpers::ExampleMethods do
   create_shared_association_defaults_for_work_package_factory
 
-  describe 'create_schedule' do
+  describe "create_schedule" do
     let(:monday) { Date.current.next_occurring(:monday) }
     let(:tuesday) { monday + 1.day }
 
     # rubocop:disable RSpec/ExampleLength
-    it 'creates work packages from the given chart' do
+    it "creates work packages from the given chart" do
       schedule = create_schedule(<<~CHART)
         days       | MTWTFSS |
         main       | XX      |
@@ -73,7 +73,7 @@ RSpec.describe ScheduleHelpers::ExampleMethods do
     end
     # rubocop:enable RSpec/ExampleLength
 
-    it 'creates parent/child relations from the given chart' do
+    it "creates parent/child relations from the given chart" do
       schedule = create_schedule(<<~CHART)
         days      | MTWTFSS |
         main      |         |
@@ -87,7 +87,7 @@ RSpec.describe ScheduleHelpers::ExampleMethods do
       )
     end
 
-    it 'creates follows relations from the given chart' do
+    it "creates follows relations from the given chart" do
       schedule = create_schedule(<<~CHART)
         days        | MTWTFSS |
         predecessor | XX      |
@@ -104,7 +104,7 @@ RSpec.describe ScheduleHelpers::ExampleMethods do
     end
   end
 
-  describe 'change_schedule' do
+  describe "change_schedule" do
     include ActiveSupport::Testing::TimeHelpers
 
     let(:fake_today) { Date.new(2022, 6, 16) } # Thursday 16 June 2022
@@ -117,9 +117,9 @@ RSpec.describe ScheduleHelpers::ExampleMethods do
       travel_to(fake_today)
     end
 
-    it 'applies dates changes to a group of work packages from a visual chart representation' do
-      main = build_stubbed(:work_package, subject: 'main')
-      second = build_stubbed(:work_package, subject: 'second')
+    it "applies dates changes to a group of work packages from a visual chart representation" do
+      main = build_stubbed(:work_package, subject: "main")
+      second = build_stubbed(:work_package, subject: "second")
       change_schedule([main, second], <<~CHART)
         days   | MTWTFSS |
         main   | XX      |
@@ -131,8 +131,8 @@ RSpec.describe ScheduleHelpers::ExampleMethods do
       expect(second.due_date).to eq(friday)
     end
 
-    it 'does not save changes' do
-      main = create(:work_package, subject: 'main')
+    it "does not save changes" do
+      main = create(:work_package, subject: "main")
       expect(main.persisted?).to be(true)
       expect(main.has_changes_to_save?).to be(false)
       change_schedule([main], <<~CHART)
@@ -140,18 +140,18 @@ RSpec.describe ScheduleHelpers::ExampleMethods do
         main   | XX      |
       CHART
       expect(main.has_changes_to_save?).to be(true)
-      expect(main.changes).to eq('start_date' => [nil, monday], 'due_date' => [nil, tuesday])
+      expect(main.changes).to eq("start_date" => [nil, monday], "due_date" => [nil, tuesday])
     end
   end
 
-  describe 'expect_schedule' do
+  describe "expect_schedule" do
     let_schedule(<<~CHART)
             | MTWTFSS |
       main  | XX      |
       other |   XXX   |
     CHART
 
-    it 'checks the work packages properties according to the given work packages and chart representation' do
+    it "checks the work packages properties according to the given work packages and chart representation" do
       expect do
         expect_schedule([main, other], <<~CHART)
                 | MTWTFSS |
@@ -161,7 +161,7 @@ RSpec.describe ScheduleHelpers::ExampleMethods do
       end.not_to raise_error
     end
 
-    it 'raises an error if start_date is wrong' do
+    it "raises an error if start_date is wrong" do
       expect do
         expect_schedule([main], <<~CHART)
                 | MTWTFSS |
@@ -170,7 +170,7 @@ RSpec.describe ScheduleHelpers::ExampleMethods do
       end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
     end
 
-    it 'raises an error if due_date is wrong' do
+    it "raises an error if due_date is wrong" do
       expect do
         expect_schedule([main], <<~CHART)
                 | MTWTFSS |
@@ -179,7 +179,7 @@ RSpec.describe ScheduleHelpers::ExampleMethods do
       end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
     end
 
-    it 'raises an error if a work package name in the chart cannot be found in the given work packages' do
+    it "raises an error if a work package name in the chart cannot be found in the given work packages" do
       expect do
         expect_schedule([main], <<~CHART)
                 | MTWTFSS |

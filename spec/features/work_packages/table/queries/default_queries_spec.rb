@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Default work package queries', :js do
+RSpec.describe "Default work package queries", :js do
   create_shared_association_defaults_for_work_package_factory
 
   shared_let(:user) { create(:admin) }
@@ -36,21 +36,21 @@ RSpec.describe 'Default work package queries', :js do
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project_with_types) }
 
-  describe 'Overdue' do
-    let!(:work_package) { create(:work_package, subject: 'Not overdue', due_date: 5.days.from_now) }
-    let!(:due_today_work_package) { create(:work_package, subject: 'Not overdue', due_date: Time.zone.today) }
-    let!(:overdue_work_package_1_day_ago) { create(:work_package, subject: 'Overdue 1 day ago', due_date: 1.day.ago) }
-    let!(:overdue_work_package_2_days_ago) { create(:work_package, subject: 'Overdue 2 days ago', due_date: 2.days.ago) }
+  describe "Overdue" do
+    let!(:work_package) { create(:work_package, subject: "Not overdue", due_date: 5.days.from_now) }
+    let!(:due_today_work_package) { create(:work_package, subject: "Not overdue", due_date: Time.zone.today) }
+    let!(:overdue_work_package_1_day_ago) { create(:work_package, subject: "Overdue 1 day ago", due_date: 1.day.ago) }
+    let!(:overdue_work_package_2_days_ago) { create(:work_package, subject: "Overdue 2 days ago", due_date: 2.days.ago) }
     let!(:closed_status) { create(:closed_status) }
-    let!(:closed_work_package) { create(:work_package, subject: 'Closed', status: closed_status, due_date: 10.days.ago) }
+    let!(:closed_work_package) { create(:work_package, subject: "Closed", status: closed_status, due_date: 10.days.ago) }
 
-    it 'shows the overdue work package' do
+    it "shows the overdue work package" do
       wp_table.visit!
 
       wp_table.expect_work_package_listed work_package, due_today_work_package, overdue_work_package_1_day_ago,
                                           overdue_work_package_2_days_ago
 
-      click_link 'Overdue', wait: 10
+      click_link "Overdue", wait: 10
 
       wp_table.expect_work_package_listed overdue_work_package_1_day_ago, overdue_work_package_2_days_ago
       wp_table.ensure_work_package_not_listed! closed_work_package, work_package, due_today_work_package

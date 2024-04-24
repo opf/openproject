@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
-require_relative 'concerns/work_package_by_button_creator'
+require "support/pages/page"
+require_relative "concerns/work_package_by_button_creator"
 
 module Pages
   class WorkPackagesTable < Page
@@ -154,9 +154,9 @@ module Pages
     #   objects.
     def expect_work_package_order(*ids)
       retry_block do
-        rows = page.all '.work-package-table .wp--row'
+        rows = page.all ".work-package-table .wp--row"
         expected = ids.map { |el| el.is_a?(WorkPackage) ? el.id.to_s : el.to_s }
-        found = rows.map { |el| el['data-work-package-id'] }
+        found = rows.map { |el| el["data-work-package-id"] }
 
         raise "Order is incorrect: #{found.inspect} != #{expected.inspect}" unless found == expected
       end
@@ -165,7 +165,7 @@ module Pages
     # Expects no work packages to be listed in the table.
     def expect_no_work_package_listed
       within(table_container) do
-        expect(page).to have_css('#empty-row-notification')
+        expect(page).to have_css("#empty-row-notification")
       end
     end
 
@@ -176,10 +176,10 @@ module Pages
     #   editable.
     def expect_title(name, editable: true)
       if editable
-        expect(page).to have_field('editable-toolbar-title', with: name, wait: 10)
+        expect(page).to have_field("editable-toolbar-title", with: name, wait: 10)
       else
         expect(page)
-          .to have_css('.toolbar-container', text: name, wait: 10)
+          .to have_css(".toolbar-container", text: name, wait: 10)
       end
     end
 
@@ -187,10 +187,10 @@ module Pages
     #
     # @param name [String] The name of the query.
     def expect_query_in_select_dropdown(name)
-      page.find('.title-container').click
+      page.find(".title-container").click
 
-      page.within('#viewSelect') do
-        expect(page).to have_css('.op-sidemenu--item-action', text: name)
+      page.within("#viewSelect") do
+        expect(page).to have_css(".op-sidemenu--item-action", text: name)
       end
     end
 
@@ -202,7 +202,7 @@ module Pages
       sleep 3
 
       container.find('[data-test-selector="op-wp-inline-create"]').click
-      expect(container).to have_css('.wp-inline-create-row', wait: 10)
+      expect(container).to have_css(".wp-inline-create-row", wait: 10)
     end
 
     # Opens the split view for the specified work package.
@@ -216,7 +216,7 @@ module Pages
       row_element = row(work_package)
       row_element.hover
 
-      scroll_to_and_click(row_element.find('.wp-table--details-link'))
+      scroll_to_and_click(row_element.find(".wp-table--details-link"))
 
       split_page
     end
@@ -237,7 +237,7 @@ module Pages
     def open_full_screen_by_doubleclick(work_package)
       loading_indicator_saveguard
       # The 'id' column should have enough space to be clicked
-      click_target = row(work_package).find('.inline-edit--display-field.id')
+      click_target = row(work_package).find(".inline-edit--display-field.id")
       page.driver.browser.action.double_click(click_target.native).perform
 
       FullWorkPackage.new(work_package, project)
@@ -259,7 +259,7 @@ module Pages
     # @param from [WorkPackage] The source work package object.
     # @param to [WorkPackage] The target work package object.
     def drag_and_drop_work_package(from:, to:)
-      drag_and_drop_list(from:, to:, elements: '.wp-table--row', handler: '.wp-table--drag-and-drop-handle')
+      drag_and_drop_list(from:, to:, elements: ".wp-table--row", handler: ".wp-table--drag-and-drop-handle")
     end
 
     # Returns the row element for the specified work package.
@@ -287,7 +287,7 @@ module Pages
     def edit_field(work_package, attribute)
       context =
         if work_package.nil?
-          table_container.find('.wp-inline-create-row')
+          table_container.find(".wp-inline-create-row")
         else
           row(work_package)
         end
@@ -324,16 +324,16 @@ module Pages
     #   If `false` it will save through the context menu..
     def save_as(name, by_title: false)
       if by_title
-        title_input = find('.editable-toolbar-title--input')
+        title_input = find(".editable-toolbar-title--input")
         title_input.set(name)
         title_input.send_keys(:enter)
       else
-        click_setting_item 'Save as'
-        fill_in 'save-query-name', with: name
-        click_button 'Save'
+        click_setting_item "Save as"
+        fill_in "save-query-name", with: name
+        click_button "Save"
       end
 
-      expect_toast message: 'Successful creation.'
+      expect_toast message: "Successful creation."
       expect_title name
     end
 
@@ -343,7 +343,7 @@ module Pages
     end
 
     def table_container
-      find('#content .work-packages-split-view--tabletimeline-side')
+      find("#content .work-packages-split-view--tabletimeline-side")
     end
 
     def work_package_container(work_package)
@@ -377,12 +377,12 @@ module Pages
 
     def get_filter_name(label)
       retry_block do
-        label_field = page.find('.advanced-filters--filter-name', text: label)
-        filter_container = label_field.find(:xpath, '..')
+        label_field = page.find(".advanced-filters--filter-name", text: label)
+        filter_container = label_field.find(:xpath, "..")
 
-        raise 'Missing ID on Filter (Angular not ready?)' if filter_container['id'].nil?
+        raise "Missing ID on Filter (Angular not ready?)" if filter_container["id"].nil?
 
-        filter_container['id'].gsub('filter_', '')
+        filter_container["id"].gsub("filter_", "")
       end
     end
 

@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
 RSpec.describe Projects::EnabledModulesContract do
-  include_context 'ModelContract shared context'
+  include_context "ModelContract shared context"
 
   let(:project) { build_stubbed(:project, enabled_module_names: enabled_modules) }
   let(:enabled_modules) { %i[a_module b_module] }
@@ -50,19 +50,19 @@ RSpec.describe Projects::EnabledModulesContract do
     allow(I18n).to receive(:t).with("project_module_b_module").and_return("B Module")
   end
 
-  describe '#valid?' do
-    it_behaves_like 'contract is valid'
+  describe "#valid?" do
+    it_behaves_like "contract is valid"
 
-    context 'when the dependencies are not met' do
+    context "when the dependencies are not met" do
       let(:enabled_modules) { %i[a_module] }
 
-      it_behaves_like 'contract is invalid', enabled_modules: :dependency_missing
+      it_behaves_like "contract is invalid", enabled_modules: :dependency_missing
     end
 
-    context 'when the user lacks the select_project_modules permission' do
+    context "when the user lacks the select_project_modules permission" do
       let(:permissions) { %i[] }
 
-      it_behaves_like 'contract is invalid', base: :error_unauthorized
+      it_behaves_like "contract is invalid", base: :error_unauthorized
     end
   end
 end

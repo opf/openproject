@@ -58,7 +58,7 @@ module Type::AttributeGroups
         estimates_and_time: :label_estimates_and_time,
         details: :label_details,
         other: :label_other,
-        children: :'activerecord.attributes.work_package.children'
+        children: :"activerecord.attributes.work_package.children"
       }
     end
   end

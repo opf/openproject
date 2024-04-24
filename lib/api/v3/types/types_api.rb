@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'api/v3/types/type_collection_representer'
-require 'api/v3/types/type_representer'
+require "api/v3/types/type_collection_representer"
+require "api/v3/types/type_representer"
 
 module API
   module V3
@@ -46,7 +46,7 @@ module API
                    current_user:)
           end
 
-          route_param :id, type: Integer, desc: 'Type ID' do
+          route_param :id, type: Integer, desc: "Type ID" do
             after_validation do
               type = Type.find(params[:id])
               @representer = TypeRepresenter.new(type, current_user:)

@@ -27,7 +27,7 @@
 #++
 
 FactoryBot.define do
-  factory :oauth_client, class: '::OAuthClient' do
+  factory :oauth_client, class: "::OAuthClient" do
     sequence(:client_id) { |n| "1234567890-#{n}" }
     sequence(:client_secret) { |n| "2345678901-#{n}" }
     integration factory: :nextcloud_storage

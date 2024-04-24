@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative 'expected_markdown'
+require_relative "expected_markdown"
 RSpec.describe OpenProject::TextFormatting,
-               'images' do
-  include_context 'expected markdown modules'
+               "images" do
+  include_context "expected markdown modules"
 
   let(:options) { {} }
 
-  context 'inline linking attachments' do
-    context 'work package with attachments' do
+  context "inline linking attachments" do
+    context "work package with attachments" do
       let!(:work_package) do
         build_stubbed(:work_package).tap do |wp|
           allow(wp)
@@ -49,7 +49,7 @@ RSpec.describe OpenProject::TextFormatting,
         build_stubbed(:attached_picture) do |a|
           allow(a)
             .to receive(:filename)
-            .and_return('my-image.jpg')
+            .and_return("my-image.jpg")
           allow(a)
             .to receive(:description)
             .and_return('"foobar"')
@@ -59,7 +59,7 @@ RSpec.describe OpenProject::TextFormatting,
         build_stubbed(:attachment) do |a|
           allow(a)
             .to receive(:filename)
-            .and_return('whatever.pdf')
+            .and_return("whatever.pdf")
         end
       end
 
@@ -67,8 +67,8 @@ RSpec.describe OpenProject::TextFormatting,
 
       let(:options) { { object: work_package, only_path: } }
 
-      context 'for an inlineable attachment referenced by filename' do
-        it_behaves_like 'format_text produces' do
+      context "for an inlineable attachment referenced by filename" do
+        it_behaves_like "format_text produces" do
           let(:raw) do
             <<~RAW
               ![](my-image.jpg)
@@ -88,10 +88,10 @@ RSpec.describe OpenProject::TextFormatting,
           end
         end
 
-        context 'with only_path false' do
+        context "with only_path false" do
           let(:only_path) { false }
 
-          it_behaves_like 'format_text produces' do
+          it_behaves_like "format_text produces" do
             let(:raw) do
               <<~RAW
                 ![](my-image.jpg)
@@ -113,8 +113,8 @@ RSpec.describe OpenProject::TextFormatting,
         end
       end
 
-      context 'for an inlineable attachment referenced by filename and alt-text' do
-        it_behaves_like 'format_text produces' do
+      context "for an inlineable attachment referenced by filename and alt-text" do
+        it_behaves_like "format_text produces" do
           let(:raw) do
             <<~RAW
               ![alt-text](my-image.jpg)
@@ -135,8 +135,8 @@ RSpec.describe OpenProject::TextFormatting,
         end
       end
 
-      context 'for a non existing attachment and alt-text' do
-        it_behaves_like 'format_text produces' do
+      context "for a non existing attachment and alt-text" do
+        it_behaves_like "format_text produces" do
           let(:raw) do
             <<~RAW
               ![foo](does-not-exist.jpg)
@@ -157,8 +157,8 @@ RSpec.describe OpenProject::TextFormatting,
         end
       end
 
-      context 'for a non inlineable attachment (non image)' do
-        it_behaves_like 'format_text produces' do
+      context "for a non inlineable attachment (non image)" do
+        it_behaves_like "format_text produces" do
           let(:raw) do
             <<~RAW
               ![](whatever.pdf)
@@ -179,8 +179,8 @@ RSpec.describe OpenProject::TextFormatting,
         end
       end
 
-      context 'for a relative url (non attachment)' do
-        it_behaves_like 'format_text produces' do
+      context "for a relative url (non attachment)" do
+        it_behaves_like "format_text produces" do
           let(:raw) do
             <<~RAW
               ![](some/path/to/my-image.jpg)
@@ -201,8 +201,8 @@ RSpec.describe OpenProject::TextFormatting,
         end
       end
 
-      context 'for a relative url (non attachment)' do
-        it_behaves_like 'format_text produces' do
+      context "for a relative url (non attachment)" do
+        it_behaves_like "format_text produces" do
           let(:raw) do
             <<~RAW
               ![](some/path/to/my-image.jpg)
@@ -224,8 +224,8 @@ RSpec.describe OpenProject::TextFormatting,
       end
     end
 
-    context 'escaping of malicious image urls' do
-      it_behaves_like 'format_text produces' do
+    context "escaping of malicious image urls" do
+      it_behaves_like "format_text produces" do
         let(:raw) do
           <<~RAW
             ![](/images/comment.png"onclick=&#x61;&#x6c;&#x65;&#x72;&#x74;&#x28;&#x27;&#x58;&#x53;&#x53;&#x27;&#x29;;&#x22;)
@@ -247,8 +247,8 @@ RSpec.describe OpenProject::TextFormatting,
     end
   end
 
-  context 'via html tags' do
-    it_behaves_like 'format_text produces' do
+  context "via html tags" do
+    it_behaves_like "format_text produces" do
       let(:raw) do
         <<~RAW
           <figure class="image op-uc-figure" style="width:50%">

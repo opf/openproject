@@ -29,8 +29,8 @@
 class StructuredMeeting < Meeting
   has_many :agenda_items,
            dependent: :destroy,
-           foreign_key: 'meeting_id',
-           class_name: 'MeetingAgendaItem',
+           foreign_key: "meeting_id",
+           class_name: "MeetingAgendaItem",
            inverse_of: :meeting
   accepts_nested_attributes_for :agenda_items
 

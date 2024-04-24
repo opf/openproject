@@ -25,8 +25,8 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
 RSpec.describe API::V3::WorkPackages::WorkPackagesByProjectAPI, content_type: :json do
   include Rack::Test::Methods
@@ -41,7 +41,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackagesByProjectAPI, content_type: :j
   let(:other_user) { nil }
   let(:parameters) do
     {
-      subject: 'new work packages',
+      subject: "new work packages",
       _links: {
         type: {
           href: api_v3_paths.type(project.types.first.id)
@@ -64,7 +64,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackagesByProjectAPI, content_type: :j
     end
   end
 
-  describe 'notifications' do
+  describe "notifications" do
     let(:other_user) do
       create(:user,
              member_with_permissions: { project => %i(view_work_packages) },
@@ -74,76 +74,76 @@ RSpec.describe API::V3::WorkPackages::WorkPackagesByProjectAPI, content_type: :j
              ])
     end
 
-    it 'creates a notification' do
+    it "creates a notification" do
       expect(Notification.where(recipient: other_user, resource: WorkPackage.last))
         .to exist
     end
 
-    context 'without notifications' do
+    context "without notifications" do
       let(:path) { "#{api_v3_paths.work_packages_by_project(project.id)}?notify=false" }
 
-      it 'creates no notification' do
+      it "creates no notification" do
         expect(Notification)
           .not_to exist
       end
     end
 
-    context 'with notifications' do
+    context "with notifications" do
       let(:path) { "#{api_v3_paths.work_packages_by_project(project.id)}?notify=true" }
 
-      it 'creates a notification' do
+      it "creates a notification" do
         expect(Notification.where(recipient: other_user, resource: WorkPackage.last))
           .to exist
       end
     end
   end
 
-  it 'returns Created(201)' do
+  it "returns Created(201)" do
     expect(last_response.status).to eq(201)
   end
 
-  it 'creates a work package' do
+  it "creates a work package" do
     expect(WorkPackage.all.count).to eq(1)
   end
 
-  it 'uses the given parameters' do
+  it "uses the given parameters" do
     expect(WorkPackage.first.subject).to eq(parameters[:subject])
   end
 
-  context 'without permissions' do
+  context "without permissions" do
     let(:current_user) { create(:user) }
 
-    it 'hides the endpoint' do
+    it "hides the endpoint" do
       expect(last_response.status).to eq(404)
     end
   end
 
-  context 'with view_project permission' do
+  context "with view_project permission" do
     # Note that this just removes the add_work_packages permission
     # view_project is actually provided by being a member of the project
     let(:permissions) { [:view_project] }
 
-    it 'points out the missing permission' do
+    it "points out the missing permission" do
       expect(last_response.status).to eq(403)
     end
   end
 
-  context 'with empty parameters' do
+  context "with empty parameters" do
     let(:parameters) { {} }
 
-    it_behaves_like 'constraint violation' do
+    it_behaves_like "constraint violation" do
       let(:message) { "Subject can't be blank" }
     end
 
-    it 'does not create a work package' do
+    it "does not create a work package" do
       expect(WorkPackage.all.count).to eq(0)
     end
   end
 
-  context 'with bogus parameters' do
+  context "with bogus parameters" do
     let(:parameters) do
       {
-        bogus: 'bogus',
+        bogus: "bogus",
         _links: {
           type: {
             href: api_v3_paths.type(project.types.first.id)
@@ -152,16 +152,16 @@ RSpec.describe API::V3::WorkPackages::WorkPackagesByProjectAPI, content_type: :j
       }
     end
 
-    it_behaves_like 'constraint violation' do
+    it_behaves_like "constraint violation" do
       let(:message) { "Subject can't be blank" }
     end
 
-    it 'does not create a work package' do
+    it "does not create a work package" do
       expect(WorkPackage.all.count).to eq(0)
     end
   end
 
-  context 'with an invalid value' do
+  context "with an invalid value" do
     let(:parameters) do
       {
         subject: nil,
@@ -173,11 +173,11 @@ RSpec.describe API::V3::WorkPackages::WorkPackagesByProjectAPI, content_type: :j
       }
     end
 
-    it_behaves_like 'constraint violation' do
+    it_behaves_like "constraint violation" do
       let(:message) { "Subject can't be blank" }
     end
 
-    it 'does not create a work package' do
+    it "does not create a work package" do
       expect(WorkPackage.all.count).to eq(0)
     end
   end

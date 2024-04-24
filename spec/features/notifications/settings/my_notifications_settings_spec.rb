@@ -1,6 +1,6 @@
-require 'rails_helper'
-require_relative '../../users/notifications/shared_examples'
-require 'support/pages/my/notifications'
+require "rails_helper"
+require_relative "../../users/notifications/shared_examples"
+require "support/pages/my/notifications"
 
 RSpec.describe "My notifications settings",
                :js,
@@ -14,5 +14,5 @@ RSpec.describe "My notifications settings",
     settings_page.visit!
   end
 
-  it_behaves_like 'notification settings workflow'
+  it_behaves_like "notification settings workflow"
 end

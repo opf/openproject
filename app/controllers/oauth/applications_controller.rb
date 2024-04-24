@@ -32,7 +32,7 @@ module OAuth
     before_action :new_app, only: %i[new create]
     before_action :find_app, only: %i[edit update show destroy]
 
-    layout 'admin'
+    layout "admin"
     menu_item :oauth_applications
 
     def index
@@ -87,10 +87,10 @@ module OAuth
     protected
 
     def default_breadcrumb
-      if action_name == 'index'
-        t('oauth.application.plural')
+      if action_name == "index"
+        t("oauth.application.plural")
       else
-        ActionController::Base.helpers.link_to(t('oauth.application.plural'), oauth_applications_path)
+        ActionController::Base.helpers.link_to(t("oauth.application.plural"), oauth_applications_path)
       end
     end
 

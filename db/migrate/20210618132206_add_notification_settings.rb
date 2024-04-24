@@ -37,17 +37,17 @@ class AddNotificationSettings < ActiveRecord::Migration[6.1]
       t.boolean :mentioned, default: false
       t.boolean :all, default: false
 
-      t.timestamps default: -> { 'CURRENT_TIMESTAMP' }
+      t.timestamps default: -> { "CURRENT_TIMESTAMP" }
 
       t.index %i[user_id channel],
               unique: true,
               where: "project_id IS NULL",
-              name: 'index_notification_settings_unique_project_null'
+              name: "index_notification_settings_unique_project_null"
 
       t.index %i[user_id project_id channel],
               unique: true,
               where: "project_id IS NOT NULL",
-              name: 'index_notification_settings_unique_project'
+              name: "index_notification_settings_unique_project"
     end
 
     remove_column :members, :mail_notification
@@ -56,11 +56,11 @@ class AddNotificationSettings < ActiveRecord::Migration[6.1]
 
   def down
     add_column :members, :mail_notification, :boolean, default: false, null: false
-    add_column :users, :mail_notification, :string, default: '', null: false
+    add_column :users, :mail_notification, :string, default: "", null: false
 
     drop_table :notification_settings
 
     User.reset_column_information
-    User.update_all(mail_notification: 'only_assigned')
+    User.update_all(mail_notification: "only_assigned")
   end
 end

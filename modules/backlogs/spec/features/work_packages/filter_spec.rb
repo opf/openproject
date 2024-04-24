@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Filter by backlog type', :js do
+RSpec.describe "Filter by backlog type", :js do
   let(:story_type) do
     type = create(:type_feature)
     project.types << type
@@ -74,23 +74,23 @@ RSpec.describe 'Filter by backlog type', :js do
 
     allow(Setting)
       .to receive(:plugin_openproject_backlogs)
-      .and_return('story_types' => [story_type.id.to_s],
-                  'task_type' => task_type.id.to_s)
+      .and_return("story_types" => [story_type.id.to_s],
+                  "task_type" => task_type.id.to_s)
 
     wp_table.visit!
   end
 
-  it 'allows filtering, saving and retaining the filter' do
+  it "allows filtering, saving and retaining the filter" do
     filters.open
 
-    filters.add_filter_by('Backlog type', 'is (OR)', 'Story', 'backlogsWorkPackageType')
+    filters.add_filter_by("Backlog type", "is (OR)", "Story", "backlogsWorkPackageType")
 
     wp_table.expect_work_package_listed work_package_with_story_type
     wp_table.ensure_work_package_not_listed! work_package_with_task_type
 
-    wp_table.save_as('Some query name')
+    wp_table.save_as("Some query name")
 
-    filters.remove_filter 'backlogsWorkPackageType'
+    filters.remove_filter "backlogsWorkPackageType"
 
     wp_table.expect_work_package_listed work_package_with_story_type, work_package_with_task_type
 
@@ -103,6 +103,6 @@ RSpec.describe 'Filter by backlog type', :js do
 
     filters.open
 
-    filters.expect_filter_by('Backlog type', 'is (OR)', 'Story', 'backlogsWorkPackageType')
+    filters.expect_filter_by("Backlog type", "is (OR)", "Story", "backlogsWorkPackageType")
   end
 end

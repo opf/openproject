@@ -50,7 +50,7 @@ module WorkPackages::SpentTime
 
   def compute_spent_hours(user)
     WorkPackage.include_spent_time(user, self)
-      .pluck(Arel.sql('SUM(hours)'))
+      .pluck(Arel.sql("SUM(hours)"))
       .first
   end
 end

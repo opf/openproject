@@ -37,7 +37,7 @@ module API
 
           post &::API::V3::Utilities::Endpoints::UpdateForm
                   .new(model: Member,
-                       api_name: 'Membership',
+                       api_name: "Membership",
                        params_modifier: ->(params) do
                          params.except(:meta)
                        end,

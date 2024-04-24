@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Workflows::BulkUpdateService, 'integration', type: :model do
+RSpec.describe Workflows::BulkUpdateService, "integration", type: :model do
   let(:type) do
     create(:type)
   end
@@ -55,21 +55,21 @@ RSpec.describe Workflows::BulkUpdateService, 'integration', type: :model do
     described_class.new(role:, type:)
   end
 
-  describe '#call' do
+  describe "#call" do
     let(:params) { {} }
     let(:subject) do
       instance.call(params)
     end
 
-    context 'with status transitions for everybody' do
+    context "with status transitions for everybody" do
       let(:params) do
         {
-          status4.id => { status5.id => ['always'] },
-          status3.id => { status1.id => ['always'], status2.id => ['always'] }
+          status4.id => { status5.id => ["always"] },
+          status3.id => { status1.id => ["always"], status2.id => ["always"] }
         }
       end
 
-      it 'sets the workflows' do
+      it "sets the workflows" do
         subject
 
         expect(Workflow.where(type_id: type.id, role_id: role.id).count)
@@ -86,15 +86,15 @@ RSpec.describe Workflows::BulkUpdateService, 'integration', type: :model do
       end
     end
 
-    context 'with additional transitions' do
+    context "with additional transitions" do
       let(:params) do
         {
-          status4.id => { status5.id => ['always'] },
-          status3.id => { status1.id => ['author'], status2.id => ['assignee'], status4.id => %w(author assignee) }
+          status4.id => { status5.id => ["always"] },
+          status3.id => { status1.id => ["author"], status2.id => ["assignee"], status4.id => %w(author assignee) }
         }
       end
 
-      it 'sets the workflows' do
+      it "sets the workflows" do
         subject
 
         expect(Workflow.where(type_id: type.id, role_id: role.id).count)
@@ -115,7 +115,7 @@ RSpec.describe Workflows::BulkUpdateService, 'integration', type: :model do
       end
     end
 
-    context 'without transitions' do
+    context "without transitions" do
       let(:params) do
         {}
       end
@@ -124,7 +124,7 @@ RSpec.describe Workflows::BulkUpdateService, 'integration', type: :model do
         Workflow.create!(role_id: role.id, type_id: type.id, old_status_id: status3.id, new_status_id: status2.id)
       end
 
-      it 'clears all workflows' do
+      it "clears all workflows" do
         subject
 
         expect(Workflow.where(type_id: type.id, role_id: role.id).count)
@@ -132,7 +132,7 @@ RSpec.describe Workflows::BulkUpdateService, 'integration', type: :model do
       end
     end
 
-    context 'with no params' do
+    context "with no params" do
       let(:params) do
         nil
       end
@@ -141,7 +141,7 @@ RSpec.describe Workflows::BulkUpdateService, 'integration', type: :model do
         Workflow.create!(role_id: role.id, type_id: type.id, old_status_id: status3.id, new_status_id: status2.id)
       end
 
-      it 'clears all workflows' do
+      it "clears all workflows" do
         subject
 
         expect(Workflow.where(type_id: type.id, role_id: role.id).count)

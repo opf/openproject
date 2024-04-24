@@ -28,59 +28,59 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_base_storage_spec'
+require "spec_helper"
+require_relative "shared_base_storage_spec"
 require_module_spec_helper
 
 RSpec.describe Storages::NextcloudStorage do
   let(:storage) { create(:nextcloud_storage) }
 
-  it_behaves_like 'base storage'
+  it_behaves_like "base storage"
 
-  describe '.automatic_management_enabled' do
+  describe ".automatic_management_enabled" do
     let!(:automatically_managed_storage) { create(:nextcloud_storage, :as_automatically_managed) }
     let!(:not_automatically_managed_storage) { create(:nextcloud_storage, :as_not_automatically_managed) }
 
-    it 'returns only storages with automatic management enabled' do
+    it "returns only storages with automatic management enabled" do
       expect(described_class.automatic_management_enabled).to contain_exactly(automatically_managed_storage)
     end
   end
 
-  describe '#provider_type?' do
+  describe "#provider_type?" do
     it { expect(storage).to be_a_provider_type_nextcloud }
     it { expect(storage).not_to be_a_provider_type_one_drive }
   end
 
-  describe 'health attributes' do
-    it 'can be marked as healthy or unhealthy' do
-      healthy_time = Time.parse '2021-03-14T15:17:00Z'
-      unhealthy_time = Time.parse '2023-03-14T15:17:00Z'
+  describe "health attributes" do
+    it "can be marked as healthy or unhealthy" do
+      healthy_time = Time.parse "2021-03-14T15:17:00Z"
+      unhealthy_time = Time.parse "2023-03-14T15:17:00Z"
 
       Timecop.freeze(healthy_time) do
         expect do
           storage.mark_as_healthy
         end.to(change(storage, :health_changed_at).to(healthy_time)
-                 .and(change(storage, :health_status).from('pending').to('healthy')))
+                 .and(change(storage, :health_status).from("pending").to("healthy")))
         expect(storage.health_healthy?).to be(true)
         expect(storage.health_unhealthy?).to be(false)
       end
 
       Timecop.freeze(unhealthy_time) do
         expect do
-          storage.mark_as_unhealthy(reason: 'thou_shall_not_pass_error')
+          storage.mark_as_unhealthy(reason: "thou_shall_not_pass_error")
         end.to(change(storage, :health_changed_at).from(healthy_time).to(unhealthy_time)
-                 .and(change(storage, :health_status).from('healthy').to('unhealthy'))
-                 .and(change(storage, :health_reason).from(nil).to('thou_shall_not_pass_error')))
+                 .and(change(storage, :health_status).from("healthy").to("unhealthy"))
+                 .and(change(storage, :health_reason).from(nil).to("thou_shall_not_pass_error")))
       end
       expect(storage.health_healthy?).to be(false)
       expect(storage.health_unhealthy?).to be(true)
     end
 
-    it 'has the correct changed_at and checked_at attributes' do
-      healthy_time = Time.parse '2021-03-14T15:17:00Z'
-      unhealthy_time_a = Time.parse '2023-03-14T00:00:00Z'
-      unhealthy_time_b = Time.parse '2023-03-14T22:22:00Z'
-      unhealthy_time_c = Time.parse '2023-03-14T11:11:00Z'
+    it "has the correct changed_at and checked_at attributes" do
+      healthy_time = Time.parse "2021-03-14T15:17:00Z"
+      unhealthy_time_a = Time.parse "2023-03-14T00:00:00Z"
+      unhealthy_time_b = Time.parse "2023-03-14T22:22:00Z"
+      unhealthy_time_c = Time.parse "2023-03-14T11:11:00Z"
       reason_a = "thou_shall_not_pass_error"
       reason_b = "inception_error"
 
@@ -116,18 +116,18 @@ RSpec.describe Storages::NextcloudStorage do
     end
   end
 
-  describe '#configured?' do
-    context 'with a complete configuration' do
+  describe "#configured?" do
+    context "with a complete configuration" do
       let(:storage) do
         build(:nextcloud_storage,
               oauth_application: build(:oauth_application),
               oauth_client: build(:oauth_client))
       end
 
-      it 'returns true' do
+      it "returns true" do
         expect(storage.configured?).to be(true)
 
-        aggregate_failures 'configuration_checks' do
+        aggregate_failures "configuration_checks" do
           expect(storage.configuration_checks)
             .to eq(host_name_configured: true,
                    storage_oauth_client_configured: true,
@@ -136,26 +136,26 @@ RSpec.describe Storages::NextcloudStorage do
       end
     end
 
-    context 'without host name' do
+    context "without host name" do
       let(:storage) { build(:nextcloud_storage, host: nil, name: nil) }
 
-      it 'returns false' do
+      it "returns false" do
         aggregate_failures do
           expect(storage.configured?).to be(false)
-          aggregate_failures 'configuration_checks' do
+          aggregate_failures "configuration_checks" do
             expect(storage.configuration_checks[:host_name_configured]).to be(false)
           end
         end
       end
     end
 
-    context 'without openproject and storage integrations' do
+    context "without openproject and storage integrations" do
       let(:storage) { build(:nextcloud_storage) }
 
-      it 'returns false' do
+      it "returns false" do
         expect(storage.configured?).to be(false)
 
-        aggregate_failures 'configuration_checks' do
+        aggregate_failures "configuration_checks" do
           expect(storage.configuration_checks[:openproject_oauth_application_configured]).to be(false)
           expect(storage.configuration_checks[:storage_oauth_client_configured]).to be(false)
         end
@@ -163,7 +163,7 @@ RSpec.describe Storages::NextcloudStorage do
     end
   end
 
-  shared_examples 'a stored attribute with default value' do |attribute, default_value|
+  shared_examples "a stored attribute with default value" do |attribute, default_value|
     context "when the provider fields are empty" do
       let(:storage) { build(:nextcloud_storage, provider_fields: {}) }
 
@@ -175,26 +175,26 @@ RSpec.describe Storages::NextcloudStorage do
 
     context "with a new value of 'foo'" do
       it "sets the value to 'foo'" do
-        storage.public_send(:"#{attribute}=", 'foo')
-        expect(storage.public_send(attribute)).to eq('foo')
+        storage.public_send(:"#{attribute}=", "foo")
+        expect(storage.public_send(attribute)).to eq("foo")
       end
     end
   end
 
-  describe '#username' do
-    it_behaves_like 'a stored attribute with default value', :username, 'OpenProject'
+  describe "#username" do
+    it_behaves_like "a stored attribute with default value", :username, "OpenProject"
   end
 
-  describe '#group' do
-    it_behaves_like 'a stored attribute with default value', :group, 'OpenProject'
+  describe "#group" do
+    it_behaves_like "a stored attribute with default value", :group, "OpenProject"
   end
 
-  describe '#group_folder' do
-    it_behaves_like 'a stored attribute with default value', :group_folder, 'OpenProject'
+  describe "#group_folder" do
+    it_behaves_like "a stored attribute with default value", :group_folder, "OpenProject"
   end
 
-  describe '#automatic_management_new_record?' do
-    context 'when automatic management has just been specified but not yet persisted' do
+  describe "#automatic_management_new_record?" do
+    context "when automatic management has just been specified but not yet persisted" do
       let(:storage) { build_stubbed(:nextcloud_storage, provider_fields: {}) }
 
       before { storage.automatic_management_enabled = false }
@@ -203,14 +203,14 @@ RSpec.describe Storages::NextcloudStorage do
       it { expect(storage).to be_automatic_management_new_record }
     end
 
-    context 'when automatic management was already specified' do
+    context "when automatic management was already specified" do
       let(:storage) { build_stubbed(:nextcloud_storage, :as_not_automatically_managed) }
 
       it { expect(storage).not_to be_provider_fields_changed }
       it { expect(storage).not_to be_automatic_management_new_record }
     end
 
-    context 'when automatic management is unspecified' do
+    context "when automatic management is unspecified" do
       let(:storage) { build_stubbed(:nextcloud_storage, provider_fields: {}) }
 
       it { expect(storage).not_to be_provider_fields_changed }
@@ -218,31 +218,31 @@ RSpec.describe Storages::NextcloudStorage do
     end
   end
 
-  describe '#automatic_management_unspecified?' do
-    context 'when automatic management enabled is nil' do
+  describe "#automatic_management_unspecified?" do
+    context "when automatic management enabled is nil" do
       let(:storage) { build(:nextcloud_storage, automatic_management_enabled: nil) }
 
       it { expect(storage).to be_automatic_management_unspecified }
     end
 
-    context 'when automatic management enabled is true' do
+    context "when automatic management enabled is true" do
       let(:storage) { build(:nextcloud_storage, automatic_management_enabled: true) }
 
       it { expect(storage).not_to be_automatic_management_unspecified }
     end
 
-    context 'when automatic management enabled is false' do
+    context "when automatic management enabled is false" do
       let(:storage) { build(:nextcloud_storage, automatic_management_enabled: false) }
 
       it { expect(storage).not_to be_automatic_management_unspecified }
     end
   end
 
-  describe '#provider_fields_defaults' do
+  describe "#provider_fields_defaults" do
     let(:storage) { build(:nextcloud_storage) }
 
-    it 'returns the default values for nextcloud' do
-      expect(storage.provider_fields_defaults).to eq({ automatic_management_enabled: true, username: 'OpenProject' })
+    it "returns the default values for nextcloud" do
+      expect(storage.provider_fields_defaults).to eq({ automatic_management_enabled: true, username: "OpenProject" })
     end
   end
 end

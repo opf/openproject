@@ -32,7 +32,7 @@ class OpenProject::JournalFormatter::CustomField < JournalFormatter::Base
   private
 
   def format_details(key, values)
-    custom_field = ::CustomField.find_by(id: key.to_s.sub('custom_fields_', '').to_i)
+    custom_field = ::CustomField.find_by(id: key.to_s.sub("custom_fields_", "").to_i)
 
     if custom_field
       label = custom_field.name
@@ -53,11 +53,11 @@ class OpenProject::JournalFormatter::CustomField < JournalFormatter::Base
 
   def get_modifier_function(custom_field)
     case custom_field.field_format
-    when 'list'
+    when "list"
       :find_list_value
-    when 'user'
+    when "user"
       :find_user_value
-    when 'version'
+    when "version"
       :find_version_value
     else
       :format_value
@@ -98,7 +98,7 @@ class OpenProject::JournalFormatter::CustomField < JournalFormatter::Base
 
     ids.map do |id|
       id_value[id] || I18n.t(:label_deleted_custom_option)
-    end.join(', ')
+    end.join(", ")
   end
 
   def find_version_value(value, _custom_field)
@@ -121,6 +121,6 @@ class OpenProject::JournalFormatter::CustomField < JournalFormatter::Base
       else
         I18n.t(:label_missing_or_hidden_custom_option)
       end
-    end.join(', ')
+    end.join(", ")
   end
 end

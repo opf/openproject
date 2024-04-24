@@ -29,7 +29,7 @@
 module ::Bim::Queries::WorkPackages::Selects
   class BcfThumbnailSelect < Queries::WorkPackages::Selects::WorkPackageSelect
     def caption
-      I18n.t('attributes.bcf_thumbnail')
+      I18n.t("attributes.bcf_thumbnail")
     end
 
     def self.instances(_context = nil)

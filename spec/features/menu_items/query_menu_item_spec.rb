@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'features/page_objects/notification'
-require 'features/work_packages/shared_contexts'
-require 'features/work_packages/work_packages_page'
+require "spec_helper"
+require "features/page_objects/notification"
+require "features/work_packages/shared_contexts"
+require "features/work_packages/work_packages_page"
 
-RSpec.describe 'Query menu items', :js, :with_cuprite do
+RSpec.describe "Query menu items", :js, :with_cuprite do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
@@ -50,11 +50,11 @@ RSpec.describe 'Query menu items', :js, :with_cuprite do
     allow(User).to receive(:current).and_return user
   end
 
-  context 'with identical names' do
+  context "with identical names" do
     let(:query_a) do
       create(:query_with_view_work_packages_table,
              public: true,
-             name: 'some query.',
+             name: "some query.",
              project:)
     end
     let(:query_b) do
@@ -64,7 +64,7 @@ RSpec.describe 'Query menu items', :js, :with_cuprite do
              project:)
     end
 
-    it 'can be shown' do
+    it "can be shown" do
       visit_index_page(query_a)
 
       wp_table.visit_query query_a
@@ -72,11 +72,11 @@ RSpec.describe 'Query menu items', :js, :with_cuprite do
     end
   end
 
-  context 'with dots in their name' do
+  context "with dots in their name" do
     let(:query) do
       create(:query_with_view_work_packages_table,
              public: true,
-             name: 'OP 3.0',
+             name: "OP 3.0",
              project:)
     end
 
@@ -84,41 +84,41 @@ RSpec.describe 'Query menu items', :js, :with_cuprite do
       work_packages_page.ensure_loaded
     end
 
-    it 'can be added' do
+    it "can be added" do
       visit_index_page(query)
 
-      click_on 'More actions'
-      click_on I18n.t('js.toolbar.settings.visibility_settings')
-      check 'Favored'
-      click_on 'Save'
+      click_on "More actions"
+      click_on I18n.t("js.toolbar.settings.visibility_settings")
+      check "Favored"
+      click_on "Save"
 
-      notification.expect_success('Successful update')
-      expect(page).to have_css('.op-sidemenu--item', text: query.name)
+      notification.expect_success("Successful update")
+      expect(page).to have_css(".op-sidemenu--item", text: query.name)
     end
   end
 
-  describe 'renaming a menu item' do
+  describe "renaming a menu item" do
     let!(:query_a) do
       create(:query_with_view_work_packages_table,
              public: true,
-             name: 'bbbb',
+             name: "bbbb",
              project:,
              user:)
     end
     let!(:query_b) do
       create(:query_with_view_work_packages_table,
              public: true,
-             name: 'zzzz',
+             name: "zzzz",
              project:,
              user:)
     end
 
-    let(:new_name) { 'aaaaa' }
+    let(:new_name) { "aaaaa" }
 
     before do
       visit_index_page(query_b)
 
-      query_title.expect_title 'zzzz'
+      query_title.expect_title "zzzz"
       input = query_title.input_field
       input.set new_name
       input.send_keys :return
@@ -128,14 +128,14 @@ RSpec.describe 'Query menu items', :js, :with_cuprite do
       work_packages_page.ensure_loaded
     end
 
-    it 'displaying a success message' do
-      notification.expect_success('Successful update')
+    it "displaying a success message" do
+      notification.expect_success("Successful update")
     end
 
-    it 'is renaming and reordering the list' do
+    it "is renaming and reordering the list" do
       # Renaming the query should also reorder the queries.  As it is renamed
       # from zzzz to aaaa, it should now be the first query menu item.
-      expect(page).to have_css('.op-sidemenu--items li:first-child', text: new_name)
+      expect(page).to have_css(".op-sidemenu--items li:first-child", text: new_name)
     end
   end
 end

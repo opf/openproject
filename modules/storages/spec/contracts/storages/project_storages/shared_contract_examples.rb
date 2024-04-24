@@ -29,13 +29,13 @@
 #++
 
 # Include OpenProject support/*.rb files
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
-require 'contracts/shared/model_contract_shared_context'
+require "contracts/shared/model_contract_shared_context"
 
 # Purpose: Common testing logic shared between create and update specs.
-RSpec.shared_examples_for 'ProjectStorages contract' do
-  include_context 'ModelContract shared context'
+RSpec.shared_examples_for "ProjectStorages contract" do
+  include_context "ModelContract shared context"
 
   let(:current_user) { create(:user) }
   # The user needs "edit_project" to see the project's settings page
@@ -51,35 +51,35 @@ RSpec.shared_examples_for 'ProjectStorages contract' do
 
   # This is not 100% precise, as the required permission is not :admin
   # but :manage_storages_in_project, but let's still include this.
-  it_behaves_like 'contract is valid for active admins and invalid for regular users'
+  it_behaves_like "contract is valid for active admins and invalid for regular users"
 
-  describe 'validations' do
-    context 'when authorized, with permissions and all attributes are valid' do
-      it_behaves_like 'contract is valid'
+  describe "validations" do
+    context "when authorized, with permissions and all attributes are valid" do
+      it_behaves_like "contract is valid"
     end
 
-    context 'when project is invalid' do
-      context 'as it is nil' do
+    context "when project is invalid" do
+      context "as it is nil" do
         let(:project) { nil }
 
-        it_behaves_like 'contract is invalid'
+        it_behaves_like "contract is invalid"
       end
     end
 
-    context 'when storage is invalid' do
-      context 'as it is nil' do
+    context "when storage is invalid" do
+      context "as it is nil" do
         let(:storage) { nil }
 
-        it_behaves_like 'contract is invalid'
+        it_behaves_like "contract is invalid"
       end
     end
 
-    context 'when not the necessary permissions' do
+    context "when not the necessary permissions" do
       let(:current_user) { build_stubbed(:user) }
 
-      it_behaves_like 'contract user is unauthorized'
+      it_behaves_like "contract user is unauthorized"
     end
   end
 
-  include_examples 'contract reuses the model errors'
+  include_examples "contract reuses the model errors"
 end

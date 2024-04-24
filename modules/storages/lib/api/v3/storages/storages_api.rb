@@ -36,7 +36,7 @@ class API::V3::Storages::StoragesAPI < API::OpenProjectAPI
 
     get &API::V3::Utilities::Endpoints::Index.new(model: Storages::Storage, scope: -> { visible_storages }).mount
 
-    route_param :storage_id, type: Integer, desc: 'Storage id' do
+    route_param :storage_id, type: Integer, desc: "Storage id" do
       after_validation do
         @storage = visible_storages.find(params[:storage_id])
       end

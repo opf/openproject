@@ -55,7 +55,7 @@ class Mails::DeliverJob < ApplicationJob
   # To be implemented by subclasses.
   # Returns a Mail::Message, or nil if no message should be sent.
   def render_mail
-    raise NotImplementedError, 'SubclassResponsibility'
+    raise NotImplementedError, "SubclassResponsibility"
   end
 
   def build_mail

@@ -34,7 +34,7 @@ module OpenProject
       end
 
       def check
-        count = GoodJob::Job.queued.where('scheduled_at < ?', @threshold.minutes.ago).count
+        count = GoodJob::Job.queued.where("scheduled_at < ?", @threshold.minutes.ago).count
 
         if count > 0
           mark_message "#{count} jobs are waiting to be picked up for more than #{@threshold} minutes."

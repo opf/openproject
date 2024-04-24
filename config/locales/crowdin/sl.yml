@@ -26,7 +26,8 @@ sl:
       no_results_title_text: Na projektu ni bilo nobene aktivnosti v izbranem časovnem okviru
   admin:
     plugins:
-      no_results_title_text: Trenutno vtičniki niso na voljo
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Barvna tema"
       color_theme_custom: "(Po meri)"
@@ -1579,6 +1580,7 @@ sl:
       postgres_migration: "Selitev namestitve na PostgreSQL"
       user_guides: "Uporabniški priročniki"
       faq: "FAQ"
+      impressum: "Legal notice"
       glossary: "Slovar"
       shortcuts: "Bližnjice"
       blog: "Blog OpenProject"
@@ -1589,6 +1591,7 @@ sl:
   journals:
     changes_retracted: "Spremembe so bile umaknjene."
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "Dates changed"
       system_update: "OpenProject system update:"
     cause_descriptions:
@@ -1910,7 +1913,6 @@ sl:
   label_subject_or_id: "Predmet ali ID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
-  label_impressum: "Pravno obvestilo"
   label_in: "v"
   label_in_less_than: "v manj kot"
   label_in_more_than: "v več kot"
@@ -2771,6 +2773,9 @@ sl:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) dovoljen izvir"
   setting_apiv3_cors_origins_text_html: >
     To so izviri, ki jim je dovoljeno dostopati do OpenProject API, če je CORS omogočen. <br/> Preverite <a href="%{origin_link}" target="_blank">dokumentacijo o glavi izvira</a> kako navesti pričakovane vrednosti.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Maximum API page size"
   setting_apiv3_max_page_instructions_html: >
     Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
@@ -3151,6 +3156,7 @@ sl:
     status_user_and_brute_force: "%{user} in %{brute_force}"
     status_change: "Sprememba stanja"
     text_change_disabled_for_provider_login: "Ime je določil skrbnik in ga ni mogoče spremeniti."
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "Odkleni"
     unlock_and_reset_failed_logins: "Odklepanje in ponastavitev neuspelih prijav"
   version_status_closed: "zaprto"

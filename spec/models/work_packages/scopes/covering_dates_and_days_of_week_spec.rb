@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe WorkPackages::Scopes::CoveringDatesAndDaysOfWeek do
   create_shared_association_defaults_for_work_package_factory
 
   shared_let(:next_monday) { Date.current.next_occurring(:monday) }
 
-  shared_examples_for 'covering days' do
+  shared_examples_for "covering days" do
     # Construct the keyword arguments for the `#covering_dates_and_days_of_week` method.
     # It builds the expected day values based on the argument type provided (`:dates`, `:days_of_week`)
     # and based on the day values provided.
@@ -49,7 +49,7 @@ RSpec.describe WorkPackages::Scopes::CoveringDatesAndDaysOfWeek do
       end
     end
 
-    it 'returns work packages having start date or due date being in the given days of week' do
+    it "returns work packages having start date or due date being in the given days of week" do
       schedule =
         create_schedule(<<~CHART)
           days         | MTWTFSS |
@@ -74,7 +74,7 @@ RSpec.describe WorkPackages::Scopes::CoveringDatesAndDaysOfWeek do
         )
     end
 
-    it 'returns work packages having days between start date and due date being in the given days of week' do
+    it "returns work packages having days between start date and due date being in the given days of week" do
       schedule =
         create_schedule(<<~CHART)
           days         | MTWTFSS |
@@ -91,8 +91,8 @@ RSpec.describe WorkPackages::Scopes::CoveringDatesAndDaysOfWeek do
         )
     end
 
-    context 'if work package ignores non working days' do
-      it 'does not returns it' do
+    context "if work package ignores non working days" do
+      it "does not returns it" do
         create_schedule(<<~CHART)
           days         | MTWTFSS |
           not_covered  | XXXXXXX | working days include weekends
@@ -103,7 +103,7 @@ RSpec.describe WorkPackages::Scopes::CoveringDatesAndDaysOfWeek do
       end
     end
 
-    it 'does not return work packages having follows relation covering the given days of week' do
+    it "does not return work packages having follows relation covering the given days of week" do
       create_schedule(<<~CHART)
         days         | MTWTFSS |
         not_covered1 | X       |
@@ -116,7 +116,7 @@ RSpec.describe WorkPackages::Scopes::CoveringDatesAndDaysOfWeek do
         .to eq([])
     end
 
-    it 'does not return work packages having follows relation with delay covering the given days of week' do
+    it "does not return work packages having follows relation with delay covering the given days of week" do
       create_schedule(<<~CHART)
         days         | MTWTFSS |
         not_covered1 | X       |
@@ -129,7 +129,7 @@ RSpec.describe WorkPackages::Scopes::CoveringDatesAndDaysOfWeek do
         .to eq([])
     end
 
-    it 'accepts a single day of week or an array of days' do
+    it "accepts a single day of week or an array of days" do
       schedule =
         create_schedule(<<~CHART)
           days          | MTWTFSS |
@@ -148,7 +148,7 @@ RSpec.describe WorkPackages::Scopes::CoveringDatesAndDaysOfWeek do
     end
   end
 
-  context 'with the days of week' do
+  context "with the days of week" do
     let(:days)  do
       {
         days_of_week: {
@@ -159,10 +159,10 @@ RSpec.describe WorkPackages::Scopes::CoveringDatesAndDaysOfWeek do
       }
     end
 
-    it_behaves_like 'covering days'
+    it_behaves_like "covering days"
   end
 
-  context 'with specific dates' do
+  context "with specific dates" do
     let(:days) do
       {
         dates: {
@@ -173,10 +173,10 @@ RSpec.describe WorkPackages::Scopes::CoveringDatesAndDaysOfWeek do
       }
     end
 
-    it_behaves_like 'covering days'
+    it_behaves_like "covering days"
   end
 
-  context 'with days of week and specific dates mixed' do
+  context "with days of week and specific dates mixed" do
     let(:days) do
       {
         days_of_week: { wednesday: 3 },
@@ -187,6 +187,6 @@ RSpec.describe WorkPackages::Scopes::CoveringDatesAndDaysOfWeek do
       }
     end
 
-    it_behaves_like 'covering days'
+    it_behaves_like "covering days"
   end
 end

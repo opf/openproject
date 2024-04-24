@@ -26,110 +26,110 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe CustomValue::FloatStrategy do
   let(:instance) { described_class.new(custom_value) }
   let(:custom_value) do
-    double('CustomValue',
+    double("CustomValue",
            value:)
   end
 
-  describe '#typed_value' do
+  describe "#typed_value" do
     subject { instance.typed_value }
 
-    context 'value is some float string' do
-      let(:value) { '3.14' }
+    context "value is some float string" do
+      let(:value) { "3.14" }
 
       it { is_expected.to be(3.14) }
     end
 
-    context 'value is blank' do
-      let(:value) { '' }
+    context "value is blank" do
+      let(:value) { "" }
 
       it { is_expected.to be_nil }
     end
 
-    context 'value is nil' do
+    context "value is nil" do
       let(:value) { nil }
 
       it { is_expected.to be_nil }
     end
   end
 
-  describe '#formatted_value' do
+  describe "#formatted_value" do
     subject { instance.formatted_value }
 
-    context 'value is some float string' do
-      let(:value) { '3.14' }
+    context "value is some float string" do
+      let(:value) { "3.14" }
 
-      it 'is the float string' do
+      it "is the float string" do
         expect(subject).to eql value
       end
 
-      it 'is localized' do
+      it "is localized" do
         I18n.with_locale(:de) do
-          expect(subject).to eql '3,14'
+          expect(subject).to eql "3,14"
         end
       end
     end
 
-    context 'value is blank' do
-      let(:value) { '' }
+    context "value is blank" do
+      let(:value) { "" }
 
-      it 'is a blank string' do
+      it "is a blank string" do
         expect(subject).to eql value
       end
     end
 
-    context 'value is nil' do
+    context "value is nil" do
       let(:value) { nil }
 
-      it 'is a blank string' do
-        expect(subject).to eql ''
+      it "is a blank string" do
+        expect(subject).to eql ""
       end
     end
   end
 
-  describe '#validate_type_of_value' do
+  describe "#validate_type_of_value" do
     subject { instance.validate_type_of_value }
 
-    context 'value is float string in decimal notation' do
-      let(:value) { '3.14' }
+    context "value is float string in decimal notation" do
+      let(:value) { "3.14" }
 
-      it 'accepts' do
+      it "accepts" do
         expect(subject).to be_nil
       end
     end
 
-    context 'value is float string in exp. notation' do
-      let(:value) { '5.0e-14' }
+    context "value is float string in exp. notation" do
+      let(:value) { "5.0e-14" }
 
-      it 'accepts' do
+      it "accepts" do
         expect(subject).to be_nil
       end
     end
 
-    context 'value is not a float string' do
-      let(:value) { 'banana' }
+    context "value is not a float string" do
+      let(:value) { "banana" }
 
-      it 'rejects' do
+      it "rejects" do
         expect(subject).to be(:not_a_number)
       end
     end
 
-    context 'value is float' do
+    context "value is float" do
       let(:value) { 3.14 }
 
-      it 'accepts' do
+      it "accepts" do
         expect(subject).to be_nil
       end
     end
 
-    context 'value is int' do
+    context "value is int" do
       let(:value) { 3 }
 
-      it 'accepts' do
+      it "accepts" do
         # accepting here, as we can "losslessly" convert
         expect(subject).to be_nil
       end

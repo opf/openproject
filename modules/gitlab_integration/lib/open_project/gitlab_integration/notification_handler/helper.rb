@@ -48,9 +48,9 @@ module OpenProject::GitlabIntegration
         # e.g.,: This is a reference to OP#1234
         # For private comments you can use the prefix: PP#
         host_name = Regexp.escape(Setting.host_name)
-        wp_regex = if kind == 'private'
+        wp_regex = if kind == "private"
                      /PP#(\d+)/
-                   elsif kind != 'note'
+                   elsif kind != "note"
                      /OP#(\d+)|PP#(\d+)|http(?:s?):\/\/#{host_name}\/(?:\S+?\/)*(?:work_packages|wp)\/([0-9]+)/
                    else
                      /OP#(\d+)|http(?:s?):\/\/#{host_name}\/(?:\S+?\/)*(?:work_packages|wp)\/([0-9]+)/
@@ -84,7 +84,7 @@ module OpenProject::GitlabIntegration
 
       # Returns a list of `WorkPackage`s that were excluded in the `text`.
       def find_excluded_work_packages(text, user)
-        find_visible_work_packages(extract_work_package_ids(text, 'private'), user)
+        find_visible_work_packages(extract_work_package_ids(text, "private"), user)
       end
 
       ##
@@ -126,7 +126,7 @@ module OpenProject::GitlabIntegration
         def method_missing(name, *args, &block)
           super unless args.empty? && block.nil?
 
-          value = if name.end_with?('?')
+          value = if name.end_with?("?")
                     @payload.fetch(name.to_s[..-2], nil)
                   else
                     @payload.fetch(name.to_s)

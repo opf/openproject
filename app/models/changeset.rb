@@ -30,31 +30,31 @@ class Changeset < ApplicationRecord
   belongs_to :repository
   has_one :project, through: :repository
   belongs_to :user
-  has_many :file_changes, class_name: 'Change', dependent: :delete_all
+  has_many :file_changes, class_name: "Change", dependent: :delete_all
   has_and_belongs_to_many :work_packages
 
   acts_as_journalized timestamp: :committed_on
 
   acts_as_event title: Proc.new { |o|
-                         "#{I18n.t(:label_revision)} #{o.format_identifier}" + (o.short_comments.blank? ? '' : (': ' + o.short_comments))
+                         "#{I18n.t(:label_revision)} #{o.format_identifier}" + (o.short_comments.blank? ? "" : (": " + o.short_comments))
                        },
                 description: :long_comments,
                 datetime: :committed_on,
                 url: Proc.new { |o|
                   {
-                    controller: '/repositories',
-                    action: 'revision',
+                    controller: "/repositories",
+                    action: "revision",
                     project_id: o.repository.project_id,
                     rev: o.identifier
                   }
                 },
                 author: Proc.new { |o| o.author }
 
-  acts_as_searchable columns: 'comments',
+  acts_as_searchable columns: "comments",
                      include: { repository: :project },
                      references: [:repositories],
                      project_key: "#{Repository.table_name}.project_id",
-                     date_column: 'committed_on'
+                     date_column: "committed_on"
 
   validates :repository_id, :revision, :committed_on, :commit_date, presence: true
   validates :revision, uniqueness: { scope: :repository_id }
@@ -94,7 +94,7 @@ class Changeset < ApplicationRecord
   end
 
   def author
-    user || committer.to_s.split('<').first
+    user || committer.to_s.split("<").first
   end
 
   # Delegate to a Repository's log encoding
@@ -132,12 +132,12 @@ class Changeset < ApplicationRecord
     return if comments.blank?
 
     # keywords used to reference work packages
-    ref_keywords = Setting.commit_ref_keywords.downcase.split(',').map(&:strip)
-    ref_keywords_any = ref_keywords.delete('*')
+    ref_keywords = Setting.commit_ref_keywords.downcase.split(",").map(&:strip)
+    ref_keywords_any = ref_keywords.delete("*")
     # keywords used to fix work packages
-    fix_keywords = Setting.commit_fix_keywords.downcase.split(',').map(&:strip)
+    fix_keywords = Setting.commit_fix_keywords.downcase.split(",").map(&:strip)
 
-    kw_regexp = (ref_keywords + fix_keywords).map { |kw| Regexp.escape(kw) }.join('|')
+    kw_regexp = (ref_keywords + fix_keywords).map { |kw| Regexp.escape(kw) }.join("|")
 
     referenced_work_packages = []
 
@@ -179,12 +179,12 @@ class Changeset < ApplicationRecord
 
   # Returns the previous changeset
   def previous
-    @previous ||= Changeset.where(['id < ? AND repository_id = ?', id, repository_id]).order(Arel.sql('id DESC')).first
+    @previous ||= Changeset.where(["id < ? AND repository_id = ?", id, repository_id]).order(Arel.sql("id DESC")).first
   end
 
   # Returns the next changeset
   def next
-    @next ||= Changeset.where(['id > ? AND repository_id = ?', id, repository_id]).order(Arel.sql('id ASC')).first
+    @next ||= Changeset.where(["id > ? AND repository_id = ?", id, repository_id]).order(Arel.sql("id ASC")).first
   end
 
   # Creates a new Change from it's common parameters
@@ -284,32 +284,32 @@ class Changeset < ApplicationRecord
   def self.to_utf8(str, encoding)
     return str if str.nil?
 
-    str.force_encoding('ASCII-8BIT') if str.respond_to?(:force_encoding)
+    str.force_encoding("ASCII-8BIT") if str.respond_to?(:force_encoding)
     if str.empty?
-      str.force_encoding('UTF-8') if str.respond_to?(:force_encoding)
+      str.force_encoding("UTF-8") if str.respond_to?(:force_encoding)
       return str
     end
-    normalized_encoding = encoding.presence || 'UTF-8'
+    normalized_encoding = encoding.presence || "UTF-8"
     if str.respond_to?(:force_encoding)
-      if normalized_encoding.upcase == 'UTF-8'
-        str.force_encoding('UTF-8')
+      if normalized_encoding.upcase == "UTF-8"
+        str.force_encoding("UTF-8")
         unless str.valid_encoding?
-          str = str.encode('US-ASCII', invalid: :replace,
-                                       undef: :replace, replace: '?').encode('UTF-8')
+          str = str.encode("US-ASCII", invalid: :replace,
+                                       undef: :replace, replace: "?").encode("UTF-8")
         end
       else
         str.force_encoding(normalized_encoding)
-        str = str.encode('UTF-8', invalid: :replace,
-                                  undef: :replace, replace: '?')
+        str = str.encode("UTF-8", invalid: :replace,
+                                  undef: :replace, replace: "?")
       end
     else
 
-      txtar = ''
+      txtar = ""
       begin
-        txtar += str.encode('UTF-8', normalized_encoding)
+        txtar += str.encode("UTF-8", normalized_encoding)
       rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError
         txtar += $!.success
-        str = '?' + $!.failed[1, $!.failed.length]
+        str = "?" + $!.failed[1, $!.failed.length]
         retry
       rescue StandardError
         txtar += $!.success

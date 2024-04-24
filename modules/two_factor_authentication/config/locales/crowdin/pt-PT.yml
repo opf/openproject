@@ -1,5 +1,5 @@
 #English strings go here for Rails i18n
-pt:
+pt-PT:
   plugin_openproject_two_factor_authentication:
     name: "Autenticação de dois fatores do OpenProject"
     description: >-
@@ -76,7 +76,7 @@ pt:
       button_register_mobile_phone_for_user: "Registre o celular"
       text_2fa_enabled: "Em cada login, este utilizador será solicitado a inserir um token OTP do seu dispositivo padrão 2FA."
       text_2fa_disabled: "O utilizador não configurou um dispositivo 2FA através da sua página \"A minha conta\""
-      only_sms_allowed: "Only SMS delivery can be set up for other users."
+      only_sms_allowed: "Apenas o envio de SMS pode ser configurado para outros utilizadores."
     upsale:
       title: "Autenticação de dois fatores"
       description: "Reforce a segurança da sua instância do OpenProject ao oferecer (ou reforçar) a autenticação de dois fatores a todos os membros do projeto."
@@ -114,12 +114,12 @@ pt:
       failed_to_delete: "Falha ao excluir o dispositivo 2FA."
       is_default_cannot_delete: "O dispositivo está marcado como padrão e não pode ser excluído devido a uma política de segurança ativa. Marque outro dispositivo como padrão antes de excluir."
       not_existing: "Nenhum dispositivo 2FA foi registrado para sua conta."
-      2fa_from_input: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
-      2fa_from_webauthn: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
+      2fa_from_input: Introduza o código do seu <strong>%{device_name}</strong> para verificar a sua identidade.
+      2fa_from_webauthn: Indique o dispositivo WebAuthn <strong>%{device_name}</strong>. Se for baseado em USB, certifique-se de que o liga e toca nele. Em seguida, clique no botão de início de sessão.
       webauthn:
         title: "WebAuthn"
-        description: Use Web Authentication to register a FIDO2 device (like a YubiKey) or the secure enclave of your mobile device as a second factor.
-        further_steps: After you have chosen a name, you can click the Continue button. Your browser will prompt you to present your WebAuthn device. When you have done so, you are done registering the device.
+        description: Utilize a Autenticação Web para registar um dispositivo FIDO2 (como uma YubiKey) ou o enclave seguro do seu dispositivo móvel como um segundo fator.
+        further_steps: Depois de ter escolhido um nome, pode clicar no botão Continuar. O seu navegador irá pedir-lhe para apresentar o seu dispositivo WebAuthn. Quando o tiver feito, o registo do dispositivo está concluído.
       totp:
         title: "Use o seu autenticador baseado em aplicativos"
         provisioning_uri: "URI de provisionamento"

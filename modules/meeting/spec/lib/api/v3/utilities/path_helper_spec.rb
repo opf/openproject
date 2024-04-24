@@ -26,20 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Utilities::PathHelper do
   let(:helper) { Class.new.tap { |c| c.extend(described_class) }.api_v3_paths }
 
-  describe '#meeting' do
+  describe "#meeting" do
     subject { helper.meeting 42 }
 
-    it { is_expected.to eql('/api/v3/meetings/42') }
+    it { is_expected.to eql("/api/v3/meetings/42") }
   end
 
-  describe '#attachments_by_meeting' do
+  describe "#attachments_by_meeting" do
     subject { helper.attachments_by_meeting 42 }
 
-    it { is_expected.to eql('/api/v3/meetings/42/attachments') }
+    it { is_expected.to eql("/api/v3/meetings/42/attachments") }
   end
 end

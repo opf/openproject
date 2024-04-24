@@ -40,7 +40,7 @@ module API
             query = ::Queries::Relations::RelationQuery.new(user: current_user)
 
             relations = query
-                        .where(:involved, '=', @work_package.id)
+                        .where(:involved, "=", @work_package.id)
                         .results
                         .includes(::API::V3::Relations::RelationCollectionRepresenter.to_eager_load)
 
@@ -54,7 +54,7 @@ module API
           post &::API::V3::Utilities::Endpoints::Create
                   .new(model: Relation,
                        params_modifier: ->(params) do
-                         params.merge(send_notifications: (params[:notify] != 'false'))
+                         params.merge(send_notifications: (params[:notify] != "false"))
                        end)
                   .mount
         end

@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
-RSpec.shared_context 'with queries contract' do
-  include_context 'ModelContract shared context'
+RSpec.shared_context "with queries contract" do
+  include_context "ModelContract shared context"
 
   let(:project) { build_stubbed(:project) }
-  let(:name) { 'Some query name' }
+  let(:name) { "Some query name" }
   let(:public) { false }
   let(:user) { current_user }
   let(:permissions) { %i[save_queries] }
@@ -56,21 +56,21 @@ RSpec.shared_context 'with queries contract' do
     allow(contract).to receive(:project_visible?).and_return true
   end
 
-  describe 'validation' do
-    it_behaves_like 'contract is valid'
+  describe "validation" do
+    it_behaves_like "contract is valid"
 
-    context 'if the name is nil' do
+    context "if the name is nil" do
       let(:name) { nil }
 
-      it_behaves_like 'contract is invalid', name: :blank
+      it_behaves_like "contract is invalid", name: :blank
     end
 
-    context 'if the name is empty' do
-      let(:name) { '' }
+    context "if the name is empty" do
+      let(:name) { "" }
 
-      it_behaves_like 'contract is invalid', name: :blank
+      it_behaves_like "contract is invalid", name: :blank
     end
   end
 
-  include_examples 'contract reuses the model errors'
+  include_examples "contract reuses the model errors"
 end

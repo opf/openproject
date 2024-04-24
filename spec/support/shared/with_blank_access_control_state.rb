@@ -29,7 +29,7 @@
 # Makes OpenProject::AccessControl clean before each example, like if no
 # permission initialization code was run at all, and restore it after each
 # example.
-RSpec.shared_context 'with blank access control state' do
+RSpec.shared_context "with blank access control state" do
   around do |example|
     stash = stash_instance_variables(OpenProject::AccessControl, :@mapped_permissions, :@modules,
                                      :@project_modules_without_permissions)

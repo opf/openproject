@@ -1,6 +1,6 @@
 module Overviews
   class GridRegistration < ::Grids::Configuration::InProjectBaseRegistration
-    grid_class 'Grids::Overview'
+    grid_class "Grids::Overview"
     to_scope :project_overview_path
 
     view_permission :view_project
@@ -13,53 +13,53 @@ module Overviews
         column_count: 2,
         widgets: [
           {
-            identifier: 'project_description',
+            identifier: "project_description",
             start_row: 1,
             end_row: 2,
             start_column: 1,
             end_column: 2,
             options: {
-              name: I18n.t('js.grid.widgets.project_description.title')
+              name: I18n.t("js.grid.widgets.project_description.title")
             }
           },
           {
-            identifier: 'project_status',
+            identifier: "project_status",
             start_row: 1,
             end_row: 2,
             start_column: 2,
             end_column: 3,
             options: {
-              name: I18n.t('js.grid.widgets.project_status.title')
+              name: I18n.t("js.grid.widgets.project_status.title")
             }
           },
           {
-            identifier: 'project_details',
+            identifier: "project_details",
             start_row: 2,
             end_row: 3,
             start_column: 1,
             end_column: 2,
             options: {
-              name: I18n.t('js.grid.widgets.project_details.title')
+              name: I18n.t("js.grid.widgets.project_details.title")
             }
           },
           {
-            identifier: 'work_packages_overview',
+            identifier: "work_packages_overview",
             start_row: 3,
             end_row: 4,
             start_column: 1,
             end_column: 3,
             options: {
-              name: I18n.t('js.grid.widgets.work_packages_overview.title')
+              name: I18n.t("js.grid.widgets.work_packages_overview.title")
             }
           },
           {
-            identifier: 'members',
+            identifier: "members",
             start_row: 2,
             end_row: 3,
             start_column: 2,
             end_column: 3,
             options: {
-              name: I18n.t('js.grid.widgets.members.title')
+              name: I18n.t("js.grid.widgets.members.title")
             }
           }
         ]

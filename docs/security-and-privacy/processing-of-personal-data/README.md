@@ -172,7 +172,7 @@ Depending on the individual use and permissions of the user the following person
 - Person mentioned in a list or project schedule
 - Person mentioned in an attribute or text field
 - Person mentioned in a linked file
-- Person mentioned in a linked pull request (i.e. GitHub)
+- Person mentioned in a linked pull request (i.e. GitHub or GitLab)
 
 
 ### D: Logging
@@ -235,6 +235,7 @@ flowchart TD
     nex["Nextcloud (nex)"]
     osh["OneDrive/SharePoint (osh)"]
     gih["GitHub (gih)"]
+    gil["GitLab (gil)"]
     cal["Calendar (cal)"]
   	O["API integrations (api)"]
  
@@ -600,7 +601,54 @@ flowchart LR
 * `gih-02` TLS
 * `gih-03` TLS
 
-### H: API integrations (api)
+### H: GitLab (gil)
+
+#### Overview
+
+```mermaid
+%%{init: {'theme':'neutral'}}%%
+flowchart LR
+	gitclient <-->|gil-01| gitlabapi
+	gitlabapi <-->|gil-02| opgitlabintegration
+	gitlabwebhooks -->|gil-03| opgitlabintegration
+
+  subgraph GitLab
+   direction TB
+  	gitlabapi[API]
+	gitlabwebhooks[Webhooks]
+
+	end
+	
+	subgraph localclients[Local clients]
+   direction TB
+  	gitclient[Git client]
+	end
+
+  subgraph openproject[OpenProject]
+   direction TB
+  	opgitlabintegration[GitLab integration] --- workpackagesmodule[Work packages module]
+	end
+  
+  
+```
+
+#### Purpose
+
+- Connect merge requests in GitLab with work packages in OpenProject.
+- Connect issues in GitLab with work packages in OpenPrject.
+- Show the status of merge requests in related work packages.
+
+#### Processed data
+
+* cw-02
+
+#### Security measure
+
+* `gil-01` TLS
+* `gil-02` TLS
+* `gil-03` TLS
+
+### I: API integrations (api)
 
 #### Overview
 

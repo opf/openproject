@@ -188,7 +188,7 @@ module WorkPackage::PDFExport::OverviewTable
   def build_header_row
     header_style = styles.overview_table_header_cell
     overview_columns_objects.map do |col|
-      content = (col.caption || '').upcase
+      content = (col.caption || "").upcase
       pdf.make_cell(content, header_style)
     end
   end
@@ -199,7 +199,7 @@ module WorkPackage::PDFExport::OverviewTable
       content = get_formatted_value(sums[col], col.name)
       pdf.make_cell(content, sums_style)
     end
-    sum_row[0] = pdf.make_cell(I18n.t('js.label_sum'), sums_style)
+    sum_row[0] = pdf.make_cell(I18n.t("js.label_sum"), sums_style)
     sum_row
   end
 end

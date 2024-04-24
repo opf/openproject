@@ -28,116 +28,116 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe 'Storages module', :js do
+RSpec.describe "Storages module", :js do
   current_user { create(:admin) }
 
   let(:role) { create(:project_role, permissions: %i[manage_storages_in_project select_project_modules edit_project]) }
   let(:storage) { create(:nextcloud_storage, name: "Storage 1") }
   let(:project) { create(:project, enabled_module_names: %i[storages work_package_tracking]) }
 
-  shared_examples_for 'content section has storages module' do |is_upcase = false|
+  shared_examples_for "content section has storages module" do |is_upcase = false|
     it 'must show "storages" in content section' do
-      within '#content' do
+      within "#content" do
         text = I18n.t(:project_module_storages)
         expect(page).to have_text(is_upcase ? text.upcase : text)
       end
     end
   end
 
-  shared_examples_for 'sidebar has storages module' do
+  shared_examples_for "sidebar has storages module" do
     it 'must show "storages" in sidebar' do
-      within '#menu-sidebar' do
+      within "#menu-sidebar" do
         expect(page).to have_text(I18n.t(:project_module_storages))
       end
     end
   end
 
-  shared_examples_for 'has storages module' do |sections: %i[content sidebar], is_upcase: false|
+  shared_examples_for "has storages module" do |sections: %i[content sidebar], is_upcase: false|
     before do
       visit(path)
     end
 
-    include_examples 'content section has storages module', is_upcase if sections.include?(:content)
-    include_examples 'sidebar has storages module' if sections.include?(:sidebar)
+    include_examples "content section has storages module", is_upcase if sections.include?(:content)
+    include_examples "sidebar has storages module" if sections.include?(:sidebar)
   end
 
-  context 'when in administration' do
-    context 'when showing index page' do
-      it_behaves_like 'has storages module' do
+  context "when in administration" do
+    context "when showing index page" do
+      it_behaves_like "has storages module" do
         let(:path) { admin_index_path }
       end
     end
 
-    context 'when showing system project settings page' do
-      it_behaves_like 'has storages module', sections: [:content] do
+    context "when showing system project settings page" do
+      it_behaves_like "has storages module", sections: [:content] do
         let(:path) { admin_settings_projects_path }
       end
     end
 
-    context 'when showing system storage settings page' do
+    context "when showing system storage settings page" do
       before do
         visit admin_settings_storages_path
       end
 
-      it 'must show the page' do
+      it "must show the page" do
         expect(page).to have_text(I18n.t(:project_module_storages))
       end
     end
 
-    context 'when creating a new role' do
-      it_behaves_like 'has storages module', sections: [:content], is_upcase: true do
+    context "when creating a new role" do
+      it_behaves_like "has storages module", sections: [:content], is_upcase: true do
         let(:path) { new_role_path }
       end
     end
 
-    context 'when editing a role' do
-      it_behaves_like 'has storages module', sections: [:content], is_upcase: true do
+    context "when editing a role" do
+      it_behaves_like "has storages module", sections: [:content], is_upcase: true do
         let(:path) { edit_role_path(role) }
       end
     end
 
-    context 'when showing the role permissions report' do
-      it_behaves_like 'has storages module', sections: [:content], is_upcase: true do
+    context "when showing the role permissions report" do
+      it_behaves_like "has storages module", sections: [:content], is_upcase: true do
         let(:path) { report_roles_path(role) }
       end
     end
   end
 
-  context 'when in project administration' do
+  context "when in project administration" do
     before do
       storage
       project
     end
 
-    context 'when showing the project module settings' do
-      it_behaves_like 'has storages module' do
+    context "when showing the project module settings" do
+      it_behaves_like "has storages module" do
         let(:path) { project_settings_modules_path(project) }
       end
     end
 
-    context 'when showing project storages settings page' do
-      context 'with storages module is enabled' do
+    context "when showing project storages settings page" do
+      context "with storages module is enabled" do
         before do
           visit project_settings_project_storages_path(project)
         end
 
-        it 'must show the page' do
-          expect(page).to have_text(I18n.t('storages.page_titles.project_settings.index'))
+        it "must show the page" do
+          expect(page).to have_text(I18n.t("storages.page_titles.project_settings.index"))
         end
       end
 
-      context 'with storages module is disabled' do
+      context "with storages module is disabled" do
         let(:project) { create(:project, enabled_module_names: %i[work_package_tracking]) }
 
         before do
           visit project_settings_project_storages_path(project)
         end
 
-        it 'mustn\'t show the page' do
-          expect(page).to have_no_text(I18n.t('storages.page_titles.project_settings.index'))
+        it "mustn't show the page" do
+          expect(page).to have_no_text(I18n.t("storages.page_titles.project_settings.index"))
         end
       end
     end

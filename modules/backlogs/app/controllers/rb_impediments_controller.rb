@@ -54,7 +54,7 @@ class RbImpedimentsController < RbApplicationController
     @include_meta = true
 
     respond_to do |format|
-      format.html { render partial: 'impediment', object: @impediment, status:, locals: { errors: call.errors } }
+      format.html { render partial: "impediment", object: @impediment, status:, locals: { errors: call.errors } }
     end
   end
 

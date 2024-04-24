@@ -51,7 +51,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
                      "MOVE",
                      Util.join_uri_path(@base_path, Util.escape_path(source)),
                      headers: {
-                       'Destination' => Util.join_uri_path(@uri.path,
+                       "Destination" => Util.join_uri_path(@uri.path,
                                                            "remote.php/dav/files",
                                                            CGI.escapeURIComponent(@username),
                                                            Util.escape_path(target))
@@ -64,11 +64,11 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       in { status: 200..299 }
         ServiceResult.success
       in { status: 404 }
-        Util.error(:not_found, 'Outbound request destination not found', error_data)
+        Util.error(:not_found, "Outbound request destination not found", error_data)
       in { status: 401 }
-        Util.error(:unauthorized, 'Outbound request not authorized', error_data)
+        Util.error(:unauthorized, "Outbound request not authorized", error_data)
       else
-        Util.error(:error, 'Outbound request failed', error_data)
+        Util.error(:error, "Outbound request failed", error_data)
       end
     end
   end

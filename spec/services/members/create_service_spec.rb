@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'services/base_services/behaves_like_create_service'
+require "spec_helper"
+require "services/base_services/behaves_like_create_service"
 
 RSpec.describe Members::CreateService, type: :model do
   let(:user1) { build_stubbed(:user) }
@@ -54,7 +54,7 @@ RSpec.describe Members::CreateService, type: :model do
       .to receive(:send)
   end
 
-  it_behaves_like 'BaseServices create service' do
+  it_behaves_like "BaseServices create service" do
     let(:call_attributes) do
       {
         project_id: "1",
@@ -65,8 +65,8 @@ RSpec.describe Members::CreateService, type: :model do
       }
     end
 
-    describe 'if successful' do
-      it 'sends a notification' do
+    describe "if successful" do
+      it "sends a notification" do
         subject
 
         expect(OpenProject::Notifications)
@@ -77,7 +77,7 @@ RSpec.describe Members::CreateService, type: :model do
                       send_notifications: true)
       end
 
-      describe 'for a group' do
+      describe "for a group" do
         let!(:model_instance) { build_stubbed(:member, principal: group) }
 
         it "generates the members and roles for the group's users" do
@@ -98,17 +98,17 @@ RSpec.describe Members::CreateService, type: :model do
       end
     end
 
-    context 'if the SetAttributeService is unsuccessful' do
+    context "if the SetAttributeService is unsuccessful" do
       let(:set_attributes_success) { false }
 
-      it 'sends no notification' do
+      it "sends no notification" do
         subject
 
         expect(OpenProject::Notifications)
           .not_to have_received(:send)
       end
 
-      describe 'for a group' do
+      describe "for a group" do
         let!(:model_instance) { build_stubbed(:member, principal: group) }
 
         it "does not create any inherited roles" do
@@ -120,17 +120,17 @@ RSpec.describe Members::CreateService, type: :model do
       end
     end
 
-    context 'when the member is invalid' do
+    context "when the member is invalid" do
       let(:model_save_result) { false }
 
-      it 'sends no notification' do
+      it "sends no notification" do
         subject
 
         expect(OpenProject::Notifications)
           .not_to have_received(:send)
       end
 
-      context 'for a group' do
+      context "for a group" do
         let!(:model_instance) { build_stubbed(:member, principal: group) }
 
         it "does not create any inherited roles" do

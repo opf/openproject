@@ -28,8 +28,8 @@
 
 module Queries::Operators
   class In < Base
-    label 'in'
-    set_symbol 't+'
+    label "in"
+    set_symbol "t+"
 
     extend DateRangeClauses
 

@@ -47,7 +47,7 @@ class CustomOption < ApplicationRecord
   def assure_at_least_one_option
     return if CustomOption.where(custom_field_id:).where.not(id:).count > 0
 
-    errors.add(:base, I18n.t(:'activerecord.errors.models.custom_field.at_least_one_custom_option'))
+    errors.add(:base, I18n.t(:"activerecord.errors.models.custom_field.at_least_one_custom_option"))
 
     throw :abort
   end

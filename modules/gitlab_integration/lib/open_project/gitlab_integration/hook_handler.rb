@@ -43,8 +43,8 @@ module OpenProject::GitlabIntegration
     # We need to check validity of the data and send a Notification
     # which we process in our NotificationHandler.
     def process(_hook, request, params, user)
-      event_type = request.env['HTTP_X_GITLAB_EVENT']
-      event_type.tr!(' ', '_')
+      event_type = request.env["HTTP_X_GITLAB_EVENT"]
+      event_type.tr!(" ", "_")
       event_type = event_type.to_s.downcase
 
       Rails.logger.debug { "Received gitlab webhook #{event_type}" }
@@ -55,8 +55,8 @@ module OpenProject::GitlabIntegration
       payload = params[:payload]
                 .permit!
                 .to_h
-                .merge('open_project_user_id' => user.id,
-                       'gitlab_event' => event_type)
+                .merge("open_project_user_id" => user.id,
+                       "gitlab_event" => event_type)
 
       event_name = :"gitlab.#{event_type}"
       OpenProject::Notifications.send(event_name, payload)

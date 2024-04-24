@@ -32,13 +32,13 @@ class RemoveNonNullContainerOnAttachments < ActiveRecord::Migration[5.1]
     change_column_null :attachments, :container_type, true
 
     change_column_default :attachments, :container_id, from: 0, to: nil
-    change_column_default :attachments, :container_type, from: '', to: nil
+    change_column_default :attachments, :container_type, from: "", to: nil
 
     change_column_null :attachment_journals, :container_id, true
     change_column_null :attachment_journals, :container_type, true
 
     change_column_default :attachment_journals, :container_id, from: 0, to: nil
-    change_column_default :attachment_journals, :container_type, from: '', to: nil
+    change_column_default :attachment_journals, :container_type, from: "", to: nil
 
     add_column :attachments, :updated_at, :datetime
     rename_column :attachments, :created_on, :created_at

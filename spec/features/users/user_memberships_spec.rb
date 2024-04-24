@@ -26,20 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../principals/shared_memberships_examples'
+require "spec_helper"
+require_relative "../principals/shared_memberships_examples"
 
-RSpec.describe 'user memberships through user page', :js, :with_cuprite do
-  include_context 'principal membership management context'
+RSpec.describe "user memberships through user page", :js, :with_cuprite do
+  include_context "principal membership management context"
 
-  shared_let(:principal) { create(:user, firstname: 'Foobar', lastname: 'Blabla') }
+  shared_let(:principal) { create(:user, firstname: "Foobar", lastname: "Blabla") }
   shared_let(:principal_page) { Pages::Admin::IndividualPrincipals::Edit.new(principal) }
 
-  context 'as admin' do
+  context "as admin" do
     current_user { create(:admin) }
 
-    it_behaves_like 'principal membership management flows'
+    it_behaves_like "principal membership management flows"
   end
 
-  it_behaves_like 'global user principal membership management flows', :manage_user
+  it_behaves_like "global user principal membership management flows", :manage_user
 end

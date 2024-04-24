@@ -47,7 +47,7 @@ module Capabilities::Scopes
         SQL
 
         unscoped # prevent triggering the default scope again
-          .select('capabilities.*')
+          .select("capabilities.*")
           .from(capabilities_sql)
       end
 

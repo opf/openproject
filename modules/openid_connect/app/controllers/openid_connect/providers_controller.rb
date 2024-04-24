@@ -1,6 +1,6 @@
 module OpenIDConnect
   class ProvidersController < ::ApplicationController
-    layout 'admin'
+    layout "admin"
     menu_item :plugin_openid_connect
 
     before_action :require_admin
@@ -56,7 +56,7 @@ module OpenIDConnect
 
     def check_ee
       unless EnterpriseToken.allows_to?(:openid_providers)
-        render template: '/openid_connect/providers/upsale'
+        render template: "/openid_connect/providers/upsale"
         false
       end
     end
@@ -91,8 +91,8 @@ module OpenIDConnect
     helper_method :openid_connect_providers_available_for_configure
 
     def default_breadcrumb
-      if action_name != 'index'
-        ActionController::Base.helpers.link_to(t('openid_connect.providers.plural'), openid_connect_providers_path)
+      if action_name != "index"
+        ActionController::Base.helpers.link_to(t("openid_connect.providers.plural"), openid_connect_providers_path)
       end
     end
 

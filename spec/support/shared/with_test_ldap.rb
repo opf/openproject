@@ -54,12 +54,16 @@ RSpec.shared_context 'with temporary LDAP' do
            onthefly_register:,
            filter_string: ldap_filter,
            attr_login: 'uid',
-           attr_firstname: 'givenName',
-           attr_lastname: 'sn',
-           attr_mail: 'mail',
-           attr_admin: 'isAdmin')
+           attr_firstname:,
+           attr_lastname:,
+           attr_mail:,
+           attr_admin:)
   end
 
   let(:onthefly_register) { false }
   let(:ldap_filter) { nil }
+  let(:attr_firstname) { 'givenName' }
+  let(:attr_lastname) { 'sn' }
+  let(:attr_mail) { 'mail' }
+  let(:attr_admin) { 'isAdmin' }
 end

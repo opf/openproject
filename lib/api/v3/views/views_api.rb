@@ -35,9 +35,9 @@ module API
                  .new(model: View)
                  .mount
 
-          route_param :type_name, type: String, desc: 'View name' do
+          route_param :type_name, type: String, desc: "View name" do
             after_validation do
-              @type = params['type_name']
+              @type = params["type_name"]
 
               raise API::Errors::NotFound unless Constants::Views.registered?(@type)
             end
@@ -50,12 +50,12 @@ module API
                     .mount
           end
 
-          route_param :id, type: Integer, desc: 'View ID' do
+          route_param :id, type: Integer, desc: "View ID" do
             after_validation do
               @view = ::Queries::Views::ViewQuery
                       .new(user: current_user)
                       .results
-                      .find(params['id'])
+                      .find(params["id"])
             end
 
             get &::API::V3::Utilities::Endpoints::Show

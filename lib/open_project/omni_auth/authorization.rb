@@ -41,7 +41,7 @@ module OpenProject
           if d.is_a? Decision
             d if d.reject?
           else
-            fail ArgumentError, 'Expecting Callback#authorize to return a Decision.'
+            fail ArgumentError, "Expecting Callback#authorize to return a Decision."
           end
         end
 
@@ -167,7 +167,7 @@ module OpenProject
           store = DecisionStore.new
           block.call store, auth_hash
           # failure to make a decision results in a rejection
-          store.decision || Rejection.new(I18n.t('user.authorization_rejected'))
+          store.decision || Rejection.new(I18n.t("user.authorization_rejected"))
         end
       end
 

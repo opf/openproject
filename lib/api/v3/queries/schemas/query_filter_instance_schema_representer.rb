@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'queries/operators'
+require "queries/operators"
 
 module API
   module V3
@@ -36,7 +36,7 @@ module API
           include API::Utilities::RepresenterToJsonCache
 
           schema :name,
-                 type: 'String',
+                 type: "String",
                  writable: false,
                  has_default: true,
                  required: true
@@ -55,7 +55,7 @@ module API
           end
 
           schema_with_allowed_collection :filter,
-                                         type: 'QueryFilter',
+                                         type: "QueryFilter",
                                          required: true,
                                          writable: true,
                                          values_callback: -> {
@@ -78,7 +78,7 @@ module API
           end
 
           schema_with_allowed_collection :operator,
-                                         type: 'QueryOperator',
+                                         type: "QueryOperator",
                                          writable: true,
                                          has_default: false,
                                          required: true,
@@ -98,7 +98,7 @@ module API
           alias :filter :represented
 
           def _type
-            'QueryFilterInstanceSchema'
+            "QueryFilterInstanceSchema"
           end
 
           def _name
@@ -108,7 +108,7 @@ module API
           def _dependencies
             [
               ::API::V3::Schemas::SchemaDependencyRepresenter.new(dependencies,
-                                                                  'operator',
+                                                                  "operator",
                                                                   current_user:)
             ]
           end

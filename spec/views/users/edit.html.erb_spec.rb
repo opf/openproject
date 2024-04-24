@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'users/edit' do
+RSpec.describe "users/edit" do
   let(:admin) { build(:admin) }
 
   before do
@@ -38,10 +38,10 @@ RSpec.describe 'users/edit' do
     view.extend(Gon::ControllerHelpers)
   end
 
-  context 'authentication provider' do
+  context "authentication provider" do
     let(:user) do
       build(:user, id: 1, # id is required to create route to edit
-                   identity_url: 'test_provider:veryuniqueid')
+                   identity_url: "test_provider:veryuniqueid")
     end
 
     before do
@@ -51,21 +51,21 @@ RSpec.describe 'users/edit' do
       allow(view).to receive(:current_user).and_return(admin)
     end
 
-    it 'shows the authentication provider' do
+    it "shows the authentication provider" do
       render
 
-      expect(rendered).to include('Test Provider')
+      expect(rendered).to include("Test Provider")
     end
 
-    it 'does not show a no-login warning when password login is disabled' do
+    it "does not show a no-login warning when password login is disabled" do
       allow(OpenProject::Configuration).to receive(:disable_password_login).and_return(true)
       render
 
-      expect(rendered).not_to include I18n.t('user.no_login')
+      expect(rendered).not_to include I18n.t("user.no_login")
     end
   end
 
-  context 'with an invited user' do
+  context "with an invited user" do
     let(:user) { build_stubbed(:invited_user) }
 
     before do
@@ -73,18 +73,18 @@ RSpec.describe 'users/edit' do
       assign(:auth_sources, [])
     end
 
-    context 'for an admin' do
+    context "for an admin" do
       before do
         allow(view).to receive(:current_user).and_return(admin)
         render
       end
 
-      it 'renders the resend invitation button' do
+      it "renders the resend invitation button" do
         expect(rendered).to include I18n.t(:label_send_invitation)
       end
     end
 
-    context 'for a non-admin with manage_user global permission' do
+    context "for a non-admin with manage_user global permission" do
       let(:non_admin) { create(:user, global_permissions: [:manage_user]) }
 
       before do
@@ -92,13 +92,13 @@ RSpec.describe 'users/edit' do
         render
       end
 
-      it 'does not render the resend invitation button' do
+      it "does not render the resend invitation button" do
         expect(rendered).not_to include I18n.t(:label_send_invitation)
       end
     end
   end
 
-  context 'with a normal (not invited) user' do
+  context "with a normal (not invited) user" do
     let(:user) { create(:user) }
 
     before do
@@ -109,12 +109,12 @@ RSpec.describe 'users/edit' do
       render
     end
 
-    it 'also renders the resend invitation button' do
+    it "also renders the resend invitation button" do
       expect(rendered).to include I18n.t(:label_send_invitation)
     end
   end
 
-  context 'with password-based login' do
+  context "with password-based login" do
     let(:user) { build(:user, id: 42) }
 
     before do
@@ -124,75 +124,75 @@ RSpec.describe 'users/edit' do
       allow(view).to receive(:current_user).and_return(admin)
     end
 
-    context 'with password login disabled' do
+    context "with password login disabled" do
       before do
         allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
       end
 
-      it 'warns that the user cannot login' do
+      it "warns that the user cannot login" do
         render
 
-        expect(rendered).to include I18n.t('user.no_login')
+        expect(rendered).to include I18n.t("user.no_login")
       end
 
-      context 'with auth sources' do
+      context "with auth sources" do
         let(:auth_sources) { create_list(:ldap_auth_source, 1) }
 
         before do
           assign :auth_sources, auth_sources
         end
 
-        it 'does not show the auth source selection' do
+        it "does not show the auth source selection" do
           render
 
-          expect(rendered).to have_no_css('#user_auth_source_id')
+          expect(rendered).to have_no_css("#user_auth_source_id")
         end
       end
     end
 
-    context 'with password login enabled' do
+    context "with password login enabled" do
       before do
         allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
       end
 
-      it 'shows password options' do
+      it "shows password options" do
         render
 
-        expect(rendered).to have_text I18n.t('user.assign_random_password')
+        expect(rendered).to have_text I18n.t("user.assign_random_password")
       end
 
-      context 'with auth sources' do
+      context "with auth sources" do
         let(:auth_sources) { create_list(:ldap_auth_source, 1) }
 
         before do
           assign :auth_sources, auth_sources
         end
 
-        it 'shows the auth source selection' do
+        it "shows the auth source selection" do
           render
 
-          expect(rendered).to have_css('#user_ldap_auth_source_id')
+          expect(rendered).to have_css("#user_ldap_auth_source_id")
         end
       end
 
-      context 'with password choice enabled' do
+      context "with password choice enabled" do
         before do
           expect(OpenProject::Configuration)
             .to receive(:disable_password_choice?)
             .and_return(false)
         end
 
-        it 'shows the password and password confirmation fields' do
+        it "shows the password and password confirmation fields" do
           render
 
-          within '#password_fields' do
-            expect(rendered).to have_text('Password')
-            expect(rendered).to have_text('Confirmation')
+          within "#password_fields" do
+            expect(rendered).to have_text("Password")
+            expect(rendered).to have_text("Confirmation")
           end
         end
       end
 
-      context 'with password choice disabled' do
+      context "with password choice disabled" do
         before do
           expect(OpenProject::Configuration).to receive(:disable_password_choice?).and_return(true)
         end
@@ -200,9 +200,9 @@ RSpec.describe 'users/edit' do
         it "doesn't show the password and password confirmation fields" do
           render
 
-          within '#password_fields' do
-            expect(rendered).to have_no_text('Password')
-            expect(rendered).to have_no_text('Password confirmation')
+          within "#password_fields" do
+            expect(rendered).to have_no_text("Password")
+            expect(rendered).to have_no_text("Password confirmation")
           end
         end
       end

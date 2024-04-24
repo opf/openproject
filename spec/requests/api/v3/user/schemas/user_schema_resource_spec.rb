@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Users schema resource', content_type: :json do
+RSpec.describe "API v3 Users schema resource", content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -45,19 +45,19 @@ RSpec.describe 'API v3 Users schema resource', content_type: :json do
 
   subject(:response) { last_response }
 
-  describe '#GET /users/schema' do
+  describe "#GET /users/schema" do
     before do
       get path
     end
 
-    it 'responds with 200 OK' do
+    it "responds with 200 OK" do
       expect(subject.status).to eq(200)
     end
 
-    it 'returns a schema' do
+    it "returns a schema" do
       expect(subject.body)
-        .to be_json_eql('Schema'.to_json)
-        .at_path '_type'
+        .to be_json_eql("Schema".to_json)
+        .at_path "_type"
     end
   end
 end

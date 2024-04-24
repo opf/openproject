@@ -26,100 +26,100 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 # Concern is included into AccountController and depends on methods available there
 RSpec.describe AccountController, :skip_2fa_stage do
-  let(:omniauth_strategy) { double('Google Strategy', name: 'google') }
+  let(:omniauth_strategy) { double("Google Strategy", name: "google") }
   let(:omniauth_hash) do
     OmniAuth::AuthHash.new(
-      provider: 'google',
+      provider: "google",
       strategy: omniauth_strategy,
-      uid: '123545',
-      info: { name: 'foo',
-              email: 'foo@bar.com',
-              first_name: 'foo',
-              last_name: 'bar' }
+      uid: "123545",
+      info: { name: "foo",
+              email: "foo@bar.com",
+              first_name: "foo",
+              last_name: "bar" }
     )
   end
 
   before do
-    request.env['omniauth.auth'] = omniauth_hash
-    request.env['omniauth.strategy'] = omniauth_strategy
+    request.env["omniauth.auth"] = omniauth_hash
+    request.env["omniauth.strategy"] = omniauth_strategy
   end
 
   after do
     User.current = nil
   end
 
-  context 'GET #omniauth_login', with_settings: { self_registration: Setting::SelfRegistration.automatic } do
-    describe 'with on-the-fly registration' do
-      context 'providing all required fields' do
+  context "GET #omniauth_login", with_settings: { self_registration: Setting::SelfRegistration.automatic } do
+    describe "with on-the-fly registration" do
+      context "providing all required fields" do
         before do
-          request.env['omniauth.origin'] = 'https://example.net/some_back_url'
+          request.env["omniauth.origin"] = "https://example.net/some_back_url"
           post :omniauth_login, params: { provider: :google }
         end
 
-        it 'registers the user on-the-fly' do
-          user = User.find_by_login('foo@bar.com')
+        it "registers the user on-the-fly" do
+          user = User.find_by_login("foo@bar.com")
           expect(user).to be_an_instance_of(User)
           expect(user.ldap_auth_source_id).to be_nil
           expect(user.current_password).to be_nil
-          expect(user.identity_url).to eql('google:123545')
-          expect(user.login).to eql('foo@bar.com')
-          expect(user.firstname).to eql('foo')
-          expect(user.lastname).to eql('bar')
-          expect(user.mail).to eql('foo@bar.com')
+          expect(user.identity_url).to eql("google:123545")
+          expect(user.login).to eql("foo@bar.com")
+          expect(user.firstname).to eql("foo")
+          expect(user.lastname).to eql("bar")
+          expect(user.mail).to eql("foo@bar.com")
         end
 
-        it 'redirects to the first login page with a back_url' do
+        it "redirects to the first login page with a back_url" do
           expect(response).to redirect_to(home_url(first_time_user: true))
         end
       end
 
-      describe 'strategy uid mapping override' do
+      describe "strategy uid mapping override" do
         let(:omniauth_hash) do
           OmniAuth::AuthHash.new(
-            provider: 'google',
+            provider: "google",
             strategy: omniauth_strategy,
-            uid: 'foo',
+            uid: "foo",
             info: {
-              uid: 'internal',
-              email: 'whattheheck@example.com',
-              first_name: 'what',
-              last_name: 'theheck'
+              uid: "internal",
+              email: "whattheheck@example.com",
+              first_name: "what",
+              last_name: "theheck"
             }
           )
         end
 
-        it 'takes the uid from the mapped attributes' do
+        it "takes the uid from the mapped attributes" do
           post :omniauth_login, params: { provider: :google }
 
-          user = User.find_by_login('whattheheck@example.com')
+          user = User.find_by_login("whattheheck@example.com")
           expect(user).to be_an_instance_of(User)
-          expect(user.identity_url).to eq 'google:internal'
+          expect(user.identity_url).to eq "google:internal"
         end
       end
 
-      describe 'strategy attribute mapping override' do
+      describe "strategy attribute mapping override" do
         let(:omniauth_hash) do
           OmniAuth::AuthHash.new(
-            provider: 'google',
+            provider: "google",
             strategy: omniauth_strategy,
-            uid: 'foo',
-            info: { email: 'whattheheck@example.com',
-                    first_name: 'what',
-                    last_name: 'theheck' },
+            uid: "foo",
+            info: { email: "whattheheck@example.com",
+                    first_name: "what",
+                    last_name: "theheck" },
             extra: { raw_info: {
-              real_uid: 'bar@example.org',
-              first_name: 'foo',
-              last_name: 'bar'
+              real_uid: "bar@example.org",
+              first_name: "foo",
+              last_name: "bar"
             } }
           )
         end
 
-        context 'available' do
-          it 'merges the strategy mapping' do
+        context "available" do
+          it "merges the strategy mapping" do
             allow(omniauth_strategy).to receive(:omniauth_hash_to_user_attributes) do |auth|
               raw_info = auth[:extra][:raw_info]
               {
@@ -133,44 +133,44 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
             post :omniauth_login, params: { provider: :google }
 
-            user = User.find_by_login('bar@example.org')
+            user = User.find_by_login("bar@example.org")
             expect(user).to be_an_instance_of(User)
-            expect(user.firstname).to eql('foo')
-            expect(user.lastname).to eql('bar')
+            expect(user.firstname).to eql("foo")
+            expect(user.lastname).to eql("bar")
           end
         end
 
-        context 'unavailable' do
-          it 'keeps the default mapping' do
+        context "unavailable" do
+          it "keeps the default mapping" do
             post :omniauth_login, params: { provider: :google }
 
-            user = User.find_by_login('whattheheck@example.com')
+            user = User.find_by_login("whattheheck@example.com")
             expect(user).to be_an_instance_of(User)
-            expect(user.firstname).to eql('what')
-            expect(user.lastname).to eql('theheck')
+            expect(user.firstname).to eql("what")
+            expect(user.lastname).to eql("theheck")
           end
         end
       end
 
-      context 'not providing all required fields' do
+      context "not providing all required fields" do
         let(:omniauth_hash) do
           OmniAuth::AuthHash.new(
-            provider: 'google',
-            uid: '123545',
-            info: { name: 'foo', email: 'foo@bar.com' }
+            provider: "google",
+            uid: "123545",
+            info: { name: "foo", email: "foo@bar.com" }
             # first_name and last_name not set
           )
         end
 
-        it 'renders user form' do
+        it "renders user form" do
           post :omniauth_login, params: { provider: :google }
           expect(response).to render_template :register
-          expect(assigns(:user).mail).to eql('foo@bar.com')
+          expect(assigns(:user).mail).to eql("foo@bar.com")
         end
 
-        it 'registers user via post' do
+        it "registers user via post" do
           expect(OpenProject::OmniAuth::Authorization).to receive(:after_login!) do |user, auth_hash|
-            new_user = User.find_by_login('login@bar.com')
+            new_user = User.find_by_login("login@bar.com")
             expect(user).to eq new_user
             expect(auth_hash).to include(omniauth_hash)
           end
@@ -183,22 +183,22 @@ RSpec.describe AccountController, :skip_2fa_stage do
           post :register,
                params: {
                  user: {
-                   login: 'login@bar.com',
-                   firstname: 'Foo',
-                   lastname: 'Smith',
-                   mail: 'foo@bar.com'
+                   login: "login@bar.com",
+                   firstname: "Foo",
+                   lastname: "Smith",
+                   mail: "foo@bar.com"
                  }
                }
           expect(response).to redirect_to home_url(first_time_user: true)
 
-          user = User.find_by_login('login@bar.com')
+          user = User.find_by_login("login@bar.com")
           expect(user).to be_an_instance_of(User)
           expect(user.ldap_auth_source_id).to be_nil
           expect(user.current_password).to be_nil
-          expect(user.identity_url).to eql('google:123545')
+          expect(user.identity_url).to eql("google:123545")
         end
 
-        context 'after a timeout expired' do
+        context "after a timeout expired" do
           before do
             session[:auth_source_registration] = omniauth_hash.merge(
               omniauth: true,
@@ -206,97 +206,97 @@ RSpec.describe AccountController, :skip_2fa_stage do
             )
           end
 
-          it 'does not register the user when providing all the missing fields' do
+          it "does not register the user when providing all the missing fields" do
             post :register,
                  params: {
                    user: {
-                     firstname: 'Foo',
-                     lastname: 'Smith',
-                     mail: 'foo@bar.com'
+                     firstname: "Foo",
+                     lastname: "Smith",
+                     mail: "foo@bar.com"
                    }
                  }
 
             expect(response).to redirect_to signin_path
             expect(flash[:error]).to eq(I18n.t(:error_omniauth_registration_timed_out))
-            expect(User.find_by_login('foo@bar.com')).to be_nil
+            expect(User.find_by_login("foo@bar.com")).to be_nil
           end
 
-          it 'does not register the user when providing all the missing fields' do
+          it "does not register the user when providing all the missing fields" do
             post :register,
                  params: {
                    user: {
-                     firstname: 'Foo',
+                     firstname: "Foo",
                      # lastname intentionally not provided
-                     mail: 'foo@bar.com'
+                     mail: "foo@bar.com"
                    }
                  }
 
             expect(response).to redirect_to signin_path
             expect(flash[:error]).to eq(I18n.t(:error_omniauth_registration_timed_out))
-            expect(User.find_by_login('foo@bar.com')).to be_nil
+            expect(User.find_by_login("foo@bar.com")).to be_nil
           end
         end
       end
 
-      context 'with self-registration disabled',
+      context "with self-registration disabled",
               with_settings: { self_registration: Setting::SelfRegistration.disabled } do
         let(:omniauth_hash) do
           OmniAuth::AuthHash.new(
-            provider: 'google',
-            uid: '123',
-            info: { name: 'foo',
-                    email: 'foo@bar.com',
-                    first_name: 'foo',
-                    last_name: 'bar' }
+            provider: "google",
+            uid: "123",
+            info: { name: "foo",
+                    email: "foo@bar.com",
+                    first_name: "foo",
+                    last_name: "bar" }
           )
         end
 
         before do
-          request.env['omniauth.origin'] = 'https://example.net/some_back_url'
+          request.env["omniauth.origin"] = "https://example.net/some_back_url"
 
           post :omniauth_login, params: { provider: :google }
         end
 
-        it 'shows a notice about the activated account', :aggregate_failures do
-          expect(flash[:notice]).to eq(I18n.t('notice_account_registered_and_logged_in'))
+        it "shows a notice about the activated account", :aggregate_failures do
+          expect(flash[:notice]).to eq(I18n.t("notice_account_registered_and_logged_in"))
           user = User.last
 
-          expect(user.firstname).to eq 'foo'
-          expect(user.lastname).to eq 'bar'
-          expect(user.mail).to eq 'foo@bar.com'
+          expect(user.firstname).to eq "foo"
+          expect(user.lastname).to eq "bar"
+          expect(user.mail).to eq "foo@bar.com"
           expect(user).to be_active
         end
       end
     end
 
-    describe 'login' do
+    describe "login" do
       let(:omniauth_hash) do
         OmniAuth::AuthHash.new(
-          provider: 'google',
-          uid: '123545',
-          info: { name: 'foo',
-                  last_name: 'bar',
-                  email: 'foo@bar.com' }
+          provider: "google",
+          uid: "123545",
+          info: { name: "foo",
+                  last_name: "bar",
+                  email: "foo@bar.com" }
         )
       end
 
       let(:user) do
         build(:user, force_password_change: false,
-                     identity_url: 'google:123545')
+                     identity_url: "google:123545")
       end
 
-      context 'with an active account' do
+      context "with an active account" do
         before do
           user.save!
         end
 
-        it 'signs in the user after successful external authentication' do
+        it "signs in the user after successful external authentication" do
           post :omniauth_login, params: { provider: :google }
 
           expect(response).to redirect_to my_page_path
         end
 
-        it 'logs a successful login' do
+        it "logs a successful login" do
           post_at = Time.now.utc
           post :omniauth_login, params: { provider: :google }
 
@@ -304,53 +304,53 @@ RSpec.describe AccountController, :skip_2fa_stage do
           expect(user.last_login_on.utc.to_i).to be >= post_at.utc.to_i
         end
 
-        context 'with a back_url present' do
+        context "with a back_url present" do
           before do
-            request.env['omniauth.origin'] = 'http://test.host/projects'
+            request.env["omniauth.origin"] = "http://test.host/projects"
             post :omniauth_login, params: { provider: :google }
           end
 
-          it 'redirects to that url', :aggregate_failures do
-            expect(response).to redirect_to '/projects'
+          it "redirects to that url", :aggregate_failures do
+            expect(response).to redirect_to "/projects"
           end
         end
 
-        context 'with a back_url from a login path' do
+        context "with a back_url from a login path" do
           before do
-            request.env['omniauth.origin'] = 'http://test.host/login'
+            request.env["omniauth.origin"] = "http://test.host/login"
             post :omniauth_login, params: { provider: :google }
           end
 
-          it 'redirects to that url', :aggregate_failures do
-            expect(response).to redirect_to '/my/page'
+          it "redirects to that url", :aggregate_failures do
+            expect(response).to redirect_to "/my/page"
           end
         end
 
-        context 'with a partially blank auth_hash' do
+        context "with a partially blank auth_hash" do
           let(:omniauth_hash) do
             OmniAuth::AuthHash.new(
-              provider: 'google',
-              uid: '123545',
-              info: { name: 'foo',
-                      first_name: '',
-                      last_name: 'newLastname',
-                      email: 'foo@bar.com' }
+              provider: "google",
+              uid: "123545",
+              info: { name: "foo",
+                      first_name: "",
+                      last_name: "newLastname",
+                      email: "foo@bar.com" }
             )
           end
 
-          it 'signs in the user after successful external authentication' do
+          it "signs in the user after successful external authentication" do
             expect { post :omniauth_login, params: { provider: :google } }
                 .not_to change { user.reload.firstname }
 
             expect(response).to redirect_to my_page_path
 
-            expect(user.lastname).to eq 'newLastname'
+            expect(user.lastname).to eq "newLastname"
           end
         end
 
-        describe 'authorization' do
+        describe "authorization" do
           let(:config) do
-            Struct.new(:google_name, :global_email).new 'foo', 'foo@bar.com'
+            Struct.new(:google_name, :global_email).new "foo", "foo@bar.com"
           end
 
           before do
@@ -377,7 +377,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
             # ineffective callback
             OpenProject::OmniAuth::Authorization.authorize_user provider: :foobar do |dec, _|
-              dec.reject 'Though shalt not pass!'
+              dec.reject "Though shalt not pass!"
             end
 
             # free for all callback
@@ -390,7 +390,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
             OpenProject::OmniAuth::Authorization.callbacks.clear
           end
 
-          it 'works' do
+          it "works" do
             expect(OpenProject::OmniAuth::Authorization).to receive(:after_login!) do |u, auth|
               expect(u).to eq user
               expect(auth).to eq omniauth_hash
@@ -401,55 +401,55 @@ RSpec.describe AccountController, :skip_2fa_stage do
             expect(response).to redirect_to my_page_path
           end
 
-          context 'with wrong email address' do
+          context "with wrong email address" do
             before do
-              config.global_email = 'other@mail.com'
+              config.global_email = "other@mail.com"
             end
 
-            it 'is rejected against google' do
+            it "is rejected against google" do
               expect(OpenProject::OmniAuth::Authorization).not_to receive(:after_login!).with(user)
 
               post :omniauth_login, params: { provider: :google }
 
               expect(response).to redirect_to signin_path
-              expect(flash[:error]).to eq 'I only want to see other@mail.com here.'
+              expect(flash[:error]).to eq "I only want to see other@mail.com here."
             end
 
-            it 'is rejected against any other provider too' do
+            it "is rejected against any other provider too" do
               expect(OpenProject::OmniAuth::Authorization).not_to receive(:after_login!).with(user)
 
-              omniauth_hash.provider = 'any other'
+              omniauth_hash.provider = "any other"
               post :omniauth_login, params: { provider: :google }
 
               expect(response).to redirect_to signin_path
-              expect(flash[:error]).to eq 'I only want to see other@mail.com here.'
+              expect(flash[:error]).to eq "I only want to see other@mail.com here."
             end
           end
 
-          context 'with the wrong name' do
+          context "with the wrong name" do
             render_views
 
             before do
-              config.google_name = 'hans'
+              config.google_name = "hans"
             end
 
-            it 'is rejected against google' do
+            it "is rejected against google" do
               expect(OpenProject::OmniAuth::Authorization).not_to receive(:after_login!).with(user)
 
               post :omniauth_login, params: { provider: :google }
 
               expect(response).to redirect_to signin_path
-              expect(flash[:error]).to eq 'Go away foo!'
+              expect(flash[:error]).to eq "Go away foo!"
             end
 
-            it 'is approved against any other provider' do
+            it "is approved against any other provider" do
               expect(OpenProject::OmniAuth::Authorization).to receive(:after_login!) do |u|
-                new_user = User.find_by identity_url: 'some other:123545'
+                new_user = User.find_by identity_url: "some other:123545"
 
                 expect(u).to eq new_user
               end
 
-              omniauth_hash.provider = 'some other'
+              omniauth_hash.provider = "some other"
 
               post :omniauth_login, params: { provider: :google }
 
@@ -460,22 +460,22 @@ RSpec.describe AccountController, :skip_2fa_stage do
             end
 
             # ... and to confirm that, here's what happens when the authorization fails
-            it 'is rejected against any other provider with the wrong email' do
+            it "is rejected against any other provider with the wrong email" do
               expect(OpenProject::OmniAuth::Authorization).not_to receive(:after_login!).with(user)
 
-              omniauth_hash.provider = 'yet another'
-              config.global_email = 'yarrrr@joro.es'
+              omniauth_hash.provider = "yet another"
+              config.global_email = "yarrrr@joro.es"
 
               post :omniauth_login, params: { provider: :google }
 
               expect(response).to redirect_to signin_path
-              expect(flash[:error]).to eq 'I only want to see yarrrr@joro.es here.'
+              expect(flash[:error]).to eq "I only want to see yarrrr@joro.es here."
             end
           end
         end
       end
 
-      context 'with a registered and not activated accout',
+      context "with a registered and not activated accout",
               with_settings: { self_registration: Setting::SelfRegistration.by_email } do
         before do
           user.register
@@ -484,13 +484,13 @@ RSpec.describe AccountController, :skip_2fa_stage do
           post :omniauth_login, params: { provider: :google }
         end
 
-        it 'shows a notice about the activated account', :aggregate_failures do
-          expect(flash[:notice]).to eq(I18n.t('notice_account_registered_and_logged_in'))
+        it "shows a notice about the activated account", :aggregate_failures do
+          expect(flash[:notice]).to eq(I18n.t("notice_account_registered_and_logged_in"))
           expect(user.reload).to be_active
         end
       end
 
-      context 'with an invited user and self registration disabled',
+      context "with an invited user and self registration disabled",
               with_settings: { self_registration: Setting::SelfRegistration.disabled } do
         before do
           user.invite
@@ -499,13 +499,13 @@ RSpec.describe AccountController, :skip_2fa_stage do
           post :omniauth_login, params: { provider: :google }
         end
 
-        it 'shows a notice about the activated account', :aggregate_failures do
-          expect(flash[:notice]).to eq(I18n.t('notice_account_registered_and_logged_in'))
+        it "shows a notice about the activated account", :aggregate_failures do
+          expect(flash[:notice]).to eq(I18n.t("notice_account_registered_and_logged_in"))
           expect(user.reload).to be_active
         end
       end
 
-      context 'with a locked account',
+      context "with a locked account",
               with_settings: { brute_force_block_after_failed_logins: 0 } do
         before do
           user.lock
@@ -514,20 +514,20 @@ RSpec.describe AccountController, :skip_2fa_stage do
           post :omniauth_login, params: { provider: :google }
         end
 
-        it 'shows an error indicating a failed login', :aggregate_failures do
+        it "shows an error indicating a failed login", :aggregate_failures do
           expect(flash[:error]).to eql(I18n.t(:notice_account_invalid_credentials))
           expect(response).to redirect_to signin_path
         end
       end
     end
 
-    describe 'with an invalid auth_hash' do
+    describe "with an invalid auth_hash" do
       let(:omniauth_hash) do
         OmniAuth::AuthHash.new(
-          provider: 'google',
+          provider: "google",
           # id is deliberately missing here to make the auth_hash invalid
-          info: { name: 'foo',
-                  email: 'foo@bar.com' }
+          info: { name: "foo",
+                  email: "foo@bar.com" }
         )
       end
 
@@ -535,29 +535,29 @@ RSpec.describe AccountController, :skip_2fa_stage do
         post :omniauth_login, params: { provider: :google }
       end
 
-      it 'responds with an error' do
-        expect(flash[:error]).to include 'The authentication information returned from the identity provider was invalid.'
+      it "responds with an error" do
+        expect(flash[:error]).to include "The authentication information returned from the identity provider was invalid."
         expect(response).to redirect_to signin_path
       end
 
-      it 'does not sign in the user' do
+      it "does not sign in the user" do
         expect(controller.send(:current_user).logged?).to be_falsey
       end
 
-      it 'does not set registration information in the session' do
+      it "does not set registration information in the session" do
         expect(session[:auth_source_registration]).to be_nil
       end
     end
 
-    describe 'Error occurs during authentication' do
-      it 'redirects to login page' do
+    describe "Error occurs during authentication" do
+      it "redirects to login page" do
         post :omniauth_failure
         expect(response).to redirect_to signin_path
       end
 
-      it 'logs a warn message' do
-        expect(Rails.logger).to receive(:warn).with('invalid_credentials')
-        post :omniauth_failure, params: { message: 'invalid_credentials' }
+      it "logs a warn message" do
+        expect(Rails.logger).to receive(:warn).with("invalid_credentials")
+        post :omniauth_failure, params: { message: "invalid_credentials" }
       end
     end
   end

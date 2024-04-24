@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe GitlabPipeline do
-  describe 'Associations' do
+  describe "Associations" do
     it { is_expected.to belong_to(:gitlab_merge_request).touch(true) }
   end
 
-  describe 'Validations' do
+  describe "Validations" do
     it { is_expected.to validate_presence_of :gitlab_user_avatar_url }
     it { is_expected.to validate_presence_of :gitlab_html_url }
     it { is_expected.to validate_presence_of :gitlab_id }
@@ -45,22 +45,22 @@ RSpec.describe GitlabPipeline do
     it { is_expected.to validate_presence_of :username }
   end
 
-  describe 'Enums' do
+  describe "Enums" do
     let(:gitlab_pipeline) { build(:gitlab_pipeline) }
 
     it do
       expect(gitlab_pipeline).to define_enum_for(:status)
-        .with_values(created: 'created',
-                     running: 'running',
-                     success: 'success',
-                     waiting: 'waiting',
-                     preparing: 'preparing',
-                     failed: 'failed',
-                     pending: 'pending',
-                     canceled: 'canceled',
-                     skipped: 'skipped',
-                     manual: 'manual',
-                     scheduled: 'scheduled')
+        .with_values(created: "created",
+                     running: "running",
+                     success: "success",
+                     waiting: "waiting",
+                     preparing: "preparing",
+                     failed: "failed",
+                     pending: "pending",
+                     canceled: "canceled",
+                     skipped: "skipped",
+                     manual: "manual",
+                     scheduled: "scheduled")
         .backed_by_column_of_type(:string)
     end
   end

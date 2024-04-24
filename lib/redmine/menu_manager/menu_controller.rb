@@ -53,7 +53,7 @@ module Redmine::MenuManager::MenuController
     end
 
     def current_menu_item(actions = :default, &block)
-      raise ArgumentError '#current_menu_item requires a block' unless block
+      raise ArgumentError "#current_menu_item requires a block" unless block
 
       if actions == :default
         menu_items[controller_path.to_sym][:default] = block
@@ -80,7 +80,7 @@ module Redmine::MenuManager::MenuController
                          elsif @current_menu_item.is_a?(Proc)
                            @current_menu_item.call(self)
                          else
-                           raise ArgumentError 'Invalid'
+                           raise ArgumentError "Invalid"
                          end
 
     @current_menu_item_determined = true

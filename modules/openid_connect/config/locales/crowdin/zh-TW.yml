@@ -12,7 +12,7 @@ zh-TW:
         identifier: 識別碼
         secret: 金鑰
         scope: 範圍
-        limit_self_registration: Limit self registration
+        limit_self_registration: 限制自行註冊
   openid_connect:
     menu_title: OpenID 提供者
     providers:

@@ -8,7 +8,7 @@ es:
         text: "Algunos widgets, como el widget de gráfico de paquetes de trabajo, solo están disponibles con Enterprise."
         link: 'Enterprise.'
       widgets:
-        missing_permission: "You don't have the necessary permissions to view this widget."
+        missing_permission: "No tiene los permisos necesarios para ver este widget."
         custom_text:
           title: 'Texto personalizado'
         documents:

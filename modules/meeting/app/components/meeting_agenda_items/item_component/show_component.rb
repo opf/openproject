@@ -81,7 +81,7 @@ module MeetingAgendaItems
       menu.with_item(label: t("label_edit"),
                      href: edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
                      content_arguments: {
-                       data: { 'turbo-stream': true }
+                       data: { "turbo-stream": true }
                      }) do |item|
         item.with_leading_visual_icon(icon: :pencil)
       end
@@ -92,7 +92,7 @@ module MeetingAgendaItems
                      href: edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item,
                                                          display_notes_input: true),
                      content_arguments: {
-                       data: { 'turbo-stream': true }
+                       data: { "turbo-stream": true }
                      }) do |item|
         item.with_leading_visual_icon(icon: :note)
       end
@@ -110,7 +110,7 @@ module MeetingAgendaItems
                      scheme: :danger,
                      href: meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
                      form_arguments: {
-                       method: :delete, data: { confirm: t("text_are_you_sure"), 'turbo-stream': true }
+                       method: :delete, data: { confirm: t("text_are_you_sure"), "turbo-stream": true }
                      }) do |item|
         item.with_leading_visual_icon(icon: :trash)
       end
@@ -121,7 +121,7 @@ module MeetingAgendaItems
                      href: move_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item,
                                                          move_to:),
                      form_arguments: {
-                       method: :put, data: { 'turbo-stream': true }
+                       method: :put, data: { "turbo-stream": true }
                      }) do |item|
         item.with_leading_visual_icon(icon:)
       end

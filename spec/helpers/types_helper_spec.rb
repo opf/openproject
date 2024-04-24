@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe TypesHelper do
   let(:type) { build_stubbed(:type) }
@@ -43,17 +43,17 @@ RSpec.describe TypesHelper do
       before do
         allow(type)
           .to receive(:attribute_groups)
-          .and_return [Type::AttributeGroup.new(type, 'group one', ["assignee"])]
+          .and_return [Type::AttributeGroup.new(type, "group one", ["assignee"])]
       end
 
-      it 'contains Hashes ordered by key :translation' do
+      it "contains Hashes ordered by key :translation" do
         # The first left over attribute should currently be "date"
         expect(subject.first[:translation]).to be_present
         expect(subject.first[:translation] <= subject.second[:translation]).to be_truthy
       end
 
       # The "assignee" is in "group one". It should not appear in :inactives.
-      it 'does not contain attributes that do not exist anymore' do
+      it "does not contain attributes that do not exist anymore" do
         expect(subject.pluck(:key)).not_to include "assignee"
       end
     end
@@ -64,10 +64,10 @@ RSpec.describe TypesHelper do
       before do
         allow(type)
           .to receive(:attribute_groups)
-          .and_return [Type::AttributeGroup.new(type, 'group one', ["date"])]
+          .and_return [Type::AttributeGroup.new(type, "group one", ["date"])]
       end
 
-      it 'has a proper structure' do
+      it "has a proper structure" do
         # The group's name/key
         expect(subject.first[:name]).to eq "group one"
 

@@ -28,7 +28,7 @@
 
 namespace :copyright do
   namespace :authors do
-    desc 'Shows contributors of a repository'
+    desc "Shows contributors of a repository"
     task :show, :arg1 do |_task, args|
       contribution_periods = contribution_periods_of_repository(args[:arg1])
       formatted_periods = format_contribution_periods(contribution_periods)
@@ -46,7 +46,7 @@ namespace :copyright do
     def contribution_periods_of_repository(path)
       contributions = []
       contribution_periods = []
-      path = '.' if path.nil?
+      path = "." if path.nil?
       log = `git --git-dir #{path}/.git log --date=short --pretty=format:"%ad %aN"`
 
       log.scan(CONTRIBUTION_REGEX).each do |m|

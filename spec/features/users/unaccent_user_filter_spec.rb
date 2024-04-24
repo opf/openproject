@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../principals/shared_memberships_examples'
+require "spec_helper"
+require_relative "../principals/shared_memberships_examples"
 
-RSpec.describe 'Finding users with accents', :js, :with_cuprite do
+RSpec.describe "Finding users with accents", :js, :with_cuprite do
   shared_let(:project) { create(:project) }
-  shared_let(:principal) { create(:user, firstname: 'Cécile', lastname: 'Foobar') }
+  shared_let(:principal) { create(:user, firstname: "Cécile", lastname: "Foobar") }
   shared_let(:admin) { create(:admin) }
   shared_let(:work_package) { create(:work_package, project:) }
   shared_let(:role) do
     create(:project_role,
-           name: 'Developer',
+           name: "Developer",
            permissions: %i[view_work_packages edit_work_packages work_package_assigned])
   end
 
@@ -46,44 +46,44 @@ RSpec.describe 'Finding users with accents', :js, :with_cuprite do
 
   current_user { admin }
 
-  it 'finds a user with accents in the name in the global administration' do
+  it "finds a user with accents in the name in the global administration" do
     visit users_path
 
-    fill_in 'name', with: 'Cecile'
-    click_on 'Apply'
+    fill_in "name", with: "Cecile"
+    click_on "Apply"
     expect(page).to have_current_path /name=Cecile/
-    expect(page).to have_css('td.firstname', text: 'Cécile')
+    expect(page).to have_css("td.firstname", text: "Cécile")
 
-    fill_in 'name', with: 'Cécile'
-    click_on 'Apply'
+    fill_in "name", with: "Cécile"
+    click_on "Apply"
     expect(page).to have_current_path /name=C%C3%A9cile/
-    expect(page).to have_css('td.firstname', text: 'Cécile')
+    expect(page).to have_css("td.firstname", text: "Cécile")
   end
 
-  it 'can add the user as member and assignee' do
+  it "can add the user as member and assignee" do
     visit project_members_path(project)
 
     members_page.open_new_member!
-    members_page.search_and_select_principal! 'Cecile',
-                                              'Cécile Foobar'
-    members_page.select_role! 'Developer'
+    members_page.search_and_select_principal! "Cecile",
+                                              "Cécile Foobar"
+    members_page.select_role! "Developer"
 
-    click_on 'Add'
-    expect(members_page).to have_added_user 'Cécile Foobar'
+    click_on "Add"
+    expect(members_page).to have_added_user "Cécile Foobar"
 
     members_page.open_filters!
-    members_page.search_for_name 'Cecile'
-    members_page.find_user 'Cécile Foobar'
+    members_page.search_for_name "Cecile"
+    members_page.find_user "Cécile Foobar"
 
     visit project_work_package_path(project, work_package)
     assignee_field.activate!
 
     assignee_field.openSelectField
-    assignee_field.autocomplete('Cecile', select_text: 'Cécile Foobar', select: true)
+    assignee_field.autocomplete("Cecile", select_text: "Cécile Foobar", select: true)
     wait_for_network_idle
 
-    wp_page.expect_and_dismiss_toaster message: 'Successful update.'
+    wp_page.expect_and_dismiss_toaster message: "Successful update."
     assignee_field.expect_inactive!
-    assignee_field.expect_state_text 'Cécile Foobar'
+    assignee_field.expect_state_text "Cécile Foobar"
   end
 end

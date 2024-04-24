@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'OpenProject::Configuration' do
-  describe '.cost_reporting_cache_filter_classes' do
-    it 'is a true by default via the method' do
+RSpec.describe "OpenProject::Configuration" do
+  describe ".cost_reporting_cache_filter_classes" do
+    it "is a true by default via the method" do
       expect(OpenProject::Configuration.cost_reporting_cache_filter_classes).to be_truthy
     end
 
-    it 'is true by default via the hash' do
-      expect(OpenProject::Configuration['cost_reporting_cache_filter_classes']).to be_truthy
+    it "is true by default via the hash" do
+      expect(OpenProject::Configuration["cost_reporting_cache_filter_classes"]).to be_truthy
     end
   end
 end

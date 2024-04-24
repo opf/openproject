@@ -44,7 +44,7 @@ module TableHelpers
       return symbolic_name if @work_packages_by_identifier.has_key?(symbolic_name)
 
       spell_checker = DidYouMean::SpellChecker.new(dictionary: @work_packages_by_identifier.keys.map(&:to_s))
-      suggestions = spell_checker.correct(name).map(&:inspect).join(' ')
+      suggestions = spell_checker.correct(name).map(&:inspect).join(" ")
       did_you_mean = " Did you mean #{suggestions} instead?" if suggestions.present?
       raise "No work package with name #{name.inspect} in _table.#{did_you_mean}"
     end

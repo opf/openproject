@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe WikiPages::AtVersion do
   let(:wiki_page) do
@@ -74,435 +74,435 @@ RSpec.describe WikiPages::AtVersion do
                         version)
   end
 
-  describe '#author' do
-    context 'without a version' do
+  describe "#author" do
+    context "without a version" do
       let(:version) { nil }
 
-      it 'is the most recent journal`s user' do
+      it "is the most recent journal`s user" do
         expect(page_at_version.author)
           .to eq second_journal_user
       end
     end
 
-    context 'with the version set to the first one' do
+    context "with the version set to the first one" do
       let(:version) { 1 }
 
-      it 'is the first journal`s user' do
+      it "is the first journal`s user" do
         expect(page_at_version.author)
           .to eq first_journal_user
       end
     end
 
-    context 'with the version set to the last one' do
+    context "with the version set to the last one" do
       let(:version) { 2 }
 
-      it 'is the last journal`s user' do
+      it "is the last journal`s user" do
         expect(page_at_version.author)
           .to eq second_journal_user
       end
     end
 
-    context 'with the version being larger then the current one' do
+    context "with the version being larger then the current one" do
       let(:version) { 3 }
 
-      it 'is the last journal`s user' do
+      it "is the last journal`s user" do
         expect(page_at_version.author)
           .to eq second_journal_user
       end
     end
 
-    context 'with the version being less then 1' do
+    context "with the version being less then 1" do
       let(:version) { 0 }
 
-      it 'is nil' do
+      it "is nil" do
         expect(page_at_version.author)
           .to be_nil
       end
     end
 
-    context 'with the version being less then 0' do
+    context "with the version being less then 0" do
       let(:version) { -1 }
 
-      it 'is nil' do
+      it "is nil" do
         expect(page_at_version.author)
           .to be_nil
       end
     end
   end
 
-  describe '#journals' do
-    context 'without a version' do
+  describe "#journals" do
+    context "without a version" do
       let(:version) { nil }
 
-      it 'is the full set of journals' do
+      it "is the full set of journals" do
         expect(page_at_version.journals)
           .to contain_exactly(first_journal, second_journal)
       end
     end
 
-    context 'with the version set to the first one' do
+    context "with the version set to the first one" do
       let(:version) { 1 }
 
-      it 'is only the first journal' do
+      it "is only the first journal" do
         expect(page_at_version.journals)
           .to contain_exactly(first_journal)
       end
     end
 
-    context 'with the version set to the last one' do
+    context "with the version set to the last one" do
       let(:version) { 2 }
 
-      it 'is the full set of journals' do
+      it "is the full set of journals" do
         expect(page_at_version.journals)
           .to contain_exactly(first_journal, second_journal)
       end
     end
 
-    context 'with the version being larger then the current one' do
+    context "with the version being larger then the current one" do
       let(:version) { 3 }
 
-      it 'is the full set of journals' do
+      it "is the full set of journals" do
         expect(page_at_version.journals)
           .to contain_exactly(first_journal, second_journal)
       end
     end
 
-    context 'with the version being less then 1' do
+    context "with the version being less then 1" do
       let(:version) { 0 }
 
-      it 'is empty' do
+      it "is empty" do
         expect(page_at_version.journals)
           .to be_empty
       end
     end
   end
 
-  describe '#lock_version' do
-    context 'without a version' do
+  describe "#lock_version" do
+    context "without a version" do
       let(:version) { nil }
 
-      it 'is the page`s lock_version' do
+      it "is the page`s lock_version" do
         expect(page_at_version.lock_version)
           .to eq wiki_page.lock_version
       end
     end
 
-    context 'with the version set to the first one' do
+    context "with the version set to the first one" do
       let(:version) { 1 }
 
-      it 'is the page`s lock_version' do
+      it "is the page`s lock_version" do
         expect(page_at_version.lock_version)
           .to eq wiki_page.lock_version
       end
     end
 
-    context 'with the version set to the last one' do
+    context "with the version set to the last one" do
       let(:version) { 2 }
 
-      it 'is the page`s lock_version' do
+      it "is the page`s lock_version" do
         expect(page_at_version.lock_version)
           .to eq wiki_page.lock_version
       end
     end
 
-    context 'with the version being larger then the current one' do
+    context "with the version being larger then the current one" do
       let(:version) { 3 }
 
-      it 'is the page`s lock_version' do
+      it "is the page`s lock_version" do
         expect(page_at_version.lock_version)
           .to eq wiki_page.lock_version
       end
     end
 
-    context 'with the version being less then 1' do
+    context "with the version being less then 1" do
       let(:version) { 0 }
 
-      it 'is the page`s lock_version' do
+      it "is the page`s lock_version" do
         expect(page_at_version.lock_version)
           .to eq wiki_page.lock_version
       end
     end
   end
 
-  describe '#updated_at' do
-    context 'without a version' do
+  describe "#updated_at" do
+    context "without a version" do
       let(:version) { nil }
 
-      it 'is the last journals`s updated_at' do
+      it "is the last journals`s updated_at" do
         expect(page_at_version.updated_at)
           .to eq second_journal.updated_at
       end
     end
 
-    context 'with the version set to the first one' do
+    context "with the version set to the first one" do
       let(:version) { 1 }
 
-      it 'is the first journals`s updated_at' do
+      it "is the first journals`s updated_at" do
         expect(page_at_version.updated_at)
           .to eq first_journal.updated_at
       end
     end
 
-    context 'with the version set to the last one' do
+    context "with the version set to the last one" do
       let(:version) { 2 }
 
-      it 'is the last journals`s updated_at' do
+      it "is the last journals`s updated_at" do
         expect(page_at_version.updated_at)
           .to eq second_journal.updated_at
       end
     end
 
-    context 'with the version being larger then the current one' do
+    context "with the version being larger then the current one" do
       let(:version) { 3 }
 
-      it 'is the last journals`s updated_at' do
+      it "is the last journals`s updated_at" do
         expect(page_at_version.updated_at)
           .to eq second_journal.updated_at
       end
     end
 
-    context 'with the version being less then 1' do
+    context "with the version being less then 1" do
       let(:version) { 0 }
 
-      it 'is nil' do
+      it "is nil" do
         expect(page_at_version.updated_at)
           .to be_nil
       end
     end
   end
 
-  describe '#version' do
-    context 'without a version' do
+  describe "#version" do
+    context "without a version" do
       let(:version) { nil }
 
-      it 'is the wiki_page`s version' do
+      it "is the wiki_page`s version" do
         expect(page_at_version.version)
           .to eq wiki_page.version
       end
     end
 
-    context 'with the version provided' do
+    context "with the version provided" do
       let(:version) { 1 }
 
-      it 'is the provided version' do
+      it "is the provided version" do
         expect(page_at_version.version)
           .to eq version
       end
     end
 
-    context 'with the version being larger then the current one' do
+    context "with the version being larger then the current one" do
       let(:version) { 3 }
 
-      it 'is the highest possible version' do
+      it "is the highest possible version" do
         expect(page_at_version.version)
           .to eq 2
       end
     end
 
-    context 'with the version being 0' do
+    context "with the version being 0" do
       let(:version) { 0 }
 
-      it 'is 0' do
+      it "is 0" do
         expect(page_at_version.version)
           .to eq 0
       end
     end
 
-    context 'with the version being less then 0' do
+    context "with the version being less then 0" do
       let(:version) { -1 }
 
-      it 'is 0' do
+      it "is 0" do
         expect(page_at_version.version)
           .to eq 0
       end
     end
   end
 
-  describe '#latest_version' do
-    context 'without a version' do
+  describe "#latest_version" do
+    context "without a version" do
       let(:version) { nil }
 
-      it 'is the wiki_page`s version' do
+      it "is the wiki_page`s version" do
         expect(page_at_version.latest_version)
           .to eq wiki_page.version
       end
     end
 
-    context 'with the version provided' do
+    context "with the version provided" do
       let(:version) { 1 }
 
-      it 'is the wiki_page`s version' do
+      it "is the wiki_page`s version" do
         expect(page_at_version.latest_version)
           .to eq wiki_page.version
       end
     end
   end
 
-  describe '#text' do
-    context 'without a version' do
+  describe "#text" do
+    context "without a version" do
       let(:version) { nil }
 
-      it 'is the last journals`s version' do
+      it "is the last journals`s version" do
         expect(page_at_version.text)
           .to eq second_journal_text
       end
     end
 
-    context 'with the version set to the first one' do
+    context "with the version set to the first one" do
       let(:version) { 1 }
 
-      it 'is the first journals`s text' do
+      it "is the first journals`s text" do
         expect(page_at_version.text)
           .to eq first_journal_text
       end
     end
 
-    context 'with the version set to the last one' do
+    context "with the version set to the last one" do
       let(:version) { 2 }
 
-      it 'is the last journals`s text' do
+      it "is the last journals`s text" do
         expect(page_at_version.text)
           .to eq second_journal_text
       end
     end
 
-    context 'with the version being larger then the current one' do
+    context "with the version being larger then the current one" do
       let(:version) { 3 }
 
-      it 'is the last journals`s text' do
+      it "is the last journals`s text" do
         expect(page_at_version.text)
           .to eq second_journal_text
       end
     end
 
-    context 'with the version being less then 1' do
+    context "with the version being less then 1" do
       let(:version) { 0 }
 
-      it 'is the wiki pages`s text' do
+      it "is the wiki pages`s text" do
         expect(page_at_version.text)
           .to eq wiki_page.text
       end
     end
   end
 
-  describe '#readonly?' do
-    context 'without a version' do
+  describe "#readonly?" do
+    context "without a version" do
       let(:version) { nil }
 
-      it 'is false' do
+      it "is false" do
         expect(page_at_version)
           .not_to be_readonly
       end
     end
 
-    context 'with the version set to the first one' do
+    context "with the version set to the first one" do
       let(:version) { 1 }
 
-      it 'is true' do
+      it "is true" do
         expect(page_at_version)
           .to be_readonly
       end
     end
 
-    context 'with the version set to the last one' do
+    context "with the version set to the last one" do
       let(:version) { 2 }
 
-      it 'is false' do
+      it "is false" do
         expect(page_at_version)
           .not_to be_readonly
       end
     end
 
-    context 'with the version being larger then the current one' do
+    context "with the version being larger then the current one" do
       let(:version) { 3 }
 
-      it 'is false' do
+      it "is false" do
         expect(page_at_version)
           .not_to be_readonly
       end
     end
 
-    context 'with the version being less then 1' do
+    context "with the version being less then 1" do
       let(:version) { 0 }
 
-      it 'is true' do
+      it "is true" do
         expect(page_at_version)
           .to be_readonly
       end
     end
   end
 
-  describe '#current_version?' do
-    context 'without a version' do
+  describe "#current_version?" do
+    context "without a version" do
       let(:version) { nil }
 
-      it 'is true' do
+      it "is true" do
         expect(page_at_version)
           .to be_current_version
       end
     end
 
-    context 'with the version set to the first one' do
+    context "with the version set to the first one" do
       let(:version) { 1 }
 
-      it 'is true' do
+      it "is true" do
         expect(page_at_version)
           .not_to be_current_version
       end
     end
 
-    context 'with the version set to the last one' do
+    context "with the version set to the last one" do
       let(:version) { 2 }
 
-      it 'is true' do
+      it "is true" do
         expect(page_at_version)
           .to be_current_version
       end
     end
 
-    context 'with the version being larger then the current one' do
+    context "with the version being larger then the current one" do
       let(:version) { 3 }
 
-      it 'is true' do
+      it "is true" do
         expect(page_at_version)
           .to be_current_version
       end
     end
 
-    context 'with the version being less then 1' do
+    context "with the version being less then 1" do
       let(:version) { 0 }
 
-      it 'is true' do
+      it "is true" do
         expect(page_at_version)
           .not_to be_current_version
       end
     end
   end
 
-  describe '#object' do
-    context 'without a version' do
+  describe "#object" do
+    context "without a version" do
       let(:version) { nil }
 
-      it 'returns the wiki page' do
+      it "returns the wiki page" do
         expect(page_at_version.object)
           .to eq wiki_page
       end
     end
 
-    context 'with a version' do
+    context "with a version" do
       let(:version) { 1 }
 
-      it 'returns the wiki page' do
+      it "returns the wiki page" do
         expect(page_at_version.object)
           .to eq wiki_page
       end
     end
   end
 
-  describe '#respond_to?' do
+  describe "#respond_to?" do
     let(:version) { 1 }
 
-    it 'returns false for #to_model' do
+    it "returns false for #to_model" do
       expect(page_at_version)
                .not_to respond_to(:to_model)
     end

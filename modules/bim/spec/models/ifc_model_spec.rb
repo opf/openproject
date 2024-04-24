@@ -1,14 +1,14 @@
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Bim::IfcModels::IfcModel do
   subject { described_class.new params }
 
-  let(:params) { { title: 'foo', is_default: true } }
+  let(:params) { { title: "foo", is_default: true } }
 
-  describe 'converted?' do
+  describe "converted?" do
     let(:attachment) { build(:attachment) }
 
-    it 'is converted when the xkt attachment is present' do
+    it "is converted when the xkt attachment is present" do
       expect(subject).not_to be_converted
 
       allow(subject).to receive(:xkt_attachment).and_return(attachment)
@@ -17,11 +17,11 @@ RSpec.describe Bim::IfcModels::IfcModel do
     end
   end
 
-  describe 'ifc_attachment=' do
+  describe "ifc_attachment=" do
     let(:project) { create(:project, enabled_module_names: %i[bim]) }
     let(:ifc_attachment) { subject.ifc_attachment }
     let(:new_attachment) do
-      FileHelpers.mock_uploaded_file name: "model.ifc", content_type: 'application/binary', binary: true
+      FileHelpers.mock_uploaded_file name: "model.ifc", content_type: "application/binary", binary: true
     end
 
     subject { create(:ifc_model_minimal_converted, project:) }
@@ -31,7 +31,7 @@ RSpec.describe Bim::IfcModels::IfcModel do
              member_with_permissions: { project => %i[manage_ifc_models] })
     end
 
-    it 'replaces the previous attachment' do
+    it "replaces the previous attachment" do
       expect(ifc_attachment).to be_present
       expect(subject.xkt_attachment).to be_present
       expect(subject).to be_converted

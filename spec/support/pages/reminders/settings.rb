@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/page'
+require "support/pages/page"
 
 module Pages
   module Reminders
@@ -43,7 +43,7 @@ module Pages
       end
 
       def add_time
-        click_button 'Add time'
+        click_button "Add time"
       end
 
       def set_time(label, time)
@@ -110,9 +110,9 @@ module Pages
 
       def expect_paused(paused, first: nil, last: nil)
         if paused
-          expect(page).to have_checked_field 'Temporarily pause daily email reminders'
+          expect(page).to have_checked_field "Temporarily pause daily email reminders"
         else
-          expect(page).to have_no_checked_field 'Temporarily pause daily email reminders'
+          expect(page).to have_no_checked_field "Temporarily pause daily email reminders"
         end
 
         if first && last
@@ -123,20 +123,20 @@ module Pages
 
       def set_paused(paused, first: nil, last: nil)
         if paused
-          check 'Temporarily pause daily email reminders'
+          check "Temporarily pause daily email reminders"
 
-          page.find('op-basic-range-date-picker input').click
+          page.find("op-basic-range-date-picker input").click
 
           datepicker = ::Components::RangeDatepicker.new
           datepicker.set_date first
           datepicker.set_date last
         else
-          uncheck 'Temporarily pause daily email reminders'
+          uncheck "Temporarily pause daily email reminders"
         end
       end
 
       def save
-        click_button I18n.t('js.button_save')
+        click_button I18n.t("js.button_save")
       end
     end
   end

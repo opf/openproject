@@ -29,27 +29,27 @@
 # ++
 #
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Admin::Settings::IcalendarSettingsController do
   shared_let(:user) { create(:admin) }
 
   current_user { user }
 
-  require_admin_and_render_template('icalendar_settings')
+  require_admin_and_render_template("icalendar_settings")
 
-  describe 'PATCH #update' do
-    subject { patch 'update', params: }
+  describe "PATCH #update" do
+    subject { patch "update", params: }
 
     let(:base_settings) do
       { ical_enabled: true }
     end
     let(:params) { { settings: } }
 
-    context 'with valid params' do
+    context "with valid params" do
       let(:settings) { base_settings }
 
-      it 'succeeds' do
+      it "succeeds" do
         subject
 
         expect(response).to redirect_to action: :show

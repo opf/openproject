@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe VersionSettingsHelper do
-  describe '#position_display_options' do
+  describe "#position_display_options" do
     before do
-      @expected_options = [[I18n.t('version_settings_display_option_none'), 1],
-                           [I18n.t('version_settings_display_option_left'), 2],
-                           [I18n.t('version_settings_display_option_right'), 3]]
+      @expected_options = [[I18n.t("version_settings_display_option_none"), 1],
+                           [I18n.t("version_settings_display_option_left"), 2],
+                           [I18n.t("version_settings_display_option_right"), 3]]
     end
 
     it { expect(helper.send(:position_display_options)).to eql @expected_options }

@@ -26,21 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::Projects::Filters::NameFilter do
-  include_context 'filter tests'
-  let(:values) { ['A name'] }
+  include_context "filter tests"
+  let(:values) { ["A name"] }
   let(:model) { Project }
 
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :name }
-    let(:human_name) { 'Name' }
+    let(:human_name) { "Name" }
     let(:type) { :string }
     let(:model) { Project }
 
-    describe '#allowed_values' do
-      it 'is nil' do
+    describe "#allowed_values" do
+      it "is nil" do
         expect(instance.allowed_values).to be_nil
       end
     end

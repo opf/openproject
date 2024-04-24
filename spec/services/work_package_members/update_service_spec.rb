@@ -28,8 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
-require 'services/base_services/behaves_like_update_service'
+require "spec_helper"
+require "services/base_services/behaves_like_update_service"
 
 RSpec.describe WorkPackageMembers::UpdateService do
   let!(:groups_update_roles_service) do
@@ -43,15 +43,15 @@ RSpec.describe WorkPackageMembers::UpdateService do
     end
   end
 
-  it_behaves_like 'BaseServices update service' do
+  it_behaves_like "BaseServices update service" do
     let(:model_class) { Member }
     let!(:model_instance) { build_stubbed(:work_package_member, principal:) }
     let(:principal) { build_stubbed(:user) }
     let(:role) { build_stubbed(:view_work_package_role) }
     let(:call_attributes) { { roles: [role] } }
 
-    context 'when successful' do
-      context 'when the member being updates is a User' do
+    context "when successful" do
+      context "when the member being updates is a User" do
         it "doesn't attempt any group member post-processing" do
           instance_call
 
@@ -60,7 +60,7 @@ RSpec.describe WorkPackageMembers::UpdateService do
         end
       end
 
-      context 'when the member being updated is a Group' do
+      context "when the member being updated is a Group" do
         let(:principal) { build_stubbed(:group) }
 
         it "updates the group member's roles" do

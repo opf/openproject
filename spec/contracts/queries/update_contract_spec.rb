@@ -26,59 +26,59 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe Queries::UpdateContract do
-  include_context 'with queries contract'
+  include_context "with queries contract"
 
-  describe 'private query' do
+  describe "private query" do
     let(:public) { false }
 
-    context 'when user is author' do
+    context "when user is author" do
       let(:user) { current_user }
 
-      context 'when user has no permission to save' do
+      context "when user has no permission to save" do
         let(:permissions) { %i(edit_work_packages) }
 
-        it_behaves_like 'contract user is unauthorized'
+        it_behaves_like "contract user is unauthorized"
       end
 
-      context 'when user has permission to save' do
+      context "when user has permission to save" do
         let(:permissions) { %i(save_queries) }
 
-        it_behaves_like 'contract is valid'
+        it_behaves_like "contract is valid"
       end
     end
 
-    context 'when user is someone else' do
+    context "when user is someone else" do
       let(:user) { build_stubbed(:user) }
       let(:permissions) { %i(save_queries) }
 
-      it_behaves_like 'contract user is unauthorized'
+      it_behaves_like "contract user is unauthorized"
     end
   end
 
-  describe 'public query' do
+  describe "public query" do
     let(:public) { true }
     let(:user) { nil }
 
-    context 'when user has no permission to save' do
+    context "when user has no permission to save" do
       let(:permissions) { %i() }
 
-      it_behaves_like 'contract user is unauthorized'
+      it_behaves_like "contract user is unauthorized"
     end
 
-    context 'when user has no permission to manage public' do
+    context "when user has no permission to manage public" do
       let(:permissions) { %i(manage_public_queries) }
 
-      it_behaves_like 'contract is valid'
+      it_behaves_like "contract is valid"
     end
 
-    context 'when user has permission to save only own' do
+    context "when user has permission to save only own" do
       let(:permissions) { %i(save_queries) }
 
-      it_behaves_like 'contract user is unauthorized'
+      it_behaves_like "contract user is unauthorized"
     end
   end
 end

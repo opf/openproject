@@ -29,7 +29,7 @@
 module API
   module Errors
     class PropertyFormatError < ErrorBase
-      identifier 'PropertyFormatError'
+      identifier "PropertyFormatError"
       code 422
 
       attr_accessor :property
@@ -37,7 +37,7 @@ module API
       def initialize(property, expected_format, actual_value)
         self.property = property
 
-        message = I18n.t('api_v3.errors.invalid_format',
+        message = I18n.t("api_v3.errors.invalid_format",
                          property:,
                          expected_format:,
                          actual: actual_value)

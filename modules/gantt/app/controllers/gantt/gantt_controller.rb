@@ -32,7 +32,7 @@ module ::Gantt
         format.html do
           render :index,
                  locals: { query: @query, project: @project, menu_name: project_or_global_menu },
-                 layout: 'angular/angular'
+                 layout: "angular/angular"
         end
 
         format.any(*supported_list_formats) do

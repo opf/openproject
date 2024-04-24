@@ -34,10 +34,10 @@ module Queries::Filters::Strategies
 
     def operator_map
       super_value = super.dup
-      super_value['&='] = ::Queries::Operators::CustomFields::EqualsAll
-      super_value['!'] = ::Queries::Operators::CustomFields::NotEqualsAll
-      super_value['!*'] = ::Queries::Operators::NoneOrBlank
-      super_value['*'] = ::Queries::Operators::AllAndNonBlank
+      super_value["&="] = ::Queries::Operators::CustomFields::EqualsAll
+      super_value["!"] = ::Queries::Operators::CustomFields::NotEqualsAll
+      super_value["!*"] = ::Queries::Operators::NoneOrBlank
+      super_value["*"] = ::Queries::Operators::AllAndNonBlank
 
       super_value
     end

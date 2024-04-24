@@ -27,7 +27,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
   subject { render_inline(described_class.new(share:, manager_mode:, invite_resent:)) }
@@ -35,11 +35,11 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
   shared_let(:project)      { create(:project) }
   shared_let(:work_package) { create(:work_package, project:) }
   shared_let(:work_package_role) { create(:view_work_package_role) }
-  shared_let(:project_role) { create(:project_role, name: 'Cool role') }
+  shared_let(:project_role) { create(:project_role, name: "Cool role") }
 
-  shared_let(:user_firstname) { 'Richard' }
-  shared_let(:user_lastname)  { 'Hendricks' }
-  shared_let(:group_name)     { 'Cool group' }
+  shared_let(:user_firstname) { "Richard" }
+  shared_let(:user_lastname)  { "Hendricks" }
+  shared_let(:group_name)     { "Cool group" }
 
   let(:invite_resent) { false }
 
@@ -50,11 +50,11 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
            inherited_from: group_membership.member_roles.first.id)
   end
 
-  describe 'when not in manager mode' do
+  describe "when not in manager mode" do
     let(:manager_mode) { false }
 
-    describe 'rendering for a user in a non-active state' do
-      context 'when the user is locked' do
+    describe "rendering for a user in a non-active state" do
+      context "when the user is locked" do
         let!(:principal) { create(:user, firstname: user_firstname, lastname: user_lastname, status: :locked) }
         let!(:share) do
           create(:work_package_member,
@@ -71,7 +71,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
         end
       end
 
-      context 'when the user is invited' do
+      context "when the user is invited" do
         let!(:principal) { create(:user, firstname: user_firstname, lastname: user_lastname, status: :invited) }
         let!(:share) do
           create(:work_package_member,
@@ -80,7 +80,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
                  roles: [work_package_role])
         end
 
-        context 'and the invite has not been resent' do
+        context "and the invite has not been resent" do
           it do
             subject
 
@@ -89,7 +89,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
           end
         end
 
-        context 'and the invite has been resent' do
+        context "and the invite has been resent" do
           let(:invite_resent) { true }
 
           it do
@@ -102,7 +102,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
       end
     end
 
-    describe 'rendering for a group' do
+    describe "rendering for a group" do
       shared_let(:principal) { create(:group, name: group_name) }
       shared_let(:share) do
         create(:work_package_member,
@@ -111,7 +111,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
                roles: [work_package_role])
       end
 
-      context 'when it is a member in the project' do
+      context "when it is a member in the project" do
         before do
           create(:member, project:, principal:, roles: [project_role])
         end
@@ -124,7 +124,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
         end
       end
 
-      context 'when it is not a member in the project' do
+      context "when it is not a member in the project" do
         it do
           subject
 
@@ -134,7 +134,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
       end
     end
 
-    describe 'rendering for a user' do
+    describe "rendering for a user" do
       shared_let(:principal) { create(:user, firstname: user_firstname, lastname: user_lastname) }
       shared_let(:share) do
         create(:work_package_member,
@@ -143,8 +143,8 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
                roles: [work_package_role])
       end
 
-      context 'when the user is not part of a shared with group' do
-        context 'and the user is not a project member' do
+      context "when the user is not part of a shared with group" do
+        context "and the user is not a project member" do
           it do
             subject
 
@@ -153,7 +153,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
           end
         end
 
-        context 'and the user is a project member' do
+        context "and the user is a project member" do
           before do
             create(:member, project:, principal:, roles: [project_role])
           end
@@ -167,7 +167,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
         end
       end
 
-      context 'when the user is part of a shared with group' do
+      context "when the user is part of a shared with group" do
         shared_let(:group) { create(:group, name: group_name, members: [principal]) }
 
         before do
@@ -179,7 +179,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
           build_inherited_membership(group_membership: group_share, user_membership: share)
         end
 
-        context 'and the user is not a project member' do
+        context "and the user is not a project member" do
           it do
             subject
 
@@ -188,7 +188,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
           end
         end
 
-        context 'and the user is a project member' do
+        context "and the user is a project member" do
           before do
             create(:member, project:, principal:, roles: [project_role])
           end
@@ -204,11 +204,11 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
     end
   end
 
-  describe 'when in manager mode' do
+  describe "when in manager mode" do
     let(:manager_mode) { true }
 
-    describe 'rendering for a user in a non-active state' do
-      context 'when the user is locked' do
+    describe "rendering for a user in a non-active state" do
+      context "when the user is locked" do
         let!(:principal) { create(:user, firstname: user_firstname, lastname: user_lastname, status: :locked) }
         let!(:share) do
           create(:work_package_member,
@@ -227,7 +227,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
         end
       end
 
-      context 'when the user is invited' do
+      context "when the user is invited" do
         let!(:principal) { create(:user, firstname: user_firstname, lastname: user_lastname, status: :invited) }
         let!(:share) do
           create(:work_package_member,
@@ -236,7 +236,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
                  roles: [work_package_role])
         end
 
-        context 'and the invite has not been resent' do
+        context "and the invite has not been resent" do
           it do
             subject
 
@@ -245,7 +245,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
           end
         end
 
-        context 'and the invite has been resent' do
+        context "and the invite has been resent" do
           let(:invite_resent) { true }
 
           it do
@@ -258,7 +258,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
       end
     end
 
-    describe 'rendering for a group' do
+    describe "rendering for a group" do
       shared_let(:principal) { create(:group, name: group_name) }
       shared_let(:share) do
         create(:work_package_member,
@@ -267,7 +267,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
                roles: [work_package_role])
       end
 
-      context 'when it is a member in the project' do
+      context "when it is a member in the project" do
         before do
           create(:member, project:, principal:, roles: [project_role])
         end
@@ -280,7 +280,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
         end
       end
 
-      context 'when it is not a member in the project' do
+      context "when it is not a member in the project" do
         it do
           subject
 
@@ -290,7 +290,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
       end
     end
 
-    describe 'rendering for a user' do
+    describe "rendering for a user" do
       shared_let(:principal) { create(:user, firstname: user_firstname, lastname: user_lastname) }
       shared_let(:share) do
         create(:work_package_member,
@@ -299,10 +299,10 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
                roles: [work_package_role])
       end
 
-      context 'when the user is a project member' do
+      context "when the user is a project member" do
         shared_let(:user_membership) { create(:member, project:, principal:, roles: [project_role]) }
 
-        context 'and the user is not part of any group' do
+        context "and the user is not part of any group" do
           it do
             subject
 
@@ -311,10 +311,10 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
           end
         end
 
-        context 'and the user is part of a group' do
+        context "and the user is part of a group" do
           shared_let(:group) { create(:group, name: group_name, members: [principal]) }
 
-          context 'and the group is a project member itself' do
+          context "and the group is a project member itself" do
             before do
               group_membership = create(:member,
                                         project:,
@@ -324,7 +324,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
               build_inherited_membership(group_membership:, user_membership:, role: project_role)
             end
 
-            context 'and the group is shared with' do
+            context "and the group is shared with" do
               before do
                 group_share = create(:work_package_member,
                                      principal: group,
@@ -343,7 +343,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
               end
             end
 
-            context 'and the group is not shared with' do
+            context "and the group is not shared with" do
               it do
                 subject
 
@@ -354,8 +354,8 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
             end
           end
 
-          context 'and the group is not a project member itself' do
-            context 'and the group is shared with' do
+          context "and the group is not a project member itself" do
+            context "and the group is shared with" do
               before do
                 group_share = create(:work_package_member,
                                      principal: group,
@@ -374,7 +374,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
               end
             end
 
-            context 'and the group is not shared with' do
+            context "and the group is not shared with" do
               it do
                 subject
 
@@ -387,8 +387,8 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
         end
       end
 
-      context 'when the user is not a project member' do
-        context 'and the user is not part of any group' do
+      context "when the user is not a project member" do
+        context "and the user is not part of any group" do
           it do
             subject
 
@@ -397,10 +397,10 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
           end
         end
 
-        context 'and the user is part of a group' do
+        context "and the user is part of a group" do
           shared_let(:group) { create(:group, name: group_name, members: [principal]) }
 
-          context 'and the group is a project member itself' do
+          context "and the group is a project member itself" do
             before do
               group_membership = create(:member, project:, principal: group, roles: [project_role])
               user_membership = create(:member, project:, principal:, roles: [project_role])
@@ -408,7 +408,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
               build_inherited_membership(group_membership:, user_membership:, role: project_role)
             end
 
-            context 'and the group is shared with' do
+            context "and the group is shared with" do
               before do
                 group_share = create(:work_package_member,
                                      principal: group,
@@ -427,7 +427,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
               end
             end
 
-            context 'and the group is not shared with' do
+            context "and the group is not shared with" do
               it do
                 subject
 
@@ -438,8 +438,8 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
             end
           end
 
-          context 'and the group is not a project member itself' do
-            context 'and the group is shared with' do
+          context "and the group is not a project member itself" do
+            context "and the group is shared with" do
               before do
                 group_share = create(:work_package_member,
                                      principal: group,
@@ -458,7 +458,7 @@ RSpec.describe WorkPackages::Share::UserDetailsComponent, type: :component do
               end
             end
 
-            context 'and the group is not shared with' do
+            context "and the group is not shared with" do
               it do
                 subject
 

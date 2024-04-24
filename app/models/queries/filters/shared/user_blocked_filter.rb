@@ -42,7 +42,7 @@ module Queries::Filters::Shared::UserBlockedFilter
     end
 
     def where
-      User.blocked_condition(operator == '=')
+      User.blocked_condition(operator == "=")
     end
   end
 

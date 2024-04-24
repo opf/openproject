@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQuery, :vcr, :webmock do
@@ -39,17 +39,17 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
 
   subject { described_class.new(storage) }
 
-  describe '#call' do
-    it 'responds with correct parameters' do
+  describe "#call" do
+    it "responds with correct parameters" do
       expect(described_class).to respond_to(:call)
 
       method = described_class.method(:call)
       expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq user], %i[key file_ids])
     end
 
-    context 'without outbound request involved' do
-      context 'with an empty array of file ids' do
-        it 'returns an empty array' do
+    context "without outbound request involved" do
+      context "with an empty array of file ids" do
+        it "returns an empty array" do
           result = subject.call(user:, file_ids: [])
 
           expect(result).to be_success
@@ -57,8 +57,8 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
         end
       end
 
-      context 'with nil' do
-        it 'returns an error' do
+      context "with nil" do
+        it "returns an error" do
           result = subject.call(user:, file_ids: nil)
 
           expect(result).to be_failure
@@ -67,8 +67,8 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
       end
     end
 
-    context 'with outbound requests successful', vcr: 'one_drive/files_info_query_success' do
-      context 'with an array of file ids' do
+    context "with outbound requests successful", vcr: "one_drive/files_info_query_success" do
+      context "with an array of file ids" do
         let(:file_ids) do
           %w(
             01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU
@@ -78,7 +78,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
         end
 
         # rubocop:disable RSpec/ExampleLength
-        it 'must return an array of file information when called' do
+        it "must return an array of file information when called" do
           result = subject.call(user:, file_ids:)
           expect(result).to be_success
 
@@ -89,55 +89,55 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
               expect(file_infos.map(&:to_h))
                 .to eq([
                          {
-                           status: 'ok',
+                           status: "ok",
                            status_code: 200,
-                           id: '01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU',
-                           name: 'Folder with spaces',
+                           id: "01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU",
+                           name: "Folder with spaces",
                            size: 35141,
-                           mime_type: 'application/x-op-directory',
-                           created_at: Time.parse('2023-09-26T14:38:57Z'),
-                           last_modified_at: Time.parse('2023-09-26T14:38:57Z'),
-                           owner_name: 'Eric Schubert',
-                           owner_id: '0a0d38a9-a59b-4245-93fa-0d2cf727f17a',
-                           last_modified_by_name: 'Eric Schubert',
-                           last_modified_by_id: '0a0d38a9-a59b-4245-93fa-0d2cf727f17a',
+                           mime_type: "application/x-op-directory",
+                           created_at: Time.parse("2023-09-26T14:38:57Z"),
+                           last_modified_at: Time.parse("2023-09-26T14:38:57Z"),
+                           owner_name: "Eric Schubert",
+                           owner_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
+                           last_modified_by_name: "Eric Schubert",
+                           last_modified_by_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
                            permissions: nil,
                            trashed: false,
-                           location: '/Folder with spaces'
+                           location: "/Folder with spaces"
                          },
                          {
-                           status: 'ok',
+                           status: "ok",
                            status_code: 200,
-                           id: '01AZJL5PJTICED3C5YSVAY6NWTBNA2XERU',
-                           name: 'Document.docx',
+                           id: "01AZJL5PJTICED3C5YSVAY6NWTBNA2XERU",
+                           name: "Document.docx",
                            size: 22514,
-                           mime_type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                           created_at: Time.parse('2023-09-26T14:40:58Z'),
-                           last_modified_at: Time.parse('2023-09-26T14:42:03Z'),
-                           owner_name: 'Eric Schubert',
-                           owner_id: '0a0d38a9-a59b-4245-93fa-0d2cf727f17a',
-                           last_modified_by_name: 'Eric Schubert',
-                           last_modified_by_id: '0a0d38a9-a59b-4245-93fa-0d2cf727f17a',
+                           mime_type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                           created_at: Time.parse("2023-09-26T14:40:58Z"),
+                           last_modified_at: Time.parse("2023-09-26T14:42:03Z"),
+                           owner_name: "Eric Schubert",
+                           owner_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
+                           last_modified_by_name: "Eric Schubert",
+                           last_modified_by_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
                            permissions: nil,
                            trashed: false,
-                           location: '/Folder/Document.docx'
+                           location: "/Folder/Document.docx"
                          },
                          {
-                           status: 'ok',
+                           status: "ok",
                            status_code: 200,
-                           id: '01AZJL5PNCQCEBFI3N7JGZSX5AOX32Z3LA',
-                           name: 'NextcloudHub.md',
+                           id: "01AZJL5PNCQCEBFI3N7JGZSX5AOX32Z3LA",
+                           name: "NextcloudHub.md",
                            size: 1095,
-                           mime_type: 'application/octet-stream',
-                           created_at: Time.parse('2023-09-26T14:45:25Z'),
-                           last_modified_at: Time.parse('2023-09-26T14:46:13Z'),
-                           owner_name: 'Eric Schubert',
-                           owner_id: '0a0d38a9-a59b-4245-93fa-0d2cf727f17a',
-                           last_modified_by_name: 'Eric Schubert',
-                           last_modified_by_id: '0a0d38a9-a59b-4245-93fa-0d2cf727f17a',
+                           mime_type: "application/octet-stream",
+                           created_at: Time.parse("2023-09-26T14:45:25Z"),
+                           last_modified_at: Time.parse("2023-09-26T14:46:13Z"),
+                           owner_name: "Eric Schubert",
+                           owner_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
+                           last_modified_by_name: "Eric Schubert",
+                           last_modified_by_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
                            permissions: nil,
                            trashed: false,
-                           location: '/Folder/Subfolder/NextcloudHub.md'
+                           location: "/Folder/Subfolder/NextcloudHub.md"
                          }
                        ])
             end,
@@ -148,11 +148,11 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
       end
     end
 
-    context 'with one outbound request returning not found', vcr: 'one_drive/files_info_query_one_not_found' do
-      context 'with an array of file ids' do
+    context "with one outbound request returning not found", vcr: "one_drive/files_info_query_one_not_found" do
+      context "with an array of file ids" do
         let(:file_ids) { %w[01AZJL5PJTICED3C5YSVAY6NWTBNA2XERU not_existent] }
 
-        it 'must return an array of file information when called' do
+        it "must return an array of file information when called" do
           result = subject.call(user:, file_ids:)
           expect(result).to be_success
 
@@ -160,8 +160,8 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
             on_success: ->(file_infos) do
               expect(file_infos.size).to eq(2)
               expect(file_infos).to all(be_a(Storages::StorageFileInfo))
-              expect(file_infos[1].id).to eq('not_existent')
-              expect(file_infos[1].status).to eq('itemNotFound')
+              expect(file_infos[1].id).to eq("not_existent")
+              expect(file_infos[1].status).to eq("itemNotFound")
               expect(file_infos[1].status_code).to eq(404)
             end,
             on_failure: ->(error) { fail "Expected success, got #{error}" }
@@ -170,7 +170,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
       end
     end
 
-    context 'with invalid oauth token', vcr: 'one_drive/files_info_query_invalid_token' do
+    context "with invalid oauth token", vcr: "one_drive/files_info_query_invalid_token" do
       before do
         token = build_stubbed(:oauth_client_token, oauth_client: storage.oauth_client)
         allow(Storages::Peripherals::StorageInteraction::OneDrive::Util)
@@ -178,10 +178,10 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
                 .and_yield(token)
       end
 
-      context 'with an array of file ids' do
+      context "with an array of file ids" do
         let(:file_ids) { %w[01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU] }
 
-        it 'must return an array of file information when called' do
+        it "must return an array of file information when called" do
           result = subject.call(user:, file_ids:)
           expect(result).to be_success
 
@@ -189,8 +189,8 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
             on_success: ->(file_infos) do
               expect(file_infos.size).to eq(1)
               expect(file_infos).to all(be_a(Storages::StorageFileInfo))
-              expect(file_infos[0].id).to eq('01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU')
-              expect(file_infos[0].status).to eq('InvalidAuthenticationToken')
+              expect(file_infos[0].id).to eq("01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU")
+              expect(file_infos[0].status).to eq("InvalidAuthenticationToken")
               expect(file_infos[0].status_code).to eq(401)
             end,
             on_failure: ->(error) { fail "Expected success, got #{error}" }
@@ -199,11 +199,11 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
       end
     end
 
-    context 'with not existent oauth token' do
+    context "with not existent oauth token" do
       let(:file_ids) { %w[01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU] }
       let(:user_without_token) { create(:user) }
 
-      it 'must return unauthorized when called' do
+      it "must return unauthorized when called" do
         result = subject.call(user: user_without_token, file_ids:)
         expect(result).to be_failure
         expect(result.error_source).to be_a(OAuthClients::ConnectionManager)
@@ -215,17 +215,17 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
       end
     end
 
-    context 'with network errors' do
+    context "with network errors" do
       let(:file_ids) { %w[01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU] }
 
       before do
-        request = HTTPX::Request.new(:get, 'https://my.timeout.org/')
-        httpx_double = class_double(HTTPX, get: HTTPX::ErrorResponse.new(request, 'Timeout happens', {}))
+        request = HTTPX::Request.new(:get, "https://my.timeout.org/")
+        httpx_double = class_double(HTTPX, get: HTTPX::ErrorResponse.new(request, "Timeout happens", {}))
 
         allow(OpenProject).to receive(:httpx).and_return(httpx_double)
       end
 
-      it 'must return an array of file information when called' do
+      it "must return an array of file information when called" do
         result = subject.call(user:, file_ids:)
         expect(result).to be_success
 
@@ -233,8 +233,8 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
           on_success: ->(file_infos) do
             expect(file_infos.size).to eq(1)
             expect(file_infos).to all(be_a(Storages::StorageFileInfo))
-            expect(file_infos[0].id).to eq('01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU')
-            expect(file_infos[0].status).to eq('Timeout happens')
+            expect(file_infos[0].id).to eq("01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU")
+            expect(file_infos[0].status).to eq("Timeout happens")
             expect(file_infos[0].status_code).to eq(500)
           end,
           on_failure: ->(error) { fail "Expected success, got #{error}" }

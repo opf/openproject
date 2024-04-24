@@ -55,7 +55,7 @@ class GithubIntegrationModels < ActiveRecord::Migration[6.1]
     end
 
     create_join_table :github_pull_requests, :work_packages do |t|
-      t.index :github_pull_request_id, name: 'github_pr_wp_pr_id'
+      t.index :github_pull_request_id, name: "github_pr_wp_pr_id"
       t.index %i[github_pull_request_id work_package_id],
               unique: true,
               name: "unique_index_gh_prs_wps_on_gh_pr_id_and_wp_id"

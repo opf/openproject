@@ -66,7 +66,7 @@ class Story < WorkPackage
   end
 
   def self.types
-    types = Setting.plugin_openproject_backlogs['story_types']
+    types = Setting.plugin_openproject_backlogs["story_types"]
     return [] if types.blank?
 
     types.map { |type| Integer(type) }
@@ -91,12 +91,12 @@ class Story < WorkPackage
   def set_points(p)
     init_journal(User.current)
 
-    if p.blank? || p == '-'
+    if p.blank? || p == "-"
       update_attribute(:story_points, nil)
       return
     end
 
-    if p.downcase == 's'
+    if p.downcase == "s"
       update_attribute(:story_points, 0)
       return
     end
@@ -148,11 +148,11 @@ class Story < WorkPackage
   end
 
   def self.condition(project_id, sprint_ids, extras = [])
-    c = ['project_id = ? AND type_id in (?) AND version_id in (?)',
+    c = ["project_id = ? AND type_id in (?) AND version_id in (?)",
          project_id, Story.types, sprint_ids]
 
     if extras.size > 0
-      c[0] += ' ' + extras.shift
+      c[0] += " " + extras.shift
       c += extras
     end
 

@@ -71,7 +71,7 @@ class Queries::WorkPackages::Filter::StatusFilter < Queries::WorkPackages::Filte
   private
 
   def all_statuses
-    key = 'Queries::WorkPackages::Filter::StatusFilter/all_statuses'
+    key = "Queries::WorkPackages::Filter::StatusFilter/all_statuses"
 
     RequestStore.fetch(key) do
       Status.all.to_a.index_by(&:id)
@@ -82,11 +82,11 @@ class Queries::WorkPackages::Filter::StatusFilter < Queries::WorkPackages::Filte
     super_value = super
 
     super_value || case operator
-                   when 'o'
+                   when "o"
                      Queries::Operators::OpenWorkPackages
-                   when 'c'
+                   when "c"
                      Queries::Operators::ClosedWorkPackages
-                   when '*'
+                   when "*"
                      Queries::Operators::All
                    end
   end

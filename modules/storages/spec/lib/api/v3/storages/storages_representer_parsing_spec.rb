@@ -28,14 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe API::V3::Storages::StorageRepresenter, 'parsing' do
+RSpec.describe API::V3::Storages::StorageRepresenter, "parsing" do
   let(:storage) { build_stubbed(:nextcloud_storage) }
   let(:current_user) { build_stubbed(:user) }
 
-  describe 'parsing' do
+  describe "parsing" do
     subject(:parsed) { representer.from_hash parsed_hash }
 
     let(:representer) { described_class.new(storage, current_user:) }
@@ -54,50 +54,50 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'parsing' do
       }
     end
 
-    context 'with basic attributes' do
-      it 'is parsed correctly' do
-        expect(parsed).to have_attributes(name: 'Nextcloud Local', host: storage.host,
+    context "with basic attributes" do
+      it "is parsed correctly" do
+        expect(parsed).to have_attributes(name: "Nextcloud Local", host: storage.host,
                                           provider_type: "Storages::NextcloudStorage")
 
-        aggregate_failures 'does not parse nextcloud provider fields' do
+        aggregate_failures "does not parse nextcloud provider fields" do
           expect(parsed.provider_fields).to eq({})
         end
       end
     end
 
-    describe 'automatically managed project folders' do
-      context 'with applicationPassword' do
+    describe "automatically managed project folders" do
+      context "with applicationPassword" do
         let(:parsed_hash) do
           super().merge(
             "applicationPassword" => "secret"
           )
         end
 
-        it 'is parsed correctly' do
-          expect(parsed).to have_attributes(automatically_managed: true, password: 'secret')
+        it "is parsed correctly" do
+          expect(parsed).to have_attributes(automatically_managed: true, password: "secret")
         end
       end
 
-      context 'with applicationPassword null' do
+      context "with applicationPassword null" do
         let(:parsed_hash) do
           super().merge(
             "applicationPassword" => nil
           )
         end
 
-        it 'is parsed as automatic folder management disabled' do
+        it "is parsed as automatic folder management disabled" do
           expect(parsed).to have_attributes(automatically_managed: false, password: nil)
         end
       end
 
-      context 'with applicationPassword blank' do
+      context "with applicationPassword blank" do
         let(:parsed_hash) do
           super().merge(
-            "applicationPassword" => ''
+            "applicationPassword" => ""
           )
         end
 
-        it 'is parsed as automatic folder management disabled' do
+        it "is parsed as automatic folder management disabled" do
           expect(parsed).to have_attributes(automatically_managed: false, password: nil)
         end
       end

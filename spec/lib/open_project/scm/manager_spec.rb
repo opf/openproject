@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe OpenProject::SCM::Manager do
-  let(:vendor) { 'TestScm' }
+  let(:vendor) { "TestScm" }
   let(:scm_class) { Class.new }
 
   before do
@@ -42,12 +42,12 @@ RSpec.describe OpenProject::SCM::Manager do
     OpenProject::SCM::Manager.delete :test_scm
   end
 
-  it 'is a valid const' do
+  it "is a valid const" do
     expect(OpenProject::SCM::Manager.registered[:test_scm]).to eq(Repository::TestScm)
   end
 
-  context 'scm is not known' do
-    it 'is not included' do
+  context "scm is not known" do
+    it "is not included" do
       expect(OpenProject::SCM::Manager.registered).not_to have_key(:some_scm)
     end
   end

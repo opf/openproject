@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Cron::ClearOldPullRequestsJob, type: :job do
   let(:pull_request_without_work_package) do
@@ -44,7 +44,7 @@ RSpec.describe Cron::ClearOldPullRequestsJob, type: :job do
     pull_request_with_work_package
   end
 
-  it 'removes pull request without work packages attached' do
+  it "removes pull request without work packages attached" do
     expect { job.perform }.to change(GithubPullRequest, :count).by(-1).and(change(GithubCheckRun, :count).by(-1))
 
     expect(GithubPullRequest.all)

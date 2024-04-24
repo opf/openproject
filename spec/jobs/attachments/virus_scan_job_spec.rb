@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Attachments::VirusScanJob,
                with_ee: %i[virus_scanning],
@@ -14,35 +14,35 @@ RSpec.describe Attachments::VirusScanJob,
     allow(ClamAV::Client).to receive(:new).and_return(client_double)
   end
 
-  describe '#perform when disabled', with_settings: { antivirus_scan_mode: :disabled } do
-    it 'does not scan the attachment' do
+  describe "#perform when disabled", with_settings: { antivirus_scan_mode: :disabled } do
+    it "does not scan the attachment" do
       subject
 
       expect(ClamAV::Client).not_to have_received(:new)
     end
   end
 
-  context 'when status is not uploaded' do
+  context "when status is not uploaded" do
     let(:attachment_status) { :prepared }
 
-    it 'does not scan the attachment' do
+    it "does not scan the attachment" do
       subject
 
       expect(ClamAV::Client).not_to have_received(:new)
     end
   end
 
-  describe '#perform' do
+  describe "#perform" do
     before do
       allow(client_double)
         .to receive(:execute).with(instance_of(ClamAV::Commands::InstreamCommand))
                              .and_return(response)
     end
 
-    context 'when no virus is found' do
-      let(:response) { ClamAV::SuccessResponse.new('wat') }
+    context "when no virus is found" do
+      let(:response) { ClamAV::SuccessResponse.new("wat") }
 
-      it 'updates the file status' do
+      it "updates the file status" do
         allow(attachment).to receive(:update!)
 
         subject
@@ -51,10 +51,10 @@ RSpec.describe Attachments::VirusScanJob,
       end
     end
 
-    context 'when error occurs in clamav' do
-      let(:response) { ClamAV::ErrorResponse.new('Oh noes') }
+    context "when error occurs in clamav" do
+      let(:response) { ClamAV::ErrorResponse.new("Oh noes") }
 
-      it 'does nothing to the file' do
+      it "does nothing to the file" do
         allow(attachment).to receive(:update!)
 
         expect { subject }.not_to raise_error
@@ -63,11 +63,11 @@ RSpec.describe Attachments::VirusScanJob,
       end
     end
 
-    context 'when virus is found' do
-      let(:response) { ClamAV::VirusResponse.new('wat', 'Eicar-Test-Signature') }
+    context "when virus is found" do
+      let(:response) { ClamAV::VirusResponse.new("wat", "Eicar-Test-Signature") }
 
-      context 'when action is quarantine', with_settings: { antivirus_scan_action: :quarantine } do
-        it 'quarantines the file' do
+      context "when action is quarantine", with_settings: { antivirus_scan_action: :quarantine } do
+        it "quarantines the file" do
           allow(attachment).to receive(:update!)
           allow(Journals::CreateService).to receive(:new).and_return(journal_service_double)
           allow(journal_service_double).to receive(:call)
@@ -80,8 +80,8 @@ RSpec.describe Attachments::VirusScanJob,
         end
       end
 
-      context 'when action is delete', with_settings: { antivirus_scan_action: :delete } do
-        it 'deletes the file' do
+      context "when action is delete", with_settings: { antivirus_scan_action: :delete } do
+        it "deletes the file" do
           allow(attachment).to receive(:destroy!)
           allow(Journals::CreateService).to receive(:new).and_return(journal_service_double)
           allow(journal_service_double).to receive(:call)

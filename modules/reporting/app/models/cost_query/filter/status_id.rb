@@ -27,7 +27,7 @@
 #++
 
 class CostQuery::Filter::StatusId < Report::Filter::Base
-  available_operators 'c', 'o'
+  available_operators "c", "o"
   join_table WorkPackage, Status => [WorkPackage, :status]
   applies_for :label_work_package_attributes
 
@@ -36,6 +36,6 @@ class CostQuery::Filter::StatusId < Report::Filter::Base
   end
 
   def self.available_values(*)
-    Status.order(Arel.sql('name')).pluck(:name, :id)
+    Status.order(Arel.sql("name")).pluck(:name, :id)
   end
 end

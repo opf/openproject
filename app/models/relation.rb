@@ -27,25 +27,25 @@
 #++
 
 class Relation < ApplicationRecord
-  belongs_to :from, class_name: 'WorkPackage'
-  belongs_to :to, class_name: 'WorkPackage'
+  belongs_to :from, class_name: "WorkPackage"
+  belongs_to :to, class_name: "WorkPackage"
 
-  TYPE_RELATES      = 'relates'.freeze
-  TYPE_DUPLICATES   = 'duplicates'.freeze
-  TYPE_DUPLICATED   = 'duplicated'.freeze
-  TYPE_BLOCKS       = 'blocks'.freeze
-  TYPE_BLOCKED      = 'blocked'.freeze
-  TYPE_PRECEDES     = 'precedes'.freeze
-  TYPE_FOLLOWS      = 'follows'.freeze
-  TYPE_INCLUDES     = 'includes'.freeze
-  TYPE_PARTOF       = 'partof'.freeze
-  TYPE_REQUIRES     = 'requires'.freeze
-  TYPE_REQUIRED     = 'required'.freeze
+  TYPE_RELATES      = "relates".freeze
+  TYPE_DUPLICATES   = "duplicates".freeze
+  TYPE_DUPLICATED   = "duplicated".freeze
+  TYPE_BLOCKS       = "blocks".freeze
+  TYPE_BLOCKED      = "blocked".freeze
+  TYPE_PRECEDES     = "precedes".freeze
+  TYPE_FOLLOWS      = "follows".freeze
+  TYPE_INCLUDES     = "includes".freeze
+  TYPE_PARTOF       = "partof".freeze
+  TYPE_REQUIRES     = "requires".freeze
+  TYPE_REQUIRED     = "required".freeze
   # The parent/child relation is maintained separately
   # (in WorkPackage and WorkPackageHierarchy) and a relation cannot
   # have the type 'parent' but this is abstracted to simplify the code.
-  TYPE_PARENT       = 'parent'.freeze
-  TYPE_CHILD        = 'child'.freeze
+  TYPE_PARENT       = "parent".freeze
+  TYPE_CHILD        = "child".freeze
 
   TYPES = {
     TYPE_RELATES => {

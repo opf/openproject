@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../support/pages/meetings/index'
+require_relative "../support/pages/meetings/index"
 
-RSpec.describe 'Meetings', 'Index', :with_cuprite do
+RSpec.describe "Meetings", "Index", :with_cuprite do
   # The order the Projects are created in is important. By naming `project` alphanumerically
   # after `other_project`, we can ensure that subsequent specs that assert sorting is
   # correct for the right reasons (sorting by Project name and not id)
-  shared_let(:project) { create(:project, name: 'Project 2', enabled_module_names: %w[meetings]) }
-  shared_let(:other_project) { create(:project, name: 'Project 1', enabled_module_names: %w[meetings]) }
+  shared_let(:project) { create(:project, name: "Project 2", enabled_module_names: %w[meetings]) }
+  shared_let(:other_project) { create(:project, name: "Project 1", enabled_module_names: %w[meetings]) }
   let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i(view_meetings) }
   let(:user) do
@@ -52,42 +52,42 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
   let(:meeting) do
     create(:meeting,
            project:,
-           title: 'Awesome meeting today!',
+           title: "Awesome meeting today!",
            start_time: Time.current)
   end
   let(:tomorrows_meeting) do
     create(:meeting,
            project:,
-           title: 'Awesome meeting tomorrow!',
+           title: "Awesome meeting tomorrow!",
            start_time: 1.day.from_now,
            duration: 2.0,
-           location: 'no-protocol.com')
+           location: "no-protocol.com")
   end
   let(:meeting_with_no_location) do
     create(:meeting,
            project:,
-           title: 'Boring meeting without a location!',
+           title: "Boring meeting without a location!",
            start_time: 1.day.from_now,
-           location: '')
+           location: "")
   end
   let(:meeting_with_malicious_location) do
     create(:meeting,
            project:,
-           title: 'Sneaky meeting!',
+           title: "Sneaky meeting!",
            start_time: 1.day.from_now,
            location: "<script>alert('Description');</script>")
   end
   let(:yesterdays_meeting) do
-    create(:meeting, project:, title: 'Awesome meeting yesterday!', start_time: 1.day.ago)
+    create(:meeting, project:, title: "Awesome meeting yesterday!", start_time: 1.day.ago)
   end
 
   shared_let(:other_project_meeting) do
     create(:meeting,
            project: other_project,
-           title: 'Awesome other project meeting!',
+           title: "Awesome other project meeting!",
            start_time: 2.days.from_now,
            duration: 2.0,
-           location: 'not-a-url')
+           location: "not-a-url")
   end
 
   def setup_meeting_involvement
@@ -101,10 +101,10 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
     login_as user
   end
 
-  shared_examples 'sidebar filtering' do |context:|
-    context 'when filtering with the sidebar' do
+  shared_examples "sidebar filtering" do |context:|
+    context "when filtering with the sidebar" do
       shared_let(:ongoing_meeting) do
-        create(:meeting, project:, title: 'Awesome ongoing meeting!', start_time: 30.minutes.ago)
+        create(:meeting, project:, title: "Awesome ongoing meeting!", start_time: 30.minutes.ago)
       end
 
       before do
@@ -114,10 +114,10 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
 
       context 'with the "Upcoming meetings" filter' do
         before do
-          meetings_page.set_sidebar_filter 'Upcoming meetings'
+          meetings_page.set_sidebar_filter "Upcoming meetings"
         end
 
-        it 'shows all upcoming and ongoing meetings', :aggregate_failures do
+        it "shows all upcoming and ongoing meetings", :aggregate_failures do
           expected_upcoming_meetings = if context == :global
                                          [ongoing_meeting, meeting, tomorrows_meeting, other_project_meeting]
                                        else
@@ -131,10 +131,10 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
 
       context 'with the "Past meetings" filter' do
         before do
-          meetings_page.set_sidebar_filter 'Past meetings'
+          meetings_page.set_sidebar_filter "Past meetings"
         end
 
-        it 'show all past and ongoing meetings' do
+        it "show all past and ongoing meetings" do
           meetings_page.expect_meetings_listed_in_order(ongoing_meeting,
                                                         yesterdays_meeting)
           meetings_page.expect_meetings_not_listed(meeting,
@@ -144,7 +144,7 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
 
       context 'with the "Upcoming invitations" filter' do
         before do
-          meetings_page.set_sidebar_filter 'Upcoming invitations'
+          meetings_page.set_sidebar_filter "Upcoming invitations"
         end
 
         it "shows all upcoming meetings I've been marked as invited to" do
@@ -157,7 +157,7 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
 
       context 'with the "Past invitations" filter' do
         before do
-          meetings_page.set_sidebar_filter 'Past invitations'
+          meetings_page.set_sidebar_filter "Past invitations"
         end
 
         it "shows all past meetings I've been marked as invited to" do
@@ -170,7 +170,7 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
 
       context 'with the "Attendee" filter' do
         before do
-          meetings_page.set_sidebar_filter 'Attendee'
+          meetings_page.set_sidebar_filter "Attendee"
         end
 
         it "shows all meetings I've been marked as attending to" do
@@ -183,7 +183,7 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
 
       context 'with the "Creator" filter' do
         before do
-          meetings_page.set_sidebar_filter 'Creator'
+          meetings_page.set_sidebar_filter "Creator"
         end
 
         it "shows all meetings I'm the author of" do
@@ -196,10 +196,10 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
     end
   end
 
-  context 'when visiting from a global context' do
+  context "when visiting from a global context" do
     let(:meetings_page) { Pages::Meetings::Index.new(project: nil) }
 
-    it 'lists all upcoming meetings for all projects the user has access to' do
+    it "lists all upcoming meetings for all projects the user has access to" do
       meeting
       yesterdays_meeting
 
@@ -223,17 +223,17 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
       meetings_page.expect_no_meeting_location(meeting_with_no_location)
     end
 
-    context 'and the user is allowed to create meetings' do
+    context "and the user is allowed to create meetings" do
       let(:permissions) { %i(view_meetings create_meetings) }
 
-      it 'shows the create new buttons' do
+      it "shows the create new buttons" do
         meetings_page.navigate_by_modules_menu
 
         meetings_page.expect_create_new_buttons
       end
     end
 
-    context 'and the user is not allowed to create meetings' do
+    context "and the user is not allowed to create meetings" do
       let(:permissions) { %i[view_meetings] }
 
       it "doesn't show a create new button" do
@@ -243,7 +243,7 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
       end
     end
 
-    describe 'sorting' do
+    describe "sorting" do
       before do
         meeting
         visit meetings_path
@@ -255,78 +255,78 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
         meetings_page.expect_meetings_listed_in_order(meeting, other_project_meeting)
       end
 
-      it 'allows sorting by every column' do
-        aggregate_failures 'Sorting by Title' do
-          meetings_page.click_to_sort_by('Title')
+      it "allows sorting by every column" do
+        aggregate_failures "Sorting by Title" do
+          meetings_page.click_to_sort_by("Title")
           meetings_page.expect_meetings_listed_in_order(meeting,
                                                         other_project_meeting)
-          meetings_page.click_to_sort_by('Title')
+          meetings_page.click_to_sort_by("Title")
           meetings_page.expect_meetings_listed_in_order(other_project_meeting,
                                                         meeting)
         end
 
-        aggregate_failures 'Sorting by Project' do
-          meetings_page.click_to_sort_by('Project')
+        aggregate_failures "Sorting by Project" do
+          meetings_page.click_to_sort_by("Project")
           meetings_page.expect_meetings_listed_in_order(other_project_meeting,
                                                         meeting)
-          meetings_page.click_to_sort_by('Project')
+          meetings_page.click_to_sort_by("Project")
           meetings_page.expect_meetings_listed_in_order(meeting,
                                                         other_project_meeting)
         end
 
-        aggregate_failures 'Sorting by Time' do
-          meetings_page.click_to_sort_by('Time')
+        aggregate_failures "Sorting by Time" do
+          meetings_page.click_to_sort_by("Time")
           meetings_page.expect_meetings_listed_in_order(meeting,
                                                         other_project_meeting)
-          meetings_page.click_to_sort_by('Time')
+          meetings_page.click_to_sort_by("Time")
           meetings_page.expect_meetings_listed_in_order(other_project_meeting,
                                                         meeting)
         end
 
-        aggregate_failures 'Sorting by Duration' do
-          meetings_page.click_to_sort_by('Duration')
+        aggregate_failures "Sorting by Duration" do
+          meetings_page.click_to_sort_by("Duration")
           meetings_page.expect_meetings_listed_in_order(meeting,
                                                         other_project_meeting)
-          meetings_page.click_to_sort_by('Duration')
+          meetings_page.click_to_sort_by("Duration")
           meetings_page.expect_meetings_listed_in_order(other_project_meeting,
                                                         meeting)
         end
 
-        aggregate_failures 'Sorting by Location' do
-          meetings_page.click_to_sort_by('Location')
+        aggregate_failures "Sorting by Location" do
+          meetings_page.click_to_sort_by("Location")
           meetings_page.expect_meetings_listed_in_order(meeting,
                                                         other_project_meeting)
-          meetings_page.click_to_sort_by('Location')
+          meetings_page.click_to_sort_by("Location")
           meetings_page.expect_meetings_listed_in_order(other_project_meeting,
                                                         meeting)
         end
       end
     end
 
-    include_examples 'sidebar filtering', context: :global
+    include_examples "sidebar filtering", context: :global
   end
 
-  context 'when visiting from a project specific context' do
+  context "when visiting from a project specific context" do
     let(:meetings_page) { Pages::Meetings::Index.new(project:) }
 
-    context 'via the menu' do
-      specify 'with no meetings' do
+    context "via the menu" do
+      specify "with no meetings" do
         meetings_page.navigate_by_project_menu
 
         meetings_page.expect_no_meetings_listed
       end
     end
 
-    context 'when the user is allowed to create meetings' do
+    context "when the user is allowed to create meetings" do
       let(:permissions) { %i(view_meetings create_meetings) }
 
-      it 'shows the create new buttons' do
+      it "shows the create new buttons" do
         meetings_page.visit!
         meetings_page.expect_create_new_buttons
       end
     end
 
-    context 'when the user is not allowed to create meetings' do
+    context "when the user is not allowed to create meetings" do
       let(:permissions) { %i[view_meetings] }
 
       it "doesn't show the create new buttons" do
@@ -335,16 +335,16 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
       end
     end
 
-    include_examples 'sidebar filtering', context: :project
+    include_examples "sidebar filtering", context: :project
 
-    specify 'with 1 meeting listed' do
+    specify "with 1 meeting listed" do
       meeting
       meetings_page.visit!
 
       meetings_page.expect_meetings_listed(meeting)
     end
 
-    it 'with pagination', with_settings: { per_page_options: '1' } do
+    it "with pagination", with_settings: { per_page_options: "1" } do
       meeting
       tomorrows_meeting
       yesterdays_meeting
@@ -377,7 +377,7 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
       meetings_page.expect_no_meeting_location(meeting_with_no_location)
     end
 
-    describe 'sorting' do
+    describe "sorting" do
       before do
         meeting
         tomorrows_meeting
@@ -390,57 +390,57 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
         meetings_page.expect_meetings_listed_in_order(meeting, tomorrows_meeting)
       end
 
-      it 'allows sorting by every column' do
-        aggregate_failures 'Sorting by Title' do
-          meetings_page.click_to_sort_by('Title')
+      it "allows sorting by every column" do
+        aggregate_failures "Sorting by Title" do
+          meetings_page.click_to_sort_by("Title")
           meetings_page.expect_meetings_listed_in_order(meeting,
                                                         tomorrows_meeting)
-          meetings_page.click_to_sort_by('Title')
+          meetings_page.click_to_sort_by("Title")
           meetings_page.expect_meetings_listed_in_order(tomorrows_meeting,
                                                         meeting)
         end
 
-        aggregate_failures 'Sorting by Time' do
-          meetings_page.click_to_sort_by('Time')
+        aggregate_failures "Sorting by Time" do
+          meetings_page.click_to_sort_by("Time")
           meetings_page.expect_meetings_listed_in_order(meeting,
                                                         tomorrows_meeting)
-          meetings_page.click_to_sort_by('Time')
+          meetings_page.click_to_sort_by("Time")
           meetings_page.expect_meetings_listed_in_order(tomorrows_meeting,
                                                         meeting)
         end
 
-        aggregate_failures 'Sorting by Time' do
-          meetings_page.click_to_sort_by('Time')
+        aggregate_failures "Sorting by Time" do
+          meetings_page.click_to_sort_by("Time")
           meetings_page.expect_meetings_listed_in_order(meeting,
                                                         tomorrows_meeting)
-          meetings_page.click_to_sort_by('Time')
+          meetings_page.click_to_sort_by("Time")
           meetings_page.expect_meetings_listed_in_order(tomorrows_meeting,
                                                         meeting)
         end
 
-        aggregate_failures 'Sorting by Duration' do
-          meetings_page.click_to_sort_by('Duration')
+        aggregate_failures "Sorting by Duration" do
+          meetings_page.click_to_sort_by("Duration")
           meetings_page.expect_meetings_listed_in_order(meeting,
                                                         tomorrows_meeting)
-          meetings_page.click_to_sort_by('Duration')
+          meetings_page.click_to_sort_by("Duration")
           meetings_page.expect_meetings_listed_in_order(tomorrows_meeting,
                                                         meeting)
         end
 
-        aggregate_failures 'Sorting by Duration' do
-          meetings_page.click_to_sort_by('Duration')
+        aggregate_failures "Sorting by Duration" do
+          meetings_page.click_to_sort_by("Duration")
           meetings_page.expect_meetings_listed_in_order(meeting,
                                                         tomorrows_meeting)
-          meetings_page.click_to_sort_by('Duration')
+          meetings_page.click_to_sort_by("Duration")
           meetings_page.expect_meetings_listed_in_order(tomorrows_meeting,
                                                         meeting)
         end
 
-        aggregate_failures 'Sorting by Location' do
-          meetings_page.click_to_sort_by('Location')
+        aggregate_failures "Sorting by Location" do
+          meetings_page.click_to_sort_by("Location")
           meetings_page.expect_meetings_listed_in_order(meeting,
                                                         tomorrows_meeting)
-          meetings_page.click_to_sort_by('Location')
+          meetings_page.click_to_sort_by("Location")
           meetings_page.expect_meetings_listed_in_order(tomorrows_meeting,
                                                         meeting)
         end

@@ -36,7 +36,7 @@ module OpenProject::Backlogs
         def extension
           ->(*) do
             schema :position,
-                   type: 'Integer',
+                   type: "Integer",
                    required: false,
                    writable: false,
                    show_if: ->(*) {
@@ -44,7 +44,7 @@ module OpenProject::Backlogs
                    }
 
             schema :story_points,
-                   type: 'Integer',
+                   type: "Integer",
                    required: false,
                    show_if: ->(*) {
                      backlogs_constraint_passed?(:story_points)

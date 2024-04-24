@@ -44,6 +44,10 @@ module OpenProject
           @links ||= static_links.merge(dynamic_links)
         end
 
+        def url_for(item)
+          links.dig(item, :href)
+        end
+
         def has?(name)
           @links.key? name
         end
@@ -61,7 +65,7 @@ module OpenProject
           if impressum_link = OpenProject::Configuration.impressum_link
             dynamic[:impressum] = {
               href: impressum_link,
-              label: :label_impressum
+              label: :impressum
             }
           end
 
@@ -277,6 +281,9 @@ module OpenProject
             },
             ical_docs: {
               href: 'https://www.openproject.org/docs/user-guide/calendar/#subscribe-to-a-calendar'
+            },
+            integrations: {
+              href: 'https://www.openproject.org/docs/system-admin-guide/integrations/'
             }
           }
         end

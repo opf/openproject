@@ -61,7 +61,7 @@ class WorkPackages::Exports::ScheduleService
 
   def serialize_query_props(query)
     query.attributes.tap do |attributes|
-      attributes['filters'] = Queries::WorkPackages::FilterSerializer.dump(query.attributes['filters'])
+      attributes["filters"] = Queries::WorkPackages::FilterSerializer.dump(query.attributes["filters"])
     end
   end
 end

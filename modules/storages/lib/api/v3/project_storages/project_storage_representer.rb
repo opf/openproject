@@ -63,7 +63,7 @@ module API::V3::ProjectStorages
                         skip_link: ->(*) { false }
 
     def _type
-      'ProjectStorage'
+      "ProjectStorage"
     end
   end
 end

@@ -28,13 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-RSpec.shared_examples 'an event gun' do |event|
+RSpec.shared_examples "an event gun" do |event|
   %i[automatic manual inactive].each do |mode|
     context "when project_folder mode is #{mode}" do
-      it 'fires an appropriate event' do
+      it "fires an appropriate event" do
         allow(OpenProject::Notifications).to(receive(:send))
         model_instance.project_folder_mode = mode
 

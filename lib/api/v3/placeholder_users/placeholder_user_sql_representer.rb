@@ -33,7 +33,7 @@ module API
         link :self,
              path: { api: :placeholder_user, params: %w(id) },
              column: -> { :id },
-             title: -> { 'lastname' }
+             title: -> { "lastname" }
 
         property :_type,
                  representation: ->(*) { "'PlaceholderUser'" }

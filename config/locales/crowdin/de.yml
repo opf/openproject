@@ -26,7 +26,8 @@ de:
       no_results_title_text: Innerhalb dieses Zeitraums haben keine Aktivitäten in dem Projekt stattgefunden.
   admin:
     plugins:
-      no_results_title_text: Zur Zeit stehen keine Plugins zur Verfügung.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Farbschema"
       color_theme_custom: "(Benutzerdefiniert)"
@@ -1523,6 +1524,7 @@ de:
       postgres_migration: "Migration Ihrer Installation zu PostgreSQL"
       user_guides: "Benutzerhandbuch"
       faq: "Häufig gestellte Fragen"
+      impressum: "Legal notice"
       glossary: "Glossar"
       shortcuts: "Tastenkürzel"
       blog: "OpenProject Blog"
@@ -1533,6 +1535,7 @@ de:
   journals:
     changes_retracted: "Die Änderungen wurden zurückgezogen."
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "Datum geändert"
       system_update: "OpenProject-Systemaktualisierung:"
     cause_descriptions:
@@ -1854,7 +1857,6 @@ de:
   label_subject_or_id: "Titel oder ID"
   label_calendar_subscriptions: "Kalenderabonnements"
   label_identifier: "Kennung"
-  label_impressum: "Impressum"
   label_in: "an"
   label_in_less_than: "in weniger als"
   label_in_more_than: "in mehr als"
@@ -2712,6 +2714,9 @@ de:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) erlaubte Origins"
   setting_apiv3_cors_origins_text_html: >
     Wenn CORS aktiviert ist, sind dies die Origins, die auf die OpenProject API zugreifen dürfen. <br/> Bitte überprüfen Sie die <a href="%{origin_link}" target="_blank">Dokumentation über den Origin Header</a>, wie die Werte anzugeben sind.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Maximale API-Seitengröße"
   setting_apiv3_max_page_instructions_html: >
     Legen Sie die maximale Seitengröße fest, mit der die API antworten soll. Es wird nicht möglich sein, API-Anfragen durchzuführen, die mehr Werte auf einer einzelnen Seite zurückgeben. <br/> <strong>Warnung:</strong> Bitte ändern Sie diesen Wert nur, wenn Sie sicher sind, warum Sie ihn benötigen. Die Einstellung auf einen hohen Wert führt zu erheblichen Performance-Auswirkungen, während ein Wert niedriger als die Einstellung "Objekte pro Seite" zu Fehlern in paginierten Ansichten führt.
@@ -3090,6 +3095,7 @@ de:
     status_user_and_brute_force: "%{user} und %{brute_force}"
     status_change: "Status geändert"
     text_change_disabled_for_provider_login: "Der Name wird von Ihrem Login-Provider gesetzt und kann daher nicht geändert werden."
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "Entsperren"
     unlock_and_reset_failed_logins: "Entsperren und fehlgeschlagene Logins zurücksetzen"
   version_status_closed: "geschlossen"

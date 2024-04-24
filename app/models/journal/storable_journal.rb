@@ -29,7 +29,7 @@
 #++
 
 class Journal::StorableJournal < Journal::AssociatedJournal
-  self.table_name = 'storages_file_links_journals'
+  self.table_name = "storages_file_links_journals"
 
-  belongs_to :file_link, class_name: 'Storages::FileLink'
+  belongs_to :file_link, class_name: "Storages::FileLink"
 end

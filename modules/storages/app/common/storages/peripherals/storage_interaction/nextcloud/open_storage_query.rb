@@ -43,7 +43,7 @@ module Storages
 
           # rubocop:disable Lint/UnusedMethodArgument
           def call(user:)
-            ServiceResult.success(result: Util.join_uri_path(@uri, 'index.php/apps/files'))
+            ServiceResult.success(result: Util.join_uri_path(@uri, "index.php/apps/files"))
           end
 
           # rubocop:enable Lint/UnusedMethodArgument

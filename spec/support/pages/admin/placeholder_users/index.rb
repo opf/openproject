@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
+require "support/pages/page"
 
 module Pages
   module Admin
@@ -37,56 +37,56 @@ module Pages
         end
 
         def expect_listed(*placeholder_users)
-          rows = page.all 'td.name'
+          rows = page.all "td.name"
           expect(rows.map(&:text)).to include(*placeholder_users.map(&:name))
         end
 
         def expect_ordered(*placeholder_users)
-          rows = page.all 'td.name'
+          rows = page.all "td.name"
           expect(rows.map(&:text)).to eq(placeholder_users.map(&:name))
         end
 
         def expect_not_listed(*users)
-          rows = page.all 'td.name'
+          rows = page.all "td.name"
           expect(rows.map(&:text)).not_to include(*users.map(&:name))
         end
 
         def expect_non_listed
           expect(page)
-            .to have_no_css('tr.placeholder-user')
+            .to have_no_css("tr.placeholder-user")
 
           expect(page)
-            .to have_css('tr.generic-table--empty-row', text: 'There is currently nothing to display.')
+            .to have_css("tr.generic-table--empty-row", text: "There is currently nothing to display.")
         end
 
         def filter_by_name(value)
-          fill_in 'Name', with: value
-          click_button 'Apply'
+          fill_in "Name", with: value
+          click_button "Apply"
         end
 
         def clear_filters
-          click_link 'Clear'
+          click_link "Clear"
         end
 
         def order_by(key)
-          within 'thead' do
+          within "thead" do
             click_link key
           end
         end
 
         def expect_no_delete_button_for_all_rows
-          expect(page).to have_css('i.icon-help2')
+          expect(page).to have_css("i.icon-help2")
         end
 
         def expect_no_delete_button(placeholder_user)
           within_placeholder_user_row(placeholder_user) do
-            expect(page).to have_css('i.icon-help2')
+            expect(page).to have_css("i.icon-help2")
           end
         end
 
         def expect_delete_button(placeholder_user)
           within_placeholder_user_row(placeholder_user) do
-            expect(page).to have_css('i.icon-delete')
+            expect(page).to have_css("i.icon-delete")
           end
         end
 
@@ -99,7 +99,7 @@ module Pages
         private
 
         def within_placeholder_user_row(placeholder_user, &)
-          row = find('tr.placeholder_user td.name', text: placeholder_user.name).ancestor('tr')
+          row = find("tr.placeholder_user td.name", text: placeholder_user.name).ancestor("tr")
           within(row, &)
         end
       end

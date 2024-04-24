@@ -4,8 +4,10 @@ module ::TwoFactorAuthentication
     include ::TwoFactorAuthentication::RememberToken
     # Backup tokens functionality
     include ::TwoFactorAuthentication::BackupCodes
+    # Webauthn relying party based on domain
+    include ::TwoFactorAuthentication::WebauthnRelyingParty
     # Include global layout helper
-    layout 'no_menu'
+    layout "no_menu"
 
     # User is not yet logged in, so skip login required check
     skip_before_action :check_if_login_required
@@ -29,7 +31,7 @@ module ::TwoFactorAuthentication
       session[:authenticated_user_force_2fa] = service.needs_registration?
 
       if service.needs_registration?
-        flash[:info] = I18n.t('two_factor_authentication.forced_registration.required_to_add_device')
+        flash[:info] = I18n.t("two_factor_authentication.forced_registration.required_to_add_device")
         redirect_to new_forced_2fa_device_path
       elsif !service.requires_token?
         complete_stage_redirect
@@ -82,7 +84,7 @@ module ::TwoFactorAuthentication
     ##
     # Create a token service for the current user
     # with an optional override to use a non-default channel
-    def otp_service(user, use_channel: nil, use_device: nil)
+    def otp_service(user, use_channel: nil, use_device: remembered_device(user))
       session[:two_factor_authentication_device_id] = use_device.try(:id)
       ::TwoFactorAuthentication::TokenService.new user:, use_channel:, use_device:
     end
@@ -90,14 +92,16 @@ module ::TwoFactorAuthentication
     ##
     # Get the used device for verification
     def otp_service_for_verification(user)
-      use_device =
-        if session[:two_factor_authentication_device_id]
-          user.otp_devices.find(session[:two_factor_authentication_device_id])
-        end
-      otp_service(user, use_device:)
+      otp_service(user, use_device: remembered_device(user))
     rescue ActiveRecord::RecordNotFound
       render_404
       false
+    end
+
+    def remembered_device(user)
+      if session[:two_factor_authentication_device_id]
+        user.otp_devices.find(session[:two_factor_authentication_device_id])
+      end
     end
 
     ##
@@ -142,9 +146,9 @@ module ::TwoFactorAuthentication
       @active_devices = @user.otp_devices.get_active
 
       if params["back_url"]
-        render action: 'request_otp', back_url: params["back_url"]
+        render action: "request_otp", back_url: params["back_url"]
       else
-        render action: 'request_otp'
+        render action: "request_otp"
       end
     end
 
@@ -206,7 +210,7 @@ module ::TwoFactorAuthentication
     # In case of mis-configuration, block all logins
     def ensure_valid_configuration
       if manager.invalid_configuration?
-        render_500 message: I18n.t('two_factor_authentication.error_is_enforced_not_active')
+        render_500 message: I18n.t("two_factor_authentication.error_is_enforced_not_active")
         false
       end
     end
@@ -220,13 +224,6 @@ module ::TwoFactorAuthentication
 
     def failure_stage_redirect
       redirect_to authentication_stage_failure_path :two_factor_authentication
-    end
-
-    def webauthn_relying_party
-      @webauthn_relying_party ||= WebAuthn::RelyingParty.new(
-        origin: "#{Setting.protocol}://#{Setting.host_name}",
-        name: Setting.app_title
-      )
     end
   end
 end

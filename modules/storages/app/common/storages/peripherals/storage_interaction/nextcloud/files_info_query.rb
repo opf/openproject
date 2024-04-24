@@ -32,7 +32,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
   class FilesInfoQuery
     using Storages::Peripherals::ServiceResultRefinements
 
-    FILES_INFO_PATH = 'ocs/v1.php/apps/integration_openproject/filesinfo'
+    FILES_INFO_PATH = "ocs/v1.php/apps/integration_openproject/filesinfo"
 
     def initialize(storage)
       @uri = storage.uri
@@ -45,7 +45,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def call(user:, file_ids: [])
       if file_ids.nil?
-        return Util.error(:error, 'File IDs can not be nil', file_ids)
+        return Util.error(:error, "File IDs can not be nil", file_ids)
       end
 
       if file_ids.empty?
@@ -62,10 +62,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     def files_info(file_ids, token)
       response = OpenProject
                    .httpx
-                   .with(headers: { 'Authorization' => "Bearer #{token.access_token}",
-                                    'Accept' => 'application/json',
-                                    'Content-Type' => 'application/json',
-                                    'OCS-APIRequest' => 'true' })
+                   .with(headers: { "Authorization" => "Bearer #{token.access_token}",
+                                    "Accept" => "application/json",
+                                    "Content-Type" => "application/json",
+                                    "OCS-APIRequest" => "true" })
                    .post(Util.join_uri_path(@uri.to_s, FILES_INFO_PATH),
                          json: { fileIds: file_ids })
 
@@ -73,11 +73,11 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       in { status: 200..299 }
         ServiceResult.success(result: response.body.to_s)
       in { status: 404 }
-        Util.error(:not_found, 'Outbound request destination not found!', response)
+        Util.error(:not_found, "Outbound request destination not found!", response)
       in { status: 401 }
-        Util.error(:unauthorized, 'Outbound request not authorized!', response)
+        Util.error(:unauthorized, "Outbound request not authorized!", response)
       else
-        Util.error(:error, 'Outbound request failed!', response)
+        Util.error(:error, "Outbound request failed!", response)
       end
     end
 
@@ -91,10 +91,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def handle_failure
       ->(response_object) do
-        if response_object.ocs.meta.status == 'ok'
+        if response_object.ocs.meta.status == "ok"
           ServiceResult.success(result: response_object)
         else
-          Util.error(:error, 'Outbound request failed!', response_object)
+          Util.error(:error, "Outbound request failed!", response_object)
         end
       end
     end
@@ -137,14 +137,14 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     # rubocop:enable Metrics/AbcSize
 
     def location(file_path, mimetype)
-      prefix = 'files/'
+      prefix = "files/"
       idx = file_path.rindex(prefix)
-      return '/' if idx == nil
+      return "/" if idx == nil
 
       idx += prefix.length - 1
       # Remove the following when /filesinfo starts responding with a trailing slash for directory paths
       # in all supported versions of OpenProjectIntegation Nextcloud App.
-      file_path << '/' if mimetype == 'application/x-op-directory' && file_path[-1] != '/'
+      file_path << "/" if mimetype == "application/x-op-directory" && file_path[-1] != "/"
       Util.escape_path(file_path[idx..])
     end
   end

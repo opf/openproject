@@ -31,7 +31,7 @@ module OpenProject::TextFormatting
     class LinkAttributeFilter < HTML::Pipeline::Filter
       def call
         links.each do |node|
-          node['target'] = context.fetch(:target, '_top')
+          node["target"] = context.fetch(:target, "_top")
         end
 
         doc

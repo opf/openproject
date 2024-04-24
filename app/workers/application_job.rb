@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'active_job'
+require "active_job"
 
 class ApplicationJob < ActiveJob::Base
   include ::JobStatus::ApplicationJobWithStatus

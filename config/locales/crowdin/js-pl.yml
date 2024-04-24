@@ -352,7 +352,7 @@ pl:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Admins are nudged to go through OAuth flow when activating a storage</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Integracja z GitLab (pierwotnie opracowana przez członków społeczności)</li> <li>Zaawansowane funkcje niestandardowych list projektów</li> <li>Zaawansowane funkcje modułu Spotkania</li> <li>Funkcja skanowania antywirusowego za pomocą programu ClamAV (dodatek wersji Enterprise)</li> <li>Eksport w formacie PDF: obsługiwane są listy w komórkach tabeli</li> <li>Dodano WebAuthn/FIDO/U2F jako drugi skłądnik uwierzytelniania.</li> <li>Do domyślnie dostępnego zestawu dodano więcej języków </li> </ul>
     ical_sharing_modal:
       title: "Subskrybuj kalendarz"
       inital_setup_error_message: "Podczas pobierania danych wystąpił błąd."
@@ -444,7 +444,7 @@ pl:
     label_less_than_ago: "mniej niż dni temu"
     label_loading: "Ładowanie..."
     label_mail_notification: "Powiadomienia e-mail"
-    label_manage_columns: "Manage and reorder columns"
+    label_manage_columns: "Zarządzaj kolumnami i zmieniaj ich kolejność"
     label_me: "ja"
     label_meeting_agenda: "Plan spotkania"
     label_meeting_minutes: "Protokół ze spotkania"
@@ -483,7 +483,7 @@ pl:
     label_report: "Raport"
     label_repository_plural: "Repozytoria"
     label_save_as: "Zapisz jako"
-    label_search_columns: "Search a column"
+    label_search_columns: "Wyszukaj kolumnę"
     label_select_project: "Wybierz projekt"
     label_select_watcher: "Wybierz obserwatora..."
     label_selected_filter_list: "Wybrane filtry"
@@ -1003,7 +1003,7 @@ pl:
         all_open: "Wszystkie otwarte"
         summary: "Podsumowanie"
         shared_with_users: "Udostępnione użytkownikom"
-        shared_with_me: "Shared with me"
+        shared_with_me: "Udostępnione dla mnie"
       jump_marks:
         pagination: "Przejdź do stronicowania tabeli"
         label_pagination: "Kliknij tutaj, aby pominąć tablicę zadań i przejść do stronicowania"

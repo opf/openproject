@@ -70,7 +70,7 @@ class WorkPackages::Shares::BulkController < ApplicationController
     @selected_shares.each do |share|
       replace_via_turbo_stream(
         component: WorkPackages::Share::PermissionButtonComponent.new(share:,
-                                                                      data: { 'test-selector': 'op-share-wp-update-role' })
+                                                                      data: { "test-selector": "op-share-wp-update-role" })
       )
     end
 

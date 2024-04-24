@@ -45,9 +45,9 @@ module Statuses
     def inline_create_link
       link_to new_status_path,
               aria: { label: t(:label_work_package_status_new) },
-              class: 'wp-inline-create--add-link',
+              class: "wp-inline-create--add-link",
               title: t(:label_work_package_status_new) do
-        helpers.op_icon('icon icon-add')
+        helpers.op_icon("icon icon-add")
       end
     end
 

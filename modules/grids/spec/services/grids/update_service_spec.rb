@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Grids::UpdateService, type: :model do
   let(:user) { build_stubbed(:user) }
   let(:contract_class) do
-    double('contract_class', '<=': true)
+    double("contract_class", "<=": true)
   end
   let(:grid_valid) { true }
   let(:instance) do
@@ -45,7 +45,7 @@ RSpec.describe Grids::UpdateService, type: :model do
     true
   end
   let(:set_attributes_errors) do
-    double('set_attributes_errors')
+    double("set_attributes_errors")
   end
   let(:set_attributes_result) do
     ServiceResult.new result: grid,
@@ -62,7 +62,7 @@ RSpec.describe Grids::UpdateService, type: :model do
     grid
   end
   let!(:set_attributes_service) do
-    service = double('set_attributes_service_instance')
+    service = double("set_attributes_service_instance")
 
     allow(Grids::SetAttributesService)
       .to receive(:new)
@@ -79,20 +79,20 @@ RSpec.describe Grids::UpdateService, type: :model do
     service
   end
 
-  describe 'call' do
-    shared_examples_for 'service call' do
+  describe "call" do
+    shared_examples_for "service call" do
       subject { instance.call(call_attributes) }
 
-      it 'is successful' do
+      it "is successful" do
         expect(subject.success?).to be_truthy
       end
 
-      it 'returns the result of the SetAttributesService' do
+      it "returns the result of the SetAttributesService" do
         expect(subject)
           .to eql set_attributes_result
       end
 
-      it 'persists the grid' do
+      it "persists the grid" do
         expect(grid)
           .to receive(:save)
           .and_return(grid_valid)
@@ -100,19 +100,19 @@ RSpec.describe Grids::UpdateService, type: :model do
         subject
       end
 
-      context 'when the SetAttributeService is unsuccessful' do
+      context "when the SetAttributeService is unsuccessful" do
         let(:set_attributes_success) { false }
 
-        it 'is unsuccessful' do
+        it "is unsuccessful" do
           expect(subject.success?).to be_falsey
         end
 
-        it 'returns the result of the SetAttributesService' do
+        it "returns the result of the SetAttributesService" do
           expect(subject)
             .to eql set_attributes_result
         end
 
-        it 'does not persist the changes' do
+        it "does not persist the changes" do
           expect(grid)
             .not_to receive(:save)
 
@@ -126,10 +126,10 @@ RSpec.describe Grids::UpdateService, type: :model do
         end
       end
 
-      context 'when the grid is invalid' do
+      context "when the grid is invalid" do
         let(:grid_valid) { false }
 
-        it 'is unsuccessful' do
+        it "is unsuccessful" do
           expect(subject.success?).to be_falsey
         end
 
@@ -141,13 +141,13 @@ RSpec.describe Grids::UpdateService, type: :model do
       end
     end
 
-    context 'with parameters' do
+    context "with parameters" do
       let(:call_attributes) { { row_count: 5 } }
 
-      it_behaves_like 'service call'
+      it_behaves_like "service call"
     end
 
-    context 'with parameters only for widgets' do
+    context "with parameters only for widgets" do
       let(:call_attributes) { { widgets: [build_stubbed(:grid_widget)] } }
 
       before do
@@ -168,7 +168,7 @@ RSpec.describe Grids::UpdateService, type: :model do
           end
       end
 
-      it_behaves_like 'service call'
+      it_behaves_like "service call"
     end
   end
 end

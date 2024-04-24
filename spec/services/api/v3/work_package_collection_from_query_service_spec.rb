@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
                type: :model do
@@ -46,7 +46,7 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
   let(:query_manually_sorted) { false }
 
   let(:results) do
-    results = double('results')
+    results = double("results")
 
     allow(results)
       .to receive(:work_packages)
@@ -67,7 +67,7 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
 
     allow(results)
       .to receive(:query)
-      .and_return(double('query'))
+      .and_return(double("query"))
 
     results
   end
@@ -138,7 +138,7 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
   let(:params) { {} }
 
   let(:mock_update_query_service) do
-    mock = double('UpdateQueryFromV3ParamsService')
+    mock = double("UpdateQueryFromV3ParamsService")
 
     allow(mock)
       .to receive(:call)
@@ -162,12 +162,12 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
 
   let(:instance) { described_class.new(query, user) }
 
-  describe '#call' do
+  describe "#call" do
     subject { instance.call(params) }
 
     before do
-      stub_const('::API::V3::WorkPackages::WorkPackageCollectionRepresenter', mock_wp_representer)
-      stub_const('::API::V3::WorkPackages::WorkPackageAggregationGroup', mock_aggregation_representer)
+      stub_const("::API::V3::WorkPackages::WorkPackageCollectionRepresenter", mock_wp_representer)
+      stub_const("::API::V3::WorkPackages::WorkPackageAggregationGroup", mock_aggregation_representer)
 
       allow(API::V3::UpdateQueryFromV3ParamsService)
         .to receive(:new)
@@ -175,86 +175,86 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
         .and_return(mock_update_query_service)
     end
 
-    it 'is successful' do
+    it "is successful" do
       expect(subject).to be_success
     end
 
-    context 'result' do
+    context "result" do
       subject { instance.call(params).result }
 
-      it 'is a WorkPackageCollectionRepresenter' do
+      it "is a WorkPackageCollectionRepresenter" do
         expect(subject)
           .to be_a(API::V3::WorkPackages::WorkPackageCollectionRepresenter)
       end
 
-      context 'work_packages' do
+      context "work_packages" do
         it "has the query's work_package results set" do
           expect(subject.work_packages)
             .to contain_exactly(work_package)
         end
       end
 
-      context 'current_user' do
-        it 'has the provided user set' do
+      context "current_user" do
+        it "has the provided user set" do
           expect(subject.current_user)
             .to eq(user)
         end
       end
 
-      context 'project' do
-        it 'has the queries project set' do
+      context "project" do
+        it "has the queries project set" do
           expect(subject.project)
             .to eq(query.project)
         end
       end
 
-      context 'self_link' do
-        context 'if the project is nil' do
+      context "self_link" do
+        context "if the project is nil" do
           let(:query) { build_stubbed(:query, project: nil) }
 
-          it 'is the global work_package link' do
+          it "is the global work_package link" do
             expect(subject.self_link)
               .to eq(api_v3_paths.work_packages)
           end
         end
 
-        context 'if the project is set' do
+        context "if the project is set" do
           let(:query) { build_stubbed(:query, project:) }
 
-          it 'is the global work_package link' do
+          it "is the global work_package link" do
             expect(subject.self_link)
               .to eq(api_v3_paths.work_packages_by_project(project.id))
           end
         end
       end
 
-      context 'embed_schemas' do
-        it 'is true' do
+      context "embed_schemas" do
+        it "is true" do
           expect(subject.embed_schemas)
             .to be_truthy
         end
       end
 
-      context 'when timestamps are given' do
+      context "when timestamps are given" do
         let(:timestamps) { [Timestamp.parse("P-1Y"), Timestamp.parse("oneWeekAgo@12:00+00:00"), Timestamp.now] }
         let(:query) { build_stubbed(:query, timestamps:) }
 
-        it 'has the query timestamps' do
+        it "has the query timestamps" do
           expect(subject.timestamps)
             .to match_array(timestamps)
         end
       end
 
-      context 'when a _query object is given' do
-        it 'has the query' do
+      context "when a _query object is given" do
+        it "has the query" do
           expect(subject.query)
             .to eq(query)
         end
       end
 
-      context 'total_sums' do
-        context 'with query.display_sums? being false' do
-          it 'is nil' do
+      context "total_sums" do
+        context "with query.display_sums? being false" do
+          it "is nil" do
             query.display_sums = false
 
             expect(subject.total_sums)
@@ -262,8 +262,8 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
           end
         end
 
-        context 'with query.display_sums? being true' do
-          it 'has a struct containing the sums and the available custom fields' do
+        context "with query.display_sums? being true" do
+          it "has a struct containing the sums and the available custom fields" do
             query.display_sums = true
 
             custom_fields = [build_stubbed(:text_wp_custom_field),
@@ -281,9 +281,9 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
         end
       end
 
-      context 'groups' do
-        context 'with query.grouped? being false' do
-          it 'is nil' do
+      context "groups" do
+        context "with query.grouped? being false" do
+          it "is nil" do
             query.group_by = nil
 
             expect(subject.groups)
@@ -291,18 +291,18 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
           end
         end
 
-        context 'with query.group_by being empty' do
-          it 'is nil' do
-            query.group_by = ''
+        context "with query.group_by being empty" do
+          it "is nil" do
+            query.group_by = ""
 
             expect(subject.groups)
               .to be_nil
           end
         end
 
-        context 'with query.grouped? being true' do
-          it 'has the groups' do
-            query.group_by = 'status'
+        context "with query.grouped? being true" do
+          it "has the groups" do
+            query.group_by = "status"
 
             expect(subject.groups[0].group)
               .to eq(1)
@@ -316,9 +316,9 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
         end
       end
 
-      context 'query (in the url)' do
-        context 'when displaying sums' do
-          it 'is represented' do
+      context "query (in the url)" do
+        context "when displaying sums" do
+          it "is represented" do
             query.display_sums = true
 
             expect(subject.query_params[:showSums])
@@ -326,8 +326,8 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
           end
         end
 
-        context 'when displaying hierarchies' do
-          it 'is represented' do
+        context "when displaying hierarchies" do
+          it "is represented" do
             query.show_hierarchies = true
 
             expect(subject.query_params[:showHierarchies])
@@ -335,41 +335,41 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
           end
         end
 
-        context 'when grouping' do
-          it 'is represented' do
-            query.group_by = 'status_id'
+        context "when grouping" do
+          it "is represented" do
+            query.group_by = "status_id"
 
             expect(subject.query_params[:groupBy])
-              .to eq('status_id')
+              .to eq("status_id")
           end
         end
 
-        context 'when sorting' do
-          it 'is represented' do
-            query.sort_criteria = [['status_id', 'desc']]
+        context "when sorting" do
+          it "is represented" do
+            query.sort_criteria = [["status_id", "desc"]]
 
-            expected_sort = JSON::dump [['status', 'desc']]
+            expected_sort = JSON::dump [["status", "desc"]]
 
             expect(subject.query_params[:sortBy])
               .to eq(expected_sort)
           end
         end
 
-        context 'filters' do
-          it 'is represented' do
-            query.add_filter('status_id', '=', ['1', '2'])
-            query.add_filter('subproject_id', '=', ['3', '4'])
+        context "filters" do
+          it "is represented" do
+            query.add_filter("status_id", "=", ["1", "2"])
+            query.add_filter("subproject_id", "=", ["3", "4"])
 
             expected_filters = JSON::dump([
-                                            { status: { operator: '=', values: ['1', '2'] } },
-                                            { subprojectId: { operator: '=', values: ['3', '4'] } }
+                                            { status: { operator: "=", values: ["1", "2"] } },
+                                            { subprojectId: { operator: "=", values: ["3", "4"] } }
                                           ])
 
             expect(subject.query_params[:filters])
               .to eq(expected_filters)
           end
 
-          it 'represents no filters' do
+          it "represents no filters" do
             expected_filters = JSON::dump([])
 
             expect(subject.query_params[:filters])
@@ -378,68 +378,68 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
         end
       end
 
-      context 'offset' do
-        it 'is 1 as default' do
+      context "offset" do
+        it "is 1 as default" do
           expect(subject.query_params[:offset])
             .to be(1)
         end
 
-        context 'with a provided value' do
+        context "with a provided value" do
           # It is imporant for the keys to be strings
           # as that is what will come from the client
-          let(:params) { { 'offset' => 3 } }
+          let(:params) { { "offset" => 3 } }
 
-          it 'is that value' do
+          it "is that value" do
             expect(subject.query_params[:offset])
               .to be(3)
           end
         end
       end
 
-      context 'pageSize' do
+      context "pageSize" do
         before do
           allow(Setting)
             .to receive(:per_page_options_array)
             .and_return([25, 50])
         end
 
-        it 'is nil' do
+        it "is nil" do
           expect(subject.query_params[:pageSize])
             .to be(25)
         end
 
-        context 'with a provided value' do
+        context "with a provided value" do
           # It is imporant for the keys to be strings
           # as that is what will come from the client
-          let(:params) { { 'pageSize' => 100 } }
+          let(:params) { { "pageSize" => 100 } }
 
-          it 'is that value' do
+          it "is that value" do
             expect(subject.query_params[:pageSize])
               .to be(100)
           end
         end
 
-        context 'with the query sorted manually', with_settings: { forced_single_page_size: 42 } do
+        context "with the query sorted manually", with_settings: { forced_single_page_size: 42 } do
           let(:query_manually_sorted) { true }
 
-          it 'is the setting value' do
+          it "is the setting value" do
             expect(subject.query_params[:pageSize])
               .to be(42)
           end
 
-          context 'with a provided value' do
-            let(:params) { { 'pageSize' => 100 } }
+          context "with a provided value" do
+            let(:params) { { "pageSize" => 100 } }
 
-            it 'is the setting value' do
+            it "is the setting value" do
               expect(subject.query_params[:pageSize])
                 .to be(42)
             end
           end
 
-          context 'with a provided value of 0' do
-            let(:params) { { 'pageSize' => 0 } }
+          context "with a provided value of 0" do
+            let(:params) { { "pageSize" => 0 } }
 
-            it 'is the provided value' do
+            it "is the provided value" do
               expect(subject.query_params[:pageSize])
                 .to be(0)
             end
@@ -448,12 +448,12 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
       end
     end
 
-    context 'when the update query service fails' do
+    context "when the update query service fails" do
       let(:update_query_service_success) { false }
-      let(:update_query_service_errors) { double('errors') }
+      let(:update_query_service_errors) { double("errors") }
       let(:update_query_service_result) { nil }
 
-      it 'returns the update service response' do
+      it "returns the update service response" do
         expect(subject)
           .to eql(mock_update_query_service_response)
       end

@@ -63,7 +63,7 @@ cs:
         one_drive: Povolit OpenProject přístup k Azure datům pomocí OAuth pro připojení OneDrive/Sharepoint.
       redirect_uri_incomplete:
         one_drive: Dokončete nastavení správným přesměrováním URI.
-    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
+    confirm_replace_oauth_application: Tato akce obnoví aktuální OAuth přihlašovací údaje. Po potvrzení budete muset znovu zadat přihlašovací údaje u poskytovatele úložiště a všichni vzdálení uživatelé budou muset znovu autorizovat proti OpenProject Jste si jisti, že chcete pokračovat?
     confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
     delete_warning:
       input_delete_confirmation: Zadejte název úložiště souboru %{file_storage} pro potvrzení odstranění.

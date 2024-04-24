@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-require_relative 'shared_responses'
+require_relative "shared_responses"
 
-RSpec.describe 'BCF 2.1 auth resource', content_type: :json do
+RSpec.describe "BCF 2.1 auth resource", content_type: :json do
   include Rack::Test::Methods
 
   let(:current_user) do
@@ -40,7 +40,7 @@ RSpec.describe 'BCF 2.1 auth resource', content_type: :json do
 
   subject(:response) { last_response }
 
-  describe 'GET /api/bcf/2.1/auth' do
+  describe "GET /api/bcf/2.1/auth" do
     let(:path) { "/api/bcf/2.1/auth" }
 
     before do
@@ -48,7 +48,7 @@ RSpec.describe 'BCF 2.1 auth resource', content_type: :json do
       get path
     end
 
-    it_behaves_like 'bcf api successful response' do
+    it_behaves_like "bcf api successful response" do
       let(:expected_body) do
         {
           oauth2_auth_url: "http://localhost:3000/oauth/authorize",

@@ -36,10 +36,10 @@ class Queries::WorkPackages::Filter::AttachmentContentFilter < Queries::WorkPack
   end
 
   def human_name
-    Attachment.human_attribute_name('attachment_content')
+    Attachment.human_attribute_name("attachment_content")
   end
 
   def search_column
-    'fulltext'
+    "fulltext"
   end
 end

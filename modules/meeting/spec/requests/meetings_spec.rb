@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Meeting requests',
+RSpec.describe "Meeting requests",
                :skip_csrf,
                type: :rails_request do
   shared_let(:project) { create(:project, enabled_module_names: %i[meetings]) }
@@ -38,15 +38,15 @@ RSpec.describe 'Meeting requests',
     login_as user
   end
 
-  describe 'copy' do
+  describe "copy" do
     let(:meeting) { create(:structured_meeting, project:) }
     let(:base_params) do
       {
         copied_from_meeting_id: meeting.id,
         project_id: project.id,
         meeting: {
-          title: 'Copied meeting',
-          type: 'StructuredMeeting'
+          title: "Copied meeting",
+          type: "StructuredMeeting"
         }
       }
     end
@@ -56,26 +56,26 @@ RSpec.describe 'Meeting requests',
       post meetings_path(project),
            params: base_params.merge(params)
 
-      Meeting.find_by(title: 'Copied meeting')
+      Meeting.find_by(title: "Copied meeting")
     end
 
-    context 'when copying agenda items' do
-      let!(:agenda_item) { create(:meeting_agenda_item, meeting:, notes: '**foo**') }
-      let(:params) { { copy_agenda: '1' } }
+    context "when copying agenda items" do
+      let!(:agenda_item) { create(:meeting_agenda_item, meeting:, notes: "**foo**") }
+      let(:params) { { copy_agenda: "1" } }
 
-      it 'copies the agenda items' do
+      it "copies the agenda items" do
         subject
 
         expect(response).to be_redirect
 
         expect(subject).to be_present
         expect(subject.agenda_items.count).to eq(1)
-        expect(subject.agenda_items.first.notes).to eq('**foo**')
+        expect(subject.agenda_items.first.notes).to eq("**foo**")
       end
     end
 
-    context 'when copying without additional params' do
-      it 'copies the meeting, but not the agenda' do
+    context "when copying without additional params" do
+      it "copies the meeting, but not the agenda" do
         subject
 
         expect(response).to be_redirect
@@ -85,11 +85,11 @@ RSpec.describe 'Meeting requests',
       end
     end
 
-    context 'when meeting is not visible' do
+    context "when meeting is not visible" do
       let(:other_project) { create(:project) }
       let(:meeting) { create(:meeting, project: other_project) }
 
-      it 'renders a 404' do
+      it "renders a 404" do
         subject
         expect(response).to have_http_status(:not_found)
       end

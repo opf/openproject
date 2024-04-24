@@ -30,26 +30,26 @@ module GroupsHelper
   def group_settings_tabs(group)
     [
       {
-        name: 'general',
-        partial: 'groups/general',
+        name: "general",
+        partial: "groups/general",
         path: edit_group_path(group),
         label: :label_general
       },
       {
-        name: 'users',
-        partial: 'groups/users',
+        name: "users",
+        partial: "groups/users",
         path: edit_group_path(group, tab: :users),
         label: :label_user_plural
       },
       {
-        name: 'memberships',
-        partial: 'groups/memberships',
+        name: "memberships",
+        partial: "groups/memberships",
         path: edit_group_path(group, tab: :memberships),
         label: :label_project_plural
       },
       {
-        name: 'global_roles',
-        partial: 'principals/global_roles',
+        name: "global_roles",
+        partial: "principals/global_roles",
         path: edit_group_path(group, tab: :global_roles),
         label: :label_global_roles
       }
@@ -58,8 +58,8 @@ module GroupsHelper
 
   def autocompleter_filters(group)
     [
-      { name: 'status', operator: '=', values: ['active', 'invited'] },
-      { name: 'group', operator: '!', values: [group.id] }
+      { name: "status", operator: "=", values: ["active", "invited"] },
+      { name: "group", operator: "!", values: [group.id] }
     ]
   end
 end

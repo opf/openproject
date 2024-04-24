@@ -31,7 +31,7 @@ ko:
         이 파일을 삭제하시겠습니까? 삭제하면 되돌릴 수 없습니다.
       draggable_hint: |
         인라인 이미지 또는 참조 첨부 파일로 편집기 필드를 드래그하세요. 드래그하는 동안에는 닫힌 편집기 필드가 열립니다.
-      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
+      quarantined_hint: "바이러스가 발견되어 파일이 격리되었습니다. 다운로드할 수 없습니다."
     autocomplete_ng_select:
       add_tag: "항목 추가"
       clear_all: "모두 지우기"
@@ -352,7 +352,7 @@ ko:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Admins are nudged to go through OAuth flow when activating a storage</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>GitLab 통합(커뮤니티 기여자가 원래 개발함)</li> <li>사용자 지정 프로젝트 목록의 고급 기능</li> <li>미팅 모듈의 고급 기능</li> <li>ClamAV(Enterprise 추가 기능)를 통한 바이러스 검사 기능</li> <li>PDF 내보내기: 테이블 셀의 목록이 지원됩니다.</li> <li>2단계 인증으로 WebAuthn/FIDO/U2F가 추가되었습니다.</li> <li>사용 가능한 기본 언어 세트에 더 많은 언어가 추가되었습니다.</li> </ul>
     ical_sharing_modal:
       title: "캘린더 구독"
       inital_setup_error_message: "데이터를 가져오는 중에 오류가 발생했습니다."
@@ -444,7 +444,7 @@ ko:
     label_less_than_ago: "일 미만 전"
     label_loading: "로드 중..."
     label_mail_notification: "이메일 알림"
-    label_manage_columns: "Manage and reorder columns"
+    label_manage_columns: "열 관리 및 재정렬"
     label_me: "나"
     label_meeting_agenda: "의제"
     label_meeting_minutes: "의사록"
@@ -483,7 +483,7 @@ ko:
     label_report: "보고서"
     label_repository_plural: "리포지토리"
     label_save_as: "다른 이름으로 저장"
-    label_search_columns: "Search a column"
+    label_search_columns: "열 검색"
     label_select_project: "프로젝트 선택"
     label_select_watcher: "주시하는 사람을 선택"
     label_selected_filter_list: "선택된 필터"
@@ -1000,7 +1000,7 @@ ko:
         all_open: "모두 열림"
         summary: "요약"
         shared_with_users: "사용자와 공유됨"
-        shared_with_me: "Shared with me"
+        shared_with_me: "나와 공유됨"
       jump_marks:
         pagination: "테이블 페이지 매김으로 이동"
         label_pagination: "여기를 클릭하여 작업 패키지 테이블로 건너뛰고 페이지 매김으로 이동"

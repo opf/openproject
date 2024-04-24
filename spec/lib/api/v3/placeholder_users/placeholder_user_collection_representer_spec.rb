@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::PlaceholderUsers::PlaceholderUserCollectionRepresenter do
-  let(:self_base_link) { '/api/v3/placeholder_users' }
-  let(:collection_inner_type) { 'PlaceholderUser' }
+  let(:self_base_link) { "/api/v3/placeholder_users" }
+  let(:collection_inner_type) { "PlaceholderUser" }
   let(:total) { 3 }
   let(:page) { 1 }
   let(:page_size) { 2 }
@@ -65,9 +65,9 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUserCollectionRepresenter d
                         current_user:)
   end
 
-  context 'generation' do
+  context "generation" do
     subject(:collection) { representer.to_json }
 
-    it_behaves_like 'offset-paginated APIv3 collection'
+    it_behaves_like "offset-paginated APIv3 collection"
   end
 end

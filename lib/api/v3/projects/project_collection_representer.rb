@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json'
-require 'roar/json/collection'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/json"
+require "roar/json/collection"
+require "roar/json/hal"
 
 module API
   module V3
@@ -57,13 +57,13 @@ module API
         end
 
         def representation_format_xls
-          representation_format 'xls',
-                                mime_type: 'application/vnd.ms-excel'
+          representation_format "xls",
+                                mime_type: "application/vnd.ms-excel"
         end
 
         def representation_format_csv
-          representation_format 'csv',
-                                mime_type: 'text/csv'
+          representation_format "csv",
+                                mime_type: "text/csv"
         end
 
         def paged_models(models)

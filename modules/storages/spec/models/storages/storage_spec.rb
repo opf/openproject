@@ -28,19 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Storage do
   describe "provider_fields" do
     let(:storage) { build(:storage, provider_fields: {}) }
 
-    shared_examples 'a stored boolean attribute' do |attribute|
+    shared_examples "a stored boolean attribute" do |attribute|
       it "#{attribute} has a default value of false" do
         expect(storage.public_send(:"#{attribute}?")).to be(false)
       end
 
-      ['1', 'true', true].each do |boolean_like|
+      ["1", "true", true].each do |boolean_like|
         context "with truthy value #{boolean_like}" do
           it "sets #{attribute} to true" do
             storage.public_send(:"#{attribute}=", boolean_like)
@@ -57,24 +57,24 @@ RSpec.describe Storages::Storage do
       end
     end
 
-    describe '#automatically_managed' do
-      it_behaves_like 'a stored boolean attribute', :automatically_managed
+    describe "#automatically_managed" do
+      it_behaves_like "a stored boolean attribute", :automatically_managed
     end
 
-    describe '#automatic_management_enabled?' do
-      context 'when automatic management enabled is true' do
+    describe "#automatic_management_enabled?" do
+      context "when automatic management enabled is true" do
         let(:storage) { build(:storage, automatic_management_enabled: true) }
 
         it { expect(storage).to be_automatic_management_enabled }
       end
 
-      context 'when automatic management enabled is false' do
+      context "when automatic management enabled is false" do
         let(:storage) { build(:storage, automatic_management_enabled: false) }
 
         it { expect(storage).not_to be_automatic_management_enabled }
       end
 
-      context 'when automatic management enabled is nil' do
+      context "when automatic management enabled is nil" do
         let(:storage) { build(:storage, automatic_management_enabled: nil) }
 
         it { expect(storage.automatic_management_enabled?).to be(false) }

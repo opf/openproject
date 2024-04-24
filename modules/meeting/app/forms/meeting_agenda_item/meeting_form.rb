@@ -61,6 +61,6 @@ class MeetingAgendaItem::MeetingForm < ApplicationForm
   end
 
   def append_to_container
-    @wrapper_id.nil? ? 'body' : "##{@wrapper_id}"
+    @wrapper_id.nil? ? "body" : "##{@wrapper_id}"
   end
 end

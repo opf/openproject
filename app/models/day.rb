@@ -31,14 +31,14 @@ class Day < ApplicationRecord
 
   has_many :non_working_days,
            inverse_of: false,
-           class_name: 'NonWorkingDay',
+           class_name: "NonWorkingDay",
            foreign_key: :date,
            primary_key: :date,
            dependent: nil
 
   attribute :date, :date, default: nil
   attribute :day_of_week, :integer, default: nil
-  attribute :working, :boolean, default: 't'
+  attribute :working, :boolean, default: "t"
 
   delegate :name, to: :week_day, allow_nil: true
 

@@ -40,7 +40,7 @@ module PlaceholderUsers
 
         # Filter for active placeholders
         # to skip to-be-deleted users
-        query.where(:status, '=', :active)
+        query.where(:status, "=", :active)
       end
     end
 

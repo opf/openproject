@@ -40,16 +40,16 @@ module Queries
 
         def where
           operator = if operator_class <= ::Queries::Operators::Equals || operator_class <= ::Queries::Operators::EqualsAll
-                       'IN'
+                       "IN"
                      elsif operator_class <= ::Queries::Operators::NotEquals
-                       'NOT IN'
+                       "NOT IN"
                      else
                        raise ArgumentError
                      end
 
           capability_select_queries
             .map { |query| "#{Project.table_name}.id #{operator} (#{query.to_sql})" }
-            .join(' AND ')
+            .join(" AND ")
         end
 
         private

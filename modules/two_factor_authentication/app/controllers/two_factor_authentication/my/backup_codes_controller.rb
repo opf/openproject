@@ -11,7 +11,7 @@ module ::TwoFactorAuthentication
       # Verify that flash was set (coming from create)
       before_action :check_regenerate_done, only: [:show]
 
-      layout 'my'
+      layout "my"
       menu_item :two_factor_authentication
 
       def create

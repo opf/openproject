@@ -70,10 +70,10 @@ module API
                              plain: true
 
         date_time_property :committed_on,
-                           as: 'createdAt'
+                           as: "createdAt"
 
         def _type
-          'Revision'
+          "Revision"
         end
       end
     end

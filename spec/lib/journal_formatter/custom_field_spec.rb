@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe OpenProject::JournalFormatter::CustomField do
   include CustomFieldsHelper
@@ -51,9 +51,9 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
     "custom_fields_#{custom_field.id}"
   end
 
-  describe 'a multi-select user field' do
-    let(:user1) { build_stubbed(:user, firstname: 'Foo', lastname: 'Bar') }
-    let(:user2) { build_stubbed(:user, firstname: 'Bla', lastname: 'Blub') }
+  describe "a multi-select user field" do
+    let(:user1) { build_stubbed(:user, firstname: "Foo", lastname: "Bar") }
+    let(:user2) { build_stubbed(:user, firstname: "Bla", lastname: "Blub") }
 
     let(:custom_field) do
       build_stubbed(:user_wp_custom_field).tap do |cf|
@@ -79,7 +79,7 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
               .and_return(visible_users)
     end
 
-    context 'with two visible users' do
+    context "with two visible users" do
       let(:visible_users) { [user1, user2] }
 
       let(:formatted_value) do
@@ -91,11 +91,11 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
                value: "<i>#{formatted_value}</i>")
       end
 
-      it 'outputs both formatted names' do
+      it "outputs both formatted names" do
         expect(rendered).to eq expected
       end
 
-      context 'with only one visible user' do
+      context "with only one visible user" do
         let(:visible_users) { [user1] }
 
         let(:formatted_value) do
@@ -107,15 +107,15 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
                  value: "<i>#{formatted_value}</i>")
         end
 
-        it 'outputs the one visible formatted name' do
+        it "outputs the one visible formatted name" do
           expect(rendered).to eq expected
         end
       end
     end
   end
 
-  describe 'WITH the first value being nil, and the second a valid value as string' do
-    let(:values) { [nil, '1'] }
+  describe "WITH the first value being nil, and the second a valid value as string" do
+    let(:values) { [nil, "1"] }
     let(:formatted_value) { format_value(values.last, custom_field) }
 
     let(:expected) do
@@ -127,7 +127,7 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
     it { expect(instance.render(key, values)).to eq(expected) }
   end
 
-  describe 'WITH the first value being a valid value as a string, and the second being a valid value as a string' do
+  describe "WITH the first value being a valid value as a string, and the second being a valid value as a string" do
     let(:values) { %w[0 1] }
     let(:old_formatted_value) { format_value(values.first, custom_field) }
     let(:new_formatted_value) { format_value(values.last, custom_field) }
@@ -135,7 +135,7 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
     let(:expected) do
       I18n.t(:text_journal_changed_plain,
              label: "<strong>#{custom_field.name}</strong>",
-             linebreak: '',
+             linebreak: "",
              old: "<i>#{old_formatted_value}</i>",
              new: "<i>#{new_formatted_value}</i>")
     end
@@ -143,8 +143,8 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
     it { expect(instance.render(key, values)).to eq(expected) }
   end
 
-  describe 'WITH the first value being a valid value as a string, and the second being nil' do
-    let(:values) { ['0', nil] }
+  describe "WITH the first value being a valid value as a string, and the second being nil" do
+    let(:values) { ["0", nil] }
     let(:formatted_value) { format_value(values.first, custom_field) }
 
     let(:expected) do
@@ -158,7 +158,7 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
 
   describe "WITH the first value being nil, and the second a valid value as string " \
            "and WITH no html requested" do
-    let(:values) { [nil, '1'] }
+    let(:values) { [nil, "1"] }
 
     let(:expected) do
       I18n.t(:text_journal_set_to,
@@ -177,7 +177,7 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
       I18n.t(:text_journal_changed_plain,
              label: custom_field.name,
              old: format_value(values.first, custom_field),
-             linebreak: '',
+             linebreak: "",
              new: format_value(values.last, custom_field))
     end
 
@@ -186,7 +186,7 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
 
   describe "WITH the first value being a valid value as a string, and the second being nil " \
            "and WITH no html requested" do
-    let(:values) { ['0', nil] }
+    let(:values) { ["0", nil] }
 
     let(:expected) do
       I18n.t(:text_journal_deleted,
@@ -199,8 +199,8 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
 
   describe "WITH the first value being nil, and the second a valid value as string " \
            "and WITH the custom field being deleted" do
-    let(:values) { [nil, '1'] }
-    let(:key) { 'custom_values0' }
+    let(:values) { [nil, "1"] }
+    let(:key) { "custom_values0" }
 
     let(:expected) do
       I18n.t(:text_journal_set_to,
@@ -214,12 +214,12 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
   describe "WITH the first value being a valid value as a string, and the second being a valid value as a string " \
            "and WITH the custom field being deleted" do
     let(:values) { %w[0 1] }
-    let(:key) { 'custom_values0' }
+    let(:key) { "custom_values0" }
 
     let(:expected) do
       I18n.t(:text_journal_changed_plain,
              label: "<strong>#{I18n.t(:label_deleted_custom_field)}</strong>",
-             linebreak: '',
+             linebreak: "",
              old: "<i>#{values.first}</i>",
              new: "<i>#{values.last}</i>")
     end
@@ -229,8 +229,8 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
 
   describe "WITH the first value being a valid value as a string, and the second being nil " \
            "and WITH the custom field being deleted" do
-    let(:values) { ['0', nil] }
-    let(:key) { 'custom_values0' }
+    let(:values) { ["0", nil] }
+    let(:key) { "custom_values0" }
 
     let(:expected) do
       I18n.t(:text_journal_deleted,
@@ -241,7 +241,7 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
     it { expect(instance.render(key, values)).to eq(expected) }
   end
 
-  context 'for a multi list cf' do
+  context "for a multi list cf" do
     let(:custom_field) do
       build_stubbed(:list_wp_custom_field, multi_value: true).tap do |cf|
         allow(CustomField)
@@ -249,9 +249,9 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
                 .with(id: cf.id)
                 .and_return(cf)
 
-        cf_options = double('custom_options')
-        old_options = double('selected options')
-        new_options = double('selected options')
+        cf_options = double("custom_options")
+        old_options = double("selected options")
+        new_options = double("selected options")
 
         allow(cf)
           .to receive(:custom_options)
@@ -288,8 +288,8 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
                 .and_return(new_custom_option_names)
       end
     end
-    let(:old_custom_option_names) { [[1, 'cf 1'], [2, 'cf 2']] }
-    let(:new_custom_option_names) { [[3, 'cf 3'], [4, 'cf 4']] }
+    let(:old_custom_option_names) { [[1, "cf 1"], [2, "cf 2"]] }
+    let(:new_custom_option_names) { [[3, "cf 3"], [4, "cf 4"]] }
 
     describe "WITH the first value being a comma separated list of ids, " \
              "and the second being a comma separated list of ids" do
@@ -298,7 +298,7 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
       let(:expected) do
         I18n.t(:text_journal_changed_plain,
                label: "<strong>#{custom_field.name}</strong>",
-               linebreak: '',
+               linebreak: "",
                old: "<i>cf 1, cf 2</i>",
                new: "<i>cf 3, cf 4</i>")
       end
@@ -309,12 +309,12 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
     describe "WITH the first value being a comma separated list of ids, " \
              "and the second being a comma separated list of ids that no longer exist" do
       let(:values) { %w[1,2 3,4] }
-      let(:new_custom_option_names) { [[4, 'cf 4']] }
+      let(:new_custom_option_names) { [[4, "cf 4"]] }
 
       let(:expected) do
         I18n.t(:text_journal_changed_plain,
                label: "<strong>#{custom_field.name}</strong>",
-               linebreak: '',
+               linebreak: "",
                old: "<i>cf 1, cf 2</i>",
                new: "<i>(deleted option), cf 4</i>")
       end

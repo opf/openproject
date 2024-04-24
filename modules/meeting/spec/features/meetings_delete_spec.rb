@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Meetings deletion' do
+RSpec.describe "Meetings deletion" do
   let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   let(:user) do
     create(:user,
@@ -39,8 +39,8 @@ RSpec.describe 'Meetings deletion' do
            member_with_permissions: { project => permissions })
   end
 
-  let!(:meeting) { create(:meeting, project:, title: 'Own awesome meeting!', author: user) }
-  let!(:other_meeting) { create(:meeting, project:, title: 'Other awesome meeting!', author: other_user) }
+  let!(:meeting) { create(:meeting, project:, title: "Own awesome meeting!", author: user) }
+  let!(:other_meeting) { create(:meeting, project:, title: "Other awesome meeting!", author: other_user) }
 
   let(:index_path) { project_meetings_path(project) }
 
@@ -48,7 +48,7 @@ RSpec.describe 'Meetings deletion' do
     login_as(user)
   end
 
-  context 'with permission to delete meetings', :js do
+  context "with permission to delete meetings", :js do
     let(:permissions) { %i[view_meetings delete_meetings] }
 
     it "can delete own and other's meetings" do
@@ -56,7 +56,7 @@ RSpec.describe 'Meetings deletion' do
 
       click_link meeting.title
       accept_confirm do
-        find_test_selector('meetings-more-dropdown-menu').click
+        find_test_selector("meetings-more-dropdown-menu").click
         click_link "Delete"
       end
 
@@ -65,19 +65,19 @@ RSpec.describe 'Meetings deletion' do
 
       click_link other_meeting.title
       accept_confirm do
-        find_test_selector('meetings-more-dropdown-menu').click
+        find_test_selector("meetings-more-dropdown-menu").click
         click_link "Delete"
       end
 
       expect(page)
-        .to have_content(I18n.t('.no_results_title_text', cascade: true))
+        .to have_content(I18n.t(".no_results_title_text", cascade: true))
 
       expect(page)
         .to have_current_path index_path
     end
   end
 
-  context 'without permission to delete meetings' do
+  context "without permission to delete meetings" do
     let(:permissions) { %i[view_meetings] }
 
     it "cannot delete own and other's meetings" do
@@ -85,13 +85,13 @@ RSpec.describe 'Meetings deletion' do
 
       click_link meeting.title
       expect(page)
-        .to have_no_link 'Delete'
+        .to have_no_link "Delete"
 
       visit index_path
 
       click_link other_meeting.title
       expect(page)
-        .to have_no_link 'Delete'
+        .to have_no_link "Delete"
     end
   end
 end

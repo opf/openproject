@@ -35,7 +35,7 @@ module Meetings
       # Setting the #type as attributes will not work
       # as the STI instance is not changed without using e.g., +becomes!+
       case params.delete(:type)
-      when 'StructuredMeeting'
+      when "StructuredMeeting"
         StructuredMeeting.new
       else
         Meeting.new

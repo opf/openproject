@@ -7,7 +7,7 @@ module ::Avatars
       send_file @avatar.diskfile,
                 filename: filename_for_content_disposition(@avatar.filename),
                 type: @avatar.content_type,
-                disposition: 'inline'
+                disposition: "inline"
     rescue StandardError => e
       Rails.logger.error "Failed to render avatar for #{@avatar&.id}: #{e.message}"
       head :not_found

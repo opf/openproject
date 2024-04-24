@@ -51,17 +51,17 @@ module OpenProject::TwoFactorAuthentication
       ##
       # Whether the system requires 2FA for all users
       def enforced?
-        !!configuration['enforced']
+        !!configuration["enforced"]
       end
 
       ##
       # Determine whether the plugin settings can be changed from the UI
       def configurable_by_ui?
-        !configuration['hide_settings_menu_item']
+        !configuration["hide_settings_menu_item"]
       end
 
       def allow_remember_for_days
-        configuration['allow_remember_for_days'].to_i
+        configuration["allow_remember_for_days"].to_i
       end
 
       ##
@@ -73,7 +73,7 @@ module OpenProject::TwoFactorAuthentication
       ##
       # Fetch all active strategies
       def active_strategies
-        configuration.fetch('active_strategies', [])
+        configuration.fetch("active_strategies", [])
                      .map(&:to_s)
                      .uniq
                      .map { |strategy| lookup_active_strategy strategy }
@@ -107,18 +107,18 @@ module OpenProject::TwoFactorAuthentication
       end
 
       def enforced_by_configuration?
-        enforced = (OpenProject::Configuration['2fa'] || {})['enforced']
+        enforced = (OpenProject::Configuration["2fa"] || {})["enforced"]
         ActiveModel::Type::Boolean.new.cast enforced
       end
 
       def merge_with_settings!(config)
-        config['active_strategies'] ||= []
+        config["active_strategies"] ||= []
         # Always enable webauthn and totp if nothing is enabled
-        config['active_strategies'] += %i[totp webauthn] if add_default_strategy?(config)
+        config["active_strategies"] += %i[totp webauthn] if add_default_strategy?(config)
       end
 
       def add_default_strategy?(config)
-        config['active_strategies'].empty? && config['disabled'].blank?
+        config["active_strategies"].empty? && config["disabled"].blank?
       end
 
       def available_strategies

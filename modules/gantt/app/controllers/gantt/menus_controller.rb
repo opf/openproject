@@ -38,16 +38,16 @@ module Gantt
 
     def menu_items
       [
-        OpenProject::Menu::MenuGroup.new(header: I18n.t('js.label_starred_queries'), children: starred_queries),
-        OpenProject::Menu::MenuGroup.new(header: I18n.t('js.label_default_queries'), children: default_queries),
-        OpenProject::Menu::MenuGroup.new(header: I18n.t('js.label_global_queries'), children: global_queries),
-        OpenProject::Menu::MenuGroup.new(header: I18n.t('js.label_custom_queries'), children: custom_queries)
+        OpenProject::Menu::MenuGroup.new(header: I18n.t("js.label_starred_queries"), children: starred_queries),
+        OpenProject::Menu::MenuGroup.new(header: I18n.t("js.label_default_queries"), children: default_queries),
+        OpenProject::Menu::MenuGroup.new(header: I18n.t("js.label_global_queries"), children: global_queries),
+        OpenProject::Menu::MenuGroup.new(header: I18n.t("js.label_custom_queries"), children: custom_queries)
       ]
     end
 
     def starred_queries
       base_query
-        .where('starred' => 't')
+        .where("starred" => "t")
         .pluck(:id, :name)
         .map { |id, name| menu_item({ query_id: id }, name) }
     end
@@ -67,16 +67,16 @@ module Gantt
 
     def global_queries
       base_query
-        .where('starred' => 'f')
-        .where('public' => 't')
+        .where("starred" => "f")
+        .where("public" => "t")
         .pluck(:id, :name)
         .map { |id, name| menu_item({ query_id: id }, name) }
     end
 
     def custom_queries
       base_query
-        .where('starred' => 'f')
-        .where('public' => 'f')
+        .where("starred" => "f")
+        .where("public" => "f")
         .pluck(:id, :name)
         .map { |id, name| menu_item({ query_id: id }, name) }
     end
@@ -86,12 +86,12 @@ module Gantt
                      .visible(current_user)
                      .includes(:project)
                      .joins(:views)
-                     .where('views.type' => 'gantt')
+                     .where("views.type" => "gantt")
 
       if @project.present?
-        base_query.where('queries.project_id' => @project.id)
+        base_query.where("queries.project_id" => @project.id)
       else
-        base_query.where('queries.project_id' => nil)
+        base_query.where("queries.project_id" => nil)
       end
     end
 

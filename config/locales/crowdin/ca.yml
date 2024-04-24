@@ -26,7 +26,8 @@ ca:
       no_results_title_text: No hi hagut activitat al projecte en aquesta finestra de temps.
   admin:
     plugins:
-      no_results_title_text: Actualment no hi ha plugins disponibles.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Tema de color"
       color_theme_custom: "(Personalitzat)"
@@ -1524,6 +1525,7 @@ ca:
       postgres_migration: "Migrant la teva instal·lació a PostgreSQL"
       user_guides: "Guies d'usuari"
       faq: "Preguntes Més Freqüents"
+      impressum: "Legal notice"
       glossary: "Glossari"
       shortcuts: "Dreceres"
       blog: "Blog OpenProject"
@@ -1534,6 +1536,7 @@ ca:
   journals:
     changes_retracted: "S'han retractat els canvis."
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "Les dates han canviat"
       system_update: "OpenProject system update:"
     cause_descriptions:
@@ -1855,7 +1858,6 @@ ca:
   label_subject_or_id: "Subjecte o ID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
-  label_impressum: "Avís legal"
   label_in: "en"
   label_in_less_than: "en menys de"
   label_in_more_than: "en més de"
@@ -2706,6 +2708,9 @@ ca:
   setting_apiv3_cors_origins: "\"API V3 Cross-Origin Resource Sharing (CORS)\" orígens permesos"
   setting_apiv3_cors_origins_text_html: >
     Si s'activa el CORS, aquests són els orígens que tenen permís per accedir a l'API d'OpenProject. <br/>Si us plau, valida la <a href="%{origin_link}" target="_blank">Documentació en l'encapçalament d'Origin</a> en com s'ha d'especificar els valors esperats.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Màxima mida de pàgina API"
   setting_apiv3_max_page_instructions_html: >
     Configura el mida màxima de pàgina amb la qual l'API respondrà. No es permetrà fer peticions d'API que retornin més valors en una única pàgina. Alerta: Si us plau, canvia només aquest valor si estàs segur que ho necessitaràs. Configurant un valor alt resultarà en problemes d'execució mentre que un valor baix pot produir errors en les vistes paginades.
@@ -3084,6 +3089,7 @@ ca:
     status_user_and_brute_force: "%{user} i %{brute_force}"
     status_change: "Canvi d'estat"
     text_change_disabled_for_provider_login: "El nom està fixat pel teu proveïdor d'inici de sessió i per tant no es pot canviar."
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "Desbloquejar"
     unlock_and_reset_failed_logins: "Desbloquejar i reiniciar inicis de sessió fallits"
   version_status_closed: "tancat"

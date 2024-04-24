@@ -84,7 +84,7 @@ module WorkPackages
 
         work_package
           .descendants
-          .order_by_ancestors('asc')
+          .order_by_ancestors("asc")
           .each do |wp|
           copied = copy_with_updated_parent_id(wp, attributes, ancestors)
 

@@ -50,7 +50,7 @@ class WorkPackages::UpdateAncestors::Loader
     @leaves ||= Hash.new do |hash, wp|
       hash[wp] = replaced_related_of(wp, :leaves) do |leaf|
         # Mimic work package by implementing the closed? interface
-        leaf.send(:'closed?=', leaf.is_closed)
+        leaf.send(:"closed?=", leaf.is_closed)
       end
     end
 

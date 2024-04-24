@@ -20,7 +20,7 @@ module Bim
                          view_permission: :view_ifc_models
 
       belongs_to :project
-      belongs_to :uploader, class_name: 'User'
+      belongs_to :uploader, class_name: "User"
 
       validates :title, presence: true
       validates :project, presence: true

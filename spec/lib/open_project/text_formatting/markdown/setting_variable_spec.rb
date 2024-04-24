@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'expected_markdown'
+require "spec_helper"
+require_relative "expected_markdown"
 
 RSpec.describe OpenProject::TextFormatting,
-               'Setting variable' do
-  include_context 'expected markdown modules'
+               "Setting variable" do
+  include_context "expected markdown modules"
 
-  describe 'attribute label macros' do
-    it_behaves_like 'format_text produces' do
+  describe "attribute label macros" do
+    it_behaves_like "format_text produces" do
       let(:raw) do
         <<~RAW
           Inline reference to variable setting: {{opSetting:host_name}}

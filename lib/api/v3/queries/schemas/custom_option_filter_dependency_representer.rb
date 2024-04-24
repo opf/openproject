@@ -54,7 +54,7 @@ module API
           private
 
           def type
-            '[]CustomOption'
+            "[]CustomOption"
           end
         end
       end

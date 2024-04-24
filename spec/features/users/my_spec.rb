@@ -30,6 +30,7 @@ require 'spec_helper'
 
 RSpec.describe 'my', :js, :with_cuprite do
   let(:user_password) { 'bob' * 4 }
+  let!(:string_cf) { create(:user_custom_field, :string, name: 'Hobbies', is_required: false) }
   let(:user) do
     create(:user,
            mail: 'old@mail.com',
@@ -39,7 +40,7 @@ RSpec.describe 'my', :js, :with_cuprite do
   end
 
   ##
-  # Expecations for a successful account change
+  # Expectations for a successful account change
   def expect_changed!
     expect(page).to have_content I18n.t(:notice_account_updated)
     expect(page).to have_content I18n.t(:notice_account_other_session_expired)
@@ -60,6 +61,24 @@ RSpec.describe 'my', :js, :with_cuprite do
     session.save
 
     expect(Sessions::UserSession.for_user(user).where(session_id: 'other').count).to eq 1
+  end
+
+  shared_examples 'common tests for normal and LDAP user' do
+    describe 'settings' do
+      context 'with a default time zone', with_settings: { user_default_timezone: 'Asia/Tokyo' } do
+        it 'can override a time zone' do
+          expect(user.pref.time_zone).to eq 'Asia/Tokyo'
+          visit my_settings_path
+
+          expect(page).to have_select 'pref_time_zone', selected: '(UTC+09:00) Tokyo'
+          select '(UTC+01:00) Paris', from: 'pref_time_zone'
+          click_on 'Save'
+
+          expect(page).to have_select 'pref_time_zone', selected: '(UTC+01:00) Paris'
+          expect(user.pref.time_zone).to eq 'Europe/Paris'
+        end
+      end
+    end
   end
 
   context 'user' do
@@ -108,21 +127,7 @@ RSpec.describe 'my', :js, :with_cuprite do
       end
     end
 
-    describe 'settings' do
-      context 'with a default time zone', with_settings: { user_default_timezone: 'Asia/Tokyo' } do
-        it 'can override a time zone' do
-          expect(user.pref.time_zone).to eq 'Asia/Tokyo'
-          visit my_settings_path
-
-          expect(page).to have_select 'pref_time_zone', selected: '(UTC+09:00) Tokyo'
-          select '(UTC+01:00) Paris', from: 'pref_time_zone'
-          click_on 'Save'
-
-          expect(page).to have_select 'pref_time_zone', selected: '(UTC+01:00) Paris'
-          expect(user.pref.time_zone).to eq 'Europe/Paris'
-        end
-      end
-    end
+    include_examples 'common tests for normal and LDAP user'
 
     describe "API tokens" do
       context 'when API access is disabled via global settings', with_settings: { rest_api_enabled: false } do
@@ -414,5 +419,46 @@ RSpec.describe 'my', :js, :with_cuprite do
         end
       end
     end
+  end
+
+  # Without password confirmation the test doesn't try to connect to the LDAP:
+  context 'LDAP user', with_config: { internal_password_confirmation: false } do
+    let(:ldap_auth_source) { create(:ldap_auth_source) }
+    let(:user) do
+      create(:user,
+             mail: 'old@mail.com',
+             login: 'bob',
+             ldap_auth_source:)
+    end
+
+    describe '#account' do
+      before do
+        visit my_account_path
+      end
+
+      it 'does not allow change of name and email but other fields can be changed' do
+        email_field = find_field('user[mail]', disabled: true)
+        firstname_field = find_field('user[firstname]', disabled: true)
+        lastname_field = find_field('user[lastname]', disabled: true)
+
+        expect(email_field).to be_disabled
+        expect(firstname_field).to be_disabled
+        expect(lastname_field).to be_disabled
+
+        expect(page).to have_text(I18n.t('user.text_change_disabled_for_ldap_login'), count: 3)
+
+        fill_in 'Hobbies', with: 'Ruby, DCS'
+        uncheck 'pref[hide_mail]'
+        click_on 'Save'
+
+        expect(page).to have_content I18n.t(:notice_account_updated)
+
+        user.reload
+        expect(user.custom_values.find_by(custom_field_id: string_cf).value).to eql 'Ruby, DCS'
+        expect(user.pref.hide_mail).to be false
+      end
+    end
+
+    include_examples 'common tests for normal and LDAP user'
   end
 end

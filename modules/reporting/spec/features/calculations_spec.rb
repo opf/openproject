@@ -1,6 +1,6 @@
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Cost Report', 'calculations', :js, :with_cuprite do
+RSpec.describe "Cost Report", "calculations", :js, :with_cuprite do
   let(:project) { create(:project) }
   let(:user) { create(:admin) }
   let(:work_package) { create(:work_package, project:) }
@@ -26,13 +26,13 @@ RSpec.describe 'Cost Report', 'calculations', :js, :with_cuprite do
     create_hourly_rates
     create_time_entries_on(6.months.ago, 18.months.ago, 30.months.ago)
     login_as user
-    visit '/cost_reports?set_filter=1'
+    visit "/cost_reports?set_filter=1"
   end
 
-  it 'shows the correct calculations' do
-    expect(page).to have_text '10.00'  # 1  EUR x 10
-    expect(page).to have_text '50.00'  # 5  EUR x 10
-    expect(page).to have_text '100.00' # 10 EUR x 10
-    expect(page).to have_text '160.00' # Total
+  it "shows the correct calculations" do
+    expect(page).to have_text "10.00"  # 1  EUR x 10
+    expect(page).to have_text "50.00"  # 5  EUR x 10
+    expect(page).to have_text "100.00" # 10 EUR x 10
+    expect(page).to have_text "160.00" # Total
   end
 end

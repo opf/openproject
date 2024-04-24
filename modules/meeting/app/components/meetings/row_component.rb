@@ -40,9 +40,9 @@ module Meetings
 
     def type
       if model.is_a?(StructuredMeeting)
-        I18n.t('meeting.types.structured')
+        I18n.t("meeting.types.structured")
       else
-        I18n.t('meeting.types.classic')
+        I18n.t("meeting.types.classic")
       end
     end
 
@@ -57,7 +57,7 @@ module Meetings
     def location
       helpers.auto_link(model.location,
                         link: :all,
-                        html: { target: '_blank' })
+                        html: { target: "_blank" })
     end
   end
 end

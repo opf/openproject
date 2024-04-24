@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Mails::WorkPackageSharedJob, type: :model do
   subject(:run_job) do
@@ -50,7 +50,7 @@ RSpec.describe Mails::WorkPackageSharedJob, type: :model do
 
   before { stub_sharing_mailer }
 
-  context 'with a user membership' do
+  context "with a user membership" do
     let(:shared_with_user) { build_stubbed(:user) }
     let(:work_package_member) do
       build_stubbed(:work_package_member,
@@ -59,7 +59,7 @@ RSpec.describe Mails::WorkPackageSharedJob, type: :model do
                     roles: [role])
     end
 
-    it 'sends mail' do
+    it "sends mail" do
       run_job
 
       expect(SharingMailer)
@@ -68,7 +68,7 @@ RSpec.describe Mails::WorkPackageSharedJob, type: :model do
     end
   end
 
-  context 'with a group membership' do
+  context "with a group membership" do
     let(:group) do
       build_stubbed(:group) do |g|
         allow(g)
@@ -136,7 +136,7 @@ RSpec.describe Mails::WorkPackageSharedJob, type: :model do
       let(:group_user_members) { [group_user_member, other_group_user_member] }
       let(:group_user_members_due_an_email) { group_user_members }
 
-      it 'sends mail to every user in the group' do
+      it "sends mail to every user in the group" do
         run_job
 
         group_user_members.each do |group_user_member|
@@ -176,7 +176,7 @@ RSpec.describe Mails::WorkPackageSharedJob, type: :model do
       let(:group_user_members) { [group_user_member, other_group_user_member] }
       let(:group_user_members_due_an_email) { [other_group_user_member] }
 
-      it 'only sends mail to group user that had no active shares in the work package' do
+      it "only sends mail to group user that had no active shares in the work package" do
         run_job
 
         expect(SharingMailer)

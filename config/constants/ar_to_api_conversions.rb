@@ -32,29 +32,29 @@ module Constants
     # * from the API to AR
     # * from AR to the API
     WELL_KNOWN_CONVERSIONS = {
-      assigned_to: 'assignee',
-      version: 'version',
-      done_ratio: 'percentageDone',
-      derived_done_ratio: 'derivedPercentageDone',
-      estimated_hours: 'estimatedTime',
-      remaining_hours: 'remainingTime',
-      spent_hours: 'spentTime',
-      subproject: 'subprojectId',
-      relation_type: 'type',
-      mail: 'email',
-      column_names: 'columns',
-      sort_criteria: 'sortBy',
-      message: 'post',
-      firstname: 'firstName',
-      lastname: 'lastName',
-      member: 'membership'
+      assigned_to: "assignee",
+      version: "version",
+      done_ratio: "percentageDone",
+      derived_done_ratio: "derivedPercentageDone",
+      estimated_hours: "estimatedTime",
+      remaining_hours: "remainingTime",
+      spent_hours: "spentTime",
+      subproject: "subprojectId",
+      relation_type: "type",
+      mail: "email",
+      column_names: "columns",
+      sort_criteria: "sortBy",
+      message: "post",
+      firstname: "firstName",
+      lastname: "lastName",
+      member: "membership"
     }.freeze
 
     # Conversions that are unidirectional (from the API to AR)
     # This can be used to still support renamed filters/sort_by, like for created/updatedOn.
     WELL_KNOWN_API_TO_AR_CONVERSIONS = {
-      created_on: 'created_at',
-      updated_on: 'updated_at'
+      created_on: "created_at",
+      updated_on: "updated_at"
     }.freeze
 
     class << self

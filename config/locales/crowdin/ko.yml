@@ -26,13 +26,14 @@ ko:
       no_results_title_text: 이 시간 프레임 내에서 프로젝트에 대한 활동이 없습니다.
   admin:
     plugins:
-      no_results_title_text: 사용 가능한 플러그인이 없습니다.
+      no_results_title_text: 현재 설치된 플러그인이 없습니다.
+      no_results_content_text: 자세한 내용은 통합 및 플러그인 페이지를 참조하세요.
     custom_styles:
       color_theme: "컬러 테마"
       color_theme_custom: "(사용자 지정)"
       colors:
-        primary-button-color: "Primary button"
-        accent-color: "Accent"
+        primary-button-color: "기본 버튼"
+        accent-color: "강조 색"
         header-bg-color: "헤더 배경"
         header-item-bg-hover-color: "가리킬 때 헤더 배경"
         header-item-font-color: "헤더 글꼴"
@@ -51,8 +52,8 @@ ko:
       enterprise_more_info: "참고: 사용된 로그는 공개적으로 액세스 가능합니다."
       manage_colors: "색상 선택 옵션 편집"
       instructions:
-        primary-button-color: "Strong accent color, used for the most important button on a screen."
-        accent-color: "Color for links and other decently highlighted elements."
+        primary-button-color: "강한 강조 색은 화면의 가장 중요한 버튼에 사용됩니다."
+        accent-color: "링크 및 기타 적절하게 강조 표시된 요소의 색상을 지정하세요."
         header-item-bg-hover-color: "마우스로 가리킬 때 클릭 가능한 헤더 항목의 배경색입니다."
         header-item-font-color: "클릭 가능한 헤더 항목의 글꼴색입니다."
         header-item-font-hover-color: "마우스로 가리킬 때 클릭 가능한 헤더 항목의 글꼴색입니다."
@@ -87,16 +88,16 @@ ko:
     is_active: 현재 표시됨
     is_inactive: 현재 표시 안 됨
   antivirus_scan:
-    not_processed_yet_message: "Downloading is blocked, as file was not scanned for viruses yet. Please try again later."
-    quarantined_message: "A virus was detected in file '%{filename}'. It has been quarantined and is not available for download."
-    deleted_message: "A virus was detected in file '%{filename}'. The file has been deleted."
-    deleted_by_admin: "The quarantined file '%{filename}' has been deleted by an administrator."
-    overridden_by_admin: "The quarantine for file '%{filename}' has been removed by %{user}. The file can now be acccessed."
+    not_processed_yet_message: "아직 파일의 바이러스 검사가 수행되지 않았으므로 다운로드가 차단되었습니다. 나중에 다시 시도하세요."
+    quarantined_message: "'%{filename}' 파일에서 바이러스가 발견되었습니다. 이 파일은 격리되어 다운로드할 수 없습니다."
+    deleted_message: "'%{filename}' 파일에서 바이러스가 발견되었습니다. 이 파일은 삭제되었습니다."
+    deleted_by_admin: "격리된 '%{filename}'  파일이 관리자에 의해 삭제되었습니다."
+    overridden_by_admin: "'%{filename}' 파일에 대한 격리가 %{user} 님에 의해 제거되었습니다. 이제 이 파일에 액세스할 수 있습니다."
     quarantined_attachments:
-      container: "Container"
-      delete: "Delete the quarantined file"
-      title: "Quarantined attachments"
-      error_cannot_act_self: "Cannot perform actions on your own uploaded files."
+      container: "컨테이너"
+      delete: "격리된 파일 삭제"
+      title: "격리된 첨부 파일"
+      error_cannot_act_self: "고유한 업로드 파일에서는 작업을 수행할 수 없습니다."
   attribute_help_texts:
     note_public: "이 필드에 추가하는 모든 텍스트와 이미지는 로그인한 모든 사용자에게 공개됩니다!"
     text_overview: "이 보기에서 특성 보기에 대한 사용자 지정 도움말 텍스트를 작성할 수 있습니다. 이 텍스트를 정의하면 속하는 특성 옆에 있는 도움말 아이콘을 클릭하여 표시할 수 있습니다."
@@ -268,8 +269,8 @@ ko:
       new:
         placeholder: "새 프로젝트 목록"
       delete_modal:
-        title: "Delete project list"
-        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
+        title: "프로젝트 목록 삭제"
+        text: "이 작업을 수행해도 목록에 포함된 프로젝트는 삭제되지 않습니다. 이 프로젝트 목록을 삭제하시겠습니까?"
     settings:
       change_identifier: 식별자 변경
       activities:
@@ -292,7 +293,7 @@ ko:
       storage:
         no_results_title_text: 이 프로젝트에서 사용하는 추가 기록 디스크 공간이 없습니다.
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    can_be_saved_as: "수정 사항은 새 목록에만 저장할 수 있습니다."
   members:
     index:
       no_results_title_text: 프로젝트에 멤버 파트가 없습니다.
@@ -566,7 +567,7 @@ ko:
           false: "비공개"
         queries: "쿼리"
         status_code: "프로젝트 상태"
-        description: "Description"
+        description: "설명"
         status_explanation: "프로젝트 상태 설명"
         status_codes:
           not_started: "시작되지 않음"
@@ -640,9 +641,9 @@ ko:
         begin_insertion: "삽입 시작"
         begin_deletion: "삭제 시작"
         children: "하위 요소"
-        derived_done_ratio: "Total % complete"
-        derived_remaining_hours: "Total remaining work"
-        derived_remaining_time: "Total remaining work"
+        derived_done_ratio: "총 완료 %"
+        derived_remaining_hours: "총 남은 작업"
+        derived_remaining_time: "총 남은 작업"
         done_ratio: "완료 %"
         duration: "기간"
         end_insertion: "삽입 끝"
@@ -842,8 +843,8 @@ ko:
               forbidden: "타임스탬프에 금지된 값이 포함되어 있습니다: %{values}"
               format: "%{message}"
             selects:
-              name_not_included: "The 'Name' column needs to be included"
-              nonexistent: "The column '%{column}' does not exist."
+              name_not_included: "'이름' 열을 포함해야 합니다"
+              nonexistent: "'%{column}' 열이 존재하지 않습니다."
               format: "%{message}"
           group_by_hierarchies_exclusive: "은(는) %{group_by} 에 의해 그룹과 상호배타적입니다. 당신은 둘 다 활성화할 수 없습니다."
           filters:
@@ -1072,7 +1073,7 @@ ko:
     default_columns: "기본 칼럼"
     description: "설명"
     derived_due_date: "파생된 완료 날짜"
-    derived_estimated_hours: "Total work"
+    derived_estimated_hours: "총 작업"
     derived_start_date: "파생된 시작 날짜"
     display_sums: "합계 표시"
     due_date: "완료 날짜"
@@ -1189,7 +1190,7 @@ ko:
   button_reset: "재설정"
   button_rollback: "이 버전으로 롤백"
   button_save: "저장"
-  button_save_as: "Save as"
+  button_save_as: "다른 이름으로 저장"
   button_apply_changes: "변경 사항 적용"
   button_save_back: "저장하고 돌아가기"
   button_show: "표시"
@@ -1500,6 +1501,7 @@ ko:
       postgres_migration: "설치를 PostgreSQL로 마이그레이션"
       user_guides: "사용자 가이드"
       faq: "FAQ"
+      impressum: "법적 고지"
       glossary: "용어집"
       shortcuts: "바로가기 "
       blog: "OpenProject 블로그"
@@ -1510,6 +1512,7 @@ ko:
   journals:
     changes_retracted: "변경 사항이 취소되었습니다."
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "변경된 날짜"
       system_update: "OpenProject 시스템 업데이트:"
     cause_descriptions:
@@ -1756,7 +1759,7 @@ ko:
   label_diff_side_by_side: "나란히"
   label_digital_accessibility: "디지털 접근성(DE)"
   label_disabled: "사용 안 함"
-  label_disabled_uppercase: "Disabled"
+  label_disabled_uppercase: "사용 안 함"
   label_display: "표시"
   label_display_per_page: "페이지당: %{value}"
   label_display_used_statuses_only: "이 유형에 사용되는 상태만 표시"
@@ -1831,7 +1834,6 @@ ko:
   label_subject_or_id: "제목 또는 ID"
   label_calendar_subscriptions: "캘린더 구독"
   label_identifier: "식별자"
-  label_impressum: "법적 고지"
   label_in: "-"
   label_in_less_than: "보다 작음"
   label_in_more_than: "보다 큼"
@@ -1891,7 +1893,7 @@ ko:
   label_member_new: "새 멤버"
   label_member_all_admin: "(관리 상태에 따른 모든 역할)"
   label_member_plural: "멤버"
-  label_membership_plural: "Memberships"
+  label_membership_plural: "멤버십"
   lable_membership_added: "멤버 추가됨"
   lable_membership_updated: "멤버 갱신됨"
   label_menu_badge:
@@ -1984,7 +1986,7 @@ ko:
   label_precedes: "선행"
   label_preferences: "기본 설정"
   label_preview: "미리 보기"
-  label_preview_not_available: "(Preview not available)"
+  label_preview_not_available: "(미리 보기를 사용할 수 없음)"
   label_previous: "이전"
   label_previous_week: "이전 주"
   label_principal_invite_via_email: " 또는 이메일을 통해 새 사용자 초대하기"
@@ -2196,9 +2198,9 @@ ko:
     other: "%{count}개 프로젝트"
     zero: "프로젝트 없음"
   label_x_files:
-    one: "1 file"
-    other: "%{count} files"
-    zero: "no files"
+    one: "파일 1개"
+    other: "파일 %{count}개"
+    zero: "파일 없음"
   label_yesterday: "어제"
   label_role_type: "유형"
   label_member_role: "프로젝트 역할"
@@ -2555,7 +2557,7 @@ ko:
   project_module_news: "뉴스"
   project_module_repository: "리포지토리"
   project_module_wiki: "위키"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
+  permission_header_for_project_module_work_package_tracking: "작업 패키지 및 Gantt 차트"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2568,7 +2570,7 @@ ko:
     name_or_identifier: "이름 또는 식별자"
     only_subproject_id: "하위 프로젝트만"
     shared_with_user: "사용자와 공유됨"
-    shared_with_me: "Shared with me"
+    shared_with_me: "나와 공유됨"
     subproject_id: "하위 프로젝트 포함"
   repositories:
     at_identifier: "- %{identifier}"
@@ -2684,6 +2686,9 @@ ko:
   setting_apiv3_cors_origins: "API V3 CORS(크로스-원본 리소스 공유) 허용 원본"
   setting_apiv3_cors_origins_text_html: >
     CORS가 활성화된 경우, OpenProject API에 액세스하도록 허용된 원본이 있습니다. <br/> <a href="%{origin_link}" target="_blank">원본 헤더의 설명서</a>에서 예상 값 지정 방법을 확인하세요.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "최대 API 페이지 크기"
   setting_apiv3_max_page_instructions_html: >
     API가 응답할 최대 페이지 크기를 설정하세요. 단일 페이지에서 더 많은 값을 반환하는 API 요청을 수행할 수 없습니다. <br/> <strong>경고:</strong> 이 값이 필요한 이유가 확실한 경우에만 이 값을 변경하세요. 높은 값으로 설정하면 성능에 상당한 영향을 미치고, 페이지당 옵션보다 낮은 값은 페이지가 매겨진 보기에서 오류를 일으킵니다.
@@ -2707,8 +2712,8 @@ ko:
   setting_app_subtitle: "응용 프로그램 부제목"
   setting_app_title: "응용 프로그램 제목"
   setting_attachment_max_size: "첨부 파일 최대 크기"
-  setting_antivirus_scan_mode: "Scan mode"
-  setting_antivirus_scan_action: "Infected file action"
+  setting_antivirus_scan_mode: "스캔 모드"
+  setting_antivirus_scan_action: "감염된 파일 작업"
   setting_autofetch_changesets: "Autofetch 리포지토리 변경 사항"
   setting_autologin: "자동 로그인"
   setting_available_languages: "사용 가능한 언어"
@@ -2717,7 +2722,7 @@ ko:
   setting_brute_force_block_minutes: "사용자가 다음 시간 동안 차단되었습니다."
   setting_cache_formatted_text: "캐시 서식 있는 텍스트"
   setting_use_wysiwyg_description: "기본적으로 모든 사용자에 대한 CKEditor5 WYSIWYG 편집기를 활성화하려면 선택하세요. CKEditor는 GFM Markdown용 기능을 제한했습니다."
-  setting_column_options: "Default work package lists columns"
+  setting_column_options: "기본 작업 패키지 목록 열"
   setting_commit_fix_keywords: "키워드 수정"
   setting_commit_logs_encoding: "커밋 메시지 인코딩"
   setting_commit_logtime_activity_id: "기록된 시간의 작업"
@@ -2739,7 +2744,7 @@ ko:
   setting_emails_header: "이메일 머리글"
   setting_email_login: "이메일로 로그인하기"
   setting_enabled_scm: "활성화된 SCM"
-  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
+  setting_enabled_projects_columns: "기본적으로 표시되는 프로젝트 목록의 열"
   setting_feeds_enabled: "피드 사용"
   setting_ical_enabled: "iCalendar 구독 활성화"
   setting_feeds_limit: "피드 콘텐츠 제한"
@@ -2808,26 +2813,26 @@ ko:
       whitelist_text_html: >
         업로드된 파일의 유효한 파일 확장명 및/또는 MIME 형식 목록을 정의합니다. <br/> 파일 확장명(예: <code>%{ext_example}</code>) 또는 MIME 형식(예: <code>%{mime_example}</code>)을 입력합니다. <br/> 모든 파일 형식을 업로드할 수 있도록 허용하려면 비워 둡니다. 여러 값이 허용됩니다(각 값에 대해 한 줄).
     antivirus:
-      title: "Virus scanning"
-      clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
+      title: "바이러스 검사"
+      clamav_ping_failed: "ClamAV 데몬을 연결하지 못했습니다. 구성을 다시 확인하고 다시 시도하세요."
       remaining_quarantined_files_html: >
-        Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+        바이러스 검사가 비활성화되었습니다. %{file_count}개는 격리된 상태로 유지됩니다. 격리된 파일을 검토하려면 다음 링크를 참조하세요: %{link}
       remaining_scan_complete_html: >
-        Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
+        나머지 파일을 검사했습니다. %{file_count}개가 격리되었습니다. 격리 페이지로 리디렉션되는 중입니다. 이 페이지에서 격리된 파일을 삭제하거나 무시하세요.
       remaining_rescanned_files: >
-        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        바이러스 검사가 활성화되었습니다. 이전에 업로드되었지만 아직 검사해야 하는 %{file_count}개가 있습니다. 이 프로세스는 백그라운드에서 예약되었습니다. 검사하는 동안 파일에 계속 액세스할 수 있습니다.
       upsale:
-        description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
+        description: "OpenProject에서 업로드된 파일은 바이러스 검사를 수행한 후에 다른 사용자가 액세스해야 합니다."
       actions:
-        delete: "Delete the file"
-        quarantine: "Quarantine the file"
+        delete: "파일 삭제"
+        quarantine: "파일 격리"
         instructions_html: >
-          Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
+          바이러스가 발견된 파일에 수행할 작업을 선택하세요: <br/> <ul> <li><strong>%{quarantine_option}</strong>: 파일을 격리하여 사용자가 액세스하지 못하도록 합니다. 관리자는 관리에서 격리된 파일을 검토하고 삭제할 수 있습니다.</li> <li><strong>%{delete_option}</strong>: 파일을 즉시 삭제합니다.</li> </ul>
       modes:
-        clamav_socket_html: Enter the socket to the clamd daemon, e.g., %{example}
-        clamav_host_html: Enter the hostname and port to the clamd daemon separated by colon. e.g., %{example}
+        clamav_socket_html: 'clamd 데몬의 소켓을 입력하세요. 예: %{example}'
+        clamav_host_html: '호스트 이름 및 clamd 데몬의 포트를 콜론으로 구분하여 입력하세요. 예: %{example}'
         description_html: >
-          Select the mode in which the antivirus scanner integration should operate. <br/> <ul> <li><strong>%{disabled_option}</strong>: Uploaded files are not scanned for viruses.</li> <li><strong>%{socket_option}</strong>: You have set up ClamAV on the same server as OpenProject and the scan daemon clamd is running in the background</li> <li><strong>%{host_option}</strong>: You are streaming files to an external virus scanning host.</li> </ul>
+          바이러스 백신 스캐너 통합이 작동되어야 하는 모드를 선택하세요. <br/> <ul> <li><strong>%{disabled_option}</strong>: 업로드된 파일은 바이러스 검사를 받지 않습니다.</li> <li><strong>%{socket_option}</strong>: OpenProject와 동일한 서버에서 ClamAV를 설정했으며 스캔 데몬 clamd가 백그라운드에서 실행 중입니다.</li> <li><strong>%{host_option}</strong>: 외부 바이러스 스캔 호스트에 파일을 스트리밍하고 있습니다.</li> </ul>
     brute_force_prevention: "자동화된 사용자 차단"
     date_format:
       first_date_of_week_and_year_set: >
@@ -2857,7 +2862,7 @@ ko:
     projects:
       missing_dependencies: "%{dependencies}에 의존하는 프로젝트 모듈 %{module}이(가) 확인되었습니다. 이러한 종속성도 확인해야 합니다."
       section_new_projects: "새 프로젝트의 설정"
-      section_project_overview: "Settings for project lists"
+      section_project_overview: "프로젝트 목록의 설정"
     session: "세션"
     user:
       default_preferences: "기본 설정"
@@ -3023,11 +3028,11 @@ ko:
   queries:
     apply_filter: 미리 구성된 필터 적용
     configure_view:
-      heading: Configure view
+      heading: 보기 구성
       columns:
-        input_label: "Add columns"
-        input_placeholder: "Select a column"
-        drag_area_label: "Manage and reorder columns"
+        input_label: "열 추가"
+        input_placeholder: "열 선택"
+        drag_area_label: "열 관리 및 재정렬"
   top_menu:
     additional_resources: "추가 리소스"
     getting_started: "시작하기"
@@ -3061,6 +3066,7 @@ ko:
     status_user_and_brute_force: "%{user} 및 %{brute_force}"
     status_change: "상태 변경"
     text_change_disabled_for_provider_login: "이 이름은 로그인 공급자가 설정하므로 변경 가능하지 않습니다."
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "잠금 해제"
     unlock_and_reset_failed_logins: "실패한 로그인 잠금 해제 및 재설정"
   version_status_closed: "닫음"

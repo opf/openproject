@@ -35,20 +35,20 @@ class UserFilterComponent < IndividualPrincipalBaseFilterComponent
     # or the default status to be filtered by (all)
     # if no status is given.
     def status_param(params)
-      params[:status].presence || 'all'
+      params[:status].presence || "all"
     end
 
     def filter_status(query, status)
-      return unless status && status != 'all'
+      return unless status && status != "all"
 
       case status
-      when 'blocked'
-        query.where(:blocked, '=', :blocked)
-      when 'active'
-        query.where(:status, '=', status.to_sym)
-        query.where(:blocked, '!', :blocked)
+      when "blocked"
+        query.where(:blocked, "=", :blocked)
+      when "active"
+        query.where(:status, "=", status.to_sym)
+        query.where(:blocked, "!", :blocked)
       else
-        query.where(:status, '=', status.to_sym)
+        query.where(:status, "=", status.to_sym)
       end
     end
 

@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'support/board_index_page'
-require_relative 'support/board_page'
+require "spec_helper"
+require_relative "support/board_index_page"
+require_relative "support/board_page"
 
-RSpec.describe 'Board remote changes resolution', :js, with_ee: %i[board_view] do
+RSpec.describe "Board remote changes resolution", :js, with_ee: %i[board_view] do
   let(:user1) do
     create(:user,
            member_with_roles: { project => role })
@@ -47,28 +47,28 @@ RSpec.describe 'Board remote changes resolution', :js, with_ee: %i[board_view] d
   end
 
   let!(:priority) { create(:default_priority) }
-  let!(:open_status) { create(:default_status, name: 'Open') }
-  let!(:work_package1) { create(:work_package, project:, subject: 'Work package A', status: open_status) }
-  let!(:work_package2) { create(:work_package, project:, subject: 'Work package B', status: open_status) }
+  let!(:open_status) { create(:default_status, name: "Open") }
+  let!(:work_package1) { create(:work_package, project:, subject: "Work package A", status: open_status) }
+  let!(:work_package2) { create(:work_package, project:, subject: "Work package B", status: open_status) }
 
   before do
     project
     login_as(user1)
   end
 
-  it 'update boards in the background' do
+  it "update boards in the background" do
     board_index.visit!
 
     # Create new board
-    board_page = board_index.create_board action: 'Status'
+    board_page = board_index.create_board action: "Status"
 
     # expect lists of default status
-    board_page.expect_list 'Open'
+    board_page.expect_list "Open"
 
-    board_page.expect_card('Open', work_package1.subject)
-    board_page.expect_card('Open', work_package2.subject)
+    board_page.expect_card("Open", work_package1.subject)
+    board_page.expect_card("Open", work_package2.subject)
 
-    board_page.expect_cards_in_order('Open', work_package1, work_package2)
+    board_page.expect_cards_in_order("Open", work_package1, work_package2)
 
     board_query = Query.last
     board_query.ordered_work_packages.replace [
@@ -80,6 +80,6 @@ RSpec.describe 'Board remote changes resolution', :js, with_ee: %i[board_view] d
 
     sleep(3)
 
-    board_page.expect_cards_in_order('Open', work_package2, work_package1)
+    board_page.expect_cards_in_order("Open", work_package2, work_package1)
   end
 end

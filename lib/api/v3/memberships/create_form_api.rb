@@ -50,7 +50,7 @@ module API
 
                          Member.new(roles:)
                        },
-                       api_name: 'Membership',
+                       api_name: "Membership",
                        params_modifier: ->(params) do
                          params.except(:meta)
                        end,

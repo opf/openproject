@@ -8,7 +8,7 @@ ko:
         text: "작업 패키지 그래프 위젯 같은 일부 위젯은 다음에서만 사용 가능합니다:"
         link: 'Enterprise edition'
       widgets:
-        missing_permission: "You don't have the necessary permissions to view this widget."
+        missing_permission: "이 위젯을 보는 데 필요한 권한이 없습니다."
         custom_text:
           title: '사용자 지정 텍스트'
         documents:

@@ -32,7 +32,7 @@ class CostQuery::Filter::LoggedById < Report::Filter::Base
   end
 
   def self.me_value
-    'me'.freeze
+    "me".freeze
   end
 
   def transformed_values

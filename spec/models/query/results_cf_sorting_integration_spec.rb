@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Query::Results, 'Sorting of custom field floats' do
+RSpec.describe Query::Results, "Sorting of custom field floats" do
   let(:query_results) do
     Query::Results.new query
   end
   let(:user) do
     create(:user,
-           firstname: 'user',
-           lastname: '1',
+           firstname: "user",
+           lastname: "1",
            member_with_permissions: { project => [:view_work_packages] })
   end
 
@@ -59,7 +59,7 @@ RSpec.describe Query::Results, 'Sorting of custom field floats' do
   end
 
   let(:custom_field) do
-    create(:float_wp_custom_field, name: 'MyFloat')
+    create(:float_wp_custom_field, name: "MyFloat")
   end
 
   let(:query) do
@@ -78,19 +78,19 @@ RSpec.describe Query::Results, 'Sorting of custom field floats' do
     work_package_without_float
   end
 
-  describe 'sorting ASC by float cf' do
-    let(:sort_criteria) { [[custom_field.column_name, 'asc']] }
+  describe "sorting ASC by float cf" do
+    let(:sort_criteria) { [[custom_field.column_name, "asc"]] }
 
-    it 'returns the correctly sorted result' do
+    it "returns the correctly sorted result" do
       expect(query_results.work_packages.pluck(:id))
         .to match [work_package_without_float, work_package_with_float].map(&:id)
     end
   end
 
-  describe 'sorting DESC by float cf' do
-    let(:sort_criteria) { [[custom_field.column_name, 'desc']] }
+  describe "sorting DESC by float cf" do
+    let(:sort_criteria) { [[custom_field.column_name, "desc"]] }
 
-    it 'returns the correctly sorted result' do
+    it "returns the correctly sorted result" do
       expect(query_results.work_packages.pluck(:id))
         .to match [work_package_with_float, work_package_without_float].map(&:id)
     end

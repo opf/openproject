@@ -35,7 +35,7 @@ module OpenProject::TextFormatting
       include OpenProject::StaticRouting::UrlHelpers
 
       def call
-        doc.search('mention').each do |mention|
+        doc.search("mention").each do |mention|
           anchor = mention_anchor(mention)
           mention.replace(anchor) if anchor
         end
@@ -63,28 +63,28 @@ module OpenProject::TextFormatting
       def user_mention(user)
         link_to_user(user,
                      only_path: context[:only_path],
-                     class: 'user-mention')
+                     class: "user-mention")
       end
 
       def group_mention(group)
         link_to_group(group,
                       only_path: context[:only_path],
-                      class: 'user-mention')
+                      class: "user-mention")
       end
 
       def work_package_mention(work_package)
         link_to("##{work_package.id}",
                 work_package_path_or_url(id: work_package.id, only_path: context[:only_path]),
-                class: 'issue work_package preview-trigger')
+                class: "issue work_package preview-trigger")
       end
 
       def class_from_mention(mention)
-        mention_class = case mention.attributes['data-type'].value
-                        when 'user'
+        mention_class = case mention.attributes["data-type"].value
+                        when "user"
                           User
-                        when 'group'
+                        when "group"
                           Group
-                        when 'work_package'
+                        when "work_package"
                           WorkPackage
                         else
                           raise ArgumentError
@@ -97,7 +97,7 @@ module OpenProject::TextFormatting
       def controller; end
 
       def mention_id(mention)
-        attribute_value = mention.attributes['data-id']&.value
+        attribute_value = mention.attributes["data-id"]&.value
 
         id_match = attribute_value&.match(/\d+/)
 

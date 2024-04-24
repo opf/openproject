@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Wysiwyg attribute macros', :js do
+RSpec.describe "Wysiwyg attribute macros", :js do
   shared_let(:admin) { create(:admin) }
   let(:user) { admin }
-  let!(:project) { create(:project, identifier: 'some-project', enabled_module_names: %w[wiki work_package_tracking]) }
+  let!(:project) { create(:project, identifier: "some-project", enabled_module_names: %w[wiki work_package_tracking]) }
   let!(:work_package) { create(:work_package, subject: "Foo Bar", project:) }
   let(:editor) { Components::WysiwygEditor.new }
 
@@ -68,41 +68,41 @@ RSpec.describe 'Wysiwyg attribute macros', :js do
     login_as(user)
   end
 
-  describe 'creating a wiki page' do
+  describe "creating a wiki page" do
     before do
       visit project_wiki_path(project, :wiki)
     end
 
-    it 'can add and save multiple code blocks (Regression #28350)' do
+    it "can add and save multiple code blocks (Regression #28350)" do
       editor.in_editor do |container,|
         editor.set_markdown markdown
         expect(container).to have_table
       end
 
-      click_on 'Save'
+      click_on "Save"
 
-      expect(page).to have_css('.op-toast.-success')
+      expect(page).to have_css(".op-toast.-success")
 
       # Expect output widget
-      within('#content') do
-        expect(page).to have_css('td', text: 'Subject')
-        expect(page).to have_css('td', text: 'Foo Bar')
-        expect(page).to have_css('td', text: 'Identifier')
-        expect(page).to have_css('td', text: 'some-project')
+      within("#content") do
+        expect(page).to have_css("td", text: "Subject")
+        expect(page).to have_css("td", text: "Foo Bar")
+        expect(page).to have_css("td", text: "Identifier")
+        expect(page).to have_css("td", text: "some-project")
 
-        expect(page).to have_css('td', text: 'invalid subject Cannot expand macro: Requested resource could not be found')
-        expect(page).to have_css('td', text: 'invalid project Cannot expand macro: Requested resource could not be found')
+        expect(page).to have_css("td", text: "invalid subject Cannot expand macro: Requested resource could not be found")
+        expect(page).to have_css("td", text: "invalid project Cannot expand macro: Requested resource could not be found")
       end
 
       # Edit page again
-      click_on 'Edit'
+      click_on "Edit"
 
       editor.in_editor do |container,|
-        expect(container).to have_css('tbody td', count: 6)
+        expect(container).to have_css("tbody td", count: 6)
       end
     end
 
-    context 'with a multi-select CF' do
+    context "with a multi-select CF" do
       let!(:type) { create(:type, projects: [project]) }
       let!(:custom_field) do
         create(
@@ -126,18 +126,18 @@ RSpec.describe 'Wysiwyg attribute macros', :js do
         wp
       end
 
-      it 'expands all custom values (Regression #45538)' do
+      it "expands all custom values (Regression #45538)" do
         editor.in_editor do |container,|
           editor.set_markdown 'workPackageValue:"Foo Bar":Ingredients'
-          expect(container).to have_text 'workPackageValue'
+          expect(container).to have_text "workPackageValue"
         end
 
-        click_on 'Save'
+        click_on "Save"
 
-        expect(page).to have_css('.op-toast.-success')
+        expect(page).to have_css(".op-toast.-success")
 
-        within('#content') do
-          expect(page).to have_css('.custom-option', count: 6)
+        within("#content") do
+          expect(page).to have_css(".custom-option", count: 6)
         end
       end
     end

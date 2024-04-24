@@ -32,15 +32,15 @@ module OpenProject::Documents
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    register 'openproject-documents',
+    register "openproject-documents",
              author_url: "http://www.openproject.org",
              bundled: true do
       menu :project_menu,
            :documents,
-           { controller: '/documents', action: 'index' },
+           { controller: "/documents", action: "index" },
            caption: :label_document_plural,
            before: :members,
-           icon: 'notes'
+           icon: "notes"
 
       project_module :documents do |_map|
         permission :view_documents,
@@ -55,7 +55,7 @@ module OpenProject::Documents
       Redmine::Search.register :documents
     end
 
-    activity_provider :documents, class_name: 'Activities::DocumentActivityProvider', default: false
+    activity_provider :documents, class_name: "Activities::DocumentActivityProvider", default: false
 
     patches %i[Project]
 
@@ -71,7 +71,7 @@ module OpenProject::Documents
       "#{document(id)}/attachments"
     end
 
-    add_api_endpoint 'API::V3::Root' do
+    add_api_endpoint "API::V3::Root" do
       mount ::API::V3::Documents::DocumentsAPI
     end
 

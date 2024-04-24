@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Authorization::UserPermissibleService do
   shared_let(:user) { create(:user) }
@@ -15,14 +15,14 @@ RSpec.describe Authorization::UserPermissibleService do
   # The specs in this file do not cover all the various cases yet. Thus,
   # we rely on the Authorization.roles scope and the Project/WorkPackage.allowed_to scopes
   # to be called which is speced precisely.
-  shared_examples_for 'the Authorization.roles scope used' do
+  shared_examples_for "the Authorization.roles scope used" do
     before do
       allow(Authorization)
         .to receive(:roles)
               .and_call_original
     end
 
-    it 'calls the Authorization.roles scope once (cached for the second request)' do
+    it "calls the Authorization.roles scope once (cached for the second request)" do
       subject
       subject
 
@@ -33,14 +33,14 @@ RSpec.describe Authorization::UserPermissibleService do
     end
   end
 
-  shared_examples_for 'the Project.allowed_to scope used' do
+  shared_examples_for "the Project.allowed_to scope used" do
     before do
       allow(Project)
         .to receive(:allowed_to)
               .and_call_original
     end
 
-    it 'calls the Project.allowed_to scope' do
+    it "calls the Project.allowed_to scope" do
       subject
 
       expect(Project)
@@ -52,14 +52,14 @@ RSpec.describe Authorization::UserPermissibleService do
     end
   end
 
-  shared_examples_for 'the WorkPackage.allowed_to scope used' do
+  shared_examples_for "the WorkPackage.allowed_to scope used" do
     before do
       allow(WorkPackage)
         .to receive(:allowed_to)
               .and_call_original
     end
 
-    it 'calls the WorkPackage.allowed_to scope' do
+    it "calls the WorkPackage.allowed_to scope" do
       subject
 
       expect(WorkPackage)
@@ -71,30 +71,30 @@ RSpec.describe Authorization::UserPermissibleService do
     end
   end
 
-  describe '#allowed_globally?' do
-    context 'when asking for a permission that is not defined' do
+  describe "#allowed_globally?" do
+    context "when asking for a permission that is not defined" do
       let(:permission) { :not_defined }
 
-      it 'raises an error' do
+      it "raises an error" do
         expect { subject.allowed_globally?(permission) }.to raise_error(Authorization::UnknownPermissionError)
       end
     end
 
-    context 'when asking for a permission that is defined' do
+    context "when asking for a permission that is defined" do
       let(:permission) { :create_user }
 
-      context 'and the user is a regular user' do
-        context 'without a role granting the permission' do
+      context "and the user is a regular user" do
+        context "without a role granting the permission" do
           it { is_expected.not_to be_allowed_globally(permission) }
         end
 
-        context 'with a role granting the permission' do
+        context "with a role granting the permission" do
           let(:global_role) { create(:global_role, permissions: [permission]) }
           let!(:member) { create(:global_member, user:, roles: [global_role]) }
 
           it { is_expected.to be_allowed_globally(permission) }
 
-          context 'and the account is locked' do
+          context "and the account is locked" do
             before { user.locked! }
 
             it { is_expected.not_to be_allowed_globally(permission) }
@@ -102,59 +102,59 @@ RSpec.describe Authorization::UserPermissibleService do
         end
       end
 
-      context 'and the user is an admin' do
+      context "and the user is an admin" do
         let(:user) { create(:admin) }
 
         it { is_expected.to be_allowed_globally(permission) }
 
-        context 'and the account is locked' do
+        context "and the account is locked" do
           before { user.locked! }
 
           it { is_expected.not_to be_allowed_globally(permission) }
         end
       end
 
-      it_behaves_like 'the Authorization.roles scope used' do
+      it_behaves_like "the Authorization.roles scope used" do
         let(:context) { nil }
         subject { service.allowed_globally?(permission) }
       end
     end
   end
 
-  describe '#allowed_in_project?' do
-    context 'when asking for a permission that is not defined' do
+  describe "#allowed_in_project?" do
+    context "when asking for a permission that is not defined" do
       let(:permission) { :not_defined }
 
-      it 'raises an error' do
+      it "raises an error" do
         expect { subject.allowed_in_project?(permission, project) }.to raise_error(Authorization::UnknownPermissionError)
       end
     end
 
-    context 'when asking for a permission that is defined' do
+    context "when asking for a permission that is defined" do
       let(:permission) { :view_work_packages }
 
-      it_behaves_like 'the Authorization.roles scope used' do
+      it_behaves_like "the Authorization.roles scope used" do
         let(:context) { project }
         subject { service.allowed_in_project?(permission, project) }
       end
 
-      context 'and the user is not a member of any work package or project' do
+      context "and the user is not a member of any work package or project" do
         it { is_expected.not_to be_allowed_in_project(permission, project) }
 
-        context 'and the project is public' do
+        context "and the project is public" do
           before { project.update(public: true) }
 
-          context 'when requesting a permission that is not granted to the non-member role' do
+          context "when requesting a permission that is not granted to the non-member role" do
             it { is_expected.not_to be_allowed_in_project(permission, project) }
           end
 
-          context 'when requesting a permission that is granted to the non-member role' do
+          context "when requesting a permission that is granted to the non-member role" do
             let(:permission) { :view_news }
 
             it { is_expected.to be_allowed_in_project(permission, project) }
           end
 
-          context 'when an anonymous user is requesting a permission that is granted to the anonymous role' do
+          context "when an anonymous user is requesting a permission that is granted to the anonymous role" do
             let(:queried_user) { anonymous_user }
             let(:permission) { :view_meetings }
 
@@ -163,20 +163,20 @@ RSpec.describe Authorization::UserPermissibleService do
         end
       end
 
-      context 'and the user is a member of a project' do
+      context "and the user is a member of a project" do
         let(:role) { create(:project_role, permissions: [permission]) }
         let!(:project_member) { create(:member, user:, project:, roles: [role]) }
 
         it { is_expected.to be_allowed_in_project(permission, project) }
 
-        context 'with the project being archived' do
+        context "with the project being archived" do
           before { project.update(active: false) }
 
           it { is_expected.not_to be_allowed_in_project(permission, project) }
         end
       end
 
-      context 'and the user is a member of a work package' do
+      context "and the user is a member of a work package" do
         let(:role) { create(:work_package_role, permissions: [permission]) }
         let!(:wp_member) { create(:work_package_member, user:, project:, entity: work_package, roles: [role]) }
 
@@ -185,42 +185,42 @@ RSpec.describe Authorization::UserPermissibleService do
     end
   end
 
-  describe '#allowed_in_any_project?' do
-    context 'when asking for a permission that is not defined' do
+  describe "#allowed_in_any_project?" do
+    context "when asking for a permission that is not defined" do
       let(:permission) { :not_defined }
 
-      it 'raises an error' do
+      it "raises an error" do
         expect { subject.allowed_in_any_project?(permission) }.to raise_error(Authorization::UnknownPermissionError)
       end
     end
 
-    context 'when asking for a permission that is defined' do
+    context "when asking for a permission that is defined" do
       let(:permission) { :view_work_packages }
 
-      context 'and the user is not a member of any work package or project' do
+      context "and the user is not a member of any work package or project" do
         it { is_expected.not_to be_allowed_in_any_project(permission) }
 
-        context 'and the project is public' do
+        context "and the project is public" do
           before { project.update_column(:public, true) }
 
-          context 'and a permission is requested that is not granted to the non-member role' do
+          context "and a permission is requested that is not granted to the non-member role" do
             it { is_expected.not_to be_allowed_in_any_project(permission) }
           end
 
-          context 'and a permission is requested that is granted to the non-member role' do
+          context "and a permission is requested that is granted to the non-member role" do
             let(:permission) { :view_news }
 
             it { is_expected.to be_allowed_in_any_project(permission) }
           end
 
-          context 'and the user is the anonymous user' do
+          context "and the user is the anonymous user" do
             let(:queried_user) { anonymous_user }
             let(:permission) { :view_meetings }
 
             it { is_expected.to be_allowed_in_any_project(permission) }
           end
 
-          context 'and the project is archived' do
+          context "and the project is archived" do
             before { project.update_column(:active, false) }
 
             it { is_expected.not_to be_allowed_in_any_project(permission) }
@@ -228,39 +228,39 @@ RSpec.describe Authorization::UserPermissibleService do
         end
       end
 
-      context 'and the user is a member of a project' do
+      context "and the user is a member of a project" do
         let(:role) { create(:project_role, permissions: [permission]) }
         let!(:project_member) { create(:member, user:, project:, roles: [role]) }
 
         it { is_expected.to be_allowed_in_any_project(permission) }
 
-        context 'and the project is archived' do
+        context "and the project is archived" do
           before { project.update_column(:active, false) }
 
           it { is_expected.not_to be_allowed_in_any_project(permission) }
         end
       end
 
-      context 'and the user is a member of a work package' do
+      context "and the user is a member of a work package" do
         let(:role) { create(:work_package_role, permissions: [permission]) }
         let!(:wp_member) { create(:work_package_member, user:, project:, entity: work_package, roles: [role]) }
 
         it { is_expected.not_to be_allowed_in_any_project(permission) }
 
-        context 'and the project is public' do
+        context "and the project is public" do
           before { project.update_column(:public, true) }
 
-          context 'and a permission is requested that is not granted to the non-member role' do
+          context "and a permission is requested that is not granted to the non-member role" do
             it { is_expected.not_to be_allowed_in_any_project(permission) }
           end
 
-          context 'and a permission is requested that is granted to the non-member role' do
+          context "and a permission is requested that is granted to the non-member role" do
             let(:permission) { :view_news }
 
             it { is_expected.to be_allowed_in_any_project(permission) }
           end
 
-          context 'and the project is archived' do
+          context "and the project is archived" do
             before { project.update_column(:active, false) }
 
             it { is_expected.not_to be_allowed_in_any_project(permission) }
@@ -268,73 +268,73 @@ RSpec.describe Authorization::UserPermissibleService do
         end
       end
 
-      it_behaves_like 'the Project.allowed_to scope used' do
+      it_behaves_like "the Project.allowed_to scope used" do
         subject { service.allowed_in_any_project?(permission) }
       end
     end
   end
 
-  describe '#allowed_in_entity?' do
-    context 'when asking for a permission that is not defined' do
+  describe "#allowed_in_entity?" do
+    context "when asking for a permission that is not defined" do
       let(:permission) { :not_defined }
 
-      it 'raises an error' do
+      it "raises an error" do
         expect do
           subject.allowed_in_entity?(permission, work_package, WorkPackage)
         end.to raise_error(Authorization::UnknownPermissionError)
       end
     end
 
-    context 'when asking for a permission that is defined' do
+    context "when asking for a permission that is defined" do
       let(:permission) { :view_work_packages }
 
-      context 'and the user is not a member of the project or the work package' do
+      context "and the user is not a member of the project or the work package" do
         it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
       end
 
-      context 'and the user is a member of the project' do
+      context "and the user is a member of the project" do
         let(:role) { create(:project_role, permissions: [permission]) }
         let!(:project_member) { create(:member, user:, project:, roles: [role]) }
 
         it { is_expected.to be_allowed_in_entity(permission, work_package, WorkPackage) }
 
-        context 'with the project being archived' do
+        context "with the project being archived" do
           before { project.update(active: false) }
 
           it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
         end
 
-        context 'without the module enabled in the project' do
+        context "without the module enabled in the project" do
           before { project.enabled_module_names = project.enabled_modules - [:work_package_tracking] }
 
           it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
         end
 
-        it_behaves_like 'the Authorization.roles scope used' do
+        it_behaves_like "the Authorization.roles scope used" do
           let(:context) { project }
           subject { service.allowed_in_entity?(permission, work_package, WorkPackage) }
         end
       end
 
-      context 'and the user is a member of the work package' do
+      context "and the user is a member of the work package" do
         let(:role) { create(:work_package_role, permissions: [permission]) }
         let!(:wp_member) { create(:work_package_member, user:, project:, entity: work_package, roles: [role]) }
 
         it { is_expected.to be_allowed_in_entity(permission, work_package, WorkPackage) }
 
-        context 'with the project being archived' do
+        context "with the project being archived" do
           before { project.update(active: false) }
 
           it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
         end
 
-        it_behaves_like 'the Authorization.roles scope used' do
+        it_behaves_like "the Authorization.roles scope used" do
           let(:context) { work_package }
           subject { service.allowed_in_entity?(permission, work_package, WorkPackage) }
         end
       end
 
-      context 'and user is member in the project (not granting the permission) and the work package (granting the permission)' do
+      context "and user is member in the project (not granting the permission) and the work package (granting the permission)" do
         let(:permission) { :edit_work_packages }
 
         let(:role) { create(:project_role, permissions: [:view_work_packages]) }
@@ -345,7 +345,7 @@ RSpec.describe Authorization::UserPermissibleService do
 
         it { is_expected.to be_allowed_in_entity(permission, work_package, WorkPackage) }
 
-        it_behaves_like 'the Authorization.roles scope used' do
+        it_behaves_like "the Authorization.roles scope used" do
           let(:context) { work_package }
           subject { service.allowed_in_entity?(permission, work_package, WorkPackage) }
         end
@@ -353,51 +353,51 @@ RSpec.describe Authorization::UserPermissibleService do
     end
   end
 
-  describe '#allowed_in_any_entity?' do
-    context 'when asking for a permission that is not defined' do
+  describe "#allowed_in_any_entity?" do
+    context "when asking for a permission that is not defined" do
       let(:permission) { :not_defined }
 
-      it 'raises an error' do
+      it "raises an error" do
         expect { subject.allowed_in_any_entity?(permission, WorkPackage) }.to raise_error(Authorization::UnknownPermissionError)
       end
     end
 
-    context 'when asking for a permission that is defined' do
+    context "when asking for a permission that is defined" do
       let(:permission) { :view_work_packages }
 
-      context 'and the user is not a member of any work package or project' do
+      context "and the user is not a member of any work package or project" do
         it { is_expected.not_to be_allowed_in_any_entity(permission, WorkPackage) }
       end
 
-      context 'and the user is a member of a project' do
+      context "and the user is a member of a project" do
         let(:role) { create(:project_role, permissions: [permission]) }
         let!(:project_member) { create(:member, user:, project:, roles: [role]) }
 
         it { is_expected.to be_allowed_in_any_entity(permission, WorkPackage) }
 
-        context 'when specifying the same project' do
+        context "when specifying the same project" do
           it { is_expected.to be_allowed_in_any_entity(permission, WorkPackage, in_project: project) }
         end
 
-        context 'when specifying a different project' do
+        context "when specifying a different project" do
           let(:other_project) { create(:project) }
 
           it { is_expected.not_to be_allowed_in_any_entity(permission, WorkPackage, in_project: other_project) }
         end
       end
 
-      context 'and the user is a member of a work package' do
+      context "and the user is a member of a work package" do
         let(:role) { create(:work_package_role, permissions: [permission]) }
         let!(:wp_member) { create(:work_package_member, user:, project:, entity: work_package, roles: [role]) }
 
         it { is_expected.to be_allowed_in_any_entity(permission, WorkPackage) }
       end
 
-      it_behaves_like 'the WorkPackage.allowed_to scope used' do
+      it_behaves_like "the WorkPackage.allowed_to scope used" do
         subject { service.allowed_in_any_entity?(permission, WorkPackage) }
       end
 
-      it_behaves_like 'the WorkPackage.allowed_to scope used' do
+      it_behaves_like "the WorkPackage.allowed_to scope used" do
         subject { service.allowed_in_any_entity?(permission, WorkPackage, in_project: project) }
       end
     end

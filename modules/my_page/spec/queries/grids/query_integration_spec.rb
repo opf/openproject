@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Grids::Query, type: :model do
   let(:user) { create(:user) }
@@ -43,32 +43,32 @@ RSpec.describe Grids::Query, type: :model do
     login_as(user)
   end
 
-  context 'without a filter' do
-    describe '#results' do
-      it 'is the same as getting all the grids visible to the user' do
+  context "without a filter" do
+    describe "#results" do
+      it "is the same as getting all the grids visible to the user" do
         expect(instance.results).to contain_exactly(my_page_grid)
       end
     end
   end
 
-  context 'with a scope filter' do
+  context "with a scope filter" do
     before do
-      instance.where('scope', '=', ['/my/page'])
+      instance.where("scope", "=", ["/my/page"])
     end
 
-    describe '#results' do
-      it 'is the same as handwriting the query' do
+    describe "#results" do
+      it "is the same as handwriting the query" do
         expect(instance.results).to contain_exactly(my_page_grid)
       end
     end
 
-    describe '#valid?' do
-      it 'is true' do
+    describe "#valid?" do
+      it "is true" do
         expect(instance).to be_valid
       end
 
-      it 'is invalid if the filter is invalid' do
-        instance.where('scope', '!', ['/some/other/page'])
+      it "is invalid if the filter is invalid" do
+        instance.where("scope", "!", ["/some/other/page"])
         expect(instance).to be_invalid
       end
     end

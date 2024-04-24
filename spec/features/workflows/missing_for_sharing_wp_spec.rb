@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Configuring the workflow for work package sharing',
+RSpec.describe "Configuring the workflow for work package sharing",
                with_config: { show_warning_bars: true },
                with_ee: %i[work_package_sharing] do
   let!(:role) { create(:project_role) }
@@ -52,9 +52,9 @@ RSpec.describe 'Configuring the workflow for work package sharing',
     visit home_url
   end
 
-  it 'shows a warning until a workflow is configured for the work package edit role' do
+  it "shows a warning until a workflow is configured for the work package edit role" do
     # There is a warning bar at the bottom informing of the missing workflow
-    within '.warning-bar--item' do
+    within ".warning-bar--item" do
       expect(page)
         .to have_content("No workflow is configured for the '#{work_package_role.name}' role. " \
                          "Without a workflow, the shared with user cannot alter the status of the work package.")
@@ -63,16 +63,16 @@ RSpec.describe 'Configuring the workflow for work package sharing',
     end
 
     # On the copy workflow form, select the already existing workflow for copying
-    select type.name, from: 'source_type_id'
-    select role.name, from: 'source_role_id'
-    select type.name, from: 'target_type_ids'
-    select work_package_role.name, from: 'target_role_ids'
+    select type.name, from: "source_type_id"
+    select role.name, from: "source_role_id"
+    select type.name, from: "target_type_ids"
+    select work_package_role.name, from: "target_role_ids"
 
-    click_button 'Copy'
+    click_button "Copy"
 
     # Copying succeeds which results in the edit role having a workflow and the warning disappearing.
     expect(page)
-      .to have_content 'Successful update'
+      .to have_content "Successful update"
 
     expect(Workflow.where(role_id: work_package_role.id,
                           type_id: type.id,
@@ -82,6 +82,6 @@ RSpec.describe 'Configuring the workflow for work package sharing',
                           assignee: false).count).to eq(1)
 
     expect(page)
-      .to have_no_css('.warning-bar--item')
+      .to have_no_css(".warning-bar--item")
   end
 end

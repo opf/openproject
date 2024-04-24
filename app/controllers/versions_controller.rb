@@ -37,7 +37,7 @@ class VersionsController < ApplicationController
   before_action :authorize
 
   def index
-    @types = @project.types.order(Arel.sql('position'))
+    @types = @project.types.order(Arel.sql("position"))
     retrieve_selected_type_ids(@types, @types.select(&:is_in_roadmap?))
     @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_work_packages? : (params[:with_subprojects].to_i == 1)
     project_ids = @with_subprojects ? @project.self_and_descendants.includes(:wiki).map(&:id) : [@project.id]
@@ -76,7 +76,7 @@ class VersionsController < ApplicationController
       .new(user: current_user)
       .call(attributes)
 
-    render_cu(call, :notice_successful_create, 'new')
+    render_cu(call, :notice_successful_create, "new")
   end
 
   def update
@@ -88,7 +88,7 @@ class VersionsController < ApplicationController
            model: @version)
       .call(attributes)
 
-    render_cu(call, :notice_successful_update, 'edit')
+    render_cu(call, :notice_successful_update, "edit")
   end
 
   def close_completed
@@ -146,7 +146,7 @@ class VersionsController < ApplicationController
 
   def selected_type_ids(selectable_types, default_types = nil)
     if (ids = params[:type_ids])
-      ids.is_a?(Array) ? ids.map(&:to_s) : ids.split('/')
+      ids.is_a?(Array) ? ids.map(&:to_s) : ids.split("/")
     else
       (default_types || selectable_types).map { |t| t.id.to_s }
     end

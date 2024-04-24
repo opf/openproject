@@ -36,13 +36,13 @@ RSpec.describe 'API v3 file links resource' do
   include UserPermissionsHelper
 
   def enable_module(project, modul)
-    project.enabled_module_names = project.enabled_module_names + [modul]
-    project.save
+    project.enabled_modules.create(name: modul)
   end
 
   def disable_module(project, modul)
-    project.enabled_module_names = project.enabled_module_names - [modul]
-    project.save
+    # Avoid project.enabled_module_names and a subsequent save as that would create an AnonymousUser in an
+    # after(:all) block, which persists the user in the RequestStore.
+    project.enabled_modules.where(name: modul).destroy_all
   end
 
   shared_association_default(:priority) { create(:priority) }

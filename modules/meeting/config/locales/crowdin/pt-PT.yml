@@ -20,7 +20,7 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 #English strings go here for Rails i18n
-pt:
+pt-PT:
   plugin_openproject_meeting:
     name: "Reunião do OpenProject"
     description: >-
