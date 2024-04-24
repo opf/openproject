@@ -136,6 +136,7 @@
     "mime": "^2.5.2",
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.45",
+    "morphdom": "^2.7.2",
     "mousetrap": "~1.6.3",
     "ng-dynamic-component": "^10.7.0",
     "ng2-charts": "^4.1.1",

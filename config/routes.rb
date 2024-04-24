@@ -527,7 +527,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resource :progress, only: %i[edit update], controller: "work_packages/progress"
+    resource :progress, only: %i[new edit update], controller: "work_packages/progress"
     collection do
       resource :progress,
                only: :create,

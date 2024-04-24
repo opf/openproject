@@ -410,7 +410,7 @@ module API
                                                                  allow_nil: true)
                  end,
                  writable: ->(*) { !WorkPackage.use_status_for_done_ratio? },
-                 render_nil: true
+                 render_nil: false
 
         property :derived_remaining_time,
                  exec_context: :decorator,
