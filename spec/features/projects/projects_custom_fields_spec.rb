@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Projects custom fields', :js, :with_cuprite do
+RSpec.describe "Projects custom fields", :js, :with_cuprite do
   shared_let(:current_user) { create(:admin) }
-  shared_let(:project) { create(:project, name: 'Foo project', identifier: 'foo-project') }
+  shared_let(:project) { create(:project, name: "Foo project", identifier: "foo-project") }
   let(:name_field) { FormFields::InputFormField.new :name }
   let(:identifier) { "[data-qa-field-name='customField#{custom_field.id}'] input[type=checkbox]" }
 
@@ -38,33 +38,33 @@ RSpec.describe 'Projects custom fields', :js, :with_cuprite do
     login_as current_user
   end
 
-  describe 'with version CF' do
+  describe "with version CF" do
     let!(:custom_field) do
       create(:version_project_custom_field)
     end
     let(:cf_field) { FormFields::SelectFormField.new custom_field }
 
-    it 'allows creating a new project (regression #29099)' do
+    it "allows creating a new project (regression #29099)" do
       visit new_project_path
 
-      name_field.set_value 'My project name'
+      name_field.set_value "My project name"
 
-      find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
+      find(".op-fieldset--toggle", text: "ADVANCED SETTINGS").click
 
       cf_field.expect_visible
 
-      click_button 'Save'
+      click_button "Save"
 
       expect(page).to have_current_path /\/projects\/my-project-name\/?/
     end
   end
 
-  describe 'with default values' do
+  describe "with default values" do
     let!(:default_int_custom_field) do
       create(:integer_project_custom_field, default_value: 123)
     end
     let!(:default_string_custom_field) do
-      create(:string_project_custom_field, default_value: 'lorem')
+      create(:string_project_custom_field, default_value: "lorem")
     end
     let!(:no_default_string_custom_field) do
       create(:string_project_custom_field)
@@ -75,19 +75,19 @@ RSpec.describe 'Projects custom fields', :js, :with_cuprite do
     let(:default_string_field) { FormFields::InputFormField.new default_string_custom_field }
     let(:no_default_string_field) { FormFields::InputFormField.new no_default_string_custom_field }
 
-    it 'sets the default values on custom fields and allows overwriting them' do
+    it "sets the default values on custom fields and allows overwriting them" do
       visit new_project_path
 
-      name_field.set_value 'My project name'
-      find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
+      name_field.set_value "My project name"
+      find(".op-fieldset--toggle", text: "ADVANCED SETTINGS").click
 
       default_int_field.expect_value default_int_custom_field.default_value.to_s
       default_string_field.expect_value default_string_custom_field.default_value.to_s
-      no_default_string_field.expect_value ''
+      no_default_string_field.expect_value ""
 
-      default_string_field.set_value 'Overwritten'
+      default_string_field.set_value "Overwritten"
 
-      click_button 'Save'
+      click_button "Save"
 
       expect(page).to have_current_path /\/projects\/my-project-name\/?/
       created_project = Project.last
@@ -95,115 +95,128 @@ RSpec.describe 'Projects custom fields', :js, :with_cuprite do
       visit project_settings_general_path(created_project)
 
       default_int_field.expect_value default_int_custom_field.default_value.to_s
-      default_string_field.expect_value 'Overwritten'
-      no_default_string_field.expect_value ''
+      default_string_field.expect_value "Overwritten"
+
+      # The custom field without default value should not be shown
+      # as it didn't got activated with a value during project creation
+      expect(page).to have_no_css("[data-qa-field-name='customField#{no_default_string_custom_field.id}']")
     end
   end
 
-  describe 'with long text CF' do
+  describe "with long text CF" do
     let!(:custom_field) do
       create(:text_project_custom_field)
     end
     let(:editor) { Components::WysiwygEditor.new "[data-qa-field-name='customField#{custom_field.id}']" }
 
-    it 'allows settings the project boolean CF (regression #26313)' do
+    before do
+      # enable the custom field for the project
+      project.project_custom_fields << custom_field
+    end
+
+    it "allows settings the project boolean CF (regression #26313)" do
       visit project_settings_general_path(project.id)
 
       # expect CF, description and status description ckeditor-augmented-textarea
-      expect(page).to have_css('.op-ckeditor--wrapper', count: 3)
+      expect(page).to have_css(".op-ckeditor--wrapper", count: 3)
 
       # single hash autocomplete
-      editor.insert_link 'http://example.org/link with spaces'
+      editor.insert_link "http://example.org/link with spaces"
 
       sleep 2
 
       # Save project settings
-      click_on 'Save'
+      click_on "Save"
 
-      expect(page).to have_text I18n.t('js.notice_successful_update')
+      expect(page).to have_text I18n.t("js.notice_successful_update")
 
       project.reload
       cv = project.custom_values.find_by(custom_field_id: custom_field.id).value
 
-      expect(cv).to include '[http://example.org/link with spaces](http://example.org/link%20with%20spaces)'
+      expect(cv).to include "[http://example.org/link with spaces](http://example.org/link%20with%20spaces)"
       expect(page).to have_css('a[href="http://example.org/link with spaces"]')
     end
   end
 
-  describe 'with float CF' do
+  describe "with float CF" do
     let!(:float_cf) do
-      create(:float_project_custom_field, name: 'MyFloat')
+      create(:float_project_custom_field, name: "MyFloat")
     end
     let(:float_field) { FormFields::InputFormField.new float_cf }
 
-    context 'with english locale' do
-      let(:current_user) { create(:admin, language: 'en') }
+    context "with english locale" do
+      let(:current_user) { create(:admin, language: "en") }
 
-      it 'displays the float with english locale' do
+      it "displays the float with english locale" do
         visit new_project_path
 
-        name_field.set_value 'My project name'
-        find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
+        name_field.set_value "My project name"
+        find(".op-fieldset--toggle", text: "ADVANCED SETTINGS").click
 
-        float_field.set_value '10000.55'
+        float_field.set_value "10000.55"
 
         # Save project settings
-        click_on 'Save'
+        click_on "Save"
 
         expect(page).to have_current_path /\/projects\/my-project-name\/?/
-        project = Project.find_by(name: 'My project name')
+        project = Project.find_by(name: "My project name")
         cv = project.custom_values.find_by(custom_field_id: float_cf.id).typed_value
         expect(cv).to eq 10000.55
 
         visit project_settings_general_path(project)
-        float_field.expect_value '10000.55'
+        float_field.expect_value "10000.55"
       end
     end
 
-    context 'with german locale',
+    context "with german locale",
             driver: :firefox_de,
             with_cuprite: false do
-      let(:current_user) { create(:admin, language: 'de') }
+      let(:current_user) { create(:admin, language: "de") }
 
-      it 'displays the float with german locale' do
+      it "displays the float with german locale" do
         I18n.locale = :de
 
         visit new_project_path
 
-        name_field.set_value 'My project name'
-        find('.op-fieldset--toggle', text: I18n.t('js.forms.advanced_settings').upcase).click
+        name_field.set_value "My project name"
+        find(".op-fieldset--toggle", text: I18n.t("js.forms.advanced_settings").upcase).click
 
-        float_field.set_value '10000,55'
+        float_field.set_value "10000,55"
 
         # Save project settings
-        click_on I18n.t('js.button_save')
+        click_on I18n.t("js.button_save")
 
         expect(page).to have_current_path /\/projects\/my-project-name\/?/
-        project = Project.find_by(name: 'My project name')
+        project = Project.find_by(name: "My project name")
         cv = project.custom_values.find_by(custom_field_id: float_cf.id).typed_value
         expect(cv).to eq 10000.55
 
         visit project_settings_general_path(project)
         # The field renders in german locale, but there's no way to test that
         # as the internal value is always english locale
-        float_field.expect_value '10000.55'
+        float_field.expect_value "10000.55"
       end
     end
   end
 
-  describe 'with boolean CF' do
+  describe "with boolean CF" do
     let!(:custom_field) do
       create(:boolean_project_custom_field)
     end
 
-    it 'allows settings the project boolean CF (regression #26313)' do
+    before do
+      # enable the custom field for the project
+      project.project_custom_fields << custom_field
+    end
+
+    it "allows settings the project boolean CF (regression #26313)" do
       visit project_settings_general_path(project.id)
       field = page.find(identifier)
       expect(field).not_to be_checked
 
       field.check
 
-      click_on 'Save'
+      click_on "Save"
       expect(page).to have_text I18n.t(:notice_successful_update)
 
       field = page.find(identifier)
@@ -211,7 +224,7 @@ RSpec.describe 'Projects custom fields', :js, :with_cuprite do
     end
   end
 
-  describe 'with user CF' do
+  describe "with user CF" do
     let!(:custom_field) do
       create(:user_project_custom_field)
     end
@@ -221,9 +234,9 @@ RSpec.describe 'Projects custom fields', :js, :with_cuprite do
     let!(:existing_project) { create(:project) }
 
     # Assume one user is visible
-    let!(:invisible_user) { create(:user, firstname: 'Invisible', lastname: 'User') }
+    let!(:invisible_user) { create(:user, firstname: "Invisible", lastname: "User") }
     let!(:visible_user) do
-      create(:user, firstname: 'Visible', lastname: 'User',
+      create(:user, firstname: "Visible", lastname: "User",
                     member_with_permissions: { existing_project => %i[view_work_packages edit_work_packages] })
     end
 
@@ -233,46 +246,48 @@ RSpec.describe 'Projects custom fields', :js, :with_cuprite do
       Components::Users::InviteUserModal.new project:,
                                              principal: invisible_user,
                                              role:,
-                                             invite_message: 'you are invited'
+                                             invite_message: "you are invited"
     end
 
-    it 'allows setting a visible user CF (regression #26313)' do
+    it "allows setting a visible user CF (regression #26313)" do
       visit new_project_path
 
-      name_field.set_value 'My project name'
+      name_field.set_value "My project name"
 
-      find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
+      find(".op-fieldset--toggle", text: "ADVANCED SETTINGS").click
 
       cf_field.expect_visible
       cf_field.expect_no_option invisible_user
       cf_field.select_option visible_user
 
-      click_on 'Save'
+      click_on "Save"
 
       expect(page).to have_current_path /\/projects\/my-project-name\/?/
-      project = Project.find_by(name: 'My project name')
+      project = Project.find_by(name: "My project name")
       cv = project.custom_values.find_by(custom_field_id: custom_field.id).typed_value
       expect(cv).to eq visible_user
     end
 
-    it 'allows inviting a new user immediately (regression #39166)' do
+    it "allows inviting a new user immediately (regression #39166)" do
+      project.project_custom_fields << custom_field # enable the custom field for the project
+
       visit project_settings_general_path(project.id)
 
       cf_field.expect_visible
       cf_field.expect_no_option invisible_user
 
       # Invite the other user to the project
-      find('.ng-dropdown-footer button', text: 'Invite', wait: 5).click
+      find(".ng-dropdown-footer button", text: "Invite", wait: 5).click
       modal.run_all_steps
 
       sleep 2
 
       # The newly invited user can be directly selected
       cf_field.expect_visible
-      cf_field.search('invis')
+      cf_field.search("invis")
       cf_field.select_option invisible_user
 
-      click_on 'Save'
+      click_on "Save"
       expect(page).to have_text I18n.t(:notice_successful_update)
 
       project.reload
@@ -280,16 +295,16 @@ RSpec.describe 'Projects custom fields', :js, :with_cuprite do
       expect(cv).to eq invisible_user
     end
 
-    it 'does not show invite user button when there is no project selected' do
+    it "does not show invite user button when there is no project selected" do
       visit new_project_path
 
-      name_field.set_value 'My project name'
+      name_field.set_value "My project name"
 
-      find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
+      find(".op-fieldset--toggle", text: "ADVANCED SETTINGS").click
 
       cf_field.expect_visible
       cf_field.expect_no_option invisible_user
-      expect(page).to have_no_css('.ng-dropdown-footer button', text: 'Invite')
+      expect(page).to have_no_css(".ng-dropdown-footer button", text: "Invite")
     end
   end
 end

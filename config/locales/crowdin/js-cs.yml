@@ -347,11 +347,11 @@ cs:
           learn_about: "Další informace o nových funkcích"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_0":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                Verze obsahuje různé nové funkce a vylepšení: <br> <ul class="%{list_styling_class}"> <li>Integrace s GitLabem (původně vyvinutá přispěvateli komunity)</li> <li>Pokročilé funkce pro vlastní seznamy projektů</li> <li>Rozšířené funkce pro modul Schůzky</li> <li>Funkce antivirové kontroly pomocí ClamAV (doplněk pro podniky)</li> <li>Export do formátu PDF: Podporovány jsou seznamy v buňkách tabulky</li> <li>Jako druhý faktor je přidán WebAuthn/FIDO/U2F</li> <li>Do výchozí dostupné sady přidány další jazyky</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
     ical_sharing_modal:
       title: "Přihlásit kalendář k odběru"
       inital_setup_error_message: "Při načítání dat došlo k chybě."
@@ -377,6 +377,7 @@ cs:
     label_added_time_by: 'Přidal <a href="%{authorLink}">%{author}</a> v %{age}'
     label_ago: "dnů před"
     label_all: "vše"
+    label_all_uppercase: "All"
     label_all_work_packages: "všechny pracovní balíčky"
     label_and: "a"
     label_ascending: "Vzestupně"
@@ -418,6 +419,7 @@ cs:
     label_expand_project_menu: "Rozbalit nabídku projektu"
     label_export: "Export"
     label_export_preparing: "Export je připraven a bude brzy k stažení."
+    label_favored: "Favored"
     label_filename: "Soubor"
     label_filesize: "Velikost"
     label_general: "Obecné"
@@ -644,7 +646,7 @@ cs:
           no_selection: "Klikněte na oznámení pro zobrazení všech podrobností o aktivitě."
         new_notifications:
           message: "Máte nová oznámení."
-          link_text: "Klikněte zde pro jejich načtení"
+          link_text: "Click here to load them."
       menu:
         accountable: "Odpovědný"
         by_project: "Nepřečteno dle projektu"
@@ -926,6 +928,8 @@ cs:
       message_work_package_read_only: "Pracovní balíček je v tomto stavu uzamčen. Nemůže být změněn žádný jiný atribut mimo vlastního stavu balíčku."
       message_work_package_status_blocked: "Stav pracovního balíčku nelze zapisovat kvůli stavu zavření a přiřazování uzavřené verze."
       placeholder_filter_by_text: "Předmět, popis, komentáře, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Přidáno k zobrazení ve srovnávacím období"
         removal_label: "Odstraněno ze zobrazení ve srovnávacím období "
@@ -1255,7 +1259,8 @@ cs:
       role:
         label: "Role v %{project}"
         no_roles_found: "Nebyly nalezeny žádné role."
-        description: 'Toto je role, kterou uživatel obdrží, když se připojí k vašemu projektu. Role vymezuje, která změny mohou provádět a jaké informace mohou vidět. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Další informace o rolích a oprávněních. </a>'
+        description: >-
+          Toto je role, kterou uživatel obdrží, když se připojí k vašemu projektu. Role vymezuje, která změny mohou provádět a jaké informace mohou vidět. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Další informace o rolích a oprávněních. </a>
         required: "Vyberte prosím roli"
         next_button: "Další"
       message:
@@ -1329,3 +1334,7 @@ cs:
       drop_modal:
         focus_grab: "Toto je ukotvení pro modaly. Stisknutím karty shift+b se vrátíte k aktivačnímu prvku modalu."
         Close: "Zavřít"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

@@ -31,3 +31,8 @@ For detailed guide on the initial setup, please consult [OneDrive/SharePoint int
 Please also remember to activate the **File storages** module under [project settings in a respective project](../../user-guide/projects/project-settings/file-storages/).
 
 For instructions on using the integration after the setup has been complete please refer to [SharePoint/OneDrive integration user guide](../../user-guide/file-management/one-drive-integration/).
+
+## File storage troubleshooting
+
+For troubleshooting guidance related to file storages, visit the [File storage troubleshooting](./file-storage-troubleshooting) page. Here you will find possible explanations and suggested solutions. If you encounter any  challenges not addressed here, do not hesitate to reach out to the [OpenProject community](https://community.openproject.org/projects/openproject/forums) or [support team](https://www.openproject.org/contact/) for further assistance.
+

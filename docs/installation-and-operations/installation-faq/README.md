@@ -28,6 +28,10 @@ You can either try the OUTDATED and OLD manual installation guide, or add a Feat
 
 We recommend the Linux packages [if you have a compatible distribution](../system-requirements/) and a separate machine for OpenProject, since it will allow for the easiest and most flexible setup. Use a Docker-based image either for quickly spinning up an environment or if you have knowledge in setting up and maintaining Docker-based installations.
 
+### Are there any default ports that should be closed for security reasons?
+
+Anything besides 443 and 80 should be closed on a  system hosting OpenProject by default. You may need SSH (port 22), but that should only be open to whitelisted IPs.
+
 ### Can I use a virtual machine (VM) to install OpenProject?
 
 You can use a virtual machine as long as the hardware and the operating system match the system requirements. However, the virtual machine may be less powerful. Installing on a virtual machine could be an alternative to Docker if you would like to install OpenProject in a Windows environment. However, we can't officially support this.
@@ -120,6 +124,8 @@ You can access it using a browser. Please see our [Installation & Upgrades Guide
 
 Set a higher number of web workers to allow more processes to be handled at the same time. Find out more [here](../operation/control) and about system requirements [here](../system-requirements/).
 
+
+
 ### I don't receive emails. Test email works fine but not the one for work package updates.
 
 There are two different types of emails in OpenProject: One sent directly within the request to the server (this includes the test mail) and one sent asynchronously, via a background job from the backend. The majority of mail sending jobs is run asynchronously to facilitate a faster response time for server request.
@@ -174,3 +180,11 @@ The package based installation is intended to be run on a dedicated system. Dedi
 In case the database is stored on a different system, e.g. within a database cluster, it needs to be removed separately. The database URL can be found within the OpenProject installation, via `openproject config:get DATABASE_URL`.
 
 In case the attachments are stored on a different system, e.g. on an NFS or on S3, they also need to be removed separately.
+
+### Does OpenProject prohibit users from logging into the application on more than one workstation at the same time with the same user ID?
+
+It doesn't by default. There is a setting which enables this option: drop_old_sessions_on_login.
+
+### Can the OpenProject force password expiration and prevent users from reusing a password?
+
+There is no password expiration in OpenProject, but OpenProject can prevent the re-use of previous passwords via the password_count_former_banned setting. If you use an LDAP-Server for login that has this feature, you can archive this via your LDAP-Server. Other identity providers (e.g. KeyCloak) used via OpenID Connect or SAML can also do this. You can set up these rules in these identity providers directly and use them for authentication.

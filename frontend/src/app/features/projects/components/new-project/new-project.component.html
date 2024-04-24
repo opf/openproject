@@ -2,7 +2,7 @@
   class="op-form"
   [formGroup]="templateForm"
 >
-  <div [ngClass]="{ 'op-primaryed-input': true, 'op-primaryed-input_active': !!templateControl?.value }">
+  <div [ngClass]="{ 'op-highlighted-input': true, 'op-highlighted-input_active': !!templateControl?.value }">
     <spot-form-field
       [label]="text.use_template"
       data-qa-field-name="use_template"

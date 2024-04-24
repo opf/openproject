@@ -28,7 +28,7 @@ ms:
       tab_header_issue:
         title: "Isu"
       tab_header_mr:
-        title: "Permintaan gabungan"
+        title: "Penggabungan permintaan"
         create_mr:
           label: Cipta MR
           description: Cipta satu Merge Request
@@ -37,7 +37,7 @@ ms:
           description: Copy git snippets to clipboard
         git_actions:
           branch_name: Nama cawangan
-          commit_message: Mesej Commit
+          commit_message: Commit message
           cmd: Create branch with empty commit
           title: Quick snippets for Git
           copy_success: '✅ Disalin!'

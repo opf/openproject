@@ -28,7 +28,7 @@ ms:
       work_package:
         position: "Kedudukan"
         story_points: "Titik cerita"
-        backlogs_work_package_type: "Jenis tunggakan"
+        backlogs_work_package_type: "Jenis tunggakan kerja"
     errors:
       models:
         work_package:
@@ -99,7 +99,7 @@ ms:
   error_backlogs_task_cannot_be_story: "Seting tidak sah. Jenis tugasan yang dipilih tidak boleh dijadikan jenis cerita juga."
   error_intro_plural: "Ralat-ralat berikut telah ditemui:"
   error_intro_singular: "Ralat berikut telah ditemui:"
-  error_outro: "Sila betulkan ralat-ralat diatas sebelum menghantar semula."
+  error_outro: "Sila betulkan ralat-ralat di atas sebelum menghantar semula."
   event_sprint_description: "%{summary}: %{url}\n%{description}"
   event_sprint_summary: "%{project}: %{summary}"
   ideal: "ideal"
@@ -112,7 +112,7 @@ ms:
   label_burndown: "Burndown"
   label_column_in_backlog: "Kolum dalam tunggakan"
   label_hours: "jam"
-  label_work_package_hierarchy: "Hierarki Pakej kerja "
+  label_work_package_hierarchy: "Hierarki Pakej kerja"
   label_master_backlog: "Tunggakan Utama"
   label_not_prioritized: "tidak diutamakan"
   label_points: "mata"

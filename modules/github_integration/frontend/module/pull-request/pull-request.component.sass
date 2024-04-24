@@ -33,6 +33,7 @@
   display: grid
   grid-template-columns: auto 1fr auto auto
   grid-template-areas: "link link link link" "title title title state" "info info info info" "checks-label checks-label checks-label checks-label" "checks checks checks checks"
+  align-items: center
   margin-bottom: 11px
   padding-bottom: 11px
   border-bottom: 1px solid #dddddd
@@ -48,26 +49,18 @@
     line-height: 32px
     margin-right: 20px
 
-  &--avatar
-    grid-area: info
-
   &--info
-    display: block
+    display: inline-flex
     grid-area: info
-    margin-bottom: 3px
-    font-size: 0.9rem
-    grid-area: info
-    color: var(--color-fg-muted)
-    // The mini avatar is much higher than the text line. Compensate it.
-    margin-top: -4px
+    color: var(--fgColor-muted)
 
+  &--avatar,
   &--date
-    grid-area: info
+    margin-left: 0.25rem
 
   &--link
     grid-area: link
     margin-top: 6px
-    font-size: 0.9rem
 
   &--state
     grid-area: state
@@ -75,7 +68,6 @@
   &--checks-label
     grid-area: checks-label
     margin-top: 12px
-    font-size: 0.9rem
     font-weight: var(--base-text-weight-bold)
 
   &--checks

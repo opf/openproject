@@ -35,7 +35,7 @@ module OpenProject::Reporting::Patches::SettingSeederPatch
     def data
       original_data = super
 
-      unless original_data["default_projects_modules"].include? "reporting_module"
+      if original_data["default_projects_modules"]&.exclude? "reporting_module"
         original_data["default_projects_modules"] << "reporting_module"
       end
 

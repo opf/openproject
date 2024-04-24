@@ -20,8 +20,11 @@
               render(Primer::Beta::IconButton.new(
                 icon: :gear,
                 scheme: :invisible,
+                tag: :a,
+                href: participants_dialog_meeting_path(@meeting),
+                data: { controller: 'async-dialog' },
                 'aria-label': t("label_meeting_manage_participants"),
-                data: { 'show-dialog-id': "edit-participants-dialog" }
+                test_selector: "manage-participants-button",
               ))
             end
           end
@@ -79,7 +82,9 @@
             color: :default,
             underline: false,
             font_weight: :bold,
-            data: { 'show-dialog-id': "edit-participants-dialog" }
+            tag: :a,
+            href: participants_dialog_meeting_path(@meeting),
+            data: { controller: 'async-dialog' }
           )) do |button|
             button.with_leading_visual_icon(icon: "person-add")
             t("label_meeting_add_participants")

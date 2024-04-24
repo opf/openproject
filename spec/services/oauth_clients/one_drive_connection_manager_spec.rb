@@ -28,19 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
   let(:user) { create(:user) }
-  let(:storage) { create(:one_drive_storage, :with_oauth_client, tenant_id: 'consumers') }
+  let(:storage) { create(:one_drive_storage, :with_oauth_client, tenant_id: "consumers") }
   let(:token) { create(:oauth_client_token, oauth_client: storage.oauth_client, user:) }
 
   subject(:connection_manager) do
     described_class.new(user:, configuration: storage.oauth_configuration)
   end
 
-  describe '#code_to_token' do
-    let(:code) { 'wow.such.code.much.token' }
+  describe "#code_to_token" do
+    let(:code) { "wow.such.code.much.token" }
     let(:code_to_token_response) do
       {
         access_token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ik5HVEZ2ZEstZnl0aEV1Q...",
@@ -69,199 +69,54 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
     end
 
     before do
-      stub_request(:post, 'https://login.microsoftonline.com/consumers/oauth2/v2.0/token')
-        .to_return(status: 200, body: code_to_token_response, headers: { 'Content-Type' => 'application/json' })
+      stub_request(:post, "https://login.microsoftonline.com/consumers/oauth2/v2.0/token")
+        .to_return(status: 200, body: code_to_token_response, headers: { "Content-Type" => "application/json" })
 
-      stub_request(:get, 'https://graph.microsoft.com/v1.0/me')
+      stub_request(:get, "https://graph.microsoft.com/v1.0/me")
         .with(headers: { Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ik5HVEZ2ZEstZnl0aEV1Q..." })
-        .to_return(status: 200, body: me_response, headers: { 'Content-Type' => 'application/json' })
+        .to_return(status: 200, body: me_response, headers: { "Content-Type" => "application/json" })
     end
 
-    it 'fills in the origin_user_id' do
+    it "fills in the origin_user_id" do
       expect { subject.code_to_token(code) }.to change(OAuthClientToken, :count).by(1)
 
       last_token = OAuthClientToken
                      .where(access_token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ik5HVEZ2ZEstZnl0aEV1Q...")
                      .last
 
-      expect(last_token.origin_user_id).to eq('87d349ed-44d7-43e1-9a83-5f2406dee5bd')
+      expect(last_token.origin_user_id).to eq("87d349ed-44d7-43e1-9a83-5f2406dee5bd")
     end
 
-    context 'when the identification request fails' do
+    context "when the identification request fails" do
       before do
-        stub_request(:get, 'https://graph.microsoft.com/v1.0/me')
+        stub_request(:get, "https://graph.microsoft.com/v1.0/me")
           .with(headers: { Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ik5HVEZ2ZEstZnl0aEV1Q..." })
           .to_return(status: 404)
       end
 
-      it 'raises an error' do
+      it "raises an error" do
         expect { subject.code_to_token(code) }.to raise_error(HTTPX::HTTPError)
       end
     end
   end
 
-  describe '#get_authorization_uri' do
-    it 'always add the necessary scopes' do
-      uri = connection_manager.get_authorization_uri(state: nil)
-
-      expect(uri).to include CGI.escape(storage.oauth_configuration.scope.join(' '))
-    end
-
-    it 'adds the state if present' do
-      uri = connection_manager.get_authorization_uri(state: 'https://some.site.com')
-      expect(uri).to include "&state=https"
-    end
-  end
-
-  describe '#get_access_token' do
+  describe "#get_access_token" do
     subject(:access_token_result) { connection_manager.get_access_token }
 
-    context 'with no OAuthClientToken present' do
-      it 'returns a redirection URL' do
+    context "with no OAuthClientToken present" do
+      it "returns a redirection URL" do
         expect(access_token_result).to be_failure
-        expect(access_token_result.result).to eq(connection_manager.get_authorization_uri)
+        expect(access_token_result.result).to eq(storage.oauth_configuration.authorization_uri)
       end
     end
 
-    context 'with an OAuthClientToken present' do
+    context "with an OAuthClientToken present" do
       before { token }
 
-      it 'returns the OAuthClientToken' do
+      it "returns the OAuthClientToken" do
         expect(access_token_result).to be_truthy
         expect(access_token_result.result).to be_a OAuthClientToken # The one and only...
         expect(access_token_result.result).to eql token
-      end
-    end
-  end
-
-  describe '#authorization_state' do
-    subject(:authorization_state) { connection_manager.authorization_state }
-
-    context 'without access token present' do
-      it 'returns :failed_authorization' do
-        expect(authorization_state).to eq :failed_authorization
-      end
-    end
-
-    context 'with access token present', :webmock do
-      before { token }
-
-      context 'with access token valid' do
-        context 'without other errors or exceptions' do
-          before { stub_request(:get, 'https://graph.microsoft.com/v1.0/me').to_return(status: 200) }
-
-          it 'returns :connected' do
-            expect(authorization_state).to eq :connected
-          end
-        end
-
-        context 'with some other error or exception' do
-          before { stub_request(:get, 'https://graph.microsoft.com/v1.0/me').to_timeout }
-
-          it 'returns :error' do
-            expect(authorization_state).to eq :error
-          end
-        end
-      end
-
-      context 'with outdated access token' do
-        shared_examples 'refresh' do |_code|
-          before do
-            stub_request(:get, 'https://graph.microsoft.com/v1.0/me').to_return(status: 401)
-          end
-
-          context 'with valid refresh token' do
-            it 'refreshes the access token and returns :connected' do
-              expect(authorization_state).to eq :connected
-            end
-          end
-
-          context 'with invalid refresh token' do
-            it 'refreshes the access token and returns :failed_authorization' do
-              allow(token).to receive(:updated_at).and_return(3.months.ago)
-              expect(authorization_state).to eq :failed_authorization
-            end
-          end
-
-          context 'with some other error while refreshing access token' do
-            it 'returns :error' do
-              expect(authorization_state).to eq :error
-            end
-          end
-        end
-
-        context 'when Unauthorized is returned' do
-          before do
-            stub_request(:get, 'https://graph.microsoft.com/v1.0/me').to_return(status: 401)
-          end
-
-          context 'with valid refresh token' do
-            before do
-              stub_request(:post, 'https://login.microsoftonline.com/consumers/oauth2/v2.0/token')
-                .to_return(status: 200,
-                           body: { access_token: 'ThereIsNoPeaceOnlyPassion' }.to_json,
-                           headers: { 'Content-Type' => 'application/json' })
-            end
-
-            it 'refreshes the access token and returns :connected' do
-              expect(authorization_state).to eq :connected
-            end
-          end
-
-          context 'with invalid refresh token' do
-            before do
-              token.update!(updated_at: 3.months.ago)
-              stub_request(:post, 'https://login.microsoftonline.com/consumers/oauth2/v2.0/token')
-                .to_return(status: 400,
-                           body: { error: 'invalid_request', error_message: 'nope. not happening' }.to_json,
-                           headers: { 'Content-Type' => 'application/json' })
-            end
-
-            it 'refreshes the access token and returns :failed_authorization' do
-              expect(authorization_state).to eq :failed_authorization
-            end
-          end
-
-          context 'with some other error while refreshing access token' do
-            it 'returns :error' do
-              token.update!(updated_at: 3.months.ago)
-
-              stub_request(:get, 'https://graph.microsoft.com/v1.0/me').to_return(status: 401)
-              stub_request(:post, 'https://login.microsoftonline.com/consumers/oauth2/v2.0/token')
-                .to_return(status: 400,
-                           body: { error: 'you_error', error_message: 'it is not me, it is you' }.to_json,
-                           headers: { 'Content-Type' => 'application/json' })
-
-              expect(authorization_state).to eq :error
-            end
-          end
-        end
-
-        context 'when Forbidden is returned' do
-          before do
-            stub_request(:get, 'https://graph.microsoft.com/v1.0/me').to_return(status: 403)
-          end
-
-          context 'with valid refresh token' do
-            it 'refreshes the access token and returns :connected' do
-              expect(authorization_state).to eq :connected
-            end
-          end
-
-          context 'with invalid refresh token' do
-            before do
-              token.update!(updated_at: 3.months.ago)
-              stub_request(:post, 'https://login.microsoftonline.com/consumers/oauth2/v2.0/token')
-                .to_return(status: 400,
-                           body: { error: 'invalid_request', error_message: 'nope. not happening' }.to_json,
-                           headers: { 'Content-Type' => 'application/json' })
-            end
-
-            it 'refreshes the access token and returns :failed_authorization' do
-              expect(authorization_state).to eq :failed_authorization
-            end
-          end
-        end
       end
     end
   end

@@ -46,6 +46,7 @@ export const OPToastEvent = 'op:toasters:add';
 
 export interface IToast {
   message:string;
+  icon?:string;
   link?:{ text:string, target:() => void };
   type:ToastType;
   data?:unknown;
@@ -183,6 +184,7 @@ export class ToastService {
         message: toast.message,
         type,
         link: toast.link,
+        icon: toast.icon,
         data: toast.data,
       };
   }

@@ -28,16 +28,16 @@
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class DeleteFolderCommand
+    def self.call(storage:, auth_strategy:, location:)
+      new(storage).call(auth_strategy:, location:)
+    end
+
     def initialize(storage)
       @delegate = Internal::DeleteEntityCommand.new(storage)
     end
 
-    def self.call(storage:, location:)
-      new(storage).call(location:)
-    end
-
-    def call(location:)
-      @delegate.call(location:)
+    def call(auth_strategy:, location:)
+      @delegate.call(auth_strategy:, location:)
     end
   end
 end

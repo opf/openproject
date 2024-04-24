@@ -38,7 +38,7 @@ module Pages::Meetings
     end
 
     def click_create
-      click_button "Create"
+      click_on "Create"
 
       meeting = Meeting.last
 

@@ -95,9 +95,10 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
       command_result = described_class.call(storage:, source_path:, destination_path: 'My New Folder')
 
       expect(command_result).to be_success
-      expect(command_result.result[:url]).to match %r</drives/#{storage.drive_id}/items/.+\?.+$>
+      expect(command_result.result.requires_polling?).to be_truthy
+      expect(command_result.result.polling_url).to match %r</drives/#{storage.drive_id}/items/.+\?.+$>
     ensure
-      delete_copied_folder(command_result.result[:id])
+      delete_copied_folder(command_result.result.polling_url)
     end
 
     describe 'error handling' do
@@ -150,7 +151,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
     raise if source_path.nil?
 
     command = Storages::Peripherals::Registry
-      .resolve('one_drive.commands.create_folder').new(storage)
+                .resolve('one_drive.commands.create_folder').new(storage)
     command.call(folder_path: 'Empty Subfolder', parent_location: source_path)
 
     subfolder = command.call(folder_path: 'Subfolder with File', parent_location: source_path).result
@@ -158,16 +159,16 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
     token = OAuthClientToken.last
 
     upload_link = Storages::Peripherals::Registry
-      .resolve('one_drive.queries.upload_link')
-      .call(storage:, user: token.user, data: { 'parent' => subfolder.id, 'file_name' => file_name })
-      .result
+                    .resolve('one_drive.queries.upload_link')
+                    .call(storage:, user: token.user, data: { 'parent' => subfolder.id, 'file_name' => file_name })
+                    .result
 
     path = Rails.root.join('modules/storages/spec/support/fixtures/vcr_cassettes/one_drive', file_name)
     File.open(path, 'rb') do |file_handle|
       HTTPX.with(headers: {
-                   content_length: file_handle.size,
-                   'Content-Range' => "bytes 0-#{file_handle.size - 1}/#{file_handle.size}"
-                 })
+        content_length: file_handle.size,
+        'Content-Range' => "bytes 0-#{file_handle.size - 1}/#{file_handle.size}"
+      })
            .put(upload_link.destination, body: file_handle.read).raise_for_status
     end
   end
@@ -175,7 +176,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
   def delete_template_folder
     Storages::Peripherals::Registry
       .resolve('one_drive.commands.delete_folder')
-      .call(storage:, location: base_template_folder.id)
+      .call(storage:, auth_strategy:, location: base_template_folder.id)
   end
 
   def existing_folder_tuples
@@ -190,9 +191,18 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
     end
   end
 
-  def delete_copied_folder(location)
+  def delete_copied_folder(url)
+    extractor_regex = /.+\/items\/(?<item_id>\w+)\?/
+    match_data = extractor_regex.match(url)
+    location = match_data[:item_id]
+
     Storages::Peripherals::Registry
       .resolve('one_drive.commands.delete_folder')
-      .call(storage:, location:)
+      .call(storage:, auth_strategy:, location:)
   end
+
+  def auth_strategy
+    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials.strategy
+  end
+
 end

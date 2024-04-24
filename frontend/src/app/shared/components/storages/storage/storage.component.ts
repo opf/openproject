@@ -208,6 +208,10 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     this.cdRef.detectChanges();
   };
 
+  public get openStorageLink() {
+    return this.projectStorage._links.openWithConnectionEnsured?.href || this.projectStorage._links.open?.href;
+  }
+
   constructor(
     private readonly i18n:I18nService,
     private readonly cdRef:ChangeDetectorRef,

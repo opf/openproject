@@ -152,10 +152,6 @@ module API
             "#{work_package(work_package_id)}/available_assignees"
           end
 
-          def self.available_responsibles(project_id)
-            "#{project(project_id)}/available_responsibles"
-          end
-
           def self.available_watchers(work_package_id)
             "#{work_package(work_package_id)}/available_watchers"
           end

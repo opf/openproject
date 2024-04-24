@@ -1,18 +1,37 @@
 <!-- Standard Ruby view, please see the controller for comments -->
 <% html_title t(:label_administration), t("project_module_storages") %>
 
+<% button_block = lambda do |button|
+  button.with_leading_visual_icon(icon: :plus)
+  button.with_trailing_action_icon(icon: :"triangle-down")
+  I18n.t("storages.label_storage")
+end %>
+
 <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
-  <% header.with_title do %>
-    <%= t("project_module_storages") %>
-  <% end %>
+  <% header.with_title { t("project_module_storages") } %>
+  <% header.with_description { t("storages.page_titles.file_storages.subtitle") } %>
+  <% header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                              t("project_module_storages")]) %>
 
-  <% header.with_description do %>
-    <%= t("storages.page_titles.file_storages.subtitle") %>
-  <% end %>
+  <%= header.with_action_menu(menu_arguments: { test_selector: 'storages-select-provider-action-menu',
+                                                anchor_align: :end },
+                              button_arguments: { scheme: :primary,
+                                                  aria: { label: I18n.t("storages.label_add_new_storage") },
+                                                  button_block: button_block }) do |menu|
+    ::Storages::Storage::PROVIDER_TYPES.each do |provider_type|
+      short_provider_type = ::Storages::Storage.shorten_provider_type(provider_type)
 
-  <% header.with_actions do %>
-    <%= render(Storages::Admin::NewStorageButtonComponent.new) %>
-  <% end %>
+      menu.with_item(
+        label: I18n.t("storages.provider_types.#{short_provider_type}.name"),
+        href: url_helpers.select_provider_admin_settings_storages_path(provider: short_provider_type)
+      ) do |item|
+        item.with_trailing_visual_icon(
+          icon: "op-enterprise-addons",
+          classes: "upsale-colored"
+        ) if ::Storages::Storage::one_drive_without_ee_token?(provider_type)
+      end
+    end
+  end %>
 <% end %>
 
 <%= render(::Storages::Admin::StorageListComponent.new(@storages)) %>

@@ -77,8 +77,8 @@ module Redmine
         def custom_fields=(values)
           values_to_hash = values.inject({}) do |hash, v|
             v = v.stringify_keys
-            if v['id'] && v.has_key?('value')
-              hash[v['id']] = v['value']
+            if v["id"] && v.has_key?("value")
+              hash[v["id"]] = v["value"]
             end
             hash
           end
@@ -233,11 +233,12 @@ module Redmine
           self.custom_field_values = new_values
         end
 
-        def validate_custom_values
+        def validate_custom_values(custom_field_ids = [])
           set_default_values! if new_record?
 
           custom_field_values
             .reject(&:marked_for_destruction?)
+            .select { |cv| custom_field_ids.empty? || custom_field_ids.include?(cv.custom_field_id) }
             .select(&:invalid?)
             .each { |custom_value| add_custom_value_errors! custom_value }
         end

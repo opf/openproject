@@ -58,9 +58,16 @@ module Storages::ProjectStorages
 
     private
 
+    def auth_strategy
+      ::Storages::Peripherals::Registry
+        .resolve("#{model.storage.short_provider_type}.authentication.userless")
+        .call
+    end
+
     def delete_project_folder
-      ::Storages::Peripherals::Registry.resolve("#{model.storage.short_provider_type}.commands.delete_folder")
-        .call(storage: model.storage, location: model.project_folder_location)
+      ::Storages::Peripherals::Registry
+        .resolve("#{model.storage.short_provider_type}.commands.delete_folder")
+        .call(storage: model.storage, auth_strategy:, location: model.project_folder_location)
     end
 
     # Delete FileLinks with the same Storage as the ProjectStorage.

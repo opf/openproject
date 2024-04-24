@@ -43,20 +43,24 @@
         </label>
       </div>
     <% end %>
-    <input type="submit" name="login" value="<%= t(:button_login) %>" class="button -primary button_no-margin" tabindex="2"/>
-    <% if resend_supported || has_other_devices || has_backup_codes %>
-      <div class="login-options-container">
-        <div class="login-links">
-          <%= link_to(
-                t(:text_otp_not_receive),
-                '#',
-                id: 'toggle_resend_form',
-                tabindex: 3,
-                data: { action: 'two-factor-authentication#toggleResendOptions' }
-              ) %>
+    <div class="login-form--footer">
+      <input type="submit" name="login" value="<%= t(:button_login) %>" class="button -primary button_no-margin" tabindex="2"/>
+      <% if resend_supported || has_other_devices || has_backup_codes %>
+        <div class="login-options-container">
+          <div class="login-links">
+            <%= link_to(
+                  t(:text_otp_not_receive),
+                  '#',
+                  id: 'toggle_resend_form',
+                  tabindex: 3,
+                  data: { action: 'two-factor-authentication#toggleResendOptions' },
+                  class: 'login-form--footer-link'
+                ) %>
+          </div>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
+
   <% end %>
   <div
     id="resend_otp_container"

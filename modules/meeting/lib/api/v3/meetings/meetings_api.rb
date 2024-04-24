@@ -37,6 +37,8 @@ module API
             end
           end
 
+          get &::API::V3::Utilities::Endpoints::Index.new(model: Meeting).mount
+
           route_param :id, type: Integer, desc: "Activity ID" do
             after_validation do
               @meeting = Meeting.visible.find(declared_params[:id])

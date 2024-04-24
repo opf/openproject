@@ -39,9 +39,7 @@ module Pages::Meetings
     end
 
     def click_create_new
-      within ".toolbar-items" do
-        click_link "Meeting"
-      end
+      click_on("add-meeting-button")
 
       New.new(project)
     end
@@ -51,15 +49,11 @@ module Pages::Meetings
     end
 
     def expect_no_create_new_button
-      within ".toolbar-items" do
-        expect(page).to have_no_css "#add-meeting-button"
-      end
+      expect(page).not_to have_test_selector("add-meeting-button")
     end
 
     def expect_no_create_new_buttons
-      within ".toolbar-items" do
-        expect(page).to have_no_css "#add-meeting-button"
-      end
+      expect(page).not_to have_test_selector("add-meeting-button")
 
       within "#main-menu" do
         expect(page).to have_no_button "Meeting"
@@ -67,15 +61,11 @@ module Pages::Meetings
     end
 
     def expect_create_new_button
-      within ".toolbar-items" do
-        expect(page).to have_css "#add-meeting-button"
-      end
+      expect(page).to have_test_selector("add-meeting-button")
     end
 
     def expect_create_new_buttons
-      within ".toolbar-items" do
-        expect(page).to have_css "#add-meeting-button"
-      end
+      expect(page).to have_test_selector("add-meeting-button")
 
       within "#main-menu" do
         expect(page).to have_button "Meeting"
@@ -84,7 +74,7 @@ module Pages::Meetings
 
     def set_sidebar_filter(filter_name)
       within "#main-menu" do
-        click_link text: filter_name
+        click_on text: filter_name
       end
     end
 
@@ -154,21 +144,21 @@ module Pages::Meetings
 
     def to_page(number)
       within ".op-pagination--pages" do
-        click_link number.to_s
+        click_on number.to_s
       end
     end
 
     def navigate_by_project_menu
       visit project_path(project)
       within "#main-menu" do
-        click_link "Meetings", match: :first
+        click_on "Meetings", match: :first
       end
     end
 
     def navigate_by_global_menu
       visit root_path
       within "#main-menu" do
-        click_link "Meetings", match: :first
+        click_on "Meetings", match: :first
       end
     end
 

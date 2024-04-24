@@ -35,7 +35,7 @@ module Costs::Patches::SettingSeederPatch
     def data
       original_data = super
 
-      unless original_data["default_projects_modules"].include? "costs"
+      if original_data["default_projects_modules"]&.exclude? "costs"
         original_data["default_projects_modules"] << "costs"
       end
 

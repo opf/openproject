@@ -42,11 +42,9 @@ module AttachmentsHelper
   # Within ckeditor-augmented-textarea-form, this attachment list is added automatically
   # when a resource is added.
   def list_attachments(resource, options = {})
-    content_tag "op-attachments",
-                "",
-                "data-resource": resource.to_json,
-                "data-allow-uploading": false,
-                "data-destroy-immediately": true,
-                **options
+    options[:inputs] = (options[:inputs] || {})
+      .reverse_merge(resource:, allowUploading: false, destroyImmediately: true)
+
+    angular_component_tag("op-attachments", **options)
   end
 end

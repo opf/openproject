@@ -528,6 +528,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             ],
             resources: skeletonResources,
             resourceAreaWidth: this.isMobile ? '60px' : '180px',
+            resourceOrder: 'title',
             select: this.handleDateClicked.bind(this) as unknown,
             // DnD configuration
             editable: true,

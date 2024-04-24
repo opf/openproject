@@ -40,13 +40,14 @@ pt-BR:
         participants_invited: "Convidados"
         project: "Projeto"
         start_date: "Data"
-        start_time: "Horário"
-        start_time_hour: "Horário de início"
-      meeting_agenda_items:
+        start_time: "Hora de início"
+        start_time_hour: "Hora de início"
+      meeting_agenda_item:
         title: "Título"
-        author: "Responsável"
-        duration_in_minutes: "Duração (min)"
+        author: "Autor"
+        duration_in_minutes: "min"
         description: "Anotações"
+        presenter: "Apresentador"
     errors:
       messages:
         invalid_time_format: "não é um horário válido. Formato exigido: HH:MM"
@@ -95,8 +96,12 @@ pt-BR:
   label_time_zone: "Fuso horário"
   label_start_date: "Data de início"
   meeting:
+    attachments:
+      text: "Os arquivos anexados podem ser acessados por todos os participantes da reunião. Além disso, você pode simplesmente arrastá-los e soltá-los nas anotações do item da agenda."
     copy:
-      title: "Copiar reunião %{title}"
+      title: "Copy meeting: %{title}"
+      attachments: "Copiar anexos"
+      attachments_text: "Copie todos os arquivos anexados para a nova reunião"
       agenda: "Copiar agenda"
       agenda_text: "Copiar a agenda da antiga reunião"
     email:
@@ -111,11 +116,11 @@ pt-BR:
         new_date_time: "Nova data/hora"
     label_mail_all_participants: "Enviar e-mail para todos os participantes"
     types:
-      classic: 'Clássico'
-      classic_text: 'Organize sua reunião em uma agenda e protocolo de texto formatáveis.'
-      structured: 'Dinâmico'
-      structured_text: 'Organize sua reunião como uma lista de itens da agenda, opcionalmente vinculando-os a um pacote de trabalho.'
-      structured_text_copy: 'Copiar uma reunião atualmente não copiará os itens associados da agenda da reunião, apenas os detalhes'
+      classic: "Clássico"
+      classic_text: "Organize sua reunião em uma agenda e protocolo de texto formatáveis."
+      structured: "Dinâmico"
+      structured_text: "Organize sua reunião como uma lista de itens da agenda, opcionalmente vinculando-os a um pacote de trabalho."
+      structured_text_copy: "Copiar uma reunião atualmente não copiará os itens associados da agenda da reunião, apenas os detalhes"
     copied: "Copiado para a Reunião #%{id}"
   notice_successful_notification: "Notificação enviada com sucesso"
   notice_timezone_missing: Nenhum fuso horário está definido, portanto assumiu-se %{zone}. Para escolher o seu fuso horário, clique aqui.
@@ -143,13 +148,16 @@ pt-BR:
   text_notificiation_invited: "Este e-mail contém uma entrada de ics para a reunião abaixo:"
   text_meeting_empty_heading: "Sua reunião está vazia"
   text_meeting_empty_description_1: "Comece adicionando itens da agenda abaixo. Cada item pode ser tão simples quanto apenas um título, mas você também pode adicionar detalhes adicionais, como duração, anotações e uma pessoa responsável."
-  text_meeting_empty_description_2: "Você também pode adicionar referências aos pacotes de trabalho existentes. Quando você fizer isso, as anotações relacionadas ficarão automaticamente visíveis na guia \"Reuniões\" do pacote de trabalho."
+  text_meeting_empty_description_2: 'Você também pode adicionar referências aos pacotes de trabalho existentes. Quando você fizer isso, as anotações relacionadas ficarão automaticamente visíveis na guia "Reuniões" do pacote de trabalho.'
   label_meeting_empty_action: "Adicionar item da agenda"
   label_meeting_actions: "Ações da reunião\n"
   label_meeting_edit_title: "Editar título da reunião"
   label_meeting_delete: "Excluir reunião"
   label_meeting_created_by: "Criado por"
   label_meeting_last_updated: "Última atualização"
+  label_agenda_items: "Itens da agenda"
+  label_agenda_items_reordered: "reorganizado"
+  label_agenda_item_remove: "Remover da agenda"
   label_agenda_item_undisclosed_wp: "Pacote de trabalho #%{id} não visível"
   label_agenda_item_deleted_wp: "Referência do pacote de trabalho excluída"
   label_agenda_item_actions: "Ações dos itens da agenda"
@@ -158,10 +166,18 @@ pt-BR:
   label_agenda_item_move_up: "Mover para cima"
   label_agenda_item_move_down: "Mover para baixo"
   label_agenda_item_add_notes: "Adicionar anotações"
+  label_agenda_item_work_package: "Pacote de trabalho do item da agenda"
+  text_agenda_item_title: 'Item da agenda "%{title}"'
+  text_agenda_work_package_deleted: 'Item da agenda para o pacote de trabalho excluído'
+  text_deleted_agenda_item: 'Item da agenda excluído'
+  label_initial_meeting_details: "Reunião"
   label_meeting_details: "Detalhes da reunião"
   label_meeting_details_edit: "Editar detalhes da reunião"
+  label_meeting_state: "Estado da reunião"
   label_meeting_state_open: "Aberto"
+  label_meeting_state_open_html: "<I>Aberta</i>"
   label_meeting_state_closed: "Fechado"
+  label_meeting_state_closed_html: "<I>Fechada</i>"
   label_meeting_reopen_action: "Reabrir reunião"
   label_meeting_close_action: "Fechar reunião"
   text_meeting_open_description: "Esta reunião está aberta. Você pode adicionar/remover itens da agenda e editá-los como desejar. Depois que a reunião terminar, feche-a para bloqueá-la."
@@ -180,5 +196,5 @@ pt-BR:
   text_agenda_item_no_notes: "Nenhum comentário foi feito"
   text_agenda_item_not_editable_anymore: "Este item da agenda não pode mais ser editado."
   text_work_package_has_no_upcoming_meeting_agenda_items: "Este pacote de trabalho ainda não está programado na agenda de uma reunião futura."
-  text_work_package_add_to_meeting_hint: "Use o botão \"Adicionar à reunião\" para adicionar este pacote de trabalho a uma próxima reunião."
+  text_work_package_add_to_meeting_hint: 'Use o botão "Adicionar à reunião" para adicionar este pacote de trabalho a uma próxima reunião.'
   text_work_package_has_no_past_meeting_agenda_items: "Este pacote de trabalho não foi mencionado em uma reunião anterior."

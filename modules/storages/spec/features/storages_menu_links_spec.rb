@@ -28,10 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe 'Storage links in project menu' do
+RSpec.describe "Storage links in project menu" do
   include EnsureConnectionPathHelper
 
   shared_let(:project) { create(:project, enabled_module_names: %i[storages]) }
@@ -41,11 +41,11 @@ RSpec.describe 'Storage links in project menu' do
   end
   shared_let(:storage_configured_linked2) { create(:nextcloud_storage_configured, name: "Storage 2") }
   shared_let(:project_storage2) do
-    create(:project_storage, project_folder_mode: 'inactive', project:, storage: storage_configured_linked2)
+    create(:project_storage, project_folder_mode: "inactive", project:, storage: storage_configured_linked2)
   end
   shared_let(:storage_configured_linked3) { create(:nextcloud_storage_configured, name: "Storage 3") }
   shared_let(:project_storage3) do
-    create(:project_storage, project_folder_mode: 'manual', project:, storage: storage_configured_linked3)
+    create(:project_storage, project_folder_mode: "manual", project:, storage: storage_configured_linked3)
   end
   shared_let(:storage_configured_unlinked) { create(:nextcloud_storage_configured, name: "Storage 4") }
   shared_let(:storage_unconfigured_linked) { create(:nextcloud_storage, name: "Storage 5") }
@@ -57,10 +57,10 @@ RSpec.describe 'Storage links in project menu' do
     visit(project_path(project))
   end
 
-  context 'if user is an admin but not a member of the project' do
+  context "if user is an admin but not a member of the project" do
     let(:user) { create(:admin) }
 
-    it 'has no links to enabled storage' do
+    it "has no links to enabled storage" do
       visit(project_path(id: project.id))
 
       expect(page).to have_no_link(storage_configured_linked1.name)
@@ -71,11 +71,11 @@ RSpec.describe 'Storage links in project menu' do
     end
   end
 
-  context 'if user has permission to' do
-    context 'read_files and view_file_links' do
+  context "if user has permission" do
+    context "to read_files and view_file_links" do
       let(:permissions) { %i[view_file_links read_files] }
 
-      it 'has links to all enabled storages' do
+      it "has links to all enabled storages" do
         visit(project_path(id: project.id))
 
         expect(page).to have_link(storage_configured_linked1.name, href: ensure_connection_path(project_storage1))
@@ -85,12 +85,12 @@ RSpec.describe 'Storage links in project menu' do
         expect(page).to have_no_link(storage_unconfigured_linked.name)
       end
 
-      context 'when OP has been installed behind prefix' do
-        let(:prefix) { '/qwerty' }
+      context "when OP has been installed behind prefix" do
+        let(:prefix) { "/qwerty" }
 
         before { allow(OpenProject::Configuration).to receive(:rails_relative_url_root).and_return(prefix) }
 
-        it 'has all links prefixed' do
+        it "has all links prefixed" do
           visit(project_path(id: project.id))
 
           expect(page).to have_link(storage_configured_linked1.name, href: ensure_connection_path(project_storage1))
@@ -102,10 +102,10 @@ RSpec.describe 'Storage links in project menu' do
       end
     end
 
-    context 'read_files' do
+    context "to read_files" do
       let(:permissions) { %i[read_files] }
 
-      it 'has no links to enabled storages' do
+      it "has no links to enabled storages" do
         visit(project_path(id: project.id))
 
         expect(page).to have_no_link(storage_configured_linked1.name)
@@ -116,10 +116,10 @@ RSpec.describe 'Storage links in project menu' do
       end
     end
 
-    context 'view_file_links' do
+    context "to view_file_links" do
       let(:permissions) { %i[view_file_links] }
 
-      it 'has links to enabled storages apart from automatically managed' do
+      it "has links to enabled storages apart from automatically managed" do
         visit(project_path(id: project.id))
 
         expect(page).to have_no_link(storage_configured_linked1.name, href: ensure_connection_path(project_storage1))
@@ -131,10 +131,10 @@ RSpec.describe 'Storage links in project menu' do
     end
   end
 
-  context 'if user has no permission to see storage links' do
+  context "if user has no permission to see storage links" do
     let(:permissions) { %i[] }
 
-    it 'has no links to enabled storages' do
+    it "has no links to enabled storages" do
       visit(project_path(id: project.id))
 
       expect(page).to have_no_link(storage_configured_linked1.name)

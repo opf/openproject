@@ -66,7 +66,7 @@ RSpec.describe "Meetings copy", :js, :with_cuprite do
     start_of_meeting = start_time.strftime(twelve_hour_format)
     end_of_meeting = (start_time + meeting.duration.hours).strftime(twelve_hour_format)
 
-    "Time: #{date} #{start_of_meeting} - #{end_of_meeting} (GMT+00:00) UTC"
+    "Start time: #{date} #{start_of_meeting} - #{end_of_meeting} (GMT+00:00) UTC"
   end
 
   before do
@@ -76,11 +76,11 @@ RSpec.describe "Meetings copy", :js, :with_cuprite do
   it "copying a meeting" do
     visit project_meetings_path(project)
 
-    click_link meeting.title
+    click_on meeting.title
 
     find_test_selector("meetings-more-dropdown-menu").click
     page.within(".menu-drop-down-container") do
-      click_link "Copy"
+      click_on "Copy"
     end
 
     expect(page)
@@ -94,7 +94,7 @@ RSpec.describe "Meetings copy", :js, :with_cuprite do
     expect(page)
       .to have_field "Time",       with: start_time.strftime("%H:%M")
 
-    click_button "Create"
+    click_on "Create"
 
     # Be on the new meeting's page with copied over attributes
     expect(page).to have_no_current_path meeting_path(meeting.id)
@@ -119,12 +119,12 @@ RSpec.describe "Meetings copy", :js, :with_cuprite do
       .to have_content "Attendees:"
 
     # Copies the agenda
-    click_link "Agenda"
+    click_on "Agenda"
     expect(page)
       .to have_content agenda_text
 
     # Adds an entry to the history
-    click_link "History"
+    click_on "History"
     expect(page)
       .to have_content("Copied from Meeting ##{meeting.id}")
   end

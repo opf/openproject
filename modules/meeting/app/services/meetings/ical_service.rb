@@ -73,9 +73,13 @@ module Meetings
     def ical_event(&)
       calendar = ::Icalendar::Calendar.new
 
+      ical_timezone = @timezone.tzinfo.ical_timezone meeting.start_time
+      calendar.add_timezone ical_timezone
+
       calendar.event(&)
 
       calendar.publish
+
       calendar.to_ical
     end
 

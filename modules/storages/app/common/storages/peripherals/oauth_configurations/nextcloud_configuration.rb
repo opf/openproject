@@ -44,19 +44,6 @@ module Storages
 
         # rubocop:enable Lint/MissingSuper
 
-        def authorization_state_check(token)
-          authorization_check_wrapper do
-            OpenProject.httpx.get(
-              Util.join_uri_path(@uri, "/ocs/v1.php/cloud/user"),
-              headers: {
-                "Authorization" => "Bearer #{token}",
-                "OCS-APIRequest" => "true",
-                "Accept" => "application/json"
-              }
-            )
-          end
-        end
-
         def extract_origin_user_id(rack_access_token)
           rack_access_token.raw_attributes[:user_id]
         end

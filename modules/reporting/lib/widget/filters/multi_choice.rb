@@ -29,19 +29,19 @@
 class Widget::Filters::MultiChoice < Widget::Filters::Base
   def render
     filterName = filter_class.underscore_name
-    result = content_tag :div, id: "#{filterName}_arg_1", class: 'advanced-filters--filter-value' do
+    result = content_tag :div, id: "#{filterName}_arg_1", class: "advanced-filters--filter-value" do
       choices = filter_class.available_values.each_with_index.map do |(label, value), i|
         opts = {
-          type: 'radio',
+          type: "radio",
           name: "values[#{filterName}][]",
           id: "#{filterName}_radio_option_#{i}",
           value:
         }
-        opts[:checked] = 'checked' if filter.values == [value].flatten
+        opts[:checked] = "checked" if filter.values == [value].flatten
         radio_button = tag :input, opts
         content_tag :label, radio_button + translate(label),
                     for: "#{filterName}_radio_option_#{i}",
-                    'data-filter-name': filter_class.underscore_name,
+                    "data-filter-name": filter_class.underscore_name,
                     class: "#{filterName}_radio_option filter_radio_option"
       end
       content_tag :div, choices.join.html_safe,

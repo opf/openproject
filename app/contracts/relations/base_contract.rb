@@ -29,7 +29,7 @@
 module Relations
   class BaseContract < ::ModelContract
     attribute :relation_type
-    attribute :delay
+    attribute :lag
     attribute :description
     attribute :from
     attribute :to

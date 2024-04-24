@@ -52,7 +52,7 @@ RSpec.describe "Meetings close" do
     it "can delete own and other`s meetings" do
       visit meetings_path(project)
 
-      click_link meeting.title
+      click_on meeting.title
 
       # Go to minutes, expect uneditable
       find(".op-tab-row--link", text: "MINUTES").click

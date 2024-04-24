@@ -29,14 +29,22 @@ See COPYRIGHT and LICENSE files for more details.
 
 <li class="op-activity-list--item">
   <div class="op-activity-list--item-title">
-    <%= link_to @event.event_title.squish, @event.event_path %>
+    <% if @event.event_path %>
+      <%= link_to @event.event_title.squish, @event.event_path %>
+    <% else %>
+      <%= @event.event_title %>
+    <% end %>
     <%= project_suffix %>
   </div>
   <%=
-    render(Activities::ItemSubtitleComponent.new(user: display_user? && @event.event_author,
-                                             datetime: @event.event_datetime,
-                                             is_creation: @event.journal.initial?,
-                                             journable_type: @event.journal.journable_type))
+    render(Activities::ItemSubtitleComponent.new(
+      user: display_user? && @event.event_author,
+      datetime: @event.event_datetime,
+      is_creation: initial?,
+      is_deletion: deletion?,
+      is_work_package: work_package?,
+      journable_type: @event.journal.journable_type)
+    )
   %>
   <% if comment.present? -%>
     <ul class="op-activity-list--item-details">
@@ -59,6 +67,12 @@ See COPYRIGHT and LICENSE files for more details.
       <% if time_entry_url.present? -%>
         <li class="op-activity-list--item-detail"><%= link_to "Details", @event.event_url %></li>
       <% end -%>
+    </ul>
+  <% elsif noop? -%>
+    <ul class="op-activity-list--item-details">
+      <li class="op-activity-list--item-detail">
+        <em><%= I18n.t(:"journals.changes_retracted") %></em>
+      </li>
     </ul>
   <% end -%>
 </li>

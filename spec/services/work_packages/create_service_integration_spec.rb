@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -117,10 +119,11 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
     let(:attributes) do
       { subject: "blubs",
         project:,
-        done_ratio: 50,
+        estimated_hours: 10.0,
+        remaining_hours: 5.0,
         parent:,
-        start_date: Date.today,
-        due_date: Date.today + 3.days }
+        start_date: Date.current,
+        due_date: Date.current + 3.days }
     end
 
     it "creates the work_package with the provided attributes and sets the user as a watcher" do
@@ -153,7 +156,7 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
       # parent updated
       parent.reload
       expect(parent.derived_done_ratio)
-        .to eql attributes[:done_ratio]
+        .to eq 50
       expect(parent.start_date)
         .to eql attributes[:start_date]
       expect(parent.due_date)
@@ -231,25 +234,41 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
       shared_let(:other_user) { create(:user) }
 
       let(:created_at) { 11.days.ago }
-      let(:updated_at) { 10.days.ago }
 
       let(:attributes) do
         {
           subject: "child",
           project:,
           author: other_user,
-          created_at:,
-          updated_at:
+          created_at:
         }
       end
 
       context "when enabled", with_settings: { apiv3_write_readonly_attributes: true } do
-        it "updates the timestamps correctly" do
+        it "sets created_at accordingly" do
           expect(service_result)
             .to be_success
 
           expect(new_work_package.created_at).to be_within(1.second).of(created_at)
-          expect(new_work_package.updated_at).to be_within(1.second).of(updated_at)
+        end
+      end
+
+      context "when enabled, but disallowed field", with_settings: { apiv3_write_readonly_attributes: true } do
+        let(:attributes) do
+          {
+            subject: "child",
+            project:,
+            author: other_user,
+            updated_at: created_at
+          }
+        end
+
+        it "rejects updated_at" do
+          expect(service_result)
+            .not_to be_success
+
+          expect(new_work_package.errors.symbols_for(:updated_at))
+            .to contain_exactly(:error_readonly)
         end
       end
 
@@ -259,9 +278,6 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
             .not_to be_success
 
           expect(new_work_package.errors.symbols_for(:created_at))
-            .to contain_exactly(:error_readonly)
-
-          expect(new_work_package.errors.symbols_for(:updated_at))
             .to contain_exactly(:error_readonly)
         end
       end

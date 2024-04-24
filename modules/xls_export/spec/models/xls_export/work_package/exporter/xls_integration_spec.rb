@@ -87,7 +87,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
       expect(sheet.rows[1])
         .to eq [
           nil, "Type", "ID", "Subject", "Status", "Assignee", "Priority",
-          nil, "Relation type", "Delay", "Description",
+          nil, "Relation type", "Lag", "Description",
           "Type", "ID", "Subject", "Status", "Assignee", "Priority",
           nil
         ]
@@ -134,7 +134,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
           nil, parent.type.name, parent.id.to_s, parent.subject, parent.status.name, parent.assigned_to, parent.priority.name,
           nil, "parent of", nil, nil,
           child_1.type.name, child_1.id.to_s, child_1.subject, child_1.status.name, child_1.assigned_to, child_1.priority.name
-        ] # delay nil as this is a parent-child relation not represented by an actual Relation record
+        ] # lag nil as this is a parent-child relation not represented by an actual Relation record
 
       expect(sheet.row(SINGLE))
         .to eq [
@@ -325,7 +325,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     it "adapts the datetime fields to the user time zone" do
       work_package.reload
       estimated_cell = sheet.rows.last.to_a.last
-      expect(estimated_cell).to eq "(15.0 h)"
+      expect(estimated_cell).to eq "· Σ 15.0 h"
     end
   end
 
@@ -344,7 +344,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     it "outputs both values" do
       work_package.reload
       estimated_cell = sheet.rows.last.to_a.last
-      expect(estimated_cell).to eq "0.0 h (15.0 h)"
+      expect(estimated_cell).to eq "0.0 h · Σ 15.0 h"
     end
   end
 end

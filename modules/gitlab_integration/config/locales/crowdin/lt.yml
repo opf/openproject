@@ -33,7 +33,7 @@ lt:
             labels:
               invalid_schema: "turi būti masyvas raktų: spalva, antraštė"
   project_module_gitlab: "GitLab"
-  permission_show_gitlab_content: "Show GitLab content"
+  permission_show_gitlab_content: "Rodyti GitLab turinį"
   gitlab_integration:
     merge_request_opened_comment: >
       **MR Atidarytas:** Suliejimo prašymą %{mr_number} [%{mr_title}](%{mr_url}) skirtą [%{repository}](%{repository_url}) atidarė [%{gitlab_user}](%{gitlab_user_url}).

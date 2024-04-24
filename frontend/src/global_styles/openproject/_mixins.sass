@@ -280,15 +280,14 @@ $scrollbar-size: 10px
 
 @mixin macro--text-style
   @media screen
-    // Ensure width of contents is wrapped
-    display: inline-block
+    display: inline
     background: rgba(218,223,225,0.19)
     border: 1px solid transparent
     padding: 2px
 
     &:hover
       cursor: default
-      border-color: var(--color-fg-muted)
+      border-color: var(--fgColor-muted)
       background: rgba(218,223,225,0.75)
 
 @mixin unset-button-styles

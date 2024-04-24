@@ -39,13 +39,14 @@ ms:
         participants_invited: "Jemputan"
         project: "Projek"
         start_date: "Tarikh"
-        start_time: "Masa"
-        start_time_hour: "Masa mula"
-      meeting_agenda_items:
-        title: "Tajuk"
-        author: "Bertanggungjawab"
-        duration_in_minutes: "Tempoh (minit)"
-        description: "Nota"
+        start_time: "Start time"
+        start_time_hour: "Start time"
+      meeting_agenda_item:
+        title: "Title"
+        author: "Author"
+        duration_in_minutes: "min"
+        description: "Notes"
+        presenter: "Presenter"
     errors:
       messages:
         invalid_time_format: "bukan masa yang sah. Format yang diperlukan: JJ:MM"
@@ -94,8 +95,12 @@ ms:
   label_time_zone: "Zon waktu"
   label_start_date: "Tarikh mula"
   meeting:
+    attachments:
+      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
-      title: "Salin mesyuarat %{title}"
+      title: "Copy meeting: %{title}"
+      attachments: "Salin lampiran"
+      attachments_text: "Salin semua fail yang dilampirkan ke dalam mesyuarat baru"
       agenda: "Salin agenda"
       agenda_text: "Salin agenda mesyuarat lama"
     email:
@@ -110,11 +115,11 @@ ms:
         new_date_time: "Tarikh/masa baru"
     label_mail_all_participants: "Hantar emel ke semua peserta"
     types:
-      classic: 'Klasik'
-      classic_text: 'Susun mesyuarat anda dalam agenda teks boleh format dan protokol.'
-      structured: 'Dinamik'
-      structured_text: 'Susun mesyuarat anda sebagai senarai butiran agenda, secara pilihan menghubungnya kepada pakej kerja.'
-      structured_text_copy: 'Menyalin mesyuarat pada masa ini tidak akan menyalin item agenda mesyuarat yang berkaitan, hanya butiran sahaja'
+      classic: "Klasik"
+      classic_text: "Susun mesyuarat anda dalam agenda teks boleh format dan protokol."
+      structured: "Dinamik"
+      structured_text: "Susun mesyuarat anda sebagai senarai butiran agenda, secara pilihan menghubungnya kepada pakej kerja."
+      structured_text_copy: "Menyalin mesyuarat pada masa ini tidak akan menyalin item agenda mesyuarat yang berkaitan, hanya butiran sahaja"
     copied: "Salin dari mesyuarat #%{id}"
   notice_successful_notification: "Pemberitahuan berjaya dihantar"
   notice_timezone_missing: Tiada zon waktu yang ditetapkan dan %{zone} adalah andaian.Untuk pilih zon waktu anda, sila klik sini.
@@ -142,13 +147,16 @@ ms:
   text_notificiation_invited: "Mel ini mengandungi kemasukan ics untuk mesyuarat dibawah:"
   text_meeting_empty_heading: "Mesyuarat anda kosong"
   text_meeting_empty_description_1: "Mula dengan menambah item agenda dibawah. Setiap item boleh jadi seringkas tajuk, tapi anda juga boleh tambah butiran tambahan seperti jangka masa dan nota."
-  text_meeting_empty_description_2: "Anda juga boleh menambah rujukan ke pakej kerja yang sedia ada. Apabila anda lakukan, nota berkaitan secara automatik akan boleh dilihat dalam tab \"Mesyuarat\" pakej kerja."
+  text_meeting_empty_description_2: 'Anda juga boleh menambah rujukan ke pakej kerja yang sedia ada. Apabila anda lakukan, nota berkaitan secara automatik akan boleh dilihat dalam tab "Mesyuarat" pakej kerja.'
   label_meeting_empty_action: "Tambah item agenda"
   label_meeting_actions: "Tindakan mesyuarat"
   label_meeting_edit_title: "Edit tajuk mesyuarat"
   label_meeting_delete: "Hapuskan mesyuarat"
   label_meeting_created_by: "Dicipta oleh"
   label_meeting_last_updated: "Kemas kini terakhir"
+  label_agenda_items: "Agenda items"
+  label_agenda_items_reordered: "reordered"
+  label_agenda_item_remove: "Keluarkan dari agenda"
   label_agenda_item_undisclosed_wp: "Pakej kerja #%{id} tidak kelihatan"
   label_agenda_item_deleted_wp: "Hapuskan rujukan pakej kerja"
   label_agenda_item_actions: "Tindakan item agenda"
@@ -157,10 +165,18 @@ ms:
   label_agenda_item_move_up: "Alihkan ke atas"
   label_agenda_item_move_down: "Gerak ke bawah"
   label_agenda_item_add_notes: "Tambah nota"
+  label_agenda_item_work_package: "Agenda item work package"
+  text_agenda_item_title: 'Agenda item "%{title}"'
+  text_agenda_work_package_deleted: 'Agenda item for deleted work package'
+  text_deleted_agenda_item: 'Deleted agenda item'
+  label_initial_meeting_details: "Meeting"
   label_meeting_details: "Butiran mesyuarat"
   label_meeting_details_edit: "Edit butiran mesyuarat"
+  label_meeting_state: "Meeting status"
   label_meeting_state_open: "Buka"
+  label_meeting_state_open_html: "<i>Open</i>"
   label_meeting_state_closed: "Ditutup"
+  label_meeting_state_closed_html: "<i>Closed</i>"
   label_meeting_reopen_action: "Buka semula mesyuarat"
   label_meeting_close_action: "Tutup mesyuarat"
   text_meeting_open_description: "Mesyuarat ini terbuka. Anda boleh tambah/keluarkan item agenda dan edit mereka sesuka hati. Setelah mesyuarat berakhir, tutup mesyuarat untuk kunci."
@@ -179,5 +195,5 @@ ms:
   text_agenda_item_no_notes: "Tiada nota disediakan"
   text_agenda_item_not_editable_anymore: "Item agenda tidak boleh diedit lagi."
   text_work_package_has_no_upcoming_meeting_agenda_items: "Pakej kerja ini belum dijadualkan dalam mana-mana agenda mesyuarat akan datang lagi."
-  text_work_package_add_to_meeting_hint: "Guna butang \"Tambah ke mesyuarat\" untuk tambah pakej kerja ini ke mesyuarat akan datang."
+  text_work_package_add_to_meeting_hint: 'Guna butang "Tambah ke mesyuarat" untuk tambah pakej kerja ini ke mesyuarat akan datang.'
   text_work_package_has_no_past_meeting_agenda_items: "Pakej kerja ini masih belum diutarakan dalam mesyuarat yang lalu."

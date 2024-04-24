@@ -93,8 +93,7 @@ RSpec.describe Storages::Storages::NextcloudContract, :storage_server_helpers, :
           expect(subject.errors.to_hash)
             .to eq({ password: ["could not be validated. Please check your storage connection and try again."] })
 
-          # twice due to HTTPX retry plugin being enabled.
-          expect(credentials_request).to have_been_made.twice
+          expect(credentials_request).to have_been_made.once
         end
       end
 

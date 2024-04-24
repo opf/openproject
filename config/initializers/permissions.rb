@@ -109,9 +109,16 @@ Rails.application.reloader.to_prepare do
                      permissible_on: :project,
                      require: :member
 
+      map.permission :select_project_custom_fields,
+                     {
+                       'projects/settings/project_custom_fields': %i[show toggle enable_all_of_section disable_all_of_section]
+                     },
+                     permissible_on: :project,
+                     require: :member
+
       map.permission :manage_members,
                      {
-                       members: %i[index new create update destroy autocomplete_for_member menu],
+                       members: %i[index new create update destroy destroy_by_principal autocomplete_for_member menu],
                        "members/menus": %i[show]
                      },
                      permissible_on: :project,
@@ -304,6 +311,7 @@ Rails.application.reloader.to_prepare do
 
       map.permission :share_work_packages,
                      {
+                       members: %i[destroy_by_principal],
                        "work_packages/shares": %i[index create destroy update resend_invite],
                        "work_packages/shares/bulk": %i[update destroy]
                      },

@@ -38,28 +38,32 @@ module Pages::StructuredMeeting
 
     def add_agenda_item(type: MeetingAgendaItem, save: true, &)
       page.within("#meeting-agenda-items-new-button-component") do
-        click_button I18n.t(:button_add)
-        click_link type.model_name.human
+        click_on I18n.t(:button_add)
+        click_on type.model_name.human
       end
 
       in_agenda_form do
         yield
-        click_button("Save") if save
+        click_on("Save") if save
       end
     end
 
     def cancel_add_form
       page.within("#meeting-agenda-items-new-component") do
-        click_link I18n.t(:button_cancel)
+        click_on I18n.t(:button_cancel)
         expect(page).to have_no_link I18n.t(:button_cancel)
       end
     end
 
     def cancel_edit_form(item)
-      page.within("#meeting-agenda-items-item-component-#{item.id}") do
-        click_link I18n.t(:button_cancel)
+      in_edit_form(item) do
+        click_on I18n.t(:button_cancel)
         expect(page).to have_no_link I18n.t(:button_cancel)
       end
+    end
+
+    def in_edit_form(item, &)
+      page.within("#meeting-agenda-items-item-component-#{item.id}", &)
     end
 
     def in_agenda_form(&)
@@ -75,10 +79,12 @@ module Pages::StructuredMeeting
 
     def remove_agenda_item(item)
       accept_confirm(I18n.t("text_are_you_sure")) do
-        select_action item, I18n.t(:button_delete)
+        action = item.work_package ? I18n.t(:label_agenda_item_remove) : I18n.t(:button_delete)
+        select_action(item, action)
       end
 
-      expect_no_agenda_item(title: item.title)
+      title = item.work_package ? item.work_package.subject : item.title
+      expect_no_agenda_item(title:)
     end
 
     def expect_agenda_item(title:)
@@ -150,8 +156,13 @@ module Pages::StructuredMeeting
       expect(page).to have_css(".ng-input  ", value: nil)
     end
 
+    def open_participant_form
+      page.find_test_selector("manage-participants-button").click
+      expect(page).to have_css("#edit-participants-dialog")
+    end
+
     def in_participant_form(&)
-      page.within("#meetings-sidebar-participants-form-component form", &)
+      page.within("#edit-participants-dialog", &)
     end
 
     def expect_participant(participant, invited: false, attended: false, editable: true)
@@ -169,17 +180,17 @@ module Pages::StructuredMeeting
     end
 
     def close_meeting
-      click_button("Close meeting")
+      click_on("Close meeting")
       expect(page).to have_button("Reopen meeting")
     end
 
     def reopen_meeting
-      click_button("Reopen meeting")
+      click_on("Reopen meeting")
       expect(page).to have_button("Close meeting")
     end
 
     def close_dialog
-      click_button(class: "Overlay-closeButton")
+      click_on(class: "Overlay-closeButton")
     end
 
     def meeting_details_container

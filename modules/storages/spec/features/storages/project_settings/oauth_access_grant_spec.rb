@@ -86,4 +86,22 @@ RSpec.describe "OAuth Access Grant Nudge upon adding a storage to a project",
                                           "redirect_uri=#{redirect_uri}&response_type=code&state=#{nonce}")
     end
   end
+
+  it "edits a storage, nudges the project admin to grant OAuth access" do
+    project_storage = create(:project_storage, project:, storage:)
+
+    visit edit_project_settings_project_storage_path(project_id: project, id: project_storage)
+
+    expect(page).to have_text("Edit the file storage to this project")
+
+    click_on "Save"
+
+    within_test_selector("oauth-access-grant-nudge-modal") do
+      expect(page).to be_axe_clean
+      expect(page).to have_text("One more step...")
+      click_on("Login")
+      wait_for(page).to have_current_path("/index.php/apps/oauth2/authorize?client_id=#{storage.oauth_client.client_id}&" \
+                                          "redirect_uri=#{redirect_uri}&response_type=code&state=#{nonce}")
+    end
+  end
 end

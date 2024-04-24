@@ -39,6 +39,7 @@ class MeetingAgendaItem < ApplicationRecord
   belongs_to :work_package, class_name: "::WorkPackage"
   has_one :project, through: :meeting
   belongs_to :author, class_name: "User", optional: false
+  belongs_to :presenter, class_name: "User", optional: true
 
   acts_as_list scope: :meeting
   default_scope { order(:position) }

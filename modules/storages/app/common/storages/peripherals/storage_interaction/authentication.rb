@@ -59,7 +59,7 @@ module Storages
             .resolve("#{storage.short_provider_type}.queries.auth_check")
             .call(storage:, auth_strategy:)
             .match(
-              on_success: ->(result) { result },
+              on_success: ->(*) { :connected },
               on_failure: ->(error) { error.code == :unauthorized ? :failed_authorization : :error }
             )
         end

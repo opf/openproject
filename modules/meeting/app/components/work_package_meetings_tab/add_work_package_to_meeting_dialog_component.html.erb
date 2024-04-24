@@ -1,0 +1,31 @@
+<%=
+  render(Primer::Alpha::Dialog.new(title: t("label_add_work_package_to_meeting_dialog_title"),
+                                   size: :xlarge,
+                                   id: 'add-work-package-to-meeting-dialog')) do |d|
+    d.with_header(variant: :large)
+    d.with_body do
+      render(WorkPackageMeetingsTab::AddWorkPackageToMeetingFormComponent.new(
+        work_package: @work_package,
+        meeting_agenda_item: @meeting_agenda_item
+      ))
+    end
+    d.with_footer do
+      component_collection do |buttons|
+        buttons.with_component(Primer::ButtonComponent.new(
+          data: {
+            'close-dialog-id': "add-work-package-to-meeting-dialog"
+          }
+        )) do
+          t("button_cancel")
+        end
+        buttons.with_component(Primer::ButtonComponent.new(
+          scheme: :primary,
+          form: "add-work-package-to-meeting-form",
+          data: { turbo: true },
+          type: :submit)) do
+          t("button_save")
+        end
+      end
+    end
+  end
+%>

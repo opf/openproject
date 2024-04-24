@@ -63,6 +63,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
            type: type_standard,
            subject: "Work package 1",
            story_points: 1,
+           done_ratio: 25,
+           derived_done_ratio: 50,
            description: "This is a description",
            list_custom_field.attribute_name => [
              list_custom_field.value_of("Foo"),
@@ -75,6 +77,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
            parent: work_package_parent,
            type: type_bug,
            subject: "Work package 2",
+           done_ratio: 50,
            story_points: 2,
            description: "This is work package 2",
            list_custom_field.attribute_name => list_custom_field.value_of("Foo"))
@@ -101,14 +104,24 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       export.export!
     end
   end
-  let(:column_names) { %w[id subject status story_points] }
+  let(:column_names) { %w[id subject status story_points done_ratio] }
 
   def work_packages_sum
     work_package_parent.story_points + work_package_child.story_points
   end
 
   def work_package_columns(work_package)
-    [work_package.id.to_s, work_package.subject, work_package.status.name, work_package.story_points.to_s]
+    [
+      work_package.id.to_s,
+      work_package.subject,
+      work_package.status.name,
+      work_package.story_points.to_s,
+      work_package_done_ratio(work_package)
+    ]
+  end
+
+  def work_package_done_ratio(work_package)
+    work_package.done_ratio == 25 ? "25% · Σ 50%" : "50%"
   end
 
   def work_package_details(work_package, index)
@@ -116,6 +129,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
      column_title(:id), work_package.id.to_s,
      column_title(:status), work_package.status.name,
      column_title(:story_points), work_package.story_points.to_s,
+     column_title(:done_ratio), work_package_done_ratio(work_package),
      label_title(:description), work_package.description]
   end
 
@@ -128,19 +142,24 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     `#{cmd}`
   end
 
-  subject(:pdf) do
-    PDF::Inspector::Text.analyze(File.read(export_pdf.content.path))
+  subject(:pdf_strings) do
+    # Joining the results for comparison since word wrapping leads to a different array for the same content
+    PDF::Inspector::Text.analyze(File.read(export_pdf.content.path)).strings.join(" ").squeeze(" ")
+  end
+
+  def pdf_eq_ignore_spacing(strings)
+    expect(pdf.strings.join(" ")).to eq(strings.join(" "))
   end
 
   describe "with a request for a PDF table" do
     it "contains correct data" do
-      expect(pdf.strings).to eq([
+      expect(pdf_strings).to eq [
                                   query.name,
                                   *column_titles,
                                   *work_package_columns(work_package_parent),
                                   *work_package_columns(work_package_child),
                                   "1/1", export_time_formatted, query.name
-                                ])
+                                ].join(" ")
     end
   end
 
@@ -148,7 +167,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     let(:query_attributes) { { group_by: "type" } }
 
     it "contains correct data" do
-      expect(pdf.strings).to eq([
+      expect(pdf_strings).to eq [
                                   query.name,
                                   work_package_parent.type.name,
                                   *column_titles,
@@ -157,7 +176,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
                                   *column_titles,
                                   *work_package_columns(work_package_child),
                                   "1/1", export_time_formatted, query.name
-                                ])
+                                ].join(" ")
     end
   end
 
@@ -165,7 +184,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     let(:query_attributes) { { group_by: "type", display_sums: true } }
 
     it "contains correct data" do
-      expect(pdf.strings).to eq([
+      expect(pdf_strings).to eq [
                                   query.name,
                                   work_package_parent.type.name,
                                   *column_titles,
@@ -176,7 +195,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
                                   *work_package_columns(work_package_child),
                                   I18n.t("js.label_sum"), work_package_child.story_points.to_s,
                                   "1/1", export_time_formatted, query.name
-                                ])
+                                ].join(" ")
     end
   end
 
@@ -184,7 +203,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     let(:query_attributes) { { group_by: list_custom_field.column_name, display_sums: true } }
 
     it "contains correct data" do
-      expect(pdf.strings).to eq([
+      expect(pdf_strings).to eq [
                                   query.name,
                                   "Foo",
                                   *column_titles,
@@ -195,7 +214,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
                                   *work_package_columns(work_package_parent),
                                   I18n.t("js.label_sum"), work_package_parent.story_points.to_s,
                                   "1/1", export_time_formatted, query.name
-                                ])
+                                ].join(" ")
     end
   end
 
@@ -203,7 +222,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     let(:options) { { show_report: true } }
 
     it "contains correct data" do
-      expect(pdf.strings).to eq([
+      expect(pdf_strings).to eq [
                                   *cover_page_content,
                                   query.name,
                                   "1.", "2", work_package_parent.subject,
@@ -212,7 +231,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
                                   *work_package_details(work_package_parent, "1"),
                                   *work_package_details(work_package_child, "2"),
                                   "2/2", export_time_formatted, query.name
-                                ])
+                                ].join(" ")
     end
   end
 
@@ -221,7 +240,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     let(:query_attributes) { { show_hierarchies: true } }
 
     it "contains correct data" do
-      expect(pdf.strings).to eq([
+      expect(pdf_strings).to eq [
                                   *cover_page_content,
                                   query.name,
                                   "1.", "2", work_package_parent.subject,
@@ -230,7 +249,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
                                   *work_package_details(work_package_parent, "1"),
                                   *work_package_details(work_package_child, "1.1"),
                                   "2/2", export_time_formatted, query.name
-                                ])
+                                ].join(" ")
     end
   end
 
@@ -239,7 +258,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     let(:query_attributes) { { display_sums: true } }
 
     it "contains correct data" do
-      expect(pdf.strings).to eq([
+      expect(pdf_strings).to eq [
                                   *cover_page_content,
                                   query.name,
                                   "1.", "2", work_package_parent.subject,
@@ -251,7 +270,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
                                   *work_package_details(work_package_parent, "1"),
                                   *work_package_details(work_package_child, "2"),
                                   "2/2", export_time_formatted, query.name
-                                ])
+                                ].join(" ")
     end
   end
 
@@ -260,7 +279,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     let(:query_attributes) { { display_sums: true, group_by: "type" } }
 
     it "contains correct data" do
-      expect(pdf.strings).to eq([
+      expect(pdf_strings).to eq [
                                   *cover_page_content,
                                   query.name,
                                   "1.", "2", work_package_parent.subject,
@@ -274,7 +293,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
                                   *work_package_details(work_package_parent, "1"),
                                   *work_package_details(work_package_child, "2"),
                                   "2/2", export_time_formatted, query.name
-                                ])
+                                ].join(" ")
     end
   end
 
@@ -283,7 +302,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     let(:query_attributes) { { display_sums: true, group_by: list_custom_field.column_name } }
 
     it "contains correct data" do
-      expect(pdf.strings).to eq([
+      expect(pdf_strings).to eq [
                                   *cover_page_content,
                                   query.name,
                                   "1.", "2", work_package_child.subject,
@@ -299,7 +318,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
                                   *work_package_details(work_package_child, "1"),
                                   *work_package_details(work_package_parent, "2"),
                                   "2/2", export_time_formatted, query.name
-                                ])
+                                ].join(" ")
     end
   end
 end

@@ -75,7 +75,7 @@ zh-TW:
     button_copy_to_clipboard: "複製到剪貼簿"
     button_copy_link_to_clipboard: "複製到剪貼簿"
     button_copy_to_other_project: "複製到其他專案"
-    button_custom-fields: "自訂欄位"
+    button_custom-fields: "客製欄位"
     button_delete: "删除"
     button_delete_watcher: "刪除監看者"
     button_details_view: "詳細檢視"
@@ -89,7 +89,7 @@ zh-TW:
     button_show_view: "全螢幕瀏覽"
     button_log_time: "日誌的時間"
     button_more: "更多"
-    button_open_details: "開啟詳細檢視"
+    button_open_details: "檢視工作項目所有資料"
     button_close_details: "關閉詳細檢視"
     button_open_fullscreen: "開啟全螢幕檢視"
     button_show_cards: "顯示卡片檢視"
@@ -146,7 +146,7 @@ zh-TW:
         manual: "切換到標記源模式"
         wysiwyg: "切換到所見即所得編輯器"
       macro:
-        error: "無法展開macro:"
+        error: "無法展開巨集(macro)： %{message}"
         attribute_reference:
           macro_help_tooltip: "This text segment is being dynamically rendered by a macro."
           not_found: "Requested resource could not be found"
@@ -190,7 +190,7 @@ zh-TW:
           text: "[Placeholder] 嵌入式日曆"
     admin:
       type_form:
-        custom_field: "自訂欄位"
+        custom_field: "客製欄位"
         inactive: "未啟用"
         drag_to_activate: "從這裡拖曳欄位來啟用它們"
         add_group: "增加群組屬性"
@@ -199,7 +199,7 @@ zh-TW:
         new_group: "新增群組"
         reset_to_defaults: "重設為預設值"
       enterprise:
-        text_reprieve_days_left: "天至緩衝期結束"
+        text_reprieve_days_left: "剩下 %{days} days 測試結束"
         text_expired: "已過期"
         trial:
           confirmation: "確認您的電子郵件地址"
@@ -343,15 +343,15 @@ zh-TW:
     homescreen:
       blocks:
         new_features:
-          text_new_features: "Read about new features and product updates."
+          text_new_features: "了解新功能和產品更新。"
           learn_about: "瞭解更多新功能的資訊"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_0":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
     ical_sharing_modal:
       title: "訂閱日曆"
       inital_setup_error_message: "更新資料時發生錯誤"
@@ -367,7 +367,7 @@ zh-TW:
     label_assignee: "執行者"
     label_add_column_after: "在後面增加一欄"
     label_add_column_before: "在前面增加一欄"
-    label_add_columns: "增加欄"
+    label_add_columns: "增加欄位"
     label_add_comment: "新增留言"
     label_add_comment_title: "點此留言，可輸入「 @使用者」，系統立即發郵件通知該成員"
     label_add_row_after: "在後面增加一列"
@@ -377,11 +377,12 @@ zh-TW:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "天前"
     label_all: "所有"
+    label_all_uppercase: "All"
     label_all_work_packages: "所有工作項目"
     label_and: "和"
     label_ascending: "昇冪"
     label_author: "作者: %{user}"
-    label_avatar: "頭像分身"
+    label_avatar: "大頭貼"
     label_between: "介於"
     label_board: "面板"
     label_board_locked: "停用"
@@ -390,7 +391,7 @@ zh-TW:
     label_change: "變更"
     label_create: "建立"
     label_create_work_package: "建立新的工作項目"
-    label_created_by: "建立由"
+    label_created_by: "建立者："
     label_date: "日期"
     label_date_with_format: "輸入 %{date_attribute} 使用以下格式: %{format}"
     label_deactivate: "停用"
@@ -418,11 +419,12 @@ zh-TW:
     label_expand_project_menu: "展開專案選單"
     label_export: "匯出"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_favored: "Favored"
     label_filename: "檔案"
     label_filesize: "檔案大小"
     label_general: "一般"
     label_global_roles: "全域角色"
-    label_greater_or_equal: ">="
+    label_greater_or_equal: "之前"
     label_group: "群組"
     label_group_by: "分組依據"
     label_group_plural: "群組"
@@ -439,17 +441,17 @@ zh-TW:
     label_latest_activity: "最新活動"
     label_last_updated_on: "最後更新於"
     label_learn_more_link: "了解更多"
-    label_less_or_equal: "<="
-    label_less_than_ago: "少於幾天前"
+    label_less_or_equal: "之後"
+    label_less_than_ago: "幾天內"
     label_loading: "讀取中..."
     label_mail_notification: "電子郵件通知"
-    label_manage_columns: "Manage and reorder columns"
+    label_manage_columns: "重新排列"
     label_me: "我"
     label_meeting_agenda: "會議大綱"
     label_meeting_minutes: "會議記錄"
     label_menu_collapse: "收合"
     label_menu_expand: "展開"
-    label_more_than_ago: "很多天之前"
+    label_more_than_ago: "多天前"
     label_next: "下一個"
     label_no_color: "無顏色"
     label_no_data: "沒有資料可顯示"
@@ -459,7 +461,7 @@ zh-TW:
     label_no_value: "無值"
     label_none: "無"
     label_not_contains: "不包含"
-    label_not_equals: "不包含"
+    label_not_equals: "不是"
     label_on: "開啟"
     label_open_menu: "開啟選單"
     label_open_context_menu: "打開選單"
@@ -533,7 +535,7 @@ zh-TW:
     label_columns: "欄"
     label_attachments: 附加檔
     label_drop_files: "將檔案拖至此處當作附件"
-    label_drop_or_click_files: "將檔案拖至此處，或按一下以傳輸。"
+    label_drop_or_click_files: "將檔案拖至此處，或點選上傳。"
     label_drop_folders_hint: 不能將資料夾作為附件上載。請選擇單個檔。
     label_add_attachments: "附加檔案"
     label_formattable_attachment_hint: "藉由拖放或從剪貼簿貼上至此欄位來附加和連結檔案。"
@@ -568,7 +570,7 @@ zh-TW:
         wiki: "在 <b>wiki</b> 中, 您可以與您的團隊一起記錄和分享知識。"
         backlogs:
           overview: " 在<b>backlogs</b> 檢視中，管理您的工作。"
-          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
+          sprints: "在 <b>積壓工作</b> 視圖中管理您的工作。 <br> 在右邊, 你有產品積壓或錯誤積壓, 在左邊, 你將有各自的衝刺。在這裡, 您可以創建 <b>史詩、使用者故事和錯誤</b>, 通過拖動 ' n ' drop 進行優先排序, 並將它們添加到衝刺中。"
           task_board_arrow: "To see your <b>task board</b>, open the sprint drop-down..."
           task_board_select: "...and select the <b>task board</b> entry."
           task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
@@ -612,12 +614,12 @@ zh-TW:
         overdue: "逾期"
         overdue_since: " %{difference_in_days}天前"
         property_today: "今天"
-        property_is: " %{difference_in_days}天內"
+        property_is: " %{difference_in_days}內"
         property_was: " %{difference_in_days}天前"
         property_is_deleted: "已刪除"
         upsale:
           title: "日期提醒"
-          description: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
+          description: "透過日期提醒，您將收到相關通知，這樣您就不會錯過或忘記重要的日期。"
       facets:
         unread: "未讀"
         unread_title: "顯示未讀"
@@ -626,22 +628,22 @@ zh-TW:
       center:
         label_actor_and: "和"
         and_more_users:
-          other: "和 1 個其他"
+          other: "與其他 %{count} 個"
         no_results:
-          at_all: "New notifications will appear here when there is activity that concerns you."
-          with_current_filter: "There are no notifications in this view at the moment"
+          at_all: "當有與您有關的活動時，新通知將在此顯示。"
+          with_current_filter: "目前此檢視中沒有任何通知"
         mark_all_read: "全部標示為已讀"
         mark_as_read: "標記為已讀"
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
-          no_notification: "Looks like you are all caught up."
-          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_notification: "看起來您已查看所有通知。"
+          no_notification_with_current_project_filter: "看起來您已查看所選專案的所有通知。"
+          no_notification_with_current_filter: "看起來您已查看“%{filter}”篩選條件的所有通知。"
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: "There are new notifications."
-          link_text: "Click here to load them"
+          link_text: "Click here to load them."
       menu:
         accountable: "負責人"
         by_project: "未讀(依專案)"
@@ -652,7 +654,7 @@ zh-TW:
         date_alert: "日期提醒"
         shared: "共享"
       settings:
-        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
+        change_notification_settings: '您可以修改 <a target="_blank" href="%{url}">通知設定</a>，以確保您不會錯過重要更新。'
         title: "通知設定"
         notify_me: "通知我"
         reminders:
@@ -686,16 +688,16 @@ zh-TW:
             description: "你參與的工作項目中所有活動的通知（執行者、負責人或監看者）。"
           delayed:
             title: "非參與中"
-            description: "所有項目活動的額外通知。"
+            description: "額外通知"
           date_alerts:
             title: "日期提醒"
             description: "當「執行者、負責人或監看者」進行中的工作項目，其重要日期臨近時，自動發出通知。"
-            teaser_text: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
+            teaser_text: "透過日期提醒，您將收到即將到來的開始或結束日期的通知，這樣您就不會錯過或忘記重要的截止日期。"
           overdue: 逾期
         project_specific:
           title: "特定專案通知設定"
           description: "特別專案通知設定將覆蓋上列標準設定。"
-          add: "於此專案新增設定"
+          add: "新增設定"
           already_selected: "已選取此專案"
           remove: "移除專案設定"
     password_confirmation:
@@ -738,22 +740,22 @@ zh-TW:
           title: "在以下日期收到電子郵件提醒"
         immediate:
           title: "寄發提醒郵件給我"
-          mentioned: "Immediately when someone @mentions me"
+          mentioned: "當有人使用「@帳號」提到我，系統立即發信通知我"
         alerts:
           title: "其他非工作項目之提醒"
           explanation: >
-            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
-          news_added: "已新增最新消息"
+            每日通知僅限於工作項目。 您可以選擇繼續接收以下事件郵件通知
+          news_added: "有最新消息"
           news_commented: "最新消息有留言"
           document_added: "文件已新增"
           forum_messages: "有新的討論區訊息"
-          wiki_page_added: "維基頁面已新增"
-          wiki_page_updated: "維基頁面已更新"
+          wiki_page_added: "新增維基頁面"
+          wiki_page_updated: "維基頁面有更新"
           membership_added: "成員加入"
           membership_updated: "成員更新"
         title: "電子郵件提醒"
         pause:
-          label: "Temporarily pause daily email reminders"
+          label: "暫時暫停每日電子郵件提醒"
           first_day: "第一天"
           last_day: "最後一天"
     text_are_you_sure: "是否確定？"
@@ -765,7 +767,7 @@ zh-TW:
         error_no_table_configured: "請為 %{group} 配置表。"
         reset_title: "重設表單配置"
         confirm_reset: >
-          警告: 確實要重置表單配置嗎？這將重置屬性到其預設組, 並禁用所有自訂欄位。
+          警告: 確實要重置表單配置嗎？這將重置屬性到其預設組, 並禁用所有客製欄位。
         upgrade_to_ee: "升級至地端企業版"
         upgrade_to_ee_text: "哇！如果您需要使用此功能，說明您非常專業！您是否願意成為企業版客戶來支持 OpenSource 開發人員？"
         more_information: "更多資訊"
@@ -780,7 +782,7 @@ zh-TW:
       tracking: "時間追蹤"
       stop: "Stop"
     timer:
-      start_new_timer: "Start new timer"
+      start_new_timer: "開始新的計時"
       timer_already_running: "To start a new timer, you must first stop the current timer:"
       timer_already_stopped: "No active timer for this work package, have you stopped it in another window?"
       tracking_time: "Tracking time"
@@ -797,7 +799,7 @@ zh-TW:
     relation_labels:
       parent: "上層目錄："
       children: "子項目"
-      relates: "關聯於"
+      relates: "關聯"
       duplicates: "重複"
       duplicated: "重複於"
       blocks: "攔阻"
@@ -817,8 +819,8 @@ zh-TW:
       set_parent: "設置上層專案"
       change_parent: "改變上層"
       remove_parent: "移除上一層"
-      hierarchy_indent: "Indent hierarchy"
-      hierarchy_outdent: "Outdent hierarchy"
+      hierarchy_indent: "縮排"
+      hierarchy_outdent: "凸排"
       group_by_wp_type: "依工作項目類型進行群組分類"
       group_by_relation_type: "按關聯類型分組"
       add_parent: "增加現有的上一層"
@@ -843,7 +845,7 @@ zh-TW:
       parent_placeholder: "Choose new parent or press escape to cancel."
     autocompleter:
       placeholder: "搜尋"
-      notFoundText: "No items found"
+      notFoundText: "找不到任何項目"
       project:
         placeholder: "選取專案"
     repositories:
@@ -867,7 +869,7 @@ zh-TW:
       zooms: "縮放等級"
       outlines: "層次結構級別"
     upsale:
-      ee_only: "Enterprise edition add-on"
+      ee_only: "企業版"
     wiki_formatting:
       strong: "粗體"
       italic: "斜體"
@@ -886,7 +888,7 @@ zh-TW:
       image: "圖片"
     work_packages:
       bulk_actions:
-        move: "Bulk change of project"
+        move: "專案整批變動"
         edit: "整批編輯"
         copy: "整批複製"
         delete: "整批刪除"
@@ -923,6 +925,8 @@ zh-TW:
       message_work_package_read_only: "工作項目被鎖定在此狀態。任何屬性以外的狀態都不能更改。"
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       placeholder_filter_by_text: "主旨, 描述, 留言 ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Added to view within the comparison time period"
         removal_label: "Removed from view within the comparison time period"
@@ -988,12 +992,12 @@ zh-TW:
         updatedAt: "更新於"
         versionName: "版本"
         version: "版本"
-        work: "工作"
-        workAlternative: "Estimated time"
-        remainingTime: "剩餘工作"
+        work: "工時"
+        workAlternative: "預估時間"
+        remainingTime: "剩餘工時"
       default_queries:
         latest_activity: "最新活動"
-        created_by_me: "由我創建"
+        created_by_me: "由我建立"
         assigned_to_me: "分配給我"
         recently_created: "最近創建的"
         all_open: "所有「進行中」工作"
@@ -1019,7 +1023,7 @@ zh-TW:
         move_column_left: "欄向左移"
         move_column_right: "欄向右移"
         hide_column: "隱藏欄"
-        insert_columns: "Insert columns"
+        insert_columns: "調整欄位"
         filters: "篩選條件"
         display_sums: "顯示加總"
         confirm_edit_cancel: "確實要取消編輯此版面的名稱嗎？標題將還原。"
@@ -1037,14 +1041,14 @@ zh-TW:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: "分享"
+        share: "共享"
         title: "分享工作項目"
         show_all_users: "顯示所有使用者"
         selected_count: "已選取 %{count} 個"
         selection:
           mixed: "Mixed"
         upsale:
-          description: "Share work packages with users who are not members of the project."
+          description: "與不是專案成員的使用者共用工作項目。"
       table:
         configure_button: "設定工作項目"
         summary: "由工作項目和工作項目屬性列組成的表格。"
@@ -1060,24 +1064,24 @@ zh-TW:
         display_settings: "顯示設定"
         default_mode: "展開清單"
         hierarchy_mode: "階層"
-        hierarchy_hint: "所有已篩選的資料都將隨其來源一起優化。階層資料可以展開和折疊。"
-        display_sums_hint: "顯示表結果下一行中所有 \"可加總\" 屬性的總和。"
+        hierarchy_hint: "所有已篩選的資料與其來源將一起優化。階層可以展開和折疊。"
+        display_sums_hint: "在表格結果下方的一行中顯示總和。"
         show_timeline_hint: "在表格的右側顯示互動式甘特圖。可以通過在表和甘特圖之間拖動分隔線來更改其寬度。"
         highlighting: "突顯"
         highlighting_mode:
-          description: "以顏色凸顯"
+          description: "以顏色突顯"
           none: "無突顯"
-          inline: "凸顯屬性"
+          inline: "突顯屬性"
           inline_all: "所有屬性"
           entire_row_by: "按類型劃分的整行"
           status: "狀態"
           priority: "優先等級"
           type: "類型"
         sorting_mode:
-          description: "Chose the mode to sort your Work packages:"
+          description: "選擇工作排列方式"
           automatic: "自動"
           manually: "手動"
-          warning: "You will lose your previous sorting when activating the automatic sorting mode."
+          warning: "啟動自動排序模式時，將清除先前的設定。"
         columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: "需要強調某些工作項目嗎？"
@@ -1086,7 +1090,7 @@ zh-TW:
         relation_filters:
           filter_work_packages_by_relation_type: "Filter work packages by relation type"
       tabs:
-        overview: 概要
+        overview: 總覽
         activity: 活動
         relations: 關聯
         watchers: 監看者
@@ -1140,7 +1144,7 @@ zh-TW:
     notice_successful_create: "建立成功"
     notice_successful_delete: "刪除成功"
     notice_successful_update: "更新成功"
-    notice_job_started: "job started."
+    notice_job_started: "工作已開始"
     notice_bad_request: "錯誤的請求"
     relations:
       empty: 無關聯存在
@@ -1205,7 +1209,7 @@ zh-TW:
         invite_to_project: "Invite %{type} to %{project}"
         User: "使用者"
         Group: "群組"
-        PlaceholderUser: "虛擬暫用群組"
+        PlaceholderUser: "虛擬群組"
         invite_principal_to_project: "Invite %{principal} to %{project}"
       project:
         label: "專案"
@@ -1224,7 +1228,7 @@ zh-TW:
           title: "群組"
           description: "Permissions based on the assigned role in the selected project"
         placeholder:
-          title: "虛擬暫用群組"
+          title: "虛擬群組"
           title_no_ee: "虛擬暫用群組（Enterprise edition 附加功能）"
           description: "Has no access to the project and no emails are sent out."
           description_no_ee: '由於沒有存取專案權限，所以不會發送電子郵件。<br>請查看<a href="%{eeHref}" target="_blank">企業版</a>。'
@@ -1241,12 +1245,13 @@ zh-TW:
         next_button: "下一個"
         required:
           user: "請選擇一個使用者"
-          placeholder: "請選擇一個「虛擬暫用群組」"
+          placeholder: "請選擇一個「虛擬群組」"
           group: "請選擇一個群組"
       role:
         label: "%{project} 中的角色"
         no_roles_found: "找不到角色。"
-        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: >-
+          This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>
         required: "請選擇一個角色： "
         next_button: "下一個"
       message:
@@ -1278,14 +1283,14 @@ zh-TW:
         does_not_match_search: "沒有符合搜尋條件"
       no_results: "沒有符合搜尋條件"
     baseline:
-      toggle_title: "基準日期"
+      toggle_title: "差異線"
       clear: "清除"
       apply: "套用"
-      header_description: "基準日期開始，突顯修改過的資料"
-      enterprise_header_description: "Highlight changes made to this list since any point in the past with Enterprise edition."
-      show_changes_since: "顯示差異"
-      baseline_comparison: "基準日比較"
-      help_description: "Reference time zone for the baseline."
+      header_description: "差異線開始，突顯修改過的資料"
+      enterprise_header_description: "從設定的差異點開始，將標示出修改過地方(企業版功能)"
+      show_changes_since: "差異起始"
+      baseline_comparison: "比較差異"
+      help_description: "差異線參考時區。"
       time_description: "當地時間： %{datetime}"
       time: "時間"
       from: "寄件者"
@@ -1297,7 +1302,7 @@ zh-TW:
         last_week: "上週"
         last_month: "上個月"
         a_specific_date: "特定日期"
-        between_two_specific_dates: "between two specific dates"
+        between_two_specific_dates: "兩個日期之間"
       legends:
         changes_since: "顯示差異，時間從："
         changes_between: "Changes between"
@@ -1320,3 +1325,7 @@ zh-TW:
       drop_modal:
         focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
         Close: "關閉"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

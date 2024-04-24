@@ -82,7 +82,7 @@ RSpec.describe "Structured meetings CRUD",
       expect(page).to have_button("Save")
 
       check(id: "checkbox_invited_#{other_user.id}")
-      click_button("Save")
+      click_on("Save")
     end
 
     show_page.expect_participants(count: 2)

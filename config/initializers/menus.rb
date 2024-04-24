@@ -330,6 +330,30 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: Proc.new { Workflow.model_name.human },
             parent: :admin_work_packages
 
+  menu.push :admin_projects_settings,
+            { controller: "/admin/settings/project_custom_fields", action: :index },
+            if: Proc.new { User.current.admin? },
+            caption: :label_project_plural,
+            icon: "projects"
+
+  menu.push :project_custom_fields_settings,
+            { controller: "/admin/settings/project_custom_fields", action: :index },
+            if: Proc.new { User.current.admin? },
+            caption: :label_project_attributes_plural,
+            parent: :admin_projects_settings
+
+  menu.push :new_project_settings,
+            { controller: "/admin/settings/new_project_settings", action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_project_new,
+            parent: :admin_projects_settings
+
+  menu.push :project_lists_settings,
+            { controller: "/admin/settings/projects_settings", action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_project_list_plural,
+            parent: :admin_projects_settings
+
   menu.push :custom_fields,
             { controller: "/custom_fields" },
             if: Proc.new { User.current.admin? },
@@ -624,8 +648,9 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: "settings2",
             allow_deeplink: true
 
-  {
+  project_menu_items = {
     general: :label_information_plural,
+    project_custom_fields: :label_project_attributes_plural,
     modules: :label_module_plural,
     types: :label_work_package_types,
     custom_fields: :label_custom_field_plural,
@@ -634,7 +659,9 @@ Redmine::MenuManager.map :project_menu do |menu|
     repository: :label_repository,
     time_entry_activities: :enumeration_activities,
     storage: :label_required_disk_storage
-  }.each do |key, caption|
+  }
+
+  project_menu_items.each do |key, caption|
     menu.push :"settings_#{key}",
               { controller: "/projects/settings/#{key}", action: "show" },
               caption:,

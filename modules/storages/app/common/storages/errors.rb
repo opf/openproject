@@ -34,6 +34,8 @@ module Storages
 
     class ResolverStandardError < BaseError; end
 
+    class PollingRequired < BaseError; end
+
     class MissingContract < ResolverStandardError; end
 
     class OperationNotSupported < ResolverStandardError; end
@@ -43,6 +45,16 @@ module Storages
     class SubclassResponsibility < BaseError
       def message
         "A subclass needs to implement its own version of this method."
+      end
+    end
+
+    class IntegrationJobError < BaseError
+      attr_reader :errors, :storage
+
+      def initialize(storage:, errors:)
+        super(errors.log_message)
+        @storage = storage
+        @errors = errors
       end
     end
 

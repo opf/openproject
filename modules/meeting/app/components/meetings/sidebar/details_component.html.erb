@@ -86,10 +86,10 @@
             end
           end
 
-          details.with_row(mt: 2, classes: 'meeting-detail-participants') do
+          details.with_row(mt: 2, classes: 'meeting-detail-participants', display: [nil, nil, :none]) do
             render_meeting_attribute_row(:people) do
-              flex_layout do |duration|
-                duration.with_column(mr: 2) do
+              flex_layout do |people|
+                people.with_column(mr: 2) do
                   render(Primer::Beta::Text.new) do
                     Meeting.human_attribute_name(
                       :participant,
@@ -98,17 +98,16 @@
                   end
                 end
 
-                duration.with_column(mr: 2) do
-                  render(OpTurbo::OpPrimer::AsyncDialogComponent.new(
-                    id: "edit-participants-dialog",
-                    src: participants_dialog_meeting_path(@meeting),
-                    size: :medium_portrait,
-                    title: Meeting.human_attribute_name(:participants),
-                    button_text: t("label_meeting_show_all_participants"),
-                    button_attributes: {
-                      scheme: :link,
-                      font_weight: :normal
-                    }))
+                people.with_column(mr: 2) do
+                  render(Primer::Beta::Button.new(
+                    scheme: :link,
+                    underline: false,
+                    tag: :a,
+                    href: participants_dialog_meeting_path(@meeting),
+                    data: { controller: 'async-dialog' }
+                  )) do
+                    t("label_meeting_show_all_participants")
+                  end
                 end
               end
             end

@@ -31,7 +31,8 @@ import { States } from 'core-app/core/states/states.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { StateService } from '@uirouter/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -43,6 +44,7 @@ import {
   WorkPackageViewPaginationService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3QueriesPaths } from 'core-app/core/apiv3/endpoints/queries/apiv3-queries-paths';
 import { ApiV3QueryPaths } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-paths';
@@ -61,6 +63,8 @@ export interface QueryDefinition {
 
 @Injectable()
 export class WorkPackagesListService {
+  @InjectField() protected readonly currentUser:CurrentUserService;
+
   // We remember the query requests coming in so we can ensure only the latest request is being tended to
   private queryRequests = input<QueryDefinition>();
 
@@ -73,7 +77,7 @@ export class WorkPackagesListService {
       // Map the observable from the stream to a new one that completes when states are loaded
       mergeMap((query:QueryResource) => {
         // load the form if needed
-        this.conditionallyLoadForm(query);
+        void this.conditionallyLoadForm(query);
 
         // Project the loaded query into the table states and confirm the query is fully loaded
         this.wpStatesInitialization.initialize(query, query.results);
@@ -85,6 +89,7 @@ export class WorkPackagesListService {
     );
 
   constructor(
+    readonly injector:Injector,
     protected toastService:ToastService,
     readonly I18n:I18nService,
     protected UrlParamsHelper:UrlParamsHelperService,
@@ -282,21 +287,7 @@ export class WorkPackagesListService {
       .then(() => {
         this.toastService.addSuccess(this.I18n.t('js.notice_successful_delete'));
 
-        if (this.$state.$current.data.hardReloadOnBaseRoute) {
-          const url = new URL(window.location.href);
-          url.search = '';
-          window.location.href = url.href;
-        } else {
-          let projectId;
-          if (query.project) {
-            projectId = query.project.href!.split('/').pop();
-          }
-
-          void this.loadDefaultQuery(projectId);
-
-          this.states.changes.queries.next(query.id!);
-          this.reloadSidemenu(null);
-        }
+        void this.navigateToDefaultQuery(query);
       });
 
     return promise;
@@ -317,10 +308,14 @@ export class WorkPackagesListService {
     void promise
       .then(() => {
         this.toastService.addSuccess(this.I18n.t('js.notice_successful_update'));
-
-        this.$state.go('.', { query_id: query!.id, query_props: null }, { reload: true });
-        this.states.changes.queries.next(query!.id!);
-        this.reloadSidemenu(query.id);
+        const queryAccessibleByUser = query.public || query.user.id === this.currentUser.userId;
+        if (queryAccessibleByUser) {
+          void this.$state.go('.', { query_id: query.id, query_props: null }, { reload: true });
+          this.states.changes.queries.next(query.id);
+          this.reloadSidemenu(query.id);
+        } else {
+          this.navigateToDefaultQuery(query);
+        }
       })
       .catch((error:ErrorResource) => {
         this.toastService.addError(error.message);
@@ -433,6 +428,26 @@ export class WorkPackagesListService {
             mapTo(createdQuery),
           )),
       );
+  }
+
+  private navigateToDefaultQuery(query:QueryResource):void {
+    const { hardReloadOnBaseRoute } = this.$state.$current.data as { hardReloadOnBaseRoute?:boolean };
+
+    if (hardReloadOnBaseRoute) {
+      const url = new URL(window.location.href);
+      url.search = '';
+      window.location.href = url.href;
+    } else {
+      let projectId;
+      if (query.project.href) {
+        projectId = query.project.href.split('/').pop();
+      }
+
+      void this.loadDefaultQuery(projectId);
+
+      this.states.changes.queries.next(query.id);
+      this.reloadSidemenu(null);
+    }
   }
 
   private reloadSidemenu(selectedQueryId:string|null):void {

@@ -31,12 +31,18 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe "Storages module", :js do
-  current_user { create(:admin) }
-
-  let(:role) { create(:project_role, permissions: %i[manage_storages_in_project select_project_modules edit_project]) }
+RSpec.describe "Storages module", :js, :with_cuprite do
+  let(:permissions) do
+    %i[manage_storages_in_project
+       select_project_modules
+       edit_project]
+  end
+  let(:user) { create(:admin) }
+  let(:role) { create(:project_role, permissions:) }
   let(:storage) { create(:nextcloud_storage, name: "Storage 1") }
   let(:project) { create(:project, enabled_module_names: %i[storages work_package_tracking]) }
+
+  current_user { user }
 
   shared_examples_for "content section has storages module" do |is_upcase = false|
     it 'must show "storages" in content section' do
@@ -56,9 +62,7 @@ RSpec.describe "Storages module", :js do
   end
 
   shared_examples_for "has storages module" do |sections: %i[content sidebar], is_upcase: false|
-    before do
-      visit(path)
-    end
+    before { visit(path) }
 
     include_examples "content section has storages module", is_upcase if sections.include?(:content)
     include_examples "sidebar has storages module" if sections.include?(:sidebar)
@@ -73,14 +77,12 @@ RSpec.describe "Storages module", :js do
 
     context "when showing system project settings page" do
       it_behaves_like "has storages module", sections: [:content] do
-        let(:path) { admin_settings_projects_path }
+        let(:path) { admin_settings_new_project_path }
       end
     end
 
     context "when showing system storage settings page" do
-      before do
-        visit admin_settings_storages_path
-      end
+      before { visit admin_settings_storages_path }
 
       it "must show the page" do
         expect(page).to have_text(I18n.t(:project_module_storages))
@@ -107,6 +109,8 @@ RSpec.describe "Storages module", :js do
   end
 
   context "when in project administration" do
+    let(:user) { create(:user, member_with_permissions: { project => permissions }) }
+
     before do
       storage
       project
@@ -119,7 +123,7 @@ RSpec.describe "Storages module", :js do
     end
 
     context "when showing project storages settings page" do
-      context "with storages module is enabled" do
+      context "when storages module is enabled" do
         before do
           visit project_settings_project_storages_path(project)
         end
@@ -129,15 +133,40 @@ RSpec.describe "Storages module", :js do
         end
       end
 
-      context "with storages module is disabled" do
+      context "when storages module is disabled" do
         let(:project) { create(:project, enabled_module_names: %i[work_package_tracking]) }
 
-        before do
-          visit project_settings_project_storages_path(project)
+        context "when user has manage_storages_in_project permission" do
+          it "must show the page and storage menu entry" do
+            visit project_path(project)
+            find("button.toggler.main-menu-toggler").click # opens project setting menu
+
+            within "#menu-sidebar" do
+              expect(page).to have_text(I18n.t(:project_module_storages))
+            end
+
+            visit project_settings_project_storages_path(project)
+
+            expect(page).to have_text(I18n.t("storages.page_titles.project_settings.index"))
+          end
         end
 
-        it "mustn't show the page" do
-          expect(page).to have_no_text(I18n.t("storages.page_titles.project_settings.index"))
+        context "when user has no manage_storages_in_project permission" do
+          let(:permissions) { %i[select_project_modules edit_project] }
+
+          it "must not show the page and storage menu entry" do
+            visit project_path(project)
+            find("button.toggler.main-menu-toggler").click # opens project setting menu
+
+            within "#menu-sidebar" do
+              expect(page).to have_no_text(I18n.t(:project_module_storages))
+            end
+
+            visit project_settings_project_storages_path(project)
+
+            expect(page).to have_no_text(I18n.t("storages.page_titles.project_settings.index"))
+            expect(page).to have_text("[Error 403] You are not authorized to access this page.")
+          end
         end
       end
     end

@@ -79,7 +79,7 @@ module Pages
     end
 
     def expect_add_to_meeting_dialog_shown
-      expect(page).to have_test_selector("op-add-work-package-to-meeting-dialog-body")
+      expect(page).to have_css("#add-work-package-to-meeting-dialog")
     end
 
     def switch_to_upcoming_meetings_section
@@ -104,7 +104,7 @@ module Pages
       page.find(".ng-option-marked").click
       page.find(".ck-editor__editable").set(notes)
 
-      click_button("Save")
+      click_on("Save")
     end
 
     private

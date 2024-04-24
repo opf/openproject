@@ -86,7 +86,7 @@ RSpec.describe "Structured meetings CRUD",
     # Can add and edit a single item
     show_page.add_agenda_item do
       fill_in "Title", with: "My agenda item"
-      fill_in "Duration (min)", with: "25"
+      fill_in "min", with: "25"
     end
 
     show_page.expect_agenda_item title: "My agenda item"
@@ -95,7 +95,7 @@ RSpec.describe "Structured meetings CRUD",
     item = MeetingAgendaItem.find_by(title: "My agenda item")
     show_page.edit_agenda_item(item) do
       fill_in "Title", with: "Updated title"
-      click_button "Save"
+      click_on "Save"
     end
 
     show_page.expect_no_agenda_item title: "My agenda item"
@@ -110,7 +110,7 @@ RSpec.describe "Structured meetings CRUD",
 
     show_page.in_agenda_form do
       fill_in "Title", with: "Second"
-      click_button "Save"
+      click_on "Save"
     end
 
     show_page.expect_agenda_item title: "Updated title"
@@ -152,7 +152,7 @@ RSpec.describe "Structured meetings CRUD",
     # Can edit and validate a work package item
     show_page.edit_agenda_item(wp_item) do
       show_page.clear_item_edit_work_package_title
-      click_button "Save"
+      click_on "Save"
     end
 
     show_page.expect_item_edit_field_error(wp_item, "Work package can't be blank.")
@@ -168,7 +168,7 @@ RSpec.describe "Structured meetings CRUD",
 
     show_page.add_agenda_item do
       fill_in "Title", with: "My agenda item"
-      fill_in "Duration in minutes", with: "25"
+      fill_in "min", with: "25"
     end
 
     show_page.expect_agenda_item title: "My agenda item"
@@ -176,7 +176,7 @@ RSpec.describe "Structured meetings CRUD",
 
     show_page.edit_agenda_item(my_item) do
       fill_in "Title", with: "My agenda item edited"
-      click_button "Save"
+      click_on "Save"
     end
 
     show_page.remove_agenda_item my_item
@@ -198,10 +198,10 @@ RSpec.describe "Structured meetings CRUD",
   end
 
   it "can delete a meeting and get back to the index page" do
-    click_button("op-meetings-header-action-trigger")
+    click_on("op-meetings-header-action-trigger")
 
     accept_confirm(I18n.t("text_are_you_sure")) do
-      click_button "Delete meeting"
+      click_on "Delete meeting"
     end
 
     expect(page).to have_current_path project_meetings_path(project)
@@ -219,9 +219,9 @@ RSpec.describe "Structured meetings CRUD",
     subject { @download_list.refresh_from(page).latest_download.to_s }
 
     it "can export the meeting as ICS" do
-      click_button("op-meetings-header-action-trigger")
+      click_on("op-meetings-header-action-trigger")
 
-      click_link I18n.t(:label_icalendar_download)
+      click_on I18n.t(:label_icalendar_download)
 
       expect(subject).to end_with ".ics"
     end
@@ -233,7 +233,7 @@ RSpec.describe "Structured meetings CRUD",
     # Can add and edit a single item
     show_page.add_agenda_item do
       fill_in "Title", with: "My agenda item"
-      fill_in "Duration (min)", with: "25"
+      fill_in "min", with: "25"
     end
 
     show_page.expect_agenda_item title: "My agenda item"
@@ -245,7 +245,7 @@ RSpec.describe "Structured meetings CRUD",
       item.update!(title: "Updated title")
 
       fill_in "Title", with: "My agenda item edited"
-      click_button "Save"
+      click_on "Save"
     end
 
     expect(page).to have_css(".flash", text: I18n.t("activerecord.errors.messages.error_conflict"))
@@ -257,22 +257,22 @@ RSpec.describe "Structured meetings CRUD",
     # Can add and edit a single item
     show_page.add_agenda_item do
       fill_in "Title", with: "My agenda item"
-      fill_in "Duration (min)", with: "25"
+      fill_in "min", with: "25"
     end
 
     show_page.expect_agenda_item title: "My agenda item"
     show_page.cancel_add_form
 
-    click_button("op-meetings-header-action-trigger")
-    click_link "Copy"
+    click_on("op-meetings-header-action-trigger")
+    click_on "Copy"
 
     expect(page).to have_current_path "/meetings/#{meeting.id}/copy"
 
-    click_button "Create"
+    click_on "Create"
 
     show_page.expect_agenda_item title: "My agenda item"
     new_meeting = StructuredMeeting.reorder(id: :asc).last
-    expect(page).to have_current_path "/meetings/#{new_meeting.id}"
+    expect(page).to have_current_path "/projects/#{project.identifier}/meetings/#{new_meeting.id}"
   end
 
   context "with a work package reference to another" do

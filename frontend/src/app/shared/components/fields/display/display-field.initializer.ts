@@ -33,7 +33,7 @@ import { DateDisplayField } from 'core-app/shared/components/fields/display/fiel
 import { DateTimeDisplayField } from 'core-app/shared/components/fields/display/field-types/datetime-display-field.module';
 import { DaysDurationDisplayField } from 'core-app/shared/components/fields/display/field-types/days-duration-display-field.module';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
-import { EstimatedTimeDisplayField } from 'core-app/shared/components/fields/display/field-types/estimated-time-display-field.module';
+import { WorkDisplayField } from 'core-app/shared/components/fields/display/field-types/work-display-field.module';
 import { FloatDisplayField } from 'core-app/shared/components/fields/display/field-types/float-display-field.module';
 import { FormattableDisplayField } from 'core-app/shared/components/fields/display/field-types/formattable-display-field.module';
 import { HighlightedResourceDisplayField } from 'core-app/shared/components/fields/display/field-types/highlighted-resource-display-field.module';
@@ -75,8 +75,8 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
       .addFieldType(MultipleUserFieldModule, 'users', ['[]User'])
       .addFieldType(FormattableDisplayField, 'formattable', ['Formattable'])
       .addFieldType(DaysDurationDisplayField, 'duration', ['duration'])
-      .addFieldType(EstimatedTimeDisplayField, 'remainingTime', ['remainingTime'])
-      .addFieldType(EstimatedTimeDisplayField, 'estimatedTime', ['estimatedTime'])
+      .addFieldType(WorkDisplayField, 'remainingTime', ['remainingTime'])
+      .addFieldType(WorkDisplayField, 'estimatedTime', ['estimatedTime'])
       .addFieldType(DateDisplayField, 'date', ['Date'])
       .addFieldType(DateTimeDisplayField, 'datetime', ['DateTime'])
       .addFieldType(BooleanDisplayField, 'boolean', ['Boolean'])

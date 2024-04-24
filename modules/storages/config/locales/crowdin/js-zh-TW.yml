@@ -5,8 +5,8 @@ zh-TW:
       link_files_in_storage: "Link files in %{storageType}"
       link_existing_files: "連結到已在雲端檔案系統之檔案"
       upload_files: "上傳檔案"
-      drop_files: "Drop files here to upload them to %{name}."
-      drop_or_click_files: "Drop files here or click to upload them to %{name}."
+      drop_files: "將檔案拖至此處或上傳至%{name}。"
+      drop_or_click_files: "將檔案拖至此處或點選上傳至%{name}。"
       login: "%{storageType} login"
       login_to: "Login to %{storageType}"
       no_connection: "No %{storageType} connection"
@@ -60,7 +60,7 @@ zh-TW:
           zero: "Select files to link"
           other: "連結 %{count} 個檔案"
         success_create:
-          other: "成功新增1個檔案連結"
+          other: "成功新增%{count}個檔案連結"
         upload_error:
           default: >
             您的檔案 (%{fileName}) 無法被上傳。

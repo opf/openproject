@@ -54,19 +54,19 @@ RSpec.describe "Meetings deletion" do
     it "can delete own and other's meetings" do
       visit index_path
 
-      click_link meeting.title
+      click_on meeting.title
       accept_confirm do
         find_test_selector("meetings-more-dropdown-menu").click
-        click_link "Delete"
+        click_on "Delete"
       end
 
       expect(page)
         .to have_current_path index_path
 
-      click_link other_meeting.title
+      click_on other_meeting.title
       accept_confirm do
         find_test_selector("meetings-more-dropdown-menu").click
-        click_link "Delete"
+        click_on "Delete"
       end
 
       expect(page)
@@ -83,13 +83,13 @@ RSpec.describe "Meetings deletion" do
     it "cannot delete own and other's meetings" do
       visit index_path
 
-      click_link meeting.title
+      click_on meeting.title
       expect(page)
         .to have_no_link "Delete"
 
       visit index_path
 
-      click_link other_meeting.title
+      click_on other_meeting.title
       expect(page)
         .to have_no_link "Delete"
     end

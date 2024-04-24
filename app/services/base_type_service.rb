@@ -71,12 +71,13 @@ class BaseTypeService
   def set_params_and_validate(params)
     # Only set attribute groups when it exists
     # (Regression #28400)
-    unless params[:attribute_groups].nil?
-      set_attribute_groups(params)
-    end
+    set_attribute_groups(params) unless params[:attribute_groups].nil?
 
     # This should go before `set_scalar_params` call to get the
-    # project_ids, custom_field_ids diffs from the type and the params
+    # project_ids, custom_field_ids diffs from the type and the params.
+    # For determining the active custom fields for the type, it is necessary
+    # to know whether the type is a milestone or not.
+    set_milestone_param(params) unless params[:is_milestone].nil?
     set_active_custom_fields
 
     if params[:project_ids].present?
@@ -86,6 +87,10 @@ class BaseTypeService
     set_scalar_params(params)
 
     validate_and_save(type, user)
+  end
+
+  def set_milestone_param(params)
+    type.is_milestone = params[:is_milestone]
   end
 
   def set_scalar_params(params)

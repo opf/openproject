@@ -181,7 +181,7 @@ zh-TW:
                 item_1:
                   name: 簡易清單
                 item_2:
-                  name: Priority list for today
+                  name: 今天工作優先順序
                 item_3:
                   name: 永不
             parent_child:
@@ -218,7 +218,7 @@ zh-TW:
                   name: 里程碑
           work_packages:
             item_0:
-              subject: Start of project
+              subject: 專案開始
             item_1:
               subject: Organize open source conference
               children:

@@ -348,11 +348,11 @@ es:
           learn_about: "Más información sobre las nuevas funciones"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_0":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                La versión contiene varias características nuevas y mejoras: <br> <ul class="%{list_styling_class}"> <li>Integración de GitLab (desarrollado originalmente por colaboradores de la Comunidad)</li> <li>Características avanzadas para listas de proyectos personalizadas</li> <li>Características avanzadas para el módulo Reuniones</li> <li>Funcionalidad de escaneo de virus con ClamAV (complemento Enterprise)</li> <li>Exportación de PDF: Se admiten las listas en celdas de tabla</li> <li>Se añade WebAuthn/FIDO/U2F como segundo factor</li> <li>Se añaden más idiomas al conjunto disponible por defecto</li> </ul>
+                La versión contiene varias características nuevas y mejoras: <br> <ul class="%{list_styling_class}"> <li>Implemente informes de progreso en todas las jerarquías de paquetes de trabajo.</li> <li>Gestione los atributos del proyecto de forma estructurada en la página de descripción general del proyecto.</li> <li>Vista simplificada de los campos personalizados en la lista de proyectos y en la descripción general del proyecto.</li> <li>Encabezados de página unificados con el elegante diseño Primer.</li> <li>Mejore las reuniones con nuevas funciones como la carga de archivos adjuntos, responsables e historial de reuniones. </li> <li>Alertas automáticas para los almacenamientos de archivos poco saludables, y gane control con las opciones de alternancia.</li> <li>Copie la carpeta de proyecto gestionada automáticamente para OneDrive/SharePoint al copiar proyectos.</li> <li>Pida a los administradores que eliminen los recursos compartidos en los paquetes de trabajo al revocar la pertenencia a un proyecto.</li> <li>Mejore la planificación con los modos de visualización de 4 y 8 semanas en el planificador de equipos.</li> </ul>
     ical_sharing_modal:
       title: "Suscribirse al calendario"
       inital_setup_error_message: "Se ha producido un error al obtener los datos."
@@ -378,6 +378,7 @@ es:
     label_added_time_by: 'Agregado por <a href="%{authorLink}">%{author}</a> a las %{age}'
     label_ago: "días antes"
     label_all: "todos"
+    label_all_uppercase: "All"
     label_all_work_packages: "todos los paquetes de trabajo"
     label_and: "y"
     label_ascending: "Ascendente"
@@ -419,6 +420,7 @@ es:
     label_expand_project_menu: "Expandir menú de proyecto"
     label_export: "Exportar"
     label_export_preparing: "La exportación se está preparando y se descargará en breve."
+    label_favored: "Favored"
     label_filename: "Archivo"
     label_filesize: "Tamaño"
     label_general: "General"
@@ -643,7 +645,7 @@ es:
           no_selection: "Haga clic en una notificación para ver todos los detalles de la actividad."
         new_notifications:
           message: "Hay nuevas notificaciones."
-          link_text: "Haga clic aquí para cargarlas"
+          link_text: "Haga clic aquí para cargarlas."
       menu:
         accountable: "Responsable"
         by_project: "Sin leer por proyecto"
@@ -925,6 +927,8 @@ es:
       message_work_package_read_only: "El paquete de trabajo está bloqueado en este estado. Excepto el estado, ningún otro atributo se puede modificar."
       message_work_package_status_blocked: "El estado del paquete de trabajo no permite la escritura porque están asignados como estado y versión cerrada."
       placeholder_filter_by_text: "Asunto, descripción, comentarios, ..."
+      progress:
+        title: "Estimaciones de trabajo y progreso"
       baseline:
         addition_label: "Añadido a la vista dentro del periodo de comparación"
         removal_label: "Eliminado de la vista dentro del periodo de tiempo de comparación"
@@ -1250,7 +1254,8 @@ es:
       role:
         label: "Rol en %{project}"
         no_roles_found: "No se encontraron roles"
-        description: 'Este es el role que el usuario recibirá al unirse al proyecto. El role define las acciones que són permitidas y que información pueden ver. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Obtén más información sobre roles y permisos. </a>'
+        description: >-
+          Este es el role que el usuario recibirá al unirse al proyecto. El role define las acciones que són permitidas y que información pueden ver. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Obtén más información sobre roles y permisos. </a>
         required: "Por favor, seleccione un rol"
         next_button: "Siguiente"
       message:
@@ -1324,3 +1329,7 @@ es:
       drop_modal:
         focus_grab: "Este es una ancla de enfoque para modales. Presione shift+tab para volver al elemento que activa el modal."
         Close: "Cerrar"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "Hay un problema de red."
+        network_on: "La red ha vuelto. Lo estamos intentando."

@@ -32,80 +32,73 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::DownloadLinkQuery, :webmock do
-  let(:file_link) { create(:file_link) }
-  let(:download_token) { "8dM3dC9iy1N74F5AJ0ClnjSF4dWTxfymVy1HTXBh8rbZVM81CpcBJaIYZvmR" }
-  let(:uri) do
-    "#{url}/index.php/apps/integration_openproject/direct/#{download_token}/#{CGI.escape(file_link.origin_name)}"
-  end
-  let(:json) do
-    {
-      ocs: {
-        meta: {
-          status: "ok",
-          statuscode: 200,
-          message: "OK"
-        },
-        data: {
-          url: "https://example.com/remote.php/direct/#{download_token}"
-        }
-      }
-    }.to_json
-  end
+  using Storages::Peripherals::ServiceResultRefinements
 
-  let(:url) { storage.host }
-  let(:storage) { create(:nextcloud_storage, :with_oauth_client) }
   let(:user) { create(:user) }
-  let(:token) { create(:oauth_client_token, user:, oauth_client: storage.oauth_client) }
-
-  before do
-    allow(Storages::Peripherals::StorageInteraction::Nextcloud::Util).to receive(:token).and_yield(token)
-
-    stub_request(:post, "#{url}/ocs/v2.php/apps/dav/api/v1/direct").to_return(status: 200, body: json, headers: {})
+  let(:storage) do
+    create(:nextcloud_storage_with_local_connection, :as_not_automatically_managed, oauth_client_token_user: user)
+  end
+  let(:auth_strategy) do
+    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken.strategy.with_user(user)
   end
 
-  it "must return a download link URL" do
-    result = described_class.call(storage:, user:, file_link:)
-    expect(result).to be_success
-    expect(result.result).to eql(uri)
-  end
+  let(:file_link) { create(:file_link, origin_id: "182") }
+  let(:not_existent_file_link) { create(:file_link, origin_id: "DeathStarNumberThree") }
 
-  context "if Nextcloud is running on a sub path" do
-    let(:storage) { create(:nextcloud_storage, :with_oauth_client, host: "https://example.com/html") }
+  subject { described_class.new(storage) }
 
-    it "must return a download link URL" do
-      result = described_class.call(storage:, user:, file_link:)
-      expect(result).to be_success
-      expect(result.result).to eql(uri)
-    end
-  end
+  describe "#call" do
+    it "responds with correct parameters" do
+      expect(described_class).to respond_to(:call)
 
-  describe "with outbound request returning 200 and an empty body" do
-    before do
-      stub_request(:post, "#{url}/ocs/v2.php/apps/dav/api/v1/direct").to_return(status: 200, body: "")
+      method = described_class.method(:call)
+      expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq auth_strategy], %i[keyreq file_link])
     end
 
-    it "must return :unauthorized ServiceResult" do
-      result = described_class.call(user:, file_link:, storage:)
-      expect(result).to be_failure
-      expect(result.errors.code).to be(:unauthorized)
-    end
-  end
+    context "without outbound request involved" do
+      context "with nil" do
+        it "returns an error" do
+          result = subject.call(auth_strategy:, file_link: nil)
 
-  shared_examples_for "outbound is failing" do |code = 500, symbol = :error|
-    describe "with outbound request returning #{code}" do
-      before do
-        stub_request(:post, "#{url}/ocs/v2.php/apps/dav/api/v1/direct").to_return(status: code)
-      end
-
-      it "must return :#{symbol} ServiceResult" do
-        result = described_class.call(user:, file_link:, storage:)
-        expect(result).to be_failure
-        expect(result.errors.code).to eq(symbol)
+          expect(result).to be_failure
+          expect(result.error_source).to eq(described_class)
+          expect(result.result).to eq(:error)
+        end
       end
     end
-  end
 
-  include_examples "outbound is failing", 404, :not_found
-  include_examples "outbound is failing", 401, :unauthorized
-  include_examples "outbound is failing", 500, :error
+    context "with outbound request successful" do
+      it "returns a result with a download url", vcr: "nextcloud/download_link_query_success" do
+        download_link = subject.call(auth_strategy:, file_link:)
+
+        expect(download_link).to be_success
+
+        uri = URI(download_link.result)
+        expect(uri.host).to eq("nextcloud.local")
+        expect(uri.path)
+          .to match(/index.php\/apps\/integration_openproject\/direct\/[0-9a-zA-Z]+\/#{file_link.origin_name}/)
+      end
+
+      it "returns an error if the file is not found", vcr: "nextcloud/download_link_query_not_found" do
+        download_link = subject.call(auth_strategy:, file_link: not_existent_file_link)
+
+        expect(download_link).to be_failure
+        expect(download_link.error_source).to eq(described_class)
+        expect(download_link.result).to eq(:not_found)
+      end
+    end
+
+    context "with outbound request returning 200 and an empty body" do
+      it "refreshes the token and returns success", vcr: "nextcloud/download_link_query_unauthorized" do
+        download_link = subject.call(auth_strategy:, file_link:)
+
+        expect(download_link).to be_success
+
+        uri = URI(download_link.result)
+        expect(uri.host).to eq("nextcloud.local")
+        expect(uri.path)
+          .to match(/index.php\/apps\/integration_openproject\/direct\/[0-9a-zA-Z]+\/#{file_link.origin_name}/)
+      end
+    end
+  end
 end

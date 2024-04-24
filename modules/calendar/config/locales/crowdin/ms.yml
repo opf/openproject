@@ -3,7 +3,7 @@ ms:
   plugin_openproject_calendar:
     name: "OpenProject Calendar"
     description: "Provides calendar views."
-  label_calendar: "Calendar"
+  label_calendar: "Kalendar"
   label_calendar_plural: "Kalendar"
   label_new_calendar: "Kalendar baru"
   permission_view_calendar: "Lihat kalendar"

@@ -26,7 +26,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import {
   CalendarOptions,
   DateSelectArg,
@@ -77,11 +85,16 @@ import {
   addBackgroundEvents,
   removeBackgroundEvents,
 } from 'core-app/features/team-planner/team-planner/planner/background-events';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import allLocales from '@fullcalendar/core/locales-all';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { MeetingResource } from 'core-app/features/hal/resources/meeting-resource';
 
 @Component({
   templateUrl: './wp-calendar.template.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   styleUrls: ['./wp-calendar.sass'],
   selector: 'op-wp-calendar',
   providers: [
@@ -98,6 +111,8 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
   }
 
   @Input() static = false;
+
+  @Input() showMeetings = false;
 
   calendarOptions$ = new Subject<CalendarOptions>();
 
@@ -129,6 +144,8 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     readonly halNotification:HalResourceNotificationService,
     readonly weekdayService:WeekdayService,
     readonly dayService:DayResourceService,
+    readonly apiV3Service:ApiV3Service,
+    readonly pathHelper:PathHelperService,
   ) {
     super();
   }
@@ -175,6 +192,50 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     }
   }
 
+  public calendarMeetingsFunction(
+    fetchInfo:{ start:Date, end:Date, timeZone:string },
+    successCallback:(events:EventInput[]) => void,
+  ):void {
+    if (!this.showMeetings) {
+      successCallback([]);
+      return;
+    }
+
+    const startDate = moment(fetchInfo.start).format('YYYY-MM-DD');
+    const endDate = moment(fetchInfo.end).format('YYYY-MM-DD');
+
+    const filters = new ApiV3FilterBuilder();
+    filters.add('datesInterval', '<>d', [startDate, endDate]);
+
+    if (this.currentProject.id) {
+      filters.add('project', '=', [this.currentProject.id]);
+    }
+
+    this
+      .apiV3Service
+      .meetings
+      .filtered(filters, { pageSize: '-1' })
+      .get()
+      .subscribe((meetings) => {
+        const events = meetings.elements.map((meeting:MeetingResource) => {
+          const sameProject = this.currentProject.id === meeting.project.id;
+          const title:string = sameProject ? meeting.title : `${meeting.project.name}: ${meeting.title}`;
+          return {
+            title,
+            start: Date.parse(meeting.startTime),
+            end: Date.parse(meeting.endTime),
+            editable: false,
+            durationEditable: false,
+            allDay: false,
+            className: 'fc-event-clickable',
+            meeting,
+          };
+        });
+
+        successCallback(events);
+      });
+  }
+
   // eslint-disable-next-line @angular-eslint/use-lifecycle-interface
   ngOnDestroy():void {
     super.ngOnDestroy();
@@ -191,6 +252,11 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
         {
           id: 'work_packages',
           events: this.calendarEventsFunction.bind(this) as unknown,
+        },
+        {
+          id: 'meetings',
+          events: this.calendarMeetingsFunction.bind(this) as unknown,
+          eventDisplay: 'block',
         },
         {
           events: [],
@@ -211,9 +277,16 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       select: this.handleDateClicked.bind(this) as unknown,
       eventResizableFromStart: true,
       editable: true,
+      displayEventTime: true,
+      displayEventEnd: true,
+      eventTimeFormat: {
+        hour: 'numeric',
+        minute: '2-digit',
+        meridiem: 'short',
+      },
       eventDidMount: (evt:CalendarViewEvent) => {
         const { el, event } = evt;
-        if (event.source?.id === 'background') {
+        if (event.source?.id !== 'work_packages') {
           return;
         }
         const workPackage = event.extendedProps.workPackage as WorkPackageResource;
@@ -260,16 +333,23 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
         removeBackgroundEvents(this.ucCalendar.getApi());
       },
       eventClick: (evt:EventClickArg) => {
-        const workPackageId = (evt.event.extendedProps.workPackage as WorkPackageResource).id as string;
-        // Currently the calendar widget is shown on multiple pages,
-        // but only the calendar module itself is a partitioned query space which can deal with a split screen request
-        if (this.$state.includes('calendar')) {
-          this.workPackagesCalendar.openSplitView(workPackageId);
-        } else {
-          void this.$state.go(
-            'work-packages.show',
-            { workPackageId },
-          );
+        if (evt.event.extendedProps.meeting) {
+          const meeting = evt.event.extendedProps.meeting as MeetingResource;
+          window.location.href = this.pathHelper.meetingPath(meeting.id as string);
+        }
+
+        if (evt.event.extendedProps.workPackage) {
+          const workPackageId = (evt.event.extendedProps.workPackage as WorkPackageResource).id as string;
+          // Currently the calendar widget is shown on multiple pages,
+          // but only the calendar module itself is a partitioned query space which can deal with a split screen request
+          if (this.$state.includes('calendar')) {
+            this.workPackagesCalendar.openSplitView(workPackageId);
+          } else {
+            void this.$state.go(
+              'work-packages.show',
+              { workPackageId },
+            );
+          }
         }
       },
     };
@@ -327,7 +407,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
         durationEditable: this.workPackagesCalendar.eventDurationEditable(workPackage),
         end: exclusiveEnd,
         allDay: true,
-        className: `__hl_background_type_${workPackage.type.id || ''}`,
+        className: `fc-event-clickable __hl_background_type_${workPackage.type.id || ''}`,
         workPackage,
       };
     });

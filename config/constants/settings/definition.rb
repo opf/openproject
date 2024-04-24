@@ -230,10 +230,6 @@ module Settings
         default: nil,
         writable: false
       },
-      commit_fix_done_ratio: {
-        description: "Progress to apply when commit fixes work package",
-        default: 100
-      },
       commit_fix_keywords: {
         description: "Keywords to look for in commit for fixing work packages",
         default: "fixes,closes"
@@ -591,11 +587,6 @@ module Settings
         description: "Enable user status (locked/unlocked) synchronization from LDAP",
         format: :boolean,
         default: false
-      },
-      ldap_tls_options: {
-        format: :hash,
-        default: {},
-        writable: true
       },
       log_level: {
         description: "Set the OpenProject logger level",
@@ -1107,7 +1098,7 @@ module Settings
       },
       work_package_done_ratio: {
         default: "field",
-        allowed: %w[field status disabled]
+        allowed: %w[field status]
       },
       work_packages_projects_export_limit: {
         default: 500

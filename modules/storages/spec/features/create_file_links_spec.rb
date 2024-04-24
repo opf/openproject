@@ -61,15 +61,11 @@ RSpec.describe "Managing file links in work package", :js, :webmock do
   before do
     allow(Storages::FileLinkSyncService).to receive(:new).and_return(sync_service)
 
-    stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/user")
-      .with(
-        headers: {
-          "Authorization" => "Bearer #{oauth_client_token.access_token}",
-          "Ocs-Apirequest" => "true",
-          "Accept" => "application/json"
-        }
-      )
-      .to_return(status: 200, body: "", headers: {})
+    Storages::Peripherals::Registry.stub(
+      "#{storage.short_provider_type}.queries.auth_check",
+      ->(_) { ServiceResult.success }
+    )
+
     stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}/")
       .to_return(status: 207, body: root_xml_response, headers: {})
     stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}/Folder1")

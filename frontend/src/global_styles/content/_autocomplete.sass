@@ -87,7 +87,7 @@ div.autocomplete
 
       .ng-placeholder
         top: 1px !important
-        color: var(--color-fg-muted)
+        color: var(--fgColor-muted)
         @include text-shortener
 
       input
@@ -112,13 +112,13 @@ div.autocomplete
   border-color: var(--borderColor-default) !important
 
 .ng-select .ng-arrow-wrapper .ng-arrow
-  border-color: var(--color-fg-muted) transparent transparent
+  border-color: var(--fgColor-muted) transparent transparent
 
 .ng-select.ng-select-opened>.ng-select-container .ng-arrow
-  border-color: transparent transparent var(--color-fg-muted)
+  border-color: transparent transparent var(--fgColor-muted)
 
 .ng-select .ng-clear-wrapper
-  color: var(--color-fg-muted)
+  color: var(--fgColor-muted)
 
 .ng-select.ng-select-multiple .ng-select-container
   height: initial !important
@@ -148,8 +148,7 @@ div.autocomplete
     margin-right: 8px
 
   &.ng-option-marked
-    background-color: var(--list-item-hover--color) !important
-    color: var(--body-font-color) !important
+    background-color: $spot-color-basic-gray-6 !important
 
 .ng-dropdown-footer
   padding: 0 !important

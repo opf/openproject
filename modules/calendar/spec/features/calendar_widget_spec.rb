@@ -31,14 +31,17 @@ require_relative "../../../overviews/spec/support/pages/overview"
 require_relative "../support/pages/calendar"
 
 RSpec.describe "Calendar Widget", :js, :with_cuprite, with_settings: { start_of_week: 1 } do
-  let(:project) do
-    create(:project, enabled_module_names: %w[work_package_tracking calendar_view])
+  shared_let(:project) do
+    create(:project, enabled_module_names: %w[work_package_tracking calendar_view meetings])
   end
-  let!(:work_package) do
+  shared_let(:work_package) do
     create(:work_package,
            project:,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
            due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday))
+  end
+  shared_let(:meeting) do
+    create(:structured_meeting, title: "Weekly", project:, start_time: Time.zone.tomorrow + 10.hours)
   end
 
   let(:overview_page) do
@@ -50,19 +53,26 @@ RSpec.describe "Calendar Widget", :js, :with_cuprite, with_settings: { start_of_
   current_user do
     create(:user,
            member_with_permissions: {
-             project => %w[view_work_packages edit_work_packages view_calendar manage_overview]
+             project => %w[view_work_packages view_meetings edit_work_packages view_calendar manage_overview]
            })
   end
 
   before do
     overview_page.visit!
-  end
-
-  it "opens the work package full view when clicking a calendar entry" do
     # within top-left area, add an additional widget
     overview_page.add_widget(1, 1, :row, "Calendar")
 
     overview_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
+  end
+
+  it 'shows the meeting' do
+    expect(page).to have_css('.fc-event', text: "Weekly", visible: :all)
+    page.find('.fc-event', text: "Weekly", visible: :all).click
+
+    expect(page).to have_current_path /meetings\/#{meeting.id}/
+  end
+
+  it "opens the work package full view when clicking a calendar entry" do
 
     # Clicking the calendar entry goes to work package full screen
     page.find(".fc-event-title", text: work_package.subject).click
@@ -73,11 +83,6 @@ RSpec.describe "Calendar Widget", :js, :with_cuprite, with_settings: { start_of_
   end
 
   it "can resize the same work package twice (Regression #48333)", with_cuprite: false do
-    # within top-left area, add an additional widget
-    overview_page.add_widget(1, 1, :row, "Calendar")
-
-    overview_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
-
     expect(page).to have_css(".fc-event-title", text: work_package.subject)
 
     calendar.resize_date(work_package, work_package.due_date - 1.day)

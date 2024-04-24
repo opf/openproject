@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*"] + %w(README.md)
 
-  s.add_dependency "fastimage", "~> 2.2.0"
+  s.add_dependency "fastimage", "~> 2.3.0"
   s.add_dependency "gravatar_image_tag", "~> 1.2.0"
   s.metadata["rubygems_mfa_required"] = "true"
 end

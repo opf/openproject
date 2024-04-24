@@ -37,7 +37,7 @@ zh-TW:
               can_only_contain_work_packages_of_current_sprint: "只可以在現在進度中包含工作項目的 IDs"
               must_block_at_least_one_work_package: "必須包含至少一個項目的 ID"
             version_id:
-              task_version_must_be_the_same_as_story_version: "必須與「使用者故事」(User Story)的版本相同。"
+              task_version_must_be_the_same_as_story_version: "必須與上層「使用者需求」(User Story)的版本相同。"
         sprint:
           cannot_end_before_it_starts: "進度不可以在開始前結束"
   backlogs:
@@ -64,8 +64,8 @@ zh-TW:
     properties: "屬性"
     rebuild: "重建"
     rebuild_positions: "重建位置"
-    remaining_hours: "剩餘工作"
-    remaining_hours_ideal: "剩餘工作(ideal)"
+    remaining_hours: "剩餘工時"
+    remaining_hours_ideal: "剩餘工時(ideal)"
     show_burndown_chart: "未完成圖"
     story: "使用者需求"
     story_points: "需求重點"
@@ -147,7 +147,7 @@ zh-TW:
   rb_label_copy_tasks_none: "無"
   rb_label_copy_tasks_open: "開啟"
   rb_label_link_to_original: "包含連結到原本的使用者需求"
-  remaining_hours: "剩餘工作"
+  remaining_hours: "剩餘工時"
   required_burn_rate_hours: "必須的完成率 (小時)"
   required_burn_rate_points: "必須的完成率 (點數)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
