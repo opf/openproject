@@ -42,6 +42,9 @@ es:
         subprojects:
           title: 'Subproyectos'
           no_results: 'No hay subproyectos.'
+        project_favorites:
+          title: 'Project favorites'
+          no_results: 'You currently have no project favorites. Click on the star icon in the project dashboard to add one to your favorites.'
         time_entries_current_user:
           title: 'Mi tiempo invertido'
           displayed_days: 'Días mostrados en el widget:'

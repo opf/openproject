@@ -264,6 +264,7 @@ th:
     lists:
       active: "Active projects"
       my: "My projects"
+      favored: "Favored projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1248,6 +1249,7 @@ th:
   button_edit: "แก้ไข"
   button_edit_associated_wikipage: "แก้ไขหน้าวิกิที่เกี่ยวข้อง: %{page_title}"
   button_expand_all: "ขยายทั้งหมด"
+  button_favorite: "Mark as favorite"
   button_filter: "ตัวกรอง"
   button_generate: "Generate"
   button_list: "รายการ"
@@ -1275,6 +1277,7 @@ th:
   button_unarchive: "เอาออกจากอาร์ไคฟ์"
   button_uncheck_all: "เอาเครื่องหมายออกทั้งหมด"
   button_unlock: "ปลดล็อก"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "ไม่เข้าชม"
   button_update: "ปรับปรุง"
   button_upgrade: "Upgrade"

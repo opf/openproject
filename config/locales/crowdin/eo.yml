@@ -264,6 +264,7 @@ eo:
     lists:
       active: "Active projects"
       my: "My projects"
+      favored: "Favored projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1263,6 +1264,7 @@ eo:
   button_edit: "Redakti"
   button_edit_associated_wikipage: "Redakti ligitan vikipaĝon: %{page_title}"
   button_expand_all: "Etendi ĉion"
+  button_favorite: "Mark as favorite"
   button_filter: "Filtrilo"
   button_generate: "Krei"
   button_list: "Listo"
@@ -1290,6 +1292,7 @@ eo:
   button_unarchive: "Elarkivigi"
   button_uncheck_all: "Malelekti ĉion"
   button_unlock: "Malŝlosi"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Malatenti"
   button_update: "Ĝisdatigi"
   button_upgrade: "Ppromocii"

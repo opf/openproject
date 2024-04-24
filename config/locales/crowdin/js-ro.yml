@@ -377,6 +377,7 @@ ro:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "zile în urmă"
     label_all: "toate"
+    label_all_uppercase: "All"
     label_all_work_packages: "toate pachetele de lucru"
     label_and: "și"
     label_ascending: "Crescător"
@@ -418,6 +419,7 @@ ro:
     label_expand_project_menu: "Deschideți meniul proiectului"
     label_export: "Exportare"
     label_export_preparing: "Exportul este în curs de pregătire și va fi descărcat în curând."
+    label_favored: "Favored"
     label_filename: "Fișier"
     label_filesize: "Dimensiune"
     label_general: "General"

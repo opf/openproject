@@ -266,6 +266,7 @@ vi:
     lists:
       active: "Active projects"
       my: "My projects"
+      favored: "Favored projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1250,6 +1251,7 @@ vi:
   button_edit: "Chỉnh sửa"
   button_edit_associated_wikipage: "Chỉnh sửa trang Wiki liên quan: %{page_title}"
   button_expand_all: "Mở rộng tất cả"
+  button_favorite: "Mark as favorite"
   button_filter: "Bộ lọc"
   button_generate: "Tạo"
   button_list: "Danh sách"
@@ -1277,6 +1279,7 @@ vi:
   button_unarchive: "Ngừng lưu trữ"
   button_uncheck_all: "Bỏ chọn tất cả"
   button_unlock: "Mở khoá"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Ngừng theo dõi"
   button_update: "Cập Nhật"
   button_upgrade: "Nâng cấp"

@@ -259,6 +259,7 @@ uk:
     lists:
       active: "Активні проєкти"
       my: "Мої проєкти"
+      favored: "Favored projects"
       archived: "Заархівовані проєкти"
       my_private: "Особисті списки проєктів"
       new:
@@ -1288,6 +1289,7 @@ uk:
   button_edit: "Редагувати"
   button_edit_associated_wikipage: "Редагувати пов'язану Wiki сторінку: %{page_title}"
   button_expand_all: "Розгорнути все"
+  button_favorite: "Mark as favorite"
   button_filter: "Фільтр"
   button_generate: "Згенерувати"
   button_list: "Список"
@@ -1315,6 +1317,7 @@ uk:
   button_unarchive: "Розпакувати"
   button_uncheck_all: "Зняти усі відмітки"
   button_unlock: "Розблокувати"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Перестати відстежувати"
   button_update: "Оновити"
   button_upgrade: "Оновити"

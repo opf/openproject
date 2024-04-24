@@ -42,6 +42,9 @@ ja:
         subprojects:
           title: '子プロジェクト'
           no_results: '子プロジェクトはありません。'
+        project_favorites:
+          title: 'Project favorites'
+          no_results: 'You currently have no project favorites. Click on the star icon in the project dashboard to add one to your favorites.'
         time_entries_current_user:
           title: '自分の作業時間'
           displayed_days: 'ウィジェットに表示される日数:'

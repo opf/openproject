@@ -261,6 +261,7 @@ zh-CN:
     lists:
       active: "有效项目"
       my: "我的项目"
+      favored: "Favored projects"
       archived: "归档项目"
       my_private: "我的私有项目列表"
       new:
@@ -1244,6 +1245,7 @@ zh-CN:
   button_edit: "编辑"
   button_edit_associated_wikipage: "编辑关联的维基页面： %{page_title}"
   button_expand_all: "全部展开"
+  button_favorite: "Mark as favorite"
   button_filter: "筛选器"
   button_generate: "生成"
   button_list: "列表"
@@ -1271,6 +1273,7 @@ zh-CN:
   button_unarchive: "取消归档"
   button_uncheck_all: "全部不选"
   button_unlock: "解锁​​​​"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "取消关注"
   button_update: "更新"
   button_upgrade: "升级"

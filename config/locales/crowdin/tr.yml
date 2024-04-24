@@ -264,6 +264,7 @@ tr:
     lists:
       active: "Active projects"
       my: "My projects"
+      favored: "Favored projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1262,6 +1263,7 @@ tr:
   button_edit: "Düzenle"
   button_edit_associated_wikipage: "İlişkili Wiki sayfasını düzenle: %{page_title}"
   button_expand_all: "Tümünü genişlet"
+  button_favorite: "Mark as favorite"
   button_filter: "Filtre"
   button_generate: "Üretmek"
   button_list: "Liste"
@@ -1289,6 +1291,7 @@ tr:
   button_unarchive: "Arşivden çıkar"
   button_uncheck_all: "Tüm işaretleri kaldır"
   button_unlock: "Kilidi kaldır"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "İzleme"
   button_update: "Güncelle"
   button_upgrade: "Yükselt"

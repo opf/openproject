@@ -264,6 +264,7 @@ hi:
     lists:
       active: "Active projects"
       my: "My projects"
+      favored: "Favored projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1261,6 +1262,7 @@ hi:
   button_edit: "संपादित करें"
   button_edit_associated_wikipage: "संबद्ध विकी पृष्ठ संपादित करें: %{page_title}"
   button_expand_all: "सभी विस्तृत करें"
+  button_favorite: "Mark as favorite"
   button_filter: "Filter"
   button_generate: "Generate"
   button_list: "सूची"
@@ -1288,6 +1290,7 @@ hi:
   button_unarchive: "अपुरालेखित करें"
   button_uncheck_all: "सभी अचयनित करें"
   button_unlock: "अनलॉक करें"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "अनवॉच"
   button_update: "अद्यतन करें"
   button_upgrade: "Upgrade"

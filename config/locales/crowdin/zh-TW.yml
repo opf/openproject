@@ -263,6 +263,7 @@ zh-TW:
     lists:
       active: "啟用中的專案"
       my: "我的專案"
+      favored: "Favored projects"
       archived: "封存專案"
       my_private: "我的私人專案"
       new:
@@ -1247,6 +1248,7 @@ zh-TW:
   button_edit: "編輯"
   button_edit_associated_wikipage: "編輯關聯的維基頁面：%{page_title}"
   button_expand_all: "全部展開"
+  button_favorite: "Mark as favorite"
   button_filter: "篩選條件"
   button_generate: "產生"
   button_list: "清單"
@@ -1274,6 +1276,7 @@ zh-TW:
   button_unarchive: "取消封存"
   button_uncheck_all: "取消全選"
   button_unlock: "解除鎖定"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "取消監看"
   button_update: "更新"
   button_upgrade: "升級"

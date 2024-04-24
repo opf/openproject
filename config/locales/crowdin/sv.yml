@@ -264,6 +264,7 @@ sv:
     lists:
       active: "Aktiva projekt"
       my: "Mina projekt"
+      favored: "Favored projects"
       archived: "Arkiverade projekt"
       my_private: "My private project lists"
       new:
@@ -1262,6 +1263,7 @@ sv:
   button_edit: "Redigera"
   button_edit_associated_wikipage: "Redigerade associerad wikisida: %{page_title}"
   button_expand_all: "Expandera alla"
+  button_favorite: "Mark as favorite"
   button_filter: "Filter"
   button_generate: "Generera"
   button_list: "Lista"
@@ -1289,6 +1291,7 @@ sv:
   button_unarchive: "Hämta från Arkiv"
   button_uncheck_all: "Avmarkera alla"
   button_unlock: "Lås upp"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Sluta bevaka"
   button_update: "Uppdatera"
   button_upgrade: "Uppgradera"

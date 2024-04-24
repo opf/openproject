@@ -378,6 +378,7 @@ fr:
     label_added_time_by: 'Ajouté par <a href="%{authorLink}">%{author}</a> le %{age}'
     label_ago: "il y a"
     label_all: "tous"
+    label_all_uppercase: "All"
     label_all_work_packages: "tous les lots de travaux"
     label_and: "et"
     label_ascending: "Croissant"
@@ -419,6 +420,7 @@ fr:
     label_expand_project_menu: "Déplier le menu du projet"
     label_export: "Exporter"
     label_export_preparing: "L'export est en cours de préparation et sera téléchargé sous peu."
+    label_favored: "Favored"
     label_filename: "Fichier"
     label_filesize: "Taille"
     label_general: "Général"

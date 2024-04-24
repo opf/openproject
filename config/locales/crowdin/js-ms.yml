@@ -378,6 +378,7 @@ ms:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "days ago"
     label_all: "all"
+    label_all_uppercase: "All"
     label_all_work_packages: "all work packages"
     label_and: "and"
     label_ascending: "Ascending"
@@ -419,6 +420,7 @@ ms:
     label_expand_project_menu: "Kembangkan menu projek"
     label_export: "Eksport"
     label_export_preparing: "Eksport sedang disediakan dan akan dimuat turun sebentar lagi."
+    label_favored: "Favored"
     label_filename: "Fail"
     label_filesize: "Saiz"
     label_general: "Umum"
