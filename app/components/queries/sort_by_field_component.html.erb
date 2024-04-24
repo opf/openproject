@@ -1,11 +1,11 @@
 <%= render(Primer::OpenProject::GridLayout.new(css_class: "op-configure-query-sort-form", tag: :div, data: { "sort-by-config-target" => "inputRow"}, style: (display? ? "" : "display:none;"))) do |grid| %>
   <% grid.with_area("field") do %>
-    <%= select_tag 'sort_field', select_options, include_blank: true, form: "none" %>
+    <%= select_tag 'sort_field', select_options, include_blank: true, form: "none", data: { action: "change->sort-by-config#fieldChanged"} %>
   <% end %>
   <% grid.with_area("direction") do %>
     <%= render(Primer::Alpha::SegmentedControl.new("aria-label": "Sort order", hide_labels: true)) do |sort_buttons| %>
-      <% sort_buttons.with_item(icon: "sort-asc", label: "sort ascending", selected: order_asc?) %>
-      <% sort_buttons.with_item(icon: "sort-desc", label: "sort descending", selected: order_desc?) %>
+      <% sort_buttons.with_item(icon: "sort-asc", label: "sort ascending", selected: order_asc? , data: { direction: 'asc', action: "click:segmented-control#select click->sort-by-config#fieldChanged"}) %>
+      <% sort_buttons.with_item(icon: "sort-desc", label: "sort descending", selected: order_desc?, data: { direction: 'desc', action: "click:segmented-control#select click->sort-by-config#fieldChanged"}) %>
     <% end %>
   <% end %>
 <% end %>

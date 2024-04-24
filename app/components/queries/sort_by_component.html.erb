@@ -1,5 +1,5 @@
 <div data-controller="sort-by-config" data-application-target="dynamic">
-  <%= hidden_field_tag :sortBy, current_orders, data: { "sort-by-config-target" => "sortByField"} %>
+  <%= text_field_tag :sortBy, current_orders, data: { "sort-by-config-target" => "sortByField"} %>
   <%= render(Primer::OpenProject::FlexLayout.new) do |layout| %>
     <% order_limit.times do |i| %>
       <% layout.with_row do %>
