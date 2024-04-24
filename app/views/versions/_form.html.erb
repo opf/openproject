@@ -1,0 +1,81 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%
+  # locals: f, project, errors
+  version = f.object
+  contract = version_contract(version)
+%>
+
+<%= error_messages_for version %>
+<%= back_url_hidden_field_tag %>
+
+<div class="form--field -required">
+  <%= f.text_field :name, required: true, container_class: '-wide' %>
+</div>
+
+<div class="form--field">
+  <%= f.text_field :description, container_class: '-wide'%>
+</div>
+
+<div class="form--field">
+  <%= f.select :status,
+               contract.assignable_statuses.map { |s| [t("version_status_#{s}"), s] },
+               container_class: '-slim' %>
+</div>
+
+<div class="form--field">
+  <%= f.select :wiki_page_title,
+               wiki_page_options_for_select(contract.assignable_wiki_pages.includes(:parent), placeholder: false, ids: false),
+               { label: :label_wiki_page, include_blank: true },
+               { container_class: "-wide", disabled: contract.assignable_wiki_pages.none? } %>
+</div>
+
+<div class="form--field">
+  <%= f.date_picker :start_date %>
+</div>
+
+<div class="form--field">
+  <%= f.date_picker :effective_date %>
+</div>
+
+<div class="form--field">
+  <%= f.select :sharing,
+               contract.assignable_sharings.map { |v| [format_version_sharing(v), v] },
+               container_class: '-middle' %>
+</div>
+
+<% if project.enabled_modules.map(&:name).include?("backlogs") %>
+
+  <%= version_settings_fields(version, project) %>
+
+<% end %>
+
+<%= render partial: "customizable/form",
+           locals: { form: f, all_fields: true, only_required: false } %>

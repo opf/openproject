@@ -1,0 +1,34 @@
+#!/bin/bash
+set -e
+set -o pipefail
+
+CURRENT_PGVERSION="$(cat $PGDATA/PG_VERSION)"
+NEW_PGVERSION="13"
+
+if [ "$CURRENT_PGVERSION" == "$NEW_PGVERSION" ]; then
+	echo "Current and new postgres version are identical. Aborting."
+	exit 1
+fi
+
+export PGBINOLD="/usr/lib/postgresql/$CURRENT_PGVERSION/bin"
+export PGBINNEW="/usr/lib/postgresql/$NEW_PGVERSION/bin"
+export PGDATAOLD="$PGDATA"
+if [ "$OPENPROJECT_INSTALLATION__TYPE" == "docker" ]; then
+	export PGDATANEW="$PGDATA-next"
+else
+	export PGDATANEW="/var/lib/postgresql/$NEW_PGVERSION/main"
+fi
+
+if [ ! -d "$PGDATANEW" ]; then
+	echo "$PGDATANEW does not exist."
+	exit 1
+fi
+
+if [ ! -f "$PGDATANEW/PG_VERSION" ]; then
+	echo "Empty cluster found in $PGDATANEW. Generating cluster..."
+	PGBIN=$PGBINNEW PGDATA=$PGDATANEW ./docker/prod/postgres-db-init
+fi
+
+cd /var/lib/postgresql
+su -m postgres -c "$PGBINNEW/pg_upgrade"
+su -m postgres -c "./analyze_new_cluster.sh"

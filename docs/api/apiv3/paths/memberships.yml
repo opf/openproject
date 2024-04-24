@@ -1,0 +1,164 @@
+# /api/v3/memberships
+---
+get:
+  summary: List memberships
+  operationId: list_memberships
+  tags:
+    - Memberships
+  description: |-
+    Returns a collection of memberships. The client can choose to filter
+    the memberships similar to how work packages are filtered. In addition to the
+    provided filters, the server will reduce the result set to only contain memberships,
+    for which the requesting client has sufficient permissions (*view_members*, *manage_members*).
+  parameters:
+    - name: filters
+      in: query
+      required: false
+      schema:
+        type: string
+      description: |-
+        JSON specifying filter conditions.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/)
+        endpoint. Currently supported filters are:
+
+        + any_name_attribute: filters memberships based on the name of the principal. All possible name variants
+          (and also email and login) are searched.
+        + blocked: reduces the result set to all memberships that are temporarily blocked or that are not blocked
+          temporarily.
+        + group: filters memberships based on the name of a group. The group however is not the principal used for
+          filtering. Rather, the memberships of the group are used as the filter values.
+        + name: filters memberships based on the name of the principal. Note that only the name is used which depends
+          on a setting in the OpenProject instance.
+        + principal: filters memberships based on the id of the principal.
+        + project: filters memberships based on the id of the project.
+        + role: filters memberships based on the id of any role assigned to the membership.
+        + status: filters memberships based on the status of the principal.
+        + created_at: filters memberships based on the time the membership was created.
+        + updated_at: filters memberships based on the time the membership was updated last.
+      examples:
+        name-filter:
+          summary: Filtering on the name of the principal
+          value: '[{ "name": { "operator": "=", "values": ["A User"] }" }]'
+        global-memberships:
+          summary: Get memberships for global roles
+          value: '[{ "project": { "operator": "!*", "values": null }" }]'
+    - name: sortBy
+      in: query
+      required: false
+      schema:
+        default: '[["id", "asc"]]'
+        type: string
+      description: |-
+        JSON specifying sort criteria.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/)
+        endpoint. Currently supported sorts are:
+
+        + id: Sort by primary key
+        + name: Sort by the name of the principal. Note that this depends on the setting for how the name is to be
+          displayed at least for users.
+        + email: Sort by the email address of the principal. Groups and principal users, which do not have an email,
+          are sorted last.
+        + status: Sort by the status of the principal. Groups and principal users, which do not have a status, are
+          sorted together with the active users.
+        + created_at: Sort by membership creation datetime
+        + updated_at: Sort by the time the membership was updated last
+      example: '[["id", "asc"]]'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/membership_collection_model.yml'
+          examples:
+            'simple membership collection':
+              $ref: '../components/examples/membership-simple-collection-response.yml'
+    '400':
+      $ref: '../components/responses/invalid_query.yml'
+    '403':
+      description: Returned if the client is not logged in and login is required.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to view this resource.
+
+post:
+  summary: Create a membership
+  operationId: create_membership
+  tags:
+    - Memberships
+  description: |-
+    Creates a new membership applying the attributes provided in the body.
+
+    You can use the form and schema to retrieve the valid attribute values and by that be guided towards successful
+    creation.
+
+    By providing a `notificationMessage` within the `_meta` block of the payload, the client can include a customized
+    message to the user of the newly created membership. In case of a group, the message will be sent to every user
+    belonging to the group.
+
+    By including `{ "sendNotifications": false }` within the `_meta` block of the payload, no notifications is send
+    out at all.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/membership_write_model.yml'
+        examples:
+          'global role':
+            $ref: '../components/examples/membership-create-request-global-role.yml'
+          'no notification':
+            $ref: '../components/examples/membership-create-request-no-notification.yml'
+          'custom message':
+            $ref: '../components/examples/membership-create-request-custom-message.yml'
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/membership_read_model.yml'
+          examples:
+            'simple membership':
+              $ref: '../components/examples/membership-simple-response.yml'
+    '400':
+      $ref: '../components/responses/invalid_request_body.yml'
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** Manage members
+    '406':
+      $ref: '../components/responses/missing_content_type.yml'
+    '415':
+      $ref: '../components/responses/unsupported_media_type.yml'
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _embedded:
+              details:
+                attribute: project
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: Project can't be blank.
+      description: |-
+        Returned if:
+
+        - a constraint for a property was violated (`PropertyConstraintViolation`)

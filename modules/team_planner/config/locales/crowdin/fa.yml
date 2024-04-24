@@ -1,0 +1,17 @@
+#English strings go here
+fa:
+  plugin_openproject_team_planner:
+    name: "برنامه ریز تیم اپن‌پروژه"
+    description: "دیدگاه های برنامه ریزی تیم را فراهم می دهد."
+  permission_view_team_planner: "مشاهده برنامه ریز تیم"
+  permission_manage_team_planner: "مدیریت برنامه ریز تیم"
+  project_module_team_planner_view: "برنامه ریزهای تیم"
+  team_planner:
+    label_team_planner: "برنامه ریز تیم"
+    label_new_team_planner: "برنامه ریز تیم جدید"
+    label_create_new_team_planner: "ایجاد برنامه ریز جدید تیم"
+    label_team_planner_plural: "برنامه ریزهای تیم"
+    label_assignees: "نمایندگان"
+    upsale:
+      title: "برنامه ریز تیم"
+      description: "یک نمای کلی از برنامه ریزی تیم با استفاده از برنامه ریز تیم دریافت کنید. به منظور اصلاح تاریخ، جابه جا کردن بسته های کاری و یا تغییر نمایندگان از بسط دادن، کوتاه کردن و یا کشیدن و رها کردن آنها  استفاده کنید."

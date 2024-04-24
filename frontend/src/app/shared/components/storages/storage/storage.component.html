@@ -1,0 +1,123 @@
+<ng-container
+  *ngIf="resource"
+>
+  <div class=op-tab-content--header>
+    <span
+      class="op-tab-content--header-icon spot-icon spot-icon_{{icon.storageHeader((storage | async)?._links.type.href)}} op-files-tab--icon op-files-tab--icon_primary"
+    ></span>
+    <span class="op-tab-content--header-text" [textContent]="(storage | async)?.name"></span>
+    <a *ngIf="openStorageLink"
+      class="op-tab-content--header-action spot-link"
+       aria-label="{{text.openStorage(storageType | async)}}"
+       [title]="text.openStorage(storageType | async)"
+       [href]="openStorageLink"
+       target="_blank"
+    >
+      <span class="spot-icon spot-icon_external-link"></span>
+    </a>
+  </div>
+
+  <op-storage-information
+    *ngFor="let infoBox of storageErrors | async"
+    class="op-files-tab--storage-info-box"
+    data-test-selector="op-storage--information"
+    [content]="infoBox"
+  ></op-storage-information>
+
+  <div class="op-file-section">
+    <ul
+      *ngIf="(fileLinks | async)?.length > 0"
+      class="spot-list spot-list_compact op-file-list"
+      [ngClass]="{
+        'op-file-section': true,
+        'op-file-section--list_dragging': dragging > 0
+      }"
+      data-test-selector="file-list"
+    >
+      <li
+        *ngFor="let fileLink of fileLinks | async; let i = index;"
+        class="spot-list--item op-file-list--item"
+        data-test-selector="file-list--item"
+        op-file-link-list-item
+        [fileLink]="fileLink"
+        [disabled]="disabled | async"
+        [allowEditing]="allowLinking"
+        (removeFileLink)="removeFileLink(fileLink)"
+      ></li>
+    </ul>
+
+    <span
+      *ngIf="!allowUploading && (storageErrors | async)?.length === 0 && (fileLinks | async)?.length === 0"
+      class="op-file-section--empty-list-hint"
+      [textContent]="text.emptyList(this.storageType | async)"
+    ></span>
+
+    <input
+      *ngIf="allowUploading"
+      #hiddenFileInput
+      type="file"
+      id="upload_files"
+      name="upload_files"
+      (change)="onFilePickerChanged()"
+      hidden
+    />
+
+    <button
+      *ngIf="allowUploading && (storageErrors | async)?.length === 0"
+      [attr.aria-label]="text.dropBox.uploadLabel"
+      data-test-selector="op-storage--drop-box"
+      [ngClass]="{
+        'hide-when-print': true,
+        'op-file-section--drop-box': true,
+        'op-file-section--drop-box_dragging': dragging > 0,
+        'op-file-section--drop-box_dragging-over': draggingOverDropZone,
+        'op-file-section--drop-box_float': (fileLinks | async)?.length
+      }"
+      type="button"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+      (drop)="onDropFiles($event)"
+      (click)="triggerFileInput()"
+    >
+      <span
+        class="spot-icon spot-icon_upload-arrow op-file-section--drop-box-icon"
+      ></span>
+      <span
+        *ngIf="(fileLinks | async)?.length > 0"
+        class="op-file-section--drop-box-text"
+        [textContent]="text.dropBox.dropFiles(this.storageType | async)"
+      ></span>
+      <span
+        *ngIf="(fileLinks | async)?.length === 0"
+        class="op-file-section--drop-box-text"
+        [textContent]="text.dropBox.dropClickFiles(this.storageType | async)"
+      ></span>
+    </button>
+
+    <div
+      *ngIf="(storageErrors | async)?.length === 0"
+      class="op-file-section--actions"
+    >
+      <button
+        *ngIf="allowUploading"
+        type="button"
+        class="spot-link"
+        data-test-selector="op-storage--upload-file-button"
+        (click)="triggerFileInput()"
+      >
+        <span class="spot-icon spot-icon_upload-arrow"></span>
+        <span [textContent]="text.actions.uploadFile"></span>
+      </button>
+      <button
+        *ngIf="allowLinking"
+        type="button"
+        class="spot-link"
+        data-test-selector="op-storage--link-existing-file-button"
+        (click)="openLinkFilesDialog()"
+      >
+        <span class="spot-icon spot-icon_add-link"></span>
+        <span [textContent]="text.actions.linkExisting"></span>
+      </button>
+    </div>
+  </div>
+</ng-container>

@@ -1,0 +1,50 @@
+# /api/v3/budgets/{id}
+---
+get:
+  parameters:
+  - description: Budget id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  self:
+                    href: "/api/v3/budgets/1"
+                    title: Q3 2015
+                _type: Budget
+                id: 1
+                subject: Q3 2015
+          schema:
+            "$ref": "../components/schemas/budget_model.yml"
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not allowed to see this budget.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** view work packages **or** view budgets (on the budgets project)
+      headers: {}
+  tags:
+  - Budgets
+  description: ''
+  operationId: view_Budget
+  summary: view Budget

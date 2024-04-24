@@ -1,0 +1,36 @@
+# Schema: TypesModel
+---
+type: object
+example:
+  _links:
+    self:
+      href: "/api/v3/types"
+  total: 2
+  count: 2
+  _type: Collection
+  _embedded:
+    elements:
+    - _links:
+        self:
+          href: "/api/v3/types/1"
+      _type: Type
+      id: 1
+      name: Bug
+      color: "#ff0000"
+      position: 1
+      isDefault: true
+      isMilestone: false
+      createdAt: '2014-05-21T08:51:20.429Z'
+      updatedAt: '2014-05-21T08:51:20.429Z'
+    - _links:
+        self:
+          href: "/api/v3/types/2"
+      _type: Type
+      id: 2
+      name: Feature
+      color: "#888"
+      position: 2
+      isDefault: false
+      isMilestone: false
+      createdAt: '2014-05-21T08:51:20.429Z'
+      updatedAt: '2014-05-21T08:51:20.429Z'

@@ -1,0 +1,14 @@
+#English strings go here
+el:
+  js:
+    label_preview: 'Προεπισκόπηση'
+    button_update: 'Ενημέρωση'
+    avatars:
+      label_choose_avatar: "Επιλέξτε Άβαταρ από αρχείο"
+      uploading_avatar: "Μεταφόρτωση του avatar σας."
+      text_upload_instructions: |
+        Ανεβάστε το δικό σας προσαρμοσμένο άβαταρ σε 128 με 128 pixels. Σε μεγαλύτερα αρχεία θα αλλαχθεί το μέγεθος τους και θα περικοπούν για να ταιριάζουν. Μια προεπισκόπηση του άβαταρ σας θα εμφανιστεί πριν το ανέβασμα, μόλις επιλέξετε μια εικόνα.
+      error_image_too_large: "Η εικόνα είναι πολύ μεγάλη."
+      wrong_file_format: "Οι επιτρεπόμενες μορφές είναι jpg, png, gif"
+      empty_file_error: "Παρακαλούμε ανεβάστε μια έγκυρη εικόνα (jpg, png, gif)"
+

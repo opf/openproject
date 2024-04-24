@@ -1,0 +1,136 @@
+#English strings go here for Rails i18n
+cs:
+  plugin_openproject_bim:
+    name: "OpenProject BIM a BCF funkce"
+    description: "Tento OpenProject plugin zavádí funkci BIM a BCF."
+  bim:
+    label_bim: 'BIM'
+  bcf:
+    label_bcf: 'BCF'
+    label_imported_failed: 'Selhalo importování témat BCF'
+    label_imported_successfully: 'Importovaná témata BCF úspěšně'
+    issues: "Problémy"
+    recommended: 'doporučeno'
+    not_recommended: 'nedoporučeno'
+    no_viewpoints: 'Žádné náhledy'
+    new_badge: "Nové"
+    exceptions:
+      file_invalid: "Neplatný soubor BCF"
+    x_bcf_issues:
+      zero: 'Žádné problémy s BCF'
+      one: 'Jeden problém s BCFF'
+      other: '%{count} Problémy s BCF'
+    bcf_xml:
+      xml_file: 'BCF XML soubor'
+      import_title: 'Import'
+      export: 'Export'
+      import_update_comment: '(Aktualizováno v importu BCF)'
+      import_failed: 'Nelze importovat soubor BCF: %{error}'
+      import_failed_unsupported_bcf_version: 'Nepodařilo se přečíst BCF: není podporována verze BCF. Ujistěte se, že verze je alespoň %{minimal_version} nebo vyšší.'
+      import_successful: 'Importováno %{count} problémů s BCF'
+      import_canceled: 'Import BCF-XML byl zrušen.'
+      type_not_active: "Typ problému není pro tento projekt aktivován."
+      import:
+        num_issues_found: '%{x_bcf_issues} jsou obsaženy v BCF-XML souboru, jejich podrobnosti jsou uvedeny níže.'
+        button_prepare: 'Připravit import'
+        button_perform_import: 'Potvrdit import'
+        button_proceed: 'Pokračovat s importem'
+        button_back_to_list: 'Zpět na seznam'
+        no_permission_to_add_members: 'Nemáte dostatečná oprávnění, abyste je přidali jako členy do projektu.'
+        contact_project_admin: 'Kontaktujte svého správce projektu, aby je přidal jako členy a začal tento import znovu.'
+        continue_anyways: 'Chcete přesto pokračovat a dokončit import?'
+        description: "Zadejte soubor BCF-XML v2.1 pro import do tohoto projektu. Před provedením importu můžete jeho obsah prozkoumat."
+        invalid_types_found: 'Nalezeny neplatné názvy typů tématu'
+        invalid_statuses_found: 'Nalezeny neplatné názvy stavů'
+        invalid_priorities_found: 'Nalezeny neplatné názvy priorit'
+        invalid_emails_found: 'Nalezeny neplatné e-mailové adresy'
+        unknown_emails_found: 'Nalezeny neznámé e-mailové adresy'
+        unknown_property: 'Neznámá vlastnost'
+        non_members_found: 'Nenalezeni žádní členové projektu'
+        import_types_as: 'Nastavit všechny tyto typy na'
+        import_statuses_as: 'Nastavit všechny tyto stavy na'
+        import_priorities_as: 'Nastavit všechny tyto priority na'
+        invite_as_members_with_role: 'Pozvěte je jako členy do projektu "%{project}" s rolí'
+        add_as_members_with_role: 'Přidejte je jako členy do projektu "%{project}" s rolí'
+        no_type_provided: 'Nebyl zadán žádný typ'
+        no_status_provided: 'Není k dispozici žádný stav'
+        no_priority_provided: 'Nebyla poskytnuta žádná priorita'
+        perform_description: "Chcete importovat nebo aktualizovat výše uvedené problémy?"
+        replace_with_system_user: 'Nahradit je uživatelem "Systém"'
+        import_as_system_user: 'Importujte je jako "Systémový" uživatel.'
+        what_to_do: "Co chcete udělat?"
+        work_package_has_newer_changes: "Zastaralé! Toto téma nebylo aktualizováno, protože poslední změny na serveru byly novější než \"ModifiedDatum\" importovaného tématu. Připomínky k tomuto tématu však byly dovezeny."
+        bcf_file_not_found: "Nepodařilo se najít soubor BCF. Spusťte prosím proces nahrávání znovu."
+  export:
+    format:
+      bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "BCF snímek"
+  project_module_bcf: "BCF"
+  project_module_bim: "BCF"
+  permission_view_linked_issues: "Zobrazit problémy s BCF"
+  permission_manage_bcf: "Importovat a spravovat problémy s BCF."
+  permission_delete_bcf: "Odstranit problémy  BCF"
+  oauth:
+    scopes:
+      bcf_v2_1: "Plný přístup k BCF v2.1 API"
+      bcf_v2_1_text: "Aplikace získá plný přístup ke čtení a zápisu do OpenProject API, aby mohla provádět akce vaším jménem."
+  activerecord:
+    models:
+      bim/ifc_models/ifc_model: "Model IFC"
+    attributes:
+      bim/ifc_models/ifc_model:
+        ifc_attachment: "IFC soubor"
+        is_default: "Výchozí model"
+        attachments: "IFC soubor"
+    errors:
+      models:
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "Žádný soubor ifc není připojen."
+              invalid_ifc_file: "Zadaný soubor není platný IFC soubor."
+        bim/bcf/viewpoint:
+          bitmaps_not_writable: "bitmapy nejsou zapisovatelné, protože ještě nejsou implementovány."
+          index_not_integer: "index není celé číslo."
+          invalid_clipping_planes: "clipping_planes jsou neplatné."
+          invalid_components: "komponenty jsou neplatné."
+          invalid_lines: "řádky jsou neplatné."
+          invalid_orthogonal_camera: "orthogonal_camera je neplatná."
+          invalid_perspective_camera: "perspective_camera je neplatná."
+          mismatching_guid: "guid v json_viewpoint neodpovídá guidu modelu."
+          no_json: "Není dobře strukturovaný json."
+          snapshot_type_unsupported: "snapshot_type musí být buď 'png' nebo 'jpg'."
+          snapshot_data_blank: "je třeba poskytnout snapshot_data."
+          unsupported_key: "Je zahrnuta nepodporovaná vlastnost JSon."
+        bim/bcf/issue:
+          uuid_already_taken: "Nelze importovat tento problém s BCF, protože již existuje jiný se stejným GUID. Mohlo by se stát, že tato otázka BCFF již byla importována do jiného projektu?"
+  ifc_models:
+    label_ifc_models: 'IFC modely'
+    label_new_ifc_model: 'Nový model IFC'
+    label_show_defaults: 'Zobrazit výchozí hodnoty'
+    label_default_ifc_models: 'Výchozí IFC modely'
+    label_edit_defaults: 'Upravit výchozí hodnoty'
+    no_defaults_warning:
+      title: 'Žádný IFC model nebyl nastaven jako výchozí pro tento projekt.'
+      check_1: 'Zkontrolujte, zda jste nahráli alespoň jeden IFC model.'
+      check_2: 'Zkontrolujte, zda je alespoň jeden IFC model nastaven na "Výchozí".'
+    no_results: "V tomto projektu nebyly nahrány žádné IFC modely."
+    conversion_status:
+      label: 'Zpracovávání?'
+      pending: 'Čeká na vyřízení'
+      processing: 'Zpracovávání...'
+      completed: 'Dokončeno'
+      error: 'Chyba'
+    processing_notice:
+      processing_default: 'Následující standardní modely IFC jsou stále zpracovávány, a proto nejsou dosud k dispozici.'
+    flash_messages:
+      upload_successful: 'Nahrávání bylo úspěšné. Nyní bude zpracováno a bude připraveno k použití během několika minut.'
+    conversion:
+      missing_commands: "Na tomto systému chybí následující příkazy IFC převodníku: %{names}"
+  project_module_ifc_models: "IFC modely"
+  permission_view_ifc_models: "Zobrazit IFC modely"
+  permission_manage_ifc_models: "Importovat a spravovat IFC modely"
+  extraction:
+    available:
+      ifc_convert: "Je k dispozici konverzní pipeline IFC"

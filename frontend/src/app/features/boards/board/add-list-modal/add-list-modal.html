@@ -1,0 +1,67 @@
+<div
+  class="spot-modal spot-modal_autoheight confirm-form-submit--modal loading-indicator--location"
+  data-indicator-name="modal"
+>
+  <div id="spotModalTitle" class="spot-modal--header">{{text.title}}</div>
+
+  <div class="spot-divider"></div>
+
+  <div class="spot-modal--body spot-container">
+    <div *ngIf="showWarning && warningText"
+         class="op-toast -warning">
+      <div class="op-toast--content">
+        <p [innerHTML]="warningText"></p>
+      </div>
+    </div>
+
+    <div class="form--field">
+      <div class="form--field-container">
+        <div class="form--select-container">
+          <label class="form--label" [textContent]="actionService.label"></label>
+          <op-autocompleter
+            #select
+            classes="new-list--action-select"
+            appendTo="body"
+            [resource]="autocompleterOptions.resource"
+            [openDirectly]="true"
+            [fetchDataDirectly]="true"
+            [getOptionsFn]=autocompleterOptions.getOptionsFn
+            (change)="onModelChange($event)"
+          >
+            <ng-template op-autocompleter-footer-tmp *ngIf="autocompleterOptions.resource=='version'" let-search>
+              <button
+                class="op-select-footer--label"
+                type="button"
+                (click)="onNewActionCreated()">
+                  <span class="icon-context">
+                    <op-icon icon-classes="icon-plus icon-context"></op-icon>
+                    {{text.button_create}} {{ngSelectComponent.ngSelectInstance.searchTerm}}
+                  </span>
+              </button>
+
+            </ng-template>
+          </op-autocompleter>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button
+        class="button button_no-margin spot-modal--cancel-button spot-action-bar--action"
+        data-test-selector="confirmation-modal--cancel"
+        (click)="closeMe($event)"
+        [textContent]="text.button_cancel"
+        [attr.title]="text.button_cancel"
+      ></button>
+      <button
+        class="button button_no-margin -primary spot-action-bar--action"
+        data-test-selector="confirmation-modal--confirmed"
+        (click)="create()"
+        [disabled]="!this.selectedAttribute || inFlight"
+        [textContent]="text.button_add"
+        [attr.title]="text.button_add"
+      ></button>
+    </div>
+  </div>
+</div>

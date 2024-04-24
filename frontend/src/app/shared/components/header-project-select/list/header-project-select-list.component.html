@@ -1,0 +1,45 @@
+<li
+  class="spot-list--item"
+  *ngFor="let project of projects; index as i; first as isFirst; last as isLast"
+  data-test-selector="op-header-project-select--item"
+  [attr.data-list-selector]="projectListItemIdentifier"
+>
+  <a
+    tabindex="-1"
+    *ngIf="!project.disabled"
+    class="spot-list--item-action"
+    [ngClass]="{
+      'spot-list--item-action_disabled': project.disabled,
+      'spot-list--item-action_active': (searchableProjectListService.selectedItemID$ | async) === project.id
+    }"
+    [href]="extendedProjectUrl(project.id)"
+    [attr.data-list-selector]="projectListActionIdentifier"
+    [attr.data-project-id]="project.id"
+  >
+  <span
+    class="spot-list--item-title spot-list--item-title_ellipse-text"
+    data-test-selector="op-header-project-select--item-title"
+    [opSearchHighlight]="searchText"
+  >{{ project.name }}</span>
+  </a>
+  <span
+    *ngIf="project.disabled"
+    class="spot-list--item-action spot-list--item-action_disabled"
+    [ngClass]="{
+      'spot-list--item-action_active': (searchableProjectListService.selectedItemID$ | async) === project.id
+    }"
+  >
+    <span
+      class="spot-list--item-title spot-list--item-title_ellipse-text"
+      data-test-selector="op-header-project-select--item-disabled-title"
+    >{{ project.name }}</span>
+  </span>
+
+  <ul
+    *ngIf="project.children.length"
+    op-header-project-select-list
+    [projects]="project.children"
+    [selected]="selected"
+    [searchText]="searchText"
+  ></ul>
+</li>

@@ -1,0 +1,211 @@
+# /api/v3/projects/{id}/work_packages
+---
+get:
+  summary: Get work packages of project
+  operationId: Get_Project_Work_Package_Collection
+  tags:
+    - Work Packages
+  description: Returns the collection of work packages that are related to the given project.
+  parameters:
+    - description: Project id
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+    - description: Page number inside the requested collection.
+      example: '25'
+      in: query
+      name: offset
+      required: false
+      schema:
+        default: 1
+        type: integer
+    - description: Number of elements to display per page.
+      example: '25'
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+    - description: |-
+        JSON specifying filter conditions.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. If no filter is to be applied, the client should send an empty array (`[]`).
+      example: '[{ "type_id": { "operator": "=", "values": [''1'', ''2''] }}]'
+      in: query
+      name: filters
+      required: false
+      schema:
+        default: '[{ "status_id": { "operator": "o", "values": null }}]'
+        type: string
+    - description: |-
+        JSON specifying sort criteria.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
+      example: '[["status", "asc"]]'
+      in: query
+      name: sortBy
+      required: false
+      schema:
+        default: '[["id", "asc"]]'
+        type: string
+    - description: The column to group by.
+      example: status
+      in: query
+      name: groupBy
+      required: false
+      schema:
+        type: string
+    - description: Indicates whether properties should be summed up if they support
+        it.
+      example: true
+      in: query
+      name: showSums
+      required: false
+      schema:
+        default: false
+        type: boolean
+    - description: |-
+        Comma separated list of properties to include.
+      example: 'total,elements/subject,elements/id,self'
+      in: query
+      name: select
+      required: false
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/work_packages_model.yml'
+      description: OK
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to see the work packages of this project.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** view work packages
+
+        *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified project does not exist.
+      description: |-
+        Returned if the project does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view project
+
+post:
+  summary: Create work package in project
+  operationId: Create_Project_Work_Package
+  tags:
+    - Work Packages
+  description: |-
+    When calling this endpoint the client provides a single object, containing at least the properties and links that
+    are required, in the body. The required fields of a WorkPackage can be found in its schema, which is embedded in
+    the respective form. Note that it is only allowed to provide properties or links supporting the write operation.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/work_package_model.yml'
+  parameters:
+    - description: Project id
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+    - description: |-
+        Indicates whether change notifications (e.g. via E-Mail) should be sent.
+        Note that this controls notifications for all users interested in changes to the work package (e.g. watchers, author and assignee),
+        not just the current user.
+      example: false
+      in: query
+      name: notify
+      required: false
+      schema:
+        default: true
+        type: boolean
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/work_package_model.yml'
+      description: OK
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to add work packages to this project.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** add work packages
+
+        *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified project does not exist.
+      description: |-
+        Returned if the project does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permissions:** view project
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+        That's why a 404 is returned here, even if a 403 might be more appropriate.*
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _embedded:
+              details:
+                attribute: Subject
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: The subject might not be blank.
+      description: |-
+        Returned if:
+
+        * the client tries to write a read-only property
+
+        * a constraint for a property was violated
+
+        * a property was provided in an unreadable format

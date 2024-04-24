@@ -1,0 +1,39 @@
+#English strings go here
+ro:
+  plugin_openproject_boards:
+    name: "OpenProject Boards"
+    description: "Provides board views."
+  permission_show_board_views: "Vezi panouri"
+  permission_manage_board_views: "Gestionați plăcile"
+  project_module_board_view: "Panouri"
+  boards:
+    label_board: "Tablă"
+    label_boards: "Panouri"
+    label_create_new_board: "Creează un nou panou"
+    label_board_type: "Tipul de placă"
+    board_types:
+      free: De bază
+      action: "Tablă de acțiune (%{attribute})"
+    board_type_attributes:
+      assignee: Executant
+      status: Stare
+      version: Versiune
+      subproject: Subproiect
+      subtasks: Părinte-copil
+      basic: De bază
+    board_type_descriptions:
+      basic: >
+        Începeți de la zero cu o planșă albă. Adăugați manual cărți și coloane pe această planșă.
+      status: >
+        Tablă de bază în stil Kanban cu coloane pentru statusuri precum "De făcut", "În curs", "Realizat".
+      assignee: >
+        Tablă cu coloane automate pe baza utilizatorilor atribuiți. Ideal pentru expedierea pachetelor de lucru.
+      version: >
+        Tablă cu coloane automate bazate pe atributul de versiune. Ideal pentru planificarea dezvoltării produselor.
+      subproject: >
+        Tablă cu coloane automate pentru subproiecte. Glisarea pachetelor de lucru în alte liste actualizează (sub)proiectul în mod corespunzător.
+      subtasks: >
+        Tablă cu coloane automate pentru subelemente. Glisarea pachetelor de lucru în alte liste actualizează în mod corespunzător lista părinte.
+    upsale:
+      teaser_text: 'Doriți să vă automatizați fluxurile de lucru cu Boards? Tablourile avansate sunt un add-on pentru Enterprise. Vă rugăm să treceți la un plan plătit.'
+      upgrade: 'Actualizează acum'

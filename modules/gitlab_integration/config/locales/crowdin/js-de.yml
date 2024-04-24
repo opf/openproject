@@ -1,0 +1,50 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2023 Ben Tey
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+de:
+  js:
+    gitlab_integration:
+      work_packages:
+        tab_name: "GitLab"
+      tab_header_issue:
+        title: "Probleme"
+      tab_header_mr:
+        title: "Merge Requests"
+        create_mr:
+          label: MR erstellen
+          description: Merge Request erzeugen
+        copy_menu:
+          label: Git-Schnipsel
+          description: Git-Schnipsel in die Zwischenablage kopieren
+        git_actions:
+          branch_name: Name des Branches
+          commit_message: Commit-Nachricht
+          cmd: Branch mit leerem Commit erstellen
+          title: Schnelle Schnipsel für Git
+          copy_success: '✅ Kopiert!'
+          copy_error: '❌ Kopieren fehlgeschlagen!'
+      tab_issue:
+        empty: 'Es sind noch keine Issues verlinkt. Verknüpfen Sie ein bestehendes Issue, indem Sie den Code <code>OP#%{wp_id}</code> (oder <code>PP#%{wp_id}</code> für private Links) im Titel/der Beschreibung verwenden.'
+      tab_mrs:
+        empty: 'Es sind noch keine Merge Requests verlinkt. Verknüpfen Sie einen bestehenden MR, indem Sie den Code <code>OP#%{wp_id}</code> (oder <code>PP#%{wp_id}</code> für private Links) im MR-Titel/der MR-Beschreibung verwenden, oder erstellen Sie einen neuen MR.'
+      gitlab_pipelines: Pipelines
+      updated_on: Aktualisiert am

@@ -1,0 +1,51 @@
+<spot-form-field
+  *ngIf="field.type !== 'booleanInput'"
+  [control]="field?.formControl"
+  [label]="to?.label"
+  [hidden]="field?.hide"
+  [noWrapLabel]="to?.noWrapLabel"
+  [required]="to?.required"
+  [helpTextAttribute]="to?.property"
+  [helpTextAttributeScope]="to?.helpTextAttributeScope || dynamicFormComponent?.helpTextAttributeScope"
+  [showValidationErrorOn]="to?.showValidationErrorOn || dynamicFormComponent?.showValidationErrorsOn"
+  [attr.data-qa-field-name]="to?.property"
+>
+  <ng-container #fieldComponent slot="input"></ng-container>
+
+  <attribute-help-text
+    slot="help-text"
+    class="spot-form-field--help-text"
+    [attribute]="to?.property"
+    [attributeScope]="to?.helpTextAttributeScope || dynamicFormComponent?.helpTextAttributeScope"
+  ></attribute-help-text>
+
+  <formly-validation-message
+    class="spot-form-field--error"
+    [field]="field"
+    slot="errors"
+  ></formly-validation-message>
+</spot-form-field>
+
+<spot-selector-field
+  *ngIf="field.type === 'booleanInput'"
+  [control]="field?.formControl"
+  [label]="to?.label"
+  [hidden]="field?.hide"
+  [required]="to?.required"
+  [showValidationErrorOn]="to?.showValidationErrorOn || dynamicFormComponent?.showValidationErrorsOn"
+  [attr.data-qa-field-name]="to?.property"
+>
+  <ng-container #fieldComponent slot="input"></ng-container>
+  <attribute-help-text
+    slot="help-text"
+    class="spot-form-field--help-text"
+    [attribute]="to?.property"
+    [attributeScope]="to?.helpTextAttributeScope || dynamicFormComponent?.helpTextAttributeScope"
+  ></attribute-help-text>
+
+  <formly-validation-message
+    class="spot-form-field--error"
+    [field]="field"
+    slot="errors"
+  ></formly-validation-message>
+</spot-selector-field>

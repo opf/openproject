@@ -1,0 +1,18 @@
+<svg width="150" height="150" viewBox="0 0 150 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="29" y="96" width="24" height="21" rx="8" fill="#A0CDE0" stroke="#0A71B9" stroke-width="2"/>
+<path d="M40.9199 109.84C42.5326 109.84 43.8398 108.533 43.8398 106.92C43.8398 105.307 42.5326 104 40.9199 104C39.3073 104 38 105.307 38 106.92C38 108.533 39.3073 109.84 40.9199 109.84Z" fill="#0A71B9"/>
+<rect x="52" y="64" width="44" height="21" rx="8" fill="#A0CDE0" stroke="#0A71B9" stroke-width="2"/>
+<path d="M61.9199 77.84C63.5326 77.84 64.8398 76.5327 64.8398 74.92C64.8398 73.3074 63.5326 72 61.9199 72C60.3073 72 59 73.3074 59 74.92C59 76.5327 60.3073 77.84 61.9199 77.84Z" fill="#0A71B9"/>
+<rect x="62" y="96" width="24" height="21" rx="8" stroke="#0A71B9" stroke-width="2"/>
+<path d="M73.9199 109.84C75.5326 109.84 76.8398 108.533 76.8398 106.92C76.8398 105.307 75.5326 104 73.9199 104C72.3073 104 71 105.307 71 106.92C71 108.533 72.3073 109.84 73.9199 109.84Z" fill="#0A71B9"/>
+<rect x="95" y="96" width="24" height="21" rx="8" stroke="#6DC391" stroke-width="2"/>
+<path d="M106.92 109.84C108.533 109.84 109.84 108.533 109.84 106.92C109.84 105.307 108.533 104 106.92 104C105.307 104 104 105.307 104 106.92C104 108.533 105.307 109.84 106.92 109.84Z" fill="#6DC391"/>
+<path d="M71 75H86" stroke="#0A71B9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="52" y="32" width="44" height="21" rx="8" fill="#0A71B9" stroke="#0A71B9" stroke-width="2"/>
+<path d="M61.9199 45.84C63.5326 45.84 64.8398 44.5327 64.8398 42.92C64.8398 41.3074 63.5326 40 61.9199 40C60.3073 40 59 41.3074 59 42.92C59 44.5327 60.3073 45.84 61.9199 45.84Z" fill="#A0CDE0"/>
+<path d="M71 43H86" stroke="#A0CDE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M107 91V75C107 74.4477 106.552 74 106 74H100" stroke="#0A71B9" stroke-width="2" stroke-linecap="round"/>
+<path d="M41 91V75C41 74.4477 41.4477 74 42 74H48" stroke="#0A71B9" stroke-width="2" stroke-linecap="round"/>
+<path d="M74 92L74 89" stroke="#0A71B9" stroke-width="2" stroke-linecap="round"/>
+<path d="M74 60L74 57" stroke="#0A71B9" stroke-width="2" stroke-linecap="round"/>
+</svg>

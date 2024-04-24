@@ -1,0 +1,21 @@
+<% server_name = ENV.fetch('SERVER_NAME') { "_default_" } %>
+<% unless server_name == "_default_" %>
+<VirtualHost *:80>
+  ServerName _default_
+  DocumentRoot /var/www/html
+</VirtualHost>
+<% end %>
+
+<VirtualHost *:80>
+  ServerName <%= server_name %>
+  DocumentRoot <%= ENV.fetch('APP_PATH') %>/public
+
+  ProxyRequests off
+  ProxyPreserveHost On
+
+  <% location = ENV.fetch("OPENPROJECT_RAILS__RELATIVE__URL__ROOT", "").chomp("/") %>
+  <Location <%= location == "" ? "/" : location %>>
+    ProxyPass http://<%= ENV.fetch("APP_HOST", "127.0.0.1") %>:8080<%= location %>/ retry=0
+    ProxyPassReverse http://<%= ENV.fetch("APP_HOST", "127.0.0.1") %>:8080<%= location %>/
+  </Location>
+</VirtualHost>

@@ -1,0 +1,34 @@
+<div class="attributes-group--header">
+  <div class="attributes-group--header-container">
+    <h3
+      class="attributes-group--header-text relation-group--header"
+      [textContent]="header"
+    ></h3>
+  </div>
+  <div
+    class="attributes-group--header-toggle"
+    *ngIf="firstGroup"
+  >
+    <button
+      #wpRelationGroupByToggler
+      id="wp-relation-group-by-toggle"
+      type="button"
+      class="button -small -transparent -with-icon icon-group-by icon-small hide-when-print"
+      (click)="toggleButton()"
+    >
+      <span [textContent]="togglerText"></span>
+    </button>
+  </div>
+</div>
+
+<div
+  class="relation-container"
+  *ngIf="relatedWorkPackages"
+>
+  <wp-relation-row
+    *ngFor="let relatedWorkPackage of relatedWorkPackages"
+    [workPackage]="workPackage"
+    [groupByWorkPackageType]="groupByWorkPackageType"
+    [relatedWorkPackage]="relatedWorkPackage"
+  ></wp-relation-row>
+</div>

@@ -1,0 +1,66 @@
+id:
+  plugin_openproject_webhooks:
+    name: "OpenProject Webhooks"
+    description: "Provides a plug-in API to support OpenProject webhooks for better 3rd party integration."
+  activerecord:
+    attributes:
+      webhooks/webhook:
+        url: 'URL muatan'
+        secret: 'Rahasia tanda tangan'
+        events: 'Acara'
+        projects: 'Proyek-proyek yang diaktifkan'
+      webhooks/log:
+        event_name: 'Nama acara'
+        url: 'URL muatan'
+        response_code: 'Kode respon'
+        response_body: 'Tanggapan'
+    models:
+      webhooks/outgoing_webhook: "Webhook keluar"
+  webhooks:
+    singular: Webhook
+    plural: Webhook
+    resources:
+      time_entry:
+        name: "Entri waktu"
+    outgoing:
+      no_results_table: Belum ada webhook yang ditentukan.
+      label_add_new: Tambahkan webhook baru
+      label_edit: Ubah webhook
+      label_event_resources: Sumber acara
+      events:
+        created: "Dibuat"
+        updated: "Diperbarui"
+      explanation:
+        text: >
+          Setelah kejadian seperti pembuatan paket kerja atau pembaruan proyek, OpenProject akan mengirimkan permintaan POST ke titik akhir web yang dikonfigurasi.  Sering kali, acara dikirim setelah %{link} lewat.
+        link: periode agregasi yang dikonfigurasi
+      status:
+        enabled: 'Webhook diaktifkan'
+        disabled: 'Webhook dinonaktifkan'
+        enabled_text: 'Webhook akan mengeluarkan payload untuk peristiwa yang ditentukan di bawah.'
+        disabled_text: 'Klik tombol ubah untuk mengaktifkan webhook.'
+      deliveries:
+        no_results_table: Tidak ada pengiriman yang dilakukan untuk webhook ini dalam beberapa hari terakhir.
+        title: 'Pengiriman terbaru'
+        time: 'Waktu pengiriman'
+      form:
+        introduction: >
+          Kirim permintaan POST ke URL payload di bawah ini untuk acara apa pun dalam proyek langganan Anda.  Muatan akan sesuai dengan representasi APIv3 dari objek yang sedang dimodifikasi.
+        apiv3_doc_url: Untuk informasi lebih lanjut, kunjungi dokumentasi API
+        description:
+          placeholder: 'Deskripsi opsional untuk webhook.'
+        enabled:
+          description: >
+            Jika dicentang, webhook akan dipicu pada peristiwa yang dipilih.  Hapus centang untuk menonaktifkan webhook.
+        events:
+          title: 'Acara yang diaktifkan'
+        project_ids:
+          title: 'Proyek-proyek yang diaktifkan'
+          description: 'Pilih untuk project mana webhook ini harus dijalankan.'
+          all: 'Semua proyek'
+          selected: 'Proyek yang dipilih saja'
+        selected_project_ids:
+          title: 'Proyek terpilih'
+        secret:
+          description: >
+            Jika disetel, nilai rahasia ini digunakan oleh OpenProject untuk menandatangani payload webhook.

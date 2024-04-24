@@ -1,0 +1,77 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% if version.start_date || version.due_date %>
+  <p>
+    <%= version_dates(version) %>
+  </p>
+<% end %>
+
+<% if !version.completed? && version.due_date %>
+  <p><strong><%= due_date_distance_in_words(version.effective_date) %></strong></p>
+<% end %>
+
+<% if version.description.present? %>
+  <p><%= version.description %></p>
+<% end %>
+
+<% if version.custom_values.any? %>
+  <ul>
+    <% version.custom_values.each do |custom_value| %>
+      <% if custom_value.value.present? && custom_value.custom_field.field_format == 'text' %>
+        <li><%=h custom_value.custom_field.name %>:<div class="op-uc-container"><%=h show_value(custom_value) %></div></li>
+      <% elsif custom_value.value.present? %>
+        <li><%=h custom_value.custom_field.name %>: <%=h show_value(custom_value) %></li>
+      <% end %>
+    <% end %>
+  </ul>
+<% end %>
+
+<% if version.work_packages.count > 0 %>
+  <% closed = version.closed_percent %>
+  <% done = version.completed_percent - closed %>
+  <%= progress_bar([closed, done], width: '40%', legend: ('%0.0f' % version.completed_percent)) %>
+  <p class="progress-info">
+    <%= link_to_if(version.closed_issues_count > 0,
+                   t(:label_x_closed_work_packages_abbr, count: version.closed_issues_count),
+                   project_work_packages_closed_version_path(version)) %>
+    (<%= '%0.0f' % (version.closed_issues_count.to_f / version.work_packages.count * 100) %>%)
+    &#160;
+    <%= link_to_if(version.open_issues_count > 0,
+                   t(:label_x_open_work_packages_abbr, count: version.open_issues_count),
+                   project_work_packages_open_version_path(version)) %>
+    (<%= '%0.0f' % (version.open_issues_count.to_f / version.work_packages.count * 100) %>%)
+    <% if version.projects.archived.exists? %>
+      <%= op_icon('icon-warning', title: I18n.t('versions.overview.work_packages_in_archived_projects')) %>
+    <% end %>
+  </p>
+<% else %>
+  <%= no_results_box %>
+  <p><br></p>
+<% end %>

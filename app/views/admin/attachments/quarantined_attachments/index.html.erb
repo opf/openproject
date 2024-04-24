@@ -1,0 +1,5 @@
+<% html_title t('antivirus_scan.quarantined_attachments.title') %>
+
+<%= render ::Admin::QuarantinedAttachments::IndexPageHeaderComponent.new %>
+
+<%= render ::Admin::QuarantinedAttachments::TableComponent.new(rows: @attachments) %>

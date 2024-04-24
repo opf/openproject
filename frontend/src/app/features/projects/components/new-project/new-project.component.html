@@ -1,0 +1,31 @@
+<form
+  class="op-form"
+  [formGroup]="templateForm"
+>
+  <div [ngClass]="{ 'op-highlighted-input': true, 'op-highlighted-input_active': !!templateControl?.value }">
+    <spot-form-field
+      [label]="text.use_template"
+      data-qa-field-name="use_template"
+    >
+      <ng-select
+        [formControl]="templateControl"
+        [items]="templateOptions$ | async"
+        (ngModelChange)="onTemplateSelected($event)"
+        bindLabel="name"
+        [placeholder]="text.no_template_selected"
+        slot="input"
+      >
+      </ng-select>
+    </spot-form-field>
+  </div>
+</form>
+
+<op-dynamic-form
+  [formUrl]="formUrl"
+  [resourcePath]="resourcePath"
+  [initialPayload]="initialPayload"
+  [fieldsSettingsPipe]="dynamicFieldsSettingsPipe"
+  [fieldGroups]="fieldGroups"
+  (submitted)="onSubmitted($event)"
+  helpTextAttributeScope="Project"
+></op-dynamic-form>

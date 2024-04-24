@@ -1,0 +1,6 @@
+ru:
+  js:
+    queries:
+      all_open: 'Все открытые'
+      timeline: 'Хронология'
+      milestones: 'Вехи'

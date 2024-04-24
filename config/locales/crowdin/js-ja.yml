@@ -1,0 +1,1331 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+ja:
+  js:
+    ajax:
+      hide: "非表示"
+      loading: "読み込み中…"
+      updating: "更新中..."
+    attachments:
+      delete: "添付ファイルを削除"
+      delete_confirmation: |
+        本当に、このファイルを削除してもよろしいですか? この操作は元に戻すことができません。
+      draggable_hint: |
+        インライン画像または参照添付ファイルをエディタ領域にドラッグします。
+        ドラッグしつづけると閉じられたエディタ領域が開きます。
+      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "読み込み中..."
+      not_found: "No items found"
+      type_to_search: "検索キーワードを入力"
+    autocomplete_select:
+      placeholder:
+        multi: '"%{name}" を追加'
+        single: '"%{name}" を選択'
+      remove: "%{name} を削除"
+      active: "アクティブ %{label} %{name}"
+    backup:
+      attachments_disabled: 添付ファイルは、許容されている最大サイズを超えているため、含まれない場合があります。これは、設定で変更できます（サーバーの再起動が必要です）。
+      info: >
+        ここでは、バックアップを開始することができます。データ（特に添付ファイル）の量によっては、処理に時間がかかる場合があります。準備が整うとメールが届きます。
+      note: >
+        新しいバックアップは以前のバックアップを上書きします。1日にリクエストできるバックアップの数には限りがあります。
+      last_backup: 前回バックアップ
+      last_backup_from: 前回バックアップ日
+      title: OpenProject のバックアップ
+      options: オプション
+      include_attachments: 添付ファイルを含める
+      download_backup: バックアップのダウンロード
+      request_backup: バックアップをリクエスト
+    close_popup_title: "ポップアップを閉じる"
+    close_filter_title: "フィルタを閉じる"
+    close_form_title: "フォームを閉じる"
+    button_add_watcher: "ウォッチャーを追加"
+    button_add: "追加"
+    button_back: "戻る"
+    button_back_to_list_view: "リスト表示に戻る"
+    button_cancel: "キャンセル"
+    button_close: "閉じる"
+    button_change_project: "プロジェクトの変更"
+    button_check_all: "全てを選択"
+    button_configure-form: "フォームを設定"
+    button_confirm: "確認"
+    button_continue: "続行"
+    button_copy: "コピー"
+    button_copy_to_clipboard: "クリップボードにコピー"
+    button_copy_link_to_clipboard: "クリップボードにリンクをコピー"
+    button_copy_to_other_project: "他のプロジェクトにコピー"
+    button_custom-fields: "カスタムフィールド"
+    button_delete: "削除"
+    button_delete_watcher: "ウォッチャーを削除"
+    button_details_view: "詳細表示"
+    button_duplicate: "複製"
+    button_edit: "編集"
+    button_filter: "フィルタ"
+    button_collapse_all: "全てを折りたたむ"
+    button_expand_all: "全てを展開"
+    button_advanced_filter: "詳細フィルター"
+    button_list_view: "一覧表示"
+    button_show_view: "全画面表示"
+    button_log_time: "時間を記録"
+    button_more: "続き"
+    button_open_details: "詳細表示を開く"
+    button_close_details: "詳細表示を閉じる"
+    button_open_fullscreen: "全画面表示を開く"
+    button_show_cards: "カードビュー表示"
+    button_show_list: "リストビュー表示"
+    button_show_table: "Show table view"
+    button_show_gantt: "ガントビューを表示"
+    button_show_fullscreen: "全画面表示"
+    button_more_actions: "その他の操作"
+    button_quote: "引用"
+    button_save: "保存"
+    button_settings: "設定"
+    button_uncheck_all: "全てを選択解除"
+    button_update: "更新"
+    button_export-pdf: "PDFファイルをダウンロード"
+    button_export-atom: "Atomをダウンロード"
+    button_create: "作成"
+    card:
+      add_new: "新規カード追加"
+      highlighting:
+        inline: "インラインを強調表示："
+        entire_card_by: "カード全体で"
+      remove_from_list: "リストからカードを削除"
+    caption_rate_history: "進捗履歴"
+    clipboard:
+      browser_error: "お使いのブラウザーはクリップボードへのコピーをサポートしていません。手動でコピーしてください: %{content}"
+      copied_successful: "クリップボードにコピーしました"
+    chart:
+      type: "グラフの種類"
+      axis_criteria: "座標条件"
+      modal_title: "ワークパッケージグラフの設定"
+      types:
+        line: "線"
+        horizontal_bar: "横棒"
+        bar: "棒"
+        pie: "円"
+        doughnut: "ドーナツ"
+        radar: "レーダー"
+        polar_area: "鶏頭図"
+      tabs:
+        graph_settings: "概要"
+        dataset: "データセット %{number}"
+      errors:
+        could_not_load: "グラフを表示するデータを読み込みできませんでした。 必要な権限が不足している可能性があります。"
+    description_available_columns: "利用できる項目"
+    description_current_position: "現在の位置: "
+    description_select_work_package: "作業項目を選択 #%{id}"
+    description_subwork_package: "作業項目の子 #%{id}"
+    editor:
+      preview: "プレビューモードの切り替え"
+      source_code: "Markdown ソースモードの切り替え"
+      error_saving_failed: "次のエラーで文書を保存するのに失敗しました: %{error}"
+      ckeditor_error: "CKEditor内でエラーが発生しました"
+      mode:
+        manual: "Markdownソースに切り替える"
+        wysiwyg: "WYSIWYGエディタに切り替えます"
+      macro:
+        error: "マクロを展開できません: %{message}"
+        attribute_reference:
+          macro_help_tooltip: "このテキストセグメントはマクロによって動的にレンダリングされています。"
+          not_found: "要求されたリソースが見つかりませんでした"
+          invalid_attribute: "選択した属性 '%{name}' は存在しません。"
+        child_pages:
+          button: "子ページへのリンク"
+          include_parent: "親を含める"
+          text: "[Placeholder] の子ページへのリンク"
+          page: "Wiki ページ"
+          this_page: "このページ"
+          hint: |
+            現在のページのすべての子ページを表示するには、このフィールドを空のままにします。 別のページを参照する場合は、そのタイトルまたはスラッグを入力します。
+        code_block:
+          button: "コードスニペットを挿入する"
+          title: "コードスニペットの挿入/編集"
+          language: "言語の書式設定"
+          language_hint: "強調表示に使用する言語の書式を入力します（サポートされている場合）。"
+        dropdown:
+          macros: "マクロ"
+          chose_macro: "マクロを選択"
+        toc: "目次"
+        toolbar_help: "クリックしてウィジェットを選択しツールバーを表示します。 ダブルクリックしてウィジェットを編集"
+        wiki_page_include:
+          button: "別のwikiページの内容を含める"
+          text: "[Placeholder] のwikiページが含まれています"
+          page: "Wiki ページ"
+          not_set: "(まだ設定されていないページ)"
+          hint: |
+            タイトルやスラッグを指定して別のwikiページの内容を含める。
+            次の例のように、別のプロジェクトのwikiページをコロンで区切って含めることができます。
+        work_package_button:
+          button: "作業項目作成ボタンを挿入"
+          type: "作業項目の種類"
+          button_style: "ボタンスタイルを使用する"
+          button_style_hint: "オプション: マクロをリンクではなくボタンとして表示するかどうかをチェックします。"
+          without_type: "作業項目を作成"
+          with_type: "作業項目を作成 (種類: %{typename})"
+        embedded_table:
+          button: "作業項目表を埋め込む"
+          text: "[Placeholder] 埋め込まれた作業項目表"
+        embedded_calendar:
+          text: "[Placeholder] 埋め込みカレンダー"
+    admin:
+      type_form:
+        custom_field: "カスタムフィールド"
+        inactive: "非アクティブ"
+        drag_to_activate: "ここからフィールドをドラッグして、有効にします"
+        add_group: "属性グループを追加する"
+        add_table: "関係するワークパッケージのテーブルを追加する"
+        edit_query: "クエリの編集"
+        new_group: "新規グループ"
+        reset_to_defaults: "デフォルトに戻す"
+      enterprise:
+        text_reprieve_days_left: "%{days} days until end of grace period"
+        text_expired: "expired"
+        trial:
+          confirmation: "メールアドレスの確認"
+          confirmation_info: >
+            %{date} に %{email} へメールを送信しました。 14日間のトライアルを開始するには、受信トレイを確認し、確認リンクをクリックしてください。
+          form:
+            general_consent: >
+              <a target="_blank" href="%{link_terms}">利用規約</a>と<a target="_blank" href="%{link_privacy}">プライバシー ポリシー</a>に同意します。
+            invalid_email: "無効なメールアドレス"
+            label_company: "会社名"
+            label_first_name: "名前"
+            label_last_name: "苗字"
+            label_domain: "ドメイン"
+            label_subscriber: "購入者"
+            label_maximum_users: "アクティブなユーザーの最大数"
+            label_starts_at: "開始"
+            label_expires_at: "有効期限"
+            receive_newsletter: OpenProject <a target="_blank" href="%{link}">ニュースレター</a> を受け取りたい。
+            taken_domain: 有効なトライアルはドメインごとに1つしかありません。
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
+            taken_email: 各ユーザーはトライアルを1回のみ作成できます。
+          email_not_received: "メールが届きませんでしたか？右側のリンクでメールを再送信できます。"
+          try_another_email: "または別のメールアドレスでお試しください。"
+          next_steps: "次のステップ"
+          resend_link: "再送信"
+          resend_success: "メールが再送信されました。メールを確認し、確認リンクをクリックしてください。"
+          resend_warning: "メールを再送信できませんでした。"
+          session_timeout: "セッションがタイムアウトしました。ページを再読み込みするか、メールを再送信してください。"
+          status_label: "ステータス:"
+          status_confirmed: "確認済み"
+          status_waiting: "メールが送信されました - 確認待ちです"
+          test_ee: "エンタープライズ版を14日間無料でテストする"
+          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
+        upsale:
+          become_hero: "ヒーローになろう!"
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
+          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+          benefits:
+            description: "What are the benefits of the Enterprise on-premises edition?"
+            high_security: "セキュリティ機能"
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
+            installation: "インストールサポート"
+            installation_text: "経験豊富なソフトウェアエンジニアが、あなた独自のインフラストラクチャへの完全なインストールとセットアッププロセスをガイドします。"
+            premium_features: "エンタープライズアドオン"
+            premium_features_text: "アジャイルボード、カスタムテーマとロゴ、グラフ、カスタムアクションによるインテリジェントワークフロー、ワークパッケージの添付ファイルおよびマルチセレクトカスタムフィールドの全文検索。"
+            professional_support: "プロフェッショナルサポート"
+            professional_support_text: "ビジネスクリティカルな環境での OpenProject 利用に関する専門知識を持つ上級サポートエンジニアから、信頼性の高いハイタッチサポートを受けましょう。"
+          button_start_trial: "無料トライアルを開始"
+          button_upgrade: "今すぐアップグレード"
+          button_contact_us: "デモについてはお問い合わせください"
+          button_book_now: "今すぐ予約"
+          confidence: >
+            テストおよびサポートされているエンタープライズクラスのプロジェクト管理ソフトウェアの信頼性を提供します。オープンソースとオープンマインドとともに。
+          link_quote: "見積もりの入手"
+          more_info: "詳細情報"
+          text: >
+            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+          unlimited: "無制限"
+          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+      working_days:
+        calendar:
+          empty_state_header: "Non-working days"
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
+          new_date: "(new)"
+        add_non_working_day: "休業日"
+        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
+        change_button: "Save and reschedule"
+        change_title: "営業日を変更する"
+        removed_title: "You will remove the following days from the non-working days list:"
+        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+        warning: >
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
+          Are you sure you want to continue?
+    custom_actions:
+      date:
+        specific: "オン"
+        current_date: "現在の日付"
+    error:
+      internal: "内部エラーが発生しました。"
+      cannot_save_changes_with_message: "次のエラーのために変更を保存できません: %{error}"
+      query_saving: "ビューを保存できませんでした。"
+      embedded_table_loading: "埋め込みビューを読み込めませんでした: %{message}"
+    enumeration_activities: "作業分類 (時間の追跡)"
+    enumeration_doc_categories: "ドキュメントのカテゴリ"
+    enumeration_work_package_priorities: "ワークパッケージの優先度"
+    filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
+      description:
+        text_open_filter: "'ALT' と矢印キーでこのフィルタを開きます。"
+        text_close_filter: "エントリを選択するには、例えばエンターキーを押して、フォーカスを外します。フィルターを選択しないで離れるには、最初の (空の) のエントリを選択します。"
+      noneElement: "(なし)"
+      time_zone_converted:
+        two_values: "ローカル時間で %{from} - %{to} "
+        only_start: "ローカル時間で %{from} から"
+        only_end: "ローカル時間で %{to} まで"
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: "最初の並べ替え条件"
+          two: "2 番目の並べ替え基準"
+          three: "3 番目の並べ替え条件"
+    gantt_chart:
+      label: "ガントチャート"
+      quarter_label: "第%{quarter_number}四半期"
+      labels:
+        title: "ラベル設定"
+        bar: "バーのラベル"
+        left: "左"
+        right: "右"
+        farRight: "右端"
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: "ガントチャートの表示"
+      button_deactivate: "ガントチャートを隠す"
+      filter:
+        noneSelection: "(なし)"
+      selection_mode:
+        notification: "関連を作成するには、強調表示されたワークパッケージをクリックします。キャンセルするにはエスケープキーを押してください。"
+      zoom:
+        in: "拡大"
+        out: "拡大"
+        auto: "自動ズーム"
+        days: "日"
+        weeks: "週"
+        months: "ヶ月"
+        quarters: "四半期ごと"
+        years: " 年"
+        description: >
+          オートズームが使用できない場合に表示される初期ズームレベルを選択します。
+    general_text_no: "いいえ"
+    general_text_yes: "はい"
+    general_text_No: "いいえ"
+    general_text_Yes: "はい"
+    hal:
+      error:
+        update_conflict_refresh: "リソースを更新して最新のバージョンに更新するには、ここをクリックしてください。"
+        edit_prohibited: "このリソースの %{attribute} の編集はブロックされます。この属性が関係から派生している (例えば、親子関係) か、あるいは構成できないため。"
+        format:
+          date: "%{attribute} は有効な日付ではありません - YYYY-MM-DDの形式で入力してください。"
+        general: "エラーが発生しました。"
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: "新しい機能と製品の更新について紹介します。"
+          learn_about: "新機能の詳細はこちら"
+          #Include the version to invalidate outdated translations in other locales.
+          #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
+          "14_0":
+            standard:
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
+              new_features_html: >
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to calendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: 'Type a name, e.g. "Phone"'
+      token_name_description_text: 'If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="my/access_token", target="_blank">access tokens</a> list.'
+      copy_url_label: "URLをコピー"
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: 'The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.'
+    label_activate: "有効にする"
+    label_assignee: "担当者"
+    label_add_column_after: "後に列を追加"
+    label_add_column_before: "前に列を追加"
+    label_add_columns: "列を追加"
+    label_add_comment: "コメントを追加"
+    label_add_comment_title: "コメントで@ を入力して人に通知する"
+    label_add_row_after: "後に行を追加"
+    label_add_row_before: "前に行を追加"
+    label_add_selected_columns: "選択した列を追加"
+    label_added_by: "追加した人"
+    label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
+    label_ago: "○日前"
+    label_all: "全て"
+    label_all_work_packages: "全ての作業項目"
+    label_and: "及び"
+    label_ascending: "昇順"
+    label_author: "作者: %{user}"
+    label_avatar: "Avatar"
+    label_between: "次の範囲内"
+    label_board: "ボード"
+    label_board_locked: "ロックされている"
+    label_board_plural: "ボード"
+    label_board_sticky: "固定する"
+    label_change: "変更"
+    label_create: "作成"
+    label_create_work_package: "新しいワークパッケージを作成"
+    label_created_by: "作成者："
+    label_date: "日付"
+    label_date_with_format: "次の形式を使用して %{date_attribute} を入力してください: %{format}"
+    label_deactivate: "無効"
+    label_descending: "降順"
+    label_description: "説明"
+    label_details: "詳細"
+    label_display: "表示"
+    label_cancel_comment: "コメントをキャンセル"
+    label_closed_work_packages: "完了"
+    label_collapse: "折りたたむ"
+    label_collapsed: "折りたたまれている。"
+    label_collapse_all: "全てを折りたたむ"
+    label_comment: "コメント"
+    label_committed_at: "%{date}で%{committed_revision_link}"
+    label_committed_link: "コミットされたバージョン%{revision_identifier}"
+    label_contains: "含む"
+    label_created_on: "作成日時"
+    label_edit_comment: "このコメントを編集"
+    label_edit_status: "ワークパッケージのステータスを編集"
+    label_email: "電子メールアドレス"
+    label_equals: "等しい"
+    label_expand: "展開"
+    label_expanded: "展開"
+    label_expand_all: "全てを展開"
+    label_expand_project_menu: "プロジェクトメニューを展開"
+    label_export: "外部出力"
+    label_export_preparing: "エクスポートは準備中です。まもなくダウンロードされます。"
+    label_filename: "ファイル"
+    label_filesize: "サイズ"
+    label_general: "概要"
+    label_global_roles: "Global roles"
+    label_greater_or_equal: ">="
+    label_group: "グループ"
+    label_group_by: "グループ化"
+    label_group_plural: "グループ"
+    label_hide_attributes: "非表示にする"
+    label_hide_column: "列を非表示"
+    label_hide_project_menu: "プロジェクトメニューを折りたたむ"
+    label_in: "今日から○日後"
+    label_in_less_than: "今日から○日後以前"
+    label_in_more_than: "今日から○日後以降"
+    label_incoming_emails: "受信メール"
+    label_information_plural: "情報"
+    label_invalid: "無効"
+    label_import: "インポート"
+    label_latest_activity: "最新の活動"
+    label_last_updated_on: "最終更新日："
+    label_learn_more_link: "もっと詳しく"
+    label_less_or_equal: "以下"
+    label_less_than_ago: "今日より○日前以降"
+    label_loading: "読み込み中..."
+    label_mail_notification: "電子メールの通知"
+    label_manage_columns: "Manage and reorder columns"
+    label_me: "自分"
+    label_meeting_agenda: "アジェンダ"
+    label_meeting_minutes: "議事録"
+    label_menu_collapse: "折りたたむ"
+    label_menu_expand: "展開する"
+    label_more_than_ago: "今日より○日前以前"
+    label_next: "次へ"
+    label_no_color: "色なし"
+    label_no_data: "表示できるデータがありません。"
+    label_no_due_date: "終了日が未設定"
+    label_no_start_date: "開始日なし"
+    label_no_date: "no date"
+    label_no_value: "値なし"
+    label_none: "なし"
+    label_not_contains: "含まない"
+    label_not_equals: "等しくない"
+    label_on: "オン"
+    label_open_menu: "メニューを開く"
+    label_open_context_menu: "コンテキストメニューを開く"
+    label_open_work_packages: "未完了"
+    label_password: "パスワード"
+    label_previous: "前へ"
+    label_per_page: "1 ページあたり"
+    label_please_wait: "しばらくお待ちください"
+    label_project: "プロジェクト"
+    label_project_list: "Project lists"
+    label_project_plural: "プロジェクト"
+    label_visibility_settings: "表示の設定"
+    label_quote_comment: "このコメントを引用"
+    label_recent: "最新"
+    label_reset: "リセット"
+    label_remove: "削除"
+    label_remove_column: "列を削除"
+    label_remove_columns: "選択した列を削除"
+    label_remove_row: "行を削除"
+    label_report: "レポート"
+    label_repository_plural: "リポジトリ"
+    label_save_as: "名前をつけて保存"
+    label_search_columns: "Search a column"
+    label_select_project: "プロジェクトの選択"
+    label_select_watcher: "ウォッチャーを選択..."
+    label_selected_filter_list: "選択されたフィルタ"
+    label_show_attributes: "すべての属性を表示"
+    label_show_in_menu: "メニューを表示する"
+    label_sort_by: "並べ替え"
+    label_sorted_by: "並べ替えされた"
+    label_sort_higher: "上へ"
+    label_sort_lower: "下へ移動"
+    label_sorting: "ソート中"
+    label_spent_time: "作業時間の記録"
+    label_star_query: "支持された"
+    label_press_enter_to_save: "Enterを押して保存します。"
+    label_public_query: "公開"
+    label_sum: "合計"
+    label_sum_for: "合計"
+    label_total_sum: "総額"
+    label_subject: "タイトル"
+    label_this_week: "今週"
+    label_today: "今日"
+    label_time_entry_plural: "作業時間の記録"
+    label_up: "アップ"
+    label_user_plural: "ユーザ"
+    label_activity_show_only_comments: "コメントのみのアクティビティを表示"
+    label_activity_show_all: "すべてのアクティビティを表示"
+    label_total_progress: "%{percent}% 進行状況"
+    label_total_amount: "合計: %{amount}"
+    label_updated_on: "更新日時"
+    label_value_derived_from_children: "(子から派生した値)"
+    label_children_derived_duration: "子ワークパッケージのの派生期間"
+    label_warning: "注意"
+    label_work_package: "ワーク パッケージ"
+    label_work_package_parent: "親のワークパッケージ"
+    label_work_package_plural: "作業項目"
+    label_watch: "ウォッチする"
+    label_watch_work_package: "作業項目をウォッチ"
+    label_watcher_added_successfully: "ウォッチャーが正常に追加されました ！"
+    label_watcher_deleted_successfully: "ウォッチャーが正常に削除されました ！"
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
+    label_unwatch: "ウォッチしない"
+    label_unwatch_work_package: "作業項目のウォッチを削除"
+    label_uploaded_by: "アップロードした人"
+    label_default_queries: "既定の項目"
+    label_starred_queries: "お気に入り"
+    label_global_queries: "公開"
+    label_custom_queries: "非公開"
+    label_columns: "列"
+    label_attachments: 添付ファイル
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
+    label_drop_folders_hint: フォルダを添付ファイルとしてアップロードすることはできません。 単一のファイルを選択してください。
+    label_add_attachments: "ファイルを添付"
+    label_formattable_attachment_hint: "このフィールドにドロップ、またはクリップボードから貼り付けて、ファイルを添付およびリンクします。"
+    label_remove_file: "%{fileName}を削除"
+    label_remove_watcher: "ウォッチャー%{name}を削除"
+    label_remove_all_files: 全てのファイルを削除
+    label_add_description: "%{file}の説明を追加"
+    label_upload_notification: "ファイルをアップロード中..."
+    label_work_package_upload_notification: "作業項目#%{id}: %{subject}用ファイルをアップロード中"
+    label_wp_id_added_by: "#%{id}が%{author}によって追加されました"
+    label_files_to_upload: "これらのファイルをアップロードします:"
+    label_rejected_files: "これらのファイルをアップロードできません："
+    label_rejected_files_reason: "ファイルサイズが%{maximumFilesize}を越えたために、これらのファイルをアップロードできません"
+    label_wait: "構成をお待ちください..."
+    label_upload_counter: "%{count}ファイルの中に%{done}が完了"
+    label_validation_error: "次のエラーのために作業項目を保存できませんでした:"
+    label_version_plural: "バージョン"
+    label_view_has_changed: "このビューには未保存の変更があります。 クリックすると保存します。"
+    help_texts:
+      show_modal: "テキスト入力属性のヘルプを表示"
+    onboarding:
+      buttons:
+        skip: "スキップ"
+        next: "次へ"
+        got_it: "了承"
+      steps:
+        help_menu: "The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!"
+        members: "Invite new <b>members</b> to join your project."
+        quick_add_button: "Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>."
+        sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
+        welcome: "3分間の導入ツアーで、最も<b>重要な機能</b>を確認します。 <br>最後まで手順を完了することをお勧めします。 ツアーはいつでも再開できます。"
+        wiki: "Within the <b>wiki</b> you can document and share knowledge together with your team."
+        backlogs:
+          overview: "Manage your work in the <b>backlogs</b> view."
+          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
+          task_board_arrow: "To see your <b>task board</b>, open the sprint drop-down..."
+          task_board_select: "...and select the <b>task board</b> entry."
+          task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
+        boards:
+          overview: "Select <b>boards</b> to shift the view and manage your project using the agile boards view."
+          lists_kanban: "Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example."
+          lists_basic: "Here you can create multiple lists (columns) within your agile board."
+          add: "Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board."
+          drag: "Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details."
+        wp:
+          toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
+          list: "This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row."
+          full_view: "The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments."
+          back_button: "Use the return arrow in the top left corner to exit and return to the work package list."
+          create_button: "The <b>+ Create</b> button will add a new work package to your project."
+          gantt_menu: "Create project schedules and timelines effortlessly using the Gantt chart module."
+          timeline: "Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time."
+        team_planner:
+          overview: "The team planner lets you visually assign tasks to team members and get an overview of who is working on what."
+          calendar: "The weekly or biweekly planning board displays all work packages assigned to your team members."
+          add_assignee: "To get started, add assignees to the team planner."
+          add_existing: "Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates."
+          card: "Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member."
+    notifications:
+      title: "Notifications"
+      no_unread: "No unread notifications"
+      reasons:
+        mentioned: "mentioned"
+        watched: "watcher"
+        assigned: "担当者"
+        responsible: "accountable"
+        created: "作成する"
+        scheduled: "スケジュール済"
+        commented: "コメント"
+        processed: "処理済み"
+        prioritized: "優先"
+        dateAlert: "Date alert"
+        shared: "shared"
+      date_alerts:
+        milestone_date: "Milestone date"
+        overdue: "Overdue"
+        overdue_since: "since %{difference_in_days}"
+        property_today: "is today"
+        property_is: "is in %{difference_in_days}"
+        property_was: "was %{difference_in_days} ago"
+        property_is_deleted: "is deleted"
+        upsale:
+          title: "Date alerts"
+          description: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
+      facets:
+        unread: "Unread"
+        unread_title: "Show unread"
+        all: "全て"
+        all_title: "全てを表示"
+      center:
+        label_actor_and: "及び"
+        and_more_users:
+          other: "and %{count} others"
+        no_results:
+          at_all: "New notifications will appear here when there is activity that concerns you."
+          with_current_filter: "There are no notifications in this view at the moment"
+        mark_all_read: "Mark all as read"
+        mark_as_read: "Mark as read"
+        text_update_date: "%{date} by"
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+        empty_state:
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_selection: "Click on a notification to view all activity details."
+        new_notifications:
+          message: "There are new notifications."
+          link_text: "Click here to load them."
+      menu:
+        accountable: "責任者"
+        by_project: "Unread by project"
+        by_reason: "Reason"
+        inbox: "Inbox"
+        mentioned: "Mentioned"
+        watched: "ウォッチャー"
+        date_alert: "Date alert"
+        shared: "Shared"
+      settings:
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
+        title: "Notification settings"
+        notify_me: "Notify me"
+        reminders:
+          no_notification: No notification
+          timeframes:
+            normal:
+              PT0S: same day
+              P1D: 1 day before
+              P3D: 3 days before
+              P7D: a week before
+            overdue:
+              P1D: every day
+              P3D: every 3 days
+              P7D: every week
+        reasons:
+          mentioned:
+            title: "Mentioned"
+            description: "Receive a notification every time someone mentions me anywhere"
+          assignee: "担当者"
+          responsible: "責任者"
+          shared: "Shared"
+          watched: "ウォッチャー"
+          work_package_commented: "All new comments"
+          work_package_created: "New work packages"
+          work_package_processed: "All status changes"
+          work_package_prioritized: "All priority changes"
+          work_package_scheduled: "All date changes"
+        global:
+          immediately:
+            title: "Participating"
+            description: "Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)."
+          delayed:
+            title: "Non-participating"
+            description: "Additional notifications for activities in all projects."
+          date_alerts:
+            title: "Date alerts"
+            description: "Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)."
+            teaser_text: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
+          overdue: When overdue
+        project_specific:
+          title: "Project-specific notification settings"
+          description: "These project-specific settings override default settings above."
+          add: "Add setting for project"
+          already_selected: "This project is already selected"
+          remove: "Remove project settings"
+    password_confirmation:
+      field_description: "この変更を確認するには、アカウントのパスワードを入力する必要があります。"
+      title: "続行するにはパスワードを確認してください"
+    pagination:
+      no_other_page: "このページだけです。"
+      pages:
+        next: "次のページに進む"
+        previous: "前のページに戻る"
+    placeholders:
+      default: "-"
+      subject: "ここにタイトルを入力します"
+      selection: "選択してください"
+      description: "Description: Click to edit..."
+      relation_description: "クリックしてこの関係に説明を追加"
+    project:
+      required_outside_context: >
+        作業パッケージを作成するプロジェクトを選択して、すべての属性を確認してください。 上記で有効になっているタイプのプロジェクトのみ選択できます。
+      details_activity: "Project details activity"
+      context: "プロジェクトのコンテキスト"
+      click_to_switch_to_project: "Project: %{projectname}"
+      confirm_template_load: "テンプレートを切り替えるとページが再読み込みされ、すべての入力が失われます。続行しますか？"
+      use_template: "テンプレートを使用"
+      no_template_selected: "(なし)"
+      copy:
+        copy_options: "コピーオプション"
+      autocompleter:
+        label: "プロジェクト名の入力補完"
+    reminders:
+      settings:
+        daily:
+          add_time: "Add time"
+          enable: "Enable daily email reminders"
+          explanation: "You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}"
+          no_time_zone: "Until you configure a time zone for your account, the times will be interpreted to be in UTC."
+          time_label: "Time %{counter}:"
+          title: "Send me daily email reminders for unread notifications"
+        workdays:
+          title: "Receive email reminders on these days"
+        immediate:
+          title: "Send me an email reminder"
+          mentioned: "Immediately when someone @mentions me"
+        alerts:
+          title: "Email alerts for other items (that are not work packages)"
+          explanation: >
+            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
+          news_added: "ニュースが追加されました。"
+          news_commented: "Comment on a news item"
+          document_added: "Documents added"
+          forum_messages: "New forum messages"
+          wiki_page_added: "Wikiページが追加されました。"
+          wiki_page_updated: "Wikiページが更新されました。"
+          membership_added: "Membership added"
+          membership_updated: "Membership updated"
+        title: "Email reminders"
+        pause:
+          label: "Temporarily pause daily email reminders"
+          first_day: "First day"
+          last_day: "Last day"
+    text_are_you_sure: "よろしいですか？"
+    text_data_lost: "All entered data will be lost."
+    text_user_wrote: "%{value} wrote:"
+    types:
+      attribute_groups:
+        error_duplicate_group_name: "名前 %{group} が複数回使用されています。グループ名は一意にする必要があります。"
+        error_no_table_configured: "%{group} のテーブルを設定してください。"
+        reset_title: "フォーム設定をリセット"
+        confirm_reset: >
+          警告：フォーム設定をリセットしてもよろしいですか？ これにより、属性が規定のグループにリセットされ、すべてのカスタムフィールドが無効になります。   コンテキスト| リクエストコンテキスト
+        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
+        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
+        more_information: "詳細情報"
+        nevermind: "無視"
+      edit:
+        form_configuration: "フォーム設定"
+        projects: "プロジェクト"
+        settings: "設定"
+    time_entry:
+      work_package_required: "最初にワークパッケージを選択する必要があります。"
+      title: "時間を記録"
+      tracking: "作業時間の記録"
+      stop: "Stop"
+    timer:
+      start_new_timer: "Start new timer"
+      timer_already_running: "To start a new timer, you must first stop the current timer:"
+      timer_already_stopped: "No active timer for this work package, have you stopped it in another window?"
+      tracking_time: "Tracking time"
+      button_stop: "Stop current timer"
+    two_factor_authentication:
+      label_two_factor_authentication: "2要素認証"
+    watchers:
+      label_loading: ウォッチャーを読み込み中...
+      label_error_loading: ウォッチャーを読み込み中にエラーが発生しました。
+      label_search_watchers: ウォッチャーを検索
+      label_add: ウォッチャーの追加
+      label_discard: 選択範囲を破棄する
+      typeahead_placeholder: ウォッチャーの選択肢を検索
+    relation_labels:
+      parent: "親項目"
+      children: "子"
+      relates: "関連先"
+      duplicates: "複製"
+      duplicated: "複製元"
+      blocks: "ブロック"
+      blocked: "ブロック元"
+      precedes: "次の項目に先行"
+      follows: "次の項目に後続"
+      includes: "インクルード"
+      partof: "以下の一部："
+      requires: "必要"
+      required: "以下が必要："
+      relation_type: "関係タイプ"
+    relations_hierarchy:
+      parent_headline: "親項目"
+      hierarchy_headline: "階層"
+      children_headline: "子"
+    relation_buttons:
+      set_parent: "親を設定"
+      change_parent: "親タスクの変更"
+      remove_parent: "親関係を削除"
+      hierarchy_indent: "階層のインデント"
+      hierarchy_outdent: "階層のアウトデント"
+      group_by_wp_type: "ワークパッケージタイプのグループ"
+      group_by_relation_type: "関係タイプのグループ"
+      add_parent: "既存の親関係を追加する"
+      add_new_child: "子関係を作成"
+      create_new: "新規作成"
+      add_existing: "既存を追加"
+      add_existing_child: "既存の子関係を追加"
+      remove_child: "子関係を削除"
+      add_new_relation: "新しい関係を作成"
+      add_existing_relation: "既存の関係を追加"
+      update_description: "この関係の説明を設定または更新する"
+      toggle_description: "関係の説明を切り替え"
+      update_relation: "クリックして関係のタイプを変更"
+      add_follower: "後続を追加"
+      show_relations: "Show relations"
+      add_predecessor: "先行を追加"
+      remove: "関係を削除"
+      save: "関係を保存"
+      abort: "中止"
+    relations_autocomplete:
+      placeholder: "検索キーワードを入力"
+      parent_placeholder: "新しい親を選択するか、ESCを押してキャンセルしてください。"
+    autocompleter:
+      placeholder: "検索キーワードを入力"
+      notFoundText: "No items found"
+      project:
+        placeholder: "Select project"
+    repositories:
+      select_tag: "タグを選択する"
+      select_branch: "分岐を選択する"
+    field_value_enter_prompt: "'%{field}'の値を入力"
+    project_menu_details: "詳細"
+    scheduling:
+      manual: "手動スケジュール"
+    sort:
+      sorted_asc: "昇順の並べ替えを適用しました。 "
+      sorted_dsc: "降順の並べ替えを適用しました。 "
+      sorted_no: "並べ替えは適用されていません。 "
+      sorting_disabled: "並べ替えは無効です"
+      activate_asc: "昇順の並べ替えを適用"
+      activate_dsc: "降順の並べ替えを適用"
+      activate_no: "並べ替えを削除"
+    text_work_packages_destroy_confirmation: "選択したワークパッケージを削除してもよろしいですか？"
+    text_query_destroy_confirmation: "選択したビューを削除してもよろしいですか？"
+    tl_toolbar:
+      zooms: "ズームレベル"
+      outlines: "階層レベル"
+    upsale:
+      ee_only: "Enterprise edition add-on"
+    wiki_formatting:
+      strong: "強調"
+      italic: "斜体字"
+      underline: "下線"
+      deleted: "削除"
+      code: "インライン コード"
+      heading1: "見出し 1"
+      heading2: "見出し 2"
+      heading3: "見出し 3"
+      unordered_list: "順不同リスト"
+      ordered_list: "順序付きリスト"
+      quote: "引用"
+      unquote: "引用終了"
+      preformatted_text: "整形済みテキスト"
+      wiki_link: "Wikiページにリンクする"
+      image: "画像"
+    work_packages:
+      bulk_actions:
+        move: "プロジェクトの一括変更"
+        edit: "一括編集"
+        copy: "一括コピー"
+        delete: "一括削除"
+      button_clear: "クリア"
+      comment_added: "正常にコメントを追加しました。"
+      comment_send_failed: "エラーが発生しました。コメントを投稿できませんでした。"
+      comment_updated: "正常にコメントを更新しました。"
+      confirm_edit_cancel: "作業項目の編集をキャンセルしてもよろしいですか？"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: "Show relations"
+        ignore_non_working_days:
+          title: "Working days only"
+      description_filter: "フィルタ"
+      description_enter_text: "テキスト"
+      description_options_hide: "オプションを非表示"
+      description_options_show: "オプションを表示"
+      edit_attribute: "%{attribute} - 編集"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: "複数の選択を許可"
+      label_disable_multi_select: "複数の選択を禁止"
+      label_filter_add: "フィルタを追加"
+      label_filter_by_text: "テキストで絞り込む"
+      label_options: "オプション"
+      label_column_multiselect: "結合されたドロップダウンフィールド: 矢印キーで選択する、エンターキーで選択を確認する、バックスペースキーで削除する"
+      message_error_during_bulk_delete: 作業項目を削除する際にエラーが発生しました。
+      message_successful_bulk_delete: 作業項目が正常に削除されました。
+      message_successful_show_in_fullscreen: "クリックすると全画面表示でこの作業項目を開きます。"
+      message_view_spent_time: "このワークパッケージに費やした時間を表示する"
+      message_work_package_read_only: "作業項目はこの状態でロックされています。 ステータス以外の属性は変更できません。"
+      message_work_package_status_blocked: "ステータスがクローズでクローズされたバージョンが割り当てられているため、ワークパッケージのステータスは書き込みできません。"
+      placeholder_filter_by_text: "タイトル、説明、コメント、..."
+      progress:
+        title: "Work estimates and progress"
+      baseline:
+        addition_label: "Added to view within the comparison time period"
+        removal_label: "Removed from view within the comparison time period"
+        modification_label: "Modified within the comparison time period"
+        column_incompatible: "This column does not show changes in Baseline mode."
+      filters:
+        title: "ワークパッケージのフィルタ"
+        baseline_incompatible: "This filter attribute is not taken into consideration in Baseline mode."
+        baseline_warning: "Baseline mode is on but some of your active filters are not included in the comparison."
+      inline_create:
+        title: "クリックしてこのリストに新しい作業項目を追加します"
+      create:
+        title: "新しいワークパッケージ"
+        header: "新しい %{type}"
+        header_no_type: "新しいワークパッケージ（タイプ未設定）"
+        header_with_parent: "新しい %{type}（%{parent_type} #%{id} の子要素）"
+        button: "作成"
+      copy:
+        title: "作業項目をコピー"
+      hierarchy:
+        show: "階層モードを表示"
+        hide: "階層モードを非表示"
+        toggle_button: "クリックして階層モードを切り替えます。"
+        leaf: "ワークパッケージリーフ、レベル %{level}。"
+        children_collapsed: "階層レベル %{level} を折りたたみました。クリックすると、フィルターされた子を表示します"
+        children_expanded: "階層レベル %{level} を展開しました。クリックすると、フィルターされた子を折りたたみます"
+      faulty_query:
+        title: 作業項目が読み込めませんでした。
+        description: あなたの ビューは間違っており、処理できませんでした。
+      no_results:
+        title: 表示できる作業項目がありません。
+        description: 作業項目が作成されていないかすべての作業項目が除外されています。
+      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
+      property_groups:
+        details: "詳細"
+        people: "人"
+        estimatesAndTime: "見積もりと 時間"
+        other: "その他"
+      properties:
+        assignee: "担当者"
+        author: "作成者"
+        createdAt: "作成日時"
+        description: "説明"
+        date: "日付"
+        percentComplete: "% Complete"
+        percentCompleteAlternative: "Progress"
+        dueDate: "終了日"
+        duration: "期間"
+        spentTime: "作業時間の記録"
+        category: "カテゴリ"
+        percentageDone: "完了比率"
+        priority: "優先度"
+        projectName: "プロジェクト"
+        remainingWork: "Remaining work"
+        remainingWorkAlternative: "Remaining hours"
+        responsible: "責任者"
+        startDate: "開始日"
+        status: "ステータス"
+        subject: "タイトル"
+        subproject: "子プロジェクト"
+        title: "タイトル"
+        type: "タイプ"
+        updatedAt: "更新日時"
+        versionName: "バージョン"
+        version: "バージョン"
+        work: "Work"
+        workAlternative: "Estimated time"
+        remainingTime: "Remaining work"
+      default_queries:
+        latest_activity: "最新の活動"
+        created_by_me: "私が作成した"
+        assigned_to_me: "私に割り当てられた"
+        recently_created: "最近作成された"
+        all_open: "未完了"
+        summary: "サマリ"
+        shared_with_users: "Shared with users"
+        shared_with_me: "Shared with me"
+      jump_marks:
+        pagination: "表のページ設定に移動する"
+        label_pagination: "ここをクリックすると、作業項目表をスキップしてページ設定に移動します"
+        content: "コンテンツにジャンプ"
+        label_content: "ここをクリックすると、メニューをスキップして、コンテンツへ移動します"
+      placeholders:
+        default: "-"
+        date: "Select date"
+      query:
+        column_names: "列"
+        group_by: "グループ化"
+        group: "グループ化"
+        group_by_disabled_by_hierarchy: "階層モードが有効なため、グループ化は無効です。"
+        hierarchy_disabled_by_group_by: "結果が %{column} でグループ化されているため、階層モードは無効です。"
+        sort_ascending: "昇順にソート"
+        sort_descending: "降順にソート"
+        move_column_left: "列を左に移動"
+        move_column_right: "列を右に移動"
+        hide_column: "列を非表示"
+        insert_columns: "Insert columns"
+        filters: "フィルタ"
+        display_sums: "合計を表示"
+        confirm_edit_cancel: "このビューの名前の編集をキャンセルしてもよろしいですか？ タイトルは以前の値に戻されます。"
+        click_to_edit_query_name: "クリックすると、このビューのタイトルを編集できます。"
+        rename_query_placeholder: "このビューの名前"
+        star_text: "このビューをお気に入りとしてマークし、左側の保存済みビューサイドバーに追加します。"
+        public_text: >
+          このビューを公開して、他のユーザーがビューにアクセスできるようにします。 「公開ビューの管理」権限を持つユーザーが、公開クエリを変更または削除できます。 これは、そのビューでのワークパッケージの結果の可視性に影響を与えないため、ユーザーの権限に応じて、異なる結果が表示される場合があります。
+        errors:
+          unretrievable_query: "URLからビューを取得できません"
+          not_found: "そのようなビューはありません"
+          duplicate_query_title: "このビューの名前は既に存在します。 とにかく変更しますか？"
+        text_no_results: "一致するビューは見つかりませんでした。"
+      scheduling:
+        is_parent: "このワークパッケージの日付は、その子から自動的に推定されます。日付を設定するには、「手動スケジューリング」を有効にします。"
+        is_switched_from_manual_to_automatic: "他のワークパッケージとの関連により、手動スケジューリングから自動スケジューリングに切り替えた後に、このワークパッケージの日付を再計算する必要がある場合があります。"
+      sharing:
+        share: "共有"
+        title: "Share work package"
+        show_all_users: "Show all shared users"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
+        upsale:
+          description: "Share work packages with users who are not members of the project."
+      table:
+        configure_button: "ワークパッケージテーブルを設定する"
+        summary: "作業項目の行と、作業項目の属性の列から成る表。"
+        text_inline_edit: "この表のほとんどのセルは、属性のインライン編集機能を有効にするボタンです。"
+        text_sort_hint: "テーブル見出しのリンクで、並べ替え、グループ化、再並べ替え、削除、およびテーブルの列を追加ができます。"
+        text_select_hint: "選択ボックスは 'ALT'と矢印キーで開きます。"
+      table_configuration:
+        button: "このワークパッケージテーブルを設定する"
+        choose_display_mode: "作業項目を次のように表示する"
+        modal_title: "ワークパッケージ一覧の設定"
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
+        default: "デフォルト"
+        display_settings: "表示設定"
+        default_mode: "フラットリスト"
+        hierarchy_mode: "階層"
+        hierarchy_hint: "フィルタリングされたテーブルのすべての結果はその祖先で拡張されます。階層を展開したり折りたたんだりすることができます。"
+        display_sums_hint: "表の下にすべての集計可能な属性の合計を表示します。"
+        show_timeline_hint: "テーブルの右側にインタラクティブなガントチャートを表示します。テーブルとガントチャートの間の区切り線をドラッグすることで幅を変更することができます。"
+        highlighting: "ハイライト"
+        highlighting_mode:
+          description: "色付きでハイライト"
+          none: "ハイライトなし"
+          inline: "強調表示された属性"
+          inline_all: "全ての属性"
+          entire_row_by: "全体の行"
+          status: "ステータス"
+          priority: "優先度"
+          type: "タイプ"
+        sorting_mode:
+          description: "ワークパッケージを並び替えるモードを選択:"
+          automatic: "自動"
+          manually: "手動"
+          warning: "自動並び替えモードをアクティブにすると、以前のソートが失われます。"
+        columns_help_text: "テーブルビューに列を追加するには、上の入力フィールドを使用します。列をドラッグアンドドロップして並べ替えることができます。"
+        upsale:
+          attribute_highlighting: "全体から目立つように特定の作業項目が必要ですか？"
+          relation_columns: "ワークパッケージリストに関係を表示する必要がありますか?"
+          check_out_link: "Check out the Enterprise edition."
+        relation_filters:
+          filter_work_packages_by_relation_type: "関係タイプでワークパッケージをフィルタ"
+      tabs:
+        overview: 概要
+        activity: 活動
+        relations: 関係
+        watchers: ウォッチャー
+        files: ファイルを添付する
+      time_relative:
+        days: "日"
+        weeks: "週"
+        months: "月"
+    toolbar:
+      settings:
+        configure_view: "Configure view"
+        columns: "列"
+        sort_by: "並べ替え"
+        group_by: "グループ化"
+        display_sums: "合計を表示"
+        display_hierarchy: "階層を表示"
+        hide_hierarchy: "階層を非表示"
+        hide_sums: "合計の非表示"
+        save: "保存"
+        save_as: "名前をつけて保存"
+        export: "外部出力"
+        visibility_settings: "表示の設定"
+        share_calendar: "Subscribe to calendar"
+        page_settings: "ビューの名前を変更..."
+        delete: "削除"
+      filter: "フィルタ"
+      unselected_title: "ワーク パッケージ"
+      search_query_label: "保存したビューを検索"
+    modals:
+      label_name: "名称"
+      label_delete_page: "現在のページを削除"
+      button_apply: "適用"
+      button_save: "保存"
+      button_submit: "適用"
+      button_cancel: "キャンセル"
+      button_delete: "削除"
+      form_submit:
+        title: "続行の確認"
+        text: "この操作を実行してもよろしいですか？"
+      destroy_work_package:
+        title: "%{label} の削除を確認"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
+        has_children: "ワークパッケージは %{childUnits} あります。"
+        confirm_deletion_children: "列挙された作業項目のすべての子孫が再帰的に削除されることを承認します。"
+        deletes_children: "すべての子作業項目とその子孫も再帰的に削除されます。"
+      destroy_time_entry:
+        title: "タイムエントリの削除を確認"
+        text: "次のタイムエントリを削除してもよろしいですか？"
+    notice_no_results_to_display: "表示結果はありません。"
+    notice_successful_create: "正常に作成しました。"
+    notice_successful_delete: "正常に削除しました。"
+    notice_successful_update: "正常に更新しました。"
+    notice_job_started: "ジョブか開始されました。"
+    notice_bad_request: "不正な要求です。"
+    relations:
+      empty: 関連は存在しません
+      remove: 関係を削除
+    inplace:
+      button_edit: "%{attribute}: 編集"
+      button_save: "%{attribute}: 保存"
+      button_cancel: "%{attribute}: キャンセル"
+      button_save_all: "保存"
+      button_cancel_all: "キャンセル"
+      link_formatting_help: "テキストの書式設定のヘルプ"
+      btn_preview_enable: "プレビュー"
+      btn_preview_disable: "プレビューを無効にする"
+      null_value_label: "値なし"
+      clear_value_label: "-"
+      errors:
+        required: "%{field}を空にできません"
+        number: "%{field}は有効な数値ではありません"
+        maxlength: "%{field} は %{maxLength} 以上の桁の数字を入れることはできません"
+        minlength: "%{field} は %{minLength} 未満の桁の数字を入れることはできません"
+        messages_on_field: "このフィールドは無効です: %{messages}"
+    error_could_not_resolve_version_name: "バージョン名を解決できませんでした。"
+    error_could_not_resolve_user_name: "ユーザ名を特定できません"
+    error_attachment_upload: "ファイルのアップロードに失敗しました: %{error}"
+    error_attachment_upload_permission: "このリソースでファイルをアップロードする権限がありません。"
+    units:
+      workPackage:
+        other: "ワークパッケージ"
+      child_work_packages:
+        other: "%{count} の子ワークパッケージ"
+      hour:
+        one: "1 h"
+        other: "%{count} h"
+        zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count}日間"
+        zero: "0 days"
+    zen_mode:
+      button_activate: "マナーモードをアクティブにする"
+      button_deactivate: "マナーモードを非アクティブにする"
+    global_search:
+      all_projects: "すべてのプロジェクトで"
+      close_search: "検索を閉じる"
+      current_project_and_all_descendants: "このプロジェクトとサブプロジェクトでは"
+      current_project: "このプロジェクトでは"
+      recently_viewed: "Recently viewed"
+      search: "検索"
+      title:
+        all_projects: "すべてのプロジェクト"
+        project_and_subprojects: "すべてのプロジェクトで"
+        search_for: "検索対象"
+    views:
+      card: "カード"
+      list: "表"
+      timeline: "ガント"
+    invite_user_modal:
+      back: "戻る"
+      invite: "招待"
+      title:
+        invite: "ユーザを招待"
+        invite_to_project: "%{type} を %{project} に招待する"
+        User: "ユーザー"
+        Group: "グループ"
+        PlaceholderUser: "プレースホルダー ユーザー"
+        invite_principal_to_project: "%{principal} を %{project} に招待する"
+      project:
+        label: "プロジェクト"
+        required: "プロジェクトを選択してください"
+        lacking_permission: "現在選択されているプロジェクトにユーザーを割り当てる権限がないため、別のプロジェクトを選択してください。"
+        lacking_permission_info: "現在参加しているプロジェクトにユーザーを割り当てる権限がありません。別のプロジェクトを選択する必要があります。"
+        next_button: "次へ"
+        no_results: "プロジェクトが見つかりませんでした"
+        no_invite_rights: "このプロジェクトにメンバーを招待することは許可されていません"
+      type:
+        required: "招待するタイプを選択してください "
+        user:
+          title: "ユーザ"
+          description: "選択したプロジェクトで割り当てられたロールに基づく権限"
+        group:
+          title: "グループ"
+          description: "選択したプロジェクトで割り当てられたロールに基づく権限"
+        placeholder:
+          title: "プレースホルダー ユーザー"
+          title_no_ee: "Placeholder user (Enterprise edition only add-on)"
+          description: "プロジェクトにアクセスできず、電子メールも送信されません。"
+          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
+      principal:
+        label:
+          name_or_email: "名前またはメールアドレス"
+          name: "名称"
+        already_member_message: "既に %{project} のメンバーです"
+        no_results_user: "ユーザーが見つかりませんでした"
+        invite_user: "招待:"
+        no_results_placeholder: "プレースホルダが見つかりません"
+        create_new_placeholder: "新しいプレースホルダを作成:"
+        no_results_group: "グループが見つかりませんでした"
+        next_button: "次へ"
+        required:
+          user: "ユーザーを選択してください"
+          placeholder: "プレースホルダを選択してください"
+          group: "グループを選択してください"
+      role:
+        label: "%{project} でのロール"
+        no_roles_found: "ロールが見つかりません"
+        description: >-
+          This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>
+        required: "ロールを選択してください"
+        next_button: "次へ"
+      message:
+        label: "招待メッセージ"
+        description: "We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started."
+        next_button: "次へ"
+      summary:
+        next_button: "招待状を送信"
+      success:
+        title: "%{principal} が招待されました！"
+        description:
+          user: "ユーザはログインして %{project} にアクセスできるようになりました。一方で、そのユーザを使って計画を立てたり、ワークパッケージを割り当てたりすることができます。"
+          placeholder: "プレースホルダーを %{project} で使用できるようになりました。一方で、そのユーザを使って計画を立てたり、ワークパッケージを割り当てたりすることができます。"
+          group: "グループは %{project} の一部になりました。一方で、そのグループを使って計画を立てたり、ワークパッケージを割り当てたりすることができます。"
+        next_button: "続行"
+    include_projects:
+      toggle_title: "Include projects"
+      title: "プロジェクト"
+      clear_selection: "Clear selection"
+      apply: "適用"
+      selected_filter:
+        all: "すべてのプロジェクト"
+        selected: "Only selected"
+      search_placeholder: "Search project..."
+      include_subprojects: "Include all sub-projects"
+      tooltip:
+        include_all_selected: "Project already included since Include all sub-projects is enabled."
+        current_project: "This is the current project you are in."
+        does_not_match_search: "Project does not match the search criteria."
+      no_results: "No project matches your search criteria."
+    baseline:
+      toggle_title: "Baseline"
+      clear: "クリア"
+      apply: "適用"
+      header_description: "Highlight changes made to this list since any point in the past."
+      enterprise_header_description: "Highlight changes made to this list since any point in the past with Enterprise edition."
+      show_changes_since: "Show changes since"
+      baseline_comparison: "Baseline comparison"
+      help_description: "Reference time zone for the baseline."
+      time_description: "In your local time: %{datetime}"
+      time: "時間"
+      from: "日付指定: "
+      to: "から"
+      drop_down:
+        none: "-"
+        yesterday: "昨日"
+        last_working_day: "last working day"
+        last_week: "先週"
+        last_month: "先月"
+        a_specific_date: "a specific date"
+        between_two_specific_dates: "between two specific dates"
+      legends:
+        changes_since: "Changes since"
+        changes_between: "Changes between"
+        now_meets_filter_criteria: "Now meets filter criteria"
+        no_longer_meets_filter_criteria: "No longer meets filter criteria"
+        maintained_with_changes: "Maintained with changes"
+        in_your_timezone: "In your local timezone:"
+      icon_tooltip:
+        added: "Added to view within the comparison time period"
+        removed: "Removed from view within the comparison time period"
+        changed: "Maintained with modifications"
+    forms:
+      submit_success_message: "フォームは正常に送信されました"
+      load_error_message: "フォームの読み込み中にエラーが発生しました"
+      validation_error_message: "フォームに存在するエラーを修正してください"
+      advanced_settings: "詳細設定"
+    spot:
+      filter_chip:
+        remove: "削除"
+      drop_modal:
+        focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
+        Close: "閉じる"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

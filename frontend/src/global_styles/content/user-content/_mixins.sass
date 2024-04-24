@@ -1,0 +1,19 @@
+@mixin user-content-children 
+  > * + *
+    margin-top: 0.8rem
+
+  > br
+    margin-top: 0
+
+  > .op-uc-h1 + *,
+  > .op-uc-h2 + *,
+  > .op-uc-h3 + *,
+  > .op-uc-h4 + *,
+  > .op-uc-h5 + *
+    margin-top: 0
+
+
+  .op-uc-figure
+    &_align-start,
+    &_align-end
+      margin-bottom: 1rem

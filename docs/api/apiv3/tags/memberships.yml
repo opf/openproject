@@ -1,0 +1,31 @@
+---
+description: |-
+  Users and groups can become members of a project. Such a membership will also have one or more roles assigned to it. By that, memberships control the permissions a user has within a project.
+
+  There are also memberships that do not govern the permissions within a certain project but rather govern global permissions. Among the permissions that can be granted like this are the permissions to "Create project" and "Manage users". Those memberships do not have a project associated.
+
+  When creating and updating memberships, a custom message can be sent to users of new and updated memberships. This message can be provided within the `_meta` group.
+
+  ## Linked Properties
+
+  |  Link               | Description                                                   | Type             | Constraints                                                    | Supported operations |
+  |:-------------------:|-----------------------------------------                      | -------------    | -------------------------------------------------------------- | -------------------- |
+  | self                | This membership                                               | Membership       | not null                                                       | READ                 |
+  | project             | The project for which the membership is granted               | Project          |                                                                | READ                 |
+  | roles               | The list of roles the user or group is granted in the project | RoleCollection   | not null                                                       | READ                 |
+  | principal           | The user or group that was granted membership                 | User or Group    | not null                                                       | READ                 |
+
+  ## Local Properties
+
+  | Property    | Description                                   | Type        | Constraints                                        | Supported operations |
+  | :---------: | --------------------------------------------- | ----------- | -----------                                        | -------------------- |
+  | id          | Membership id                                 | Integer     | x > 0                                              | READ                 |
+  | createdAt   | Time of creation                              | DateTime    | not null                                           | READ                 |
+  | updatedAt   | Time of latest update                         | DateTime    | not null                                           | READ                 |
+
+  ## Meta parameters
+
+  | Meta property              | Description                                                                          | Type         | Constraints | Supported operations |Condition |
+  | :------------------------: | ---------------------------------------------------                                  | ----         | ----------- | -------------------- |----------|
+  | notificationMessage        | The message included in the email(s) send to the users of new or updated memberships | Formattable  |             | READ/WRITE           |          |
+name: Memberships

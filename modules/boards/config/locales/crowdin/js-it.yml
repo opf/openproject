@@ -1,0 +1,86 @@
+#English strings go here
+it:
+  js:
+    boards:
+      create_new: 'Crea una nuova scheda'
+      label_unnamed_board: 'Scheda senza nome'
+      label_unnamed_list: 'Lista senza nome'
+      label_board_type: 'Tipo scheda'
+      upsale:
+        teaser_text: 'Vorresti automatizzare i tuoi flussi di lavoro con Boards? Le schede avanzate sono un addon di Imprese. Sei pregato di passare a un piano a pagamento.'
+        upgrade: 'Aggiorna ora'
+      lists:
+        delete: 'Elimina elenco'
+      version:
+        is_locked: 'Versione bloccata. Nessun elemento può essere aggiunto a questa versione.'
+        is_closed: 'Versione chiusa. Nessun elemento può essere aggiunto a questa versione.'
+        close_version: 'Chiudi versione'
+        open_version: 'Apri versione'
+        lock_version: 'Blocca versione'
+        unlock_version: 'Sblocca versione'
+        edit_version: 'Modifica versione'
+        show_version: 'Mostra versione'
+        locked: 'Chiuso'
+        closed: 'Chiuso'
+      new_board: 'Nuova board'
+      add_list: 'Aggiungi elenco alla board'
+      add_card: 'Aggiungi carta'
+      error_attribute_not_writable: "Impossibile spostare il pacchetto di lavoro, %{attribute} non è scrivibile."
+      error_loading_the_list: "Errore nel caricamento della lista: %{error_message}"
+      error_permission_missing: "Manca l'autorizzazione per creare query pubbliche"
+      error_cannot_move_into_self: "Non è possibile spostare una macro-attività nella propria colonna."
+      text_hidden_list_warning: "Non tutte le liste sono visualizzate perchè non hai il permesso. Contatta il tuo amministratore per ulteriori informazioni."
+      click_to_remove_list: "Clicca per rimuovere questa lista"
+      board_type:
+        text: 'Tipo scheda'
+        free: 'base'
+        select_board_type: 'Scegli il tipo di board di cui hai bisogno.'
+        free_text: >
+          Inizia da zero con una board vuota. Aggiungi manualmente schede e colonne a questa board.
+        action: 'Scheda azione'
+        action_by_attribute: 'Scheda d''azione (%{attribute})'
+        action_text: >
+          Crea una board con elenchi filtrati sull'attributo %{attribute}. Spostare le macro-attività in altre liste aggiornerà il loro attributo.
+        action_text_subprojects: >
+          Board con colonne automatiche per sotto-progetti. Trascinando le macro-attività su altre liste aggiornerà di conseguenza il (sotto)progetto.
+        action_text_subtasks: >
+          Board con colonne automatiche per sotto-elementi. Trascinando le macro-attività su altre liste aggiornerà di conseguenza il genitore.
+        action_text_status: >
+          Board in stile kanban di base con colonne per stato come Da fare, In Corso, Fatto.
+        action_text_assignee: >
+          Board con colonne automatizzate in base agli utenti assegnati. Ideale per l'assegnazione di macro-attività.
+        action_text_version: >
+          Scheda con colonne automatizzate in base all'attributo versione. Ideale per la pianificazione dei rilasci di software.
+        action_type:
+          assignee: assegnatario
+          status: stato
+          version: versione
+          subproject: Sottoprogetto
+          subtasks: genitore-figlio
+        board_type_title:
+          assignee: Assegnatario
+          status: Stato
+          version: Versione
+          subproject: Sottoprogetto
+          subtasks: genitore-figlio
+          basic: Base
+        select_attribute: "Attributo azione"
+      add_list_modal:
+        labels:
+          assignee: Seleziona utente da aggiungere al nuovo elenco assegnatari
+          status: Seleziona lo stato da aggiungere come nuovo elenco
+          version: Seleziona la versione da aggiungere come nuovo elenco
+          subproject: Seleziona il sottoprogetto da aggiungere come nuovo elenco
+          subtasks: Seleziona la macro-attività da aggiungere come nuovo elenco
+        warning:
+          status: |
+            Al momento non sono disponibili stati. <br>
+            È probabile che non ce ne siano o che siano già stati aggiunti tutti alla scheda.
+          assignee: Non c'è nessun membro abbinato al valore del filtro.  <br>
+          no_member: Questo progetto al momento non ha membri che possono essere aggiunti.  <br>
+          add_members: <a href="%{link}">Aggiungi un nuovo membro a questo progetto</a> per selezionare nuovamente gli utenti.
+      configuration_modal:
+        title: 'Configura questa scheda'
+        display_settings:
+          card_mode: "Visualizza come carte"
+          table_mode: "Mostra come tabella"

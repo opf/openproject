@@ -1,0 +1,136 @@
+#English strings go here for Rails i18n
+si:
+  plugin_openproject_bim:
+    name: "OpenProject BIM and BCF functionality"
+    description: "This OpenProject plugin introduces BIM and BCF functionality."
+  bim:
+    label_bim: 'BIM'
+  bcf:
+    label_bcf: 'BCF'
+    label_imported_failed: 'BCF මාතෘකා ආනයනය අසමත්'
+    label_imported_successfully: 'සාර්ථකව ආනයනය BCF මාතෘකා'
+    issues: "ගැටළු"
+    recommended: 'නිර්දේශ'
+    not_recommended: 'නිර්දේශ කර නැත'
+    no_viewpoints: 'දෘෂ්ටි කෝණයන් නොමැත'
+    new_badge: "නව"
+    exceptions:
+      file_invalid: "BCF වලංගු නොවන ගොනු"
+    x_bcf_issues:
+      zero: 'BCF ගැටළු නොමැත'
+      one: 'එක් BCF ප්රශ්නයක්'
+      other: '%{count} BCF ගැටළු'
+    bcf_xml:
+      xml_file: 'BCF XML ගොනුව'
+      import_title: 'ආනයන'
+      export: 'අපනයන'
+      import_update_comment: '(BCF ආනයනය යාවත්කාලීන කරන ලදි)'
+      import_failed: 'BCF ගොනුව ආනයනය කළ නොහැක: %{error}'
+      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
+      import_successful: 'ආනයනය %{count} BCF ගැටළු'
+      import_canceled: 'BCF-XML ආනයනය අවලංගු කර ඇත.'
+      type_not_active: "මෙම ව්යාපෘතිය සඳහා නිකුත් කරන ලද වර්ගය සක්රිය කර නැත."
+      import:
+        num_issues_found: '%{x_bcf_issues} BCF-XML ගොනුවේ අඩංගු වේ, ඔවුන්ගේ විස්තර පහත ලැයිස්තුගත කර ඇත.'
+        button_prepare: 'ආනයන සූදානම් කරන්න'
+        button_perform_import: 'ආනයනය තහවුරු කරන්න'
+        button_proceed: 'Proceed with import'
+        button_back_to_list: 'ආපසු ලැයිස්තුව'
+        no_permission_to_add_members: 'ව්යාපෘතියට සාමාජිකයන් ලෙස ඔවුන් එක් කිරීමට ඔබට ප්රමාණවත් අවසරයක් නොමැත.'
+        contact_project_admin: 'සාමාජිකයන් ලෙස ඔවුන් එකතු කර නැවත මෙම ආයාත ආරම්භ කිරීමට ඔබගේ ව්යාපෘති පරිපාලක අමතන්න.'
+        continue_anyways: 'ඔබට ඕනෑම ආකාරයකින් ආනයනය කිරීමට හා අවසන් කිරීමට අවශ්යද?'
+        description: "මෙම ව්යාපෘතියට ආනයනය කිරීම සඳහා BCF-XML v2.1 ගොනුවක් ලබා දෙන්න. ආනයනය සිදු කිරීමට පෙර එහි අන්තර්ගතය පරීක්ෂා කළ හැකිය."
+        invalid_types_found: 'වලංගු නොවන මාතෘකා වර්ගයේ නම් හමු විය'
+        invalid_statuses_found: 'වලංගු නොවන තත්ව නාම සොයාගත හැකිය'
+        invalid_priorities_found: 'වලංගු නොවන ප්රමුඛතා නාම සොයාගත හැකි'
+        invalid_emails_found: 'වලංගු නොවන විද්යුත් තැපැල් ලිපින හමු'
+        unknown_emails_found: 'නොදන්නා විද්යුත් තැපැල් ලිපින හමු විය'
+        unknown_property: 'නොදන්නා දේපල'
+        non_members_found: 'ව්යාපෘති නොවන සාමාජිකයන් සොයා'
+        import_types_as: 'මේ සියලු වර්ග සකසන්න'
+        import_statuses_as: 'මෙම සියලු තත්වයන් සකසන්න'
+        import_priorities_as: 'මෙම සියලු ප්රමුඛතා සකසන්න'
+        invite_as_members_with_role: '“%{project}" ව්යාපෘතියට සාමාජිකයන් ලෙස ආරාධනා කරන්න'
+        add_as_members_with_role: '“%{project}" ව්යාපෘතියට සාමාජිකයන් ලෙස ඔවුන් එක් කරන්න'
+        no_type_provided: 'කිසිදු වර්ගයක් සපයා නැත'
+        no_status_provided: 'කිසිදු තත්වයක් ලබා දී නොමැත'
+        no_priority_provided: 'ප්රමුඛතාවයක් ලබා දී නොමැත'
+        perform_description: "ඉහත ලැයිස්තුගත කර ඇති ගැටළු ආයාත කිරීමට හෝ යාවත්කාලීන කිරීමට ඔබට අවශ්යද?"
+        replace_with_system_user: '“පද්ධති” පරිශීලකයා සමඟ ඒවා ප්රතිස්ථාපනය කරන්න'
+        import_as_system_user: '“පද්ධති” පරිශීලකයා ලෙස ඒවා ආයාත කරන්න.'
+        what_to_do: "ඔබට කුමක් කිරීමට අවශ්යද?"
+        work_package_has_newer_changes: "යල් පැන ගිය! සේවාදායකයේ නවතම වෙනස්කම් ආනයනික මාතෘකාවෙහි “වෙනස් කළ දිනය” ට වඩා නව බැවින් මෙම මාතෘකාව යාවත්කාලීන නොකළේය. කෙසේ වෙතත්, මාතෘකාවට අදහස් දැක්වීම ආනයනය කරන ලදී."
+        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
+  export:
+    format:
+      bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "BCF සැණරුව"
+  project_module_bcf: "BCF"
+  project_module_bim: "BCF"
+  permission_view_linked_issues: "BCF ගැටළු බලන්න"
+  permission_manage_bcf: "BCF ගැටළු ආනයනය කිරීම සහ කළමනාකරණය කිරීම"
+  permission_delete_bcf: "Delete BCF issues"
+  oauth:
+    scopes:
+      bcf_v2_1: "BCF v2.1 API වෙත පූර්ණ ප්රවේශය"
+      bcf_v2_1_text: "ඔබ වෙනුවෙන් ක්රියාවන් සිදු කිරීම සඳහා OpenProject BCF API v2.1 වෙත සම්පූර්ණ කියවීමට සහ ලිවීමට ප්රවේශය ලබා දෙනු ඇත."
+  activerecord:
+    models:
+      bim/ifc_models/ifc_model: "IFC model"
+    attributes:
+      bim/ifc_models/ifc_model:
+        ifc_attachment: "IFC file"
+        is_default: "Default model"
+        attachments: "IFC file"
+    errors:
+      models:
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "No ifc file attached."
+              invalid_ifc_file: "The provided file is not a valid IFC file."
+        bim/bcf/viewpoint:
+          bitmaps_not_writable: "එය තවමත් ක්රියාත්මක කර නොමැති බැවින් බිට්මැප්ස් ලිවිය නොහැක."
+          index_not_integer: "දර්ශකය යනු පූර්ණ සංඛ්යාලයක් නොවේ."
+          invalid_clipping_planes: "clipping_planes අවලංගුයි."
+          invalid_components: "සංරචක අවලංගුයි."
+          invalid_lines: "රේඛා වලංගු නොවේ."
+          invalid_orthogonal_camera: "orthogonal_camera අවලංගුයි."
+          invalid_perspective_camera: "ඉදිරිදර්ශන_කැමරාව අවලංගුයි."
+          mismatching_guid: "json_viewpoint හි ඇති guid ආකෘතියේ guid හා නොගැලපේ."
+          no_json: "එය හොඳින් ව්යුහගත json නොවේ."
+          snapshot_type_unsupported: "snapshot_type එක්කෝ 'png' හෝ 'jpg' විය යුතුය."
+          snapshot_data_blank: "snapshot_data ලබා දිය යුතුය."
+          unsupported_key: "සහාය නොදක්වන Json දේපලක් ඇතුළත් වේ."
+        bim/bcf/issue:
+          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
+  ifc_models:
+    label_ifc_models: 'IFC models'
+    label_new_ifc_model: 'New IFC model'
+    label_show_defaults: 'Show defaults'
+    label_default_ifc_models: 'Default IFC models'
+    label_edit_defaults: 'Edit defaults'
+    no_defaults_warning:
+      title: 'No IFC model was set as default for this project.'
+      check_1: 'Check that you have uploaded at least one IFC model.'
+      check_2: 'Check that at least one IFC model is set to "Default".'
+    no_results: "No IFC models have been uploaded in this project."
+    conversion_status:
+      label: 'Processing?'
+      pending: 'Pending'
+      processing: 'Processing'
+      completed: 'Completed'
+      error: 'දෝෂය'
+    processing_notice:
+      processing_default: 'The following default IFC models are still being processed and are thus not available, yet:'
+    flash_messages:
+      upload_successful: 'Upload succeeded. It will now get processed and will be ready to use in a couple of minutes.'
+    conversion:
+      missing_commands: "The following IFC converter commands are missing on this system: %{names}"
+  project_module_ifc_models: "IFC models"
+  permission_view_ifc_models: "View IFC models"
+  permission_manage_ifc_models: "Import and manage IFC models"
+  extraction:
+    available:
+      ifc_convert: "IFC conversion pipeline available"

@@ -1,0 +1,245 @@
+# Example: QuerySchemaModel
+---
+value:
+  _dependencies: []
+  _embedded:
+    filtersSchemas:
+      _embedded:
+        elements:
+          - _dependencies:
+              - _type: SchemaDependency
+                dependencies:
+                  "/api/v3/queries/operators/!":
+                    values:
+                      _links: {}
+                      hasDefault: false
+                      name: Values
+                      required: true
+                      type: "[]User"
+                      writable: true
+                  "/api/v3/queries/operators/!*": {}
+                  "/api/v3/queries/operators/*": {}
+                  "/api/v3/queries/operators/=":
+                    values:
+                      _links: {}
+                      hasDefault: false
+                      name: Values
+                      required: true
+                      type: "[]User"
+                      writable: true
+                'on': operator
+            _links:
+              filter:
+                href: "/api/v3/queries/filters/assignee"
+                title: Assignee
+              self:
+                href: "/api/v3/queries/filter_instance_schemas/assignee"
+            _type: QueryFilterInstanceSchema
+            filter:
+              _links: {}
+              hasDefault: false
+              name: Filter
+              required: true
+              type: QueryFilter
+              writable: true
+            name:
+              hasDefault: true
+              name: Name
+              required: true
+              type: String
+              writable: false
+          - _dependencies:
+              - _type: SchemaDependency
+                dependencies:
+                  "/api/v3/queries/operators/!":
+                    values:
+                      _links: {}
+                      hasDefault: false
+                      name: Values
+                      required: true
+                      type: "[]User"
+                      writable: true
+                  "/api/v3/queries/operators/=":
+                    values:
+                      _links: {}
+                      hasDefault: false
+                      name: Values
+                      required: true
+                      type: "[]User"
+                      writable: true
+                'on': operator
+            _links:
+              filter:
+                href: "/api/v3/queries/filters/author"
+                title: Author
+              self:
+                href: "/api/v3/queries/filter_instance_schemas/author"
+            _type: QueryFilterInstanceSchema
+            filter:
+              _links: {}
+              hasDefault: false
+              name: Filter
+              required: true
+              type: QueryFilter
+              writable: true
+            name:
+              hasDefault: true
+              name: Name
+              required: true
+              type: String
+              writable: false
+      _links:
+        self:
+          href: "/api/v3/queries/filter_instance_schemas"
+      _type: Collection
+      count: 20
+      total: 20
+  _links:
+    self:
+      href: "/api/v3/queries/schema"
+  _type: Schema
+  columns:
+    _links: {}
+    hasDefault: true
+    location: _links
+    name: Columns
+    required: false
+    type: "[]QueryColumn"
+    writable: true
+  createdAt:
+    hasDefault: false
+    name: Created on
+    required: true
+    type: DateTime
+    writable: false
+  filters:
+    _links:
+      allowedValuesSchemas:
+        href: "/api/v3/queries/filter_instance_schemas"
+    hasDefault: true
+    location: _links
+    name: Filters
+    required: false
+    type: "[]QueryFilterInstance"
+    writable: true
+  groupBy:
+    _links: {}
+    hasDefault: false
+    name: Group results by
+    required: false
+    type: "[]QueryGroupBy"
+    writable: true
+  highlightedAttributes:
+    hasDefault: true
+    location: _links
+    name: Highlighted attributes
+    required: false
+    type: "[]QueryColumn"
+    writable: true
+    deprecated: true
+  highlightingMode:
+    hasDefault: true
+    name: Highlighting mode
+    required: false
+    type: String
+    writable: true
+    deprecated: true
+  id:
+    hasDefault: false
+    name: ID
+    required: true
+    type: Integer
+    writable: false
+  name:
+    hasDefault: false
+    maxLength: 255
+    minLength: 1
+    name: Name
+    required: true
+    type: String
+    writable: true
+  project:
+    _links: {}
+    hasDefault: false
+    location: _links
+    name: Project
+    required: false
+    type: Project
+    writable: true
+  public:
+    hasDefault: true
+    name: Public
+    required: false
+    type: Boolean
+    writable: true
+  results:
+    hasDefault: false
+    name: Results
+    required: false
+    type: WorkPackageCollection
+    writable: false
+  showHierarchies:
+    hasDefault: true
+    name: Show hierarchies
+    required: false
+    type: Boolean
+    writable: true
+    deprecated: true
+  sortBy:
+    _links: {}
+    hasDefault: true
+    name: Sort by
+    required: false
+    type: "[]QuerySortBy"
+    writable: true
+  starred:
+    hasDefault: true
+    name: Starred
+    required: false
+    type: Boolean
+    writable: true
+  sums:
+    hasDefault: true
+    name: Sums
+    required: false
+    type: Boolean
+    writable: true
+  timelineLabels:
+    hasDefault: true
+    name: Timeline labels
+    required: false
+    type: QueryTimelineLabels
+    writable: true
+    deprecated: true
+  timelineVisible:
+    hasDefault: true
+    name: Timeline visible
+    required: false
+    type: Boolean
+    writable: true
+    deprecated: true
+  timelineZoomLevel:
+    hasDefault: true
+    name: Timeline zoom level
+    required: false
+    type: String
+    writable: true
+    deprecated: true
+  timestamps:
+    hasDefault: true
+    name: Timestamps
+    required: false
+    type: "[]Timestamp"
+    writable: true
+  updatedAt:
+    hasDefault: false
+    name: Updated on
+    required: true
+    type: DateTime
+    writable: false
+  user:
+    hasDefault: true
+    name: User
+    required: true
+    type: User
+    writable: false

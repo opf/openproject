@@ -1,0 +1,12 @@
+#English strings go here
+ca:
+  plugin_openproject_calendar:
+    name: "OpenProject Calendar"
+    description: "Provides calendar views."
+  label_calendar: "Calendari"
+  label_calendar_plural: "Calendaris"
+  label_new_calendar: "Nou calendari"
+  permission_view_calendar: "Mostrar calendaris"
+  permission_manage_calendars: "Administrar calendaris"
+  permission_share_calendars: "Subscripció via iCalendar"
+  project_module_calendar_view: "Calendaris"

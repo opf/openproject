@@ -1,0 +1,14 @@
+#English strings go here
+ar:
+  js:
+    label_preview: 'معاينة'
+    button_update: 'التحديث'
+    avatars:
+      label_choose_avatar: "قم باختيار صورة رمزية من الملف"
+      uploading_avatar: "تحميل الصورة الرمزية"
+      text_upload_instructions: |
+        قم بتحميل الصورة الرمزية المخصصة بدقة 128×128 بكسل. يمكن تغيير حجم الملفات الكبيرة وقصها لتتطابق. عند تحديد الصورة، تظهر معاينة للصورة الرمزية قبل التحميل.
+      error_image_too_large: "الصورة كبيرة جداً."
+      wrong_file_format: "التنسيقات المتاحة للصور هي jpg و png و gif."
+      empty_file_error: "يرجى تحميل الصورة الصحيحة ووفقًا للتنسيقات (jpg, png, gif)"
+

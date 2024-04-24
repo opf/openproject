@@ -1,0 +1,108 @@
+# /api/v3/placeholder_users
+---
+get:
+  summary: List placehoder users
+  operationId: list_placeholder_users
+  tags:
+    - Principals
+  description: |-
+    List all placeholder users. This can only be accessed if the requesting user has the global permission
+    `manage_placeholder_user` or `manage_members` in any project.
+  parameters:
+    - name: filters
+      description: |-
+        JSON specifying filter conditions.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
+        Currently supported filters are:
+        
+        - name: filters placeholder users by the name.
+        - group: filters placeholder by the group it is contained in.
+        - status: filters placeholder by the status it has.
+      in: query
+      required: false
+      schema:
+        type: string
+      example: '[{ "name": { "operator": "~", "values": ["Darth"] } }]'
+    - name: select
+      description: Comma separated list of properties to include.
+      in: query
+      required: false
+      schema:
+        type: string
+      example: 'total,elements/name,elements/self,self'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/principal_collection_model.yml'
+    '400':
+      description: Returned if the client sends invalid request parameters e.g. filters
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+            message: Filters Invalid filter does not exist.
+
+post:
+  summary: Create placeholder user
+  operationId: create_placeholder_user
+  tags:
+    - Principals
+  description: |-
+    Creates a new placeholder user. Only administrators and users with `manage_placeholder_user` global permission are
+    allowed to do so. When calling this endpoint the client provides a single object, containing at least the
+    properties and links that are required, in the body.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/placeholder_user_create_model.yml'
+  responses:
+    '201':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/placeholder_user_model.yml'
+      description: Created
+    '400':
+      $ref: '../components/responses/invalid_request_body.yml'
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to create new placeholder users.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** Administrator
+    '406':
+      $ref: '../components/responses/missing_content_type.yml'
+    '415':
+      $ref: '../components/responses/unsupported_media_type.yml'
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _embedded:
+              details:
+                attribute: name
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: Name has already been taken.
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+  

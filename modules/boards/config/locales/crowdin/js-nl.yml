@@ -1,0 +1,86 @@
+#English strings go here
+nl:
+  js:
+    boards:
+      create_new: 'Maak een nieuw bord'
+      label_unnamed_board: 'Naamloos bord'
+      label_unnamed_list: 'Naamloze lijst'
+      label_board_type: 'Type bord'
+      upsale:
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+        upgrade: 'Upgrade nu'
+      lists:
+        delete: 'Lijst verwijderen'
+      version:
+        is_locked: 'Versie is vergrendeld. Er kunnen geen items aan deze versie worden toegevoegd.'
+        is_closed: 'Versie is gesloten. Er kunnen geen items aan deze versie worden toegevoegd.'
+        close_version: 'Versies sluiten'
+        open_version: 'Versie openen'
+        lock_version: 'Versie vergrendelen'
+        unlock_version: 'Versie ontgrendelen'
+        edit_version: 'Versie bewerken'
+        show_version: 'Versie tonen'
+        locked: 'Vergrendeld'
+        closed: 'Gesloten'
+      new_board: 'Nieuw bord'
+      add_list: 'Lijst toevoegen aan bord'
+      add_card: 'Kaart toevoegen'
+      error_attribute_not_writable: "Kan werkpakket niet verplaatsen, %{attribute} is niet schrijfbaar."
+      error_loading_the_list: "Fout bij laden van de lijst: %{error_message}"
+      error_permission_missing: "Geen toestemming om openbare zoekopdrachten te maken"
+      error_cannot_move_into_self: "Je kunt een werkpakket niet in zijn eigen kolom verplaatsen."
+      text_hidden_list_warning: "Niet alle lijsten worden weergegeven omdat u niet bevoegd bent. Contacteer uw beheerder voor meer informatie."
+      click_to_remove_list: "Klik om deze lijst te verwijderen"
+      board_type:
+        text: 'Type bord'
+        free: 'basis'
+        select_board_type: 'Kies het type bord dat je nodig hebt.'
+        free_text: >
+          Begin vanaf nul met een leeg bord. Voeg handmatig kaarten en kolommen toe aan dit bord.
+        action: 'Actiebord'
+        action_by_attribute: 'Actiebord (%{attribute})'
+        action_text: >
+          Een bord met gefilterde lijsten op %{attribute} attribuut. Het verplaatsen van werkpakketten naar andere lijsten zal hun attribuut bijwerken.
+        action_text_subprojects: >
+          Bord met geautomatiseerde kolommen voor subprojecten. Werkpakketten naar andere lijsten verplaatsen, werkt het (sub)project dienovereenkomstig bij.
+        action_text_subtasks: >
+          Bord met geautomatiseerde kolommen voor subelementen. Het verslepen van werkpakketten naar andere lijsten werkt de bovenliggende map bij.
+        action_text_status: >
+          Basis kanban stijl board met kolommen voor status zoals Doen, Gereed.
+        action_text_assignee: >
+          Bord met geautomatiseerde kolommen gebaseerd op toegewezen gebruikers. Ideaal voor verzenden van werkpakketten.
+        action_text_version: >
+          Board met geautomatiseerde kolommen op basis van het versienummer. Ideaal voor het plannen van productontwikkeling.
+        action_type:
+          assignee: Toegewezene
+          status: Status
+          version: Versie
+          subproject: subprojekt
+          subtasks: ouder-kind
+        board_type_title:
+          assignee: Toegewezene
+          status: Status
+          version: Versie
+          subproject: Subproject
+          subtasks: Ouder-kind
+          basic: Basis
+        select_attribute: "Actie attribuut"
+      add_list_modal:
+        labels:
+          assignee: Selecteer gebruiker om toe te voegen als nieuwe taakontvangerlijst
+          status: Selecteer status om toe te voegen als nieuwe lijst
+          version: Selecteer versie om toe te voegen als nieuwe lijst
+          subproject: Selecteer subproject om als nieuwe lijst toe te voegen
+          subtasks: Selecteer werkpakket om toe te voegen als nieuwe lijst
+        warning:
+          status: |
+            Er is momenteel geen status beschikbaar. <br>
+            Er zijn geen of ze zijn allemaal al toegevoegd aan het bord.
+          assignee: Er is geen lid dat overeenkomt met uw filterwaarde.  <br>
+          no_member: Dit project heeft momenteel geen deelnemers die kunnen worden toegevoegd.  <br>
+          add_members: <a href="%{link}">Voeg een nieuw deelnemer toe aan dit project</a> om gebruikers opnieuw te selecteren.
+      configuration_modal:
+        title: 'Configureer dit bord'
+        display_settings:
+          card_mode: "Als kaarten weergeven"
+          table_mode: "Als tabel weergeven"

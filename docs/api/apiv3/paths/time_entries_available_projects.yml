@@ -1,0 +1,47 @@
+# /api/v3/time_entries/available_projects
+---
+get:
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  elements:
+                  - _type: Project...
+                  - _type: Project...
+                _links:
+                  self:
+                    href: "/api/v3/time_entries/available_projects"
+                _type: Collection
+                count: 2
+                total: 2
+          schema:
+            "$ref": "../components/schemas/available_projects_for_time_entries_model.yml"
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** *log time*, *edit time entries* or *edit own time entries* in any project
+      headers: {}
+  tags:
+  - Time Entries
+  description: Gets a list of projects in which a time entry can be created in or
+    be assigned to on update. The list contains all projects in which the user issuing
+    the request has the necessary permissions.
+  operationId: Available_projects_for_time_entries
+  summary: Available projects for time entries

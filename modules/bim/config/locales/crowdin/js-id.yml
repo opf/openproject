@@ -1,0 +1,29 @@
+#English strings go here
+id:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'Impor'
+      import_bcf_xml_file: 'Impor file XML BCF (BCF versi 2.1)'
+      export: 'Ekspor'
+      export_bcf_xml_file: 'Ekspor file XML BCF (BCF versi 2.1)'
+      viewpoint: 'Sudut pandang'
+      add_viewpoint: 'Tambahkan sudut pandang'
+      show_viewpoint: 'Tampilkan sudut pandang'
+      delete_viewpoint: 'Hapus sudut pandang'
+      management: 'Manajemen BCF'
+      refresh: 'Segarkan'
+      refresh_work_package: 'Segarkan paket kerja'
+    ifc_models:
+      empty_warning: "Proyek ini belum memiliki model IFC."
+      use_this_link_to_manage: "Gunakan tautan ini untuk mengunggah dan mengelola model IFC Anda"
+      keyboard_input_disabled: "Pembaca tidak memiliki kontrol papan ketik. Klik pada penampil untuk memberikan kontrol keyboard ke penampil."
+      models:
+        ifc_models: 'Model IFC'
+      views:
+        viewer: 'Pembaca'
+        split: 'Pembaca dan tabel'
+        split_cards: 'Pembaca dan kartu'
+    revit:
+      revit_add_in: "Add-In Revit"
+      revit_add_in_settings: "Pengaturan Add-In Revit"

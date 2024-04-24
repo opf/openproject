@@ -1,0 +1,161 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2024 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+@import "src/app/spot/styles/tokens/dist/tokens"
+@import "helpers"
+
+@mixin details-pane--form-field
+  @include grid-visible-overflow
+  padding: 0
+
+
+// -------------------- Header row --------------------
+.wp-show--header-container
+  display: grid
+  grid-template-columns: auto 1fr auto
+  grid-template-rows: minmax(30px, auto) 1fr
+  grid-template-areas: "breadcrumb breadcrumb breadcrumb" "backButton subject toolbar"
+  align-items: center
+  grid-column-gap: 5px
+
+  &--breadcrumb
+    grid-area: breadcrumb
+    align-self: baseline
+
+  &--back-button
+    grid-area: backButton
+
+  &--subject
+    grid-area: subject
+
+  &--toolbar-items
+    grid-area: toolbar
+    margin-bottom: 0
+
+// Subject field
+.wp-new--subject-wrapper
+  .inline-edit--active-field.subject
+    .inline-edit--field
+      height: 40px
+      font-size: 16px
+      line-height: 1
+
+.work-packages--details--subject
+  @include grid-content
+  @include grid-size(expand)
+  @include details-pane--form-field
+
+
+  // Style edit field to look like the display field.
+  // Thus we avoid a visual jump when editing the subject.
+  &.-active input
+    @include toolbar-input-styles
+    padding: 5px 0 5px 5px
+
+.work-packages--details-content
+  font-size:  0.875rem
+  .inplace-edit--write-value
+    textarea
+      overflow: hidden
+
+
+.work-package--single-view
+  // Make elements in split and full view span the entire width
+  // Style the edit field element when the full width is required
+  .wp-edit-formattable-field
+    width: 100%
+
+    // Allow only vertical resizing of the textarea
+    textarea
+      resize: vertical
+
+.detail-panel-description
+  margin: 0
+  line-height: 18px
+
+// Let the absolute autocomplete modify the height
+// of the relation tab so we can scroll to the results
+.detail-panel--autocomplete-target
+  position: relative
+
+i
+  &.icon-left
+    padding: 0 5px 0 0
+  &.icon-right
+    vertical-align: -2px
+    padding: 0 0 0 4px
+
+// -------------------- Attribute groups --------------------
+// Special styling for project context area
+.attributes-group.-project-context
+  background: $spot-color-feedback-info-light
+  border-radius: 2px
+  padding: 10px
+  margin: 10px 0 0 0
+  border: 1px solid $spot-color-feedback-info-dark
+
+// Avoid top border and spacing for special projects/select attribute group
+.attributes-group.-special-fields
+  margin-top: 0.5em
+
+  .attributes-group--header,
+  .attributes-group--header-container
+    border: 0
+    padding: 0
+    margin: 0
+
+// -------------------- Info row --------------------
+.work-packages--info-row
+  font-size: 12px
+  padding-top: 1px
+
+.wp-info-wrapper
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+  padding-top: 0.5rem
+
+  attribute-help-text
+    flex: 0
+    .help-text--entry
+      line-height: 25px
+      margin: 0 10px 0 -14px
+      .icon:before
+        padding: 0
+
+  .work-packages--info-row
+    flex: 1 1 200px
+
+  wp-status-button
+    // Should not be longer than mobile screen width (margin of 15px left and right)
+    max-width: calc(100vw - 30px)
+
+  attribute-help-text,
+  wp-status-button,
+  .work-packages--info-row
+    margin-bottom: 0.5rem

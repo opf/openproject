@@ -1,0 +1,61 @@
+<div
+  class="op-enterprise-banner"
+  data-test-selector="op-enterprise-banner"
+>
+  <div class="op-toast -ee-upsale"
+       [ngClass]="{'-left-margin': leftMargin }">
+
+    <img [src]="image.enterprise_edition" class="hidden-for-mobile op-enterprise-banner--image">
+    <div class="op-toast--content">
+      <div class="op-enterprise-banner--header">
+        <span class="spot-icon spot-icon_enterprise-addons"></span>
+        <span [textContent]="text.enterpriseFeature" class="op-enterprise-banner--title"></span>
+        <button
+          *ngIf="collapsible"
+          class="op-enterprise-banner--collapsible-button"
+          type="button"
+          (click)="toggleCollapse()"
+        >
+          <span class="spot-icon"
+                [ngClass]="collapsed ? 'spot-icon_arrow-down1' : 'spot-icon_arrow-up1'"
+                aria-hidden="true">
+          </span>
+        </button>
+      </div>
+      <br>
+
+      <span class="op-enterprise-banner--description" [innerHtml]="textMessage"></span>
+
+      <span class="op-enterprise-banner--description" *ngIf="!collapsed">
+        <strong [textContent]="text.become_hero"></strong> {{text.you_contribute}}
+      </span>
+
+      <div class="op-enterprise-banner--buttons" *ngIf="!collapsed">
+        <a
+          *ngIf="moreInfoLink"
+          [attr.href]="moreInfoLink"
+          class="op-enterprise-banner--info-button"
+          target=”_blank”>
+          <span class="spot-icon spot-icon_external-link"></span>
+          {{ text.more_info_text }}
+        </a>
+
+        <a
+          [href]="pricingUrl"
+          target=”_blank”
+          class="button -primary">
+          <span class="spot-icon spot-icon_enterprise-addons"></span>
+          {{ text.upgrade }}
+        </a>
+
+        <a
+          [attr.href]="text.more_info_link"
+          target=”_blank”
+          class="button -primary">
+          {{ text.button_trial }}
+        </a>
+
+      </div>
+    </div>
+  </div>
+</div>

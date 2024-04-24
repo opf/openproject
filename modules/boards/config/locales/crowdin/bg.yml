@@ -1,0 +1,39 @@
+#English strings go here
+bg:
+  plugin_openproject_boards:
+    name: "OpenProject Boards"
+    description: "Provides board views."
+  permission_show_board_views: "View boards"
+  permission_manage_board_views: "Manage boards"
+  project_module_board_view: "Boards"
+  boards:
+    label_board: "Board"
+    label_boards: "Boards"
+    label_create_new_board: "Create new board"
+    label_board_type: "Board type"
+    board_types:
+      free: Основен
+      action: "Action board (%{attribute})"
+    board_type_attributes:
+      assignee: Изпълнител
+      status: Състояние
+      version: Версия
+      subproject: Подпроект
+      subtasks: Parent-child
+      basic: Основен
+    board_type_descriptions:
+      basic: >
+        Започнете от нулата с празна дъска. Ръчно добавете карти и колони към тази дъска.
+      status: >
+        Основна дъска в стила на канбан със колони за състояние като Завършване, В процес на изпълнение, Готово
+      assignee: >
+        Табло с автоматизирани колони въз основа на назначени потребители. Идеален за изпращане на работни пакети.
+      version: >
+        Табло с автоматизирани колони въз основа на атрибута версия. Идеален за планиране разработването на продукта.
+      subproject: >
+        Табло с автоматизирани колони за подпроекти. Плъзгането на работни пакети към други списъци актуализира (под) проекта съответно.
+      subtasks: >
+        Табло с автоматизирани колони за поделементи. Плъзгането на работни пакети към други списъци актуализира родителя съответно.
+    upsale:
+      teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+      upgrade: 'Upgrade now'

@@ -1,0 +1,18 @@
+<ng-container [formGroup]="form">
+  <div class="op-form--section-header">
+    <h3 [textContent]="text.title" class="op-form--section-header-title"></h3>
+    <p [textContent]="text.explanation"></p>
+  </div>
+
+  <spot-selector-field
+    [label]="text[setting]"
+    [control]="form.get(setting)"
+    *ngFor="let setting of alerts"
+  >
+    <input
+      slot="input"
+      type="checkbox"
+      [formControlName]="setting"
+    />
+  </spot-selector-field>
+</ng-container>

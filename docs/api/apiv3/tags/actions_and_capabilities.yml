@@ -1,0 +1,72 @@
+---
+description: |-
+  An action is a change one can trigger within the OpenProject instance.
+  This could be creating a work package, exporting work packages or updating a user.
+  An action can also be something where the user is able to be involved so where the user is in the passive role
+  e.g. when being assigned a work package.
+
+  A capability combines an action with a context and a principal. It thus communicates, which principal can carry out
+  (or be passively involved) which action within a certain context. E.g. a user might have the capability of creating work packages
+  within a project.
+
+  In other words, an action is independent of a principal and context while a capability is
+  a relation between an action, the context and the principal.
+
+  The actions are most of the time derived from permissions which can be configured via the administrative UI where an administrator
+  selects from a set of permissions to be granted per role. But there are other cases, e.g. in order to become assignee or responsible of a work package, a user has
+  to have a role which allows having work packages assigned which is not a permission.
+
+  Even though user might have a capability, it might still not be possible to carry out the action
+  because some other requirement is not met.
+  E.g. a user might have the capability to update work packages, but if a particular work package is
+  in a readonly state, that work package cannot be updated.
+
+  *Only a small set of actions that actually already exist in the system are currently exposed via
+  the api. They will be added over time.*
+
+  ## Action
+
+  An action describes what can be carried out within the application. Until an action becomes assigned,
+  which turns it into a capability, it remains in the state of "could be".
+
+  ### Linked Properties
+
+  |  Link               | Description                              | Type             | Constraints                                                    | Supported operations |
+  |:-------------------:|----------------------------------------- | -------------    | -------------------------------------------------------------- | -------------------- |
+  | self                | The action                               | Action           | not null                                                       | READ                 |
+
+  ### Local Properties
+
+  | Property    | Description                                                                             | Type        | Constraints    | Supported operations |
+  | :---------: | ---------------------------------------------                                           | ----------- | -----------    | -------------------- |
+  | id          | Identifier for the action                                                               | String      | Not null       | READ                 |
+  | name        | A human readable name for the action *Not yet implemented*                              | String      | Not null       | READ                 |
+  | description | Describes what can be done by principals having that action   *Not yet implemented*     | String      | Not null       | READ                 |
+  | modules     | Clusters the actions into groups into which they belong logically *Not yet implemented* | []String    | Not null       | READ                 |
+
+  ## Capabilities
+
+  Actions can be assigned to a principal by assigning roles to that principal. E.g. a user might receive the 'work_packages/show'
+  action by having a role called reader assigned within a project.
+
+  Whenever a principal is assigned an action within a context, the principal has additional capabilities.
+
+  Exactly which actions can be gained by having a role assigned depends on the configuration of that role.
+  The configuration is adaptable by admins within the administration of the OpenProject instance.
+
+  ### Linked Properties
+
+  |  Link               | Description                                                                                           | Type             | Constraints     | Supported operations |
+  |-------------------- |-----------------------------------------                                                              | -------------    | --------------- | -------------------- |
+  | self                | The capability                                                                                        |                  |                 |                      |
+  | action              | The action the principal is granted                                                                   | Action           | not null        | READ                 |
+  | context             | The context the principal has this the action in. This is typically a project or the global context.  | Project or null  |                 | READ                 |
+  | principal           | The principal being allowed the action.                                                               | Action           | not null        | READ                 |
+
+  ### Local Properties
+
+  | Property    | Description                                   | Type        | Constraints        | Supported operations |
+  | :---------: | --------------------------------------------- | ----------- | -----------        | -------------------- |
+  | id          | Identifier for the action                     | String      | Not null           | READ                 |
+  | name        | A human readable name for the action          | String      | Not null           | READ                 |
+name: Actions & Capabilities

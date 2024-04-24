@@ -1,0 +1,57 @@
+# Example: Simple storage collection
+---
+value:
+  _type: Collection
+  count: 2
+  total: 2
+  offset: 1
+  pageSize: 20
+  _embedded:
+    elements:
+      - id: 1337
+        _type: Storage
+        name: It's no moon
+        hasApplicationPassword: true
+        createdAt: '2021-12-20T13:37:00.211Z'
+        updatedAt: '2021-12-20T13:37:00.211Z'
+        _links:
+          self:
+            href: /api/v3/storages/1337
+            title: It's no moon
+          type:
+            href: urn:openproject-org:api:v3:storages:nextcloud
+            title: Nextcloud
+          origin:
+            href: https://nextcloud.deathstar.rocks/
+          open:
+            href: https://nextcloud.deathstar.rocks/apps/files
+          authorizationState:
+            href: urn:openproject-org:api:v3:storages:authorization:FailedAuthorization
+            title: Failed Authorization
+          authorize:
+            href: https://nextcloud.deathstar.rocks/authorize/
+            title: Authorize
+          oauthApplication:
+            href: /api/v3/oauth_application/42
+            title: It's no moon (Nextcloud)
+          oauthClientCredentials:
+            href: /api/v3/oauth_client_credentials/42
+      - id: 1338
+        _type: Storage
+        name: EmpireSharepoint
+        createdAt: '2022-12-21T13:37:00.296Z'
+        updatedAt: '2022-12-21T13:37:00.296Z'
+        _links:
+          self:
+            href: /api/v3/storages/1338
+            title: EmpireSharepoint
+          type:
+            href: urn:openproject-org:api:v3:storages:one-drive
+            title: OneDrive
+          open:
+            href: https://empire.sharepoint.com/sites/Documents
+          authorizationState:
+            href: urn:openproject-org:api:v3:storages:authorization:Connected
+            title: Connected
+          oauthClientCredentials:
+            href: /api/v3/oauth_client_credentials/44

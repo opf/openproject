@@ -1,0 +1,81 @@
+// -------------------------- ICONS ----------------------------
+
+.xeokit-toolbar-icon-replacements
+  display: none
+
+// -------------------------- GENERIC --------------------------
+.op-ifc-viewer--toolbar-container
+  pointer-events: none
+
+
+  button
+    pointer-events: all
+    outline: none
+
+// -------------------------- XEOKIT Section tool ----------------------
+.xeokit-section-counter
+  opacity: 1.0
+  padding: 1px
+  margin: 0 0 0 10px
+  width: 20px
+  height: 16px
+  float: right
+
+.xeokit-section-menu-button
+  opacity: 1.0
+  border-radius: 5px
+  border: 0
+  padding: 1px
+  margin: 0 0 0 10px
+  width: 20px
+  height: 16px
+  float: right
+
+.xeokit-arrow-up
+  width: 0
+  height: 0
+  display: inline-block
+  vertical-align: middle
+  border-left: 5px solid transparent
+  border-right: 5px solid transparent
+  border-bottom: 5px solid var(--button--font-color)
+
+  &.active
+    border-bottom-color: var(--button--active-font-color)
+
+.xeokit-arrow-down
+  width: 0
+  height: 0
+  display: inline-block
+  vertical-align: middle
+  border-style: solid
+  border-width: 5px 5px 0 5px
+  border-color: var(--button--font-color) transparent transparent transparent
+
+  &.active
+    border-top-color: var(--button--active-font-color)
+
+// -------------------------- XEOKIT specific --------------------------
+// Move toolbar to the right
+.xeokit-toolbar
+  display: flex
+  flex-wrap: wrap
+  justify-content: flex-end
+
+// -------------------------- MOBILE specific --------------------------
+
+@media only screen and (max-width: $breakpoint-sm)
+  .op-ifc-viewer--toolbar
+    padding-right: 15px
+
+    .xeokit-toolbar
+      flex-wrap: nowrap
+
+      .xeokit-btn-group
+        white-space: nowrap
+
+  .op-ifc-viewer--focus-warning,
+  .op-ifc-viewer--toolbar-container
+    .fa-male,
+    .fa-cut
+      display: none

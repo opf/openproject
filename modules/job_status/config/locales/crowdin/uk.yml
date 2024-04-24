@@ -1,0 +1,4 @@
+uk:
+  plugin_openproject_job_status:
+    name: "Статус завдання OpenProject"
+    description: "Список і статус фонових завдань."

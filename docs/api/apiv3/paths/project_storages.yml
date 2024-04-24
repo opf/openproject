@@ -1,0 +1,42 @@
+# /api/v3/project_storage/{id}
+---
+get:
+  summary: Gets a list of project storages
+  operationId: list_project_storages
+  tags:
+    - File Links
+  description: |-
+    Gets a collection of all project storages that meet the provided filters and the user has permission to see them.
+  parameters:
+    - name: filters
+      in: query
+      required: false
+      schema:
+        default: '[]'
+        type: string
+      description: |-
+        JSON specifying filter conditions.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/)
+        endpoint. Currently supported filters are:
+
+        - project_id
+        - storage_id
+        - storage_url
+      example: '[{ "project_id": { "operator": "=", "values": ["42"] }}, { "storage_id": { "operator": "=", "values": ["1337"] }}]'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/project_storage_collection_model.yml'
+    '400':
+      description: Returned if any given filter is invalid.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+            message: The query parameter 'filters' is missing or malformed.

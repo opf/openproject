@@ -1,0 +1,15 @@
+<a
+  class="op-ian-bell op-app-menu--item-action"
+  data-test-selector="op-ian-bell"
+  [href]="notificationsPath()"
+>
+  <op-icon icon-classes="icon-bell"></op-icon>
+  <ng-container *ngIf="(unreadCount$ | async) as unreadCount">
+    <span
+      *ngIf="unreadCount !== 0"
+      class="op-ian-bell--indicator"
+      data-test-selector="op-ian-notifications-count"
+      [textContent]="unreadCountText$ | async"
+    ></span>
+  </ng-container>
+</a>

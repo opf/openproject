@@ -1,0 +1,47 @@
+<div
+  class="spot-modal"
+  data-test-selector="op-stop-existing-timer-modal"
+>
+  <div class="spot-modal--header">
+    <span id="spotModalTitle" class="spot-modal--header-title">{{text.title}}</span>
+  </div>
+
+  <p
+    class="spot-modal--subheader"
+    [textContent]="text.timer_already_running"></p>
+
+  <div class="spot-divider"></div>
+
+  <div class="spot-modal--body spot-container spot-body-small">
+    <p>
+      <strong>{{ text.tracking_time }}: {{ elapsed$ | async }}</strong>
+      <br/>
+      <a
+        uiSref="work-packages.show"
+        [uiParams]="{ workPackageId: active.workPackage.id }"
+        (click)="closeMe()"
+      >
+        #{{ active.workPackage.id }}: {{ active.workPackage.name }}
+      </a>
+    </p>
+
+  </div>
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button
+        type="button"
+        class="button spot-modal--cancel-button spot-action-bar--action"
+        [textContent]="text.button_cancel"
+        (click)="closeMe()"
+      ></button>
+      <button
+        type="button"
+        class="button -primary spot-action-bar--action"
+        data-test-selector="op-files-picker-modal--confirm"
+        [textContent]="text.button_stop"
+        (click)="saveAndClose()"
+      >
+      </button>
+    </div>
+  </div>
+</div>

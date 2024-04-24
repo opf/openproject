@@ -1,0 +1,134 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+
+indent() {
+	sed '/^-----> /! s/^/       /'
+}
+
+echo "-----> Starting the all-in-one OpenProject setup at $BASH_SOURCE..."
+
+if [ "$PGDATA" == "" ]; then
+	echo "No PGDATA environment variable defined. Aborting." | indent
+	exit 2
+fi
+
+PG_STARTUP_WAIT_TIME=${PG_STARTUP_WAIT_TIME:=10}
+SUPERVISORD_LOG_LEVEL=${SUPERVISORD_LOG_LEVEL:=info}
+
+dbhost=$(ruby -ruri -e 'puts URI(ENV.fetch("DATABASE_URL")).host')
+PLUGIN_GEMFILE_TMP=$(mktemp)
+PLUGIN_GEMFILE=$APP_PATH/Gemfile.local
+
+if [ "$PLUGIN_GEMFILE_URL" != "" ]; then
+	echo "Fetching custom gemfile from ${PLUGIN_GEMFILE_URL}..."
+	curl -L -o "$PLUGIN_GEMFILE_TMP" "$PLUGIN_GEMFILE_URL"
+
+	# set custom plugin gemfile if file is readable and non-empty
+	if [ -s "$PLUGIN_GEMFILE_TMP" ]; then
+		mv "$PLUGIN_GEMFILE_TMP" "$PLUGIN_GEMFILE"
+		chown $APP_USER:$APP_USER "$PLUGIN_GEMFILE"
+	fi
+fi
+
+install_plugins() {
+	pushd $APP_PATH >/dev/null
+
+	if [ -s "$PLUGIN_GEMFILE" ]; then
+		echo "Installing plugins..."
+		bundle install
+
+		echo "Installing frontend dependencies..."
+		pushd $APP_PATH/frontend >/dev/null
+		if [ "$(id -u)" = '0' ]; then
+			su - $APP_USER -c "cd $APP_PATH/frontend && npm install"
+		else
+			npm install
+		fi
+		popd >/dev/null
+
+		echo "Precompiling new assets..."
+		bundle exec rake assets:precompile
+
+		echo "Plugins installed"
+	fi
+
+	popd >/dev/null
+}
+
+migrate() {
+	wait_for_postgres
+	pushd $APP_PATH >/dev/null
+	/etc/init.d/memcached start
+	echo "-----> Running migrations..."
+	bundle exec rake db:migrate
+	# run seed as app user so created attachments (and folder) belong to app, not root
+	echo "-----> Seeding database..."
+	su app -c 'bundle exec rake db:seed'
+	/etc/init.d/memcached stop
+	popd >/dev/null
+}
+
+check_postgres_connection() {
+	su postgres -c "$PGBIN/psql $DATABASE_URL -c 'select 1;'"
+}
+
+wait_for_postgres() {
+	retries=${PG_STARTUP_WAIT_TIME}
+
+	echo "Trying to contact PostgreSQL server instance or waiting for it to come online."
+
+	while ! check_postgres_connection &> /dev/null ; do
+		if [ $retries -eq 0 ]; then
+			echo "Unable to contact postgres server:"
+			check_postgres_connection
+		else
+			echo "Waiting for postgres server, $((retries--)) remaining attempts..."
+			sleep 3
+		fi
+	done
+}
+
+configure_local_postgres() {
+	mkdir -p "$PGDATA"
+	chown -R postgres:postgres "$PGDATA"
+	# remove any dangling pid
+	rm -f $PGDATA/postmaster.pid
+
+	# Set up pg defaults
+	echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/$PGVERSION/main/pg_hba.conf
+	echo "listen_addresses='0.0.0.0'" >> "$PGCONF_FILE"
+	echo "port=5432" >> "$PGCONF_FILE"
+	echo "data_directory='$PGDATA'" >> "$PGCONF_FILE"
+}
+
+if [ -z "${DATABASE_URL}" ] || [ "$dbhost" = "127.0.0.1" ]; then
+	configure_local_postgres
+
+	# initialize cluster if it does not exist yet
+	if [ -f "$PGDATA/PG_VERSION" ]; then
+		echo "-----> Database cluster already exists, not modifying."
+		su - postgres -c "$PGBIN/pg_ctl -l /tmp/log -w -o '-c config_file=$PGCONF_FILE' -D '$PGDATA' start" | indent
+		(install_plugins && migrate) 2>&1 | indent
+		su - postgres -c "$PGBIN/pg_ctl -D '$PGDATA' stop" | indent
+	else
+		echo "-----> Database cluster not found. Creating a new one in $PGDATA..."
+		PGBIN=$PGBIN PGDATA=$PGDATA ./docker/prod/postgres-db-init | indent
+		su postgres -c "$PGBIN/pg_ctl -w -l /dev/null -o '-c config_file=$PGCONF_FILE' -D '$PGDATA' start" | indent
+		su postgres -c "$PGBIN/psql --command \"CREATE USER openproject WITH SUPERUSER PASSWORD 'openproject';\"" | indent
+		su postgres -c "$PGBIN/createdb -O openproject openproject" | indent
+		(install_plugins && migrate) 2>&1 | indent
+		su - postgres -c "$PGBIN/pg_ctl -D '$PGDATA' stop" | indent
+	fi
+else
+	echo "-----> You're using an external database. Not initializing a local database cluster."
+	migrate 2>&1 | indent
+fi
+
+echo "-----> Database setup finished."
+echo "       On first installation, the default admin credentials are login: admin, password: admin"
+
+echo "-----> Launching supervisord..."
+erb -r uri $APP_PATH/docker/prod/supervisord.conf.erb > /etc/supervisor/supervisord.conf
+exec /usr/bin/supervisord -c /etc/supervisor/supervisord.conf -e ${SUPERVISORD_LOG_LEVEL}

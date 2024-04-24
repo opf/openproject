@@ -1,0 +1,60 @@
+# /api/v3/categories/{id}
+---
+get:
+  parameters:
+  - description: Category id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  defaultAssignee:
+                    href: "/api/v3/users/42"
+                    title: John Sheppard
+                  project:
+                    href: "/api/v3/projects/11"
+                    title: Example project
+                  self:
+                    href: "/api/v3/categories/10"
+                    title: Category with assignee
+                _type: Category
+                id: 10
+                name: Foo
+          schema:
+            "$ref": "../components/schemas/category_model.yml"
+      description: OK
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The specified category does not exist.
+      description: |-
+        Returned if the category does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:** view project (defining the category)
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of
+        a category. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+      headers: {}
+  tags:
+  - Categories
+  description: ''
+  operationId: View_Category
+  summary: View Category

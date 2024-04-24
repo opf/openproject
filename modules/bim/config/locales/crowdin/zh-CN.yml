@@ -1,0 +1,136 @@
+#English strings go here for Rails i18n
+zh-CN:
+  plugin_openproject_bim:
+    name: "OpenProject BIM 和 BCF 功能"
+    description: "该 OpenProject 插件介绍了 BIM 和 BCF 功能。"
+  bim:
+    label_bim: 'BIM'
+  bcf:
+    label_bcf: 'BCF'
+    label_imported_failed: '导入 BCF 主题失败'
+    label_imported_successfully: '已成功导入 BCF 主题'
+    issues: "问题"
+    recommended: '推荐'
+    not_recommended: '不推荐'
+    no_viewpoints: '没有观点'
+    new_badge: "新增"
+    exceptions:
+      file_invalid: "BCF 文件无效"
+    x_bcf_issues:
+      zero: '无 BCF 问题'
+      one: '一个 BCF 问题'
+      other: '%{count} 个 BCF 问题'
+    bcf_xml:
+      xml_file: 'BCF XML 文件'
+      import_title: '导入'
+      export: '导出'
+      import_update_comment: '（在 BCF 导入中更新）'
+      import_failed: '无法导入 BCF 文件：%{error}'
+      import_failed_unsupported_bcf_version: '读取 BCF 文件失败：不支持该 BCF 版本。请确保版本至少为 %{minimal_version} 或更高版本。'
+      import_successful: '已导入 %{count} 个 BCF 问题'
+      import_canceled: 'BCF-XML 导入已取消。'
+      type_not_active: "此项目未激活该问题类型。"
+      import:
+        num_issues_found: '%{x_bcf_issues} 包含在 BCF-XML 文件中，其详细信息在下面列出。'
+        button_prepare: '准备导入'
+        button_perform_import: '确认导入'
+        button_proceed: '继续导入'
+        button_back_to_list: '返回列表'
+        no_permission_to_add_members: '您没有足够的权限将它们添加为项目的成员。'
+        contact_project_admin: '请联系您的项目管理员将它们添加为成员，然后重新开始导入。'
+        continue_anyways: '仍要继续完成导入？'
+        description: "提供一个 BCF-XML v2.1 文件以导入到此项目中。您可以在执行导入之前检查其内容。"
+        invalid_types_found: '找到无效的主题类型名称'
+        invalid_statuses_found: '找到无效的状态名称'
+        invalid_priorities_found: '找到无效的优先级名称'
+        invalid_emails_found: '找到无效的电子邮件地址'
+        unknown_emails_found: '找到未知的电子邮件地址'
+        unknown_property: '未知属性'
+        non_members_found: '未找到项目成员'
+        import_types_as: '将所有这些类型设置为'
+        import_statuses_as: '将所有这些状态设置为'
+        import_priorities_as: '将所有这些优先级设置为'
+        invite_as_members_with_role: '使用以下角色邀请他们作为项目“%{project}”的成员'
+        add_as_members_with_role: '使用以下角色将他们添加为项目“%{project}”的成员'
+        no_type_provided: '未提供类型'
+        no_status_provided: '未提供状态'
+        no_priority_provided: '未提供优先级'
+        perform_description: "要导入或更新上面列出的问题吗？"
+        replace_with_system_user: '用“系统”用户替换他们'
+        import_as_system_user: '将他们导入为“系统”用户。'
+        what_to_do: "你想做什么？"
+        work_package_has_newer_changes: "已过时！此主题未更新，因为服务器上的最新更改比导入主题的“ModifiedDate”更新。但是，已导入该主题的注释。"
+        bcf_file_not_found: "无法找到 BCF 文件。请重新上传。"
+  export:
+    format:
+      bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "BCF 快照"
+  project_module_bcf: "BCF"
+  project_module_bim: "BCF"
+  permission_view_linked_issues: "查看 BCF 问题"
+  permission_manage_bcf: "导入和管理 BCF 问题"
+  permission_delete_bcf: "删除 BCF 问题"
+  oauth:
+    scopes:
+      bcf_v2_1: "BCF v2.1 API 的完全访问权限"
+      bcf_v2_1_text: "应用程序将获得 OpenProject BCF API v2.1 的完全读写访问权限来代表您执行操作。"
+  activerecord:
+    models:
+      bim/ifc_models/ifc_model: "IFC 模型"
+    attributes:
+      bim/ifc_models/ifc_model:
+        ifc_attachment: "IFC 文件"
+        is_default: "默认模型"
+        attachments: "IFC 文件"
+    errors:
+      models:
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "未附加 IFC 文件。"
+              invalid_ifc_file: "提供的文件不是有效的 IFC 文件。"
+        bim/bcf/viewpoint:
+          bitmaps_not_writable: "位图不可写，因为它尚未实现。"
+          index_not_integer: "索引不是整数。"
+          invalid_clipping_planes: "clipping_planes 无效。"
+          invalid_components: "组件无效。"
+          invalid_lines: "行无效。"
+          invalid_orthogonal_camera: "orthogonal_camera 无效。"
+          invalid_perspective_camera: "perspective_camera 无效。"
+          mismatching_guid: "json_viewpoint 中的 guid 与模型的 guid 不匹配。"
+          no_json: "不是一个结构良好的 json。"
+          snapshot_type_unsupported: "snapshot_type 需要为“png”或“jpg”。"
+          snapshot_data_blank: "需要提供 snapshot_data。"
+          unsupported_key: "包含不受支持的 json 属性。"
+        bim/bcf/issue:
+          uuid_already_taken: "无法导入此 BCF 问题，因为已经存在另一个具有相同 GUID 的问题。 这个 BCF 问题是否已被导入另一个项目？"
+  ifc_models:
+    label_ifc_models: 'IFC 模型'
+    label_new_ifc_model: '新 IFC 模型'
+    label_show_defaults: '显示默认值'
+    label_default_ifc_models: '默认 IFC 模型'
+    label_edit_defaults: '编辑默认值'
+    no_defaults_warning:
+      title: '此项目未设置 IFC 模型作为默认值。'
+      check_1: '检查您已至少上传一个 IFC 模型。'
+      check_2: '检查至少有一个 IFC 模型设置为“默认”。'
+    no_results: "尚未在此项目中上传 IFC 模型。"
+    conversion_status:
+      label: '正在处理？'
+      pending: '待处理'
+      processing: '正在处理'
+      completed: '已完成'
+      error: '错误'
+    processing_notice:
+      processing_default: '以下默认 IFC 模型仍在处理，因此不可用：'
+    flash_messages:
+      upload_successful: '上传成功。现在它将进行处理，将在几分钟后可用。'
+    conversion:
+      missing_commands: "此系统上缺少以下 IFC 转换器命令：%{names}"
+  project_module_ifc_models: "IFC 模型"
+  permission_view_ifc_models: "查看 IFC 模型"
+  permission_manage_ifc_models: "导入和管理 IFC 模型"
+  extraction:
+    available:
+      ifc_convert: "IFC 转换管道 可用"

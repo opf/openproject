@@ -1,0 +1,8 @@
+<% if show_warning_bar? %>
+<div class="warning-bar--wrapper">
+  <%= render partial: 'warning_bar/host_and_protocol_mismatch' if render_host_and_protocol_mismatch? %>
+  <%= render partial: 'warning_bar/pending_migrations' if render_pending_migrations_warning? %>
+  <%= render partial: 'warning_bar/unsupported_browser' if unsupported_browser? %>
+  <%= render partial: 'warning_bar/missing_wp_edit_role_workflows' if render_workflow_missing_warning? %>
+</div>
+<% end  %>

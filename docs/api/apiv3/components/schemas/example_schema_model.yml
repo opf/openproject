@@ -1,0 +1,54 @@
+# Schema: Example_SchemaModel
+---
+type: object
+example:
+  _type: Schema
+  _dependencies: []
+  _links:
+    self:
+      href: "/api/v3/example/schema"
+  lockVersion:
+    name: Resource Version
+    type: Integer
+    writable: false
+  subject:
+    name: Subject
+    type: String
+    minLength: 1
+    maxLength: 255
+  status:
+    _links:
+      allowedValues:
+      - href: "/api/v3/statuses/1"
+        title: New
+      - href: "/api/v3/statuses/2"
+        title: Closed
+    name: Status
+    type: Status
+    location: _links
+    _embedded:
+      allowedValues:
+      - _links:
+          self:
+            href: "/api/v3/statuses/1"
+        _type: Status
+        id: 1
+        name: New
+        position: 1
+        isDefault: true
+        isClosed: false
+        defaultDoneRatio: 0
+        createdAt: '2014-05-21T08:51:20.991Z'
+        updatedAt: '2014-05-21T09:12:00.155Z'
+      - _links:
+          self:
+            href: "/api/v3/statuses/2"
+        _type: Status
+        id: 2
+        name: Closed
+        position: 2
+        isDefault: false
+        isClosed: true
+        defaultDoneRatio: 100
+        createdAt: '2014-05-21T08:51:20.991Z'
+        updatedAt: '2014-05-21T09:12:00.155Z'

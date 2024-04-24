@@ -1,0 +1,66 @@
+nl:
+  plugin_openproject_webhooks:
+    name: "OpenProject Webhooks"
+    description: "Provides a plug-in API to support OpenProject webhooks for better 3rd party integration."
+  activerecord:
+    attributes:
+      webhooks/webhook:
+        url: 'Payload URL'
+        secret: 'Handtekening geheim'
+        events: 'Evenementen'
+        projects: 'Ingeschakelde projecten'
+      webhooks/log:
+        event_name: 'Naam van gebeurtenis'
+        url: 'Payload URL'
+        response_code: 'Antwoord code'
+        response_body: 'Antwoord'
+    models:
+      webhooks/outgoing_webhook: "Uitgaande webhook"
+  webhooks:
+    singular: Webhook
+    plural: Webhooks
+    resources:
+      time_entry:
+        name: "Tijd invoer"
+    outgoing:
+      no_results_table: Er zijn nog geen webhooks gedefinieerd.
+      label_add_new: Nieuwe webhook toevoegen
+      label_edit: Webhook bewerken
+      label_event_resources: Gebeurtenis bronnen
+      events:
+        created: "Gemaakt"
+        updated: "Bijgewerkt"
+      explanation:
+        text: >
+          Bij het voorkomen van een gebeurtenis zoals het maken van een werkpakket of een update van een project OpenProject stuurt een POST-aanvraag naar de geconfigureerde webeindpunten. Vaak wordt de afspraak verzonden nadat de %{link} voorbij is.
+        link: geconfigureerde aggregatie periode
+      status:
+        enabled: 'Webhook is ingeschakeld'
+        disabled: 'Webhook is uitgeschakeld'
+        enabled_text: 'De webhook verstuurd payloads voor de hieronder gedefinieerde afspraken.'
+        disabled_text: 'Klik op de knop bewerken om de webhook te activeren.'
+      deliveries:
+        no_results_table: Er zijn de afgelopen dagen geen leveringen voor deze webhook geleverd.
+        title: 'Recente leveringen'
+        time: 'Levertijd'
+      form:
+        introduction: >
+          Stuur een POST-aanvraag naar de onderstaande payload-URL voor elk evenement in het project waarop u bent geabonneerd. Payload komt overeen met de APIv3-representatie van het object dat wordt gewijzigd.
+        apiv3_doc_url: Ga voor meer informatie naar de API-documentatie
+        description:
+          placeholder: 'Optionele beschrijving van de webhook.'
+        enabled:
+          description: >
+            Wanneer aangevinkt, wordt de webhook geactiveerd voor de geselecteerde afspraken. Haal het vinkje weg om de webhaak uit te schakelen.
+        events:
+          title: 'Ingeschakelde afspraken'
+        project_ids:
+          title: 'Ingeschakelde projecten'
+          description: 'Selecteer voor welke projecten deze webhook moet worden uitgevoerd.'
+          all: 'Alle projecten'
+          selected: 'Alleen geselecteerde projecten'
+        selected_project_ids:
+          title: 'Geselecteerde projecten'
+        secret:
+          description: >
+            Indien ingesteld, wordt deze geheime waarde gebruikt door OpenProject om de webhook payload te ondertekenen.

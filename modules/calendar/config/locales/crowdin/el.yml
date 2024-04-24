@@ -1,0 +1,12 @@
+#English strings go here
+el:
+  plugin_openproject_calendar:
+    name: "OpenProject Calendar"
+    description: "Provides calendar views."
+  label_calendar: "Ημερολόγιο"
+  label_calendar_plural: "Ημερολόγια"
+  label_new_calendar: "Νέο ημερολόγιο"
+  permission_view_calendar: "Προβολή ημερολογίων"
+  permission_manage_calendars: "Διαχείριση ημερολογίων"
+  permission_share_calendars: "Εγγραφή σε iCalendars"
+  project_module_calendar_view: "Ημερολόγια"

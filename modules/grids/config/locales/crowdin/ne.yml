@@ -1,0 +1,16 @@
+ne:
+  grids:
+    label_widget_in_grid: "Widget contained in Grid %{grid_name}"
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "पृष्ठ"
+        row_count: "पङ्क्तिहरूको संख्या"
+        column_count: "स्तम्भहरूको संख्या"
+        widgets: "विजेटहरू"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'overlap.'
+          outside: 'is outside of the grid.'
+          end_before_start: 'अन्तिम मान सुरु मान भन्दा ठूलो हुनु आवश्यक छ।'

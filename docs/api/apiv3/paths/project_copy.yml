@@ -1,0 +1,63 @@
+# /api/v3/projects/{id}/copy
+---
+post:
+  parameters:
+  - description: Project id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '302':
+      description: Returned if the request is successful. It will redirect to the
+        job statuses API with the backend job that got created. You can query that
+        endpoint to check the status of the copy, and eventually get the created project.
+      headers: {}
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** copy projects in the source project
+      headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _embedded:
+                  details:
+                    attribute: name
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: Name can't be blank.
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)
+      headers: {}
+  tags:
+  - Projects
+  description: ''
+  operationId: Create_project_copy
+  summary: Create project copy

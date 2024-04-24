@@ -1,0 +1,234 @@
+#!/usr/bin/env ruby
+
+# Runs the given specs multiple times to check if they are reliable.
+#
+# Run with --help for more information
+
+# rubocop:disable Rails
+require "fileutils"
+require "optparse"
+require "ostruct"
+require "pathname"
+
+RAILS_ROOT = Pathname.new File.expand_path("../", __dir__)
+RSPEC_EXAMPLE_STATUS_PERSISTENCE_FILE_PATH = RAILS_ROOT.join("tmp/spec_examples.txt")
+PATTERN = ENV["BULK_RUN_PATTERN"] ? Regexp.new(ENV["BULK_RUN_PATTERN"]) : /features/
+
+class Options
+  DEFAULTS = {
+    run_count: ENV["BULK_RUN_COUNT"] ? ENV["BULK_RUN_COUNT"].to_i : 5
+  }.freeze
+
+  BANNER = <<~BANNER.freeze
+    Usage: #{$0} [options] [spec ...]
+
+    Runs the given specs multiple times to check if they are reliable.
+
+    Tests to run are fetched from tmp/spec_examples.txt matching /features/
+    pattern.
+
+    Results are stored in tmp/bulk_run:
+      - results.txt   summary
+      - logs/*.log    one log file per test run
+
+    Options:
+  BANNER
+
+  class << self
+    def options
+      return @options if defined?(@options)
+
+      @options = DEFAULTS.dup
+      parse_options!
+      @options
+    end
+
+    def method_missing(name, *)
+      if DEFAULTS.key?(name)
+        options[name]
+      else
+        super
+      end
+    end
+
+    def respond_to_missing?(method_name, include_private = false)
+      DEFAULTS.key?(name) || super
+    end
+
+    def parse_options!
+      options.merge!(parse_args)
+    end
+
+    def parse_args
+      options = {}
+      opt_parser = OptionParser.new do |parser|
+        parser.banner = BANNER
+
+        parser.on("-c", "--run-count COUNT", "number of runs (BULK_RUN_COUNT)") do |count|
+          options[:run_count] = count.to_i
+        end
+
+        parser.on("-h", "--help", "Prints this help") do
+          puts parser
+          exit
+        end
+      end
+      opt_parser.parse!
+      ensure_specs_args_present!(opt_parser)
+      options
+    end
+
+    def ensure_specs_args_present!(parser)
+      if ARGV.empty?
+        puts "Error: missing spec path"
+        puts parser
+        exit 1
+      end
+    end
+  end
+end
+
+def normalized(path)
+  path.sub(/^\.\//, "").tr("/", "__").tr("[]:", "_")
+end
+
+class String
+  # Colors, colors everywhere
+  {
+    red: 31,
+    green: 32,
+    brown: 33
+  }.each do |color, ansi_code|
+    define_method(color) { "\e[#{ansi_code}m#{self}\e[0m" }
+  end
+end
+
+class Test
+  attr_accessor :path, :runs
+
+  def initialize(path)
+    @path = path
+    @runs = []
+  end
+
+  def to_line
+    [path, normalized_name, runs.count, runs.count(&:passed?), runs.count(&:failed?)].join(" | ")
+  end
+
+  def normalized_name
+    normalized(path)
+  end
+end
+
+class Run
+  attr_accessor :output
+  attr_reader :result, :path, :start, :end
+
+  def initialize(path)
+    @path = path
+    @result = nil
+    @start = Time.now
+    @end = nil
+    @output = nil
+  end
+
+  def failed!
+    self.result = :failed
+  end
+
+  def failed?
+    result == :failed
+  end
+
+  def passed!
+    self.result = :passed
+  end
+
+  def passed?
+    result == :passed
+  end
+
+  def result=(result)
+    @result = result
+    @end = Time.now
+  end
+end
+
+class BulkRunner
+  def found_tests
+    @found_tests ||=
+      if ARGV.any?
+        ARGV
+      else
+        lines = File.readlines(RSPEC_EXAMPLE_STATUS_PERSISTENCE_FILE_PATH)
+        lines = lines.grep(PATTERN)
+        lines.map { |line| line.split("|").first.strip }
+      end
+  end
+
+  def tests
+    @tests ||= found_tests.map { |test_path| Test.new(test_path) }
+  end
+
+  # rubocop:disable Metrics/AbcSize
+  def run
+    FileUtils.rm_rf(bulk_run_dir("logs")) if bulk_run_dir("logs").exist?
+    `mkdir -p #{bulk_run_dir("logs")}`
+    puts "#{tests.count} tests to run"
+    puts "logs: #{bulk_run_dir('logs')}"
+    tests.each do |test|
+      puts "=" * 80
+      puts "Running #{test.path} #{Options.run_count} times"
+      puts "=" * 80
+      Options.run_count.times do |i|
+        puts " Run #{i} ".center(80, "-")
+        run = Run.new(test.path)
+        run.output = `DISABLE_PRY=1 CI=true bundle exec rspec '#{run.path}' 2>&1`
+        if $?.success?
+          puts "ok".green
+          run.passed!
+        else
+          puts "ko".red
+          run.failed!
+        end
+        File.write(bulk_run_dir("logs/#{test.normalized_name}.#{run.result}.#{i}.log"), run.output)
+        test.runs << run
+      end
+
+      if test.runs.all?(&:passed?)
+        puts "PASSED".green
+      else
+        puts "FAILED".red
+      end
+    end
+  end
+  # rubocop:enable Metrics/AbcSize
+
+  def bulk_run_dir(path)
+    RAILS_ROOT.join("tmp/bulk_run").join(path)
+  end
+
+  def save
+    puts "Saving"
+    File.open(bulk_run_dir("results.txt"), "w") do |results|
+      results.puts("test_path | log_prefix | count | passed | failed")
+      tests.each do |test|
+        results.puts(test.to_line)
+      end
+    end
+    puts "Done"
+  end
+end
+
+Options.options
+bulk_runner = BulkRunner.new
+begin
+  bulk_runner.run
+rescue Interrupt
+  puts "Interrupted. Stopping and Saving.".brown
+ensure
+  bulk_runner.save
+end
+puts "results in #{bulk_runner.bulk_run_dir('')}"
+
+# rubocop:enable Rails

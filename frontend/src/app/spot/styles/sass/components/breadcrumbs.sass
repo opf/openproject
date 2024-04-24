@@ -1,0 +1,70 @@
+.spot-breadcrumbs
+  @include spot-caption()
+
+  display: flex
+  align-items: center
+
+  &--crumb
+    display: flex
+    align-items: center
+    flex-shrink: 0
+    min-width: 0
+
+    > .spot-icon
+      width: $spot-spacing-1_5
+      height: $spot-spacing-1_5
+
+      &:not(.spot-breadcrumbs--crumb-divider)
+        color: var(--accent-color)
+
+    &_collapsed:before
+      content: '...'
+
+    &_parent,
+    &_grandparent
+      flex-shrink: 1
+
+    &-action-item
+      flex-shrink: 1
+      overflow: hidden
+
+      &:not(:first-child)
+        margin-left: $spot-spacing-0_25
+
+      &-text
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+
+      &-dots
+        display: none
+
+        &:before
+          content: '...'
+
+    &-divider
+      font-size: 0.5rem
+      flex-shrink: 0
+      margin-left: $spot-spacing-0_25
+
+    &:not(:first-child)
+      margin-left: $spot-spacing-0_25
+
+    @media #{$spot-mq-mobile}
+      &_last
+        flex-shrink: 1
+
+      &_collapsed
+        display: none
+
+      &_grandparent:not(&_root)
+        display: none
+
+      &_parent
+        flex-shrink: 0
+
+      :not(&_last) > &-action-item-text
+        display: none
+
+      &-action-item-dots
+        display: inline-block

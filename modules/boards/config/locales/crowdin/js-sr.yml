@@ -1,0 +1,86 @@
+#English strings go here
+sr:
+  js:
+    boards:
+      create_new: 'Nova tabla'
+      label_unnamed_board: 'Neimenovana tabla'
+      label_unnamed_list: 'Neimenovana lista'
+      label_board_type: 'Tip table'
+      upsale:
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+        upgrade: 'Nadogradite'
+      lists:
+        delete: 'Obriši listu'
+      version:
+        is_locked: 'Verzija je zaključana. U ovu verziju nije moguće dodavati stavke.'
+        is_closed: 'Verzija je zatvorena. U ovu verziju nije moguće dodavati stavke.'
+        close_version: 'Zatvori verziju'
+        open_version: 'Otvori verziju'
+        lock_version: 'Zaključaj verziju'
+        unlock_version: 'Otključaj verziju'
+        edit_version: 'Uredi verziju'
+        show_version: 'Prikaži verziju'
+        locked: 'Zaključano'
+        closed: 'Zatvoreno'
+      new_board: 'Nova tabla'
+      add_list: 'Dodaj listu na tablu'
+      add_card: 'Dodaj karticu'
+      error_attribute_not_writable: "Radni paket nije moguće premestiti, %{attribute} nije upisiv."
+      error_loading_the_list: "Greška pri učitavanju liste: %{error_message}"
+      error_permission_missing: "Nemate dozvolu za kreiranje javnih upita"
+      error_cannot_move_into_self: "Nemožeta premestiti radni paket u izdvojenu kolonu"
+      text_hidden_list_warning: "Nemate dovoljno privilegija za prikaz svih lista. Za više informacija kontaktirajte vašeg administratora."
+      click_to_remove_list: "Klikni da ukloniš ovu listu"
+      board_type:
+        text: 'Tip table'
+        free: 'osnovno'
+        select_board_type: 'Izaberite tip table.'
+        free_text: >
+          Počnite ispočetka sa praznom tablom. Na tablu, ručno dodaj kartice i kolone.
+        action: 'Tabla sa zadacima'
+        action_by_attribute: 'Tabla sa zadacima (%{attribute})'
+        action_text: >
+          Tabla sa filtriranim listama po %{attribute}. Premeštanje radnog paketa na druge liste osvežava njihove atribute.
+        action_text_subprojects: >
+          Tabla sa automatizovanim kolonama za potprojekte. Prevlačenje radnog paketa na druge liste osvežava stanje potprojekta.
+        action_text_subtasks: >
+          Tabla sa automatizovanim kolonama za podelemente. Prevlačenje radnog paketa na druge liste osvežava stanje izvornog elementa.
+        action_text_status: >
+          Osnovna tabla u kanban stilu, sa kolonama koje prikazuju status, kao što su: Uraditi, Tekuće, Završeno.
+        action_text_assignee: >
+          Tabla sa automatizovanim kolonama, po dodeljenim korisnicima. Idealna za otpremanje radnih paketa.
+        action_text_version: >
+          Tabla sa automatizovanim kolonama, po atributima verzije. Idealna za planiranje razvoja proizvoda.
+        action_type:
+          assignee: zadužen
+          status: status
+          version: verzija
+          subproject: potprojekat
+          subtasks: roditelj-dete
+        board_type_title:
+          assignee: Zadužen
+          status: Status
+          version: Verzija
+          subproject: Potprojekat
+          subtasks: Parent-child
+          basic: Osnovno
+        select_attribute: "Atribut akcije"
+      add_list_modal:
+        labels:
+          assignee: Izaberi korisnika za dodavanje kao novu listu dodeljenih
+          status: Izaberi status za dodavanje kao novu listu
+          version: Izaberite verziju, za dodavanje kao novu list
+          subproject: Izaberite potprojekat, za dodavanje kao novu listu
+          subtasks: Izaberite radni paket, za dodavanje kao novu listu
+        warning:
+          status: |
+            Trenutno nema dostupnih statusa.  <br>
+            Ili ne postoji ni jedan, ili su svi već dodati na tablu.
+          assignee: Nema članova koji odgovaraju traženom filteru.
+          no_member: Projekat trenutno nema članova dostupnih za dodavanje.
+          add_members: <a href="%{link}">Dodaj novog člana ovom projektu</a>da bi ste ponovo izabrali korisnike.
+      configuration_modal:
+        title: 'Konfigurišite ovu tablu'
+        display_settings:
+          card_mode: "Prikaži kao kartice"
+          table_mode: "Prikaži kao tablu"

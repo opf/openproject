@@ -1,0 +1,39 @@
+#English strings go here
+ko:
+  plugin_openproject_boards:
+    name: "OpenProject 보드"
+    description: "보드 보기를 제공합니다."
+  permission_show_board_views: "보드 보기"
+  permission_manage_board_views: "보드 관리"
+  project_module_board_view: "보드"
+  boards:
+    label_board: "게시판"
+    label_boards: "보드"
+    label_create_new_board: "새 보드 만들기"
+    label_board_type: "보드 유형"
+    board_types:
+      free: 기본
+      action: "작업 보드(%{attribute})"
+    board_type_attributes:
+      assignee: 담당자
+      status: 상태
+      version: 버전
+      subproject: 하위 프로젝트
+      subtasks: 부모-자식
+      basic: 기본
+    board_type_descriptions:
+      basic: >
+        빈 보드로 처음부터 시작하세요. 이 보드에 카드와 열을 직접 추가하세요.
+      status: >
+        기본 Kanban 스타일 보드에는 "할 일", "진행 중", "완료" 등의 상태 열이 있습니다.
+      assignee: >
+        할당된 사용자에 기반한 자동화된 열이 있는 보드입니다. 작업 패키지 디스패치에 적합합니다.
+      version: >
+        버전 특성에 기반한 자동화된 열이 있는 보드입니다. 제품 개발 계획에 적합합니다.
+      subproject: >
+        하위 프로젝트에 대한 자동화된 열이 있는 보드입니다. 작업 패키지를 다른 목록으로 끌어다 놓으면 그에 따라 (하위) 프로젝트가 업데이트됩니다.
+      subtasks: >
+        하위 요소에 대한 자동화된 열이 있는 보드입니다. 작업 패키지를 다른 목록으로 끌어다 놓으면 그에 따라 부모가 업데이트됩니다.
+    upsale:
+      teaser_text: '보드에서 워크플로를 자동화하길 원하시나요? 고급 보드는 Enterprise 추가 기능입니다. 유료 플랜으로 업그레이드하세요.'
+      upgrade: '지금 업그레이드'

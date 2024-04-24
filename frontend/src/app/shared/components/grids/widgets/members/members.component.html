@@ -1,0 +1,60 @@
+<widget-header
+    [name]="widgetName"
+    [editable]="isEditable">
+
+  <attribute-help-text slot="prepend"
+                       attribute="members"
+                       [attributeScope]="'Project'"></attribute-help-text>
+
+  <widget-menu
+      slot="menu"
+      [resource]="resource">
+  </widget-menu>
+</widget-header>
+
+<div class="grid--widget-content">
+  <op-no-results *ngIf="noMembers"
+              [title]="text.noResults">
+  </op-no-results>
+  <div class="op-members-widget--attributes-map -minimal-keys">
+    <ng-container *ngFor="let usersByRole of usersByRole">
+      <div class="attributes-map--key">
+        {{usersByRole.role.name}}
+      </div>
+
+      <div class="attributes-map--value">
+          <ng-container *ngFor="let principal of usersByRole.users; let last = last">
+            <op-principal
+              [principal]="principal"
+              size="mini"
+            ></op-principal>
+            <ng-container *ngIf="!last">, </ng-container>
+          </ng-container>
+      </div>
+    </ng-container>
+  </div>
+  <div *ngIf="moreMembers"
+       class="op-members-widget--notification">
+    {{moreMembersText}}
+  </div>
+</div>
+
+<div class="op-members-widget--grid--widget-footer">
+  <a *ngIf="membersAddable$ | async"
+     [href]="projectMembershipsPath + '?show_add_members=true'"
+     class="button -primary">
+    <i class="button--icon icon-add" aria-hidden="true"></i>
+    <span class="button--text"
+          [textContent]="text.add">
+    </span>
+  </a>
+
+  <a *ngIf="!noMembers"
+     [href]="projectMembershipsPath"
+     class="button -highlight-inverted">
+    <i class="button--icon icon-group" aria-hidden="true"></i>
+    <span class="button--text"
+          [textContent]="text.viewAll">
+    </span>
+  </a>
+</div>

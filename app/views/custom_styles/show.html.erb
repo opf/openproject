@@ -1,0 +1,316 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% html_title t(:label_administration), t(:label_custom_style) %>
+
+<%= toolbar title: t(:label_custom_style) %>
+
+<%= error_messages_for 'custom_style' %>
+
+<%= form_tag update_design_themes_path, method: :post, class: "form" do %>
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= I18n.t('admin.custom_styles.color_theme') %></legend>
+      <div class="form--field">
+        <div class="form--field-container">
+          <%= styled_select_tag 'theme',
+                                options_for_select(@theme_options, @current_theme),
+                                container_class: '-slim' %>
+        </div>
+      </div>
+
+      <%= styled_button_tag t(:button_save),
+                            data:({ confirm: t('admin.custom_styles.theme_warning') } unless @current_theme.present?) %>
+    </fieldset>
+  </section>
+<% end %>
+
+<%= form_for @custom_style, url: custom_style_path, html: { multipart: true, class: "form -vertical" } do |f| %>
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= I18n.t(:label_custom_logo) %></legend>
+
+      <% if @custom_style.id && @custom_style.logo.present? %>
+        <div>
+          <%# Don't use image_tag here due to asset host %>
+          <%= tag('img', src: custom_style_logo_path(digest: @custom_style.digest, filename: @custom_style.logo_identifier), class: 'custom-logo-preview') %>
+          <%= link_to t(:button_delete),
+          custom_style_logo_delete_path,
+          method: :delete,
+          class: 'icon icon-delete confirm-form-submit' %>
+        </div>
+      <% end %>
+
+      <div class="grid-block">
+        <div class="form--field -required">
+          <div class="attachment_field form--field-container -vertical -shrink">
+            <div class="form--file-container">
+              <%= f.file_field :logo, required: true, class: "attachment_choose_file", size: "15" %>
+            </div>
+          </div>
+          <div class="form--field-instructions">
+            <%= t('text_custom_logo_instructions') %>
+          </div>
+        </div>
+      </div>
+
+      <%= styled_button_tag I18n.t(@custom_style.logo.present? ? :button_replace : :button_upload),
+                            class: "button #{@custom_style.logo.blank? ? '-with-icon icon-add' : ''}" %>
+
+    </fieldset>
+  </section>
+<% end %>
+
+<%= form_for @custom_style, url: custom_style_path, html: { multipart: true, class: "form -vertical" } do |f| %>
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= I18n.t(:label_custom_favicon) %></legend>
+
+      <% if @custom_style.id && @custom_style.favicon.present? %>
+        <div>
+          <%= tag('img', src: custom_style_favicon_path(digest: @custom_style.digest, filename: @custom_style.favicon_identifier), class: 'custom-favicon-preview') %>
+          <%= link_to t(:button_delete),
+                      custom_style_favicon_delete_path,
+                      method: :delete,
+                      class: 'icon icon-delete confirm-form-submit' %>
+        </div>
+      <% end %>
+
+      <div class="grid-block">
+        <div class="form--field -required">
+          <div class="attachment_field form--field-container -vertical -shrink">
+            <div class="form--file-container">
+              <%= f.file_field :favicon, required: true, class: "attachment_choose_file", size: "15" %>
+            </div>
+          </div>
+          <div class="form--field-instructions">
+            <%= t('text_custom_favicon_instructions') %>
+          </div>
+        </div>
+      </div>
+
+      <%= styled_button_tag t(@custom_style.favicon.present? ? :button_replace : :button_upload), class: "button #{@custom_style.favicon.blank? ? '-with-icon icon-add' : ''}" %>
+
+    </fieldset>
+  </section>
+<% end %>
+
+<%= form_for @custom_style, url: custom_style_path, html: { multipart: true, class: "form -vertical" } do |f| %>
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= I18n.t(:label_custom_touch_icon) %></legend>
+
+      <% if @custom_style.id && @custom_style.touch_icon.present? %>
+        <div>
+          <%= tag('img', src: custom_style_touch_icon_path(digest: @custom_style.digest, filename: @custom_style.touch_icon_identifier), class: 'custom-touch-icon-preview') %>
+          <%= link_to t(:button_delete),
+                      custom_style_touch_icon_delete_path,
+                      method: :delete,
+                      class: 'icon icon-delete confirm-form-submit' %>
+        </div>
+      <% end %>
+
+      <div class="grid-block">
+        <div class="form--field -required">
+          <div class="attachment_field form--field-container -vertical -shrink">
+            <div class="form--file-container">
+              <%= f.file_field :touch_icon, required: true, class: "attachment_choose_file", size: "15" %>
+            </div>
+          </div>
+          <div class="form--field-instructions">
+            <%= t('text_custom_touch_icon_instructions') %>
+          </div>
+        </div>
+      </div>
+
+      <%= styled_button_tag t(@custom_style.touch_icon.present? ? :button_replace : :button_upload), class: "button #{@custom_style.touch_icon.blank? ? '-with-icon icon-add' : ''}" %>
+
+    </fieldset>
+  </section>
+<% end %>
+
+<% custom_export_expanded = @custom_style.id && (@custom_style.export_logo.present? || @custom_style.export_cover.present? || @custom_style.export_cover_text_color.present?) %>
+<collapsible-section-augment initially-expanded="<%= custom_export_expanded %>"
+                             section-title="<%= I18n.t(:label_custom_pdf_export_settings) %>">
+</collapsible-section-augment>
+<div class="collapsible-section-augment--body" hidden>
+
+  <%= form_for @custom_style, url: custom_style_path, html: { multipart: true, class: "form -vertical" } do |f| %>
+    <section class="form--section">
+      <fieldset class="form--fieldset">
+        <legend class="form--fieldset-legend"><%= I18n.t(:label_custom_export_logo) %></legend>
+
+        <% if @custom_style.id && @custom_style.export_logo.present? %>
+          <div>
+            <%= tag('img', src: custom_style_export_logo_path(digest: @custom_style.digest, filename: @custom_style.export_logo_identifier), class: 'custom-export-logo-preview') %>
+            <%= link_to t(:button_delete),
+                        custom_style_export_logo_delete_path,
+                        method: :delete,
+                        class: 'icon icon-delete confirm-form-submit' %>
+          </div>
+        <% end %>
+
+        <div class="grid-block">
+          <div class="form--field -required">
+            <div class="attachment_field form--field-container -vertical -shrink">
+              <div class="form--file-container">
+                <%= f.file_field :export_logo, required: true, class: "attachment_choose_file", size: "15" %>
+              </div>
+            </div>
+            <div class="form--field-instructions">
+              <%= t('text_custom_export_logo_instructions') %>
+            </div>
+          </div>
+        </div>
+
+        <%= styled_button_tag t(@custom_style.export_logo.present? ? :button_replace : :button_upload), class: "button #{@custom_style.export_logo.blank? ? '-with-icon icon-add' : ''}" %>
+
+      </fieldset>
+    </section>
+  <% end %>
+
+  <%= form_for @custom_style, url: custom_style_path, html: { multipart: true, class: "form -vertical" } do |f| %>
+    <section class="form--section">
+      <fieldset class="form--fieldset">
+        <legend class="form--fieldset-legend"><%= I18n.t(:label_custom_export_cover) %></legend>
+
+        <% if @custom_style.id && @custom_style.export_cover.present? %>
+          <div>
+            <%= tag('img', src: custom_style_export_cover_path(digest: @custom_style.digest, filename: @custom_style.export_cover_identifier), class: 'custom-export-cover-preview') %>
+            <%= link_to t(:button_delete),
+                        custom_style_export_cover_delete_path,
+                        method: :delete,
+                        class: 'icon icon-delete confirm-form-submit' %>
+          </div>
+        <% end %>
+
+        <div class="grid-block">
+          <div class="form--field -required">
+            <div class="attachment_field form--field-container -vertical -shrink">
+              <div class="form--file-container">
+                <%= f.file_field :export_cover, required: true, class: "attachment_choose_file", size: "15" %>
+              </div>
+            </div>
+            <div class="form--field-instructions">
+              <%= t('text_custom_export_cover_instructions') %>
+            </div>
+          </div>
+        </div>
+
+        <%= styled_button_tag t(@custom_style.export_cover.present? ? :button_replace : :button_upload), class: "button #{@custom_style.export_cover.blank? ? '-with-icon icon-add' : ''}" %>
+
+      </fieldset>
+    </section>
+  <% end %>
+
+  <%= form_tag update_custom_style_export_cover_text_color_path, html: { multipart: true, class: "form -vertical" } do |f| %>
+    <section class="form--section">
+      <fieldset class="form--fieldset">
+        <legend class="form--fieldset-legend"><%= I18n.t(:label_custom_export_cover_overlay) %></legend>
+        <div class="form--field">
+          <label class="form--label"><%= I18n.t(:label_custom_export_cover_text_color) %>:</label>
+          <span class="form--field-container">
+            <div class="form--field-affix">
+              <% design_color_name = 'export_cover_text_color' %>
+              <% design_color_hex = @custom_style.export_cover_text_color.present? ? @custom_style.export_cover_text_color : '' %>
+              <%= icon_for_color(OpenStruct.new(variable: design_color_name,
+                                                hexcode: design_color_hex),
+                                 data: { target: "#" + design_color_name }) %>
+            </div>
+            <span class="form--text-field-container">
+              <%= styled_text_field_tag design_color_name,
+                                        design_color_hex,
+                                        placeholder: '#000'
+              %>
+            </span>
+          </span>
+          <div class="form--field-instructions">
+            <% instruction_key = "admin.custom_styles.instructions.#{design_color_name}" %>
+            <% if I18n.exists?(instruction_key, :en) %>
+              <%= I18n.t(instruction_key) %>
+            <% end %>
+          </div>
+        </div>
+
+        <button type="submit" class="button -hide-when-collapsed"><%= I18n.t(:button_save) %></button>
+
+      </fieldset>
+    </section>
+  <% end %>
+</div>
+
+<%= form_tag update_design_colors_path, method: :post, class: "form" do %>
+  <section class="form--section">
+    <fieldset class="form--fieldset -collapsible <%= 'collapsed' if @current_theme.present?  %> ">
+      <legend class="form--fieldset-legend"><%= I18n.t(:label_advanced_settings) %></legend>
+
+      <% DesignColor.setables.each do |design_color|  %>
+        <div class="form--field -required">
+          <label class="form--label"><%= I18n.t("admin.custom_styles.colors.#{design_color.variable}") %>:</label>
+          <span class="form--field-container">
+            <div class="form--field-affix">
+              <%= icon_for_color(OpenStruct.new(variable: design_color.variable,
+                                                hexcode: design_color.hexcode),
+                                 data: { target: "#design_colors_" + design_color.variable }) %>
+            </div>
+            <span class="form--text-field-container">
+              <%= styled_text_field_tag "design_colors[]" + design_color.variable,
+                                        design_color.hexcode,
+                                        class: 'design-color--variable-input',
+                                        data: {  'variable-name': design_color.variable }
+              %>
+            </span>
+          </span>
+          <div class="form--field-instructions">
+            <% instruction_key = "admin.custom_styles.instructions.#{design_color.variable}" %>
+            <% if I18n.exists?(instruction_key, :en) %>
+              <%= I18n.t(instruction_key) %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <button type="submit" class="button -hide-when-collapsed"><%= I18n.t(:button_save) %></button>
+
+    </fieldset>
+  </section>
+
+  <%# Fill in the computed css variables in the inputs as their defaults %>
+  <%= nonced_javascript_tag do %>
+    var computedStyle = getComputedStyle(document.documentElement);
+
+    document
+      .querySelectorAll('.design-color--variable-input')
+      .forEach(function(el) {
+      if (!el.value || el.value === '') {
+        el.placeholder = computedStyle.getPropertyValue('--' + el.dataset.variableName).trim();
+      }
+    });
+  <% end %>
+<% end %>

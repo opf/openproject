@@ -1,0 +1,32 @@
+es:
+  plugin_openproject_openid_connect:
+    name: "OpenProject OpenID Connect"
+    description: "Añade proveedores de estrategia OmniAuth OpenID Connect a Openproject."
+  logout_warning: >
+    Se ha cerrado la sesión. Puede que se haya perdido el contenido de cualquier formulario que haya enviado. [Inicie la sesión].
+  activemodel:
+    attributes:
+      openid_connect/provider:
+        name: Nombre
+        display_name: Nombre para mostrar
+        identifier: Identificador
+        secret: Secreto
+        scope: Ámbito
+        limit_self_registration: Limitar autorregistro
+  openid_connect:
+    menu_title: Proveedores de OpenID
+    providers:
+      label_add_new: Agregar nuevo proveedor de OpenID
+      label_edit: Editar el proveedor de OpenID %{name}
+      no_results_table: Aún no se han definido proveedores.
+      plural: Proveedores de OpenID
+      singular: Proveedor de OpenID
+    setting_instructions:
+      azure_deprecation_warning: >
+        La aplicación Azure configurada apunta a una API obsoleta de Azure. Por favor, cree una nueva aplicación Azure para garantizar la funcionalidad en el futuro.
+      azure_graph_api: >
+        Utilice el terminal graph.microsoft.com userinfo para solicitar los datos de usuario. Este debería ser el predeterminado a menos que tenga una aplicación azure más antigua.
+      azure_tenant_html: >
+        Establezca el inquilino de su terminal Azure. Esto controlará quién obtiene acceso a la instancia de OpenProject. Para más información, consulte <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">nuestra guía de usuario sobre Azure OpenID connect</a>.
+      limit_self_registration: >
+        Si está habilitado, los usuarios solo pueden registrarse usando este proveedor si la configuración de autorregistro lo permite.

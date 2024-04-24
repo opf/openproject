@@ -1,0 +1,66 @@
+ro:
+  plugin_openproject_webhooks:
+    name: "OpenProject Webhooks"
+    description: "Provides a plug-in API to support OpenProject webhooks for better 3rd party integration."
+  activerecord:
+    attributes:
+      webhooks/webhook:
+        url: 'URL de încărcare utilă'
+        secret: 'Secretul semnăturii'
+        events: 'Evenimente'
+        projects: 'Proiecte activate'
+      webhooks/log:
+        event_name: 'Numele evenimentului'
+        url: 'URL de încărcare utilă'
+        response_code: 'Un rezumat prietenos al răspunsului, inclusiv codul de răspuns HTTP, mesajul și corpul.'
+        response_body: 'Răspuns'
+    models:
+      webhooks/outgoing_webhook: "Webhook de ieșire"
+  webhooks:
+    singular: Activare Webhook
+    plural: Cârlige web
+    resources:
+      time_entry:
+        name: "Înregistrarea timpului"
+    outgoing:
+      no_results_table: Nu au fost definite încă niciun fel de webhooks.
+      label_add_new: Adăugați un nou webhook
+      label_edit: Editați webhook
+      label_event_resources: Resurse pentru evenimente
+      events:
+        created: "Creat pe"
+        updated: "Actualizat"
+      explanation:
+        text: >
+          La apariția unui eveniment, cum ar fi crearea unui pachet de lucru sau o actualizare a unui proiect, OpenProject va trimite o cerere POST către punctele finale web configurate. De multe ori, evenimentul este trimis după ce a trecut %{link}.
+        link: perioada de agregare configurată
+      status:
+        enabled: 'Webhook este activat'
+        disabled: 'Webhook este dezactivat'
+        enabled_text: 'Webhook va emite sarcini utile pentru evenimentele definite mai jos.'
+        disabled_text: 'Faceți clic pe butonul de editare pentru a activa webhook-ul.'
+      deliveries:
+        no_results_table: Nu au fost efectuate livrări pentru acest webhook în ultimele zile.
+        title: 'Livrări recente'
+        time: 'Termen de livrare'
+      form:
+        introduction: >
+          Trimiteți o cerere POST la URL-ul de mai jos pentru orice eveniment din proiectul la care vă abonați. Payload va corespunde reprezentării APIv3 a obiectului care este modificat.
+        apiv3_doc_url: Pentru mai multe informații, vizitați documentația API
+        description:
+          placeholder: 'Descriere opțională pentru webhook.'
+        enabled:
+          description: >
+            Atunci când este bifat, webhook-ul se va declanșa la evenimentele selectate. Debifați această opțiune pentru a dezactiva webhook-ul.
+        events:
+          title: 'Evenimente activate'
+        project_ids:
+          title: 'Proiecte activate'
+          description: 'Selectați pentru ce proiecte ar trebui să fie executat acest webhook.'
+          all: 'Toate Proiectele'
+          selected: 'Numai proiectele selectate'
+        selected_project_ids:
+          title: 'Proiecte selectate'
+        secret:
+          description: >
+            Dacă este setată, această valoare secretă este utilizată de OpenProject pentru a semna încărcătura utilă a webhook-ului.

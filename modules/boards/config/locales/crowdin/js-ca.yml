@@ -1,0 +1,86 @@
+#English strings go here
+ca:
+  js:
+    boards:
+      create_new: 'Crea un tauler nou'
+      label_unnamed_board: 'Taulell sense nom'
+      label_unnamed_list: 'Llista sense nom'
+      label_board_type: 'Tipus de taulell'
+      upsale:
+        teaser_text: 'T''agradaria automatitzar els teus processos de treball amb taulells? Els taulells avançats són una extensió de l''edició Enterprise. Si us plau, actualitza a un pla de pagament.'
+        upgrade: 'Actualitzeu ara'
+      lists:
+        delete: 'Suprimeix la llista'
+      version:
+        is_locked: 'La versió és bloquejada. No es poden afegir elements en aquesta versió.'
+        is_closed: 'La versió és tancada. No es poden afegir elements en aquesta versió.'
+        close_version: 'Tanca la versió'
+        open_version: 'Obre la versió'
+        lock_version: 'Bloca la versió'
+        unlock_version: 'Desbloca la versió'
+        edit_version: 'Edita la versió'
+        show_version: 'Mostra la versió'
+        locked: 'Bloquejat'
+        closed: 'Tancat'
+      new_board: 'Nou taulell'
+      add_list: 'Afegir llista a un taulell'
+      add_card: 'Afegeix una targeta'
+      error_attribute_not_writable: "No es pot moure el paquet de treball, %{attribute} no és modificable."
+      error_loading_the_list: "Error carregant la llista: %{error_message}"
+      error_permission_missing: "No disposeu de permisos per crear consultes públiques"
+      error_cannot_move_into_self: "No pots moure un paquet de treball a la seva pròpia columna."
+      text_hidden_list_warning: "No totes les llistes són visibles perquè et falten permisos. Contacta el teu administrador per més informació."
+      click_to_remove_list: "Cliqueu per eliminar aquesta llista"
+      board_type:
+        text: 'Tipus de taulell'
+        free: 'bàsic'
+        select_board_type: 'Si us plau, tria l''estil de taulell que necessites.'
+        free_text: >
+          Comença de zero amb un taulell en blanc. Afegeix manualment targetes i columnes a aquest taulell.
+        action: 'Taulell d''acció'
+        action_by_attribute: 'Panell d''acció (%{attribute})'
+        action_text: >
+          Un taulell amb llistes filtrades per %{attribute} atribut. Movent els paquets de treball a altres llistes actualitzarà el seu atribut.
+        action_text_subprojects: >
+          Taulell amb columnes automàtiques per subprojectes. Movent els paquets de treball a altres llistes actualitzarà el (sub-)projecte.
+        action_text_subtasks: >
+          Taulell amb columnes automàtiques per subelements. Movent els paquets de treball a altres llistes actualitzarà el  paquet pare.
+        action_text_status: >
+          Taulell simple d'estil Kanban amb columnes automàtiques per estatus com Per Fer, En Procés o Fet.
+        action_text_assignee: >
+          Taulell amb columnes automàtiques per usuaris assignats. Ideal per a la distribució de paquets de treball.
+        action_text_version: >
+          Taulell amb columnes automàtiques per versió d'atribut. Ideal per al desenvolupament de planificació de productes.
+        action_type:
+          assignee: assignat a
+          status: estat
+          version: versió
+          subproject: subprojecte
+          subtasks: pare-fill
+        board_type_title:
+          assignee: Assignat a
+          status: Estat
+          version: Versió
+          subproject: Subprojecte
+          subtasks: Pare-fill
+          basic: Bàsic
+        select_attribute: "Atribut d'acció"
+      add_list_modal:
+        labels:
+          assignee: Selecciona un usuari per afegir-lo a la llista d'assignats
+          status: Selecciona un estat per afegir-lo a una nova llista
+          version: Selecciona una versió per afegir-lo a una nova llista
+          subproject: Selecciona un subprojecte per afegir-lo a una nova llista
+          subtasks: Selecciona un paquet de treball per afegir-lo a una nova llista
+        warning:
+          status: |
+            No hi ha cap estat disponible. <br>
+            O bé no n'hi ha cap o ja han estat afegits a un taulell.
+          assignee: No hi ha cap usuari que coincideixi amb el teu filtre. <br>
+          no_member: Aquest projecte actualment no té cap membre que es pugui afegir. <br>
+          add_members: <a href="%{link}">Afegeix un membre nou a aquest projecte </a> per seleccionar usuaris de nou.
+      configuration_modal:
+        title: 'Configureu aquest taulell'
+        display_settings:
+          card_mode: "Mostreu-ho com a targetes"
+          table_mode: "Mostreu-ho com a taula"

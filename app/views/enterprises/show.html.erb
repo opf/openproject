@@ -1,0 +1,13 @@
+<% html_title t(:label_administration), t("admin.enterprise.upgrade_to_ee") %>
+
+<%= toolbar title: t("admin.enterprise.upgrade_to_ee") %>
+
+<%= error_messages_for 'token' %>
+
+<% if @current_token.present? %>
+  <%= render partial: "current" %>
+<% else %>
+  <%= render partial: "info" %>
+<% end %>
+
+<%= render partial: "form" %>

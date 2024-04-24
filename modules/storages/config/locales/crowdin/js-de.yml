@@ -1,0 +1,85 @@
+#English strings go here
+de:
+  js:
+    storages:
+      link_files_in_storage: "Verknüpfen Sie Dateien in %{storageType}"
+      link_existing_files: "Vorhandene Dateien verknüpfen"
+      upload_files: "Dateien hochladen"
+      drop_files: "Dateien hier ablegen, um sie auf %{name} hochzuladen."
+      drop_or_click_files: "Dateien hier ablegen oder anklicken, um sie auf %{name} hochzuladen."
+      login: "%{storageType} Login"
+      login_to: "Bei %{storageType} anmelden"
+      no_connection: "Keine %{storageType} Verbindung"
+      open_storage: "Öffne %{storageType}"
+      select_location: "Speicherort auswählen"
+      choose_location: "Speicherort wählen"
+      types:
+        nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
+        default: "Speicher"
+      information:
+        connection_error: >
+          Einige %{storageType} Einstellungen funktionieren nicht. Bitte kontaktieren Sie Ihren %{storageType} Administrator.
+        live_data_error: "Fehler beim Abrufen der Dateidetails"
+        live_data_error_description: >
+          Einige %{storageType} Daten konnten nicht abgerufen werden. Bitte laden Sie diese Seite neu oder kontaktieren Sie Ihren %{storageType} Administrator.
+        no_file_links: "Verknüpfen Sie Dateien mit diesem Arbeitspaket bitte über %{storageType}."
+        not_logged_in: >
+          Um einen Link hinzuzufügen, mit diesem Arbeitspaket verknüpfte Dateien zu sehen oder hochzuladen, melden Sie sich bitte bei %{storageType} an.
+      files:
+        already_existing_header: "Diese Datei existiert bereits"
+        already_existing_body: >
+          Eine Datei mit dem Namen „%{fileName}“ existiert bereits an dem Ort, an dem Sie versuchen, diese Datei hochzuladen. Was möchten Sie tun?
+        directory_not_writeable: "Sie haben keine Berechtigung, Dateien zu diesem Ordner hinzuzufügen."
+        dragging_many_files: "Das Hochladen auf %{storageType} unterstützt nur eine Datei auf einmal."
+        dragging_folder: "Der Upload an %{storageType} unterstützt keine Ordner."
+        empty_folder: "Dieser Ordner ist leer."
+        empty_folder_location_hint: "Klicken Sie auf die Schaltfläche unten, um die Datei an diesen Ort hochzuladen."
+        file_not_selectable_location: "Die Auswahl einer Datei ist nicht möglich, wenn Sie einen Speicherort auswählen."
+        project_folder_no_access: >
+          Sie haben keinen Zugriff auf den Projektordner. Bitte wenden Sie sich an Ihren Administrator, um Zugang zu erhalten, oder laden Sie die Datei an einem anderen Ort hoch.
+        managed_project_folder_not_available: >
+          Der automatisch verwaltete Projektordner wurde noch nicht gefunden. Bitte warten Sie, laden Sie die Seite neu, um die neuesten Daten abzurufen und versuchen Sie es erneut.
+        managed_project_folder_no_access: >
+          Sie haben noch keinen Zugriff auf den verwalteten Projektordner. Bitte warten Sie ein wenig und versuchen Sie es erneut.
+        upload_keep_both: "Beide behalten"
+        upload_replace: "Ersetzen"
+      file_links:
+        empty: >
+          Derzeit gibt es keine verknüpften Dateien zu diesem Arbeitspaket. Starten Sie die Verknüpfung von Dateien mit der unten stehenden Aktion oder über %{storageType}.
+        download: "%{fileName} herunterladen"
+        open: "Datei im Speicher öffnen"
+        open_location: "Datei am Speicherort öffnen"
+        remove: "Datei-Link entfernen"
+        remove_confirmation: >
+          Sind Sie sicher, dass Sie die Verknüpfung der Datei aus diesem Arbeitspaket entfernen möchten? Das Entfernen der Verknüpfung wirkt sich nicht auf die Originaldatei aus und entfernt nur die Verbindung zu diesem Arbeitspaket.
+        remove_short: "Link entfernen"
+        select: "Dateien auswählen"
+        select_all: "Alle auswählen"
+        selection:
+          zero: "Dateien zum Verlinken auswählen"
+          one: "Eine Datei verknüpfen"
+          other: "%{count} Dateien verknüpfen"
+        success_create:
+          one: "1 Dateiverknüpfung erfolgreich erstellt."
+          other: "%{count} Dateiverknüpfungen erfolgreich erstellt."
+        upload_error:
+          default: >
+            Ihre Datei (%{fileName}) konnte nicht hochgeladen werden.
+          403: >
+            Ihre Datei (%{fileName}) konnte aufgrund von Systembeschränkungen nicht hochgeladen werden. Bitte kontaktieren Sie Ihren Administrator für weitere Informationen.
+          413: >
+            Ihre Datei (%{fileName}) ist größer als das, was OpenProject zu %{storageType} hochladen kann. Sie können sie zuerst direkt auf %{storageType} hochladen und dann die Datei verlinken.
+          507: >
+            Ihre Datei (%{fileName}) ist größer als das Speicherkontingent erlaubt. Kontaktieren Sie Ihren Administrator, um dieses Kontingent zu ändern.
+          detail:
+            nextcloud: >
+              Bitte überprüfen Sie, ob die neueste Version der Nextcloud App "OpenProject Integration" installiert ist und kontaktieren Sie Ihren Administrator für weitere Informationen.
+        link_uploaded_file_error: >
+          Beim Verknüpfen der kürzlich hochgeladenen Datei '%{fileName}' mit dem Arbeitspaket %{workPackageId} ist ein Fehler aufgetreten.
+        tooltip:
+          not_logged_in: "Bitte melden Sie sich im Speicher an, um auf diese Datei zuzugreifen."
+          view_not_allowed: "Sie haben keine Berechtigung, diese Datei zu sehen."
+          not_found: "Diese Datei ist nicht verfügbar."
+        already_linked_file: "Die Datei ist bereits mit diesem Arbeitspaket verknüpft."
+        already_linked_directory: "Das Verzeichnis ist bereits mit diesem Arbeitspaket verknüpft."

@@ -1,0 +1,45 @@
+# Schema: PostModel
+---
+type: object
+required:
+- subject
+properties:
+  id:
+    type: integer
+    description: Identifier of this post
+    readOnly: true
+    exclusiveMinimum: 0
+  subject:
+    type: string
+    description: The post's subject
+  _links:
+    type: object
+    properties:
+      addAttachment:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            Attach a file to the post
+
+            # Conditions
+
+            **Permission**: edit messages
+          readOnly: true
+example:
+  _type: Post
+  id: 1
+  subject: A post with a subject
+  _embedded:
+    project:
+      _type: Project...
+  _links:
+    self:
+      href: "/api/v3/posts/1"
+    attachments:
+      href: "/api/v3/posts/1/attachments"
+    addAttachment:
+      href: "/api/v3/posts/1/attachments"
+      method: post
+    project:
+      href: "/api/v3/projects/1"
+      title: A project with a title

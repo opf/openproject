@@ -1,0 +1,13 @@
+<div class="toolbar-container">
+  <div class="toolbar">
+    <div class="title-container">
+      <h2 [attr.title]="searchTitle">
+        {{ text.search_for }}
+        <i>"{{ searchTerm }}"</i>
+        {{ project === '' ? '' : text.in }}
+        <i>{{ project }}</i>
+      </h2>
+      <ul class="toolbar-items"></ul>
+    </div>
+  </div>
+</div>

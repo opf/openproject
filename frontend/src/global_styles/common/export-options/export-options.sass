@@ -1,0 +1,37 @@
+.op-export-options
+  display: flex
+  flex-wrap: wrap
+  margin: 0
+  padding: 20px 0
+  list-style-type: none
+
+  &--option
+    flex: 1 1 calc(33% - 40px)  // line break after third element
+    margin: 20px
+    text-align: center
+
+    &-link
+      cursor: pointer
+      text-decoration: none
+      color: var(--body-font-color)
+      font-weight: normal
+      overflow-wrap: break-word
+      word-wrap: break-word
+      &:hover, &:active
+        text-decoration: none
+        color: var(--body-font-color)
+
+    &-label
+      display: block
+      padding: 10px 0 0 0
+
+  &.op-export-options-grid
+    display: grid
+    grid-template-columns: 1fr 1fr 1fr
+
+    @media screen and (max-width: 480px)
+      grid-template-columns: 1fr 1fr
+
+    @media screen and (max-width: 320px)
+      grid-template-columns: 1fr
+

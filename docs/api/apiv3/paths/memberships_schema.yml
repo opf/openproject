@@ -1,0 +1,33 @@
+# /api/v3/memberships/schema
+---
+get:
+  summary: Schema membership
+  operationId: get_membership_schema
+  tags:
+    - Memberships
+  description: Retrieves the schema for the membership resource object.
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/membership_schema_model.yml'
+          examples:
+            schema:
+              $ref: '../components/examples/membership-schema-response.yml'
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions to see the schema.
+
+        **Required permission:** manage members or view memberships on any project

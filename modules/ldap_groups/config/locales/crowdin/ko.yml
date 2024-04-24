@@ -1,0 +1,73 @@
+ko:
+  plugin_openproject_ldap_groups:
+    name: "OpenProject LDAP 그룹"
+    description: "LDAP 그룹 멤버십 동기화."
+  activerecord:
+    attributes:
+      ldap_groups/synchronized_group:
+        dn: 'DN'
+        ldap_auth_source: 'LDAP 연결'
+        sync_users: '사용자 동기화'
+      ldap_groups/synchronized_filter:
+        filter_string: 'LDAP 필터'
+        ldap_auth_source: 'LDAP 연결'
+        group_name_attribute: "그룹 이름 특성"
+        sync_users: '사용자 동기화'
+        base_dn: "기본 DN 검색"
+    models:
+      ldap_groups/synchronized_group: '동기화된 LDAP 그룹'
+      ldap_groups/synchronized_filter: 'LDAP 그룹 동기화 필터'
+    errors:
+      models:
+        ldap_groups/synchronized_filter:
+          must_contain_base_dn: "필터 기본 DN은 LDAP 연결의 기본 DN에 포함되어야 합니다"
+  ldap_groups:
+    label_menu_item: 'LDAP 그룹 동기화'
+    label_group_key: 'LDAP 그룹 필터 키'
+    label_synchronize: '동기화'
+    settings:
+      name_attribute: 'LDAP 그룹 이름 특성'
+      name_attribute_text: '필터에 의해 생성될 때 OpenProject 그룹 명명에 사용되는 LDAP 특성입니다.'
+    synchronized_filters:
+      add_new: '동기화된 LDAP 필터 추가'
+      singular: 'LDAP 그룹 동기화 필터'
+      plural: 'LDAP 그룹 동기화 필터'
+      label_n_groups_found:
+        one: "필터로 1개 그룹 찾음"
+        other: "필터로 %{count}개 그룹 찾음"
+        zero: "필터로 그룹 찾지 못함"
+      destroy:
+        title: '동기화된 필터 %{name} 제거'
+        confirmation: "계속하는 경우, 동기화된 필터 %{name} 및 이를 통해 생성된 모든 그룹 %{groups_count}개가 제거됩니다."
+        removed_groups: "경고: 이렇게 하면 OpenProject에서 다음 그룹이 제거되고 모든 프로젝트에서 이것이 제거됩니다."
+        verification: "삭제를 확인하려면 필터 이름 %{name}(을)를 입력하세요."
+      form:
+        group_name_attribute_text: 'OpenProject 그룹 이름 설정에 사용된 LDAP 그룹의 특성을 입력하세요.'
+        filter_string_text: 'OpenProject와 동기화하려면 해당 LDAP에서 그룹을 반환하는 RFC4515 LDAP 필터를 입력하세요.'
+        base_dn_text: >
+          이 필터에 사용할 검색 기본 DN을 입력하세요. 이 DN은 선택한 LDAP 연결의 기본 DN 아래에 있어야 합니다. 연결의 기본 DN을 재사용하려면 이 옵션을 비워두세요.
+    synchronized_groups:
+      add_new: '동기화된 LDAP 그룹 추가'
+      destroy:
+        title: '동기화된 그룹 %{name} 제거'
+        confirmation: "계속하는 경우, 동기화된 그룹 %{name} 및 이를 통해 동기화된 %{users_count}명의 사용자 모두가 제거됩니다."
+        info: "참고: OpenProject 그룹 자체 그리고 이 LDAP 동기화 이외에서 추가된 멤버는 제거되지 않습니다."
+        verification: "삭제를 확인하려면 프로젝트 이름 %{name}(을)를 입력하십시오."
+      help_text_html: |
+        이 모듈을 통해 LDAP 및 OpenProject 그룹 간에 동기화를 설정할 수 있습니다.
+        LDAP 그룹은 OpenProject와 작동하도록 설정된 <em>groupOfNames / memberOf</em> 특성을 사용해야 합니다.
+        <br/>
+        그룹은 cron 작업을 통해 시간별로 동기화됩니다.
+        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">이 항목은 설명서를 참조하세요</a>.
+      no_results: '동기화된 그룹이 없습니다.'
+      no_members: '이 그룹에는 아직 동기화된 멤버가 없습니다.'
+      plural: '동기화된 LDAP 그룹'
+      singular: '동기화된 LDAP 그룹'
+      form:
+        auth_source_text: '사용해야 하는 LDAP 연결을 선택하세요.'
+        sync_users_text: >
+          이 옵션을 활성화하는 경우, 발견된 사용자는 OpenProject에서 자동으로 생성됩니다. 활성화하지 않으면, OpenProject의 기존 계정만 그룹에 추가됩니다.
+        dn_text: 'LDAP에서 그룹의 전체 DN 입력'
+        group_text: 'LDAP 그룹의 멤버가 동기화되는 기존 OpenProject 그룹 선택'
+      upsale:
+        description: '동기화된 LDAP 그룹을 활용하여 사용자를 관리하고 사용자의 권한을 변경하고 그룹 전체에서 사용자 관리를 용이하게 하세요.'

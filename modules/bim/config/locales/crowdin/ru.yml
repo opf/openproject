@@ -1,0 +1,136 @@
+#English strings go here for Rails i18n
+ru:
+  plugin_openproject_bim:
+    name: "Функция OpenProject BIM и BCF"
+    description: "Этот плагин OpenProject представляет функциональность BIM и BCF."
+  bim:
+    label_bim: 'BIM'
+  bcf:
+    label_bcf: 'BCF'
+    label_imported_failed: 'Неудачный импорт тем BCF'
+    label_imported_successfully: 'Успешно импортированные темы BCF'
+    issues: "Замечания"
+    recommended: 'рекомендуется'
+    not_recommended: 'не рекомендуется'
+    no_viewpoints: 'Нет точек просмотра'
+    new_badge: "Новое"
+    exceptions:
+      file_invalid: "Неверный файл BCF"
+    x_bcf_issues:
+      zero: 'Нет проблем BCF'
+      one: 'Одна проблема BCF'
+      other: '%{count} проблем BCF'
+    bcf_xml:
+      xml_file: 'XML файл BCF'
+      import_title: 'Импорт'
+      export: 'Экспорт'
+      import_update_comment: '(Обновлено в импорте BCF)'
+      import_failed: 'Не удается импортировать файл BCF: %{error}'
+      import_failed_unsupported_bcf_version: 'Не удалось прочитать файл BCF: версия BCF не поддерживается. Пожалуйста, убедитесь, что версия не ниже %{minimal_version} или выше.'
+      import_successful: 'Импортировано %{count} BCF проблем'
+      import_canceled: 'Импорт BCF-XML отменен.'
+      type_not_active: "Тип задачи не активирован для этого проекта."
+      import:
+        num_issues_found: '%{x_bcf_issues} содержатся в файле BCF-XML, их данные перечислены ниже.'
+        button_prepare: 'Подготовить к импорту'
+        button_perform_import: 'Утвердить импорт'
+        button_proceed: 'Продолжить импорт'
+        button_back_to_list: 'Назад к списку'
+        no_permission_to_add_members: 'У вас недостаточно прав для добавления участников в проект.'
+        contact_project_admin: 'Свяжитесь с администратором проекта, чтобы добавить участников и начать этот импорт снова.'
+        continue_anyways: 'Вы хотите продолжить и завершить импорт в любом случае?'
+        description: "Предоставьте файл BCF-XML v2.1 для импорта в этот проект. Перед выполнением импорта можете изучить его содержимое."
+        invalid_types_found: 'Найдены недопустимые типы названий тем'
+        invalid_statuses_found: 'Найдены недопустимые названия статусов'
+        invalid_priorities_found: 'Найдены недопустимые имена приоритетов'
+        invalid_emails_found: 'Найдены недопустимые адреса электронной почты'
+        unknown_emails_found: 'Найдены неизвестные адреса электронной почты'
+        unknown_property: 'Неизвестное свойство'
+        non_members_found: 'Не найдены участники проекта'
+        import_types_as: 'Установить все эти типы'
+        import_statuses_as: 'Установить все статусы'
+        import_priorities_as: 'Установить все эти приоритеты'
+        invite_as_members_with_role: 'Пригласить их как участников проекта "%{project}" с ролью'
+        add_as_members_with_role: 'Добавить их как участников проекта "%{project}" с ролью'
+        no_type_provided: 'Тип не указан'
+        no_status_provided: 'Статус не указан'
+        no_priority_provided: 'Приоритет не указан'
+        perform_description: "Вы хотите импортировать или обновить указанные выше задачи?"
+        replace_with_system_user: 'Заменить их "Системным" пользователем'
+        import_as_system_user: 'Импортировать их как "Системного" пользователя.'
+        what_to_do: "Что Вы хотите сделать?"
+        work_package_has_newer_changes: "Устарело! Эта тема не была обновлена, поскольку последние изменения на сервере были новее \"ModifiedDate\" импортированной темы. Однако комментарии к теме были импортированы."
+        bcf_file_not_found: "Не удалось найти BCF-файл. Перезапустите загрузку."
+  export:
+    format:
+      bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "Снимок BCF"
+  project_module_bcf: "BCF"
+  project_module_bim: "BCF"
+  permission_view_linked_issues: "Просмотр проблем BCF"
+  permission_manage_bcf: "Импорт и управление проблемами BCF"
+  permission_delete_bcf: "Удалить задачи BCF"
+  oauth:
+    scopes:
+      bcf_v2_1: "Полный доступ к BCF v2.1 API"
+      bcf_v2_1_text: "Приложение получит полный доступ на чтение и запись к OpenProject BCF API v2.1 для выполнения действий от вашего имени."
+  activerecord:
+    models:
+      bim/ifc_models/ifc_model: "Модель IFC"
+    attributes:
+      bim/ifc_models/ifc_model:
+        ifc_attachment: "Файл IFC"
+        is_default: "Модель по умолчанию"
+        attachments: "Файл IFC"
+    errors:
+      models:
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "Нет вложенных файлов IFC."
+              invalid_ifc_file: "Указанный файл не является допустимым файлом IFC."
+        bim/bcf/viewpoint:
+          bitmaps_not_writable: "растровые карты не доступны для записи, так как они еще не реализованы."
+          index_not_integer: "индекс не является целым числом."
+          invalid_clipping_planes: "недопустимые вырезки планов."
+          invalid_components: "недопустимые компоненты."
+          invalid_lines: "недопустимые строки."
+          invalid_orthogonal_camera: "Ортогональная камера недоступна"
+          invalid_perspective_camera: "Перспективная камера недоступна."
+          mismatching_guid: "Руководство json_viewpoint не совпадает с руководством модели."
+          no_json: "Некорректно структурированный json."
+          snapshot_type_unsupported: "snapshot_type должен быть 'png' или 'jpg'."
+          snapshot_data_blank: "snapshot_data не предоставлены."
+          unsupported_key: "Обнаружено неподдерживаемое свойство json."
+        bim/bcf/issue:
+          uuid_already_taken: "Невозможно импортировать эту задачу BCF, так как уже существует другая с тем же GUID. Может быть, этот запрос BCF уже импортирован в другой проект?"
+  ifc_models:
+    label_ifc_models: 'Модели IFC'
+    label_new_ifc_model: 'Новая модель IFC'
+    label_show_defaults: 'Показать значения по умолчанию'
+    label_default_ifc_models: 'Модели IFC по умолчанию'
+    label_edit_defaults: 'Изменить значения по умолчанию'
+    no_defaults_warning:
+      title: 'Для этого проекта нет моделей IFC по умолчанию.'
+      check_1: 'Убедитесь, что вы загрузили хотя бы одну модель IFC.'
+      check_2: 'Убедитесь, что хотя бы одна модель IFC имеет статус "По умолчанию".'
+    no_results: "Модели IFC не загружались в этот проект."
+    conversion_status:
+      label: 'Обработка?'
+      pending: 'В ожидании'
+      processing: 'В процессе'
+      completed: 'Выполнено'
+      error: 'Ошибка'
+    processing_notice:
+      processing_default: 'Следующие модели IFC по умолчанию еще обрабатываются и поэтому недоступны:'
+    flash_messages:
+      upload_successful: 'Загрузка завершена. Через пару минут обработка завершится, и все будет готово к использованию.'
+    conversion:
+      missing_commands: "В этой системе нет следующих команд для конвертера IFC: %{names}"
+  project_module_ifc_models: "Модели IFC"
+  permission_view_ifc_models: "Просмотр моделей IFC"
+  permission_manage_ifc_models: "Импорт моделей IFC и управление ими"
+  extraction:
+    available:
+      ifc_convert: "Доступен конверсионный конвейер IFC"

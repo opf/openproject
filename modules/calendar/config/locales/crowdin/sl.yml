@@ -1,0 +1,12 @@
+#English strings go here
+sl:
+  plugin_openproject_calendar:
+    name: "OpenProject Calendar"
+    description: "Provides calendar views."
+  label_calendar: "Koledar"
+  label_calendar_plural: "Koledarji"
+  label_new_calendar: "New calendar"
+  permission_view_calendar: "Poglej koledarje"
+  permission_manage_calendars: "Uporavljaj koledarje"
+  permission_share_calendars: "Subscribe to iCalendars"
+  project_module_calendar_view: "Koledarji"

@@ -1,0 +1,60 @@
+<div class="spot-list--item-floating-wrapper op-file-list--item-floating-wrapper">
+  <a
+    class="spot-list--item-action spot-list--item-action_link op-file-list--item-action"
+    [class.spot-list--item-action_disabled]="attachment.status === 'quarantined'"
+    [href]="attachment._links.originOpen?.href || attachment._links.staticDownloadLocation.href"
+    target="_blank"
+    (dragstart)="setDragData($event)"
+  >
+    <div
+      [title]="attachment.status === 'quarantined' ? text.quarantinedHint : attachment.fileName"
+      class="spot-list--item-title op-file-list--item-title"
+      data-test-selector="op-files-tab--file-list-item-title"
+    >
+      <span
+        *ngIf="attachment.status === 'quarantined'"
+        class="spot-icon spot-icon_bug op-files-tab-icon"></span>
+      <span
+        *ngIf="attachment.status !== 'quarantined'"
+        class="spot-icon spot-icon_{{fileIcon.icon}} op-files-tab--icon op-files-tab--icon_{{fileIcon.clazz}}"
+      ></span>
+
+      <span [textContent]="attachment.fileName"></span>
+    </div>
+
+    <span
+      *ngIf="showTimestamp"
+      class="op-file-list--item-text"
+      [textContent]="timestampText"
+    ></span>
+
+    <div
+      #avatar
+      class="op-file-list--item-avatar"
+    ></div>
+  </a>
+  <div
+    class="spot-list--item-floating-actions op-file-list--item-floating-actions hidden-for-mobile"
+  >
+    <a
+      *ngIf="!!attachment._links.originOpen"
+      class="spot-link"
+      [href]="attachment._links.staticDownloadLocation.href"
+      target="_blank"
+    >
+      <span class="spot-icon spot-icon_download-arrow"></span>
+    </a>
+    <button
+      *ngIf="!!attachment._links.delete"
+      type="button"
+      class="spot-link"
+      [title]="deleteIconTitle"
+      (click)="confirmRemoveAttachment()"
+    >
+      <span class="spot-icon spot-icon_delete"></span>
+    </button>
+  </div>
+</div>
+
+<!-- Needed, if attachment-list-item is used within a form, to provide the added attachment to the serializer. -->
+<input type="hidden" name="attachments[{{index}}][id]" value="{{attachment.id}}">

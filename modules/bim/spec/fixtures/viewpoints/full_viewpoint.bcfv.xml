@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Created with the iabi.BCF library, V1.1.0 at 22.05.2017 09:51. Visit http://iabi.eu to find out more.-->
+<VisualizationInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Guid="{{UUID}}">
+  <Components>
+    <ViewSetupHints SpacesVisible="true" SpaceBoundariesVisible="true" OpeningsVisible="true" />
+    <Selection>
+      <Component IfcGuid="0cSRUx$EX1NRjqiKcYQ$a0" />
+      <Component IfcGuid="1jQQiGIAnFzxOUzrdmJYDS" />
+      <Component IfcGuid="0fdpeZZEX3FwJ7x0ox5kzF" />
+      <Component IfcGuid="23Zwlpd71EyvHlH6OZ77nK" />
+      <Component IfcGuid="1OpjQ1Nlv4sQuTxfUC_8zS" />
+    </Selection>
+    <Visibility DefaultVisibility="true">
+      <Exceptions>
+        <Component IfcGuid="0Gl71cVurFn8bxAOox6M4X" />
+        <Component IfcGuid="23Zwlpd71EyvHlH6OZ77nK" />
+        <Component IfcGuid="3DvyPxGIn8qR0KDwbL_9r1" />
+        <Component IfcGuid="0fdpeZZEX3FwJ7x0ox5kzF" />
+        <Component IfcGuid="1OpjQ1Nlv4sQuTxfUC_8zS" />
+      </Exceptions>
+    </Visibility>
+    <Coloring>
+      <Color Color="3498db">
+        <Component IfcGuid="0fdpeZZEX3FwJ7x0ox5kzF" />
+        <Component IfcGuid="23Zwlpd71EyvHlH6OZ77nK" />
+        <Component IfcGuid="1OpjQ1Nlv4sQuTxfUC_8zS" />
+        <Component IfcGuid="0cSRUx$EX1NRjqiKcYQ$a0" />
+      </Color>
+    </Coloring>
+  </Components>
+  <PerspectiveCamera>
+    <CameraViewPoint>
+      <X>12.2088897788292</X>
+      <Y>52.323145074034</Y>
+      <Z>5.24072091171001</Z>
+    </CameraViewPoint>
+    <CameraDirection>
+      <X>-0.381615611200324</X>
+      <Y>-0.825232810204882</Y>
+      <Z>-0.416365617893758</Z>
+    </CameraDirection>
+    <CameraUpVector>
+      <X>0.05857014928797</X>
+      <Y>0.126656300502579</Y>
+      <Z>0.990215996212637</Z>
+    </CameraUpVector>
+    <FieldOfView>60</FieldOfView>
+  </PerspectiveCamera>
+  <Lines>
+    <Line>
+      <StartPoint>
+        <X>0</X>
+        <Y>0</Y>
+        <Z>0</Z>
+      </StartPoint>
+      <EndPoint>
+        <X>0</X>
+        <Y>0</Y>
+        <Z>1</Z>
+      </EndPoint>
+    </Line>
+    <Line>
+      <StartPoint>
+        <X>0</X>
+        <Y>0</Y>
+        <Z>1</Z>
+      </StartPoint>
+      <EndPoint>
+        <X>0</X>
+        <Y>1</Y>
+        <Z>1</Z>
+      </EndPoint>
+    </Line>
+    <Line>
+      <StartPoint>
+        <X>0</X>
+        <Y>1</Y>
+        <Z>1</Z>
+      </StartPoint>
+      <EndPoint>
+        <X>1</X>
+        <Y>1</Y>
+        <Z>1</Z>
+      </EndPoint>
+    </Line>
+  </Lines>
+  <ClippingPlanes>
+    <ClippingPlane>
+      <Location>
+        <X>0</X>
+        <Y>0</Y>
+        <Z>0</Z>
+      </Location>
+      <Direction>
+        <X>0</X>
+        <Y>0</Y>
+        <Z>1</Z>
+      </Direction>
+    </ClippingPlane>
+    <ClippingPlane>
+      <Location>
+        <X>0</X>
+        <Y>0</Y>
+        <Z>0</Z>
+      </Location>
+      <Direction>
+        <X>0</X>
+        <Y>1</Y>
+        <Z>0</Z>
+      </Direction>
+    </ClippingPlane>
+  </ClippingPlanes>
+  <Bitmaps>
+    <Bitmap>PNG</Bitmap>
+    <Reference>3f6ac03e-de8e-4c5e-b3f0-c7bf5f87fe51/bitmaps-d1514fd3-290b-4830-b1fa-5bb780ce9e94-0.png</Reference>
+    <Location>
+      <X>10.064999999983305</X>
+      <Y>-10.40177106506878</Y>
+      <Z>7.011243681990698</Z>
+    </Location>
+    <Normal>
+      <X>-0.9999999999999999</X>
+      <Y>1.253656364893038e-16</Y>
+      <Z>0</Z>
+    </Normal>
+    <Up>
+      <X>-5.43903050550883e-34</X>
+      <Y>-4.338533794284917e-18</Y>
+      <Z>1</Z>
+    </Up>
+    <Height>1666.1814563907683</Height>
+  </Bitmaps>
+  <Bitmaps>
+    <Bitmap>JPG</Bitmap>
+    <Reference>3f6ac03e-de8e-4c5e-b3f0-c7bf5f87fe51/bitmaps-e6f5a36a-c60b-4fcc-815f-a1dd939ebc87.jpg</Reference>
+    <Location>
+      <X>1</X>
+      <Y>2</Y>
+      <Z>3</Z>
+    </Location>
+    <Normal>
+      <X>-3</X>
+      <Y>1.253656364893038e-16</Y>
+      <Z>0</Z>
+    </Normal>
+    <Up>
+      <X>30.1234</X>
+      <Y>-9000</Y>
+      <Z>1</Z>
+    </Up>
+    <Height>10</Height>
+  </Bitmaps>
+</VisualizationInfo>

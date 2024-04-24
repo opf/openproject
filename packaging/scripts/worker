@@ -1,0 +1,3 @@
+#!/bin/bash -e
+
+QUIET=true bundle exec good_job start

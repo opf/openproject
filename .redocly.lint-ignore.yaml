@@ -1,0 +1,28 @@
+tmp/oas-generated.yml:
+  info-license:
+    - '#/info'
+  operation-2xx-response:
+    - '#/paths/~1api~1v3~1file_links~1{file_link_id}~1open/get/responses'
+    - '#/paths/~1api~1v3~1project_storages~1{id}~1open/get/responses'
+    - '#/paths/~1api~1v3~1storages~1{id}~1open/get/responses'
+    - '#/paths/~1api~1v3~1work_packages~1{id}~1relations/get/responses'
+  operation-4xx-response:
+    - '#/paths/~1api~1v3/get/responses'
+    - '#/paths/~1api~1v3~1help_texts/get/responses'
+    - '#/paths/~1api~1v3~1work_packages~1form/post/responses'
+  no-ambiguous-paths:
+    - '#/paths/~1api~1v3~1queries~1{id}~1form'
+    - '#/paths/~1api~1v3~1queries~1{id}~1star'
+    - '#/paths/~1api~1v3~1queries~1{id}~1unstar'
+    - '#/paths/~1api~1v3~1relations~1{id}~1form'
+    - '#/paths/~1api~1v3~1time_entries~1activity~1{id}'
+    - '#/paths/~1api~1v3~1work_packages~1{id}~1activities'
+    - '#/paths/~1api~1v3~1work_packages~1{id}~1attachments'
+    - '#/paths/~1api~1v3~1work_packages~1{id}~1file_links'
+    - '#/paths/~1api~1v3~1work_packages~1{id}~1form'
+    - '#/paths/~1api~1v3~1work_packages~1{id}~1revisions'
+    - '#/paths/~1api~1v3~1work_packages~1{id}~1relations'
+    - '#/paths/~1api~1v3~1work_packages~1{id}~1watchers'
+    - '#/paths/~1api~1v3~1work_packages~1{id}~1available_projects'
+    - '#/paths/~1api~1v3~1work_packages~1{id}~1available_relation_candidates'
+    - '#/paths/~1api~1v3~1work_packages~1{id}~1available_watchers'

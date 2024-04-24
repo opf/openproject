@@ -1,0 +1,21 @@
+@import "helpers"
+
+.op-principal-list
+  display: flex
+  align-items: center
+
+  &--principals
+    display: flex
+    overflow: hidden
+
+    .op-principal
+      @include text-shortener
+
+      &:first-child
+        flex-shrink: 0
+
+  &--separator
+    margin-right: 0.5rem
+
+  &--badge
+    flex: 0

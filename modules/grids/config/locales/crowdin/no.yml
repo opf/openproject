@@ -1,0 +1,16 @@
+"no":
+  grids:
+    label_widget_in_grid: "Widget i tabell %{grid_name}"
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Side"
+        row_count: "Antall rader"
+        column_count: "Antall kolonner"
+        widgets: "Widgeter"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'overlapp.'
+          outside: 'er utenfor rutenett.'
+          end_before_start: 'sluttverdien må være større enn startverdien.'

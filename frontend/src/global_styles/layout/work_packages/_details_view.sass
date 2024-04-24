@@ -1,0 +1,146 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2024 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+// Right part of the split view
+// Visible only in the details ui-view
+body.router--work-packages-partitioned-split-view-details,
+body.router--work-packages-partitioned-split-view-new
+
+  .work-packages-partitioned-page--content-right
+    overflow: auto
+    position: relative
+    border-left: 2px solid #eee
+    border-top: 2px solid #eee
+    padding: 0
+
+    // Will eventually be overridden by the resizer
+    flex-basis: 580px
+
+.work-packages--details
+  height: 100%
+  position: relative
+  width: 100%
+  // Min-width is actually 530px but the border already needs 2px
+  min-width: 528px
+
+  @media only screen and (max-width: $breakpoint-xl)
+    @at-root
+      .detailsViewMenuItem
+        display: none
+
+  .op-tab-row
+    padding-left: 20px
+
+.work-packages--details-toolbar-container
+  position:   absolute
+  bottom:     0
+  height:     55px
+  width:      100%
+  background: #F8F8F8
+  border:     1px solid #eeeeee
+  padding:    0 1rem 10px
+
+  @media print
+    display: none
+
+  .button
+    margin: .5rem .5rem 0 0
+
+.work-packages--details-content
+  display:         flex
+  flex-direction:  column
+  position:        absolute
+  top:             50px
+  bottom:          55px
+  width:           100%
+  overflow:        hidden
+
+  &.-create-mode
+    padding: 0 5px 10px 20px
+
+// Fix height of subject row
+.work-packages--subject-element,
+.work-packages--details--subject .inline-edit--field
+  font-size: 1.125rem
+  font-weight: var(--base-text-weight-bold)
+
+.work-packages--details--subject
+  overflow: hidden
+
+.work-packages--details-form
+  display: flex
+  flex-direction: column
+  height: 100%
+  overflow: hidden
+
+.work-packages--details-header
+  display: flex
+  padding: 0 5px 10px 20px
+  border-bottom: 1px solid #ddd
+  margin-bottom: 10px
+
+.work-packages--details-header-left
+  display: flex
+  flex-direction: column
+  margin-right: 4px
+  max-width: 100%
+  flex-basis: 100%
+  flex-shrink: 1
+  flex-grow: 0
+
+.work-package-details-tab
+  overflow-y: auto
+  overflow-x: hidden
+  flex-grow: 1
+  padding: 0 8px 10px 20px
+  @include styled-scroll-bar
+
+.work-packages--breadcrumb
+  margin-bottom: 4px
+
+.work-packages--type-selector
+  flex-shrink: 0
+
+.work-package--new-state
+  margin-bottom: 55px
+
+  .title-container
+    overflow: visible
+
+.work-packages--storages
+  margin-top: $spot-spacing-2
+  display: grid
+  grid-template-columns: 1fr 1fr
+  grid-row-gap: $spot-spacing-1
+  grid-column-gap: $spot-spacing-1
+
+  @media #{$spot-mq-mobile}
+    grid-template-columns: 1fr
+
+  .work-packages-partitioned-page--content-right &
+    grid-template-columns: 1fr

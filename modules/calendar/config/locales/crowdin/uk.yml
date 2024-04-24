@@ -1,0 +1,12 @@
+#English strings go here
+uk:
+  plugin_openproject_calendar:
+    name: "Календар OpenProject "
+    description: "Дозволяти перегляд календаря"
+  label_calendar: "Календар"
+  label_calendar_plural: "Календарі"
+  label_new_calendar: "Новий календар"
+  permission_view_calendar: "Перегляд календарів"
+  permission_manage_calendars: "Керувати календарями"
+  permission_share_calendars: "Створення підписок на iCalendars"
+  project_module_calendar_view: "Календарі"

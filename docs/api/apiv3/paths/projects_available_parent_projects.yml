@@ -1,0 +1,151 @@
+# /api/v3/projects/available_parent_projects
+---
+get:
+  parameters:
+  - description: JSON specifying filter conditions.
+    example: '[{ "ancestor": { "operator": "=", "values": [''1''] }" }]'
+    in: query
+    name: filters
+    required: false
+    schema:
+      type: string
+  - description: The id or identifier of the project the parent candidate is determined
+      for
+    example: '123'
+    in: query
+    name: of
+    required: false
+    schema:
+      type: string
+  - description: |-
+      JSON specifying sort criteria.
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint and allows all the filters and sortBy supported by the project list end point.
+    example: '[["id", "asc"]]'
+    in: query
+    name: sortBy
+    required: false
+    schema:
+      type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  elements:
+                  - _links:
+                      categories:
+                        href: "/api/v3/projects/6/categories"
+                      createWorkPackage:
+                        href: "/api/v3/projects/6/work_packages/form"
+                        method: post
+                      createWorkPackageImmediate:
+                        href: "/api/v3/projects/6/work_packages"
+                        method: post
+                      self:
+                        href: "/api/v3/projects/6"
+                        title: A project
+                      status:
+                        href: "/api/v3/project_statuses/on_track"
+                        title: On track
+                      versions:
+                        href: "/api/v3/projects/6/versions"
+                    _type: Project
+                    active: true
+                    createdAt: '2015-07-06T13:28:14+00:00'
+                    description:
+                      format: markdown
+                      html: "<p>Lorem <strong>ipsum</strong> dolor sit amet</p>"
+                      raw: Lorem **ipsum** dolor sit amet
+                    id: 6
+                    identifier: a_project
+                    name: A project
+                    public: false
+                    statusExplanation:
+                      format: markdown
+                      html: "<p>Everything <strong>fine</strong></p>"
+                      raw: Everything **fine**
+                    type: Customer Project
+                    updatedAt: '2015-10-01T09:55:02+00:00'
+                  - _links:
+                      categories:
+                        href: "/api/v3/projects/14/categories"
+                      createWorkPackage:
+                        href: "/api/v3/projects/14/work_packages/form"
+                        method: post
+                      createWorkPackageImmediate:
+                        href: "/api/v3/projects/14/work_packages"
+                        method: post
+                      self:
+                        href: "/api/v3/projects/14"
+                        title: Another project
+                      status:
+                        href: "/api/v3/project_statuses/on_track"
+                        title: On track
+                      versions:
+                        href: "/api/v3/projects/14/versions"
+                    _type: Project
+                    active: true
+                    createdAt: '2016-02-29T12:50:20+00:00'
+                    description:
+                      format: markdown
+                      html: ''
+                      raw: ''
+                    id: 14
+                    identifier: another_project
+                    name: Another project
+                    public: true
+                    statusExplanation:
+                      format: markdown
+                      html: "<p>Everything super <strong>fine</strong></p>"
+                      raw: Everything super **fine**
+                    type: 
+                    updatedAt: '2016-02-29T12:50:20+00:00'
+                _links:
+                  self:
+                    href: "/api/v3/projects/available_parent_projects?of=123"
+                _type: Collection
+                count: 2
+                total: 2
+          schema:
+            "$ref": "../components/schemas/list_available_parent_project_candidates_model.yml"
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** edit project in a project or the global add project permission
+      headers: {}
+  tags:
+  - Projects
+  description: |-
+    Lists projects which can become parent to another project. Only sound candidates are returned.
+    For instance a project cannot become parent of itself or it's children.
+
+    To specify the project for which a parent is queried for, the `of` parameter can be provided. If no `of`
+    parameter is provided, a new project is assumed. Then, the check for the hierarchy is omitted as a new project cannot be
+    part of a hierarchy yet.
+
+    Candidates can be filtered. Most commonly one will want to filter by name or identifier.
+    You can do this through the `filters` parameter which works just like the work package index.
+
+    For instance to find all parent candidates with "rollout" in their name:
+
+    ```
+    ?filters=[{"name_and_identifier":{"operator":"~","values":["rollout"]}}]
+    ```
+  operationId: List_available_parent_project_candidates
+  summary: List available parent project candidates

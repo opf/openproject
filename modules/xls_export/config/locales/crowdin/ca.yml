@@ -1,0 +1,16 @@
+ca:
+  plugin_openproject_xls_export:
+    name: "OpenProject XLS Export"
+    description: "Export issue lists as Excel spreadsheets (.xls)."
+  export_to_excel: "Exporta a XLS"
+  print_with_description: "Previsualització d'impressió amb descripció"
+  sentence_separator_or: "o"
+  different_formats: Formats diferents
+  export:
+    format:
+      xls: "XLS"
+      xls_with_descriptions: "XLS amb descripcions"
+      xls_with_relations: "XLS amb relacions"
+  xls_export:
+    child_of: fill de
+    parent_of: pare de

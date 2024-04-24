@@ -1,0 +1,39 @@
+#English strings go here
+tr:
+  plugin_openproject_boards:
+    name: "OpenProject Boards"
+    description: "Provides board views."
+  permission_show_board_views: "Panoları görüntüle"
+  permission_manage_board_views: "Panoları yönet"
+  project_module_board_view: "Panolar"
+  boards:
+    label_board: "Pano"
+    label_boards: "Panolar"
+    label_create_new_board: "Yeni pano oluştur"
+    label_board_type: "Pano türü"
+    board_types:
+      free: Temel
+      action: "Eylem kurulu (%{attribute})"
+    board_type_attributes:
+      assignee: Atanan
+      status: Durum
+      version: Sürüm
+      subproject: Alt proje
+      subtasks: Üst-Alt
+      basic: Temel
+    board_type_descriptions:
+      basic: >
+        Boş bir tahtayla sıfırdan başlayın. Bu panoya kartları ve sütunları manuel olarak ekleyin.
+      status: >
+        Yapılacaklar, Devam Ediyor, Tamamlandı gibi durum sütunlarını içeren temel kanban tarzı pano.
+      assignee: >
+        Atanan kullanıcılara dayalı otomatik sütunlara sahip pano. İş paketlerini göndermek için idealdir.
+      version: >
+        Sürüm özelliğine dayalı otomatik sütunlara sahip pano. Ürün geliştirmeyi planlamak için idealdir.
+      subproject: >
+        Alt projeler için otomatik sütunlara sahip pano. İş paketlerini diğer listelere sürüklemek üzere (alt)projeyi buna göre günceller.
+      subtasks: >
+        Alt öğeler için otomatik sütunlara sahip pano. İş paketlerini diğer listelere sürüklemek üzere üst öğeyi buna göre günceller.
+    upsale:
+      teaser_text: 'İş akışlarınızı Boards ile otomatikleştirmek ister misiniz? Gelişmiş kartlar Kurumsal bir eklentidir. Lütfen ücretli bir plana yükseltin.'
+      upgrade: 'Şimdi Yükselt'

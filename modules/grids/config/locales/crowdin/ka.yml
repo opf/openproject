@@ -1,0 +1,16 @@
+ka:
+  grids:
+    label_widget_in_grid: "Widget contained in Grid %{grid_name}"
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "გვერდი"
+        row_count: "მწკრივების რაოდენობა"
+        column_count: "Number of columns"
+        widgets: "ვიჯეტები"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'გადაფარება.'
+          outside: 'is outside of the grid.'
+          end_before_start: 'end value needs to be larger than the start value.'

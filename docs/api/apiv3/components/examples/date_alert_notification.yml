@@ -1,0 +1,45 @@
+# Example: Mentioned notification
+---
+value:
+  _type: Notification
+  id: 1
+  readIAN: false
+  reason: dateAlert
+  createdAt: '2022-04-05T14:38:28.361Z'
+  updatedAt: '2022-04-06T09:03:24.347Z'
+  _embedded:
+    project:
+      _hint: Project resource shortened for brevity
+      _type: Project
+      id: 11
+      name: Jedi Remnant Locator
+    resource:
+      _hint: WorkPackage resource shortened for brevity
+      _type: WorkPackage
+      id: 77
+      subject: Educate Visas Marr
+    details:
+      - _type: 'Values::Property'
+        property: 'startDate'
+        value: '2021-01-01'
+        _links:
+          self:
+            href: 'api/v3/notifications/123/details/0'
+          schema:
+            href: 'api/v3/values/schemas/startDate'
+  _links:
+    self:
+      href: '/api/v3/notifications/1'
+    readIAN:
+      href: '/api/v3/notifications/1/read_ian'
+      method: post
+    actor:
+      href: null
+    project:
+      href: '/api/v3/projects/11'
+      title: Jedi Remnant Locator
+    activity:
+      href: null
+    resource:
+      href: '/api/v3/work_packages/77'
+      title: Educate Visas Marr

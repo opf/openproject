@@ -1,0 +1,76 @@
+<div #loadingIndicator
+     [attr.data-query-name]="listName"
+     class="op-board-list loading-indicator--location"
+     data-test-selector="op-board-list"
+     data-tour-selector="op-board-list"
+     [ngClass]="{ '-action-list': board.isAction }">
+  <ng-container *ngIf="query">
+
+    <div *ngIf="board.isAction"
+         class="op-board-list--action-bar"
+         [ngClass]="actionResourceClass">
+    </div>
+
+    <div class="op-board-list--header"
+          data-test-selector="op-board-list--header">
+      <ndc-dynamic *ngIf="headerComponent"
+                   [ndcDynamicComponent]="headerComponent"
+                   [ndcDynamicInputs]="{ resource: actionResource }">
+      </ndc-dynamic>
+      <editable-toolbar-title *ngIf="!headerComponent"
+                              [title]="query.name"
+                              [smallHeader]="true"
+                              [inFlight]="inFlight"
+                              (onSave)="renameQuery(query, $event)"
+                              [editable]="canRename"
+                              [initialFocus]="initiallyFocused"
+                              class="-small">
+      </editable-toolbar-title>
+
+      <board-list-menu class="op-board-list--menu"
+                       data-test-selector="op-board-list--menu"
+                       [board]="board"
+                       (onRemove)="deleteList()">
+      </board-list-menu>
+    </div>
+
+    <div class="op-board-list--query-container drop-zone"
+         [ngClass]="{ '-with-create-button': board.isAction || showAddButton }">
+      <div class="op-board-list--button-container">
+        <button [title]="text.addCard"
+                *ngIf="showAddButton"
+                data-test-selector="op-board-list--card-dropdown-add-button"
+                data-tour-selector="op-board-list--card-dropdown-add-button"
+                class="op-board-list--add-button op-board-list--card-dropdown-button button"
+                op-addCardDropdown>
+          <op-icon icon-classes="icon-small icon-add"></op-icon>
+        </button>
+      </div>
+
+      <wp-card-view [dragOutOfHandler]="canDragOutOfHandler"
+                    [dragInto]="canDragInto"
+                    [workPackageAddedHandler]="workPackageAddedHandler"
+                    [cardsRemovable]="board.isFree && canDragOutOf"
+                    [showInfoButton]="true"
+                    [highlightingMode]="board.highlightingMode"
+                    [showStatusButton]="showCardStatusButton()"
+                    (itemClicked)="openFullViewOnDoubleClick($event)"
+                    (stateLinkClicked)="openStateLink($event)">
+
+      </wp-card-view>
+    </div>
+  </ng-container>
+  <div class="op-board-list--toaster-box -error" *ngIf="loadingError">
+    <p>
+      <span [textContent]="errorMessage"></span>
+      &ngsp;
+      <buton
+        type="button"
+        class="spot-link"
+        (click)="onRemove.emit()"
+      >
+        <span [textContent]="text.click_to_remove"></span>
+      </buton>
+    </p>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+# Schema: Link
+---
+type: object
+required:
+  - href
+properties:
+  href:
+    type:
+      - 'string'
+      - 'null'
+    description: URL to the referenced resource (might be relative)
+  title:
+    type: string
+    description: Representative label for the resource
+  templated:
+    type: boolean
+    default: false
+    description: If true the href contains parts that need to be replaced by the client
+  method:
+    type: string
+    default: GET
+    description: The HTTP verb to use when requesting the resource
+  payload:
+    type: object
+    description: The payload to send in the request to achieve the desired result
+  identifier:
+    type: string
+    description: An optional unique identifier to the link object
+  type:
+    type: string
+    description: The MIME-Type of the returned resource.
+
+example:
+  href: '/api/v3/work_packages'
+  method: POST

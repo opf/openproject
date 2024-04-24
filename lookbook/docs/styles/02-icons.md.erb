@@ -1,0 +1,61 @@
+---
+title: Icons
+---
+
+# Icons
+
+Icons are used as visual indicators or small illustrations. They provide additional context when necessary.
+
+<% %w[person plus pencil].each do |icon| %>
+<%= render(Primer::Beta::Octicon.new(icon: icon)) %>
+  <div class="mb-3"></div>
+<% end %>
+
+## Design notes
+
+Please see the primer documentation for [icons](https://primer.style/design/foundations/icons/) and their [guidelines](https://primer.style/design/foundations/icons/design-guidelines).
+
+## Available icons
+
+<div class="icons">
+<% Octicons::OCTICON_SYMBOLS.keys.each do |name| %>
+<div class="icons--icon">
+  <div class="icons--preview">
+    <%= render(Primer::Beta::Octicon.new(icon: name)) %>
+  </div>
+  <div class="icons--name"><%= name %></div>
+</div>
+<% end %>
+</div>
+
+<style>
+.icons {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -1rem;
+}
+
+.icons--icon {
+  border-radius: 2px;
+  border: 1px solid #eeeeee;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex-basis: 120px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  min-width: 80px;
+  max-width: 180px;
+  text-align: center;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icons--name {
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+</style>

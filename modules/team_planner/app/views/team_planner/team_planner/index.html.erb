@@ -1,0 +1,7 @@
+<% html_title(t('team_planner.label_team_planner_plural')) -%>
+
+<%= toolbar title: t(:'team_planner.label_team_planner_plural') do %>
+  <%= render ::TeamPlanner::AddButtonComponent.new(current_project: @project) %>
+<% end %>
+
+<%= render ::TeamPlanner::TableComponent.new(rows: @views, current_user: current_user) %>

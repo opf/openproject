@@ -1,0 +1,85 @@
+<div class="toolbar-container -with-dropdown">
+  <div class="toolbar toolbar_empty-title">
+    <ul class="toolbar-items">
+      <li class="toolbar-item">
+        <button type="button -primary"
+                class="form-configuration--reset button"
+                (click)="resetToDefault($event)">
+          <op-icon icon-classes="button--icon icon-undo"></op-icon>
+          <span class="button--text" [textContent]="text.reset"></span>
+        </button>
+      </li>
+      <li
+        *ngIf="!typeBanner.eeShowBanners"
+        class="toolbar-item drop-down">
+        <a class="form-configuration--add-group button -primary" aria-haspopup="true">
+          <op-icon icon-classes="button--icon icon-add"></op-icon>
+          <span class="button--text" [textContent]="text.label_group"></span>
+          <op-icon icon-classes="button--dropdown-indicator"></op-icon>
+        </a>
+        <ul class="menu-drop-down-container">
+          <li>
+            <button
+              type="button"
+              class="menu-item form-configuration--add-group"
+              [textContent]="text.add_group"
+              (click)="createGroup('attribute', '')"
+            >
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              class="menu-item form-configuration--add-group"
+              [textContent]="text.add_table"
+              (click)="addGroupAndOpenQuery()"
+            >
+            </button>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="grid-block wrap">
+  <div class="grid-content small-12 medium-6">
+    <div id="draggable-groups" dragula="groups" [(dragulaModel)]="groups">
+      <ng-container *ngFor="let group of groups">
+        <op-type-form-attribute-group *ngIf="group.type === 'attribute'"
+                                   (removeAttribute)="deactivateAttribute($event)"
+                                   (deleteGroup)="deleteGroup(group)"
+                                   [group]="group">
+        </op-type-form-attribute-group>
+        <op-type-form-query-group *ngIf="group.type === 'query'"
+                               (editQuery)="editQuery(group)"
+                               (deleteGroup)="deleteGroup(group)"
+                               [group]="group">
+        </op-type-form-query-group>
+      </ng-container>
+    </div>
+  </div>
+  <div class="grid-content small-12 medium-6">
+    <div id="type-form-conf-inactive-group">
+      <div class="group-head">
+        <span class="group-name" [textContent]="text.label_inactive"></span>
+        &ngsp;
+        <span class="advice" [textContent]="text.drag_to_activate"></span>
+      </div>
+      <div class="attributes" dragula="attributes" [(dragulaModel)]="inactives">
+        <div *ngFor="let inactive_attribute of inactives"
+             class="type-form-conf-attribute"
+             [attr.data-key]="inactive_attribute.key">
+          <span class="attribute-handle icon-drag-handle"></span>
+          <span class="attribute-name">
+              {{ inactive_attribute.translation }}
+            <span *ngIf="inactive_attribute.is_cf"
+                  class="attribute-cf-label"
+                  [textContent]="text.custom_field">
+              </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- END type form configurator -->

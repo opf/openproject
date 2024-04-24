@@ -1,0 +1,59 @@
+@use "sass:math"
+
+.spot-switch
+  display: inline-flex
+  justify-content: center
+  align-items: center
+  height: $spot-spacing-1 + $spot-spacing-0_25
+  width: $spot-spacing-2 + $spot-spacing-0_25
+  flex-shrink: 0
+
+  &, *
+    box-sizing: border-box
+
+  &--input
+    position: fixed
+    height: 1px
+    width: 1px
+    overflow: hidden
+    clip: rect(1px,1px,1px,1px)
+
+  &--fake
+    position: relative
+    box-sizing: border-box
+    display: flex
+    justify-content: center
+    align-items: center
+    height: $spot-spacing-1 + $spot-spacing-0_25
+    width: $spot-spacing-2 + $spot-spacing-0_25
+    border-radius: math.div($spot-spacing-1 + $spot-spacing-0_25, 2)
+    border: 1px solid var(--color-fg-muted)
+    background-color: $spot-color-basic-gray-5
+    cursor: pointer
+
+    &::before
+      display: block
+      content: ''
+      position: absolute
+      top: 1px
+      left: 1px
+      height: $spot-spacing-1
+      width: $spot-spacing-1
+      background-color: var(--color-fg-muted)
+      border-radius: 50%
+      transition-property: left, background-color
+      transition-duration: 0.2s
+      transition-timing-function: ease
+
+  &--input:checked + &--fake
+    border-color: var(--control-checked-color)
+    background-color: var(--control-checked-color--minor1)
+
+  &--input:checked + &--fake::before
+    left: calc(100% - #{$spot-spacing-1} - 1px)
+    background-color: var(--control-checked-color)
+
+  &--input:disabled + &--fake,
+  &--input:disabled + &--fake::before
+    opacity: 0.5
+    cursor: default

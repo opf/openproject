@@ -1,0 +1,43 @@
+<div class="widget-box--description">
+  <%= image_tag "enterprise-add-on.svg", role: "presentation", class: "widget-box--blocks--upsale-image" %>
+  <div class="widget-box--blocks--upsale-text">
+    <div class="widget-box--blocks--upsale-title">
+      <%= spot_icon('enterprise-addons') %>
+      <span><%= t('homescreen.blocks.upsale.title') %></span>
+    </div>
+    <p class="widget-box--blocks--upsale-description">
+      <%= t('js.admin.enterprise.upsale.text') %>
+    </p>
+
+    <p>
+      <b><%= t('js.admin.enterprise.upsale.become_hero') %></b> <%= t('js.admin.enterprise.upsale.you_contribute') %>
+    </p>
+
+    <p>
+      <b><%= t('js.admin.enterprise.upsale.confidence') %></b>
+    </p>
+  </div>
+</div>
+
+<div class="widget-box--blocks--upsale-buttons">
+  <%= link_to "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=home-screen",
+              class: 'button--link widget-box--blocks--upsale-info-button',
+              target: '_blank',
+              rel: 'noopener' do %>
+    <%= spot_icon('external-link') %>
+    <span class="button--text"><%= t('homescreen.blocks.upsale.more_info') %></span>
+
+  <% end %>
+
+  <%= link_to(OpenProject::Static::Links.links[:pricing][:href],
+              class: 'button -primary',
+              target: '_blank',
+              rel: 'noopener') do %>
+    <%= spot_icon('enterprise-addons') %>
+    <span class="button--text"><%= t('admin.enterprise.buttons.upgrade') %></span>
+  <% end %>
+
+  <% if current_user.admin? %>
+    <%= link_to t('js.admin.enterprise.upsale.button_start_trial'), enterprise_path, class: 'button -primary' %>
+  <% end %>
+</div>

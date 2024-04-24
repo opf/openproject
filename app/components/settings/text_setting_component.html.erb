@@ -1,0 +1,75 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%# The javscript for this component is included in `settings.js.erb`. %>
+
+<div class="form--field">
+  <%# Empty label for styling only %>
+  <%= styled_label_tag "lang", '' %>
+  <div class="form--field-container">
+    <%=
+      styled_select_tag(
+        "lang",
+        options_for_select(helpers.lang_options_for_select(false), current_language.to_s),
+        id: "lang-for-#{name}",
+        class: "lang-select-switch",
+        container_class: '-slim'
+      )
+    %>
+  </div>
+</div>
+
+<% Redmine::I18n.valid_languages.each do |lang| %>
+  <%=
+    hidden_field_tag(
+      "settings[#{name}][#{lang}]",
+      Setting.send(name)[lang],
+      id: "lang-for-#{name}-#{lang}"
+    )
+  %>
+<% end %>
+
+<div class="form--field -visible-overflow">
+  <%= styled_label_tag "settings[#{name}]", t("setting_#{name}") %>
+  <div class="form--field-container">
+    <%=
+      styled_text_area_tag(
+        "settings[#{name}][#{current_language.to_s}]",
+        Setting.send(name)[current_language.to_s],
+        disabled: !Setting.send(:"#{name}_writable?"),
+        label: false,
+        id: "settings-#{name}",
+        class: 'wiki-edit',
+        with_text_formatting: true,
+        rows: 5,
+        container_class: '-xxwide'
+      )
+    %>
+  </div>
+</div>

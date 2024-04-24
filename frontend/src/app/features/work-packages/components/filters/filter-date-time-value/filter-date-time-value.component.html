@@ -1,0 +1,19 @@
+<op-basic-single-date-picker
+  [id]="'values-' + filter.id"
+  [name]="'v[' + filter.id + ']'"
+  class="advanced-filters--date-field"
+  required="true"
+
+  (valueChange)="value = isoDateParser($event)"
+  [value]="isoDateFormatter(value)"
+
+  [opAutofocus]="shouldFocus"
+></op-basic-single-date-picker>
+
+<span
+  class="advanced-filters--tooltip-trigger -multiline"
+  [attr.data-tooltip]="timeZoneText"
+  *ngIf="isTimeZoneDifferent"
+>
+  <span class="spot-icon spot-icon_warning"></span>
+</span>

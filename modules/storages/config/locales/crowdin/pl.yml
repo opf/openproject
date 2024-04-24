@@ -1,0 +1,250 @@
+pl:
+  activerecord:
+    attributes:
+      storages/file_link:
+        origin_id: Identyfikator pochodzenia
+      storages/storage:
+        creator: Twórca
+        drive: Identyfikator dysku
+        host: Host
+        name: Nazwa
+        provider_type: Typ dostawcy
+        tenant: Identyfikator katalogu (dzierżawcy)
+    errors:
+      messages:
+        not_linked_to_project: nie ma powiązania z projektem.
+      models:
+        storages/file_link:
+          attributes:
+            origin_id:
+              only_numeric_or_uuid: może być tylko wartością liczbową lub uuid.
+        storages/project_storage:
+          attributes:
+            project_folder_mode:
+              mode_unavailable: jest niedostępny dla tego magazynu.
+        storages/storage:
+          attributes:
+            host:
+              authorization_header_missing: nie jest w pełni skonfigurowany. Instancja Nextcloud nie otrzymuje nagłówka "Autoryzacja", który jest niezbędny do autoryzacji żądań API na podstawie tokena Bearer. Sprawdź konfigurację serwera HTTP.
+              cannot_be_connected_to: nie można połączyć.
+              minimal_nextcloud_version_unmet: nie spełnia wymagań wersji minimalnej (konieczna Nextcloud 23 lub wyższa)
+              not_nextcloud_server: nie jest serwerem Nextcloud
+              op_application_not_installed: wydaje się, że aplikacja "OpenProject integration" nie jest zainstalowana. Zainstaluj ją najpierw i spróbuj ponownie.
+            password:
+              invalid_password: jest nieprawidłowe
+              unknown_error: '— nie można sprawdzić poprawności. Sprawdź połączenie z magazynem i spróbuj ponownie.'
+    models:
+      file_link: Plik
+      storages/storage: Magazyn
+  api_v3:
+    errors:
+      too_many_elements_created_at_once: Zbyt wiele elementów utworzonych jednocześnie. Oczekiwano co najwyżej %{max} , otrzymano %{actual}.
+  permission_create_files: 'Magazyn zewnętrzny: tworzenie plików'
+  permission_delete_files: 'Magazyn zewnętrzny: usuwanie plików'
+  permission_manage_file_links: Zarządzaj linkami do plików
+  permission_manage_storages_in_project: Zarządzaj magazynami plików w projekcie
+  permission_read_files: 'Magazyn zewnętrzny: odczyt plików'
+  permission_share_files: 'Magazyn zewnętrzny: udostępnianie plików'
+  permission_view_file_links: Wyświetl linki do plików
+  permission_write_files: 'Magazyn zewnętrzny: zapis plików'
+  project_module_storages: Magazyny plików
+  storages:
+    buttons:
+      complete_without_setup: Ukończ bez tego
+      done_complete_setup: Gotowe, konfiguracja ukończona
+      done_continue: Gotowe, kontynuuj
+      replace_oauth_application: Zastąp OpenProject OAuth
+      replace_oauth_client: Zastąp %{provider_type} OAuth
+      save_and_continue: Zapisz i kontynuuj
+      select_folder: Wybierz folder
+    configuration_checks:
+      oauth_client_incomplete:
+        nextcloud: Zezwalaj OpenProject na dostęp do danych Nextcloud przy użyciu OAuth.
+        one_drive: Zezwalaj OpenProject na dostęp do danych Azure przy użyciu OAuth w celu połączenia z usługą OneDrive lub SharePoint.
+      redirect_uri_incomplete:
+        one_drive: Ukończ konfigurację z poprawnym przekierowaniem identyfikatora URI.
+    confirm_replace_oauth_application: Ta czynność zresetuje bieżące dane uwierzytelniające OAuth. Po potwierdzeniu będą Państwo musieli ponownie wprowadzić dane uwierzytelniające u dostawcy pamięci masowej, a wszyscy zdalni użytkownicy będą musieli ponownie autoryzować się w OpenProject. Czy na pewno chcą Państwo kontynuować?
+    confirm_replace_oauth_client: Ta czynność spowoduje zresetowanie bieżących poświadczeń OAuth. Po potwierdzeniu będą Państwo musieli wprowadzić nowe dane uwierzytelniające od dostawcy pamięci masowej, a wszyscy użytkownicy będą musieli ponownie autoryzować się na stronie %{provider_type} . Czy na pewno chcą Państwo kontynuować?
+    delete_warning:
+      input_delete_confirmation: Aby potwierdzić usunięcie, wprowadź nazwę magazynu plików %{file_storage}.
+      irreversible_notice: Usunięcie magazynu plików jest działaniem nieodwracalnym.
+      project_storage: 'Czy na pewno chcesz usunąć %{file_storage} z tego projektu? Aby potwierdzić to działanie, wprowadź nazwę magazynu w polu poniżej, spowoduje to:'
+      project_storage_delete_result_1: Usuń wszystkie linki z pakietów roboczych tego projektu do plików i folderów tego magazynu.
+      project_storage_delete_result_2: W przypadku, gdy ten magazyn zawiera automatycznie zarządzany folder projektu, folder ten i jego pliki zostaną bezpowrotnie usunięte.
+      storage: 'Czy na pewno chcesz usunąć %{file_storage}? Aby potwierdzić to działanie, wprowadź nazwę magazynu w polu poniżej, spowoduje to:'
+      storage_delete_result_1: Usunięcie wszystkich konfiguracji magazynu ze wszystkich korzystających z niego projektów.
+      storage_delete_result_2: Usunięcie wszystkich linków z pakietów roboczych wszystkich projektów do plików i folderów z tego magazynu.
+      storage_delete_result_3: W przypadku, gdy ten magazyn zawiera automatycznie zarządzane foldery projektów, foldery te i zawarte w nich pliki zostaną bezpowrotnie usunięte.
+    error_invalid_provider_type: Wybierz właściwego dostawcę magazynu.
+    file_storage_view:
+      access_management:
+        automatic_management: Automatycznie zarządzany dostęp i foldery
+        automatic_management_description: Zezwól OpenProject automatycznie tworzyć foldery dla każdego projektu i zarządzać dostępem użytkowników. Jest to zalecane, ponieważ zapewnia, że każdy członek zespołu ma zawsze prawidłowe uprawnienia dostępu.
+        description: Wybierz typ zarządzania dostępem użytkowników i tworzeniem folderów. Zalecamy skorzystanie z opcji Automatycznie zarządzany dostęp, pozwalającej uzyskać bardziej uporządkowaną strukturę i zagwarantować dostęp wszystkim odpowiednim użytkownikom.
+        manual_management: Ręcznie zarządzany dostęp i foldery
+        manual_management_description: Samodzielnie ręcznie twórz foldery każdego projektu i zarządzaj nimi. Trzeba będzie ręcznie zapewnić dostęp odpowiednim użytkownikom.
+        setup_incomplete: Wybierz typ zarządzania dostępem użytkowników i tworzeniem folderów.
+        subtitle: Zarządzanie dostępem
+        title: Dostęp i foldery projektu
+      automatically_managed_folders: Automatycznie zarządzane foldery
+      general_information: Informacje ogólne
+      nextcloud_oauth: Nextcloud OAuth
+      oauth_applications: Aplikacje OAuth
+      one_drive_oauth: Azure OAuth
+      openproject_oauth: OpenProject OAuth
+      project_folders: Foldery projektu
+      redirect_uri: Przekieruj URI
+      storage_provider: Dostawca magazynu
+    health:
+      checked: Ostatnio sprawdzono %{datetime}
+      label_error: Błąd
+      label_healthy: Zdrowe
+      label_pending: Oczekujący
+      since: od %{datetime}
+      subtitle: Automatycznie zarządzane foldery projektu
+      title: Status kondycji
+    health_email_notifications:
+      description_subscribed: Wszyscy administratorzy otrzymują powiadomienia e-mail o kondycji tego magazynu.
+      description_unsubscribed: Powiadomienia e-mail o statusie kondycji tego magazynu zostały wyłączone dla wszystkich administratorów.
+      error_could_not_be_saved: Nie można zapisać ustawień powiadomień e-mail. Spróbuj ponownie.
+      subscribe: Subskrybuj
+      title: Powiadomienia e-mail
+      unsubscribe: Anuluj subskrypcję
+    help_texts:
+      project_folder: Folder projektu jest domyślnym folderem do przesyłania plików tego projektu. Użytkownicy mogą jednak przesyłać pliki do innych lokalizacji.
+    instructions:
+      all_available_storages_already_added: Wszystkie dostępne magazyny zostały już dodane do projektu.
+      automatic_folder: Spowoduje to automatyczne utworzenie katalogu głównego dla tego projektu i zarządzanie uprawnieniami dostępu każdego członka projektu.
+      copy_from: Skopiuj tę wartość z
+      empty_project_folder_validation: Wybranie folderu jest obowiązkowe w celu kontynuacji.
+      existing_manual_folder: Możesz wyznaczyć istniejący folder jako folder główny tego projektu. Uprawnienia nie są jednak zarządzane automatycznie, administrator musi ręcznie upewnić się, że odpowiedni użytkownicy mają dostęp. Wybrany folder może być używany przez wiele projektów.
+      host: Proszę dodać adres hosta magazynu wraz z https://. Nie powinien być dłuższy niż 255 znaków.
+      managed_project_folders_application_password_caption: 'Włącz automatycznie zarządzane foldery, kopiując tę wartość z: %{provider_type_link}.'
+      name: Nazwij swój magazyn pamięci, aby użytkownicy mogli je rozróżniać, jeśli występuje ich wiele.
+      new_storage: Aby uzyskać więcej informacji, przeczytaj naszą dokumentację na temat <a target='_blank' href='%{provider_link}'>konfigurowania integracji magazynu plików %{provider_name}</a>.
+      nextcloud:
+        application_link_text: aplikacji „Integration OpenProject”
+        integration: Administracja Nextcloud / OpenProject
+        oauth_configuration: Skopiuj te wartości z %{application_link_text}.
+        provider_configuration: Przed wykonaniem konfiguracji upewnij się, że masz uprawnienia administracyjne w swoim wystąpieniu Nextcloud oraz zainstalowaną aplikację %{application_link_text}.
+      no_specific_folder: Domyślnie każdy użytkownik rozpocznie we własnym folderze domowym po przesłaniu pliku.
+      no_storage_set_up: Nie ma jeszcze skonfigurowanych magazynów plików.
+      not_logged_into_storage: Aby wybrać folder projektu, najpierw się zaloguj
+      oauth_application_details: Wartość tajnego klucza klienta nie będzie ponownie dostępna po zamknięciu tego okna. Skopiuj te wartości do %{oauth_application_details_link}.
+      oauth_application_details_link_text: Ustawienia Nextcloud OpenProject Integration
+      one_drive:
+        application_link_text: Portal Azure
+        copy_redirect_uri: Skopiuj identyfikator URI przekierowania
+        documentation_link_text: dokumentacji plików OneDrive/SharePoint
+        drive_id: Skopiuj identyfikator z żądanego dysku, wykonując kroki opisane w %{drive_id_link_text}.
+        integration: OneDrive/SharePoint
+        missing_client_id_for_redirect_uri: Wprowadź wartości OAuth, aby wygenerować identyfikator URI
+        oauth_client_redirect_uri: Skopiuj tę wartość do nowego identyfikatora URI przekierowania sieci Web w sekcji Przekieruj URI.
+        oauth_client_secret: Jeśli w sekcji Poświadczenia klienta nie ma tajnego klucza klienta aplikacji, utwórz nowy.
+        oauth_configuration: Skopiuj te wartości z żądanej aplikacji w %{application_link_text}.
+        provider_configuration: Przed przystąpieniem do konfiguracji upewnij się, że masz uprawnienia administracyjne w %{application_link_text} lub skontaktuj się z administratorem z firmy Microsoft. W portalu musisz również zarejestrować aplikację Azure lub użyć istniejącej do uwierzytelniania.
+        tenant_id: Skopiuj identyfikator katalogu (dzierżawcy) z żądanej aplikacji i rejestracje aplikacji w %{application_link_text}.
+        tenant_id_placeholder: Nazwa lub identyfikator UUID
+      setting_up_additional_storages: Aby skonfigurować dodatkowe magazyny plików, odwiedź
+      setting_up_additional_storages_non_admin: Administratorzy mogą skonfigurować dodatkowe magazyny plików w obszarze Administracja / Magazyny plików.
+      setting_up_storages: Aby skonfigurować magazyny plików, odwiedź
+      setting_up_storages_non_admin: Administratorzy mogą skonfigurować magazyny plików w obszarze Administracja / Magazyny plików.
+      type: 'Upewnij się, że masz uprawnienia administracyjne w swojej instancji Nextcloud oraz zainstalowaną następującą aplikację, przed wykonaniem konfiguracji:'
+      type_link_text: "“Integration OpenProject”"
+    label_active: Aktywny
+    label_add_new_storage: Dodaj nowy magazyn
+    label_automatic_folder: Nowy folder z automatycznie zarządzanymi uprawnieniami
+    label_completed: Ukończono
+    label_creation_time: Czas utworzenia
+    label_creator: Twórca
+    label_delete_storage: Usuń magazyn
+    label_edit_storage: Edytuj magazyn
+    label_edit_storage_access_management: Edytuj zarządzania dostępem do magazynu
+    label_edit_storage_automatically_managed_folders: Edytuj automatycznie zarządzane foldery magazynu
+    label_edit_storage_host: Edytuj hosta magazynu
+    label_existing_manual_folder: Istniejący folder z ręcznie zarządzanymi uprawnieniami
+    label_file_storage: Magazyn plików
+    label_host: Adres URL hosta
+    label_inactive: Nieaktywny
+    label_incomplete: Niekompletny
+    label_managed_project_folders:
+      application_password: Hasło aplikacji
+      automatically_managed_folders: Automatycznie zarządzane foldery
+    label_name: Nazwa
+    label_new_file_storage: Nowy magazyn %{provider}
+    label_new_storage: Nowy magazyn
+    label_no_selected_folder: Nie wybrano folderu
+    label_no_specific_folder: Brak konkretnego folderu
+    label_oauth_client_id: ID klienta OAuth
+    label_openproject_oauth_application_id: Identyfikator klienta OAuth OpenProject
+    label_openproject_oauth_application_secret: Tajny klucz klienta OAuth OpenProject
+    label_project_folder: Folder projektu
+    label_provider: Dostawca
+    label_redirect_uri: Przekieruj URI
+    label_show_storage_redirect_uri: Pokaż identyfikator URI przekierowania
+    label_status: Status
+    label_storage: Magazyn
+    label_uri: URI
+    member_connection_status:
+      connected: Połączono
+      connected_no_permissions: Rola użytkownika nie ma uprawnień do magazynów
+      not_connected: Nie połączono. Użytkownik powinien zalogować się do magazynu za pomocą %{link}.
+    members_no_results: Brak członków do wyświetlenia.
+    no_results: Brak skonfigurowanych magazynów.
+    notice_successful_storage_connection: |-
+      Magazyn został podłączony! Pamiętaj, aby aktywować moduł i konkretny magazyn w ustawieniach każdego żądanego projektu, aby móc z nich korzystać.
+    oauth_grant_nudge_modal:
+      access_granted: Udzielono dostępu
+      access_granted_screen_reader: Dostęp przyznany. Jesteś teraz gotowy do użycia %{storage}.
+      body: Aby uzyskać dostęp do folderu projektu, musisz zalogować się do %{storage}.
+      cancel_button_label: Zrobię to później
+      confirm_button_aria_label: Zaloguj się do %{storageType}
+      confirm_button_label: Zaloguj się
+      requesting_access_to: Żądanie dostępu do %{storage}
+      storage_ready: Możesz już używać %{storage}
+      title: Jeszcze jeden krok...
+    open_project_storage_modal:
+      success:
+        subtitle: Następuje przekierowanie
+        title: Ukończono konfigurację integracji
+      waiting:
+        subtitle: Chwileczkę, to może zająć trochę czasu...
+        title: Konfigurujemy Twoje uprawnienia do folderu projektu.
+    page_titles:
+      file_storages:
+        delete: Usuń magazyn plików
+        subtitle: Dodaj zewnętrzny magazyn plików w celu przesyłania plików, ich powiązywania i zarządzania nimi w pakietach roboczych.
+      managed_project_folders:
+        subtitle: |-
+          Pozwól OpenProject automatycznie tworzyć foldery dla każdego projektu. Jest to zalecane, ponieważ zapewnia, że każdy członek zespołu zawsze ma prawidłowe uprawnienia dostępu.
+        subtitle_short: Pozwól OpenProject automatycznie tworzyć foldery dla każdego projektu.
+        title: Automatycznie zarządzane foldery projektu
+      project_settings:
+        delete: Usuń magazyn plików
+        edit: Edytuj magazyn plików tego projektu
+        index: Magazyny plików dostępne w tym projekcie
+        members_connection_status: Status połączenia członków
+        new: Dodaj magazyn plików do tego projektu
+      project_storage_members:
+        subtitle: Sprawdź status połączenia magazynu %{storage_name_link} wszystkich członków projektu.
+        title: Status połączenia członków
+    permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
+    provider_types:
+      label: Typ dostawcy
+      nextcloud:
+        label_oauth_client_id: Identyfikator klienta OAuth Nextcloud
+        label_oauth_client_secret: Tajny klucz klienta OAuth Nextcloud
+        name: Nextcloud
+        name_placeholder: np. Nextcloud
+      one_drive:
+        label_oauth_client_id: Identyfikator aplikacji OAuth Azure (klienta)
+        label_oauth_client_secret: Tajny klucz klienta OAuth Azure
+        name: OneDrive/SharePoint
+        name_placeholder: np. OneDrive
+    storage_list_blank_slate:
+      description: Dodaj magazyn, aby zobaczyć go tutaj.
+      heading: Nie masz jeszcze żadnych magazynów.
+    upsale:
+      description: |-
+        Zintegruj swoją usługę OneDrive/SharePoint z OpenProject jako magazyn plików. Prześlij pliki i powiąż je bezpośrednio z pakietami roboczymi w projekcie.
+      title: Integracja OneDrive/SharePoint

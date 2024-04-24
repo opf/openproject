@@ -1,0 +1,169 @@
+# /api/v3/my_preferences
+---
+get:
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  self:
+                    href: "/api/v3/my_preferences"
+                  user:
+                    href: "/api/v3/users/1"
+                    title: "John Sheppard"
+                  updateImmediately:
+                    href: "/api/v3/users/3/preferences"
+                    method: "patch"
+                _type: "UserPreferences"
+                commentSortDescending: true
+                hideMail: false
+                timeZone: "Europe/Berlin"
+                warnOnLeavingUnsaved: true
+                notifications:
+                  watched: false
+                  involved: true
+                  mentioned: false
+                  shared: true
+                  newsAdded: false,
+                  newsCommented: false
+                  documentAdded: false
+                  forumMessages: false
+                  wikiPageAdded: false
+                  wikiPageUpdated: false
+                  membershipAdded: false
+                  membershipUpdated: false
+                  workPackageCommented: false
+                  workPackageProcessed: false
+                  workPackagePrioritized: false
+                  workPackageScheduled: false
+                  _links:
+                    project:
+                      href: null
+          schema:
+            "$ref": "../components/schemas/user_preferences_model.yml"
+      description: OK
+      headers: {}
+    '401':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:Unauthenticated
+                message: You need to be authenticated to access this resource.
+      description: Returned if no user is currently authenticated
+      headers: {}
+  tags:
+  - UserPreferences
+  description: ''
+  operationId: Show_my_preferences
+  summary: Show my preferences
+patch:
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  self:
+                    href: "/api/v3/my_preferences"
+                  user:
+                    href: "/api/v3/users/1"
+                    title: John Sheppard
+                  updateImmediately:
+                    href: "/api/v3/users/3/preferences"
+                    method: "patch"
+                _type: UserPreferences
+                commentSortDescending: true
+                hideMail: false
+                timeZone: Europe/Berlin
+                warnOnLeavingUnsaved: true
+                notifications:
+                  watched: false
+                  involved: true
+                  mentioned: false
+                  shared: true
+                  newsAdded: false,
+                  newsCommented: false
+                  documentAdded: false
+                  forumMessages: false
+                  wikiPageAdded: false
+                  wikiPageUpdated: false
+                  membershipAdded: false
+                  membershipUpdated: false
+                  workPackageCommented: false
+                  workPackageProcessed: false
+                  workPackagePrioritized: false
+                  workPackageScheduled: false
+                  _links:
+                    project:
+                      href: null
+          schema:
+            "$ref": "../components/schemas/user_preferences_model.yml"
+      description: OK
+      headers: {}
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '401':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:Unauthenticated
+                message: You need to be authenticated to access this resource.
+      description: Returned if no user is currently authenticated
+      headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: Time zone is not set to one of the allowed values.
+      description: |-
+        Returned if the update contains invalid properties.
+        Reasons are:
+
+        * Specifying an invalid type
+
+        * Using an unknown time zone
+      headers: {}
+  tags:
+  - UserPreferences
+  description: When calling this endpoint the client provides a single object, containing
+    the properties that it wants to change, in the body.
+  operationId: Update_UserPreferences
+  requestBody:
+    content:
+      application/json:
+        schema:
+          example:
+            autoHidePopups: true
+            timeZone: Europe/Paris
+          properties:
+            autoHidePopups:
+              type: boolean
+            timeZone:
+              type: string
+          type: object
+  summary: Update my preferences

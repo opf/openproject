@@ -1,0 +1,29 @@
+.spot-filter-chip
+  @include spot-caption
+
+  display: inline-flex
+  align-items: center
+  flex-wrap: nowrap
+  background-color: $spot-color-main-light
+  color: $spot-color-basic-gray-1
+  border-radius: 5px
+
+  &--remove
+    display: flex
+    justify-content: center
+    align-items: center
+    border: 0
+    border-right: 1px solid rgba($spot-color-main, 0.5)
+    background: transparent
+    cursor: pointer
+    padding: $spot-spacing-0_25
+
+    &:focus
+      @include spot-focus
+
+  &--title
+    padding: $spot-spacing-0_25
+
+  &_disabled
+    color: var(--color-fg-muted)
+    background-color: $spot-color-basic-gray-5

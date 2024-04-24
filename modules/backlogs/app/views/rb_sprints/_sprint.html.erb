@@ -1,0 +1,78 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<div class="model sprint" id="<%= sprint_html_id_or_empty(sprint) %>">
+  <div class="id">
+    <div class="t"><%= sprint_link_or_empty(sprint) %></div>
+    <div class="v"><%= id_or_empty(sprint) %></div>
+  </div>
+
+  <% editable = User.current.allowed_in_project?(:update_sprints, @project) ? "editable" : "" %>
+
+  <div class="show">
+    <div class="effective_date date <%= editable %>"
+         fieldname="effective_date"
+         fieldlabel="<%= Version.human_attribute_name(:effective_date) %>"
+         field_id="<%= sprint.id %>"><%= sprint.effective_date %></div>
+    <div class="start_date <%= editable %> date"
+         fieldname="start_date"
+         fieldlabel="<%= Version.human_attribute_name(:start_date) %>"
+         field_id="<%= sprint.id %>"><%= sprint.start_date %></div>
+    <div class="name <%= editable %>"
+         fieldname="name"
+         fieldlabel="<%= Version.human_attribute_name(:name) %>"
+         field_id="<%= sprint.id %>"><%= sprint.name %></div>
+  </div>
+
+  <% if User.current.allowed_in_project?(:update_sprints, @project) %>
+    <div class="editors permanent">
+      <%= angular_component_tag "op-basic-single-date-picker",
+                                inputs: {
+                                  value: sprint.effective_date,
+                                  inputClassNames: 'effective_date editor',
+                                  id: "effective_date_#{sprint.id}",
+                                  name: :effective_date
+                                } %>
+      <%= angular_component_tag "op-basic-single-date-picker",
+                                inputs: {
+                                  value: sprint.start_date,
+                                  inputClassNames: 'start_date editor',
+                                  id: "start_date_#{sprint.id}",
+                                  name: :start_date
+                                } %>
+      <%= text_field_tag :name,
+                         sprint.name,
+                         class: 'name editor' %>
+    </div>
+  <% end %>
+
+  <div class="meta">
+    <%= render partial: "shared/model_errors", object: sprint.errors %>
+  </div>
+</div>

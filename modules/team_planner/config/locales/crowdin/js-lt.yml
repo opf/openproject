@@ -1,0 +1,28 @@
+#English strings go here
+lt:
+  js:
+    team_planner:
+      add_existing: 'Pridėti esamą'
+      add_existing_title: 'Pridėti esamus darbų paketus'
+      create_label: 'Komandos planas'
+      create_title: 'Kurti naują komandos planą'
+      unsaved_title: 'Nepavadintas komandos planas'
+      no_data: 'Komandos plano sudarymui pridėkite paskirtųjų.'
+      add_assignee: 'Pridėti paskirtąjį'
+      remove_assignee: 'Išimti paskirtąjį'
+      two_weeks: '2-savaitės'
+      one_week: '1-savaitė'
+      four_weeks: '4-savaitės'
+      eight_weeks: '8-savaitės'
+      work_week: 'Darbo savaitė'
+      today: 'Šiandien'
+      drag_here_to_remove: 'Pertempkite čia, kad išimtumėte paskirtąjį ir pradžios bei pabaigos datas.'
+      cannot_drag_here: 'Darbo paketo negalima pašalinti dėl teisių ar keitimo apribojimų.'
+      cannot_drag_to_non_working_day: 'Šis darbo paketas negali prasidėti/pasibaigti nedarbo dieną.'
+      quick_add:
+        empty_state: 'Naudokite paieškos lauką darbo paketų paieškai, nutempkite juos į planą, kad priskirtumėte kažkam ir nustatytumėte pradžios bei pabaigos datas.'
+        search_placeholder: 'Ieškoti...'
+      modify:
+        errors:
+          permission_denied: 'Jūs neturite teisių tai keisti.'
+          fallback: 'Šio darbų paketo keisti negalima.'

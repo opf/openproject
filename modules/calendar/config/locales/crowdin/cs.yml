@@ -1,0 +1,12 @@
+#English strings go here
+cs:
+  plugin_openproject_calendar:
+    name: "OpenProject kalendář"
+    description: "Poskytuje zobrazení kalendáře."
+  label_calendar: "Kalendář"
+  label_calendar_plural: "Kalendáře"
+  label_new_calendar: "Nový kalendář"
+  permission_view_calendar: "Zobrazit kalendáře"
+  permission_manage_calendars: "Správa kalendářů"
+  permission_share_calendars: "Přihlásit se k odběru iCalendars"
+  project_module_calendar_view: "Kalendáře"

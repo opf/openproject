@@ -1,0 +1,67 @@
+# /api/v3/work_packages/schemas/
+---
+get:
+  parameters:
+  - description: |-
+      JSON specifying filter conditions.
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported filters are:
+
+      + id: The schema's id
+
+      Schema id has the form `project_id-work_package_type_id`.
+    example: '[{ "id": { "operator": "=", "values": ["12-1", "14-2"] } }]'
+    in: query
+    name: filters
+    required: true
+    schema:
+      type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  elements:
+                  - _links:
+                      self:
+                        href: "/api/v3/work_packages/schemas/13-1"
+                    _type: Schema...
+                  - _links:
+                      self:
+                        href: "/api/v3/work_packages/schemas/7-6"
+                    _type: Schema...
+                _links:
+                  self:
+                    href: "/api/v3/work_packages/schemas"
+                _type: Collection
+                count: 2
+                total: 5
+          schema:
+            "$ref": "../components/schemas/work_package_schemas_model.yml"
+      description: OK
+      headers: {}
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not allowed to list schemas.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** View work packages in any project.
+      headers: {}
+  tags:
+  - Work Packages
+  description: List work package schemas.
+  operationId: List_Work_Package_Schemas
+  summary: List Work Package Schemas

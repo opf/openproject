@@ -1,0 +1,17 @@
+<ng-container [formGroup]="form">
+  <div class="op-form--section-header">
+    <h3 [textContent]="text.title" class="op-form--section-header-title"></h3>
+  </div>
+
+  <spot-selector-field
+    [label]="text.mentioned"
+    [control]="form.get('mentioned')"
+  >
+    <input
+      slot="input"
+      type="checkbox"
+      formControlName="mentioned"
+      data-qa-immediate-reminder="mentioned"
+    />
+  </spot-selector-field>
+</ng-container>

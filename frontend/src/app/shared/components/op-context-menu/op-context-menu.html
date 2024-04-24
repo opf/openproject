@@ -1,0 +1,49 @@
+<div [attr.id]="locals.contextMenuId"
+     class="dropdown-relative dropdown -overflow-in-view"
+     ng-class="{'dropdown-anchor-right': locals.showAnchorRight}">
+  <ul class="dropdown-menu "
+      role="menu"
+      [attr.aria-label]="locals.label"
+      [ngClass]="{'-empty': items.length === 0 }">
+    <ng-container *ngFor="let item of items">
+      <li *ngIf="item.divider" class="dropdown-divider" role="separator"></li>
+      <li *ngIf="!item.divider">
+        <a
+          *ngIf="item.href"
+          class="menu-item"
+          role="menuitem"
+          [ngClass]="item.class"
+          [class.inactive]="item.disabled"
+          [attr.href]="item.href"
+          [attr.aria-disabled]="item.disabled"
+          [attr.aria-label]="item.ariaLabel || item.linkText"
+          [attr.title]="item.title || undefined"
+          (click)="handleClick(item, $event)"
+        >
+          <op-icon *ngIf="item.icon" icon-classes="icon-action-menu {{ item.icon }}"></op-icon>
+          <span [textContent]="item.linkText"></span>
+          <op-icon *ngIf="item.postIcon"
+                   [icon-title]="item.postIconTitle || ''"
+                   icon-classes="icon-action-menu-post {{ item.postIcon }}"></op-icon>
+        </a>
+        <button
+          *ngIf="!item.href"
+          class="menu-item"
+          role="menuitem"
+          [ngClass]="item.class"
+          [class.inactive]="item.disabled"
+          [attr.aria-disabled]="item.disabled"
+          [attr.aria-label]="item.ariaLabel || item.linkText"
+          [attr.title]="item.title || undefined"
+          (click)="handleClick(item, $event)"
+        >
+          <op-icon *ngIf="item.icon" icon-classes="icon-action-menu {{ item.icon }}"></op-icon>
+          <span [textContent]="item.linkText"></span>
+          <op-icon *ngIf="item.postIcon"
+                   [icon-title]="item.postIconTitle || ''"
+                   icon-classes="icon-action-menu-post {{ item.postIcon }}"></op-icon>
+        </button>
+      </li>
+    </ng-container>
+  </ul>
+</div>

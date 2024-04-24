@@ -1,0 +1,49 @@
+@import "helpers"
+
+.op-ian-center
+  display: grid
+  grid-template-rows: 1fr auto
+  height: 100%
+
+  &--content
+    height: 100%
+
+    &_empty
+      display: flex
+      align-items: center
+
+  &--viewport
+    height: 100%
+    // Avoid infinite horizontal scrolling on mobile iOS (#39849)
+    overflow-x: hidden
+    @include styled-scroll-bar
+
+  &--max-warning
+    margin-bottom: 0
+    text-align: center
+    font-style: italic
+
+  // While loading, appear to be showing one item row
+  &--loading-indicator
+    display: flex
+    flex-direction: column
+    align-items: center
+    text-align: center
+    max-width: 677px
+    margin: 0 auto
+
+
+  :host
+    .-browser-safari &
+      // Because of Safari's viewport bug, the address bar overlaps content with height: 100vh
+      // Check #38082 before changing it
+      height: 100%
+
+  &-loading-text
+    color: var(--color-fg-muted)
+    font-size: 18px
+
+  &-loading-image
+    max-height: 130px
+    min-height: 130px
+    margin-bottom: 15px

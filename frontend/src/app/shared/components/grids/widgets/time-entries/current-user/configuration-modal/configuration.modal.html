@@ -1,0 +1,34 @@
+<div class="spot-modal"
+     data-indicator-name="modal"
+     tabindex="0">
+
+  <div id="spotModalTitle" class="spot-modal--header">{{text.displayedDays}}</div>
+
+  <div class="spot-divider"></div>
+
+  <div class="spot-modal--body spot-container">
+    <div class="form--field -trailing-label" *ngFor="let day of days; let index = index">
+      <label class="form--label" [textContent]="day.weekDay" [htmlFor]="'day_' + index"></label>
+      <span class="form--field-container">
+        <span class="form--check-box-container">
+          <input type="checkbox" [id]="'day_' + index" name="days" class="form--check-box" [(ngModel)]="day.checked">
+        </span>
+      </span>
+    </div>
+  </div>
+
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button
+        class="button button_no-margin spot-modal--cancel-button spot-action-bar--action"
+        [textContent]="text.cancelButton"
+        (click)="closeMe($event)"
+      ></button>
+      <button
+        class="button button_no-margin -primary spot-action-bar--action"
+        [textContent]="text.applyButton"
+        (click)="saveChanges()"
+      ></button>
+    </div>
+  </div>
+</div>

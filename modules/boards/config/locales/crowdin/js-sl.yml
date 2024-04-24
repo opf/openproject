@@ -1,0 +1,86 @@
+#English strings go here
+sl:
+  js:
+    boards:
+      create_new: 'Ustvari novo tablo'
+      label_unnamed_board: 'Neimenovana tabla'
+      label_unnamed_list: 'Neimenovani seznam'
+      label_board_type: 'Vrsta table'
+      upsale:
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+        upgrade: 'Nadgradi zdaj'
+      lists:
+        delete: 'Izbriši seznam'
+      version:
+        is_locked: 'Verzija je zaklenjena. Ne morate dodati izdelkov tej verziji'
+        is_closed: 'Verzija je zaprta. Ne morate dodati izdelkov tej verziji'
+        close_version: 'Zapri verzijo'
+        open_version: 'Odpri verzijo'
+        lock_version: 'Zakleni verzijo'
+        unlock_version: 'Odkleni verzijo'
+        edit_version: 'Uredi verzijo'
+        show_version: 'Pokaži verzijo'
+        locked: 'Zaklenjeno'
+        closed: 'Zaprto'
+      new_board: 'Nova tabla'
+      add_list: 'Dodaj seznam na tablo'
+      add_card: 'Dodaj kartico'
+      error_attribute_not_writable: "Delovnega paketa ni mogoče premakniti, %{attribute} ni zapisljiv."
+      error_loading_the_list: "Napaka pri nalaganju seznama: %{error_message}"
+      error_permission_missing: "Ni dovoljenja za izdelavo javnih poizvedb"
+      error_cannot_move_into_self: "Delovnega paketa ne morate premakniti v svoj stoplpec."
+      text_hidden_list_warning: "Vse liste niso prikazane, ker nimate pravic. Za več informacij kontaktirajte administratorja."
+      click_to_remove_list: "Kliknite za izbris seznama"
+      board_type:
+        text: 'Vrsta table'
+        free: 'osnovno'
+        select_board_type: 'Izberite vrsto table.'
+        free_text: >
+          Začni s praznim tablo in ročno dodaj kartice in stolpce.
+        action: 'Tabla opravil'
+        action_by_attribute: 'Tabla opravil (%{attribute})'
+        action_text: >
+          Ustvarite tablo s filtriranimi seznami %{attribute} z eno lastnostjo. Če premaknete delovne pakete na druge sezname, boste posodobili njihove lastnosti.
+        action_text_subprojects: >
+          Tabla s samodejnimi stolpci za podprojekte. Če premaknete delovne pakete na druge sezname, boste ustrezno posodobili (pod)projekt.
+        action_text_subtasks: >
+          Tabla s samodejnimi stolpci za podelemente. Če premaknete delovne pakete na druge sezname, boste ustrezno posodobili nadrazred.
+        action_text_status: >
+          Osnoven kanban stil odložišča s stolpci za stanja: Za narediti, V delu, Narejeno.
+        action_text_assignee: >
+          Tabla s samodejnimi stolpci glede na dodeljene člane. Popoln za odpošiljanje delovnih paketov
+        action_text_version: >
+          Tabla s samodejnimi stolpci glede na verzijo lastnosti. Popoln za načrtovanje razvoja projekta.
+        action_type:
+          assignee: nosilec
+          status: stanje
+          version: različica
+          subproject: podprojekt
+          subtasks: starš-otrok
+        board_type_title:
+          assignee: Prevzemnik
+          status: Stanje
+          version: Različica
+          subproject: Podprojekt
+          subtasks: Starš-otrok
+          basic: Osnoven
+        select_attribute: "Atributi opravil"
+      add_list_modal:
+        labels:
+          assignee: Izberi uporabnika za nov seznam dodeljevanja
+          status: Izberi stanje za dodajanje kot nov seznam
+          version: Izberi različico za dodajanje kot nov seznam
+          subproject: Izberi podprojekt za dodajanje kot nov seznam
+          subtasks: Izberi delovni paket za dodajanje kot nov seznam
+        warning:
+          status: |
+            Trenutno ni na voljo nobenega statusa <br>
+            Ali jih ni, ali pa so vsi že dodani na tablo.
+          assignee: Noben član se ne ujema z vrednostmi filtra. <br>
+          no_member: Ta projekt trenutno nima članov, ki bi jih lahko dodali. <br>
+          add_members: <a href="%{link}">V ta projekt dodajte novega člana </a>, da znova izberete uporabnike.
+      configuration_modal:
+        title: 'Konfigurirajte to tablo'
+        display_settings:
+          card_mode: "Prikaži kot kartice"
+          table_mode: "Prikaži kot tabele"

@@ -1,0 +1,119 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%-
+  templated ||= false
+  index ||= "INDEX"
+  new_or_existing = material_budget_item.new_record? ? 'new' : 'existing'
+  id_or_index = material_budget_item.new_record? ? index : material_budget_item.id
+  prefix = "budget[#{new_or_existing}_material_budget_item_attributes][]"
+  id_prefix = "budget_#{new_or_existing}_material_budget_item_attributes_#{id_or_index}"
+  name_prefix = "budget[#{new_or_existing}_material_budget_item_attributes][#{id_or_index}]"
+
+  error_messages = error_messages_for 'material_budget_item'
+-%>
+
+<% unless error_messages.blank? %>
+  <tr>
+    <td colspan="5"><%= error_messages %></td>
+  </tr>
+<% end %>
+<%= fields_for prefix, material_budget_item do |cost_form| %>
+  <tr class="cost_entry"
+      id="<%= id_prefix %>">
+    <td class="units">
+      <div class="form--field-container">
+        <div class="form--text-field-container -xslim">
+          <label class="hidden-for-sighted" for="<%= id_prefix %>_units"><%= MaterialBudgetItem.human_attribute_name(:units) %></label>
+          <%= cost_form.text_field :units,
+                                   index: id_or_index,
+                                   value: unitless_currency_number(material_budget_item.units),
+                                   # Avoid a number field due to chrome bug (OP#32232)
+                                   # but show the appearance of a decimal field on mobile
+                                   inputmode: :decimal,
+                                   placeholder: t(:label_example_placeholder, decimal: unitless_currency_number(1000.50)),
+                                   class: 'budget-item-value form--text-field',
+                                   data: {
+                                     :'request-key' => 'units',
+                                     :'action' => 'keyup->costs--budget-subform#valueChanged'
+                                   }
+          %>
+        </div>
+      </div>
+    </td>
+    <td class="unit_currency form--td budget-table--fields" id="<%= "#{id_prefix}_unit_name" %>">
+      <%= h material_budget_item.cost_type.unit_plural if material_budget_item.cost_type %>
+    </td>
+    <td class="cost_type">
+      <label class="hidden-for-sighted" for="<%= id_prefix %>_cost_type_id"><%= MaterialBudgetItem.human_attribute_name(:cost_type) %></label>
+      <%= cost_form.select :cost_type_id,
+                           cost_types_collection_for_select_options(material_budget_item.cost_type),
+                           {},
+                           {
+                             index: id_or_index,
+                             class: 'form--select budget-item-value',
+                             data: {
+                               :'request-key' => 'cost_type_id',
+                               :'action' => 'change->costs--budget-subform#valueChanged'
+                             }
+                           } %>
+    </td>
+    <td class="comment">
+      <label class="hidden-for-sighted" for="<%= id_prefix %>_comments"><%= MaterialBudgetItem.human_attribute_name(:comments) %></label>
+      <%= cost_form.text_field :comments, index: id_or_index, size: 40 %>
+    </td>
+    <% if User.current.allowed_in_project? :view_cost_rates, @project %>
+      <td class="currency form--td budget-table--fields">
+        <%# Keep current budget as hidden field because otherwise they will be overridden %>
+        <% if templated == false && material_budget_item.overridden_costs? %>
+          <%= cost_form.hidden_field :amount, index: id_or_index, value: unitless_currency_number(material_budget_item.amount) %>
+        <% end %>
+
+        <% cost_value = material_budget_item.amount || material_budget_item.calculated_costs(@budget.fixed_date) %>
+        <a id="<%= id_prefix %>_costs" class="costs--edit-planned-costs-btn icon-context icon-edit" role="button" title="<%= t(:help_click_to_edit) %>">
+          <%= number_to_currency(cost_value) %>
+        </a>
+        <%= render partial: '/budgets/items/budget_override_cost_form',
+                   locals: {
+                     field_name: "#{name_prefix}[amount]",
+                     cost_value: cost_value,
+                   }
+        %>
+      </td>
+    <% end %>
+    <td class="delete form--td budget-table--fields buttons">
+      <a class="delete-budget-item no-decoration-on-hover"
+         title="<%= t(:button_delete) %>"
+         data-action="costs--budget-subform#deleteRow">
+        <%= op_icon('icon-context icon-delete') %>
+        <span class="hidden-for-sighted"><%= t(:button_delete) %></span>
+      </a>
+    </td>
+  </tr>
+<% end %>

@@ -1,0 +1,89 @@
+#English strings go here
+pl:
+  js:
+    storages:
+      link_files_in_storage: "Połącz pliki w %{storageType}"
+      link_existing_files: "Połącz istniejące pliki"
+      upload_files: "Wczytaj plik"
+      drop_files: "Upuść pliki tutaj, aby je przesłać do %{name}."
+      drop_or_click_files: "Upuść pliki tutaj lub kliknij, aby je przesłać do %{name}."
+      login: "%{storageType} logowanie"
+      login_to: "Zaloguj się do %{storageType}"
+      no_connection: "Brak połączenia %{storageType}"
+      open_storage: "Otwórz %{storageType}"
+      select_location: "Zaznacz lokalizację"
+      choose_location: "Wybierz lokalizację"
+      types:
+        nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
+        default: "Magazyn"
+      information:
+        connection_error: >
+          Niektóre ustawienia %{storageType} nie działają. Skontaktuj się z administratorem %{storageType}.
+        live_data_error: "Błąd podczas pobierania szczegółów pliku"
+        live_data_error_description: >
+          Niektóre dane %{storageType} nie mogą zostać pobrane. Spróbuj odświeżyć tę stronę lub skontaktuj się z administratorem %{storageType}.
+        no_file_links: "Aby połączyć pliki z tym pakietem roboczym, zrób to za pośrednictwem %{storageType}."
+        not_logged_in: >
+          Aby dodać link, zobacz lub wgraj pliki związane z tym pakietem roboczym, zaloguj się do %{storageType}.
+      files:
+        already_existing_header: "Ten plik już istnieje"
+        already_existing_body: >
+          Plik o nazwie „%{fileName}” już istnieje w lokalizacji, do której próbujesz go przesłać. Co chcesz zrobić?
+        directory_not_writeable: "Nie masz uprawnień do dodawania plików do tego folderu."
+        dragging_many_files: "Przesyłanie do %{storageType} obsługuje tylko jeden plik na raz."
+        dragging_folder: "Przesyłanie do %{storageType} nie obsługuje folderów."
+        empty_folder: "Ten folder jest pusty."
+        empty_folder_location_hint: "Kliknij poniższy przycisk, aby przesłać plik do tej lokalizacji."
+        file_not_selectable_location: "Wybranie pliku nie jest możliwe w procesie wyboru lokalizacji."
+        project_folder_no_access: >
+          Nie masz dostępu do folderu projektu. Skontaktuj się z administratorem, aby uzyskać dostęp lub prześlij plik w innej lokalizacji.
+        managed_project_folder_not_available: >
+          Jeszcze nie znaleziono automatycznie zarządzanego folderu projektu. Zaczekaj chwilę, odśwież stronę, aby pobrać najnowsze dane i spróbuj ponownie.
+        managed_project_folder_no_access: >
+          Nie masz jeszcze dostępu do zarządzanego folderu projektu. Poczekaj chwilę i spróbuj ponownie.
+        upload_keep_both: "Zachowaj oba"
+        upload_replace: "Zastąp"
+      file_links:
+        empty: >
+          Obecnie nie ma żadnych powiązanych plików z tym pakietem roboczym. Rozpocznij łączenie plików z poniższą czynnością lub w ciągu %{storageType}.
+        download: "Pobierz %{fileName}"
+        open: "Otwórz plik w pamięci"
+        open_location: "Otwórz plik w lokalizacji"
+        remove: "Usuń link do pliku"
+        remove_confirmation: >
+          Czy na pewno chcesz odłączyć plik od tego pakietu roboczego? Odłączenie nie ma wpływu na oryginalny plik i usuwa tylko połączenie z tym pakietem roboczym.
+        remove_short: "Usuń link"
+        select: "Wybierz pliki"
+        select_all: "Zaznacz wszystkie"
+        selection:
+          zero: "Wybierz pliki do połączenia"
+          one: "Połącz %{count} plik"
+          few: "Połącz %{count} pliki"
+          many: "Połącz %{count} plików"
+          other: "Połącz %{count} plików"
+        success_create:
+          one: "Pomyślnie utworzono %{count} połączenie plików."
+          few: "Pomyślnie utworzono %{count} połączenia plików."
+          many: "Pomyślnie utworzono %{count} połączeń plików."
+          other: "Pomyślnie utworzono %{count} połączeń plików."
+        upload_error:
+          default: >
+            Nie można przesłać pliku (%{fileName}).
+          403: >
+            Nie można przesłać pliku (%{fileName}) ze względu na ograniczenia systemu. Aby uzyskać więcej informacji, skontaktuj się z administratorem.
+          413: >
+            Plik (%{fileName}) ma rozmiar większy niż ten, który OpenProject może przesłać do %{storageType}. Możesz najpierw przesłać go bezpośrednio do %{storageType} , a następnie powiązać plik.
+          507: >
+            Plik (%{fileName}) jest większy niż dozwolony limit przechowywania. Aby zmodyfikować ten limit, skontaktuj się z administratorem.
+          detail:
+            nextcloud: >
+              Sprawdź, czy zainstalowana jest najnowsza wersja aplikacji Nextcloud „OpenProject Integration” i skontaktuj się z administratorem, aby uzyskać więcej informacji.
+        link_uploaded_file_error: >
+          Wystąpił błąd podczas łączenia niedawno przesłanego pliku '%{fileName}' z pakietem roboczym %{workPackageId}.
+        tooltip:
+          not_logged_in: "Zaloguj się do magazynu, aby uzyskać dostęp do tego pliku."
+          view_not_allowed: "Nie masz uprawnień do wyświetlania tego pliku."
+          not_found: "Nie można znaleźć tego pliku."
+        already_linked_file: "Ten plik jest już powiązany z tym pakietem roboczym."
+        already_linked_directory: "Ten katalog jest już powiązany z tym pakietem roboczym."

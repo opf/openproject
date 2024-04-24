@@ -1,0 +1,28 @@
+#English strings go here
+es:
+  js:
+    team_planner:
+      add_existing: 'Añadir existente'
+      add_existing_title: 'Añadir paquetes de trabajo existentes'
+      create_label: 'Planificador de equipos'
+      create_title: 'Crear nuevo planificador de equipos'
+      unsaved_title: 'Planificador de equipo sin nombre'
+      no_data: 'Añadir asignados para configurar su planificador de equipo.'
+      add_assignee: 'Añadir asignado'
+      remove_assignee: 'Eliminar asignado'
+      two_weeks: '2 semanas'
+      one_week: '1 semana'
+      four_weeks: '4 semanas'
+      eight_weeks: '8 semanas'
+      work_week: 'Semana laboral'
+      today: 'Hoy'
+      drag_here_to_remove: 'Arrastre aquí para quitar el usuario asignado y las fechas de inicio y finalización.'
+      cannot_drag_here: 'No se puede quitar el paquete de trabajo debido a restricciones de edición o permisos.'
+      cannot_drag_to_non_working_day: 'Este paquete de trabajo no se puede iniciar o terminar en un día no laborable.'
+      quick_add:
+        empty_state: 'Use el campo de búsqueda para buscar paquetes de trabajo y arrástrelos hasta el planificador para asignarlos a un usuario y definir fechas de inicio y finalización.'
+        search_placeholder: 'Buscar…'
+      modify:
+        errors:
+          permission_denied: 'No tiene los permisos necesarios para modificar esto.'
+          fallback: 'El paquete de trabajo no se puede editar.'

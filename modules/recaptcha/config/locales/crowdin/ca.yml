@@ -1,0 +1,24 @@
+#English strings go here for Rails i18n
+ca:
+  plugin_openproject_recaptcha:
+    name: "OpenProject ReCaptcha"
+    description: "This module provides recaptcha checks during login."
+  recaptcha:
+    label_recaptcha: "reCAPTCHA"
+    button_please_wait: 'Si us plau espera...'
+    verify_account: "Verifica el teu compte"
+    error_captcha: "No s'ha pogut verificar el teu compte. Si us plau, contacta l'administrador."
+    settings:
+      website_key: 'Clau de la web'
+      response_limit: 'Resposta límit per HCaptcha'
+      response_limit_text: 'El nombre màxim de caràcters per gestionar a la resposta HCaptcha no és vàlid.'
+      website_key_text: 'Introdueix la clau de web que has creat en la consola d''administrador reCAPTCHA per aquest domini.'
+      secret_key: 'Clau secreta'
+      secret_key_text: 'Introdueix la clau secreta que has creat en la consola d''administrador reCAPTCHA.'
+      type: 'Utilitza el reCAPTCHA'
+      type_disabled: 'Desactiva el reCAPTCHA'
+      type_v2: 'reCAPTCHA v2'
+      type_v3: 'reCAPTCHA v3'
+      type_hcaptcha: 'HCaptcha'
+      recaptcha_description_html: >
+        reCAPTCHA és un servei gratuït de Google que es pot activar a la teva instància d'OpenProject. Si s'activa, un formulàri "captcha" es mostrarà a la pantalla d'inici de sessió per tots els usuaris que no hagin verificat el "captcha" encara. <br/>Pots veure més detalls de reCAPTCHA i les seves versions i com crear les claus web i secreat al següent enllaç: %{recaptcha_link}<br/> HCaptcha es una alternativa a Google que pots utilitzar si no vols utilitzar reCAPTCHA. Següeix aquest enllaç per més informació: %{hcaptcha_link}

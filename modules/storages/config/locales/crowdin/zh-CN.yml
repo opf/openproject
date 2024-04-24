@@ -1,0 +1,250 @@
+zh-CN:
+  activerecord:
+    attributes:
+      storages/file_link:
+        origin_id: 来源 ID
+      storages/storage:
+        creator: 创建者
+        drive: 驱动器 ID
+        host: 主机
+        name: 名称
+        provider_type: 提供商类型
+        tenant: 目录 (租户) ID
+    errors:
+      messages:
+        not_linked_to_project: 未链接到项目。
+      models:
+        storages/file_link:
+          attributes:
+            origin_id:
+              only_numeric_or_uuid: 只能是数字或 uuid。
+        storages/project_storage:
+          attributes:
+            project_folder_mode:
+              mode_unavailable: 对于此存储不可用。
+        storages/storage:
+          attributes:
+            host:
+              authorization_header_missing: 未完全设置。Nextcloud 实例不会收到“Authorization”标头，这是基于 Bearer 令牌的 API 请求授权所必需的。请仔细检查您的 HTTP 服务器配置。
+              cannot_be_connected_to: 无法连接。
+              minimal_nextcloud_version_unmet: 不满足最低版本要求（必须为 Nextcloud 23 或更高版本）
+              not_nextcloud_server: 不是 Nextcloud 服务器
+              op_application_not_installed: 似乎没有安装应用“OpenProject 集成”。请先安装，然后重试。
+            password:
+              invalid_password: 无效。
+              unknown_error: 无法验证。请检查您的存储区连接，然后重试。
+    models:
+      file_link: 文件
+      storages/storage: 存储
+  api_v3:
+    errors:
+      too_many_elements_created_at_once: 一次创建的元素过多。最多应为 %{max} 个，实际为 %{actual} 个。
+  permission_create_files: '外部存储: 创建文件'
+  permission_delete_files: '外部存储：删除文件'
+  permission_manage_file_links: 管理文件链接
+  permission_manage_storages_in_project: 管理项目中的文件存储
+  permission_read_files: '外部存储：读取文件'
+  permission_share_files: '外部存储：共享文件'
+  permission_view_file_links: 查看文件链接
+  permission_write_files: '外部存储：写入文件'
+  project_module_storages: 文件存储
+  storages:
+    buttons:
+      complete_without_setup: 没有它就完成
+      done_complete_setup: 完成，完成设置
+      done_continue: 完成, 继续
+      replace_oauth_application: 替换 OpenProject OAuth
+      replace_oauth_client: 替换 %{provider_type} OAuth
+      save_and_continue: 保存并继续
+      select_folder: 选择文件夹
+    configuration_checks:
+      oauth_client_incomplete:
+        nextcloud: 允许 OpenProject 使用 OAuth 访问 Nextcloud 数据。
+        one_drive: 允许 OpenProject 使用 OAuth 访问Azure 数据来连接 OneDrive/SharePoint。
+      redirect_uri_incomplete:
+        one_drive: 使用正确的 URI 重定向完成设置。
+    confirm_replace_oauth_application: 此操作将重置当前的 OAuth 凭据。确认后，您必须在存储提供商处重新输入凭据，并且所有远程用户都必须再次针对 OpenProject 进行授权。您确定要继续吗？
+    confirm_replace_oauth_client: 此操作将重置当前的 OAuth 凭据。确认后，您必须输入存储提供商的新凭据，并且所有用户都必须再次针对 %{provider_type} 进行授权。您确定要继续吗？
+    delete_warning:
+      input_delete_confirmation: 输入文件存储区名称 %{file_storage} 以确认删除。
+      irreversible_notice: 删除文件存储区是不可逆转的操作。
+      project_storage: '确定要从此项目中删除 %{file_storage} 吗？要确认此操作，请在下面的字段中输入存储区名称，这将：'
+      project_storage_delete_result_1: 从此项目的工作包中移除该存储区的文件和文件夹的所有链接。
+      project_storage_delete_result_2: 如果这个存储库具有自动托管的项目文件夹，那么该文件夹及其文件将被永久删除。
+      storage: '您确定要删除 %{file_storage} 吗？请在下面的字段中输入存储名称以确认此操作。进行此操作将会：'
+      storage_delete_result_1: 删除所有使用此存储的项目的所有存储设置。
+      storage_delete_result_2: 从所有项目的工作包中删除所有链接到该存储的文件和文件夹。
+      storage_delete_result_3: 如果此存储具有自动托管的项目文件夹，这些文件夹及其包含的文件将被永久删除。
+    error_invalid_provider_type: 请选择一个有效的存储源。
+    file_storage_view:
+      access_management:
+        automatic_management: 自动管理访问和文件夹
+        automatic_management_description: 让 OpenProject 自动为每个项目创建文件夹，并管理其用户访问权限。建议这样做，因为这样可以确保每个团队成员始终拥有正确的访问权限。
+        description: 选择用户访问和文件夹创建的管理类型。我们建议使用 "自动管理访问"，以获得更有组织的结构，并确保所有相关用户都能访问。
+        manual_management: 手动管理访问和文件夹
+        manual_management_description: 自己手动创建和管理每个项目的文件夹。您需要手动确保相关用户拥有访问权限。
+        setup_incomplete: 选择用户访问和文件夹创建的管理类型。
+        subtitle: 访问管理
+        title: 访问和项目文件夹
+      automatically_managed_folders: 自动托管的文件夹
+      general_information: 一般信息
+      nextcloud_oauth: Nextcloud OAuth
+      oauth_applications: OAuth应用程序
+      one_drive_oauth: Azure OAuth
+      openproject_oauth: OpenProject OAuth
+      project_folders: 项目文件夹
+      redirect_uri: 重定向 URI
+      storage_provider: 存储提供商
+    health:
+      checked: 上次检查于 %{datetime}
+      label_error: 错误
+      label_healthy: 健康
+      label_pending: 待处理
+      since: 自从 %{datetime}
+      subtitle: 自动托管项目文件夹
+      title: 健康状态
+    health_email_notifications:
+      description_subscribed: 所有管理员都会收到该存储的健康状态电子邮件通知。
+      description_unsubscribed: 所有管理员都已关闭此存储的健康状态电子邮件通知。
+      error_could_not_be_saved: 无法保存电子邮件通知设置。请重试。
+      subscribe: 订阅
+      title: 电子邮件通知
+      unsubscribe: 取消订阅
+    help_texts:
+      project_folder: 项目文件夹是此项目上传文件的默认文件夹。用户仍然可以上传文件到其他位置。
+    instructions:
+      all_available_storages_already_added: 所有可用存储均已添加到项目。
+      automatic_folder: 这将自动为此项目创建一个根文件夹，并管理每个项目成员的访问权限。
+      copy_from: 复制此值自
+      empty_project_folder_validation: 选择一个文件夹是必须的。
+      existing_manual_folder: 您可以指定现有的文件夹作为此项目的根文件夹。 但权限未自动托管，管理员需要手动确保相关用户能够访问。 选定的文件夹可以被多个项目使用。
+      host: 请添加存储的主机地址，包括 https://。不应超过 255 个字符。
+      managed_project_folders_application_password_caption: '通过从 %{provider_type_link} 复制该值来启用自动管理的文件夹。'
+      name: 为您的存储命名，以便用户可以区分多个存储。
+      new_storage: 请阅读我们关于 <a target='_blank' href='%{provider_link}'> 设置 %{provider_name} 文件存储集成</a> 的文档以获取更多信息。
+      nextcloud:
+        application_link_text: 应用“集成OpenProject”
+        integration: Nextcloud 管理/OpenProject
+        oauth_configuration: 从 %{application_link_text} 复制这些值。
+        provider_configuration: 在进行设置之前，请确保您在 Nextcloud 实例中具有管理员权限，并且已安装了 %{application_link_text}。
+      no_specific_folder: 默认情况下，每个用户上传文件时将从自己的主文件夹开始。
+      no_storage_set_up: 尚未设置文件存储。
+      not_logged_into_storage: 要选择一个项目文件夹，请先登录
+      oauth_application_details: 关闭此窗口后，将无法再次访问客户端密钥值。请将这些值复制到 %{oauth_application_details_link} 。
+      oauth_application_details_link_text: Nextcloud OpenProject 集成设置
+      one_drive:
+        application_link_text: Azure 门户
+        copy_redirect_uri: 复制重定向 URI
+        documentation_link_text: OneDrive/SharePoint 文件存储文档
+        drive_id:
+        integration: OneDrive/SharePoint
+        missing_client_id_for_redirect_uri: 请填写OAuth 值以生成 URI
+        oauth_client_redirect_uri: 请将该值复制到“重定向 URI ”下的新 Web 重定向 URI。
+        oauth_client_secret: 如果在“客户端凭据”下没有应用程序客户端密钥，请新建一个。
+        oauth_configuration: 从%{application_link_text}中的所需应用程序复制这些值。
+        provider_configuration: 请确保您在%{application_link_text}具有管理权限，或在进行设置之前与您的 Microsoft 管理员联系。在门户中，您还需要注册一个 Azure 应用程序或使用现有的应用程序进行身份验证。
+        tenant_id: 请从所需应用程序和应用注册中复制目录（租户）ID，链接文本为 %{application_link_text}。
+        tenant_id_placeholder: 名称或 UUID
+      setting_up_additional_storages: 如需设置额外的文件存储，请访问
+      setting_up_additional_storages_non_admin: 管理员可以在“管理/文件存储”中设置额外的文件存储。
+      setting_up_storages: 如需设置文件存储，请访问
+      setting_up_storages_non_admin: 管理员可以在“管理/文件存储”中设置文件存储。
+      type: '请确保您在 Nextcloud 实例中具有管理权限，并在进行设置之前安装了以下应用程序：'
+      type_link_text: "“集成 OpenProject”"
+    label_active: 有效
+    label_add_new_storage: 添加新存储
+    label_automatic_folder: 新建具有自动管理权限的文件夹
+    label_completed: 已完成
+    label_creation_time: 创建时间
+    label_creator: 创建者
+    label_delete_storage: 删除存储
+    label_edit_storage: 编辑存储
+    label_edit_storage_access_management: 编辑存储访问管理
+    label_edit_storage_automatically_managed_folders: 编辑存储自动管理的文件夹
+    label_edit_storage_host: 编辑存储主机
+    label_existing_manual_folder: 具有手动管理权限的现有文件夹
+    label_file_storage: 文件存储
+    label_host: 主机 URL
+    label_inactive: 停用
+    label_incomplete: 不完整
+    label_managed_project_folders:
+      application_password: 应用程序密码
+      automatically_managed_folders: 自动托管的文件夹
+    label_name: 名称
+    label_new_file_storage: 新%{provider}存储
+    label_new_storage: 新存储
+    label_no_selected_folder: 没有选定文件夹
+    label_no_specific_folder: 未指定文件夹
+    label_oauth_client_id: OAuth 客户端 ID
+    label_openproject_oauth_application_id: OpenProject OAuth 客户端 ID
+    label_openproject_oauth_application_secret: OpenProject OAuth 客户端密钥
+    label_project_folder: 项目文件夹
+    label_provider: 提供商
+    label_redirect_uri: 重定向 URI
+    label_show_storage_redirect_uri: 显示重定向 URI
+    label_status: 状态
+    label_storage: 存储
+    label_uri: URI
+    member_connection_status:
+      connected: 已连接
+      connected_no_permissions: 用户角色没有存储区权限
+      not_connected: 未连接。用户应通过以下 %{link} 登录到存储。
+    members_no_results: 没有要显示的成员。
+    no_results: 尚未设置存储设备。
+    notice_successful_storage_connection: |-
+      存储连接成功！请记住，在每个所需项目的项目设置中激活模块和特定存储，以进行使用。
+    oauth_grant_nudge_modal:
+      access_granted: 已授予访问权限
+      access_granted_screen_reader: 已经授予访问权限。您现在可以使用%{storage}了。
+      body: 要获取对项目文件夹的访问权限，您需要登录 %{storage}。
+      cancel_button_label: 稍后再操作
+      confirm_button_aria_label: 登录到 %{storage}
+      confirm_button_label: 登录
+      requesting_access_to: 请求访问 %{storage}
+      storage_ready: 您现在已准备就绪，可以使用 %{storage} 了
+      title: 还有一步…
+    open_project_storage_modal:
+      success:
+        subtitle: 正在将您重定向
+        title: 集成设置已完成
+      waiting:
+        subtitle: 请稍候，此操作可能需要一些时间…
+        title: 我们正在设置您对项目文件夹的权限。
+    page_titles:
+      file_storages:
+        delete: 删除文件存储
+        subtitle: 添加外部文件存储以便在工作包中上传、链接和管理文件。
+      managed_project_folders:
+        subtitle: |-
+          让 OpenProject 自动为每个项目创建文件夹。建议使用此方法，因为这样可以确保每个团队成员始终具有正确的访问权限。
+        subtitle_short: 允许 OpenProject 自动创建每个项目的文件夹。
+        title: 自动托管的项目文件夹
+      project_settings:
+        delete: 删除文件存储区
+        edit: 编辑文件存储到此项目
+        index: 文件存储在此项目中可用
+        members_connection_status: 成员连接状态
+        new: 将文件存储添加到此项目
+      project_storage_members:
+        subtitle: 检查所有项目成员的存储区 %{storage_name_link} 的连接状态。
+        title: 成员连接状态
+    permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
+    provider_types:
+      label: 提供商类型
+      nextcloud:
+        label_oauth_client_id: Nextcloud OAuth 客户端 ID
+        label_oauth_client_secret: Nextcloud OAuth 客户端密钥
+        name: Nextcloud
+        name_placeholder: 例如 Nextcloud
+      one_drive:
+        label_oauth_client_id: Azure OAuth 应用程序 (客户端) ID
+        label_oauth_client_secret: Azure OAuth 客户端密钥值
+        name: OneDrive/SharePoint
+        name_placeholder: 例如OneDrive
+    storage_list_blank_slate:
+      description: 在这里添加一个存储以查看它们。
+      heading: 您还没有任何存储。
+    upsale:
+      description: |-
+        将 OneDrive/SharePoint 作为文件存储与 OpenProject 集成。上传文件并直接将其链接到项目中的工作包。
+      title: OneDrive/SharePoint 集成

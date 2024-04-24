@@ -1,0 +1,224 @@
+# /api/v3/work_packages/{id}/watchers
+---
+get:
+  parameters:
+    - description: Work package id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          example:
+            _embedded:
+              elements:
+                - _links:
+                    delete:
+                      href: "/api/v3/users/1"
+                      method: DELETE
+                      title: Delete j.sheppard
+                    lock:
+                      href: "/api/v3/users/1/lock"
+                      method: POST
+                      title: Set lock on j.sheppard
+                    self:
+                      href: "/api/v3/users/1"
+                      title: John Sheppard - j.sheppard
+                    showUser:
+                      href: "/users/1"
+                      type: text/html
+                  _type: User
+                  avatar: https://example.org/users/1/avatar
+                  createdAt: '2014-05-21T08:51:20.396Z'
+                  firstName: John
+                  id: 1
+                  lastName: Sheppard
+                  login: j.sheppard
+                  mail: shep@mail.com
+                  status: active
+                  updatedAt: '2014-05-21T08:51:20.396Z'
+                - _links:
+                    delete:
+                      href: "/api/v3/users/2"
+                      method: DELETE
+                      title: Delete j.sheppard2
+                    lock:
+                      href: "/api/v3/users/2/lock"
+                      method: POST
+                      title: Set lock on j.sheppard2
+                    self:
+                      href: "/api/v3/users/2"
+                      title: Jim Sheppard - j.sheppard2
+                  _type: User
+                  avatar: https://example.org/users/1/avatar
+                  createdAt: '2014-05-21T08:51:20.396Z'
+                  firstName: Jim
+                  id: 2
+                  lastName: Sheppard
+                  login: j.sheppard2
+                  mail: shep@mail.net
+                  status: active
+                  updatedAt: '2014-05-21T08:51:20.396Z'
+            _links:
+              self:
+                href: "/api/v3/work_packages/14/watchers"
+            _type: Collection
+            count: 2
+            total: 2
+          schema:
+            "$ref": "../components/schemas/watchers_model.yml"
+      description: OK
+      headers: { }
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to see the watchers of this work package.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** view work package watchers
+
+        *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+      headers: { }
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified work package does not exist.
+      description: |-
+        Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package
+
+        *Note that you will effectively not be able to see the watchers of a work package without being able to see the work package.*
+      headers: { }
+  tags:
+    - Work Packages
+  description: ''
+  operationId: List_watchers
+  summary: List watchers
+post:
+  parameters:
+    - description: Work package id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      headers: { }
+    '201':
+      description: Created
+      headers: { }
+    '400':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
+            message: The request body was not a single JSON object.
+      description: |-
+        Occurs when the client did not send a valid JSON object in the request body.
+
+        For example:
+
+        * The request did not contain a single JSON object
+
+        * The JSON object did not contain the key `user`
+
+        * The value of `users` was not a link object
+      headers: { }
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to add watchers to this work package.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permissions:**
+
+        * view work package (for self)
+
+        * add work package watchers (for other users)
+
+        *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+      headers: { }
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified work package does not exist.
+      description: |-
+        Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package
+
+        *Note that you will effectively not be able to change the watchers of a work package without being able to see the work package.*
+      headers: { }
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      description: |-
+        Returned if:
+
+        * the client tries to specify a link to a resource that is not a user (`ResourceTypeMismatch`)
+
+        * the user specified is not allowed to watch that work package (`PropertyConstraintViolation`)
+
+        * the user specified does not exist (`PropertyConstraintViolation`)
+      headers: { }
+  tags:
+    - Work Packages
+  description: |-
+    Adds a watcher to the specified work package.
+
+    The request is expected to contain a single JSON object, that contains a link object under the `user` key.
+
+    The response will be user added as watcher.
+    In case the user was already watching the work package an `HTTP 200` is returned, an
+    `HTTP 201` if the user was added as a new watcher.
+  operationId: Add_watcher
+  requestBody:
+    content:
+      application/json:
+        schema:
+          example:
+            user:
+              href: "/api/v3/users/1"
+          properties:
+            user:
+              properties:
+                href:
+                  type: string
+              type: object
+          type: object
+  summary: Add watcher

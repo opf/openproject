@@ -1,0 +1,42 @@
+<div
+  class="spot-modal spot-modal_wide wp-table--configuration-modal loading-indicator--location"
+  data-indicator-name="modal"
+>
+  <div id="spotModalTitle" class="spot-modal--header">{{text.title}}</div>
+
+  <div class="spot-divider"></div>
+
+  <div class="spot-modal--body spot-container">
+
+    <ng-container *ngIf="!!prependModalComponent">
+      <ng-container *ngComponentOutlet="prependModalComponent; injector: injector"></ng-container>
+    </ng-container>
+
+    <op-scrollable-tabs
+      *ngIf="tabPortalHost"
+      [tabs]="availableTabs"
+      [currentTabId]="tabPortalHost.currentTab?.id"
+      (tabSelected)="switchTo($event)"
+    >
+
+    </op-scrollable-tabs>
+    <div class="tab-content" #tabContentOutlet></div>
+  </div>
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button
+      class="button button_no-margin spot-modal--cancel-button spot-action-bar--action"
+      [textContent]="text.cancelButton"
+      (click)="closeMe($event)"
+      >
+      </button>
+      <button
+        class="button button_no-margin -primary spot-action-bar--action"
+        data-test-selector="spot-modal-wp-table-configuration-save-button"
+        [textContent]="text.applyButton"
+        (click)="saveChanges()"
+      >
+      </button>
+    </div>
+  </div>
+</div>

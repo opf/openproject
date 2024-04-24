@@ -1,0 +1,12 @@
+#English strings go here
+it:
+  plugin_openproject_calendar:
+    name: "Calendario OpenProject"
+    description: "Fornisce visualizzazioni di calendari."
+  label_calendar: "Calendario"
+  label_calendar_plural: "Calendari"
+  label_new_calendar: "Nuovo calendario"
+  permission_view_calendar: "Visualizza calendari"
+  permission_manage_calendars: "Gestisci calendari"
+  permission_share_calendars: "Iscriviti a iCalendars"
+  project_module_calendar_view: "Calendari"

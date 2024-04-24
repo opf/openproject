@@ -1,0 +1,32 @@
+ru:
+  plugin_openproject_openid_connect:
+    name: "OpenProject OpenID Подключение"
+    description: "Добавляет в Openproject стратегических провайдеров OmniAuth OpenID Connect."
+  logout_warning: >
+    Вы вышли из системы. Содержимое любой формы, которую вы можете отправить, может быть потеряно. Пожалуйста [войдите в систему].
+  activemodel:
+    attributes:
+      openid_connect/provider:
+        name: Имя
+        display_name: Отображаемое имя
+        identifier: Идентификатор
+        secret: Секретный ключ
+        scope: Область
+        limit_self_registration: Ограничить саморегистрацию
+  openid_connect:
+    menu_title: Провайдеры OpenID
+    providers:
+      label_add_new: Добавить нового провайдера OpenID
+      label_edit: Редактировать провайдера OpenID %{name}
+      no_results_table: Ни один провайдер еще не был определен.
+      plural: Провайдеры OpenID
+      singular: Провайдер OpenID
+    setting_instructions:
+      azure_deprecation_warning: >
+
+      azure_graph_api: >
+        Используйте endpoint userinfo graph.microsoft.com для запроса пользовательских данных. Это должно быть по умолчанию, если у вас нет более старого azure.
+      azure_tenant_html: >
+        Установите клиента вашей конечной точки Azure. Это будет определять, кто получает доступ к экземпляру OpenProject. Для получения дополнительной информации, пожалуйста, смотрите <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory"> наше руководство пользователя по Azure OpenID connect</a>.
+      limit_self_registration: >
+        Если включено, пользователи могут зарегистрироваться только с помощью данного провайдера, если это позволяет сама регистрация.

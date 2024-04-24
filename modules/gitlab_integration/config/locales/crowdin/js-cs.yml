@@ -1,0 +1,50 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2023 Ben Tey
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+cs:
+  js:
+    gitlab_integration:
+      work_packages:
+        tab_name: "GitLab"
+      tab_header_issue:
+        title: "Problémy"
+      tab_header_mr:
+        title: "Sloučit požadavky"
+        create_mr:
+          label: Vytvořit MR
+          description: Vytvořit požadavek na sloučení
+        copy_menu:
+          label: Git snippets
+          description: Kopírovat git snippents do schránky
+        git_actions:
+          branch_name: název větve
+          commit_message: Commitnout zprávu
+          cmd: Vytvořit větev s prázdným commitem
+          title: Rychlé snippety pro Git
+          copy_success: '✅ Zkopírováno!'
+          copy_error: '❌ Kopírování selhalo!'
+      tab_issue:
+        empty: 'Zatím nejsou k dispozici žádné propojené problémy. Propojte existující problém pomocí kódu <code>OP#%{wp_id}</code> (nebo <code>PP#%{wp_id}</code> pro soukromé odkazy) v názvu/popisu problému nebo vytvořte nový problém.'
+      tab_mrs:
+        empty: 'Zatím nejsou k dispozici žádné propojené problémy. Propojte existující problém pomocí kódu <code>OP#%{wp_id}</code> (nebo <code>PP#%{wp_id}</code> pro soukromé odkazy) v názvu/popisu problému nebo vytvořte nový problém.'
+      gitlab_pipelines: Datové kanály
+      updated_on: Aktualizováno

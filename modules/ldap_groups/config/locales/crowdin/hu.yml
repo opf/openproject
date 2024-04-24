@@ -1,0 +1,73 @@
+hu:
+  plugin_openproject_ldap_groups:
+    name: "OpenProject LDAP groups"
+    description: "Synchronization of LDAP group memberships."
+  activerecord:
+    attributes:
+      ldap_groups/synchronized_group:
+        dn: 'DN'
+        ldap_auth_source: 'LDAP csatlakozás'
+        sync_users: 'Felhasználók szinkronizálása'
+      ldap_groups/synchronized_filter:
+        filter_string: 'LDAP szűrő'
+        ldap_auth_source: 'LDAP csatlakozás'
+        group_name_attribute: "Csoport név attribútum"
+        sync_users: 'Felhasználók szinkronizálása'
+        base_dn: "Keresési alap DN"
+    models:
+      ldap_groups/synchronized_group: 'Szinkronizált LDAP csoport'
+      ldap_groups/synchronized_filter: 'LDAP csoport szinkronizálása'
+    errors:
+      models:
+        ldap_groups/synchronized_filter:
+          must_contain_base_dn: "A szűrőalap DN -jének az LDAP -kapcsolat alap DN -jében kell lennie\n"
+  ldap_groups:
+    label_menu_item: 'LDAP csoport szinkronizálása'
+    label_group_key: 'LDAP csoport szűrési feltétel'
+    label_synchronize: 'Szinkronizálás'
+    settings:
+      name_attribute: 'LDAP csoport érték'
+      name_attribute_text: "Az OpenProject csoport elnevezésére használt LDAP attribútum szűrő létrehozásakor\n"
+    synchronized_filters:
+      add_new: 'Szinkronizált LDAP szűrő hozzáadása'
+      singular: 'LDAP csoport szinkronizációs szűrő'
+      plural: 'LDAP csoport szinkronizációs szűrő'
+      label_n_groups_found:
+        one: "1 csoportot talált a szűrő\n"
+        other: "%{count} csoportot talált a szűrő"
+        zero: "A szűrő nem talált csoportokat"
+      destroy:
+        title: 'Szinkronizált szűrő eltávolítása %{name}'
+        confirmation: "Az összes szinkronizált szűrő%{name} és az összes csoport %{groups_count} amit létrehozott törölve lesz, ha folytatja."
+        removed_groups: "Figyelmeztetés: Ez eltávolítja a következő csoportokat az OpenProject -ből, és eltávolítja az összes projektből!\n"
+        verification: "A törlés ellenőrzéséhez adja meg a %{name} szűrőnevet."
+      form:
+        group_name_attribute_text: "Adja meg az OpenProject csoportnév beállításához használt LDAP csoport attribútumát.\n"
+        filter_string_text: "Adja meg az RFC4515 LDAP szűrőt, amely visszaadja az LDAP csoportjait, hogy szinkronizálja őket az OpenProject szolgáltatással.\n"
+        base_dn_text: >
+          Írja be a keresési alap DN -jét a szűrőhöz. A kiválasztott LDAP -kapcsolat alap DN -je alatt kell lennie. Hagyja üresen ezt az opciót a kapcsolat alap DN -jének újbóli használatához
+    synchronized_groups:
+      add_new: 'Szinkronizált LDAP csoport hozzáadása'
+      destroy:
+        title: 'Szinkronizált csoport %{name} visszavonása'
+        confirmation: "Az összes szinkronizált csoport%{name} és az összes %{users_count} amit létrehozott törölve lesz, ha folytatja."
+        info: "Megjegyzés: Maga az OpenProject csoport és az ezen az LDAP szinkronizáláson kívül hozzáadott tagok nem kerülnek eltávolításra."
+        verification: "Adja meg a csoport nevét %{name} a törlés megerősítéséhez."
+      help_text_html: |
+        Ez a modul lehetővé teszi az LDAP és az OpenProject csoportok közötti szinkronizálást.
+        Attól függ, hogy az LDAP-csoportoknak az OpenProject használatához a <em> groupOfNames / memberOf </em> attribútumot kell használniuk.
+        <br/>
+        A csoportokat óránként szinkronizáljuk egy cron feladattal.
+        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/"> Kérjük, olvassa el a témával kapcsolatos dokumentációinkat </a>.
+      no_results: 'Nem található szinkronizálható csoport'
+      no_members: 'Ez a csoport nem tartalmaz szinkronizált felhasználót még'
+      plural: 'Szinkronizált LDAP csoportok'
+      singular: 'Szinkronizált LDAP csoport'
+      form:
+        auth_source_text: 'LDAP csatlakozás kiválasztása'
+        sync_users_text: >
+          Ha engedélyezi ezt az opciót, a talált felhasználók automatikusan létrejönnek az OpenProject alkalmazásban. Enélkül csak az OpenProject meglévő fiókjai kerülnek hozzáadásra a csoportokhoz.
+        dn_text: "Adja meg a csoport teljes DN -jét az LDAP -ban\n"
+        group_text: 'Válasszon egy meglévő OpenProject csoportot, amellyel az LDAP csoport tagjait szinkronizálni kell'
+      upsale:
+        description: 'Használja ki a szinkronizált LDAP-csoportok előnyeit a felhasználók kezeléséhez, az engedélyeik módosításához és a csoportok közötti felhasználói kezelés megkönnyítéséhez.'

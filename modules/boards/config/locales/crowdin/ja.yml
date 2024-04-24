@@ -1,0 +1,39 @@
+#English strings go here
+ja:
+  plugin_openproject_boards:
+    name: "OpenProject Boards"
+    description: "Provides board views."
+  permission_show_board_views: "ボードの表示"
+  permission_manage_board_views: "ボードの管理"
+  project_module_board_view: "ボード"
+  boards:
+    label_board: "ボード"
+    label_boards: "ボード"
+    label_create_new_board: "新しいボードを作成"
+    label_board_type: "ボードの種類"
+    board_types:
+      free: 基本
+      action: "アクションボード (%{attribute})"
+    board_type_attributes:
+      assignee: 担当者
+      status: ステータス
+      version: バージョン
+      subproject: 子プロジェクト
+      subtasks: 親子
+      basic: 基本
+    board_type_descriptions:
+      basic: >
+        空白のボードで一からスタートします。カードと列を手動で追加します。
+      status: >
+        To Do、進行中、完了などのステータスの列を持つ基本的なカンバンスタイルボード。
+      assignee: >
+        担当者ベースの自動化された列を持つボード。ワークパッケージの割り当てに最適です。
+      version: >
+        バージョン属性に基づき自動化される列のボード。製品開発の計画に最適です。
+      subproject: >
+        サブプロジェクトの列が自動化されたボード。ワークパッケージを他のリストにドラッグすると、それに応じて(サブ)プロジェクトが更新されます。
+      subtasks: >
+        子要素の列が自動化されたボード。ワークパッケージを他のリストにドラッグすると、それに応じて親要素が更新されます。
+    upsale:
+      teaser_text: 'ボードでワークフローを自動化しませんか？アドバンスボードはエンタープライズアドオンです。有料プランにアップグレードしてください。'
+      upgrade: '今すぐアップグレード'

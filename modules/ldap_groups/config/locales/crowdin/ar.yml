@@ -1,0 +1,73 @@
+ar:
+  plugin_openproject_ldap_groups:
+    name: "OpenProject LDAP groups"
+    description: "Synchronization of LDAP group memberships."
+  activerecord:
+    attributes:
+      ldap_groups/synchronized_group:
+        dn: 'DN'
+        ldap_auth_source: 'اتصال LDAP'
+        sync_users: 'مزامنة المستخدمين'
+      ldap_groups/synchronized_filter:
+        filter_string: 'مرشّح LDAP'
+        ldap_auth_source: 'اتصال LDAP'
+        group_name_attribute: "Group name attribute"
+        sync_users: 'مزامنة المستخدمين'
+        base_dn: "Search base DN"
+    models:
+      ldap_groups/synchronized_group: 'Synchronized LDAP group'
+      ldap_groups/synchronized_filter: 'LDAP Group synchronization filter'
+    errors:
+      models:
+        ldap_groups/synchronized_filter:
+          must_contain_base_dn: "Filter base DN must be contained within the LDAP connection's base DN"
+  ldap_groups:
+    label_menu_item: 'LDAP group synchronization'
+    label_group_key: 'LDAP group filter key'
+    label_synchronize: 'Synchronize'
+    settings:
+      name_attribute: 'LDAP groups name attribute'
+      name_attribute_text: 'The LDAP attribute used for naming the OpenProject group when created by a filter'
+    synchronized_filters:
+      add_new: 'Add synchronized LDAP filter'
+      singular: 'LDAP Group synchronization filter'
+      plural: 'LDAP Group synchronization filters'
+      label_n_groups_found:
+        one: "1 group found by the filter"
+        other: "%{count} groups found by the filter"
+        zero: "No groups were found by the filter"
+      destroy:
+        title: 'Remove synchronized filter %{name}'
+        confirmation: "If you continue, the synchronized filter %{name} and all groups %{groups_count} created through it will be removed."
+        removed_groups: "Warning: This will remove the following groups from OpenProject and remove it from all projects!"
+        verification: "Enter the filter name %{name} to verify the deletion."
+      form:
+        group_name_attribute_text: 'Enter the attribute of the LDAP group used for setting the OpenProject group name.'
+        filter_string_text: 'Enter the RFC4515 LDAP filter that returns groups in your LDAP to synchronize with OpenProject.'
+        base_dn_text: >
+          Enter the search base DN to use for this filter. It needs to be below the base DN of the selected LDAP connection. Leave this option empty to reuse the base DN of the connection
+    synchronized_groups:
+      add_new: 'Add synchronized LDAP group'
+      destroy:
+        title: 'Remove synchronized group %{name}'
+        confirmation: "If you continue, the synchronized group %{name} and all %{users_count} users synchronized through it will be removed."
+        info: "Note: The OpenProject group itself and members added outside this LDAP synchronization will not be removed."
+        verification: "Enter the group's name %{name} to verify the deletion."
+      help_text_html: |
+        This module allows you to set up a synchronization between LDAP and OpenProject groups.
+        It depends on LDAP groups need to use the <em>groupOfNames / memberOf</em> attribute set to be working with OpenProject.
+        <br/>
+        Groups are synchronized hourly through a cron job.
+        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please see our documentation on this topic</a>.
+      no_results: 'No synchronized groups found.'
+      no_members: 'This group has no synchronized members yet.'
+      plural: 'Synchronized LDAP groups'
+      singular: 'Synchronized LDAP group'
+      form:
+        auth_source_text: 'Select which LDAP connection should be used.'
+        sync_users_text: >
+          If you enable this option, found users will also be automatically created in OpenProject. Without it, only existing accounts in OpenProject will be added to groups.
+        dn_text: 'Enter the full DN of the group in LDAP'
+        group_text: 'Select an existing OpenProject group that members of the LDAP group shall be synchronized with'
+      upsale:
+        description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'

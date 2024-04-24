@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+# Generates the PDF export styling yaml documentation.
+
+require "md_to_pdf/style/schema_doc"
+require "yaml"
+require "json"
+
+root = File.expand_path("../../", __dir__)
+schema_file = File.join(root, "app", "models", "work_package", "pdf_export", "schema.json")
+schema = JSON::load_file(schema_file)
+generator = MarkdownToPDF::StyleSchemaDocsGenerator.new(schema)
+markdown = generator.generate_markdown
+styles_doc_folder = File.join(root, "docs", "system-admin-guide", "design", "pdf-export-styles")
+FileUtils.mkdir_p(styles_doc_folder)
+styles_doc_file = File.join(styles_doc_folder, "README.md")
+File.write(styles_doc_file, markdown)
+puts "Doc written: #{styles_doc_file}"

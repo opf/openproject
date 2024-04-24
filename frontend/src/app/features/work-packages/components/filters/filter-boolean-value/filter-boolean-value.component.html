@@ -1,0 +1,7 @@
+<label id="div-values-{{filter.id}}">
+  <spot-switch
+    name="v[{{filter.name}}]"
+    [ngModel]="value"
+    (ngModelChange)="onFilterUpdated($event)"
+  ></spot-switch>
+</label>

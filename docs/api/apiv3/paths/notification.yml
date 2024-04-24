@@ -1,0 +1,41 @@
+# /api/v3/notifications/{id}
+---
+get:
+  summary: Get the notification
+  operationId: view_notification
+  tags:
+    - Notifications
+  description: Returns the notification identified by the notification id.
+  parameters:
+    - name: id
+      in: path
+      description: notification id
+      example: '1'
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/notification_model.yml'
+          examples:
+            'Date alert notification':
+              $ref: '../components/examples/date_alert_notification.yml'
+            'Mentioned notification':
+              $ref: '../components/examples/mentioned_notification.yml'
+      description: OK
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the notification does not exist or if the user does not have permission to view it.
+
+        **Required permission** being recipient of the notification

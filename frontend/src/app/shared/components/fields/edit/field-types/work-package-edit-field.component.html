@@ -1,0 +1,16 @@
+<ndc-dynamic
+  [ndcDynamicComponent]="autocompleterComponent()"
+  [ndcDynamicInputs]="{
+    availableValues: requests.output$ | async,
+    appendTo: appendTo,
+    model: selectedOption ? selectedOption : '',
+    required: required,
+    disabled: inFlight,
+    id: handler.htmlId,
+    finishedLoading: requests.loading$,
+    classes: 'inline-edit--field ' + handler.fieldName,
+    typeahead: typeahead,
+    hideSelected: true
+  }"
+  [ndcDynamicOutputs]="referenceOutputs"
+></ndc-dynamic>

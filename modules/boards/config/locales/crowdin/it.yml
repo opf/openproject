@@ -1,0 +1,39 @@
+#English strings go here
+it:
+  plugin_openproject_boards:
+    name: "Bacheche OpenProject"
+    description: "Fornisce visualizzazioni a bacheca."
+  permission_show_board_views: "Mostra schede"
+  permission_manage_board_views: "Gestisci schede"
+  project_module_board_view: "Tabelloni"
+  boards:
+    label_board: "Tabellone"
+    label_boards: "Tabelloni"
+    label_create_new_board: "Creare nuova bacheca"
+    label_board_type: "Tipo bacheca"
+    board_types:
+      free: Base
+      action: "Scheda d'azione (%{attribute})"
+    board_type_attributes:
+      assignee: Assegnatario
+      status: Stato
+      version: Versione
+      subproject: Sottoprogetto
+      subtasks: genitore-figlio
+      basic: Base
+    board_type_descriptions:
+      basic: >
+        Inizia da zero con una bacheca vuota. Aggiungi manualmente schede e colonne a questa bacheca.
+      status: >
+        Bacheca in stile kanban di base con colonne per stato come Da fare, In Corso, Fatto.
+      assignee: >
+        Bacheca con colonne automatizzate in base agli utenti assegnati. Ideale per l'assegnazione di macro-attività.
+      version: >
+        Bacheca con colonne automatizzate in base all'attributo versione. Ideale per la pianificazione dei rilasci di software.
+      subproject: >
+        Bacheca con colonne automatizzate per sotto-progetti. Trascinando le macro-attività su altre liste aggiornerà di conseguenza il (sotto)progetto.
+      subtasks: >
+        Bacheca con colonne automatizzate per sotto-elementi. Trascinando le macro-attività su altre liste aggiornerà di conseguenza il genitore.
+    upsale:
+      teaser_text: 'Vorresti automatizzare i tuoi flussi di lavoro con le bacheche? Le schede avanzate sono un''aggiunta di Enterprise. Passa a un piano a pagamento.'
+      upgrade: 'Effettua l''upgrade ora'

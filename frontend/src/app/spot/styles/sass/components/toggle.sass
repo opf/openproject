@@ -1,0 +1,51 @@
+.spot-toggle
+  display: flex
+  border: 0
+  margin: 0
+  padding: 0
+
+  &--option
+    @include spot-body-small
+    line-height: 1rem
+
+    display: flex
+    flex-direction: row
+    flex-wrap: nowrap
+    margin: 0
+    padding: $spot-spacing-0_5
+    border-width: 1px
+    border-style: solid
+    border-color: $spot-color-main-dark
+    background-color: transparent
+    color: $spot-color-main-dark
+    cursor: pointer
+
+    &:focus-within
+      @include spot-focus
+
+    &:not(:last-child)
+      border-right: 0
+
+    &:first-child
+      padding-left: $spot-spacing-0_75
+      border-top-left-radius: $spot-spacing-1
+      border-bottom-left-radius: $spot-spacing-1
+
+    &:last-child
+      padding-right: $spot-spacing-0_75
+      border-top-right-radius: $spot-spacing-1
+      border-bottom-right-radius: $spot-spacing-1
+
+    &_selected
+      background-color: $spot-color-main-light
+
+  &--option-input
+    position: absolute
+    height: 1px
+    width: 1px
+    overflow: hidden
+    clip: rect(1px,1px,1px,1px)
+
+  &--button
+    margin: 0
+    font-weight: normal

@@ -1,0 +1,67 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% content_for :header_tags do %>
+  <%= call_hook :placeholder_users_show_head %>
+<% end %>
+<% html_title t(:label_administration), t(:label_placeholder_user_plural) -%>
+<%= toolbar title: "#{avatar @placeholder_user} #{h(@placeholder_user.name)}".html_safe do %>
+  <% if current_user.allowed_globally?(:manage_placeholder_user) %>
+    <li class="toolbar-item">
+      <%= link_to edit_placeholder_user_path(@placeholder_user), class: 'button', accesskey: accesskey(:edit) do %>
+        <%= op_icon('button--icon icon-edit') %>
+        <span class="button--text"><%= t(:button_edit) %></span>
+      <% end %>
+    </li>
+    <%= render partial: 'placeholder_users/toolbar_delete' %>
+  <% end %>
+<% end %>
+
+<div class="grid-block grid-block_double-column">
+  <div class="grid-content">
+    <%= call_hook :view_account_left_top, placeholder_user: @placeholder_user %>
+
+    <%= call_hook :view_account_left_middle, placeholder_user: @placeholder_user %>
+
+    <% unless @memberships.empty? %>
+      <h3><%=t(:label_project_plural)%></h3>
+      <ul>
+        <% for membership in @memberships %>
+          <li>
+            <%= link_to_project(membership.project) %>
+            (<%=h membership.roles.sort.collect(&:to_s).join(', ') %>, <%= format_date(membership.created_at) %>)
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+    <%= call_hook :view_account_left_bottom, placeholder_user: @placeholder_user %>
+  </div>
+</div>
+
+<% html_title h(@placeholder_user.name) %>

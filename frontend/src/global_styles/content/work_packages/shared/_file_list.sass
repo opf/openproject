@@ -1,0 +1,99 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2024 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+.op-file-list
+  &--item
+    &-action
+      text-decoration: none
+
+      &_disabled
+        pointer-events: none
+
+      &:not(&_disabled):hover
+        .op-file-list--item-title > :not(.spot-icon)
+          text-decoration: underline
+
+    &-action_faulty-status &-title
+      opacity: 0.5
+
+    &-title
+      @include spot-body-small
+
+      flex: 1
+      min-width: 0
+      display: flex
+      align-items: center
+      padding-right: $spot-spacing-0_5
+
+    &-text
+      @include spot-caption()
+
+      line-height: 1.5rem
+      color: var(--color-fg-muted)
+      flex-shrink: 0
+
+      &:not(:last-child)
+        margin-right: $spot-spacing-0_5
+
+    &-avatar
+      width: $spot-spacing-1_5
+      height: $spot-spacing-1_5
+      flex-shrink: 0
+
+    &-floating-wrapper:not(&-floating-wrapper__disabled):hover &-text,
+    &-floating-wrapper:not(&-floating-wrapper__disabled):hover &-avatar
+      visibility: hidden
+
+    &-floating-text
+      @include spot-body-small()
+
+      display: flex
+      align-items: center
+      padding-right: $spot-spacing-0_25
+      overflow: hidden
+      color: var(--accent-color)
+
+      &-icon
+        margin-right: $spot-spacing-0_25
+
+    & &-button
+      display: flex
+
+      &:hover,
+      &:focus
+        text-decoration: none
+
+  & &--item &--item-floating-actions
+    padding-right: 0
+
+  & &--item &--item-floating-text
+    padding-right: $spot-spacing-0_5
+
+  & &--item &--item-action
+    padding-left: 0
+    padding-right: 0

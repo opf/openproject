@@ -1,0 +1,33 @@
+@import "src/assets/sass/helpers"
+
+\:host
+  display: grid
+  grid-template-rows: 32px 1fr
+  grid-row-gap: 10px
+  background: #F3F3F3
+  padding: 8px
+  border: 1px solid var(--color-border-muted)
+
+.op-add-existing-pane
+  &--results
+    overflow: auto
+    @include styled-scroll-bar
+
+  &--empty-state
+    display: grid
+    grid-template-rows: auto 1fr
+
+  &--empty-state-image
+    width: 160px
+    margin: 0 auto
+
+  &--empty-state-text
+    margin: 0 24px
+    text-align: center
+    line-height: 1.25
+
+  &--loading
+    height: 85px
+    padding: 8px 16px
+    background: white
+    border-radius: 5px

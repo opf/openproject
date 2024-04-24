@@ -1,0 +1,85 @@
+#English strings go here
+az:
+  js:
+    storages:
+      link_files_in_storage: "Link files in %{storageType}"
+      link_existing_files: "Link existing files"
+      upload_files: "Upload files"
+      drop_files: "Drop files here to upload them to %{name}."
+      drop_or_click_files: "Drop files here or click to upload them to %{name}."
+      login: "%{storageType} login"
+      login_to: "Login to %{storageType}"
+      no_connection: "No %{storageType} connection"
+      open_storage: "Open %{storageType}"
+      select_location: "Select location"
+      choose_location: "Choose location"
+      types:
+        nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
+        default: "Storage"
+      information:
+        connection_error: >
+          Some %{storageType} settings are not working. Please contact your %{storageType} administrator.
+        live_data_error: "Error fetching file details"
+        live_data_error_description: >
+          Some %{storageType} data could not be fetched. Please try to reload this page or contact your %{storageType} administrator.
+        no_file_links: "In order to link files to this work package please do it via %{storageType}."
+        not_logged_in: >
+          To add a link, see or upload files related to this work package, please login to %{storageType}.
+      files:
+        already_existing_header: "This file already exists"
+        already_existing_body: >
+          A file with the name "%{fileName}" already exists in the location where you are trying to upload this file. What would you like to do?
+        directory_not_writeable: "You do not have permission to add files to this folder."
+        dragging_many_files: "The upload to %{storageType} supports only one file at once."
+        dragging_folder: "The upload to %{storageType} does not support folders."
+        empty_folder: "This folder is empty."
+        empty_folder_location_hint: "Click the button below to upload the file to this location."
+        file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
+        project_folder_no_access: >
+          You have no access to the project folder. Please, contact your administrator to get access or upload the file in another location.
+        managed_project_folder_not_available: >
+          The automatically managed project folder was not yet found. Please wait a bit, reload the page to fetch the newest data, and try again.
+        managed_project_folder_no_access: >
+          You have no access yet to the managed project folder. Please wait a bit and try again.
+        upload_keep_both: "Keep both"
+        upload_replace: "Replace"
+      file_links:
+        empty: >
+          Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
+        download: "Download %{fileName}"
+        open: "Open file on storage"
+        open_location: "Open file in location"
+        remove: "Remove file link"
+        remove_confirmation: >
+          Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file and only removes the connection to this work package.
+        remove_short: "Remove link"
+        select: "Select files"
+        select_all: "Select all"
+        selection:
+          zero: "Select files to link"
+          one: "Link 1 file"
+          other: "Link %{count} files"
+        success_create:
+          one: "Successfully created 1 file link."
+          other: "Successfully created %{count} file links."
+        upload_error:
+          default: >
+            Your file (%{fileName}) could not be uploaded.
+          403: >
+            Your file (%{fileName}) could not be uploaded due to system restrictions. Please contact your administrator for more information.
+          413: >
+            Your file (%{fileName}) is bigger than what OpenProject can upload to %{storageType}. You can upload it directly to %{storageType} first and then link the file.
+          507: >
+            Your file (%{fileName}) is bigger than the storage quota allows. Contact your administrator to modify this quota.
+          detail:
+            nextcloud: >
+              Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
+        link_uploaded_file_error: >
+          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
+        tooltip:
+          not_logged_in: "Please log in to the storage to access this file."
+          view_not_allowed: "You have no permission to see this file."
+          not_found: "This file cannot be found."
+        already_linked_file: "This file is already linked to this work package."
+        already_linked_directory: "This directory is already linked to this work package."

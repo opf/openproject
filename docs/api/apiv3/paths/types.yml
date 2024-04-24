@@ -1,0 +1,67 @@
+# /api/v3/types
+---
+get:
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  elements:
+                  - _links:
+                      self:
+                        href: "/api/v3/types/1"
+                    _type: Type
+                    color: "#ff0000"
+                    createdAt: '2014-05-21T08:51:20.396Z'
+                    id: 1
+                    isDefault: true
+                    isMilestone: false
+                    name: Bug
+                    position: 1
+                    updatedAt: '2014-05-21T08:51:20.396Z'
+                  - _links:
+                      self:
+                        href: "/api/v3/types/2"
+                    _type: Type
+                    color: "#888"
+                    createdAt: '2014-05-21T08:51:20.396Z'
+                    id: 2
+                    isDefault: false
+                    isMilestone: false
+                    name: Feature
+                    position: 2
+                    updatedAt: '2014-05-21T08:51:20.396Z'
+                _links:
+                  self:
+                    href: "/api/v3/types"
+                _type: Collection
+                count: 2
+                total: 2
+          schema:
+            "$ref": "../components/schemas/types_model.yml"
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not allowed to see the types.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** view work package or manage types (on any project)
+      headers: {}
+  tags:
+  - Types
+  description: ''
+  operationId: List_all_Types
+  summary: List all Types

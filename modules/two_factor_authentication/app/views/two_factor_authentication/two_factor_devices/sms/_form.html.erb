@@ -1,0 +1,35 @@
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend" title="<%= @device.name  %>"><%= @device.name  %></legend>
+
+  <p><%= t('two_factor_authentication.devices.sms.description') %></p>
+
+  <div class="form--field -required">
+    <%= f.text_field :identifier, required: true, container_class: '-middle' %>
+    <div class="form--field-instructions">
+      <%= t('two_factor_authentication.devices.text_identifier') %>
+    </div>
+  </div>
+
+  <div class="form--field -required">
+    <%= f.telephone_field :phone_number, required: true, container_class: '-wide' %>
+    <div class="form--field-instructions">
+      <%= t('notice_phone_number_format') %>
+    </div>
+  </div>
+
+</fieldset>
+
+<% available_channels = @device.class.available_channels_in_strategy %>
+<% if available_channels.length > 1 %>
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend" title="<%=t(:label_otp_channel)%>"><%= t(:label_otp_channel) %></legend>
+
+    <% available_channels.each do |channel| %>
+        <div class="form--field">
+          <%= f.radio_button :channel,
+                             channel,
+                             label: t("button_otp_by_#{channel}") %>
+        </div>
+    <% end %>
+  </fieldset>
+<% end %>

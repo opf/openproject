@@ -1,0 +1,70 @@
+# /api/v3/revisions/{id}
+---
+get:
+  parameters:
+  - description: Revision id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  author:
+                    href: "/api/v3/users/1"
+                  project:
+                    href: "/api/v3/projects/1"
+                  self:
+                    href: "/api/v3/revisions/1"
+                  showRevision:
+                    href: "/projects/identifier/repository/revision/11f4b07"
+                _type: Revision
+                authorName: Some Developer
+                createdAt: '2015-07-21T13:36:59.454Z'
+                formattedIdentifier: 11f4b07
+                id: 1
+                identifier: 11f4b07dff4f4ce9548a52b7d002daca7cd63ec6
+                message:
+                  format: plain
+                  html: "<p>This revision provides new features<br/><br/>An elaborate
+                    description</p>"
+                  raw: |-
+                    This revision provides new features
+
+                    An elaborate description
+          schema:
+            "$ref": "../components/schemas/revision_model.yml"
+      description: OK
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The specified revision does not exist.
+      description: |-
+        Returned if the revision does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:** view changesets for the project the repository is created in.
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of a revision.
+        That's why a 404 is returned here, even if a 403 might be more appropriate.*
+      headers: {}
+  tags:
+  - Revisions
+  description: ''
+  operationId: View_revision
+  summary: View revision

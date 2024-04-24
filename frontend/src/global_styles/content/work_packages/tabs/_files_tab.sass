@@ -1,0 +1,103 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2024 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+.op-files-tab
+  &--file-upload
+    margin-top: $spot-spacing-0_75
+
+  &--storage-info-box
+    margin-top: 0.875rem
+    display: grid
+    align-items: center
+    grid-template: "icon text" "button button" / auto 1fr
+
+    .info-icon-box
+      color: var(--color-fg-muted)
+      grid-area: icon
+      font-size: 3.375rem
+      margin-right: $spot-spacing-0_5
+
+    .text-box
+      grid-area: text
+
+      .text-box-header
+        font-weight: var(--base-text-weight-bold)
+        line-height: $spot-spacing-1_5
+
+      .text-box-content
+        @include spot-body-small()
+
+        color: var(--color-fg-muted)
+
+    .button-box
+      grid-area: button
+      display: flex
+      justify-content: flex-end
+
+    &-button
+      margin: $spot-spacing-0_75 0 0
+
+      &:not(:last-child)
+        margin-right: $spot-spacing-0_5
+
+  &--icon
+    &:not(:first-child)
+      margin-left: $spot-spacing-0_5
+
+    &_pdf
+      color: #B93A33
+
+    &_img
+      color: #0081C7
+
+    &_mov
+      color: #7C006E
+
+    &_txt
+      color: #9A9A9A
+
+    &_doc
+      color: #006E8F
+
+    &_sheet
+      color: #007528
+
+    &_presentation
+      color: #EF9E56
+
+    &_form
+      color: #87E2C1
+
+    &_primary
+      color: var(--accent-color)
+
+    &_default
+      color: #9A9A9A
+
+    &_clip
+      color: #333333

@@ -1,0 +1,17 @@
+#English strings go here
+lv:
+  plugin_openproject_team_planner:
+    name: "OpenProject Team Planner"
+    description: "Provides team planner views."
+  permission_view_team_planner: "Apskatīt komandas plānotāju"
+  permission_manage_team_planner: "Pārvaldīt komandas plānotāju"
+  project_module_team_planner_view: "Komandas plānotāji"
+  team_planner:
+    label_team_planner: "Komandas plānotājs"
+    label_new_team_planner: "Jauns komandas plānotājs"
+    label_create_new_team_planner: "Izveidot jaunu komandas plānotāju"
+    label_team_planner_plural: "Komandas plānotāji"
+    label_assignees: "Atbildīgais"
+    upsale:
+      title: "Komandas plānotājs"
+      description: "Get a complete overview of your team’s planning with Team Planner. Stretch, shorten and drag-and-drop work packages to modify dates, move them or change assignees."

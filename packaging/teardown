@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -e
+
+echo "Cleaning up current node_modules folders"
+rm -rf node_modules frontend/node_modules || true
+
+echo "Cleaning up current docs folders except API"
+# We need the api folder for openapi (https://community.openproject.org/work_packages/40352/activity)
+find docs -mindepth 1 -maxdepth 1 -type d -not -name 'api' | xargs rm -rf
+
+echo "Cleaning up angular cache"
+rm -rf frontend/.angular || true

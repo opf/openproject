@@ -1,0 +1,19 @@
+<div class="form--field -reduced-margin">
+  <%= styled_label_tag nil, I18n.t('user.authentication_provider') %>
+  <div class="form--field-container">
+    <%= @user.authentication_provider %>
+  </div>
+</div>
+<div class="form--field-instructions">
+  <%= I18n.t('user.authentication_settings_disabled_due_to_external_authentication') %>
+</div>
+
+<div class="form--field -top-margin -reduced-margin">
+  <%= styled_label_tag nil, User.human_attribute_name(:identity_url) %>
+  <div class="form--field-container -empty">
+    <%= @user.identity_url.split(':', 2).last %>
+  </div>
+</div>
+<div class="form--field-instructions">
+  <%= I18n.t('user.identity_url_text') %>
+</div>

@@ -1,0 +1,15 @@
+#English strings go here
+ne:
+  js:
+    label_preview: 'Preview'
+    button_update: 'Update'
+    avatars:
+      label_choose_avatar: "फाइल बाट अवतार चएन गर्नुहोस "
+      uploading_avatar: "Uploading your avatar."
+      text_upload_instructions: |
+        Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.
+        A preview of your avatar will be shown before uploading, once you selected an image.
+      error_image_too_large: "Image is too large."
+      wrong_file_format: "jpg, png, gif फ़र्मेट मात्र मान्य गरिएको छ "
+      empty_file_error: "कृपया मान्य चित्र जस्तै जस्तै jpg, png, gif अपलोड गर्नुहोस्। "
+

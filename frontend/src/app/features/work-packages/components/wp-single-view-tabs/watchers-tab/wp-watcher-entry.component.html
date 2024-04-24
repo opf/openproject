@@ -1,0 +1,18 @@
+<div class="op-wp-watcher form--selected-value--container" opFocusWithin="button">
+  <span class="op-wp-watcher--form form--selected-value">
+    <op-principal
+      [principal]="watcher"
+      [link]="true"
+      size="mini"
+      data-test-selector="op-wp-watcher-name"
+    ></op-principal>
+  </span>
+  <button
+    type="button"
+    class="spot-link form--selected-value--remover"
+    [title]="text.remove"
+    (click)="remove()"
+  >
+    <op-icon icon-classes="icon-remove"></op-icon>
+  </button>
+</div>

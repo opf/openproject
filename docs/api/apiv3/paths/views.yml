@@ -1,0 +1,34 @@
+# /api/v3/views
+---
+get:
+  parameters:
+    - description: |-
+        JSON specifying filter conditions.
+        Currently supported filters are:
+
+        + project: filters views by the project their associated query is assigned to. If the project filter is passed with the `!*` (not any) operator, global views are returned.
+
+        + id: filters views based on their id
+
+        + type: filters views based on their type
+      example: '[{ "project_id": { "operator": "!*", "values": null }" }]'
+      in: query
+      name: filters
+      required: false
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            Queries:
+              "$ref": "../components/examples/views.yml"
+      description: OK
+      headers: {}
+  tags:
+    - Views
+  description: Returns a collection of Views. The collection can be filtered via
+    query parameters similar to how work packages are filtered. 
+  operationId: List_views
+  summary: List views

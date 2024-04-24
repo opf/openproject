@@ -1,0 +1,52 @@
+# /api/v3/actions/{id}
+---
+get:
+  parameters:
+  - description: action id which is the name of the action
+    example: work_packages/create
+    in: path
+    name: id
+    required: true
+    schema:
+      type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  self:
+                    href: "/api/v3/actions/work_packages/create"
+                    title: Add work package
+                _type: Action
+                description: Creating a work package within a project including the
+                  uploading of attachments. Some attributes might not be selected,
+                  e.g version which requires a second permission
+                id: work_packages/create
+                modules:
+                - work_packages
+                name: Add work package
+          schema:
+            "$ref": "../components/schemas/view_action_model.yml"
+      description: OK
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: Returned if the action does not exist.
+      headers: {}
+  tags:
+  - Actions & Capabilities
+  description: Returns an individual action.
+  operationId: View_action
+  summary: View action

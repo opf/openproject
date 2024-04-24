@@ -1,0 +1,38 @@
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend" title="<%= @device.name  %>"><%= @device.name  %></legend>
+
+  <p><%= t('two_factor_authentication.devices.totp.description') %></p>
+
+  <div class="form--field -required">
+    <%= f.text_field :identifier, required: true, container_class: '-middle' %>
+    <div class="form--field-instructions">
+      <%= t('two_factor_authentication.devices.text_identifier') %>
+    </div>
+  </div>
+
+  <%= f.hidden_field :otp_secret, value: @device.otp_secret %>
+</fieldset>
+
+<div class="mobile-otp-qr-form"
+     data-controller="two-factor-authentication"
+     data-application-target="dynamic"
+>
+  <div class="qr-code-element"
+       data-value="<%= device.provisioning_url %>"
+       data-two-factor-authentication-target="qrCodeElement"
+  >
+  </div>
+  <div class="mobile-otp-qr-manually">
+    <p>
+      <strong><%= t('two_factor_authentication.devices.totp.question_cannot_scan') %></strong>
+      <br/>
+      <%= t('two_factor_authentication.devices.totp.text_cannot_scan') %>
+    </p>
+    <%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
+      component.with_attribute(key: t('two_factor_authentication.devices.totp.account'), value: device.account_name)
+      component.with_attribute(key: t('two_factor_authentication.devices.totp.secret_key'), value: device.otp_secret)
+      component.with_attribute(key: t('two_factor_authentication.devices.totp.time_based'), value: t('general_text_Yes'))
+      component.with_attribute(key: t('two_factor_authentication.devices.totp.provisioning_uri'), value: device.provisioning_url)
+    end %>
+  </div>
+</div>

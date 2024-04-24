@@ -1,0 +1,10 @@
+<% html_title(t(:label_administration), t('team_planner.upsale.title')) -%>
+
+<%= render template: 'common/upsale',
+           locals: {
+               feature_title: t('team_planner.upsale.title'),
+               feature_description: t('team_planner.upsale.description'),
+               feature_reference: 'team_planner',
+               feature_video: 'enterprise/team-planner-animation.mp4',
+               additional_classes: 'upsale-notification_hide-breadcrumb'
+           } %>

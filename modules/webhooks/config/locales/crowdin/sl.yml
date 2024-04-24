@@ -1,0 +1,66 @@
+sl:
+  plugin_openproject_webhooks:
+    name: "OpenProject Webhooks"
+    description: "Provides a plug-in API to support OpenProject webhooks for better 3rd party integration."
+  activerecord:
+    attributes:
+      webhooks/webhook:
+        url: 'URL obremenitve'
+        secret: 'Podpis skrivnost'
+        events: 'Dogodki'
+        projects: 'Omogočeni projekti'
+      webhooks/log:
+        event_name: 'Ime dogodka'
+        url: 'URL obremenitve'
+        response_code: 'Odzivna koda'
+        response_body: 'Odziv'
+    models:
+      webhooks/outgoing_webhook: "Odhodna spletna zanka"
+  webhooks:
+    singular: Spletna zanka
+    plural: Spletne zanke
+    resources:
+      time_entry:
+        name: "Vnos časa"
+    outgoing:
+      no_results_table: Še ni definirana nobena spletna zanka.
+      label_add_new: Dodajte novo spletno zanko
+      label_edit: Uredite spletno zanko
+      label_event_resources: Viri dogodka
+      events:
+        created: "Ustvarjen"
+        updated: "Posodobljen"
+      explanation:
+        text: >
+          Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the %{link} has passed.
+        link: configured aggregation period
+      status:
+        enabled: 'Spletna zanka je omogočena'
+        disabled: 'Spletna zanka je onemogočena'
+        enabled_text: 'Spletna zanka bo oddala koristne obremenitve za spodaj opredeljene dogodke.'
+        disabled_text: 'Kliknite gumb za urejanje, da aktivirate spletno zanko.'
+      deliveries:
+        no_results_table: No deliveries have been made for this webhook in the past days.
+        title: 'Nedavne dostave'
+        time: 'Čas dostave'
+      form:
+        introduction: >
+          Send a POST request to the payload URL below for any event in the project you're subscribed to. Payload will correspond to the APIv3 representation of the object being modified.
+        apiv3_doc_url: Za več informacij obiščite API dokumentacijo
+        description:
+          placeholder: 'Neobvezen opis spletne zanke.'
+        enabled:
+          description: >
+            Če je označeno, se bo spletna zanka sprožila na izbranih dogodkih. Počistite polje, da onemogočite spletno zanko.
+        events:
+          title: 'Omogočeni dogodki'
+        project_ids:
+          title: 'Omogočeni projekti'
+          description: 'Izberite, za katere projekte naj se izvede ta spletna zanka. '
+          all: 'Vsi projekti'
+          selected: 'Samo izbrani projekti'
+        selected_project_ids:
+          title: 'Izbrani projekti'
+        secret:
+          description: >
+            Če je nastavljeno, OpenProject to skrivno vrednost uporabi za podpis uporabnega bremena spletne zanke.

@@ -1,0 +1,89 @@
+#English strings go here
+lt:
+  js:
+    storages:
+      link_files_in_storage: "Susieti failus %{storageType}"
+      link_existing_files: "Susieti esamus failus"
+      upload_files: "Įkelti failus"
+      drop_files: "Įkelkite failus čia, norėdami įkelti juos į %{name}."
+      drop_or_click_files: "Įkelkite failus čia arba spauskite pele, norėdami įkelti juos į %{name}."
+      login: "%{storageType} prisijungimas"
+      login_to: "Prisijungti prie %{storageType}"
+      no_connection: "Nėra %{storageType} jungties"
+      open_storage: "Atverti %{storageType}"
+      select_location: "Pažymėti vietą"
+      choose_location: "Parinkite vietą"
+      types:
+        nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
+        default: "Saugykla"
+      information:
+        connection_error: >
+          Kai kurie %{storageType} nustatymai neveikia. Prašome susisiekti su jūsų %{storageType} administratoriumi.
+        live_data_error: "Klaida ištraukiant failo detales"
+        live_data_error_description: >
+          Dalies %{storageType} duomenų nepavyko ištraukti. Prašome pabandyti iš naujo įkelti šį puslapį arba susisiekti su jūsų %{storageType} administratoriumi.
+        no_file_links: "Norėdami susieti failus su šiuo darbo paketu, prašome daryti tai per %{storageType}."
+        not_logged_in: >
+          Norėdami pridėti nuorodą, žiūrėti ar įkelkiti failus, susijusius su šiuo darbo paketu, prašome prisijungti prie %{storageType}.
+      files:
+        already_existing_header: "Toks failas jau yra"
+        already_existing_body: >
+          Failas pavadinimu „%{fileName}“ jau yra vietoje, į kurią bandote jį įkelti. Ką norėtumėte padaryti?
+        directory_not_writeable: "Jūs neturite teisių pridėti failų į šį aplanką."
+        dragging_many_files: "Įkėlimas į %{storageType} galimas tik po vieną failą vienu metu."
+        dragging_folder: "Įkėlimas į %{storageType} nepalaiko aplankų."
+        empty_folder: "Šis aplankas yra tuščias."
+        empty_folder_location_hint: "Spauskite mygtuką žemiau, jei norite įkelti failą į šią vietą."
+        file_not_selectable_location: "Vietos pasirinkimo metu negalima parinkti failo."
+        project_folder_no_access: >
+          Jūs neturite prieigos prie projekto aplanko. Prašome susisiekti su jūsų administratoriumi ir gauti prieigą ar įkelti failą į kitą vietą.
+        managed_project_folder_not_available: >
+          Automatiškai tvarkomas projekto aplankas dar nerastas. Prašome truputį palaukti, iš naujo įkelti puslapį, kad atsisiųstumėte naujausius duomenis, ir pabandyti dar kartą.
+        managed_project_folder_no_access: >
+          Jūs dar neturite prieigos prie tvarkomo projekto aplanko. Prašome truputį palaukti ir bandyti dar kartą.
+        upload_keep_both: "Pasilikti abu"
+        upload_replace: "Pakeisti"
+      file_links:
+        empty: >
+          Šio metu nėra failų, susietų su šiuo darbo paketu. Pradėkite susieti failus naudodami veiksmą apačioje arba iš %{storageType}.
+        download: "Atsisiųsti %{fileName}"
+        open: "Atverti failą saugykloje"
+        open_location: "Atverti failą vietoje"
+        remove: "Pašalinti failo nuorodą"
+        remove_confirmation: >
+          Ar tikrai norite atsieti failą nuo šio darbo paketo? Atsiejimas neįtakoja originalaus failo, tik pašalina jungtį su dabartiniu darbo paketu.
+        remove_short: "Pašalinti nuorodą"
+        select: "Pasirinkite failus"
+        select_all: "Pasirinkti viską"
+        selection:
+          zero: "Pasirinkite failus susiejimui"
+          one: "Susieti 1 failą"
+          few: "Susieti %{count} failus"
+          many: "Susieti %{count} failų"
+          other: "Susieti %{count} failus"
+        success_create:
+          one: "Sėkmingai sukurta 1 failo nuoroda"
+          few: "Sėkmingai sukurtos %{count} failų nuorodos."
+          many: "Sėkmingai sukurta %{count} failų nuorodų."
+          other: "Sėkmingai sukurtos %{count} failų nuorodos."
+        upload_error:
+          default: >
+            Jūsų failo (%{fileName}) nepavyko įkelti.
+          403: >
+            Jūsų failas (%{fileName}) negalėjo būti įkeltas dėl sistemos apribojimų. Prašome susiekti su jūsų administratoriumi, kad gautumėte daugiau informacijos.
+          413: >
+            Jūsų failas (%{fileName}) per didelis, kad OpenProject galėtų įkelti jį į %{storageType}. Jūs galite įkelti tiesiai į %{storageType} ir tada susieti failą.
+          507: >
+            Jūsų failas (%{fileName}) yra didesnis nei leidžia saugyklos apribojimai. Susisiekite su jūsų administratoriumi, kad padidintumėte šį apribojimą.
+          detail:
+            nextcloud: >
+              Prašome patikrinti, kad įdiegta paskutinė Nectcloud aplikacija „OpenProject integration“ ir susisiekti su jūsų administratoriumi, jei reikia daugiau informacijos.
+        link_uploaded_file_error: >
+          Susiejant neseniai įkeltą failą „%{fileName}“ su darbo paketu %{workPackageId} įvyko klaida.
+        tooltip:
+          not_logged_in: "Prašome prisijungti prie saugyklos, kad pasiektumėte šį failą."
+          view_not_allowed: "Jūs neturite teisių matyti šį failą."
+          not_found: "Nepavyksta rasti šio failo."
+        already_linked_file: "Šis failas jau susietas su šiuo darbo paketu."
+        already_linked_directory: "Šis aplankas jau susietas su šiuo darbo paketu."

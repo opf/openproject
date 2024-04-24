@@ -1,0 +1,100 @@
+<%=
+  component_wrapper do
+    if sharing_manageable?
+      primer_form_with(
+        model: new_share,
+        url: work_package_shares_path(@work_package),
+        data: { controller: 'user-limit ' \
+                            'work-packages--share--user-selected',
+                'application-target': 'dynamic',
+                'user-limit-open-seats-value': OpenProject::Enterprise.open_seats_count,
+                action: 'submit->work-packages--share--user-selected#ensureUsersSelected' }
+      ) do |form|
+        grid_layout('invite-user-form',
+                    tag: :div) do |invite_form|
+          invite_form.with_area('invitee') do
+            render(WorkPackages::Share::Invitee.new(form))
+          end
+
+          invite_form.with_area('permission') do
+            render(WorkPackages::Share::PermissionButtonComponent.new(
+              share: new_share,
+              form_arguments: { builder: form, name: "role_id" },
+              data: { 'test-selector': 'op-share-wp-invite-role' })
+            )
+          end
+
+          invite_form.with_area('submit') do
+            render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) do
+              I18n.t('work_package.sharing.share')
+            end
+          end
+
+          if OpenProject::Enterprise.user_limit.present?
+            invite_form.with_area('userLimitWarning',
+                                  data: { 'user-limit-target': 'limitWarning',
+                                          'test-selector': 'op-share-wp-user-limit' },
+                                  display: :none) do
+              flex_layout do |user_limit_row|
+                user_limit_row.with_column(mr: 2) do
+                  render(Primer::Beta::Octicon.new(icon: :'alert-fill', color: :danger))
+                end
+
+                user_limit_row.with_column do
+                  render(Primer::Beta::Text.new(color: :danger)) do
+                    I18n.t(
+                      "work_package.sharing.warning_user_limit_reached#{'_admin' if User.current.admin?}",
+                      upgrade_url: OpenProject::Enterprise.upgrade_url
+                    ).html_safe
+                  end
+                end
+              end
+            end
+          end
+
+          invite_form.with_area('userSelectedWarning',
+                                data: { 'work-packages--share--user-selected-target': 'error',
+                                        'test-selector': 'op-share-wp-no-user-selected' },
+                                display: :none) do
+            flex_layout do |no_selected_user_row|
+              no_selected_user_row.with_column(mr: 2) do
+                render(Primer::Beta::Octicon.new(icon: :'alert-fill', color: :danger))
+              end
+
+              no_selected_user_row.with_column do
+                render(Primer::Beta::Text.new(color: :danger)) do
+                  I18n.t("work_package.sharing.warning_no_selected_user")
+                end
+              end
+            end
+          end
+
+          if @errors.present?
+            invite_form.with_area('errors',
+                                  data: { 'test-selector': 'op-share-wp-error-message' }) do
+              flex_layout do |error_rows|
+                @errors.full_messages.each do |error_message|
+                  error_rows.with_row do
+                    flex_layout do |no_selected_user_row|
+                      no_selected_user_row.with_column(mr: 2) do
+                        render(Primer::Beta::Octicon.new(icon: :'alert-fill', color: :danger))
+                      end
+
+                      no_selected_user_row.with_column do
+                        render(Primer::Beta::Text.new(color: :danger)) do
+                          error_message
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+    else
+      render(Primer::Alpha::Banner.new(icon: :info)) { I18n.t('work_package.sharing.permissions.denied') }
+    end
+  end
+%>

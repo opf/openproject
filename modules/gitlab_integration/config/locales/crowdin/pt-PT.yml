@@ -1,0 +1,67 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2023 Ben Tey
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+pt-PT:
+  activerecord:
+    errors:
+      models:
+        gitlab_issue:
+          attributes:
+            labels:
+              invalid_schema: "deve ser um conjunto de hashes com as chaves: cor, título"
+        gitlab_merge_request:
+          attributes:
+            labels:
+              invalid_schema: "deve ser um conjunto de hashes com as chaves: cor, título"
+  project_module_gitlab: "GitLab"
+  permission_show_gitlab_content: "Mostrar conteúdo GitLab"
+  gitlab_integration:
+    merge_request_opened_comment: >
+      **MR aberto:** Pedido de fusão %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi aberto por [%{gitlab_user}](%{gitlab_user_url}).
+    merge_request_closed_comment: >
+      **MR fechado:** Pedido de fusão %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi fechado por [%{gitlab_user}](%{gitlab_user_url}).
+    merge_request_merged_comment: >
+      **MR fundido:** Pedido de fusão %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi fundido por [%{gitlab_user}](%{gitlab_user_url}).
+    merge_request_reopened_comment: >
+      **MR reaberto:** Pedido de fusão %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi reaberto por [%{gitlab_user}](%{gitlab_user_url}).
+    note_commit_referenced_comment: >
+      **Referenciado em Confirmação:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP numa Nota de Confirmação [%{commit_id}](%{commit_url}) em [%{repository}](%{repository_url}): %{commit_note}
+    note_mr_referenced_comment: >
+      **Referenciado em MR:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP no Pedido de Fusão %{mr_number} [%{mr_title}](%{mr_url}) em [%{repository}](%{repository_url}): %{mr_note}
+    note_mr_commented_comment: >
+      **Comentado em RM:** [%{gitlab_user}](%{gitlab_user_url}) comentou este WP no Pedido de Fusão %{mr_number} [%{mr_title}](%{mr_url}) em [%{repository}](%{repository_url}): %{mr_note}
+    note_issue_referenced_comment: >
+      **Referenciado no Problema:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP no Problema %{issue_number} [%{issue_title}](%{issue_url}) em [%{repository}](%{repository_url}): %{issue_note}
+    note_issue_commented_comment: >
+      **Comentado no Problema:** [%{gitlab_user}](%{gitlab_user_url}) comentou este WP no Problema %{issue_number} [%{issue_title}](%{issue_url}) em [%{repository}](%{repository_url}): %{issue_note}
+    note_snippet_referenced_comment: >
+      **Referenciado no Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP no Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) em [%{repository}](%{repository_url}): %{snippet_note}
+    issue_opened_referenced_comment: >
+      **Problema Aberto:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi aberto por [%{gitlab_user}](%{gitlab_user_url}).
+    issue_closed_referenced_comment: >
+      **Problema Fechado:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi fechado por [%{gitlab_user}](%{gitlab_user_url}).
+    issue_reopened_referenced_comment: >
+      **Problema Reaberto:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi reaberto por [%{gitlab_user}](%{gitlab_user_url}).
+    push_single_commit_comment: >
+      **Enviado no MR:** [%{gitlab_user}](%{gitlab_user_url}) enviou [%{commit_number}](%{commit_url}) para [%{repository}](%{repository_url}) em %{commit_timestamp}: %{commit_note}
+    push_multiple_commits_comment: >
+      **Enviado no MR:** [%{gitlab_user}](%{gitlab_user_url}) enviou vários compromissos [%{commit_number}](%{commit_url}) para [%{repository}](%{repository_url}) em %{commit_timestamp}: %{commit_note}

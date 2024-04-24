@@ -1,0 +1,26 @@
+<%= render(Primer::OpenProject::FlexLayout.new(align_items: :center, p: 4)) do |flex| %>
+  <% case @state %>
+  <% when :waiting %>
+    <% flex.with_row do %>
+      <div class="op-loading-indicator">
+        <div></div><div></div>
+      </div>
+    <% end %>
+    <% flex.with_row do %>
+      <%= render(Primer::Beta::Heading.new(tag: :h2, text_align: :center)) { waiting_title } %>
+    <% end %>
+    <% flex.with_row do %>
+      <%= render(Primer::Beta::Text.new(text_align: :center, color: :muted, id: 'waiting_subtitle')) { waiting_subtitle } %>
+    <% end %>
+  <% when :success %>
+    <% flex.with_row do %>
+      <%= render(Primer::Beta::Octicon.new(:"check-circle", size: :medium, color: :success)) %>
+    <% end %>
+    <% flex.with_row do %>
+      <%= render(Primer::Beta::Heading.new(tag: :h2, text_align: :center)) { success_title } %>
+    <% end %>
+    <% flex.with_row do %>
+      <%= render(Primer::Beta::Text.new(text_align: :center, color: :muted)) { success_subtitle } %>
+    <% end %>
+  <% end %>
+<% end %>

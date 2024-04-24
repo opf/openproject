@@ -1,0 +1,109 @@
+# /api/v3/notifications
+---
+get:
+  summary: Get notification collection
+  operationId: list_notifications
+  tags:
+    - Notifications
+  description: |-
+    Returns the collection of available in-app notifications. The notifications returned depend on the provided
+    parameters and also on the requesting user's permissions.
+
+    Contrary to most collections, this one also links to and embeds schemas for the `details` properties of the notifications returned.
+    This is an optimization. Clients will receive the information necessary to display the various types of details that a notification
+    can carry.
+  parameters:
+    - name: offset
+      description: Page number inside the requested collection.
+      in: query
+      example: 25
+      required: false
+      schema:
+        default: 1
+        type: integer
+    - name: pageSize
+      description: Number of elements to display per page.
+      in: query
+      example: 25
+      required: false
+      schema:
+        default: 20
+        type: integer
+    - name: sortBy
+      in: query
+      description: |-
+        JSON specifying sort criteria.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported sorts are:
+
+        + id: Sort by primary key
+
+        + reason: Sort by notification reason
+
+        + readIAN: Sort by read status
+      example: '[["reason", "asc"]]'
+      required: false
+      schema:
+        type: string
+    - name: groupBy
+      in: query
+      description: |-
+        string specifying group_by criteria.
+
+        + reason: Group by notification reason
+
+        + project: Sort by associated project
+      example: 'reason'
+      required: false
+      schema:
+        type: string
+    - name: filters
+      in: query
+      description: |-
+        JSON specifying filter conditions.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported filters are:
+
+        + id: Filter by primary key
+
+        + project: Filter by the project the notification was created in
+
+        + readIAN: Filter by read status
+
+        + reason: Filter by the reason, e.g. 'mentioned' or 'assigned' the notification was created because of
+
+        + resourceId: Filter by the id of the resource the notification was created for. Ideally used together with the `resourceType` filter.
+
+        + resourceType: Filter by the type of the resource the notification was created for. Ideally used together with the `resourceId` filter.
+      example: '[{ "readIAN": { "operator": "=", "values": ["t"] } }]'
+      required: false
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/notification_collection_model.yml'
+          examples:
+            'Collection of notifications':
+              $ref: '../components/examples/notification_collection.yml'
+      description: OK
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to view this resource.
+      description: Returned if the client is not logged in and login is required.
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+            message: Filters Invalid filter does not exist.
+      description: Returned if the client sends invalid request parameters e.g. filters

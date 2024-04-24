@@ -1,0 +1,13 @@
+<section class="form--section op-user-consent-form">
+  <p>
+    <%= format_text(user_consent_instructions(::I18n.locale), { target: '_blank' }) %>
+  </p>
+
+  <label class="form--label-with-check-box -required -no-ellipsis op-user-consent-form--agreement">
+    <div class="form--check-box-container">
+      <input type="checkbox" name="consent_check" class="form--check-box" required="required" />
+    </div>
+
+    <%= format_text consent_checkbox_label %>
+  </label>
+</section>

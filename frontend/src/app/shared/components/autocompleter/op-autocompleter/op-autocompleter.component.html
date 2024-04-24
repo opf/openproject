@@ -1,0 +1,218 @@
+<div class="inline-label">
+  <input
+    #syncedInput
+    *ngIf="inputName && !(multiple && multipleAsSeparateInputs)"
+    type="hidden"
+    [attr.name]="inputName"
+    [attr.data-action]="hiddenFieldAction">
+  <ng-container *ngIf="multiple && multipleAsSeparateInputs">
+    <input
+      *ngFor="let value of mappedInputValue"
+      type="hidden"
+      [attr.name]="inputName+'[]'"
+      [attr.data-action]="hiddenFieldAction"
+      [value]="value">
+  </ng-container>
+  <ng-select
+    #ngSelectInstance
+    [(ngModel)]="model"
+    [items]="results$ | async"
+    [ngClass]="classes"
+    [typeahead]="typeahead"
+    [clearOnBackspace]="clearOnBackspace"
+    [clearSearchOnAdd]="clearSearchOnAdd"
+    [hideSelected]="hideSelected"
+    [appendTo]="appendTo"
+    [multiple]="multiple"
+    [loading]="loading$ | async"
+    [addTag]="addTag"
+    [virtualScroll]="virtualScroll"
+    [required]="required"
+    [clearable]="clearable"
+    [closeOnSelect]="closeOnSelect"
+    [openOnEnter]="openOnEnter"
+    [disabled]="disabled"
+    [name]="name"
+    [id]="id"
+    [attr.accesskey]="accesskey||undefined"
+    [bindLabel]="bindLabel"
+    [bindValue]="bindValue"
+    [markFirst]="markFirst"
+    [notFoundText]="notFoundText"
+    [addTagText]="addTagText"
+    [loadingText]="loadingText"
+    [clearAllText]="clearAllText"
+    [appearance]="appearance"
+    [dropdownPosition]="dropdownPosition"
+    [selectOnTab]="selectOnTab"
+    [maxSelectedItems]="maxSelectedItems"
+    [placeholder]="placeholder"
+    [groupBy]="groupBy"
+    [groupValue]="groupValue"
+    [bufferAmount]="bufferAmount"
+    [selectableGroup]="selectableGroup"
+    [searchable]="searchable"
+    [selectableGroupAsModel]="selectableGroupAsModel"
+    [trackByFn]="trackByFn"
+    [compareWith]="compareWith"
+    [searchFn]="searchFn"
+    [labelForId]="labelForId"
+    [inputAttrs]="inputAttrs"
+    [tabIndex]="tabIndex"
+    [readonly]="readonly"
+    [searchWhileComposing]="searchWhileComposing"
+    [minTermLength]="minTermLength"
+    [editableSearchTerm]="editableSearchTerm"
+    [keyDownFn]="keyDownFn"
+
+    (change)="changed($event)"
+    (open)="opened()"
+    (close)="closed()"
+    (blur)="blured($event)"
+    (focus)="focused($event)"
+    (clear)="cleared($event)"
+    (keydown)="keydowned($event)"
+    (keydown.escape)="canceled($event)"
+    (search)="searched($event)"
+    (scroll)="scrolled($event)"
+    (scrollToEnd)="scrolledToEnd($event)"
+    (add)="added($event)"
+    (remove)="removed($event)"
+  >
+    <ng-template
+      ng-header-tmp
+      let-item="item"
+      let-index="index"
+      let-search="searchTerm"
+      *ngIf="headerTemplate || projectedHeaderTemplate"
+    >
+      <ng-container
+        [ngTemplateOutlet]="headerTemplate || projectedHeaderTemplate"
+        [ngTemplateOutletContext]="{$implicit:item, search:search, index:index }"
+      ></ng-container>
+    </ng-template>
+
+    <ng-template
+      ng-label-tmp
+      let-item="item"
+      let-index="index"
+      let-search="searchTerm"
+      let-clear="clear"
+      *ngIf="labelRequired"
+    >
+      <ng-container
+        [ngTemplateOutlet]="projectedLabelTemplate || labelTemplate || defaultLabel"
+        [ngTemplateOutletContext]="{$implicit:item, search:search, index:index, clear:clear }"
+      ></ng-container>
+    </ng-template>
+
+    <ng-template
+      ng-option-tmp
+      let-item="item"
+      let-index="index"
+      let-search="searchTerm"
+    >
+      <ng-container
+        [ngTemplateOutlet]="projectedOptionTemplate || optionTemplate || defaultOption"
+        [ngTemplateOutletContext]="{$implicit:item, search:search, index:index }"
+      ></ng-container>
+    </ng-template>
+
+    <ng-template
+      ng-footer-tmp
+      let-item="item"
+      let-index="index"
+      let-search="searchTerm"
+      *ngIf="footerTemplate || projectedFooterTemplate"
+    >
+      <ng-container
+        [ngTemplateOutlet]="footerTemplate || projectedFooterTemplate"
+        [ngTemplateOutletContext]="{$implicit:item, search:search, index:index }"
+      ></ng-container>
+    </ng-template>
+  </ng-select>
+</div>
+
+<ng-template let-item let-search="search" #defaultOption [ngSwitch]="true">
+  <ng-container *ngSwitchCase="resource === 'work_packages' || resource === 'parent-child'">
+    <div class="op-autocompleter--option-wrapper">
+      <op-principal
+        class="op-autocompleter--option-principal"
+        *ngIf="item.author && item.author.href"
+        [principal]="item.author"
+        [hideName]="true"
+      ></op-principal>
+      <span
+        class="op-autocompleter--wp-subject"
+        data-test-selector="op-autocompleter-item-subject"
+      >
+        <span
+          *ngIf="item.type"
+          [ngClass]="highlighting('type', item.type.id)"
+          textContent="{{ item.type.name }} "
+        ></span>
+        <span
+          [ngOptionHighlight]="search"
+          [textContent]="item.subject">
+        </span>
+      </span>
+
+      <div class="op-autocompleter--wp-content">
+        <span
+          [ngOptionHighlight]="search"
+          [textContent]="item.project?.name"
+          class="op-autocompleter--wp-project"
+        ></span>
+
+        <span
+          class="op-autocompleter--wp-id"
+          [ngOptionHighlight]="search"
+        >#{{item.id}}</span>
+
+        <span
+          [textContent]="item.status?.name"
+          [ngClass]="highlighting('status',item.status?.id)"
+          class="op-autocompleter--wp-status"
+        ></span>
+
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="resource ==='users' || resource ==='assignee' || resource === 'principals'">
+    <div class="op-autocompleter--option-principal-wrapper">
+      <op-principal
+        *ngIf="item && item.href"
+        [principal]="item"
+        [hideName]="true"
+        class="op-autocompleter--option-principal-avatar"
+        size="mini"
+      ></op-principal>
+      <span [ngOptionHighlight]="search" class="ellipsis">{{ item.name }}</span>
+    </div>
+  </ng-container>
+
+  <ng-container
+    *ngSwitchCase="resource ==='subproject' || resource ==='version' || resource ==='status' || resource ==='default' || !resource">
+    <span [ngOptionHighlight]="search">{{ item.name }}</span>
+  </ng-container>
+</ng-template>
+
+<ng-template let-item let-search="search" let-clear="clear" #defaultLabel>
+  <ng-container *ngIf="resource === 'work_packages'">
+    <span
+      *ngIf="item.id"
+      class="ng-value-label"
+      [ngOptionHighlight]="search"
+    >
+      {{item.type?.name }} #{{ item.id }} {{ item.subject || item.name }}
+    </span>
+  </ng-container>
+
+  <ng-container *ngIf="resource !== 'work_packages'">
+    <span class="ng-value-icon left" (click)="clear(item)">×</span>
+    <span
+      [ngOptionHighlight]="search"
+      class="ng-value-label">{{item.name}}</span>
+  </ng-container>
+</ng-template>

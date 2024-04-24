@@ -1,0 +1,84 @@
+$searchable-menu--search-container-height: 35px
+
+.searchable-menu
+  &--search-ul
+    height: calc(100% - #{$searchable-menu--search-container-height})
+    +allow-vertical-scrolling
+    -ms-overflow-style: -ms-autohiding-scrollbar
+    left: 0 !important
+    top: 0 !important
+    width: 100% !important
+    padding-top: 10px !important
+    max-height: 100%
+    background: none
+    z-index: 0 // Prevent overlapping with project select dropdown (https://community.openproject.com/wp/28175)
+    @include styled-scroll-bar
+
+  &--results-container
+    padding-top: 5px
+    height: calc(100% - #{$searchable-menu--search-container-height})
+
+    // Firefox needs more left padding for whatever reason
+    html.-browser-firefox &
+      padding-left: 10px
+
+  &--no-results-container
+    padding: 15px 15px 0
+    display: inline-block
+    width: 100%
+    white-space: normal
+    font-size: var(--main-menu-font-size)
+
+  &--search-container
+    padding-top: 10px
+    overflow: hidden
+    color: var(--main-menu-font-color)
+
+    // Specific fix for Firefox
+    body.-browser-firefox &
+      padding-right: 14px
+
+  // The actual search input
+  &--search-bar
+    height: $searchable-menu--search-container-height
+    position: relative
+    margin: 0 10px
+    min-width: 55px
+
+  // Rule complexed for specificity issues
+  input[type="text"].searchable-menu--search-input
+    color: var(--main-menu-font-color)
+    width: 100%
+    height: 35px
+    border: 1px solid rgba(231, 231, 231, 0.15)
+    border-radius: 3px
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15)
+    background-color: rgba(0, 0, 0, 0.15)
+    padding: 0px 30px 0px 10px
+
+    // Hide the little x to remove input where exists + supported
+    &::-webkit-search-cancel-button
+      display: none
+    &::placeholder,
+    &::-webkit-input-placeholder
+      color: var(--main-menu-font-color)
+      opacity: 0.5
+      @include text-shortener
+
+  &--search-icon
+    position: absolute
+    top:   5px
+    right: 10px
+    color: var(--main-menu-font-color)
+    opacity: 0.5
+
+  &--placeholder
+    @include text-shortener
+    color: var(--main-menu-font-color)
+    font-size: var(--main-menu-font-size)
+    padding: 0 10px
+
+#sidebar
+  // Cancel out the sidebar padding
+  .searchable-menu
+    margin: 0 -15px

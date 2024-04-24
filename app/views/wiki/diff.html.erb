@@ -1,0 +1,48 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<% breadcrumb_paths(*(@page.ancestors.reverse.collect { |parent| link_to h(parent.breadcrumb_title), {id: parent, project_id: parent.project}} + [h(@page.breadcrumb_title)] )) %>
+<%= toolbar title: h(@page.title) do %>
+  <li class="toolbar-item">
+    <%= link_to({action: 'history', id: @page}, class: 'button') do %>
+      <%= op_icon('button--icon icon-wiki') %>
+      <span class="button--text"><%= t(:label_history) %></span>
+    <% end %>
+  </li>
+<% end %>
+
+<p>
+  <%= Version.model_name.human %> <%= link_to @diff.content_from.version, action: 'show', id: @page, project_id: @page.project, version: @diff.content_from.version %>/<%= @page.version %>
+  <em>(<%= @diff.content_from.user ? link_to_user(@diff.content_from.user) : t(:label_user_anonymous) %>, <%= format_time(@diff.content_from.created_at) %>)</em>
+  &#8594;
+  <%= Version.model_name.human %> <%= link_to @diff.content_to.version, action: 'show', id: @page, project_id: @page.project, version: @diff.content_to.version %>/<%= @page.version %>
+  <em>(<%= @diff.content_to.user ? link_to_user(@diff.content_to.user) : t(:label_user_anonymous) %>, <%= format_time(@diff.content_to.created_at) %>)</em>
+</p>
+<div class="text-diff">
+  <%= nl2br @html_diff %>
+</div>

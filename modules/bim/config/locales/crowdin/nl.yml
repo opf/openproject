@@ -1,0 +1,136 @@
+#English strings go here for Rails i18n
+nl:
+  plugin_openproject_bim:
+    name: "OpenProject BIM and BCF functionality"
+    description: "This OpenProject plugin introduces BIM and BCF functionality."
+  bim:
+    label_bim: 'BIM'
+  bcf:
+    label_bcf: 'BCF'
+    label_imported_failed: 'Mislukte import van BCF onderwerpen'
+    label_imported_successfully: 'Succesvol BCF onderwerpen geïmporteerd'
+    issues: "Problemen"
+    recommended: 'aanbevolen'
+    not_recommended: 'niet aanbevolen'
+    no_viewpoints: 'Geen standpunten'
+    new_badge: "Nieuw"
+    exceptions:
+      file_invalid: "BCF-bestand ongeldig"
+    x_bcf_issues:
+      zero: 'Geen BCF-kwesties'
+      one: 'Één BCF-probleem'
+      other: '%{count} BCF problemen'
+    bcf_xml:
+      xml_file: 'BCF XML bestand'
+      import_title: 'Importeren'
+      export: 'Exporteren'
+      import_update_comment: '(Bijgewerkt in BCF import)'
+      import_failed: 'Kan BCF-bestand niet importeren: %{error}'
+      import_failed_unsupported_bcf_version: 'Lezen van BCF-bestand is mislukt: de BCF-versie wordt niet ondersteund. Zorg ervoor dat de versie ten minste %{minimal_version} of hoger is.'
+      import_successful: 'Geïmporteerde %{count} BCF problemen'
+      import_canceled: 'BCF-XML import geannuleerd.'
+      type_not_active: "Het probleemtype is niet geactiveerd voor dit project."
+      import:
+        num_issues_found: '%{x_bcf_issues} staan in het BCF-XML bestand, hun details staan hieronder.'
+        button_prepare: 'Import voorbereiden'
+        button_perform_import: 'Import bevestigen'
+        button_proceed: 'Ga verder met importeren'
+        button_back_to_list: 'Terug naar lijst'
+        no_permission_to_add_members: 'U heeft niet voldoende rechten om deze als deelnemers aan het project toe te voegen.'
+        contact_project_admin: 'Neem contact op met je projectbeheerder om hen als deelnemers toe te voegen en deze import opnieuw te starten.'
+        continue_anyways: 'Wilt u doorgaan en de import toch afsluiten?'
+        description: "Geef een BCF-XML v2.1 bestand op om in dit project te importeren. U kunt de inhoud ervan bekijken voordat u de import uitvoert."
+        invalid_types_found: 'Ongeldige onderwerp type namen gevonden'
+        invalid_statuses_found: 'Ongeldige statusnamen gevonden'
+        invalid_priorities_found: 'Ongeldige prioriteitsnamen gevonden'
+        invalid_emails_found: 'Ongeldige emailadressen gevonden'
+        unknown_emails_found: 'Onbekende emailadressen gevonden'
+        unknown_property: 'Onbekende eigenschap'
+        non_members_found: 'Niet-projectdeelnemers gevonden'
+        import_types_as: 'Al deze types instellen op'
+        import_statuses_as: 'Al deze statussen instellen op'
+        import_priorities_as: 'Al deze prioriteiten instellen op'
+        invite_as_members_with_role: 'Nodig hen uit als deelnemers voor het project "%{project}" met de rol'
+        add_as_members_with_role: 'Voeg hen als deelnemers toe aan het project "%{project}" met rol'
+        no_type_provided: 'Geen type opgegeven'
+        no_status_provided: 'Geen status opgegeven'
+        no_priority_provided: 'Geen prioriteit opgegeven'
+        perform_description: "Wilt u de hierboven vermelde problemen importeren of bijwerken?"
+        replace_with_system_user: 'Vervang ze door "Systeem" gebruiker'
+        import_as_system_user: 'Importeer ze als "Systeem" gebruiker.'
+        what_to_do: "Wat wilt u doen?"
+        work_package_has_newer_changes: "Verouderd! Dit topic is niet geüpdatet omdat de laatste wijzigingen op de server nieuwer zijn dan de \"ModifiedDate\" van het geïmporteerde onderwerp. Opmerkingen over het onderwerp zijn echter geïmporteerd."
+        bcf_file_not_found: "Kon BCF-bestand niet vinden. Start het uploadproces opnieuw."
+  export:
+    format:
+      bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "BCF snapshot"
+  project_module_bcf: "BCF"
+  project_module_bim: "BCF"
+  permission_view_linked_issues: "Bekijk alle BCF-kwesties"
+  permission_manage_bcf: "BCF-problemen importeren en beheren"
+  permission_delete_bcf: "BCF problemen verwijderen"
+  oauth:
+    scopes:
+      bcf_v2_1: "Volledige toegang tot de BCF v2.1 API"
+      bcf_v2_1_text: "Toepassing zal volledige lees- en schrijftoegang krijgen tot de OpenProject BCF API v2.1 om namens u acties uit te voeren."
+  activerecord:
+    models:
+      bim/ifc_models/ifc_model: "IFC model"
+    attributes:
+      bim/ifc_models/ifc_model:
+        ifc_attachment: "IFC bestand"
+        is_default: "Standaard model"
+        attachments: "IFC bestand"
+    errors:
+      models:
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "Geen IFC bestand toegevoegd."
+              invalid_ifc_file: "Het opgegeven bestand is geen geldig IFC-bestand."
+        bim/bcf/viewpoint:
+          bitmaps_not_writable: "bitmaps zijn niet beschrijfbaar omdat ze nog niet geïmplementeerd zijn."
+          index_not_integer: "index is geen geheel getal."
+          invalid_clipping_planes: "clipping_planes is ongeldig."
+          invalid_components: "componenten is ongeldig."
+          invalid_lines: "lijnen is ongeldig."
+          invalid_orthogonal_camera: "orthogonal_camera is ongeldig."
+          invalid_perspective_camera: "perspective_camera is ongeldig."
+          mismatching_guid: "De guid in het json_viewpoint komt niet overeen met de guid van het model."
+          no_json: "Is geen goed gestructureerde json."
+          snapshot_type_unsupported: "snapshot_type moet 'png' of 'jpg' zijn."
+          snapshot_data_blank: "Er moeten momentopnamen worden verstrekt."
+          unsupported_key: "Een niet-ondersteunde json-eigenschap is inbegrepen."
+        bim/bcf/issue:
+          uuid_already_taken: "Dit BCF-probleem kan niet worden geimporteerd omdat er al een ander is met dezelfde GUID. Zou het kunnen dat deze BCF-kwestie al in een ander project was geïmporteerd?"
+  ifc_models:
+    label_ifc_models: 'IFC modellen'
+    label_new_ifc_model: 'Nieuw IFC-model'
+    label_show_defaults: 'Standaardinstellingen weergeven'
+    label_default_ifc_models: 'Standaard IFC-modellen'
+    label_edit_defaults: 'Standaardwaarden bewerken'
+    no_defaults_warning:
+      title: 'Er is geen IFC-model ingesteld als standaard voor dit project.'
+      check_1: 'Controleer of je ten minste één IFC-model hebt geüpload.'
+      check_2: 'Controleer of ten minste één IFC-model is ingesteld op "Standaard".'
+    no_results: "Er zijn geen IFC-modellen geüpload in dit project."
+    conversion_status:
+      label: 'Verwerken?'
+      pending: 'Lopende'
+      processing: 'Verwerking'
+      completed: 'Voltooid'
+      error: 'Fout'
+    processing_notice:
+      processing_default: 'De volgende standaard IFC-modellen worden nog steeds verwerkt en zijn dus nog niet beschikbaar:'
+    flash_messages:
+      upload_successful: 'Upload geslaagd. Het wordt nu verwerkt en is binnen een paar minuten klaar voor gebruik.'
+    conversion:
+      missing_commands: "De volgende IFC converter commando's ontbreken op dit systeem: %{names}"
+  project_module_ifc_models: "IFC modellen"
+  permission_view_ifc_models: "Bekijk IFC-modellen"
+  permission_manage_ifc_models: "IFC-modellen importeren en beheren"
+  extraction:
+    available:
+      ifc_convert: "IFC conversie pipeline beschikbaar"

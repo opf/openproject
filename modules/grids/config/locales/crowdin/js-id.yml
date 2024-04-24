@@ -1,0 +1,67 @@
+id:
+  js:
+    grid:
+      add_widget: 'Tambahkan widget'
+      remove: 'Hapus widget'
+      configure: 'Konfigurasi Widget'
+      upsale:
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
+        link: 'Enterprise edition.'
+      widgets:
+        missing_permission: "You don't have the necessary permissions to view this widget."
+        custom_text:
+          title: 'Teks bebas'
+        documents:
+          title: 'Dokumen'
+          no_results: 'Belum ada dokumen.'
+        members:
+          title: 'Member'
+          no_results: 'Tidak ada anggota yang terlihat.'
+          view_all_members: 'View all members'
+          add: 'Member'
+          too_many: 'Menampilkan %{count} dari %{total} anggota.'
+        news:
+          title: 'News'
+          at: 'di'
+          no_results: 'Nothing new to report.'
+        project_description:
+          title: 'Deskripsi Proyek'
+          no_results: "Belum ada deskripsi yang ditulis. Deskripsi dapat disediakan dalam 'Pengaturan proyek'."
+        project_details:
+          title: 'Rincian proyek'
+          no_results: 'Tidak ada bidang khusus yang ditentukan untuk proyek.'
+        project_status:
+          title: 'Project status'
+          not_started: 'Belum mulai'
+          on_track: 'Di jalur'
+          off_track: 'Keluar dari jalur'
+          at_risk: 'Berisiko'
+          not_set: 'Belum diatur'
+          finished: 'Selesai'
+          discontinued: 'Dihentikan'
+        subprojects:
+          title: 'Sub Project'
+          no_results: 'Tidak ada subproyek.'
+        time_entries_current_user:
+          title: 'Waktu yang saya habiskan'
+          displayed_days: 'Hari yang ditampilkan di widget:'
+        time_entries_list:
+          title: 'Waktu yang dihabiskan (7 hari terakhir)'
+          no_results: 'No time entries for the last 7 days.'
+        work_packages_accountable:
+          title: "Work packages I am accountable for"
+        work_packages_assigned:
+          title: 'Paket-Penugasan yang saya kerjakan'
+        work_packages_created:
+          title: 'Work packages created by me'
+        work_packages_watched:
+          title: 'Work packages watched by me'
+        work_packages_table:
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
+        work_packages_calendar:
+          title: 'Kalender'
+        work_packages_overview:
+          title: 'Work packages overview'
+          placeholder: 'Click to edit ...'

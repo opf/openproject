@@ -1,0 +1,202 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+#English strings go here for Rails i18n
+lt:
+  plugin_openproject_meeting:
+    name: "OpenProject susitikimas"
+    description: >-
+      Šis modulis prideda funkcijas, leidžiančias OpenProject projektų susitikimus. Susitikimus galima planuoti parenkant susitikimo dalyvius iš to paties projekto. Galima sukurti ir išsiųsti dalyviams susitikimo planą. Ir galų gale galima sukurti ir išsiųsti visiems dalyviams ir pakviestiesiems susitikimo protokolą.
+  activerecord:
+    attributes:
+      meeting:
+        type: "Susitikimo tipas"
+        location: "Vieta"
+        duration: "Trukmė"
+        notes: "Pastabos"
+        participants: "Dalyviai"
+        participant:
+          one: "1 dalyvis"
+          few: "%{count} dalyviai"
+          many: "%{count} dalyvių"
+          other: "%{count} dalyviai"
+        participants_attended: "Būtinas dalyvis"
+        participants_invited: "Pakviestas dalyvauti"
+        project: "Projektas"
+        start_date: "Data"
+        start_time: "Pradžios laikas"
+        start_time_hour: "Pradžios laikas"
+      meeting_agenda_item:
+        title: "Pavadinimas"
+        author: "Autorius"
+        duration_in_minutes: "min"
+        description: "Pastabos"
+        presenter: "Pateikėjas"
+    errors:
+      messages:
+        invalid_time_format: "netinkamas laikas. Reikalingas formatas: HH:MM (pvz.: 10:30)"
+    models:
+      structured_meeting: "Susitikimas (dinaminis)"
+      meeting_agenda_item: "Darbotvarkės punktas"
+      meeting_agenda: "Dienotvarkė"
+      meeting_minutes: "Minutės"
+  activity:
+    filter:
+      meeting: "Susitikimai"
+  description_attended: "būtinai dalyvavo"
+  description_invite: "pakviesta"
+  events:
+    meeting: Pasitarimas redaguotas
+    meeting_agenda: Pasitarimo darbotvarkė redaguota
+    meeting_agenda_closed: Pasitarimo darbotvarkė uždaryta
+    meeting_agenda_opened: Susitikimo darbotvarkė atidaryta
+    meeting_minutes: Pasitarimo minutės redaguotos
+    meeting_minutes_created: Pasitarimo minutės sukurtos
+  error_notification_with_errors: "Nepavyko išsiųsti pranešimo. Toliau išvardinti adresatai nebuvo įspėti: %{recipients}"
+  label_meeting: "Pasitarimas"
+  label_meeting_plural: "Pasitarimai"
+  label_meeting_new: "Naujas pasitarimas"
+  label_meeting_edit: "Redaguoti pasitarimą"
+  label_meeting_agenda: "Dienotvarkė"
+  label_meeting_minutes: "Minutės"
+  label_meeting_close: "Uždaryti"
+  label_meeting_open: "Atidaryti"
+  label_meeting_agenda_close: "Uždaryti darbotvarkę, kad būtų pradėtos minutės"
+  label_meeting_date_time: "Data/Laikas"
+  label_meeting_diff: "skirt."
+  label_upcoming_meetings: "Artėjantys susirinkimai"
+  label_past_meetings: "Įvykę susirinkimai"
+  label_upcoming_meetings_short: "Artėjantys"
+  label_past_meetings_short: "Buvę"
+  label_involvement: "Įsitraukimas"
+  label_upcoming_invitations: "Artėjantys pakvietimai"
+  label_past_invitations: "Ankstesni pakvietimai"
+  label_attendee: "Dalyvis"
+  label_author: "Kūrėjas"
+  label_notify: "Siųsti peržiūrai"
+  label_icalendar: "Siųsti iCalendar formatu"
+  label_icalendar_download: "Atsisiųsti iCalendar įvykį"
+  label_version: "Versija"
+  label_time_zone: "Laiko juosta"
+  label_start_date: "Pradžios data"
+  meeting:
+    attachments:
+      text: "Prisegti failai prieinami visiems susitikimo dalyviams. Taipogi galite nutempti juos į plano elemento pastabas."
+    copy:
+      title: "Kopijuoti susitikimą %{title}"
+      attachments: "Kopijuoti priedus"
+      attachments_text: "Perkopijuoti visus prisegtus failus į naują susitikimą"
+      agenda: "Kopijuoti dienotvarkę"
+      agenda_text: "Kopijuoti seno susitikimo darbotvarkę"
+    email:
+      open_meeting_link: "Atverti susitikimą"
+      invited:
+        summary: "%{actor} atsiuntė jums pakvietimą į susitikimą %{title}"
+      rescheduled:
+        header: "Susitikimas %{title} buvo perplanuotas"
+        summary: "Susitikimą %{title} perplanavo %{actor}"
+        body: "Susitikimą %{title} perplanavo %{actor}."
+        old_date_time: "Sena data/laikas"
+        new_date_time: "Nauja data/laikas"
+    label_mail_all_participants: "Siųsti e-laišką visiems dalyviams"
+    types:
+      classic: "Klasikinis"
+      classic_text: "Organizuokite jūsų susitikimą su formatuojamo teksto darbotvarke ir protokolu."
+      structured: "Dinaminis"
+      structured_text: "Organizuokite jūsų susitikimą su darbotvarkės elementų sąrašu, pasirinktinai susiejant juos su darbo paketu."
+      structured_text_copy: "Šiuo metu nukopijavus susitikimą, susiję susitikimo elmentai nebus kopijuojami, tik detalės."
+    copied: "Nukopijuota iš susitikimo #%{id}"
+  notice_successful_notification: "Pranešimas sėkmingai išsiųstas"
+  notice_timezone_missing: Laiko zona nenustatyta ir %{zone} zona yra rekomenduojama. Kad pasirinktumėte laiko zoną, paspauskite čia.
+  permission_create_meetings: "Sukurti pasitarimus"
+  permission_edit_meetings: "Redaguoti pasitarimus"
+  permission_delete_meetings: "Šalinti pasitarimus"
+  permission_view_meetings: "Peržiūrėti pasitarimus"
+  permission_create_meeting_agendas: "Kurti susitikimų darbotvarkes"
+  permission_create_meeting_agendas_explanation: "Leidžia keisti klasikinių susitikimų darbotvarkių turinį."
+  permission_manage_agendas: "Valdyti darbotvarkes"
+  permission_manage_agendas_explanation: "Leidžia tvarkyti dinaminių susitikimų darbotvarkių elementus."
+  permission_close_meeting_agendas: "Uždaryti darbotvarkes"
+  permission_send_meeting_agendas_notification: "Siųsti peržiūros pranešimą darbotvarkėms"
+  permission_create_meeting_minutes: "Valdyti minutes"
+  permission_send_meeting_minutes_notification: "Siųsti peržiūros pranešimą minutėms"
+  permission_meetings_send_invite: "Pakviesti vartotojus į susitikimą"
+  permission_send_meeting_agendas_icalendar: "Siųsti susitikimo planą kaip kalendoriaus įrašą"
+  project_module_meetings: "Pasitarimai"
+  text_duration_in_hours: "Trukmė valandomis"
+  text_in_hours: " valandos(-ų) "
+  text_meeting_agenda_for_meeting: 'pasitarimo „%{meeting}“ darbotvarkę'
+  text_meeting_closing_are_you_sure: "Ar tikrai norite uždaryti susitikimo planą?"
+  text_meeting_agenda_open_are_you_sure: "Tai perrašys visus pakeitimus minutėse! Ar norite tęsti?"
+  text_meeting_minutes_for_meeting: 'pasitarimo „%{meeting}“ minutės'
+  text_notificiation_invited: "Šis laiškas turi ics įrašą žemiau nurodytam susitikimui:"
+  text_meeting_empty_heading: "Jūsų susitikimas yra tuščias"
+  text_meeting_empty_description_1: "Pradėkite pridėdami darbotvarkės elementus žemiau. Kiekvienas elementas gali būti paprasčiausiai antraštė, bet jūs galite pridėti papildomas detales, tokias kaip trukmę ir pastabas."
+  text_meeting_empty_description_2: 'Jūs taipogi galite pridėti nuorodas į esamus darbo paketus. Kai tai padarysite, susijusios pastabos bus automatiškai matomos darbo paketo kortelėje „Susitikimai“.'
+  label_meeting_empty_action: "Pridėti darbotvarkės klausimą"
+  label_meeting_actions: "Susitikimo veiksmai"
+  label_meeting_edit_title: "Keisti susitikimo pavadinimą"
+  label_meeting_delete: "Trinti susitikimą"
+  label_meeting_created_by: "Sukūrė"
+  label_meeting_last_updated: "Atnaujinta"
+  label_agenda_items: "Darbotvarkės klausimai"
+  label_agenda_items_reordered: "perrikiuota"
+  label_agenda_item_remove: "Išimti iš plano"
+  label_agenda_item_undisclosed_wp: "Darbo paketo #%{id} nematomas"
+  label_agenda_item_deleted_wp: "Ištrinta darbo paketo nuoroda"
+  label_agenda_item_actions: "Darbotvarkės elemento veiksmai"
+  label_agenda_item_move_to_top: "Perkelti į viršų"
+  label_agenda_item_move_to_bottom: "Perkelti į apačią"
+  label_agenda_item_move_up: "Aukštyn"
+  label_agenda_item_move_down: "Žemyn"
+  label_agenda_item_add_notes: "Pridėti pastabų"
+  label_agenda_item_work_package: "Darbotvarkės elemento darbo paketas"
+  text_agenda_item_title: 'Darbotvarkės punktas „%{title}“'
+  text_agenda_work_package_deleted: 'Ištrinto darbo paketo darbotvarkės punktas'
+  text_deleted_agenda_item: 'Ištrintas darbotvarkės punktas'
+  label_initial_meeting_details: "Susitikimas"
+  label_meeting_details: "Susitikimo detalės"
+  label_meeting_details_edit: "Keisti susitikimo detales"
+  label_meeting_state: "Susitikimo būsena"
+  label_meeting_state_open: "Atidarytas"
+  label_meeting_state_open_html: "<i>Atviras</i>"
+  label_meeting_state_closed: "Uždarytas"
+  label_meeting_state_closed_html: "<i>Uždarytas</i>"
+  label_meeting_reopen_action: "Iš naujo atidaryti susitikimą"
+  label_meeting_close_action: "Uždaryti susitikimą"
+  text_meeting_open_description: "Šis susitikimas yra atviras. Jūs galite pridėti/išimti darbotvarkės elementus bei juos keisti pagal poreikius. Pasibaigus susitikimui, uždarykite jį, kad užrakintumėte."
+  text_meeting_closed_description: "Šis susitikimas yra uždarytas. Jūs daugiau nebegalite pridėti/išimti darbotvarkės elementų."
+  label_meeting_manage_participants: "Valdyti dalyvius"
+  label_meeting_no_participants: "Nėra dalyvių"
+  label_meeting_show_hide_participants: "Rodyti/slėpti dar %{count}"
+  label_meeting_show_all_participants: "Rodyti visus"
+  label_meeting_add_participants: "Pridėti dalyvius"
+  text_meeting_not_editable_anymore: "Šis susitikimas daugiau neberedaguojamas"
+  text_meeting_not_present_anymore: "Šis susitikimas buvo ištrintas. Prašome parinkti kitą susitikimą."
+  label_add_work_package_to_meeting_dialog_title: "Pridėti darbo paketą prie susitikimo"
+  label_add_work_package_to_meeting_dialog_button: "Pridėti į susitikimą"
+  label_meeting_selection_caption: "Šį darbo paketą galima pridėti tik į artėjantį ar vykstantį susitikimą."
+  text_add_work_package_to_meeting_description: "Darbo paketą galima pridėti į vieną ar kelis susitikimus diskusijai. Bet kokios su juo susijusios pastabos taipogi bus ten matomos."
+  text_agenda_item_no_notes: "Pastabos nepateiktos"
+  text_agenda_item_not_editable_anymore: "Šis plano elementas daugiau neberedaguojamas"
+  text_work_package_has_no_upcoming_meeting_agenda_items: "Šis darbo paketas dar nesuplanuotas artėjančio susitikimo plane."
+  text_work_package_add_to_meeting_hint: 'Naudokite mygtuką „Pridėti į susitikimą“, kad pridėtumėte šį darbo paketą į ateinantį susitikimą.'
+  text_work_package_has_no_past_meeting_agenda_items: "Šis darbo paketas nebuvo paminėtas ankstesniame susitikime."

@@ -1,0 +1,12 @@
+<%=
+  I18n.t(:"mail_member_added_project.body.added_by.#{@message.present? ? 'with_message' : 'without_message'}",
+         project: @project.name,
+         user: User.current.name)
+%>
+
+<%= @message %>
+
+<%= I18n.t(:'mail_member_added_project.body.roles') %>
+<% @roles.each do |role| %>
+  * <%= h(role.name) %>
+<% end %>

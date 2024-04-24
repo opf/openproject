@@ -1,0 +1,136 @@
+#English strings go here for Rails i18n
+zh-TW:
+  plugin_openproject_bim:
+    name: "OpenProject BIM and BCF functionality"
+    description: "This OpenProject plugin introduces BIM and BCF functionality."
+  bim:
+    label_bim: 'BIM'
+  bcf:
+    label_bcf: 'BCF'
+    label_imported_failed: '匯入 BIM Collaboration Format (BCF) 主題失敗'
+    label_imported_successfully: ' '
+    issues: "問題集"
+    recommended: '推薦'
+    not_recommended: '不推薦'
+    no_viewpoints: '無視角'
+    new_badge: "新增"
+    exceptions:
+      file_invalid: "BCF 檔案無效"
+    x_bcf_issues:
+      zero: '無 BCF 問題'
+      one: '一個 BCF 問題'
+      other: '%{count} BCF 問題集'
+    bcf_xml:
+      xml_file: 'BCF XML 檔案'
+      import_title: '匯入'
+      export: '匯出'
+      import_update_comment: '(由 BCF 匯入更新)'
+      import_failed: '無法匯入 BCF 檔案：%{error}'
+      import_failed_unsupported_bcf_version: '讀取 BCF 檔案失敗：BCF 版本不支援。請確認版本至少在 %{minimal_version} 或以上。'
+      import_successful: '匯入 %{count} BCF 問題集'
+      import_canceled: 'BCF-XML 匯入已取消。'
+      type_not_active: "這個問題種類在這個專案未啟用。"
+      import:
+        num_issues_found: '%{x_bcf_issues} 包含在 BCF-XML 檔案裡，它們的細節列在下方。'
+        button_prepare: '準備匯入'
+        button_perform_import: '確認匯入'
+        button_proceed: '繼續匯入'
+        button_back_to_list: '回到列表'
+        no_permission_to_add_members: '您沒有足夠的權限新增他們為專案成員到這個專案。'
+        contact_project_admin: '聯絡您的專案系統管理員新增他們為專案成員及重新開始匯入。'
+        continue_anyways: '你確定要繼續並完成匯入嗎？'
+        description: "提供一個 BCF-XML v2.1 檔案匯入到這個專案。您可以在開始進行匯入前審查它的內容。"
+        invalid_types_found: '發現無效的主題種類名稱'
+        invalid_statuses_found: '發現無效的狀態名稱'
+        invalid_priorities_found: '發現無效的優先權名稱'
+        invalid_emails_found: '發現無效的電子郵件地址'
+        unknown_emails_found: '發現未知的電子郵件地址'
+        unknown_property: '未知屬性'
+        non_members_found: '發現非專案成員'
+        import_types_as: '設定所有這些種類為'
+        import_statuses_as: '設定所有這些狀態為'
+        import_priorities_as: '設定所有這些優先權為'
+        invite_as_members_with_role: '邀請他們成為具角色的 "%{project}" 專案成員'
+        add_as_members_with_role: '新增他們成為具角色的 "%{project}" 專案成員'
+        no_type_provided: '未提供種類'
+        no_status_provided: '未提供狀態'
+        no_priority_provided: '未提供優先權'
+        perform_description: "您想要匯入或更新列在上面的問題集嗎？"
+        replace_with_system_user: '以 "系統" 使用者取代'
+        import_as_system_user: '以 "系統" 使用者取代'
+        what_to_do: "您想要做什麼？"
+        work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
+        bcf_file_not_found: "指定 BCF 檔案的位置失敗。請再次開始上傳程序。"
+  export:
+    format:
+      bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "BCF 快照"
+  project_module_bcf: "BCF"
+  project_module_bim: "BCF"
+  permission_view_linked_issues: "查看 BCF 問題"
+  permission_manage_bcf: "匯入及管理 BCF 問題集"
+  permission_delete_bcf: "刪除 BCF 問題集"
+  oauth:
+    scopes:
+      bcf_v2_1: "完整存取 BCF v2.1 API"
+      bcf_v2_1_text: "應用程式將接收完整讀取及寫入權限到 OpenProject BCF API v2.1 代替您執行動作。"
+  activerecord:
+    models:
+      bim/ifc_models/ifc_model: "IFC 模式"
+    attributes:
+      bim/ifc_models/ifc_model:
+        ifc_attachment: "IFC 檔案"
+        is_default: "預設模式"
+        attachments: "IFC 檔案"
+    errors:
+      models:
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "未附加 ifc 檔案。"
+              invalid_ifc_file: "提供的檔案不是一個有效的 IFC 檔案。"
+        bim/bcf/viewpoint:
+          bitmaps_not_writable: "bitmaps is not writable as it is not yet implemented."
+          index_not_integer: "索引不是整數"
+          invalid_clipping_planes: "剪裁平面是無效的"
+          invalid_components: "元件是無效的"
+          invalid_lines: "線是無效的"
+          invalid_orthogonal_camera: "orthogonal_camera is invalid."
+          invalid_perspective_camera: "perspective_camera is invalid."
+          mismatching_guid: "The guid in the json_viewpoint does not match the model's guid."
+          no_json: "Is not a well structured json."
+          snapshot_type_unsupported: "snapshot_type needs to be either 'png' or 'jpg'."
+          snapshot_data_blank: "snapshot_data needs to be provided."
+          unsupported_key: "An unsupported json property is included."
+        bim/bcf/issue:
+          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
+  ifc_models:
+    label_ifc_models: 'IFC 模型'
+    label_new_ifc_model: '新 IFC 模型'
+    label_show_defaults: '顯示預設'
+    label_default_ifc_models: '預設 IFC 模型'
+    label_edit_defaults: '編輯預設'
+    no_defaults_warning:
+      title: '沒有 IFC 模型設定為這個專案的預設'
+      check_1: '檢查您至少有上傳一個 IFC 模型'
+      check_2: '檢查至少有一個 IFC 模型設定為"預設"。'
+    no_results: "沒有 IFC 模型有上傳到這個專案。"
+    conversion_status:
+      label: '處理中？'
+      pending: '待處理'
+      processing: '處理中'
+      completed: '已完成'
+      error: '錯誤'
+    processing_notice:
+      processing_default: 'The following default IFC models are still being processed and are thus not available, yet:'
+    flash_messages:
+      upload_successful: 'Upload succeeded. It will now get processed and will be ready to use in a couple of minutes.'
+    conversion:
+      missing_commands: "The following IFC converter commands are missing on this system: %{names}"
+  project_module_ifc_models: "IFC 模型"
+  permission_view_ifc_models: "View IFC models"
+  permission_manage_ifc_models: "Import and manage IFC models"
+  extraction:
+    available:
+      ifc_convert: "IFC conversion pipeline available"

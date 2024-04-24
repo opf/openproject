@@ -1,0 +1,25 @@
+<button
+  class="button toolbar-icon"
+  data-test-selector="op-wp-share-button"
+  (click)="openModal()"
+>
+  <svg
+    share-android-icon
+    class="button--icon"
+    size="small"
+  ></svg>
+  <span class="button--text">
+    {{ text.share }}
+    <span *ngIf="(shareCount$ | async) as shareCount"
+          class="badge -secondary"
+          [textContent]="shareCount"></span>
+  </span>
+
+  <svg
+    *ngIf="showEnterpriseIcon"
+    op-enterprise-addons-icon
+    class="button--icon upsale-colored"
+    size="small"
+  ></svg>
+
+</button>

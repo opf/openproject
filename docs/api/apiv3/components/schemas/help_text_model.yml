@@ -1,0 +1,84 @@
+# Schema: HelpTextModel
+---
+type: object
+required:
+  - _type
+  - id
+  - attribute
+  - scope
+  - helpText
+  - _links
+properties:
+  _type:
+    type: string
+    enum:
+      - HelpText
+  id:
+    type: integer
+    format: int64
+    minimum: 1
+  attribute:
+    type: string
+    description: The attribute the help text is assigned to.
+  scope:
+    type: string
+    enum:
+      - WorkPackage
+      - Project
+  helpText:
+    $ref: './formattable.yml'
+  _links:
+    type: object
+    required:
+      - self
+      - editText
+      - attachments
+      - addAttachment
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This help text resource.
+
+              **Resource**: HelpText
+      editText:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Edit the help text entry.
+
+              **Resource**: text/html
+      attachments:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The attachment collection of this help text.
+
+              **Resource**: AttachmentCollection
+      addAttachment:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Add an attachment to the help text.
+
+example:
+  _type: HelpText
+  id: 1
+  attribute: id
+  scope: WorkPackage
+  helpText:
+    format: markdown
+    raw: Help text for id attribute.
+    html: '<p>Help text for id attribute.</p>'
+  _links:
+    self:
+      href: '/api/v3/help_texts/1'
+    editText:
+      href: '/admin/attribute_help_texts/1/edit'
+      type: text/html
+    attachments:
+      href: '/api/v3/help_texts/1/attachments'
+    addAttachments:
+      href: '/api/v3/help_texts/1/attachments'
+      method: post

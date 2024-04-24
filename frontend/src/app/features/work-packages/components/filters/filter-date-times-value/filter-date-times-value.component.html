@@ -1,0 +1,28 @@
+<op-basic-single-date-picker
+  (valueChange)="parseBegin($event)"
+  [value]="isoDateFormatter(begin)"
+  [opAutofocus]="shouldFocus"
+  required="true"
+  [id]="'values-' + filter.id + '-begin'"
+  [name]="'v[' + filter.id + ']-begin'"
+  classes="advanced-filters--date-field"
+></op-basic-single-date-picker>
+
+<span class="advanced-filters--affix" [textContent]="text.spacer">
+</span>
+
+<op-basic-single-date-picker
+  (valueChange)="parseEnd($event)"
+  [value]="isoDateFormatter(end)"
+  [id]="'values-' + filter.id + '-end'"
+  [name]="'v[' + filter.id + ']-end'"
+  classes="advanced-filters--date-field"
+></op-basic-single-date-picker>
+
+<span
+  class="advanced-filters--tooltip-trigger -multiline"
+  *ngIf="isTimeZoneDifferent"
+  [attr.data-tooltip]="timeZoneText"
+>
+  <span class="spot-icon spot-icon_warning"></span>
+</span>

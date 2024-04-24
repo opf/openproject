@@ -1,0 +1,24 @@
+#English strings go here for Rails i18n
+hu:
+  plugin_openproject_recaptcha:
+    name: "OpenProject ReCaptcha"
+    description: "This module provides recaptcha checks during login."
+  recaptcha:
+    label_recaptcha: "reCAPTCHA"
+    button_please_wait: 'Kérlek, várj...'
+    verify_account: "Fiók ellenőrzése..."
+    error_captcha: "Fiókját nem lehetett ellenőrizni. Vegye fel a kapcsolatot egy rendszergazdával."
+    settings:
+      website_key: 'Website kulcs'
+      response_limit: 'HCaptcha válaszadási limit'
+      response_limit_text: 'A karakterek maximális száma a HCaptcha-válasz érvényesként való kezeléséhez.'
+      website_key_text: 'Írja be az e domain reCAPTCHA adminisztrációs konzolján létrehozott webhelykulcsot.'
+      secret_key: 'Titkos kulcs'
+      secret_key_text: 'Írja be a reCAPTCHA adminisztrációs konzolon létrehozott titkos kulcsot.'
+      type: 'Használj reCAPTCHA'
+      type_disabled: 'Tiltsd reCAPTCHA'
+      type_v2: 'reCAPTCHA v2'
+      type_v3: 'reCAPTCHA v3'
+      type_hcaptcha: 'HChaptcha'
+      recaptcha_description_html: >
+        A reCAPTCHA a Google ingyenes szolgáltatása, amely engedélyezhető az Ön OpenProject példányához. Ha engedélyezve van, bejelentkezéskor egy captcha űrlap jelenik meg minden olyan felhasználó számára, aki még nem igazolta a captcha-t. <br/> Kérjük, tekintse meg a következő linket a reCAPTCHA-ról és azok verzióiról, valamint a webhely és a titkos kulcsok létrehozásának módjáról: %{recaptcha_link} <br/> A HCaptcha egy Google-mentes alternatíva, amelyet akkor használhat. nem szeretné használni a reCAPTCHA-t. További információkért tekintse meg ezt a linket: %{hcaptcha_link}

@@ -1,0 +1,25 @@
+<%=
+  render(border_box_container(padding: :condensed,
+                                     test_selector: "op-meeting-container-#{@meeting.id}")) do |border_box|
+    border_box.with_header do
+      flex_layout do |flex|
+        flex.with_column(mr: 1) do
+          render(Primer::Beta::Link.new(href: meeting_path(@meeting), target: "_blank", font_size: :normal,
+                                        font_weight: :bold, scheme: :primary, underline: false)) do
+            @meeting.title
+          end
+        end
+        flex.with_column do
+          render(Primer::Beta::Text.new(font_size: :normal, color: :muted)) do
+            format_time(@meeting.start_time)
+          end
+        end
+      end
+    end
+    @meeting_agenda_items.each do |meeting_agenda_item|
+      border_box.with_row do
+        render(WorkPackageMeetingsTab::MeetingAgendaItemComponent.new(meeting_agenda_item:))
+      end
+    end
+  end
+%>

@@ -1,0 +1,17 @@
+#English strings go here
+ru:
+  plugin_openproject_team_planner:
+    name: "Планировщик команды OpenProject"
+    description: "Предоставляет представления командного планирования."
+  permission_view_team_planner: "Просмотр планировщика команды"
+  permission_manage_team_planner: "Управление планировщиком команды"
+  project_module_team_planner_view: "Командные планировщики"
+  team_planner:
+    label_team_planner: "Командный планировщик"
+    label_new_team_planner: "Новый командный планировщик"
+    label_create_new_team_planner: "Создать новый командный планировщик"
+    label_team_planner_plural: "Командные планировщики"
+    label_assignees: "Исполнители"
+    upsale:
+      title: "Командный планировщик"
+      description: "Получите полный обзор планирования работы вашей команды с помощью Team Planner. Растягивайте, сокращайте и переносите пакеты работ, чтобы изменять даты, перемещать их или менять назначенных."

@@ -1,0 +1,123 @@
+---
+description: |
+  A query defines how work packages can be filtered and displayed.
+  Clients can define a query once, store it, and use it later on to load the same set of filters and display options.
+
+  ## Actions
+
+  | Link                | Description                                                          | Condition                                                                                                                        |
+  |:-------------------:|----------------------------------------------------------------------| ---------------------------------------                                                                                          |
+  | star                | Elevates the query to the status of 'starred'                        | **Permission**: save queries for own queries, manage public queries for public queries; Only present if query is not yet starred |
+  | unstar              | Removes the 'starred' status                                         | **Permission**: save queries for own queries, manage public queries for public queries; Only present if query is starred         |
+  | update              | Use the Form based process to verify the query before persisting     | **Permission**: view work packages                                                                                               |
+  | updateImmediately   | Persist the query without using a Form based process for guidance    | **Permission**: save queries for own queries, manage public queries for public queries;                                          |
+
+  ## Linked Properties
+
+  | Property               | Description                                                                                                                                    | Type                  | Constraints                                 | Supported operations |
+  | :--------------------: | ------------------------------------------------------                                                                                         | --------------------- | ------------------------------------------- | -------------------- |
+  | self                   | This query                                                                                                                                     | Query                 | not null                                    | READ                 |
+  | user                   | The user that owns this query                                                                                                                  | User                  | not null                                    | READ                 |
+  | project                | The project on which this query operates                                                                                                       | Project               |                                             | READ                 |
+  | columns                | Ordered list of QueryColumns. The columns, when mapped to WorkPackage properties determine which WorkPackage properties to display             | []QueryColumn         |                                             | READ                 |
+  | highlightedAttributes  | **Only with valid Enterprise Token available:** List of QueryColumns that should get highlighted when `highlightingMode` is set to `inline`.   | []QueryColumn         |                                             | READ                 |
+  | sortBy                 | Ordered list of QuerySortBys. Indicates the WorkPackage property the results will be ordered by as well as the direction                       | []QuerySortBy         |                                             | READ                 |
+  | groupBy                | The WorkPackage property results of this query are grouped by                                                                                  | String                |                                             | READ                 |
+  | results                | The list of work packages returned by applying the filters, sorting and grouping defined in the query                                          | WorkPackageCollection |                                             | READ                 |
+  | schema                 | This query's schema                                                                                                                            | Schema                |                                             | READ                 |
+
+  Please note, that all the properties listed above will also be embedded when individual queries are returned but will not be embedded when a list of queries is returned. Whether the properties are embedded or not may be subject to change in the future.
+
+  The `columns` and `highlightedAttributes` properties will be moved into `Views::WorkPackagesTable` so it is deprecated to have it listed within the Query directly.
+
+  ## Local Properties
+
+  | Property         | Description                                                                                              | Type                  | Constraints                                                                         | Supported operations |
+  | :--------------: | -------------------------------------------------------------------------------------------------------- | --------------------- | ----------------------------------------------------------------------------------- | -------------------- |
+  | id               | Query id                                                                                                 | Integer               | x > 0                                                                               | READ                 |
+  | name             | Query name                                                                                               | String                |                                                                                     | READ/WRITE           |
+  | filters          | A set of QueryFilters which will be applied to the work packages to determine the resulting work packages| []QueryFilterInstance |                                                                                     | READ/WRITE           |
+  | sums             | Should sums (of supported properties) be shown?                                                          | Boolean               |                                                                                     | READ/WRITE           |
+  | timelineVisible  | Should the timeline mode be shown?                                                                       | Boolean               |                                                                                     | READ/WRITE           |
+  | timelineLabels   | Which labels are shown in the timeline, empty when default                                               | QueryTimelineLabels   |                                                                                     | READ/WRITE           |
+  | timelineZoomLevel| Which zoom level should the timeline be rendered in?                                                     | String                | days, weeks, months, quarters, years                                                | READ/WRITE           |
+  | timestamps       | The timestamps to filter by when showing changed attributes on work packages.| []Timestamp               |                       | **Values older than 1 day are accepted only with valid Enterprise Token available.**| READ/WRITE           |
+  | highlightingMode | Which highlighting mode should the table have?                                                           | String                | none, inline, status, priority, type                                                | READ/WRITE           |
+  | showHierarchies  | Should the hierarchy mode be enabled?                                                                    | Boolean               |                                                                                     | READ/WRITE           |
+  | hidden           | Should the query be hidden from the query list?                                                          | Boolean               |                                                                                     | READ/WRITE           |
+  | public           | Can users besides the owner see the query?                                                               | Boolean               |                                                                                     | READ/WRITE           |
+  | starred          | Should the query be highlighted to the user?                                                             | Boolean               |                                                                                     | READ                 |
+  | createdAt        | Time of creation                                                                                         | DateTime              | not null                                                                            | READ                 |
+  | updatedAt        | Time of the most recent change to the query                                                              | DateTime              | not null                                                                            | READ                 |
+
+  A query that is not assigned to a project (`"project": null`) is called a global query. Global queries filter work packages regardless of the project they are assigned to. As such, a different set of filters exists for those queries.
+
+  The `hidden` property is deprecated as it is replaced by the `Views` concept. A query that isn't hidden will have a `View` while a query that is hidden won't.
+
+  The `timelineVisible`, `timelineLabels`, `timelineZoomLevel`, `highlightingMode` and `showHierarchies` properties will be moved into the more appropriate Views (probably `Views::WorkPackagesTable`) so it is deprecated to have them within the Query directly.
+
+  ## Query Filter Instance
+
+  A QueryFilterInstance defines a filtering applied to the list of work packages. As such it contains:
+
+  * the filter type (`QueryFilter`) used
+
+  * the operator (`QueryOperator`) used
+
+  * the list of values
+
+  The list of values can either consist of a list of links or of a list of strings. If the values are primitive (e.g. Integer, Boolean, Date) they will be displayed as strings and the QueryFilterInstance will have a `values` property.
+
+  ```json
+    {
+      "_type": "DueDateQueryFilter",
+      "name": "Finish date",
+      "values": [
+        "1"
+      ],
+      "_links": {
+        "filter": {
+          "href": "/api/v3/queries/filters/dueDate",
+          "title": "Finish date"
+        },
+        "operator": {
+          "href": "/api/v3/queries/operators/<t+",
+          "title": "in less than"
+        }
+        "schema": {
+          "href": "/api/v3/queries/filter_instance_schemas/dueDate"
+        }
+      }
+    }
+  ```
+
+  If the values are nonprimitive (e.g. User, Project), they will be listed as objects and the QueryFilterInstance will have a `values` link.
+
+  ```json
+    {
+      "_type": "AssigneeQueryFilter",
+      "name": "Assignee",
+      "_links": {
+        "filter": {
+          "href": "/api/v3/queries/filters/assignee",
+          "title": "Assignee"
+        },
+        "operator": {
+          "href": "/api/v3/queries/operators/=",
+          "title": "is"
+        },
+        "schema": {
+          "href": "/api/v3/queries/filter_instance_schemas/assignee"
+        },
+        "values": [
+          {
+            "href": "/api/v3/users/1",
+            "title": "OpenProject Admin"
+          }
+        ]
+      }
+    }
+
+  ```
+
+name: Queries

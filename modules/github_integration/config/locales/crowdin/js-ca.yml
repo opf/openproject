@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+ca:
+  js:
+    github_integration:
+      work_packages:
+        tab_name: "GitHub"
+      tab_header:
+        title: "Pull request"
+        copy_menu:
+          label: Fragments de git
+          description: Fragments de git copiats al porta-retalls
+        git_actions:
+          branch_name: Nom de la branca
+          commit_message: Sotmet el missatge
+          cmd: Crea una branca amb una submissió buida
+          title: Fragments ràpids per git
+          copy_success: '✅ Copiat!'
+          copy_error: '❌ Còpia fallida!'
+      tab_prs:
+        empty: 'No hi ha cap pull request vinculat encara. Vincula una PR existent utilitzant el codi <code>OP#%{wp_id}</code> en la descripció de la PR o crea una PR nova.'
+      github_actions: Accions
+      pull_requests:
+        message: "El \"pull request\" #%{pr_number} %{pr_link} del %{repository_link} creat per %{github_user_link} ha estàt %{pr_state}."
+        merged_message: "El \"pull request\" #%{pr_number} %{pr_link} del %{repository_link} ha estàt %{pr_state} per %{github_user_link}."
+        referenced_message: "El \"pull request\" #%{pr_number} %{pr_link} del %{repository_link} creat per %{github_user_link} ha estàt referenciat a aquest paquet de treball."
+        states:
+          opened: 'obert'
+          closed: 'tancat'
+          draft: 'esborrany'
+          merged: 'fusionat'
+          ready_for_review: 'marcat com a preparat per a revisar'

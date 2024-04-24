@@ -1,0 +1,38 @@
+<%=
+  render(Primer::Beta::Text.new(tag: :div, test_selector: 'storage-oauth-client-form')) do
+    primer_form_with(
+      model: oauth_client,
+      url: admin_settings_storage_oauth_client_path(storage),
+      method: form_method
+    ) do |form|
+      flex_layout do |oauth_client_row|
+        oauth_client_row.with_row(mb: 3) do
+          render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t("storages.file_storage_view.#{storage.short_provider_type}_oauth") }
+        end
+
+        oauth_client_row.with_row(mb: 3) do
+          render(Primer::Beta::Text.new(test_selector: 'storage-provider-credentials-instructions')) { storage_provider_credentials_instructions }
+        end
+
+        oauth_client_row.with_row(mb: 3) do
+          render(Storages::Admin::OAuthClientForm.new(form,storage:,))
+        end
+
+        oauth_client_row.with_row do
+          render(
+            Storages::Admin::SubmitOrCancelForm.new(
+              form,
+              storage:,
+              submit_button_options: {
+                test_selector: 'storage-oauth-client-submit-button'
+              },
+              cancel_button_options: {
+                href: cancel_button_path
+              }
+            )
+          )
+        end
+      end
+    end
+  end
+%>

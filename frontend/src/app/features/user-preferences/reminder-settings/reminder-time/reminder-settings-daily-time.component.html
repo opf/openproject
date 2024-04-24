@@ -1,0 +1,71 @@
+<ng-container
+  *ngIf="(selectedTimes$ | async) as selectedTimes"
+  [formGroup]="form"
+>
+  <div class="op-form--section-header">
+      <h3 [textContent]="text.title" class="op-form--section-header-title"></h3>
+      <p [textContent]="text.explanation"></p>
+  </div>
+
+  <spot-selector-field
+    [label]="text.enable"
+    [control]="form.get('enabled')">
+    <input
+      slot="input"
+      type="checkbox"
+      formControlName="enabled"
+    />
+  </spot-selector-field>
+
+  <div
+    *ngFor="let time of selectedTimes; index as i; trackBy: index"
+    class="op-reminder-settings-daily-time--row"
+  >
+    <input
+      *ngIf="(activeTimes$ | async) as activeTimes"
+      type="checkbox"
+      [ngModel]="isActive(time)"
+      (ngModelChange)="toggleActive($event, i, selectedTimes)"
+      [ngModelOptions]="{standalone: true}"
+      [disabled]="isDisabled(time, activeTimes)"
+      class="op-reminder-settings-daily-time--active"
+      attr.data-test-selector="op-settings-daily-time--active-{{i + 1}}">
+    <label
+      class="op-reminder-settings-daily-time--label"
+      [textContent]="text.timeLabel(i + 1)"
+      attr.for="op-reminder-settings-daily-time-{{i + 1}}--time">
+    </label>
+    <select
+      [ngModel]="time"
+      (ngModelChange)="changeTime($event, selectedTimes, i)"
+      [ngModelOptions]="{standalone: true}"
+      [disabled]="(enabled$ | async) === false"
+      class="op-reminder-settings-daily-time--time form--select -narrow"
+      attr.id="op-reminder-settings-daily-time-{{i + 1}}--time"
+      required="true">
+      <option
+        *ngFor="let availableTime of availableTimes"
+        [value]="availableTime"
+        [disabled]="time !== availableTime && selectedTimes.includes(availableTime)">
+        {{timeLabel(availableTime)}}
+      </option>
+    </select>
+    <button
+      class="spot-link op-reminder-settings-daily-time--remove"
+      type="button"
+      *ngIf="timeRemovable$ | async"
+      (click)="removeTime(selectedTimes, i)"
+      attr.data-test-selector="op-settings-daily-time--remove-{{i + 1}}">
+      <op-icon icon-classes="icon-small icon-remove icon4"></op-icon>
+    </button>
+  </div>
+
+  <button
+    class="button op-reminder-settings-daily-time--add"
+    type="button"
+    [disabled]="nonAddable$ | async"
+    (click)="addTime(selectedTimes)">
+    <i class="button--icon icon-add"></i>
+    <span class="button--text">{{text.addTime}}</span>
+  </button>
+</ng-container>

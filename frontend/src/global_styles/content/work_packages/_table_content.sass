@@ -1,0 +1,180 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2024 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+// Disable text selection in rows
+.wp--row
+  user-select: none
+
+// A placeholder row when the table is empty
+.wp--placeholder-row
+  height: 5px
+  border-bottom: none !important
+
+.wp-table--row
+  cursor: pointer
+
+.wp-table--row,
+#empty-row-notification
+  height: var(--table-timeline--row-height)
+
+  // Hide collapsed rows (hierarchies, relations)
+  &.-collapsed
+    display: none
+
+  &.-dragged
+    height: 0px
+    border: none !important
+    outline: 1px solid var(--accent-color)
+    opacity: 1
+
+    .wp-table--cell-td
+      display: none !important
+
+  &.wp-table--sums-row:empty
+    height: 0
+
+.wp-table--sum-container
+  font-weight: var(--base-text-weight-bold)
+  padding: 3px 6px
+
+  &.__internal-sorthandle
+    white-space: nowrap
+
+.work-package-table--container table.generic-table tbody td
+  padding-left: 0
+  padding-top: 0
+  padding-bottom: 0
+  vertical-align: middle
+  // To display the input field border correctly (input height is 24px)
+  line-height: 24px
+
+  // Avoid that the select field gets too small
+  .inline-edit--field.ng-select
+    min-width: 140px
+
+// Styles for inline editable attributes
+.work-package-table--container td.-editable
+  display: table-cell
+  width: auto
+
+  &:hover .inline-edit--active-field.-error:hover
+    border-color: var(--content-form-danger-zone-bg-color)
+
+.wp-table--faulty-query-icon
+  color: var(--content-form-danger-zone-bg-color)
+
+// Remove padding from grouping rows (exceeds allowed width of 41px)
+.wp-table--group-header
+  height: var(--table-timeline--row-height)
+  background-color: var(--gray-light)
+  td
+    padding: 0 !important
+    background-color: transparent !important
+
+  .group--value
+    @include text-shortener
+
+// Shrink column of details / inline-create icons
+.wp-table--configuration-modal--trigger
+  width: 60px
+  // Center the th icon
+  text-align: center !important
+  // Take care that the header can overlap the icon
+  z-index: 1
+  padding: 0 !important
+
+// Hide the context menu button outside mobile
+html:not(.-browser-mobile)
+  .wp-table--context-menu-td
+    width: 60px
+    // Override the default td line-height
+    line-height: initial !important
+    white-space: nowrap
+
+// Show context menu button when hovering
+.wp-table--context-menu-td a
+  vertical-align: -3px
+  .icon:before
+    color: var(--accent-color)
+    padding: 0 0 0 0.25rem
+  &.-disabled .icon:before
+    color: var(--color-fg-muted)
+  &:hover
+    text-decoration: none
+
+.wp-table--details-link
+  padding-right: 5px
+
+.wp-table-context-menu-link
+  padding-left: 5px
+
+.wp-table--cell-container
+  @extend .ellipsis
+  display: inline-block
+  vertical-align: middle
+  width: 100%
+
+  @media print
+    white-space: normal
+
+  .wp-table--cell-td.-editing &
+    display: block
+    width: initial !important
+
+  .inline-edit--display-field
+    display: initial
+
+    &.bcfThumbnail
+      outline: none
+
+// Some padding for the inner cells of the display fields
+.inline-edit--display-field:not(.op-table-baseline--field)
+  padding: 2px
+
+body.-browser-edge
+  // Ensure height is set in table
+  .work-package-table .inline-edit--display-field
+    height: 22px !important
+    line-height: 22px !important
+
+.inplace-editing--container
+  @include unset-button-styles
+  display: inline-block
+  border: 1px solid transparent
+  border-radius: 2px
+  overflow: visible
+  width: 100%
+
+// Special width rules for more or less fixed with fields
+.wp-table--cell-td.startDate,
+.wp-table--cell-td.dueDate
+  width: 160px
+
+.wp-table--cell-td img.thumbnail
+  height: 40px
+  outline: none

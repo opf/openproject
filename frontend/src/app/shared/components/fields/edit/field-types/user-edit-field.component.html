@@ -1,0 +1,14 @@
+<op-user-autocompleter
+  class="inline-edit--field {{ handler.fieldName }}"
+  *ngIf="url"
+  [url]="url"
+  [inviteUserToProject]="resource.project?.id"
+  [focusDirectly]="!(handler.inEditMode || isNew)"
+  [openDirectly]="!(handler.inEditMode || isNew)"
+  appendTo="body"
+  [model]="value"
+  [id]="handler.htmlId"
+  (change)="onModelChange($event)"
+  (cancel)="handler.handleUserCancel()"
+  (userInvited)="onModelChange($event)"
+></op-user-autocompleter>

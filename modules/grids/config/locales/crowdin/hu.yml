@@ -1,0 +1,16 @@
+hu:
+  grids:
+    label_widget_in_grid: "A Widget Gridet-et%{grid_name} tartalmaz"
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Oldal"
+        row_count: "Sorok száma"
+        column_count: "Oszlopok száma"
+        widgets: "Kisalkalmazások"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'átfedés'
+          outside: 'hatókörön kívül van.'
+          end_before_start: 'a befejező értéknek nagyobbnak kell lennie mint a kezdőnek'

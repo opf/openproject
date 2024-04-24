@@ -1,0 +1,57 @@
+# Schema: GroupModel
+---
+allOf:
+  - $ref: './principal_model.yml'
+  - type: object
+    required:
+      - _type
+      - _embedded
+    properties:
+      _type:
+        type: string
+        enum:
+          - Group
+      _embedded:
+        type: object
+        properties:
+          members:
+            type: array
+            description: Embedded list of members.
+            items:
+              - $ref: './user_model.yml'
+      _links:
+        type: object
+        properties:
+          members:
+            type: array
+            items:
+              allOf:
+                - $ref: './link.yml'
+                - description: |-
+                    A member of the group
+
+                    # Conditions:
+
+                    - user has permission `manage_members` in any project
+
+                    **Resource**: User
+          delete:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  An href to delete the group.
+
+                  # Conditions:
+
+                  - `admin`
+          updateImmediately:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  An href to update the group.
+
+                  # Conditions:
+
+                  - `admin`
+
+                  **Resource**: Group

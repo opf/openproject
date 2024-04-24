@@ -1,0 +1,154 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<% roles = Role.givable %>
+<% projects = Project.active.order(Arel.sql('lft')) %>
+<% memberships = @group.memberships %>
+
+<div class="grid-block">
+  <div class="grid-content">
+    <% if @group.memberships.any? %>
+      <div class="generic-table--container">
+        <div class="generic-table--results-container">
+          <table class="generic-table memberships">
+            <colgroup>
+              <col opHighlightCol>
+              <col opHighlightCol>
+              <col>
+            </colgroup>
+            <thead>
+              <tr>
+                <th>
+                  <div class="generic-table--sort-header-outer">
+                    <div class="generic-table--sort-header">
+                      <span>
+                        <%= Project.model_name.human %>
+                      </span>
+                    </div>
+                  </div>
+                </th>
+                <th>
+                  <div class="generic-table--sort-header-outer">
+                    <div class="generic-table--sort-header">
+                      <span>
+                        <%= t(:label_role_plural) %>
+                      </span>
+                    </div>
+                  </div>
+                </th>
+                <th><div class="generic-table--empty-header"></div></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% memberships.where.not(project: nil).each do |membership| %>
+                <% next if membership.new_record? %>
+                  <tr id="member-<%= membership.id %>" class="member">
+                    <td class="project">
+                      <%= link_to membership.project.name, project_members_path(membership.project) %>
+                    </td>
+                    <td class="roles">
+                      <span id="member-<%= membership.id %>-roles">
+                        <%=h membership.roles.sort.collect(&:to_s).join(', ') %>
+                      </span>
+                      <%= labelled_tabular_form_for(:membership,
+                                                    url: membership_of_group_path(@group, membership),
+                                                    method: :patch,
+                                                    html: {
+                                                      id: "member-#{membership.id}-roles-form",
+                                                      style: 'display:none;'
+                                                    }) do |f| %>
+                        <% roles.each do |role| %>
+                            <label class="form--label-with-check-box">
+                              <%= f.collection_check_box :role_ids,
+                                                         role.id,
+                                                         membership.roles.include?(role),
+                                                         role.name,
+                                                         no_label: true,
+                                                         id: nil
+                              %>
+                              <%= role %>
+                            </label>
+                        <% end %>
+                        <p class="generic-table--cell-controls">
+                          <%= submit_tag t(:button_change), class: 'button -primary -small' %>
+                          <%= link_to_function t(:button_cancel), "jQuery('#member-#{membership.id}-roles').show(); jQuery('#member-#{membership.id}-roles-form').hide();",
+                                                                  class: 'button -small' %>
+                        </p>
+                      <% end %>
+                    </td>
+                    <td class="buttons">
+                      <%= link_to_function icon_wrapper('icon icon-edit', t(:button_edit)),
+                                           "jQuery('#member-#{membership.id}-roles').hide(); jQuery('#member-#{membership.id}-roles-form').show();" do %>
+                      <% end %>
+                      <%= link_to t(:button_remove), membership_of_group_path(@group, membership),
+                                           method: :delete,
+                                           class: 'icon icon-remove' %>
+                    </td>
+                  </tr>
+              <% end %>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    <% else %>
+      <%= no_results_box %>
+    <% end %>
+  </div>
+  <div class="grid-content">
+    <% if projects.any? %>
+      <%= styled_form_tag(memberships_of_group_path(@group), method: :post) do %>
+        <fieldset class="form--fieldset add-membership-form-fieldset">
+          <legend class="form--fieldset-legend"><%=t(:label_project_new)%></legend>
+          <%= label_tag "membership_project_id", t(:description_choose_project), class: "hidden-for-sighted" %>
+
+          <% group_project_ids = @group.projects.ids  %>
+          <% filters = [{ name: 'active', operator: '=', values: ['t']}] %>
+          <% filters << { name: 'id', operator: '!', values: group_project_ids.map(&:to_s) } if group_project_ids.any? %>
+          <%= angular_component_tag 'opce-project-autocompleter',
+                                    inputs: {
+                                      filters: filters,
+                                      inputName: 'membership[project_id]'
+                                    },
+                                    data: {
+                                      'test-selector': 'membership_project_id'
+                                    },
+                                    class: 'form--field'
+          %>
+          <div class="form--field -vertical">
+            <%= styled_label_tag nil, "#{t(:label_role_plural)}:" %>
+            <div class="form--field-container -vertical">
+              <%= labeled_check_box_tags 'membership[role_ids][]', roles %>
+            </div>
+          </div>
+          <div><%= styled_button_tag t(:button_add), class: '-primary -with-icon icon-checkmark' %></div>
+        </fieldset>
+      <% end %>
+    <% end %>
+  </div>
+</div>

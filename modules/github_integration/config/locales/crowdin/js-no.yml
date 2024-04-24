@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+"no":
+  js:
+    github_integration:
+      work_packages:
+        tab_name: "GitHub"
+      tab_header:
+        title: "Pull requests"
+        copy_menu:
+          label: Git snippets
+          description: Kopier git snippets til utklippstavle
+        git_actions:
+          branch_name: Navn på filial
+          commit_message: Commit-melding
+          cmd: Opprett gren med tom commit
+          title: Quick snippets for Git
+          copy_success: '✅ Kopiert!'
+          copy_error: '❌ Kopiering mislyktes!'
+      tab_prs:
+        empty: 'Det er ingen pull requests koblet til ennå. Koble til en eksisterende PR ved å benytte koden <code>OP#%{wp_id}</code> i PR-beskrivelsen eller opprette en ny PR.'
+      github_actions: Handlinger
+      pull_requests:
+        message: "Forespørsel #%{pr_number} %{pr_link} for %{repository_link} forfattet av %{github_user_link} har blitt %{pr_state}."
+        merged_message: "Forespørsel #%{pr_number} %{pr_link} for %{repository_link} er %{pr_state} av %{github_user_link}."
+        referenced_message: "Forespørsel #%{pr_number} %{pr_link} for %{repository_link} forfattet av %{github_user_link} refererte til denne arbeidspakken."
+        states:
+          opened: 'åpnet'
+          closed: 'lukket'
+          draft: 'utkast'
+          merged: 'slått sammen'
+          ready_for_review: 'klar til gjennomsyn'

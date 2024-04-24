@@ -1,0 +1,54 @@
+<form
+  class="spot-modal"
+  (submit)="applyAndClose($event)"
+>
+  <div id="spotModalTitle" class="spot-modal--header">{{text.title}}</div>
+
+  <div class="spot-divider"></div>
+
+  <div class="spot-modal--body spot-container">
+    <fieldset class="form--fieldset">
+      <legend [textContent]="text.page"></legend>
+      <div class="form--field">
+        <label
+          for="selected-page"
+          [textContent]="text.page"
+          class="form--label hidden-for-sighted">
+        </label>
+        <div class="form--field-container">
+          <div class="form--select-container">
+            <input
+              #selectedPageInput
+              tabindex="2"
+              type="text"
+              id="selected-page"
+              name="selected-page"
+              [value]="selectedPage"
+              (change)="selectedPage = $event.target.value"
+              class="form--select"/>
+          </div>
+        </div>
+        <p [textContent]="text.hint"></p>
+        <p><kbd>project-identifier:my-wiki-page</kbd></p>
+      </div>
+    </fieldset>
+  </div>
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button
+        class="spot-modal--cancel-button button button_no-margin spot-action-bar--action"
+        (click)="closeMe($event)"
+        tabindex="4"
+        [textContent]="text.button_cancel"
+        [attr.title]="text.button_cancel"
+      ></button>
+      <button
+        class="spot-modal--submit-button button button_no-margin -primary spot-action-bar--action"
+        (click)="applyAndClose($event)"
+        tabindex="3"
+        [textContent]="text.button_save"
+        [attr.title]="text.button_save"
+      ></button>
+    </div>
+  </div>
+</form>

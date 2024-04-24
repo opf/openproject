@@ -1,0 +1,15 @@
+#English strings go here
+"no":
+  js:
+    label_preview: 'Forhåndsvis'
+    button_update: 'Oppdater'
+    avatars:
+      label_choose_avatar: "Velg Profilbilde fra fil"
+      uploading_avatar: "Laster opp profilbildet ditt."
+      text_upload_instructions: |
+        Last opp din egen egendefinerte avatar på 128 etter 128 pixler. Større filer vil bli endret til å matche.
+        En forhåndsvisning av profilbildet vil bli vist før opplasting, når du har valgt et bilde.
+      error_image_too_large: "Bildet er for stort"
+      wrong_file_format: "Tillatte formater er jpg, png, gif"
+      empty_file_error: "Vennligst last opp et gyldig bilde (jpg, png, gif)"
+

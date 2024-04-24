@@ -1,0 +1,26 @@
+# Example: Simple grid patch model
+---
+value:
+  rowCount: 1
+  columnCount: 2
+  widgets:
+    - _type: GridWidget
+      identifier: tasks
+      startRow: 1
+      endRow: 2
+      startColumn: 1
+      endColumn: 2
+      options:
+        name: 'Tasks'
+    - _type: GridWidget
+      identifier: news
+      startRow: 1
+      endRow: 2
+      startColumn: 2
+      endColumn: 3
+      options:
+        name: 'News'
+  _links:
+    scope:
+      href: "/my/page"
+      type: text/html

@@ -1,0 +1,17 @@
+// Legacy macro rendering
+.legacy-macro
+  background: $nm-color-warning-background
+  border: 2px dashed $nm-color-warning-border
+  padding: 10px 5px
+  line-height: 3rem
+
+// Unavailable macros
+.macro-unavailable
+  @extend %error-placeholder
+  background: $nm-color-error-background
+  border-style: dashed
+  border-width: rem-calc(1)
+  border-color: var(--content-form-danger-zone-bg-color)
+  padding: $nm-box-padding
+  box-shadow: rem-calc(1px 2px 3px) rgba(0, 0, 0, 0.2)
+  display: inline-block

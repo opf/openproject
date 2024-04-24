@@ -1,0 +1,42 @@
+# /api/v3/projects/{id}/copy/form
+---
+post:
+  parameters:
+  - description: Project id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      description: OK
+      headers: {}
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** copy projects in the source project
+      headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+  tags:
+  - Projects
+  description: ''
+  operationId: Project_copy_form
+  summary: Project copy form

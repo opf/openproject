@@ -1,0 +1,24 @@
+<div class="loading-indicator--location"
+     data-indicator-name="relationAddChild">
+  <div class="wp-relations-create--form wp-relations--add-form">
+    <div class="wp-relations-input-section">
+      <wp-relations-autocomplete
+          [workPackage]="workPackage"
+          (change)="onSelected($event)"
+          [filters]="queryFilters"
+          [filterCandidatesFor]="relationType"
+          data-test-selector="wp-relations-autocomplete"
+          hiddenOverflowContainer=".work-packages-full-view--split-left">
+      </wp-relations-autocomplete>
+    </div>
+    <div class="wp-relations-controls-section relation-row">
+      <button
+          type="button"
+          class="spot-link wp-create-relation--cancel"
+          (click)="cancel()"
+      >
+        <op-icon icon-classes="icon-remove icon-no-color" [icon-title]="text.abort"></op-icon>
+      </button>
+    </div>
+  </div>
+</div>

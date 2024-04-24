@@ -1,0 +1,13 @@
+// You can add global styles to this file, and also import other style files
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import "@primer/css/index.scss";
+@import "@primer/css/primitives/index.scss";
+@import "@openproject/primer-view-components/app/assets/styles/primer_view_components.css";
+
+// Variables
+@import "global_styles/openproject/_variable_defaults.scss";
+
+@import "global_styles/openproject/_variables.sass";
+
+// Core styles
+@import "global_styles/openproject.sass";

@@ -1,0 +1,109 @@
+# Schema: AttachmentModel
+---
+type: object
+required:
+  - title
+  - fileName
+  - description
+  - contentType
+  - digest
+  - createdAt
+properties:
+  id:
+    type: integer
+    description: Attachment's id
+    minimum: 1
+  title:
+    type: string
+    description: The name of the file
+  fileName:
+    type: string
+    description: The name of the uploaded file
+  fileSize:
+    type: integer
+    description: The size of the uploaded file in Bytes
+    minimum: 0
+  description:
+    allOf:
+    - $ref: "./formattable.yml"
+    - description: A user provided description of the file
+  contentType:
+    type: string
+    description: The files MIME-Type as determined by the server
+  digest:
+    type: string
+    description: A checksum for the files content
+  createdAt:
+    type: string
+    format: date-time
+    description: Time of creation
+  _links:
+    type: object
+    required:
+      - self
+      - container
+      - author
+      - downloadLocation
+    properties:
+      delete:
+        allOf:
+        - $ref: "./link.yml"
+        - description: |-
+            Deletes this attachment
+
+            # Conditions
+
+            **Permission**: edit on attachment container or being the author for attachments without container
+      self:
+        allOf:
+        - $ref: "./link.yml"
+        - description: |-
+            This attachment
+
+            **Resource**: Attachment
+      container:
+        allOf:
+        - $ref: "./link.yml"
+        - description: |-
+            The object (e.g. WorkPackage) housing the attachment
+
+            **Resource**: Anything
+      author:
+        allOf:
+        - $ref: "./link.yml"
+        - description: |-
+            The user who uploaded the attachment
+
+            **Resource**: User
+      downloadLocation:
+        allOf:
+        - $ref: "./link.yml"
+        - description: |-
+            Direct download link to the attachment
+
+            **Resource**: -
+example:
+  _type: Attachment
+  _links:
+    self:
+      href: "/api/v3/attachments/1"
+    container:
+      href: "/api/v3/work_packages/1"
+    author:
+      href: "/api/v3/users/1"
+    staticDownloadLocation:
+      href: "/api/v3/attachments/1/content"
+    downloadLocation:
+      href: "/some/remote/aws/url/image.png"
+  id: 1
+  fileName: cat.png
+  filesize: 24
+  description:
+    format: plain
+    raw: A picture of a cute cat
+    html: "<p>A picture of a cute cat</p>"
+  contentType: image/png
+  digest:
+    algorithm: md5
+    hash: 64c26a8403cd796ea4cf913cda2ee4a9
+  createdAt: '2014-05-21T08:51:20.396Z'

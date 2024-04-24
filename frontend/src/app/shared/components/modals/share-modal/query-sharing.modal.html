@@ -1,0 +1,30 @@
+<div
+  class="spot-modal loading-indicator--location"
+  data-indicator-name="modal"
+>
+  <div id="spotModalTitle" class="spot-modal--header">{{text.label_visibility_settings}}</div>
+
+  <div class="spot-divider"></div>
+
+  <query-sharing-form
+    class="spot-modal--body spot-container"
+    [isSave]="false"
+    (onChange)="setValues($event)"
+    [isStarred]="isStarred"
+    [isPublic]="isPublic">
+  </query-sharing-form>
+
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button class="button button_no-margin spot-modal--cancel-button spot-action-bar--action"
+              [textContent]="text.button_cancel"
+              [disabled]="isBusy"
+              (click)="closeMe($event)">
+      </button>
+      <button class="button button_no-margin -primary -with-icon icon-save spot-action-bar--action"
+              (click)="saveQuery($event)"
+              [textContent]="text.button_save">
+      </button>
+    </div>
+  </div>
+</div>

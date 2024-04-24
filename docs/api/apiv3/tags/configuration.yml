@@ -1,0 +1,25 @@
+---
+description: |-
+  The configuration endpoint allows to read certain configuration parameters of the OpenProject instance.
+  Note that there is no 1:1 relationship between this endpoint and the settings an administrator has at hand to modify the behaviour
+  of the application via configuration.yml or ENV variables.
+
+  For now this endpoint will only allow access to settings deemed useful for a client to know in general.
+
+  As clients might rely on the combination of both, the system settings as well as the current user's preferences, the resource
+  embeds the current user's preferences so client can fetch both with one request.
+
+  | Link                | Description                                      | Type            | Nullable | Supported operations |
+  |:-------------------:| ------------------------------------------------ | -------------   | -------- | -------------------- |
+  | self                | The configuration                                | Configuration   |          | READ                 |
+  | userPreferences     | The preferences of the current user              | UserPreferences |          | READ                 |
+
+  ## Local Properties
+
+  | Property                  | Description                                        | Type       | Condition         | Supported operations |
+  | :-----------------------: | -------------------------------------------------- | ---------- | ----------------- | -------------------- |
+  | maximumAttachmentFileSize | The maximum allowed size of an attachment in Bytes | Integer    |                   | READ                 |
+  | perPageOptions            | Page size steps to be offered in paginated list UI | Integer[]  |                   | READ                 |
+  | hostName                  | The host name configured for the system            | String     |                   | READ                 |
+  | activeFeatureFlags        | The list of all feature flags that are active      | String[]   |                   | READ                 |
+name: Configuration

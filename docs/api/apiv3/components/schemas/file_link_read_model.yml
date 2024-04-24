@@ -1,0 +1,213 @@
+# Schema: FileLinkReadModel
+---
+type: object
+required:
+  - id
+  - _type
+  - originData
+  - _links
+properties:
+  id:
+    type: integer
+    description: File link id
+  _type:
+    type: string
+    enum:
+      - FileLink
+  createdAt:
+    type: string
+    format: date-time
+    description: Time of creation
+  updatedAt:
+    type: string
+    format: date-time
+    description: Time of the most recent change to the file link
+  originData:
+    $ref: './file_link_origin_data_model.yml'
+  _embedded:
+    type: object
+    required:
+      - storage
+      - container
+    properties:
+      storage:
+        $ref: './storage_read_model.yml'
+      container:
+        $ref: './work_package_model.yml'
+  _links:
+    type: object
+    required:
+      - self
+      - storage
+      - container
+      - creator
+      - permission
+      - originOpen
+      - staticOriginOpen
+      - originOpenLocation
+      - staticOriginOpenLocation
+      - staticOriginDownload
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This file link.
+
+              **Resource**: FileLink
+      storage:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The storage resource of the linked file.
+
+              **Resource**: Storage
+      container:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The container the origin file is linked to.
+
+              Can be one of the following **Resources**:
+
+              - WorkPackage
+      creator:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The creator of the file link.
+
+              **Resource**: User
+      delete:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The uri to delete the file link.
+
+              **Resource**: N/A
+      status:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The urn of the user specific file link status on its storage. Can be one of:
+
+              - urn:openproject-org:api:v3:file-links:permission:ViewAllowed
+              - urn:openproject-org:api:v3:file-links:permission:ViewNotAllowed
+              - urn:openproject-org:api:v3:file-links:NotFound
+              - urn:openproject-org:api:v3:file-links:Error
+
+              **Resource**: N/A
+      originOpen:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The uri to open the origin file on the origin itself.
+
+              **Resource**: N/A
+      staticOriginOpen:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              A static uri to open the origin file on the storage. Responds with a redirect.
+
+              **Resource**: N/A
+      originOpenLocation:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The uri to open the location of origin file on the origin itself.
+
+              **Resource**: N/A
+      staticOriginOpenLocation:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              A static uri to open the location of the origin file on the storage. Responds with a redirect.
+
+              **Resource**: N/A
+      staticOriginDownload:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              A static uri to generate a new download URL from the storage. Responds with a redirect.
+
+              **Resource**: N/A
+
+example:
+  id: 1337
+  _type: FileLink
+  createdAt: '2021-12-20T13:37:00.211Z'
+  updatedAt: '2021-12-20T13:37:00.211Z'
+  originData:
+    id: 5503
+    name: logo.png
+    mimeType: image/png
+    size: 16042
+    createdAt: '2021-12-19T09:42:10.170Z'
+    lastModifiedAt: '2021-12-20T14:00:13.987Z'
+    createdByName: Luke Skywalker
+    lastModifiedByName: Anakin Skywalker
+  _embedded:
+    storage:
+      id: 1337
+      _type: Storage
+      name: It's no moon
+      createdAt: '2021-12-20T13:37:00.211Z'
+      updatedAt: '2021-12-20T13:37:00.211Z'
+      _links:
+        self:
+          href: /api/v3/storages/1337
+          title: It's no moon
+        type:
+          href: urn:openproject-org:api:v3:storages:nextcloud
+          title: Nextcloud
+        origin:
+          href: https://nextcloud.deathstar.rocks/
+    container:
+      _hint: Work package resource shortened for brevity
+      _type: WorkPackage
+      _links:
+        self:
+          href: "/api/v3/work_packages/1528"
+          title: Develop API
+        schema:
+          href: "/api/v3/work_packages/schemas/11-2"
+      id: 1528
+      subject: Develop API
+      description:
+        format: markdown
+        raw: Develop super cool OpenProject API.
+        html: "<p>Develop super cool OpenProject API.</p>"
+      scheduleManually: false
+      readonly: false
+      startDate:
+      dueDate:
+      createdAt: '2014-08-29T12:40:53.860Z'
+      updatedAt: '2014-08-29T12:44:41.036Z'
+  _links:
+    self:
+      href: /api/v3/work_package/17/file_links/1337
+    storage:
+      href: /api/v3/storage/42
+      title: It's no moon
+    container:
+      href: /api/v3/work_package/17
+      title: Develop API
+    creator:
+      href: /api/v3/users/33
+      title: Obi-Wan Kenobi
+    delete:
+      href: /api/v3/work_package/17/file_links/1337
+    status:
+      href: urn:openproject-org:api:v3:file-links:permission:View
+      title: View
+    originOpen:
+      href: https://nextcloud.deathstar.rocks/index.php/f/5503?openfile=1
+    staticOriginOpen:
+      href: /api/v3/file_links/1337/open
+    originOpenLocation:
+      href: https://nextcloud.deathstar.rocks/index.php/f/5503?openfile=0
+    staticOriginOpenLocation:
+      href: /api/v3/file_links/1337/open?location=true
+    staticOriginDownload:
+      href: /api/v3/file_links/1337/download

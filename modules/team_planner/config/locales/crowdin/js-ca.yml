@@ -1,0 +1,28 @@
+#English strings go here
+ca:
+  js:
+    team_planner:
+      add_existing: 'Afegir existent'
+      add_existing_title: 'Afegir paquets de treball existents'
+      create_label: 'Planificador d''equips'
+      create_title: 'Crea un nou planificador d''equips'
+      unsaved_title: 'Planificador d''equips sense nom'
+      no_data: 'Afegeix usuaris assignats per tal de configurar el teu planificador d''equip.'
+      add_assignee: 'Afegir assignats'
+      remove_assignee: 'Elimina assignats'
+      two_weeks: '2 setmanes'
+      one_week: '1 setmana'
+      four_weeks: '4-week'
+      eight_weeks: '8-week'
+      work_week: 'Setmana laboral'
+      today: 'Avui'
+      drag_here_to_remove: 'Arrossega aquí per eliminar l''usuari assignat i les dates d''inici i final.'
+      cannot_drag_here: 'No s''ha pogut eliminar el paquet de treball a causa dels permisos o les restriccions d''edició.'
+      cannot_drag_to_non_working_day: 'Aquest paquet de treball no pot començar o acabar en un dia no laborable.'
+      quick_add:
+        empty_state: 'Utilitza el camp de cerca per trobar els paquets de treball i arrossegar-los dins del planificador d''equips i assignar-los a algú i definir les dates d''inici i final. '
+        search_placeholder: 'Cerca...'
+      modify:
+        errors:
+          permission_denied: 'No tens els permisos necessaris per modificar això'
+          fallback: 'Aquest paquet de treball no pot ser editat.'

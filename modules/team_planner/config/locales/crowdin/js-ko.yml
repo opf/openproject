@@ -1,0 +1,28 @@
+#English strings go here
+ko:
+  js:
+    team_planner:
+      add_existing: '기존 항목 추가'
+      add_existing_title: '기존 작업 패키지 추가'
+      create_label: '팀 플래너'
+      create_title: '새로운 팀 플래너 만들기'
+      unsaved_title: '이름 없는 팀 플래너'
+      no_data: '담당자를 추가하여 팀 플래너를 설정하세요.'
+      add_assignee: '담당자 추가'
+      remove_assignee: '담당자 제거'
+      two_weeks: '2주'
+      one_week: '1주'
+      four_weeks: '4주'
+      eight_weeks: '8주'
+      work_week: '근무 주'
+      today: '오늘'
+      drag_here_to_remove: '담당자와 시작 날짜 및 종료 날짜를 제거하려면 여기로 드래그하세요.'
+      cannot_drag_here: '권한 또는 편집 제한으로 인해 작업 패키지를 제거할 수 없습니다.'
+      cannot_drag_to_non_working_day: '이 작업 패키지는 휴무일에 시작/완료할 수 없습니다.'
+      quick_add:
+        empty_state: '검색 필드를 사용하여 작업 패키지를 찾고 플래너로 드래그하여 누군가에게 할당하고 시작 날짜 및 종료 날짜를 정의하세요.'
+        search_placeholder: '검색...'
+      modify:
+        errors:
+          permission_denied: '이를 수정하는 데 필요한 권한이 없습니다.'
+          fallback: '이 작업 패키지를 편집할 수 없습니다.'

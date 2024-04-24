@@ -1,0 +1,39 @@
+#English strings go here
+sv:
+  plugin_openproject_boards:
+    name: "OpenProject Boards"
+    description: "Provides board views."
+  permission_show_board_views: "Visa tavlor"
+  permission_manage_board_views: "Hantera tavlor"
+  project_module_board_view: "Tavlor"
+  boards:
+    label_board: "Tavla"
+    label_boards: "Tavlor"
+    label_create_new_board: "Skapa ny bräda"
+    label_board_type: "Brädstyp"
+    board_types:
+      free: Enkel
+      action: "Åtgärdstavla (%{attribute})"
+    board_type_attributes:
+      assignee: Tilldelad till
+      status: Status
+      version: Version
+      subproject: Delprojekt
+      subtasks: Förälder-barn
+      basic: Enkel
+    board_type_descriptions:
+      basic: >
+        Start from scratch with a blank board. Manually add cards and columns to this board.
+      status: >
+        Basic kanban style board with columns for status such as To Do, In Progress, Done.
+      assignee: >
+        Board with automated columns based on assigned users. Ideal for dispatching work packages.
+      version: >
+        Board with automated columns based on the version attribute. Ideal for planning product development.
+      subproject: >
+        Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+      subtasks: >
+        Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+    upsale:
+      teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+      upgrade: 'Uppgradera nu'

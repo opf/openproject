@@ -1,0 +1,145 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+ca:
+  plugin_costs:
+    name: "Temps i costs"
+    description: "This module adds features for planning and tracking costs of projects."
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: "Paquet de treball"
+        overridden_costs: "Costs invalidats"
+        spent: "Gastat"
+        spent_on: "Data"
+      cost_type:
+        unit: "Nom d'unitat"
+        unit_plural: "Noms d'unitat pluralitzats"
+      work_package:
+        costs_by_type: "Unitats gastades"
+        labor_costs: "Costs de treball"
+        material_costs: "Costs d'unitat"
+        overall_costs: "Costs generals"
+        spent_costs: "Costs gastats"
+        spent_units: "Unitats gastades"
+      rate:
+        rate: "Tarifa"
+      user:
+        default_rates: "Tarifes per defecte"
+    models:
+      cost_type:
+        one: "Estil de cost"
+        other: "Estils de cost"
+      rate: "Tarifa"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "El paquet de treball #%{id} no és un objectiu vàlid per reassignar les entrades de costs."
+          nullify_is_not_valid_for_cost_entries: "Les entrades de cost no poden ser assignades a un projecte."
+  attributes:
+    comment: "Comentari"
+    cost_type: "Estil de cost"
+    costs: "Costs"
+    current_rate: "Tarifa actual"
+    hours: "Hores"
+    units: "Unitats"
+    valid_from: "Vàlid des de"
+    fixed_date: "Data fixada"
+  button_add_rate: "Afegeix tarifa"
+  button_log_costs: "Registra unitat de costs"
+  caption_booked_on_project: "Registrat a un projecte"
+  caption_default: "Per defecte"
+  caption_default_rate_history_for: "Història de tarifa per defecte per %{user}"
+  caption_locked_on: "Fixat a"
+  caption_materials: "Unitats"
+  caption_rate_history: "Història de tarifa"
+  caption_rate_history_for: "Història de tarifa per %{user}"
+  caption_rate_history_for_project: "Història de tarifa per %{user} en el projecte %{project}"
+  caption_save_rate: "Guardar tarifa"
+  caption_set_rate: "Estableix la tarifa actual"
+  caption_show_locked: "Mostra els estils fixats"
+  description_date_for_new_rate: "Data per una tarifa nova"
+  group_by_others: "no està a cap grup"
+  label_between: "entre"
+  label_cost_filter_add: "Afegeix un filtre d'entrada de cost"
+  label_costlog: "Costs d'unitat registrats"
+  label_cost_plural: "Costs"
+  label_cost_type_plural: "Estils de cost"
+  label_cost_type_specific: "Estil de cost #%{id}: %{name}"
+  label_costs_per_page: "Costs per pàgina"
+  label_currency: "Divisa"
+  label_currency_format: "Format de divisa"
+  label_current_default_rate: "Tarifa actual per defecte"
+  label_date_on: "en"
+  label_deleted_cost_types: "Estils de cost eliminats"
+  label_locked_cost_types: "Estil de costs fixats"
+  label_display_cost_entries: "Mostra les unitats de cost"
+  label_display_time_entries: "Mostra les hores reportades"
+  label_display_types: "Mostra estils"
+  label_edit: "Editar"
+  label_generic_user: "Usuari genèric"
+  label_greater_or_equal: ">="
+  label_group_by: "Agrupa per"
+  label_group_by_add: "Afegeix camp de grup"
+  label_hourly_rate: "Tarifa per hora"
+  label_include_deleted: "Inclou eliminats"
+  label_work_package_filter_add: "Afegeix un filtre de paquet de treball"
+  label_kind: "Tipus"
+  label_less_or_equal: "<="
+  label_log_costs: "Registra costs d'unitats "
+  label_no: "No"
+  label_option_plural: "Opcions"
+  label_overall_costs: "Costs generals"
+  label_rate: "Tarifa"
+  label_rate_plural: "Tarifes"
+  label_status_finished: "Finalitzat"
+  label_units: "Cost d'unitat"
+  label_user: "Usuari"
+  label_until: "fins a"
+  label_valid_from: "Vàlid des de"
+  label_yes: "Si"
+  notice_something_wrong: "Alguna cosa ha anat malament. Si us plau, prova-ho de nou."
+  notice_successful_restore: "Restaurat correctament."
+  notice_successful_lock: "Fixat correctament."
+  notice_cost_logged_successfully: 'Cost d''unitat registrat correctament.'
+  permission_edit_cost_entries: "Editar costs d'unitat registrats"
+  permission_edit_own_cost_entries: "Editar costs d'unitat registrats propis"
+  permission_edit_hourly_rates: "Editar tarifes per hora"
+  permission_edit_own_hourly_rate: "Editar tarifes per hora pròpies"
+  permission_edit_rates: "Editar tarifes"
+  permission_log_costs: "Registra costs d'unitat"
+  permission_log_own_costs: "Registra costs d'unitat per un mateix"
+  permission_view_cost_entries: "Visualitza costs registrats"
+  permission_view_cost_rates: "Visualitza tarifes de cost"
+  permission_view_hourly_rates: "Visualitza totes les tarifes per hora"
+  permission_view_own_cost_entries: "Visualitza costs registrats propis"
+  permission_view_own_hourly_rate: "Visualitza totes les tarifes per hora pròpies"
+  permission_view_own_time_entries: "Visualitzar el propi temps invertit"
+  project_module_costs: "Temps i costs"
+  text_assign_time_and_cost_entries_to_project: "Assignar les hores i costs registrats al projecte"
+  text_destroy_cost_entries_question: "%{cost_entries} van ser reportades al paquet de treball que vols eliminar. Què vols fer?"
+  text_destroy_time_and_cost_entries: "Eliminar hores i costs reportats"
+  text_destroy_time_and_cost_entries_question: "%{hours} hores, %{cost_entries} van ser reportades al paquet de treball que vols eliminar. Què vols fer?"
+  text_reassign_time_and_cost_entries: "Reassignar les hores i costs reportats a aquest paquet de treball:"
+  text_warning_hidden_elements: "Algunes entrades poden ser excloses de l'agregació"
+  week: "setmana"
+  js:
+    text_are_you_sure: "N'estas segur?"

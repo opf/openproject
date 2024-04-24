@@ -1,0 +1,78 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+ms:
+  plugin_budgets_engine:
+    name: 'Budgets'
+  activerecord:
+    attributes:
+      budget:
+        author: "Pengarang"
+        available: "Boleh didapati"
+        budget: "Dirancang"
+        budget_ratio: "Dibelanja (ratio)"
+        description: "Penerangan"
+        spent: "Dibelanja"
+        status: "Status"
+        subject: "Subjek"
+        type: "Jenis kos"
+        labor_budget: "Kos buruh terancang"
+        material_budget: "Kos unit yang dirancang"
+      work_package:
+        budget_subject: "Tajuk anggaran"
+    models:
+      budget: "Anggaran"
+      material_budget_item: "Unit"
+  activity:
+    filter:
+      budget: "Anggaran"
+  attributes:
+    budget: "Anggaran"
+  button_add_budget_item: "Tambah kos yang dirancang"
+  button_add_budget: "Tambah anggaran"
+  button_add_cost_type: "Tambah jenis kos"
+  button_cancel_edit_budget: "Batalkan anggaran penyuntingan"
+  button_cancel_edit_costs: "Batalkan kos penyuntingan"
+  caption_labor: "Buruh"
+  caption_labor_costs: "Kos buruh sebenar"
+  caption_material_costs: "Kos unit sebenar"
+  budgets_title: "Anggaran"
+  events:
+    budget: "Anggaran yang diedit"
+  help_click_to_edit: "Klik di sini untuk mengedit"
+  help_currency_format: "Format nilai mata wang yang dipaparkan. %n diganti dengan nilai mata wang, %u diganti dengan unit mata wang."
+  help_override_rate: "Masukkan nilai disini untuk gantikan kadar default."
+  label_budget: "Anggaran"
+  label_budget_new: "Anggaran baru"
+  label_budget_plural: "Anggaran"
+  label_budget_id: "Anggaran #%{id}"
+  label_deliverable: "Anggaran"
+  label_example_placeholder: 'e.g., %{decimal}'
+  label_view_all_budgets: "Paparkan semua anggaran"
+  label_yes: "Ya"
+  notice_budget_conflict: "Work packages must be of the same project."
+  notice_no_budgets_available: "Tiada anggaran yang tersedia."
+  permission_edit_budgets: "Edit budgets"
+  permission_view_budgets: "Paparkan anggaran"
+  project_module_budgets: "Anggaran"
+  text_budget_reassign_to: "Pindahkan mereka ke anggaran ini:"
+  text_budget_delete: "Padam anggaran dari semua pakej kerja"
+  text_budget_destroy_assigned_wp: "Terdapat %{count} pakej kerja ditugaskan untuk anggaran ini. Apa yang anda ingin lakukan?"

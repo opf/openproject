@@ -1,0 +1,77 @@
+# Schema: Example_FormModel
+---
+type: object
+example:
+  _links:
+    self:
+      href: "/api/v3/example/form"
+    validate:
+      href: "/api/v3/example/form"
+      method: POST
+    previewMarkup:
+      href: "/api/v3/render/markdown"
+      method: POST
+    commit:
+      href: "/api/v3/example"
+      method: PATCH
+  _type: Form
+  _embedded:
+    payload:
+      _links:
+        status:
+          href: "/api/v3/statuses/1"
+      _type: Example
+      lockVersion: 5
+      subject: An example title
+    schema:
+      _type: Schema
+      _links:
+        self:
+          href: "/api/v3/example/schema"
+      lockVersion:
+        type: Integer
+        writable: false
+      subject:
+        type: String
+        minLength: 1
+        maxLength: 255
+      status:
+        _links:
+          allowedValues:
+          - href: "/api/v3/statuses/1"
+            title: New
+          - href: "/api/v3/statuses/2"
+            title: Closed
+        type: Status
+        _embedded:
+          allowedValues:
+          - _links:
+              self:
+                href: "/api/v3/statuses/1"
+            _type: Status
+            id: 1
+            name: New
+            position: 1
+            isDefault: true
+            isClosed: false
+            defaultDoneRatio: 0
+            createdAt: '2014-05-21T08:51:20.759Z'
+            updatedAt: '2014-05-21T09:12:00.237Z'
+          - _links:
+              self:
+                href: "/api/v3/statuses/2"
+            _type: Status
+            id: 2
+            name: Closed
+            position: 2
+            isDefault: false
+            isClosed: true
+            defaultDoneRatio: 100
+            createdAt: '2014-05-21T08:51:20.759Z'
+            updatedAt: '2014-05-21T09:12:00.237Z'
+    validationErrors:
+      subject:
+        _type: Error
+        errorIdentifier: urn:openproject-org:api:v3:errors:BadExampleError
+        message: For the purpose of this example we need a validation error. The remainder
+          of the response pretends there were no errors.

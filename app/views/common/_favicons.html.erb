@@ -1,0 +1,11 @@
+<% unless apply_custom_favicon? %>
+  <%= favicon_link_tag OpenProject::CustomStyles::Design.favicon_asset_path %>
+<% end %>
+
+<% unless apply_custom_touch_icon? %>
+  <%# In the future we can add more sizes should we see 404 errors in the logs. %>
+  <%= favicon_link_tag OpenProject::CustomStyles::Design.apple_touch_icon_asset_path,
+                                                       rel: 'apple-touch-icon',
+                                                       type: 'image/png',
+                                                       sizes: '120x120' %>
+<% end %>

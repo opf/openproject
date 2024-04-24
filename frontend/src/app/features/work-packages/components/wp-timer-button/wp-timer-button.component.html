@@ -1,0 +1,26 @@
+<ng-container *ngIf="{ timer: (timer$ | async), active: activeForWorkPackage(timer$ | async) } as context">
+  <ng-container *ngIf="context.timer && context.active">
+    <button
+      class="button button_flex"
+      type="button"
+      data-test-selector="timer-active"
+      [title]="text.stop_timer"
+      (click)="stop()"
+    >
+      <span class="spot-icon spot-icon_time-tracking-stop"></span>
+      <span class="button--text">
+    {{ elapsed$ | async }}
+  </span>
+    </button>
+  </ng-container>
+  <button
+    class="button"
+    type="button"
+    data-test-selector="timer-inactive"
+    *ngIf="!context.timer || !context.active"
+    [title]="text.start_timer"
+    (click)="start()"
+  >
+    <span class="spot-icon spot-icon_time-tracking-start"></span>
+  </button>
+</ng-container>

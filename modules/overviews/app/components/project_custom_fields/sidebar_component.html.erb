@@ -1,0 +1,17 @@
+<%=
+  component_wrapper do
+    if available_project_custom_fields_grouped_by_section.any?
+      flex_layout(data: { test_selector: "project-custom-fields-sidebar-async-content" }) do |sections_container|
+        available_project_custom_fields_grouped_by_section.each do |project_custom_field_section, project_custom_fields|
+          sections_container.with_row(mb: 3) do
+            render(ProjectCustomFields::Sections::ShowComponent.new(
+              project: @project,
+              project_custom_field_section: ,
+              project_custom_fields: project_custom_fields
+            ))
+          end
+        end
+      end
+    end
+  end
+%>

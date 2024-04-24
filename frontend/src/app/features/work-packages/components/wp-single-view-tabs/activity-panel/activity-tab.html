@@ -1,0 +1,38 @@
+<work-package-comment *ngIf="workPackage" [workPackage]="workPackage">
+  <ng-template>
+    <div class="detail-activity">
+      <div class="work-package-details-activities-list">
+        <div
+          *ngFor="let inf of visibleActivities; trackBy:trackByIdentifier; let first = first"
+          class="work-package-details-activities-activity"
+        >
+          <h4
+            class="activity-date"
+            [ngClass]="{'-with-toggler': first && showToggler}"
+            *ngIf="first || inf.isNextDate"
+          >
+            <span
+              class="activity-date--label"
+              [textContent]="inf.date"
+            ></span>
+            <button
+              *ngIf="first && showToggler"
+              type="button"
+              class="activity-comments--toggler button -small -transparent -with-icon icon-filter icon-small hide-when-print"
+              [textContent]="togglerText"
+              (click)="toggleComments()"
+            ></button>
+          </h4>
+
+          <activity-entry
+            [workPackage]="workPackage"
+            [activity]="inf.activity"
+            [activityNo]="inf.number(inf.isReversed)"
+            [hasUnreadNotification]="hasUnreadNotification(inf.href) | async"
+            [isInitial]="inf.isInitial()"
+          ></activity-entry>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</work-package-comment>

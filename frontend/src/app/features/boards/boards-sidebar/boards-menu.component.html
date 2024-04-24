@@ -1,0 +1,22 @@
+<div
+  class="op-sidebar--body"
+>
+  <op-sidemenu
+    *ngIf="(boardOptions$ | async) as items"
+    [items]="items"
+  >
+  </op-sidemenu>
+</div>
+
+<div class="op-sidebar--footer">
+  <button
+    *ngIf="canCreateBoards$ | async"
+    class="button -primary -expand"
+    (click)="redirectToNewBoardForm()"
+    [title]="text.create_new_board"
+    data-test-selector="sidebar--create-board-button"
+  >
+    <span class="spot-icon spot-icon_add"></span>
+    <span [textContent]="text.board"></span>
+  </button>
+</div>

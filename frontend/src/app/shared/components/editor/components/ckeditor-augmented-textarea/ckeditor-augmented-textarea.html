@@ -1,0 +1,22 @@
+<div class="op-ckeditor--wrapper">
+  <op-ckeditor
+    [context]="context"
+    [content]="initialContent"
+    (initializeDone)="setup($event)"
+    (contentChanged)="markEdited()"
+    (saveRequested)="saveForm()"
+  ></op-ckeditor>
+</div>
+
+<fieldset
+  class="form--fieldset"
+  *ngIf="showAttachments && halResource?.attachments"
+>
+  <legend class="form--fieldset-legend">
+    {{ text.attachments }}
+  </legend>
+  <op-attachments
+    [resource]="halResource"
+    [destroyImmediately]="false"
+  ></op-attachments>
+</fieldset>

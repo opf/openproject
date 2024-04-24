@@ -1,0 +1,9 @@
+<i *ngIf="showIcon"
+   class="icon-info1"
+   aria-hidden="true"></i>
+<span class="generic-table--no-results-title">
+  {{ title }}
+  <div *ngIf="description"
+       class="generic-table--no-results-description"
+       [innerHTML]="description"></div>
+</span>

@@ -1,0 +1,28 @@
+<!-- Standard Ruby view, please see the controller for comments -->
+<%
+  label_new_file_storage = t("storages.label_new_file_storage",
+                              provider: t("storages.provider_types.#{@storage.short_provider_type}.name"))
+%>
+
+<% html_title t(:label_administration), t("project_module_storages"), label_new_file_storage %>
+
+<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+  <% header.with_title(test_selector: 'storage-new-page-header--title') do %>
+    <%= label_new_file_storage %>
+  <% end %>
+
+  <% header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration")},
+                              { href: admin_settings_storages_path, text: t(:project_module_storages) },
+                              label_new_file_storage]) %>
+
+  <% header.with_description(test_selector: 'storage-new-page-header--description') do %>
+    <%=
+      t("storages.instructions.new_storage",
+        provider_link: ::OpenProject::Static::Links[:storage_docs][:"#{@storage.short_provider_type}_setup"][:href].html_safe,
+        provider_name: I18n.t("storages.provider_types.#{@storage.short_provider_type}.name")
+      ).html_safe
+    %>
+  <% end %>
+<% end %>
+
+<%= render(Storages::Admin::StorageViewComponent.new(@storage)) %>

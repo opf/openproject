@@ -1,0 +1,16 @@
+eo:
+  plugin_openproject_xls_export:
+    name: "OpenProject XLS Export"
+    description: "Export issue lists as Excel spreadsheets (.xls)."
+  export_to_excel: "Eksporti XLS"
+  print_with_description: "Aspekto de la printotaĵo kun priskribo"
+  sentence_separator_or: "aŭ"
+  different_formats: Malsamaj dosierformoj
+  export:
+    format:
+      xls: "XLS"
+      xls_with_descriptions: "XLS kun priskriboj"
+      xls_with_relations: "XLS kun rilatoj"
+  xls_export:
+    child_of: ido de
+    parent_of: patro de

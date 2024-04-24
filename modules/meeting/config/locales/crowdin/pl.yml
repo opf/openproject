@@ -1,0 +1,202 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+#English strings go here for Rails i18n
+pl:
+  plugin_openproject_meeting:
+    name: "Spotkania OpenProject"
+    description: >-
+      Moduł ten dodaje do OpenProject funkcje obsługi spotkań dotyczących projektów. Spotkania można zaplanować, wybierając zaproszone osoby z tego samego projektu do wzięcia udziału w spotkaniu. Można utworzyć plan spotkania i wysłać go do zaproszonych osób. Po spotkaniu można wybrać uczestników i utworzyć protokół na podstawie planu spotkania. Na koniec protokół można wysłać do wszystkich uczestników i zaproszonych osób.
+  activerecord:
+    attributes:
+      meeting:
+        type: "Typ spotkania"
+        location: "Lokalizacja"
+        duration: "Czas trwania"
+        notes: "Notatki"
+        participants: "Uczestnicy"
+        participant:
+          one: "1 uczestnik"
+          few: "%{count} uczestników"
+          many: "%{count} uczestników"
+          other: "%{count} uczestnika"
+        participants_attended: "Uczestnicy"
+        participants_invited: "Zaproszone osoby"
+        project: "Projekt"
+        start_date: "Data"
+        start_time: "Data rozpoczęcia"
+        start_time_hour: "Godzina rozpoczęcia"
+      meeting_agenda_item:
+        title: "Tytuł"
+        author: "Autor"
+        duration_in_minutes: "min"
+        description: "Notatki"
+        presenter: "Prezenter"
+    errors:
+      messages:
+        invalid_time_format: "nie jest prawidłowy. Wymagany format to: GG:MM"
+    models:
+      structured_meeting: "Spotkanie (dynamiczne)"
+      meeting_agenda_item: "Punkt programu"
+      meeting_agenda: "Plan spotkania"
+      meeting_minutes: "Protokół ze spotkania"
+  activity:
+    filter:
+      meeting: "Spotkania"
+  description_attended: "Obecny"
+  description_invite: "Zaproszony"
+  events:
+    meeting: Spotkanie zmienione
+    meeting_agenda: Zmieniono plan spotkania
+    meeting_agenda_closed: Zamknięto plan spotkania
+    meeting_agenda_opened: Otwarto plan spotkania
+    meeting_minutes: Protokół ze spotkania edytowany
+    meeting_minutes_created: Protokół ze spotkania utworzony
+  error_notification_with_errors: "Nie udało się wysłać powiadomienie do adresatów: %{recipients}"
+  label_meeting: "Spotkanie"
+  label_meeting_plural: "Spotkania"
+  label_meeting_new: "Nowe spotkanie"
+  label_meeting_edit: "Edycja spotkania"
+  label_meeting_agenda: "Plan spotkania"
+  label_meeting_minutes: "Protokół ze spotkania"
+  label_meeting_close: "Zamknij"
+  label_meeting_open: "Otwórz"
+  label_meeting_agenda_close: "Zamknij agendę aby zacząć protokół ze spotkania"
+  label_meeting_date_time: "Data/Czas"
+  label_meeting_diff: "Różnice"
+  label_upcoming_meetings: "Nadchodzące spotkania"
+  label_past_meetings: "Przeszłe spotkania"
+  label_upcoming_meetings_short: "Nadchodzące"
+  label_past_meetings_short: "Poprzednie"
+  label_involvement: "Zaangażowanie"
+  label_upcoming_invitations: "Nadchodzące zaproszenia"
+  label_past_invitations: "Poprzednie zaproszenia"
+  label_attendee: "Uczestnik"
+  label_author: "Twórca"
+  label_notify: "Wyślij do przeglądu"
+  label_icalendar: "Wyślij iCalendar"
+  label_icalendar_download: "Pobierz wydarzenie iCalendar"
+  label_version: "Wersja"
+  label_time_zone: "Strefa czasowa"
+  label_start_date: "Data rozpoczęcia"
+  meeting:
+    attachments:
+      text: "Załączone pliki są dostępne dla wszystkich uczestników spotkania. Można je również przeciągać i upuszczać w notatkach do punktów planu spotkania."
+    copy:
+      title: "Kopiuj spotkanie %{title}"
+      attachments: "Skopiuj załączniki"
+      attachments_text: "Skopiuj wszystkie załączone pliki do nowego spotkania"
+      agenda: "Kopiuj agendę spotkania"
+      agenda_text: "Skopiuj agendę starego spotkania"
+    email:
+      open_meeting_link: "Spotkania otwarte"
+      invited:
+        summary: "Użytkownik %{actor} wysłał Ci zaproszenie na spotkanie %{title}"
+      rescheduled:
+        header: "Spotkanie %{title} zostało przełożone"
+        summary: "Spotkanie %{title} zostało przełożone przez użytkownika %{actor}"
+        body: "Spotkanie %{title} zostało przełożone przez użytkownika %{actor}"
+        old_date_time: "Stara data/godzina"
+        new_date_time: "Nowa data/godzina"
+    label_mail_all_participants: "Wyślij wiadomość e-mail do wszystkich uczestników"
+    types:
+      classic: "Klasyczny"
+      classic_text: "Zorganizuj spotkanie w formatowanym tekstowym planie spotkania i protokole."
+      structured: "Dynamiczne"
+      structured_text: "Zorganizuj spotkanie jako listę punktów planu spotkania, opcjonalnie powiązując je z pakietem roboczym."
+      structured_text_copy: "Skopiowanie spotkania nie powoduje obecnie skopiowania powiązanych pozycji planu spotkania, a jedynie szczegółów"
+    copied: "Skopiowano ze spotkania #%{id}"
+  notice_successful_notification: "Powiadomienia wysłane pomyślnie"
+  notice_timezone_missing: 'Została ustawiona domyślna strefa czasowa: %{zone}. Aby zmienić strefę czasową, kliknij tutaj.'
+  permission_create_meetings: "Utwórz spotkanie"
+  permission_edit_meetings: "Modyfikuj spotkania"
+  permission_delete_meetings: "Usuń spotkania"
+  permission_view_meetings: "Zobacz spotkania"
+  permission_create_meeting_agendas: "Tworzenie planów spotkań"
+  permission_create_meeting_agendas_explanation: "Umożliwia edycję treści planu klasycznego spotkania."
+  permission_manage_agendas: "Zarządzaj planami"
+  permission_manage_agendas_explanation: "Umożliwia zarządzanie pozycjami planu dynamicznego spotkania."
+  permission_close_meeting_agendas: "Zamknij plany"
+  permission_send_meeting_agendas_notification: "Wyślij powiadomienie o przeglądzie planów"
+  permission_create_meeting_minutes: "Zarządzaj protokołami ze spotkań"
+  permission_send_meeting_minutes_notification: "Wyślij przegląd uwag do protokołu ze spotkania"
+  permission_meetings_send_invite: "Zaproś użytkowników na spotkania"
+  permission_send_meeting_agendas_icalendar: "Wyślij plan spotkania jako wpis kalendarza"
+  project_module_meetings: "Spotkania"
+  text_duration_in_hours: "Czas trwania w godzinach"
+  text_in_hours: "w godzinach"
+  text_meeting_agenda_for_meeting: 'agenda spotkania "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Czy na pewno chcesz zamknąć plan spotkania?"
+  text_meeting_agenda_open_are_you_sure: "To zastąpił wszystkie zmiany w protokołach! Czy chcesz kontynuować?"
+  text_meeting_minutes_for_meeting: 'protokół ze spotkania "%{meeting}"'
+  text_notificiation_invited: "Ten mail zawiera element ics dla poniższego spotkania:"
+  text_meeting_empty_heading: "Spotkanie jest puste"
+  text_meeting_empty_description_1: "Zacznij od dodania pozycji planu spotkania poniżej. Każdy element może mieć prosty tytuł, ale możesz także dodać dodatkowe szczegóły, takie jak czas trwania i notatki."
+  text_meeting_empty_description_2: 'Możesz również dodawać odwołania do istniejących pakietów roboczych. Jeśli to zrobisz, powiązane notatki będą automatycznie widoczne na karcie „Spotkania” pakietu roboczego.'
+  label_meeting_empty_action: "Dodaj punkt planu spotkania"
+  label_meeting_actions: "Działania spotkania"
+  label_meeting_edit_title: "Edytuj tytuł spotkania"
+  label_meeting_delete: "Usuń spotkanie"
+  label_meeting_created_by: "Utworzony przez"
+  label_meeting_last_updated: "Ostatnia aktualizacja"
+  label_agenda_items: "Punkty planu spotkania"
+  label_agenda_items_reordered: "zmieniono kolejność"
+  label_agenda_item_remove: "Usuń z planu spotkania"
+  label_agenda_item_undisclosed_wp: "Pakiet roboczy nr %{id} nie jest widoczny"
+  label_agenda_item_deleted_wp: "Usunięte odniesienie do pakietu roboczego"
+  label_agenda_item_actions: "Działania punktów planu spotkania"
+  label_agenda_item_move_to_top: "Przenieś na samą górę"
+  label_agenda_item_move_to_bottom: "Przenieś na sam dół"
+  label_agenda_item_move_up: "Przenieś wyżej"
+  label_agenda_item_move_down: "Przenieś niżej"
+  label_agenda_item_add_notes: "Dodawanie notatek"
+  label_agenda_item_work_package: "Pakiet roboczy punktu planu spotkania"
+  text_agenda_item_title: 'Punkt planu spotkania „%{title}”'
+  text_agenda_work_package_deleted: 'Punkt planu spotkania dotyczący usuniętego pakietu roboczego'
+  text_deleted_agenda_item: 'Usunięty punkt planu spotkania'
+  label_initial_meeting_details: "Spotkanie"
+  label_meeting_details: "Szczegóły spotkania"
+  label_meeting_details_edit: "Edytuj szczegóły spotkania"
+  label_meeting_state: "Status spotkania"
+  label_meeting_state_open: "Otwórz"
+  label_meeting_state_open_html: "<i>Otwarte</i>"
+  label_meeting_state_closed: "Zamknięte"
+  label_meeting_state_closed_html: "<i>Zamknięte</i>"
+  label_meeting_reopen_action: "Otwórz ponownie spotkanie"
+  label_meeting_close_action: "Zamknij spotkanie"
+  text_meeting_open_description: "To spotkanie jest otwarte. Możesz dodać/usunąć elementy planu spotkania i edytować je tak, jak chcesz. Po zakończeniu spotkania zamknij je, aby je zablokować."
+  text_meeting_closed_description: "To spotkanie jest zamknięte. Nie można już dodawać/usuwać elementów planu spotkania."
+  label_meeting_manage_participants: "Zarządzaj uczestnikami"
+  label_meeting_no_participants: "Brak uczestników"
+  label_meeting_show_hide_participants: "Pokaż/ukryj jeszcze %{count}"
+  label_meeting_show_all_participants: "Pokaż wszystkie"
+  label_meeting_add_participants: "Dodaj uczestników"
+  text_meeting_not_editable_anymore: "Tego spotkania nie można już edytować."
+  text_meeting_not_present_anymore: "To spotkanie zostało usunięte. Wybierz inne spotkanie."
+  label_add_work_package_to_meeting_dialog_title: "Dodaj pakiet roboczy do spotkania"
+  label_add_work_package_to_meeting_dialog_button: "Dodaj do spotkania"
+  label_meeting_selection_caption: "Ten pakiet roboczy można dodać tylko do nadchodzących lub trwających otwartych spotkań."
+  text_add_work_package_to_meeting_description: "Pakiet roboczy może zostać dodany do jednego lub wielu spotkań w celu omówienia. Wszelkie uwagi dotyczące tego pakietu są również widoczne tutaj."
+  text_agenda_item_no_notes: "Brak uwag"
+  text_agenda_item_not_editable_anymore: "Tego punktu planu spotkania nie można już edytować."
+  text_work_package_has_no_upcoming_meeting_agenda_items: "Ten pakiet roboczy nie został jeszcze zaplanowany w planie nadchodzącego spotkania."
+  text_work_package_add_to_meeting_hint: 'Użyj przycisku „Dodaj do spotkania”, aby dodać ten pakiet roboczy do nadchodzącego spotkania.'
+  text_work_package_has_no_past_meeting_agenda_items: "Ten pakiet roboczy nie został wspomniany na poprzednim spotkaniu."

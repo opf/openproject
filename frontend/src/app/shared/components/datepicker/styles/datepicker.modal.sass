@@ -1,0 +1,87 @@
+@import '../../app/spot/styles/sass/variables'
+@import '../../global_styles/openproject/variables'
+
+.op-datepicker-modal
+  display: flex
+  flex-direction: column
+  height: 100%
+
+  @media #{$spot-mq-drop-modal-in-context}
+    height: unset
+    min-height: 486px
+    width: 100vw
+    // Basically the width of the two calendars next to each other + spacings
+    // will be overwritten on mobile
+    max-width: 320px
+
+    &_wide
+      max-width: 600px
+
+  &--banner
+    margin-bottom: $spot-spacing-1
+
+    &:empty
+      visibility: hidden
+
+  &--toggle-actions-container
+    display: grid
+    grid-template-columns: auto auto 1fr
+    grid-column-gap: $spot-spacing-2
+    margin: 0 $spot-spacing-1 0
+
+  &--dates-container
+    display: grid
+    grid-template-columns: 1fr 1fr 150px
+    grid-gap: $spot-spacing-1
+    margin: $spot-spacing-1 $spot-spacing-1 0
+
+  &--date-field
+    &_current,
+    &_current:hover
+      // We want this to feel like the focus outline, but we cannot make it an actual outline
+      // because that would overwrite the focus outline when the input field is focused.
+      // So we make a border 2px wide like the outline, and then reduce margins by 1px so the
+      // size of the element does not change.
+      border: 2px solid var(--control-checked-color)
+      margin: -1px
+
+  &--date-container
+    display: inline-grid
+
+  &--hidden-link
+    visibility: hidden
+
+  &--flatpickr-instance.inline
+    margin: 1rem auto !important
+
+  &--stretch-content
+    flex-grow: 1
+    flex-shrink: 1
+    overflow-y: auto
+
+    // Unfortunately, we need an extra class
+    // Of specificity here to overwrite the
+    // nested spot-container styles
+    &.spot-container
+      margin-top: $spot-spacing-0_5
+
+@media screen and (max-width: $breakpoint-sm)
+  .op-datepicker-modal
+    // Use same width as spot-modal mobile
+    width: calc(100vw - 2rem)
+    margin-bottom: 0
+
+    &--flatpickr-instance
+      align-self: center
+
+    &--dates-container
+      grid-template-columns: 1fr 1fr
+
+    &--toggle-actions-container
+      display: grid
+      grid-template-columns: 1fr
+      grid-row-gap: $spot-spacing-1
+
+    &--date-form
+      &:only-child
+        grid-column: 1 / 3

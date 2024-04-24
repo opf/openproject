@@ -1,0 +1,85 @@
+# /api/v3/documents/{id}
+---
+get:
+  parameters:
+  - description: Document id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  attachments:
+                    _embedded...:
+                      elements: []
+                    _links:
+                      self:
+                        href: "/api/v3/documents/1/attachments"
+                    _type: Collection
+                    count: 2
+                    total: 2
+                  project:
+                    _type: Project...
+                _links:
+                  addAttachment:
+                    href: "/api/v3/documents/1/attachments"
+                    method: post
+                  attachments:
+                    href: "/api/v3/documents/1/attachments"
+                  project:
+                    href: "/api/v3/projects/19"
+                    title: Some project
+                  self:
+                    href: "/api/v3/documents/1"
+                    title: Some document
+                _type: Document
+                createdAt: '2018-12-10T20:53:39.698Z'
+                description:
+                  format: markdown
+                  html: "<p>Videlicet deserunt aequitas cognatus. Concedo quia est
+                    quia pariatur vorago vallum. Calco autem atavus accusamus conscendo
+                    cornu ulterius. Tam patria ago consectetur ventito sustineo nihil
+                    caecus. Supra officiis eos velociter somniculosus tonsor qui.
+                    Suffragium aduro arguo angustus cogito quia tolero vulnus. Supplanto
+                    sortitus cresco apud vestrum qui.</p>"
+                  raw: Videlicet deserunt aequitas cognatus. Concedo quia est quia
+                    pariatur vorago vallum. Calco autem atavus accusamus conscendo
+                    cornu ulterius. Tam patria ago consectetur ventito sustineo nihil
+                    caecus. Supra officiis eos velociter somniculosus tonsor qui.
+                    Suffragium aduro arguo angustus cogito quia tolero vulnus. Supplanto
+                    sortitus cresco apud vestrum qui.
+                id: 1
+                title: Some other document
+          schema:
+            "$ref": "../components/schemas/document_model.yml"
+      description: OK
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the document does not exist or if the user does not have permission to view it.
+
+        **Required permission** `view documents` in the project the document belongs to
+      headers: {}
+  tags:
+  - Documents
+  description: ''
+  operationId: View_document
+  summary: View document

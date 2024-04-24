@@ -1,0 +1,19 @@
+<% form_field_class = form_field_class || '' %>
+<% container_class  = container_class  || '' %>
+<% highlight_text_inline  = highlight_text_inline  || false %>
+<div class="form--field <%= form_field_class %>"<%=  %>>
+  <label class="form--label">
+    <%= t('attributes.color') %>
+  </label>
+  <div class="form--field-container">
+    <%= form.hidden_field :color_id %>
+    <%= content_tag('colors-autocompleter',
+                    '',
+                    class: "colors-autocomplete form--select-container " + "#{container_class.present? ? container_class : '-middle'}",
+                    data: { colors: options_for_colors(object),
+                            selected_color: selected_color(object),
+                            highlight_text_inline: highlight_text_inline,
+                            update_input: type + '[color_id]'}) %>
+  </div>
+  <div class="form--field-instructions"><%= label %></div>
+</div>

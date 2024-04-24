@@ -1,0 +1,41 @@
+#English strings go here
+kk:
+  plugin_openproject_avatars:
+    name: "Avatars"
+    description: >-
+      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
+  label_avatar: "Аватар"
+  label_avatar_plural: "Аватарлар"
+  label_current_avatar: "Қазіргі аватар"
+  label_choose_avatar: "Аватарды файлдан таңдау"
+  message_avatar_uploaded: "Аватар сәтті өзгертілді."
+  error_image_upload: "Суретті жүктеуде қате шықты."
+  error_image_size: "Сурет тым үлкен."
+  button_change_avatar: "Аватарды өзгерту"
+  are_you_sure_delete_avatar: "Аватарыңызды шынымен өшіргіңіз келеді ме?"
+  avatar_deleted: "Аватар сәтті өшірілді."
+  unable_to_delete_avatar: "Аватарды өшіру мүмкін емес."
+  wrong_file_format: "Рұқсат етілен форматтар: jpg, png, gif"
+  empty_file_error: "Талапқа сай суретті жүктеуіңізді сұраймыз (jpg, png, gif)"
+  avatars:
+    label_avatar: "Аватар"
+    label_gravatar: 'Граватар'
+    label_current_avatar: 'Қазіргі аватар'
+    label_local_avatar: 'Жеке аватар'
+    text_current_avatar: |
+      Төмендегі сурет қазіргі аватарды бейнелейді.
+    text_upload_instructions: |
+      Өлшемі 128 де 128 пиксел болатын өзіңіздің жеке аватарыңызды жүктеңіз. Одан үлкен файлдар осы өлшемге келетіндей болып қиылады.
+      Таңдаған суретіңіз жүктелмес бұрын аватарыңыздың алдын-ала бейнесі көрсетіледі.
+    text_change_gravatar_html: 'Өзіңіздің электрондық поштаңыздың Граватарын өзгерту немесе соны қосу үшін мына сілтемеге өтіңіз: %{gravatar_url}.'
+    text_your_local_avatar: |
+      OpenProject сізге өзіңіздің жеке аватарыңызды жүктеуге мүмкіндік береді.
+    text_local_avatar_over_gravatar: |
+      Орнатқан аватарыңыз жоғарыдағы аватардың орнына қолданылатын болады.
+    text_your_current_gravatar: |
+      OpenProject сіз тіркеген граватарды немесе жүйеде көрсетілген әдепкі бейнені қолданатын болады.
+      Қазіргі граватар мынадай:
+    settings:
+      enable_gravatars: 'Қолданушы граватарларына рұқсат беру'
+      gravatar_default: "Әдепкі граватар бейнесі"
+      enable_local_avatars: 'Қолданушы жеке аватарларына рұқсат беру'

@@ -1,0 +1,63 @@
+<div class="op-ian-center">
+  <div
+    class="op-ian-center--content"
+    [class.op-ian-center--content_empty]="(loading$ | async) === true || (hasNotifications$ | async) === false"
+  >
+    <ng-container *ngIf="(loading$ | async) === false; else loading">
+      <ng-container *ngIf="(hasNotifications$ | async); else noResults">
+        <cdk-virtual-scroll-viewport
+            itemSize="100"
+            class="op-ian-center--viewport"
+        >
+          <op-in-app-notification-entry
+              *cdkVirtualFor="let records of notifications$ | async; trackBy: trackNotificationGroups; templateCacheSize: 0"
+              class="op-ian-item"
+              [class.op-ian-item_expanded]="records[0].expanded"
+              [class.op-ian-item_read]="records[0].readIAN === true"
+              [class.op-ian-item_selected]="(stateChanged$ | async) === records[0]._links.resource.href"
+              [notification]="records[0]"
+              [aggregatedNotifications]="records"
+              attr.data-test-selector="op-ian-notification-item-{{records[0].id}}"
+              [attr.data-qa-ian-read]="records[0].readIAN === true || undefined"
+              [attr.data-qa-ian-selected]="(stateChanged$ | async) === records[0]._links.resource.href"
+          ></op-in-app-notification-entry>
+        </cdk-virtual-scroll-viewport>
+      </ng-container>
+      <ng-template #noResults>
+        <div class="op-ian-center--loading-indicator">
+        <img [src]="image.no_notification" class="op-ian-center-loading-image"/>
+        <p class="op-ian-center-loading-text">
+          <span [textContent]="noNotificationText((totalCount$ | async) > 0)"></span>
+         
+        </p>
+          <span
+            *ngIf="(totalCount$ | async) > 0"
+            [textContent]="text.no_results.with_current_filter"
+          ></span>
+          <ng-container *ngIf="(totalCount$ | async) === 0">
+            <p>
+              <span [textContent]="text.no_results.at_all"></span>
+              <br/>
+              <span [innerHTML]="text.change_notification_settings"></span>
+            </p>
+          </ng-container>
+      </div>
+      </ng-template>
+    </ng-container>
+    <ng-template #loading>
+      <div class="op-ian-center--loading-indicator">
+        <img [src]="image.loading"
+          class="op-ian-center-loading-image"
+          data-test-selector="op-ian-center--loading-indicator"/>
+      </div>
+    </ng-template>
+  </div>
+  <div class="op-ian-center--footer">
+    <p
+      class="op-ian-center--max-warning"
+      *ngIf="hasMoreThanPageSize$ | async"
+      [textContent]="totalCountWarning$ | async"
+    >
+    </p>
+  </div>
+</div>

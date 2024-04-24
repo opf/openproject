@@ -1,0 +1,46 @@
+# Schema: Work_Package_activitiesModel
+---
+type: object
+example:
+  _links:
+    self:
+      href: "/api/v3/work_packages/1/revisions"
+  total: 2
+  count: 2
+  _type: Collection
+  _embedded:
+    elements:
+    - _type: Activity
+      _links:
+        self:
+          href: "/api/v3/activity/1"
+        workPackage:
+          href: "/api/v3/work_packages/1"
+        user:
+          href: "/api/v3/users/1"
+      id: 1
+      details: []
+      comment:
+        format: markdown
+        raw: Lorem ipsum dolor sit amet.
+        html: "<p>Lorem ipsum dolor sit amet.</p>"
+      createdAt: '2014-05-21T08:51:20.396Z'
+      updatedAt: '2014-05-21T09:14:02.324Z'
+      version: 1
+    - _type: Activity
+      _links:
+        self:
+          href: "/api/v3/activity/2"
+        workPackage:
+          href: "/api/v3/work_packages/1"
+        user:
+          href: "/api/v3/users/1"
+      id: 2
+      details: []
+      comment:
+        format: markdown
+        raw: Lorem ipsum dolor sit amet.
+        html: "<p>Lorem ipsum dolor sit amet.</p>"
+      createdAt: '2014-05-21T09:51:22.769Z'
+      updatedAt: '2014-05-21T10:14:02.927Z'
+      version: 2

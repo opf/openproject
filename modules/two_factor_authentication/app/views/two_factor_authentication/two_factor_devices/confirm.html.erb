@@ -1,0 +1,19 @@
+<% html_title(t(:label_my_account), t('two_factor_authentication.devices.confirm_device')) -%>
+<% breadcrumb_paths link_to(t('two_factor_authentication.label_two_factor_authentication'), index_path),
+                    t('two_factor_authentication.devices.confirm_device') -%>
+
+<%= styled_form_tag(confirm_path, method: :post, id: 'login-form', class: 'form -bordered', autocomplete: "off") do %>
+  <h2><%= title %></h2>
+  <p><%= message.html_safe %></p>
+  <hr class="form--separator">
+  <%= back_url_hidden_field_tag %>
+  <div class="form--field -required -wide-label">
+    <%= styled_label_tag 'otp', t(:field_otp) %>
+    <div class="form--field-container">
+      <%= styled_text_field_tag 'otp', nil, required: true, autocomplete: 'off', size: 6, maxlength: 6, tabindex: 1, autofocus: true  %>
+    </div>
+  </div>
+  <div class="login-form--footer">
+    <input type="submit" name="login" value="<%= t 'button_continue' %>" class="button -primary button_no-margin" tabindex="2" />
+  </div>
+<% end %>

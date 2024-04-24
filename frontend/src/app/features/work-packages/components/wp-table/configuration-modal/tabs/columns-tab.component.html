@@ -1,0 +1,18 @@
+<div class="columns-modal--content">
+  <op-draggable-autocompleter [options]="availableColumnsOptions"
+                              [selected]="selectedColumns"
+                              [inputLabel]="text.inputLabel"
+                              [inputPlaceholder]="text.inputPlaceholder"
+                              [dragAreaLabel]="text.inputDragLabel"
+                              [id]="'columns-select'"
+                              (onChange)="updateSelected($event)">
+  </op-draggable-autocompleter>
+</div>
+
+<op-enterprise-banner class="ee-relation-columns-upsale"
+                   *ngIf="eeShowBanners"
+                   [linkMessage]="text.upsaleCheckOutLink"
+                   [textMessage]="text.upsaleRelationColumns"
+                   [moreInfoLink]="text.moreInfoLink"
+                   opReferrer="wp-list-columns#relations">
+</op-enterprise-banner>

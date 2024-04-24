@@ -1,0 +1,8 @@
+#English strings go here
+it:
+  js:
+    calendar:
+      create_new: 'Crea nuovo calendario'
+      title: 'Calendario'
+      too_many: 'Ci sono %{count} macro-attività in totale, ma solo %{max} possono essere mostrate.'
+      unsaved_title: 'Calendario senza nome'

@@ -1,0 +1,51 @@
+---
+description: |-
+  Work packages may be related to each other in different ways.
+
+  ```
+  +--------------+                            +--------------+
+  |              | 1                        1 |              |
+  | Work package +-------------+--------------+ Work package |
+  |              | from        |           to |              |
+  +--------------+             |              +--------------+
+                        +------+-------+
+                        |   Relation   |
+                        +--------------+
+                        | type         |
+                        | reverseType  |
+                        | description  |
+                        | lag        |
+                        +--------------+
+  ```
+
+  ## Actions
+
+  | Link                | Description                                                          | Condition                                     |
+  |:-------------------:| -------------------------------------------------------------------- | --------------------------------------------- |
+  | update              | Updates the relation between two work packages via a form            | **Permission**: manage work package relations |
+  | updateImmediately   | Updates the relation between two work packages                       | **Permission**: manage work package relations |
+  | delete              | Destroys the relation between the two work packages                  | **Permission**: manage work package relations |
+
+  ## Linked Properties
+
+  | Link          | Description                           | Type          | Constraints | Supported operations | Condition                                     |
+  |:-------------:|-------------------------------------- | ------------- | ----------- | -------------------- | --------------------------------------------- |
+  | self          | This relation                         | Relation      | not null    | READ                 | **Permission**: view work packages            |
+  | schema        | The schema of this relation           | Schema        | not null    | READ                 |                                               |
+  | from          | The emanating work package            | WorkPackage   | not null    | READ                 | **Permission**: view work packages            |
+  | to            | The work package the relation ends in | WorkPackage   | not null    | READ                 | **Permission**: view work packages            |
+
+  ## Local Properties
+
+  | Property         | Description                                                   | Type    | Constraints                                                                                                   | Supported operations |
+  | :---------------:| ------------------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------- | -------------------- |
+  | id               | Relation ID                                                   | Integer | x > 0                                                                                                         | READ                 |
+  | name             | The internationalized name of this kind of relation           | String  |                                                                                                               | READ
+  | type             | Which kind of relation (blocks, precedes, etc.)               | String  | in: relates, duplicates, duplicated, blocks, blocked, precedes, follows, includes, partof, requires, required | READ / WRITE         |
+  | reverseType      | The kind of relation from the other WP's perspective          | String  | in: relates, duplicates, duplicated, blocks, blocked, precedes, follows, includes, partof, requires, required | READ                 |
+  | description      | Short text further describing the relation                    | String  |                                                                                                               | READ / WRITE         |
+  | lag*             | The number of days between closing of `from` and start of `to`| Integer | x >= 0                                                                                                        | READ / WRITE         |
+
+  \* Only applicable for some relation types such as "follows". You can check using the relation by schema
+  endpoint at `/api/v3/relations/schema/{type}`.
+name: Relations

@@ -1,0 +1,123 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<% content_for :header_tags do %>
+  <script src="<%= OpenProject::Static::Links.links[:chargebee][:href] %>"
+          data-cb-site="<%= OpenProject::Configuration.enterprise_chargebee_site %>">
+  </script>
+<% end %>
+
+<div class="upsale--information-container">
+  <div class='upsale-information'>
+    <enterprise-base></enterprise-base>
+  </div>
+
+  <div class='upsale-actions'>
+    <a href="#"
+       class="button -highlight-inverted"
+       data-cb-type="checkout"
+       data-cb-plan-id="<%= OpenProject::Configuration.enterprise_plan %>">
+      <%= t('admin.enterprise.book_now') %>
+    </a>
+
+    <% quote_link = OpenProject::Static::Links.links.fetch :upsale_get_quote %>
+    <%= link_to t(quote_link[:label]),
+                quote_link[:href],
+                target: '_blank',
+                class: 'button -highlight-inverted'%>
+  </div>
+
+  <%= static_link_to :contact %>
+</div>
+
+<div class="info-boxes upsale-benefits">
+  <h3 class="info-boxes--title -no-border"><%= t('js.admin.enterprise.upsale.benefits.description') %></h3>
+
+  <div class="info-boxes--container">
+    <div class="info-boxes--item">
+      <%= image_tag "installation_alerts.svg",
+                    class: "info-boxes--teaser-image",
+                    title: t('js.admin.enterprise.upsale.benefits.installation'),
+                    alt: t('js.admin.enterprise.upsale.benefits.installation') %>
+      <h4 class="info-boxes--item-title"><%= t('js.admin.enterprise.upsale.benefits.installation') %></h4>
+      <div class="info-boxes--item-content">
+        <p><%= t('js.admin.enterprise.upsale.benefits.installation_text') %></p>
+        <ul class="widget-box--arrow-links">
+          <li>
+            <%= static_link_to :upsale_benefits_installation %>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="info-boxes--item">
+      <%= image_tag "system_maintenance.jpg",
+                    class: "info-boxes--teaser-image",
+                    title: t('js.admin.enterprise.upsale.benefits.professional_support'),
+                    alt: t('js.admin.enterprise.upsale.benefits.professional_support') %>
+      <h4 class="info-boxes--item-title"><%= t('js.admin.enterprise.upsale.benefits.professional_support') %></h4>
+      <div class="info-boxes--item-content">
+        <p><%= t('js.admin.enterprise.upsale.benefits.professional_support_text') %></p>
+        <ul class="widget-box--arrow-links">
+          <li>
+            <%= static_link_to :upsale_benefits_support %>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="info-boxes--item">
+      <%= image_tag "enterprise-add-on.svg",
+                    class: "info-boxes--teaser-image",
+                    title: t('js.admin.enterprise.upsale.benefits.premium_features'),
+                    alt: t('js.admin.enterprise.upsale.benefits.premium_features') %>
+      <h4 class="info-boxes--item-title"><%= t('js.admin.enterprise.upsale.benefits.premium_features') %></h4>
+      <div class="info-boxes--item-content">
+        <p><%= t('js.admin.enterprise.upsale.benefits.premium_features_text') %></p>
+        <ul class="widget-box--arrow-links">
+          <li>
+            <%= static_link_to :upsale_benefits_features %>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="info-boxes--item">
+      <%= image_tag "security_alerts.jpg",
+                    class: "info-boxes--teaser-image",
+                    title: t('js.admin.enterprise.upsale.benefits.high_security'),
+                    alt: t('js.admin.enterprise.upsale.benefits.high_security') %>
+      <h4 class="info-boxes--item-title"><%= t('js.admin.enterprise.upsale.benefits.high_security') %></h4>
+      <div class="info-boxes--item-content">
+        <p><%= t('js.admin.enterprise.upsale.benefits.high_security_text') %></p>
+        <ul class="widget-box--arrow-links">
+          <li>
+            <%= static_link_to :upsale_benefits_security %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

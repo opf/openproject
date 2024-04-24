@@ -1,0 +1,79 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<%= toolbar title: t(:label_api_access_key_type) %>
+
+<%= styled_form_tag(admin_settings_api_path, method: :patch) do %>
+  <section class="form--section">
+    <div class="form--field">
+      <%= setting_check_box :rest_api_enabled %>
+    </div>
+    <div class="form--field">
+      <%= setting_number_field :apiv3_max_page_size, min: 50, container_class: '-slim' %>
+      <div class="form--field-instructions">
+        <p><%= t(:setting_apiv3_max_page_instructions_html) %></p>
+      </div>
+    </div>
+    <div class="form--field">
+      <%= setting_check_box :apiv3_write_readonly_attributes, container_class: '-slim' %>
+      <div class="form--field-instructions">
+        <p><%= t(:setting_apiv3_write_readonly_attributes_instructions_html,
+                 api_documentation_link: static_link_to(:api_docs)
+               ) %></p>
+      </div>
+    </div>
+  </section>
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= I18n.t("setting_apiv3_docs") %></legend>
+    </fieldset>
+    <div class="form--field">
+      <%= setting_check_box :apiv3_docs_enabled %>
+      <div class="form--field-instructions">
+        <p><%= t(:setting_apiv3_docs_enabled_instructions_html, link: api_docs_url) %></p>
+      </div>
+    </div>
+  </section>
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend">Cross-Origin Resource Sharing (CORS)</legend>
+    </fieldset>
+    <div class="form--field">
+      <%= setting_check_box :apiv3_cors_enabled %>
+    </div>
+    <div class="form--field">
+      <%= setting_text_area :apiv3_cors_origins, rows: 5, container_class: '-wide' %>
+      <div class="form--field-instructions">
+        <p><%= t(:text_line_separated) %></p>
+        <p><%= t(:setting_apiv3_cors_origins_text_html,
+                 origin_link: ::OpenProject::Static::Links[:origin_mdn_documentation][:href]) %></p>
+      </div>
+    </div>
+  </section>
+  <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
+<% end %>

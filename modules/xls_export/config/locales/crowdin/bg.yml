@@ -1,0 +1,16 @@
+bg:
+  plugin_openproject_xls_export:
+    name: "Експортиране на OpenProject XLS"
+    description: "Експортирайте списъци с проблеми като електронни таблици на Excel (.xls)."
+  export_to_excel: "Експорт XLS"
+  print_with_description: "Преглед преди печат с описание"
+  sentence_separator_or: "или"
+  different_formats: Различни формати
+  export:
+    format:
+      xls: "XLS"
+      xls_with_descriptions: "XLS с описания"
+      xls_with_relations: "XLS с отношения"
+  xls_export:
+    child_of: дете на
+    parent_of: родител на

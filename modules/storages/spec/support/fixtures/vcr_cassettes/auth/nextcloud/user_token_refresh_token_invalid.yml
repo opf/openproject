@@ -1,0 +1,154 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://nextcloud.local/ocs/v1.php/cloud/user
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      User-Agent:
+      - httpx.rb/1.2.3
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/xml; charset=utf-8
+      Date:
+      - Fri, 08 Mar 2024 09:21:35 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.57 (Debian)
+      Set-Cookie:
+      - ocirabgzify6=410bba53b25e4fd84d9fe3918b13fa65; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=rhdZ5dSY6QfUvYnUjhpWAmbCJACGZQpf1Zp4nOjHopkd7CxTWkVdFw8HYXqdmyPsykVZ0j7imva9IX4IktTStww2ASUuMHY%2BZzjOG7B2%2F1GkO6%2BYIvbxvAkIVsP3NUzK;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=410bba53b25e4fd84d9fe3918b13fa65;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, ocirabgzify6=410bba53b25e4fd84d9fe3918b13fa65;
+        path=/; secure; HttpOnly; SameSite=Lax
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.16
+      X-Request-Id:
+      - e9FlTXYXJZM3Iqux61Qg
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '230'
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <ocs>
+         <meta>
+          <status>failure</status>
+          <statuscode>997</statuscode>
+          <message>Current user is not logged in</message>
+          <totalitems></totalitems>
+          <itemsperpage></itemsperpage>
+         </meta>
+         <data/>
+        </ocs>
+  recorded_at: Fri, 08 Mar 2024 09:21:35 GMT
+- request:
+    method: post
+    uri: https://nextcloud.local/index.php/apps/oauth2/api/v1/token
+    body:
+      encoding: ASCII-8BIT
+      string: grant_type=refresh_token&scope=&client_id=7fj7lpG0GOqwOGhHAyfGwd1oEgtbTto7mctu0IaSN3SE79o9Xs0q8k3kDiEwXDrM&client_secret=j7RoyauWeIpMc7cYdY3lewCGKxdgiAowonpGzmAuj9iRSvYBAGXhP7hvz9Hp7skR&refresh_token=<ACCESS_TOKEN>
+    headers:
+      User-Agent:
+      - httpx.rb/1.2.3
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Content-Length:
+      - '204'
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 08 Mar 2024 09:21:35 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.57 (Debian)
+      Set-Cookie:
+      - ocirabgzify6=9affd4b9d9c040cc5d392a26e06d1bb3; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=iTHBtQPtpepw9rKgYTH6DUaJ%2BduE0rPGbQEjiFg2jf%2BigbTIwnAd9hwnz8n8rRFmvpbVatLM0N06C5%2BNRYAXXXpNtm3THjp6avx1968ATrWtUW7h7nGoKi%2BGRzL8cEeb;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=9affd4b9d9c040cc5d392a26e06d1bb3;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, ocirabgzify6=9affd4b9d9c040cc5d392a26e06d1bb3;
+        path=/; secure; HttpOnly; SameSite=Lax
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Nextcloud-Bruteforce-Throttled:
+      - 200ms
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.16
+      X-Request-Id:
+      - 6P1BayresgCTVsAE5yQh
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '27'
+    body:
+      encoding: UTF-8
+      string: '{"error":"invalid_request"}'
+  recorded_at: Fri, 08 Mar 2024 09:21:35 GMT
+recorded_with: VCR 6.2.0

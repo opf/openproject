@@ -1,0 +1,22 @@
+<div
+  class="inline-label ng-select-container"
+  id="div-values-{{filter.id}}"
+>
+  <op-autocompleter
+    appendTo="body"
+    class="advanced-filters--ng-select -multi-select"
+    [id]="'values-' + filter.id"
+    [items]="availableOptions"
+    [classes]="{'-required-highlighting' : value.length === 0}"
+    [virtualScroll]
+    [closeOnSelect]="false"
+    [placeholder]="text.placeholder"
+    [hideSelected]="true"
+    [multiple]="true"
+    [model]="value"
+    [compareWith]="compareByHref"
+    [trackByFn]="itemTracker"
+    bindLabel="name"
+    (change)="setValues($event)"
+  ></op-autocompleter>
+</div>

@@ -1,0 +1,4 @@
+ca:
+  dashboards:
+    label: 'Taulers de control'
+  project_module_dashboards: 'Taulers de control'

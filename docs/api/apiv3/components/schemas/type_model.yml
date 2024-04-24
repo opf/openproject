@@ -1,0 +1,64 @@
+# Schema: TypeModel
+---
+type: object
+properties:
+  id:
+    type: integer
+    description: Type id
+    readOnly: true
+    exclusiveMinimum: 0
+  name:
+    type: string
+    description: Type name
+    readOnly: true
+  color:
+    type: string
+    description: The color used to represent this type
+    readOnly: true
+  position:
+    type: integer
+    description: Sort index of the type
+    readOnly: true
+  isDefault:
+    type: boolean
+    description: Is this type active by default in new projects?
+    readOnly: true
+  isMilestone:
+    type: boolean
+    description: Do work packages of this type represent a milestone?
+    readOnly: true
+  createdAt:
+    type: string
+    format: date-time
+    description: Time of creation
+    readOnly: true
+  updatedAt:
+    type: string
+    format: date-time
+    description: Time of the most recent change to the user
+  _links:
+    type: object
+    required:
+    - self
+    properties:
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This type
+
+            **Resource**: Type
+          readOnly: true
+example:
+  _links:
+    self:
+      href: "/api/v3/types/1"
+  _type: Type
+  id: 1
+  name: Bug
+  color: "#ff0000"
+  position: 1
+  isDefault: true
+  isMilestone: false
+  createdAt: '2014-05-21T08:51:20.624Z'
+  updatedAt: '2014-05-21T08:51:20.624Z'

@@ -1,0 +1,38 @@
+# Schema: UserPreferencesModel
+---
+type: object
+example:
+  _links:
+    self:
+      href: "/api/v3/my_preferences"
+    user:
+      href: "/api/v3/users/1"
+      title: John Sheppard
+    updateImmediately:
+      href: "/api/v3/users/3/preferences"
+      method: "patch"
+  _type: UserPreferences
+  commentSortDescending: true
+  hideMail: false
+  timeZone: "Europe/Berlin"
+  warnOnLeavingUnsaved: true
+  notifications:
+    - watched: false
+      involved: true
+      mentioned: false
+      shared: true
+      newsAdded: false,
+      newsCommented: false
+      documentAdded: false
+      forumMessages: false
+      wikiPageAdded: false
+      wikiPageUpdated: false
+      membershipAdded: false
+      membershipUpdated: false
+      workPackageCommented: false
+      workPackageProcessed: false
+      workPackagePrioritized: false
+      workPackageScheduled: false
+      _links:
+        project:
+          href: null

@@ -1,0 +1,47 @@
+.inline-edit--container
+  .-error,
+  .wp-table--cell-td.-error &
+    .inline-edit--display-field,
+    .inline-edit--field
+      background: $nm-color-error-background
+      border-color: var(--content-form-danger-zone-bg-color)
+
+  form
+    width: 100%
+
+  // Style actual edit inputs
+  // Checkboxes need to be excluded because the width
+  // causes an ugly increase of the box
+  &:not(.subject) input:not([type='checkbox']):not(.spot-text-field--input):not(.spot-input)
+    // Full width to inline-edit inputs
+    width: 100%
+    line-height: 24px
+    border-radius: 2px
+
+  input:not([type='checkbox'])
+    // Same height as the row - padding
+    height: 24px
+    padding: 2px
+    color: var(--body-font-color)
+
+  input.spot-input
+    // The other inputs are getting a min-height from the .op-input class,
+    // for the spot input we have to define it in order to achieve the same height.
+    min-height: 2rem
+
+  &.-tiny
+    input:not([type='checkbox']):not(.spot-text-field--input)
+      max-width: 100px
+
+  .inline-label
+    .form-label,
+    .icon-context:before
+      padding-right: 0
+
+
+// Style no-label fields (long text, description, ..) with padding
+.inline-edit--container.-no-label:not(.-active)
+  .inline-edit--display-field
+    display: block
+    padding: 5px 0 5px 5px
+

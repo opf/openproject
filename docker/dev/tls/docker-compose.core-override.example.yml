@@ -1,0 +1,41 @@
+services:
+  backend:
+    # The backend container needs some variables to be configured properly
+    environment:
+      OPENPROJECT_CLI_PROXY: '${OPENPROJECT_DEV_URL}'
+      OPENPROJECT_DEV_EXTRA_HOSTS: '${OPENPROJECT_DEV_HOST}'
+      OPENPROJECT_HTTPS: true
+      SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
+    networks:
+      - external
+    volumes:
+      # This volume mount is the usual volume mount for a linux environment.
+      # It must be amended accordingly to OS.
+      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+
+  backend-test:
+    # Connect the backend-test container to the same network as the backend for nextcloud HTTP interactions
+    networks:
+      - external
+    volumes:
+      # Linux
+      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+      # Mac OS
+      # - ~/.step/certs:/etc/ssl/certs
+      # - ~/.step/certs:/usr/local/share/ca-certificates
+
+  frontend:
+    networks:
+      - external
+    # Those label interpreted by traefik to create the correct HTTP router
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.openproject.rule=Host(`${OPENPROJECT_DEV_HOST}`)"
+      - "traefik.http.routers.openproject.entrypoints=websecure"
+
+# You need to define the same external network
+# that is defined in the TLS proxy compose file
+networks:
+  external:
+    name: gateway
+    external: true

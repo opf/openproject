@@ -1,0 +1,63 @@
+# Schema: VersionsModel
+---
+type: object
+example:
+  _links:
+    self:
+      href: "/api/v3/versions"
+  total: 3
+  count: 3
+  _type: Collection
+  _embedded:
+    elements:
+    - _links:
+        self:
+          href: "/api/v3/versions/11"
+        definingProject:
+          href: "/api/v3/projects/12"
+        availableInProjects:
+          href: "/api/v3/versions/11/projects"
+      _type: Version
+      id: 11
+      name: v3.0 Alpha
+      description:
+        format: plain
+        raw: This version has a description
+        html: This version has a description
+      startDate: '2014-11-20'
+      endDate: 
+      status: Open
+    - _links:
+        self:
+          href: "/api/v3/versions/12"
+        definingProject:
+          href: "/api/v3/projects/11"
+        availableInProjects:
+          href: "/api/v3/versions/12/projects"
+      _type: Version
+      id: 12
+      name: v2.0
+      description:
+        format: plain
+        raw: ''
+        html: ''
+      startDate: 
+      endDate: 
+      status: Closed
+    - _links:
+        self:
+          href: "/api/v3/versions/10"
+        definingProject:
+          href: "/api/v3/projects/13"
+        availableInProjects:
+          href: "/api/v3/versions/13/projects"
+      _type: Version
+      id: 10
+      name: v1.0
+      description:
+        format: plain
+        raw: ''
+        html: ''
+      startDate: 
+      endDate: 
+      status: Open

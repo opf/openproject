@@ -1,0 +1,52 @@
+<%= render layout: 'mailer/spacer_table' do %>
+  <%= render partial: 'mailer/mailer_header',
+             locals: {
+               summary: header_summary,
+               user: user
+             } %>
+
+  <%= render layout: 'mailer/border_table' do %>
+    <tr>
+      <%= placeholder_cell('24px', vertical: true) %>
+      <td>
+        <table>
+          <% if body_subheader %>
+            <tr>
+              <td style="<%= placeholder_text_styles('font-weight': 'bold') %>">
+                <%= format_text body_subheader %>
+              </td>
+            </tr>
+          <% end %>
+          <% if body_header %>
+            <tr>
+              <td style="<%= placeholder_text_styles(color: '#333333', 'line-height': '36px', 'font-size': '18px', 'font-weight': 'bold') %>">
+                <%= format_text body_header %>
+              </td>
+            </tr>
+          <% end %>
+          <tr>
+            <td style="<%= placeholder_text_styles %>">
+              <%= format_text body %>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <%= placeholder_cell('24px', vertical: true) %>
+    </tr>
+    <tr>
+      <%= placeholder_cell('24px', vertical: false) %>
+    </tr>
+  <% end %>
+
+  <table>
+    <tr>
+      <%= placeholder_cell('20px', vertical: false) %>
+    </tr>
+  </table>
+
+  <%= render partial: 'mailer/notification_settings_table',
+             locals: {
+               button_url: my_reminders_url,
+               button_text: I18n.t(:'mail.notification.settings')
+             } %>
+<% end %>

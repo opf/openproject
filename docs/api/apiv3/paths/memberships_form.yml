@@ -1,0 +1,51 @@
+# /api/v3/memberships/form
+---
+post:
+  summary: Form create membership
+  operationId: form_create_membership
+  tags:
+    - Memberships
+  description: |-
+    Requests and validates the creation form for memberships. The request payload, if sent, is validated. The form
+    endpoint itself does not create a membership.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/membership_write_model.yml'
+        examples:
+          'global role':
+            $ref: '../components/examples/membership-create-request-global-role.yml'
+          'no notification':
+            $ref: '../components/examples/membership-create-request-no-notification.yml'
+          'custom message':
+            $ref: '../components/examples/membership-create-request-custom-message.yml'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/membership_form_model.yml'
+          examples:
+            form:
+              $ref: '../components/examples/membership-form-response.yml'
+    '400':
+      $ref: '../components/responses/invalid_request_body.yml'
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** manage memberships in any project
+    '406':
+      $ref: '../components/responses/missing_content_type.yml'
+    '415':
+      $ref: '../components/responses/unsupported_media_type.yml'

@@ -1,0 +1,17 @@
+@import "helpers"
+
+.op-project-autocompleter
+  &,
+  & > *
+    width: 100%
+    display: flex
+    flex-direction: column
+
+  &_inline
+    .op-autocompleter
+      display: inline
+
+  // Unfortunately, ng-select is extremely specific with its selectors
+  .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-disabled
+    cursor: default
+    color: var(--color-fg-muted)

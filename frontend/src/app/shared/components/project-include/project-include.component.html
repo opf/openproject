@@ -1,0 +1,116 @@
+<spot-drop-modal
+  [opened]="opened"
+  (closed)="opened = false"
+  class="op-project-list-modal"
+>
+  <button
+    slot="trigger"
+    type="button"
+    class="button"
+    (click)="toggleOpen()"
+    [title]="text.toggle_title"
+    data-test-selector="project-include-button"
+  >
+    {{ text.toggle_title }}
+    <span
+      *ngIf="(numberOfProjectsInFilter$ | async) as count"
+      class="badge -secondary"
+      [textContent]="count"
+    >
+    </span>
+    <span class="spot-icon spot-icon_dropdown"></span>
+  </button>
+
+  <ng-container slot="body">
+    <div class="op-project-list-modal--header op-project-include--header">
+      <h1 class="op-project-list-modal--title">{{ text.title }}</h1>
+      <spot-toggle
+        [options]="displayModeOptions"
+        [(ngModel)]="displayMode"
+      ></spot-toggle>
+    </div>
+    <form
+      (submit)="onSubmit($event)"
+      class="spot-container op-project-list-modal--body"
+      data-searchable-list-parent="true"
+      *ngIf="projects$ | async as projects"
+    >
+      <spot-text-field
+        [placeholder]="text.search_placeholder"
+        name="project-include-search"
+        [(ngModel)]="searchableProjectListService.searchText"
+        [ngModelOptions]="{standalone: true}"
+        data-test-selector="project-include-search"
+        data-list-focus-catcher-container="true"
+        data-modal-focus-catcher-container="true"
+        (keydown)="searchableProjectListService.onKeydown($event, projects)"
+        (inputFocus)="textFieldFocused = true"
+        (inputBlur)="textFieldFocused = false"
+      >
+        <span
+          slot="before"
+          class="spot-icon spot-icon_search"
+        ></span>
+      </spot-text-field>
+
+      <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
+        <ul
+          *ngIf="projects.length > 0; else noResultsTemplate"
+          class="op-project-include--list"
+          [ngClass]="{ 'spot-list_active': textFieldFocused }"
+          op-project-include-list
+          [projects]="projects"
+          [selected]="selectedProjects"
+          [includeSubprojects]="includeSubprojects$ | async"
+          [searchText]="searchableProjectListService.searchText"
+          [root]="true"
+          (update)="selectedProjects = $event"
+          data-test-selector="project-include-list"
+          data-list-root="true"
+        ></ul>
+
+        <ng-template #noResultsTemplate>
+          <span class="op-project-list-modal--no-results">
+            {{text.no_results}}
+          </span>
+        </ng-template>
+      </ng-container>
+
+      <div class="spot-action-bar">
+        <div class="spot-action-bar--left">
+          <label class="op-project-include--include-all spot-action-bar--action">
+            <spot-checkbox
+              [(ngModel)]="includeSubprojects"
+              [ngModelOptions]="{standalone: true}"
+              data-qa-project-include-all-subprojects="1"
+            ></spot-checkbox>
+            <span class="op-project-include--include-all-text">{{ text.include_subprojects }}</span>
+          </label>
+        </div>
+        <div class="spot-action-bar--right">
+          <button
+            [disabled]="(loading$ | async)"
+            class="button spot-action-bar--action"
+            type="button"
+            (click)="clearSelection()"
+          >
+            {{ text.clear_selection }}
+          </button>
+          <button
+            [disabled]="(loading$ | async)"
+            class="button -primary spot-action-bar--action"
+          >
+            {{ text.apply }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+
+  <ng-template #loadingTemplate>
+    <op-loading-project-list
+      class="op-project-list-modal--loading"
+      data-test-selector="op-project-include--loading"
+    ></op-loading-project-list>
+  </ng-template>
+</spot-drop-modal>

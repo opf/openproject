@@ -1,0 +1,73 @@
+.spot-checkbox
+  display: inline-flex
+  justify-content: center
+  align-items: center
+  height: $spot-spacing-1_5
+  width: $spot-spacing-1_5
+  flex-shrink: 0
+
+  &:focus-within &--fake
+    @include spot-focus
+
+  &, *
+    box-sizing: border-box
+
+  &--input
+    position: fixed
+    height: 1px
+    width: 1px
+    overflow: hidden
+    clip: rect(1px,1px,1px,1px)
+
+  &--fake
+    position: relative
+    box-sizing: border-box
+    display: flex
+    justify-content: center
+    align-items: center
+    height: $spot-spacing-1
+    width: $spot-spacing-1
+    border-radius: 3px
+    border: 1px solid var(--control-checked-color)
+    cursor: pointer
+
+    &::before,
+    &::after
+      display: block
+      content: ''
+
+  &--input:indeterminate + &--fake::before
+    width: 8px
+    height: 2px
+    background-color: var(--control-checked-color)
+
+  &--input:checked + &--fake
+    background-color: var(--control-checked-color--minor1)
+
+  &--input:checked + &--fake::before,
+  &--input:checked + &--fake::after
+    border-radius: 1px
+    position: absolute
+
+  &--input:checked + &--fake::before
+    width: 2px
+    height: 5px
+    background-color: var(--control-checked-color)
+    transform: translateX(-2.3px) translateY(1.4px) rotate(-40deg)
+
+  &--input:checked + &--fake::after
+    width: 8px
+    height: 2px
+    background-color: var(--control-checked-color)
+    transform: translateX(1px) rotate(-45deg)
+
+  &--input:disabled + &--fake
+    border-color: var(--color-fg-muted)
+    cursor: default
+
+  &--input:disabled:checked + &--fake
+    background-color: $spot-color-basic-gray-5
+
+  &--input:disabled + &--fake::before,
+  &--input:disabled + &--fake::after
+    background-color: var(--color-fg-muted)

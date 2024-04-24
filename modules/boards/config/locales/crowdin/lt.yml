@@ -1,0 +1,39 @@
+#English strings go here
+lt:
+  plugin_openproject_boards:
+    name: "OpenProject lentos"
+    description: "Teikia lentų vaizdus."
+  permission_show_board_views: "Peržiūrėti lentas"
+  permission_manage_board_views: "Valdyti lentas"
+  project_module_board_view: "Lentos"
+  boards:
+    label_board: "Lenta"
+    label_boards: "Lentos"
+    label_create_new_board: "Kurti naują lentą"
+    label_board_type: "Lentos tipas"
+    board_types:
+      free: Pagrindinis
+      action: "Veiksmų lenta (%{attribute})"
+    board_type_attributes:
+      assignee: Paskirtas
+      status: Būsena
+      version: Versija
+      subproject: Sub-projektas
+      subtasks: Tėvo-vaiko
+      basic: Pagrindinis
+    board_type_descriptions:
+      basic: >
+        Pradėkite iš pradžių nuo tuščios lentos. Rankiniu būdu pridėkite korteles ir stulpelius į šią lentą.
+      status: >
+        Paprasta kanban stiliaus lenta su stulpeliais statusams, tokiems kaip To Do, Vykdoma, Įvykdyta.
+      assignee: >
+        Lenta su automatiniais stulpeliais pagrįstais priskirtu naudotoju. Ideali darbo paketų paskirstymui.
+      version: >
+        Lenta su automatiniais stulpeliais, pagrįstais versijos atributu. Ideali produkto vystymo planavimui.
+      subproject: >
+        Lenta su automatiniais stulpeliais sub-projektams. Darbų paketo perkėlimas į kitą sąrašą atitinkamai pakeičia (sub-)projektą.
+      subtasks: >
+        Lenta su automatiniais stulpeliais sub-elementams. Darbų paketo perkėlimas į kitą sąrašą atitinkamai atnaujina tėtį.
+    upsale:
+      teaser_text: 'Ar norite automatizuoti jūsų procesus su Lentomis? Išmaniosios lentos yra Enterprise priedas. Prašome pasikeisti į mokamą planą.'
+      upgrade: 'Užsisakykite dabar'

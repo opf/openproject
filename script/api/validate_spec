@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+
+require "pathname"
+require "tempfile"
+
+openapi_yaml_spec_path = Pathname(__dir__).join("../../tmp/oas-generated.yml")
+full_spec = `#{Pathname(__dir__).join("spec")} --format yaml`
+status = $?.exitstatus
+if status != 0
+  warn "failed to bundle the openapi spec yaml file"
+  exit status
+end
+
+status = 1
+
+begin
+  File.open(openapi_yaml_spec_path, "w+") do |file|
+    file.puts full_spec
+  end
+
+  `npx @redocly/openapi-cli lint #{openapi_yaml_spec_path}`
+
+  status = $?.exitstatus
+ensure
+  FileUtils.rm_f openapi_yaml_spec_path
+end
+
+exit status

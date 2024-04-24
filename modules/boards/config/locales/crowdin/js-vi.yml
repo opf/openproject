@@ -1,0 +1,86 @@
+#English strings go here
+vi:
+  js:
+    boards:
+      create_new: 'Tạo bảng mới'
+      label_unnamed_board: 'Bảng không tên'
+      label_unnamed_list: 'Danh sách không tên'
+      label_board_type: 'Kiểu bảng'
+      upsale:
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+        upgrade: 'Nâng cấp ngay'
+      lists:
+        delete: 'Xoá danh sách'
+      version:
+        is_locked: 'Phiên bản bị khóa. Không có mục nào có thể được thêm vào phiên bản này.'
+        is_closed: 'Phiên bản đã đóng. Không có mục nào có thể được thêm vào phiên bản này.'
+        close_version: 'Đóng phiên bản'
+        open_version: 'Mở phiên bản'
+        lock_version: 'Khoá phiên bản'
+        unlock_version: 'Mở khoá phiên bản'
+        edit_version: 'Chỉnh sửa phiên bản'
+        show_version: 'Hiển thị phiên bản'
+        locked: 'Đã khóa'
+        closed: 'Đã đóng'
+      new_board: 'Bảng mới'
+      add_list: 'Thêm danh sách vào bảng'
+      add_card: 'Thêm thẻ'
+      error_attribute_not_writable: "Không thể di chuyển công việc, %{attribute} không thể được phép ghi."
+      error_loading_the_list: "Lỗi tải danh sách: %{error_message}"
+      error_permission_missing: "Thiếu quyền tạo truy vấn công khai"
+      error_cannot_move_into_self: "Bạn không thể di chuyển công việc vào cột riêng của nó."
+      text_hidden_list_warning: "Không phải tất cả các danh sách đều được hiển thị vì bạn thiếu quyền hạn. Hãy liên hệ với quản trị viên của bạn để biết thêm thông tin."
+      click_to_remove_list: "Nhấp để xóa danh sách"
+      board_type:
+        text: 'Kiểu bảng'
+        free: 'cơ bản'
+        select_board_type: 'Vui lòng chọn loại bảng bạn cần.'
+        free_text: >
+          Bắt đầu với một bảng trống. Thêm thẻ và cột theo cách thủ công vào bảng này.
+        action: 'Bảng hành động'
+        action_by_attribute: 'Bảng hành động (%{attribute})'
+        action_text: >
+          Một bảng có danh sách được lọc bằng thuộc tính %{attribute}. Việc di chuyển các công việc sang danh sách khác sẽ cập nhật thuộc tính của chúng.
+        action_text_subprojects: >
+          Bảng có các cột tự động cho các dự án con. Kéo các gói công việc vào danh sách khác sẽ cập nhật dự án (con) tương ứng.
+        action_text_subtasks: >
+          Bảng có các cột tự động dành cho các thành phần phụ. Kéo các công việc vào danh sách khác sẽ cập nhật công việc gốc tương ứng.
+        action_text_status: >
+          Bảng kiểu Kanban cơ bản với các cột cho trạng thái như Cần làm, Đang tiến hành, Đã xong.
+        action_text_assignee: >
+          Bảng với các cột tự động dựa trên người được gán. Lý tưởng cho việc gửi các công việc.
+        action_text_version: >
+          Bảng có các cột tự động dựa trên thuộc tính phiên bản. Lý tưởng cho việc lập kế hoạch phát triển sản phẩm.
+        action_type:
+          assignee: Người được giao
+          status: Trạng thái
+          version: Phiên bản
+          subproject: dự án con
+          subtasks: cha-con
+        board_type_title:
+          assignee: Người được giao
+          status: Trạng thái
+          version: Phiên bản
+          subproject: Dự án con
+          subtasks: Parent-child
+          basic: Cơ bản
+        select_attribute: "Thuộc tính hành động"
+      add_list_modal:
+        labels:
+          assignee: Chọn người dùng để thêm làm danh sách người được gán mới
+          status: Chọn trạng thái để thêm làm danh sách mới
+          version: Chọn phiên bản để thêm làm danh sách mới
+          subproject: Chọn dự án con để thêm làm danh sách mới
+          subtasks: Chọn công việc để thêm làm danh sách mới
+        warning:
+          status: |
+            Hiện tại không có trạng thái nào. <br>
+            Hoặc không có hoặc tất cả đều đã được thêm vào bảng.
+          assignee: Không có thành viên nào khớp với giá trị bộ lọc của bạn. <br>
+          no_member: Dự án này hiện không có bất kỳ thành viên nào có thể được thêm vào. <br>
+          add_members: <a href="%{link}">Thêm thành viên mới vào dự án này</a> để chọn lại người dùng.
+      configuration_modal:
+        title: 'Cấu hình bảng này'
+        display_settings:
+          card_mode: "Hiển thị dưới dạng thẻ"
+          table_mode: "Hiển thị dưới dạng bảng"

@@ -1,0 +1,74 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%
+  principal = @group || @user
+  global_member = Member.global.where(principal: principal).includes(:roles).first
+%>
+
+<div class="grid-block" id="principal_global_roles_content">
+  <div id="assigned_principal_roles" class="grid-content">
+  <% unless global_member&.roles&.any? %>
+    <%= no_results_box %>
+  <% else %>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table class="generic-table principal_roles" id="table_principal_roles">
+          <colgroup>
+            <col opHighlightCol>
+            <col>
+          </colgroup>
+          <thead>
+            <tr>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= GlobalRole.model_name.human %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th><div class="generic-table--empty-header"></div></th>
+            </tr>
+          </thead>
+          <tbody id="table_principal_roles_body">
+          <% global_member.roles.each do |role| %>
+            <%= render partial: 'principals/assigned_global_role', locals: { role: role, member: global_member } %>
+          <% end %>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  <% end %>
+  </div>
+
+  <%= render partial: 'principals/available_global_roles', locals: { principal: principal, global_member: global_member } %>
+</div>

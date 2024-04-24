@@ -1,0 +1,134 @@
+<form
+  class="spot-modal"
+  [formGroup]="principalForm"
+  (ngSubmit)="onSubmit($event)"
+>
+  <div id="spotModalTitle" class="spot-modal--header">{{text.principal.title()}}</div>
+
+  <div class="spot-divider"></div>
+
+  <div class="spot-modal--body spot-container">
+    <spot-form-field
+      [label]="textLabel"
+      required
+    >
+      <op-ium-principal-search
+        *ngIf="!(hasPrincipalSelected && isNewPrincipal)"
+        [spotFormBinding]="principalControl"
+        [type]="type"
+        [project]="project"
+        slot="input"
+        (createNew)="createNewFromInput($event)"
+      ></op-ium-principal-search>
+
+      <p
+        *ngIf="isNewPrincipal && type === PrincipalType.User"
+        slot="input"
+      >
+        <b>{{ text.principal.inviteUser }}</b> {{ principal.name }}
+        <button
+          type="button"
+          class="spot-link"
+          (click)="principalControl?.setValue(null)"
+        >{{ text.principal.change }}</button>
+      </p>
+
+      <p
+        *ngIf="isNewPrincipal && type === PrincipalType.Placeholder"
+        slot="input"
+      >
+        <b>{{ text.principal.createNewPlaceholder }}</b> {{ principal.name }}
+        <button
+          type="button"
+          class="spot-link"
+          (click)="principalControl?.setValue(null)"
+        >{{ text.principal.change }}</button>
+      </p>
+
+      <div
+        slot="errors"
+        class="spot-form-field--error"
+        *ngIf="principalControl?.invalid"
+      >
+        {{ text.principal.required[type] }}
+      </div>
+    </spot-form-field>
+
+    <op-dynamic-form
+      *ngIf="isNewPrincipal && type === PrincipalType.User && userDynamicFieldConfig.schema"
+      [dynamicFormGroup]="dynamicFieldsControl"
+      [settings]="userDynamicFieldConfig"
+      [formUrl]="apiV3Service.users.form.path"
+      [handleSubmit]="false"
+    ></op-dynamic-form>
+
+    <spot-form-field
+      [label]="text.role.label()"
+      required
+    >
+      <op-ium-role-search
+        [spotFormBinding]="roleControl"
+        slot="input"
+      ></op-ium-role-search>
+      <p
+        class="spot-form-field--description"
+        slot="action"
+        [innerHtml]="text.role.description()"
+      ></p>
+
+      <div
+        slot="errors"
+        class="spot-form-field--error"
+        *ngIf="roleControl?.invalid"
+      >
+        {{ text.role.required }}
+      </div>
+    </spot-form-field>
+
+    <spot-form-field
+      [label]="text.message.label"
+      *ngIf="type !== PrincipalType.Placeholder"
+    >
+
+      <textarea
+        class="op-input op-ium-invite-message-field"
+        [formControl]="messageControl"
+        slot="input"
+        #input>
+      </textarea>
+
+      <p
+        class="spot-form-field--description"
+        slot="action"
+        [innerHtml]="text.message.description()">
+      </p>
+    </spot-form-field>
+  </div>
+
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--left">
+      <button
+        type="button"
+        class="button button_no-margin spot-action-bar--action"
+        (click)="back.emit()"
+      >
+        <op-icon icon-classes="button--icon icon-arrow-left1"></op-icon>
+        {{ text.principal.backButton }}
+      </button>
+    </div>
+
+    <div class="spot-action-bar--right">
+      <button
+        type="button"
+        class="button button_no-margin spot-action-bar--action spot-modal--cancel-button"
+        (click)="close.emit()"
+        [textContent]="text.principal.cancelButton"
+      ></button>
+      <button
+        type="submit"
+        class="button button_no-margin -primary spot-action-bar--action"
+        [textContent]="text.principal.nextButton"
+      ></button>
+    </div>
+  </div>
+</form>

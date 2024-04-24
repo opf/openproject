@@ -1,0 +1,150 @@
+# /api/v3/news
+---
+get:
+  parameters:
+  - description: Page number inside the requested collection.
+    example: '25'
+    in: query
+    name: offset
+    required: false
+    schema:
+      default: 1
+      type: integer
+  - description: Number of elements to display per page.
+    example: '25'
+    in: query
+    name: pageSize
+    required: false
+    schema:
+      type: integer
+  - description: |-
+      JSON specifying sort criteria.
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported sorts are:
+
+      + id: Sort by primary key
+
+      + created_at: Sort by news creation datetime
+    example: '[["created_at", "asc"]]'
+    in: query
+    name: sortBy
+    required: false
+    schema:
+      type: string
+  - description: |-
+      JSON specifying filter conditions.
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported filters are:
+
+      + project_id: Filter news by project
+    example: '[{ "project_id": { "operator": "=", "values": ["1", "2"] } }]'
+    in: query
+    name: filters
+    required: false
+    schema:
+      type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  elements:
+                  - _links:
+                      author:
+                        href: "/api/v3/users/2"
+                        title: Peggie Feeney
+                      project:
+                        href: "/api/v3/projects/1"
+                        title: Seeded Project
+                      self:
+                        href: "/api/v3/news/1"
+                        title: asperiores possimus nam doloribus ab
+                    _type: News
+                    createdAt: '2015-03-20T12:57:01.209Z'
+                    description:
+                      format: markdown
+                      html: "<p>Videlicet deserunt aequitas cognatus. Concedo quia
+                        est quia pariatur vorago vallum. Calco autem atavus accusamus
+                        conscendo cornu ulterius. Tam patria ago consectetur ventito
+                        sustineo nihil caecus. Supra officiis eos velociter somniculosus
+                        tonsor qui. Suffragium aduro arguo angustus cogito quia tolero
+                        vulnus. Supplanto sortitus cresco apud vestrum qui.</p>"
+                      raw: Videlicet deserunt aequitas cognatus. Concedo quia est
+                        quia pariatur vorago vallum. Calco autem atavus accusamus
+                        conscendo cornu ulterius. Tam patria ago consectetur ventito
+                        sustineo nihil caecus. Supra officiis eos velociter somniculosus
+                        tonsor qui. Suffragium aduro arguo angustus cogito quia tolero
+                        vulnus. Supplanto sortitus cresco apud vestrum qui.
+                    id: 1
+                    summary: Celebrer spiculum colo viscus claustrum atque. Id nulla
+                      culpa sumptus. Comparo crapula depopulo demonstro.
+                    title: asperiores possimus nam doloribus ab
+                  - _links:
+                      author:
+                        href: "/api/v3/users/2"
+                        title: Peggie Feeney
+                      project:
+                        href: "/api/v3/projects/1"
+                        title: Seeded Project
+                      self:
+                        href: "/api/v3/news/2"
+                        title: terminatio tutamen. Officia adeptio sp
+                    _type: News
+                    createdAt: '2015-03-20T12:57:01.262Z'
+                    description:
+                      format: markdown
+                      html: "<p>Amicitia alius cattus voluntarius. Virgo viduo terminatio
+                        tutamen. Officia adeptio spectaculum atavus nisi cum concido
+                        bis. Harum caecus auxilium sol theatrum eaque consequatur.
+                        Omnis aeger suus adipisci cicuta. Cur delicate alias curto
+                        cursim atqui talio fugiat.</p>"
+                      raw: Amicitia alius cattus voluntarius. Virgo viduo terminatio
+                        tutamen. Officia adeptio spectaculum atavus nisi cum concido
+                        bis. Harum caecus auxilium sol theatrum eaque consequatur.
+                        Omnis aeger suus adipisci cicuta. Cur delicate alias curto
+                        cursim atqui talio fugiat.
+                    id: 2
+                    summary: Consequatur sequi surculus creo tui aequitas.
+                    title: terminatio tutamen. Officia adeptio sp
+                _links:
+                  changeSize:
+                    href: "/api/v3/news?offset=1&pageSize=%7Bsize%7D"
+                    templated: true
+                  jumpTo:
+                    href: "/api/v3/news?offset=%7Boffset%7D&pageSize=2"
+                    templated: true
+                  nextByOffset:
+                    href: "/api/v3/news?offset=2&pageSize=2"
+                  self:
+                    href: "/api/v3/news?offset=1&pageSize=2"
+                _type: Collection
+                count: 2
+                offset: 1
+                pageSize: 2
+                total: 78
+          schema:
+            "$ref": "../components/schemas/list_of_news_model.yml"
+      description: OK
+      headers: {}
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to view this resource.
+      description: Returned if the client is not logged in and login is required.
+      headers: {}
+  tags:
+  - News
+  description: Lists news. The news returned depend on the provided parameters and
+    also on the requesting user's permissions.
+  operationId: List_News
+  summary: List News

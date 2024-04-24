@@ -1,0 +1,78 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+"no":
+  plugin_budgets_engine:
+    name: 'Budsjetter'
+  activerecord:
+    attributes:
+      budget:
+        author: "Forfatter"
+        available: "Tilgjengelig"
+        budget: "Planlagt"
+        budget_ratio: "Brukt (forhold)"
+        description: "Beskrivelse"
+        spent: "Brukt"
+        status: "Status"
+        subject: "Emne"
+        type: "Type kostnader"
+        labor_budget: "Planlagte arbeidskostnader"
+        material_budget: "Planlagte enhetskostnader"
+      work_package:
+        budget_subject: "Budsjett tittel"
+    models:
+      budget: "Budsjett"
+      material_budget_item: "Enhet"
+  activity:
+    filter:
+      budget: "Budsjetter"
+  attributes:
+    budget: "Budsjett"
+  button_add_budget_item: "Legg til planlagte kostnader"
+  button_add_budget: "Legg til budsjett"
+  button_add_cost_type: "Legg til kostnadstype"
+  button_cancel_edit_budget: "Avbryt redigering av budsjett"
+  button_cancel_edit_costs: "Avbryt redigering av kostnader"
+  caption_labor: "Arbeid"
+  caption_labor_costs: "Reelle arbeidkostnader"
+  caption_material_costs: "Reell utgift"
+  budgets_title: "Budsjetter"
+  events:
+    budget: "Budsjett endret"
+  help_click_to_edit: "Klikk her for å redigere."
+  help_currency_format: "Formatet på vist valuta %n erstattes med valutaverdien, %u"
+  help_override_rate: "Skriv inn en verdi her for å overstyre standard sats."
+  label_budget: "Budsjett"
+  label_budget_new: "Nytt budsjett"
+  label_budget_plural: "Budsjetter"
+  label_budget_id: "Budsjett #%{id}"
+  label_deliverable: "Budsjett"
+  label_example_placeholder: 'f.eks %{decimal}'
+  label_view_all_budgets: "Vis alle budsjett"
+  label_yes: "Ja"
+  notice_budget_conflict: "Arbeidspakker må være i samme prosjekt."
+  notice_no_budgets_available: "Ingen budsjetter tilgjengelig."
+  permission_edit_budgets: "Rediger budsjetter"
+  permission_view_budgets: "Vis budsjetter"
+  project_module_budgets: "Budsjetter"
+  text_budget_reassign_to: "Flytt dem til dette budsjettet:"
+  text_budget_delete: "Slett budsjettet fra alle oppgaver"
+  text_budget_destroy_assigned_wp: "Det er %{count} oppgaver i dette budsjettet. Hva vil du gjøre?"

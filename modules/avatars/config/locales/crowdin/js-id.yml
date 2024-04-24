@@ -1,0 +1,15 @@
+#English strings go here
+id:
+  js:
+    label_preview: 'Cek Ulang'
+    button_update: 'Perbarui'
+    avatars:
+      label_choose_avatar: "Pilih avatar dari berkas"
+      uploading_avatar: "Mengunggah avatar"
+      text_upload_instructions: |
+        Unggah avatar Anda yang berukuran 128 x 128 pixel. File yang lebih besar akan diubah ukurannya dan dipotong agar sesuai.
+        Cek ulang avatar Anda yang akan ditampilkan sebelum mengunggah, setelah Anda memilih gambar
+      error_image_too_large: "Gambar terlalu besar"
+      wrong_file_format: "Format yang diizinkan adalah jpg, png, gif"
+      empty_file_error: "Harap unggah gambar yang valid (jpg, png, gif)"
+

@@ -1,0 +1,39 @@
+#English strings go here
+zh-CN:
+  plugin_openproject_boards:
+    name: "OpenProject 看板"
+    description: "提供看板视图。"
+  permission_show_board_views: "视图面板"
+  permission_manage_board_views: "管理面板"
+  project_module_board_view: "面板"
+  boards:
+    label_board: "面板"
+    label_boards: "面板"
+    label_create_new_board: "创建新面板"
+    label_board_type: "面板类型"
+    board_types:
+      free: 基本
+      action: "操作面板 (%{attribute})"
+    board_type_attributes:
+      assignee: 受理人
+      status: 状态
+      version: 版本
+      subproject: 子项目
+      subtasks: 父子
+      basic: 基本
+    board_type_descriptions:
+      basic: >
+        从头开始使用空白面板，将卡片和列手动添加到此面板。
+      status: >
+        基本看板样式的面板，包含“待办”、“正在进行”、“已完成”等状态的列。
+      assignee: >
+        基于分配给用户的自动列看板，是分派工作包非常理想的工具。
+      version: >
+        具有根据版本属性自动生成的列的面板。适合规划产品开发。
+      subproject: >
+        为子项目自动生成列的面板。将工作包拖动到其他列表会相应地更新（子）项目。
+      subtasks: >
+        为子元素自动生成列的面板。将工作包拖动到其他列表会相应地更新父项。
+    upsale:
+      teaser_text: '是否希望使用面板自动执行您的工作流？高级面板是企业版附加组件。请升级到付费计划。'
+      upgrade: '立即升级'

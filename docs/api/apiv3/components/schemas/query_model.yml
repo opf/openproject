@@ -1,0 +1,125 @@
+# Schema: QueryModel
+---
+type: object
+required:
+- createdAt
+- updatedAt
+properties:
+  id:
+    type: integer
+    description: Query id
+    readOnly: true
+    exclusiveMinimum: 0
+  name:
+    type: string
+    description: Query name
+    readOnly: true
+  filters:
+    type: array
+    description: A set of QueryFilters which will be applied to the work packages
+      to determine the resulting work packages
+    readOnly: false
+    items:
+      $ref: './query_filter_instance_schema_model.yml'
+  sums:
+    type: boolean
+    description: Should sums (of supported properties) be shown?
+    readOnly: true
+  timelineVisible:
+    type: boolean
+    description: Should the timeline mode be shown?
+    readOnly: true
+    deprecated: true
+  timelineLabels:
+    type: array
+    description: Which labels are shown in the timeline, empty when default
+    readOnly: true
+    deprecated: true
+    items:
+      type: string
+  timelineZoomLevel:
+    type: string
+    description: Which zoom level should the timeline be rendered in?
+    readOnly: true
+    deprecated: true
+  timestamps:
+    type: array
+    description: Timestamps to filter by when showing changed attributes
+      on work packages.
+    readOnly: false
+  highlightingMode:
+    type: string
+    description: Which highlighting mode should the table have?
+    readOnly: true
+    deprecated: true
+  showHierarchies:
+    type: boolean
+    description: Should the hierarchy mode be enabled?
+    readOnly: true
+    deprecated: true
+  hidden:
+    type: boolean
+    description: Should the query be hidden from the query list?
+    readOnly: true
+    deprecated: true
+  public:
+    type: boolean
+    description: Can users besides the owner see the query?
+    readOnly: true
+  starred:
+    type: boolean
+    description: Should the query be highlighted to the user?
+    readOnly: true
+  createdAt:
+    type: string
+    format: date-time
+    description: Time of creation
+    readOnly: true
+  updatedAt:
+    type: string
+    format: date-time
+    description: Time of the most recent change to the query
+    readOnly: true
+  _links:
+    type: object
+    properties:
+      star:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            Elevates the query to the status of 'starred'
+
+            # Conditions
+
+            **Permission**: save queries for own queries, manage public queries for public queries; Only present if query is not yet starred
+          readOnly: true
+      unstar:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            Removes the 'starred' status
+
+            # Conditions
+
+            **Permission**: save queries for own queries, manage public queries for public queries; Only present if query is starred
+          readOnly: true
+      update:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            Use the Form based process to verify the query before persisting
+
+            # Conditions
+
+            **Permission**: view work packages
+          readOnly: true
+      updateImmediately:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            Persist the query without using a Form based process for guidance
+
+            # Conditions
+
+            **Permission**: save queries for own queries, manage public queries for public queries;
+          readOnly: true

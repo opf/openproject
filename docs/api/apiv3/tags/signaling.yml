@@ -1,0 +1,83 @@
+---
+description: |-
+  Some endpoints, especially those returning `Collection` resources, support signaling desired properties. By signaling, the client
+  can convey to the server the properties to include in a response.
+
+  Currently only `select` is supported which allows to specify the subset of properties a client is interested in. The benefit of using `select`
+  is reduced response time. Other signaling, especially expanding the embedded resources to include as well over multiple layers of embedding
+  are in consideration to be implemented (probably named `embed`) but as of now, they are not supported. Please also see
+  [the specification for OData that inspired this feature](https://www.odata.org/documentation/odata-version-2-0/uri-conventions/).
+
+  For example, a resource `/api/v3/bogus` that without signaling returns:
+
+  ```json
+    {
+      "_type": "Collection"
+      "count": 20,
+      "total": 554,
+      "_embedded": {
+        "elements": [
+          {
+            "id": 1,
+            "name": "Some name"
+          },
+          {
+            "id": 9,
+            "name": "Another name"
+          }
+        ]
+      },
+      "_links": {
+        "self": {
+          "href": "/api/v3/bogus",
+          "title": "A bogus collection"
+        },
+        "bar": {
+          "href": "/api/v3/bar",
+          "title": "Foobar"
+        }
+      }
+    }
+  ```
+
+  can via signaling `/api/v3/bogus?select=total,elements/name,bar` be instructed to return:
+
+  ```json
+    {
+      "total": 554,
+      "_embedded": {
+        "elements": [
+          {
+            "name": "Some name"
+          },
+          {
+            "name": "Another name"
+          }
+        ]
+      },
+      "_links": {
+        "bar": {
+          "href": "/api/v3/bar",
+          "title": "Foobar"
+        }
+      }
+    }
+  ```
+
+  The `select` query property is a comma separated list of the properties to include, e.g. `select=total,elements/name,bar`.
+  The API also accepts alternative styles of writing like `select=["total","elements/name","bar"]`. Each individual item in the list
+  is the path inside the resource. So while `total` refers to the property on the top level, `elements/name` refers to the property `name` within
+  the collection of `elements`. The full path has to be provided for every property, e.g. `select=elements/name,elements/id`.
+  The order of the list has no impact on the selection. There is also a wildcard `*` which will result in every property on that level to be selected.
+  To select every property in the example above, the client would have to signal `select=*,elements/*`.
+
+  Please note that the nesting into `_embedded` and `_links` is not included in the query prop `select` as
+  links in the context of HAL can be considered properties of the resource just the same as unnested properties and forcing
+  clients to write the full nesting would not increase clarity.
+
+  Link properties are considered to be a single value that cannot be split up further. Every property within a link will be returned
+  if the link is signaled to be selected.
+
+  The `select` signaling flag has been introduced for performance reasons. Not every end point supports it and those that do oftentimes only
+  allow a subset of their resource's properties to be selected. End points supporting the `select` query prop are documented accordingly.
+name: Signaling

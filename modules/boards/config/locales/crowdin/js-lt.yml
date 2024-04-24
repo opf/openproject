@@ -1,0 +1,86 @@
+#English strings go here
+lt:
+  js:
+    boards:
+      create_new: 'Kurti naują lentą'
+      label_unnamed_board: 'Bevardė lenta'
+      label_unnamed_list: 'Bevardis sąrašas'
+      label_board_type: 'Lentos tipas'
+      upsale:
+        teaser_text: 'Ar norite automatizuoti jūsų procesus su Lentomis? Išmaniosios lentos yra Enterprise priedas. Prašome pasikeisti į mokamą planą.'
+        upgrade: 'Užsisakykite dabar'
+      lists:
+        delete: 'Pašalinti sąrašą'
+      version:
+        is_locked: 'Versija yra užrakinta. Papildymas negalimas.'
+        is_closed: 'Versija uždaryta. Papildymas negalimas.'
+        close_version: 'Uždaryti versiją'
+        open_version: 'Atidaryti versiją'
+        lock_version: 'Užrakinti versiją'
+        unlock_version: 'Atrakinti versiją'
+        edit_version: 'Redaguoti versiją'
+        show_version: 'Parodyti versiją'
+        locked: 'Užrakinta'
+        closed: 'Uždaryta'
+      new_board: 'Nauja lenta'
+      add_list: 'Pridėti sąrašą į lentą'
+      add_card: 'Pridėti kortelę'
+      error_attribute_not_writable: "Negalima perkelti darbų paketo, %{attribute} negali būti įrašytas."
+      error_loading_the_list: "Sąrašo užkrovimo klaida: %{error_message}"
+      error_permission_missing: "Trūksta teisių kurti viešas užklausas"
+      error_cannot_move_into_self: "Negalite perkelti darbo paketo į jo paties stulpelį."
+      text_hidden_list_warning: "Ne visi sąrašai yra rodomi, nes jums trūksta teisių. Susisiekite su administratoriumi ir gausite daugiau informacijos."
+      click_to_remove_list: "Spustelėkite sąrašo ištrynimui"
+      board_type:
+        text: 'Lentos tipas'
+        free: 'bazinis'
+        select_board_type: 'Prašome pasirinkti reikalingą lentos tipą.'
+        free_text: >
+          Pradėkite iš pradžių nuo tuščios lentos. Rankiniu būdu pridėkite korteles ir stulpelius į šią lentą.
+        action: 'Veiksmų lenta'
+        action_by_attribute: 'Veiksmų lenta (%{attribute})'
+        action_text: >
+          Lenta su filtruotomis atributo %{attribute} reikšmėmis. Perkeliant darbo paketą tarp sąrašų bus keičiama atributo reikšmė.
+        action_text_subprojects: >
+          Lenta su automatiniais stulpeliais sub-projektams. Darbų paketo perkėlimas į kitą sąrašą atitinkamai pakeičia (sub-)projektą.
+        action_text_subtasks: >
+          Lenta su automatiniais stulpeliais sub-elementams. Darbų paketo perkėlimas į kitą sąrašą atitinkamai atnaujina tėtį.
+        action_text_status: >
+          Paprasta kanban stiliaus lenta su stulpeliais statusams, tokiems kaip To Do, Vykdoma, Įvykdyta.
+        action_text_assignee: >
+          Lenta su automatiniais stulpeliais pagrįstais priskirtu naudotoju. Ideali darbo paketų paskirstymui.
+        action_text_version: >
+          Lenta su automatiniais stulpeliais, pagrįstais versijos atributu. Ideali produkto vystymo planavimui.
+        action_type:
+          assignee: paskirtas
+          status: būsena
+          version: versija
+          subproject: sub-projektas
+          subtasks: tėvo-vaiko
+        board_type_title:
+          assignee: Paskirtas
+          status: Būsena
+          version: Versija
+          subproject: Sub-projektas
+          subtasks: Tėvo-vaiko
+          basic: Pagrindinis
+        select_attribute: "Veiksmo atributas"
+      add_list_modal:
+        labels:
+          assignee: Pasirinkite naudotoją, kuris bus pridėtas į naują „paskirtųjų“ sąrašą
+          status: Pasirinkite būseną, kuri bus pridėta į naują sąrašą
+          version: Pasirinkite versiją, kuri bus pridėta į naują sąrašą
+          subproject: Pasirinkite subprojektą, kuris bus pridėtas į naują sąrašą
+          subtasks: Pasirinkite darbų paketą, kuris bus pridėtas į naują sąrašą
+        warning:
+          status: |
+            Nebėra laisvų būsenų. <br>
+            Arba jų nėra apskritai, arba visos jau buvo sudėtos į lentą.
+          assignee: Nėra jokių narių, kurie tinka jūsų filtrui.  <br>
+          no_member: Šiame projekte šiuo metu nėra narių, kurie galėtų būti pridėti. <br>
+          add_members: <a href="%{link}">Pridėkite į projektą naujų narių</a> , jei norite daugiau jų pažymėti.
+      configuration_modal:
+        title: 'Konfigūruoti lentą'
+        display_settings:
+          card_mode: "Rodyti kaip korteles"
+          table_mode: "Rodyti kaip lentelę"

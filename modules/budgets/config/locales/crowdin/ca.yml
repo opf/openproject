@@ -1,0 +1,78 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+ca:
+  plugin_budgets_engine:
+    name: 'Pressupostos'
+  activerecord:
+    attributes:
+      budget:
+        author: "Autor/a"
+        available: "Disponible"
+        budget: "Planificat"
+        budget_ratio: "Utilitzat (proporció)"
+        description: "Descripció"
+        spent: "Utilitzat"
+        status: "Estat"
+        subject: "Assumpte"
+        type: "Estil de cost"
+        labor_budget: "Costs de treball planejats"
+        material_budget: "Costs d'unitat planejats"
+      work_package:
+        budget_subject: "Títol del pressupost"
+    models:
+      budget: "Pressupost"
+      material_budget_item: "Unitat"
+  activity:
+    filter:
+      budget: "Pressupostos"
+  attributes:
+    budget: "Pressupost"
+  button_add_budget_item: "Afegeix costs planejats"
+  button_add_budget: "Afegeix pressupost"
+  button_add_cost_type: "Afegeix estil de cost"
+  button_cancel_edit_budget: "Cancel·la l'edició del pressupost"
+  button_cancel_edit_costs: "Cancel·la l'edició dels costs"
+  caption_labor: "Treball"
+  caption_labor_costs: "Costs de treball actuals"
+  caption_material_costs: "Costs d'unitat actual"
+  budgets_title: "Pressupostos"
+  events:
+    budget: "Pressupost editat"
+  help_click_to_edit: "Feu clic per editar."
+  help_currency_format: "Format de valor de divisa actual. %n és substituït amb el valor de divisa, %u és substituït amb la unitat de divisa."
+  help_override_rate: "Entra un valor aquí per substituir la ràtio per defecte."
+  label_budget: "Pressupost"
+  label_budget_new: "Nou pressupost"
+  label_budget_plural: "Pressupostos"
+  label_budget_id: "Pressupost #%{id}"
+  label_deliverable: "Pressupost"
+  label_example_placeholder: 'ex. %{decimal}'
+  label_view_all_budgets: "Mostra tots els pressupostos"
+  label_yes: "Si"
+  notice_budget_conflict: "Els paquets de treball han de ser del mateix projecte."
+  notice_no_budgets_available: "No hi ha pressupostos disponibles."
+  permission_edit_budgets: "Editar pressupost"
+  permission_view_budgets: "Mostrar pressupost"
+  project_module_budgets: "Pressupostos"
+  text_budget_reassign_to: "Torna a assignar-los a aquest pressupost:"
+  text_budget_delete: "Elimina el pressupost de tots els paquets de treball"
+  text_budget_destroy_assigned_wp: "Hi han %{count} paquets de treball assignats a aquest pressupost. Que vols fer?"

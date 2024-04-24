@@ -1,0 +1,229 @@
+# /api/v3/projects/{id}/queries/default
+---
+get:
+  summary: View default query for project
+  operationId: View_default_query_for_project
+  tags:
+  - Queries
+  description: Same as [viewing an existing, persisted Query](https://www.openproject.org/docs/api/endpoints/queries/#list-queries)
+    in its response, this resource returns an unpersisted query and by that allows
+    to get the default query configuration. The client may also provide additional
+    parameters which will modify the default query. The query will already be scoped
+    for the project.
+  parameters:
+  - description: Id of the project the default query is requested for
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  - name: filters
+    description: |-
+      JSON specifying filter conditions.
+      The filters provided as parameters are not applied to the query but are instead used to override the query's persisted filters.
+      All filters also accepted by the work packages endpoint are accepted. If no filter is to be applied, the client should send an empty array (`[]`).
+    example: '[{ "assignee": { "operator": "=", "values": ["1", "5"] }" }]'
+    in: query
+    required: false
+    schema:
+      default: '[{ "status_id": { "operator": "o", "values": null }}]'
+      type: string
+  - name: offset
+    description: Page number inside the queries' result collection of work packages.
+    example: '25'
+    in: query
+    required: false
+    schema:
+      default: 1
+      type: integer
+  - name: pageSize
+    description: Number of elements to display per page for the queries' result collection
+      of work packages.
+    example: '25'
+    in: query
+    required: false
+    schema:
+      type: integer
+  - name: sortBy
+    description: JSON specifying sort criteria. The sort criteria is applied to the
+      query's result collection of work packages overriding the query's persisted
+      sort criteria.
+    example: '[["status", "asc"]]'
+    in: query
+    required: false
+    schema:
+      default: '[["id", "asc"]]'
+      type: string
+  - name: groupBy
+    description: The column to group by. The grouping criteria is applied to the to
+      the query's result collection of work packages overriding the query's persisted
+      group criteria.
+    example: status
+    in: query
+    required: false
+    schema:
+      type: string
+  - name: showSums
+    description: Indicates whether properties should be summed up if they support
+      it. The showSums parameter is applied to the to the query's result collection
+      of work packages overriding the query's persisted sums property.
+    example: true
+    in: query
+    required: false
+    schema:
+      default: false
+      type: boolean
+  - name: timestamps
+    description: >
+      Indicates the timestamps to filter by when showing changed attributes
+      on work packages. Values can be either ISO8601 dates, ISO8601 durations and the
+      following relative date keywords: "oneDayAgo@HH:MM+HH:MM", "lastWorkingDay@HH:MM+HH:MM",
+      "oneWeekAgo@HH:MM+HH:MM", "oneMonthAgo@HH:MM+HH:MM".
+      The first "HH:MM" part represents the zero paded hours and minutes.
+      The last "+HH:MM" part represents the timezone offset from UTC associated with the time.
+      Values older than 1 day are accepted only with valid Enterprise Token available.
+    example: '2023-01-01,P-1Y,PT0S,lastWorkingDay@12:00'
+    in: query
+    required: false
+    schema:
+      default: 'PT0S'
+      type: string
+  - name: timelineVisible
+    description: Indicates whether the timeline should be shown.
+    example: true
+    in: query
+    required: false
+    schema:
+      default: false
+      type: boolean
+  - name: showHierarchies
+    description: Indicates whether the hierarchy mode should be enabled.
+    example: true
+    in: query
+    required: false
+    schema:
+      default: true
+      type: boolean
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  results:
+                    _embedded:
+                      elements:
+                      - "<--- shortened for brevity --->"
+                    _links:
+                      changeSize:
+                        href: "/api/v3/projects/42/work_packages?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22o%22%2C%22values%22%3A%5B%5D%7D%7D%2C%7B%22dueDate%22%3A%7B%22operator%22%3A%22%3Ct%2B%22%2C%22values%22%3A%5B%221%22%5D%7D%7D%5D&offset=1&pageSize=%7Bsize%7D&sortBy=%5B%5B%22parent%22%2C%22desc%22%5D%5D"
+                        templated: true
+                      createWorkPackage:
+                        href: "/api/v3/work_packages/form"
+                        method: post
+                      createWorkPackageImmediate:
+                        href: "/api/v3/work_packages"
+                        method: post
+                      jumpTo:
+                        href: "/api/v3/projects/42/work_packages?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22o%22%2C%22values%22%3A%5B%5D%7D%7D%2C%7B%22dueDate%22%3A%7B%22operator%22%3A%22%3Ct%2B%22%2C%22values%22%3A%5B%221%22%5D%7D%7D%5D&offset=%7Boffset%7D&pageSize=2&sortBy=%5B%5B%22parent%22%2C%22desc%22%5D%5D"
+                        templated: true
+                      self:
+                        href: "/api/v3/projects/42/work_packages?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22o%22%2C%22values%22%3A%5B%5D%7D%7D%2C%7B%22dueDate%22%3A%7B%22operator%22%3A%22%3Ct%2B%22%2C%22values%22%3A%5B%221%22%5D%7D%7D%5D&offset=1&pageSize=2&sortBy=%5B%5B%22parent%22%2C%22desc%22%5D%5D"
+                    _type: WorkPackageCollection
+                    count: 30
+                    offset: 1
+                    pageSize: 2
+                    total: 234
+                _links:
+                  columns:
+                  - href: "/api/v3/queries/columns/id"
+                    title: ID
+                  - href: "/api/v3/queries/columns/subject"
+                    title: Subject
+                  - href: "/api/v3/queries/columns/type"
+                    title: Type
+                  - href: "/api/v3/queries/columns/status"
+                    title: Status
+                  - href: "/api/v3/queries/columns/priority"
+                    title: Priority
+                  - href: "/api/v3/queries/columns/assignee"
+                    title: Assignee
+                  - href: "/api/v3/queries/columns/updated_at"
+                    title: Updated on
+                  groupBy:
+                    href:
+                    title:
+                  project:
+                    href: "/api/v3/projects/42"
+                    title: Lorem ipsum project
+                  results:
+                    href: "/api/v3/projects/42/work_packages?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22o%22%2C%22values%22%3A%5B%5D%7D%7D%2C%7B%22dueDate%22%3A%7B%22operator%22%3A%22%3Ct%2B%22%2C%22values%22%3A%5B%221%22%5D%7D%7D%5D&offset=1&pageSize=2&sortBy=%5B%5B%22parent%22%2C%22desc%22%5D%5D"
+                  self:
+                    href: "/api/v3/projects/42/queries/default"
+                    title: Default
+                  sortBy:
+                  - href: "/api/v3/queries/sort_bys/parent-desc"
+                    title: Parent (Descending)
+                  user:
+                    href: "/api/v3/users/1"
+                    title: OpenProject Admin
+                _type: Query
+                filters:
+                - _links:
+                    filter:
+                      href: "/api/v3/queries/filters/status"
+                      title: Status
+                    operator:
+                      href: "/api/v3/queries/operators/o"
+                      title: open
+                    schema:
+                      href: "/api/v3/queries/filter_instance_schemas/status"
+                    values: []
+                  _type: StatusQueryFilter
+                  name: Status
+                name: default
+                public: false
+                showHierarchies: true
+                starred: false
+                sums: false
+                timelineVisible: false
+                timelineZoomLevel: days
+          schema:
+            "$ref": "../components/schemas/default_query_for_project_model.yml"
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions to see the default query.
+
+        **Required permission:** view work packages in the project
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the client does not have sufficient permissions to see the project.
+
+        **Required permission:** any permission in the project
+      headers: {}

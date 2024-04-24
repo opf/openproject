@@ -1,0 +1,110 @@
+# /api/v3/grids
+---
+get:
+  summary: List grids
+  tags:
+    - Grids
+  description: |-
+    Lists all grids matching the provided filters and being part of the selected query page. The grids returned will
+    also depend on the permissions of the requesting user.
+  operationId: list_grids
+  parameters:
+    - name: offset
+      schema:
+        type: integer
+        default: 1
+      description: Page number inside the requested collection.
+      in: query
+      required: false
+      example: '25'
+    - name: pageSize
+      schema:
+        type: integer
+        default: 30
+      description: Number of elements to display per page.
+      in: query
+      required: false
+      example: '25'
+    - name: filters
+      schema:
+        type: string
+      description: |-
+        JSON specifying filter conditions. Accepts the same format as returned by
+        the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported filters
+        are:
+        
+        - page: Filter grid by work package
+      in: query
+      required: false
+      example: '[{ "page": { "operator": "=", "values": ["/my/page"] } }]'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/grid_collection_model.yml'
+          examples:
+            'Simple grid collection':
+              $ref: '../components/examples/grid-simple-collection-response.yml'
+    '400':
+      $ref: '../components/responses/invalid_query.yml'
+    '403':
+      description: Returned if the client is not logged in and login is required.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to view this resource.
+
+post:
+  summary: Create a grid
+  operationId: create_grid
+  tags:
+    - Grids
+  description: |-
+    Creates a new grid applying the attributes provided in the body. The constraints applied to the grid depend on the
+    page the grid is placed in which is why the create form end point should be used to be guided when wanting to
+    create a grid.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/grid_write_model.yml'
+        examples:
+          'Simple grid creation': 
+            $ref: '../components/examples/grid-simple-patch-model.yml'
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/grid_read_model.yml'
+    '400':
+      $ref: '../components/responses/invalid_request_body.yml'
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** Depends on the page the grid is defined for.
+    '406':
+      $ref: '../components/responses/missing_content_type.yml'
+    '415':
+      $ref: '../components/responses/unsupported_media_type.yml'
+    '422':
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)

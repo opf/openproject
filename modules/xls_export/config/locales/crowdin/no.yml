@@ -1,0 +1,16 @@
+"no":
+  plugin_openproject_xls_export:
+    name: "OpenProject XLS eksport"
+    description: "Eksporter sakslister som Excel-regneark (.xls)."
+  export_to_excel: "Eksporter XLS"
+  print_with_description: "Skriv ut forhåndsvisning med beskrivelse"
+  sentence_separator_or: "eller"
+  different_formats: Ulike formater
+  export:
+    format:
+      xls: "XLS"
+      xls_with_descriptions: "XLS med beskrivelser"
+      xls_with_relations: "XLS med relasjoner"
+  xls_export:
+    child_of: barn av
+    parent_of: overordnet av

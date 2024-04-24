@@ -1,0 +1,16 @@
+cs:
+  plugin_openproject_xls_export:
+    name: "Export OpenProject XLS"
+    description: "Exportovat seznamy problémů jako tabulky Excel (.xls)."
+  export_to_excel: "Exportovat XLS"
+  print_with_description: "Tisk náhledu s popisem"
+  sentence_separator_or: "nebo"
+  different_formats: Různé formáty
+  export:
+    format:
+      xls: "XLS"
+      xls_with_descriptions: "XLS s popisem"
+      xls_with_relations: "XLS se vztahy"
+  xls_export:
+    child_of: podřazený
+    parent_of: nadřazený

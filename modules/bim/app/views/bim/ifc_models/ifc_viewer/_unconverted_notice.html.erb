@@ -1,0 +1,11 @@
+<div class="op-toast -info">
+  <a href="#" title="close" class="op-toast--close icon-context icon-close"></a>
+  <div class="op-toast--content">
+    <p><%= t('ifc_models.processing_notice.processing_default') %></p>
+    <ul>
+      <% unconverted.each do |model| %>
+        <li><%= model.title %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>

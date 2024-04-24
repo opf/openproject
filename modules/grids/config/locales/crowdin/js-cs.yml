@@ -1,0 +1,67 @@
+cs:
+  js:
+    grid:
+      add_widget: 'Přidat widget'
+      remove: 'Odstranit widget'
+      configure: 'Konfigurovat widget'
+      upsale:
+        text: "Některé widgety, jako například widget s grafem pracovního balíčku, jsou dostupné pouze v Enterprise Edici."
+        link: 'Enterprise Edice'
+      widgets:
+        missing_permission: "Nemáte potřebná oprávnění k zobrazení tohoto widgetu."
+        custom_text:
+          title: 'Vlastní text'
+        documents:
+          title: 'Dokumenty'
+          no_results: 'Zatím žádné dokumenty.'
+        members:
+          title: 'Členové'
+          no_results: 'Žádní viditelní členové.'
+          view_all_members: 'Zobrazit všechny členy'
+          add: 'Člen'
+          too_many: 'Zobrazuji %{count} z %{total} členů.'
+        news:
+          title: 'Novinky'
+          at: 'v'
+          no_results: 'Žádné novinky.'
+        project_description:
+          title: 'Popis projektu'
+          no_results: "Zatím nebyl napsán žádný popis. Můžete ho uvést v \"Nastavení projektu\"."
+        project_details:
+          title: 'Detaily projektu'
+          no_results: 'Pro projekty nebyla definována žádná vlastní pole.'
+        project_status:
+          title: 'Stav projektu'
+          not_started: 'Nezahájeno'
+          on_track: 'Dle plánu'
+          off_track: 'Mimo plán'
+          at_risk: 'Riziko'
+          not_set: 'Nenastaveno'
+          finished: 'Dokončeno'
+          discontinued: 'Zrušeno'
+        subprojects:
+          title: 'Podprojekty'
+          no_results: 'Žádné podprojekty.'
+        time_entries_current_user:
+          title: 'Můj strávený čas'
+          displayed_days: 'Dny zobrazené ve widgetu:'
+        time_entries_list:
+          title: 'Strávený čas (posledních 7 dní)'
+          no_results: 'Žádné záznamy za posledních 7 dní.'
+        work_packages_accountable:
+          title: "Pracovní balíčky, za které zodpovídám"
+        work_packages_assigned:
+          title: 'Pracovní balíčky přidělené mně'
+        work_packages_created:
+          title: 'Pracovní balíčky vytvořené mnou'
+        work_packages_watched:
+          title: 'Pracovní balíčky, které sleduji'
+        work_packages_table:
+          title: 'Tabulka pracovních balíčků'
+        work_packages_graph:
+          title: 'Graf pracovních balíčků'
+        work_packages_calendar:
+          title: 'Kalendář'
+        work_packages_overview:
+          title: 'Přehled pracovních balíčků'
+          placeholder: 'Kliekněte pro editaci...'

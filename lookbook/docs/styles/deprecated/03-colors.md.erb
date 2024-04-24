@@ -1,0 +1,237 @@
+---
+title: Colors
+---
+
+**Note**: This section concerns the OP colors in use, and is about to change/consolidated with Primer color modes
+
+Because OpenProject can be customised with custom colour schemes, our foundation library only describe the colour palette of the default OpenProject theme. 
+
+Colours are organised in this format: **Category/_name_**.
+
+There there are six categories: 
+
+- **Basic**
+- **Main**
+- **Accent**
+- **Danger**
+- **Indication**
+- **Feedback**
+
+## Basic
+
+The basic colour set include eight shades of gray used mostly for basic text and backgrounds. The shades do not have additional semantic significance are are simply a continuum between **Basic/_Black_** and **Basic/_White_**. 
+
+The choice of which gray to use depends on the colourspace. 
+
+Note: **Basic/_Gray-1_** is the default colour for "black" text. Pure black (_Basic/Black_) is generally not used in OpenProject.
+
+> Code example here (Black, Gray-1, Gray-2, Gray-3, Gray-4, Gray-5, Gray-6, White)
+
+## Main
+
+The **Main/** colourset is a set of three shades of the OpenProject blue.
+
+**Main/_Main_**
+
+> Example
+
+This is the primary blue used for all main interactions and action buttons, including text links. 
+
+It is also used in the background of the header. 
+
+**Main/_Main Dark_**
+
+> Example
+
+This darker version of the main blue is mainly used:
+
+- to communicate state information (a hover or a pressed state of a button, for example)
+- when the use of **Main/_Main_** does not provide enough contrast (for a border colour, for example)
+
+**Main/_Main Light_**
+
+> Example
+
+This lighter version of the main blue is used:
+
+- to communicate state information (hover on dop-down list or indicating selected toggle element, for example)
+- as a background colour of interactive elements (tooltip, toast or information banners)
+
+## Accent
+
+> Example
+
+The **Accent/** colourset is a set of three shades of green that is used to accent certain special functions. This colour should be used sparingly, so that when it is used, it draws the user’s eye.
+
+**Accent/_Accent_**
+
+> Example
+
+This is the primary accent green, used for example in the default state of an accent button. 
+
+**Accent/_Accent Dark_**
+
+> Example
+
+This darker version is mainly used:
+
+- to communicate state information (a hover or a pressed state of a button, for example)
+- when the use of **Accent/Main** does not provide enough contrast (for a border colour, for example)
+
+
+**Accent/_Accent Light_**
+
+> Example
+
+This lighter version of the main green is used:
+
+- to communicate state information (hover on dop-down list or indicating selected toggle element, for example)
+- as a background colour of interactive elements (tooltip, toast or information banners)
+
+## Danger
+
+The **Danger/** colourset is a set of three shades of red used to communicate potential danger to the user, or to warn them of a problem. 
+
+It should also be used to indicate potential destructive actions (actions like delete account or delete user) and exceptionally also used to indicate information (like in a notification badge) when the Indication/ colours cannot be used.
+
+**Danger/_Danger_**
+
+> Example
+
+This is the primary danger red, used for example in the default state of an accent button. 
+
+**Danger/_Danger Dark_**
+
+> Example
+
+This darker version is mainly used:
+
+- to communicate state information (a hover or a pressed state of a button, for example)
+- when the use of **Danger/Danger** does not provide enough contrast (for a border colour, for example)
+
+**Danger/_Danger Light_**
+
+> Example
+
+This darker version of the main danger red is used:
+
+- to communicate state information (hover on dop-down list or indicating selected toggle element, for example)
+- as a background colour of interactive elements (tooltip, toast or information banners)
+
+## Indication
+
+Indication colours are used to indicate certain special states.
+
+**Indication/_Flagged_**
+
+> Example
+
+This colour is used when “flagging” work packages. It is a teal colour meant to be distinct from **Indication/_Attention_**.
+
+**Indication/_Current date_**
+
+> Example
+
+This colour is used to indicate the current date (today) in a calendar.
+
+**Indication/_Enterprise_**
+
+> Example
+
+This colour is used to indicate that a certain feature or module requires the Enterprise plan to use.
+
+**Indication/Focus**
+
+> Example
+
+This is the colour used to indicate which element has keyboard focus. 
+
+## Feedback
+
+The **Feedback/**-  colors are used to communicate for user feedback:
+
+- Error
+- Warning
+- Info
+- Success
+
+Each of these has two versions (Dark and Light), the dark one usually used for the foreground text and icons and the light one for the background.
+
+These are typically used in toast messages.
+
+**Feedback/_Error_**
+
+> Example, Error Light and Dark
+
+This colour indicates that a response that is different from what the user would have expected. The user flow is usually interrupted when they see an error of this type.
+
+**Feedback/_Warning_**
+
+> Example, Warning Light and Dark
+
+The warning is information that suggests something requires attention (and that could cause a problem), but that no error has been caused, and that the expected user flow can continue.
+
+**Feedback/_Info_**
+
+> Example, Info Light and Dark
+
+This colour is used to indicate additional information that could be of interest to the user. (Like a toast that says “Loading...”, indicating something is happening in the background)
+
+**Feedback/_Success_**
+
+> Example, Success Light and Dark
+
+This colour indicates that the requested user action was successful. It should be used sparingly and only when such a feedback is absolutely required.
+
+<div class="colors">
+
+<%
+tokens = JSON.parse File.read(Rails.root.join('frontend/src/app/spot/styles/tokens/dist/tokens.json'))
+tokens.select { |k, v| k.start_with?('spot-color-') }.each do |name, value|
+ %>
+
+  <div class="colors--color">
+    <div class="colors--preview" style="background-color: <%= value %>"></div>
+    <div className="colors--name"><%= name %></div>
+    <div className="colors--value"><%= value %></div>
+  </div>
+<% end %>
+
+</div>
+
+<style>
+.colors {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -1rem;
+}
+
+.colors--color {
+  border-radius: 2px;
+  border: 1px solid #eeeeee;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex-basis: 200px;
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-width: 150px;
+  max-width: 400px;
+  text-align: center;
+}
+
+.colors--preview {
+  flex-basis: 200px;
+}
+
+.colors--name {
+  font-weight: bold;
+  padding: 0.3rem;
+}
+
+.colors--value {
+  padding: 0.3rem;
+  padding-top: 0rem;
+}
+</style>

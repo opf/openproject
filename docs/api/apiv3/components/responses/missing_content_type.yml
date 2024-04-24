@@ -1,0 +1,8 @@
+# Response: MissingContentType
+---
+description: Occurs when the client did not send a Content-Type header
+content:
+  text/plain:
+    schema:
+      type: string
+    example: 'Missing content-type header'

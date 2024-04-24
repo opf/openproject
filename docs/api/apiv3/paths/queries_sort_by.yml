@@ -1,0 +1,70 @@
+# /api/v3/queries/sort_bys/{id}
+---
+get:
+  parameters:
+  - description: QuerySortBy identifier. The identifier is a combination of the column
+      identifier and the direction.
+    example: status-asc
+    in: path
+    name: id
+    required: true
+    schema:
+      type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  column:
+                    href: "/api/v3/queries/columns/status"
+                    title: Status
+                  direction:
+                    href: urn:openproject-org:api:v3:queries:directions:asc
+                    title: Ascending
+                  self:
+                    href: "/api/v3/queries/sort_bys/status-asc"
+                    title: Status (Ascending)
+                _type: QuerySortBy
+                id: status-asc
+                name: Status (Ascending)
+          schema:
+            "$ref": "../components/schemas/query_sort_by_model.yml"
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:Unauthenticated
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package in any project
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The specified query does not exist.
+      description: Returned if the QuerySortBy does not exist.
+      headers: {}
+  tags:
+  - Query Sort Bys
+  description: Retrieve an individual QuerySortBy as identified by the id parameter.
+  operationId: View_Query_Sort_By
+  summary: View Query Sort By

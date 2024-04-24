@@ -1,0 +1,29 @@
+#English strings go here
+ca:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'Importar'
+      import_bcf_xml_file: 'Importar fitxer BCF XML (BCF versió 2.1)'
+      export: 'Exportar'
+      export_bcf_xml_file: 'Exportar fitxer BCF XML (BCF versió 2.1)'
+      viewpoint: 'Punt de vista'
+      add_viewpoint: 'Afegir punt de vista'
+      show_viewpoint: 'Mostrar punt de vista'
+      delete_viewpoint: 'Eliminar punt de vista'
+      management: 'Administració de BCF'
+      refresh: 'Actualitza'
+      refresh_work_package: 'Actualitza el paquet de treball'
+    ifc_models:
+      empty_warning: "Aquest projecte encara no té cap model IFC."
+      use_this_link_to_manage: "Utilitza aquest enllaç per carregar i administrar els teus models IFC."
+      keyboard_input_disabled: "El visor no te controls de teclat. Clica en el visor per donar control de teclat al visor."
+      models:
+        ifc_models: 'Models IFC'
+      views:
+        viewer: 'Visor'
+        split: 'Visor i taula'
+        split_cards: 'Visor i targetes'
+    revit:
+      revit_add_in: "Revit add-in"
+      revit_add_in_settings: "Configuració del Revit add-in"

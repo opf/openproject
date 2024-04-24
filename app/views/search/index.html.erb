@@ -1,0 +1,76 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% content_for :header_tags do %>
+  <%= call_hook :search_index_head %>
+
+<% end %>
+
+<global-search-title></global-search-title>
+
+<global-search-tabs></global-search-tabs>
+
+<% if params[:work_packages].present? %>
+  <global-search-work-packages-entry></global-search-work-packages-entry>
+<% else %>
+
+  <h3><%= t(:label_result_plural) %> (<%= @results_count&.values&.sum || 0 %>)</h3>
+
+  <% if @results.present? %>
+
+    <%= render partial: 'pagination', locals: {pagination_previous_date: @pagination_previous_date, pagination_next_date: @pagination_next_date } %>
+
+    <dl id="search-results">
+      <% @results.each do |e| %>
+        <dt class="<%= e.event_type %>">
+
+          <% event_type = e.event_type == 'meeting' ? 'meetings' : e.event_type %>
+          <% event_type = e.event_type == 'budget' ? 'budget' : event_type %>
+          <% event_type = e.event_type == 'reply' ? 'forums' : event_type %>
+          <%= icon_wrapper("icon-context icon-#{event_type}", e.event_name) %>
+
+          <% if e.project != @project %>
+            <span class="project"><%= e.project %></span>
+            <span> - </span>
+          <% end %>
+
+          <%= link_to highlight_tokens(truncate(e.event_title, escape: false, length: 255), @tokens, text_on_not_found: true), with_notes_anchor(e, @tokens) %>
+        </dt>
+        <dd>
+          <span class="description"><%= highlight_tokens_in_event(e, @tokens) %></span>
+          <span class="author"><%= format_time(e.event_datetime) %></span>
+        </dd>
+      <% end %>
+    </dl>
+
+  <% end %>
+<% end %>
+
+<%= render partial: 'pagination', locals: {pagination_previous_date: @pagination_previous_date, pagination_next_date: @pagination_next_date } unless params[:work_packages].present? %>
+<% html_title(t(:label_search)) -%>

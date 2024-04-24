@@ -1,0 +1,63 @@
+# /api/v3/queries/columns/{id}
+---
+get:
+  parameters:
+  - description: QueryColumn id
+    example: priority
+    in: path
+    name: id
+    required: true
+    schema:
+      type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  self:
+                    href: "/api/v3/queries/columns/priority"
+                    title: Priority
+                _type: QueryColumn::Property
+                id: priority
+                name: Priority
+          schema:
+            "$ref": "../components/schemas/query_column_model.yml"
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:Unauthenticated
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package in any project
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The specified query does not exist.
+      description: Returned if the QueryColumn does not exist.
+      headers: {}
+  tags:
+  - Query Columns
+  description: Retrieve an individual QueryColumn as identified by the `id` parameter.
+  operationId: View_Query_Column
+  summary: View Query Column

@@ -1,0 +1,39 @@
+#English strings go here
+es:
+  plugin_openproject_boards:
+    name: "Tableros de OpenProject"
+    description: "Proporciona vistas del tablero."
+  permission_show_board_views: "Ver tableros"
+  permission_manage_board_views: "Administrar tableros"
+  project_module_board_view: "Tableros"
+  boards:
+    label_board: "Tablero"
+    label_boards: "Tableros"
+    label_create_new_board: "Crear tablero"
+    label_board_type: "Tipo de tablero"
+    board_types:
+      free: Básico
+      action: "Tablero de acciones (%{attribute})"
+    board_type_attributes:
+      assignee: Asignado a
+      status: Estado
+      version: Versión
+      subproject: Subproyecto
+      subtasks: Principal-secundario
+      basic: Básico
+    board_type_descriptions:
+      basic: >
+        Empiece desde cero con un tablero en blanco. Añada de forma manual tarjetas y columnas a este tablero.
+      status: >
+        Tablero básico estilo kanban con columnas para indicar el estado, como «Tarea pendiente», «En curso» y «Listo».
+      assignee: >
+        Tablero con columnas automáticas basadas en los usuarios asignados. Ideal para enviar paquetes de trabajo.
+      version: >
+        Tablero con columnas automatizadas basadas en el atributo de la versión. Ideal para planificar el desarrollo de productos.
+      subproject: >
+        Tablero con columnas automáticas para subproyectos. Al arrastrar paquetes de trabajo a otras listas, se actualizan los (sub)proyectos en consecuencia.
+      subtasks: >
+        Tablero con columnas automáticas para subelementos. Al arrastrar paquetes de trabajo a otras listas, se actualizan los elementos principales en consecuencia.
+    upsale:
+      teaser_text: '¿Quieres automatizar tus flujos de trabajo con tableros? Los tableros avanzados son una extensión de Enterprise. Mejores su plan a uno de pago.'
+      upgrade: 'Mejorar ahora'

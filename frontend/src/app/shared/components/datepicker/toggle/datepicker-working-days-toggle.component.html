@@ -1,0 +1,13 @@
+<spot-selector-field
+  [reverseLabel]="true"
+  [label]="text.ignoreNonWorkingDays.title"
+>
+  <spot-switch
+    slot="input"
+    name="weekdays_only"
+    [disabled]="disabled"
+    [ngModel]="!ignoreNonWorkingDays"
+    (ngModelChange)="onToggle($event)"
+    data-test-selector="op-datepicker-modal--include-non-working-days"
+  ></spot-switch>
+</spot-selector-field>

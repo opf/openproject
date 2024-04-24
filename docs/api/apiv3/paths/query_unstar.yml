@@ -1,0 +1,161 @@
+# /api/v3/queries/{id}/unstar
+---
+patch:
+  parameters:
+  - description: Query id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  results:
+                    _embedded:
+                      elements:
+                      - "<--- shortened for brevity --->"
+                    _links:
+                      changeSize:
+                        href: "/api/v3/projects/3/work_packages?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22o%22%2C%22values%22%3A%5B%5D%7D%7D%2C%7B%22dueDate%22%3A%7B%22operator%22%3A%22%3Ct%2B%22%2C%22values%22%3A%5B%221%22%5D%7D%7D%5D&offset=1&pageSize=%7Bsize%7D&sortBy=%5B%5B%22parent%22%2C%22desc%22%5D%5D"
+                        templated: true
+                      createWorkPackage:
+                        href: "/api/v3/work_packages/form"
+                        method: post
+                      createWorkPackageImmediate:
+                        href: "/api/v3/work_packages"
+                        method: post
+                      jumpTo:
+                        href: "/api/v3/projects/3/work_packages?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22o%22%2C%22values%22%3A%5B%5D%7D%7D%2C%7B%22dueDate%22%3A%7B%22operator%22%3A%22%3Ct%2B%22%2C%22values%22%3A%5B%221%22%5D%7D%7D%5D&offset=%7Boffset%7D&pageSize=2&sortBy=%5B%5B%22parent%22%2C%22desc%22%5D%5D"
+                        templated: true
+                      self:
+                        href: "/api/v3/projects/3/work_packages?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22o%22%2C%22values%22%3A%5B%5D%7D%7D%2C%7B%22dueDate%22%3A%7B%22operator%22%3A%22%3Ct%2B%22%2C%22values%22%3A%5B%221%22%5D%7D%7D%5D&offset=1&pageSize=2&sortBy=%5B%5B%22parent%22%2C%22desc%22%5D%5D"
+                    _type: WorkPackageCollection
+                    count: 30
+                    offset: 1
+                    pageSize: 2
+                    total: 234
+                _links:
+                  columns:
+                  - href: "/api/v3/queries/columns/id"
+                    title: ID
+                  - href: "/api/v3/queries/columns/subject"
+                    title: Subject
+                  - href: "/api/v3/queries/columns/type"
+                    title: Type
+                  - href: "/api/v3/queries/columns/status"
+                    title: Status
+                  - href: "/api/v3/queries/columns/priority"
+                    title: Priority
+                  - href: "/api/v3/queries/columns/assignee"
+                    title: Assignee
+                  - href: "/api/v3/queries/columns/updated_at"
+                    title: Updated on
+                  groupBy:
+                    href:
+                    title:
+                  project:
+                    href: "/api/v3/projects/3"
+                    title: copy
+                  results:
+                    href: "/api/v3/projects/3/work_packages?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22o%22%2C%22values%22%3A%5B%5D%7D%7D%2C%7B%22dueDate%22%3A%7B%22operator%22%3A%22%3Ct%2B%22%2C%22values%22%3A%5B%221%22%5D%7D%7D%5D&offset=1&pageSize=2&sortBy=%5B%5B%22parent%22%2C%22desc%22%5D%5D"
+                  self:
+                    href: "/api/v3/queries/9"
+                    title: fdsfdsfdsf
+                  sortBy:
+                  - href: "/api/v3/queries/sort_bys/parent-desc"
+                    title: Parent (Descending)
+                  user:
+                    href: "/api/v3/users/1"
+                    title: OpenProject Admin
+                _type: Query
+                createdAt: '2015-03-20T12:56:56.468Z'
+                filters:
+                - _links:
+                    filter:
+                      href: "/api/v3/queries/filters/status"
+                      title: Status
+                    operator:
+                      href: "/api/v3/queries/operators/o"
+                      title: open
+                    schema:
+                      href: "/api/v3/queries/filter_instance_schemas/status"
+                    values: []
+                  _type: StatusQueryFilter
+                  name: Status
+                - _links:
+                    filter:
+                      href: "/api/v3/queries/filters/dueDate"
+                      title: Finish date
+                    operator:
+                      href: "/api/v3/queries/operators/<t+"
+                      title: in less than
+                    schema:
+                      href: "/api/v3/queries/filter_instance_schemas/dueDate"
+                  _type: DueDateQueryFilter
+                  name: Finish date
+                  values:
+                  - '1'
+                id: 9
+                name: fdsfdsfdsf
+                public: false
+                starred: false
+                sums: false
+                updatedAt: '2015-05-20T18:16:53.386Z'
+          schema:
+            "$ref": "../components/schemas/unstar_query_model.yml"
+      description: OK
+      headers: {}
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not allowed to unstar this query.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** for own queries none; for public queries: manage public queries
+
+        *Note that you will only receive this error, if you are at least allowed to see the corresponding query.*
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The specified query does not exist.
+      description: |-
+        Returned if the query does not exist or the client does not have sufficient permissions to see it.
+
+        **Required condition:** query belongs to user or query is public
+
+        **Required permission:** view work package in queries project
+      headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+  tags:
+  - Queries
+  description: ''
+  operationId: Unstar_query
+  summary: Unstar query

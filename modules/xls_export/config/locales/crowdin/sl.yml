@@ -1,0 +1,16 @@
+sl:
+  plugin_openproject_xls_export:
+    name: "OpenProject XLS Export"
+    description: "Export issue lists as Excel spreadsheets (.xls)."
+  export_to_excel: "Izvozi XLS"
+  print_with_description: "Natisni predogled z opisi"
+  sentence_separator_or: "ali"
+  different_formats: Drugačni formati
+  export:
+    format:
+      xls: "XLS"
+      xls_with_descriptions: "XLS z opisi"
+      xls_with_relations: "XLS z relacijami"
+  xls_export:
+    child_of: otrok od
+    parent_of: starš od

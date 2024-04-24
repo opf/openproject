@@ -1,0 +1,20 @@
+<widget-header
+  [name]="widgetName"
+  (onRenamed)="renameWidget($event)">
+
+  <widget-menu
+    slot="menu"
+    [resource]="resource">
+  </widget-menu>
+</widget-header>
+
+<ng-container *ngIf="{hasCapability: hasCapability$ | async} as context">
+  <div class="op-toast -error" *ngIf="context.hasCapability === false">
+    <span [textContent]="text.missing_permission"></span>
+  </div>
+
+  <op-wp-calendar
+    *ngIf="context.hasCapability === true"
+    [static]="true"
+  ></op-wp-calendar>
+</ng-container>

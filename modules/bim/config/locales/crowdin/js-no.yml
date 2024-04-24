@@ -1,0 +1,29 @@
+#English strings go here
+"no":
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'Importer'
+      import_bcf_xml_file: 'Importer BCF XML-fil (BCF versjon 2.1)'
+      export: 'Eksportèr'
+      export_bcf_xml_file: 'Eksporter BCF XML-fil (BCF versjon 2.1)'
+      viewpoint: 'Synspunkt'
+      add_viewpoint: 'Legg til synspunkt'
+      show_viewpoint: 'Vis synspunkt'
+      delete_viewpoint: 'Slett synspunkt'
+      management: 'BCF håndtering'
+      refresh: 'Oppdater'
+      refresh_work_package: 'Oppdater arbeidspakken'
+    ifc_models:
+      empty_warning: "Dette prosjektet har ennå ingen IFC-modeller."
+      use_this_link_to_manage: "Bruk denne lenken til å laste opp og administrere IFC-modellene dine"
+      keyboard_input_disabled: "Viseren har ikke tastaturkontroller. Klikk på viseren for å gi tastaturkontroll til viseren."
+      models:
+        ifc_models: 'IFC modeller'
+      views:
+        viewer: 'Leser'
+        split: 'Leser og tabell'
+        split_cards: 'Leser og oppgavelapper'
+    revit:
+      revit_add_in: "Revit Add-In"
+      revit_add_in_settings: "Revit Add-In innstillinger"

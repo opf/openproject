@@ -1,0 +1,78 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+fa:
+  plugin_budgets_engine:
+    name: 'بودجه ها'
+  activerecord:
+    attributes:
+      budget:
+        author: "نویسنده"
+        available: "در دسترس"
+        budget: "Planned"
+        budget_ratio: "Spent (ratio)"
+        description: "توضیحات"
+        spent: "صرف شده"
+        status: "Status"
+        subject: "Subject"
+        type: "نوع هزینه"
+        labor_budget: "Planned labor costs"
+        material_budget: "Planned unit costs"
+      work_package:
+        budget_subject: "Budget title"
+    models:
+      budget: "بودجه"
+      material_budget_item: "Unit"
+  activity:
+    filter:
+      budget: "بودجه ها"
+  attributes:
+    budget: "بودجه"
+  button_add_budget_item: "Add planned costs"
+  button_add_budget: "اضافه کردن بودجه"
+  button_add_cost_type: "Add cost type"
+  button_cancel_edit_budget: "Cancel editing budget"
+  button_cancel_edit_costs: "Cancel editing costs"
+  caption_labor: "Labor"
+  caption_labor_costs: "Actual labor costs"
+  caption_material_costs: "Actual unit costs"
+  budgets_title: "بودجه ها"
+  events:
+    budget: "بودجه ویرایش شد"
+  help_click_to_edit: "برای ویرایش اینجا کلیک کنید."
+  help_currency_format: "فرمت مقادیر واحدهای پولی نمایش داده شده به این صورت است که %n با مقدار واحد پولی جایگزین می‌شود و %u با واحد پولی جایگزین می‌شود."
+  help_override_rate: "در صورت ورود یک مقدار در قسمت، نرخ (ضریب پرداختی) پیش‌فرض نادیده گرفته می شود."
+  label_budget: "بودجه"
+  label_budget_new: "بودجه جدید"
+  label_budget_plural: "بودجه ها"
+  label_budget_id: "بودجه"
+  label_deliverable: "بودجه"
+  label_example_placeholder: 'به عنوان مثال، %{decimal}'
+  label_view_all_budgets: "مشاهده همه بودجه‌ها"
+  label_yes: "بله"
+  notice_budget_conflict: "Work packages must be of the same project."
+  notice_no_budgets_available: "بودجه‌ای در دسترس نیست."
+  permission_edit_budgets: "ویرایش بودجه‌ها"
+  permission_view_budgets: "مشاهده بودجه‌ها"
+  project_module_budgets: "بودجه ها"
+  text_budget_reassign_to: "آنها را مجدداً به این بودجه اختصاص دهید:"
+  text_budget_delete: "حذف بودجه از تمامی پکیج‌های کاری ."
+  text_budget_destroy_assigned_wp: "در حال حاضر تعداد %{count} پکیج‌کاری به این بودجه اختصاص داده شده است. شما قصد انجام چه کاری را دارید؟"

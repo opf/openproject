@@ -1,0 +1,80 @@
+<div class="spot-modal op-enterprise-modal">
+  <div id="spotModalTitle" class="spot-modal--header" [textContent]="headerText$ | async"></div>
+
+  <div class="spot-divider"></div>
+
+  <div [ngSwitch]="showState$ | async" class="spot-modal--body spot-container">
+    <!-- first modal window -->
+    <div *ngSwitchCase="'trial-form'">
+      <enterprise-trial-form></enterprise-trial-form>
+    </div>
+    <!-- second modal window -->
+    <div *ngSwitchCase="'trial-waiting'">
+      <enterprise-trial-waiting></enterprise-trial-waiting>
+    </div>
+    <!-- third modal window -->
+    <div *ngSwitchCase="'overview'">
+      <div class="onboarding--video-block">
+        <div class="onboarding--video-text">
+          <span>{{ text.quick_overview }}</span>
+        </div>
+        <div class="onboarding--video iframe-target-wrapper">
+          <iframe frameborder="0"
+                  height="400"
+                  width="100%"
+                  [src]="trustedEEVideoURL"
+                  allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="spot-action-bar"
+    *ngIf="{ status: eeTrialService.status$ | async, cancelled: eeTrialService.cancelled$ | async, confirmed: eeTrialService.confirmed$ | async } as context"
+  >
+    <div class="spot-action-bar--right">
+      <div *ngIf="!context.status || context.cancelled; else mailSubmitted"
+           class="spot-action-bar--right">
+        <button
+          class="button button_no-margin spot-action-bar--action spot-modal--cancel-button"
+          data-test-selector="confirmation-modal--cancel"
+          (click)="closeModal($event)"
+          [textContent]="text.button_cancel"
+          [attr.title]="text.button_cancel"
+        ></button>
+        <button
+          class="button button_no-margin -primary spot-action-bar--action"
+          data-test-selector="confirmation-modal--confirmed"
+          (click)="onSubmit()"
+          [disabled]="!trialForm || trialForm.invalid"
+          [textContent]="text.button_submit"
+          [attr.title]="text.button_submit"
+          [hidden]="context.status === 'mailSubmitted' && !context.cancelled"
+        ></button>
+      </div>
+      <ng-template #mailSubmitted>
+        <div class="spot-action-bar--right">
+          <button
+            class="button button_no-margin -primary spot-action-bar--action"
+            data-test-selector="confirmation-modal--confirmed"
+            (click)="startEnterpriseTrial()"
+            [textContent]="text.button_continue"
+            [attr.title]="text.button_continue"
+            [disabled]="!context.confirmed"
+            [hidden]="context.status === 'startTrial'"
+          ></button>
+          <button
+            *ngIf="context.status === 'startTrial'"
+            class="button button_no-margin -primary spot-action-bar--action"
+            data-test-selector="confirmation-modal--confirmed"
+            (click)="closeModal($event)"
+            [textContent]="text.button_continue"
+            [attr.title]="text.button_continue"
+          ></button>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

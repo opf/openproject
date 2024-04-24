@@ -1,0 +1,42 @@
+.op-form
+  &--submit
+    margin: 0
+    margin-bottom: 1.5rem
+    display: flex
+
+  &,
+  &--fieldset
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+
+    > *
+      max-width: 100%
+      width: 50rem
+
+    &--section-header,
+    > .op-form--fieldset,
+    > .op-form--field,
+    > .spot-form-field,
+    > .spot-selector-field,
+    > .op-option-list,
+    > .op-highlighted-input,
+    > .button
+      &:not(:last-child)
+        margin-bottom: 1rem
+
+  &--fieldset,
+  &--section-header
+    width: 100%
+    margin-top: 1.5rem
+
+    &:first-child
+      margin-top: 0
+
+  &--section-header-title
+    @extend %form--fieldset-legend-or-section-title
+    margin-bottom: 0.25rem
+
+  &--field
+    .spot-form-field
+      margin-bottom: 1rem

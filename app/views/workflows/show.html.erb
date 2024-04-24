@@ -1,0 +1,80 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<%= render partial: 'toolbar', locals: {title: t(:label_workflow_plural) } %>
+<% html_title t(:label_administration), t(:label_workflow_plural) -%>
+<% local_assigns[:additional_breadcrumb] = t(:label_workflow_summary) %>
+
+<% if @workflow_counts.any? %>
+  <div class="autoscroll">
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table class="generic-table">
+          <colgroup>
+            <col>
+            <col opHighlightCol>
+            <col opHighlightCol>
+            <col opHighlightCol>
+            <col opHighlightCol>
+            <col opHighlightCol>
+            <col>
+          </colgroup>
+          <thead>
+            <tr>
+              <th><div class="generic-table--empty-header"></div></th>
+              <% @workflow_counts.first.last.each do |role, count| %>
+                <th>
+                  <div class="generic-table--sort-header-outer">
+                    <div class="generic-table--sort-header">
+                        <%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %>
+                    </div>
+                  </div>
+                </th>
+              <% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <% @workflow_counts.each do |type, roles| -%>
+              <tr>
+                <td><%= h type %></td>
+                <% roles.each do |role, count| -%>
+                  <td>
+                    <%= link_to((count > 0 ? count : content_tag(:span, '', class: "icon-close icon-context icon-button")), {action: 'edit', role_id: role, type_id: type}, title: t(:button_edit)) %>
+                  </td>
+                <% end -%>
+              </tr>
+            <% end -%>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+<% else %>
+  <%= no_results_box %>
+<% end %>

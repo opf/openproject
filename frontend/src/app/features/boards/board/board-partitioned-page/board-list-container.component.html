@@ -1,0 +1,50 @@
+<ng-container *ngIf="(board$ | async) as board">
+  <div
+    *ngIf="!needEnterpriseEdition"
+    class="boards-list--container"
+    [ngClass]="{ '-free' : board.isFree }"
+    #container
+    cdkDropList
+    [cdkDropListDisabled]="!board.editable"
+    cdkDropListOrientation="horizontal"
+    (cdkDropListDropped)="moveList(board, $event)"
+  >
+    <div *ngFor="let boardWidget of boardWidgets; trackBy:trackByQueryId"
+         class="boards-list--item"
+         cdkDrag
+         [cdkDragData]="boardWidget"
+    >
+      <span *ngIf="board.editable"
+            class="boards-list-item-handle icon icon-drag-handle"
+            cdkDragHandle></span>
+      <board-list [resource]="boardWidget"
+                  [board]="board"
+                  (onRemove)="removeList(board, boardWidget)"
+                  (visibilityChange)="changeVisibilityOfList(board, boardWidget, $event)">
+      </board-list>
+    </div>
+    <span *ngIf="showHiddenListWarning"
+          class="boards-list--tooltip tooltip--right"
+          [attr.data-tooltip]="text.hiddenListWarning">
+      <i class="icon icon-attention"></i>
+    </span>
+
+    <div class="boards-list--add-item -no-text-select"
+         *ngIf="board.editable"
+         (click)="addList(board)">
+      <div class="boards-list--add-item-text">
+        <op-icon icon-classes="icon-add icon-context"></op-icon>
+        <span [textContent]="text.addList"></span>
+      </div>
+    </div>
+  </div>
+
+  <op-enterprise-banner
+    *ngIf="needEnterpriseEdition"
+    [moreInfoLink]="text.more_info_link"
+    [leftMargin]="true"
+    [linkMessage]="text.upgrade_to_ee_text"
+    [textMessage]="text.teaser_text"
+    opReferrer="boards#board-show">
+  </op-enterprise-banner>
+</ng-container>

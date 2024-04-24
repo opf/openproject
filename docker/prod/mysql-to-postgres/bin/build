@@ -1,0 +1,19 @@
+#!/bin/bash
+set -e
+set -o pipefail
+
+cd /opt
+
+# install Clozure CL to avoid memory issues with the standard SBCL
+curl -sL https://github.com/Clozure/ccl/releases/download/v1.11.5/ccl-1.11.5-linuxx86.tar.gz -o - | tar xzf - -C /opt/ 
+ln -s /opt/ccl/scripts/ccl64 /usr/local/bin/ccl
+
+export CCL_DEFAULT_DIRECTORY=/opt/ccl
+
+# build pgloader from source using CCL as the lisp runtime
+git clone -q https://github.com/dimitri/pgloader.git --branch v3.6.1 --depth 1
+cd pgloader
+make CL=ccl pgloader >& /tmp/pgloader-compile.log || (cat /tmp/pgloader-compile.log && exit 1)
+mv /opt/pgloader/build/bin/pgloader /usr/local/bin/pgloader-ccl
+
+rm -rf /opt/pgloader /tmp/pgloader-compile.log /usr/local/bin/ccl /opt/ccl

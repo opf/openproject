@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+#
+# Deletes bundled javascript assets and rebuilds them.
+# Useful for when your frontend doesn't work (jQuery not defined etc.) for seemingly no reason at all.
+
+yell() { echo -e "$0: $*" >&2; }
+die() { yell "$*"; exit 1; }
+try() { eval "$@" || die "\n\nFailed to run '$*', check log/setup_dev.log for more information."; }
+
+printf "Bundling rails dependencies ... "
+try 'bundle install > log/setup_dev.log'
+echo "done."
+
+echo "Migrating database"
+try 'bundle exec rake db:migrate'
+
+echo "Removing public assets"
+try 'rm -rf public/assets >> log/setup_dev.log'
+
+echo "Installing node_modules ... "
+try '(cd frontend && npm ci) >> log/setup_dev.log'
+
+echo "Linking plugin modules"
+try 'bundle exec rake openproject:plugins:register_frontend >> log/setup_dev.log'
+
+echo "Exporting frontend locale files"
+try 'bundle exec rake assets:export_locales >> log/setup_dev.log'
+
+echo "---------------------------------------"
+echo "Done. Now start the following services"
+echo '- Rails server `RAILS_ENV=development bin/rails server`'
+echo '- Angular CLI: `npm run serve`'
+echo '- Good Job worker: `RAILS_ENV=development bundle exec good_job start`'
+echo ""
+echo 'You can also run `bin/dev` to run all the above on a single terminal.'
+echo ""
+echo "If you'd like an enhanced development experience and interaction"
+echo 'with the individual services, install Overmind. `bin/dev` will'
+echo 'prefer using Overmind over Foreman if available.'
+
+echo ""
+echo 'Setting up git hooks'
+echo 'If you want to have commit hooks for rubocop and eslint errors, you can install lefthook like so:'
+echo '`bundle exec lefthook install`'

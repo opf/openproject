@@ -1,0 +1,76 @@
+# /api/v3/projects/{id}/categories
+---
+get:
+  parameters:
+  - description: ID of the project whose categories will be listed
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  elements:
+                  - _links:
+                      defaultAssignee:
+                        href: "/api/v3/users/42"
+                        title: John Sheppard
+                      project:
+                        href: "/api/v3/projects/11"
+                        title: Example project
+                      self:
+                        href: "/api/v3/categories/10"
+                        title: Category with assignee
+                    _type: Category
+                    id: 10
+                    name: Foo
+                  - _links:
+                      project:
+                        href: "/api/v3/projects/11"
+                      self:
+                        href: "/api/v3/categories/11"
+                    _type: Category
+                    id: 11
+                    name: Bar
+                _links:
+                  self:
+                    href: "/api/v3/projects/11/categories"
+                _type: Collection
+                count: 2
+                total: 2
+          schema:
+            "$ref": "../components/schemas/categories_by_project_model.yml"
+      description: OK
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The specified project does not exist.
+      description: |-
+        Returned if the project does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:** view project
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+        That's why a 404 is returned here, even if a 403 might be more appropriate.*
+      headers: {}
+  tags:
+  - Categories
+  description: ''
+  operationId: List_categories_of_a_project
+  summary: List categories of a project

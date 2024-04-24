@@ -1,0 +1,51 @@
+#!/usr/bin/env ruby
+
+# Outputs the Choices and Translations lines for openproject/default_language
+# select option in packager installation.
+#
+# The template is located at packaging/addons/openproject/templates
+
+require "pathname"
+require "yaml"
+
+class App
+  class << self
+    def rails_root
+      @rails_root ||=
+        Pathname.new(__dir__)
+          .ascend
+          .find { |dir| dir.join("Gemfile").exist? }
+          .tap { |dir| raise "Unable to find Rails root directory (looking up from #{__dir__})" if dir.nil? }
+    end
+  end
+end
+
+class PrintPackagerLanguagesChoices
+  class << self
+    def call
+      languages_codes, languages_names = languages_codes_and_names
+      puts "Choices: #{languages_codes.join(', ')}"
+      puts "Translations: #{languages_names.join(', ')}"
+      puts
+      puts "Now update packaging/addons/openproject/templates with these two lines"
+    end
+
+    def languages_codes_and_names
+      translations_files
+        .flat_map { |f| language_code_and_name_from(f) }
+        .sort
+        .transpose
+    end
+
+    def translations_files
+      App.rails_root.glob("config/locales/generated/*.yml")
+    end
+
+    def language_code_and_name_from(translation_file)
+      YAML.load_file(translation_file.to_s)
+        .map { |(lang, data)| [lang, data.dig("cldr", "language_name")] }
+    end
+  end
+end
+
+PrintPackagerLanguagesChoices.call

@@ -1,0 +1,49 @@
+<div
+  class="spot-modal"
+>
+  <div
+    class="spot-modal--header"
+  >
+    <span
+      id="spotModalTitle"
+      class="spot-modal--header-title"
+      [textContent]="text.header"
+    ></span>
+  </div>
+
+  <div
+    class="spot-modal--body spot-container"
+  >
+    <span
+      class="spot-body-small"
+      [textContent]="text.body()"
+    ></span>
+  </div>
+
+  <div
+    class="spot-action-bar"
+  >
+    <div
+      class="spot-action-bar--right"
+    >
+      <button
+        type="button"
+        class="button spot-action-bar--action"
+        [textContent]="text.buttons.cancel"
+        (click)="closeMe()"
+      ></button>
+      <button
+        type="button"
+        class="button spot-action-bar--action"
+        [textContent]="text.buttons.keepBoth"
+        (click)="close(false)"
+      ></button>
+      <button
+        type="button"
+        class="button spot-action-bar--action -primary"
+        [textContent]="text.buttons.replace"
+        (click)="close(true)"
+      ></button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+# /api/v3/types/{id}
+---
+get:
+  parameters:
+  - description: Type id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  self:
+                    href: "/api/v3/types/1"
+                _type: Type
+                color: "#ff0000"
+                createdAt: '2014-05-21T08:51:20.396Z'
+                id: 1
+                isDefault: true
+                isMilestone: false
+                name: Bug
+                position: 1
+                updatedAt: '2014-05-21T08:51:20.396Z'
+          schema:
+            "$ref": "../components/schemas/type_model.yml"
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not allowed to see this type.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** view work package or manage types (on any project)
+      headers: {}
+  tags:
+  - Types
+  description: ''
+  operationId: View_Type
+  summary: View Type

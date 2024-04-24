@@ -1,0 +1,28 @@
+#English strings go here
+cs:
+  js:
+    team_planner:
+      add_existing: 'Přidat existující'
+      add_existing_title: 'Přidat existující pracovní balíčky'
+      create_label: 'Týmový plánovač'
+      create_title: 'Vytvořit nový týmový plánovač'
+      unsaved_title: 'Nepojmenovaný plánovač týmu'
+      no_data: 'Přidejte řešitele k nastavení svého týmového plánovače.'
+      add_assignee: 'Přidat řešitele'
+      remove_assignee: 'Odstranit řešitele'
+      two_weeks: '2 týdny'
+      one_week: '1 týden'
+      four_weeks: '4 týdny'
+      eight_weeks: '8 týdnů'
+      work_week: 'Pracovní týden'
+      today: 'Dnes'
+      drag_here_to_remove: 'Přetažením sem odstraníte pověřenou osobu a datum začátku a ukončení.'
+      cannot_drag_here: 'Pracovní balíček nelze odstranit kvůli oprávněním nebo úpravám omezení.'
+      cannot_drag_to_non_working_day: 'Tento pracovní balíček nemůže začít/skončit v nepracovní den.'
+      quick_add:
+        empty_state: 'Použijte vyhledávací pole pro nalezení pracovních balíčků a přetáhněte je do plánovače, aby někomu přiřadil a definoval datum začátku a konce.'
+        search_placeholder: 'Hledat...'
+      modify:
+        errors:
+          permission_denied: 'Nemáte potřebná oprávnění k úpravě tohoto stavu.'
+          fallback: 'Tento pracovní balíček nelze upravit.'

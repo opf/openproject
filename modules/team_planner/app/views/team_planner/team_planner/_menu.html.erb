@@ -1,0 +1,7 @@
+  <%=
+    angular_component_tag 'op-team-planner-sidemenu',
+                          inputs: {
+                            projectId: (@project ? @project.id.to_s : ''),
+                            menuItems: [parent_name, name],
+                          }
+  %>

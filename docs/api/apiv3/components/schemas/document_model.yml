@@ -1,0 +1,92 @@
+# Schema: DocumentModel
+---
+type: object
+properties:
+  id:
+    type: integer
+    description: Document's id
+    readOnly: true
+    exclusiveMinimum: 0
+  title:
+    type: string
+    description: The title chosen for the collection of documents
+    readOnly: true
+  description:
+    type: string
+    description: A text describing the documents
+    readOnly: true
+  createdAt:
+    type: string
+    format: date-time
+    description: The time the document was created at
+    readOnly: true
+  _links:
+    type: object
+    required:
+    - self
+    - project
+    - attachments
+    properties:
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This document
+
+            **Resource**: Document
+          readOnly: true
+      project:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            The project the document is in
+
+            **Resource**: Project
+      attachments:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            The attachments belonging to the document
+
+            **Resource**: []Attachment
+example:
+  _type: Document
+  id: 1
+  title: Some other document
+  description:
+    format: markdown
+    raw: Videlicet deserunt aequitas cognatus. Concedo quia est quia pariatur vorago
+      vallum. Calco autem atavus accusamus conscendo cornu ulterius. Tam patria ago
+      consectetur ventito sustineo nihil caecus. Supra officiis eos velociter somniculosus
+      tonsor qui. Suffragium aduro arguo angustus cogito quia tolero vulnus. Supplanto
+      sortitus cresco apud vestrum qui.
+    html: "<p>Videlicet deserunt aequitas cognatus. Concedo quia est quia pariatur
+      vorago vallum. Calco autem atavus accusamus conscendo cornu ulterius. Tam patria
+      ago consectetur ventito sustineo nihil caecus. Supra officiis eos velociter
+      somniculosus tonsor qui. Suffragium aduro arguo angustus cogito quia tolero
+      vulnus. Supplanto sortitus cresco apud vestrum qui.</p>"
+  createdAt: '2018-12-10T20:53:39.539Z'
+  _links:
+    attachments:
+      href: "/api/v3/documents/1/attachments"
+    addAttachment:
+      href: "/api/v3/documents/1/attachments"
+      method: post
+    self:
+      href: "/api/v3/documents/1"
+      title: Some document
+    project:
+      href: "/api/v3/projects/19"
+      title: Some project
+  _embedded:
+    project:
+      _type: Project...
+    attachments:
+      _type: Collection
+      total: 2
+      count: 2
+      _embedded...:
+        elements: []
+      _links:
+        self:
+          href: "/api/v3/documents/1/attachments"

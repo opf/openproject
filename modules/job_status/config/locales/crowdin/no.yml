@@ -1,0 +1,4 @@
+"no":
+  plugin_openproject_job_status:
+    name: "OpenProject jobbstatus"
+    description: "Oppføring og status for bakgrunnsjobber."

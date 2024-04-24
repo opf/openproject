@@ -1,0 +1,15 @@
+<ul
+  *ngIf="attachments.length > 0"
+  class="spot-list spot-list_compact op-file-list"
+>
+  <li
+    *ngFor="let attachment of attachments; let i = index;"
+    op-attachment-list-item
+    class="spot-list--item op-file-list--item"
+    data-test-selector="op-attachment-list-item"
+    [attachment]="attachment"
+    [showTimestamp]="showTimestamp"
+    [index]="i"
+    (removeAttachment)="removeAttachment(attachment)"
+  ></li>
+</ul>

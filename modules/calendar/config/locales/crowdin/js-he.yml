@@ -1,0 +1,8 @@
+#English strings go here
+he:
+  js:
+    calendar:
+      create_new: 'יצירת לוח שנה'
+      title: 'לוח שנה'
+      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      unsaved_title: 'לוח שנה ללא שם'

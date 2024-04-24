@@ -1,0 +1,91 @@
+.upsale-notification
+  max-width: 50vw
+  margin: auto
+  padding-top: 20px
+  text-align: center
+
+  .widget-box--teaser-image,
+  .widget-box--teaser-video
+    width: 100%
+    height: auto
+    margin-bottom: 20px
+    box-shadow: 4px 4px 10px rgb(0 0 0 / 15%)
+    border-radius: 25px
+    border: 1px solid var(--color-border-muted)
+
+  .widget-box--teaser-image_default
+    width: 30%
+    margin-bottom: 20px
+    box-shadow: 4px 4px 10px rgb(0 0 0 / 15%)
+    border-radius: 25px
+
+  a.button,
+  a.button--link
+    text-decoration: none
+
+.upsale-actions
+  display: flex
+  flex-wrap: wrap
+  align-items: baseline
+
+  .openproject--static-link
+    margin-left: 1rem
+
+.upsale--information-container
+  margin-bottom: 40px
+
+.token-form textarea
+  font-family: "Lucida Console", Monaco, monospace
+  max-width: 560px
+
+.widget-box--blocks--upsale-buttons
+  display: flex
+  justify-content: flex-end
+
+  a.button,
+  a.button--link
+    text-decoration: none
+    margin: 0.625rem 0.625rem 0 0
+
+.widget-box--blocks--upsale-info-button
+  display: flex
+  justify-content: center
+  align-items: center
+
+.upsale-colored
+  color: $spot-color-feedback-warning-dark
+
+.widget-box--blocks--upsale-title
+  font-weight: 400
+  font-size: 20px
+  margin-top: 10px
+  display: flex
+
+.widget-box--blocks--upsale-text
+  line-height: 24px
+  margin-top: 10px
+
+.widget-box--blocks--upsale-description
+  margin: 10px 0 10px 0
+  display: flex
+
+.widget-box--blocks--upsale-image
+  width: 200px
+  margin: auto
+
+// There is a breadcrumb at the top of some of the Enterprise pages showing some spacing,
+// but for some other pages without a breadcrumb, there is no space at the top of of the page.
+// Therefore, we are just hiding the breadcrumb on top of these pages.
+:has(.upsale-notification_hide-breadcrumb)
+  #breadcrumb:has(:not(.-show))
+    display: block
+    visibility: hidden
+
+@media screen and (max-width: $breakpoint-sm)
+  .upsale-notification
+    max-width: none
+
+    .widget-box--teaser-image,
+    .widget-box--teaser-video
+      width: 90%
+      border-radius: 15px

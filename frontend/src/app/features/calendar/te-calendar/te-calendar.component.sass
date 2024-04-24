@@ -1,0 +1,143 @@
+@import '../../app/spot/styles/sass/variables'
+@import '../../global_styles/openproject/variables'
+
+op-time-entries-calendar
+  // The two media queries below make sure the "Log time" button does not overlap
+  // with the dates on mobile. Instead, it will be shown above the full calendar toolbar.
+  // The media queries are the normal mobile/tablet breakpoints.
+  @media screen and (max-width: $breakpoint-sm)
+    .fc-toolbar-chunk:empty
+      display: none
+
+  @media screen and (min-width: 680px)
+    .te-calendar--create-button
+      position: absolute
+      right: 0
+      top: 0
+      margin-right: 0px
+
+    .fc-toolbar-chunk:last-child
+      flex-basis: 165px
+      flex-shrink: 0
+
+  full-calendar
+    overflow-x: auto
+
+    .fc-view
+      min-width: 800px
+
+    // Move the days header to the bottom.
+    thead
+      display: table-footer-group
+
+    // Remove the borders at the left and of the bottom
+    th.fc-day,
+    th.fc-timegrid-axis
+      border-bottom: none
+
+    table.fc-scrollgrid.fc-scrollgrid-liquid
+      border-left: none
+
+    // FullCalendar renders a different DOM in FF than in the other browsers (wtf?  ¯\_(ツ)_/¯)
+    // see: https://github.com/fullcalendar/fullcalendar/issues/6822
+    // That is why we need a special rule here
+    .-browser-firefox &
+      .fc-col-header-cell-cushion
+        padding: 2px 4px !important
+
+    .fc-event, .fc-bgevent
+      border-radius: 0
+      margin-right: 8px
+      margin-left: 8px
+
+    .fc-head-container
+      border-color: white
+
+    .fc-day-header
+      padding-top: 5px
+
+    .fc-widget-content
+      border-left-color: white
+
+      .fc-day
+        border-left: 0
+        border-right: 0
+        border-right: 0
+
+    .fc-timeGrid-view .fc-day-grid .fc-row
+      min-height: 1em
+
+    .fc-timeGrid-view .fc-day-grid .fc-row .fc-content-skeleton
+      padding-bottom: 0
+
+    .fc-timegrid-event-harness .fc-timegrid-event
+      box-shadow: none
+
+    .fc-timegrid-slot.fc-timegrid-slot-minor
+      border-top: 0
+
+    .te-calendar--day-sum
+      border: none
+      background-color: initial
+      color: #000000
+      text-align: center
+      font-size: 0.875em
+      font-weight: var(--base-text-weight-bold)
+      line-height: 22px
+      opacity: 1
+      cursor: default
+
+    .te-calendar--add-entry
+      text-align: center
+      font-weight: var(--base-text-weight-bold)
+      opacity: 0
+      background: none
+      border: none
+      display: flex
+      align-items: center
+
+      &:hover
+        opacity: 1
+        transition: opacity 1s ease
+        background: #EAEAEA
+        border: 1px solid var(--color-fg-muted)
+
+      .te-calendar--add-icon
+        color: black
+        width: 100%
+        font-weight: normal
+        font-size: 1.5rem
+
+      &.-prohibited
+        cursor: not-allowed
+
+        .te-calendar--add-icon
+          display: none
+
+      .fc-event-title-container
+        margin: 0 !important
+
+    .te-calendar--time-entry
+      color: white
+      .fc-content
+        height: 100%
+
+      .fc-fadeout
+        position: relative
+        bottom: 2em
+        height: 2em
+        z-index: 5
+
+      &.-no-fadeout
+        .fc-fadeout
+          display: none
+
+      .fc-event-title-container
+        margin: 0 4px !important
+        line-height: 14px !important
+
+    .fc-duration
+      display: inline-block
+      margin-right: 5px
+      padding-right: 5px
+      font-weight: var(--base-text-weight-bold)

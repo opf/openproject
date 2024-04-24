@@ -1,0 +1,67 @@
+de:
+  js:
+    grid:
+      add_widget: 'Widget hinzufügen'
+      remove: 'Widget entfernen'
+      configure: 'Widget konfigurieren'
+      upsale:
+        text: "Einige Widgets wie das Arbeitspaket-Graphen Widget sind nur in der Enterprise Edition verfügbar."
+        link: 'Enterprise Edition'
+      widgets:
+        missing_permission: "Sie verfügen nicht über die erforderlichen Berechtigungen, um dieses Steuerelement anzuzeigen."
+        custom_text:
+          title: 'Benutzerdefinierter Text'
+        documents:
+          title: 'Dokumente'
+          no_results: 'Keine Dokumente.'
+        members:
+          title: 'Mitglieder'
+          no_results: 'Kein sichtbaren Mitglieder.'
+          view_all_members: 'Alle Mitglieder anzeigen'
+          add: 'Mitglied'
+          too_many: 'Zeigt %{count} von %{total} Mitgliedern an.'
+        news:
+          title: 'Neuigkeiten'
+          at: 'um'
+          no_results: 'Nichts Neues zu berichten.'
+        project_description:
+          title: 'Projektbeschreibung'
+          no_results: "Noch keine Beschreibung festgelegt. Sie kann in den 'Projekteinstellungen' erstellt werden."
+        project_details:
+          title: 'Projektdetails'
+          no_results: 'Für Projekte wurden keine benutzerdefinierten Felder definiert.'
+        project_status:
+          title: 'Projektstatus'
+          not_started: 'Nicht gestartet'
+          on_track: 'Planmäßig'
+          off_track: 'Unplanmäßig'
+          at_risk: 'Gefährdet'
+          not_set: 'Nicht gesetzt'
+          finished: 'Abgeschlossen'
+          discontinued: 'Eingestellt'
+        subprojects:
+          title: 'Unterprojekte'
+          no_results: 'Keine Unterprojekte.'
+        time_entries_current_user:
+          title: 'Meine gebuchte Zeit'
+          displayed_days: 'Dargestellte Tage im Widget:'
+        time_entries_list:
+          title: 'Verbuchte Zeit (letzte 7 Tage)'
+          no_results: 'Keine Zeiteinträge der letzten 7 Tage.'
+        work_packages_accountable:
+          title: "Von mir verantwortete Arbeitspakete"
+        work_packages_assigned:
+          title: 'Mir zugewiesene Arbeitspakete'
+        work_packages_created:
+          title: 'Von mir erstellte Arbeitspakete'
+        work_packages_watched:
+          title: 'Von mir beobachtete Arbeitspakete'
+        work_packages_table:
+          title: 'Arbeitspaket-Tabelle'
+        work_packages_graph:
+          title: 'Arbeitspaket-Graph'
+        work_packages_calendar:
+          title: 'Kalender'
+        work_packages_overview:
+          title: 'Arbeitspaket-Übersicht'
+          placeholder: 'Zum Ändern klicken...'

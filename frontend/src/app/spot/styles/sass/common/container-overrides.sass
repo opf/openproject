@@ -1,0 +1,13 @@
+.spot-container
+  // This style must apply for anything inside a spot-modal, that is not yet a spot element.
+  // The override can get deleted once every modal contains nothing but spot elements, which are styled
+  // in `./container.sass`
+  &.spot-modal--body
+    > *:not(.spot-list, .spot-breadcrumbs, .spot-header-big, .spot-header-small, .spot-subheader-big, .spot-subheader-small, .spot-subheader-extra-small, .spot-body-big, .spot-body-small, .spot-caption, .spot-divider, .spot-text-field)
+      margin: $spot-spacing-1 $spot-spacing-1 0
+
+      &:last-child
+        margin-bottom: $spot-spacing-1
+
+  > .op-uc-container
+    padding-bottom: 0

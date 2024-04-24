@@ -1,0 +1,253 @@
+"no":
+  activerecord:
+    attributes:
+      storages/file_link:
+        origin_id: Opprinnelses ID
+      storages/storage:
+        creator: Skaper
+        drive: Stasjon ID
+        host: Vert
+        name: Navn
+        provider_type: Tjenestetype
+        tenant: Katalog (leietaker) ID
+    errors:
+      messages:
+        not_linked_to_project: er ikke knyttet til prosjektet.
+      models:
+        storages/file_link:
+          attributes:
+            origin_id:
+              only_numeric_or_uuid: kan bare være numerisk eller uuid.
+        storages/project_storage:
+          attributes:
+            project_folder_mode:
+              mode_unavailable: er ikke tilgjengelig for dette lagringsstedet.
+        storages/storage:
+          attributes:
+            host:
+              authorization_header_missing: er ikke ferdig konfigurert. Nextcloud forekomsten mottar ikke "Authorization"-overskriften, som er nødvendig for en Bearer-nøkkel basert autorisasjon for API-forespørsler. Dobbeltsjekk HTTP-serverkonfigurasjonen din.
+              cannot_be_connected_to: kan ikke kobles til.
+              minimal_nextcloud_version_unmet: oppfyller ikke minimale krav til versjon (må være Nextcloud 23 eller høyere)
+              not_nextcloud_server: er ikke en Nextcloud server
+              op_application_not_installed: ser ut til å ikke ha appen "OpenProject integrasjon" installert. Installer den først og prøv igjen.
+            password:
+              invalid_password: er ikke gyldig.
+              unknown_error: kunne ikke valideres. Vennligst sjekk din lagringskobling og prøv igjen.
+    models:
+      file_link: Fil
+      storages/storage: Lagring
+  api_v3:
+    errors:
+      too_many_elements_created_at_once: For mange elementer opprettet samtidig. Forventet %{max} som høyeste, fikk %{actual}.
+  permission_create_files: 'External Storage: Create files'
+  permission_delete_files: 'External Storage: Delete files'
+  permission_manage_file_links: Administrer fil-linker
+  permission_manage_storages_in_project: Administrer fillagring i prosjektet
+  permission_read_files: 'External Storage: Read files'
+  permission_share_files: 'External Storage: Share files'
+  permission_view_file_links: Vis fil-linker
+  permission_write_files: 'External Storage: Write files'
+  project_module_storages: Fillagringer
+  storages:
+    buttons:
+      complete_without_setup: Fullfør uten
+      done_complete_setup: Ferdig, fullfør oppsett
+      done_continue: Ferdig, fortsett
+      replace_oauth_application: Erstatt OpenProject OAuth
+      replace_oauth_client: Erstatt %{provider_type} OAuth
+      save_and_continue: Lagre og fortsett
+      select_folder: Velg mappe
+    configuration_checks:
+      oauth_client_incomplete:
+        nextcloud: Gi OpenProject tilgang til Nextcloud data ved hjelp av OAuth.
+        one_drive: Gi OpenProject tilgang til Azure data med OAuth for å koble til OneDrive/Sharepoint.
+      redirect_uri_incomplete:
+        one_drive: Fullfør oppsettet med riktig URI omdirigering.
+    confirm_replace_oauth_application: Denne handlingen vil tilbakestille gjeldende OAuth legitimasjon. Etter å ha bekreftet vil du måtte skrive inn innloggingsdetaljene hos lagringsleverandøren, og alle eksterne brukere må autorisere mot OpenProject igjen. Er du sikker på at du vil fortsette?
+    confirm_replace_oauth_client: Denne handlingen vil tilbakestille gjeldende OAuth legitimasjon. Etter bekreftelse må du skrive inn ny påloggingsinformasjon fra leverandøren, og alle brukere må autorisere mot %{provider_type} igjen. Er du sikker på at du vil fortsette?
+    delete_warning:
+      input_delete_confirmation: Skriv inn navnet til lagringsstedet %{file_storage} for å bekrefte sletting.
+      irreversible_notice: Sletting av fillager kan ikke angres.
+      project_storage: 'Er du sikker på at du vil slette %{file_storage} fra dette prosjektet? For å bekrefte denne handlingen, vennligst skriv inn navnet på lagringsstedet i feltet nedenfor. Dette vil:'
+      project_storage_delete_result_1: Fjern alle koblinger fra arbeidspakker i dette prosjektet til filer og mapper på denne lagringen.
+      project_storage_delete_result_2: Dersom denne lagringen har en automatisk administrert prosjektmappe, vil disse filene slettes for alltid.
+      storage: 'Er du sikker på at du vil slette %{file_storage}? For å bekrefte denne handlingen vennligst skriv inn lagringsnavnet i feltet nedenfor. Dette vil:'
+      storage_delete_result_1: Fjern alle lagringsoppsett for alle prosjekter som bruker denne lagringen.
+      storage_delete_result_2: Fjern alle koblinger til filer og mapper fra arbeidspakker i alle prosjekter på denne lagringen.
+      storage_delete_result_3: Hvis denne lagringen har automatisk administrert prosjektmapper, vil disse og deres filer slettes for alltid.
+    error_invalid_provider_type: Vennligst velg en gyldig lagringsleverandør.
+    file_storage_view:
+      access_management:
+        automatic_management: Automatically managed access and folders
+        automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
+        description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
+        manual_management: Manually managed access and folders
+        manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
+        setup_incomplete: Select the type of management of user access and folder creation.
+        subtitle: Access management
+        title: Access and project folders
+      automatically_managed_folders: Automatisk administrerte mapper
+      general_information: Generell informasjon
+      nextcloud_oauth: Nextcloud OAuth
+      oauth_applications: OAuth programmer
+      one_drive_oauth: Azure OAuth
+      openproject_oauth: OpenProject OAuth
+      project_folders: Prosjektmapper
+      redirect_uri: Omdiriger URI
+      storage_provider: Lagringsleverandør
+    health:
+      checked: Sist sjekket %{datetime}
+      label_error: Feil
+      label_healthy: Sunn
+      label_pending: Ventende
+      since: siden %{datetime}
+      subtitle: Automatically managed project folders
+      title: Helse-status
+    health_email_notifications:
+      description_subscribed: All administrators receive health status email notifications for this storage.
+      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
+      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
+      subscribe: Subscribe
+      title: Email notifications
+      unsubscribe: Unsubscribe
+    help_texts:
+      project_folder: Prosjektmappen er standardmappen for filopplasting for dette prosjektet. Brukere kan likevel laste opp filer til andre steder.
+    instructions:
+      all_available_storages_already_added: Alle tilgjengelige lagringsplasser er allerede lagt til prosjektet.
+      automatic_folder: Dette vil automatisk opprette en rotmappe for prosjektet og administrere tilgangsrettigheter for hvert prosjektmedlem.
+      copy_from: Kopier denne verdien fra
+      empty_project_folder_validation: Valg av mappe er obligatorisk å fortsette.
+      existing_manual_folder: Du kan bestemme en eksisterende mappe som rotmappe for dette prosjektet. Tillatelsene håndteres imidlertid ikke automatisk, administratoren må sørge for at relevante brukere har tilgang. Den valgte mappen kan brukes av flere prosjekter.
+      host: Legg til vertsadressen til lagringsplassen din inkludert https://. Den bør ikke være lengre enn 255 tegn.
+      managed_project_folders_application_password_caption: 'Aktiver automatisk håndterte mapper ved å kopiere denne verdien fra: %{provider_type_link}.'
+      name: Gi lagringsstedet ditt et navn slik at brukere kan skille mellom flere lagringssteder.
+      new_storage: Les dokumentasjonen vår på <a target='_blank' href='%{provider_link}'>om å sette opp %{provider_name} fillagring</a> integrasjon for mer informasjon.
+      nextcloud:
+        application_link_text: applikasjon "Integrasjon OpenProject"
+        integration: Nextcloud administrasjon / OpenProject
+        oauth_configuration: Kopier disse verdiene fra %{application_link_text}.
+        provider_configuration: Kontroller at du har administrasjonsrettigheter i din NextCloud-instans og %{application_link_text} er installert før du utfører oppsettet.
+      no_specific_folder: Som standard starter hver bruker på sin egen hjem-mappe når vedkommende laster opp en fil.
+      no_storage_set_up: Det er ingen fillagring satt opp ennå.
+      not_logged_into_storage: Du må logge inn først for å velge en prosjektmappe.
+      oauth_application_details: Den hemmelige verdien for klienten blir ikke tilgjengelig igjen etter at du har lukket dette vinduet. Kopier disse verdiene inn i %{oauth_application_details_link}.
+      oauth_application_details_link_text: Nextcloud OpenProject integrasjonsinnstillinger
+      one_drive:
+        application_link_text: Azure portal
+        copy_redirect_uri: Kopier omadressering av URI
+        documentation_link_text: Dokumentasjon, OneDrive/SharePoint fillagring
+        drive_id: Kopier ID fra den ønskede disken ved å følge trinnene i %{drive_id_link_text}.
+        integration: OneDrive/SharePoint
+        missing_client_id_for_redirect_uri: Vennligst fyll inn OAuth-verdiene for å generere en URI
+        oauth_client_redirect_uri: Kopier denne verdien til en ny Web omdirigerings-URI under omdirigere URIer.
+        oauth_client_secret: Dersom det ikke er noen klient-hemmelighet for applikasjonen under klientlegitimasjon, vennligst opprett en ny.
+        oauth_configuration: Kopier disse verdiene fra den ønskede applikasjonen i %{application_link_text}.
+        provider_configuration: Kontroller at du har administrasjonsrettigheter i %{application_link_text} eller kontakt Microsoft-administratoren din før du gjennomfører oppsettet. I portalen må du også registrere et Azure-program eller bruke en eksisterende for autentisering.
+        tenant_id: Kopier Katalogen (leietaker) ID fra ønsket program og App-registreringer i %{application_link_text}.
+        tenant_id_placeholder: Navn eller UUID
+      setting_up_additional_storages: For å sette opp ekstra fillagre, vennligst besøk
+      setting_up_additional_storages_non_admin: Administratorer kan sette opp flere fillagre i Administrasjon/fillagre.
+      setting_up_storages: For å sette opp fillagre, vennligst besøk
+      setting_up_storages_non_admin: Administratorer kan sette opp fillagring i Administrasjon-/fillagre.
+      type: 'Sørg for at du har administrasjonsrettigheter i din NextCloud-instans og har følgende applikasjon installert før du utfører oppsettet:'
+      type_link_text: "«Integrasjon OpenProject»"
+    label_active: Aktiv
+    label_add_new_storage: Legg til nytt lagringssted
+    label_automatic_folder: Ny mappe med automatisk administrerte tillatelser
+    label_completed: Fullført
+    label_creation_time: Opprettingstidspunkt
+    label_creator: Skaper
+    label_delete_storage: Slett fillagring
+    label_edit_storage: Redigere fillagring
+    label_edit_storage_access_management: Edit storage access management
+    label_edit_storage_automatically_managed_folders: Rediger automatisk administrerte mapper
+    label_edit_storage_host: Redigere lagringsvert
+    label_existing_manual_folder: Eksisterende mappe med manuelt administrerte tillatelser
+    label_file_storage: Fillagring
+    label_host: Vert URL
+    label_inactive: Inaktiv
+    label_incomplete: Ufullstendig
+    label_managed_project_folders:
+      application_password: Applikasjonspassord
+      automatically_managed_folders: Automatisk administrerte mapper
+    label_name: Navn
+    label_new_file_storage: Ny %{provider} lagring
+    label_new_storage: Ny lagring
+    label_no_selected_folder: Ingen valgt mappe
+    label_no_specific_folder: Ingen spesifikk mappe
+    label_oauth_client_id: OAuth klient-ID
+    label_openproject_oauth_application_id: OpenProject OAuth klient-ID
+    label_openproject_oauth_application_secret: OpenProject OAuth klient-hemmelighet
+    label_project_folder: Prosjektmappe
+    label_provider: Leverandør
+    label_redirect_uri: Omdiriger URI
+    label_show_storage_redirect_uri: Vis omadressering av URI
+    label_status: Status
+    label_storage: Lagring
+    label_uri: URI
+    member_connection_status:
+      connected: Tilkoblet
+      connected_no_permissions: Brukerrolle har ingen lagringsrettigheter
+      not_connected: Ikke tilkoblet. Brukeren må logge inn på lagringsplassen via følgende %{link}.
+    members_no_results: Ingen medlemmer å vise.
+    no_results: Ingen lagring satt opp ennå.
+    notice_successful_storage_connection: |-
+      Lagringsplass koblet til! Husk å aktivere modulen og spesifikk lagring i prosjektinnstillingene
+      for hvert ønsket prosjekt for å bruke den.
+    oauth_grant_nudge_modal:
+      access_granted: Tilgang gitt
+      access_granted_screen_reader: Tilgang gitt. Du er nå klar til å bruke %{storage}.
+      body: For å få tilgang til prosjektmappen må du logge inn til %{storage}.
+      cancel_button_label: Jeg gjør det senere
+      confirm_button_aria_label: Logg på  %{storage}
+      confirm_button_label: Innlogging
+      requesting_access_to: Ber om tilgang til %{storage}
+      storage_ready: Du er nå klar til å bruke %{storage}
+      title: Ett steg igjen...
+    open_project_storage_modal:
+      success:
+        subtitle: Du blir omdirigert
+        title: Integrasjonsoppsettet er fullført
+      waiting:
+        subtitle: Ett øyeblikk, dette kan ta litt tid ...
+        title: Vi setter opp dine tillatelser på prosjektmappen.
+    page_titles:
+      file_storages:
+        delete: Slett fillagring
+        subtitle: Legg til en ekstern fillagring for å laste opp, koble og administrere filer i arbeidspakker.
+      managed_project_folders:
+        subtitle: |-
+          La OpenProject opprette mapper automatisk per prosjekt. Dette anbefales fordi det sikrer at alle medlemmene i teamet
+          alltid har riktige tilgangsrettigheter.
+        subtitle_short: La OpenProject opprette mapper automatisk per prosjekt.
+        title: Automatisk administrerte prosjektmapper
+      project_settings:
+        delete: Slett fillagring
+        edit: Rediger fillagringen i dette prosjektet
+        index: Fillagringer er tilgjengelig i dette prosjektet
+        members_connection_status: Medlemmers tilkoblingsstatus
+        new: Legg til fillagring i dette prosjektet
+      project_storage_members:
+        subtitle: Sjekk tilkoblingsstatusen for lagringsstedet  %{storage_name_link} for alle prosjektmedlemmer.
+        title: Medlemmers tilkoblingsstatus
+    permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
+    provider_types:
+      label: Tjenestetype
+      nextcloud:
+        label_oauth_client_id: Nextcloud OAuth klient-ID
+        label_oauth_client_secret: Nextcloud OAuth klient hemmelighet
+        name: Nextcloud
+        name_placeholder: f.eks. Nextcloud
+      one_drive:
+        label_oauth_client_id: Azure OAuth applikasjon (klient) ID
+        label_oauth_client_secret: Azure OAuth klient hemmelig verdi
+        name: OneDrive/SharePoint
+        name_placeholder: f.eks OneDrive
+    storage_list_blank_slate:
+      description: Legg til lagringsplass for å se dem her.
+      heading: Du har ingen lagringssted enda.
+    upsale:
+      description: |-
+        Integrer din OneDrive/SharePoint som en fillagring med OpenProject. Last opp filer og koble dem direkte til
+        arbeidspakker i et prosjekt.
+      title: OneDrive/SharePoint integrering

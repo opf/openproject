@@ -1,0 +1,212 @@
+# Schema: Schema_For_Project_QueriesModel
+---
+type: object
+example:
+  _type: Schema
+  _dependencies: []
+  id:
+    type: Integer
+    name: ID
+    required: true
+    hasDefault: false
+    writable: false
+  name:
+    type: String
+    name: Name
+    required: true
+    hasDefault: false
+    writable: true
+    minLength: 1
+    maxLength: 255
+  createdAt:
+    type: DateTime
+    name: Created on
+    required: true
+    hasDefault: false
+    writable: false
+  updatedAt:
+    type: DateTime
+    name: Updated on
+    required: true
+    hasDefault: false
+    writable: false
+  user:
+    type: User
+    name: User
+    required: true
+    hasDefault: true
+    writable: false
+  project:
+    type: Project
+    name: Project
+    required: false
+    hasDefault: false
+    writable: true
+    _links: {}
+  public:
+    type: Boolean
+    name: Public
+    required: false
+    hasDefault: true
+    writable: true
+  sums:
+    type: Boolean
+    name: Sums
+    required: false
+    hasDefault: true
+    writable: true
+  timelineVisible:
+    type: Boolean
+    name: Timeline visible
+    required: false
+    hasDefault: true
+    writable: true
+  timelineZoomLevel:
+    type: String
+    name: Timeline zoom level
+    required: false
+    hasDefault: true
+    writable: true
+  showHierarchies:
+    type: Boolean
+    name: Show hierarchies
+    required: false
+    hasDefault: true
+    writable: true
+  starred:
+    type: Boolean
+    name: Starred
+    required: false
+    hasDefault: true
+    writable: true
+  columns:
+    type: "[]QueryColumn"
+    name: Columns
+    required: false
+    hasDefault: true
+    writable: true
+    _links: {}
+  filters:
+    type: "[]QueryFilterInstance"
+    name: Filters
+    required: false
+    writable: true
+    hasDefault: true
+    _links:
+      allowedValuesSchemas:
+        href: "/api/v3/projects/42/queries/filter_instance_schemas"
+  groupBy:
+    type: "[]QueryGroupBy"
+    name: Group results by
+    required: false
+    hasDefault: false
+    writable: true
+    _links: {}
+  sortBy:
+    type: "[]QuerySortBy"
+    name: Sort by
+    required: false
+    hasDefault: true
+    writable: true
+    _links: {}
+  results:
+    type: WorkPackageCollection
+    name: Results
+    required: false
+    hasDefault: false
+    writable: false
+  _embedded:
+    filtersSchemas:
+      _type: Collection
+      total: 20
+      count: 20
+      _embedded:
+        elements:
+        - _type: QueryFilterInstanceSchema
+          _dependencies:
+          - _type: SchemaDependency
+            'on': operator
+            dependencies:
+              "/api/v3/queries/operators/=":
+                values:
+                  type: "[]User"
+                  name: Values
+                  required: true
+                  hasDefault: false
+                  writable: true
+                  _links: {}
+              "/api/v3/queries/operators/!":
+                values:
+                  type: "[]User"
+                  name: Values
+                  required: true
+                  hasDefault: false
+                  writable: true
+                  _links: {}
+              "/api/v3/queries/operators/!*": {}
+              "/api/v3/queries/operators/*": {}
+          name:
+            type: String
+            name: Name
+            required: true
+            hasDefault: true
+            writable: false
+          filter:
+            type: QueryFilter
+            name: Filter
+            required: true
+            hasDefault: false
+            writable: true
+            _links: {}
+          _links:
+            self:
+              href: "/api/v3/queries/filter_instance_schemas/assignee"
+            filter:
+              href: "/api/v3/queries/filters/assignee"
+              title: Assignee
+        - _type: QueryFilterInstanceSchema
+          _dependencies:
+          - _type: SchemaDependency
+            'on': operator
+            dependencies:
+              "/api/v3/queries/operators/=":
+                values:
+                  type: "[]User"
+                  name: Values
+                  required: true
+                  hasDefault: false
+                  writable: true
+                  _links: {}
+              "/api/v3/queries/operators/!":
+                values:
+                  type: "[]User"
+                  name: Values
+                  required: true
+                  hasDefault: false
+                  writable: true
+                  _links: {}
+          name:
+            type: String
+            name: Name
+            required: true
+            hasDefault: true
+            writable: false
+          filter:
+            type: QueryFilter
+            name: Filter
+            required: true
+            hasDefault: false
+            writable: true
+            _links: {}
+          _links:
+            self:
+              href: "/api/v3/queries/filter_instance_schemas/author"
+            filter:
+              href: "/api/v3/queries/filters/author"
+              title: Author
+      _links:
+        self:
+          href: "/api/v3/projects/42/queries/filter_instance_schemas"
+  _links:
+    self:
+      href: "/api/v3/projects/42/queries/schema"

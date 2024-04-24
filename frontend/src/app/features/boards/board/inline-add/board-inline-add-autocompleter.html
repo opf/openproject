@@ -1,0 +1,10 @@
+<op-autocompleter
+  [appendTo]="appendToContainer"
+  classes="wp-inline-create--reference-autocompleter"
+  [closeOnSelect]="false"
+  [placeholder]="text.placeholder"
+  [resource]="autocompleterOptions.resource"
+  [getOptionsFn]="autocompleterOptions.getOptionsFn"
+  (close)="cancel()"
+  (change)="addWorkPackageToQuery($event)"
+></op-autocompleter>

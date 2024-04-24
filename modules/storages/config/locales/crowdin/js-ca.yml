@@ -1,0 +1,85 @@
+#English strings go here
+ca:
+  js:
+    storages:
+      link_files_in_storage: "Fitxers enllaçats a %{storageType}"
+      link_existing_files: "Enllaça fitxers existents"
+      upload_files: "Carregar fitxers"
+      drop_files: "Arrossega els fitxers aquí per carregar-los a %{name}."
+      drop_or_click_files: "Arrossega els fitxers o fes clic aquí per carregar-los a %{name}."
+      login: "%{storageType} inici de sessió"
+      login_to: "Inicia sessió a %{storageType}"
+      no_connection: "%{storageType} sense connexió"
+      open_storage: "Obre %{storageType}"
+      select_location: "Selecciona ubicació"
+      choose_location: "Tria ubicació"
+      types:
+        nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
+        default: "Emmagatzematge"
+      information:
+        connection_error: >
+          Alguna configuració de %{storageType} no està funcionant. Si us plau, contacta el teu administrador de %{storageType}.
+        live_data_error: "Error recuperant els detalls del fitxer"
+        live_data_error_description: >
+          Algunes dades de %{storageType} no s'han pogut recuperar. Si us plau, prova de tornar a carregar la pàgina o contacta l'administrador de %{storageType}.
+        no_file_links: "Per tal d'enllaçar arxius a aquest paquet de treball si us plau fes-ho a través de %{storageType}."
+        not_logged_in: >
+          Per afegir un enllaç, veure o pujar fitxers relacionats amb aquest paquet de treball si us plau inicia sessió a %{storageType}.
+      files:
+        already_existing_header: "Aquest fitxer ja existeix"
+        already_existing_body: >
+          Un fitxer amb el nom "%{fileName}" ja existeix a la ubicació on estàs intentant carregar-lo. Que vols fer?
+        directory_not_writeable: "No tens permís per afegir fitxers dins d'aquesta carpeta."
+        dragging_many_files: "La càrrega a %{storageType} només permet un fitxer per càrrega."
+        dragging_folder: "Les carpetes no estan permeses a la càrrega a %{storageType}."
+        empty_folder: "Aquesta carpeta està buida."
+        empty_folder_location_hint: "Fes clic al botó de sota per carregar fitxers a aquesta ubicació."
+        file_not_selectable_location: "Seleccionar un fitxer, no és possible en el procés de tria d'ubicació."
+        project_folder_no_access: >
+          No tens accés a la capeta de projecte. Si us plau, contacta amb el teu administrador per obtenir accés o puja el fitxer en una altra ubicació.
+        managed_project_folder_not_available: >
+          Les carpetes gestionades automàticament no s'ha trobat encara. Si us plau, espera una mica i recarrega la pàgina per obtenir les dades més recents i prova-ho de nou.
+        managed_project_folder_no_access: >
+          Encara no tens access a la carpeta de projecte gestionada. Si us plau, espera un moment i prova-ho de nou.
+        upload_keep_both: "Conserva els dos"
+        upload_replace: "Substitueix"
+      file_links:
+        empty: >
+          Actualment no hi ha cap fitxer enllaçat a aquest paquet de treball. Comença a enllaçar fitxers amb l'acció de sota o dins de %{storageType}.
+        download: "Descarrega %{fileName}"
+        open: "Obre el fitxer a l'emmagatzematge"
+        open_location: "Obre la ubicació del fitxer"
+        remove: "Elimina l'enllaç del fitxer"
+        remove_confirmation: >
+          Estàs segur que vols eliminar l'enllaç de fitxer d'aquest paquet de treball? Eliminar l'enllaç no afecta el fitxer original, només elimina la connexió d'aquest paquet de treball.
+        remove_short: "Eliminar enllaç"
+        select: "Selecciona fitxers"
+        select_all: "Selecciona-ho tot"
+        selection:
+          zero: "Selecciona fitxers a enllaçar"
+          one: "Enllaça 1 fitxer"
+          other: "Enllaça %{count} fitxers"
+        success_create:
+          one: "1 enllaç de fitxer creat correctament."
+          other: "%{count} enllaços de fitxer creat correctament."
+        upload_error:
+          default: >
+            El teu fitxer (%{fileName}) no s'ha pogut carregar.
+          403: >
+            El fitxer (%{fileName}) no s'ha pogut carregar a causa de les restriccions del sistema. Si us plau, contacta el teu administrador per a més informació.
+          413: >
+            El fitxer (%{fileName}) és més gran del que OpenProject pot carregar a %{storageType}. Pots carregar-lo directament a %{storageType} i després vincular-lo.
+          507: >
+            El fitxer (%{fileName}) és més gran que la quota d'emmagatzematge permesa. Si us plau, contacta el teu administrador per a modificar aquesta quota.
+          detail:
+            nextcloud: >
+              Si us plau, comprova l'última versió de l'aplicació Nextcloud "OpenProject Integration" estigui instal·lada i contacta el teu administrador per més informació.
+        link_uploaded_file_error: >
+          S'ha produït un error en enllaçar els fitxers carregats recentment "%{fileName}" al paquet de treball %{workPackageId}.
+        tooltip:
+          not_logged_in: "Please log in to the storage to access this file."
+          view_not_allowed: "You have no permission to see this file."
+          not_found: "This file cannot be found."
+        already_linked_file: "Aquest fitxer ja està enllaçat a aquest paquet de treball."
+        already_linked_directory: "Aquest directori ja està enllaçat a aquest paquet de treball."

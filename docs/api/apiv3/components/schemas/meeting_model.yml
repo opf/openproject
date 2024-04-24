@@ -1,0 +1,88 @@
+# Schema: Meeting_PageModel
+---
+type: object
+required:
+  - title
+properties:
+  id:
+    type: integer
+    description: Identifier of this meeting
+    readOnly: true
+    exclusiveMinimum: 0
+  title:
+    type: string
+    description: The meeting's title
+  _links:
+    type: object
+    properties:
+      self:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              This meeting
+              
+              **Resource**: Meeting
+            readOnly: true
+      author:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              The user having created the meeting
+              
+              **Resource**: User
+            readOnly: true
+      project:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              The project the meeting is in
+              
+              **Resource**: Project
+      attachments:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The attachment collection of this grid.
+              
+              **Resource**: AttachmentCollection           
+      addAttachment:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              Attach a file to the meeting
+              
+              # Conditions
+              
+              **Permission**: edit meeting
+            readOnly: true
+example:
+  _type: Meeting
+  id: 72
+  lockVersion: 5
+  title: A meeting
+  startTime: '2014-05-21T08:00:00.000Z'
+  endTime: '2014-05-21T10:00:00.000Z'
+  duration: 120
+  createdAt: '2014-05-21T08:51:20.396Z'
+  updatedAt: '2014-05-21T09:14:02.776Z'
+  _embedded:
+    project:
+      _type: Project...
+      id: 12
+    author:
+      _type: User...
+      id: 2
+  _links:
+    addAttachment:
+      href: "/api/v3/meetings/72/attachments"
+      method: post
+    attachments:
+      href: "/api/v3/meetings/72/attachments"
+    project:
+      href: "/api/v3/projects/12"
+      title: some project
+    author:
+      href: "/api/v3/users/2"
+      title: Peggie Feeney
+    self:
+      href: "/api/v3/meetings/72"  

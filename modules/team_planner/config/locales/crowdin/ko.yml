@@ -1,0 +1,17 @@
+#English strings go here
+ko:
+  plugin_openproject_team_planner:
+    name: "OpenProject 팀 플래너"
+    description: "팀 플래너 보기를 제공합니다."
+  permission_view_team_planner: "팀 플래너 보기"
+  permission_manage_team_planner: "팀 플래너 관리"
+  project_module_team_planner_view: "팀 플래너"
+  team_planner:
+    label_team_planner: "팀 플래너"
+    label_new_team_planner: "새 팀 플래너"
+    label_create_new_team_planner: "새로운 팀 플래너 만들기"
+    label_team_planner_plural: "팀 플래너"
+    label_assignees: "담당자"
+    upsale:
+      title: "팀 플래너"
+      description: "팀 플래너를 사용하여 팀 계획에 대한 전체 개요를 확인하세요. 작업 패키지를 늘리거나 줄이고 끌어다 놓아 날짜를 수정하거나 이동하거나 담당자를 변경하세요."

@@ -1,0 +1,272 @@
+<div
+  class="op-scrollable-table"
+  *ngIf="settings.length > 0"
+>
+  <table class="op-table">
+    <thead>
+      <tr>
+        <th class="op-table--cell op-table--cell_heading">
+          {{ text.notify_me }}
+        </th>
+        <ng-container *ngFor="let item of settings.controls">
+          <th class="op-table--cell op-table--cell_heading">
+            <a
+              class="spot-link"
+              [href]="projectLink(item.controls.project.value.href)"
+            >{{ item.controls.project.value.title }}</a>
+          </th>
+        </ng-container>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">
+          <h5>{{ text.notifyImmediately.title }}</h5>
+          <p>{{ text.notifyImmediately.description }}</p>
+        </th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell"></td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">
+          {{ text.mentioned_header.title }}
+        </th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell"><input type="checkbox" disabled checked /></td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">{{ text.watched_header }}</th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell"><input type="checkbox" disabled checked /></td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">
+          {{ text.assignee }}
+        </th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell" [formGroup]="item">
+            <input
+              type="checkbox"
+              formControlName="assignee"
+              data-qa-project-notification-type="assignee"
+              [attr.data-qa-project]="item.controls.project.value.title"
+            />
+          </td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">
+          {{ text.responsible }}
+        </th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell" [formGroup]="item">
+            <input
+              type="checkbox"
+              formControlName="responsible"
+              data-qa-project-notification-type="responsible"
+              [attr.data-qa-project]="item.controls.project.value.title"
+            />
+          </td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">
+          {{ text.shared }}
+        </th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell" [formGroup]="item">
+            <input
+              type="checkbox"
+              formControlName="shared"
+              data-qa-project-notification-type="shared"
+              [attr.data-qa-project]="item.controls.project.value.title"
+            />
+          </td>
+        </ng-container>
+      </tr>
+
+      <tr *ngIf="!eeShowBanners">
+        <th class="op-table--cell op-table--cell_soft-heading">
+          <h5>{{ text.dateAlerts.title }}</h5>
+          <p>{{ text.dateAlerts.description }}</p>
+        </th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell"></td>
+        </ng-container>
+      </tr>
+
+      <tr *ngIf="!eeShowBanners">
+        <th class="op-table--cell op-table--cell_soft-heading">
+          {{ text.startDate }}
+        </th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell--date-alerts" [formGroup]="item">
+            <select
+              formControlName="startDate"
+              class="op-reminder-settings-table-date-alerts--time form--select"
+              data-qa-project-notification-type="op-reminder-settings-start-date-alerts"
+              [attr.data-qa-project]="item.controls.project.value.title"
+              required="true"
+            >
+              <option
+                *ngFor="let availableTime of availableTimes"
+                [ngValue]="availableTime.value"
+              >
+                {{availableTime.title}}
+              </option>
+            </select>
+          </td>
+        </ng-container>
+      </tr>
+
+      <tr *ngIf="!eeShowBanners">
+        <th class="op-table--cell op-table--cell_soft-heading">
+          {{ text.dueDate }}
+        </th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell--date-alerts" [formGroup]="item">
+            <select
+              formControlName="dueDate"
+              class="op-reminder-settings-table-date-alerts--time form--select"
+              data-qa-project-notification-type="op-reminder-settings-due-date-alerts"
+              [attr.data-qa-project]="item.controls.project.value.title"
+              required="true"
+            >
+              <option
+                *ngFor="let availableTime of availableTimes"
+                [ngValue]="availableTime.value"
+              >
+                {{availableTime.title}}
+              </option>
+            </select>
+          </td>
+        </ng-container>
+      </tr>
+
+      <tr *ngIf="!eeShowBanners">
+        <th class="op-table--cell op-table--cell_soft-heading">
+          {{ text.overdue }}
+        </th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell--date-alerts" [formGroup]="item">
+            <select
+              formControlName="overdue"
+              class="op-reminder-settings-table-date-alerts--time form--select"
+              data-qa-project-notification-type="op-reminder-settings-overdue-alerts"
+              [attr.data-qa-project]="item.controls.project.value.title"
+              required="true"
+            >
+              <option
+                *ngFor="let availableTime of availableTimesOverdue"
+                [ngValue]="availableTime.value"
+              >
+                {{availableTime.title}}
+              </option>
+            </select>
+          </td>
+        </ng-container>
+      </tr>
+
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">
+          <h5>{{ text.alsoNotifyFor.title }}</h5>
+          <p>{{ text.alsoNotifyFor.description }}</p>
+        </th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell"></td>
+        </ng-container>
+      </tr>
+
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_created_header }}</th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell" [formGroup]="item">
+            <input
+              type="checkbox"
+              formControlName="workPackageCreated"
+              data-qa-project-notification-type="work_package_created"
+              [attr.data-qa-project]="item.controls.project.value.title"
+            />
+          </td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_processed_header }}</th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell" [formGroup]="item">
+            <input
+              type="checkbox"
+              formControlName="workPackageProcessed"
+              data-qa-project-notification-type="work_package_processed"
+              [attr.data-qa-project]="item.controls.project.value.title"
+            />
+          </td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_scheduled_header }}</th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell" [formGroup]="item">
+            <input
+              type="checkbox"
+              formControlName="workPackageScheduled"
+              data-qa-project-notification-type="work_package_scheduled"
+              [attr.data-qa-project]="item.controls.project.value.title"
+            />
+          </td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_prioritized_header }}</th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell" [formGroup]="item">
+            <input
+              type="checkbox"
+              formControlName="workPackagePrioritized"
+              data-qa-project-notification-type="work_package_prioritized"
+              [attr.data-qa-project]="item.controls.project.value.title"
+            />
+          </td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_commented_header }}</th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell" [formGroup]="item">
+            <input
+              type="checkbox"
+              formControlName="workPackageCommented"
+              data-qa-project-notification-type="work_package_commented"
+              [attr.data-qa-project]="item.controls.project.value.title"
+            />
+          </td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading"></th>
+        <ng-container *ngFor="let item of settings.controls; let index = index">
+          <td class="op-table--cell">
+            <button
+              type="button"
+              class="spot-link"
+              (click)="removeProjectSettings(index)"
+            >
+              {{ text.remove_project_settings }}
+            </button>
+          </td>
+        </ng-container>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<op-notification-setting-inline-create
+  *ngIf="userId"
+  [userId]="userId"
+  [settings]="settings"
+  (selected)="addProjectSettings($event)"
+  data-test-selector="notification-setting-inline-create"
+></op-notification-setting-inline-create>

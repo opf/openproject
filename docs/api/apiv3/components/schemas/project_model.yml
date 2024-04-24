@@ -1,0 +1,200 @@
+# Schema: ProjectModel
+---
+type: object
+properties:
+  _type:
+    type: string
+    enum:
+      - Project
+  id:
+    type: integer
+    description: Projects' id
+    minimum: 1
+  identifier:
+    type: string
+  name:
+    type: string
+  active:
+    type: boolean
+    description: Indicates whether the project is currently active or already archived
+  statusExplanation:
+    allOf:
+      - $ref: './formattable.yml'
+      - description: A text detailing and explaining why the project has the reported status
+  public:
+    type: boolean
+    description: Indicates whether the project is accessible for everybody
+  description:
+    $ref: './formattable.yml'
+  createdAt:
+    type: string
+    format: date-time
+    description: Time of creation. Can be writable by admins with the `apiv3_write_readonly_attributes` setting enabled.
+  updatedAt:
+    type: string
+    format: date-time
+    description: Time of the most recent change to the project
+  _links:
+    type: object
+    required:
+      - self
+      - categories
+      - types
+      - versions
+      - memberships
+      - workPackages
+    properties:
+      update:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Form endpoint that aids in updating this project
+              
+              # Conditions
+              
+              **Permission**: edit project
+      updateImmediately:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Directly update this project
+              
+              # Conditions
+              
+              **Permission**: edit project
+      delete:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Delete this project
+              
+              # Conditions
+              
+              **Permission**: admin
+      createWorkPackage:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Form endpoint that aids in preparing and creating a work package
+              
+              # Conditions
+              
+              **Permission**: add work packages
+      createWorkPackageImmediately:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Directly creates a work package in the project
+              
+              # Conditions
+              
+              **Permission**: add work packages
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This project
+              
+              **Resource**: Project
+      categories:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Categories available in this project
+              
+              **Resource**: Collection
+      types:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Types available in this project
+              
+              **Resource**: Collection
+              
+              # Conditions
+              
+              **Permission**: view work packages or manage types
+      versions:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Versions available in this project
+              
+              **Resource**: Collection
+              
+              # Conditions
+              
+              **Permission**: view work packages or manage versions
+      memberships:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Memberships in the  project
+              
+              **Resource**: Collection
+              
+              # Conditions
+              
+              **Permission**: view members
+      workPackages:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Work Packages of this project
+              
+              **Resource**: Collection
+      parent:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Parent project of the project
+              
+              **Resource**: Project
+              
+              # Conditions
+              
+              **Permission** edit project
+      status:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Denotes the status of the project, so whether the project is on track, at risk or is having trouble.
+              
+              **Resource**: ProjectStatus
+              
+              # Conditions
+              
+              **Permission** edit project
+      storages:
+        type: array
+        items:
+          allOf:
+            - $ref: './link.yml'
+            - description: |-
+                The link to a storage that is active for this project.
+                
+                **Resource**: Storage
+                
+                # Conditions
+                
+                **Permission**: view_file_links
+      projectStorages:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The project storage collection of this project.
+              
+              **Resource**: Collection
+              
+              # Conditions
+              
+              **Permission**: view_file_links
+      ancestors:
+        type: array
+        items:
+          allOf:
+            - $ref: './link.yml'
+            - description: |-
+                The link to an ancestor project.
+                
+                **Resource**: Project

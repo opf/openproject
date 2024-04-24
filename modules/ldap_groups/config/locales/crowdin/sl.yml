@@ -1,0 +1,73 @@
+sl:
+  plugin_openproject_ldap_groups:
+    name: "OpenProject LDAP groups"
+    description: "Synchronization of LDAP group memberships."
+  activerecord:
+    attributes:
+      ldap_groups/synchronized_group:
+        dn: 'DN'
+        ldap_auth_source: 'LDAP povezava'
+        sync_users: 'Sinhroniziraj uporabnike'
+      ldap_groups/synchronized_filter:
+        filter_string: 'LDAP filter'
+        ldap_auth_source: 'LDAP povezava'
+        group_name_attribute: "Atribut imena skupine\n"
+        sync_users: 'Sinhroniziraj uporabnike'
+        base_dn: "Išči po bazi DN"
+    models:
+      ldap_groups/synchronized_group: 'sinhronizacija LDAP skupine'
+      ldap_groups/synchronized_filter: 'Sinhronizacijski filter skupine LDAP'
+    errors:
+      models:
+        ldap_groups/synchronized_filter:
+          must_contain_base_dn: "Osnova filtra DN mora biti vsebovana znotraj LDAP povezave"
+  ldap_groups:
+    label_menu_item: 'LDAP sinhronizacija skupine'
+    label_group_key: 'LDAP skupinski filter ključ'
+    label_synchronize: 'Sinhroniziraj'
+    settings:
+      name_attribute: "Atribut imena skupine LDAP\n"
+      name_attribute_text: 'Atribut LDAP, ki se uporablja za poimenovanje skupine OpenProject, ko jo ustvari filter'
+    synchronized_filters:
+      add_new: "Dodajte sinhroniziran LDAP filter\n"
+      singular: 'Sinhronizacijski filter skupine LDAP'
+      plural: 'Sinhronizacijski filter skupine LDAP'
+      label_n_groups_found:
+        one: "Filter je našel 1 skupino"
+        other: "%{count} skupine, ki jih je našel filter"
+        zero: "Filter ni našel nobenih skupin"
+      destroy:
+        title: 'Odstrani sinhronizirani filter %{name}'
+        confirmation: "Če nadaljujete, bo sinhronizirani filter %{name} in vse skupine %{groups_count}, ustvarjene prek njega, odstranjene.\n"
+        removed_groups: "Opozorilo: S tem odstranite naslednje skupine iz OpenProject-a in ga odstranite iz vseh projektov!"
+        verification: "Vnesite ime filtra %{name}, da preverite izbris."
+      form:
+        group_name_attribute_text: "Vnesite atribut skupine LDAP, ki se uporablja za nastavitev imena skupine OpenProject.\n"
+        filter_string_text: 'Vnesite filter RFC4515 LDAP, ki vrne skupine v vašem LDAP za sinhronizacijo z OpenProject.'
+        base_dn_text: >
+          Vnesite iskalno osnovo DN za uporabo s tem filtrom. Mora biti pod osnovo za DN izbrane LDAP povezave. Pustite to opcijo prazno za ponovno uporabo osnove DN za povezavo
+    synchronized_groups:
+      add_new: 'dodaj sinhronizirano LDAP skupino'
+      destroy:
+        title: 'Odstrani sinhronizirano skupino %{name}'
+        confirmation: "Če nadaljujete, bo sinhronizirana skupina %{name} in vsi %{users_count} uporabniki, ki so bili sinhronizirani prek nje, odstranjeni."
+        info: "Opozorilo: Sama skupina OpenProject in člani, dodani zunaj te sinhronizacije LDAP, ne bodo odstranjeni."
+        verification: "Vnesite ime skupine %{name}, da preverite izbris."
+      help_text_html: |
+        Ta modul vam omogoča, da nastavite sinhronizacijo med skupinama LDAP in OpenProject.
+        Odvisno od tega, ali morajo skupine LDAP uporabiti atribut<em>skupinaOdIme / članOd </em>, ki deluje za OpenProject.
+        <br/>
+        Skupine se sinhronizirajo na uro preko naloge cron.
+        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/"> Oglejte si našo dokumentacijo o tej temi </a>.
+      no_results: 'Ni najdena nobena sinhronizirana skupina'
+      no_members: 'Skupina še nima sinhroniziranih članov'
+      plural: "Sinhronizirane skupine LDAP\n"
+      singular: 'sinhronizacija LDAP skupine'
+      form:
+        auth_source_text: 'Izberite, katera povezava LDAP naj bo uporabljena.'
+        sync_users_text: >
+          Če omogočite to opcijo, bojo najdeni uporabniki avtomatsko kreirani v OpenProject-u. Brez tega bodo samo obstoječi računi v OpenProjectu-u dodani v skupine
+        dn_text: 'Vnesite celoten DN skupine v LDAP'
+        group_text: 'Izberite obstoječo skupino OpenProject, s katero bodo člani skupine LDAP sinhronizirani'
+      upsale:
+        description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'

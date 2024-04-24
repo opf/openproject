@@ -1,0 +1,77 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= toolbar title: "#{t(:label_revision)} #{format_revision(@changeset)}" do %>
+  <li class="toolbar-item">
+    <% if @changeset.previous.nil? %>
+      <button class="button" disabled="disabled"><%= t(:label_previous) %></button>
+    <% else %>
+      <%= link_to_revision(@changeset.previous, @project, text: t(:label_previous), class: 'button') %>
+    <% end %>
+  </li>
+  <li class="toolbar-item">
+    <% if @changeset.next.nil? %>
+      <button class="button" disabled="disabled"><%= t(:label_next) %></button>
+    <% else %>
+      <%= link_to_revision(@changeset.next, @project, text: t(:label_next), class: 'button') %>
+    <% end %>
+  </li>
+  <li class="toolbar-item">
+    <%= form_tag({controller: '/repositories', action: 'revision', project_id: @project}, method: :get) do %>
+      <%= text_field_tag :rev, @rev, placeholder: t(:label_revision) %>
+    <% end %>
+  </li>
+<% end %>
+<p><% if @changeset.scmid %>ID: <%= h(@changeset.scmid) %><br />
+  <% end %>
+  <span class="author"><%= authoring(@changeset.committed_on, @changeset.author) %></span></p>
+<%= format_revision_text @changeset.comments %>
+<% if @changeset.work_packages.visible.any? %>
+  <h3><%= t(:label_related_work_packages) %></h3>
+  <ul>
+    <% @changeset.work_packages.visible.each do |work_package| %>
+      <li><%= link_to_work_package work_package %></li>
+    <% end %>
+  </ul>
+<% end %>
+<% if User.current.allowed_in_project?(:browse_repository, @project) %>
+  <h3><%= t(:label_attachment_plural) %></h3>
+  <ul id="changes-legend">
+    <li class="change change-A icon icon-add" title=<%= t(:label_added) %>><%= t(:label_added) %></li>
+    <li class="change change-M icon icon-arrow-left-right" title=<%= t(:label_modified) %>><%= t(:label_modified) %></li>
+    <li class="change change-C icon icon-copy" title=<%= t(:label_copied) %>><%= t(:label_copied) %></li>
+    <li class="change change-R icon icon-rename" title=<%= t(:label_renamed) %>><%= t(:label_renamed) %></li>
+    <li class="change change-D icon icon-delete" title=<%= t(:label_deleted) %>><%= t(:label_deleted) %></li>
+  </ul>
+  <p><%= link_to(t(:label_view_diff), action: 'diff', project_id: @project, repo_path: nil, rev: @changeset.identifier) if @changeset.file_changes.any? %></p>
+  <div class="changeset-changes">
+    <%= render_changeset_changes %>
+  </div>
+<% end %>
+<% html_title("#{t(:label_revision)} #{format_revision(@changeset)}") -%>

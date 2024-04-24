@@ -1,0 +1,192 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2024 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+$button--text-icon-spacing: 0.65em
+
+/// Taken from Foundation for Apps
+%button
+  display: inline-block
+  border: 0
+  text-align: center
+  line-height: 1.25rem
+  cursor: pointer
+  -webkit-appearance: none
+  -webkit-font-smoothing: antialiased
+  transition: background 0.25s ease-out
+  vertical-align: middle
+  padding: 0.375rem 0.5rem
+  margin: 0 1rem 1rem 0
+  font-size: 0.875rem
+  border-radius: 2px
+
+
+.button,
+a.button
+  @extend %button
+  @include button-style(var(--button--background-color), var(--button--background-hover-color), var(--button--font-color))
+  border: 1px solid var(--button--border-color)
+
+  position: relative
+  transition-property: background, border
+  transition-duration: 0.25s
+  transition-timing-function: ease-out
+
+  &:disabled,
+  &.-disabled
+    @include button-disabled
+
+  &.-with-icon
+    &::before
+      padding: 0 $button--text-icon-spacing 0 0
+
+  &.-danger
+    background: var(--content-form-danger-zone-bg-color)
+    color: var(--content-form-danger-zone-font-color)
+    border-color: var(--content-form-danger-zone-bg-color)
+
+    &.icon:before,
+    &.icon-context:before
+      color: var(--content-form-danger-zone-font-color)
+      padding-left: 0px
+
+  &.-primary
+    @include button-style(var(--button--primary-background-color), var(--button--primary-background-hover-color), var(--button--primary-font-color))
+    @include button-style(var(--button--primary-background-color), var(--button--primary-background-hover-color), var(--button--primary-font-color))
+    border-color: var(--button--primary-background-color)
+
+    &:hover, &:focus
+      border-color: var(--button--primary-background-hover-color)
+
+  &.-highlight-inverted
+    @include button-style(#fff, #f2f2f2, var(--accent-color))
+    @include button-style(#fff, #f2f2f2, var(--accent-color))
+    border-color: var(--accent-color)
+
+  &.-active
+    @include button-style(var(--button--active-background-color), var(--button--active-background-color), var(--button--active-font-color))
+    border-color: var(--button--active-border-color)
+    box-shadow: 0 0 3px var(--button--active-border-color) inset
+
+
+  &.-transparent
+    background: transparent
+
+    &:hover, &:focus, &.-active
+      background: var(--button--background-hover-color)
+
+  &.-without-button-styling
+    @include without-link-styling
+    background: transparent
+    border: none
+    margin: 0
+    padding: 0
+
+    &:hover
+      background: transparent
+
+  &.-tiny
+    @include button-size(tiny)
+
+  &.-small
+    @include button-size(small)
+
+    &.-with-icon:before
+      vertical-align: initial
+
+  &.-large
+    @include button-size(large)
+
+  &.-expand
+    @include button-expand
+
+  &.-round
+    border-radius: 2em
+
+  &.-narrow
+    margin-bottom: 0em
+    margin-right: 0.25rem
+    padding: 0.3128em 0.55555em
+
+  &_no-margin
+    margin: 0
+
+  &_flex
+    display: inline-flex
+    align-items: center
+
+.button--icon
+  @include icon-common
+
+  &::before
+    color: inherit
+
+.button--icon + .button--text,
+.button--text + .button--icon,
+.op-icon--wrapper + .button--text,
+.button--text + .op-icon--wrapper
+  margin: 0 0 0 $button--text-icon-spacing
+
+// Hack as Lato font on Win Chrome draws about a pixel too high
+html.-browser-windows.-browser-chrome
+  .button--text,
+  .button--icon
+    vertical-align: -1px
+
+.button--dropdown-indicator
+  @include icon-common
+  padding: 0 0 0 3px
+  font-size: rem-calc(13px)
+  @extend .icon-small
+  @extend .icon-pulldown
+
+// hack around the old markup (icon class applied on <a>)
+// which is used for toolbar-items to add space after icons inside buttons
+.toolbar-item
+  .button[class*='icon-']
+    &:before
+      margin-right: $button--text-icon-spacing
+
+// Button class to use as a link-like submit button
+.button--link
+  color: var(--accent-color)
+  background: none
+  border: none
+  padding: 0 1px
+
+  &.-expand
+    @include button-expand
+
+  &:visited, &:active
+    color: var(--accent-color)
+
+  &:hover
+    text-decoration: underline
+
+  &[disabled], &[disabled]:hover
+    cursor: not-allowed
+    background: none
+    color: var(--color-fg-muted)

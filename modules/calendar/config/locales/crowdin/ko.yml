@@ -1,0 +1,12 @@
+#English strings go here
+ko:
+  plugin_openproject_calendar:
+    name: "OpenProject 달력"
+    description: "달력 보기를 제공합니다."
+  label_calendar: "달력"
+  label_calendar_plural: "달력"
+  label_new_calendar: "새 캘린더"
+  permission_view_calendar: "달력 보기"
+  permission_manage_calendars: "달력 관리"
+  permission_share_calendars: "iCalendar 구독"
+  project_module_calendar_view: "달력"

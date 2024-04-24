@@ -1,0 +1,6 @@
+fr:
+  js:
+    queries:
+      all_open: 'Tous les tickets ouverts'
+      timeline: 'Ligne du temps'
+      milestones: 'Jalons'

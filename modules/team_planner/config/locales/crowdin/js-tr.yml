@@ -1,0 +1,28 @@
+#English strings go here
+tr:
+  js:
+    team_planner:
+      add_existing: 'Mevcut olanı ekle'
+      add_existing_title: 'Mevcut iş paketlerini ekleyin'
+      create_label: 'Takım planlayıcısı'
+      create_title: 'Yeni takım planlayıcısı oluştur'
+      unsaved_title: 'İsimsiz takım planlayıcısı'
+      no_data: 'Ekip planlayıcınızı ayarlamak için atanan kişileri ekleyin.'
+      add_assignee: 'Atanan ekle'
+      remove_assignee: 'Atananı kaldır'
+      two_weeks: '2 hafta'
+      one_week: '1 hafta'
+      four_weeks: '4-week'
+      eight_weeks: '8-week'
+      work_week: 'Çalışma Haftası'
+      today: 'Bugün'
+      drag_here_to_remove: 'Atanan kişiyi ve başlangıç ve bitiş tarihlerini kaldırmak için buraya sürükleyin.'
+      cannot_drag_here: 'İzinler veya düzenleme kısıtlamaları nedeniyle iş paketi kaldırılamıyor.'
+      cannot_drag_to_non_working_day: 'Bu iş paketi, çalışma dışı bir günde başlayamaz/bitemez.'
+      quick_add:
+        empty_state: 'İş paketlerini bulmak için arama alanını kullanın ve bunları birine atamak ve başlangıç ve bitiş tarihlerini tanımlamak için planlayıcıya sürükleyin.'
+        search_placeholder: 'Ara...'
+      modify:
+        errors:
+          permission_denied: 'Bunu değiştirmek için gerekli izinlere sahip değilsiniz.'
+          fallback: 'Bu iş paketi düzenlenemez.'

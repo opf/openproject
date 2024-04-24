@@ -1,0 +1,21 @@
+<widget-header
+  [name]="widgetName"
+  [editable]="isEditable">
+
+  <widget-time-entries-current-user-menu
+    slot="menu"
+    [resource]="resource"
+    (onConfigured)="updateConfiguration($event)">
+  </widget-time-entries-current-user-menu>
+</widget-header>
+
+<op-time-entries-calendar
+  (entries)="updateEntries($event)"
+  [displayedDays]="displayedDays"
+></op-time-entries-calendar>
+
+<ng-container>
+  <div class="total-hours">
+    <p>Total: <span [textContent]="total"></span></p>
+  </div>
+</ng-container>

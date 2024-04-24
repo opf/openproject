@@ -1,0 +1,58 @@
+# Schema: ActivityModel
+---
+type: object
+properties:
+  id:
+    type: integer
+    description: Activity id
+    readOnly: true
+    exclusiveMinimum: 0
+  version:
+    type: integer
+    description: Activity version
+    readOnly: true
+    exclusiveMinimum: 0
+  comment:
+    allOf:
+    - "$ref": "./formattable.yml"
+    - {}
+  details:
+    type: array
+    readOnly: true
+    items:
+      allOf:
+      - "$ref": "./formattable.yml"
+  createdAt:
+    type: string
+    format: date-time
+    description: Time of creation
+    readOnly: true
+  updatedAt:
+    type: string
+    format: date-time
+    description: Time of update
+    readOnly: true
+example:
+  _type: Activity::Comment
+  _links:
+    self:
+      href: "/api/v3/activity/1"
+      title: Priority changed from High to Low
+    workPackage:
+      href: "/api/v3/work_packages/1"
+      title: quis numquam qui voluptatum quia praesentium blanditiis nisi
+    user:
+      href: "/api/v3/users/1"
+      title: John Sheppard - admin
+  id: 1
+  details:
+  - format: markdown
+    raw: Lorem ipsum dolor sit amet.
+    html: "<p>Lorem ipsum dolor sit amet.</p>"
+  comment:
+    format: markdown
+    raw: Lorem ipsum dolor sit amet.
+    html: "<p>Lorem ipsum dolor sit amet.</p>"
+  createdAt: '2014-05-21T08:51:20.721Z'
+  updatedAt: '2014-05-21T09:14:02.929Z'
+  version: 31

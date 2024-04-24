@@ -1,0 +1,57 @@
+<%=
+  render(Primer::Beta::Text.new(tag: :div, test_selector: 'storage-general-info-form')) do
+    primer_form_with(
+      model:,
+      url: form_url,
+      method: form_method,
+      data: {
+        controller: "storages--automatically-managed-project-folders-form",
+        'application-target': "dynamic",
+        'storages--automatically-managed-project-folders-form-provider-type-value': storage.provider_type,
+        'storages--automatically-managed-project-folders-form-is-automatically-managed-value': storage.automatic_management_enabled?,
+      }
+    ) do |form|
+      flex_layout do |general_info_row|
+        general_info_row.with_row(mb: 3) do
+          concat(render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t("storages.label_file_storage") })
+          concat(render(Storages::Admin::ProviderTypeHiddenInputForm.new(form, storage:))) if storage.new_record?
+        end
+
+        general_info_row.with_row(mb: 3) do
+          render(Primer::Beta::Text.new(test_selector: 'storage-provider-configuration-instructions')) { provider_configuration_instructions }
+        end
+
+        general_info_row.with_row(mb: 3) do
+          render(Storages::Admin::ProviderNameInputForm.new(form))
+        end
+
+        if storage.provider_type_nextcloud?
+          general_info_row.with_row(mb: 3) do
+            render(Storages::Admin::ProviderHostInputForm.new(form))
+          end
+        end
+
+        if storage.provider_type_one_drive?
+          general_info_row.with_row(mb: 3) do
+            render(Storages::Admin::ProviderDriveIdInputForm.new(form))
+          end
+
+          general_info_row.with_row(mb: 3) do
+            render(Storages::Admin::ProviderTenantIdInputForm.new(form))
+          end
+        end
+
+        general_info_row.with_row do
+          render(
+            Storages::Admin::SubmitOrCancelForm.new(
+              form,
+              storage:,
+              submit_button_options:,
+              cancel_button_options:
+            )
+          )
+        end
+      end
+    end
+  end
+%>

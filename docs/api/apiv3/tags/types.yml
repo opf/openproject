@@ -1,0 +1,25 @@
+---
+description: |-
+  Work package types represented in the system.
+
+  Types exist globally and are then activated for projects.
+
+  ## Linked Properties
+
+  |  Link         | Description               | Type          | Constraints | Supported operations |
+  |:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
+  | self          | This type                 | Type          | not null    | READ                 |
+
+  ## Local Properties
+
+  | Property         | Description                                          | Type     | Constraints | Supported operations |
+  |:----------------:| ---------------------------------------------------- | -------- | ----------- | -------------------- |
+  | id               | Type id                                              | Integer  | x > 0       | READ                 |
+  | name             | Type name                                            | String   |             | READ                 |
+  | color            | The color used to represent this type                | Color    |             | READ                 |
+  | position         | Sort index of the type                               | Integer  |             | READ                 |
+  | isDefault        | Is this type active by default in new projects?      | Boolean  |             | READ                 |
+  | isMilestone      | Do work packages of this type represent a milestone? | Boolean  |             | READ                 |
+  | createdAt        | Time of creation                                     | DateTime |             | READ                 |
+  | updatedAt        | Time of the most recent change to the user           | DateTime |             | READ                 |
+name: Types

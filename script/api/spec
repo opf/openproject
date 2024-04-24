@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+
+if /((-h)|(--help))/.match?(ARGV.join(" "))
+  puts "Prints the self-contained OpenAPI 3.0 specification of OpenProject's APIv3"
+  puts
+  puts "usage: ./script/api/spec [--format JSON|yaml]"
+  return
+end
+
+require "pathname"
+require "yaml"
+require "json"
+
+require_relative "../../lib/api/open_api"
+
+path = Pathname(__dir__).join("../../docs/api/apiv3/openapi-spec.yml")
+spec = API::OpenAPI.assemble_spec path
+format = /((--format)|(-f))((=)|(\s+))ya?ml/.match?(ARGV.join(" ")) ? :yaml : :json
+
+begin
+  if format == :yaml
+    puts spec.to_yaml
+  else
+    puts spec.to_json
+  end
+rescue Errno::EPIPE
+  # `head` for instance closes the pipe when it has what it needs
+end

@@ -1,0 +1,37 @@
+<div
+  class="op-modal-banner"
+  ngClass="op-modal-banner_{{ type }}"
+  attr.data-test-selector="op-modal-banner-{{ type }}"
+>
+  <span
+    *ngIf="type === 'info'"
+    class="spot-icon spot-icon_info1 hidden-for-mobile"
+  ></span>
+  <span
+    *ngIf="type === 'warning'"
+    class="spot-icon spot-icon_warning hidden-for-mobile"
+  ></span>
+  <p
+    class="op-modal-banner--text spot-caption"
+  >
+    <span
+      class="op-modal-banner--title spot-caption spot-caption_bold"
+      [textContent]="title"
+    ></span>
+    <br/>
+    <span
+      class="op-modal-banner--subtitle hidden-for-mobile"
+      [textContent]="subtitle"
+    ></span>
+  </p>
+
+  <button
+    *ngIf="!!actionButton"
+    class="op-modal-banner--button button"
+    type="button"
+    (click)="buttonClicked.emit($event)"
+  >
+    <op-icon icon-classes="button--icon {{ actionButtonClasses }}"></op-icon>
+    <span class="button--text" [textContent]="actionButton"></span>
+  </button>
+</div>

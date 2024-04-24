@@ -1,0 +1,51 @@
+<div
+  class="spot-modal attribute-help-text--modal loading-indicator--location"
+  data-indicator-name="modal"
+>
+  <div
+    class="spot-modal--header"
+    data-test-selector="attribute-help-text--header"
+  >
+    <span class="spot-icon spot-icon_help1"></span>
+    <span class="attribute-help-text--header-text"
+          [textContent]="helpText.attributeCaption"></span>
+  </div>
+
+  <div class="spot-modal--body spot-container">
+    <div
+      class="op-uc-container op-uc-container__no-permalinks"
+      [innerHtml]="helpText.helpText.html"
+    ></div>
+
+    <fieldset class="form--fieldset" *ngIf="helpText && helpText.attachments.elements.length > 0">
+      <legend class="form--fieldset-legend">
+        {{ text.attachments }}
+      </legend>
+      <op-attachments
+        [resource]="helpText"
+        [allowUploading]="false"
+      ></op-attachments>
+    </fieldset>
+  </div>
+
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button
+        type="button"
+        class="button spot-action-bar--action spot-modal--cancel-button"
+        (click)="closeMe()"
+        >
+        {{ text.close }}
+      </button>
+      <a
+        class="help-text--edit-button button spot-action-bar--action"
+        *ngIf="helpText.editText"
+        [attr.href]="helpTextLink"
+        [attr.title]="text.edit"
+      >
+        <op-icon icon-classes="button--icon icon-edit"></op-icon>
+        <span class="button--text" [textContent]="text.edit"></span>
+      </a>
+    </div>
+  </div>
+</div>

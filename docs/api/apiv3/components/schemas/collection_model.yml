@@ -1,0 +1,33 @@
+# Schema: CollectionModel
+---
+type: object
+required:
+  - _type
+  - total
+  - count
+  - _links
+properties:
+  _type:
+    type: string
+    enum:
+      - Collection
+  total:
+    type: integer
+    description: The total amount of elements available in the collection.
+    minimum: 0
+  count:
+    type: integer
+    description: Actual amount of elements in this response.
+    minimum: 0
+  _links:
+    type: object
+    required:
+      - self
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This collection resource.
+              
+              **Resource**: Collection

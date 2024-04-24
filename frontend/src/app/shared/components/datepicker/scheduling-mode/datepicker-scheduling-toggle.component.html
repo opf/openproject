@@ -1,0 +1,12 @@
+<spot-selector-field
+  [reverseLabel]="true"
+  [label]="text.scheduling.title"
+>
+  <spot-switch
+    slot="input"
+    name="scheduling"
+    [ngModel]="scheduleManually"
+    (ngModelChange)="onToggle($event)"
+    data-test-selector="op-datepicker-modal--scheduling-action"
+  ></spot-switch>
+</spot-selector-field>

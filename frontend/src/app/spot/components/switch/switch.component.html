@@ -1,0 +1,16 @@
+<input
+  type="checkbox"
+  class="spot-switch--input"
+  [attr.name]="name"
+  [disabled]="disabled"
+  [tabindex]="tabindex"
+  [ngModel]="checked"
+  [value]="checked"
+  (ngModelChange)="onToggle($event)"
+  #input
+/>
+<span
+  class="spot-switch--fake"
+  data-test-selector="spot-switch-handle"
+  [attr.data-qa-active]="checked || undefined"
+></span>

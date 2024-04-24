@@ -1,0 +1,79 @@
+<form class="form -bordered -compressed" method="get" [action]="getDownloadUrl()" [hidden]="!isDownloadReady()">
+  <section class="form--section">
+    <h3 class="form--section-title">
+      {{ text.lastBackup }}
+    </h3>
+    <div class="form--field">
+      <label class="form--label">{{ text.lastBackupFrom }}:</label>
+      <div class="form--field-container">
+        <div class="form--text-field-container">
+          <em>{{ lastBackupDate }}</em>
+        </div>
+      </div>
+    </div>
+
+    <button name="button" type="submit" class="button">
+      <i class="button--icon icon-save"></i>
+      <span class="button--text">{{ text.downloadBackup }}</span>
+    </button>
+  </section>
+</form>
+
+<form class="form danger-zone" action="#">
+  <div class='wiki'>
+    <section class="form--section">
+      <h3 class="form--section-title">
+        {{ text.title }}
+      </h3>
+
+      <p>
+        {{ text.info }}
+      </p>
+
+      <p class="danger-zone--warning">
+        <span class="icon icon-error"></span>
+        <span>{{ text.note }}</span>
+      </p>
+      <div>
+        <fieldset class="form--fieldset">
+          <legend class="form--fieldset-legend">
+            {{ text.options }}
+          </legend>
+          <label class="form--label-with-check-box" [title]="includeAttachmentsTitle()">
+            <div class="form--check-box-container">
+              <input
+                type="checkbox"
+                class="form--check-box"
+                [checked]="includeAttachments"
+                (change)="includeAttachments = !includeAttachments"
+                [disabled]="!mayIncludeAttachments"
+              >
+            </div>
+            {{ text.includeAttachments }}
+          </label>
+        </fieldset>
+      </div>
+      <div class="danger-zone--verification">
+        <input
+          type="password"
+          name="backupToken"
+          placeholder="Backup token"
+          required="required"
+          [value]="backupToken"
+          (input)="backupToken = $event.target.value"
+          #backupTokenInput
+        />
+        <button
+          name="button"
+          type="submit"
+          class="-primary button"
+          [disabled]="backupToken.length === 0"
+          (click)="triggerBackup($event)"
+        >
+          <i class="button--icon icon-export"></i>
+          <span class="button--text">{{ text.requestBackup }}</span>
+        </button>
+      </div>
+    </section>
+  </div>
+</form>

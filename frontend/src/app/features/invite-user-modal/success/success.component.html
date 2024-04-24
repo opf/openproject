@@ -1,0 +1,25 @@
+<div
+  id="spotModalTitle"
+  class="spot-modal--header"
+  [textContent]="text.title()"
+></div>
+
+<div class="spot-divider"></div>
+
+<div class="spot-modal--body spot-container">
+  <img class="op-ium-success-image"
+       [src]="type === PrincipalType.Placeholder ? placeholder_image : user_image"/>
+
+  <span [textContent]="text.description[type]()"></span>
+</div>
+
+<div class="spot-action-bar">
+  <div class="spot-action-bar--right">
+    <button
+      type="button"
+      class="button -primary spot-action-bar--action"
+      (click)="close.emit()"
+      [textContent]="text.nextButton"
+    ></button>
+  </div>
+</div>

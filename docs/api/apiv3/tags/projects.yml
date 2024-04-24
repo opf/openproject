@@ -1,0 +1,52 @@
+---
+description: |-
+  Projects are containers structuring the information (e.g. work packages, wikis) into smaller groups. They can be used in a classic project management approach but also when structuring work by departments.
+
+  As containers, they also control behaviour of the elements within them. One of the most important aspects of this is that projects limit permissions by having members with a certain permission set (roles) assigned to them.
+
+  ## Actions
+
+  | Link                         | Description                                                          | Condition                         |
+  |:--------------------------:  |----------------------------------------------------------------------| --------------------------------- |
+  | update                       | Form endpoint that aids in updating this project                     | **Permission**: edit project      |
+  | updateImmediately            | Directly update this project                                         | **Permission**: edit project      |
+  | delete                       | Delete this project                                                  | **Permission**: admin             |
+  | createWorkPackage            | Form endpoint that aids in preparing and creating a work package     | **Permission**: add work packages |
+  | createWorkPackageImmediately | Directly creates a work package in the project                       | **Permission**: add work packages |
+
+  ## Linked Properties
+
+  | Link         | Description                                                                                                         | Type          | Constraints | Supported operations |Condition                                                                                  |
+  | :----------: | -------------                                                                                                       | ----          | ----------- | -------------------- |-----------------------------------------                                                  |
+  | self         | This project                                                                                                        | Project       | not null    | READ                 |                                                                                           |
+  | ancestors    | Array of all ancestors of the project, down from the root node (first element) to the parent (last element).        | Collection    | not null    | READ                 | **Permission** view project on the ancestor project. Non visible projects will be omitted |
+  | categories   | Categories available in this project                                                                                | Collection    | not null    | READ                 |                                                                                           |
+  | types        | Types available in this project                                                                                     | Collection    | not null    | READ                 | **Permission**: view work packages or manage types                                        |
+  | versions     | Versions available in this project                                                                                  | Collection    | not null    | READ                 | **Permission**: view work packages or manage versions                                     |
+  | memberships  | Memberships in the project                                                                                          | Collection    | not null    | READ                 | **Permission**: view members                                                              |
+  | workPackages | Work Packages of this project                                                                                       | Collection    | not null    | READ                 |                                                                                           |
+  | parent       | Parent project of the project                                                                                       | Project       |             | READ/WRITE           | **Permission** edit project                                                               |
+  | status       | Denotes the status of the project, so whether the project is on track, at risk or is having trouble.                | ProjectStatus |             | READ/WRITE           | **Permission** edit project                                                               |
+
+  Depending on custom fields defined for projects, additional links might exist.
+
+  Note, that the parent and ancestor links may contain the "undisclosed uri" `urn:openproject-org:api:v3:undisclosed` in case an
+  ancestor project is defined but the client lacks permission to see it. See the
+  [general introduction into links' properties](https://www.openproject.org/docs/api/basic-objects/#local-properties) for more information.
+
+  ## Local Properties
+
+  | Property               | Description                                                                                           | Type              | Constraints                          | Supported operations |
+  | :---------------------:| -------------                                                                                         | ----              | -----------                          | -------------------- |
+  | id                     | Projects' id                                                                                          | Integer           | x > 0                                | READ/WRITE           |
+  | identifier             |                                                                                                       | String            |                                      | READ/WRITE           |
+  | name                   |                                                                                                       | String            |                                      | READ/WRITE           |
+  | active                 | Indicates whether the project is currently active or already archived                                 | Boolean           |                                      | READ/WRITE           |
+  | statusExplanation      | A text detailing and explaining why the project has the reported status                               | Formattable       |                                      | READ/WRITE           |
+  | public                 | Indicates whether the project is accessible for everybody                                             | Boolean           |                                      | READ/WRITE           |
+  | description            |                                                                                                       | Formattable       |                                      | READ/WRITE           |
+  | createdAt              | Time of creation                                                                                      | DateTime          |                                      | READ                 |
+  | updatedAt              | Time of the most recent change to the project                                                         | DateTime          |                                      | READ                 |
+
+  Depending on custom fields defined for projects, additional properties might exist.
+name: Projects

@@ -1,0 +1,17 @@
+#English strings go here
+zh-TW:
+  plugin_openproject_team_planner:
+    name: "OpenProject團隊計畫"
+    description: "Provides team planner views."
+  permission_view_team_planner: "查看團隊計劃"
+  permission_manage_team_planner: "管理團隊規劃"
+  project_module_team_planner_view: "團隊規劃"
+  team_planner:
+    label_team_planner: "團隊規劃"
+    label_new_team_planner: "新團隊計劃"
+    label_create_new_team_planner: "建立新的團隊計畫"
+    label_team_planner_plural: "團隊規劃"
+    label_assignees: "執行者"
+    upsale:
+      title: "團隊規劃"
+      description: "Get a complete overview of your team’s planning with Team Planner. Stretch, shorten and drag-and-drop work packages to modify dates, move them or change assignees."

@@ -1,0 +1,17 @@
+#English strings go here
+sl:
+  plugin_openproject_team_planner:
+    name: "OpenProject Team Planner"
+    description: "Provides team planner views."
+  permission_view_team_planner: "View team planner"
+  permission_manage_team_planner: "Manage team planner"
+  project_module_team_planner_view: "Team planners"
+  team_planner:
+    label_team_planner: "Team planner"
+    label_new_team_planner: "New team planner"
+    label_create_new_team_planner: "Create new team planner"
+    label_team_planner_plural: "Team planners"
+    label_assignees: "Prevzemniki"
+    upsale:
+      title: "Team planner"
+      description: "Get a complete overview of your team’s planning with Team Planner. Stretch, shorten and drag-and-drop work packages to modify dates, move them or change assignees."

@@ -1,0 +1,16 @@
+# /api/v3
+---
+get:
+  summary: View root
+  operationId: view_root
+  description: |-
+    Returns the root resource, containing basic information about the server instance and a collection of useful links.
+  tags:
+    - Root
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/root_model.yml'

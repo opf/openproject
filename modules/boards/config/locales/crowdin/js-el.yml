@@ -1,0 +1,86 @@
+#English strings go here
+el:
+  js:
+    boards:
+      create_new: 'Δημιουργία νέου πίνακα'
+      label_unnamed_board: 'Ανώνυμος πίνακας'
+      label_unnamed_list: 'Ανώνυμη λίστα'
+      label_board_type: 'Τύπος πίνακα'
+      upsale:
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+        upgrade: 'Αναβαθμίστε τώρα'
+      lists:
+        delete: 'Διαγραφή λίστας'
+      version:
+        is_locked: 'Η έκδοση είναι κλειδωμένη. Δεν μπορούν να προστεθούν αντικείμενα σε αυτή την έκδοση.'
+        is_closed: 'Η έκδοση είναι κλειστή. Δεν μπορούν να προστεθούν αντικείμενα σε αυτή την έκδοση.'
+        close_version: 'Κλείσιμο έκδοσης'
+        open_version: 'Άνοιγμα έκδοσης'
+        lock_version: 'Κλείδωμα έκδοσης'
+        unlock_version: 'Ξεκλείδωμα έκδοσης'
+        edit_version: 'Επεξεργασία έκδοσης'
+        show_version: 'Εμφάνιση έκδοσης'
+        locked: 'Κλειδωμένο'
+        closed: 'Κλειστό'
+      new_board: 'Νέος πίνακας'
+      add_list: 'Προσθήκη λίστας στον πίνακα'
+      add_card: 'Προσθήκη κάρτας'
+      error_attribute_not_writable: "Δεν είναι δυνατή η μετακίνηση του πακέτου εργασίας, το %{attribute} δεν είναι εγγράψιμο."
+      error_loading_the_list: "Σφάλμα κατά την φόρτωση της λίστας: %{error_message}"
+      error_permission_missing: "Λείπει το δικαίωμα δημιουργίας δημόσιων ερωτημάτων"
+      error_cannot_move_into_self: "Δεν μπορείτε να μετακινήσετε ένα πακέτο εργασίας στη δική του στήλη."
+      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
+      click_to_remove_list: "Κάντε κλικ για να αφαιρέσετε αυτή τη λίστα"
+      board_type:
+        text: 'Τύπος πίνακα'
+        free: 'βασικό'
+        select_board_type: 'Παρακαλώ επιλέξτε τον τύπο πίνακα που χρειάζεστε.'
+        free_text: >
+          Ξεκινήστε από το μηδέν με ένα κενό πίνακα. Προσθέστε κάρτες και στήλες χειροκίνητα σε αυτόν τον πίνακα.
+        action: 'Πίνακας ενεργειών'
+        action_by_attribute: 'Πίνακας ενεργειών (%{attribute})'
+        action_text: >
+          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+        action_text_subprojects: >
+          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+        action_text_subtasks: >
+          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        action_text_status: >
+          Βασικός πίνακας τύπου kanban με στήλες για την κατάσταση, όπως To Do, In Progress, Done.
+        action_text_assignee: >
+          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+        action_text_version: >
+          Board with automated columns based on the version attribute. Ideal for planning product development.
+        action_type:
+          assignee: Εντολοδόχος
+          status: κατάσταση
+          version: έκδοση
+          subproject: υποέργο
+          subtasks: γονέας-παιδί
+        board_type_title:
+          assignee: Ανάθεση σε
+          status: Κατάσταση
+          version: Έκδοση
+          subproject: Υποέργο
+          subtasks: Parent-child
+          basic: Βασικό
+        select_attribute: "Χαρακτηριστικό ενέργειας"
+      add_list_modal:
+        labels:
+          assignee: Επιλέξτε χρήστη για να προσθέσετε ως νέα λίστα assignee
+          status: Επιλέξτε κατάσταση για προσθήκη ως νέα λίστα
+          version: Επιλέξτε έκδοση για προσθήκη ως νέα λίστα
+          subproject: Επιλέξτε υποέργο για προσθήκη ως νέα λίστα
+          subtasks: Επιλέξτε πακέτο εργασίας για προσθήκη ως νέα λίστα
+        warning:
+          status: |
+            There is currently no status available. <br>
+            Either there are none or they have all already been added to the board.
+          assignee: Δεν υπάρχει κανένα μέλος που να ταιριάζει με την τιμή του φίλτρου.  <br>
+          no_member: Αυτό το έργο, προς το παρόν, δεν έχει μέλη που μπορούν να προστεθούν.  <br>
+          add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
+      configuration_modal:
+        title: 'Διαμόρφωση αυτού του πίνακα'
+        display_settings:
+          card_mode: "Εμφάνιση ως κάρτες"
+          table_mode: "Εμφάνιση ως πίνακα"

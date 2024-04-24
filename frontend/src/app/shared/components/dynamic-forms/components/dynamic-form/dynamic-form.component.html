@@ -1,0 +1,42 @@
+<form
+  *ngIf="form && handleSubmit"
+  data-qa="op-form--container"
+  class="op-form"
+  [formGroup]="form"
+  (submit)="submitForm(form)"
+>
+  <formly-form
+    [form]="form"
+    [model]="innerModel"
+    [fields]="fields"
+    (modelChange)="onModelChange($event)"
+    class="op-form--fieldset"
+  ></formly-form>
+
+  <div class="op-form--submit"
+       *ngIf="handleSubmit">
+    <button type="submit"
+            class="button -primary"
+            [disabled]="inFlight">
+      {{text.save}}
+    </button>
+    <button type="button"
+            class="button"
+            (click)="handleCancel()">
+      {{text.cancel}}
+    </button>
+  </div>
+</form>
+
+<!-- When used as a FormControl, the Dynamic Form doesn't need a wrapping form -->
+<!-- TODO: Issue: sharing the form as an ng-template between this two HTML blocks doesn't work because
+     the nested OpFormFieldComponent doesn't find the injected FormGroupDirective. --->
+<formly-form
+  data-qa="op-form--container"
+  class="op-form--fieldset"
+  *ngIf="form && !handleSubmit"
+  [form]="form"
+  [model]="innerModel"
+  [fields]="fields"
+  (modelChange)="onModelChange($event)"
+></formly-form>

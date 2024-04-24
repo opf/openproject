@@ -1,0 +1,136 @@
+#English strings go here for Rails i18n
+tr:
+  plugin_openproject_bim:
+    name: "OpenProject BIM and BCF functionality"
+    description: "This OpenProject plugin introduces BIM and BCF functionality."
+  bim:
+    label_bim: 'BIM: Bina Bilgi Modellemesi'
+  bcf:
+    label_bcf: 'BCF'
+    label_imported_failed: 'BCF konularının başarısız ithalatı'
+    label_imported_successfully: 'BCF konuları başarıyla içe aktarıldı'
+    issues: "Sorunlar"
+    recommended: 'Tavsiye edilen'
+    not_recommended: 'tavsiye edilmez'
+    no_viewpoints: 'Bakış açısı yok'
+    new_badge: "Yeni"
+    exceptions:
+      file_invalid: "BCF dosyası geçersiz"
+    x_bcf_issues:
+      zero: 'BCF sorunu yok'
+      one: 'Bir BCF sorunu'
+      other: '%{count} BCF sorunu'
+    bcf_xml:
+      xml_file: 'BCF XML Dosyası'
+      import_title: 'İçeri Aktar'
+      export: 'ihracat'
+      import_update_comment: '(BCF ithalatında güncellendi)'
+      import_failed: 'BCF dosyası alınamıyor: %{error}'
+      import_failed_unsupported_bcf_version: 'BCF dosyası okunamadı: BCF sürümü desteklenmiyor. Lütfen sürümün en az  %{minimal_version} veya daha yüksek olduğundan emin olun.'
+      import_successful: 'İçe aktarılan %{count} BCF sorunları'
+      import_canceled: 'BCF-XML içe aktarma işlemi iptal edildi.'
+      type_not_active: "Bu proje için sorun türü etkinleştirilmedi."
+      import:
+        num_issues_found: '%{x_bcf_issues} BCF-XML dosyasında bulunur, ayrıntıları aşağıda listelenmiştir.'
+        button_prepare: 'İthalat hazırla'
+        button_perform_import: 'İçe aktarmayı onayla'
+        button_proceed: 'İçe aktarma ile devam et'
+        button_back_to_list: 'Listeye geri dön'
+        no_permission_to_add_members: 'Bunları projeye üye olarak eklemek için yeterli izniniz yok.'
+        contact_project_admin: 'Bunları üye olarak eklemek için proje yöneticinize başvurun ve bu içe aktarmayı yeniden başlatın.'
+        continue_anyways: 'Yine de içe aktarma işlemine devam etmek ve bitirmek istiyor musunuz?'
+        description: "Bu projeye içe aktarmak için bir BCF-XML v2.1 dosyası sağlayın. İçe aktarma işlemini gerçekleştirmeden önce içeriğini inceleyebilirsiniz."
+        invalid_types_found: 'Geçersiz konu türü adı bulundu'
+        invalid_statuses_found: 'Geçersiz durum adı bulundu'
+        invalid_priorities_found: 'Geçersiz öncelikli ad bulundu'
+        invalid_emails_found: 'Geçersiz e-posta adresi bulundu'
+        unknown_emails_found: 'Geçersiz e-posta adresi bulundu'
+        unknown_property: 'Bilinmeyen özellik'
+        non_members_found: 'Proje üyesi bulunamadı'
+        import_types_as: 'Tüm bu türleri'
+        import_statuses_as: 'Tüm bu durumları'
+        import_priorities_as: 'Tüm bu öncelikleri'
+        invite_as_members_with_role: 'Onları rol ile "%{project}" projesine üye olarak davet edin'
+        add_as_members_with_role: 'Bunları rol olarak "%{project}" projesine üye olarak ekleyin'
+        no_type_provided: 'Sağlanan tür yok'
+        no_status_provided: 'Belirtilen durum yok'
+        no_priority_provided: 'Öncelik verilmedi'
+        perform_description: "Yukarıda listelenen sorunları içe aktarmak veya güncellemek mi istiyorsunuz?"
+        replace_with_system_user: 'Bunları "Sistem" kullanıcısı ile değiştirin'
+        import_as_system_user: 'Bunları "Sistem" kullanıcısı olarak içe aktarın.'
+        what_to_do: "Ne yapmak istiyorsun?"
+        work_package_has_newer_changes: "Modası geçmiş! Sunucudaki son değişiklikler, içe aktarılan konunun \"ModifiedDate\" sinden daha yeni olduğu için bu konu güncellenmedi. Ancak konuyla ilgili yorumlar aktarıldı."
+        bcf_file_not_found: "BCF dosyası bulunamadı. Lütfen yükleme işlemini tekrar başlatın."
+  export:
+    format:
+      bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "BCF görüntüsü"
+  project_module_bcf: "BCF"
+  project_module_bim: "BCF"
+  permission_view_linked_issues: "BCF sorunlarını görüntüleyin"
+  permission_manage_bcf: "BCF sorunlarını içe aktarın ve yönetin"
+  permission_delete_bcf: "BCF sorunlarını sil"
+  oauth:
+    scopes:
+      bcf_v2_1: "BCF v2.1 API'sine tam erişim"
+      bcf_v2_1_text: "Uygulama, sizin adınıza işlem yapmak için OpenProject BCF API v2.1'e tam okuma ve yazma erişimi alacaktır."
+  activerecord:
+    models:
+      bim/ifc_models/ifc_model: "IFC model"
+    attributes:
+      bim/ifc_models/ifc_model:
+        ifc_attachment: "IFC dosyası"
+        is_default: "Varsayılan model"
+        attachments: "IFC dosyası"
+    errors:
+      models:
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "İfc dosyası eklenmedi."
+              invalid_ifc_file: "Sağlanan dosya geçerli bir IFC dosyası değil."
+        bim/bcf/viewpoint:
+          bitmaps_not_writable: "bitmap'ler henüz uygulanmadığı için yazılamaz."
+          index_not_integer: "dizin bir tamsayı değil."
+          invalid_clipping_planes: "kırpma düzlemleri geçersiz."
+          invalid_components: "bileşenler geçersiz."
+          invalid_lines: "satırları geçersiz."
+          invalid_orthogonal_camera: "dikey kamera geçersiz."
+          invalid_perspective_camera: "perspektif kamera geçersiz."
+          mismatching_guid: "Json bakış açısındaki kılavuz, kılavuzun modelleri ile eşleşmiyor."
+          no_json: "İyi yapılandırılmış bir json değil."
+          snapshot_type_unsupported: "anlık görüntü türünün 'png' veya 'jpg' olması gerekir."
+          snapshot_data_blank: "anlık görüntü verilerinin sağlanması gerekir."
+          unsupported_key: "Desteklenmeyen bir json özelliği dahil edilmiştir."
+        bim/bcf/issue:
+          uuid_already_taken: "Aynı GUID'ye sahip başka bir tane olduğu için bu BCF sorunu alınamıyor. Bu BCF meselesi zaten farklı bir projeye aktarılmış olabilir mi?"
+  ifc_models:
+    label_ifc_models: 'IFC modelleri'
+    label_new_ifc_model: 'Yeni IFC modeli'
+    label_show_defaults: 'Varsayılanları göster'
+    label_default_ifc_models: 'Varsayılan IFC modelleri'
+    label_edit_defaults: 'Varsayılanları düzenle'
+    no_defaults_warning:
+      title: 'Bu proje için varsayılan olarak IFC modeli ayarlanmadı.'
+      check_1: 'En az bir IFC modeli yüklediğinizi kontrol edin.'
+      check_2: 'En az bir IFC modelinin "Varsayılan" olarak ayarlandığını kontrol edin.'
+    no_results: "Bu projeye hiç IFC modeli yüklenmedi."
+    conversion_status:
+      label: 'İşleme?'
+      pending: 'Bekliyor'
+      processing: 'İşleniyor'
+      completed: 'Tamamlandı'
+      error: 'Hata'
+    processing_notice:
+      processing_default: 'Aşağıdaki varsayılan IFC modelleri hala işlenmektedir ve bu nedenle henüz kullanılamamaktadır:'
+    flash_messages:
+      upload_successful: 'Yükleme başarılı. Şimdi işlenecek ve birkaç dakika içinde kullanıma hazır olacak.'
+    conversion:
+      missing_commands: "Bu sistemde aşağıdaki IFC dönüştürücü komutları eksik: %{names}"
+  project_module_ifc_models: "IFC modelleri"
+  permission_view_ifc_models: "IFC modellerini görüntüle"
+  permission_manage_ifc_models: "IFC modellerini içe aktarma ve yönetme"
+  extraction:
+    available:
+      ifc_convert: "IFC dönüşüm hattı mevcut"

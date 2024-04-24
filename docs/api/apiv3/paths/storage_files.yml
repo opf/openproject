@@ -1,0 +1,61 @@
+# /api/v3/storages/{id}/files
+---
+get:
+  summary: Gets files of a storage.
+  operationId: get_storage_files
+  tags:
+    - File links
+  description: |-
+    Gets a collection of files from a storage.
+
+    If no `parent` context is given, the result is the content of the document root. With `parent` context given, the
+    result contains the collections of files/directories from within the given parent file id.
+
+    If given `parent` context is no directory, `400 Bad Request` is returned.
+  parameters:
+    - name: id
+      description: Storage id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 1337
+    - name: parent
+      description: Parent file identification
+      in: query
+      required: false
+      schema:
+        type: string
+      example: '/my/data'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/storage_files_model.yml'
+    '400':
+      description: Returned if the given parent parameter value does not refer to a directory.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+            message: The given parent is not a directory.
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned in either of those cases:
+        - if the storage does not exist or the client does not have sufficient permissions to see it
+
+          **Required permission:** view file links
+        - if the document root file identification does not exist on the storage

@@ -1,0 +1,39 @@
+#English strings go here
+ca:
+  plugin_openproject_boards:
+    name: "OpenProject Boards"
+    description: "Provides board views."
+  permission_show_board_views: "Veure els taulells"
+  permission_manage_board_views: "Administra els taulells"
+  project_module_board_view: "Taulells"
+  boards:
+    label_board: "Taulell"
+    label_boards: "Taulells"
+    label_create_new_board: "Crea un tauler nou"
+    label_board_type: "Tipus de taulell"
+    board_types:
+      free: Bàsic
+      action: "Panell d'acció (%{attribute})"
+    board_type_attributes:
+      assignee: Assignat a
+      status: Estat
+      version: Versió
+      subproject: Subprojecte
+      subtasks: Pare-fill
+      basic: Bàsic
+    board_type_descriptions:
+      basic: >
+        Comença de zero amb un taulell en blanc. Afegeix manualment targetes i columnes a aquest taulell.
+      status: >
+        Taulell simple d'estil Kanban amb columnes automàtiques per estatus com Per Fer, En Procés o Fet.
+      assignee: >
+        Taulell amb columnes automàtiques per usuaris assignats. Ideal per a la distribució de paquets de treball.
+      version: >
+        Taulell amb columnes automàtiques per versió d'atribut. Ideal per al desenvolupament de planificació de productes.
+      subproject: >
+        Taulell amb columnes automàtiques per subprojectes. Movent els paquets de treball a altres llistes actualitzarà el (sub-)projecte.
+      subtasks: >
+        Taulell amb columnes automàtiques per subelements. Movent els paquets de treball a altres llistes actualitzarà el  paquet pare.
+    upsale:
+      teaser_text: 'T''agradaria automatitzar els teus processos de treball amb taulells? Els taulells avançats són una extensió de l''edició Enterprise. Si us plau, actualitza a un pla de pagament.'
+      upgrade: 'Actualitza ara'

@@ -1,0 +1,66 @@
+ca:
+  plugin_openproject_webhooks:
+    name: "OpenProject Webhooks"
+    description: "Provides a plug-in API to support OpenProject webhooks for better 3rd party integration."
+  activerecord:
+    attributes:
+      webhooks/webhook:
+        url: 'URL de càrrega'
+        secret: 'Signatura secreta'
+        events: 'Esdeveniments'
+        projects: 'Projectes habilitats'
+      webhooks/log:
+        event_name: 'Nom de l''esdeveniment'
+        url: 'URL de càrrega'
+        response_code: 'Codi de resposta'
+        response_body: 'Resposta'
+    models:
+      webhooks/outgoing_webhook: "Webhook de sortida"
+  webhooks:
+    singular: Webhook
+    plural: Webhooks
+    resources:
+      time_entry:
+        name: "Entrada de temps"
+    outgoing:
+      no_results_table: Encara no s'han definit cap webhooks.
+      label_add_new: Afegeix un nou webhook
+      label_edit: Edita el webhook
+      label_event_resources: Recursos de l'esdeveniment
+      events:
+        created: "Creat"
+        updated: "Actualitzat"
+      explanation:
+        text: >
+          En el cas que un esdeveniment com la creació d'un paquet de treball o l'actualització d'un projecte, OpenProject enviarà una sol·licitud POST als punts finals de web configurats. A vegades, l'esdeveniment s'envia després que %{link} ha passat.
+        link: període d'agregació configurat
+      status:
+        enabled: 'Webhooks habilitats'
+        disabled: 'Webhooks deshabilitats'
+        enabled_text: 'El webhook emetrà les càrregues pels esdeveniments definits a sota.'
+        disabled_text: 'Clica el botó editar per activar el webhook.'
+      deliveries:
+        no_results_table: No s'ha fet cap entrega per aquest webhook en els dies anteriors.
+        title: 'Entregues recents'
+        time: 'Temps d''entrega'
+      form:
+        introduction: >
+          Envia una sol·licitud POST a l'URL de càrrega de sota per qualsevol esdeveniment dels projectes en el que estàs subscrit. La càrrega correspondrà a la representació de l'APIv3  de l'objecte que s'està modificant.
+        apiv3_doc_url: Per obtenir més informació, consulta la documentació d'API.
+        description:
+          placeholder: 'Descripció opcional per al webhook.'
+        enabled:
+          description: >
+            Si s'ha marcat, el webhook actuarà en els esdeveniments seleccionats. Desmarca per desactivar el webhook.
+        events:
+          title: 'Esdeveniments activats'
+        project_ids:
+          title: 'Projectes habilitats'
+          description: 'Selecciona per quins projectes s''ha d''executar aquest webhook.'
+          all: 'Tots els projectes'
+          selected: 'Selecciona només projectes'
+        selected_project_ids:
+          title: 'Projectes seleccionats'
+        secret:
+          description: >
+            Si està configurat, el valor secret és utilitzat per OpenProject per tal de signar la càrrega del webhook.

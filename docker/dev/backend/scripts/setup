@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e
+
+export MAKE="make --jobs $(nproc)"
+
+bundle install --jobs $(nproc)
+bundle exec rake db:create db:migrate
+bundle exec rake db:seed
+bundle exec rake openproject:plugins:register_frontend
+bundle exec rake assets:export_locales

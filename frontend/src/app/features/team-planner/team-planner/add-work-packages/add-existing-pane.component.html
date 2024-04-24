@@ -1,0 +1,65 @@
+<spot-text-field
+  [ngModel]="searchString$ | async"
+  (ngModelChange)="searchString$.next($event)"
+  data-test-selector="op-add-existing-pane--search-input"
+  [placeholder]="text.placeholder"
+>
+  <span
+    slot="before"
+    class="spot-icon spot-icon_search"
+  ></span>
+</spot-text-field>
+
+<ng-container
+  *ngIf="(isLoading$ | async) === false; else loadingTemplate"
+>
+  <ng-container
+    *ngIf="(isEmpty$ | async) === false; else emptyTemplate"
+  >
+    <div
+      #container
+      class="op-add-existing-pane--results"
+    >
+      <ng-container *ngFor="let wp of currentWorkPackages$ | async">
+        <wp-single-card
+          [workPackage]="wp"
+          [selectedWhenOpen]="true"
+          [showInfoButton]="true"
+          [disabledInfo]="showDisabledText(wp)"
+          [attr.data-drag-helper-id]="wp.id"
+          class="op-add-existing-pane--wp"
+          [attr.data-test-selector]="'op-add-existing-pane--wp-' + wp.id"
+          (stateLinkClicked)="openStateLink($event)"
+          (cardClicked)="workPackagesCalendar.onCardClicked($event)"
+          (cardDblClicked)="workPackagesCalendar.onCardDblClicked($event)"
+        ></wp-single-card>
+      </ng-container>
+    </div>
+  </ng-container>
+
+  <ng-template #emptyTemplate>
+    <div
+      class="op-add-existing-pane--empty-state"
+      data-test-selector="op-add-existing-pane--empty-state"
+    >
+      <img
+        *ngIf="(noResultsFound$ | async)?.showImage"
+        [src]="image.empty_state" class="op-add-existing-pane--empty-state-image"/>
+      <span
+        [innerHTML]="(noResultsFound$ | async)?.text"
+        class="op-add-existing-pane--empty-state-text"
+      ></span>
+    </div>
+  </ng-template>
+</ng-container>
+
+<ng-template #loadingTemplate>
+  <op-content-loader
+    class="op-add-existing-pane--loading"
+    viewBox="0 0 200 44"
+  >
+    <svg:rect x="0" y="0" width="50%" height="12" rx="1" />
+    <svg:rect x="0" y="16" width="100%" height="12" rx="1" />
+    <svg:rect x="0" y="32" width="100%" height="12" rx="1" />
+  </op-content-loader>
+</ng-template>

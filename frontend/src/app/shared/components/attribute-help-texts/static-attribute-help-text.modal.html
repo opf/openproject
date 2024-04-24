@@ -1,0 +1,30 @@
+<div
+  class="spot-modal"
+  data-indicator-name="modal"
+  data-test-selector="static-attribute-help-text--modal"
+>
+  <div
+    id="spotModalTitle"
+    class="spot-modal--header"
+  >
+  {{ title }}
+  </div>
+
+  <div class="spot-divider"></div>
+
+  <div class="spot-modal--body spot-container">
+    <span class="spot-body-small">{{ content }}</span>
+  </div>
+
+  <div class="spot-action-bar hidden-for-mobile">
+    <div class="spot-action-bar--right">
+      <button
+        type="button"
+        class="button spot-action-bar--action spot-modal--cancel-button"
+        (click)="closeMe()"
+        >
+        {{ text.close }}
+      </button>
+    </div>
+  </div>
+</div>

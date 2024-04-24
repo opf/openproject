@@ -1,0 +1,46 @@
+<ng-container
+  *ngFor="let crumb of content.crumbs; let i = index; let last = last; let first = first"
+>
+  <div
+    *ngIf="(first && !last) || i === content.crumbs.length - 2 || i === content.crumbs.length - 3"
+    class="spot-breadcrumbs--crumb"
+    data-test-selector="op-breadcrumb"
+    [ngClass]="{
+      'spot-breadcrumbs--crumb_root': first,
+      'spot-breadcrumbs--crumb_parent': i === content.crumbs.length - 2,
+      'spot-breadcrumbs--crumb_grandparent': i === content.crumbs.length - 3
+    }"
+  >
+    <button
+      type="button"
+      class="spot-link spot-breadcrumbs--crumb-action-item"
+      [title]="crumb.text"
+      (click)="crumb.navigate()"
+    >
+      <span *ngIf="crumb.icon" class="spot-icon spot-icon_{{crumb.icon}}"></span>
+      <span [textContent]="crumb.text" class="spot-breadcrumbs--crumb-action-item-text"></span>
+      <span class="spot-breadcrumbs--crumb-action-item-dots"></span>
+    </button>
+
+    <span class="spot-breadcrumbs--crumb-divider spot-icon spot-icon_arrow-right5"></span>
+  </div>
+
+  <div
+    *ngIf="i === 1 && content.crumbs.length > 4"
+    class="spot-breadcrumbs--crumb spot-breadcrumbs--crumb_collapsed"
+  >
+    <span class="spot-breadcrumbs--crumb-divider spot-icon spot-icon_arrow-right5"></span>
+  </div>
+
+  <div
+    *ngIf="last"
+    class="spot-breadcrumbs--crumb spot-breadcrumbs--crumb_last"
+    data-test-selector="op-breadcrumb"
+  >
+    <span *ngIf="crumb.icon" class="spot-icon spot-icon_{{crumb.icon}}"></span>
+    <span
+      class="spot-breadcrumbs--crumb-action-item-text"
+      [textContent]="crumb.text"
+    ></span>
+  </div>
+</ng-container>

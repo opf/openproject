@@ -1,0 +1,90 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<div class="attributes-group" id="api-token-section">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text"><%= t("my_account.access_tokens.api.title") %></h3>
+    </div>
+  </div>
+  <div>
+    <p>
+      <%= t("my_account.access_tokens.api.text_hint") %>
+    </p>
+    <% if Setting.rest_api_enabled? %>
+      <% if api_token %>
+        <div class="generic-table--container">
+          <div class="generic-table--results-container">
+            <table class="generic-table">
+              <%= render  partial: "my/access_token_partials/token_table_header",
+                          locals: { 
+                            column_headers: [
+                              t('attributes.name'), 
+                              User.human_attribute_name(:created_at), 
+                              t('my_account.access_tokens.headers.expiration')
+                            ] 
+                          } 
+              %>
+              <tbody>
+                <tr>
+                  <td class="-w-rel-60" data-test-selector="api-token-row-name"><%= t("my_account.access_tokens.api.static_token_name") %></td>
+                  <td>
+                    <span title="<%= format_time(api_token.created_at) %>">
+                      <%= format_time(api_token.created_at.to_s) %>
+                    </span>
+                  </td>
+                  <td><%= t('my_account.access_tokens.indefinite_expiration') %></td>
+                  <td class="buttons">
+                    <%= link_to "",
+                                { action: 'revoke_api_key' },
+                                method: :delete,
+                                data: { confirm: t('my_account.access_tokens.simple_revoke_confirmation'), test_selector: 'api-token-revoke' },
+                                class: 'icon icon-delete' %>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <% else %>
+        <%= link_to({ action: 'generate_api_key' }, method: :post, class: 'spot-link', data: { test_selector: 'api-token-add' }) do %>
+          <span class="spot-icon spot-icon_add"></span>
+          <span><%= t('my_account.access_tokens.api.static_token_name') %></span>
+        <% end %>
+      <% end %>
+    <% else %>
+      <div tabindex="0" class="-info op-toast">
+        <div role="alert" aria-atomic="true" class="op-toast--content">
+          <p>
+            <span><%= t('my_account.access_tokens.api.disabled_text') %></span>
+          </p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

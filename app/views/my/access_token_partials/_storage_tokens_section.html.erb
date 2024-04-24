@@ -1,0 +1,83 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<div class="attributes-group" id="storage-token-section">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text"><%= t("my_account.access_tokens.storages.title") %></h3>
+    </div>
+  </div>
+  <div>
+    <p>
+      <%= t("my_account.access_tokens.storages.text_hint") %>
+    </p>
+    <% if @storage_tokens.any? %>
+      <div class="generic-table--container">
+        <div class="generic-table--results-container">
+          <table class="generic-table">
+            <%= render  partial: "my/access_token_partials/token_table_header",
+                        locals: {
+                          column_headers: [
+                            t('attributes.name'),
+                            User.human_attribute_name(:created_at),
+                            t('my_account.access_tokens.headers.expiration')
+                          ]
+                        }
+            %>
+            <tbody>
+            <% storage_tokens.each do |token| %>
+              <tr id="storage-oauth-token-<%= token.id %>">
+                <td class="-w-rel-60" data-test-selector="oauth-token-row-<%= token.oauth_client.integration.id %>-name">
+                  <%= token.oauth_client.integration.name %>
+                </td>
+                <td>
+                  <span><%= format_time(token.created_at) %></span>
+                </td>
+                <td>
+                  <span><%= format_time(token.updated_at + token.expires_in.seconds) %></span>
+                </td>
+                <td class="buttons">
+                  <%= link_to "",
+                              storage_token_delete_path(token.id),
+                              data: { confirm: t('my_account.access_tokens.storages.revoke_token', storage: token.oauth_client.integration.name),
+                                      test_selector: "storages-token-row-#{token.id}-revoke" },
+                              method: :delete,
+                              class: 'icon icon-delete' %>
+                </td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <% else %>
+      <span class="spot-icon spot-icon_inline spot-icon_info1"></span>
+      <i><%= t('my_account.access_tokens.storages.empty_text_hint') %></i>
+    <% end %>
+  </div>
+</div>

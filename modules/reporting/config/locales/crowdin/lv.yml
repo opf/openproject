@@ -1,0 +1,94 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+lv:
+  plugin_openproject_reporting:
+    name: "OpenProject Reporting"
+    description: "This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin."
+  button_save_as: "Save report as..."
+  comments: "Komentârs"
+  cost_reports_title: "Laiks un izmaksas"
+  label_cost_report: "Izmaksu pārskats"
+  label_cost_report_plural: "Izmaksu pārskati"
+  description_drill_down: "Skatīt detaļas"
+  description_filter_selection: "Atlase"
+  description_multi_select: "Rādīt atlasītos"
+  description_remove_filter: "Noņemt filtru"
+  information_restricted_depending_on_permission: "Depending on your permissions this page might contain restricted information."
+  label_click_to_edit: "Noklikšķiniet, lai rediģētu."
+  label_closed: "slēgti"
+  label_columns: "Kolonnas"
+  label_cost_entry_attributes: "Izmaksu ieraksta atribūti"
+  label_days_ago: "pēdējās dienās"
+  label_entry: "Izmaksu ieraksts"
+  label_filter_text: "Filtrēt tekstu"
+  label_filter_value: "Vērtība"
+  label_filters: "Filtrēt"
+  label_greater: "lielāks >"
+  label_is_not_project_with_subprojects: "nav (ietver apakšprojektus)"
+  label_is_project_with_subprojects: "ir (ieskaitot apakšprojektus)"
+  label_work_package_attributes: "Darba pieteikumu atribūti"
+  label_less: "mazāk <"
+  label_logged_by_reporting: "Ielogoja"
+  label_money: "Cash value"
+  label_month_reporting: "Mēnesis (iztērēts)"
+  label_new_report: "Jauns izmaksu pārskats"
+  label_open: "aktīvi"
+  label_operator: "Operatori"
+  label_private_report_plural: "Privātie izmaksu pārskati"
+  label_progress_bar_explanation: "Pārskata ģenerēšana..."
+  label_public_report_plural: "Publiskie izmaksu pārskati"
+  label_really_delete_question: "Vai tiešām vēlaties dzēst šos pārskatus?"
+  label_rows: "Rindas"
+  label_saving: "Saglabā ..."
+  label_spent_on_reporting: "Datums (iztērēts)"
+  label_sum: "Summa"
+  label_units: "Vienības"
+  label_week_reporting: "Nedēļa (iztērēts)"
+  label_year_reporting: "Gads (iztērēts)"
+  label_count: "Skaits"
+  label_filter: "Filtrēt"
+  label_filter_add: "Pievienot filtru"
+  label_filter_plural: "Filtri"
+  label_group_by: "Grupēt pēc"
+  label_group_by_add: "Add Group-by Attribute"
+  label_inactive: "«inactive»"
+  label_no: "Nē"
+  label_none: "(no data)"
+  label_no_reports: "There are no cost reports yet."
+  label_report: "Report"
+  label_yes: "Jā"
+  load_query_question: "Report will have %{size} table cells and may take some time to render. Do you still want to try rendering it?"
+  permission_save_cost_reports: "Save public cost reports"
+  permission_save_private_cost_reports: "Save private cost reports"
+  project_module_reporting_module: "Cost reports"
+  text_costs_are_rounded_note: "Displayed values are rounded. All calculations are based on the non-rounded values."
+  toggle_multiselect: "activate/deactivate multiselect"
+  units: "Units"
+  validation_failure_date: "is not a valid date"
+  validation_failure_integer: "is not a valid integer"
+  export:
+    cost_reports:
+      title: "Your Cost Reports XLS export"
+  reporting:
+    group_by:
+      selected_columns: "Selected columns"
+      selected_rows: "Selected rows"

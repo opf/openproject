@@ -1,0 +1,15 @@
+<div class="op-version-board-header"
+      data-test-selector="op-version-board-header"
+     [ngClass]="{ '-closed': version.isClosed(), '-locked': version.isLocked() }"
+     *ngIf="version">
+  <h2 class="editable-toolbar-title--fixed">
+    <small [textContent]="text.version"></small>
+    <br/>
+    <a [href]="pathHelper.versionShowPath(version.id)"
+       [textContent]="version.name"
+       target="_blank">
+    </a>
+  </h2>
+
+  <span class="op-version-board-header--info-row -italic -small-font"> {{version.endDate}}  </span>
+</div>

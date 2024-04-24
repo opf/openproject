@@ -1,0 +1,50 @@
+# Schema: PriorityModel
+---
+type: object
+properties:
+  id:
+    type: integer
+    description: Priority id
+    readOnly: true
+    exclusiveMinimum: 0
+  name:
+    type: string
+    description: Priority name
+    readOnly: true
+    minLength: 1
+  position:
+    type: integer
+    description: Sort index of the priority
+    readOnly: true
+    exclusiveMinimum: 0
+  isDefault:
+    type: boolean
+    description: Indicates whether this is the default value
+    readOnly: true
+  isActive:
+    type: boolean
+    description: Indicates whether the priority is available
+  _links:
+    type: object
+    required:
+    - self
+    properties:
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This priority
+
+            **Resource**: Priority
+          readOnly: true
+example:
+  _type: Priority
+  _links:
+    self:
+      href: "/api/v3/priorities/1"
+      title: Low
+  id: 1
+  name: Low
+  position: 1
+  isDefault: false
+  isActive: true

@@ -1,0 +1,20 @@
+<ng-container [formGroup]="formGroup.control">
+  <div class="op-form--section-header">
+    <h3 [textContent]="text.title" class="op-form--section-header-title"></h3>
+  </div>
+
+  <spot-selector-field
+    *ngFor="let workday of localeWorkdays; let i = index"
+    formArrayName="workdays"
+    [label]="workday"
+    [control]="controlForLocalWorkday(workday)"
+  >
+    <input
+      slot="input"
+      type="checkbox"
+      [formControlName]="indexOfLocalWorkday(workday)"
+    />
+  </spot-selector-field>
+
+  <op-pause-reminders></op-pause-reminders>
+</ng-container>

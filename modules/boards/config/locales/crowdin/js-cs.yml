@@ -1,0 +1,86 @@
+#English strings go here
+cs:
+  js:
+    boards:
+      create_new: 'Vytvořit tabuli'
+      label_unnamed_board: 'Nepojmenovaná tabule'
+      label_unnamed_list: 'Nepojmenovaný seznam'
+      label_board_type: 'Typ tabule'
+      upsale:
+        teaser_text: 'Chcete automatizovat své workflows s Tabulemi? Pokročilé Tabule jsou doplňkem Enterprise. Proveďte upgrade na placený plán.'
+        upgrade: 'Upgradovat nyní'
+      lists:
+        delete: 'Odstranit seznam'
+      version:
+        is_locked: 'Verze je uzamčena. Do této verze nelze přidat žádné položky.'
+        is_closed: 'Verze je uzavřena. Do této verze nemohou být přidány žádné položky.'
+        close_version: 'Zavřít verzi'
+        open_version: 'Otevřít verzi'
+        lock_version: 'Uzamknout verzi'
+        unlock_version: 'Odemknout verzi'
+        edit_version: 'Upravit verzi'
+        show_version: 'Zobrazit verzi'
+        locked: 'Uzamčeno'
+        closed: 'Uzavřeno'
+      new_board: 'Nová tabule'
+      add_list: 'Přidat list na tabuli'
+      add_card: 'Přidat kartu'
+      error_attribute_not_writable: "Pracovní balíček nelze přesunout, do %{attribute} nelze zapisovat."
+      error_loading_the_list: "Chyba při načítání seznamu: %{error_message}"
+      error_permission_missing: "Chybí oprávnění k vytvoření veřejných dotazů"
+      error_cannot_move_into_self: "Pracovní balíček nelze přesunout do vlastního sloupce."
+      text_hidden_list_warning: "Ne všechny seznamy se zobrazují, protože vám chybí oprávnění. Pro více informací kontaktujte svého administrátora."
+      click_to_remove_list: "Kliknutím odstraníte tento seznam"
+      board_type:
+        text: 'Typ tabule'
+        free: 'základní'
+        select_board_type: 'Vyberte prosím typ tabule, kterou potřebujete.'
+        free_text: >
+          Začněte od začátku prázdnou tabulí ručním přidáváním karet a sloupců do této tabule.
+        action: 'Akční tabule'
+        action_by_attribute: 'Akční tabule (%{attribute})'
+        action_text: >
+          Tabule s filtrovanými seznamy v atributu %{attribute} . Přesunutí pracovních balíčků do jiných seznamů aktualizuje jejich atribut.
+        action_text_subprojects: >
+          Boj s automatickými sloupce pro podprojekty. Přesunutí pracovních balíčků do jiných seznamů odpovídajícím způsobem aktualizuje podprojekt.
+        action_text_subtasks: >
+          Tabule s automatickými sloupce pro podprojekty. Přesunutí pracovních balíčků do jiných seznamů odpovídajícím způsobem
+        action_text_status: >
+          Základní tabule ve stylu kanbanu se sloupci pro status jako je do Do, Probíhá, Done.
+        action_text_assignee: >
+          Tabule s automatickými sloupcemi založenými na přiřazených uživatelích. Ideal pro odesílání pracovních balíčků.
+        action_text_version: >
+          Tabule s automatickými sloupci na základě atributu verze. Ideal pro plánování vývoje produktů.
+        action_type:
+          assignee: Řešitel
+          status: Stav
+          version: verze
+          subproject: Podprojekt
+          subtasks: nadřazený-podřazený
+        board_type_title:
+          assignee: Řešitel
+          status: Stav
+          version: Verze
+          subproject: Podprojekt
+          subtasks: rodič-potomek
+          basic: Základní
+        select_attribute: "Atribut akce"
+      add_list_modal:
+        labels:
+          assignee: Vyberte uživatele, který chcete přidat jako nový seznam řešitelů
+          status: Vyberte stav pro přidání jako nový seznam
+          version: Vyberte verzi pro přidání jako nový seznam
+          subproject: Vyberte podprojekt pro přidání jako nový seznam
+          subtasks: Vyberte pracovní balíček, který chcete přidat jako nový seznam
+        warning:
+          status: |
+            V současné době není k dispozici žádný stav. <br>
+            Buď nejsou k dispozici žádné nebo již všechny byly přidány do tabule.
+          assignee: Žádný člen neodpovídá hodnotě vašeho filtru.  <br>
+          no_member: Tento projekt v současné době nemá žádné členy, kteří by mohli být přidáni.  <br>
+          add_members: <a href="%{link}">Přidejte nového člena do tohoto projektu</a> a znovu vyberte uživatele.
+      configuration_modal:
+        title: 'Konfigurovat tuto tabuli'
+        display_settings:
+          card_mode: "Zobrazit jako karty"
+          table_mode: "Zobrazit jako tabulku"

@@ -1,0 +1,38 @@
+<%= toolbar title: t('bcf.bcf_xml.import_title') %>
+
+<%= styled_form_tag({ action: :configure_import }, multipart: true, method: :post) do %>
+  <%= render partial: 'import_errors', locals: { error_message: t('bcf.bcf_xml.import.non_members_found'),
+                                                 error_objects: @importer.aggregations.non_members,
+                                                 error_default_text: t('bcf.bcf_xml.import.unknown_property')} %>
+  <% if @roles.any? %>
+    <% if User.current.allowed_in_project?(:manage_members, @project) %>
+
+      <%= render partial: 'import_solution', locals: { solution_select_id: 'non_members_chose_role_ids',
+                                                       hidden_field_identifier: 'non_members_action',
+                                                       solution_text: t('bcf.bcf_xml.import.add_as_members_with_role', project: @project.name),
+                                                       solution_options: @roles.collect { |obj| [obj.name, obj.id] }} %>
+    <% else %>
+      <div class="op-toast -warning">
+        <div class="op-toast--content">
+          <input type="hidden" name="import_options[non_members_action]" value="cancel">
+          <%= t('bcf.bcf_xml.import.contact_project_admin') %>
+        </div>
+      </div>
+      <br/>
+      <%= link_to t(:button_cancel),
+                  project_work_packages_path(@project),
+                  class: 'button' %>
+    <% end %>
+  <% else %>
+    <div class="op-toast -error">
+      <div class="op-toast--content">
+        <%= I18n.t('text_no_roles_defined') %>
+      </div>
+    </div>
+    <br/>
+    <%= link_to t(:button_cancel),
+                defaults_bcf_project_ifc_models_path(@project),
+                class: 'button' %>
+  <% end %>
+<% end %>
+

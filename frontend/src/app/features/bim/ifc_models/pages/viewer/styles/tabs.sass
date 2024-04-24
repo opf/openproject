@@ -1,0 +1,205 @@
+// -------------------------- GENERIC --------------------------
+.op-ifc-viewer--tree-panel
+  padding: 0 15px
+  color: var(--main-menu-font-color)
+
+// -------------------------- XEOKIT specific rules for TABS --------------------------
+.xeokit-tabs
+  display: flex
+  overflow: auto
+  @include no-visible-scroll-bar
+
+  .xeokit-tab
+    flex: 1 1 auto
+
+  .active
+    .xeokit-tab-content
+      display: block
+
+    .xeokit-tab-btn
+      border-bottom: 2px solid
+      border-color: var(--main-menu-font-color)
+
+  .xeokit-form-check
+    color: var(--main-menu-font-color)
+    @include text-shortener
+
+  // As the button and the content are in the same container,
+  // we have to position the content absolutely.
+  // Otherwise we could not show the buttons next to each other.
+  .xeokit-tab-content
+    display: none
+    position: absolute
+    left: 0
+    padding: 1.5em 15px
+    width: 100%
+
+    // Override inline style of xeokit
+    .xeokit-models,
+    .xeokit-objects,
+    .xeokit-classes,
+    .xeokit-storeys,
+    .xeokit-properties
+      overflow: hidden !important
+
+    .xeokit-btn-group
+      margin-bottom: 10px
+
+      .xeokit-btn
+        color: var(--main-menu-font-color)
+        background-color: transparent
+        border: 1px solid
+        border-color: var(--main-menu-font-color)
+
+  .xeokit-tab-btn
+    display: inline-block
+    color: var(--main-menu-font-color)
+    font-weight: var(--base-text-weight-bold)
+    padding: 0 5px !important
+    max-width: unset !important
+
+    &:hover
+      border-bottom: 2px solid white
+
+    &:focus
+      outline: none
+
+  .xeokit-propertiesTab
+    padding: 0 15px
+
+    a.xeokit-tab-btn
+      text-decoration: none
+      color: var(--body-font-color)
+      line-height: var(--main-menu-item-height)
+      height: var(--main-menu-item-height)
+      font-family: var(--body-font-family)
+      font-size: var(--main-menu-font-size)
+      font-style: normal
+
+    &.active a.xeokit-tab-btn
+      color: var(--accent-color)
+      border-bottom-color: var(--accent-color)
+
+    .xeokit-tab-content
+      position: relative
+      padding: 1.5em 0
+      color: var(--body-font-color)
+
+      p
+        font-size: 0.9rem
+
+    .xeokit-no-prop-set-warning
+      visibility: hidden
+
+    .no-object-selected-warning
+      font-style: italic
+
+    .xeokit-table
+      width: 100%
+
+      tr:first-child
+        border-top: 1px solid var(--table-border-color)
+
+      tr
+        border-bottom: 1px solid var(--table-border-color)
+
+      td:first-child
+        font-weight: var(--base-text-weight-bold)
+
+      td:last-child
+        overflow-wrap: anywhere
+
+      td
+        text-align: left
+        font-size: 0.9rem
+        line-height: 1.6
+        padding-top: 0.5rem
+        padding-bottom: 0.5rem
+        vertical-align: top
+
+// Highlighted list items shall look like a "pill", similarly to the selected tree item in the wiki menu.
+$pill-padding-left: 8px
+
+.xeokit-tab
+  ul
+    list-style: none
+    padding-left: 30px
+    margin-left: -1 * $pill-padding-left
+
+    li
+      line-height: 30px
+      padding-left: $pill-padding-left
+
+      a
+        display: inline-block
+        line-height: 30px
+        height: 30px
+        width: 20px
+        // Workaround to hide the actual text of the link and show our icons instead
+        color: var(--main-menu-bg-color)
+
+        .main-menu &
+          // reset main menu indents
+          padding: initial
+
+        &:hover,
+        &:focus,
+        &:active,
+        li:hover &
+          background-color: var(--main-menu-bg-color)
+          color: var(--main-menu-bg-color)
+
+        &:before
+          font-family: "openproject-icon-font" !important
+          color: var(--main-menu-font-color)
+          font-size: 0.7rem
+
+        &.plus:before
+          @include icon-mixin-arrow-right2
+
+        &.minus:before
+          @include icon-mixin-arrow-down1
+
+      .highlighted-node
+        background: var(--main-menu-bg-selected-background)
+        color: var(--main-menu-selected-font-color)
+        border-radius: 3px
+
+      input
+        margin-right: 5px
+        vertical-align: middle
+
+      span
+        cursor: pointer
+        vertical-align: middle
+
+        &:hover
+          vertical-align: middle
+
+  .xeokit-tree-panel > ul
+    padding-left: 0
+
+.xeokit-modelsTab
+  .xeokit-form-check
+    padding: 2px 0 2px 15px
+    line-height: 3ex
+
+    input
+      vertical-align: middle
+
+    span
+      color: var(--main-menu-font-color)
+      padding-left: 3px
+      width: calc(100% - 16px)
+      vertical-align: middle
+
+      &:hover
+        cursor: pointer
+
+      &.disabled:hover
+        cursor: default
+
+// Temporary fix until fixed upstream: The first two buttons in the "Models" tab are separate by a space character
+// between the elements. There is no such space before the "Add model" button. We need to emulate it.
+.xeokit-addModel
+  margin-left: 4px

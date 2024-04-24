@@ -1,0 +1,126 @@
+#!/bin/bash
+
+set -e
+
+. "${INSTALLER_DIR}/wizard"
+
+input_start() {
+	if [ "$(wiz_get "server/autoinstall")" = "skip" ] ; then
+		echo "No server installed. Skipping."
+		STATE="done"
+	else
+		STATE="params"
+	fi
+}
+
+input_params() {
+	# API key for OpenProject
+	local random_key=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c32;echo;)
+	if ! wiz_get "repositories/api-key" &>/dev/null ; then
+		wiz_set "repositories/api-key" "${random_key}"
+	fi
+
+	wiz_put "repositories/api-key"
+
+	if wiz_ask ; then
+		STATE="svn_setup"
+	else
+		echo "Aborting configuration."
+		exit 1
+	fi
+}
+
+select_svn_installation() {
+	wiz_put "repositories/svn-install"
+	if wiz_ask ; then
+		RET=$(wiz_get "repositories/svn-install")
+		if [ "$RET" = "install" ] ; then
+			STATE="svn_params"
+		else
+			STATE="git_setup"
+		fi
+	else
+		STATE="done"
+		echo "SVN configuration canceled."
+		exit 1
+	fi
+}
+
+input_svn_params() {
+	# Access token for Apache wrapper
+	local random_key=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c32;echo;)
+	if ! wiz_get "repositories/apache-wrapper-token" &>/dev/null ; then
+		wiz_set "repositories/apache-wrapper-token" "${random_key}"
+	fi
+
+	wiz_put "repositories/svn-path"
+	wiz_put "repositories/apache-wrapper-token"
+
+	if wiz_ask ; then
+		STATE="git_setup"
+	else
+		echo "Aborting configuration."
+		exit 1
+	fi
+}
+
+select_git_installation() {
+	wiz_put "repositories/git-install"
+	if wiz_ask ; then
+		RET=$(wiz_get "repositories/git-install")
+		if [ "$RET" = "install" ] ; then
+			STATE="git_params"
+		else
+			STATE="done"
+		fi
+	else
+		STATE="done"
+		echo "Git configuration canceled."
+		exit 1
+	fi
+}
+
+input_git_params() {
+	wiz_put "repositories/git-path"
+	wiz_put "repositories/git-http-backend"
+
+	if wiz_ask ; then
+		STATE="done"
+	else
+		echo "Aborting configuration."
+		exit 1
+	fi
+}
+
+state_machine() {
+	case "$1" in
+		"start")
+			input_start
+			;;
+		"params")
+			input_params
+			;;
+		"svn_setup")
+			select_svn_installation
+			;;
+		"svn_params")
+			input_svn_params
+			;;
+		"git_setup")
+			select_git_installation
+			;;
+		"git_params")
+			input_git_params
+			;;
+		"done")
+			echo "DONE"
+			exit 0
+			;;
+		*)
+			echo "invalid state: ${STATE}"
+			exit 1
+			;;
+	esac
+}
+
+wizard "start"

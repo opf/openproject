@@ -1,0 +1,92 @@
+@import "../../../app/features/team-planner/team-planner/assignee/tp-assignee"
+
+$view-select-dropdown-width: 8rem
+
+.router--team-planner
+  #content
+    height: 100%
+
+  &.router--work-packages-partitioned-split-view-details,
+  &.router--work-packages-partitioned-split-view-new
+    full-calendar.op-team-planner--calendar .fc-header-toolbar
+      .fc-resourceTimelineWeek-button,
+      .fc-resourceTimelineTwoWeeks-button,
+      .fc-today-button
+        display: none !important
+
+.op-team-planner
+  --fc-border-color: var(--color-border-muted)
+
+  &--calendar_empty
+    .fc-scrollgrid-section-body,
+    .fc-scrollgrid-section-footer
+      display: none
+
+  // -----------------
+  // This whole block is necessary to make the toolbar sticky and create a feeling of the team planner scrolling only inside.
+  // FullCalendar would normally do that on its own when passing `height: 100%` as parameter.
+  // However, this results in the team planner always spanning the complete screen which looks weird,
+  // if you only have few assignees. The last row is then always blown up.
+  .fc-header-toolbar
+    position: sticky
+    top: 0
+    background: white
+    z-index: 5
+    padding-left: 138px
+    // Necessary for the button to switch between views which is hacked in via absolute positioning.
+    padding-right: $view-select-dropdown-width + 0.5rem
+    padding-bottom: 1.5rem
+    margin: 0 !important
+
+  &--view-select-dropdown
+    width: $view-select-dropdown-width
+    display: flex
+    margin: 0
+
+    .button--text
+      flex-grow: 1
+      text-align: left
+
+  &--add-existing-toggle, &--view-select-dropdown
+    z-index: 6
+
+  .fc-scrollgrid
+    border-top: none !important
+
+  .fc-scrollgrid-section-header.fc-scrollgrid-section-sticky > *
+    top: 58px !important
+    border-top: 1px solid var(--fc-border-color, #ddd)
+  //-----------------
+
+  &_with_left_side_pane
+    .fc-header-toolbar
+      margin-left: -136px
+
+  .fc-event-dragging
+    opacity: 1 !important
+
+    .op-wp-single-card--content-inline-date
+      visibility: hidden
+
+  // Avoid pointer cursor on hover
+  .fc-event-draggable:hover
+    cursor: default
+
+  .op-team-planner--wp-loading-skeleton
+    svg
+      height: 80px
+
+  @media screen and (max-width: $breakpoint-sm)
+    .fc-header-toolbar
+      padding-left: 0
+    .fc-today-button + .fc-button-group
+      display: none
+    .fc-toolbar-chunk:first-child
+      display: none
+    .fc-datagrid-cell-frame
+      justify-content: center !important
+    .fc-datagrid-cell-cushion
+      padding: 12px 12px !important
+
+#op-team-planner--view-select-dropdown
+  min-width: $view-select-dropdown-width

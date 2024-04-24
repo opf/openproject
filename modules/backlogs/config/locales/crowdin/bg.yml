@@ -1,0 +1,158 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+bg:
+  plugin_openproject_backlogs:
+    name: "OpenProject Backlogs"
+    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
+  activerecord:
+    attributes:
+      work_package:
+        position: "Position"
+        story_points: "Точки на история"
+        backlogs_work_package_type: "Backlog type"
+    errors:
+      models:
+        work_package:
+          attributes:
+            blocks_ids:
+              can_only_contain_work_packages_of_current_sprint: "can only contain IDs of work packages in the current sprint."
+              must_block_at_least_one_work_package: "must contain the ID of at least one ticket."
+            version_id:
+              task_version_must_be_the_same_as_story_version: "трябва да бъде същата като версията на родителската история."
+        sprint:
+          cannot_end_before_it_starts: "Спринтът не може да приключи, преди да започне."
+  backlogs:
+    add_new_story: "Нова история"
+    any: "всяко"
+    backlog_settings: "Настройки за закъснения"
+    burndown_graph: "Графика на изгаряне"
+    card_paper_size: "Размер на хартията за печат на карти"
+    chart_options: "Опции на диаграмата"
+    close: "Затворени"
+    column_width: "Ширина на колоните:"
+    date: "Ден"
+    definition_of_done: "Definition of Done"
+    generating_chart: "Генериране на графика..."
+    hours: "Часа"
+    impediment: "Препядствие"
+    label_versions_default_fold_state: "Показване на сгънати версиите "
+    work_package_is_closed: "Работният пакет е готов, когато"
+    label_is_done_status: "Статус %{status_name} означава готово"
+    no_burndown_data: "Няма налични данни за изгаряне. Необходимо е да имате зададени начална и крайна дата на спринта."
+    points: "Точки"
+    positions_could_not_be_rebuilt: "Позициите не могат да бъдат възстановени."
+    positions_rebuilt_successfully: "Позициите са възстановени успешно."
+    properties: "Свойства"
+    rebuild: "Възстанови"
+    rebuild_positions: "Възстановете позициите"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
+    show_burndown_chart: "Графика на изгаряне"
+    story: "История"
+    story_points: "Точки на история"
+    story_points_ideal: "Точки на история (идеални)"
+    task: "Задача"
+    task_color: "Цвят на задачата"
+    unassigned: "Неприсвоен"
+    x_more: "%{count} more..."
+  backlogs_active: "Активен"
+  backlogs_any: "всякакви"
+  backlogs_inactive: "Проектът не показва активност"
+  backlogs_points_burn_direction: "Точки на изгаряне нагоре/надолу"
+  backlogs_product_backlog: "Натрупване на продукти"
+  backlogs_product_backlog_is_empty: "Натрупването на продукти е празно"
+  backlogs_product_backlog_unsized: "В горната част на изоставането на продукта има не оразмерени материали."
+  backlogs_sizing_inconsistent: "Размерите на историите се различават спрямо техните оценки"
+  backlogs_sprint_notes_missing: "Затворени спринтове без бележки за ретроспекция/преглед"
+  backlogs_sprint_unestimated: "Затворени или активни спринтове с неоценени истории"
+  backlogs_sprint_unsized: "Проектът има истории за активни или наскоро затворени спринтове, които не са оразмерени"
+  backlogs_sprints: "Спринтове"
+  backlogs_story: "История"
+  backlogs_story_type: "Типове истории"
+  backlogs_task: "Задача"
+  backlogs_task_type: "Тип задача"
+  backlogs_velocity_missing: "Не може да се изчисли скорост за този проект"
+  backlogs_velocity_varies: "Скоростта варира значително при спринтове"
+  backlogs_wiki_template: "Шаблон за уики страница на спринт"
+  backlogs_empty_title: "Не са дефинирани версии, които да се използват в неизпълнени задачи"
+  backlogs_empty_action_text: "За да започнете с неизпълнени задачи, създайте нова версия и я присвоете на колона с натрупани документи."
+  button_edit_wiki: "Редактиране на wiki страници"
+  error_backlogs_task_cannot_be_story: "Настройките са невалидни. Избраният тип задача също не може да бъде тип история."
+  error_intro_plural: "Бяха открити следните грешки:"
+  error_intro_singular: "Възникна следната грешка:"
+  error_outro: "Please correct the above errors before submitting again."
+  event_sprint_description: "%{summary}: %{url}\n%{description}"
+  event_sprint_summary: "%{project}: %{summary}"
+  ideal: "идеален"
+  inclusion: "не е включен в списъка"
+  label_back_to_project: "Назад към страницата на проекта"
+  label_backlog: "Неизпълнена задача"
+  label_backlogs: "Backlogs"
+  label_backlogs_unconfigured: "Все още не сте конфигурирали Неизпълнени задачи. Моля, отидете на %{administration} > %{plugins}, след което щракнете върху връзката %{configure} за този плъгин. След като зададете полетата, върнете се на тази страница, за да започнете да използвате инструмента."
+  label_blocks_ids: "ID на блокирани работни пакети"
+  label_burndown: "Изгаряне"
+  label_column_in_backlog: "Column in backlog"
+  label_hours: "часове"
+  label_work_package_hierarchy: "Йерархия на работните пакети"
+  label_master_backlog: "Главна неизпълнена работа"
+  label_not_prioritized: "без приоритет"
+  label_points: "Точки"
+  label_points_burn_down: "Надолу"
+  label_points_burn_up: "Нагоре"
+  label_product_backlog: "Натрупване на продукти"
+  label_select_all: "Избери всички"
+  label_sprint_backlog: "списък с неизпълнени работи в  спринта"
+  label_sprint_cards: "Експорт карти"
+  label_sprint_impediments: "Пречки за спринт"
+  label_sprint_name: "Спринт \"%{name}\""
+  label_sprint_velocity: "Velocity %{velocity}, based on %{sprints} sprints with an average %{days} days"
+  label_stories: "Stories"
+  label_stories_tasks: "Stories/Tasks"
+  label_task_board: "Task board"
+  label_version_setting: "Versions"
+  label_version: 'Версия'
+  label_webcal: "Webcal Feed"
+  label_wiki: "Wiki"
+  permission_view_master_backlog: "View master backlog"
+  permission_view_taskboards: "View taskboards"
+  permission_select_done_statuses: "Изберете готови състояния"
+  permission_update_sprints: "Update sprints"
+  points_accepted: "points accepted"
+  points_committed: "points committed"
+  points_resolved: "points resolved"
+  points_to_accept: "points not accepted"
+  points_to_resolve: "points not resolved"
+  project_module_backlogs: "Опашка"
+  rb_label_copy_tasks: "Copy work packages"
+  rb_label_copy_tasks_all: "All"
+  rb_label_copy_tasks_none: "None"
+  rb_label_copy_tasks_open: "Open"
+  rb_label_link_to_original: "Включете връзка към оригиналната история"
+  remaining_hours: "remaining work"
+  required_burn_rate_hours: "required burn rate (hours)"
+  required_burn_rate_points: "required burn rate (points)"
+  todo_work_package_description: "%{summary}: %{url}\n%{description}"
+  todo_work_package_summary: "%{type}: %{summary}"
+  version_settings_display_label: "Колона в баклога"
+  version_settings_display_option_left: "left"
+  version_settings_display_option_none: "none"
+  version_settings_display_option_right: "right"

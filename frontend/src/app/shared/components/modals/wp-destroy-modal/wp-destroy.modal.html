@@ -1,0 +1,78 @@
+<div
+  class="spot-modal"
+  data-indicator-name="modal"
+  id="wp_destroy_modal"
+>
+  <div id="spotModalTitle" class="spot-modal--header">{{text.title}}</div>
+
+  <div class="spot-modal--body spot-container">
+    <ng-container *ngIf="singleWorkPackage">
+      <p>
+        <span [textContent]="text.single_text"></span>
+        <strong> {{ singleWorkPackage.subject }} #{{ singleWorkPackage.id }}</strong>
+        <span>?</span>
+      </p>
+      <div *ngIf="singleWorkPackageChildren && singleWorkPackageChildren.length > 0">
+        <p class="danger-zone--warning">
+          <span class="icon-context icon-error"></span>
+          <strong [textContent]="text.warning"></strong>:
+          <span [textContent]="text.hasChildren(singleWorkPackage)"></span>
+        </p>
+        <ul>
+          <li *ngFor="let child of singleWorkPackageChildren">
+            #<span [textContent]="child.id"></span>
+            <span [textContent]="child.subject || ''"></span>
+          </li>
+        </ul>
+        <p>
+          <span [textContent]="text.deletesChildren"></span>
+        </p>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="workPackages.length > 1">
+      <p class="danger-zone--warning">
+        <span class="icon-context icon-error"></span>
+        <strong [textContent]="text.bulk_text"></strong>
+      </p>
+      <ul>
+        <li *ngFor="let wp of workPackages">
+          #<span [textContent]="wp.id"></span>
+          &ngsp;
+          <span [textContent]="wp.subject"></span>
+          <strong *ngIf="children(wp).length > 0">
+            (+ {{ text.childCount(wp) }})
+          </strong>
+        </li>
+      </ul>
+    </ng-container>
+    <div *ngIf="mustConfirmChildren">
+      <label class="form--label-with-check-box -no-ellipsis">
+        <div class="form--check-box-container">
+          <input type="checkbox"
+                 name="confirm-children-deletion"
+                 id="confirm-children-deletion"
+                 [(ngModel)]="childrenDeletionConfirmed"
+                 class="form--check-box"/>
+        </div>
+        {{ text.label_confirm_children_deletion }}
+      </label>
+    </div>
+  </div>
+
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button
+        class="button button_no-margin spot-modal--cancel-button spot-action-bar--action"
+        [textContent]="text.cancel"
+        (click)="closeMe($event)"
+      ></button>
+      <button
+        class="button button_no-margin -danger spot-action-bar--action"
+        [attr.disabled]="busy || blockedDueToUnconfirmedChildren || undefined"
+        (click)="confirmDeletion($event)">
+        <span class="spot-icon spot-icon_delete"></span>
+        {{ text.confirm }}
+      </button>
+    </div>
+  </div>
+</div>

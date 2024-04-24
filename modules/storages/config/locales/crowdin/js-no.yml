@@ -1,0 +1,85 @@
+#English strings go here
+"no":
+  js:
+    storages:
+      link_files_in_storage: "Koble filer i %{storageType}"
+      link_existing_files: "Koble eksisterende filer"
+      upload_files: "Last opp filer"
+      drop_files: "Slipp filer her for å laste dem opp til %{name}."
+      drop_or_click_files: "Slipp filer her eller klikk for å laste dem opp til %{name}."
+      login: "%{storageType} pålogging"
+      login_to: "Logg inn til %{storageType}"
+      no_connection: "Ingen %{storageType} forbindelse"
+      open_storage: "Åpne %{storageType}"
+      select_location: "Velg plassering"
+      choose_location: "Velg plassering"
+      types:
+        nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
+        default: "Lagringssted"
+      information:
+        connection_error: >
+          Noen %{storageType} innstillinger fungerer ikke. Vennligst kontakt din %{storageType} administrator.
+        live_data_error: "Feil ved henting av fildetaljer"
+        live_data_error_description: >
+          Noen %{storageType} data kunne ikke hentes. Prøv å laste denne siden på nytt eller kontakt din %{storageType} administrator.
+        no_file_links: "For å koble filer til denne arbeidspakken må du gjøre det via %{storageType}."
+        not_logged_in: >
+          For å legge til en link, se eller last opp filer knyttet til denne arbeidspakken, vennligst logg inn på %{storageType}.
+      files:
+        already_existing_header: "Denne filen eksisterer allerede"
+        already_existing_body: >
+          En fil med navnet "%{fileName}" finnes allerede der du prøver å laste opp filen. Hva vil du gjøre?
+        directory_not_writeable: "Du har ikke tillatelse til å legge filer til denne mappen."
+        dragging_many_files: "Opplastingen til %{storageType} støtter kun én fil samtidig."
+        dragging_folder: "Opplastingen til %{storageType} støtter ikke mapper."
+        empty_folder: "Denne mappen er tom."
+        empty_folder_location_hint: "Klikk på knappen nedenfor for å laste opp filen til denne plasseringen."
+        file_not_selectable_location: "Valg av fil er ikke mulig for valg av plassering."
+        project_folder_no_access: >
+          Du har ikke tilgang til prosjektmappen. Vennligst kontakt systemansvarlig for å få tilgang til filen eller laste opp en annen plass.
+        managed_project_folder_not_available: >
+          Den automatisk administrerte prosjektmappen ble ikke funnet ennå. Vent litt, last siden på nytt for å hente nyeste data, og prøv på nytt.
+        managed_project_folder_no_access: >
+          Du har ikke tilgang til den administrerte prosjektmappen. Vennligst vent litt og prøv igjen.
+        upload_keep_both: "Behold begge"
+        upload_replace: "Erstatt"
+      file_links:
+        empty: >
+          Foreløpig er det ingen filer koblet til denne arbeidspakken. Start med å koble filer med handlingen nedenfor eller fra %{storageType}.
+        download: "Last ned %{fileName}"
+        open: "Åpne fil på lagringssted"
+        open_location: "Åpne fil på"
+        remove: "Fjern filkobling"
+        remove_confirmation: >
+          Er du sikker på at du vil koble fra filen fra denne arbeidspakken? Frakobling påvirker ikke den opprinnelige filen og fjerner bare forbindelsen til denne arbeidspakken.
+        remove_short: "Fjern koblingen"
+        select: "Velg filer"
+        select_all: "Velg alle"
+        selection:
+          zero: "Velg filer som skal kobles"
+          one: "Koble 1 fil"
+          other: "Koble %{count} filer"
+        success_create:
+          one: "Opprettet én fillenke"
+          other: "%{count} fil-linker ble opprettet."
+        upload_error:
+          default: >
+            Filen din (%{fileName}) kunne ikke lastes opp.
+          403: >
+            Din fil (%{fileName}) kunne ikke lastes opp på grunn av systembegrensninger. Vennligst kontakt systemansvarlig for mer informasjon.
+          413: >
+            Din fil (%{fileName}) er større enn hva OpenProject kan laste opp til %{storageType}. Du kan laste opp direkte til %{storageType} først og deretter linke filen.
+          507: >
+            Filen din (%{fileName}) er større enn lagringskvoten. Kontakt administratoren din for å endre denne kvoten.
+          detail:
+            nextcloud: >
+              Vennligst sjekk at den nyeste versjonen av Nextcloud appen "OpenProject Integration" er installert og kontakt systemansvarlig for mer informasjon.
+        link_uploaded_file_error: >
+          Det oppstod en feil med kobling av den nylig opplastede filen%{fileName}' til arbeidspakken %{workPackageId}.
+        tooltip:
+          not_logged_in: "Vennligst logg inn på lagringen for tilgang til denne filen."
+          view_not_allowed: "Du har ikke tillatelse til å se denne filen."
+          not_found: "Denne filen ble ikke funnet."
+        already_linked_file: "Denne filen er allerede koblet til denne arbeidspakken."
+        already_linked_directory: "Denne mappen er allerede koblet til denne arbeidspakken."

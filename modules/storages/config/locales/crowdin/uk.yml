@@ -1,0 +1,253 @@
+uk:
+  activerecord:
+    attributes:
+      storages/file_link:
+        origin_id: Код джерела
+      storages/storage:
+        creator: Автор
+        drive: ID диску
+        host: Хост
+        name: Назва
+        provider_type: Тип постачальника
+        tenant: ID каталогу (клієнта)
+    errors:
+      messages:
+        not_linked_to_project: '– не пов’язано з проєктом.'
+      models:
+        storages/file_link:
+          attributes:
+            origin_id:
+              only_numeric_or_uuid: '– може бути тільки числом або ідентифікатором uuid.'
+        storages/project_storage:
+          attributes:
+            project_folder_mode:
+              mode_unavailable: '– недоступно для цього сховища.'
+        storages/storage:
+          attributes:
+            host:
+              authorization_header_missing: налаштовано не повністю. Екземпляр Nextcloud не отримує заголовка «Authorization», який необхідний для авторизації запитів API на основі маркерів власника. Перевірте свою конфігурацію сервера HTTP.
+              cannot_be_connected_to: '– не можна підключитися.'
+              minimal_nextcloud_version_unmet: '– не відповідає мінімальним вимогам до версії (Nextcloud 23 або новішої версії)'
+              not_nextcloud_server: '– не є сервером Nextcloud.'
+              op_application_not_installed: схоже, у вас не встановлено додаток OpenProject integration. Спочатку встановіть його, а потім спробуйте знову.
+            password:
+              invalid_password: недійсний.
+              unknown_error: не вдалося перевірити. Перевірте підключення до сховища й повторіть спробу.
+    models:
+      file_link: Файл
+      storages/storage: Сховище
+  api_v3:
+    errors:
+      too_many_elements_created_at_once: Забагато елементів, створених за раз. Очікувалося щонайбільше %{max}; отримано %{actual}.
+  permission_create_files: 'Зовнішнє сховище: створення файлів'
+  permission_delete_files: 'Зовнішнє сховище: видалення файлів'
+  permission_manage_file_links: Керування посиланнями на файл
+  permission_manage_storages_in_project: Керування файловими сховищами в проєкті
+  permission_read_files: 'Зовнішнє сховище: читання файлів'
+  permission_share_files: 'Зовнішнє сховище: надання доступу до файлів'
+  permission_view_file_links: Перегляд посилань на файл
+  permission_write_files: 'Зовнішнє сховище: записування файлів'
+  project_module_storages: Файлові сховища
+  storages:
+    buttons:
+      complete_without_setup: Завершити без налаштування
+      done_complete_setup: Готово – завершити налаштування
+      done_continue: Виконано, продовжити
+      replace_oauth_application: Замінити OpenProject OAuth
+      replace_oauth_client: Замінити %{provider_type} OAuth
+      save_and_continue: Зберегти та продовжити
+      select_folder: Вибрати папку
+    configuration_checks:
+      oauth_client_incomplete:
+        nextcloud: Надайте OpenProject доступ до даних Nextcloud із використанням OAuth.
+        one_drive: Надайте OpenProject доступ до даних Azure із використанням OAuth для підключення OneDrive / Sharepoint.
+      redirect_uri_incomplete:
+        one_drive: Завершіть налаштування за допомогою правильного URI переспрямування.
+    confirm_replace_oauth_application: Ця дія призведе до скидання поточних облікових даних OAuth. Коли ви підтвердите дію, вам потрібно буде повторно ввести облікові дані в системі постачальника сховища. У такому разі всім віддаленим користувачам знадобиться знову пройти автентифікацію в OpenProject. Продовжити?
+    confirm_replace_oauth_client: Ця дія призведе до скидання поточних облікових даних OAuth. Коли ви підтвердите дію, вам потрібно буде ввести нові облікові дані в системі постачальника сховища. У такому разі всім користувачам знадобиться знову пройти автентифікацію в %{provider_type}. Продовжити?
+    delete_warning:
+      input_delete_confirmation: Введіть ім’я файлового сховища %{file_storage}, щоб підтвердити видалення.
+      irreversible_notice: Видалення файлового сховища не можна скасувати.
+      project_storage: 'Справді видалити %{file_storage} з цього проєкту? Щоб підтвердити цю дію, введіть ім’я сховище в поле нижче, щоб:'
+      project_storage_delete_result_1: Вилучіть усі посилання на файли й папки в цьому сховизі з пакетів робіт поточного проєкту.
+      project_storage_delete_result_2: Якщо це сховище містить папку проєкту з автоматичним керуванням, цю папку та всі її файли буде остаточно видалено.
+      storage: 'Справді видалити %{file_storage}? Щоб підтвердити цю дію, введіть ім’я сховища в поле нижче, щоб:'
+      storage_delete_result_1: вилучити всі налаштування сховища для всіх проєктів, де воно використовується;
+      storage_delete_result_2: вилучити всі посилання з пакетів робіт з усіх проєктів на файли й папки в цьому сховищі.
+      storage_delete_result_3: Якщо це сховище містить папки проєкту з автоматичним керуванням, цю папку й усі її файли буде остаточно видалено.
+    error_invalid_provider_type: Виберіть дійсного постачальника сховища.
+    file_storage_view:
+      access_management:
+        automatic_management: Доступ і папки з автоматичним керуванням
+        automatic_management_description: Дозвольте OpenProject автоматично створювати папки для проєкту й керувати доступом користувачів до них. Радимо зробити це, адже в такому разі кожен учасник команди завжди матиме належні дозволи на доступ.
+        description: Виберіть тип керування доступом користувачів і створенням папок. Рекомендуємо використовувати «Автоматичне керування доступом». Це забезпечує більш організовану структуру й гарантує доступ усім відповідним користувачам.
+        manual_management: Доступ і папки з ручним керуванням
+        manual_management_description: Створюйте папки для кожного проєкту й керуйте ними самостійно. Вам знадобиться вручну надавати доступ відповідним користувачам.
+        setup_incomplete: Виберіть тип керування доступом користувачів і створенням папок.
+        subtitle: Керування доступом
+        title: Доступ і папки проєкту
+      automatically_managed_folders: Папки з автоматичним керуванням
+      general_information: Загальна інформація
+      nextcloud_oauth: Nextcloud OAuth
+      oauth_applications: Програми OAuth
+      one_drive_oauth: Azure OAuth
+      openproject_oauth: OpenProject OAuth
+      project_folders: Папки проєкту
+      redirect_uri: URI переспрямування
+      storage_provider: Постачальник сховища
+    health:
+      checked: 'Востаннє перевірено: %{datetime}'
+      label_error: Помилка
+      label_healthy: Справність
+      label_pending: Очікування
+      since: з %{datetime}
+      subtitle: Папки проєкту з автоматичним керуванням
+      title: Стан справності
+    health_email_notifications:
+      description_subscribed: Усі адміністратори отримують сповіщення електронною поштою про стан справності цього сховища.
+      description_unsubscribed: Сповіщення про стан справності цього сховища вимкнено для всіх адміністраторів.
+      error_could_not_be_saved: Не вдалося зберегти налаштування сповіщень електронною поштою. Повторіть спробу.
+      subscribe: Підписатися
+      title: Сповіщення електронною поштою
+      unsubscribe: Відписатися
+    help_texts:
+      project_folder: Папка проєкту – це папка за замовчуванням для файлів, які передаються в цей проєкт. Однак користувачі можуть передавати файли в інші розташування.
+    instructions:
+      all_available_storages_already_added: У проєкт уже додано всі доступні сховища.
+      automatic_folder: Буде автоматично створено кореневу папку для цього проєкту й налаштовано дозволи на доступ для кожного учасника проєкту.
+      copy_from: Копіювати це значення з
+      empty_project_folder_validation: Щоб продовжити, потрібно вибрати папку.
+      existing_manual_folder: Ви можете призначити наявну папку як кореневу папку для цього проєкту. Однак дозволи автоматично не налаштовуються, і адміністратор має вручну надати користувачам відповідні дозволи на доступ. Вибрану папку зможуть використовувати кілька проєктів.
+      host: Додайте адресу хосту для свого сховища, включно з https://. Її довжина не може перевищувати 255 символів.
+      managed_project_folders_application_password_caption: 'Увімкніть папки з автоматичним керуванням, скопіювавши це значення з %{provider_type_link}.'
+      name: Назвіть своє сховище, щоб користувачі могли відрізняти його від інших сховищ.
+      new_storage: Щою дізнатися більше, ознайомтеся з нашою документацією щодо <a target='_blank' href='%{provider_link}'>налаштування інтеграції файлового сховища %{provider_name}</a>.
+      nextcloud:
+        application_link_text: Integration OpenProject
+        integration: Адміністрування Nextcloud / OpenProject
+        oauth_configuration: Скопіюйте ці значення з додатка %{application_link_text}.
+        provider_configuration: Перш ніж виконувати налаштування, переконайтеся, що маєте права адміністратора у своєму екземплярі Nextcloud і що встановлено %{application_link_text}.
+      no_specific_folder: За замовчуванням кожен користувач, який передасть файл, починатиме роботу у власній головній папці.
+      no_storage_set_up: Файлові сховища поки не створено.
+      not_logged_into_storage: Шоб вибрати папку проєкту, спочатку ввійдіть
+      oauth_application_details: Секретний ключ клієнта стане недоступним, коли ви закриєте це вікно. Скопіюйте ці значення в %{oauth_application_details_link}.
+      oauth_application_details_link_text: Налаштування інтеграції Nextcloud OpenProject
+      one_drive:
+        application_link_text: Портал Azure
+        copy_redirect_uri: Копіювати URI переспрямування
+        documentation_link_text: Документація щодо файлових сховищ OneDrive / SharePoint
+        drive_id: 'Скопіюйте ідентифікатор із потрібного диска, дотримуючись цих вказівок: %{drive_id_link_text}.'
+        integration: OneDrive / SharePoint
+        missing_client_id_for_redirect_uri: Введіть значення OAuth, щоб згенерувати URI
+        oauth_client_redirect_uri: Скопіюйте це значення в новий ідентифікатор URI вебпереспрямуваня в розділі «URI переспрямування».
+        oauth_client_secret: Якщо в облікових даних клієнта немає секрету клієнту додатка, створіть його.
+        oauth_configuration: Скопіюйте ці значення з потрібного додатка в %{application_link_text}.
+        provider_configuration: Перш ніж виконувати налаштування, переконайтеся, що у вас є права адміністратора в додатку %{application_link_text}, або зверніться до свого адміністратора Microsoft. На порталі вам також знадобиться зареєструвати додаток Azure або скористатися наявним під час автентифікації.
+        tenant_id: Скопіюйте ідентифікатор каталога (клієнта) з потрібного додатка й розділу «Реєстрації додатка» в %{application_link_text}.
+        tenant_id_placeholder: Назва або UUID
+      setting_up_additional_storages: Щоб створити додаткові файлові сховища, перейдіть у
+      setting_up_additional_storages_non_admin: Адміністратори можуть створювати додаткові файлові сховища в розділі «Адміністрування» / «Файлові сховища».
+      setting_up_storages: Щоб створити файлові сховища, перейдіть у
+      setting_up_storages_non_admin: Адміністратори можуть створювати файлові сховища в розділі «Адміністрування» / «Файлові сховища».
+      type: 'Перш ніж виконувати налаштування, переконайтеся, що маєте права адміністратора у своєму екземплярі Nextcloud і що встановлено цей додаток:'
+      type_link_text: "«Інтеграція OpenProject»"
+    label_active: Активні
+    label_add_new_storage: Додати нове сховище
+    label_automatic_folder: Нова папка з автоматичним керуванням дозволами
+    label_completed: Завершено
+    label_creation_time: Час створення
+    label_creator: Автор
+    label_delete_storage: Видалити сховище
+    label_edit_storage: Редагувати сховище
+    label_edit_storage_access_management: Змінити керування доступом до сховища
+    label_edit_storage_automatically_managed_folders: Редагувати папки сховища з автоматичним керуванням
+    label_edit_storage_host: Редагувати хост сховища
+    label_existing_manual_folder: Наявна папка з ручним керуванням дозволами
+    label_file_storage: Файлове сховище
+    label_host: URL-адреса хосту
+    label_inactive: Неактивні
+    label_incomplete: Не завершено
+    label_managed_project_folders:
+      application_password: Пароль додатка
+      automatically_managed_folders: Папки з автоматичним керуванням
+    label_name: Назва
+    label_new_file_storage: Нове сховище %{provider}
+    label_new_storage: Нове сховище
+    label_no_selected_folder: Папку не вибрано
+    label_no_specific_folder: Немає конкретної папки
+    label_oauth_client_id: Ідентифікатор клієнта OAuth
+    label_openproject_oauth_application_id: Ідентифікатор клієнта OpenProject OAuth
+    label_openproject_oauth_application_secret: Секрет клієнта OpenProject OAuth
+    label_project_folder: Папка проєкту
+    label_provider: Постачальник
+    label_redirect_uri: URI переспрямування
+    label_show_storage_redirect_uri: Показати URI переспрямування
+    label_status: Стан
+    label_storage: Сховище
+    label_uri: URI
+    member_connection_status:
+      connected: Підключено
+      connected_no_permissions: Ролі користувача не надано дозволи на доступ до сховища
+      not_connected: 'Не підключено. Користувач має ввійти в сховище за цим посиланням: %{link}.'
+    members_no_results: Немає учасників.
+    no_results: Сховища поки не створено.
+    notice_successful_storage_connection: |-
+      Сховище підключено. Щоб користуватися ним, активуйте модуль і визначене сховище в налаштуваннях
+      кожного потрібного проєкту.
+    oauth_grant_nudge_modal:
+      access_granted: Доступ надано
+      access_granted_screen_reader: Доступ надано. Тепер %{storage} готове до використання.
+      body: Щоб отримати доступ до папки проєкту, потрібно ввійти в %{storage}.
+      cancel_button_label: Я зроблю це пізніше
+      confirm_button_aria_label: Увійти в %{storage}
+      confirm_button_label: Увійти
+      requesting_access_to: Надсилаємо запит на доступ до %{storage}
+      storage_ready: Тепер ви можете використовувати сховище %{storage}
+      title: Ще один крок...
+    open_project_storage_modal:
+      success:
+        subtitle: Виконується переспрямування
+        title: Налаштування інтеграції завершено
+      waiting:
+        subtitle: Трохи зачекайте. Це може зайняти деякий час...
+        title: Ми налаштовуємо ваші дозволи для папки проєкту.
+    page_titles:
+      file_storages:
+        delete: Видалити файлове сховище
+        subtitle: Додайте зовнішнє файлове сховище, щоб вивантажувати файли, створювати посилання й керувати файлами в пакетах робіт.
+      managed_project_folders:
+        subtitle: |-
+          Дозвольте OpenProject автоматично створювати папки для проєкту. Радимо зробити це, адже в такому разі кожен учасник
+          команди завжди матиме належні дозволи на доступ.
+        subtitle_short: Дозвольте автоматично створювати папки для кожного проєкту в OpenProject.
+        title: Папки проєкту з автоматичним керуванням
+      project_settings:
+        delete: Видалити файлове сховище
+        edit: Редагувати файлове сховище для цього проєкту
+        index: Файлові сховища доступні в цьому проєкті
+        members_connection_status: Стан підключення учасників
+        new: Додайте сховище файлів до цього проєкту
+      project_storage_members:
+        subtitle: Перевірте стан підключення до сховища %{storage_name_link} для всіх учасників проєкту.
+        title: Стан підключення учасників
+    permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
+    provider_types:
+      label: Тип постачальника
+      nextcloud:
+        label_oauth_client_id: Ідентифікатор клієнта Nextcloud OAuth
+        label_oauth_client_secret: Секрет клієнта Nextcloud OAuth
+        name: Nextcloud
+        name_placeholder: наприклад, Nextcloud
+      one_drive:
+        label_oauth_client_id: Ідентифікатор (клієнт) додатка Azure OAuth
+        label_oauth_client_secret: Значення секрету клієнта Azure OAuth
+        name: OneDrive / SharePoint
+        name_placeholder: напр. OneDrive
+    storage_list_blank_slate:
+      description: Додайте сховище, щоб воно з’явилося тут.
+      heading: У вас ще немає жодного сховища.
+    upsale:
+      description: |-
+        Інтегруйте OneDrive і/або SharePoint як файлове сховище в OpenProject. Додайте файли й прив’яжіть їх безпосередньо до
+        пакетів робіт у проєкті.
+      title: Інтеграція OneDrive / SharePoint

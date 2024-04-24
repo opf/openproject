@@ -1,0 +1,45 @@
+<%=
+  render(Primer::Beta::Text.new(tag: :div, test_selector: 'storage-openproject-oauth-application-form')) do
+    flex_layout(flex_items: :center) do |credentials_row|
+      credentials_row.with_row(mb: 3, test_selector: 'storage-openproject_oauth_application_warning') do
+        render(Primer::Alpha::Banner.new(icon: :alert, scheme: :warning)) do
+          I18n.t('storages.instructions.oauth_application_details', oauth_application_details_link: oauth_application_details_link).html_safe
+        end
+      end
+
+      credentials_row.with_row(mb: 3) do
+        render(Primer::OpenProject::InputGroup.new(input_width: :large)) do |input_group|
+          input_group.with_text_input(name: :openproject_oauth_application_uid,
+                                      label: I18n.t('storages.label_openproject_oauth_application_id'),
+                                      visually_hide_label: false,
+                                      value: oauth_application.uid,
+                                      required: true)
+          input_group.with_trailing_action_clipboard_copy_button(
+            value: oauth_application.uid,
+            aria: {
+              label: I18n.t('button_copy_to_clipboard')
+            })
+        end
+      end
+
+      credentials_row.with_row(mb: 3) do
+        render(Primer::OpenProject::InputGroup.new(input_width: :large)) do |input_group|
+          input_group.with_text_input(name: :openproject_oauth_application_secret,
+                                      label: I18n.t('storages.label_openproject_oauth_application_secret'),
+                                      visually_hide_label: false,
+                                      value: oauth_application.plaintext_secret,
+                                      required: true)
+          input_group.with_trailing_action_clipboard_copy_button(
+            value: oauth_application.plaintext_secret,
+            aria: {
+              label: I18n.t('button_copy_to_clipboard')
+            })
+        end
+      end
+
+      credentials_row.with_row do
+        concat(render(Primer::Beta::Button.new(**submit_button_options)) { I18n.t('storages.buttons.done_continue') })
+      end
+    end
+  end
+%>

@@ -1,0 +1,17 @@
+<button
+  *ngIf="removable"
+  class="spot-filter-chip--remove"
+  type="button"
+  (click)="remove.emit()"
+  [attr.aria-label]="text.remove"
+  [disabled]="disabled"
+>
+  <span class="spot-icon spot-icon_close"></span>
+</button>
+<div class="spot-filter-chip--title">
+  <span
+    *ngIf="icon"
+    [ngClass]="iconClasses"
+  ></span>
+  {{ title }}
+</div>

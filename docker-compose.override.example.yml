@@ -1,0 +1,25 @@
+# This is an example for the `docker-compose.override.yml`.
+# You can use this as a base for creating your own override file.
+
+services:
+  backend:
+    environment:
+      OPENPROJECT_CLI_PROXY: "http://localhost:${PORT}"
+    ports:
+      - "3000:3000"
+
+  frontend:
+    ports:
+      - "${PORT}:4200"
+
+  db:
+    ports:
+      - '5432:5432'
+
+  db-test:
+    ports:
+      - '5433:5432'
+
+  chrome:
+    ports:
+      - '5900:5900'

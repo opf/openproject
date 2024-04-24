@@ -1,0 +1,8 @@
+#English strings go here
+ca:
+  js:
+    calendar:
+      create_new: 'Crear nou calendari'
+      title: 'Calendari'
+      too_many: 'Hi ha %{count} paquets de treball en total, però només %{max} es poden mostrar'
+      unsaved_title: 'Calendari sense nom'

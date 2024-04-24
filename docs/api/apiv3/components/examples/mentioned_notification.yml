@@ -1,0 +1,48 @@
+# Example: Mentioned notification
+---
+value:
+  _type: Notification
+  id: 1
+  readIAN: false
+  reason: mentioned
+  createdAt: '2022-04-05T14:38:28.881Z'
+  updatedAt: '2022-04-06T09:03:24.591Z'
+  _embedded:
+    author:
+      _hint: User resource shortened for brevity
+      _type: User
+      id: 13
+      name: Darth Nihilus
+    project:
+      _hint: Project resource shortened for brevity
+      _type: Project
+      id: 11
+      name: Jedi Remnant Locator
+    activity:
+      _hint: Activity resource shortened for brevity
+      _type: Activity::Comment
+      id: 180
+      version: 3
+    resource:
+      _hint: WorkPackage resource shortened for brevity
+      _type: WorkPackage
+      id: 77
+      subject: Educate Visas Marr
+    details: []
+  _links:
+    self:
+      href: '/api/v3/notifications/1'
+    readIAN:
+      href: '/api/v3/notifications/1/read_ian'
+      method: post
+    actor:
+      href: '/api/v3/users/13'
+      title: Darth Nihilus
+    project:
+      href: '/api/v3/projects/11'
+      title: Jedi Remnant Locator
+    activity:
+      href: '/api/v3/activities/180'
+    resource:
+      href: '/api/v3/work_packages/77'
+      title: Educate Visas Marr

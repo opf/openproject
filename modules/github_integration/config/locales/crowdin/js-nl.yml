@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+nl:
+  js:
+    github_integration:
+      work_packages:
+        tab_name: "GitHub"
+      tab_header:
+        title: "Pull requests"
+        copy_menu:
+          label: Git snippets
+          description: Git snippets kopiëren naar klembord
+        git_actions:
+          branch_name: Branch naam
+          commit_message: Commit bericht
+          cmd: Maak branch met lege commit
+          title: Snelle snippets voor Git
+          copy_success: '✅ Gekopieerd!'
+          copy_error: '❌ Kopiëren mislukt!'
+      tab_prs:
+        empty: 'Er zijn nog geen pull requests gekoppeld. Koppel een bestaande PR door de code <code>OP#%{wp_id}</code> in de PR-beschrijving te gebruiken of maak een nieuwe PR.'
+      github_actions: Acties
+      pull_requests:
+        message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}."
+        merged_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}."
+        referenced_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package."
+        states:
+          opened: 'geopend'
+          closed: 'gesloten'
+          draft: 'drafted'
+          merged: 'samengevoegd'
+          ready_for_review: 'gemarkeerd als klaar voor review'

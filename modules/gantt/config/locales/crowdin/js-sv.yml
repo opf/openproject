@@ -1,0 +1,6 @@
+sv:
+  js:
+    queries:
+      all_open: 'All open'
+      timeline: 'Tidslinje'
+      milestones: 'Milestones'

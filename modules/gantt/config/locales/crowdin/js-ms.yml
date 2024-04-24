@@ -1,0 +1,6 @@
+ms:
+  js:
+    queries:
+      all_open: 'Semua terbuka'
+      timeline: 'Garis masa'
+      milestones: 'Pencapaian'

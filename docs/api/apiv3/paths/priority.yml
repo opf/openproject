@@ -1,0 +1,53 @@
+# /api/v3/priorities/{id}
+---
+get:
+  parameters:
+  - description: Priority id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  self:
+                    href: "/api/v3/priorities/1"
+                    title: Low
+                _type: Priority
+                id: 1
+                isActive: true
+                isDefault: false
+                name: Low
+                position: 1
+          schema:
+            "$ref": "../components/schemas/priority_model.yml"
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not allowed to see this priority.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** view work package (on any project)
+      headers: {}
+  tags:
+  - Priorities
+  description: ''
+  operationId: View_Priority
+  summary: View Priority

@@ -1,0 +1,108 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<% html_title t(:label_administration), t('oauth.application.singular'), h(@application.name) -%>
+<% local_assigns[:additional_breadcrumb] = h(@application.name) %>
+
+<%= toolbar title: "#{t('oauth.application.singular')} - #{h(@application.name)}",
+            title_class: 'no-padding-bottom' do %>
+  <li class="toolbar-item">
+    <%= link_to edit_oauth_application_path(@application),
+                class: 'button' do %>
+      <%= op_icon('button--icon icon-edit') %>
+      <span class="button--text"><%= t(:button_edit) %></span>
+    <% end %>
+  </li>
+  <li class="toolbar-item">
+    <%= link_to oauth_application_path(@application),
+                method: :delete,
+                data: { confirm: I18n.t(:text_are_you_sure) },
+                class: 'button -danger' do %>
+      <%= op_icon('button--icon icon-delete') %>
+      <span class="button--text"><%= t(:button_delete) %></span>
+    <% end %>
+  </li>
+<% end %>
+
+<%= render(AttributeGroups::AttributeGroupComponent.new) do |component| %>
+  <% component.with_header(title: t(:label_details)) %>
+
+  <% component.with_attribute(
+    key: @application.class.human_attribute_name(:uid),
+    value: @application.uid
+  ) %>
+
+  <% if flash[:_application_secret] %>
+    <% component.with_attribute(
+      key: @application.class.human_attribute_name(:secret)
+    ) do %>
+      <p>
+        <code><%= flash[:_application_secret] %></code>
+        <br/>
+        <strong><%= t 'oauth.client_secret_notice' %></strong>
+      </p>
+    <% end %>
+  <% end %>
+
+  <% if user_id = @application.client_credentials_user_id %>
+    <% component.with_attribute(
+      key: t('oauth.client_credentials_impersonation_set_to')
+    ) do %>
+      <%= link_to_user User.find_by(id: user_id) %>
+      <br/>
+      <strong><%= t('oauth.client_credentials_impersonation_warning') %></strong>
+    <% end %>
+  <% end %>
+
+  <% component.with_attribute(
+    key: @application.class.human_attribute_name(:scopes),
+    value: oauth_scope_translations(@application)
+  ) %>
+
+  <% component.with_attribute(
+    key: @application.class.human_attribute_name(:confidential),
+    value: @application.confidential? ? t(:general_text_Yes) : t(:general_text_No)
+  ) %>
+
+  <% component.with_attribute(
+    key: @application.class.human_attribute_name(:redirect_uri),
+    value: safe_join(@application.redirect_uri.split("\n"), tag(:br))
+  ) %>
+
+  <% if !@application.client_credentials_user_id %>
+    <% component.with_attribute(
+      key: I18n.t(:'doorkeeper.auth_url'),
+      value: oauth_authorization_url
+    ) %>
+  <% end %>
+
+  <% component.with_attribute(
+    key: I18n.t(:'doorkeeper.access_token_url'),
+    value: oauth_token_url
+  ) %>
+<% end %>

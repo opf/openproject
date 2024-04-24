@@ -1,0 +1,70 @@
+# /api/v3/example/schema
+---
+get:
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _dependencies: []
+                _links:
+                  self:
+                    href: "/api/v3/example/schema"
+                _type: Schema
+                lockVersion:
+                  name: Resource Version
+                  type: Integer
+                  writable: false
+                status:
+                  _embedded:
+                    allowedValues:
+                    - _links:
+                        self:
+                          href: "/api/v3/statuses/1"
+                      _type: Status
+                      createdAt: '2014-05-21T08:51:20.396Z'
+                      defaultDoneRatio: 0
+                      id: 1
+                      isClosed: false
+                      isDefault: true
+                      name: New
+                      position: 1
+                      updatedAt: '2014-05-21T09:12:00.441Z'
+                    - _links:
+                        self:
+                          href: "/api/v3/statuses/2"
+                      _type: Status
+                      createdAt: '2014-05-21T08:51:20.396Z'
+                      defaultDoneRatio: 100
+                      id: 2
+                      isClosed: true
+                      isDefault: false
+                      name: Closed
+                      position: 2
+                      updatedAt: '2014-05-21T09:12:00.441Z'
+                  _links:
+                    allowedValues:
+                    - href: "/api/v3/statuses/1"
+                      title: New
+                    - href: "/api/v3/statuses/2"
+                      title: Closed
+                  location: _links
+                  name: Status
+                  type: Status
+                subject:
+                  maxLength: 255
+                  minLength: 1
+                  name: Subject
+                  type: String
+          schema:
+            "$ref": "../components/schemas/example_schema_model.yml"
+      description: OK
+      headers: {}
+  tags:
+  - Schemas
+  description: This is an example of how a schema might look like. Note that this
+    endpoint does not exist in the actual implementation.
+  operationId: view_the_schema
+  summary: view the schema

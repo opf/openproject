@@ -1,0 +1,28 @@
+#English strings go here
+pl:
+  js:
+    team_planner:
+      add_existing: 'Dodaj istniejącego'
+      add_existing_title: 'Dodaj istniejące pakiety robocze'
+      create_label: 'Planista zespołu'
+      create_title: 'Utwórz nowego planistę zespołu'
+      unsaved_title: 'Planista zespołu bez nazwy'
+      no_data: 'Aby skonfigurować planistę zespołu, dodaj przypisane osoby.'
+      add_assignee: 'Dodaj przypisaną osobę'
+      remove_assignee: 'Usuń osobę przypisaną'
+      two_weeks: '2 tygodnie'
+      one_week: '1 tydzień'
+      four_weeks: '4 tygodnie'
+      eight_weeks: '8 tygodni'
+      work_week: 'Tydzień roboczy'
+      today: 'Dzisiaj'
+      drag_here_to_remove: 'Przeciągnij tutaj, aby usunąć przypisaną osobę oraz daty rozpoczęcia i zakończenia.'
+      cannot_drag_here: 'Nie można usunąć pakietu roboczego ze względu na uprawnienia lub ograniczenia edycji.'
+      cannot_drag_to_non_working_day: 'Ten pakiet roboczy nie może się rozpocząć/skończyć w dniu wolnym od pracy.'
+      quick_add:
+        empty_state: 'Użyj pola wyszukiwania w celu znalezienia pakietów roboczych i przeciągnięcia ich do planisty, aby przypisać je do kogoś i zdefiniować daty rozpoczęcia i zakończenia.'
+        search_placeholder: 'Wyszukaj...'
+      modify:
+        errors:
+          permission_denied: 'Nie masz uprawnień niezbędnych do zmodyfikowania tego elementu.'
+          fallback: 'Tego pakietu roboczego nie można edytować.'

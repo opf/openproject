@@ -1,0 +1,67 @@
+nl:
+  js:
+    grid:
+      add_widget: 'Widget toevoegen'
+      remove: 'Widget verwijderen'
+      configure: 'Widget configureren'
+      upsale:
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
+        link: 'Enterprise edition.'
+      widgets:
+        missing_permission: "You don't have the necessary permissions to view this widget."
+        custom_text:
+          title: 'Aangepaste tekst'
+        documents:
+          title: 'Documenten'
+          no_results: 'Geen documenten.'
+        members:
+          title: 'Leden'
+          no_results: 'Geen zichtbare leden.'
+          view_all_members: 'Alle leden bekijken'
+          add: 'Deelnemer'
+          too_many: 'Weergave van %{count} van %{total} leden.'
+        news:
+          title: 'Nieuws'
+          at: 'bij'
+          no_results: 'Niets nieuws om te rapporteren.'
+        project_description:
+          title: 'Projectbeschrijving'
+          no_results: "Er is nog geen beschrijving geschreven. Er kan een vermelding worden verstrekt in de 'Projectinstellingen'."
+        project_details:
+          title: 'Projectdetails'
+          no_results: 'Er zijn geen aangepaste velden gedefinieerd voor projecten.'
+        project_status:
+          title: 'Projectstatus'
+          not_started: 'Nog niet gestart'
+          on_track: 'Op schema'
+          off_track: 'Buiten schema'
+          at_risk: 'In gevaar'
+          not_set: 'Niet ingesteld'
+          finished: 'Afgewerkt'
+          discontinued: 'Stopgezet'
+        subprojects:
+          title: 'Subprojecten'
+          no_results: 'Geen subprojecten.'
+        time_entries_current_user:
+          title: 'Mijn bestede tijd'
+          displayed_days: 'Dagen weergegeven in de widget:'
+        time_entries_list:
+          title: 'Besteed tijd (laatste 7 dagen)'
+          no_results: 'Geen tijd items voor de afgelopen 7 dagen.'
+        work_packages_accountable:
+          title: "Werkpakketten waar ik verantwoordelijk voor ben"
+        work_packages_assigned:
+          title: 'Werkpakketten toegewezen aan mij'
+        work_packages_created:
+          title: 'Werkpakketten gemaakt door mij werk werk'
+        work_packages_watched:
+          title: 'Werkpakketten bekeken door mij'
+        work_packages_table:
+          title: 'Werkpakketten tabel'
+        work_packages_graph:
+          title: 'Werkpakketten grafiek'
+        work_packages_calendar:
+          title: 'Kalender'
+        work_packages_overview:
+          title: 'Werkpakketten Overzicht'
+          placeholder: 'Klik om te bewerken ...'

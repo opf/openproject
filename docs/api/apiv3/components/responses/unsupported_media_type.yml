@@ -1,0 +1,11 @@
+# Response: UnsupportedMediaType
+---
+description: Occurs when the client sends an unsupported Content-Type header.
+content:
+  application/hal+json:
+    schema:
+      $ref: '../schemas/error_response.yml'
+    example:
+      _type: Error
+      errorIdentifier: urn:openproject-org:api:v3:errors:TypeNotSupported
+      message: Expected CONTENT-TYPE to be (expected value) but got (actual value).

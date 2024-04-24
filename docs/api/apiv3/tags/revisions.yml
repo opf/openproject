@@ -1,0 +1,24 @@
+---
+description: |-
+  Revisions are sets of updates to files in the context of repositories linked in OpenProject.
+
+  ## Linked Properties
+
+  |  Link            | Description                                                                                       | Type          | Constraints | Supported operations |
+  |:----------------:| --------------------------------------------------------------------------------------------------| ------------- | ----------- | -------------------- |
+  | self             | This revision                                                                                     | Revision      | not null    | READ                 |
+  | project          | The project to which the revision belongs                                                         | Project       | not null    | READ                 |
+  | author           | The user that added this revision, if the authorName was mapped to a user in OpenProject          | User          |             | READ                 |
+  | showRevision     | A URL to the repository view (outside APIv3) showing this revision                                | -             | not null    | READ                 |
+
+  ## Local Properties
+
+  | Property                | Description                                                                                                                                                 | Type        | Constraints | Supported operations |
+  |:-----------------------:| ------------------------------------------------------------------------------------------------------------------------------------------------------------| ----------- | ----------- | -------------------- |
+  | id                      | Revision's id, assigned by OpenProject                                                                                                                      | Integer     | x > 0       | READ                 |
+  | identifier              | The raw SCM identifier of the revision (e.g. full SHA hash)                                                                                                 | String      | not null    | READ                 |
+  | formattedIdentifier     | The SCM identifier of the revision, formatted (e.g. shortened unambiguous SHA hash). May be identical to identifier in many cases                           | String      | not null    | READ                 |
+  | authorName              | The name of the author that committed this revision. Note that this name is retrieved from the repository and does not identify a user in OpenProject.      | String      | not null    | READ                 |
+  | message                 | The commit message of the revision                                                                                                                          | Formattable | not null    | READ                 |
+  | createdAt               | The time this revision was committed to the repository                                                                                                      | DateTime    | not null    | READ                 |
+name: Revisions

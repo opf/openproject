@@ -1,0 +1,152 @@
+# /api/v3/documents
+---
+get:
+  parameters:
+  - description: Page number inside the requested collection.
+    example: '25'
+    in: query
+    name: offset
+    required: false
+    schema:
+      default: 1
+      type: integer
+  - description: Number of elements to display per page.
+    example: '25'
+    in: query
+    name: pageSize
+    required: false
+    schema:
+      type: integer
+  - description: |-
+      JSON specifying sort criteria.
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported sorts are:
+
+      + id: Sort by primary key
+
+      + created_at: Sort by document creation datetime
+    example: '[["created_at", "asc"]]'
+    in: query
+    name: sortBy
+    required: false
+    schema:
+      type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  elements:
+                  - _links:
+                      addAttachment:
+                        href: "/api/v3/documents/1/attachments"
+                        method: post
+                      attachments:
+                        href: "/api/v3/documents/1/attachments"
+                      project:
+                        href: "/api/v3/projects/19"
+                        title: Some project
+                      self:
+                        href: "/api/v3/documents/1"
+                        title: Some document
+                    _type: Document
+                    createdAt: '2018-12-10T20:53:39.184Z'
+                    description:
+                      format: markdown
+                      html: "<p>Videlicet deserunt aequitas cognatus. Concedo quia
+                        est quia pariatur vorago vallum. Calco autem atavus accusamus
+                        conscendo cornu ulterius. Tam patria ago consectetur ventito
+                        sustineo nihil caecus. Supra officiis eos velociter somniculosus
+                        tonsor qui. Suffragium aduro arguo angustus cogito quia tolero
+                        vulnus. Supplanto sortitus cresco apud vestrum qui.</p>"
+                      raw: Videlicet deserunt aequitas cognatus. Concedo quia est
+                        quia pariatur vorago vallum. Calco autem atavus accusamus
+                        conscendo cornu ulterius. Tam patria ago consectetur ventito
+                        sustineo nihil caecus. Supra officiis eos velociter somniculosus
+                        tonsor qui. Suffragium aduro arguo angustus cogito quia tolero
+                        vulnus. Supplanto sortitus cresco apud vestrum qui.
+                    id: 1
+                    title: Some other document
+                  - _links:
+                      addAttachment:
+                        href: "/api/v3/documents/2/attachments"
+                        method: post
+                      attachments:
+                        href: "/api/v3/documents/2/attachments"
+                      project:
+                        href: "/api/v3/projects/29"
+                        title: Some other project
+                      self:
+                        href: "/api/v3/documents/2"
+                        title: Some other document
+                    _type: Document
+                    createdAt: '2018-12-10T20:55:54.049Z'
+                    description:
+                      format: markdown
+                      html: "<p>Videlicet deserunt aequitas cognatus. Concedo quia
+                        est quia pariatur vorago vallum. Calco autem atavus accusamus
+                        conscendo cornu ulterius. Tam patria ago consectetur ventito
+                        sustineo nihil caecus. Supra officiis eos velociter somniculosus
+                        tonsor qui. Suffragium aduro arguo angustus cogito quia tolero
+                        vulnus. Supplanto sortitus cresco apud vestrum qui.</p>"
+                      raw: Videlicet deserunt aequitas cognatus. Concedo quia est
+                        quia pariatur vorago vallum. Calco autem atavus accusamus
+                        conscendo cornu ulterius. Tam patria ago consectetur ventito
+                        sustineo nihil caecus. Supra officiis eos velociter somniculosus
+                        tonsor qui. Suffragium aduro arguo angustus cogito quia tolero
+                        vulnus. Supplanto sortitus cresco apud vestrum qui.
+                    id: 2
+                    title: Some other document
+                _links:
+                  changeSize:
+                    href: "/api/v3/documents?offset=1&pageSize=%7Bsize%7D"
+                    templated: true
+                  jumpTo:
+                    href: "/api/v3/documents?offset=%7Boffset%7D&pageSize=30"
+                    templated: true
+                  self:
+                    href: "/api/v3/documents?offset=1&pageSize=30"
+                _type: Collection
+                count: 2
+                offset: 1
+                pageSize: 30
+                total: 2
+          schema:
+            "$ref": "../components/schemas/documents_model.yml"
+      description: OK
+      headers: {}
+    '400':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+                message:
+                - Filters Invalid filter does not exist.
+      description: Returned if the client sends invalid request parameters e.g. filters
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to view this resource.
+      description: Returned if the client is not logged in and login is required.
+      headers: {}
+  tags:
+  - Documents
+  description: The documents returned depend on the provided parameters and also on
+    the requesting user's permissions.
+  operationId: List_Documents
+  summary: List Documents

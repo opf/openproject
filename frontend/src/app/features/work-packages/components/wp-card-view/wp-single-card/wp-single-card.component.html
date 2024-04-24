@@ -1,0 +1,164 @@
+<div
+  class="op-wp-single-card"
+  data-test-selector="op-wp-single-card"
+  data-tour-selector="op-wp-single-card"
+  [attr.data-qa-draggable]="draggable || undefined"
+  [attr.data-qa-selected]="selected || undefined"
+  [ngClass]="cardClasses()"
+  [title]="cardTitle()"
+  (click)="cardClicked.emit({ workPackageId: workPackage.id, event: $event })"
+  (dblclick)="cardDblClicked.emit({ workPackageId: workPackage.id, event: $event })"
+  (contextmenu)="cardContextMenu.emit({ workPackageId: workPackage.id, event: $event })"
+>
+
+  <div class="op-wp-single-card--highlighting"
+       [ngClass]="cardHighlightingClass(workPackage)">
+  </div>
+
+  <div class="op-wp-single-card--card-actions">
+    <div class="op-wp-single-card--inline-buttons hidden-for-mobile"
+         data-test-selector="op-wp-single-card--inline-buttons">
+      <button
+        type="button"
+        class="spot-link op-wp-single-card--details-button op-wp-single-card--card-action"
+        data-test-selector="op-wp-single-card--details-button"
+        *ngIf="!isNewResource(workPackage) && showInfoButton"
+        [title]="text.detailsView"
+        (click)="emitStateLinkClicked($event, workPackage, true)">
+        <op-icon icon-classes="icon3 icon-info2"></op-icon>
+      </button>
+
+      <button
+        class="spot-link op-wp-single-card--inline-cancel-button op-wp-single-card--card-action"
+        data-test-selector="op-wp-single-card--inline-cancel-button"
+        *ngIf="isNewResource(workPackage) || showRemoveButton"
+        [class.-show]="isNewResource(workPackage)"
+        [title]="text.removeCard"
+        (click)="onRemoved(workPackage)">
+        <op-icon icon-classes="icon-context icon-close"></op-icon>
+      </button>
+
+      <op-icon
+        *ngIf="disabledInfo && disabledInfo.text.length > 0"
+        [attr.data-tooltip]="disabledInfo.text"
+        class="-multiline op-wp-single-card--card-action op-wp-single-card--card-action_closed"
+        [ngClass]="'tooltip--' + disabledInfo.orientation"
+        icon-classes="icon-context icon-not-supported">
+      </op-icon>
+    </div>
+  </div>
+
+  <edit-form [resource]="workPackage"
+             [inEditMode]="isNewResource(workPackage)"
+             *ngIf="isNewResource(workPackage)">
+    <div class="op-wp-single-card-content -new">
+      <op-editable-attribute-field [resource]="workPackage"
+                                   [wrapperClasses]="'work-packages--type-selector'"
+                                   [fieldName]="'type'"
+                                   class="op-wp-single-card-content--type">
+      </op-editable-attribute-field>
+      <op-editable-attribute-field [resource]="workPackage"
+                                   fieldName="subject"
+                                   class="op-wp-single-card-content--subject -bold">
+      </op-editable-attribute-field>
+    </div>
+  </edit-form>
+
+  <div *ngIf="!isNewResource(workPackage)"
+       class="op-wp-single-card--content">
+
+    <span
+      class="op-wp-single-card--content-project-name"
+      [ngClass]="{'op-wp-single-card--content-project-name_hideable': showInfoButton || showRemoveButton}"
+    >
+      - {{wpProjectName(workPackage)}}
+    </span>
+    <a class="op-wp-single-card--content-id"
+       [href]="fullWorkPackageLink(workPackage)"
+       [ngClass]="uiStateLinkClass"
+       (click)="emitStateLinkClicked($event, workPackage)"
+    >
+      #{{workPackage.id}}
+    </a>
+
+    <span class="op-wp-single-card--content-subject-line">
+      <span
+        *ngIf="showAsInlineCard && showStartDate"
+        class="op-wp-single-card--content-inline-date"
+      >
+         <display-field
+           [resource]="workPackage"
+           [displayFieldOptions]="{ writable: false, dateFormat: 'MMM DD, YYYY', placeholder: '' }"
+           fieldName="startDate"
+           containerType="single-view">
+        </display-field>
+         -
+      </span>
+
+      <span
+        *ngIf="!showAsInlineCard && highlightingMode !== 'type'"
+        [textContent]="wpTypeAttribute(workPackage)"
+        class="op-wp-single-card--content-type"
+        data-test-selector="op-wp-single-card--content-type"
+        [ngClass]="typeHighlightingClass(workPackage)"
+      ></span>
+
+      <span
+        class="op-wp-single-card--content-subject"
+        data-test-selector="op-wp-single-card--content-subject"
+        [textContent]="wpSubject(workPackage)"
+      ></span>
+
+      <span
+        *ngIf="showAsInlineCard && showEndDate"
+        class="op-wp-single-card--content-inline-date"
+      >
+        -
+        <display-field
+         [resource]="workPackage"
+         [displayFieldOptions]="{ writable: false, dateFormat: 'MMM DD, YYYY', placeholder: '' }"
+         fieldName="dueDate"
+         containerType="single-view">
+        </display-field>
+      </span>
+    </span>
+
+    <img *ngIf="this.cardCoverImageShown(workPackage) && !showAsInlineCard"
+         [src]="this.bcfSnapshotPath(workPackage)"
+         class="op-wp-single-card--content-cover-image">
+    <div class="op-wp-single-card--content-status-baseline">
+      <wp-status-button *ngIf="showStatusButton"
+                        [workPackage]="workPackage"
+                        [small]="true"
+                        class="op-wp-single-card--content-status"
+      >
+      </wp-status-button>
+      <span
+        *ngIf="baselineIcon(workPackage) !== ''"
+        class="spot-icon spot-icon_1 spot-icon_flex op-wp-single-card--content-baseline"
+        [ngClass]="baselineMode==='added' ? 'spot-icon_flex spot-icon_arrow-in op-table-baseline--icon-added' : (baselineMode==='removed' ? 'spot-icon_arrow-out op-table-baseline--icon-removed' : 'spot-icon_delta-triangle op-table-baseline--icon-changed')"
+        title="{{ baselineMode==='added' ? text.baseLineIconAdded : (baselineMode==='removed' ? text.baseLineIconRemoved : text.baseLineIconChanged) }}"
+      >
+      </span>
+
+    </div>
+    <op-principal
+      *ngIf="workPackage.assignee"
+      [principal]="workPackage.assignee"
+      [hideName]="true"
+      [link]="false"
+      size="mini"
+      class="op-wp-single-card--content-assignee"
+      data-test-selector="op-wp-single-card--content-assignee"
+    ></op-principal>
+    <display-field
+      *ngIf="!showAsInlineCard"
+      [resource]="workPackage"
+      [displayFieldOptions]="{ writable: false, dateFormat: 'MMM DD, YYYY', placeholder: '' }"
+      [displayClass]="combinedDateDisplayField"
+      fieldName="dueDate"
+      class="op-wp-single-card--content-dates"
+      containerType="single-view">
+    </display-field>
+  </div>
+</div>

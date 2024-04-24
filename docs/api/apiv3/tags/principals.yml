@@ -1,0 +1,6 @@
+---
+description: |-
+  Principals are the superclass of users, groups and placeholder users. This end point returns all principals
+  within a joined collection but can be filtered to e.g. only return groups or users.
+
+name: Principals

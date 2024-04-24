@@ -1,0 +1,17 @@
+#English strings go here
+it:
+  plugin_openproject_team_planner:
+    name: "Pianificatore di team OpenProject"
+    description: "Fornisce visualizzazioni di pianificazione di team."
+  permission_view_team_planner: "Visualizza il pianificatore di team"
+  permission_manage_team_planner: "Gestisci il pianificatore di team"
+  project_module_team_planner_view: "Organizzatori di gruppo"
+  team_planner:
+    label_team_planner: "Pianificatore di team"
+    label_new_team_planner: "Nuovo pianificatore di team"
+    label_create_new_team_planner: "Crea nuovo pianificatore di team"
+    label_team_planner_plural: "Organizzatori di gruppo"
+    label_assignees: "Assegnatari"
+    upsale:
+      title: "Pianificatore di team"
+      description: "Ottieni una panoramica completa della pianificazione del tuo team con Team Planner. Allunga, accorcia e sposta le macro-attività per modificare le date, riprogrammarle o cambiare gli assegnatari."

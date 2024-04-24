@@ -1,0 +1,39 @@
+#English strings go here
+cs:
+  plugin_openproject_boards:
+    name: "OpenProject Tabule"
+    description: "Poskytuje zobrazení Tabulí"
+  permission_show_board_views: "Zobrazit tabule"
+  permission_manage_board_views: "Správa tabulí"
+  project_module_board_view: "Tabule"
+  boards:
+    label_board: "Tabule"
+    label_boards: "Tabule"
+    label_create_new_board: "Vytvořit tabuli"
+    label_board_type: "Typ tabule"
+    board_types:
+      free: Základní
+      action: "Akční tabule (%{attribute})"
+    board_type_attributes:
+      assignee: Řešitel
+      status: Stav
+      version: Verze
+      subproject: Podprojekt
+      subtasks: rodič-potomek
+      basic: Základní
+    board_type_descriptions:
+      basic: >
+        Začněte od začátku prázdnou tabulí ručním přidáváním karet a sloupců do této tabule.
+      status: >
+        Základní tabule ve stylu kanbanu se sloupci pro status jako je do Do, Probíhá, Done.
+      assignee: >
+        Tabule s automatickými sloupcemi založenými na přiřazených uživatelích. Ideal pro odesílání pracovních balíčků.
+      version: >
+        Tabule s automatickými sloupci na základě atributu verze. Ideal pro plánování vývoje produktů.
+      subproject: >
+        Tabule s automatickými sloupce pro podprojekty. Přesunutí pracovních balíčků do jiných seznamů odpovídajícím způsobem aktualizuje podprojekt.
+      subtasks: >
+        Tabule s automatickými sloupce pro podprojekty. Přesunutí pracovních balíčků do jiných seznamů odpovídajícím způsobem
+    upsale:
+      teaser_text: 'Chcete automatizovat své workflows s Tabulemi? Pokročilé Tabule jsou doplňkem Enterprise. Proveďte upgrade na placený plán.'
+      upgrade: 'Upgradovat nyní'

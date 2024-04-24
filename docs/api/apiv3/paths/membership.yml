@@ -1,0 +1,187 @@
+# /api/v3/memberships/{id}
+---
+delete:
+  summary: Delete membership
+  operationId: delete_membership
+  tags:
+    - Memberships
+  description: Deletes the membership.
+  parameters:
+    - name: id
+      description: Membership id
+      in: path
+      required: true
+      example: 1
+      schema:
+        type: integer
+  responses:
+    '204':
+      description: Returned if the membership was successfully deleted
+    '403':
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** manage members
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the membership does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:** view members
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of
+        a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+    '406':
+      $ref: '../components/responses/missing_content_type.yml'
+    '415':
+      $ref: '../components/responses/unsupported_media_type.yml'
+
+get:
+  summary: Get a membership
+  operationId: get_membership
+  description: Retrieves a membership resource identified by the given id.
+  tags:
+    - Memberships
+  parameters:
+    - name: id
+      description: Membership id
+      in: path
+      required: true
+      example: 1
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/membership_read_model.yml'
+          examples:
+            'simple membership':
+              $ref: '../components/examples/membership-simple-response.yml'
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the membership does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:** view members **or** manage members
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of
+        a membership. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+patch:
+  summary: Update membership
+  operationId: update_membership
+  description: |-
+    Updates the given membership by applying the attributes provided in the body.
+
+    By providing a `notificationMessage` within the `_meta` block of the payload, the client can include a customized message to the user
+    of the updated membership. In case of a group, the message will be sent to every user belonging to the group.
+
+    By including `{ "sendNotifications": false }` within the `_meta` block of the payload, no notifications is send out at all.
+  tags:
+    - Memberships
+  parameters:
+    - name: id
+      description: Membership id
+      in: path
+      required: true
+      example: 1
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/membership_write_model.yml'
+        examples:
+          'add roles':
+            $ref: '../components/examples/membership-update-additional-roles.yml'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/membership_read_model.yml'
+          examples:
+            'simple membership':
+              $ref: '../components/examples/membership-simple-response.yml'
+    '400':
+      $ref: '../components/responses/invalid_request_body.yml'
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** Manage members in the membership's project.
+      headers: { }
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the membership does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:** view member
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of
+        a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+    '406':
+      $ref: '../components/responses/missing_content_type.yml'
+    '415':
+      $ref: '../components/responses/unsupported_media_type.yml'
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _embedded:
+              details:
+                attribute: roles
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: Roles has an unassignable role.
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)

@@ -1,0 +1,61 @@
+user: openproject
+group: openproject
+description: OpenProject
+homepage: "https://www.openproject.org"
+maintainer: "operations+packaging@openproject.com"
+license: "GPL"
+targets:
+  debian-10: &debian
+    build_dependencies:
+      - libsqlite3-dev
+    dependencies:
+      - unzip
+      - poppler-utils
+      - unrtf
+      - tesseract-ocr
+      - catdoc
+      - imagemagick
+  debian-11:
+    <<: *debian
+  debian-12:
+    <<: *debian
+  ubuntu-20.04:
+    <<: *debian
+  ubuntu-22.04:
+    <<: *debian
+  centos-8: &centos8
+    env:
+      - NODE_ENV=production
+      - NPM_CONFIG_PRODUCTION=false
+    dependencies:
+      - epel-release
+      - ImageMagick
+      - unzip
+      - poppler-utils
+  centos-9:
+    <<: *centos8
+    env:
+      - NODE_ENV=production
+      - NPM_CONFIG_PRODUCTION=false
+  sles-15:
+    build_dependencies:
+      - sqlite3-devel
+    dependencies:
+      - ImageMagick
+before_precompile: "packaging/setup"
+after_precompile: "packaging/teardown"
+services:
+  - postgres
+installer: https://github.com/pkgr/installer.git
+wizards:
+  - https://github.com/pkgr/addon-legacy-installer.git
+  - ./packaging/addons/openproject-edition
+  - https://github.com/pkgr/addon-postgres
+  - https://github.com/pkgr/addon-apache2.git
+  - ./packaging/addons/repositories
+  - https://github.com/pkgr/addon-memcached.git
+  - ./packaging/addons/openproject
+buildpack: https://github.com/opf/heroku-buildpack-multi.git#master
+env:
+  - NODE_ENV=production
+  - NPM_CONFIG_PRODUCTION=false

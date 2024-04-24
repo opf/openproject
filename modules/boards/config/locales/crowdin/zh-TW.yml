@@ -1,0 +1,39 @@
+#English strings go here
+zh-TW:
+  plugin_openproject_boards:
+    name: "OpenProject 看板"
+    description: "提供看板檢視圖"
+  permission_show_board_views: "檢視看板"
+  permission_manage_board_views: "管理看板"
+  project_module_board_view: "看板"
+  boards:
+    label_board: "看板"
+    label_boards: "看板"
+    label_create_new_board: "建立新看板"
+    label_board_type: "看板類型"
+    board_types:
+      free: 基本
+      action: "行動項看板 (%{attribute})"
+    board_type_attributes:
+      assignee: 執行者
+      status: 狀態
+      version: 版本
+      subproject: 子專案
+      subtasks: 主任務-子任務
+      basic: 基本
+    board_type_descriptions:
+      basic: >
+        從空白看板開始使用，添加新的卡片和列表到這個看板
+      status: >
+        基本看板樣式的面板，包含「待辦」、「正在進行」、「已完成」等狀態的列。
+      assignee: >
+        基於負責人員屬性面板。適合用於規劃工作項目。
+      version: >
+        基於版本屬性面板。適合用於產品開發規劃。
+      subproject: >
+        具有子專案面板。將工作項目拖動到其他列表會更新（子）專案。
+      subtasks: >
+        具有子元素自動列的看板。將工作項目移動到其他列表會相應地更新主要工作項目。
+    upsale:
+      teaser_text: '你想用看板來自動化你的工作流程嗎？高級看板是一項企業功能。請升級到付費計劃。'
+      upgrade: '立即升級'

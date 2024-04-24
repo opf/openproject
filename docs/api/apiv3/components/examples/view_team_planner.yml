@@ -1,0 +1,15 @@
+# Example: ViewWorkPackagesTable
+---
+value:
+  _type: Views::TeamPlanner
+  name: Product team
+  id: 9
+  _links:
+    self:
+      href: "/api/v3/views/9"
+    query:
+      href: "/api/v3/queries/18"
+      title: Product team
+    project:
+      href: "/api/v3/project/89"
+      title: The project

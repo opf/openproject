@@ -1,0 +1,1333 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+bg:
+  js:
+    ajax:
+      hide: "Скрий"
+      loading: "Loading…"
+      updating: "Updating…"
+    attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
+      draggable_hint: |
+        Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
+      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Зареждане..."
+      not_found: "No items found"
+      type_to_search: "Type to search"
+    autocomplete_select:
+      placeholder:
+        multi: 'Add "%{name}"'
+        single: 'Select "%{name}"'
+      remove: "Remove %{name}"
+      active: "Active %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Опции
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
+    close_popup_title: "Затвори изкачащият прозорец"
+    close_filter_title: "Close filter"
+    close_form_title: "Close form"
+    button_add_watcher: "Добавяне на наблюдател"
+    button_add: "Добави"
+    button_back: "Назад"
+    button_back_to_list_view: "Back to list view"
+    button_cancel: "Отказ"
+    button_close: "Close"
+    button_change_project: "Промяна на проект"
+    button_check_all: "Избери всички"
+    button_configure-form: "Configure form"
+    button_confirm: "Confirm"
+    button_continue: "Продължаване"
+    button_copy: "Копиране"
+    button_copy_to_clipboard: "Копирай в буфер"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
+    button_copy_to_other_project: "Copy to other project"
+    button_custom-fields: "допълнителни полета"
+    button_delete: "Изтрий"
+    button_delete_watcher: "Премахни наблюдаващ"
+    button_details_view: "Детайлен изглед"
+    button_duplicate: "Дублиране"
+    button_edit: "Редактиране"
+    button_filter: "Филтър"
+    button_collapse_all: "Свиване на всички"
+    button_expand_all: "Разгъване на всички"
+    button_advanced_filter: "Advanced filter"
+    button_list_view: "Изглед списък"
+    button_show_view: "Изглед на цял екран"
+    button_log_time: "Отчетено време"
+    button_more: "Повече"
+    button_open_details: "Отвори детайлен изглед"
+    button_close_details: "Close details view"
+    button_open_fullscreen: "Отвори на цял екран"
+    button_show_cards: "Показване на изглед карта"
+    button_show_list: "Показване на изглед списък"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
+    button_quote: "Цитат"
+    button_save: "Запази"
+    button_settings: "Настройки"
+    button_uncheck_all: "Размаркирай всички"
+    button_update: "Обнови"
+    button_export-pdf: "Свали PDF"
+    button_export-atom: "Свали Atom"
+    button_create: "Създаване"
+    card:
+      add_new: "Add new card"
+      highlighting:
+        inline: "Highlight inline:"
+        entire_card_by: "Entire card by"
+      remove_from_list: "Remove card from list"
+    caption_rate_history: "Оценете историята"
+    clipboard:
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
+      copied_successful: "Копирано успешно в клипборда!"
+    chart:
+      type: "Тип на диаграмата"
+      axis_criteria: "Критерии за ос"
+      modal_title: "Конфигурация на графиката на работния пакет"
+      types:
+        line: "Линия"
+        horizontal_bar: "Хоризонтален бар"
+        bar: "Бар"
+        pie: "Торта"
+        doughnut: "Пръстен"
+        radar: "Радар"
+        polar_area: "Полярна област"
+      tabs:
+        graph_settings: "Общ"
+        dataset: "Набор данни %{number}"
+      errors:
+        could_not_load: "Данните за показване на графиката не можаха да се заредят. Може да липсват необходимите разрешения."
+    description_available_columns: "Достъпни колони"
+    description_current_position: "You are here: "
+    description_select_work_package: "Избери работен пакет #%{id}"
+    description_subwork_package: "Подработен пакет #%{id}"
+    editor:
+      preview: "Toggle preview mode"
+      source_code: "Toggle Markdown source mode"
+      error_saving_failed: "Saving the document failed with the following error: %{error}"
+      ckeditor_error: "An error occurred within CKEditor"
+      mode:
+        manual: "Switch to Markdown source"
+        wysiwyg: "Switch to WYSIWYG editor"
+      macro:
+        error: "Не може да се разгъне макроса: %{message}"
+        attribute_reference:
+          macro_help_tooltip: "Този текстов сегмент се визуализира динамично от макрос."
+          not_found: "Заявеният ресурс не можа да бъде намерен"
+          invalid_attribute: "Избраният атрибут „%{name}“ не съществува."
+        child_pages:
+          button: "Links to child pages"
+          include_parent: "Include parent"
+          text: "[Placeholder] Links to child pages of"
+          page: "Wiki страница"
+          this_page: "this page"
+          hint: |
+            Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
+        code_block:
+          button: "Insert code snippet"
+          title: "Insert / edit Code snippet"
+          language: "Formatting language"
+          language_hint: "Enter the formatting language that will be used for highlighting (if supported)."
+        dropdown:
+          macros: "Macros"
+          chose_macro: "Choose macro"
+        toc: "Table of contents"
+        toolbar_help: "Click to select widget and show the toolbar. Double-click to edit widget"
+        wiki_page_include:
+          button: "Include content of another wiki page"
+          text: "[Placeholder] Included wiki page of"
+          page: "Wiki страница"
+          not_set: "(Page not yet set)"
+          hint: |
+            Include the content of another wiki page by specifying its title or slug.
+            You can include the wiki page of another project by separating them with a colon like the following example.
+        work_package_button:
+          button: "Insert create work package button"
+          type: "Work package type"
+          button_style: "Use button style"
+          button_style_hint: "Optional: Check to make macro appear as a button, not as a link."
+          without_type: "Create work package"
+          with_type: "Create work package (Type: %{typename})"
+        embedded_table:
+          button: "Embed work package table"
+          text: "[Placeholder] Embedded work package table"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
+    admin:
+      type_form:
+        custom_field: "Потребителски полета"
+        inactive: "Inactive"
+        drag_to_activate: "Drag fields from here to activate them"
+        add_group: "Add attribute group"
+        add_table: "Add table of related work packages"
+        edit_query: "Редактирай заявка"
+        new_group: "Нова група"
+        reset_to_defaults: "Reset to defaults"
+      enterprise:
+        text_reprieve_days_left: "%{days} days until end of grace period"
+        text_expired: "expired"
+        trial:
+          confirmation: "Confirmation of email address"
+          confirmation_info: >
+            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+          form:
+            general_consent: >
+              I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
+            invalid_email: "Invalid email address"
+            label_company: "Company"
+            label_first_name: "Собствено име"
+            label_last_name: "Фамилно име"
+            label_domain: "Domain"
+            label_subscriber: "Subscriber"
+            label_maximum_users: "Maximum active users"
+            label_starts_at: "Starts at"
+            label_expires_at: "Expires at"
+            receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
+            taken_domain: There can only be one active trial per domain.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
+            taken_email: Each user can only create one trial.
+          email_not_received: "You did not receive an email? You can resend the email with the link on the right."
+          try_another_email: "Or try it with another email address."
+          next_steps: "Next steps"
+          resend_link: "Resend"
+          resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
+          resend_warning: "Could not resend email."
+          session_timeout: "Your session timed out. Please try to reload the page or resend email."
+          status_label: "Status:"
+          status_confirmed: "потвърден"
+          status_waiting: "email sent - waiting for confirmation"
+          test_ee: "Test the Enterprise edition 14 days for free"
+          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
+        upsale:
+          become_hero: "Become a hero!"
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
+          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+          benefits:
+            description: "What are the benefits of the Enterprise on-premises edition?"
+            high_security: "Security features"
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
+            installation: "Installation support"
+            installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
+            premium_features: "Enterprise add-ons"
+            premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
+            professional_support: "Професионална поддръжка"
+            professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
+          button_start_trial: "Start free trial"
+          button_upgrade: "Upgrade now"
+          button_contact_us: "Contact us for a demo"
+          button_book_now: "Book now"
+          confidence: >
+            We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
+          link_quote: "Get a quote"
+          more_info: "Повече информация"
+          text: >
+            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+          unlimited: "Unlimited"
+          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+      working_days:
+        calendar:
+          empty_state_header: "Non-working days"
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
+          new_date: "(new)"
+        add_non_working_day: "Non-working day"
+        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
+        change_button: "Save and reschedule"
+        change_title: "Change working days"
+        removed_title: "You will remove the following days from the non-working days list:"
+        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+        warning: >
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
+          Are you sure you want to continue?
+    custom_actions:
+      date:
+        specific: "на"
+        current_date: "Current date"
+    error:
+      internal: "Възникна вътрешна грешка."
+      cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
+      query_saving: "The view could not be saved."
+      embedded_table_loading: "The embedded view could not be loaded: %{message}"
+    enumeration_activities: "Дейности (проследяване по време)"
+    enumeration_doc_categories: "Категории документи"
+    enumeration_work_package_priorities: "Приоритети на работни пакети"
+    filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
+      description:
+        text_open_filter: "Отворете този филтър с клавишите \"ALT\" и клавишите за стрелки."
+        text_close_filter: "За да изберете запис махнете фокуса например чрез натискане на Enter. За да оставите без филтър изберете първия (празен) запис."
+      noneElement: "(none)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} in your local time."
+        only_start: "From %{from} in your local time."
+        only_end: "Till %{to} in your local time."
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: "Първи критерий за подреждане"
+          two: "Втори критерий за подреждане"
+          three: "Трети критерий за подреждане"
+    gantt_chart:
+      label: "Gantt chart"
+      quarter_label: "Q%{quarter_number}"
+      labels:
+        title: "Label configuration"
+        bar: "Bar labels"
+        left: "Left"
+        right: "Right"
+        farRight: "Far right"
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: "Show Gantt chart"
+      button_deactivate: "Hide Gantt chart"
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: "Click on any highlighted work package to create the relation. Press escape to cancel."
+      zoom:
+        in: "Приближаване"
+        out: "Отдалечаване"
+        auto: "Auto zoom"
+        days: "Дни"
+        weeks: "Седмици"
+        months: "Месеци"
+        quarters: "Tримесечие"
+        years: "Години"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
+    general_text_no: "Не"
+    general_text_yes: "Да"
+    general_text_No: "Не"
+    general_text_Yes: "Да"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} не е валидна дата - очаква се ГГГГ-ММ-ДД."
+        general: "Възникна грешка."
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: "Read about new features and product updates."
+          learn_about: "Learn more about the new features"
+          #Include the version to invalidate outdated translations in other locales.
+          #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
+          "14_0":
+            standard:
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
+              new_features_html: >
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to calendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: 'Type a name, e.g. "Phone"'
+      token_name_description_text: 'If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="my/access_token", target="_blank">access tokens</a> list.'
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: 'The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.'
+    label_activate: "Активиране"
+    label_assignee: "Изпълнител"
+    label_add_column_after: "Add column after"
+    label_add_column_before: "Add column before"
+    label_add_columns: "Add columns"
+    label_add_comment: "Добави коментар"
+    label_add_comment_title: "Comment and type @ to notify other people"
+    label_add_row_after: "Add row after"
+    label_add_row_before: "Add row before"
+    label_add_selected_columns: "Добавяне на избраните колони"
+    label_added_by: "добавен от"
+    label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
+    label_ago: "преди"
+    label_all: "всички"
+    label_all_work_packages: "всички работни пакети"
+    label_and: "и"
+    label_ascending: "Възходящо"
+    label_author: "Автор: %{user}"
+    label_avatar: "Аватар"
+    label_between: "между"
+    label_board: "Board"
+    label_board_locked: "Заключен"
+    label_board_plural: "Boards"
+    label_board_sticky: "Лепкава"
+    label_change: "Промени"
+    label_create: "Създаване"
+    label_create_work_package: "Създаване на нов работен пакет"
+    label_created_by: "Created by"
+    label_date: "Дата"
+    label_date_with_format: "Въведете %{date_attribute}, като използвате следния формат: %{format}"
+    label_deactivate: "Деактивирай"
+    label_descending: "Низходящо"
+    label_description: "Описание"
+    label_details: "Подробности"
+    label_display: "Покажи"
+    label_cancel_comment: "Отказване от коментар"
+    label_closed_work_packages: "затворен"
+    label_collapse: "Свий"
+    label_collapsed: "свита"
+    label_collapse_all: "Свиване на всички"
+    label_comment: "Коментар"
+    label_committed_at: "%{committed_revision_link} в %{date}"
+    label_committed_link: "направена ревизия %{revision_identifier}"
+    label_contains: "съдържа"
+    label_created_on: "създадена на"
+    label_edit_comment: "Редактиране на този коментар"
+    label_edit_status: "Edit the status of the work package"
+    label_email: "E-mail"
+    label_equals: "е"
+    label_expand: "Разтвори"
+    label_expanded: "разширена"
+    label_expand_all: "Разгъване на всички"
+    label_expand_project_menu: "Expand project menu"
+    label_export: "Експортиране"
+    label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_filename: "Файл"
+    label_filesize: "Размер"
+    label_general: "Общ"
+    label_global_roles: "Global roles"
+    label_greater_or_equal: ">="
+    label_group: "Група"
+    label_group_by: "Групиране по"
+    label_group_plural: "Групи"
+    label_hide_attributes: "Скрии детайли"
+    label_hide_column: "Скрий колоната"
+    label_hide_project_menu: "Collapse project menu"
+    label_in: "в"
+    label_in_less_than: "в по-малко от"
+    label_in_more_than: "в повече от"
+    label_incoming_emails: "Входящи имейли"
+    label_information_plural: "Информация"
+    label_invalid: "Invalid"
+    label_import: "Import"
+    label_latest_activity: "Latest activity"
+    label_last_updated_on: "Последно актуализиран на"
+    label_learn_more_link: "Научете повече"
+    label_less_or_equal: "<="
+    label_less_than_ago: "по-скоро от няколко дни"
+    label_loading: "Зареждане..."
+    label_mail_notification: "Известия по имейл"
+    label_manage_columns: "Manage and reorder columns"
+    label_me: "мен"
+    label_meeting_agenda: "Дневен ред"
+    label_meeting_minutes: "Минути"
+    label_menu_collapse: "събери"
+    label_menu_expand: "разтвори"
+    label_more_than_ago: "повече от преди дни"
+    label_next: "Следващо"
+    label_no_color: "No color"
+    label_no_data: "Няма данни за показване"
+    label_no_due_date: "без крайна дата"
+    label_no_start_date: "няма начална дата"
+    label_no_date: "no date"
+    label_no_value: "Няма стойност"
+    label_none: "none"
+    label_not_contains: "doesn't contain"
+    label_not_equals: "is not"
+    label_on: "на"
+    label_open_menu: "Open menu"
+    label_open_context_menu: "Open context menu"
+    label_open_work_packages: "open"
+    label_password: "Парола"
+    label_previous: "Предишен"
+    label_per_page: "За страница:"
+    label_please_wait: "Моля изчакайте"
+    label_project: "Проект"
+    label_project_list: "Project lists"
+    label_project_plural: "Проекти"
+    label_visibility_settings: "Visibility settings"
+    label_quote_comment: "Цитиране на този коментар"
+    label_recent: "Recent"
+    label_reset: "Нулиране"
+    label_remove: "Премахване"
+    label_remove_column: "Remove column"
+    label_remove_columns: "Премахване на избраните колони"
+    label_remove_row: "Remove row"
+    label_report: "Отчет"
+    label_repository_plural: "Хранилища"
+    label_save_as: "Запиши като"
+    label_search_columns: "Search a column"
+    label_select_project: "Изберете проект"
+    label_select_watcher: "Изберете наблюдаващ..."
+    label_selected_filter_list: "Избрани филтри"
+    label_show_attributes: "Показване на всички атрибути"
+    label_show_in_menu: "Show view in menu"
+    label_sort_by: "Подреждане по"
+    label_sorted_by: "сортирано по"
+    label_sort_higher: "Премести нагоре"
+    label_sort_lower: "Премести надолу"
+    label_sorting: "Сортиране"
+    label_spent_time: "Отработено време"
+    label_star_query: "Favored"
+    label_press_enter_to_save: "Press enter to save."
+    label_public_query: "Публичен"
+    label_sum: "Sum"
+    label_sum_for: "Сума за"
+    label_total_sum: "Обща сума"
+    label_subject: "Заглавие"
+    label_this_week: "тази седмица"
+    label_today: "Днес"
+    label_time_entry_plural: "Отработено време"
+    label_up: "Up"
+    label_user_plural: "Потребители"
+    label_activity_show_only_comments: "Show activities with comments only"
+    label_activity_show_all: "Show all activities"
+    label_total_progress: "%{percent} % Общ напредък"
+    label_total_amount: "Total: %{amount}"
+    label_updated_on: "актуализиран на"
+    label_value_derived_from_children: "(value derived from children)"
+    label_children_derived_duration: "Извлечена продължителност на децата от работния пакет"
+    label_warning: "Предупреждение"
+    label_work_package: "Работен пакет"
+    label_work_package_parent: "Родителски работен пакет"
+    label_work_package_plural: "Работни пакети"
+    label_watch: "Наблюдавай"
+    label_watch_work_package: "Наблюдавай работния пакет"
+    label_watcher_added_successfully: "Наблюдаващият е успешно добавен!"
+    label_watcher_deleted_successfully: "Наблюдателят успешно е премахнат!"
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
+    label_unwatch: "Спри наблюдение"
+    label_unwatch_work_package: "Ненаблюдаван работен пакет"
+    label_uploaded_by: "Качено от"
+    label_default_queries: "По подразбиране"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Публичен"
+    label_custom_queries: "Private"
+    label_columns: "Колони"
+    label_attachments: Прикачени файлове
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
+    label_add_attachments: "Attach files"
+    label_formattable_attachment_hint: "Attach and link files by dropping on this field, or pasting from the clipboard."
+    label_remove_file: "Изтриване на %{fileName}"
+    label_remove_watcher: "Премахване на наблюдателя %{name}"
+    label_remove_all_files: Изтриване на всички файлове
+    label_add_description: "Добавете на описание за %{file}"
+    label_upload_notification: "Uploading files..."
+    label_work_package_upload_notification: "Качване на файлове за работа пакет #%{id}: %{subject}"
+    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_files_to_upload: "Тези файлове ще бъдат качени:"
+    label_rejected_files: "Тези файлове не могат да бъдат качени:"
+    label_rejected_files_reason: "Тези файлове не могат да бъдат качени, тъй като техният размер е по-голяма от %{maximumFilesize}"
+    label_wait: "Моля, изчакайте за конфигурация..."
+    label_upload_counter: "%{done} от %{count} файлове са завършени"
+    label_validation_error: "Работния пакет не може да бъде съхранен поради следните грешки:"
+    label_version_plural: "Версии"
+    label_view_has_changed: "Този изглед има не запазени промени. Кликнете, за да ги запишете."
+    help_texts:
+      show_modal: "Show attribute help text entry"
+    onboarding:
+      buttons:
+        skip: "Skip"
+        next: "Следващо"
+        got_it: "Got it"
+      steps:
+        help_menu: "The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!"
+        members: "Invite new <b>members</b> to join your project."
+        quick_add_button: "Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>."
+        sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
+        welcome: "Take a three minutes introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time."
+        wiki: "Within the <b>wiki</b> you can document and share knowledge together with your team."
+        backlogs:
+          overview: "Manage your work in the <b>backlogs</b> view."
+          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
+          task_board_arrow: "To see your <b>task board</b>, open the sprint drop-down..."
+          task_board_select: "...and select the <b>task board</b> entry."
+          task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
+        boards:
+          overview: "Select <b>boards</b> to shift the view and manage your project using the agile boards view."
+          lists_kanban: "Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example."
+          lists_basic: "Here you can create multiple lists (columns) within your agile board."
+          add: "Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board."
+          drag: "Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details."
+        wp:
+          toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
+          list: "This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row."
+          full_view: "The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments."
+          back_button: "Use the return arrow in the top left corner to exit and return to the work package list."
+          create_button: "The <b>+ Create</b> button will add a new work package to your project."
+          gantt_menu: "Create project schedules and timelines effortlessly using the Gantt chart module."
+          timeline: "Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time."
+        team_planner:
+          overview: "The team planner lets you visually assign tasks to team members and get an overview of who is working on what."
+          calendar: "The weekly or biweekly planning board displays all work packages assigned to your team members."
+          add_assignee: "To get started, add assignees to the team planner."
+          add_existing: "Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates."
+          card: "Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member."
+    notifications:
+      title: "Notifications"
+      no_unread: "No unread notifications"
+      reasons:
+        mentioned: "mentioned"
+        watched: "watcher"
+        assigned: "assignee"
+        responsible: "accountable"
+        created: "created"
+        scheduled: "планирано"
+        commented: "commented"
+        processed: "processed"
+        prioritized: "prioritized"
+        dateAlert: "Date alert"
+        shared: "shared"
+      date_alerts:
+        milestone_date: "Milestone date"
+        overdue: "Overdue"
+        overdue_since: "since %{difference_in_days}"
+        property_today: "is today"
+        property_is: "is in %{difference_in_days}"
+        property_was: "was %{difference_in_days} ago"
+        property_is_deleted: "is deleted"
+        upsale:
+          title: "Date alerts"
+          description: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
+      facets:
+        unread: "Unread"
+        unread_title: "Show unread"
+        all: "All"
+        all_title: "Показване на всичко"
+      center:
+        label_actor_and: "и"
+        and_more_users:
+          one: "and 1 other"
+          other: "and %{count} others"
+        no_results:
+          at_all: "New notifications will appear here when there is activity that concerns you."
+          with_current_filter: "There are no notifications in this view at the moment"
+        mark_all_read: "Mark all as read"
+        mark_as_read: "Mark as read"
+        text_update_date: "%{date} by"
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+        empty_state:
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_selection: "Click on a notification to view all activity details."
+        new_notifications:
+          message: "There are new notifications."
+          link_text: "Click here to load them."
+      menu:
+        accountable: "Accountable"
+        by_project: "Unread by project"
+        by_reason: "Reason"
+        inbox: "Inbox"
+        mentioned: "Mentioned"
+        watched: "Наблюдател"
+        date_alert: "Date alert"
+        shared: "Shared"
+      settings:
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
+        title: "Notification settings"
+        notify_me: "Notify me"
+        reminders:
+          no_notification: No notification
+          timeframes:
+            normal:
+              PT0S: same day
+              P1D: 1 day before
+              P3D: 3 days before
+              P7D: a week before
+            overdue:
+              P1D: every day
+              P3D: every 3 days
+              P7D: every week
+        reasons:
+          mentioned:
+            title: "Mentioned"
+            description: "Receive a notification every time someone mentions me anywhere"
+          assignee: "Изпълнител"
+          responsible: "Accountable"
+          shared: "Shared"
+          watched: "Наблюдател"
+          work_package_commented: "All new comments"
+          work_package_created: "New work packages"
+          work_package_processed: "All status changes"
+          work_package_prioritized: "All priority changes"
+          work_package_scheduled: "All date changes"
+        global:
+          immediately:
+            title: "Participating"
+            description: "Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)."
+          delayed:
+            title: "Non-participating"
+            description: "Additional notifications for activities in all projects."
+          date_alerts:
+            title: "Date alerts"
+            description: "Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)."
+            teaser_text: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
+          overdue: When overdue
+        project_specific:
+          title: "Project-specific notification settings"
+          description: "These project-specific settings override default settings above."
+          add: "Add setting for project"
+          already_selected: "This project is already selected"
+          remove: "Remove project settings"
+    password_confirmation:
+      field_description: "You need to enter your account password to confirm this change."
+      title: "Confirm your password to continue"
+    pagination:
+      no_other_page: "You are on the only page."
+      pages:
+        next: "Forward to the next page"
+        previous: "Back to the previous page"
+    placeholders:
+      default: "-"
+      subject: "Enter subject here"
+      selection: "Моля изберете"
+      description: "Description: Click to edit..."
+      relation_description: "Click to add description for this relation"
+    project:
+      required_outside_context: >
+        Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
+      details_activity: "Project details activity"
+      context: "Project context"
+      click_to_switch_to_project: "Project: %{projectname}"
+      confirm_template_load: "Превключването на шаблона ще презареди страницата и ще загубите всички данни за този формуляр. Ще продължите ли?"
+      use_template: "Използвайте шаблон"
+      no_template_selected: "(None)"
+      copy:
+        copy_options: "Copy options"
+      autocompleter:
+        label: "Project autocompletion"
+    reminders:
+      settings:
+        daily:
+          add_time: "Add time"
+          enable: "Enable daily email reminders"
+          explanation: "You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}"
+          no_time_zone: "Until you configure a time zone for your account, the times will be interpreted to be in UTC."
+          time_label: "Time %{counter}:"
+          title: "Send me daily email reminders for unread notifications"
+        workdays:
+          title: "Receive email reminders on these days"
+        immediate:
+          title: "Send me an email reminder"
+          mentioned: "Immediately when someone @mentions me"
+        alerts:
+          title: "Email alerts for other items (that are not work packages)"
+          explanation: >
+            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
+          news_added: "Добавени новини"
+          news_commented: "Comment on a news item"
+          document_added: "Documents added"
+          forum_messages: "New forum messages"
+          wiki_page_added: "Wiki страница добавена"
+          wiki_page_updated: "Wiki страница обновена"
+          membership_added: "Membership added"
+          membership_updated: "Membership updated"
+        title: "Email reminders"
+        pause:
+          label: "Temporarily pause daily email reminders"
+          first_day: "First day"
+          last_day: "Last day"
+    text_are_you_sure: "Сигурни ли сте?"
+    text_data_lost: "All entered data will be lost."
+    text_user_wrote: "%{value} wrote:"
+    types:
+      attribute_groups:
+        error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
+        error_no_table_configured: "Please configure a table for %{group}."
+        reset_title: "Reset form configuration"
+        confirm_reset: >
+          Warning: Are you sure you want to reset the form configuration? This will reset the attributes to their default group and disable ALL custom fields.
+        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
+        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
+        more_information: "Повече информация"
+        nevermind: "Nevermind"
+      edit:
+        form_configuration: "Конфигуриране на Форма"
+        projects: "Проекти"
+        settings: "Настройки"
+    time_entry:
+      work_package_required: "Requires selecting a work package first."
+      title: "Отчетено време"
+      tracking: "Проследяване по време"
+      stop: "Stop"
+    timer:
+      start_new_timer: "Start new timer"
+      timer_already_running: "To start a new timer, you must first stop the current timer:"
+      timer_already_stopped: "No active timer for this work package, have you stopped it in another window?"
+      tracking_time: "Tracking time"
+      button_stop: "Stop current timer"
+    two_factor_authentication:
+      label_two_factor_authentication: "Two-factor authentication"
+    watchers:
+      label_loading: Зареждане на наблюдаващи...
+      label_error_loading: Възникна грешка при зареждане на наблюдатели
+      label_search_watchers: Търсене на наблюдатели
+      label_add: Добавяне на наблюдатели
+      label_discard: Отхвърляне на избора
+      typeahead_placeholder: Search for possible watchers
+    relation_labels:
+      parent: "Горна категория"
+      children: "Деца"
+      relates: "Свързано с"
+      duplicates: "Дубликати"
+      duplicated: "Дублирано от"
+      blocks: "Блокирания"
+      blocked: "Блокирано от"
+      precedes: "Предшестващи"
+      follows: "Следва"
+      includes: "Includes"
+      partof: "Part of"
+      requires: "Requires"
+      required: "Required by"
+      relation_type: "relation type"
+    relations_hierarchy:
+      parent_headline: "Горна категория"
+      hierarchy_headline: "Hierarchy"
+      children_headline: "Деца"
+    relation_buttons:
+      set_parent: "Set parent"
+      change_parent: "Смяна на главният работен пакет"
+      remove_parent: "Remove parent"
+      hierarchy_indent: "Йерархия на отстъпа"
+      hierarchy_outdent: "Премахване йерархия на отстъпа"
+      group_by_wp_type: "Group by work package type"
+      group_by_relation_type: "Group by relation type"
+      add_parent: "Add existing parent"
+      add_new_child: "Create new child"
+      create_new: "Create new"
+      add_existing: "Add existing"
+      add_existing_child: "Add existing child"
+      remove_child: "Remove child"
+      add_new_relation: "Create new relation"
+      add_existing_relation: "Add existing relation"
+      update_description: "Set or update description of this relation"
+      toggle_description: "Toggle relation description"
+      update_relation: "Click to change the relation type"
+      add_follower: "Add follower"
+      show_relations: "Show relations"
+      add_predecessor: "Add predecessor"
+      remove: "Премахване на връзка"
+      save: "Save relation"
+      abort: "Abort"
+    relations_autocomplete:
+      placeholder: "Type to search"
+      parent_placeholder: "Choose new parent or press escape to cancel."
+    autocompleter:
+      placeholder: "Type to search"
+      notFoundText: "No items found"
+      project:
+        placeholder: "Select project"
+    repositories:
+      select_tag: "Изберете етикет"
+      select_branch: "Изберете клон"
+    field_value_enter_prompt: "Въведете стойност за '%{field}'"
+    project_menu_details: "Подробности"
+    scheduling:
+      manual: "Ръчно планиране"
+    sort:
+      sorted_asc: "Ascending sort applied, "
+      sorted_dsc: "Descending sort applied, "
+      sorted_no: "No sort applied, "
+      sorting_disabled: "sorting is disabled"
+      activate_asc: "activate to apply an ascending sort"
+      activate_dsc: "activate to apply a descending sort"
+      activate_no: "activate to remove the sort"
+    text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
+    text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
+    tl_toolbar:
+      zooms: "Ниво на мащабиране"
+      outlines: "Йерархично ниво"
+    upsale:
+      ee_only: "Enterprise edition add-on"
+    wiki_formatting:
+      strong: "Главни букви"
+      italic: "Наклонени букви"
+      underline: "Подчертаване"
+      deleted: "Изтрито"
+      code: "Вложен код"
+      heading1: "Заглавие 1"
+      heading2: "Заглавие 2"
+      heading3: "Заглавие 3"
+      unordered_list: "Неподреден списък"
+      ordered_list: "Подреден списък"
+      quote: "Цитат"
+      unquote: "Махни кавичките"
+      preformatted_text: "Предварително форматиран текст"
+      wiki_link: "Линк към уики страница"
+      image: "Изображение"
+    work_packages:
+      bulk_actions:
+        move: "Групова промяна на проекта"
+        edit: "Bulk edit"
+        copy: "Bulk copy"
+        delete: "Bulk delete"
+      button_clear: "Изчистване"
+      comment_added: "Коментарът е добавен успешно."
+      comment_send_failed: "Възникна грешка. Коментарът не може да бъде добавен."
+      comment_updated: "Коментарът е актуализиран успешно."
+      confirm_edit_cancel: "Сигурни ли сте, че искате да откажете промените на работният пакет?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: "Show relations"
+        ignore_non_working_days:
+          title: "Working days only"
+      description_filter: "Филтър"
+      description_enter_text: "Въведи текст"
+      description_options_hide: "Скрий опциите"
+      description_options_show: "Покажи опциите"
+      edit_attribute: "%{attribute} - Редактиране"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: "Разреши множествено избиране"
+      label_disable_multi_select: "Спиране на множествено избиране"
+      label_filter_add: "Добавяне на филтър"
+      label_filter_by_text: "Filter by text"
+      label_options: "Опции"
+      label_column_multiselect: "Комбинирани падащо меню: изберете с клавишите със стрелки, потвърдете избора с enter, изтриване с backspace"
+      message_error_during_bulk_delete: Възникна грешка при опит за изтриване на работни пакети.
+      message_successful_bulk_delete: Успешно изтрити работни пакети.
+      message_successful_show_in_fullscreen: "Щракнете тук, за да отворите този работен пакет в изглед на цял екран."
+      message_view_spent_time: "Show spent time for this work package"
+      message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
+      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
+      placeholder_filter_by_text: "Subject, description, comments, ..."
+      progress:
+        title: "Work estimates and progress"
+      baseline:
+        addition_label: "Added to view within the comparison time period"
+        removal_label: "Removed from view within the comparison time period"
+        modification_label: "Modified within the comparison time period"
+        column_incompatible: "This column does not show changes in Baseline mode."
+      filters:
+        title: "Filter work packages"
+        baseline_incompatible: "This filter attribute is not taken into consideration in Baseline mode."
+        baseline_warning: "Baseline mode is on but some of your active filters are not included in the comparison."
+      inline_create:
+        title: "Щракнете тук, за да добавите нов работен пакет към този списък"
+      create:
+        title: "Нов работен пакет"
+        header: "New %{type}"
+        header_no_type: "New work package (Type not yet set)"
+        header_with_parent: "New %{type} (Child of %{parent_type} #%{id})"
+        button: "Създаване"
+      copy:
+        title: "Copy work package"
+      hierarchy:
+        show: "Show hierarchy mode"
+        hide: "Hide hierarchy mode"
+        toggle_button: "Click to toggle hierarchy mode."
+        leaf: "Work package leaf at level %{level}."
+        children_collapsed: "Hierarchy level %{level}, collapsed. Click to show the filtered children"
+        children_expanded: "Hierarchy level %{level}, expanded. Click to collapse the filtered children"
+      faulty_query:
+        title: Work packages could not be loaded.
+        description: Your view is erroneous and could not be processed.
+      no_results:
+        title: Няма работни пакети за показване.
+        description: Или никакви работни пакети не са създадени, или всички са филтрирани.
+      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
+      property_groups:
+        details: "Подробности"
+        people: "Участници"
+        estimatesAndTime: "Разчетите и време"
+        other: "Други"
+      properties:
+        assignee: "Изпълнител"
+        author: "Автор"
+        createdAt: "Създаден на"
+        description: "Описание"
+        date: "Дата"
+        percentComplete: "% Complete"
+        percentCompleteAlternative: "Progress"
+        dueDate: "Finish date"
+        duration: "Продължителност"
+        spentTime: "Отработено време"
+        category: "Категория"
+        percentageDone: "Процент завършена задача"
+        priority: "Приоритет"
+        projectName: "Проект"
+        remainingWork: "Remaining work"
+        remainingWorkAlternative: "Remaining hours"
+        responsible: "Отговорен"
+        startDate: "Начална дата"
+        status: "Състояние"
+        subject: "Заглавие"
+        subproject: "Подпроект"
+        title: "Заглавие"
+        type: "Тип"
+        updatedAt: "Актуализиран на"
+        versionName: "Версия"
+        version: "Версия"
+        work: "Work"
+        workAlternative: "Estimated time"
+        remainingTime: "Remaining work"
+      default_queries:
+        latest_activity: "Latest activity"
+        created_by_me: "Created by me"
+        assigned_to_me: "Assigned to me"
+        recently_created: "Recently created"
+        all_open: "Всичко отворено"
+        summary: "Обобщение"
+        shared_with_users: "Shared with users"
+        shared_with_me: "Shared with me"
+      jump_marks:
+        pagination: "Jump to table pagination"
+        label_pagination: "Click here to skip over the work packages table and go to pagination"
+        content: "Jump to content"
+        label_content: "Click here to skip over the menu and go to the content"
+      placeholders:
+        default: "-"
+        date: "Select date"
+      query:
+        column_names: "Колони"
+        group_by: "Групай резултатите по"
+        group: "Групиране по"
+        group_by_disabled_by_hierarchy: "Group by is disabled due to the hierarchy mode being active."
+        hierarchy_disabled_by_group_by: "Hierarchy mode is disabled due to results being grouped by %{column}."
+        sort_ascending: "Cортирай възходящо"
+        sort_descending: "Сортирай низходящо"
+        move_column_left: "Преместване на колона наляво"
+        move_column_right: "Преместете колона надясно"
+        hide_column: "Скрий колоната"
+        insert_columns: "Insert columns"
+        filters: "Филтри"
+        display_sums: "Показване на суми"
+        confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
+        click_to_edit_query_name: "Click to edit title of this view."
+        rename_query_placeholder: "Name of this view"
+        star_text: "Маркирайте този изглед като любим и добавете към страничната лента на запаметените изгледи отляво."
+        public_text: >
+          Публикувайте този изглед, позволявайки на други потребители да имат достъп до вашия изглед. Потребителите с разрешение „Управление на публични изгледи“ могат да променят или премахват обществени заявки. Това не влияе на видимостта на резултатите от работния пакет в този изглед и в зависимост от техните разрешения, потребителите могат да виждат различни резултати.
+        errors:
+          unretrievable_query: "Unable to retrieve view from URL"
+          not_found: "There is no such view"
+          duplicate_query_title: "Name of this view already exists. Change anyway?"
+        text_no_results: "No matching views were found."
+      scheduling:
+        is_parent: "Датите на този работен пакет се извеждат автоматично от неговите деца. Активирайте „Ръчно планиране“, за да зададете датите."
+        is_switched_from_manual_to_automatic: "Датите на този работен пакет може да се наложи да бъдат преизчислени след преминаване от ръчно към автоматично планиране поради връзки с други работни пакети."
+      sharing:
+        share: "Споделяне"
+        title: "Share work package"
+        show_all_users: "Show all shared users"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
+        upsale:
+          description: "Share work packages with users who are not members of the project."
+      table:
+        configure_button: "Configure work package table"
+        summary: "Таблица с атрибути от редове и колони на работен пакет."
+        text_inline_edit: "Повечето клетки на тази таблица са бутони, които активират инлайн редактиране функционалност на този атрибут."
+        text_sort_hint: "С линковете в заглавията на колоните в таблицата можете да сортирате, преподреждате, премахвате и добавяте колони."
+        text_select_hint: "Select boxes should be opened with 'ALT' and arrow keys."
+      table_configuration:
+        button: "Configure this work package table"
+        choose_display_mode: "Display work packages as"
+        modal_title: "Work package table configuration"
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
+        default: "default"
+        display_settings: "Display settings"
+        default_mode: "Flat list"
+        hierarchy_mode: "Hierarchy"
+        hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
+        display_sums_hint: "Display sums of all summable attributes in a row below the table results."
+        show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
+        highlighting: "Highlighting"
+        highlighting_mode:
+          description: "Highlight with color"
+          none: "No highlighting"
+          inline: "Highlighted attribute(s)"
+          inline_all: "All attributes"
+          entire_row_by: "Entire row by"
+          status: "Състояние"
+          priority: "Приоритет"
+          type: "Тип"
+        sorting_mode:
+          description: "Изберете режима, за да сортирате работните си пакети:"
+          automatic: "Автоматично"
+          manually: "Ръчно"
+          warning: "Ще загубите предишното си сортиране, когато активирате автоматичния режим на сортиране."
+        columns_help_text: "Използвайте полето за въвеждане по-горе, за да добавите колони към изгледа на вашата таблица. Можете да плъзгате и пускате колоните, за да ги пренареждате."
+        upsale:
+          attribute_highlighting: "Need certain work packages to stand out from the mass?"
+          relation_columns: "Need to see relations in the work package list?"
+          check_out_link: "Check out the Enterprise edition."
+        relation_filters:
+          filter_work_packages_by_relation_type: "Filter work packages by relation type"
+      tabs:
+        overview: Общ преглед
+        activity: Активност
+        relations: Връзки с
+        watchers: Наблюдатели
+        files: Файлове
+      time_relative:
+        days: "дни"
+        weeks: "седмици"
+        months: "месеци"
+    toolbar:
+      settings:
+        configure_view: "Configure view"
+        columns: "Колони"
+        sort_by: "Подреждане по"
+        group_by: "Групиране по"
+        display_sums: "Показване на суми"
+        display_hierarchy: "Display hierarchy"
+        hide_hierarchy: "Hide hierarchy"
+        hide_sums: "Скрий суми"
+        save: "Запази"
+        save_as: "Запиши като"
+        export: "Експортиране"
+        visibility_settings: "Visibility settings"
+        share_calendar: "Subscribe to calendar"
+        page_settings: "Rename view"
+        delete: "Изтрий"
+      filter: "Филтър"
+      unselected_title: "Работен пакет"
+      search_query_label: "Search saved views"
+    modals:
+      label_name: "Име"
+      label_delete_page: "Изтриване на текущата страница"
+      button_apply: "Приложи"
+      button_save: "Запази"
+      button_submit: "Изпрати"
+      button_cancel: "Отказ"
+      button_delete: "Изтрий"
+      form_submit:
+        title: "Confirm to continue"
+        text: "Are you sure you want to perform this action?"
+      destroy_work_package:
+        title: "Confirm deletion of %{label}"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
+        has_children: "The work package has %{childUnits}:"
+        confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
+        deletes_children: "All child work packages and their descendants will also be recursively deleted."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
+    notice_no_results_to_display: "No visible results to display."
+    notice_successful_create: "Успешно създаване."
+    notice_successful_delete: "Успешно изтриване."
+    notice_successful_update: "Успешно обновяване."
+    notice_job_started: "job started."
+    notice_bad_request: "Грешна заявка."
+    relations:
+      empty: Не съществува връзка
+      remove: Премахване на връзка
+    inplace:
+      button_edit: "%{attribute}: Редактиране"
+      button_save: "%{attribute}: Запиши"
+      button_cancel: "%{attribute}: отказ"
+      button_save_all: "Запази"
+      button_cancel_all: "Отказ"
+      link_formatting_help: "Помощ за форматиране на текст"
+      btn_preview_enable: "Предварителен преглед"
+      btn_preview_disable: "Забраняване на преглед"
+      null_value_label: "Няма стойност"
+      clear_value_label: "-"
+      errors:
+        required: "%{field} не може да бъде празно"
+        number: "%{field} не е валидно число"
+        maxlength: "%{field} не може да съдържа повече от %{maxLength} цифри(а)"
+        minlength: "%{field} не може да съдържа по-малко от %{minLength} цифри(а)"
+        messages_on_field: "Това поле е невалидно: %{messages}"
+    error_could_not_resolve_version_name: "Не можа да открие версия с име"
+    error_could_not_resolve_user_name: "Не може да открие потребителско име"
+    error_attachment_upload: "File failed to upload: %{error}"
+    error_attachment_upload_permission: "You don't have the permission to upload files on this resource."
+    units:
+      workPackage:
+        one: "work package"
+        other: "work packages"
+      child_work_packages:
+        one: "one child work package"
+        other: "%{count} work package children"
+      hour:
+        one: "1 ч"
+        other: "%{count} часа"
+        zero: "0 h"
+      day:
+        one: "1 ден"
+        other: "%{count} дни"
+        zero: "0 days"
+    zen_mode:
+      button_activate: "Activate zen mode"
+      button_deactivate: "Deactivate zen mode"
+    global_search:
+      all_projects: "In all projects"
+      close_search: "Close search"
+      current_project_and_all_descendants: "In this project + subprojects"
+      current_project: "In this project"
+      recently_viewed: "Recently viewed"
+      search: "Търсене"
+      title:
+        all_projects: "all projects"
+        project_and_subprojects: "and all subprojects"
+        search_for: "Search for"
+    views:
+      card: "Карти"
+      list: "Таблица"
+      timeline: "Gantt"
+    invite_user_modal:
+      back: "Назад"
+      invite: "Invite"
+      title:
+        invite: "Покани потребител"
+        invite_to_project: "Invite %{type} to %{project}"
+        User: "user"
+        Group: "group"
+        PlaceholderUser: "placeholder user"
+        invite_principal_to_project: "Invite %{principal} to %{project}"
+      project:
+        label: "Проект"
+        required: "Please select a project"
+        lacking_permission: "Please select a different project since you lack permissions to assign users to the currently selected."
+        lacking_permission_info: "You lack the permission to assign users to the project you are currently in. You need to select a different one."
+        next_button: "Следващо"
+        no_results: "No projects were found"
+        no_invite_rights: "You are not allowed to invite members to this project"
+      type:
+        required: "Please select the type to be invited"
+        user:
+          title: "Потребител"
+          description: "Permissions based on the assigned role in the selected project"
+        group:
+          title: "Група"
+          description: "Permissions based on the assigned role in the selected project"
+        placeholder:
+          title: "Потребител на заместител"
+          title_no_ee: "Placeholder user (Enterprise edition only add-on)"
+          description: "Has no access to the project and no emails are sent out."
+          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
+      principal:
+        label:
+          name_or_email: "Name or email address"
+          name: "Име"
+        already_member_message: "Already a member of %{project}"
+        no_results_user: "No users were found"
+        invite_user: "Invite:"
+        no_results_placeholder: "No placeholders were found"
+        create_new_placeholder: "Create new placeholder:"
+        no_results_group: "No groups were found"
+        next_button: "Следващо"
+        required:
+          user: "Please select a user"
+          placeholder: "Please select a placeholder"
+          group: "Please select a group"
+      role:
+        label: "Role in %{project}"
+        no_roles_found: "No roles were found"
+        description: >-
+          This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>
+        required: "Please select a role"
+        next_button: "Следващо"
+      message:
+        label: "Invitation message"
+        description: "We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started."
+        next_button: "Следващо"
+      summary:
+        next_button: "Send invitation"
+      success:
+        title: "%{principal} was invited!"
+        description:
+          user: "The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
+          placeholder: "The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
+          group: "The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance."
+        next_button: "Продължаване"
+    include_projects:
+      toggle_title: "Include projects"
+      title: "Проекти"
+      clear_selection: "Clear selection"
+      apply: "Приложи"
+      selected_filter:
+        all: "All projects"
+        selected: "Only selected"
+      search_placeholder: "Search project..."
+      include_subprojects: "Include all sub-projects"
+      tooltip:
+        include_all_selected: "Project already included since Include all sub-projects is enabled."
+        current_project: "This is the current project you are in."
+        does_not_match_search: "Project does not match the search criteria."
+      no_results: "No project matches your search criteria."
+    baseline:
+      toggle_title: "Baseline"
+      clear: "Изчистване"
+      apply: "Приложи"
+      header_description: "Highlight changes made to this list since any point in the past."
+      enterprise_header_description: "Highlight changes made to this list since any point in the past with Enterprise edition."
+      show_changes_since: "Show changes since"
+      baseline_comparison: "Baseline comparison"
+      help_description: "Reference time zone for the baseline."
+      time_description: "In your local time: %{datetime}"
+      time: "Час"
+      from: "От"
+      to: "До"
+      drop_down:
+        none: "-"
+        yesterday: "вчера"
+        last_working_day: "last working day"
+        last_week: "Миналата седмица"
+        last_month: "миналия месец"
+        a_specific_date: "a specific date"
+        between_two_specific_dates: "between two specific dates"
+      legends:
+        changes_since: "Changes since"
+        changes_between: "Changes between"
+        now_meets_filter_criteria: "Now meets filter criteria"
+        no_longer_meets_filter_criteria: "No longer meets filter criteria"
+        maintained_with_changes: "Maintained with changes"
+        in_your_timezone: "In your local timezone:"
+      icon_tooltip:
+        added: "Added to view within the comparison time period"
+        removed: "Removed from view within the comparison time period"
+        changed: "Maintained with modifications"
+    forms:
+      submit_success_message: "The form was successfully submitted"
+      load_error_message: "There was an error loading the form"
+      validation_error_message: "Please fix the errors present in the form"
+      advanced_settings: "Разширени настройки"
+    spot:
+      filter_chip:
+        remove: "Премахване"
+      drop_modal:
+        focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
+        Close: "Close"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

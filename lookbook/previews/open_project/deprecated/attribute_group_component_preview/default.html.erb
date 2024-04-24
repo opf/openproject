@@ -1,0 +1,12 @@
+<%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
+  component.with_header(title: "A Title")
+
+  component.with_attribute(key: 'Some key',
+                           value: 'A value')
+
+  component.with_attribute(key: 'With icons',
+                           value: op_icon('icon-checkmark'))
+
+  component.with_attribute(key: 'With HTML',
+                           value: link_to('OpenProject homepage', 'https://www.openproject.org'))
+end %>

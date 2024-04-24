@@ -1,0 +1,117 @@
+<% initialize_hide_sections_with @custom_action.all_actions.map { |a| { key: a.key, label: a.human_name } },
+                                  @custom_action.actions.map { |a| { key: a.key, label: a.human_name } } %>
+
+<div class="form--field -required">
+  <%= f.text_field :name, required: true, container_class: '-middle' %>
+</div>
+<div class="form--field">
+  <%= f.text_area :description, container_class: '-middle' %>
+</div>
+
+<fieldset class="form--fieldset" id="custom-actions-form--conditions">
+  <legend class="form--fieldset-legend">
+    <%= t('custom_actions.conditions') %>
+  </legend>
+
+  <% @custom_action.all_conditions.each do |condition| %>
+    <div class="form--field">
+      <%= styled_label_tag("custom_action_conditions_#{condition.key}", condition.human_name, class: '-top') %>
+      <% input_name = "custom_action[conditions][#{condition.key}]" %>
+      <% selected_values = condition.values
+         select_options = condition.allowed_values.map { |v| { label: v[:label], value: v[:value], selected: selected_values.include?(v[:value]) } } %>
+
+      <div class="form--field-container">
+        <div class="form--select-container -middle">
+          <%= render partial: 'augmented/autocomplete_select_decoration',
+                     locals: { input_name: input_name,
+                               input_id: "custom_action_conditions_#{condition.key}",
+                               select_options: select_options,
+                               multiple: true,
+                               key: condition.key.to_s
+                     }  %>
+        </div>
+      </div>
+    </div>
+    <div class="form--space"></div>
+  <% end %>
+</fieldset>
+
+<fieldset class="form--fieldset" id="custom-actions-form--actions">
+  <legend class="form--fieldset-legend">
+    <%= t('custom_actions.actions.name') %>
+  </legend>
+
+  <div id="custom-actions-form--active-actions">
+    <% @custom_action.all_actions.each do |action| %>
+      <section class="hide-section" hidden data-section-name="<%= action.key %>">
+        <div class="form--field">
+          <%= styled_label_tag("custom_action_actions_#{action.key}", action.human_name, class: '-top') %>
+
+          <% input_name = "custom_action[actions][#{action.key}]" %>
+          <% if %i(associated_property boolean).include?(action.type) %>
+            <% selected_values = action.values
+               select_options = action.allowed_values.map { |v| { label: v[:label], value: v[:value], selected: selected_values.include?(v[:value]) } } %>
+
+            <div class="form--field-container">
+              <div class="form--select-container -middle">
+                <%= render partial: 'augmented/autocomplete_select_decoration',
+                           locals: { input_name: input_name,
+                                     input_id: "custom_action_actions_#{action.key}",
+                                     select_options: select_options,
+                                     multiple: action.multi_value?,
+                                     key: action.key.to_s
+                           }  %>
+              </div>
+            </div>
+          <% elsif %i(date_property).include?(action.type) %>
+            <div class="form--field-container">
+              <% date = action.values.first %>
+              <%= tag 'custom-date-action-admin', data: { 'field-value': date.try(:iso8601) || date, 'field-name': input_name } %>
+            </div>
+          <% elsif %i(string_property text_property).include?(action.type) %>
+            <div class="form--field-container">
+              <%= styled_text_field_tag input_name,
+                                        action.values,
+                                        container_class: '-slim',
+                                        step: 'any' %>
+            </div>
+          <% elsif action.type == :float_property %>
+            <div class="form--field-container">
+              <%= styled_number_field_tag input_name,
+                                          action.values,
+                                          container_class: '-slim',
+                                          min: action.minimum,
+                                          max: action.maximum,
+                                          step: 'any' %>
+            </div>
+          <% elsif action.type == :integer_property %>
+            <div class="form--field-container">
+              <%= styled_number_field_tag input_name,
+                                          action.values,
+                                          container_class: '-slim',
+                                          min: action.minimum,
+                                          max: action.maximum,
+                                          step: 1 %>
+            </div>
+          <% end %>
+          <hide-section-link data-section-name="<%= action.key %>"></hide-section-link>
+        </div>
+      </section>
+    <% end %>
+  </div>
+
+  <div class="form--space"></div>
+
+  <div class="form--field">
+    <label class="form--label" for="custom-actions-form--add-action">
+      <%= op_icon("icon-add icon4") %>
+      <%= I18n.t(:'custom_actions.actions.add') %>
+    </label>
+    <span class="form--field-container">
+      <span class="form--text-field-container -middle">
+        <add-section-dropdown data-html-id="custom-actions-form--add-action">
+        </add-section-dropdown>
+      </span>
+    </span>
+  </div>
+</fieldset>

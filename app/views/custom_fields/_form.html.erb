@@ -1,0 +1,246 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<section class="form--section" id="custom_field_form">
+  <div class="form--field -required" id="custom_field_name_attributes">
+    <%= f.text_field :name, required: true, container_class: '-middle' %>
+  </div>
+  <% if @custom_field.type == 'ProjectCustomField' %>
+    <div class="form--field -required">
+      <%= f.select :custom_field_section_id,
+                  ProjectCustomFieldSection.all.collect { |s| [s.name, s.id] },
+                  { container_class: '-slim' },
+                  required: true
+      %>
+    </div>
+  <% end %>
+  <div class="form--field">
+    <%= f.select :field_format,
+                 custom_field_formats_for_select(@custom_field),
+                 { container_class: '-slim' },
+                 disabled: !@custom_field.new_record?,
+                 data: {
+                   action: 'admin--custom-fields#formatChanged',
+                   'admin--custom-fields-target': 'format'
+                 }
+    %>
+  </div>
+  <div class="form--grouping" id="custom_field_length">
+    <div class="form--grouping-label">
+      <%= t(:label_min_max_length) %> <br>
+      <small>(<%= t(:text_min_max_length_info) %>)</small>
+    </div>
+    <div class="form--grouping-row">
+      <div class="form--field -wide-label">
+        <%= f.number_field :min_length,
+                           container_class: '-xslim',
+                           data: { 'admin--custom-fields-target': 'length' } %>
+      </div>
+      <div class="form--field -wide-label">
+        <%= f.number_field :max_length,
+                           container_class: '-xslim',
+                           data: { 'admin--custom-fields-target': 'length' } %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form--field">
+    <%= f.text_field :regexp,
+                     size: 50,
+                     container_class: '-wide',
+                     data: { 'admin--custom-fields-target': 'regexp' } %>
+    <span class="form--field-instructions">
+      <%= t(:text_regexp_info) %>
+    </span>
+  </div>
+
+  <% if @custom_field.new_record? || @custom_field.list? || @custom_field.multi_value_possible? %>
+    <div class="form--field" hidden>
+      <%= f.check_box :multi_value,
+                      data: {
+                        'admin--custom-fields-target': 'multiSelect',
+                        action: 'admin--custom-fields#checkOnlyOne'
+                      } %>
+    </div>
+
+    <fieldset class="form--fieldset" data-admin--custom-fields-target="possibleValues">
+      <legend class="form--fieldset-legend"><%= I18n.t("activerecord.attributes.custom_field.possible_values") %></legend>
+      <% if @custom_field.persisted? %>
+        <div class="form--toolbar">
+          <span class="form--toolbar-item">
+            <%= link_to t('custom_fields.reorder_alphabetical'),
+                        { action: :reorder_alphabetical },
+                        method: :post,
+                        data: { confirm: t('custom_fields.reorder_confirmation') } %>
+          </span>
+        </div>
+      <% end %>
+      <div class="form--field">
+        <%= render partial: "custom_fields/custom_options", locals: { custom_field: @custom_field, f: f } %>
+        <button
+          type="button"
+          class="spot-link"
+          data-test-selector="add-custom-option"
+          data-action="admin--custom-fields#addOption"
+        >
+          <span class="spot-icon spot-icon_1_25 spot-icon_add"></span>
+          <span><%= t(:button_add) %></span>
+        </button>
+      </div>
+    </fieldset>
+  <% end %>
+
+  <% if @custom_field.new_record? || @custom_field.version? || @custom_field.allow_non_open_versions_possible? %>
+    <div class="form--field" hidden>
+      <%= f.check_box :allow_non_open_versions,
+                      data: {
+                        'admin--custom-fields-target': 'allowNonOpenVersions'
+                      } %>
+    </div>
+  <% end %>
+
+  <div data-admin--custom-fields-target="defaultValue">
+    <div class="form--field" id="default_value_text">
+      <% if @custom_field.new_record? || !%w[text bool].include?(@custom_field.field_format) %>
+        <%= f.text_field :default_value,
+                         id: 'custom_fields_default_value_text',
+                         for: 'custom_fields_default_value_text',
+                         data: { 'admin--custom-fields-target': 'defaultText' },
+                         container_class: '-wide' %>
+      <% end %>
+    </div>
+    <div class="form--field" hidden>
+      <% if @custom_field.new_record? || @custom_field.field_format == 'bool' %>
+        <%= f.check_box :default_value,
+                        id: 'custom_fields_default_value_bool',
+                        data: { 'admin--custom-fields-target': 'defaultBool' },
+                        for: 'custom_fields_default_value_bool' %>
+      <% end %>
+    </div>
+    <div class="form--field" hidden>
+      <% if @custom_field.new_record? || @custom_field.field_format == 'text' %>
+        <%= f.text_area :default_value,
+                        id: 'custom_fields_default_value_longtext',
+                        data: { 'admin--custom-fields-target': 'defaultLongText' },
+                        for: 'custom_fields_default_value_longtext',
+                        cols: 100,
+                        rows: 20,
+                        class: 'wiki-edit',
+                        macros: "none",
+                        with_text_formatting: true %>
+      <% end %>
+    </div>
+  </div>
+  <%= call_hook(:view_custom_fields_form_upper_box, custom_field: @custom_field, form: f) %>
+</section>
+
+<section class="form--section">
+  <% case @custom_field.class.name
+     when "WorkPackageCustomField" %>
+    <div class="form--field">
+      <%= f.check_box :is_required %>
+      <div class="form--field-instructions">
+        <p><%= t('custom_fields.instructions.is_required') %></p>
+      </div>
+    </div>
+    <div class="form--field">
+      <%= f.check_box :is_for_all %>
+      <div class="form--field-instructions">
+        <p><%= t('custom_fields.instructions.is_for_all') %></p>
+      </div>
+    </div>
+    <div class="form--field">
+      <%= f.check_box :is_filter %>
+      <div class="form--field-instructions">
+        <p><%= t('custom_fields.instructions.is_filter') %></p>
+      </div>
+    </div>
+    <div class="form--field">
+      <%= f.check_box :searchable,
+                      data: { 'admin--custom-fields-target': 'searchable' }%>
+      <div class="form--field-instructions">
+        <p><%= t('custom_fields.instructions.searchable') %></p>
+      </div>
+    </div>
+    <div class="form--field" hidden>
+      <%= f.check_box :content_right_to_left,
+                      data: { 'admin--custom-fields-target': 'textOrientation' } %>
+    </div>
+  <% when "UserCustomField" %>
+    <div class="form--field">
+      <%= f.check_box :is_required %>
+      <div class="form--field-instructions">
+        <p><%= t('custom_fields.instructions.is_required') %></p>
+      </div>
+    </div>
+    <div class="form--field">
+      <%= f.check_box :visible %>
+      <div class="form--field-instructions">
+        <p><%= t('custom_fields.instructions.visible') %></p>
+      </div>
+    </div>
+    <div class="form--field">
+      <%= f.check_box :editable %>
+      <div class="form--field-instructions">
+        <p><%= t('custom_fields.instructions.editable') %></p>
+      </div>
+    </div>
+  <% when "ProjectCustomField" %>
+    <div class="form--field">
+      <%= f.check_box :is_required %>
+      <div class="form--field-instructions">
+        <p><%= t('custom_fields.instructions.is_required') %></p>
+      </div>
+    </div>
+    <div class="form--field">
+      <%= f.check_box :visible %>
+      <div class="form--field-instructions">
+        <p><%= t('custom_fields.instructions.visible') %></p>
+      </div>
+    </div>
+    <div class="form--field">
+    <%= f.check_box :searchable,
+                    data: { 'admin--custom-fields-target': 'searchable' }%>
+    </div>
+  <% when "TimeEntryCustomField" %>
+    <div class="form--field">
+      <%= f.check_box :is_required %>
+      <div class="form--field-instructions">
+        <p><%= t('custom_fields.instructions.is_required') %></p>
+      </div>
+    </div>
+  <% else %>
+    <div class="form--field">
+      <%= f.check_box :is_required %>
+      <div class="form--field-instructions">
+        <p><%= t('custom_fields.instructions.is_required') %></p>
+      </div>
+    </div>
+  <% end %>
+  <%= call_hook(:"view_custom_fields_form_#{@custom_field.type.to_s.underscore}", custom_field: @custom_field, form: f) %>
+</section>

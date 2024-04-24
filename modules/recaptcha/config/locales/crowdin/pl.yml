@@ -1,0 +1,24 @@
+#English strings go here for Rails i18n
+pl:
+  plugin_openproject_recaptcha:
+    name: "OpenProject ReCaptcha"
+    description: "Ten moduł dostarcza funkcje ReCaptcha podczas logowania."
+  recaptcha:
+    label_recaptcha: "reCAPTCHA"
+    button_please_wait: 'Czekaj...'
+    verify_account: "Zweryfikuj swoje konto"
+    error_captcha: "Nie można zweryfikować tego konta. Skontaktuj się z administratorem."
+    settings:
+      website_key: 'Klucz witryny internetowej'
+      response_limit: 'Limit odpowiedzi HCaptcha'
+      response_limit_text: 'Maksymalna liczba znaków umożliwiająca potraktowanie odpowiedzi HCaptcha jako prawidłowej.'
+      website_key_text: 'Wprowadź klucz witryny utworzony w konsoli administracyjnej reCAPTCHA tej domeny.'
+      secret_key: 'Tajny klucz'
+      secret_key_text: 'Wprowadź tajny klucz utworzony w konsoli administracyjnej reCAPTCHA.'
+      type: 'Użyj reCAPTCHA'
+      type_disabled: 'Wyłącz reCAPTCHA'
+      type_v2: 'reCAPTCHA v2'
+      type_v3: 'reCAPTCHA v3'
+      type_hcaptcha: 'HCaptcha'
+      recaptcha_description_html: >
+        reCAPTCHA jest bezpłatną usługą Google, którą można włączyć dla Twojego wystąpienia OpenProject. Jeśli jest włączona, formularz captcha będzie wyświetlany przy logowaniu wszystkim użytkownikom, którzy nie zweryfikowali jeszcze captcha. <br/> Aby uzyskać więcej informacji na temat reCAPTCHA i ich wersji oraz sposobu tworzenia witryny internetowej i tajnych kluczy, sprawdź poniższy link: %{recaptcha_link} <br/> HCaptcha jest bezpłatną alternatywą dla Google, której możesz użyć, jeśli nie chcesz używać reCAPTCHA. Sprawdź ten link, aby uzyskać więcej informacji: %{hcaptcha_link}

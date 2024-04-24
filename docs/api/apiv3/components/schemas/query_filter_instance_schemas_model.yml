@@ -1,0 +1,94 @@
+# Schema: Query_Filter_Instance_SchemasModel
+---
+type: object
+example:
+  _type: Collection
+  total: 2
+  count: 2
+  _embedded:
+    elements:
+    - _type: QueryFilterInstanceSchema
+      _dependencies:
+      - _type: SchemaDependency
+        'on': operator
+        dependencies:
+          "/api/v3/queries/operators/=":
+            values:
+              type: "[]User"
+              name: Values
+              required: true
+              hasDefault: false
+              writable: true
+              _links: {}
+          "/api/v3/queries/operators/!":
+            values:
+              type: "[]User"
+              name: Values
+              required: true
+              hasDefault: false
+              writable: true
+              _links: {}
+          "/api/v3/queries/operators/!*": {}
+          "/api/v3/queries/operators/*": {}
+      name:
+        type: String
+        name: Name
+        required: true
+        hasDefault: true
+        writable: false
+      filter:
+        type: QueryFilter
+        name: Filter
+        required: true
+        hasDefault: false
+        writable: true
+        _links: {}
+      _links:
+        self:
+          href: "/api/v3/queries/filter_instance_schemas/assignee"
+        filter:
+          href: "/api/v3/queries/filters/assignee"
+          title: Assignee
+    - _type: QueryFilterInstanceSchema
+      _dependencies:
+      - _type: SchemaDependency
+        'on': operator
+        dependencies:
+          "/api/v3/queries/operators/=":
+            values:
+              type: "[]User"
+              name: Values
+              required: true
+              hasDefault: false
+              writable: true
+              _links: {}
+          "/api/v3/queries/operators/!":
+            values:
+              type: "[]User"
+              name: Values
+              required: true
+              hasDefault: false
+              writable: true
+              _links: {}
+      name:
+        type: String
+        name: Name
+        required: true
+        hasDefault: true
+        writable: false
+      filter:
+        type: QueryFilter
+        name: Filter
+        required: true
+        hasDefault: false
+        writable: true
+        _links: {}
+      _links:
+        self:
+          href: "/api/v3/queries/filter_instance_schemas/author"
+        filter:
+          href: "/api/v3/queries/filters/author"
+          title: Author
+  _links:
+    self:
+      href: "/api/v3/queries/filter_instance_schemas"

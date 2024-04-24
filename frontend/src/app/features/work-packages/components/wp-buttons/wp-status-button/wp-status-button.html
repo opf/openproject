@@ -1,0 +1,30 @@
+<div
+  class="op-wp-status-button"
+  [ngClass]="{'op-wp-status-button_small' : small}"
+  data-test-selector="op-wp-status-button"
+  [attr.title]="buttonTitle"
+  *ngIf="status"
+>
+  <button
+    class="op-wp-status-button--button button"
+    [ngClass]="statusHighlightClass"
+    [disabled]="!allowed"
+    [attr.aria-label]="text.explanation"
+    [title]="status.name"
+    wpStatusDropdown
+    [wpStatusDropdown-workPackage]="workPackage"
+  >
+    <span
+      *ngIf="isReadonly"
+      class="op-wp-status-button--text button--text"
+    >
+      <op-icon icon-classes="button--icon icon-locked"></op-icon>
+    </span>
+    <span
+      class="op-wp-status-button--text button--text"
+      aria-hidden="true"
+      [textContent]="status.name"
+    ></span>
+    <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
+  </button>
+</div>

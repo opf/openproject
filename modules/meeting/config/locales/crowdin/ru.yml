@@ -1,0 +1,202 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+#English strings go here for Rails i18n
+ru:
+  plugin_openproject_meeting:
+    name: "Встреча OpenProject"
+    description: >-
+      Этот модуль добавляет функции для поддержки встреч проектов в OpenProject. Для участия в работе совещания могут быть запланированы приглашенные из того же проекта. Повестка дня может быть создана и отправлена приглашенным лицам. После встречи участники могут быть выбраны и минуты могут быть созданы на основе повестки дня. Наконец, минуты могут быть отправлены всем участникам и приглашенным.
+  activerecord:
+    attributes:
+      meeting:
+        type: "Тип встречи"
+        location: "Расположение"
+        duration: "Длительность"
+        notes: "Заметки"
+        participants: "Участники"
+        participant:
+          one: "1 Участник"
+          few: "%{count} Участников"
+          many: "%{count} Участников"
+          other: "%{count} Участников"
+        participants_attended: "Участники"
+        participants_invited: "Приглашенные"
+        project: "Проект"
+        start_date: "Дата"
+        start_time: "Start time"
+        start_time_hour: "Start time"
+      meeting_agenda_item:
+        title: "Title"
+        author: "Author"
+        duration_in_minutes: "мин"
+        description: "Notes"
+        presenter: "Presenter"
+    errors:
+      messages:
+        invalid_time_format: "недопустимое время. Требуемый формат: ЧЧ:ММ"
+    models:
+      structured_meeting: "Встреча (динамическая)"
+      meeting_agenda_item: "Пункт повестки"
+      meeting_agenda: "Повестка дня"
+      meeting_minutes: "Протокол(-ы)"
+  activity:
+    filter:
+      meeting: "Совещания"
+  description_attended: "участие"
+  description_invite: "приглашено"
+  events:
+    meeting: Встреча отредактирована
+    meeting_agenda: Повестка встречи отредактирована
+    meeting_agenda_closed: Повестка дня встречи закрыта
+    meeting_agenda_opened: Повестка дня встречи открыта
+    meeting_minutes: Править  протокол заседания
+    meeting_minutes_created: Создан протокол заседания
+  error_notification_with_errors: "Не удалось отправить уведомление. Следующие получатели не могут быть уведомлены: %{recipients}"
+  label_meeting: "Совещание"
+  label_meeting_plural: "Совещания"
+  label_meeting_new: "Новое совещание"
+  label_meeting_edit: "Измененить совещание"
+  label_meeting_agenda: "Повестка дня"
+  label_meeting_minutes: "Протокол(-ы)"
+  label_meeting_close: "Закрыть"
+  label_meeting_open: "Открыть"
+  label_meeting_agenda_close: "Закрыть повестку для начала протоколирования"
+  label_meeting_date_time: "Дата/Время"
+  label_meeting_diff: "Различия"
+  label_upcoming_meetings: "Предстоящие встречи"
+  label_past_meetings: "Прошедшие встречи"
+  label_upcoming_meetings_short: "Предстоящие"
+  label_past_meetings_short: "Прошедшие"
+  label_involvement: "Вовлечение"
+  label_upcoming_invitations: "Предстоящие приглашения"
+  label_past_invitations: "Прошлые приглашения"
+  label_attendee: "Участник"
+  label_author: "Автор"
+  label_notify: "Отправка на рецензию"
+  label_icalendar: "Отправить iCalendar"
+  label_icalendar_download: "Скачать мероприятие iCalendar"
+  label_version: "Версия"
+  label_time_zone: "Часовой пояс"
+  label_start_date: "Дата начала"
+  meeting:
+    attachments:
+      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
+    copy:
+      title: "Копировать встречу %{title}"
+      attachments: "Copy attachments"
+      attachments_text: "Copy over all attached files to the new meeting"
+      agenda: "Копировать повестку дня"
+      agenda_text: "Копировать повестку дня старой встречи"
+    email:
+      open_meeting_link: "Открыть совещание"
+      invited:
+        summary: "%{actor} отправил вам приглашение на совещание %{title}"
+      rescheduled:
+        header: "Встреча %{title} была перенесена %{actor}"
+        summary: "Совещание %{title} перенесено %{actor}"
+        body: "Совещание %{title} было перенесено пользователем %{actor}."
+        old_date_time: "Старые дата/время"
+        new_date_time: "Новые дата/время"
+    label_mail_all_participants: "Отправить письмо всем участникам"
+    types:
+      classic: "Классический"
+      classic_text: "Организуйте своё совещание с помощью форматируемой текстовой повестки и протокола."
+      structured: "Динамический"
+      structured_text: "Организуйте своё совещание в виде списка пунктов повестки, при необходимости связав их с пакетом работ."
+      structured_text_copy: "При копировании совещания в настоящее время не скопируются связанные с ним пункты повестки, будут скопированы только детали"
+    copied: "Скопировано со встречи #%{id}"
+  notice_successful_notification: "Уведомление успешно отправленно"
+  notice_timezone_missing: Не установлен часовой пояс и применена %{zone}. Чтобы выбрать часовой пояс, пожалуйста, нажмите сюда.
+  permission_create_meetings: "Создание совещания"
+  permission_edit_meetings: "Править встречи"
+  permission_delete_meetings: "Удалить встречу"
+  permission_view_meetings: "Просмотреть встречи"
+  permission_create_meeting_agendas: "Создать повестку совещания"
+  permission_create_meeting_agendas_explanation: "Позволяет редактировать содержимое повестки дня Классического Совещания."
+  permission_manage_agendas: "Управление повестками"
+  permission_manage_agendas_explanation: "Позволяет управлять пунктами повестки для Динамического совещания."
+  permission_close_meeting_agendas: "Закрыть повестки дня"
+  permission_send_meeting_agendas_notification: "Отправить уведомление о реценизии  повесток дня"
+  permission_create_meeting_minutes: "Управление протоколами"
+  permission_send_meeting_minutes_notification: "Отправить уведомление о рецензии протокола"
+  permission_meetings_send_invite: "Пригласить пользователей на встречи"
+  permission_send_meeting_agendas_icalendar: "Отправить повестку встречи как элемент календаря"
+  project_module_meetings: "Совещания"
+  text_duration_in_hours: "Длительность в часах"
+  text_in_hours: "в часах"
+  text_meeting_agenda_for_meeting: 'Повестка дня встречи «%{meeting}»'
+  text_meeting_closing_are_you_sure: "Вы уверены, что хотите закрыть повестку дня собрания?"
+  text_meeting_agenda_open_are_you_sure: "Все изменения в протоколах будут перезаписаны! Продолжить?"
+  text_meeting_minutes_for_meeting: 'Протокол совещания «%{meeting}»'
+  text_notificiation_invited: "Это сообщение содержит запись ics для совещания ниже:"
+  text_meeting_empty_heading: "Совещание пусто"
+  text_meeting_empty_description_1: "Начните с добавления пунктов повестки ниже. Каждый пункт может быть простым, как заголовок, но вы также можете добавить дополнительные сведения, такие как продолжительность и примечания."
+  text_meeting_empty_description_2: 'Вы также можете добавить ссылки на существующие пакеты работ. Когда вы это сделаете, соответствующие заметки будут автоматически отображаться на вкладке «Встречи» пакета работ.'
+  label_meeting_empty_action: "Добавить пункт повестки"
+  label_meeting_actions: "Действия совещания"
+  label_meeting_edit_title: "Изменить название совещания"
+  label_meeting_delete: "Удалить совещание"
+  label_meeting_created_by: "Автор"
+  label_meeting_last_updated: "Последнее обновление"
+  label_agenda_items: "Agenda items"
+  label_agenda_items_reordered: "reordered"
+  label_agenda_item_remove: "Remove from agenda"
+  label_agenda_item_undisclosed_wp: "Пакет работ #%{id} невидим"
+  label_agenda_item_deleted_wp: "Ссылка на удалённый пакет работ"
+  label_agenda_item_actions: "Действия по пунктам повестки"
+  label_agenda_item_move_to_top: "В начало"
+  label_agenda_item_move_to_bottom: "В конец"
+  label_agenda_item_move_up: "Вверх"
+  label_agenda_item_move_down: "Вниз"
+  label_agenda_item_add_notes: "Добавить заметки"
+  label_agenda_item_work_package: "Agenda item work package"
+  text_agenda_item_title: 'Agenda item "%{title}"'
+  text_agenda_work_package_deleted: 'Agenda item for deleted work package'
+  text_deleted_agenda_item: 'Deleted agenda item'
+  label_initial_meeting_details: "Meeting"
+  label_meeting_details: "Детали совещания"
+  label_meeting_details_edit: "Изменить сведения о совещании"
+  label_meeting_state: "Meeting status"
+  label_meeting_state_open: "Открыть"
+  label_meeting_state_open_html: "<i>Open</i>"
+  label_meeting_state_closed: "Закрыто"
+  label_meeting_state_closed_html: "<i>Closed</i>"
+  label_meeting_reopen_action: "Открыть совещание заново"
+  label_meeting_close_action: "Закрыть совещание"
+  text_meeting_open_description: "Эта совещание является открытым. Вы можете добавлять/удалять пункты повестки и редактировать их по своему усмотрению. После завершения совещания закройте его, чтобы заблокировать."
+  text_meeting_closed_description: "Это совещание является закрытым. Вы не можете добавлять/удалять пункты повестки."
+  label_meeting_manage_participants: "Управление участниками"
+  label_meeting_no_participants: "Нет участников"
+  label_meeting_show_hide_participants: "Показать/скрыть %{count} больше"
+  label_meeting_show_all_participants: "Показать все"
+  label_meeting_add_participants: "Добавить участников"
+  text_meeting_not_editable_anymore: "Это совещание больше нельзя редактировать."
+  text_meeting_not_present_anymore: "Это совещание было удалено. Пожалуйста, выберите другое."
+  label_add_work_package_to_meeting_dialog_title: "Добавить пакет работ в совещание"
+  label_add_work_package_to_meeting_dialog_button: "Добавить в совещание"
+  label_meeting_selection_caption: "Этот пакет работ можно добавить только к открытым предстоящим встречам."
+  text_add_work_package_to_meeting_description: "Пакет работ может быть добавлен к одному или нескольким совещаниям для обсуждения. Любые заметки об этом также видны здесь."
+  text_agenda_item_no_notes: "Примечания отсутствуют"
+  text_agenda_item_not_editable_anymore: "Этот пункт повестки больше не редактируется."
+  text_work_package_has_no_upcoming_meeting_agenda_items: "Этот пакет работ пока не включен в повестку предстоящего совещания."
+  text_work_package_add_to_meeting_hint: 'Используйте кнопку "Добавить к совещанию", чтобы добавить этот пакет работ к предстоящему совещанию.'
+  text_work_package_has_no_past_meeting_agenda_items: "Этот пакет работ не упоминался на прошлом совещании."

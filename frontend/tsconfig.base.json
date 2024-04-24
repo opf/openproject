@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "es2020",
+    "moduleResolution": "node",
+    "outDir": "./dist/out-tsc",
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "noEmitOnError": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "strictNullChecks": true,
+    "strictBindCallApply": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "baseUrl": "./src/",
+    "typeRoots": [
+      "node_modules/@types",
+      "src/types"
+    ],
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "@ng-select/ng-select": ["../node_modules/@ng-select/ng-select/"],
+      "core-app/*": ["./app/*"],
+      "core-typings/*": [
+        "./typings/*"
+      ],
+      "core-components/*": ["./app/components/*"],
+      "core-vendor/*": ["./vendor/*"]
+    }
+  },
+  "compileOnSave": false
+}

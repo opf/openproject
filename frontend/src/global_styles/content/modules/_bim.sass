@@ -1,0 +1,27 @@
+.bcf--issues
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
+
+  > div
+    flex: 0 0 250px
+    margin: 10px
+    padding: 10px
+
+    &.-failed
+      border: 1px solid var(--color-border-muted)
+
+  img
+    width: 100%
+
+.bcf--import-listing
+  margin-bottom: 50px
+
+table.attributes-table
+  td, th
+    padding: 5px
+    text-align: center
+
+@media only screen and (max-width: $breakpoint-sm)
+  .router--bim .work-packages--details
+    min-width: 0

@@ -1,0 +1,17 @@
+#English strings go here
+id:
+  plugin_openproject_team_planner:
+    name: "OpenProject Team Planner"
+    description: "Provides team planner views."
+  permission_view_team_planner: "Lihat rencana tim"
+  permission_manage_team_planner: "Kelola rencana tim"
+  project_module_team_planner_view: "Rencana tim"
+  team_planner:
+    label_team_planner: "Rencana tim"
+    label_new_team_planner: "New team planner"
+    label_create_new_team_planner: "Buat rencana tim baru"
+    label_team_planner_plural: "Rencana tim"
+    label_assignees: "Penerima tugas"
+    upsale:
+      title: "Rencana tim"
+      description: "Dapatkan ikhtisar lengkap tentang perencanaan tim Anda dengan Team Planner.  Rentangkan, perpendek, dan seret dan lepas paket kerja untuk mengubah tanggal, memindahkannya, atau mengubah penerima tugas."

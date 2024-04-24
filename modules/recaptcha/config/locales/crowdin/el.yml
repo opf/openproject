@@ -1,0 +1,24 @@
+#English strings go here for Rails i18n
+el:
+  plugin_openproject_recaptcha:
+    name: "OpenProject ReCaptcha"
+    description: "This module provides recaptcha checks during login."
+  recaptcha:
+    label_recaptcha: "reCAPTCHA"
+    button_please_wait: 'Παρακαλούμε περιμένετε ...'
+    verify_account: "Επαληθεύστε τον λογαριασμό σας"
+    error_captcha: "Ο λογαριασμός σας δεν ήταν δυνατό να επαληθευτεί. Παρακαλούμε επικοινωνήστε με ένα διαχειριστή."
+    settings:
+      website_key: 'Κλειδί ιστοσελίδας'
+      response_limit: 'Response limit for HCaptcha'
+      response_limit_text: 'The maximum number of characters to treat the HCaptcha response as valid.'
+      website_key_text: 'Εισάγετε το κλειδί της ιστοσελίδας που δημιουργήσατε στο reCAPTCHA στην κονσόλα διαχειριστή αυτού του τομέα.'
+      secret_key: 'Κρυφό κλειδί'
+      secret_key_text: 'Εισάγετε το κρυφό κλειδί που δημιουργήσατε στο reCAPTCHA στην κονσόλα διαχειριστή.'
+      type: 'Χρήση reCAPTCHA'
+      type_disabled: 'Απενεργοποίηση reCAPTCHA'
+      type_v2: 'reCAPTCHA v2'
+      type_v3: 'reCAPTCHA v3'
+      type_hcaptcha: 'HCaptcha'
+      recaptcha_description_html: >
+        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link}

@@ -1,0 +1,62 @@
+<%= toolbar title: t('bcf.bcf_xml.import_title') %>
+
+<%= styled_form_tag({ action: :configure_import }, multipart: true, method: :post) do %>
+  <%= render partial: 'import_errors', locals: { error_message: t('bcf.bcf_xml.import.unknown_emails_found'),
+                                                 error_objects: @importer.aggregations.unknown_mails,
+                                                 error_default_text: t('bcf.bcf_xml.import.unknown_property')} %>
+  <% if @roles.any? %>
+    <% if  User.current.admin? %>
+      <hr class="form--separator">
+      <p><%= t('bcf.bcf_xml.import.what_to_do') %></p>
+      <div class="form--field -full-width">
+        <div class="form--field-container">
+          <label class="option-label">
+            <input type="radio" name="import_options[unknown_mails_action]" value="invite" checked>
+            <%= t('bcf.bcf_xml.import.invite_as_members_with_role', project: @project.name) %>&nbsp;
+            <% options = @roles.collect { |obj| [obj.name, obj.id] } %>
+            <%= styled_select_tag 'import_options[unknown_mails_invite_role_ids][]',
+                                  options_for_select(options),
+                                  no_label: true,
+                                  title:    t(:label_role_search),
+                                  tabIndex: 0,
+                                  container_class: '-slim',
+                                  class: 'option-label--select',
+                                  id:       'unknown_mails_invite_role_ids' %>
+            (<%= t('bcf.recommended') %>)
+          </label>
+        </div>
+      </div>
+      <div class="form--field -full-width">
+        <div class="form--field-container">
+          <label class="option-label">
+            <input type="radio" name="import_options[unknown_mails_action]" value="anonymize">
+            <%= t('bcf.bcf_xml.import.replace_with_system_user') %> (<%= t('bcf.not_recommended') %>).
+          </label>
+        </div>
+      </div>
+    <% else %>
+      <div class="op-toast -warning">
+        <div class="op-toast--content">
+          <%= t('bcf.bcf_xml.import.no_permission_to_add_members') %>
+          <%= t('bcf.bcf_xml.import.contact_project_admin') %>
+        </div>
+      </div>
+      <div class="form--field">
+        <%= t('bcf.bcf_xml.import.continue_anyways') %>
+        <input type="hidden" name="import_options[unknown_mails_action]" value="anonymize">
+        <%= t('bcf.bcf_xml.import.replace_with_system_user') %>.
+      </div>
+    <% end %>
+    <%= styled_submit_tag t('bcf.bcf_xml.import.button_proceed'), class: '-primary' %>
+  <% else %>
+    <div class="op-toast -error">
+      <div class="op-toast--content">
+        <%= I18n.t('text_no_roles_defined') %>
+      </div>
+    </div>
+    <br/>
+  <% end %>
+  <%= link_to t(:button_cancel),
+              defaults_bcf_project_ifc_models_path(@project),
+              class: 'button' %>
+<% end %>

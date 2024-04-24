@@ -1,0 +1,17 @@
+#English strings go here
+tr:
+  plugin_openproject_team_planner:
+    name: "OpenProject Takım Planlayıcı"
+    description: "Provides team planner views."
+  permission_view_team_planner: "Takım planlayıcıyı görüntüle"
+  permission_manage_team_planner: "Takım planlayıcıyı yönet"
+  project_module_team_planner_view: "Takım planlayıcıları"
+  team_planner:
+    label_team_planner: "Takım planlayıcısı"
+    label_new_team_planner: "Yeni takım planlayıcı "
+    label_create_new_team_planner: "Yeni takım planlayıcısı oluştur"
+    label_team_planner_plural: "Takım planlayıcıları"
+    label_assignees: "Atananlar"
+    upsale:
+      title: "Takım planlayıcısı"
+      description: "Team Planner ile ekibinizin planlamasına ilişkin eksiksiz bir genel bakış elde edin. Tarihleri değiştirmek, taşımak veya atananları değiştirmek için iş paketlerini genişletin, kısaltın ve sürükleyip bırakın."

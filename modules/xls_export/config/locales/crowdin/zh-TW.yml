@@ -1,0 +1,16 @@
+zh-TW:
+  plugin_openproject_xls_export:
+    name: "OpenProject XLS Export"
+    description: "Export issue lists as Excel spreadsheets (.xls)."
+  export_to_excel: "匯出到 XLS"
+  print_with_description: "預覽列印（含描述）"
+  sentence_separator_or: "或"
+  different_formats: 不同格式
+  export:
+    format:
+      xls: "XLS"
+      xls_with_descriptions: "有說明的 XLS 檔"
+      xls_with_relations: "XLS 檔（帶關聯的）"
+  xls_export:
+    child_of: 子關聯
+    parent_of: 父關聯

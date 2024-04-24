@@ -1,0 +1,16 @@
+zh-TW:
+  grids:
+    label_widget_in_grid: "網格(Grid) %{grid_name} 中包含的工具集"
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "頁面"
+        row_count: "列數"
+        column_count: "欄數："
+        widgets: "小工具"
+    errors:
+      models:
+        grids/grid:
+          overlaps: '重疊'
+          outside: '不在網格(grid)內。'
+          end_before_start: '結束值必須大於開始值。'

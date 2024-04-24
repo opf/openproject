@@ -1,0 +1,43 @@
+<div
+  class="work-package-details-activities-activity-contents"
+  *ngIf="workPackage"
+  [attr.data-notification-selector]="hasUnreadNotification ? 'notification-activity' : null"
+>
+  <div class="comments-number">
+    <span
+      *ngIf="hasUnreadNotification"
+      class="comments-number--bubble op-bubble op-bubble_mini"
+      data-test-selector="revision-activity-bubble"
+    ></span>
+    <activity-link
+      class="comments-number--link"
+      [workPackage]="workPackage"
+      [activityNo]="activityNo"
+    ></activity-link>
+  </div>
+
+  <op-principal
+    *ngIf="activity.author"
+    [principal]="activity.author"
+    [hideName]="true"
+  ></op-principal>
+
+  <op-principal
+    *ngIf="!activity.author && userName"
+    [principal]="{ name: userName }"
+    [hideName]="true"
+  ></op-principal>
+
+  <span class="user" *ngIf="userActive">
+    <a
+      [attr.href]="userPath"
+      [attr.aria-label]="userLabel"
+      [textContent]="userName"
+    ></a>
+  </span>
+  <span class="user" *ngIf="!userActive" [textContent]="userName"></span>&nbsp;
+  <span class="revision-activity--revision-link date" [innerHtml]="revisionLink"></span>
+  <span class="user-comment wiki">
+    <span class="message" [innerHtml]="message"></span>
+  </span>
+</div>

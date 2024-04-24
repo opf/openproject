@@ -1,0 +1,81 @@
+<form
+  class="spot-modal"
+  [formGroup]="projectAndTypeForm"
+  (ngSubmit)="onSubmit($event)"
+>
+  <div id="spotModalTitle" class="spot-modal--header">{{text.title}}</div>
+
+  <div class="spot-divider"></div>
+
+  <div class="spot-modal--body spot-container">
+    <spot-form-field
+      [label]="text.project.label"
+      required
+    >
+      <op-project-autocompleter
+        slot="input"
+        formControlName="project"
+        [filters]="APIFiltersForProjects"
+        [mapResultsFn]="projectFilterFn.bind(this)"
+        appendTo=".spot-modal-overlay"
+      ></op-project-autocompleter>
+
+      <div
+        slot="action"
+        *ngIf="projectControl.errors?.lackingPermission"
+      >
+        {{ text.project.lackingPermissionInfo }}
+      </div>
+
+      <div
+        slot="errors"
+        class="spot-form-field--error"
+        *ngIf="projectControl.errors?.required"
+      >
+        {{ text.project.required }}
+      </div>
+
+      <div
+        slot="errors"
+        class="spot-form-field--error"
+        *ngIf="projectControl.errors?.lackingPermission"
+      >
+        {{ text.project.lackingPermission }}
+      </div>
+    </spot-form-field>
+
+    <spot-form-field>
+      <op-option-list
+        [options]="typeOptions"
+        formControlName="type"
+        slot="input"
+      ></op-option-list>
+
+      <div
+        *ngIf="projectAndTypeForm?.dirty && typeControl?.invalid"
+        class="spot-form-field--errors"
+        slot="errors"
+      >
+        <div class="spot-form-field--error">
+          {{ text.type.required }}
+        </div>
+      </div>
+    </spot-form-field>
+  </div>
+
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button
+        type="button"
+        class="button spot-action-bar--action spot-modal--cancel-button"
+        (click)="close.emit()"
+        [textContent]="text.cancelButton"
+      ></button>
+      <button
+        type="submit"
+        class="button -primary spot-action-bar--action"
+        [textContent]="text.nextButton"
+      ></button>
+    </div>
+  </div>
+</form>

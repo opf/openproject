@@ -1,0 +1,28 @@
+#English strings go here
+it:
+  js:
+    team_planner:
+      add_existing: 'Aggiungi esistente'
+      add_existing_title: 'Aggiungi macro-attività esistenti'
+      create_label: 'Pianificatore di team'
+      create_title: 'Crea nuovo pianificatore di team'
+      unsaved_title: 'Team planner senza nome'
+      no_data: 'Aggiungi assegnatari per configurare il tuo team planner.'
+      add_assignee: 'Aggiungi assegnatario'
+      remove_assignee: 'Rimuovi assegnatario'
+      two_weeks: '2 settimane'
+      one_week: '1 settimana'
+      four_weeks: '4 settimane'
+      eight_weeks: '8 settimane'
+      work_week: 'Settimana lavorativa'
+      today: 'Oggi'
+      drag_here_to_remove: 'Trascina qui per rimuovere l''assegnatario e le date di inizio e fine.'
+      cannot_drag_here: 'Impossibile rimuovere la macro-attività a causa di permessi o restrizioni di modifica.'
+      cannot_drag_to_non_working_day: 'Questa macro-attività non può iniziare/finire in un giorno non lavorativo.'
+      quick_add:
+        empty_state: 'Utilizzare il campo di ricerca per trovare macro-attività e trascinarle nel planner per assegnarle a qualcuno e definire le date di inizio e di fine.'
+        search_placeholder: 'Cerca...'
+      modify:
+        errors:
+          permission_denied: 'Non hai i permessi necessari per effettuare questa modifica.'
+          fallback: 'Questa macro-attività non può essere modificata.'

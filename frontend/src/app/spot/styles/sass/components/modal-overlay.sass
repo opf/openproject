@@ -1,0 +1,43 @@
+.spot-modal-overlay
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  @include spot-z-index("drop-modal")
+  background: rgba(0, 0, 0, 0.5)
+  justify-content: center
+  align-items: center
+  display: none
+
+  &_active
+    display: flex
+    flex-direction: column-reverse
+
+    @media (max-width: 680px)
+      justify-content: center
+
+    @media (max-height: 480px)
+      // reorder elements to be displayed in row on very small heights
+      flex-direction: row-reverse
+
+  &_top
+    @media (max-width: 680px)
+      justify-content: flex-end
+      padding-top: 10px
+
+  &_not-full-screen
+    background: transparent
+    right: unset
+    bottom: unset
+    top: initial
+
+  &--close-button
+    display: block
+    margin: 1rem
+
+    @media #{$spot-mq-drop-modal-in-context}
+      display: none
+
+    @media (max-height: 480px)
+      align-self: end

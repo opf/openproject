@@ -1,0 +1,27 @@
+name: continuous-delivery
+on:
+  push:
+    branches:
+      - dev
+      - release/*
+      - stable/*
+permissions:
+  contents: read
+
+jobs:
+  trigger_downstream_workflow:
+    permissions:
+      contents: none
+    if: github.repository == 'opf/openproject'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Flavours workflow
+        env:
+          TOKEN: ${{ secrets.OPENPROJECT_CI_TOKEN }}
+          REPOSITORY: opf/openproject-flavours
+          WORKFLOW_ID: ci.yml
+        run: |
+          curl -i --fail-with-body -H"authorization: Bearer $TOKEN" \
+            -XPOST -H"Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/$REPOSITORY/actions/workflows/$WORKFLOW_ID/dispatches \
+            -d '{"ref": "dev", "inputs": { "ref" : "${{ github.ref_name }}" }}'

@@ -1,0 +1,99 @@
+name: crowdin
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *' # Daily at 03:00
+
+permissions: {}
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      latest_release_branch: ${{ steps.find_latest_release.outputs.branch }}
+    steps:
+    - id: find_latest_release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_REPOSITORY: ${{ github.repository }}
+      run: |
+        BRANCH=$(curl -H "Authorization: token $GITHUB_TOKEN" \
+          https://api.github.com/repos/$GITHUB_REPOSITORY/branches?protected=true | \
+          jq -r '.[].name' | grep '^release/' | sort --version-sort | tail -1
+        )
+        if [ "$BRANCH" = "" ]; then
+          echo "Invalid release branch found: $BRANCH"
+          exit 1
+        fi
+
+        echo "branch=${BRANCH}" >> $GITHUB_OUTPUT
+
+  crowdin:
+    permissions:
+      contents: write # for git push
+
+    runs-on: ubuntu-latest
+    needs: setup
+    timeout-minutes: 60
+    strategy:
+      max-parallel: 1
+      matrix:
+        branch:
+          - dev
+          - "${{ needs.setup.outputs.latest_release_branch }}"
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ matrix.branch }}
+          fetch-depth: 1
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: "Set crowdin branch name"
+        id: vars
+        env:
+          BRANCH: ${{ matrix.branch }}
+        run: |
+          echo "Setting crowdin branch from $BRANCH"
+          if [ "$BRANCH" = "dev" ]; then
+            echo "crowdin_branch=dev" >> $GITHUB_OUTPUT
+          else
+            echo "crowdin_branch=release" >> $GITHUB_OUTPUT
+          fi
+      - name: "Generate seeders i18n source file"
+        run: |
+          if [ -f script/i18n/generate_seeders_i18n_source_file ]; then
+            bundle exec script/i18n/generate_seeders_i18n_source_file
+          fi
+      - name: "Crowdin: upload sources and download translations"
+        uses: crowdin/github-action@v1
+        with:
+          # Upload current source files
+          upload_sources: true
+          # Download updated translations
+          download_translations: true
+          # Which version branch to push to
+          crowdin_branch_name: ${{ steps.vars.outputs.crowdin_branch }}
+          # Dont create a PR for the updated translations
+          push_translations: false
+        env:
+          OPENPROJECT_CROWDIN_PROJECT: ${{ secrets.OPENPROJECT_CROWDINV2_PROJECT }}
+          OPENPROJECT_CROWDIN_API_KEY: ${{ secrets.OPENPROJECT_CROWDINV2_API_KEY }}
+      - name: "Fix root key in Portuguese crowdin translation files"
+        run: |
+          script/i18n/fix_crowdin_pt_language_root_key
+      - name: "Commit translations"
+        env:
+          BRANCH: ${{ matrix.branch }}
+        run: |
+          git config user.name "OpenProject Actions CI"
+          git config user.email "operations+ci@openproject.com"
+          echo "Updating combined translations"
+          git ls-files -m -o | grep 'crowdin\/.*\.yml$' | xargs git add
+          git diff --staged --name-only
+          if ! git diff --staged --exit-code --quiet; then
+            git commit -m "update locales from crowdin [ci skip]"
+            echo "Run git pull --rebase origin $BRANCH"
+            git pull --rebase origin "$BRANCH"
+            echo "Run git push origin $BRANCH"
+            git push origin "$BRANCH"
+          fi

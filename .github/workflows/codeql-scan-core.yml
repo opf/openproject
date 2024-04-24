@@ -1,0 +1,44 @@
+name: codeql
+
+on:
+  push:
+    branches: [ "dev", "release/*", "stable/*" ]
+  pull_request:
+    branches: [ "dev", "release/*", "stable/*" ]
+  schedule:
+    - cron: '32 1 * * 2'
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: 'ubuntu-latest'
+    timeout-minutes: 120
+    permissions:
+      # required for all workflows
+      security-events: write
+
+      # only required for workflows in private repositories
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'javascript-typescript', 'ruby' ]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          config-file: ./.github/codeql/config.yml
+          languages: ${{ matrix.language }}
+          # For more details on CodeQL's query packs, refer to: https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
+          queries: security-extended,security-and-quality
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{matrix.language}}"

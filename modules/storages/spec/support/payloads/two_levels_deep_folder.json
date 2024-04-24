@@ -1,0 +1,1152 @@
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#drives('b%21-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd')/items('01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN')/children(id,name,size,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference)",
+  "value": [
+    {
+      "@odata.etag": "\"{DCDAF38F-91AE-42A0-B915-D3576FEE79B3},3\"",
+      "id": "01BYE5RZ4P6PNNZLURUBBLSFOTK5X646NT",
+      "name": "2014 Grammys.docx",
+      "size": 23958,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "d0BNg8r7dTdlY0/N+arjDiMs2qE="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:20:11Z",
+        "lastModifiedDateTime": "2017-08-07T16:20:11Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{40DBFE82-CB2F-43BF-9529-2A35C045ADA0},3\"",
+      "id": "01BYE5RZ4C73NUAL6LX5BZKKJKGXAELLNA",
+      "name": "2015 Emmys.docx",
+      "size": 23961,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "rAN0bLHu5KlsFtOCR4vDjPrIvaI="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:22:51Z",
+        "lastModifiedDateTime": "2017-08-07T16:22:51Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{996EC21D-F22A-41C4-B1D8-6594F6172D5E},4\"",
+      "id": "01BYE5RZY5YJXJSKXSYRA3DWDFST3BOLK6",
+      "name": "2015 VMAs.docx",
+      "size": 23464,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "ghOFlj94+mJ66N5lueUsYmpQpDc="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:23:03Z",
+        "lastModifiedDateTime": "2017-08-07T16:23:03Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{334663A3-CD4D-4D94-9F2C-A82BDEFAD869},3\"",
+      "id": "01BYE5RZ5DMNDDGTONSRGZ6LFIFPPPVWDJ",
+      "name": "2016 Emmys.docx",
+      "size": 23946,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "4HdGLZY9wp7LnoepH6HNl9HIwhI="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:21:48Z",
+        "lastModifiedDateTime": "2017-08-07T16:21:48Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{69E164C3-9DCF-48AB-97BA-A3A72EE0A633},3\"",
+      "id": "01BYE5RZ6DMTQWTT45VNEJPOVDU4XOBJRT",
+      "name": "2016 Grammys.docx",
+      "size": 23466,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "WG+V5e6JdfoOrR5JyGnf5HVhgvc="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:22:12Z",
+        "lastModifiedDateTime": "2017-08-07T16:22:12Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{20AC32DF-E9C2-42DE-9A3C-D0F8CDB2E677},3\"",
+      "id": "01BYE5RZ67GKWCBQXJ3ZBJUPGQ7DG3FZTX",
+      "name": "2016 Tonys.docx",
+      "size": 23468,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "EST/qgVPct6PTc6qh0Z5SgdkJxk="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:21:54Z",
+        "lastModifiedDateTime": "2017-08-07T16:21:54Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{F1DDC4BF-6CB6-4210-AC33-0E0770D261E6},3\"",
+      "id": "01BYE5RZ57YTO7DNTMCBBKYMYOA5YNEYPG",
+      "name": "Anna Tuskova.docx",
+      "size": 23461,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "6W4NGpBe5SEKOoomp95ywv0SCkM="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:23:11Z",
+        "lastModifiedDateTime": "2017-08-07T16:23:11Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{1BCFC5D0-35E3-497C-8979-649FE1CEC42F},4\"",
+      "id": "01BYE5RZ6QYXHRXYZVPREYS6LET7Q45RBP",
+      "name": "Chinese fashion at scale.docx",
+      "size": 23445,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "jPxc6Dk61HVCpdJZxJwFX1LYDpA="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:21:26Z",
+        "lastModifiedDateTime": "2017-08-07T16:21:26Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{607C5720-E40D-4C01-9610-DEF147B82951},3\"",
+      "id": "01BYE5RZZAK56GADPEAFGJMEG66FD3QKKR",
+      "name": "Christian Siriano.docx",
+      "size": 23460,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "wfmjZJzgziEOKlvVludUyuuBJTI="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:21:20Z",
+        "lastModifiedDateTime": "2017-08-07T16:21:20Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{C19FF8F9-4F4B-4428-B6D0-8FC20F9BB020},3\"",
+      "id": "01BYE5RZ7Z7CP4CS2PFBCLNUEPYIHZXMBA",
+      "name": "Eco-logical fashions.docx",
+      "size": 23458,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "0b2GDSDgFuVep/f8KCEsCWAPOVQ="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:20:24Z",
+        "lastModifiedDateTime": "2017-08-07T16:20:24Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{53221BF3-B74B-4746-8A33-2841DA421FE5},3\"",
+      "id": "01BYE5RZ7TDMRFGS5XIZDYUMZIIHNEEH7F",
+      "name": "Fashion Comebacks.docx",
+      "size": 23455,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "5e8eo9ib8YQ08hV86md9l0Ove5s="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:20:46Z",
+        "lastModifiedDateTime": "2017-08-07T16:20:46Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{96328E72-852A-4E7F-8E50-8223F7920349},3\"",
+      "id": "01BYE5RZ3SRYZJMKUFP5HI4UECEP3ZEA2J",
+      "name": "Fashion faux pas.docx",
+      "size": 21285,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "11rHdNtmU3+yw4WGkXXRP6oZSxM="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:21:03Z",
+        "lastModifiedDateTime": "2017-08-07T16:21:03Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{0CD091C2-C88D-446B-B6EE-99A267072C19},3\"",
+      "id": "01BYE5RZ6CSHIAZDOINNCLN3UZUJTQOLAZ",
+      "name": "Fashion Hall of Fame.docx",
+      "size": 23461,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "W3DuHZ8gTKA1BWECpkvnDxoLHA0="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:22:58Z",
+        "lastModifiedDateTime": "2017-08-07T16:22:58Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{C3B5618A-40EA-4B15-AE09-509EA79900A6},3\"",
+      "id": "01BYE5RZ4KMG24H2SACVF24CKQT2TZSAFG",
+      "name": "From board room to barre.docx",
+      "size": 23462,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "dmgV9QESbG8kyHlAJ5axHVDIS2Q="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:22:46Z",
+        "lastModifiedDateTime": "2017-08-07T16:22:46Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{F3219E6E-2123-4B26-A82B-C7DF945AAA58},3\"",
+      "id": "01BYE5RZ3OTYQ7GIZBEZF2QK6H36KFVKSY",
+      "name": "Gala benefit unites designers.docx",
+      "size": 21278,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "YNEPx0KpvAY1cq10OzmcrcU6JNU="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:21:08Z",
+        "lastModifiedDateTime": "2017-08-07T16:21:08Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{0636EF27-44AF-41C1-B67B-EA07A1BBAA6F},3\"",
+      "id": "01BYE5RZZH543ANL2EYFA3M67KA6Q3XKTP",
+      "name": "Hillary and Donald fashion review.docx",
+      "size": 23460,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "WT6wqzpqdTnvex8VV8O8ijaL73k="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:21:14Z",
+        "lastModifiedDateTime": "2017-08-07T16:21:14Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{48FBAA75-783F-47A8-B74A-4428D6A50391},3\"",
+      "id": "01BYE5RZ3VVL5UQP3YVBD3OSSEFDLKKA4R",
+      "name": "Indigenous ingenuity.docx",
+      "size": 21267,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "wtYRBlARBSO8x9hxnINr1/bjd9A="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:20:18Z",
+        "lastModifiedDateTime": "2017-08-07T16:20:18Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{57D4603B-6298-42D1-B37D-35A799AE9240},3\"",
+      "id": "01BYE5RZZ3MDKFPGDC2FBLG7JVU6M25ESA",
+      "name": "La Formela.docx",
+      "size": 23452,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "22DhA0aMTMRFIgZ4fmU1+ycktHY="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:20:35Z",
+        "lastModifiedDateTime": "2017-08-07T16:20:35Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{6881B236-072A-43D3-AFCE-88A6AD84CD40},4\"",
+      "id": "01BYE5RZZWWKAWQKQH2NB27TUIU2WYJTKA",
+      "name": "Martina Spelova.docx",
+      "size": 23461,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "LWSLZvihkpblNPT3hghSgHGjIm0="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:20:40Z",
+        "lastModifiedDateTime": "2017-08-07T16:20:40Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{942BFD9A-014E-4980-8DCF-76E4F3995FCE},4\"",
+      "id": "01BYE5RZ427UVZITQBQBEY3T3W4TZZSX6O",
+      "name": "Michael Kors.docx",
+      "size": 23478,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "g4ukxdbTWUHVpxFCMEumQJKSY38="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:22:17Z",
+        "lastModifiedDateTime": "2017-08-07T16:22:17Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{3AF2BB6C-4EB4-45DF-A767-C55D23CAAFA7},3\"",
+      "id": "01BYE5RZ3MXPZDVNCO35C2OZ6FLUR4VL5H",
+      "name": "Naturally beautiful.docx",
+      "size": 23449,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "b/PssHn764TT7bkvWZRLNnUcG+g="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:21:32Z",
+        "lastModifiedDateTime": "2017-08-07T16:21:32Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{A633F82D-34A5-49D3-8A10-29578EFF6F3E},3\"",
+      "id": "01BYE5RZZN7AZ2NJJU2NEYUEBJK6HP63Z6",
+      "name": "Odivi.docx",
+      "size": 23455,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "Gt5+Bv41Xa+8sJktYKp8VGkiHDo="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:22:34Z",
+        "lastModifiedDateTime": "2017-08-07T16:22:34Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{7E7F79EA-A033-4A8E-92D4-61419FAE7B6A},3\"",
+      "id": "01BYE5RZ7KPF7X4M5ARZFJFVDBIGP2463K",
+      "name": "Oh no she didn't!.docx",
+      "size": 21263,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "uCAU3jzt8VUjTSCM4tvDj91CFjQ="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:20:51Z",
+        "lastModifiedDateTime": "2017-08-07T16:20:51Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{F35F5F78-D03C-43FE-9442-569BCBC21C05},4\"",
+      "id": "01BYE5RZ3YL5P7GPGQ7ZBZIQSWTPF4EHAF",
+      "name": "Plus size sizzles at NYFW.docx",
+      "size": 23458,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "TBulJkOYsqi+KYA7ecy+6qOjvLA="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:22:25Z",
+        "lastModifiedDateTime": "2017-08-07T16:22:25Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{B186713A-069F-4014-857D-94C3E518CA1A},3\"",
+      "id": "01BYE5RZZ2OGDLDHYGCRAIK7MUYPSRRSQ2",
+      "name": "Stand-out trends from NYFW.docx",
+      "size": 23448,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "yWPj2p4i1wpSQLFhOwjz3KUZR+4="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:21:38Z",
+        "lastModifiedDateTime": "2017-08-07T16:21:38Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{77321535-2D7D-45CC-B452-B44C769E9840},3\"",
+      "id": "01BYE5RZZVCUZHO7JNZRC3IUVUJR3J5GCA",
+      "name": "Standouts on the London Runway.docx",
+      "size": 23452,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "6Mxq88vBvs3cWB8HGMm4yOnf9g4="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:23:17Z",
+        "lastModifiedDateTime": "2017-08-07T16:23:17Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{3472AFB6-FD8A-4DBC-A1D3-741679483D02},3\"",
+      "id": "01BYE5RZ5WV5ZDJCX5XRG2DU3UCZ4UQPIC",
+      "name": "Style and substance.docx",
+      "size": 23456,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "igch7Uf94GVSqQCW+MwuNvy4rL4="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:22:04Z",
+        "lastModifiedDateTime": "2017-08-07T16:22:04Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{A2968BFC-5AE7-4E98-8339-BE3DB39ABC5E},3\"",
+      "id": "01BYE5RZ74ROLKFZ22TBHIGON6HWZZVPC6",
+      "name": "Technology and Fashion.docx",
+      "size": 23448,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "b8hxHDyma2y5PNIMkj/KhTJ2QTQ="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:20:05Z",
+        "lastModifiedDateTime": "2017-08-07T16:20:05Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{462CFCEA-A8A0-459B-B3EE-C70CBC497960},3\"",
+      "id": "01BYE5RZ7K7QWENIFITNC3H3WHBS6ES6LA",
+      "name": "Wearing it well.docx",
+      "size": 23449,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "cd6bUWVx8UksY5At9lwvVA0D72Q="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:20:30Z",
+        "lastModifiedDateTime": "2017-08-07T16:20:30Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{559B5B0A-BD29-4483-87A5-0AD62112B2E7},3\"",
+      "id": "01BYE5RZYKLONVKKN5QNCIPJIK2YQRFMXH",
+      "name": "Wedding day wonderful.docx",
+      "size": 23446,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "/zcsEWB1rvbqgxWK53mtREHFVHg="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:22:00Z",
+        "lastModifiedDateTime": "2017-08-07T16:22:00Z"
+      }
+    },
+    {
+      "@odata.etag": "\"{652C283F-CB8C-4114-A95D-B50BE3E979BD},4\"",
+      "id": "01BYE5RZZ7FAWGLDGLCRA2SXNVBPR6S6N5",
+      "name": "Where are they now.docx",
+      "size": 23454,
+      "createdBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "lastModifiedBy": {
+        "user": {
+          "email": "MeganB@M365x214355.onmicrosoft.com",
+          "id": "48d31887-5fad-4d73-a9f5-3c356e68a038",
+          "displayName": "Megan Bowen"
+        }
+      },
+      "parentReference": {
+        "driveType": "business",
+        "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd",
+        "id": "01BYE5RZ2LCUJQWLOZYNDLDC4DRRGJ7OEN",
+        "path": "/drives/b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd/root:/Contoso Clothing/Clothing Articles",
+        "siteId": "d82312f9-b23b-4cbc-95d5-3e0d94e68c1e"
+      },
+      "file": {
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "hashes": {
+          "quickXorHash": "5KPM5/zH1WRbJN8iVSwbgILx1TE="
+        }
+      },
+      "fileSystemInfo": {
+        "createdDateTime": "2017-08-07T16:21:43Z",
+        "lastModifiedDateTime": "2017-08-07T16:21:43Z"
+      }
+    }
+  ]
+}

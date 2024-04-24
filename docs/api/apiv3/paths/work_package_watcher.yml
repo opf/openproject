@@ -1,0 +1,76 @@
+# /api/v3/work_packages/{id}/watchers/{user_id}
+---
+delete:
+  parameters:
+  - description: Work package id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  - description: User id
+    example: '1'
+    in: path
+    name: user_id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '204':
+      description: No Content
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not allowed to remove watchers from this work package.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** delete work package watchers
+
+        *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The specified work package does not exist.
+      description: |-
+        Returned in one of the following cases:
+
+        Either the work package does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package
+
+        Or the specified user does not exist at all.
+
+        *Note that you will effectively not be able to change the watchers of a work package without being able to see the work package.*
+      headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+  tags:
+  - Work Packages
+  description: |-
+    Removes the specified user from the list of watchers for the given work package.
+
+    If the request succeeds, the specified user is not watching the work package anymore.
+
+    *Note: This might also be the case, if the specified user did not watch the work package prior to the request.*
+  operationId: Remove_watcher
+  summary: Remove watcher

@@ -1,0 +1,28 @@
+#English strings go here
+fr:
+  js:
+    team_planner:
+      add_existing: 'Ajouter existant'
+      add_existing_title: 'Ajouter des lots de travaux existants'
+      create_label: 'Planificateur d''équipe'
+      create_title: 'Créer un nouveau planificateur d''équipe'
+      unsaved_title: 'Planificateur d''équipe sans nom'
+      no_data: 'Ajouter des personnes pour configurer votre planificateur d''équipe.'
+      add_assignee: 'Assigner à quelqu''un'
+      remove_assignee: 'Supprimer l''assignation'
+      two_weeks: '2 semaines'
+      one_week: '1 semaine'
+      four_weeks: '4 semaines'
+      eight_weeks: '8 semaines'
+      work_week: 'Semaine de travail'
+      today: 'Aujourd''hui'
+      drag_here_to_remove: 'Faites glisser ici pour supprimer le responsable et les dates de début et de fin.'
+      cannot_drag_here: 'Impossible de supprimer le lot de travaux en raison des autorisations ou des restrictions d''édition.'
+      cannot_drag_to_non_working_day: 'Ce lot de travaux ne peut pas démarrer/terminer sur un jour non ouvré.'
+      quick_add:
+        empty_state: 'Utilisez le champ de recherche pour trouver des lots de travaux et faites-les glisser vers le planificateur pour l''assigner à quelqu''un et définir des dates de début et de fin.'
+        search_placeholder: 'Rechercher...'
+      modify:
+        errors:
+          permission_denied: 'Vous n’avez pas les autorisations nécessaires pour modifier ceci.'
+          fallback: 'Ce lot de travaux ne peut pas être modifié.'

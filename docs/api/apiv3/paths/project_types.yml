@@ -1,0 +1,79 @@
+# /api/v3/projects/{id}/types
+---
+get:
+  parameters:
+  - description: ID of the project whose types will be listed
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  elements:
+                  - _links:
+                      self:
+                        href: "/api/v3/types/1"
+                    _type: Type
+                    color: "#ff0000"
+                    createdAt: '2014-05-21T08:51:20.396Z'
+                    id: 1
+                    isDefault: true
+                    isMilestone: false
+                    name: Bug
+                    position: 1
+                    updatedAt: '2014-05-21T08:51:20.396Z'
+                  - _links:
+                      self:
+                        href: "/api/v3/types/2"
+                    _type: Type
+                    color: "#888"
+                    createdAt: '2014-05-21T08:51:20.396Z'
+                    id: 2
+                    isDefault: false
+                    isMilestone: false
+                    name: Feature
+                    position: 2
+                    updatedAt: '2014-05-21T08:51:20.396Z'
+                _links:
+                  self:
+                    href: "/api/v3/projects/11/types"
+                _type: Collection
+                count: 2
+                total: 2
+          schema:
+            "$ref": "../components/schemas/types_by_project_model.yml"
+      description: OK
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The specified project does not exist.
+      description: |-
+        Returned if the project does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:** view work packages **or** manage types (on given project)
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+        That's why a 404 is returned here, even if a 403 might be more appropriate.*
+      headers: {}
+  tags:
+  - Types
+  description: This endpoint lists the types that are *available* in a given project.
+  operationId: List_types_available_in_a_project
+  summary: List types available in a project

@@ -1,0 +1,22 @@
+# Schema: ConfigurationModel
+---
+type: object
+properties:
+  maximumAttachmentFileSize:
+    type: integer
+    description: The maximum allowed size of an attachment in Bytes
+    readOnly: true
+  hostName:
+    type: string
+    description: The host name configured for the system
+    readOnly: true
+  perPageOptions:
+    type: array
+    description: Page size steps to be offered in paginated list UI
+    items:
+      type: integer
+  activeFeatureFlags:
+    type: array
+    description: The list of all feature flags that are active
+    items:
+      type: string

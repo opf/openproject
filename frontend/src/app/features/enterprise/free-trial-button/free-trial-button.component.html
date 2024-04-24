@@ -1,0 +1,12 @@
+<div
+  [attr.data-tooltip]="trialRequested ? text.confirmation_info(created, email) : ''"
+  [ngClass]="{'tooltip--top': trialRequested}">
+  <button
+    type="button"
+    [disabled]="trialRequested"
+    class="button -primary"
+    (click)="openTrialModal()"
+  >
+    {{ text.button_trial }}
+  </button>
+</div>

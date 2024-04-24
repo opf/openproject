@@ -1,0 +1,85 @@
+#English strings go here
+fr:
+  js:
+    storages:
+      link_files_in_storage: "Lier des fichiers dans %{storageType}"
+      link_existing_files: "Lier des fichiers existants"
+      upload_files: "Charger des fichiers"
+      drop_files: "Déposez les fichiers ici pour les télécharger sur %{name}."
+      drop_or_click_files: "Déposez des fichiers ici ou cliquez pour les télécharger sur %{name}."
+      login: "Connexion à %{storageType}"
+      login_to: "Connexion à %{storageType}"
+      no_connection: "Aucune connexion à %{storageType}"
+      open_storage: "Ouvrir %{storageType}"
+      select_location: "Sélectionnez la localisation"
+      choose_location: "Choisir emplacement"
+      types:
+        nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
+        default: "Stockage"
+      information:
+        connection_error: >
+          Certains paramètres de %{storageType} ne fonctionnent pas. Veuillez contacter votre administrateur %{storageType}.
+        live_data_error: "Erreur lors de la récupération des détails du fichier"
+        live_data_error_description: >
+          Certaines données de %{storageType} n'ont pas pu être récupérées. Essayez de recharger cette page ou contactez votre administrateur %{storageType}.
+        no_file_links: "Afin de lier des fichiers à ce lot de travaux, veuillez le faire via %{storageType}."
+        not_logged_in: >
+          Pour ajouter un lien, voir ou téléverser des fichiers liés à ce lot de travaux, veuillez vous connecter à %{storageType}.
+      files:
+        already_existing_header: "Ce fichier existe déjà"
+        already_existing_body: >
+          Un fichier avec le nom « %{fileName} » existe déjà à l'emplacement où vous essayez de téléverser ce fichier. Que voulez-vous faire ?
+        directory_not_writeable: "Vous n'avez pas la permission d'ajouter des fichiers à ce dossier."
+        dragging_many_files: "Le téléversement vers %{storageType} ne supporte qu'un seul fichier à la fois."
+        dragging_folder: "Le téléversement vers %{storageType} ne prend pas en charge les dossiers."
+        empty_folder: "Ce dossier est vide."
+        empty_folder_location_hint: "Cliquez sur le bouton ci-dessous pour téléverser le fichier à cet endroit."
+        file_not_selectable_location: "La sélection d'un fichier est impossible pendant le processus de sélection d'un emplacement."
+        project_folder_no_access: >
+          Vous n'avez pas accès au dossier du projet. Veuillez contacter votre administrateur pour avoir accès ou téléverser le fichier vers un autre endroit.
+        managed_project_folder_not_available: >
+          Le dossier de projet géré automatiquement n'a pas encore été trouvé. Veuillez patienter, rechargez la page pour récupérer les données les plus récentes, puis réessayez.
+        managed_project_folder_no_access: >
+          Vous n'avez pas encore accès au dossier de projet géré. Veuillez patienter un peu avant de réessayer.
+        upload_keep_both: "Garder les deux"
+        upload_replace: "Remplacer"
+      file_links:
+        empty: >
+          Il n'y a actuellement aucun fichier lié à ce lot de travaux. Commencez à lier les fichiers avec l'action ci-dessous ou à partir de %{storageType}.
+        download: "Télécharger %{fileName}"
+        open: "Ouvrir le fichier sur le stockage"
+        open_location: "Ouvrir le fichier à l'emplacement"
+        remove: "Supprimer le lien de fichier"
+        remove_confirmation: >
+          Êtes-vous sûr de vouloir dissocier le fichier de ce lot de travaux ? Unlinking n'affecte pas le fichier original et supprime seulement la connexion à ce lot de travaux.
+        remove_short: "Supprimer le lien"
+        select: "Sélectionner les fichiers"
+        select_all: "Tout sélectionner"
+        selection:
+          zero: "Sélectionner les fichiers à lier"
+          one: "Lier un fichier"
+          other: "Lier %{count} fichiers"
+        success_create:
+          one: "Un lien de fichier a été créé avec succès."
+          other: "%{count} liens de fichier ont été créés avec succès."
+        upload_error:
+          default: >
+            Votre fichier (%{fileName}) n'a pas pu être téléchargé.
+          403: >
+            Votre fichier (%{fileName}) n'a pas pu être téléversé en raison de restrictions du système. Veuillez contacter votre administrateur pour obtenir plus d'informations.
+          413: >
+            Votre fichier (%{fileName}) a une taille supérieure à la taille limite que OpenProject peut téléverser sur %{storageType}. Vous pouvez d'abord téléverser le fichier directement sur %{storageType}, puis le lier.
+          507: >
+            Votre fichier (%{fileName}) a une taille supérieure au quota de stockage autorisé. Contactez votre administrateur pour modifier ce quota.
+          detail:
+            nextcloud: >
+              Veuillez vérifier que la dernière version de l'application Nextcloud "OpenProject Integration" est installée et contactez votre administrateur pour plus d'informations.
+        link_uploaded_file_error: >
+          Une erreur s'est produite lors de la liaison du fichier '%{fileName}' récemment téléversé au lot de travaux %{workPackageId}.
+        tooltip:
+          not_logged_in: "Veuillez vous connecter au stockage pour accéder à ce fichier."
+          view_not_allowed: "Vous n'avez pas la permission de voir ce fichier."
+          not_found: "Impossible de trouver ce fichier."
+        already_linked_file: "Ce fichier est déjà lié à ce lot de travaux."
+        already_linked_directory: "Ce répertoire est déjà lié à ce lot de travaux."

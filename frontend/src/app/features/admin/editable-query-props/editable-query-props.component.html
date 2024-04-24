@@ -1,0 +1,11 @@
+<input type="hidden"
+       [attr.name]="name || undefined"
+       [attr.id]="id || undefined"
+       [value]="queryProps"/>
+<button
+  type="button"
+  class="spot-link"
+  (click)="editQuery()"
+  [textContent]="text.edit_query"
+>
+</button>

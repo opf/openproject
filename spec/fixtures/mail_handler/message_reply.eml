@@ -1,0 +1,60 @@
+Date: Tue, 16 Mar 2021 16:24:54 +0100
+To: notifications@openproject.com
+From: j.doe@openproject.org
+Message-ID: <af603fe2-8888-43ae-91c5-e6efcd93cf98@mtasv.net>
+References: <op.message-70917@openproject.com>
+Subject: [OpenProject - General discussion - msg70917] Response to the original message
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_6050cdc2e4db_2257939a87567a";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-OpenProject-Project: openproject
+X-OpenProject-Wiki-Page-Id: 12559
+X-OpenProject-Type: Forum
+
+
+----==_mimepart_6050cdc2e4db_2257939a87567a
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+
+
+
+
+http://localhost:3000/topics/12559?r=12559#message-12559
+Test User
+
+Test message
+
+
+--
+You have received this notification because you have either subscribed to it, or are involved in it.
+To change your notification preferences, please click here: https://community.openproject.org/my/mail_notifications
+
+----==_mimepart_6050cdc2e4db_2257939a87567a
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <body>
+      <span class="header"></span>
+
+
+<h1>
+  OpenProject - General discussion: <a href="http://localhost:3000/topics/12559?r=12559#message-12559">Ready-If and Done-If fields in user stories</a>
+</h1>
+<em>Test user</em>
+
+<p class="op-uc-p">Test message</p>
+
+
+      <hr />
+      <span class="footer"><p class="op-uc-p">You have received this notification because you have either subscribed to it, or are involved in it.<br>
+To change your notification preferences, please click here: <a href="https://community.openproject.org/my/mail_notifications" class="op-uc-link">https://community.openproject.org/my/mail_notifications</a></p></span>
+  </body>
+</html>
+
+----==_mimepart_6050cdc2e4db_2257939a87567a--

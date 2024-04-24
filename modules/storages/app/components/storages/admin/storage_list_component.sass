@@ -1,0 +1,20 @@
+.op-storage-list--header,
+.op-storage-list--row
+  display: grid
+  grid-template-columns: 1fr 160px 180px 220px
+  grid-template-areas: "name provider user time" "host provider user time"
+
+@media screen and (max-width: $breakpoint-lg)
+  .op-storage-list--header,
+  .op-storage-list--row
+    grid-template-columns: 1fr 160px 60px 140px
+
+@media screen and (max-width: $breakpoint-sm)
+  .op-storage-list--row
+    grid-template-columns: 1fr
+    grid-template-areas: "name" "host" "user" "time"
+    grid-row-gap: 5px
+
+  .op-storage-list--header
+    grid-template-columns: 1fr
+    grid-template-areas: "name"

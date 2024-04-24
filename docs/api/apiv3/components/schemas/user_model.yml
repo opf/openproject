@@ -1,0 +1,163 @@
+# Schema: UserModel
+---
+allOf:
+  - $ref: './principal_model.yml'
+  - type: object
+    required:
+      - _type
+      - avatar
+    properties:
+      _type:
+        type: string
+        enum:
+          - User
+      avatar:
+        type: string
+        format: uri
+        description: URL to user's avatar
+      login:
+        type: string
+        description: |-
+          The user's login name
+    
+          # Conditions
+    
+          - User is self, or `create_user` or `manage_user` permission globally
+        maxLength: 256
+      firstName:
+        type: string
+        description: |-
+          The user's first name
+    
+          # Conditions
+    
+          - User is self, or `create_user` or `manage_user` permission globally
+        maxLength: 30
+      lastName:
+        type: string
+        description: |-
+          The user's last name
+    
+          # Conditions
+    
+          - User is self, or `create_user` or `manage_user` permission globally
+        maxLength: 30
+      email:
+        type: string
+        description: |-
+          The user's email address
+    
+          # Conditions
+    
+          - E-Mail address not hidden
+          - User is not a new record
+          - User is self, or `create_user` or `manage_user` permission globally
+        maxLength: 60
+      admin:
+        type: boolean
+        description: |-
+          Flag indicating whether or not the user is an admin
+    
+          # Conditions
+    
+          - `admin`
+      status:
+        type: string
+        description: |-
+          The current activation status of the user.
+          
+          # Conditions
+
+          - User is self, or `create_user` or `manage_user` permission globally
+      language:
+        type: string
+        description: |-
+          User's language | ISO 639-1 format
+    
+          # Conditions
+    
+          - User is self, or `create_user` or `manage_user` permission globally
+      identityUrl:
+        type:
+          - 'string'
+          - 'null'
+        description: |-
+          User's identity_url for OmniAuth authentication.
+    
+          # Conditions
+    
+          - User is self, or `create_user` or `manage_user` permission globally
+      createdAt:
+        type: string
+        format: date-time
+        description: Time of creation
+      updatedAt:
+        type: string
+        format: date-time
+        description: Time of the most recent change to the user
+      _links:
+        type: object
+        properties:
+          showUser:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  A relative path to show the user in the web application.
+
+                  # Condition
+
+                  - User is not a new record
+                  - User is not `locked`
+          updateImmediately:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  A link to update the user resource.
+    
+                  # Conditions
+                  
+                  - `admin`
+          lock:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Restrict the user from logging in and performing any actions.
+    
+                  # Conditions
+    
+                  - User is not locked
+                  - `admin`
+          unlock:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Allow a locked user to login and act again.
+    
+                  # Conditions
+                  
+                  - User is not locked
+                  - `admin`
+          delete:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Permanently remove a user from the instance
+    
+                  # Conditions
+    
+                  either:
+                    - `admin`
+                    - Setting `users_deletable_by_admin` is set
+                  or:
+                    - User is self
+                    - Setting `users_deletable_by_self` is set
+          authSource:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Permanently remove a user from the instance
+    
+                  # Conditions
+                  
+                  - LDAP authentication configured
+                  - `admin`

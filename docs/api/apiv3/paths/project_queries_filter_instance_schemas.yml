@@ -1,0 +1,134 @@
+# /api/v3/projects/{id}/queries/filter_instance_schemas
+---
+get:
+  parameters:
+  - description: Project id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  elements:
+                  - _dependencies:
+                    - _type: SchemaDependency
+                      dependencies:
+                        "/api/v3/queries/operators/!":
+                          values:
+                            _links: {}
+                            hasDefault: false
+                            name: Values
+                            required: true
+                            type: "[]User"
+                            writable: true
+                        "/api/v3/queries/operators/!*": {}
+                        "/api/v3/queries/operators/*": {}
+                        "/api/v3/queries/operators/=":
+                          values:
+                            _links: {}
+                            hasDefault: false
+                            name: Values
+                            required: true
+                            type: "[]User"
+                            writable: true
+                      'on': operator
+                    _links:
+                      filter:
+                        href: "/api/v3/queries/filters/assignee"
+                        title: Assignee
+                      self:
+                        href: "/api/v3/queries/filter_instance_schemas/assignee"
+                    _type: QueryFilterInstanceSchema
+                    filter:
+                      _links: {}
+                      hasDefault: false
+                      name: Filter
+                      required: true
+                      type: QueryFilter
+                      writable: true
+                    name:
+                      hasDefault: true
+                      name: Name
+                      required: true
+                      type: String
+                      writable: false
+                  - _dependencies:
+                    - _type: SchemaDependency
+                      dependencies:
+                        "/api/v3/queries/operators/!":
+                          values:
+                            _links: {}
+                            hasDefault: false
+                            name: Values
+                            required: true
+                            type: "[]User"
+                            writable: true
+                        "/api/v3/queries/operators/=":
+                          values:
+                            _links: {}
+                            hasDefault: false
+                            name: Values
+                            required: true
+                            type: "[]User"
+                            writable: true
+                      'on': operator
+                    _links:
+                      filter:
+                        href: "/api/v3/queries/filters/author"
+                        title: Author
+                      self:
+                        href: "/api/v3/queries/filter_instance_schemas/author"
+                    _type: QueryFilterInstanceSchema
+                    filter:
+                      _links: {}
+                      hasDefault: false
+                      name: Filter
+                      required: true
+                      type: QueryFilter
+                      writable: true
+                    name:
+                      hasDefault: true
+                      name: Name
+                      required: true
+                      type: String
+                      writable: false
+                _links:
+                  self:
+                    href: "/api/v3/projects/42/queries/filter_instance_schemas"
+                _type: Collection
+                count: 2
+                total: 2
+          schema:
+            "$ref": "../components/schemas/query_filter_instance_schemas_for_project_model.yml"
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:Unauthenticated
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package in any project
+      headers: {}
+  tags:
+  - Query Filter Instance Schema
+  description: Returns the list of QueryFilterInstanceSchemas defined for a query
+    of the specified project.
+  operationId: List_Query_Filter_Instance_Schemas_for_Project
+  summary: List Query Filter Instance Schemas for Project

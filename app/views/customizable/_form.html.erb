@@ -1,0 +1,69 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% input_size = local_assigns[:input_size] || '-wide' %>
+<% wide_labels = local_assigns[:wide_labels] ? '-wide-labels' : '' %>
+<% help_text = local_assigns[:help_text] %>
+
+<% form
+     .object
+     .available_custom_fields
+     .select { |custom_field| all_fields || only_required == custom_field.is_required? }
+     .each do |custom_field| %>
+  <%
+    form_options = {
+      custom_value: form.object.custom_value_for(custom_field.id),
+      custom_field: custom_field
+    } %>
+  <%= form.fields_for_custom_fields :custom_field_values, form.object, form_options do |cf_form| %>
+    <% show_required = custom_field.is_required? && !custom_field.boolean? %>
+    <%= content_tag :div,
+                    class: ['form--field',
+                            custom_field.attribute_name,
+                            (show_required ? '-required' : ''),
+                            wide_labels] do
+      container_class = case custom_field.field_format
+                         when 'text'
+                           '-xxwide'
+                         when 'date'
+                           '-xslim'
+                         else
+                           input_size
+                         end
+
+      options = { container_class: }
+
+      if help_text
+        options[:help_text] = help_text.merge(attribute: custom_field.attribute_name(:camel_case))
+      end
+
+      cf_form.cf_form_field(options)
+    end %>
+  <% end %>
+<% end %>

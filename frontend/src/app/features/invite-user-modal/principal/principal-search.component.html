@@ -1,0 +1,57 @@
+<ng-select
+  appendTo=".spot-modal-overlay"
+  [formControl]="spotFormBinding"
+  [addTag]="showAddTag ? createNewFromInput.bind(this) : false"
+  [typeahead]="input$"
+  [items]="items$ | async"
+  [clearable]="true"
+  [clearOnBackspace]="false"
+  [clearSearchOnAdd]="false"
+  [compareWith]="compareWith"
+  bindValue="principal"
+  #ngselect
+>
+  <ng-template ng-label-tmp let-item="item">
+    {{ item.principal?.name || item.name }}
+  </ng-template>
+
+  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+    <div
+      *ngIf="item"
+      class="ng-option-label"
+    >
+      <!--Selectable option-->
+      <div [ngOptionHighlight]="search">{{ item.principal.name }}</div>
+
+      <!-- Already a member of the project -->
+      <div
+        *ngIf="item.disabled"
+        class="ellipsis"
+      >{{ text.alreadyAMember() }}</div>
+    </div>
+  </ng-template>
+
+  <!--Nothing found -->
+  <ng-template ng-notfound-tmp>
+    <div class="ng-option disabled">
+      {{ text.noResults[type] }}
+    </div>
+  </ng-template>
+
+
+  <ng-template ng-tag-tmp>
+    <!--Invite a new user by email-->
+    <div *ngIf="canInviteByEmail$ | async">
+      <op-icon icon-classes="icon-mail1 icon-context"></op-icon>
+      <b>{{ text.inviteNewUser }}</b>
+      {{ input }}
+    </div>
+
+    <!--Create a new placeholder by name-->
+    <div *ngIf="canCreateNewPlaceholder$ | async">
+      <op-icon icon-classes="icon-add icon-context"></op-icon>
+      <b>{{ text.createNewPlaceholder }}</b>
+      {{ input }}
+    </div>
+  </ng-template>
+</ng-select>

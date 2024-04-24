@@ -1,0 +1,122 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2024 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+$project-table--start-indentation: 0.5em
+$project-table--child-indentation: 1.1em
+$project-table--icon-distance: 5px
+$project-table--description-indention: 9px
+
+$content-padding: 10px
+
+@mixin calc-indentation-name($indentation)
+  // This does not work for big font-sizes
+  padding-left: calc(#{$indentation} * #{$project-table--child-indentation} + #{$project-table--start-indentation} - #{$project-table--icon-distance})
+
+@mixin calc-indentation-description($indentation)
+  // This does not work for big font-sizes
+  padding-left: calc(#{$indentation} * #{$project-table--child-indentation} + #{$project-table--start-indentation} + #{$project-table--description-indention})
+
+.projects-table--hierarchy-icon
+  display: none
+
+  &:before
+    @include icon-font-common
+    @include icon-mixin-arrow-right5
+    @extend .icon-small
+
+  tr.idnt &
+    display: initial
+
+#project-table
+  tr.basics
+    &.-expanded
+      .buttons
+        .collapse
+          display: inline
+        .expand
+          display: none
+    td.format-text
+      min-width: 160px
+      word-wrap: break-word
+    td.format-user
+      min-width: 120px
+    .buttons
+      .collapse
+        display: none
+      .expand
+        display: inline
+
+    .archived
+      color: var(--color-fg-muted)
+      span.archived-label
+        text-transform: uppercase
+
+  td.name
+    @include text-shortener
+    a
+      white-space: nowrap
+
+  td.project--hierarchy
+    white-space: nowrap
+
+  @for $i from 1 through 9
+    tr.idnt-#{$i} td.project--hierarchy
+      @include calc-indentation-name($i)
+    tr.idnt-#{$i}.project-description td.project--hierarchy
+      @include calc-indentation-description($i)
+
+#project-table--hierarchy-header
+  max-width: 1rem
+
+  .generic-table--sort-header
+    min-width: 1rem
+    max-width: 1rem
+
+// project list in types configuration
+#type_project_ids
+  ul
+    margin: 0
+    padding-left: 1em
+  li
+    list-style-type: none
+
+// Firefox does not support the popover attribute yet. Thus, the Primer action menus create an ugly scroll inside the table
+// Follow https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/popover#browser_compatibility to see when this can be removed
+body:not(.-browser-firefox)
+  .project-list-page
+    display: flex
+    flex-direction: column
+    max-height: calc(100vh - #{var(--header-height)} - #{$content-padding} - #{$content-padding})
+
+    &--table
+      display: flex
+      flex-grow: 1
+      overflow: auto
+
+    .generic-table--results-container
+      overflow-x: hidden

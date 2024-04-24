@@ -1,0 +1,77 @@
+<table>
+  <tr>
+    <%= placeholder_cell('20px', vertical: false) %>
+  </tr>
+</table>
+
+<table <%= placeholder_table_styles(width: '100%', style: 'width:100%;max-width:700px') %>>
+  <tr>
+    <%= placeholder_cell('12px', vertical: true) %>
+    <td>
+      <%
+        summary = if @group
+                    I18n.t("mail.sharing.work_packages.summary.group", user: @sharer, group: @group, role_rights: @role_rights)
+                  else
+                    I18n.t("mail.sharing.work_packages.summary.user", user: @sharer, role_rights: @role_rights)
+                  end
+      %>
+
+      <%= render partial: 'mailer/mailer_header',
+                 locals: {
+                   user: @shared_with_user,
+                   summary:,
+                   button_href: @url,
+                   button_text: I18n.t(:'mail.sharing.work_packages.open_work_package'),
+                 } %>
+
+      <%= render layout: 'mailer/notification_row',
+                 locals: {
+                   work_package: @work_package,
+                   unique_reasons: [:shared],
+                   show_count: false,
+                   notification_url: @url,
+                   open_in_browser_path: @url
+                 } do %>
+        <table <%= placeholder_table_styles(width: '100%', style: 'width:100%;') %>>
+          <tr>
+            <td style="<%= placeholder_text_styles %>">
+              <%
+                formatted_actions = @allowed_work_package_actions.map do |action|
+                  "<span style=\"font-weight:bold;\">#{action.downcase}</span>"
+                end.to_sentence
+              %>
+
+              <%= t('mail.sharing.work_packages.allowed_actions', allowed_actions: formatted_actions).html_safe %>
+            </td>
+          </tr>
+        </table>
+      <% end %>
+
+      <%= render partial: 'mailer/notification_settings_table',
+                 locals: {
+                   button_url: my_reminders_url,
+                   button_text: I18n.t(:'mail.notification.settings')
+                 } %>
+
+      <% if @shared_with_user.invited? %>
+        <table  <%= placeholder_table_styles(width: '100%', style: 'width:100%;') %>>
+          <tr>
+            <%= placeholder_cell('20px', vertical: false) %>
+          </tr>
+          <tr>
+            <td style="color: #333333; font-size: 16px;">
+              <%= t('mail.sharing.work_packages.create_account', instance: Setting.app_title) %>
+            </td>
+          </tr>
+        </table>
+      <% end %>
+
+      <table>
+        <tr>
+          <%= placeholder_cell('40px', vertical: false) %>
+        </tr>
+      </table>
+    </td>
+    <%= placeholder_cell('12px', vertical: true) %>
+  </tr>
+</table>

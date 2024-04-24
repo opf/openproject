@@ -1,0 +1,43 @@
+<div *ngIf="configuration"
+     class="work-packages-embedded-view--container loading-indicator--location"
+     [ngClass]="{ '-hierarchy-disabled': !configuration.hierarchyToggleEnabled,
+                  '-compact-tables': configuration.compactTableStyle,
+                  '-external-height': externalHeight }"
+     [attr.data-indicator-name]="uniqueEmbeddedTableName">
+
+  <ng-container *ngIf="renderTable">
+    <!-- Filter container (if requested) -->
+    <op-filter-container *ngIf="configuration.withFilters"
+                      [showFilterButton]="configuration.showFilterButton"
+                      [filterButtonText]="configuration.filterButtonText">
+
+    </op-filter-container>
+
+    <!-- TABLE + TIMELINE horizontal split -->
+    <wp-table *ngIf="!configuration.isCardView"
+              [projectIdentifier]="projectIdentifier"
+              [configuration]="configuration"
+              (itemClicked)="handleWorkPackageClicked($event)"
+              (stateLinkClicked)="openStateLink($event)"
+              class="work-packages-split-view--tabletimeline-content"></wp-table>
+
+    <!-- GRID representation of the WP -->
+    <div class="work-packages-embedded-view--grid-view" >
+      <wp-grid *ngIf="configuration.isCardView"
+               (itemClicked)="handleWorkPackageClicked($event)"
+               (stateLinkClicked)="openStateLink($event)"
+               [configuration]="configuration">
+      </wp-grid>
+    </div>
+
+    <!-- Footer -->
+    <div class="work-packages-split-view--tabletimeline-footer hide-when-print">
+      <wp-table-pagination [hideForSinglePageResults]="true">
+      </wp-table-pagination>
+    </div>
+  </ng-container>
+
+  <div class="op-toast -error" *ngIf="error">
+    <span [textContent]="error.message || error"></span>
+  </div>
+</div>

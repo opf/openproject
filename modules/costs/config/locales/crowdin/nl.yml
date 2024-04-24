@@ -1,0 +1,145 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+nl:
+  plugin_costs:
+    name: "Tijd en kosten"
+    description: "This module adds features for planning and tracking costs of projects."
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: "Werkpakket"
+        overridden_costs: "Overschreven kosten"
+        spent: "Uitgegeven"
+        spent_on: "Datum"
+      cost_type:
+        unit: "Naam eenheid"
+        unit_plural: "Vermeerderde eenheid naam"
+      work_package:
+        costs_by_type: "Eenheden uitgegeven"
+        labor_costs: "Arbeidskosten"
+        material_costs: "Kosten per eenheid"
+        overall_costs: "Totale kosten"
+        spent_costs: "Uitgegeven kosten"
+        spent_units: "Eenheden uitgegeven"
+      rate:
+        rate: "Tarief"
+      user:
+        default_rates: "Standaard tarieven"
+    models:
+      cost_type:
+        one: "Soort kosten"
+        other: "Soort kosten"
+      rate: "Tarief"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "Werkpakket #%{id} is geen geldig doel voor het opnieuw toewijzen van de kostenposten."
+          nullify_is_not_valid_for_cost_entries: "Kostenposten kunnen niet worden toegewezen aan een project."
+  attributes:
+    comment: "Reactie"
+    cost_type: "Soort kosten"
+    costs: "Kosten"
+    current_rate: "Huidige tarief"
+    hours: "Uren"
+    units: "Eenheden"
+    valid_from: "Geldig vanaf"
+    fixed_date: "Vaste datum"
+  button_add_rate: "Tarief toevoegen"
+  button_log_costs: "Registreer kost per eenheid"
+  caption_booked_on_project: "Gereserveerd op project"
+  caption_default: "Standaard"
+  caption_default_rate_history_for: "Standaard tarief geschiedenis voor %{user}"
+  caption_locked_on: "Vergrendeld op"
+  caption_materials: "Eenheden"
+  caption_rate_history: "Tarief geschiedenis"
+  caption_rate_history_for: "Tarief geschiedenis voor %{user}"
+  caption_rate_history_for_project: "Tarief geschiedenis voor %{user} in project %{project}"
+  caption_save_rate: "Tarief opslaan"
+  caption_set_rate: "Stel huidige tarief in"
+  caption_show_locked: "Toon vergrendelde types"
+  description_date_for_new_rate: "Datum voor nieuw tarief"
+  group_by_others: "niet in een groep"
+  label_between: "tussen"
+  label_cost_filter_add: "Filter voor kosteninvoer toevoegen"
+  label_costlog: "Geregistreerde kosten per eenheid"
+  label_cost_plural: "Kosten"
+  label_cost_type_plural: "Soort kosten"
+  label_cost_type_specific: "Soort kosten #%{id}: %{name}"
+  label_costs_per_page: "Kosten per pagina"
+  label_currency: "Valuta"
+  label_currency_format: "Formaat van valuta"
+  label_current_default_rate: "Huidige standaard tarief"
+  label_date_on: "op"
+  label_deleted_cost_types: "Verwijderde kostentypen"
+  label_locked_cost_types: "Vergrendelde kostensoorten"
+  label_display_cost_entries: "Kosten per eenheid weergeven"
+  label_display_time_entries: "Gerapporteerde uren weergeven"
+  label_display_types: "Soorten weergeven"
+  label_edit: "Wijzig"
+  label_generic_user: "Algemene gebruiker"
+  label_greater_or_equal: ">="
+  label_group_by: "Groeperen op"
+  label_group_by_add: "Voeg groeperingsveld toe"
+  label_hourly_rate: "Tarief per uur"
+  label_include_deleted: "Inclusief verwijderde"
+  label_work_package_filter_add: "Werkpakket filter toevoegen"
+  label_kind: "Type"
+  label_less_or_equal: "<="
+  label_log_costs: "Registreer kost per eenheid"
+  label_no: "Nee"
+  label_option_plural: "Opties"
+  label_overall_costs: "Totale kosten"
+  label_rate: "Tarief"
+  label_rate_plural: "Tarieven"
+  label_status_finished: "Afgewerkt"
+  label_units: "Kosten eenheden"
+  label_user: "Gebruiker"
+  label_until: "tot"
+  label_valid_from: "Geldig vanaf"
+  label_yes: "Ja"
+  notice_something_wrong: "Er is iets fout gegaan. Probeer het opnieuw."
+  notice_successful_restore: "Herstel geslaagd."
+  notice_successful_lock: "Vergrendeld met succes."
+  notice_cost_logged_successfully: 'Kosten eenheid succesvol geregistreerd.'
+  permission_edit_cost_entries: "Geboekte kosten per eenheid bewerken"
+  permission_edit_own_cost_entries: "Eigen geboekte kosten per eenheid bewerken"
+  permission_edit_hourly_rates: "Bewerk uurtarieven"
+  permission_edit_own_hourly_rate: "Bewerk eigen uurtarieven"
+  permission_edit_rates: "Tarieven bewerken"
+  permission_log_costs: "Kosten per eenheid boeken"
+  permission_log_own_costs: "Kosten per eenheid boeken voor zichzelf"
+  permission_view_cost_entries: "Geboekte kosten bekijken"
+  permission_view_cost_rates: "Bekijk kostentarieven"
+  permission_view_hourly_rates: "Bekijk alle uurtarieven"
+  permission_view_own_cost_entries: "Eigen geboekte kosten bekijken"
+  permission_view_own_hourly_rate: "Bekijk eigen uurtarief"
+  permission_view_own_time_entries: "Bekijk eigen bestede tijd"
+  project_module_costs: "Tijd en kosten"
+  text_assign_time_and_cost_entries_to_project: "Gerapporteerde uren en kosten aan het project toewijzen"
+  text_destroy_cost_entries_question: "%{cost_entries} werd gerapporteerd op de werkpakketten die je gaat verwijderen. Wat wil je doen?"
+  text_destroy_time_and_cost_entries: "Gerapporteerde uren en kosten verwijderen"
+  text_destroy_time_and_cost_entries_question: "%{hours} uren, %{cost_entries} werden gerapporteerd op de werkpakketten die je gaat verwijderen. Wat wil je doen?"
+  text_reassign_time_and_cost_entries: "Gerapporteerde uren en kosten voor dit werkpakket opnieuw toewijzen:"
+  text_warning_hidden_elements: "Sommige items zijn mogelijk uitgesloten van de aggregatie."
+  week: "week"
+  js:
+    text_are_you_sure: "Weet u het zeker?"

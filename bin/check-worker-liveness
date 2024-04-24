@@ -1,0 +1,52 @@
+#!/bin/bash
+
+: "${DATABASE_URL:?Please set DATABASE_URL}"
+: "${HOSTNAME:?Please set HOSTNAME}"
+
+MIN_RUN_AT_FILE=/tmp/.min-run-at.op
+FAIL_COUNT_FILE=/tmp/.liveness-check-fail-count.op
+
+# How many jobs are overdue at least 15 minutes?
+#
+# Filter by not locked jobs because a crashing worker may leave behind
+# a locked, unprocessed job. But this doesn't mean the new worker isn't working.
+#
+# This checks across all workers and can't tell if it's only this worker in particular
+# that doesn't seem to be doing anything.
+UNPROCESSED_COUNT=`psql -d ${DATABASE_URL%%\?*} -c "select count(*) from good_jobs where finished_at is null and scheduled_at < (now() - interval '15 minutes');" | tail -n +3 | head -n1 | tr -d ' '`
+
+echo "unprocessed: $UNPROCESSED_COUNT"
+
+if [ "$UNPROCESSED_COUNT" = "0" ]; then
+  echo 0 > $MIN_RUN_AT_FILE # `date -d '0'` will be the beginning of the day which is fine for our purposes
+  echo 0 > $FAIL_COUNT_FILE
+
+  echo "Workers ok"
+
+  exit 0
+else
+  MIN_RUN_AT=`psql -d ${DATABASE_URL%%\?*} -c "select scheduled_at from good_jobs where finished_at is null and cron_key is null and scheduled_at is not null and scheduled_at < (now() - interval '1 minutes') order by scheduled_at asc limit 1;" | tail -n +3 | head -n1`
+  LAST_MIN_RUN_AT=`cat $MIN_RUN_AT_FILE 2>/dev/null || echo 0`
+  NUM_FAILS=`cat $FAIL_COUNT_FILE 2>/dev/null || echo 0`
+
+  if [ "$MIN_RUN_AT" = "(0 rows)" ]; then
+    echo "There are no unprocessed jobs after all."
+
+    exit 0
+  # check if last dangling job has been processed by now
+  elif [ "`date -d "$MIN_RUN_AT" '+%s'`" -gt "`date -d "$LAST_MIN_RUN_AT" '+%s'`" ]; then
+    echo 0 > $FAIL_COUNT_FILE
+
+    echo "Jobs recovering. Workers seem to be ok."
+    exit 0
+  elif [ "$NUM_FAILS" -lt 3 ]; then
+    echo "$((NUM_FAILS + 1))" > $FAIL_COUNT_FILE
+
+    echo "Job still hasn't been locked. Workers may not be ok. We're keeping an eye on it."
+    exit 0
+  else
+    echo "It's dead, Jim."
+
+    exit 1
+  fi
+fi

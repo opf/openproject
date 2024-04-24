@@ -1,0 +1,29 @@
+
+name: "openproject-ci"
+
+services:
+  # Note: not using a database container since it adds 1min to pull and start it on CI
+  app:
+    image: openproject/ci:v1
+    build:
+      context: .
+      dockerfile: ./docker/ci/Dockerfile
+      args:
+        - APP_USER_UID
+        - APP_USER_GID
+        - RUBY_VERSION
+    environment:
+      CI_JOBS: "${CI_JOBS}"
+      RSPEC_RETRY_RETRY_COUNT: "${CI_RETRY_COUNT:-3}"
+      CAPYBARA_AWS_ACCESS_KEY_ID: "${CAPYBARA_AWS_ACCESS_KEY_ID}"
+      CAPYBARA_AWS_SECRET_ACCESS_KEY: "${CAPYBARA_AWS_SECRET_ACCESS_KEY}"
+    tmpfs:
+      - "/tmp"
+    volumes:
+      - .:/app
+      - ${LOCAL_CACHE_PATH}/node/.npm:/app/.npm
+      - ${LOCAL_CACHE_PATH}/node/node_modules:/app/node_modules
+      - ${LOCAL_CACHE_PATH}/node/frontend/node_modules:/app/frontend/node_modules
+      - ${LOCAL_CACHE_PATH}/bundle:/usr/local/bundle
+      - ${LOCAL_CACHE_PATH}/angular:/app/frontend/.angular/cache
+      - ${LOCAL_CACHE_PATH}/runtime-logs:/app/spec/support/runtime-logs

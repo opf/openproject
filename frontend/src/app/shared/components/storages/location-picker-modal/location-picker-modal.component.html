@@ -1,0 +1,92 @@
+<div
+  class="spot-modal op-file-picker"
+  data-test-selector="op-files-picker-modal"
+>
+  <div class="spot-modal--header">
+    <span id="spotModalTitle" class="spot-modal--header-title">{{text.header}}</span>
+  </div>
+
+  <div class="spot-divider"></div>
+
+  <div class="spot-modal--body spot-container op-file-picker--modal-body">
+    <div
+      *ngIf="(showAlert | async) !== 'none'"
+      class="op-toast -warning"
+    >
+      <div class="op-toast--content">
+        <p>{{alertText | async}}</p>
+        <button
+          class="spot-link op-toast--close"
+          (click)="closeAlert()"
+        >
+          <span class="spot-icon spot-icon_close"></span>
+        </button>
+      </div>
+    </div>
+
+    <spot-breadcrumbs [content]="breadcrumbs"></spot-breadcrumbs>
+
+    <ng-container *ngIf="(loading$ | async) === 'success'; then listTemplate"></ng-container>
+    <ng-container *ngIf="(loading$ | async) === 'error'; then notFoundTemplate"></ng-container>
+    <ng-container *ngIf="(loading$ | async) === 'loading'; then loadingTemplate"></ng-container>
+
+    <ng-template #listTemplate>
+      <ul
+        *ngIf="(listItems$ | async).length > 0; else emptyTemplate"
+        class="spot-list spot-list_compact op-file-list op-file-picker--scrollable-content"
+        data-test-selector="op-files-picker-modal--file-list"
+      >
+        <li
+          *ngFor="let file of listItems$ | async; let i = index;"
+          class="spot-list--item op-file-list--item"
+          data-test-selector="op-file-list--item"
+          op-storage-file-list-item
+          [content]="file"
+        ></li>
+      </ul>
+    </ng-template>
+
+    <ng-template #loadingTemplate>
+      <op-loading-file-list
+        class="spot-body-small"
+        data-test-selector="op-file-list--loading-indicator"
+      ></op-loading-file-list>
+    </ng-template>
+
+    <ng-template #emptyTemplate>
+      <div class="spot-body-small spot-body-small_bold op-file-picker--info">
+        <span class="spot-icon spot-icon_folder-open op-file-picker--info-icon"></span>
+        <span [textContent]="text.content.empty"></span>
+        <span class="spot-body-small op-file-picker--info-sub-text" [textContent]="text.content.emptyHint"></span>
+      </div>
+    </ng-template>
+
+    <ng-template #notFoundTemplate>
+      <div class="spot-body-small spot-body-small_bold op-file-picker--info">
+        <span class="spot-icon spot-icon_remove-link op-file-picker--info-icon"></span>
+        <span [textContent]="text.content.noConnection(storageType)"></span>
+        <span class="spot-body-small op-file-picker--info-sub-text"
+              [textContent]="text.content.noConnectionHint(storageType)"></span>
+      </div>
+    </ng-template>
+  </div>
+
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button
+        type="button"
+        class="button spot-action-bar--action"
+        [textContent]="text.buttons.cancel"
+        (click)="closeMe()"
+      ></button>
+      <button
+        type="button"
+        class="button spot-action-bar--action -primary"
+        data-test-selector="op-files-picker-modal--confirm"
+        [disabled]="!canChooseLocation"
+        [textContent]="text.buttons.submit"
+        (click)="chooseLocation()"
+      ></button>
+    </div>
+  </div>
+</div>

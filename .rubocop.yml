@@ -1,0 +1,459 @@
+require:
+  - rubocop-rails
+  - rubocop-rspec
+  - ./lib_static/rubocop/cop/open_project/add_preview_for_view_component.rb
+  - ./lib_static/rubocop/cop/open_project/no_do_end_block_with_rspec_capybara_matcher_in_expect.rb
+  - ./lib_static/rubocop/cop/open_project/use_service_result_factory_methods.rb
+  - rubocop-capybara
+  - rubocop-factory_bot
+  - rubocop-performance
+  - rubocop-inflector
+  - ./config/initializers/inflections.rb
+
+<% if File.exist?('.rubocop-local.yml') %>
+inherit_from:
+  - .rubocop-local.yml
+<% end %>
+
+inherit_mode:
+  merge:
+    # adding files to Exclude should merge with inherited instead of replacing
+    - Exclude
+
+AllCops:
+  TargetRubyVersion: 3.2
+  # Enable any new cops in new versions by default
+  NewCops: enable
+  Exclude:
+    - '**/node_modules/**/*'
+
+FactoryBot/ConsistentParenthesesStyle:
+  Enabled: false
+
+FactoryBot/SyntaxMethods:
+  Enabled: true
+
+Gemspec/RequiredRubyVersion:
+  Exclude:
+    - modules/**/*.gemspec
+
+
+Layout/ConditionPosition:
+  Enabled: false
+
+Layout/DotPosition:
+    EnforcedStyle: leading
+
+Layout/LineLength:
+  Max: 130
+
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
+
+# Rubymine doesn't support the same indentation style
+# and will auto-format against it with our editorconfig
+Layout/MultilineOperationIndentation:
+  Enabled: false
+
+Lint/AmbiguousOperator:
+  Enabled: false
+
+Lint/AmbiguousRegexpLiteral:
+  Enabled: false
+
+Lint/AssignmentInCondition:
+  Enabled: false
+
+Lint/DeprecatedClassMethods:
+  Enabled: false
+
+Lint/ElseLayout:
+  Enabled: false
+
+Lint/FlipFlop:
+  Enabled: false
+
+Lint/LiteralInInterpolation:
+  Enabled: false
+
+Lint/Loop:
+  Enabled: false
+
+Lint/ParenthesesAsGroupedExpression:
+  Enabled: false
+
+Lint/RequireParentheses:
+  Enabled: false
+
+Lint/SuppressedException:
+  Enabled: false
+
+Lint/UnderscorePrefixedVariableName:
+  Enabled: false
+
+Lint/Void:
+  Enabled: false
+
+Lint/AmbiguousBlockAssociation:
+  AllowedMethods: [change]
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/BlockNesting:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/ParameterLists:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*.rb'
+    - 'modules/*/spec/**/*.rb'
+
+Naming/AccessorMethodName:
+  Enabled: false
+
+Naming/AsciiIdentifiers:
+  Enabled: false
+
+Naming/ClassAndModuleCamelCase:
+  AllowedNames:
+    - V2_1
+
+Naming/FileName:
+  Enabled: false
+
+Naming/PredicateName:
+  ForbiddenPrefixes:
+    - is_
+
+Naming/VariableNumber:
+  AllowedPatterns:
+    - '\w_20\d\d' # allow dates like christmas_2022 or date_2034_04_12
+    - '\w\d++(_\d++)+' # allow hierarchical data like child1_2_5 (second + in regex is possessive qualifier)
+
+# There are valid cases in which to use methods like:
+# * update_all
+# * touch_all
+Rails/SkipsModelValidations:
+  Enabled: false
+
+# Don't force us to use tag instead of content_tag
+# as this breaks angular elements
+Rails/ContentTag:
+  Enabled: false
+
+# Disable I18n.locale = in specs, where it is reset
+# by us explicitly
+Rails/I18nLocaleAssignment:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*.rb'
+
+# Do not bother if `let` statements use an index in their name
+RSpec/IndexedLet:
+  Enabled: false
+
+# The http verbs in Rack::Test do not accept named parameters (params: params)
+Rails/HttpPositionalArguments:
+  Exclude:
+    - 'spec/requests/api/v3/**/*.rb'
+
+# require_dependency is an obsolete method for Rails applications running in Zeitwerk mode.
+Rails/RequireDependency:
+  Enabled: true
+
+# For feature specs, we tend to have longer specs that cover a larger part of the functionality.
+# This is done for multiple reasons:
+# * performance, as setting up integration tests is costly
+# * following a scenario that is closer to how a user interacts
+RSpec/ExampleLength:
+  Max: 25
+  Enabled: true
+  Exclude:
+    - 'spec/features/**/*.rb'
+    - 'modules/*/spec/features/**/*.rb'
+
+# We have specs that have no expect(..) syntax,
+# but only helper classes that expect themselves
+RSpec/NoExpectationExample:
+  Enabled: false
+
+RSpec/DescribeClass:
+  Enabled: true
+  Exclude:
+    - 'spec/features/**/*.rb'
+    - 'modules/*/spec/features/**/*.rb'
+
+# dynamic finders cop clashes with capybara ID cop
+Rails/DynamicFindBy:
+  Enabled: true
+  Exclude:
+    - 'spec/features/**/*.rb'
+    - 'spec/support/**/*.rb'
+    - 'modules/*/spec/features/**/*.rb'
+
+# We have config.active_record.belongs_to_required_by_default = false ,
+# which means, we do have to declare presence validators on belongs_to relations.
+Rails/RedundantPresenceValidationOnBelongsTo:
+  Enabled: false
+
+# See RSpec/ExampleLength for why feature specs are excluded
+RSpec/MultipleExpectations:
+  Max: 15
+  Enabled: true
+  Exclude:
+    - 'spec/features/**/*.rb'
+    - 'modules/*/spec/features/**/*.rb'
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false
+
+# Don't force the second argument of describe
+# to be .class_method or #instance_method
+RSpec/DescribeMethod:
+  Enabled: false
+
+# Don't force the second argument of describe
+# to match the exact file name
+RSpec/SpecFilePathFormat:
+  IgnoreMethods: true
+
+# Prevent  "fit" or similar to be committed
+RSpec/Focus:
+  Enabled: true
+
+# We use let!() to ensure dependencies are created
+# instead of let() and referencing them explicitly
+RSpec/LetSetup:
+  Enabled: false
+
+RSpec/LeadingSubject:
+  Enabled: false
+
+RSpec/NamedSubject:
+  Enabled: false
+
+RSpec/ContextWording:
+  Prefixes:
+    - and
+    - as
+    - even
+    - for
+    - given
+    - having
+    - if
+    - in
+    - 'on'
+    - to
+    - unless
+    - via
+    - when
+    - with
+    - within
+    - without
+
+Style/Alias:
+  Enabled: false
+
+Style/AndOr:
+  Enabled: false
+
+Style/ArrayJoin:
+  Enabled: false
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/Attr:
+  Enabled: false
+
+Style/CaseEquality:
+  Enabled: false
+
+Style/CharacterLiteral:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/ClassVars:
+  Enabled: false
+
+Style/CollectionMethods:
+  PreferredMethods:
+    find: detect
+    reduce: inject
+    collect: map
+    find_all: select
+
+Style/ColonMethodCall:
+  Enabled: false
+
+Style/CommentAnnotation:
+  Enabled: false
+
+Style/PreferredHashMethods:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/DoubleNegation:
+  Enabled: false
+
+Style/EachWithObject:
+  Enabled: false
+
+Style/EmptyLiteral:
+  Enabled: false
+
+Style/EvenOdd:
+  Enabled: false
+
+Style/FormatString:
+  Enabled: false
+
+Style/FormatStringToken:
+  AllowedMethods: [redirect]
+
+Style/GlobalVars:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/IfWithSemicolon:
+  Enabled: false
+
+Style/InlineComment:
+  Enabled: false
+
+Style/Lambda:
+  Enabled: false
+
+Style/LambdaCall:
+  Enabled: false
+
+Style/LineEndConcatenation:
+  Enabled: false
+
+Style/ModuleFunction:
+  Enabled: false
+
+Style/NegatedIf:
+  Enabled: false
+
+Style/NegatedWhile:
+  Enabled: false
+
+Style/Next:
+  Enabled: false
+
+Style/NilComparison:
+  Enabled: false
+
+Style/Not:
+  Enabled: false
+
+Style/OneLineConditional:
+  Enabled: false
+
+Style/PercentLiteralDelimiters:
+  Enabled: false
+
+Style/PerlBackrefs:
+  Enabled: false
+
+Style/Proc:
+  Enabled: false
+
+Style/RaiseArgs:
+  Enabled: false
+
+Style/RegexpLiteral:
+  Enabled: false
+
+Style/SelfAssignment:
+  Enabled: false
+
+Style/SingleLineBlockParams:
+  Enabled: false
+
+Style/SingleLineMethods:
+  Enabled: false
+
+Style/SignalException:
+  Enabled: false
+
+Style/SpecialGlobalVars:
+  Enabled: false
+
+# Forcing single quotes doesn't give any reasonable advantages. To the contrary:
+# it forces you to change the quotes every time you want to add interpolation,
+# newlines or other escape sequences (\n), or quotes (') to a string. Rubbish.
+# Don't even think about performance. That never was a valid argument to begin with.
+#
+#   For the record: using single quotes does NOT have any performance advantages.
+#   Even if it did, this would be a silly argument.
+#
+# Quote away.
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/TrivialAccessors:
+  Enabled: false
+
+Style/VariableInterpolation:
+  Enabled: false
+
+Style/WhenThen:
+  Enabled: false
+
+Style/WhileUntilModifier:
+  Enabled: false
+
+Style/WordArray:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/NumericLiterals:
+  Enabled: false
+
+# Avoid enforcing "positive?"
+Style/NumericPredicate:
+  Enabled: false
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+Performance/Casecmp:
+  Enabled: false

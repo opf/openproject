@@ -1,0 +1,52 @@
+# /api/v3/principals
+---
+get:
+  summary: List principals
+  operationId: list_principals
+  tags:
+    - Principals
+  description: |-
+    List all principals. The client can choose to filter the principals similar to how work packages are filtered. In
+    addition to the provided filters, the server will reduce the result set to only contain principals who are members
+    in projects the client is allowed to see.
+  parameters:
+    - name: filters
+      description: |-
+        JSON specifying filter conditions.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
+        Currently supported filters are:
+        
+        - type: filters principals by their type (*User*, *Group*, *PlaceholderUser*).
+        - member: filters principals by the projects they are members in.
+        - name: filters principals by the user or group name.
+        - any_name_attribute: filters principals by the user or group first- and last name, email or login.
+        - status: filters principals by their status number (active = *1*, registered = *2*, locked = *3*, invited = *4*)
+      in: query
+      required: false
+      schema:
+        type: string
+      example: '[{ "type": { "operator": "=", "values": ["User"] } }]'
+    - name: select
+      description: Comma separated list of properties to include.
+      in: query
+      required: false
+      schema:
+        type: string
+      example: 'total,elements/name,elements/self,self'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/principal_collection_model.yml'
+    '400':
+      description: Returned if the client sends invalid request parameters e.g. filters
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+            message: Filters Invalid filter does not exist.

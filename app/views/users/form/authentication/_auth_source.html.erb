@@ -1,0 +1,23 @@
+<% if can_users_have_auth_source? %>
+  <div class="form--field">
+    <%= f.collection_select :ldap_auth_source_id,
+                            LdapAuthSource.all,
+                            :id,
+                            :name,
+                            {
+                              label: :'activerecord.attributes.user.auth_source',
+                              container_class: '-middle',
+                              include_blank: t(:label_internal)
+                            },
+                            data: {
+                              action: 'admin--users#toggleAuthenticationFields'
+                            }
+    %>
+  </div>
+
+  <div class="form--field"
+       hidden
+       data-admin--users-target="authSourceFields">
+    <%= f.text_field :login, required: true, size: 25 %>
+  </div>
+<% end %>

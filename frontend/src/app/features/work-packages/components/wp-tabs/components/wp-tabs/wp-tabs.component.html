@@ -1,0 +1,27 @@
+<op-scrollable-tabs
+  [tabs]="tabs"
+  class="op-work-package-tabs"
+>
+  <ng-container slot="actions" *ngIf="view === 'split'">
+    <li class="tab-icon">
+      <button
+        type="button"
+        class="spot-link work-packages--details-fullscreen-icon"
+        [title]="text.details.goToFullScreen"
+        (click)="switchToFullscreen()"
+      >
+        <op-icon icon-classes="icon-context icon-no-color icon-to-fullscreen"></op-icon>
+      </button>
+    </li>
+    <li class="tab-icon">
+      <button
+        type="button"
+        class="spot-link work-packages--details-close-icon"
+        [title]="text.details.close"
+        (click)="close()"
+      >
+        <op-icon icon-classes="icon-context icon-no-color icon-close"></op-icon>
+      </button>
+    </li>
+  </ng-container>
+</op-scrollable-tabs>

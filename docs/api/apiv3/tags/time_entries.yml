@@ -1,0 +1,38 @@
+---
+description: |-
+  ## Actions
+
+  | Link                | Description                                                                | Condition                                                                                           |
+  |:-------------------:| -------------------------------------------------------------------------- | ----------------------------------------------------------------                                    |
+  | updateImmediately   | Directly perform edits on this time entry                                  | **Permission**: 'edit time entries' or 'edit own time entries' if the time entry belongs to the user, or 'log own time' if the time entry is ongoing |
+  | update              | Form endpoint that aids in preparing and performing edits on a TimeEntry   | **Permission**: 'edit time entries' or 'edit own time entries' if the time entry belongs to the user, or 'log own time' if the time entry is ongoing |
+  | delete              | Delete this time entry                                                     | **Permission**: 'edit time entries' or 'edit own time entries' if the time entry belongs to the user, or 'log own time' if the time entry is ongoing |
+
+  ## Linked Properties
+
+  | Link          | Description                                                                                                                             | Type                | Constraints           | Supported operations | Condition                                                 |
+  | :-----------: | --------------------------------------------------------------                                                                          | -------------       | --------------------- | -------------------- | --------------------------------------------------------- |
+  | self          | This time entry                                                                                                                         | TimeEntry           | not null              | READ                 |                                                           |
+  | project       | The project the time entry is bundled in. The project might be different from the work package's project once the workPackage is moved. | Project             | not null              | READ / WRITE         |                                                           |
+  | workPackage   | The work package the time entry is created on                                                                                           | WorkPackage         |                       | READ / WRITE         |                                                           |
+  | user          | The user the time entry tracks expenditures for                                                                                         | User                | not null              | READ / WRITE          | **Permission**: Log time for other users permission      |
+  | activity      | The time entry activity the time entry is categorized as                                                                                | TimeEntriesActivity |                       | READ / WRITE         |                                                           |
+
+  Depending on custom fields defined for time entries, additional links might exist.
+
+  Time entries are either linked to a work package or to a project. If they are linked to a project, the work package reference is empty. If they are linked to a work package, the project reference is filled up automatically to point to the work package's project.
+
+  ## Local Properties
+
+  | Property     | Description                                               | Type     | Constraints                                          | Supported operations | Condition                                                   |
+  | :----------: | --------------------------------------------------------- | -------- | ---------------------------------------------------- | -------------------- | ----------------------------------------------------------- |
+  | id           | Time entries' id                                          | Integer  | x > 0                                                | READ                 |                                                             |
+  | comment      | A text provided by the user detailing the time entry      | String   |                                                      | READ / WRITE         |                                                             |
+  | spentOn      | The date the expenditure is booked for                    | Date     |                                                      | READ / WRITE         |                                                             |
+  | hours        | The time quantifying the expenditure                      | Time     |                                                      | READ / WRITE         |                                                             |
+  | ongoing      | Whether the time entry is actively tracking               | Boolean  |                                                      | READ / WRITE         |                                                             |
+  | createdAt    | The time the time entry was created                       | DateTime |                                                      | READ                 |                                                             |
+  | updatedAt    | The time the time entry was last updated                  | DateTime |                                                      | READ                 |                                                             |
+
+  Depending on custom fields defined for time entries, additional properties might exist.
+name: Time entries

@@ -1,0 +1,39 @@
+#English strings go here
+sl:
+  plugin_openproject_boards:
+    name: "OpenProject Boards"
+    description: "Provides board views."
+  permission_show_board_views: "Prikaži table"
+  permission_manage_board_views: "Upravljaj table"
+  project_module_board_view: "Table"
+  boards:
+    label_board: "Tabla"
+    label_boards: "Table"
+    label_create_new_board: "Ustvari novo tablo"
+    label_board_type: "Vrsta table"
+    board_types:
+      free: Osnovno
+      action: "Tabla opravil (%{attribute})"
+    board_type_attributes:
+      assignee: Prevzemnik
+      status: Stanje
+      version: Različica
+      subproject: Podprojekt
+      subtasks: Starš-otrok
+      basic: Osnovno
+    board_type_descriptions:
+      basic: >
+        Začni s praznim tablo in ročno dodaj kartice in stolpce.
+      status: >
+        Osnoven kanban stil odložišča s stolpci za stanja: Za narediti, V delu, Narejeno.
+      assignee: >
+        Tabla s samodejnimi stolpci glede na dodeljene člane. Popoln za odpošiljanje delovnih paketov
+      version: >
+        Tabla s samodejnimi stolpci glede na verzijo lastnosti. Popoln za načrtovanje razvoja projekta.
+      subproject: >
+        Tabla s samodejnimi stolpci za podprojekte. Če premaknete delovne pakete na druge sezname, boste ustrezno posodobili (pod)projekt.
+      subtasks: >
+        Tabla s samodejnimi stolpci za podelemente. Če premaknete delovne pakete na druge sezname, boste ustrezno posodobili nadrazred.
+    upsale:
+      teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+      upgrade: 'Nadgradi zdaj'

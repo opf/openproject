@@ -1,0 +1,31 @@
+.op-project-list-modal
+  max-width: 100%
+
+  &--header
+    display: flex
+    justify-content: space-between
+    align-items: center
+    margin: $spot-spacing-1 $spot-spacing-1 0 $spot-spacing-1
+
+  &--title
+    padding: 0
+    margin: 0
+    @include spot-subheader-big
+
+  &--body
+    flex-shrink: 1
+    flex-basis: 100%
+    overflow: hidden
+
+    @media screen and #{$spot-mq-drop-modal-in-context}
+      width: 460px
+      max-height: 70vh
+
+  &--loading
+    padding: $spot-spacing-1
+
+  &--no-results
+    @include spot-body-small(normal, italic)
+    margin: $spot-spacing-1-5 $spot-spacing-1
+    color: var(--color-fg-muted)
+    flex-grow: 1

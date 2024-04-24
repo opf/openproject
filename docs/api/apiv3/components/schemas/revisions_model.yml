@@ -1,0 +1,60 @@
+# Schema: RevisionsModel
+---
+type: object
+example:
+  _links:
+    self:
+      href: "/api/v3/work_packages/42/revisions"
+  total: 2
+  count: 2
+  _type: Collection
+  _embedded:
+    elements:
+    - _type: Revision
+      _links:
+        self:
+          href: "/api/v3/revisions/13"
+        project:
+          href: "/api/v3/projects/1"
+          title: A Test Project
+        author:
+          href: "/api/v3/users/1"
+          title: John Sheppard - j.sheppard
+        showRevision:
+          href: "/projects/identifier/repository/revision/11f4b07"
+      id: 13
+      identifier: 11f4b07dff4f4ce9548a52b7d002daca7cd63ec6
+      formattedIdentifier: 11f4b07
+      authorName: John Sheppard
+      message:
+        format: plain
+        raw: |-
+          This revision provides new features
+
+          An elaborate description
+        html: "<p>This revision provides new features<br/><br/>An elaborate description</p>"
+      createdAt: '2015-07-21T13:36:59.201Z'
+    - _type: Revision
+      _links:
+        self:
+          href: "/api/v3/revisions/14"
+        project:
+          href: "/api/v3/projects/1"
+          title: A Test Project
+        author:
+          href: "/api/v3/users/2"
+          title: Jim Sheppard - j.sheppard
+        showRevision:
+          href: "/projects/identifier/repository/revision/029ed72a"
+      id: 13
+      identifier: '029ed72a3b7b7c4ab332b1f6eaa6576e7c946059'
+      formattedIdentifier: '029ed72a'
+      authorName: j1msheppard
+      message:
+        format: plain
+        raw: |-
+          This revision fixes some stuff
+
+          More information here
+        html: "<p>This revision fixes some stuff<br/><br/>More information here</p>"
+      createdAt: '2015-06-30T08:47:00.548Z'

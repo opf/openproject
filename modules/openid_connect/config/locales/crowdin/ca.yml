@@ -1,0 +1,32 @@
+ca:
+  plugin_openproject_openid_connect:
+    name: "OpenProject OpenID Connect"
+    description: "Adds OmniAuth OpenID Connect strategy providers to Openproject."
+  logout_warning: >
+    S'ha tancat la teva sessió. Es poden haver perdut els continguts de qualsevol formulari sotmès. Si us plau, [inicia sessió].
+  activemodel:
+    attributes:
+      openid_connect/provider:
+        name: Nom
+        display_name: Nom mostrat
+        identifier: Identificador
+        secret: Secret
+        scope: Abast
+        limit_self_registration: Limitar el registre per part dels propis usuaris
+  openid_connect:
+    menu_title: Proveïdor d’OpenID
+    providers:
+      label_add_new: Afegeix un proveïdor d'OpenID
+      label_edit: Edita el proveïdor d'OpenID %{name}
+      no_results_table: Encara no s'han definit cap proveïdor.
+      plural: Proveïdors d’OpenID
+      singular: Proveïdor d’OpenID
+    setting_instructions:
+      azure_deprecation_warning: >
+        L'aplicació d'Azure configurada apunta a una API d'Azure no suportada. Si us plau, crea una nova aplicació d'Azure per assegurar el funcionament en el futur.
+      azure_graph_api: >
+        Utilitza el "graph.microsoft.com userinfo endpoint" per demanar "userdata". Aquest hauria de ser el per defecte si no tens cap aplicació Azure anterior.
+      azure_tenant_html: >
+        Estableix el "tenant" del teu Azure "endpoint". Això controlarà qui té accés a la instància d'OpenProject. Per a més informació, ves a <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">la nostre quia de connexió Azure OpenID</a>.
+      limit_self_registration: >
+        Si s'activa, els usuaris només poden registrar-se utilitzant aquest proveïdor en cas que la configuració de registre per part dels propis usuaris ho permet.

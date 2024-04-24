@@ -1,0 +1,18 @@
+<div class="op-wp-calendar"
+     data-test-selector="op-wp-calendar"
+     (contextmenu)="openContextMenu($event)"
+     [attr.data-indicator-name]="'table'">
+    <ng-container
+      *ngIf="(calendarOptions$ | async) as calendarOptions"
+    >
+        <full-calendar
+          #ucCalendar
+          *ngIf="calendarOptions"
+          [options]="calendarOptions"
+        ></full-calendar>
+    </ng-container>
+    <div
+        *ngIf="static"
+        [textContent]="workPackagesCalendar.tooManyResultsText"
+        class="op-wp-calendar--notification"></div>
+</div>

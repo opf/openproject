@@ -1,0 +1,66 @@
+lt:
+  plugin_openproject_webhooks:
+    name: "OpenProject žiniatinklio sąsajos"
+    description: "Teikia priedo API palaikymą OpenProject žiniatinklio sąsajoms, geresniai trečių šalių integracijai."
+  activerecord:
+    attributes:
+      webhooks/webhook:
+        url: '„Krovinio“ URL'
+        secret: 'Parašo paslaptis'
+        events: 'Įvykiai'
+        projects: 'Įgalinti projektai'
+      webhooks/log:
+        event_name: 'Įvykio pavadinimas'
+        url: '„Krovinio“ URL'
+        response_code: 'Atsako kodas'
+        response_body: 'Atsakas'
+    models:
+      webhooks/outgoing_webhook: "Išeinantis „webhook“"
+  webhooks:
+    singular: '„Webhook“'
+    plural: '„Webhook“''ai'
+    resources:
+      time_entry:
+        name: "Laiko įrašas"
+    outgoing:
+      no_results_table: Dar nenustatytas joks „webhook“.
+      label_add_new: Pridėti „webhook“
+      label_edit: Keisti „webhook“
+      label_event_resources: Įvykio resursai
+      events:
+        created: "Sukurta"
+        updated: "Atnaujinta"
+      explanation:
+        text: >
+          Atsitikus įvykiui, tokiam kaip darbų paketo sukūrimui ar projekto pakeitimui, OpenProject išsiųs POST užklausą nurodytoms jungtims. Dažnai įvykis siunčiamas po %{link} praėjimo.
+        link: konfigūruotas agregavimo periodas
+      status:
+        enabled: '„Webhook“ įgalintas'
+        disabled: '„Webhook“ atjungtas'
+        enabled_text: '„Webhook“ išsiųs „krovinį“ įvykus tokiems įvykiams'
+        disabled_text: 'Paspauskite „Redaguoti“ mygtuką, kad aktyvuotumėte „webhook“.'
+      deliveries:
+        no_results_table: Šiam „webhook“ per paskutines dienas niekas nebuvo atsiųsta.
+        title: 'Paskutiniai pranešimai'
+        time: 'Pristatymo laikas'
+      form:
+        introduction: >
+          Pasiųskite POST užklausa į žemiau pateiktą „krovinio“ URL įvykus bet kuriam įvykiui projektuose, kuriuos jūs prenumeruojate. „Krovinys“ atitiks APIv3 formatą to objekto, kuris turi būti keičiamas.
+        apiv3_doc_url: Daugiau informacijos API dokumentacijoje
+        description:
+          placeholder: 'Nebūtinas „webhook“ aprašymas.'
+        enabled:
+          description: >
+            Jei pažymėtas, „webhook“ sudirbs prie pasirinktų įvykių. Nužymėkite, jei norite atjungti „webhook“.
+        events:
+          title: 'Įjungti įvykiai'
+        project_ids:
+          title: 'Įgalinti projektai'
+          description: 'Pasirinkite projektus, kuriuose šis „webhook“ turi veikti.'
+          all: 'Visi projektai'
+          selected: 'Tik parinkti projektai'
+        selected_project_ids:
+          title: 'Parinkti projektai'
+        secret:
+          description: >
+            Jei nustatyta, OpenProject naudos šią slaptą reikšmę „krovinio“ pasirašymui.

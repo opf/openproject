@@ -1,0 +1,85 @@
+#English strings go here
+es:
+  js:
+    storages:
+      link_files_in_storage: "Enlace archivos en %{storageType}"
+      link_existing_files: "Enlazar archivos existentes"
+      upload_files: "Subir archivos"
+      drop_files: "Arrastra archivos aquí para cargarlos a %{storageType}."
+      drop_or_click_files: "Arrastra archivos o haz clic aquí para cargarlos a %{storageType}."
+      login: "%{storageType} iniciar sesión"
+      login_to: "Iniciar sesión en %{storageType}"
+      no_connection: "No hay conexión para %{storageType}"
+      open_storage: "Abrir %{storageType}"
+      select_location: "Seleccionar ubicación"
+      choose_location: "Seleccionar ubicación"
+      types:
+        nextcloud: "Nextcloud"
+        one_drive: "OneDrive/Sharepoint"
+        default: "Almacén"
+      information:
+        connection_error: >
+          Algunos ajustes dé %{storageType} no funcionan. Póngase en contacto con el administrador de %{storageType}.
+        live_data_error: "Error obteniendo detalles del archivo"
+        live_data_error_description: >
+          Algunos datos de %{storageType} no se han podido obtener. Intente volver a cargar esta página o póngase en contacto con el administrador de %{storageType}.
+        no_file_links: "Para poder enlazar archivos en este paquete de trabajo, por favor, utiliza %{storageType}."
+        not_logged_in: >
+          Para añadir un enlace, ver o subir archivos relacionados con este paquete de trabajo, por favor inicie sesión en %{storageType}.
+      files:
+        already_existing_header: "Este archivo ya existe"
+        already_existing_body: >
+          Ya existe un archivo con el nombre "%{fileName}" en la ubicación donde está intentando subir este archivo. ¿Qué quiere hacer?
+        directory_not_writeable: "No tiene permiso para añadir archivos en esta carpeta."
+        dragging_many_files: "La carga a %{storageType} solo admite un archivo a la vez."
+        dragging_folder: "La carga a %{storageType} no admite carpetas."
+        empty_folder: "Esta carpeta está vacía."
+        empty_folder_location_hint: "Haga clic en el botón de abajo para subir el archivo a esta ubicación."
+        file_not_selectable_location: "No es posible seleccionar un archivo en el proceso de seleccionar una ubicación."
+        project_folder_no_access: >
+          No tiene acceso a la carpeta del proyecto. Póngase en contacto con su administrador para obtener acceso o cargue el archivo en otra ubicación.
+        managed_project_folder_not_available: >
+          Todavía no se ha encontrado la carpeta de proyecto administrada automáticamente. Espere un poco, vuelva a cargar la página para obtener los datos más recientes e inténtelo de nuevo.
+        managed_project_folder_no_access: >
+          Aún no tiene acceso a la carpeta del proyecto administrada. Espere un poco e inténtalo de nuevo.
+        upload_keep_both: "Mantener ambos"
+        upload_replace: "Sustituir"
+      file_links:
+        empty: >
+          Actualmente no hay archivos enlazados a este paquete de trabajo. Vincule sus primeros archivos usando la acción de abajo o desde %{storageType}.
+        download: "Descargar %{fileName}"
+        open: "Abrir el fichero en almacenamiento"
+        open_location: "Abrir fichero en su ubicación"
+        remove: "Eliminar vínculo de fichero"
+        remove_confirmation: >
+          ¿Está seguro que desea desvincular el archivo de este paquete de trabajo? Desvincular no afecta al archivo original, solo elimina la conexión a este paquete de trabajo.
+        remove_short: "Eliminar enlace"
+        select: "Seleccionar archivos"
+        select_all: "Seleccionar todo"
+        selection:
+          zero: "Seleccionar archivos a enlazar"
+          one: "Enlazar 1 archivo"
+          other: "Enlazar %{count} archivos"
+        success_create:
+          one: "Se ha creado correctamente 1 enlace de fichero."
+          other: "Se han creado correctamente %{count} enlaces de fichero."
+        upload_error:
+          default: >
+            Tu archivo (%{fileName}) no pudo ser subido.
+          403: >
+            Su archivo (%{fileName}) no se pudo cargar debido a las restricciones del sistema. Por favor, contacte con su administrador para más información.
+          413: >
+            Tu archivo (%{fileName}) es más grande de lo que OpenProject puede subir a %{storageType}. Puedes subirlo directamente a %{storageType} primero y luego vincular el archivo.
+          507: >
+            Su archivo (%{fileName}) es mayor de lo que permite la cuota de almacenamiento. Póngase en contacto con su administrador para modificar esta cuota.
+          detail:
+            nextcloud: >
+              Por favor, compruebe que la última versión de la aplicación de Nextcloud "OpenProject Integration" está instalada y póngase en contacto con su administrador para obtener más información.
+        link_uploaded_file_error: >
+          Se ha producido un error al vincular el archivo cargado recientemente "%{fileName}" al paquete de trabajo %{workPackageId}.
+        tooltip:
+          not_logged_in: "Inicia sesión en el almacenamiento para acceder a este archivo."
+          view_not_allowed: "No tienes permisos para ver este archivo."
+          not_found: "No se ha encontrado este archivo."
+        already_linked_file: "El archivo ya está vinculado a este paquete de trabajo."
+        already_linked_directory: "El directorio ya está vinculado a este paquete de trabajo."

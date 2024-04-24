@@ -1,0 +1,49 @@
+<ng-container *ngIf="canAdd || canReference">
+  <tr
+    *ngIf="mode === 'inactive'"
+    class="wp-inline-create-button-row hide-when-print"
+  >
+    <td
+      [attr.colspan]="colspan"
+      class="wp-inline-create-button-td"
+    >
+      <button
+        *ngIf="canAdd"
+        type="button"
+        class="spot-link"
+        [class.wp-inline-create--split-link]="hasReferenceClass"
+        [opAutofocus]="focus"
+        (click)="handleAddRowClick()"
+        [attr.aria-label]="text.create"
+        aria-haspopup="true"
+        data-test-selector="op-wp-inline-create"
+      >
+        <span class="spot-icon spot-icon_add"></span>
+        <span [textContent]="text.create"></span>
+      </button>
+      <button
+       *ngIf="canReference"
+        type="button"
+        class="spot-link wp-inline-create--split-link"
+        (click)="handleReferenceClick()"
+        [attr.aria-label]="text.create"
+        aria-haspopup="true"
+        data-test-selector="op-wp-inline-create-reference"
+      >
+        <span class="spot-icon spot-icon_link"></span>
+        <span [textContent]="text.reference"></span>
+      </button>
+    </td>
+  </tr>
+  <tr
+    *ngIf="hasReferenceClass && mode === 'reference'"
+    class="wp-inline-create-button-row hide-when-print"
+  >
+    <td
+      [attr.colspan]="colspan"
+      class="wp-inline-reference-row-td -no-highlighting"
+    >
+      <ng-container *ngComponentOutlet="referenceClass; injector: injector"></ng-container>
+    </td>
+  </tr>
+</ng-container>

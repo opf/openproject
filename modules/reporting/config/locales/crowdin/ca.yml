@@ -1,0 +1,94 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+ca:
+  plugin_openproject_reporting:
+    name: "OpenProject Reporting"
+    description: "This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin."
+  button_save_as: "Desa l'informe com..."
+  comments: "Comentari"
+  cost_reports_title: "Temps i costs"
+  label_cost_report: "Informe de costs"
+  label_cost_report_plural: "Informes de costs"
+  description_drill_down: "Mostra els detalls"
+  description_filter_selection: "Selecció"
+  description_multi_select: "Mostra la selecció múltiple"
+  description_remove_filter: "Elimina el filtre"
+  information_restricted_depending_on_permission: "Depenent dels teus permisos aquesta pàgina podria contenir informació restringida."
+  label_click_to_edit: "Feu clic per editar."
+  label_closed: "tancat"
+  label_columns: "Columnes"
+  label_cost_entry_attributes: "Atributs d'entrada de costs"
+  label_days_ago: "durant els últims dies"
+  label_entry: "Entrada de costs"
+  label_filter_text: "Filtre de text"
+  label_filter_value: "Valor"
+  label_filters: "Filtre"
+  label_greater: ">"
+  label_is_not_project_with_subprojects: "no és (inclou subprojectes)"
+  label_is_project_with_subprojects: "és (inclou subprojectes)"
+  label_work_package_attributes: "Atributs del paquet de treball"
+  label_less: "<"
+  label_logged_by_reporting: "Registrat per"
+  label_money: "Registra valor"
+  label_month_reporting: "Mes (Gastat)"
+  label_new_report: "Nou informe de costs"
+  label_open: "obrir"
+  label_operator: "Operador"
+  label_private_report_plural: "Informe de costs privat"
+  label_progress_bar_explanation: "Generant informe..."
+  label_public_report_plural: "Informe de costs públic"
+  label_really_delete_question: "Estàs segur que vols suprimir aquest informe?"
+  label_rows: "Files"
+  label_saving: "Desant ..."
+  label_spent_on_reporting: "Data (Gastat)"
+  label_sum: "Suma"
+  label_units: "Unitats"
+  label_week_reporting: "Setmana (Gastat)"
+  label_year_reporting: "Any (Gastat)"
+  label_count: "Recompte"
+  label_filter: "Filtre"
+  label_filter_add: "Afegir filtre"
+  label_filter_plural: "Filtres"
+  label_group_by: "Agrupa per"
+  label_group_by_add: "Afegir grup per atribut"
+  label_inactive: "«inactiu»"
+  label_no: "No"
+  label_none: "(no hi ha dades)"
+  label_no_reports: "Encara no hi ha cap informe."
+  label_report: "Informe"
+  label_yes: "Si"
+  load_query_question: "L'informe tindrà %{size} de cel·les i pot trigar algun temps per generar-se. Encara vols intentar generar-lo?"
+  permission_save_cost_reports: "Guarda l'informe de costs públic"
+  permission_save_private_cost_reports: "Guarda l'informe de costs privat"
+  project_module_reporting_module: "Informes de costs"
+  text_costs_are_rounded_note: "Els valors mostrats estan arrodonits. Tots els càlculs estan basats en els valors no arrodonits."
+  toggle_multiselect: "activar/desactivar selecció múltiple"
+  units: "Unitats"
+  validation_failure_date: "no és una data vàlida"
+  validation_failure_integer: "no és un enter vàlid"
+  export:
+    cost_reports:
+      title: "La teva exportació de l'informe de costos XLS"
+  reporting:
+    group_by:
+      selected_columns: "Columnes seleccionades"
+      selected_rows: "Files seleccionades"

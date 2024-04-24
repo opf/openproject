@@ -1,0 +1,78 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+nl:
+  plugin_budgets_engine:
+    name: 'Begrotingen'
+  activerecord:
+    attributes:
+      budget:
+        author: "Auteur"
+        available: "Beschikbaar"
+        budget: "Gepland"
+        budget_ratio: "Uitgegeven (ratio)"
+        description: "Omschrijving"
+        spent: "Uitgegeven"
+        status: "Status"
+        subject: "Onderwerp"
+        type: "Soort kosten"
+        labor_budget: "Geplande arbeidskosten"
+        material_budget: "Geplande kosten per eenheid"
+      work_package:
+        budget_subject: "Titel van de begroting"
+    models:
+      budget: "Begroting"
+      material_budget_item: "Eenheid"
+  activity:
+    filter:
+      budget: "Begrotingen"
+  attributes:
+    budget: "Begroting"
+  button_add_budget_item: "Geplande kosten toevoegen"
+  button_add_budget: "Begroting toevoegen"
+  button_add_cost_type: "Kostentype toevoegen"
+  button_cancel_edit_budget: "Bewerking budget annuleren"
+  button_cancel_edit_costs: "Bewerkkosten annuleren"
+  caption_labor: "Arbeid"
+  caption_labor_costs: "Werkelijke arbeidskosten"
+  caption_material_costs: "Werkelijke kosten per eenheid"
+  budgets_title: "Begrotingen"
+  events:
+    budget: "Begroting bewerkt"
+  help_click_to_edit: "Klik hier om te bewerken."
+  help_currency_format: "Formaat van getoonde valuta waarden. %n wordt vervangen door de valuta waarde, %u is vervangen door de valuta eenheid."
+  help_override_rate: "Voer hier een waarde in om de standaardkoers te overschrijven."
+  label_budget: "Begroting"
+  label_budget_new: "Nieuwe begroting"
+  label_budget_plural: "Begrotingen"
+  label_budget_id: "Begroting #%{id}"
+  label_deliverable: "Begroting"
+  label_example_placeholder: 'b.v. %{decimal}'
+  label_view_all_budgets: "Bekijk alle begrotingen"
+  label_yes: "Ja"
+  notice_budget_conflict: "Werkpakketten moeten van hetzelfde project zijn."
+  notice_no_budgets_available: "Geen begrotingen beschikbaar."
+  permission_edit_budgets: "Begrotingen bewerken"
+  permission_view_budgets: "Bekijk begrotingen"
+  project_module_budgets: "Begrotingen"
+  text_budget_reassign_to: "Wijs ze opnieuw toe aan dit budget:"
+  text_budget_delete: "Verwijder het budget uit alle werkpakketten"
+  text_budget_destroy_assigned_wp: "Er zijn %{count} werkpakketten aan dit budget toegewezen. Wat wilt u doen?"

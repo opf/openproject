@@ -1,0 +1,10 @@
+<div
+  class="op-wp-preview-modal"
+  *ngIf="workPackage"
+>
+   <wp-single-card
+     [workPackage]="workPackage"
+     orientation="horizontal"
+     (stateLinkClicked)="openStateLink($event)"
+   ></wp-single-card>
+</div>

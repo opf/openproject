@@ -1,0 +1,10 @@
+<div class="op-ckeditor--wrapper op-ckeditor-element">
+  <op-ckeditor
+      [context]="ckEditorContext"
+      [content]="value?.raw"
+      (contentChanged)="onContentChange($event)"
+      (initializationFailed)="initializationError = true"
+      (initializeDone)="onCkeditorSetup($event)"
+  >
+  </op-ckeditor>
+</div>

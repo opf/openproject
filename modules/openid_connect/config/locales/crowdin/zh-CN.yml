@@ -1,0 +1,32 @@
+zh-CN:
+  plugin_openproject_openid_connect:
+    name: "OpenProject OpenID 连接"
+    description: "将 OmniAuth OpenID 连接策略提供程序添加到 OpenProject 。"
+  logout_warning: >
+    您已退出。您提交的任何表单的内容可能丢失。请[登录]。
+  activemodel:
+    attributes:
+      openid_connect/provider:
+        name: 名称
+        display_name: 显示名称
+        identifier: 标识符
+        secret: 密钥
+        scope: 范围
+        limit_self_registration: 限制自行注册
+  openid_connect:
+    menu_title: OpenID 提供商
+    providers:
+      label_add_new: 添加一个新的 OpenID 提供商
+      label_edit: 编辑 OpenID 提供商 %{name}
+      no_results_table: 尚未定义提供商。
+      plural: OpenID 提供商
+      singular: OpenID 提供商
+    setting_instructions:
+      azure_deprecation_warning: >
+        配置的 Azure 应用程序指向 Azure 中已弃用的 API 。请创建一个新的 Azure 应用程序，以确保未来的功能性。
+      azure_graph_api: >
+        使用 graph.microsoft.com userinfo 端点请求用户数据。除非您有更低版本的 Azure 应用程序，否则这应该是默认设置。
+      azure_tenant_html: >
+        设置 Azure 端点的租户。它将控制谁能够访问 OpenProject 实例。有关详情，请参阅<a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">我们的 Azure OpenID 连接用户指南</a>。
+      limit_self_registration: >
+        如果启用，用户只能使用此提供商注册，如果自注册设置允许的话。

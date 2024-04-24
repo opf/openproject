@@ -1,0 +1,136 @@
+#English strings go here for Rails i18n
+"no":
+  plugin_openproject_bim:
+    name: "OpenProject BIM og BCF-funksjonalitet"
+    description: "Denne OpenProject utvidelsen introduserer BIM og BCF funksjonalitet."
+  bim:
+    label_bim: 'BIM'
+  bcf:
+    label_bcf: 'BCF'
+    label_imported_failed: 'Kunne ikke importere BCF-emner'
+    label_imported_successfully: 'Vellykket importert av BCF-emner'
+    issues: "Problemer"
+    recommended: 'anbefalt'
+    not_recommended: 'ikke anbefalt'
+    no_viewpoints: 'Ingen visningspunkter'
+    new_badge: "Ny"
+    exceptions:
+      file_invalid: "Ugyldig BCF-fil"
+    x_bcf_issues:
+      zero: 'Ingen BCF problemer'
+      one: 'Ett BCF problem'
+      other: '%{count} BCF-problemer'
+    bcf_xml:
+      xml_file: 'BCF XML-fil'
+      import_title: 'Importer'
+      export: 'Eksportèr'
+      import_update_comment: '(Oppdatert i BCF import)'
+      import_failed: 'Kan ikke importere BCF-fil: %{error}'
+      import_failed_unsupported_bcf_version: 'Kunne ikke lese BCF-filen: BCF-versjonen støttes ikke. Kontroller at versjonen er minst %{minimal_version} eller høyere.'
+      import_successful: 'Importerte %{count} BCF-problemer'
+      import_canceled: 'BCF-XML import avbrutt.'
+      type_not_active: "Problemtype er ikke aktivert for dette prosjektet."
+      import:
+        num_issues_found: '%{x_bcf_issues} er inkludert i BCF-XML-filen, detaljer om disse er oppført nedenfor.'
+        button_prepare: 'Forbered import'
+        button_perform_import: 'Bekreft import'
+        button_proceed: 'Fortsett med importen'
+        button_back_to_list: 'Tilbake til listen'
+        no_permission_to_add_members: 'Du har ikke tilstrekkelige rettigheter til å legge dem til som medlemmer til prosjektet.'
+        contact_project_admin: 'Kontakt din prosjektadministrator for å legge dem til som medlem og starte denne importen på nytt.'
+        continue_anyways: 'Vil du fortsette og fullføre importen likevel?'
+        description: "Angi en BCF-XML v2.1 fil for å importere til dette prosjektet. Du kan undersøke innholdet før du utfører importen."
+        invalid_types_found: 'Ugyldige navn på emne type funnet'
+        invalid_statuses_found: 'Ugyldig statusnavn funnet'
+        invalid_priorities_found: 'Ugyldig prioritert navn funnet'
+        invalid_emails_found: 'Ugyldig e-postadresse funnet'
+        unknown_emails_found: 'Ukjent e-postadresser funnet'
+        unknown_property: 'Ukjent egenskap'
+        non_members_found: 'Ikke prosjektmedlemmer funnet'
+        import_types_as: 'Sett alle disse typene til'
+        import_statuses_as: 'Sett alle disse statusene til'
+        import_priorities_as: 'Sett alle disse prioriteringene til'
+        invite_as_members_with_role: 'Inviter dem som medlemmer til prosjektet "%{project}" med rolle'
+        add_as_members_with_role: 'Legg dem til som medlemmer i prosjektet "%{project}" med rolle'
+        no_type_provided: 'Ingen type angitt'
+        no_status_provided: 'Ingen status gitt'
+        no_priority_provided: 'Ingen prioritet er gitt'
+        perform_description: "Vil du importere eller oppdatere de utfordringene som er oppført ovenfor?"
+        replace_with_system_user: 'Erstatt dem med  "System" bruker'
+        import_as_system_user: 'Importer dem som "System"-bruker.'
+        what_to_do: "Hva vil du gjøre?"
+        work_package_has_newer_changes: "Utdatert! Dette emnet ble ikke oppdatert ettersom de siste endringene på serveren var nyere enn \"Modifisert dato\" for det importerte emnet. Det ble imidlertid importert kommentarer til temaet."
+        bcf_file_not_found: "Kunne ikke finne BCF-filen. Vennligst start opplastingsprosessen på nytt."
+  export:
+    format:
+      bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "BCF snapshot"
+  project_module_bcf: "BCF"
+  project_module_bim: "BCF"
+  permission_view_linked_issues: "Vis BCF-utfordringer"
+  permission_manage_bcf: "Importer og behandle BCF-utfordringer"
+  permission_delete_bcf: "Slett BCF-utfordringer"
+  oauth:
+    scopes:
+      bcf_v2_1: "Full tilgang til BCF v2.1 API"
+      bcf_v2_1_text: "Applikasjonen vil få full lese/skrive tilgang til OpenProject BCF API v2.1 på dine vegne."
+  activerecord:
+    models:
+      bim/ifc_models/ifc_model: "IFC modell"
+    attributes:
+      bim/ifc_models/ifc_model:
+        ifc_attachment: "IFC fil"
+        is_default: "Standard modell"
+        attachments: "IFC fil"
+    errors:
+      models:
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "Ingen ifc-fil vedlagt."
+              invalid_ifc_file: "Den angitte filen er ikke en gyldig IFC-fil."
+        bim/bcf/viewpoint:
+          bitmaps_not_writable: "bitmaps kan ikke skrives da det ikke er implementert enda."
+          index_not_integer: "index er ikke en integer."
+          invalid_clipping_planes: "clipping_planes er ikke gyldig."
+          invalid_components: "components er ikke gyldig."
+          invalid_lines: "lines er ikke gyldig."
+          invalid_orthogonal_camera: "orthogonal_camera er ikke gyldig."
+          invalid_perspective_camera: "perspective_camera er ikke gyldig."
+          mismatching_guid: "Guiden i json_viewpoint samsvarer ikke med modellens guid."
+          no_json: "Er ikke et godt strukturert JSON."
+          snapshot_type_unsupported: "snapshot_type må være enten 'png' eller 'jpg'."
+          snapshot_data_blank: "snapshot_data må fremskaffes."
+          unsupported_key: "En ukjent json-egenskap er inkludert."
+        bim/bcf/issue:
+          uuid_already_taken: "Kan ikke importere denne BCF-utfordringen siden det allerede er en annen med samme GUID. Kunne det være at denne BCF-utfordringen allerede har blitt importert til et annet prosjekt?"
+  ifc_models:
+    label_ifc_models: 'IFC modeller'
+    label_new_ifc_model: 'Ny IFC-modell'
+    label_show_defaults: 'Vis standardinnstillinger'
+    label_default_ifc_models: 'Standard IFC modeller'
+    label_edit_defaults: 'Rediger standardinnstillinger'
+    no_defaults_warning:
+      title: 'Det er ikke satt noen IFC-modell som standard for dette prosjektet.'
+      check_1: 'Sjekk at du har lastet opp minst en IFC modell.'
+      check_2: 'Sjekk at minst en IFC modell er satt til "Standard".'
+    no_results: "Ingen IFC-modeller er lastet opp i dette prosjektet."
+    conversion_status:
+      label: 'Behandler?'
+      pending: 'Ventende'
+      processing: 'Behandler'
+      completed: 'Fullført'
+      error: 'Feil'
+    processing_notice:
+      processing_default: 'Følgende standard IFC-modeller behandles fortsatt og er derfor ikke tilgjengelige:'
+    flash_messages:
+      upload_successful: 'Opplastingen var vellykket. Den vil nå bli behandlet og vil være klar til bruk om et par minutter.'
+    conversion:
+      missing_commands: "Følgende IFC konvertererkommandoer mangler i dette systemet: %{names}"
+  project_module_ifc_models: "IFC modeller"
+  permission_view_ifc_models: "Se IFC modeller"
+  permission_manage_ifc_models: "Importer og behandle IFC-modeller"
+  extraction:
+    available:
+      ifc_convert: "IFC konverteringsrør tilgjengelig"

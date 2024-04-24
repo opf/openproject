@@ -1,0 +1,32 @@
+nl:
+  plugin_openproject_openid_connect:
+    name: "OpenProject OpenID Connect"
+    description: "Adds OmniAuth OpenID Connect strategy providers to Openproject."
+  logout_warning: >
+    U bent uitgelogd. De inhoud van uw formulier kan verloren gaan. Alstublieft [log in].
+  activemodel:
+    attributes:
+      openid_connect/provider:
+        name: Naam
+        display_name: Weergavenaam
+        identifier: Identifier
+        secret: Geheim
+        scope: Scope
+        limit_self_registration: Beperk zelf-registratie
+  openid_connect:
+    menu_title: OpenID aanbieders
+    providers:
+      label_add_new: Voeg een nieuwe OpenID provider toe
+      label_edit: OpenID provider %{name} bewerken
+      no_results_table: Er zijn nog geen aanbieders gedefinieerd.
+      plural: OpenID aanbieders
+      singular: OpenID aanbieders
+    setting_instructions:
+      azure_deprecation_warning: >
+        The configured Azure app points to a deprecated API from Azure. Please create a new Azure app to ensure the functionality in future.
+      azure_graph_api: >
+        Use the graph.microsoft.com userinfo endpoint to request userdata. This should be the default unless you have an older azure application.
+      azure_tenant_html: >
+        Set the tenant of your Azure endpoint. This will control who gets access to the OpenProject instance. For more information, please see <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">our user guide on Azure OpenID connect</a>.
+      limit_self_registration: >
+        If enabled users can only register using this provider if the self registration setting allows for it.

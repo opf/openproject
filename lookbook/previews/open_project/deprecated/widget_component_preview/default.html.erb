@@ -1,0 +1,30 @@
+<form class="form danger-zone">
+  <section class="form--section">
+    <h3 class="form--section-title">
+      Delete account <em>foo.bar@openproject.org</em>
+    </h3>
+    <p>
+      Your account will be deleted from the system. Therefore, you will no longer be able to log in with your current credentials. If you choose to become a user of this application again, you can do so by using the means this application grants.
+    </p>
+    <p>
+      Of the data you created as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called "Deleted user".
+    </p>
+    <p class="danger-zone--warning">
+      <span class="icon icon-error"></span>
+      <span>Deleting your account is an irreversible action.</span>
+    </p>
+    <p>
+      Enter your login <em class="danger-zone--expected-value">foo.bar@openproject.org</em> to verify the deletion.
+    </p>
+    <div class="danger-zone--verification">
+      <input type="text"></input>
+      <button class="button -primary" disabled>
+        <i class="button--icon icon-delete"></i>
+        <span class="button--text">Delete</span>
+      </button>
+      <a class="button -with-icon icon-cancel">
+        Cancel
+      </a>
+    </div>
+  </section>
+</form>

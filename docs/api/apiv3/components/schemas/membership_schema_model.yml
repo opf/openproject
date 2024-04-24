@@ -1,0 +1,28 @@
+# Schema: MembershipSchemaModel
+---
+allOf:
+  - $ref: './schema_model.yml'
+  - type: object
+    required:
+      - id
+      - createdAt
+      - updatedAt
+      - notificationMessage
+      - project
+      - principal
+      - roles
+    properties:
+      id:
+        $ref: './schema_property_model.yml'
+      createdAt:
+        $ref: './schema_property_model.yml'
+      updatedAt:
+        $ref: './schema_property_model.yml'
+      notificationMessage:
+        $ref: './schema_property_model.yml'
+      project:
+        $ref: './schema_property_model.yml'
+      principal:
+        $ref: './schema_property_model.yml'
+      roles:
+        $ref: './schema_property_model.yml'

@@ -1,0 +1,22 @@
+@import "src/assets/sass/helpers"
+
+.op-ian-actors
+  display: grid
+  grid-template-columns: auto 1fr
+  grid-column-gap: $spot-spacing-0_25
+  align-items: center
+  color: var(--color-fg-muted)
+
+  &--date
+    @include text-shortener
+    max-width: 100%
+    line-height: 1rem
+
+  &--container
+    @include text-shortener
+    display: flex
+    white-space: pre-wrap
+    line-height: 1rem
+
+    > *
+      flex-shrink: 0

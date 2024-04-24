@@ -1,0 +1,67 @@
+ca:
+  js:
+    grid:
+      add_widget: 'Afegeix widget'
+      remove: 'Elimina els widgets'
+      configure: 'Configurar widget'
+      upsale:
+        text: "Alguns widgets com la gràfica de paquet de treball només estan disponibles en l'edició Enterprise."
+        link: 'Edició Enterprise.'
+      widgets:
+        missing_permission: "You don't have the necessary permissions to view this widget."
+        custom_text:
+          title: 'Text personalitzat'
+        documents:
+          title: 'Documents'
+          no_results: 'Sense documents de moment.'
+        members:
+          title: 'Membres'
+          no_results: 'No hi ha membres visibles.'
+          view_all_members: 'Veure tots els membres'
+          add: 'Membre'
+          too_many: 'Mostrant %{count} de %{total} membres.'
+        news:
+          title: 'Notícies'
+          at: 'a'
+          no_results: 'Res nou a informar.'
+        project_description:
+          title: 'Descripció del projecte'
+          no_results: "No s'ha escrit cap descripció encara. Aquesta pot ser afegida en la configuració del projecte."
+        project_details:
+          title: 'Detalls del projecte'
+          no_results: 'No s''ha definit cap camp personalitzat per projectes.'
+        project_status:
+          title: 'Estat del projecte'
+          not_started: 'No començat'
+          on_track: 'Pel bon camí'
+          off_track: 'En mal camí'
+          at_risk: 'En risc'
+          not_set: 'No configurat'
+          finished: 'Finalitzat'
+          discontinued: 'Discontinuat'
+        subprojects:
+          title: 'Subprojectes'
+          no_results: 'Sense subprojectes.'
+        time_entries_current_user:
+          title: 'El meu temps invertit'
+          displayed_days: 'Dies mostrats en el widget'
+        time_entries_list:
+          title: 'Temps invertit (últims 7 dies)'
+          no_results: 'Sense entrades de temps els últims 7 dies.'
+        work_packages_accountable:
+          title: "Paquets de treball dels que en sóc responsable"
+        work_packages_assigned:
+          title: 'Paquets de treball assignats a mi'
+        work_packages_created:
+          title: 'Paquets de treball creats per vosté'
+        work_packages_watched:
+          title: 'Paquets de treball seguiment per vosté'
+        work_packages_table:
+          title: 'Taula de paquets de treball'
+        work_packages_graph:
+          title: 'Gràfica de paquets de treball'
+        work_packages_calendar:
+          title: 'Calendari'
+        work_packages_overview:
+          title: 'Visió general de paquets de treball'
+          placeholder: 'Clica per editar...'

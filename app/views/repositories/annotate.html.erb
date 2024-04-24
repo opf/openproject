@@ -1,0 +1,63 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<%= call_hook(:view_repositories_show_contextual, { repository: @repository, project: @project }) %>
+<% html_title(t(:button_annotate)) %>
+<%= render partial: 'repository_header', locals: { empty: false } %>
+
+<div class="repository-breadcrumbs">
+  <%= render partial: 'breadcrumbs',
+             locals: { path: @path, revision: @rev }.merge(kind: 'file') %>
+</div>
+<p><%= render partial: 'link_to_functions' %></p>
+
+<% if @annotate.nil? || @annotate.empty? %>
+  <%= no_results_box %>
+<% else %>
+  <% colors = Hash.new {|k,v| k[v] = (k.size % 12) } %>
+  <div class="autoscroll">
+    <table class="filecontent annotate highlight">
+      <tbody>
+        <% line_num = 1 %>
+        <% syntax_highlight(@path, to_utf8_for_repositories(@annotate.content)) do |line| %>
+          <% revision = @annotate.revisions[line_num-1] %>
+          <tr class="bloc-<%= revision.nil? ? 0 : colors[revision.identifier || revision.revision] %>">
+            <th class="line-num" id="L<%= line_num %>"><a href="#L<%= line_num %>"><%= line_num %></a></th>
+            <td class="revision">
+              <%= (revision.identifier ? link_to_revision(revision, @project) : format_revision(revision)) if revision %></td>
+            <td class="author"><%= h(revision.author.to_s.split('<').first) if revision %></td>
+            <td class="line-code">
+              <pre><%= line %></pre>
+            </td>
+          </tr>
+          <% line_num += 1 %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

@@ -1,0 +1,12 @@
+#English strings go here
+hu:
+  plugin_openproject_calendar:
+    name: "OpenProject Calendar"
+    description: "Provides calendar views."
+  label_calendar: "Naptár"
+  label_calendar_plural: "Naptár"
+  label_new_calendar: "Új esemény"
+  permission_view_calendar: "Naptár bejegyzések megtekintése"
+  permission_manage_calendars: "Naptár kezelés"
+  permission_share_calendars: "Feliratkozás az iCalendars-ra"
+  project_module_calendar_view: "Naptárak"

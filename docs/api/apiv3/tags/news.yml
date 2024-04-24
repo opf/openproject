@@ -1,0 +1,26 @@
+---
+description: |-
+  News are articles written by users in order to inform other users of important information.
+
+  ## Actions
+
+  None yet
+
+  ## Linked Properties
+
+  | Link          | Description                          | Type           | Constraints           | Supported operations | Condition                                 |
+  | :-----------: | -------------------------------------| -------------  | --------------------- | -------------------- | ----------------------------------------- |
+  | self          | This news                            | News           | not null              | READ                 |                                           |
+  | project       | The project the news is situated in  | Project        | not null              | READ / WRITE         |                                           |
+  | author        | The user having created the news     | User           | not null              | READ                 |                                           |
+
+  ## Local Properties
+
+  | Property     | Description                                               | Type     | Constraints                                          | Supported operations | Condition                                                   |
+  | :----------: | --------------------------------------------------------- | -------- | ---------------------------------------------------- | -------------------- | ----------------------------------------------------------- |
+  | id           | News' id                                                  | Integer  | x > 0                                                | READ                 |                                                             |
+  | title        | The headline of the news                                  | String   | max 60 characters                                    | READ                 |                                                             |
+  | summary      | A short summary                                           | String   | max 255 characters                                   | READ                 |                                                             |
+  | description  | The main body of the news with all the details            | String   |                                                      | READ                 |                                                             |
+  | createdAt    | The time the news was created at                          | DateTime |                                                      | READ                 |                                                             |
+name: News

@@ -1,0 +1,69 @@
+id:
+  plugin_openproject_ldap_groups:
+    name: "OpenProject LDAP groups"
+    description: "Synchronization of LDAP group memberships."
+  activerecord:
+    attributes:
+      ldap_groups/synchronized_group:
+        dn: 'DN'
+        ldap_auth_source: 'koneksi LDAP'
+        sync_users: 'Sinkronkan pengguna'
+      ldap_groups/synchronized_filter:
+        filter_string: 'penyaring LDAP'
+        ldap_auth_source: 'koneksi LDAP'
+        group_name_attribute: "Atribut nama grup"
+        sync_users: 'Sinkronkan pengguna'
+        base_dn: "Cari basis DN"
+    models:
+      ldap_groups/synchronized_group: 'Grup LDAP tersinkronisasi'
+      ldap_groups/synchronized_filter: 'Filter sinkronisasi Grup LDAP'
+    errors:
+      models:
+        ldap_groups/synchronized_filter:
+          must_contain_base_dn: "Filter base DN harus dimuat dalam base DN koneksi LDAP"
+  ldap_groups:
+    label_menu_item: 'Sinkronisasi grup LDAP'
+    label_group_key: 'Kunci filter grup LDAP'
+    label_synchronize: 'Sinkronkan'
+    settings:
+      name_attribute: 'Atribut nama grup LDAP'
+      name_attribute_text: 'Atribut LDAP yang digunakan untuk menamai grup OpenProject saat dibuat oleh filter'
+    synchronized_filters:
+      add_new: 'Tambahkan filter LDAP tersinkronisasi'
+      singular: 'Filter sinkronisasi Grup LDAP'
+      plural: 'Filter sinkronisasi Grup LDAP'
+      label_n_groups_found:
+        one: "1 grup ditemukan oleh filter"
+        other: "%{count} grup ditemukan oleh filter"
+        zero: "Tidak ada grup yang ditemukan oleh filter"
+      destroy:
+        title: 'Hapus filter tersinkronisasi %{name}'
+        confirmation: "Jika Anda melanjutkan, filter tersinkronisasi %{name} dan semua grup %{groups_count} yang dibuat melaluinya akan dihapus."
+        removed_groups: "Peringatan: Ini akan menghapus grup berikut dari OpenProject dan menghapusnya dari semua proyek!"
+        verification: "Masukkan nama filter %{name} untuk memverifikasi penghapusan."
+      form:
+        group_name_attribute_text: 'Masukkan atribut grup LDAP yang digunakan untuk mengatur nama grup OpenProject.'
+        filter_string_text: 'Masukkan filter LDAP RFC4515 yang mengembalikan grup di LDAP Anda untuk disinkronkan dengan OpenProject.'
+        base_dn_text: >
+          Masukkan DN basis pencarian yang akan digunakan untuk filter ini.  Itu harus di bawah DN dasar dari koneksi LDAP yang dipilih.  Biarkan opsi ini kosong untuk menggunakan kembali DN dasar koneksi
+    synchronized_groups:
+      add_new: 'Tambahkan grup LDAP tersinkronisasi'
+      destroy:
+        title: 'Hapus grup tersinkronisasi %{name}'
+        confirmation: "Jika Anda melanjutkan, grup yang disinkronkan %{name} dan semua %{users_count} pengguna yang disinkronkan melaluinya akan dihapus."
+        info: "Catatan: Grup OpenProject itu sendiri dan anggota yang ditambahkan di luar sinkronisasi LDAP ini tidak akan dihapus."
+        verification: "Masukkan nama grup %{name} untuk memverifikasi penghapusan."
+      help_text_html: |
+        Modul ini memungkinkan Anda mengatur sinkronisasi antara grup LDAP dan OpenProject.  Itu tergantung pada grup LDAP yang perlu menggunakan atribut <em>groupOfNames / memberOf</em> yang disetel untuk bekerja dengan OpenProject.  <br/> Grup disinkronkan setiap jam melalui tugas cron.  <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Lihat dokumentasi kami tentang topik ini</a>.
+      no_results: 'Tidak ditemukan grup tersinkronisasi.'
+      no_members: 'Grup ini belum memiliki anggota yang disinkronkan.'
+      plural: 'Grup LDAP tersinkronisasi'
+      singular: 'Grup LDAP tersinkronisasi'
+      form:
+        auth_source_text: 'Pilih koneksi LDAP mana yang harus digunakan.'
+        sync_users_text: >
+          Jika Anda mengaktifkan opsi ini, pengguna yang ditemukan juga akan dibuat secara otomatis di OpenProject.  Tanpanya, hanya akun yang ada di OpenProject yang akan ditambahkan ke grup.
+        dn_text: 'Masukkan DN lengkap grup di LDAP'
+        group_text: 'Pilih grup OpenProject yang ada yang akan disinkronkan dengan anggota grup LDAP'
+      upsale:
+        description: 'Manfaatkan grup LDAP tersinkronisasi untuk mengelola pengguna, mengubah izin mereka, dan memfasilitasi pengelolaan pengguna di seluruh grup.'

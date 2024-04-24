@@ -1,0 +1,206 @@
+# /api/v3/versions/{id}
+---
+delete:
+  parameters:
+  - description: Version id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '204':
+      description: Returned if the version was successfully deleted
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** manage versions
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the version does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:** view work packages **or** manage versions (any project where the version is available)
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of
+        a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+      headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+  tags:
+  - Versions
+  description: Deletes the version. Work packages associated to the version will no
+    longer be assigned to it.
+  operationId: Delete_Version
+  summary: Delete version
+get:
+  parameters:
+  - description: Version id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  availableInProjects:
+                    href: "/api/v3/versions/11/projects"
+                  customField4:
+                    href: "/api/v3/custom_options/5"
+                    title: Custom field option
+                  definingProject:
+                    href: "/api/v3/projects/11"
+                  self:
+                    href: "/api/v3/versions/11"
+                  update:
+                    href: "/api/v3/versions/11/form"
+                    method: POST
+                  updateImmediately:
+                    href: "/api/v3/versions/11"
+                    method: PATCH
+                _type: Version
+                customField14: '1234567890'
+                description:
+                  format: plain
+                  html: This version has a description
+                  raw: This version has a description
+                endDate:
+                id: 11
+                name: v3.0 Alpha
+                sharing: system
+                startDate: '2014-11-20'
+                status: open
+          schema:
+            "$ref": "../components/schemas/version_model.yml"
+      description: OK
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the version does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:** view work packages **or** manage versions (any project where the version is available)
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of
+        a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+      headers: {}
+  tags:
+  - Versions
+  description: ''
+  operationId: View_version
+  summary: View version
+patch:
+  parameters:
+  - description: Version id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/version_model.yml"
+      description: OK
+      headers: {}
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** Manage versions in the version's project.
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the version does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:** view work packages **or** manage versions (any project where the version is available)
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of
+        a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+      headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)
+      headers: {}
+  tags:
+  - Versions
+  description: Updates the given version by applying the attributes provided in the
+    body. Please note that while there is a fixed set of attributes, custom fields
+    can extend a version's attributes and are accepted by the endpoint.
+  operationId: Update_Version
+  summary: Update Version

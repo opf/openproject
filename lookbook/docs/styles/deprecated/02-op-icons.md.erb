@@ -1,0 +1,53 @@
+---
+title: OP Icon Font
+---
+
+<%= include_spot_assets %>
+
+# OpenProject icon font
+
+For use outside primer pages, use these icon fonts
+
+<style>
+.icons {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -1rem;
+}
+
+.icons--icon {
+  border-radius: 2px;
+  border: 1px solid #eeeeee;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex-basis: 120px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  min-width: 80px;
+  max-width: 180px;
+  text-align: center;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icons--name {
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+</style>
+
+<div class="icons">
+<% Dir[Rails.root.join('frontend/src/app/spot/icon-font/icons/*').to_s].each do |path| %>
+<% name = File.basename(path, '.*') %>
+<div class="icons--icon">
+  <div class="icons--preview">
+    <i class="icon icon-<%= name %>"></i>
+  </div>
+  <div class="icons--name"><%= name %></div>
+</div>
+<% end %>
+</div>

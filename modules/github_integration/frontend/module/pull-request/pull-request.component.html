@@ -1,0 +1,70 @@
+<a
+  class='op-pull-request--link'
+  [href]="pullRequest.htmlUrl"
+  target="blank"
+  [textContent]="pullRequest.repository + '#' + pullRequest.number"
+></a>
+
+<div
+  class='op-pull-request--title'
+  [textContent]="pullRequest.title"
+></div>
+
+<div class="op-pull-request--info">
+  {{ text.label_created_by }}
+
+  <div class="op-principal"
+       *ngIf="pullRequest._embedded.githubUser">
+    <img
+      alt='PR author avatar'
+      class='op-pull-request--avatar op-avatar op-avatar_mini op-principal--avatar'
+      [src]="pullRequest._embedded.githubUser.avatarUrl"
+    />
+    <a
+      [href]="pullRequest._embedded.githubUser.htmlUrl"
+      [textContent]="pullRequest._embedded.githubUser.login"
+      class="op-principal--name"
+    ></a>
+  </div>
+  .
+
+  <span class='op-pull-request--date'>
+    {{ text.label_last_updated_on }}
+    <op-date-time [dateTimeValue]="pullRequest.githubUpdatedAt"></op-date-time>
+  </span>.
+</div>
+
+<op-github-pull-request-state
+  class='op-pull-request--state'
+  [state]="state">
+</op-github-pull-request-state>
+
+<span class="op-pull-request--checks-label"
+      *ngIf="pullRequest._embedded.checkRuns?.length"
+      [textContent]="text.label_actions"
+></span>
+
+<ul
+  *ngIf="pullRequest._embedded.checkRuns?.length"
+  [attr.aria-label]="text.label_actions"
+  class='op-pull-request--checks'
+>
+  <li class='op-pr-check' *ngFor="let checkRun of pullRequest._embedded.checkRuns">
+    <span class='op-pr-check--state-icon' [ngClass]="'op-pr-check--state-icon_' + checkRunState(checkRun)">
+      <op-icon icon-classes="icon-{{ checkRunStateIcon(checkRun) }}"
+               [icon-title]="checkRunStateText(checkRun)"></op-icon>
+    </span>
+    <span class='op-pr-check--avatar'><img alt='app owner avatar' [src]="checkRun.appOwnerAvatarUrl"/></span>
+
+    <span class='op-pr-check--info'>
+      <span class='op-pr-check--name' [textContent]="checkRun.name"></span>
+      <span class='op-pr-check--state' [textContent]="checkRunStateText(checkRun)"></span>
+    </span>
+
+    <span class='op-pr-check--details'>
+      <a [href]="checkRun.detailsUrl">
+        {{ text.label_details }}
+      </a>
+    </span>
+  </li>
+</ul>

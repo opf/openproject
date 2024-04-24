@@ -1,0 +1,12 @@
+<button
+  class="op-select-footer--label"
+  type="button"
+  (click)="onAddNewClick($event)"
+  *ngIf="canInviteUsersToProject$ | async"
+>
+  <span class="icon-context">
+    <op-icon icon-classes="icon-user-plus icon-context"></op-icon>
+    {{text.button}}
+  </span>
+</button>
+

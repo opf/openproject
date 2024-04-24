@@ -1,0 +1,63 @@
+# /api/v3/queries/operators/{id}
+---
+get:
+  parameters:
+  - description: QueryOperator id
+    example: "!"
+    in: path
+    name: id
+    required: true
+    schema:
+      type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  self:
+                    href: "/api/v3/queries/operators/!"
+                    title: is not
+                _type: QueryOperator
+                id: "!"
+                name: is not
+          schema:
+            "$ref": "../components/schemas/query_operator_model.yml"
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:Unauthenticated
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package in any project
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The specified query does not exist.
+      description: Returned if the QueryOperator does not exist.
+      headers: {}
+  tags:
+  - Query Operators
+  description: Retrieve an individual QueryOperator as identified by the `id` parameter.
+  operationId: View_Query_Operator
+  summary: View Query Operator

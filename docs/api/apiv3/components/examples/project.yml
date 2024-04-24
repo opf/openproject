@@ -1,0 +1,56 @@
+# Example: ProjectModel
+---
+value:
+  _type: Project
+  _links:
+    self:
+      href: "/api/v3/projects/1"
+      title: Lorem
+    createWorkPackage:
+      href: "/api/v3/projects/1/work_packages/form"
+      method: post
+    createWorkPackageImmediate:
+      href: "/api/v3/projects/1/work_packages"
+      method: post
+    categories:
+      href: "/api/v3/projects/1/categories"
+    types:
+      href: "/api/v3/projects/1/types"
+    versions:
+      href: "/api/v3/projects/1/versions"
+    workPackages:
+      href: "/api/v3/projects/1/work_packages"
+    memberships:
+      href: /api/v3/memberships?filters=[{"project":{"operator":"=","values":["1"]}}]
+    customField456:
+      href: "/api/v3/users/315"
+      title: A user
+    parent:
+      href: "/api/v3/projects/123"
+      title: "Parent project"
+    ancestors:
+      - href: "/api/v3/projects/2"
+        title: "Root project"
+      - href: "/api/v3/projects/12"
+        title: "Grandparent project"
+      - href: "/api/v3/projects/123"
+        title: "Parent project"
+    status:
+      href: "/api/v3/project_statuses/on_track"
+      title: On track
+  id: 1
+  identifier: project_example
+  name: Project example
+  active: true
+  public: false
+  statusExplanation:
+    format: markdown
+    raw: Everything **fine**
+    html: "<p>Everything <strong>fine</strong></p>"
+  description:
+    format: markdown
+    raw: Lorem **ipsum** dolor sit amet
+    html: "<p>Lorem <strong>ipsum</strong> dolor sit amet</p>"
+  createdAt: '2014-05-21T08:51:20.396Z'
+  updatedAt: '2014-05-21T08:51:20.396Z'
+  customField123: 123

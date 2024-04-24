@@ -1,0 +1,43 @@
+@import "../../global_styles/openproject/variables"
+
+.op-grid-page
+  &--title-container
+    margin-left: 20px
+    // Ugly way to cover the additional space that the "add" rows need
+    // Since they are most of the time invisible the spacings look odd then.
+    margin-bottom: -5px
+
+  &--toolbar-container
+    margin-bottom: 0
+
+  &--toolbar-items
+    padding-right: 20px
+
+  &--grid-container
+    display: grid
+    // grid-template-columns: auto 324px
+    // firefox issue when using auto or 1fr
+    // inner content width of the main-content is calculated dynamically
+    // chrome and firefox seem to come to different results
+    // temporary fix: use more specific width rules, e.g. 75% and 25%
+    // same issue with flex-box approach
+    grid-template-columns: 75% 25%
+    gap: 20px
+
+  &--sidebar
+    margin-top: 20px
+    margin-right: 40px
+
+@media only screen and (max-width: $breakpoint-sm)
+  .op-grid-page--title-container
+    margin-left: 0
+    margin-bottom: 0
+
+@media only screen and (max-width: $breakpoint-lg)
+  .op-grid-page--grid-container
+    grid-template-columns: 100%
+    gap: 0
+
+  .op-grid-page--sidebar
+    display: none
+

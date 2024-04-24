@@ -1,0 +1,38 @@
+# Schema: List_projects_by_versionModel
+---
+type: object
+example:
+  _links:
+    self:
+      href: "/api/v3/versions/2/projects"
+  total: 1
+  count: 1
+  _type: Collection
+  _embedded:
+    elements:
+    - _type: Project
+      _links:
+        self:
+          href: "/api/v3/projects/1"
+          title: Lorem
+        categories:
+          href: "/api/v3/projects/1/categories"
+        versions:
+          href: "/api/v3/projects/1/versions"
+        status:
+          href: "/api/v3/project_statuses/on_track"
+          title: On track
+      id: 1
+      identifier: project_identifier
+      name: Project example
+      description:
+        format: markdown
+        raw: Lorem **ipsum** dolor sit amet
+        html: "<p>Lorem <strong>ipsum</strong> dolor sit amet</p>"
+      active: true
+      statusExplanation:
+        format: markdown
+        raw: Everything **fine**
+        html: "<p>Everything <strong>fine</strong></p>"
+      createdAt: '2014-05-21T08:51:20.142Z'
+      updatedAt: '2014-05-21T08:51:20.142Z'

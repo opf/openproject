@@ -1,0 +1,202 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+#English strings go here for Rails i18n
+cs:
+  plugin_openproject_meeting:
+    name: "OpenProject Schůzka"
+    description: >-
+      Tento modul přidává funkce pro podporu projektových schůzek na OpenProject. Schůze mohou být naplánovány na výběr pozvaných z téhož projektu, kteří se zasedání zúčastní. Program může být vytvořen a odeslán pozváním. Po zasedání mohou být vybráni účastníci a na základě programu mohou být vytvořeny zápisy. Konečně, zápis může být odeslán všem účastníkům a pozváním.
+  activerecord:
+    attributes:
+      meeting:
+        type: "Typ schůzky"
+        location: "Místo"
+        duration: "Doba trvání"
+        notes: "Poznámky"
+        participants: "Účastníci"
+        participant:
+          one: "1 Účastník"
+          few: "%{count} Účastníků"
+          many: "%{count} Účastníků"
+          other: "%{count} Účastníků"
+        participants_attended: "Účastníci"
+        participants_invited: "Pozvaní"
+        project: "Projekt"
+        start_date: "Datum"
+        start_time: "Start time"
+        start_time_hour: "Start time"
+      meeting_agenda_item:
+        title: "Title"
+        author: "Author"
+        duration_in_minutes: "min"
+        description: "Notes"
+        presenter: "Presenter"
+    errors:
+      messages:
+        invalid_time_format: "není platný čas. Požadovaný formát: HH:MM"
+    models:
+      structured_meeting: ""
+      meeting_agenda_item: "Pořad jednání"
+      meeting_agenda: "Agenda"
+      meeting_minutes: "Zápis"
+  activity:
+    filter:
+      meeting: "Schůzky"
+  description_attended: "zúčastněn"
+  description_invite: "pozván"
+  events:
+    meeting: Schůzka upravena
+    meeting_agenda: Agenda schůzky upravena
+    meeting_agenda_closed: Agenda schůzky uzavřena
+    meeting_agenda_opened: Agenda schůzky otevřena
+    meeting_minutes: Zápis ze zasedání byl upraven
+    meeting_minutes_created: Zápisy ze zasedání byly vytvořeny
+  error_notification_with_errors: "Odeslání oznámení se nezdařilo. Následující příjemci nelze upozornit: %{recipients}"
+  label_meeting: "Schůzka"
+  label_meeting_plural: "Schůzky"
+  label_meeting_new: "Nová schůzka"
+  label_meeting_edit: "Upravit schůzku"
+  label_meeting_agenda: "Agenda"
+  label_meeting_minutes: "Zápisy"
+  label_meeting_close: "Zavřít"
+  label_meeting_open: "Otevřít"
+  label_meeting_agenda_close: "Uzavřete agendu pro vytvoření zápisu"
+  label_meeting_date_time: "Datum/Čas"
+  label_meeting_diff: "Rozdíl"
+  label_upcoming_meetings: "Nadcházející schůzky"
+  label_past_meetings: "Minulé schůzky"
+  label_upcoming_meetings_short: "Nadcházející"
+  label_past_meetings_short: "Minulé"
+  label_involvement: "Zapojení"
+  label_upcoming_invitations: "Nadcházející pozvánky"
+  label_past_invitations: "Minulé pozvánky"
+  label_attendee: "Účastník"
+  label_author: "Autor:"
+  label_notify: "Odeslat k posouzení"
+  label_icalendar: "Odeslat iCalendar"
+  label_icalendar_download: "Stáhnout událost iCalendar"
+  label_version: "Verze"
+  label_time_zone: "Časové pásmo"
+  label_start_date: "Datum zahájení"
+  meeting:
+    attachments:
+      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
+    copy:
+      title: "Kopírovat schůzku %{title}"
+      attachments: "Copy attachments"
+      attachments_text: "Copy over all attached files to the new meeting"
+      agenda: "Kopírovat program"
+      agenda_text: "Zkopírujte program staré schůzky"
+    email:
+      open_meeting_link: "Otevřít schůzku"
+      invited:
+        summary: "%{actor} vám poslal pozvánku na schůzku %{title}"
+      rescheduled:
+        header: "Schůzka %{title} byla přeplánována"
+        summary: "Schůzka %{title} byla přeplánována %{actor}"
+        body: "Schůzka %{title} byla přeplánována %{actor}"
+        old_date_time: "Staré datum/čas"
+        new_date_time: "Nové datum/čas"
+    label_mail_all_participants: "Poslat e-mail všem účastníkům"
+    types:
+      classic: "Klasické"
+      classic_text: "Uspořádat schůzku do formátů textového programu a protokolu."
+      structured: "Dynamický"
+      structured_text: "Uspořádat schůzku jako seznam bodů pořadu jednání, případně je propojit s pracovním balíčkem."
+      structured_text_copy: "Kopírování schůzky v současné době nezkopíruje související body pořadu jednání, jen podrobnosti"
+    copied: "Zkopírováno ze schůzky #%{id}"
+  notice_successful_notification: "Oznámení bylo úspěšně odesláno"
+  notice_timezone_missing: Není nastaveno žádné časové pásmo a předpokládá se %{zone} . Chcete-li vybrat časové pásmo, klikněte prosím zde.
+  permission_create_meetings: "Vytvořit schůzku\n"
+  permission_edit_meetings: "Upravit schůzku"
+  permission_delete_meetings: "Odstranit schůzky"
+  permission_view_meetings: "Zobrazit schůzky"
+  permission_create_meeting_agendas: "Vytvořit agendy schůzek"
+  permission_create_meeting_agendas_explanation: "Umožňuje upravovat obsah programu klasické schůzky."
+  permission_manage_agendas: "Správa zápisů"
+  permission_manage_agendas_explanation: "Umožňuje upravovat obsah programu dynamické schůzky."
+  permission_close_meeting_agendas: "uzavřít agendy"
+  permission_send_meeting_agendas_notification: "Odeslat oznámení k revizi agendy"
+  permission_create_meeting_minutes: "Spravovat zápisy"
+  permission_send_meeting_minutes_notification: "Odeslat oznámení k revizi zápisu"
+  permission_meetings_send_invite: "Pozvat uživatele na schůzky"
+  permission_send_meeting_agendas_icalendar: "Odeslat agendu schůzky jako záznam do kalendáře"
+  project_module_meetings: "Schůzky"
+  text_duration_in_hours: "Doba trvání v hodinách"
+  text_in_hours: "v hodinách"
+  text_meeting_agenda_for_meeting: 'Agenda schůzky "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Jste si jisti, že chcete ukončit program schůzky?"
+  text_meeting_agenda_open_are_you_sure: "Toto přepíše všechny změny v zápisech! Chcete pokračovat?"
+  text_meeting_minutes_for_meeting: 'zápis pro schůzku "%{meeting}"'
+  text_notificiation_invited: "Tento e-mail obsahuje ics záznam pro následující setkání:"
+  text_meeting_empty_heading: "Vaše schůzka je prázdná"
+  text_meeting_empty_description_1: "Začněte přidáním bodů programu schůzky níže. Každá položka může být tak jednoduchá jako jen název, ale můžete také přidat další podrobnosti jako doba trvání a poznámky."
+  text_meeting_empty_description_2: 'Můžete také přidat odkazy na existující pracovní balíčky. Pokud tak učiníte, související poznámky budou automaticky viditelné v záložce "Schůzky" pracovního balíčku.'
+  label_meeting_empty_action: "Přidat položku programu"
+  label_meeting_actions: "volby pro Schůzku\n"
+  label_meeting_edit_title: "Upravit název schůzky"
+  label_meeting_delete: "Smazat schůzku"
+  label_meeting_created_by: "Vytvořil"
+  label_meeting_last_updated: "Naposledy aktualizováno"
+  label_agenda_items: "Agenda items"
+  label_agenda_items_reordered: "reordered"
+  label_agenda_item_remove: "Remove from agenda"
+  label_agenda_item_undisclosed_wp: "Pracovní balíček #%{id} není viditelný"
+  label_agenda_item_deleted_wp: "Odstraněna reference pracovního balíčku"
+  label_agenda_item_actions: "volby pro body schůzky"
+  label_agenda_item_move_to_top: "Přesunout nahoru"
+  label_agenda_item_move_to_bottom: "Přesunout na konec"
+  label_agenda_item_move_up: "Přesunout výš"
+  label_agenda_item_move_down: "Přesunout níž"
+  label_agenda_item_add_notes: "Přidat poznámky"
+  label_agenda_item_work_package: "Agenda item work package"
+  text_agenda_item_title: 'Agenda item "%{title}"'
+  text_agenda_work_package_deleted: 'Agenda item for deleted work package'
+  text_deleted_agenda_item: 'Deleted agenda item'
+  label_initial_meeting_details: "Meeting"
+  label_meeting_details: "Podrobnosti o schůzce"
+  label_meeting_details_edit: "Upravit podrobnosti schůzky"
+  label_meeting_state: "Meeting status"
+  label_meeting_state_open: "Otevřít"
+  label_meeting_state_open_html: "<i>Open</i>"
+  label_meeting_state_closed: "Uzavřený"
+  label_meeting_state_closed_html: "<i>Closed</i>"
+  label_meeting_reopen_action: "Znovu otevřít schůzku"
+  label_meeting_close_action: "Ukončit schůzku"
+  text_meeting_open_description: "Tato schůzka je otevřená. Můžete přidat/odebrat položky programu a upravit je, jak chcete. Po skončení schůzky ji zavřete a uzamkněte ji."
+  text_meeting_closed_description: "Tato schůzka je ukončena. Položky agendy již nelze přidávat/odstranit."
+  label_meeting_manage_participants: "Spravovat účastníky"
+  label_meeting_no_participants: "Nikdo tu není"
+  label_meeting_show_hide_participants: "Zobrazit/skrýt %{count} dalších"
+  label_meeting_show_all_participants: "Zobrazit vše"
+  label_meeting_add_participants: "Přidat účastníky"
+  text_meeting_not_editable_anymore: "Tato schůzka již není upravitelná."
+  text_meeting_not_present_anymore: "Tato schůzka byla odstraněna. Vyberte prosím jinou schůzku."
+  label_add_work_package_to_meeting_dialog_title: "Přidat pracovní balíček k schůzce"
+  label_add_work_package_to_meeting_dialog_button: "Přidat do schůzky"
+  label_meeting_selection_caption: "tento pracovní balíček je možné přidat  pouze k nadcházejícím nebo probíhajícím otevřeným schůzkám."
+  text_add_work_package_to_meeting_description: "Pracovní balíček může být přidán na jedno nebo více jednání k diskusi."
+  text_agenda_item_no_notes: "Nebyly poskytnuty žádné poznámky"
+  text_agenda_item_not_editable_anymore: "Tento bod pořadu jednání již není upravitelný."
+  text_work_package_has_no_upcoming_meeting_agenda_items: "Tento pracovní balíček ještě není naplánován na nadcházející program schůzky."
+  text_work_package_add_to_meeting_hint: 'Použijte tlačítko "Přidat do schůzky" pro přidání tohoto pracovního balíčku na nadcházející schůzku.'
+  text_work_package_has_no_past_meeting_agenda_items: "Tento pracovní balíček nebyl na minulé schůzce zmíněn."

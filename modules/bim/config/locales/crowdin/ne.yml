@@ -1,0 +1,136 @@
+#English strings go here for Rails i18n
+ne:
+  plugin_openproject_bim:
+    name: "OpenProject BIM and BCF functionality"
+    description: "This OpenProject plugin introduces BIM and BCF functionality."
+  bim:
+    label_bim: 'BIM'
+  bcf:
+    label_bcf: 'BCF'
+    label_imported_failed: 'Failed imports of BCF topics'
+    label_imported_successfully: 'Successfully imported BCF topics'
+    issues: "Issues"
+    recommended: 'recommended'
+    not_recommended: 'not recommended'
+    no_viewpoints: 'No viewpoints'
+    new_badge: "New"
+    exceptions:
+      file_invalid: "BCF file invalid"
+    x_bcf_issues:
+      zero: 'No BCF issues'
+      one: 'One BCF issue'
+      other: '%{count} BCF issues'
+    bcf_xml:
+      xml_file: 'BCF XML File'
+      import_title: 'Import'
+      export: 'Export'
+      import_update_comment: '(Updated in BCF import)'
+      import_failed: 'Cannot import BCF file: %{error}'
+      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
+      import_successful: 'Imported %{count} BCF issues'
+      import_canceled: 'BCF-XML import canceled.'
+      type_not_active: "The issue type is not activated for this project."
+      import:
+        num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
+        button_prepare: 'Prepare import'
+        button_perform_import: 'Confirm import'
+        button_proceed: 'Proceed with import'
+        button_back_to_list: 'Back to list'
+        no_permission_to_add_members: 'You do not have sufficient permissions to add them as members to the project.'
+        contact_project_admin: 'Contact your project admin to add them as members and start this import again.'
+        continue_anyways: 'Do you want to proceed and finish the import anyways?'
+        description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
+        invalid_types_found: 'Invalid topic type names found'
+        invalid_statuses_found: 'Invalid status names found'
+        invalid_priorities_found: 'Invalid priority names found'
+        invalid_emails_found: 'Invalid email addresses found'
+        unknown_emails_found: 'Unknown email addresses found'
+        unknown_property: 'Unknown property'
+        non_members_found: 'Non project members found'
+        import_types_as: 'Set all these types to'
+        import_statuses_as: 'Set all these statuses to'
+        import_priorities_as: 'Set all these priorities to'
+        invite_as_members_with_role: 'Invite them as members to the project "%{project}" with role'
+        add_as_members_with_role: 'Add them as members to the project "%{project}" with role'
+        no_type_provided: 'No type provided'
+        no_status_provided: 'No status provided'
+        no_priority_provided: 'No priority provided'
+        perform_description: "Do you want to import or update the issues listed above?"
+        replace_with_system_user: 'Replace them with "System" user'
+        import_as_system_user: 'Import them as "System" user.'
+        what_to_do: "What do you want to do?"
+        work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
+        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
+  export:
+    format:
+      bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "BCF snapshot"
+  project_module_bcf: "BCF"
+  project_module_bim: "BCF"
+  permission_view_linked_issues: "View BCF issues"
+  permission_manage_bcf: "Import and manage BCF issues"
+  permission_delete_bcf: "Delete BCF issues"
+  oauth:
+    scopes:
+      bcf_v2_1: "Full access to the BCF v2.1 API"
+      bcf_v2_1_text: "Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf."
+  activerecord:
+    models:
+      bim/ifc_models/ifc_model: "IFC model"
+    attributes:
+      bim/ifc_models/ifc_model:
+        ifc_attachment: "IFC फाईल"
+        is_default: "पूर्वनिर्धारित मोडेल"
+        attachments: "IFC फाईल"
+    errors:
+      models:
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "कुनैपनि IFC फाईल समावेस गरिएको छैन।"
+              invalid_ifc_file: "प्रदान गरिएको फाईल मान्य IFC फाईल होईन।"
+        bim/bcf/viewpoint:
+          bitmaps_not_writable: "bitmaps is not writable as it is not yet implemented."
+          index_not_integer: "index is not an integer."
+          invalid_clipping_planes: "clipping_planes is invalid."
+          invalid_components: "components is invalid."
+          invalid_lines: "lines is invalid."
+          invalid_orthogonal_camera: "orthogonal_camera is invalid."
+          invalid_perspective_camera: "perspective_camera is invalid."
+          mismatching_guid: "The guid in the json_viewpoint does not match the model's guid."
+          no_json: "Is not a well structured json."
+          snapshot_type_unsupported: "snapshot_type needs to be either 'png' or 'jpg'."
+          snapshot_data_blank: "snapshot_data needs to be provided."
+          unsupported_key: "An unsupported json property is included."
+        bim/bcf/issue:
+          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
+  ifc_models:
+    label_ifc_models: 'IFC मोडेलहरू'
+    label_new_ifc_model: 'नयाँ IFC मोडेल'
+    label_show_defaults: 'पूर्वनिर्धारित देखाउनुहोस्'
+    label_default_ifc_models: 'पूर्वनिर्धारित IFC मोडेलहरू'
+    label_edit_defaults: 'पूर्वनिर्धारित सम्पादन गर्नुहोस्'
+    no_defaults_warning:
+      title: 'कुनै IFC मोडल यस परियोजनाको लागि पूर्वनिर्धारित रूपमा सेट गरिएको थिएन।'
+      check_1: 'तपाईंले कम्तिमा एउटा IFC मोडेल अपलोड गर्नुभएको  छ कि छैन भन्ने जाँच गर्नुहोस् ।'
+      check_2: 'कम्तिमा एउटा आईएफसी मोडल "पूर्वनिर्धारित" मा सेट गरिएको छ कि छैन जाँच गर्नुहोस्।'
+    no_results: "यस परियोजनामा कुनैपनि IFC मोडलहरू अपलोड गरिएको छैन।"
+    conversion_status:
+      label: 'प्रशोधन गरिदै छ?'
+      pending: 'Pending'
+      processing: 'Processing'
+      completed: 'पूरा भयो'
+      error: 'Error'
+    processing_notice:
+      processing_default: 'निम्न पूर्वनिर्धारित IFC मोडेलहरू अझै प्रक्रियामा छन् तसर्थ अहिले उपलब्ध छैनन् ।'
+    flash_messages:
+      upload_successful: 'अपलोड सफल भयो। अब यो प्रशोधनमा हुनेछ र केहि मिनेट मा प्रयोग गर्न को लागी तयार हुनेछ।'
+    conversion:
+      missing_commands: "निम्न IFC रूपान्तरण आदेशहरू यस प्रणालीमा हराइरहेको छ: %{names}"
+  project_module_ifc_models: "IFC मोडेलहरू"
+  permission_view_ifc_models: "IFC मोडेलहरू हेर्नुहोस्"
+  permission_manage_ifc_models: "IFC मोडेलहरू आयात र प्रबन्ध गर्नुहोस्"
+  extraction:
+    available:
+      ifc_convert: "IFC रूपान्तरण पाइपलाइन उपलब्ध छ "

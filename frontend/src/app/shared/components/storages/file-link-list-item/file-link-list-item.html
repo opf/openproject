@@ -1,0 +1,67 @@
+<spot-tooltip
+  [disabled]="!hasTooltip"
+  [alignment]="tooltipAlignment"
+  class="spot-list--item-floating-wrapper op-file-list--item-floating-wrapper"
+  [ngClass]="{ 'spot-list--item-floating-wrapper_disabled op-file-list--item-floating-wrapper__disabled': floatingActions.length === 0 }"
+>
+  <p
+    slot="body"
+    class="spot-body-small"
+  >{{ tooltip }}</p>
+
+  <ng-container
+    slot="trigger"
+  >
+    <a
+      class="spot-list--item-action spot-list--item-action_link op-file-list--item-action"
+      [ngClass]="{
+        'spot-list--item-action_disabled': disabled,
+        'op-file-list--item-action_disabled': !clickable,
+        'op-file-list--item-action_faulty-status': hasFaultyStatus
+      }"
+      [href]="fileLink._links.staticOriginOpen.href"
+      target="_blank"
+    >
+      <div
+        class="spot-list--item-title op-file-list--item-title"
+      >
+        <span
+          class="spot-icon spot-icon_{{fileLinkIcon.icon}} op-files-tab--icon op-files-tab--icon_{{fileLinkIcon.clazz}}"
+        ></span>
+        <span class="ellipsis" [textContent]="fileLink.originData.name"></span>
+      </div>
+
+      <span
+        class="op-file-list--item-text"
+        [textContent]="infoTimestampText"
+      ></span>
+
+      <div
+        #avatar
+        class="op-file-list--item-avatar"
+      ></div>
+    </a>
+    <div
+      *ngIf="floatingActions.length > 0"
+      class="spot-list--item-floating-actions op-file-list--item-floating-actions hidden-for-mobile"
+    >
+      <ng-container *ngFor="let action of floatingActions">
+        <a *ngIf="!!action.href"
+           class="spot-link"
+           [title]="action.title"
+           [href]="action.href.url"
+           [target]="action.href.target"
+        >
+          <span class="spot-icon spot-icon_{{action.iconClass}}"></span>
+        </a>
+        <button *ngIf="!!action.action"
+                class="spot-link"
+                [title]="action.title"
+                (click)="action.action()"
+        >
+          <span class="spot-icon spot-icon_{{action.iconClass}}"></span>
+        </button>
+      </ng-container>
+    </div>
+  </ng-container>
+</spot-tooltip>

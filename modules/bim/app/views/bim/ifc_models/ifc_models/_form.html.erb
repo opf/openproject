@@ -1,0 +1,142 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% unless @ifc_model.new_record?  %>
+  <div class="form--field -required">
+    <%= f.text_field :title, required: true, container_class: '-wide' %>
+  </div>
+<% end %>
+
+<% if OpenProject::Configuration.direct_uploads? %>
+  <% Hash(@form).each do |key, value| %>
+    <input type="hidden" name="<%= key %>" value="<%= value %>" />
+  <% end %>
+<% end %>
+
+<div class="form--field <%= @ifc_model.new_record? ? '-required': '' %>">
+  <% if OpenProject::Configuration.direct_uploads? %>
+    <input class="form--file-field" type="file" name="file" accept=".ifc" />
+  <% else %>
+    <%= f.file_field :ifc_attachment, accept: '.ifc' %>
+  <% end %>
+</div>
+
+<div class="form--field">
+  <%= f.check_box 'is_default' %>
+</div>
+
+<% if OpenProject::Configuration.direct_uploads? %>
+
+<%= nonced_javascript_tag do %>
+  jQuery(document).ready(function() {
+    var setDirectUploadFileName = function () {
+      var fileNameField = jQuery('input[type=file]')
+      var fileName = '';
+      if (fileNameField.length > 0 && fileNameField[0].files && fileNameField[0].files[0]) {
+        fileName = fileNameField[0].files[0].name;
+      }
+
+      var titleField = jQuery("#bim_ifc_models_ifc_model_title");
+
+      <%# When creating a new model, there is no titleField. %>
+      var titleFieldValue = '';
+      if (titleField.length > 0) {
+        titleFieldValue = jQuery("#bim_ifc_models_ifc_model_title").val();
+      };
+
+      var title = '';
+      if (titleFieldValue.length > 0) {
+        title = titleFieldValue;
+      } else {
+        title = fileName;
+      }
+
+      return jQuery.ajax({
+        type: "post",
+        url: "<%= set_direct_upload_file_name_bcf_project_ifc_models_path %>",
+        dataType: "json",
+        xhrFields: {
+          withCredentials: true
+        },
+        data: {
+          title: title,
+          isDefault: jQuery("#bim_ifc_models_ifc_model_is_default").is(":checked") ? 1 : 0
+        },
+        statusCode: {
+          401: function(resp, status, error) {
+            document.location.reload(); // reload to make user login again
+          }
+        }
+      });
+    };
+    jQuery("#bim_ifc_models_ifc_model_is_default").change(function(e){
+      setDirectUploadFileName();
+    });
+    jQuery("input[type=file]").change(function(e){
+      setDirectUploadFileName();
+
+      <%# rebuild form to post to S3 directly %>
+      if (jQuery("input[name=utf8]").length == 1) {
+        jQuery("input[name=utf8]").remove();
+        jQuery("input[name=authenticity_token]").remove();
+        jQuery("input[name=_method]").remove();
+
+        var url = jQuery("input[name=uri]").val();
+
+        jQuery("form").attr("action", url);
+        jQuery("form").attr("enctype", "multipart/form-data");
+
+        jQuery("input[name=uri]").remove();
+
+        jQuery("form").submit(function() {
+          jQuery("#bim_ifc_models_ifc_model_title").prop("disabled", "disabled");
+        });
+      }
+    });
+    <% unless @ifc_model.new_record? %>
+      <%# The titleField might have changed AFTER selecting a file. Therefore,
+          we need to intercept form submits to first send the file name etc and
+          then submit.
+
+          Also, we need take care not to end up in a submit loop. So prevent it to
+          be submitted several times. %>
+      var submitted = false;
+      var form = jQuery("form#edit_bim_ifc_models_ifc_model_<%= @ifc_model.id %>")
+      form.submit((e) => {
+        if (submitted) { return };
+
+        e.preventDefault();
+        setDirectUploadFileName().always(() => form.submit());
+        submitted = true;
+      });
+    <% end %>
+  });
+<% end %>
+
+<% end %>

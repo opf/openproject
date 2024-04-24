@@ -1,0 +1,227 @@
+page:
+  page_size: "EXECUTIVE"
+  margin_top: 60
+  margin_bottom: 60
+  margin_left: 36
+  margin_right: 36
+  page_break_threshold: 200
+  link_color: "175A8E"
+
+page_header:
+  offset: 20
+  size: 8
+
+page_footer:
+  offset: -30
+  size: 8
+  spacing: 6
+
+page_logo:
+  height: 20
+  align: "right"
+
+page_heading:
+  size: 14
+  styles: [ "bold" ]
+  margin_bottom: 10
+
+overview:
+  group_heading:
+    size: 11
+    styles: [ "bold" ]
+    margin_bottom: 10
+  table:
+    subject_indent: 8
+    margin_bottom: 20
+    cell:
+      size: 9
+      color: "000000"
+      padding_left: 5
+      padding_right: 5
+      padding_top: 0
+      padding_bottom: 5
+      border_width: 0.25
+    cell_header:
+      size: 9
+      styles: [ "bold" ]
+    cell_sums:
+      size: 8
+      styles: [ "bold" ]
+
+toc:
+  subject_indent: 4
+  indent_mode: "stairs"
+  margin_top: 10
+  margin_bottom: 20
+  item:
+    size: 9
+    color: "000000"
+    margin_bottom: 4
+  item_level_1:
+    size: 10
+    styles: [ "bold" ]
+    margin_top: 4
+    margin_bottom: 4
+  item_level_2:
+    size: 10
+
+work_package:
+  margin_bottom: 14
+  subject:
+    size: 10
+    margin_bottom: 10
+  subject_level_1:
+    size: 14
+    styles: [ "bold" ]
+  subject_level_2:
+    size: 13
+    styles: [ "bold" ]
+  subject_level_3:
+    size: 12
+    styles: [ "bold" ]
+  subject_level_4:
+    size: 11
+    styles: [ "bold" ]
+  subject_level_5:
+    styles: [ "bold" ]
+  subject_level_6:
+    styles: [ "bold" ]
+  subject_level_7:
+    styles: [ "bold" ]
+  subject_level_8:
+    styles: [ "bold" ]
+  subject_level_9:
+    styles: [ "bold" ]
+  subject_level_10:
+    styles: [ "bold" ]
+  attributes_table:
+    margin_bottom: 16
+    cell:
+      size: 9
+      color: "000000"
+      padding_left: 5
+      padding_right: 5
+      padding_top: 0
+      padding_bottom: 5
+      border_color: "4B4B4B"
+      border_width: 0.25
+    cell_label:
+      styles: [ "bold" ]
+  markdown_label:
+    size: 12
+    styles: [ "bold" ]
+    margin_top: 0
+    margin_bottom: 4
+  markdown_margin:
+    margin_bottom: 16
+  markdown:
+    font:
+      size: 10
+      leading: 3
+    header:
+      size: 8
+      styles: [ "bold" ]
+      padding_top: 4
+    header_1:
+      size: 10
+    header_2:
+      size: 10
+    header_3:
+      size: 9
+    paragraph:
+      align: "left"
+    unordered_list:
+      spacing: 1
+    unordered_list_point:
+      spacing: 4
+    ordered_list:
+      spacing: 1
+    ordered_list_point:
+      spacing: 4
+    task_list:
+      spacing: 1
+    task_list_point:
+      spacing: 4
+      checked: "☑"
+      unchecked: "☐"
+    link:
+      color: "175A8E"
+      styles: [ ]
+    code:
+      color: "880000"
+      size: 9
+      font: "SpaceMono"
+    blockquote:
+      background_color: "f4f9ff"
+      size: 10
+      styles: [ "italic" ]
+      color: "0f3b66"
+      border_color: "b8d6f4"
+      border_width: 1
+      padding: 4
+      padding_left: 6
+      margin_top: 4
+      margin_bottom: 4
+      no_border_left: false
+      no_border_right: true
+      no_border_bottom: true
+      no_border_top: true
+    image:
+      align: "center"
+      margin_bottom: 4
+      caption:
+        size: 8
+        align: "center"
+    codeblock:
+      background_color: "F5F5F5"
+      color: "880000"
+      padding: 10
+      size: 8
+      margin_top: 10
+      margin_bottom: 10
+      font: "SpaceMono"
+    table:
+      auto_width: true
+      margin_top: 4
+      margin_bottom: 4
+      header:
+        size: 9
+        styles: [ "bold" ]
+        background_color: "F0F0F0"
+      cell:
+        size: 8
+        border_width: 0.25
+        padding: 5
+
+cover:
+  header:
+    logo_height: 25
+    border:
+      color: 'd3dee3'
+      height: 1
+      offset: 6
+  footer:
+    size: 10
+    color: '414d5f'
+    offset: 30
+  hero:
+    padding_right: 144
+    padding_top: 120
+    title:
+      max_height: 30
+      spacing: 10
+      font: 'SpaceMono'
+      color: '414d5f'
+      size: 10
+    heading:
+      spacing: 14
+      color: '414d5f'
+      styles:
+        - bold
+      size: 16
+    subheading:
+      max_height: 30
+      color: '414d5f'
+      styles:
+        - italic
+      size: 10

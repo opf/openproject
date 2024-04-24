@@ -1,0 +1,67 @@
+"no":
+  js:
+    grid:
+      add_widget: 'Legg til widget'
+      remove: 'Fjern widget'
+      configure: 'Konfigurer widget'
+      upsale:
+        text: "Noen widgeter, som arbeidspakke-diagram-modulen, er bare tilgjengelig i Enterprise versjonen."
+        link: 'Enterprise edition.'
+      widgets:
+        missing_permission: "Du har ikke nødvendige tillatelser til å se denne widgeten."
+        custom_text:
+          title: 'Tilpasset tekst'
+        documents:
+          title: 'Dokumenter'
+          no_results: 'Ingen dokumenter ennå.'
+        members:
+          title: 'Medlemmer'
+          no_results: 'Ingen synlige medlemmer.'
+          view_all_members: 'Vis alle medlemmer'
+          add: 'Medlem'
+          too_many: 'Viser %{count} av %{total} medlemmer.'
+        news:
+          title: 'Nyheter'
+          at: 'på'
+          no_results: 'Ingenting nytt å rapportere.'
+        project_description:
+          title: 'Prosjektbeskrivelse'
+          no_results: "Ingen beskrivelse har blitt skrevet ennå. Den kan oppgis i \"Prosjektinnstillinger\"."
+        project_details:
+          title: 'Prosjektdetaljer'
+          no_results: 'Ingen egendefinerte felt for prosjekter er definert'
+        project_status:
+          title: 'Prosjektstatus'
+          not_started: 'Ikke påbegynt'
+          on_track: 'På rett spor'
+          off_track: 'Sporet av'
+          at_risk: 'I fare'
+          not_set: 'Ikke angitt'
+          finished: 'Fullført'
+          discontinued: 'Utløpt'
+        subprojects:
+          title: 'Underprosjekter'
+          no_results: 'Ingen delprosjekter.'
+        time_entries_current_user:
+          title: 'Min tidsbruk'
+          displayed_days: 'Dager vist i widgetet:'
+        time_entries_list:
+          title: 'Brukstid (siste 7 dager)'
+          no_results: 'Ingen timeføringer de siste 7 dagene.'
+        work_packages_accountable:
+          title: "Arbeidspakker jeg er ansvarlig for"
+        work_packages_assigned:
+          title: 'Arbeidspakker tildelt meg'
+        work_packages_created:
+          title: 'Arbeidspakker laget av meg'
+        work_packages_watched:
+          title: 'Arbeidspakker sett av meg'
+        work_packages_table:
+          title: 'Tabell for arbeidspakker'
+        work_packages_graph:
+          title: 'Arbeidspakkediagram'
+        work_packages_calendar:
+          title: 'Kalender'
+        work_packages_overview:
+          title: 'Oversikt over arbeidspakker'
+          placeholder: 'Klikk for å redigere...'

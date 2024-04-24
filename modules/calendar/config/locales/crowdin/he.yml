@@ -1,0 +1,12 @@
+#English strings go here
+he:
+  plugin_openproject_calendar:
+    name: "OpenProject Calendar"
+    description: "Provides calendar views."
+  label_calendar: "לוח שנה"
+  label_calendar_plural: "לוחות שנה$"
+  label_new_calendar: "לוח שנה חדש"
+  permission_view_calendar: "צפיה בלוח השנה"
+  permission_manage_calendars: "נהל לוחות שנה"
+  permission_share_calendars: "Subscribe to iCalendars"
+  project_module_calendar_view: "לוחות שנה$"

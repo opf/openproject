@@ -1,0 +1,57 @@
+# /api/v3/memberships/{id}/form
+---
+post:
+  summary: Form update membership
+  operationId: form_update_membership
+  tags:
+    - Memberships
+  description: |-
+    Requests and validates the update form for a membership identified by the given id. The request payload, if sent,
+    is validated. The form endpoint itself does not change the membership.
+  parameters:
+    - name: id
+      description: Membership id
+      in: path
+      required: true
+      example: 1
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/membership_write_model.yml'
+        examples:
+          'no notification':
+            $ref: '../components/examples/membership-create-request-no-notification.yml'
+          'custom message':
+            $ref: '../components/examples/membership-create-request-custom-message.yml'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/membership_read_model.yml'
+          examples:
+            'simple membership':
+              $ref: '../components/examples/membership-simple-response.yml'
+    '400':
+      $ref: '../components/responses/invalid_request_body.yml'
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** manage versions in the version's project
+    '406':
+      $ref: '../components/responses/missing_content_type.yml'
+    '415':
+      $ref: '../components/responses/unsupported_media_type.yml'

@@ -1,0 +1,11 @@
+# Response: InvalidRequestBody
+---
+description: Occurs when the client did not send a valid JSON object in the request body.
+content:
+  application/hal+json:
+    schema:
+      $ref: '../schemas/error_response.yml'
+    example:
+      _type: Error
+      errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
+      message: The request body was not a single JSON object.

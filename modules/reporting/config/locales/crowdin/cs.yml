@@ -1,0 +1,94 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+cs:
+  plugin_openproject_reporting:
+    name: "Reportování OpenProject"
+    description: "Tento modul umožňuje vytvářet vlastní přehledy nákladů s filtrováním a seskupením vytvořených OpenProject plugin čas & náklady ."
+  button_save_as: "Uložit report jako..."
+  comments: "Komentář"
+  cost_reports_title: "Čas a náklady"
+  label_cost_report: "Výkaz nákladů"
+  label_cost_report_plural: "Výkazy nákladů"
+  description_drill_down: "Zobrazit detaily"
+  description_filter_selection: "Výběr"
+  description_multi_select: "Zobrazit multiselect"
+  description_remove_filter: "Odstranit filtr"
+  information_restricted_depending_on_permission: "Tato stránka může obsahovat omezené informace v závislosti na vašich oprávněních."
+  label_click_to_edit: "Kliekněte pro editaci."
+  label_closed: "uzavřeno"
+  label_columns: "Sloupce"
+  label_cost_entry_attributes: "Atributy nákladové položky"
+  label_days_ago: "za poslední dny"
+  label_entry: "Nákladová položka"
+  label_filter_text: "Filtrovat text"
+  label_filter_value: "Hodnota"
+  label_filters: "Filtrovat"
+  label_greater: ">"
+  label_is_not_project_with_subprojects: "není (včetně podprojektů)"
+  label_is_project_with_subprojects: "je (včetně podprojektů)"
+  label_work_package_attributes: "Atributy pracovního balíčku"
+  label_less: "<"
+  label_logged_by_reporting: "Zadáno"
+  label_money: "Hotovostní hodnota"
+  label_month_reporting: "Měsíc (stráveno)"
+  label_new_report: "Nový výkaz nákladů"
+  label_open: "otevřít"
+  label_operator: "Operátor"
+  label_private_report_plural: "soukromý výkaz nákladů"
+  label_progress_bar_explanation: "Generování sestavy..."
+  label_public_report_plural: "veřejný výkaz nákladů"
+  label_really_delete_question: "Jste si jisti, že chcete odstranit tento report?"
+  label_rows: "Řádky"
+  label_saving: "Ukládání..."
+  label_spent_on_reporting: "Datum (stráveno)"
+  label_sum: "Suma"
+  label_units: "Jednotky"
+  label_week_reporting: "Týden (stráveno)"
+  label_year_reporting: "Rok (stráveno)"
+  label_count: "Počet"
+  label_filter: "Filtr"
+  label_filter_add: "Přidat filtr"
+  label_filter_plural: "Filtry"
+  label_group_by: "Seskupit podle"
+  label_group_by_add: "Přidat skupinový atribut"
+  label_inactive: "„neaktivní“"
+  label_no: "Ne"
+  label_none: "(žádná data)"
+  label_no_reports: "Zatím nejsou k dispozici žádné výkazy nákladů."
+  label_report: "Hlášení"
+  label_yes: "Ano"
+  load_query_question: "Report bude obsahovat %{size} buněk tabulky a může chvíli trvat, než se vykreslí. Chcete to přesto zkusit vykreslit?"
+  permission_save_cost_reports: "Uložit veřejné výkazy nákladů"
+  permission_save_private_cost_reports: "Uložit soukromé výkazy nákladů"
+  project_module_reporting_module: "Výkazy nákladů"
+  text_costs_are_rounded_note: "Zobrazené hodnoty jsou zaokrouhleny. Všechny výpočty jsou založeny na \nnezaokrouhlených  hodnotách."
+  toggle_multiselect: "aktivovat/deaktivovat multiselect"
+  units: "Jednotky"
+  validation_failure_date: "není platné datum"
+  validation_failure_integer: "není platné číslo"
+  export:
+    cost_reports:
+      title: "Váš export XLS zprávy o nákladech"
+  reporting:
+    group_by:
+      selected_columns: "Vybrané sloupce"
+      selected_rows: "Vybrané řádky"

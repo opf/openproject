@@ -1,0 +1,30 @@
+<ng-content select="[slot=trigger]"></ng-content>
+<span
+  tabindex="0"
+  #focusGrabber
+  [attr.aria-label]="text.focus_grab"
+></span>
+
+<ng-template #body>
+  <div
+    *ngIf="opened"
+    #anchor
+    [attr.id]="id"
+    [ngClass]="['spot-drop-modal--body', 'spot-container' ]"
+    [class.spot-drop-modal--body_not-full-screen]="notFullscreen"
+    (click)="onBodyClick($event)"
+    cdkTrapFocus
+    tabindex="0"
+  >
+    <ng-content select="[slot=body]"></ng-content>
+
+    <button
+      class="spot-drop-modal--close-button spot-button"
+      type="button"
+      [attr.aria-label]="text.close"
+      (click)="close()"
+    >
+      <span class="spot-icon spot-icon_close"></span>
+    </button>
+  </div>
+</ng-template>

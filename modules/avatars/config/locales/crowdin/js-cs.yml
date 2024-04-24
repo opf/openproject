@@ -1,0 +1,15 @@
+#English strings go here
+cs:
+  js:
+    label_preview: 'Náhled'
+    button_update: 'Aktualizovat'
+    avatars:
+      label_choose_avatar: "Vyberte avatar ze souboru"
+      uploading_avatar: "Nahrávám váš avatar."
+      text_upload_instructions: |
+        Nahrajte svůj vlastní avatar o velikosti 128 pixelů. Větší soubory budou změněny a oříznuty tak, aby odpovídaly.
+        Náhled avataru bude zobrazen před odesláním, jakmile jste vybrali obrázek.
+      error_image_too_large: "Obrázek je příliš velký."
+      wrong_file_format: "Povolené formáty jsou jpg, png, gif"
+      empty_file_error: "Prosím nahrajte platný obrázek (jpg, png, gif)"
+

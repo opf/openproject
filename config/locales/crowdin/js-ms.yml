@@ -1,0 +1,1330 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+ms:
+  js:
+    ajax:
+      hide: "Sembunyikan"
+      loading: "Loading…"
+      updating: "Mengemas kini..."
+    attachments:
+      delete: "Padam lampiran"
+      delete_confirmation: |
+        Adakah anda pasti anda ingin memadam fail ini? Tindakan ini tidak boleh dikembalikan.
+      draggable_hint: |
+        Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
+      quarantined_hint: "Fail ini dikuarantinkan, kerana virus ditemui. Ia tidak tersedia untuk dimuat turun."
+    autocomplete_ng_select:
+      add_tag: "Tambah item"
+      clear_all: "Padam semua"
+      loading: "Memuatkan..."
+      not_found: "Tiada item ditemui"
+      type_to_search: "Taip untuk mencari"
+    autocomplete_select:
+      placeholder:
+        multi: 'Tambah "%{name}"'
+        single: 'Pilih "%{name}"'
+      remove: "Keluarkan %{name}"
+      active: "%{name} %{label} aktif "
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Sandaran terakhir
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Pilihan
+      include_attachments: Sertakan lampiran
+      download_backup: Muat turun sandaran
+      request_backup: Request backup
+    close_popup_title: "Tutup pop timbul"
+    close_filter_title: "Close filter"
+    close_form_title: "Close form"
+    button_add_watcher: "Tambah pemerhati"
+    button_add: "Tambah"
+    button_back: "Kembali"
+    button_back_to_list_view: "Kembali ke paparan senarai"
+    button_cancel: "Batal"
+    button_close: "Tutup"
+    button_change_project: "Tukar projek"
+    button_check_all: "Tanda semua"
+    button_configure-form: "Configure form"
+    button_confirm: "Sahkan"
+    button_continue: "Continue"
+    button_copy: "Salin"
+    button_copy_to_clipboard: "Salin ke clipboard"
+    button_copy_link_to_clipboard: "Salin pautan ke clipboard"
+    button_copy_to_other_project: "Salin ke projek lain"
+    button_custom-fields: "Medan tersuai"
+    button_delete: "Padam"
+    button_delete_watcher: "Buang pemerhati"
+    button_details_view: "Paparan butiran"
+    button_duplicate: "Duplicate"
+    button_edit: "Sunting"
+    button_filter: "Filter"
+    button_collapse_all: "Collapse all"
+    button_expand_all: "Expand all"
+    button_advanced_filter: "Advanced filter"
+    button_list_view: "List view"
+    button_show_view: "Fullscreen view"
+    button_log_time: "Log time"
+    button_more: "More"
+    button_open_details: "Buka paparan butiran"
+    button_close_details: "Tutup paparan butiran"
+    button_open_fullscreen: "Buka paparan skrin penuh"
+    button_show_cards: "Show card view"
+    button_show_list: "Tunjukkan paparan senarai"
+    button_show_table: "Tunjukkan paparan jadual"
+    button_show_gantt: "Tunjukkan paparan Gantt"
+    button_show_fullscreen: "Tunjuk paparan skrin penuh"
+    button_more_actions: "More actions"
+    button_quote: "Quote"
+    button_save: "Simpan"
+    button_settings: "Tetapan"
+    button_uncheck_all: "Uncheck all"
+    button_update: "Kemaskini"
+    button_export-pdf: "Download PDF"
+    button_export-atom: "Download Atom"
+    button_create: "Create"
+    card:
+      add_new: "Add new card"
+      highlighting:
+        inline: "Highlight inline:"
+        entire_card_by: "Entire card by"
+      remove_from_list: "Remove card from list"
+    caption_rate_history: "Rate history"
+    clipboard:
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
+      copied_successful: "Successfully copied to clipboard!"
+    chart:
+      type: "Chart type"
+      axis_criteria: "Axis criteria"
+      modal_title: "Work package graph configuration"
+      types:
+        line: "Line"
+        horizontal_bar: "Horizontal bar"
+        bar: "Bar"
+        pie: "Pai"
+        doughnut: "Donat"
+        radar: "Radar"
+        polar_area: "Polar area"
+      tabs:
+        graph_settings: "Umum"
+        dataset: "Set data %{number}"
+      errors:
+        could_not_load: "Data untuk paparkan graf tidak dapat dimuatkan. Kebenaran yang diperlukan mungkin kurang."
+    description_available_columns: "Lajur Tersedia"
+    description_current_position: "Anda di sini:"
+    description_select_work_package: "Pilih pakej kerja #%{id}"
+    description_subwork_package: "Child of work package #%{id}"
+    editor:
+      preview: "Toggle preview mode"
+      source_code: "Toggle Markdown source mode"
+      error_saving_failed: "Penyimpanan dokumen gagal dengan ralat yang berikut: %{error}"
+      ckeditor_error: "Ralat berlaku dalam CKEditor"
+      mode:
+        manual: "Tukar ke sumber Markdown"
+        wysiwyg: "Switch to WYSIWYG editor"
+      macro:
+        error: "Cannot expand macro: %{message}"
+        attribute_reference:
+          macro_help_tooltip: "This text segment is being dynamically rendered by a macro."
+          not_found: "Requested resource could not be found"
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
+        child_pages:
+          button: "Links to child pages"
+          include_parent: "Include parent"
+          text: "[Placeholder] Links to child pages of"
+          page: "Wiki page"
+          this_page: "this page"
+          hint: |
+            Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
+        code_block:
+          button: "Insert code snippet"
+          title: "Masukkan / sunting snippet Code"
+          language: "Formatting language"
+          language_hint: "Enter the formatting language that will be used for highlighting (if supported)."
+        dropdown:
+          macros: "Macros"
+          chose_macro: "Pilih macro"
+        toc: "Jadual kandungan"
+        toolbar_help: "Klik untuk memilih widget dan tunjuk toolbar. Klik dua kali untuk sunting widget."
+        wiki_page_include:
+          button: "Sertakan kandungan halaman wiki lain"
+          text: "[Placeholder] Included wiki page of"
+          page: "Halaman wiki"
+          not_set: "(Halaman belum ditetapkan lagi)"
+          hint: |
+            Include the content of another wiki page by specifying its title or slug.
+            You can include the wiki page of another project by separating them with a colon like the following example.
+        work_package_button:
+          button: "Masukkan butang cipta pakej kerja"
+          type: "Jenis pakej kerja "
+          button_style: "Use button style"
+          button_style_hint: "Pilihan: Tanda untuk membuat macro muncul sebagai butang, bukan sebagai pautan."
+          without_type: "Cipta pakej kerja"
+          with_type: "Cipta pakej kerja (Jenis: %{typename})"
+        embedded_table:
+          button: "Embed work package table"
+          text: "[Placeholder] Embedded work package table"
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
+    admin:
+      type_form:
+        custom_field: "Medan tersuai"
+        inactive: "Tidak aktif"
+        drag_to_activate: "Tarik medan dari sini untuk mengaktifkan mereka"
+        add_group: "Add attribute group"
+        add_table: "Tambah jadual pakej kerja yang berkaitan"
+        edit_query: "Edit query"
+        new_group: "Kumpulan baharu"
+        reset_to_defaults: "Set semula ke default"
+      enterprise:
+        text_reprieve_days_left: "%{days} hari sehingga tamat tempoh kelonggaran"
+        text_expired: "tamat tempoh"
+        trial:
+          confirmation: "Konformasi alamat e-mel "
+          confirmation_info: >
+            Kami menghantar anda satu e-mel pada %{date} kepada %{email}. Sila semak peti masuk anda dan klik pautan konformasi yang disediakan untuk memulakan percubaan 14 hari anda.
+          form:
+            general_consent: >
+              Saya bersetuju dengan <a target="_blank" href="%{link_terms}">syarat-syarat perkhidmatan</a> dan <a target="_blank" href="%{link_privacy}">polisi privasi</a>.
+            invalid_email: "Alamat e-mel tidak sah"
+            label_company: "Syarikat"
+            label_first_name: "Nama pertama"
+            label_last_name: "Nama akhir"
+            label_domain: "Domain"
+            label_subscriber: "Pelanggan"
+            label_maximum_users: "Pengguna aktif maksimum"
+            label_starts_at: "Mula pada"
+            label_expires_at: "Tamat tempoh pada"
+            receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
+            taken_domain: There can only be one active trial per domain.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
+            taken_email: Each user can only create one trial.
+          email_not_received: "You did not receive an email? You can resend the email with the link on the right."
+          try_another_email: "Or try it with another email address."
+          next_steps: "Next steps"
+          resend_link: "Resend"
+          resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
+          resend_warning: "Could not resend email."
+          session_timeout: "Your session timed out. Please try to reload the page or resend email."
+          status_label: "Status:"
+          status_confirmed: "confirmed"
+          status_waiting: "email sent - waiting for confirmation"
+          test_ee: "Test the Enterprise edition 14 days for free"
+          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
+        upsale:
+          become_hero: "Become a hero!"
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
+          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+          benefits:
+            description: "What are the benefits of the Enterprise on-premises edition?"
+            high_security: "Security features"
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
+            installation: "Installation support"
+            installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
+            premium_features: "Enterprise add-ons"
+            premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
+            professional_support: "Professional support"
+            professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
+          button_start_trial: "Start free trial"
+          button_upgrade: "Upgrade now"
+          button_contact_us: "Contact us for a demo"
+          button_book_now: "Book now"
+          confidence: >
+            We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
+          link_quote: "Get a quote"
+          more_info: "Maklumat lanjut"
+          text: >
+            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+          unlimited: "Unlimited"
+          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+      working_days:
+        calendar:
+          empty_state_header: "Non-working days"
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
+          new_date: "(new)"
+        add_non_working_day: "Hari tidak bekerja"
+        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
+        change_button: "Simpan dan jadual semula"
+        change_title: "Tukar hari bekerja"
+        removed_title: "Anda akan mengeluarkan hari berikut dari senarai hari tidak bekerja:"
+        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+        warning: >
+          Perubahan mungkin mengambil sedikit masa untuk berkesan. Anda akan dimaklumkan apabila semua pakej kerja yang berkaitan telah dikemas kini.
+          Adakah anda pasti anda ingin teruskan?
+    custom_actions:
+      date:
+        specific: "pada"
+        current_date: "Tarikh semasa"
+    error:
+      internal: "Sebuah ralat dalaman telah berlaku."
+      cannot_save_changes_with_message: "Tidak dapat menyimpan perubahan anda kerana ralat tersebut: %{error}"
+      query_saving: "Paparan tersebut tidak dapat disimpan."
+      embedded_table_loading: "The embedded view could not be loaded: %{message}"
+    enumeration_activities: "Aktiviti (penjejakan masa)"
+    enumeration_doc_categories: "Kategori dokumen"
+    enumeration_work_package_priorities: "Keutamaan pakej kerja"
+    filter:
+      more_values_not_shown: "Terdapat %{total} lagi hasil, cari untuk menapis hasil."
+      description:
+        text_open_filter: "Open this filter with 'ALT' and arrow keys."
+        text_close_filter: "To select an entry leave the focus for example by pressing enter. To leave without filter select the first (empty) entry."
+      noneElement: "(tiada)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} dalam masa tempatan anda."
+        only_start: "Dari %{from} dalam masa tempatan anda."
+        only_end: "Sehingga %{to} dalam masa tempatan anda."
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: "Kriteria penyusunan pertama"
+          two: "Kriteria penyusunan kedua"
+          three: "Kriteria penyusunan ketiga"
+    gantt_chart:
+      label: "Carta Gantt"
+      quarter_label: "Q%{quarter_number}"
+      labels:
+        title: "Konfigurasi label"
+        bar: "Bar labels"
+        left: "Kiri"
+        right: "Kanan"
+        farRight: "Paling kanan"
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: "Tunjukkan carta Gantt"
+      button_deactivate: "Sembunyikan carta Gantt"
+      filter:
+        noneSelection: "(tiada)"
+      selection_mode:
+        notification: "Klik pada mana-mana pakej kerja yang ditekankan untuk cipta perhubungan. Tekan escape untuk batalkan."
+      zoom:
+        in: "Zum masuk"
+        out: "Zum keluar"
+        auto: "Auto zoom"
+        days: "Hari"
+        weeks: "Minggu"
+        months: "Bulan"
+        quarters: "Suku"
+        years: "Tahun"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
+    general_text_no: "tidak"
+    general_text_yes: "ya"
+    general_text_No: "No"
+    general_text_Yes: "Yes"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
+        general: "An error has occurred."
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: "Read about new features and product updates."
+          learn_about: "Learn more about the new features"
+          #Include the version to invalidate outdated translations in other locales.
+          #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
+          "14_0":
+            standard:
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
+              new_features_html: >
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to calendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: 'Type a name, e.g. "Phone"'
+      token_name_description_text: 'If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="my/access_token", target="_blank">access tokens</a> list.'
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: 'The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.'
+    label_activate: "Activate"
+    label_assignee: "Assignee"
+    label_add_column_after: "Add column after"
+    label_add_column_before: "Add column before"
+    label_add_columns: "Add columns"
+    label_add_comment: "Add comment"
+    label_add_comment_title: "Comment and type @ to notify other people"
+    label_add_row_after: "Add row after"
+    label_add_row_before: "Add row before"
+    label_add_selected_columns: "Add selected columns"
+    label_added_by: "added by"
+    label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
+    label_ago: "days ago"
+    label_all: "all"
+    label_all_work_packages: "all work packages"
+    label_and: "and"
+    label_ascending: "Ascending"
+    label_author: "Author: %{user}"
+    label_avatar: "Avatar"
+    label_between: "between"
+    label_board: "Board"
+    label_board_locked: "Locked"
+    label_board_plural: "Boards"
+    label_board_sticky: "Sticky"
+    label_change: "Ubah  "
+    label_create: "Cipta"
+    label_create_work_package: "Cipta pakej kerja baharu"
+    label_created_by: "Dicipta oleh"
+    label_date: "Tarikh"
+    label_date_with_format: "Masukkan %{date_attribute} menggunakan format berikut: %{format}"
+    label_deactivate: "Nyahaktifkan"
+    label_descending: "Menurun"
+    label_description: "Penerangan"
+    label_details: "Butiran"
+    label_display: "Paparan"
+    label_cancel_comment: "Batal komen"
+    label_closed_work_packages: "ditutup"
+    label_collapse: "Sembunyikan"
+    label_collapsed: "disembunyikan"
+    label_collapse_all: "Sembunyikan semua"
+    label_comment: "Komen"
+    label_committed_at: "%{committed_revision_link} pada %{date}"
+    label_committed_link: "committed revision %{revision_identifier}"
+    label_contains: "contains"
+    label_created_on: "dicipta pada"
+    label_edit_comment: "Sunting komen ini"
+    label_edit_status: "Sunting status pakej kerja tersebut"
+    label_email: "E-mel"
+    label_equals: "adalah"
+    label_expand: "Kembangkan"
+    label_expanded: "dibesarkan"
+    label_expand_all: "Kembangkan semua"
+    label_expand_project_menu: "Kembangkan menu projek"
+    label_export: "Eksport"
+    label_export_preparing: "Eksport sedang disediakan dan akan dimuat turun sebentar lagi."
+    label_filename: "Fail"
+    label_filesize: "Saiz"
+    label_general: "Umum"
+    label_global_roles: "Global roles"
+    label_greater_or_equal: ">="
+    label_group: "Kumpulan"
+    label_group_by: "Kumpulkan mengikut"
+    label_group_plural: "Kumpulan"
+    label_hide_attributes: "Show less"
+    label_hide_column: "Sembunyikan lajur"
+    label_hide_project_menu: "Sembunyikan menu projek"
+    label_in: "dalam"
+    label_in_less_than: "dalam kurang daripada"
+    label_in_more_than: "dalam lebih daripada"
+    label_incoming_emails: "E-mel yang masuk"
+    label_information_plural: "Maklumat"
+    label_invalid: "Tidak sah"
+    label_import: "Import"
+    label_latest_activity: "Aktiviti terkini"
+    label_last_updated_on: "Dikemas kini terakhir pada"
+    label_learn_more_link: "Learn more"
+    label_less_or_equal: "<="
+    label_less_than_ago: "less than days ago"
+    label_loading: "Loading..."
+    label_mail_notification: "Email notifications"
+    label_manage_columns: "Manage and reorder columns"
+    label_me: "me"
+    label_meeting_agenda: "Agenda"
+    label_meeting_minutes: "Minutes"
+    label_menu_collapse: "collapse"
+    label_menu_expand: "expand"
+    label_more_than_ago: "more than days ago"
+    label_next: "Next"
+    label_no_color: "No color"
+    label_no_data: "No data to display"
+    label_no_due_date: "no finish date"
+    label_no_start_date: "no start date"
+    label_no_date: "no date"
+    label_no_value: "No value"
+    label_none: "none"
+    label_not_contains: "doesn't contain"
+    label_not_equals: "is not"
+    label_on: "on"
+    label_open_menu: "Open menu"
+    label_open_context_menu: "Open context menu"
+    label_open_work_packages: "open"
+    label_password: "Password"
+    label_previous: "Previous"
+    label_per_page: "Per page:"
+    label_please_wait: "Please wait"
+    label_project: "Project"
+    label_project_list: "Project lists"
+    label_project_plural: "Projects"
+    label_visibility_settings: "Visibility settings"
+    label_quote_comment: "Quote this comment"
+    label_recent: "Recent"
+    label_reset: "Reset"
+    label_remove: "Remove"
+    label_remove_column: "Remove column"
+    label_remove_columns: "Remove selected columns"
+    label_remove_row: "Remove row"
+    label_report: "Report"
+    label_repository_plural: "Repositories"
+    label_save_as: "Save as"
+    label_search_columns: "Search a column"
+    label_select_project: "Select a project"
+    label_select_watcher: "Pilih pemerhati..."
+    label_selected_filter_list: "Selected filters"
+    label_show_attributes: "Tunjuk semua atribut"
+    label_show_in_menu: "Tunjuk paparan dalam menu"
+    label_sort_by: "Susun mengikut"
+    label_sorted_by: "disusun mengikut"
+    label_sort_higher: "Move up"
+    label_sort_lower: "Move down"
+    label_sorting: "Sorting"
+    label_spent_time: "Masa yang dihabiskan"
+    label_star_query: "Favored"
+    label_press_enter_to_save: "Tekan enter untuk menyimpan."
+    label_public_query: "Awam"
+    label_sum: "Jumlah"
+    label_sum_for: "Jumlah untuk"
+    label_total_sum: "Jumlah keseluruhan"
+    label_subject: "Subjek"
+    label_this_week: "minggu ini"
+    label_today: "Hari ini"
+    label_time_entry_plural: "Masa yang dihabiskan"
+    label_up: "Atas"
+    label_user_plural: "Pengguna"
+    label_activity_show_only_comments: "Tunjuk aktiviti dengan komen sahaja"
+    label_activity_show_all: "Tunjuk semua aktiviti"
+    label_total_progress: "%{percent}% Jumlah kemajuan"
+    label_total_amount: "Jumlah: %{amount}"
+    label_updated_on: "dikemas kini pada"
+    label_value_derived_from_children: "(nilai diperolehi daripada anak)"
+    label_children_derived_duration: "Pakej kerja anak diperolehi daripada tempoh"
+    label_warning: "Amaran"
+    label_work_package: "Pakej kerja"
+    label_work_package_parent: "Pakej kerja induk"
+    label_work_package_plural: "Pakej kerja"
+    label_watch: "Lihat"
+    label_watch_work_package: "Lihat pakej kerja"
+    label_watcher_added_successfully: "Pemerhati berjaya ditambah!"
+    label_watcher_deleted_successfully: "Pemerhati berjaya dikeluarkan!"
+    label_work_package_details_you_are_here: "Anda berada di tab %{tab} untuk %{type} %{subject}."
+    label_work_package_context_menu: "Menu konteks pakej kerja"
+    label_unwatch: "Berhenti memerhati"
+    label_unwatch_work_package: "Berhenti memerhati pakej kerja"
+    label_uploaded_by: "Dimuat naik oleh"
+    label_default_queries: "Asas"
+    label_starred_queries: "Kegemaran"
+    label_global_queries: "Awam"
+    label_custom_queries: "Private"
+    label_columns: "Lajur"
+    label_attachments: Lampiran
+    label_drop_files: ""
+    label_drop_or_click_files: "Letakkan fail disini atau klik untuk melampirkan fail."
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
+    label_add_attachments: "Attach files"
+    label_formattable_attachment_hint: "Attach and link files by dropping on this field, or pasting from the clipboard."
+    label_remove_file: "Delete %{fileName}"
+    label_remove_watcher: "Remove watcher %{name}"
+    label_remove_all_files: Delete all files
+    label_add_description: "Add a description for %{file}"
+    label_upload_notification: "Uploading files..."
+    label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}"
+    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_files_to_upload: "These files will be uploaded:"
+    label_rejected_files: "These files cannot be uploaded:"
+    label_rejected_files_reason: "These files cannot be uploaded as their size is greater than %{maximumFilesize}"
+    label_wait: "Please wait for configuration..."
+    label_upload_counter: "%{done} of %{count} files finished"
+    label_validation_error: "The work package could not be saved due to the following errors:"
+    label_version_plural: "Versions"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
+    help_texts:
+      show_modal: "Show attribute help text entry"
+    onboarding:
+      buttons:
+        skip: "Skip"
+        next: "Next"
+        got_it: "Got it"
+      steps:
+        help_menu: "The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!"
+        members: "Invite new <b>members</b> to join your project."
+        quick_add_button: "Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>."
+        sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
+        welcome: "Take a three minutes introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time."
+        wiki: "Within the <b>wiki</b> you can document and share knowledge together with your team."
+        backlogs:
+          overview: "Manage your work in the <b>backlogs</b> view."
+          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
+          task_board_arrow: "To see your <b>task board</b>, open the sprint drop-down..."
+          task_board_select: "...and select the <b>task board</b> entry."
+          task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
+        boards:
+          overview: "Select <b>boards</b> to shift the view and manage your project using the agile boards view."
+          lists_kanban: "Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example."
+          lists_basic: "Here you can create multiple lists (columns) within your agile board."
+          add: "Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board."
+          drag: "Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details."
+        wp:
+          toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
+          list: "This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row."
+          full_view: "The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments."
+          back_button: "Use the return arrow in the top left corner to exit and return to the work package list."
+          create_button: "The <b>+ Create</b> button will add a new work package to your project."
+          gantt_menu: "Create project schedules and timelines effortlessly using the Gantt chart module."
+          timeline: "Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time."
+        team_planner:
+          overview: "Perancang pasukan membolehkan anda memberikan tugasan secara visual kepada ahli kumpulan dan dapatkan ringkasan tentang siapa yang mengusahakan apa."
+          calendar: "The weekly or biweekly planning board displays all work packages assigned to your team members."
+          add_assignee: "Untuk memulakan, tambah penerima tugasan ke dalam perancang pasukan."
+          add_existing: "Cari pakej kerja sedia ada dan tarik mereka ke perancang pasukan untuk serta merta tugaskan mereka ke ahli pasukan dan tentukan tarikh mula dan akhir."
+          card: "Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member."
+    notifications:
+      title: "Pemberitahuan"
+      no_unread: "Tiada notifikasi belum dibaca"
+      reasons:
+        mentioned: "disebutkan"
+        watched: "pemerhati"
+        assigned: "wakil"
+        responsible: "bertanggungjawab"
+        created: "created"
+        scheduled: "dijadualkan"
+        commented: "commented"
+        processed: "diproses"
+        prioritized: "prioritized"
+        dateAlert: "Peringatan tarikh"
+        shared: "dikongsi"
+      date_alerts:
+        milestone_date: "Tarikh pencapaian"
+        overdue: "Tertunggak"
+        overdue_since: "sejak %{difference_in_days}"
+        property_today: "adalah hari ini"
+        property_is: "adalah dalam %{difference_in_days}"
+        property_was: "was %{difference_in_days} ago"
+        property_is_deleted: "dipadamkan"
+        upsale:
+          title: "Peringatan tarikh"
+          description: "Dengan peringatan tarikh, anda akan dimaklumkan tentang tarikh mula dan akhir yang akan datang supaya anda tidak pernah terlepas atau lupa tarikh akhir yang penting."
+      facets:
+        unread: "Belum dibaca"
+        unread_title: "Tunjuk yang belum dibaca"
+        all: "Semua"
+        all_title: "Tunjukkan semua"
+      center:
+        label_actor_and: "dan"
+        and_more_users:
+          other: "dan 1 yang lain"
+        no_results:
+          at_all: "Pemberitahuan baharu akan muncul di sini apabila terdapat aktiviti yang berkaitan dengan anda."
+          with_current_filter: "Tiada pemberitahuan dalam paparan ini pada masa ini"
+        mark_all_read: "Tanda semua sudah dibaca"
+        mark_as_read: "Tanda sudah dibaca"
+        text_update_date: "%{date} by"
+        total_count_warning: "Tunjukkan %{newest_count} pemberitahuan yang terbaru. %{more_count} lagi tidak dipaparkan."
+        empty_state:
+          no_notification: "Nampaknya anda sudah menyelesaikan semuanya."
+          no_notification_with_current_project_filter: "Nampaknya anda sudah selesai dengan projek yang dipilih."
+          no_notification_with_current_filter: "Nampaknya anda sudah selesai untuk penapis %{filter}."
+          no_selection: "Klik pada pemberitahuan untuk paparkan semua butiran aktiviti."
+        new_notifications:
+          message: "Terdapat pemberitahuan baru."
+          link_text: "Click here to load them."
+      menu:
+        accountable: "Bertanggungjawab"
+        by_project: "Belum dibaca oleh projek"
+        by_reason: "Sebab"
+        inbox: "Peti masuk"
+        mentioned: "Disebutkan"
+        watched: "Pemerhati"
+        date_alert: "Peringatan tarikh"
+        shared: "Dikongsi"
+      settings:
+        change_notification_settings: 'Anda boleh mengubah suai <a target="_blank" href="%{url}">tetapan pemberitahuan</a> anda untuk memastikan anda tidak terlepas tarikh yang penting.'
+        title: "Tetapan notifikasi"
+        notify_me: "Maklumkan saya"
+        reminders:
+          no_notification: No notification
+          timeframes:
+            normal:
+              PT0S: same day
+              P1D: 1 day before
+              P3D: 3 days before
+              P7D: a week before
+            overdue:
+              P1D: every day
+              P3D: every 3 days
+              P7D: every week
+        reasons:
+          mentioned:
+            title: "Mentioned"
+            description: "Receive a notification every time someone mentions me anywhere"
+          assignee: "Assignee"
+          responsible: "Accountable"
+          shared: "Shared"
+          watched: "Watcher"
+          work_package_commented: "All new comments"
+          work_package_created: "New work packages"
+          work_package_processed: "All status changes"
+          work_package_prioritized: "All priority changes"
+          work_package_scheduled: "All date changes"
+        global:
+          immediately:
+            title: "Participating"
+            description: "Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)."
+          delayed:
+            title: "Non-participating"
+            description: "Additional notifications for activities in all projects."
+          date_alerts:
+            title: "Date alerts"
+            description: "Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)."
+            teaser_text: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
+          overdue: When overdue
+        project_specific:
+          title: "Project-specific notification settings"
+          description: "These project-specific settings override default settings above."
+          add: "Add setting for project"
+          already_selected: "This project is already selected"
+          remove: "Remove project settings"
+    password_confirmation:
+      field_description: "You need to enter your account password to confirm this change."
+      title: "Confirm your password to continue"
+    pagination:
+      no_other_page: "You are on the only page."
+      pages:
+        next: "Forward to the next page"
+        previous: "Back to the previous page"
+    placeholders:
+      default: "-"
+      subject: "Enter subject here"
+      selection: "Please select"
+      description: "Description: Click to edit..."
+      relation_description: "Click to add description for this relation"
+    project:
+      required_outside_context: >
+        Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
+      details_activity: "Project details activity"
+      context: "Project context"
+      click_to_switch_to_project: "Project: %{projectname}"
+      confirm_template_load: "Switching the template will reload the page and you will lose all input to this form. Continue?"
+      use_template: "Use template"
+      no_template_selected: "(None)"
+      copy:
+        copy_options: "Copy options"
+      autocompleter:
+        label: "Project autocompletion"
+    reminders:
+      settings:
+        daily:
+          add_time: "Tambah masa"
+          enable: "Bolehkan peringatan e-mel harian"
+          explanation: "Anda akan menerima peringatan hanya untuk pemberitahuan yang belum dibaca dan hanya pada jam yang anda tentukan. %{no_time_zone}"
+          no_time_zone: "Sehingga anda konfigurasi zon masa untuk akaun anda, masa akan ditafsirkan dalam UTC."
+          time_label: "Masa %{counter}:"
+          title: "Hantar saya peringatan e-mel harian untuk pemberitahuan yang belum dibaca"
+        workdays:
+          title: "Terima peringatan e-mel pada hari-hari ini"
+        immediate:
+          title: "Hantar saya peringatan e-mel"
+          mentioned: "Serta merta apabila sesiapa @mentions saya"
+        alerts:
+          title: "Peringatan e-mel untuk item lain (yang bukan pakej kerja)"
+          explanation: >
+            Pemberitahuan hari ini adalah terhad untuk pakej kerja. Anda boleh memilih untuk terus menerima makluman e-mel untuk kejadian ini sehingga mereka disertakan dalam notifikasi:
+          news_added: "Berita ditambah"
+          news_commented: "Komen pada item berita"
+          document_added: "Dokumen ditambah"
+          forum_messages: "Mesej forum baharu"
+          wiki_page_added: "Halaman wiki ditambah"
+          wiki_page_updated: "Halaman wiki dikemas kini"
+          membership_added: "Keahlian ditambah"
+          membership_updated: "Keahlian dikemas kini"
+        title: "Peringatan e-mel"
+        pause:
+          label: "Hentikan seketika peringatan e-mel harian"
+          first_day: "Hari pertama"
+          last_day: "Hari terakhir"
+    text_are_you_sure: "Adakah anda pasti?"
+    text_data_lost: "Semua data yang dimasukkan akan hilang."
+    text_user_wrote: "%{value} menulis:"
+    types:
+      attribute_groups:
+        error_duplicate_group_name: "Nama %{group} digunakan lebih dari sekali. Nama kumpulan mesti unik."
+        error_no_table_configured: "Sila konfigurasi jadual untuk %{group}."
+        reset_title: "Reset form configuration"
+        confirm_reset: >
+          Warning: Are you sure you want to reset the form configuration? This will reset the attributes to their default group and disable ALL custom fields.
+        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
+        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
+        more_information: "Maklumat lanjut"
+        nevermind: "Tidak mengapa"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Projek"
+        settings: "Tetapan"
+    time_entry:
+      work_package_required: "Memerlukan pemilihan pakej kerja dahulu."
+      title: "Masa log"
+      tracking: "Time tracking"
+      stop: "Berhenti"
+    timer:
+      start_new_timer: "Mulakan pemasa baharu"
+      timer_already_running: "Untuk mula pemasa baharu, anda perlu menghentikan pemasa semasa dahulu:"
+      timer_already_stopped: "Tiada pemasa aktif untuk pakej kerja ini, adakah anda telah menghentikannya di window lain?"
+      tracking_time: "Tracking time"
+      button_stop: "Hentikan pemasa semasa"
+    two_factor_authentication:
+      label_two_factor_authentication: "Pengesahan dua faktor"
+    watchers:
+      label_loading: loading watchers...
+      label_error_loading: Ralat berlaku semasa memuatkan pemerhati
+      label_search_watchers: Cari pemerhati
+      label_add: Tambah pemerhati
+      label_discard: Buang pemilihan
+      typeahead_placeholder: Search for possible watchers
+    relation_labels:
+      parent: "Parent"
+      children: "Children"
+      relates: "Related To"
+      duplicates: "Duplicates"
+      duplicated: "Duplicated by"
+      blocks: "Blocks"
+      blocked: "Blocked by"
+      precedes: "Precedes"
+      follows: "Follows"
+      includes: "Includes"
+      partof: "Part of"
+      requires: "Requires"
+      required: "Required by"
+      relation_type: "relation type"
+    relations_hierarchy:
+      parent_headline: "Parent"
+      hierarchy_headline: "Hierarchy"
+      children_headline: "Children"
+    relation_buttons:
+      set_parent: "Set parent"
+      change_parent: "Change parent"
+      remove_parent: "Remove parent"
+      hierarchy_indent: "Indent hierarchy"
+      hierarchy_outdent: "Outdent hierarchy"
+      group_by_wp_type: "Group by work package type"
+      group_by_relation_type: "Group by relation type"
+      add_parent: "Add existing parent"
+      add_new_child: "Create new child"
+      create_new: "Create new"
+      add_existing: "Add existing"
+      add_existing_child: "Add existing child"
+      remove_child: "Remove child"
+      add_new_relation: "Create new relation"
+      add_existing_relation: "Add existing relation"
+      update_description: "Set or update description of this relation"
+      toggle_description: "Toggle relation description"
+      update_relation: "Click to change the relation type"
+      add_follower: "Add follower"
+      show_relations: "Show relations"
+      add_predecessor: "Add predecessor"
+      remove: "Remove relation"
+      save: "Save relation"
+      abort: "Abort"
+    relations_autocomplete:
+      placeholder: "Type to search"
+      parent_placeholder: "Pilih induk baharu atau tekan escape untuk batalkan."
+    autocompleter:
+      placeholder: "Taip untuk mencari"
+      notFoundText: "Tiada item ditemui"
+      project:
+        placeholder: "Pilih projek"
+    repositories:
+      select_tag: "Pilih tag"
+      select_branch: "Select branch"
+    field_value_enter_prompt: "Masukkan nilai untuk '%{field}'"
+    project_menu_details: "Butiran"
+    scheduling:
+      manual: "Manual scheduling"
+    sort:
+      sorted_asc: "Susunan menaik digunakan, "
+      sorted_dsc: "Susunan menurun digunakan, "
+      sorted_no: "Tiada susunan digunakan, "
+      sorting_disabled: "sorting is disabled"
+      activate_asc: "aktifkan untuk gunakan penyusunan menaik"
+      activate_dsc: "aktifkan untuk gunakan penyusunan menurun"
+      activate_no: "aktifkan untuk membuang penyusunan"
+    text_work_packages_destroy_confirmation: "Adakah anda pasti anda ingin memadam pakej kerja yang dipilih tersebut?"
+    text_query_destroy_confirmation: "Adakah anda pasti mahu memadam paparan yang dipilih?"
+    tl_toolbar:
+      zooms: "Tahap zum"
+      outlines: "Tahap hierarki"
+    upsale:
+      ee_only: "Enterprise edition add-on"
+    wiki_formatting:
+      strong: "Strong"
+      italic: "Italic"
+      underline: "Underline"
+      deleted: "Deleted"
+      code: "Inline Code"
+      heading1: "Tajuk 1"
+      heading2: "Tajuk 2"
+      heading3: "Tajuk 3"
+      unordered_list: "Senarai tidak tersusun"
+      ordered_list: "Senarai tersusun"
+      quote: "Petikan harga"
+      unquote: "Unquote"
+      preformatted_text: "Preformatted Text"
+      wiki_link: "Pautan ke halaman wiki"
+      image: "Gambar"
+    work_packages:
+      bulk_actions:
+        move: "Bulk change of project"
+        edit: "Bulk edit"
+        copy: "Bulk copy"
+        delete: "Bulk delete"
+      button_clear: "Clear"
+      comment_added: "Komen telah berjaya ditambahkan."
+      comment_send_failed: "An error has occurred. Could not submit the comment."
+      comment_updated: "Komen telah berjaya dikemas kini."
+      confirm_edit_cancel: "Adakah anda pasti anda ingin membatalkan penyuntingan pakej kerja?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Dijadualkan secara automatik. Tarikh diperolehi daripada hubungan."
+        manually_scheduled: "Penjadualan secara manual dibenarkan, semua hubungan diabaikan."
+        start_date_limited_by_relations: "Tarikh mula dan akhir yang tersedia adalah dibatasi oleh hubungan."
+        changing_dates_affects_follow_relations: "Mengubah tarikh ini akan mempengaruhi tarikh pakej kerja yang berkaitan."
+        click_on_show_relations_to_open_gantt: 'Klik pada "%{button_name}" untuk gambaran keseluruhan GANTT.'
+        show_relations: "Tunjuk hubungan"
+        ignore_non_working_days:
+          title: "Working days only"
+      description_filter: "Filter"
+      description_enter_text: "Enter text"
+      description_options_hide: "Hide options"
+      description_options_show: "Show options"
+      edit_attribute: "%{attribute} - Edit"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: "Enable multiselect"
+      label_disable_multi_select: "Disable multiselect"
+      label_filter_add: "Add filter"
+      label_filter_by_text: "Filter by text"
+      label_options: "Options"
+      label_column_multiselect: "Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace"
+      message_error_during_bulk_delete: An error occurred while trying to delete work packages.
+      message_successful_bulk_delete: Successfully deleted work packages.
+      message_successful_show_in_fullscreen: "Click here to open this work package in fullscreen view."
+      message_view_spent_time: "Show spent time for this work package"
+      message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
+      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
+      placeholder_filter_by_text: "Subject, description, comments, ..."
+      progress:
+        title: "Work estimates and progress"
+      baseline:
+        addition_label: "Added to view within the comparison time period"
+        removal_label: "Removed from view within the comparison time period"
+        modification_label: "Modified within the comparison time period"
+        column_incompatible: "This column does not show changes in Baseline mode."
+      filters:
+        title: "Filter work packages"
+        baseline_incompatible: "This filter attribute is not taken into consideration in Baseline mode."
+        baseline_warning: "Baseline mode is on but some of your active filters are not included in the comparison."
+      inline_create:
+        title: "Click here to add a new work package to this list"
+      create:
+        title: "New work package"
+        header: "New %{type}"
+        header_no_type: "New work package (Type not yet set)"
+        header_with_parent: "New %{type} (Child of %{parent_type} #%{id})"
+        button: "Create"
+      copy:
+        title: "Copy work package"
+      hierarchy:
+        show: "Tunjuk mod hierarki"
+        hide: "Sembunyikan mod hierarki"
+        toggle_button: "Click to toggle hierarchy mode."
+        leaf: "Work package leaf at level %{level}."
+        children_collapsed: "Hierarchy level %{level}, collapsed. Click to show the filtered children"
+        children_expanded: "Hierarchy level %{level}, expanded. Click to collapse the filtered children"
+      faulty_query:
+        title: Work packages could not be loaded.
+        description: Your view is erroneous and could not be processed.
+      no_results:
+        title: Tiada pakej kerja untuk dipaparkan.
+        description: Either none have been created or all work packages are filtered out.
+      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
+      property_groups:
+        details: "Butiran"
+        people: "Orang"
+        estimatesAndTime: "Anggaran & Masa"
+        other: "Lain-lain"
+      properties:
+        assignee: "Assignee"
+        author: "Pengarang"
+        createdAt: "Dicipta pada"
+        description: "Penerangan"
+        date: "Tarikh"
+        percentComplete: "% Selesai"
+        percentCompleteAlternative: "Kemajuan"
+        dueDate: "Finish date"
+        duration: "Duration"
+        spentTime: "Spent time"
+        category: "Kategori"
+        percentageDone: "Peratusan selesai"
+        priority: "Keutamaan"
+        projectName: "Projek"
+        remainingWork: "Kerja berbaki"
+        remainingWorkAlternative: "Remaining hours"
+        responsible: "Bertanggungjawab"
+        startDate: "Tarikh mula"
+        status: "Status"
+        subject: "Subjek"
+        subproject: "Subprojek"
+        title: "Tajuk"
+        type: "Jenis"
+        updatedAt: "Dikemas kini pada"
+        versionName: "Versi"
+        version: "Versi"
+        work: "Kerja"
+        workAlternative: "Anggaran masa"
+        remainingTime: "Remaining work"
+      default_queries:
+        latest_activity: "Aktiviti terkini"
+        created_by_me: "Dicipta oleh saya"
+        assigned_to_me: "Ditugaskan kepada saya"
+        recently_created: "Recently created"
+        all_open: "Semua terbuka"
+        summary: "Ringkasan"
+        shared_with_users: "Shared with users"
+        shared_with_me: "Shared with me"
+      jump_marks:
+        pagination: "Jump to table pagination"
+        label_pagination: "Click here to skip over the work packages table and go to pagination"
+        content: "Jump to content"
+        label_content: "Click here to skip over the menu and go to the content"
+      placeholders:
+        default: "-"
+        date: "Select date"
+      query:
+        column_names: "Columns"
+        group_by: "Group results by"
+        group: "Group by"
+        group_by_disabled_by_hierarchy: "Group by is disabled due to the hierarchy mode being active."
+        hierarchy_disabled_by_group_by: "Hierarchy mode is disabled due to results being grouped by %{column}."
+        sort_ascending: "Sort ascending"
+        sort_descending: "Sort descending"
+        move_column_left: "Move column left"
+        move_column_right: "Move column right"
+        hide_column: "Hide column"
+        insert_columns: "Insert columns"
+        filters: "Filters"
+        display_sums: "Display Sums"
+        confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
+        click_to_edit_query_name: "Click to edit title of this view."
+        rename_query_placeholder: "Name of this view"
+        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        public_text: >
+          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+        errors:
+          unretrievable_query: "Unable to retrieve view from URL"
+          not_found: "There is no such view"
+          duplicate_query_title: "Name of this view already exists. Change anyway?"
+        text_no_results: "No matching views were found."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+      sharing:
+        share: "Share"
+        title: "Share work package"
+        show_all_users: "Show all shared users"
+        selected_count: "%{count} dipilih"
+        selection:
+          mixed: "Mixed"
+        upsale:
+          description: "Share work packages with users who are not members of the project."
+      table:
+        configure_button: "Configure work package table"
+        summary: "Table with rows of work package and columns of work package attributes."
+        text_inline_edit: "Most cells of this table are buttons that activate inline-editing functionality of that attribute."
+        text_sort_hint: "With the links in the table headers you can sort, group, reorder, remove and add table columns."
+        text_select_hint: "Select boxes should be opened with 'ALT' and arrow keys."
+      table_configuration:
+        button: "Configure this work package table"
+        choose_display_mode: "Display work packages as"
+        modal_title: "Work package table configuration"
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
+        default: "default"
+        display_settings: "Display settings"
+        default_mode: "Flat list"
+        hierarchy_mode: "Hierarchy"
+        hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
+        display_sums_hint: "Display sums of all summable attributes in a row below the table results."
+        show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
+        highlighting: "Highlighting"
+        highlighting_mode:
+          description: "Highlight with color"
+          none: "No highlighting"
+          inline: "Highlighted attribute(s)"
+          inline_all: "All attributes"
+          entire_row_by: "Entire row by"
+          status: "Status"
+          priority: "Priority"
+          type: "Type"
+        sorting_mode:
+          description: "Chose the mode to sort your Work packages:"
+          automatic: "Automatic"
+          manually: "Manually"
+          warning: "You will lose your previous sorting when activating the automatic sorting mode."
+        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
+        upsale:
+          attribute_highlighting: "Need certain work packages to stand out from the mass?"
+          relation_columns: "Need to see relations in the work package list?"
+          check_out_link: "Check out the Enterprise edition."
+        relation_filters:
+          filter_work_packages_by_relation_type: "Filter work packages by relation type"
+      tabs:
+        overview: Overview
+        activity: Activity
+        relations: Relations
+        watchers: Watchers
+        files: Files
+      time_relative:
+        days: "days"
+        weeks: "weeks"
+        months: "months"
+    toolbar:
+      settings:
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
+        display_sums: "Display sums"
+        display_hierarchy: "Display hierarchy"
+        hide_hierarchy: "Hide hierarchy"
+        hide_sums: "Hide sums"
+        save: "Save"
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        share_calendar: "Subscribe to calendar"
+        page_settings: "Rename view"
+        delete: "Delete"
+      filter: "Filter"
+      unselected_title: "Work package"
+      search_query_label: "Search saved views"
+    modals:
+      label_name: "Name"
+      label_delete_page: "Delete current page"
+      button_apply: "Apply"
+      button_save: "Save"
+      button_submit: "Submit"
+      button_cancel: "Cancel"
+      button_delete: "Delete"
+      form_submit:
+        title: "Confirm to continue"
+        text: "Are you sure you want to perform this action?"
+      destroy_work_package:
+        title: "Confirm deletion of %{label}"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
+        has_children: "The work package has %{childUnits}:"
+        confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
+        deletes_children: "All child work packages and their descendants will also be recursively deleted."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
+    notice_no_results_to_display: "No visible results to display."
+    notice_successful_create: "Successful creation."
+    notice_successful_delete: "Successful deletion."
+    notice_successful_update: "Successful update."
+    notice_job_started: "job started."
+    notice_bad_request: "Bad Request."
+    relations:
+      empty: No relation exists
+      remove: Remove relation
+    inplace:
+      button_edit: "%{attribute}: Edit"
+      button_save: "%{attribute}: Save"
+      button_cancel: "%{attribute}: Cancel"
+      button_save_all: "Save"
+      button_cancel_all: "Cancel"
+      link_formatting_help: "Text formatting help"
+      btn_preview_enable: "Preview"
+      btn_preview_disable: "Disable preview"
+      null_value_label: "No value"
+      clear_value_label: "-"
+      errors:
+        required: "%{field} cannot be empty"
+        number: "%{field} is not a valid number"
+        maxlength: "%{field} cannot contain more than %{maxLength} digit(s)"
+        minlength: "%{field} cannot contain less than %{minLength} digit(s)"
+        messages_on_field: "This field is invalid: %{messages}"
+    error_could_not_resolve_version_name: "Couldn't resolve version name"
+    error_could_not_resolve_user_name: "Couldn't resolve user name"
+    error_attachment_upload: "File failed to upload: %{error}"
+    error_attachment_upload_permission: "You don't have the permission to upload files on this resource."
+    units:
+      workPackage:
+        other: "work packages"
+      child_work_packages:
+        other: "%{count} work package children"
+      hour:
+        one: "1 h"
+        other: "%{count} h"
+        zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
+    zen_mode:
+      button_activate: "Activate zen mode"
+      button_deactivate: "Deactivate zen mode"
+    global_search:
+      all_projects: "In all projects"
+      close_search: "Close search"
+      current_project_and_all_descendants: "In this project + subprojects"
+      current_project: "In this project"
+      recently_viewed: "Recently viewed"
+      search: "Cari"
+      title:
+        all_projects: "all projects"
+        project_and_subprojects: "and all subprojects"
+        search_for: "Search for"
+    views:
+      card: "Cards"
+      list: "Table"
+      timeline: "Gantt"
+    invite_user_modal:
+      back: "Back"
+      invite: "Invite"
+      title:
+        invite: "Invite user"
+        invite_to_project: "Invite %{type} to %{project}"
+        User: "user"
+        Group: "group"
+        PlaceholderUser: "placeholder user"
+        invite_principal_to_project: "Invite %{principal} to %{project}"
+      project:
+        label: "Project"
+        required: "Please select a project"
+        lacking_permission: "Please select a different project since you lack permissions to assign users to the currently selected."
+        lacking_permission_info: "You lack the permission to assign users to the project you are currently in. You need to select a different one."
+        next_button: "Next"
+        no_results: "No projects were found"
+        no_invite_rights: "You are not allowed to invite members to this project"
+      type:
+        required: "Please select the type to be invited"
+        user:
+          title: "User"
+          description: "Permissions based on the assigned role in the selected project"
+        group:
+          title: "Group"
+          description: "Permissions based on the assigned role in the selected project"
+        placeholder:
+          title: "Placeholder user"
+          title_no_ee: "Placeholder user (Enterprise edition only add-on)"
+          description: "Has no access to the project and no emails are sent out."
+          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
+      principal:
+        label:
+          name_or_email: "Name or email address"
+          name: "Name"
+        already_member_message: "Sudah menjadi ahli kepada %{project}"
+        no_results_user: "Tiada pengguna dijumpai"
+        invite_user: "Jemput:"
+        no_results_placeholder: "No placeholders were found"
+        create_new_placeholder: "Create new placeholder:"
+        no_results_group: "Tiada kumpulan dijumpai"
+        next_button: "Seterusnya"
+        required:
+          user: "Sila pilih pengguna"
+          placeholder: "Please select a placeholder"
+          group: "Sila pilih kumpulan"
+      role:
+        label: "Peranan dalam %{project}"
+        no_roles_found: "Tiada peranan dijumpai"
+        description: >-
+          This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>
+        required: "Please select a role"
+        next_button: "Next"
+      message:
+        label: "Invitation message"
+        description: "We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started."
+        next_button: "Next"
+      summary:
+        next_button: "Send invitation"
+      success:
+        title: "%{principal} was invited!"
+        description:
+          user: "The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
+          placeholder: "The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
+          group: "The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance."
+        next_button: "Continue"
+    include_projects:
+      toggle_title: "Include projects"
+      title: "Projects"
+      clear_selection: "Clear selection"
+      apply: "Apply"
+      selected_filter:
+        all: "All projects"
+        selected: "Only selected"
+      search_placeholder: "Search project..."
+      include_subprojects: "Include all sub-projects"
+      tooltip:
+        include_all_selected: "Project already included since Include all sub-projects is enabled."
+        current_project: "This is the current project you are in."
+        does_not_match_search: "Project does not match the search criteria."
+      no_results: "No project matches your search criteria."
+    baseline:
+      toggle_title: "Baseline"
+      clear: "Clear"
+      apply: "Apply"
+      header_description: "Highlight changes made to this list since any point in the past."
+      enterprise_header_description: "Highlight changes made to this list since any point in the past with Enterprise edition."
+      show_changes_since: "Show changes since"
+      baseline_comparison: "Baseline comparison"
+      help_description: "Reference time zone for the baseline."
+      time_description: "In your local time: %{datetime}"
+      time: "Time"
+      from: "From"
+      to: "To"
+      drop_down:
+        none: "-"
+        yesterday: "yesterday"
+        last_working_day: "hari bekerja terakhir"
+        last_week: "minggu lepas"
+        last_month: "bulan lepas"
+        a_specific_date: "tarikh tertentu"
+        between_two_specific_dates: "antara dua tarikh tertentu"
+      legends:
+        changes_since: "Perubahan sejak"
+        changes_between: "Perubahan antara"
+        now_meets_filter_criteria: "Now meets filter criteria"
+        no_longer_meets_filter_criteria: "No longer meets filter criteria"
+        maintained_with_changes: "Dikekalkan dengan perubahan"
+        in_your_timezone: "Dalam zon waktu tempatan anda:"
+      icon_tooltip:
+        added: "Added to view within the comparison time period"
+        removed: "Removed from view within the comparison time period"
+        changed: "Dikekalkan dengan pengubahsuaian"
+    forms:
+      submit_success_message: "Borang telah berjaya dihantar"
+      load_error_message: "Terdapat ralat semasa memuatkan borang"
+      validation_error_message: "Sila betulkan ralat yang terdapat dalam borang"
+      advanced_settings: "Advanced settings"
+    spot:
+      filter_chip:
+        remove: "Keluarkan"
+      drop_modal:
+        focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
+        Close: "Tutup"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

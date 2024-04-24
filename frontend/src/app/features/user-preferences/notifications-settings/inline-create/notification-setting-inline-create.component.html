@@ -1,0 +1,26 @@
+<div
+  class="inline-create-container"
+>
+  <button
+    *ngIf="!active"
+    (click)="active = true"
+    class="spot-link"
+    type="button"
+  >
+    <span class="spot-icon spot-icon_add"></span>
+    <span [textContent]="text.add_setting"></span>
+  </button>
+
+  <op-project-autocompleter
+    *ngIf="active"
+
+    (change)="selectProject($event)"
+    (keydown.escape)="active = false"
+
+    [filters]="APIFilters"
+    [mapResultsFn]="this.mapProjectsFn.bind(this)"
+
+    [placeholder]="text.please_select"
+    dropdownPosition="top"
+  ></op-project-autocompleter>
+</div>

@@ -1,0 +1,98 @@
+# /api/v3/queries/filter_instance_schemas/{id}
+---
+get:
+  parameters:
+  - description: QueryFilterInstanceSchema identifier. The identifier is the filter
+      identifier.
+    example: author
+    in: path
+    name: id
+    required: true
+    schema:
+      type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _dependencies:
+                - _type: SchemaDependency
+                  dependencies:
+                    "/api/v3/queries/operators/!":
+                      values:
+                        _links: {}
+                        hasDefault: false
+                        name: Values
+                        required: true
+                        type: "[]User"
+                        writable: true
+                    "/api/v3/queries/operators/=":
+                      values:
+                        _links: {}
+                        hasDefault: false
+                        name: Values
+                        required: true
+                        type: "[]User"
+                        writable: true
+                  'on': operator
+                _links:
+                  filter:
+                    href: "/api/v3/queries/filters/author"
+                    title: Author
+                  self:
+                    href: "/api/v3/queries/filter_instance_schemas/author"
+                _type: QueryFilterInstanceSchema
+                filter:
+                  _links: {}
+                  hasDefault: false
+                  name: Filter
+                  required: true
+                  type: QueryFilter
+                  writable: true
+                name:
+                  hasDefault: true
+                  name: Name
+                  required: true
+                  type: String
+                  writable: false
+          schema:
+            "$ref": "../components/schemas/query_filter_instance_schema_model.yml"
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:Unauthenticated
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package in any project
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The specified query does not exist.
+      description: Returned if the QueryFilterInstanceSchema does not exist.
+      headers: {}
+  tags:
+  - Query Filter Instance Schema
+  description: Retrieve an individual QueryFilterInstanceSchema as identified by the
+    id parameter.
+  operationId: View_Query_Filter_Instance_Schema
+  summary: View Query Filter Instance Schema

@@ -1,0 +1,97 @@
+# /api/v3/attachments/{id}
+---
+delete:
+  parameters:
+  - description: Attachment id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '204':
+      description: |-
+        Returned if the attachment was deleted successfully.
+
+        Note that the response body is empty as of now. In future versions of the API a body
+        *might* be returned along with an appropriate HTTP status.
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to delete this attachment.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** edit permission for the container of the attachment or being the author for attachments without container
+
+        *Note that you will only receive this error, if you are at least allowed to see the attachment.*
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified attachment does not exist.
+      description: |-
+        Returned if the attachment does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:** view permission for the container of the attachment or being the author for attachments without container
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of an attachment.
+        That's why a 404 is returned here, even if a 403 might be more appropriate.*
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+  tags:
+    - Attachments
+  description: Permanently deletes the specified attachment.
+  operationId: delete_attachment
+  summary: Delete attachment
+get:
+  parameters:
+  - description: Attachment id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/attachment_model.yml"
+      description: OK
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified attachment does not exist.
+      description: |-
+        Returned if the attachment does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:** view permission for the container of the attachment or being the author for attachments without container
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of an attachment.
+        That's why a 404 is returned here, even if a 403 might be more appropriate.*
+  tags:
+    - Attachments
+  description: ''
+  operationId: view_attachment
+  summary: View attachment

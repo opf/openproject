@@ -1,0 +1,53 @@
+.op-autocompleter
+  &--option-wrapper
+    padding: 5px 5px
+    line-height: 15px
+    min-height: 25px  // line-height + padding
+    word-break: break-word
+    display: grid
+    grid-template-columns: auto 1fr
+    grid-template-rows: 1fr 1fr
+
+  &--option-principal
+    margin-right: 5px
+    float: left
+    grid-column-start: 1
+    grid-column-end: 2
+    grid-row-start: 1
+    grid-row-end: 3
+
+  &--wp-content
+    display: grid
+    grid-template-columns: 50% 1fr auto
+    grid-template-areas: "project idlink status"
+    font-size: 0.8rem
+    padding: 1px 0 5px 0
+
+  &--wp-project
+    grid-area: project
+    display: inline-block
+    overflow: hidden
+    white-space: nowrap
+    text-overflow: ellipsis
+
+  &--wp-id
+    grid-area: idlink
+    font-style: italic
+    margin: 0 0.5rem
+
+  &--wp-status
+    grid-area: status
+    overflow: hidden
+    font-style: italic
+
+  &--wp-subject
+    font-weight: var(--base-text-weight-bold)
+    display: inline-block
+    overflow: hidden
+    white-space: nowrap
+    text-overflow: ellipsis
+
+  &--option-principal
+    &-wrapper
+      display: flex
+      overflow: hidden

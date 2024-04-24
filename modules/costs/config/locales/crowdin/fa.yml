@@ -1,0 +1,145 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+fa:
+  plugin_costs:
+    name: "زمان و هزینه‌ها"
+    description: "This module adds features for planning and tracking costs of projects."
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: "بسته کاری"
+        overridden_costs: "هزینه‌های لغو شده"
+        spent: "صرف شده"
+        spent_on: "تاریخ"
+      cost_type:
+        unit: "نام واحد"
+        unit_plural: "نام واحد پولی"
+      work_package:
+        costs_by_type: "واحد هزینه‌کرد"
+        labor_costs: "هزینه های نیروی کار"
+        material_costs: "هزینه های هرواحد"
+        overall_costs: "هزینه‌های کلی"
+        spent_costs: "هزینه‌های خرج شده"
+        spent_units: "واحد هزینه‌کرد"
+      rate:
+        rate: "نرخ"
+      user:
+        default_rates: "ضرایب پرداختی (نرخ) پیشفرض"
+    models:
+      cost_type:
+        one: "نوع هزینه"
+        other: "انواع هزینه"
+      rate: "نرخ"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "پکیج‌کاری شماره %{id} به عنوان مقصد معتبری برای تخصیص موارد هزینه نمی‌باشد."
+          nullify_is_not_valid_for_cost_entries: "ورودی‌های هزینه نمی‌توانند به یک پروژه اختصاص یابند."
+  attributes:
+    comment: "نظر"
+    cost_type: "نوع هزینه"
+    costs: "هزینه‌ها"
+    current_rate: "نرخ فعلی"
+    hours: "ساعت‌‌‌‌‌‌"
+    units: "واحدها"
+    valid_from: "معتبر از"
+    fixed_date: "تاریخ ثابت"
+  button_add_rate: "افزودن نرخ (ضریب) پرداخت"
+  button_log_costs: "ثبت هزینه‌های واحد"
+  caption_booked_on_project: "رزرو شده در پروژه"
+  caption_default: "پیش‌فرض"
+  caption_default_rate_history_for: "تاریخچه ضریب (نرخ) پرداختی پیش‌فرض برای %{user}"
+  caption_locked_on: "قفل شده"
+  caption_materials: "واحدها"
+  caption_rate_history: "تاریخچه ضریب (نرخ) پرداخت"
+  caption_rate_history_for: "تاریخچه ضریب پرداختی (نرخ) برای %{user}"
+  caption_rate_history_for_project: "تاریخچه ضریب پرداختی برای %{user} در پروژه %{project}"
+  caption_save_rate: "ذخیره امتیاز"
+  caption_set_rate: "تنظیم ضریب پرداخت (نرخ) کنونی"
+  caption_show_locked: "نمایش انواع قفل‌شده"
+  description_date_for_new_rate: "تاریخ برای شروع ضریب پرداختی (نرخ) جدید"
+  group_by_others: "در هیچ گروهی نیست"
+  label_between: "بین"
+  label_cost_filter_add: "افزودن فیلتر ورودی هزینه"
+  label_costlog: "هزینه‌های واحد ثبت‌شده"
+  label_cost_plural: "هزینه ها"
+  label_cost_type_plural: "انواع هزینه"
+  label_cost_type_specific: "نوع هزینه #%{id}: %{name}"
+  label_costs_per_page: "هزینه‌ها در هر صفحه"
+  label_currency: "واحد پول"
+  label_currency_format: "فرمت واحد پول"
+  label_current_default_rate: "ضریب پرداخت پیشفرض فعلی"
+  label_date_on: "برخط"
+  label_deleted_cost_types: "انواع هزینه حذف‌شده"
+  label_locked_cost_types: "انواع هزینه قفل‌شده"
+  label_display_cost_entries: "نمایش هزینه‌های واحد"
+  label_display_time_entries: "نمایش ساعات گزارش‌شده"
+  label_display_types: "انواع نمایش"
+  label_edit: "ویرایش"
+  label_generic_user: "کاربر عمومی"
+  label_greater_or_equal: ">="
+  label_group_by: "گروه‌بندی بر اساس"
+  label_group_by_add: "افزودن فیلد گروه‌بندی"
+  label_hourly_rate: "نرخ (حقوق) ساعتی"
+  label_include_deleted: "شامل حذف‌شده‌ها"
+  label_work_package_filter_add: "افزودن فیلتر پکیج‌کاری"
+  label_kind: "نوع"
+  label_less_or_equal: "=>"
+  label_log_costs: "ثبت هزینه‌های واحد"
+  label_no: "نه"
+  label_option_plural: "گزینه‌ها"
+  label_overall_costs: "هزینه‌های کلی"
+  label_rate: "نرخ"
+  label_rate_plural: "نرخ ها (ضرایب پرداخت)"
+  label_status_finished: "پایان یافته"
+  label_units: "واحدهای هزینه"
+  label_user: "کاربر"
+  label_until: "تا"
+  label_valid_from: "معتبر از"
+  label_yes: "بله"
+  notice_something_wrong: "مشکلی پیش آمد. لطفا دوباره تلاش کنید."
+  notice_successful_restore: "بازیابی موفق"
+  notice_successful_lock: "با موفقیت قفل شد."
+  notice_cost_logged_successfully: 'هزینه واحد با موفقیت ثبت شد.'
+  permission_edit_cost_entries: "ویرایش هزینه‌های واحد رزرو شده"
+  permission_edit_own_cost_entries: "ویرایش هزینه‌های واحد رزرو شده خود"
+  permission_edit_hourly_rates: "ویرایش نرخ (ضریب پرداختی) ساعتی"
+  permission_edit_own_hourly_rate: "ویرایش نرخ (ضریب پرداختی) ساعتی خودتان"
+  permission_edit_rates: "ویرایش نرخ (ضرایب پرداختی)"
+  permission_log_costs: "رزرو هزینه‌های واحد"
+  permission_log_own_costs: "رزرو هزینه‌های واحد برای خود"
+  permission_view_cost_entries: "مشاهده هزینه‌های رزرو شده"
+  permission_view_cost_rates: "مشاهده نرخ‌های هزینه"
+  permission_view_hourly_rates: "مشاهده تمامی نرخ‌های ساعتی"
+  permission_view_own_cost_entries: "مشاهده هزینه‌های رزرو شده خود"
+  permission_view_own_hourly_rate: "مشاهده نرخ ساعتی خود"
+  permission_view_own_time_entries: "مشاهده زمان صرف‌شده خود"
+  project_module_costs: "زمان و هزینه‌ها"
+  text_assign_time_and_cost_entries_to_project: "تخصیص ساعت‌ها و هزینه‌های گزارش شده به پروژه"
+  text_destroy_cost_entries_question: "%{cost_entries} در بسته‌های کاری که می‌خواهید حذف کنید گزارش شده است. میخوای چیکار کنی؟"
+  text_destroy_time_and_cost_entries: "ساعت ها و هزینه های گزارش شده را حذف کنید"
+  text_destroy_time_and_cost_entries_question: "%{hours} ,%{cost_entries} در بسته‌های کاری که می‌خواهید حذف کنید گزارش شده است. میخوای چیکار کنی؟"
+  text_reassign_time_and_cost_entries: "Reassign reported hours and costs to this work package:"
+  text_warning_hidden_elements: "Some entries may have been excluded from the aggregation."
+  week: "week"
+  js:
+    text_are_you_sure: "Are you sure?"

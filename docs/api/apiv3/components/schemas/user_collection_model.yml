@@ -1,0 +1,46 @@
+# Schema: UserCollectionModel
+---
+allOf:
+  - $ref: './collection_model.yml'
+  - type: object
+    required:
+      - _links
+      - _embedded
+    properties:
+      _links:
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  This user collection
+                  
+                  **Resource**: Collection
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            items:
+              $ref: './user_model.yml'
+
+example:
+  _type: Collection
+  total: 2
+  count: 2
+  _links:
+    self:
+      href: '/api/v3/users'
+  _embedded:
+    elements:
+      - _hint: User resource shortened for brevity
+        _type: User
+        id: 1337
+      - _hint: User resource shortened for brevity
+        _type: User
+        id: 1338

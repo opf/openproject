@@ -1,0 +1,411 @@
+# /api/v3/queries/{id}
+---
+delete:
+  summary: Delete query
+  operationId: Delete_query
+  tags:
+  - Queries
+  description: Delete the query identified by the id parameter
+  parameters:
+  - description: Query id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '204':
+      description: No Content
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** for own queries none; for public queries: manage public queries
+
+        *Note that you will only receive this error, if you are at least allowed to see the corresponding query.*
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the query does not exist or the client does not have sufficient permissions to see it.
+
+        **Required condition:** query belongs to user or query is public
+
+        **Required permission:** view work package in queries project
+      headers: {}
+get:
+  summary: View query
+  operationId: View_query
+  tags:
+  - Queries
+  description: Retrieve an individual query as identified by the id parameter. Then
+    end point accepts a number of parameters that can be used to override the resources'
+    persisted parameters.
+  parameters:
+    - name: id
+      description: Query id
+      example: '1'
+      in: path
+      required: true
+      schema:
+        type: integer
+    - name: filters
+      description: |-
+        JSON specifying filter conditions.
+        The filters provided as parameters are not applied to the query but are instead used to override the query's persisted filters.
+        All filters also accepted by the work packages endpoint are accepted. If no filter is to be applied, the client should send an empty array (`[]`).
+      example: '[{ "assignee": { "operator": "=", "values": ["1", "5"] }" }]'
+      in: query
+      required: false
+      schema:
+        default: '[{ "status_id": { "operator": "o", "values": null }}]'
+        type: string
+    - name: offset
+      description: Page number inside the queries' result collection of work packages.
+      example: '25'
+      in: query
+      required: false
+      schema:
+        default: 1
+        type: integer
+    - name: pageSize
+      description: Number of elements to display per page for the queries' result collection
+        of work packages.
+      example: '25'
+      in: query
+      required: false
+      schema:
+        type: integer
+    - name: columns
+      description: Selected columns for the table view.
+      example: "[]"
+      in: query
+      required: false
+      schema:
+        default: "['type', 'priority']"
+        type: string
+    - name: sortBy
+      description: JSON specifying sort criteria. The sort criteria is applied to the
+        query's result collection of work packages overriding the query's persisted
+        sort criteria.
+      example: '[["status", "asc"]]'
+      in: query
+      required: false
+      schema:
+        default: '[["id", "asc"]]'
+        type: string
+    - name: groupBy
+      description: The column to group by. The grouping criteria is applied to the to
+        the query's result collection of work packages overriding the query's persisted
+        group criteria.
+      example: status
+      in: query
+      required: false
+      schema:
+        type: string
+    - name: showSums
+      description: Indicates whether properties should be summed up if they support
+        it. The showSums parameter is applied to the to the query's result collection
+        of work packages overriding the query's persisted sums property.
+      example: true
+      in: query
+      required: false
+      schema:
+        default: false
+        type: boolean
+    - name: timestamps
+      description: >
+        Indicates the timestamps to filter by when showing changed attributes
+        on work packages. Values can be either ISO8601 dates, ISO8601 durations and the
+        following relative date keywords: "oneDayAgo@HH:MM+HH:MM", "lastWorkingDay@HH:MM+HH:MM",
+        "oneWeekAgo@HH:MM+HH:MM", "oneMonthAgo@HH:MM+HH:MM".
+        The first "HH:MM" part represents the zero paded hours and minutes.
+        The last "+HH:MM" part represents the timezone offset from UTC associated with the time,
+        the offset can be positive or negative e.g."oneDayAgo@01:00+01:00", "oneDayAgo@01:00-01:00".
+        Values older than 1 day are accepted only with valid Enterprise Token available.
+
+      example: '2023-01-01,P-1Y,PT0S,lastWorkingDay@12:00'
+      in: query
+      required: false
+      schema:
+        default: 'PT0S'
+        type: string
+    - name: timelineVisible
+      description: Indicates whether the timeline should be shown.
+      example: true
+      in: query
+      required: false
+      schema:
+        default: false
+        type: boolean
+    - name: timelineLabels
+      description: Overridden labels in the timeline view
+      example: "{}"
+      in: query
+      required: false
+      schema:
+        default: "{}"
+        type: string
+    - name: highlightingMode
+      description: Highlighting mode for the table view.
+      example: inline
+      in: query
+      required: false
+      schema:
+        default: inline
+        type: string
+    - name: highlightedAttributes
+      description: Highlighted attributes mode for the table view when `highlightingMode`
+        is `inline`. When set to `[]` all highlightable attributes will be returned
+        as `highlightedAttributes`.
+      example: "[]"
+      in: query
+      required: false
+      schema:
+        default: "['type', 'priority']"
+        type: string
+    - name: showHierarchies
+      description: Indicates whether the hierarchy mode should be enabled.
+      example: true
+      in: query
+      required: false
+      schema:
+        default: true
+        type: boolean
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            Query:
+              "$ref": "../components/examples/query.yml"
+          schema:
+            "$ref": "../components/schemas/query_model.yml"
+      description: OK
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The specified query does not exist.
+      description: |-
+        Returned if the query does not exist or the client does not have sufficient permissions to see it.
+
+        **Required condition:** query belongs to user or query is public
+
+        **Required permission:** view work package in queries project
+      headers: {}
+patch:
+  summary: Edit Query
+  operationId: Edit_Query
+  tags:
+  - Queries
+  description: |-
+    When calling this endpoint the client provides a single object, containing the properties and links that it wants to change, in the body.
+    Note that it is only allowed to provide properties or links supporting the **write** operation.
+  parameters:
+  - description: Query id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/query_update_form.yml'
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  highlightedAttributes: []
+                  results:
+                    _embedded:
+                      elements:
+                      - "<--- shortened for brevity --->"
+                    _links:
+                      changeSize:
+                        href: "/api/v3/projects/3/work_packages?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22o%22%2C%22values%22%3A%5B%5D%7D%7D%2C%7B%22dueDate%22%3A%7B%22operator%22%3A%22%3Ct%2B%22%2C%22values%22%3A%5B%221%22%5D%7D%7D%5D&offset=1&pageSize=%7Bsize%7D&sortBy=%5B%5B%22parent%22%2C%22desc%22%5D%5D"
+                        templated: true
+                      createWorkPackage:
+                        href: "/api/v3/work_packages/form"
+                        method: post
+                      createWorkPackageImmediate:
+                        href: "/api/v3/work_packages"
+                        method: post
+                      jumpTo:
+                        href: "/api/v3/projects/3/work_packages?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22o%22%2C%22values%22%3A%5B%5D%7D%7D%2C%7B%22dueDate%22%3A%7B%22operator%22%3A%22%3Ct%2B%22%2C%22values%22%3A%5B%221%22%5D%7D%7D%5D&offset=%7Boffset%7D&pageSize=2&sortBy=%5B%5B%22parent%22%2C%22desc%22%5D%5D"
+                        templated: true
+                      self:
+                        href: "/api/v3/projects/3/work_packages?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22o%22%2C%22values%22%3A%5B%5D%7D%7D%2C%7B%22dueDate%22%3A%7B%22operator%22%3A%22%3Ct%2B%22%2C%22values%22%3A%5B%221%22%5D%7D%7D%5D&offset=1&pageSize=2&sortBy=%5B%5B%22parent%22%2C%22desc%22%5D%5D"
+                    _type: WorkPackageCollection
+                    count: 30
+                    offset: 1
+                    pageSize: 2
+                    total: 234
+                _links:
+                  columns:
+                  - href: "/api/v3/queries/columns/id"
+                    title: ID
+                  - href: "/api/v3/queries/columns/subject"
+                    title: Subject
+                  - href: "/api/v3/queries/columns/type"
+                    title: Type
+                  - href: "/api/v3/queries/columns/status"
+                    title: Status
+                  - href: "/api/v3/queries/columns/priority"
+                    title: Priority
+                  - href: "/api/v3/queries/columns/assignee"
+                    title: Assignee
+                  - href: "/api/v3/queries/columns/updated_at"
+                    title: Updated on
+                  groupBy:
+                    href:
+                    title:
+                  highlightedAttributes: []
+                  project:
+                    href: "/api/v3/projects/3"
+                    title: copy
+                  results:
+                    href: "/api/v3/projects/3/work_packages?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22o%22%2C%22values%22%3A%5B%5D%7D%7D%2C%7B%22dueDate%22%3A%7B%22operator%22%3A%22%3Ct%2B%22%2C%22values%22%3A%5B%221%22%5D%7D%7D%5D&offset=1&pageSize=2&sortBy=%5B%5B%22parent%22%2C%22desc%22%5D%5D"
+                  self:
+                    href: "/api/v3/queries/9"
+                    title: fdsfdsfdsf
+                  sortBy:
+                  - href: "/api/v3/queries/sort_bys/parent-desc"
+                    title: Parent (Descending)
+                  user:
+                    href: "/api/v3/users/1"
+                    title: OpenProject Admin
+                _type: Query
+                createdAt: '2015-03-20T12:56:56.343Z'
+                filters:
+                - _links:
+                    filter:
+                      href: "/api/v3/queries/filters/status"
+                      title: Status
+                    operator:
+                      href: "/api/v3/queries/operators/o"
+                      title: open
+                    schema:
+                      href: "/api/v3/queries/filter_instance_schemas/status"
+                    values: []
+                  _type: StatusQueryFilter
+                  name: Status
+                - _links:
+                    filter:
+                      href: "/api/v3/queries/filters/dueDate"
+                      title: Finish date
+                    operator:
+                      href: "/api/v3/queries/operators/<t+"
+                      title: in less than
+                    schema:
+                      href: "/api/v3/queries/filter_instance_schemas/dueDate"
+                  _type: DueDateQueryFilter
+                  name: Finish date
+                  values:
+                  - '1'
+                id: 9
+                name: fdsfdsfdsf
+                public: false
+                starred: false
+                sums: false
+                updatedAt: '2015-05-20T18:16:53.884Z'
+          schema:
+            "$ref": "../components/schemas/query_model.yml"
+      description: OK
+      headers: {}
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not allowed to edit the content of the work package.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** edit work package
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The specified query does not exist.
+      description: |-
+        Returned if the query does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work packages in the query's project (unless global)
+      headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _embedded:
+                  details:
+                    attribute: name
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: The name might not be blank.
+      description: |-
+        Returned if:
+
+        * the client tries to modify a read-only property (`PropertyIsReadOnly`)
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+        * the client provides a link to an invalid resource (`ResourceTypeMismatch`)
+      headers: {}

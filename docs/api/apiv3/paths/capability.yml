@@ -1,0 +1,54 @@
+# /api/v3/capabilities/{id}
+---
+get:
+  parameters:
+  - description: capability id
+    example: work_packages/create/p123-567
+    in: path
+    name: id
+    required: true
+    schema:
+      type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  action:
+                    href: "/api/v3/actions/work_packages/create"
+                    title: Add work package
+                  context:
+                    href: "/api/v3/projects/123"
+                    title: A project
+                  principal:
+                    href: "/api/v3/users/567"
+                    title: Some user
+                  self:
+                    href: "/api/v3/capabilities/work_packages/create/p123-567"
+                _type: Capability
+                id: work_packages/create/p123-567
+          schema:
+            "$ref": "../components/schemas/view_capabilities_model.yml"
+      description: OK
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: Returned if the capability does not exist.
+      headers: {}
+  tags:
+  - Actions & Capabilities
+  description: ''
+  operationId: View_capabilities
+  summary: View capabilities

@@ -1,0 +1,126 @@
+# Schema: NotificationModel
+---
+type: object
+properties:
+  _type:
+    type: string
+    enum:
+      - Notification
+  id:
+    type: integer
+    description: Notification id
+    minimum: 1
+  reason:
+    type: string
+    description: The reason for the notification
+    enum:
+      - assigned
+      - commented
+      - created
+      - dateAlert
+      - mentioned
+      - prioritized
+      - processed
+      - responsible
+      - subscribed
+      - scheduled
+      - watched
+  readIAN:
+    type: boolean
+    description: Whether the notification is marked as read
+  details:
+    type: array
+    items:
+      oneOf:
+        - $ref: './values_property_model.yml'
+    description: A list of objects including detailed information about the notification.
+  createdAt:
+    type: string
+    format: date-time
+    description: The time the notification was created at
+  updatedAt:
+    type: string
+    format: date-time
+    description: The time the notification was last updated
+  _embedded:
+    type: object
+    required:
+      - project
+      - resource
+    properties:
+      actor:
+        $ref: './user_model.yml'
+      project:
+        $ref: './project_model.yml'
+      activity:
+        $ref: './activity_model.yml'
+      resource:
+        oneOf:
+          - $ref: './work_package_model.yml'
+  _links:
+    type: object
+    required:
+      - self
+      - project
+      - actor
+      - activity
+      - resource
+      - details
+    properties:
+      self:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              This notification
+              
+              **Resource**: Notification
+      readIAN:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              Request to mark the notification as read. Only available if the notification is currently unread.
+      unreadIAN:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              Request to mark the notification as unread. Only available if the notification is currently read.
+      project:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              The project the notification originated in
+              
+              **Resource**: Project
+      actor:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              The user that caused the notification. This might be null in
+              case no user triggered the notification.
+              
+              **Resource**: User
+      resource:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              The linked resource of the notification, if any.
+
+              **Resource**: Polymorphic
+      activity:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              The journal activity, if the notification originated from a journal entry. This might be null in
+              case no activity triggered the notification.
+
+              **Resource**: Activity
+      details:
+        type: array
+        items:
+          allOf:
+            - "$ref": "./link.yml"
+            - description: |-
+                A list of objects including detailed information about the notification. The contents of
+                and type of this can vary widely between different notification reasons.
+
+                **Resource**: Polymorphic (e.g. Values::Property)

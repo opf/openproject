@@ -1,0 +1,136 @@
+#English strings go here for Rails i18n
+el:
+  plugin_openproject_bim:
+    name: "OpenProject BIM and BCF functionality"
+    description: "This OpenProject plugin introduces BIM and BCF functionality."
+  bim:
+    label_bim: 'BIM'
+  bcf:
+    label_bcf: 'BCF'
+    label_imported_failed: 'Αποτυχημένες εισαγωγές των θεμάτων BCF'
+    label_imported_successfully: 'Επιτυχής εισαγωγή θέματων BCF'
+    issues: "Ζητήματα"
+    recommended: 'προτεινόμενο'
+    not_recommended: 'δεν συνιστάται'
+    no_viewpoints: 'Δεν υπάρχουν viewpoints'
+    new_badge: "Νέο"
+    exceptions:
+      file_invalid: "Το αρχείο BCF δεν είναι έγκυρο"
+    x_bcf_issues:
+      zero: 'Δεν υπάρχουν ζητήματα BCF'
+      one: 'Ένα BCF ζήτημα'
+      other: '%{count} BCF ζητήματα'
+    bcf_xml:
+      xml_file: 'BCF XML Αρχείο'
+      import_title: 'Εισαγωγή'
+      export: 'Εξαγωγή'
+      import_update_comment: '(Ενημερώθηκε στην εισαγωγή BCF)'
+      import_failed: 'Δεν είναι δυνατή η εισαγωγή του BCF αρχείου: %{error}'
+      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
+      import_successful: 'Εισήχθησαν %{count} ζητήματα BCF'
+      import_canceled: 'η εισαγωγή BCF-XML ακυρώθηκε.'
+      type_not_active: "Ο τύπος του ζητήματος δεν είναι ενεργοποιημένος για αυτό το έργο."
+      import:
+        num_issues_found: '%{x_bcf_issues} περιέχονται στο αρχείο BCF-XML, οι λεπτομέρειες τους παρατίθενται παρακάτω.'
+        button_prepare: 'Προετοιμασία εισαγωγής'
+        button_perform_import: 'Επιβεβαιώση εισαγωγής'
+        button_proceed: 'Προχωρήστε με εισαγωγή'
+        button_back_to_list: 'Επιστροφή στη λίστα'
+        no_permission_to_add_members: 'Δεν έχετε επαρκή δικαιώματα για να τους προσθέσετε ως μέλη αυτού του έργου.'
+        contact_project_admin: 'Επικοινωνήστε με τον διαχειριστή έργου σας για να τους προσθέσετε ως μέλη και να επανεκκινήσετε την εισαγωγή.'
+        continue_anyways: 'Θέλετε να προχωρήσετε και να ολοκληρώσετε την εισαγωγή ανεξαρτήτως;'
+        description: "Προμηθεύστε ένα αρχείο BCF-XML v2.1 για να εισάγετε σε αυτό το έργο. Μπορείτε να ελέγξετε τα περιεχόμενα του πριν εκτελέσετε την εισαγωγή."
+        invalid_types_found: 'Βρέθηκαν μη έγκυρα ονόματα τύπου θέματος'
+        invalid_statuses_found: 'Βρέθηκαν μη έγκυρα ονόματα κατάστασης'
+        invalid_priorities_found: 'Βρέθηκαν μη έγκυρα ονόματα προτεραιότητας'
+        invalid_emails_found: 'Βρέθηκαν μη έγκυρες διευθύνσεις email'
+        unknown_emails_found: 'Βρέθηκαν άγνωστες διευθύνσεις email'
+        unknown_property: 'Άγνωστη ιδιότητα'
+        non_members_found: 'Βρέθηκαν μέλη που δεν ανήκουν στο έργο'
+        import_types_as: 'Ορίστε όλους αυτούς τους τύπους σε'
+        import_statuses_as: 'Ορίστε όλες αυτές τις καταστάσεις σε'
+        import_priorities_as: 'Ορίστε όλες αυτές τις προτεραιότητες σε'
+        invite_as_members_with_role: 'Προσκαλέστε τους ως μέλη στο έργο "%{project}" με τον ρόλο'
+        add_as_members_with_role: 'Προσθέστε τους ως μέλη στο έργο "%{project}" με τον ρόλο'
+        no_type_provided: 'Δεν δόθηκε κανένας τύπος'
+        no_status_provided: 'Δεν δόθηκε καμία κατάσταση'
+        no_priority_provided: 'Δεν δόθηκε καμιά προτεραιότητα'
+        perform_description: "Θέλετε να εισάγετε ή να ενημερώσετε τα ζητήματα που παρατίθενται παραπάνω;"
+        replace_with_system_user: 'Αντικατάσταση τους με τον χρήστη "Συστήματος"'
+        import_as_system_user: 'Εισαγωγή ως χρήστης "Συστήματος".'
+        what_to_do: "Τι θέλετε να κάνετε;"
+        work_package_has_newer_changes: "Απαρχαιωμένο! Αυτό το θέμα δεν ενημερώθηκε, καθώς οι τελευταίες αλλαγές στον διακομιστή ήταν νεότερες από την \"ModifiedDate\" του εισαγόμενου θέματος. Ωστόσο, εισήχθησαν σχόλια στο θέμα."
+        bcf_file_not_found: "Αποτυχία εντοπισμού του αρχείου BCF. Παρακαλώ ξεκινήστε ξανά τη διαδικασία μεταφόρτωσης."
+  export:
+    format:
+      bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "BCF snapshot"
+  project_module_bcf: "BCF"
+  project_module_bim: "BCF"
+  permission_view_linked_issues: "Προβολή ζητημάτων BCF"
+  permission_manage_bcf: "Εισαγωγή και διαχείριση ζητημάτων BCF"
+  permission_delete_bcf: "Διαγραφή ζητημάτων BCF"
+  oauth:
+    scopes:
+      bcf_v2_1: "Πλήρης πρόσβαση στο BCF v2.1 API"
+      bcf_v2_1_text: "Η εφαρμογή θα λάβει πλήρη πρόσβαση ανάγνωσης και εγγραφής στο API OpenProject BCF v2.1 για να εκτελέσει ενέργειες για λογαριασμό σας."
+  activerecord:
+    models:
+      bim/ifc_models/ifc_model: "Μοντέλο IFC"
+    attributes:
+      bim/ifc_models/ifc_model:
+        ifc_attachment: "Αρχείο IFC"
+        is_default: "Προεπιλεγμένο μοντέλο"
+        attachments: "Αρχείο IFC"
+    errors:
+      models:
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "Δεν υπάρχει συνημμένο ifc αρχείο."
+              invalid_ifc_file: "Το δοθέν αρχείο δεν είναι ένα έγκυρο αρχείο IFC."
+        bim/bcf/viewpoint:
+          bitmaps_not_writable: "τα bitmaps δεν είναι εγγράψιμα καθώς δεν έχουν υλοποιηθεί ακόμη."
+          index_not_integer: "ο δείκτης δεν είναι ακέραιος."
+          invalid_clipping_planes: "το clipping_planes δεν είναι έγκυρο."
+          invalid_components: "τα συστατικά δεν είναι έγκυρα."
+          invalid_lines: "οι γραμμές δεν είναι έγκυρες."
+          invalid_orthogonal_camera: "η orthogonal_camera δεν είναι έγκυρη."
+          invalid_perspective_camera: "η perspective_camera δεν είναι έγκυρη."
+          mismatching_guid: "Το guid στο json_viewpoint δεν ταιριάζει με το guid του μοντέλου."
+          no_json: "Δεν είναι ένα σωστά δομημένο json."
+          snapshot_type_unsupported: "το snapshot_type πρέπει να είναι είτε 'png' ή 'jpg'."
+          snapshot_data_blank: "το snapshot_data πρέπει να παρέχεται."
+          unsupported_key: "Συμπεριλαμβάνεται μια μη υποστηριζόμενη ιδιότητα json."
+        bim/bcf/issue:
+          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
+  ifc_models:
+    label_ifc_models: 'Μοντέλα IFC'
+    label_new_ifc_model: 'Νέο μοντέλο IFC'
+    label_show_defaults: 'Εμφάνιση προεπιλογών'
+    label_default_ifc_models: 'Προεπιλεγμένα μοντέλα IFC'
+    label_edit_defaults: 'Επεξεργασία προεπιλογών'
+    no_defaults_warning:
+      title: 'Δεν έχει οριστεί μοντέλο IFC ως προεπιλογή για αυτό το έργο.'
+      check_1: 'Ελέγξτε ότι έχετε μεταφορτώσει τουλάχιστον ένα μοντέλο IFC.'
+      check_2: 'Ελέγξτε ότι τουλάχιστον ένα μοντέλο IFC είναι ορισμένο ως "Προεπιλογή".'
+    no_results: "Δεν υπάρχουν μοντέλα IFC που να έχουν μεταφορτωθεί σε αυτό το έργο."
+    conversion_status:
+      label: 'Γίνεται επεξεργασία;'
+      pending: 'Pending'
+      processing: 'Processing'
+      completed: 'Ολοκληρωμένο'
+      error: 'Σφάλμα'
+    processing_notice:
+      processing_default: 'Το ακόλουθο προεπιλεγμένο μοντέλο IFC επεξεργάζεται και γι''αυτό δεν είναι διαθέσιμο, ακόμη:'
+    flash_messages:
+      upload_successful: 'Η μεταφόρτωση ολοκληρώθηκε επιτυχώς. Τώρα θα επεξεργαστεί και θα είναι έτοιμο για χρήση σε μερικά λεπτά.'
+    conversion:
+      missing_commands: "Οι ακόλουθες εντολές του μετατροπέα IFC λείπουν από αυτό το σύστημα: %{names}"
+  project_module_ifc_models: "Μοντέλα IFC"
+  permission_view_ifc_models: "Εμφάνιση μοντέλων IFC"
+  permission_manage_ifc_models: "Εισαγωγή και διαχείριση μοντέλων IFC"
+  extraction:
+    available:
+      ifc_convert: "Διαθέσιμο pipeline μετατροπής IFC"

@@ -1,0 +1,8 @@
+<button
+    (click)="update()"
+    class="custom-action--button button -narrow hide-when-print"
+    title="{{action.description ? action.description : action.name}}"
+    [disabled]="change.inFlight"
+    >
+  {{action.name}}
+</button>

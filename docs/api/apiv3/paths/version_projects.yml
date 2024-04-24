@@ -1,0 +1,75 @@
+# /api/v3/versions/{id}/projects
+---
+get:
+  parameters:
+  - description: Version id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  elements:
+                  - _links:
+                      categories:
+                        href: "/api/v3/projects/1/categories"
+                      self:
+                        href: "/api/v3/projects/1"
+                        title: Lorem
+                      status:
+                        href: "/api/v3/project_statuses/on_track"
+                        title: On track
+                      versions:
+                        href: "/api/v3/projects/1/versions"
+                    _type: Project
+                    active: true
+                    createdAt: '2014-05-21T08:51:20.396Z'
+                    description:
+                      format: markdown
+                      html: "<p>Lorem <strong>ipsum</strong> dolor sit amet</p>"
+                      raw: Lorem **ipsum** dolor sit amet
+                    id: 1
+                    identifier: project_identifier
+                    name: Project example
+                    statusExplanation:
+                      format: markdown
+                      html: "<p>Everything <strong>fine</strong></p>"
+                      raw: Everything **fine**
+                    updatedAt: '2014-05-21T08:51:20.396Z'
+                _links:
+                  self:
+                    href: "/api/v3/versions/2/projects"
+                _type: Collection
+                count: 1
+                total: 1
+          schema:
+            "$ref": "../components/schemas/list_projects_by_version_model.yml"
+      description: OK
+      headers: {}
+    '404':
+      description: |-
+        Returned if the version does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:** view work packages **or** manage versions (any project where the given version is available)
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of a version.
+        That's why a 404 is returned here, even if a 403 might be more appropriate.*
+      headers: {}
+  tags:
+  - Projects
+  description: |-
+    This endpoint lists the projects where the given version is available.
+
+    The projects returned depend on the sharing settings of the given version,
+    but are also limited to the projects that the current user is allowed to see.
+  operationId: List_projects_with_version
+  summary: List projects having version

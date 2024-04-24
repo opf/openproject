@@ -1,0 +1,144 @@
+<ng-container>
+  <!-- Name -->
+  <label
+    for="operators-{{filter.id}}"
+    class="advanced-filters--filter-name"
+    [class.op-query-filter--icon-label]="baselineIncompatibleFilter"
+  >
+    <span [textContent]="filter.name" [attr.title]="filter.name"></span>
+    <span
+      *ngIf="baselineIncompatibleFilter"
+      [title]="text.incompatible_filter"
+      data-test-selector="query-filter-baseline-incompatible"
+      class="spot-icon spot-icon_warning"></span>
+  </label>
+
+  <!-- Operator -->
+  <div class="advanced-filters--filter-operator">
+
+    <label
+      for="operators-{{filter.id}}"
+      class="hidden-for-sighted"
+    >
+      {{ filter.name }}
+      {{ text.open_filter }}
+    </label>
+
+    <select
+      required
+      *ngIf="valueType !== '[1]Boolean'"
+      class="advanced-filters--select"
+      id="operators-{{filter.id}}"
+      name="op[{{filter.id}}]"
+      [(ngModel)]="filter.operator"
+      (ngModelChange)="onFilterUpdated(filter)"
+      [compareWith]="compareByHref"
+      style="vertical-align: top;"
+    >
+      <option
+        *ngFor="let operator of availableOperators"
+        [textContent]="operator.name"
+        [ngValue]="operator"
+      >
+      </option>
+    </select>
+
+    <op-filter-boolean-value
+      *ngIf="valueType == '[1]Boolean'"
+      (filterChanged)="onFilterUpdated($event)"
+      [shouldFocus]="shouldFocus"
+      [filter]="filter"
+    ></op-filter-boolean-value>
+  </div>
+  <!-- Values -->
+  <ng-container *ngIf="showValuesInput && valueType">
+    <div class="advanced-filters--filter-value" [ngSwitch]="valueType">
+      <op-filter-integer-value
+        *ngSwitchCase="'[1]Integer'"
+        (filterChanged)="onFilterUpdated($event)"
+        [shouldFocus]="shouldFocus"
+        [filter]="filter"
+      ></op-filter-integer-value>
+
+      <op-filter-date-value
+        *ngSwitchCase="'[1]Date'"
+        (filterChanged)="onFilterUpdated($event)"
+        [shouldFocus]="shouldFocus"
+        [filter]="filter"
+      ></op-filter-date-value>
+
+      <op-filter-dates-value
+        *ngSwitchCase="'[2]Date'"
+        (filterChanged)="onFilterUpdated($event)"
+        [shouldFocus]="shouldFocus"
+        [filter]="filter"
+      ></op-filter-dates-value>
+
+      <op-filter-date-time-value
+        *ngSwitchCase="'[1]DateTime'"
+        (filterChanged)="onFilterUpdated($event)"
+        [shouldFocus]="shouldFocus"
+        [filter]="filter"
+      ></op-filter-date-time-value>
+
+      <op-filter-date-times-value
+        *ngSwitchCase="'[2]DateTime'"
+        [shouldFocus]="shouldFocus"
+        (filterChanged)="onFilterUpdated($event)"
+        [filter]="filter"
+      ></op-filter-date-times-value>
+
+      <op-filter-string-value
+        *ngSwitchCase="'[1]String'"
+        (filterChanged)="onFilterUpdated($event)"
+        [shouldFocus]="shouldFocus"
+        [filter]="filter"
+      ></op-filter-string-value>
+
+      <op-filter-string-value
+        *ngSwitchCase="'[1]Float'"
+        (filterChanged)="onFilterUpdated($event)"
+        [shouldFocus]="shouldFocus"
+        [filter]="filter"
+      ></op-filter-string-value>
+
+      <op-filter-project
+        *ngSwitchCase="'[]Project'"
+        (filterChanged)="onFilterUpdated($event)"
+        [shouldFocus]="shouldFocus"
+        [filter]="filter"
+      ></op-filter-project>
+
+      <ng-container *ngSwitchDefault>
+        <op-filter-toggled-multiselect-value
+          *ngIf="filter.currentSchema.loadedAllowedValues()"
+          (filterChanged)="onFilterUpdated($event)"
+          [shouldFocus]="shouldFocus"
+          [filter]="filter"
+        ></op-filter-toggled-multiselect-value>
+        <op-filter-searchable-multiselect-value
+          *ngIf="!filter.currentSchema.loadedAllowedValues()"
+          (filterChanged)="onFilterUpdated($event)"
+          [shouldFocus]="shouldFocus"
+          [filter]="filter"
+        ></op-filter-searchable-multiselect-value>
+      </ng-container>
+    </div>
+  </ng-container>
+
+  <div
+    class="advanced-filters--filter-value"
+    *ngIf="!showValuesInput"
+  ></div>
+
+  <div class="advanced-filters--remove-filter">
+    <button
+      type="button"
+      class="spot-link"
+      [title]="text.button_delete"
+      (click)="removeThisFilter()"
+    >
+      <op-icon icon-classes="icon-close advanced-filters--remove-filter-icon"></op-icon>
+    </button>
+  </div>
+</ng-container>

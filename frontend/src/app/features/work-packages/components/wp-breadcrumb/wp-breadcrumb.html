@@ -1,0 +1,28 @@
+<div class="op-wp-breadcrumb -show"
+      data-test-selector="op-wp-breadcrumb"
+     *ngIf="workPackage">
+  <ul class="op-breadcrumb"
+      data-test-selector="op-breadcrumb">
+    <ng-container *ngIf="!inputActive && hierarchyCount > 0">
+      <li>
+        <span>{{ hierarchyLabel }}: </span>
+      </li>
+      <ng-container *ngFor="let ancestor of workPackage.getAncestors(); let first = first ; let last = last">
+        <li
+            *ngIf="!last"
+            class="op-wp-breadcrumb--ellipsed"
+            [ngClass]="{ 'icon4 icon-small icon-arrow-right5': !first }">
+          <a [attr.title]="ancestor.name"
+             [textContent]="ancestor.name"
+             uiSref="work-packages.show"
+             [uiParams]="{workPackageId: ancestor.id}"
+             class="nocut"></a>
+        </li>
+      </ng-container>
+    </ng-container>
+    <li
+        [ngClass]="{ 'op-wp-breadcrumb--active-parent-select': inputActive, 'icon4 icon-small icon-arrow-right5': !inputActive && hierarchyCount > 1 }">
+      <wp-breadcrumb-parent (onSwitch)="updateActiveInput($event)" [workPackage]="workPackage"></wp-breadcrumb-parent>
+    </li>
+  </ul>
+</div>

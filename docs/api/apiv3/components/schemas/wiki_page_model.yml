@@ -1,0 +1,46 @@
+# Schema: Wiki_PageModel
+---
+type: object
+required:
+- title
+properties:
+  id:
+    type: integer
+    description: Identifier of this wiki page
+    readOnly: true
+    exclusiveMinimum: 0
+  title:
+    type: string
+    description: The wiki page's title
+  _links:
+    type: object
+    properties:
+      addAttachment:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            Attach a file to the wiki page
+
+            # Conditions
+
+            **Permission**: edit wiki page
+          readOnly: true
+example:
+  _type: WikiPage
+  id: 72
+  title: A wiki page with a name
+  _embedded:
+    project:
+      _type: Project...
+      id: 12
+  _links:
+    self:
+      href: "/api/v3/wiki_pages/72"
+    attachments:
+      href: "/api/v3/wiki_pages/72/attachments"
+    addAttachment:
+      href: "/api/v3/wiki_pages/72/attachments"
+      method: post
+    project:
+      href: "/api/v3/projects/12"
+      title: some project

@@ -1,0 +1,29 @@
+#English strings go here
+pl:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'Importuj'
+      import_bcf_xml_file: 'Zaimportuj plik BCF-XML (wersja BCF 2.1)'
+      export: 'Eksportuj'
+      export_bcf_xml_file: 'Wyeksportuj plik BCF-XML (wersja BCF 2.1)'
+      viewpoint: 'Punkt widzenia'
+      add_viewpoint: 'Dodaj punkt widzenia'
+      show_viewpoint: 'Pokaż punkt widzenia'
+      delete_viewpoint: 'Usuń punkt widzenia'
+      management: 'Zarządzanie BCF'
+      refresh: 'Odśwież'
+      refresh_work_package: 'Odśwież pakiet roboczy'
+    ifc_models:
+      empty_warning: "Ten projekt nie ma jeszcze żadnych modeli IFC."
+      use_this_link_to_manage: "Użyj tego linku, aby przesłać swoje modele IFC i zarządzać nimi"
+      keyboard_input_disabled: "Przeglądarka nie obsługuje sterowania za pomocą klawiatury. Kliknij przeglądarkę, aby przekazać jej sterowanie za pomocą klawiatury."
+      models:
+        ifc_models: 'Modele IFC'
+      views:
+        viewer: 'Przeglądarka'
+        split: 'Przeglądarka i tabela'
+        split_cards: 'Przeglądarka i karty'
+    revit:
+      revit_add_in: "Dodatek Revit"
+      revit_add_in_settings: "Ustawienia dodatku Revit"

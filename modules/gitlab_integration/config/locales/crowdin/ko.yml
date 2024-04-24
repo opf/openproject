@@ -1,0 +1,67 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2023 Ben Tey
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+ko:
+  activerecord:
+    errors:
+      models:
+        gitlab_issue:
+          attributes:
+            labels:
+              invalid_schema: "키가 있는 해시 배열이어야 합니다: color, title"
+        gitlab_merge_request:
+          attributes:
+            labels:
+              invalid_schema: "키가 있는 해시 배열이어야 합니다: color, title"
+  project_module_gitlab: "GitLab"
+  permission_show_gitlab_content: "GitLab 콘텐츠 표시"
+  gitlab_integration:
+    merge_request_opened_comment: >
+      **MR 열림:** [%{repository}](%{repository_url})에 대한 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 열렸습니다.
+    merge_request_closed_comment: >
+      **MR 닫힘:** [%{repository}](%{repository_url})에 대한 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 닫혔습니다.
+    merge_request_merged_comment: >
+      **MR 병합됨:** [%{repository}](%{repository_url})에 대한 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 병합되었습니다.
+    merge_request_reopened_comment: >
+      **MR 다시 열림:** [%{repository}](%{repository_url})에 대한 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 다시 열렸습니다.
+    note_commit_referenced_comment: >
+      **커밋에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 커밋 메모 [%{commit_id}](%{commit_url})에서 이 WP를 참조했습니다: %{commit_note}
+    note_mr_referenced_comment: >
+      **MR에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})에서 이 WP를 참조했습니다: %{mr_note}
+    note_mr_commented_comment: >
+      **MR에서 코멘트 작성됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})에서 이 WP에 대해 코멘트를 작성했습니다: %{mr_note}
+    note_issue_referenced_comment: >
+      **이슈에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 이슈 %{issue_number} [%{issue_title}](%{issue_url})에서 이 WP를 참조했습니다: %{issue_note}
+    note_issue_commented_comment: >
+      **이슈에서 코멘트 작성됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 이슈 %{issue_number} [%{issue_title}](%{issue_url})에서 이 WP에 대해 코멘트를 작성했습니다: %{issue_note}
+    note_snippet_referenced_comment: >
+      **코드 조각에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 코드 조각 %{snippet_number} [%{snippet_title}](%{snippet_url})에서 이 WP를 참조했습니다: %{snippet_note}
+    issue_opened_referenced_comment: >
+      **이슈 열림:** [%{repository}](%{repository_url})에 대한 이슈 %{issue_number} [%{issue_title}](%{issue_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 열렸습니다.
+    issue_closed_referenced_comment: >
+      **이슈 닫힘:** [%{repository}](%{repository_url})에 대한 이슈 %{issue_number} [%{issue_title}](%{issue_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 닫혔습니다.
+    issue_reopened_referenced_comment: >
+      **이슈 다시 열림:** [%{repository}](%{repository_url})에 대한 이슈 %{issue_number} [%{issue_title}](%{issue_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 다시 열렸습니다.
+    push_single_commit_comment: >
+      **MR에서 푸시됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{commit_number}](%{commit_url})을(를) %{commit_timestamp}, [%{repository}](%{repository_url})에 푸시했습니다: %{commit_note}
+    push_multiple_commits_comment: >
+      **MR에서 푸시됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 여러 커밋 [%{commit_number}](%{commit_url})을(를) %{commit_timestamp}, [%{repository}](%{repository_url})에 푸시했습니다: %{commit_note}

@@ -1,0 +1,95 @@
+<div #outerContainer
+     class="op-ifc-viewer">
+
+  <div *ngIf="modelCount === 0" class="op-toast -info">
+    <div class="op-toast--content">
+      <p>
+        {{ text.empty_warning }}
+        <br/>
+        <a *ngIf="canManage"
+           [href]="ifcData.manageIFCPath"
+           target="_blank"
+           [textContent]="text.use_this_link_to_manage">
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <div #viewerContainer
+       *ngIf="modelCount"
+       class="op-ifc-viewer--container xeokit-busy-modal-backdrop"
+       data-test-selector="op-ifc-viewer--container">
+
+    <div class="op-ifc-viewer--toolbar op-ifc-viewer--model-canvas-overlay">
+      <div #xeokitToolbarIcons class="xeokit-toolbar-icon-replacements">
+        <button id="xeokit-replace-reset">
+          <svg home-icon size="small"></svg>
+        </button>
+        <button id="xeokit-replace-threeD">
+          <svg package-icon size="small"></svg>
+        </button>
+        <button id="xeokit-replace-ortho">
+          <svg op-grid-menu-icon size="small"></svg>
+        </button>
+        <button id="xeokit-replace-fit">
+          <svg screen-full-icon size="small"></svg>
+        </button>
+        <button id="xeokit-replace-firstPerson">
+          <svg person-icon size="small"></svg>
+        </button>
+        <button id="xeokit-replace-showSpaces">
+          <svg op-view-modal-icon size="small"></svg>
+        </button>
+        <button id="xeokit-replace-hide">
+          <svg op-erase-icon size="small"></svg>
+        </button>
+        <button id="xeokit-replace-select">
+          <svg op-cursor-select-icon size="small"></svg>
+        </button>
+        <button id="xeokit-replace-marquee">
+          <svg op-cursor-rectangle-select-icon size="small"></svg>
+        </button>
+        <button id="xeokit-replace-section">
+          <svg op-scissors-icon size="small"></svg>
+        </button>
+      </div>
+
+      <div #toolbar
+           class="op-ifc-viewer--toolbar-container"
+           data-test-selector="op-ifc-viewer--toolbar-container">
+      </div>
+
+      <div class="op-ifc-viewer--toolbar-info-button">
+        <button class="xeokit-btn"
+                [class.active]="inspectorVisible$ | async"
+                (click)="toggleInspector()">
+          <svg info-icon size="small"></svg>
+        </button>
+      </div>
+    </div>
+
+    <canvas #modelCanvas
+            class="op-ifc-viewer--model-canvas"
+            data-test-selector="op-ifc-viewer--model-canvas"
+            tabindex="0">
+    </canvas>
+
+    <div *ngIf="!keyboardEnabled"
+         class="op-ifc-viewer--focus-warning op-ifc-viewer--model-canvas-overlay">
+      <a class="op-ifc-viewer--keyboard-disabled-icon icon-no-color icon-input-disabled"
+         (mousedown)="enableFromIcon($event)"
+         [attr.title]="text.keyboard_input_disabled">
+      </a>
+    </div>
+
+    <canvas #navCubeCanvas
+            class="op-ifc-viewer--nav-cube-canvas op-ifc-viewer--model-canvas-overlay"
+            data-test-selector="op-ifc-viewer--nav-cube-canvas"></canvas>
+  </div>
+
+  <div #inspectorPane
+       class="op-ifc-viewer--inspector-container"
+       [class.op-ifc-viewer--inspector-container-hidden]="!(inspectorVisible$ | async)"
+       data-test-selector="op-ifc-viewer--inspector-container">
+  </div>
+</div>

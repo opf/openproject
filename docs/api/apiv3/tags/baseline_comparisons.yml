@@ -1,0 +1,294 @@
+---
+description: |-
+  Baseline comparisons allow to compare work packages or collections of work packages with respect to different points in time.
+
+  This helps to answer questions like:
+
+  - Which work packages match a certain set of filters today, which work packages match this set of filters at a certain earlier point in time?
+  - Which properties of these work packages have changed with respect to these points in time?
+
+  This tool can be used to analyze how a project plan has changed with respect to a certain baseline date.
+
+  ## Requesting Work Packages for Different Timestamps
+
+  The work-packages API supports a `timestamps` parameter to gather information about a single work package or a collection of work packages for several points in time.
+
+  ```
+  GET /api/v3/work_packages?timestamps=2022-01-01T00:00:00Z,PT0S
+  ```
+
+  ```
+  GET /api/v3/work_packages/123?timestamps=2022-01-01T00:00:00Z,PT0S
+  ```
+
+  Each timestamp should be given as an [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) string, either an absolute date and time with timezone, e.g. `"2022-01-01T00:00:00Z"`, or a relative timestamp utilizing the [ISO-8601-Duration](https://en.wikipedia.org/wiki/ISO_8601#Durations) format, e.g. `"P-1Y"`, which is composed of an initial `"P"` for "Period", and a duration. `"P-1Y"` is interpreted as the relative timestamp "1 year ago".
+  Furthermore, a set of predefined relative date keywords can also be passed for the timestamps: `"oneDayAgo@HH:MM+HH:MM", "lastWorkingDay@HH:MM+HH:MM", "oneWeekAgo@HH:MM+HH:MM", "oneMonthAgo@HH:MM+HH:MM"`. The `"HH:MM"` part represents the zero paded hours and minutes, e.g. `"oneMonthAgo@21:00+00:00"`. The last "+HH:MM" part represents the timezone offset from UTC associated with the time,
+  e.g. `"oneMonthAgo@21:00+02:00"` means a +2 hour timezone offset from UTC. The offset can be positive or negative e.g."oneDayAgo@01:00+01:00", "oneDayAgo@01:00-01:00".
+
+  Several timestamps should be passed as comma-separated list of these ISO-8601 strings to the `timestamps` parameter, e.g. `"2022-01-01T00:00:00Z,PT0S"`.
+
+  The timestamps should be given in ascending temporal order, such that the first timestamp is the **baseline** timestamp, and the last timestamp is the **current** timestamp.
+
+  Values older than 1 day are accepted only with valid Enterprise Token available.
+
+  ## Response Overview
+
+  When providing a `timestamps` parameter, the response has several additional properties:
+
+  | Property                | Description                                                                            | Type             | Further information                                 |
+  | ----------------------- | -------------------------------------------------------------------------------------- | ---------------- | --------------------------------------------------- |
+  | `timestamp`             | The requested timestamp corresponding to the surrounding embedded object               | String           | Section *[Timestamps](#timestamps)* below           |
+  | `attributesByTimestamp` | Attributes and meta information of the work packages at the respective timestamps      | Array of Objects | Section *[Attributes](#attributes)* below           |
+  | `matchesFilters`        | Marks whether the work package matches the filter criteria at the respective timestamp | Bool             | Section *[Filter Matching](#filter-matching)* below |
+  | `exists`                | Marks whether the work package exists at the respective timestamp                      | Bool | Section *[Existence](#existence)* below             |
+
+  Each work-package element has the `attributesByTimestamp` as `_embedded` section.
+
+  The properties `timestamp`, `matchesFilters`, and `exists` are wrapped in a `_meta` section, which is added to each work-package element as well as to each element of the `attributesByTimestamp` array.
+
+  ```json5
+  // /api/v3/work_packages?timestamps=2022-01-01T00:00:00Z,PT0S
+  {
+    "_type": "WorkPackageCollection",
+    "total": 1,
+    "_embedded": {
+      "elements": [
+        {
+          "_type": "WorkPackage",
+          "id": 1528,
+          "subject": "Current subject of the work package",
+          // other attributes ...,
+          "_links": {
+            "self": {
+              "href": "/api/v3/work_packages/1528?timestamps=2022-01-01T00:00:00Z,2023-03-01T01:37:10Z"
+            }
+          },
+          "_meta": {
+            "matchesFilters": true,
+            "exists": true,
+            "timestamp": "PT0S"
+          },
+          "_embedded": {
+            "attributesByTimestamp": [
+              {
+                "subject": "Original subject of the work package",
+                "_meta": {
+                  "matchesFilters": true,
+                  "exists": true,
+                  "timestamp": "2022-01-01T00:00:00Z"
+                },
+                "_links": {
+                  "self": {
+                    "href": "/api/v3/work_packages/1528?timestamps=2022-01-01T00:00:00Z"
+                  }
+                },
+              },
+              {
+                "_meta": {
+                  "matchesFilters": true,
+                  "exists": true,
+                  "timestamp": "PT0S"
+                },
+                "_links": {
+                  "self": {
+                    "href": "/api/v3/work_packages/1528?timestamps=2023-03-01T01:37:10Z"
+                  }
+                }
+              }
+            ],
+          }
+        }
+      ]
+    },
+    "_links": {
+      "self": {
+        "href": "/api/v3/work_packages?timestamps=2022-01-01T00:00:00Z,2023-03-01T01:37:10Z"
+      }
+    }
+  }
+  ```
+
+  ## Meta Information
+
+  Each `_meta` section describes the surrounding object of the meta section, which may be the main work-package object, or an attributes object within the `attributesByTimestamp` array.
+
+  Note that the `_meta` information of the most current (rightmost) timestamp is redundant: It is given as `_meta` section of the main work-package object as well as `_meta` section of the last object within the `attributesByTimestamp` array.
+
+  ## Timestamps
+
+  Each `_meta` section contains a `timestamp` property, which is to the requested `timestamp` corresponding to the object the `_meta` section describes.
+
+  The `timestamp` has the same ISO-8601 format as in the `timestamps` request parameter and preserves the absolute or relative character of the requested timestamp.
+
+  Furthermore, each self link corresponding to an earlier point in time has also a `timestamps` request parameter added to it, which is converted to an absolute ISO-8601 string at the execution time of the query. (in the above example, `PT0S` was converted to `2023-03-01T01:37:10Z` as the query was executed at that time.)
+
+  ## Attributes
+
+  To read out the attributes of the work packages at the current timestamp (the last of the given `timestamps`), check the attributes of the work-package objects. To read out the attributes of the work packages at the other given timestamps, check the attributes within `"_embedded"` section `"attributesAtTimestamp"`.
+
+  To save bandwidth, only attributes that differ from the ones in the main work-package object are included in the `"attributesByTimestamp"`. Attributes with the same value as in the main work-package object are not included in the `"attributesByTimestamp"` section.
+
+  ```json5
+  // /api/v3/work_packages?timestamps=2022-01-01T00:00:00Z,PT0S
+  {
+    "_type": "WorkPackageCollection",
+    "_embedded": {
+      "elements": [
+        {
+          "_type": "WorkPackage",
+          "subject": "Current subject of the work package",
+          "_meta": {
+            "timestamp": "PT0S"
+          },
+          "_embedded": {
+            "attributesByTimestamp": [
+              {
+                "subject": "Original subject of the work package",
+                "_meta": {
+                  "timestamp": "2022-01-01T00:00:00Z"
+                }
+              },
+              {
+                "_meta": {
+                  "timestamp": "PT0S"
+                }
+              }
+            ],
+          }
+        }
+      ]
+    }
+  }
+  ```
+
+  In the above example, the last of the given `timestamps` is `"PT0S"` (which means 0 seconds ago, i.e. now). The work-package attributes at this time are included in the main work-package object. The `"subject"` of the work package at the timestamp `"PT0S"` (now) is `"Current subject of the work package"`.
+
+  The `"_embedded"` section `"attributesByTimestamp"` has an array entry for the timestamp `"PT0S"`, which is the last array entry. Because the value of the `"subject"` is the same as up in the main work-package object, the `"subject"` attribute is left out in the `"attributesByTimestamp"` for the timestamp `"PT0S"`. The `"subject"` of the work package at the timestamp `"PT0S"` (now) is `"Current subject of the work package"`.
+
+  The `"_embedded"` section `"attributesByTimestamp"` has an array entry for the baseline timestamp `"2022-01-01T00:00:00Z"`, which is the first array entry. The `"subject"` of the work package at the timestamp `"2022-01-01T00:00:00Z"` is `"Original subject of the work package"`. It is included in the  `"attributesByTimestamp"` for the timestamp `"2022-01-01T00:00:00Z"` because it differs from the `"subject"` in the main work-package object, which is `"Current subject of the work package"`.
+
+  ## Filter Matching
+
+  The work-packages API supports filtering the query results by one or several search criteria. See: [Filters](../filters)
+
+  To find out whether a work package matches the given set of filter criteria at a certain timestamp, check the `"matchesFilters"` property in the `"_meta"` section for that timestamp:
+
+  ```json5
+  // /api/v3/work_packages?filters=...&timestamps=2022-01-01T00:00:00Z,PT0S
+  {
+    "_type": "WorkPackageCollection",
+    "_embedded": {
+      "elements": [
+        {
+          "_type": "WorkPackage",
+          "_meta": {
+            "matchesFilters": true,
+            "timestamp": "PT0S"
+          },
+          "_embedded": {
+            "attributesByTimestamp": [
+              {
+                "_meta": {
+                  "matchesFilters": false,
+                  "timestamp": "2022-01-01T00:00:00Z"
+                }
+              },
+              {
+                "_meta": {
+                  "matchesFilters": true,
+                  "timestamp": "PT0S"
+                }
+              }
+            ],
+          }
+        }
+      ]
+    }
+  }
+  ```
+
+  In the above example, the work package matches the filter criteria at the timestamp `"PT0S"`, but does not match the filter criteria at the timestamp `"2022-01-01T00:00:00Z"`.
+
+  In another example, it might be the other way around: The work package could match the filter criteria (`"matchesFilters": true`) at the baseline timestamp, but not match the filter criteria anymore (`"matchesFilters": false`) at the current timestamp.
+
+  The work package is included in the returned collection if it matches the filter criteria at least at one of the requested timestamps.
+
+  ## Existence
+
+  To find out whether a work package has existed at a requested timestamp, check the `"exists"` property in the `"_meta"` section for that timestamp:
+
+  ```json5
+  // /api/v3/work_packages?timestamps=2022-01-01T00:00:00Z,PT0S
+  {
+    "_type": "WorkPackageCollection",
+    "_embedded": {
+      "elements": [
+        {
+          "_type": "WorkPackage",
+          "_meta": {
+            "exists": true,
+            "timestamp": "PT0S"
+          },
+          "_embedded": {
+            "attributesByTimestamp": [
+              {
+                "_meta": {
+                  "exists": false,
+                  "timestamp": "2022-01-01T00:00:00Z"
+                }
+              },
+              {
+                "_meta": {
+                  "exists": true,
+                  "timestamp": "PT0S"
+                }
+              }
+            ],
+          }
+        }
+      ]
+    }
+  }
+  ```
+
+  In the above example, the work package exists at the timestamp `"PT0S"`, but has not existed at the timestamp `"2022-01-01T00:00:00Z"`.
+
+  In another example, it might be the other way around: The work package could exist (`"exists": true`) at the baseline time, but could have been deleted after that time such that it does not exist (`"exists": false`) at the current time. Please note, however, that OpenProject does not support [soft deletion](https://community.openproject.org/projects/openproject/work_packages/40015), yet. Currently, when a work package is deleted, its history is deleted as well, so that its history cannot be retrieved through the baseline API anymore.
+
+  The work package is included in the returned collection if it has existed at least at one of the requested timestamps.
+
+  ## Usage Example
+
+  In this example ruby script, the work packages are retrieved at a baseline date and in their current state. Then the subject of the first work package is compared with respect to the baseline date and the current state.
+
+  ```ruby
+  # Define timestamps
+  baseline_timestamp = "2022-01-01T00:00:00Z"
+  current_timestamp = "PT0S"
+  timestamps = [baseline_timestamp, current_timestamp]
+
+  # Retrieve work packages
+  url = URI("https://community.openproject.org/api/v3/work_packages?timestamps=#{timestamps.join(',')}")
+  response = JSON.parse(Net::HTTP.get(url), object_class: OpenStruct)
+  work_packages = response.dig("_embedded", "elements")
+
+  # Extract differing baseline attributes
+  work_package = work_packages.first
+  baseline_attributes = work_package.dig("_embedded", "attributesByTimestamp").first
+
+  # Compare baseline state to current state of the work package
+  if baseline_attributes.subject.present? and baseline_attributes.subject != work_package.subject
+    puts "The subject of the work package has changed."
+    puts "Subject at the baseline time: #{baseline_attributes.subject}"
+    puts "Current subject:              #{work_package.subject}"
+  end
+
+  # Check existence
+  puts "The work package did exist at the baseline time." if baseline_attributes.dig("_meta", "exists")
+  puts "The work package exists at the current time." if work_package.dig("_meta", "exists")
+
+  # Check filter matching
+  puts "The work package matches the query filters at the baseline time." if baseline_attributes.dig("_meta", "matchesFilters")
+  puts "The work package matches the query filters at the current time." if work_package.dig("_meta", "matchesFilters")
+  ```
+name: Baseline Comparisons

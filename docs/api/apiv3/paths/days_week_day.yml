@@ -1,0 +1,108 @@
+# /api/v3/days/week/{day}
+---
+get:
+  summary: View a week day
+  operationId: view_week_day
+  tags:
+    - Work Schedule
+  description: |-
+    View a week day and its attributes.
+  parameters:
+    - name: day
+      in: path
+      required: true
+      description: |-
+        The week day from 1 to 7. 1 is Monday. 7 is Sunday.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 7
+  responses:
+    '200':
+      description: |-
+        OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/week_day_model.yml'
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '404':
+      description: |-
+        Returned if the day is out of the 1-7 range.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+            message: The requested resource could not be found.
+
+patch:
+  summary: Update a week day attributes (NOT IMPLEMENTED)
+  operationId: update_week_day
+  description: |-
+    **(NOT IMPLEMENTED)**
+    Makes a week day a working or non-working day.
+
+    Note: changing a week day working attribute will not affect the start and
+    finish dates of work packages but will affect their duration attribute.
+  tags:
+    - Work Schedule
+  parameters:
+    - name: day
+      in: path
+      required: true
+      description: |-
+        The week day from 1 to 7. 1 is Monday. 7 is Sunday.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 7
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/week_day_write_model.yml
+        example:
+          _type: WeekDay
+          working: false
+  responses:
+    '200':
+      description: |-
+        Update succeeded.
+
+        Response will include the week day with updated attributes.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/week_day_model.yml'
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      description: |-
+        Returned if the client does not have sufficient permissions.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+            message: You are not authorized to access this resource.
+    '404':
+      description: |-
+        Returned if the day is out of the 1-7 range.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+            message: The requested resource could not be found.
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"

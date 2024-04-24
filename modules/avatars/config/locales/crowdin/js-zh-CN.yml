@@ -1,0 +1,15 @@
+#English strings go here
+zh-CN:
+  js:
+    label_preview: '预览'
+    button_update: '更新'
+    avatars:
+      label_choose_avatar: "从文件中选择头像"
+      uploading_avatar: "上传您的头像。"
+      text_upload_instructions: |
+        上传您的自定义头像，大小为128像素 × 128像素。较大的文件将被调整大小和裁剪以匹配要求。
+        一旦您选择了图像，在上传之前将显示头像的预览。
+      error_image_too_large: "图像太大。"
+      wrong_file_format: "允许的格式是 jpg、png、gif"
+      empty_file_error: "请上传一个有效的图像 (jpg, png, gif)"
+

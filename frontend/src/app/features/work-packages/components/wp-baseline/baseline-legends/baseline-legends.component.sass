@@ -1,0 +1,43 @@
+@import 'helpers'
+
+.op-baseline-legends
+  display: flex
+  flex-direction: row
+  align-items: center
+  padding: $spot-spacing-0_75 $spot-spacing-1
+  border: 1px solid $spot-color-basic-gray-4
+  margin-right: $spot-spacing-1
+  margin-bottom: $spot-spacing-0_5
+  @include spot-caption
+
+  &--filter
+    display: flex
+    align-items: center
+    column-gap: $spot-spacing-0_5
+
+  &--tooltip
+    width: max-content
+
+  &--details
+    display: flex
+    flex-direction: row
+    align-items: flex-start
+    justify-content: flex-end
+    gap: $spot-spacing-0_25
+    margin-left: auto
+
+    &-added,
+    &-removed
+      margin-right: $spot-spacing-0_5
+
+    &-icon-added
+      color: #5F42E0
+
+    &--icon-removed
+      color: #555555
+
+    &-icon-changed
+      color: #54AFE0
+
+  @media screen and (max-width: $breakpoint-sm)
+    margin-left: $spot-spacing-1

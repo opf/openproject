@@ -1,0 +1,18 @@
+<%= toolbar title: t('bcf.bcf_xml.import_title') %>
+
+<%= styled_form_tag({ action: :configure_import }, multipart: true, method: :post) do %>
+  <%= render partial: 'import_errors', locals: { error_message: t('bcf.bcf_xml.import.invalid_emails_found'),
+                                                 error_objects:  @importer.aggregations.invalid_people,
+                                                 error_default_text: t('bcf.bcf_xml.import.unknown_property')} %>
+
+  <hr class="form--separator">
+  <div class="form--field">
+    <input type="hidden" name="import_options[invalid_people_action]" value="anonymize">
+    <%= t('bcf.bcf_xml.import.import_as_system_user') %>
+  </div>
+
+  <%= styled_submit_tag t('bcf.bcf_xml.import.button_proceed'), class: '-primary' %>
+  <%= link_to t(:button_cancel),
+              defaults_bcf_project_ifc_models_path(@project),
+              class: 'button' %>
+<% end %>

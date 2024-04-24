@@ -1,0 +1,92 @@
+# /api/v3/days/non_working
+---
+get:
+  summary: Lists all non working days
+  operationId: list_non_working_days
+  tags:
+    - Work Schedule
+  description: |-
+    Lists all one-time non working days, such as holidays.
+    It does not lists the non working weekdays, such as each Saturday, Sunday.
+    For listing the weekends, the `/api/v3/days` endpoint should be used.
+
+    All days from current year are returned by default.
+  parameters:
+    - name: filters
+      in: query
+      description: |-
+        JSON specifying filter conditions.
+
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/)
+        endpoint. Currently supported filters are:
+
+        + date: the inclusive date interval to scope days to look up. When
+          unspecified, default is from the beginning to the end of current year.
+
+          Example: `{ "date": { "operator": "<>d", "values": ["2022-05-02","2022-05-26"] } }`
+          would return days between May 5 and May 26 2022, inclusive.
+
+      example: '[{ "date": { "operator": "<>d", "values": ["2022-05-02","2022-05-26"] } }]'
+      required: false
+      schema:
+        type: string
+  responses:
+    '200':
+      description: |-
+        OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/non_working_day_collection_model.yml'
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+
+post:
+  summary: Creates a non-working day (NOT IMPLEMENTED)
+  operationId: create_non_working_day
+  tags:
+    - Work Schedule
+  description: |-
+    **(NOT IMPLEMENTED)**
+    Marks a day as being a non-working day.
+
+    Note: creating a non-working day will not affect the start and finish dates
+    of work packages but will affect their duration.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/non_working_day_model.yml
+        example:
+          _type: NonWorkingDay
+          date: '2022-12-25'
+          name: 'Christmas'
+  responses:
+    '201':
+      description: |-
+        Non-working day created.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/non_working_day_model.yml'
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      description: |-
+        Returned if the client does not have sufficient permissions.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+            message: You are not authorized to access this resource.
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"

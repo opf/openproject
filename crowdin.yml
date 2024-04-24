@@ -1,0 +1,34 @@
+#
+# Your Crowdin credentials
+#
+"project_id_env": "OPENPROJECT_CROWDIN_PROJECT"
+"api_token_env": "OPENPROJECT_CROWDIN_API_KEY"
+"base_path": "."
+"base_url": "https://api.crowdin.com"
+"preserve_hierarchy": false
+files: [
+  {
+    "source": "/config/locales/en.yml",
+    "translation": "/config/locales/crowdin/%two_letters_code%.yml"
+  },
+  {
+    "source": "/config/locales/js-en.yml",
+    "translation": "/config/locales/crowdin/js-%two_letters_code%.yml"
+  },
+  {
+    "source": "/config/locales/en.seeders.yml",
+    "translation": "/config/locales/crowdin/%two_letters_code%.seeders.yml"
+  },
+  {
+    "source": "/modules/**/config/locales/en.yml",
+    "translation": "/modules/**/config/locales/crowdin/%two_letters_code%.yml"
+  },
+  {
+    "source": "/modules/**/config/locales/js-en.yml",
+    "translation": "/modules/**/config/locales/crowdin/js-%two_letters_code%.yml"
+  },
+  {
+    "source": "/modules/**/config/locales/en.seeders.yml",
+    "translation": "/modules/**/config/locales/crowdin/%two_letters_code%.seeders.yml"
+  },
+]

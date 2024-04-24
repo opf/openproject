@@ -1,0 +1,86 @@
+@import "src/assets/sass/helpers"
+
+.op-baseline
+  &--header
+    display: flex
+    justify-content: space-between
+    align-items: flex-start
+    flex-direction: column
+    width: 280px
+    margin: $spot-spacing-1 $spot-spacing-1 0 $spot-spacing-1
+    color: $spot-color-basic-gray-2
+
+    &:has(+ .op-baseline--body_ranged)
+      width: auto
+
+  &--enterprise-title
+    color: $spot-color-feedback-warning-dark
+    @include spot-body-small (bold)
+    display: flex
+    flex-direction: row
+    align-items: center
+    gap: $spot-spacing-1 $spot-spacing-0_25
+
+  &--info-button
+    display: flex
+    align-items: center
+
+  &--body
+    flex-shrink: 1
+    flex-basis: 100%
+    overflow: auto
+    margin-top: 0 !important
+
+    @media screen and #{$spot-mq-drop-modal-in-context}
+      width: 316px
+      max-height: 70vh
+
+    &_ranged
+      width: 600px
+
+  &--time
+    
+    &-input
+      width: 65%
+
+    &-help
+      display: flex
+      align-items: flex-end
+      justify-content: center
+      background-color: $spot-color-basic-gray-6
+      border: 1px solid $spot-color-basic-gray-4
+      border-left: none !important
+      padding: $spot-spacing-0_5 $spot-spacing-0_25
+      line-height: 1rem
+
+    &-tooltip-body
+      width: 220px
+      display: block
+
+  &--filter
+  
+    &-description
+      font-size: $spot-spacing-0_75
+      font-style: italic
+      line-height: $spot-spacing-1
+      color: $spot-color-basic-gray-2
+
+  &--range-container
+    margin: 1rem
+    display: grid
+    grid-template-columns: 1fr 1fr
+    grid-gap: 1rem
+
+  &--datepicker
+    margin: 1rem
+  // remove additional margins when baseline component
+  // is used in baseline tab of WP configuration madal
+  &_tab.op-baseline--header
+    margin: 0
+    width: auto !important
+  &_tab
+    .spot-form-field
+      margin-right: 0
+      margin-left: 0
+    .op-baseline--range-container
+      margin: 0

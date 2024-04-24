@@ -1,0 +1,86 @@
+<div
+  class="op-user-activity work-package-details-activities-activity-contents"
+  *ngIf="workPackage"
+  [attr.data-notification-selector]="hasUnreadNotification ? 'notification-activity' : null"
+  (mouseenter)="focus()"
+  (mouseleave)="blur()"
+>
+  <div class="op-user-activity--user-line">
+    <op-principal
+      *ngIf="userName"
+      [principal]="user"
+      [hideName]="true"
+      class="op-user-activity--avatar"
+    ></op-principal>
+
+    <div>
+      <op-user-link class="op-user-activity--user-name" [user]="user"></op-user-link>
+      <span class="op-user-activity--date">
+      {{ isInitial ? text.label_created_on : text.label_updated_on }}
+        <op-date-time [dateTimeValue]="activity.createdAt"></op-date-time>
+      </span>
+    </div>
+  </div>
+  <div class="comments-number">
+    <span
+      *ngIf="hasUnreadNotification"
+      class="comments-number--bubble op-bubble op-bubble_mini"
+      data-test-selector="user-activity-bubble"
+    ></span>
+    <activity-link
+      class="comments-number--link"
+      [workPackage]="workPackage"
+      [activityNo]="activityNo"
+    ></activity-link>
+    <div
+      class="comments-icons"
+      [hidden]="shouldHideIcons()"
+    >
+      <button
+        type="button"
+        *ngIf="userCanQuote"
+        class="spot-link"
+        [title]="text.quote_comment"
+        (click)="quoteComment()"
+      >
+        <op-icon icon-classes="action-icon icon-quote"></op-icon>
+      </button>
+      <button
+        *ngIf="userCanEdit"
+        type="button"
+        class="spot-link"
+        [ngClass]="'edit-activity--' + activityNo"
+        [title]="text.edit_comment"
+        (click)="activate()"
+      >
+        <op-icon icon-classes="action-icon icon-edit"></op-icon>
+      </button>
+    </div>
+  </div>
+  <img
+    *ngIf="bcfSnapshotUrl"
+    [src]="bcfSnapshotUrl"
+    class="activity-thumbnail"
+  />
+  <div class="user-comment" >
+    <div *ngIf="active" class="inplace-edit">
+      <div class="user-comment--form inplace-edit--write-value">
+        <edit-form-portal
+          [changeInput]="change"
+          [schemaInput]="schema"
+          [editFieldHandler]="handler"
+        ></edit-form-portal>
+      </div>
+    </div>
+    <op-dynamic-bootstrap
+      *ngIf="!active && (isComment || isBcfComment)"
+      [HTML]="postedComment"
+      class="message"
+    ></op-dynamic-bootstrap>
+    <ul class="work-package-details-activities-messages" *ngIf="!isInitial">
+      <li *ngFor="let detail of details">
+        <span class="message" [innerHtml]="detail"></span>
+      </li>
+    </ul>
+  </div>
+</div>

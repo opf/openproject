@@ -1,0 +1,33 @@
+# /api/v3/memberships/available_projects
+---
+get:
+  summary: Available projects for memberships
+  operationId: get_memberships_available_projects
+  tags:
+    - Memberships
+  description: |-
+    Gets a list of projects in which a membership can be created in. The list contains all projects in which the user
+    issuing the request has the manage members permissions.
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/project_collection_model.yml'
+          examples:
+            'simple project collection':
+              $ref: '../components/examples/project_collection.yml'
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** manage members

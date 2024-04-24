@@ -1,0 +1,20 @@
+#!/bin/bash -e
+
+OUTPUT=$(echo "\dt" | psql `echo $DATABASE_URL | cut -d? -f1` 2>&1)
+
+if [[ "$OUTPUT" = "No relations found." ]]; then
+	echo "Initialising database and running seed..."
+	DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake db:structure:load db:seed
+else
+	echo "Executing database migration and database seed..."
+	bundle exec rake db:migrate
+	bundle exec rake db:seed
+fi
+
+if [ "$1" = "--set" ]; then
+	shift
+	echo "Update application settings..."
+	bundle exec rake setting:set["$@"]
+fi
+
+exit 0

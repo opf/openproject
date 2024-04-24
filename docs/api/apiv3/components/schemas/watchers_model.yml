@@ -1,0 +1,88 @@
+# Schema: WatchersModel
+---
+allOf:
+  - "$ref": "./collection_model.yml"
+  - type: object
+    required:
+      - _links
+      - _embedded
+    properties:
+      _links:
+        type: object
+        required:
+        - self
+        properties:
+          self:
+            allOf:
+            - "$ref": "./link.yml"
+            - description: |-
+                The watcher list
+
+                **Resource**: WatchersModel
+              readOnly: true
+      _embedded:
+        type: object
+        properties:
+          elements:
+            type: array
+            readOnly: true
+            items:
+              allOf:
+              - "$ref": "./user_model.yml"
+              - description: Collection of Users
+example:
+  _links:
+    self:
+      href: "/api/v3/work_packages/14/watchers"
+  total: 2
+  count: 2
+  _type: Collection
+  _embedded:
+    elements:
+    - _type: User
+      _links:
+        self:
+          href: "/api/v3/users/1"
+          title: John Sheppard - j.sheppard
+        showUser:
+          href: "/users/1"
+          type: text/html
+        lock:
+          href: "/api/v3/users/1/lock"
+          title: Set lock on j.sheppard
+          method: POST
+        delete:
+          href: "/api/v3/users/1"
+          title: Delete j.sheppard
+          method: DELETE
+      id: 1
+      login: j.sheppard
+      firstName: John
+      lastName: Sheppard
+      mail: shep@mail.com
+      avatar: https://example.org/users/1/avatar
+      status: active
+      createdAt: '2014-05-21T08:51:20.396Z'
+      updatedAt: '2014-05-21T08:51:20.396Z'
+    - _type: User
+      _links:
+        self:
+          href: "/api/v3/users/2"
+          title: Jim Sheppard - j.sheppard2
+        lock:
+          href: "/api/v3/users/2/lock"
+          title: Set lock on j.sheppard2
+          method: POST
+        delete:
+          href: "/api/v3/users/2"
+          title: Delete j.sheppard2
+          method: DELETE
+      id: 2
+      login: j.sheppard2
+      firstName: Jim
+      lastName: Sheppard
+      mail: shep@mail.net
+      avatar: https://example.org/users/1/avatar
+      status: active
+      createdAt: '2014-05-21T08:51:20.396Z'
+      updatedAt: '2014-05-21T08:51:20.396Z'

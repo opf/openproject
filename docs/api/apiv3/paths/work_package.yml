@@ -1,0 +1,219 @@
+# /api/v3/work_packages/{id}
+---
+delete:
+  summary: Delete Work Package
+  operationId: delete_work_package
+  tags:
+    - Work Packages
+  description: |-
+    Deletes the work package, as well as:
+
+    - all associated time entries
+    - its hierarchy of child work packages
+  parameters:
+    - description: Work package id
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+      example: 1
+  responses:
+    '204':
+      description: |-
+        Returned if the work package was deleted successfully.
+
+        Note that the response body is empty as of now. In future versions of the API a body
+        *might* be returned along with an appropriate HTTP status.
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to delete this work package.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** delete work package
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified work package does not exist.
+      description: |-
+        Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package
+    '406':
+      $ref: '../components/responses/missing_content_type.yml'
+    '415':
+      $ref: '../components/responses/unsupported_media_type.yml'
+
+get:
+  summary: View Work Package
+  operationId: view_work_package
+  tags:
+    - Work Packages
+  description: |-
+    Returns the specified work package.
+  parameters:
+    - description: Work package id
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+      example: 1
+    - description: |-
+        In order to perform a [baseline comparison](/docs/api/baseline-comparisons) of the work-package attributes, you may
+        provide one or several timestamps in ISO-8601 format as comma-separated list. The timestamps may be absolute or relative,
+        such as ISO8601 dates, ISO8601 durations and the following relative date keywords: "oneDayAgo@HH:MM+HH:MM",
+        "lastWorkingDay@HH:MM+HH:MM", "oneWeekAgo@HH:MM+HH:MM", "oneMonthAgo@HH:MM+HH:MM".
+        The first "HH:MM" part represents the zero paded hours and minutes.
+        The last "+HH:MM" part represents the timezone offset from UTC associated with the time,
+        the offset can be positive or negative e.g."oneDayAgo@01:00+01:00", "oneDayAgo@01:00-01:00".
+
+        Usually, the first timestamp is the baseline date, the last timestamp is the current date.
+        Values older than 1 day are accepted only with valid Enterprise Token available.
+      in: query
+      name: timestamps
+      required: false
+      schema:
+        default: PT0S
+        type: string
+      example: '2022-01-01T00:00:00Z,PT0S'
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/work_package_model.yml'
+      description: OK
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified work package does not exist.
+      description: |-
+        Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package
+
+patch:
+  summary: Update a Work Package
+  operationId: update_work_package
+  tags:
+    - Work Packages
+  description: |-
+    When calling this endpoint the client provides a single object, containing the properties and links that it wants
+    to change, in the body. Note that it is only allowed to provide properties or links supporting the **write**
+    operation.
+
+    Additionally to the fields the client wants to change, it is mandatory to provide the value of `lockVersion` which
+    was received by the `GET` request this change originates from.
+
+    The value of `lockVersion` is used to implement
+    [optimistic locking](https://en.wikipedia.org/wiki/Optimistic_concurrency_control).
+  parameters:
+    - name: id
+      description: Work package id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 42
+    - name: notify
+      description: |-
+        Indicates whether change notifications should be sent. Note that this controls notifications for all users
+        interested in changes to the work package (e.g. watchers, author and assignee), not just the current user.
+      in: query
+      required: false
+      schema:
+        type: boolean
+        default: true
+      example: false
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/work_package_model.yml'
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          schema:
+            '$ref': '../components/schemas/work_package_patch_model.yml'
+      description: OK
+    '400':
+      $ref: '../components/responses/invalid_request_body.yml'
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to edit the content of the work package.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** edit work package, assign version, change work package status, manage subtasks or move work package
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified work package does not exist.
+      description: |-
+        Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package
+    '406':
+      $ref: '../components/responses/missing_content_type.yml'
+    '409':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:UpdateConflict
+            message: Your changes could not be saved, because the work package
+              was changed since you've seen it the last time.
+      description: Returned if the resource was changed since the client requested
+        it. This is determined using the `lockVersion` property.
+    '415':
+      $ref: '../components/responses/unsupported_media_type.yml'
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _embedded:
+              details:
+                attribute: Subject
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: The subject might not be blank.
+      description: |-
+        Returned if:
+
+        - the client tries to modify a read-only property (`PropertyIsReadOnly`)
+        - a constraint for a property was violated (`PropertyConstraintViolation`)
+        - the client provides a link to an invalid resource (`ResourceTypeMismatch`)

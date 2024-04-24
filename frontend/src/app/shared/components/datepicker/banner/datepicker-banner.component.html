@@ -1,0 +1,39 @@
+<op-modal-banner
+  *ngIf="scheduleManually && (hasRelations$ | async)"
+  type="warning"
+  [title]="text.manually_scheduled"
+  [subtitle]="text.click_on_show_relations_to_open_gantt"
+  [actionButton]="text.show_relations_button"
+  actionButtonClasses="icon-view-timeline"
+  (buttonClicked)="openGantt($event)"
+></op-modal-banner>
+<op-modal-banner
+  *ngIf="!scheduleManually && isParent"
+  type="info"
+  [title]="text.automatically_scheduled_parent"
+  [subtitle]="text.click_on_show_relations_to_open_gantt"
+  [actionButton]="text.show_relations_button"
+  actionButtonClasses="icon-view-timeline"
+  (buttonClicked)="openGantt($event)"
+></op-modal-banner>
+<ng-container *ngIf="!scheduleManually && !isParent">
+  <op-modal-banner
+    *ngIf="(hasPrecedingRelations$ | async) === true && (hasFollowingRelations$ | async) === false && !isChild"
+    type="info"
+    [title]="text.start_date_limited_by_relations"
+    [subtitle]="text.click_on_show_relations_to_open_gantt"
+    [actionButton]="text.show_relations_button"
+    actionButtonClasses="icon-view-timeline"
+    (buttonClicked)="openGantt($event)"
+  ></op-modal-banner>
+
+  <op-modal-banner
+    *ngIf="(hasFollowingRelations$ | async) === true || isChild"
+    type="warning"
+    [title]="text.changing_dates_affects_follow_relations"
+    [subtitle]="text.click_on_show_relations_to_open_gantt"
+    [actionButton]="text.show_relations_button"
+    actionButtonClasses="icon-view-timeline"
+    (buttonClicked)="openGantt($event)"
+  ></op-modal-banner>
+</ng-container>

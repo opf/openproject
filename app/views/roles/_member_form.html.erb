@@ -1,0 +1,61 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% unless role.builtin? %>
+  <div class="form--field -required">
+    <%= f.text_field :name, required: true %>
+  </div>
+  <div class="form--field">
+    <%= f.check_box :assignable %>
+  </div>
+  <% if role.new_record? && roles.any? %>
+    <div class="form--field">
+      <%= styled_label_tag :copy_workflow_from, t(:label_copy_workflow_from) %>
+      <div class="form--field-container">
+        <%= select_tag(:copy_workflow_from, content_tag("option") + options_from_collection_for_select(@roles, :id, :name)) %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<h3><%= t(:label_permissions) %></h3>
+<div id="permissions">
+  <% @permissions.each do |mod, mod_permissions| %>
+      <fieldset><legend><%= mod.blank? ? Project.model_name.human : l_or_humanize(mod, :prefix => 'project_module_') %></legend>
+      <% mod_permissions.each do |permission| %>
+          <label class="floating form--label">
+            <%= styled_check_box_tag 'role[permissions][]', permission.name, (@role.permissions.include? permission.name) %>
+            <%= l_or_humanize(permission.name, :prefix => 'permission_') %>
+          </label>
+      <% end %>
+      </fieldset>
+  <% end %>
+  <br /><%= check_all_links 'permissions' %>
+  <%= hidden_field_tag 'role[permissions][]', '' %>
+</div>

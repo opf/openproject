@@ -1,0 +1,46 @@
+# /api/v3/project_statuses/{id}
+---
+get:
+  parameters:
+  - description: Project status id
+    example: on_track
+    in: path
+    name: id
+    required: true
+    schema:
+      type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  self:
+                    href: "/api/v3/project_statuses/on_track"
+                _type: ProjectStatus
+                id: on_track
+                name: On track
+          schema:
+            "$ref": "../components/schemas/view_project_status_model.yml"
+      description: OK
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: Returned if the project status does not exist.
+      headers: {}
+  tags:
+  - Projects
+  description: ''
+  operationId: View_project_status
+  summary: View project status

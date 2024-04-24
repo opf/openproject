@@ -1,0 +1,174 @@
+// Do no simply remove this selector without proper replacement as it is needed for specificity
+#content-wrapper
+  // ------------------------ BEGIN: Full calendar overwrite ------------------------
+  .fc
+    font-size: 14px
+
+    // ------------------------ BEGIN: Calendar cells ------------------------
+    .fc-datagrid-cell-cushion,
+    .fc-timeline-slot-cushion,
+    .fc-col-header-cell-cushion
+      padding: 12px 16px
+
+    .fc-resource-timeline-divider
+      width: 0
+      background: none
+      border: none
+      cursor: unset
+
+    // Note the greater specificity than the standard background colours
+    table .fc-day-today
+      background: rgb(255 255 120 / 20%)
+
+    .fc-day
+      background: rgb(205 205 205 / 20%)
+
+    .fc-non-working-day
+      background: rgb(109 109 109 / 20%)
+
+    // The days in full calendar are anchor elements which we do not
+    // want to like like actual links
+    .fc-col-header-cell a,
+    a.fc-daygrid-day-number
+      color: #000000
+      cursor: default
+
+      &:hover
+        text-decoration: none
+
+    // ------------------------ END: Calendar cells ------------------------
+    // -------
+    // ------------------------ BEGIN: Calendar events ------------------------
+    .fc-timeline-event,
+    .fc-daygrid-event
+      padding-top: 5px
+      padding-bottom: 5px
+      border-radius: 5px
+      margin-bottom: 4px
+      background-color: var(--timeline--type-fallback-color)
+      border-color: var(--timeline--type-fallback-color)
+      color: #000000
+
+      &:before,
+      &:after
+        padding-right: 4px
+        pointer-events: none
+
+    .fc-timeline-event
+      background: transparent !important
+      border: transparent
+
+      &:before
+        position: absolute
+        top: 40px
+        z-index: 8
+        left: 2px
+
+      &:after
+        position: absolute
+        top: 40px
+        z-index: 8
+        right: 2px
+
+    .fc-event-title-container
+      line-height: 12px
+      margin: 0 16px
+
+      .fc-timegrid-event-condensed &
+        white-space: nowrap
+        overflow: hidden
+
+    .fc-event-title
+      max-width: 100%
+      @include text-shortener(false)
+
+    .fc-event-main
+      color: unset
+
+    .fc-event:hover
+      .fc-event-resizer
+        display: flex
+        align-items: center
+        flex-direction: row
+
+        &:before,
+        &:after
+          display: block
+          content: ''
+
+        &:before
+          height: 100%
+          width: 20px
+
+        &:after
+          border-left: 1px solid
+          border-right: 1px solid
+          border-color: rgba(0,0,0,0.2)
+          width: 4px
+          margin: 0 -4px
+          height: 70%
+          max-height: 16px
+
+        &-start
+          justify-content: flex-end
+
+        &-end
+          justify-content: flex-start
+          margin-right: 14px
+
+    // ------------------------ END:  Calendar events ------------------------
+    // -------
+    // ------------------------ BEGIN: Calendar toolbar ------------------------
+    .fc-toolbar-title
+      font-size: 16px
+      padding-bottom: 0
+
+    .fc-header-toolbar.fc-toolbar .fc-toolbar-chunk
+      .fc-button
+        height: 34px
+        background: var(--button--background-color)
+        color: var(--button--font-color)
+        border-color: var(--button--border-color)
+        margin-bottom: 0
+
+        &:focus
+          box-shadow: none
+
+      // ensure to have higher specificity than above extend
+      .fc-button-group
+        &:not(:first-child)
+          margin-left: 8px
+        .fc-button
+          margin-right: 0
+          margin-bottom: 0
+          padding: 0.4em 0.65em
+
+          &.fc-button-active
+            @extend .button, .-active
+            margin-right: 0 !important
+            margin-bottom: 0 !important
+
+      .fc-today-button
+        margin: 0
+        margin-left: 0.5rem
+
+      .fc-prev-button,
+      .fc-next-button
+        padding: 4px
+        font-size: 8px
+        height: 32px
+        width: 32px
+
+      .fc-prev-button .fc-icon
+        @include icon-font-common
+        @extend .icon-arrow-left1
+
+      .fc-next-button .fc-icon
+        @include icon-font-common
+        @extend .icon-arrow-right3
+
+    thead .fc-scroller
+      @include no-visible-scroll-bar
+  // ------------------------ END: Calendar toolbar ------------------------
+  // -------
+  // ------------------------ END: Full calendar overwrite ------------------------

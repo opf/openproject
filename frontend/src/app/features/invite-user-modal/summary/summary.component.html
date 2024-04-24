@@ -1,0 +1,56 @@
+<form
+  name="sendUserInviteForm"
+  (submit)="onSubmit($event)"
+  class="op-ium-summary spot-modal"
+>
+  <div id="spotModalTitle" class="spot-modal--header">{{text.title()}}</div>
+
+  <div class="spot-divider"></div>
+
+  <div class="spot-modal--body spot-container">
+
+    <spot-form-field [label]="text.projectLabel">
+      <p slot="input" class="spot-body-small op-ium-summary--details">{{ project.name }}</p>
+    </spot-form-field>
+
+    <spot-form-field [label]="text.principalLabel[type]">
+      <p slot="input" class="spot-body-small op-ium-summary--details">{{ principal?.name }}</p>
+    </spot-form-field>
+
+    <spot-form-field [label]="text.roleLabel()">
+      <p slot="input" class="spot-body-small op-ium-summary--details">{{ role.name }}</p>
+    </spot-form-field>
+
+    <spot-form-field
+      [label]="text.messageLabel"
+      *ngIf="type !== PrincipalType.Placeholder && message"
+    >
+      <p slot="input" class="spot-body-small op-ium-summary--message">{{ message }}</p>
+    </spot-form-field>
+  </div>
+
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--left">
+      <button
+        type="button"
+        class="button button_no-margin spot-action-bar--action"
+        (click)="back.emit()"
+        >
+        <op-icon icon-classes="button--icon icon-arrow-left1"></op-icon>
+        {{ text.backButton }}
+      </button>
+    </div>
+
+    <div class="spot-action-bar--right">
+      <button
+        type="button"
+        class="button button_no-margin spot-action-bar--action spot-modal--cancel-button"
+        (click)="close.emit()"
+      >{{ text.cancelButton }}</button>
+      <button
+        type="submit"
+        class="button button_no-margin -primary spot-action-bar--action"
+      >{{ text.nextButton() }}</button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,47 @@
+# Schema: StorageWriteModel
+---
+type: object
+properties:
+  name:
+    type: string
+    description: Storage name, if not provided, falls back to a default.
+  applicationPassword:
+    type:
+      - string
+      - 'null'
+    description: |-
+      The application password to use for the Nextcloud storage. Ignored if the provider type is not Nextcloud.
+
+      If a string is provided, the password is set and automatic management is enabled for the storage.
+      If null is provided, the password is unset and automatic management is disabled for the storage.
+  _links:
+    type: object
+    required:
+      - origin
+      - type
+    properties:
+      origin:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The storage's host URL.
+
+              **Resource**: N/A
+      type:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The urn of the storage type. Currently only nextcloud storages are supported.
+
+              - urn:openproject-org:api:v3:storages:Nextcloud
+
+              **Resource**: N/A
+
+example:
+  name: Coruscant
+  applicationPassword: 'qJ_VLNReW@sd-Edz2hyC'
+  _links:
+    origin:
+      href: https://nextcloud.deathstar.rocks
+    type:
+      href: urn:openproject-org:api:v3:storages:Nextcloud

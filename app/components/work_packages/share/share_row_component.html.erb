@@ -1,0 +1,37 @@
+<%=
+  component_wrapper(:border_box_row, data: { 'test-selector': "op-share-wp-active-user-#{principal.id}" }) do
+    grid_layout(grid_css_classes, tag: :div, align_items: :center, classes: 'ellipsis') do |user_row_grid|
+      user_row_grid.with_area(:selection, tag: :div) do
+        if share_editable?
+          render(Primer::Alpha::CheckBox.new(name: "share_ids", value: share.id, label: "#{principal.name}",
+                                                    visually_hide_label: true, scheme: :array,
+                                                    data: {
+                                                      'work-packages--share--bulk-selection-target': 'shareCheckbox',
+                                                      action: 'work-packages--share--bulk-selection#refresh'
+                                                    }))
+        end
+      end
+
+      user_row_grid.with_area(:avatar, tag: :div) do
+        render(Users::AvatarComponent.new(user: principal, show_name: false, size: :medium))
+      end
+
+      user_row_grid.with_area(:user_details, tag: :div, classes: 'ellipsis') do
+        render(WorkPackages::Share::UserDetailsComponent.new(share:, manager_mode: share_editable?))
+      end
+
+      if share_editable?
+        user_row_grid.with_area(:button, tag: :div, color: :subtle) do
+          render(WorkPackages::Share::PermissionButtonComponent.new(share:,
+                                                                    data: { 'test-selector': 'op-share-wp-update-role' }))
+        end
+
+        user_row_grid.with_area(:remove, tag: :div) do
+          form_with url: work_packages_share_path(share), method: :delete do
+            render(Primer::Beta::Button.new(type: :submit, scheme: :link)) { I18n.t('work_package.sharing.remove') }
+          end
+        end
+      end
+    end
+  end
+%>

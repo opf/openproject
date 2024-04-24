@@ -1,0 +1,12 @@
+#English strings go here
+eu:
+  plugin_openproject_calendar:
+    name: "OpenProject Calendar"
+    description: "Provides calendar views."
+  label_calendar: "Egutegia"
+  label_calendar_plural: "Egutegiak"
+  label_new_calendar: "New calendar"
+  permission_view_calendar: "Ikusi egutegiak"
+  permission_manage_calendars: "Kudeatu egutegiak"
+  permission_share_calendars: "Subscribe to iCalendars"
+  project_module_calendar_view: "Egutegiak"

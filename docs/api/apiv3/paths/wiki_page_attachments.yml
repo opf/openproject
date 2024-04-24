@@ -1,0 +1,260 @@
+# /api/v3/wiki_pages/{id}/attachments
+---
+get:
+  parameters:
+  - description: ID of the wiki page whose attachments will be listed
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  elements:
+                  - _links:
+                      author:
+                        href: "/api/v3/users/1"
+                        title: OpenProject Admin
+                      container:
+                        href: "/api/v3/wiki_pages/72"
+                        title: wiki
+                      delete:
+                        href: "/api/v3/attachments/376"
+                        method: delete
+                      downloadLocation:
+                        href: "/api/v3/attachments/376/content"
+                      self:
+                        href: "/api/v3/attachments/376"
+                        title: 200.gif
+                    _type: Attachment
+                    contentType: image/gif
+                    createdAt: '2018-06-01T07:24:19.896Z'
+                    description:
+                      format: plain
+                      html: ''
+                      raw: ''
+                    digest:
+                      algorithm: md5
+                      hash: 7ac9c97ef73d47127f590788b84c0c1c
+                    fileName: some.gif
+                    fileSize: 3521772
+                    id: 376
+                _links:
+                  self:
+                    href: "/api/v3/wiki_pages/72/attachments"
+                _type: Collection
+                count: 1
+                total: 1
+          schema:
+            "$ref": "../components/schemas/attachments_model.yml"
+      description: OK
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the wiki page does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:** view wiki pages
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of a work package.
+        That's why a 404 is returned here, even if a 403 might be more appropriate.*
+      headers: {}
+  tags:
+  - Attachments
+  description: ''
+  operationId: List_attachments_by_wiki_page
+  summary: List attachments by wiki page
+post:
+  parameters:
+  - description: ID of the wiki page to receive the attachment
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  author:
+                    _links:
+                      lock:
+                        href: "/api/v3/users/1/lock"
+                        method: post
+                        title: Set lock on admin
+                      self:
+                        href: "/api/v3/users/1"
+                        title: OpenProject Admin
+                      showUser:
+                        href: "/users/1"
+                        type: text/html
+                      updateImmediately:
+                        href: "/api/v3/users/1"
+                        method: patch
+                        title: Update admin
+                    _type: User
+                    admin: true
+                    avatar: ''
+                    createdAt: '2015-03-20T12:56:52.343Z'
+                    email:
+                    firstName: OpenProject
+                    id: 1
+                    identityUrl:
+                    lastName: Admin
+                    login: admin
+                    name: OpenProject Admin
+                    status: active
+                    updatedAt: '2018-05-29T13:57:44.662Z'
+                  container:
+                    _links:
+                      addAttachment:
+                        href: "/api/v3/wiki_pages/72/attachments"
+                        method: post
+                      attachments:
+                        href: "/api/v3/wiki_pages/72/attachments"
+                      project:
+                        href: "/api/v3/projects/12"
+                        title: Demo project
+                      self:
+                        href: "/api/v3/wiki_pages/72"
+                    _type: WikiPage
+                    id: 72
+                    title: wiki
+                _links:
+                  author:
+                    href: "/api/v3/users/1"
+                    title: OpenProject Admin
+                  container:
+                    href: "/api/v3/wiki_pages/72"
+                    title: wiki
+                  delete:
+                    href: "/api/v3/attachments/376"
+                    method: delete
+                  downloadLocation:
+                    href: "/api/v3/attachments/376/content"
+                  self:
+                    href: "/api/v3/attachments/376"
+                    title: 200.gif
+                _type: Attachment
+                contentType: image/gif
+                createdAt: '2018-06-01T07:24:19.896Z'
+                description:
+                  format: plain
+                  html: ''
+                  raw: ''
+                digest:
+                  algorithm: md5
+                  hash: 7ac9c97ef73d47127f590788b84c0c1c
+                fileName: some.gif
+                fileSize: 3521772
+                id: 376
+      description: OK
+      headers: {}
+    '400':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
+                message: The request could not be parsed as JSON.
+      description: |-
+        Returned if the client sends a not understandable request. Reasons include:
+
+        * Omitting one of the required parts (metadata and file)
+
+        * sending unparsable JSON in the metadata part
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not allowed to delete this attachment.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** edit wiki pages
+
+        *Note that you will only receive this error, if you are at least allowed to see the wiki page*
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the wiki page does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:** view wiki pages
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of a wiki page
+        That's why a 404 is returned here, even if a 403 might be more appropriate.*
+      headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: File is too large (maximum size is 5242880 Bytes).
+      description: |-
+        Returned if the client tries to send an invalid attachment.
+        Reasons are:
+
+        * Omitting the file name (`fileName` property of metadata part)
+
+        * Sending a file that is too large
+      headers: {}
+  tags:
+  - Attachments
+  description: |-
+    Adds an attachment with the wiki page as it's container.
+
+  operationId: Add_attachment_to_wiki_page
+  summary: Add attachment to wiki page

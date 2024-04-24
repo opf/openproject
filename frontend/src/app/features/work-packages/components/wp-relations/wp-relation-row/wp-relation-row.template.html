@@ -1,0 +1,133 @@
+<div
+  *ngIf="workPackage && relatedWorkPackage"
+  class="relation-row relation-row-{{ relatedWorkPackage.id }}"
+  opFocusWithin=".relation-row--grid-actions button"
+>
+  <div
+    class="relation-row--grid"
+  >
+    <div>
+      <button
+        type="button"
+        class="relation-row--type"
+        data-test-selector="op-relation--row-type"
+        (click)="activateRelationTypeEdit()"
+        *ngIf="!userInputs.showRelationTypesForm"
+      >
+        <span
+          *ngIf="groupByWorkPackageType"
+          [textContent]="normalizedRelationType"
+        ></span>
+        <span
+          *ngIf="!groupByWorkPackageType"
+          [ngClass]="highlightingClassForWpType()"
+          [textContent]="relatedWorkPackage.type.name"
+        ></span>
+        <span class="hidden-for-sighted" [textContent]="text.updateRelation"></span>
+      </button>
+      <div
+        class="inline-edit--container inplace-edit"
+        *ngIf="userInputs.showRelationTypesForm"
+      >
+        <select
+          class="inline-edit--field form--select"
+          [(ngModel)]="selectedRelationType"
+          (change)="saveRelationType()"
+          role="listbox"
+          opAutofocus
+          (keydown.escape)="cancelRelationTypeEditOnEscape($event)"
+        >
+          <option
+            *ngFor="let relationType of availableRelationTypes"
+            [textContent]="relationType.label"
+            [ngValue]="relationType"
+          ></option>
+        </select>
+      </div>
+    </div>
+
+    <a
+      class="relation-row--grid-id"
+      data-test-selector="op-relation--row-id"
+      uiSref="work-packages.show.tabs"
+      [uiParams]="{ workPackageId: relatedWorkPackage.id, tabIdentifier: 'relations' }"
+    >#{{relatedWorkPackage.id}}</a>
+
+    <a
+      class="relation-row--grid-subject"
+      data-test-selector="op-relation--row-subject"
+      uiSref="work-packages.show.tabs"
+      [uiParams]="{ workPackageId: relatedWorkPackage.id, tabIdentifier: 'relations' }"
+      [textContent]="relatedWorkPackage.subject"
+      [attr.aria-label]="normalizedRelationType + ' ' + relatedWorkPackage.subjectWithId(0)"
+    ></a>
+
+    <edit-form *ngIf="relatedWorkPackage" [resource]="relatedWorkPackage">
+      <op-editable-attribute-field [resource]="relatedWorkPackage" fieldName="status"></op-editable-attribute-field>
+    </edit-form>
+
+    <div
+      class="relation-row--grid-actions"
+    >
+      <button
+        type="button"
+        class="spot-link wp-relations--description-btn"
+        [ngClass]="{'-visible': showDescriptionInfo }"
+        [title]="text.description_label"
+        (click)="userInputs.showRelationInfo = !userInputs.showRelationInfo"
+      >
+        <op-icon
+          icon-classes="icon-info1 icon-no-color -padded wp-relations--icon wp-relations--description-icon"
+          [icon-title]="text.toggleDescription"
+        ></op-icon>
+      </button>
+      <button
+        *ngIf="!!relation.delete"
+        type="button"
+        class="spot-link relation-row--remove-btn"
+        [ngClass]="{'-visible': showDescriptionInfo }"
+        [title]="text.removeButton"
+        (click)="removeRelation()"
+      >
+        <op-icon
+          icon-classes="icon-remove icon-no-color -padded wp-relations--icon"
+          [icon-title]="text.removeButton"
+        ></op-icon>
+      </button>
+    </div>
+  </div>
+
+  <div
+    *ngIf="userInputs.showRelationInfo"
+    class="grid-block hierarchy-item description-container"
+  >
+    <button
+      *ngIf="!userInputs.showDescriptionEditForm"
+      type="button"
+      class="wp-relation--description-read-value"
+      [class.-placeholder]="!relation.description"
+      (click)="startDescriptionEdit()"
+      [textContent]="relation.description || text.placeholder.description"
+    ></button>
+    <div
+      class="wp-relation--description-wrapper textarea-wrapper"
+      *ngIf="userInputs.showDescriptionEditForm"
+    >
+      <textarea
+        #relationDescriptionTextarea
+        autofocus
+        class="wp-relation--description-textarea"
+        name="description"
+        (keyup)="handleDescriptionKey($event)"
+        [(ngModel)]="userInputs.newRelationText"
+      ></textarea>
+      <edit-field-controls
+        [fieldController]="fieldController"
+        (onSave)="saveDescription()"
+        (onCancel)="cancelDescriptionEdit()"
+        [saveTitle]="text.save"
+        [cancelTitle]="text.cancel"
+      ></edit-field-controls>
+    </div>
+  </div>
+</div>

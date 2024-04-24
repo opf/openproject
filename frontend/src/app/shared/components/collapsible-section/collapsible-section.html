@@ -1,0 +1,17 @@
+<section class="collapsible-section"
+         [ngClass]="{ '-expanded': expanded }">
+
+  <button
+      class="collapsible-section--toggle-link"
+      (click)="toggle($event)"
+  >
+    <span class="collapsible-section--legend"
+          [textContent]="sectionTitle">
+    </span>
+  </button>
+  <div class="collapsible-section--body toggle-slide-animation"
+       #sectionBody
+       [hidden]="!expanded">
+    <!-- Wrapped by component -->
+  </div>
+</section>

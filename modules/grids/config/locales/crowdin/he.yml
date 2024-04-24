@@ -1,0 +1,16 @@
+he:
+  grids:
+    label_widget_in_grid: "התוסף מופיע באזור %{grid_name}"
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "דף"
+        row_count: "מספר שורות"
+        column_count: "מספר עמודות"
+        widgets: "ווידג'טים"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'overlap.'
+          outside: 'is outside of the grid.'
+          end_before_start: 'end value needs to be larger than the start value.'

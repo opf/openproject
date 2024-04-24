@@ -1,0 +1,145 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+"no":
+  plugin_costs:
+    name: "Tid og kostnader"
+    description: "Denne modulen legger til funksjoner for planlegging og sporing av prosjekter."
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: "Arbeidspakke"
+        overridden_costs: "Overstyrte kostnader"
+        spent: "Brukt"
+        spent_on: "Dato"
+      cost_type:
+        unit: "Enhetsnavn"
+        unit_plural: "Flertallsnavn på enhet"
+      work_package:
+        costs_by_type: "Brukte enheter"
+        labor_costs: "Arbeidskostnad"
+        material_costs: "Enhetskostnader"
+        overall_costs: "Samlede kostnader"
+        spent_costs: "Brukte kostnader"
+        spent_units: "Brukte enheter"
+      rate:
+        rate: "Sats"
+      user:
+        default_rates: "Standard satser"
+    models:
+      cost_type:
+        one: "Type kostnader"
+        other: "Kostnadstyper"
+      rate: "Sats"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "Arbeidspakke #%{id} er ikke et gyldig mål for nytildeling av kostnadsoppføringer."
+          nullify_is_not_valid_for_cost_entries: "Kostnadsoppføringer kan ikke tilordnes et prosjekt."
+  attributes:
+    comment: "Kommentar"
+    cost_type: "Type kostnader"
+    costs: "Kostnader"
+    current_rate: "Nåværende sats"
+    hours: "Timer"
+    units: "Enheter"
+    valid_from: "Gyldig fra"
+    fixed_date: "Fast dato"
+  button_add_rate: "Legg til sats"
+  button_log_costs: "Loggfør enhetskostnader"
+  caption_booked_on_project: "Bestilt i prosjektet"
+  caption_default: "Standard"
+  caption_default_rate_history_for: "Standardratehistorikk for %{user}"
+  caption_locked_on: "Låst på"
+  caption_materials: "Enheter"
+  caption_rate_history: "Satshistorikk"
+  caption_rate_history_for: "Satshistorikk for %{user}"
+  caption_rate_history_for_project: "Satshistorikk for %{user} i prosjektet %{project}"
+  caption_save_rate: "Lagre sats"
+  caption_set_rate: "Angi gjeldende sats"
+  caption_show_locked: "Vis låste typer"
+  description_date_for_new_rate: "Dato for ny sats"
+  group_by_others: "ikke i noen grupper"
+  label_between: "mellom"
+  label_cost_filter_add: "Legg til filter for kostnadspost"
+  label_costlog: "Loggførte enhetskostnader"
+  label_cost_plural: "Kostnader"
+  label_cost_type_plural: "Kostnadstyper"
+  label_cost_type_specific: "Kostnadstype #%{id}: %{name}"
+  label_costs_per_page: "Kostnader per side"
+  label_currency: "Valuta"
+  label_currency_format: "Formatet på valuta"
+  label_current_default_rate: "Nåværende standardsats"
+  label_date_on: "på"
+  label_deleted_cost_types: "Slettede kostnadstyper"
+  label_locked_cost_types: "Låste kostnadstyper"
+  label_display_cost_entries: "Vis enhetskostnader"
+  label_display_time_entries: "Vis rapporterte timer"
+  label_display_types: "Visningstyper"
+  label_edit: "Rediger"
+  label_generic_user: "Generisk bruker"
+  label_greater_or_equal: ">="
+  label_group_by: "Grupper etter"
+  label_group_by_add: "Legg til grupperingsfelt"
+  label_hourly_rate: "Timesats"
+  label_include_deleted: "Inkluder slettet"
+  label_work_package_filter_add: "Legg til arbeidspakke-filter"
+  label_kind: "Type"
+  label_less_or_equal: "<="
+  label_log_costs: "Loggfør enhetskostnader"
+  label_no: "Nei"
+  label_option_plural: "Alternativer"
+  label_overall_costs: "Samlede kostnader"
+  label_rate: "Sats"
+  label_rate_plural: "Satser"
+  label_status_finished: "Fullført"
+  label_units: "Kostenheter"
+  label_user: "Bruker"
+  label_until: "fram til"
+  label_valid_from: "Gyldig fra"
+  label_yes: "Ja"
+  notice_something_wrong: "Noe gikk galt. Prøv på nytt."
+  notice_successful_restore: "Vellykket gjenoppretting."
+  notice_successful_lock: "Låst vellykket."
+  notice_cost_logged_successfully: 'Enhetskostnaden er logget.'
+  permission_edit_cost_entries: "Rediger bokførte enhetskostnader"
+  permission_edit_own_cost_entries: "Rediger egne bokførte enhetskostnader"
+  permission_edit_hourly_rates: "Rediger timesatser"
+  permission_edit_own_hourly_rate: "Rediger egne timesatser"
+  permission_edit_rates: "Rediger satser"
+  permission_log_costs: "Bokførte enhetskostnader"
+  permission_log_own_costs: "Boklige enhetskostnader for seg selv"
+  permission_view_cost_entries: "Vis bokførte kostnader"
+  permission_view_cost_rates: "Se kostnadsrater"
+  permission_view_hourly_rates: "Vis alle timesatser"
+  permission_view_own_cost_entries: "Vis egne bokførte kostnader"
+  permission_view_own_hourly_rate: "Vis egen timesats"
+  permission_view_own_time_entries: "Vis egen tidsbruk"
+  project_module_costs: "Tid og kostnader"
+  text_assign_time_and_cost_entries_to_project: "Overfør rapporterte timer og kostnader til prosjektet"
+  text_destroy_cost_entries_question: "%{hours} timer er ført på arbeidspakkene du er i ferd med å slette. Hva vil du gjøre ?"
+  text_destroy_time_and_cost_entries: "Slett rapporterte timer og kostnader"
+  text_destroy_time_and_cost_entries_question: "%{hours} timer, %{cost_entries} ble rapportert på arbeidspakkene du er i ferd med å slette. Hva ønsker du å gjøre?"
+  text_reassign_time_and_cost_entries: "Overfør rapporterte timer og kostnader til denne arbeidspakken:"
+  text_warning_hidden_elements: "Noen oppføringer kan være utelatt fra aggregeringen."
+  week: "uke"
+  js:
+    text_are_you_sure: "Er du sikker?"

@@ -1,0 +1,146 @@
+/*-- copyright
+ * OpenProject is an open source project management software.
+ * Copyright (C) 2012-2024 the OpenProject GmbH
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See COPYRIGHT and LICENSE files for more details.  ++
+ */
+
+
+// use CSS4 variables for easier theming
+:root {
+  --primary-button-color: var(--button-primary-bgColor-rest, var(--color-btn-primary-bg));
+  --primary-button-color--major1: #197032;
+
+  --control-checked-color: var(--accent-color);
+  --control-checked-color--major1: var(--accent-color--major1);
+  --control-checked-color--major2: var(--accent-color--major2);
+  --control-checked-color--minor1: var(--accent-color--minor1);
+
+  /**
+   * The 100vh bug on iOS is a well known issue that will not be addressed.
+   * Using 100vh will not work correctly whenever the bottom toolbar of ios safari is open.
+   * To address the issue, we need to watch the screen height change events and rely on the
+   * window.innerHeight, instead of using 100vh.
+   * See more: https://medium.com/quick-code/100vh-problem-with-ios-safari-92ab23c852a8
+   */
+
+  --app-height: 100vh;
+  --body-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+
+  --gray: #EAEAEA;
+  --gray-light: #F8F8F8;
+  --gray-lighter: #E9E9E9;
+  --light-gray: #CCCCCC;
+  --body-background: #FFFFFF;
+  --body-font-color: #333333;
+  --base-line-height: 1.5;
+  --base-text-weight-bold: 600;
+  --secondary-color: #bfbfbf;
+  --accent-color: #1A67A3;
+  --accent-color--major1: #155282;
+  --accent-color--major2: #103e62;
+  --accent-color--minor1: #d1e1ed;
+  --accent-color--minor2: #a3c2da;
+  --font-color-on-primary: #FFFFFF;
+  --font-color-on-primary-dark: #FFFFFF;
+  --font-color-on-secondary: #FFFFFF;
+  --font-color-on-alternative: #FFFFFF;
+  --list-side-margin: 40px;
+  --header-height: 55px;
+  --header-bg-color: #1A67A3;
+  --header-border-bottom-color: #155282;
+  --header-border-bottom-width: 0;
+  --header-item-font-size: 14px;
+  --header-item-font-color: #FFFFFF;
+  --header-item-font-hover-color: #FFFFFF;
+  --header-item-bg-hover-color: #175A8E;
+  --header-drop-down-bg-color: #FFFFFF;
+  --header-drop-down-border-color: #DDDDDD;
+  --main-menu-width: 230px;
+  --main-menu-folded-width: 0px;
+  --main-menu-border-color: #EAEAEA;
+  --main-menu-border-width: 0px;
+  --main-menu-item-height: 40px;
+  --main-menu-bg-color: #333739;
+  --main-menu-bg-selected-background: #175A8E;
+  --main-menu-bg-hover-background: #124E7C;
+  --main-menu-font-color: #FFFFFF;
+  --main-menu-hover-font-color: var(--main-menu-font-color);
+  --main-menu-resizer-color: var(--main-menu-border-color);
+  --main-menu-selected-font-color: var(--main-menu-font-color);
+  --main-menu-font-size: 14px;
+  --main-menu-fieldset-header-color: #B0B2B3;
+  --main-menu-hover-border-color: var(--color-canvas-default-transparent);
+  --toolbar-title-color: #5F5F5F;
+  --toolbar-item--bg-color: #F8F8F8;
+  --toolbar-item--bg-color-pressed: var(--gray-lighter);
+  --toolbar-item--border-color: #DDD;
+  --breadcrumb-height: 40px;
+  --breadcrumb-font-size: 12px;
+  --breadcrumb-font-color: lighten(var(--body-font-color), 20);
+  --content-icon-link-color: #4b4b4b;
+  --content-icon-color: var(--accent-color);
+  --content-form-bg-color: #F8F8F8;
+  --content-form-input-hover-border: 1px solid #888888;
+  --content-form-error-color: #9E2A1C;
+  --content-form-danger-zone-bg-color: #CA3F3F;
+  --content-form-danger-zone-font-color: #FFFFFF;
+  --drop-down-selected-bg-color: #E7E7E7;
+  --drop-down-hover-bg-color: #EFEFEF;
+  --context-menu-unselected-font-color: var(--body-font-color);
+  --wiki-default-font-size: var(--body-font-size);
+  --user-avatar-border-radius: 50%;
+  --inplace-edit--border-color: #ddd;
+  --inplace-edit--dark-background: var(--gray-light);
+  --inplace-edit--color--very-dark: #cacaca;
+  --inplace-edit--color--disabled: #4d4d4d;
+  --inplace-edit--bg-color--disabled: #eee;
+  --table-border-color: #E7E7E7;
+  --table-row-highlighting-color: #CCE6F7;
+  --table-row-highlighting-outline-color: #00A6FF;
+  --button--font-color: #222222;
+  --button--background-color: var(--gray-light);
+  --button--background-hover-color: #ededed;
+  --button--border-color: #dddddd;
+  --button--active-font-color: #666666;
+  --button--active-background-color: #eeeeee;
+  --button--active-border-color: #cacaca;
+  --button--primary-background-color: var(--primary-button-color);
+  --button--primary-background-hover-color: var(--primary-button-color--major1);
+  --button--primary-font-color: var(--font-color-on-primary);
+  --generic-table--header-font-size: 0.875rem;
+  --generic-table--header-height: 45px;
+  --generic-table--footer-height: 34px;
+  --timeline--header-border-color: #aaaaaa;
+  --timeline--type-fallback-color: rgba(150, 150, 150, 0.8);
+  --table-timeline--row-height: 40px;
+  --status-selector-bg-color: #F99601;
+  --status-selector-border-color: transparent;
+  --warn:#C92A2A;
+  --grid-background-color: #F3F6F8;
+  --avatar-border-color: transparent;
+  --list-item-hover--border-color: var(--color-canvas-default-transparent);
+  --list-item-hover--color: var(--accent-color);
+  --link-text-decoration: none;
+}

@@ -1,0 +1,200 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+#English strings go here for Rails i18n
+hu:
+  plugin_openproject_meeting:
+    name: "OpenProject Meeting"
+    description: >-
+      This module adds functions to support project meetings to OpenProject. Meetings can be scheduled selecting invitees from the same project to take part in the meeting. An agenda can be created and sent to the invitees. After the meeting, attendees can be selected and minutes can be created based on the agenda. Finally, the minutes can be sent to all attendees and invitees.
+  activerecord:
+    attributes:
+      meeting:
+        type: "Megbeszélés típusa"
+        location: "Helyszín"
+        duration: "Időtartam"
+        notes: "Jegyzet"
+        participants: "Közreműködők"
+        participant:
+          one: "1 résztvevő"
+          other: "%{count} résztvevő"
+        participants_attended: "Résztvevők"
+        participants_invited: "Meghívottak"
+        project: "Projekt"
+        start_date: "dátum"
+        start_time: "Start time"
+        start_time_hour: "Start time"
+      meeting_agenda_item:
+        title: "Title"
+        author: "Author"
+        duration_in_minutes: "min"
+        description: "Notes"
+        presenter: "Presenter"
+    errors:
+      messages:
+        invalid_time_format: "nem egy érvényes időpont. Előírt formátum: óó:pp"
+    models:
+      structured_meeting: "Megbeszélés (dinamikus)"
+      meeting_agenda_item: "Napirendi pont"
+      meeting_agenda: "Napirend"
+      meeting_minutes: "Jegyzőkönyv"
+  activity:
+    filter:
+      meeting: "Megbeszélések"
+  description_attended: "részt vett"
+  description_invite: "meghívott"
+  events:
+    meeting: Esemény szerkesztve
+    meeting_agenda: Esemény napirendje szerkesztve
+    meeting_agenda_closed: Esemény napirendje lezárva
+    meeting_agenda_opened: Esemény napirendje megnyitva
+    meeting_minutes: Jegyzőkönyv szerkesztve
+    meeting_minutes_created: Jegyzőkönyv létrehozva
+  error_notification_with_errors: "Nem sikerült elküldeni az értesítőt. A következő címzettek nem lettek értesítve: %{recipients}"
+  label_meeting: "Megbeszélés"
+  label_meeting_plural: "Megbeszélések"
+  label_meeting_new: "Új megbeszélés"
+  label_meeting_edit: "Megbeszélés szerkesztése"
+  label_meeting_agenda: "Napirend"
+  label_meeting_minutes: "Jegyzőkönyv"
+  label_meeting_close: "Bezár"
+  label_meeting_open: "Megnyit"
+  label_meeting_agenda_close: "Napirend lezárása a jegyzőkönyv megkezdéséhez"
+  label_meeting_date_time: "Dátum/idő"
+  label_meeting_diff: "Eltérés"
+  label_upcoming_meetings: "Közelgő megbeszélések"
+  label_past_meetings: "Korábbi megbeszélések"
+  label_upcoming_meetings_short: "Közelgő"
+  label_past_meetings_short: "Korábbi"
+  label_involvement: "Bevonás "
+  label_upcoming_invitations: "Közelgő meghívások"
+  label_past_invitations: "Korábbi meghívások"
+  label_attendee: "Résztvevő"
+  label_author: "Készítő"
+  label_notify: "Küldés véleményezésre"
+  label_icalendar: "iCalendar küldése"
+  label_icalendar_download: "iCalendar esemény letöltése"
+  label_version: "Verzió"
+  label_time_zone: "Időzóna"
+  label_start_date: "Kezdési dátum"
+  meeting:
+    attachments:
+      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
+    copy:
+      title: "%{title} megbeszélés másolása"
+      attachments: "Copy attachments"
+      attachments_text: "Copy over all attached files to the new meeting"
+      agenda: "Napirend másolása"
+      agenda_text: "A régi megbeszélés napirendjének másolása"
+    email:
+      open_meeting_link: "Nyitott megbeszélés"
+      invited:
+        summary: "%{actor} meghívott a következő megbeszélésre: %{title}"
+      rescheduled:
+        header: "Meeting %{title} has been rescheduled"
+        summary: "%{title} elnevezésű megbeszélés átütemezésre került a következő által: %{actor}"
+        body: "%{title} elnevezésű megbeszélés átütemezésre került a következő által: %{actor}"
+        old_date_time: "Régi időpont"
+        new_date_time: "Új időpont"
+    label_mail_all_participants: "Email küldése minden résztvevőnek"
+    types:
+      classic: "Szokásos"
+      classic_text: "Szervezd meg a találkozódat formázott szöveges napirendben és protokollban."
+      structured: "Dinamikus"
+      structured_text: "Szervezd meg a találkozódat napirendi pontokkal, melyeket opcionálisan munkacsomagokhoz rendelhetsz."
+      structured_text_copy: "A megbeszélés másolásával jelnleg nem fogja átmásolni a hozzákapcsolt napirendi pontokat, csak a megbeszélés részleteit."
+    copied: "#%{id} megbeszélésből másolva"
+  notice_successful_notification: "Értesítés sikeresen kiküldve"
+  notice_timezone_missing: Nincs időzóna beállítva, %{zone} a feltételezett. Időzóna beállításához kattintson ide.
+  permission_create_meetings: "Megbeszélések létrehozása"
+  permission_edit_meetings: "Megbeszélések szerkesztése"
+  permission_delete_meetings: "Megbeszélések törlése"
+  permission_view_meetings: "Megbeszélések megtekintése"
+  permission_create_meeting_agendas: "Napirendi pontok létrehozása"
+  permission_create_meeting_agendas_explanation: "Lehetővé teszi a Hagyományos Megbeszélés napirendi tartalmának a szerkesztését."
+  permission_manage_agendas: "Napirendek kezelése"
+  permission_manage_agendas_explanation: "Lehetővé teszi a Dinamikus Megbeszélés napirendi tartalmának a kezelését."
+  permission_close_meeting_agendas: "Napirendek lezárása"
+  permission_send_meeting_agendas_notification: "Napirend véleményezésre küldésének értesítése"
+  permission_create_meeting_minutes: "Jegyzőkönyvek kezelése"
+  permission_send_meeting_minutes_notification: "Jegyzőkönyvek véleményezésre küldésének értesítése"
+  permission_meetings_send_invite: "Felhasználó meghívása a megbeszélésre"
+  permission_send_meeting_agendas_icalendar: "Az értekezlet napirendjének küldése naptárbejegyzésként"
+  project_module_meetings: "Megbeszélések"
+  text_duration_in_hours: "Hossza (óra)"
+  text_in_hours: "órában"
+  text_meeting_agenda_for_meeting: 'a "%{meeting}" megbeszélés napirendje'
+  text_meeting_closing_are_you_sure: "Biztosan le szeretnéd zárni a megbeszélés napirendjét?"
+  text_meeting_agenda_open_are_you_sure: "Ez minden változást felül fog írni. Biztosan folytani akarja?"
+  text_meeting_minutes_for_meeting: 'a "%{meeting}" megbeszélés jegyzőkönyve'
+  text_notificiation_invited: "Ez a levél alább egy ics bejegyzést tartalmaz a megbeszélésről:"
+  text_meeting_empty_heading: "A megbeszélésed üres."
+  text_meeting_empty_description_1: "Kezdje az alábbi napirendi pontok hozzáadásával. Az egyes napirendi pontok lehetnek egyszerű címek, de további részleteket, például időtartamot és megjegyzéseket is hozzáadhat."
+  text_meeting_empty_description_2: 'A meglévő munkacsomagokhoz is hozzáadhat hivatkozásokat. Ilyenkor a kapcsolódó jegyzetek automatikusan láthatóvá válnak a munkacsomag "Megbeszélések" lapján.'
+  label_meeting_empty_action: "Napirendi pont hozzáadása"
+  label_meeting_actions: "Megbeszélések intézkedései"
+  label_meeting_edit_title: "Megbeszélés címének szerkesztése"
+  label_meeting_delete: "Megbeszélés törlése"
+  label_meeting_created_by: "Létrehozta"
+  label_meeting_last_updated: "Utoljára frissítve"
+  label_agenda_items: "Agenda items"
+  label_agenda_items_reordered: "reordered"
+  label_agenda_item_remove: "Remove from agenda"
+  label_agenda_item_undisclosed_wp: "Munkacsomag #%{id} nem látható"
+  label_agenda_item_deleted_wp: "Törölt munkacsomag-hivatkozás"
+  label_agenda_item_actions: "A napirendi pontok intézkedései"
+  label_agenda_item_move_to_top: "Mozgatás felfelé"
+  label_agenda_item_move_to_bottom: "Mozgatás az aljára"
+  label_agenda_item_move_up: "Mozgatás felfelé"
+  label_agenda_item_move_down: "Mozgás lefelé"
+  label_agenda_item_add_notes: "Megjegyzések hozzáadása"
+  label_agenda_item_work_package: "Agenda item work package"
+  text_agenda_item_title: 'Agenda item "%{title}"'
+  text_agenda_work_package_deleted: 'Agenda item for deleted work package'
+  text_deleted_agenda_item: 'Deleted agenda item'
+  label_initial_meeting_details: "Meeting"
+  label_meeting_details: "A megbeszélés részletei"
+  label_meeting_details_edit: "Megbeszélés részleteinek szerkesztése"
+  label_meeting_state: "Meeting status"
+  label_meeting_state_open: "Open"
+  label_meeting_state_open_html: "<i>Open</i>"
+  label_meeting_state_closed: "Lezárva"
+  label_meeting_state_closed_html: "<i>Closed</i>"
+  label_meeting_reopen_action: "A megbeszélés újranyitása"
+  label_meeting_close_action: "Megbeszélés lezárása"
+  text_meeting_open_description: "Ez a megbeszélés nyitott. A napirendi pontokat tetszés szerint hozzáadhatja/eltávolíthatja és szerkesztheti. A megbeszélés végeztével zárja be, hogy archíválja azt."
+  text_meeting_closed_description: "Ez a megbeszélés zárt. Többé nem tud napirendi pontokat hozzáadni/eltávolítani."
+  label_meeting_manage_participants: "Résztvevők kezelése"
+  label_meeting_no_participants: "Nincsenek résztvevők"
+  label_meeting_show_hide_participants: "%{count} további elem megjelenítése/elrejtése"
+  label_meeting_show_all_participants: "Minden megjelenítése"
+  label_meeting_add_participants: "Résztvevők hozzáadása"
+  text_meeting_not_editable_anymore: "Ez a megbeszélés már nem szerkeszthető."
+  text_meeting_not_present_anymore: "Ez a megbeszélés törlésre került. Kérjük, válasszon ki egy másik megbeszélést."
+  label_add_work_package_to_meeting_dialog_title: "Munkacsomag hozzáadása a megbeszéléshez"
+  label_add_work_package_to_meeting_dialog_button: "Hozzáadás a megbeszéléshez"
+  label_meeting_selection_caption: "It's only possible to add this work package to upcoming or ongoing open meetings."
+  text_add_work_package_to_meeting_description: "Egy munkacsomagot egy vagy több megbeszéléshez is hozzá lehet adni megvitatásra. Az ezzel kapcsolatos megjegyzések szintén itt láthatók."
+  text_agenda_item_no_notes: "Nincs hozzáadott jegyzet. "
+  text_agenda_item_not_editable_anymore: "Ez a napirendi pont már nem szerkeszthető."
+  text_work_package_has_no_upcoming_meeting_agenda_items: "Ez a munkacsomag még nem szerepel a következő megbeszélések napirendjén."
+  text_work_package_add_to_meeting_hint: 'Használja a "Hozzáadás a megbeszéléshez" gombot, ha ezt a munkacsomagot hozzá kívánja adni egy közelgő értekezlethez.'
+  text_work_package_has_no_past_meeting_agenda_items: "Ez a munkacsomag nem került említésre egy korábbi megbeszélésen."

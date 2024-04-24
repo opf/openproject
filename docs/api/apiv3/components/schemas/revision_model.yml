@@ -1,0 +1,100 @@
+# Schema: RevisionModel
+---
+type: object
+required:
+- identifier
+- formattedIdentifier
+- authorName
+- message
+- createdAt
+properties:
+  id:
+    type: integer
+    description: Revision's id, assigned by OpenProject
+    readOnly: true
+    exclusiveMinimum: 0
+  identifier:
+    type: string
+    description: The raw SCM identifier of the revision (e.g. full SHA hash)
+    readOnly: true
+  formattedIdentifier:
+    type: string
+    description: The SCM identifier of the revision, formatted (e.g. shortened unambiguous
+      SHA hash). May be identical to identifier in many cases
+    readOnly: true
+  authorName:
+    type: string
+    description: The name of the author that committed this revision. Note that this
+      name is retrieved from the repository and does not identify a user in OpenProject.
+    readOnly: true
+  message:
+    allOf:
+    - "$ref": "./formattable.yml"
+    - description: The commit message of the revision
+      readOnly: true
+  createdAt:
+    type: string
+    format: date-time
+    description: The time this revision was committed to the repository
+  _links:
+    type: object
+    required:
+    - self
+    - project
+    - showRevision
+    properties:
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This revision
+
+            **Resource**: Revision
+          readOnly: true
+      project:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            The project to which the revision belongs
+
+            **Resource**: Project
+          readOnly: true
+      author:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            The user that added this revision, if the authorName was mapped to a user in OpenProject
+
+            **Resource**: User
+          readOnly: true
+      showRevision:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            A URL to the repository view (outside APIv3) showing this revision
+
+            **Resource**: -
+          readOnly: true
+example:
+  _type: Revision
+  _links:
+    self:
+      href: "/api/v3/revisions/1"
+    project:
+      href: "/api/v3/projects/1"
+    author:
+      href: "/api/v3/users/1"
+    showRevision:
+      href: "/projects/identifier/repository/revision/11f4b07"
+  id: 1
+  identifier: 11f4b07dff4f4ce9548a52b7d002daca7cd63ec6
+  formattedIdentifier: 11f4b07
+  authorName: Some Developer
+  message:
+    format: plain
+    raw: |-
+      This revision provides new features
+
+      An elaborate description
+    html: "<p>This revision provides new features<br/><br/>An elaborate description</p>"
+  createdAt: '2015-07-21T13:36:59.859Z'

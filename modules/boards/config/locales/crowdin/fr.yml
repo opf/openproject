@@ -1,0 +1,39 @@
+#English strings go here
+fr:
+  plugin_openproject_boards:
+    name: "Tableaux OpenProject"
+    description: "Fournit des vues du tableau."
+  permission_show_board_views: "Afficher les tableaux"
+  permission_manage_board_views: "Gérer les tableaux"
+  project_module_board_view: "Tableaux"
+  boards:
+    label_board: "Tableau"
+    label_boards: "Tableaux"
+    label_create_new_board: "Créer un nouveau tableau"
+    label_board_type: "Type de tableau"
+    board_types:
+      free: Basic
+      action: "Tableau d'action (%{attribute})"
+    board_type_attributes:
+      assignee: Assigné à
+      status: Statut
+      version: Version
+      subproject: Sous-projet
+      subtasks: Parent-enfant
+      basic: Basic
+    board_type_descriptions:
+      basic: >
+        Commencez à partir de zéro avec un tableau vide. Ajoutez manuellement des cartes et des colonnes à ce tableau.
+      status: >
+        Tableau de style de kanban de base avec des colonnes pour des statuts tels que À faire, En cours, Terminé.
+      assignee: >
+        Tableau avec colonnes automatisées basées sur des utilisateurs assignés. Idéal pour envoyer des lots de travaux.
+      version: >
+        Tableau avec des colonnes automatisées basées sur l'attribut de version. Idéal pour planifier le développement d'un produit.
+      subproject: >
+        Tableau avec colonnes automatiques pour les sous-projets. Le déplacement des lots de travaux vers d'autres listes met à jour le (sous-)projet en conséquence.
+      subtasks: >
+        Tableau avec colonnes automatiques pour les sous-éléments. Le déplacement des lots de travaux vers d'autres listes met à jour le parent en conséquence.
+    upsale:
+      teaser_text: 'Voulez-vous automatiser vos flux de travail avec des tableaux ? Les tableaux avancés sont un module de la version Enterprise. Veuillez passer à un abonnement payant.'
+      upgrade: 'Mettre à niveau maintenant'

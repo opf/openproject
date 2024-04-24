@@ -1,0 +1,63 @@
+# /api/v3/roles/{id}
+---
+get:
+  parameters:
+  - description: Role id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  self:
+                    href: "/api/v3/roles/3"
+                    title: Manager
+                _type: Role
+                id: 3
+                name: Manager
+          schema:
+            "$ref": "../components/schemas/role_model.yml"
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to view this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions to see roles.
+
+        **Required permission:** view members **or** manage members
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: Returned if the role does not exist.
+      headers: {}
+  tags:
+  - Roles
+  description: Fetch an individual role.
+  operationId: View_role
+  summary: View role

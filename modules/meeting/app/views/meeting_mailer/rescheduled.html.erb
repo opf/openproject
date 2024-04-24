@@ -1,0 +1,126 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render layout: 'mailer/spacer_table' do %>
+  <%= render partial: 'mailer/mailer_header',
+             locals: {
+               user: @user,
+               summary: I18n.t('meeting.email.rescheduled.summary', title: @meeting.title, actor: @actor),
+               bottom_spacing: false
+             } %>
+
+  <%= render layout: 'mailer/border_table' do %>
+    <tr>
+      <%= placeholder_cell('24px', vertical: true) %>
+      <td>
+        <table>
+          <tr>
+            <td style="<%= placeholder_text_styles(width: '30%') %>">
+              <%= t('meeting.email.rescheduled.old_date_time') %>
+            </td>
+            <td style="<%= placeholder_text_styles %>">
+              <s>
+                <%= format_time_as_date @changes[:old_start] %> <%= format_time @changes[:old_start], false %>
+                -
+                <%= format_time (@changes[:old_start] + @changes[:old_duration].hours), false %> <%= Time.zone %>
+              </s>
+            </td>
+          </tr>
+          <tr>
+            <td style="<%= placeholder_text_styles(width: '30%') %>">
+              <%= t('meeting.email.rescheduled.new_date_time') %>
+            </td>
+            <td style="<%= placeholder_text_styles('font-weight': 'bold') %>">
+              <%= format_time_as_date @changes[:new_start] %> <%= format_time @changes[:new_start], false %>
+              -
+              <%= format_time (@changes[:new_start] + @changes[:new_duration].hours), false %> <%= Time.zone %>
+            </td>
+          </tr>
+          <% if @meeting.location.present? %>
+            <tr>
+              <td style="<%= placeholder_text_styles(width: '30%') %>">
+                <%= Meeting.human_attribute_name(:location) %>
+              </td>
+              <td style="<%= placeholder_text_styles %>">
+                <%= auto_link @meeting.location %>
+              </td>
+            </tr>
+          <% end %>
+          <tr>
+            <td style="<%= placeholder_text_styles(width: '30%') %>">
+              <%= Meeting.human_attribute_name(:project) %>
+            </td>
+            <td style="<%= placeholder_text_styles %>">
+              <%= link_to @meeting.project.name, project_url(@meeting.project) %>
+            </td>
+          </tr>
+          <tr>
+            <td style="<%= placeholder_text_styles(width: '30%') %>">
+              <%= Meeting.human_attribute_name(:author) %>
+            </td>
+            <td style="<%= placeholder_text_styles %>">
+              <%= @meeting.author %>
+            </td>
+          </tr>
+          <% if @meeting.participants.exists? %>
+            <tr>
+              <td style="<%= placeholder_text_styles(width: '30%') %>">
+                <%= Meeting.human_attribute_name(:participants_invited) %>
+              </td>
+              <td style="<%= placeholder_text_styles %>">
+                <%= @meeting.participants.invited.sort.join("; ") %>
+              </td>
+            </tr>
+            <tr>
+              <td style="<%= placeholder_text_styles(width: '30%') %>">
+                <%= Meeting.human_attribute_name(:participants_attended) %>
+              </td>
+              <td style="<%= placeholder_text_styles %>">
+                <%= @meeting.participants.attended.sort.join("; ") %>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+      </td>
+    </tr>
+  <% end %>
+
+  <table>
+    <tr>
+      <%= placeholder_cell('20px', vertical: false) %>
+    </tr>
+  </table>
+
+  <%= action_button do %>
+    <%= link_to I18n.t(:'meeting.email.open_meeting_link'),
+                meeting_url(@meeting),
+                target: '_blank',
+                style: "color: #333333; text-decoration: none; font-size: 14px;white-space: nowrap;" %>
+  <% end %>
+<% end %>

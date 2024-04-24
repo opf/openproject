@@ -1,0 +1,37 @@
+<div #container
+      data-test-selector="op-wp-card-view"
+     [ngClass]="classes()">
+  <div *ngIf="inReference"
+       class="wp-inline-create--reference-container">
+    <ndc-dynamic [ndcDynamicComponent]="referenceClass"
+                 [ndcDynamicInjector]="injector"
+                 [ndcDynamicOutputs]="referenceOutputs">
+    </ndc-dynamic>
+  </div>
+
+  <ng-container *ngFor="let wp of workPackages; trackBy:trackByHref">
+    <wp-single-card [workPackage]="wp"
+                    [attr.data-is-new]="isNewResource(wp) || undefined"
+                    [attr.data-work-package-id]="wp.id"
+                    [attr.data-class-identifier]="cardView.classIdentifier(wp)"
+                    [showInfoButton]="showInfoButton"
+                    [showStatusButton]="showStatusButton"
+                    [showRemoveButton]="cardsRemovable"
+                    [highlightingMode]="highlightingMode"
+                    [draggable]="this.canDragOutOf(wp)"
+                    [orientation]="orientation"
+                    [shrinkOnMobile]="shrinkOnMobile"
+                    (onRemove)="removeCard(wp)"
+                    (stateLinkClicked)="stateLinkClicked.emit($event)">
+    </wp-single-card>
+
+    <hr *ngIf="shrinkOnMobile"
+        class="form--separator hidden-for-desktop">
+  </ng-container>
+</div>
+
+<div *ngIf="showEmptyResultsBox && isResultEmpty">
+  <op-no-results [title]="text.noResults.title" [description]="text.noResults.description"></op-no-results>
+</div>
+
+

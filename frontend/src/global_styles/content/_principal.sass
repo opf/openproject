@@ -1,0 +1,31 @@
+.op-principal
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  vertical-align: middle
+
+  &_flex
+    display: flex
+
+  &--avatar
+    flex-grow: 0
+    flex-shrink: 0
+
+  &--name
+    @include text-shortener
+    flex-grow: 1
+    flex-shrink: 1
+    min-width: 0 // See: https://css-tricks.com/flexbox-truncated-text/
+    margin-left: $spot-spacing-0_25
+
+  &_wrapped &--name
+    white-space: normal
+
+  &--multi-line
+    display: block
+    margin-bottom: 2px
+
+  &_hide-name-on-mobile &
+    @media screen and (max-width: $breakpoint-sm)
+      &--name
+        display: none

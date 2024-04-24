@@ -1,0 +1,122 @@
+# /api/v3/work_packages/{id}/revisions
+---
+get:
+  parameters:
+  - description: Work package id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  elements:
+                  - _links:
+                      author:
+                        href: "/api/v3/users/1"
+                        title: John Sheppard - j.sheppard
+                      project:
+                        href: "/api/v3/projects/1"
+                        title: A Test Project
+                      self:
+                        href: "/api/v3/revisions/13"
+                      showRevision:
+                        href: "/projects/identifier/repository/revision/11f4b07"
+                    _type: Revision
+                    authorName: John Sheppard
+                    createdAt: '2015-07-21T13:36:59.220Z'
+                    formattedIdentifier: 11f4b07
+                    id: 13
+                    identifier: 11f4b07dff4f4ce9548a52b7d002daca7cd63ec6
+                    message:
+                      format: plain
+                      html: "<p>This revision provides new features<br/><br/>An elaborate
+                        description</p>"
+                      raw: |-
+                        This revision provides new features
+
+                        An elaborate description
+                  - _links:
+                      author:
+                        href: "/api/v3/users/2"
+                        title: Jim Sheppard - j.sheppard
+                      project:
+                        href: "/api/v3/projects/1"
+                        title: A Test Project
+                      self:
+                        href: "/api/v3/revisions/14"
+                      showRevision:
+                        href: "/projects/identifier/repository/revision/029ed72a"
+                    _type: Revision
+                    authorName: j1msheppard
+                    createdAt: '2015-06-30T08:47:00.818Z'
+                    formattedIdentifier: '029ed72a'
+                    id: 13
+                    identifier: '029ed72a3b7b7c4ab332b1f6eaa6576e7c946059'
+                    message:
+                      format: plain
+                      html: "<p>This revision fixes some stuff<br/><br/>More information
+                        here</p>"
+                      raw: |-
+                        This revision fixes some stuff
+
+                        More information here
+                _links:
+                  self:
+                    href: "/api/v3/work_packages/42/revisions"
+                _type: Collection
+                count: 2
+                total: 2
+          schema:
+            "$ref": "../components/schemas/revisions_model.yml"
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not allowed to see linked revisions for this work
+                  package.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** view work packages for the project the work package is contained in.
+
+        *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The specified work project does not exist.
+      description: |-
+        Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package
+      headers: {}
+  tags:
+  - Work Packages
+  description: |-
+    Gets a list of revisions that are linked to this work package, e.g., because it is referenced in the commit message of the revision.
+    Only linked revisions from repositories are shown if the user has the view changesets permission in the defining project.
+  operationId: Revisions
+  summary: Revisions

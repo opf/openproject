@@ -1,0 +1,16 @@
+<%=
+  raw I18n.t(:"mail_member_updated_project.body.updated_by.#{@message.present? ? 'with_message' : 'without_message'}",
+             project: link_to_project(@project, only_path: false),
+             user: link_to_user(User.current, only_path: false))
+%>
+
+<%= format_text(@message) %>
+
+<%= I18n.t(:'mail_member_updated_project.body.roles') %>
+<ul>
+  <% @roles.each do |role| %>
+    <li>
+      <%= role.name %>
+    </li>
+  <% end %>
+</ul>

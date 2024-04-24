@@ -1,0 +1,86 @@
+#English strings go here
+zh-CN:
+  js:
+    boards:
+      create_new: '创建新面板'
+      label_unnamed_board: '未命名面板'
+      label_unnamed_list: '未命名列表'
+      label_board_type: '面板类型'
+      upsale:
+        teaser_text: '您想使用面板自动化您的工作流吗？高级面板是企业附加组件。请升级到付费计划。'
+        upgrade: '立即升级'
+      lists:
+        delete: '删除列表'
+      version:
+        is_locked: '版本已锁定。无法向此版本添加项目。'
+        is_closed: '版本已关闭。无法向此版本添加项目。'
+        close_version: '关闭版本'
+        open_version: '打开版本'
+        lock_version: '锁定版本'
+        unlock_version: '解锁版本'
+        edit_version: '编辑版本'
+        show_version: '显示版本'
+        locked: '锁定'
+        closed: '已关闭'
+      new_board: '新建面板'
+      add_list: '将列表添加到面板'
+      add_card: '添加卡片'
+      error_attribute_not_writable: "无法移动工作包，%{attribute} 不可写。"
+      error_loading_the_list: "加载列表时出错：%{error_message}"
+      error_permission_missing: "缺少创建公共查询的权限"
+      error_cannot_move_into_self: "您不能将工作包移动到其自己的列中。"
+      text_hidden_list_warning: "并未显示所有列表，因为您缺少权限。有关详细信息，请联系您的管理员。"
+      click_to_remove_list: "点击以移除此列表"
+      board_type:
+        text: '面板类型'
+        free: '基本'
+        select_board_type: '请选择您需要的面板类型。'
+        free_text: >
+          从头开始使用空白面板，将卡片和列手动添加到此面板。
+        action: '操作面板'
+        action_by_attribute: '操作面板 (%{attribute})'
+        action_text: >
+          一个在 %{attribute} 属性上具有筛选列表的面板。将工作包移动到其他列表会更新其属性。
+        action_text_subprojects: >
+          具有子项目自动列的面板。将工作包拖动到其他列表会相应地更新（子）项目。
+        action_text_subtasks: >
+          具有子元素自动列的面板。将工作包拖动到其他列表会相应地更新父项。
+        action_text_status: >
+          基本看板样式的面板，包含“待办”、“正在进行”、“已完成”等状态的列。
+        action_text_assignee: >
+          基于分配给用户的自动列看板，是分派工作包非常理想的工具。
+        action_text_version: >
+          基于版本属性的自动列面板。用于产品开发规划。
+        action_type:
+          assignee: 受理人
+          status: 状态
+          version: 版本
+          subproject: 子项目
+          subtasks: 父子
+        board_type_title:
+          assignee: 受理人
+          status: 状态
+          version: 版本
+          subproject: 子项目
+          subtasks: 父子
+          basic: 基础
+        select_attribute: "操作属性"
+      add_list_modal:
+        labels:
+          assignee: 选择要添加到新受理人列表的用户
+          status: 选择要添加到新列表的状态
+          version: 选择要添加到新列表的版本
+          subproject: 选择要添加到新列表的子项目
+          subtasks: 选择要添加到新列表的工作包
+        warning:
+          status: |
+            目前没有可用的状态。<br>
+            可能没有问题，或者它们已被全部添加到问题板中。
+          assignee: 没有任何成员与您的筛选值匹配。<br>
+          no_member: 此项目目前没有可以添加的成员。  <br>
+          add_members: <a href="%{link}">向此项目添加一个新成员</a>以重新选择用户。
+      configuration_modal:
+        title: '配置此面板'
+        display_settings:
+          card_mode: "显示为卡片"
+          table_mode: "显示为表"

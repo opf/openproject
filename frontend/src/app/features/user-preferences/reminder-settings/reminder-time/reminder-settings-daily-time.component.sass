@@ -1,0 +1,37 @@
+@import "helpers"
+
+.op-reminder-settings-daily-time
+  &--enable
+    display: flex
+    align-items: center
+    margin-top: 30px
+    margin-bottom: 10px
+
+  &--row
+    margin-left: 40px
+    line-height: 45px
+    display: flex
+    align-items: center
+
+    &:nth-of-type(1)
+      margin-top: 10px
+
+  &--active
+    flex: 0 0 25px
+
+  &--label
+    flex: 0 0 60px
+    margin-bottom: 0
+    @include text-shortener
+
+  &--time
+    height: 32px
+    width: 150px
+
+  &--remove
+    padding-left: 10px
+
+  &--add
+    margin-top: 20px
+    margin-left: 40px
+    width: auto

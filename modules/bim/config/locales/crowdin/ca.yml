@@ -1,0 +1,136 @@
+#English strings go here for Rails i18n
+ca:
+  plugin_openproject_bim:
+    name: "OpenProject BIM and BCF functionality"
+    description: "This OpenProject plugin introduces BIM and BCF functionality."
+  bim:
+    label_bim: 'BIM'
+  bcf:
+    label_bcf: 'BCF'
+    label_imported_failed: 'Importació de temes BCF no reeixida'
+    label_imported_successfully: 'S''ha importat els temes BCF correctament.'
+    issues: "Problemes"
+    recommended: 'recomanat'
+    not_recommended: 'no recomanat'
+    no_viewpoints: 'Sense punts de vista'
+    new_badge: "Nou"
+    exceptions:
+      file_invalid: "Fitxer BCF invàlid"
+    x_bcf_issues:
+      zero: 'Sense elements de BCF'
+      one: 'Un element BCF'
+      other: '%{count} elements BCF'
+    bcf_xml:
+      xml_file: 'Fitxer BCF XML'
+      import_title: 'Importació'
+      export: 'Exportar'
+      import_update_comment: '(Actualitzat a l''importació del BCF)'
+      import_failed: 'No s''ha pogut importar el fitxer BCF: %{error}'
+      import_failed_unsupported_bcf_version: 'Error en la lectura del fitxer BCF: Versió del BFC no suportada. Si us plau, assegura''t que la versió actual és almenys %{minimal_version} o superior.'
+      import_successful: 'Importats %{count} elements BCF'
+      import_canceled: 'Importació BCF-XML cancel·lada'
+      type_not_active: "Aquest tipus de problema no està activat per aquest projecte."
+      import:
+        num_issues_found: '%{x_bcf_issues} són continguts al fitxer BCF-XML, es llisten els detalls a tot seguit.'
+        button_prepare: 'Prepara la importació'
+        button_perform_import: 'Confirma la importació'
+        button_proceed: 'Procedeix amb la importació'
+        button_back_to_list: 'Torna a la llista'
+        no_permission_to_add_members: 'No tens permisos suficients per a afegir-los com a membres del projecte.'
+        contact_project_admin: 'Contacta amb el teu administrador del projecte per a afegir-los com a membres i començar de nou aquesta importació'
+        continue_anyways: 'Vols procedir i finalitzar la importació de totes maneres?'
+        description: "Proporciona un fitxer BCF-XML v2.1 per importar-lo al projecte. Pots examinar-ne els continguts abans de fer-ne la importació."
+        invalid_types_found: 'S''ha trobat noms de tipus de tema invàlids.'
+        invalid_statuses_found: 'S''ha trobat noms d''estat invàlids.'
+        invalid_priorities_found: 'S''ha trobat noms de prioritat invàlids.'
+        invalid_emails_found: 'S''ha trobat adreces de correu electrònic invàlides'
+        unknown_emails_found: 'S''ha trobat adreces de correu electrònic desconegudes'
+        unknown_property: "Propietat és desconeguda.\n"
+        non_members_found: 'No s''ha trobat membres del projecte'
+        import_types_as: 'Estableix tots aquests tipus a'
+        import_statuses_as: 'Estableix tots aquests estats a'
+        import_priorities_as: 'Estableix tots aquestes prioritats a'
+        invite_as_members_with_role: 'Convida''ls com a membres del projecte "%{project}" amb rol'
+        add_as_members_with_role: 'Afegeix-los com a membres del projecte "%{project}" amb rol'
+        no_type_provided: 'No s''ha proporcionat cap tipus'
+        no_status_provided: 'No s''ha proporcionat cap estat'
+        no_priority_provided: 'No s''ha proporcionat cap prioritat'
+        perform_description: "Vols importar o actualitzar els elements enumerats?"
+        replace_with_system_user: 'Substituïu-los amb l''usuari "Sistema"'
+        import_as_system_user: 'Importa''ls com a l''usuari "Sistema"'
+        what_to_do: "Què vols fer?"
+        work_package_has_newer_changes: "Obsolet! Aquest tema no s'ha actualitzat ja que els últims canvis al servidor són més nous que la \"Data de Modificació\" del tema importat. Tanmateix, els comentaris del tema s'han importat."
+        bcf_file_not_found: "Error en la localització del fitxer BCF. Si us plau, comença el procés de càrrega de nou."
+  export:
+    format:
+      bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "Instantània de BCF"
+  project_module_bcf: "BCF"
+  project_module_bim: "BCF"
+  permission_view_linked_issues: "Visualitza els elements de BCF"
+  permission_manage_bcf: "Importa i administra els elements de BCF"
+  permission_delete_bcf: "Elimina els elements de BCF"
+  oauth:
+    scopes:
+      bcf_v2_1: "Accés complet a la API BCF v2.1"
+      bcf_v2_1_text: "L'aplicació rebrà accés complet de lectura i escriptura a la API BCF v2.1 d'OpenProject per efectuar les accions en el teu nom."
+  activerecord:
+    models:
+      bim/ifc_models/ifc_model: "Model IFC"
+    attributes:
+      bim/ifc_models/ifc_model:
+        ifc_attachment: "Fitxer IFC"
+        is_default: "Model predeterminat"
+        attachments: "Fitxer IFC"
+    errors:
+      models:
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "No hi ha cap fitxer IFC adjunt."
+              invalid_ifc_file: "El fitxer aportat no es un IFC vàlid."
+        bim/bcf/viewpoint:
+          bitmaps_not_writable: "Els bitmaps no es poden escriure, ja que encara no s'ha implementat."
+          index_not_integer: "l'índex no és un enter."
+          invalid_clipping_planes: "clipping_panes no és vàlid.\n"
+          invalid_components: "components no és vàlid."
+          invalid_lines: "lines no és vàlid."
+          invalid_orthogonal_camera: "orthogonal_camera no és vàlid."
+          invalid_perspective_camera: "perspective_camera no és vàlid."
+          mismatching_guid: "El GUID del json_viewpoint no coincideix amb el GUID del model."
+          no_json: "No és un JSON correctament estructurat."
+          snapshot_type_unsupported: "snapshot_type ha de ser o bé 'PNG' o 'JPG'."
+          snapshot_data_blank: "s'ha de proporcionar snapshot_data."
+          unsupported_key: "S'ha inclòs una propietat JSON no suportada."
+        bim/bcf/issue:
+          uuid_already_taken: "No es pot importar aquest element BCF perquè ja existeix un altre element amb la mateixa GUID.  Podria ser que aquest element BCF ja hagi estat importat en un projecte diferent?"
+  ifc_models:
+    label_ifc_models: 'Models IFC'
+    label_new_ifc_model: 'Nou model IFC'
+    label_show_defaults: 'Mostra els predeterminats'
+    label_default_ifc_models: 'Models IFC predeterminats'
+    label_edit_defaults: 'Editar els predeterminats'
+    no_defaults_warning:
+      title: 'No hi ha model IFC predeterminat per aquest projecte.'
+      check_1: 'Revisa que has pujat com a mínim un model IFC.'
+      check_2: 'Revisi que com a mínim un model IFC s''ha establert com a "Predeterminat".'
+    no_results: "No s'han pujat models IFC en aquest projecte."
+    conversion_status:
+      label: 'En procés?'
+      pending: 'Pendent'
+      processing: 'Processant'
+      completed: 'Completat'
+      error: 'Error'
+    processing_notice:
+      processing_default: 'El següent model IFC per defecte encara està sent processat, per això encara no està disponible:'
+    flash_messages:
+      upload_successful: 'Càrrega exitosa. Ara serà processada i estarà disponible en un parell de minuts.'
+    conversion:
+      missing_commands: "No s'ha trobat el següent convertidor de comandaments IFC en aquest sistema: %{names}"
+  project_module_ifc_models: "Models IFC"
+  permission_view_ifc_models: "Veure models IFC"
+  permission_manage_ifc_models: "Importa i administra models IFC"
+  extraction:
+    available:
+      ifc_convert: "Tub de conversió a IFC disponible"

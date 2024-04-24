@@ -1,0 +1,25 @@
+<div
+  class="spot-modal-overlay"
+  [class.spot-modal-overlay_active]="(activeModalInstance$ | async) !== null"
+  [class.spot-modal-overlay_not-full-screen]="notFullscreen"
+  [class.spot-modal-overlay_top]="mobileTopPosition"
+  #overlay
+  tabindex="0"
+  cdkFocusInitial
+  cdkTrapFocus
+  [cdkTrapFocusAutoCapture]="true"
+  (mousedown)="close($event, false)"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="spotModalTitle"
+>
+  <button
+    *ngIf="(activeModalInstance$ | async)?.showCloseButton !== false"
+    type="button"
+    class="spot-button spot-modal-overlay--close-button"
+    (click)="close($event)"
+  >
+    <span class="spot-icon spot-icon_close"></span>
+  </button>
+  <ng-template cdkPortalOutlet></ng-template>
+</div>

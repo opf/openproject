@@ -1,0 +1,11 @@
+# Schema: Query_Update_Form
+---
+type: object
+properties:
+  name:
+    type: string
+    description: Query name.
+  # There are additional properties not mentioned here
+
+example:
+  name: Updated query name

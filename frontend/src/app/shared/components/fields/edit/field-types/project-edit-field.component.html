@@ -1,0 +1,24 @@
+<op-project-autocompleter
+  *ngIf="url; else loadingTemplate"
+  [ngClass]="'inline-edit--field ' + handler.fieldName"
+
+  [model]="value"
+  [url]="url"
+  [filters]="APIFilters"
+  [focusDirectly]="!(handler.inEditMode || isNew)"
+  [openDirectly]="!isNew"
+  [isInlineContext]="true"
+  appendTo=".op-wide-autocomplete-wrapper"
+
+  (change)="onModelChange($event)"
+  (cancel)="handler.handleUserCancel()"
+></op-project-autocompleter>
+
+<ng-template #loadingTemplate>
+  <op-content-loader
+    class="project-edit-field--loading-indicator"
+    viewBox="0 0 100 24"
+  >
+    <svg:rect x="0" y="0" width="100%" height="100%" rx="1" />
+  </op-content-loader>
+</ng-template>

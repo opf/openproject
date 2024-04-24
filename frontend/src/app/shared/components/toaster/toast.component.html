@@ -1,0 +1,61 @@
+<div class="op-toast -{{ type }} {{ icon }}" tabindex="0">
+  <div class="op-toast--content" role="alert" aria-atomic="true">
+    <ng-container *ngIf="type === 'loading'">
+      <p [textContent]="toast.message"></p>
+      <div
+        *ngIf="(loading$ | async)"
+        class="op-loading-indicator op-loading-indicator_embedded"
+      >
+        <div></div><div></div>
+      </div>
+    </ng-container>
+    <p *ngIf="type !== 'loading'">
+      <span [textContent]="toast.message"></span>
+      <span [textContent]="' '"></span>
+      <a class="op-toast--target-link"
+         *ngIf="toast.link"
+         (click)="executeTarget()"
+         [textContent]="toast.link!.text">
+      </a>
+    </p>
+    <div [ngSwitch]="type">
+      <div *ngSwitchCase="'upload'">
+        <div *ngIf="canBeHidden">
+          <a (click)="show = true" [hidden]="show">
+            <span class="spot-icon spot-icon_arrow-right2"></span>
+          </a>
+          <a (click)="show = false" [hidden]="!show">
+            <span class="spot-icon spot-icon_arrow-down1"></span>
+          </a>
+          <span [textContent]="uploadText"></span>
+        </div>
+        <div [ngClass]="{ '-hidden': !show && canBeHidden }">
+          <ul class="op-toast--uploads" *ngIf="data && data.length > 0">
+            <op-toasters-upload-progress
+              *ngFor="let upload of data"
+              [file]="upload[0]"
+              [upload]="upload[1]"
+              (uploadSuccess)="onUploadSuccess()"
+              (uploadError)="remove()">
+            </op-toasters-upload-progress>
+          </ul>
+        </div>
+      </div>
+      <div *ngSwitchCase="'success'"></div>
+      <div *ngSwitchCase="'error'">
+        <ul class="op-toast--errors">
+          <li *ngFor="let error of data" [textContent]="error"></li>
+        </ul>
+      </div>
+    </div>
+    <button
+      *ngIf="removable"
+      type="button"
+      class="spot-link op-toast--close"
+      [title]="text.close_popup"
+      (click)="remove()"
+    >
+      <span class="spot-icon spot-icon_1 spot-icon_close"></span>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<h2 class="emailTitle"><%= t(:mail_body_register_header_title) %> </h2>
+<br />
+
+<p><%= t(:mail_body_register_user, name: @user.name) %>
+   <br />
+   <%= t(:mail_body_register, app_title: Setting.app_title) %>
+   <br />
+   <%= link_to @activation_url, @activation_url %>
+</p>
+
+<br />
+<p>
+   <%= t(:mail_body_register_links_html,
+               webinar_link: link_to('Webinar Link', OpenProject::Static::Links.links[:webinar_videos][:href]),
+               youtube_link: link_to('Youtube Link', OpenProject::Configuration.youtube_channel),
+               get_started_link: link_to('Get Started Videos Link', OpenProject::Static::Links.links[:get_started_videos][:href]),
+               documentation_link: link_to('Documentation Link', OpenProject::Static::Links.links[:openproject_docs][:href])
+               )
+   %>
+</p>
+
+<p>
+   <br />
+   <%= t(:mail_body_register_ending) %>
+   <br />
+   <%= t(:mail_body_register_closing) %>
+</p>

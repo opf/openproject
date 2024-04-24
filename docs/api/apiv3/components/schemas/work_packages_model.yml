@@ -1,0 +1,53 @@
+# Schema: Work_PackagesModel
+---
+allOf:
+  - $ref: './collection_model.yml'
+  - type: object
+    required:
+      - _links
+      - _embedded
+    properties:
+      _links:
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  The work package collection
+                  
+                  **Resource**: WorkPackageCollection
+                readOnly: true
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            items:
+              $ref: './work_package_model.yml'
+
+example:
+  _links:
+    self:
+      href: '/api/v3/work_packages'
+  total: 2
+  count: 2
+  _type: Collection
+  _embedded:
+    elements:
+      - _hint: Work package resource shortened for brevity
+        _type: WorkPackage
+        _links:
+          self:
+            href: '/api/v3/work_packages/1'
+        id: 1
+      - _hint: Work package resource shortened for brevity
+        _type: WorkPackage
+        _links:
+          self:
+            href: '/api/v3/work_packages/2'
+        id: 2

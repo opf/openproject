@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2011 rel. 2 sp1 (http://www.altova.com) von Klaus Linhard (IABI e.V.) bearbeitet -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Markup">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Header" type="Header" minOccurs="0"/>
+        <xs:element name="Topic" type="Topic"/>
+        <xs:element name="Comment" type="Comment" minOccurs="0" maxOccurs="unbounded"/>
+        <!-- ISG Jira issue BCF-9. Add support for several viewpoints and snapshots per issue -->
+        <xs:element name="Viewpoints" type="ViewPoint" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="Header">
+    <xs:sequence>
+      <xs:element name="File" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Filename" type="xs:string" minOccurs="0"/>
+            <xs:element name="Date" type="xs:dateTime" minOccurs="0"/>
+            <!-- Reference (URL) of the file -->
+            <xs:element name="Reference" type="xs:string" minOccurs="0"/>
+          </xs:sequence>
+          <xs:attributeGroup ref="FileAttributes"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <!-- ISG Jira issue BCF-9. Add support for several viewpoints and snapshots per issue -->
+  <xs:complexType name="ViewPoint">
+    <xs:sequence>
+      <!-- viewpoint file (xml) -->
+      <xs:element name="Viewpoint" type="xs:string" minOccurs="0"/>
+      <!-- the snapshot png -->
+      <xs:element name="Snapshot" type="xs:string" minOccurs="0"/>
+      <!-- the viewpoint index (sort order) -->
+      <xs:element name="Index" type="xs:int" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="Guid" type="Guid" use="required"/>
+    <!-- Guid of the viewpoint -->
+  </xs:complexType>
+  <!-- BimSnippet -->
+  <xs:complexType name="BimSnippet">
+    <xs:sequence>
+      <!--
+  Name of the file in the topic folder containing the snippet or a URL.
+   E.G.- Expresscode containing p.e Issue, Request
+  // Maybe some header infos ?? // IfcEntites // Geometry
+   -->
+      <!-- Reference (name) to the snippet file -->
+      <xs:element name="Reference" type="xs:string"/>
+      <xs:element name="ReferenceSchema" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="SnippetType" type="xs:string" use="required"/>
+    <xs:attribute name="isExternal" type="xs:boolean" default="false"/>
+    <!-- This flag is true when the reference is a URL pointing outside of the BCF file-->
+  </xs:complexType>
+  <xs:complexType name="Topic">
+    <xs:sequence>
+      <xs:element name="ReferenceLink" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Title" type="xs:string"/>
+      <xs:element name="Priority" type="Priority" minOccurs="0"/>
+      <!-- ISG Jira issue BCF-8 Add a way save order the topics -->
+      <xs:element name="Index" type="xs:int" minOccurs="0"/>
+      <xs:element name="Labels" type="TopicLabel" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="CreationDate" type="xs:dateTime" minOccurs="1"/>
+      <xs:element name="CreationAuthor" type="UserIdType" minOccurs="1"/>
+      <xs:element name="ModifiedDate" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="ModifiedAuthor" type="UserIdType" minOccurs="0"/>
+      <xs:element name="DueDate" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="AssignedTo" type="UserIdType" minOccurs="0"/>
+      <xs:element name="Stage" type="Stage" minOccurs="0"/>
+      <xs:element name="Description" type="xs:string" minOccurs="0"/>
+      <xs:element name="BimSnippet" type="BimSnippet" minOccurs="0" maxOccurs="unbounded"/>
+      <!-- Name of the file in the topic folder or url -->
+      <xs:element name="DocumentReference" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:sequence>
+            <!-- Name of the file in the topic folder or url -->
+            <xs:element name="ReferencedDocument" type="xs:string" minOccurs="0"/>
+            <!-- Human readable name of the document -->
+            <xs:element name="Description" type="xs:string" minOccurs="0"/>
+          </xs:sequence>
+          <xs:attributeGroup ref="DocumentReference"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RelatedTopic" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="Guid" type="Guid" use="required"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="Guid" type="Guid" use="required"/>
+    <xs:attribute name="TopicType" type="TopicType"/>
+    <xs:attribute name="TopicStatus" type="TopicStatus"/>
+  </xs:complexType>
+  <!-- Reference to a document inside of the topic folder or a url pointing to the web -->
+  <xs:attributeGroup name="DocumentReference">
+    <!-- Guid of the DocumentReference -->
+    <xs:attribute name="Guid" type="Guid"/>
+    <!-- A flag that is true when the ReferencedDocument points outside of the BCF file (a URL) -->
+    <xs:attribute name="isExternal" type="xs:boolean" default="false"/>
+  </xs:attributeGroup>
+  <xs:complexType name="Comment">
+    <xs:sequence>
+      <xs:element name="Date" type="xs:dateTime"/>
+      <xs:element name="Author" type="UserIdType"/>
+      <xs:element name="Comment" type="xs:string"/>
+      <xs:element name="Viewpoint" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="Guid" type="Guid" use="required"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ModifiedDate" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="ModifiedAuthor" type="UserIdType" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="Guid" type="Guid" use="required"/>
+  </xs:complexType>
+  <xs:simpleType name="TopicStatus">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+  <xs:simpleType name="TopicType">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+  <xs:simpleType name="TopicLabel">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+  <xs:simpleType name="Priority">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+  <xs:simpleType name="UserIdType">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+  <xs:simpleType name="Stage">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+  <xs:simpleType name="Guid">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="IfcGuid">
+    <xs:restriction base="xs:string">
+      <xs:length value="22"/>
+      <xs:pattern value="[0-9,A-Z,a-z,_$]*"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:attributeGroup name="FileAttributes">
+    <xs:attribute name="IfcProject" type="IfcGuid"/>
+    <xs:attribute name="IfcSpatialStructureElement" type="IfcGuid"/>
+    <xs:attribute name="isExternal" type="xs:boolean" default="true"/>
+  </xs:attributeGroup>
+</xs:schema>

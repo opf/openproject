@@ -1,0 +1,41 @@
+#English strings go here
+af:
+  plugin_openproject_avatars:
+    name: "Avatars"
+    description: >-
+      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
+  label_avatar: "Avatar"
+  label_avatar_plural: "Avatars"
+  label_current_avatar: "Huidige Avatar"
+  label_choose_avatar: "Kies Avatar uit lêer"
+  message_avatar_uploaded: "Avatar is suksesvol verander."
+  error_image_upload: "Fout met berging van die beeld."
+  error_image_size: "Die beeld is te groot."
+  button_change_avatar: "Verander avatar"
+  are_you_sure_delete_avatar: "Is jy seker jy wil jou avatar uitvee?"
+  avatar_deleted: "Avatar is suksesvol uitgevee."
+  unable_to_delete_avatar: "Avatar kon nie uitgevee word nie."
+  wrong_file_format: "Toegelate formate is jpg, png, gif"
+  empty_file_error: "Laai asseblief 'n geldige prent op (jpg, png, gif)"
+  avatars:
+    label_avatar: "Avatar"
+    label_gravatar: 'Gravatar'
+    label_current_avatar: 'Huidige avatar'
+    label_local_avatar: 'Doelgemaakte avatar'
+    text_current_avatar: |
+      Die volgende beeld toon die huidige avatar.
+    text_upload_instructions: |
+      Laai jou eie pasgemaakte avatar van 128 by 128 pieksels op. Groter lêers sal verander en gesny word om te pas.
+      'n Voorskou van jou avatar sal gewys word voor oplaai sodra jy 'n beeld gekies het.
+    text_change_gravatar_html: 'Om die Gravatar vir jou e-posadres te verander of by te voeg, gaan na %{gravatar_url}.'
+    text_your_local_avatar: |
+      OpenProject laat jou toe om jou eie persoonlike avatar op te laai.
+    text_local_avatar_over_gravatar: |
+      As jy een stel, word hierdie pasgemaakte avatar voorrang bo die gravatar hierbo gebruik.
+    text_your_current_gravatar: |
+      OpenProject gebruik jou gravatar as jy een geregistreer het, of 'n verstek beeld of ikoon as een bestaan.
+      Die huidige gravatar is soos volg:
+    settings:
+      enable_gravatars: 'Aktiveer gebruikers-gravatars'
+      gravatar_default: "Verstek Gravatar-beeld"
+      enable_local_avatars: 'Aktiveer gebruikers-gepasmaakte avatars'

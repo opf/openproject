@@ -1,0 +1,166 @@
+# /api/v3/work_packages/{id}/activities
+---
+get:
+  parameters:
+  - description: Work package id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  elements:
+                  - _links:
+                      self:
+                        href: "/api/v3/activity/1"
+                      user:
+                        href: "/api/v3/users/1"
+                      workPackage:
+                        href: "/api/v3/work_packages/1"
+                    _type: Activity
+                    comment:
+                      format: markdown
+                      html: "<p>Lorem ipsum dolor sit amet.</p>"
+                      raw: Lorem ipsum dolor sit amet.
+                    createdAt: '2014-05-21T08:51:20.396Z'
+                    updatedAt: '2014-05-21T09:14:02.726Z'
+                    details: []
+                    id: 1
+                    version: 1
+                  - _links:
+                      self:
+                        href: "/api/v3/activity/2"
+                      user:
+                        href: "/api/v3/users/1"
+                      workPackage:
+                        href: "/api/v3/work_packages/1"
+                    _type: Activity
+                    comment:
+                      format: markdown
+                      html: "<p>Lorem ipsum dolor sit amet.</p>"
+                      raw: Lorem ipsum dolor sit amet.
+                    createdAt: '2014-05-21T09:51:22.077Z'
+                    updatedAt: '2014-05-21T10:14:02.957Z'
+                    details: []
+                    id: 2
+                    version: 2
+                _links:
+                  self:
+                    href: "/api/v3/work_packages/1/revisions"
+                _type: Collection
+                count: 2
+                total: 2
+          schema:
+            "$ref": "../components/schemas/work_package_activities_model.yml"
+      description: OK
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The specified work package does not exist.
+      description: |-
+        Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package
+      headers: {}
+  tags:
+  - Work Packages
+  description: ''
+  operationId: List_work_package_activities
+  summary: List work package activities
+post:
+  parameters:
+  - description: Work package id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  - description: |-
+      Indicates whether change notifications (e.g. via E-Mail) should be sent.
+      Note that this controls notifications for all users interested in changes to the work package (e.g. watchers, author and assignee),
+      not just the current user.
+    example: false
+    in: query
+    name: notify
+    required: false
+    schema:
+      default: true
+      type: boolean
+  responses:
+    '201':
+      description: Created
+      headers: {}
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not allowed to create a comment here.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** create journals
+
+        *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The specified work package does not exist.
+      description: |-
+        Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package
+      headers: {}
+  tags:
+  - Work Packages
+  description: |-
+    Creates an activity for the selected work package and, on success, returns the
+    updated activity.
+  operationId: Comment_work_package
+  requestBody:
+    content:
+      application/json:
+        schema:
+          example:
+            comment:
+              raw: I think this is awesome!
+          properties:
+            comment:
+              properties:
+                raw:
+                  type: string
+              type: object
+          type: object
+  summary: Comment work package

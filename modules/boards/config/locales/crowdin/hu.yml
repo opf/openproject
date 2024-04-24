@@ -1,0 +1,39 @@
+#English strings go here
+hu:
+  plugin_openproject_boards:
+    name: "OpenProject Boards"
+    description: "Provides board views."
+  permission_show_board_views: "Táblák megtekintése"
+  permission_manage_board_views: "Táblák kezelése"
+  project_module_board_view: "Táblák"
+  boards:
+    label_board: "Tábla"
+    label_boards: "Táblák"
+    label_create_new_board: "Új tábla létrehozása"
+    label_board_type: "Tábla típus"
+    board_types:
+      free: Alap
+      action: "Feladattábla"
+    board_type_attributes:
+      assignee: Felelős
+      status: Állapot
+      version: Verzió
+      subproject: Alprojekt
+      subtasks: Szülő-gyerek
+      basic: Alap
+    board_type_descriptions:
+      basic: >
+        Kezdje a semmiből egy üres táblával. Kézzel adjon hozzá kártyákat és oszlopokat ehhez a táblához.
+      status: >
+        Alapvető kanban stílusú tábla oszlopokkal az állapothoz, mint például a Teendő, Folyamatban, Kész.
+      assignee: >
+        Tábla automatikus oszlopokkal a hozzárendelt felhasználók alapján. Ideális munkacsomagok feladásához.
+      version: >
+        Tábla automatikus oszlopokkal a verzióattribútum alapján. Ideális termékfejlesztés tervezéséhez.
+      subproject: >
+        Tábla automatizált oszlopokkal az alprojektekhez. A munkacsomagok más listákra húzása ennek megfelelően frissíti a(z) (al) projektet.
+      subtasks: >
+        Tábla automatizált oszlopokkal az alelemekhez. A munkacsomagok más listákra húzása ennek megfelelően frissíti a szülőt.
+    upsale:
+      teaser_text: 'Szeretné automatizálni a munkafolyamatait a Boards-szal? A fejlett táblák Enterprise funkció. Kérjük, frissítsen fizetős csomagra.'
+      upgrade: 'Frissítés most'

@@ -1,0 +1,4 @@
+tr:
+  dashboards:
+    label: 'Gösterge panosu'
+  project_module_dashboards: 'Gösterge paneli'

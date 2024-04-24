@@ -1,0 +1,87 @@
+@import './modal-overlay'
+@import './modal-overrides'
+
+.spot-modal
+  position: relative
+  display: flex
+  flex-direction: column
+  overflow: hidden
+  align-items: stretch
+  background: white
+  pointer-events: all
+
+  border-radius: $spot-spacing-0-75
+  width: 40rem
+
+  max-width: calc(100vw - 2rem)
+  max-height: calc(#{var(--app-height)} - 2rem)
+
+  @media #{$spot-mq-mobile}
+    width: calc(100vw - 2rem)
+    max-height: calc(#{var(--app-height)} - 5rem)
+    overflow-y: auto
+
+    @media (max-height: 480px)
+      max-height: calc(#{var(--app-height)} - 2rem)
+      max-width: calc(100vw - 6rem)
+
+  &_wide
+    width: 60rem
+    min-height: 40vh
+
+  &--header
+    @include spot-subheader-big
+
+    display: flex
+    padding: $spot-spacing-1 $spot-spacing-1 0
+    position: relative
+    align-items: center
+
+    + .spot-divider
+      margin-top: $spot-spacing-1
+
+    > .spot-icon
+      margin-right: $spot-spacing-0-5
+
+    &-title
+      flex-grow: 1
+
+    &-close-button
+      border-radius: 6px
+      border-color: transparent
+      margin-right: -$spot-spacing-0-5
+
+      &:hover
+        cursor: pointer
+
+      &-icon
+        &:focus
+          outline: none
+
+    &_highlight
+      background-color: var(--header-bg-color)
+      border-bottom-width: var(--header-border-bottom-width)
+      border-bottom-color: var(--header-border-bottom-color)
+
+      *
+        color: var(--header-item-font-color)
+
+  &--subheader
+    padding-left: $spot-spacing-1
+
+
+  &--body
+    @include styled-scroll-bar
+
+    display: flex
+    flex-direction: column
+    flex-grow: 1
+    flex-shrink: 1
+    overflow-y: auto
+
+    &:focus
+      outline-style: none
+
+  &--cancel-button
+    @media #{$spot-mq-drop-modal-full-screen}
+      display: none

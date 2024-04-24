@@ -1,0 +1,120 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2024 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+#login-form
+  margin: 50px auto 0
+  padding: 20px
+  width: 511px
+  word-break: break-word
+
+  .login-form--footer
+    display: flex
+    justify-content: space-between
+    margin-bottom: 10px
+
+#content .login-auth-providers.wide
+  width: auto
+  text-align: center
+
+  a.auth-provider
+    float: none
+    display: inline-block
+
+#nav-login-content
+  padding: 1rem
+
+  .form--text-field
+    min-width: 170px
+
+#login-pulldown
+  margin-right: 0
+
+// use id selectors to be specific enough to override general content and top-menu definitions
+#content .login-auth-providers,
+#nav-login-content .login-auth-providers
+  width: 471px
+  margin-top: 25px
+
+  h3
+    font-weight: normal
+    font-size: 1rem
+    text-align: center
+    position: relative
+    z-index: 1
+
+    // line behind title
+    // from http://codepen.io/ericrasch/pen/Irlpm
+
+    &:after
+      border-bottom: 2px solid var(--color-border-muted)
+      content: ""
+      // this centers the line to the full width specified
+      margin: 0 auto
+      // positioning must be absolute here, and relative positioning
+      //  must be applied to the parent
+      position: absolute
+      bottom: 5px
+      left: 0
+      right: 0
+      width: 95%
+      z-index: -1
+
+    // also line behind title
+    span
+      // to hide the lines from behind the text, you have to set the
+      // background color the same as the container
+      background: var(--content-form-bg-color)
+      padding: 0 0.5rem
+
+  .login-auth-provider-list
+    @include prevent-float-collapse
+    margin-top: 1em
+
+  a.auth-provider:hover
+    text-decoration: none
+
+#nav-login-content .login-auth-providers
+  h3
+    span
+      background: var(--header-drop-down-bg-color)
+  .login-auth-provider-list
+    margin-top: 1em
+    margin-bottom: 10px
+
+#nav-login-content .login-auth-providers.no-pwd
+  margin-top: 0
+
+.registration-footer
+  display: block
+  margin-top: 2em
+
+.op-user-consent-form
+  font-size: var(--body-font-size)
+
+  &--agreement
+    font-size: inherit

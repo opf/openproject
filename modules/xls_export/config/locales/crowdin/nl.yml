@@ -1,0 +1,16 @@
+nl:
+  plugin_openproject_xls_export:
+    name: "OpenProject XLS Export"
+    description: "Export issue lists as Excel spreadsheets (.xls)."
+  export_to_excel: "Exporteer XLS"
+  print_with_description: "Print voorvertoning met beschrijving"
+  sentence_separator_or: "of"
+  different_formats: Verschillende formaten
+  export:
+    format:
+      xls: "XLS"
+      xls_with_descriptions: "XLS met beschrijvingen"
+      xls_with_relations: "XLS met relaties"
+  xls_export:
+    child_of: kind van
+    parent_of: bovenliggende van

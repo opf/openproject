@@ -1,0 +1,68 @@
+<div
+  class="spot-modal op-confirm-dialog loading-indicator--location"
+  data-indicator-name="modal"
+  tabindex="0"
+  cdkFocusInitial
+  cdkTrapFocus
+  [cdkTrapFocusAutoCapture]="true"
+>
+  <div id="spotModalTitle" class="spot-modal--header">{{text.title}}</div>
+
+  <div *ngIf="divideContent" class="spot-divider"></div>
+
+  <div class="spot-modal--body spot-container">
+    <span class="op-confirm-dialog--text spot-body-small"
+          [textContent]="text.text"
+    ></span>
+
+    <ng-container *ngIf="showListData; else showData">
+      <span class="op-confirm-dialog--text spot-body-small"
+      [textContent]="listTitle"
+    ></span>
+      <ul class="op-confirm-dialog--list">
+        <li *ngFor="let data of passedData" class="spot-body-small">
+          <span>{{data}}</span>
+        </li>
+      </ul>
+    </ng-container>
+
+    <ng-template #showData>
+      <span
+        *ngFor="let data of passedData"
+        class="spot-body-small"
+      >
+        <br/>
+        <strong>{{data}}</strong>
+      </span>
+    </ng-template>
+
+    <span class="op-confirm-dialog--text spot-body-small"
+          [innerHtml]="warningText"
+    ></span>
+
+  </div>
+
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button
+        type="button"
+        class="button spot-modal--cancel-button spot-action-bar--action"
+        data-test-selector="confirmation-modal--cancel"
+        (click)="close($event)"
+      >
+        <span *ngIf="icon.cancel as clazz" class="spot-icon spot-icon_{{clazz}}"></span>
+        <span>{{text.button_cancel}}</span>
+      </button>
+      <button
+        type="button"
+        class="button spot-action-bar--action"
+        data-test-selector="confirmation-modal--confirmed"
+        [ngClass]="dangerHighlighting ? '-danger': '-primary'"
+        (click)="confirmAndClose($event)"
+      >
+        <span *ngIf="icon.continue as clazz" class="spot-icon spot-icon_{{clazz}}"></span>
+        <span>{{text.button_continue}}</span>
+      </button>
+    </div>
+  </div>
+</div>

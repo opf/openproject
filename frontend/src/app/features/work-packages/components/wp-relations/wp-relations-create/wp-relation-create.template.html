@@ -1,0 +1,58 @@
+<div class="wp-relations-create">
+  <div class="wp-relations-create-button hide-when-print"
+       *ngIf="!showRelationsCreateForm">
+    <div class="grid-block">
+      <div class="grid-content collapse">
+        <button
+          type="button"
+          class="spot-link wp-inline-create--add-link"
+          opAutofocus
+          (click)="toggleRelationsCreateForm()"
+          id="relation--add-relation"
+        >
+          <span class="spot-icon spot-icon_add"></span>
+          <span [textContent]="text.addNewRelation"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="loading-indicator--location"
+       data-indicator-name="relationAddDynamic">
+    <div class="v-align wp-relations-create--form"
+         *ngIf="showRelationsCreateForm">
+      <div class="grid-content collapse medium-3">
+        <label class="hidden-for-sighted"
+               for="relation-type--select"
+               [textContent]="text.relationType"></label>
+        <select class="form--select relationTypeSelect"
+                id="relation-type--select"
+                role="listbox"
+                [(ngModel)]="selectedRelationType"
+                opAutofocus>
+          <option *ngFor="let type of relationTypes"
+                  [textContent]="type.label"
+                  [value]="type.name"></option>
+        </select>
+      </div>
+      <div class="grid-content medium-8">
+        <wp-relations-autocomplete
+          [workPackage]="workPackage"
+          (change)="onSelected($event)"
+          (cancel)="toggleRelationsCreateForm()"
+          [hiddenOverflowContainer]="'.work-packages-tab-view--overflow'"
+          [selectedRelationType]="selectedRelationType"
+          data-test-selector="wp-relations-autocomplete">
+        </wp-relations-autocomplete>
+      </div>
+      <div class="grid-content medium-1 collapse wp-relations-controls-section relation-row">
+        <button
+          type="button"
+          class="spot-link wp-create-relation--cancel"
+          (click)="toggleRelationsCreateForm()"
+        >
+          <op-icon icon-classes="icon-remove icon-no-color -padded" [icon-title]="text.abort"></op-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

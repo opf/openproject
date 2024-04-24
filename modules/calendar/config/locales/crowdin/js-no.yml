@@ -1,0 +1,8 @@
+#English strings go here
+"no":
+  js:
+    calendar:
+      create_new: 'Opprett ny kalender'
+      title: 'Kalender'
+      too_many: 'Det er %{count} oppgaver totalt, men kun %{max} kan vises.'
+      unsaved_title: 'Kalender uten navn'

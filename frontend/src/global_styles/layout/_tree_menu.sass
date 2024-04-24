@@ -1,0 +1,90 @@
+$tree-menu-item-height: 40px
+
+#main-menu ul ul.main-menu--children ul.pages-hierarchy,
+div.wiki ul.pages-hierarchy,
+.pages-hierarchy
+  margin-left: 0
+  padding-left: 0
+  overflow-x: hidden
+
+  .tree-menu--title
+    display: inline-block
+    width: inherit
+    vertical-align: middle
+    height: $tree-menu-item-height
+    line-height: $tree-menu-item-height
+    text-decoration: none !important
+
+    &.-parent-node
+      font-weight: var(--base-text-weight-bold)
+
+  .tree-menu--hierarchy-span
+    display: inline-block
+
+  .tree-menu--hierarchy-indicator-icon,
+  .tree-menu--leaf-indicator
+    line-height: $tree-menu-item-height
+
+
+  // Style the hierarchy group indicator arrow
+  // default: open arrow down
+  // collapsed: right arrow
+  .tree-menu--hierarchy-indicator
+    color: var(--accent-color)
+    height: $tree-menu-item-height
+    line-height: $tree-menu-item-height
+    text-decoration: none !important
+
+    &:hover
+      text-decoration: none
+
+  // Toggle the indicator accessibility texts
+  // accordingly
+  .tree-menu--hierarchy-indicator-collapsed
+    display: none
+
+  .-hierarchy-collapsed
+    .tree-menu--hierarchy-indicator-expanded
+      display: none
+    .tree-menu--hierarchy-indicator-collapsed
+      display: inline-block
+  // END accessibility rules
+
+  .tree-menu--hierarchy-indicator-icon
+    @include icon-common
+    @extend .icon-arrow-down1
+    font-size: 0.6rem
+    padding-right: 10px
+
+  &.-with-hierarchy
+    .-with-hierarchy
+      padding-left: 22px
+
+  .-hierarchy-collapsed
+    > .tree-menu--item > .tree-menu--hierarchy-span > .tree-menu--hierarchy-indicator > .tree-menu--hierarchy-indicator-icon
+      @include icon-common
+      @extend .icon-arrow-right2
+      font-size: 0.6rem
+    > ul.-with-hierarchy
+      display: none
+
+  > li,
+  > li:hover
+    background: transparent
+    list-style-type: none
+
+  .tree-menu--item
+    display: inline-block
+    width: 100%
+    border-radius: 3px
+    line-height: $tree-menu-item-height
+    padding: 0 10px 0 0
+    white-space: nowrap
+    &.-selected
+      background: var(--main-menu-bg-hover-background)
+      .tree-menu--title
+        color: var(--main-menu-hover-font-color)
+    &:hover
+      background: var(--main-menu-bg-hover-background)
+      .tree-menu--title
+        color: var(--main-menu-hover-font-color)

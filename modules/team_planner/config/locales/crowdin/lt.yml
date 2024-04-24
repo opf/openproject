@@ -1,0 +1,17 @@
+#English strings go here
+lt:
+  plugin_openproject_team_planner:
+    name: "OpenProject komandų planuotojas"
+    description: "Teikia komandų planavimo vaizdus."
+  permission_view_team_planner: "Žiūrėti komandos planą"
+  permission_manage_team_planner: "Tvarkyti komandos planą"
+  project_module_team_planner_view: "Komandos planai"
+  team_planner:
+    label_team_planner: "Komandos planas"
+    label_new_team_planner: "Naujas komandos planas"
+    label_create_new_team_planner: "Kurti naują komandos planą"
+    label_team_planner_plural: "Komandos planai"
+    label_assignees: "Paskirtieji"
+    upsale:
+      title: "Komandos planas"
+      description: "Gaukite pilną jūsų komandos plano vaizdą su Team Planner. Pakeiskite datas prailgindami, sutrumpindami ar nuvilkdami darbo paketus, perkelkite juos ar pakeiskite paskirtuosius."

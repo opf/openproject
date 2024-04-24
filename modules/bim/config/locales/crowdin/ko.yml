@@ -1,0 +1,136 @@
+#English strings go here for Rails i18n
+ko:
+  plugin_openproject_bim:
+    name: "OpenProject BIM 및 BCF 기능"
+    description: "이 OpenProject 플러그인은 BIM 및 BCF 기능을 도입합니다."
+  bim:
+    label_bim: 'BIM'
+  bcf:
+    label_bcf: 'BCF'
+    label_imported_failed: 'BCF 항목 가져오기 실패'
+    label_imported_successfully: 'BCF 항목 가져오기 성공'
+    issues: "이슈"
+    recommended: '추천'
+    not_recommended: '추천하지 않음'
+    no_viewpoints: '뷰포인트 없음'
+    new_badge: "새로 만들기"
+    exceptions:
+      file_invalid: "잘못된 BCF 파일"
+    x_bcf_issues:
+      zero: 'BCF 이슈 없음'
+      one: '1개 BCF 이슈 '
+      other: '%{count}개 BCF 이슈'
+    bcf_xml:
+      xml_file: 'BCF XML 파일'
+      import_title: '가져오기'
+      export: '내보내기'
+      import_update_comment: '(BCF 가져오기에서 업데이트됨)'
+      import_failed: 'BCF 파일을 가져올 수 없음: %{error}'
+      import_failed_unsupported_bcf_version: 'BCF 파일을 읽지 못함: 해당 BCF 버전이 지원되지 않습니다. 버전이 %{minimal_version} 이상인지 확인하세요.'
+      import_successful: '%{count}개 BCF 이슈 가져옴'
+      import_canceled: 'BCF-XML 가져오기가 취소되었습니다.'
+      type_not_active: "이 프로젝트에 대해 해당 이슈 유형이 활성화되지 않았습니다."
+      import:
+        num_issues_found: '%{x_bcf_issues}은(는) BCF-XML 파일에 포함되어 있지 않습니다. 세부 정보는 아래에 나와 있습니다.'
+        button_prepare: '가져오기 준비'
+        button_perform_import: '가져오기 확인'
+        button_proceed: '가져오기 진행하기'
+        button_back_to_list: '목록으로 돌아가기'
+        no_permission_to_add_members: '프로젝트에 멤버로 추가할 권한이 부족합니다.'
+        contact_project_admin: '프로젝트 관리자에게 문의하여 멤버로 추가한 후 이 가져오기를 다시 시작하십시오.'
+        continue_anyways: '그래도 가져오기를 계속하고 마치시겠습니까?'
+        description: "이 프로젝트에 가져올 BCF-XML v2.1 파일을 제공하십시오. 가져오기를 수행하기 전에 해당 내용을 검사할 수 있습니다."
+        invalid_types_found: '잘못된 항목 유형 이름이 발견됨'
+        invalid_statuses_found: '잘못된 상태 이름이 발견됨'
+        invalid_priorities_found: '잘못된 우선 순위 이름이 발견됨'
+        invalid_emails_found: '잘못된 이메일 주소가 발견됨'
+        unknown_emails_found: '알 수 없는 이메일 주소가 발견됨'
+        unknown_property: '알 수 없는 속성'
+        non_members_found: '프로젝트 멤버를 찾지 못함'
+        import_types_as: '모든 해당 유형을 다음으로 설정:'
+        import_statuses_as: '모든 해당 상태를 다음으로 설정:'
+        import_priorities_as: '모든 해당 우선 순위를 다음으로 설정:'
+        invite_as_members_with_role: '다음 역할의 사용자를 멤버로 "%{project}" 프로젝트에 초대:'
+        add_as_members_with_role: '다음 역할의 사용자를 멤버로 "%{project}" 프로젝트에 추가:'
+        no_type_provided: '제공된 유형 없음'
+        no_status_provided: '제공된 상태 없음'
+        no_priority_provided: '제공된 우선 순위 없음'
+        perform_description: "위에 나열된 이슈를 가져오거나 업데이트하시겠습니까?"
+        replace_with_system_user: '이들을 "시스템" 사용자로 바꾸기'
+        import_as_system_user: '이들을 "시스템" 사용자로 가져오기'
+        what_to_do: "어떤 작업을 수행하시겠습니까?"
+        work_package_has_newer_changes: "오래된 내용입니다! 서버의 최신 변경 사항은 가져온 항목의 \"수정된 날짜\"보다 최신이므로 이 항목이 업데이트되지 않았습니다. 그러나 이 항목에 대한 코멘트는 가져왔습니다."
+        bcf_file_not_found: "BCF 파일을 찾지 못했습니다. 업로드 프로세스를 다시 시작하세요."
+  export:
+    format:
+      bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "BCF 스냅샷"
+  project_module_bcf: "BCF"
+  project_module_bim: "BCF"
+  permission_view_linked_issues: "BCF 이슈 보기"
+  permission_manage_bcf: "BCF 이슈 가져오기 및 관리"
+  permission_delete_bcf: "BCF 이슈 삭제"
+  oauth:
+    scopes:
+      bcf_v2_1: "BCF v2.1 API에 대한 전체 액세스"
+      bcf_v2_1_text: "애플리케이션은 사용자를 대신하여 작업을 수행하기 위해 OpenProject BCF API v2.1에 대한 전체 읽기 및 쓰기 액세스 권한을 받습니다."
+  activerecord:
+    models:
+      bim/ifc_models/ifc_model: "IFC 모델"
+    attributes:
+      bim/ifc_models/ifc_model:
+        ifc_attachment: "IFC 파일"
+        is_default: "기본 모델"
+        attachments: "IFC 파일"
+    errors:
+      models:
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "ifc 파일이 첨부되지 않았습니다."
+              invalid_ifc_file: "제공된 파일은 유효한 IFC 파일이 아닙니다."
+        bim/bcf/viewpoint:
+          bitmaps_not_writable: "비트맵은 아직 구현되지 않았기 때문에 쓰기 가능하지 않습니다."
+          index_not_integer: "색인이 정수가 아닙니다."
+          invalid_clipping_planes: "clipping_planes가 잘못되었습니다."
+          invalid_components: "구성 요소가 잘못되었습니다."
+          invalid_lines: "라인이 잘못되었습니다."
+          invalid_orthogonal_camera: "orthogonal_camera가 잘못되었습니다."
+          invalid_perspective_camera: "perspective_camera가 잘못되었습니다."
+          mismatching_guid: "json_viewpoint의 guid가 모델의 guid와 일치하지 않습니다."
+          no_json: "- 제대로 구조화된 json이 아닙니다."
+          snapshot_type_unsupported: "snapshot_type은 'png' 또는 'jpg'여야 합니다."
+          snapshot_data_blank: "snapshot_data를 제공해야 합니다."
+          unsupported_key: "지원되지 않는 json 속성이 포함되어 있습니다."
+        bim/bcf/issue:
+          uuid_already_taken: "동일한 GUID를 가진 다른 BCF 이슈가 있으므로 이 BCF 이슈를 가져올 수 없습니다. 이 BCF 이슈를 이미 다른 프로젝트로 가져왔을 가능성이 있습니까?"
+  ifc_models:
+    label_ifc_models: 'IFC 모델'
+    label_new_ifc_model: '새 IFC 모델'
+    label_show_defaults: '기본값 표시'
+    label_default_ifc_models: '기본 IFC 모델'
+    label_edit_defaults: '기본값 편집'
+    no_defaults_warning:
+      title: '이 프로젝트에 대해 기본값으로 설정된 IFC 모델이 없습니다.'
+      check_1: '하나 이상의 IFC 모델을 업로드했는지 확인하세요.'
+      check_2: '하나 이상의 IFC 모델이 "기본값"으로 설정되었는지 확인하세요.'
+    no_results: "이 프로젝트에서 업로드된 IFC 모델이 없습니다."
+    conversion_status:
+      label: '처리 중입니까?'
+      pending: '대기 중'
+      processing: '처리 중'
+      completed: '완료'
+      error: '오류'
+    processing_notice:
+      processing_default: '다음 기본 IFC 모델이 아직 처리 중이므로 사용 가능하지 않습니다.'
+    flash_messages:
+      upload_successful: '업로드에 성공했습니다. 이제 처리되고 몇 분 후 사용 가능하게 됩니다.'
+    conversion:
+      missing_commands: "다음 IFC 컨버터 명령이 이 시스템에서 누락되었습니다: %{names}"
+  project_module_ifc_models: "IFC 모델"
+  permission_view_ifc_models: "IFC 모델 보기"
+  permission_manage_ifc_models: "IFC 모델 가져오기 및 관리"
+  extraction:
+    available:
+      ifc_convert: "IFC 변환 파이프라인 사용 가능"

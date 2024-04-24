@@ -1,0 +1,15 @@
+#English strings go here
+be:
+  js:
+    label_preview: 'Папярэдні прагляд'
+    button_update: 'Абнавіць'
+    avatars:
+      label_choose_avatar: "Выбраць аватар з файла"
+      uploading_avatar: "Запампоўка вашага аватара."
+      text_upload_instructions: |
+        Запампуйце ваш уласны аватар памерам 128 на 128 пікселяў. Файлы большага памеру будуць адпаведна зменены.
+        Папярэдні прагляд будзе даступны перад запампоўкай, пасля вылучэння відарыса.
+      error_image_too_large: "Відарыс занадта вялікі."
+      wrong_file_format: "Дазволеныя фарматы: jpg, png, gif"
+      empty_file_error: "Калі ласка запампуйце сапраўдны відарыс (jpg, png, gif)"
+

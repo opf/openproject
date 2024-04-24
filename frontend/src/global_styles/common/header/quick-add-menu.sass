@@ -1,0 +1,19 @@
+.op-quick-add-menu
+  $background: var(--button--primary-background-color)
+  $background-hover: var(--button--primary-background-hover-color)
+  $color: var(--button--primary-font-color)
+  flex-shrink: 0
+
+  &--icon::before
+    display: flex
+    justify-content: center
+    align-items: center
+    border-radius: 50%
+    width: 26px
+    height: 26px
+    padding: 1px 8px 0 8px
+    @include button-style($background, $background-hover, $color)
+
+  &:hover &
+    &--icon::before
+      background: var(--button--primary-background-hover-color)

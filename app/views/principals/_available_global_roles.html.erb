@@ -1,0 +1,58 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% available_roles = GlobalRole.all - (global_member&.roles || []) %>
+
+<div class="grid-content" id="available_principal_roles">
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= t(:label_available_global_roles) %></legend>
+    <% if available_roles.empty? %>
+      <span id="no_additional_principal_roles">
+        <%= no_results_box %>
+      </span>
+    <% else %>
+      <span id="additional_principal_roles">
+        <%= global_role_membership_form_for(principal, global_member) do %>
+          <% if global_member %>
+            <%= hidden_field_tag('membership[id]', global_member.id ) %>
+
+            <% global_member.roles.each do |role| %>
+              <%= hidden_field_tag('membership[role_ids][]', role.id ) %>
+            <% end %>
+          <% end %>
+
+          <% available_roles.each do |role| %>
+            <%= render partial: 'principals/available_global_role', locals: {role: role} %>
+          <% end %>
+          <p><br/><%= styled_button_tag t(:button_add), class: '-with-icon icon-checkmark' %></p>
+        <% end %>
+      </span>
+    <% end %>
+  </fieldset>
+</div>

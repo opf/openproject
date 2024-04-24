@@ -1,0 +1,39 @@
+#English strings go here
+de:
+  plugin_openproject_boards:
+    name: "OpenProject Boards"
+    description: "Board-Ansichten für OpenProject"
+  permission_show_board_views: "Boards anzeigen"
+  permission_manage_board_views: "Boards verwalten"
+  project_module_board_view: "Boards"
+  boards:
+    label_board: "Board"
+    label_boards: "Boards"
+    label_create_new_board: "Neues Board erstellen"
+    label_board_type: "Board-Typ"
+    board_types:
+      free: Basic
+      action: "Aktionsboard (%{attribute})"
+    board_type_attributes:
+      assignee: Zugewiesen an
+      status: Status
+      version: Version
+      subproject: Unterprojekt
+      subtasks: Eltern-Kind
+      basic: Basic
+    board_type_descriptions:
+      basic: >
+        Beginnen Sie mit einem leeren Board und fügen Sie ihm frei Karten und Spalten hinzu.
+      status: >
+        Kanban-ähnliches Board mit dynamischen Spalten je Status für das Abbilden von Workflows.
+      assignee: >
+        Board mit dynamischen Spalten auf zugewiesene Nutzer von Arbeitspaketen. Ideal für die Verteilung von Aufgaben.
+      version: >
+        Board mit dynamischen Spalten, das auf dem Versions-Attribut basiert. Ideal für die Planung der Produktentwicklung.
+      subproject: >
+        Board mit dynamischen Spalten für Unterprojekte. Durch Verschieben von Arbeitspaketen kann das (Unter-)Projekt geändert werden.
+      subtasks: >
+        Board mit dynamischen Spalten für Unterelemente. Verschieben von Arbeitspaketen auf andere Listen aktualisiert das Elternelement.
+    upsale:
+      teaser_text: 'Möchten Sie Ihre Workflows mit Boards automatisieren? Erweiterte Boards sind ein Enterprise Add-on. Bitte upgraden Sie auf ein kostenpflichtiges Abonnement.'
+      upgrade: 'Jetzt Upgrade durchführen'

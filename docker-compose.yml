@@ -1,0 +1,249 @@
+networks:
+  network:
+  testing:
+
+volumes:
+  downloads-test:
+  pgdata:
+  tmp:
+  opdata:
+  bundle:
+  npm:
+  pgdata-test:
+  tmp-test:
+  fedata-test:
+
+x-op-restart-policy: &restart_policy
+  restart: unless-stopped
+x-op-build: &build
+  context: .
+  dockerfile: ./docker/dev/backend/Dockerfile
+  args:
+    DEV_UID: $DEV_UID
+    DEV_GID: $DEV_GID
+x-op-image: &image
+  image:
+    openproject/dev:latest
+x-op-frontend-build: &frontend-build
+  context: .
+  dockerfile: ./docker/dev/frontend/Dockerfile
+  args:
+    DEV_UID: $DEV_UID
+    DEV_GID: $DEV_GID
+x-op-backend: &backend
+  build:
+    <<: *build
+    target: develop
+  <<: [*image, *restart_policy]
+  environment:
+    LOCAL_DEV_CHECK: "${LOCAL_DEV_CHECK:?The docker-compose file for OpenProject has moved to https://github.com/opf/openproject-deploy}"
+    RAILS_ENV: development
+    OPENPROJECT_CACHE__MEMCACHE__SERVER: cache:11211
+    OPENPROJECT_RAILS__CACHE__STORE: file_store
+    OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
+    DATABASE_URL: postgresql://${DB_USERNAME:-postgres}:${DB_PASSWORD:-postgres}@${DB_HOST:-db}:${DB_PORT:-5432}/${DB_DATABASE:-openproject}
+    OPENPROJECT_EDITION: ${OPENPROJECT_EDITION:-standard}
+    OPENPROJECT_WEB_MAX__THREADS: 1
+    OPENPROJECT_WEB_MIN__THREADS: 1
+    OPENPROJECT_WEB_WORKERS: 0
+  volumes:
+    - ".:/home/dev/openproject"
+    - "opdata:/var/openproject/assets"
+    - "bundle:/usr/local/bundle"
+    - "tmp:/home/dev/openproject/tmp"
+  networks:
+    - network
+
+services:
+  backend:
+    <<: *backend
+    tty: true
+    stdin_open: true
+    command: run-app
+    depends_on:
+      - db
+      - cache
+
+  worker:
+    <<: *backend
+    command: bundle exec good_job start
+    depends_on:
+      - db
+      - cache
+
+  frontend:
+    build:
+      <<: *frontend-build
+    command: "node --max_old_space_size=8096 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0 --public-host ${OPENPROJECT_DEV_URL}"
+    volumes:
+      - ".:/home/dev/openproject"
+      - "${CKEDITOR_BUILD_DIR:-./frontend/src/vendor/ckeditor/}:/home/dev/openproject/frontend/src/vendor/ckeditor/"
+    environment:
+      PROXY_HOSTNAME: backend
+    networks:
+      - network
+    depends_on:
+      - backend
+
+  db:
+    image: postgres:13
+    <<: *restart_policy
+    stop_grace_period: "3s"
+    volumes:
+      - "pgdata:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_DATABASE:-openproject}
+    networks:
+      - network
+
+  cache:
+    image: memcached
+    <<: *restart_policy
+    networks:
+      - network
+
+######### Testing stuff below ############
+
+  db-test:
+    image: postgres:13
+    stop_grace_period: "3s"
+    volumes:
+      - "pgdata-test:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_DB: openproject
+      POSTGRES_USER: openproject
+      POSTGRES_PASSWORD: openproject
+    networks:
+      - testing
+
+  frontend-test:
+    build:
+      <<: *frontend-build
+    command: "npm run serve:test"
+    volumes:
+      - ".:/home/dev/openproject"
+      - "fedata-test:/home/dev/openproject/public/assets/frontend"
+    environment:
+      PROXY_HOSTNAME: backend-test
+      CHROME_BIN: chromium
+    networks:
+      - testing
+
+  backend-test:
+    build:
+      <<: *build
+      target: test
+    command: setup-tests
+    hostname: backend-test
+    networks:
+      - testing
+    depends_on:
+      - db-test
+      - selenium-hub
+      - frontend-test
+      - cuprite-chrome
+    environment:
+      RAILS_ENV: test
+      OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
+      DATABASE_URL: postgresql://openproject:openproject@db-test/openproject
+      DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
+      SELENIUM_GRID_URL: http://selenium-hub:4444/wd/hub
+      CHROME_URL: http://cuprite-chrome:3333
+      CAPYBARA_SERVER_PORT: 3000
+      CAPYBARA_DYNAMIC_BIND_IP: 1
+      CAPYBARA_APP_HOSTNAME: backend-test
+      OPENPROJECT_EMAIL__DELIVERY__METHOD: test
+      OPENPROJECT_CLI_PROXY: http://frontend-test:4200
+      OPENPROJECT_TESTING_NO_HEADLESS: "true"
+      OPENPROJECT_TESTING_AUTO_DEVTOOLS: "true"
+    volumes:
+      - ".:/home/dev/openproject"
+      - "fedata-test:/home/dev/openproject/public/assets/frontend"
+      - "opdata:/var/openproject/assets"
+      - "bundle:/usr/local/bundle"
+      - "tmp-test:/home/dev/openproject/tmp"
+      - "./tmp/capybara:/home/dev/openproject/tmp/capybara"
+
+  # https://vitobotta.com/2019/09/04/rails-parallel-system-tests-selenium-docker/
+  selenium-hub:
+    image: selenium/hub:4
+    container_name: selenium-hub
+    hostname: selenium-hub
+    environment:
+      GRID_MAX_SESSION: "${CI_JOBS:-4}"
+    depends_on:
+      - chrome
+      - firefox
+      - opera
+    networks:
+      - testing
+
+  chrome:
+    image: selenium/node-chrome:4
+    volumes:
+      - /dev/shm:/dev/shm
+      - "downloads-test:/home/seluser/Downloads"
+    networks:
+      - testing
+    shm_size: 2g
+    environment:
+      SE_EVENT_BUS_HOST: selenium-hub
+      SE_EVENT_BUS_PUBLISH_PORT: 4442
+      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
+      SCREEN_WIDTH: 1920
+      SCREEN_HEIGHT: 1080
+      # in case we want multiple sessions per container
+      NODE_MAX_INSTANCES: "${CI_JOBS:-4}"
+      NODE_MAX_SESSION: "${CI_JOBS:-4}"
+
+  firefox:
+    image: selenium/node-firefox:4
+    volumes:
+      - /dev/shm:/dev/shm
+      - "downloads-test:/home/seluser/Downloads"
+    networks:
+      - testing
+    shm_size: 2g
+    environment:
+      SE_EVENT_BUS_HOST: selenium-hub
+      SE_EVENT_BUS_PUBLISH_PORT: 4442
+      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
+      SCREEN_WIDTH: 1920
+      SCREEN_HEIGHT: 1080
+      # in case we want multiple sessions per container
+      NODE_MAX_INSTANCES: "${CI_JOBS:-4}"
+      NODE_MAX_SESSION: "${CI_JOBS:-4}"
+
+  opera:
+    image: selenium/node-opera:4
+    volumes:
+      - /dev/shm:/dev/shm
+      - "downloads-test:/home/seluser/Downloads"
+    networks:
+      - testing
+    environment:
+      SE_EVENT_BUS_HOST: selenium-hub
+      SE_EVENT_BUS_PUBLISH_PORT: 4442
+      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
+      SCREEN_WIDTH: 1920
+      SCREEN_HEIGHT: 1080
+      # in case we want multiple sessions per container
+      NODE_MAX_INSTANCES: "${CI_JOBS:-4}"
+      NODE_MAX_SESSION: "${CI_JOBS:-4}"
+
+  cuprite-chrome:
+    # Currently, Apple M1 is only supported in unnumbered "latest" versions.
+    # See https://github.com/browserless/chrome/issues/1393
+    image: browserless/chrome:latest
+    networks:
+      - testing
+    ports:
+      - "3333:3333"
+    environment:
+      # By default, it uses 3000, which is typically used by Rails.
+      PORT: 3333
+      # Set connection timeout to avoid timeout exception during debugging
+      # https://docs.browserless.io/docs/docker.html#connection-timeout
+      CONNECTION_TIMEOUT: 600000

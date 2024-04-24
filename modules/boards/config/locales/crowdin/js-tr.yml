@@ -1,0 +1,86 @@
+#English strings go here
+tr:
+  js:
+    boards:
+      create_new: 'Yeni pano oluştur'
+      label_unnamed_board: 'Adsız tahta'
+      label_unnamed_list: 'Adsız liste'
+      label_board_type: 'Yazı tahtası tipi'
+      upsale:
+        teaser_text: 'Boards ile iş akışlarınızı otomatikleştirmek ister misiniz? Gelişmiş kartlar bir Enterprise eklentidir. Lütfen ücretli bir plana yükseltin.'
+        upgrade: 'Şimdi Yükselt'
+      lists:
+        delete: 'Listeyi silin'
+      version:
+        is_locked: 'Sürüm kilitli. Bu sürüme hiçbir ürün eklenemez.'
+        is_closed: 'Sürüm kapalı. Bu sürüme hiçbir ürün eklenemez.'
+        close_version: 'Sürümü kapat'
+        open_version: 'Sürümü aç'
+        lock_version: 'Kilitli versiyon'
+        unlock_version: 'Sürümün kilidini aç'
+        edit_version: 'Sürümü düzenle'
+        show_version: 'Versiyonu göster'
+        locked: 'Kilitlendi'
+        closed: 'Kapalı'
+      new_board: 'Yeni yazı tahtası'
+      add_list: 'Listeyi panele ekle'
+      add_card: 'Kart ekle'
+      error_attribute_not_writable: "Çalışma paketi taşınamıyor, %{attribute} yazılabilir değil."
+      error_loading_the_list: "Liste yüklenirken hata oluştu: %{error_message}"
+      error_permission_missing: "Genel sorgu oluşturma izni eksik"
+      error_cannot_move_into_self: "Bir iş paketini kendi sütununa taşıyamazsınız."
+      text_hidden_list_warning: "Gerekli izniniz olmadığından tüm listeler gösterilemiyor. Daha çok bilgi için yöneticinizle görüşün."
+      click_to_remove_list: "Bu listeyi kaldırmak için tıklayın"
+      board_type:
+        text: 'Yazı tahtası tipi'
+        free: 'temel'
+        select_board_type: 'Lütfen ihtiyacınız olan kart tipini seçin.'
+        free_text: >
+          Bir boş tahta ile sıfırdan başlayın. Bu panoya manuel olarak kartlar ve sütunlar ekleyin.
+        action: 'Eylem kurulu'
+        action_by_attribute: 'Eylem kurulu (%{attribute})'
+        action_text: >
+          %{attribute} özniteliğinde filtrelenmiş listelere sahip bir pano. İş paketlerinin diğer listelere taşınması niteliklerini güncelleyecektir.
+        action_text_subprojects: >
+          Alt projeler için otomatik sütunlara sahip pano. İş paketlerini başka listelere sürüklemek, (alt) projeyi buna göre günceller.
+        action_text_subtasks: >
+          Alt elemanlar için otomatik sütunlu pano. İş paketlerini başka listelere sürüklemek, üst öğeyi buna göre günceller.
+        action_text_status: >
+          Yapılacak, Devam Ediyor, Bitti gibi durum için sütunlara sahip temel kanban stili pano.
+        action_text_assignee: >
+          Atanan kullanıcılara göre otomatik sütunlara sahip pano. İş paketlerini göndermek için ideal.
+        action_text_version: >
+          Sürüm özelliğine göre otomatik sütunlara sahip pano. Ürün geliştirmeyi planlamak için idealdir.
+        action_type:
+          assignee: vekil
+          status: durum
+          version: Sürüm
+          subproject: Alt proje
+          subtasks: ebeveyn-çocuk
+        board_type_title:
+          assignee: Atanan
+          status: Durum
+          version: Sürüm
+          subproject: Alt proje
+          subtasks: Ana-Yavru
+          basic: Temel
+        select_attribute: "Eylem özelliği"
+      add_list_modal:
+        labels:
+          assignee: Yeni bir vekil listesi olarak eklenecek kullanıcıyı seçin
+          status: Yeni bir liste olarak eklemek için durumu seçin
+          version: Yeni bir liste olarak eklemek için sürümü seçin
+          subproject: Yeni bir liste olarak eklenecek alt projeyi seçin
+          subtasks: Yeni liste olarak eklenecek iş paketini seçin
+        warning:
+          status: |
+            Şu anda kullanılabilir durum yok. <br>
+            Ya yok ya da hepsi zaten tahtaya eklenmiş.
+          assignee: Filtre değerinizle eşleşen herhangi bir üye yok. <br>
+          no_member: Bu projede şu anda eklenebilecek herhangi bir üye bulunmamaktadır. <br>
+          add_members: Kullanıcıları tekrar seçmek için <a href="%{link}"> bu projeye yeni bir üye ekleyin </a>.
+      configuration_modal:
+        title: 'Bu kartı yapılandır'
+        display_settings:
+          card_mode: "Kart olarak göster"
+          table_mode: "Tablo olarak görüntüle"

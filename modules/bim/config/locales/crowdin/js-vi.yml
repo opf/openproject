@@ -1,0 +1,29 @@
+#English strings go here
+vi:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'Nhập'
+      import_bcf_xml_file: 'Import BCF XML file (BCF version 2.1)'
+      export: 'Xuất'
+      export_bcf_xml_file: 'Export BCF XML file (BCF version 2.1)'
+      viewpoint: 'Góc nhìn'
+      add_viewpoint: 'Thêm góc nhìn'
+      show_viewpoint: 'Hiện góc nhìn'
+      delete_viewpoint: 'Xóa góc nhìn'
+      management: 'BCF management'
+      refresh: 'Refresh'
+      refresh_work_package: 'Refresh work package'
+    ifc_models:
+      empty_warning: "Dự án này chưa có mô hình IFC nào."
+      use_this_link_to_manage: "Dùng link này để tải lên và quản lý mô hình IFC"
+      keyboard_input_disabled: "Trình xem không có quyền điều khiển bàn phím. Kích vào \"trình xem\" để cấp quyền điều khiển bàn phím cho \"trình xem\""
+      models:
+        ifc_models: 'Mô hình IFC'
+      views:
+        viewer: 'Trình xem'
+        split: 'Viewer and table'
+        split_cards: 'Trình xem và thẻ'
+    revit:
+      revit_add_in: "Revit Add-In"
+      revit_add_in_settings: "Revit Add-In settings"

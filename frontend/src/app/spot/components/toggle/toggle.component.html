@@ -1,0 +1,18 @@
+<label
+  *ngFor="let option of options"
+  [ngClass]="{ 'button': true, '-disabled': disabled, 'form--field-inline-button': true, '-active': value === option.value, 'spot-toggle--button': true }"
+  data-test-selector="spot-toggle--option"
+  [attr.data-qa-disabled]="disabled || undefined"
+  [attr.data-qa-active-toggle]="value === option.value"
+>
+  <input
+    class="spot-toggle--option-input"
+    type="radio"
+    [disabled]="disabled"
+    [name]="name"
+    [value]="option.value"
+    [ngModel]="value"
+    (ngModelChange)="onToggle($event)"
+  />
+  {{ option.title }}
+</label>

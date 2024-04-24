@@ -1,0 +1,88 @@
+<div edit-form
+     [resource]="workPackage"
+     *ngIf="workPackage"
+     class="work-packages--show-view">
+  <div class="toolbar-container">
+    <div id="toolbar" class="wp-show--header-container">
+      <wp-breadcrumb
+        class="wp-show--header-container--breadcrumb"
+        [workPackage]="workPackage"
+      ></wp-breadcrumb>
+
+      <op-back-button
+        class="wp-show--header-container--back-button"
+        linkClass="work-packages-back-button op-back-button_mobile-limited-width"
+      >
+      </op-back-button>
+
+      <div class="subject-header wp-show--header-container--subject">
+        <wp-subject></wp-subject>
+      </div>
+
+      <ul id="toolbar-items" class="toolbar-items hide-when-print wp-show--header-container--toolbar-items">
+        <li class="toolbar-item hidden-for-tablet">
+          <wp-create-button
+            [allowed]="['work_package.addChild', 'work_package.copy']"
+            [stateName$]="stateName$">
+          </wp-create-button>
+        </li>
+        <li class="toolbar-item"
+            *ngIf="displayShareButton$ | async">
+          <wp-share-button [workPackage]="workPackage">
+          </wp-share-button>
+        </li>
+        <li class="toolbar-item hidden-for-tablet" *ngIf="displayTimerButton">
+          <op-wp-timer-button
+            [workPackage]="workPackage"
+          >
+          </op-wp-timer-button>
+        </li>
+        <li class="toolbar-item" *ngIf="displayWatchButton">
+          <wp-watcher-button [workPackage]="workPackage"
+                             [showText]="false">
+          </wp-watcher-button>
+        </li>
+        <li class="toolbar-item" *ngIf="(displayNotificationsButton$ | async)">
+          <op-work-package-mark-notification-button
+            [workPackage]="workPackage"
+            data-test-selector="mark-notification-read-button"
+          ></op-work-package-mark-notification-button>
+        </li>
+        <li class="toolbar-item hidden-for-tablet">
+          <zen-mode-toggle-button>
+          </zen-mode-toggle-button>
+        </li>
+        <li class="toolbar-item action_menu_main" id="action-show-more-dropdown-menu">
+          <button class="button dropdown-relative toolbar-icon"
+                  [attr.title]="text.fullView.buttonMore"
+                  wpSingleContextMenu
+                  [wpSingleContextMenu-workPackage]="workPackage">
+            <op-icon icon-classes="button--icon icon-show-more"></op-icon>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="work-packages-full-view--split-container">
+    <div class="work-packages-full-view--split-left">
+      <div class="work-packages--panel-inner">
+        <wp-single-view [workPackage]="workPackage"></wp-single-view>
+      </div>
+    </div>
+    <div class="work-packages-full-view--split-right work-packages-tab-view--overflow">
+      <div class="work-packages--panel-inner">
+        <span class="hidden-for-sighted" tabindex="-1" opAutofocus [textContent]="focusAnchorLabel"></span>
+        <op-wp-tabs [workPackage]="workPackage" [view]="'full'"></op-wp-tabs>
+        <div class="tabcontent"
+             data-notification-selector='notification-scroll-container'
+             ui-view>
+        </div>
+      </div>
+
+      <div class="work-packages-full-view--resizer hidden-for-mobile hide-when-print">
+        <wp-resizer [elementClass]="'work-packages-full-view--split-right'"
+                    [localStorageKey]="'openProject-fullViewFlexBasis'"></wp-resizer>
+      </div>
+    </div>
+  </div>
+</div>

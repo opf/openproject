@@ -1,0 +1,62 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<%= error_messages_for 'attribute_help_text' %>
+
+<section class="form--section" id="custom_field_form">
+  <div class="form--field -required">
+    <% if local_assigns[:editing] %>
+      <%= f.select :attribute_name,
+                   [[@attribute_help_text.attribute_caption, @attribute_help_text.attribute_name]],
+                   {},
+                   disabled: true
+      %>
+    <% else %>
+      <%= f.select :attribute_name, selectable_attributes(@attribute_help_text), container_class: '-middle' %>
+    <% end %>
+  </div>
+
+  <% resource = ::API::V3::HelpTexts::HelpTextRepresenter.new(@attribute_help_text,
+                                                              current_user: current_user,
+                                                              embed_links: true) %>
+
+  <div class="form--field -required -visible-overflow">
+    <%= f.text_area :help_text,
+                    cols: 100,
+                    rows: 20,
+                    class: 'wiki-edit',
+                    with_text_formatting: true,
+                    resource: resource %>
+    <div class="form--field-instructions">
+      <p>
+        <strong><%= t(:note) %>:</strong>
+        <%= t('attribute_help_texts.note_public') %>
+      </p>
+    </div>
+  </div>
+</section>

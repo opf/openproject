@@ -1,0 +1,90 @@
+<%=
+  component_wrapper do
+    grid_layout('op-meeting-agenda-item', tag: :div, id: "item-#{@meeting_agenda_item.id}") do |grid|
+      if drag_and_drop_enabled?
+        grid.with_area(:'drag-handle', tag: :div) do
+          render(Primer::OpenProject::DragHandle.new(classes: 'handle'))
+        end
+      end
+
+      grid.with_area(:content, tag: :span) do
+        if @meeting_agenda_item.visible_work_package?
+          flex_layout(align_items: :center) do |flex|
+            flex.with_column(mr: 2, flex: 1, classes: 'ellipsis') do
+              render(Primer::Beta::Link.new(href: work_package_path(@meeting_agenda_item.work_package), underline: false,
+                                            test_selector: 'op-meeting-agenda-title',
+                                            font_size: :normal, font_weight: :bold, target: "_blank")) do
+                @meeting_agenda_item.work_package.subject
+              end
+            end
+
+            flex.with_column(mr: 2, classes: 'hidden-for-mobile') do
+              render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
+                "#{@meeting_agenda_item.work_package.type.name} ##{@meeting_agenda_item.work_package.id}"
+              end
+            end
+
+            flex.with_column(mr: 2, classes: 'hidden-for-mobile') do
+              render(Primer::Beta::Label.new(font_weight: :bold)) do
+                @meeting_agenda_item.work_package.status.name
+              end
+            end
+          end
+        elsif @meeting_agenda_item.linked_work_package?
+          render(Primer::Beta::Text.new(font_size: :small, mr: 2, color: :subtle, test_selector: 'op-meeting-agenda-title')) do
+            I18n.t(:label_agenda_item_undisclosed_wp, id: @meeting_agenda_item.work_package_id)
+          end
+        elsif @meeting_agenda_item.deleted_work_package?
+          render(Primer::Beta::Text.new(tag: :s, font_size: :small, mr: 2, color: :danger, test_selector: 'op-meeting-agenda-title')) do
+            I18n.t(:label_agenda_item_deleted_wp)
+          end
+        else
+          render(Primer::Beta::Text.new(font_size: :normal, mr: 2, font_weight: :bold, test_selector: 'op-meeting-agenda-title')) do
+            @meeting_agenda_item.title
+          end
+        end
+      end
+
+      if @meeting_agenda_item.duration_in_minutes.present? && @meeting_agenda_item.duration_in_minutes > 0
+        grid.with_area(:duration, Primer::Beta::Text, color: duration_color_scheme, mr: 1) do
+          I18n.t('datetime.distance_in_words.x_minutes_abbreviated', count: @meeting_agenda_item.duration_in_minutes)
+        end
+      end
+
+      if @meeting_agenda_item.presenter
+        grid.with_area(:presenter, tag: :div, classes: 'ellipsis') do
+          flex_layout do |flex|
+            flex.with_column(classes: 'ellipsis') do
+              render(Users::AvatarComponent.new(user: @meeting_agenda_item.presenter, size: 'mini', title:, classes: 'op-principal_flex'))
+            end
+          end
+        end
+      end
+
+      grid.with_area(:actions, tag: :div, justify_self: :end) do
+        if edit_enabled?
+          render(Primer::Alpha::ActionMenu.new) do |menu|
+            menu.with_show_button(icon: "kebab-horizontal",
+                                  'aria-label': I18n.t(:label_agenda_item_actions),
+                                  scheme: :invisible,
+                                  ml: 2,
+                                  test_selector: 'op-meeting-agenda-actions')
+            edit_action_item(menu) if @meeting_agenda_item.editable?
+            add_note_action_item(menu) if @meeting_agenda_item.editable? && @meeting_agenda_item.notes.blank?
+            copy_action_item(menu)
+            move_actions(menu)
+            delete_action_item(menu)
+          end
+        end
+      end
+
+      grid.with_area(:notes, tag: :div) do
+        if @meeting_agenda_item.notes.present?
+          render(Primer::Box.new(mt: 1)) do
+            format_text(@meeting_agenda_item, :notes)
+          end
+        end
+      end
+    end
+  end
+%>

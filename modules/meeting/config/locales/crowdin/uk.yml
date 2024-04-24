@@ -1,0 +1,202 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+#English strings go here for Rails i18n
+uk:
+  plugin_openproject_meeting:
+    name: "Зустріч OpenProject"
+    description: >-
+      Цей модуль додає до OpenProject функції для підтримки зустрічей проєкту. Зустрічі можна планувати, вибираючи запрошених з одного проекту для участі у зустрічі. Можна створити порядок денний і надіслати його запрошеним. Після зустрічі можна вибрати учасників і створити протокол на основі порядку денного.  Наостанок, протокол можна надіслати всім учасникам і запрошеним.
+  activerecord:
+    attributes:
+      meeting:
+        type: "Тип зустрічі"
+        location: "Місцезнаходження"
+        duration: "Тривалість"
+        notes: "Нотатки "
+        participants: "Учасники"
+        participant:
+          one: "1 учасник"
+          few: "%{count} учасники"
+          many: "%{count} учасників"
+          other: "%{count} учасника"
+        participants_attended: "Учасники"
+        participants_invited: "Запрошені"
+        project: "Проєкт"
+        start_date: "Дата"
+        start_time: "Час початку"
+        start_time_hour: "Час початку"
+      meeting_agenda_item:
+        title: "Назва "
+        author: "Автор"
+        duration_in_minutes: "хв"
+        description: "Примітки"
+        presenter: "Доповідач"
+    errors:
+      messages:
+        invalid_time_format: "не є допустимим часом. Необхідний формат: HH:MM"
+    models:
+      structured_meeting: "Нарада (динамічна)"
+      meeting_agenda_item: "Порядок денний"
+      meeting_agenda: "Порядок денний"
+      meeting_minutes: "Хвилини"
+  activity:
+    filter:
+      meeting: "Наради"
+  description_attended: "Участь"
+  description_invite: "Запрошені"
+  events:
+    meeting: Нотатки до зустрічі
+    meeting_agenda: Порядок денний зустрічі редагувався
+    meeting_agenda_closed: Порядок засідань закритий
+    meeting_agenda_opened: Порядок зустрічей був відкритий
+    meeting_minutes: Відредаговані хвилини наради
+    meeting_minutes_created: Створено протокол зустрічей
+  error_notification_with_errors: "Не вдалося надіслати сповіщення. Неможливо отримати сповіщення про таких одержувачів: %{recipients}"
+  label_meeting: "Зустріч"
+  label_meeting_plural: "Зустрічі"
+  label_meeting_new: "Нова зустріч"
+  label_meeting_edit: "Редагувати збори"
+  label_meeting_agenda: "Порядок денний"
+  label_meeting_minutes: "Хвилини"
+  label_meeting_close: "Закрити"
+  label_meeting_open: "Відкрити"
+  label_meeting_agenda_close: "Закрийте порядок денний, щоб розпочати протоколи"
+  label_meeting_date_time: "Дата, час"
+  label_meeting_diff: "Відмінність"
+  label_upcoming_meetings: "Майбутні заходи"
+  label_past_meetings: "Минулі заходи"
+  label_upcoming_meetings_short: "Майбутні"
+  label_past_meetings_short: "Минулі"
+  label_involvement: "Участь"
+  label_upcoming_invitations: "Майбутні запрошення"
+  label_past_invitations: "Минулі запрошення"
+  label_attendee: "Учасник"
+  label_author: "Автор"
+  label_notify: "Надіслати на розгляд"
+  label_icalendar: "Надіслати iCalendar"
+  label_icalendar_download: "Завантажити подію iCalendar"
+  label_version: "Версія"
+  label_time_zone: "Часовий пояс"
+  label_start_date: "Дата початку"
+  meeting:
+    attachments:
+      text: "Прикріплені файли доступні всім учасникам наради. Ви також можете перетягнути їх у примітки до пунктів порядку денного."
+    copy:
+      title: "Копіювати нараду «%{title}»"
+      attachments: "Копіювати вкладення"
+      attachments_text: "Скопіюйте всі прикріплені файли до нової наради"
+      agenda: "Копіювати порядок денний"
+      agenda_text: "Копіювати порядок денний старої наради"
+    email:
+      open_meeting_link: "Відкрити зустріч"
+      invited:
+        summary: "%{actor} надіслав запрошення на зустріч %{title}"
+      rescheduled:
+        header: "Запланований час наради %{title} змінено"
+        summary: "Зустріч  %{title} перепланована  %{actor}"
+        body: "Зустріч  %{title} перепланована  %{actor}"
+        old_date_time: "Стара дата/час"
+        new_date_time: "Нова дата/час"
+    label_mail_all_participants: "Надіслати лист усім учасникам"
+    types:
+      classic: "Класична"
+      classic_text: "Організуйте нараду у вигляді порядку денного й протоколу в текстовому форматі з підтримкою редагування."
+      structured: "Динамічна"
+      structured_text: "Організуйте нараду у вигляді переліку пунктів порядку денного, за бажанням пов’язавши їх із пакетом робіт."
+      structured_text_copy: "Зараз копіювання наради стосується лише докладних даних про неї, але не пов’язаних пунктів її порядку денного"
+    copied: "Скопійовано з наради #%{id} "
+  notice_successful_notification: "Повідомлення успішно надіслано"
+  notice_timezone_missing: Часовий пояс не встановлено і %{zone} передбачається. Щоб вибрати часовий пояс, натисніть тут.
+  permission_create_meetings: "Створюйте зустрічі"
+  permission_edit_meetings: "Редагувати зустрічі"
+  permission_delete_meetings: "Видалити зустрічі"
+  permission_view_meetings: "Переглянути зустрічі"
+  permission_create_meeting_agendas: "Створити план зустрічі "
+  permission_create_meeting_agendas_explanation: "Дає змогу редагувати вміст порядку денного класичної наради."
+  permission_manage_agendas: "Керувати програмами"
+  permission_manage_agendas_explanation: "Дає змогу налаштовувати пункти порядку денного динамічної наради."
+  permission_close_meeting_agendas: "Закрити порядок денний"
+  permission_send_meeting_agendas_notification: "Надіслати повідомлення про перегляд для порядку денного"
+  permission_create_meeting_minutes: "Керування хвилинами"
+  permission_send_meeting_minutes_notification: "Надішліть повідомлення про перегляд за хвилини"
+  permission_meetings_send_invite: "Запросити користувачів до зустрічей"
+  permission_send_meeting_agendas_icalendar: "Позначити план зустрічі записом у календарі"
+  project_module_meetings: "Зустрічі"
+  text_duration_in_hours: "Тривалість у годинах"
+  text_in_hours: "у годинах"
+  text_meeting_agenda_for_meeting: 'порядку денного засідання %{meeting}'
+  text_meeting_closing_are_you_sure: "Справді закрити порядок денний заходу?"
+  text_meeting_agenda_open_are_you_sure: "Це вмить призведе до виправлення усіх змін! Бажаєте продовжити?"
+  text_meeting_minutes_for_meeting: 'протокол засідання %{meeting}'
+  text_notificiation_invited: "У цьому листі міститься запис ics для зустрічі нижче:"
+  text_meeting_empty_heading: "Ваша нарада пуста"
+  text_meeting_empty_description_1: "Почніть із додавання пунктів розкладу нижче. Кожен елемент може бути таким простим, як назва, але ви також можете додати додаткові деталі, як-от тривалість і примітки."
+  text_meeting_empty_description_2: 'Ви також можете додати посилання на наявні пакети робіт. У такому разі пов’язані примітки автоматично з’являться на вкладці «Наради» пакета робіт.'
+  label_meeting_empty_action: "Додати пункт порядку денного"
+  label_meeting_actions: "Дії з нарадою"
+  label_meeting_edit_title: "Редагувати назву зустрічі"
+  label_meeting_delete: "Видалити зустріч"
+  label_meeting_created_by: "Створено "
+  label_meeting_last_updated: "Востаннє оновлено"
+  label_agenda_items: "Пункти порядку денного"
+  label_agenda_items_reordered: "перевпорядковано"
+  label_agenda_item_remove: "Зняти з порядку денного"
+  label_agenda_item_undisclosed_wp: "Пакет робіт #%{id} не видимий"
+  label_agenda_item_deleted_wp: "Посилання на видалений пакет робіт"
+  label_agenda_item_actions: "Дії з пунктами порядку денного"
+  label_agenda_item_move_to_top: "Помістити на верх"
+  label_agenda_item_move_to_bottom: "Помістити в кінець"
+  label_agenda_item_move_up: "Рухатися вгору"
+  label_agenda_item_move_down: "Пересунути нижче"
+  label_agenda_item_add_notes: "Додати примітку "
+  label_agenda_item_work_package: "Пакет робіт пункту порядку денного"
+  text_agenda_item_title: 'Пункт порядку денного «%{title}»'
+  text_agenda_work_package_deleted: 'Пункт порядку денного для видаленого пакета робіт'
+  text_deleted_agenda_item: 'Видалений пункт порядку денного'
+  label_initial_meeting_details: "Нарада"
+  label_meeting_details: "Інформація про зустріч"
+  label_meeting_details_edit: "Редагувати інформацію про зустріч"
+  label_meeting_state: "Статус наради"
+  label_meeting_state_open: "Відкрити"
+  label_meeting_state_open_html: "<i>Відкрита</i>"
+  label_meeting_state_closed: "Закрито"
+  label_meeting_state_closed_html: "<i>Закрита</i>"
+  label_meeting_reopen_action: "Відкрити зустріч знову"
+  label_meeting_close_action: "Закрити зустріч"
+  text_meeting_open_description: "Це відкрита нарада. Ви можете додавати або вилучати пункти порядку денного й редагувати їх. Коли нарада завершиться, закрийте її, щоб заблокувати."
+  text_meeting_closed_description: "Це закрита нарада. Ви більше не можете додати або вилучати пункти порядку денного."
+  label_meeting_manage_participants: "Керувати учасниками"
+  label_meeting_no_participants: "Немає учасників"
+  label_meeting_show_hide_participants: "Показати / приховати ще %{count}"
+  label_meeting_show_all_participants: "Показати всі"
+  label_meeting_add_participants: "Додати учасників"
+  text_meeting_not_editable_anymore: "Цю нараду більше не можна редагувати."
+  text_meeting_not_present_anymore: "Цю нараду видалено. Виберіть іншу нараду."
+  label_add_work_package_to_meeting_dialog_title: "Додавання пакета робіт до наради"
+  label_add_work_package_to_meeting_dialog_button: "Додати до наради"
+  label_meeting_selection_caption: "Цей пакет робіт можна додати лише до майбутніх або поточних відкритих нарад."
+  text_add_work_package_to_meeting_description: "Пакет робіт можна додати до однієї або кількох нарад для обговорення. Тут також з’явдяться всі пов’яхані з ним примітки."
+  text_agenda_item_no_notes: "Примітки не надано"
+  text_agenda_item_not_editable_anymore: "Цей пункт порядку денного більше не можна редагувати."
+  text_work_package_has_no_upcoming_meeting_agenda_items: "Цей пакет робіт ще не заплановано в порядку денному майбутньої наради."
+  text_work_package_add_to_meeting_hint: 'Натисніть кнопку «Додати до наради», щоб додати цей пакет робіт до майбутньої наради.'
+  text_work_package_has_no_past_meeting_agenda_items: "Цей пакет робіт не згадано в минулій нараді."

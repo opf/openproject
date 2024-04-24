@@ -1,0 +1,47 @@
+# Schema: FileLinkWriteModel
+---
+type: object
+required:
+  - originData
+  - _links
+properties:
+  originData:
+    $ref: './file_link_origin_data_model.yml'
+  _links:
+    oneOf:
+      - type: object
+        required:
+          - storage
+        properties:
+          storage:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  The storage resource of the linked file.
+                  
+                  **Resource**: Storage
+      - type: object
+        required:
+          - storageUrl
+        properties:
+          storageUrl:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  The storage url the file link references to.
+                  
+                  **Resource**: N/A
+
+example:
+  originData:
+    id: 5503
+    name: logo.png
+    mimeType: image/png
+    size: 16042
+    createdAt: '2021-12-19T09:42:10.170Z'
+    lastModifiedAt: '2021-12-20T14:00:13.987Z'
+    createdByName: Luke Skywalker
+    lastModifiedByName: Anakin Skywalker
+  _links:
+    storageUrl:
+      href: 'https://nextcloud.my-deathstar.org'

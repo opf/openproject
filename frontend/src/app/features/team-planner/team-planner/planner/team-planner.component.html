@@ -1,0 +1,186 @@
+<div
+  class="op-team-planner"
+  [ngClass]="{'op-team-planner_with_left_side_pane' : (showAddExistingPane | async)}"
+>
+  <ng-container
+    *ngIf="(calendarOptions$ | async) && !isMobile"
+  >
+    <button
+      #addExistingToggle
+      class="button op-team-planner--add-existing-toggle"
+      [ngClass]="{'-active': (showAddExistingPane | async)}"
+      [title]="text.add_existing_title"
+      data-test-selector="op-team-planner--add-existing-toggle"
+      data-tour-selector="op-team-planner--add-existing-toggle"
+      (click)="toggleAddExistingPane()">
+      <op-icon icon-classes="icon-add button--icon"></op-icon>
+      <span
+        class="button--text"
+        [textContent]="text.add_existing">
+      </span>
+    </button>
+
+    <op-add-existing-pane
+      *ngIf="(showAddExistingPane | async)"
+      class="op-team-planner--add-existing-pane"
+      data-test-selector="add-existing-pane"
+    >
+    </op-add-existing-pane>
+
+    <button
+      type="button"
+      class="button op-team-planner--view-select-dropdown"
+      [title]="currentViewTitle"
+      opTeamPlannerViewSelectDropdown
+      [viewOptions]="viewOptions"
+      (viewSelected)="switchView($event)"
+      data-test-selector="op-team-planner--view-select-dropdown">
+      <span class="button--text ellipsis"
+            [textContent]="currentViewTitle"
+            aria-hidden="true"></span>
+      <op-icon icon-classes="button--icon icon-small icon-pulldown hidden-for-mobile"></op-icon>
+    </button>
+  </ng-container>
+
+  <div
+    class="op-team-planner--calendar-pane"
+    data-test-selector="op-team-planner--calendar-pane"
+    data-tour-selector="op-team-planner--calendar-pane"
+  >
+    <ng-container
+      *ngIf="(calendarOptions$ | async) as calendarOptions"
+    >
+
+      <full-calendar
+        #ucCalendar
+        *ngIf="calendarOptions"
+        [options]="calendarOptions"
+        class="op-team-planner--calendar fc-scroller"
+        [ngClass]="{'op-team-planner--calendar_empty': (isEmpty$ | async)}"
+      >
+
+        <ng-template #resourceLabelContent let-resource="$implicit.resource">
+          <div
+            *ngIf="resource && resource.extendedProps.principal"
+            class="tp-assignee"
+          >
+            <op-principal
+              [principal]="resource.extendedProps.principal"
+              class="tp-assignee--principal op-principal_wrapped"
+              [hideName]="isMobile"
+            ></op-principal>
+            <button
+              type="button"
+              class="tp-assignee--remove"
+              (click)="removeAssignee(resource.id)"
+              [attr.aria-label]="text.remove_assignee"
+              [attr.data-qa-remove-assignee]="resource.extendedProps.principal.id"
+            >
+              <op-icon icon-classes="icon-remove"></op-icon>
+            </button>
+          </div>
+
+          <op-principal-loading-skeleton
+            *ngIf="resource && !resource.extendedProps.principal && resource.id.startsWith('skeleton')"
+          ></op-principal-loading-skeleton>
+
+          <op-tp-add-assignee
+            *ngIf="resource && !resource.extendedProps.principal && !resource.id.startsWith('skeleton')"
+            (selectAssignee)="addAssignee($event)"
+            [alreadySelected]="principalIds$ | async"
+          ></op-tp-add-assignee>
+        </ng-template>
+
+        <ng-template #eventContent let-event="$implicit.event">
+          <op-wp-loading-skeleton
+            [viewBox]="event.extendedProps.viewBox"
+            class="op-team-planner--wp-loading-skeleton"
+            *ngIf="event.source && event.source.id === 'skeleton'"
+          ></op-wp-loading-skeleton>
+
+          <wp-single-card
+            *ngIf="(!event.source || event.source.id === 'work_packages') && event.extendedProps.workPackage as wp"
+            [workPackage]="wp"
+            [selectedWhenOpen]="true"
+            [orientation]="'horizontal'"
+            [highlightingMode]="'type'"
+            [showInfoButton]="true"
+            [disabledInfo]="showDisabledText(wp)"
+            [isClosed]="isStatusClosed(wp)"
+            [showAsGhost]="shouldShowAsGhost(wp.id, (globalDraggingItem$ | async))"
+            [showAsInlineCard]="true"
+            [showStartDate]="!isWpStartDateInCurrentView(wp)"
+            [showEndDate]="!isWpEndDateInCurrentView(wp)"
+            (stateLinkClicked)="openStateLink($event)"
+            (cardClicked)="workPackagesCalendar.onCardClicked($event)"
+            (cardDblClicked)="workPackagesCalendar.onCardDblClicked($event)"
+            (cardContextMenu)="workPackagesCalendar.showEventContextMenu($event)"
+          ></wp-single-card>
+        </ng-template>
+
+      </full-calendar>
+
+      <div
+        [textContent]="workPackagesCalendar.tooManyResultsText"
+        class="op-wp-calendar--notification">
+      </div>
+
+      <div
+        *ngIf="isEmpty$ | async"
+        class="op-team-planner--no-data">
+        <img [src]="image.empty_state" class="op-team-planner--empty-state-image" />
+        <span [textContent]="text.noData"></span>
+        <button
+          type="button"
+          class="op-team-planner--empty-state-button button -primary"
+          data-test-selector="op-team-planner--empty-state-button"
+          (click)="showAssigneeAddRow()"
+          [textContent]="text.add_assignee"
+        >
+        </button>
+      </div>
+    </ng-container>
+
+    <div class="op-team-planner--footer" data-test-selector="op-team-planner-footer">
+      <div
+        class="op-team-planner--add-assignee"
+        *ngIf="!(showAddAssignee$ | async) && !(dropzone$ | async)?.dragging"
+      >
+        <button
+          type="button"
+          class="spot-link"
+          (click)="showAssigneeAddRow()"
+          data-test-selector="tp-assignee-add-button"
+          data-tour-selector="tp-assignee-add-button"
+        >
+          <span class="spot-icon spot-icon_user-plus"></span>
+          <span [textContent]="text.add_assignee"></span>
+        </button>
+      </div>
+      <ng-container *ngIf="(dropzone$ | async) as dropzone">
+        <div
+          *ngIf="dropzone.dragging"
+          #removeDropzone
+          (mouseenter)="dropzoneHovered$.next(true)"
+          (mouseleave)="dropzoneHovered$.next(false)"
+          (mouseup)="dropzone.canDrop && removeEvent(dropzone.dragging)"
+          class="op-team-planner--remove-dropzone"
+          data-test-selector="op-team-planner-dropzone"
+          [class.op-team-planner--remove-dropzone_active]="dropzone.isHovering && dropzone.canDrop"
+          [class.op-team-planner--remove-dropzone_forbidden]="!dropzone.canDrop"
+        >
+          <span
+            *ngIf="dropzone.canDrop"
+            class="op-team-planner--dropzone-label"
+            [textContent]="text.drag_here_to_remove"
+          ></span>
+          <span
+            *ngIf="!dropzone.canDrop"
+            class="op-team-planner--dropzone-label"
+            [textContent]="text.cannot_drag_here"
+          ></span>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

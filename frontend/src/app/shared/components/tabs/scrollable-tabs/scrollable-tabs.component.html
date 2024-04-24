@@ -1,0 +1,80 @@
+<div class="op-scrollable-tabs" [ngClass]="classes">
+  <div
+    #scrollContainer
+    class="op-scrollable-tabs--tab-container"
+  >
+    <ul
+      #scrollPane
+      class="op-tab-row"
+      (scroll)="onScroll()"
+    >
+      <li
+        *ngFor="let tab of tabs; trackBy:trackById"
+        class="op-tab-row--tab"
+        (dragenter)="startDebouncedTabActivation(tab)"
+        (dragleave)="cancelDebouncedTabActivation()"
+        [attr.data-tab-id]="tab.id"
+        [attr.data-qa-tab-id]="tab.id"
+        [attr.data-qa-tab-selected]="tab.id === currentTabId || undefined"
+        [attr.data-qa-tab-disabled]="tab.disable || undefined"
+      >
+        <a
+          *ngIf="!tab.route"
+          [href]="tab.path"
+          class="op-tab-row--link"
+          role="tab"
+          [class.op-tab-row--link_selected]="tab.id === currentTabId"
+          [class.op-tab-row--link_disabled]="tab.disable !== undefined"
+          [attr.aria-selected]="tab.id === currentTabId"
+          (click)="clickTab(tab, $event)"
+          [attr.title]="tabTitle(tab)"
+          [textContent]="tab.name"
+        >
+        </a>
+        <a
+          *ngIf="tab.route"
+          [uiSref]="tab.route"
+          [uiParams]="tab.routeParams"
+          [attr.aria-selected]="tab.id === currentTabId"
+          role="tab"
+          class="op-tab-row--link"
+          uiSrefActive="op-tab-row--link_selected"
+          (click)="clickTab(tab, $event)"
+          [attr.title]="tabTitle(tab)"
+          [class.op-tab-row--link_disabled]="tab.disable !== undefined"
+          href=""
+        >
+          <span [textContent]="tab.name"></span>
+          <ng-container *ngIf="counter(tab) | async as tabCounter">
+            <op-tab-count
+              *ngIf="tab.showCountAsBubble"
+              [count]="tabCounter"
+              [attr.data-test-selector]="'tab-counter-' + tab.name"
+            ></op-tab-count>
+            <span
+              *ngIf="tabCounter > 0 && !tab.showCountAsBubble"
+              data-test-selector="tab-count"
+            > ({{ tabCounter }})</span>
+          </ng-container>
+        </a>
+      </li>
+    </ul>
+    <div
+      #scrollLeftBtn [hidden]="hideLeftButton"
+      class="op-scrollable-tabs--button op-scrollable-tabs--button_left"
+      (click)="scrollLeft()"
+    >
+      <span class="icon-arrow-left2"></span>
+    </div>
+    <div
+      #scrollRightBtn [hidden]="hideRightButton"
+      class="op-scrollable-tabs--button op-scrollable-tabs--button_right"
+      (click)="scrollRight()"
+    >
+      <span class="icon-arrow-right2"></span>
+    </div>
+  </div>
+  <ul class="op-scrollable-tabs--actions">
+    <ng-content select="[slot=actions]"></ng-content>
+  </ul>
+</div>

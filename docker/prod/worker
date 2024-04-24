@@ -1,0 +1,8 @@
+#!/bin/bash -e
+
+if [ "$1" = "--seed" ]; then
+	shift
+	$APP_PATH/docker/prod/seeder "$@"
+fi
+
+QUIET=true bundle exec good_job start

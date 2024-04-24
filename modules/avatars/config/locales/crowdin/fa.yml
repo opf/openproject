@@ -1,0 +1,40 @@
+#English strings go here
+fa:
+  plugin_openproject_avatars:
+    name: "چهرک‌ها"
+    description: >-
+      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
+  label_avatar: "چهرک"
+  label_avatar_plural: "آواتارها"
+  label_current_avatar: "آواتار فعلی"
+  label_choose_avatar: "انتخاب آواتار از فایل"
+  message_avatar_uploaded: "آواتار مورد نظر با موفقيت تغيير كرد"
+  error_image_upload: "خطا در ذخیره عکس"
+  error_image_size: "عکس بیش از اندازه بزرگ است."
+  button_change_avatar: "تغییر آواتار"
+  are_you_sure_delete_avatar: "آیا مطمئن هستید که می‌خواهید آواتار خود را حذف کنید؟ "
+  avatar_deleted: "چهرک با کامیابی زدوده شد."
+  unable_to_delete_avatar: "حذف آواتار امکان‌پذیر نیست."
+  wrong_file_format: "چارچوب‌های jpg ، png ، gif رواست \n"
+  empty_file_error: "لطفاً یک عکس معتبر بارگذاری کنید (jpg، png، gif)"
+  avatars:
+    label_avatar: "آواتار"
+    label_gravatar: 'چهرکنماد (شناسایی چهرک جهانی)'
+    label_current_avatar: 'آواتار فعلی'
+    label_local_avatar: 'جهرک سفارشی'
+    text_current_avatar: |
+      تصویر زیر، آواتار کنونی را نمایش می‌دهد.
+    text_upload_instructions: |2
+       آواتار سفارشی خود را به اندازه 128 در 128 پیکسل بارگذاری نمایید. فایل‌های حجیم‌تر تغییر حجم و برش داده میشوند تا تطابق یابند.
+      به محض انتخاب عکس و قبل از بارگذاری، آواتار شما پیش‌نمایش داده خواهد شد.
+    text_change_gravatar_html: 'برای تغییر یا افزودن گراواتار برای آدرس ایمیل خود، به %{gravatar_url} بروید.'
+    text_your_local_avatar: |
+      اوپن‌پروژکت به شما امکان می‌دهد جهرک دلخواه خود را بارگذاری کنید.
+    text_local_avatar_over_gravatar: |
+      اگر یکی تنظیم کنید، این آواتار شخصی به اولویت نسبت به گراواتار بالا استفاده می‌شود.
+    text_your_current_gravatar: |
+      OpenProject از گراواتار یا در صورت وجود تصویر یا آیکون پیش‌فرض شما یکی را استفاده می‌کند. گراواتار فعلی به شکل زیر است:
+    settings:
+      enable_gravatars: 'چهرکنماد (شناسایی چهرک جهانی) کاربر را کارآ کنید'
+      gravatar_default: "تصویر گراواتار پیش‌فرض"
+      enable_local_avatars: 'کاراندازی سفارشی سازی چهرکنماد (شناسایی چهرک جهانی)'

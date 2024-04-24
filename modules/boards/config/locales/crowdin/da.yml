@@ -1,0 +1,39 @@
+#English strings go here
+da:
+  plugin_openproject_boards:
+    name: "OpenProject Boards"
+    description: "Provides board views."
+  permission_show_board_views: "View boards"
+  permission_manage_board_views: "Manage boards"
+  project_module_board_view: "Boards"
+  boards:
+    label_board: "Board"
+    label_boards: "Boards"
+    label_create_new_board: "Create new board"
+    label_board_type: "Board type"
+    board_types:
+      free: Grundlæggende
+      action: "Action board (%{attribute})"
+    board_type_attributes:
+      assignee: Tildelt
+      status: Status
+      version: Version
+      subproject: Underprojekt
+      subtasks: Parent-child
+      basic: Grundlæggende
+    board_type_descriptions:
+      basic: >
+        Start fra bunden med et tomt bord. Tilføj manuelt kort og kolonner til denne tavle.
+      status: >
+        Grundlæggende kanban stil tavle med kolonner til status som To Do, I gang, Udført.
+      assignee: >
+        Tavle med automatiserede kolonner baseret på tildelte brugere. Ideel til afsendelse af arbejdspakker.
+      version: >
+        Tavle med automatiserede kolonner baseret på versionsattributten. Ideel til planlægning af produktudvikling.
+      subproject: >
+        Board med automatiserede kolonner til underprojekter. Træk arbejdspakker til andre lister opdaterer (under)projektet i overensstemmelse hermed.
+      subtasks: >
+        Board med automatiserede kolonner til underelementer. Træk arbejdspakker til andre lister, opdaterer den overordnede i overensstemmelse hermed.
+    upsale:
+      teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+      upgrade: 'Upgrade now'

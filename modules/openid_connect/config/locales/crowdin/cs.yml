@@ -1,0 +1,33 @@
+cs:
+  plugin_openproject_openid_connect:
+    name: "OpenProject OpenID Connect"
+    description: "Přidá poskytovatele strategie OmniAuth OpenID připojení do Openproject."
+  logout_warning: >
+    Byli jste odhlášeni. Obsah formuláře může být ztracen. Prosím, [přihlaste se].
+  activemodel:
+    attributes:
+      openid_connect/provider:
+        name: Jméno
+        display_name: Zobrazovaný název
+        identifier: Identifikátor
+        secret: Tajný klíč
+        scope: Rozsah
+        limit_self_registration: Omezit vlastní registraci
+  openid_connect:
+    menu_title: Poskytovatelé OpenID
+    providers:
+      label_add_new: Přidat nového poskytovatele OpenID
+      label_edit: Upravit poskytovatele OpenID %{name}
+      no_results_table: Zatím nebyli definováni žádní poskytovatelé.
+      plural: Poskytovatelé OpenID
+      singular: Poskytovatel OpenID
+    setting_instructions:
+      azure_deprecation_warning: >
+        Nakonfigurovaná aplikace Azure ukazuje na zastaralé API z Azure. Vytvořte prosím novou aplikaci Azure pro zajištění funkčnosti v budoucnu.
+      azure_graph_api: >
+        Použijte koncový bod userinfo na graf.microsoft.com pro vyžádání uživatelských dat. Toto by mělo být výchozí, pokud nemáte starší azure aplikaci.
+      azure_tenant_html: >
+        Nastavte nájemce vašeho trvalého bodu Azure. To bude kontrolovat, kdo získá přístup k instanci OpenProjekt. Pro více informací navštivte <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">naši uživatelskou příručku na Azure OpenID spojení</a>.
+      limit_self_registration: >
+
+

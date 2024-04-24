@@ -1,0 +1,47 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/iamnotexistent?$select=webUrl
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      User-Agent:
+      - httpx.rb/1.2.1
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - e58d868c-e0f2-4814-9810-6389725dc10b
+      Client-Request-Id:
+      - e58d868c-e0f2-4814-9810-6389725dc10b
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"005","RoleInstance":"FR3PEPF000002DA"}}'
+      Date:
+      - Tue, 30 Jan 2024 11:55:26 GMT
+    body:
+      encoding: UTF-8
+      string: '{"error":{"code":"itemNotFound","message":"Item not found"}}'
+  recorded_at: Tue, 30 Jan 2024 11:55:26 GMT
+recorded_with: VCR 6.2.0

@@ -1,0 +1,37 @@
+.spot-action-bar
+  display: grid
+  grid-template-columns: 1fr
+  padding: 0 $spot-spacing-1
+
+  a.button
+    text-decoration: none
+
+  &_transparent
+    background-color: unset
+
+  &--left,
+  &--right
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+    align-items: center
+    justify-content: flex-end
+    margin-top: -$spot-spacing-0_25
+
+    > .spot-action-bar--action
+      // We need to set the margins on the buttons itself because
+      // an empty action bar would take unnecessary space if we put the padding there.
+      // see #47994 and #49729
+      margin: $spot-spacing-1 $spot-spacing-1 $spot-spacing-0-75 0
+
+      &:last-of-type
+        margin-right: 0
+
+  @media #{$spot-mq-action-bar-change}
+    grid-template-columns: 1fr auto
+
+    &--left
+      justify-content: flex-start
+
+    &--right
+      justify-content: flex-end

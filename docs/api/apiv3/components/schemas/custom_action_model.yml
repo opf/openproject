@@ -1,0 +1,45 @@
+# Schema: CustomActionModel
+---
+type: object
+properties:
+  _type:
+    type: string
+    enum:
+      - CustomAction
+  name:
+    type: string
+    description: The name of the custom action
+  description:
+    type: string
+    description: The description for the custom action
+  _links:
+    type: object
+    required:
+      - self
+      - executeImmediately
+    properties:
+      self:
+        allOf:
+          - $ref: "./link.yml"
+          - description: |-
+              This custom action
+
+              **Resource**: CustomAction
+      executeImmediately:
+        allOf:
+          - $ref: "./link.yml"
+          - description: |-
+              Execute this custom action.
+
+examples:
+  - _type: CustomAction
+    name: Change project and type
+    description: Changes project and type in one go
+    _links:
+      executeImmediately:
+        href: "/api/v3/custom_actions/2/execute"
+        title: Execute Change project and type
+        method: post
+      self:
+        href: "/api/v3/custom_actions/2"
+        title: Change project and type

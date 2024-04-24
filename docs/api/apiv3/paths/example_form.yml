@@ -1,0 +1,161 @@
+# /api/v3/example/form
+---
+post:
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  payload:
+                    _links:
+                      status:
+                        href: "/api/v3/statuses/1"
+                    _type: Example
+                    lockVersion: 5
+                    subject: An example title
+                  schema:
+                    _links:
+                      self:
+                        href: "/api/v3/example/schema"
+                    _type: Schema
+                    lockVersion:
+                      type: Integer
+                      writable: false
+                    status:
+                      _embedded:
+                        allowedValues:
+                        - _links:
+                            self:
+                              href: "/api/v3/statuses/1"
+                          _type: Status
+                          createdAt: '2014-05-21T08:51:20.396Z'
+                          defaultDoneRatio: 0
+                          id: 1
+                          isClosed: false
+                          isDefault: true
+                          name: New
+                          position: 1
+                          updatedAt: '2014-05-21T09:12:00.647Z'
+                        - _links:
+                            self:
+                              href: "/api/v3/statuses/2"
+                          _type: Status
+                          createdAt: '2014-05-21T08:51:20.396Z'
+                          defaultDoneRatio: 100
+                          id: 2
+                          isClosed: true
+                          isDefault: false
+                          name: Closed
+                          position: 2
+                          updatedAt: '2014-05-21T09:12:00.647Z'
+                      _links:
+                        allowedValues:
+                        - href: "/api/v3/statuses/1"
+                          title: New
+                        - href: "/api/v3/statuses/2"
+                          title: Closed
+                      type: Status
+                    subject:
+                      maxLength: 255
+                      minLength: 1
+                      type: String
+                  validationErrors:
+                    subject:
+                      _type: Error
+                      errorIdentifier: urn:openproject-org:api:v3:errors:BadExampleError
+                      message: For the purpose of this example we need a validation
+                        error. The remainder of the response pretends there were no
+                        errors.
+                _links:
+                  commit:
+                    href: "/api/v3/example"
+                    method: PATCH
+                  previewMarkup:
+                    href: "/api/v3/render/markdown"
+                    method: POST
+                  self:
+                    href: "/api/v3/example/form"
+                  validate:
+                    href: "/api/v3/example/form"
+                    method: POST
+                _type: Form
+          schema:
+            "$ref": "../components/schemas/example_form_model.yml"
+      description: OK
+      headers: {}
+    '400':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
+                message: The request body was neither empty, nor did it contain a
+                  single JSON object.
+      description: |-
+        Occurs when the client did not send a valid JSON object in the request body and the request body
+        was not empty.
+
+        Note that this error only occurs when the content is not at all a single JSON object.
+        It **does not occur** for requests containing undefined properties or invalid property values.
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not allowed to edit example resources.
+      description: Returned if the client does not have sufficient permissions to
+        modify the associated resource.
+      headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '409':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:UpdateConflict
+                message: The resource you are about to edit was changed in the meantime.
+      description: Returned if underlying resource was changed since the client requested
+        the form. This is determined using the `lockVersion` property.
+      headers: {}
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+  tags:
+  - Forms
+  description: This is an example of how a form might look like. Note that this endpoint
+    does not exist in the actual implementation.
+  operationId: show_or_validate_form
+  requestBody:
+    content:
+      application/json:
+        schema:
+          example:
+            _type: Example
+            lockVersion: 5
+            subject: An example title
+          properties:
+            _type:
+              type: string
+            lockVersion:
+              type: number
+            subject:
+              type: string
+          type: object
+  summary: show or validate form

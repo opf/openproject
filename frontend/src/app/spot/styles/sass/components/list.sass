@@ -1,0 +1,122 @@
+@use "sass:list"
+
+.spot-list
+  display: flex
+  flex-direction: column
+  list-style: none
+  margin: 0
+
+  &--item
+    display: flex
+    flex-direction: column
+
+    &-action
+      @include spot-body-small
+
+      color: $spot-color-basic-gray-1
+      display: flex
+      align-items: flex-start
+      justify-content: flex-start
+      padding: $spot-spacing-0_5 $spot-spacing-1
+      width: 100%
+      background-color: transparent
+      margin: 0
+      border: 1px solid transparent
+      cursor: pointer
+      scroll-margin-top: $spot-spacing-5
+
+      &:focus
+        @include spot-focus
+
+      &:hover
+        background-color: $spot-color-basic-gray-6
+        text-decoration: none
+        border-color: var(--list-item-hover--border-color)
+        color: var(--list-item-hover--color)
+
+      &_disabled
+        &,
+        &:hover
+          background-color: transparent
+          cursor: not-allowed
+          color: $spot-color-basic-gray-1
+
+      &_active#{&}_disabled
+        color: var(--color-fg-muted)
+        background-color: $spot-color-basic-gray-6
+
+      &_link:not(&_disabled)
+        color: var(--accent-color)
+
+    &-floating-wrapper
+      position: relative
+      display: flex
+
+      &:hover,
+      &:focus-within
+        background-color: $spot-color-basic-gray-6
+        text-decoration: none
+        border-color: var(--list-item-hover--border-color)
+
+      &_disabled
+        color: $spot-color-basic-gray-1
+
+        &:hover
+          background: none
+          cursor: not-allowed
+
+    &-floating-actions
+      opacity: 0
+      position: absolute
+      right: 0
+      height: 100%
+      padding: $spot-spacing-0_5 $spot-spacing-1
+      background: linear-gradient(90deg, rgba($spot-color-basic-gray-6, 0) 0%, $spot-color-basic-gray-6 1rem)
+
+      > .spot-link
+        &:not(:first-child)
+          margin-left: $spot-spacing-0_5
+
+    &-title
+      margin-right: auto
+      word-break: break-word
+      align-self: center
+
+      &:not(:first-child),
+      :not(:first-child)
+        margin-left: $spot-spacing-0_5
+
+      &_ellipse-text
+        text-overflow: ellipsis
+        white-space: nowrap
+        overflow: hidden
+        max-width: 100%
+        width: 100%
+
+    &-action_disabled &-title
+      opacity: 0.5
+
+    &-floating-wrapper:hover > &-floating-actions,
+    &-floating-actions:focus-within,
+    &-floating-actions:hover
+      opacity: 1
+
+  &_compact &--item
+    margin-top: $spot-spacing-0_25
+
+  &_compact &--item-action,
+  &_compact &--item-floating-actions
+    padding: $spot-spacing-0_25 $spot-spacing-1
+
+  &_active &--item-action_active
+    font-weight: var(--base-text-weight-bold)
+    background-color: $spot-color-basic-gray-6
+    text-decoration: none
+    border-color: var(--list-item-hover--border-color)
+
+$item-list: ""
+@for $i from 0 through 10
+  $item-list: list.append($item-list, ".spot-list--item")
+
+  #{$item-list} .spot-list--item-action
+    padding-left: $spot-spacing-1 + ($i * $spot-spacing-1)

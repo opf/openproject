@@ -1,0 +1,12 @@
+#English strings go here
+zh-CN:
+  plugin_openproject_calendar:
+    name: "OpenProject 日历"
+    description: "提供日历视图。"
+  label_calendar: "日历"
+  label_calendar_plural: "日历"
+  label_new_calendar: "新建日历"
+  permission_view_calendar: "查看日历"
+  permission_manage_calendars: "管理日历"
+  permission_share_calendars: "订阅 iCalendars"
+  project_module_calendar_view: "日历"

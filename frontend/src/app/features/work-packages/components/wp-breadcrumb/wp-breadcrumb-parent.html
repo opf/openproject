@@ -1,0 +1,39 @@
+<ng-container *ngIf="!active">
+  <a *ngIf="parent"
+    [attr.title]="parent.name"
+    uiSref="work-packages.show"
+    [uiParams]="{ workPackageId: parent.id }"
+    class="op-wp-breadcrumb-parent nocut"
+    data-test-selector="op-wp-breadcrumb-parent">
+    <span [textContent]="parent.name"></span>
+  </a>
+  <button
+      *ngIf="canModifyParent()"
+      type="button"
+      class="spot-link wp-relation--parent-change -no-decoration hide-when-print"
+      [title]="parent ? text.edit_parent : text.set_parent"
+      (click)="open()"
+  >
+    <span *ngIf="!parent" [textContent]="text.set_parent"></span>
+    <op-icon icon-classes="icon-small {{ parent ? 'icon-edit icon5 icon-no-color' : 'icon-add icon4' }}"></op-icon>
+  </button>
+  <button
+      *ngIf="canModifyParent() && parent"
+      type="button"
+      class="spot-link wp-relation--parent-remove hide-when-print -no-decoration"
+      [title]="text.remove_parent"
+      (click)="updateParent(null)"
+  >
+    <op-icon icon-classes="icon-small icon-no-color icon-remove icon4"></op-icon>
+  </button>
+</ng-container>
+
+<wp-relations-autocomplete
+  *ngIf="active"
+  [placeholder]="text.set_or_remove_parent"
+  [workPackage]="workPackage"
+  (cancel)="close()"
+  (change)="updateParent($event)"
+  data-test-selector="wp-relations-autocomplete"
+  filterCandidatesFor="parent">
+</wp-relations-autocomplete>
