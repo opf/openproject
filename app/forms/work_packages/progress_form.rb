@@ -173,6 +173,10 @@ class WorkPackages::ProgressForm < ApplicationForm
              action: "input->work-packages--progress--touched-field-marker#markFieldAsTouched" }
     if @focused_field == name
       data[:"work-packages--progress--focus-field-target"] = "fieldToFocus"
+      # Prevent changes being morphed into the input that is currently focused.
+      # After this initial rendering, the preview-progress.controller takes over in maintaining
+      # the attribute on the input currently focused.
+      data["turbo-permanent"] = true
     end
     { data: }
   end
