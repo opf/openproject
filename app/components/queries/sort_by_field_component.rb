@@ -30,7 +30,8 @@
 
 class Queries::SortByFieldComponent < ApplicationComponent
   options :order,
-          :available_orders
+          :available_orders,
+          :index
 
   def select_options
     options_for_select(
@@ -39,11 +40,19 @@ class Queries::SortByFieldComponent < ApplicationComponent
     )
   end
 
+  def display?
+    active? || index == 0
+  end
+
+  def active?
+    order.present? && available_orders.any? { |o| order.attribute.to_sym == o[:id] }
+  end
+
   def order_asc?
-    order&.direction == :asc
+    active? && order&.direction == :asc
   end
 
   def order_desc?
-    order&.direction == :desc
+    active? && order&.direction == :desc
   end
 end

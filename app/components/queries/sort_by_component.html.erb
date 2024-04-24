@@ -3,7 +3,7 @@
   <%= render(Primer::OpenProject::FlexLayout.new) do |layout| %>
     <% order_limit.times do |i| %>
       <% layout.with_row do %>
-        <%= render(Queries::SortByFieldComponent.new(order: query.orders[i], available_orders:)) %>
+        <%= render(Queries::SortByFieldComponent.new(order: query.orders[i], available_orders:, index: i)) %>
       <% end %>
     <% end %>
   <% end %>

@@ -33,12 +33,15 @@ import { Controller } from '@hotwired/stimulus';
 export default class SortByConfigController extends Controller {
   static targets = [
     'sortByField',
+    'inputRow'
   ];
 
   declare readonly sortByFieldTarget:HTMLInputElement;
+  declare readonly inputRowTargets:HTMLElement[];
 
   connect(): void {
     console.log("Hello, we are connected!")
     console.log(`Current value of the field: ${this.sortByFieldTarget.value}`)
+    console.log(this.inputRowTargets)
   }
 }
