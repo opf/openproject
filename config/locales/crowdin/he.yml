@@ -264,6 +264,7 @@ he:
     lists:
       active: "Active projects"
       my: "My projects"
+      favored: "Favored projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1293,6 +1294,7 @@ he:
   button_edit: "עריכה"
   button_edit_associated_wikipage: "ערוך את דף הויקי הקשור: %{page_title}"
   button_expand_all: "הרחב הכל"
+  button_favorite: "Mark as favorite"
   button_filter: "סינון"
   button_generate: "Generate"
   button_list: "רשימה"
@@ -1320,6 +1322,7 @@ he:
   button_unarchive: "הסר מהארכיון"
   button_uncheck_all: "נקה הכל"
   button_unlock: "בטל נעילה"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "הספק מעקב"
   button_update: "עדכון"
   button_upgrade: "Upgrade"

@@ -635,7 +635,7 @@ flowchart LR
 #### Purpose
 
 - Connect merge requests in GitLab with work packages in OpenProject.
-- Connect issues in GitLab with work packages in OpenPrject.
+- Connect issues in GitLab with work packages in OpenProject.
 - Show the status of merge requests in related work packages.
 
 #### Processed data

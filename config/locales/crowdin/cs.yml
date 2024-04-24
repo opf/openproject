@@ -264,6 +264,7 @@ cs:
     lists:
       active: "Aktivní projekty"
       my: "Moje projekty"
+      favored: "Favored projects"
       archived: "Archivované projekty"
       my_private: "soukromé seznamy  projektů"
       new:
@@ -1293,6 +1294,7 @@ cs:
   button_edit: "Upravit"
   button_edit_associated_wikipage: "Upravit přidruženou Wiki stránku: %{page_title}"
   button_expand_all: "Rozbalit vše"
+  button_favorite: "Mark as favorite"
   button_filter: "Filtr"
   button_generate: "Generovat"
   button_list: "Seznam"
@@ -1320,6 +1322,7 @@ cs:
   button_unarchive: "Obnovit z archivu"
   button_uncheck_all: "Odznačit vše"
   button_unlock: "Odemknout"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Přestat sledovat"
   button_update: "Aktualizovat"
   button_upgrade: "Upgradovat"

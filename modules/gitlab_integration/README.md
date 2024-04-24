@@ -139,7 +139,7 @@ A typical workflow on GitLab side would be:
 You will have to configure both **OpenProject** and **Gitlab** for the integration to work.
 
 In case of **Docker** installation, follow the official OpenProject documentation [here](https://www.openproject.org/docs/installation-and-operations/installation/docker/#openproject-plugins). If for some reason the installation with Docker described in the official documentation does not work for you, you can try building your own docker image:
-* Clone from the Openproject Repo: `git clone https://github.com/opf/openproject.git --branch=stable/13 --depth=1 .`
+* Clone from the Openproject Repo: `git clone https://github.com/opf/openproject.git --branch=stable/14 --depth=1 .`
 * Clone the plugin inside the modules folder: `git clone https://github.com/btey/openproject-gitlab-integration.git --depth=1 modules/gitlab_integration`
 * Apply the changes below in Gemfile.lock and Gemfile.modules (the same ones you would do in a manual install).
 * Build the container: `docker build -t openproject-docker --file=docker/prod/Dockerfile .`

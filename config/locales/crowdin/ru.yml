@@ -263,6 +263,7 @@ ru:
     lists:
       active: "Активные проекты"
       my: "Мои проекты"
+      favored: "Favored projects"
       archived: "Архивные проекты"
       my_private: "Списки моих личных проектов"
       new:
@@ -1292,6 +1293,7 @@ ru:
   button_edit: "Правка"
   button_edit_associated_wikipage: "Редактирование связанной wiki-страницы: %{page_title}"
   button_expand_all: "Развернуть все"
+  button_favorite: "Mark as favorite"
   button_filter: "Фильтр"
   button_generate: "Генерировать"
   button_list: "Список"
@@ -1319,6 +1321,7 @@ ru:
   button_unarchive: "Разархивировать"
   button_uncheck_all: "Снять все отметки"
   button_unlock: "Разблокировать"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Прекратить наблюдение"
   button_update: "Обновление"
   button_upgrade: "Обновить"

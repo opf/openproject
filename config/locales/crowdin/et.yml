@@ -264,6 +264,7 @@ et:
     lists:
       active: "Active projects"
       my: "My projects"
+      favored: "Favored projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1263,6 +1264,7 @@ et:
   button_edit: "Muuda"
   button_edit_associated_wikipage: "Muuda seotud vikilehte \"%{page_title}\""
   button_expand_all: "Laienda kõik"
+  button_favorite: "Mark as favorite"
   button_filter: "Filter"
   button_generate: "Genereeri"
   button_list: "Nimistu"
@@ -1290,6 +1292,7 @@ et:
   button_unarchive: "Paki arhiiv lahti"
   button_uncheck_all: "Tühjenda valik"
   button_unlock: "Aktiveeri"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Ära jälgi"
   button_update: "Uuenda"
   button_upgrade: "Uuenda"

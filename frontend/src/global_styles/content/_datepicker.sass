@@ -30,7 +30,7 @@ $datepicker--selected-border-radius: 5px
 
 @mixin disabled-day
   background: $spot-color-basic-white
-  color: var(--color-fg-muted)
+  color: var(--fgColor-muted)
   pointer-events: none
   cursor: not-allowed
 
@@ -39,7 +39,7 @@ $datepicker--selected-border-radius: 5px
 
 @mixin non-working-day
   background: $spot-color-basic-gray-6
-  color: var(--color-fg-muted)
+  color: var(--fgColor-muted)
   border-radius: 0
   pointer-events: none
 
@@ -141,7 +141,7 @@ $datepicker--selected-border-radius: 5px
         box-shadow: none !important
 
         &:hover
-          border-color: var(--color-fg-muted)
+          border-color: var(--fgColor-muted)
 
         &.flatpickr-non-working-day
           @include non-working-day
@@ -156,7 +156,7 @@ $datepicker--selected-border-radius: 5px
 
           &:hover
             color: $spot-color-basic-gray-1
-            border-color: var(--color-fg-muted)
+            border-color: var(--fgColor-muted)
 
         &.selected:not(.startRange, .endRange)
           border-radius: $datepicker--selected-border-radius
@@ -200,31 +200,31 @@ $datepicker--selected-border-radius: 5px
 
           &.flatpickr-non-working-day
             background: $spot-color-basic-gray-6
-            color: var(--color-fg-muted)
+            color: var(--fgColor-muted)
 
           &.flatpickr-non-working-day_enabled
             background: $spot-color-basic-gray-6
-            color: var(--color-fg-muted)
+            color: var(--fgColor-muted)
 
             &.inRange
-              color: var(--color-fg-muted)
+              color: var(--fgColor-muted)
               background: $spot-color-basic-gray-6
               border-color: $spot-color-basic-gray-6
 
           &.selected,
           &.startRange,
           &.endRange
-            background: var(--color-fg-muted)
-            border-color: var(--color-fg-muted)
+            background: var(--fgColor-muted)
+            border-color: var(--fgColor-muted)
             color: $spot-color-basic-gray-5
 
           &.inRange
             background: $spot-color-basic-gray-5
             border-color: $spot-color-basic-gray-5
-            color: var(--color-fg-muted)
+            color: var(--fgColor-muted)
 
           &.today
-            color: var(--color-fg-muted)
+            color: var(--fgColor-muted)
             background: $spot-color-indication-current-date
             border-color: $spot-color-indication-current-date
 
@@ -239,7 +239,7 @@ $datepicker--selected-border-radius: 5px
 
     &.flatpickr-non-working-day:not(.today,.selected)
       background: $spot-color-basic-gray-6 !important
-      color: var(--color-fg-muted) !important
+      color: var(--fgColor-muted) !important
 
     &.flatpickr-non-working-day_enabled:not(.today,.selected)
       background: $spot-color-basic-gray-6 !important

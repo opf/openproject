@@ -263,6 +263,7 @@ ms:
     lists:
       active: "Projek yang aktif"
       my: "Projek saya"
+      favored: "Favored projects"
       archived: "Projek yang diarkibkan"
       my_private: "Senarai projek peribadi saya"
       new:
@@ -1247,6 +1248,7 @@ ms:
   button_edit: "Sunting"
   button_edit_associated_wikipage: "Sunting halaman wiki berkaitan: %{page_title}"
   button_expand_all: "Kembangkan semua"
+  button_favorite: "Mark as favorite"
   button_filter: "Saring"
   button_generate: "Menjana"
   button_list: "Senarai"
@@ -1274,6 +1276,7 @@ ms:
   button_unarchive: "Nyaharkib"
   button_uncheck_all: "Batalkan semua pilihan"
   button_unlock: "Buka kunci"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Berhenti memerhati"
   button_update: "Kemas kini"
   button_upgrade: "Naik taraf"

@@ -272,7 +272,7 @@ RSpec.describe "Structured meetings CRUD",
 
     show_page.expect_agenda_item title: "My agenda item"
     new_meeting = StructuredMeeting.reorder(id: :asc).last
-    expect(page).to have_current_path "/meetings/#{new_meeting.id}"
+    expect(page).to have_current_path "/projects/#{project.identifier}/meetings/#{new_meeting.id}"
   end
 
   context "with a work package reference to another" do

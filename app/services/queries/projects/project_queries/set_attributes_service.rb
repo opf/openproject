@@ -92,6 +92,6 @@ class Queries::Projects::ProjectQueries::SetAttributesService < BaseServices::Se
   end
 
   def default_columns
-    (["name"] + Setting.enabled_projects_columns).uniq
+    (["favored", "name"] + Setting.enabled_projects_columns).uniq
   end
 end

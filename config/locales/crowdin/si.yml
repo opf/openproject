@@ -264,6 +264,7 @@ si:
     lists:
       active: "Active projects"
       my: "My projects"
+      favored: "Favored projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1263,6 +1264,7 @@ si:
   button_edit: "සංස්කරණය කරන්න"
   button_edit_associated_wikipage: "ආශ්රිත විකි පිටුව සංස්කරණය කරන්න: %{page_title}"
   button_expand_all: "සියල්ල පුළුල්"
+  button_favorite: "Mark as favorite"
   button_filter: "පෙරහන්"
   button_generate: "උත්පාදනය"
   button_list: "ලැයිස්තුව"
@@ -1290,6 +1292,7 @@ si:
   button_unarchive: "අක්රීය කරන්න"
   button_uncheck_all: "සියල්ල ඉවත් කරන්න"
   button_unlock: "අගුළු ඇරීමට"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "අසන්න"
   button_update: "යාවත්කාලීන"
   button_upgrade: "උත්ශ්රේණි කිරීම"

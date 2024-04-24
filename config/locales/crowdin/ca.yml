@@ -261,6 +261,7 @@ ca:
     lists:
       active: "Active projects"
       my: "My projects"
+      favored: "Favored projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1259,6 +1260,7 @@ ca:
   button_edit: "Editar"
   button_edit_associated_wikipage: "Editar pàgines Wiki associades: %{page_title}"
   button_expand_all: "Expandeix tot"
+  button_favorite: "Mark as favorite"
   button_filter: "Filtre"
   button_generate: "Generar"
   button_list: "Llista"
@@ -1286,6 +1288,7 @@ ca:
   button_unarchive: "Desarxivar"
   button_uncheck_all: "Desmarca-ho tot"
   button_unlock: "Desbloquejar"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Deixa de Seguir"
   button_update: "Actualitza"
   button_upgrade: "Actualitza"

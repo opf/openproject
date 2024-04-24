@@ -388,7 +388,7 @@ Versions in OpenProject are defined as an attribute for [work packages](#work-pa
 
 ### Widget
 
-A widget in OpenProject is defined as a small and customizable element that provides relevant information at a glance. Use widgets on your [My Page](#my-page) dashboard or on the [project overview](#project-overview). [See all available project overview widgets](../user-guide/project-overview/#available-project-overview-widgets) and read [how to add a widget to the project overview](../user-guide/project-overview/#add-a-widget-to-the-project-overview).
+A widget in OpenProject is defined as a small and customizable element that provides relevant information at a glance. Use widgets on your [My Page](#my-page) dashboard or on the [project overview](#project-overview). [See all available project overview widgets](../user-guide/project-overview/#available-project-overview-widgets) and read [how to add a widget to the project overview](../user-guide/project-overview/#widgets).
 
 ### Wiki
 

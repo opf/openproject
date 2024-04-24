@@ -99,7 +99,7 @@
     attachments:
       text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
-      title: "Kopier møtet %{title}"
+      title: "Copy meeting: %{title}"
       attachments: "Kopier vedlegg"
       attachments_text: "Kopier over alle vedlagte filer til det nye møtet"
       agenda: "Kopier saksliste"

@@ -167,12 +167,16 @@ Rails.application.routes.draw do
     resource :wiki_menu_item, only: %i[edit update]
   end
 
-  # generic route for adding/removing watchers.
-  # Models declared as acts_as_watchable will be automatically added to
-  # OpenProject::Acts::Watchable::Routes.watched
+  # generic route for adding/removing watchers
   scope ":object_type/:object_id", constraints: OpenProject::Acts::Watchable::Routes do
     post "/watch" => "watchers#watch"
     delete "/unwatch" => "watchers#unwatch"
+  end
+
+  # generic route for adding/removing favorites
+  scope ":object_type/:object_id", constraints: OpenProject::Acts::Favorable::Routes do
+    post "/favorite" => "favorites#favorite"
+    delete "/favorite" => "favorites#unfavorite"
   end
 
   namespace :projects do
@@ -523,7 +527,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resource :progress, only: %i[edit update], controller: "work_packages/progress"
+    resource :progress, only: %i[new edit update], controller: "work_packages/progress"
     collection do
       resource :progress,
                only: :create,

@@ -38,3 +38,4 @@ require_relative "../../lib_static/open_project/feature_decisions"
 #   initializer 'the_engine.feature_decisions' do
 #     OpenProject::FeatureDecisions.add :some_flag
 #   end
+OpenProject::FeatureDecisions.add :favorite_projects

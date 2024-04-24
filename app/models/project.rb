@@ -33,7 +33,6 @@ class Project < ApplicationRecord
   include Projects::Activity
   include Projects::Hierarchy
   include Projects::AncestorsFromRoot
-
   include ::Scopes::Scoped
 
   include Projects::ActsAsCustomizablePatches
@@ -89,6 +88,8 @@ class Project < ApplicationRecord
   has_many :notification_settings, dependent: :destroy
   has_many :project_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
   has_many :storages, through: :project_storages
+
+  acts_as_favorable
 
   acts_as_customizable # partially overridden via Projects::ActsAsCustomizablePatches in order to support sections and
   # project-leval activation of custom fields

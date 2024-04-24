@@ -264,6 +264,7 @@ ro:
     lists:
       active: "Active projects"
       my: "My projects"
+      favored: "Favored projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1278,6 +1279,7 @@ ro:
   button_edit: "Editare"
   button_edit_associated_wikipage: "Editare pagină wiki asociată: %{page_title}"
   button_expand_all: "Extindere totală"
+  button_favorite: "Mark as favorite"
   button_filter: "Filtrare"
   button_generate: "Generare"
   button_list: "Listă"
@@ -1305,6 +1307,7 @@ ro:
   button_unarchive: "Dezarhivare"
   button_uncheck_all: "Deselecteaza tot"
   button_unlock: "Deblocare"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Stop monitorizare"
   button_update: "Actualizare"
   button_upgrade: "Actualizare"

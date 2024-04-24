@@ -42,13 +42,17 @@ module Menus
     private
 
     def static_filters
+      favored_item = query_menu_item(::Queries::Projects::Factory.static_query_favored,
+                                     id: ::Queries::Projects::Factory::STATIC_FAVORED)
+
       [
         query_menu_item(::Queries::Projects::Factory.static_query_active, selected: no_query_props?),
         query_menu_item(::Queries::Projects::Factory.static_query_my,
                         id: ::Queries::Projects::Factory::STATIC_MY),
+        OpenProject::FeatureDecisions.favorite_projects_active? ? favored_item : nil,
         query_menu_item(::Queries::Projects::Factory.static_query_archived,
                         id: ::Queries::Projects::Factory::STATIC_ARCHIVED)
-      ]
+      ].compact
     end
 
     def static_status_filters
