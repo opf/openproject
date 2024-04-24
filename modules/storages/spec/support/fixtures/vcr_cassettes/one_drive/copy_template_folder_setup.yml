@@ -4,19 +4,19 @@ http_interactions:
     method: post
     uri: https://login.microsoftonline.com/4d44bf36-9b56-45c0-8807-bbf386dd047f/oauth2/v2.0/token
     body:
-      encoding: UTF-8
-      string: grant_type=client_credentials&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default
+      encoding: ASCII-8BIT
+      string: grant_type=client_credentials&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default+offline_access&client_id=4262df2b-77bb-49c2-a5df-28355da676d2&client_secret=Vwk8Q%7EJTuPh.pAjvPiWBQBdTFMDK%7EAIwxbj9_axB
     headers:
       User-Agent:
-      - Rack::OAuth2 (2.2.1)
-      Authorization:
-      - Basic <BASIC_AUTH>
-      Content-Type:
-      - application/x-www-form-urlencoded
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      - httpx.rb/1.2.4
       Accept:
       - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Content-Length:
+      - '201'
   response:
     status:
       code: 200
@@ -37,43 +37,47 @@ http_interactions:
       P3p:
       - CP="DSP CUR OTPi IND OTRi ONL FIN"
       X-Ms-Request-Id:
-      - 2ca5db6d-97d5-4df5-95e7-e399344e1000
+      - 49fea6e6-03f9-457c-932c-6f111bcf7900
       X-Ms-Ests-Server:
-      - 2.1.17282.6 - FRC ProdSlices
+      - 2.1.17846.6 - NEULR1 ProdSlices
+      X-Ms-Srs:
+      - 1.P
       X-Xss-Protection:
       - '0'
       Set-Cookie:
-      - fpc=AkiA71EV7VdLgvAjknEEJhmkbDoXAQAAAA4KX90OAAAA; expires=Fri, 15-Mar-2024
-        19:22:54 GMT; path=/; secure; HttpOnly; SameSite=None
-      - stsservicecookie=estsfd; path=/; secure; samesite=none; httponly
-      - x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly
+      - fpc=Ag_GW70JUf9Mg_1SKDNR7N6kbDoXAQAAADzxut0OAAAA; expires=Fri, 24-May-2024
+        12:25:32 GMT; path=/; secure; HttpOnly; SameSite=None, x-ms-gateway-slice=estsfd;
+        path=/; secure; samesite=none; httponly, stsservicecookie=estsfd; path=/;
+        secure; samesite=none; httponly
       Date:
-      - Wed, 14 Feb 2024 19:22:53 GMT
+      - Wed, 24 Apr 2024 12:25:32 GMT
+      Connection:
+      - close
       Content-Length:
-      - '1708'
+      - '1735'
     body:
       encoding: UTF-8
       string: '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"<ACCESS_TOKEN>"}'
-  recorded_at: Wed, 14 Feb 2024 19:22:54 GMT
+  recorded_at: Wed, 24 Apr 2024 12:25:32 GMT
 - request:
     method: post
-    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/01AZJL5PNRT4JHUBDHNJF2HOFKENALDGCZ/children
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/01AZJL5PK7O3S74VUDBZDID3ZBVXWMQVYS/children
     body:
       encoding: UTF-8
       string: '{"name":"Empty Subfolder","folder":{},"@microsoft.graph.conflictBehavior":"fail"}'
     headers:
-      Authorization:
-      - Bearer <BEARER TOKEN>
-      Accept:
-      - application/json
       Content-Type:
       - application/json
       User-Agent:
-      - httpx.rb/1.2.2
+      - httpx.rb/1.2.4
+      Accept:
+      - "*/*"
       Accept-Encoding:
       - gzip, deflate
       Content-Length:
       - '81'
+      Authorization:
+      - Bearer <BEARER TOKEN>
   response:
     status:
       code: 201
@@ -81,54 +85,52 @@ http_interactions:
     headers:
       Cache-Control:
       - no-store, no-cache
-      Transfer-Encoding:
-      - chunked
       Content-Type:
       - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
       Content-Encoding:
       - gzip
       Etag:
-      - '"{CE9B104B-61BE-474C-AD2E-497902867219},1"'
+      - '"{455B5C32-A03E-4ACA-9BB3-50019F255AFF},1"'
       Location:
-      - https://finn.sharepoint.com/_api/v2.0/drives('b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs')/items('01AZJL5PNRT4JHUBDHNJF2HOFKENALDGCZ')/children('01AZJL5PKLCCN45PTBJRD22LSJPEBIM4QZ')
+      - https://finn.sharepoint.com/_api/v2.0/drives('b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs')/items('01AZJL5PK7O3S74VUDBZDID3ZBVXWMQVYS')/children('01AZJL5PJSLRNUKPVAZJFJXM2QAGPSKWX7')
       Vary:
       - Accept-Encoding
       Strict-Transport-Security:
       - max-age=31536000
       Request-Id:
-      - 7aadf85b-1af3-4528-b477-3645010f8687
+      - 9d5870c0-0ad2-4e36-ae2d-98d684db4758
       Client-Request-Id:
-      - 7aadf85b-1af3-4528-b477-3645010f8687
+      - 9d5870c0-0ad2-4e36-ae2d-98d684db4758
       X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000003FE"}}'
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"000","RoleInstance":"FR1PEPF00001084"}}'
       Odata-Version:
       - '4.0'
       Date:
-      - Wed, 14 Feb 2024 19:22:54 GMT
+      - Wed, 24 Apr 2024 12:25:32 GMT
     body:
       encoding: UTF-8
-      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs'')/items(''01AZJL5PNRT4JHUBDHNJF2HOFKENALDGCZ'')/children/$entity","@odata.etag":"\"{CE9B104B-61BE-474C-AD2E-497902867219},1\"","createdDateTime":"2024-02-14T19:22:55Z","eTag":"\"{CE9B104B-61BE-474C-AD2E-497902867219},1\"","id":"01AZJL5PKLCCN45PTBJRD22LSJPEBIM4QZ","lastModifiedDateTime":"2024-02-14T19:22:55Z","name":"Empty
-        Subfolder","size":0,"webUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/VCR/Test%20Template%20Folder/Empty%20Subfolder","cTag":"\"c:{CE9B104B-61BE-474C-AD2E-497902867219},0\"","commentSettings":{"commentingDisabled":{"isDisabled":false}},"createdBy":{"application":{"displayName":"OpenProject
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs'')/items(''01AZJL5PK7O3S74VUDBZDID3ZBVXWMQVYS'')/children/$entity","@odata.etag":"\"{455B5C32-A03E-4ACA-9BB3-50019F255AFF},1\"","createdDateTime":"2024-04-24T12:25:33Z","eTag":"\"{455B5C32-A03E-4ACA-9BB3-50019F255AFF},1\"","id":"01AZJL5PJSLRNUKPVAZJFJXM2QAGPSKWX7","lastModifiedDateTime":"2024-04-24T12:25:33Z","name":"Empty
+        Subfolder","size":0,"webUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/VCR/Test%20Template%20Folder/Empty%20Subfolder","cTag":"\"c:{455B5C32-A03E-4ACA-9BB3-50019F255AFF},0\"","commentSettings":{"commentingDisabled":{"isDisabled":false}},"createdBy":{"application":{"displayName":"OpenProject
         Dev App","id":"4262df2b-77bb-49c2-a5df-28355da676d2"},"user":{"displayName":"SharePoint
         App"}},"lastModifiedBy":{"application":{"displayName":"OpenProject Dev App","id":"4262df2b-77bb-49c2-a5df-28355da676d2"},"user":{"displayName":"SharePoint
-        App"}},"parentReference":{"driveId":"b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs","driveType":"documentLibrary","id":"01AZJL5PNRT4JHUBDHNJF2HOFKENALDGCZ","path":"/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root:/Test
-        Template Folder","sharepointIds":{"listId":"f3baf95b-362b-4740-80d8-4f593d28f5ec","listItemUniqueId":"7a129fb1-6704-4b6a-a3b8-aa2340b19859","siteId":"1b4b6576-906d-4d94-8f49-6d00a9507b50","siteUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests","tenantId":"4d44bf36-9b56-45c0-8807-bbf386dd047f","webId":"7ef259e8-8eed-4645-920a-8b367bb0d8e0"}},"fileSystemInfo":{"createdDateTime":"2024-02-14T19:22:55Z","lastModifiedDateTime":"2024-02-14T19:22:55Z"},"folder":{"childCount":0}}'
-  recorded_at: Wed, 14 Feb 2024 19:22:54 GMT
+        App"}},"parentReference":{"driveId":"b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs","driveType":"documentLibrary","id":"01AZJL5PK7O3S74VUDBZDID3ZBVXWMQVYS","path":"/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root:/Test
+        Template Folder","sharepointIds":{"listId":"f3baf95b-362b-4740-80d8-4f593d28f5ec","listItemUniqueId":"fee5765f-8356-460e-81ef-21adecc85712","siteId":"1b4b6576-906d-4d94-8f49-6d00a9507b50","siteUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests","tenantId":"4d44bf36-9b56-45c0-8807-bbf386dd047f","webId":"7ef259e8-8eed-4645-920a-8b367bb0d8e0"}},"fileSystemInfo":{"createdDateTime":"2024-04-24T12:25:33Z","lastModifiedDateTime":"2024-04-24T12:25:33Z"},"folder":{"childCount":0},"shared":{"scope":"unknown"}}'
+  recorded_at: Wed, 24 Apr 2024 12:25:33 GMT
 - request:
     method: post
-    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/01AZJL5PNRT4JHUBDHNJF2HOFKENALDGCZ/children
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/01AZJL5PK7O3S74VUDBZDID3ZBVXWMQVYS/children
     body:
       encoding: UTF-8
       string: '{"name":"Subfolder with File","folder":{},"@microsoft.graph.conflictBehavior":"fail"}'
     headers:
-      Authorization:
-      - Bearer <BEARER TOKEN>
-      Accept:
-      - application/json
       Content-Type:
       - application/json
+      Authorization:
+      - Bearer <BEARER TOKEN>
       User-Agent:
-      - httpx.rb/1.2.2
+      - httpx.rb/1.2.4
+      Accept:
+      - "*/*"
       Accept-Encoding:
       - gzip, deflate
       Content-Length:
@@ -140,42 +142,40 @@ http_interactions:
     headers:
       Cache-Control:
       - no-store, no-cache
-      Transfer-Encoding:
-      - chunked
       Content-Type:
       - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
       Content-Encoding:
       - gzip
       Etag:
-      - '"{F64C5C41-C6CF-4A02-8059-5AB340B2D3EA},1"'
+      - '"{A28DA413-3770-4D7B-B636-5BD747894EFF},1"'
       Location:
-      - https://finn.sharepoint.com/_api/v2.0/drives('b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs')/items('01AZJL5PNRT4JHUBDHNJF2HOFKENALDGCZ')/children('01AZJL5PKBLRGPNT6GAJFIAWK2WNALFU7K')
+      - https://finn.sharepoint.com/_api/v2.0/drives('b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs')/items('01AZJL5PK7O3S74VUDBZDID3ZBVXWMQVYS')/children('01AZJL5PITUSG2E4BXPNG3MNS325DYSTX7')
       Vary:
       - Accept-Encoding
       Strict-Transport-Security:
       - max-age=31536000
       Request-Id:
-      - a83cf708-3e14-4d02-8aee-2bf732a77a1d
+      - 7e9cc2cd-279e-414c-9000-e2dd992d86b4
       Client-Request-Id:
-      - a83cf708-3e14-4d02-8aee-2bf732a77a1d
+      - 7e9cc2cd-279e-414c-9000-e2dd992d86b4
       X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000001DE"}}'
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"000","RoleInstance":"FR1PEPF00000C2E"}}'
       Odata-Version:
       - '4.0'
       Date:
-      - Wed, 14 Feb 2024 19:22:55 GMT
+      - Wed, 24 Apr 2024 12:25:33 GMT
     body:
       encoding: UTF-8
-      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs'')/items(''01AZJL5PNRT4JHUBDHNJF2HOFKENALDGCZ'')/children/$entity","@odata.etag":"\"{F64C5C41-C6CF-4A02-8059-5AB340B2D3EA},1\"","createdDateTime":"2024-02-14T19:22:55Z","eTag":"\"{F64C5C41-C6CF-4A02-8059-5AB340B2D3EA},1\"","id":"01AZJL5PKBLRGPNT6GAJFIAWK2WNALFU7K","lastModifiedDateTime":"2024-02-14T19:22:55Z","name":"Subfolder
-        with File","size":0,"webUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/VCR/Test%20Template%20Folder/Subfolder%20with%20File","cTag":"\"c:{F64C5C41-C6CF-4A02-8059-5AB340B2D3EA},0\"","commentSettings":{"commentingDisabled":{"isDisabled":false}},"createdBy":{"application":{"displayName":"OpenProject
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs'')/items(''01AZJL5PK7O3S74VUDBZDID3ZBVXWMQVYS'')/children/$entity","@odata.etag":"\"{A28DA413-3770-4D7B-B636-5BD747894EFF},1\"","createdDateTime":"2024-04-24T12:25:33Z","eTag":"\"{A28DA413-3770-4D7B-B636-5BD747894EFF},1\"","id":"01AZJL5PITUSG2E4BXPNG3MNS325DYSTX7","lastModifiedDateTime":"2024-04-24T12:25:33Z","name":"Subfolder
+        with File","size":0,"webUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/VCR/Test%20Template%20Folder/Subfolder%20with%20File","cTag":"\"c:{A28DA413-3770-4D7B-B636-5BD747894EFF},0\"","commentSettings":{"commentingDisabled":{"isDisabled":false}},"createdBy":{"application":{"displayName":"OpenProject
         Dev App","id":"4262df2b-77bb-49c2-a5df-28355da676d2"},"user":{"displayName":"SharePoint
         App"}},"lastModifiedBy":{"application":{"displayName":"OpenProject Dev App","id":"4262df2b-77bb-49c2-a5df-28355da676d2"},"user":{"displayName":"SharePoint
-        App"}},"parentReference":{"driveId":"b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs","driveType":"documentLibrary","id":"01AZJL5PNRT4JHUBDHNJF2HOFKENALDGCZ","path":"/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root:/Test
-        Template Folder","sharepointIds":{"listId":"f3baf95b-362b-4740-80d8-4f593d28f5ec","listItemUniqueId":"7a129fb1-6704-4b6a-a3b8-aa2340b19859","siteId":"1b4b6576-906d-4d94-8f49-6d00a9507b50","siteUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests","tenantId":"4d44bf36-9b56-45c0-8807-bbf386dd047f","webId":"7ef259e8-8eed-4645-920a-8b367bb0d8e0"}},"fileSystemInfo":{"createdDateTime":"2024-02-14T19:22:55Z","lastModifiedDateTime":"2024-02-14T19:22:55Z"},"folder":{"childCount":0}}'
-  recorded_at: Wed, 14 Feb 2024 19:22:55 GMT
+        App"}},"parentReference":{"driveId":"b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs","driveType":"documentLibrary","id":"01AZJL5PK7O3S74VUDBZDID3ZBVXWMQVYS","path":"/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root:/Test
+        Template Folder","sharepointIds":{"listId":"f3baf95b-362b-4740-80d8-4f593d28f5ec","listItemUniqueId":"fee5765f-8356-460e-81ef-21adecc85712","siteId":"1b4b6576-906d-4d94-8f49-6d00a9507b50","siteUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests","tenantId":"4d44bf36-9b56-45c0-8807-bbf386dd047f","webId":"7ef259e8-8eed-4645-920a-8b367bb0d8e0"}},"fileSystemInfo":{"createdDateTime":"2024-04-24T12:25:33Z","lastModifiedDateTime":"2024-04-24T12:25:33Z"},"folder":{"childCount":0},"shared":{"scope":"unknown"}}'
+  recorded_at: Wed, 24 Apr 2024 12:25:33 GMT
 - request:
     method: post
-    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/01AZJL5PKBLRGPNT6GAJFIAWK2WNALFU7K:/files_query_root.yml:/createUploadSession
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/01AZJL5PITUSG2E4BXPNG3MNS325DYSTX7:/files_query_root.yml:/createUploadSession
     body:
       encoding: UTF-8
       string: '{"item":{"@microsoft.graph.conflictBehavior":"rename","name":"files_query_root.yml"}}'
@@ -185,7 +185,7 @@ http_interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - httpx.rb/1.2.2
+      - httpx.rb/1.2.4
       Accept:
       - "*/*"
       Accept-Encoding:
@@ -199,8 +199,6 @@ http_interactions:
     headers:
       Cache-Control:
       - no-store, no-cache
-      Transfer-Encoding:
-      - chunked
       Content-Type:
       - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
       Content-Encoding:
@@ -212,22 +210,22 @@ http_interactions:
       Strict-Transport-Security:
       - max-age=31536000
       Request-Id:
-      - 3182112b-b079-4ce1-9f0b-f0f8499d8b25
+      - 9cefbeff-8b45-4bb2-8c9a-7f21b23f1641
       Client-Request-Id:
-      - 3182112b-b079-4ce1-9f0b-f0f8499d8b25
+      - 9cefbeff-8b45-4bb2-8c9a-7f21b23f1641
       X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000001E5"}}'
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"000","RoleInstance":"FR1PEPF000007A1"}}'
       Odata-Version:
       - '4.0'
       Date:
-      - Wed, 14 Feb 2024 19:22:55 GMT
+      - Wed, 24 Apr 2024 12:25:34 GMT
     body:
       encoding: UTF-8
-      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#microsoft.graph.uploadSession","expirationDateTime":"2024-02-14T19:37:55.435Z","nextExpectedRanges":["0-"],"uploadUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/_api/v2.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/01AZJL5PLGXVQE6VOQMVHLQ4X6J7A5CA44/uploadSession?guid=''5408c609-cf9e-4d31-9e3f-77b6706995d9''&overwrite=False&rename=True&dc=0&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvZmlubi5zaGFyZXBvaW50LmNvbUA0ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YiLCJpc3MiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAiLCJuYmYiOiIxNzA3OTM4NTc1IiwiZXhwIjoiMTcwODAyNDk3NSIsImVuZHBvaW50dXJsIjoiNnp3akU1Tzh6anBtVEpUYzJsWG5jTGE3U0w0T25qdzdJYjQ0bUFzVVZUVT0iLCJlbmRwb2ludHVybExlbmd0aCI6IjI3NyIsImlzbG9vcGJhY2siOiJUcnVlIiwiY2lkIjoiS3hHQ01YbXc0VXlmQy9ENFNaMkxKUT09IiwidmVyIjoiaGFzaGVkcHJvb2Z0b2tlbiIsInNpdGVpZCI6Ik1XSTBZalkxTnpZdE9UQTJaQzAwWkRrMExUaG1ORGt0Tm1Rd01HRTVOVEEzWWpVdyIsImFwcF9kaXNwbGF5bmFtZSI6Ik9wZW5Qcm9qZWN0IERldiBBcHAiLCJnaXZlbl9uYW1lIjoiTWFyY2VsbG8iLCJmYW1pbHlfbmFtZSI6IlJvY2hhIiwic2lnbmluX3N0YXRlIjoiW1wia21zaVwiXSIsImFwcGlkIjoiNDI2MmRmMmItNzdiYi00OWMyLWE1ZGYtMjgzNTVkYTY3NmQyIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXBuIjoibXJvY2hhLm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20iLCJwdWlkIjoiMTAwMzIwMDJFRDE5QkE1MCIsImNhY2hla2V5IjoiMGguZnxtZW1iZXJzaGlwfDEwMDMyMDAyZWQxOWJhNTBAbGl2ZS5jb20iLCJzY3AiOiJhbGxmaWxlcy53cml0ZSBhbGxzaXRlcy5yZWFkIGFsbHNpdGVzLndyaXRlIGFsbHByb2ZpbGVzLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTkwLjEwMCJ9.7ihoc39-_4ldgPOikQ7-gEcAeCVOEtXvH-MObPOwqUY"}'
-  recorded_at: Wed, 14 Feb 2024 19:22:55 GMT
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#microsoft.graph.uploadSession","expirationDateTime":"2024-04-24T12:40:34.384Z","nextExpectedRanges":["0-"],"uploadUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/_api/v2.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/01AZJL5PKEWXDLTI6AFBC3V6T5CEAPMHMR/uploadSession?guid=''a042763d-fba1-4f11-943a-513f487ef91f''&overwrite=False&rename=True&dc=0&tempauth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvZmlubi5zaGFyZXBvaW50LmNvbUA0ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzMjAwMmVkMmNhMDBlQGxpdmUuY29tIiwiY2lkIjoiLzc3dm5FV0xza3VNbW44aHNqOFdRUT09IiwiZW5kcG9pbnR1cmwiOiJGcmNXVWtmTXpWQlhaL1FnUnY0UnJBTlA1SmZoMFNuWTl2MUR2U2sralJBPSIsImVuZHBvaW50dXJsTGVuZ3RoIjoiMjc3IiwiZXhwIjoiMTcxNDA0NzkzNCIsImZhbWlseV9uYW1lIjoiU2NodWJlcnQiLCJnaXZlbl9uYW1lIjoiRXJpYyIsImlwYWRkciI6IjIwLjE5MC4xOTAuMTAxIiwiaXNsb29wYmFjayI6IlRydWUiLCJpc3MiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAiLCJuYmYiOiIxNzEzOTYxNTM0IiwicHVpZCI6IjEwMDMyMDAyRUQyQ0EwMEUiLCJzY3AiOiJhbGxmaWxlcy53cml0ZSBhbGxzaXRlcy5yZWFkIGFsbHNpdGVzLndyaXRlIGFsbHByb2ZpbGVzLnJlYWQiLCJzaXRlaWQiOiJNV0kwWWpZMU56WXRPVEEyWkMwMFpEazBMVGhtTkRrdE5tUXdNR0U1TlRBM1lqVXciLCJ0aWQiOiI0ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YiLCJ0dCI6IjIiLCJ1cG4iOiJlc2NodWJlcnQub3Bfb3V0bG9vay5jb20jZXh0I0BmaW5uLm9ubWljcm9zb2Z0LmNvbSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4ifQ.NGbmOHI6aWlPQyM7lvdn4hhCLyAQuA3Apb2TymvU5VM"}'
+  recorded_at: Wed, 24 Apr 2024 12:25:34 GMT
 - request:
     method: put
-    uri: https://finn.sharepoint.com/sites/openprojectfilestoragetests/_api/v2.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/01AZJL5PLGXVQE6VOQMVHLQ4X6J7A5CA44/uploadSession?dc=0&guid=%275408c609-cf9e-4d31-9e3f-77b6706995d9%27&overwrite=False&rename=True&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvZmlubi5zaGFyZXBvaW50LmNvbUA0ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YiLCJpc3MiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAiLCJuYmYiOiIxNzA3OTM4NTc1IiwiZXhwIjoiMTcwODAyNDk3NSIsImVuZHBvaW50dXJsIjoiNnp3akU1Tzh6anBtVEpUYzJsWG5jTGE3U0w0T25qdzdJYjQ0bUFzVVZUVT0iLCJlbmRwb2ludHVybExlbmd0aCI6IjI3NyIsImlzbG9vcGJhY2siOiJUcnVlIiwiY2lkIjoiS3hHQ01YbXc0VXlmQy9ENFNaMkxKUT09IiwidmVyIjoiaGFzaGVkcHJvb2Z0b2tlbiIsInNpdGVpZCI6Ik1XSTBZalkxTnpZdE9UQTJaQzAwWkRrMExUaG1ORGt0Tm1Rd01HRTVOVEEzWWpVdyIsImFwcF9kaXNwbGF5bmFtZSI6Ik9wZW5Qcm9qZWN0IERldiBBcHAiLCJnaXZlbl9uYW1lIjoiTWFyY2VsbG8iLCJmYW1pbHlfbmFtZSI6IlJvY2hhIiwic2lnbmluX3N0YXRlIjoiW1wia21zaVwiXSIsImFwcGlkIjoiNDI2MmRmMmItNzdiYi00OWMyLWE1ZGYtMjgzNTVkYTY3NmQyIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXBuIjoibXJvY2hhLm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20iLCJwdWlkIjoiMTAwMzIwMDJFRDE5QkE1MCIsImNhY2hla2V5IjoiMGguZnxtZW1iZXJzaGlwfDEwMDMyMDAyZWQxOWJhNTBAbGl2ZS5jb20iLCJzY3AiOiJhbGxmaWxlcy53cml0ZSBhbGxzaXRlcy5yZWFkIGFsbHNpdGVzLndyaXRlIGFsbHByb2ZpbGVzLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMC4xOTAuMTkwLjEwMCJ9.7ihoc39-_4ldgPOikQ7-gEcAeCVOEtXvH-MObPOwqUY
+    uri: https://finn.sharepoint.com/sites/openprojectfilestoragetests/_api/v2.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/01AZJL5PKEWXDLTI6AFBC3V6T5CEAPMHMR/uploadSession?dc=0&guid=%27a042763d-fba1-4f11-943a-513f487ef91f%27&overwrite=False&rename=True&tempauth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvZmlubi5zaGFyZXBvaW50LmNvbUA0ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzMjAwMmVkMmNhMDBlQGxpdmUuY29tIiwiY2lkIjoiLzc3dm5FV0xza3VNbW44aHNqOFdRUT09IiwiZW5kcG9pbnR1cmwiOiJGcmNXVWtmTXpWQlhaL1FnUnY0UnJBTlA1SmZoMFNuWTl2MUR2U2sralJBPSIsImVuZHBvaW50dXJsTGVuZ3RoIjoiMjc3IiwiZXhwIjoiMTcxNDA0NzkzNCIsImZhbWlseV9uYW1lIjoiU2NodWJlcnQiLCJnaXZlbl9uYW1lIjoiRXJpYyIsImlwYWRkciI6IjIwLjE5MC4xOTAuMTAxIiwiaXNsb29wYmFjayI6IlRydWUiLCJpc3MiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAiLCJuYmYiOiIxNzEzOTYxNTM0IiwicHVpZCI6IjEwMDMyMDAyRUQyQ0EwMEUiLCJzY3AiOiJhbGxmaWxlcy53cml0ZSBhbGxzaXRlcy5yZWFkIGFsbHNpdGVzLndyaXRlIGFsbHByb2ZpbGVzLnJlYWQiLCJzaXRlaWQiOiJNV0kwWWpZMU56WXRPVEEyWkMwMFpEazBMVGhtTkRrdE5tUXdNR0U1TlRBM1lqVXciLCJ0aWQiOiI0ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YiLCJ0dCI6IjIiLCJ1cG4iOiJlc2NodWJlcnQub3Bfb3V0bG9vay5jb20jZXh0I0BmaW5uLm9ubWljcm9zb2Z0LmNvbSIsInZlciI6Imhhc2hlZHByb29mdG9rZW4ifQ.NGbmOHI6aWlPQyM7lvdn4hhCLyAQuA3Apb2TymvU5VM
     body:
       encoding: ASCII-8BIT
       string: |
@@ -289,7 +287,7 @@ http_interactions:
       Content-Range:
       - bytes 0-4378/4379
       User-Agent:
-      - httpx.rb/1.2.2
+      - httpx.rb/1.2.4
       Accept:
       - "*/*"
       Accept-Encoding:
@@ -309,21 +307,20 @@ http_interactions:
       - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
       Expires:
       - "-1"
-      P3p:
-      - CP="ALL IND DSP COR ADM CONo CUR CUSo IVAo IVDo PSA PSD TAI TELo OUR SAMo
-        CNT COM INT NAV ONL PHY PRE PUR UNI"
+      Server:
+      - Microsoft-IIS/10.0
       X-Networkstatistics:
-      - 0,525568,0,0,287522,0,95211
+      - '0,64256,0,0,272,0,24164'
       X-Sharepointhealthscore:
-      - '1'
+      - '3'
       X-Sp-Serverstate:
       - ReadOnly=0
       Odata-Version:
       - '4.0'
       Spclientservicerequestduration:
-      - '332'
+      - '542'
       Sprequestduration:
-      - '333'
+      - '542'
       X-Aspnet-Version:
       - 4.0.30319
       X-Databoundary:
@@ -333,11 +330,11 @@ http_interactions:
       X-Ariacollectorurl:
       - https://eu-mobile.events.data.microsoft.com/Collector/3.0
       Sprequestguid:
-      - f4b30ba1-d0e1-8000-47a7-737a4022e505
+      - e52322a1-30e4-8000-b360-ca98f762c9b1
       Request-Id:
-      - f4b30ba1-d0e1-8000-47a7-737a4022e505
+      - e52322a1-30e4-8000-b360-ca98f762c9b1
       Ms-Cv:
-      - oQuz9OHQAIBHp3N6QCLlBQ.0
+      - oSIj5eQwAICzYMqY92LJsQ.0
       Strict-Transport-Security:
       - max-age=31536000
       X-Frame-Options:
@@ -351,25 +348,25 @@ http_interactions:
       X-Powered-By:
       - ASP.NET
       Microsoftsharepointteamservices:
-      - 16.0.0.24531
+      - 16.0.0.24810
       X-Content-Type-Options:
       - nosniff
       X-Ms-Invokeapp:
       - 1; RequireReadOnly
-      X-Cache:
-      - CONFIG_NOCACHE
-      X-Msedge-Ref:
-      - 'Ref A: 80922DFC2693439A90EFF361EF364682 Ref B: BER30EDGE0809 Ref C: 2024-02-14T19:22:55Z'
+      P3p:
+      - CP="ALL IND DSP COR ADM CONo CUR CUSo IVAo IVDo PSA PSD TAI TELo OUR SAMo
+        CNT COM INT NAV ONL PHY PRE PUR UNI"
       Date:
-      - Wed, 14 Feb 2024 19:22:56 GMT
+      - Wed, 24 Apr 2024 12:25:34 GMT
     body:
       encoding: UTF-8
-      string: '{"@odata.context":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/_api/v2.0/$metadata#items/$entity","@content.downloadUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/_layouts/15/download.aspx?UniqueId=4f60bd66-d055-4e65-b872-fe4fc1d1039c&Translate=false&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvZmlubi5zaGFyZXBvaW50LmNvbUA0ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YiLCJpc3MiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAiLCJuYmYiOiIxNzA3OTM4NTc2IiwiZXhwIjoiMTcwNzk0MjE3NiIsImVuZHBvaW50dXJsIjoiVVNjUVduekEzelpsQ2xVRDFmRWtaMVhDLzh5R2sxZ2Yzc0YvSHg1SnhCOD0iLCJlbmRwb2ludHVybExlbmd0aCI6IjE0OSIsImlzbG9vcGJhY2siOiJUcnVlIiwiY2lkIjoib1F1ejlPSFFBSUJIcDNONlFDTGxCUT09IiwidmVyIjoiaGFzaGVkcHJvb2Z0b2tlbiIsInNpdGVpZCI6Ik1XSTBZalkxTnpZdE9UQTJaQzAwWkRrMExUaG1ORGt0Tm1Rd01HRTVOVEEzWWpVdyIsImFwcF9kaXNwbGF5bmFtZSI6Ik9wZW5Qcm9qZWN0IERldiBBcHAiLCJnaXZlbl9uYW1lIjoiTWFyY2VsbG8iLCJmYW1pbHlfbmFtZSI6IlJvY2hhIiwic2lnbmluX3N0YXRlIjoiW1wia21zaVwiXSIsImFwcGlkIjoiNDI2MmRmMmItNzdiYi00OWMyLWE1ZGYtMjgzNTVkYTY3NmQyIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXBuIjoibXJvY2hhLm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20iLCJwdWlkIjoiMTAwMzIwMDJFRDE5QkE1MCIsImNhY2hla2V5IjoiMGguZnxtZW1iZXJzaGlwfDEwMDMyMDAyZWQxOWJhNTBAbGl2ZS5jb20iLCJzY3AiOiJhbGxmaWxlcy53cml0ZSBhbGxzaXRlcy5yZWFkIGFsbHNpdGVzLndyaXRlIGFsbHByb2ZpbGVzLnJlYWQiLCJ0dCI6IjIiLCJpcGFkZHIiOiIyMDAzOmNkOjc3NDI6OTU4ZTpkY2NkOmJkZTM6MWU2MzpkMWYifQ.d9XC60xQvamhSCo089Mt8ZqqqXb4UTywdQJ2csn2nYI&ApiVersion=2.0","createdBy":{"application":{"id":"4262df2b-77bb-49c2-a5df-28355da676d2","displayName":"OpenProject
-        Dev App"},"user":{"email":"mrocha.op@outlook.com","id":"d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce","displayName":"Marcello
-        Rocha"}},"createdDateTime":"2024-02-14T19:22:55Z","eTag":"\"{4F60BD66-D055-4E65-B872-FE4FC1D1039C},3\"","id":"01AZJL5PLGXVQE6VOQMVHLQ4X6J7A5CA44","lastModifiedBy":{"application":{"id":"4262df2b-77bb-49c2-a5df-28355da676d2","displayName":"OpenProject
-        Dev App"},"user":{"email":"mrocha.op@outlook.com","id":"d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce","displayName":"Marcello
-        Rocha"}},"lastModifiedDateTime":"2024-02-14T19:22:56Z","name":"files_query_root.yml","parentReference":{"driveType":"documentLibrary","driveId":"b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs","id":"01AZJL5PKBLRGPNT6GAJFIAWK2WNALFU7K","name":"Subfolder
+      string: '{"@odata.context":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/_api/v2.0/$metadata#items/$entity","@content.downloadUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/_layouts/15/download.aspx?UniqueId=b9c6b544-c0a3-4528-bafa-7d1100f61d91&Translate=false&tempauth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvZmlubi5zaGFyZXBvaW50LmNvbUA0ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzMjAwMmVkMmNhMDBlQGxpdmUuY29tIiwiY2lkIjoib1NJajVlUXdBSUN6WU1xWTkyTEpzUT09IiwiZW5kcG9pbnR1cmwiOiJlT01OU0lXUEFCMkkzWlhjY3p3d0s5ZzRCakJQcVBlSms3VVpzUXZrc3pBPSIsImVuZHBvaW50dXJsTGVuZ3RoIjoiMTQ5IiwiZXhwIjoiMTcxMzk2NTEzNSIsImZhbWlseV9uYW1lIjoiU2NodWJlcnQiLCJnaXZlbl9uYW1lIjoiRXJpYyIsImlwYWRkciI6IjkzLjIyOS4yMDguMjQiLCJpc2xvb3BiYWNrIjoiVHJ1ZSIsImlzcyI6IjAwMDAwMDAzLTAwMDAtMGZmMS1jZTAwLTAwMDAwMDAwMDAwMCIsIm5iZiI6IjE3MTM5NjE1MzUiLCJwdWlkIjoiMTAwMzIwMDJFRDJDQTAwRSIsInNjcCI6ImFsbGZpbGVzLndyaXRlIGFsbHNpdGVzLnJlYWQgYWxsc2l0ZXMud3JpdGUgYWxscHJvZmlsZXMucmVhZCIsInNpdGVpZCI6Ik1XSTBZalkxTnpZdE9UQTJaQzAwWkRrMExUaG1ORGt0Tm1Rd01HRTVOVEEzWWpVdyIsInRpZCI6IjRkNDRiZjM2LTliNTYtNDVjMC04ODA3LWJiZjM4NmRkMDQ3ZiIsInR0IjoiMiIsInVwbiI6ImVzY2h1YmVydC5vcF9vdXRsb29rLmNvbSNleHQjQGZpbm4ub25taWNyb3NvZnQuY29tIiwidmVyIjoiaGFzaGVkcHJvb2Z0b2tlbiJ9.5mdJwBAE8bI69tfqPhBIINy5rw1BNkUBy5ZeaecoXCk&ApiVersion=2.0","@deprecated.Decorator":"decorator
+        has been deprecated. Refer to folder.decorator","createdBy":{"application":{"id":"4262df2b-77bb-49c2-a5df-28355da676d2","displayName":"OpenProject
+        Dev App"},"user":{"email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a","displayName":"Eric
+        Schubert"}},"createdDateTime":"2024-04-24T12:25:35Z","eTag":"\"{B9C6B544-C0A3-4528-BAFA-7D1100F61D91},3\"","id":"01AZJL5PKEWXDLTI6AFBC3V6T5CEAPMHMR","lastModifiedBy":{"application":{"id":"4262df2b-77bb-49c2-a5df-28355da676d2","displayName":"OpenProject
+        Dev App"},"user":{"email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a","displayName":"Eric
+        Schubert"}},"lastModifiedDateTime":"2024-04-24T12:25:35Z","name":"files_query_root.yml","parentReference":{"driveType":"documentLibrary","driveId":"b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs","id":"01AZJL5PITUSG2E4BXPNG3MNS325DYSTX7","name":"Subfolder
         with File","path":"/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root:/Test
-        Template Folder/Subfolder with File","siteId":"1b4b6576-906d-4d94-8f49-6d00a9507b50"},"webUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/VCR/Test%20Template%20Folder/Subfolder%20with%20File/files_query_root.yml","cTag":"\"c:{4F60BD66-D055-4E65-B872-FE4FC1D1039C},2\"","file":{"hashes":{"quickXorHash":"GgbM1xxLeQNBtKn2c8vlsz73+Fk="},"irmEffectivelyEnabled":false,"irmEnabled":false,"mimeType":"application/octet-stream"},"fileSystemInfo":{"createdDateTime":"2024-02-14T19:22:55Z","lastModifiedDateTime":"2024-02-14T19:22:56Z"},"shared":{"effectiveRoles":["write"],"scope":"users"},"size":4379}'
-  recorded_at: Wed, 14 Feb 2024 19:22:56 GMT
+        Template Folder/Subfolder with File","siteId":"1b4b6576-906d-4d94-8f49-6d00a9507b50"},"webUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/VCR/Test%20Template%20Folder/Subfolder%20with%20File/files_query_root.yml","cTag":"\"c:{B9C6B544-C0A3-4528-BAFA-7D1100F61D91},2\"","file":{"hashes":{"quickXorHash":"GgbM1xxLeQNBtKn2c8vlsz73+Fk="},"irmEffectivelyEnabled":false,"irmEnabled":false,"mimeType":"application/octet-stream"},"fileSystemInfo":{"createdDateTime":"2024-04-24T12:25:35Z","lastModifiedDateTime":"2024-04-24T12:25:35Z"},"shared":{"effectiveRoles":["write"],"scope":"users"},"size":4379}'
+  recorded_at: Wed, 24 Apr 2024 12:25:35 GMT
 recorded_with: VCR 6.2.0
