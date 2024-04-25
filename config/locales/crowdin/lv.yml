@@ -264,6 +264,7 @@ lv:
     lists:
       active: "Active projects"
       my: "My projects"
+      favored: "Favored projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1278,6 +1279,7 @@ lv:
   button_edit: "Labot"
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   button_expand_all: "Expand all"
+  button_favorite: "Mark as favorite"
   button_filter: "Filtrēt"
   button_generate: "Ģenerēt"
   button_list: "List"
@@ -1305,6 +1307,7 @@ lv:
   button_unarchive: "Unarchive"
   button_uncheck_all: "Noņemt visus"
   button_unlock: "Unlock"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Pārtraukt sekošanu"
   button_update: "Atjaunot"
   button_upgrade: "Upgrade"

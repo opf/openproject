@@ -264,6 +264,7 @@ fi:
     lists:
       active: "Active projects"
       my: "My projects"
+      favored: "Favored projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1263,6 +1264,7 @@ fi:
   button_edit: "Muokkaa"
   button_edit_associated_wikipage: "Muokkaa liitettyä Wiki-sivua: %{page_title}"
   button_expand_all: "Laajenna kaikki"
+  button_favorite: "Mark as favorite"
   button_filter: "Suodata"
   button_generate: "Luo"
   button_list: "Lista"
@@ -1290,6 +1292,7 @@ fi:
   button_unarchive: "Palauta"
   button_uncheck_all: "Poista valinnat"
   button_unlock: "Poista lukitus"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Älä seuraa"
   button_update: "Päivitä"
   button_upgrade: "Päivitä"

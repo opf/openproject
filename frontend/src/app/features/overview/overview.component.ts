@@ -10,6 +10,8 @@ import { GRID_PROVIDERS } from 'core-app/shared/components/grids/grid/grid.compo
   providers: GRID_PROVIDERS,
 })
 export class OverviewComponent extends GridPageComponent {
+  showToolbar = false;
+
   protected i18nNamespace():string {
     return 'overviews';
   }

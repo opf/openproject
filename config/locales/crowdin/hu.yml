@@ -263,6 +263,7 @@ hu:
     lists:
       active: "Aktív projektek"
       my: "Saját projekjeim"
+      favored: "Favored projects"
       archived: "Archivált projektek"
       my_private: "Privát projektlistáim"
       new:
@@ -1260,6 +1261,7 @@ hu:
   button_edit: "Szerkesztés"
   button_edit_associated_wikipage: "A hozzárendelt Wiki oldal: %{page_title} szerkesztése"
   button_expand_all: "Az összes kibontása"
+  button_favorite: "Mark as favorite"
   button_filter: "Szűrő"
   button_generate: "Generálás"
   button_list: "Lista"
@@ -1287,6 +1289,7 @@ hu:
   button_unarchive: "Nem archívált"
   button_uncheck_all: "Az összes kijelölés megszüntetése"
   button_unlock: "A zárolás feloldása"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Megfigyelés leállítása"
   button_update: "Frissítés"
   button_upgrade: "Frissítés"

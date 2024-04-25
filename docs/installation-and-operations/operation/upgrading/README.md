@@ -37,14 +37,14 @@ sudo openproject configure
 
 On Ubuntu 22.04., you might see warnings like these:
 
-> W: https://dl.packager.io/srv/deb/opf/openproject/stable/13/ubuntu/dists/22.04/InRelease: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.
+> W: https://dl.packager.io/srv/deb/opf/openproject/stable/14/ubuntu/dists/22.04/InRelease: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.
 
 This message is due to Ubuntu 22.04 switching to a more secure way of adding repository sources, which is not yet supported by the repository provider. There is ongoing work on this item, the message is for information only.
 
 If you get an error like the following:
 
-> E: Repository 'https://dl.packager.io/srv/deb/opf/openproject/stable/13/ubuntu 22.04 InRelease' changed its 'Origin' value from '' to 'https://packager.io/gh/opf/openproject'
-> E: Repository 'https://dl.packager.io/srv/deb/opf/openproject/stable/13/ubuntu 22.04 InRelease' changed its 'Label' value from '' to 'Ubuntu 22.04 packages for opf/openproject'
+> E: Repository 'https://dl.packager.io/srv/deb/opf/openproject/stable/14/ubuntu 22.04 InRelease' changed its 'Origin' value from '' to 'https://packager.io/gh/opf/openproject'
+> E: Repository 'https://dl.packager.io/srv/deb/opf/openproject/stable/14/ubuntu 22.04 InRelease' changed its 'Label' value from '' to 'Ubuntu 22.04 packages for opf/openproject'
 
 These two messages messages are expected, due to a change in Origin and Label repository metadata, to better explain what the repository is about. You should allow the change, and/or run `sudo apt-get update --allow-releaseinfo-change` for the update to go through.
 

@@ -262,6 +262,7 @@ pt-PT:
     lists:
       active: "Projetos ativos"
       my: "Os meus projetos"
+      favored: "Favored projects"
       archived: "Projetos arquivados"
       my_private: "As minhas listas de projetos privados"
       new:
@@ -1261,6 +1262,7 @@ pt-PT:
   button_edit: "Editar"
   button_edit_associated_wikipage: "Editar página Wiki associada: %{page_title}"
   button_expand_all: "Expandir Tudo"
+  button_favorite: "Mark as favorite"
   button_filter: "Filtro"
   button_generate: "Gerar"
   button_list: "Lista"
@@ -1288,6 +1290,7 @@ pt-PT:
   button_unarchive: "Desarquivar"
   button_uncheck_all: "Anular selecção"
   button_unlock: "Desbloquear"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Não observar"
   button_update: "Atualizar"
   button_upgrade: "Atualizar"

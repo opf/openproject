@@ -262,6 +262,7 @@ da:
     lists:
       active: "Active projects"
       my: "My projects"
+      favored: "Favored projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1261,6 +1262,7 @@ da:
   button_edit: "Rediger"
   button_edit_associated_wikipage: "Rediger tilknyttet wiki-side: %{page_title}"
   button_expand_all: "Fold alle ud"
+  button_favorite: "Mark as favorite"
   button_filter: "Filter"
   button_generate: "Generér"
   button_list: "Liste"
@@ -1288,6 +1290,7 @@ da:
   button_unarchive: "Udpak"
   button_uncheck_all: "Fjern alle markeringer"
   button_unlock: "Ophæv spærring"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Stands tilsyn"
   button_update: "Opdater"
   button_upgrade: "Upgrade"

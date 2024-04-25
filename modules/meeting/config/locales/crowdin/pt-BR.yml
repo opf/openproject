@@ -99,7 +99,7 @@ pt-BR:
     attachments:
       text: "Os arquivos anexados podem ser acessados por todos os participantes da reunião. Além disso, você pode simplesmente arrastá-los e soltá-los nas anotações do item da agenda."
     copy:
-      title: "Copiar reunião %{title}"
+      title: "Copy meeting: %{title}"
       attachments: "Copiar anexos"
       attachments_text: "Copie todos os arquivos anexados para a nova reunião"
       agenda: "Copiar agenda"

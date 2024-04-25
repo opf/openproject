@@ -260,6 +260,7 @@ el:
     lists:
       active: "Active projects"
       my: "My projects"
+      favored: "Favored projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1259,6 +1260,7 @@ el:
   button_edit: "Επεξεργασία"
   button_edit_associated_wikipage: "Επεξεργασία της συσχετιζόμενης σελίδας Wiki: %{page_title}"
   button_expand_all: "Ανάπτυξη όλων"
+  button_favorite: "Mark as favorite"
   button_filter: "Φίλτρο"
   button_generate: "Παραγωγή"
   button_list: "Προβολή λίστας"
@@ -1286,6 +1288,7 @@ el:
   button_unarchive: "Αναίρεση αρχειοθέτησης"
   button_uncheck_all: "Αποεπιλογή όλων"
   button_unlock: "Ξεκλείδωμα"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Αναίρεση παρακολούθησης"
   button_update: "Ενημέρωση"
   button_upgrade: "Αναβάθμιση"

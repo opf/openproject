@@ -228,7 +228,7 @@ pl:
       project_storage_members:
         subtitle: Sprawdź status połączenia magazynu %{storage_name_link} wszystkich członków projektu.
         title: Status połączenia członków
-    permission_header_explanation: "Uprawnienia do plików w magazynach zewnętrznych są stosowane tylko do folderów i plików w automatycznie zarządzanych folderach projektu. \nPamiętaj, że nie wszystkie uprawnienia do plików są obsługiwane przez wszystkich dostawców magazynu."
+    permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
     provider_types:
       label: Typ dostawcy
       nextcloud:

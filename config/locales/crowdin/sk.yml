@@ -264,6 +264,7 @@ sk:
     lists:
       active: "Active projects"
       my: "My projects"
+      favored: "Favored projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1293,6 +1294,7 @@ sk:
   button_edit: "Upraviť"
   button_edit_associated_wikipage: "Upraviť naviazanú Wiki stránku: %{page_title}"
   button_expand_all: "Rozbaliť všetko"
+  button_favorite: "Mark as favorite"
   button_filter: "Filtrovať"
   button_generate: "Generovať"
   button_list: "Zoznam"
@@ -1320,6 +1322,7 @@ sk:
   button_unarchive: "Odarchivovať"
   button_uncheck_all: "Odznačiť všetky"
   button_unlock: "Odomknúť"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Prestať pozorovať"
   button_update: "Aktualizovať"
   button_upgrade: "Aktualizovať"

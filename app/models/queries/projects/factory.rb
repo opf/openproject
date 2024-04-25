@@ -29,6 +29,7 @@
 class Queries::Projects::Factory
   STATIC_ACTIVE = "active".freeze
   STATIC_MY = "my".freeze
+  STATIC_FAVORED = "favored".freeze
   STATIC_ARCHIVED = "archived".freeze
   STATIC_ON_TRACK = "on_track".freeze
   STATIC_OFF_TRACK = "off_track".freeze
@@ -48,6 +49,8 @@ class Queries::Projects::Factory
         static_query_active
       when STATIC_MY
         static_query_my
+      when STATIC_FAVORED
+        static_query_favored
       when STATIC_ARCHIVED
         static_query_archived
       when STATIC_ON_TRACK
@@ -68,6 +71,12 @@ class Queries::Projects::Factory
     def static_query_my
       list_with(:"projects.lists.my") do |query|
         query.where("member_of", "=", OpenProject::Database::DB_VALUE_TRUE)
+      end
+    end
+
+    def static_query_favored
+      list_with(:"projects.lists.favored") do |query|
+        query.where("favored", "=", OpenProject::Database::DB_VALUE_TRUE)
       end
     end
 
@@ -100,7 +109,13 @@ class Queries::Projects::Factory
     def list_with(name)
       Queries::Projects::ProjectQuery.new(name: I18n.t(name)) do |query|
         query.order("lft" => "asc")
-        query.select(*(["name"] + Setting.enabled_projects_columns).uniq, add_not_existing: false)
+        default_selects =
+          if OpenProject::FeatureDecisions.favorite_projects_active?
+            %w[favored name]
+          else
+            %w[name]
+          end
+        query.select(*(default_selects + Setting.enabled_projects_columns).uniq, add_not_existing: false)
 
         yield query
       end

@@ -264,6 +264,7 @@ ko:
     lists:
       active: "활성 프로젝트"
       my: "내 프로젝트"
+      favored: "Favored projects"
       archived: "보관된 프로젝트"
       my_private: "내 비공개 프로젝트 목록"
       new:
@@ -1247,6 +1248,7 @@ ko:
   button_edit: "편집"
   button_edit_associated_wikipage: "연결된 위키 페이지 %{page_title} 편집"
   button_expand_all: "모두 확장"
+  button_favorite: "Mark as favorite"
   button_filter: "필터"
   button_generate: "생성"
   button_list: "목록"
@@ -1274,6 +1276,7 @@ ko:
   button_unarchive: "보관 취소"
   button_uncheck_all: "모두 선택 취소"
   button_unlock: "잠금 해제"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "주시 안 함"
   button_update: "업데이트"
   button_upgrade: "업그레이드"

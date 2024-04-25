@@ -261,6 +261,7 @@ nl:
     lists:
       active: "Active projects"
       my: "My projects"
+      favored: "Favored projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1260,6 +1261,7 @@ nl:
   button_edit: "Wijzig"
   button_edit_associated_wikipage: "Bewerk gekoppelde wikipagina: %{page_title}"
   button_expand_all: "Alles uitklappen"
+  button_favorite: "Mark as favorite"
   button_filter: "Filter"
   button_generate: "Genereer"
   button_list: "Lijst"
@@ -1287,6 +1289,7 @@ nl:
   button_unarchive: "Uit archief halen"
   button_uncheck_all: "Deselecteer alles"
   button_unlock: "Ontgrendelen"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Niet meer volgen"
   button_update: "Bijwerken"
   button_upgrade: "Upgrade"

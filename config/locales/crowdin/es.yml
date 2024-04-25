@@ -261,6 +261,7 @@ es:
     lists:
       active: "Proyectos activos"
       my: "Mis proyectos"
+      favored: "Favored projects"
       archived: "Proyectos archivados"
       my_private: "Mis listas de proyectos privados"
       new:
@@ -1260,6 +1261,7 @@ es:
   button_edit: "Editar"
   button_edit_associated_wikipage: "Editar página Wiki asociada: %{page_title}"
   button_expand_all: "Expandir todos"
+  button_favorite: "Mark as favorite"
   button_filter: "Filtro"
   button_generate: "Generar"
   button_list: "Lista"
@@ -1287,6 +1289,7 @@ es:
   button_unarchive: "Desarchivar"
   button_uncheck_all: "Deseleccionar todos"
   button_unlock: "Desbloquear"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "No controlar más"
   button_update: "Actualizar"
   button_upgrade: "Mejorar"
@@ -1908,7 +1911,7 @@ es:
   label_enterprise_support: "Soporte empresarial"
   label_enterprise_addon: "Extensión Enterprise"
   label_environment: "Entorno"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_time: "Estimaciones y progreso"
   label_equals: "es"
   label_everywhere: "todo"
   label_example: "Ejemplo"

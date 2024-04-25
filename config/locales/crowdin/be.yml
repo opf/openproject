@@ -264,6 +264,7 @@ be:
     lists:
       active: "Active projects"
       my: "My projects"
+      favored: "Favored projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1293,6 +1294,7 @@ be:
   button_edit: "Рэдагаваць"
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   button_expand_all: "Разгарнуць усё"
+  button_favorite: "Mark as favorite"
   button_filter: "Фільтр"
   button_generate: "Generate"
   button_list: "List"
@@ -1320,6 +1322,7 @@ be:
   button_unarchive: "Unarchive"
   button_uncheck_all: "Uncheck all"
   button_unlock: "Unlock"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Unwatch"
   button_update: "Абнавіць"
   button_upgrade: "Upgrade"
