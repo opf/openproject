@@ -55,16 +55,9 @@ export default class PreviewProgressController extends Controller {
     // See https://github.com/hotwired/turbo/issues/1161 . Once the issue is solved, we can remove
     // this code and just use <turbo-frame refresh="morph"> instead.
     this.frameMorphRenderer = (event:CustomEvent<TurboBeforeFrameRenderEventDetail>) => {
-     event.detail.render = (currentElement:HTMLElement, newElement:HTMLElement) => {
-       Idiomorph.morph(currentElement, newElement, {
-           morphStyle: 'innerHTML',
-           callbacks: {
-             beforeNodeMorphed: (oldNode:HTMLElement) => {
-               return !oldNode.hasAttribute('data-turbo-permanent');
-             },
-         },
-       });
-     };
+      event.detail.render = (currentElement:HTMLElement, newElement:HTMLElement) => {
+        Idiomorph.morph(currentElement, newElement, { ignoreActiveValue: true });
+      };
     };
 
     this.progressInputTargets.forEach((target) => {
@@ -76,9 +69,7 @@ export default class PreviewProgressController extends Controller {
   }
 
   disconnect() {
-    this.progressInputTargets.forEach((target) => {
-      target.removeEventListener('input', this.debouncedPreview);
-    });
+    this.progressInputTargets.forEach((target) => target.removeEventListener('input', this.debouncedPreview));
     const turboFrame = this.formTarget.closest('turbo-frame') as HTMLFrameElement;
     turboFrame.removeEventListener('turbo:before-frame-render', this.frameMorphRenderer);
   }
