@@ -27,14 +27,34 @@
 #++
 
 class Meeting::Title < ApplicationForm
-  form do |meeting_form|
-    meeting_form.text_field(
-      name: :title,
-      placeholder: Meeting.human_attribute_name(:title),
-      label: Meeting.human_attribute_name(:title),
-      visually_hide_label: true,
-      required: true,
-      autofocus: true
-    )
+  include OpenProject::StaticRouting::UrlHelpers
+
+  form do |query_form|
+    query_form.group(layout: :horizontal) do |group|
+      group.text_field(
+        name: :title,
+        placeholder: Meeting.human_attribute_name(:title),
+        label: Meeting.human_attribute_name(:title),
+        visually_hide_label: true,
+        required: true,
+        autofocus: true
+      )
+
+      group.submit(name: :submit, label: I18n.t("button_save"), scheme: :primary)
+
+      group.button(
+        name: :cancel,
+        scheme: :secondary,
+        label: I18n.t(:button_cancel),
+        tag: :a,
+        data: { 'turbo-stream': true },
+        href: OpenProject::StaticRouting::StaticUrlHelpers.new.cancel_edit_meeting_path(@meeting)
+      )
+    end
+  end
+
+  def initialize(meeting:)
+    super()
+    @meeting = meeting
   end
 end

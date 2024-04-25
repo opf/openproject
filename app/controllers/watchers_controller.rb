@@ -46,15 +46,10 @@ class WatchersController < ApplicationController
   private
 
   def find_watched_by_object
-    klass = params[:object_type].singularize.camelcase.constantize
-
-    return false unless klass.respond_to?(:watched_by) and
-                        klass.ancestors.include? Redmine::Acts::Watchable and
-                        params[:object_id].to_s =~ /\A\d+\z/
-
-    unless @watched = klass.find(params[:object_id])
-      render_404
-    end
+    model_name = params[:object_type]
+    klass = ::OpenProject::Acts::Watchable::Registry.instance(model_name)
+    @watched = klass&.find(params[:object_id])
+    render_404 unless @watched
   end
 
   def find_project

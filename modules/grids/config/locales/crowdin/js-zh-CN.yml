@@ -42,6 +42,9 @@ zh-CN:
         subprojects:
           title: '子项目'
           no_results: '无子项目。'
+        project_favorites:
+          title: '项目收藏'
+          no_results: 'You currently have no project favorites. Click on the star icon in the project dashboard to add one to your favorites.'
         time_entries_current_user:
           title: '我花费的时间'
           displayed_days: '微件中显示的天数：'

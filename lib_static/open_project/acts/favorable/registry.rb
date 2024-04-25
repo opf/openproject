@@ -26,8 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Meeting::Submit < ApplicationForm
-  form do |meeting_form|
-    meeting_form.submit(name: :submit, label: I18n.t("button_save"), scheme: :primary)
+module OpenProject
+  module Acts
+    module Favorable
+      module Registry
+        def self.models
+          @models ||= Set.new
+        end
+
+        def self.exists?(model)
+          models.include?(model)
+        end
+
+        def self.instance(model_name)
+          models.detect { |cls| cls.name == model_name.singularize.camelize }
+        end
+
+        def self.add(*models)
+          models.each do |model|
+            unless model.ancestors.include?(::OpenProject::Acts::Watchable)
+              raise ArgumentError.new("Model #{model} does not include acts_as_watchable")
+            end
+
+            self.models << model
+          end
+        end
+      end
+    end
   end
 end

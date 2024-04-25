@@ -263,6 +263,7 @@ zh-TW:
     lists:
       active: "啟用中的專案"
       my: "我的專案"
+      favored: "Favored projects"
       archived: "封存專案"
       my_private: "我的私人專案"
       new:
@@ -1247,6 +1248,7 @@ zh-TW:
   button_edit: "編輯"
   button_edit_associated_wikipage: "編輯關聯的維基頁面：%{page_title}"
   button_expand_all: "全部展開"
+  button_favorite: "Mark as favorite"
   button_filter: "篩選條件"
   button_generate: "產生"
   button_list: "清單"
@@ -1274,6 +1276,7 @@ zh-TW:
   button_unarchive: "取消封存"
   button_uncheck_all: "取消全選"
   button_unlock: "解除鎖定"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "取消監看"
   button_update: "更新"
   button_upgrade: "升級"
@@ -1877,7 +1880,7 @@ zh-TW:
   label_enterprise_support: "Enterprise support"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "環境"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "是"
   label_everywhere: "全部"
   label_example: "範例"
@@ -1989,6 +1992,7 @@ zh-TW:
   label_membership_plural: "Memberships"
   lable_membership_added: "成員加入"
   lable_membership_updated: "Member updated"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "早期開發版本"
     alpha: "開發版本"
@@ -2090,6 +2094,7 @@ zh-TW:
   label_percent_complete: "% Complete"
   label_project_activity: "專案活動"
   label_project_attribute_plural: "專案屬性"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "專案總數"
   label_project_copy_notifications: "在專案複製期間發送電子郵件通知"
   label_project_latest: "最新的專案"

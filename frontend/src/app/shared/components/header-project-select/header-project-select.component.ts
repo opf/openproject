@@ -28,29 +28,23 @@
 
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation } from '@angular/core';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { combineLatest } from 'rxjs';
-import {
-  debounceTime,
-  filter,
-  map,
-  mergeMap,
-  shareReplay,
-  take,
-} from 'rxjs/operators';
+import { debounceTime, defaultIfEmpty, filter, map, mergeMap, shareReplay, take } from 'rxjs/operators';
 import { IProject } from 'core-app/core/state/projects/project.model';
 import { insertInList } from 'core-app/shared/components/project-include/insert-in-list';
 import { recursiveSort } from 'core-app/shared/components/project-include/recursive-sort';
-import { SearchableProjectListService } from 'core-app/shared/components/searchable-project-list/searchable-project-list.service';
+import {
+  SearchableProjectListService,
+} from 'core-app/shared/components/searchable-project-list/searchable-project-list.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { IProjectData } from 'core-app/shared/components/searchable-project-list/project-data';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export const headerProjectSelectSelector = 'op-header-project-select';
 
@@ -72,6 +66,8 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
   public textFieldFocused = false;
 
   public canCreateNewProjects$ = this.currentUserService.hasCapabilities$('projects/create', 'global');
+
+  public favoredFeatureActive = this.configuration.activeFeatureFlags.includes('favoriteProjects');
 
   public projects$ = combineLatest([
     this.searchableProjectListService.allProjects$,
@@ -111,7 +107,26 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
     shareReplay(),
   );
 
+  public favorites$ = this
+    .apiV3Service
+    .projects
+    .signalled(
+      ApiV3Filter('favored', '=', true),
+      [
+        'elements/id',
+      ],
+      { pageSize: '-1' },
+    )
+    .pipe(
+      map((collection:IHALCollection<{ id:string|number }>) => collection._embedded.elements || []),
+      map((elements) => elements.map((item) => item.id.toString())),
+      defaultIfEmpty([]),
+      shareReplay(1),
+    );
+
   public text = {
+    all: this.I18n.t('js.label_all_uppercase'),
+    favored: this.I18n.t('js.label_favored'),
     project: {
       singular: this.I18n.t('js.label_project'),
       plural: this.I18n.t('js.label_project_plural'),
@@ -121,6 +136,13 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
     search_placeholder: this.I18n.t('js.include_projects.search_placeholder'),
     no_results: this.I18n.t('js.include_projects.no_results'),
   };
+
+  public displayMode:'all'|'favored' = 'all';
+
+  public displayModeOptions = [
+    { value: 'all', title: this.text.all },
+    { value: 'favored', title: this.text.favored },
+  ];
 
   /* This seems like a way too convoluted loading check, but there's a good reason we need it.
    * The searchableProjectListService says fetching is "done" when the request returns.
@@ -143,11 +165,13 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
   private scrollToCurrent = false;
 
   constructor(
-    protected pathHelper:PathHelperService,
-    protected I18n:I18nService,
-    protected currentProject:CurrentProjectService,
+    readonly pathHelper:PathHelperService,
+    readonly configuration:ConfigurationService,
+    readonly I18n:I18nService,
+    readonly currentProject:CurrentProjectService,
     readonly searchableProjectListService:SearchableProjectListService,
     readonly currentUserService:CurrentUserService,
+    readonly apiV3Service:ApiV3Service,
   ) {
     super();
 

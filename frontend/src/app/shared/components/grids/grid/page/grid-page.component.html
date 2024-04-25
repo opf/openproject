@@ -1,5 +1,6 @@
 <div class="op-grid-page">
-  <div class="toolbar op-grid-page--toolbar-container">
+  <div *ngIf="showToolbar"
+       class="toolbar op-grid-page--toolbar-container">
       <div class="op-grid-page--title-container title-container">
         <h2 [textContent]="text.title"></h2>
       </div>

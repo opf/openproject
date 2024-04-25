@@ -377,6 +377,7 @@ sl:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "pred dnevi"
     label_all: "vsi"
+    label_all_uppercase: "All"
     label_all_work_packages: "Vsi zahtevki"
     label_and: "in"
     label_ascending: "Naraščajoče"
@@ -418,6 +419,7 @@ sl:
     label_expand_project_menu: "Razširi projektni meni"
     label_export: "Izvozi"
     label_export_preparing: "Izvoz je v pripravi in ​​bo kmalu prenesen."
+    label_favored: "Favored"
     label_filename: "Datoteka"
     label_filesize: "Velikost"
     label_general: "Splošno"

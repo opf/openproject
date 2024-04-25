@@ -263,6 +263,7 @@ ru:
     lists:
       active: "Активные проекты"
       my: "Мои проекты"
+      favored: "Favored projects"
       archived: "Архивные проекты"
       my_private: "Списки моих личных проектов"
       new:
@@ -1292,6 +1293,7 @@ ru:
   button_edit: "Правка"
   button_edit_associated_wikipage: "Редактирование связанной wiki-страницы: %{page_title}"
   button_expand_all: "Развернуть все"
+  button_favorite: "Mark as favorite"
   button_filter: "Фильтр"
   button_generate: "Генерировать"
   button_list: "Список"
@@ -1319,6 +1321,7 @@ ru:
   button_unarchive: "Разархивировать"
   button_uncheck_all: "Снять все отметки"
   button_unlock: "Разблокировать"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Прекратить наблюдение"
   button_update: "Обновление"
   button_upgrade: "Обновить"
@@ -1976,7 +1979,7 @@ ru:
   label_enterprise_support: "Поддержка корпоративной версии"
   label_enterprise_addon: "Корпоративное дополнение"
   label_environment: "Переменные среды"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "—"
   label_everywhere: "везде"
   label_example: "Пример"
@@ -2088,6 +2091,7 @@ ru:
   label_membership_plural: "Членство"
   lable_membership_added: "Участник добавлен"
   lable_membership_updated: "Участник обновлен"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "пред-альфа"
     alpha: "альфа"
@@ -2189,6 +2193,7 @@ ru:
   label_percent_complete: "% Complete"
   label_project_activity: "Деятельность"
   label_project_attribute_plural: "Атрибуты проекта"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Общее количество проектов"
   label_project_copy_notifications: "Уведомлять по электронной почте по ходу копирования проекта"
   label_project_latest: "Последние проекты"
@@ -2474,7 +2479,7 @@ ru:
         subject: "Пакет работ #%{id} был разделен с вами"
         enterprise_text: "Поделитесь пакетами работ с пользователями, не являющимися участниками проекта."
         summary:
-          user: ""
+          user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} поделился пакетом работ с группой %{group}, членом которой вы являетесь "
     storages:
       health:
@@ -2765,7 +2770,7 @@ ru:
     default: "-"
   project:
     destroy:
-      confirmation: ""
+      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
       project_delete_result_1: "Удалить все связанные данные."
       project_delete_result_2: "Удалить все папки управляемых проектов в приложенных хранилищах."
       info: "Удаление проекта – действие необратимое."

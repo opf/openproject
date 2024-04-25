@@ -81,7 +81,7 @@ cs:
       upgrade_info: "Přejděte na placenou verzi a začněte ji používat ve vašem týmu."
     journal_aggregation:
       explanation:
-        text: "Individuální akce/úpravy uživatele (např. dvojnásobná aktualizace pracovního balíčku se sečtou do jediné akce, pokud je jejich časový rozdíl menší než stanovený čas. Budou zobrazeny jako jedna akce v rámci aplikace. Toto také zpozdí oznámení o stejný čas a sníží tak počet zasílaných e-mailů."
+        text: "Individuální akce/úpravy uživatele (např. dvojnásobná aktualizace pracovního balíčku se sečtou do jediné akce, pokud je jejich časový rozdíl menší než stanovený čas. Budou zobrazeny jako jedna akce v rámci aplikace. Toto také zpozdí oznámení o stejný čas a sníží tak počet zasílaných e-mailů a ovlivní se také zpoždění na adrese %{webhook_link}."
         link: "webhook"
   announcements:
     show_until: Zobrazit do
@@ -264,6 +264,7 @@ cs:
     lists:
       active: "Aktivní projekty"
       my: "Moje projekty"
+      favored: "Favored projects"
       archived: "Archivované projekty"
       my_private: "soukromé seznamy  projektů"
       new:
@@ -1293,6 +1294,7 @@ cs:
   button_edit: "Upravit"
   button_edit_associated_wikipage: "Upravit přidruženou Wiki stránku: %{page_title}"
   button_expand_all: "Rozbalit vše"
+  button_favorite: "Mark as favorite"
   button_filter: "Filtr"
   button_generate: "Generovat"
   button_list: "Seznam"
@@ -1320,6 +1322,7 @@ cs:
   button_unarchive: "Obnovit z archivu"
   button_uncheck_all: "Odznačit vše"
   button_unlock: "Odemknout"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Přestat sledovat"
   button_update: "Aktualizovat"
   button_upgrade: "Upgradovat"
@@ -1977,7 +1980,7 @@ cs:
   label_enterprise_support: "Podpora pro Enterprise edici"
   label_enterprise_addon: "Doplňky Enterprise Edice"
   label_environment: "Prostředí"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "je"
   label_everywhere: "všude"
   label_example: "Příklad"
@@ -2089,6 +2092,7 @@ cs:
   label_membership_plural: "Členství"
   lable_membership_added: "Člen přidán"
   lable_membership_updated: "Člen aktualizován"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "Alfa"
@@ -2190,6 +2194,7 @@ cs:
   label_percent_complete: "% Complete"
   label_project_activity: "Aktivita projektu"
   label_project_attribute_plural: "Atributy projektu"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Celkový počet projektů"
   label_project_copy_notifications: "Během kopie projektu odeslat oznámení e-mailem"
   label_project_latest: "Nejnovější projekty"
@@ -3439,8 +3444,8 @@ cs:
         working: "%{day} je pracovní "
         non_working: "%{day} je nepracovní "
       dates:
-        working: "%{day} je pracovní "
-        non_working: "%{day} je nepracovní "
+        working: "%{date} je pracovní "
+        non_working: "%{date} je nepracovní "
   nothing_to_preview: "Nic pro náhled"
   api_v3:
     attributes:

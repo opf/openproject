@@ -377,6 +377,7 @@ de:
     label_added_time_by: 'Hinzugefügt von <a href="%{authorLink}">%{author}</a> am %{age}'
     label_ago: "Tage her"
     label_all: "alle"
+    label_all_uppercase: "All"
     label_all_work_packages: "alle Arbeitspakete"
     label_and: "und"
     label_ascending: "Aufsteigend"
@@ -418,6 +419,7 @@ de:
     label_expand_project_menu: "Projektmenü aufklappen"
     label_export: "Exportieren"
     label_export_preparing: "Der Export wird vorbereitet und wird in Kürze heruntergeladen."
+    label_favored: "Favored"
     label_filename: "Datei"
     label_filesize: "Größe"
     label_general: "Allgemein"

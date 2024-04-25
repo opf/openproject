@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,33 +24,35 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
-#
+#++
 
-module Meetings
-  class AddButtonComponent < ::AddButtonComponent
-    def render?
-      if current_project
-        User.current.allowed_in_project?(:create_meetings, current_project)
-      else
-        User.current.allowed_in_any_project?(:create_meetings)
-      end
-    end
+class Queries::Projects::Filters::FavoredFilter < Queries::Projects::Filters::ProjectFilter
+  include Queries::Filters::Shared::BooleanFilter
 
-    def dynamic_path
-      polymorphic_path([:new, current_project, :meeting])
-    end
+  def self.key
+    :favored
+  end
 
-    def id
-      "add-meeting-button"
-    end
+  def available?
+    User.current.logged?
+  end
 
-    def accessibility_label_text
-      I18n.t(:label_meeting_new)
+  def scope
+    if values.first == OpenProject::Database::DB_VALUE_TRUE
+      super.where(id: favored_project_ids)
+    else
+      super.where.not(id: favored_project_ids)
     end
+  end
 
-    def label_text
-      I18n.t(:label_meeting)
-    end
+  # Handled by scope
+  def where
+    "1=1"
+  end
+
+  def favored_project_ids
+    Favorite
+      .where(favored_type: "Project", user_id: User.current.id)
+      .select(:favored_id)
   end
 end

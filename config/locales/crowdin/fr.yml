@@ -264,6 +264,7 @@ fr:
     lists:
       active: "Projets actifs"
       my: "Mes projets"
+      favored: "Favored projects"
       archived: "Projets archivés"
       my_private: "Mes listes de projets privés"
       new:
@@ -1263,6 +1264,7 @@ fr:
   button_edit: "Éditer"
   button_edit_associated_wikipage: "Éditer la page wiki associée : %{page_title}"
   button_expand_all: "Tout déplier"
+  button_favorite: "Mark as favorite"
   button_filter: "Filtrer"
   button_generate: "Générer"
   button_list: "Liste"
@@ -1290,6 +1292,7 @@ fr:
   button_unarchive: "Désarchiver"
   button_uncheck_all: "Tout désélectionner"
   button_unlock: "Déverrouiller"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Ne plus suivre"
   button_update: "Mettre à jour"
   button_upgrade: "Mise à niveau"
@@ -1911,7 +1914,7 @@ fr:
   label_enterprise_support: "Assistance Enterprise"
   label_enterprise_addon: "add-on Enterprise"
   label_environment: "Environement"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "est"
   label_everywhere: "partout"
   label_example: "Exemple"
@@ -2023,6 +2026,7 @@ fr:
   label_membership_plural: "Adhésions"
   lable_membership_added: "Membre ajouté"
   lable_membership_updated: "Membre mis à jour"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pré-alpha"
     alpha: "alpha"
@@ -2124,6 +2128,7 @@ fr:
   label_percent_complete: "% réalisé"
   label_project_activity: "Activité du projet"
   label_project_attribute_plural: "Attributs du projet"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Nombre total de projets"
   label_project_copy_notifications: "Notifier par courriel lors de la copie du projet"
   label_project_latest: "Derniers projets"

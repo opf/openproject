@@ -264,6 +264,7 @@ ko:
     lists:
       active: "활성 프로젝트"
       my: "내 프로젝트"
+      favored: "Favored projects"
       archived: "보관된 프로젝트"
       my_private: "내 비공개 프로젝트 목록"
       new:
@@ -1247,6 +1248,7 @@ ko:
   button_edit: "편집"
   button_edit_associated_wikipage: "연결된 위키 페이지 %{page_title} 편집"
   button_expand_all: "모두 확장"
+  button_favorite: "Mark as favorite"
   button_filter: "필터"
   button_generate: "생성"
   button_list: "목록"
@@ -1274,6 +1276,7 @@ ko:
   button_unarchive: "보관 취소"
   button_uncheck_all: "모두 선택 취소"
   button_unlock: "잠금 해제"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "주시 안 함"
   button_update: "업데이트"
   button_upgrade: "업그레이드"
@@ -1877,7 +1880,7 @@ ko:
   label_enterprise_support: "엔터프라이즈 지원"
   label_enterprise_addon: "Enterprise 추가 기능"
   label_environment: "환경"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "일치함"
   label_everywhere: "어디에 있든지"
   label_example: "예"
@@ -1989,6 +1992,7 @@ ko:
   label_membership_plural: "멤버십"
   lable_membership_added: "멤버 추가됨"
   lable_membership_updated: "멤버 갱신됨"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "프리 알파"
     alpha: "알파"
@@ -2090,6 +2094,7 @@ ko:
   label_percent_complete: "완료 %"
   label_project_activity: "프로젝트 활동"
   label_project_attribute_plural: "프로젝트 특성"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "전체 프로젝트 수"
   label_project_copy_notifications: "프로젝트 복사 중에 이메일 알림 보내기"
   label_project_latest: "최근 프로젝트"

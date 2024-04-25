@@ -52,7 +52,7 @@ RSpec.describe CreateTypeService do
 
         it "does include the progress attribute group" do
           expect(service_call.result.attribute_groups.map(&:key))
-            .to eql %i[people estimates_and_time details costs]
+            .to eql %i[people estimates_and_progress details costs]
         end
       end
     end

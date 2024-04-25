@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,32 +24,18 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module OpenProject
-  module Acts
-    module Watchable
-      module Routes
-        mattr_accessor :models
+class Queries::Projects::Selects::Favored < Queries::Selects::Base
+  def self.key
+    :favored
+  end
 
-        def self.matches?(request)
-          params = request.path_parameters
+  def self.available?
+    true
+  end
 
-          watched?(params[:object_type]) &&
-            /\d+/.match(params[:object_id])
-        end
-
-        def self.watched?(object)
-          watchable_object? object
-        end
-
-        def self.watchable_object?(object)
-          klass = object.to_s.classify.constantize
-          klass.included_modules.include? Redmine::Acts::Watchable
-        rescue StandardError
-          false
-        end
-      end
-    end
+  def caption
+    I18n.t(:label_favoured)
   end
 end

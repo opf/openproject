@@ -264,6 +264,7 @@ sv:
     lists:
       active: "Aktiva projekt"
       my: "Mina projekt"
+      favored: "Favored projects"
       archived: "Arkiverade projekt"
       my_private: "My private project lists"
       new:
@@ -1262,6 +1263,7 @@ sv:
   button_edit: "Redigera"
   button_edit_associated_wikipage: "Redigerade associerad wikisida: %{page_title}"
   button_expand_all: "Expandera alla"
+  button_favorite: "Mark as favorite"
   button_filter: "Filter"
   button_generate: "Generera"
   button_list: "Lista"
@@ -1289,6 +1291,7 @@ sv:
   button_unarchive: "Hämta från Arkiv"
   button_uncheck_all: "Avmarkera alla"
   button_unlock: "Lås upp"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Sluta bevaka"
   button_update: "Uppdatera"
   button_upgrade: "Uppgradera"
@@ -1910,7 +1913,7 @@ sv:
   label_enterprise_support: "Enterprise support"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Miljö"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "är"
   label_everywhere: "överallt"
   label_example: "Exempel"
@@ -2022,6 +2025,7 @@ sv:
   label_membership_plural: "Memberships"
   lable_membership_added: "Member added"
   lable_membership_updated: "Member updated"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alpha"
@@ -2123,6 +2127,7 @@ sv:
   label_percent_complete: "% Complete"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Totalt antal projekt"
   label_project_copy_notifications: "Skicka e-postaviseringar under projekt kopian"
   label_project_latest: "Senaste projekt"

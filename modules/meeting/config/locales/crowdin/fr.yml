@@ -99,7 +99,7 @@ fr:
     attachments:
       text: "Les fichiers joints sont accessibles à tous les participants à la réunion. Vous pouvez également les glisser-déposer dans les notes relatives aux points de l'ordre du jour."
     copy:
-      title: "Copier la réunion %{title}"
+      title: "Copy meeting: %{title}"
       attachments: "Copier les fichiers"
       attachments_text: "Copiez tous les fichiers joints dans la nouvelle réunion."
       agenda: "Copier l'ordre du jour"

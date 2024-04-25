@@ -261,6 +261,7 @@ de:
     lists:
       active: "Aktive Projekte"
       my: "Meine Projekte"
+      favored: "Favored projects"
       archived: "Archivierte Projekte"
       my_private: "Meine privaten Projektlisten"
       new:
@@ -1258,6 +1259,7 @@ de:
   button_edit: "Bearbeiten"
   button_edit_associated_wikipage: "Zugehörige Wikiseite bearbeiten: %{page_title}"
   button_expand_all: "Alle ausklappen"
+  button_favorite: "Mark as favorite"
   button_filter: "Filter"
   button_generate: "Generieren"
   button_list: "Liste"
@@ -1285,6 +1287,7 @@ de:
   button_unarchive: "Entarchivieren"
   button_uncheck_all: "Alle abwählen"
   button_unlock: "Entsperren"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Nicht beobachten"
   button_update: "Aktualisieren"
   button_upgrade: "Upgraden"
@@ -1906,7 +1909,7 @@ de:
   label_enterprise_support: "Enterprise Support"
   label_enterprise_addon: "Enterprise Add-on"
   label_environment: "Umgebung"
-  label_estimates_and_time: "Aufwandsschätzung und Fortschritt"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "ist"
   label_everywhere: "überall"
   label_example: "Beispiel"
@@ -2018,6 +2021,7 @@ de:
   label_membership_plural: "Mitgliedschaften"
   lable_membership_added: "Mitglied hinzugefügt"
   lable_membership_updated: "Mitglied aktualisiert"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alpha"
@@ -2119,6 +2123,7 @@ de:
   label_percent_complete: "% abgeschlossen"
   label_project_activity: "Projektaktivität"
   label_project_attribute_plural: "Projekt-Attribute"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Gesamtzahl der Projekte"
   label_project_copy_notifications: "Sende Mailbenachrichtigungen beim Kopieren des Projekts."
   label_project_latest: "Neueste Projekte"

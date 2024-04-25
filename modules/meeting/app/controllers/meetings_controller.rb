@@ -28,7 +28,7 @@
 
 class MeetingsController < ApplicationController
   around_action :set_time_zone
-  before_action :find_optional_project, only: %i[index new create history]
+  before_action :find_optional_project, only: %i[index new show create history]
   before_action :verify_activities_module_activated, only: %i[history]
   before_action :determine_date_range, only: %i[history]
   before_action :determine_author, only: %i[history]
@@ -68,7 +68,7 @@ class MeetingsController < ApplicationController
   def show
     html_title "#{t(:label_meeting)}: #{@meeting.title}"
     if @meeting.is_a?(StructuredMeeting)
-      render(Meetings::ShowComponent.new(meeting: @meeting))
+      render(Meetings::ShowComponent.new(meeting: @meeting, project: @project))
     elsif @meeting.agenda.present? && @meeting.agenda.locked?
       params[:tab] ||= 'minutes'
     end

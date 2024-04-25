@@ -182,7 +182,7 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
       subject
 
       expect(model_instance.selects.map(&:attribute))
-        .to eql Setting.enabled_projects_columns.map(&:to_sym)
+        .to eql %i[favored] + Setting.enabled_projects_columns.map(&:to_sym)
     end
 
     it "assigns default selects excluding those for admin and ee if not allowed",
@@ -190,7 +190,7 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
       subject
 
       expect(model_instance.selects.map(&:attribute))
-        .to eql [:name]
+        .to eql [:favored, :name]
     end
   end
 
