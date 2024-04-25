@@ -30,7 +30,7 @@
 
 import { Controller } from '@hotwired/stimulus';
 import { debounce } from 'lodash';
-import morphdom from 'morphdom';
+import Idiomorph from 'idiomorph/dist/idiomorph.cjs';
 
 interface TurboBeforeFrameRenderEventDetail {
   render:(currentElement:HTMLElement, newElement:HTMLElement) => void;
@@ -56,14 +56,16 @@ export default class PreviewProgressController extends Controller {
     // See https://github.com/hotwired/turbo/issues/1161 . Once the issue is solved, we can remove
     // this code and just use <turbo-frame refresh="morph"> instead.
     this.frameMorphRenderer = (event:CustomEvent<TurboBeforeFrameRenderEventDetail>) => {
-      event.detail.render = (currentElement:HTMLElement, newElement:HTMLElement) => {
-        morphdom(currentElement, newElement, {
-          childrenOnly: true,
-          onBeforeElUpdated: (fromEl) => {
-            return !fromEl.hasAttribute('data-turbo-permanent');
-          },
-        });
-      };
+     event.detail.render = (currentElement:HTMLElement, newElement:HTMLElement) => {
+       Idiomorph.morph(currentElement, newElement, {
+           morphStyle: 'innerHTML',
+           callbacks: {
+             beforeNodeMorphed: (oldNode:HTMLElement) => {
+               return !oldNode.hasAttribute('data-turbo-permanent');
+             },
+         },
+       });
+     };
     };
 
     this.togglePermanentAttribute = (event:FocusEvent) => {
