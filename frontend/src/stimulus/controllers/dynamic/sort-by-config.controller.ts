@@ -52,9 +52,8 @@ export default class SortByConfigController extends Controller {
 buildSortJson():string {
   const filters = this.inputRowTargets.map((row) => {
     const field = this.getSelectedField(row);
-    if (field) {
-   return [field, this.getSelectedDirection(row)];
-    }
+    if (field) { return [field, this.getSelectedDirection(row)]; }
+    return null;
 });
 
   return JSON.stringify(compact(filters));
