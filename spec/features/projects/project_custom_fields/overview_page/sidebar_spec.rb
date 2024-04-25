@@ -840,4 +840,20 @@ RSpec.describe "Show project custom fields on project overview page", :js, :with
       end
     end
   end
+
+  describe "with attribute helper texts" do
+    let!(:instance) do
+      create :project_help_text,
+             attribute_name: boolean_project_custom_field.attribute_name
+    end
+    let(:modal) { Components::AttributeHelpTextModal.new(instance) }
+
+    it "displays when active" do
+      overview_page.visit_page
+      # Open help text modal
+      modal.open!
+      expect(modal.modal_container).to have_text "Attribute help text"
+      modal.expect_edit(editable: true)
+    end
+  end
 end

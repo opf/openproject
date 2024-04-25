@@ -8,7 +8,7 @@ keywords: project attributes, project settings, enable, disable, project admin
 
 # Project attributes
 
-**[Project attributes]**(#project-attributes) are a set of project-level custom fields that let you display certain types of information relevant to your project in the [Project overview](../../../project-overview) page. 
+**Project attributes**are a set of project-level custom fields that let you display certain types of information relevant to your project in the [Project overview](../../../project-overview) page. 
 
 This guide is aimed at project administrators who want to enable or disable certain project attributes for their project. 
 
