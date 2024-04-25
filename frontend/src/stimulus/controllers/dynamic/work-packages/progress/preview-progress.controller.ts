@@ -46,7 +46,6 @@ export default class PreviewProgressController extends Controller {
 
   private debouncedPreview:(event:Event) => void;
   private frameMorphRenderer:(event:CustomEvent<TurboBeforeFrameRenderEventDetail>) => void;
-  private togglePermanentAttribute:(event:Event) => void;
 
   connect() {
     this.debouncedPreview = debounce((event:Event) => { void this.preview(event); }, 100);
@@ -68,16 +67,7 @@ export default class PreviewProgressController extends Controller {
      };
     };
 
-    this.togglePermanentAttribute = (event:FocusEvent) => {
-      if (event.target) {
-        (event.target as HTMLInputElement).toggleAttribute('data-turbo-permanent', event.type === 'focus');
-      }
-    };
-
     this.progressInputTargets.forEach((target) => {
-      target.addEventListener('focus', this.togglePermanentAttribute);
-      target.addEventListener('blur', this.togglePermanentAttribute);
-
       target.addEventListener('input', this.debouncedPreview);
     });
 
@@ -88,8 +78,6 @@ export default class PreviewProgressController extends Controller {
   disconnect() {
     this.progressInputTargets.forEach((target) => {
       target.removeEventListener('input', this.debouncedPreview);
-      target.removeEventListener('focus', this.togglePermanentAttribute);
-      target.removeEventListener('blur', this.togglePermanentAttribute);
     });
     const turboFrame = this.formTarget.closest('turbo-frame') as HTMLFrameElement;
     turboFrame.removeEventListener('turbo:before-frame-render', this.frameMorphRenderer);
