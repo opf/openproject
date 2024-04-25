@@ -264,6 +264,7 @@ bg:
     lists:
       active: "Active projects"
       my: "My projects"
+      favored: "Favored projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -993,12 +994,14 @@ bg:
               only_same_project_categories_allowed: "Категорията на работен пакет трябва да бъде в същия проект като работния пакет."
               does_not_exist: "Определената категория не съществува."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "can't be inferior to 'Remaining work'."
-              must_be_set_when_remaining_work_is_set: "must be set when 'Remaining work' is set."
-              only_values_greater_or_equal_zeroes_allowed: "трябва да бъде > = 0."
+              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "can't exceed 'Work'."
-              must_be_set_when_work_is_set: "must be set when 'Work' is set."
+              cant_exceed_work: "Cannot be higher than Work."
+              must_be_set_when_work_is_set: "Required when Work is set."
+              format: "%{message}"
           readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
         type:
           attributes:
@@ -1261,6 +1264,7 @@ bg:
   button_edit: "Редактиране"
   button_edit_associated_wikipage: "Редактиране на свързани Wiki страница: %{page_title}"
   button_expand_all: "Разгъване на всички"
+  button_favorite: "Mark as favorite"
   button_filter: "Филтър"
   button_generate: "Генерирай"
   button_list: "Списък"
@@ -1288,6 +1292,7 @@ bg:
   button_unarchive: "Разархивиране"
   button_uncheck_all: "Размаркирай всички"
   button_unlock: "Отключване"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Спри наблюдение"
   button_update: "Обнови"
   button_upgrade: "Надграждане"
@@ -1650,8 +1655,10 @@ bg:
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
-        progress_calculation_changed: >
-          Progress calculation updated.
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
   links:
     configuration_guide: "Configuration guide"
     get_in_touch: "You have questions? Get in touch with us."
@@ -1907,7 +1914,7 @@ bg:
   label_enterprise_support: "Enterprise support"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Среда"
-  label_estimates_and_time: "Estimates and time"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "е"
   label_everywhere: "навсякъде"
   label_example: "Пример"
@@ -2019,6 +2026,7 @@ bg:
   label_membership_plural: "Memberships"
   lable_membership_added: "Member added"
   lable_membership_updated: "Member updated"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alpha"
@@ -2120,6 +2128,7 @@ bg:
   label_percent_complete: "% Complete"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Общ брой на проектите"
   label_project_copy_notifications: "Изпраща имейл известия по време на копиране на проект"
   label_project_latest: "Последни проекти"

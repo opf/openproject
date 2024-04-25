@@ -8,14 +8,6 @@ export interface IFCPermissionMap {
   manage_bcf:boolean;
 }
 
-export interface IFCGonDefinition {
-  models:IfcModelDefinition[];
-  shown_models:number[];
-  projects:IfcProjectDefinition[];
-  xkt_attachment_ids:{ [id:number]:number };
-  permissions:IFCPermissionMap;
-}
-
 export interface IfcProjectDefinition {
   name:string;
   id:string;
@@ -27,12 +19,21 @@ export interface IfcModelDefinition {
   default:boolean;
 }
 
+export interface IFCGonDefinition {
+  models:IfcModelDefinition[];
+  shown_models:number[];
+  projects:IfcProjectDefinition[];
+  xkt_attachment_ids:{ [id:number]:number };
+  permissions:IFCPermissionMap;
+}
+
 @Injectable()
 export class IfcModelsDataService {
-  constructor(readonly paths:PathHelperService,
+  constructor(
+    readonly paths:PathHelperService,
     readonly currentProjectService:CurrentProjectService,
-    readonly gon:GonService) {
-  }
+    readonly gon:GonService,
+  ) { }
 
   public get models():IfcModelDefinition[] {
     return this.gonIFC.models;

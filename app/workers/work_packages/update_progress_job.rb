@@ -30,31 +30,16 @@
 class WorkPackages::UpdateProgressJob < ApplicationJob
   queue_with_priority :default
 
+  attr_reader :current_mode, :previous_mode
+
   def perform(current_mode:, previous_mode:)
+    @current_mode = current_mode
+    @previous_mode = previous_mode
+
     with_temporary_progress_table do
-      case current_mode
-      when "field"
-        unset_all_percent_complete_values if previous_mode == "disabled"
-        fix_remaining_work_set_with_100p_complete
-        fix_remaining_work_exceeding_work
-        fix_only_work_being_set
-        fix_only_remaining_work_being_set
-        derive_unset_remaining_work_from_work_and_p_complete
-        derive_unset_work_from_remaining_work_and_p_complete
-        derive_p_complete_from_work_and_remaining_work
-      when "status"
-        set_p_complete_from_status
-        fix_remaining_work_set_with_100p_complete
-        derive_unset_work_from_remaining_work_and_p_complete
-        derive_remaining_work_from_work_and_p_complete
-      else
-        raise "Unknown progress calculation mode: #{current_mode}, aborting."
-      end
-
+      adjust_progress_values
       update_totals
-
       unset_total_p_complete
-
       copy_progress_values_to_work_packages_and_update_journals
     end
   end
@@ -67,6 +52,27 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
       yield
     ensure
       drop_temporary_progress_table
+    end
+  end
+
+  def adjust_progress_values
+    case current_mode
+    when "field"
+      unset_all_percent_complete_values if previous_mode == "disabled"
+      fix_remaining_work_set_with_100p_complete
+      fix_remaining_work_exceeding_work
+      fix_only_work_being_set
+      fix_only_remaining_work_being_set
+      derive_unset_remaining_work_from_work_and_p_complete
+      derive_unset_work_from_remaining_work_and_p_complete
+      derive_p_complete_from_work_and_remaining_work
+    when "status"
+      set_p_complete_from_status
+      fix_remaining_work_set_with_100p_complete
+      derive_unset_work_from_remaining_work_and_p_complete
+      derive_remaining_work_from_work_and_p_complete
+    else
+      raise "Unknown progress calculation mode: #{current_mode}, aborting."
     end
   end
 
@@ -145,7 +151,12 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
   def derive_unset_remaining_work_from_work_and_p_complete
     execute(<<~SQL.squish)
       UPDATE temp_wp_progress_values
-      SET remaining_hours = ROUND((estimated_hours - (estimated_hours * done_ratio / 100.0))::numeric, 2)
+      SET remaining_hours =
+        GREATEST(0,
+          LEAST(estimated_hours,
+            ROUND((estimated_hours - (estimated_hours * done_ratio / 100.0))::numeric, 2)
+          )
+        )
       WHERE estimated_hours IS NOT NULL
         AND remaining_hours IS NULL
         AND done_ratio IS NOT NULL
@@ -155,7 +166,12 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
   def derive_remaining_work_from_work_and_p_complete
     execute(<<~SQL.squish)
       UPDATE temp_wp_progress_values
-      SET remaining_hours = ROUND((estimated_hours - (estimated_hours * done_ratio / 100.0))::numeric, 2)
+      SET remaining_hours =
+        GREATEST(0,
+          LEAST(estimated_hours,
+            ROUND((estimated_hours - (estimated_hours * done_ratio / 100.0))::numeric, 2)
+          )
+        )
       WHERE estimated_hours IS NOT NULL
         AND done_ratio IS NOT NULL
     SQL
@@ -164,7 +180,11 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
   def derive_unset_work_from_remaining_work_and_p_complete
     execute(<<~SQL.squish)
       UPDATE temp_wp_progress_values
-      SET estimated_hours = ROUND((remaining_hours * 100 / (100 - done_ratio))::numeric, 2)
+      SET estimated_hours =
+        CASE done_ratio
+          WHEN 0 THEN remaining_hours
+          ELSE ROUND((remaining_hours * 100 / (100 - done_ratio))::numeric, 2)
+        END
       WHERE estimated_hours IS NULL
         AND remaining_hours IS NOT NULL
         AND done_ratio IS NOT NULL
@@ -192,6 +212,8 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
     SQL
   end
 
+  # Computes total work, total remaining work and total % complete for all work
+  # packages having children.
   def update_totals
     execute(<<~SQL)
       UPDATE temp_wp_progress_values
@@ -203,6 +225,7 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
           END
       FROM (
         SELECT wp_tree.ancestor_id AS id,
+               MAX(generations) AS generations,
                SUM(estimated_hours) AS total_work,
                SUM(remaining_hours) AS total_remaining_work
         FROM work_package_hierarchies wp_tree
@@ -210,6 +233,7 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
         GROUP BY wp_tree.ancestor_id
       ) totals
       WHERE temp_wp_progress_values.id = totals.id
+      AND totals.generations > 0
     SQL
   end
 
@@ -272,10 +296,19 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
   end
 
   def create_journals_for_updated_work_packages(updated_work_package_ids)
+    cause = { type: "system_update", feature: system_update_explanation }
     WorkPackage.where(id: updated_work_package_ids).find_each do |work_package|
       Journals::CreateService
         .new(work_package, system_user)
-        .call(cause: Journal::CausedBySystemUpdate.new(feature: "progress_calculation_changed"))
+        .call(cause:)
+    end
+  end
+
+  def system_update_explanation
+    if previous_mode == "disabled"
+      "progress_calculation_adjusted_from_disabled_mode"
+    else
+      "progress_calculation_adjusted"
     end
   end
 

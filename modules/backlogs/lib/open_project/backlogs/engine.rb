@@ -200,7 +200,7 @@ module OpenProject::Backlogs
         end
       end
 
-      ::Type.add_default_mapping(:estimates_and_time, :story_points)
+      ::Type.add_default_mapping(:estimates_and_progress, :story_points)
       ::Type.add_default_mapping(:other, :position)
 
       ::Queries::Register.register(::Query) do

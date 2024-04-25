@@ -42,6 +42,9 @@ sl:
         subprojects:
           title: 'Podprojekti'
           no_results: 'Ni podprojektov. '
+        project_favorites:
+          title: 'Project favorites'
+          no_results: 'You currently have no project favorites. Click on the star icon in the project dashboard to add one to your favorites.'
         time_entries_current_user:
           title: 'Moj porabljen čas'
           displayed_days: 'Dnevi prikazani v gradniku:'

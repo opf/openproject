@@ -263,6 +263,7 @@ hu:
     lists:
       active: "Aktív projektek"
       my: "Saját projekjeim"
+      favored: "Favored projects"
       archived: "Archivált projektek"
       my_private: "Privát projektlistáim"
       new:
@@ -990,12 +991,14 @@ hu:
               only_same_project_categories_allowed: "A feladatcsoport kategóriájának azonos projektben kell lennie a munkacsomaggal."
               does_not_exist: "A megadott kategória nem létezik."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "can't be inferior to 'Remaining work'."
-              must_be_set_when_remaining_work_is_set: "must be set when 'Remaining work' is set."
-              only_values_greater_or_equal_zeroes_allowed: "legyen >=0."
+              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "can't exceed 'Work'."
-              must_be_set_when_work_is_set: "must be set when 'Work' is set."
+              cant_exceed_work: "Cannot be higher than Work."
+              must_be_set_when_work_is_set: "Required when Work is set."
+              format: "%{message}"
           readonly_status: "A munkacsomag írásvédett, ezért a tulajdonságai nem módosíthatók."
         type:
           attributes:
@@ -1258,6 +1261,7 @@ hu:
   button_edit: "Szerkesztés"
   button_edit_associated_wikipage: "A hozzárendelt Wiki oldal: %{page_title} szerkesztése"
   button_expand_all: "Az összes kibontása"
+  button_favorite: "Mark as favorite"
   button_filter: "Szűrő"
   button_generate: "Generálás"
   button_list: "Lista"
@@ -1285,6 +1289,7 @@ hu:
   button_unarchive: "Nem archívált"
   button_uncheck_all: "Az összes kijelölés megszüntetése"
   button_unlock: "A zárolás feloldása"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Megfigyelés leállítása"
   button_update: "Frissítés"
   button_upgrade: "Frissítés"
@@ -1647,8 +1652,10 @@ hu:
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
-        progress_calculation_changed: >
-          Progress calculation updated.
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
   links:
     configuration_guide: "Konfigurációs útmutató"
     get_in_touch: "Kérdése van? Lépjen kapcsolatba velünk"
@@ -1904,7 +1911,7 @@ hu:
   label_enterprise_support: "Enterprise support"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Környezet"
-  label_estimates_and_time: "Becslések & időpontok"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "van"
   label_everywhere: "bárhol"
   label_example: "Példa"
@@ -2016,6 +2023,7 @@ hu:
   label_membership_plural: "Memberships"
   lable_membership_added: "Felhasználó hozzáadva"
   lable_membership_updated: "Felhasználó frissítve"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "alfa előtti"
     alpha: "alfa"
@@ -2117,6 +2125,7 @@ hu:
   label_percent_complete: "% Complete"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "A projektek teljes száma"
   label_project_copy_notifications: "E-mail értesítéseket küld a projekt másolás során"
   label_project_latest: "Legújabb projektek"

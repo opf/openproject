@@ -378,6 +378,7 @@ hu:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "nappal ezelőtt"
     label_all: "mind"
+    label_all_uppercase: "All"
     label_all_work_packages: "minden feladatcsoport"
     label_and: "és"
     label_ascending: "Növekvő"
@@ -419,6 +420,7 @@ hu:
     label_expand_project_menu: "Project menü kibontása"
     label_export: "Exportálás"
     label_export_preparing: "Az exportálás előkészítés alatt áll, és hamarosan letöltésre kerül."
+    label_favored: "Favored"
     label_filename: "File"
     label_filesize: "Méret"
     label_general: "Általános"
@@ -643,7 +645,7 @@ hu:
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: "Új értesítések érkeztek."
-          link_text: "Kattintson ide a betöltésükhöz"
+          link_text: "Click here to load them."
       menu:
         accountable: "Felelős"
         by_project: "Olvasatlan projektenként"

@@ -352,7 +352,7 @@ lt:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+                Šioje laidoje yra keletas naujų savybių ir patobulinimų: <br> <ul class="%{list_styling_class}"> <li>Darbo eigos skaičiavimas darbo paketų hierarchijoje.</li> <li>Projekto atributų valdymas struktūriniu būdu projekto apžvalgos puslapyje.</li> <li>Geresnis savo laukų vaizdas projektų sąraše ir projekto apžvalgoje.</li> <li>Unifikuotos puslapių antraštės su gražiu Primer dizainu.</li> <li>Pagerinti susitikimai su naujomis savybėmis, tokiomis kaip priedų įkėlimas, atsakingais asmenimis ir susitikimų istorija.</li> <li>Automatiniai pranešimai apie nesveikas failų saugyklas, valdymas perjungiamomis parinktimis.</li> <li>Automatiškai valdomų projekto aplankų kopijavimas OneDrive/SharePoint, kai kopijuojami projektai.</li> <li>Administratorių prašymas išimti prieigą prie darbo paketų atšaukiant projekto narystę.</li> <li>Pagerintas planavimas su 4 ir 8 savaičių vaizdo režimais komandos planavime.</li> </ul>
     ical_sharing_modal:
       title: "Prenumeruoti kalendorių"
       inital_setup_error_message: "Gaunant duomenis įvyko klaida."
@@ -378,6 +378,7 @@ lt:
     label_added_time_by: 'Pridėjo <a href="%{authorLink}">%{author}</a> %{age}'
     label_ago: "dienų prieš"
     label_all: "visi"
+    label_all_uppercase: "All"
     label_all_work_packages: "visi darbų paketai"
     label_and: "ir"
     label_ascending: "Didėjančia tvarka"
@@ -419,6 +420,7 @@ lt:
     label_expand_project_menu: "Išskleisti projekto meniu"
     label_export: "Eksportuoti"
     label_export_preparing: "Eksportas ruošiamas ir greitai bus parsiųstas."
+    label_favored: "Favored"
     label_filename: "Failas"
     label_filesize: "Dydis"
     label_general: "Bendra"
@@ -645,7 +647,7 @@ lt:
           no_selection: "Spauskite ant pranešimo, kad peržiūrėtumėte visas veiksmo detales."
         new_notifications:
           message: "Yra naujų pranešimų."
-          link_text: "Spauskite čia, kad juos įkeltumėte"
+          link_text: "Spauskite čia, kad juos įkeltumėte."
       menu:
         accountable: "Atsakingas"
         by_project: "Neperskaityti pagal projektą"
@@ -928,7 +930,7 @@ lt:
       message_work_package_status_blocked: "Darbų paketo būsena negali būti keičiama, nes dabar yra uždaryta ir uždaryta versija yra priskirta."
       placeholder_filter_by_text: "Tema, aprašymas, komentarai, ..."
       progress:
-        title: "Work estimates and progress"
+        title: "Darbo įvertinimas ir eiga"
       baseline:
         addition_label: "Pridėta į vaizdą lyginimo laiko periode"
         removal_label: "Išimta iš vaizdo lyginimo laiko periode"
@@ -1335,5 +1337,5 @@ lt:
         Close: "Uždaryti"
     open_project_storage_modal:
       waiting_subtitle:
-        network_off: "There is a network problem."
-        network_on: "Network is back. We are trying."
+        network_off: "Yra tinklo problema."
+        network_on: "Tinklas grįžo. Mes bandome."

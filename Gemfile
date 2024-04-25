@@ -164,7 +164,7 @@ gem "meta-tags", "~> 2.21.0"
 
 gem "paper_trail", "~> 15.1.0"
 
-gem "clamav-client", github: "honestica/clamav-client", ref: "29e78ae94307cb34e79ddd29c5da79752239d8b7"
+gem "op-clamav-client", "~> 3.4", require: "clamav"
 
 group :production do
   # we use dalli as standard memcache client
@@ -381,6 +381,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-octicons", "~>19.9.0"
-gem "openproject-octicons_helper", "~>19.9.0"
-gem "openproject-primer_view_components", "~>0.28.1"
+gem "openproject-octicons", "~>19.10.0"
+gem "openproject-octicons_helper", "~>19.10.0"
+gem "openproject-primer_view_components", "~>0.29.0"

@@ -377,6 +377,7 @@ da:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "dage siden"
     label_all: "alle"
+    label_all_uppercase: "All"
     label_all_work_packages: "alle arbejdspakker"
     label_and: "og"
     label_ascending: "Stigende"
@@ -418,6 +419,7 @@ da:
     label_expand_project_menu: "Expand project menu"
     label_export: "Eksportér"
     label_export_preparing: "Eksporten er under forberedelse og vil blive hentet om lidt."
+    label_favored: "Favored"
     label_filename: "Fil"
     label_filesize: "Størrelse"
     label_general: "Generelle"
@@ -642,7 +644,7 @@ da:
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: "There are new notifications."
-          link_text: "Click here to load them"
+          link_text: "Click here to load them."
       menu:
         accountable: "Accountable"
         by_project: "Unread by project"

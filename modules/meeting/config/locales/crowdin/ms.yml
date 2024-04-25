@@ -98,7 +98,7 @@ ms:
     attachments:
       text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
-      title: "Salin mesyuarat %{title}"
+      title: "Copy meeting: %{title}"
       attachments: "Salin lampiran"
       attachments_text: "Salin semua fail yang dilampirkan ke dalam mesyuarat baru"
       agenda: "Salin agenda"
@@ -167,7 +167,6 @@ ms:
   label_agenda_item_add_notes: "Tambah nota"
   label_agenda_item_work_package: "Agenda item work package"
   text_agenda_item_title: 'Agenda item "%{title}"'
-  text_agenda_work_package_title: 'Agenda item for %{work_package}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
   text_deleted_agenda_item: 'Deleted agenda item'
   label_initial_meeting_details: "Meeting"

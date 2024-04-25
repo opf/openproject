@@ -279,19 +279,16 @@ RSpec.describe "Open the Meetings tab", :js do
     end
 
     context "when user is allowed to edit meetings" do
-      it "shows the add to meeting button" do
+      it "shows the add to meeting button and dialog" do
         work_package_page.visit!
         switch_to_meetings_tab
 
         meetings_tab.expect_add_to_meeting_button_present
-      end
 
-      it "opens the add to meeting dialog when clicking the add to meeting button" do
         work_package_page.visit!
         switch_to_meetings_tab
 
         meetings_tab.open_add_to_meeting_dialog
-
         meetings_tab.expect_add_to_meeting_dialog_shown
       end
 

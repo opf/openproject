@@ -218,6 +218,24 @@ RSpec.describe Queries::ParamsParser, type: :model do
       end
     end
 
+    context "with an old (APIv3) style filter" do
+      let(:params) do
+        {
+
+          filters: JSON.dump([{ active: { operator: "=", values: ["f"] } },
+                              { cf_32: { operator: "=", values: ["63"] } }, # rubocop:disable Naming/VariableNumber
+                              { cf_34: { operator: "=", values: ["2006"] } }]) # rubocop:disable Naming/VariableNumber
+        }
+      end
+
+      it "returns the parsed filter" do
+        expect(subject[:filters])
+          .to contain_exactly({ attribute: "active", operator: "=", values: %w[f] },
+                              { attribute: "cf_32", operator: "=", values: %w[63] },
+                              { attribute: "cf_34", operator: "=", values: %w[2006] })
+      end
+    end
+
     context "with sortBy with a single value" do
       let(:params) do
         {

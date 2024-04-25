@@ -271,7 +271,7 @@ RSpec.describe "Persisted lists on projects index page",
     end
   end
 
-  describe "persisted filters" do
+  describe "persisted query access" do
     current_user { user }
 
     let(:another_project) do
@@ -399,6 +399,38 @@ RSpec.describe "Persisted lists on projects index page",
         .to have_no_text(another_users_projects_list.name)
       expect(page)
         .to have_text("You are not authorized to access this page.")
+    end
+  end
+
+  describe "persisted query access on invalid query" do
+    current_user { user }
+
+    let!(:project_member) { create(:member, principal: user, project:, roles: [developer]) }
+
+    let!(:invalid_list) do
+      # Faking a query that has references stored to a custom field that no longer exists (e.g. has been deleted)
+      create(:project_query, name: "My projects list", user:, select: %w[name created_at cf_1]) do |query|
+        query.where("member_of", "=", OpenProject::Database::DB_VALUE_TRUE)
+        query.where("cf_1", "=", 1)
+        query.where("created_at", "=", "2020-01-01")
+
+        query.save(validate: false)
+      end
+    end
+
+    it "still shows the query falling back to a valid subset" do
+      visit projects_path(query_id: invalid_list.id)
+
+      # Keeps only the 'Name' column as the cf does not exist and Created on is admin only.
+      projects_page.expect_columns "Name"
+      projects_page.expect_no_columns "Created on"
+
+      # Keeps only the 'I am member' filter as the cf does not exist and created_at is admin only.
+      projects_page.expect_filter_count 1
+      projects_page.expect_filter_set("member_of")
+
+      # The query is still valid, therefore it is executed, and returns the project the user is member in.
+      projects_page.expect_projects_listed(project)
     end
   end
 end

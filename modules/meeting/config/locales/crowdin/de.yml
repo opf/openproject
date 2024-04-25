@@ -99,7 +99,7 @@ de:
     attachments:
       text: "Angehängte Dateien sind für alle Teilnehmer der Besprechung verfügbar. Sie können diese auch per Drag-and-drop in die Notizen der Tagesordnungspunkte ziehen."
     copy:
-      title: "Besprechung %{title} kopieren"
+      title: "Copy meeting: %{title}"
       attachments: "Anhänge kopieren"
       attachments_text: "Alle angehängten Dateien in die neue Besprechung kopieren"
       agenda: "Tagesordnung kopieren"
@@ -168,7 +168,6 @@ de:
   label_agenda_item_add_notes: "Notiz hinzufügen"
   label_agenda_item_work_package: "Tagesordnungspunkt Arbeitspaket"
   text_agenda_item_title: 'Tagesordnungspunkt „%{title}“'
-  text_agenda_work_package_title: 'Agenda item for %{work_package}"'
   text_agenda_work_package_deleted: 'Tagesordnungspunkt für gelöschtes Arbeitspaket'
   text_deleted_agenda_item: 'Gelöschter Tagesordnungspunkt'
   label_initial_meeting_details: "Besprechung"

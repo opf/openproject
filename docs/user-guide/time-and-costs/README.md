@@ -14,6 +14,7 @@ Create budgets, log time and costs on specific work packages and create time and
 
 | Topic                                | Content                                     |
 |--------------------------------------|:--------------------------------------------|
+| [Progress tracking](progress-tracking)| How to track progress for work packages     |
 | [Time tracking](time-tracking)       | How to log time to work packages.           |
 | [Cost tracking](cost-tracking)       | How to track unit costs spent in a project. |
 | [Time and cost reporting](reporting) | How to create time and cost reports.        |

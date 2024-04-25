@@ -261,6 +261,7 @@ lt:
     lists:
       active: "Aktyvūs projektai"
       my: "Mano projektai"
+      favored: "Favored projects"
       archived: "Archyvuoti projektai"
       my_private: "Mano privatūs projektų sąrašai"
       new:
@@ -325,22 +326,22 @@ lt:
       will_remove_the_groups_role: "Tai išims grupės vaidmenį iš šio projekto."
       however_work_packages_shared_with_user_html:
         one: "Kaip bebūtų, %{shared_work_packages_link} taipogi bendrinamas su šiuo naudotoju."
-        few: "However, %{shared_work_packages_link} have also been shared with this user."
-        many: "However, %{shared_work_packages_link} have also been shared with this user."
+        few: "Kaip bebūtų, %{shared_work_packages_link} taipogi bendrinami su šiuo naudotoju."
+        many: "Kaip bebūtų, %{shared_work_packages_link} taipogi bendrinami su šiuo naudotoju."
         other: "Kaip bebūtų, %{shared_work_packages_link} taipogi bendrinami su šiuo naudotoju."
       however_work_packages_shared_with_group_html:
-        one: "However, %{shared_work_packages_link} has also been shared with this group."
-        few: "However, %{shared_work_packages_link} have also been shared with this group."
-        many: "However, %{shared_work_packages_link} have also been shared with this group."
+        one: "Kaip bebūtų, %{shared_work_packages_link} taipogi bendrinamas su šia grupe."
+        few: "Kaip bebūtų, %{shared_work_packages_link} taipogi bendrinami su šia grupe."
+        many: "Kaip bebūtų, %{shared_work_packages_link} taipogi bendrinami su šia grupe."
         other: "Kaip bebūtų, %{shared_work_packages_link} taipogi bendrinami su šia grupe."
       remove_work_packages_shared_with_user_too: "Naudotojas, kuris buvo išimtas kaip narys, vis dar gali prieiti prie bendrinamų darbo paketų. Ar norėtumėte taipogi išimti šiuos bendrinimus?"
       remove_work_packages_shared_with_group_too: "Grupė, kuri buvo pašlinta kaip narys, vis dar turi prieigą prie bendrinamų darbo paketų. Ar norėtumėte taipogi panaikinti ir bendrinimus?"
       will_not_affect_inherited_shares: "(Tai neįtakos darbo paketų, bendrinamų su jų grupe)"
       can_remove_direct_but_not_shared_roles: "Jūs galite išimti šį naudotoją kaip tiesioginį projekto narį, bet grupė, kurios narys jis yra, taipogi yra šiame projekte, taigi jie ir toliau bus nariai per grupę."
       also_work_packages_shared_with_user_html:
-        one: "Also, %{shared_work_packages_link} has been shared with this user."
-        few: "Also, %{shared_work_packages_link} have been shared with this user."
-        many: "Also, %{shared_work_packages_link} have been shared with this user."
+        one: "Taipogi, %{shared_work_packages_link} bendrinamas su šiuo naudotoju."
+        few: "Taipogi, %{shared_work_packages_link} bendrinamas su šiuo naudotoju."
+        many: "Taipogi, %{shared_work_packages_link} bendrinama su šiuo naudotoju."
         other: "Taipogi, %{shared_work_packages_link} bendrinami su šiuo naudotoju."
       remove_project_membership_or_work_package_shares_too: "Ar norite išimti tik naudotoją kaip tiesioginį narį (ir palikti bendrinimus), ar taipogi išimti darbo paketų bendrinimus?"
       will_remove_all_user_access_priveleges: "Išėmus šį narį taipogi bus išimtos visos naudotojo privilegijos projektui. Naudotojas vis dar egzistuos kaip šios egzemplioriaus dalis."
@@ -351,19 +352,19 @@ lt:
     delete_work_package_shares_dialog:
       title: "Atšaukti darbo paketų bendrinimus"
       shared_with_this_user_html:
-        one: "%{all_shared_work_packages_link} has been shared with this user."
-        few: "%{all_shared_work_packages_link} have been shared with this user."
-        many: "%{all_shared_work_packages_link} have been shared with this user."
+        one: "%{all_shared_work_packages_link} bendrinamas su šiuo naudotoju."
+        few: "%{all_shared_work_packages_link} bendrinami su šiuo naudotoju."
+        many: "%{all_shared_work_packages_link} bendrinami su šiuo naudotoju."
         other: "%{all_shared_work_packages_link} bendrinami su šiuo naudotoju."
       shared_with_this_group_html:
-        one: "%{all_shared_work_packages_link} has been shared with this group."
-        few: "%{all_shared_work_packages_link} have been shared with this group."
-        many: "%{all_shared_work_packages_link} have been shared with this group."
+        one: "%{all_shared_work_packages_link} pabendrintas su šia grupe."
+        few: "%{all_shared_work_packages_link} pabendrinti su šia grupe."
+        many: "%{all_shared_work_packages_link} pabendrinti su šia grupe."
         other: "%{all_shared_work_packages_link} pabendrinti su šia grupe."
       shared_with_permission_html:
-        one: "Only %{shared_work_packages_link} has been shared with %{shared_role_name} permissions."
-        few: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
-        many: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
+        one: "Tik %{shared_work_packages_link} pabendrintas su %{shared_role_name} teisėmis."
+        few: "Tik %{shared_work_packages_link} pabendrinti su %{shared_role_name} teisėmis."
+        many: "Tik %{shared_work_packages_link} pabendrinti su %{shared_role_name} teisėmis."
         other: "Tik %{shared_work_packages_link} pabendrinti su %{shared_role_name} teisėmis."
       revoke_all_or_with_role: "Ar norite atšaukti prieigą prie visų bendrinamų darbo paketų, ar tik su %{shared_role_name} teisėmis?"
       will_not_affect_inherited_shares: "(Tai neįtakos darbo paketų, bendrinamų su jų grupe)"
@@ -1004,12 +1005,14 @@ lt:
               only_same_project_categories_allowed: "Darbų paketo kategorija turi būti tame pačiame projekte kaip ir darbų paketas."
               does_not_exist: "Nurodyta kategorija neegzistuoja."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "Negali būti mažiau už „Liko darbo“."
-              must_be_set_when_remaining_work_is_set: "Turi būti nurodyta, kai nurodyta „Liko darbo“."
-              only_values_greater_or_equal_zeroes_allowed: "turi būti >= 0."
+              cant_be_inferior_to_remaining_work: "Negali būti mažesnis už likusį darbą."
+              must_be_set_when_remaining_work_is_set: "Privaloma, kai nustatytas likęs darbas."
+              only_values_greater_or_equal_zeroes_allowed: "Turi būti >= 0."
+              format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "Negali viršyti „Darbas“."
-              must_be_set_when_work_is_set: "Turi būti nurodyta, kai nurodyta „Darbas“."
+              cant_exceed_work: "Negali būdi daugiau nei Darbas."
+              must_be_set_when_work_is_set: "Privaloma, kai nustatytas Darbas."
+              format: "%{message}"
           readonly_status: "Darbo paketas yra tik skaitymo būsenoje, taigi jo atributų keisti negalima."
         type:
           attributes:
@@ -1288,6 +1291,7 @@ lt:
   button_edit: "Redaguoti"
   button_edit_associated_wikipage: "Redaguoti susijusį Wiki puslapį: %{page_title}"
   button_expand_all: "Išskleisti visus"
+  button_favorite: "Mark as favorite"
   button_filter: "Filtras"
   button_generate: "Generuoti"
   button_list: "Sąrašas"
@@ -1315,6 +1319,7 @@ lt:
   button_unarchive: "Išarchyvuoti"
   button_uncheck_all: "Atžymėti visus"
   button_unlock: "Atrakinti"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Nestebėti"
   button_update: "Atnaujinti"
   button_upgrade: "Atnaujinti"
@@ -1713,8 +1718,10 @@ lt:
       system_update:
         file_links_journal: >
           Nuo dabar, su failų nuorodomis (failais, saugomais išorinse saugyklose) susiję veiksmai bus rodomi Veiksmų kortelėje. Žemiau pateikiamas jau egzistavusių nuorodų veiksmų sąrašas:
-        progress_calculation_changed: >
-          Eigos skaičiavimas atnaujintas
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Eigos skaičiavimas automatiškai <a href="%{href}" target="_blank">nustatytas į paremtą darbu ir pakeistas su versijos atnaujinimu</a>.
+        progress_calculation_adjusted: >-
+          Eigos skaičiavimas automatiškai <a href="%{href}" target="_blank">pakeistas su versijos atnaujinimu</a>.
   links:
     configuration_guide: "Konfigūravimo vadovas"
     get_in_touch: "Turite klausimų? Susisiekite su mumis."
@@ -1970,7 +1977,7 @@ lt:
   label_enterprise_support: "„Enterprise“ palaikymas"
   label_enterprise_addon: "Enterprise priedas"
   label_environment: "Aplinka"
-  label_estimates_and_time: "Sąmatos ir laikas"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "yra"
   label_everywhere: "visur"
   label_example: "Pavyzdys"
@@ -2082,6 +2089,7 @@ lt:
   label_membership_plural: "Narystės"
   lable_membership_added: "Narys pridėtas"
   lable_membership_updated: "Narys atnaujintas"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alfa"
     alpha: "alfa"
@@ -2183,6 +2191,7 @@ lt:
   label_percent_complete: "% baigta"
   label_project_activity: "Projekto aktyvumas"
   label_project_attribute_plural: "Projekto atributai"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Bendras projektų skaičius"
   label_project_copy_notifications: "Vykstant projekto kopijavimui siųsti pranešimus į el. paštą"
   label_project_latest: "Naujausi projektai"
@@ -3137,7 +3146,7 @@ lt:
   text_are_you_sure: "Ar esate įsitikinę?"
   text_are_you_sure_continue: "Ar tikrai norite tęsti?"
   text_are_you_sure_with_children: "Ištrinti darbų paketą ir visus jo vaikų paketus?"
-  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
+  text_are_you_sure_with_project_custom_fields: "Ištrynus šį atributą taipogi bus ištrintos ir jo reikšmės visuose projektuose. Ar tikrai norite tai padaryti?"
   text_assign_to_project: "Priskirti projektui"
   text_form_configuration: >
     Jūs galite nustatyti, kurie laukeliai bus rodomi darbų paketų formoje. Jūs galite laisvai grupuoti laukelius pagal savo poreikius.
@@ -3362,11 +3371,11 @@ lt:
       info: "Darbų paketo ištrynimas yra negrįžtamas veiksmas."
       title: "Ištrinti darbų paketą"
     progress:
-      label_note: "Note:"
+      label_note: "Pastaba:"
       modal:
-        work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
-        status_based_help_text: "% Complete is set by work package status."
-        migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
+        work_based_help_text: "% baigta automatiškai skaičiuojama pagal Darbą ir Likusį darbą."
+        status_based_help_text: "% baigta nustatoma pagal paketo būseną."
+        migration_warning_text: "Darbu paremtame eigos skaičiavimo režime % baigta negali būti nustatomas rankomis ir yra susietas su darbu. Esamos reikšmės buvo išlaikytos, bet negali būti keičiamos. Prašome iš pradžių įveskite darbą."
     sharing:
       count:
         zero: "0 naudotojų"

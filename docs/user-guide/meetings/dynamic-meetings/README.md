@@ -21,6 +21,7 @@ Introduced in OpenProject 13.1, dynamic meetings offer easier meeting management
 | [Add a work package to the agenda](#add-a-work-package-to-the-agenda) | How to add a work package to a meeting agenda.             |
 | [Create or edit the meeting agenda](#create-or-edit-the-meeting-agenda) | How to create or edit the agenda.                          |
 | [Add meeting participants](#add-meeting-participants)        | How to invite people to a meeting.                         |
+| [Add meeting attachments](#meeting-attachments)              | How to add attachments to a meeting.                       |
 | [Send email to all participants](#send-email-to-all-participants) | How to send an email to all meeting participants.          |
 | [Download a meeting as an iCalendar event](#download-a-meeting-as-an-icalendar-event) | How to download a meeting as an iCalendar event.           |
 | [Close a meeting](#close-a-meeting)                          | How to close a meeting in OpenProject.                     |
@@ -79,11 +80,19 @@ In order to edit the title of the meeting select the dropdown menu behind the th
 
 After creating a meeting, you can set up a **meeting agenda**.
 
-You can add items to an agenda or directly link to existing work packages by selecting the desired option under the green **Add** button. You can add notes and attachments to every agenda item.
+You can add items to an agenda or directly link to existing work packages by selecting the desired option under the green **Add** button. You can add notes and [attachments](#meeting-attachments) to every agenda item. 
 
 ![The add button with two choices: agenda item or work package](openproject_dynamic_meetings_add_agenda_item.png)
 
-After you have finalized the agenda, you can always edit the agenda items, add notes, move an item up or down or delete it. Clicking on the three dots on the right edge of each agenda item will display a menu with these options. 
+If you select the **Agenda item** option, you can name that item, set the anticipated duration in minutes and select a user to be displayed next to the agenda item. This could for example be a meeting or a project member that is accountable for or a presenter of this particular agenda item. By default the name of the user adding the agenda item will be pre-selected, but it can either be removed or replaced by one of the other meeting invitees. 
+
+![](openproject_userguide_add_agenda_item.png)
+
+If you select the **Work package** option, you can link a work package by entering either a work package ID, or starting to type in a keyword, which will open a list of possible options. 
+
+![](openproject_userguide_add_work_package.png)
+
+After you have finalized the agenda, you can always edit the agenda items, add notes, move an item up or down or delete it. Clicking on the three dots on the right edge of each agenda item will display a menu of available options, including editing, copying link to clipboard, moving the agenda item within the agenda or deleting it. 
 
 ![Edit agenda in OpenProject dynamic meetings](openproject_dynamic_meetings_edit_agenda.png)
 
@@ -125,6 +134,26 @@ Click on the **Save** button to confirm the changes.
 
 You can send an email reminder to all the meeting participants. Select the dropdown by clicking on the three dots in the top right corner and select **Send email to all participants**. An email reminder with the meeting details (including a link to the meeting) is immediately sent to all invitees and attendees.
 
+## Meeting attachments 
+
+You can attachments in the meetings in the **Attachments** section in the right bottom corner. You can either user the **+Attach files** link to select files from your computer or drag and drop them. 
+
+Added attachments can be added to the Notes section of agenda packages by dragging and dropping them from the Attachments section. 
+
+![Attachments in OpenProject dynamic meetings](openproject_dynamic_meetings_attachments.png)
+
+
+
+## Meeting history 
+
+You can track what changes were made to a meeting and by which user. Select the dropdown by clicking on the three dots in the top right corner and select **Meeting history**. 
+
+![Select Meeting history option in OpenProject dynamic meetings](openproject_dynamic_meetings_select_meeting_history.png)
+
+This will display meeting history details.
+
+![Dynamic meeting history in OpenProject](openproject_dynamic_meetings_meeting_history.png)
+
 ## Download a meeting as an iCalendar event
 
 You can download a meeting as an iCalendar event. Select the dropdown by clicking on the three dots in the top right corner and select the **Download iCalendar event**.
@@ -149,7 +178,7 @@ You can copy an existing meeting. This is useful if you have recurring meetings.
 
 ![Copy a dynamic meeting in OpenProject](openproject_dynamic_meetings_copy_meeting.png)
 
-A screen will open, which will allow you adjust the name, time, location and further details of the copied meeting. By default, the date for the copied meeting will be moved forward by one week from the original meeting's date. You also have an option of copying the agenda. Don't forget to **Save** the copied meeting.
+A screen will open, which will allow you adjust the name, time, location and further details of the copied meeting. By default, the date for the copied meeting will be moved forward by one week from the original meeting's date. You also have an option of copying the agenda and attachments. Don't forget to **Save** the copied meeting by clicking the green **Create** button.
 
 ![Edit details of a copied dynamic meeting in OpenProject](openproject_dynamic_meetings_copy_meeting_details.png)
 

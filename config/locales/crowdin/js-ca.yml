@@ -378,6 +378,7 @@ ca:
     label_added_time_by: 'Afegit per <a href=%{authorLink}>%{author}</a> el %{age}'
     label_ago: "dies abans"
     label_all: "tot"
+    label_all_uppercase: "All"
     label_all_work_packages: "tots els paquets de treball"
     label_and: "i"
     label_ascending: "Ascendent"
@@ -419,6 +420,7 @@ ca:
     label_expand_project_menu: "Expandieix el menú de projecte"
     label_export: "Exportar"
     label_export_preparing: "S'està preparant l'exportació i serà descarregada aviat."
+    label_favored: "Favored"
     label_filename: "Fitxer"
     label_filesize: "Mida"
     label_general: "General"
@@ -643,7 +645,7 @@ ca:
           no_selection: "Fes clic en una notificació per veure els detalls de l'activitat."
         new_notifications:
           message: "No hi ha notificacions noves"
-          link_text: "Fes clic aquí per carregar-les"
+          link_text: "Click here to load them."
       menu:
         accountable: "Responsable"
         by_project: "No llegit per projecte"

@@ -378,6 +378,7 @@
     label_added_time_by: 'Lagt til av <a href="%{authorLink}">%{author}</a> i %{age}'
     label_ago: "dager siden"
     label_all: "alle"
+    label_all_uppercase: "Alle"
     label_all_work_packages: "alle arbeidspakker"
     label_and: "og"
     label_ascending: "Stigende"
@@ -419,6 +420,7 @@
     label_expand_project_menu: "Utvid prosjektmeny"
     label_export: "Eksportèr"
     label_export_preparing: "Eksporten forberedes og lastes ned i løpet av kort tid."
+    label_favored: "Favoritter"
     label_filename: "Fil"
     label_filesize: "Størrelse"
     label_general: "Generell"
@@ -643,7 +645,7 @@
           no_selection: "Klikk på en melding for å se alle aktivitetsdetaljer."
         new_notifications:
           message: "Det finnes nye varsler."
-          link_text: "Klikk her for å laste dem"
+          link_text: "Click here to load them."
       menu:
         accountable: "Ansvarlig"
         by_project: "Ulest av prosjektet"
@@ -926,7 +928,7 @@
       message_work_package_status_blocked: "Status for arbeidspakke er ikke skrivbar på grunn av at lukket status og lukket versjon er tildelt."
       placeholder_filter_by_text: "Emne, beskrivelse, kommentarer, ..."
       progress:
-        title: "Work estimates and progress"
+        title: "Arbeidsestimater og framdrift"
       baseline:
         addition_label: "Lagt til for visning i tidsperioden for sammenligning"
         removal_label: "Fjernet fra visning i tidsperioden for sammenligning"
@@ -1329,5 +1331,5 @@
         Close: "Lukk"
     open_project_storage_modal:
       waiting_subtitle:
-        network_off: "There is a network problem."
-        network_on: "Network is back. We are trying."
+        network_off: "Det er et nettverksproblem."
+        network_on: "Nettverket er tilbake. Vi prøver igjen."

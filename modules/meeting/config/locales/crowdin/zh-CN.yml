@@ -98,7 +98,7 @@ zh-CN:
     attachments:
       text: "所有与会者都可以查看附件。您还可以将这些文件拖放到议程项目注释中。"
     copy:
-      title: "复制会议 %{title}"
+      title: "Copy meeting: %{title}"
       attachments: "复制附件"
       attachments_text: "将所有附件复制到新会议"
       agenda: "复制议程"
@@ -167,7 +167,6 @@ zh-CN:
   label_agenda_item_add_notes: "添加备注"
   label_agenda_item_work_package: "议程项目工作包"
   text_agenda_item_title: '议程项目 "%{title}"'
-  text_agenda_work_package_title: '%{work_package}的议程项目"'
   text_agenda_work_package_deleted: '删除工作包的议程项目'
   text_deleted_agenda_item: '删除的议程项目'
   label_initial_meeting_details: "会议"

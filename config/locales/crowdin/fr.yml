@@ -264,6 +264,7 @@ fr:
     lists:
       active: "Projets actifs"
       my: "Mes projets"
+      favored: "Favored projects"
       archived: "Projets archivés"
       my_private: "Mes listes de projets privés"
       new:
@@ -285,15 +286,15 @@ fr:
         no_results_title_text: Il n'y a actuellement aucun champ personnalisé disponible.
       project_custom_fields:
         header:
-          title: "Project attributes"
-          description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
+          title: "Attributs du projet"
+          description: "Ces attributs de projet seront affichés dans votre <a href=%{overview_url} target=\"_blank\">page d'aperçu du projet</a> sous leurs sections respectives. Vous pouvez activer ou désactiver des attributs individuels. Les attributs et les sections du projet sont définis dans les <a href=%{admin_settings_url} target=\"_blank\">paramètres d'administration</a> par l'administrateur de l'instance. "
         filter:
-          label: "Search project attribute"
+          label: "Rechercher un attribut de projet"
         actions:
-          label_enable_single: "Active in this project, click to disable"
-          label_disable_single: "Inactive in this project, click to enable"
-          label_enable_all: "Enable all"
-          label_disable_all: "Disable all"
+          label_enable_single: "Actif dans ce projet, cliquez pour le désactiver"
+          label_disable_single: "Inactif dans ce projet, cliquez pour l'activer"
+          label_enable_all: "Activer tout"
+          label_disable_all: "Désactiver tout"
       types:
         no_results_title_text: Il n'y a actuellement aucun type disponible.
         form:
@@ -323,47 +324,47 @@ fr:
       wp_shares: "Partages du lot des travaux"
       groups: "Groupes"
     delete_member_dialog:
-      title: "Remove member"
-      will_remove_the_users_role: "This will remove the user’s role from this project."
-      will_remove_the_groups_role: "This will remove the group role from this project."
+      title: "Supprimer le membre"
+      will_remove_the_users_role: "Cela supprimera le rôle de l'utilisateur dans ce projet."
+      will_remove_the_groups_role: "Cela supprimera le rôle de groupe de ce projet."
       however_work_packages_shared_with_user_html:
-        one: "However, %{shared_work_packages_link} has also been shared with this user."
-        other: "However, %{shared_work_packages_link} have also been shared with this user."
+        one: "Cependant, %{shared_work_packages_link} a également été partagé avec cet utilisateur."
+        other: "Cependant, %{shared_work_packages_link} ont également été partagés avec cet utilisateur."
       however_work_packages_shared_with_group_html:
-        one: "However, %{shared_work_packages_link} has also been shared with this group."
-        other: "However, %{shared_work_packages_link} have also been shared with this group."
-      remove_work_packages_shared_with_user_too: "A user that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
-      remove_work_packages_shared_with_group_too: "A group that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
-      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
-      can_remove_direct_but_not_shared_roles: "You can remove this user as a direct project member but a group they are in is also a member of this project, so they will continue being a member via the group."
+        one: "Cependant, %{shared_work_packages_link} a également été partagé avec ce groupe."
+        other: "Cependant, %{shared_work_packages_link} ont également été partagés avec ce groupe."
+      remove_work_packages_shared_with_user_too: "Un utilisateur qui a été supprimé en tant que membre peut toujours accéder aux lots de travaux partagés. Souhaitez-vous également supprimer les partages ?"
+      remove_work_packages_shared_with_group_too: "Un groupe qui a été supprimé en tant que membre peut toujours accéder aux lots de travaux partagés. Souhaitez-vous également supprimer les partages ?"
+      will_not_affect_inherited_shares: "(Cela n'affectera pas les lots de travaux partagés avec leur groupe)."
+      can_remove_direct_but_not_shared_roles: "Vous pouvez supprimer cet utilisateur en tant que membre direct du projet, mais le groupe auquel il appartient est également membre de ce projet, il continuera donc à être membre par l'intermédiaire du groupe."
       also_work_packages_shared_with_user_html:
-        one: "Also, %{shared_work_packages_link} has been shared with this user."
-        other: "Also, %{shared_work_packages_link} have been shared with this user."
-      remove_project_membership_or_work_package_shares_too: "Do you want to remove just the user as a direct member (and keep the shares) or remove the work package shares too?"
-      will_remove_all_user_access_priveleges: "Deleting this member will remove all access privileges of the user to the project. The user will still exist as part of the instance."
-      will_remove_all_group_access_priveleges: "Deleting this member will remove all access privileges of the group to the project. The group will still exist as part of the instance."
-      cannot_delete_inherited_membership: "You cannot delete this member because they belong to a group that is itself a member of this project."
-      cannot_delete_inherited_membership_note_admin_html: "You can either remove the group as a member of the project or this specific member from the group in the %{administration_settings_link}."
-      cannot_delete_inherited_membership_note_non_admin: "You can either remove the group as a member of the project or contact your administrator to remove this specific member from the group."
+        one: "De plus, %{shared_work_packages_link} a été partagé avec cet utilisateur."
+        other: "De plus, %{shared_work_packages_link} ont été partagés avec cet utilisateur."
+      remove_project_membership_or_work_package_shares_too: "Souhaitez-vous supprimer uniquement l'utilisateur en tant que membre direct (et maintenir les partages) ou supprimer également les partages du lot de travaux ?"
+      will_remove_all_user_access_priveleges: "Supprimer ce membre supprimera tous les privilèges d'accès de l'utilisateur au projet. L'utilisateur continuera d'exister en tant que membre de l'instance."
+      will_remove_all_group_access_priveleges: "Supprimer ce groupe supprimera tous les privilèges d'accès de l'utilisateur au projet. Le groupe continuera d'exister en tant que membre de l'instance."
+      cannot_delete_inherited_membership: "Vous ne pouvez pas supprimer ce membre car il appartient à un groupe qui est lui-même membre de ce projet."
+      cannot_delete_inherited_membership_note_admin_html: "Vous pouvez supprimer le groupe en tant que membre du projet ou ce membre spécifique du groupe dans les %{administration_settings_link}."
+      cannot_delete_inherited_membership_note_non_admin: "Vous pouvez supprimer le groupe en tant que membre du projet ou contacter votre administrateur pour qu'il supprime ce membre spécifique du groupe."
     delete_work_package_shares_dialog:
-      title: "Revoke work package shares"
+      title: "Révoquer les partages du lot de travaux"
       shared_with_this_user_html:
-        one: "%{all_shared_work_packages_link} has been shared with this user."
-        other: "%{all_shared_work_packages_link} have been shared with this user."
+        one: "%{all_shared_work_packages_link} a été partagé avec cet utilisateur."
+        other: "%{all_shared_work_packages_link} ont été partagés avec cet utilisateur."
       shared_with_this_group_html:
-        one: "%{all_shared_work_packages_link} has been shared with this group."
-        other: "%{all_shared_work_packages_link} have been shared with this group."
+        one: "%{all_shared_work_packages_link} a été partagé avec ce groupe."
+        other: "%{all_shared_work_packages_link} ont été partagés avec ce groupe."
       shared_with_permission_html:
-        one: "Only %{shared_work_packages_link} has been shared with %{shared_role_name} permissions."
-        other: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
-      revoke_all_or_with_role: "Would you like to revoke access to all shared work packages, or only those with %{shared_role_name} permissions?"
-      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
-      cannot_remove_inherited: "The work packages shares shared via groups cannot be removed."
-      cannot_remove_inherited_with_role: "The work packages shares with role %{shared_role_name} are shared via groups and cannot be removed."
-      cannot_remove_inherited_note_admin_html: "You can either revoke the share to the group or remove this specific member from the group in the %{administration_settings_link}."
-      cannot_remove_inherited_note_non_admin: "You can either revoke the share to the group or contact your administrator to remove this specific member from the group."
-      will_revoke_directly_granted_access: "This action will revoke their access to all of them, but the work packages shared with a group."
-      will_revoke_access_to_all: "This action will revoke their access to all of them."
+        one: "Uniquement %{shared_work_packages_link} a été partagé avec les autorisations de %{shared_role_name}."
+        other: "Uniquement %{shared_work_packages_link} ont été partagés avec les autorisations de %{shared_role_name}."
+      revoke_all_or_with_role: "Souhaitez-vous révoquer l'accès à tous les lots de travaux partagés, ou seulement à ceux qui disposent des autorisations de %{shared_role_name} ?"
+      will_not_affect_inherited_shares: "(Cela n'affectera pas les lots de travaux partagés avec leur groupe)."
+      cannot_remove_inherited: "Les lots de travaux partagés via les groupes ne peuvent pas être supprimés."
+      cannot_remove_inherited_with_role: "Les lots de travaux partagés avec le rôle %{shared_role_name} sont partagés via des groupes et ne peuvent pas être supprimés."
+      cannot_remove_inherited_note_admin_html: "Vous pouvez révoquer le partage du groupe ou supprimer ce membre spécifique du groupe dans les %{administration_settings_link}."
+      cannot_remove_inherited_note_non_admin: "Vous pouvez révoquer le partage du groupe ou contacter votre administrateur pour qu'il supprime ce membre du groupe."
+      will_revoke_directly_granted_access: "Cette action révoquera l'accès à l'ensemble de ces éléments, à l'exception des lots de travaux partagés avec un groupe."
+      will_revoke_access_to_all: "Cette action aura pour effet de révoquer l'accès de ces personnes à l'ensemble de ces éléments."
   my:
     access_token:
       failed_to_reset_token: "Impossible de réinitialiser le jeton d’accès : %{error}"
@@ -598,7 +599,7 @@ fr:
       oauth_client:
         client: "ID client"
       relation:
-        lag: "Lag"
+        lag: "Délai"
         from: "Lot de travaux"
         to: "Lot de travaux associé"
       status:
@@ -993,12 +994,14 @@ fr:
               only_same_project_categories_allowed: "La catégorie du lot de travaux doit faire partie du même projet que le lot de travaux."
               does_not_exist: "La catégorie spécifiée n'existe pas."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "can't be inferior to 'Remaining work'."
-              must_be_set_when_remaining_work_is_set: "must be set when 'Remaining work' is set."
-              only_values_greater_or_equal_zeroes_allowed: "doit être >= 0."
+              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "can't exceed 'Work'."
-              must_be_set_when_work_is_set: "must be set when 'Work' is set."
+              cant_exceed_work: "Cannot be higher than Work."
+              must_be_set_when_work_is_set: "Required when Work is set."
+              format: "%{message}"
           readonly_status: "Le lot de travaux est en lecture seule, ses attributs ne peuvent donc pas être changés."
         type:
           attributes:
@@ -1101,12 +1104,12 @@ fr:
       updated_by_on_time_entry: "temps enregistré mis à jour par %{user} le %{datetime}"
       updated_on: "mis à jour le %{datetime}"
       updated_on_time_entry: "temps enregistré mis à jour le %{datetime}"
-      deleted_on: "deleted on %{datetime}"
-      deleted_by_on: "deleted by %{user} on %{datetime}"
-      added_on: "added on %{datetime}"
-      added_by_on: "added by %{user} on %{datetime}"
-      removed_on: "removed on %{datetime}"
-      removed_by_on: "removed by %{user} on %{datetime}"
+      deleted_on: "supprimé le %{datetime}"
+      deleted_by_on: "supprimé par %{user} le %{datetime}"
+      added_on: "ajouté le %{datetime}"
+      added_by_on: "ajouté par %{user} le %{datetime}"
+      removed_on: "supprimé le %{datetime}"
+      removed_by_on: "supprimé par %{user} le %{datetime}"
       parent_without_of: "Sous-projet"
       parent_no_longer: "Plus de sous-projet de"
       time_entry:
@@ -1120,16 +1123,16 @@ fr:
         logged_for: "Connecté(e) pendant"
       meeting_agenda_item:
         duration:
-          added: "set to %{value}"
-          added_html: "set to <i>%{value}</i>"
-          removed: "removed"
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+          added: "défini sur %{value}"
+          added_html: "défini sur <i>%{value}</i>"
+          removed: "supprimé"
+          updated: "modifié de %{old_value} à %{value}"
+          updated_html: "modifié de <i>%{old_value}</i> à <i>%{value}</i>"
         position:
-          updated: "reordered"
+          updated: "réorganisé"
         work_package:
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+          updated: "modifié de %{old_value} à %{value}"
+          updated_html: "modifié de <i>%{old_value}</i> à <i>%{value}</i>"
     filter:
       changeset: "Révisions"
       message: "Forums"
@@ -1261,6 +1264,7 @@ fr:
   button_edit: "Éditer"
   button_edit_associated_wikipage: "Éditer la page wiki associée : %{page_title}"
   button_expand_all: "Tout déplier"
+  button_favorite: "Mark as favorite"
   button_filter: "Filtrer"
   button_generate: "Générer"
   button_list: "Liste"
@@ -1288,6 +1292,7 @@ fr:
   button_unarchive: "Désarchiver"
   button_uncheck_all: "Tout désélectionner"
   button_unlock: "Déverrouiller"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Ne plus suivre"
   button_update: "Mettre à jour"
   button_upgrade: "Mise à niveau"
@@ -1298,14 +1303,14 @@ fr:
   button_add_menu_entry: "Ajouter un élément de menu"
   button_configure_menu_entry: "Gérer l'élément de menu"
   button_delete_menu_entry: "Supprimer l'élément de menu"
-  button_view_shared_work_packages: "View shared work packages"
-  button_manage_roles: "Manage roles"
-  button_remove_member: "Remove member"
-  button_remove_member_and_shares: "Remove member and shares"
-  button_revoke_work_package_shares: "Revoke work package shares"
-  button_revoke_access: "Revoke access"
-  button_revoke_all: "Revoke all"
-  button_revoke_only: "Revoke only %{shared_role_name}"
+  button_view_shared_work_packages: "Voir les lots de travaux partagés"
+  button_manage_roles: "Gérer les rôles"
+  button_remove_member: "Supprimer le membre"
+  button_remove_member_and_shares: "Supprimer le membre et les partages"
+  button_revoke_work_package_shares: "Révoquer les partages du lot de travaux"
+  button_revoke_access: "Révoquer l'accès"
+  button_revoke_all: "Révoquer tout"
+  button_revoke_only: "Révoquer uniquement %{shared_role_name}"
   consent:
     checkbox_label: J'ai pris note de ce qui précède et je l'accepte.
     failure_message: Échec de l'accord, impossible de continuer.
@@ -1626,9 +1631,9 @@ fr:
     changes_retracted: "Les modifications ont été retirées."
     caused_changes:
       dates_changed: "Dates modifiées"
-      default_attribute_written: "Read-only attributes written"
-      progress_mode_changed_to_status_based: "Progress calculation updated"
-      status_p_complete_changed: "Status % Complete changed"
+      default_attribute_written: "Attributs en lecture seule écrits"
+      progress_mode_changed_to_status_based: "Mise à jour du calcul de la progression"
+      status_p_complete_changed: "Statut du % réalisé modifié"
       system_update: "Mise à jour du système OpenProject :"
     cause_descriptions:
       work_package_predecessor_changed_times: par changement vers le prédécesseur %{link}
@@ -1644,14 +1649,16 @@ fr:
         dates:
           working: "%{date} est maintenant un jour ouvrable"
           non_working: "%{date} est maintenant un jour non ouvrable"
-      progress_mode_changed_to_status_based: Progress calculation mode set to status-based
+      progress_mode_changed_to_status_based: Le calcul de la progression est désormais basé sur le statut
       status_p_complete_changed: >-
-        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
+        La valeur du % réalisation du statut « %{status_name} » est passée de %{old_value} à %{new_value}%
       system_update:
         file_links_journal: >
           À partir de maintenant, l'activité liée aux liens de fichiers (fichiers stockés sur des supports externes) apparaîtra ici dans l'onglet Activité. Les activités suivantes concernent des liens déjà existants :
-        progress_calculation_changed: >
-          Progress calculation updated.
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
   links:
     configuration_guide: "Guide de configuration"
     get_in_touch: "Vous avez des questions ? Contactez-nous."
@@ -1667,7 +1674,7 @@ fr:
     quick_add:
       label: "Ouvrir le menu d'ajout rapide"
     breadcrumb:
-      nested_element: "%{section_header}: <b>%{title}</b>"
+      nested_element: "%{section_header} : <b>%{title}</b>"
   my_account:
     access_tokens:
       no_results:
@@ -1769,13 +1776,13 @@ fr:
   label_ascending: "Croissant"
   label_assigned_to_me_work_packages: "Lots de Travaux m'étant assignés"
   label_associated_revisions: "Révisions associées"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Pièces jointes"
   label_attribute: "Attribut"
   label_attribute_plural: "Attributs"
   label_ldap_auth_source_new: "Nouvelle connexion LDAP"
   label_ldap_auth_source: "Connexion LDAP"
   label_ldap_auth_source_plural: "Connexions LDAP"
-  label_attribute_expand_text: "The complete text for '%{attribute}'"
+  label_attribute_expand_text: "Le texte complet pour « %{attribute} »."
   label_authentication: "Authentification"
   label_available_global_roles: "Rôles globaux disponibles"
   label_available_project_forums: "Forums disponibles"
@@ -1907,7 +1914,7 @@ fr:
   label_enterprise_support: "Assistance Enterprise"
   label_enterprise_addon: "add-on Enterprise"
   label_environment: "Environement"
-  label_estimates_and_time: "Estimations et temps"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "est"
   label_everywhere: "partout"
   label_example: "Exemple"
@@ -1917,7 +1924,7 @@ fr:
   label_ifc_model_plural: "Modèles IFC"
   label_import: "Importer"
   label_export_to: "Aussi disponible en :"
-  label_expand: "Expand"
+  label_expand: "Développer"
   label_expanded_click_to_collapse: "Déplié. Cliquez pour replier"
   label_f_hour: "%{value} heure"
   label_f_hour_plural: "%{value} heures"
@@ -1991,7 +1998,7 @@ fr:
   label_latest_revision: "La toute dernière révision"
   label_latest_revision_plural: "Les toute dernières révisions"
   label_ldap_authentication: "Authentification LDAP"
-  label_learn_more: "Learn more"
+  label_learn_more: "En savoir plus"
   label_less_or_equal: "<="
   label_less_than_ago: "il y a moins de quelques jours"
   label_list: "Liste"
@@ -2019,6 +2026,7 @@ fr:
   label_membership_plural: "Adhésions"
   lable_membership_added: "Membre ajouté"
   lable_membership_updated: "Membre mis à jour"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pré-alpha"
     alpha: "alpha"
@@ -2109,7 +2117,7 @@ fr:
   label_precedes: "précède"
   label_preferences: "Préférences"
   label_preview: "Aperçu"
-  label_preview_not_available: "Preview not available"
+  label_preview_not_available: "Aperçu indisponible."
   label_previous: "Précédent"
   label_previous_week: "Semaine précédente"
   label_principal_invite_via_email: " ou inviter de nouveaux utilisateurs par courriel"
@@ -2117,9 +2125,10 @@ fr:
   label_privacy_policy: "Politique de confidentialité et de sécurité des données"
   label_product_version: "Version du produit"
   label_profile: "Profil"
-  label_percent_complete: "% Complete"
+  label_percent_complete: "% réalisé"
   label_project_activity: "Activité du projet"
   label_project_attribute_plural: "Attributs du projet"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Nombre total de projets"
   label_project_copy_notifications: "Notifier par courriel lors de la copie du projet"
   label_project_latest: "Derniers projets"
@@ -2127,11 +2136,11 @@ fr:
   label_project_hierarchy: "Hiérarchie du projet"
   label_project_new: "Nouveau projet"
   label_project_plural: "Projets"
-  label_project_list_plural: "Project lists"
-  label_project_attributes_plural: "Project attributes"
-  label_project_custom_field_plural: "Project attributes"
+  label_project_list_plural: "Listes de projets"
+  label_project_attributes_plural: "Attributs du projet"
+  label_project_custom_field_plural: "Attributs du projet"
   label_project_settings: "Paramètres du projet"
-  label_project_attributes_settings: "Project attributes settings"
+  label_project_attributes_settings: "Paramètres des attributs du projet"
   label_project_storage_plural: "Espaces de stockage des fichiers"
   label_project_storage_project_folder: "Espaces de stockage des fichiers : dossiers du projet"
   label_projects_storage_information: "%{count} projets utilisant %{storage} d'espace disque"
@@ -2154,7 +2163,7 @@ fr:
   label_relation_delete: "Supprimer la relation"
   label_relation_new: "Nouvelle relation"
   label_release_notes: "Notes de version"
-  label_remaining_work: "Remaining work"
+  label_remaining_work: "Travail restant"
   label_remove_columns: "Enlever les colonnes sélectionnées"
   label_renamed: "renommé"
   label_reply_plural: "Réponses"
@@ -2287,7 +2296,7 @@ fr:
   label_wiki_show_new_page_link: "Montrer le sous-menu 'Créer une nouvelle page enfant'"
   label_wiki_show_submenu_item: "Montrer comme sous-menu de "
   label_wiki_start: "Page d'accueil"
-  label_work: "Work"
+  label_work: "Travail"
   label_work_package: "Lot de travaux"
   label_work_package_attachments: "Pièces jointes du lot de travaux"
   label_work_package_category_new: "Nouvelle catégorie"
@@ -2331,7 +2340,7 @@ fr:
     other: "%{count} fichiers"
     zero: "Aucun fichier"
   label_yesterday: "hier"
-  label_zen_mode: "Zen mode"
+  label_zen_mode: "Mode zen"
   label_role_type: "Type"
   label_member_role: "Rôle dans le projet"
   label_global_role: "Rôle global"
@@ -2408,32 +2417,32 @@ fr:
     storages:
       health:
         plaintext:
-          storage: "Storage"
+          storage: "Espace de stockage"
           healthy:
-            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
-            error-solved-on: "Solved On"
-            recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
-            details: "For more details or to make any necessary amendments, you can visit your storage configuration"
+            summary: "Bonne nouvelle ! Le statut de votre espace de stockage, %{storage_name}, est actuellement « Sain »."
+            error-solved-on: "Résolu le"
+            recommendation: "Nous continuerons à surveiller le système pour nous assurer qu'il reste performant. Nous vous informerons en cas d'anomalie."
+            details: "Pour plus de détails ou pour apporter les modifications nécessaires, vous pouvez consulter la configuration de votre espace de stockage."
           unhealthy:
-            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
-            error-details: "Error Details"
-            error-message: "Error Message"
-            error-occurred-on: "Occurred On"
-            recommendation: "We recommend heading over to the storage configuration page to address this issue"
-            unsubscribe: "If you would no longer like to receive these notifications, you can unsubscribe at any time. To unsubscribe, please follow the instructions on this page"
-        email_notification_settings: "Storage email notification settings"
-        see_storage_settings: "See storage settings"
+            summary: "Le statut de votre espace de stockage, %{storage_name}, est actuellement « Erreur ». Nous avons détecté un problème qui pourrait nécessiter votre attention."
+            error-details: "Détails de l'erreur"
+            error-message: "Message d'erreur"
+            error-occurred-on: "Survenu le"
+            recommendation: "Nous vous recommandons de vous rendre sur la page de configuration de l'espace de stockage pour résoudre ce problème"
+            unsubscribe: "Si vous ne souhaitez plus recevoir ces notifications, vous pouvez vous désinscrire à tout moment. Pour vous désinscrire, veuillez suivre les instructions figurant sur cette page."
+        email_notification_settings: "Paramètres de notification par e-mail concernant l'espace de stockage"
+        see_storage_settings: "Voir les paramètres de l'espace de stockage"
         healthy:
-          subject: "Storage \"%{name}\" is now healthy!"
-          solved_at: "solved at"
-          summary: "The problem with your %{storage_name} storage integration is now solved"
+          subject: "L'espace de stockage « %{name} » est maintenant sain !"
+          solved_at: "résolu à"
+          summary: "Le problème lié à l'intégration de votre espace de stockage %{storage_name} est désormais résolu"
         unhealthy:
-          subject: "Storage \"%{name}\" is unhealthy!"
-          since: "since"
-          summary: "There is a problem with your %{storage_name} storage integration"
+          subject: "L'espace de stockage « %{name} » n'est pas en bonne santé !"
+          since: "depuis"
+          summary: "Il y a un problème avec l'intégration de votre espace de stockage %{storage_name}"
           troubleshooting:
-            text: "For more information, check file storages"
-            link_text: "troubleshooting documentation"
+            text: "Pour plus d'informations, consultez les espaces de stockage des fichiers"
+            link_text: "documentation de dépannage"
   mail_body_account_activation_request: "Un nouvel utilisateur (%{value}) s'est enregistré. Le compte attend votre approbation:"
   mail_body_account_information: "Informations sur votre compte"
   mail_body_account_information_external: "Vous pouvez utiliser votre compte %{value} pour vous connecter."
@@ -2664,7 +2673,7 @@ fr:
   permission_save_queries: "Enregistrer les vues"
   permission_search_project: "Rechercher un projet"
   permission_select_custom_fields: "Sélectionner les champs personnalisés"
-  permission_select_project_custom_fields: "Select project attributes"
+  permission_select_project_custom_fields: "Sélectionner les attributs du projet"
   permission_select_project_modules: "Sélectionner modules de projet"
   permission_share_work_packages: "Partager des lots de travaux"
   permission_manage_types: "Sélectionner types"
@@ -2714,9 +2723,9 @@ fr:
       are_you_sure: "Êtes-vous sûr de vouloir archiver le projet '%{name}%' ?"
       archived: "Archivé"
     count:
-      zero: "0 Projects"
-      one: "1 Project"
-      other: "%{count} Projects"
+      zero: "0 projet"
+      one: "1 projet"
+      other: "%{count} projets"
   project_module_activity: "Activité"
   project_module_forums: "Forums"
   project_module_work_package_tracking: "Lots de travaux"
@@ -2854,9 +2863,9 @@ fr:
   setting_apiv3_cors_origins: "Origines autorisées de l'API V3 Cross-Origin Resource Sharing (CORS)"
   setting_apiv3_cors_origins_text_html: >
     Si CORS est activé, ce sont les origines qui sont autorisées à accéder à l'API OpenProject. <br/> Veuillez vérifier la <a href="%{origin_link}" target="_blank">documentation sur l'en-tête Origin</a> sur la façon de spécifier les valeurs attendues.
-  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes: "Accès en écriture aux attributs en lecture seule"
   setting_apiv3_write_readonly_attributes_instructions_html: >
-    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and author. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
+    Si cette option est activée, l'API permettra aux administrateurs d'écrire des attributs statiques en lecture seule lors de la création, tels que createdAt et author. <br/> <strong>Avertissement :</strong> Ce paramètre est utile, par exemple, pour l'importation de données, mais il permet aux administrateurs de se faire passer pour d'autres utilisateurs lors de la création d'éléments. Toutes les demandes de création sont toutefois enregistrées au nom du véritable auteur. </br> Pour plus d'informations sur les attributs et les ressources prises en charge, veuillez consulter la %{api_documentation_link}.
   setting_apiv3_max_page_size: "Taille maximale de page d'API"
   setting_apiv3_max_page_instructions_html: >
     Définissez la taille maximale de la page avec laquelle l'API répondra. Il ne sera pas possible d'effectuer des requêtes API qui retournent plus de valeurs sur une seule page. <br/> <strong>Avertissement :</strong> veuillez modifier cette valeur uniquement si vous êtes sûr de savoir pourquoi vous en avez besoin. Définir à une valeur élevée entraînera des impacts significatifs sur les performances, alors qu'une valeur inférieure aux options de chaque page provoquera des erreurs dans les vues paginées.
@@ -2919,11 +2928,11 @@ fr:
   setting_file_max_size_displayed: "Taille maximale de l'affichage du fichers texte inline"
   setting_host_name: "Nom d'hôte"
   setting_invitation_expiration_days: "L'émail d’activation expire après"
-  setting_work_package_done_ratio: "Progress calculation"
-  setting_work_package_done_ratio_field: "Work-based"
-  setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio: "Calcul de la progression"
+  setting_work_package_done_ratio_field: "Basé sur le travail"
+  setting_work_package_done_ratio_status: "Basé sur le statut"
   setting_work_package_done_ratio_explanation_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
+    En mode <b>Basé sur le travail</b>, le % réalisé est calculé à partir de la quantité de travail effectuée par rapport au travail total. En mode <b>Basé sur le statut</b>, chaque statut est associé à une valeur de % réalisé. La modification du statut entraîne une modification du % réalisé.
   setting_work_package_properties: "Propriétés du Lot de Travaux"
   setting_work_package_startdate_is_adddate: "Utiliser la date actuelle comme date de début des nouveaux lots de travaux"
   setting_work_packages_projects_export_limit: "Limite d'exportation des lots de travaux/projets"
@@ -2989,7 +2998,7 @@ fr:
       remaining_scan_complete_html: >
         Les fichiers restants ont été analysés. Il y a %{file_count} en quarantaine. Vous allez être redirigé vers la page de quarantaine. Utilisez cette page pour supprimer ou remplacer les fichiers en quarantaine.
       remaining_rescanned_files: >
-        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        L'analyse antivirus a été activée avec succès. %{file_count} fichiers ont été téléchargés précédemment et doivent encore être analysés. Ce processus a été planifié en arrière-plan. Les fichiers resteront accessibles pendant l'analyse.
       upsale:
         description: "Assurez-vous que les fichiers téléversés dans OpenProject sont analysés pour détecter les virus avant d'être accessibles aux autres utilisateurs."
       actions:
@@ -3029,19 +3038,19 @@ fr:
     other: "Autre"
     passwords: "Mots de passe"
     project_attributes:
-      heading: "Project attributes"
-      label_new_attribute: "Project attribute"
+      heading: "Attributs du projet"
+      label_new_attribute: "Attribut du projet"
       label_new_section: "Section"
-      label_edit_section: "Edit title"
-      label_section_actions: "Section actions"
-      heading_description: "These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level."
-      label_project_custom_field_actions: "Project attribute actions"
-      label_no_project_custom_fields: "No project attributes defined in this section"
+      label_edit_section: "Modifier le titre"
+      label_section_actions: "Actions de section"
+      heading_description: "Ces attributs de projet apparaissent dans la page d'aperçu de chaque projet. Vous pouvez ajouter de nouveaux attributs, les regrouper en sections et les réorganiser selon vos besoins. Ces attributs peuvent être activés ou désactivés, mais pas réorganisés au niveau du projet."
+      label_project_custom_field_actions: "Actions des attributs du projet"
+      label_no_project_custom_fields: "Aucun attribut de projet n'est défini dans cette section"
       edit:
-        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
+        description: "Les modifications apportées à cet attribut de projet seront répercutées dans tous les projets où il est activé. Les attributs obligatoires ne peuvent pas être désactivés par projet."
       new:
-        heading: "New attribute"
-        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
+        heading: "Nouvel attribut"
+        description: "Les modifications apportées à cet attribut de projet seront répercutées dans tous les projets où il est activé. Les attributs obligatoires ne peuvent pas être désactivés par projet."
     projects:
       missing_dependencies: "Le module de projet %{module} a été vérifié et dépend de %{dependencies}. Vous devez également vérifier ces dépendances."
       section_new_projects: "Paramètres pour les nouveaux projets"
@@ -3074,7 +3083,7 @@ fr:
   text_are_you_sure: "Êtes-vous sûr ?"
   text_are_you_sure_continue: "Voulez-vous vraiment continuer ?"
   text_are_you_sure_with_children: "Supprimer le lot de travaux et tous les lots de travaux enfants ?"
-  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
+  text_are_you_sure_with_project_custom_fields: "Supprimer cet attribut supprimera également ses valeurs dans tous les projets. Voulez-vous vraiment continuer ?"
   text_assign_to_project: "Assigner le projet"
   text_form_configuration: >
     Vous pouvez personnaliser comment les champs seront affichés sur le plan de travail. Vous pouvez librement regrouper les champs pour refléter les besoins pour votre domaine.
@@ -3251,7 +3260,7 @@ fr:
     status_user_and_brute_force: "%{user} et %{brute_force}"
     status_change: "Changement de statut"
     text_change_disabled_for_provider_login: "Le nom est défini par votre fournisseur de connexion et ne peut donc pas être modifié."
-    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
+    text_change_disabled_for_ldap_login: "Le nom et l'e-mail sont définis par LDAP et ne peuvent donc pas être modifiés."
     unlock: "Déverrouiller"
     unlock_and_reset_failed_logins: "Déverrouiller et réinitialiser les échecs de connexion"
   version_status_closed: "clôturé"
@@ -3297,11 +3306,11 @@ fr:
       info: "La suppression du lot de travaux est une action irréversible."
       title: "Supprimer le lot de travaux"
     progress:
-      label_note: "Note:"
+      label_note: "Note :"
       modal:
-        work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
-        status_based_help_text: "% Complete is set by work package status."
-        migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
+        work_based_help_text: "Le % réalisé est automatiquement dérivé de Travail et Travail restant."
+        status_based_help_text: "Le % réalisé est défini par le statut du lot de travaux."
+        migration_warning_text: "Dans le mode de calcul de la progression basé sur le travail, le % réalisé ne peut pas être défini manuellement et est lié au travail. La valeur existante a été conservée mais ne peut pas être modifiée. Veuillez d'abord renseigner Travail."
     sharing:
       count:
         zero: "0 utilisateur"
@@ -3523,7 +3532,7 @@ fr:
       label_request_token: "Demande de jeton"
       label_refresh_token: "Actualiser le jeton"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
+      oauth_authorization_code_grant_had_errors: "Échec de l'octroi de l'autorisation OAuth2"
       oauth_reported: "Fournisseur OAuth2 signalé"
       oauth_returned_error: "OAuth2 a renvoyé une erreur"
       oauth_returned_json_error: "OAuth2 a renvoyé une erreur JSON"

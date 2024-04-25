@@ -37,14 +37,14 @@ sudo openproject configure
 
 On Ubuntu 22.04., you might see warnings like these:
 
-> W: https://dl.packager.io/srv/deb/opf/openproject/stable/13/ubuntu/dists/22.04/InRelease: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.
+> W: https://dl.packager.io/srv/deb/opf/openproject/stable/14/ubuntu/dists/22.04/InRelease: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.
 
 This message is due to Ubuntu 22.04 switching to a more secure way of adding repository sources, which is not yet supported by the repository provider. There is ongoing work on this item, the message is for information only.
 
 If you get an error like the following:
 
-> E: Repository 'https://dl.packager.io/srv/deb/opf/openproject/stable/13/ubuntu 22.04 InRelease' changed its 'Origin' value from '' to 'https://packager.io/gh/opf/openproject'
-> E: Repository 'https://dl.packager.io/srv/deb/opf/openproject/stable/13/ubuntu 22.04 InRelease' changed its 'Label' value from '' to 'Ubuntu 22.04 packages for opf/openproject'
+> E: Repository 'https://dl.packager.io/srv/deb/opf/openproject/stable/14/ubuntu 22.04 InRelease' changed its 'Origin' value from '' to 'https://packager.io/gh/opf/openproject'
+> E: Repository 'https://dl.packager.io/srv/deb/opf/openproject/stable/14/ubuntu 22.04 InRelease' changed its 'Label' value from '' to 'Ubuntu 22.04 packages for opf/openproject'
 
 These two messages messages are expected, due to a change in Origin and Label repository metadata, to better explain what the repository is about. You should allow the change, and/or run `sudo apt-get update --allow-releaseinfo-change` for the update to go through.
 
@@ -108,7 +108,8 @@ docker-compose pull
 docker-compose up -d
 ```
 
-Please note that you can override the `TAG` that is used to pull the OpenProject image from the [Docker Hub](https://hub.docker.com/r/openproject/community/).
+Please note that you can override the `TAG` that is used to pull the OpenProject image from
+the [Docker Hub](https://hub.docker.com/r/openproject/openproject/).
 
 ### All-in-one container
 
@@ -117,8 +118,8 @@ When using the all-in-one docker container, you need to perform the following st
 1. First, pull the latest version of the image:
 
 ```shell
-docker pull openproject/community:VERSION
-# e.g. docker pull openproject/community:10
+docker pull openproject/openproject:VERSION
+# e.g. docker pull openproject/openproject:14
 ```
 
 Then stop and remove your existing container (we assume that you are running with the recommended production setup here):
@@ -132,7 +133,7 @@ Finally, re-launch the container in the same way you launched it previously.
 This time, it will use the new image:
 
 ```shell
-docker run -d ... openproject/community:VERSION
+docker run -d ... openproject/openproject:VERSION
 ```
 
 #### I have already started OpenProject without mounted volumes. How do I save my data during an update?

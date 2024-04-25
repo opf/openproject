@@ -261,6 +261,7 @@ nl:
     lists:
       active: "Active projects"
       my: "My projects"
+      favored: "Favored projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -990,12 +991,14 @@ nl:
               only_same_project_categories_allowed: "De categorie van het werkpakket  moet binnen hetzelfde project bestaan als het werkpakket."
               does_not_exist: "De gekozen categorie bestaat niet."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "can't be inferior to 'Remaining work'."
-              must_be_set_when_remaining_work_is_set: "must be set when 'Remaining work' is set."
-              only_values_greater_or_equal_zeroes_allowed: "moet > = 0 zijn."
+              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "can't exceed 'Work'."
-              must_be_set_when_work_is_set: "must be set when 'Work' is set."
+              cant_exceed_work: "Cannot be higher than Work."
+              must_be_set_when_work_is_set: "Required when Work is set."
+              format: "%{message}"
           readonly_status: "Het werkpakket heeft een alleen-lezen status dus kunne attributen niet worden gewijzigd."
         type:
           attributes:
@@ -1258,6 +1261,7 @@ nl:
   button_edit: "Wijzig"
   button_edit_associated_wikipage: "Bewerk gekoppelde wikipagina: %{page_title}"
   button_expand_all: "Alles uitklappen"
+  button_favorite: "Mark as favorite"
   button_filter: "Filter"
   button_generate: "Genereer"
   button_list: "Lijst"
@@ -1285,6 +1289,7 @@ nl:
   button_unarchive: "Uit archief halen"
   button_uncheck_all: "Deselecteer alles"
   button_unlock: "Ontgrendelen"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Niet meer volgen"
   button_update: "Bijwerken"
   button_upgrade: "Upgrade"
@@ -1647,8 +1652,10 @@ nl:
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
-        progress_calculation_changed: >
-          Progress calculation updated.
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
   links:
     configuration_guide: "Configuratiegids"
     get_in_touch: "Heb je vragen? Neem contact met ons op."
@@ -1904,7 +1911,7 @@ nl:
   label_enterprise_support: "Ondernemingsondersteuning"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Omgeving"
-  label_estimates_and_time: "Schattingen en tijden"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "is"
   label_everywhere: "overal"
   label_example: "Voorbeeld"
@@ -2016,6 +2023,7 @@ nl:
   label_membership_plural: "Memberships"
   lable_membership_added: "Lid toegevoegd"
   lable_membership_updated: "Lid bijgewerkt"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alfa"
@@ -2117,6 +2125,7 @@ nl:
   label_percent_complete: "% Complete"
   label_project_activity: "Projectactiviteit"
   label_project_attribute_plural: "Project attributes"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Totale aantal projecten"
   label_project_copy_notifications: "Verzenden van e-mailmeldingen tijdens het project kopiëren"
   label_project_latest: "Meest recente projecten"

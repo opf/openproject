@@ -379,6 +379,7 @@ ja:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "○日前"
     label_all: "全て"
+    label_all_uppercase: "All"
     label_all_work_packages: "全ての作業項目"
     label_and: "及び"
     label_ascending: "昇順"
@@ -420,6 +421,7 @@ ja:
     label_expand_project_menu: "プロジェクトメニューを展開"
     label_export: "外部出力"
     label_export_preparing: "エクスポートは準備中です。まもなくダウンロードされます。"
+    label_favored: "Favored"
     label_filename: "ファイル"
     label_filesize: "サイズ"
     label_general: "概要"
@@ -605,8 +607,8 @@ ja:
         created: "作成する"
         scheduled: "スケジュール済"
         commented: "コメント"
-        processed: "processed"
-        prioritized: "prioritized"
+        processed: "処理済み"
+        prioritized: "優先"
         dateAlert: "Date alert"
         shared: "shared"
       date_alerts:
@@ -643,7 +645,7 @@ ja:
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: "There are new notifications."
-          link_text: "Click here to load them"
+          link_text: "Click here to load them."
       menu:
         accountable: "責任者"
         by_project: "Unread by project"

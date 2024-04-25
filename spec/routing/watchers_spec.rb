@@ -31,7 +31,7 @@ require "spec_helper"
 RSpec.describe WatchersController do
   shared_examples_for "watched model routes" do
     before do
-      expect(OpenProject::Acts::Watchable::Routes).to receive(:matches?).and_return(true)
+      expect(::OpenProject::Acts::Watchable::Routes).to receive(:matches?).and_return(true)
     end
 
     it "connects POST /:object_type/:object_id/watch to watchers#watch" do
