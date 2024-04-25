@@ -108,16 +108,16 @@ time to finish.
 [openproject@host] source ~/.profile
 [openproject@host] git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 
-[openproject@host] rbenv install 3.2.3
+[openproject@host] rbenv install 3.3.1
 [openproject@host] rbenv rehash
-[openproject@host] rbenv global 3.2.3
+[openproject@host] rbenv global 3.3.1
 ```
 
 To check our Ruby installation we run `ruby --version`. It should output
 something very similar to:
 
 ```
-ruby 3.2.3 (2024-01-18 revision 52bb2ac0a6) [arm64-darwin23]
+ruby 3.3.1 (2024-04-23 revision c56cd86388) [arm64-darwin23]
 ```
 
 ## Installation of Node
@@ -440,7 +440,7 @@ If you need to restart the server (for example after a configuration change), do
 * **When accessing OpenProject, I get an error page. How do I find out what went wrong?**
 
   Things can go wrong on different levels. You can find the apache error logs here: `/var/log/apache2/error.log`
- 
+
   The OpenProject log can be found here: `/home/openproject/openproject/log/production.log`
 
 * **I cannot solve an error, not even with the log files. How do I get help?**
