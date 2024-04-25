@@ -284,6 +284,10 @@ In OpenProject, a [project](../user-guide/projects/) is defined as an individual
 - an overarching team working on one topic or
 - separate products or customers.
 
+### Project attribute
+
+A project attribute in OpenProject is a [custom field](#custom-field) that applies to an entire project. It can be displayed in the right-hand column on the project overview page and can be divided into sections for a better structure.
+
 ### Project folder
 
 Project folders help collaborating in the most efficient way. They can be used with OpenProject's [Nextcloud integration](#nextcloud-integration) or with OpenProject's [OneDrive/SharePoint integration](#onedrivesharepoint-integration). [Read more about project folders in OpenProject](../user-guide/projects/project-settings/file-storages/#project-folders).
@@ -399,7 +403,7 @@ In OpenProject, a wiki is defined as a [module](#module) that allows to use wiki
 ### Work, Remaining Work and % Complete
 
 In OpenProject, '**Work**' refers to a work package attribute indicating the estimated hours needed to complete a task.  
-'**Remaining work**' is a work package attribute that shows how much work is left to finish the work package. It is automatically calculated if you work with status-based progress reporting. And '**% Complete**'shows an automatically calculated work package attribute that shows in percentage how much work is already completed. All three attributes are important for [progress reporting with OpenProject](../blog/changes-progress-work-estimates/).
+'**Remaining work**' is a work package attribute that shows how much work is left to finish the work package. It is automatically calculated if you work with status-based progress reporting. And '**% Complete**'shows an automatically calculated work package attribute that shows in percentage how much work is already completed. All three attributes are important for [progress reporting with OpenProject](https://www.openproject.org/blog/changes-progress-work-estimates/).
 
 To make it easier for project managers to work with work package hierarchies, OpenProject also displays a value (in blue) for the total amount of work in the Work field for parent work packages – next to the value for the dedicated work package. This **total work value** is the sum of the work value of the parent work package and all the work values of its children. The same principle applies to the work package attribute Remaining Work. [Read in our user guide about how to configure a work package](../user-guide/work-packages/work-package-table-configuration/)
 
