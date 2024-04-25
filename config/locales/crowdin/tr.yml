@@ -3364,7 +3364,7 @@ tr:
         working: "%{day} artık çalışma günü"
         non_working: "%{day} artık çalışılmayan gün"
       dates:
-        working: "%{day} artık çalışma günü"
+        working: "%{date} artık çalışma günü"
         non_working: "%{date} artık çalışılmayan tarih"
   nothing_to_preview: "Önizlenecek bir şey yok"
   api_v3:

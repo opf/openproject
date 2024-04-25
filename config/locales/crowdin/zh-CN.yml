@@ -3322,7 +3322,7 @@ zh-CN:
         working: "%{day}现在是工作日"
         non_working: "%{day}现在是非工作日"
       dates:
-        working: "%{day}现在是工作日"
+        working: "%{date}现在是工作日"
         non_working: "%{date}现在是非工作日"
   nothing_to_preview: "没有什么要预览"
   api_v3:

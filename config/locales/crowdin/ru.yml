@@ -2474,7 +2474,7 @@ ru:
         subject: "Пакет работ #%{id} был разделен с вами"
         enterprise_text: "Поделитесь пакетами работ с пользователями, не являющимися участниками проекта."
         summary:
-          user: ""
+          user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} поделился пакетом работ с группой %{group}, членом которой вы являетесь "
     storages:
       health:
@@ -2765,7 +2765,7 @@ ru:
     default: "-"
   project:
     destroy:
-      confirmation: ""
+      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
       project_delete_result_1: "Удалить все связанные данные."
       project_delete_result_2: "Удалить все папки управляемых проектов в приложенных хранилищах."
       info: "Удаление проекта – действие необратимое."

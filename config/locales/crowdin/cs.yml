@@ -81,7 +81,7 @@ cs:
       upgrade_info: "Přejděte na placenou verzi a začněte ji používat ve vašem týmu."
     journal_aggregation:
       explanation:
-        text: "Individuální akce/úpravy uživatele (např. dvojnásobná aktualizace pracovního balíčku se sečtou do jediné akce, pokud je jejich časový rozdíl menší než stanovený čas. Budou zobrazeny jako jedna akce v rámci aplikace. Toto také zpozdí oznámení o stejný čas a sníží tak počet zasílaných e-mailů."
+        text: "Individuální akce/úpravy uživatele (např. dvojnásobná aktualizace pracovního balíčku se sečtou do jediné akce, pokud je jejich časový rozdíl menší než stanovený čas. Budou zobrazeny jako jedna akce v rámci aplikace. Toto také zpozdí oznámení o stejný čas a sníží tak počet zasílaných e-mailů a ovlivní se také zpoždění na adrese %{webhook_link}."
         link: "webhook"
   announcements:
     show_until: Zobrazit do
@@ -3439,8 +3439,8 @@ cs:
         working: "%{day} je pracovní "
         non_working: "%{day} je nepracovní "
       dates:
-        working: "%{day} je pracovní "
-        non_working: "%{day} je nepracovní "
+        working: "%{date} je pracovní "
+        non_working: "%{date} je nepracovní "
   nothing_to_preview: "Nic pro náhled"
   api_v3:
     attributes:

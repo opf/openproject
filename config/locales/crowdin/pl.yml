@@ -1707,7 +1707,7 @@ pl:
           working: "%{day} jest teraz dniem roboczym"
           non_working: "%{day} jest teraz dniem nieroboczym"
         dates:
-          working: "%{day} jest teraz dniem roboczym"
+          working: "%{date} jest teraz dniem roboczym"
           non_working: "%{date} jest teraz wolnym od pracy"
       progress_mode_changed_to_status_based: Tryb obliczania postępu ustawiono na oparty na statusie
       status_p_complete_changed: >-

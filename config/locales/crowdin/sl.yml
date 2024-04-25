@@ -480,9 +480,9 @@ sl:
   work_packages:
     x_descendants:
       one: "En padajoči delovni paket"
-      two: "% {count} padajočih delovnega paketa"
-      few: "% {count} padajočih delovnega paketa"
-      other: "% {count} padajočih delovnega paketa"
+      two: "%{count} padajočih delovnega paketa"
+      few: "%{count} padajočih delovnega paketa"
+      other: "%{count} padajočih delovnega paketa"
     bulk:
       copy_failed: "The work packages could not be copied."
       move_failed: "The work packages could not be moved."
@@ -3306,9 +3306,9 @@ sl:
     blocked: "začasno zaklenjeno"
     blocked_num_failed_logins:
       one: "začasno zaklenjen (en neuspeli poskus prijave)"
-      two: "začasno zaklenjen (več neuspelih poskusov prijave)"
-      few: "začasno zaklenjen (več neuspelih poskusov prijave)"
-      other: "začasno zaklenjen (več neuspelih poskusov prijave)"
+      two: "začasno zaklenjen (%{count} neuspelih poskusov prijave)"
+      few: "začasno zaklenjen (%{count} neuspelih poskusov prijave)"
+      other: "začasno zaklenjen (%{count} neuspelih poskusov prijave)"
     confirm_status_change: "You are about to change the status of '%{name}'. Are you sure you want to continue?"
     deleted: "Izbrisani uporabnik"
     error_status_change_failed: "Spreminjanje uporabnikovega statusa je spodletelo zaradi naslednjih napak: %{errors}"
