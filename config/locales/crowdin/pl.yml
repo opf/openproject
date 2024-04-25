@@ -1710,7 +1710,7 @@ pl:
           working: "%{day} jest teraz dniem roboczym"
           non_working: "%{day} jest teraz dniem nieroboczym"
         dates:
-          working: "%{day} jest teraz dniem roboczym"
+          working: "%{date} jest teraz dniem roboczym"
           non_working: "%{date} jest teraz wolnym od pracy"
       progress_mode_changed_to_status_based: Tryb obliczania postępu ustawiono na oparty na statusie
       status_p_complete_changed: >-
@@ -1977,7 +1977,7 @@ pl:
   label_enterprise_support: "Wsparcie Enterprise"
   label_enterprise_addon: "Dodatek wersji Enterprise"
   label_environment: "Środowisko"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "jest"
   label_everywhere: "wszędzie"
   label_example: "Przykład"
@@ -2089,6 +2089,7 @@ pl:
   label_membership_plural: "Uczestnictwa"
   lable_membership_added: "Dodano członka"
   lable_membership_updated: "Zaktualizowano członka"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "wczesna alfa"
     alpha: "alfa"
@@ -2190,6 +2191,7 @@ pl:
   label_percent_complete: "% ukończenia"
   label_project_activity: "Aktywność projektu"
   label_project_attribute_plural: "Cechy projektu"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Całkowita liczba projektów"
   label_project_copy_notifications: "Wyślij powiadomienia e-mail podczas kopiowania projektów"
   label_project_latest: "Najnowsze projekty"
