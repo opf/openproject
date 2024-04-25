@@ -224,7 +224,8 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.expect_no_menu_item("Save", visible: false)
       # Since the query is unchanged, no save as button is shown
       projects_page.expect_no_notification("Save as")
-      projects_page.expect_no_menu_item("Save as", visible: false)
+      # But save as menu item is always present
+      projects_page.expect_menu_item("Save as", visible: false)
 
       # Default filters are applied
       projects_page.expect_projects_listed(project, public_project, development_project)
@@ -276,7 +277,8 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.expect_no_notification("Save")
       projects_page.expect_no_notification("Save as")
       projects_page.expect_no_menu_item("Save", visible: false)
-      projects_page.expect_no_menu_item("Save as", visible: false)
+      # But save as menu item is always present
+      projects_page.expect_menu_item("Save as", visible: false)
 
       # Modifying to save again
       projects_page.set_columns("Name", "Public")
@@ -288,6 +290,9 @@ RSpec.describe "Persisted lists on projects index page",
       # Save inplace
       projects_page.save_query
 
+      # Duplicating (without changes)
+      projects_page.save_query_as("My duplicated query")
+
       # Modifying to save as again
       projects_page.set_columns("Name", "Status", "Public")
       projects_page.save_query_as("My new saved query")
@@ -295,6 +300,11 @@ RSpec.describe "Persisted lists on projects index page",
 
       # Checked query saved inplace
       projects_page.set_sidebar_filter("My saved query")
+      projects_page.expect_columns("Name", "Public")
+      projects_page.expect_no_columns("Status")
+
+      # Checked duplicated query
+      projects_page.set_sidebar_filter("My duplicated query")
       projects_page.expect_columns("Name", "Public")
       projects_page.expect_no_columns("Status")
 

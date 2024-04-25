@@ -69,7 +69,9 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
     query.name || t(:label_project_plural)
   end
 
-  def can_save_as? = current_user.logged? && query.changed?
+  def may_save_as? = current_user.logged?
+
+  def can_save_as? = may_save_as? && query.changed?
 
   def can_save? = can_save_as? && query.persisted? && query.user == current_user
 

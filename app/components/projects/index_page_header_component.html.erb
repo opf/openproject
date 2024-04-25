@@ -53,7 +53,7 @@
           menu_save_item(menu:, label: t('button_save'), href: projects_query_path(query), method: :patch)
         end
 
-        if can_save_as?
+        if may_save_as?
           menu_save_item(menu:, label: t('button_save_as'), href: new_projects_query_path)
         end
 
