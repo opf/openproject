@@ -30,10 +30,18 @@
 
 import { Controller } from '@hotwired/stimulus';
 
-export default class PermanentOnFocusController extends Controller {
-  togglePermanentAttribute(event:FocusEvent) {
+export default class TurboPermanentController extends Controller {
+  set(event:Event) {
+    this.toggle(event, true);
+  }
+
+  remove(event:Event) {
+    this.toggle(event, false);
+  }
+
+  private toggle(event:Event, force:boolean) {
     if (event.target) {
-      (event.target as HTMLElement).toggleAttribute('data-turbo-permanent', event.type === 'focus');
+      (event.target as HTMLElement).toggleAttribute('data-turbo-permanent', force);
     }
   }
 }
