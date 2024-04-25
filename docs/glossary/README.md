@@ -396,9 +396,12 @@ In OpenProject, a wiki is defined as a [module](#module) that allows to use wiki
 
 ![A wiki module in OpenProject](glossary-openproject-wiki.png)
 
-### Work and Remaining Work
+### Work, Remaining Work and % Complete
 
-In OpenProject, 'Work' refers to a work package attribute indicating the estimated hours needed to complete a task. You can edit the value for work manually, as well as the value for the work package attribute '**Remaining work**'. To make it easier for project managers to work with work package hierarchies, OpenProject also displays a value (in blue) for the total amount of work in the Work field for parent work packages – next to the value for the dedicated work package. This **total work value** is the sum of the work value of the parent work package and all the work values of its children. The same principle applies to the work package attribute Remaining Work. [Read in our user guide about how to configure a work package](../user-guide/work-packages/work-package-table-configuration/)
+In OpenProject, '**Work**' refers to a work package attribute indicating the estimated hours needed to complete a task.  
+'**Remaining work**' is a work package attribute that shows how much work is left to finish the work package. It is automatically calculated if you work with status-based progress reporting. And '**% Complete**'shows an automatically calculated work package attribute that shows in percentage how much work is already completed. All three attributes are important for [progress reporting with OpenProject](../blog/changes-progress-work-estimates/).
+
+To make it easier for project managers to work with work package hierarchies, OpenProject also displays a value (in blue) for the total amount of work in the Work field for parent work packages – next to the value for the dedicated work package. This **total work value** is the sum of the work value of the parent work package and all the work values of its children. The same principle applies to the work package attribute Remaining Work. [Read in our user guide about how to configure a work package](../user-guide/work-packages/work-package-table-configuration/)
 
 ### Workflow
 
