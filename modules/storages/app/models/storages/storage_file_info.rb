@@ -61,23 +61,7 @@ module Storages
       permissions: nil,
       location: nil
     )
-      super(
-        status:,
-        status_code:,
-        id:,
-        name:,
-        last_modified_at:,
-        created_at:,
-        mime_type:,
-        size:,
-        owner_name:,
-        owner_id:,
-        trashed:,
-        last_modified_by_name:,
-        last_modified_by_id:,
-        permissions:,
-        location:
-      )
+      super
     end
 
     def clean_location

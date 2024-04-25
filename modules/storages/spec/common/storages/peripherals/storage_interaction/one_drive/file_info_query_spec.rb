@@ -32,15 +32,14 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuery, :vcr, :webmock do
-  using Storages::Peripherals::ServiceResultRefinements
-
   let(:user) { create(:user) }
   let(:storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user) }
+
   let(:auth_strategy) do
-    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken.strategy.with_user(user)
+    Storages::Peripherals::Registry["one_drive.authentication.userbound"].call(user:)
   end
 
-  subject { described_class.new(storage) }
+  subject(:file_info_query) { described_class.new(storage) }
 
   describe "#call" do
     it "responds with correct parameters" do
@@ -53,10 +52,10 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
     context "without outbound request involved" do
       context "with nil" do
         it "returns an error" do
-          result = subject.call(auth_strategy:, file_id: nil)
+          result = file_info_query.call(auth_strategy:, file_id: nil)
 
           expect(result).to be_failure
-          expect(result.error_source).to eq(described_class)
+          expect(result.errors.data.source).to eq(described_class)
           expect(result.result).to eq(:error)
         end
       end
@@ -67,88 +66,102 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
     context "with a file id requested", vcr: "one_drive/file_info_query_success_file" do
       let(:file_id) { "01AZJL5PNCQCEBFI3N7JGZSX5AOX32Z3LA" }
 
-      # rubocop:disable RSpec/ExampleLength
       it "must return the file information when called" do
-        result = subject.call(auth_strategy:, file_id:)
+        result = file_info_query.call(auth_strategy:, file_id:)
         expect(result).to be_success
 
-        result.match(
-          on_success: ->(file_info) do
-            expect(file_info).to be_a(Storages::StorageFileInfo)
-            expect(file_info.to_h)
-              .to eq({
-                       status: "ok",
-                       status_code: 200,
-                       id: "01AZJL5PNCQCEBFI3N7JGZSX5AOX32Z3LA",
-                       name: "NextcloudHub.md",
-                       size: 1095,
-                       mime_type: "application/octet-stream",
-                       created_at: Time.parse("2023-09-26T14:45:25Z"),
-                       last_modified_at: Time.parse("2023-09-26T14:46:13Z"),
-                       owner_name: "Eric Schubert",
-                       owner_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
-                       last_modified_by_name: "Eric Schubert",
-                       last_modified_by_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
-                       permissions: nil,
-                       trashed: false,
-                       location: "/Folder/Subfolder/NextcloudHub.md"
-                     })
-          end,
-          on_failure: ->(error) { fail "Expected success, got #{error}" }
-        )
+        file_info = result.result
+
+        expect(file_info).to be_a(Storages::StorageFileInfo)
+        expect(file_info.to_h)
+          .to eq({
+                   status: "ok",
+                   status_code: 200,
+                   id: "01AZJL5PNCQCEBFI3N7JGZSX5AOX32Z3LA",
+                   name: "NextcloudHub.md",
+                   size: 1095,
+                   mime_type: "application/octet-stream",
+                   created_at: Time.parse("2023-09-26T14:45:25Z"),
+                   last_modified_at: Time.parse("2023-09-26T14:46:13Z"),
+                   owner_name: "Eric Schubert",
+                   owner_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
+                   last_modified_by_name: "Eric Schubert",
+                   last_modified_by_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
+                   permissions: nil,
+                   trashed: false,
+                   location: "/Folder/Subfolder/NextcloudHub.md"
+                 })
       end
-      # rubocop:enable RSpec/ExampleLength
     end
 
     context "with a folder id requested", vcr: "one_drive/file_info_query_success_folder" do
       let(:file_id) { "01AZJL5PNQYF5NM3KWYNA3RJHJIB2XMMMB" }
 
-      # rubocop:disable RSpec/ExampleLength
       it "must return the file information when called" do
-        result = subject.call(auth_strategy:, file_id:)
+        result = file_info_query.call(auth_strategy:, file_id:)
         expect(result).to be_success
 
-        result.match(
-          on_success: ->(file_info) do
-            expect(file_info).to be_a(Storages::StorageFileInfo)
-            expect(file_info.to_h)
-              .to eq({
-                       status: "ok",
-                       status_code: 200,
-                       id: "01AZJL5PNQYF5NM3KWYNA3RJHJIB2XMMMB",
-                       name: "Ümlæûts",
-                       size: 18007,
-                       mime_type: "application/x-op-directory",
-                       created_at: Time.parse("2023-10-09T15:26:32Z"),
-                       last_modified_at: Time.parse("2023-10-09T15:26:32Z"),
-                       owner_name: "Eric Schubert",
-                       owner_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
-                       last_modified_by_name: "Eric Schubert",
-                       last_modified_by_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
-                       permissions: nil,
-                       trashed: false,
-                       location: "/Folder/Ümlæûts"
-                     })
-          end,
-          on_failure: ->(error) { fail "Expected success, got #{error}" }
-        )
+        file_info = result.result
+
+        expect(file_info).to be_a(Storages::StorageFileInfo)
+        expect(file_info.to_h)
+          .to eq({
+                   status: "ok",
+                   status_code: 200,
+                   id: "01AZJL5PNQYF5NM3KWYNA3RJHJIB2XMMMB",
+                   name: "Ümlæûts",
+                   size: 20789,
+                   mime_type: "application/x-op-directory",
+                   created_at: Time.parse("2023-10-09T15:26:32Z"),
+                   last_modified_at: Time.parse("2023-10-09T15:26:32Z"),
+                   owner_name: "Eric Schubert",
+                   owner_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
+                   last_modified_by_name: "Eric Schubert",
+                   last_modified_by_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
+                   permissions: nil,
+                   trashed: false,
+                   location: "/Folder/Ümlæûts"
+                 })
       end
-      # rubocop:enable RSpec/ExampleLength
     end
   end
 
-  context "with outbound request returning not found", vcr: "one_drive/file_info_query_one_not_found" do
+  context "when the user does not have access to the file", vcr: "one_drive/file_info_query_forbidden" do
+    let(:drive_id) { "b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy" }
+    let(:permission_storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user, drive_id:) }
+
+    let(:folder) do
+      Storages::Peripherals::Registry["one_drive.commands.create_folder"]
+        .call(storage: permission_storage, folder_path: "Forbidden Folder")
+        .result
+    end
+
+    after do
+      admin_auth = Storages::Peripherals::Registry["one_drive.authentication.userless"].call
+
+      Storages::Peripherals::Registry["one_drive.commands.delete_folder"]
+        .call(storage: permission_storage, location: folder.id, auth_strategy: admin_auth)
+    end
+
+    it "returns the file information but with a forbidden status" do
+      result = described_class.call(storage: permission_storage, auth_strategy:, file_id: folder.id)
+      expect(result).to be_success
+
+      file_info = result.result
+      expect(file_info.status_code).to eq(403)
+      expect(file_info.status).to eq("forbidden")
+    end
+  end
+
+  context "with outbound request returning not found", vcr: "one_drive/file_info_query_not_found" do
     let(:file_id) { "not_existent" }
 
     it "must return not found" do
-      result = subject.call(auth_strategy:, file_id:)
-      expect(result).to be_failure
-      expect(result.error_source).to be(Storages::Peripherals::StorageInteraction::OneDrive::Internal::DriveItemQuery)
+      result = file_info_query.call(auth_strategy:, file_id:)
 
-      result.match(
-        on_failure: ->(error) { expect(error.code).to eq(:not_found) },
-        on_success: ->(file_info) { fail "Expected failure, got #{file_info}" }
-      )
+      expect(result).to be_failure
+      expect(result.errors.data.source).to be(Storages::Peripherals::StorageInteraction::OneDrive::Internal::DriveItemQuery)
+      expect(result.errors.code).to eq(:not_found)
     end
   end
 end
