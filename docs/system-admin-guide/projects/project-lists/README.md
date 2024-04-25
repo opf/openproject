@@ -16,6 +16,8 @@ To configure project lists, navigate to **Administration settings** → **Projec
 
 ## Modify and add columns
 
+> **Please note:** The ability to configure which project attributes are visible as columns in project lists is an Enterprise add-on and will only be displayed here for Enterprise on-premises and Enterprise cloud.
+
 Here, you can view a list of *chips*, or little rectangles with names of project attributes. Each one represents a column in the Project list tables. You can drag and drop these around to change the order in which they appear. 
 
 To add a new project attribute as a column, click on the field with the label **Add columns** (where it says *Select a column*). You will be shown a list of existing project attributes. You can type in a keyword to search through this list and find the project attribute you would like to add.
