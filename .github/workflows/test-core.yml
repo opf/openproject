@@ -30,45 +30,45 @@ jobs:
       CI_RETRY_COUNT: 3
     steps:
     - uses: actions/checkout@v4
-    - name: Cache DOCKER
-      id: cache_docker
-      uses: runs-on/cache@v4
-      with:
-        path: cache/docker
-        # Note: no restore keys since whenever the files below change, we want to rebuild the full image from scratch
-        key: ${{ runner.os }}-docker-ci-${{ hashFiles('docker-compose.ci.yml', 'docker/ci/*', '.ruby-version', 'bin/ci') }}
-    - name: Restore CI image from cache
-      if: steps.cache_docker.outputs.cache-hit == 'true'
-      run: docker load -i cache/docker/image.tar
-    - name: Cache GEM
-      uses: runs-on/cache@v4
-      with:
-        path: cache/bundle
-        key: gem-${{ hashFiles('Gemfile.lock', '.ruby-version') }}
-        restore-keys: |
-          gem-
-    - name: Cache NPM
-      uses: runs-on/cache@v4
-      with:
-        path: cache/node
-        key: node-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
-        restore-keys: |
-          node-
-    - name: Cache ANGULAR
-      uses: runs-on/cache@v4
-      with:
-        path: cache/angular
-        key: angular-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
-        restore-keys: |
-          angular-
-    - name: Cache TEST RUNTIME
-      uses: runs-on/cache@v4
-      with:
-        path: cache/runtime-logs
-        key: runtime-logs-${{ github.head_ref || github.ref }}-${{ github.sha }}
-        restore-keys: |
-          runtime-logs-${{ github.head_ref || github.ref }}-
-          runtime-logs-
+#   - name: Cache DOCKER
+#     id: cache_docker
+#     uses: runs-on/cache@v4
+#     with:
+#       path: cache/docker
+#       # Note: no restore keys since whenever the files below change, we want to rebuild the full image from scratch
+#       key: ${{ runner.os }}-docker-ci-${{ hashFiles('docker-compose.ci.yml', 'docker/ci/*', '.ruby-version', 'bin/ci') }}
+#   - name: Restore CI image from cache
+#     if: steps.cache_docker.outputs.cache-hit == 'true'
+#     run: docker load -i cache/docker/image.tar
+#   - name: Cache GEM
+#     uses: runs-on/cache@v4
+#     with:
+#       path: cache/bundle
+#       key: gem-${{ hashFiles('Gemfile.lock', '.ruby-version') }}
+#       restore-keys: |
+#         gem-
+#   - name: Cache NPM
+#     uses: runs-on/cache@v4
+#     with:
+#       path: cache/node
+#       key: node-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
+#       restore-keys: |
+#         node-
+#   - name: Cache ANGULAR
+#     uses: runs-on/cache@v4
+#     with:
+#       path: cache/angular
+#       key: angular-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
+#       restore-keys: |
+#         angular-
+#   - name: Cache TEST RUNTIME
+#     uses: runs-on/cache@v4
+#     with:
+#       path: cache/runtime-logs
+#       key: runtime-logs-${{ github.head_ref || github.ref }}-${{ github.sha }}
+#       restore-keys: |
+#         runtime-logs-${{ github.head_ref || github.ref }}-
+#         runtime-logs-
     - name: Build
       run: bin/ci setup-tests
     - name: APIv3 specification (OpenAPI 3.0)
