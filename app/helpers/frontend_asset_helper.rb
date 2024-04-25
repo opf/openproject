@@ -58,17 +58,25 @@ module FrontendAssetHelper
 
   private
 
+  def debug_angular_cli_asset(path)
+    URI.join(FrontendAssetHelper.cli_proxy, "assets/frontend/#{path}")
+  end
+
   def frontend_asset_path(unhashed_file_name)
     "/assets/frontend/#{::OpenProject::Assets.lookup_asset(unhashed_file_name)}"
   end
 
   def variable_asset_path(path)
     if FrontendAssetHelper.assets_proxied?
-      File.join(
-        FrontendAssetHelper.cli_proxy,
-        Rails.application.config.relative_url_root,
-        frontend_asset_path(path)
-      )
+      if Rails.env.development?
+        debug_angular_cli_asset(path)
+      else
+        File.join(
+          FrontendAssetHelper.cli_proxy,
+          Rails.application.config.relative_url_root,
+          frontend_asset_path(path)
+        )
+      end
     else
       # we do not need to take care about Rails.application.config.relative_url_root
       # because in this case javascript|stylesheet_include_tag will add it automatically.
