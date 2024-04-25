@@ -172,16 +172,16 @@ class WorkPackages::ProgressForm < ApplicationForm
       "work-packages--progress--preview-progress-target": "progressInput",
       "work-packages--progress--touched-field-marker-target": "progressInput",
       "application-target": "dynamic",
-      controller: "permanent-on-focus",
+      controller: "turbo-permanent",
       action: "input->work-packages--progress--touched-field-marker#markFieldAsTouched " \
-              "focus->permanent-on-focus#togglePermanentAttribute " \
-              "blur->permanent-on-focus#togglePermanentAttribute"
+              "focus->turbo-permanent#set " \
+              "blur->turbo-permanent#remove"
     }
 
     if @focused_field == name
       data[:"work-packages--progress--focus-field-target"] = "fieldToFocus"
       # Prevent changes being morphed into the input that is currently focused.
-      # After this initial rendering, the permanent-on-focus.controller takes over maintaining
+      # After this initial rendering, the turbo-permanent.controller takes over maintaining
       # the attribute on the input currently focused.
       data["turbo-permanent"] = true
     end
