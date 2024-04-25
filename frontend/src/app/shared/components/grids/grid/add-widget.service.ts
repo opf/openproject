@@ -24,7 +24,7 @@ export class GridAddWidgetService {
     readonly drag:GridDragAndDropService,
     readonly move:GridMoveService,
     readonly resize:GridResizeService,
-    readonly i18n:I18nService
+    readonly i18n:I18nService,
   ) {
   }
 
@@ -62,7 +62,7 @@ export class GridAddWidgetService {
       this.opModalService.show(
         AddGridWidgetModalComponent,
         this.injector,
-        { schema: this.layout.schema },
+        { $schema: this.layout.$schema },
       ).subscribe((modal) => {
         modal.closingEvent.subscribe(() => {
           const registered = modal.chosenWidget;
@@ -122,6 +122,6 @@ export class GridAddWidgetService {
   }
 
   public get isAllowed() {
-    return this.layout.gridResource && this.layout.gridResource.updateImmediately && this.layout.schema;
+    return this.layout.gridResource && this.layout.gridResource.updateImmediately;
   }
 }

@@ -1,19 +1,24 @@
 import {
-  ChangeDetectorRef, Component, ElementRef, Inject,
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit,
 } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { WidgetRegistration } from 'core-app/shared/components/grids/grid/grid.component';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { GridWidgetsService } from 'core-app/shared/components/grids/widgets/widgets.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
+import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
+import { BehaviorSubject } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 
 @Component({
   templateUrl: './add.modal.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddGridWidgetModalComponent extends OpModalComponent {
+export class AddGridWidgetModalComponent extends OpModalComponent implements OnInit {
   text = {
     title: this.i18n.t('js.grid.add_widget'),
     close_popup: this.i18n.t('js.button_close'),
@@ -27,18 +32,24 @@ export class AddGridWidgetModalComponent extends OpModalComponent {
 
   public eeShowBanners = false;
 
-  constructor(readonly elementRef:ElementRef,
+  private schema:SchemaResource;
+
+  constructor(
+    readonly elementRef:ElementRef,
     @Inject(OpModalLocalsToken) readonly locals:OpModalLocalsMap,
     readonly cdRef:ChangeDetectorRef,
     readonly widgetsService:GridWidgetsService,
     readonly i18n:I18nService,
-    readonly bannerService:BannersService) {
+    readonly bannerService:BannersService,
+    readonly loadingIndicator:LoadingIndicatorService,
+  ) {
     super(locals, cdRef, elementRef);
   }
 
   ngOnInit() {
     super.ngOnInit();
     this.eeShowBanners = this.bannerService.eeShowBanners;
+    this.fetchSchema();
   }
 
   public get selectable() {
@@ -54,9 +65,34 @@ export class AddGridWidgetModalComponent extends OpModalComponent {
     return widget.identifier;
   }
 
-  private get eligibleWidgets() {
-    const schemaWidgetIdentifiers = this.locals.schema.widgets.allowedValues.map((widget:any) => widget.identifier);
+  private fetchSchema():void {
+    this.schema = this.locals.$schema.value;
 
-    return this.widgetsService.registered.filter((widget) => schemaWidgetIdentifiers.includes(widget.identifier));
+    if (!this.schema) {
+      this.loadingIndicator.modal.start();
+
+      this
+      .locals
+      .$schema
+      .pipe(
+        filter<SchemaResource>(Boolean),
+        take(1),
+      )
+      .subscribe((schema:SchemaResource) => {
+        this.schema = schema;
+        this.loadingIndicator.modal.stop();
+        this.cdRef.detectChanges();
+      });
+    }
+  }
+
+  private get eligibleWidgets() {
+    if (this.schema) {
+      const schemaWidgetIdentifiers = this.schema.widgets.allowedValues.map((widget:any) => widget.identifier);
+
+      return this.widgetsService.registered.filter((widget) => schemaWidgetIdentifiers.includes(widget.identifier));
+    }
+
+    return [];
   }
 }
