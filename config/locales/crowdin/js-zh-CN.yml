@@ -377,7 +377,7 @@ zh-CN:
     label_added_time_by: '由 <a href=%{authorLink}>%{author}</a> 在 %{age} 添加'
     label_ago: "天前"
     label_all: "所有"
-    label_all_uppercase: "All"
+    label_all_uppercase: "全部"
     label_all_work_packages: "所有工作包"
     label_and: "和"
     label_ascending: "升序"
@@ -419,7 +419,7 @@ zh-CN:
     label_expand_project_menu: "展开项目菜单"
     label_export: "导出"
     label_export_preparing: "导出文件已开始准备并将很快被下载。"
-    label_favored: "Favored"
+    label_favored: "已收藏"
     label_filename: "文件"
     label_filesize: "大小"
     label_general: "通用"

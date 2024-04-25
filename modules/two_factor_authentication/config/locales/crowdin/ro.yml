@@ -25,7 +25,7 @@ ro:
       two_factor_authentication/device/totp: "Aplicația Authenticator"
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
-    error_2fa_disabled: "Autentificarea cu parolă a fost dezactivată prin %{configuration}."
+    error_2fa_disabled: "Autentificarea cu parolă a fost dezactivat."
     error_no_device: "Nu s-a găsit niciun dispozitiv 2FA înregistrat pentru acest utilizator, deși este necesar pentru această instanță."
     error_no_matching_strategy: "Nu este disponibilă nicio strategie 2FA corespunzătoare pentru acest utilizator. Vă rugăm să vă contactați administratorul."
     error_is_enforced_not_active: "Eroare de configurare: Autentificarea cu doi factori a fost impusă, dar nu există strategii active."

@@ -1911,7 +1911,7 @@ es:
   label_enterprise_support: "Soporte empresarial"
   label_enterprise_addon: "Extensión Enterprise"
   label_environment: "Entorno"
-  label_estimates_and_time: "Estimaciones y progreso"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "es"
   label_everywhere: "todo"
   label_example: "Ejemplo"
@@ -2023,6 +2023,7 @@ es:
   label_membership_plural: "Afiliaciones"
   lable_membership_added: "Miembro añadido"
   lable_membership_updated: "Miembro actualizado"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alfa"
     alpha: "alfa"
@@ -2124,6 +2125,7 @@ es:
   label_percent_complete: "% compleado"
   label_project_activity: "Actividad del proyecto"
   label_project_attribute_plural: "Atributos del proyecto"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Número total de proyectos"
   label_project_copy_notifications: "Enviar notificaciones por correo electrónico durante la copia del proyecto"
   label_project_latest: "Últimos proyectos"
@@ -3367,7 +3369,7 @@ es:
         working: "%{day} es ahora laboral"
         non_working: "%{day} es ahora no laboral"
       dates:
-        working: "%{day} es ahora laboral"
+        working: "%{date} es ahora laboral"
         non_working: "%{day} es ahora no laboral"
   nothing_to_preview: "Nada para previsualizar"
   api_v3:
