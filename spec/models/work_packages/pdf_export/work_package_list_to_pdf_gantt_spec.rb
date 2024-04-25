@@ -56,8 +56,8 @@ end
 RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   include Redmine::I18n
   include PDFExportSpecUtils
-  let(:type_standard) { create(:type_standard, color: create(:color, hexcode: "#FFFF00")) }
-  let(:type_bug) { create(:type_bug, color: create(:color, hexcode: "#00FFFF")) }
+  let(:type_standard) { create(:type_standard, name: "Standard", color: create(:color, hexcode: "#FFFF00")) }
+  let(:type_bug) { create(:type_bug, name: "Bug", color: create(:color, hexcode: "#00FFFF")) }
   let!(:type_milestone) { create(:type, name: "Milestone", is_milestone: true, color: create(:color, hexcode: "#FF0000")) }
   let(:types) { [type_standard, type_milestone] }
   let(:project) do
@@ -179,11 +179,11 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       # show_calls
       milestone = [
         [:set_color_for_nonstroking_and_special, 1.0, 0.0, 0.0], # red milestone polygon
-        [:begin_new_subpath, 628.5, 401.86],
-        [:append_line, 634.5, 407.86],
-        [:append_line, 640.5, 401.86],
-        [:append_line, 634.5, 395.86],
-        [:append_line, 628.5, 401.86],
+        [:begin_new_subpath, 627.83333, 401.86],
+        [:append_line, 634.5, 408.52667],
+        [:append_line, 641.16667, 401.86],
+        [:append_line, 634.5, 395.19333],
+        [:append_line, 627.83333, 401.86],
         [:close_subpath]
       ]
       expect(include_calls?(milestone, pdf[:calls])).to be true
@@ -213,11 +213,11 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       # show_calls
       milestone = [
         [:set_color_for_nonstroking_and_special, 1.0, 0.0, 0.0], # red milestone polygon
-        [:begin_new_subpath, 111.42857, 390.0],
-        [:append_line, 117.42857, 396.0],
-        [:append_line, 123.42857, 390.0],
-        [:append_line, 117.42857, 384.0],
-        [:append_line, 111.42857, 390.0],
+        [:begin_new_subpath, 110.7619, 390.0],
+        [:append_line, 117.42857, 396.66667],
+        [:append_line, 124.09524, 390.0],
+        [:append_line, 117.42857, 383.33333],
+        [:append_line, 110.7619, 390.0],
         [:close_subpath]
       ]
       expect(include_calls?(milestone, pdf[:calls])).to be true
@@ -269,11 +269,11 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       # show_calls
       milestone = [
         [:set_color_for_nonstroking_and_special, 1.0, 0.0, 0.0], # red milestone polygon
-        [:begin_new_subpath, 111.42857, 110.0],
-        [:append_line, 117.42857, 116.0],
-        [:append_line, 123.42857, 110.0],
-        [:append_line, 117.42857, 104.0],
-        [:append_line, 111.42857, 110.0],
+        [:begin_new_subpath, 110.7619, 110.0],
+        [:append_line, 117.42857, 116.66667],
+        [:append_line, 124.09524, 110.0],
+        [:append_line, 117.42857, 103.33333],
+        [:append_line, 110.7619, 110.0],
         [:close_subpath]
       ]
       expect(include_calls?(milestone, pdf[:calls])).to be true
@@ -286,6 +286,38 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       expect(
         pdf[:calls].count { |call| call == [:set_color_for_nonstroking_and_special, 0.0, 1.0, 1.0] } # aqua color rectangles
       ).to be filler_work_packages.length
+    end
+  end
+
+  describe "with a request for a PDF gantt with grouped work packages" do
+    let(:query_attributes) { { group_by: "type" } }
+
+    it "contains correct data" do
+      expect(pdf[:strings]).to eq [query.name, "2024 Apr 21 22 23", # header columns
+                                   type_milestone.name,
+                                   wp_title_column('1.', work_package_milestone),
+                                   type_standard.name,
+                                   wp_title_column('2.', work_package_task),
+                                   "1/1", export_time_formatted, query.name].join(" ")
+
+      # if one of these expect fails you can output the actual pdf calls uncommenting the following line
+      # show_calls
+      milestone = [
+        [:set_color_for_nonstroking_and_special, 1.0, 0.0, 0.0], # red milestone polygon
+        [:begin_new_subpath, 627.83333, 401.86],
+        [:append_line, 634.5, 408.52667],
+        [:append_line, 641.16667, 401.86],
+        [:append_line, 634.5, 395.19333],
+        [:append_line, 627.83333, 401.86],
+        [:close_subpath]
+      ]
+      expect(include_calls?(milestone, pdf[:calls])).to be true
+      task = [
+        [:set_color_for_nonstroking_and_special, 1.0, 1.0, 0.0], # yellow rectangle
+        [:append_rectangle, 207.0, 356.86, 171.0, 10.0],
+        [:fill_path_with_nonzero]
+      ]
+      expect(include_calls?(task, pdf[:calls])).to be true
     end
   end
 end
