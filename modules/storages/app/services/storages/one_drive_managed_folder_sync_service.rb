@@ -190,7 +190,7 @@ module Storages
     end
 
     def auth_strategy
-      Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials.strategy
+      Peripherals::Registry.resolve("one_drive.authentication.userless").call
     end
 
     def admin_client_tokens_scope

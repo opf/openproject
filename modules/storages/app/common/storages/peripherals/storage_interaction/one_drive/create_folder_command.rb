@@ -35,8 +35,6 @@ module Storages
         class CreateFolderCommand
           using ServiceResultRefinements
 
-          Auth = ::Storages::Peripherals::StorageInteraction::Authentication
-
           def self.call(storage:, auth_strategy:, folder_name:, parent_location:)
             new(storage).call(auth_strategy:, folder_name:, parent_location:)
           end
@@ -46,7 +44,7 @@ module Storages
           end
 
           def call(auth_strategy:, folder_name:, parent_location:)
-            Auth[auth_strategy].call(storage: @storage, http_options:) do |http|
+            Authentication[auth_strategy].call(storage: @storage, http_options:) do |http|
               handle_response http.post(uri_for(parent_location), body: payload(folder_name))
             end
           end
