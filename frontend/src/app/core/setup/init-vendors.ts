@@ -58,8 +58,6 @@ require('moment/locale/en-gb');
 require('jquery.caret');
 // Text highlight for autocompleter
 require('mark.js/dist/jquery.mark.min');
-// Micro Text fuzzy search library
-require('fuse.js');
 
 require('moment-timezone/builds/moment-timezone-with-data.min');
 // eslint-disable-next-line import/extensions,import/no-extraneous-dependencies
