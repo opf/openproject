@@ -54,13 +54,13 @@ module Storages
               )
             end
 
-            user_bound_result = Authentication[auth_strategy].call(storage: @storage) do |http|
+            requested_result = Authentication[auth_strategy].call(storage: @storage) do |http|
               @drive_item_query.call(http:, drive_item_id: file_id, fields: FIELDS)
             end
 
-            user_bound_result.on_success { |sr| return ServiceResult.success(result: storage_file_infos(sr.result)) }
-            user_bound_result.on_failure do |sr|
-              return sr unless sr.result == :not_found
+            requested_result.on_success { |sr| return ServiceResult.success(result: storage_file_infos(sr.result)) }
+            requested_result.on_failure do |sr|
+              return sr unless sr.result == :not_found && auth_strategy.user.present?
 
               return admin_query(file_id)
             end
@@ -83,7 +83,7 @@ module Storages
           def userless_strategy = Registry.resolve("one_drive.authentication.userless").call
 
           def storage_file_infos(json, status: "ok", status_code: 200)
-            info = StorageFileInfo.new(
+            StorageFileInfo.new(
               status:,
               status_code:,
               id: json[:id],
@@ -94,14 +94,7 @@ module Storages
               owner_id: json.dig(:createdBy, :user, :id),
               trashed: false,
               permissions: nil,
-              location: Util.extract_location(json[:parentReference], json[:name])
-            )
-
-            add_file_change_info(info, json)
-          end
-
-          def add_file_change_info(file_info, json)
-            file_info.with(
+              location: Util.extract_location(json[:parentReference], json[:name]),
               last_modified_at: Time.zone.parse(json.dig(:fileSystemInfo, :lastModifiedDateTime)),
               created_at: Time.zone.parse(json.dig(:fileSystemInfo, :createdDateTime)),
               last_modified_by_name: json.dig(:lastModifiedBy, :user, :displayName),

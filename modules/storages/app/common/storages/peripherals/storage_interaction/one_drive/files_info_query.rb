@@ -44,6 +44,13 @@ module Storages
           end
 
           def call(auth_strategy:, file_ids:)
+            if file_ids.nil?
+              return ServiceResult.failure(
+                result: :error,
+                errors: ::Storages::StorageError.new(code: :error, log_message: "File IDs can not be nil")
+              )
+            end
+
             result = Array(file_ids).map do |file_id|
               file_info_result = FileInfoQuery.call(storage: @storage, auth_strategy:, file_id:)
 

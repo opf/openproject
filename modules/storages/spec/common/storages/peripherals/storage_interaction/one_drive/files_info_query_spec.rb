@@ -61,11 +61,11 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
       end
 
       context "with nil" do
-        it "returns an empty array" do
+        it "returns an error" do
           result = query.call(auth_strategy:, file_ids: nil)
 
-          expect(result).to be_success
-          expect(result.result).to eq([])
+          expect(result).to be_failure
+          expect(result.result).to eq(:error)
         end
       end
     end
