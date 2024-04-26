@@ -13,6 +13,14 @@ module OpenProject
         type == ::OpenProject::Recaptcha::TYPE_HCAPTCHA
       end
 
+      def use_turnstile?
+        type == ::OpenProject::Recaptcha::TYPE_TURNSTILE
+      end
+
+      def use_recaptcha?
+        type == ::OpenProject::Recaptcha::TYPE_V2 || type == ::OpenProject::Recaptcha::TYPE_V3
+      end
+
       def type
         ::Setting.plugin_openproject_recaptcha["recaptcha_type"]
       end
