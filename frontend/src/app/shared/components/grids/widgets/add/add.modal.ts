@@ -6,6 +6,7 @@ import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.servi
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { WidgetRegistration } from 'core-app/shared/components/grids/grid/grid.component';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
 import { GridWidgetsService } from 'core-app/shared/components/grids/widgets/widgets.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
@@ -56,7 +57,7 @@ export class AddGridWidgetModalComponent extends OpModalComponent implements OnI
     return this.eligibleWidgets.sort((a, b) => a.title.localeCompare(b.title));
   }
 
-  public select($event:any, widget:WidgetRegistration) {
+  public select($event:MouseEvent, widget:WidgetRegistration) {
     this.chosenWidget = widget;
     this.closeMe($event);
   }
@@ -66,14 +67,13 @@ export class AddGridWidgetModalComponent extends OpModalComponent implements OnI
   }
 
   private fetchSchema():void {
-    this.schema = this.locals.$schema.value;
+    const $schema = this.locals.$schema as BehaviorSubject<SchemaResource>;
+    this.schema = $schema.value;
 
     if (!this.schema) {
       this.loadingIndicator.modal.start();
 
-      this
-      .locals
-      .$schema
+      $schema
       .pipe(
         filter<SchemaResource>(Boolean),
         take(1),
@@ -88,7 +88,8 @@ export class AddGridWidgetModalComponent extends OpModalComponent implements OnI
 
   private get eligibleWidgets() {
     if (this.schema) {
-      const schemaWidgetIdentifiers = this.schema.widgets.allowedValues.map((widget:any) => widget.identifier);
+      const widgets = this.schema.widgets as { allowedValues:GridWidgetResource[] };
+      const schemaWidgetIdentifiers = widgets.allowedValues.map((widget) => widget.identifier);
 
       return this.widgetsService.registered.filter((widget) => schemaWidgetIdentifiers.includes(widget.identifier));
     }
