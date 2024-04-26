@@ -91,7 +91,7 @@ After pressing **CREATE** you will get a pop-up window like the following
 
 ### Step 3: Add Google as an OpenID Provider to OpenProject
 
-1. Login as Open Project Administrator
+1. Login as OpenProject Administrator
 2. navigate to -> *Administration* -> *Authentication* and choose -> *OpenID providers*.
    1. **Name** Choose Google
    2. **Display Name** (e.g. **EXAMPLE.COM SSO**)

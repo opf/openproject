@@ -1588,7 +1588,7 @@ zh-TW:
       impressum: "Legal notice"
       glossary: "術語表 "
       shortcuts: "快捷鍵"
-      blog: "Openproject 部落格"
+      blog: "OpenProject 部落格"
       forums: "社群討論區"
       newsletter: "安全警報 / 消息"
   image_conversion:
@@ -3534,7 +3534,7 @@ zh-TW:
   link: 連結
   plugin_openproject_auth_plugins:
     name: "OpenProject 認證外掛"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"

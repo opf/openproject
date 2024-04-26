@@ -210,7 +210,7 @@ echo "---"
 
 #CHECK FOR INSTALLED OPENPROJECT
 
-echo "Checking for Open Project installed packages and version..."
+echo "Checking for OpenProject installed packages and version..."
 
 yum_fp=`which yum` 
 if [ -z $yum_fp ]; then yum_fp="dummynonexists"; fi
@@ -223,6 +223,6 @@ if [ -z $openproject_fp ]; then openproject_fp="dummynonexists"; fi
 if [ -f $openproject_fp ];
   then echo OpenProject is installed in Version...; $openproject_fp run bundle exec rake version
 else
-  echo "Open Project seems not to be installed."
+  echo "OpenProject seems not to be installed."
 fi
 
