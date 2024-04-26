@@ -98,7 +98,7 @@ zh-CN:
     attachments:
       text: "所有与会者都可以查看附件。您还可以将这些文件拖放到议程项目注释中。"
     copy:
-      title: "Copy meeting: %{title}"
+      title: "复制会议： %{title}"
       attachments: "复制附件"
       attachments_text: "将所有附件复制到新会议"
       agenda: "复制议程"
