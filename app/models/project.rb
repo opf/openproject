@@ -171,6 +171,10 @@ class Project < ApplicationRecord
   scope :with_member, ->(user = User.current) { where(id: user.memberships.select(:project_id)) }
   scope :without_member, ->(user = User.current) { where.not(id: user.memberships.select(:project_id)) }
 
+  scope :with_available_custom_fields, ->(custom_field_ids) do
+    joins(:project_custom_field_project_mappings).where(project_custom_field_project_mappings: { custom_field_id: custom_field_ids })
+  end
+
   scopes :activated_time_activity,
          :visible_with_activated_time_activity
 

@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,29 +26,31 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
+#
 
-module Queries::Filters
-  STRATEGIES = {
-    list: Queries::Filters::Strategies::List,
-    list_all: Queries::Filters::Strategies::ListAll,
-    list_optional: Queries::Filters::Strategies::ListOptional,
-    list_contains: Queries::Filters::Strategies::ListContains,
-    shared_with_user_list_optional: Queries::Filters::Strategies::WorkPackages::SharedWithUser::ListOptional,
-    integer: Queries::Filters::Strategies::Integer,
-    date: Queries::Filters::Strategies::Date,
-    datetime_past: Queries::Filters::Strategies::DateTimePast,
-    string: Queries::Filters::Strategies::String,
-    text: Queries::Filters::Strategies::Text,
-    search: Queries::Filters::Strategies::Search,
-    float: Queries::Filters::Strategies::Float,
-    inexistent: Queries::Filters::Strategies::Inexistent,
-    empty_value: Queries::Filters::Strategies::EmptyValue
-  }.freeze
+class Queries::Projects::Filters::AvailableProjectAttributesFilter < Queries::Projects::Filters::ProjectFilter
+  def self.key
+    :available_project_attributes
+  end
 
-  ##
-  # Wrapper class for invalid filters being created
-  class InvalidError < StandardError; end
+  def type
+    :list_contains
+  end
 
-  class MissingError < StandardError; end
+  def allowed_values
+    @allowed_values ||= ProjectCustomFieldProjectMapping.pluck(:custom_field_id).map { |id| [id, id.to_s] }
+  end
+
+  def available?
+    User.current.admin?
+  end
+
+  def scope
+    model.with_available_custom_fields(values)
+  end
+
+  def human_name
+    I18n.t(:label_available_project_attributes)
+  end
 end

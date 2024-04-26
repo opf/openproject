@@ -370,6 +370,54 @@ RSpec.shared_examples_for "list_all query filter" do
   end
 end
 
+RSpec.shared_examples_for "list_contains query filter" do
+  include_context "filter tests"
+  let(:type) { :list_contains }
+
+  describe "#scope" do
+    let(:values) { valid_values }
+
+    context 'for "~"' do
+      let(:operator) { "~" }
+
+      it "is the same as handwriting the query" do
+        handwritten_scope_sql = <<-SQL.squish
+          SELECT "projects".* FROM "projects"
+            INNER JOIN "project_custom_field_project_mappings" ON "project_custom_field_project_mappings"."project_id" = "projects"."id"
+            WHERE "project_custom_field_project_mappings"."custom_field_id" IN (#{values.join(', ')})
+        SQL
+
+        expect(instance.scope.to_sql).to eql handwritten_scope_sql
+      end
+    end
+  end
+
+  describe "#valid?" do
+    let(:operator) { "~" }
+    let(:values) { valid_values }
+
+    it "is valid" do
+      expect(instance).to be_valid
+    end
+
+    context "for an invalid operator" do
+      let(:operator) { "=" }
+
+      it "is invalid" do
+        expect(instance).not_to be_valid
+      end
+    end
+
+    context "for an invalid value" do
+      let(:values) { ["inexistent"] }
+
+      it "is invalid" do
+        expect(instance).not_to be_valid
+      end
+    end
+  end
+end
+
 RSpec.shared_examples_for "boolean query filter" do |scope: true|
   include_context "filter tests"
   let(:attribute) { raise "needs to be defined" }
