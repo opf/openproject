@@ -106,7 +106,7 @@ module Storages
             }.to_json
           end
 
-          def base_uri = Util.join_uri_path(@storage.uri, "v1.0", "drives", @storage.drive_id)
+          def base_uri = "#{@storage.uri}v1.0/drives/#{@storage.drive_id}"
         end
       end
     end
