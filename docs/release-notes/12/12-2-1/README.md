@@ -59,7 +59,7 @@ For more information on this setting and how to configure it for your installati
 - Fixed: Error message on subprojects boards \[[#43755](https://community.openproject.org/wp/43755)\]
 - Fixed: New HTTPS flag is poorly documented and breaks quick start docker containers \[[#43759](https://community.openproject.org/wp/43759)\]
 - Fixed: Wrong days highlighted as weekend in Gantt diagram \[[#43762](https://community.openproject.org/wp/43762)\]
-- Fixed: Open Project Docker Installation \[[#43767](https://community.openproject.org/wp/43767)\]
+- Fixed: OpenProject Docker Installation \[[#43767](https://community.openproject.org/wp/43767)\]
 - Fixed: Unable to see activities in work package \[[#43773](https://community.openproject.org/wp/43773)\]
 - Fixed: Timeline shows bar at wrong time after collapsing a group \[[#43775](https://community.openproject.org/wp/43775)\]
 

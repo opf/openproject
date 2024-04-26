@@ -73,7 +73,7 @@ Currently, there is no direct integration between OpenProject and Timesheet. If 
 
 ## Time Tracker for OpenProject
 
-[Time Tracker](https://open-time-tracker.com/) is a mobile app that records time spent on tasks and logs it to your Open Project instance. We provide a [short instruction](../../user-guide/time-and-costs/time-tracking/time-tracker-integration/) how to set it up and use it.  Please keep in mind that it is not developed by OpenProject and is not supported by us. 
+[Time Tracker](https://open-time-tracker.com/) is a mobile app that records time spent on tasks and logs it to your OpenProject instance. We provide a [short instruction](../../user-guide/time-and-costs/time-tracking/time-tracker-integration/) how to set it up and use it.  Please keep in mind that it is not developed by OpenProject and is not supported by us. 
 
 ## Toggl
 

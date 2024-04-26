@@ -1687,7 +1687,7 @@ ru:
       impressum: "Правовое уведомление"
       glossary: "Глоссарий"
       shortcuts: "Ярлыки"
-      blog: "Openproject блог"
+      blog: "OpenProject блог"
       forums: "Форум сообщества"
       newsletter: "Оповещения системы безопасности / Новости"
   image_conversion:
@@ -3642,7 +3642,7 @@ ru:
   link: ссылка
   plugin_openproject_auth_plugins:
     name: "Плагины аутентификации OpenProject"
-    description: "Интеграция поставщиков стратегий OmniAuth для аутентификации в Openproject."
+    description: "Интеграция поставщиков стратегий OmniAuth для аутентификации в OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Однозначный вход"
     description: "Добавляет поставщика OmniAuth SAML в OpenProject"
