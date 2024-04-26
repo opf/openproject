@@ -37,24 +37,26 @@ http_interactions:
       P3p:
       - CP="DSP CUR OTPi IND OTRi ONL FIN"
       X-Ms-Request-Id:
-      - b7e44639-1c9b-49eb-9d06-c76efc61aa00
+      - a35b3182-39d0-4cfb-b1e9-415048e19300
       X-Ms-Ests-Server:
-      - 2.1.17282.6 - WEULR1 ProdSlices
+      - 2.1.17846.6 - FRC ProdSlices
+      X-Ms-Srs:
+      - 1.P
       X-Xss-Protection:
       - '0'
       Set-Cookie:
-      - fpc=ApI_7PNRlNRAnwPdJkQyVQikbDoXAQAAABEKX90OAAAA; expires=Fri, 15-Mar-2024
-        19:22:58 GMT; path=/; secure; HttpOnly; SameSite=None
+      - fpc=AmoOF8b2SjRGvV5NV0Jvi2-kbDoXAQAAAEHxut0OAAAA; expires=Fri, 24-May-2024
+        12:25:38 GMT; path=/; secure; HttpOnly; SameSite=None
       - stsservicecookie=estsfd; path=/; secure; samesite=none; httponly
       - x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly
       Date:
-      - Wed, 14 Feb 2024 19:22:57 GMT
+      - Wed, 24 Apr 2024 12:25:37 GMT
       Content-Length:
       - '1708'
     body:
       encoding: UTF-8
       string: '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"<ACCESS_TOKEN>"}'
-  recorded_at: Wed, 14 Feb 2024 19:22:58 GMT
+  recorded_at: Wed, 24 Apr 2024 12:25:38 GMT
 - request:
     method: post
     uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/TheCakeIsALie/copy?@microsoft.graph.conflictBehavior=fail
@@ -69,7 +71,7 @@ http_interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - httpx.rb/1.2.2
+      - httpx.rb/1.2.4
       Accept-Encoding:
       - gzip, deflate
       Content-Length:
@@ -81,8 +83,6 @@ http_interactions:
     headers:
       Cache-Control:
       - no-store, no-cache
-      Transfer-Encoding:
-      - chunked
       Content-Type:
       - application/json
       Content-Encoding:
@@ -92,15 +92,15 @@ http_interactions:
       Strict-Transport-Security:
       - max-age=31536000
       Request-Id:
-      - e5c63576-651d-4604-b3b2-762cc1a3bbf6
+      - 68ae29d7-e08b-4d0e-a225-84a6bbfe49df
       Client-Request-Id:
-      - e5c63576-651d-4604-b3b2-762cc1a3bbf6
+      - 68ae29d7-e08b-4d0e-a225-84a6bbfe49df
       X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000003EA"}}'
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"000","RoleInstance":"FR1PEPF0000102D"}}'
       Date:
-      - Wed, 14 Feb 2024 19:22:57 GMT
+      - Wed, 24 Apr 2024 12:25:37 GMT
     body:
       encoding: UTF-8
-      string: '{"error":{"code":"itemNotFound","message":"Item not found","innerError":{"date":"2024-02-14T19:22:58","request-id":"e5c63576-651d-4604-b3b2-762cc1a3bbf6","client-request-id":"e5c63576-651d-4604-b3b2-762cc1a3bbf6"}}}'
-  recorded_at: Wed, 14 Feb 2024 19:22:58 GMT
+      string: '{"error":{"code":"itemNotFound","message":"Item not found","innerError":{"date":"2024-04-24T12:25:38","request-id":"68ae29d7-e08b-4d0e-a225-84a6bbfe49df","client-request-id":"68ae29d7-e08b-4d0e-a225-84a6bbfe49df"}}}'
+  recorded_at: Wed, 24 Apr 2024 12:25:38 GMT
 recorded_with: VCR 6.2.0
