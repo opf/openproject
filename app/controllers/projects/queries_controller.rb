@@ -32,7 +32,7 @@ class Projects::QueriesController < ApplicationController
   # No need for a more specific authorization check. That is carried out in the contracts.
   before_action :require_login
   before_action :find_query, only: %i[update destroy]
-  before_action :load_query_or_deny_access, only: %i[new]
+  before_action :build_query_or_deny_access, only: %i[new create]
 
   current_menu_item [:new, :create] do
     :projects
@@ -46,7 +46,7 @@ class Projects::QueriesController < ApplicationController
 
   def create
     call = Queries::Projects::ProjectQueries::CreateService
-             .new(user: current_user)
+             .new(from: @query, user: current_user)
              .call(permitted_query_params)
 
     if call.success?

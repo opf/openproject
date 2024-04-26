@@ -110,7 +110,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
                               method:,
                               controller: "params-from-query",
                               'application-target': "dynamic",
-                              'params-from-query-allowed-value': '["filters", "columns"]'
+                              'params-from-query-allowed-value': '["filters", "columns", "query_id"]'
                             }.compact) do
       render(Primer::Beta::Octicon.new(icon: "op-save",
                                        align_self: :center,
@@ -129,7 +129,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
           method:,
           controller: "params-from-query",
           'application-target': "dynamic",
-          'params-from-query-allowed-value': '["filters", "columns"]'
+          'params-from-query-allowed-value': '["filters", "columns", "query_id"]'
         }.compact
       }
     ) do |item|

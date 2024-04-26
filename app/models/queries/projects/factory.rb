@@ -36,8 +36,9 @@ class Queries::Projects::Factory
   STATIC_AT_RISK = "at_risk".freeze
 
   class << self
-    def find(id, params:, user:)
-      query = find_static_query_and_set_attributes(id, params, user) || find_persisted_query_and_set_attributes(id, params, user)
+    def find(id, params:, user:, duplicate: false)
+      query = find_static_query_and_set_attributes(id, params, user, duplicate:) ||
+              find_persisted_query_and_set_attributes(id, params, user, duplicate:)
       query&.valid_subset!
 
       query
@@ -118,22 +119,12 @@ class Queries::Projects::Factory
       end
     end
 
-    def find_static_query_and_set_attributes(id, params, user)
+    def find_static_query_and_set_attributes(id, params, user, duplicate:)
       query = static_query(id)
 
       return unless query
 
-      if params.any?
-        new_query(query, params, user)
-      else
-        query
-      end
-    end
-
-    def find_persisted_query_and_set_attributes(id, params, user)
-      query = Queries::Projects::ProjectQuery.where(user:).find_by(id:)
-
-      return unless query
+      query = duplicate_query(query) if duplicate || params.any?
 
       if params.any?
         set_query_attributes(query, params, user)
@@ -142,10 +133,22 @@ class Queries::Projects::Factory
       end
     end
 
-    def new_query(source_query, params, user)
-      set_query_attributes(Queries::Projects::ProjectQuery.new(source_query.attributes.slice("filters", "orders", "selects")),
-                   params,
-                   user)
+    def find_persisted_query_and_set_attributes(id, params, user, duplicate:)
+      query = Queries::Projects::ProjectQuery.where(user:).find_by(id:)
+
+      return unless query
+
+      query = duplicate_query(query) if duplicate
+
+      if params.any?
+        set_query_attributes(query, params, user)
+      else
+        query
+      end
+    end
+
+    def duplicate_query(query)
+      Queries::Projects::ProjectQuery.new(query.attributes.slice("filters", "orders", "selects"))
     end
 
     def set_query_attributes(query, params, user)
