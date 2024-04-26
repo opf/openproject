@@ -1616,9 +1616,9 @@ zh-CN:
         file_links_journal: >
           从现在开始，与文件链接（存储在外部存储器中的文件）相关的活动将出现在“活动”选项卡中。以下是与已经存在的链接相关的活动的表示：
         progress_calculation_adjusted_from_disabled_mode: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+          进度计算自动<a href="%{href}" target="_blank">设置为基于工时的模式，并随版本更新而调整</a>。
         progress_calculation_adjusted: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+          进度计算自动<a href="%{href}" target="_blank">设置为基于工时的模式，并随版本更新而调整</a>。
   links:
     configuration_guide: "配置指南"
     get_in_touch: "遇到问题了？与我们联系。"
@@ -1874,7 +1874,7 @@ zh-CN:
   label_enterprise_support: "企业支持"
   label_enterprise_addon: "企业版附加组件"
   label_environment: "环境"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_time: "预估和进度"
   label_equals: "是"
   label_everywhere: "任何位置"
   label_example: "示例"

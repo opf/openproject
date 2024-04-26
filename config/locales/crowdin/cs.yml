@@ -1485,8 +1485,8 @@ cs:
       x_hours_abbreviated:
         one: "1 h"
         few: "%{count} hodin"
-        many: ""
-        other: ""
+        many: "%{count} hodin"
+        other: "%{count} hodin"
       x_weeks:
         one: "1 týden"
         few: "%{count} týdnů"
@@ -1565,7 +1565,7 @@ cs:
   error_can_not_delete_entry: "Nelze odstranit položku"
   error_can_not_delete_custom_field: "Nelze odstranit vlastní pole"
   error_can_not_delete_in_use_archived_undisclosed: "V archivovaných projektech jsou obsaženy také pracovní balíčky. Musíte požádat správce, aby provedl smazání, aby zjistil, které projekty jsou dotčeny."
-  error_can_not_delete_in_use_archived_work_packages: "V archivovaných projektech jsou také pracovní balíčky. Nejprve musíte projekty znovu aktivovat, než budete moci změnit typ příslušných pracovních balíčků: %{archived_projects}"
+  error_can_not_delete_in_use_archived_work_packages: "V archivovaných projektech jsou také pracovní balíčky. Nejprve musíte projekty znovu aktivovat, než budete moci změnit typ příslušných pracovních balíčků: %{archived_projects_urls}"
   error_can_not_delete_type:
     explanation: 'Tento typ obsahuje pracovní balíčky a nelze je odstranit. Všechny dotčené pracovní balíčky můžete vidět v <a target="_blank" href="%{url}">tomto zobrazení</a>.'
   error_can_not_delete_standard_type: "Standartní typy se nedají odstranit."

@@ -228,7 +228,7 @@ lt:
       project_storage_members:
         subtitle: Patikrinkite saugyklos %{storage_name_link} jungties būseną visiems projekto nariams.
         title: Narių jungties būsena
-    permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
+    permission_header_explanation: 'Išorinių saugyklų failų prieigos teisės taikomos tik automatiškai projektų valdomiems aplankams ir failams. Pastebėtina, kad kai kurios failų prieigos teisės nepalaikomos kai kurių saugyklų. Daugiau informacijos rasite rasite dokumente <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>failų saugyklų teisės</a>.'
     provider_types:
       label: Tiekėjo tipas
       nextcloud:
