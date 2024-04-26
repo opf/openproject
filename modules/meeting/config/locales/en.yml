@@ -65,6 +65,7 @@ en:
       messages:
         invalid_time_format: "is not a valid time. Required format: HH:MM"
     models:
+      recurring_meeting: "Recurring meeting"
       structured_meeting: "Meeting (dynamic)"
       meeting_agenda_item: "Agenda item"
       meeting_agenda: "Agenda"
@@ -112,6 +113,9 @@ en:
   label_meeting_agenda_close: "Close the agenda to begin the Minutes"
   label_meeting_date_time: "Date/Time"
   label_meeting_diff: "Diff"
+  label_recurring_meeting: "Recurring meeting"
+  label_recurring_meeting_new: "New recurring meeting"
+  label_recurring_meeting_plural: "Recurring meetings"
   label_upcoming_meetings: "Upcoming meetings"
   label_past_meetings: "Past meetings"
   label_upcoming_meetings_short: "Upcoming"

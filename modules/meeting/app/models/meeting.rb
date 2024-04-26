@@ -34,6 +34,7 @@ class Meeting < ApplicationRecord
 
   belongs_to :project
   belongs_to :author, class_name: "User"
+  belongs_to :recurring_meeting, optional: true
   has_one :agenda, dependent: :destroy, class_name: "MeetingAgenda"
   has_one :minutes, dependent: :destroy, class_name: "MeetingMinutes"
   has_many :contents, -> { readonly }, class_name: "MeetingContent"

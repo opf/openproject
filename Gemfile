@@ -171,6 +171,9 @@ gem "paper_trail", "~> 15.1.0"
 
 gem "op-clamav-client", "~> 3.4", require: "clamav"
 
+# Recurring meeting events definition
+gem "ice_cube", github: "ice-cube-ruby/ice_cube", ref: "10ae8dc"
+
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
