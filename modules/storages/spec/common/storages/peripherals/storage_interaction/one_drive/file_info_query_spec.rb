@@ -130,15 +130,17 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
     let(:drive_id) { "b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy" }
     let(:permission_storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user, drive_id:) }
 
+    let(:admin_auth) { Storages::Peripherals::Registry["one_drive.authentication.userless"].call }
+
     let(:folder) do
       Storages::Peripherals::Registry["one_drive.commands.create_folder"]
-        .call(storage: permission_storage, folder_path: "Forbidden Folder")
+        .call(storage: permission_storage, auth_strategy: admin_auth,
+              folder_name: "Forbidden Folder",
+              parent_location: Storages::Peripherals::ParentFolder.new("/"))
         .result
     end
 
     after do
-      admin_auth = Storages::Peripherals::Registry["one_drive.authentication.userless"].call
-
       Storages::Peripherals::Registry["one_drive.commands.delete_folder"]
         .call(storage: permission_storage, location: folder.id, auth_strategy: admin_auth)
     end
