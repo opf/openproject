@@ -3573,7 +3573,7 @@
   link: kobling
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth utvidelse"
-    description: "Integrering av OmniAuth strategileverandører for autentisering i OpenProject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Enkeltpålogging på"
     description: "Legger til OmniAuth SAML leverandør til OpenProject"

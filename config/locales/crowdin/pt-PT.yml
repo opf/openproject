@@ -1213,7 +1213,7 @@ pt-PT:
       heading_reset: "Redefinir token de cópia de segurança "
       heading_create: "Criar token de cópia de segurança "
       implications: >
-        Ativar as cópias de segurança permite que qualquer utilizador com as permissões necessárias e com este token de cópia de segurança transfira um backup com todos os dados desta instalação do OpenProject. Isto inclui os dados de todos os outros utilizadores.
+        Ativar as cópias de segurança permite que qualquer utilizador com as permissões necessárias e com este token de cópia de segurança transfira um backup com todos os dados desta instalação do Open Project. Isto inclui os dados de todos os outros utilizadores.
       info: >
         Tem de gerar um token de cópia de segurança para poder criar uma cópia de segurança . Cada vez que solicitar uma cópia de segurança , terá de fornecer este token. Pode eliminar o token de cópia de segurança para desativar cópias de segurança deste utilizador.
       verification: >
@@ -3568,7 +3568,7 @@ pt-PT:
   link: link
   plugin_openproject_auth_plugins:
     name: "Plugins de autenticação OpenProject"
-    description: "Integração de fornecedores de estratégias OmniAuth para autenticação no OpenProject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML/Início de sessão único"
     description: "Adiciona o fornecedor SAML OmniAuth ao OpenProject"

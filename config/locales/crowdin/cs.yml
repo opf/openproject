@@ -3645,7 +3645,7 @@ cs:
   link: odkaz
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth pluginy"
-    description: "Integrace poskytovatelů strategie OmniAuth pro ověřování v OpenProject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Přidá poskytovatele SAML OmniAuth do OpenProject"

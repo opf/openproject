@@ -1,7 +1,7 @@
 lt:
   plugin_openproject_openid_connect:
     name: "OpenProject OpenID prisijungimas"
-    description: "Prideda OpenProject OmniAuth OpenID prisijungimo strategijos teikėjus."
+    description: "Adds OmniAuth OpenID Connect strategy providers to OpenProject."
   logout_warning: >
     Jūs atsijungėte. Bet kurios siunčiamos formos turinys gali būti prarastas. Prašome [prisijungti].
   activemodel:

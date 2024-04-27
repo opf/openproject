@@ -1,7 +1,7 @@
 "no":
   plugin_openproject_openid_connect:
     name: "OpenProject OpenID tilkobling"
-    description: "Legger til OmniAuth OpenID Koble strategileverandører til OpenProject."
+    description: "Adds OmniAuth OpenID Connect strategy providers to OpenProject."
   logout_warning: >
     Du har blitt logget ut. Innholdet kan gå tapt. Vennligst [logg in].
   activemodel:

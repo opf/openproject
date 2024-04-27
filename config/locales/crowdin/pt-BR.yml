@@ -3569,7 +3569,7 @@ pt-BR:
   link: link
   plugin_openproject_auth_plugins:
     name: "Plugins OpenProject Auth"
-    description: "Integração de fornecedores de estratégias OmniAuth para autenticação no OpenProject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML/Início de sessão único"
     description: "Adiciona o fornecedor SAML OmniAuth ao OpenProject"

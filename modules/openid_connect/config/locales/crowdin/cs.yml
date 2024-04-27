@@ -1,7 +1,7 @@
 cs:
   plugin_openproject_openid_connect:
     name: "OpenProject OpenID Connect"
-    description: "Přidá poskytovatele strategie OmniAuth OpenID připojení do OpenProject."
+    description: "Adds OmniAuth OpenID Connect strategy providers to OpenProject."
   logout_warning: >
     Byli jste odhlášeni. Obsah formuláře může být ztracen. Prosím, [přihlaste se].
   activemodel:

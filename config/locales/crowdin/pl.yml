@@ -3641,7 +3641,7 @@ pl:
   link: link
   plugin_openproject_auth_plugins:
     name: "Wtyczki uwierzytelniające OpenProject"
-    description: "Integracja dostawców strategii OmniAuth w celu uwierzytelniania w OpenProject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "SAML OmniAuth / pojedyncze logowanie"
     description: "Dodaje dostawcę SAML OmniAuth do OpenProject"

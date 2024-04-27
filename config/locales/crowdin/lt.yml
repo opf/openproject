@@ -3639,7 +3639,7 @@ lt:
   link: nuoroda
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Priedai"
-    description: "OpenProject autentifikacijos OmniAuth strategijos teikėjų integracija."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Vienas prisijungimas"
     description: "Prideda OmniAuth SAML tiekėja į OpenProject"

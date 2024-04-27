@@ -1,7 +1,7 @@
 zh-CN:
   plugin_openproject_openid_connect:
     name: "OpenProject OpenID 连接"
-    description: "将 OmniAuth OpenID 连接策略提供程序添加到 OpenProject 。"
+    description: "Adds OmniAuth OpenID Connect strategy providers to OpenProject."
   logout_warning: >
     您已退出。您提交的任何表单的内容可能丢失。请[登录]。
   activemodel:
