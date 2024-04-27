@@ -87,7 +87,7 @@ zh-TW:
           You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-construction-project:
-          name: "(Demo) Construction project"
+          name: "(示範) 營建專案"
           status_explanation: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo construction project.
           news:
@@ -149,12 +149,12 @@ zh-TW:
                 options:
                   name: 里程碑
         demo-planning-constructing-project:
-          name: "(Demo) Planning & constructing"
+          name: "(示範) 規劃 & 興建"
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo planning and constructing project.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: 歡迎來到您的示範專案
               summary: |
                 We are glad you joined.
                 In this module you can communicate project news to your team members.

@@ -8,7 +8,7 @@ zh-TW:
         text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
         link: '企業版。'
       widgets:
-        missing_permission: "You don't have the necessary permissions to view this widget."
+        missing_permission: "您沒有必要的權限來檢視此部件。"
         custom_text:
           title: '自訂文字'
         documents:
