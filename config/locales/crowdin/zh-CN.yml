@@ -3525,7 +3525,7 @@ zh-CN:
   link: 链接
   plugin_openproject_auth_plugins:
     name: "OpenProject 认证插件"
-    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
+    description: "在 OpenProject 中集成 OmniAuth 策略提供程序以进行身份验证。"
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / SSO单点登录"
     description: "将 OmniAuth SAML 身份提供程序添加到 OpenProject"
