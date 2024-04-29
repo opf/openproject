@@ -90,7 +90,8 @@ With this release, admins of an Enterprise edition can choose between manually o
 - Feature: Maintain manually managed project folder on project copy for SharePoint/OneDrive \[[#52363](https://community.openproject.org/wp/52363)\]
 - Feature: Rename "Managed folder status" heading in Storage form \[[#52456](https://community.openproject.org/wp/52456)\]
 
-### Contributions
+## Contributions
+
 A very special thank you goes to our sponsors for features and improvements of this release:
 
 - BMI for sponsoring the features on progress reporting and Gantt charts (which will be continued in the following releases)

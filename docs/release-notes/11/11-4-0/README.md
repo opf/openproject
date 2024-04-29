@@ -19,7 +19,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 
 OpenProject 11.4.0 adds packaged installation support for Debian 11 "Bullseye".
 
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Work package exports fail when column "BCF snapshot" active \[[#33448](https://community.openproject.org/wp/33448)\]
 - Fixed: Regression: On touch devices, Select, Info and Erase buttons don't work. \[[#38005](https://community.openproject.org/wp/38005)\]
@@ -38,7 +38,7 @@ OpenProject 11.4.0 adds packaged installation support for Debian 11 "Bullseye".
 - Changed: BCF module: Change default order to ID DESC. \[[#38032](https://community.openproject.org/wp/38032)\]
 - Changed: Integrate latest Xeokit version v2.3.1 \[[#38981](https://community.openproject.org/wp/38981)\]
 
-#### Contributions
+## Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

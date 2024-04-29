@@ -14,7 +14,7 @@ We released [OpenProject 12.0.2](https://community.openproject.org/versions/1497
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: On global work package page all types are shown - even those in projects not accessible to users \[[#37869](https://community.openproject.org/wp/37869)\]
 - Fixed: New email design breaks with some mobile clients \[[#39821](https://community.openproject.org/wp/39821)\]
@@ -26,7 +26,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Can't upload BCF files as normal attachments to work packages via FOG \[[#40112](https://community.openproject.org/wp/40112)\]
 - Changed: Improve error logging of SAML  \[[#39899](https://community.openproject.org/wp/39899)\]
 
-#### Contributions
+## Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

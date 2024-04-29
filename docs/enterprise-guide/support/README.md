@@ -86,6 +86,7 @@ The script should run once on the OpenProject on-premises host with or without O
  Also please do not forget to log your complete terminal output.
  Please attach the log file of the terminal output to an email reply in your ticket at [support@openproject.com](mailto:support@openproject.com)
 
-`sudo chmod +x op-support-data.sh`
-
-` sudo ./op-support-data.sh`
+```shell
+sudo chmod +x op-support-data.sh
+sudo ./op-support-data.sh
+```

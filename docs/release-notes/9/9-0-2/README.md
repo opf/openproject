@@ -13,7 +13,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 
 
 
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - **Fixed**: Wiki TOC doesn't render headings properly [[#30245](https://community.openproject.org/wp/30245)]
 - **Fixed**: Cannot create new boards in installations with relative_url_root set [[#30370](https://community.openproject.org/wp/30370)]

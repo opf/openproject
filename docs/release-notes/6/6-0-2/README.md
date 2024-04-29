@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 6.0.2
-  sidebar_navigation:
-      title: 6.0.2
-  release_version: 6.0.2
-  release_date: 2016-08-10
+title: OpenProject 6.0.2
+sidebar_navigation:
+  title: 6.0.2
+release_version: 6.0.2
+release_date: 2016-08-10
 ---
 
 # OpenProject 6.0.2

@@ -244,7 +244,7 @@ For a documentation of how to do this, please refer to [these instructions](../.
 
 ## Versions and backlog
 
-### I cannot change the version of a parent work package or child work package. 
+### I cannot change the version of a parent work package or child work package
 
 The fastest way to resolve this issue is to deactivate the backlogs module in the project where your tasks are located. This should instantly resolve the issue that you cannot update the tasks anymore. 
 If you are actively working with the backlogs module in the project, you could then e.g. move the parent Epic from the parent project to the project where the tasks are located. 

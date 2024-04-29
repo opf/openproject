@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 3.0.15
-  sidebar_navigation:
-      title: 3.0.15
-  release_version: 3.0.15
-  release_date: 2014-11-05
+title: OpenProject 3.0.15
+sidebar_navigation:
+  title: 3.0.15
+release_version: 3.0.15
+release_date: 2014-11-05
 ---
 
 # OpenProject 3.0.15

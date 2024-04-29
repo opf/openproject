@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 8.3.1
-  sidebar_navigation:
-      title: 8.3.1
-  release_version: 8.3.1
-  release_date: 2019-03-15
+title: OpenProject 8.3.1
+sidebar_navigation:
+  title: 8.3.1
+release_version: 8.3.1
+release_date: 2019-03-15
 ---
 
 
@@ -20,7 +20,7 @@ This upgrade include Rails 5.2.2.1 with fixes for [CVE-2019-5418,
 CVE-2019-5419
 and CVE-2019-5420](https://weblog.rubyonrails.org/2019/3/13/Rails-4-2-5-1-5-1-6-2-have-been-released/).
 
-#### Bug fixes and changes
+## Bug fixes and changes
 
   - Fixed: Long Work Package titles not wrapped in
     Cost Reports
@@ -46,7 +46,7 @@ and CVE-2019-5420](https://weblog.rubyonrails.org/2019/3/13/Rails-4-2-5-1-5-1-6-
   - Changed: Make Gravatar default image configurable again
     \[[#29711](https://community.openproject.org/wp/29711)\]
 
-#### Contributions
+## Contributions
 
 A big thanks to community members for reporting bugs and helping us
 identifying and providing fixes.

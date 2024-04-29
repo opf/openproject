@@ -43,7 +43,8 @@ Select the language for which you want to contribute (or vote for) a translation
 
 
 
-You will be shown an overview of translatable files in the `dev`  and `release ` channel. In the below example, the norwegian project is about 33% translated. Simply click the "Translate All" button to show an editor with all untranslated strings.
+You will be shown an overview of translatable files in the `dev`  and `release` channel. In the below example, the norwegian project is about 33% translated. Simply click the "Translate All" button to show an editor with all untranslated strings.
+
 ![Select OpenProject version to translate in CrowdIn](crowdin-language-overview.png "Language overview of translatable files")
 
 ![crowdin-editor](crowdin-editor.png "The crowdin editor view")

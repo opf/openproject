@@ -14,7 +14,7 @@ We released [OpenProject 11.2.3](https://community.openproject.org/versions/1474
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Task "Start Date in less than" filter does not include dates in the past. \[[#34513](https://community.openproject.org/wp/34513)\]
 - Fixed: MimeMagic deprecated \[[#36725](https://community.openproject.org/wp/36725)\]
@@ -23,7 +23,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Work package table and Gantt not aligned \[[#36764](https://community.openproject.org/wp/36764)\]
 - Fixed: BIM group seed data is always applied \[[#36796](https://community.openproject.org/wp/36796)\]
 
-#### Contributions
+## Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

@@ -14,7 +14,7 @@ We released [OpenProject 11.2.1](https://community.openproject.org/versions/1472
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Inbound Emails - Email headers not handled correctly \[[#35834](https://community.openproject.org/wp/35834)\]
 - Fixed: Configuration and display of days in My spent time widget on my Page do not match \[[#35920](https://community.openproject.org/wp/35920)\]
@@ -25,7 +25,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Cannot select assignee on WP create when filtering for multi-select custom field of type list \[[#36607](https://community.openproject.org/wp/36607)\]
 - Fixed: Error message in wrong language \[[#36688](https://community.openproject.org/wp/36688)\]
 
-#### Contributions
+## Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

@@ -119,6 +119,7 @@ In OpenProject, a custom field is defined as an additional field which can be ad
 ![Custom fields in OpenProject](glossary-openproject-custom-field.png)
 
 **More information on custom fields in OpenProject**
+
 - [Read how to enable custom fields in projects to use them in work packages](../user-guide/projects/project-settings/custom-fields/)
 - [Read how to create custom fields as a system admin in OpenProject](../system-admin-guide/custom-fields/)
 
@@ -251,6 +252,7 @@ OpenProject offers a OneDrive/SharePoint [integration](#integration) as an [Ente
 OpenProject on-premises is a self-hosted version of OpenProject. As opposed to the Cloud version, you install, run and maintain the hardware locally and manage the software application there. The on-premises [Community Edition](#community-edition) is free of charge.
 
 **More information on OpenProject on-premises**
+
 - [See our pricing side about your options for OpenProject](https://www.openproject.org/pricing/)
 - [Read a blog article comparing on-premises and cloud](https://www.openproject.org/blog/why-self-hosting-software/)
 - [Read how to activate the Enterprise on-premises edition](../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/)
@@ -269,6 +271,7 @@ In OpenProject, you can choose from several plugins or [integrations](#integrati
 Your activated plugins are listed together with your [modules](#module) in your instance under --> Administration --> Plugins. 
 
 **More information on plugins in OpenProject**
+
 - [See all available plugins and integrations for OpenProject](../system-admin-guide/integrations/)
 - [Read how to create an OpenProject plugin](../development/create-openproject-plugin/)
 
@@ -413,6 +416,7 @@ In OpenProject, a [work package](../user-guide/work-packages/#overview) is defin
 ![A work package in OpenProject](glossary-openproject-work-package.png)
 
 **More information on work packages in OpenProject**
+
 - [Read our user guide on work packages](../user-guide/work-packages/)
 - [Read a blog article on how to work with work packages](https://www.openproject.org/blog/how-to-work-with-work-packages/)
 

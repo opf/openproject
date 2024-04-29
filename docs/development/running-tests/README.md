@@ -413,6 +413,7 @@ Click on the Details link to see the individual *jobs* that GitHub executes.
 Click on each job and each step to show the [log output for this job](https://github.com/opf/openproject/pull/9355/checks?check_run_id=2730782867). It will contain more information about how many tests failed and will also temporarily provide a screenshot of the browser during the occurrence of the test failure (only if a browser was involved in testing).
 
 In our example, multiple tests are reported as failing:
+
 ```shell
 rspec ./spec/features/work_packages/pagination_spec.rb[1:1:1:1] # Work package pagination with project scope behaves like paginated work package list is expected not to have text "WorkPackage No. 23"
 rspec ./spec/features/work_packages/pagination_spec.rb[1:2:1:1] # Work package pagination globally behaves like paginated work package list is expected not to have text "WorkPackage No. 29"
@@ -708,7 +709,7 @@ Firefox tests through Selenium are run with Chrome as `--headless` by default. T
 
 ### Troubleshooting
 
-```
+```text
 Failure/Error: raise ActionController::RoutingError, "No route matches [#{env['REQUEST_METHOD']}] #{env['PATH_INFO'].inspect}"
 
      ActionController::RoutingError:

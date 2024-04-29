@@ -79,7 +79,7 @@ Next you can define what sections OpenProject will look for in the LDAP and also
 
 ##### Filter Examples
 
-```
+```text
 (memberof=CN=OpenProject,OU=Rollen,OU=Gruppen,DC=intern)
 ```
 

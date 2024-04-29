@@ -145,7 +145,7 @@ Setting only duration without start or finish dates is especially useful when yo
 
 Switching "Manual scheduling" on enables [manual scheduling mode](../../gantt-chart/scheduling/#manual-scheduling-mode) for the work package. This ignores work package relations such that you're able to select any start and end dates, even ones that would normally be restricted due to follows/proceeds relationships. 
 
-Manual scheduling also decouples the start and end dates of parent and children work packages. This means that the dates of parents are no longer constrained by those of the children, and children can be scheduled outside of the range of parent work packages. These relationships are completely ignored as far as scheduling is concerned, but are not removed (so they will still be visible in [Gantt view]()); the constraints are respected again if you switch manual scheduling off. 
+Manual scheduling also decouples the start and end dates of parent and children work packages. This means that the dates of parents are no longer constrained by those of the children, and children can be scheduled outside of the range of parent work packages. These relationships are completely ignored as far as scheduling is concerned, but are not removed (so they will still be visible in Gantt view; the constraints are respected again if you switch manual scheduling off. 
 
 Manual scheduling can be useful when you need to anchor a work package to fixed dates, for example because the dates of preceding or following work packages are not yet known. 
 
@@ -165,7 +165,7 @@ This information banner is displayed when the dates of the current work package 
 
 It is nevertheless possible to input specific start and finish dates for such work packages by enabling manual scheduling (which will ignore relations from which the dates were originally derived).
 
-### Available start date and finish dates limited by relations.
+### Available start date and finish dates limited by relations
 
 ![A blue banner informing the user that certain dates are limited by relations](banner-dates-limited.png)
 

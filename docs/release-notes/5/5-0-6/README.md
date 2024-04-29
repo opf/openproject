@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 5.0.6
-  sidebar_navigation:
-      title: 5.0.6
-  release_version: 5.0.6
-  release_date: 2015-12-09
+title: OpenProject 5.0.6
+sidebar_navigation:
+  title: 5.0.6
+release_version: 5.0.6
+release_date: 2015-12-09
 ---
 
 

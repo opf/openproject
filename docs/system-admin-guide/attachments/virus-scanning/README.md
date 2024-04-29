@@ -33,7 +33,7 @@ When installed as a package on the same server, you can configure OpenProject to
 
 ClamAV is part of the standard packages and can be installed as a daemon just like this:
 
-```bash
+```shell
 apt-get install clamav clamav-daemon
 ```
 
@@ -45,7 +45,7 @@ The installer will launch a `clamd` daemon that can be used to transmit files to
 
 On RedHad Enterprise Linux and Centos, you need to install the epel-release packages first, followed by ClamaV
 
-```
+```shell
 dnf install -y epel-release
 dnf install -y clamav clamd clamav-update
 ```
@@ -60,7 +60,7 @@ To run ClamAV in Docker, follow this guide: https://docs.clamav.net/manual/Insta
 
 As a quick-start, you can use this command to start clamav with local volume mounts for the virus database:
 
-```bash
+```shell
 docker run -it --rm \
     --name clamav \
     --publish 3310 \
@@ -76,8 +76,8 @@ This will publish the `clamd` TCP connection on port `3310`.
 
 On docker compose, you can register clamav as a separate service to have hostname resolution:
 
-```
-... other configuration
+```yaml
+# ... other configuration
 services:
   clamav:
     image: "clamav/clamav:stable_base"

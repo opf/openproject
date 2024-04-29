@@ -112,7 +112,7 @@ It is now possible to bulk edit the subject field for multiple work packages. Se
 - Changed: Bulk edit of the work-package field "subject" \[[#44386](https://community.openproject.org/wp/44386)\]
 - Changed: Team planner: add "Work week" option to visible time scale \[[#44702](https://community.openproject.org/wp/44702)\]
 
-#### Contributions
+## Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 A gigantic thank you goes out to Sven Kunze for developing the self-tagging feature and the bulk edit option for the subject field.

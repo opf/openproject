@@ -1,6 +1,11 @@
-> #### **NOTE:** This documentation is most likely outdated and needs to be used carefully
+---
+sidebar_navigation:
+  title: Repository Integration
+---
 
 # Repository Integration in OpenProject
+
+> **NOTE:** This documentation is most likely outdated and needs to be used carefully
 
 OpenProject can (by default) browse Subversion and Git repositories, but it does not serve them to git/svn clients.
 
@@ -22,46 +27,46 @@ Managed repositories need to be enabled manually for each SCM vendor individuall
 It contains a YAML configuration section for repository management residing under the namespace `scm`.
 The following is an excerpt of the configuration and contains all required information to set up your data.
 	
-
-	# Configuration of Source control vendors
-	# client_command:
-	#   Use this command to the default SCM vendor command (taken from path).
-	#   Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
-	#   On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
-	# manages:
-	#   You may either specify a local path on the filesystem or an absolute URL to call when
-	#   repositories are to be created or deleted.
-	#   This allows OpenProject to take control over the given path to create and delete repositories
-	#   directly when created in the frontend.
-	#
-	#   When entering a URL, OpenProject will POST to this resource when repositories are created
-	#   using the following JSON-encoded payload:
-	#     - action: The action to perform (create, delete)
-	#     - identifier: The repository identifier name
-	#     - vendor: The SCM vendor of the repository to create
-	#     - project: identifier, name and ID of the associated project
-	#     - old_identifier: The identifier to the old repository (used only during relocate)
-	#
-	#   NOTE: Disabling :managed repositories using disabled_types takes precedence over this setting.
-	#
-	# disabled_types:
-	#   Disable specific repository types for this particular vendor. This allows
-	#   to restrict the available choices a project administrator has for creating repositories
-	#   See the example below for available types
-	#
-	#   Available types for git:
-	#     - :local (Local repositories, registered using a local path)
-	#     - :managed (Managed repositories, available IF :manages path is set below)
-	#   Available types for subversion:
-	#     - :existing (Existing subversion repositories by URL - local using file:/// or remote
-	#                 using one of the supported URL schemes (e.g., https://, svn+ssh:// )
-	#     - :managed (Managed repositories, available IF :manages path is set below)
-	#
-	# Exemplary configuration (Enables managed Git repositories at the given path)
-	scm:
-	  git:
-	    manages: /srv/repositories/git
-
+```yaml
+# Configuration of Source control vendors
+# client_command:
+#   Use this command to the default SCM vendor command (taken from path).
+#   Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
+#   On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
+# manages:
+#   You may either specify a local path on the filesystem or an absolute URL to call when
+#   repositories are to be created or deleted.
+#   This allows OpenProject to take control over the given path to create and delete repositories
+#   directly when created in the frontend.
+#
+#   When entering a URL, OpenProject will POST to this resource when repositories are created
+#   using the following JSON-encoded payload:
+#     - action: The action to perform (create, delete)
+#     - identifier: The repository identifier name
+#     - vendor: The SCM vendor of the repository to create
+#     - project: identifier, name and ID of the associated project
+#     - old_identifier: The identifier to the old repository (used only during relocate)
+#
+#   NOTE: Disabling :managed repositories using disabled_types takes precedence over this setting.
+#
+# disabled_types:
+#   Disable specific repository types for this particular vendor. This allows
+#   to restrict the available choices a project administrator has for creating repositories
+#   See the example below for available types
+#
+#   Available types for git:
+#     - :local (Local repositories, registered using a local path)
+#     - :managed (Managed repositories, available IF :manages path is set below)
+#   Available types for subversion:
+#     - :existing (Existing subversion repositories by URL - local using file:/// or remote
+#                 using one of the supported URL schemes (e.g., https://, svn+ssh:// )
+#     - :managed (Managed repositories, available IF :manages path is set below)
+#
+# Exemplary configuration (Enables managed Git repositories at the given path)
+scm:
+  git:
+    manages: /srv/repositories/git
+```
 
 With this configuration, you can create managed repositories by selecting the `managed` Git repository in the Project repository settings tab.
 
@@ -78,25 +83,29 @@ This script has been integrated into OpenProject and extended. For further guida
 OpenProject comes with a simple webhook to call other services rather than management repositories itself.
 To enable remote managed repositories, pass an absolute URL to the `manages` key of a vendor in the `configuration.yml`. The following excerpt shows that configuration for Subversion, assuming your callback is `https://example.org/repos`.
 
-	scm:
-	  subversion:
-	    manages: https://example.org/repos
-	    accesstoken: <Fixed access token passed to the endpoint>
+```yaml
+scm:
+  subversion:
+    manages: https://example.org/repos
+    accesstoken: <Fixed access token passed to the endpoint>
+```
 
 Upon creating and deleting repositories in the frontend, OpenProject will POST to this endpoint a JSON object containing information on the repository.
 
-	{
-		"identifier": "seeded_project.git",
-		"vendor": "git",
-		"scm_type": "managed",
-		"project": {
-			"id": 1,
-			"name": "Seeded Project",
-			"identifier": "seeded_project"
-		},
-		"action": "create",
-		"token": <Fixed access token passed to the endpoint>
-	}
+```json
+{
+  "identifier": "seeded_project.git",
+  "vendor": "git",
+  "scm_type": "managed",
+  "project": {
+    "id": 1,
+    "name": "Seeded Project",
+    "identifier": "seeded_project"
+  }, 
+  "action": "create", 
+  "token": "<Fixed access token passed to the endpoint>"
+}
+```
 
 The endpoint is expected to return a JSON with at least a `message` property when the response is not successful (2xx).
 When the response is successful, it must at least return a `url` property that contains an accessible URL and optionally a `path` property to access the repository locally.
@@ -110,26 +119,26 @@ It supports notifications for creating repositories (action `create`), moving re
 
 If you're interested in setting up the integration manually outside the context of packager, the following excerpt will help you:
 
+```apache
+PerlSwitches -I/srv/www/perl-lib -T
+PerlLoadModule Apache::OpenProjectRepoman
 
-	PerlSwitches -I/srv/www/perl-lib -T
-	PerlLoadModule Apache::OpenProjectRepoman
+<Location /repos>
+  SetHandler perl-script
 	
-	<Location /repos>
-	        SetHandler perl-script
+  # Sets the access token secret to check against
+  AccessSecret "<Fixed access token passed to the endpoint>"
 	
-	        # Sets the access token secret to check against
-	        AccessSecret "<Fixed access token passed to the endpoint>"
+  # Configure pairs of (vendor, path) to the wrapper
+  PerlAddVar ScmVendorPaths "git"
+	PerlAddVar ScmVendorPaths "/srv/repositories/git"
 	
-	        # Configure pairs of (vendor, path) to the wrapper
-	        PerlAddVar ScmVendorPaths "git"
-	        PerlAddVar ScmVendorPaths "/srv/repositories/git"
+	PerlAddVar ScmVendorPaths "subversion"
+	PerlAddVar ScmVendorPaths "/srv/repositories/subversion"
 	
-	        PerlAddVar ScmVendorPaths "subversion"
-	        PerlAddVar ScmVendorPaths "/srv/repositories/subversion"
-	
-	        PerlResponseHandler Apache::OpenProjectRepoman
-	</Location>
-
+	PerlResponseHandler Apache::OpenProjectRepoman
+</Location>
+```
 
 ## Other Features
 
@@ -144,8 +153,8 @@ This functionality is very basic and we hope to make it more robust over the nex
 * Checkout URLs are constructed from a base URL and the project identifier
 * On the repository page, the user is provided with a button to show/expand checkout instructions on demand.
 * This checkout instruction contains the checkout URL for the given repository and some further information on how the       checkout works for this particular vendor (e.g., Subversion → svn checkout, Git → git clone).
- * The instructions contain information regarding the capabilities a user has (read, read-write)
- * The instructions are defined by the SCM vendor implementations themselves, so that the checkout instructions could be extended by some 3rd party SCM vendor plugin
+* The instructions contain information regarding the capabilities a user has (read, read-write)
+* The instructions are defined by the SCM vendor implementations themselves, so that the checkout instructions could be extended by some 3rd party SCM vendor plugin
 
 
 ### Required Disk Storage Information
@@ -187,8 +196,8 @@ Apache provides the module `mod_dav_svn` to serve Subversion repositories throug
 This method requires some apache modules to be enabled and installed. The following commands are required for Debian / Ubuntu, please adjust accordingly for other distributions:
 
 ```shell
-  apt-get install subversion libapache2-mod-perl2 libapache2-svn
-  a2enmod proxy proxy_http dav dav_svn
+apt-get install subversion libapache2-mod-perl2 libapache2-svn
+a2enmod proxy proxy_http dav dav_svn
 ```
 
 ### Permissions
@@ -224,33 +233,31 @@ Assuming the following situation:
 
 * Repository path for SCM vendor X: `/srv/repositories/X`
 
+```shell
+# Set existing ACL
 
-  # Set existing ACL
+# Results in this ACL setting
+# user::rwx
+# user:www-data:rwx
+# user:deploy:rwx
+# group::r-x
+# group:www-data:rwx
+# mask::rwx
 
-  	# Results in this ACL setting
-  	# user::rwx
-  	# user:www-data:rwx
-  	# user:deploy:rwx
-  	# group::r-x
-  	# group:www-data:rwx
-  	# mask::rwx
-  	
-  	setfacl -R -m u:www-data:rwx -m u: openproject:rwx -m d:m:rwx /srv/repositories/X
-  	
-  	# Promote to default ACL
-  	# Results in
-  	# default:user::rwx
-  	# default:user:www-data:rwx
-  	# default:user:deploy:rwx
-  	# default:group::r-x
-  	# default:group:www-data:rwx
-  	# default:mask::rwx
-  	# default:other::---
-  	
-  	setfacl -dR -m u:www-data:rwx -m u:openproject:rwx -m m:rwx /srv/repositories/X
+setfacl -R -m u:www-data:rwx -m u: openproject:rwx -m d:m:rwx /srv/repositories/X
 
+# Promote to default ACL
+# Results in
+# default:user::rwx
+# default:user:www-data:rwx
+# default:user:deploy:rwx
+# default:group::r-x
+# default:group:www-data:rwx
+# default:mask::rwx
+# default:other::---
 
-  	
+setfacl -dR -m u:www-data:rwx -m u:openproject:rwx -m m:rwx /srv/repositories/X
+```
 
 On many file systems, ACLS are enabled by default. On others, you might need to remount affected filesystems with the `acl` option set.
 
@@ -275,8 +282,8 @@ We can exploit git-http-backend to serve Git repositories through HTTP(s) with A
 This method additionally requires the `cgi` Apache module to be installed. The following commands are required for Debian / Ubuntu, please adjust accordingly for other distributions:
 
 ```shell
-  apt-get install git libapache2-mod-perl2
-  a2enmod proxy proxy_http cgi
+apt-get install git libapache2-mod-perl2
+a2enmod proxy proxy_http cgi
 ```
 
 You need to locate the location of the `git-http-backend` CGI wrapper shipping with the Git installation.

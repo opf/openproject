@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 8.0.2
-  sidebar_navigation:
-      title: 8.0.2
-  release_version: 8.0.2
-  release_date: 2018-10-23
+title: OpenProject 8.0.2
+sidebar_navigation:
+  title: 8.0.2
+release_version: 8.0.2
+release_date: 2018-10-23
 ---
 
 
@@ -14,7 +14,7 @@ We released
 The release contains several bug fixes and we recommend updating to the
 newest version.
 
-#### Bug fixes and changes
+## Bug fixes and changes
 
   - Fixed: Relations cannot be added when OpenProject is running on
     relative URL root
@@ -43,7 +43,7 @@ newest version.
 
  
 
-#### Contributions
+## Contributions
 
 Thanks to Github users @storm2513 and @akasparas for providing bugfixes
 as pull requests [on our GitHub

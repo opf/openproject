@@ -416,7 +416,7 @@ For more information, see the [Cost Factor guide of the bcrypt-ruby gem](https:/
 
 *default: 12*
 
-```bash
+```shell
 OPENPROJECT_OVERRIDE__BCRYPT__COST__FACTOR="16"
 ```
 

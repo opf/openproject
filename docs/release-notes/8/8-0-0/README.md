@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 8.0.0
-  sidebar_navigation:
-      title: 8.0.0
-  release_version: 8.0.0
-  release_date: 2018-08-29
+title: OpenProject 8.0.0
+sidebar_navigation:
+  title: 8.0.0
+release_version: 8.0.0
+release_date: 2018-08-29
 ---
 
 

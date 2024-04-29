@@ -14,6 +14,6 @@ We released [OpenProject 13.0.6](https://community.openproject.org/versions/1937
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Project storage members page can be accessed without a session. \[[#50519](https://community.openproject.org/wp/50519)\]

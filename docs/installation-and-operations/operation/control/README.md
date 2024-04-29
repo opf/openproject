@@ -168,7 +168,7 @@ For Kubernetes installations, you can use `kubectl` to access pods and get infor
 
 First, get the pod name of the worker. Assuming your kubectl cluster has OpenProject installed at the `openproject` namespace:
 
-```
+```shell
 kubectl get pods -n openproject	
 ```
 
@@ -176,7 +176,7 @@ kubectl get pods -n openproject
 
 Then spawn a shell in the relevant one
 
-```
+```shell
 kubectl exec -n openproject -it pods/openproject-worker-656c77d594-xjdck -- bash
 ```
 
@@ -184,7 +184,7 @@ kubectl exec -n openproject -it pods/openproject-worker-656c77d594-xjdck -- bash
 
 This spawns a bash console. In there, you could for example run a rails console like follows:
 
-```
+```shell
 bundle exec rails console
 ```
 

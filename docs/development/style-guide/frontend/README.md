@@ -11,6 +11,7 @@ OpenProject follows the [Angular's style guide](https://angular.io/guide/stylegu
 Declarative Programming is a paradigm where the code describes **what to do** by encapsulating the **how to do it** (implementation details) under abstractions. The ultimate result of declarative programming is the creation of a new Domain Specific Language (DSL).
 
 #### What
+
 *   Encapsulate logic in methods with meaningful names.
     *   Domain/Business logic: \
 Encapsulate the implementation details in the subdomain service (e.g., login should be placed in the AuthService and encapsulate all the login functionality).
@@ -18,6 +19,7 @@ Encapsulate the implementation details in the subdomain service (e.g., login sho
 Encapsulate the implementation details in a component’s method or in a Presenter (service scoped/provided in the component). 
 
 #### Example
+
 ```javascript
 // Imperative programming
 const bestProducts = [];
@@ -43,6 +45,7 @@ An example in OpenProject would be the APIV3Service that encapsulates all the lo
 
 
 #### Why
+
 *   Code is easier to understand and reason about.
 *   Favours reusability.
 *   Simplifies refactoring.
@@ -57,6 +60,7 @@ Not capable of or susceptible to change. An immutable value can’t be changed, 
 
 #### What
 Do not mutate objects, spread the word.
+
 *   Do not edit object’s, use the immutable alternatives:
 
 ```javascript
@@ -79,6 +83,7 @@ splice = (s, c, ...y) => x => [...x.slice(0, s), ...y, ...x.slice(s + c)];
 ```
 
 #### Why
+
 *   In Javascript, Objects can be [edited by reference](https://javascript.info/object-copy), opening the door to unpredictable mutations that can have unintended effects on other parts of the app.
 *   Makes code easier to understand because data changes become explicit and obvious.
 *   Avoids a set of [hard to detect bugs](https://2ality.com/2019/10/shared-mutable-state.html).
@@ -147,9 +152,11 @@ Angular also follows the unidirectional data flow pattern in the view to improve
 *   This is why unidirectional data flow is enforced in development mode (ExpressionChangedAfterItHasBeenCheckedError) and encouraged in the Components Architecture.
 
 #### What
+
 *   Do use the chosen state management library by default.
 
 #### Why
+
 *   Stores concentrate the state management, allowing the different parts of the application to remain highly decoupled.
 *   Container components concentrate the state distribution through @Input and @Outputs, so the state flow is clear just by taking a look at the template.
 *   The state management becomes predictable, easy to trace, and under control.
@@ -166,6 +173,7 @@ Mental mindset to build clearer apps based on the differentiation between Contai
 Are state and logic containers.
 
 ##### What
+
 *   Encapsulate logic in services:
     *   State (Store) + Domain logic (state CRUD)
     *   Complex UI logic (Presenters)
@@ -173,6 +181,7 @@ Are state and logic containers.
 *   Follow the unidirectional data flow pattern
 
 ##### Why
+
 *   Decouples state management from components.
 *   Allows to keep the components lean.
 *   Scoped Shareability: allow to share the state and logic scoped to components, modules or globally.
@@ -184,6 +193,7 @@ Are state and logic containers.
 Represent a feature that interacts with the state. This could be a page (routed component) but also standalone components (e.g. sign-in button (tied to the AuthService)).
 
 ##### Responsibilities
+
 *   Inject the State Services (Stores).
 *   Contain Presentational Components (PC), usually.
 *   Bridge State Services (Stores) and PCs:
@@ -197,9 +207,11 @@ Represent a feature that interacts with the state. This could be a page (routed 
 Pages, components that are routed, are usually container components since the need to fetch state to display it.
 
 ##### What
+
 *   Concentrate the interaction with the state (Stores) in Container Components.
 
 ##### Why
+
 *   Separation of concerns; separates state interaction from UI (presentation and interaction).
 *   Concentrates state interaction; the state management becomes more predictable, easy to trace, and under control.
 *   Simplifies the state flow: the state distribution through @Input and @Outputs makes the state flow clear just by taking a look at the template.
@@ -211,6 +223,7 @@ Pages, components that are routed, are usually container components since the ne
 Are the building blocks of the UI.
 
 ##### Responsibilities
+
 *   Present/display state that is passed via @Inputs.
 *   Handle user interaction:
     *   Implement the interaction logic 
@@ -224,10 +237,12 @@ Are the building blocks of the UI.
 Components from UI libraries are usually Presentational Components (e.g., [material button](https://github.com/angular/components/blob/master/src/material/button/button.ts)). 
 
 ##### What
+
 *   Create presentational components to encapsulate UI logic (presentation or interaction).
 
 
 ##### Why
+
 *   Reusability: \
 Presentational components are more reusable because:
     *   Are not tied to a concrete business logic.
@@ -243,10 +258,12 @@ Presentational components are more reusable because:
 Clean code is easily readable, understandable, changeable, extensible, scalable and maintainable.
 
 #### What
+
 *   Do follow clean [patterns and rules](https://github.com/labs42io/clean-code-typescript)
     *   [Summary of the Clean Code principles](https://gist.github.com/wojteklu/73c6914cc446146b8b533c0988cf8d29)
 
 #### Why
+
 *   Standardizes the code.
 *   Increases debuggability.
 *   Code is easier to understand and to reason about.
@@ -254,6 +271,7 @@ Clean code is easily readable, understandable, changeable, extensible, scalable 
 
 ### BEM CSS
 #### What
+
 *   Do follow BEM directives:
     *   [https://en.bem.info/methodology/css/](https://en.bem.info/methodology/css/)
     *   [https://en.bem.info/methodology/html/](https://en.bem.info/methodology/html/)

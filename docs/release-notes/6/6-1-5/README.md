@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 6.1.5
-  sidebar_navigation:
-      title: 6.1.5
-  release_version: 6.1.5
-  release_date: 2017-03-14
+title: OpenProject 6.1.5
+sidebar_navigation:
+  title: 6.1.5
+release_version: 6.1.5
+release_date: 2017-03-14
 ---
 
 # OpenProject 6.1.5

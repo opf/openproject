@@ -223,6 +223,7 @@ Leave all fields blank. When the details are saved OpenProject will send an emai
 ## Delete users
 
 Two [settings](../settings/#user-deletion) allow users to be deleted from the system:
+
 * **User accounts deletable by admins** - if ticked, a **Delete** button is shown on the user details page.
 * **Users allowed to delete their accounts** - if ticked, a **Delete account** menu entry is shown in the **My Account** page.
 

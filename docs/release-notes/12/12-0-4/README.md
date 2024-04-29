@@ -29,10 +29,11 @@ If you are unable to upgrade in a timely fashion, the following patch can be app
 This security issue was responsibly disclosed by [Daniel Santos](https://github.com/bananabr) (Twitter [@bananabr](https://twitter.com/bananabr)). Thank you for reaching out to us and your help in identifying this issue. If you have a security vulnerability you would like to disclose, please see our [statement on security](../../../security-and-privacy/statement-on-security/).
 
 ### Bug fixes and changes
+
 - Fixed: Frontend including editor and time logging unusable when there are many activities \[[#40314](https://community.openproject.org/wp/40314)\]
 - Fixed: Change of View within OpenProject triggers reload of Viewer \[[#40315](https://community.openproject.org/wp/40315)\]
 
-### Contributions
+## Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

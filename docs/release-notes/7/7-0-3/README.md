@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 7.0.3
-  sidebar_navigation:
-      title: 7.0.3
-  release_version: 7.0.3
-  release_date: 2017-06-29
+title: OpenProject 7.0.3
+sidebar_navigation:
+  title: 7.0.3
+release_version: 7.0.3
+release_date: 2017-06-29
 ---
 
 

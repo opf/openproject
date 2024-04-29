@@ -92,7 +92,7 @@ The toolbar for wiki pages is now fixed at the top and no longer scrolls along w
 
 OpenProject 10 significantly improves the performance, especially for the work package page. Due to description caching work packages are loaded swiftly.
 
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Added: [Wiki] Allow to create child pages via links without a target [[#24167](https://community.openproject.org/wp/24167)]
 - Added: Sticky text editor toolbar that is visible above long text fields [[#29738](https://community.openproject.org/wp/29738)]
@@ -219,10 +219,10 @@ OpenProject 10 significantly improves the performance, especially for the work p
 - Fixed: Cannot edit comment that was just created [[#31057](https://community.openproject.org/wp/31057)]
 
 
-
 ## Support
 
-You will find useful information in the OpenProject [FAQ]() or you can post your questions in the [Forum](https://community.openproject.org/projects/openproject/boards).
+You will find useful information in the OpenProject [FAQ](../../../faq/) or you can post your questions in the [Forum](https://community.openproject.org/projects/openproject/boards).
+
 
 ### Upgrading your installation to OpenProject 10.0.
 
@@ -231,15 +231,13 @@ If you're using the OpenProject Enterprise cloud edition, you are already runnin
 [Please visit our upgrade guides for more information](../../../installation-and-operations/operation/upgrading).
 
 
-
 ## Credits
 
 Special thanks go to all OpenProject contributors without whom this release would not have been possible:
 
 - All the developers, designers, project managers who have contributed to OpenProject.
-- Every dedicated user who has [reported bugs]() and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
+- Every dedicated user who has reported bugs and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
 - All the engaged users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).
-
 
 
 ## What's next?

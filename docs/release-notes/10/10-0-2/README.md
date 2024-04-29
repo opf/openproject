@@ -40,7 +40,7 @@ This has been fixed in this release. We now use the environment variable *OPENPR
 - Fixed: Restart puma workers to cope with potential memory leaks [[#31262](https://community.openproject.org/wp/31262)]
 - Fixed: "Enterprise edition" blue bar would be nicer horizontally [[#31265](https://community.openproject.org/wp/31265)]
 
-#### Contributions
+## Contributions
 
 Thanks to David Haintz from [SEC Consult Vulnerability Lab](https://www.sec-consult.com) for identifying and responsibly disclosing the identified issues.
 

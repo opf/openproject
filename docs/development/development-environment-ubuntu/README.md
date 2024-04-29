@@ -297,8 +297,10 @@ documentation [usage section](https://github.com/DarthSim/overmind/tree/v2.4.0#u
 
 You can access the application with the admin-account having the following credentials:
 
-    Username: admin
-    Password: admin
+```text
+Username: admin
+Password: admin
+```
 
 ## Run OpenProject manually
 

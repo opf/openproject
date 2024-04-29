@@ -234,7 +234,7 @@ OpenProject includes a number of external dependencies both in Ruby as well as i
 **Guidelines**
 
 - *Automate Updates*: Use and maintain automated tools such as Dependabot and workflows that check for dependency updates regularly, and run tests when updates are available. Before updating the dependencies, review its changelog or release notes to understand changes and potential impacts on your application.
-- *Manual update checking:* For pinned versions, use `npm outdated`, `bundle outdated` or `npm-check-updates `to ensure you stay on top of new versions and see if breaking changes occurred.
+- *Manual update checking:* For pinned versions, use `npm outdated`, `bundle outdated` or `npm-check-updates` to ensure you stay on top of new versions and see if breaking changes occurred.
 - *Lockfile integrity*: Use `package-lock.json` and `Gemfile.lock` to pin exact version for a released version of OpenProject, ensuring that all environments use the same versions.
 - *Stay Informed*: Subscribe to mailing lists, newsletters, or vulnerability databases to receive timely information on crucial updates or security patches so that updates can be performed as fast as possible.
 - *Vet new dependencies*: Before adding a new gem or package, research its maintenance history, last update, known vulnerabilities, and community reviews. Check if it's actively maintained, and evaluate all the alternatives.

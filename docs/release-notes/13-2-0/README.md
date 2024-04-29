@@ -118,7 +118,7 @@ Please note that **% Complete** does not adjust automatically when the values of
 <!-- END AUTOMATED SECTION -->
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
-### Contributions
+## Contributions
 
 A very special thank you goes to our sponsors for features and improvements of this release:
 

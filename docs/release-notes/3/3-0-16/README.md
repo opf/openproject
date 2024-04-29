@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 3.0.16
-  sidebar_navigation:
-      title: 3.0.16
-  release_version: 3.0.16
-  release_date: 2014-11-20
+title: OpenProject 3.0.16
+sidebar_navigation:
+  title: 3.0.16
+release_version: 3.0.16
+release_date: 2014-11-20
 ---
 
 # OpenProject 3.0.16

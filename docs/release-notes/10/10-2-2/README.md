@@ -12,7 +12,7 @@ We released [OpenProject 10.2.2](https://community.openproject.org/versions/1405
 The release contains several bug fixes and fixes server security issues. We thus urge everybody to upgrade to the newest version as soon as possible.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Outline of display-field extends table cell width \[[#31214](https://community.openproject.org/wp/31214)\]
 - Fixed: SQL error in work package view \[[#31667](https://community.openproject.org/wp/31667)\]
@@ -29,7 +29,7 @@ The release contains several bug fixes and fixes server security issues. We thus
 - Fixed: API v3 /relations/:id does not check permissions \[[#31855](https://community.openproject.org/wp/31855)\]
 - Fixed: Tabnabbing on wiki pages \[[#31817](https://community.openproject.org/wp/31817)\]
 
-#### Contributions
+## Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 In this release, we would especially like to thank Bartosz Nowicki for responsibly disclosing a severe data leakage \([#31855](https://community.openproject.org/wp/31855)\). Behavior like this helps improving the security for everybody, so thanks a lot Bartosz. And Thanh Nguyen Nguyen of [Fortiguard Labs](https://fortiguard.com/) has once again responsibly disclosed a security issue to us ([#31817](https://community.openproject.org/wp/31817)). Thank you, Nguyen.  

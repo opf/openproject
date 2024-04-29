@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 4.0.11
-  sidebar_navigation:
-      title: 4.0.11
-  release_version: 4.0.11
-  release_date: 2015-06-17
+title: OpenProject 4.0.11
+sidebar_navigation:
+  title: 4.0.11
+release_version: 4.0.11
+release_date: 2015-06-17
 ---
 
 # OpenProject 4.0.11

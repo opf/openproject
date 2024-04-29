@@ -16,7 +16,7 @@ Simply run `sudo openproject reconfigure`, and when the database wizard is displ
 
 In some cases, you need flexibility in how you define the URL (e.g., specifying more options specific to PostgreSQL or using SSL certificates). In that case, you can pass the database URL as an environment variable instead:
 
-```bash
+```shell
 openproject config:set DATABASE_URL=postgres://user:pass@host:port/dbname
 ```
 
@@ -70,7 +70,7 @@ By default, the packaged installation installs a local database and does not use
 
 The most import option is the `sslmode` parameter. Set this to the appropriate mode as defined in the [PostgreSQL documentation](https://www.postgresql.org/docs/13/libpq-connect.html#LIBPQ-PARAMKEYWORDS). For example, to require a SSL connection with full verification of the server certificate, you can add it to the database URL:
 
-```bash
+```shell
 DATABASE_URL=postgres://user:pass@host:port/dbname?sslmode=require-full&sslcert=/path/to/postgresql.cert
 ```
 
@@ -87,8 +87,7 @@ Alternatively, for better readability, you can set these parameters with separat
 | OPENPROJECT_DB_SSLCRL         | ~/.postgresql/root.crl       | Path to revocation list                                      | [sslcrl](https://www.postgresql.org/docs/13/libpq-connect.html#LIBPQ-CONNECT-SSLCRL) |
 
 
-
-```
+```text
 ="prefer" # disable, allow, prefer, require, verify-ca, verify-full
 ="0" # 0 or 1
 ="~/.postgresql/postgresql.crt" # Path to the certificate
@@ -97,9 +96,5 @@ Alternatively, for better readability, you can set these parameters with separat
 ="~/.postgresql/root.crt" # Path to CA
 ="~/.postgresql/root.crl" # Path to revocation list
 ```
-
-
-
-
 
 PostgreSQL supports a wide variety of options in its connection string. This is not specific to OpenProject or Rails. See the following guide for more information: https://www.postgresql.org/docs/13/libpq-connect.html#LIBPQ-PARAMKEYWORDS

@@ -14,7 +14,7 @@ We released [OpenProject 12.4.2](https://community.openproject.org/versions/1614
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Password confirmation dialog doesn't work when using ENTER instead of clicking on Confirm \[[#44499](https://community.openproject.org/wp/44499)\]
 - Fixed: File picker does not load directory listing when OAuth token is expired \[[#44916](https://community.openproject.org/wp/44916)\]
@@ -30,7 +30,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Date alert creation job timing out \[[#45591](https://community.openproject.org/wp/45591)\]
 - Fixed: New custom field with default value breaks comments \[[#45724](https://community.openproject.org/wp/45724)\]
 
-#### Contributions
+## Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

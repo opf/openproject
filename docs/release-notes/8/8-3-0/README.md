@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 8.3.0
-  sidebar_navigation:
-      title: 8.3.0
-  release_version: 8.3.0
-  release_date: 2019-03-07
+title: OpenProject 8.3.0
+sidebar_navigation:
+  title: 8.3.0
+release_version: 8.3.0
+release_date: 2019-03-07
 ---
 
 
@@ -68,7 +68,7 @@ standard. To register an OAuth applications, visit the new module under
 Administration \> OAuth applications.
 
 
-#### Bug fixes and changes
+## Bug fixes and changes
 
   - Feature: OAuth2 authorization flow
     \[[#28952](https://community.openproject.org/wp/28952)\]
@@ -151,7 +151,7 @@ Administration \> OAuth applications.
   - Fixed: Docker incoming-mails not logged
     \[[#29575](https://community.openproject.org/wp/29575)\]
 
-#### Contributions
+## Contributions
 
 A big thanks to community members for reporting bugs and helping us
 identifying and providing fixes.

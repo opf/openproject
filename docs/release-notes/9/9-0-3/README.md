@@ -13,7 +13,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 
 
 
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Changed: Searching for Custom Fields [[#29756](https://community.openproject.org/wp/29756)]
 - Changed: Prevent collisions between users working on the same board [[#30403](https://community.openproject.org/wp/30403)]
@@ -45,7 +45,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: "Login" instead of "Login name" used (causes problems with translations) [[#30591](https://community.openproject.org/wp/30591)]
 - Fixed: Board links in sidebar broken [[#30595](https://community.openproject.org/wp/30595)]
 
-#### Contributions
+## Contributions
 
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 

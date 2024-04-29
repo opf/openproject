@@ -30,7 +30,7 @@ If you were using custom plugins, the build of the OpenProject frontend failed d
 
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Custom plugins not working with 11.0.1 \[[#35103](https://community.openproject.org/wp/35103)\]
 - Fixed: [Repository] GIT Referencing and time tracking not work in branch \[[#39796](https://community.openproject.org/wp/39796)\]
@@ -46,7 +46,7 @@ If you were using custom plugins, the build of the OpenProject frontend failed d
 - Fixed: Custom fields disappearing after attachment upload \[[#40826](https://community.openproject.org/wp/40826)\]
 - Changed: Add separate APIv3 page size limit \[[#40816](https://community.openproject.org/wp/40816)\]
 
-#### Contributions
+## Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

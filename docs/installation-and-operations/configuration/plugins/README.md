@@ -12,7 +12,7 @@ A number of plugins exist for use with OpenProject. Most plugins that are mainta
 
 Previously, using them in a packaged installation was not possible without losing your changes on every upgrade. With the following steps, you can now use third party plugins.
 
->  **Note**: We cannot guarantee upgrade compatibility for third party plugins nor do we provide support for them. Please carefully check whether the plugins you use are available in newer versions before upgrading your installation.
+> **Note**: We cannot guarantee upgrade compatibility for third party plugins nor do we provide support for them. Please carefully check whether the plugins you use are available in newer versions before upgrading your installation.
 
 ## Add a custom Gemfile
 

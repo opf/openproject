@@ -166,6 +166,7 @@ We are always thankful for our great [Community](https://www.openproject.org/blo
 ### Translation contributors
 
 An important part is also the translations, for which we thank the following contributors in particular for this release: 
+
 - [Syvert Fossdal](https://crowdin.com/profile/syvert), who translated a lot of OpenProject strings into Norwegian
 - [WilliamfromTW](https://crowdin.com/profile/williamfromtw), who translated to Traditional Chinese
 - [Tomas S](https://crowdin.com/profile/tomass), who translated to Lithuanian

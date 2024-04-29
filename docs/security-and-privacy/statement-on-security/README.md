@@ -68,11 +68,11 @@ Please include a description on how to reproduce the issue if possible. Our secu
 
 ### Authentication and password security
 
-OpenProject administrators can enforce [authentication mechanisms and password rules]() to ensure users choose secure passwords according to current industry standards. Passwords stored by OpenProject are securely stored using salted bcrypt. Alternatively, external authentication providers and protocols (such as LDAP, SAML) can be enforced to avoid using and exposing passwords within OpenProject.
+OpenProject administrators can enforce **authentication mechanisms and password rules** to ensure users choose secure passwords according to current industry standards. Passwords stored by OpenProject are securely stored using salted bcrypt. Alternatively, external authentication providers and protocols (such as LDAP, SAML) can be enforced to avoid using and exposing passwords within OpenProject.
 
 ### User management and access control
 
-Administrators are provided with [fine-grained role-based access control mechanisms]() to ensure that users are only seeing and accessing the data they are allowed to on an individual project level.
+Administrators are provided with **fine-grained role-based access control mechanisms** to ensure that users are only seeing and accessing the data they are allowed to on an individual project level.
 
 ### Definition of session runtime
 

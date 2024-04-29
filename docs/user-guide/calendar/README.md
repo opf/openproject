@@ -27,16 +27,11 @@ Once enabled, clicking on the **Calendars** entry on the left sidebar takes you 
 ![Calendar overview](calendar-overview.png)
 
 - You can create a new calendar by clicking on either the **+ Calendar** button at the top right corner near your avatar or at the bottom of the sidebar on the left.
-  
 - Click on an existing (saved) calendar to view it.
-  
 - You can change the visibility settings of any calendar by clicking on **\[⋮\] (more)** -> **Visibility settings.**
-  
-    - Any calendar that has the **Favored** option checked will be displayed under the **Favorite** heading in the sidebar to the left.
-      
-    - Any calendar that has the **Public** option checked will be visible to all members of the current project and listed under the **Public** heading in the sidebar to the left.
-      
-    - Any calendar that has the **Public** option unchecked will be considered **private** and displayed under the **Private** heading in the menu bar to the left.
+  - Any calendar that has the **Favored** option checked will be displayed under the **Favorite** heading in the sidebar to the left.
+  - Any calendar that has the **Public** option checked will be visible to all members of the current project and listed under the **Public** heading in the sidebar to the left.
+  - Any calendar that has the **Public** option unchecked will be considered **private** and displayed under the **Private** heading in the menu bar to the left.
       
 
 ## Use the calendar

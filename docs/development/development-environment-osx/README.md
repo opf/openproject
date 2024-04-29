@@ -85,7 +85,7 @@ $ postgres -D /usr/local/var/postgres
 Then, create the OpenProject database user and accompanied database.
 
 ```shell
-$ createuser -d -P openproject
+createuser -d -P openproject
 ```
 
 You will be prompted for a password, for the remainder of these instructions, we assume its `openproject-dev-password`.
@@ -93,8 +93,8 @@ You will be prompted for a password, for the remainder of these instructions, we
 Now, create the database `openproject_dev` and `openproject_test` owned by the previously created user.
 
 ```shell
-$ createdb -O openproject openproject_dev
-$ createdb -O openproject openproject_test
+createdb -O openproject openproject_dev
+createdb -O openproject openproject_test
 ```
 
 ## Install Node.js
@@ -106,9 +106,9 @@ same steps as for rbenv:
 
 ```shell
 # Install
-$ brew install nodenv node-build
+brew install nodenv node-build
 # Initialize nodenv
-$ nodenv init
+nodenv init
 ```
 
 ### Install latest LTS node version
@@ -243,8 +243,10 @@ documentation [usage section](https://github.com/DarthSim/overmind/tree/v2.4.0#u
 
 You can access the application with the admin-account having the following credentials:
 
-    Username: admin
-    Password: admin
+```text
+Username: admin
+Password: admin
+```
 
 ## Run OpenProject manually
 

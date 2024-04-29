@@ -145,7 +145,7 @@ window.enableReactiveStatesLogging();
 
 This might then look like the following, with green color for added objects, and red color for removed values:
 
-```
+```text
 [RS] Changesets.changesets[/api/v3/projects/1] {o=4} "[object Object]"
 ```
 

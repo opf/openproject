@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 3.0.0
-  sidebar_navigation:
-      title: 3.0.0
-  release_version: 3.0.0
-  release_date: 2014-03-07
+title: OpenProject 3.0.0
+sidebar_navigation:
+  title: 3.0.0
+release_version: 3.0.0
+release_date: 2014-03-07
 ---
 
 # OpenProject 3.0.0

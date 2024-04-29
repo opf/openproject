@@ -6,7 +6,6 @@ release_version: 9.0.0
 release_date: 2019-06-06
 ---
 
-
 # OpenProject 9.0
 
 OpenProject 9.0 introduces a board view to support agile project management with Kanban. In addition, you can define work package templates to rapidly create new work packages with a pre-defined structure. Each user can now add their own custom work package views to their my page.
@@ -16,17 +15,15 @@ Read below to get a detailed overview of what is new in OpenProject 9.
 ![OpenProject 9](release-teaser.jpg)
 
 
-
 ## Board view (Enterprise add-on)
 
 The board view is a new module for OpenProject and allows Scrum and Kanban-style agile project management. You can display display a board view with the different statuses shown as columns (similarly to a Kanban board) and quickly update the status. Alternatively, you can define a basic board with custom names or display versions as columns (e.g. to plan your roadmap).
 
 Since boards display work packages - just like the work package tables - you can easily combine traditional and agile project management. Simply schedule your tasks in the Gantt chart and work on them from the boards view.
 
-To use boards you need to use either the Enterprise cloud or the Enterprise on-premises edition. If you currently use the Community edition and would like to give boards a try, simply [request an Enterprise edition trial license]().
+To use boards you need to use either the Enterprise cloud or the Enterprise on-premises edition. If you currently use the Community edition and would like to give boards a try, simply [request an Enterprise edition trial license](https://www.openproject.org/pricing/#trial).
 
-[Learn more about Boards for Scrum and Agile Project Management.]()
-
+Learn more about [Boards for Scrum and Agile Project Management](../../../user-guide/agile-boards/).
 
 
 ## Work package templates
@@ -35,8 +32,7 @@ You can define templates for work package types. Templates are automatically dis
 
 Templates can be configured in the work package type configuration.
 
-![img](template.png)
-
+![Work package templates](template.png)
 
 
 ## Work package widget on My Page
@@ -46,13 +42,11 @@ On the My Page, each user can add work package widgets and customize which work 
 You can filter and group by work package attributes and also display Gantt charts in the widgets.
 
 
-
 ## Updated work package table
 
 Assignees are now directly displayed as avatars in the work package page. Additionally, the work package type selection has been updated.
 
 ![Improved design](improved-design.png)
-
 
 
 ## Improved usability
@@ -66,13 +60,11 @@ Filters and work package attributes are improved and support auto-completion.
 For an overview of all new improvements, take a look at the [feature list](https://community.openproject.org/projects/openproject/work_packages?query_props={"c"%3A["id"%2C"subject"%2C"type"%2C"status"%2C"assignee"%2C"version"]%2C"hi"%3Atrue%2C"g"%3A""%2C"t"%3A"id%3Aasc"%2C"f"%3A[{"n"%3A"status"%2C"o"%3A"!"%2C"v"%3A["6"]}%2C{"n"%3A"version"%2C"o"%3A"%3D"%2C"v"%3A["853"]}%2C{"n"%3A"subprojectId"%2C"o"%3A"*"%2C"v"%3A[]}%2C{"n"%3A"type"%2C"o"%3A"%3D"%2C"v"%3A["6"%2C"8"]}]%2C"pa"%3A1%2C"pp"%3A100}).
 
 
-
 ## Substantial number of bug fixes
 
 OpenProject 9.0 contains a large number of bugs fixes.
 
 For an extensive overview of bug fixes please refer to the [following list](https://community.openproject.org/projects/openproject/work_packages?query_props={"c"%3A["id"%2C"subject"%2C"type"%2C"status"%2C"assignee"]%2C"hi"%3Afalse%2C"g"%3A""%2C"t"%3A"id%3Adesc"%2C"f"%3A[{"n"%3A"version"%2C"o"%3A"%3D"%2C"v"%3A["853"]}%2C{"n"%3A"type"%2C"o"%3A"%3D"%2C"v"%3A["1"]}%2C{"n"%3A"subprojectId"%2C"o"%3A"*"%2C"v"%3A[]}]%2C"pa"%3A1%2C"pp"%3A20}).
-
 
 
 ## Upgrading your installation to OpenProject 9.0.

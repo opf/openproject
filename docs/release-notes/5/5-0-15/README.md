@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 5.0.15
-  sidebar_navigation:
-      title: 5.0.15
-  release_version: 5.0.15
-  release_date: 2016-02-16
+title: OpenProject 5.0.15
+sidebar_navigation:
+  title: 5.0.15
+release_version: 5.0.15
+release_date: 2016-02-16
 ---
 
 

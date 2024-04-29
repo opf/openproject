@@ -19,6 +19,7 @@ This guide is an evolving description of the steps taken from collecting require
 ## 2. Process overview
 
 The product development process involves various roles during the different phases:
+
 * Product Manager (PM)
 * Designer
 * QA/Tester
@@ -198,6 +199,7 @@ During the building phase we develop, improve and test the validated solutions.
 | - Developer <br/> - QA <br/> - Product Manager <br/> - Designer | Technical work packages ("Implementation") ready for implementation <br/> Test cases for quality assurance |
 
 The preparations the development team conducts consists of two parts:
+
 * Preparing for the implementation
 * Preparing for the quality assurance
 
@@ -287,8 +289,10 @@ Developed features are bundled into a version that is released to the public via
 3. QA identifies important bugs to be fixed in the release.
 4. Developer fixes bugs from regression testing as well as bugs from former versions.
 5. Tester retests bugs
+
   * Tester adjusts status on errors (status: “test failed").
   * Tester adjusts status when no errors are found (status: “closed").
+
 6. Developer fixes bugs that were not fixed successfully.
 7. DevOps deploys release candidate on community.openproject.org.
 8. DevOps monitors for failures.

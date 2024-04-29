@@ -23,6 +23,7 @@ If you find a bug please create a bug report.
 ## Preconditions to reproduce the bug
 
 Prior to detailing which steps to take to reproduce the error, the necessary preconditions which have to be met should be stated.
+
 * Which browser did you use when you experienced the error?
 * Do you receive any error messages in the browser console when the error occurs? Please include the error message if applicable.
 * Please also include the contents of the browser's developer tool's network tab where applicable.
@@ -30,7 +31,7 @@ Prior to detailing which steps to take to reproduce the error, the necessary pre
 
 Example:
 
-```
+```markdown
 * Forum exists
 * Forum messages exist with many replies
 ```
@@ -41,7 +42,7 @@ Example:
 
 Example:
 
-```
+```markdown
 1. Go to forum
 2. Scroll to bottom of messages
 ```
@@ -52,7 +53,7 @@ Example:
 
 Example:
 
-```
+```markdown
 * Not possible to switch to next entry in pagination
 ```
 
@@ -62,7 +63,7 @@ Example:
 
 Example:
 
-```
+```markdown
 * Possible to switch to next pagination page
 ```
 

@@ -30,7 +30,7 @@ If you are unable to update or apply the provided patch, mark any public project
 
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Changed: Add packaged installation support for SLES 15 \[[#44117](https://community.openproject.org/wp/44117)\]
 - Changed: Allow URL behind the application logo to be configurable \[[#48251](https://community.openproject.org/wp/48251)\]
@@ -40,7 +40,7 @@ If you are unable to update or apply the provided patch, mark any public project
 - Fixed: robots.txt leaks public project identifiers \[[#48338](https://community.openproject.org/wp/48338)\]
 - Fixed: Unchecked copy options are still copied in the new project \[[#48351](https://community.openproject.org/wp/48351)\]
 
-#### Contributions
+## Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

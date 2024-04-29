@@ -31,6 +31,7 @@ In version 13.1 we have overhauled our system to handle internal permission chec
 defined on project or global level, but also on resources like work packages. Therefore, we have introduced new methods to check permissions. The old methods have been marked as deprecated and are now removed in 14.0.
 
 Affected methods are:
+
 - `User#allowed_to?`
 - `User#allowed_to_globally?`
 - `User#allowed_to_in_project?`
@@ -282,7 +283,7 @@ Apart from the features mentioned above, there have been a lot of other changes,
 <!-- END AUTOMATED SECTION -->
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
-#### Contributions
+## Contributions
 
 A very special thank you goes to our sponsors for features and improvements of this release:
 

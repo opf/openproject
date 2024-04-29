@@ -29,7 +29,7 @@ You can use those custom fields to properly display text with a right-to-left or
 ![Custom fields with right-to-left orientation](CustomFieldsRTL.png)
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Changed: [Watchers] Removing watcher sends email to removed watcher \[[#21304](https://community.openproject.org/wp/21304)\]
 - Changed: Work packages tiles view for small screens \[[#31631](https://community.openproject.org/wp/31631)\]

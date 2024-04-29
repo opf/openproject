@@ -84,7 +84,7 @@ This will prompt for a password for user1, which you have to confirm afterwards.
 
 To check that the user was created successfully, run this command `get_principal`:
 
-```
+```text
 > kadmin.local: get_principal user1
 Principal: user1@TEST.LOCAL
 Expiration date: [never]
@@ -125,6 +125,7 @@ ktadd -k /etc/apache2/openproject.keytab HTTP/openproject.local
 ```
 
 Exit the `kadmin.local` console. Make sure the file is readable by apache2:
+
 ```shell
 chown www-data:www-data /etc/apache2/openproject.keytab
 chmod 400 /etc/apache2/openproject.keytab

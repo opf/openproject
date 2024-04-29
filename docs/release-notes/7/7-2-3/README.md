@@ -1,10 +1,12 @@
 ---
-  title: OpenProject 7.2.3
-  sidebar_navigation:
-      title: 7.2.3
-  release_version: 7.2.3
-  release_date: 2017-09-04
+title: OpenProject 7.2.3
+sidebar_navigation:
+  title: 7.2.3
+release_version: 7.2.3
+release_date: 2017-09-04
 ---
+
+# OpenProject 7.2.3
 
 ## Bug: Assigned to filter returns work packages set to assignee’s group.
 

@@ -25,7 +25,7 @@ to other project folders.
 This only affects those users that have granted OpenProject access to their Nextcloud user via OAuth. Other users that do not have access rights to any project folder and have not granted access to Nextcloud via OAuth are not affected.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: [AppSignal] Performance MessagesController#show \[[#47871](https://community.openproject.org/wp/47871)\]
 - Fixed: Number of wp no longer shown in bars on the graph \[[#49767](https://community.openproject.org/wp/49767)\]
@@ -44,7 +44,7 @@ This only affects those users that have granted OpenProject access to their Next
 - Changed: Forbid user to enable misconfigured storages for a project. \[[#49218](https://community.openproject.org/wp/49218)\]
 - Changed: Remove the "show" view for a storage's settings page \[[#49676](https://community.openproject.org/wp/49676)\]
 
-#### Contributions
+## Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

@@ -183,7 +183,7 @@ An export function can then be used to distribute the BCFs back to the local app
 - Fixed: String without translation in roles & permissions \[[#33113](https://community.openproject.org/wp/33113)\]
 - Fixed: Cannot find users anymore with "+" sign in user name / email to add to project \[[#33115](https://community.openproject.org/wp/33115)\]
 
-#### Contributions
+## Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

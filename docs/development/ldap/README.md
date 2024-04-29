@@ -23,7 +23,7 @@ This guide will show you how to set it up in your development instance.
 
 You only need to run this rake task to start the server:
 
-```bash
+```shell
 ./bin/rails ldap_groups:development:ldap_server
 ```
 

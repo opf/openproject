@@ -19,6 +19,6 @@ Newer bundler versions would prevent custom plugins being installed in packaged 
 This has been fixed in this released version. For more information, please see [#44058](https://community.openproject.org/wp/44058)
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: RPM/DEB installation fails with a custom gemfile \[[#44058](https://community.openproject.org/wp/44058)\]

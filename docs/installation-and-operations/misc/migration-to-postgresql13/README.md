@@ -207,7 +207,7 @@ docker run --rm -it \
 
 If everything goes well, the process should end with a message as follows:
 
-```
+```text
 Upgrade Complete                                              
 ----------------                                              
 Optimizer statistics are not transferred by pg_upgrade so,                  

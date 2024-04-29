@@ -116,7 +116,7 @@ time to finish.
 To check our Ruby installation we run `ruby --version`. It should output
 something very similar to:
 
-```
+```text
 ruby 3.2.3 (2024-01-18 revision 52bb2ac0a6) [arm64-darwin23]
 ```
 
@@ -143,7 +143,7 @@ time to finish.
 
 To check our Node installation we run `node --version`. It should output something very similar to:
 
-```
+```text
 v20.9.0
 ```
 
@@ -215,7 +215,7 @@ a better performance of OpenProject:
 rails_cache_store: :memcache
 ```
 
-> __NOTE:__ You should validate your `yml` files, for example with [yamlchecker.com](https://yamlchecker.com/). Both, the `database.yml` and `configuration.yml` file are sensitive to whitespace. It is pretty easy to write invalid `yml` files without seeing the error. Validating those files prevents you from such errors.
+> **NOTE:** You should validate your `yml` files, for example with [yamlchecker.com](https://yamlchecker.com/). Both, the `database.yml` and `configuration.yml` file are sensitive to whitespace. It is pretty easy to write invalid `yml` files without seeing the error. Validating those files prevents you from such errors.
 >
 
 To configure the environment variables such as the number of web server threads `OPENPROJECT_WEB_WORKERS`, copy the `.env.example` to `.env` and add the environment variables you want to configure. The variables will be automatically loaded to the application's environment.
@@ -235,6 +235,7 @@ To configure the environment variables such as the number of web server threads 
 ```shell
 [openproject@all] RAILS_ENV="production" OPENPROJECT_DEFAULT_LANGUAGE=fr ./bin/rake db:seed
 ```
+
 will seed the database in the French language.
 
 ### Secret token
@@ -298,10 +299,10 @@ LoadModule passenger_module /home/openproject/.rbenv/versions/2.1.6/lib/ruby/gem
 Then create the file /etc/apache2/mods-available/passenger.conf with the following contents (again, take care of the version numbers!):
 
 ```apache
-   <IfModule mod_passenger.c>
-     PassengerRoot /home/openproject/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/passenger-5.0.14
-     PassengerDefaultRuby /home/openproject/.rbenv/versions/2.1.6/bin/ruby
-   </IfModule>
+ <IfModule mod_passenger.c>
+   PassengerRoot /home/openproject/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/passenger-5.0.14
+   PassengerDefaultRuby /home/openproject/.rbenv/versions/2.1.6/bin/ruby
+ </IfModule>
 ```
 
 Then run:

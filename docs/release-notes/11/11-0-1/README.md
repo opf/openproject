@@ -12,7 +12,7 @@ We released [OpenProject 11.0.1](https://community.openproject.org/versions/1453
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Gantt chart: styles conflict between last active work package and hovered work package  \[[#34126](https://community.openproject.org/wp/34126)\]
 - Fixed: Displaced datepicker for custom fields in the project dashboard \[[#34253](https://community.openproject.org/wp/34253)\]
@@ -29,7 +29,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: API Settings Page Broken - ActionController::RoutingError (uninitialized constant Settings::ApiController \[[#34994](https://community.openproject.org/wp/34994)\]
 - Fixed: Repo Management Not Working \[[#35011](https://community.openproject.org/wp/35011)\]
 
-#### Contributions
+## Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

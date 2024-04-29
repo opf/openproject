@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 4.2.6
-  sidebar_navigation:
-      title: 4.2.6
-  release_version: 4.2.6
-  release_date: 2015-08-13
+title: OpenProject 4.2.6
+sidebar_navigation:
+  title: 4.2.6
+release_version: 4.2.6
+release_date: 2015-08-13
 ---
 
 # OpenProject 4.2.6

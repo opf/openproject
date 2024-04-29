@@ -394,7 +394,7 @@ There are a number of name identifier formats that are relevant, so if you have 
 
 The default behavior would be to use the email Address like so:
 
-```
+```yaml
 default:
   # <-- other configuration -->
     mysaml1:
@@ -538,13 +538,9 @@ Go the "Mappers" tab and create the following mappers. Note that the "User attri
 | User Attribute | firstName      | givenName     | givenName           | Basic                     |
 | User Attribute | email          | mail          | mail                | Basic                     |
 
-
-
 #### Export the Keycloak public certificate
 
-To view the certificate in Base64 encoding, go to the menu "Realm settings" and click on "Endpoints -> SAML 2.0 Identity Provider Metadata". This will open an XML file, and the certificate is stored in the `ds:X509Certificate `node under the signing key. Copy the content of the certificate (`MII.....`)
-
-
+To view the certificate in Base64 encoding, go to the menu "Realm settings" and click on "Endpoints -> SAML 2.0 Identity Provider Metadata". This will open an XML file, and the certificate is stored in the `ds:X509Certificate` node under the signing key. Copy the content of the certificate (`MII.....`)
 
 #### Set up OpenProject for Keycloak integration
 

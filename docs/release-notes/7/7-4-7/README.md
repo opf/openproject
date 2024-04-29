@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 7.4.7
-  sidebar_navigation:
-      title: 7.4.7
-  release_version: 7.4.7
-  release_date: 2018-07-20
+title: OpenProject 7.4.7
+sidebar_navigation:
+  title: 7.4.7
+release_version: 7.4.7
+release_date: 2018-07-20
 ---
 
 # OpenProject 7.4.7
@@ -17,7 +17,7 @@ Exporting a work package table can now optionally export image
 attachments of the work package. Additional options are added to the
 export modal.
 
-#### Bug fixes and changes
+## Bug fixes and changes
 
   - Fixed: \[2FA\] Device ID not transmitted when resending with
     different channel

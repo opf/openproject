@@ -12,7 +12,7 @@ We released [OpenProject 10.6.2](https://community.openproject.org/versions/1440
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Usability bug: activity toggle not readily visible \[[#32649](https://community.openproject.org/wp/32649)\]
 - Fixed: Multiple spaces in project name causes problems \[[#33344](https://community.openproject.org/wp/33344)\]
@@ -27,7 +27,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: SAML single sign out URL is not being respected \[[#33617](https://community.openproject.org/wp/33617)\]
 - Fixed: Remapping of existing users with `oauth_allow_remapping_of_existing_users' does not work with LDAP users \[[#33620](https://community.openproject.org/wp/33620)\]
 
-#### Contributions
+## Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

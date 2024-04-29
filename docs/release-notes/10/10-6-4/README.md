@@ -12,5 +12,5 @@ We released [OpenProject 10.6.4](https://community.openproject.org/versions/1443
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 

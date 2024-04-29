@@ -97,7 +97,7 @@ js:
 
 
 
-You will then need to access the Angular [ `I18nService`](https://github.com/opf/openproject/blob/dev/frontend/src/app/core/i18n/i18n.service.ts) that provides access to the `I18n.js` helper. Right now, there is also a window global `I18n` that works, but it is not recommended to use that wherever you can inject the service instead.
+You will then need to access the Angular [`I18nService`](https://github.com/opf/openproject/blob/dev/frontend/src/app/core/i18n/i18n.service.ts) that provides access to the `I18n.js` helper. Right now, there is also a window global `I18n` that works, but it is not recommended to use that wherever you can inject the service instead.
 
 
 

@@ -28,14 +28,14 @@ For more information on that change, please see the discussion in [Bug #44132](h
 
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Remaining hours sum not well formed \[[#43833](https://community.openproject.org/wp/43833)\]
 - Fixed: Destroy journals with invalid data_type associations \[[#44132](https://community.openproject.org/wp/44132)\]
 - Fixed: Internal error / Illegal instruction error \[[#44155](https://community.openproject.org/wp/44155)\]
 - Fixed: Dragging images to CKEditor on Grid custom texts not working with direct upload \[[#44156](https://community.openproject.org/wp/44156)\]
 
-#### Contributions
+## Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

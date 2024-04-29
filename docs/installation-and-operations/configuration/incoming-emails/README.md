@@ -75,6 +75,7 @@ Available arguments that change how the work packages are handled:
 **Gmail API**
 
 In order to use the more secure Gmail API method, some extra initial setup in google cloud is required.
+
 1. Go to https://console.cloud.google.com/
 2. Create new project
 3. Navigate to Enable APIs and Services
@@ -120,7 +121,7 @@ and it will be added as a comment to the work package. You can also update attri
 
 For instance with the following reply.
 
-```
+```text
 status: closed
 
 The issue is sorted then. Closing this.
@@ -140,7 +141,7 @@ there.
 
 For example if you write an email with the subject "Fixing problems" and the following body:
 
-```
+```text
 project: demo-project
 type: Task
 status: In Progress

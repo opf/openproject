@@ -112,7 +112,7 @@ The new and additional tool tips in the OpenProject application will make the na
 - Changed: New release teaser block for 12.3 [#44212](https://community.openproject.org/wp/44212)
 - Changed: Add the Switch component and Switch Field pattern to the design system [#44213](https://community.openproject.org/wp/44213)
 
-### Contributions
+## Contributions
 
 A big thanks to community members for reporting bugs, helping us identify issues and providing fixes.
 

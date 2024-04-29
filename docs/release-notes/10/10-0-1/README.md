@@ -13,7 +13,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 
 
 
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Misaligned checkboxes in text editor [[#31066](https://community.openproject.org/wp/31066)]
 - Fixed: Wrong cursor icon when editing custom text widget [[#31092](https://community.openproject.org/wp/31092)]
@@ -33,7 +33,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Attachments lose their name on download [[#31205](https://community.openproject.org/wp/31205)]
 - Changed: Complete missing translations for 10.0 [[#31147](https://community.openproject.org/wp/31147)]
 
-#### Contributions
+## Contributions
 
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 

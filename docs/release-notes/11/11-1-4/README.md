@@ -12,7 +12,7 @@ We released [OpenProject 11.1.4](https://community.openproject.org/versions/1470
 The release contains an important bug fix and we urge you to update to the newest version.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Some settings can be written without authorization \[[#36254](https://community.openproject.org/wp/36254)\]
 

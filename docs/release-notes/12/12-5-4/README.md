@@ -37,7 +37,7 @@ This security related issue was responsibly disclosed by [Vaishnavi Pardeshi](ma
 
 <!--more-->
 
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Google reCAPTCHA v2 and V3 changed implementation \[[#44115](https://community.openproject.org/wp/44115)\]
 - Fixed: User activity: Previous link removes user parameter from URL \[[#47855](https://community.openproject.org/wp/47855)\]
@@ -46,7 +46,7 @@ This security related issue was responsibly disclosed by [Vaishnavi Pardeshi](ma
 - Fixed: Previously Created Session Continue Being Valid After 2FA Activation \[[#48035](https://community.openproject.org/wp/48035)\]
 - Fixed: Forgotten password link does not expire when user changes password in the meantime \[[#48036](https://community.openproject.org/wp/48036)\]
 
-#### Contributions
+## Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

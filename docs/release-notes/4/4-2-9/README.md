@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 4.2.9
-  sidebar_navigation:
-      title: 4.2.9
-  release_version: 4.2.9
-  release_date: 2015-10-29
+title: OpenProject 4.2.9
+sidebar_navigation:
+  title: 4.2.9
+release_version: 4.2.9
+release_date: 2015-10-29
 ---
 
 # OpenProject 4.2.9

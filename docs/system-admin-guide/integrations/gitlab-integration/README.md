@@ -70,9 +70,7 @@ You need to configure the **URL** . It must point to your OpenProject server's G
 
 You will need the API key you copied earlier in OpenProject. Append it to the *URL* as a simple GET parameter named `key`. In the end the URL should look something like this:
 
-```
-https://myopenproject.com/webhooks/gitlab?key=4221687468163843
-```
+`https://myopenproject.com/webhooks/gitlab?key=4221687468163843`
 
 > **Note**: For the events that should be triggered by the webhook, please select the following
 >

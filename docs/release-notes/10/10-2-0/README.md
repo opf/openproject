@@ -12,7 +12,7 @@ release_date: 2019-11-11
 We released [OpenProject 10.2.0](https://community.openproject.org/versions/1390).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Many mails are still being sent synchronously, slowing down the application [[#28287](https://community.openproject.org/wp/28287)]
 - Fixed: Work package webhooks not triggered when Setting.notified_events disabled [[#29501](https://community.openproject.org/wp/29501)]
@@ -30,7 +30,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Changed: Upgrade CKEditor to 15.0 [[#31542](https://community.openproject.org/wp/31542)]
 - Changed: Zen mode for project overview page [[#31559](https://community.openproject.org/wp/31559)]
 
-#### Contributions
+## Contributions
 
  
 

@@ -22,6 +22,7 @@ Properties to set borders
 Key: `border`
 
 Example:
+
 ```yaml
 border_color: F000FF
 border_color_top: 000FFF
@@ -58,6 +59,7 @@ Styling for the cover page of the PDF report export
 Key: `cover`
 
 Example:
+
 ```yaml
 cover:
   header: {}
@@ -78,6 +80,7 @@ Styling for the cover page footer of the PDF report export
 Key: `cover_footer`
 
 Example:
+
 ```yaml
 footer:
   offset: 20
@@ -97,6 +100,7 @@ Styling for the cover page header of the PDF report export
 Key: `cover_header`
 
 Example:
+
 ```yaml
 header:
   logo_height: 25
@@ -118,6 +122,7 @@ Styling for the cover page header border of the PDF report export
 Key: `cover_header_border`
 
 Example:
+
 ```yaml
 border:
   color: d3dee3
@@ -140,6 +145,7 @@ Styling for the hero banner at the bottom at the cover page
 Key: `cover_hero`
 
 Example:
+
 ```yaml
 header:
   padding_right: 150
@@ -164,6 +170,7 @@ Properties to set the font style
 Key: `font`
 
 Example:
+
 ```yaml
 font: OpenSans
 size: 10
@@ -201,6 +208,7 @@ Properties to set margins
 Key: `margin`
 
 Example:
+
 ```yaml
 margin: 10mm
 margin_top: 15mm
@@ -221,6 +229,7 @@ Styling a clickable link
 Key: `link`
 
 Example:
+
 ```yaml
 link:
   color: '000088'
@@ -237,6 +246,7 @@ Styling for content of work package description and long text custom fields
 Key: `markdown`
 
 Example:
+
 ```yaml
 markdown:
   font: {}
@@ -290,6 +300,7 @@ Styling to denote a paragraph as quote
 Key: `blockquote`
 
 Example:
+
 ```yaml
 blockquote:
   background_color: f4f9ff
@@ -320,6 +331,7 @@ Styling to denote a word or phrase as code
 Key: `code`
 
 Example:
+
 ```yaml
 code:
   font: Consolas
@@ -337,6 +349,7 @@ Styling to denote a paragraph as code
 Key: `codeblock`
 
 Example:
+
 ```yaml
 codeblock:
   background_color: F5F5F5
@@ -360,6 +373,7 @@ codeblock:
 Key: `header`
 
 Example:
+
 ```yaml
 header:
   styles:
@@ -389,6 +403,7 @@ Tables without or empty header rows can be styled differently.
 Key: `headless_table`
 
 Example:
+
 ```yaml
 headless_table:
   auto_width: true
@@ -411,6 +426,7 @@ Styling for horizontal lines
 Key: `hrule`
 
 Example:
+
 ```yaml
 hrule:
   line_width: 1
@@ -428,6 +444,7 @@ Styling of images
 Key: `image`
 
 Example:
+
 ```yaml
 image:
   max_width: 50mm
@@ -451,6 +468,7 @@ image:
 Key: `ordered_list`
 
 Example:
+
 ```yaml
 ordered_list:
   spacing: 2mm
@@ -469,6 +487,7 @@ ordered_list:
 Key: `ordered_list_point`
 
 Example:
+
 ```yaml
 ordered_list_point:
   template: "<number>."
@@ -492,6 +511,7 @@ A block of text
 Key: `paragraph`
 
 Example:
+
 ```yaml
 paragraph:
   align: justify
@@ -509,6 +529,7 @@ paragraph:
 Key: `table`
 
 Example:
+
 ```yaml
 table:
   auto_width: true
@@ -534,6 +555,7 @@ table:
 Key: `task_list_point`
 
 Example:
+
 ```yaml
 task_list_point:
   checked: "☑"
@@ -553,6 +575,7 @@ task_list_point:
 Key: `unordered_list`
 
 Example:
+
 ```yaml
 unordered_list:
   spacing: 1.5mm
@@ -571,6 +594,7 @@ unordered_list:
 Key: `unordered_list_point`
 
 Example:
+
 ```yaml
 unordered_list_point:
   sign: "•"
@@ -590,6 +614,7 @@ Styling for the PDF table export
 Key: `overview`
 
 Example:
+
 ```yaml
 overview:
   group_heading: {}
@@ -608,6 +633,7 @@ Styling for the group label if grouping is activated
 Key: `group_heading`
 
 Example:
+
 ```yaml
 group_heading:
   size: 11
@@ -626,6 +652,7 @@ group_heading:
 Key: `table`
 
 Example:
+
 ```yaml
 table:
   subject_indent: 0
@@ -659,6 +686,7 @@ Properties to set paddings
 Key: `padding`
 
 Example:
+
 ```yaml
 padding: 10mm
 padding_top: 15mm
@@ -677,6 +705,7 @@ padding_top: 15mm
 Key: `page_footer`
 
 Example:
+
 ```yaml
 page_footer:
   offset: -30
@@ -694,6 +723,7 @@ page_footer:
 Key: `page_header`
 
 Example:
+
 ```yaml
 page_header:
   align: left
@@ -714,6 +744,7 @@ The main page title heading
 Key: `page_heading`
 
 Example:
+
 ```yaml
 page_heading:
   size: 14
@@ -734,6 +765,7 @@ Styling for logo image in the page header.
 Key: `page_logo`
 
 Example:
+
 ```yaml
 page_logo:
   height: 20
@@ -753,6 +785,7 @@ Properties to set the basic page settings
 Key: `page`
 
 Example:
+
 ```yaml
 page:
   page_size: EXECUTIVE
@@ -780,6 +813,7 @@ Styling for a table cell
 Key: `table_cell`
 
 Example:
+
 ```yaml
 table_cell:
   size: 9
@@ -801,6 +835,7 @@ Styling for a table header cell
 Key: `table_header`
 
 Example:
+
 ```yaml
 table_header:
   size: 9
@@ -821,6 +856,7 @@ Styling for the table of content of the PDF report export
 Key: `toc`
 
 Example:
+
 ```yaml
 toc:
   subject_indent: 4
@@ -856,6 +892,7 @@ Default styling for TOC items on all levels.<br/>use item_level_x` as key for TO
 Key: `item`
 
 Example:
+
 ```yaml
 item:
   size: 9
@@ -882,6 +919,7 @@ Key: `item_level_x`
 Key: `title`
 
 Example:
+
 ```yaml
 title:
   max_height: 30
@@ -902,6 +940,7 @@ title:
 Key: `subheading`
 
 Example:
+
 ```yaml
 subheading:
   max_height: 30
@@ -921,6 +960,7 @@ subheading:
 Key: `heading`
 
 Example:
+
 ```yaml
 heading:
   spacing: 10
@@ -942,6 +982,7 @@ Styling for the Work package section
 Key: `work_package`
 
 Example:
+
 ```yaml
 work_package:
   margin_bottom: 20
@@ -972,6 +1013,7 @@ Styling for the Work package attributes table
 Key: `attributes_table`
 
 Example:
+
 ```yaml
 attributes_table:
   margin_bottom: 10
@@ -1002,6 +1044,7 @@ Label headline for work package description and long text custom fields
 Key: `markdown_label`
 
 Example:
+
 ```yaml
 markdown_label:
   size: 12
@@ -1023,6 +1066,7 @@ Margins for work package description and long text custom fields
 Key: `markdown_margin`
 
 Example:
+
 ```yaml
 markdown_margin:
   margin_bottom: 16
@@ -1039,6 +1083,7 @@ Styling for the Work package subject headline
 Key: `subject`
 
 Example:
+
 ```yaml
 subject:
   size: 10
@@ -1047,16 +1092,17 @@ subject:
   margin_bottom: 10
 ```
 
-| Key | Description | Data type |
-| - | - | - |
-| … | See [Font properties](#font-properties) |  |
-| … | See [Margin properties](#margin-properties) |  |
+| Key | Description                                 | Data type |
+|-----|---------------------------------------------|-----------|
+| …   | See [Font properties](#font-properties)     |           |
+| …   | See [Margin properties](#margin-properties) |           |
 
 ## Work package subject level
 
 Key: `subject_level_x`
 
 Example:
+
 ```yaml
 subject_level_1:
   size: 14

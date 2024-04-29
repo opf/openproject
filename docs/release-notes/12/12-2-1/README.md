@@ -65,7 +65,7 @@ For more information on this setting and how to configure it for your installati
 
 
 
-#### Contributions
+## Contributions
 
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 

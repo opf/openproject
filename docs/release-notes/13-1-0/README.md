@@ -143,7 +143,7 @@ For more information, please see [#51333](https://community.openproject.org/proj
 - Fixed: Search not working on some meetings (possibly because of agenda items containing macros) \[[#51426](https://community.openproject.org/wp/51426)\]
 - Fixed: Overview page suggests some information (e.g. custom fields, status, description) not set when they are hidden \[[#51431](https://community.openproject.org/wp/51431)\]
 
-### Contributions
+## Contributions
 A very special thank you goes to our sponsors for features and improvements of this release:
 
 - **Deutsche Bahn** – for the OneDrive/SharePoint integration

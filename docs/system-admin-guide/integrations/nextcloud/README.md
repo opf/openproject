@@ -218,6 +218,7 @@ On Nextcloud inside the _OpenProject Integration_ App, when adding the OpenProje
   ```shell
   curl https://openproject.example.com
   ```
+  
   In case the `curl` command above results in an error pay attention what it is telling you. Typical reasons for connection issues are misconfigured firewalls, proxies, or a bad TLS/SSL setup.
 
 ##### While using a self signed TLS/SSL certificate you receive "certificate verify failed"
@@ -302,6 +303,7 @@ On OpenProject inside the storage administration (*Administration → File stora
   ```json
   {"ocs":{"meta":{"status":"ok","statuscode":200,"message":"OK"},"data":{"version":{"major":24,"minor":0,"micro":6,"string":"24.0.6","edition":"","extendedSupport":false},"capabilities":{"bruteforce":{"delay":0},"metadataAvailable":{"size":["\/image\\\/.*\/"]},"theming":{"name":"Nextcloud","url":"https:\/\/nextcloud.com","slogan":"a safe home for all your data","color":"#0082c9","color-text":"#ffffff","color-element":"#0082c9","color-element-bright":"#0082c9","color-element-dark":"#0082c9","logo":"https:\/\/nextcloud.example.com\/nextcloud\/core\/img\/logo\/logo.svg?v=0","background":"https:\/\/nextcloud.example.com\/nextcloud\/core\/img\/background.png?v=0","background-plain":false,"background-default":true,"logoheader":"https:\/\/nextcloud.example.com\/nextcloud\/core\/img\/logo\/logo.svg?v=0","favicon":"https:\/\/nextcloud.example.com\/nextcloud\/core\/img\/logo\/logo.svg?v=0"}}}}}
   ```
+
   If you do not get such a response check out what the `curl` command above is telling you. Typical reasons for connection issues are misconfigured firewalls, proxies, or a bad TLS/SSL setup.
 
 ##### While using a self signed TLS/SSL certificate you receive "certificate verify failed"
@@ -317,27 +319,27 @@ Attention: Please do not confuse the CA for the Nextcloud server's certificate w
 
 The integration OpenProject with Nextcloud makes use of authorized HTTP requests between the two servers. The HTTP requests contain a `Authorization` header, containing a `Bearer` access token. Sometimes Nextcloud installations are not fully setup and the HTTP server strips the `Authorization` header, with the consequence that Nextcloud does not know which Nextcloud user is requesting. Run the following command on the command line of your OpenProject server to check that your installation is complete
 
-  ```shell
-  curl --location --request GET 'https://nextcloud.example.com/index.php/apps/integration_openproject/check-config' --header 'Authorization: foo'
-  ```
+```shell
+curl --location --request GET 'https://nextcloud.example.com/index.php/apps/integration_openproject/check-config' --header 'Authorization: foo'
+```
 
-  If Nextcloud setup correctly the response should look like the following
+If Nextcloud setup correctly the response should look like the following
 
-  ```json
-  {"user_id":"","authorization_header":foo}
-  ```
+```json
+{"user_id":"","authorization_header":foo}
+```
 
-  If not, first verify that the app **OpenProject Integration** is installed.  
+If not, first verify that the app **OpenProject Integration** is installed.  
 
-  If that is the case verify that the mod_rewrite is activated on the Nextcloud server.  
-  To activate mod_rewrite the following commands can be used on the Nextcloud server:
-  ```shell
-  sudo a2enmod rewrite
-  sudo systemctl restart apache2
-  ```
+If that is the case verify that the mod_rewrite is activated on the Nextcloud server.  
+To activate mod_rewrite the following commands can be used on the Nextcloud server:
 
-  If that also not work please check the [instructions for setting up pretty URLs in Nextcloud](https://docs.nextcloud.com/server/22/admin_manual/installation/source_installation.html#pretty-urls). This usually also resolves the issue of stripped `Authorization` headers.
+```shell
+sudo a2enmod rewrite
+sudo systemctl restart apache2
+```
 
+If that also not work please check the [instructions for setting up pretty URLs in Nextcloud](https://docs.nextcloud.com/server/22/admin_manual/installation/source_installation.html#pretty-urls). This usually also resolves the issue of stripped `Authorization` headers.
   
 
 #### Project folders are not created or you do not have access
@@ -376,10 +378,10 @@ You have setup the *Project folder* in both environments (Nextcloud and OpenProj
    2. Test the network connection from this server to your Nextcloud server. All you need is the Nextcloud host name and the **Application password**. You received the application password at the end of the setup of the app **OpenProject integration** in Nextcloud. 
 
       If you do not posses the application password anymore, you can reset it. Make sure not to forget updating the settings of the file storage in OpenProject accordingly. The following cURL command should respond with an XML containing details for the **OpenProject** user (**Please make sure to use the right application-password and Nextcloud host name**):
-     ```shell
-     curl -u 'OpenProject:<application-password>' https://<nextcloud-host-name>/ocs/v1.php/cloud/users/OpenProject -H 'OCS-APIRequest: true' -v`
-     ```
 
+      ```shell
+      curl -u 'OpenProject:<application-password>' https://<nextcloud-host-name>/ocs/v1.php/cloud/users/OpenProject -H 'OCS-APIRequest: true' -v`
+      ```
 
 ## Getting support
 

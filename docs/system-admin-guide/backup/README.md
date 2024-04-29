@@ -52,7 +52,7 @@ As a system administrator you can skip this period by running the following rake
 sudo openproject run rake backup:allow_now
 ```
 
-__In a docker setup you can open a terminal on any of the web or worker processes and run the rake task there.__
+**In a docker setup you can open a terminal on any of the web or worker processes and run the rake task there.**
 
 ## Pull a backup via APIv3
 

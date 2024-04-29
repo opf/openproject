@@ -61,43 +61,43 @@ We are going to create a new file `/etc/openproject/addons/apache2/custom/vhost/
 
 > **Please note**: The following kerberos configuration is only an example. We cannot provide any support or help with regards to the Kerberos side of configuration. OpenProject will simply handle the incoming header containing the logged in user.
 
-```
-  <Location />
-    AuthType GSSAPI
-    # The Basic Auth dialog name shown to the user
-    # change this freely
-    AuthName "EXAMPLE.COM realm login"
+```apache
+<Location />
+  AuthType GSSAPI
+  # The Basic Auth dialog name shown to the user
+  # change this freely
+  AuthName "EXAMPLE.COM realm login"
 
-    # The credential store used by GSSAPI
-    GssapiCredStore keytab:/etc/apache2/openproject.keytab
-    
-    # Allow basic auth negotiation fallback
-    GssapiBasicAuth         On
+  # The credential store used by GSSAPI
+  GssapiCredStore keytab:/etc/apache2/openproject.keytab
   
-    # Uncomment this if you want to allow NON-TLS connections for kerberos
-    # GssapiSSLonly           Off
-    
-    # Use the local user name without the realm.
-    # When off: OpenProject gets sent logins like "user1@EXAMPLE.com"
-    # When on: OpenProject gets sent logins like "user1"
-    GssapiLocalName         On
-    
-    # Allow kerberos5 login mechanism
-    GssapiAllowedMech krb5
+  # Allow basic auth negotiation fallback
+  GssapiBasicAuth         On
+
+  # Uncomment this if you want to allow NON-TLS connections for kerberos
+  # GssapiSSLonly           Off
+  
+  # Use the local user name without the realm.
+  # When off: OpenProject gets sent logins like "user1@EXAMPLE.com"
+  # When on: OpenProject gets sent logins like "user1"
+  GssapiLocalName         On
+  
+  # Allow kerberos5 login mechanism
+  GssapiAllowedMech krb5
 
 
-    # After authentication, Apache will set a header
-    # "X-Authenticated-User" to the logged in username
-    # appended with a configurable secret value
-    RequestHeader set X-Authenticated-User expr=%{REMOTE_USER}:MyPassword
-    
-    # Ensure the Authorization header is not passed to OpenProject
-    # as this will result in trying to perform basic auth with the API
-    RequestHeader unset Authorization
+  # After authentication, Apache will set a header
+  # "X-Authenticated-User" to the logged in username
+  # appended with a configurable secret value
+  RequestHeader set X-Authenticated-User expr=%{REMOTE_USER}:MyPassword
+  
+  # Ensure the Authorization header is not passed to OpenProject
+  # as this will result in trying to perform basic auth with the API
+  RequestHeader unset Authorization
 
-    # Apache directive to ensure a user is authenticated
-    Require valid-user
-  </Location>
+  # Apache directive to ensure a user is authenticated
+  Require valid-user
+</Location>
 ```
 
 
@@ -141,70 +141,59 @@ For non-existing users, if you have an LDAP configured with automatic user regis
 
 # Known issues
 
-
-
 ## Using the OpenProject REST API
 
 As Kerberos provides its own Basic Auth challenges if configured as shown above, it will prevent you from using the OpenProject API using an Authorization header such as API key authentication or OAuth2.
 
 **Note:** A precondition to use this workaround is to run OpenProject under its own path (server prefix) such as `https://YOUR DOMAIN/openproject/`. If you are not using this, you need to first reconfigure the wizard with `openproject reconfigure` to use such a path prefix. Alternatively, you might have success by using a separate domain or subdomain, but this is untested.
 
- To work around this, you will have to configure a separate route to access the API, bypassing the Kerberos configuration. You can do that by modifying the `/etc/openproject/addons/apache2/custom/vhost/kerberos.conf`as follows:
+To work around this, you will have to configure a separate route to access the API, bypassing the Kerberos configuration. You can do that by modifying the `/etc/openproject/addons/apache2/custom/vhost/kerberos.conf`as follows:
 
 
-
-``` 
-  # Add a Proxy for a separate route
-  # Replace /openproject/ with your own relative URL root / path prefix
-  ProxyPass /openproject-api/ http://127.0.0.1:6000/openproject/ retry=0
-  ProxyPassReverse /openproject-api/ http://127.0.0.1:6000/openproject/
-    
-  # Require kerberos flow for anything BUT /openproject-api
-  <LocationMatch "^/(?!openproject-api)">
-    AuthType GSSAPI
-    # The Basic Auth dialog name shown to the user
-    # change this freely
-    AuthName "EXAMPLE.COM realm login"
-
-    # The credential store used by GSSAPI
-    GssapiCredStore keytab:/etc/apache2/openproject.keytab
-    
-    # Allow basic auth negotiation fallback
-    GssapiBasicAuth         On
+```apache
+# Add a Proxy for a separate route
+# Replace /openproject/ with your own relative URL root / path prefix
+ProxyPass /openproject-api/ http://127.0.0.1:6000/openproject/ retry=0
+ProxyPassReverse /openproject-api/ http://127.0.0.1:6000/openproject/
   
-    # Uncomment this if you want to allow NON-TLS connections for kerberos
-    # GssapiSSLonly           Off
-    
-    # Use the local user name without the realm.
-    # When off: OpenProject gets sent logins like "user1@EXAMPLE.com"
-    # When on: OpenProject gets sent logins like "user1"
-    GssapiLocalName         On
-    
-    # Allow kerberos5 login mechanism
-    GssapiAllowedMech krb5
+# Require kerberos flow for anything BUT /openproject-api
+<LocationMatch "^/(?!openproject-api)">
+  AuthType GSSAPI
+  # The Basic Auth dialog name shown to the user
+  # change this freely
+  AuthName "EXAMPLE.COM realm login"
+
+  # The credential store used by GSSAPI
+  GssapiCredStore keytab:/etc/apache2/openproject.keytab
+  
+  # Allow basic auth negotiation fallback
+  GssapiBasicAuth         On
+
+  # Uncomment this if you want to allow NON-TLS connections for kerberos
+  # GssapiSSLonly           Off
+  
+  # Use the local user name without the realm.
+  # When off: OpenProject gets sent logins like "user1@EXAMPLE.com"
+  # When on: OpenProject gets sent logins like "user1"
+  GssapiLocalName         On
+  
+  # Allow kerberos5 login mechanism
+  GssapiAllowedMech krb5
 
 
-    # After authentication, Apache will set a header
-    # "X-Authenticated-User" to the logged in username
-    # appended with a configurable secret value
-    RequestHeader set X-Authenticated-User expr=%{REMOTE_USER}:MyPassword
-    
-    # Ensure the Authorization header is not passed to OpenProject
-    # as this will result in trying to perform basic auth with the API
-    RequestHeader unset Authorization
+  # After authentication, Apache will set a header
+  # "X-Authenticated-User" to the logged in username
+  # appended with a configurable secret value
+  RequestHeader set X-Authenticated-User expr=%{REMOTE_USER}:MyPassword
+  
+  # Ensure the Authorization header is not passed to OpenProject
+  # as this will result in trying to perform basic auth with the API
+  RequestHeader unset Authorization
 
-    # Apache directive to ensure a user is authenticated
-    Require valid-user
-  </LocationMatch>
+  # Apache directive to ensure a user is authenticated
+  Require valid-user
+</LocationMatch>
 ```
-
-
-
-
-
-
-
-
 
 # Additional  resources
 

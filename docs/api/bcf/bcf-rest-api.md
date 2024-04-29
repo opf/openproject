@@ -93,6 +93,7 @@ _Not implemented_
 _Implemented_
 
 The following OAuth2 flows are supported:
+
 * `authorization_code_grant` - [4.1 - Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1)
 * `client_credentials` - [4.4 - Client Credentials Grant](https://tools.ietf.org/html/rfc6749#section-4.4)
 
@@ -103,6 +104,7 @@ Before a client is able to perform the flows, they need to be [configured in Ope
 to be checked for the scope. That value also needs to be provided for the scope property in OAuth requests.
 
 The OAuth2 flows alternatively proposed by the specification
+
 * `implicit_grant` - [4.2 - Implicit Grant](https://tools.ietf.org/html/rfc6749#section-4.2)
 * `resource_owner_password_credentials_grant` - [4.3 - Resource Owner Password Credentials Grant](https://tools.ietf.org/html/rfc6749#section-4.3)
 are not implemented.
@@ -173,7 +175,7 @@ _Implemented_
 BCF topics are tightly coupled to work packages in OpenProject. This coupling is denoted in the `reference_links` property
 of a topic which will always have a link to the work package resource in the API v3. e.g.:
 
-```
+```text
 <-- other properties -->
 "reference_links": [
  "/api/v3/work_packages/92"
@@ -186,6 +188,7 @@ of a topic which will always have a link to the work package resource in the API
 _Partly implemented_
 
 The following properties are not supported:
+
 * `labels` (the property exists but cannot be written and is always empty)
 * `stage` (the property exists but cannot be written and is always null)
 * `bim_snippet.snippet_type`

@@ -184,6 +184,7 @@ Activities in OpenProject are automatically journalized. It allows users to unde
 Independently of the change history every interaction (i.e. web request) of a browser or other client results in an entry written to the server logfiles. These files support the operation of the application as they provide information on faulty behavior of the system (i.e. bugs and lack of performance).
 
 Those log files contain the following person related data:
+
 * id of the user performing the request
 * time of the request
 * url called
@@ -498,7 +499,7 @@ subgraph openproject[OpenProject]
 #### Processed data
 
 * `bu-01`
-* `bu-03 `
+* `bu-03`
 * `cf-01`
 
 #### Security measures

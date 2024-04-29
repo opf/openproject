@@ -456,7 +456,7 @@ When a dependency of the image or the base image itself is changed you may need 
 Ruby version is updated you may run into an error like the following when
 running `docker compose run --rm backend setup`:
 
-```
+```text
 Your Ruby version is 2.7.6, but your Gemfile specified ~> 3.2.3
 ```
 

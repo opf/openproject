@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 4.0.3
-  sidebar_navigation:
-      title: 4.0.3
-  release_version: 4.0.3
-  release_date: 2014-12-11
+title: OpenProject 4.0.3
+sidebar_navigation:
+  title: 4.0.3
+release_version: 4.0.3
+release_date: 2014-12-11
 ---
 
 ## OpenProject 4.0.3

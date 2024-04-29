@@ -58,7 +58,7 @@ CKEditor5 allows certain CommonMark-like [autoformatting keyboard strokes](https
 
 - Create bold or italic styles by typing `**will become bold**`, `_will become italic_`,
 - Create heading of different indentation with `#`, `##`, `###`,  …
-- Create a bulleted list by starting the line with `* ` or `-` and a space  
+- Create a bulleted list by starting the line with `*` or `-` and a space  
 - Create a numbered list by starting the line with `1.` or `1)`  and a space
 
 

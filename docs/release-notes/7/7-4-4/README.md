@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 7.4.4
-  sidebar_navigation:
-      title: 7.4.4
-  release_version: 7.4.4
-  release_date: 2018-05-07
+title: OpenProject 7.4.4
+sidebar_navigation:
+  title: 7.4.4
+release_version: 7.4.4
+release_date: 2018-05-07
 ---
 
 # OpenProject 7.4.4

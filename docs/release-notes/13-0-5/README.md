@@ -14,7 +14,7 @@ We released [OpenProject 13.0.5](https://community.openproject.org/versions/1904
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: get 500 error when open wiki page in every project \[[#40500](https://community.openproject.org/wp/40500)\]
 - Fixed: [AppSignal] Performance VersionsController#index \[[#47872](https://community.openproject.org/wp/47872)\]
@@ -27,7 +27,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Copying projects with Nextcloud project folders does not recreate file links to folders \[[#50295](https://community.openproject.org/wp/50295)\]
 - Fixed: Help text incorrectly cached for non admins \[[#50299](https://community.openproject.org/wp/50299)\]
 
-#### Contributions
+## Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

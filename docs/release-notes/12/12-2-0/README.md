@@ -172,7 +172,7 @@ For more information, please see the respective installation pages:
 - Epic: Files tab that shows linked files in Nextcloud \[[#40203](https://community.openproject.org/wp/40203)\]
 - Epic: Settings connection between Nextcloud and OpenProject (OAuth) \[[#42072](https://community.openproject.org/wp/42072)\]
 
-#### Contributions
+## Contributions
 A big thanks to community members for reporting bugs, helping us identify issues and providing fixes.
 
 - Special thanks for City of Cologne and University of Duisburg-Essen for sponsoring the development of the Nextcloud integration.

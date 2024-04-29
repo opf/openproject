@@ -14,7 +14,7 @@ OpenProject provides different means of monitoring and auditing your application
 
 In production, OpenProject uses [Lograge formatter](https://github.com/roidrage/lograge) `key_value` logger by default. Every request will result in the following `info` log level:
 
-```
+```text
 I, [2023-11-14T09:21:15.136914 #56791]  INFO -- : [87a5dceb-0560-4e17-8577-2822106dfc00] method=GET path=/ format=html controller=HomescreenController action=index status=200 allocations=133182 duration=237.82 view=107.45 db=116.50 user=85742
 ```
 
@@ -62,13 +62,13 @@ On most distributions, OpenProject does not maintain its own log files, but send
 
 You can get all logs of the web processes like this: 
 
-```bash
+```shell
 journalctl -u openproject-web-1
 ```
 
 Likewise, to get all logs of the background worker processes:
 
-```bash
+```shell
 journalctl -u openproject-worker-1
 ```
 

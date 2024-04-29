@@ -14,7 +14,7 @@ The Dockerfile comes with a built-in PostgreSQL migration script that will auto-
 
 Depending on your usage, you may want to set up an external PostgreSQL database to provide the container with connection details just like you did for MySQL.
 
-In any case, you may also use the internally configured PostgreSQL instance of the docker container by using the DATABASE_URL ` postgres://openproject:openproject@127.0.0.1/openproject`
+In any case, you may also use the internally configured PostgreSQL instance of the docker container by using the DATABASE_URL `postgres://openproject:openproject@127.0.0.1/openproject`
 
 **Installing a PostgreSQL database outside docker**
 
@@ -73,7 +73,7 @@ MYSQL_DATABASE_URL="mysql://user:password@localhost:3306/dbname"
 
 
 
-**Please note:** Ensure that the URL starts with `mysql://` , not with ` mysql2://` !
+**Please note:** Ensure that the URL starts with `mysql://` , not with `mysql2://`!
 
 
 ### The PostgreSQL DATABASE_URL

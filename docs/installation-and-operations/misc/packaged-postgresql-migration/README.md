@@ -151,7 +151,7 @@ You can check the output of `dpkg -l | grep mysql` to check for packages to be r
 
 The following is an exemplary removal of an installed version MySQL 5.7. 
 
-```
+```shell
 [root@host] apt-get remove mysql-server
 [root@host] openproject config:unset MYSQL_DATABASE_URL
 ```

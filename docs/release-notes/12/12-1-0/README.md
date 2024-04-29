@@ -216,7 +216,7 @@ We added a new “Files” tab in the work package details. This way, you will h
 - Fixed: Search results below include projects modal \[[#42090](https://community.openproject.org/wp/42090)\]
 - Fixed: Include projects - Toggle button is not rounded \[[#42171](https://community.openproject.org/wp/42171)\]
 
-#### Contributions
+## Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 - Special thanks for Autoliv for sponsoring the development of the new team planner.

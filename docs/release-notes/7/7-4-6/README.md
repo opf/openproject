@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 7.4.6
-  sidebar_navigation:
-      title: 7.4.6
-  release_version: 7.4.6
-  release_date: 2018-07-10
+title: OpenProject 7.4.6
+sidebar_navigation:
+  title: 7.4.6
+release_version: 7.4.6
+release_date: 2018-07-10
 ---
 
 # OpenProject 7.4.6
@@ -17,7 +17,7 @@ OpenProject 7.4.6 packaged installation introduces support for Ubuntu
 18.04. 
 ([#27799](https://community.openproject.org/wp/27799))
 
-#### Bug fixes and changes
+## Bug fixes and changes
 
   - Fixed: Poor performance when adding several work packages to a large
     tree
