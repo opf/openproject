@@ -20,7 +20,7 @@
         tag: :a,
         href: build_favorite_path(@project, format: :html),
         data: { method: favored ? :delete : :post },
-        classes: "op-primer--star-icon",
+        classes: favored ? "op-primer--star-icon" : "",
         label: favored ? I18n.t(:button_unfavorite) : I18n.t(:button_favorite),
         aria: { label: favored ? I18n.t(:button_unfavorite) : I18n.t(:button_favorite) },
         test_selector: 'project-favorite-button'
