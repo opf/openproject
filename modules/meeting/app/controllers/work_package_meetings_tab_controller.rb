@@ -66,6 +66,7 @@ class WorkPackageMeetingsTabController < ApplicationController
       .call(
         add_work_package_to_meeting_params.merge(
           work_package_id: @work_package.id,
+          presenter_id: current_user.id,
           item_type: MeetingAgendaItem::ITEM_TYPES[:work_package]
         )
       )
