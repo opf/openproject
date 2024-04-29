@@ -66,7 +66,8 @@ module Bim
 
       def set_direct_upload_file_name
         if params[:filesize].to_i > Setting.attachment_max_size.to_i.kilobytes
-          render json: { error: I18n.t("activerecord.errors.messages.file_too_large", count: Setting.attachment_max_size) },
+          render json: { error: I18n.t("activerecord.errors.messages.file_too_large",
+                                       count: Setting.attachment_max_size.to_i.kilobytes) },
                  status: :unprocessable_entity
           return
         end
