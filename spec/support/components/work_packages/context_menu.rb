@@ -39,7 +39,7 @@ module Components
       def open_for(work_package, card_view: nil)
         # Close
         find("body").send_keys :escape
-        sleep 0.5 unless using_cuprite?
+        sleep 0.5
 
         if card_view
           page.find(".op-wp-single-card-#{work_package.id}").right_click
