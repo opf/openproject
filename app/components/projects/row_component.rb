@@ -205,7 +205,7 @@ module Projects
       return [] if more_menu_items.empty?
 
       if more_menu_items.one?
-        more_menu_items.first => {label:, **button_options}
+        more_menu_items.first => { label:, **button_options }
 
         [render(Primer::Beta::IconButton.new(**button_options,
                                              size: :small,
@@ -222,7 +222,7 @@ module Projects
                                   "aria-label": t(:label_open_menu),
                                   tooltip_direction: :w)
             more_menu_items.each do |action_options|
-              action_options => {scheme:, label:, icon:, **button_options}
+              action_options => { scheme:, label:, icon:, **button_options }
               menu.with_item(scheme:,
                              label:,
                              test_selector: "project-list-row--action-menu-item",
@@ -239,10 +239,40 @@ module Projects
       @more_menu_items ||= [more_menu_subproject_item,
                             more_menu_settings_item,
                             more_menu_activity_item,
+                            more_menu_favorite_item,
+                            more_menu_unfavorite_item,
                             more_menu_archive_item,
                             more_menu_unarchive_item,
                             more_menu_copy_item,
                             more_menu_delete_item].compact
+    end
+
+    def more_menu_favorite_item
+      return if currently_favored?
+
+      {
+        scheme: :default,
+        icon: "star",
+        href: helpers.build_favorite_path(project, format: :html),
+        data: { method: :post },
+        label: I18n.t(:button_favorite),
+        aria: { label: I18n.t(:button_favorite) },
+      }
+    end
+
+    def more_menu_unfavorite_item
+      return unless currently_favored?
+
+      {
+        scheme: :default,
+        icon: "star-fill",
+        size: :medium,
+        href: helpers.build_favorite_path(project, format: :html),
+        data: { method: :delete },
+        classes: "op-primer--star-icon",
+        label: I18n.t(:button_unfavorite),
+        aria: { label: I18n.t(:button_unfavorite) },
+      }
     end
 
     def more_menu_subproject_item
