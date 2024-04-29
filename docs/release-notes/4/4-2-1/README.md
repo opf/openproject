@@ -24,5 +24,3 @@ For further information on the release, please refer to the
 [Changelog v.4.2.1](https://community.openproject.org/versions/731)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v4.2.1).
-
-

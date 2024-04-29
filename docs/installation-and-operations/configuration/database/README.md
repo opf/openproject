@@ -10,8 +10,6 @@ sidebar_navigation:
 
 Simply run `sudo openproject reconfigure`, and when the database wizard is displayed, select the **Use an existing PostgreSQL database** option and fill in the required details ([cf the initial configuration section](../../installation/packaged/#step-2-postgresql-database-configuration)).
 
-
-
 ### Setting a custom database URL
 
 In some cases, you need flexibility in how you define the URL (e.g., specifying more options specific to PostgreSQL or using SSL certificates). In that case, you can pass the database URL as an environment variable instead:
@@ -20,11 +18,7 @@ In some cases, you need flexibility in how you define the URL (e.g., specifying 
 openproject config:set DATABASE_URL=postgres://user:pass@host:port/dbname
 ```
 
-
-
 Then, you need to run `openproject reconfigure` and select "Skip" for the database wizard. Otherwise the wizard will override your DATABASE_URL environment variable again.
-
-
 
 ## Docker-based installation
 
@@ -46,8 +40,6 @@ docker-compose up -d
 
 In both cases the seeder will be run when you (re)launch OpenProject to make sure that the database gets the migrations and demo data as well.
 
-
-
 ## Setting DATABASE_URL and options separately
 
 OpenProject will merge the settings from `DATABASE_URL` with manually specified environment options. Here are the supported options:
@@ -61,8 +53,6 @@ OpenProject will merge the settings from `DATABASE_URL` with manually specified 
 | OPENPROJECT_DB_PASSWORD            | *none*      | Database password, if not presented in URL above                      | https://guides.rubyonrails.org/configuring.html#configuring-a-database                   |
 | OPENPROJECT_DB_APPLICATION_NAME    | openproject | PostgreSQL application name option                                    | https://www.postgresql.org/docs/13/libpq-connect.html#LIBPQ-CONNECT-APPLICATION-NAME     |
 | OPENPROJECT_DB_STATEMENT_TIMEOUT   | 90s         | Default statement timeout before connection statements are terminated | https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-STATEMENT-TIMEOUT |
-
-
 
 ## Using SSL/TLS with a PostgreSQL database
 
@@ -85,7 +75,6 @@ Alternatively, for better readability, you can set these parameters with separat
 | OPENPROJECT_DB_SSLPASSWORD    |                              | Password to certificate key                                  | [sslpassword](https://www.postgresql.org/docs/13/libpq-connect.html#LIBPQ-CONNECT-SSLPASSWORD) |
 | OPENPROJECT_DB_SSLROOTCERT    | ~/.postgresql/root.crt       | Path to CA                                                   | [sslrootcert](https://www.postgresql.org/docs/13/libpq-connect.html#LIBPQ-CONNECT-SSLROOTCERT) |
 | OPENPROJECT_DB_SSLCRL         | ~/.postgresql/root.crl       | Path to revocation list                                      | [sslcrl](https://www.postgresql.org/docs/13/libpq-connect.html#LIBPQ-CONNECT-SSLCRL) |
-
 
 ```text
 ="prefer" # disable, allow, prefer, require, verify-ca, verify-full

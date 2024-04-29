@@ -152,7 +152,6 @@ v20.9.0
 We will install the OpenProject Community Edition. It contains the recommended set of plugins for use
 with OpenProject. For more information, see [github.com/opf/openproject](https://github.com/opf/openproject).
 
-
 ```shell
 [openproject@host] cd ~
 [openproject@host] git clone https://github.com/opf/openproject.git --branch stable/9 --depth 1
@@ -290,7 +289,6 @@ To do this, continue as the root user:
 
 As told by the installer, create the file /etc/apache2/mods-available/passenger.load and add the following line.
 But before copy&pasting the following lines, check if the content (especially the version numbers!) is the same as the passenger-install-apache2-module installer said. When you're in doubt, do what passenger tells you.
-
 
 ```apache
 LoadModule passenger_module /home/openproject/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/passenger-5.0.14/buildout/apache2/mod_passenger.so

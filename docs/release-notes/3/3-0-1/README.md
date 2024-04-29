@@ -14,4 +14,3 @@ Specifically the error in adding a work package process was fixed, as
 well as the duplication of file content display.
 
 [Read more](https://community.openproject.org/versions/296)
-

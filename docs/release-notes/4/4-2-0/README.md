@@ -49,8 +49,6 @@ administration navigation
 The option “Spent time” has been renamed “Time sheet”
 ([#20219](https://community.openproject.org/work_packages/20219)).
 
-
-
 ## Improved design
 
 OpenProject 4.2 contains various design improvements to provide a better

@@ -32,6 +32,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: xeokit-metadata fails to find dotnet-runtime in Ubuntu 22.04 \[[#45442](https://community.openproject.org/wp/45442)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

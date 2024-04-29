@@ -35,5 +35,3 @@ repositories with OpenProject 4.0
 
 For a complete list of changes, please refer to the
 [OpenProject 3.0.11 query](https://community.openproject.org/versions/423).
-
-

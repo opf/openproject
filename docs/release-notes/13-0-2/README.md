@@ -45,6 +45,7 @@ This only affects those users that have granted OpenProject access to their Next
 - Changed: Remove the "show" view for a storage's settings page \[[#49676](https://community.openproject.org/wp/49676)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

@@ -48,4 +48,3 @@ This security related issue was responsibly disclosed by [Vaishnavi Pardeshi](ma
 
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 Special thanks for reporting and finding bugs go to Björn Schümann
-

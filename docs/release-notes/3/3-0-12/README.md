@@ -33,5 +33,3 @@ included in 3.0.12:
 
 For a complete list of changes, pleas refer to the
 [OpenProject 3.0.12 query](https://community.openproject.org/versions/450).
-
-

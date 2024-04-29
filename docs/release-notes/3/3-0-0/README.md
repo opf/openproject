@@ -78,7 +78,6 @@ release_date: 2014-03-07
 
 Many bugs have been fixed with the release of OpenProject 3.0.  
 
-
 ## Migration to Ruby 2.1 and Rails 3.2
 
 To ensure better performance, security and support OpenProject has been

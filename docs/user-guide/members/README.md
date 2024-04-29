@@ -17,7 +17,7 @@ keywords: members, project participants
 | [Roles and permissions](#roles-and-permissions)       | How to manage roles and permissions for members.             |
 | [Groups](#groups)                                     | How to add members to a group and add groups to a project.   |
 
-<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Invite-and-Manage-Members.mp4" type="video/mp4" controls="" style="width:100%"></video>
+![Video](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Invite-and-Manage-Members.mp4)
 
 ## Project members overview
 
@@ -42,7 +42,6 @@ Standard filters on the left side menu include the following:
   - **Comment** - returns all users that are allowed to add comments to a work package that has been shared with them
 
   - **Edit** - returns all users that are permitted to edit a work package that has been shared with them
-
 
 > Note: users, with whom work packages from a given project have been shared, can not be edited or deleted under **Members**. To edit or revoke their viewing rights you can click on the "Number of work package(s) in the column "Shared" (3 work packages in the example above). This will open an already filtered work package list of all  work packages shared with that user.
 >
@@ -74,11 +73,9 @@ Find out [here](../../getting-started/invite-members/#add-existing-users) how to
 
 To change the role of a member within a project, select the corresponding project and open the Members module.
 
-To edit an existing member of a project, click the **More** icon in the list next to the member on the right and select **Manage roles**. Add and remove roles, then press the green **Change ** button so save your changes.
+To edit an existing member of a project, click the **More** icon in the list next to the member on the right and select **Manage roles**. Add and remove roles, then press the green **Change** button so save your changes.
 
 ![Edit project members in OpenProject](edit-project-member.png)
-
-
 
 ## Remove members
 
@@ -96,7 +93,7 @@ If the project member you are removing has shared work packages, you will also b
 
 > Note: please keep in mind that removing  project members can only be done if you have correct permissions.
 
-> Note: a project member can be a part of the project either individually, as a member of a group, or both.   The role removal will only affect the member's individual roles. All those roles obtained via a group will not be removed. To remove those group roles you can either remove the member from the group or remove the entire group from the project.
+> Note: a project member can be a part of the project either individually, as a member of a group, or both. The role removal will only affect the member's individual roles. All those roles obtained via a group will not be removed. To remove those group roles you can either remove the member from the group or remove the entire group from the project.
 
 ## Revoke sharing privileges
 
@@ -104,7 +101,7 @@ If a work package has been [shared](../work-packages/share-work-packages), you m
 
 ![Remove sharing privileges in OpenProject](openproject_user_guide_members_remove_work_package_shares.png)
 
-> Note: a project member can be a part of the project either individually, as a member of a group, or both.  The revoking action will only affect the individual work packages shares. All work package shares with the user as part of a group will not be revoked. To revoke those group shares you can either remove the member from the group or revoke the privileges from the entire group.
+> Note: a project member can be a part of the project either individually, as a member of a group, or both. The revoking action will only affect the individual work packages shares. All work package shares with the user as part of a group will not be revoked. To revoke those group shares you can either remove the member from the group or revoke the privileges from the entire group.
 
 ## Roles and permissions
 
@@ -115,7 +112,6 @@ A **role** is defined as a set of permissions defined by a unique name. Project 
 </div>
 
 To assign work packages to a project member, the respective user's or placeholder user's role needs to be able to be assigned work packages. This is the default setting for default roles. You can check this setting in the [Roles and Permissions section](../../system-admin-guide/users-permissions/roles-permissions/) of the system administration.
-
 
 ## Groups
 

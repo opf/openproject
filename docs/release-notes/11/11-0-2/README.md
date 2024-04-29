@@ -20,6 +20,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Slashes in wiki page titles break "Activity" view \[[#35132](https://community.openproject.org/wp/35132)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

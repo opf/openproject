@@ -14,7 +14,3 @@ installation.
 
 For further information, please take a look at
 [GitHub](https://github.com/opf/openproject/tree/v5.0.12).
-
-
-
-

@@ -31,6 +31,7 @@ To read how to do this, please see [reporting a bug in OpenProject](../../../dev
 - Fixed: [Packager] configure fails when sendmail was configured for emails \[[#42352](https://community.openproject.org/wp/42352)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

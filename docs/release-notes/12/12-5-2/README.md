@@ -26,6 +26,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Changed: Add hint if Nextcloud App "OpenProject Integration" needs upgrade for 12.5 \[[#47021](https://community.openproject.org/wp/47021)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

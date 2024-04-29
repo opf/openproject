@@ -31,5 +31,3 @@ has been updated
 For further information on the release, please refer to the
 [Changelog v.4.1.3](https://community.openproject.org/versions/733)
 or take a look at [GitHub](https://github.com/opf/openproject/tree/v4.1.3).
-
-

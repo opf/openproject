@@ -134,7 +134,6 @@ Depending on the individual use and permissions of the user the following person
 
 - Persons mentioned in a project status information
 
-
 #### Project calendars (cp-02)
 
 - Assignment of objects shown in the calendar (meetings, work packages, versions, milestones) to a person
@@ -173,7 +172,6 @@ Depending on the individual use and permissions of the user the following person
 - Person mentioned in an attribute or text field
 - Person mentioned in a linked file
 - Person mentioned in a linked pull request (i.e. GitHub or GitLab)
-
 
 ### D: Logging
 
@@ -350,7 +348,6 @@ flowchart LR
 ### C: Email (eml)
 
 #### Overview
-
 
 ```mermaid
 %%{init: {'theme':'neutral'}}%%

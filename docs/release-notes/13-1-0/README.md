@@ -62,8 +62,6 @@ We continued to work on improving accessibility of OpenProject according to the 
 
 With OpenProject 13.1 we have continued to integration the [Primer Design system](https://primer.style/). This will especially be noticeable in the new features, such as the new Meetings module.
 
-
-
 ## Discontinued support for Centos7 and SLES12
 
 Support for packaged installations on Centos7 and SUSE Enterprise Linux 12 have been removed in 13.1.0 Both are nearing or have exceeded their EOL and packaged builds were failing prior to the release already. We will not provide additional support for these systems.
@@ -71,8 +69,6 @@ Support for packaged installations on Centos7 and SUSE Enterprise Linux 12 have 
 Users still required to run on these systems should consider upgrading to a supported version, or use our docker-based installation methods.
 
 For more information, please see [#51333](https://community.openproject.org/projects/openproject/work_packages/51533/activity) and our [installation guides](../../installation-and-operations/installation/).
-
-
 
 ## List of all bug fixes and changes
 
@@ -144,6 +140,7 @@ For more information, please see [#51333](https://community.openproject.org/proj
 - Fixed: Overview page suggests some information (e.g. custom fields, status, description) not set when they are hidden \[[#51431](https://community.openproject.org/wp/51431)\]
 
 ## Contributions
+
 A very special thank you goes to our sponsors for features and improvements of this release:
 
 - **Deutsche Bahn** – for the OneDrive/SharePoint integration

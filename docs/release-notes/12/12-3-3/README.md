@@ -23,6 +23,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: OAuth login POST doesn't work on mobile Safari due to CSP \[[#44772](https://community.openproject.org/wp/44772)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

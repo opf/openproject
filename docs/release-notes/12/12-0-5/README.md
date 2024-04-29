@@ -30,10 +30,9 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Header-based SSO does not allow entering missing attributes \[[#40511](https://community.openproject.org/wp/40511)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to
 
 Valentin Ege, Rene Diekstra, Jonas Plum, Frank Schmid
-
-

@@ -31,4 +31,3 @@ export modal.
 - Fixed: \[Styling\] Prevent scrolling body when reaching bottom of
   project autocompleter
   \[[#28039](https://community.openproject.org/wp/28039)\]
-

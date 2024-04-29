@@ -34,8 +34,6 @@ Press the Save button to apply your changes. The theme will then be changed.
 
 ![System-admin-guide_color-theme](System-admin-guide_color-theme.png)
 
-
-
 ## Upload a custom logo
 
 To replace the default OpenProject logo with your own logo, make sure that your logo has the dimensions 460 by 60 pixels. Select the *Browse* button and select the file from your hard drive to upload it.
@@ -72,4 +70,3 @@ To do this change the color values (entered as color hex code) in the *Advanced 
 ![Advanced color settings in OpenProject](openproject_system_guide_design_advanced_settings_primer.png)
 
 As soon as you press the **Save** button your changes are applied and the colors of your OpenProject environment are adjusted accordingly.
-

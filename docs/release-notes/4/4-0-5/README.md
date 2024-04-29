@@ -43,4 +43,3 @@ For a complete list of changes, please refer to the
 [Changelog v4.0.5](https://community.openproject.org/versions/566)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v4.0.5).
-

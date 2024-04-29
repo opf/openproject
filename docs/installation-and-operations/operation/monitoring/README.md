@@ -8,8 +8,6 @@ sidebar_navigation:
 
 OpenProject provides different means of monitoring and auditing your application.
 
-
-
 ## Logging information
 
 In production, OpenProject uses [Lograge formatter](https://github.com/roidrage/lograge) `key_value` logger by default. Every request will result in the following `info` log level:
@@ -37,8 +35,6 @@ This formatter makes it easy to parse and analyze logs. Let's take a look at the
 | `db=116.50`                                    | Time spent in database (in ms)                               |
 | `user=85742`                                   | User ID of the instance                                      |
 
-
-
 ## Displaying and filtering log files
 
 ### Packaged installation
@@ -53,8 +49,6 @@ sudo openproject logs --tail
 ```
 
 You can abort this using Ctrl + C.
-
-
 
 **systemd / journalctl**
 
@@ -74,8 +68,6 @@ journalctl -u openproject-worker-1
 
 journalctl has flexible filtering options to search for logs. For example, add `--since "1 hour ago"` to show logs printed in the past hour.
 
-
-
 ### Docker-compose
 
 In a docker-based installation, all logs are redirected to STDOUT so you can use the normal docker tools to manage your logs.
@@ -86,15 +78,11 @@ For instance for the Compose-based installation:
 docker-compose logs -f --tail 1000
 ```
 
-
-
 ### All-in-one / Slim docker container
 
 ```shell
 docker logs -f --tail 1000 openproject
 ```
-
-
 
 ## Raising the log level
 
@@ -104,8 +92,6 @@ OpenProject can log at different service levels, the default being `info`. You c
 - `info`: Common activities such as user logins (when enabled) and information about requests, including warnings and errors
 - `warn`: Operational warnings that might need resolution as well as error messages
 - `error` Caught or uncaught application errors, as well as fatal errors.
-
-
 
 For example, to set this in the packaged installation, use the following command:
 
@@ -133,4 +119,3 @@ We provide the following health checks:
 ### Optional authentication
 
 You can optionally provide a setting `health_checks_authentication_password` (`OPENPROJECT_HEALTH__CHECKS__AUTHENTICATION__PASSWORD`) that will add a basic auth challenge to the `/health_checks` endpoint. Please be aware that this might break existing container health services in place in the docker-compose and k8s based deployments, so use with care or prefer to use a network based separation instead on your proxy level.
-

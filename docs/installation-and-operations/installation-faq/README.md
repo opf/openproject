@@ -124,8 +124,6 @@ You can access it using a browser. Please see our [Installation & Upgrades Guide
 
 Set a higher number of web workers to allow more processes to be handled at the same time. Find out more [here](../operation/control) and about system requirements [here](../system-requirements/).
 
-
-
 ### I don't receive emails. Test email works fine but not the one for work package updates. What can I do?
 
 There are two different types of emails in OpenProject: One sent directly within the request to the server (this includes the test mail) and one sent asynchronously, via a background job from the backend. The majority of mail sending jobs is run asynchronously to facilitate a faster response time for server request.
@@ -144,8 +142,6 @@ Another approach would be to restart OpenProject completely, especially after ch
 
 This will be done automatically in case the package based installation is used.
 
-
-
 ### The packaged installation cannot be installed or upgraded due to errors. What could cause them?
 
 For packaged installations, the openproject package behaves just like every other system package (dpkg or rpm packages, depending on your distribution). If you encounter errors while trying to install or upgrade, please check the following pieces of information first.
@@ -153,8 +149,6 @@ For packaged installations, the openproject package behaves just like every othe
 1. You have enough free space available on `/opt` or your root `/` partition. Verify that `df -h` has at least a few GB of free space.
 2. You have enough inodes on your partitions left. Verify with `df -i` . As OpenProject packages contains a high number of files, these might cause problems with low free inode counts.
 3. Make sure you do not have a virus scanner such as Sophos or other pieces of software blocking the installation of packages.
-
-
 
 ### After upgrading I receive the error message "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation." What does that mean?
 

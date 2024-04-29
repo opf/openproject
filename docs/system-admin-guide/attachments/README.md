@@ -14,8 +14,6 @@ In OpenProject you can determine the maximum attachment size and activate the vi
 
 ![Navigation to attachment settings in OpenProject](openproject_system_adminstration_attachments.png)
 
-
-
 ## Attachment settings
 
 1. Here you can increase or decrease **maximum attachment size** (in kB).
@@ -30,8 +28,6 @@ In OpenProject you can determine the maximum attachment size and activate the vi
 3. Do not forget to **save** your changes.
 
    ![attachment settings](openproject_system_adminstration_attachment_settings.png)
-
-
 
 ## Virus scanning (Enterprise-add-on)
 

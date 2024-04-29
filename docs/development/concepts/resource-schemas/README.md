@@ -11,8 +11,6 @@ keywords: concept, schemas, resource schemas
 
 In OpenProject, editable resources such as work packages or projects can be highly customized by the user. A resource can have an arbitrary number of additional custom fields.  In the frontend, the associated schema to a resource needs to be loaded in many cases when rendering attributes of that resource, such as in an [inline-editable field](../inline-editing).
 
-
-
 ## Key takeaways
 
 Schema objects are the dictionary for the frontend application to identify the available properties of a resource.
@@ -24,8 +22,6 @@ Schema objects are the dictionary for the frontend application to identify the a
 - Constraints for the authenticated user, i.e., whether the attribute is currently writable
 - (optional) additional option definitions for the attribute.
 
-
-
 ## Prerequisites
 
 The following guides are related:
@@ -33,9 +29,6 @@ The following guides are related:
 - [HAL resources](../hal-resources)
 
 - Backend API overview
-
-
-
 
 ## API Backend
 
@@ -46,8 +39,6 @@ The work packages' schemas are significantly more complex. Each work package typ
 This results in not a single schema for all work packages, but one schema for each project - type combination.
 
 The resulting schema JSON is an object with properties that look like the following:
-
-
 
 ```json5
 {
@@ -65,19 +56,13 @@ The resulting schema JSON is an object with properties that look like the follow
 }
 ```
 
-
-
 ### Schema examples
 
 This section describes some of the existing schemas.
 
-
-
 **Projects**
 
 For projects, there is a single APIv3 endpoint for their schemas: `/api/v3/projects/schema`. This schema is identical for all projects. You can simply request the OpenProject Community schema for projects [here](https://community.openproject.org/api/v3/projects/schema). It contains a set of static properties (name, identifier, status, etc.), as well as all project-level custom fields.
-
-
 
 **Work packages**
 
@@ -88,8 +73,6 @@ This results in work package schemas being defined per project and type combinat
 An exemplary schema response on the Community for the OpenProject project (`ID=14`) and the Bug type (`ID=1`) is [community.openproject.org/api/v3/work_packages/schemas/14-1](https://community.openproject.org/api/v3/work_packages/schemas/14-1)
 
 The work package schema also contains the reference to the attribute groups from the form configuration in the `_attributeGroups` property.
-
-
 
 ## Frontend usage
 
@@ -134,8 +117,6 @@ export interface IFieldSchema {
 }
 ```
 
-
-
 ### Form schemas
 
 When you try to update a resource such as a work package, you will commonly request a `Form` resource for this work package, which is a temporary resource that will have your changes applied to them, including error handling. In these forms, an embedded schema is output that represents the schema with permissions applied for the current user.
@@ -143,4 +124,3 @@ When you try to update a resource such as a work package, you will commonly requ
 For example, if you try to update a work package type from let's say `Bug` to `Feature`, you would POST to the form with its type link updated, and are returned with a form object. The embedded schema of this form now points to the `Feature` type, and may contain additional attributes to render due to the differing form configuration.
 
 These embedded schemas are never globally cached in the frontend, as they are highly dependent on the changes pushed to the form resource. They are always contained within a `ResourceChangeset`. Please see [the separate guide on changesets](../resource-changesets/) for more information.
-

@@ -41,4 +41,3 @@ For further information on the 7.3.1 release, please refer to the
 [Changelog v7.3.1](https://community.openproject.org/versions/851)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v7.3.1).
-

@@ -39,4 +39,3 @@ Compare the features of these versions [on the website](https://www.openproject.
 For production environments and when using a [supported distribution](system-requirements), we recommend using the [packaged installation](installation/packaged/). This will install OpenProject as a system dependency using your distribution's package manager, and provide updates in the same fashion that all other system packages do.
 
 An OUTDATED and OLD [manual installation](installation/manual) option exists, but due to the large number of components involved and the rapid evolution of OpenProject, we cannot ensure that the procedure is either up-to-date or that it will correctly work on your machine. This means that manual installation is NOT recommended NOR supported.
-

@@ -33,7 +33,6 @@ You can open the date picker for a work package from a number of different place
 - By clicking the the date field in the work package [split screen view](../work-package-views/#split-screen-view) (from any other view, including [notification center](../../notifications), [team planner](../../team-planner/), [boards](../../agile-boards)...)
 - By clicking the start date, finish date or duration fields in [table view](../work-package-views/#table-view)
 
-
 ### Using the date picker
 
 You can enter dates either by typing them in into the start and finish date fields or by clicking on individual dates in the mini calendar below.
@@ -66,7 +65,6 @@ Date changes are documented in the work package [Activity](../../activity/).
 
 - It is possible to set only one of the two dates. To do this, click on the field you would like to set (start date is selected by default, but you can change this manually to finish date) and click on a date. Then save without selecting a second date. Alternatively, if a a range is already selected, simply remove one of the dates and save.
 
-
 **Note**: The precedes-follows relation can constrain or affect the dates of work packages. For more information, see [Moving related work packages](../work-package-relations-hierarchies/#moving-related-work-packages).
 
 ### One-day events
@@ -80,8 +78,6 @@ Work packages with *only* a start date or only a finish date are automatically c
 Certain work package types (such as Milestones) can only span one day and thus have only one date field:
 
 ![Milestones have datepickers with a single date field](milestone-datepicker.png)
-
-
 
 ## Working days and duration
 
@@ -135,7 +131,6 @@ Setting only duration without start or finish dates is especially useful when yo
 > **Pro tip:** This feature makes it possible to automatically derive an estimated start or finish date for entire project.
 >
 > To do so, create a series of work packages that represent the main phases and set the approximate duration for each. Link them all using follow/precedes relationships. Now, when you set a start date on the first work package in the series, the start and end dates for all other work packages will be derived.
-
 
 ## Scheduling mode
 

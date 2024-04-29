@@ -22,6 +22,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Auto-unlocking editing of locked wiki pages no longer works (500 server error) \[[#40124](https://community.openproject.org/wp/40124)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

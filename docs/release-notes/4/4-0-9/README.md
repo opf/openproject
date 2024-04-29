@@ -30,5 +30,3 @@ For further information on the release, please refer to the
 [Changelog v.4.0.9](https://github.com/opf/openproject/releases/tag/v4.0.9 "Changelog version 4.0.9")
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v4.0.9 "GitHub").
-
-

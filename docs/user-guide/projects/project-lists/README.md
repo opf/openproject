@@ -20,7 +20,6 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | [Export project list](#export-project-lists)                | You can export the project list to XLS or CSV.               |
 | [Project overarching reports](#project-overarching-reports) | How to create project overarching reports across multiple projects. |
 
-
 ## Select project lists
 
 There are several ways to get an overview of all your projects. You can press the **Project lists** button at the bottom of the **Select a project** menu in the top left header navigation.
@@ -122,8 +121,6 @@ Alternatively you can also use the **Activity module** from the [global modules 
 By selecting *Overall activity* you can open a view in which all the latest global project activities are documented. In the menu on the left side you can filter the activity by different areas to control e.g. the activity of work packages, wiki pages or meetings.
 
 ![overall activity meeting filter](actvity-global-filter.png)
-
-
 
 ## Export project lists
 

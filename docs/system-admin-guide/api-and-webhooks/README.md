@@ -58,4 +58,3 @@ You can configure the following options for webhooks:
 **Note** You have to scroll down to find the create button. There you can also cancel your input.
 
 ![create-button-new-webhook](create-button-new-webhook.png)
-

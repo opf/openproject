@@ -14,8 +14,6 @@ Read below to get a detailed overview of what is new in OpenProject 10.
 
 ![OpenProject 10](release-teaser.jpg)
 
-
-
 ## Drag & drop (manual sorting) in work package table
 
 OpenProject 10 adds drag and drop to the work package table. You can easily change the work package order by simply dragging a work package to a desired place.
@@ -26,8 +24,6 @@ When you group the work package table based on an attribute (e.g. the assignee, 
 
 ![Drag & Drop work packages](drag-drop-1.png)
 
-
-
 ## Card view for work packages
 
 The work package view is extended in OpenProject 10. In addition to the list view and the Gantt chart view, it is possible to display work packages in a card format.
@@ -35,8 +31,6 @@ The work package view is extended in OpenProject 10. In addition to the list vie
 This provides an easy visual overview of the tasks in a project. Simply activate the details view to see more information about a work package.
 
 ![OpenProject card view](card-view.png)
-
-
 
 ## Updated Project Overview
 
@@ -48,8 +42,6 @@ The overview pages of users upgrading from earlier versions to OpenProject 10 wi
 
 ![Updated project overview](overview.png)
 
-
-
 ## Graphs on project overview page (Enterprise add-on)
 
 As a user of the Enterprise cloud or Enterprise on-premises, you can add graphs to the overview page. This enables you to visualize important project information - directly form the project overview page.
@@ -60,8 +52,6 @@ As a result, you quickly see your project's status and can act accordingly.
 
 ![Graphs on overview page](graphs.png)
 
-
-
 ## Updated administration menu and structure
 
 The administration area is completely remodeled in OpenProject 10. Due to the changes, the administration menu is much more clearly structured.
@@ -69,8 +59,6 @@ The administration area is completely remodeled in OpenProject 10. Due to the ch
 Additionally, the administration overview page now highlights the different admin entries for quick access.
 
 ![Updated administration](administration.png)
-
-
 
 ## Checkbox lists
 
@@ -80,13 +68,9 @@ Afterwards, you can easily check off items which have been completed to keep tra
 
 ![Check boxes and sticky header wiki pages](checkbox-lists.png)
 
-
-
 ## Sticky toolbar for WYSIWYG editor
 
 The toolbar for wiki pages is now fixed at the top and no longer scrolls along with the page. Thus, you can easily edit even long texts on a wiki page without having to scroll up and down.
-
-
 
 ## Performance improvements
 
@@ -218,18 +202,15 @@ OpenProject 10 significantly improves the performance, especially for the work p
 - Fixed: Single Sign on feature is available in Community edition [[#31045](https://community.openproject.org/wp/31045)]
 - Fixed: Cannot edit comment that was just created [[#31057](https://community.openproject.org/wp/31057)]
 
-
 ## Support
 
 You will find useful information in the OpenProject [FAQ](../../../faq/) or you can post your questions in the [Forum](https://community.openproject.org/projects/openproject/boards).
-
 
 ### Upgrading your installation to OpenProject 10.0
 
 If you're using the OpenProject Enterprise cloud edition, you are already running on the latest version of OpenProject 10.0. For your local installations, there are some minor changes you need to do in order to perform the upgrade.
 
 [Please visit our upgrade guides for more information](../../../installation-and-operations/operation/upgrading).
-
 
 ## Credits
 
@@ -238,7 +219,6 @@ Special thanks go to all OpenProject contributors without whom this release woul
 - All the developers, designers, project managers who have contributed to OpenProject.
 - Every dedicated user who has reported bugs and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
 - All the engaged users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).
-
 
 ## What's next?
 

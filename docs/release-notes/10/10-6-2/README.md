@@ -28,6 +28,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Remapping of existing users with `oauth_allow_remapping_of_existing_users' does not work with LDAP users \[[#33620](https://community.openproject.org/wp/33620)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

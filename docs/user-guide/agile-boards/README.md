@@ -14,7 +14,6 @@ Our Agile boards can be for anything you would like to keep track of within your
 
 > **Note**: The basic board is included in the OpenProject Community edition. OpenProject Action boards are an Enterprise add-on and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easily possible.
 
-
 | Topic                                                     | Content                                                                          |
 |-----------------------------------------------------------|----------------------------------------------------------------------------------|
 | [Create new boards](#create-a-new-board)                  | How to create a new Agile board.                                                 |
@@ -51,6 +50,7 @@ Click on the green **+Board** button to create a new Board view.
 Next, you need to choose which kind of Agile board you want to create.
 
 ## Basic board (Community edition)
+
 The Basic board is included in the OpenProject Community edition. You can freely create lists, name them and order your work packages within. If you move work packages between  the lists, there will be **NO changes** to the work package itself. This allows you to create flexible boards for any kind of activity you would like to track, e.g. Management of Ideas.
 
 ![Board types basic board](Board-types-basic-board.png)
@@ -64,6 +64,7 @@ After [adding lists to your board](#add-lists-to-your-board) they will automatic
 There are several **types of Action boards** available:
 
 ### Status board
+
 Each list represents a status. That means that e.g. all work packages with the status "New" will be automatically displayed in the column "New".
 When creating a new Status board a list with all work packages in the default status (usually this is the status "New") will be added automatically, while additional lists need to be added manually.
 Please note: You can't move work packages from or to every status. Please find out more about the work-flow logics restricting this here: [Allowed transitions between status](../../system-admin-guide/manage-work-packages/work-package-workflows/)
@@ -71,21 +72,25 @@ Please note: You can't move work packages from or to every status. Please find o
 ![create status board](create-status-board.png)
 
 ### Assignee board
+
 Every list represents one assignee. You can choose regular users, [placeholder users](../../system-admin-guide/users-permissions/placeholder-users) and groups as assignees. When you move a card from one list to another, the assigned user is changed to the user that is selected for the list you moved the card to.
 
 ![create assignee board](create-assignee-board.png)
 
 ### Version board
+
 Every list represents a version. This board is ideal for product development or planning software releases. When creating a new Version board a list with all work packages in the version(s) belonging to the current project will be added automatically, while additional lists need to be added manually. By moving a card from one list to another, the version for the work package is changed to the version of the corresponding list.
 
 ![create version board](create-version-board.png)
 
 ### Subproject board
+
 Every list represents a subproject. Within the list you will find the subproject's work packages. By moving a card within a list you can change the order of the cards and if you move a card to another list you change the (sub)project of this work package.
 
 ![create subproject board](create-subproject-board.png)
 
 ### Parent-child board
+
 Every list represents a parent work package. Within the list you will find the work package's children.
 Only work packages from the current project can be selected as a list, i.e. can be chosen as the name of the list.
 The Parent-child board is ideal for depicting a **work breakdown structure (WBS)**. By moving cards to another list you can reorder the work package as a child to another work package.
@@ -107,8 +112,6 @@ Choose a meaningful title for your Board so that it is clear, e.g. for other tea
 **Basic board lists**: You can create any kind of list and name them to your needs. Remember: No updates to the attributes will happen when moving cards between the lists.
 
 ![this-is-a-list-in-a-board](this-is-a-list-in-a-board.png)
-
-  
 
 Click **+ add list** to add lists to your board.
 
@@ -148,8 +151,6 @@ You can update cards in the following ways:
 
 ![OpenProject-Boards_update-cards](OpenProject-Boards_update-cards.png)
 
-
-
 Apart from the Status board you can **update a work package's status** directly in the card.
 
 ![boards-select-status-from-card](boards-select-status-from-card.png)
@@ -181,8 +182,6 @@ To **create new** boards, **open existing** boards, or **delete** boards, naviga
 Verify and **update roles and permissions for boards** in the [system's administration](../../system-admin-guide/users-permissions/) if necessary.
 
 ![roles and permissions](image-20201006120925442.png)
-
-
 
 ## Agile boards examples
 

@@ -44,8 +44,6 @@ Please note these minimum version requirements for the integration to work with 
 We recommend using the latest versions of both OneDrive/SharePoint and OpenProject to be able to use the latest
 features.
 
-
-
 ## Set up the integration
 
 > **Important**: You need administrator privileges in the Azure portal for your Microsoft Entra ID and in your

@@ -13,4 +13,3 @@ The release contains several bug fixes and we recommend updating to the newest v
 
 <!--more-->
 ## Bug fixes and changes
-

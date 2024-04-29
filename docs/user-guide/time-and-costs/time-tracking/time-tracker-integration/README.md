@@ -22,7 +22,6 @@ Time Tracker app is available in the Apple [AppStore](https://apps.apple.com/us/
 
 1. Log in to the Time Tracker app with your administrator account.
 
-
 2. Once logged in, open the Administration panel, navigate to the Authentication page and when go to the OAuth applications tab.
 
   ![OAuth applications](openProject_OAuth_applications.png)

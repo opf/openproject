@@ -20,7 +20,6 @@ Notification settings are divided into four sections:
 | [Non-participating](#non-participating)             | Be notified of activities on work packages in which you are not participating.                                                       |
 | [Project-specific](#project-specific-notifications) | Fine-tune your notification settings at the level of individual projects.                                                            |
 
-
 ![A screenshot of the notification settings page](Notification-settings-12.4-overall.png)
 
 ## Participating
@@ -72,8 +71,6 @@ You can be notified of:
 ![A screenshot of options for non-participating work packages](Notification-settings-12.4-nonPartipating.png)
 
 > **Info:** Please note that these apply to _all_ work packages in _all_ of your projects. If you enable many of them, you may receive too many irrelevant notifications. Please use this feature with parsimony.
-
-
 
 ## Project-specific notifications
 

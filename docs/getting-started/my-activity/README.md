@@ -23,6 +23,3 @@ You will see two lists by default.
 >Please note that only activities from projects that have the **Activity** module enabled will be shown.
 
 ![My activity page](openproject_my_activity_overview.png)
-
-
-

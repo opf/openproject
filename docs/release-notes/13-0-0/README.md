@@ -54,6 +54,7 @@ With 13.0 we have added a new global menu to access all global modules for your 
 ![OpenProject global modules overview](openproject-global-modules.png)
 
 ## Time tracking button
+
 We added a button that allows you to easily record the time spent on a work package. Pressing the button on the work package will start the timer. Your avatar in the header navigation will show the active time tracking. Clicking the button again will stop the time tracking and you can log the time spent on the work package.
 
 ![OpenProject time tracking button](openproject-time-tracking-button.png)

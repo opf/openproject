@@ -14,8 +14,6 @@ Automated tests and manual code reviews ensure that these contributions are safe
 
 For more information on security and data privacy for OpenProject, please visit: [www.openproject.org/security-and-privacy](https://www.openproject.org/security-and-privacy/).
 
-
-
 ## Security announcements mailing list
 
 If you want to receive immediate security notifications via email as we publish them, please sign up to our security mailing list: https://www.openproject.org/security-and-privacy/#mailing-list.
@@ -26,13 +24,9 @@ To unsubscribe, you will find a link at the end of every email.
 
 Any security related information will also be published on our [blog](https://www.openproject.org/blog/) and in the [release notes](../../release-notes/).
 
-
-
 ## Security advisory list
 
 OpenProject uses GitHub to manage and publish security advisory listings: https://github.com/opf/openproject/security/advisories
-
-
 
 ## Security vulnerability processing
 
@@ -47,8 +41,6 @@ When we receive vulnerability reports from researchers or through internal ident
 7. A patch release is created, published and distributed for all supported installations
 8. The security vulnerability is publicly disclosed on GitHub and communicated through the mailing list
 
-
-
 ## Reporting a vulnerability
 
 We take all facets of security seriously at OpenProject. If you want to report a security concerns, have remarks, or contributions regarding security at OpenProject, please reach out to us at [security@openproject.com](mailto:security@openproject.com).
@@ -62,7 +54,6 @@ If you can, please send us a PGP-encrypted email using the following key:
 Please include a description on how to reproduce the issue if possible. Our security team will get your email and will attempt to reproduce and fix the issue as soon as possible.
 
 > **Please note:** OpenProject currently does not offer a bug bounty program. We will do our best to give you the appropriate credits for responsibly disclosing a security vulnerability to us. We will gladly reference your work, name, website on every publication we do related to the security update.
-
 
 ## OpenProject security features
 
@@ -97,7 +88,5 @@ Synchronize OpenProject users and groups with your company’s LDAP to update us
 ### Single sign-on
 
 With the single sign-on feature you can securely access OpenProject. Control and secure access to your projects with the main authentication providers.
-
-
 
 Find out more about our [GDPR compliance](../../enterprise-guide/enterprise-cloud-guide/gdpr-compliance/).

@@ -21,6 +21,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Not possible to invite users via modal if relative url root configured \[[#37618](https://community.openproject.org/wp/37618)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

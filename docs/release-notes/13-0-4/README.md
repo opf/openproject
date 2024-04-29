@@ -24,6 +24,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Work package activity not shown when using Polish language \[[#50197](https://community.openproject.org/wp/50197)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

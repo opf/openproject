@@ -431,8 +431,6 @@ In that case, you will be shown three additional dialogs to enter the certificat
 
 ![02d-ssl](02d-ssl.png)
 
-
-
 Enabling this mode will result in OpenProject only responding to HTTPS requests, and upgrade any non-secured requests to HTTPS. It will also output HTTP Strict Transport Security (HSTS) headers to the client.
 
 #### External SSL/TLS termination
@@ -484,8 +482,6 @@ Here an example for external SSL/TLS termination with apache (httpd):
 </VirtualHost>
 ```
 
-
-
 ### Skip Apache2 web server install (not recommended)
 
 > **Note:** Skipping step 3 Apache2 web server install will ask later in step 7 for information about the hostname and HTTPS
@@ -502,8 +498,6 @@ When installing with an existing Apache2, you can take a look at the source of o
 
 > **Please note:** If you reconfigure the OpenProject application and switch to `skip`, you might run into errors with the Apache configuration file, as that will not be automatically remove. Please double-check you removed references to the `openproject.conf` if you do reconfigure.
 
-
-
 ## Step 4: SVN/Git integration server
 
 If you have selected to auto-install an Apache2 web server, you will be asked whether you want to install Git and Subversion repository support. In case you do not need it or when in doubt, choose **Skip** for both options.
@@ -511,7 +505,6 @@ If you have selected to auto-install an Apache2 web server, you will be asked wh
 For more information, [see our help on repositories](../../../user-guide/repository/)
 
 ![03-repos](03-repos.png)
-
 
 ## Step 5: Administrator email
 
@@ -533,13 +526,9 @@ First, enter the fully qualified domain where your OpenProject installation will
 
 ![Select the OpenProject host name](07a-hostname.png)
 
-
-
 Next, tell OpenProject whether you have SSL termination enabled somewhere in your stack. Please note that you need to set up protocol forwarding by the means mentioned in the [Skip Apache2 Installation](#skip-apache2-web-server-install-not-recommended) at step 3 above.
 
 ![HTTPS setting](07b-protocol.png)
-
-
 
 ## Step 8: Default language
 
@@ -567,8 +556,6 @@ You can then log in using the default user/password combination:
 * password = `admin`
 
 You will be asked to change this password immediately after the first login.
-
-
 
 ## Post-installation configuration
 

@@ -58,10 +58,10 @@ As CKEditor5 currently does not provide support for code blocks, OpenProject can
 The GFM extension of the CommonMark specs adds a definition for table syntax which the CKEditor build of OpenProject supports. This definition requires all tables to have a heading row. For tables created with CKEditor without heading rows, a HTML table is output instead. This matches the behavior of, e.g., GitHub.
 
 ### Emojis
+
 Starting with OpenProject 13.0 you can add emojis to all text editors. Type a colon and a letter, e.g. **:a** into the wiki editor and get a suggested list of emojis you can use.
 
 ![openproject_user_guide_wiki_emoji](openproject_user_guide_wiki_emoji.png)
-
 
 ### Autoformatting
 

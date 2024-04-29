@@ -30,6 +30,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Changed: Allow internal login even if omniauth direct provider selected \[[#47930](https://community.openproject.org/wp/47930)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

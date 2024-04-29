@@ -47,15 +47,11 @@ The “Include Projects” filter option makes it easier to add different projec
 
 ![openproject-include-projects](openproject-include-projects.gif)
 
-
-
 ## Files tab for work packages
 
 We added a new “Files” tab in the work package details. This way, you will have all possible information attached to a work package together in one place.
 
 ![openproject-files-tab](openproject-files-tab.png)
-
-
 
 ## Further improvements, changes, and bug fixes
 

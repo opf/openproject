@@ -19,7 +19,6 @@ You must first enable the Calendar module in your [project settings](../projects
 | [Use the calendar](#use-the-calendar)               | How to view, modify, create and filter work packages in the calendar. |
 | [Subscribe to a calendar](#subscribe-to-a-calendar) | How to subscribe to and access a calendar from an external client. |
 
-
 ## Create a new calendar
 
 Once enabled, clicking on the **Calendars** entry on the left sidebar takes you to the Calendar module with a list of all existing calendars. Initially, it will be empty.
@@ -32,7 +31,6 @@ Once enabled, clicking on the **Calendars** entry on the left sidebar takes you 
   - Any calendar that has the **Favored** option checked will be displayed under the **Favorite** heading in the sidebar to the left.
   - Any calendar that has the **Public** option checked will be visible to all members of the current project and listed under the **Public** heading in the sidebar to the left.
   - Any calendar that has the **Public** option unchecked will be considered **private** and displayed under the **Private** heading in the menu bar to the left.
-
 
 ## Use the calendar
 

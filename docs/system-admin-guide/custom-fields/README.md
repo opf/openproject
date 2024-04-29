@@ -41,8 +41,6 @@ Depending on the module, for which the new custom field is being  created, sligh
 9. Specify if the new custom field should be **searchable** via the global search.
 10. **Save** the new custom field.
 
-
-
 ## Assign a custom field to a work package type and project
 
 > **Note**: Custom fields need to be activated per work package type and per project. Work package custom fields are only visible when two conditions are met:
@@ -65,8 +63,6 @@ To **edit an existing custom field** select the appropriate tab and click on the
 To **delete** a custom field, click on the delete icon next to the respective custom field in the list.
 
 ![Edit or delete a custom field in OpenProject administration](system-admin-edit-delete-custom-field.png)
-
-
 
 ## Create a multi-select custom field
 

@@ -33,12 +33,12 @@ Choose **My account**.
 ![my account profile information](openproject_open_my_account_page.png)
 
 ## Edit your user information
+
 To change your email address or your name, navigate to **Profile** on the left side menu of **My account** page.
 
 Here you can update the information and **save** your changes. If you're changing the email address of your account, you will be requested to confirm your account password before you can continue. (Note: This applies only to internal accounts where OpenProject can verify the password).
 
 ![openproject_my_account_profile](openproject_my_account_profile.png)
-
 
 ## Profile settings
 
@@ -130,7 +130,6 @@ You can use your mobile phone as a 2FA device. The field *Identifier* will be pr
 
 ![Add a new mobile phone as a 2FA device in OpenProject](openproject_my_account_two_factor_authentication_mobile.png)
 
-
 ### Use your app-based authenticator
 
 Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard. Common examples are Google Authenticator or Authy.
@@ -156,16 +155,20 @@ If you are unable to access your two-factor devices, you can use a backup code t
 If you have created backup codes before, they will be invalidated and will no longer work.
 
 ## Access tokens
+
 To view and manage your OpenProject access tokens navigate to **My account** and choose **Access tokens** from the menu.
 Access tokens allow you to grant external applications access to resources in OpenProject.
 
 ![openproject_my_account_access_tokens](openproject_my_account_access_tokens.png)
 
 ### API
+
 API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs. If you have not yet created an API token, this list will be empty. You may need admin privileges to be able to create an API.
 
 You can enable an API token under [*Administration -> API and webhooks*](../../system-admin-guide/api-and-webhooks/). Please note that you can only create a single API token.
+
 ### iCalendar
+
 iCalendar tokens allow users to subscribe to OpenProject calendars and view up-to-date work package information from external clients.
 This list will be empty if you have no calendar subscriptions yet. Once you [subscribe to a calendar](../../user-guide/calendar/#subscribe-to-a-calendar), a list of all the calendars that you have subscribed to will appear here. The name of the calendar is clickable and will lead you directly to the respective calendar in OpenProject.
 
@@ -186,8 +189,6 @@ OAuth tokens allow third-party applications to connect with this OpenProject ins
 If no third-party application integration has been activated yet, this list will be empty. Please contact your administrator to help you set it up. Once an integration has been set up, you will see the details here and will be able to delete any OAuth tokens by clicking on the **Delete** icon.
 
 ![OpenProject OAuth tokens under My Account](openproject_my_account_access_tokens_oauth.png)
-
-
 
 ### RSS
 

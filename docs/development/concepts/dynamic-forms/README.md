@@ -25,8 +25,6 @@ Let us take a look at the new projects form API response to get an overview of h
 
 With an [access token or other means of API authentication](../../../api/introduction/#authentication), send a `POST` to `/api/v3/projects/form`. This will return a HAL form response that looks something like this:
 
-
-
 ```json5
 {
     "_type": "Form",
@@ -70,8 +68,6 @@ With an [access token or other means of API authentication](../../../api/introdu
 }        
 ```
 
-
-
 The form has four important segments:
 
 - **_embedded.payload**: This is the project being created. When you POST to the form, any payload you post will be applied to that project. It is not yet saved, but will transparently show you what the project _would_ look like if you saved it.
@@ -96,4 +92,3 @@ For the most basic use case, simply place the `DynamicFormsModule` into your mod
 ```html
 <op-dynamic-form formUrl="/api/v3/projects/:id/form"></op-dynamic-form>
 ```
-

@@ -8,8 +8,6 @@ keywords: product development, requirement process, RICE score
 
 # OpenProject product development
 
-
-
 ## 1. Overview & objectives
 
 OpenProject aims to connect distributed teams and organizations and make project management intuitive and fun. The application is continuously developed and maintained by an active international community to provide a powerful feature set and yet intuitive user interface. The overall purpose is to create customer benefit. To achieve this, OpenProject follows a requirements and product development process that empathizes identifying and building the functionality which most aligns with OpenProject’s product vision and delivers customer value.
@@ -104,13 +102,11 @@ Product Managers and UX prepare the work together at least one version (~ 2 mont
 
 The specification phase may not be necessary for bug fixes, minor design changes, minor improvements of smaller code maintenance topics.
 
-
 ### 3.1.1 Evaluation phase 1: Collection
 
 | Involved                                                                                                                   | Output                                                     |
 |----------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------|
 | - Entire team (incl. PMs, UX researcher, developers, etc.)  <br/> - Customers <br/> - Community <br/> - Other stakeholders | - Feature request in Wish List <br/> - Bugs in Bug backlog |
-
 
 The [OpenProject Wish List](https://community.openproject.org/projects/openproject/work_packages?query_id=180) is used to collect a backlog of potential validation opportunities. Requirements may come from customers, internal usage, support messages, community forums or through other communication channels.
 
@@ -150,7 +146,6 @@ Those features judged positively by the PM:
 5. PM assigns the feature either to the Product Backlog or to an upcoming version. Only rarely and in consultation with Development should PM assign a feature to the currently developed version.
 
 For internal or customer requirements requirements may directly be created, evaluated based on the [RICE framework](#42-rice-score) and assigned to the product backlog.
-
 
 ### 3.1.4 Evaluation phase 4: Requirement specification
 
@@ -365,14 +360,10 @@ A helpful guideline with further information on the RICE framework is provided b
 
 The RICE scoring model aims to objectively evaluate requirements (new products, features, add-ons, …) based on four different criteria to determine the RICE Score:
 
-
-
 > RICE Score = **R**each x **I**mpact x **C**onfidence / **E**ffort
-
 
 The RICE framework is used especially in the early phases of evaluating requirements and provides an easy and fast way to prioritize feature requests.
 For complex requirements with a low level of confidence (80% or lower) and / or high effort (more than 1 week), an opportunity canvas should be used in addition to the RICE score.
-
 
 **Reach**
 
@@ -383,8 +374,6 @@ The reach ranges from 0.5 for minimal reach (less than 5% of users) to 10.0 for 
 
 Data sources to estimate this may include queries and user data of an associated feature (e.g. number of users using the “Work packages” module on community.openproject.org to determine the value for a new work package requirement), qualitative customer interviews, customer requests, comments on work packages, surveys, etc..
 
-
-
 **Impact**
 
 The second numerator is Impact which refers to the benefits for users and customers. Impact can refer to quantitative measures, such as conversion improvements, increased revenue, decreased risk or decreased cost or to qualitative measures, such as increasing customer delight.
@@ -393,8 +382,6 @@ This makes it possible to compare revenue generating opportunities to non-revenu
 Impact ranges from “Minimal” (0.25) to “Massive” (3.0).
 
 The higher the impact, the higher the RICE score.
-
-
 
 **Confidence**
 
@@ -406,8 +393,6 @@ The confidence score ranges from 50% for low confidence to 100% for high confide
 
 If you arrive at a confidence level below 50%, consider this requirement a “Moonshot” and focus your energy on other requirements.
 
-
-
 **Effort**
 
 The three aforementioned factors (Reach, Impact, Confidence) represent the numerators of the RICE score. The effort score refers to the estimated resources (product, design, engineering, quality assurance, etc.) in person-months needed to implement a feature.
@@ -416,23 +401,15 @@ The effort estimate is an approximate measure which uses shirt sizing.
 
 The effort score ranges from 0.03 (XS = less than a day of effort) to 20 (XXXL = more than 12 months of effort).
 
-
-
 ### 4.3 Opportunity Canvas
 
 One of the main artifacts used in the evaluation phase is the Opportunity Canvas. The Opportunity Canvas - [slightly adapted from GitLab](https://about.gitlab.com/handbook/product-development-flow) - provides a quick overview of a requirement and includes four main sections as well as two supplemental sections:
 
-
-
 **<u>Main sections:</u>**
-
-
 
 **1. Problem**
 
 States the problem that the feature request is addressing. This includes the **Customer** information (the affected persona or persona segment that experiences the problem most acutely), a **Problem** description and a description of the customer **Pain**.
-
-
 
 **2. Business Case**
 
@@ -440,31 +417,21 @@ The business case is closely aligned with the RICE score. The business case sect
 
 Additionally, the **Urgency and Priority** section provides information about the relative importance of the requirement compared to other opportunities, deadlines and other time-related information.
 
-
-
 **3. Solution**
 The solution to the problem can be laid out in this section. Define the **Minimal Viable Change** in a first version, what is **Out of scope** and the **Differentiation** from the current experience and competing solutions.
 As an outlook, also provide some information on the **Next iteration**.
-
-
 
 **4. Launch and Growth**
 To get a complete picture of the requirement and its impact, it is essential to consider its marketing message early on.Define how you **Measure** if you solved the problem by specifying important metrics. Additionally, you can formulate a marketing **message** to identify the value proposition as early as possible.
 Last but not least, briefly outline the **Go to Market** strategy.
 
-
-
 **<u>Supplemental sections:</u>**
-
-
 
 **1. Learnings**
 
 The Opportunity Canvas is an iterative work document. As such it is often helpful to collect some assumptions early on and validate them when conducting customer interviews and learning more about the problem and solution.
 
 The Learning section provides space to collect assumptions and validate them over time.
-
-
 
 **2. Learning Goals**
 
@@ -474,9 +441,6 @@ The Opportunity Canvas is intended to quickly validate or invalidate ideas and t
 
 An Opportunity Canvas may not always be required - especially when a problem is well understood or small in scope.
 
-
-
 **References:**
 
 - [Opportunity Canvas Template](https://docs.google.com/document/d/1sgNrEx_PRCwewI9-46mN0qnyzz2AWq_SwFc6gLOcrbI/edit)
-

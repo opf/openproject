@@ -35,4 +35,3 @@ For instructions on using the integration after the setup has been complete plea
 ## File storage troubleshooting
 
 For troubleshooting guidance related to file storages, visit the [File storage troubleshooting](./file-storage-troubleshooting) page. Here you will find possible explanations and suggested solutions. If you encounter any  challenges not addressed here, do not hesitate to reach out to the [OpenProject community](https://community.openproject.org/projects/openproject/forums) or [support team](https://www.openproject.org/contact/) for further assistance.
-

@@ -6,15 +6,11 @@ sidebar_navigation:
 
 # OpenProject advanced configuration
 
-
-
 OpenProject can be configured via environment variables. These are often helpful for automatically deploying production systems.
 
 > **NOTE:** This documentation is for OpenProject on-premises Installations only, if you would like to setup similar in your OpenProject cloud instance, please contact us at support@openproject.com
 
 > **NOTE:** Using the configuration file `config/configuration.yml` is deprecated and is **NOT** recommended anymore
-
-
 
 ## Packaged installation
 
@@ -83,8 +79,6 @@ x-op-app: &app
 # Please use the file at https://github.com/opf/openproject-deploy/blob/stable/14/compose/docker-compose.yml
 ```
 
-
-
 Alternatively, you can also use an env file for docker-compose like so:
 
 First, add a `.env` file with some variable:
@@ -120,8 +114,6 @@ x-op-app: &app
 # Please use the file at https://github.com/opf/openproject-deploy/blob/stable/14/compose/docker-compose.yml
 ```
 
-
-
 Let's say you have a `.env.prod`  file with some production-specific configuration. Then, start the services with that special env file specified.
 
 ```shell
@@ -143,8 +135,6 @@ services:
 
 Configuring OpenProject through environment variables is described in detail [in the environment variables guide](environment/).
 
-
-
 ### Docker all-in-one container installation
 
 Environment variables can be either passed directly on the command-line to the
@@ -158,8 +148,6 @@ docker run -d --env-file path/to/file ...
 
 Configuring OpenProject through environment variables is described in detail [in the environment variables guide](environment/).
 
-
-
 ## Seeding through environment
 
 OpenProject allows some resources to be seeded/created initially through configuration variables.
@@ -169,8 +157,6 @@ OpenProject allows some resources to be seeded/created initially through configu
 | [Initial admin user creation](#initial-admin-user-creation) | Changing attributes or passwords of the initially created administrator |
 | [Seeding LDAP connections](#seeding-ldap-connections)       | How to create an LDAP connection through configuration       |
 
-
-
 ### Initial admin user creation
 
 **Note:** These variables are only applicable during the first initial setup of your OpenProject setup. Changing or setting them later will have no effect, as the admin user will already have been created.
@@ -179,16 +165,12 @@ By default, an admin user will be created with the login and password set to `ad
 
 In case of automated deployments, you might find it useful to seed an admin user with password and attributes of your choosing. For that, you can use the following set of variables:
 
-
-
 ```shell
 OPENPROJECT_SEED_ADMIN_USER_PASSWORD="admin" # Password to set for the admin user
 OPENPROJECT_SEED_ADMIN_USER_PASSWORD_RESET="true" # Whether to force a password reset on first login (true/false)
 OPENPROJECT_SEED_ADMIN_USER_NAME="OpenProject Admin" # Name to assign to that user (First and lastnames will be split on the space character)
 OPENPROJECT_SEED_ADMIN_USER_MAIL="admin@example.net" # Email attribute to assign to that user. Note that in packaged installations, a wizard step will assign this variable as well.
 ```
-
-
 
 ### Seeding LDAP connections
 
@@ -256,8 +238,6 @@ OPENPROJECT_SEED_LDAP_EXAMPLE_GROUPFILTER_EXAMPLEFILTER_GROUP__ATTRIBUTE="cn"
 
 When a filter is defined, synchronization happens directly during seeding for enterprise editions. Be aware of that when you create the connection that e.g., the LDAP connection needs to be reachable.
 
-
-
 ## Examples for common use cases
 
 * `attachments_storage_path`
@@ -288,8 +268,6 @@ When a filter is defined, synchronization happens directly during seeding for en
 * [`web`](#web-worker-configuration) (nested configuration)
 * [`statsd`](#statsd) (nested configuration)
 
-
-
 ### Allowing public access
 
 By default, any request to the OpenProject application needs to be authenticated. If you want to enable public unauthenticated access like we do for https://community.openproject.org, you can set the `login_required` to `false`. If not provided through environment variables, this setting is also accessible in the administrative UI. Please see the [authentication settings guide](../../system-admin-guide/authentication/authentication-settings/#general-authentication-settings) for more details.
@@ -301,8 +279,6 @@ To disable, set the configuration option:
 ```yaml
 OPENPROJECT_LOGIN__REQUIRED="false"
 ```
-
-
 
 ### Setting session options
 
@@ -347,8 +323,6 @@ OPENPROJECT_FOG_CREDENTIALS_REGION="eu-west-1"
 OPENPROJECT_FOG_DIRECTORY="uploads"
 ```
 
-
-
 ### Auth source sso
 
 Can be used to automatically login a user defined through a custom header sent by a load balancer or reverse proxy in front of OpenProject, for instance in a Kerberos Single Sign-On (SSO) setup via apache.
@@ -372,8 +346,6 @@ auth_source_sso:
   # Uncomment to make the header optional.
   # optional: true
 ```
-
-
 
 ### Backups
 
@@ -406,8 +378,6 @@ OPENPROJECT_BACKUP__INCLUDE__ATTACHMENTS="true"
 OPENPROJECT_BACKUP__INITIAL__WAITING__PERIOD="86400"
 ```
 
-
-
 ### BCrypt configuration
 
 OpenProject uses BCrypt to derive and store user passwords securely. BCrypt uses a so-called Cost Factor to derive the computational effort required to derive a password from input.
@@ -419,8 +389,6 @@ For more information, see the [Cost Factor guide of the bcrypt-ruby gem](https:/
 ```shell
 OPENPROJECT_OVERRIDE__BCRYPT__COST__FACTOR="16"
 ```
-
-
 
 ### Database configuration and SSL
 
@@ -439,8 +407,6 @@ presented to the users.
 ```yaml
 OPENPROJECT_DISABLE__PASSWORD__LOGIN="true"
 ```
-
-
 
 ### omniauth direct login provider
 
@@ -576,8 +542,6 @@ The following example disables all menu items except 'Users', 'Groups' and 'Cust
 ```yaml
 OPENPROJECT_HIDDEN__MENU__ITEMS_ADMIN__MENU="roles types statuses workflows enumerations settings ldap_authentication colors project_types plugins info"
 ```
-
-
 
 ### Rate limiting and blocklisting
 

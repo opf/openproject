@@ -30,6 +30,7 @@ This version restores support for OpenProject packages on centos 7. A PostgreSQL
 - Fixed: Project filter is not applied in embedded table \[[#42397](https://community.openproject.org/wp/42397)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

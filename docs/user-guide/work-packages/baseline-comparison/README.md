@@ -50,7 +50,6 @@ By default, Baseline will compare to 8 AM local time of the relevant day. You ca
 
 >**Note:** These are relative comparison points, which means that _Yesterday_ will always refer to the day before the current day, and not a specific date. You can use these to set up "running" baselines that show you all changes within the past day or week.
 
-
 ### A specific date
 
 ![You can compare the present state to a specific date in the past](13-0_Baseline_specificDate.png)
@@ -81,7 +80,6 @@ When Baseline is enabled, you will see a legend at the top of the page which sho
 - The number of work packages that now meet the filter criteria (and were thus added to view)
 - The number of work packages that no longer meet the filter criteria (and were thus removed from view)
 - The number of work packages that maintained but were modified
-
 
 ### Change icons
 

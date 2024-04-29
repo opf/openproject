@@ -55,7 +55,6 @@ This requires your OpenProject server to be reachable using a domain name (e.g. 
     sudo certbot renew --dry-run
     ```
 
-
 ## External SSL termination
 
 If you terminate SSL externally<sup>1</sup> before the request hits the OpenProject server, you need to let the OpenProject server know that the request being handled is https, even though SSL was terminated before.   This is the most common source in problems in OpenProject when using an external server that terminates SSL.
@@ -68,16 +67,11 @@ On your outer proxying server, set these commands:
 
 - In NginX, use the following value: `proxy_set_header X-Forwarded-Host $host:$server_port;`
 
-  
-
 If you're terminating SSL on the outer server, you need to set the `X-Forwarded-Proto https` header to let OpenProject know that the request is HTTPS, even though it has been terminated earlier in the request on the outer server.
 
 - In Apache2, use `RequestHeader set "X-Forwarded-Proto" https`
 - In Nginx, use `proxy_set_header X-Forwarded-Proto https;`
 
-
-
 Finally, to let OpenProject know that it should create links with 'https' when no request is available (for example, when sending emails), you need to set the Protocol setting of OpenProject to `https`. You can set this configuration by setting the ENV `OPENPROJECT_HTTPS="true"`.
-
 
 _<sup>1</sup> In the packaged installation this means you selected "no" when asked for SSL in the configuration wizard but at the same time take care of SSL termination elsewhere. This can be a manual Apache setup on the same server (not recommended) or an external server, for instance._

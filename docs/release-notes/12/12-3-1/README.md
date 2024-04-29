@@ -38,6 +38,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: OpenProject upgrade fails with "column roles.assignable does not exist" error during AddStoragesPermissionsToRoles migration \[[#44616](https://community.openproject.org/wp/44616)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

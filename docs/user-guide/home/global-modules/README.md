@@ -21,7 +21,6 @@ You can also use the grid icon in the top right corner to access the **Global mo
 
 You can also use the grid icon in the top right corner to access the **Global modules** side menu.
 
-
 ## Projects
 
 The **Projects** global module will display all projects in your OpenProject instance of which you are a member and/or have the right to see (for example as an administrator), including public projects.
@@ -47,8 +46,6 @@ The timeframe for tracing and displaying activities starts with the current date
 You can adjust the view by using the filters on the left menu and clicking the **Apply** button.
 
 >Note: **Changesets** filter comes from repositories that are managed by OpenProject. For example, if you make a commit to a GIT or SVN repository, these changes will be displayed here. At the moment this filter is only relevant for self-hosted editions.
-
-
 
 ## Work packages
 

@@ -116,7 +116,6 @@ The response will look like this:
 The response contains the bearer token ("access_token") and a refresh token that you will need when working with the API.
 Please copy the tokens for reference.
 
-
 ### Perform a request to the OpenProject API with OAuth token
 
 With the token that you obtained above you can now make API calls to the OpenProject instance on behalf of the current user.

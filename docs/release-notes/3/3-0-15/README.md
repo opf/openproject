@@ -20,5 +20,3 @@ properly has been fixed
 
 For a complete list of changes, please refer to the
 [OpenProject 3.0.15 query](https://community.openproject.org/versions/503).
-
-

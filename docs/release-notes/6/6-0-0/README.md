@@ -17,8 +17,6 @@ OpenProject 6.0 adds the ability to rapidly create a list of work packages (e.g.
 
 As a result, you can now easily and swiftly create task table.
 
-
-
 ## Inline edit in work package table
 
 With OpenProject 6.0 it is possible to use inline editing to swiftly update work packages (such as tasks, features, milestones) directly from
@@ -28,15 +26,11 @@ It is no longer necessary to open a separate split screen view. Note,
 that all links (except for ID) have been removed from the work package
 table and form.
 
-
-
 ## Automatic synchronization between work package split screen and work package table
 
 The split screen view automatically reflects changes in the work package table.  When a work package is created, it is immediately shown in the
 table. Likewise, the work package table directly displays changes on the
 split screen.
-
-
 
 ## Configuration of visible work package attributes in OpenProject
 
@@ -48,8 +42,6 @@ the start and due date.
 Users can either completely deactivate or initially hide attributes. (to
 be shown when clicking on the “Show all” button on work packages).
 
-
-
 ## Extended help menu and onboarding video
 
 The help menu in OpenProject has been extended. As a result, it now
@@ -58,8 +50,6 @@ information.
 
 Additionally, a *First steps* video makes it easier for new users to
 start working with OpenProject.
-
-
 
 ## Usability improvements
 
@@ -78,8 +68,6 @@ usability improvements:
 
 OpenProject 6.0 includes several design improvements.
 
-
-
 ## URL slugs for wiki pages
 
 In OpenProject versions prior to 6.0.0., specific characters of wiki
@@ -95,12 +83,9 @@ This causes the identifiers of wiki pages with non-ascii characters to
 be more visually pleasing and easier to link to. When upgrading to 6.0.,
 permalinks for all your pages will be generated automatically.
 
-
-
 ## Substantial number of bug fixes
 
 OpenProject 6.0 contains a large number of bugs fixes.
 
 For an extensive overview of bug fixes please refer to the [following
 list](https://community.openproject.org/projects/openproject/work_packages?query_props=%7B%22c%22:%5B%22id%22,%22type%22,%22status%22,%22subject%22,%22assigned_to%22%5D,%22t%22:%22parent:desc%22,%22f%22:%5B%7B%22n%22:%22fixed_version_id%22,%22o%22:%22%253D%22,%22t%22:%22list_optional%22,%22v%22:%22666%22%7D,%7B%22n%22:%22type_id%22,%22o%22:%22%253D%22,%22t%22:%22list_model%22,%22v%22:%221%22%7D,%7B%22n%22:%22subproject_id%22,%22o%22:%22*%22,%22t%22:%22list_subprojects%22%7D%5D,%22pa%22:1,%22pp%22:20%7D).
-

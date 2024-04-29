@@ -18,6 +18,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Wrong (abusive) translations on avatar change page in russian localization.  \[[#33888](https://community.openproject.org/wp/33888)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

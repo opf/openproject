@@ -27,7 +27,6 @@ This video (english only) provides an overview of the [Enterprise add-ons](https
 
 Find a detailed feature comparison [here](https://www.openproject.org/pricing/#features).
 
-
 ## Enterprise cloud
 
 | Topic                                                                                 | Content                                                                        |
@@ -40,8 +39,6 @@ Find a detailed feature comparison [here](https://www.openproject.org/pricing/#f
 | [Subscribe](./enterprise-cloud-guide/book-cloud)                                      | How to book Enterprise cloud.                                                  |
 | [Backups](./enterprise-cloud-guide/backups)                                           | How do backups work in the cloud.                                              |
 | [GDPR](./enterprise-cloud-guide/gdpr-compliance)                                      | Review and sign a Data Processing Agreement (DPA).                             |
-
-
 
 ## Enterprise on-premises
 

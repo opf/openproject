@@ -1122,6 +1122,7 @@ subject_level_3:
 | - | - | - |
 | … | See [Font properties](#font-properties) |  |
 | … | See [Margin properties](#margin-properties) |  |
+
 ## Units
 
 available units are

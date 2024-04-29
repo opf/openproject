@@ -54,4 +54,3 @@ Please choose the module or feature you want to learn more about.
 | [Time and costs](time-and-costs)                             | How to track time and costs in OpenProject and report spent time and costs. |
 | [Wiki](wiki)                                                 | How to create and manage a wiki to collaboratively document and share information. |
 | [Work packages](work-packages)                               | How to manage your work in a project.                        |
-

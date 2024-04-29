@@ -11,8 +11,6 @@ release_date: 2019-09-30
 We released [OpenProject 10.0.1](https://community.openproject.org/versions/1393).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-
-
 ## Bug fixes and changes
 
 - Fixed: Misaligned checkboxes in text editor [[#31066](https://community.openproject.org/wp/31066)]

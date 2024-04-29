@@ -7,7 +7,6 @@ keywords: OpenID providers
 ---
 # OpenID providers
 
-
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Google Workspace](#google-workspace)                        | How to use Google Workspace as an SSO provider for OpenProject? |
@@ -33,10 +32,7 @@ You can configure the following options.
 When checked, users will be created according to the [self-registration setting](../authentication-settings).
 6. Press the blue **create** button.
 
-
 ## Google Workspace
-
-
 
 ### Step 1: Create the OAuth consent screen
 
@@ -44,8 +40,6 @@ When checked, users will be created according to the [self-registration setting]
 2. Go to **APIs & Services** > OAuth consent screen.
 
 ![g1-apis-and-services-oauth-consent-screen](g1-apis-and-services-oauth-consent-screen.png)
-
-
 
 3. Create a new project and a new app or edit an existing project and an existing app, setting the following fields (shall be Internal):
    1. **App name** (e.g. EXAMPLE.COM SSO)
@@ -59,8 +53,6 @@ When checked, users will be created according to the [self-registration setting]
 
 4. **Scopes** - Press **SAVE AND CONTINUE**
 5. **Summary** - Press **SAVE AND CONTINUE**
-
-
 
 ### Step 2: Create the OAuth Client
 
@@ -87,8 +79,6 @@ After pressing **CREATE** you will get a pop-up window like the following
 
 ![g5-oauth-client-created](g5-oauth-client-created.png)
 
-
-
 ### Step 3: Add Google as an OpenID Provider to OpenProject
 
 1. Login as OpenProject Administrator
@@ -104,10 +94,6 @@ After pressing **CREATE** you will get a pop-up window like the following
 4. The following green notification **Successful creation** should appear
 
 ![g7-successful-creation-google](g7-successful-creation-google.png)
-
-
-
-
 
 ## Azure Active Directory
 
@@ -207,6 +193,5 @@ exit
 ```
 
 Then, existing users should be able to log in using their Azure identity. Note that this works only if the user is using password-based authentication, and is not linked to any other authentication source (e.g. LDAP) or OpenID provider.
-
 
 Note that this setting is set to true by default for new installations already.

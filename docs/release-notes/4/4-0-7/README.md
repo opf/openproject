@@ -37,4 +37,3 @@ To get an overview of the new version, please refer to the
 [Changelog v.4.0.7](https://community.openproject.org/versions/602 "Changelog v.4.0.7") or
 take a look at
 [GitHub](https://github.com/opf/openproject/tree/v4.0.7 "GitHub").
-

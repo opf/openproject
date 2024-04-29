@@ -105,8 +105,8 @@ In the top right, click the **Send invitation** button in order to send the emai
 
 ![Send user invitation in OpenProject](openproject_system_guide_send_user_invitation.png)
 
-
 ### Delete user invitations
+
 To invalidate or revoke a user's invitation click on the user name and then on **Delete** in the upper right corner. This will prevent the invited user from logging in.
 Please note: this only works for users who haven't logged in yet. If the user is already active this will delete his/her whole profile and account. Deleting users can't be revoked.
 

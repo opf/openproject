@@ -6,13 +6,13 @@ release_version: 10.5.0
 release_date: 2020-04-23
 ---
 ---
+
 # Release notes OpenProject 10.5.0
 
 | Release notes                                                | Description                                                  |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [OpenProject 10.5.0](#openproject-1050)                      | What is new for OpenProject 10.5.0?                          |
 | [OpenProject 10.5 BIM edition for construction project management](#openproject-105-bim-edition-for-construction-project-management) | What is new for the construction project management for the building industry in OpenProject 10.5.0? |
-
 
 # OpenProject 10.5.0
 

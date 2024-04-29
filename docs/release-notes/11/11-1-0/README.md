@@ -46,8 +46,6 @@ Luckily, we now automated this process in order to reduce manual effort on both 
 
 ![DPA-OpenProject](DPA-OpenProject.png)
 
-
-
 ## Various improvements and bug fixes
 
 Furthermore, we have extended the authentication profile with an **OpenID Connect provider.** Also, the printing, e.g. for wiki pages, has been optimized via the browser print function.

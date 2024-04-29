@@ -44,8 +44,6 @@ Then follow the instructions to [create a new project](../../getting-started/pro
 
 ![project settings subproject](project-settings-subproject.png)
 
-
-
 ## Project structure
 
 Projects build a structure in OpenProject. You can have parent projects and sub-projects. A project can represent an organizational unit of a company, e.g. to have issues separated:
@@ -105,8 +103,6 @@ Press the blue **Save** button to apply your changes.
 
 ![project settings information change hierarchy](project-settings-information-change-hierarchy.png)
 
-
-
 ### Set a project to public
 
 If you want to set a project to public, you can do so by ticking the box next to "Public" in the [project settings](project-settings) *->Information*.
@@ -158,7 +154,6 @@ Then, the project cannot be selected from the project selection anymore. It is s
 
 ![project list filter](project-list-filter.png)
 
-
 ### Delete a project
 
 If you want to delete a project, navigate to the [Project settings](project-settings). Click the button **Delete project** on the top right of the page.
@@ -168,4 +163,3 @@ If you want to delete a project, navigate to the [Project settings](project-sett
 Also, you can delete a project via the [projects overview](./project-lists/).
 
 **Note**: Deleting projects is only available for System administrators.
-

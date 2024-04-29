@@ -11,8 +11,6 @@ release_date: 2019-07-23
 We released [OpenProject 9.0.3](https://community.openproject.org/versions/1376).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-
-
 ## Bug fixes and changes
 
 - Changed: Searching for Custom Fields [[#29756](https://community.openproject.org/wp/29756)]

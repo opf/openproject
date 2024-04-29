@@ -23,6 +23,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Make Nextcloud synchronization more stable in 13.0. \[[#51265](https://community.openproject.org/wp/51265)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

@@ -1,13 +1,17 @@
 # OpenProject development style guide - frontend
 
 ## Code format
+
 OpenProject follows the [AirBnB's style guide](https://github.com/airbnb/javascript) regarding to the code format.  
 
 ## Development patterns
+
 ### Angularized
+
 OpenProject follows the [Angular's style guide](https://angular.io/guide/styleguide) patterns.
 
 ### Declarative
+
 Declarative Programming is a paradigm where the code describes **what to do** by encapsulating the **how to do it** (implementation details) under abstractions. The ultimate result of declarative programming is the creation of a new Domain Specific Language (DSL).
 
 #### What
@@ -40,9 +44,7 @@ const bestProducts = products.filter(function(product) {
 const bestProducts = getBestProducts();
 ```
 
-
 An example in OpenProject would be the APIV3Service that encapsulates all the logic to deal with the OpenProject API.
-
 
 #### Why
 
@@ -53,12 +55,12 @@ An example in OpenProject would be the APIV3Service that encapsulates all the lo
 * Aligns with unidirectional data flow (Stores) and the Components Architecture.  
 * Increases coding pleasure and productivity.
 
-
 ### Immutable
+
 Not capable of or susceptible to change. An immutable value can’t be changed, when edited a new copy is returned.
 
-
 #### What
+
 Do not mutate objects, spread the word.
 
 * Do not edit object’s, use the immutable alternatives:
@@ -90,12 +92,12 @@ splice = (s, c, ...y) => x => [...x.slice(0, s), ...y, ...x.slice(s + c)];
 * Enables unidirectional data flow.
 * Enables performance improvements through ChangeDetectionStrategy.OnPush
 
-
 ### Unidirectional data flow
+
 The app has a single way to read and to write the state, and both are separated ([Command Query Segregation](https://khalilstemmler.com/articles/oop-design-principles/command-query-segregation/)).
 
-
 #### State definition
+
 We can differentiate two types of states in our application:
 
 * Local: belongs to a single component. Includes mainly UI state.
@@ -133,7 +135,6 @@ To reduce server requests, side effects **should be** be calculated in the front
 
 **Note:** The proper solution to this problem would be a backend that can push updates for collections and entities that we are requiring. However, implementing and relying on websockets comes with its own challenges.
 
-
 #### Flow
 
 ![data-flow](./data-flow-diagram.png)
@@ -142,8 +143,8 @@ To reduce server requests, side effects **should be** be calculated in the front
 * Store changes the state and emits an updated copy of the state
 * Component receives the update and renders the new state  
 
-
 #### Unidirectional data flow in the view / component’s tree
+
 Angular also follows the unidirectional data flow pattern in the view to improve the performance and simplify the state distribution:
 
 * When the state could have been updated (an async operation happens), Angular performs [Change Detection](https://indepth.dev/posts/1058/a-gentle-introduction-into-change-detection-in-angular) in one way, from top to bottom, from the root component all the tree down checking every child component for changes.
@@ -165,11 +166,12 @@ Angular also follows the unidirectional data flow pattern in the view to improve
 * Code is easier to understand and reason about.
 * Increases coding pleasure and productivity.
 
-
 ### Components architecture
+
 Mental mindset to build clearer apps based on the differentiation between Container Components (CC), Presentational Components (PC) and Services.
 
 #### Services
+
 Are state and logic containers.
 
 ##### What
@@ -190,6 +192,7 @@ Are state and logic containers.
 * Testability: easier to test because there are no side effects (pure).
 
 #### Container components (CC)
+
 Represent a feature that interacts with the state. This could be a page (routed component) but also standalone components (e.g. sign-in button (tied to the AuthService)).
 
 ##### Responsibilities
@@ -204,6 +207,7 @@ Represent a feature that interacts with the state. This could be a page (routed 
     * Could contain presentational logic (show/hide PCs, calculations..), in those cases are named something like Mixed Components.
 
 ##### Example
+
 Pages, components that are routed, are usually container components since the need to fetch state to display it.
 
 ##### What
@@ -220,6 +224,7 @@ Pages, components that are routed, are usually container components since the ne
 * Increases coding pleasure and productivity.
 
 #### Presentational components
+
 Are the building blocks of the UI.
 
 ##### Responsibilities
@@ -234,12 +239,12 @@ Are the building blocks of the UI.
         * Presenter Services that encapsulate complex UI logic (computed styles, UI calculations...)).
 
 ##### Example
+
 Components from UI libraries are usually Presentational Components (e.g., [material button](https://github.com/angular/components/blob/master/src/material/button/button.ts)).
 
 ##### What
 
 * Create presentational components to encapsulate UI logic (presentation or interaction).
-
 
 ##### Why
 
@@ -255,6 +260,7 @@ Presentational components are more reusable because:
 * Are easier to replace.
 
 ### Clean
+
 Clean code is easily readable, understandable, changeable, extensible, scalable and maintainable.
 
 #### What
@@ -270,6 +276,7 @@ Clean code is easily readable, understandable, changeable, extensible, scalable 
 * Increases coding pleasure and productivity.
 
 ### BEM CSS
+
 #### What
 
 * Do follow BEM directives:

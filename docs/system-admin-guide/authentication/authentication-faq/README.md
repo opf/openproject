@@ -7,6 +7,7 @@ keywords: authentication FAQ, LDAP, SAML, SSO
 ---
 
 # Frequently asked questions (FAQ) for authentication
+
 Additional information regarding the use of LDAP from a user management perspective can be found [in this FAQ section](../../users-permissions/users-permissions-faq).
 
 ## How do I set up OAuth / Google authentication in the Enterprise cloud?
@@ -18,7 +19,6 @@ The authentication via Google is already activated in the Enterprise cloud. User
 Disabling the Google based authentication is currently not possible for cloud based installations.
 
 For on premises installations the functionality can be deactivated the same way it was activated.
-
 
 ## Can we ensure that passwords are secure / have a high strength?
 

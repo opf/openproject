@@ -13,8 +13,6 @@ Please refer to our website for the Enterprise cloud edition [pricing](https://w
 
 You can subscribe to a monthly or yearly plan. The subscription can be **paid via Credit Card or Bank transfer** (only for yearly subscriptions for customers in the EU, Switzerland and the United States).
 
-
-
 To upgrade your trial to the full version, **click on the BUY NOW teaser**, e.g. in the application header or project menu.
 
 ![Enterprise cloud edition](Cloud-edition-buy-now-teaser.png)

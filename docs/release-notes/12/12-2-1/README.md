@@ -13,8 +13,6 @@ Release date: 2022-08-18
 We released [OpenProject 12.2.1](https://community.openproject.org/versions/1594).
 The release contains a critical bug fixes that resolves a data corruption issue and we urge updating to the newest version. Please see the details below for more information.
 
-
-
 ## Important bug fix for activity records
 
 In OpenProject 12.2.0, a critical bug may randomly corrupt the activity records in the database, controlling
@@ -28,8 +26,6 @@ This error manifests itself as:
 - Being unable to see activities in work package [#43773](https://community.openproject.org/wp/43773).
 - Getting internal errors trying to update an existing work package.
 
-
-
 The upgrade to 12.2.1 fixes this bug and includes a migration to try and restore the intermediate activities for the records that were affected. **Please note that the newest version was unaffected and all the changes you made in the system are still correct.**
 
 However, affected activities had to be restored and may be missing some changes or contain changes from previous or following activities. Any activity that had its record restored contains a note that this has happened.
@@ -37,8 +33,6 @@ However, affected activities had to be restored and may be missing some changes 
 If you did not yet upgrade your system to 12.2.0., please update to 12.2.1 directly to avoid being exposed to the bug.
 
 For cloud customers of OpenProject: The records affected by this bug were restored already in the same fashion. If your instance has been affected by this bug, we will reach out to you separately to inform you.
-
-
 
 ## Changes to the HTTPS settings
 
@@ -61,8 +55,6 @@ For more information on this setting and how to configure it for your installati
 - Fixed: OpenProject Docker Installation \[[#43767](https://community.openproject.org/wp/43767)\]
 - Fixed: Unable to see activities in work package \[[#43773](https://community.openproject.org/wp/43773)\]
 - Fixed: Timeline shows bar at wrong time after collapsing a group \[[#43775](https://community.openproject.org/wp/43775)\]
-
-
 
 ## Contributions
 

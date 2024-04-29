@@ -12,7 +12,6 @@ Introduced in OpenProject 13.1, dynamic meetings offer easier meeting management
 
 > **Note:** The **Meetings module needs to be activated** in the [Project Settings](../../projects/project-settings/modules/) to be able to create and edit meetings.
 
-
 | Topic                                                        | Content                                                    |
 | ------------------------------------------------------------ | ---------------------------------------------------------- |
 | [Meetings in OpenProject](#meetings-in-openproject)          | How to open meetings in OpenProject.                       |
@@ -42,6 +41,7 @@ The menu on the left will allow you to filter for upcoming or past meetings. You
 ![Meetings overview in openproject global modules](openproject_userguide_dynamic_meetings_overview.png)
 
 ## Create and edit dynamic meetings
+
 ### Create a new meeting
 
 You can either create a meeting from within a project or from the global **Meetings** module.
@@ -66,7 +66,6 @@ If you want to change the details of a meeting, for example its time or location
 
 An edit screen will be displayed, where you can adjust the date, time, duration and location of the meeting.
 
-
 ![edit-meeting](openproject_userguide_edit_screen.png)
 
 Do not forget to save the changes by clicking the green **Save** button. Cancel will bring you back to the details view.
@@ -74,7 +73,6 @@ Do not forget to save the changes by clicking the green **Save** button. Cancel 
 In order to edit the title of the meeting select the dropdown menu behind the three dots and select the **Edit meeting title**.
 
 ![Edit a meeting title in OpenProject](openproject_userguid_dynamic_meeting_edit_title.png)
-
 
 ### Create or edit the meeting agenda
 
@@ -116,6 +114,7 @@ You can add a work package to both upcoming or past meetings as long as the work
 ![OpenProject work packages in meetings agenda](openproject_dynamic_meetings_wp_agenda.png)
 
 ## Meeting participants
+
 ### Add meeting participants
 
 You will see the list of all the invited project members under **Participants**. You can **add participants** (Invitees and Attendees) to a meeting in [edit mode](#edit-a-meeting). The process is the same whether you are creating a new meeting or editing an existing one.
@@ -141,8 +140,6 @@ You can attachments in the meetings in the **Attachments** section in the right 
 Added attachments can be added to the Notes section of agenda packages by dragging and dropping them from the Attachments section.
 
 ![Attachments in OpenProject dynamic meetings](openproject_dynamic_meetings_attachments.png)
-
-
 
 ## Meeting history
 
@@ -181,8 +178,6 @@ You can copy an existing meeting. This is useful if you have recurring meetings.
 A screen will open, which will allow you adjust the name, time, location and further details of the copied meeting. By default, the date for the copied meeting will be moved forward by one week from the original meeting's date. You also have an option of copying the agenda and attachments. Don't forget to **Save** the copied meeting by clicking the green **Create** button.
 
 ![Edit details of a copied dynamic meeting in OpenProject](openproject_dynamic_meetings_copy_meeting_details.png)
-
-
 
 ## Delete a meeting
 

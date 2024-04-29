@@ -41,8 +41,6 @@ newest version.
     files will receive a forced *attachment* content disposition to
     ensure the file is not loaded in the browser.
 
-
-
 ## Contributions
 
 Thanks to Github users @storm2513 and @akasparas for providing bugfixes
@@ -50,5 +48,3 @@ as pull requests [on our GitHub
 project](https://github.com/opf/openproject).  A big thanks to community
 members for reporting bugs and helping us identifying and providing
 fixes.
-
-

@@ -40,8 +40,6 @@ The configuration can be provided in one of two ways:
 
 * for OpenProject version 11 and older in `config/configuration.yml` file (1.3)
 
-  
-
 Whatever means are chosen, the plugin simply passes all options to omniauth-saml. See [their configuration documentation](https://github.com/omniauth/omniauth-saml#usage) for further details.
 
 The options are mutually exclusive. If you decide to save settings in the database, they will override any ENV variables you might have set. (*For OpenProject version 11 and older:* If settings are already provided via ENV variables, they will overwrite settings in a `configuration.yml` file.)
@@ -155,8 +153,6 @@ Setting.plugin_openproject_auth_saml = Hash(Setting.plugin_openproject_auth_saml
   }
 })
 ```
-
-
 
 #### 1.3 config/configuration.yml file
 
@@ -289,7 +285,6 @@ default:
         last_name: ['sn']
 ```
 
-
 #### 2.3 Optional: Set the attribute format
 
 By default, the attributes above will be requested with the format `urn:oasis:names:tc:SAML:2.0:attrname-format:basic`.
@@ -325,8 +320,6 @@ default:
         first_name: ['urn:oid:2.5.4.42']
         last_name: ['urn:oid:2.5.4.4']
 ```
-
-
 
 #### 2.4 Optional: Request signature and Assertion Encryption
 
@@ -371,8 +364,6 @@ default:
 
 With request signing enabled, the certificate will be added to the identity provider to validate the signature of the service provider's request.
 
-
-
 #### 2.5. Optional: Restrict who can automatically self-register
 
 You can configure OpenProject to restrict which users can register on the system with the [authentication self-registration setting](../authentication-settings)
@@ -386,7 +377,6 @@ default:
       # <-- other configuration -->
       limit_self_registration: true
 ```
-
 
 #### 2.6. Optional: Set name_identifier_format
 
@@ -426,13 +416,9 @@ When you return from the authentication provider, you might be shown one of thes
 3. You are being redirected to the account registration modal as user name or email is already taken. In this case, the account you want to authenticate already has an internal OpenProject account. You need to follow the [Troubleshooting](#troubleshooting) guide below to enable taking over that existing account.
 4. You are getting an internal or authentication error message. This is often a permission or invalid certificate/fingerprint configuration. Please consult the server logs for any hints OpenProject might log there.
 
-
-
 ## Instructions for common SAML providers
 
 In the following, we will provide configuration values for common SAML providers. Please note that the exact values might differ depending on your idP's version and configuration. If you have additions to these variables, please use the "Edit this file" functionality in the "Docs feedback" section of this documentation.
-
-
 
 ### ADFS
 
@@ -470,8 +456,6 @@ Add the following Claim rules:
 | Surname          | `sn`                                                         |
 | Given-name       | `givenName`                                                  |
 
-
-
 #### Export the ADFS public certificate
 
 OpenProject needs the certificate or fingerprint of the ADFS to validate the signature of incoming tokens. Here are the steps on how to do that:
@@ -483,11 +467,7 @@ OpenProject needs the certificate or fingerprint of the ADFS to validate the sig
 - Export the file and move it to the OpenProject instance or open a shell
 - Run the command `awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}' <path to the certificate>`  
 
-
-
 #### Set up OpenProject for ADFS integration
-
-
 
 In OpenProject, these are the variables you will need to set. Please refer to the above documentation for the different ways you can configure these variables  OpenProject
 
@@ -504,8 +484,6 @@ OPENPROJECT_SAML_SAML_SLO__TARGET__URL="https://<Your ADFS hostname>/adfs/ls/?wa
 OPENPROJECT_SAML_SAML_ISSUER="https://<Your OpenProject hostname>"
 OPENPROJECT_SAML_SAML_IDP__CERT="<The output of the awk command above>"
 ```
-
-
 
 ### Keycloak
 
@@ -528,8 +506,6 @@ You will be forwarded to the settings tab  of the new client. Change these setti
   - **Assertion Consumer Service Redirect Binding URL**: Set to `https://<Your OpenProject hostname>/auth/saml/callback`
 
 Go the "Mappers" tab and create the following mappers. Note that the "User attribute" values might differ depending on your LDAP or Keycloak configuration.
-
-
 
 | Mapper Type    | User Attribute | Friendly Name | SAML Attribute Name | SAML Attribute NameFormat |
 | -------------- | -------------- | ------------- | ------------------- | ------------------------- |
@@ -563,8 +539,6 @@ OPENPROJECT_SAML_SAML_IDP__CERT="<The certificate base64 copied from the metadat
 
 If you're unsure what the realm value is, go to the menu "Realm settings" and click on "Endpoints -> SAML 2.0 Identity Provider Metadata". This will include URLs for the `SingleSignOnService` and `SingleLogoutService`.
 
-
-
 ## Troubleshooting
 
 **Q: After clicking on a provider badge, I am redirected to a signup form that says a user already exists with that login.**
@@ -584,7 +558,6 @@ Then, existing users should be able to log in using their SAML identity. Note th
 
 Note that this setting is set to true by default for new installations already.
 
-
 **Q: Could the users be automatically logged in to OpenProject if they are already authenticated at the SAML Identity Provider?**
 
 A: You are able to chose a default direct-login-provider in the by using environment variables
@@ -595,11 +568,8 @@ OPENPROJECT_OMNIAUTH__DIRECT__LOGIN__PROVIDER="saml"
 
 [Read more](../../../installation-and-operations/configuration/#omniauth-direct-login-provider)
 
-
-
 **Q:** `"certificate"` **and** `"private key"` **are used in the SAML configuration and openproject logs show a FATAL error after GET "/auth/saml"**  `**FATAL** -- :  OpenSSL::PKey::RSAError (Neither PUB key nor PRIV key: nested asn1 error):`
 
 A1: The given private_key is encrypted. The key is needed without the password (cf., [see](https://github.com/onelogin/ruby-saml/issues/473))
 
 A2: The provided key pair is not an RSA key. ruby-saml might expect an RSA key.
-

@@ -14,8 +14,6 @@ To open the task board view, click on the small arrow next to the respective spr
 
 ![User-guide-taskboard](User-guide-taskboard.png)
 
-
-
 You will find user stories in the left column, followed by their individual tasks (as child work packages) which are sorted by status. Therefore, you can  immediately see the status of a user story and its associated tasks.  Clicking on the ***+***-icon next to a user story opens a window to create a new task.
 
 ![User-guide-new-task](User-guide-new-task.png)
@@ -34,8 +32,6 @@ On the very top of the table, sprint impediments are documented and assigned to 
 > **Note**: If you add an impediment and type the work package number into the field Blocked (ID), the respective work package will be linked to the impediment. As long as the impediment remains, the work package cannot be closed.
 
 ![sprint impediments](User-guide-add-impediment.png)
-
-
 
 The task colors are different for every team member, making it easy to associate tasks with their respective assignees.
 

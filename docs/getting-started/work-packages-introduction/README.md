@@ -86,4 +86,3 @@ You can also insert a comment at the end of the Activity list.
 To notify other people about changes in your work packages activities, you can comment and type an @" in front of the username you want to inform and when you publish your message the person you have tagged will get a notification in OpenProject. The aggregation of changes in the Activity list can be configured in the [system administration](../../system-admin-guide/calendars-and-dates/#date-format).
 
 To find out more about the work package functionalities, please visit our detailed [user guide for work packages](../../user-guide/work-packages).
-

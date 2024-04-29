@@ -45,11 +45,10 @@ If you click on **Edit query** you can adjust the project overview when using th
 ## Creating custom reports
 
 ### Exporting reports
+
 For creating custom project reports you can use the export function in the work packages view.
 
 ![Reports export](openproject_export.png)
-
-
 
 You can export the work packages in one of the following formats.
 
@@ -57,8 +56,8 @@ You can export the work packages in one of the following formats.
 
 To export or print a Gantt chart use the print function (**CTRL+P**) and then save it as PDF. Only information displayed in the main screen area is included. None of the designs or side or top menus are in it. Please see here [how to print a Gantt chart in OpenProject](../../user-guide/gantt-chart/#how-to-print-a-gantt-chart).
 
-
 ### Project status reporting
+
 You can [display and configure the individual project status](../../user-guide/projects/project-status/) on the project overview page.
 
 For more advanced project reporting requirements, using the Wiki module is another powerful tool. The Wiki allows you to build complete custom reports using embedded work package tables, macros and even embedded calculations.

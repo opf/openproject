@@ -52,7 +52,6 @@ The following variables have been changed:
 | primary-color-dark | -                    | Will now be calculated automatically based on the "primary-button-color"                                                                                                   |
 | link-color         | accent-color         | Is not only used for links, but for all decently highlighted elements (e.g. the selection state in a datepicker).<br/>The (old) value of "primary-color" was use for this. |
 
-
 If you have developed a plugin or have custom code that uses these variables, you need to update your code to use the new
 names. The rest of the variables is unchanged. For more information, see [#53309](https://community.openproject.org/work_packages/53309).
 

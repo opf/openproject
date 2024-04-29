@@ -75,14 +75,8 @@ When you open a work package, e.g. by clicking on the ID of the work package in 
 
 ![work package activity](work-package-activity.png)
 
-
 There, all changes and activities concerning the work package are documented, e.g. if a user changes the status of the work package, this activity is recorded with the information who, when and what in the Activity area and is visible for other users who have the corresponding authorization.
 
 You can also use the Activity area as a chat portal and share messages with other team members there.![Work package activity flag someone](Work-package-activity-flag-someone.png)
 
-
-
 If you want to notify a specific user about something in the Activity section, you can also flag them with an "@" symbol in front of their username so that they receive a notification within OpenProject.
-
-
-

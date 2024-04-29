@@ -38,6 +38,7 @@ When you update to OpenProject 12.2.2 and the migration fails again, it will out
 - Fixed: System 'read only' field \[[#43893](https://community.openproject.org/wp/43893)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

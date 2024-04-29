@@ -26,7 +26,6 @@ Finally, **several fields were renamed**:
 
 As always, this release contains several bug fixes and we recommend updating to the newest version.
 
-
 ## Manual project folders for OneDrive/SharePoint storages (Enterprise add-on)
 
 With OpenProject 13.2, manual project folders have become available for OneDrive/SharePoint storage, further improving access to essential project files.
@@ -46,6 +45,7 @@ In 13.2 we improved the functionality of file storages. Even if a file has been 
 This new feature is available for [both file storage integrations](../../user-guide/file-management).
 
 ## Filter for roles, groups, and shares in the project members list
+
 With OpenProject 13.2, users can filter the list of project member based on user roles, groups, and shared work packages. This enables project members to promptly identify others with specific roles or individuals outside the project team who have gained access through the newly introduced Sharing feature.
 
 ![Project members filter in OpenProject](project-members.png)
@@ -75,6 +75,7 @@ Please note that this option is only available if you have selected a Gantt view
 Read more about [Gantt charts in OpenProject](../../user-guide/gantt-chart/)
 
 ## New field names and calculation of work and remaining work
+
 Several field names were changed in OpenProject 13.2.
 
 - Estimated time is now called **Work**

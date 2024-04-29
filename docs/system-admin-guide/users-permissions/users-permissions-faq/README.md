@@ -30,7 +30,6 @@ Starting with OpenProject 11.2 this is also possible for global roles.
 
 When a user is deleted his/her change history is preserved. All actions made by him/her are attributed to a user called **Deleted user**. E.g. a work package created by that user or a wiki page updated by him/her will remain unchanged. This means that you can continue to work with all work packages etc.. If you delete at least two users, you will no longer be able to identify which change was made by whom, as everything will be aggregated under the **Deleted user** user. Only information that is stored for the sake of the user alone, e.g. private queries or user preferences, will be deleted.
 
-
 ## Can I give users the ability to change work package status only?
 
 It is possible to give users the ability to change status without that user having the rights to edit the rest of the work package. To do that you need to grant the **Change work package status** permission to the role this user is assigned.

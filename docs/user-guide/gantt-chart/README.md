@@ -12,7 +12,6 @@ keywords: gantt chart, timeline, project plan
 The **Gantt charts** module in OpenProject displays the work packages in a timeline. You can collaboratively create and manage your project plan, have your project timelines available to all team members and share up-to-date information with stakeholders. You can add start and finish dates and adapt it via drag and drop directly in the Gantt chart. Also, you can add dependencies, predecessors or followers within the Gantt chart.
 </div>
 
-
 | Topic                                                                                                           | Content                                                                   |
 |-----------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
 | [Activate the Gantt chart](#activate-the-gantt-chart)                                                           | How to activate the Gantt chart in OpenProject.                           |
@@ -23,7 +22,6 @@ The **Gantt charts** module in OpenProject displays the work packages in a timel
 | [Gantt chart views](#gantt-chart-views)                                                                         | How to zoom in and out and activate the Zen mode.                         |
 | [Multi project views](#multi-project-views)                                                                     | Create project overarching timelines.                                     |
 | [Aggregation by project](#aggregation-by-project)                                                               | How to display an aggregated view of all milestones of multiple projects. |
-
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Project-Plan-and-Timelines-Gantt-charts.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
@@ -62,7 +60,6 @@ Once you opened the Gantt charts module, the default view will show all open wor
 
 Once you have selected the Gantt chart view, you can use the quick context menu. To do that, right-click on any of the work packages.
 > **Note**: if you use the [work packages view](../work-packages/edit-work-package#update-a-work-package-in-a-work-package-table-view) in the **Work packages** module, the options in the quick context menu will differ slightly from the ones in the Gantt chart view.
-
 
 ![Quick context menu in OpenProject Gantt chart work packages view](gantt-context-menu.png)
 
@@ -111,7 +108,6 @@ Select the item to which you want to create a dependency. The precede and follow
 
 The quickest way to remove a relation is to select **Show relations** from the quick context menu and removing the relation in the work package details view.
 
-
 ![dependencies-gantt-chart](gantt-chart.gif)
 
 When work packages have a precedes/follows relationship:
@@ -133,8 +129,6 @@ Scheduling modes can also affect work package relations. Read about [automatic a
   The clamps are black in case the derived dates are within the set dates (of this parent).
 - A **diamond symbol** stands for a milestone.
 - A **bar** stands for work packages like phases and tasks.
-
-
 
 ## Gantt chart configuration
 
@@ -189,8 +183,6 @@ To zoom in and zoom out in the Gantt chart view, click on the button with the **
 
 ![Zooming into a Gantt chart in OpenProject](openproject-user-guide-gantt-charts-zoom.png)
 
-
-
 ### Auto zoom
 
 Select the **auto zoom button** on top of the Gantt chart to have the best view of your Gantt chart.
@@ -199,14 +191,11 @@ Please note that the **auto zoom button** may not be selectable if it has been p
 
 ![auto-zoom-Gantt](openproject-user-guide-gantt-charts-auto-zoom.png)
 
-
-
 ### Zen mode
 
 The zen mode gives you more space to focus on the tasks at hand. It's almost like activating the full screen view in your browser. To exit press the *Esc* key or click on the **zen mode** symbol again.
 
 ![zen-mode-Gantt-chart](openproject-user-guide-gantt-charts-zen-mode.png)
-
 
 ## Multi project views
 

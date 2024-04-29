@@ -28,8 +28,6 @@ As a default, you will see two lists of all **work packages assigned to you** an
 
 ![My-page-default-view](My-page-default-view.png)
 
-
-
 ## Configure the My Page
 
 ### Add widgets
@@ -48,7 +46,6 @@ Once you have chosen the place where to add the new widget on My Page, you can c
 
 For a **detailed explanation of the widgets**, visit the section in the [project overview](../../user-guide/project-overview/#available-project-overview-widgets).
 
-
 ### Change position of the widgets
 
 You can change the position of a widget on the dashboard with drag and drop.
@@ -60,8 +57,6 @@ Click the dots next to the title and drag it to the new place.
 ### Change the size of a widget
 
 If you click the dots on the lower right hand corner in a widget you can change the size of a widget by pulling the widget left and right, up and down with the mouse.
-
-
 
 ### Configure the view of a widget (for work package tables)
 

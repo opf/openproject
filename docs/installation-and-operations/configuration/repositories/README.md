@@ -156,7 +156,6 @@ This functionality is very basic and we hope to make it more robust over the nex
 * The instructions contain information regarding the capabilities a user has (read, read-write)
 * The instructions are defined by the SCM vendor implementations themselves, so that the checkout instructions could be extended by some 3rd party SCM vendor plugin
 
-
 ### Required Disk Storage Information
 
 The total required disk space for a project's its repository and attachments are listed in the projects administration pane, as well as the project setting overview.

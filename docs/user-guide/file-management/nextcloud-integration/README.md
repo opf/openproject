@@ -28,7 +28,6 @@ It is also possible to automatically create dedicated [project folders](../../pr
 
 > **Important note**: To be able to use Nextcloud as a file storage in your project, the administrator of your instance should first have completed the [Nextcloud integration setup](../../../system-admin-guide/integrations/nextcloud). Then a project administrator can activate Nextcloud in the [File storages](../../projects/project-settings/file-storages/) for a project.
 
-
 | Topic                                                                                               | Description                                                                               |
 |-----------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------|
 | [Connect your OpenProject and Nextcloud accounts](#connect-your-openproject-and-nextcloud-accounts) | How to connect your Nextcloud and OpenProject accounts to be able to use this integration |
@@ -62,7 +61,6 @@ To begin using this integration, you will need to first connect your OpenProject
    ![Nextcloud login step 5](login_nc_step4.png)
 
 5. The one-time process to connect your two accounts is complete. You will now be directed back to the original work package, where you can view and open any Nextcloud files that are already linked, or start linking new ones.
-
 
 > **Note**: To disconnect the link between your OpenProject and Nextcloud accounts, head on over to Nextcloud and navigate to _Settings → OpenProject_. There, click *Disconnect from OpenProject* button. To re-link the two accounts, simply follow [the above instructions](#connect-your-openproject-and-nextcloud-accounts) again.
 
@@ -186,6 +184,7 @@ You will be asked to confirm that you want to unlink. Click on **Remove link** t
 > **Info**: Unlinking a file or folder simply removes the connection with this work package; the original file or folder will _not_ be deleted or affected in any way. The only change is it will no longer appear in the Files tab on OpenProject, and the work package will no longer be listed in the "OpenProject" tab for that file on Nextcloud.
 
 ## Nextcloud dashboard
+
 In addition to actions related to individual files, you can also choose to display the OpenProject widget on your Nextcloud dashboard in order to keep an eye on your OpenProject notifications.
 ![Add widget in Nextcloud](nc_widget_choice.png)
 
@@ -227,7 +226,6 @@ When a Nextcloud file or folder is linked to a work package, an OpenProject user
 - See who last modified it (or who created it, if it has not yet been modified)
 
 However, all available actions depend on permissions the OpenProject user (or more precisely, the Nextcloud account tied to that user) has in Nextcloud. In other words, a user who does not have the permission to access the file in Nextcloud will also *not* be able to open, download, modify or unlink the file in OpenProject.
-
 
 ## Possible errors and troubleshooting
 

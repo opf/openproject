@@ -12,7 +12,6 @@ This page will give you an overview of how to register or sign in to an existing
 
 > **Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/create-cloud-trial/).
 
-
 | Topic                                                                         | Content                                                            |
 |-------------------------------------------------------------------------------|--------------------------------------------------------------------|
 | [Sign in with an existing account](#sign-in-with-an-existing-account)         | Sign in with an existing account to an OpenProject installation.   |

@@ -28,6 +28,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Chinese zh-CN locale is not up to date \[[#49795](https://community.openproject.org/wp/49795)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

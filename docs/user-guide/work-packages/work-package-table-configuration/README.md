@@ -23,12 +23,9 @@ You can change the header in the table and add or remove columns, filter and gro
 
 Save the view to have it available directly from your project menu. A work package view is the sum of all modifications you made to the default table (e.g. filters you set).
 
-
-
 To open the work package table configuration, open the **Settings** icon with the three dots at the top right of the work package table.
 
 ![configure-work-package-table](configure-work-package-table.png)
-
 
 ## Add or remove columns in the work package table
 
@@ -82,8 +79,8 @@ Multi-select attributes also have one extra options:
 
 Other attributes like Status might offer additional criteria like _open_ or _closed_. Required attributes might only offer two options, _is (OR)_ and _is not_, since they cannot be empty.
 
-
 ### Filter by text
+
 If you want to search for specific text in the subject, description or comments of a work package, type in the **Filter by text** the expression you want to filter for.
 
 The results will be displayed accordingly in the work package table.
@@ -134,11 +131,7 @@ Use the filter "Attachment content" or "Attachment file name" to filter attached
 
 ![advanced-filter-work-package-table](advanced-filter-work-package-table.png)
 
-
-
 For both the file name and the content, you can then differentiate the filtering with the "contains" and "does not contain" options for selected keywords and text passages. To do this, please enter the corresponding text in the field next to it.
-
-
 
 ![advanced-filter-options](advanced-filter-options.png)
 
@@ -149,6 +142,7 @@ It will then display the corresponding work package with the attachment.
 ## Sort the work package table
 
 ### Automatic sorting of the work package table
+
 By default, the work package table will be sorted by work package ID.
 
 <div class="glossary">
@@ -163,8 +157,6 @@ Clicking the blue **Apply** button will save your changes and display the result
 ![sort-work-packages](sort-work-packages.png)
 
 > **Please note**:  If you have the hierarchy mode activated, all filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed.
-
-
 
 Therefore, the results may differ if you sort in a flat list or in a hierarchy mode.
 
@@ -181,7 +173,6 @@ Moving a work package will change its attributes, depending on the kind of table
 To keep the sorting it is necessary to [save the work package view](#save-work-package-views).
 Please note: This has no effect on the "All open" view; you have to save your sorting with another name.
 
-
 ## Flat list, Hierarchy mode and Group by
 
 You have three different options to display results in the work package table.
@@ -195,8 +186,6 @@ To display the work package table you have to choose one of these options.
 To switch between the different criteria, open the [work package table configuration](#work-package-table-configuration) and open the tab **Display settings**. Choose how to display the work packages in the table and click the blue **Apply** button.
 
 ![display-settings](image-20210426164224748.png)
-
-
 
 When you group the work package table by an attribute or by project a **button to collapse groups** shows up:
 ![collapse-button](collapse-all-expand-all.png)

@@ -24,8 +24,6 @@ In the following, we assume that you initially let OpenProject setup your Postgr
 NOTE: RedHat and CentOS are slightly different, depending on which PostgreSQL package/repository will be used.
 For the documentation parts titled RedHat/CentOS RedHat Enterprise Linux 8 was used.
 
-
-
 1. First, connect to your server and make sure your local version is PostgreSQL v10:
 
 For Debian/Ubuntu:
@@ -41,8 +39,6 @@ For RedHat/CentOS:
 sudo cat /var/lib/pgsql/10/data/PG_VERSION 
 10
 ```
-
-
 
 2. Install the new version of PostgreSQL:
 
@@ -60,8 +56,6 @@ sudo yum install pgsql13
 sudo /usr/bin/postgresql-13-setup initdb
 ```
 
-
-
 3. Stop the PostgreSQL servers:
 
 For Debian/Ubuntu:
@@ -77,8 +71,6 @@ For RedHat/CentOS:
 sudo su - postgres -c "/usr/pgsql-10/bin/pg_ctl stop --wait --pgdata=/var/lib/pgsql/10/data"
 sudo su - postgres -c "/usr/pgsql-13/bin/pg_ctl stop --wait --pgdata=/var/lib/pgsql/13/data"
 ```
-
-
 
 4. Migrate your data to PostgreSQL 13:
 
@@ -109,8 +101,6 @@ sudo su - postgres <<CMD
   --new-options '-c config_file=/var/lib/pgsql/13/data/postgresql.conf'
 CMD
 ```
-
-
 
 5. Make PostgreSQL v13 the new default server to run on port 45432:
 
@@ -150,11 +140,7 @@ postgres=# \q
 [postgres@openproject ~]$ logout
 ```
 
-
-
 6. Check your OpenProject installation on the GUI. A version higher than `13.0` should be displayed for `PostgreSQL version` in the "Administration > Information" section.
-
-
 
 7. If everything is fine, you can then remove your older PostgreSQL installation:
 
@@ -263,8 +249,6 @@ Please change the command appropriately for other installation methods. Once con
 ```sql
 ANALYZE VERBOSE;
 ```
-
-
 
 ## Troubleshooting
 

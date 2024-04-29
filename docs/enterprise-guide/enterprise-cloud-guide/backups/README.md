@@ -22,8 +22,6 @@ In this case you cannot check the **Include attachments** check-box like on the 
 
 ![backup-enterprise-cloud](backup-enterprise-cloud.png)
 
-
-
 ## Backup via GUI
 
 For detailed usage of the Backup via GUI, please navigate to the [System admin guide Backup page](../../../system-admin-guide/backup/)

@@ -14,6 +14,7 @@ We released [OpenProject 12.0.7](https://community.openproject.org/versions/1506
 The release contains several bug fixes and we recommend updating to the newest version.
 
 ## API default max page sizes
+
 In previous versions of OpenProject, the max API page size is controlled by the maximum page size in the "Per page options". This is not clear and causes issues when trying to request larger page sizes (such as for autocompleters). For example, larger instances reported missing options for users and projects.
 
 There is now a separate setting for the max API size that will be used for these autocompleters. You can find it in Administration > System settings > API.

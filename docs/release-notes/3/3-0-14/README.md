@@ -23,5 +23,3 @@ This has been reported and fixed by [Björn Blissing](https://github.com/bjornbl
 
 For a complete list of changes, please refer to the
 [OpenProject 3.0.14 query](https://community.openproject.org/versions/490).
-
-

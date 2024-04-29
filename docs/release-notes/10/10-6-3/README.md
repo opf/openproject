@@ -22,6 +22,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Changed: Don't poll queries in boards in inactive tabs \[[#33707](https://community.openproject.org/wp/33707)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

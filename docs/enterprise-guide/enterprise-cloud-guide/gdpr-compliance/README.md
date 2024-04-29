@@ -71,6 +71,4 @@ Please navigate to -> Administration -> GDPR and you can now online review and s
 
 ![OpenProject DPA](DPA.png)
 
-
-
 Find out more about [OpenProject's security features](../../../security-and-privacy/statement-on-security/#openproject-security-features).

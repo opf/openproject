@@ -55,8 +55,6 @@ Once you have selected or dropped the files you would like to upload, simply sel
 
 The ability to upload new files to Nextcloud directly from OpenProject or link existing files to work packages is not reserved only for existing work packages. You can now do both also when creating a new work package.
 
-
-
 ![openproject-nextcloud-upload-files-empty-status](openproject-nextcloud-upload-files-empty-status.png)
 
 ### More options for linked Nextcloud files in OpenProject
@@ -215,6 +213,7 @@ With OpenProject 12.5, we are happy to announce that another Enterprise add-on w
 - Epic: Cross-application main menu for dPhoenixSuite/Sovereign Administrative Work Place  \[[#44297](https://community.openproject.org/wp/44297)\]
 
 ## Credits and contributions
+
 A very special thank you goes to the following sponsors for features and improvements of this release:
 
 - **The City of Cologne** for having sponsored the tracking of project changes, adding additional non-working days, and parts of the Nextcloud integration.

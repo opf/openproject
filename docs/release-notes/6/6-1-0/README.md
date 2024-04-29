@@ -20,8 +20,6 @@ list ([#22859](https://community.openproject.org/wp/22859)).
 This provides an easy way to quickly find, remove or edit the
 permissions of project members in large projects.
 
-
-
 ## Improved work package relations
 
 The work package relations tab has been improved: It has a clearer
@@ -31,8 +29,6 @@ new relation types
 
 Hierarchical relationships are immediately clear through a
 tree-structure.
-
-
 
 ## Improved performance for work packages
 

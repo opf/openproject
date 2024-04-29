@@ -22,5 +22,3 @@ To get an overview of the new version, please refer to the
 [Changelog v.4.0.6](https://community.openproject.org/versions/592 "Changelog v4.0.6")
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v4.0.6 "GitHub").
-
-

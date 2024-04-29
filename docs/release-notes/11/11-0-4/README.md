@@ -21,6 +21,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Internal error (500) on meeting history page when clicking on previous version link \[[#35433](https://community.openproject.org/wp/35433)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

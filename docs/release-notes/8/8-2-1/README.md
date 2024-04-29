@@ -16,8 +16,6 @@ newest version.
 
 ## Bug fixes and changes
 
-
-
   - Fixed: Long heading in forum overlaps buttons
     \[[#28839](https://community.openproject.org/wp/28839)\]
   - Fixed: Wrong error message when updating teaser element on
@@ -60,11 +58,7 @@ newest version.
     requested from our release servers to render the badge. This page
     also provides means to disable this check.
 
-
-
 ## Contributions
 
 A big thanks to community members for reporting bugs and helping us
 identifying and providing fixes.
-
-

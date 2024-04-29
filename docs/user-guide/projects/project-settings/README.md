@@ -15,7 +15,6 @@ Open a project via the Select a project drop-down menu and navigate to -> *Proje
 
 > **Note**: You have to be a project administrator in order to see and access the project settings.
 
-
 ## Overview
 
 | Topic                                                  | Content                                                      |
@@ -31,4 +30,3 @@ Open a project via the Select a project drop-down menu and navigate to -> *Proje
 | [Activities (time tracking)](activities-time-tracking) | Activate or deactivate Activities (for time tracking) in a project. |
 | [Backlogs settings](backlogs-settings)                 | Manage backlogs settings for a project.                      |
 | [File storages](file-storages)                         | Manage the storages connected to the project and add a project folder. |
-

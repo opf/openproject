@@ -128,8 +128,6 @@ There are two reasons for this: 1. Potentially, a lot of values are displayed in
 Please increase the number of displayed work packages per page [in the administration](../../../system-admin-guide/system-settings/general-settings/#general-system-settings). Then the probability of this phenomenon happening is lower.
 This is a known behavior of OpenProject, but not trivial to solve. There's already a feature request for this [here](https://community.openproject.org/wp/34925).
 
-
-
 ## Status and type
 
 ### When I create a new work package it's always a "Task". How can I change the default work package type?
@@ -161,8 +159,6 @@ Next, go to *Administration ->Work packages ->Workflow* and select the combinati
 You can e.g. create a role “Marketing – Member” and select it as well as the type (e.g. “Task”). Make sure to uncheck the option “Only display statuses that are used by this type” and click on **Edit**. Now, you can select the correct status transitions.
 Repeat this step for the other (department) roles (e.g. “IT – Member”) and select the desired status transitions. This way, you can set different status for each department (only the default status is shared (i.e. “New” by default)).
 Please keep in mind that it may not be possible for a member of a different department to update the status of a work package if it has been updated before by another department (since the workflow may not support this status transition).
-
-
 
 ## Move and copy
 
@@ -216,7 +212,9 @@ Yes, you can display the sum of custom fields in the work package tables by chec
 Calculating a sum across different attributes (e.g. Estimated time + added hours) is however not possible.
 
 ## Sharing work packages
+
 ### Is it possible to share a work packages with a user outside my project?
+
 Yes, starting with OpenProject 13.1 you can [share a work package](../share-work-packages) with users outside your project or even with user who do not yet have an account on your instance.
 
 ## Export
@@ -239,8 +237,6 @@ To identify how many background jobs have run or are delayed, enter "/health_che
 This provides an overview of "worker_backed_up" which shows the number of background jobs that could not get ran within the last 5 minutes. If there are multiple entries, this can indicate that the number of web workers should be increased.
 
 For a documentation of how to do this, please refer to [these instructions](../../../installation-and-operations/operation/control) (see section "Scaling the number of web workers").
-
-
 
 ## Versions and backlog
 

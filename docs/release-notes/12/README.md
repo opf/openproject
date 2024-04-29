@@ -53,4 +53,3 @@ title: OpenProject Version 12 Release Notes
 | [OpenProject 12.0.2](12-0-2/)   | 2021-11-24   |
 | [OpenProject 12.0.1](12-0-1/)   | 2021-11-17   |
 | [OpenProject 12.0.0](12-0-0/)   | 2021-11-15   |
-

@@ -18,8 +18,6 @@ work package split screen
 Attachments can now be more easily added by using the drag and drop area
 on the work package split screen.
 
-
-
 ## New work package full screen view
 
 The existing work package screen has been replaced by a new responsive
@@ -35,8 +33,6 @@ In addition, the behavior for watchers has been changed: Email
 notifications are sent out immediately when adding a watcher to a work
 package.
 
-
-
 ## Improved work package split screen
 
   - It is possible to edit and comment in one step in the work package
@@ -48,8 +44,6 @@ package.
     package split screen
     ([#15422](https://community.openproject.org/wp/15422)).
 
-
-
 ## New home screen
 
 With OpenProject 5.0, the new home screen of OpenProject instances
@@ -58,8 +52,6 @@ users) as a dashboard. In addition, links to important resources and
 references have been added.
 
 Optionally, a welcome text block with custom notifications can be added.
-
-
 
 ## Aggregated work package activities and email notifications
 
@@ -72,8 +64,6 @@ as one activity entry. Email notifications are sent based on these
 aggregated
 activities ([#20694](https://community.openproject.org/wp/20694),
 [#21035](https://community.openproject.org/wp/21035)).
-
-
 
 ## Enhanced repository management
 
@@ -95,8 +85,6 @@ information for their projects.
 Furthermore, it is possible to see the disk space used by the used
 repositories in order to get a better overview of the data usage.
 
-
-
 ## Invite project members to OpenProject and add to a project in one step
 
 With OpenProject 5.0 users can be invited to a project via email without
@@ -111,8 +99,6 @@ project settings and has been added to the project side menu.
 The create user functionality has been simplified, so that only the most
 important values have to be entered during creation.
 
-
-
 ## Improved project administration page
 
 The project page in the administration not only includes the used disk
@@ -124,8 +110,6 @@ date, used disk storage).
 The project list is paginated in order to reduce loading time when there
 are a lot of projects.
 
-
-
 ## Restructured my account section
 
 The My Account page has been restructured and the settings are spread
@@ -133,8 +117,6 @@ out across different sections
 ([#19753](https://community.openproject.org/wp/19753)).
 
 Profile images can be set in my account section (local avatar plugin).
-
-
 
 ## Simplified project and user creation
 
@@ -147,8 +129,6 @@ custom fields.
 
 Attributes shown on user invitation screen are limited to most important
 attributes.
-
-
 
 ## Deprecated features
 
@@ -237,4 +217,3 @@ OpenProject Packager edition.
 
 A large number of bugs have been fixed with the release of OpenProject
 5.0.
-

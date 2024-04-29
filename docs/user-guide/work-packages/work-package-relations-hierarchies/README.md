@@ -52,6 +52,7 @@ You can select one of the following relations:
 The selected relation status will be automatically displayed in the work package that you enter. For example if you select "Blocks" in the current work package A and specify work package B, work package B will automatically show that it is "Blocked by" A.
 
 ### Moving related work packages
+
 The precedes/follows relation is the only one that can constrain or affect the dates of work packages.
 
 Work packages in a precedes/follows relationship do not need to immediately follow one other; there can be a gap. In this case, you can move either forwards or backwards in time without affecting the other as long as the finish date of the predecessor is before the start date of follower.

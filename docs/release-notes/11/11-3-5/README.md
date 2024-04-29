@@ -21,6 +21,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Release notes for 11-3-4 is empty \[[#38678](https://community.openproject.org/wp/38678)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

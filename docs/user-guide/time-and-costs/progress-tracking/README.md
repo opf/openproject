@@ -69,7 +69,6 @@ This allows you to edit %&nbsp;Complete (by changing status) or Work and get a p
 
 >**Note:** In the upcoming version, statuses cannot have an empty %&nbsp;Complete value in status-based progress reporting mode.When upgrading, all statuses that do not have a value will take the default value of 0%.
 
-
 ## Hierarchy totals
 
 OpenProject will automatically show totals for Work, Remaining work and % Complete in a work package hierarchy (any parent with children). These appear in a work package table as a number with a Σ sign next to it, indicating that it is a total of the values of the parent _and_ children.
@@ -106,6 +105,3 @@ In Status-based mode, it is possible for work packages to have a %&nbsp;Complete
 When switching to Work-based mode, OpenProject will retain the value for %&nbsp;Complete that was set with status. It can then be modified by inputing Work and Remaining work, thereby overwriting the previous value with a new computed value:
 
 ![Work estimates and progress pop-over with only the previous % Complete value](progress-popover-percentage-complete-only.png)
-
-
-

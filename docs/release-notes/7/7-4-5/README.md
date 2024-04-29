@@ -53,6 +53,4 @@ and helping us to reproduce them.
 
 Users can now be requested to consent into the privacy and usage
 policies of your instance. To configure consent, enable the setting in
-the global administration under *System administration * \> *Users*
-
-
+the global administration under *System administration* \> *Users*

@@ -33,7 +33,6 @@ The containing work packages in any view can be displayed a number of different 
 * [Gantt view](../../gantt-chart)
 * [Board view](../../../getting-started/boards-introduction/)
 
-
 ### Table view
 
 The table view shows all work packages in a table with selected attributes in the columns.
@@ -67,4 +66,3 @@ Then, the work package with all its details will be displayed.
 The arrow next to the subject will bring you back to the table view.
 
 ![back-to-list-view](openproject-user-guide-work-package-full-screen-back-arrow.png)
-

@@ -63,4 +63,3 @@ To change the start and end date or the duration of a work package, click direct
 All changes will also be tracked in the work packages [Activity](../../user-guide/activity).
 
 ![edit the project plan](openproject-user-guide-edit-project-plan.gif)
-

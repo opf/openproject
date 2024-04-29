@@ -25,6 +25,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: dots of Ü are missing in notification list \[[#43086](https://community.openproject.org/wp/43086)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

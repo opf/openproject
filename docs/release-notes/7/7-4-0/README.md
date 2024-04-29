@@ -38,15 +38,12 @@ can simply navigate to the project list and copy, archive or delete
 projects from the list view. For more information take a look at
 [this blog post](https://www.openproject.org/blog/openproject-7-4-project-list-moves-administration-view-projects-page/).
 
-
 ## Resize Gantt chart with drag & drop
 
 A frequent request we received is the ability to easily resize the Gantt
 chart. This is possible with OpenProject 7.4. Simply select the handle
 on the left side of the Gantt chart drag to increase or decrease the
 width of the Gantt chart.
-
-
 
 ## Work package status more prominent
 
@@ -73,8 +70,6 @@ Users can therefore create work packages right from the project
 overview page, from the wiki page or from a meeting.  
 It is even possible to set a default type to allow users to rapidly
 create e.g. bugs or tasks.
-
-
 
 ## Two factor authentication (Enterprise add-on)
 
@@ -121,4 +116,3 @@ OpenProject 7.4 contains a large number of bugs fixes.
 
 For an extensive overview of bug fixes please refer to the
 [following list](https://community.openproject.org/projects/openproject/work_packages?query_props=%7B%22c%22:%5B%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22%5D,%22tzl%22:%22days%22,%22hi%22:true,%22g%22:%22%22,%22t%22:%22parent:desc%22,%22f%22:%5B%7B%22n%22:%22version%22,%22o%22:%22%253D%22,%22v%22:%5B%22845%22%5D%7D,%7B%22n%22:%22type%22,%22o%22:%22%253D%22,%22v%22:%5B%221%22%5D%7D,%7B%22n%22:%22subprojectId%22,%22o%22:%22*%22,%22v%22:%5B%5D%7D%5D,%22pa%22:1,%22pp%22:20%7D).
-

@@ -78,7 +78,6 @@ Once in the console update the token like this:
 Where `...` is the token you have copied earlier.
 After that you can quit the console by entering `exit`.
 
-
 ## Do you have a reseller program for OpenProject?
 
 We provide a [reseller program](https://www.openproject.org/reseller-program/) exclusively for OpenProject Enterprise on-premises (currently not for the Enterprise cloud) and offer a 25% discount on the regular prices as a part of this. Once you purchased the first Enterprise on-premises license for a client, you receive an Enterprise on-premises license for 25 users free of charge for your internal use. Please refer to the link above for more information and the conditions regarding this offer.

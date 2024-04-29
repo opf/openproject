@@ -29,5 +29,3 @@ it will be addressed in the next patch release (3.0.14).
 
 For a complete list of changes, please refer to the
 [OpenProject 3.0.13 query](https://community.openproject.org/versions/466).
-
-

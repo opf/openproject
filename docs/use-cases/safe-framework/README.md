@@ -22,8 +22,6 @@ This guide contains the following sections:
 | [Organizing work using table view, Gantt view](#organizing-work-using-table-view-gantt-view) | Using table and Gantt views to visualize, sort, filter and group work packages and save custom views at all levels (agile team, Agile Release Train or Solution Train) |
 | [Backlogs, Kanban and Team planner](#backlogs-kanban-and-team-planner) | Organizing work and facilitating planning using Backlogs, Kanban boards and Team planner  |
 
-
-
 ## Structure and terminology
 
 Preparing OpenProject for SAFe involves configuration and access at two levels:
@@ -176,7 +174,6 @@ Progress can be viewed at a team label, at an ART-level or at a solution train l
 
 > **Demo:** [Progress overview at a PI level](https://safe.openproject.com/projects/safe-demo/work_packages?query_id=78)
 
-
 ## Organizing work using table view, Gantt view
 
 OpenProject is a powerful tool that allows you to view work packages in a variety of different ways.
@@ -202,7 +199,6 @@ The [Gantt chart](../../user-guide/gantt-chart/) module allows you to quickly vi
 ![Gantt view of one sprint in one ART](Gantt_view.png)
 
 > **Demo:** [A Gantt view of a sprint within an ART](https://safe.openproject.com/projects/art-0-test-release-train/work_packages?query_id=39)
-
 
 ## Backlogs, Kanban and Team planner
 

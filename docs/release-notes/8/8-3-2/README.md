@@ -36,5 +36,3 @@ responsible disclose security related issues to us, please see our
 Thanks to Thanaphon Soo from the [SEC Consult Vulnerability
 Lab](https://www.sec-consult.com) for identifying and responsibly
 disclosing the identified issues.
-
-

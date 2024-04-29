@@ -16,7 +16,6 @@ A project in OpenProject can be understood as a project as defined above. Also, 
 
 > **Note**: In order to see a project and work in it, you have to be a [member of the project](../invite-members).
 
-
 | Topic                                                   | Content                                                      |
 | ------------------------------------------------------- | ------------------------------------------------------------ |
 | [Open a project](#open-an-existing-project)             | Select and open an existing project.                         |
@@ -34,8 +33,6 @@ You can also start typing in a project name to filter by the project's title.
 
 ![filter_for_project_in_header_menu](filter_project_header_menu.png)
 
-
-
 Projects and subprojects are displayed according to their hierarchy in the drop-down menu.
 
 <div class="glossary">
@@ -48,8 +45,6 @@ Alternatively, you can open the list of all existing projects using the [**Globa
 Also, you will see your newest projects on the application landing page in the **Projects** section. Here you can simply click on one of the newest visible projects to open it.
 
 ![openproject landing page](openproject-landing-page.png)
-
-
 
 ## Create a new project
 
@@ -89,4 +84,3 @@ You will see a list with all your projects and their details.
 ## Advanced Project Settings
 
 In our detailed user guide you can find out how to configure further [advanced project settings](../../user-guide/projects/) for your projects, e.g. description, project hierarchy or setting it to public.
-

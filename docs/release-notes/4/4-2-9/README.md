@@ -17,5 +17,3 @@ To help translate OpenProject, please take a look at the
 
 For further information on the release, please take a look at
 [GitHub](https://github.com/opf/openproject/tree/v4.2.9).
-
-

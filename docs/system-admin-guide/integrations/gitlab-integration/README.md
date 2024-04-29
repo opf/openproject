@@ -30,9 +30,11 @@ Merge request activities will also show up in the Activity tab when the merge re
 ![GitLab comments on work package activity tab](openproject-system-guide-gitlab-integration-activity-tab.png)
 
 ## Configuration
+
 You will first have to configure both OpenProject and GitLab for the integration to work.
 
 ### OpenProject
+
 First you will need to create a user in OpenProject that has the permission to make comments. This role only requires two permissions, *View work packages* and *Add notes*, which you will find in the **Work packages and Gantt charts** section under  [**Roles and Permissions**](../../users-permissions/roles-permissions/).
 
 ![GitLab role with required permissions in OpenProject](openproject-system-guide-gitlab-integration-role.png)
@@ -80,15 +82,17 @@ You will need the API key you copied earlier in OpenProject. Append it to the *U
 > - Merge request events
 > - Pipeline events
 
->**Note**: If you are in a local network you might need to allow requests to the local network in your GitLab instance.  
->You can find this settings in the **Outbound requests** section when you navigate to **Admin area -> Settings -> Network**.
+> **Note**: If you are in a local network you might need to allow requests to the local network in your GitLab instance.  
+> You can find this settings in the **Outbound requests** section when you navigate to **Admin area -> Settings -> Network**.
 
 We recommend that you enable the **SSL verification** before you **Add webhook**.
 
 Now the integration is set up on both sides and you can use it.
 
 ## Using GitLab integration
+
 ### Create merge requests
+
 As merge requests are based on branches, a new branch needs to be created first. For that, open the GitLab tab in your OpenProject work package detailed view. Click on **Git snippets** to extend the menu. First, copy the branch name by clicking the corresponding button.
 
 ![Copy the branch name for GitLab in OpenProject](openproject-system-guide-gitlab-integration-branch-name.png)

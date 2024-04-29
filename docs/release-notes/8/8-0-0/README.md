@@ -40,8 +40,6 @@ around the Markdown format. When migrating to 8.0., your Textile
 documents will be converted to the new format automatically using
 pandoc.
 
-
-
 ## New side navigation
 
 Navigating within OpenProject is now even easier: The new side
@@ -53,8 +51,6 @@ real estate, just hide the entire side navigation. In addition, work
 package views and wiki pages are now much easier to find and navigate
 to.
 
-
-
 ## Embedded work package tables
 
 With OpenProject 8 you can easily embed work package views and the Gantt
@@ -62,8 +58,6 @@ chart in wiki pages
 ([26233](https://community.openproject.org/wp/26233)).
 This way you can display key project information (such as the current
 milestone plan) directly in a wiki page or in the project overview page.
-
-
 
 ## Full text search for work package attachments (Enterprise add-on)
 
@@ -74,8 +68,6 @@ attachments
 You can either search by file name of the content of the file from the
 work package page. This allows you to quickly find all the work packages
 with certain attachments.
-
-
 
 ## Custom actions (Enterprise add-on)
 
@@ -88,8 +80,6 @@ a work package with the click of a single button. This gives you a
 powerful way to easily and quickly update your work packages based on
 predefined workflows. You save time and avoid errors.
 
-
-
 ## Conditional formatting for work package table (Enterprise add-on)
 
 Rows in the work package page page can be highlighted based on the
@@ -97,8 +87,6 @@ status or priority of the work packages. This makes it very easy to see
 which tasks are most important or need attention. In addition, the due
 date can be highlighted so that you see right away which phases,
 milestones or tasks are due soon or overdue.
-
-
 
 ## Subelement groups for work package types (Enterprise add-on)
 
@@ -108,8 +96,6 @@ small work package table as an attribute group to a work package. You
 can configure which columns and which types of child work packages are
 displayed.
 
-
-
 ## Usability improvements
 
 OpenProject’s overall usability has been improved. The functionality of
@@ -117,8 +103,6 @@ several existing modules has changed.
 In particular, the work package page configuration has been updated to
 be usable for embedded tables as well. In addition
 *Responsible* has been renamed to *Accountable*.
-
-
 
 ## New design
 

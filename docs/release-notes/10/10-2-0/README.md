@@ -32,6 +32,4 @@ The release contains several bug fixes and we recommend updating to the newest v
 
 ## Contributions
 
-
-
 Thanks to Thanh Nguyen Nguyen from [Fortinet's FortiGuard Labs](https://fortiguard.com/) for identifying and responsibly disclosing the attachment filename stringification issue [#31580](https://community.openproject.org/wp/31580).

@@ -66,11 +66,9 @@ To add a widget to the project overview, click on the **+ button** on the top ri
 
 ![add widget](image-20191112142303373.png)
 
-
 ## Project status
 
 On the project overview page, you can set your project status and give a detailed description. The project status is a widget that you add to your project overview. Find the description [below](#project-status-widget).
-
 
 ## Available project overview widgets
 

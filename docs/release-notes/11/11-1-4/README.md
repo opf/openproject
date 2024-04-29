@@ -15,4 +15,3 @@ The release contains an important bug fix and we urge you to update to the newes
 ## Bug fixes and changes
 
 - Fixed: Some settings can be written without authorization \[[#36254](https://community.openproject.org/wp/36254)\]
-

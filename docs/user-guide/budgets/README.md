@@ -104,9 +104,7 @@ You will get and overview of planned as well as spent costs and the available co
 6. The **planned labor costs** are displayed for this budget.
 7. The **actual labor costs** list all work packages that are [assigned to this budget](#assign-a-work-package-to-a-budget) and have logged time on it.
 
-
 ![Budgets-details-view](Budgets-details-view.png)
-
 
 > **Note**: The costs are calculated based on the [configuration for cost types](../../system-admin-guide) and the [configured hourly rate](../time-and-costs/time-tracking/#define-hourly-rate-for-labor-costs) in the user profile.
 

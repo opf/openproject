@@ -15,14 +15,11 @@ Another use case would be to include customers, vendors or partners in your plan
 
 Placeholder users can be managed by system admins and by users with the [role](../roles-permissions/#global-role) "Create, edit and delete placeholder users".
 
-
 | Topic                                                                 | Content                                              |
 |-----------------------------------------------------------------------|------------------------------------------------------|
 | [Placeholder user list](#placeholder-user-list)                       | Manage placeholder users in OpenProject.             |
 | [Create placeholder users](#create-placeholder-users)                 | Add new placeholder users.                           |
 | [Manage placeholder user settings](#manage-placeholder-user-settings) | Change names and add placeholders users to projects. |
-
-
 
 ## Placeholder user list
 
@@ -31,7 +28,6 @@ To manage placeholder users navigate to **Administration -> Users and permission
 The column headers can be clicked to toggle sort direction. Arrows indicate sort order, up for ascending (a-z/0-9) and down for descending (z-a/9-0).
 
 ![placeholder-users-overview](image-20210305150925563.png)
-
 
 ### Filter placeholder users
 
@@ -51,13 +47,13 @@ You will then be asked to type in the placeholder user name to confirm the delet
 > **Note**: Deleting a placeholder user account is an irreversible action and cannot be revoked. The previous activities from this user will still be displayed in the system but reassigned to **Deleted user**.
 
 ## Create placeholder users
+
 To add a new placeholder, user click on **+ Placeholder user** in the upper right corner of the [placeholder user list](#placeholder-user-list).
 Enter a name and click on **Create** to save or on **Create and continue** to save and create another placeholder user.
 
 ![create-new-placeholder-user](openrpoject_system_guide_new_placeholder_user.png)
 
 It is not possible to create two placeholder users with the exact same name.
-
 
 ## Manage placeholder user settings
 

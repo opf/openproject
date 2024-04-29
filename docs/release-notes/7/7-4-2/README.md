@@ -32,5 +32,3 @@ For further information on the 7.4.2 release, please refer to
 the [Changelog v7.4.2](https://community.openproject.org/versions/857)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v7.4.2).
-
-

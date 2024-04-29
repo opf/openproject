@@ -24,5 +24,3 @@ To get an overview of the new version, please refer to the
 [Changelog v.4.0.8](https://community.openproject.org/versions/615 "Changelog v.4.0.8")
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v4.0.8 "GitHub OpenProject 4.0.8").
-
-

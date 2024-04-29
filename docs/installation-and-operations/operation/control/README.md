@@ -163,4 +163,3 @@ This spawns a bash console. In there, you could for example run a rails console 
 ```shell
 bundle exec rails console
 ```
-

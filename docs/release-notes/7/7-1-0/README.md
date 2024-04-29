@@ -94,5 +94,3 @@ For further information on the release, please refer to the [Changelog
 v7.1.0](https://community.openproject.org/versions/836)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v7.1.0).
-
-

@@ -26,6 +26,3 @@ Meetings in OpenProject allow you to manage and document your project meetings, 
 You can view existing meetings within a project or create a new meeting by selecting the **Meetings** module on the left-hand project menu. Alternatively, you can access the transversal cross-project **Meetings** module from the [global modules](../home/global-modules/) menu.
 
 >With OpenProject 13.1.0 there will be two types of meetings that you can create: [dynamic](dynamic-meetings/) and [classic](classic-meetings). Please keep in mind that the ability to create classic meetings will eventually be removed from OpenProject.
-
-
-

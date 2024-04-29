@@ -16,7 +16,6 @@ on different platforms which use either the docker container or the package:
 * [Synology](../synology)
 * [Manual (not recommended)](../manual)
 
-
 ## Community provided installation variants
 
 There are additional methods on installing OpenProject, which we will link below for reference. Please note that we do not officially support these methods, and cannot guarantee their stability or correctness.

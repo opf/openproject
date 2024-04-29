@@ -61,11 +61,6 @@ have been updated
     feature has been fixed
     ([#20149](https://community.openproject.org/work_packages/20149)).
 
-
 For further information on the release, please refer to the
 [Changelog v.4.1.2](https://community.openproject.org/versions/726)
 or take a look at [GitHub](https://github.com/opf/openproject/tree/v4.1.2).
-
-
-
-

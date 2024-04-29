@@ -70,8 +70,6 @@ The new and additional tool tips in the OpenProject application will make the na
 
 ![hover over select a project and tool tip view all projects comes up](tool-tip.png)
 
-
-
 ## List of all bug fixes and changes
 
 - Epic: Define weekly work schedule (weekends) [#18416](https://community.openproject.org/wp/18416)

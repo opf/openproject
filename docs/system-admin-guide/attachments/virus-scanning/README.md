@@ -9,6 +9,7 @@ keywords: Virus scanning, clamav
 ---
 
 # Virus scanning (Enterprise add-on)
+>
 > **Note**: This functionality is an Enterprise add-on. It is currently not available on the Hosted Enterprise Cloud.
 
 You can configure OpenProject to automatically scan uploaded attachments for viruses using the [ClamAV antivirus](https://www.clamav.net/) engine.
@@ -27,8 +28,6 @@ On a packaged installation, you can simply install ClamAV locally on your distri
 
 When installed as a package on the same server, you can configure OpenProject to use the `ClamAV socket` mode of operation, which uses a local unix socket to communicate with ClamAV.
 
-
-
 **Debian, Ubuntu distributions**
 
 ClamAV is part of the standard packages and can be installed as a daemon just like this:
@@ -38,8 +37,6 @@ apt-get install clamav clamav-daemon
 ```
 
 The installer will launch a `clamd` daemon that can be used to transmit files to the daemon for scanning. A `freshclam` daemon is also started to ensure the definitions are kept up-to-date. In any case, double-check the configuration and ensure they are running.
-
-
 
 **RHEL Linux, Centos**
 
@@ -51,8 +48,6 @@ dnf install -y clamav clamd clamav-update
 ```
 
 For these distributions, you need to manually create the configuration files for `freshclam` and `clamd`.  For more information, see https://docs.clamav.net/manual/Installing.html#rpm-packages-for-centos-redhat-fedora-suse-etc
-
-
 
 ### Docker
 
@@ -69,8 +64,6 @@ docker run -it --rm \
 ```
 
 This will publish the `clamd` TCP connection on port `3310`.
-
-
 
 **Docker-Compose**
 
@@ -91,8 +84,6 @@ services:
 ```
 
 In both these cases, use the `ClamAV (Host)` option with `clamav:3310` as the host value.
-
-
 
 ## Configuration in OpenProject
 
@@ -136,4 +127,3 @@ If viruses are found, they are treated according to the *Infected file action* s
 
 - Quarantine: The files are still visible in the container (e.g., in the work package they were uploaded in), but are no longer accessible. A comment is made to inform users about it.
 - Delete: The file is deleted straight away. A comment is made to inform the users about it.
-

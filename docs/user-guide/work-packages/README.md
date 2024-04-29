@@ -22,7 +22,6 @@ Work packages have a **type**, an **ID**, a **subject** and may have various add
 **Types** are the different items a work package can represent, such as task, feature, bug, phase, milestone. The work package types can be configured in the system administration.
 </div>
 
-
 Work packages can be displayed in a projects timeline, e.g. as a milestone or a phase. In order to use the work packages, the work package module has to be activated in the project settings.
 
 ## Overview
@@ -41,4 +40,3 @@ Work packages can be displayed in a projects timeline, e.g. as a milestone or a 
 | [Work package relations and hierarchies](work-package-relations-hierarchies) | How to create work package relations and hierarchies.        |
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Work-Packages.mp4" type="video/mp4" controls="" style="width:100%"></video>
-

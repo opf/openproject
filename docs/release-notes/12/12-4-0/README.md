@@ -44,8 +44,6 @@ With OpenProject 12.4 users who have OpenProject community edition installed can
 
 !See [here](../../../getting-started/my-account/#two-factor-authentication) how to setup the 2FA under My account.
 
-
-
 ## LDAP connection encryption changes
 
 In previous versions of OpenProject, there were three connection security modes that were hard to differentiate, especially with regards to actual verification of SSL certificates.
@@ -113,9 +111,9 @@ It is now possible to bulk edit the subject field for multiple work packages. Se
 - Changed: Team planner: add "Work week" option to visible time scale \[[#44702](https://community.openproject.org/wp/44702)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 A gigantic thank you goes out to Sven Kunze for developing the self-tagging feature and the bulk edit option for the subject field.
 
 Special thanks for reporting and finding bugs also go to Artur Neumann, Noel Lublovary, Hein Stefans.
-

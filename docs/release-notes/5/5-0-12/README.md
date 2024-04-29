@@ -27,7 +27,3 @@ For further information on the release, please refer to the
 [Changelog v.5.0.12](https://community.openproject.org/versions/800)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v5.0.12).
-
-
-
-

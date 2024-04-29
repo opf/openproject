@@ -33,6 +33,7 @@ Each project attribute will be displayed in individual rows, which contain:
 Attributes may also be contained in [sections](#sections).
 
 ## Create a project attribute
+
 To create a new project attribute, click on the **+ Project attribute** button in the top right corner.
 
 This will display the "New attribute" form with these options:
@@ -57,7 +58,6 @@ This will display the "New attribute" form with these options:
 
 - **Searchable**: Checking this makes this project attribute (and its value) available to the search engine and filters.
 
-
 ## Modify project attributes
 
 You can edit existing attributes under **Administration settings** → **Projects** → **Project attributes**.
@@ -72,7 +72,6 @@ You can also use the drag handles to the left of each project attribute to drag 
 
 >**Note**: Project admins can chose to enable or disable a project attribute from their project, but they cannot change the order. The order set in this page is the order in which they will appear in all projects.
 
-
 ## Sections
 
 You can group project attributes into sections to better organise them.
@@ -86,4 +85,3 @@ You can drag any existing project attribute into a section to move it there. You
 >**Note:** If a project attribute belongs to a section, it will be displayed within that section in _all_ projects.
 
 ![Edit project attribute sections in OpenProject administration](open_project_system_admin_guide_project_attributes_section_more_icon_menu.png)
-

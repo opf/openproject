@@ -12,7 +12,6 @@ Users can book their time or units spent on an activity within a project directl
 
 > **Note**: To use the time tracking functionality, the **Time and costs module** needs to be activated in the [project settings](../../projects/project-settings/modules/).
 
-
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Log time in the work package view](#log-time-in-the-work-package-view) | How to log time to a work package.                           |
@@ -26,7 +25,6 @@ Users can book their time or units spent on an activity within a project directl
 | [Toggl integration](./toggl-integration)                     | How to track spent time with Toggl.                          |
 | [TimeCamp integration](./timecamp-integration)               | How to track spent time using TimeCamp.                      |
 | [Time Tracker integration](./time-tracker-integration)       | How to record and log spent time using Time Tracker.         |
-
 
 ## Log time in the work package view
 
@@ -134,7 +132,6 @@ A user with permissions to edit time logged by other users can edit each entry a
 ## Track labor costs
 
 In order to track labor costs, you need to [define an hourly rate](#define-hourly-rate-for-labor-costs) in your user profile first. The labor costs will then be calculated automatically  based on your hours booked and your hourly rate.
-
 
 ## Define hourly rate for labor costs
 

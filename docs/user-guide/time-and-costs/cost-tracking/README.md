@@ -16,7 +16,6 @@ You can log unit costs on a work package within a project to keep track on certa
 | [Edit logged costs](#edit-logged-costs)                     | How to edit spent costs logged to a work package.   |
 | [Delete logged costs](#delete-logged-costs)                 | How to delete spent costs logged to a work package. |
 
-
 ## Log costs to a work package
 
 In order to log unit costs, you must first activate the **Time and costs** module and the **Budget** module in the project settings. Then select a budget from the drop-down menu of the work package details and link it to the selected work package![select-budget-work-package-details](select-budget-work-package-details.png)
@@ -52,11 +51,7 @@ A new form is opened, where you can log unit costs. You can edit the following i
 
 The **spent unit costs** as well as the total amount of **overall costs** are displayed on the work packages details view.
 
-
-
 ![Cost tracking overview](Cost-tracking-overview.png)
-
-
 
 ## Edit logged costs
 

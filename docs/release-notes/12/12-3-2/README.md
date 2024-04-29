@@ -21,6 +21,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: rake assets:precompile fails with NameError: uninitialized constant ActiveRecord::ConnectionAdapters::PostgreSQLAdapter \[[#44635](https://community.openproject.org/wp/44635)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

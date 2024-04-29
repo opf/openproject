@@ -29,8 +29,6 @@ The system generates the token which you then fill in where requested in the fie
 
 Each time you request a backup this token has to be provided. This also applies when requesting a backup via the API where on top of the API token the _backup token_ will have to be provided as well.
 
-
-
 ## Notifications
 
 Each time a _backup token_ is created or reset an email notification will be sent to all administrators take make everyone aware that there is a new user with access to backups.

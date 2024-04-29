@@ -26,7 +26,3 @@ If you want to filter for this exact behavior, a new filter named
     group, and any users within
 
 Bug reference: [#26207](https://community.openproject.org/wp/26207)
-
-
-
-

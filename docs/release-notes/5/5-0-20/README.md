@@ -19,5 +19,3 @@ We strongly recommend the update to the current version.
 
 For further information on the release, please take a look at
 [GitHub](https://github.com/opf/openproject/tree/v5.0.20).
-
-

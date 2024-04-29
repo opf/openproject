@@ -35,21 +35,18 @@ Here is how the translation process works in detail:
 3. When the new OpenProject version is released users can use the translations in their own instances with the next OpenProject version.
 
 ## How to translate OpenProject via CrowdIn
+
 You can easily help translate OpenProject by creating a (free) CrowdIn account and by joining the [OpenProject CrowdIn project](https://crowdin.com/projects/opf).
 Once you joined the project, you can provide translations by following these steps:
 
 Select the language for which you want to contribute (or vote for) a translation (below the language you can see the progress of the translation).
 ![Language overview in OpenProject CrowdIn project](crowdin-overview.png "Language overview in OpenProject CrowdIn project")
 
-
-
 You will be shown an overview of translatable files in the `dev`  and `release` channel. In the below example, the norwegian project is about 33% translated. Simply click the "Translate All" button to show an editor with all untranslated strings.
 
 ![Select OpenProject version to translate in CrowdIn](crowdin-language-overview.png "Language overview of translatable files")
 
 ![crowdin-editor](crowdin-editor.png "The crowdin editor view")
-
-
 
 On the left hand side (1), strings ordered by translation status will be shown on the left. You can search for specific strings above that list, and also change the filters. The red square next to an English string shows that a string has not been translated yet. To provide a translation, select a string on the left side, provide a translation in the target language (2) in the text box in the right side and press the save button.
 
@@ -60,8 +57,6 @@ Some strings might have pluralization rules, in which case there is a tab that y
 As soon as a translation has been provided by another user (green square next to string), you can also vote on a translation provided by another user. The translation with the most votes is used unless a different translation has been approved by a proofreader.
 
 Once a translation has been provided, a proof reader can approve the translation and mark it for use in OpenProject.
-
-
 
 ## Becoming a proof reader
 

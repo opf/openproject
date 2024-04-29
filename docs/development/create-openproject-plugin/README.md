@@ -53,6 +53,7 @@ Feel free to ask for help in our [Development Forum](https://community.openproje
 The following steps are necessary to release a new plugin:
 
 ### Code Review
+
 A code review should check the whole code and remove glitches like:
 
 - Inappropriate comments

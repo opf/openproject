@@ -30,6 +30,7 @@ The release contains several bug fixes and fixes server security issues. We thus
 - Fixed: Tabnabbing on wiki pages \[[#31817](https://community.openproject.org/wp/31817)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 In this release, we would especially like to thank Bartosz Nowicki for responsibly disclosing a severe data leakage \([#31855](https://community.openproject.org/wp/31855)\). Behavior like this helps improving the security for everybody, so thanks a lot Bartosz. And Thanh Nguyen Nguyen of [Fortiguard Labs](https://fortiguard.com/) has once again responsibly disclosed a security issue to us ([#31817](https://community.openproject.org/wp/31817)). Thank you, Nguyen.  

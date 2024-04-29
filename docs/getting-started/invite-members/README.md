@@ -16,7 +16,6 @@ In order to see a project and work in it, you have to be a member of a project. 
 
 > **Note**: If you are not a member of a project, you do not see the project in the Project selection nor in the project list.
 
-
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [View members](#view-members)                                | View the list of members in your project.                    |
@@ -85,8 +84,6 @@ You can now collaborate with your team in OpenProject. Newly invited users will 
 
 > Please note that removing a member who has not accepted the invite from a project yet will lead to the deletion of this user, which can't be reversed.
 
-
-
 ## Behavior of groups as project members
 
 Groups have the following impact on a project members list and behave slightly different than individual users:
@@ -98,8 +95,6 @@ Groups have the following impact on a project members list and behave slightly d
 - the group's role cannot be changed for individual group members
 
 Find out more about the management of groups [here](../../system-admin-guide/users-permissions/groups/).
-
-
 
 ## Behavior of placeholder users as project members
 

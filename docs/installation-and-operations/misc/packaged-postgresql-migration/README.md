@@ -15,7 +15,6 @@ This guide should leave you with a set of archives that you can use to restore, 
 - **Custom env configuration**: conf-&lt;timestamp&gt;.tar.gz
 - **Repositories**: svn- and git-&lt;timestamp&gt;.tar.gz
 
-
 ## Installation of pgloader
 
 We ship a custom version of pgloader (named `pgloader-ccl`), which embeds some memory optimizations useful when you are migrating from a large MySQL database. This also allows us to provide a unified migration experience for all installation types. This package is available for all the currently supported distributions at [https://packager.io/gh/opf/pgloader-ccl](https://packager.io/gh/opf/pgloader-ccl).
@@ -123,7 +122,6 @@ Form the `DATABASE_URL` string to match your selected password and add it to the
 openproject config:set DATABASE_URL="postgresql://openproject:<PASSWORD>@localhost/openproject"
 ```
 
-
 **Please note:**  Replace  `<PASSWORD>`  with the password you provided above. If you used any special characters, [check whether they need to be percent-encoded](https://developer.mozilla.org/en-US/docs/Glossary/percent-encoding) for the database URL.
 
 You can use this command to escape any characters in the password:
@@ -131,7 +129,6 @@ You can use this command to escape any characters in the password:
 ```shell
 openproject run ruby -r cgi -e "puts CGI.escape('your-password-here');"
 ```
-
 
 ## Migrating the database
 
@@ -158,7 +155,6 @@ The following is an exemplary removal of an installed version MySQL 5.7.
 
 **Note:** OpenProject still depends on `mysql-common` and other dev libraries of MySQL to build the `mysql2` gem for talking to MySQL databases. Depending on what packages you try to uninstall, `openproject` will be listed as a dependent package to be uninstalled if trying to uninstall `mysql-common`. Be careful here with the confirmation of removal, because it might just remove openproject itself due to the apt dependency management.
 
-
 ## Running openproject reconfigure
 
 After you migrated your data, all you need to do is run through the configuration process of the packaged installation to remove the MySQL configuration
@@ -167,9 +163,7 @@ After you migrated your data, all you need to do is run through the configuratio
 openproject reconfigure
 ```
 
-
 In the database installation screen, make sure to select `skip`.
 Keep all other values the same by simply confirming them by pressing `enter` .
-
 
 After the configuration process has run through, your OpenProject installation will be running on PostgreSQL!

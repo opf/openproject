@@ -47,7 +47,6 @@ A user can have one or more roles which grant permissions on different levels.
 
 **Administrators** have full access to all settings and all projects in an OpenProject environment. The permissions of the Administrator role can not be changed.
 
-
 | Scope of the role                                            | Permission examples                                          | Customization options                                        |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | Application-level: Full control of all aspects of the application | - Assign administration privileges to other users<br>- Create and restore backups in the web interface<br>- Create and configure an OAuth app<br>- Configure custom fields<br>- Archive projects/restore projects<br>- Configure global roles<br>- Configure project roles | Cannot be changed |
@@ -76,11 +75,9 @@ A user can have one or more roles which grant permissions on different levels.
 
 **Note:** The *Non-member* role cannot be deleted.
 
-
 | Scope of the role                                            | Permission examples                                          | Customization options                                        |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | Project-level: Permissions scoped to individual projects for users which are logged in | - View work packages for users that are logged in            | Assign different permissions to the role *Non-member*     |
-
 
 ### Anonymous
 

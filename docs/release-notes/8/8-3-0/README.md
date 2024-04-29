@@ -65,7 +65,6 @@ The OpenProject APIv3 can now be authenticated using the OAuth2
 standard. To register an OAuth applications, visit the new module under
 Administration \> OAuth applications.
 
-
 ## Bug fixes and changes
 
 - Feature: OAuth2 authorization flow

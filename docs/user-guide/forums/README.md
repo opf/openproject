@@ -63,8 +63,6 @@ To add a **reply to an existing message** in a forum, click on the Subject in or
 
 Click the blue **Reply** button underneath the forum message.
 
-
-
 ![Forum-message-reply](Forum-message-reply.png)Enter your **Message content** what you want to add as a reply to the existing message.
 
 You can choose to also **add a file** if needed.

@@ -31,6 +31,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: OpenID Connect providers can no longer be set via env \[[#42810](https://community.openproject.org/wp/42810)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

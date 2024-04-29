@@ -37,5 +37,3 @@ For further information on the release, please refer to the [Changelog
 v7.0.2](https://community.openproject.org/versions/837)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v7.0.2).
-
-

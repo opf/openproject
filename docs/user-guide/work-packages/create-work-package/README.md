@@ -26,7 +26,6 @@ Then, navigate to the Work package module in the project navigation.
 
 ![work packages module](1566302949658.png)
 
-
 ### Create a Work package in the table view
 
 To create new Work packages directly in line in the table view, click on the **+ Create new Work package** link below the table.
@@ -56,8 +55,6 @@ Starting with OpenProject 13.0 you can add emojis to all text editors, including
 ![work package description emojis](openproject_user_guide_wp_description_emojis.png)
 
 To find out **how to create a child Work package** please click [here](../work-package-relations-hierarchies/#add-a-child-work-package).
-
-
 
 ## Add attachments to Work packages
 

@@ -11,8 +11,6 @@ release_date: 2019-11-13
 We released [OpenProject 10.2.1](https://community.openproject.org/versions/1404).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-
-
 ## Bug fixes and changes
 
 - Fixed: Error 500 when clicking on a history version [[#31643](https://community.openproject.org/wp/31643)]

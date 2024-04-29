@@ -22,6 +22,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Serious Problem: OpenProject not running after Upgrade to 11.2.1 – rake aborted!  NoMethodError: undefined method `patch_gem_version' for OpenProject::Patches:Module \[[#36717](https://community.openproject.org/wp/36717)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

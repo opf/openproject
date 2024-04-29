@@ -89,8 +89,6 @@ If a file has been deleted on the OneDrive/SharePoint file storage it will still
 
 ![A file has been deleted from the OneDrive/SharePoint file storage](oneproject_onedrive_deleted_file.png)
 
-
-
 ## Download, open folders and remove links
 
 If you wish to unlink any linked file or folder, hover it in the list of linked files and click on the **Unlink** icon.

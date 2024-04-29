@@ -18,14 +18,11 @@ In the wiki you have more functions to edit or configure your wiki page, e.g. to
 | [Show wiki page history](#show-wiki-page-history) | How to display changes to a wiki page.                       |
 | [Export a wiki page](#export-a-wiki-page)         | How to export a wiki page.                                   |
 
-
 To open further configuration settings, navigate to a wiki page and click on the **More** button on top of the wiki page.
 
 In the drop down menu, select the corresponding menu item.
 
 ![more-wiki-functions](image-20210429094259782.png)
-
-
 
 ## Lock a wiki page
 
@@ -38,8 +35,6 @@ The page is now locked and cannot be edited by any other user.
 To unlock a wiki page and make it possible for users to edit it again, select the **Unlock** item under the **More** button on top of a wiki page.
 
 ![unlock-wiki-page](image-20210429101715608.png)
-
-
 
 It is now possible to edit the wiki page again.
 

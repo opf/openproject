@@ -70,5 +70,3 @@ updating to the newest version.
 A big thanks to community members for reporting bugs, especially to Marc
 Vollmer, Frank Schmid, and Nicolas Salguero for their aid in identifying
 and providing fixes for multiple bug reports.
-
-

@@ -383,4 +383,3 @@ Use alert boxes to call attention to information. The alert boxes in the OpenPro
 ```markdown
 > **Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/#create-a-new-account).
 ```
-

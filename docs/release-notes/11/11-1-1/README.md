@@ -20,6 +20,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Newrelic gem incorrectly loaded on installations resulting in unnecessary logs \[[#35776](https://community.openproject.org/wp/35776)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

@@ -22,6 +22,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Click started in modal, but dragged outside closes the modal \[[#46217](https://community.openproject.org/wp/46217)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

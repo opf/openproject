@@ -10,7 +10,6 @@ keywords: contribution, documentation, documentation process, tool setup
 
 This guide describes how to contribute to the OpenProject documentation, including the tool setup.
 
-
 ## Setup the tools to easily contribute to the OpenProject documentation
 
 This guide aims to help users that are new to Git and Markdown to contribute to the OpenProject documentation. There are a two very helpful tools that makes it extremely easy to contribute to OpenProject:
@@ -39,8 +38,6 @@ To exchange data between your local repository and remote repositories you need 
 ![sign-in-into-github](sign-in-into-github.png)
 
 In the next screen click on "Continue with browser".
-
-
 
 ![continue sign in in browser](continue-sign-in-in-browser.png)
 
@@ -92,8 +89,6 @@ Before you can make changes you need to create a local clone of the OpenProject 
 
 ![clone repository](clone-repository.png)
 
-
-
 In the modal window select the repository you forked in step *Fork the OpenProject repository*. Also select a folder on your computer for the cloned repository. Click **Clone**.
 
 ![select repository to be cloned](select-repository-to-be-cloned.png)
@@ -115,8 +110,6 @@ In the same drop down click on "New branch". In this window **insert a branch na
 After that Publish your branch to the forked remote repository on github.com.
 
 ![create new branch - step 3](create-new-branch-step-3.png)
-
-
 
 ## Step 11: Open the files you want to change in Typora
 
@@ -172,8 +165,6 @@ Now you can press "Ready for review" button.
 
 ... and hopefully it is all LGTM which means "Looks good to me(rge). Congrats to your first contribution to the OpenProject documentation. We appreciate your effort :-)
 
-
-
 ## Appendix A: How to import a new release branch into your fork
 
 *(e.g. Release changes from `release/12.2` to `release 12.3`)*
@@ -203,10 +194,6 @@ In Github Desktop choose menu "Repository -> Repository settings". This will ope
 In GitHub Desktop choose menu "Repository -> Push".
 
 ![rebase-your-fork-step-4](rebase-your-fork-step-4.png)
-
-
-
-
 
 ## Appendix B: How to change the Branch of an open Pull Request
 

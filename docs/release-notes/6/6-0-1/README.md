@@ -88,4 +88,3 @@ or take a look at
 
 For a free 30 day trial create your own OpenProject instance on
 [OpenProject.org](https://openproject.org/).
-

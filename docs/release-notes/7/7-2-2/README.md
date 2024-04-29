@@ -56,7 +56,3 @@ Installation](https://www.openproject.org/download-and-installation/) page.
 For more information, please also see ticket
 \[[#26144](https://community.openproject.org/wp/26144)\] and [this
 forum post](https://community.openproject.org/topics/8114).
-
-
-
-

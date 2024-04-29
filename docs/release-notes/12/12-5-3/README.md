@@ -28,6 +28,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: inbound emails uses "move_on_success" and "move_on_failure" error \[[#47633](https://community.openproject.org/wp/47633)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

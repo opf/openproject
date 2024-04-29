@@ -22,5 +22,3 @@ Find the current packager version of OpenProject here:
 
 For a complete list of changes, please refer to the
 [OpenProject 4.0.1 query](https://community.openproject.org/versions/530).
-
-

@@ -69,10 +69,10 @@ You can mention and notify team members via [@notification](../../notifications/
 ![comment-work-packages](comment-work-packages.png)
 
 ### Emojis
+
 Starting with OpenProject 13.0 you can add emojis to all text editors. Type a colon and a letter, e.g. **:a** into the text editor and get a suggested list of emojis you can use.
 
 ![openproject_user_guide_wp_comment_emojis](openproject_user_guide_wp_comment_emojis.png)
-
 
 ## Attach files to work packages
 
@@ -131,8 +131,6 @@ Then you have the possibility to:
 * Bulk delete all selected work packages.
 
 ![bulk edit right mouse click](image-20200331133245192.png)
-
-
 
 At the bottom of the page you can decide whether email updates regarding these changes should be sent or not. It makes sense not to tick the box for large updates to prevent users from getting flooded by emails.
 

@@ -71,8 +71,6 @@ In OpenProject you can now manage multiple building models in IFC format in para
 
 ![OpenProject-BIM_structural](OpenProject-BIM_structural.png)
 
-
-
 ### IFC viewer integrated in OpenProject
 
 OpenProject 10.4 supports to open 3D **models** **and** **visualize** **building** **models** directly in your browser. With this new integrated functionality for construction project management you can now easily **share** **multiple IFC** **files** with your team directly in OpenProject - integrated with all OpenProject functionalities for the project management along the entire building project life-cycle, i.e. BCF management, issue tracking, project planning, documentation.
@@ -193,13 +191,9 @@ Here you can find the [Installation guidelines](../../../installation-and-operat
 
 Want to upgrade from a Community version to try out the light or dark theme? [Get a 14 days free trial token.](https://www.openproject.org/enterprise-edition/)
 
-
-
 ## How to try the OpenProject BIM edition
 
 Try out OpenProject BIM 10.4. right away, create a free trial instance for the [OpenProject BIM edition.](https://start.openproject.com/trial/bim)
-
-
 
 ## What is on the Roadmap?
 
@@ -211,21 +205,15 @@ For the upcoming BIM specific release we are focusing on more building industry 
 - Revit integration to OpenProject.
 - Further advanced BCF management.
 
-
-
 ## Migrating to OpenProject 10.4
 
 Follow the [upgrade guide for the packaged installation or Docker installation](../../../installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 10.4.
 
 We update hosted OpenProject environments (Enterprise cloud) automatically.
 
-
-
 ## Support
 
 You will find useful information in the OpenProject [FAQ](../../../faq/) or you can post your questions in the [Forum](https://community.openproject.org/projects/openproject/boards).
-
-
 
 ## Credits
 

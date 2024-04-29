@@ -90,7 +90,6 @@ CkEditor comes with a debugger inspector that will make the development process 
 
 In order to activate it, just import it (```import CKEditorInspector from '@ckeditor/ckeditor5-inspector';```) at the beginning of the ```op-config-customizer.js``` file and then attach it inside the editorClass.create method:
 
-
 ```javascript
 return editorClass.create(wrapper, configuration).then(editor => {
   CKEditorInspector.attach(editor);
@@ -147,11 +146,9 @@ Here we basically say that when the ckEditor finds a 'mention' element with the 
 
 This is defined in the CkEditor plugin (```mentions-caster.js```).
 
-
 ### 3 - Editing downcast
 
 Define how the mention attribute is going to be represented in the ckEditor's UI (Editing View):
-
 
 ```javascript
 editor.conversion

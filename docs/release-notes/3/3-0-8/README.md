@@ -44,5 +44,3 @@ falling back from
 version 5.0.4 to 3.0.8. While this might be confusing, we are convinced
 that keeping versions in lockstep will convey the intended compatibility
 much better than every other mechanism.
-
-

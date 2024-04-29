@@ -17,7 +17,6 @@ If you find a bug please create a bug report.
 6. Attach a screen-shot or log-file file (optional).
 7. Press **Create**.
 
-
 ## Information you should add to the bug description
 
 ### Preconditions to reproduce the bug
