@@ -28,7 +28,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Project favorites",
+RSpec.describe "Favorite projects",
                :js,
                with_flag: :favorite_projects do
   shared_let(:project) { create(:project, name: "My favorite!", enabled_module_names: []) }
