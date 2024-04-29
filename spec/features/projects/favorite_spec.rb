@@ -43,9 +43,9 @@ RSpec.describe "Favorite projects",
 
   it "allows favoriting and unfavoriting projects" do
     visit project_path(project)
-    expect(page).to have_selector 'a', accessible_name: "Mark as favorite"
+    expect(page).to have_selector 'a', accessible_name: "Add to favorites"
 
-    click_link_or_button(accessible_name: "Mark as favorite")
+    click_link_or_button(accessible_name: "Add to favorites")
 
     expect(page).to have_selector 'a', accessible_name: "Remove from favorite"
 
@@ -66,7 +66,7 @@ RSpec.describe "Favorite projects",
 
     visit home_path
 
-    expect(page).to have_text 'Favored projects'
+    expect(page).to have_text 'Favorite projects'
     expect(page).to have_test_selector 'favorite-project', text: 'My favorite!'
 
     retry_block do
@@ -78,7 +78,7 @@ RSpec.describe "Favorite projects",
       top_menu.expect_result other_project.name
     end
 
-    top_menu.switch_mode "Favored"
+    top_menu.switch_mode "Favorites"
 
     top_menu.expect_result project.name
     top_menu.expect_no_result other_project.name
