@@ -115,6 +115,8 @@ gem "ruby-duration", "~> 3.2.0"
 # released.
 gem "mail", "= 2.8.1"
 
+gem "csv", "~> 3.3"
+
 # provide compatible filesystem information for available storage
 gem "sys-filesystem", "~> 1.4.0", require: false
 
