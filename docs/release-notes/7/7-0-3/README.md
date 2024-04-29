@@ -44,7 +44,7 @@ Seekurity SAS de C.V, Peter F, Jochen Gehlbach and Ole Odendahl for
 reporting bugs!
 
 For further information on the release, please refer to the [Changelog
-v7.0.3](https://community.openproject.org/versions/839) 
+v7.0.3](https://community.openproject.org/versions/839)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v7.0.3).
 

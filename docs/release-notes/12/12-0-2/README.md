@@ -13,7 +13,6 @@ Release date: 2021-11-24
 We released [OpenProject 12.0.2](https://community.openproject.org/versions/1497).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: On global work package page all types are shown - even those in projects not accessible to users \[[#37869](https://community.openproject.org/wp/37869)\]

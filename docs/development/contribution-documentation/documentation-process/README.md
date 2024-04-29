@@ -26,7 +26,7 @@ You need an account on GitHub.com to contribute to the OpenProject documentation
 
 ## Step 2: Install Typora
 
-You can download the installer from the [Typora website](https://typora.io). Follow the prompts to complete the installation. In case you need more information there are very detailed [help](https://support.typora.io/) for each supported operating systems [Linux](https://support.typora.io/Typora-on-Linux/), [macOS](https://support.typora.io/Typora-on-macOS/) and [Windows](https://support.typora.io/Typora-on-Windows/). 
+You can download the installer from the [Typora website](https://typora.io). Follow the prompts to complete the installation. In case you need more information there are very detailed [help](https://support.typora.io/) for each supported operating systems [Linux](https://support.typora.io/Typora-on-Linux/), [macOS](https://support.typora.io/Typora-on-macOS/) and [Windows](https://support.typora.io/Typora-on-Windows/).
 
 ## Step 3: Install GitHub Desktop
 
@@ -50,7 +50,7 @@ Alternatively, if you were already signed in to GitHub, follow the prompts to re
 
 After authenticating your account, you are ready to manage and contribute to projects with GitHub Desktop.
 
-## Step 5: Fork the OpenProject repository 
+## Step 5: Fork the OpenProject repository
 
 If you are an external contributor you don't have write permissions on the repository [https://github.com/opf/openproject](https://github.com/opf/openproject). In this case you first need to fork the repository by clicking the button [Fork](https://github.com/opf/openproject/fork). This basically means that you have your own copy of the repository on GitHub.com. Since it is your own repository you have write privileges here.
 
@@ -104,7 +104,7 @@ In the next screen select **To contribute to the parent project**.
 
 ## Step 10: Create a new Git branch for your change
 
-Select the latest release branch e.g. `release/12.3` as the current branch. 
+Select the latest release branch e.g. `release/12.3` as the current branch.
 
 ![create new branch - step 1](create-new-branch-step-1.png)
 
@@ -144,9 +144,7 @@ At the moment your change is only available in your local repository. To make it
 
 A pull request is a workflow to ask for a review from the OpenProject team. With a pull request you basically ask to check your changes and to copy it over to the OpenProject repository (opf/openproject). After you pushed your local changes to your own repository click the button **Create Pull Request**.
 
-![](create-pull-request-github-desktop.png)
-
-
+![Create a pull request](create-pull-request-github-desktop.png)
 
 Your Draft Pull Request will be created in the browser **on github.com** (the "draft" status of the pull request signals that you are still working on it and it is not yet ready for a review.) Here select the latest release branch e.g. `release/12.4` in the **"base:"** dropdown on the left side. In the **"compare:"** dropdown select the branch you have changed.
 
@@ -154,7 +152,7 @@ Your Draft Pull Request will be created in the browser **on github.com** (the "d
 
 In the description field of the pull request enter a summary for the changes you made. If there is already a work package on https://community.openproject.org you can also add this to the description with its complete URL. This adds a relation between your pull request and the work package.
 
-Once you have made all the changed and are certain that these are final, you can request a review. 
+Once you have made all the changed and are certain that these are final, you can request a review.
 
 ## Step 16: Request review
 
@@ -166,7 +164,7 @@ In the field "Reviewers" select "opf/doc-writers".
 
 ![select reviewer for documentation](select-reviewer-for-documentation.png)
 
-Now you can press "Ready for review" button. 
+Now you can press "Ready for review" button.
 
 ![ready for review](Ready-for-review.png)
 
@@ -182,25 +180,25 @@ Now you can press "Ready for review" button.
 
 If a new release branch is generated on the upstream opf/openproject repository, the fork will NOT automatically fetch and merge and generate this release branch. With the following 'workaround' we get the new branch from the upstream (opf) repository and push it to our new origin (forked repository).
 
-#### A) Change Remote Repository to UPSTREAM
+### A) Change Remote Repository to UPSTREAM
 
 In GitHub Desktop choose menu "Repository -> Repository settings". This will open a new window (screenshot below). Enter the URL of the upstream/original OpenProject repository (e.g. https://github.com/opf/openproject.git). Confirm with **Save**
 
 ![rebase-your-fork-step-1](rebase-your-fork-step-1.png)
 
-#### B) Fetch origin (in this case repository 'opf')
+### B) Fetch origin (in this case repository 'opf')
 
-In GitHub Desktop **at Current branch the old branch is visible [1]** . After you press **Fetch origin [2]** you will be able to **select the new branch at Current branch** (e.g. `origin/release/12.3` 
+In GitHub Desktop **at Current branch the old branch is visible [1]** . After you press **Fetch origin [2]** you will be able to **select the new branch at Current branch** (e.g. `origin/release/12.3`
 
 ![rebase-your-fork-step-2](rebase-your-fork-step-2.png)
 
-#### C) Change remote repository back to the forked repository (ORIGIN)
+### C) Change remote repository back to the forked repository (ORIGIN)
 
 In Github Desktop choose menu "Repository -> Repository settings". This will open a new window (screenshot below). Enter the URL of your forked OpenProject repository (e.g. https://github.com/adam-op/openproject.git). Confirm with **Save**
 
 ![rebase-your-fork-step-3](rebase-your-fork-step-3.png)
 
-#### D) PUSH to the forked repository (ORIGIN)
+### D) PUSH to the forked repository (ORIGIN)
 
 In GitHub Desktop choose menu "Repository -> Push".
 
@@ -214,29 +212,26 @@ In GitHub Desktop choose menu "Repository -> Push".
 
 If a new release branch is generated on the upstream opf/openproject repository, **and the steps in Appendix A were done** to get the new branch to the fork. We still might have open Pull Requests on the old, now outdated, release branch. The following steps show how to re-base your open Pull Requests to the new release branch. It is important, because otherwise your changes will not be synchronized with the online documentation on the webpage
 
-#### A) Open the Pull Request in the forked repository
+### A) Open the Pull Request in the forked repository
 
 ![open-pr-in-forked-repository](./open-pr-in-forked-repository.png)
 
-#### B) Edit the Pull Request
+### B) Edit the Pull Request
 
 Click on the Edit button on the right side of the Pull Request subject
 
 ![edit-the-pull-request](./edit-the-pull-request.png)
 
-#### C) Open the Branches drop down list
+### C) Open the Branches drop down list
 
 ![branches-drop-down-list](./branches-drop-down-list.png)
 
-#### D) Select the new release branch
+### D) Select the new release branch
 
 ![select-the-new-release-branch](./select-the-new-release-branch.png)
 
-#### E) Resolving Conflicts
+### E) Resolving Conflicts
 
 It is possible that conflicts will be shown after you change the release branch, depending on how much time passed between the new release branch being created and the Pull Request being rebased.
 
 If you change the branches, you need to do a rebase to the updated target branch and remove any commits that should not be in there. It's hard to document this as what you need to remove depends on the target branches. You can read up on how this works in general by searching for "rebasing" or "interactive rebase" for the git client of your choice. Reach out to us by mentioning or assigning an OpenProject developer to your PR in github if you still need help in rebasing your branch. Over time you'll learn what is necessary.
-
-
-

@@ -56,6 +56,6 @@ This is now fully functional again
 ([#22390](https://community.openproject.org/work_packages/22390)).
 
 For further information on the release, please refer to the  
-[Changelog v.5.0.16](https://community.openproject.org/versions/804) 
+[Changelog v.5.0.16](https://community.openproject.org/versions/804)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v5.0.16).

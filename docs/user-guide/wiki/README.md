@@ -102,7 +102,7 @@ The rendered page will then fetch the work package table results dynamically, re
 
 Use it to embed views in other pages, create reporting of multiple results, or to embed a Gantt chart view.
 
-###  Work package button
+### Work package button
 
 Configure a button or link to target the work package creation screen in the current project. You can preselect a work package type that should be selected, making it easy to guide the users to the work package creation form.
 

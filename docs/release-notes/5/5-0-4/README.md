@@ -26,7 +26,7 @@ improvements:
     [#22065](https://community.openproject.org/work_packages/22065),
     [#22047](https://community.openproject.org/work_packages/22047)).
 
-For further information on the release, please refer to the 
-[Changelog v.5.0.4](https://community.openproject.org/versions/779) 
+For further information on the release, please refer to the
+[Changelog v.5.0.4](https://community.openproject.org/versions/779)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v5.0.4).

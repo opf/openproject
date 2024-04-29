@@ -17,8 +17,8 @@ work package table.
 This error has been fixed with OpenProject 4.0.10
 ([#19809](https://community.openproject.org/work_packages/19809 "#19809")).
 
-For further information on the release, please refer to the 
-[Changelog v.4.0.10](https://community.openproject.org/versions/704 "Changelog v.4.0.10") 
+For further information on the release, please refer to the
+[Changelog v.4.0.10](https://community.openproject.org/versions/704 "Changelog v.4.0.10")
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v4.0.10 "GitHub").
 

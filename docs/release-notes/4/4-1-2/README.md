@@ -32,10 +32,10 @@ We strongly recommend to upgrade to the current version.
     is working properly again with OpenProject 4.1.2
     ([#20316](https://community.openproject.org/work_packages/20316)).
   - Additional a number of design errors have been fixed
-    ([#20305](https://community.openproject.org/work_packages/20305), 
+    ([#20305](https://community.openproject.org/work_packages/20305),
     [#20306](https://community.openproject.org/work_packages/20306),
     [#20308](https://community.openproject.org/work_packages/20308),
-    [#20309](https://community.openproject.org/work_packages/20309), 
+    [#20309](https://community.openproject.org/work_packages/20309),
     [#20317](https://community.openproject.org/work_packages/20317),
     [#20313](https://community.openproject.org/work_packages/20313)).
 
@@ -60,12 +60,12 @@ have been updated
   - In OpenProject 4.1.1 it was not possible to delete meetings. This
     feature has been fixed
     ([#20149](https://community.openproject.org/work_packages/20149)).
- 
 
-For further information on the release, please refer to the 
-[Changelog v.4.1.2](https://community.openproject.org/versions/726) 
+
+For further information on the release, please refer to the
+[Changelog v.4.1.2](https://community.openproject.org/versions/726)
 or take a look at [GitHub](https://github.com/opf/openproject/tree/v4.1.2).
 
- 
+
 
 

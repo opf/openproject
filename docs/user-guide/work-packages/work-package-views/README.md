@@ -62,9 +62,9 @@ Also, you can use the full screen icon in the work package split screen view in 
 
 ![full-screen-icon](openproject-user-guide-work-packages-full-screen-icon.png)
 
-Then, the work package with all its details will be displayed. 
+Then, the work package with all its details will be displayed.
 
-The arrow next to the subject will bring you back to the table view. 
+The arrow next to the subject will bring you back to the table view.
 
 ![back-to-list-view](openproject-user-guide-work-package-full-screen-back-arrow.png)
 

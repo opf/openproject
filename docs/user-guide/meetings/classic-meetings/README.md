@@ -101,7 +101,7 @@ To quickly notify participants about the meeting and send them a link to the mee
 
 ## Download iCalendar event
 
-To add a meeting to a calendar, select the dropdown menu behind the three dots and select **Download iCalendar event**. You can then quickly add the meeting to your calendar or forward it other meeting participants. 
+To add a meeting to a calendar, select the dropdown menu behind the three dots and select **Download iCalendar event**. You can then quickly add the meeting to your calendar or forward it other meeting participants.
 
 ![Download a classic meeting as an iCalendar event in OpenProject](download-a-meeting.png)
 

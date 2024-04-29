@@ -26,6 +26,6 @@ OpenProject 5.0.9 contains several bug fixes:
     [#22397](https://community.openproject.org/work_packages/22397)).
 
 For further information on the release, please refer to the  
-[Changelog v.5.0.9](https://community.openproject.org/versions/789) 
+[Changelog v.5.0.9](https://community.openproject.org/versions/789)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v5.0.9).

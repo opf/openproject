@@ -13,7 +13,6 @@ Release date: 2022-02-23
 We released [OpenProject 12.0.8](https://community.openproject.org/versions/1507).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: Work package title input shrinks when inputting something in FF \[[#39833](https://community.openproject.org/wp/39833)\]

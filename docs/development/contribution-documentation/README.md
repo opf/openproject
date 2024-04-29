@@ -20,23 +20,23 @@ Current and future users of the application find instructions for the set up and
 
 This documentation evolves continuously with new features and improvements to achieve clarity, accuracy, and completeness.
 
- 
+
 
 ## Where to find the OpenProject documentation?
 
-The documentation for OpenProject is published [here](https://www.openproject.org/docs/). You can also access the documentation from your OpenProject application under user guides and API documentation below the question mark at the top right in the header menu. 
+The documentation for OpenProject is published [here](https://www.openproject.org/docs/). You can also access the documentation from your OpenProject application under user guides and API documentation below the question mark at the top right in the header menu.
 
 
 
 ## Who can contribute to the documentation?
 
-Being proudly open source, we invite anyone in our community to contribute to our software as well as the documentation to improve it even further. 
+Being proudly open source, we invite anyone in our community to contribute to our software as well as the documentation to improve it even further.
 
 
 
 ## What can you contribute to the documentation?
 
-Documentation improvements and changes apply to the documentation described in the section above. Documentation changes are **not** changes or additions to the code of the OpenProject application. For contributions to the code, see our [product development guide](../product-development-handbook/). 
+Documentation improvements and changes apply to the documentation described in the section above. Documentation changes are **not** changes or additions to the code of the OpenProject application. For contributions to the code, see our [product development guide](../product-development-handbook/).
 
 We are looking forward to receiving the following contributions from you:
 
@@ -64,4 +64,4 @@ We are looking forward to receiving the following contributions from you:
 
 
 
-With this guide for contributing to the OpenProject documentation we followed and took inspiration from the [Contribute to GitLab guide](https://about.gitlab.com/community/contribute/). 
+With this guide for contributing to the OpenProject documentation we followed and took inspiration from the [Contribute to GitLab guide](https://about.gitlab.com/community/contribute/).

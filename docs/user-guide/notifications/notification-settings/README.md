@@ -25,7 +25,7 @@ Notification settings are divided into four sections:
 
 ## Participating
 
-You participate in a work package by either being [mentioned](../../work-packages/edit-work-package/#-notification-mention), by watching it (being on the _Watchers_ list) or by being designated assignee or accountable. 
+You participate in a work package by either being [mentioned](../../work-packages/edit-work-package/#-notification-mention), by watching it (being on the _Watchers_ list) or by being designated assignee or accountable.
 
 By default, you will be notified of all activities in work packages in which you participate. However, you can choose to change these settings for work packages for which you are an assignee or accountable by checking or unchecking these options:
 
@@ -41,11 +41,11 @@ Starting with 12.4, OpenProject offers notification for date alerts.
 
 > **Note**: Date alerts are an Enterprise add-on and can only be used with [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easy and helps support OpenProject.
 
-Date alerts allow you to receive a notification when a start date or a finish date is approaching for a work package you are participating in (that is, for which you are assignee, accountable or a watcher). 
+Date alerts allow you to receive a notification when a start date or a finish date is approaching for a work package you are participating in (that is, for which you are assignee, accountable or a watcher).
 
 ![A screenshot of options for date alerts](Notification-settings-12.4-dateAlerts.png)
 
-For **start** and **finish dates**, you can choose to be alerted the same day, 1 day before, 3 days before or a week before. 
+For **start** and **finish dates**, you can choose to be alerted the same day, 1 day before, 3 days before or a week before.
 
 > **Info:** Please note that these are natural days and not working days. For a work package starting on a Monday, "3 days before" would be Friday.
 > Date alerts are generated once a day at 1am local time.
@@ -81,7 +81,7 @@ In some cases, you may wish to fine-tune your notification settings at a project
 
 This might be because you are more active in certain projects than others or because certain activities (like date alerts or the creation of new work packages) might be more important to you than others.
 
-To add project-specific notification settings, first click on **+ Add setting for project** and select a project. 
+To add project-specific notification settings, first click on **+ Add setting for project** and select a project.
 
 Once you do so, you will see a table with a column for that project and and the same three sections (Participating, Date alerts, Non-participating) as your overall notification settings. You can now select and unselect any number of options from this list for more specific project-level notification settings.
 

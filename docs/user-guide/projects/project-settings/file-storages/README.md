@@ -49,14 +49,14 @@ Here you can choose which kind of OneDrive/SharePoint project folder will be the
 
 1. **No specific folder**: By default, each user will start at the drive root when they upload a file or select files for linking.
 2. **New folder with automatically managed permissions**: This will automatically create a folder for this project and manage the access permissions for each project member. Each project member will automatically have access to this folder according to the user permissions defined in [File storages permissions](../../../../system-admin-guide/users-permissions/roles-permissions/#permissions). This option will only be available if the system administrator has [set up the storage with automatically managed folders](../../../../system-admin-guide/integrations/one-drive/).
-3. **Existing folder with manually managed permissions**: Once you selected this option, you can designate an existing folder as the project folder for this project using the button **Select folder**. The permissions are however not automatically managed, **instead the folder and its content inherits the permissions as configured in the SharePoint site or drive**. The administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects. 
+3. **Existing folder with manually managed permissions**: Once you selected this option, you can designate an existing folder as the project folder for this project using the button **Select folder**. The permissions are however not automatically managed, **instead the folder and its content inherits the permissions as configured in the SharePoint site or drive**. The administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
 
 
 Click on **Add** to add your new OneDrive/SharePoint file storage to this project.
 
 ![SharePoint/OneDrive file storage is added to an OpenProject project](sharepoint-storage-set.png)
 
-The SharePoint file storage is now available to all work packages in this project. 
+The SharePoint file storage is now available to all work packages in this project.
 
 > **Note:** Please refer to the [OneDrive/SharePoint user guide](../../../file-management/one-drive-integration) for further instructions on using the integration at a user level.
 
@@ -80,9 +80,9 @@ Click on **Add** to add your new Nextcloud file storage to this project.
 
 ![List of project storages](storage-list.png)
 
-The Nextcloud file storage is now available to all work packages in this project. 
+The Nextcloud file storage is now available to all work packages in this project.
 
-> **Note:** For information on how to use the file storage (link Nextcloud user accounts at a user level, link files to a work package, view and download linked files, unlink files), please read our [Nextcloud integration user guide](../../../file-management/nextcloud-integration/). 
+> **Note:** For information on how to use the file storage (link Nextcloud user accounts at a user level, link files to a work package, view and download linked files, unlink files), please read our [Nextcloud integration user guide](../../../file-management/nextcloud-integration/).
 
 If you do not yet have an access token for the file storage in a project, you will be prompted to log into your file storage. You can choose to login immediately to establish the connection or to do it later.
 

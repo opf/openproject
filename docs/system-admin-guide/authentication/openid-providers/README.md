@@ -119,23 +119,19 @@ The steps are as follows:
 
 Log into your Microsoft account, and go to the Azure Active Directory administration page.
 
-![](01-menu.png)
-
-
+![Azure Active Directory administration page](01-menu.png)
 
 In the sidebar, click on "All services".
 
-![](02-admin-dashboard.png)
+![Azure Active Directory All services](02-admin-dashboard.png)
 
 Click on the link named "App registrations".
 
-![](03-app-registrations.png)
-
-
+![Azure Active Directory App registrations](03-app-registrations.png)
 
 Click on "New registration".
 
-![](04-register-app.png)
+![Azure Active Directory New registration](04-register-app.png)
 
 You are now asked for a few settings:
 
@@ -145,21 +141,19 @@ You are now asked for a few settings:
 
 When you are done, click on the "Register" button at the end of the page. You are redirected to your new App registration, be sure to save the "Application (client) ID" that is now displayed. You will need it later.
 
-![](02-admin-dashboard-1580821056307.png)
-
-
+![Azure Active Directory Admin Dashboard](02-admin-dashboard-1580821056307.png)
 
 You can now click on "Certificates & secret".
 
-![](06-certificates.png)
+![Azure Active Directory Certificates](06-certificates.png)
 
 Then click on "New client secret", set the description to "client_secret", and the expiration to "never". Then click on "Add".
 
-![](07-client-secret.png)
+![Azure Active Directory New Client Secret](07-client-secret.png)
 
 A secret should have been generated and is now displayed on the page. Be sure to save it somewhere because it will only be displayed once.
 
-![](08-add-secret.png)
+![Azure Active Directory Add Secret](08-add-secret.png)
 
 At the end of this step, you should have a copy of the Application client ID as well as the client Secret you just generated.
 

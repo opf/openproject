@@ -18,7 +18,7 @@ With OpenProject 4.0.6, a fix has been introduced which addresses this
 problem
 ([#8753](https://community.openproject.org/work_packages/8753 "#8753")).
 
-To get an overview of the new version, please refer to the 
+To get an overview of the new version, please refer to the
 [Changelog v.4.0.6](https://community.openproject.org/versions/592 "Changelog v4.0.6")
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v4.0.6 "GitHub").

@@ -39,7 +39,7 @@ You can change the view of a cost reports and adapt it to your needs.
 
 You can select and apply various filters, such as work package, author, start date or target version.
 
-Multiple projects can be selected by adding a **Projects** filter. 
+Multiple projects can be selected by adding a **Projects** filter.
 Depending on your rights in the project, multiple users can also be selected. This way you can filter the time and cost entries exactly to your need, depending on the time, work or user you want to see.
 
 The results will then be displayed in the time and cost report below.
@@ -54,7 +54,7 @@ To add grouping criteria to the columns or rows of the report, select the drop-d
 
 ![Time-costs-group-by](Time-cots-group-by.png)
 
-The grouping criteria will then be added to the columns or rows of the report. 
+The grouping criteria will then be added to the columns or rows of the report.
 
 Click the blue **Apply button** to display your changes.
 

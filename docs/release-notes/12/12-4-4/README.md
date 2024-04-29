@@ -13,7 +13,6 @@ Release date: 2023-02-15
 We released [OpenProject 12.4.4](https://community.openproject.org/versions/1623).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: Deleting tmp/cache works when called manually but never by scheduled jobs \[[#44182](https://community.openproject.org/wp/44182)\]

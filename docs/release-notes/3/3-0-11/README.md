@@ -33,7 +33,7 @@ of SVN repositories with OpenProject. The same will be allowed for Git
 repositories with OpenProject 4.0
 ([#3708](https://community.openproject.org/work_packages/3708 "Release OpenProject 4.0 (closed)")).
 
-For a complete list of changes, please refer to the 
+For a complete list of changes, please refer to the
 [OpenProject 3.0.11 query](https://community.openproject.org/versions/423).
 
 

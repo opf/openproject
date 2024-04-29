@@ -17,10 +17,10 @@ We advise anyone to update their OpenProject installation.
 Packager support for easier installation has been extended to also
 include RHEL, CentOS and Ubuntu
 ([#17165](https://community.openproject.org/work_packages/17165 "Packaged based installer for RHEL, CentOS and Ubuntu (closed)")).  
-Find the current packager version of OpenProject here: 
+Find the current packager version of OpenProject here:
 [OpenProject Packager installation](https://packager.io/gh/opf/openproject).
 
-For a complete list of changes, please refer to the 
+For a complete list of changes, please refer to the
 [OpenProject 4.0.1 query](https://community.openproject.org/versions/530).
 
 

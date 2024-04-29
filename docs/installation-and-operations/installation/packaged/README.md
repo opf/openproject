@@ -433,7 +433,7 @@ In that case, you will be shown three additional dialogs to enter the certificat
 
 
 
-Enabling this mode will result in OpenProject only responding to HTTPS requests, and upgrade any non-secured requests to HTTPS. It will also output HTTP Strict Transport Security (HSTS) headers to the client. 
+Enabling this mode will result in OpenProject only responding to HTTPS requests, and upgrade any non-secured requests to HTTPS. It will also output HTTP Strict Transport Security (HSTS) headers to the client.
 
 #### External SSL/TLS termination
 
@@ -442,7 +442,7 @@ Enabling this mode will result in OpenProject only responding to HTTPS requests,
 If you have a separate server that is terminating SSL and only forwarding/proxying to the OpenProject server, you must select "No" in this dialog. However, there are some parameters you need to put into your outer configuration.
 
 - If you're proxying to the openproject server, you need to forward the HOST header to the internal server. This ensures that the host name of the outer request gets forwarded to the internal server. Otherwise you might see redirects in your browser to the internal host that OpenProject is running on.
-  - In Apache2, set the `ProxyPreserveHost On` directive 
+  - In Apache2, set the `ProxyPreserveHost On` directive
   - In NginX, use the following value: `proxy_set_header X-Forwarded-Host $host:$server_port;`
 - If you're terminating SSL on the outer server, you need to set the `X-Forwarded-Proto https` header to let OpenProject know that the request is HTTPS, even though its been terminated earlier in the request on the outer server.
   - In Apache2, use `RequestHeader set "X-Forwarded-Proto" https`
@@ -488,7 +488,7 @@ Here an example for external SSL/TLS termination with apache (httpd):
 
 ### Skip Apache2 web server install (not recommended)
 
-> **Note:** Skipping step 3 Apache2 web server install will ask later in step 7 for information about the hostname and HTTPS 
+> **Note:** Skipping step 3 Apache2 web server install will ask later in step 7 for information about the hostname and HTTPS
 
 The installer will not set up an external web server for accessing. You will need to either install and set up a web server such as Apache2 or Nginx to function as the web server forwarding to our internal server listening at `localhost:6000` by proxying.
 
@@ -555,7 +555,7 @@ Also, this setting will control what is the default language for new users if th
 
 With this last step confirmed, the OpenProject wizard will complete, and apply all the configuration options that you have just selected. This might take a few minutes depending on your machine and internet connection, as OpenProject might need to install additional packages (such as the web server, database) depending on your selections.
 
-In case this process crashes or exits with an obvious error, please keep the output and send your configuration from `/etc/openproject/installer.dat` (removing any passwords from it) to us at support@openproject.com , or [reach out to the community forums](https://community.openproject.org/projects/openproject/forums). 
+In case this process crashes or exits with an obvious error, please keep the output and send your configuration from `/etc/openproject/installer.dat` (removing any passwords from it) to us at support@openproject.com , or [reach out to the community forums](https://community.openproject.org/projects/openproject/forums).
 
 When this process completes, it will have started the internal application and web servers, the background jobs to process work-intensive jobs, and set up the connection to the database.
 

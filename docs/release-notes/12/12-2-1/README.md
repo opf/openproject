@@ -51,7 +51,6 @@ For more information on this setting and how to configure it for your installati
 - [Packaged installation](../../../installation-and-operations/installation/packaged/#step-3-apache2-web-server-and-ssl-termination)
 - [Docker installation](../../../installation-and-operations/installation/docker/#configuration)
 
-<!--more-->
 ## All bug fixes
 
 - Fixed: Wrong html title while selecting filters in notification center \[[#43122](https://community.openproject.org/wp/43122)\]

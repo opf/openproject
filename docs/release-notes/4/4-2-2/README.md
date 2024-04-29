@@ -22,8 +22,8 @@ Additionally, some bugs have been fixed:
   - The last login is no longer visible in the user profile
     ([#20892](https://community.openproject.org/work_packages/20892)).
 
-For further information on the release, please refer to the 
-[Changelog v.4.2.2](https://community.openproject.org/versions/729) 
-or take a look at 
+For further information on the release, please refer to the
+[Changelog v.4.2.2](https://community.openproject.org/versions/729)
+or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v4.2.2).
 

@@ -13,7 +13,6 @@ Release date: 2021-11-17
 We released [OpenProject 12.0.1](https://community.openproject.org/versions/1496).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: Getting 500 internal server error while clicking the project meeting module \[[#39853](https://community.openproject.org/wp/39853)\]

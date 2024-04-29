@@ -30,10 +30,10 @@ In addition, the accessibility has been improved
 [#22005](https://community.openproject.org/work_packages/22005)).
 
 For further information on the release, please refer to the  
-[Changelog v.5.0.15](https://community.openproject.org/versions/783) 
+[Changelog v.5.0.15](https://community.openproject.org/versions/783)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v5.0.15).
 
- 
+
 
 

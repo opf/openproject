@@ -27,7 +27,7 @@ In case you want to use environment variables, but you have no easy way to set t
 
 Please be aware that **only those variables shall be edited which are documented** as not everything is meant to be configured or bend.
 
-### Nested values
+## Nested values
 
 You can override nested configuration values as well by joining the respective hash keys with underscores.
 Underscores within keys have to be escaped by doubling them.

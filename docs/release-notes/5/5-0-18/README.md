@@ -45,7 +45,7 @@ The textbox above a forum does now render textile. It’s therefore
 possible to e.g. include links or references
 ([#23180](https://community.openproject.org/wp/23180)).
 
-For further information on the release, please refer to the 
-[Changelog v.5.0.18](https://community.openproject.org/versions/806) 
-or take a look at 
+For further information on the release, please refer to the
+[Changelog v.5.0.18](https://community.openproject.org/versions/806)
+or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v5.0.18).

@@ -26,7 +26,7 @@ Managed repositories need to be enabled manually for each SCM vendor individuall
 
 It contains a YAML configuration section for repository management residing under the namespace `scm`.
 The following is an excerpt of the configuration and contains all required information to set up your data.
-	
+
 ```yaml
 # Configuration of Source control vendors
 # client_command:
@@ -76,7 +76,7 @@ Part of the managed repositories functionality was previously provided with repo
 Reposman periodically checked for new projects and automatically created a repository of a given type.
 It never deleted repositories on the filesystem when their associated project was removed in OpenProject.
 
-This script has been integrated into OpenProject and extended. For further guidance on how to migrate to managed repositories, please see the [upgrade guide to 5.0](../../operation/upgrading) 
+This script has been integrated into OpenProject and extended. For further guidance on how to migrate to managed repositories, please see the [upgrade guide to 5.0](../../operation/upgrading)
 
 ### Managing Repositories Remotely
 
@@ -125,18 +125,18 @@ PerlLoadModule Apache::OpenProjectRepoman
 
 <Location /repos>
   SetHandler perl-script
-	
+ 
   # Sets the access token secret to check against
   AccessSecret "<Fixed access token passed to the endpoint>"
-	
+ 
   # Configure pairs of (vendor, path) to the wrapper
   PerlAddVar ScmVendorPaths "git"
-	PerlAddVar ScmVendorPaths "/srv/repositories/git"
-	
-	PerlAddVar ScmVendorPaths "subversion"
-	PerlAddVar ScmVendorPaths "/srv/repositories/subversion"
-	
-	PerlResponseHandler Apache::OpenProjectRepoman
+ PerlAddVar ScmVendorPaths "/srv/repositories/git"
+ 
+ PerlAddVar ScmVendorPaths "subversion"
+ PerlAddVar ScmVendorPaths "/srv/repositories/subversion"
+ 
+ PerlResponseHandler Apache::OpenProjectRepoman
 </Location>
 ```
 
@@ -181,7 +181,7 @@ authenticate against the OpenProject user database.
 Therefore, we use an authentication perl script located in `extra/svn/OpenProjectAuthentication.pm`.
 This script needs to be in your Apache perl path (for example it might be sym-linked into /etc/apache2/Apache).
 
-To work with the authentication, you need to generate a secret repository API key, generated in your 
+To work with the authentication, you need to generate a secret repository API key, generated in your
 OpenProject instance at `Modules → Administration → Settings → Repositories`.
 On that page, enable  *"Enable repository management web service"* and generate an API key (do not
 forget to save the settings). We need that API key later in our Apache configuration.
@@ -273,7 +273,7 @@ For more information, see the section 'Managing Repositories Remotely'.
 
 We provide an example apache configuration. Some details are explained inline as comments.
 
-​    
+​
 
 ## Git Integration
 

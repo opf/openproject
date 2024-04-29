@@ -11,7 +11,7 @@ The OpenProject Enterprise on-premises edition builds on top of the Community ed
 
 In order to upgrade your OpenProject Community edition to the Enterprise on-premises edition, sign into your OpenProject environment with an administrator account.
 
-**Click on your user avatar in the upper right corner** (1) and select **Administration** from the dropdown menu (2). 
+**Click on your user avatar in the upper right corner** (1) and select **Administration** from the dropdown menu (2).
 
 ![Enterprise-Admin](Enterprise-Admin.png)
 

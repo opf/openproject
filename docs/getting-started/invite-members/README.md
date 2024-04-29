@@ -31,7 +31,7 @@ In order to see a project and work in it, you have to be a member of a project. 
 
 To view the list of **all project members and their roles** in the project, select Members in the project menu on the left side. It will open a list of all the project members, including groups and external users, that work packages have been shared with.  
 
-You can use both filters in the left hand menu, as well as the filter options next to the **+ Member** button. 
+You can use both filters in the left hand menu, as well as the filter options next to the **+ Member** button.
 
 Please also refer to [Members module guide](../../user-guide/members).
 

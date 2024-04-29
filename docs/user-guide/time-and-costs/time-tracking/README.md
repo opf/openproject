@@ -30,7 +30,7 @@ Users can book their time or units spent on an activity within a project directl
 
 ## Log time in the work package view
 
-In order to log spent hours for a certain activity, open the details of the corresponding work package. Select **Log time** from the **More functions** drop down menu, the icon with the three dots in the top right of the work packages details. Or use the **Log time** icon next to **Spent time**. 
+In order to log spent hours for a certain activity, open the details of the corresponding work package. Select **Log time** from the **More functions** drop down menu, the icon with the three dots in the top right of the work packages details. Or use the **Log time** icon next to **Spent time**.
 
 Alternatively, you can also log time via the work package table. To do this, simply click with the right mouse pointer on the line of the work package, which you want to track times for and then select "log time" from the entries in the list. You will then also be led to the form for logging time.
 
@@ -50,7 +50,7 @@ The aggregated time spent on a work package is shown in the work package details
 
 ## Log time via the time tracking button
 
-Starting with OpenProject 13.0, you can also track time in real time using the start/stop time tracking button. To do this, navigate to a work package you are working on and click on the **Start time tracking button**. 
+Starting with OpenProject 13.0, you can also track time in real time using the start/stop time tracking button. To do this, navigate to a work package you are working on and click on the **Start time tracking button**.
 
 ![OpenProject start time tracking button](openproject_user_guide_time_tracking_button.png)
 
@@ -60,7 +60,7 @@ This will start the time tracking timer for the current work package. A timer ic
 
 Once you are done working, you can stop tracking time by clicking the **Stop time tracking button**. This will open a pop up window with the recorded time spent based on the timer. You may correct or adjust this time manually if you wish.
 
-If you want to continue tracking time, click **Cancel** and the timer will continue running. If you do not want to log time, click **Delete**. Clicking **Save** will log the time the same as if you had manually logged it. 
+If you want to continue tracking time, click **Cancel** and the timer will continue running. If you do not want to log time, click **Delete**. Clicking **Save** will log the time the same as if you had manually logged it.
 
 ![OpenProject stop time tracking button](openproject_user_guide_time_tracking_button_stop.png)
 
@@ -70,9 +70,9 @@ If you navigate away from the work package in which you have a timer running, yo
 
 ## Log time via commit message
 
-> **Note**: this is a power user feature that is currently only available for on-premises installations. 
+> **Note**: this is a power user feature that is currently only available for on-premises installations.
 >
-> **Enable time logging** option must be [activated under system settings](../../../system-admin-guide/system-settings/repositories/) in order to log time via a commit message. 
+> **Enable time logging** option must be [activated under system settings](../../../system-admin-guide/system-settings/repositories/) in order to log time via a commit message.
 
 To log time via commit message **Repository** module must be activated and an SVN or Git repository needs to be configured. Once it is configured you can enter the following syntax into a commit message of your client (for example GitHub desktop client or a command line client) to log time: *refs #work package number @amount of hours*. For  example refs #123 @2h will log 2 hours of spent time for the work package number 123.![openproject_user_guide_log_time_commit_message](openproject_user_guide_log_time_commit_message.png)
 
@@ -108,7 +108,7 @@ In the list of time entries, click on the **Delete** icon next to a time entry t
 
 ## Log and edit time for other users
 
-Starting with OpenProject 12.2, users with certain roles are able to log and edit time for other users. 
+Starting with OpenProject 12.2, users with certain roles are able to log and edit time for other users.
 
 > To enable this functionality, an administrator has to grant this privilege to a particular role in the **Roles and Permissions** section under **Users and Permissions** in the administrator settings.
 >
@@ -150,4 +150,4 @@ Here, you can click the **Edit button** on the top right corner of the user prof
 
 Alternatively, you can navigate to *Administration -> Users and permissions -> Users* and click on the respective user name.
 
-Click on the **Rate history** tab. Find out [here](../../../system-admin-guide/users-permissions/users/#rate-history) how to continue. 
+Click on the **Rate history** tab. Find out [here](../../../system-admin-guide/users-permissions/users/#rate-history) how to continue.

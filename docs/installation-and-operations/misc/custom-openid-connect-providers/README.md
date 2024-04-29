@@ -143,7 +143,7 @@ options = {
 
 OpenProject OIDC integration supports [back-channel logouts](https://openid.net/specs/openid-connect-backchannel-1_0.html) if OpenProject is configured for ActiveRecord based sessions (which is the default).
 
-On the identity provider side, you need to set `https://<OpenProject host>/auth/<provider>/backchannel-logout`. `<provider>` is the identifier of the OIDC configuration as provided above. 
+On the identity provider side, you need to set `https://<OpenProject host>/auth/<provider>/backchannel-logout`. `<provider>` is the identifier of the OIDC configuration as provided above.
 
 
 
@@ -231,7 +231,7 @@ In Keycloak, use the following steps to set up a OIDC integration for OpenProjec
 - Under "Clients" menu, click on "Create" or "Create client"
 - **Add client**: Enter the following details
   - **Client type / protocol**: OpenID Connect
-  - **Client ID**: `https://<Your OpenProject hostname>` 
+  - **Client ID**: `https://<Your OpenProject hostname>`
   - **Name**:  Choose any name, used only within keycloak
 - For the **Capability config**, keep Standard flow checked. In our tested version of Keycloak, this was the default.
 - Click on Save
@@ -248,7 +248,7 @@ You will be forwarded to the settings tab  of the new client. Change these setti
 
 Next, you will need to create or note down the client secret for that client.
 
-- Go to the **Credentials** tab 
+- Go to the **Credentials** tab
 - Click on the copy to clipboard button next to **Client secret** to copy that value
 
 
@@ -297,7 +297,7 @@ The Azure integration for OpenProject uses the previous userinfo endpoints, whic
 
 Use our [Azure Active Directory guide](../../../system-admin-guide/authentication/openid-providers/#azure-active-directory) to create the OpenProject client and note down these values
 
--  The Client ID you set up for OpenProject  (assumed to be `https://<OpenProject hostname>`)
+- The Client ID you set up for OpenProject  (assumed to be `https://<OpenProject hostname>`)
 - The client secret
 - The tenant's UUID ([Please see this guide](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-protocols-oidc) for more information on the tenant value)
 

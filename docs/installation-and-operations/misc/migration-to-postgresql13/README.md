@@ -19,7 +19,7 @@ And verify that it outputs: postgres/autoinstall **install**.
 
 If that is not the case, you are likely using a self-provisioned database or a remote database. In this case, please follow the instructions from your provider or use generic PostgreSQL upgrade guides. A guide we can recommend for Debian/Ubuntu based servers is [this one](https://gorails.com/guides/upgrading-postgresql-version-on-ubuntu-server). Please adapt that guide or the following steps to your distribution.
 
-In the following, we assume that you initially let OpenProject setup your PostgreSQL installation, using a local database. 
+In the following, we assume that you initially let OpenProject setup your PostgreSQL installation, using a local database.
 
 NOTE: RedHat and CentOS are slightly different, depending on which PostgreSQL package/repository will be used.
 For the documentation parts titled RedHat/CentOS RedHat Enterprise Linux 8 was used.
@@ -154,7 +154,7 @@ postgres=# \q
 
 6. Check your OpenProject installation on the GUI. A version higher than `13.0` should be displayed for `PostgreSQL version` in the "Administration > Information" section.
 
-   
+
 
 7. If everything is fine, you can then remove your older PostgreSQL installation:
 
@@ -268,7 +268,7 @@ ANALYZE VERBOSE;
 
 ## Troubleshooting
 
-###### User "openproject" does not have a valid SCRAM secret - psql: error: FATAL: password authentication failed for user "openproject"
+> User "openproject" does not have a valid SCRAM secret - psql: error: FATAL: password authentication failed for user "openproject"
 
 Check `/var/lib/pgsql/13/data/pg_hba.conf` for any appearance of `scram-sha-256` and replace with `md5`
 

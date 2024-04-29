@@ -13,7 +13,6 @@ Release date: 2022-01-11
 We released [OpenProject 12.0.5](https://community.openproject.org/versions/1503).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: Uploaded IFC Model can't be set as Standard Model \[[#40187](https://community.openproject.org/wp/40187)\]

@@ -13,7 +13,6 @@ Release date: 2023-01-16
 We released [OpenProject 12.4.2](https://community.openproject.org/versions/1614).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: Password confirmation dialog doesn't work when using ENTER instead of clicking on Confirm \[[#44499](https://community.openproject.org/wp/44499)\]

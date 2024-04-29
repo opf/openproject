@@ -43,7 +43,7 @@ Thanks a lot to the community, in particular Marc Vollmer, for
 bugs](../../../development/report-a-bug/)!
 
 For further information on the release, please refer to the  
-[Changelog v.6.0.2](https://community.openproject.org/versions/814) 
+[Changelog v.6.0.2](https://community.openproject.org/versions/814)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v6.0.2).
 

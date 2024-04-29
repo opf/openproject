@@ -50,7 +50,7 @@ In both cases the seeder will be run when you (re)launch OpenProject to make sur
 
 ## Setting DATABASE_URL and options separately
 
-OpenProject will merge the settings from `DATABASE_URL` with manually specified environment options. Here are the supported options: 
+OpenProject will merge the settings from `DATABASE_URL` with manually specified environment options. Here are the supported options:
 
 | Environment variable               | Default     | Description                                                           | Documentation                                                                            |
 |------------------------------------|-------------|-----------------------------------------------------------------------|------------------------------------------------------------------------------------------|

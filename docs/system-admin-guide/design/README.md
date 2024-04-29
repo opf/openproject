@@ -26,7 +26,7 @@ The design page provides several options to customize your OpenProject Enterpris
 
 You can choose between the three default color themes for OpenProject:
 
-* OpenProject 
+* OpenProject
 * OpenProject Light
 * OpenProject Dark
 
@@ -64,7 +64,7 @@ When you bookmark your OpenProject environment’s URL, you will see that the up
 
 ## Advanced settings
 
-Aside from uploading logos and icons, you can also customize the colors used within your OpenProject environment. 
+Aside from uploading logos and icons, you can also customize the colors used within your OpenProject environment.
 
 To do this change the color values (entered as color hex code) in the *Advanced settings* section. In order to find the right hex code for a color, you can use a website, such as [color-hex.com](https://www.color-hex.com/).
  You can see the selected color in the preview area next to the color hex code. Therefore, it is possible to see the selected color before saving the changes.

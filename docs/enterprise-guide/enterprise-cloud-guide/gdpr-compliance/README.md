@@ -34,7 +34,7 @@ All OpenProject GmbH employees employ industry standard data security measuremen
 
 ## Data Management and Portability
 
-The GDPR includes grants to every data subject the right to access, modify, receive, and delete their own data. 
+The GDPR includes grants to every data subject the right to access, modify, receive, and delete their own data.
 
 OpenProject customers with admin accounts on their instance act as data controllers for their team members and have elaborate means to perform these request on behalf of the data subjects they are responsible for.
 

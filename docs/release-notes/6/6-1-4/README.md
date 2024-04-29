@@ -31,7 +31,7 @@ your OpenProject installation to this
   - Project filter was lost on the second page of the search results page.
 
 For further information on the release, please refer to the  
-[Changelog v.6.1.4](https://community.openproject.org/versions/827) 
+[Changelog v.6.1.4](https://community.openproject.org/versions/827)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v6.1.4).
 

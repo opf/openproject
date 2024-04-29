@@ -29,13 +29,13 @@ The **Gantt charts** module in OpenProject displays the work packages in a timel
 
 ## Activate the Gantt chart
 
-A Gantt chart view can be activated either for a specific project, or on the project overarching level if you need to view the timeline for multiple projects. 
+A Gantt chart view can be activated either for a specific project, or on the project overarching level if you need to view the timeline for multiple projects.
 
-For a specific project, select the **Gantt charts** module from the project module menu on the left side. 
+For a specific project, select the **Gantt charts** module from the project module menu on the left side.
 
 ![activate-gantt](openproject-user-guide-select-gantt-charts.png)
 
-To view multiple projects in a single timeline, select **Gantt charts** from the **Global Modules** menu. 
+To view multiple projects in a single timeline, select **Gantt charts** from the **Global Modules** menu.
 
 ![Select Gantt charts from the global modules menu in OpenProject](openproject-user-guide-select-gantt-charts-global.png)
 
@@ -43,9 +43,9 @@ Alternatively, you can also use the **Include projects** filter.
 
 ## Gantt charts views
 
-Once you opened the Gantt charts module, the default view will show all open work packages. You can adjust the view using the filters or  select one the following view options: 
+Once you opened the Gantt charts module, the default view will show all open work packages. You can adjust the view using the filters or  select one the following view options:
 
-![View options in OpenProject Gantt charts](openproject-user-guide-gantt-charts-views.png) 
+![View options in OpenProject Gantt charts](openproject-user-guide-gantt-charts-views.png)
 
 **Favorite**: lists all saved Gantt charts view that are marked as favorite
 
@@ -60,24 +60,24 @@ Once you opened the Gantt charts module, the default view will show all open wor
 
 ## Quick context menu in Gantt chart view
 
-Once you have selected the Gantt chart view, you can use the quick context menu. To do that, right-click on any of the work packages. 
+Once you have selected the Gantt chart view, you can use the quick context menu. To do that, right-click on any of the work packages.
 > **Note**: if you use the [work packages view](../work-packages/edit-work-package#update-a-work-package-in-a-work-package-table-view) in the **Work packages** module, the options in the quick context menu will differ slightly from the ones in the Gantt chart view.
 
 
 ![Quick context menu in OpenProject Gantt chart work packages view](gantt-context-menu.png)
 
-You can use any of the following options. 
+You can use any of the following options.
 
 - **Open details view** - opens the details view of a work package on the right side of the screen.
 - **Open fullscreen view** - opens the detailed view of a work package across the entire screen.
 - **Change project** - allows moving the selected work package to a different project.
-- **Copy link to clipboard** - copies a short link to the selected work package to your clipboard. 
+- **Copy link to clipboard** - copies a short link to the selected work package to your clipboard.
 - **Delete** - deletes a work package. You will need to confirm the deletion.
 - **Indent hierarchy** - creates a child-parent relationship with the work package directly above. The work package you selected become the child work package. The work package directly above becomes the parent work package.
 - **Add predecessor** - adds a predecessor (it will prompt you to select a work package in Gantt view).
 - **Add follower** - adds a follower (it will prompt you to select a work package in Gantt view).
 - **Show relations** - open the details view of a work package and displays the **Relations** tab.
-- **Create new child** - opens a new work package on the right side of the screen. This new work package already has a child relationship to the work package you selected.  **This option will not be available if the work package type is a milestone**. 
+- **Create new child** - opens a new work package on the right side of the screen. This new work package already has a child relationship to the work package you selected.  **This option will not be available if the work package type is a milestone**.
 
 ## Create a new element in the Gantt chart
 
@@ -193,7 +193,7 @@ To zoom in and zoom out in the Gantt chart view, click on the button with the **
 
 ### Auto zoom
 
-Select the **auto zoom button** on top of the Gantt chart to have the best view of your Gantt chart. 
+Select the **auto zoom button** on top of the Gantt chart to have the best view of your Gantt chart.
 
 Please note that the **auto zoom button** may not be selectable if it has been pre-selected in the [Gantt charts configuration](#gantt-chart-configuration)
 
@@ -233,7 +233,7 @@ Use the minus next to the project's name or the **collapse button** in the upper
 
 ![collapse-button](openproject-user-guide-gantt-charts-collapse-all.png)
 
-This will give you an **aggregated view of the projects' work packages**. You can further adjust this view by using the Filter functionality, for example display work package type Bugs. 
+This will give you an **aggregated view of the projects' work packages**. You can further adjust this view by using the Filter functionality, for example display work package type Bugs.
 
 ![Filtering project aggregated projects Gantt chart view in OpenProject](openproject-user-guide-gantt-charts-filters.png)
 

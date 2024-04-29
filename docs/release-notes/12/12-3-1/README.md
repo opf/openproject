@@ -13,7 +13,6 @@ Release date: 2022-10-24
 We released [OpenProject 12.3.1](https://community.openproject.org/versions/1605).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: Frontend including editor and time logging unusable when there are many activities \[[#40373](https://community.openproject.org/wp/40373)\]

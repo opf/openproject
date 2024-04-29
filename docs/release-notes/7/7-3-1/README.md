@@ -37,8 +37,8 @@ release_date: 2017-11-03
 Thanks a lot to the community, in particular to Frank Michler, Ottavio
 Campana and Rob Guinness for reporting bugs!
 
-For further information on the 7.3.1 release, please refer to the 
-[Changelog v7.3.1](https://community.openproject.org/versions/851) 
+For further information on the 7.3.1 release, please refer to the
+[Changelog v7.3.1](https://community.openproject.org/versions/851)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v7.3.1).
 

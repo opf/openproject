@@ -1,14 +1,14 @@
 # BCF REST API
 
-![](BCFicon128.png)
+![BCF REST API Icon](BCFicon128.png)
 
-The following describes the extensions and deviations of the BCF API v2.1 implementation in OpenProject. 
+The following describes the extensions and deviations of the BCF API v2.1 implementation in OpenProject.
 
-This document should be read as an extension to the [standard specification](https://github.com/buildingSMART/BCF-API/blob/release_2_1/README.md). 
+This document should be read as an extension to the [standard specification](https://github.com/buildingSMART/BCF-API/blob/release_2_1/README.md).
 The user should read the standard specification first, and then take a look at this document to be informed about OpenProject specificities.
 
 While the intent of the implementation is to follow the specification, the API builds on the existing OpenProject data
-schema and by that requires to map between the concepts required in the much broader domain of project management and BCF. 
+schema and by that requires to map between the concepts required in the much broader domain of project management and BCF.
 
 In other parts, the BCF API specification has not been completely implemented. It will be amended where requirements dictate.
 OpenProject offers a second API (v3) which might be able to fill the gaps the BCF API implementation still has.
@@ -150,7 +150,7 @@ _Implemented_
 
 _Implemented and extended_
 
-However, as some end points are not implemented, the actions indicating the ability to call those end points will also not be returned, e.g. `updateDocumentReferences` 
+However, as some end points are not implemented, the actions indicating the ability to call those end points will also not be returned, e.g. `updateDocumentReferences`
 
 ### 4.1.5 Expressing User Authorization Through Project Extensions
 

@@ -13,7 +13,6 @@ Release date: 2023-01-30
 We released [OpenProject 12.4.3](https://community.openproject.org/versions/1621).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: Custom field in cost report show "not found" after custom filed's value \[[#34978](https://community.openproject.org/wp/34978)\]

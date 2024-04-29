@@ -13,7 +13,6 @@ Release date: 2022-10-26
 We released [OpenProject 12.3.2](https://community.openproject.org/versions/1608).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: Multiple identical Webhooks are sent for each WP change applied, not considering the Aggregated WorkPackage Journal \[[#44158](https://community.openproject.org/wp/44158)\]

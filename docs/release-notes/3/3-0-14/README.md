@@ -21,7 +21,7 @@ displayed twice
 ([#16169](https://community.openproject.org/work_packages/16169 "Viewing content in repository or attachments shows up twice (closed)")).
 This has been reported and fixed by [Björn Blissing](https://github.com/bjornblissing). Many thanks!
 
-For a complete list of changes, please refer to the 
+For a complete list of changes, please refer to the
 [OpenProject 3.0.14 query](https://community.openproject.org/versions/490).
 
 

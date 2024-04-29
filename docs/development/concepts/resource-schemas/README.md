@@ -21,7 +21,7 @@ Schema objects are the dictionary for the frontend application to identify the a
 
 - a (possibly) localized name
 - The value type of the defined attributes
-- Constraints for the authenticated user, i.e., whether the attribute is currently writable 
+- Constraints for the authenticated user, i.e., whether the attribute is currently writable
 - (optional) additional option definitions for the attribute.
 
 
@@ -43,7 +43,7 @@ Schemas in the backend are regular Grape endpoints. For example, the schema of a
 
 The work packages' schemas are significantly more complex. Each work package type will define its own schema due to the dynamics of the [form configuration](../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on). With it, the order and grouping of work package attributes can be defined per type, resulting in different attributes to be displayed. In addition, custom fields can be individually enable per project for even more flexibility.
 
-This results in not a single schema for all work packages, but one schema for each project - type combination. 
+This results in not a single schema for all work packages, but one schema for each project - type combination.
 
 The resulting schema JSON is an object with properties that look like the following:
 

@@ -13,7 +13,6 @@ Release date: 2023-03-28
 We released [OpenProject 12.5.2](https://community.openproject.org/versions/1693).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: [AppSignal] incompatible character encodings: ASCII-8BIT and UTF-8 \[[#43898](https://community.openproject.org/wp/43898)\]

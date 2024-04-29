@@ -13,7 +13,6 @@ Release date: 2022-05-04
 We released [OpenProject 12.1.1](https://community.openproject.org/versions/1548).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: Click on Include projects filter is flickering \[[#42196](https://community.openproject.org/wp/42196)\]

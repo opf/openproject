@@ -29,7 +29,7 @@ The following bugs have been fixed:
 
 Additionally, OpenProject 4.2.6 contains new translations.
 
-For further information on the release, please refer to the 
-[Changelog v.4.2.6](https://community.openproject.org/versions/762) 
-or take a look at 
+For further information on the release, please refer to the
+[Changelog v.4.2.6](https://community.openproject.org/versions/762)
+or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v4.2.6).

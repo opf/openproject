@@ -13,7 +13,6 @@ Release date: 2023-06-14
 We released [OpenProject 12.5.7](https://community.openproject.org/versions/1796).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
 ## Bug fixes and changes
 
 - Changed: Quick-Wins to make blue boxes easier to understand \[[#44340](https://community.openproject.org/wp/44340)\]

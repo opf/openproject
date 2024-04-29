@@ -10,7 +10,7 @@ release_date: 2017-03-20
 
 The release contains an important security fix regarding session expiry.
 
-For details on the security fix, take a look at the 
+For details on the security fix, take a look at the
 [release news](https://www.openproject.org/blog/openproject-6-1-6-released-security-fix/).
 
 We recommend the update to the current version.

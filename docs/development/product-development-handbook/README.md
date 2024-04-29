@@ -158,7 +158,7 @@ For internal or customer requirements requirements may directly be created, eval
 |----------------------------------------------------------------------------|:---------------------------------------------------------------------|
 | - Product Manager <br/> - UX Researcher <br/> - Developer <br/> - Designer | Specified feature (status “Specified”) in Product Backlog or version |
 
-Based on the Product Managers judgement (taking among other things the RICE score and customer backing into account) validated and prioritized features (status: “In specification”) are specified in more detail: 
+Based on the Product Managers judgement (taking among other things the RICE score and customer backing into account) validated and prioritized features (status: “In specification”) are specified in more detail:
 
 1. PM specifies the solution and creates mockups (e.g. PowerPoint, Google Docs, …).
 
@@ -211,7 +211,7 @@ For the implementation, prior to working on a new feature, the development team 
 
 For the quality assurance, prior to testing the feature, QA analyzes the feature from a testing viewpoint:
 
-1. A tester responsible for the quality assurance of the feature is selected. 
+1. A tester responsible for the quality assurance of the feature is selected.
 2. The tester generates test cases out of the specification. Open topics (i.e. unclear specification and omissions in the specification) are clarified together with the PM/Designer.
 
 Ideally the preparation of both QA and development happen at the same time so that the specification can be adjusted as early as possible. At the same time, there isn't an explicit need for it to be synchronized.
@@ -249,7 +249,7 @@ Changes to the technical documentation, e.g API documentation, are done in paral
 
 1. Tester adapts test plan if acceptance criteria was altered since the original creation of the test plan.
 2. Tester performs and verifies additional tests according to the  [Writing and Running Tests guide](../../development/running-tests/) to ensure the application has been tested according to specifications and requirements.
-3. Tester tests feature (based on test plan) 
+3. Tester tests feature (based on test plan)
    1. Tester adjusts status when no errors in feature (status: “tested”).
    2. Tester adjusts status when errors occur (status: “test failed”) and notifies developer (move back to phase 2 - Implementation)
 
@@ -274,7 +274,7 @@ If required changes are identified or predefined acceptance criteria is not met,
 |------------------------------------|:-------------------|
 | - Product manager <br/> - Designer | Documented feature |
 
-1. PM/Designer writes the user documentation for the developed feature. 
+1. PM/Designer writes the user documentation for the developed feature.
 
 ### 3.3.5 Building phase 5: Stabilization
 

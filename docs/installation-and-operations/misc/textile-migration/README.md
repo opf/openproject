@@ -59,7 +59,7 @@ For information regarding the features of Markdown and the capabilities of the C
 
 
 
-## Textile in 8.0.0.
+## Textile in 8.0.0
 
-OpenProject does no longer support Textile in 8.0.0 because it is infeasible to support both variants. Please reach out to us if you're interested in maintaining a Textile format as a plugin. 
+OpenProject does no longer support Textile in 8.0.0 because it is infeasible to support both variants. Please reach out to us if you're interested in maintaining a Textile format as a plugin.
 

@@ -24,10 +24,10 @@ OpenProject 5.0.12 contains several bug fixes:
     [#20683](https://community.openproject.org/work_packages/20683)).
 
 For further information on the release, please refer to the  
-[Changelog v.5.0.12](https://community.openproject.org/versions/800) 
+[Changelog v.5.0.12](https://community.openproject.org/versions/800)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v5.0.12).
 
- 
+
 
 

@@ -13,7 +13,6 @@ Release date: 2021-12-08
 We released [OpenProject 12.0.3](https://community.openproject.org/versions/1498).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: Wiki Link List in content formatting issue \[[#40016](https://community.openproject.org/wp/40016)\]

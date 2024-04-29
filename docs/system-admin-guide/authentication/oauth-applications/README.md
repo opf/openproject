@@ -52,7 +52,7 @@ The authentication endpoints of OpenProject OAuth2 server are:
 * Auth URL: `https://example.com/oauth/authorize`
 * Access Token URL: `https://example.com/oauth/token`
 
-## **Authorization code flow** example
+## *Authorization code flow* example
 
 ### Request authorization code
 

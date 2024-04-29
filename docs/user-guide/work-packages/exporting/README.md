@@ -39,7 +39,7 @@ OpenProject has multiple options of exporting work packages, including PDF, XLS,
 
 OpenProject has multiple options of exporting work packages in PDF format.
 
-### PDF Table 
+### PDF Table
 PDF Table exports the work package table displaying work packages as single rows with the selected columns for the work package table. Work packages IDs are linked to the respective work packages. Clicking on a work package ID will lead you directly to the work package in OpenProject.
 
 ![OpenProject PDF Table export](openproject_pdf_table_export.png)
@@ -55,9 +55,9 @@ With PDF Reports you can export detailed up to date work plans for your project 
 ![OpenProject_pdf_report_sum](openproject_wp_report_total_sum.png)
 
 ### PDF Report with images
-PDF Report with images is the same as PDF Report, but also includes the images from the work package description. 
+PDF Report with images is the same as PDF Report, but also includes the images from the work package description.
 
-> **Note**: Images attached or linked in the work package Files section or in the Activity comments are not included into the PDF Report with images. 
+> **Note**: Images attached or linked in the work package Files section or in the Activity comments are not included into the PDF Report with images.
 
 ![OpenProject_work_package_export](openproject_pdf_report_images.png)
 
@@ -86,7 +86,7 @@ OpenProject can export the table for Microsoft Excel with the following options:
 
 The OpenProject XLS export currently does not respect all options in the work package view being exported form:
 
-- The order of work packages in a manually sorted query is not respected. This is known limitation (Ticket https://community.openproject.org/projects/openproject/work_packages/34971/activity)
+- The order of work packages in a manually sorted query is not respected. This is known limitation ([Ticket](https://community.openproject.org/projects/openproject/work_packages/34971/activity)).
 - The hierarchy of work packages as displayed in the work package view. The exported XLS is always in "flat" mode.
 
 ## CSV export
@@ -102,7 +102,7 @@ OpenProject can export the table into a comma-separated CSV. This file will be U
 
 The OpenProject CSV export currently does not respect all options in the work package view being exported form:
 
-- The order of work packages in a manually sorted query is not respected. This is known limitation (Ticket https://community.openproject.org/projects/openproject/work_packages/34971/activity)
+- The order of work packages in a manually sorted query is not respected. This is known limitation ([Ticket](https://community.openproject.org/projects/openproject/work_packages/34971/activity)).
 - The hierarchy of work packages as displayed in the work package view. The exported CSV is always in "flat" mode.
 
 

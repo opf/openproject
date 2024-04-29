@@ -12,7 +12,7 @@ release_date: 2020-12-17
 Release date: 2020-12-17
 
 We released [OpenProject 11.1.0](https://community.openproject.org/versions/1424).
-This new release will bring many new features and bug fixes that will improve classical as well as agile project management. 
+This new release will bring many new features and bug fixes that will improve classical as well as agile project management.
 
 ## Improved styling of the WYSIWYG text editor
 

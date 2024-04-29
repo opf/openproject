@@ -39,13 +39,13 @@ Anonymity is not complete because the underlying webserver might still generate 
 
 To sign-in to the OpenProject platform, the [registration of a user account](../../system-admin-guide/users-permissions/users/#create-users) is required. For registered user's the following personal data are processed:
 
-##### User profile (bu-01)
+#### User profile (bu-01)
 
 - Name
 - Username
 - Avatar
 
-##### User settings (bu-02)
+#### User settings (bu-02)
 
 - Email address
 - Notification settings
@@ -54,7 +54,7 @@ To sign-in to the OpenProject platform, the [registration of a user account](../
 - Time zone settings
 - Display settings (contrast modes, custom themes)
 
-##### User authentication (bu-03)
+#### User authentication (bu-03)
 
 * Access tokens
 * User sessions
@@ -62,20 +62,20 @@ To sign-in to the OpenProject platform, the [registration of a user account](../
 * Phone number for sending one-time passwords via SMS
 * OATH secret codes
 
-##### User notification settings (bu-04)
+#### User notification settings (bu-04)
 
 - Default notification settings
-- Project-specific notification settings 
+- Project-specific notification settings
 - Default email reminder settings
 - Project-specific email reminder settings
 
-##### User roles and permissions (bu-05)
+#### User roles and permissions (bu-05)
 
 - Group memberships
-- Project roles 
+- Project roles
 - Global roles
 
-##### User rates (bu-06)
+#### User rates (bu-06)
 
 * Default hourly rate
 * Hourly rate per project
@@ -86,43 +86,43 @@ To sign-in to the OpenProject platform, the [registration of a user account](../
 
 Depending on the individual use and permissions of the user the following personal data is processed:
 
-##### Boards (cb-01) 
+#### Boards (cb-01)
 
 - Assignment of a person to a work package (author, assignee, responsible, user custom fields)
 - Change history
 - Person mentioned in a board
 
-##### Budgets (cb-02)
+#### Budgets (cb-02)
 
 - Assignments of a person to a budget
 - Change history
 - Person mentioned in a budget description
 
-##### Comments (cc-01)
+#### Comments (cc-01)
 
 - Author of a comment
 - Change history
 - Reactions of a user to a comment
 - Person mentioned in a comment
 
-##### Email notifications (ce-01)
+#### Email notifications (ce-01)
 
 - Email header including sender and recipients
 - Person mentioned in an email
 
-##### Files (cf-01) 
+#### Files (cf-01)
 
 - Assignment of a files to an uploader or creator
 - Change history
 - Person mentioned in a file (incl. file attributes)
 
-##### Meetings (cm-01)
+#### Meetings (cm-01)
 
 - Assignment of a person (author, invitee, participant) to a meeting
 - Change history
 - Person mentioned in an agenda item
 
-##### Projects (cp-01)
+#### Projects (cp-01)
 
 - Assignment of a person to a project (author, project member)
 
@@ -135,37 +135,37 @@ Depending on the individual use and permissions of the user the following person
 - Persons mentioned in a project status information
 
 
-##### Project calendars (cp-02)
+#### Project calendars (cp-02)
 
 - Assignment of objects shown in the calendar (meetings, work packages, versions, milestones) to a person
 - Change history
 - Person mentioned in a calendar item
 
-##### Project news (cp-03)
+#### Project news (cp-03)
 
 - Author of a project news
 - Change history
 - Person mentioned in a project news
 
-##### Team planner (ct-01)
+#### Team planner (ct-01)
 
 - Assignment of a work package to a person
 - Change history
 - Persons mentioned in team planners
 
-##### Time tracking (ct-02)
+#### Time tracking (ct-02)
 
 - Assignments of a time entry to a person
 - Change history
 - Person mentioned in a time entry
 
-##### Wiki pages (cw-01)
+#### Wiki pages (cw-01)
 
 - Assignment of an wiki page edit to a person (author, contributor)
 - Change history
 - Person mentioned in a wiki page
 
-##### Work packages (cw-02)
+#### Work packages (cw-02)
 
 - Assignment of a work package to a person
 - Change history
@@ -196,7 +196,7 @@ The data listed above is generated upon entering the application. When actually 
 
 #### Retention period
 
-Logfiles are automatically removed based on a first-in-first-out mechanism. This is done to limit the disk space which ensures the server's operation and at the same time serves as a means to erase the log entries once they have served their purpose of supporting operations. By default the retention period is determined by the size of the logfile. Once the logfile reaches its storage limit, the oldest entries are removed. 
+Logfiles are automatically removed based on a first-in-first-out mechanism. This is done to limit the disk space which ensures the server's operation and at the same time serves as a means to erase the log entries once they have served their purpose of supporting operations. By default the retention period is determined by the size of the logfile. Once the logfile reaches its storage limit, the oldest entries are removed.
 
 As such, the log entries are not kept for a fixed period of time. If there are a lot of requests, old entries are removed faster then if there are less requests. Administrators of an OpenProject installation might decide to configure a different behavior that factors in the age of the log entries.
 
@@ -238,16 +238,16 @@ flowchart TD
     gih["GitHub (gih)"]
     gil["GitLab (gil)"]
     cal["Calendar (cal)"]
-  	O["API integrations (api)"]
+   O["API integrations (api)"]
  
 end
 
   subgraph services[Internal Services]
   direction TB
-  	M[Memcached]
-	  P[PostgreSQL]
-	  S[Object storage or NFS]
-	  email["Email gateways (eml)"]
+   M[Memcached]
+   P[PostgreSQL]
+   S[Object storage or NFS]
+   email["Email gateways (eml)"]
   end
 
 
@@ -257,13 +257,13 @@ end
   
   subgraph localclients[Local Client / User device]
   direction TB
-	browser
-	A1
-	A2
-	
-	
-	
-	
+ browser
+ A1
+ A2
+ 
+ 
+ 
+ 
 end
 
   
@@ -308,23 +308,23 @@ flowchart LR
   
   subgraph IDP[Identity Provider]
    direction LR
-  	ssoprovider[SSO provider]
-  	LDAP
+   ssoprovider[SSO provider]
+   LDAP
   
   end
   
   subgraph openproject["Relying Party (OpenProject) "]
    direction LR
-  	ssoclient[SSO client]
-  	ldapauthentication[LDAP authentication]
-  	ldapgroupsync[LDAP group sync]
-  	
-	end
+   ssoclient[SSO client]
+   ldapauthentication[LDAP authentication]
+   ldapgroupsync[LDAP group sync]
+   
+ end
 
   subgraph localclients[Local clients]
    direction LR
-  	Browser
-  	end
+   Browser
+   end
   
 ```
 
@@ -347,9 +347,9 @@ flowchart LR
 * `idp-02` TLS
 * `idp-03` TLS
 
-### C: Email (eml) 
+### C: Email (eml)
 
-#### Overview 
+#### Overview
 
 
 ```mermaid
@@ -363,24 +363,24 @@ flowchart LR
  
    subgraph localclients[Local clients]
   direction TB
-  	A
+   A
     end
  
  subgraph internal[Internal services]
   direction TB
-  	C
+   C
   
     end
 
   subgraph external[External services]
   direction TB
-  	A
-  	B
+   A
+   B
     end
     
   subgraph OpenProject
   direction TB
-  	D
+   D
     end
     
     
@@ -398,7 +398,7 @@ flowchart LR
 
 * `bu-01`
 * `bu-04`
-* `bu-05` 
+* `bu-05`
 * `cc-01`
 * `cm-01`
 * `cp-01`
@@ -426,19 +426,19 @@ flowchart LR
   opicalapi -->|cal-02| localcalendarapp
   
   subgraph localclient[Local clients]
-  	direction TB
-  		localcalendarapp
+   direction TB
+    localcalendarapp
     end
 
 
     subgraph external[External services]
-  		direction TB
-  			B
+    direction TB
+     B
     end
     
     subgraph OpenProject
- 		direction TB
-  			projectcalendar[Project calendar] --> opicalapi 
+   direction TB
+     projectcalendar[Project calendar] --> opicalapi 
     end
 ```
 
@@ -458,7 +458,7 @@ flowchart LR
 
 * `cal-01` TLS
 * `cal-02` TLS (not controlled by the OpenProject system)
-* `cal-03` TLS (not controlled by the OpenProject system) 
+* `cal-03` TLS (not controlled by the OpenProject system)
 
 ### E: Nextcloud (nex)
 
@@ -473,21 +473,21 @@ flowchart LR
   appopenprojectintegration <-->|nex-04| openprojectapi
   
   subgraph local[Local clients]
-  	Browser
-  	nextclouddesktopclient
+   Browser
+   nextclouddesktopclient
    end
 
 subgraph openproject[OpenProject]
    
-  	opnextcloudintegrattion[Nextcloud integration]
-  	openprojectapi[API]
-  		end
+   opnextcloudintegrattion[Nextcloud integration]
+   openprojectapi[API]
+    end
 
   subgraph nextcloud[Nextcloud]
-  	groupfolder[Group folder app]
-  	appopenprojectintegration[OpenProject integration app]
-  	nextcloudapi[API]
-	end 
+   groupfolder[Group folder app]
+   appopenprojectintegration[OpenProject integration app]
+   nextcloudapi[API]
+ end 
   
 ```
 
@@ -522,20 +522,20 @@ flowchart LR
   appopenprojectintegration <-->|osh-04| openprojectapi
   
   subgraph local[Local clients]
-  	Browser
-  	onedrivedesktopclient[OneDrive desktop client]
+   Browser
+   onedrivedesktopclient[OneDrive desktop client]
    end
 
 subgraph openproject[OpenProject]
    
-  	oponedrivetegration[OneDrive/SharePoint integration]
-  	openprojectapi[API]
-  		end
+   oponedrivetegration[OneDrive/SharePoint integration]
+   openprojectapi[API]
+    end
 
   subgraph onedrive[OneDrive/SharePoint]
-  	appopenprojectintegration[OpenProject integration app]
-  	onedriveapi[API]
-	end 
+   appopenprojectintegration[OpenProject integration app]
+   onedriveapi[API]
+ end 
   
 ```
 
@@ -563,26 +563,26 @@ subgraph openproject[OpenProject]
 ```mermaid
 %%{init: {'theme':'neutral'}}%%
 flowchart LR
-	gitclient <-->|gih-01| githubapi
-	githubapi <-->|gih-02| opgithubintegration
-	githubwebhooks -->|gih-03| opgithubintegration
+ gitclient <-->|gih-01| githubapi
+ githubapi <-->|gih-02| opgithubintegration
+ githubwebhooks -->|gih-03| opgithubintegration
 
   subgraph GitHub
    direction TB
-  	githubapi[API]
-	githubwebhooks[Webhooks]
+   githubapi[API]
+ githubwebhooks[Webhooks]
 
-	end
-	
-	subgraph localclients[Local clients]
+ end
+ 
+ subgraph localclients[Local clients]
    direction TB
-  	gitclient[Git client]
-	end
+   gitclient[Git client]
+ end
 
   subgraph openproject[OpenProject]
    direction TB
-  	opgithubintegration[Github integration] --- workpackagesmodule[Work packages module]
-	end
+   opgithubintegration[Github integration] --- workpackagesmodule[Work packages module]
+ end
   
   
 ```
@@ -609,26 +609,26 @@ flowchart LR
 ```mermaid
 %%{init: {'theme':'neutral'}}%%
 flowchart LR
-	gitclient <-->|gil-01| gitlabapi
-	gitlabapi <-->|gil-02| opgitlabintegration
-	gitlabwebhooks -->|gil-03| opgitlabintegration
+ gitclient <-->|gil-01| gitlabapi
+ gitlabapi <-->|gil-02| opgitlabintegration
+ gitlabwebhooks -->|gil-03| opgitlabintegration
 
   subgraph GitLab
    direction TB
-  	gitlabapi[API]
-	gitlabwebhooks[Webhooks]
+   gitlabapi[API]
+ gitlabwebhooks[Webhooks]
 
-	end
-	
-	subgraph localclients[Local clients]
+ end
+ 
+ subgraph localclients[Local clients]
    direction TB
-  	gitclient[Git client]
-	end
+   gitclient[Git client]
+ end
 
   subgraph openproject[OpenProject]
    direction TB
-  	opgitlabintegration[GitLab integration] --- workpackagesmodule[Work packages module]
-	end
+   opgitlabintegration[GitLab integration] --- workpackagesmodule[Work packages module]
+ end
   
   
 ```
@@ -656,19 +656,17 @@ flowchart LR
 ```mermaid
 %%{init: {'theme':'neutral'}}%%
 flowchart LR
-	api <-->|api-01| apiintegration[API integration]
-	
-	subgraph externalintegreations[External integrations]
+ api <-->|api-01| apiintegration[API integration]
+ 
+ subgraph externalintegreations[External integrations]
    direction TB
-  	apiintegration
-	end
+   apiintegration
+ end
 
   subgraph openproject[OpenProject]
    direction TB
-  	api[API]
-	end
-  
-  
+   api[API]
+ end
 ```
 
 #### Purpose
@@ -697,11 +695,11 @@ OpenProject makes use of technical cookies to identity the browser client and/or
 
 ## Deletion of personal data
 
-Whenever a user in OpenProject is fully deleted, the system scrubs and removes all user master data, all functional assignments, and all references to a user in the change histories. All actions performed in the name of the user are being replaced with a singular "**Deleted user**" reference in order to maintain integrity of database references, such as being an author of a work package that remains. Finally, the user data itself will be deleted, removing all structural traces of PII in the system. 
+Whenever a user in OpenProject is fully deleted, the system scrubs and removes all user master data, all functional assignments, and all references to a user in the change histories. All actions performed in the name of the user are being replaced with a singular "**Deleted user**" reference in order to maintain integrity of database references, such as being an author of a work package that remains. Finally, the user data itself will be deleted, removing all structural traces of PII in the system.
 
 **Note:** Due to the user references changing, respective cache keys for information such as work packages or projects are invalidated automatically.
 
-**Note:** Deleting a user account is a permanent action and cannot be reversed. 
+**Note:** Deleting a user account is a permanent action and cannot be reversed.
 
 For more information on user account deletion, please see [the user administration guide](../../system-admin-guide/users-permissions/users/#delete-users).
 

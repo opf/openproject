@@ -6,21 +6,15 @@ sidebar_navigation:
 
 # Process control for your OpenProject installation
 
+## Packaged installation
 
-
-
-
-## Packaged installation 
-
-#### Restart all the OpenProject processes
+### Restart all the OpenProject processes
 
 ```shell
 sudo openproject restart
 ```
 
-
-
-#### Run commands like rake tasks or rails console
+### Run commands like rake tasks or rails console
 
 The OpenProject command line tool supports running rake tasks and known scripts. For instance:
 
@@ -54,9 +48,7 @@ sudo openproject run ruby -v
 # if using docker-compose: docker-compose run --rm web ruby -v
 ```
 
-
-
-#### Scaling the number of web workers
+### Scaling the number of web workers
 
 Note: Depending on your free RAM on your system, we recommend you raise the default number of web processes. The default from 9.0.3 onwards is 4 web processes. Each worker will take roughly 300-400MB RAM.
 
@@ -80,12 +72,11 @@ After changing these values, simply restart the web process:
 sudo openproject restart web
 ```
 
-#### Scaling the number of background workers
+### Scaling the number of background workers
 
 Note: Depending on your free RAM on your system, we recommend you raise the default number of background processes. By default, one background worker is spawned. Background workers are responsible for delivering mails, copying projects, performing backups and deleting resources.
 
 We recommend to have two background worker processes. Please check your current web processes count with:
-
 
 To set the desired process count, call
 
@@ -99,13 +90,11 @@ The respective systemd services are automatically created or removed. If you wer
 
 ## All-in-one Docker-based installation
 
-#### Run commands like rake tasks or rails console
+### Run commands like rake tasks or rails console
 
 You can spawn an interactive shell in your docker container to run commands in the OpenProject environment.
 
-
-
-First, find out the container ID of your web process with: 
+First, find out the container ID of your web process with:
 
 ```shell
 # Ensure the containers are running with the following output
@@ -114,8 +103,6 @@ docker ps | grep web_1
 # save the container ID as a env variable $CID
 export CID=$(docker ps | grep web_1 | cut -d' ' -f 1)
 ```
-
-
 
 We can now run commands against that container
 
@@ -137,30 +124,23 @@ In case of using kubernetes, the command is a bit different
 kubectl exec -it {POD_ID} -- bash -c "RAILS_ENV=production bundle exec rails console"
 ```
 
-
-
 Launch an interactive console to directly interact with the underlying Ruby on Rails application:
 
 ```shell
 docker exec -it $CID bash -c "RAILS_ENV=production bundle exec rails console"
 ```
 
-
-
 ## docker-compose based installation
 
-#### Spawn a rails console
+### Spawn a rails console
 
 You can spawn an interactive shell in your docker-compose setup container to run commands in the OpenProject environment.
-
 
 The following command will spawn a Rails console in the container:
 
 ```shell
 docker-compose run web bash -c "RAILS_ENV=production bundle exec rails console"
 ```
-
-
 
 ## Kubernetes and Helm-Charts
 
@@ -169,18 +149,14 @@ For Kubernetes installations, you can use `kubectl` to access pods and get infor
 First, get the pod name of the worker. Assuming your kubectl cluster has OpenProject installed at the `openproject` namespace:
 
 ```shell
-kubectl get pods -n openproject	
+kubectl get pods -n openproject 
 ```
-
-
 
 Then spawn a shell in the relevant one
 
 ```shell
 kubectl exec -n openproject -it pods/openproject-worker-656c77d594-xjdck -- bash
 ```
-
-
 
 This spawns a bash console. In there, you could for example run a rails console like follows:
 

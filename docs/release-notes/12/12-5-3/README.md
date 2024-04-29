@@ -13,7 +13,6 @@ Release date: 2023-04-24
 We released [OpenProject 12.5.3](https://community.openproject.org/versions/1694).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: Titles of related work packages are unnecessarily truncated. Full titles are not accessible. \[[#44828](https://community.openproject.org/wp/44828)\]

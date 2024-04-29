@@ -20,8 +20,8 @@ Additionally, the width for the column selection screen on the work
 package page has been increased
 ([#20095](https://community.openproject.org/work_packages/20095)).
 
-For further information on the release, please refer to the 
-[Changelog v.4.1.1](https://community.openproject.org/versions/714 "Changelog v.4.0.10") 
+For further information on the release, please refer to the
+[Changelog v.4.1.1](https://community.openproject.org/versions/714 "Changelog v.4.0.10")
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v4.1.1 "GitHub").
 

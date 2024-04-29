@@ -135,7 +135,7 @@ A dashboard is defined as an overview page in a software. In OpenProject, you ha
 
 1. You have the [My Page](#my-page), which shows your personal customized [widgets](#widget) on one page, for example a calendar or work package reports.
 
-2. You have the [project overview](#project-overview) dashboard, which gives you an overview of your project. Please note that only project admins can add and remove widgets to the project overview. 
+2. You have the [project overview](#project-overview) dashboard, which gives you an overview of your project. Please note that only project admins can add and remove widgets to the project overview.
 
 In addition to those overview dashboard options, you can create a [custom query](#custom-query) to save a filtered work package view, which might serve you as kind of a dashboard as well.
 
@@ -165,7 +165,7 @@ File storages can be configured in the System Administration and then be selecte
 
 ### Filters
 
-Filters are essential for task and project management in OpenProject. You have several filtering options applicable to a [work package table](#work-package-table). Filter options can be saved via [custom queries](#custom-query). A filtered work packages table view (e.g. only open work packages) can be saved and therefore work as a [dashboard](#dashboard). 
+Filters are essential for task and project management in OpenProject. You have several filtering options applicable to a [work package table](#work-package-table). Filter options can be saved via [custom queries](#custom-query). A filtered work packages table view (e.g. only open work packages) can be saved and therefore work as a [dashboard](#dashboard).
 
 ### Forum
 
@@ -268,7 +268,7 @@ A phase in OpenProject is defined as a [work package type](#work-package-types),
 
 In OpenProject, you can choose from several plugins or [integrations](#integration), or add your own plugins to the Community. In contrast to an integration, a plugin is installed on top of / as part of the OpenProject installation. As an open source software, OpenProject is open to Community-created plugins. Please note that we do not guarantee error-free and seamless use of those plugins.
 
-Your activated plugins are listed together with your [modules](#module) in your instance under --> Administration --> Plugins. 
+Your activated plugins are listed together with your [modules](#module) in your instance under --> Administration --> Plugins.
 
 **More information on plugins in OpenProject**
 
@@ -379,7 +379,7 @@ In OpenProject, a user is defined as a person who uses OpenProject, described by
 
 ### User guide
 
-The OpenProject [user guide](../user-guide/) is an in-depth guide of all features in OpenProject. It offers users detailed information about how to use OpenProject's features, [modules](#module), [integrations](#integration) and more. For more technical information on how to configure your OpenProject instance, see our [system admin guide](../system-admin-guide/). 
+The OpenProject [user guide](../user-guide/) is an in-depth guide of all features in OpenProject. It offers users detailed information about how to use OpenProject's features, [modules](#module), [integrations](#integration) and more. For more technical information on how to configure your OpenProject instance, see our [system admin guide](../system-admin-guide/).
 
 ## V
 

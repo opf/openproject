@@ -131,9 +131,8 @@ setup a reverse proxy in docker, like [traefik](https://traefik.io/). Then follo
   OPENPROJECT_DEV_EXTRA_HOSTS: 'op-backend.local,op-backend.local'
   ```
 
-#### Reminder
-
-This setup is still experimental and under further development. Use it only, when you know what you are doing.
+> **Reminder**:
+  This setup is still experimental and under further development. Use it only, when you know what you are doing.
 
 ## Questions, Comments, and Feedback
 

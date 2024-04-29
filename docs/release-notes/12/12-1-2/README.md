@@ -13,7 +13,6 @@ Release date: 2022-05-11
 We released [OpenProject 12.1.2](https://community.openproject.org/versions/1549).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: Audio of OpenProject video is played when opening the export project modal \[[#41924](https://community.openproject.org/wp/41924)\]

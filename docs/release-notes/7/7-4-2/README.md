@@ -29,7 +29,7 @@ release_date: 2018-03-14
     sorting by name also sorts by their effective date
 
 For further information on the 7.4.2 release, please refer to
-the [Changelog v7.4.2](https://community.openproject.org/versions/857) 
+the [Changelog v7.4.2](https://community.openproject.org/versions/857)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v7.4.2).
 

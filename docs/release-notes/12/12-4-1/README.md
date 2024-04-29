@@ -13,7 +13,6 @@ Release date: 2022-12-14
 We released [OpenProject 12.4.1](https://community.openproject.org/versions/1612).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: Margin under road map caption when version is overdue \[[#41676](https://community.openproject.org/wp/41676)\]

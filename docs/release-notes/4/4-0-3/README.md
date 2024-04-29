@@ -39,7 +39,7 @@ In addition, there has been a small change to the backlogs plugin:
 
 ## List of changes
 
-For a complete list of changes, please refer to the 
+For a complete list of changes, please refer to the
 [Changelog v4.0.3](https://community.openproject.org/versions/543).
 
 

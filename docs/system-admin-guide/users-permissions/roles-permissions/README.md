@@ -17,7 +17,7 @@ Permissions control what users can see and do within OpenProject. Permission are
 
 ### File storages permissions
 
-File storages permissions include the following: 
+File storages permissions include the following:
 
 ![Files storages permissions in OpenProject](openproject_user_guide_file_storages_permissions.png)
 
@@ -127,7 +127,7 @@ Administrators can create new global roles in *Administration* > *Users and perm
 
 - [Edit users](../users/)
 
-	> **Note:** This allows the *Administrator* to delegate the administration of users to other people that should not have full control of the entire OpenProject installation (Administrator). These users can edit attributes of any users, except administrators. This means they are able to impersonate another user by changing email address to match theirs. This is a security risk and should be considered with caution.
+ > **Note:** This allows the *Administrator* to delegate the administration of users to other people that should not have full control of the entire OpenProject installation (Administrator). These users can edit attributes of any users, except administrators. This means they are able to impersonate another user by changing email address to match theirs. This is a security risk and should be considered with caution.
 
 - [Create, edit, and delete placeholder users](../placeholder-users/)
 

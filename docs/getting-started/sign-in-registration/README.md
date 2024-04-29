@@ -97,7 +97,7 @@ If you forgot your password, you can reset your password by clicking the blue **
 
 ![Forgot-password](1566205596114.png)
 
-You are then asked to enter your email address with which you registered to OpenProject. 
+You are then asked to enter your email address with which you registered to OpenProject.
 
 ![enter-email-address](1566205903097.png)
 

@@ -19,7 +19,7 @@ The following bug has been fixed:
 Additionally, new translations have been included (including complete
 translations for Portuguese, Brazilian).
 
-For further information on the release, please refer to the 
-[Changelog v.4.2.4](https://community.openproject.org/versions/752) 
-or take a look at 
+For further information on the release, please refer to the
+[Changelog v.4.2.4](https://community.openproject.org/versions/752)
+or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v4.2.4).

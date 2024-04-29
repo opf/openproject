@@ -13,7 +13,6 @@ Release date: 2022-01-17
 We released [OpenProject 12.0.6](https://community.openproject.org/versions/1504).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: Notification center empty state showing during loading \[[#39828](https://community.openproject.org/wp/39828)\]

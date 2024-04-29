@@ -97,7 +97,7 @@ Berthold  for [reporting
 bugs](../../../development/report-a-bug/)!
 
 For further information on the release, please refer to the  
-[Changelog v.6.0.5](https://community.openproject.org/versions/817) 
+[Changelog v.6.0.5](https://community.openproject.org/versions/817)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v6.0.5).
 

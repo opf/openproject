@@ -21,7 +21,7 @@ Dynamic forms are wrappers around the APIv3 form and schema objects to render a 
 
 The following guides are related:
 
-- [Schema resources](../resource-schemas/) 
+- [Schema resources](../resource-schemas/)
 
 
 

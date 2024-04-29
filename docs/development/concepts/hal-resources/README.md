@@ -34,13 +34,13 @@ The JSON response in HAL standard can contain these things:
 
 
 
-The following is an example HAL JSON for a work package as it is retrieved by the API. This response is abbreviated, you can see the full response of [#34250 on our community](https://community.openproject.org/api/v3/work_packages/34250). You will see the three sections: 
+The following is an example HAL JSON for a work package as it is retrieved by the API. This response is abbreviated, you can see the full response of [#34250 on our community](https://community.openproject.org/api/v3/work_packages/34250). You will see the three sections:
 
 1. Immediate properties within the JSON such as `_type`, `id`, `lockVersion`, `description`. There are more properties like this, they are scalar values of the work package that are not linked to other resources
 
 2. The `_links` section. It contains two sorts of links. For other resources such as `_links.project` and `_links.status`. Each resource link contains an `href` and most often a `title` attribute to provide a human readable name of the linked resource.
 
-   The other type of links are the action links such as `update` or `updateImmediately` which are annotated with the HTTP method to use for these actions. 
+   The other type of links are the action links such as `update` or `updateImmediately` which are annotated with the HTTP method to use for these actions.
 
 3. The `_embedded` section. It contains `_links` that were embedded, i.e., have their own full JSON response included into the resource. This prevents additional requests, but increases the JSON payload and rendering complexity.
 
@@ -232,9 +232,9 @@ In order to turn the JSON properties from `_embedded` and `_links` into writable
 - [`HALResourceService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/features/hal/services/hal-resource.service.ts) for loading and turning JSON responses into HAL resource classes
 - [`halResource.config.ts`](https://github.com/opf/openproject/tree/dev/frontend/src/app/features/hal/services/hal-resource.config.ts) for identifying what types in the JSON response and its members/links are being turned into which classes.
 - [`HalResource`](https://github.com/opf/openproject/tree/dev/frontend/src/app/features/hal/resources/hal-resource.ts) the base HAL resource class
--  [`HAL resource builder`](https://github.com/opf/openproject/tree/dev/frontend/src/app/features/hal/helpers/hal-resource-builder.ts) used for wiring up the links and embedded JSON properties into members of the HAL resource classes
+- [`HAL resource builder`](https://github.com/opf/openproject/tree/dev/frontend/src/app/features/hal/helpers/hal-resource-builder.ts) used for wiring up the links and embedded JSON properties into members of the HAL resource classes
 
 ## Discussions
 
 - Due to the dynamic properties of the HAL resource, it traditionally has an index map to `any` which is the source of many typing issues and in turn, quite a number of bugs: [hal-resource.ts](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/hal/resources/hal-resource.ts#L63)
-- The way HAL resources work by embedding and allowing to load 
+- The way HAL resources work by embedding and allowing to load

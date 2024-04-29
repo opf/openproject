@@ -14,8 +14,8 @@ been combined.
 
 Additionally, you can resize the Gantt chart via drag and drop and the
 work package status is highlighted more prominently. As a user of the
-[Enterprise cloud](https://www.openproject.org/enterprise-edition/#hosting-options) or 
-[Enterprise on-premises](https://www.openproject.org/enterprise-edition/), 
+[Enterprise cloud](https://www.openproject.org/enterprise-edition/#hosting-options) or
+[Enterprise on-premises](https://www.openproject.org/enterprise-edition/),
 custom fields are shown in the project list.
 
 In addition, two factor authentication is available for Enterprise
@@ -26,7 +26,7 @@ edition and Enterprise cloud edition users.
 With OpenProject 7.4 the project list is combined with the project admin
 list. As a user you can choose to expand or collapse the project
 description. As a result, you can see all projects in one place.  
-As a user of the [Enterprise on-premises](https://www.openproject.org/enterprise-edition/) 
+As a user of the [Enterprise on-premises](https://www.openproject.org/enterprise-edition/)
 or [Enterprise cloud](https://www.openproject.org/enterprise-edition/#hosting-options),  
 you can also see
 project custom fields (e.g. project status, project responsible)
@@ -35,7 +35,7 @@ fields. This provides a good foundation for project portfolio
 management.  
 We removed the projects entry from the administration. Administrators
 can simply navigate to the project list and copy, archive or delete
-projects from the list view. For more information take a look at 
+projects from the list view. For more information take a look at
 [this blog post](https://www.openproject.org/blog/openproject-7-4-project-list-moves-administration-view-projects-page/).
 
 
@@ -88,7 +88,7 @@ provided. This provides a much higher level of security.
 
 ## OpenProject webhooks
 
-OpenProject offers an [extensive API](../../../api/) 
+OpenProject offers an [extensive API](../../../api/)
 to synchronize data between
 OpenProject and third party applications.  
 With OpenProject 7.4, OpenProject also offers a webhook plugin which can
@@ -119,6 +119,6 @@ We optimized the mobile view for the work package view.
 
 OpenProject 7.4 contains a large number of bugs fixes.
 
-For an extensive overview of bug fixes please refer to the 
+For an extensive overview of bug fixes please refer to the
 [following list](https://community.openproject.org/projects/openproject/work_packages?query_props=%7B%22c%22:%5B%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22%5D,%22tzl%22:%22days%22,%22hi%22:true,%22g%22:%22%22,%22t%22:%22parent:desc%22,%22f%22:%5B%7B%22n%22:%22version%22,%22o%22:%22%253D%22,%22v%22:%5B%22845%22%5D%7D,%7B%22n%22:%22type%22,%22o%22:%22%253D%22,%22v%22:%5B%221%22%5D%7D,%7B%22n%22:%22subprojectId%22,%22o%22:%22*%22,%22v%22:%5B%5D%7D%5D,%22pa%22:1,%22pp%22:20%7D).
 

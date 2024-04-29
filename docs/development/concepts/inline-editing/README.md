@@ -103,16 +103,14 @@ export class ExampleComponent implements OnInit {
             .work_packages
             .id(this.workPackageId)
             .get()
-        	.subscribe(workPackage => {
-
-          const fieldRenderer = new DisplayFieldRenderer(injector, 'table');
-		  const displayElement = fieldRenderer.render(workPackage, 'status', null);
-          this.elementRef.nativeElement.appendChild(displayElement);
+         .subscribe(workPackage => {
+           const fieldRenderer = new DisplayFieldRenderer(injector, 'table');
+           const displayElement = fieldRenderer.render(workPackage, 'status', null);
+           this.elementRef.nativeElement.appendChild(displayElement);
         });
     }
 }
 ```
-
 
 
 The third parameter of the `render` method is to provide a changeset. This allows to render the value not from the pristine work package, but from a temporary changeset of the work package:
@@ -157,7 +155,7 @@ Edit fields are also working on a single attribute of a resource. The schema pro
 
 The main component that handles rendering of the actual `<input>` fields of the edit fields is the `EditFieldComponent`. It is subclassed for every type of edit fields, such as the `TextEditFieldComponent` or `FloatEditFieldComponent`, and so on. You can find all edit field types in the [Angular fields module](https://github.com/opf/openproject/tree/dev/frontend/src/app/shared/components/fields/edit/field-types).
 
-##### The `EditFieldComponents` operates on a changeset of the resource that's being edited. All changes are being written into this changeset, so they can be aggregated and saved, or reset on an individual level.
+The `EditFieldComponents` operates on a changeset of the resource that's being edited. All changes are being written into this changeset, so they can be aggregated and saved, or reset on an individual level.
 
 It is never directly used from within a template, but through a service that passes in the appropriate inputs. We will take a deeper look at this service later and the reasoning behind it.
 
@@ -216,7 +214,7 @@ export class ExampleComponent implements OnInit {
             .work_packages
             .id(this.workPackageId)
             .get()
-        	.subscribe(workPackage => {
+         .subscribe(workPackage => {
 
 
             return this.editingPortalService.create(

@@ -78,7 +78,7 @@ usability improvements:
 
 OpenProject 6.0 includes several design improvements.
 
- 
+
 
 ## URL slugs for wiki pages
 
@@ -95,9 +95,9 @@ This causes the identifiers of wiki pages with non-ascii characters to
 be more visually pleasing and easier to link to. When upgrading to 6.0.,
 permalinks for all your pages will be generated automatically.
 
- 
 
-##  **Substantial number of bug fixes**
+
+## Substantial number of bug fixes
 
 OpenProject 6.0 contains a large number of bugs fixes.
 

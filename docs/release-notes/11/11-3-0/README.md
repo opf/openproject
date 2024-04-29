@@ -11,7 +11,7 @@ release_date: 2021-06-03
 Release date: 2021-06-03
 
 We released [OpenProject 11.3.0](https://community.openproject.org/versions/1468).
-This new release will bring many new features and bug fixes that will improve classical as well as agile project management. 
+This new release will bring many new features and bug fixes that will improve classical as well as agile project management.
 
 <!--more-->
 

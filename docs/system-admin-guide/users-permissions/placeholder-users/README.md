@@ -35,10 +35,10 @@ The column headers can be clicked to toggle sort direction. Arrows indicate sort
 
 ### Filter placeholder users
 
-The placeholder user list can be filtered by name. 
+The placeholder user list can be filtered by name.
 
 At the top of the user list is a filter box. Enter a name, then click the blue **Apply** button to filter the list. Click the **Clear** button to reset the filter field and refresh the list.
-You can enter any parts of a placeholder user name; this can also contain a **%** wild card for zero or more characters. 
+You can enter any parts of a placeholder user name; this can also contain a **%** wild card for zero or more characters.
 
 ### Delete placeholder users
 
@@ -61,7 +61,7 @@ It is not possible to create two placeholder users with the exact same name.
 
 ## Manage placeholder user settings
 
-You can change a placeholder user's name and add it to a project if you click on its name in the [placeholder user list](#placeholder-user-list). 
+You can change a placeholder user's name and add it to a project if you click on its name in the [placeholder user list](#placeholder-user-list).
 
 On the **General** tab you can change the placeholder user's name.
 
@@ -87,9 +87,9 @@ In the future, additional changes and features for placeholder users will be imp
 
 ## Placeholder user profile
 
-Similar to users, placeholder users have a profile page which shows their name and project memberships. 
+Similar to users, placeholder users have a profile page which shows their name and project memberships.
 
-The projects are only visible for users who are allowed to see the project (e.g. user has permission to see this placeholder user in a common project or has a sufficient global role (e.g. system administrator)). 
+The projects are only visible for users who are allowed to see the project (e.g. user has permission to see this placeholder user in a common project or has a sufficient global role (e.g. system administrator)).
 
 ![image-20210305180853254](image-20210305180853254.png)
 

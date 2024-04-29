@@ -178,7 +178,7 @@ Add the following contents:
 
 
 
-Save the file and check the config with `apache2ctl configtest`. If this works fine, restart apache with `systemctl restart apache2`. 
+Save the file and check the config with `apache2ctl configtest`. If this works fine, restart apache with `systemctl restart apache2`.
 
 
 

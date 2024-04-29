@@ -21,6 +21,6 @@ OpenProject 4.0.4.
 
 ## List of changes
 
-For a complete list of changes, please refer to the 
+For a complete list of changes, please refer to the
 [Changelog v.4.0.4](https://community.openproject.org/versions/559).
 

@@ -30,18 +30,17 @@ flowchart TD
     gih["GitHub (gih)"]
     gil["GitLab (gil)"]
     cal["Calendar (cal)"]
-  	O["API integrations (api)"]
+    O["API integrations (api)"]
     W["Outgoing webhooks"]
-end
+  end
 
   subgraph services[Internal Services]
   direction TB
-  	M[Memcached]
-	  P[PostgreSQL]
-	  S[Object storage or NFS]
-	  email["Email gateways (eml)"]
+    M[Memcached]
+    P[PostgreSQL]
+    S[Object storage or NFS]
+    email["Email gateways (eml)"]
   end
-
 
   openproject <-->|"TCP requests"| services
   openproject -->|"HTTPS requests"| integrations
@@ -49,11 +48,10 @@ end
   
   subgraph localclients[Local Client / User device]
   direction TB
-	browser
-	A1
-	A2	
-	
-end
+  browser
+  A1
+  A2
+  end
 ```
 
 ## Involved services

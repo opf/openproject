@@ -35,7 +35,7 @@ Thanks a lot to the community, in particular to Mark Brown for reporting
 bugs!
 
 For further information on the release, please refer to the [Changelog
-v7.2.1](https://community.openproject.org/versions/843) 
+v7.2.1](https://community.openproject.org/versions/843)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v7.2.1).
 

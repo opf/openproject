@@ -46,5 +46,5 @@ announcement](https://www.ruby-lang.org/en/news/2018/03/28/ruby-2-4-4-released/)
   - SMTP authentication *none* can now be configured through the system
     settings. ([#27284](https://community.openproject.org/wp/27284))
   - For further information on the 7.4.3 release, please refer to
-    the [Changelog v7.4.3](https://community.openproject.org/versions/890) 
+    the [Changelog v7.4.3](https://community.openproject.org/versions/890)
     or take a look at [GitHub](https://github.com/opf/openproject/tree/v7.4.3).

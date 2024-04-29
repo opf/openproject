@@ -16,7 +16,6 @@ The release contains several bug fixes and we recommend updating to the newest v
 **Centos 7 support**
 This version restores support for OpenProject packages on centos 7. A PostgreSQL bump has caused incompatibility issues with the centos7 versions that are shipped and extra effort was needed to provide compatible newer dev headers.
 
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: Removal of the new SPOT buttons because of consistency \[[#42251](https://community.openproject.org/wp/42251)\]

@@ -1,6 +1,6 @@
 # Migrating your Docker OpenProject database to PostgreSQL
 
-This guide will migrate your all-in-one docker-based MySQL installation to a PostgreSQL installation using [pgloader](https://github.com/dimitri/pgloader). 
+This guide will migrate your all-in-one docker-based MySQL installation to a PostgreSQL installation using [pgloader](https://github.com/dimitri/pgloader).
 
 ## Backing up
 

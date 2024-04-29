@@ -13,7 +13,6 @@ Release date: 2022-03-14
 We released [OpenProject 12.0.9](https://community.openproject.org/versions/1511).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: Possible to create invalid project identifier when creating project \[[#41228](https://community.openproject.org/wp/41228)\]

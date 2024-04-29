@@ -19,9 +19,9 @@ keywords: edit work packages
 
 ## Update a work package
 
-To edit a work package, double-click a work package row in [table view](../../work-packages/work-package-views/#table-view) or open the [split screen view](../../work-packages/work-package-views/#split-screen-view) to see the details. 
+To edit a work package, double-click a work package row in [table view](../../work-packages/work-package-views/#table-view) or open the [split screen view](../../work-packages/work-package-views/#split-screen-view) to see the details.
 
-In the work package details, you can click in any field to update it, e.g. change the description, status, priority, assignee, or add a comment. 
+In the work package details, you can click in any field to update it, e.g. change the description, status, priority, assignee, or add a comment.
 
 To save changes in the description, click the **checkmark** icon.
 
@@ -102,7 +102,7 @@ It is also possible to add oneself as watcher (if you have sufficient permission
 
 ### How to remove watchers from a work package
 
-To remove watchers, navigate to the work package [details view](../../work-packages/work-package-views/#full-screen-view) and select the tab Watchers. Click the cross icon next to a watcher to remove the watcher from a work package. 
+To remove watchers, navigate to the work package [details view](../../work-packages/work-package-views/#full-screen-view) and select the tab Watchers. Click the cross icon next to a watcher to remove the watcher from a work package.
 The user will no longer get notifications in OpenProject about changes to this work package according to their notification settings. However, if he/she is the author, assignee or accountable of the work package there still might be notifications. Read [here](../../../getting-started/my-account/#notifications-settings) for more information.
 
 ![remove-watchers](remove-watchers.png)
@@ -138,9 +138,9 @@ At the bottom of the page you can decide whether email updates regarding these c
 
 ![bulk-edit_email-updates](image-20201119163714831.png)
 
-##  Update a work package in a work package table view
+## Update a work package in a work package table view
 
-In the work package table view, you can not only open a single work package but also trigger direct actions such as logging time and costs, copying, downloading or deleting said work package. To access the quick context menu, simply right-click any work package in a work package table view and select the preferred action. 
+In the work package table view, you can not only open a single work package but also trigger direct actions such as logging time and costs, copying, downloading or deleting said work package. To access the quick context menu, simply right-click any work package in a work package table view and select the preferred action.
 
 ![Quick context menu in OpenProject work package table](quick-context-menu.png)
 
@@ -152,16 +152,16 @@ You have the following options:
 - **Log unit costs** - navigates you to the cost logging screen. Once you [log the costs](../../time-and-costs/cost-tracking/) and save the entry, you will return to the work package table view.
 - **Change project** - allows moving the selected work package to a different project.
 - **Copy** - opens a details view of a new work package on the right side of the screen. This new work package is an exact copy of the work package you selected, but you can adjust any details you would like to change and then save it.
-- **Copy link to clipboard** - copies a short link to the selected work package to your clipboard. 
-- **Copy to other project** - allows copying the selected work package to a different project. 
+- **Copy link to clipboard** - copies a short link to the selected work package to your clipboard.
+- **Copy to other project** - allows copying the selected work package to a different project.
 - **Delete** - deletes a work package. You will need to confirm the deletion.
-- **Download PDF** - downloads the selected work package as a PDF file. 
+- **Download PDF** - downloads the selected work package as a PDF file.
 - **Download Atom** - downloads the selected work package as an Atom file.
 - **Indent hierarchy** - creates a child-parent relationship with the work package directly above. The work package you selected become the child work package. The work package directly above becomes the parent work package.
 - **Create new child** - opens a new work package on the right side of the screen. This new work package already has a child relationship to the work package you selected.  
 
 If you have opened the quick context menu for a work package that has a parent work package, you will also see:
 
-- **Outdent hierarchy** option, which will remove the child-parent relationship. 
+- **Outdent hierarchy** option, which will remove the child-parent relationship.
 
 > **Note**: if you open the [Gantt charts module](../../gantt-chart/), the quick context menu will have different options than in the work package table view.

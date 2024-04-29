@@ -16,7 +16,7 @@ For further information, take a look at the [Rails release
 notes](https://weblog.rubyonrails.org/2016/1/25/Rails-5-0-0-beta1-1-4-2-5-1-4-1-14-1-3-2-22-1-and-rails-html-sanitizer-1-0-3-have-been-released/).
 
 For further information on the release, please refer to the  
-[Changelog v.5.0.11](https://community.openproject.org/versions/798) 
+[Changelog v.5.0.11](https://community.openproject.org/versions/798)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v5.0.11)
 

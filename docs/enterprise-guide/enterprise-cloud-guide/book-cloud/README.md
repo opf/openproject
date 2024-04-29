@@ -51,7 +51,7 @@ Click the blue **Next** button.
 
 ![payment-details](payment-details.png)
 
-You will once again get an overview about your subscription. 
+You will once again get an overview about your subscription.
 Here, you can edit the account or billing information if needed.
 
 Subscribe to our regular newsletter in order to keep up to date with latest product developments.

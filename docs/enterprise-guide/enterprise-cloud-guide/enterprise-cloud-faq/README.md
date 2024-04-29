@@ -41,7 +41,7 @@ A list of all sub-processors used in the OpenProject Enterprise cloud can be fou
 
 Please note: For the OpenProject Enterprise cloud we currently have two SaaS infrastructures:
 
-**OpenProject.com** 
+**OpenProject.com**
 
 This infrastructure is hosted at AWS in Dublin. For sending transactional emails we use the service Postmark which is based in the US.
 

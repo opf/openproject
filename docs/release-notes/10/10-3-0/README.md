@@ -57,7 +57,7 @@ You can use those custom fields to properly display text with a right-to-left or
 
 You can find useful information in the [OpenProject help section](https://www.openproject.org/docs/) or you can post your questions in the [OpenProject Forum](https://community.openproject.org/projects/openproject/boards).
 
-### Upgrading your installation to OpenProject 10.3.
+### Upgrading your installation to OpenProject 10.3
 
 If you’re using the OpenProject Enterprise cloud edition, you will be automatically updated to the latest version of OpenProject 10.1 in the next days. For your local installations, there are some minor changes you need to do in order to perform the upgrade.
 

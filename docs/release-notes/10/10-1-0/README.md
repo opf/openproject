@@ -90,7 +90,7 @@ OpenProject has been updated to Rails 6.0.0.
 
 You will find useful information in the OpenProject [FAQ](../../../faq/) or you can post your questions in the [Forum](https://community.openproject.org/projects/openproject/boards).
 
-### Upgrading your installation to OpenProject 10.1.
+### Upgrading your installation to OpenProject 10.1
 
 If you’re using the OpenProject Enterprise cloud edition, you will be automatically updated to the latest version of OpenProject 10.1 in the next days. For your local installations, there are some minor changes you need to do in order to perform the upgrade.
 

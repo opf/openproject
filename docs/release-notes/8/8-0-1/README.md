@@ -47,7 +47,7 @@ updating to the newest version.
   - Fixed: Login dropdown labels were styled as buttons on hover
     \[[#28616](https://community.openproject.org/wp/28616)\]
   - Fixed: Editing work package after submission with
-    add\_work\_packages permission 
+    add\_work\_packages permission
     \[[#28580](https://community.openproject.org/wp/28580)\]
   - Fixed: Fast click on subsequent query elements in the sidebar result
     in invalid table

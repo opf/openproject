@@ -23,7 +23,7 @@ Additionally, several gems have been updated
 Thanks to [marutosi](https://github.com/marutosi) for creating pull
 requests.
 
-For a complete list of changes, please refer to the 
-[Changelog v3.0.17](https://community.openproject.org/versions/545) 
-or take a look at 
+For a complete list of changes, please refer to the
+[Changelog v3.0.17](https://community.openproject.org/versions/545)
+or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v3.0.17).

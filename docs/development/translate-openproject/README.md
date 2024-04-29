@@ -24,7 +24,7 @@ To help us translate OpenProject, please follow the links above and follow the i
 
 ## How the translation process works
 
-When a new OpenProject version is developed it typically contains new English text (strings). 
+When a new OpenProject version is developed it typically contains new English text (strings).
 CrowdIn facilitates the translation of those strings to different languages.
 Here is how the translation process works in detail:
 

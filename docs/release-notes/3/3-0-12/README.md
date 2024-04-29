@@ -31,7 +31,7 @@ included in 3.0.12:
     has been fixed. Many thanks to [Björn Blissing](https://github.com/bjornblissing) who reported and fixed
     this error.
 
-For a complete list of changes, pleas refer to the 
+For a complete list of changes, pleas refer to the
 [OpenProject 3.0.12 query](https://community.openproject.org/versions/450).
 
 

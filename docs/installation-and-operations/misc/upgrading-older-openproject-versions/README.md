@@ -64,7 +64,7 @@ You can simply upgrade your package first and then switch to a PostgreSQL databa
 3. After this is completed, stop the servers to restore the database separately
 
    `service openproject stop`
-   
+
 The following command will restore the database. **WARNING:** This will remove the database returned by `openproject config:get DATABASE_URL`, so please double check this is what you want to do:
 
    `pg_restore --clean --if-exists --dbname $(openproject config:get DATABASE_URL) /path/to/migrated/postgresql.dump`  

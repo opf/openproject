@@ -17,7 +17,7 @@ keywords: date picker start finish dates duration change modify update relations
 
 ## Set start and finish dates
 
-You can change the start and finish dates of a work package by opening the date picker. 
+You can change the start and finish dates of a work package by opening the date picker.
 
 ![The standard date picker with different elements highlighted](standard-date-picker-legend.png)
 
@@ -29,7 +29,7 @@ You can change the start and finish dates of a work package by opening the date 
 
 You can open the date picker for a work package from a number of different places:
 
-- By clicking on the date field in the work package [details view](../work-package-views/#full-screen-view) 
+- By clicking on the date field in the work package [details view](../work-package-views/#full-screen-view)
 - By clicking the the date field in the work package [split screen view](../work-package-views/#split-screen-view) (from any other view, including [notification center](../../notifications), [team planner](../../team-planner/), [boards](../../agile-boards)...)
 - By clicking the start date, finish date or duration fields in [table view](../work-package-views/#table-view)
 
@@ -38,7 +38,7 @@ You can open the date picker for a work package from a number of different place
 
 You can enter dates either by typing them in into the start and finish date fields or by clicking on individual dates in the mini calendar below.
 
-> **Note**: Typed dates need to be in the standard ISO 8601 format: **YYYY-MM-DD** (so 12 October 2022 would be 2022-10-12). 
+> **Note**: Typed dates need to be in the standard ISO 8601 format: **YYYY-MM-DD** (so 12 October 2022 would be 2022-10-12).
 >
 > They will nevertheless be displayed in your desired format (usually depending by your region or language).
 
@@ -60,7 +60,7 @@ Date changes are documented in the work package [Activity](../../activity/).
 
 ### Advanced functionality
 
-- The date picker allows you to pick start and finish dates in the opposite order. Clicking on a start date and then moving backwards to click on an earlier date will then use that first date as the finish date and the second (earlier) date as the start date. 
+- The date picker allows you to pick start and finish dates in the opposite order. Clicking on a start date and then moving backwards to click on an earlier date will then use that first date as the finish date and the second (earlier) date as the start date.
 
 - For a work package that already has a start and finish date, it is possible to adjust just the finish date: click on the finish date field and then click on a new date. As long as this date is after the start date, the finish date will update accordingly. If the date you pick is earlier than the start date, the original start date will then be cleared and a click on a second date will define the other end of the new range.
 
@@ -75,7 +75,7 @@ If you want the work package to start and finish on the same date, simply click 
 
 ![Date picker with the same start and finish dates](one-day-event.png)
 
-Work packages with *only* a start date or only a finish date are automatically considered one-day events. 
+Work packages with *only* a start date or only a finish date are automatically considered one-day events.
 
 Certain work package types (such as Milestones) can only span one day and thus have only one date field:
 
@@ -85,7 +85,7 @@ Certain work package types (such as Milestones) can only span one day and thus h
 
 ## Working days and duration
 
-Starting with OpenProject 12.3, it is possible to manually input a duration for a work package and decide whether this duration should include working days only or all calendar days. 
+Starting with OpenProject 12.3, it is possible to manually input a duration for a work package and decide whether this duration should include working days only or all calendar days.
 
 > **Note:** Working dates are currently defined by the administrator of your OpenProject instance. By default, they are Monday to Friday, with Saturday and Sunday considered non-working. If you are an administrator, please read our [admin guide on working days](../../../system-admin-guide/calendars-and-dates/#working-days)
 >
@@ -126,13 +126,13 @@ For example, if you set the start date to *Wednesday, 12 October* and enter a du
 
 #### Duration without start and finish dates
 
-It is possible for a work package to have only duration  without any start or finish dates set. 
+It is possible for a work package to have only duration  without any start or finish dates set.
 
-> **Note:** If you add even one date to a work package with duration, the other date is automatically derived; it is not possible to have just one date (start *or* finish) and duration set. Please note also that if a work package with only duration derives its start date via a relation, the finish date is then also derived. 
+> **Note:** If you add even one date to a work package with duration, the other date is automatically derived; it is not possible to have just one date (start *or* finish) and duration set. Please note also that if a work package with only duration derives its start date via a relation, the finish date is then also derived.
 
 Setting only duration without start or finish dates is especially useful when you have a general estimation of how long different tasks or phases of a project will take, but do not have exact dates defined quite yet.
 
-> **Pro tip:** This feature makes it possible to automatically derive an estimated start or finish date for entire project. 
+> **Pro tip:** This feature makes it possible to automatically derive an estimated start or finish date for entire project.
 >
 > To do so, create a series of work packages that represent the main phases and set the approximate duration for each. Link them all using follow/precedes relationships. Now, when you set a start date on the first work package in the series, the start and end dates for all other work packages will be derived.
 
@@ -143,11 +143,11 @@ Setting only duration without start or finish dates is especially useful when yo
 
 ![A switch on the date picker allows you to enable manual scheduling ](manual-scheduling-switch.png)
 
-Switching "Manual scheduling" on enables [manual scheduling mode](../../gantt-chart/scheduling/#manual-scheduling-mode) for the work package. This ignores work package relations such that you're able to select any start and end dates, even ones that would normally be restricted due to follows/proceeds relationships. 
+Switching "Manual scheduling" on enables [manual scheduling mode](../../gantt-chart/scheduling/#manual-scheduling-mode) for the work package. This ignores work package relations such that you're able to select any start and end dates, even ones that would normally be restricted due to follows/proceeds relationships.
 
-Manual scheduling also decouples the start and end dates of parent and children work packages. This means that the dates of parents are no longer constrained by those of the children, and children can be scheduled outside of the range of parent work packages. These relationships are completely ignored as far as scheduling is concerned, but are not removed (so they will still be visible in Gantt view; the constraints are respected again if you switch manual scheduling off. 
+Manual scheduling also decouples the start and end dates of parent and children work packages. This means that the dates of parents are no longer constrained by those of the children, and children can be scheduled outside of the range of parent work packages. These relationships are completely ignored as far as scheduling is concerned, but are not removed (so they will still be visible in Gantt view; the constraints are respected again if you switch manual scheduling off.
 
-Manual scheduling can be useful when you need to anchor a work package to fixed dates, for example because the dates of preceding or following work packages are not yet known. 
+Manual scheduling can be useful when you need to anchor a work package to fixed dates, for example because the dates of preceding or following work packages are not yet known.
 
 ## Information and warning banners
 
@@ -157,11 +157,11 @@ Information banners have a blue background and display information that is helpf
 
 There are four possible banners:
 
-#### Automatically scheduled
+### Automatically scheduled
 
 ![A blue banner informing the user that the worked package is automatically scheduled](banner-automatically-scheduled.png)
 
-This information banner is displayed when the dates of the current work package are derived from existing relations and can therefore not  be modified. This is the case of parent work packages whose start and finish dates are derived from the earliest and latest child work packages respectively. 
+This information banner is displayed when the dates of the current work package are derived from existing relations and can therefore not  be modified. This is the case of parent work packages whose start and finish dates are derived from the earliest and latest child work packages respectively.
 
 It is nevertheless possible to input specific start and finish dates for such work packages by enabling manual scheduling (which will ignore relations from which the dates were originally derived).
 
@@ -191,6 +191,6 @@ This warning banner is displayed on work packages whose start and end dates affe
 
 ![The Show Relations button in an information or warning banner](banner-show-relations-button.png)
 
-The information and warning banners also feature a **Show Relations** button. Clicking on this will open a new tab that displays work packages with direct relations to the current work package in [Gantt view](../../gantt-chart), in hierarchy mode. 
+The information and warning banners also feature a **Show Relations** button. Clicking on this will open a new tab that displays work packages with direct relations to the current work package in [Gantt view](../../gantt-chart), in hierarchy mode.
 
 > **Info**: This preview is intended to give a quick overview of only _direct_ relations that might affect scheduling options for the current work package. It does not show second-level relations (and above). To get a full overview, please use the project work package [table view](../work-package-views/#table-view) or [Gantt view](../../gantt-chart) with your desired [filter/view configuration](../work-package-table-configuration/).

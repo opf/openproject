@@ -76,7 +76,7 @@ The image will be automatically uploaded and stored as an attachment. You can ad
 
 
 
-## Keyboard shortcuts 
+## Keyboard shortcuts
 
 CKEditor has a wide variety of keyboard shortcuts you can use. You can find a list of documented shortcuts here: [https://ckeditor.com/docs/ckeditor5/latest/features/keyboard-support.html](https://ckeditor.com/docs/ckeditor5/latest/features/keyboard-support.html).
 
@@ -91,13 +91,13 @@ On top of that, OpenProject adds the following shortcut:
 OpenProject has supported macros on textile formatted pages and continues to do so with the WYSIWYG editor. Note that macros are not expanded while editing the page, instead a placeholder is shown.
 
 You can find the macros here in the text editor:
-![Macros text editor](image-20201109183018255.png) 
+![Macros text editor](image-20201109183018255.png)
 
 
 
 ### Table of contents
 
-Where applicable, the table of contents (TOC) macro will output a listing of all headings on the current page. 
+Where applicable, the table of contents (TOC) macro will output a listing of all headings on the current page.
 
 
 
@@ -117,7 +117,7 @@ Include the content of a given wiki page in the current, or another visible proj
 
 This is the most flexible macro that provides extensive functionality regarding the inclusion of dynamic work package tables with all the potential of the regular work package table.
 
-By adding an embedded work package table through the toolbar, you can configure the table view (such as columns, grouping, filters, and further properties) in a popup window. 
+By adding an embedded work package table through the toolbar, you can configure the table view (such as columns, grouping, filters, and further properties) in a popup window.
 
 The rendered page will then fetch the work package table results dynamically, respecting the visibility for each user.
 
@@ -132,20 +132,20 @@ As with the textile formatting syntax, you can link to other resources within Op
 
 
 
-- **wiki page**: `[[Wiki page]]` 
-- **wiki page with separate link name**: `[[Wiki page|The text of the link]]` 
-- **wiki page in the Sandbox project**: `[[Sandbox:Wiki page]]` 
+- **wiki page**: `[[Wiki page]]`
+- **wiki page with separate link name**: `[[Wiki page|The text of the link]]`
+- **wiki page in the Sandbox project**: `[[Sandbox:Wiki page]]`
 - **work package with ID12**:  `#12`
-- **work package with ID 12 with subject and type**: `##12` 
-- **work package with ID 12 with subject, type, status, and dates**: `###12` 
+- **work package with ID 12 with subject and type**: `##12`
+- **work package with ID 12 with subject, type, status, and dates**: `###12`
 - **version by ID or name**: `version#3`,  `version:"Release 1.0.0"`
 - **project by ID/name**:  `project#12` , `project:"My project name"`
 - **attachment by filename**: `attachment:filename.zip`
 - **meeting by ID/name**:  `meeting#12` , `meeting:"My meeting name"`
 - **document by ID/name**:  `document#12` , `document:"My document name"`
-- **user by id or login**: `user#4` , `user:"johndoe"` 
+- **user by id or login**: `user#4` , `user:"johndoe"`
 - **a forum message by ID**: `message#1218`
-- **repository revision 43**: `r43` 
+- **repository revision 43**: `r43`
 - **commit by hash:** `commit:f30e13e4`
 - **To a source file in the repository**: `source:"some/file"`
 
@@ -180,7 +180,7 @@ You can also embed attribute values and [their help texts](../../system-admin-gu
 
 
 
-> **Please note**: These macros will only be expanded in the frontend. For each individual user, the correct permissions will be checked and the macro will result in an error if the user is not allowed to view the respective resource.    
+> **Please note**: These macros will only be expanded in the frontend. For each individual user, the correct permissions will be checked and the macro will result in an error if the user is not allowed to view the respective resource.
 
 
 ## Attributes

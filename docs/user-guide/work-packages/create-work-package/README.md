@@ -8,9 +8,9 @@ keywords: create work packages
 
 # Create Work packages
 
-| Topic                                                        | Content                                        |
-| ------------------------------------------------------------ | ---------------------------------------------- |
-| [Create Work packages](#create-work-packages)                | How to create a new Work package in a project. |
+| Topic                                                                  | Content                                        |
+|------------------------------------------------------------------------|------------------------------------------------|
+| [Create Work packages](#create-work-packages)                          | How to create a new Work package in a project. |
 | [Add attachments to a Work package](#add-attachments-to-work-packages) | How to add attachments to a Work package.      |
 
 ## Create Work packages
@@ -24,19 +24,18 @@ Work packages always belong to a project. Therefore, you first need to [select a
 
 Then, navigate to the Work package module in the project navigation.
 
-![work-packages-module](1566302949658.png)
-
+![work packages module](1566302949658.png)
 
 
 ### Create a Work package in the table view
 
 To create new Work packages directly in line in the table view, click on the **+ Create new Work package** link below the table.
 
-![create-split-screen](create-split-screen.png)
+![create split screen](create-split-screen.png)
 
 The new Work package appears in a green row. Type in the subject of the Work package, change attributes, such as Type or Status directly in the table and hit Enter to save the changes.
 
-![create-work-package-list](1566303144875.png)
+![create work package list](1566303144875.png)
 
 This way, you can quickly and easily create new Work packages in the table, just like Excel.
 
@@ -44,19 +43,17 @@ This way, you can quickly and easily create new Work packages in the table, just
 
 In order to enter detailed information to the Work package from the start, you can create a Work package in the split screen view. In the Work package module, click the green **+ Create** button and select the type of Work package you want to create.
 
-![select-work-package-type](1566303633018.png)
+![Select work package type](1566303633018.png)
 
 The new Work package form will open in the split screen view. Enter all information, such as description, assignee, status, priority, due date and more.
 
 Click the green **Save** button.
 
-![](1566303947314.png)
-
-
+![create a work package in the split screen view](1566303947314.png)
 
 Starting with OpenProject 13.0 you can add emojis to all text editors, including the work package description. Type a colon and a letter, e.g. **:a** into the text editor and get a suggested list of emojis you can use.
 
-![openproject_user_guide_wp_description_emojis](openproject_user_guide_wp_description_emojis.png)
+![work package description emojis](openproject_user_guide_wp_description_emojis.png)
 
 To find out **how to create a child Work package** please click [here](../work-package-relations-hierarchies/#add-a-child-work-package).
 
@@ -72,7 +69,7 @@ Also, at the bottom of the Work package form you can add files via drag and drop
 
 ![add-file](1566305040178.png)
 
-> Note: it is also possible for users that are not members of the project to add attachments to work packages if they have been granted the permission by an administrator. This can be useful for example for confirming bug reports. 
+> Note: it is also possible for users that are not members of the project to add attachments to work packages if they have been granted the permission by an administrator. This can be useful for example for confirming bug reports.
 
 Find out how to [edit existing Work packages](../edit-work-package).
 

@@ -60,7 +60,7 @@ You can abort this using Ctrl + C.
 
 On most distributions, OpenProject does not maintain its own log files, but sends logs directly to `journalctl`. On older distributions that use either sysvinit or upstart, all the logs are stored in `/var/log/openproject/`.
 
-You can get all logs of the web processes like this: 
+You can get all logs of the web processes like this:
 
 ```shell
 journalctl -u openproject-web-1
@@ -120,7 +120,7 @@ For Docker-based installations, add the ENV variable to your env file and restar
 
 OpenProject uses the [okcomputer gem](https://github.com/sportngin/okcomputer) to provide built-in health checks on database, web, and background workers.
 
-We provide the following health checks: 
+We provide the following health checks:
 
 - `https://your-hostname.example.tld/health_checks/default` - An application level check to ensure the web workers are running.
 - `https://your-hostname.example.tld/health_checks/database` - A database liveliness check.

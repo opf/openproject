@@ -33,7 +33,7 @@ To lock an existing wiki page and prevent others from editing the page, select t
 
 Select the item **Lock** in the drop down menu.
 
-The page is now locked and cannot be edited by any other user. 
+The page is now locked and cannot be edited by any other user.
 
 To unlock a wiki page and make it possible for users to edit it again, select the **Unlock** item under the **More** button on top of a wiki page.
 
@@ -66,7 +66,7 @@ First, you will get an overview on author and date of the latest updates. Potent
 ![view-differences-wiki](1568213985327.png)
 
 > **Note**: The more distance between two versions, the more difficult it becomes to compare them, since only the selected versions are compared (ignoring the changes that were made in the meantime). The most comprehensible information is thus provided by comparing two consecutive versions.
-> The wiki will merge changes, if changes are entered within less then 5 minutes by the same person. This helps to avoid clutter in the wiki history. 
+> The wiki will merge changes, if changes are entered within less then 5 minutes by the same person. This helps to avoid clutter in the wiki history.
 
 ## Export a wiki page
 

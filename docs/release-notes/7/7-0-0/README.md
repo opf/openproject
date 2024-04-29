@@ -80,7 +80,7 @@ This provides a cleaner and larger user interface to work with.
 
 ## Multi-select custom fields (Enterprise add-on)
 
-Users of the OpenProject [Enterprise on-premises](https://www.openproject.org/enterprise-edition/) 
+Users of the OpenProject [Enterprise on-premises](https://www.openproject.org/enterprise-edition/)
 and [Enterprise cloud](https://www.openproject.org/enterprise-edition/#hosting-options) can create multi-select
 custom fields
 ([#24793](https://community.openproject.org/wp/24793)).

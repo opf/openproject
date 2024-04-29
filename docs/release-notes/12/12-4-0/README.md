@@ -14,16 +14,16 @@ We released [OpenProject 12.4.0](https://community.openproject.org/versions/1595
 
 This release launches a long awaited feature of **date alerts for upcoming due dates (start or finish date)** and **reminders for overdue tasks**.
 
-With OpenProject 12.4 the **2-factor authentication feature becomes part of the Community edition** and adds an additional security layer to your application. Do not take long before you activate it. 
+With OpenProject 12.4 the **2-factor authentication feature becomes part of the Community edition** and adds an additional security layer to your application. Do not take long before you activate it.
 
-Official **OpenProject HelmCharts** are available from now on. We also added the possibility of choosing a work week as opposed to 1 or 2 week view with the team planer. In addition, users can now tag themselves via @mentioned and can bulk edit the work-package field "subject". 
+Official **OpenProject HelmCharts** are available from now on. We also added the possibility of choosing a work week as opposed to 1 or 2 week view with the team planer. In addition, users can now tag themselves via @mentioned and can bulk edit the work-package field "subject".
 
 As usual, the release contains several bug fixes and we recommend updating to the newest version.
 
 ## Date alerts for the upcoming dates and overdue tasks
 
-The new OpenProject 12.4 release will bring notification date alerts for upcoming dates and overdue tasks (Enterprise add-on). Within the [Notification settings](../../../user-guide/notifications/notification-settings/) in My Account, automatic notifications for important dates and approaching dates can now be adjusted. This can be done for the open work packages you are involved in either as an assignee, accountable or watcher. A reminder can be set for 1 day, 3 days or a week before a start or a due date approaches. 
-Same options are now available for the overdue work package reminders. 
+The new OpenProject 12.4 release will bring notification date alerts for upcoming dates and overdue tasks (Enterprise add-on). Within the [Notification settings](../../../user-guide/notifications/notification-settings/) in My Account, automatic notifications for important dates and approaching dates can now be adjusted. This can be done for the open work packages you are involved in either as an assignee, accountable or watcher. A reminder can be set for 1 day, 3 days or a week before a start or a due date approaches.
+Same options are now available for the overdue work package reminders.
 
 ![date-alerts-settings](openproject-date-alerts-settings.png)
 
@@ -38,7 +38,7 @@ Date alerts are an Enterprise add-on and only available in the [Enterprise on-pr
 
 ## 2-factor Authentication (2FA) for the community edition
 
-With OpenProject 12.4 users who have OpenProject community edition installed can activate 2-factor authentication. We strongly recommend that you make use of this option and increase your account security. 
+With OpenProject 12.4 users who have OpenProject community edition installed can activate 2-factor authentication. We strongly recommend that you make use of this option and increase your account security.
 
 ![two-factor-authentication](openproject-2-factor-authentication-community-edition.png)
 
@@ -72,7 +72,7 @@ Starting with OpenProject 12.4 official [OpenProject Helm charts](../../../insta
 
 ## List up to three people in a notification card
 
-From now on is possible to list up to 3 people in a notification card when multiple people were involved in the changes. 
+From now on is possible to list up to 3 people in a notification card when multiple people were involved in the changes.
 
 ![openproject notifications center three people tagged](openproject-notifications-three-users-tagged.png)
 
@@ -82,7 +82,7 @@ Users can now notify not only other users but themselves too via @mention. Notif
 
 ## Bulk edit work package "subject" field
 
-It is now possible to bulk edit the subject field for multiple work packages. See how to [bulk edit work packages](../../../user-guide/work-packages/edit-work-package/#bulk-edit-work-packages). 
+It is now possible to bulk edit the subject field for multiple work packages. See how to [bulk edit work packages](../../../user-guide/work-packages/edit-work-package/#bulk-edit-work-packages).
 
 ![openproject bulk edit work package subject field](openproject-bulk-edit-subject.png)
 

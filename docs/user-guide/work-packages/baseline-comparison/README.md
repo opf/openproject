@@ -80,7 +80,7 @@ When Baseline is enabled, you will see a legend at the top of the page which sho
 - The comparison point or comparison period
 - The number of work packages that now meet the filter criteria (and were thus added to view)
 - The number of work packages that no longer meet the filter criteria (and were thus removed from view)
-- The number of work packages that maintained but were modified 
+- The number of work packages that maintained but were modified
 
 
 ### Change icons
@@ -89,7 +89,7 @@ When Baseline is enabled, you will see a legend at the top of the page which sho
 
 ![Icon](13-0_Baseline_nowMeets.png)
 
-Work packages that meet the filter criteria now but did not in the past are marked with an "Added" icon. These work packages were added to the current query after the selected comparison point, either because they were newly created since then or certain attributes changed such that they meet the filter criteria. 
+Work packages that meet the filter criteria now but did not in the past are marked with an "Added" icon. These work packages were added to the current query after the selected comparison point, either because they were newly created since then or certain attributes changed such that they meet the filter criteria.
 
 > **Note**: These do not necessarily represent _newly created_ work packages; simply those that are new to this particular view because they now meet the filter criteria.
 
@@ -113,7 +113,7 @@ When there are no changes to a work package in the comparison period, no icon is
 
 ### Old values
 
-When changes in the comparison period concern attributes that are visible as columns in the work package table, Baseline will show both old and current values. If the attribute you are interested in is not visible, you will need to [add it as a column](../work-package-table-configuration). 
+When changes in the comparison period concern attributes that are visible as columns in the work package table, Baseline will show both old and current values. If the attribute you are interested in is not visible, you will need to [add it as a column](../work-package-table-configuration).
 
 ![Old values are visible in the work package table view](13-0_Baseline_oldNewValues.png)
 

@@ -13,8 +13,6 @@ Release date: 2022-08-31
 We released [OpenProject 12.2.2](https://community.openproject.org/versions/1597).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
-
 ## Known issues
 
 ### Pending database migration issue

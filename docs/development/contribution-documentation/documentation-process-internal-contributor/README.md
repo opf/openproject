@@ -40,7 +40,7 @@ In the modal window select the repository ""*opf/openproject*"". Also select a f
 
 ## Step 3: Create a new Git branch for your change
 
-1. Select the latest release branch e.g. `release/13.0` as the current branch. 
+1. Select the latest release branch e.g. `release/13.0` as the current branch.
     ![create new branch - step 1](create-new-branch-step-1.png)
 
 2. In the same drop down click on **New branch**.
@@ -75,7 +75,7 @@ At the moment your change is only available in your local repository. To make it
 
 A pull request is a workflow to ask for a review from the OpenProject team. With a pull request you basically ask a team member to check your changes and to merge it to the branch you want your change to merged to, e.g. `release/13.0` . After you pushed your local changes to your own repository click the button **Create Pull Request**.
 
-![](create-pull-request-github-desktop.png)
+![Create a pull request](create-pull-request-github-desktop.png)
 
 
 
@@ -87,11 +87,11 @@ In the description field of the pull request enter a summary for the changes you
 
 ## Step 9: Request review
 
-Select the label "*documentation*". 
+Select the label "*documentation*".
 
-![add documentation label for pull request](add-documentation-label-pull-requests.png) 
+![add documentation label for pull request](add-documentation-label-pull-requests.png)
 
-In the field "*Reviewers*" select "*opf/doc-writers".* 
+In the field "*Reviewers*" select "*opf/doc-writers".*
 
 ![select reviewer for documentation](select-reviewer-for-documentation.png)
 

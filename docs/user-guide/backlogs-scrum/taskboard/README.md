@@ -43,6 +43,6 @@ The task colors are different for every team member, making it easy to associate
 
 If needed, the coloring can be adjusted in the personal user account settings (-> *My Account*). Use hex codes to specify the desired color.
 
-![User-guide-task-color](User-guide-task-color.png)        
+![User-guide-task-color](User-guide-task-color.png)
 
-Here, you can also specify whether the versions in the Backlogs view should be displayed folded. You can choose whether backlogs are to be displayed folded or collapsed by default. In *My account*, select *Settings* from the side menu and check or uncheck the respective box next to the field *Show versions folded*. 
+Here, you can also specify whether the versions in the Backlogs view should be displayed folded. You can choose whether backlogs are to be displayed folded or collapsed by default. In *My account*, select *Settings* from the side menu and check or uncheck the respective box next to the field *Show versions folded*.

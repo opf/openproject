@@ -51,7 +51,7 @@ Another option to create a work package is to do it from the header menu. The [w
 
 ![create-work-package-header](create-work-package-header.png)
 
-Once you click on the work package type that you want to create, the work package detail view opens and you have to **select the project** that you want to create the work package for. 
+Once you click on the work package type that you want to create, the work package detail view opens and you have to **select the project** that you want to create the work package for.
 
 ![create and name work package](create-work-package.png)
 
@@ -75,7 +75,7 @@ To **update the status**, click on the highlighted displayed status on top of th
 
 ## Activity of work packages
 
-To keep informed about all changes to a work package, open the **ACTIVITY** tab in the details view. 
+To keep informed about all changes to a work package, open the **ACTIVITY** tab in the details view.
 
 Here you will see all changes which have been made to this work package.
 

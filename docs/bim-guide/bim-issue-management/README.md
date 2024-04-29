@@ -8,7 +8,7 @@ keywords: BIM, BCF, IFC, BIM Issue Management, BCF-Management
 
 # BIM issue management (BIM feature)
 
-Within the *BCF-Module* you are able to manage *BIM Issues (BCF)*. All BIM Issues get stored as BCFs centrally and are available to every team member in real time. Below you find the most important features how to use the BCF Module to create, inspect and manage issues. 
+Within the *BCF-Module* you are able to manage *BIM Issues (BCF)*. All BIM Issues get stored as BCFs centrally and are available to every team member in real time. Below you find the most important features how to use the BCF Module to create, inspect and manage issues.
 
 
 
@@ -18,13 +18,13 @@ A BIM Issue is a special kind of work package to communicate directly within the
 
 The BIM Issue is not only a description of a problem, the view of the building model is stored within the issue as well. This includes the current selection, view , rotation & zoom of the model.
 
-OpenProject BIM supports the standard of the ***BIM Collaboration Format (BCF)***. All BIM Issues which are created within another *Open BIM* Software can be imported to work with this issue within our project management solution. 
+OpenProject BIM supports the standard of the ***BIM Collaboration Format (BCF)***. All BIM Issues which are created within another *Open BIM* Software can be imported to work with this issue within our project management solution.
 
 
 
 ## Create a BIM issue
 
-To create a BIM Issue you don't have to configure a new type of work package. Every work package (e.g. Task, Issue, Milestone, … ) can become a BIM Issue only by adding a viewpoint to the work package. 
+To create a BIM Issue you don't have to configure a new type of work package. Every work package (e.g. Task, Issue, Milestone, … ) can become a BIM Issue only by adding a viewpoint to the work package.
 
 There are two ways to create new BIM Issue:
 
@@ -43,9 +43,9 @@ Then, navigate to the BCF module in the project navigation.
 
 ### Create a new BIM issue
 
-To create new BIM Issues, you have to open the Model - Viewer first and create the view you want to save within the BIM Issue (e.g. zoom, [rotate](../ifc-viewer/#how-to-rotate-the-building-model), [slice](../ifc-viewer/#how-to-slice-the-building-model), [select](../ifc-viewer/#how-to-select-elements), [hide](../ifc-viewer/#show-or-hide-models-or-elements-via-model-tree), … ). 
+To create new BIM Issues, you have to open the Model - Viewer first and create the view you want to save within the BIM Issue (e.g. zoom, [rotate](../ifc-viewer/#how-to-rotate-the-building-model), [slice](../ifc-viewer/#how-to-slice-the-building-model), [select](../ifc-viewer/#how-to-select-elements), [hide](../ifc-viewer/#show-or-hide-models-or-elements-via-model-tree), … ).
 
-Click on the **+ Create new work package** and select the type of work package you want. 
+Click on the **+ Create new work package** and select the type of work package you want.
 
 ![Create a new BIM Issue](create-a-new-BIM-issue.png)
 
@@ -104,7 +104,7 @@ If the Model viewer isn't shown yet, open the Detail - view of the BIM Issue and
 
 ### Switch between different viewpoints
 
-After creating multiple BIM Issues you are able to jump between different viewpoints easily. The "Viewer and Cards" - Mode shows all of your BIM Issues. With a single click at the preview of the BIM Issue, the model viewer changes immediately. 
+After creating multiple BIM Issues you are able to jump between different viewpoints easily. The "Viewer and Cards" - Mode shows all of your BIM Issues. With a single click at the preview of the BIM Issue, the model viewer changes immediately.
 
 
 
@@ -200,13 +200,13 @@ BIM Issues are also listed in the work package module. This supports you to mana
 
 ## Import and export BCF issues using BCF
 
-Within the BCF module you are able to upload BIM Issues which are created within other software and download already existing files to manage them within other BIM project management solutions. Just Click on the ***"Import"-Button*** or ***"Export"-Button*** within the OpenProject Toolbar. 
+Within the BCF module you are able to upload BIM Issues which are created within other software and download already existing files to manage them within other BIM project management solutions. Just Click on the ***"Import"-Button*** or ***"Export"-Button*** within the OpenProject Toolbar.
 
 
 
 ### Import of attributes
 
-After importing a BCF Issue (or multiple Issues at the same time) from another software, OpenProject will match existing attributes and types of the work package. 
+After importing a BCF Issue (or multiple Issues at the same time) from another software, OpenProject will match existing attributes and types of the work package.
 
 If attributes of the imported BCF Issue can't be matched automatically (because they are not available within your project configuration), you are able to synchronize the values manually.
 
@@ -231,9 +231,9 @@ If attributes of the imported BCF Issue can't be matched automatically (because 
 
 
 
-After a successful matching of the attributes the topics will be displayed in OpenProject. 
+After a successful matching of the attributes the topics will be displayed in OpenProject.
 
-![Successful BCF Import](successfull-bcf-import.png) 
+![Successful BCF Import](successfull-bcf-import.png)
 
 
 
@@ -243,6 +243,6 @@ After a successful matching of the attributes the topics will be displayed in Op
 
 ### Outdated BCF issues
 
-If there are more recent changes to the work package in OpenProject than in the imported BCF ("ModifiedDate"), the import will be rejected.     
+If there are more recent changes to the work package in OpenProject than in the imported BCF ("ModifiedDate"), the import will be rejected.
 
 ![Outdated BCF Issues](outdated-bcf-issues.png)

@@ -25,7 +25,7 @@ On the left side menu you will see **Members**. When selected, it will show a li
 
 ![Project members overview in OpenProject](members-overview.png)
 
-Standard filters on the left side menu include the following: 
+Standard filters on the left side menu include the following:
 
 - **All** - returns all members and groups of the project, as well as non-members, with whom one or more work packages from this project have been shared
 
@@ -33,10 +33,10 @@ Standard filters on the left side menu include the following:
 
 - **Invited** - returns all users that have been invited, but have not yet registered
 
-- **Project roles** provides filters based on all the member roles that have been assigned to users in that specific project. 
+- **Project roles** provides filters based on all the member roles that have been assigned to users in that specific project.
 
 - **Work package shares** provides filters based on all the roles available for sharing work packages. They include:
-  -  **All shares** - returns all users that a work package in this project has been shared with
+  - **All shares** - returns all users that a work package in this project has been shared with
   - **View** - returns all users that can view, but not edit or comment on a work package that has been shared with them
 
   - **Comment** - returns all users that are allowed to add comments to a work package that has been shared with them
@@ -48,7 +48,7 @@ Standard filters on the left side menu include the following:
 >
 > Another way is to navigate to **Work packages**, select the **Shared with users** filter and adjust the privileges accordingly. [Read more here](../work-packages/share-work-packages/#remove-sharing-privileges).
 
-- **Groups** lists all the groups that have been added to this project (this filter will only be visible if a group has been added to the project). 
+- **Groups** lists all the groups that have been added to this project (this filter will only be visible if a group has been added to the project).
 
 > Note: members that are part of a group will also be displayed as members individually. In that case you can only edit the roles assigned to the users, but not delete him or her. If you want to delete a user that is a member of a group (also added to this project) you will have to delete the entire group and add group members individually if needed.
 
@@ -86,7 +86,7 @@ To remove members from a project, [select the project](../../getting-started/pro
 
 ![Remove project members in OpenProject](delete-project-member.png)
 
-You will be asked to confirm your decision. 
+You will be asked to confirm your decision.
 
 ![Confirm removing a user from a project in OpenProject](confirm-user-deletion.png)
 
@@ -119,5 +119,5 @@ To assign work packages to a project member, the respective user's or placeholde
 
 ## Groups
 
-Users can be added to groups. A group can be added to a project. With this, all users within a group will have the corresponding role in this project. 
+Users can be added to groups. A group can be added to a project. With this, all users within a group will have the corresponding role in this project.
 Find out how to create and manage groups in OpenProject [here](../../system-admin-guide/users-permissions/groups).

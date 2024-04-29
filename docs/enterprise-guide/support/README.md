@@ -66,16 +66,16 @@ The Corporate support covers everything from the Basic, Professional and Premium
 
 Please write us an email to [support@openproject.com](mailto:support@openproject.com) to get help with your OpenProject Enterprise edition. Include a detailed description as well as screenshots, where necessary. Depending on your support level, you will receive a separate support email address with your order.
 
-You can reach us via telephone, depending on your support service hours: 
+You can reach us via telephone, depending on your support service hours:
 
 - EU time zone: +49 30 288 777 07  
 - US time zone: +1 470 231 0041
 
-## Installation support for Enterprise on-premises 
+## Installation support for Enterprise on-premises
 
-Our Premium and Corporate Enterprise on-premises support plans include installation support. We will contact you to get the necessary information to set up your environment. 
+Our Premium and Corporate Enterprise on-premises support plans include installation support. We will contact you to get the necessary information to set up your environment.
 
-### Support Data Collector 
+### Support Data Collector
 
 Please run [our script](./script/op-support-data.sh) and send us the complete terminal output prior to the on-premise installation.
 

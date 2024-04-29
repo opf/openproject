@@ -13,9 +13,7 @@ Release date: 2022-09-15
 We released [OpenProject 12.2.4](https://community.openproject.org/versions/1599).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-
-
-### Pending journal cleanup database migration
+## Pending journal cleanup database migration
 
 With OpenProject 12.2.2, a journal cleanup migration was introduced to fix a data corruption bug in the 12.2.0 release.
 
@@ -25,9 +23,6 @@ A migration was added to this release to do just that, and ensure that the 12.2.
 
 For more information on that change, please see the discussion in [Bug #44132](https://community.openproject.org/wp/44132)
 
-
-
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: Remaining hours sum not well formed \[[#43833](https://community.openproject.org/wp/43833)\]
@@ -36,8 +31,6 @@ For more information on that change, please see the discussion in [Bug #44132](h
 - Fixed: Dragging images to CKEditor on Grid custom texts not working with direct upload \[[#44156](https://community.openproject.org/wp/44156)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
-
-Special thanks for reporting and finding bugs go to
-
-Nico Aymet
+Special thanks for reporting and finding bugs go to Nico Aymet

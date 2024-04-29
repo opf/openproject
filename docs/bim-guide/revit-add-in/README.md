@@ -52,12 +52,12 @@ You can find the latest version of our AddIn on [Github](https://github.com/opf/
 
 
 
-### Installation 
+### Installation
 
 After you have downloaded the file, please run it to start the installation process.
 
 1. **Start Installation process**
-   In the first screen, click *Next* to continue: 
+   In the first screen, click *Next* to continue:
 
 ![Installation Step 1](installation-step-01.png)
 
@@ -113,7 +113,7 @@ The settings will appear in a new tab. Within this tab you have to insert your o
 
 ## How to select a project
 
-After connecting your OpenProject BIM instance you are able to start working with your BCF Tasks within Revit. Firstly you have to open the **OpenProject Tab** in the taskbar and start the application. 
+After connecting your OpenProject BIM instance you are able to start working with your BCF Tasks within Revit. Firstly you have to open the **OpenProject Tab** in the taskbar and start the application.
 
 ![Start OpenProject BIM Add-in](OpenProject_BIM_Start.png)
 
@@ -127,7 +127,7 @@ After starting the application a new tab will be created and you are able to sel
 
 ## Working with BIM issues
 
-To work with BIM Issues, please open our AddIn and navigate to our BCF Module. 
+To work with BIM Issues, please open our AddIn and navigate to our BCF Module.
 
 ![OpenProject BIM - BCF Module](OpenProject_BIM_BCF_Module.png)
 
@@ -139,7 +139,7 @@ Within this module all existing work packages are displayed. Within this demo pr
 
 
 
-An empty form for new work packages is now displayed. After adding a title and detailed information describing your issue, you have to add a viewpoint. This viewpoint saves your current view & selection of the building model (so check the rotation, selection and zoom of the model before). 
+An empty form for new work packages is now displayed. After adding a title and detailed information describing your issue, you have to add a viewpoint. This viewpoint saves your current view & selection of the building model (so check the rotation, selection and zoom of the model before).
 
 And the most important thing: **don't forget to save** the work package.
 
@@ -159,7 +159,7 @@ The handling of BIM Issues within Revit is similar to OpenProject BIM. There are
 
 - **Model Viewer**: To show a BIM Issue OpenProject BIM will use your Revit Model instead of the OpenProject BIM Model Viewer.
 - **Reduced View**: OpenProject BIM is now used in a smaller window. That's why you are currently using a reduced view.
-- **Missing Browser Toolbar**: The Browser Toolbar is missing, so you might miss some common user actions (e.g. jump to previous page) 
+- **Missing Browser Toolbar**: The Browser Toolbar is missing, so you might miss some common user actions (e.g. jump to previous page)
 
 
 

@@ -50,7 +50,7 @@ dnf install -y epel-release
 dnf install -y clamav clamd clamav-update
 ```
 
-For these distributions, you need to manually create the configuration files for `freshclam` and `clamd`.  For more information, see https://docs.clamav.net/manual/Installing.html#rpm-packages-for-centos-redhat-fedora-suse-etc 
+For these distributions, you need to manually create the configuration files for `freshclam` and `clamd`.  For more information, see https://docs.clamav.net/manual/Installing.html#rpm-packages-for-centos-redhat-fedora-suse-etc
 
 
 
@@ -68,11 +68,11 @@ docker run -it --rm \
     clamav/clamav:stable_base
 ```
 
-This will publish the `clamd` TCP connection on port `3310`. 
+This will publish the `clamd` TCP connection on port `3310`.
 
 
 
-**Docker-Compose** 
+**Docker-Compose**
 
 On docker compose, you can register clamav as a separate service to have hostname resolution:
 
@@ -108,9 +108,9 @@ You will see the following options:
    - This value is only shown when Scan mode is enabled.
    - Enter the path to the local socket or `hostname:port` for the host mode according to the ClamAV installation documentation.
 3. **Infected file action**
-   
-   Here you can select the action to take place when a virus was found: 
-   
+
+   Here you can select the action to take place when a virus was found:
+
    - **Quarantine the file**: quarantined files will be displayed under *Administration > Attachments > Quarantined attachments* for review or deletion.
    - **Delete the file directly**.
 
@@ -132,7 +132,7 @@ If the virus scanning mode has been enabled, all uploaded attachments will be sc
 
 > **Note**: While attachments are in the process of being scanned, they are only accessible to the original author. As soon as they are scanned without any findings, they are made accessible to all other users.
 
-If viruses are found, they are treated according to the *Infected file action* setting. 
+If viruses are found, they are treated according to the *Infected file action* setting.
 
 - Quarantine: The files are still visible in the container (e.g., in the work package they were uploaded in), but are no longer accessible. A comment is made to inform users about it.
 - Delete: The file is deleted straight away. A comment is made to inform the users about it.

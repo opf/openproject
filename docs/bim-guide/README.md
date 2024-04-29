@@ -97,7 +97,7 @@ You don't need it, but it makes your BIM Issue Management much easier. The *Open
 
 ### Are there any system requirements for the Revit add-in?
 
-The OpenProject Revit Add-In does not have any special system requirements. Only a supported [version of Autodesk Revit](./revit-add-in/#system-requirements) must be installed. 
+The OpenProject Revit Add-In does not have any special system requirements. Only a supported [version of Autodesk Revit](./revit-add-in/#system-requirements) must be installed.
 
 
 
@@ -105,8 +105,8 @@ The OpenProject Revit Add-In does not have any special system requirements. Only
 
 The OpenProject BIM Add-in for Revit supports the following versions:
 
-- REVIT 2019 
-- REVIT 2020 
+- REVIT 2019
+- REVIT 2020
 - REVIT 2021
 
 
@@ -125,11 +125,11 @@ Yes, we want to develop some other integrations to stay interoperable with other
 
 ### How to enable the BCF module
 
-The BCF Module and the included IFC viewer can be enabled or disabled for every single project. Here you can find the description how to [enable a module](../user-guide/projects/project-settings/modules/) within the project settings. 
+The BCF Module and the included IFC viewer can be enabled or disabled for every single project. Here you can find the description how to [enable a module](../user-guide/projects/project-settings/modules/) within the project settings.
 
 *The BCF Module is an OpenProject BIM Enterprise add-on. Please make sure, that you are already using the OpenProject BIM edition ([switch to the BIM edition](../installation-and-operations/bim-edition/))*
 
- 
+
 
 ### Why can't I see a building model?
 

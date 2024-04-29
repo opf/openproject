@@ -46,7 +46,7 @@ To help translate OpenProject, please take a look at the [OpenProject
 CrowdIn projects](https://crowdin.com/projects/opf).
 
 For further information on the release, please refer to the  
-[Changelog v.5.0.1](https://community.openproject.org/versions/774) 
+[Changelog v.5.0.1](https://community.openproject.org/versions/774)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v5.0.1).
 

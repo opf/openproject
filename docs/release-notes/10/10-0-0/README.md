@@ -224,7 +224,7 @@ OpenProject 10 significantly improves the performance, especially for the work p
 You will find useful information in the OpenProject [FAQ](../../../faq/) or you can post your questions in the [Forum](https://community.openproject.org/projects/openproject/boards).
 
 
-### Upgrading your installation to OpenProject 10.0.
+### Upgrading your installation to OpenProject 10.0
 
 If you're using the OpenProject Enterprise cloud edition, you are already running on the latest version of OpenProject 10.0. For your local installations, there are some minor changes you need to do in order to perform the upgrade.
 

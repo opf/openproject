@@ -13,7 +13,6 @@ Release date: 2023-03-20
 We released [OpenProject 12.5.1](https://community.openproject.org/versions/1692).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: Changing non working days in Polish fails \[[#47020](https://community.openproject.org/wp/47020)\]

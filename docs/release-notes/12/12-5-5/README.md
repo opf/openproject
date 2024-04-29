@@ -13,7 +13,6 @@ Release date: 2023-05-16
 We released [OpenProject 12.5.5](https://community.openproject.org/versions/1761).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: API v3 Group List Api sometimes misses embedded members field \[[#42303](https://community.openproject.org/wp/42303)\]

@@ -129,8 +129,8 @@ Setting.plugin_openproject_auth_saml = Hash(Setting.plugin_openproject_auth_saml
       ### awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}' <yourcert.pem>
       "idp_cert" => "-----BEGIN CERTIFICATE-----\nMI................IEr\n-----END CERTIFICATE-----\n",
       # Otherwise, the certificate fingerprint must be added
- 	  # Either `idp_cert` or `idp_cert_fingerprint` must be present!
-	  "idp_cert_fingerprint" => "E7:91:B2:E1:...",
+      # Either `idp_cert` or `idp_cert_fingerprint` must be present!
+      "idp_cert_fingerprint" => "E7:91:B2:E1:...",
 
       # Replace with your SAML 2.0 redirect flow single sign on URL
       # For example: "https://sso.example.com/saml/singleSignOn"
@@ -162,7 +162,7 @@ Setting.plugin_openproject_auth_saml = Hash(Setting.plugin_openproject_auth_saml
 
 > **NOTE**: ONLY for OpenProject version 11 and older
 
-In your OpenProject packaged installation, you can modify the `/opt/openproject/config/configuration.yml` file. 
+In your OpenProject packaged installation, you can modify the `/opt/openproject/config/configuration.yml` file.
 Edit the file in your favorite editor
 
 ```shell
@@ -239,9 +239,9 @@ SAML responses by identity providers are required to be signed. You can configur
 
 #### 2.2 Mandatory: Attribute mapping
 
-Use the key `attribute_statements` to provide mappings for attributes returned by the SAML identity provider's response to OpenProject internal attributes. 
+Use the key `attribute_statements` to provide mappings for attributes returned by the SAML identity provider's response to OpenProject internal attributes.
 
-You may provide attribute names or namespace URIs as follows: `email: ['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress']`. 
+You may provide attribute names or namespace URIs as follows: `email: ['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress']`.
 
 The OpenProject username is taken by default from the `email` attribute if no explicit login attribute is present.
 
@@ -514,18 +514,18 @@ In Keycloak, use the following steps to set up a SAML integration OpenProject:
 - Select or create a realm you want to authenticate OpenProject with. Remember that realm identifier.
 - Under "Clients" menu, click on "Create"
 - **Add client**: Enter the following details
-  - **Client ID**: `https://<Your OpenProject hostname>` 
+  - **Client ID**: `https://<Your OpenProject hostname>`
   - **Client protocol**: Set to "saml"
-  - **Client SAML Endpoint**:  `https://<Your OpenProject hostname>/auth/saml` 
+  - **Client SAML Endpoint**:  `https://<Your OpenProject hostname>/auth/saml`
 
 You will be forwarded to the settings tab  of the new client. Change these settings:
 
 - Enable **Sign Documents**
-- **Master SAML Processing URL**: Set to `https://<Your OpenProject hostname>/auth/saml` 
+- **Master SAML Processing URL**: Set to `https://<Your OpenProject hostname>/auth/saml`
 - **Name ID Format** Set to username
 - Expand section "Fine Grain SAML Endpoint Configuration"
-  - **Assertion Consumer Service POST Binding URL**: Set to `https://<Your OpenProject hostname>/auth/saml/callback` 
-  - **Assertion Consumer Service Redirect Binding URL**: Set to `https://<Your OpenProject hostname>/auth/saml/callback` 
+  - **Assertion Consumer Service POST Binding URL**: Set to `https://<Your OpenProject hostname>/auth/saml/callback`
+  - **Assertion Consumer Service Redirect Binding URL**: Set to `https://<Your OpenProject hostname>/auth/saml/callback`
 
 Go the "Mappers" tab and create the following mappers. Note that the "User attribute" values might differ depending on your LDAP or Keycloak configuration.
 
@@ -599,7 +599,7 @@ OPENPROJECT_OMNIAUTH__DIRECT__LOGIN__PROVIDER="saml"
 
 **Q:** `"certificate"` **and** `"private key"` **are used in the SAML configuration and openproject logs show a FATAL error after GET "/auth/saml"**  `**FATAL** -- :  OpenSSL::PKey::RSAError (Neither PUB key nor PRIV key: nested asn1 error):`
 
-A1: The given private_key is encrypted. The key is needed without the password (cf., https://github.com/onelogin/ruby-saml/issues/473)
+A1: The given private_key is encrypted. The key is needed without the password (cf., [see](https://github.com/onelogin/ruby-saml/issues/473))
 
 A2: The provided key pair is not an RSA key. ruby-saml might expect an RSA key.
 

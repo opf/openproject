@@ -13,7 +13,6 @@ Release date: 2022-11-23
 We released [OpenProject 12.3.3](https://community.openproject.org/versions/1609).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: Gantt calendar weeks not according to settings \[[#41327](https://community.openproject.org/wp/41327)\]

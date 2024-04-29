@@ -2,7 +2,7 @@
 
 **Note:** this guide only applies if you've installed OpenProject using our DEB/RPM packages.
 
-This guide will migrate your packaged MySQL installation to a PostgreSQL installation using [pgloader](https://github.com/dimitri/pgloader). 
+This guide will migrate your packaged MySQL installation to a PostgreSQL installation using [pgloader](https://github.com/dimitri/pgloader).
 
 ## Backing up
 
@@ -68,7 +68,7 @@ sudo zypper install pgloader-ccl
 
 ## Optional: Install and create PostgreSQL database
 
-If you have not yet installed and set up a PostgreSQL installation database, please set up a PostgreSQL database now. 
+If you have not yet installed and set up a PostgreSQL installation database, please set up a PostgreSQL database now.
 
 OpenProject requires at least PostgreSQL 9.5 installed. Please check [www.postgresql.org/download](https://www.postgresql.org/download/) if your distributed package is too old.
 
@@ -145,11 +145,11 @@ This might take a while depending on current installation size.
 
 ## Optional: Uninstall MySQL
 
-If the packaged installation auto-installed MySQL before and you no longer need it (i.e. only OpenProject used a MySQL database on your server), you can remove the MySQL packages. 
+If the packaged installation auto-installed MySQL before and you no longer need it (i.e. only OpenProject used a MySQL database on your server), you can remove the MySQL packages.
 
 You can check the output of `dpkg -l | grep mysql` to check for packages to be removed. Only keep `libmysqlclient-dev`  for Ruby dependencies on the mysql adapter.
 
-The following is an exemplary removal of an installed version MySQL 5.7. 
+The following is an exemplary removal of an installed version MySQL 5.7.
 
 ```shell
 [root@host] apt-get remove mysql-server

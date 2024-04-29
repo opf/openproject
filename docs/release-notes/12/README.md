@@ -5,7 +5,7 @@ release_date: 2021-11-15
 title: OpenProject Version 12 Release Notes
 ---
 
-# OpenProject Version 12 Release Notes 
+# OpenProject Version 12 Release Notes
 
 | Version                         | Release date |
 |---------------------------------|--------------|

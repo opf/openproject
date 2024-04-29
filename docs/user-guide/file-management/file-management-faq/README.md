@@ -10,7 +10,7 @@ keywords: files, attachment, Nextcloud, OneDrive, SharePoint, FAQ
 
 ## Why am I not allowed to see/read a certain file in OneDrive/SharePoint or Nextcloud?
 
-It is possible that you lack the necessary permissions to view a certain file. In this case please contact your administrator. 
+It is possible that you lack the necessary permissions to view a certain file. In this case please contact your administrator.
 
 Another explanation may be that you have been removed from a project in OpenProject, which will also mean that you lost your viewing or reading privileges in OneDrive/SharePoint or Nextcloud project folders.
 
@@ -26,4 +26,4 @@ Yes, you can. If the OneDrive/SharePoint file storage in your project had the au
 
 ## Is there a virus scanner for the files attachments in OpenProject?
 
-Yes, there is a virus scanner for attachments in OpenProject. At the moment it is only available for on-premises installations and is an Enterprise add-on. Your system administrator will need to [configure it first](../../../system-admin-guide/attachments/virus-scanning). 
+Yes, there is a virus scanner for attachments in OpenProject. At the moment it is only available for on-premises installations and is an Enterprise add-on. Your system administrator will need to [configure it first](../../../system-admin-guide/attachments/virus-scanning).

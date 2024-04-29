@@ -10,7 +10,7 @@ keywords: BIM, BCF, IFC, Viewer
 
 OpenProject BIM includes a very powerful IFC viewer to show and interact with building models in 2D & 3D.
 
-IFC-Files can be uploaded and shown directly within your Web-Browser without installing any additional software on your computer. 
+IFC-Files can be uploaded and shown directly within your Web-Browser without installing any additional software on your computer.
 
 ## Basics
 
@@ -22,7 +22,7 @@ The BCF Module has included a very powerful IFC viewer. Here is a short overview
 
 1. **IFC Model Viewer** to have a look at the building model directly within OpenProject BIM.
 2. **IFC Model Tree** to see the IFC Model Structure and show / hide elements.
-3. The **OpenProject toolbar** shows the most important user actions like creating new (BIM) issues, Import & Export BCF files, Change OpenProject View and upload & download IFC-Models 
+3. The **OpenProject toolbar** shows the most important user actions like creating new (BIM) issues, Import & Export BCF files, Change OpenProject View and upload & download IFC-Models
 4. The **View Cube** to rotate the building model.
 5. The **IFC-Viewer toolbar** to interact with the building model (e.g. change perspective, hide/ show elements, select elements & slice the building model)
 
@@ -30,7 +30,7 @@ The BCF Module has included a very powerful IFC viewer. Here is a short overview
 
 ## Import and export IFC models
 
-Within the BCF module you are able to manage your IFC files. You are able to upload new building models and download already existing files. Just Click on the ***"IFC-Models"-Button*** within the OpenProject Toolbar. 
+Within the BCF module you are able to manage your IFC files. You are able to upload new building models and download already existing files. Just Click on the ***"IFC-Models"-Button*** within the OpenProject Toolbar.
 
 
 
@@ -89,7 +89,7 @@ The IFC-Viewer toolbar has many functions which are described below. The user ac
 
 ![Reset View](reset-view.png)
 
-If your building model (or objects within the model) is rotated, zoomed or cut and you want to reset your current view this function will help you. All you have to do is press the button once and your your view will be reset to the default.     
+If your building model (or objects within the model) is rotated, zoomed or cut and you want to reset your current view this function will help you. All you have to do is press the button once and your your view will be reset to the default.
 
 ![Reset_view_button](Reset_view_button.gif)
 
@@ -109,7 +109,7 @@ If your building model can easily be shown in 2D or 3D. This function is very po
 
 ![Orthographic Button](orthographic-button.png)
 
-The default behavior of the OpenProject BIM Model Viewer is a perspective view. The perspective camera gives you more information about depth. Distant objects are smaller than nearby ones. This function changes from perspective view to orthographic view.  The orthographic view is widely used in engineering. All objects appear at the same scale and parallel lines remain parallel. Also a unit length appears the same length anywhere on the screen. This makes it easier to assess the relative sizes. 
+The default behavior of the OpenProject BIM Model Viewer is a perspective view. The perspective camera gives you more information about depth. Distant objects are smaller than nearby ones. This function changes from perspective view to orthographic view.  The orthographic view is widely used in engineering. All objects appear at the same scale and parallel lines remain parallel. Also a unit length appears the same length anywhere on the screen. This makes it easier to assess the relative sizes.
 
 ![Orthographic View](orthographic-view.png)
 
@@ -139,7 +139,7 @@ The first person perspective changes the way you interact with the building mode
 
 ![Slice Building Model](slice-building-model.png)
 
-To have a deeper look within the building model you are able to slice the whole building. To start slicing click on the "***scissors symbol***" within the ***IFC-Viewer toolbar*** and left-click on an element which has the same angle you want to slice (you can edit this angle later as well). Now there are shown some arrows. Grab one and slice the model by dragging the arrow to the location you want. 
+To have a deeper look within the building model you are able to slice the whole building. To start slicing click on the "***scissors symbol***" within the ***IFC-Viewer toolbar*** and left-click on an element which has the same angle you want to slice (you can edit this angle later as well). Now there are shown some arrows. Grab one and slice the model by dragging the arrow to the location you want.
 
 ![Slice building model](Slice_building.gif)
 
@@ -173,7 +173,7 @@ To select elements within the building model, you have to activate the selection
 
 ## Show properties
 
-You are able to see the basic properties of each element (e.g. the UUID) within OpenProject BIM. After using the "information" button a new tab named "Properties" will appear. 
+You are able to see the basic properties of each element (e.g. the UUID) within OpenProject BIM. After using the "information" button a new tab named "Properties" will appear.
 
 ![Show Properties Button](show-properties-button.png)
 
@@ -187,7 +187,7 @@ In order to inspect the information for individual objects, you have to use the 
 
 
 
-**But be careful!** The properties of the element you just clicked on are displayed. So make sure that there are no unwanted objects (e.g. window panes) in front of your desired object.   
+**But be careful!** The properties of the element you just clicked on are displayed. So make sure that there are no unwanted objects (e.g. window panes) in front of your desired object.
 
 
 
@@ -199,7 +199,7 @@ In order to inspect the information for individual objects, you have to use the 
 
 ## Show or hide elements via viewer
 
-There are two options to hide elements via viewer. The **first possibility** is to use the ***IFC-viewer toolbar***. Within the toolbar you will find the **"hide-button"** 
+There are two options to hide elements via viewer. The **first possibility** is to use the ***IFC-viewer toolbar***. Within the toolbar you will find the **"hide-button"**
 
 ![Hide Elements Button](hide-elements-button.png)
 
@@ -217,9 +217,9 @@ The **second possibility** to hide single elements via viewer is to use the cont
 
 
 
-You are always able to show hidden elements by using the **"Reset-View" Button** in the Viewer toolbar or use the **"Show All"** **Button** in the IFC Model tree. 
+You are always able to show hidden elements by using the **"Reset-View" Button** in the Viewer toolbar or use the **"Show All"** **Button** in the IFC Model tree.
 
-Sometimes it is helpful to see elements in context to other elements but a good view can be disturbed by individual elements. For this case our viewer is able to show your building model in an "X-Ray"-Mode. The mode can be activated via the context menu and enables disturbing elements to be displayed in the context of other elements without covering them. 
+Sometimes it is helpful to see elements in context to other elements but a good view can be disturbed by individual elements. For this case our viewer is able to show your building model in an "X-Ray"-Mode. The mode can be activated via the context menu and enables disturbing elements to be displayed in the context of other elements without covering them.
 
 ![XRay](XRay.gif)
 
@@ -235,13 +235,13 @@ All you have to do is open the context menu on the desired element and select th
 
 ![Show in Explorer](show-in-explorer.png)
 
- 
+
 
 ## Show or hide models or elements via model tree
 
 If you have uploaded several IFC models of one building (e.g. one for each discipline - Architecture, Structural & MEP) and want to have a look at a single model or just want to hide specific elements, you are able to hide them by changing the status of the ***checkbox within the model tree.***
 
-The model tree can represent the structure of the building model in different ways. This means that entire models, storeys or even similar components can be hidden with a single click. 
+The model tree can represent the structure of the building model in different ways. This means that entire models, storeys or even similar components can be hidden with a single click.
 
 
 

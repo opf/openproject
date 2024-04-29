@@ -42,4 +42,4 @@ A big thanks to community members for reporting bugs and helping us identifying 
 
 Special thanks for reporting and finding bugs go to Dennis St.
 
-Thank you to Syvert Fossdal for translating OpenProject into Norwegian. 
+Thank you to Syvert Fossdal for translating OpenProject into Norwegian.

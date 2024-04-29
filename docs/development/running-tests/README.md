@@ -223,7 +223,7 @@ Acceptance tests evaluate both functional and non-functional requirements.
 
 
 
-##  Non-functional testing
+## Non-functional testing
 
 Non-functional testing goes beyond the functionality of the product and is aimed at end-user experience. Test cases should hence make sure to define what is expected in terms of security, performance, compatibility, accessibility etc.
 
@@ -736,7 +736,7 @@ Running tests in parallel makes usage of all available cores of the machine.
 Functionality is being provided by [parallel_tests](https://github.com/grosser/parallel_tests) gem.
 See its GitHub page for any options like number of cpus used.
 
-#### Prepare
+### Prepare
 
 By default, `parallel_test` will use CPU count to parallelize. This might be a bit much to handle for your system when 8 or more parallel browser instances are being run. To manually set the value of databases to create and tests to run in parallel, use this command:
 
@@ -762,11 +762,11 @@ First migrate and dump your current development schema with `RAILS_ENV=developme
 
 Then you can just use `RAILS_ENV=test ./bin/rails parallel:prepare` to prepare test databases.
 
-#### RSpec specs
+### RSpec specs
 
 Run all unit and system tests in parallel with `RAILS_ENV=test ./bin/rails parallel:spec`
 
-#### Running specific tests
+### Running specific tests
 
 If you want to run specific tests (e.g., only those from the team planner module), you can use this command:
 

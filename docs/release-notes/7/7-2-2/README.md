@@ -43,7 +43,7 @@ Hillenbrand, and Marc Vollmer for reporting bugs!
 
 For further information on the 7.2.2 release, please refer to
 the [Changelog
-v7.2.2](https://community.openproject.org/versions/846) 
+v7.2.2](https://community.openproject.org/versions/846)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v7.2.2).
 
@@ -57,6 +57,6 @@ For more information, please also see ticket
 \[[#26144](https://community.openproject.org/wp/26144)\] and [this
 forum post](https://community.openproject.org/topics/8114).
 
- 
+
 
 

@@ -13,7 +13,6 @@ Release date: 2022-06-08
 We released [OpenProject 12.1.5](https://community.openproject.org/versions/1552).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: Order of work packages in XLS, PDF, CSV export differs from order in OpenProject \[[#34971](https://community.openproject.org/wp/34971)\]

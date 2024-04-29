@@ -441,7 +441,7 @@ If you need to restart the server (for example after a configuration change), do
 * **When accessing OpenProject, I get an error page. How do I find out what went wrong?**
 
   Things can go wrong on different levels. You can find the apache error logs here: `/var/log/apache2/error.log`
- 
+
   The OpenProject log can be found here: `/home/openproject/openproject/log/production.log`
 
 * **I cannot solve an error, not even with the log files. How do I get help?**

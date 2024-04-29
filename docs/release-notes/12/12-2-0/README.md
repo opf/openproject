@@ -36,9 +36,9 @@ You can find out more [how to use the Nextcloud integration](../../../user-guide
 
 ## Contextual information and warnings when scheduling work packages
 
-For OpenProject 12.2, the team has worked on **improving the date picker** to give you more clarity when scheduling work packages. To choose [automatic or manual scheduling mode](../../../user-guide/gantt-chart/scheduling/), the selection box moved to the top of the date picker to be more visible. We are also introducing information and warning banners that provide important contextual information before modifying dates of work packages that have relations with other work packages. 
+For OpenProject 12.2, the team has worked on **improving the date picker** to give you more clarity when scheduling work packages. To choose [automatic or manual scheduling mode](../../../user-guide/gantt-chart/scheduling/), the selection box moved to the top of the date picker to be more visible. We are also introducing information and warning banners that provide important contextual information before modifying dates of work packages that have relations with other work packages.
 
-*Blue banners* will indicate information that maybe be helpful (such as if the work package's dates are automatically derived from relations, or if available date ranges are limited by relations) and *orange banners* will warn of possible consequences to other work packages (existing relations being ignored as a result of enabling manual scheduling, or the dates of related work packages changing as a result of changes to the current work package). 
+*Blue banners* will indicate information that maybe be helpful (such as if the work package's dates are automatically derived from relations, or if available date ranges are limited by relations) and *orange banners* will warn of possible consequences to other work packages (existing relations being ignored as a result of enabling manual scheduling, or the dates of related work packages changing as a result of changes to the current work package).
 
 Additionally, a new "**Show relations**" on these banners allows you to quickly generate a Gantt view showing all directly related work packages in hierarchy view, so you can preview which work packages might be affected before making a change.
 
@@ -48,7 +48,7 @@ Find out more about how to set and change dates with the [improved date picker](
 
 ## Log time for other users
 
-OpenProject 12.2 gives an administrator the possibility to grant permissions to log time for other users. With the required permissions, you can now select the team member for whom you want to log time from a drop down. 
+OpenProject 12.2 gives an administrator the possibility to grant permissions to log time for other users. With the required permissions, you can now select the team member for whom you want to log time from a drop down.
 
 ![log time for other users](image-20220811130616209.png)
 
@@ -82,7 +82,7 @@ For more information, please see the respective installation pages:
 - [Packaged installation](../../../installation-and-operations/installation/packaged/#step-3-apache2-web-server-and-ssl-termination)
 - [Docker installation](../../../installation-and-operations/installation/docker/#configuration)
 
-##  List of all bug fixes and changes
+## List of all bug fixes and changes
 
 - Changed: Log time for other users \[[#21754](https://community.openproject.org/wp/21754)\]
 - Changed: Send out an email reply if an incoming email could not be processed correctly \[[#35823](https://community.openproject.org/wp/35823)\]

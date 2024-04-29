@@ -106,7 +106,7 @@ We are going to create a new file `/etc/openproject/addons/apache2/custom/vhost/
 
 As the last step, you need to tell OpenProject to look for the `X-Authenticated-User` header and the `MyPassword` secret value. The easiest way to do that is using ENV variables
 
-#### Configure using environment variables
+### Configure using environment variables
 
 As with all the rest of the OpenProject configuration settings, the Kerberos header configuration can be provided via environment variables. For example:
 

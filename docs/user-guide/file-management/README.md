@@ -21,7 +21,7 @@ There are several ways of adding or linking files to work packages in OpenProjec
 
 ## Manual upload
 
-For the manual upload please refer to documentation on [attaching files to work packages](../work-packages/create-work-package/#add-attachments-to-work-packages). 
+For the manual upload please refer to documentation on [attaching files to work packages](../work-packages/create-work-package/#add-attachments-to-work-packages).
 
 ## Nextcloud integration
 

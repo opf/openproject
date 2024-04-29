@@ -64,7 +64,7 @@ Please ensure that if you're proxying to the openproject server, you set the HOS
 
 On your outer proxying server, set these commands:
 
-- In Apache2, set the `ProxyPreserveHost On` directive 
+- In Apache2, set the `ProxyPreserveHost On` directive
 
 - In NginX, use the following value: `proxy_set_header X-Forwarded-Host $host:$server_port;`
 

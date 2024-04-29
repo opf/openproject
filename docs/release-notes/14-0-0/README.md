@@ -74,19 +74,19 @@ The `available_responsibles` endpoint has been removed from the API. This endpoi
 
 There are some major changes in terms of progress reporting for work package hierarchies. The calculation of progress (% Complete) in work package hierarchies is now consistent. This leads to the following important changes:
 
-#### % Complete will be an automatically calculated (non-editable) attribute based on Work.
+#### % Complete will be an automatically calculated (non-editable) attribute based on Work
 
 In Work-based progress reporting, % Complete will be automatically calculated and can therefore no longer be edited manually. This means that for a work package to have a value for % Complete, both Work and Remaining work are required to be set. To make this link clear and transparent, clicking on any of the three values to modify them will display the following pop-over:
 
 ![Work-based progress reporting](progress-work-estimates-workMode.jpg)
 
-#### In status-based progress reporting, Remaining work will be automatically calculated.
+#### In status-based progress reporting, Remaining work will be automatically calculated
 
 In Status-based progress reporting mode, Work is not a required value. However, if Work is set, Remaining work is automatically calculated. To make this link clear and transparent, clicking on any of the three values to modify them will display the following pop-over:
 
 ![Status-based progress reporting](progress-work-estimates-statusMode.jpg)
 
-#### Administrators will be able to exclude certain work packages from hierarchy totals of Work, Remaining work and % Complete.
+#### Administrators will be able to exclude certain work packages from hierarchy totals of Work, Remaining work and % Complete
 
 Admins are able to exclude specific work packages (e.g., those marked as rejected) from the total sum calculations of their parent. In this case, a small info icon will appear next to excluded values:
 
@@ -108,7 +108,7 @@ Project attributes as well as the sections can be managed in administration/proj
 
 ### Streamlined view of custom fields in project lists and project overview
 
-Until now, there have been uncertainties with project-specific custom fields from time to time. This is why the tab 'project' has been removed from the custom fields admin settings pages. Instead, project custom fields are now edited within their own admin settings page. Also, the custom fields widget has been removed. 
+Until now, there have been uncertainties with project-specific custom fields from time to time. This is why the tab 'project' has been removed from the custom fields admin settings pages. Instead, project custom fields are now edited within their own admin settings page. Also, the custom fields widget has been removed.
 
 As described above, *project* custom fields are now called 'Project attributes' and can be shown in a sidebar on the project overview page on a per-project configuration.
 
@@ -135,7 +135,7 @@ If you copy a project where a file storage has automatically managed project fol
 * Deactivate the copy option "File Storages: Project folders" – this will copy the file storage, but not the specific project folder.
 * Deactivate the copy option "File Storages" – this will not copy any file storage.
 
-### Reminder for admins when revoking a project membership to remove shares on work packages 
+### Reminder for admins when revoking a project membership to remove shares on work packages
 
 As of 14.0, admins are asked whether they also want to remove access to [shared work packages](https://www.openproject.com/docs/user-guide/work-packages/share-work-packages/) when removing a project member or group from a project.
 

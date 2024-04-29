@@ -13,7 +13,6 @@ Release date: 2022-10-04
 We released [OpenProject 12.2.5](https://community.openproject.org/versions/1602).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
 ## Bug fixes and changes
 
 ## LDAP group synchronization bug

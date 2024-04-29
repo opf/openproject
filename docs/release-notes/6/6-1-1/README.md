@@ -62,7 +62,7 @@ Hillenbrand, Nicolai Daniel and Christophe Mornet for [reporting
 bugs](../../../development/report-a-bug/)!
 
 For further information on the release, please refer to the  
-[Changelog v.6.1.1](https://community.openproject.org/versions/821) 
+[Changelog v.6.1.1](https://community.openproject.org/versions/821)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v6.1.1).
 

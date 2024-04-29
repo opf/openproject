@@ -67,7 +67,7 @@ OpenProject 9.0 contains a large number of bugs fixes.
 For an extensive overview of bug fixes please refer to the [following list](https://community.openproject.org/projects/openproject/work_packages?query_props={"c"%3A["id"%2C"subject"%2C"type"%2C"status"%2C"assignee"]%2C"hi"%3Afalse%2C"g"%3A""%2C"t"%3A"id%3Adesc"%2C"f"%3A[{"n"%3A"version"%2C"o"%3A"%3D"%2C"v"%3A["853"]}%2C{"n"%3A"type"%2C"o"%3A"%3D"%2C"v"%3A["1"]}%2C{"n"%3A"subprojectId"%2C"o"%3A"*"%2C"v"%3A[]}]%2C"pa"%3A1%2C"pp"%3A20}).
 
 
-## Upgrading your installation to OpenProject 9.0.
+## Upgrading your installation to OpenProject 9.0
 
 If you're using the OpenProject Enterprise cloud edition, you are already running on the latest version of OpenProject 9.0. For your local installations, there are some minor changes you need to do in order to perform the upgrade.
 

@@ -72,7 +72,7 @@ $config = array(
 
 
 
-You can now run the docker container and the updated configuration with this command. 
+You can now run the docker container and the updated configuration with this command.
 
 ```shell
 docker run \

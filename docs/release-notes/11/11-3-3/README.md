@@ -13,7 +13,7 @@ Release date: 2021-07-20
 We released [OpenProject 11.3.3](https://community.openproject.org/versions/1484).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-### Security issues
+## Security issues
 
 **CVE-2021-32763**: Regular Expression Denial of Service in OpenProject forum messages
 
@@ -29,9 +29,6 @@ Operating public facing docker containers is not recommended by OpenProject. The
 
 Please see the advisory for [CVE-2021-36390](https://github.com/opf/openproject/security/advisories/GHSA-r8f8-pgg2-2c26) for more information.
 
-
-
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: Database migration fails on upgrade from 11.2.2 to 11.3.X \[[#37687](https://community.openproject.org/wp/37687)\]
@@ -40,8 +37,6 @@ Please see the advisory for [CVE-2021-36390](https://github.com/opf/openproject/
 - Fixed: Public-facing docker AIO container vulnerable to HOST header injection by default \[[#38067](https://community.openproject.org/wp/38067)\]
 
 ## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
-
-Special thanks for reporting and finding bugs go to
-
-Rob A, Milad P.
+Special thanks for reporting and finding bugs go to Rob A, Milad P.

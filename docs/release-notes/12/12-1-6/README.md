@@ -13,7 +13,6 @@ Release date: 2022-07-12
 We released [OpenProject 12.1.6](https://community.openproject.org/versions/1586).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
 ## Bug fixes and changes
 
 - Fixed: EE Trial creation not possible from form configuration \[[#42806](https://community.openproject.org/wp/42806)\]

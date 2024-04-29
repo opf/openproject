@@ -27,7 +27,7 @@ The following bugs have been fixed:
 Additionally, new translations have been included (including complete
 translations for Swedish).
 
-For further information on the release, please refer to the 
-[Changelog v.4.2.5](https://community.openproject.org/versions/759) 
-or take a look at 
+For further information on the release, please refer to the
+[Changelog v.4.2.5](https://community.openproject.org/versions/759)
+or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v4.2.5).

@@ -26,7 +26,7 @@ OpenProject 5.0.7 contains several bug fixes:
     [#22313](https://community.openproject.org/work_packages/22313)).
 
 For further information on the release, please refer to the  
-[Changelog v.5.0.7](https://community.openproject.org/versions/785) 
+[Changelog v.5.0.7](https://community.openproject.org/versions/785)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v5.0.7).
 

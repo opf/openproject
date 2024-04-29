@@ -126,7 +126,7 @@ At its core, permissions in OpenProject are the central key to determine who can
 - Implement controls and authorization checks with a *Deny by default* or *Fallback deny* rule, preventing authorization flows to miss certain steps and allowing user requests to fall through the authorization checks.
 - Validate the permissions of a user on every request, regardless of the origin of it.
 - Enforce proper authorization controls to ensure that users only access their own data.
-- Provide extensive tests for permission checks, making assertions of all available cases and using visibility testing for asserting that certain actors _cannot_ access data or perform actions. 
+- Provide extensive tests for permission checks, making assertions of all available cases and using visibility testing for asserting that certain actors _cannot_ access data or perform actions.
 - Regularly review and update access controls to reflect changes in application functionality and roles.
 
 **References**
@@ -171,7 +171,7 @@ As OpenProject may handle and distribute sensitive user data, attack vectors suc
 
 **Risks and impacts**
 
-- *Viruses and malware uploads*: Whenever users are able to upload files to a system, potentially malicious files could be provided and distributed through OpenProject by users with the appropriate upload permission. 
+- *Viruses and malware uploads*: Whenever users are able to upload files to a system, potentially malicious files could be provided and distributed through OpenProject by users with the appropriate upload permission.
 - *Malware in software*: OpenProject carefully selects and updates third-party dependencies. Please see the following section on [external dependencies](#external-dependencies) for more information on the best practices of external dependencies.
 
 **Guidelines**
@@ -182,7 +182,7 @@ As OpenProject may handle and distribute sensitive user data, attack vectors suc
   - OpenProject currently does not provide a built-in virus scanner. However, using [webhooks](../../../system-admin-guide/api-and-webhooks/#webhooks) and the [attachments API](../../../api/endpoints/attachments/), users can plug existing virus scanning tools and scrub any uploaded files.
 - *Malware in software*:
   - OpenProject uses statical code analysis on every change provided to the application as well as code scanners on the artifacts generated from the source code (such as Snyk vulnerability scanner for Docker images).
-  - We recommend users to perform their own 
+  - We recommend users to perform their own
 
 ## Logging and Error Handling
 
@@ -250,7 +250,7 @@ Packaging and containerization are critical artifacts in the delivery pipeline o
 
 Properly managed packaging and containerization pipelines ensure smooth installations, upgrades, and scaling, enhancing the deployment process and - as a result - the overall user experience. This section highlights risks connected to improper containerization or packaging as well as our main objectives and  best practices to provide a secure, efficient, and reliable software delivery process.
 
-OpenProject provides several installation mechanisms: 
+OpenProject provides several installation mechanisms:
 
 - [Packaged installations](../../../installation-and-operations/installation/packaged/) using the distribution's package manager for dependency control
 
