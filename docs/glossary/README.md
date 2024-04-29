@@ -286,7 +286,7 @@ In OpenProject, a [project](../user-guide/projects/) is defined as an individual
 
 ### Project attribute
 
-A project attribute in OpenProject is a [custom field](#custom-field) that applies to an entire project. It can be displayed in the right-hand column on the project overview page and can be divided into sections for a better structure.
+A project attribute in OpenProject is a [custom field](#custom-field) that applies to an entire project. It is displayed in the right-hand column on the project overview page and can be divided into sections for a better structure.
 
 ### Project folder
 
