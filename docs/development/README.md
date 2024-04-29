@@ -108,7 +108,7 @@ If you want to contribute to OpenProject, please make sure to accept our Contrib
 
 [Read and accept the Contributor License Agreement here.](https://www.openproject.org/legal/contributor-license-agreement/)
 
-# Additional resources
+## Additional resources
 
 
 * [Development environment for Ubuntu 18.04](development-environment-ubuntu)

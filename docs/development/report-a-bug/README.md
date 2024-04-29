@@ -18,9 +18,9 @@ If you find a bug please create a bug report.
 7. Press **Create**.
 
 
-# Information you should add to the bug description
+## Information you should add to the bug description
 
-## Preconditions to reproduce the bug
+### Preconditions to reproduce the bug
 
 Prior to detailing which steps to take to reproduce the error, the necessary preconditions which have to be met should be stated.
 
@@ -36,7 +36,7 @@ Example:
 * Forum messages exist with many replies
 ```
 
-## Steps to reproduce the bug
+### Steps to reproduce the bug
 
 * The detailed steps that led to the bug should be listed in the description in order to replicate the bug and determine the underlying problem.
 
@@ -47,7 +47,7 @@ Example:
 2. Scroll to bottom of messages
 ```
 
-## Actual behavior
+### Actual behavior
 
 * The actual, erroneous behavior should be stated briefly and concisely.
 
@@ -57,7 +57,7 @@ Example:
 * Not possible to switch to next entry in pagination
 ```
 
-## Expected behavior
+### Expected behavior
 
 * If known, the expected behavior of the application should be described concisely.
 
@@ -67,13 +67,13 @@ Example:
 * Possible to switch to next pagination page
 ```
 
-## Screenshots
+### Screenshots
 
 * If applicable, a screenshot should be added to the bug report in order to explain the bug visually.
   * The unintended behavior should be marked in the screenshot (e.g. by using red color).
 * The screenshot can be attached as a file and can be integrated in the description with the following syntax: "!Name_of_screenshot.png!" (without quotation marks)
 (Notice: *Name_of_screenshot* should be replaced with the respective name of the file. The file ending (here: *.png*) has to be adjusted to the appropriate file type of the screenshot.)
 
-## Example of bug reporting
+### Example of bug reporting
 
 ![bug_report_example](bug_report_example-1706822.png)

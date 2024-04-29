@@ -5,13 +5,9 @@ description: An introduction on how to generate forms from an API form object
 keywords: concept, forms, dynamic forms, schemas
 ---
 
-
-
 # Dynamically generated forms
 
 Starting in OpenProject 11.3.0, the frontend application received a new mechanism to dynamically generate HTML forms from an APIv3 form response. The form response contains the model being changed/created and [a schema resource](../resource-schemas/) to describe the attributes of the resource.
-
-
 
 ## Key takeaways
 
@@ -22,9 +18,6 @@ Dynamic forms are wrappers around the APIv3 form and schema objects to render a 
 The following guides are related:
 
 - [Schema resources](../resource-schemas/)
-
-
-
 
 ## API overview
 
@@ -86,9 +79,7 @@ The form has four important segments:
 - **_embedded.validationErrors**: This object contains any references to attributes in the payload that are currently erroneous, and a human-readable message. In the example above, the required _name_ of the project is missing.
 - **_links**: The links section contains HAL links and actions on the form resource itself. For example, it has a `validate` link to validate any pending changes made by the user. If the form has no validation errors, it will show a `commit` link to save the changes to the database. As the example form is invalid, this link is not present.
 
-
-
-# Frontend usage
+## Frontend usage
 
 Using the dynamic form is incredibly easy once you have a backend that provides a form resource with an embedded schema.
 
@@ -98,9 +89,7 @@ The dynamic form component will request the form for you, render the form, and h
 
 In case of the projects component, there is a `fieldsSettingsPipe` that allows you to override parts of the rendering. For projects, [it is used](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/projects/components/projects/projects.component.ts#L34-L44) hiding the `identifier` field of the project which is handled by the backend.
 
-
-
-## Basic use case
+### Basic use case
 
 For the most basic use case, simply place the `DynamicFormsModule` into your module imports and use the component as follows:
 

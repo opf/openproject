@@ -6,14 +6,14 @@ release_version: 10.6.0
 release_date: 2020-06-02
 ---
 
-# Release notes OpenProject 10.6.0
+# OpenProject 10.6.0
+
+## Release notes OpenProject 10.6.0
 
 | Release notes                                                | Description                                                  |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [OpenProject 10.6.0](#openproject-1060)                      | What is new for OpenProject 10.6.0?                          |
 | [OpenProject 10.6.0 BIM edition for construction project management](#openproject-1060-bim-edition) | What is new for the construction project management for the building industry in OpenProject 10.5.0? |
-
-# OpenProject 10.6.0
 
 The new release of the open source project management software brings improved table formatting, quicker time logging, the Slovenian translation, better overview over activities and  much more usability improvements and bug fixes.
 

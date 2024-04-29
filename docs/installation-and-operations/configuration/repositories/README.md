@@ -167,11 +167,11 @@ It could also externally be refreshed by using a cron job using the Sys API. Exe
 
 For a future release, we are hoping to provide a webhook to update changesets and storage immediately after a change has been committed to the repository.
 
-# Accessing repositories through Apache
+## Accessing repositories through Apache
 
 With managed repositories, OpenProject takes care of the lifetime of repositories and their association with projects, however we still need to serve the repositories to the client.
 
-## Preliminary Setup
+### Preliminary Setup
 
 In the remainder of this document, we assume that you run OpenProject using a separate process, which listens for requests on `http://localhost:3000` that you serve over Apache using a proxy.
 
@@ -189,7 +189,7 @@ forget to save the settings). We need that API key later in our Apache configura
 You also need a distinct filesystem path for Subversion and Git repositories.
 In this guide, we assume that you put your svn repositories in /srv/openproject/svn and your git repositories in /srv/openproject/git .
 
-## Subversion Integration
+### Subversion Integration
 
 Apache provides the module `mod_dav_svn` to serve Subversion repositories through HTTP(s).
 
@@ -200,7 +200,7 @@ apt-get install subversion libapache2-mod-perl2 libapache2-svn
 a2enmod proxy proxy_http dav dav_svn
 ```
 
-### Permissions
+#### Permissions
 
 **Important:** If Apache and OpenProject run under separate users, you need to ensure OpenProject remains the owner of the repository in order to browse and delete it, when requested through the user interface.
 
@@ -216,11 +216,11 @@ Without correcting the permissions, the following situation will occur:
 
 The following workarounds exist:
 
-#### Apache running `mod_dav_svn` and OpenProject must be run with the same user
+##### Apache running `mod_dav_svn` and OpenProject must be run with the same user
 
 This is a simple solution, but theoretically less secure when the server provides more than just SVN and OpenProject.
 
-#### Use Filesystem ACLs
+##### Use Filesystem ACLs
 
 You can define ACLs on the managed repository root (requires compatible FS).
 You'll need the the `acl` package and define the ACL.
@@ -263,19 +263,19 @@ On many file systems, ACLS are enabled by default. On others, you might need to 
 
 Note that this issue applies to mod_dav_svn only.
 
-### Use the Apache wrapper script
+#### Use the Apache wrapper script
 
 Similar to the integration we use ourselves for the packager-based installation, you can set up Apache to manage repositories using the remote hook in OpenProject.
 
 For more information, see the section 'Managing Repositories Remotely'.
 
-### Exemplary Apache Configuration
+#### Exemplary Apache Configuration
 
 We provide an example apache configuration. Some details are explained inline as comments.
 
 ​
 
-## Git Integration
+### Git Integration
 
 We can exploit git-http-backend to serve Git repositories through HTTP(s) with Apache.
 
@@ -291,12 +291,12 @@ Depending on your installation, it may reside in `/usr/libexec/git-core/git-http
 
 [More information on git-http-backend.](https://git-scm.com/docs/git-http-backend)
 
-### Permissions
+#### Permissions
 
 We create bare Git repositories in OpenProject with the [`--shared`](https://www.kernel.org/pub/software/scm/git/docs/git-init.html) option of `git-init` set to group-writable.
 Thus, if you use a separate user for Apache and OpenProject, they need to reside in a common group that is used for repository management. That group must be set in the `configuration.yml` (see above).
 
-### Exemplary Apache Configuration
+#### Exemplary Apache Configuration
 
 We provide an example apache configuration. Some details are explained inline as comments.
 

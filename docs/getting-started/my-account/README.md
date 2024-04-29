@@ -255,7 +255,7 @@ Also, you can upload a **Custom Avatar** by choosing a Avatar to be uploaded fro
 
 > **Note**: The optimum size to upload a new profile picture is 128 by 128 pixel. Larger files will be cropped.
 
-# Delete account
+## Delete account
 
 You can delete your own account in **My account**.
 

@@ -139,9 +139,9 @@ For non-existing users, if you have an LDAP configured with automatic user regis
 
 
 
-# Known issues
+## Known issues
 
-## Using the OpenProject REST API
+### Using the OpenProject REST API
 
 As Kerberos provides its own Basic Auth challenges if configured as shown above, it will prevent you from using the OpenProject API using an Authorization header such as API key authentication or OAuth2.
 
@@ -195,6 +195,6 @@ ProxyPassReverse /openproject-api/ http://127.0.0.1:6000/openproject/
 </LocationMatch>
 ```
 
-# Additional  resources
+## Additional resources
 
 - [Kerberos documentation by Ubuntu](https://help.ubuntu.com/community/Kerberos)

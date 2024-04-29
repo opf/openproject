@@ -305,11 +305,11 @@ sudo zypper install openproject
 
 Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
 
-# Full-text extraction not supported
+## Full-text extraction not supported
 
 For some distributions we do not provide the required dependencies for full-text extraction of attachments. If you need this feature, please install the required dependencies (`catdoc unrtf poppler-utils tesseract-ocr`) manually. For more information, [please see the plaintext gem](https://github.com/planio-gmbh/plaintext). Once installed, check `Administration > Information` to see if OpenProject is able to pick up these dependencies.
 
-# Initial Configuration
+## Initial Configuration
 
 After you have successfully installed the OpenProject package, you can now perform the initial configuration of OpenProject, using the wizard that ships with the OpenProject package.
 

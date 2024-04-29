@@ -2,9 +2,9 @@
 
 OpenProject uses automated tests throughout the stack. Tests that are executed in the browser (angular frontend, rspec system tests) require to have Chrome installed. To ensure we deliver high quality code to our customers, it's essential to conduct various types of tests.
 
+## Testing
 
-
-## Involved Roles
+### Involved Roles
 
 Testing OpenProject is distributed between different roles and members, depending on the testing task.
 
@@ -14,9 +14,7 @@ Testing OpenProject is distributed between different roles and members, dependin
 - **Usability testing**: UX Designer, Customers, Community members
 - **Accessibility testing**: Product team, Developer, External accessibility experts
 
-
-
-## Functional testing
+### Functional testing
 
 Functional testing ensures that the application works against the set of requirements or specifications. Tests should therefore make sure all the acceptance criteria are met.
 
@@ -33,7 +31,7 @@ The following types of functional tests are used at OpenProject.
 
 
 
-### Unit tests
+#### Unit tests
 
 Unit testing concerns testing of isolating individual components of the application, such as individual methods within a model, service, or library, in order to verify that they perform as expected under various conditions. OpenProject uses RSpec for writing unit tests / specs.
 
@@ -73,7 +71,7 @@ Unit testing concerns testing of isolating individual components of the applicat
 
 
 
-### Integration tests
+#### Integration tests
 
 Integration tests focus on the interactions between different components of OpenProject to ensure they work together to deliver a specific functionality. OpenProject uses RSpec to perform integration tests to simulate real-world user behavior. In contrast to system tests, integration tests still leave out some assumptions or characteristics of the application (e.g., not running tests in an instrumented browser instance).
 
@@ -99,7 +97,7 @@ In Rails, the difference between integration tests and feature tests can be blur
 
 
 
-### Feature tests
+#### Feature tests
 
 Feature tests at OpenProject drive a browser instance to act as if a user was operating the application. This includes logging in, setting session cookies, and navigating/manipulating the browser to interact as the user.
 
@@ -128,7 +126,7 @@ Feature tests at OpenProject drive a browser instance to act as if a user was op
 
 
 
-### Smoke tests
+#### Smoke tests
 
 Smoke tests are automated and manual tests to ensure the main application features and happy paths are working as expected. At OpenProject, all installation methods are automatically tested using smoke tests. Packaging processes test all distributions for successful installation of OpenProject. We run the released docker image for setting up and accessing OpenProject.
 
@@ -156,7 +154,7 @@ Smoke tests are automated and manual tests to ensure the main application featur
 
 
 
-### Sanity and regression tests
+#### Sanity and regression tests
 
 Sanity and regression tests are manually performed tests by QA for relevant components on a stabilized version, e.g., the developed new features or components of an OpenProject release. A sanity test is a subset of a regression test, which evaluates the entire application prior to a release or production deployment.
 
@@ -197,7 +195,7 @@ For writing and executing manual sanity and regression testing, especially focus
 
 
 
-### Acceptance tests
+#### Acceptance tests
 
 Acceptance testing is the final phase of testing where the extension to the OpenProject application is evaluated against predefined requirements to ensure it meets user and stakeholder expectations before deployment.
 
@@ -221,9 +219,7 @@ Acceptance tests evaluate both functional and non-functional requirements.
 2. Perform acceptance test in an environment that mimics the production environment as closely as possible. This could be an isolated edge environment, or a separately deployed instance at the customer's request.
 3. Maintain clear and detailed documentation of test cases, outcomes, and any *discrepancies* between expected and actual implementation and results.
 
-
-
-## Non-functional testing
+### Non-functional testing
 
 Non-functional testing goes beyond the functionality of the product and is aimed at end-user experience. Test cases should hence make sure to define what is expected in terms of security, performance, compatibility, accessibility etc.
 
@@ -239,7 +235,7 @@ Examples for non-functional test cases: software should be compatible with most 
 
 
 
-### Performance tests
+#### Performance tests
 
 Identify and prevent common causes of bottlenecks in the application. As OpenProject is a software where a lot of information might come together and presented in a very flexible manner, performance is an ever-present concern and consideration for the developers.
 
@@ -262,7 +258,7 @@ Identify and prevent common causes of bottlenecks in the application. As OpenPro
 
 
 
-### Security tests
+#### Security tests
 
 Automated or manual security tests for OpenProject are evaluating common weaknesses of web applications and follow the best practices of the [secure coding guidelines](../concepts/secure-coding/).
 
@@ -287,7 +283,7 @@ Automated or manual security tests for OpenProject are evaluating common weaknes
 
 
 
-### Installation and upgrade tests
+#### Installation and upgrade tests
 
 OpenProject employs a number of automated tests for installation testing. Packaged installation build tests for various distributions, Docker installation smoke tests for verifying correct startup and basic operation of the container.
 
@@ -315,7 +311,7 @@ Upgrade tests are manually performed for major code changes and data migrations 
 
 
 
-### Usability testing
+#### Usability testing
 
 When new features or changes to the application are available on our [Edge or Community environments](../environments), product team members, customers, and community users can provide usability feedback on how the change is perceived.
 
@@ -344,7 +340,7 @@ When new features or changes to the application are available on our [Edge or Co
 
 
 
-### Accessibility tests
+#### Accessibility tests
 
 OpenProject strives to be accessible for all users while also retaining a high usability. In web applications, these two requirements can sometimes be a seemingly contradictory requirement, especially when animations or *modern* functionalities of browsers are used.
 
@@ -379,9 +375,7 @@ OpenProject strives to be accessible for all users while also retaining a high u
 - https://github.com/dequelabs/axe-core-gems/blob/develop/packages/axe-core-rspec/README.md
 - https://github.com/citizensadvice/capybara_accessible_selectors
 
-
-
-# Continuous testing workflow
+## Continuous testing workflow
 
 As part of the [development flow at OpenProject](../../development/#branching-model-and-development-flow), proposed changes to the core application will be made through a GitHub pull request and the entire test suite is automatically evaluated on GitHub Actions. You will see the results as a status on your pull request.
 
@@ -389,8 +383,7 @@ You will likely start working with the OpenProject test suite through our contin
 
 Successful test suite runs are one requirement to see your changes merged.
 
-
-## List failures
+### List failures
 
 A failing status will look like the following on your pull request. You may need to click *Show all checks* to expand all checks to see the details link.
 
@@ -424,9 +417,7 @@ rspec ./spec/features/work_packages/timeline/timeline_navigation_spec.rb:317 # W
 
 ![GitHub job log showing failing test](github-broken-tests.png)
 
-
-
-## Diagnose failures
+### Diagnose failures
 
 Once you know which tests are failing, run them locally to try and reproduce the failures. Having reproducible failures locally is the first step to diagnose and fix them.
 
@@ -463,8 +454,7 @@ If you want to run the tests directly to rspec, you can use this command:
 ./script/github_pr_errors | xargs bundle exec rspec
 ```
 
-
-## Tests failing on GitHub Actions CI and passing locally
+### Tests failing on GitHub Actions CI and passing locally
 
 Some tests can fail on GitHub actions CI, and pass locally which makes them harder to reproduce, diagnose, and fix.
 
@@ -500,35 +490,29 @@ Possible reasons are:
     * Roll the migration back: `rails db:migrate:down VERSION=<migration-id>`
     * Switch back to where you left: `git switch -`
 
-
-
-## Skip test execution on GitHub Actions CI
+### Skip test execution on GitHub Actions CI
 
 Sometimes, you know you're pushing changes to a pull request that you now are work in progress or are known to break existing or new tests.
 
 To avoid additional test executions, you can include `[skip ci]` in your commit message to ensure GitHub Actions are not being triggered and skips your build. Please note that a successful merge of your pull request will require a green CI build.
 
-
-
-# Running tests locally
+## Running tests locally
 
 As there are multiple ways employed to test OpenProject, you may want to run a specific test or test group.
 
-
-
-## Prerequisites
+### Prerequisites
 
 In order to be able to run tests locally, you need to have set up a local development stack.
 
 
 
-### Verifying your dependencies
+#### Verifying your dependencies
 
 To ensure your local installation is up to date and prepared for development or running tests, there is a helper script `./bin/setup_dev` that installs backend and frontend dependencies. When switching branches or working on a new topic, it is recommended to run this script again.
 
 
 
-### Setting up a test database
+#### Setting up a test database
 
 As part of the development environment guides, you will have created a development and test database and specified it under `config/database.yml`:
 
@@ -565,9 +549,7 @@ RAILS_ENV=development rails db:migrate db:test:prepare
 
 This migrates the _development_ database, outputting its schema to `db/schema.rb` and will copy this schema to the test database. This ensures your test database matches your current expected schema.
 
-
-
-## Frontend tests
+### Frontend tests
 
 To run JavaScript frontend tests, first ensure you have all necessary dependencies installed via npm (i.e. `npm install`).
 
@@ -583,9 +565,7 @@ Alternatively, when in the `frontend/` folder, you can also use the watch mode o
 ./node_modules/.bin/ng test --watch
 ```
 
-
-
-## Unit tests
+### Unit tests
 
 After following the prerequisites, use the following command to run individual specs:
 
@@ -599,9 +579,7 @@ Run multiple specs by separating them with spaces:
 RAILS_ENV=test bundle exec rspec spec/models/work_package_spec.rb spec/models/project_spec.rb
 ```
 
-
-
-## System tests
+### System tests
 
 System tests are also called *rspec feature specs* and use [Capybara](https://rubydoc.info/github/teamcapybara/capybara/master) and [Selenium](https://www.selenium.dev/documentation/webdriver/) to run. They are automatically executed with an actual browser when `js: true` is set.
 
@@ -613,7 +591,7 @@ RAILS_ENV=test bundle exec rspec spec/features/auth/login_spec.rb
 
 
 
-### Dependencies
+#### Dependencies
 
 For the javascript dependent integration tests, you have to install Chrome and Firefox, to run them locally.
 
@@ -621,7 +599,7 @@ Capybara uses Selenium to drive the browser and perform the actions we describe 
 
 
 
-### Running system tests
+#### Running system tests
 
 Almost all system tests depend on the browser for testing, you will need to have the Angular CLI running to serve frontend assets.
 
@@ -641,7 +619,7 @@ You can also run *all* feature specs locally with this command. This is not reco
 RAILS_ENV=test bundle exec rake parallel:features -- --group-number 1 --only-group 1
 ```
 
-#### WSL2
+##### WSL2
 
 In case you are on Windows using WSL2 rather than Linux directly, running tests this way will not work. You will see an error like "Failed to find Chrome binary.". The solution here is to use Selenium Grid.
 
@@ -701,13 +679,13 @@ bundle exec rspec ./modules/documents/spec/features/attachment_upload_spec.rb[1:
 
 There is no need to prefix this with the `RAILS_ENV` here since we've exported it already before.
 
-### Headless testing
+#### Headless testing
 
 Firefox tests through Selenium are run with Chrome as `--headless` by default. This means that you do not see the browser that is being tested. Sometimes you will want to see what the test is doing to debug. To override this behavior and watch the Chrome or Firefox instance set the ENV variable `OPENPROJECT_TESTING_NO_HEADLESS=1`.
 
 
 
-### Troubleshooting
+#### Troubleshooting
 
 ```text
 Failure/Error: raise ActionController::RoutingError, "No route matches [#{env['REQUEST_METHOD']}] #{env['PATH_INFO'].inspect}"
@@ -719,9 +697,7 @@ Failure/Error: raise ActionController::RoutingError, "No route matches [#{env['R
 If you get an error like this when running feature specs it means your assets have not been built.
 You can fix this either by accessing a page locally (if the rails server is running) once or by ensuring the `bin/setup_dev` script has been run.
 
-
-
-## Entire local RSpec suite
+### Entire local RSpec suite
 
 You can run the specs with the following commands:
 
@@ -729,14 +705,13 @@ You can run the specs with the following commands:
 
 * `SPEC_OPTS="--seed 12935" bundle exec rake spec` Run the core specs with the seed 12935. Use this to control in what order the tests are run to identify order-dependent failures. You will find the seed that GitHub Actions CI used in their log output.
 
-
-## Parallel testing
+### Parallel testing
 
 Running tests in parallel makes usage of all available cores of the machine.
 Functionality is being provided by [parallel_tests](https://github.com/grosser/parallel_tests) gem.
 See its GitHub page for any options like number of cpus used.
 
-### Prepare
+#### Prepare
 
 By default, `parallel_test` will use CPU count to parallelize. This might be a bit much to handle for your system when 8 or more parallel browser instances are being run. To manually set the value of databases to create and tests to run in parallel, use this command:
 
@@ -762,11 +737,11 @@ First migrate and dump your current development schema with `RAILS_ENV=developme
 
 Then you can just use `RAILS_ENV=test ./bin/rails parallel:prepare` to prepare test databases.
 
-### RSpec specs
+#### RSpec specs
 
 Run all unit and system tests in parallel with `RAILS_ENV=test ./bin/rails parallel:spec`
 
-### Running specific tests
+#### Running specific tests
 
 If you want to run specific tests (e.g., only those from the team planner module), you can use this command:
 
@@ -774,7 +749,7 @@ If you want to run specific tests (e.g., only those from the team planner module
 RAILS_ENV=test bundle exec parallel_rspec -- modules/team_planner/spec
 ```
 
-## Automatically run tests when files are modified
+### Automatically run tests when files are modified
 
 To run tests automatically when a file is modified, you can use [watchexec](https://github.com/watchexec/watchexec) like this:
 
@@ -796,18 +771,17 @@ wrspec spec/some/path/to/a_particular_spec.rb
 
 To easily change the RSpec examples being run without relaunching `watchexec` every time, you can focus a particular example or example group with `focus: true`, `fit`, `fdescribe`, and `fcontext`. More details available on [RSpec documentation](https://rspec.info/features/3-12/rspec-core/filtering/filter-run-when-matching/).
 
-
-## Manual acceptance tests
+### Manual acceptance tests
 
 * Sometimes you want to test things manually. Always remember: If you test something more than once, write an automated test for it.
 * Assuming you do not have a version of Edge already installed on your computer, you can grab a VM with preinstalled IE's directly from [Microsoft](https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/)
 
-## Accessing a local OpenProject instance from a VM or mobile phone
+### Accessing a local OpenProject instance from a VM or mobile phone
 
 If you want to access the development server of OpenProject from a VM or your mobile phone, you need to work around the
 CSP `localhost` restrictions.
 
-### Old way, fixed compilation
+#### Old way, fixed compilation
 
 One way is to disable the Angular CLI that serves some of the assets when developing. To do that, run
 
@@ -821,7 +795,7 @@ OPENPROJECT_CLI_PROXY='' ./bin/rails s -b 0.0.0.0 -p 3000
 
 Now assuming networking is set up in your VM, you can access your app server on `<your local ip>:3000` from it.
 
-### New way, with ng serve
+#### New way, with ng serve
 
 **The better way** when you want to develop against your local setup is to set up your server to allow the CSP to the
 remote host.
@@ -840,7 +814,7 @@ OPENPROJECT_CLI_PROXY='http://<your local ip>:4200' ./bin/rails s -b 0.0.0.0 -p 
 
 You might have to also update your host name setting `bundle exec rake setting:set[host_name=yourip]`.
 
-## Legacy LDAP tests
+### Legacy LDAP tests
 
 OpenProject supports using LDAP for user authentications.  To test LDAP
 with OpenProject, load the LDAP export from `test/fixtures/ldap/test-ldap.ldif`
@@ -851,12 +825,12 @@ Setting up the test ldap server is beyond the scope of this documentation.
 The Apache DS project provides a simple LDAP implementation that should work
 good as a test server.
 
-## Running tests locally in Docker
+### Running tests locally in Docker
 
 Most of the above applies to running tests locally, with some docker specific setup changes that are discussed [in the
 docker development documentation](../development-environment-docker).
 
-## Generators
+### Generators
 
 In order to support developer productivity and testing confidence, we've extracted out common setup and boilerplate for good tests
 as RSpec generators and are encouraged to use them when adding a new spec file in OpenProject.
@@ -874,3 +848,4 @@ Along with the generators, we've bundled some helpful **USAGE** guides for each 
 ```shell
 ./bin/rails generate open_project:rspec:GENERATOR_NAME -h
 ```
+
