@@ -77,13 +77,4 @@ export default class extends Controller {
   addNotes() {
     this.notesInputTarget.classList.remove('d-none');
   }
-
-  private focusCkEditor() {
-    setTimeout(() => {
-      const ckContent = this.element.querySelector<HTMLElement>('.ck-content');
-      if (ckContent) {
-        ckContent.focus();
-      }
-    }, 50);
-  }
 }
