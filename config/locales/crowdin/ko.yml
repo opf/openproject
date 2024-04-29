@@ -3532,7 +3532,7 @@ ko:
   link: 링크
   plugin_openproject_auth_plugins:
     name: "OpenProject 인증 플러그인"
-    description: "인증을 위해 OpenProject에서 OmniAuth 정책 공급자를 통합합니다."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML/Single-Sign On"
     description: "OpenProject에 OmniAuth SAML 공급자를 추가합니다"

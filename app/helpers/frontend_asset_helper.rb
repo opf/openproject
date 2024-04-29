@@ -58,8 +58,13 @@ module FrontendAssetHelper
 
   private
 
-  def frontend_asset_path(unhashed_file_name)
-    "/assets/frontend/#{::OpenProject::Assets.lookup_asset(unhashed_file_name)}"
+  def lookup_frontend_asset(unhashed_file_name)
+    hashed_file_name = ::OpenProject::Assets.lookup_asset(unhashed_file_name)
+    frontend_asset_path(hashed_file_name)
+  end
+
+  def frontend_asset_path(file_name)
+    "/assets/frontend/#{file_name}"
   end
 
   def variable_asset_path(path)
@@ -72,7 +77,7 @@ module FrontendAssetHelper
     else
       # we do not need to take care about Rails.application.config.relative_url_root
       # because in this case javascript|stylesheet_include_tag will add it automatically.
-      frontend_asset_path(path)
+      lookup_frontend_asset(path)
     end
   end
 end

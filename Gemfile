@@ -115,6 +115,8 @@ gem "ruby-duration", "~> 3.2.0"
 # released.
 gem "mail", "= 2.8.1"
 
+gem "csv", "~> 3.3"
+
 # provide compatible filesystem information for available storage
 gem "sys-filesystem", "~> 1.4.0", require: false
 
@@ -264,7 +266,7 @@ group :test do
   gem "capybara-screenshot", "~> 1.0.17"
   gem "cuprite", "~> 0.15.0"
   gem "selenium-devtools"
-  gem "selenium-webdriver", "~> 4.19.0"
+  gem "selenium-webdriver", "~> 4.20"
 
   gem "fuubar", "~> 2.5.0"
   gem "timecop", "~> 0.9.0"
@@ -383,6 +385,4 @@ end
 
 gem "openproject-octicons", "~>19.10.0"
 gem "openproject-octicons_helper", "~>19.10.0"
-gem "openproject-primer_view_components", "~>0.29.0"
-
-gem "csv", "~> 3.3"
+gem "openproject-primer_view_components", "~>0.29.1"

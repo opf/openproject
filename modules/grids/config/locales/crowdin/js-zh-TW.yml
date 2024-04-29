@@ -8,7 +8,7 @@ zh-TW:
         text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
         link: '企業版。'
       widgets:
-        missing_permission: "You don't have the necessary permissions to view this widget."
+        missing_permission: "您沒有必要的權限來檢視此部件。"
         custom_text:
           title: '自訂文字'
         documents:
@@ -43,8 +43,8 @@ zh-TW:
           title: '子專案'
           no_results: '無子專案'
         project_favorites:
-          title: 'Project favorites'
-          no_results: 'You currently have no project favorites. Click on the star icon in the project dashboard to add one to your favorites.'
+          title: '專案收藏'
+          no_results: '您目前沒有收藏的項目。點擊項目儀表板中的星形圖示將其新增到您的收藏夾中。'
         time_entries_current_user:
           title: '我的耗時'
           displayed_days: '小工具顯示天數'

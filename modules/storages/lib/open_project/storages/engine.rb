@@ -124,7 +124,6 @@ module OpenProject::Storages
              author_url: "https://www.openproject.org",
              bundled: true,
              settings: {} do
-
       # Defines permission constraints used in the module (controller, etc.)
       # Permissions documentation: https://www.openproject.org/docs/development/concepts/permissions/#definition-of-permissions
       # Independent of storages module (Disabling storages module does not revoke enabled permissions).
@@ -138,9 +137,8 @@ module OpenProject::Storages
                    dependencies: %i[]
       end
 
-      # Dependent on storages module (Disabling storages module does revoke enabled permissions).
-      project_module :storages,
-                     dependencies: :work_package_tracking do
+      # Dependent on work_package_tracking module
+      project_module :work_package_tracking do
         permission :view_file_links,
                    {},
                    permissible_on: :project,
@@ -151,7 +149,11 @@ module OpenProject::Storages
                    permissible_on: :project,
                    dependencies: %i[view_file_links],
                    contract_actions: { file_links: %i[manage] }
+      end
 
+      # Dependent on storages module (Disabling storages module does revoke enabled permissions).
+      project_module :storages,
+                     dependencies: :work_package_tracking do
         OpenProject::Storages::Engine.permissions.each do |p|
           permission(p, {}, permissible_on: :project, dependencies: %i[])
         end

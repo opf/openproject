@@ -199,7 +199,7 @@ zh-TW:
         new_group: "新增群組"
         reset_to_defaults: "重設為預設值"
       enterprise:
-        text_reprieve_days_left: "剩下 %{days} days 測試結束"
+        text_reprieve_days_left: "剩下 %{days} 天測試結束"
         text_expired: "已過期"
         trial:
           confirmation: "確認您的電子郵件地址"

@@ -2,7 +2,7 @@
   render(Primer::OpenProject::PageHeader.new) do |header|
     if show_state?
       header.with_title(data: { 'test-selector': 'project-query-name'}) { page_title }
-      header.with_breadcrumbs(breadcrumb_items)
+      header.with_breadcrumbs(breadcrumb_items, selected_item_font_weight: current_breadcrumb_element == page_title ? :bold : :normal)
 
       if query_saveable?
         header.with_action_text { t('lists.can_be_saved_as') }

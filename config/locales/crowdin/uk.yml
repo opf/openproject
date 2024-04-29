@@ -3638,7 +3638,7 @@ uk:
   link: посилання
   plugin_openproject_auth_plugins:
     name: "Плагіни OpenProject Auth"
-    description: "Інтеграція постачальників стратегії OmniAuth для автентифікації в OpenProject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Служба єдиного входу"
     description: "Додає постачальника OmniAuth SAML в OpenProject"

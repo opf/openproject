@@ -37,15 +37,16 @@ module Storages
             Strategy.new(:oauth_client_credentials)
           end
 
+          # rubocop:disable Metrics/AbcSize
           def call(storage:, http_options: {})
             config = storage.oauth_configuration.to_httpx_oauth_config
 
             return build_failure(storage) unless config.valid?
 
-            access_token = Rails.cache.read("storage.#{storage.id}.access_token")
+            access_token = Rails.cache.read("storage.#{storage.id}.httpx_access_token")
 
             http_result = if access_token.present?
-                            http_with_current_token(access_token: access_token, http_options: http_options)
+                            http_with_current_token(access_token:, http_options:)
                           else
                             http_with_new_token(issuer: config.issuer,
                                                 client_id: config.client_id,
@@ -55,15 +56,18 @@ module Storages
                           end
 
             return http_result if http_result.failure?
+
             http = http_result.result
 
             if access_token.nil?
               token = http.instance_variable_get(:@options).oauth_session.access_token
-              Rails.cache.write("storage.#{storage.id}.access_token", token, expires_in: 50.minutes)
+              Rails.cache.write("storage.#{storage.id}.httpx_access_token", token, expires_in: 50.minutes)
             end
 
             yield http
           end
+
+          # rubocop:enable Metrics/AbcSize
 
           private
 
@@ -83,9 +87,9 @@ module Storages
                               .with(http_options)
             ServiceResult.success(result: http)
           rescue HTTPX::HTTPError => e
-            return Failures::Builder.call(code: :unauthorized,
-                                          log_message: "Error while fetching OAuth access token.",
-                                          data: Failures::ErrorData.call(response: e.response, source: self.class))
+            Failures::Builder.call(code: :unauthorized,
+                                   log_message: "Error while fetching OAuth access token.",
+                                   data: Failures::ErrorData.call(response: e.response, source: self.class))
           end
 
           def build_failure(storage)

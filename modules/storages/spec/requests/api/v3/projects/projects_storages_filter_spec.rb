@@ -76,9 +76,9 @@ RSpec.describe "API v3 projects resource with filters for the linked storages",
         let(:elements) { [project3, project2, project1] }
       end
 
-      context "if a project has the storages module deactivated" do
-        before(:all) { disable_module(project1, "storages") }
-        after(:all) { enable_module(project1, "storages") }
+      context "if a project has the work_package_tracking module deactivated" do
+        before(:all) { disable_module(project1, "work_package_tracking") }
+        after(:all) { enable_module(project1, "work_package_tracking") }
 
         it_behaves_like "API V3 collection response", 2, 2, "Project", "Collection" do
           let(:elements) { [project3, project2] }
@@ -102,9 +102,9 @@ RSpec.describe "API v3 projects resource with filters for the linked storages",
         let(:elements) { [project3, project2, project1] }
       end
 
-      context "if a project has the storages module deactivated" do
-        before(:all) { disable_module(project1, "storages") }
-        after(:all) { enable_module(project1, "storages") }
+      context "if a project has the work_package_tracking module deactivated" do
+        before(:all) { disable_module(project1, "work_package_tracking") }
+        after(:all) { enable_module(project1, "work_package_tracking") }
 
         it_behaves_like "API V3 collection response", 2, 2, "Project", "Collection" do
           let(:elements) { [project3, project2] }

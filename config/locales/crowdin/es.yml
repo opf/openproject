@@ -261,7 +261,7 @@ es:
     lists:
       active: "Proyectos activos"
       my: "Mis proyectos"
-      favored: "Favored projects"
+      favored: "Proyectos favoritos"
       archived: "Proyectos archivados"
       my_private: "Mis listas de proyectos privados"
       new:
@@ -991,13 +991,13 @@ es:
               only_same_project_categories_allowed: "La categoría de un paquete de trabajo debe estar en el mismo proyecto que el paquete de trabajo."
               does_not_exist: "La categoría especificada no existe."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              cant_be_inferior_to_remaining_work: "No puede ser inferior al Trabajo restante."
+              must_be_set_when_remaining_work_is_set: "Obligatorio cuando el Trabajo restante está establecido."
+              only_values_greater_or_equal_zeroes_allowed: "Debe ser >= 0."
               format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "Cannot be higher than Work."
-              must_be_set_when_work_is_set: "Required when Work is set."
+              cant_exceed_work: "No puede ser superior a Trabajo."
+              must_be_set_when_work_is_set: "Obligatorio cuando Trabajo está establecido."
               format: "%{message}"
           readonly_status: "El paquete de trabajo está en un estado de sólo lectura por lo que sus atributos no se pueden cambiar."
         type:
@@ -1261,7 +1261,7 @@ es:
   button_edit: "Editar"
   button_edit_associated_wikipage: "Editar página Wiki asociada: %{page_title}"
   button_expand_all: "Expandir todos"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Marcar como favorito"
   button_filter: "Filtro"
   button_generate: "Generar"
   button_list: "Lista"
@@ -1289,7 +1289,7 @@ es:
   button_unarchive: "Desarchivar"
   button_uncheck_all: "Deseleccionar todos"
   button_unlock: "Desbloquear"
-  button_unfavorite: "Remove from favorites"
+  button_unfavorite: "Eliminar de favoritos"
   button_unwatch: "No controlar más"
   button_update: "Actualizar"
   button_upgrade: "Mejorar"
@@ -1653,9 +1653,9 @@ es:
         file_links_journal: >
           A partir de ahora, la actividad relacionada con los enlaces de archivos (archivos almacenados en almacenamiento externo) aparecerá aquí en la pestaña Actividad. La siguiente representa la actividad relativa a los enlaces que ya existían:
         progress_calculation_adjusted_from_disabled_mode: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+          Cálculo de progreso automático <a href="%{href}" target="_blank">establecido en modo de trabajo y ajustado con la actualización de versión</a>.
         progress_calculation_adjusted: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+          Cálculo de progreso automático <a href="%{href}" target="_blank">ajustado con la actualización de versión</a>.
   links:
     configuration_guide: "Guía de configuración"
     get_in_touch: "¿Tiene alguna pregunta? Póngase en contacto con nosotros."
@@ -1911,7 +1911,7 @@ es:
   label_enterprise_support: "Soporte empresarial"
   label_enterprise_addon: "Extensión Enterprise"
   label_environment: "Entorno"
-  label_estimates_and_progress: "Estimates and progress"
+  label_estimates_and_progress: "Estimaciones y progreso"
   label_equals: "es"
   label_everywhere: "todo"
   label_example: "Ejemplo"
@@ -2023,7 +2023,7 @@ es:
   label_membership_plural: "Afiliaciones"
   lable_membership_added: "Miembro añadido"
   lable_membership_updated: "Miembro actualizado"
-  label_menu: "Menu"
+  label_menu: "Menú"
   label_menu_badge:
     pre_alpha: "pre-alfa"
     alpha: "alfa"
@@ -2125,7 +2125,7 @@ es:
   label_percent_complete: "% compleado"
   label_project_activity: "Actividad del proyecto"
   label_project_attribute_plural: "Atributos del proyecto"
-  label_project_attribute_manage_link: "Manage project attributes"
+  label_project_attribute_manage_link: "Administrar atributos del proyecto"
   label_project_count: "Número total de proyectos"
   label_project_copy_notifications: "Enviar notificaciones por correo electrónico durante la copia del proyecto"
   label_project_latest: "Últimos proyectos"
@@ -3568,7 +3568,7 @@ es:
   link: enlace
   plugin_openproject_auth_plugins:
     name: "Plugins Auth de OpenProject"
-    description: "Integración de los proveedores de estrategia de OmniAuth para la autentificación en Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Inicio de sesión único"
     description: "Añade el proveedor OmniAuth SAML a OpenProject"

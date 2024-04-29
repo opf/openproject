@@ -6,9 +6,7 @@ description: Viewing, creating and modifying project attributes in OpenProject
 keywords: project attributes, create, project settings
 ---
 
-# Project attributes (Enterprise add-on)
-
-> **Please note:** Project attributes are an Enterprise add-on and will only be displayed here for Enterprise on-premises and Enterprise cloud.
+# Project attributes
 
 Project attributes are custom fields that allow you to communicate key information relevant to a project in the [Project Overview](../../../user-guide/project-overview) page.
 
