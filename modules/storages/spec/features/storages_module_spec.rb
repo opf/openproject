@@ -90,14 +90,22 @@ RSpec.describe "Storages module", :js, :with_cuprite do
     end
 
     context "when creating a new role" do
-      it_behaves_like "has storages module", sections: [:content], is_upcase: true do
-        let(:path) { new_role_path }
+      it 'must have appropriate storage permissions header in content section' do
+        visit new_role_path
+
+        within "#content" do
+          expect(page).to have_text(I18n.t(:permission_header_for_project_module_storages).upcase)
+        end
       end
     end
 
     context "when editing a role" do
-      it_behaves_like "has storages module", sections: [:content], is_upcase: true do
-        let(:path) { edit_role_path(role) }
+      it 'must have appropriate storage permissions header in content section' do
+        visit edit_role_path(role)
+
+        within "#content" do
+          expect(page).to have_text(I18n.t(:permission_header_for_project_module_storages).upcase)
+        end
       end
     end
 
