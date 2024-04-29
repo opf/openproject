@@ -67,8 +67,6 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
 
   public canCreateNewProjects$ = this.currentUserService.hasCapabilities$('projects/create', 'global');
 
-  public favoredFeatureActive = this.configuration.activeFeatureFlags.includes('favoriteProjects');
-
   public projects$ = combineLatest([
     this.searchableProjectListService.allProjects$,
     this.searchableProjectListService.searchText$.pipe(debounceTime(200)),

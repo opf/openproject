@@ -42,8 +42,6 @@ export class OpHeaderProjectSelectListComponent implements OnInit, OnChanges {
 
   @Input() searchText = '';
 
-  public favoredFeatureActive = this.configuration.activeFeatureFlags.includes('favoriteProjects');
-
   public filteredProjects:IProjectData[];
 
   public text = {
