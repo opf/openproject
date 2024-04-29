@@ -123,7 +123,7 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
   describe "managed project folders" do
     before do
       Storages::Peripherals::Registry
-        .stub("#{storage.short_provider_type}.queries.folder_files_file_ids_deep_query", ->(storage:, folder:) {
+        .stub("#{storage.short_provider_type}.queries.folder_files_file_ids_deep", ->(storage:, folder:) {
           ServiceResult.success(result: target_deep_file_ids)
         })
 
@@ -177,7 +177,7 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
         })
 
       Storages::Peripherals::Registry
-        .stub("#{storage.short_provider_type}.queries.folder_files_file_ids_deep_query", ->(storage:, folder:) {
+        .stub("#{storage.short_provider_type}.queries.folder_files_file_ids_deep", ->(storage:, folder:) {
           ServiceResult.success(result: target_deep_file_ids)
         })
 

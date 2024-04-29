@@ -46,10 +46,10 @@ module Storages
 
       def call
         source_file_links = FileLink
-          .includes(:creator)
-          .where(storage: @source.storage,
-                 container_id: @work_packages_map.keys,
-                 container_type: "WorkPackage")
+                              .includes(:creator)
+                              .where(storage: @source.storage,
+                                     container_id: @work_packages_map.keys,
+                                     container_type: "WorkPackage")
 
         with_locale_for(@user) do
           if @source.project_folder_automatic?
@@ -62,6 +62,7 @@ module Storages
 
       private
 
+      # rubocop:disable Metrics/AbcSize
       def create_managed_file_links(source_file_links)
         location_map = build_location_map(
           source_files_info(source_file_links).result,
@@ -83,6 +84,9 @@ module Storages
         end
       end
 
+      # rubocop:enable Metrics/AbcSize
+
+      # rubocop:disable Metrics/AbcSize
       def build_location_map(source_files, target_location_map)
         # We need this due to inconsistencies of how we represent the File Path
         target_location_map.transform_keys! { |key| key.starts_with?("/") ? key : "/#{key}" }
@@ -99,6 +103,8 @@ module Storages
         end
       end
 
+      # rubocop:enable Metrics/AbcSize
+
       def auth_strategy
         Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken
           .strategy
@@ -114,7 +120,7 @@ module Storages
 
       def target_files_map
         Peripherals::Registry
-          .resolve("#{@source.storage.short_provider_type}.queries.folder_files_file_ids_deep_query")
+          .resolve("#{@source.storage.short_provider_type}.queries.folder_files_file_ids_deep")
           .call(storage: @source.storage, folder: Peripherals::ParentFolder.new(@target.project_folder_location))
       end
 

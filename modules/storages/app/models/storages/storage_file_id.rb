@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,24 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals::StorageInteraction::Nextcloud
-  class FileIdsQuery
-    def initialize(storage)
-      @query = ::Storages::Peripherals::StorageInteraction::Nextcloud::Internal::PropfindQueryLegacy.new(storage)
-    end
-
-    def self.call(storage:, path:)
-      new(storage).call(path:)
-    end
-
-    def call(path:)
-      query_params = {
-        depth: "1",
-        path:,
-        props: %w[oc:fileid]
-      }
-
-      @query.call(**query_params)
-    end
-  end
+module Storages
+  StorageFileId = Data.define(:id)
 end

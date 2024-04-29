@@ -28,19 +28,44 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals::StorageInteraction::Nextcloud
-  class FolderFilesFileIdsDeepQuery
-    def self.call(storage:, folder:)
-      ::Storages::Peripherals::Registry
-        .resolve("nextcloud.queries.propfind")
-        .call(
-          storage:,
-          depth: "infinity",
-          path: folder.path,
-          # nc:acl-list is only required to avoid https://community.openproject.org/wp/49628. See comment #4.
-          props: %w[oc:fileid nc:acl-list]
-        ).map do |obj|
-        obj.transform_values { |value| Storages::StorageFileInfo.from_id(value["fileid"]) }
+module Storages
+  module Peripherals
+    module StorageInteraction
+      module Nextcloud
+        class FolderFilesFileIdsDeepQuery
+          def self.call(storage:, auth_strategy:, folder:)
+            new(storage).call(auth_strategy:, folder:)
+          end
+
+          def initialize(storage)
+            @storage = storage
+            @propfind_query = Internal::PropfindQuery.new(storage)
+          end
+
+          def call(auth_strategy:, folder:)
+            origin_user_id = Util.origin_user_id(caller: self.class, storage: @storage, auth_strategy:)
+            if origin_user_id.failure?
+              return origin_user_id
+            end
+
+            Authentication[auth_strategy].call(storage: @storage, http_options:) do |http|
+              # nc:acl-list is only required to avoid https://community.openproject.org/wp/49628. See comment #4.
+              @propfind_query.call(http:,
+                                   username: origin_user_id.result,
+                                   path: folder.path,
+                                   props: %w[oc:fileid nc:acl-list])
+                             .map do |obj|
+                obj.transform_values { |value| StorageFileId.new(id: value["fileid"]) }
+              end
+            end
+          end
+
+          private
+
+          def http_options
+            Util.webdav_request_with_depth("infinity")
+          end
+        end
       end
     end
   end

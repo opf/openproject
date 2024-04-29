@@ -38,7 +38,7 @@ module Storages
         register(:file_info, StorageInteraction::Nextcloud::FileInfoQuery)
         register(:files_info, StorageInteraction::Nextcloud::FilesInfoQuery)
         register(:files, StorageInteraction::Nextcloud::FilesQuery)
-        register(:folder_files_file_ids_deep_query, StorageInteraction::Nextcloud::FolderFilesFileIdsDeepQuery)
+        register(:folder_files_file_ids_deep, StorageInteraction::Nextcloud::FolderFilesFileIdsDeepQuery)
         register(:propfind, StorageInteraction::Nextcloud::Internal::PropfindQuery)
         register(:group_users, StorageInteraction::Nextcloud::GroupUsersQuery)
         register(:upload_link, StorageInteraction::Nextcloud::UploadLinkQuery)
