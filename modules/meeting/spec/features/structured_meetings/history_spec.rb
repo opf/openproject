@@ -313,7 +313,6 @@ RSpec.describe "history",
 
     show_page.add_agenda_item do
       fill_in "Title", with: "My agenda item"
-      click_on "Notes"
     end
 
     show_page.expect_agenda_item(title: "My agenda item")

@@ -18,6 +18,8 @@ export class GridAreaService {
 
   public schema:SchemaResource;
 
+  public $schema = new BehaviorSubject<SchemaResource|null>(null);
+
   public numColumns = 0;
 
   public numRows = 0;
@@ -36,9 +38,11 @@ export class GridAreaService {
 
   public helpMode = false;
 
-  constructor(private apiV3Service:ApiV3Service,
+  constructor(
+    private apiV3Service:ApiV3Service,
     private toastService:ToastService,
-    private i18n:I18nService) { }
+    private i18n:I18nService,
+  ) { }
 
   public set gridResource(value:GridResource) {
     this.resource = value;
@@ -102,11 +106,11 @@ export class GridAreaService {
   }
 
   public persist() {
-    this.resource.rowCount = this.numRows = (this.widgetAreas.map((area) => area.endRow).sort((a, b) => a - b).pop() || 2) - 1;
+    this.numRows = (this.widgetAreas.map((area) => area.endRow).sort((a, b) => a - b).pop() || 2) - 1;
+    this.resource.rowCount = this.numRows;
     this.resource.columnCount = this.numColumns;
 
     this.writeAreaChangesToWidgets();
-
     this.saveGrid(this.resource, this.schema);
   }
 
@@ -378,7 +382,10 @@ export class GridAreaService {
       .id(this.resource)
       .form
       .post({})
-      .subscribe((form) => this.schema = form.schema);
+      .subscribe((form) => {
+        this.schema = form.schema;
+        this.$schema.next(form.schema);
+      });
   }
 
   public removeWidget(removedWidget:GridWidgetResource) {

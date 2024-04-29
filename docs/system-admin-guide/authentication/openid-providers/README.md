@@ -7,7 +7,6 @@ keywords: OpenID providers
 ---
 # OpenID providers
 
-
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Google Workspace](#google-workspace)                        | How to use Google Workspace as an SSO provider for OpenProject? |
@@ -33,10 +32,7 @@ You can configure the following options.
 When checked, users will be created according to the [self-registration setting](../authentication-settings).
 6. Press the blue **create** button.
 
-
 ## Google Workspace
-
-
 
 ### Step 1: Create the OAuth consent screen
 
@@ -44,8 +40,6 @@ When checked, users will be created according to the [self-registration setting]
 2. Go to **APIs & Services** > OAuth consent screen.
 
 ![g1-apis-and-services-oauth-consent-screen](g1-apis-and-services-oauth-consent-screen.png)
-
-
 
 3. Create a new project and a new app or edit an existing project and an existing app, setting the following fields (shall be Internal):
    1. **App name** (e.g. EXAMPLE.COM SSO)
@@ -59,8 +53,6 @@ When checked, users will be created according to the [self-registration setting]
 
 4. **Scopes** - Press **SAVE AND CONTINUE**
 5. **Summary** - Press **SAVE AND CONTINUE**
-
-
 
 ### Step 2: Create the OAuth Client
 
@@ -87,8 +79,6 @@ After pressing **CREATE** you will get a pop-up window like the following
 
 ![g5-oauth-client-created](g5-oauth-client-created.png)
 
-
-
 ### Step 3: Add Google as an OpenID Provider to OpenProject
 
 1. Login as OpenProject Administrator
@@ -105,10 +95,6 @@ After pressing **CREATE** you will get a pop-up window like the following
 
 ![g7-successful-creation-google](g7-successful-creation-google.png)
 
-
-
-
-
 ## Azure Active Directory
 
 ### Step 1: Register an App in Azure Active Directory
@@ -119,23 +105,19 @@ The steps are as follows:
 
 Log into your Microsoft account, and go to the Azure Active Directory administration page.
 
-![](01-menu.png)
-
-
+![Azure Active Directory administration page](01-menu.png)
 
 In the sidebar, click on "All services".
 
-![](02-admin-dashboard.png)
+![Azure Active Directory All services](02-admin-dashboard.png)
 
 Click on the link named "App registrations".
 
-![](03-app-registrations.png)
-
-
+![Azure Active Directory App registrations](03-app-registrations.png)
 
 Click on "New registration".
 
-![](04-register-app.png)
+![Azure Active Directory New registration](04-register-app.png)
 
 You are now asked for a few settings:
 
@@ -145,21 +127,19 @@ You are now asked for a few settings:
 
 When you are done, click on the "Register" button at the end of the page. You are redirected to your new App registration, be sure to save the "Application (client) ID" that is now displayed. You will need it later.
 
-![](02-admin-dashboard-1580821056307.png)
-
-
+![Azure Active Directory Admin Dashboard](02-admin-dashboard-1580821056307.png)
 
 You can now click on "Certificates & secret".
 
-![](06-certificates.png)
+![Azure Active Directory Certificates](06-certificates.png)
 
 Then click on "New client secret", set the description to "client_secret", and the expiration to "never". Then click on "Add".
 
-![](07-client-secret.png)
+![Azure Active Directory New Client Secret](07-client-secret.png)
 
 A secret should have been generated and is now displayed on the page. Be sure to save it somewhere because it will only be displayed once.
 
-![](08-add-secret.png)
+![Azure Active Directory Add Secret](08-add-secret.png)
 
 At the end of this step, you should have a copy of the Application client ID as well as the client Secret you just generated.
 
@@ -213,6 +193,5 @@ exit
 ```
 
 Then, existing users should be able to log in using their Azure identity. Note that this works only if the user is using password-based authentication, and is not linked to any other authentication source (e.g. LDAP) or OpenID provider.
-
 
 Note that this setting is set to true by default for new installations already.

@@ -13,4 +13,4 @@ We recommend to use the plugins as suggested in our deployment packages. You wil
 
 ![OpenProject plugins](image-20200124100220714.png)
 
-If you want to write your own plugin, please follow our respective [development guide](../../development/create-openproject-plugin). 
+If you want to write your own plugin, please follow our respective [development guide](../../development/create-openproject-plugin).

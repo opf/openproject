@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 4.0.3
-  sidebar_navigation:
-      title: 4.0.3
-  release_version: 4.0.3
-  release_date: 2014-12-11
+title: OpenProject 4.0.3
+sidebar_navigation:
+  title: 4.0.3
+release_version: 4.0.3
+release_date: 2014-12-11
 ---
 
 ## OpenProject 4.0.3
@@ -39,7 +39,5 @@ In addition, there has been a small change to the backlogs plugin:
 
 ## List of changes
 
-For a complete list of changes, please refer to the 
+For a complete list of changes, please refer to the
 [Changelog v4.0.3](https://community.openproject.org/versions/543).
-
-

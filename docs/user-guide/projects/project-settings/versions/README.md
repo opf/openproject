@@ -43,8 +43,6 @@ Please note: You can only edit versions (i.e. edit icon visible) in their origin
 
 ![User-guide-project-settings-edit-versions](User-guide-project-settings-edit-versions.png)
 
-
-
 ## Close a version
 
 To close a version, open the details view of a version and set the **Status** to *Closed*.

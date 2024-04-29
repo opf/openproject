@@ -118,19 +118,21 @@ setup a reverse proxy in docker, like [traefik](https://traefik.io/). Then follo
 - create a `docker-compose.override.yml`
 - make your openproject services visible with specific host names, i.e. with `traefik` this means adding labels to the
   services defined host routers
+
   ```yaml
   labels:
     - "traefik.http.routers.op-backend.rule=Host(`op-backend.local`)"
   ```
+
 - add the extra hosts to your `/etc/hosts` to redirect to `localhost`
 - add the extra hosts to your `backend` service with
+
   ```yaml
   OPENPROJECT_DEV_EXTRA_HOSTS: 'op-backend.local,op-backend.local'
   ```
 
-#### Reminder
-
-This setup is still experimental and under further development. Use it only, when you know what you are doing.
+> **Reminder**:
+  This setup is still experimental and under further development. Use it only, when you know what you are doing.
 
 ## Questions, Comments, and Feedback
 

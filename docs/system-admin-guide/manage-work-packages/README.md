@@ -18,4 +18,3 @@ Manage work packages in OpenProject.
 | [Status](work-package-status)       | Create and manage work package status.                       |
 | [Workflows](work-package-workflows) | Create and manage workflows for work packages in OpenProject. |
 | [Custom actions](custom-actions)    | Create custom actions for work packages (Enterprise add-on)    |
-

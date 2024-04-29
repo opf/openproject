@@ -44,9 +44,9 @@ jobs:
       uses: runs-on/cache@v4
       with:
         path: cache/bundle
-        key: gem-${{ hashFiles('Gemfile.lock') }}
+        key: gem-${{ hashFiles('.ruby-version') }}-${{ hashFiles('Gemfile.lock') }}
         restore-keys: |
-          gem-
+          gem-${{ hashFiles('.ruby-version') }}-
     - name: Cache NPM
       uses: runs-on/cache@v4
       with:

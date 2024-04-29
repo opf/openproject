@@ -20,7 +20,6 @@ You can do this in your OpenProject instance in the administration. The number o
 
 Please have a look at [this instruction](../manage-cloud-subscription/) for the Enterprise cloud edition to change your payment details.
 
-
 ## Does OpenProject comply with GDPR?
 
 Yes. The protection of personal data is for OpenProject more than just a legal requirement. We are highly committed to data security and privacy. We are a company based in Berlin, the European Union, and the awareness and importance for data security and privacy actions have always been a major topic for us. OpenProject complies with GDPR and we handle our customer’s data with care. Get more detailed information [here](https://www.openproject.org/security-and-privacy/).
@@ -41,7 +40,7 @@ A list of all sub-processors used in the OpenProject Enterprise cloud can be fou
 
 Please note: For the OpenProject Enterprise cloud we currently have two SaaS infrastructures:
 
-**OpenProject.com** 
+**OpenProject.com**
 
 This infrastructure is hosted at AWS in Dublin. For sending transactional emails we use the service Postmark which is based in the US.
 
