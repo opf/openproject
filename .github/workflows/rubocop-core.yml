@@ -16,5 +16,5 @@ jobs:
         with:
           github_token: ${{ secrets.github_token }}
           rubocop_version: gemfile
-          rubocop_extensions: rubocop-rails:gemfile rubocop-rspec:gemfile
+          rubocop_extensions: rubocop-inflector:gemfile rubocop-performance:gemfile rubocop-rails:gemfile rubocop-rspec:gemfile
           reporter: github-pr-check
