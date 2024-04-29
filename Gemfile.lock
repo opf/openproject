@@ -436,6 +436,7 @@ GEM
     crass (1.0.6)
     css_parser (1.17.1)
       addressable
+    csv (3.3.0)
     cuprite (0.15)
       capybara (~> 3.0)
       ferrum (~> 0.14.0)
@@ -1191,6 +1192,7 @@ DEPENDENCIES
   commonmarker (~> 1.0.3)
   compare-xml (~> 0.66)
   costs!
+  csv (~> 3.3)
   cuprite (~> 0.15.0)
   daemons
   dalli (~> 3.2.0)
@@ -1357,7 +1359,7 @@ DEPENDENCIES
   with_advisory_lock (~> 5.1.0)
 
 RUBY VERSION
-   ruby 3.2.3p157
+   ruby 3.3.1p55
 
 BUNDLED WITH
-   2.5.5
+   2.5.9
