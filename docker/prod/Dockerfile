@@ -1,6 +1,6 @@
-ARG RUBY_VERSION="3.2.3"
+ARG RUBY_VERSION="3.3.1"
 ARG NODE_VERSION="20.9.0"
-ARG BUNDLER_VERSION="2.5.5"
+ARG BUNDLER_VERSION="2.5.9"
 ARG DEBIAN_FRONTEND=noninteractive
 
 # -------------------------------------
@@ -166,9 +166,9 @@ COPY docker/prod/setup ./docker/prod/setup
 RUN ./docker/prod/setup/preinstall.sh
 
 RUN dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
- && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch" \
- && chmod +x /usr/local/bin/gosu \
- && gosu nobody true
+  && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch" \
+  && chmod +x /usr/local/bin/gosu \
+  && gosu nobody true
 
 # set irb default config for app (docker run -it ...) and root (docker exec -it ...) users
 RUN ln -s /app/docker/prod/setup/.irbrc /home/$APP_USER/
