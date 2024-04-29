@@ -157,7 +157,7 @@ But first you must modify **Gemfile.lock** and **Gemfile.modules** so that OpenP
 
 Add the following in **Gemfile.lock**:
 
-```yml
+```yaml
 PATH
   remote: modules/gitlab_integration
   specs:
@@ -167,7 +167,7 @@ PATH
 
 And add this other line in DEPENDENCIES section:
 
-```yml
+```yaml
 DEPENDENCIES
 ...
   openproject-github_integration!
@@ -178,7 +178,7 @@ DEPENDENCIES
 
 Add the following in **Gemfile.modules**:
 
-```yml
+```yaml
 group :opf_plugins do
 ...
   gem 'openproject-gitlab_integration',        path: 'modules/gitlab_integration'

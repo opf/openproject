@@ -16,7 +16,7 @@ It is not possible to prevent time logging on phases or restrict it to certain w
 
 Since [12.2 release](../../../release-notes/12/12-2-0/) it is possible to log time for a user other than yourself. This right has to be granted by an admin to users with certain roles. You can find out more [here](../../../user-guide/time-and-costs/time-tracking/#log-and-edit-time-for-other-users).
 
-## Is it possible to view all hours assigned to each member in total? If I work on various projects I'd like to know how many hours I accumulated for all tasks assigned to me.
+## If I work on various projects I'd like to know how many hours I accumulated for all tasks assigned to me. Is it possible to view all hours assigned to each member in total?
 
 Yes, it is possible to see all hours assigned to each user in total. In your cost report you would just need to [select](../reporting/#filter-cost-reports) all projects that you would want to look at.
 Click on the **+** next to the project filter, select all projects or the ones that you would like to select (use Ctrl or Shift key), choose all other filters and then click **Apply** to generate the cost report.

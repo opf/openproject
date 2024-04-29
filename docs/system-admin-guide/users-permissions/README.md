@@ -19,4 +19,3 @@ In this section of the System Administration guide you can learn how to manage u
 | [Groups](groups)                           | View groups, create new groups, add users to groups.         |
 | [Roles and permissions](roles-permissions) | See / manage roles and permissions and add new roles.        |
 | [Avatars](avatars)                         | Activate / deactivate user avatars (profile pictures).       |
-

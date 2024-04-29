@@ -13,8 +13,6 @@ Release date: 2022-08-31
 We released [OpenProject 12.2.2](https://community.openproject.org/versions/1597).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
-
 ## Known issues
 
 ### Pending database migration issue
@@ -25,7 +23,7 @@ For a few customers, this migration appears to have been unsuccessful to restore
 
 When you update to OpenProject 12.2.2 and the migration fails again, it will output steps on how to force the migration to complete. Doing that will output a debug log of all relevant information on these journals. Please help us identifying this issue by posting this log in this ticket: https://community.openproject.org/wp/43876, or reaching out to support@openproject.org.
 
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Wrong link for "Documents added" email notification \[[#41114](https://community.openproject.org/wp/41114)\]
 - Fixed: Bulk copy error when Assignee value set 'nobody' \[[#43145](https://community.openproject.org/wp/43145)\]
@@ -39,7 +37,8 @@ When you update to OpenProject 12.2.2 and the migration fails again, it will out
 - Fixed: Upgrade 12.1.4 to 12.2.1 fails: pending database migration \[[#43876](https://community.openproject.org/wp/43876)\]
 - Fixed: System 'read only' field \[[#43893](https://community.openproject.org/wp/43893)\]
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

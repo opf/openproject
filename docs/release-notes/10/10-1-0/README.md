@@ -32,7 +32,7 @@ This way, the project overview page can be extended to a detailed reporting dash
 
 ![Dashboards](dashboards.png)
 
-[Find out more about the new project status reporting in OpenProject]().
+[Find out more about the new project status reporting in OpenProject](../../../user-guide/projects/project-status/).
 
 ## CRUD operations for projects in API v3
 
@@ -48,7 +48,7 @@ OpenProject contains a new consolidated look and feel for work package edit fiel
 
 OpenProject has been updated to Rails 6.0.0.
 
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Status dropdown is misplaced when the widget is at the bottom of the page [[#31426](https://community.openproject.org/wp/31426)]
 - Fixed: Project overview: Display fields should be "read only" when user lacks permissions [[#31453\]](https://community.openproject.org/wp/31426)
@@ -88,20 +88,20 @@ OpenProject has been updated to Rails 6.0.0.
 
 ## Support
 
-You will find useful information in the OpenProject [FAQ]() or you can post your questions in the [Forum](https://community.openproject.org/projects/openproject/boards).
+You will find useful information in the OpenProject [FAQ](../../../faq/) or you can post your questions in the [Forum](https://community.openproject.org/projects/openproject/boards).
 
-### Upgrading your installation to OpenProject 10.1.
+### Upgrading your installation to OpenProject 10.1
 
 If you’re using the OpenProject Enterprise cloud edition, you will be automatically updated to the latest version of OpenProject 10.1 in the next days. For your local installations, there are some minor changes you need to do in order to perform the upgrade.
 
-[Please visit our upgrade guides for more information]().
+[Please visit our upgrade guides for more information](../../../installation-and-operations/operation/upgrading/).
 
 ## Credits
 
 Special thanks go to all OpenProject contributors without whom this release would not have been possible:
 
 - All the developers, designers, project managers who have contributed to OpenProject.
-- Every dedicated user who has [reported bugs]() and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
+- Every dedicated user who has reported bugs and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
 - All the engaged users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).
 
 ## What’s next?

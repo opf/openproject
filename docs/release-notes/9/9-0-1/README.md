@@ -11,9 +11,7 @@ release_date: 2019-06-07
 We released [OpenProject 9.0.1](https://community.openproject.org/versions/1368).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-
-
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Wiki TOC doesn't render headings properly [[#30245](https://community.openproject.org/wp/30245)]
 - Fixed: Doubled files section in meeting agenda [[#30291](https://community.openproject.org/wp/30291)]
@@ -26,9 +24,8 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Changed: Improve print view of cost report via CSS [[#30305](https://community.openproject.org/wp/30305)]
 - Changed: Ensure PostgreSQL migration is finished before attachments are re-inserted [[#30352](https://community.openproject.org/wp/30352)]
 
-#### Contributions
+## Contributions
 
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to Varac Anero
-
