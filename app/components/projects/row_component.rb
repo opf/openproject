@@ -45,9 +45,23 @@ module Projects
     end
 
     def favored
-      if favored_project_ids.include?(project.id)
-        render(Primer::Beta::Octicon.new(icon: "star-fill", classes: "op-primer--star-icon", "aria-label": I18n.t(:label_favoured)))
-      end
+      render(Primer::Beta::IconButton.new(
+        icon: currently_favored? ? "star-fill" : "star",
+        scheme: :invisible,
+        mobile_icon: currently_favored? ? "star-fill" : "star",
+        size: :medium,
+        tag: :a,
+        href: helpers.build_favorite_path(project, format: :html),
+        data: { method: currently_favored? ? :delete : :post },
+        classes: currently_favored? ? "op-primer--star-icon " : "op-project-row-component--favorite",
+        label: currently_favored? ? I18n.t(:button_unfavorite) : I18n.t(:button_favorite),
+        aria: { label: currently_favored? ? I18n.t(:button_unfavorite) : I18n.t(:button_favorite) },
+        test_selector: 'project-list-favorite-button'
+      ))
+    end
+
+    def currently_favored?
+      @currently_favored ||= favored_project_ids.include?(project.id)
     end
 
     def column_value(column)
@@ -146,7 +160,7 @@ module Projects
     end
 
     def row_css_class
-      classes = %w[basics context-menu--reveal]
+      classes = %w[basics context-menu--reveal op-project-row-component]
       classes << project_css_classes
       classes << row_css_level_classes
 
