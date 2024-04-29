@@ -172,7 +172,7 @@ group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
   gem "dalli", "~> 3.2.0"
-  gem "redis", "~> 5.1.0"
+  gem "redis", "~> 5.2.0"
 end
 
 gem "i18n-js", "~> 4.2.3"
@@ -216,7 +216,7 @@ gem "appsignal", "~> 3.0", require: false
 
 gem "view_component"
 # Lookbook
-gem "lookbook", "~> 2.2.1"
+gem "lookbook", "~> 2.3.0"
 
 # Require factory_bot for usage with openproject plugins testing
 gem "factory_bot", "~> 6.4.0", require: false
