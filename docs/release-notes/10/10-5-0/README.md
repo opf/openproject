@@ -5,16 +5,15 @@ sidebar_navigation:
 release_version: 10.5.0
 release_date: 2020-04-23
 ---
----
 
-# Release notes OpenProject 10.5.0
+# OpenProject 10.5.0
+
+## Release notes OpenProject 10.5.0
 
 | Release notes                                                | Description                                                  |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [OpenProject 10.5.0](#openproject-1050)                      | What is new for OpenProject 10.5.0?                          |
 | [OpenProject 10.5 BIM edition for construction project management](#openproject-105-bim-edition-for-construction-project-management) | What is new for the construction project management for the building industry in OpenProject 10.5.0? |
-
-# OpenProject 10.5.0
 
 We released [OpenProject 10.5.0](https://community.openproject.org/versions/1386).
 The new release of the open source project management software contains new action boards for assignees, much more intuitive sorting of versions by name, the removed 24-hours booking restriction for time tracking, the summary of news on the project overview page, and much more usability improvements and bug fixes.
