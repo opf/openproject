@@ -1397,29 +1397,29 @@ nl:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: "ongeveer %{count} uur"
+        one: "ongeveer 1 uur"
         other: "ongeveer %{count} uren"
       about_x_months:
-        one: "ongeveer %{count} maand"
+        one: "ongeveer 1 maand"
         other: "ongeveer %{count} maanden"
       about_x_years:
-        one: "ongeveer %{count} jaar"
+        one: "ongeveer 1 jaar"
         other: "ongeveer %{count} jaren"
       almost_x_years:
-        one: "bijna %{count} jaar"
+        one: "bijna 1 jaar"
         other: "bijna %{count} jaren"
       half_a_minute: "een halve minuut"
       less_than_x_minutes:
-        one: "minder dan %{count} minuut"
+        one: "minder dan 1 minuut"
         other: "minder dan %{count} minuten"
       less_than_x_seconds:
-        one: "minder dan %{count} seconde"
+        one: "minder dan 1 seconde"
         other: "minder dan %{count} seconden"
       over_x_years:
-        one: "meer dan %{count} jaar"
+        one: "meer dan 1 jaar"
         other: "meer dan %{count} jaren"
       x_days:
-        one: "%{count} dag"
+        one: "1 dag"
         other: "%{count} dagen"
       x_minutes:
         one: "1 minuut"
@@ -1428,7 +1428,7 @@ nl:
         one: "1 min"
         other: "%{count} mins"
       x_hours:
-        one: "%{count} uur"
+        one: "1 uur"
         other: "%{count} uren"
       x_hours_abbreviated:
         one: "1 hr"
@@ -1437,7 +1437,7 @@ nl:
         one: "1 week"
         other: "%{count} weeks"
       x_months:
-        one: "%{count} maand"
+        one: "1 maand"
         other: "%{count} maanden"
       x_years:
         one: "1 jaar"
@@ -2317,7 +2317,7 @@ nl:
     other: "%{count} gesloten"
     zero: "0 gesloten"
   label_x_comments:
-    one: "%{count} reactie"
+    one: "1 reactie"
     other: "%{count} reacties"
     zero: "geen reacties"
   label_x_open_work_packages_abbr:
@@ -2459,7 +2459,7 @@ nl:
     subtext: "Passwords for external account cannot be changed in the application. Please use the lost password functionality of your authentication provider."
   mail_body_register: "Welkom bij %{app_title}. Activeer uw account door op deze link te klikken:"
   mail_body_register_header_title: "Uitnodigings e-mail van projectlid"
-  mail_body_register_user: "Beste %(name),"
+  mail_body_register_user: "Beste %{name},"
   mail_body_register_links_html: |
     Blader gerust door ons youtube kanaal (%{youtube_link}) waar we een webinar (%{webinar_link})
     en "Aan de slag gaan" video's (%{get_started_link}) voorzien om uw eerste stappen in OpenProject zo eenvoudig mogelijk te maken.

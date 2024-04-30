@@ -43,8 +43,8 @@ de:
           title: 'Unterprojekte'
           no_results: 'Keine Unterprojekte.'
         project_favorites:
-          title: 'Project favorites'
-          no_results: 'You currently have no project favorites. Click on the star icon in the project dashboard to add one to your favorites.'
+          title: 'Favorite projects'
+          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
         time_entries_current_user:
           title: 'Meine gebuchte Zeit'
           displayed_days: 'Dargestellte Tage im Widget:'

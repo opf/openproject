@@ -43,8 +43,8 @@ ms:
           title: 'Subprojek'
           no_results: 'Tiada subprojek.'
         project_favorites:
-          title: 'Project favorites'
-          no_results: 'You currently have no project favorites. Click on the star icon in the project dashboard to add one to your favorites.'
+          title: 'Favorite projects'
+          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
         time_entries_current_user:
           title: 'Masa yang saya gunakan'
           displayed_days: 'Hari yang dipaparkan dalam widget:'

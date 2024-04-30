@@ -43,8 +43,8 @@ lt:
           title: 'Sub-projektai'
           no_results: 'Nėra subprojektų.'
         project_favorites:
-          title: 'Projekto mėgiami'
-          no_results: 'Jūs šiuo metu neturite projekto mėgiamų. Spauskite žvaigždutės piktogramą projekto skydelyje, kad pridėtumėte prie jūsų mėgstamų.'
+          title: 'Favorite projects'
+          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
         time_entries_current_user:
           title: 'Mano sugaištas laikas'
           displayed_days: 'Valdiklyje rodomos dienos:'
