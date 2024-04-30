@@ -18,9 +18,10 @@ jobs:
           # fetch head commit of base branch
           git fetch --deepen 1 origin "${{ github.ref }}"
       - uses: ruby/setup-ruby@v1
-      - uses: opf/action-rubocop@v2
+      - uses: opf/action-rubocop@master
         with:
           github_token: ${{ secrets.github_token }}
           rubocop_version: gemfile
           rubocop_extensions: rubocop-inflector:gemfile rubocop-performance:gemfile rubocop-rails:gemfile rubocop-rspec:gemfile
           reporter: github-pr-check
+          only_changed: true
