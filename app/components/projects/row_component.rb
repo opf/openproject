@@ -51,6 +51,7 @@ module Projects
         mobile_icon: currently_favored? ? "star-fill" : "star",
         size: :medium,
         tag: :a,
+        tooltip_direction: :e,
         href: helpers.build_favorite_path(project, format: :html),
         data: { method: currently_favored? ? :delete : :post },
         classes: currently_favored? ? "op-primer--star-icon " : "op-project-row-component--favorite",
