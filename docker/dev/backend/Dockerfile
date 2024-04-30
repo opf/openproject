@@ -9,7 +9,6 @@ ENV RAILS_ENV=development
 ENV NODE_MAJOR=20
 
 ENV BUNDLER_VERSION "2.5.9"
-ENV RUBY_YJIT_ENABLE=1
 
 # `--no-log-init` is required as a workaround to avoid disk exhaustion.
 #

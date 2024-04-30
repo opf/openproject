@@ -157,7 +157,6 @@ ARG BIM_SUPPORT=true
 ARG GOSU_VERSION="1.17"
 ARG OPENPROJECT_ANGULAR_UGLIFY=true
 
-ENV RUBY_YJIT_ENABLE=1
 ENV OPENPROJECT_RAILS__CACHE__STORE=memcache
 ENV DATABASE_URL=postgres://openproject:openproject@127.0.0.1/openproject
 ENV PGDATA=/var/openproject/pgdata
