@@ -28,10 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_examples_for "create_folder_command: basic command setup" do
-  it "is registered as commands.create_folder" do
+RSpec.shared_examples_for "folder_files_file_ids_deep_query: basic query setup" do
+  it "is registered as queries.folder_files_file_ids_deep" do
     expect(Storages::Peripherals::Registry
-             .resolve("#{storage.short_provider_type}.commands.create_folder")).to eq(described_class)
+             .resolve("#{storage.short_provider_type}.queries.folder_files_file_ids_deep")).to eq(described_class)
   end
 
   it "responds to #call with correct parameters" do
@@ -40,46 +40,29 @@ RSpec.shared_examples_for "create_folder_command: basic command setup" do
     method = described_class.method(:call)
     expect(method.parameters).to contain_exactly(%i[keyreq storage],
                                                  %i[keyreq auth_strategy],
-                                                 %i[keyreq folder_name],
-                                                 %i[keyreq parent_location])
+                                                 %i[keyreq folder])
   end
 end
 
-RSpec.shared_examples_for "create_folder_command: successful folder creation" do
-  it "creates a folder" do
-    result = described_class.call(storage:, auth_strategy:, folder_name:, parent_location:)
+RSpec.shared_examples_for "folder_files_file_ids_deep_query: successful query" do
+  it "returns a map of locations to file ids" do
+    result = described_class.call(storage:, auth_strategy:, folder:)
 
     expect(result).to be_success
 
     response = result.result
-    expect(response).to be_a(Storages::StorageFile)
-    expect(response.name).to eq(folder_name)
-    expect(response.location).to eq(path)
-  ensure
-    delete_created_folder(response)
+    expect(response.transform_values(&:id)).to eq(expected_ids)
   end
 end
 
-RSpec.shared_examples_for "create_folder_command: parent not found" do
+RSpec.shared_examples_for "folder_files_file_ids_deep_query: not found" do
   it "returns a failure" do
-    result = described_class.call(storage:, auth_strategy:, folder_name:, parent_location:)
+    result = described_class.call(storage:, auth_strategy:, folder:)
 
     expect(result).to be_failure
 
     error = result.errors
     expect(error.code).to eq(:not_found)
-    expect(error.data.source).to eq(error_source)
-  end
-end
-
-RSpec.shared_examples_for "create_folder_command: folder already exists" do
-  it "returns a failure" do
-    result = described_class.call(storage:, auth_strategy:, folder_name:, parent_location:)
-
-    expect(result).to be_failure
-
-    error = result.errors
-    expect(error.code).to eq(:conflict)
     expect(error.data.source).to eq(error_source)
   end
 end

@@ -674,7 +674,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
             expect(OpenProject.logger)
               .to have_received(:warn)
                     .with(folder: "OpenProject",
-                          command: Storages::Peripherals::StorageInteraction::Nextcloud::Internal::PropfindQuery,
+                          command: Storages::Peripherals::StorageInteraction::Nextcloud::Internal::PropfindQueryLegacy,
                           message: "Outbound request destination not found",
                           data: { status: 404, body: "" })
           end
