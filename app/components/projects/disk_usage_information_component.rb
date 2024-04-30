@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Projects::StorageInformationComponent < ApplicationComponent
+class Projects::DiskUsageInformationComponent < ApplicationComponent
   options :current_user
 
   def render?
