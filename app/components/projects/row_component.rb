@@ -167,6 +167,10 @@ module Projects
       classes.join(" ")
     end
 
+    def row_css_id
+      "project-#{project.id}"
+    end
+
     def row_css_level_classes
       if level > 0
         "idnt idnt-#{level}"
@@ -202,36 +206,29 @@ module Projects
     end
 
     def button_links
-      return [] if more_menu_items.empty?
-
-      if more_menu_items.one?
-        more_menu_items.first => { label:, **button_options }
-
-        [render(Primer::Beta::IconButton.new(**button_options,
-                                             size: :small,
-                                             tag: :a,
-                                             scheme: button_options[:scheme] == :default ? :invisible : button_options[:scheme],
-                                             "aria-label": label,
-                                             test_selector: "project-list-row--single-action"))]
+      if more_menu_items.empty?
+        []
       else
-        [
-          render(Primer::Alpha::ActionMenu.new(test_selector: "project-list-row--action-menu")) do |menu|
-            menu.with_show_button(scheme: :invisible,
-                                  size: :small,
-                                  icon: :"kebab-horizontal",
-                                  "aria-label": t(:label_open_menu),
-                                  tooltip_direction: :w)
-            more_menu_items.each do |action_options|
-              action_options => { scheme:, label:, icon:, **button_options }
-              menu.with_item(scheme:,
-                             label:,
-                             test_selector: "project-list-row--action-menu-item",
-                             content_arguments: button_options) do |item|
-                item.with_leading_visual_icon(icon:)
-              end
-            end
+        [action_menu]
+      end
+    end
+
+    def action_menu
+      render(Primer::Alpha::ActionMenu.new(test_selector: "project-list-row--action-menu")) do |menu|
+        menu.with_show_button(scheme: :invisible,
+                              size: :small,
+                              icon: :"kebab-horizontal",
+                              "aria-label": t(:label_open_menu),
+                              tooltip_direction: :w)
+        more_menu_items.each do |action_options|
+          action_options => { scheme:, label:, icon:, **button_options }
+          menu.with_item(scheme:,
+                         label:,
+                         test_selector: "project-list-row--action-menu-item",
+                         content_arguments: button_options) do |item|
+            item.with_leading_visual_icon(icon:)
           end
-        ]
+        end
       end
     end
 
