@@ -103,19 +103,24 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
   def header_save_action(header:, message:, label:, href:, method: nil)
     header.with_action_text { message }
 
-    header.with_action_link(mobile_icon: nil, # Do not show on mobile as it is already part of the menu
-                            mobile_label: nil,
-                            href:,
-                            data: {
-                              method:,
-                              controller: "params-from-query",
-                              'application-target': "dynamic",
-                              'params-from-query-allowed-value': '["filters", "columns", "query_id"]'
-                            }.compact) do
-      render(Primer::Beta::Octicon.new(icon: "op-save",
-                                       align_self: :center,
-                                       "aria-label": label,
-                                       mr: 1)
+    header.with_action_link(
+      mobile_icon: nil, # Do not show on mobile as it is already part of the menu
+      mobile_label: nil,
+      href:,
+      data: {
+        method:,
+        controller: "params-from-query",
+        "application-target": "dynamic",
+        "params-from-query-allowed-value": '["filters", "columns", "query_id"]'
+      }.compact
+    ) do
+      render(
+        Primer::Beta::Octicon.new(
+          icon: "op-save",
+          align_self: :center,
+          "aria-label": label,
+          mr: 1
+        )
       ) + content_tag(:span, label)
     end
   end
@@ -128,12 +133,12 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
         data: {
           method:,
           controller: "params-from-query",
-          'application-target': "dynamic",
-          'params-from-query-allowed-value': '["filters", "columns", "query_id"]'
+          "application-target": "dynamic",
+          "params-from-query-allowed-value": '["filters", "columns", "query_id"]'
         }.compact
       }
     ) do |item|
-      item.with_leading_visual_icon(icon: :'op-save')
+      item.with_leading_visual_icon(icon: :"op-save")
     end
   end
 end
