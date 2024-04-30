@@ -140,7 +140,7 @@ gem "rack-attack", "~> 6.7.0"
 gem "secure_headers", "~> 6.5.0"
 
 # Browser detection for incompatibility checks
-gem "browser", "~> 5.3.0"
+gem "browser", "~> 6.0.0"
 
 # Providing health checks
 gem "okcomputer", "~> 1.18.1"
