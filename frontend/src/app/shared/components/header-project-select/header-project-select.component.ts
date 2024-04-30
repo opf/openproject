@@ -125,6 +125,8 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
   public text = {
     all: this.I18n.t('js.label_all_uppercase'),
     favored: this.I18n.t('js.label_favorites'),
+    no_favorites: this.I18n.t('js.favorite_projects.no_results'),
+    no_favorites_subtext: this.I18n.t('js.favorite_projects.no_results_subtext'),
     project: {
       singular: this.I18n.t('js.label_project'),
       plural: this.I18n.t('js.label_project_plural'),
