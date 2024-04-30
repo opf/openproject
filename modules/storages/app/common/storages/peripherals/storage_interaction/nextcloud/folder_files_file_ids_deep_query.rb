@@ -44,8 +44,8 @@ module Storages
 
           def call(auth_strategy:, folder:)
             origin_user_id = Util.origin_user_id(caller: self.class, storage: @storage, auth_strategy:)
-            if origin_user_id.failure?
-              return origin_user_id
+                                 .on_failure do |result|
+              return result
             end
 
             Authentication[auth_strategy].call(storage: @storage, http_options:) do |http|
