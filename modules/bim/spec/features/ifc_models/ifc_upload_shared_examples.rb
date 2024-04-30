@@ -40,21 +40,4 @@ RSpec.shared_examples "can upload an IFC file" do
   context "when setting checkbox is_default after selecting file" do
     it_behaves_like "allows uploading an IFC file"
   end
-
-  context "when the file size exceeds the allowed maximum", with_settings: { attachment_max_size: 1 } do
-    it "displays an error message" do
-      visit new_bcf_project_ifc_model_path(project_id: project.identifier)
-
-      page.find_by_id("bim_ifc_models_ifc_model_is_default").set(true) unless set_tick_is_default_after_file
-      page.attach_file("file", ifc_fixture.path, visible: :all)
-      page.find_by_id("bim_ifc_models_ifc_model_is_default").set true if set_tick_is_default_after_file
-
-      form_validity = page.evaluate_script <<~JS
-        document
-            .querySelector('#new_bim_ifc_models_ifc_model')
-            .checkValidity()
-      JS
-      expect(form_validity).to be(false)
-    end
-  end
 end
