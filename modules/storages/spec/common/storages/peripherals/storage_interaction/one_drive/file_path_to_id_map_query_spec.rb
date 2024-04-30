@@ -31,15 +31,15 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FolderFilesFileIdsDeepQuery, :webmock do
+RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilePathToIdMapQuery, :webmock do
   let(:storage) { create(:sharepoint_dev_drive_storage) }
   let(:auth_strategy) do
     Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials.strategy
   end
 
-  it_behaves_like "folder_files_file_ids_deep_query: basic query setup"
+  it_behaves_like "file_path_to_id_map_query: basic query setup"
 
-  context "with parent folder being root", vcr: "one_drive/folder_files_file_ids_deep_query_root" do
+  context "with parent folder being root", vcr: "one_drive/file_path_to_id_map_query_root" do
     let(:folder) { Storages::Peripherals::ParentFolder.new("/") }
     let(:expected_ids) do
       {
@@ -64,10 +64,10 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FolderFilesF
       }
     end
 
-    it_behaves_like "folder_files_file_ids_deep_query: successful query"
+    it_behaves_like "file_path_to_id_map_query: successful query"
   end
 
-  context "with a given parent folder", vcr: "one_drive/folder_files_file_ids_deep_query_parent_folder" do
+  context "with a given parent folder", vcr: "one_drive/file_path_to_id_map_query_parent_folder" do
     let(:folder) { Storages::Peripherals::ParentFolder.new("01AZJL5PMAXGDWAAKMEBALX4Q6GSN5BSBR") }
     let(:expected_ids) do
       {
@@ -85,13 +85,13 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FolderFilesF
       }
     end
 
-    it_behaves_like "folder_files_file_ids_deep_query: successful query"
+    it_behaves_like "file_path_to_id_map_query: successful query"
   end
 
-  context "with not existent parent folder", vcr: "one_drive/folder_files_file_ids_deep_query_invalid_parent" do
+  context "with not existent parent folder", vcr: "one_drive/file_path_to_id_map_query_invalid_parent" do
     let(:folder) { Storages::Peripherals::ParentFolder.new("/I/just/made/that/up") }
     let(:error_source) { Storages::Peripherals::StorageInteraction::OneDrive::Internal::DriveItemQuery }
 
-    it_behaves_like "folder_files_file_ids_deep_query: not found"
+    it_behaves_like "file_path_to_id_map_query: not found"
   end
 end

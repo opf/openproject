@@ -32,7 +32,7 @@ module Storages
   module Peripherals
     module StorageInteraction
       module OneDrive
-        class FolderFilesFileIdsDeepQuery
+        class FilePathToIdMapQuery
           CHILDREN_FIELDS = %w[id name file folder parentReference].freeze
           FOLDER_FIELDS = %w[id name parentReference].freeze
 
