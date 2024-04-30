@@ -3432,8 +3432,8 @@ uk:
         working: "%{day} зараз робочий"
         non_working: "%{day} зараз неробочий"
       dates:
-        working: "%{day} зараз робочий день"
-        non_working: "%{day} зараз неробочий день"
+        working: "%{date} зараз робочий день"
+        non_working: "%{date} зараз неробочий день"
   nothing_to_preview: "Нічого для перегляду"
   api_v3:
     attributes:

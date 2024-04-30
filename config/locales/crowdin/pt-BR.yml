@@ -2403,7 +2403,7 @@ pt-BR:
         allowed_actions: "Você pode %{allowed_actions} este pacote de trabalho. Isso pode mudar dependendo da sua função e permissões do projeto."
         create_account: "Para acessar este pacote de trabalho, você terá que criar e ativar uma conta %{instance}. "
         open_work_package: "Abrir pacote de trabalho"
-        subject: "O Pacote de trabalho #{id} foi compartilhado com você"
+        subject: "O Pacote de trabalho #%{id} foi compartilhado com você"
         enterprise_text: "Compartilhe pacotes de trabalho com usuários que não são membros do projeto."
         summary:
           user: "%{user} compartilhou um pacote de trabalho com você com privilégios de %{role_rights}"

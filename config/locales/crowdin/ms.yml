@@ -1381,40 +1381,40 @@ ms:
   datetime:
     distance_in_words:
       about_x_hours:
-        other: "sekitar 1 jam"
+        other: "sekitar %{count} jam"
       about_x_months:
-        other: "sekitar 1 bulan"
+        other: "sekitar %{count} bulan"
       about_x_years:
-        other: "sekitar 1 tahun"
+        other: "sekitar %{count} tahun"
       almost_x_years:
-        other: "hampir 1 tahun"
+        other: "hampir %{count} tahun"
       half_a_minute: "setengah minit"
       less_than_x_minutes:
-        other: "kurang dari satu minit"
+        other: "kurang dari %{count} minit"
       less_than_x_seconds:
-        other: "kurang dari 1 saat"
+        other: "kurang dari %{count} saat"
       over_x_years:
-        other: "sepanjang 1 tahun"
+        other: "sepanjang %{count} tahun"
       x_days:
-        other: "1 hari"
+        other: "%{count} hari"
       x_minutes:
-        other: "1 minit"
+        other: "%{count} minit"
       x_minutes_abbreviated:
-        other: "1 min"
+        other: "%{count} min"
       x_hours:
-        other: "1 jam"
+        other: "%{count} jam"
       x_hours_abbreviated:
-        other: "1 j"
+        other: "%{count} j"
       x_weeks:
-        other: "1 minggu"
+        other: "%{count} minggu"
       x_months:
-        other: "1 bulan"
+        other: "%{count} bulan"
       x_years:
-        other: "1 tahun"
+        other: "%{count} tahun"
       x_seconds:
-        other: "1 saat"
+        other: "%{count} saat"
       x_seconds_abbreviated:
-        other: "1 s"
+        other: "%{count} s"
     units:
       hour:
         other: "jam"

@@ -1194,7 +1194,7 @@ ar:
         other: "%{count} h"
         zero: "0 h"
       day:
-        one: "%{count} يوم"
+        one: "1 يوم"
         other: "%{count} يوم"
         zero: "0 days"
     zen_mode:

@@ -146,7 +146,7 @@ zh-TW:
         manual: "切換到標記源模式"
         wysiwyg: "切換到所見即所得編輯器"
       macro:
-        error: "無法展開巨集(macro)： %{message}"
+        error: "無法展開巨集(macro)：%{message}"
         attribute_reference:
           macro_help_tooltip: "This text segment is being dynamically rendered by a macro."
           not_found: "Requested resource could not be found"
