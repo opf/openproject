@@ -57,7 +57,7 @@
 
       <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
         <ul
-          *ngIf="(displayMode === 'all' && projects.length > 0) || (displayMode === 'favored' && (favorites$ | async).length > 0); else noResultsTemplate"
+          *ngIf="anyProjectsFound(projects, (favorites$ | async)); else noResultsTemplate"
           op-header-project-select-list
           [ngClass]="{ 'spot-list_active': textFieldFocused }"
           [projects]="projects"
@@ -70,7 +70,7 @@
         ></ul>
 
         <ng-template #noResultsTemplate>
-          <div *ngIf="displayMode === 'favored'"
+          <div *ngIf="displayMode === 'favored' && (favorites$ | async).length === 0"
                class="op-header-project-select--no-favorites"
           >
             <svg
@@ -84,7 +84,7 @@
                     [textContent]="text.no_favorites_subtext"></span>
             </p>
           </div>
-          <span *ngIf="displayMode === 'all'"
+          <span *ngIf="!(displayMode === 'favored' && (favorites$ | async).length === 0)"
                 class="op-project-list-modal--no-results">
             {{ text.no_results }}
           </span>
