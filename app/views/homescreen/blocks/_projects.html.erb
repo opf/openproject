@@ -1,6 +1,6 @@
 <%= render 'homescreen/blocks/header', title: t(:label_project_plural) %>
 
-<% if OpenProject::FeatureDecisions.favorite_projects_active? && @favorite_projects.any? %>
+<% if @favorite_projects.any? %>
   <p class="widget-box--additional-info"><%= t('projects.lists.favored') %></p>
   <ul class="widget-box--arrow-links">
     <% @favorite_projects.each do |project| %>

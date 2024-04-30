@@ -67,8 +67,6 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
 
   public canCreateNewProjects$ = this.currentUserService.hasCapabilities$('projects/create', 'global');
 
-  public favoredFeatureActive = this.configuration.activeFeatureFlags.includes('favoriteProjects');
-
   public projects$ = combineLatest([
     this.searchableProjectListService.allProjects$,
     this.searchableProjectListService.searchText$.pipe(debounceTime(200)),
@@ -126,7 +124,7 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
 
   public text = {
     all: this.I18n.t('js.label_all_uppercase'),
-    favored: this.I18n.t('js.label_favored'),
+    favored: this.I18n.t('js.label_favorites'),
     project: {
       singular: this.I18n.t('js.label_project'),
       plural: this.I18n.t('js.label_project_plural'),
