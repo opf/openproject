@@ -2330,7 +2330,7 @@ pt-PT:
     zero: "sem projetos"
   label_x_files:
     one: "1 ficheiro"
-    other: "{count} ficheiros"
+    other: "%{count} ficheiros"
     zero: "sem ficheiros"
   label_yesterday: "ontem"
   label_zen_mode: "Modo Zen"

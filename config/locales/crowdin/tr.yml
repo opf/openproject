@@ -1094,13 +1094,13 @@ tr:
     field_erroneous_label: "Bu alan geçersiz:% {full_errors}\nLütfen geçerli bir değer girin. %{full_errors}."
   activity:
     item:
-      created_by_on: "%{user} tarafından %{date} tarihinde oluşturuldu"
+      created_by_on: "%{user} tarafından %{datetime} tarihinde oluşturuldu"
       created_by_on_time_entry: "time logged by %{user} on %{datetime}"
-      created_on: "Oluşturulma tarihi: {dateTime}"
+      created_on: "Oluşturulma tarihi: %{datetime}"
       created_on_time_entry: "time logged on %{datetime}"
-      updated_by_on: "%{date} tarihinde %{user} tarafından güncellendi"
+      updated_by_on: "%{datetime} tarihinde %{user} tarafından güncellendi"
       updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
-      updated_on: "Güncellenme tarihi: {dateTime}"
+      updated_on: "Güncellenme tarihi: %{datetime}"
       updated_on_time_entry: "logged time updated on %{datetime}"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"

@@ -1182,7 +1182,7 @@ hu:
         other: "%{count} ó"
         zero: "0 óra"
       day:
-        one: "%{count} nap"
+        one: "1 nap"
         other: "%{count} nap"
         zero: "0 days"
     zen_mode:

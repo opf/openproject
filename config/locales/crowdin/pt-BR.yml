@@ -3137,7 +3137,7 @@ pt-BR:
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} excluído (%{link})"
   text_journal_file_link_added: "Link de %{label} para %{value} (%{storage}) adicionado"
-  text_journal_file_link_deleted: "Link de %{label} para %{value} (%{storage}) removido"
+  text_journal_file_link_deleted: "Link de %{label} para %{old} (%{storage}) removido"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} definido como %{value}"
   text_journal_set_with_diff: "%{label} definido (%{link})"

@@ -1394,10 +1394,10 @@ hu:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: "körülbelül %{count} óra"
+        one: "körülbelül 1 óra"
         other: "körülbelül %{count} óra"
       about_x_months:
-        one: "körülbelül %{count} hónap"
+        one: "körülbelül 1 hónap"
         other: "körülbelül %{count} hónap"
       about_x_years:
         one: "körülbelül 1 év"

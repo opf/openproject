@@ -2398,7 +2398,7 @@ cs:
     zero: "Žádné projekty"
   label_x_files:
     one: "1 soubor"
-    other: "{count} souborů"
+    other: "%{count} souborů"
     zero: "žádné soubory"
   label_yesterday: "včera"
   label_zen_mode: "Zen mode"

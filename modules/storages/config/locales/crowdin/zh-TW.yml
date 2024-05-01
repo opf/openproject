@@ -71,15 +71,15 @@ zh-TW:
       project_storage: '您確定要從此項目中刪除 %{file_storage} 嗎？ 若要確認此操作，請在下面的欄位中輸入儲存名稱，這將：'
       project_storage_delete_result_1: 刪除從此項目的工作包到該儲存的檔案和資料夾的所有連結。
       project_storage_delete_result_2: 如果此儲存空間具有自動管理的專案資料夾，則該資料夾及其檔案將永久刪除。
-      storage: ''
+      storage: 'Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:'
       storage_delete_result_1: 刪除使用此儲存的所有項目的所有儲存設定。
-      storage_delete_result_2:
-      storage_delete_result_3:
+      storage_delete_result_2: Remove all links from work packages of all projects to files and folders of that storage.
+      storage_delete_result_3: In case this storage has automatically managed project folders, those and their contained files will be deleted forever.
     error_invalid_provider_type: 請選擇有效的儲存空間提供者。
     file_storage_view:
       access_management:
         automatic_management: 自動管理的專案文件夾
-        automatic_management_description:
+        automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
         description: 選擇使用者存取和資料夾建立的管理類型。 我們建議使用自動管理存取以獲得更有組織的結構並保證對所有相關使用者的存取。
         manual_management: 手動管理的存取和資料夾
         manual_management_description: 您自己手動建立和管理每個專案的資料夾。 您需要手動確保相關使用者俱有存取權限。
