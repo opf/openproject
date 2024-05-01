@@ -263,7 +263,7 @@ zh-TW:
     lists:
       active: "啟用中的專案"
       my: "我的專案"
-      favored: "Favored projects"
+      favored: "Favorite projects"
       archived: "封存專案"
       my_private: "我的私人專案"
       new:
@@ -1248,7 +1248,7 @@ zh-TW:
   button_edit: "編輯"
   button_edit_associated_wikipage: "編輯關聯的維基頁面：%{page_title}"
   button_expand_all: "全部展開"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "篩選條件"
   button_generate: "產生"
   button_list: "清單"
@@ -2109,7 +2109,7 @@ zh-TW:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "文件儲存空間"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} 個專案，使用了 %{storage} 磁碟空間"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "檢視所有專案"
   label_project_show_details: "顯示專案詳細資訊"
   label_project_hide_details: "隱藏專案詳細資訊"

@@ -258,7 +258,7 @@ id:
     lists:
       active: "Active projects"
       my: "My projects"
-      favored: "Favored projects"
+      favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1242,7 +1242,7 @@ id:
   button_edit: "Edit"
   button_edit_associated_wikipage: "Edit Wiki terkait: %{page_title}"
   button_expand_all: "Buka semua"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Filter"
   button_generate: "Generate"
   button_list: "List"
@@ -2103,7 +2103,7 @@ id:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} proyek menggunakan %{storage} dari storage"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Lihat semua Project"
   label_project_show_details: "Tampilkan detail proyek"
   label_project_hide_details: "Sembunyikan detail proyek"

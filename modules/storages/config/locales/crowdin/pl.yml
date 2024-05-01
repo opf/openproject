@@ -41,6 +41,7 @@ pl:
       too_many_elements_created_at_once: Zbyt wiele elementów utworzonych jednocześnie. Oczekiwano co najwyżej %{max} , otrzymano %{actual}.
   permission_create_files: 'Magazyn zewnętrzny: tworzenie plików'
   permission_delete_files: 'Magazyn zewnętrzny: usuwanie plików'
+  permission_header_for_project_module_storages: Automatically managed project folders
   permission_manage_file_links: Zarządzaj linkami do plików
   permission_manage_storages_in_project: Zarządzaj magazynami plików w projekcie
   permission_read_files: 'Magazyn zewnętrzny: odczyt plików'

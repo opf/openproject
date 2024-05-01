@@ -419,7 +419,7 @@ vi:
     label_expand_project_menu: "Mở rộng menu dự án"
     label_export: "Xuất"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
-    label_favored: "Favored"
+    label_favorites: "Favorites"
     label_filename: "Tệp"
     label_filesize: "Kích cỡ"
     label_general: "Tổng quan"
@@ -1267,6 +1267,9 @@ vi:
           placeholder: "The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
           group: "Nhóm này hiện là một phần của %{project}. Trong khi đó, bạn có thể lên kế hoạch cho nhóm đó và chỉ định các gói làm việc cho từng trường hợp."
         next_button: "Tiếp tục"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Dự án bao gồm"
       title: "Các dự án"

@@ -263,7 +263,7 @@ ms:
     lists:
       active: "Projek yang aktif"
       my: "Projek saya"
-      favored: "Favored projects"
+      favored: "Favorite projects"
       archived: "Projek yang diarkibkan"
       my_private: "Senarai projek peribadi saya"
       new:
@@ -1248,7 +1248,7 @@ ms:
   button_edit: "Sunting"
   button_edit_associated_wikipage: "Sunting halaman wiki berkaitan: %{page_title}"
   button_expand_all: "Kembangkan semua"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Saring"
   button_generate: "Menjana"
   button_list: "Senarai"
@@ -2109,7 +2109,7 @@ ms:
   label_project_attributes_settings: "Seting atribut projek"
   label_project_storage_plural: "Penyimpanan fail"
   label_project_storage_project_folder: "Penyimpanan Fail: Folder projek"
-  label_projects_storage_information: "%{count} projek menggunakan %{storage} penyimpanan cakera"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Paparkan semua projek"
   label_project_show_details: "Tunjukkan butiran projek"
   label_project_hide_details: "Sembunyikan butiran projek"

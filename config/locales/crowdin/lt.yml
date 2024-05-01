@@ -261,7 +261,7 @@ lt:
     lists:
       active: "Aktyvūs projektai"
       my: "Mano projektai"
-      favored: "Mėgiami projektai"
+      favored: "Favorite projects"
       archived: "Archyvuoti projektai"
       my_private: "Mano privatūs projektų sąrašai"
       new:
@@ -1291,7 +1291,7 @@ lt:
   button_edit: "Redaguoti"
   button_edit_associated_wikipage: "Redaguoti susijusį Wiki puslapį: %{page_title}"
   button_expand_all: "Išskleisti visus"
-  button_favorite: "Žymėti kaip mėgiamą"
+  button_favorite: "Add to favorites"
   button_filter: "Filtras"
   button_generate: "Generuoti"
   button_list: "Sąrašas"
@@ -2206,7 +2206,7 @@ lt:
   label_project_attributes_settings: "Projekto atributų nustatymai"
   label_project_storage_plural: "Failų saugyklos"
   label_project_storage_project_folder: "Failų saugyklos: projekto aplankai"
-  label_projects_storage_information: "%{count} projektai(-as, -ų) naudoja %{storage} disko vietos"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Peržiūrėti visus projektus"
   label_project_show_details: "Rodyti detalią projekto informaciją"
   label_project_hide_details: "Slėpti detalią projekto informaciją"

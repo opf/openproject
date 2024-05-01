@@ -264,7 +264,7 @@ fil:
     lists:
       active: "Active projects"
       my: "My projects"
-      favored: "Favored projects"
+      favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1264,7 +1264,7 @@ fil:
   button_edit: "I-edit"
   button_edit_associated_wikipage: "I-edit ang kaugnay ng Wiki na pahina: %{page_title}"
   button_expand_all: "Malakihin lahat"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Salain"
   button_generate: "Bumuo"
   button_list: "Listahan"
@@ -2143,7 +2143,7 @@ fil:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "Ang %{count} proyekto gamit ang %{storage} lalagyan ng disk"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Tingnan lahat ang mga proyekto"
   label_project_show_details: "Ipakita ang mga detalye ng proyekto"
   label_project_hide_details: "Itago ang mga detalye ng proyekto"

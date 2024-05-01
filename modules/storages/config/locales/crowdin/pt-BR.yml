@@ -41,6 +41,7 @@ pt-BR:
       too_many_elements_created_at_once: Muitos elementos criados ao mesmo tempo. Esperado %{max} no máximo, obteve %{actual}.
   permission_create_files: 'Armazenamento externo: Criar arquivos'
   permission_delete_files: 'Armazenamento externo: Excluir arquivos'
+  permission_header_for_project_module_storages: Automatically managed project folders
   permission_manage_file_links: Gerenciar vínculos de arquivos
   permission_manage_storages_in_project: Gerenciar armazenamentos de arquivos no projeto
   permission_read_files: 'Armazenamento externo: Ler arquivos'

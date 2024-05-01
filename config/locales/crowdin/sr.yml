@@ -264,7 +264,7 @@ sr:
     lists:
       active: "Active projects"
       my: "My projects"
-      favored: "Favored projects"
+      favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1279,7 +1279,7 @@ sr:
   button_edit: "Edit"
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   button_expand_all: "Expand all"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Filter"
   button_generate: "Generate"
   button_list: "List"
@@ -2176,7 +2176,7 @@ sr:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} projects using %{storage} disk storage"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "View all projects"
   label_project_show_details: "Show project details"
   label_project_hide_details: "Hide project details"

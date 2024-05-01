@@ -420,7 +420,7 @@ ca:
     label_expand_project_menu: "Expandieix el menú de projecte"
     label_export: "Exportar"
     label_export_preparing: "S'està preparant l'exportació i serà descarregada aviat."
-    label_favored: "Favored"
+    label_favorites: "Favorites"
     label_filename: "Fitxer"
     label_filesize: "Mida"
     label_general: "General"
@@ -1271,6 +1271,9 @@ ca:
           placeholder: "L'usuari de marcador de posició ara pot ser utilitzat a %{project}. Per tant, ja pots planejar amb aquest usuari i assignar-li paquets de treball."
           group: "El grup és ara part de %{project}. Per tant, ja pots planejar amb aquest grup i assignar-li paquets de treball."
         next_button: "Continua"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Inclou projectes"
       title: "Projectes"

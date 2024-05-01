@@ -262,7 +262,7 @@ ja:
     lists:
       active: "Active projects"
       my: "My projects"
-      favored: "Favored projects"
+      favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1245,7 +1245,7 @@ ja:
   button_edit: "編集"
   button_edit_associated_wikipage: "関係するWiki ページを編集: %{page_title}"
   button_expand_all: "全てを展開"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "フィルタ"
   button_generate: "生成"
   button_list: "リスト"
@@ -2106,7 +2106,7 @@ ja:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} プロジェクトが %{storage} ディスクストレージを使用して います"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "全プロジェクトを表示"
   label_project_show_details: "プロジェクトの詳細を表示"
   label_project_hide_details: "プロジェクトの詳細を非表示"

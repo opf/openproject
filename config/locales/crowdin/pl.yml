@@ -261,7 +261,7 @@ pl:
     lists:
       active: "Aktywne projekty"
       my: "Moje projekty"
-      favored: "Favored projects"
+      favored: "Favorite projects"
       archived: "Zarchiwizowane projekty"
       my_private: "Moje prywatne listy projektów"
       new:
@@ -1291,7 +1291,7 @@ pl:
   button_edit: "Edycja"
   button_edit_associated_wikipage: "Edytuj powiązaną stronę Wiki: %{page_title}"
   button_expand_all: "Rozwiń wszystkie"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Filtr"
   button_generate: "Utwórz"
   button_list: "Lista"
@@ -2206,7 +2206,7 @@ pl:
   label_project_attributes_settings: "Ustawienia atrybutów projektu"
   label_project_storage_plural: "Magazyny plików"
   label_project_storage_project_folder: "Magazyny plików: foldery projektów"
-  label_projects_storage_information: "%{count} projektów zużywających %{storage} przestrzeni dyskowej"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Zobacz wszystkie projekty"
   label_project_show_details: "Pokaż szczegóły projektu"
   label_project_hide_details: "Ukryj szczegóły projektu"

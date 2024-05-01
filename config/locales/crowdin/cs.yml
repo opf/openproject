@@ -264,7 +264,7 @@ cs:
     lists:
       active: "Aktivní projekty"
       my: "Moje projekty"
-      favored: "Favored projects"
+      favored: "Favorite projects"
       archived: "Archivované projekty"
       my_private: "soukromé seznamy  projektů"
       new:
@@ -1294,7 +1294,7 @@ cs:
   button_edit: "Upravit"
   button_edit_associated_wikipage: "Upravit přidruženou Wiki stránku: %{page_title}"
   button_expand_all: "Rozbalit vše"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Filtr"
   button_generate: "Generovat"
   button_list: "Seznam"
@@ -2209,7 +2209,7 @@ cs:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "Úložiště souborů"
   label_project_storage_project_folder: "Úložiště souborů: Složky projektů"
-  label_projects_storage_information: "%{count} projekty používající úložiště disků %{storage}"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Zobrazit všechny projekty - seznam"
   label_project_show_details: "Zobrazit detail projektu"
   label_project_hide_details: "Skrýt detail projektu"
@@ -2403,7 +2403,7 @@ cs:
     zero: "Žádné projekty"
   label_x_files:
     one: "1 soubor"
-    other: "{count} souborů"
+    other: "%{count} souborů"
     zero: "žádné soubory"
   label_yesterday: "včera"
   label_zen_mode: "Zen mode"

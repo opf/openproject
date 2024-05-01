@@ -259,7 +259,7 @@ uk:
     lists:
       active: "Активні проєкти"
       my: "Мої проєкти"
-      favored: "Favored projects"
+      favored: "Favorite projects"
       archived: "Заархівовані проєкти"
       my_private: "Особисті списки проєктів"
       new:
@@ -1289,7 +1289,7 @@ uk:
   button_edit: "Редагувати"
   button_edit_associated_wikipage: "Редагувати пов'язану Wiki сторінку: %{page_title}"
   button_expand_all: "Розгорнути все"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Фільтр"
   button_generate: "Згенерувати"
   button_list: "Список"
@@ -2204,7 +2204,7 @@ uk:
   label_project_attributes_settings: "Налаштування атрибутів проєкту"
   label_project_storage_plural: "Файлові сховища"
   label_project_storage_project_folder: "Файлові сховища: папки проєкту"
-  label_projects_storage_information: "%{count} використання проектів %{storage} дискового сховища"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Переглянути всi проекти"
   label_project_show_details: "Показати деталі проекту"
   label_project_hide_details: "Приховати деталі проекту"

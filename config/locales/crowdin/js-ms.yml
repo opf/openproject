@@ -420,7 +420,7 @@ ms:
     label_expand_project_menu: "Kembangkan menu projek"
     label_export: "Eksport"
     label_export_preparing: "Eksport sedang disediakan dan akan dimuat turun sebentar lagi."
-    label_favored: "Favored"
+    label_favorites: "Favorites"
     label_filename: "Fail"
     label_filesize: "Saiz"
     label_general: "Umum"
@@ -1268,6 +1268,9 @@ ms:
           placeholder: "The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
           group: "The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance."
         next_button: "Continue"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Include projects"
       title: "Projects"

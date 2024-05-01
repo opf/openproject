@@ -419,7 +419,7 @@ pt-BR:
     label_expand_project_menu: "Expandir menu do projeto"
     label_export: "Exportar"
     label_export_preparing: "A exportação está sendo preparada e será baixada em breve."
-    label_favored: "Favored"
+    label_favorites: "Favorites"
     label_filename: "Arquivo"
     label_filesize: "Tamanho"
     label_general: "Geral"
@@ -1270,6 +1270,9 @@ pt-BR:
           placeholder: "O espaço reservado agora pode ser usado em %{project}. Enquanto isso, você já pode planejar com este usuário e atribuir pacotes de trabalho por exemplo."
           group: "O grupo agora faz parte de %{project}. Enquanto isso, você já pode planejar com este grupo e atribuir pacotes de trabalho por exemplo."
         next_button: "Continuar"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Incluir projetos"
       title: "Projetos"

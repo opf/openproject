@@ -41,6 +41,7 @@ fr:
       too_many_elements_created_at_once: Trop d'éléments créés à la fois. %{max} attendu au maximum, obtenu %{actual}.
   permission_create_files: 'Espace de stockage externe : Créer des fichiers'
   permission_delete_files: 'Espace de stockage externe : Supprimer des fichiers'
+  permission_header_for_project_module_storages: Automatically managed project folders
   permission_manage_file_links: Gérer les liens de fichiers
   permission_manage_storages_in_project: Gérer les stockages de fichiers dans le projet
   permission_read_files: 'Espace de stockage externe : Lire des fichiers'

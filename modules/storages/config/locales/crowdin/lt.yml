@@ -41,6 +41,7 @@ lt:
       too_many_elements_created_at_once: Per daug elementu vienu metu. Tikėtasi daugiausia %{max}, gauta %{actual}.
   permission_create_files: 'Išorinė saugykla: kurti failus'
   permission_delete_files: 'Išorinė saugykla: trinti failus'
+  permission_header_for_project_module_storages: Automatically managed project folders
   permission_manage_file_links: Tvarkyti failo nuorodas
   permission_manage_storages_in_project: Tvarkyti failų saugyklas projekte
   permission_read_files: 'Išorinė saugykla: skaityti failus'

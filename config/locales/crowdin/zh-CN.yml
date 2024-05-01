@@ -261,7 +261,7 @@ zh-CN:
     lists:
       active: "有效项目"
       my: "我的项目"
-      favored: "收藏项目"
+      favored: "Favorite projects"
       archived: "归档项目"
       my_private: "我的私有项目列表"
       new:
@@ -1245,7 +1245,7 @@ zh-CN:
   button_edit: "编辑"
   button_edit_associated_wikipage: "编辑关联的维基页面： %{page_title}"
   button_expand_all: "全部展开"
-  button_favorite: "加入收藏"
+  button_favorite: "Add to favorites"
   button_filter: "筛选器"
   button_generate: "生成"
   button_list: "列表"
@@ -2106,7 +2106,7 @@ zh-CN:
   label_project_attributes_settings: "项目属性设置"
   label_project_storage_plural: "文件存储区"
   label_project_storage_project_folder: "文件存储区：项目文件夹"
-  label_projects_storage_information: "%{count} 项目使用 %{storage} 磁盘存储"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "查看所有项目"
   label_project_show_details: "显示项目详细信息"
   label_project_hide_details: "隐藏项目详细信息"

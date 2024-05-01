@@ -264,7 +264,7 @@ sv:
     lists:
       active: "Aktiva projekt"
       my: "Mina projekt"
-      favored: "Favored projects"
+      favored: "Favorite projects"
       archived: "Arkiverade projekt"
       my_private: "My private project lists"
       new:
@@ -1263,7 +1263,7 @@ sv:
   button_edit: "Redigera"
   button_edit_associated_wikipage: "Redigerade associerad wikisida: %{page_title}"
   button_expand_all: "Expandera alla"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Filter"
   button_generate: "Generera"
   button_list: "Lista"
@@ -2142,7 +2142,7 @@ sv:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} projekt använder %{storage} lagringsutrymme"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Visa alla projekt"
   label_project_show_details: "Visa projektdetaljer"
   label_project_hide_details: "Dölj projektdetaljer"

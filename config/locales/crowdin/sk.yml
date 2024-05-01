@@ -264,7 +264,7 @@ sk:
     lists:
       active: "Active projects"
       my: "My projects"
-      favored: "Favored projects"
+      favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1294,7 +1294,7 @@ sk:
   button_edit: "Upraviť"
   button_edit_associated_wikipage: "Upraviť naviazanú Wiki stránku: %{page_title}"
   button_expand_all: "Rozbaliť všetko"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Filtrovať"
   button_generate: "Generovať"
   button_list: "Zoznam"
@@ -2209,7 +2209,7 @@ sk:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "projekty %{count} využívajú celkom %{storage} diskového priestoru"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Zobraziť všetky projekty"
   label_project_show_details: "Zobraziť detaily projektu"
   label_project_hide_details: "Skryť detaily projektu"

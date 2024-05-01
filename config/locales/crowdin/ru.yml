@@ -263,7 +263,7 @@ ru:
     lists:
       active: "Активные проекты"
       my: "Мои проекты"
-      favored: "Favored projects"
+      favored: "Favorite projects"
       archived: "Архивные проекты"
       my_private: "Списки моих личных проектов"
       new:
@@ -1293,7 +1293,7 @@ ru:
   button_edit: "Правка"
   button_edit_associated_wikipage: "Редактирование связанной wiki-страницы: %{page_title}"
   button_expand_all: "Развернуть все"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Фильтр"
   button_generate: "Генерировать"
   button_list: "Список"
@@ -2208,7 +2208,7 @@ ru:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "Файловые хранилища"
   label_project_storage_project_folder: "Файловые хранилища: Папки проекта"
-  label_projects_storage_information: "%{count} проектов используют %{storage} дискового пространства"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Просмотреть все проекты"
   label_project_show_details: "Показать детали проекта"
   label_project_hide_details: "Скрыть детали проекта"

@@ -261,7 +261,7 @@ nl:
     lists:
       active: "Active projects"
       my: "My projects"
-      favored: "Favored projects"
+      favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1261,7 +1261,7 @@ nl:
   button_edit: "Wijzig"
   button_edit_associated_wikipage: "Bewerk gekoppelde wikipagina: %{page_title}"
   button_expand_all: "Alles uitklappen"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Filter"
   button_generate: "Genereer"
   button_list: "Lijst"
@@ -2140,7 +2140,7 @@ nl:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "Bestandsopslag"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} projecten die %{storage}-schijfopslag gebruiken"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Bekijk alle projecten"
   label_project_show_details: "Toon project details"
   label_project_hide_details: "Verberg project details"

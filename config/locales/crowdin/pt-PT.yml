@@ -262,7 +262,7 @@ pt-PT:
     lists:
       active: "Projetos ativos"
       my: "Os meus projetos"
-      favored: "Favored projects"
+      favored: "Favorite projects"
       archived: "Projetos arquivados"
       my_private: "As minhas listas de projetos privados"
       new:
@@ -1262,7 +1262,7 @@ pt-PT:
   button_edit: "Editar"
   button_edit_associated_wikipage: "Editar página Wiki associada: %{page_title}"
   button_expand_all: "Expandir Tudo"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Filtro"
   button_generate: "Gerar"
   button_list: "Lista"
@@ -2141,7 +2141,7 @@ pt-PT:
   label_project_attributes_settings: "Definições dos atributos do projeto"
   label_project_storage_plural: "Armazenamentos de ficheiros"
   label_project_storage_project_folder: "Armazenamentos de ficheiros: pastas do projeto"
-  label_projects_storage_information: "%{count} projetos a utilizar %{storage} de armazenamento em disco"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Ver todos os projetos"
   label_project_show_details: "Mostrar detalhes do projeto"
   label_project_hide_details: "Ocultar detalhes do projeto"
@@ -2335,7 +2335,7 @@ pt-PT:
     zero: "sem projetos"
   label_x_files:
     one: "1 ficheiro"
-    other: "{count} ficheiros"
+    other: "%{count} ficheiros"
     zero: "sem ficheiros"
   label_yesterday: "ontem"
   label_zen_mode: "Modo Zen"

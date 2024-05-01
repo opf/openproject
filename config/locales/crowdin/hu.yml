@@ -263,7 +263,7 @@ hu:
     lists:
       active: "Aktív projektek"
       my: "Saját projekjeim"
-      favored: "Favored projects"
+      favored: "Favorite projects"
       archived: "Archivált projektek"
       my_private: "Privát projektlistáim"
       new:
@@ -1261,7 +1261,7 @@ hu:
   button_edit: "Szerkesztés"
   button_edit_associated_wikipage: "A hozzárendelt Wiki oldal: %{page_title} szerkesztése"
   button_expand_all: "Az összes kibontása"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Szűrő"
   button_generate: "Generálás"
   button_list: "Lista"
@@ -1397,10 +1397,10 @@ hu:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: "körülbelül %{count} óra"
+        one: "körülbelül 1 óra"
         other: "körülbelül %{count} óra"
       about_x_months:
-        one: "körülbelül %{count} hónap"
+        one: "körülbelül 1 hónap"
         other: "körülbelül %{count} hónap"
       about_x_years:
         one: "körülbelül 1 év"
@@ -2140,7 +2140,7 @@ hu:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{storage} lemezterületet %{count} projekt használja"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Minden projekt megtekintése"
   label_project_show_details: "Projekt részleteinek megjelenítése"
   label_project_hide_details: "Projekt részleteinek elrejtése"

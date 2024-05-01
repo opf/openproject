@@ -264,7 +264,7 @@ hr:
     lists:
       active: "Active projects"
       my: "My projects"
-      favored: "Favored projects"
+      favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1279,7 +1279,7 @@ hr:
   button_edit: "Uredi"
   button_edit_associated_wikipage: "Uredi pripadajuće Wiki stranice: %{page_title}"
   button_expand_all: "Proširi sve"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Filter"
   button_generate: "Generiraj"
   button_list: "Popis"
@@ -2176,7 +2176,7 @@ hr:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} projekt koristi %{storage} diskovnog prostora"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Pogledaj sve projekte"
   label_project_show_details: "Prikaži detalje o projektu"
   label_project_hide_details: "Sakrij detalje o projektu"

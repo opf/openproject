@@ -262,7 +262,7 @@ da:
     lists:
       active: "Active projects"
       my: "My projects"
-      favored: "Favored projects"
+      favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -1262,7 +1262,7 @@ da:
   button_edit: "Rediger"
   button_edit_associated_wikipage: "Rediger tilknyttet wiki-side: %{page_title}"
   button_expand_all: "Fold alle ud"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Filter"
   button_generate: "Generér"
   button_list: "Liste"
@@ -2141,7 +2141,7 @@ da:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} projekter forbruger %{storage} disklagerplads"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Se alle projekter"
   label_project_show_details: "Show project details"
   label_project_hide_details: "Hide project details"

@@ -264,7 +264,7 @@
     lists:
       active: "Aktive prosjekter"
       my: "Mine prosjekter"
-      favored: "Favorittprosjekter"
+      favored: "Favorite projects"
       archived: "Arkiverte prosjekter"
       my_private: "Mine private prosjektlister"
       new:
@@ -1264,7 +1264,7 @@
   button_edit: "Rediger"
   button_edit_associated_wikipage: "Rediger tilknyttet Wiki-side: %{page_title}"
   button_expand_all: "Utvid alle"
-  button_favorite: "Merk som favoritt"
+  button_favorite: "Add to favorites"
   button_filter: "Filter"
   button_generate: "Generer"
   button_list: "Liste"
@@ -2143,7 +2143,7 @@
   label_project_attributes_settings: "Innstillinger for prosjektegenskaper"
   label_project_storage_plural: "Fillagringer"
   label_project_storage_project_folder: "Fillagringer: Prosjektmapper"
-  label_projects_storage_information: "%{count} prosjekter som bruker %{storage} lagringsplass"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Vis alle prosjekter"
   label_project_show_details: "Vis prosjektdetaljer"
   label_project_hide_details: "Skjul prosjektdetaljer"
