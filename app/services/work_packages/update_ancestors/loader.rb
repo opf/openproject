@@ -104,7 +104,7 @@ class WorkPackages::UpdateAncestors::Loader
     attributes = selected_descendants_attributes
     scope
       .pluck(*attributes)
-      .map { |p| LoaderStruct.new(attributes.zip(p).to_h) }
+      .map { |p| WorkPackageLikeStruct.new(**attributes.zip(p).to_h) }
   end
 
   # Returns the current ancestors sorted by distance (called generations in the table)
@@ -126,7 +126,7 @@ class WorkPackages::UpdateAncestors::Loader
 
   def selected_descendants_attributes
     # By having the id in here, we can avoid DISTINCT queries squashing duplicate values
-    %i[id estimated_hours parent_id schedule_manually ignore_non_working_days remaining_hours]
+    %i[id parent_id estimated_hours remaining_hours schedule_manually ignore_non_working_days]
   end
 
   ##
@@ -152,6 +152,7 @@ class WorkPackages::UpdateAncestors::Loader
     previous_parent_changes&.first
   end
 
-  class LoaderStruct < Hashie::Mash; end
-  LoaderStruct.disable_warnings
+  WorkPackageLikeStruct = Data.define(:id, :parent_id,
+                                      :estimated_hours, :remaining_hours,
+                                      :schedule_manually, :ignore_non_working_days)
 end
