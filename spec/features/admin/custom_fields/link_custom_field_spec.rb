@@ -26,24 +26,45 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Setting
-  ##
-  # Shorthand to common setting aliases to avoid checking values
-  module Aliases
-    ##
-    # Restore the previous Setting.protocol now replaced by https?
-    def protocol
-      if OpenProject::Configuration.https?
-        "https"
-      else
-        "http"
-      end
-    end
+require "spec_helper"
 
-    ##
-    # Host name without protocol
-    def host_without_protocol
-      Setting.host_name.split(":").first
-    end
+RSpec.describe "Link custom fields edit", :js, :with_cuprite do
+  shared_let(:admin) { create(:admin) }
+  let(:cf_page) { Pages::CustomFields.new }
+
+  before do
+    login_as(admin)
+    visit custom_fields_path
+  end
+
+  it "can create and edit user custom fields" do
+    # Create CF
+    click_link "Create a new custom field"
+
+    wait_for_reload
+
+    fill_in "custom_field_name", with: "My Link CF"
+    select "Link (URL)", from: "custom_field_field_format"
+
+    expect(page).to have_no_field("custom_field_custom_options_attributes_0_value")
+
+    click_on "Save"
+
+    # Expect field to be created
+    cf = CustomField.last
+    expect(cf.name).to eq("My Link CF")
+    expect(cf.field_format).to eq 'link'
+
+    # Edit again
+    find("a", text: "My Link CF").click
+
+    expect(page).to have_no_field("custom_field_custom_options_attributes_0_value")
+    fill_in "custom_field_name", with: "My Link CF (edited)"
+
+    click_on "Save"
+
+    # Expect field to be saved
+    cf = CustomField.last
+    expect(cf.name).to eq("My Link CF (edited)")
   end
 end

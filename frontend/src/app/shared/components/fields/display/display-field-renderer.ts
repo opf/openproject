@@ -20,6 +20,7 @@ export const requiredClassName = '-required';
 export const readOnlyClassName = '-read-only';
 export const placeholderClassName = '-placeholder';
 export const displayClassName = 'inline-edit--display-field';
+export const displayTriggerLink = 'inline-edit--display-trigger';
 export const editFieldContainerClass = 'inline-edit--container';
 
 export class DisplayFieldRenderer<T extends HalResource = HalResource> {
