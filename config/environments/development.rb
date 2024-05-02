@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'active_support/core_ext/integer/time'
+require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -37,7 +37,7 @@ Rails.application.configure do
   config.enable_reloading = true
 
   # Do not eager load code on boot by default.
-  config.eager_load = ENV['EAGER_LOAD'].present?
+  config.eager_load = ENV["EAGER_LOAD"].present?
 
   # Asynchronous file watcher
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
@@ -80,7 +80,7 @@ Rails.application.configure do
   config.active_support.disallowed_deprecation_warnings = []
 
   # Raise an error on page load if there are pending migrations.
-  config.active_record.migration_error = :page_load
+  config.active_record.migration_error = ENV["OPENPROJECT_DISABLE__MIGRATIONS__CHECK"] == "true" ? false : :page_load
 
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
@@ -111,12 +111,12 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :letter_opener_web
 
   # Set email preview locations to rspec
-  config.action_mailer.preview_paths << Rails.root.join('spec/mailers/previews')
+  config.action_mailer.preview_paths << Rails.root.join("spec/mailers/previews")
 
-  config.hosts << 'bs-local.com' if ENV['OPENPROJECT_DISABLE_DEV_ASSET_PROXY'].present?
+  config.hosts << "bs-local.com" if ENV["OPENPROJECT_DISABLE_DEV_ASSET_PROXY"].present?
 
-  if ENV['OPENPROJECT_DEV_EXTRA_HOSTS'].present?
-    config.hosts.push(*ENV['OPENPROJECT_DEV_EXTRA_HOSTS'].split(','))
+  if ENV["OPENPROJECT_DEV_EXTRA_HOSTS"].present?
+    config.hosts.push(*ENV["OPENPROJECT_DEV_EXTRA_HOSTS"].split(","))
   end
 end
 

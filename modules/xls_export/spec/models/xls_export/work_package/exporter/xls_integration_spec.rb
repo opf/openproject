@@ -87,7 +87,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
       expect(sheet.rows[1])
         .to eq [
           nil, "Type", "ID", "Subject", "Status", "Assignee", "Priority",
-          nil, "Relation type", "Delay", "Description",
+          nil, "Relation type", "Lag", "Description",
           "Type", "ID", "Subject", "Status", "Assignee", "Priority",
           nil
         ]
@@ -134,7 +134,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
           nil, parent.type.name, parent.id.to_s, parent.subject, parent.status.name, parent.assigned_to, parent.priority.name,
           nil, "parent of", nil, nil,
           child_1.type.name, child_1.id.to_s, child_1.subject, child_1.status.name, child_1.assigned_to, child_1.priority.name
-        ] # delay nil as this is a parent-child relation not represented by an actual Relation record
+        ] # lag nil as this is a parent-child relation not represented by an actual Relation record
 
       expect(sheet.row(SINGLE))
         .to eq [

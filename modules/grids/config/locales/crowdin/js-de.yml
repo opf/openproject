@@ -8,7 +8,7 @@ de:
         text: "Einige Widgets wie das Arbeitspaket-Graphen Widget sind nur in der Enterprise Edition verfügbar."
         link: 'Enterprise Edition'
       widgets:
-        missing_permission: "You don't have the necessary permissions to view this widget."
+        missing_permission: "Sie verfügen nicht über die erforderlichen Berechtigungen, um dieses Steuerelement anzuzeigen."
         custom_text:
           title: 'Benutzerdefinierter Text'
         documents:
@@ -42,6 +42,9 @@ de:
         subprojects:
           title: 'Unterprojekte'
           no_results: 'Keine Unterprojekte.'
+        project_favorites:
+          title: 'Favorite projects'
+          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
         time_entries_current_user:
           title: 'Meine gebuchte Zeit'
           displayed_days: 'Dargestellte Tage im Widget:'

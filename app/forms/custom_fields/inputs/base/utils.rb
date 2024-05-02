@@ -60,6 +60,6 @@ module CustomFields::Inputs::Base::Utils
 
   # used within autocompleter inputs
   def append_to
-    options.fetch(:wrapper_id, 'body')
+    options.fetch(:wrapper_id, "body")
   end
 end

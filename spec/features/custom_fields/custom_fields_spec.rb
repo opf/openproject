@@ -1,7 +1,7 @@
-require 'spec_helper'
-require 'support/pages/custom_fields'
+require "spec_helper"
+require "support/pages/custom_fields"
 
-RSpec.describe 'custom fields', :js, :with_cuprite do
+RSpec.describe "custom fields", :js, :with_cuprite do
   let(:user) { create(:admin) }
   let(:cf_page) { Pages::CustomFields.new }
 
@@ -21,22 +21,22 @@ RSpec.describe 'custom fields', :js, :with_cuprite do
       expect(page).to have_text("Allow multi-select")
       check("custom_field_multi_value")
 
-      expect(page).to have_css('.custom-option-row', count: 1)
+      expect(page).to have_css(".custom-option-row", count: 1)
       within all(".custom-option-row").last do
         find(".custom-option-value input").set "Windows"
         find(".custom-option-default-value input").set true
       end
 
-      page.find_test_selector('add-custom-option').click
+      page.find_test_selector("add-custom-option").click
 
-      expect(page).to have_css('.custom-option-row', count: 2)
+      expect(page).to have_css(".custom-option-row", count: 2)
       within all(".custom-option-row").last do
         find(".custom-option-value input").set "Linux"
       end
 
-      page.find_test_selector('add-custom-option').click
+      page.find_test_selector("add-custom-option").click
 
-      expect(page).to have_css('.custom-option-row', count: 3)
+      expect(page).to have_css(".custom-option-row", count: 3)
       within all(".custom-option-row").last do
         find(".custom-option-value input").set "Solaris"
 
@@ -52,7 +52,7 @@ RSpec.describe 'custom fields', :js, :with_cuprite do
 
       expect(page).to have_field("custom_field_multi_value", checked: true)
 
-      expect(page).to have_css('.custom-option-row', count: 3)
+      expect(page).to have_css(".custom-option-row", count: 3)
       expect(page).to have_field("custom_field_custom_options_attributes_0_value", with: "Solaris")
       expect(page).to have_field("custom_field_custom_options_attributes_1_value", with: "Windows")
       expect(page).to have_field("custom_field_custom_options_attributes_2_value", with: "Linux")
@@ -70,14 +70,14 @@ RSpec.describe 'custom fields', :js, :with_cuprite do
       cf_page.set_name "Ignored"
 
       # Form element labels, default English translation in the trailing comment:
-      label_min_length = I18n.t('activerecord.attributes.custom_field.min_length') # Minimum length
-      label_max_length = I18n.t('activerecord.attributes.custom_field.max_length') # Maximum length
-      label_regexp = I18n.t('activerecord.attributes.custom_field.regexp') # Regular expression
-      label_multi_value = I18n.t('activerecord.attributes.custom_field.multi_value') # Allow multi-select
-      label_allow_non_open_versions = I18n.t('activerecord.attributes.custom_field.allow_non_open_versions') # Allow non-open versions
-      label_possible_values = I18n.t('activerecord.attributes.custom_field.possible_values').upcase # Possible values, capitalized on UI
-      label_default_value = I18n.t('activerecord.attributes.custom_field.default_value') # Default value
-      label_is_required = I18n.t('activerecord.attributes.custom_field.is_required') # Required
+      label_min_length = I18n.t("activerecord.attributes.custom_field.min_length") # Minimum length
+      label_max_length = I18n.t("activerecord.attributes.custom_field.max_length") # Maximum length
+      label_regexp = I18n.t("activerecord.attributes.custom_field.regexp") # Regular expression
+      label_multi_value = I18n.t("activerecord.attributes.custom_field.multi_value") # Allow multi-select
+      label_allow_non_open_versions = I18n.t("activerecord.attributes.custom_field.allow_non_open_versions") # Allow non-open versions
+      label_possible_values = I18n.t("activerecord.attributes.custom_field.possible_values").upcase # Possible values, capitalized on UI
+      label_default_value = I18n.t("activerecord.attributes.custom_field.default_value") # Default value
+      label_is_required = I18n.t("activerecord.attributes.custom_field.is_required") # Required
       # Spent time SFs don't show "Searchable". Not tested here.
       # Project CFs don't show "For all projects" and "Used as a filter". Not tested here.
       # Content right to left is not shown for Project CFs Long text. Strange. Not tested.
@@ -176,23 +176,23 @@ RSpec.describe 'custom fields', :js, :with_cuprite do
       click_on "Create a new custom field"
       wait_for_reload
 
-      page.within_test_selector('op-breadcrumb') do
-        expect(page).to have_css('.breadcrumb-item', text: type)
-        expect(page).to have_css('.breadcrumb-item.breadcrumb-item-selected', text: "New custom field")
+      page.within_test_selector("op-breadcrumb") do
+        expect(page).to have_css(".breadcrumb-item", text: type)
+        expect(page).to have_css(".breadcrumb-item.breadcrumb-item-selected", text: "New custom field")
       end
     end
   end
 
-  describe 'work packages' do
-    it_behaves_like "creating a new custom field", 'Work packages'
+  describe "work packages" do
+    it_behaves_like "creating a new custom field", "Work packages"
   end
 
-  describe 'time entries' do
-    it_behaves_like "creating a new custom field", 'Spent time'
+  describe "time entries" do
+    it_behaves_like "creating a new custom field", "Spent time"
   end
 
-  describe 'versions' do
-    it_behaves_like "creating a new custom field", 'Versions'
+  describe "versions" do
+    it_behaves_like "creating a new custom field", "Versions"
   end
 
   context "with an existing list custom field" do
@@ -213,18 +213,18 @@ RSpec.describe 'custom fields', :js, :with_cuprite do
     end
 
     it "adds new options" do
-      page.find_test_selector('add-custom-option').click
+      page.find_test_selector("add-custom-option").click
       wait_for_reload
 
-      expect(page).to have_css('.custom-option-row', count: 5)
+      expect(page).to have_css(".custom-option-row", count: 5)
       within all(".custom-option-row").last do
         find(".custom-option-value input").set "Sega"
       end
 
-      page.find_test_selector('add-custom-option').click
+      page.find_test_selector("add-custom-option").click
       wait_for_reload
 
-      expect(page).to have_css('.custom-option-row', count: 6)
+      expect(page).to have_css(".custom-option-row", count: 6)
       within all(".custom-option-row").last do
         find(".custom-option-value input").set "Atari"
       end
@@ -233,7 +233,7 @@ RSpec.describe 'custom fields', :js, :with_cuprite do
 
       expect(page).to have_text("Successful update")
       expect(page).to have_text("Platform")
-      expect(page).to have_css('.custom-option-row', count: 6)
+      expect(page).to have_css(".custom-option-row", count: 6)
 
       %w[Playstation Xbox Nintendo PC Sega Atari].each_with_index do |value, i|
         expect(page).to have_field("custom_field_custom_options_attributes_#{i}_value", with: value)
@@ -243,7 +243,7 @@ RSpec.describe 'custom fields', :js, :with_cuprite do
     it "updates the values and orders of the custom options" do
       expect(page).to have_text("Platform")
 
-      expect(page).to have_css('.custom-option-row', count: 4)
+      expect(page).to have_css(".custom-option-row", count: 4)
       %w[Playstation Xbox Nintendo PC].each_with_index do |value, i|
         expect(page).to have_field("custom_field_custom_options_attributes_#{i}_value", with: value)
       end
@@ -273,9 +273,9 @@ RSpec.describe 'custom fields', :js, :with_cuprite do
     end
 
     it "shows the correct breadcrumbs" do
-      page.within_test_selector('op-breadcrumb') do
-        expect(page).to have_css('.breadcrumb-item', text: "Work packages")
-        expect(page).to have_css('.breadcrumb-item.breadcrumb-item-selected', text: "Platform")
+      page.within_test_selector("op-breadcrumb") do
+        expect(page).to have_css(".breadcrumb-item", text: "Work packages")
+        expect(page).to have_css(".breadcrumb-item.breadcrumb-item-selected", text: "Platform")
       end
     end
 
@@ -292,7 +292,7 @@ RSpec.describe 'custom fields', :js, :with_cuprite do
       it "deletes a custom option and all values using it" do
         within all(".custom-option-row")[1] do
           accept_alert do
-            find('.icon-delete').click
+            find(".icon-delete").click
           end
         end
 

@@ -1,6 +1,7 @@
 <%= render(FormControl.new(input: @input, data: @wrapper_data_attributes)) do %>
   <% if decorated_select? %>
     <%= render partial: '/augmented/autocomplete_select_decoration',
+               formats: %i[html],
                locals: {
                  input_name: @autocomplete_options.fetch(:inputName) { builder.field_name(@input.name) },
                  input_id: @autocomplete_options.fetch(:inputId) { builder.field_id(@input.name) },

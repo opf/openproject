@@ -126,8 +126,19 @@ module OpenProject::Storages
              settings: {} do
       # Defines permission constraints used in the module (controller, etc.)
       # Permissions documentation: https://www.openproject.org/docs/development/concepts/permissions/#definition-of-permissions
-      project_module :storages,
-                     dependencies: :work_package_tracking do
+      # Independent of storages module (Disabling storages module does not revoke enabled permissions).
+      project_module nil, order: 100 do
+        permission :manage_storages_in_project,
+                   { "storages/admin/project_storages": %i[index members new
+                                                           edit update create oauth_access_grant
+                                                           destroy destroy_info set_permissions],
+                     "storages/project_settings/project_storage_members": %i[index] },
+                   permissible_on: :project,
+                   dependencies: %i[]
+      end
+
+      # Dependent on work_package_tracking module
+      project_module :work_package_tracking do
         permission :view_file_links,
                    {},
                    permissible_on: :project,
@@ -138,14 +149,11 @@ module OpenProject::Storages
                    permissible_on: :project,
                    dependencies: %i[view_file_links],
                    contract_actions: { file_links: %i[manage] }
-        permission :manage_storages_in_project,
-                   { 'storages/admin/project_storages': %i[index members new
-                                                           edit update create oauth_access_grant
-                                                           destroy destroy_info set_permissions],
-                     'storages/project_settings/project_storage_members': %i[index] },
-                   permissible_on: :project,
-                   dependencies: %i[]
+      end
 
+      # Dependent on storages module (Disabling storages module does revoke enabled permissions).
+      project_module :storages,
+                     dependencies: :work_package_tracking do
         OpenProject::Storages::Engine.permissions.each do |p|
           permission(p, {}, permissible_on: :project, dependencies: %i[])
         end
@@ -164,6 +172,7 @@ module OpenProject::Storages
       menu :project_menu,
            :settings_project_storages,
            { controller: "/storages/admin/project_storages", action: "index" },
+           if: lambda { |project| User.current.allowed_in_project?(:manage_storages_in_project, project) },
            caption: :project_module_storages,
            parent: :settings
 
@@ -179,14 +188,14 @@ module OpenProject::Storages
                              (prj_storage.project_folder_automatic? && !u.allowed_in_project?(:read_files, prj))
             next if hide_from_menu
 
-            icon = storage.provider_type_nextcloud? ? 'nextcloud-circle' : 'hosting'
+            icon = storage.provider_type_nextcloud? ? "nextcloud-circle" : "hosting"
             menu.push(
               :"storage_#{storage.id}",
               prj_storage.open_with_connection_ensured,
               caption: storage.name,
               before: :members,
               icon:,
-              icon_after: 'external-link',
+              icon_after: "external-link",
               skip_permissions_check: true
             )
           end
@@ -302,12 +311,12 @@ module OpenProject::Storages
 
     add_cron_jobs do
       {
-        'Storages::CleanupUncontaineredFileLinksJob': {
+        "Storages::CleanupUncontaineredFileLinksJob": {
           cron: "06 22 * * *",
           class: ::Storages::CleanupUncontaineredFileLinksJob.name
         },
 
-        'Storages::ManageNextcloudIntegrationJob': {
+        "Storages::ManageNextcloudIntegrationJob": {
           cron: "1 * * * *",
           class: ::Storages::ManageNextcloudIntegrationJob.name
         }

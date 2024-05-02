@@ -17,7 +17,7 @@ The workflows with custom actions are an Enterprise add-on and only available fo
 
 Watch the following video to see how you can configure your custom actions:
 
-![](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Custom-Actions.mp4)
+![Video](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Custom-Actions.mp4)
 
 ## Create custom actions
 

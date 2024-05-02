@@ -11,21 +11,15 @@ release_date: 2020-03-04
 We released [OpenProject 10.4.1](https://community.openproject.org/versions/1417).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
-
-### Time entry corruption in 10.4.0 update
+## Time entry corruption in 10.4.0 update
 
 The migration scripts that ran as part of the OpenProject 10.4.0 upgrade include an unfortunate bug that leads to some installations suffering data loss. Installations, that had time entry activities enabled/disabled per project, will have all their time entries assigned to a single time entry activity.
-
-
 
 If you have updated to 10.4.0 and were using project-based time entry activities, please use the following guide to restore them:
 
 [Fixing time entries corrupted by upgrading to 10.4.0](../../../installation-and-operations/misc/time-entries-corrupted-by-10-4/).
 
-
-
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Can not delete queries on community.openproject.org \[[#32326](https://community.openproject.org/wp/32326)\]
 - Fixed: Special characters displayed as ASCII code in My Spent Time widget \[[#32328](https://community.openproject.org/wp/32328)\]
@@ -34,9 +28,8 @@ If you have updated to 10.4.0 and were using project-based time entry activities
 - Fixed: Cost control - activity types lost after upgrade to 10.4 \[[#32360](https://community.openproject.org/wp/32360)\]
 - Fixed: Unexpected submit when using IME \[[#32423](https://community.openproject.org/wp/32423)\]
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
-
 Special thanks for reporting and finding bugs go to
-
 Freddy Trotin, Harald Holzmann, Wojciech Niziński, Kanta Ebihara

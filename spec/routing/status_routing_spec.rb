@@ -48,13 +48,4 @@ RSpec.describe StatusesController do
   describe "delete" do
     it { expect(delete("/statuses/123")).to route_to(controller: "statuses", action: "destroy", id: "123") }
   end
-
-  describe "update_work_package_done_ratio" do
-    it do
-      expect(post("/statuses/update_work_package_done_ratio")).to route_to(
-        controller: "statuses",
-        action: "update_work_package_done_ratio"
-      )
-    end
-  end
 end

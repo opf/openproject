@@ -348,11 +348,11 @@ hu:
           learn_about: "Tudjon meg többet az új funkciókról"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_0":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -378,6 +378,7 @@ hu:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "nappal ezelőtt"
     label_all: "mind"
+    label_all_uppercase: "All"
     label_all_work_packages: "minden feladatcsoport"
     label_and: "és"
     label_ascending: "Növekvő"
@@ -419,6 +420,7 @@ hu:
     label_expand_project_menu: "Project menü kibontása"
     label_export: "Exportálás"
     label_export_preparing: "Az exportálás előkészítés alatt áll, és hamarosan letöltésre kerül."
+    label_favorites: "Favorites"
     label_filename: "File"
     label_filesize: "Méret"
     label_general: "Általános"
@@ -643,7 +645,7 @@ hu:
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: "Új értesítések érkeztek."
-          link_text: "Kattintson ide a betöltésükhöz"
+          link_text: "Click here to load them."
       menu:
         accountable: "Felelős"
         by_project: "Olvasatlan projektenként"
@@ -925,6 +927,8 @@ hu:
       message_work_package_read_only: "Ez Feladatcsomag ebben a státuszban zárolt. Nem lehet más attribútum segítségével megváltoztatni."
       message_work_package_status_blocked: "A munkacsomag állapota nem írható, mivel a zárt állapotot és a zárt verziót hozzárendelték."
       placeholder_filter_by_text: "Tárgy, leírás, kommentek"
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Added to view within the comparison time period"
         removal_label: "Removed from view within the comparison time period"
@@ -1180,7 +1184,7 @@ hu:
         other: "%{count} ó"
         zero: "0 óra"
       day:
-        one: "%{count} nap"
+        one: "1 nap"
         other: "%{count} nap"
         zero: "0 days"
     zen_mode:
@@ -1250,7 +1254,8 @@ hu:
       role:
         label: "Szerepek a %{project}"
         no_roles_found: "Nem található szerepkör."
-        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: >-
+          This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>
         required: "Kérjük, válasszon szerepet"
         next_button: " Következő"
       message:
@@ -1266,6 +1271,9 @@ hu:
           placeholder: "A tesztfelhasználó mostantól használható a %{project}-ben. Eközben már tervezhetünk ezzel a felhasználóval, és például munkacsomagokat rendelhetünk hozzá."
           group: "A csoport mostantól a %{project} része. Eközben már tervezhet ezzel a csoporttal, és például munkacsomagokat rendelhet hozzá.\n"
         next_button: "Folytatás"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Projekteket tartalmaz"
       title: "Projektek"
@@ -1324,3 +1332,7 @@ hu:
       drop_modal:
         focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
         Close: "Bezár"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

@@ -52,16 +52,16 @@ The authentication endpoints of OpenProject OAuth2 server are:
 * Auth URL: `https://example.com/oauth/authorize`
 * Access Token URL: `https://example.com/oauth/token`
 
-## **Authorization code flow** example
+## *Authorization code flow* example
 
 ### Request authorization code
 
 Request an authorization code. Please adopt the following URL replacing:
 
- * `example.com` with the IP/host name of your OpenProject instance,
- * `<Client ID>` with your OAuth2 client ID, and
- * `<Redirect URI>` with the redirect URI as configured above.
- * You can leave the `scope` value untouched unless you are running the OpenProject BIM edition and also plan to access to the BCF version 2.1 REST API. Then simply replace `api_v3` with `api_v3%20bcf_v2_1`.
+* `example.com` with the IP/host name of your OpenProject instance,
+* `<Client ID>` with your OAuth2 client ID, and
+* `<Redirect URI>` with the redirect URI as configured above.
+* You can leave the `scope` value untouched unless you are running the OpenProject BIM edition and also plan to access to the BCF version 2.1 REST API. Then simply replace `api_v3` with `api_v3%20bcf_v2_1`.
 
 `https://example.com/oauth/authorize?response_type=code&client_id=<Client ID>&redirect_uri=<Redirect URI>&scope=api_v3&prompt=consent`
 
@@ -83,11 +83,11 @@ request an API token.
 
 We do this manually in the command line using cURL. Please replace:
 
- * `example.com` with the IP/host name of your OpenProject instance,
- * `<Client ID>` with your OAuth2 client ID,
- * `<Client secret>` with your OAuth2 client secret,
- * `<Authentication code>` with the code you obtained above,
- * and `<Redirect URI>` with the redirect URI as configured above.
+* `example.com` with the IP/host name of your OpenProject instance,
+* `<Client ID>` with your OAuth2 client ID,
+* `<Client secret>` with your OAuth2 client secret,
+* `<Authentication code>` with the code you obtained above,
+* and `<Redirect URI>` with the redirect URI as configured above.
 
 ```shell
 $ curl --request POST \
@@ -116,15 +116,14 @@ The response will look like this:
 The response contains the bearer token ("access_token") and a refresh token that you will need when working with the API.
 Please copy the tokens for reference.
 
-
 ### Perform a request to the OpenProject API with OAuth token
 
 With the token that you obtained above you can now make API calls to the OpenProject instance on behalf of the current user.
 
 For example, the following cURL command fetches all projects from the API V3. Please replace:
 
- * `example.com` with the IP/host name of your OpenProject instance, and
- * `<Token>` with the bearer token you obtained above.
+* `example.com` with the IP/host name of your OpenProject instance, and
+* `<Token>` with the bearer token you obtained above.
 
 ```shell
 $ curl --request GET 'https://example.com/api/v3/projects' \
@@ -136,7 +135,7 @@ $ curl --request GET 'https://example.com/api/v3/projects' \
 You can exercise the authentication flow above using Postman.
 Just create a new request:
 
-```
+```text
 GET {{protocolHostPort}}/api/v3/projects
 ```
 

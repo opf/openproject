@@ -28,7 +28,7 @@
 
 Rails.application.routes.draw do
   resources :projects, only: %i[] do
-    resources :meetings, only: %i[index new create]
+    resources :meetings, only: %i[index new create show]
   end
 
   resources :work_packages, only: %i[] do
@@ -57,6 +57,7 @@ Rails.application.routes.draw do
       put :update_participants
       put :change_state
       post :notify
+      get :history
     end
     resources :agenda_items, controller: 'meeting_agenda_items' do
       collection do

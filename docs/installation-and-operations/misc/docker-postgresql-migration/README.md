@@ -1,6 +1,6 @@
 # Migrating your Docker OpenProject database to PostgreSQL
 
-This guide will migrate your all-in-one docker-based MySQL installation to a PostgreSQL installation using [pgloader](https://github.com/dimitri/pgloader). 
+This guide will migrate your all-in-one docker-based MySQL installation to a PostgreSQL installation using [pgloader](https://github.com/dimitri/pgloader).
 
 ## Backing up
 
@@ -14,7 +14,7 @@ The Dockerfile comes with a built-in PostgreSQL migration script that will auto-
 
 Depending on your usage, you may want to set up an external PostgreSQL database to provide the container with connection details just like you did for MySQL.
 
-In any case, you may also use the internally configured PostgreSQL instance of the docker container by using the DATABASE_URL ` postgres://openproject:openproject@127.0.0.1/openproject`
+In any case, you may also use the internally configured PostgreSQL instance of the docker container by using the DATABASE_URL `postgres://openproject:openproject@127.0.0.1/openproject`
 
 **Installing a PostgreSQL database outside docker**
 
@@ -51,13 +51,9 @@ Lastly, exit the system user
 # You will be root again now.
 ```
 
-
-
 ### Setting environment variables
 
 To run the migration part of the image, you will have to provide two environment files:
-
-
 
 ### The MYSQL_DATABASE_URL
 
@@ -71,10 +67,7 @@ Note down or copy the current MySQL `DATABASE_URL`
 MYSQL_DATABASE_URL="mysql://user:password@localhost:3306/dbname"
 ```
 
-
-
-**Please note:** Ensure that the URL starts with `mysql://` , not with ` mysql2://` !
-
+**Please note:** Ensure that the URL starts with `mysql://` , not with `mysql2://`!
 
 ### The PostgreSQL DATABASE_URL
 
@@ -84,24 +77,20 @@ Pass in `DATABASE_URL` pointing to your new PostgreSQL database. This is either 
 POSTGRES_DATABASE_URL="postgresql://<USER>:<PASSWORD>@<HOST>/<Database name>"
 ```
 
-
 ### Adapting the hostname
 
 **Note:** Depending on your docker installation and networking, you may need to replace the hostname `localhost` in the database URLs
 with `host.docker.internal` to access the docker host. On Mac for example, localhost will refer to the docker client.
 
-
 ### Running the migration
 
 To run the migration script within the container, now simply run the following command, replacing the content of the environment variables with your actual values.
-
 
 ```shell
 docker run -it \
   -e MYSQL_DATABASE_URL="mysql://user:password@localhost:3306/dbname" \
   -e DATABASE_URL="postgresql://openproject:<PASSWORD>@localhost:5432/openproject" \
-  openproject/community:latest
+  openproject/openproject:latest
 ```
-
 
 This will perform all necessary steps to perform the migration. Afterwards, simply remove the `MYSQL_DATABASE_URL` environment variable again and start your container as usual.

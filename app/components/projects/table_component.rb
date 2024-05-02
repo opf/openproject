@@ -51,6 +51,10 @@ module Projects
       "project-table"
     end
 
+    def container_class
+      "generic-table--container_visible-overflow"
+    end
+
     ##
     # The project sort by is handled differently
     def build_sort_header(column, options)
@@ -147,6 +151,10 @@ module Projects
 
         ancestors << project
       end
+    end
+
+    def favored_project_ids
+      @favored_projects ||= Favorite.where(user: current_user, favored_type: 'Project').pluck(:favored_id)
     end
 
     def sorted_by_lft?

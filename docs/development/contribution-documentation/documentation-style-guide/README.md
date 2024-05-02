@@ -78,7 +78,7 @@ Do not include the same information in multiple places. Instead, link through to
 
 ## References across the documentation
 
-- When mentioning other OpenProject modules or features, link to their respective documentation, at least on first mention. 
+- When mentioning other OpenProject modules or features, link to their respective documentation, at least on first mention.
 
 - Please see in [links](#links) how to use links within the documentation.
 
@@ -86,7 +86,7 @@ Do not include the same information in multiple places. Instead, link through to
 
 ## Structure in documents
 
-- Structure content in tables or lists etc. in alphabetical order unless there is a reason to use any other order of importance. 
+- Structure content in tables or lists etc. in alphabetical order unless there is a reason to use any other order of importance.
 
 ## Documentation language
 
@@ -96,7 +96,7 @@ The OpenProject documentation should be as clear and easy to understand as possi
 
 - Write in US English with US grammar.  
 
-We aim to use fair language on our language and documentation and choose gender-neutral terms whenever possible. If this is not possible due to the language, e.g. German, we use : to be as inclusive as possible. Please refer to the [fair language guide](../../translate-openproject/fair-language/) for more specific instructions. 
+We aim to use fair language on our language and documentation and choose gender-neutral terms whenever possible. If this is not possible due to the language, e.g. German, we use : to be as inclusive as possible. Please refer to the [fair language guide](../../translate-openproject/fair-language/) for more specific instructions.
 
 ## Capitalization
 
@@ -131,7 +131,7 @@ Capitalize names of:
 
 Follow the capitalization style by the third party which may use non-standard case styles. For example: OpenProject, GitHub.
 
-## Placeholders 
+## Placeholders
 
 ### User information
 
@@ -205,7 +205,7 @@ Follow these steps:
 
 3. And then finish off with something else.
 
-Example for an unordered list: 
+Example for an unordered list:
 
 - Feature 1
 
@@ -256,7 +256,7 @@ instead of:
 
 - Start with an H2 (##)  and respect the order H2 > H3. Never skip the hierarchy level, such as H3 > H2. Do not go lower in the hierarchy than H3 (###).
 
-- Do not use symbols and special characters in headings. 
+- Do not use symbols and special characters in headings.
 
 - When possible, avoid including words that might change in the future. Changing a heading changes its anchor URL, which affects other pages that link to this headline.
 
@@ -290,7 +290,7 @@ Links are important in the documentation. Use links instead of duplicating conte
 
 ### Links to internal documentation
 
-Internal links are links within the OpenProject website which includes the OpenProject documentation. In these cases, use relative links. I.e. do not use the full URL of the linked page but instead show the current URL's relation to the linked page's URL. 
+Internal links are links within the OpenProject website which includes the OpenProject documentation. In these cases, use relative links. I.e. do not use the full URL of the linked page but instead show the current URL's relation to the linked page's URL.
 
 To link to internal documentation:
 
@@ -340,9 +340,9 @@ When you take screenshots:
 
 ### Highlight specific areas and add numbered labels
 
-You can highlight a specific area of a screenshot to draw the reader's attention to it. Additionally, add numbered labels to refer to specific parts of the screenshot in the documentation text. These should, however, be used sparingly, since any future changes to the interface require the highlighted areas and labels to be manually added to each updated screenshot.
+You can highlight a specific area of a screenshot to draw the reader's attention to it. Additionally, add numbered labels to refer to specific parts of the screenshot in the documentation text. These should be used sparingly since any future changes to the interface require the highlighted areas and labels to be manually added to each updated screenshot.
 
-A highlighted area should be marked with a green rectangle (2px width, *Accent/Accent* color in our design system: #308720). The size of the area will naturally depend on the size of the area you wish you highlight.
+A highlighted area should be marked with a green rectangle (3px width, *Accent/Accent* color in our design system: #308720). The size of the area will naturally depend on the size of the area you wish you highlight.
 
 ![screenshot_highlights_example](screenshot_area_highlight.png)
 
@@ -383,4 +383,3 @@ Use alert boxes to call attention to information. The alert boxes in the OpenPro
 ```markdown
 > **Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/#create-a-new-account).
 ```
-

@@ -169,6 +169,10 @@ module OpenProject
               href: "https://www.openproject.org/blog",
               label: "homescreen.links.blog"
             },
+            blog_article_progress_changes: {
+              href: "https://www.openproject.org/blog/changes-progress-work-estimates/",
+              label: "Significant changes to progress and work estimates"
+            },
             release_notes: {
               href: "https://www.openproject.org/docs/release-notes/",
               label: :label_release_notes
@@ -239,6 +243,9 @@ module OpenProject
             pricing: {
               href: "https://www.openproject.org/pricing/"
             },
+            progress_tracking_docs: {
+              href: "https://www.openproject.org/docs/user-guide/time-and-costs/progress-tracking/"
+            },
             enterprise_docs: {
               form_configuration: {
                 href: "https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on"
@@ -276,10 +283,10 @@ module OpenProject
                 href: "https://apps.nextcloud.com/apps/integration_openproject"
               },
               one_drive_oauth_application: {
-                href: 'https://portal.azure.com/'
+                href: "https://portal.azure.com/"
               },
               troubleshooting: {
-                href: 'https://www.openproject.org/docs/user-guide/file-management/nextcloud-integration/#possible-errors-and-troubleshooting'
+                href: "https://www.openproject.org/docs/user-guide/file-management/nextcloud-integration/#possible-errors-and-troubleshooting"
               }
             },
             ical_docs: {

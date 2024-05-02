@@ -16,7 +16,7 @@ ms:
           no_results: 'Tiada dokumen lagi.'
         members:
           title: 'Ahli'
-          no_results: 'Tiada ahli nyata.'
+          no_results: 'Tiada ahli dipapar.'
           view_all_members: 'Lihat semua ahli'
           add: 'Ahli'
           too_many: 'Memaparkan %{count} dari %{total} ahli.'
@@ -42,6 +42,9 @@ ms:
         subprojects:
           title: 'Subprojek'
           no_results: 'Tiada subprojek.'
+        project_favorites:
+          title: 'Favorite projects'
+          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
         time_entries_current_user:
           title: 'Masa yang saya gunakan'
           displayed_days: 'Hari yang dipaparkan dalam widget:'

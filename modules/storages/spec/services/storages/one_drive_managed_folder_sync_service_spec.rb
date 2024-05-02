@@ -145,7 +145,7 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
         scope = ->(project_storage) { Storages::LastProjectFolder.where(project_storage:).last }
 
         expect { service.call }.to not_change { scope[unmanaged_project_storage].reload.origin_folder_id }
-                                         .and(not_change { scope[inactive_project_storage].reload.origin_folder_id })
+                                     .and(not_change { scope[inactive_project_storage].reload.origin_folder_id })
 
         expect(scope[project_storage].origin_folder_id).to eq(project_storage.reload.project_folder_id)
         expect(scope[public_project_storage].origin_folder_id).to eq(public_project_storage.reload.project_folder_id)
@@ -241,13 +241,13 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
       before { allow(OpenProject.logger).to receive(:warn) }
 
       context "when reading the root folder fails" do
+        before { storage.update(drive_id: "THIS-IS-NOT-A-DRIVE-ID") }
+
         it "returns a failure in case retrieving the root list fails", vcr: "one_drive/sync_service_root_read_failure" do
-          storage.update(drive_id: "THIS-IS-NOT-A-DRIVE-ID")
           expect(service.call).to be_failure
         end
 
         it "logs the occurrence", vcr: "one_drive/sync_service_root_read_failure" do
-          storage.update(drive_id: "THIS-IS-NOT-A-DRIVE-ID")
           service.call
 
           expect(OpenProject.logger)
@@ -255,6 +255,18 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
                   .with(command: described_class,
                         message: nil,
                         data: { status: 400, body: /drive id/ })
+        end
+
+        it "does not break in case of timeout", vcr: "one_drive/sync_service_root_read_failure" do
+          stub_request_with_timeout(:get, /\/root\/children$/)
+
+          expect(service.call).to be_failure
+
+          expect(OpenProject.logger)
+            .to have_received(:warn)
+                  .with(command: described_class,
+                        message: nil,
+                        data: "timed out while waiting on select")
         end
       end
 
@@ -358,10 +370,14 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
   end
 
   def create_folder_for(project_storage, folder_override = nil)
-    folder_path = folder_override || project_storage.managed_project_folder_path
+    folder_name = folder_override || project_storage.managed_project_folder_path
+    parent_location = Storages::Peripherals::ParentFolder.new("/")
 
     Storages::Peripherals::Registry.resolve("one_drive.commands.create_folder")
-                                   .call(storage: project_storage.storage, folder_path:)
+                                   .call(storage: project_storage.storage,
+                                         auth_strategy:,
+                                         folder_name:,
+                                         parent_location:)
   end
 
   def set_permissions_on(item_id, permissions)
@@ -377,6 +393,11 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
   end
 
   def delete_folder(item_id)
-    Storages::Peripherals::Registry.resolve("one_drive.commands.delete_folder").call(storage:, location: item_id)
+    Storages::Peripherals::Registry.resolve("one_drive.commands.delete_folder")
+                                   .call(storage:, auth_strategy:, location: item_id)
+  end
+
+  def auth_strategy
+    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials.strategy
   end
 end

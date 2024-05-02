@@ -33,17 +33,21 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Util
 
   class << self
     def escape_path(path)
-      escaped_path = path.split('/').map { |i| CGI.escapeURIComponent(i) }.join('/')
-      escaped_path << '/' if path[-1] == '/'
+      escaped_path = path.split("/").map { |i| CGI.escapeURIComponent(i) }.join("/")
+      escaped_path << "/" if path[-1] == "/"
       escaped_path
     end
 
     def ocs_api_request
-      { headers: { 'OCS-APIRequest' => 'true' } }
+      { headers: { "OCS-APIRequest" => "true" } }
+    end
+
+    def accept_json
+      { headers: { "Accept" => "application/json" } }
     end
 
     def webdav_request_with_depth(number)
-      { headers: { 'Depth' => number } }
+      { headers: { "Depth" => number } }
     end
 
     def error(code, log_message = nil, data = nil)
@@ -69,14 +73,54 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Util
         end,
         on_failure: ->(_) do
           error(:unauthorized,
-                'Query could not be created! No access token found!',
+                "Query could not be created! No access token found!",
                 Storages::StorageErrorData.new(source: connection_manager))
         end
       )
     end
 
     def error_text_from_response(response)
-      Nokogiri::XML(response.body).xpath("//s:message").text
+      response.xml.xpath("//s:message").text
+    end
+
+    def origin_user_id(caller:, storage:, auth_strategy:)
+      case auth_strategy.key
+      when :basic_auth
+        ServiceResult.success(result: storage.username)
+      when :oauth_user_token
+        origin_user_id = OAuthClientToken.where(user_id: auth_strategy.user, oauth_client: storage.oauth_client)
+                                         .pick(:origin_user_id)
+        if origin_user_id.present?
+          ServiceResult.success(result: origin_user_id)
+        else
+          failure(code: :error,
+                  data: ::Storages::StorageErrorData.new(source: caller),
+                  log_message: "No origin user ID or user token found. Cannot execute query without user context.")
+        end
+      else
+        failure(code: :error,
+                data: ::Storages::StorageErrorData.new(source: caller),
+                log_message: "No authentication strategy with user context found. " \
+                             "Cannot execute query without user context.")
+      end
+    end
+
+    def error_data_from_response(caller:, response:)
+      payload =
+        case response.content_type.mime_type
+        when "application/json"
+          response.json
+        when "text/xml", "application/xml"
+          response.xml
+        else
+          response.body.to_s
+        end
+
+      ::Storages::StorageErrorData.new(source: caller, payload:)
+    end
+
+    def failure(code:, data:, log_message:)
+      ServiceResult.failure(result: code, errors: ::Storages::StorageError.new(code:, data:, log_message:))
     end
   end
 end

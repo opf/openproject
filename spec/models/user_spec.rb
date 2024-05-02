@@ -143,14 +143,14 @@ RSpec.describe User do
         end
       end
 
-      context 'with other letter char classes' do
+      context "with other letter char classes" do
         let(:login) { "célîneüberölig" }
 
-        it 'is valid' do
+        it "is valid" do
           expect(user).to be_valid
         end
 
-        it 'may be stored in the database' do
+        it "may be stored in the database" do
           expect(user.save).to be_truthy
         end
       end
@@ -303,7 +303,7 @@ RSpec.describe User do
   end
 
   describe "#name" do
-    let(:user) do
+    before do
       create(:user,
              firstname: "John",
              lastname: "Smith",
@@ -311,28 +311,56 @@ RSpec.describe User do
              mail: "user@name.org")
     end
 
-    context "for firstname_lastname", with_settings: { user_format: :firstname_lastname } do
-      it { expect(user.name).to eq "#{user.firstname} #{user.lastname}" }
+    context "when formatting according to setting" do
+      subject { user.name }
+
+      let(:user) { described_class.select_for_name.last }
+
+      context "for firstname_lastname", with_settings: { user_format: :firstname_lastname } do
+        it { is_expected.to eq "John Smith" }
+      end
+
+      context "for firstname", with_settings: { user_format: :firstname } do
+        it { is_expected.to eq "John" }
+      end
+
+      context "for lastname_firstname", with_settings: { user_format: :lastname_firstname } do
+        it { is_expected.to eq "Smith John" }
+      end
+
+      context "for lastname_n_firstname", with_settings: { user_format: :lastname_n_firstname } do
+        it { is_expected.to eq "SmithJohn" }
+      end
+
+      context "for lastname_coma_firstname", with_settings: { user_format: :lastname_coma_firstname } do
+        it { is_expected.to eq "Smith, John" }
+      end
+
+      context "for username", with_settings: { user_format: :username } do
+        it { is_expected.to eq "username" }
+      end
+
+      context "for nil", with_settings: { user_format: nil } do
+        it { is_expected.to eq "John Smith" }
+      end
     end
 
-    context "for firstname", with_settings: { user_format: :firstname } do
-      it { expect(user.name).to eq user.firstname }
-    end
+    context "when specifying format explicitly" do
+      subject { user.name(formatter) }
 
-    context "for lastname_firstname", with_settings: { user_format: :lastname_firstname } do
-      it { expect(user.name).to eq "#{user.lastname} #{user.firstname}" }
-    end
+      let(:user) { described_class.select_for_name(formatter).last }
 
-    context "for lastname_n_firstname", with_settings: { user_format: :lastname_n_firstname } do
-      it { expect(user.name).to eq "#{user.lastname}#{user.firstname}" }
-    end
+      context "for lastname_coma_firstname" do
+        let(:formatter) { :lastname_coma_firstname }
 
-    context "for lastname_coma_firstname", with_settings: { user_format: :lastname_coma_firstname } do
-      it { expect(user.name).to eq "#{user.lastname}, #{user.firstname}" }
-    end
+        it { is_expected.to eq "Smith, John" }
+      end
 
-    context "for username", with_settings: { user_format: :username } do
-      it { expect(user.name).to eq user.login }
+      context "for username", with_settings: { user_format: :username } do
+        let(:formatter) { :username }
+
+        it { is_expected.to eq "username" }
+      end
     end
   end
 

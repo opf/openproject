@@ -16,8 +16,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 **Centos 7 support**
 This version restores support for OpenProject packages on centos 7. A PostgreSQL bump has caused incompatibility issues with the centos7 versions that are shipped and extra effort was needed to provide compatible newer dev headers.
 
-<!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Removal of the new SPOT buttons because of consistency \[[#42251](https://community.openproject.org/wp/42251)\]
 - Fixed: Incorrect project assignment in the team planner \[[#42271](https://community.openproject.org/wp/42271)\]
@@ -30,7 +29,8 @@ This version restores support for OpenProject packages on centos 7. A PostgreSQL
 - Fixed: LDAP user synchronization - administrator  flag is overwritten  \[[#42396](https://community.openproject.org/wp/42396)\]
 - Fixed: Project filter is not applied in embedded table \[[#42397](https://community.openproject.org/wp/42397)\]
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

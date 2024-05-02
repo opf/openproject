@@ -347,11 +347,11 @@ ro:
           learn_about: "Aflați mai multe despre noile caracteristici"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_0":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -377,6 +377,7 @@ ro:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "zile în urmă"
     label_all: "toate"
+    label_all_uppercase: "All"
     label_all_work_packages: "toate pachetele de lucru"
     label_and: "și"
     label_ascending: "Crescător"
@@ -418,6 +419,7 @@ ro:
     label_expand_project_menu: "Deschideți meniul proiectului"
     label_export: "Exportare"
     label_export_preparing: "Exportul este în curs de pregătire și va fi descărcat în curând."
+    label_favorites: "Favorites"
     label_filename: "Fișier"
     label_filesize: "Dimensiune"
     label_general: "General"
@@ -643,7 +645,7 @@ ro:
           no_selection: "Faceți clic pe o notificare pentru a vizualiza toate detaliile activității."
         new_notifications:
           message: "Există notificări noi."
-          link_text: "Click aici pentru a le încărca"
+          link_text: "Click here to load them."
       menu:
         accountable: "Responsabil"
         by_project: "Necitit după proiect"
@@ -925,6 +927,8 @@ ro:
       message_work_package_read_only: "Pachetul de lucru este blocat în acest statut. Niciun alt atribut în afară de status nu poate fi modificat."
       message_work_package_status_blocked: "Starea pachetului de lucru nu poate fi scrisă din cauza statutului închis și a versiunii închise care au fost atribuite."
       placeholder_filter_by_text: "Subiect, descriere, comentarii, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Added to view within the comparison time period"
         removal_label: "Removed from view within the comparison time period"
@@ -1252,7 +1256,8 @@ ro:
       role:
         label: "Rolul în %{project}"
         no_roles_found: "Nu au fost găsite roluri"
-        description: 'This is the role that the user will receive when they join your project. Rolul definește acțiunile pe care utilizatorul are voie să le întreprindă și informațiile pe care le poate vedea. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Aflați mai multe despre roluri și permisiuni. </a>'
+        description: >-
+          This is the role that the user will receive when they join your project. Rolul definește acțiunile pe care utilizatorul are voie să le întreprindă și informațiile pe care le poate vedea. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Aflați mai multe despre roluri și permisiuni. </a>
         required: "Vă rugăm să selectați un rol"
         next_button: "Înainte"
       message:
@@ -1268,6 +1273,9 @@ ro:
           placeholder: "Marca de poziție poate fi utilizată acum în %{project}. Între timp, puteți deja să planificați cu acel utilizator și să atribuiți pachete de lucru, de exemplu."
           group: "Grupul este acum o parte din %{project}. Între timp, puteți deja să planificați cu acest grup și să atribuiți pachete de lucru, de exemplu."
         next_button: "Continuaţi"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Includeți proiecte"
       title: "Proiecte"
@@ -1326,3 +1334,7 @@ ro:
       drop_modal:
         focus_grab: "Aceasta este o ancoră de focalizare pentru modalități. Apăsați shift+tab pentru a reveni la elementul de declanșare modal."
         Close: "Închide"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

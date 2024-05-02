@@ -258,6 +258,7 @@ id:
     lists:
       active: "Active projects"
       my: "My projects"
+      favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -277,6 +278,17 @@ id:
         no_results_content_text: Create a new work package category
       custom_fields:
         no_results_title_text: There are currently no custom fields available.
+      project_custom_fields:
+        header:
+          title: "Project attributes"
+          description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
+        filter:
+          label: "Search project attribute"
+        actions:
+          label_enable_single: "Active in this project, click to disable"
+          label_disable_single: "Inactive in this project, click to enable"
+          label_enable_all: "Enable all"
+          label_disable_all: "Disable all"
       types:
         no_results_title_text: There are currently no types available.
         form:
@@ -294,7 +306,6 @@ id:
       no_results_content_text: Add a member to the project
     invite_by_mail: "Kirim undangan ke %{mail}"
     send_invite_to: "Send invite to"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     columns:
       shared: "Shared"
     filters:
@@ -306,6 +317,42 @@ id:
       project_roles: "Project roles"
       wp_shares: "Work package shares"
       groups: "Groups"
+    delete_member_dialog:
+      title: "Remove member"
+      will_remove_the_users_role: "This will remove the user’s role from this project."
+      will_remove_the_groups_role: "This will remove the group role from this project."
+      however_work_packages_shared_with_user_html:
+        other: "However, %{shared_work_packages_link} have also been shared with this user."
+      however_work_packages_shared_with_group_html:
+        other: "However, %{shared_work_packages_link} have also been shared with this group."
+      remove_work_packages_shared_with_user_too: "A user that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
+      remove_work_packages_shared_with_group_too: "A group that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
+      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
+      can_remove_direct_but_not_shared_roles: "You can remove this user as a direct project member but a group they are in is also a member of this project, so they will continue being a member via the group."
+      also_work_packages_shared_with_user_html:
+        other: "Also, %{shared_work_packages_link} have been shared with this user."
+      remove_project_membership_or_work_package_shares_too: "Do you want to remove just the user as a direct member (and keep the shares) or remove the work package shares too?"
+      will_remove_all_user_access_priveleges: "Deleting this member will remove all access privileges of the user to the project. The user will still exist as part of the instance."
+      will_remove_all_group_access_priveleges: "Deleting this member will remove all access privileges of the group to the project. The group will still exist as part of the instance."
+      cannot_delete_inherited_membership: "You cannot delete this member because they belong to a group that is itself a member of this project."
+      cannot_delete_inherited_membership_note_admin_html: "You can either remove the group as a member of the project or this specific member from the group in the %{administration_settings_link}."
+      cannot_delete_inherited_membership_note_non_admin: "You can either remove the group as a member of the project or contact your administrator to remove this specific member from the group."
+    delete_work_package_shares_dialog:
+      title: "Revoke work package shares"
+      shared_with_this_user_html:
+        other: "%{all_shared_work_packages_link} have been shared with this user."
+      shared_with_this_group_html:
+        other: "%{all_shared_work_packages_link} have been shared with this group."
+      shared_with_permission_html:
+        other: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
+      revoke_all_or_with_role: "Would you like to revoke access to all shared work packages, or only those with %{shared_role_name} permissions?"
+      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
+      cannot_remove_inherited: "The work packages shares shared via groups cannot be removed."
+      cannot_remove_inherited_with_role: "The work packages shares with role %{shared_role_name} are shared via groups and cannot be removed."
+      cannot_remove_inherited_note_admin_html: "You can either revoke the share to the group or remove this specific member from the group in the %{administration_settings_link}."
+      cannot_remove_inherited_note_non_admin: "You can either revoke the share to the group or contact your administrator to remove this specific member from the group."
+      will_revoke_directly_granted_access: "This action will revoke their access to all of them, but the work packages shared with a group."
+      will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
       failed_to_reset_token: "Gagal untuk menset ulang akses token: %{error}"
@@ -538,7 +585,7 @@ id:
       oauth_client:
         client: "Client ID"
       relation:
-        delay: "Jeda"
+        lag: "Lag"
         from: "Paket-Penugasan"
         to: "Work package terkait"
       status:
@@ -631,6 +678,8 @@ id:
         redirect_existing_links: "Redirect link"
       planning_element_type_color:
         hexcode: Kode Hexa
+      project_custom_field:
+        custom_field_section: Section
       work_package:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
@@ -931,7 +980,14 @@ id:
               only_same_project_categories_allowed: "Kategori yang dipilih harus diambil dari kategori yang berlaku pada proyek."
               does_not_exist: "Kategori yang dipilih tidak ada."
             estimated_hours:
-              only_values_greater_or_equal_zeroes_allowed: "must be >= 0."
+              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              format: "%{message}"
+            remaining_hours:
+              cant_exceed_work: "Cannot be higher than Work."
+              must_be_set_when_work_is_set: "Required when Work is set."
+              format: "%{message}"
           readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
         type:
           attributes:
@@ -1028,6 +1084,12 @@ id:
       updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "diperbarui pada %{datetime}"
       updated_on_time_entry: "logged time updated on %{datetime}"
+      deleted_on: "deleted on %{datetime}"
+      deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "Sub-Project"
       parent_no_longer: "Tidak lagi menjadi subproyek dari"
       time_entry:
@@ -1037,6 +1099,18 @@ id:
           other: "Satu\n <i>%{count} jam</i>\n\n Lainnya\n <i>%{count} jam</i>"
         updated: "diubah dari %{old_value} menjadi %{value}"
         logged_for: "Masuk untuk"
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value}"
+          added_html: "set to <i>%{value}</i>"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+        position:
+          updated: "reordered"
+        work_package:
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
       changeset: "Set perubahan"
       message: "Forum"
@@ -1134,6 +1208,7 @@ id:
       token_cooldown: Token cadangan akan valid dalam %{hours} jam.
       backup_pending: Sudah ada cadangan yang tertunda.
       limit_reached: Anda hanya dapat melakukan %{limit} pencadangan per hari.
+  button_actions: "Actions"
   button_add: "Tambah"
   button_add_comment: "Tambah komentar"
   button_add_member: Add member
@@ -1167,6 +1242,7 @@ id:
   button_edit: "Edit"
   button_edit_associated_wikipage: "Edit Wiki terkait: %{page_title}"
   button_expand_all: "Buka semua"
+  button_favorite: "Add to favorites"
   button_filter: "Filter"
   button_generate: "Generate"
   button_list: "List"
@@ -1194,6 +1270,7 @@ id:
   button_unarchive: "Batalkan arsip"
   button_uncheck_all: "Uncek semua"
   button_unlock: "Unlock"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Unwatch"
   button_update: "Update"
   button_upgrade: "Tingkatkan"
@@ -1204,6 +1281,14 @@ id:
   button_add_menu_entry: "Tambah menu item"
   button_configure_menu_entry: "Mengkonfigurasi menu item"
   button_delete_menu_entry: "Hapus menu item"
+  button_view_shared_work_packages: "View shared work packages"
+  button_manage_roles: "Manage roles"
+  button_remove_member: "Remove member"
+  button_remove_member_and_shares: "Remove member and shares"
+  button_revoke_work_package_shares: "Revoke work package shares"
+  button_revoke_access: "Revoke access"
+  button_revoke_all: "Revoke all"
+  button_revoke_only: "Revoke only %{shared_role_name}"
   consent:
     checkbox_label: Saya telah memperhatikan dan menyetujui hal di atas.
     failure_message: Persetujuan gagal, tidak bisa dilanjutkan.
@@ -1401,7 +1486,6 @@ id:
   error_pdf_export_too_many_columns: "Kolom yang dipilih utnuk ekspor PDF terlalu banyak. Mohon kurangi jumlah kolom."
   error_pdf_failed_to_export: "Ekspor PDF tidak dapat disimpan: %{error}"
   error_token_authenticity: "Tidak dapat memverifikasi token Pemalsuan Permintaan Lintas Situs. Apakah Anda mencoba mengirimkan data di beberapa browser atau tab? Harap tutup semua tab dan coba lagi."
-  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "Paket-Penugasan tidak ditemukan atau tidak termasuk dalam Project ini"
   error_must_be_project_member: "harus sbg Project Member"
   error_migrations_are_pending: "Instalasi OpenProject anda tertunda karena migrasi databse. kemungkinan anda melewatkan migrasi yang ada saat upgrade terakhir. silahkan periksa panduan upgrade untuk meng-upgrade dengan benar."
@@ -1506,8 +1590,10 @@ id:
   journals:
     changes_retracted: "Perubahan ditarik kembali."
     caused_changes:
-      default_attribute_written: "Read-only attributes written"
       dates_changed: "Dates changed"
+      default_attribute_written: "Read-only attributes written"
+      progress_mode_changed_to_status_based: "Progress calculation updated"
+      status_p_complete_changed: "Status % Complete changed"
       system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
@@ -1523,9 +1609,16 @@ id:
         dates:
           working: "%{date} sekarang berkerja"
           non_working: "%{date} sekarang tidak berkerja"
+      progress_mode_changed_to_status_based: Progress calculation mode set to status-based
+      status_p_complete_changed: >-
+        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
   links:
     configuration_guide: "Petunjuk Konfigurasi"
     get_in_touch: "Anda punya pertanyaan? Hubungi kami."
@@ -1540,6 +1633,8 @@ id:
       api_and_webhooks: "API dan webhook"
     quick_add:
       label: "Buka cepat tambah menu"
+    breadcrumb:
+      nested_element: "%{section_header}: <b>%{title}</b>"
   my_account:
     access_tokens:
       no_results:
@@ -1641,14 +1736,13 @@ id:
   label_ascending: "Askending"
   label_assigned_to_me_work_packages: "Paket-Penugasan yang saya kerjakan"
   label_associated_revisions: "Revisi terkait"
-  label_attachment_delete: "Hapus file"
-  label_attachment_new: "File baru"
-  label_attachment_plural: "File"
+  label_attachment_plural: "Attachments"
   label_attribute: "Atribut"
   label_attribute_plural: "Atribut"
   label_ldap_auth_source_new: "New LDAP connection"
   label_ldap_auth_source: "koneksi LDAP"
   label_ldap_auth_source_plural: "LDAP connections"
+  label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Otentikasi"
   label_available_global_roles: "Available global roles"
   label_available_project_forums: "Forums tersedia"
@@ -1780,7 +1874,7 @@ id:
   label_enterprise_support: "Dukungan perusahaan"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Environment"
-  label_estimates_and_time: "Perkiraan dan waktu"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "adalah"
   label_everywhere: "di mana pun"
   label_example: "Contoh"
@@ -1790,6 +1884,7 @@ id:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Impor"
   label_export_to: "Juga tersedia dalam:"
+  label_expand: "Expand"
   label_expanded_click_to_collapse: "Diperluas. Klik untuk menciutkan"
   label_f_hour: "%{value} jam"
   label_f_hour_plural: "%{value} jam"
@@ -1863,6 +1958,7 @@ id:
   label_latest_revision: "Revisi terbaru"
   label_latest_revision_plural: "Revisi terbaru"
   label_ldap_authentication: "Otentikasi LDAP"
+  label_learn_more: "Learn more"
   label_less_or_equal: "<="
   label_less_than_ago: "kemarin lusa"
   label_list: "List"
@@ -1890,6 +1986,7 @@ id:
   label_membership_plural: "Memberships"
   lable_membership_added: "Anggota ditambahkan"
   lable_membership_updated: "Anggota diperbarui"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pra-alfa"
     alpha: "alfa"
@@ -1980,7 +2077,7 @@ id:
   label_precedes: "mendahului"
   label_preferences: "Preferensi"
   label_preview: "Preview"
-  label_preview_not_available: "(Preview not available)"
+  label_preview_not_available: "Preview not available"
   label_previous: "Sebelumnya"
   label_previous_week: "Minggu sebelumnya"
   label_principal_invite_via_email: " or invite new users via email"
@@ -1988,8 +2085,10 @@ id:
   label_privacy_policy: "Data privacy and security policy"
   label_product_version: "Product version"
   label_profile: "Profil"
+  label_percent_complete: "% Complete"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Atribut proyek"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Jumlah proyek"
   label_project_copy_notifications: "Kirim email notifikasi selama meng-copy Project"
   label_project_latest: "Project terbaru"
@@ -1997,10 +2096,14 @@ id:
   label_project_hierarchy: "Hirarki proyek"
   label_project_new: "Project baru"
   label_project_plural: "Project"
+  label_project_list_plural: "Project lists"
+  label_project_attributes_plural: "Project attributes"
+  label_project_custom_field_plural: "Project attributes"
   label_project_settings: "Projek setting"
+  label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} proyek menggunakan %{storage} dari storage"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Lihat semua Project"
   label_project_show_details: "Tampilkan detail proyek"
   label_project_hide_details: "Sembunyikan detail proyek"
@@ -2020,6 +2123,7 @@ id:
   label_relation_delete: "Hapus keterkaitan"
   label_relation_new: "Keterkaitan baru"
   label_release_notes: "Release notes"
+  label_remaining_work: "Remaining work"
   label_remove_columns: "Hapus kolom terpilih"
   label_renamed: "telah diganti nama"
   label_reply_plural: "Balasan"
@@ -2098,7 +2202,6 @@ id:
   label_type_new: "Tipe baru"
   label_type_plural: "Tipe"
   label_ui: "Antarmuka user"
-  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Diperbarui %{value} yang lalu"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Diperbarui oleh %{author} %{age} yang lalu"
@@ -2153,6 +2256,7 @@ id:
   label_wiki_show_new_page_link: "Tampilkan submenu item 'Buat sub-halaman baru'"
   label_wiki_show_submenu_item: "Tampilkan sebagai submenu item "
   label_wiki_start: "Homepage"
+  label_work: "Work"
   label_work_package: "Paket-Penugasan"
   label_work_package_attachments: "Lampiran paket kerja"
   label_work_package_category_new: "Kategori Baru"
@@ -2196,6 +2300,7 @@ id:
     other: "%{count} files"
     zero: "no files"
   label_yesterday: "kemarin"
+  label_zen_mode: "Zen mode"
   label_role_type: "Mengetik"
   label_member_role: "Project role"
   label_global_role: "Global role"
@@ -2268,6 +2373,35 @@ id:
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} shared a work package with the group %{group} you are a member of"
+    storages:
+      health:
+        plaintext:
+          storage: "Storage"
+          healthy:
+            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
+            error-solved-on: "Solved On"
+            recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
+            details: "For more details or to make any necessary amendments, you can visit your storage configuration"
+          unhealthy:
+            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
+            error-details: "Error Details"
+            error-message: "Error Message"
+            error-occurred-on: "Occurred On"
+            recommendation: "We recommend heading over to the storage configuration page to address this issue"
+            unsubscribe: "If you would no longer like to receive these notifications, you can unsubscribe at any time. To unsubscribe, please follow the instructions on this page"
+        email_notification_settings: "Storage email notification settings"
+        see_storage_settings: "See storage settings"
+        healthy:
+          subject: "Storage \"%{name}\" is now healthy!"
+          solved_at: "solved at"
+          summary: "The problem with your %{storage_name} storage integration is now solved"
+        unhealthy:
+          subject: "Storage \"%{name}\" is unhealthy!"
+          since: "since"
+          summary: "There is a problem with your %{storage_name} storage integration"
+          troubleshooting:
+            text: "For more information, check file storages"
+            link_text: "troubleshooting documentation"
   mail_body_account_activation_request: "User (%{value}) telah terdaftar. Akun Anda menunggu persetujuan Anda:"
   mail_body_account_information: "Info akun Anda"
   mail_body_account_information_external: "Anda dapat gunakan akun %{value} untuk login."
@@ -2373,7 +2507,6 @@ id:
   notice_file_not_found: "Halaman yang Anda akses sudah dihapus atau dipindahkan."
   notice_forced_logout: "Anda secara otomatis telah Logout setelah %{ttl_time} menit tanpa aktivitas."
   notice_internal_server_error: "Error pada halaman yang Anda akses. Jika Anda tetap mengalami masalah hubungi administrator %{app_title} untuk bantuan."
-  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "Informasi telah diperbarui oleh setidaknya satu user lain."
   notice_locking_conflict_additional_information: "Diupdate oleh %{users}."
   notice_locking_conflict_reload_page: "Silahkan reload halaman, tinjau perubahan dan reapply."
@@ -2496,6 +2629,7 @@ id:
   permission_save_queries: "Simpan tampilan"
   permission_search_project: "Search project"
   permission_select_custom_fields: "Pilih bidang khusus"
+  permission_select_project_custom_fields: "Select project attributes"
   permission_select_project_modules: "Pilih modul Project"
   permission_share_work_packages: "Share work packages"
   permission_manage_types: "Pilih Tipe"
@@ -2544,6 +2678,10 @@ id:
     archive:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
       archived: "Diarsipkan"
+    count:
+      zero: "0 Projects"
+      one: "1 Project"
+      other: "%{count} Projects"
   project_module_activity: "Activity"
   project_module_forums: "Forum"
   project_module_work_package_tracking: "Paket-Penugasan"
@@ -2681,7 +2819,7 @@ id:
     Jika CORS diaktifkan, ini adalah asal yang diizinkan untuk mengakses OpenProject API. <br/> Harap periksa <a href="%{origin_link}" target="_blank">Dokumentasi pada header Asal</a> tentang cara menentukan nilai yang diharapkan.
   setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
   setting_apiv3_write_readonly_attributes_instructions_html: >
-    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and author. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Ukuran halaman API maksimum"
   setting_apiv3_max_page_instructions_html: >
     Tetapkan ukuran halaman maksimum yang akan ditanggapi oleh API. Tidak mungkin melakukan permintaan API yang mengembalikan lebih banyak nilai pada satu halaman. <br/> <strong>Peringatan:</strong> Ubah nilai ini hanya jika Anda yakin mengapa Anda membutuhkannya. Menyetel ke nilai tinggi akan menghasilkan dampak kinerja yang signifikan, sedangkan nilai yang lebih rendah dari opsi per halaman akan menyebabkan kesalahan dalam tampilan paginasi.
@@ -2744,10 +2882,11 @@ id:
   setting_file_max_size_displayed: "Ukuran maks. file teks yang ditampilkan inline"
   setting_host_name: "Nama host"
   setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Calculate work package % Complete with"
-  setting_work_package_done_ratio_field: "The work package field"
-  setting_work_package_done_ratio_status: "The work package status"
-  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
+  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_explanation_html: >
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Properti Paket-Penugasan"
   setting_work_package_startdate_is_adddate: "Gunakan tanggal sekarang untuk start Paket-Penugasan"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
@@ -2813,7 +2952,7 @@ id:
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
@@ -2852,6 +2991,20 @@ id:
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     other: "Lainnya"
     passwords: "Password"
+    project_attributes:
+      heading: "Project attributes"
+      label_new_attribute: "Project attribute"
+      label_new_section: "Section"
+      label_edit_section: "Edit title"
+      label_section_actions: "Section actions"
+      heading_description: "These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level."
+      label_project_custom_field_actions: "Project attribute actions"
+      label_no_project_custom_fields: "No project attributes defined in this section"
+      edit:
+        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
+      new:
+        heading: "New attribute"
+        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
@@ -2884,6 +3037,7 @@ id:
   text_are_you_sure: "Anda yakin?"
   text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Hapus Paket-Penugasan dan semua paket turunannya?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Tetapkan untuk Project"
   text_form_configuration: >
     Anda dapat mengkustom field-field mana yang akan ditampilkan dalam form paket kerja. Anda dapat dengan bebas mengelompokkan field-field untuk mencerminkan kebutuhan-kebutuhan untuk domain Anda.
@@ -3105,6 +3259,12 @@ id:
     destroy:
       info: "Deleting the work package is an irreversible action."
       title: "Delete the work package"
+    progress:
+      label_note: "Note:"
+      modal:
+        work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
+        status_based_help_text: "% Complete is set by work package status."
+        migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
     sharing:
       count:
         zero: "0 users"
@@ -3213,9 +3373,7 @@ id:
         unsupported_context: "The resource given is not supported as context."
         context_object_not_found: "Cannot find the resource given as the context."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Tanggal selesai tidak dapat diatur pada paket pekerjaan induk."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Pilihan pengguna tidak diperbolehkan untuk menjadi '%{property}' untuk paket pekerjaan ini."
         start_date: "Start date cannot be set on parent work packages."
       eprops:
@@ -3327,7 +3485,7 @@ id:
       label_request_token: "Minta token"
       label_refresh_token: "Segarkan token"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 mengembalikan kesalahan"
+      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
       oauth_reported: "Penyedia OAuth2 dilaporkan"
       oauth_returned_error: "OAuth2 mengembalikan kesalahan"
       oauth_returned_json_error: "OAuth2 mengembalikan kesalahan JSON"
@@ -3367,7 +3525,7 @@ id:
   link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"

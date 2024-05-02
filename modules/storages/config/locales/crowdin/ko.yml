@@ -39,14 +39,15 @@ ko:
   api_v3:
     errors:
       too_many_elements_created_at_once: 한 번에 너무 많은 요소가 생성되었습니다. 최대 개수는 %{max}개이지만 %{actual}개가 있습니다.
-  permission_create_files: 파일 만들기
-  permission_delete_files: 파일 삭제
+  permission_create_files: '외부 저장소: 파일 만들기'
+  permission_delete_files: '외부 저장소: 파일 삭제'
+  permission_header_for_project_module_storages: Automatically managed project folders
   permission_manage_file_links: 파일 링크 관리
   permission_manage_storages_in_project: 프로젝트의 파일 저장소 관리
-  permission_read_files: 파일 읽기
-  permission_share_files: 파일 공유
+  permission_read_files: '외부 저장소: 파일 읽기'
+  permission_share_files: '외부 저장소: 파일 공유'
   permission_view_file_links: 파일 링크 보기
-  permission_write_files: 파일 쓰기
+  permission_write_files: '외부 저장소: 파일 쓰기'
   project_module_storages: 파일 저장소
   storages:
     buttons:
@@ -77,6 +78,15 @@ ko:
       storage_delete_result_3: 이 저장소에 자동으로 관리되는 프로젝트 폴더가 있는 경우 이 폴더와 포함된 해당 파일이 영구적으로 삭제됩니다.
     error_invalid_provider_type: 유효한 저장소 공급자를 선택하세요.
     file_storage_view:
+      access_management:
+        automatic_management: 자동으로 관리되는 액세스 및 폴더
+        automatic_management_description: OpenProject가 프로젝트별 폴더를 자동으로 생성하고 해당 사용자 액세스를 관리하도록 하세요. 각 팀원이 항상 올바른 액세스 권한을 갖도록 보장하므로 권장됩니다.
+        description: 사용자 액세스 및 폴더 생성의 관리 유형을 선택하세요. 보다 체계적인 구조를 갖추고 모든 관련 사용자에게 액세스를 보장하려면 자동으로 관리되는 액세스를 사용하는 것이 좋습니다.
+        manual_management: 수동으로 관리되는 액세스 및 폴더
+        manual_management_description: 프로젝트별 폴더를 직접 수동으로 만들고 관리하세요. 관련 사용자에게 액세스 권한이 있는지 수동으로 확인해야 합니다.
+        setup_incomplete: 사용자 액세스 및 폴더 생성의 관리 유형을 선택합니다.
+        subtitle: 액세스 관리
+        title: 액세스 및 프로젝트 폴더
       automatically_managed_folders: 자동으로 관리되는 폴더
       general_information: 일반 정보
       nextcloud_oauth: Nextcloud OAuth
@@ -94,6 +104,13 @@ ko:
       since: '%{datetime} 이후'
       subtitle: 자동으로 관리되는 프로젝트 폴더
       title: 상태
+    health_email_notifications:
+      description_subscribed: 모든 관리자는 이 저장소의 상태 이메일 알림을 받습니다.
+      description_unsubscribed: 이 저장소에 대한 상태 이메일 알림이 모든 관리자에 대해 꺼져 있습니다.
+      error_could_not_be_saved: 이메일 알림 설정을 저장하지 못했습니다. 다시 시도해 주세요.
+      subscribe: 구독
+      title: 이메일 알림
+      unsubscribe: 구독 취소
     help_texts:
       project_folder: 프로젝트 폴더는 이 프로젝트에 대한 파일 업로드의 기본 폴더입니다. 사용자는 다른 위치에 파일을 계속 업로드할 수 있습니다.
     instructions:
@@ -143,6 +160,7 @@ ko:
     label_creator: 생성자
     label_delete_storage: 저장소 삭제
     label_edit_storage: 저장소 편집
+    label_edit_storage_access_management: 저장소 액세스 관리 편집
     label_edit_storage_automatically_managed_folders: 저장소 자동 관리 폴더 편집
     label_edit_storage_host: 저장소 호스트 편집
     label_existing_manual_folder: 수동으로 관리되는 권한이 있는 기존 폴더
@@ -198,11 +216,6 @@ ko:
         delete: 파일 저장소 삭제
         subtitle: 작업 패키지의 파일을 업로드하고, 링크하고, 관리하려면 외부 파일 저장소를 추가하세요.
       managed_project_folders:
-        one_drive_information: |-
-          OneDrive/SharePoint에서 자동으로 관리되는 프로젝트 폴더를 활성화하려면, 이 파일 저장소에 사용되는
-          드라이브에서 추가 구성이 필요합니다. OpenProject가 이 드라이브의 권한을 관리하는 경우,
-          SharePoint의 다른 사용 사례에는 사용하지 못할 가능성이 높습니다. 자세한 정보와 지침은
-          %{drive_id_link_text} 내용을 참조하세요.
         subtitle: |-
           OpenProject가 프로젝트별 폴더를 자동으로 생성하도록 합니다. 각 팀원이 항상 올바른 액세스 권한을 갖도록 보장하므로 권장됩니다.
         subtitle_short: OpenProject가 프로젝트별 폴더를 자동으로 생성하도록 하세요.
@@ -216,6 +229,7 @@ ko:
       project_storage_members:
         subtitle: 모든 프로젝트 멤버의 저장소 %{storage_name_link}에 대한 연결 상태를 확인하세요.
         title: 멤버 연결 상태
+    permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
     provider_types:
       label: 공급자 유형
       nextcloud:

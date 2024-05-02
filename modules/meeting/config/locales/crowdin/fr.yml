@@ -40,13 +40,14 @@ fr:
         participants_invited: "Invités"
         project: "Projet"
         start_date: "Date"
-        start_time: "Heure "
+        start_time: "Heure de début"
         start_time_hour: "Heure de début"
-      meeting_agenda_items:
+      meeting_agenda_item:
         title: "Titre"
-        author: "Responsable"
-        duration_in_minutes: "Durée (min)"
+        author: "Auteur"
+        duration_in_minutes: "min"
         description: "Notes"
+        presenter: "Responsable"
     errors:
       messages:
         invalid_time_format: "n’est pas une heure valide. Format requis : HH:MM"
@@ -95,8 +96,12 @@ fr:
   label_time_zone: "Fuseau horaire"
   label_start_date: "Date de début"
   meeting:
+    attachments:
+      text: "Les fichiers joints sont accessibles à tous les participants à la réunion. Vous pouvez également les glisser-déposer dans les notes relatives aux points de l'ordre du jour."
     copy:
-      title: "Copier la réunion %{title}"
+      title: "Copy meeting: %{title}"
+      attachments: "Copier les fichiers"
+      attachments_text: "Copiez tous les fichiers joints dans la nouvelle réunion."
       agenda: "Copier l'ordre du jour"
       agenda_text: "Copier l'ordre du jour de l'ancienne réunion"
     email:
@@ -111,11 +116,11 @@ fr:
         new_date_time: "Nouvelle date/heure"
     label_mail_all_participants: "Envoyer un mail à tous les participants"
     types:
-      classic: 'Classique'
-      classic_text: 'Organisez votre réunion sous la forme d''un ordre du jour et d''un protocole en texte formatable.'
-      structured: 'Dynamique'
-      structured_text: 'Organisez votre réunion sous la forme d''une liste de points à l''ordre du jour, en les reliant éventuellement à des lots de travaux.'
-      structured_text_copy: 'Actuellement, la copie d''une réunion n''entraîne pas la copie des points de l''ordre du jour de la réunion, mais uniquement des détails.'
+      classic: "Classique"
+      classic_text: "Organisez votre réunion sous la forme d'un ordre du jour et d'un protocole en texte formatable."
+      structured: "Dynamique"
+      structured_text: "Organisez votre réunion sous la forme d'une liste de points à l'ordre du jour, en les reliant éventuellement à des lots de travaux."
+      structured_text_copy: "Actuellement, la copie d'une réunion n'entraîne pas la copie des points de l'ordre du jour de la réunion, mais uniquement des détails."
     copied: "Copié depuis la réunion #%{id}"
   notice_successful_notification: "Notification envoyée avec succès"
   notice_timezone_missing: Aucun fuseau horaire n'est défini et %{zone} est supposé. Pour choisir votre fuseau horaire, veuillez cliquer ici.
@@ -143,13 +148,16 @@ fr:
   text_notificiation_invited: "Cet e-mail contient une entrée ics pour la réunion ci-dessous :"
   text_meeting_empty_heading: "Votre réunion est vide"
   text_meeting_empty_description_1: "Démarrez en ajoutant des points à l'ordre du jour ci-dessous. Chaque élément peut être aussi simple qu'un titre, mais vous pouvez également ajouter des détails supplémentaires comme la durée et des notes."
-  text_meeting_empty_description_2: "Vous pouvez également ajouter des références aux lots de travaux existants. Les notes connexes seront automatiquement visibles dans l'onglet \"Réunions\" du lot de travaux concerné."
+  text_meeting_empty_description_2: 'Vous pouvez également ajouter des références aux lots de travaux existants. Les notes connexes seront automatiquement visibles dans l''onglet "Réunions" du lot de travaux concerné.'
   label_meeting_empty_action: "Ajouter un point d'ordre du jour"
   label_meeting_actions: "Actions pour la réunion"
   label_meeting_edit_title: "Modifier le titre de la réunion"
   label_meeting_delete: "Supprimer la réunion"
   label_meeting_created_by: "Créé par"
   label_meeting_last_updated: "Dernière mise à jour"
+  label_agenda_items: "Points de l'ordre du jour"
+  label_agenda_items_reordered: "réorganisé"
+  label_agenda_item_remove: "Supprimer de l'ordre du jour"
   label_agenda_item_undisclosed_wp: "Paquet de travail #%{id} non visible"
   label_agenda_item_deleted_wp: "Référence de lot de travaux supprimée"
   label_agenda_item_actions: "Actions des points de l'ordre du jour"
@@ -158,10 +166,18 @@ fr:
   label_agenda_item_move_up: "Monter"
   label_agenda_item_move_down: "Descendre"
   label_agenda_item_add_notes: "Ajouter des notes"
+  label_agenda_item_work_package: "Lot de travaux du point de l'ordre du jour"
+  text_agenda_item_title: 'Point de l''ordre du jour « %{title} »'
+  text_agenda_work_package_deleted: 'Point de l''ordre du jour du lot de travaux supprimé'
+  text_deleted_agenda_item: 'Point de l''ordre du jour supprimé'
+  label_initial_meeting_details: "Réunion"
   label_meeting_details: "Détails de la réunion"
   label_meeting_details_edit: "Modifier les détails de la réunion"
+  label_meeting_state: "Statut de la réunion"
   label_meeting_state_open: "Ouvert"
+  label_meeting_state_open_html: "<i>Ouvrir</i>"
   label_meeting_state_closed: "Fermé"
+  label_meeting_state_closed_html: "<i>Fermé</i>"
   label_meeting_reopen_action: "Réouvrir la réunion"
   label_meeting_close_action: "Fermer la réunion"
   text_meeting_open_description: "Cette réunion est ouverte. Vous pouvez ajouter/supprimer des points de l'ordre du jour et les modifier comme vous le souhaitez. Une fois la réunion terminée, clôturez-la pour la verrouiller."
@@ -180,5 +196,5 @@ fr:
   text_agenda_item_no_notes: "Aucune note fournie"
   text_agenda_item_not_editable_anymore: "Ce point d'ordre du jour n'est plus modifiable."
   text_work_package_has_no_upcoming_meeting_agenda_items: "Ce lot de travaux n'est pas encore inclus dans l'ordre du jour d'une prochaine réunion."
-  text_work_package_add_to_meeting_hint: "Utilisez le bouton \"Ajouter à la réunion\" pour ajouter ce lot de travaux à une réunion à venir."
+  text_work_package_add_to_meeting_hint: 'Utilisez le bouton "Ajouter à la réunion" pour ajouter ce lot de travaux à une réunion à venir.'
   text_work_package_has_no_past_meeting_agenda_items: "Ce lot de travaux n'a pas été mentionné lors d'une réunion précédente."

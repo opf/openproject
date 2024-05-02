@@ -192,7 +192,7 @@ RSpec.describe MeetingsController do
             expect(response).to render_template :new
             expect(response.body)
               .to have_css "#errorExplanation li",
-                           text: "Starting time #{I18n.t('activerecord.errors.messages.invalid_time_format')}"
+                           text: "Start time #{I18n.t('activerecord.errors.messages.invalid_time_format')}"
           end
         end
       end

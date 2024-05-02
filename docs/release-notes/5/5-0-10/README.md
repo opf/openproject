@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 5.0.10
-  sidebar_navigation:
-      title: 5.0.10
-  release_version: 5.0.10
-  release_date: 2016-01-22
+title: OpenProject 5.0.10
+sidebar_navigation:
+  title: 5.0.10
+release_version: 5.0.10
+release_date: 2016-01-22
 ---
 
 # OpenProject 5.0.10
@@ -41,8 +41,6 @@ In addition the performance when saving a work package has been improved
 ([#21757](https://community.openproject.org/work_packages/21757)).
 
 For further information on the release, please refer to the  
-[Changelog v.5.0.10](https://community.openproject.org/versions/788) 
+[Changelog v.5.0.10](https://community.openproject.org/versions/788)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v5.0.10).
-
-

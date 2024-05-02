@@ -33,10 +33,9 @@ module Admin::Settings
     before_action :require_ee
     before_action :check_clamav, only: %i[update], if: -> { scan_enabled? }
 
-    def default_breadcrumb
-      t("settings.antivirus.title")
+    def show_local_breadcrumb
+      false
     end
-
     def av_form
       selected = params.dig(:settings, :antivirus_scan_mode)&.to_sym || :disabled
 

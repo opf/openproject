@@ -1,27 +1,10 @@
 GIT
   remote: https://github.com/citizensadvice/capybara_accessible_selectors
-  revision: 755b3d9b43695aeaae7edb09a24da0e3cda97ee4
+  revision: 347bbe06cb420416855e80bb4e3a3016b2d5872c
   branch: main
   specs:
     capybara_accessible_selectors (0.11.0)
       capybara (~> 3.36)
-
-GIT
-  remote: https://github.com/crohr/turbo_tests.git
-  revision: b700cdb344e1ed8e100fd1f56525ec12fa792b45
-  ref: fix/runtime-info
-  specs:
-    turbo_tests (2.0.0)
-      bundler (>= 2.1)
-      parallel_tests (>= 3.3.0, < 5)
-      rspec (>= 3.10)
-
-GIT
-  remote: https://github.com/honestica/clamav-client.git
-  revision: 29e78ae94307cb34e79ddd29c5da79752239d8b7
-  ref: 29e78ae94307cb34e79ddd29c5da79752239d8b7
-  specs:
-    clamav-client (3.4.2)
 
 GIT
   remote: https://github.com/opf/md-to-pdf
@@ -66,6 +49,15 @@ GIT
     omniauth-openid_connect-providers (0.2.0)
       omniauth-openid-connect (>= 0.2.1)
 
+GIT
+  remote: https://github.com/opf/turbo_tests.git
+  revision: c1c4707f536a5642a168650d273d714dfb62d842
+  ref: with-patches
+  specs:
+    turbo_tests (2.2.0)
+      parallel_tests (>= 3.3.0, < 5)
+      rspec (>= 3.10)
+
 PATH
   remote: modules/auth_plugins
   specs:
@@ -82,7 +74,7 @@ PATH
   remote: modules/avatars
   specs:
     openproject-avatars (1.0.0)
-      fastimage (~> 2.2.0)
+      fastimage (~> 2.3.0)
       gravatar_image_tag (~> 1.2.0)
 
 PATH
@@ -214,7 +206,7 @@ PATH
   remote: modules/two_factor_authentication
   specs:
     openproject-two_factor_authentication (1.0.0)
-      aws-sdk-sns (~> 1.72.0)
+      aws-sdk-sns (~> 1.74.0)
       messagebird-rest (~> 1.4.2)
       rotp (~> 6.1)
       webauthn (~> 3.0)
@@ -339,7 +331,7 @@ GEM
     airbrake-ruby (6.2.2)
       rbtree3 (~> 0.6)
     android_key_attestation (0.3.0)
-    appsignal (3.6.4)
+    appsignal (3.7.1)
       rack
     ast (2.4.2)
     attr_required (1.0.2)
@@ -349,28 +341,28 @@ GEM
       activerecord (>= 4.0.0, < 7.2)
     awrence (1.2.1)
     aws-eventstream (1.3.0)
-    aws-partitions (1.901.0)
-    aws-sdk-core (3.191.5)
+    aws-partitions (1.922.0)
+    aws-sdk-core (3.194.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.8)
       jmespath (~> 1, >= 1.6.1)
-    aws-sdk-kms (1.78.0)
-      aws-sdk-core (~> 3, >= 3.191.0)
+    aws-sdk-kms (1.80.0)
+      aws-sdk-core (~> 3, >= 3.193.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.146.0)
-      aws-sdk-core (~> 3, >= 3.191.0)
+    aws-sdk-s3 (1.148.0)
+      aws-sdk-core (~> 3, >= 3.193.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.8)
-    aws-sdk-sns (1.72.0)
-      aws-sdk-core (~> 3, >= 3.191.0)
+    aws-sdk-sns (1.74.0)
+      aws-sdk-core (~> 3, >= 3.193.0)
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.8.0)
       aws-eventstream (~> 1, >= 1.0.2)
-    axe-core-api (4.8.2)
+    axe-core-api (4.9.0)
       dumb_delegator
       virtus
-    axe-core-rspec (4.8.2)
+    axe-core-rspec (4.9.0)
       axe-core-api
       dumb_delegator
       virtus
@@ -429,6 +421,7 @@ GEM
     color_conversion (0.1.1)
     colored2 (4.0.0)
     commonmarker (1.0.4)
+      rb_sys (~> 0.9)
     compare-xml (0.66)
       nokogiri (~> 1.8)
     concurrent-ruby (1.2.3)
@@ -441,8 +434,9 @@ GEM
       bigdecimal
       rexml
     crass (1.0.6)
-    css_parser (1.16.0)
+    css_parser (1.17.1)
       addressable
+    csv (3.3.0)
     cuprite (0.15)
       capybara (~> 3.0)
       ferrum (~> 0.14.0)
@@ -452,7 +446,7 @@ GEM
     date_validator (0.12.0)
       activemodel (>= 3)
       activesupport (>= 3)
-    debug (1.9.1)
+    debug (1.9.2)
       irb (~> 1.10)
       reline (>= 0.3.8)
     deckar01-task_list (2.3.4)
@@ -466,9 +460,9 @@ GEM
       representable (>= 3.1.1, < 4)
     doorkeeper (5.6.9)
       railties (>= 5)
-    dotenv (3.1.0)
-    dotenv-rails (3.1.0)
-      dotenv (= 3.1.0)
+    dotenv (3.1.1)
+    dotenv-rails (3.1.1)
+      dotenv (= 3.1.1)
       railties (>= 6.1)
     drb (2.2.1)
     dry-container (0.11.0)
@@ -513,7 +507,7 @@ GEM
     erblint-github (1.0.1)
     erubi (1.12.0)
     escape_utils (1.3.0)
-    et-orbi (1.2.9)
+    et-orbi (1.2.11)
       tzinfo
     eventmachine (1.2.7)
     eventmachine_httpserver (0.2.1)
@@ -529,7 +523,7 @@ GEM
       faraday (>= 1, < 3)
     faraday-net_http (3.1.0)
       net-http
-    fastimage (2.2.7)
+    fastimage (2.3.1)
     ferrum (0.14)
       addressable (~> 2.5)
       concurrent-ruby (~> 1.1)
@@ -556,8 +550,8 @@ GEM
     friendly_id (5.5.1)
       activerecord (>= 4.0.0)
     front_matter_parser (1.0.1)
-    fugit (1.10.1)
-      et-orbi (~> 1, >= 1.2.7)
+    fugit (1.11.0)
+      et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
     fuubar (2.5.1)
       rspec-core (~> 3.0)
@@ -585,7 +579,7 @@ GEM
       representable (~> 3.0)
       retriable (>= 2.0, < 4.a)
       rexml
-    google-apis-gmail_v1 (0.39.0)
+    google-apis-gmail_v1 (0.40.0)
       google-apis-core (>= 0.14.0, < 2.a)
     google-cloud-env (2.1.1)
       faraday (>= 1.0, < 3.a)
@@ -621,7 +615,7 @@ GEM
     http-2-next (1.0.3)
     http_parser.rb (0.6.0)
     httpclient (2.8.3)
-    httpx (1.2.3)
+    httpx (1.2.4)
       http-2-next (>= 1.0.3)
     i18n (1.14.4)
       concurrent-ruby (~> 1.0)
@@ -650,7 +644,7 @@ GEM
       reline (>= 0.4.2)
     iso8601 (0.13.0)
     jmespath (1.6.2)
-    json (2.7.1)
+    json (2.7.2)
     json-jwt (1.16.6)
       activesupport (>= 4.2)
       aes_key_wrap
@@ -658,7 +652,7 @@ GEM
       bindata
       faraday (~> 2.0)
       faraday-follow_redirects
-    json-schema (4.2.0)
+    json-schema (4.3.0)
       addressable (>= 2.8)
     json_schemer (2.2.1)
       base64
@@ -677,13 +671,14 @@ GEM
     launchy (3.0.0)
       addressable (~> 2.8)
       childprocess (~> 5.0)
-    lefthook (1.6.7)
-    letter_opener (1.0.0)
-      launchy (>= 2.0.4)
-    letter_opener_web (1.4.1)
-      actionmailer (>= 3.2)
-      letter_opener (~> 1.0)
-      railties (>= 3.2)
+    lefthook (1.6.10)
+    letter_opener (1.10.0)
+      launchy (>= 2.2, < 4)
+    letter_opener_web (2.0.0)
+      actionmailer (>= 5.2)
+      letter_opener (~> 1.7)
+      railties (>= 5.2)
+      rexml
     listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -699,7 +694,7 @@ GEM
     loofah (2.22.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
-    lookbook (2.2.2)
+    lookbook (2.3.0)
       activemodel
       css_parser
       htmlbeautifier (~> 1.3)
@@ -720,14 +715,15 @@ GEM
     markly (0.10.0)
     matrix (0.4.2)
     messagebird-rest (1.4.2)
-    meta-tags (2.20.0)
+    meta-tags (2.21.0)
       actionpack (>= 6.0.0, < 7.2)
-    method_source (1.0.0)
+    method_source (1.1.0)
     mime-types (3.5.2)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2024.0305)
     mini_magick (4.12.0)
     mini_mime (1.1.5)
+    mini_portile2 (2.8.6)
     minitest (5.22.3)
     msgpack (1.7.2)
     multi_json (1.15.0)
@@ -746,10 +742,11 @@ GEM
       net-protocol
     net-protocol (0.2.2)
       timeout
-    net-smtp (0.4.0.1)
+    net-smtp (0.5.0)
       net-protocol
-    nio4r (2.7.0)
-    nokogiri (1.16.3)
+    nio4r (2.7.1)
+    nokogiri (1.16.4)
+      mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     oj (3.16.3)
       bigdecimal (>= 3.0)
@@ -757,6 +754,7 @@ GEM
     omniauth-saml (1.10.3)
       omniauth (~> 1.3, >= 1.3.2)
       ruby-saml (~> 1.9)
+    op-clamav-client (3.4.2)
     open4 (1.3.4)
     openid_connect (2.2.1)
       activemodel
@@ -770,15 +768,15 @@ GEM
       validate_email
       validate_url
       webfinger (~> 2.0)
-    openproject-octicons (19.8.0)
-    openproject-octicons_helper (19.8.0)
+    openproject-octicons (19.10.0)
+    openproject-octicons_helper (19.10.0)
       actionview
-      openproject-octicons (= 19.8.0)
+      openproject-octicons (= 19.10.0)
       railties
-    openproject-primer_view_components (0.23.0)
+    openproject-primer_view_components (0.29.1)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
-      openproject-octicons (>= 19.8.0)
+      openproject-octicons (>= 19.9.0)
       view_component (>= 3.1, < 4.0)
     openproject-token (4.0.0)
       activemodel
@@ -791,9 +789,9 @@ GEM
       activerecord (>= 6.1)
       request_store (~> 1.4)
     parallel (1.24.0)
-    parallel_tests (4.6.0)
+    parallel_tests (4.7.1)
       parallel
-    parser (3.3.0.5)
+    parser (3.3.1.0)
       ast (~> 2.4.1)
       racc
     pdf-core (0.10.0)
@@ -832,7 +830,7 @@ GEM
       pry (>= 0.12.0)
     psych (5.1.2)
       stringio
-    public_suffix (5.0.4)
+    public_suffix (5.0.5)
     puffing-billy (4.0.0)
       addressable (~> 2.5)
       em-http-request (~> 1.1, >= 1.1.0)
@@ -914,27 +912,28 @@ GEM
       thor (~> 1.0, >= 1.2.2)
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
-    rake (13.1.0)
+    rake (13.2.1)
     rb-fsevent (0.11.2)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    rb_sys (0.9.97)
     rbtree3 (0.7.1)
     rdoc (6.6.3.1)
       psych (>= 4.0.0)
     recaptcha (5.16.0)
     redcarpet (3.6.0)
-    redis (5.1.0)
-      redis-client (>= 0.17.0)
-    redis-client (0.21.0)
+    redis (5.2.0)
+      redis-client (>= 0.22.0)
+    redis-client (0.22.1)
       connection_pool
     regexp_parser (2.9.0)
-    reline (0.4.3)
+    reline (0.5.4)
       io-console (~> 0.5)
     representable (3.2.0)
       declarative (< 0.1.0)
       trailblazer-option (>= 0.1.1, < 0.2.0)
       uber (< 0.2.0)
-    request_store (1.6.0)
+    request_store (1.7.0)
       rack (>= 1.4)
     responders (3.1.1)
       actionpack (>= 5.2)
@@ -969,7 +968,7 @@ GEM
     rspec-retry (0.6.2)
       rspec-core (> 3.3)
     rspec-support (3.13.1)
-    rubocop (1.62.1)
+    rubocop (1.63.4)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
@@ -990,23 +989,26 @@ GEM
       activesupport
       rubocop
       rubocop-rspec
-    rubocop-performance (1.20.2)
+    rubocop-performance (1.21.0)
       rubocop (>= 1.48.1, < 2.0)
-      rubocop-ast (>= 1.30.0, < 2.0)
+      rubocop-ast (>= 1.31.1, < 2.0)
     rubocop-rails (2.24.1)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
-    rubocop-rspec (2.27.1)
+    rubocop-rspec (2.29.1)
       rubocop (~> 1.40)
       rubocop-capybara (~> 2.17)
       rubocop-factory_bot (~> 2.22)
+      rubocop-rspec_rails (~> 2.28)
+    rubocop-rspec_rails (2.28.3)
+      rubocop (~> 1.40)
     ruby-duration (3.2.3)
       activesupport (>= 3.0.0)
       i18n
       iso8601
-    ruby-ole (1.2.12.2)
+    ruby-ole (1.2.13.1)
     ruby-prof (1.7.0)
     ruby-progressbar (1.13.0)
     ruby-rc4 (0.1.5)
@@ -1023,9 +1025,9 @@ GEM
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     secure_headers (6.5.0)
-    selenium-devtools (0.123.0)
+    selenium-devtools (0.124.0)
       selenium-webdriver (~> 4.2)
-    selenium-webdriver (4.18.1)
+    selenium-webdriver (4.20.1)
       base64 (~> 0.2)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
@@ -1039,18 +1041,19 @@ GEM
       faraday (>= 0.17.5, < 3.a)
       jwt (>= 1.5, < 3.0)
       multi_json (~> 1.10)
-    simpleidn (0.2.1)
+    simpleidn (0.2.2)
       unf (~> 0.1.4)
     smart_properties (1.17.0)
     spreadsheet (1.3.1)
       bigdecimal
       ruby-ole
-    spring (4.1.3)
+    spring (4.2.1)
     spring-commands-rspec (1.0.4)
       spring (>= 0.9.1)
     spring-commands-rubocop (0.4.0)
       spring (>= 1.0)
-    sprockets (3.7.2)
+    sprockets (3.7.3)
+      base64
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sprockets-rails (3.4.2)
@@ -1075,7 +1078,7 @@ GEM
     table_print (1.5.7)
     terminal-table (3.0.2)
       unicode-display_width (>= 1.1.1, < 3)
-    test-prof (1.3.2)
+    test-prof (1.3.3)
     text-hyphen (1.5.0)
     thor (1.3.1)
     thread_safe (0.3.6)
@@ -1111,7 +1114,7 @@ GEM
       activemodel (>= 3.0.0)
       public_suffix
     vcr (6.2.0)
-    view_component (3.11.0)
+    view_component (3.12.1)
       activesupport (>= 5.2.0, < 8.0)
       concurrent-ruby (~> 1.0)
       method_source (~> 1.0)
@@ -1183,13 +1186,13 @@ DEPENDENCIES
   capybara_accessible_selectors!
   carrierwave (~> 1.3.1)
   carrierwave_direct (~> 2.1.0)
-  clamav-client!
   climate_control
   closure_tree (~> 7.4.0)
   colored2
   commonmarker (~> 1.0.3)
   compare-xml (~> 0.66)
   costs!
+  csv (~> 3.3)
   cuprite (~> 0.15.0)
   daemons
   dalli (~> 3.2.0)
@@ -1233,11 +1236,11 @@ DEPENDENCIES
   letter_opener_web
   listen (~> 3.9.0)
   lograge (~> 0.14.0)
-  lookbook (~> 2.2.1)
+  lookbook (~> 2.3.0)
   mail (= 2.8.1)
   matrix (~> 0.4.2)
   md_to_pdf!
-  meta-tags (~> 2.20.0)
+  meta-tags (~> 2.21.0)
   mini_magick (~> 4.12.0)
   multi_json (~> 1.15.0)
   my_page!
@@ -1249,6 +1252,7 @@ DEPENDENCIES
   omniauth-openid-connect!
   omniauth-openid_connect-providers!
   omniauth-saml (~> 1.10.1)
+  op-clamav-client (~> 3.4)
   openproject-auth_plugins!
   openproject-auth_saml!
   openproject-avatars!
@@ -1263,10 +1267,10 @@ DEPENDENCIES
   openproject-job_status!
   openproject-ldap_groups!
   openproject-meeting!
-  openproject-octicons (~> 19.8.0)
-  openproject-octicons_helper (~> 19.8.0)
+  openproject-octicons (~> 19.10.0)
+  openproject-octicons_helper (~> 19.10.0)
   openproject-openid_connect!
-  openproject-primer_view_components (~> 0.23.0)
+  openproject-primer_view_components (~> 0.29.1)
   openproject-recaptcha!
   openproject-reporting!
   openproject-storages!
@@ -1301,8 +1305,8 @@ DEPENDENCIES
   rails-controller-testing (~> 1.0.2)
   rails-i18n (~> 7.0.0)
   rdoc (>= 2.4.2)
-  redis (~> 5.1.0)
-  request_store (~> 1.6.0)
+  redis (~> 5.2.0)
+  request_store (~> 1.7.0)
   responders (~> 3.0)
   retriable (~> 3.1.1)
   rinku (~> 2.0.4)
@@ -1323,7 +1327,7 @@ DEPENDENCIES
   sanitize (~> 6.1.0)
   secure_headers (~> 6.5.0)
   selenium-devtools
-  selenium-webdriver (~> 4.18.0)
+  selenium-webdriver (~> 4.20)
   semantic (~> 1.6.1)
   shoulda-context (~> 2.0)
   shoulda-matchers (~> 6.0)
@@ -1355,7 +1359,7 @@ DEPENDENCIES
   with_advisory_lock (~> 5.1.0)
 
 RUBY VERSION
-   ruby 3.2.3p157
+   ruby 3.3.1p55
 
 BUNDLED WITH
-   2.5.5
+   2.5.9

@@ -82,10 +82,18 @@ jobs:
         run: |
           script/i18n/fix_crowdin_pt_language_root_key
       - name: "Commit translations"
+        env:
+          BRANCH: ${{ matrix.branch }}
         run: |
           git config user.name "OpenProject Actions CI"
           git config user.email "operations+ci@openproject.com"
           echo "Updating combined translations"
           git ls-files -m -o | grep 'crowdin\/.*\.yml$' | xargs git add
           git diff --staged --name-only
-          git diff --staged --exit-code --quiet || ( git commit -m "update locales from crowdin [ci skip]" && git pull --rebase origin "$BRANCH" && git push origin "$BRANCH" )
+          if ! git diff --staged --exit-code --quiet; then
+            git commit -m "update locales from crowdin [ci skip]"
+            echo "Run git pull --rebase origin $BRANCH"
+            git pull --rebase origin "$BRANCH"
+            echo "Run git push origin $BRANCH"
+            git push origin "$BRANCH"
+          fi

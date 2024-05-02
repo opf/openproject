@@ -37,9 +37,9 @@ module API
             .mount
 
           params do
-            requires :id, desc: 'Principal ID'
+            requires :id, desc: "Principal ID"
           end
-          route_param :id, type: Integer, desc: 'Principal ID' do
+          route_param :id, type: Integer, desc: "Principal ID" do
             after_validation do
               @principal = Principal.visible.find(params[:id])
             end

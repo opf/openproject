@@ -39,14 +39,15 @@ ru:
   api_v3:
     errors:
       too_many_elements_created_at_once: Слишком много элементов, созданных сразу. Ожидалось %{max} максимум - получено %{actual}.
-  permission_create_files: Создать файлы
-  permission_delete_files: Удалить файлы
+  permission_create_files: 'External Storage: Create files'
+  permission_delete_files: 'External Storage: Delete files'
+  permission_header_for_project_module_storages: Automatically managed project folders
   permission_manage_file_links: Управление ссылками файлов
   permission_manage_storages_in_project: Управление файловыми хранилищами в проекте
-  permission_read_files: Чтение файлов
-  permission_share_files: Поделиться файлами
+  permission_read_files: 'External Storage: Read files'
+  permission_share_files: 'External Storage: Share files'
   permission_view_file_links: Просмотр ссылок на файл
-  permission_write_files: Записать файлы
+  permission_write_files: 'External Storage: Write files'
   project_module_storages: Файловые хранилища
   storages:
     buttons:
@@ -77,6 +78,15 @@ ru:
       storage_delete_result_3: В случае, если хранилище имеет автоматически управляемые папки проектов, они и содержащиеся в них файлы будут удалены навсегда.
     error_invalid_provider_type: Пожалуйста, выберите допустимого поставщика хранилища.
     file_storage_view:
+      access_management:
+        automatic_management: Automatically managed access and folders
+        automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
+        description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
+        manual_management: Manually managed access and folders
+        manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
+        setup_incomplete: Select the type of management of user access and folder creation.
+        subtitle: Access management
+        title: Access and project folders
       automatically_managed_folders: Автоматически управляемые папки
       general_information: Информация общего характера
       nextcloud_oauth: Nextcloud OAuth
@@ -92,8 +102,15 @@ ru:
       label_healthy: Здоровые
       label_pending: В ожидании
       since: с %{datetime}
-      subtitle: Автоматически управляемые папки проекта
+      subtitle: Automatically managed project folders
       title: Состояние здоровья
+    health_email_notifications:
+      description_subscribed: All administrators receive health status email notifications for this storage.
+      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
+      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
+      subscribe: Subscribe
+      title: Email notifications
+      unsubscribe: Unsubscribe
     help_texts:
       project_folder: Папка проекта является папкой по умолчанию для загрузки файлов для этого проекта. Тем не менее, пользователи по-прежнему могут загружать файлы в другие места.
     instructions:
@@ -143,6 +160,7 @@ ru:
     label_creator: Создатель
     label_delete_storage: Удалить хранилище
     label_edit_storage: Редактировать хранилище
+    label_edit_storage_access_management: Edit storage access management
     label_edit_storage_automatically_managed_folders: Редактирование хранилища автоматически управляемых папок
     label_edit_storage_host: Изменить узел хранения
     label_existing_manual_folder: Существующая папка с разрешениями, управляемыми вручную
@@ -198,8 +216,6 @@ ru:
         delete: Удалить хранилище файлов
         subtitle: Добавьте внешнее хранилище файлов для загрузки, чтобы связывать и управлять файлами в пакетах работ.
       managed_project_folders:
-        one_drive_information: |-
-          Для включения автоматического управления папками проекта в OneDrive / SharePoint, требуется дополнительная настройка на диске, используемого как хранилище файлов. Если OpenProject управляет разрешениями этого диска, он, скорее всего, будет непригоден для других случаев использования в SharePoint. Для получения дополнительной информации и рекомендаций, пожалуйста, обратитесь к %{drive_id_link_text}.
         subtitle: |-
           Разрешите OpenProject автоматическое создание папки для каждого проекта. Это гарантирует наличие прав доступа для каждого члена команды.
         subtitle_short: Позволить OpenProject создавать папки для каждого проекта автоматически.
@@ -213,6 +229,7 @@ ru:
       project_storage_members:
         subtitle: Проверьте статус подключения для хранилища %{storage_name_link} всех участников проекта.
         title: Статус подключения участников
+    permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
     provider_types:
       label: Тип поставщика
       nextcloud:

@@ -35,56 +35,72 @@ module Storages
         class FileInfoQuery
           FIELDS = %w[id name fileSystemInfo file folder size createdBy lastModifiedBy parentReference].freeze
 
-          def self.call(storage:, user:, file_id:)
-            new(storage).call(user:, file_id:)
+          def self.call(storage:, auth_strategy:, file_id:)
+            new(storage).call(auth_strategy:, file_id:)
           end
 
           def initialize(storage)
             @storage = storage
-            @delegate = Internal::DriveItemQuery.new(storage)
+            @drive_item_query = Internal::DriveItemQuery.new(storage)
+            @error_data = StorageErrorData.new(source: self.class)
           end
 
-          def call(user:, file_id:)
+          def call(auth_strategy:, file_id:)
             if file_id.nil?
               return ServiceResult.failure(
                 result: :error,
-                errors: ::Storages::StorageError.new(code: :error,
-                                                     data: StorageErrorData.new(source: self.class),
-                                                     log_message: 'File ID can not be nil')
+                errors: StorageError.new(code: :error,
+                                         data: @error_data, log_message: "File ID can not be nil")
               )
             end
 
-            Util.using_user_token(@storage, user) do |token|
-              @delegate.call(token:, drive_item_id: file_id, fields: FIELDS).map(&storage_file_infos)
+            requested_result = Authentication[auth_strategy].call(storage: @storage) do |http|
+              @drive_item_query.call(http:, drive_item_id: file_id, fields: FIELDS)
+            end
+
+            requested_result.on_success { |sr| return ServiceResult.success(result: storage_file_infos(sr.result)) }
+            requested_result.on_failure do |sr|
+              return sr unless sr.result == :not_found && auth_strategy.user.present?
+
+              return admin_query(file_id)
             end
           end
 
           private
 
-          # rubocop:disable Metrics/AbcSize
-          def storage_file_infos
-            ->(json) do
-              StorageFileInfo.new(
-                status: 'ok',
-                status_code: 200,
-                id: json[:id],
-                name: json[:name],
-                last_modified_at: Time.zone.parse(json.dig(:fileSystemInfo, :lastModifiedDateTime)),
-                created_at: Time.zone.parse(json.dig(:fileSystemInfo, :createdDateTime)),
-                mime_type: Util.mime_type(json),
-                size: json[:size],
-                owner_name: json.dig(:createdBy, :user, :displayName),
-                owner_id: json.dig(:createdBy, :user, :id),
-                trashed: false,
-                last_modified_by_name: json.dig(:lastModifiedBy, :user, :displayName),
-                last_modified_by_id: json.dig(:lastModifiedBy, :user, :id),
-                permissions: nil,
-                location: Util.extract_location(json[:parentReference], json[:name])
+          def admin_query(file_id)
+            admin_result = Authentication[userless_strategy].call(storage: @storage) do |http|
+              @drive_item_query.call(http:, drive_item_id: file_id, fields: FIELDS)
+            end
+
+            admin_result.on_success do |admin_query|
+              return ServiceResult.success(
+                result: storage_file_infos(admin_query.result, status: "forbidden", status_code: 403)
               )
             end
           end
 
-          # rubocop:enable Metrics/AbcSize
+          def userless_strategy = Registry.resolve("one_drive.authentication.userless").call
+
+          def storage_file_infos(json, status: "ok", status_code: 200)
+            StorageFileInfo.new(
+              status:,
+              status_code:,
+              id: json[:id],
+              name: json[:name],
+              mime_type: Util.mime_type(json),
+              size: json[:size],
+              owner_name: json.dig(:createdBy, :user, :displayName),
+              owner_id: json.dig(:createdBy, :user, :id),
+              trashed: false,
+              permissions: nil,
+              location: Util.extract_location(json[:parentReference], json[:name]),
+              last_modified_at: Time.zone.parse(json.dig(:fileSystemInfo, :lastModifiedDateTime)),
+              created_at: Time.zone.parse(json.dig(:fileSystemInfo, :createdDateTime)),
+              last_modified_by_name: json.dig(:lastModifiedBy, :user, :displayName),
+              last_modified_by_id: json.dig(:lastModifiedBy, :user, :id)
+            )
+          end
         end
       end
     end

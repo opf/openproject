@@ -28,8 +28,6 @@ You will be directed to -> *Administration* -> *Billing*.
 
 ![request-a-quote-cloud](request-a-quote-cloud.png)
 
-
-
 You will then be asked to provide your address details. After populating the respective fields please click on **Request a quote**.
 
 After that you will receive an **email with the quote**. The email includes a link to accept the quote. Your subscription will be updated once you accept the quote.

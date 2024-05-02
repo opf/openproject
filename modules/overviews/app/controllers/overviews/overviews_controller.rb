@@ -1,23 +1,27 @@
 module ::Overviews
   class OverviewsController < ::Grids::BaseInProjectController
     include OpTurbo::ComponentStream
+    include OpTurbo::DialogStreamHelper
 
-    before_action :authorize
     before_action :jump_to_project_menu_item
+    before_action :set_sidebar_enabled
 
     menu_item :overview
+
+    def show
+      render
+    end
 
     def project_custom_fields_sidebar
       render :project_custom_fields_sidebar, layout: false
     end
 
     def project_custom_field_section_dialog
-      render(
+      respond_with_dialog(
         ProjectCustomFields::Sections::EditDialogComponent.new(
           project: @project,
           project_custom_field_section: find_project_custom_field_section
-        ),
-        layout: false
+        )
       )
     end
 
@@ -57,9 +61,13 @@ module ::Overviews
       ProjectCustomFieldSection.find(params[:section_id])
     end
 
+    def set_sidebar_enabled
+      @sidebar_enabled = @project.project_custom_fields.visible.any?
+    end
+
     def handle_errors(project_with_errors, section)
       update_via_turbo_stream(
-        component: ProjectCustomFields::Sections::EditDialogComponent.new(
+        component: ProjectCustomFields::Sections::EditComponent.new(
           project: project_with_errors,
           project_custom_field_section: section
         )

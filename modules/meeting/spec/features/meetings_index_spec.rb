@@ -274,11 +274,11 @@ RSpec.describe "Meetings", "Index", :with_cuprite do
                                                         other_project_meeting)
         end
 
-        aggregate_failures "Sorting by Time" do
-          meetings_page.click_to_sort_by("Time")
+        aggregate_failures "Sorting by Start time" do
+          meetings_page.click_to_sort_by("Start time")
           meetings_page.expect_meetings_listed_in_order(meeting,
                                                         other_project_meeting)
-          meetings_page.click_to_sort_by("Time")
+          meetings_page.click_to_sort_by("Start time")
           meetings_page.expect_meetings_listed_in_order(other_project_meeting,
                                                         meeting)
         end
@@ -400,20 +400,20 @@ RSpec.describe "Meetings", "Index", :with_cuprite do
                                                         meeting)
         end
 
-        aggregate_failures "Sorting by Time" do
-          meetings_page.click_to_sort_by("Time")
+        aggregate_failures "Sorting by Start time" do
+          meetings_page.click_to_sort_by("Start time")
           meetings_page.expect_meetings_listed_in_order(meeting,
                                                         tomorrows_meeting)
-          meetings_page.click_to_sort_by("Time")
+          meetings_page.click_to_sort_by("Start time")
           meetings_page.expect_meetings_listed_in_order(tomorrows_meeting,
                                                         meeting)
         end
 
-        aggregate_failures "Sorting by Time" do
-          meetings_page.click_to_sort_by("Time")
+        aggregate_failures "Sorting by Start time" do
+          meetings_page.click_to_sort_by("Start time")
           meetings_page.expect_meetings_listed_in_order(meeting,
                                                         tomorrows_meeting)
-          meetings_page.click_to_sort_by("Time")
+          meetings_page.click_to_sort_by("Start time")
           meetings_page.expect_meetings_listed_in_order(tomorrows_meeting,
                                                         meeting)
         end

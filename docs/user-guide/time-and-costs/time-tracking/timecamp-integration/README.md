@@ -36,13 +36,13 @@ This integration can be added for Google Chrome as [TimeCamp extension](https://
 
 1. Create a [TimeCamp account](https://app.timecamp.com/auth/login) if you do not have one yet.
 
-2. In TimeCamp, add a new project and tasks to it if you have not got anything set up yet. 
+2. In TimeCamp, add a new project and tasks to it if you have not got anything set up yet.
 
    ![TimeCamp account with a new project which shows 2 tasks](project-with-2-tasks.png)
 
    The time tracked in OpenProject will later on appear in TimeCamp on the task that you select.
 
-3. [Log in to OpenProject](https://www.openproject.org/signin/), open a project and go to a work package. 
+3. [Log in to OpenProject](https://www.openproject.org/signin/), open a project and go to a work package.
 
    If you are already logged in, please make sure to log out and back in again so that the TimeCamp projects and tasks will appear in OpenProject.
 
@@ -50,7 +50,7 @@ This integration can be added for Google Chrome as [TimeCamp extension](https://
 
    Only in the work package form you will see the green **TimeCamp Start timer** button.
 
-4. Click on **Start timer** and select a task from your TimeCamp projects that you would want to use for tracking your time. 
+4. Click on **Start timer** and select a task from your TimeCamp projects that you would want to use for tracking your time.
 
    ![OpenProject work package detail view with drop down from start timer to select TimeCamp project and task](Start-time-in-OP.png)
 

@@ -28,10 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe 'API v3 file links resource' do
+RSpec.describe "API v3 file links resource" do
   include API::V3::Utilities::PathHelper
   include UserPermissionsHelper
 
@@ -93,8 +93,8 @@ RSpec.describe 'API v3 file links resource' do
     login_as current_user
   end
 
-  describe 'POST /api/v3/file_links' do
-    let(:path) { '/api/v3/file_links' }
+  describe "POST /api/v3/file_links" do
+    let(:path) { "/api/v3/file_links" }
     let(:params) do
       {
         _type: "Collection",
@@ -121,27 +121,27 @@ RSpec.describe 'API v3 file links resource' do
             }
           }
         },
-        build(:file_link_element, storage_url:, origin_id: '200001', origin_name: "file_name_1.txt")
+        build(:file_link_element, storage_url:, origin_id: "200001", origin_name: "file_name_1.txt")
       ]
     end
 
     before do
-      header 'Content-Type', 'application/json'
+      header "Content-Type", "application/json"
       post path, params.to_json
     end
 
-    context 'when storage has been configured' do
+    context "when storage has been configured" do
       let(:storage_url) { storage.host }
 
-      context 'when all embedded file link elements are valid' do
-        it_behaves_like 'API V3 collection response', 2, 2, 'FileLink' do
+      context "when all embedded file link elements are valid" do
+        it_behaves_like "API V3 collection response", 2, 2, "FileLink" do
           let(:elements) { Storages::FileLink.order(id: :asc) }
           let(:expected_status_code) { 201 }
         end
 
         it(
-          'creates corresponding FileLink records and ' \
-          'does not provide a link to the collection of created file links',
+          "creates corresponding FileLink records and " \
+          "does not provide a link to the collection of created file links",
           :aggregate_failures
         ) do
           expect(Storages::FileLink.count).to eq 2
@@ -160,16 +160,16 @@ RSpec.describe 'API v3 file links resource' do
           end
 
           expect(response.body).to be_json_eql(
-            'urn:openproject-org:api:v3:file_links:no_link_provided'.to_json
-          ).at_path('_links/self/href')
+            "urn:openproject-org:api:v3:file_links:no_link_provided".to_json
+          ).at_path("_links/self/href")
         end
       end
     end
 
-    context 'when storage with such a host does not exist in OpenProject' do
-      let(:storage_url) { 'https://qweqwe.qweqwe' }
+    context "when storage with such a host does not exist in OpenProject" do
+      let(:storage_url) { "https://qweqwe.qweqwe" }
 
-      it 'responds with an appropriate error' do
+      it "responds with an appropriate error" do
         expect(JSON.parse(response.body)).to eq(
           { "_type" => "Error",
             "errorIdentifier" => "urn:openproject-org:api:v3:errors:MultipleErrors",
@@ -189,7 +189,7 @@ RSpec.describe 'API v3 file links resource' do
     end
   end
 
-  describe 'GET /api/v3/work_packages/:work_package_id/file_links' do
+  describe "GET /api/v3/work_packages/:work_package_id/file_links" do
     let(:path) { api_v3_paths.file_links(work_package.id) }
 
     before do
@@ -199,13 +199,13 @@ RSpec.describe 'API v3 file links resource' do
       get path
     end
 
-    context 'with all preconditions met (happy path)' do
-      it_behaves_like 'API V3 collection response', 1, 1, 'FileLink', 'Collection' do
+    context "with all preconditions met (happy path)" do
+      it_behaves_like "API V3 collection response", 1, 1, "FileLink", "Collection" do
         let(:elements) { [file_link] }
       end
     end
 
-    context 'if user has not sufficient permissions' do
+    context "if user has not sufficient permissions" do
       before(:all) do
         remove_permissions(current_user, :view_file_links)
       end
@@ -214,54 +214,45 @@ RSpec.describe 'API v3 file links resource' do
         add_permissions(current_user, :view_file_links)
       end
 
-      it_behaves_like 'API V3 collection response', 0, 0, 'FileLink', 'Collection' do
+      it_behaves_like "API V3 collection response", 0, 0, "FileLink", "Collection" do
         let(:elements) { [] }
       end
     end
 
-    context 'if storages module is deactivated for the work package\'s project' do
-      before(:all) { disable_module(project, 'storages') }
-      after(:all) { enable_module(project, 'storages') }
-
-      it_behaves_like 'API V3 collection response', 0, 0, 'FileLink', 'Collection' do
-        let(:elements) { [] }
-      end
-    end
-
-    describe 'with filter by storage' do
+    describe "with filter by storage" do
       let!(:another_project_storage) { create(:project_storage, project:, storage: another_storage) }
       let(:path) { "#{api_v3_paths.file_links(work_package.id)}?filters=#{CGI.escape(filters.to_json)}" }
-      let(:filters) { [{ storage: { operator: '=', values: [storage_id] } }] }
+      let(:filters) { [{ storage: { operator: "=", values: [storage_id] } }] }
 
-      context 'if filtered by one storage' do
+      context "if filtered by one storage" do
         let(:storage_id) { storage.id }
 
-        it_behaves_like 'API V3 collection response', 1, 1, 'FileLink', 'Collection' do
+        it_behaves_like "API V3 collection response", 1, 1, "FileLink", "Collection" do
           let(:elements) { [file_link] }
         end
       end
 
-      context 'if filtered by another storage' do
+      context "if filtered by another storage" do
         let(:storage_id) { another_storage.id }
 
-        it_behaves_like 'API V3 collection response', 1, 1, 'FileLink', 'Collection' do
+        it_behaves_like "API V3 collection response", 1, 1, "FileLink", "Collection" do
           # has the now linked storage's file links
           let(:elements) { [file_link_of_another_storage] }
         end
       end
     end
 
-    context 'with bad query due to syntax error' do
-      let(:filters) { [{ storage: { operator: '#=', values: [storage.id] } }] }
+    context "with bad query due to syntax error" do
+      let(:filters) { [{ storage: { operator: "#=", values: [storage.id] } }] }
       let(:path) { "#{api_v3_paths.file_links(work_package.id)}?filters=#{CGI.escape(filters.to_json)}" }
 
-      it 'return a 400 HTTP error' do
+      it "return a 400 HTTP error" do
         expect(last_response.status).to be 400
       end
     end
   end
 
-  describe 'POST /api/v3/work_packages/:work_package_id/file_links' do
+  describe "POST /api/v3/work_packages/:work_package_id/file_links" do
     let(:path) { api_v3_paths.file_links(work_package.id) }
     let(:storage_url) { storage.host }
     let(:params) do
@@ -305,19 +296,19 @@ RSpec.describe 'API v3 file links resource' do
     end
 
     before do
-      header 'Content-Type', 'application/json'
+      header "Content-Type", "application/json"
       post path, params.to_json
     end
 
-    context 'when all embedded file link elements are valid' do
-      it_behaves_like 'API V3 collection response', 2, 2, 'FileLink' do
+    context "when all embedded file link elements are valid" do
+      it_behaves_like "API V3 collection response", 2, 2, "FileLink" do
         let(:elements) { Storages::FileLink.order(id: :asc) }
         let(:expected_status_code) { 201 }
       end
 
       it(
-        'creates corresponding FileLink records and ' \
-        'provides a link to the collection of created file links',
+        "creates corresponding FileLink records and " \
+        "provides a link to the collection of created file links",
         :aggregate_failures
       ) do
         expect(Storages::FileLink.count).to eq 2
@@ -329,11 +320,11 @@ RSpec.describe 'API v3 file links resource' do
           end
         end
 
-        expect(response.body).to be_json_eql(path.to_json).at_path('_links/self/href')
+        expect(response.body).to be_json_eql(path.to_json).at_path("_links/self/href")
       end
     end
 
-    context 'when some embedded file link elements are NOT valid' do
+    context "when some embedded file link elements are NOT valid" do
       let(:embedded_elements) do
         [
           build(:file_link_element, :invalid, storage_url:),
@@ -341,27 +332,27 @@ RSpec.describe 'API v3 file links resource' do
         ]
       end
 
-      it_behaves_like 'constraint violation' do
-        let(:message) { 'Error attempting to create dependent object: File link ' }
+      it_behaves_like "constraint violation" do
+        let(:message) { "Error attempting to create dependent object: File link " }
       end
 
-      it 'does not create any FileLink records' do
+      it "does not create any FileLink records" do
         expect(Storages::FileLink.find_by(origin_name: "the valid one")).to be_nil
         expect(Storages::FileLink.count).to eq 0
       end
     end
 
-    context 'when some file link elements with matching origin_id, container, and storage already exist in database' do
+    context "when some file link elements with matching origin_id, container, and storage already exist in database" do
       let(:existing_file_link) do
         create(:file_link,
-               origin_name: 'original name',
+               origin_name: "original name",
                creator: current_user,
                container: work_package,
                storage:)
       end
       let(:already_existing_file_link_payload) do
         build(:file_link_element,
-              origin_name: 'new name',
+              origin_name: "new name",
               origin_id: existing_file_link.origin_id,
               storage_url: existing_file_link.storage.host)
       end
@@ -375,107 +366,107 @@ RSpec.describe 'API v3 file links resource' do
         ]
       end
 
-      it_behaves_like 'API V3 collection response', 2, 2, 'FileLink' do
+      it_behaves_like "API V3 collection response", 2, 2, "FileLink" do
         let(:elements) { Storages::FileLink.order(id: :asc) }
         let(:expected_status_code) { 201 }
       end
 
       it(
-        'does not create any new FileLink records for the already existing one and' \
-        'does not update the existing FileLink metadata from the POSTed one'
+        "does not create any new FileLink records for the already existing one and" \
+        "does not update the existing FileLink metadata from the POSTed one"
       ) do
         expect(Storages::FileLink.count).to eq 2
 
-        expect(existing_file_link.reload.origin_name).to eq 'original name'
+        expect(existing_file_link.reload.origin_name).to eq "original name"
       end
     end
 
-    context 'when multiple file links elements are submitted with same origin_id, container, and storage' do
+    context "when multiple file links elements are submitted with same origin_id, container, and storage" do
       let(:some_file_link_payload) { build(:file_link_element, storage_url: storage.host) }
       let(:embedded_elements) do
         [
-          some_file_link_payload.deep_merge(originData: { name: 'first name' }),
-          some_file_link_payload.deep_merge(originData: { name: 'second name' }),
-          some_file_link_payload.deep_merge(originData: { name: 'third name' })
+          some_file_link_payload.deep_merge(originData: { name: "first name" }),
+          some_file_link_payload.deep_merge(originData: { name: "second name" }),
+          some_file_link_payload.deep_merge(originData: { name: "third name" })
         ]
       end
 
-      it_behaves_like 'API V3 collection response', 3, 3, 'FileLink' do
+      it_behaves_like "API V3 collection response", 3, 3, "FileLink" do
         let(:elements) { Storages::FileLink.order(id: :asc) }
         let(:expected_status_code) { 201 }
       end
 
       it(
-        'creates only one FileLink for all duplicates and ' \
-        'uses metadata from the first item and ' \
-        'replies with as many embedded elements as in the request, all identical'
+        "creates only one FileLink for all duplicates and " \
+        "uses metadata from the first item and " \
+        "replies with as many embedded elements as in the request, all identical"
       ) do
         expect(Storages::FileLink.count).to eq 1
 
-        expect(Storages::FileLink.first.origin_name).to eq 'first name'
+        expect(Storages::FileLink.first.origin_name).to eq "first name"
 
-        replied_elements = JSON.parse(last_response.body).dig('_embedded', 'elements')
+        replied_elements = JSON.parse(last_response.body).dig("_embedded", "elements")
         expect(replied_elements.count).to eq(embedded_elements.count)
         expect(replied_elements[1..]).to all(eq(replied_elements.first))
       end
     end
 
-    context 'when storage host is invalid' do
-      context 'when unknown host' do
-        let(:storage_url) { 'https://invalid.host.org/' }
+    context "when storage host is invalid" do
+      context "when unknown host" do
+        let(:storage_url) { "https://invalid.host.org/" }
 
-        it_behaves_like 'constraint violation' do
-          let(:message) { 'Storage does not exist' }
+        it_behaves_like "constraint violation" do
+          let(:message) { "Storage does not exist" }
         end
       end
 
-      context 'when nil' do
+      context "when nil" do
         let(:storage_url) { nil }
 
-        it_behaves_like 'constraint violation' do
+        it_behaves_like "constraint violation" do
           let(:message) { "Storage can't be blank." }
         end
       end
 
-      context 'when empty' do
+      context "when empty" do
         let(:storage_url) { "" }
 
-        it_behaves_like 'constraint violation' do
+        it_behaves_like "constraint violation" do
           let(:message) { "Storage can't be blank." }
         end
       end
 
-      context 'when not linked to the project of the work package' do
+      context "when not linked to the project of the work package" do
         let(:storage_url) { another_storage.host }
 
-        it_behaves_like 'constraint violation' do
-          let(:message) { 'Storage is not linked to project' }
+        it_behaves_like "constraint violation" do
+          let(:message) { "Storage is not linked to project" }
         end
       end
     end
 
-    context 'when no _embedded/elements in given json' do
+    context "when no _embedded/elements in given json" do
       let(:params) do
         {}
       end
 
-      it_behaves_like 'missing property', I18n.t('api_v3.errors.missing_property', property: '_embedded/elements')
+      it_behaves_like "missing property", I18n.t("api_v3.errors.missing_property", property: "_embedded/elements")
     end
 
-    context 'when _embedded/elements is empty' do
+    context "when _embedded/elements is empty" do
       let(:embedded_elements) { [] }
 
-      it_behaves_like 'missing property', I18n.t('api_v3.errors.missing_property', property: '_embedded/elements')
+      it_behaves_like "missing property", I18n.t("api_v3.errors.missing_property", property: "_embedded/elements")
     end
 
-    context 'when _embedded/elements is not an array' do
+    context "when _embedded/elements is not an array" do
       let(:embedded_elements) { 42 }
 
-      it_behaves_like 'format error',
-                      I18n.t('api_v3.errors.invalid_format',
-                             property: '_embedded/elements',
-                             expected_format: 'Array',
-                             actual: 'Integer')
+      it_behaves_like "format error",
+                      I18n.t("api_v3.errors.invalid_format",
+                             property: "_embedded/elements",
+                             expected_format: "Array",
+                             actual: "Integer")
     end
 
     context "when more than #{Storages::Peripherals::ParseCreateParamsService::MAX_ELEMENTS} embedded elements" do
@@ -483,135 +474,135 @@ RSpec.describe 'API v3 file links resource' do
       let(:too_many) { max + 1 }
       let(:embedded_elements) { build_list(:file_link_element, too_many, storage_url:) }
 
-      it_behaves_like 'constraint violation' do
+      it_behaves_like "constraint violation" do
         let(:message) { "Too many elements created at once. Expected #{max} at most, got #{too_many}." }
       end
     end
   end
 
-  describe 'GET /api/v3/file_links/:file_link_id' do
+  describe "GET /api/v3/file_links/:file_link_id" do
     let(:path) { api_v3_paths.file_link(file_link.id) }
 
     before { get path }
 
-    it 'is successful' do
+    it "is successful" do
       expect(subject.status).to be 200
     end
 
-    context 'if user has not sufficient permissions' do
+    context "if user has not sufficient permissions" do
       before(:all) { remove_permissions(current_user, :view_file_links) }
       after(:all) { add_permissions(current_user, :view_file_links) }
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
 
-    context 'if no file link with that id exists' do
+    context "if no file link with that id exists" do
       let(:path) { api_v3_paths.file_link(1337) }
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
 
-    context 'if file link is in a work package, while its project is not mapped to the file link\'s storage.' do
+    context "if file link is in a work package, while its project is not mapped to the file link's storage." do
       let(:path) { api_v3_paths.file_link(file_link_of_another_storage.id) }
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
 
-    context 'if file link is in a work package, while the storages module is deactivated in its project.' do
-      before(:all) { disable_module(project, 'storages') }
-      after(:all) { enable_module(project, 'storages') }
+    context "if file link is in a work package, while the work_package_tracking module is deactivated in its project." do
+      before(:all) { disable_module(project, "work_package_tracking") }
+      after(:all) { enable_module(project, "work_package_tracking") }
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
 
-    context 'if file link does not have a container.' do
+    context "if file link does not have a container." do
       let(:file_link) { create(:file_link) }
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
   end
 
-  describe 'DELETE /api/v3/file_links/:file_link_id' do
+  describe "DELETE /api/v3/file_links/:file_link_id" do
     let(:path) { api_v3_paths.file_link(file_link.id) }
 
     before(:all) { add_permissions(current_user, :manage_file_links) }
     after(:all) { remove_permissions(current_user, :manage_file_links) }
 
     before do
-      header 'Content-Type', 'application/json'
+      header "Content-Type", "application/json"
       delete path
     end
 
-    it 'is successful' do
+    it "is successful" do
       expect(subject.status).to be 204
       expect(Storages::FileLink.exists?(id: file_link.id)).to be false
     end
 
-    context 'if user has no view permissions' do
+    context "if user has no view permissions" do
       before(:all) { remove_permissions(current_user, :view_file_links) }
       after(:all) { add_permissions(current_user, :view_file_links) }
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
 
-    context 'if user has no manage permissions' do
+    context "if user has no manage permissions" do
       before(:all) { remove_permissions(current_user, :manage_file_links) }
       after(:all) { add_permissions(current_user, :manage_file_links) }
 
-      it_behaves_like 'unauthorized access'
+      it_behaves_like "unauthorized access"
     end
 
-    context 'if no file link with that id exists' do
+    context "if no file link with that id exists" do
       let(:path) { api_v3_paths.file_link(1337) }
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
   end
 
-  describe 'GET /api/v3/file_links/:file_link_id/open' do
+  describe "GET /api/v3/file_links/:file_link_id/open" do
     let(:path) { api_v3_paths.file_link_open(file_link.id) }
 
     before { get path }
 
-    it 'is successful' do
+    it "is successful" do
       expect(subject.status).to be 303
     end
 
-    context 'with location flag' do
+    context "with location flag" do
       let(:path) { api_v3_paths.file_link_open(file_link.id, true) }
 
-      it 'is successful' do
+      it "is successful" do
         expect(subject.status).to be 303
       end
     end
 
-    context 'if user has no view permissions' do
+    context "if user has no view permissions" do
       before(:all) { remove_permissions(current_user, :view_file_links) }
       after(:all) { add_permissions(current_user, :view_file_links) }
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
 
-    context 'if no storage with that id exists' do
+    context "if no storage with that id exists" do
       let(:path) { api_v3_paths.file_link(1337) }
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
   end
 
-  describe 'GET /api/v3/file_links/:file_link_id/download' do
+  describe "GET /api/v3/file_links/:file_link_id/download" do
     let(:path) { api_v3_paths.file_link_download(file_link.id) }
-    let(:url) { 'https://starkiller.nextcloud.com/direct/xyz' }
+    let(:url) { "https://starkiller.nextcloud.com/direct/xyz" }
 
-    describe 'with successful response' do
+    describe "with successful response" do
       before do
         Storages::Peripherals::Registry.stub(
-          'nextcloud.queries.download_link',
+          "nextcloud.queries.download_link",
           ->(_) { ServiceResult.success(result: url) }
         )
       end
 
-      it 'responds successfully' do
+      it "responds successfully" do
         get path
 
         expect(subject.status).to be(303)
@@ -619,37 +610,37 @@ RSpec.describe 'API v3 file links resource' do
       end
     end
 
-    describe 'with query failed' do
+    describe "with query failed" do
       before do
         Storages::Peripherals::Registry.stub(
-          'nextcloud.queries.download_link',
+          "nextcloud.queries.download_link",
           ->(_) { ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error)) }
         )
 
         get path
       end
 
-      describe 'due to authorization failure' do
+      describe "due to authorization failure" do
         let(:error) { :unauthorized }
 
         it { expect(subject.status).to be(500) }
       end
 
-      describe 'due to internal error' do
+      describe "due to internal error" do
         let(:error) { :error }
 
         it { expect(subject.status).to be(500) }
       end
 
-      describe 'due to not found' do
+      describe "due to not found" do
         let(:error) { :not_found }
 
-        it 'fails with outbound request failure' do
+        it "fails with outbound request failure" do
           expect(last_response.status).to be(500)
 
           body = JSON.parse(last_response.body)
-          expect(body['message']).to eq(I18n.t('api_v3.errors.code_500_outbound_request_failure', status_code: 404))
-          expect(body['errorIdentifier']).to eq('urn:openproject-org:api:v3:errors:OutboundRequest:NotFound')
+          expect(body["message"]).to eq(I18n.t("api_v3.errors.code_500_outbound_request_failure", status_code: 404))
+          expect(body["errorIdentifier"]).to eq("urn:openproject-org:api:v3:errors:OutboundRequest:NotFound")
         end
       end
     end

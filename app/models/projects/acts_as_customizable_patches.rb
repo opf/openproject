@@ -35,9 +35,9 @@ module Projects::ActsAsCustomizablePatches
   # not needed for now, but might be relevant if we want to have edit dialogs just for one custom field
 
   included do
-    has_many :project_custom_field_project_mappings, class_name: 'ProjectCustomFieldProjectMapping', foreign_key: :project_id,
+    has_many :project_custom_field_project_mappings, class_name: "ProjectCustomFieldProjectMapping", foreign_key: :project_id,
                                                      dependent: :destroy, inverse_of: :project
-    has_many :project_custom_fields, through: :project_custom_field_project_mappings, class_name: 'ProjectCustomField'
+    has_many :project_custom_fields, through: :project_custom_field_project_mappings, class_name: "ProjectCustomField"
 
     # we need to reset the query_available_custom_fields_on_global_level already after validation
     # as the update service just calls .valid? and returns if invalid
@@ -86,7 +86,7 @@ module Projects::ActsAsCustomizablePatches
     def reject_section_scoped_validation_for_creation
       if _limit_custom_fields_validation_to_section_id.present?
         raise ArgumentError,
-              'Section scoped validation is not supported for project creation, only for project updates'
+              "Section scoped validation is not supported for project creation, only for project updates"
       end
     end
 
@@ -108,7 +108,7 @@ module Projects::ActsAsCustomizablePatches
       # in order to support implicit activation of custom fields when values are provided during an update
       self._query_available_custom_fields_on_global_level = true
       result = yield
-      self._query_available_custom_fields_on_global_level = false
+      self._query_available_custom_fields_on_global_level = nil
 
       result
     end
@@ -118,9 +118,20 @@ module Projects::ActsAsCustomizablePatches
       # in contrast to acts_as_customizable, custom_fields are enabled per project
       # thus we need to check the project_custom_field_project_mappings
       custom_fields = ProjectCustomField
-        .visible
         .includes(:project_custom_field_section)
         .order("custom_field_sections.position", :position_in_custom_field_section)
+
+      # Do not hide the invisble fields when accessing via the _query_available_custom_fields_on_global_level
+      # flag. Due to the internal working of the acts_as_customizable plugin, when a project admin updates
+      # the custom fields, it will clear out all the hidden fields that are not visible for them.
+      # This happens because the `#ensure_custom_values_complete` will gather all the `custom_field_values`
+      # and assigns them to the custom_fields association. If the `custom_field_values` do not contain the
+      # hidden fields, they will be cleared from the association. The `custom_field_values` will contain the
+      # hidden fields, only if they are returned from this method. Hence we should not hide them,
+      # when accessed with the _query_available_custom_fields_on_global_level flag on.
+      unless _query_available_custom_fields_on_global_level
+        custom_fields = custom_fields.visible
+      end
 
       # available_custom_fields is called from within the acts_as_customizable module
       # we don't want to adjust these calls, but need a way to query the available custom fields on a global level in some cases
@@ -155,8 +166,11 @@ module Projects::ActsAsCustomizablePatches
       with_all_available_custom_fields { super }
     end
 
-    # we need to query the available custom fields on a global level when
-    # trying to set a custom field which is not enabled via e.g. custom_field_123="foo"
+    # We need to query the available custom fields on a global level when
+    # trying to set a custom field which is not enabled via the API e.g. custom_field_123="foo"
+    # This implies implicit activation of the disabled custom fields via the API. As a side effect,
+    # we will have empty CustomValue objects created for each custom field, regardless of its
+    # enabled/disabled state in the project.
     def for_custom_field_accessor(method_symbol)
       with_all_available_custom_fields { super }
     end

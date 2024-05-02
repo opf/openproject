@@ -20,9 +20,9 @@ properties:
   description:
     type: string
     description: Short text further describing the relation
-  delay*:
+  lag*:
     type: integer
-    description: The delay in days between closing of `from` and start of `to`
+    description: The lag in days between closing of `from` and start of `to`
     minimum: 0
   _links:
     type: object
@@ -131,4 +131,4 @@ example:
   type: precedes
   reverseType: follows
   description: We can't bend the steel before it's been delivered!
-  delay: 0
+  lag: 0

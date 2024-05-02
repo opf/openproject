@@ -4,9 +4,9 @@ class EditField
   include RSpec::Matchers
   include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
-  attr_reader :selector,
+  attr_reader :context,
               :property_name,
-              :context
+              :selector
 
   attr_accessor :field_type
 
@@ -88,6 +88,7 @@ class EditField
 
   ##
   # Activate the field and check it opened correctly
+  # @return [EditField] self
   def activate!(expect_open: true)
     retry_block(args: { tries: 2 }) do
       unless active?
@@ -99,6 +100,8 @@ class EditField
       if expect_open && !active?
         raise "Expected field for attribute '#{property_name}' to be active."
       end
+
+      self
     end
   end
 
@@ -241,6 +244,7 @@ class EditField
     # an attribute, which may cause an input not to open properly.
     retry_block do
       activate_edition
+      wait_for_network_idle if using_cuprite?
       set_value value
 
       # select fields are saved on change

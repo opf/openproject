@@ -41,11 +41,14 @@ Rails.application.routes.draw do
         resource :automatically_managed_project_folders, controller: "/storages/admin/automatically_managed_project_folders",
                                                          only: %i[new create edit update]
 
+        resource :access_management, controller: "/storages/admin/access_management", only: %i[new create edit update]
+
         get :select_provider, on: :collection
 
         member do
           get :show_oauth_application
           get :edit_host
+          patch :change_health_notifications_enabled
           get :confirm_destroy
           delete :replace_oauth_application
         end

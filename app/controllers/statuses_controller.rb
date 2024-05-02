@@ -61,6 +61,7 @@ class StatusesController < ApplicationController
   def update
     @status = Status.find(params[:id])
     if @status.update(permitted_params.status)
+      apply_status_p_complete_change
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: "index"
     else
@@ -82,15 +83,6 @@ class StatusesController < ApplicationController
     redirect_to action: "index"
   end
 
-  def update_work_package_done_ratio
-    if Status.update_work_package_done_ratios
-      flash[:notice] = I18n.t(:notice_work_package_done_ratios_updated)
-    else
-      flash[:error] = I18n.t(:error_work_package_done_ratios_not_updated)
-    end
-    redirect_to action: "index"
-  end
-
   protected
 
   def default_breadcrumb
@@ -103,5 +95,16 @@ class StatusesController < ApplicationController
 
   def show_local_breadcrumb
     true
+  end
+
+  def apply_status_p_complete_change
+    return unless WorkPackage.use_status_for_done_ratio?
+    return unless @status.default_done_ratio_previously_changed?
+
+    WorkPackages::ApplyStatusesPCompleteJob
+      .perform_later(cause_type: "status_p_complete_changed",
+                     status_name: @status.name,
+                     status_id: @status.id,
+                     change: @status.default_done_ratio_previous_change)
   end
 end

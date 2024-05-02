@@ -32,8 +32,6 @@ module OpenProject::Reporting
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    config.eager_load_paths += Dir["#{config.root}/lib/"]
-
     register "openproject-reporting",
              author_url: "https://www.openproject.org",
              bundled: true do

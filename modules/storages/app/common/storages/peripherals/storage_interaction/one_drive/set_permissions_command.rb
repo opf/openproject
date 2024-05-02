@@ -124,8 +124,8 @@ module Storages
               permission[:id]
             end.curry
 
-            write_permissions = permission_set.filter_map(&filter.call('write'))
-            read_permissions = permission_set.filter_map(&filter.call('read'))
+            write_permissions = permission_set.filter_map(&filter.call("write"))
+            read_permissions = permission_set.filter_map(&filter.call("read"))
 
             { read: read_permissions, write: write_permissions }
           end
@@ -168,10 +168,15 @@ module Storages
           end
 
           def log_error(error)
-            OpenProject.logger.warn({ command: error.data.source,
-                                      message: error.log_message,
-                                      data: { status: error.data.payload.status,
-                                              body: error.data.payload.body.to_s } })
+            payload = error.data.payload
+            OpenProject.logger.warn(
+              command: error.data.source,
+              message: error.log_message,
+              data: {
+                status: payload.try(:status),
+                body: (payload.try(:body) || payload).to_s
+              }
+            )
           end
         end
       end

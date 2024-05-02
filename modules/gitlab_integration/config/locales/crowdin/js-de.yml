@@ -26,25 +26,25 @@ de:
       work_packages:
         tab_name: "GitLab"
       tab_header_issue:
-        title: "Issues"
+        title: "Probleme"
       tab_header_mr:
-        title: "Merge requests"
+        title: "Merge Requests"
         create_mr:
-          label: Create MR
-          description: Create a Merge Request
+          label: MR erstellen
+          description: Merge Request erzeugen
         copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
+          label: Git-Schnipsel
+          description: Git-Schnipsel in die Zwischenablage kopieren
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          branch_name: Name des Branches
+          commit_message: Commit-Nachricht
+          cmd: Branch mit leerem Commit erstellen
+          title: Schnelle Schnipsel für Git
+          copy_success: '✅ Kopiert!'
+          copy_error: '❌ Kopieren fehlgeschlagen!'
       tab_issue:
-        empty: 'There are no issues linked yet. Link an existing issue by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the issue title/description or create a new issue.'
+        empty: 'Es sind noch keine Issues verlinkt. Verknüpfen Sie ein bestehendes Issue, indem Sie den Code <code>OP#%{wp_id}</code> (oder <code>PP#%{wp_id}</code> für private Links) im Titel/der Beschreibung verwenden.'
       tab_mrs:
-        empty: 'There are no merge requests linked yet. Link an existing MR by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the MR title/description or create a new MR.'
+        empty: 'Es sind noch keine Merge Requests verlinkt. Verknüpfen Sie einen bestehenden MR, indem Sie den Code <code>OP#%{wp_id}</code> (oder <code>PP#%{wp_id}</code> für private Links) im MR-Titel/der MR-Beschreibung verwenden, oder erstellen Sie einen neuen MR.'
       gitlab_pipelines: Pipelines
-      updated_on: Updated on
+      updated_on: Aktualisiert am

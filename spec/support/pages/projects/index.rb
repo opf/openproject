@@ -120,6 +120,11 @@ module Pages
                                  visible: :hidden)
       end
 
+      def expect_filter_count(count)
+        expect(page)
+          .to have_css('[data-test-selector="filters-button-counter"]', text: count)
+      end
+
       def expect_no_project_create_button
         expect(page).to have_no_css('[data-test-selector="project-new-button"]')
       end
@@ -166,6 +171,15 @@ module Pages
       def filter_by_public(value)
         set_filter("public",
                    "Public",
+                   "is",
+                   [value])
+
+        click_button "Apply"
+      end
+
+      def filter_by_favored(value)
+        set_filter("favored",
+                   "Favorite",
                    "is",
                    [value])
 
@@ -258,9 +272,13 @@ module Pages
 
       def open_filters
         retry_block do
-          page.find('[data-test-selector="filter-component-toggle"]').click
+          toggle_filters_section
           page.find_field("Add filter", visible: true)
         end
+      end
+
+      def toggle_filters_section
+        page.find('[data-test-selector="filter-component-toggle"]').click
       end
 
       def set_columns(*columns)
@@ -307,10 +325,11 @@ module Pages
       def activate_menu_of(project)
         within_row(project) do |row|
           row.hover
-          menu = find("ul.project-actions")
-          menu.click
+          menu = find("[data-test-selector='project-list-row--action-menu']")
+          menu_button = find("[data-test-selector='project-list-row--action-menu'] button")
+          menu_button.click
           wait_for_network_idle if using_cuprite?
-          expect(page).to have_css(".menu-drop-down-container")
+          expect(page).to have_css("[data-test-selector='project-list-row--action-menu-item']")
           yield menu
         end
       end
@@ -356,8 +375,8 @@ module Pages
       end
 
       def within_row(project)
-        row = page.find("#project-table tr", text: project.name)
-
+        row = page.find("#project-#{project.id}")
+        row.hover
         within row do
           yield row
         end
@@ -366,7 +385,7 @@ module Pages
       private
 
       def boolean_filter?(filter)
-        %w[active member_of public templated].include?(filter.to_s)
+        %w[active member_of favored public templated].include?(filter.to_s)
       end
     end
   end

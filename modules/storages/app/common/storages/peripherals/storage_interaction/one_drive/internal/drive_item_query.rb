@@ -34,58 +34,51 @@ module Storages
       module OneDrive
         module Internal
           class DriveItemQuery
-            UTIL = ::Storages::Peripherals::StorageInteraction::OneDrive::Util
-
-            def self.call(storage:, token:, drive_item_id:, fields: [])
-              new(storage).call(token:, drive_item_id:, fields:)
-            end
-
             def initialize(storage)
               @storage = storage
-              @uri = storage.uri
             end
 
-            def call(token:, drive_item_id:, fields: [])
+            def call(http:, drive_item_id:, fields: [])
               select_url_query = if fields.empty?
-                                   ''
+                                   ""
                                  else
                                    "?$select=#{fields.join(',')}"
                                  end
 
-              make_file_request(drive_item_id, token, select_url_query)
+              make_file_request(drive_item_id, http, select_url_query)
             end
 
             private
 
-            def make_file_request(drive_item_id, token, select_url_query)
-              response = OpenProject.httpx.get(
-                UTIL.join_uri_path(@uri, uri_path_for(drive_item_id) + select_url_query),
-                headers: { 'Authorization' => "Bearer #{token.access_token}" }
-              )
-              handle_responses(response)
+            def make_file_request(drive_item_id, http, select_url_query)
+              handle_response http.get("#{@storage.uri}#{uri_path_for(drive_item_id)}#{select_url_query}")
             end
 
-            def handle_responses(response)
+            def handle_response(response)
               case response
               in { status: 200..299 }
                 ServiceResult.success(result: response.json(symbolize_keys: true))
               in { status: 404 }
                 ServiceResult.failure(result: :not_found,
-                                      errors: UTIL.storage_error(response:, code: :not_found, source: self))
+                                      errors: Util.storage_error(response:, code: :not_found, source: self.class))
               in { status: 403 }
                 ServiceResult.failure(result: :forbidden,
-                                      errors: UTIL.storage_error(response:, code: :forbidden, source: self))
+                                      errors: Util.storage_error(response:, code: :forbidden, source: self.class))
               in { status: 401 }
                 ServiceResult.failure(result: :unauthorized,
-                                      errors: UTIL.storage_error(response:, code: :unauthorized, source: self))
+                                      errors: Util.storage_error(response:, code: :unauthorized, source: self.class))
               else
-                data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
-                ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error, data:))
+                data = StorageErrorData.new(source: self.class, payload: response)
+                ServiceResult.failure(result: :error, errors: StorageError.new(code: :error, data:))
               end
             end
 
             def uri_path_for(file_id)
-              "/v1.0/drives/#{@storage.drive_id}/items/#{file_id}"
+              if file_id == "/"
+                "v1.0/drives/#{@storage.drive_id}/root"
+              else
+                "v1.0/drives/#{@storage.drive_id}/items/#{file_id}"
+              end
             end
           end
         end

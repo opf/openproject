@@ -1,0 +1,134 @@
+<%=
+  render(Primer::Alpha::Dialog.new(
+    id: "edit-participants-dialog",
+    size: :medium_portrait,
+    title: Meeting.human_attribute_name(:participants
+    ))) do |d|
+    d.with_header(variant: :large)
+
+    d.with_body do
+      component_wrapper(class: 'Overlay-form') do
+        primer_form_with(
+          id: "edit_participants_form",
+          model: @meeting,
+          method: :put,
+          url: update_participants_meeting_path(@meeting),
+          data: { turbo: true, turbo_stream: true },
+          class: 'Overlay-form'
+        ) do |f|
+          flex_layout(mt: 3) do |form_container|
+            form_container.with_row do
+              flex_layout(justify_content: :flex_end) do |header|
+                header.with_column(style: "width: 90px;", text_align: :center) do
+                  render(Primer::Beta::Text.new(font_weight: :emphasized)) { t("description_invite").capitalize }
+                end
+
+                header.with_column(style: "width: 90px;", text_align: :center) do
+                  render(Primer::Beta::Text.new(font_weight: :emphasized)) { t("description_attended").capitalize }
+                end
+              end
+            end
+
+            form_container.with_row do
+              flex_layout(my: 3) do |form_content|
+                @meeting.all_changeable_participants.sort.each do |user|
+                  form_content.with_row do
+                    hidden_field_tag "meeting[participants_attributes][][user_id]", user.id
+                  end
+                  form_content.with_row(mb: 2, pb: 1, border: :bottom) do
+                    if @meeting.participants.present? && participant = @meeting.participants.detect { |p| p.user_id == user.id }
+                      flex_layout do |existing_participant_container|
+                        existing_participant_container.with_row do
+                          hidden_field_tag "meeting[participants_attributes][][id]", participant.id
+                        end
+
+                        existing_participant_container.with_row do
+                          flex_layout(align_items: :center) do |existing_participant|
+                            existing_participant.with_column(flex: 1, classes: 'ellipsis') do
+                              render(Users::AvatarComponent.new(
+                                user: participant.user,
+                                classes: 'op-principal_flex'
+                              ))
+                            end
+                            existing_participant.with_column(style: "width: 90px;", text_align: :center) do
+                              styled_check_box_tag "meeting[participants_attributes][][invited]",
+                                                   value = 1,
+                                                   checked = participant.invited?,
+                                                   id: "checkbox_invited_#{participant.user.id}",
+                                                   disabled: !@meeting.editable?
+                              # Primer checkboxes currently not working in this context as they render an additional hidden input tag
+                              # messing up the nested attributes mapping when posting the data to the server
+                              #
+                              # render(Primer::Alpha::CheckBox.new(
+                              #          name: "meeting[participants_attributes][][invited]",
+                              #          checked: participant.invited?,
+                              #          id: "checkbox_invited_#{participant.user.id}",
+                              #          visually_hide_label: true,
+                              #          label: "Invited",
+                              #          scheme: :boolean,
+                              #          unchecked_value: ""
+                              #        ))
+                            end
+                            existing_participant.with_column(style: "width: 90px;", text_align: :center) do
+                              styled_check_box_tag "meeting[participants_attributes][][attended]",
+                                                   value = 1,
+                                                   checked = participant.attended?,
+                                                   id: "checkbox_attended_#{participant.user.id}",
+                                                   disabled: !@meeting.editable?
+                            end
+                          end
+                        end
+                      end
+                    else
+                      flex_layout(align_items: :center) do |new_participant|
+                        new_participant.with_column(flex: 1, classes: 'ellipsis') do
+                          render(Users::AvatarComponent.new(
+                            user:,
+                            classes: 'op-principal_flex'
+                          ))
+                        end
+
+                        new_participant.with_column(style: "width: 90px;", text_align: :center) do
+                          styled_check_box_tag "meeting[participants_attributes][][invited]",
+                                               value = "1",
+                                               checked = false,
+                                               id: "checkbox_invited_#{user.id}",
+                                               disabled: !@meeting.editable?
+                        end
+
+                        new_participant.with_column(style: "width: 90px;", text_align: :center) do
+                          styled_check_box_tag "meeting[participants_attributes][][attended]",
+                                               value = "1",
+                                               checked = false,
+                                               id: "checkbox_attended_#{user.id}",
+                                               disabled: !@meeting.editable?
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+
+    if @meeting.editable?
+      d.with_footer do
+        component_collection do |footer|
+          footer.with_component(Primer::ButtonComponent.new(data: { 'close-dialog-id': "edit-participants-dialog" })) do
+            t("button_cancel")
+          end
+          footer.with_component(Primer::ButtonComponent.new(
+            scheme: :primary,
+            form: "edit_participants_form",
+            data: { turbo: true },
+            type: :submit)) do
+            t("button_save")
+          end
+        end
+      end
+    end
+  end
+%>

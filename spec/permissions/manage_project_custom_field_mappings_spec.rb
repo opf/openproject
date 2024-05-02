@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require File.expand_path('../support/permission_specs', __dir__)
+require "spec_helper"
+require File.expand_path("../support/permission_specs", __dir__)
 
-RSpec.describe Projects::Settings::ProjectCustomFieldsController, 'manage_project_custom_field mappings permission',
+RSpec.describe Projects::Settings::ProjectCustomFieldsController, "manage_project_custom_field mappings permission",
                type: :controller do
   include PermissionSpecs
 
-  check_permission_required_for('projects/settings/project_custom_fields#show', :select_project_custom_fields)
-  check_permission_required_for('projects/settings/project_custom_fields#toggle', :select_project_custom_fields)
-  check_permission_required_for('projects/settings/project_custom_fields#enable_all_of_section', :select_project_custom_fields)
-  check_permission_required_for('projects/settings/project_custom_fields#disable_all_of_section', :select_project_custom_fields)
+  check_permission_required_for("projects/settings/project_custom_fields#show", :select_project_custom_fields)
+  check_permission_required_for("projects/settings/project_custom_fields#toggle", :select_project_custom_fields)
+  check_permission_required_for("projects/settings/project_custom_fields#enable_all_of_section", :select_project_custom_fields)
+  check_permission_required_for("projects/settings/project_custom_fields#disable_all_of_section", :select_project_custom_fields)
 end

@@ -40,7 +40,7 @@ module OpenProject::Meeting
              bundled: true do
       project_module :meetings do
         permission :view_meetings,
-                   { meetings: %i[index show download_ics participants_dialog],
+                   { meetings: %i[index show download_ics participants_dialog history],
                      meeting_agendas: %i[history show diff],
                      meeting_minutes: %i[history show diff],
                      work_package_meetings_tab: %i[index count] },
@@ -169,6 +169,10 @@ module OpenProject::Meeting
       OpenProject::ProjectLatestActivity.register on: 'Meeting'
 
       PermittedParams.permit(:search, :meetings)
+    end
+
+    add_api_path :meetings do
+      "#{root}/meetings"
     end
 
     add_api_path :meeting do |id|

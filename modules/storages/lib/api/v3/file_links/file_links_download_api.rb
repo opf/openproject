@@ -32,11 +32,19 @@ class API::V3::FileLinks::FileLinksDownloadAPI < API::OpenProjectAPI
   using Storages::Peripherals::ServiceResultRefinements
   helpers Storages::Peripherals::StorageErrorHelper
 
+  helpers do
+    def auth_strategy
+      Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken
+        .strategy
+        .with_user(User.current)
+    end
+  end
+
   resources :download do
     get do
       Storages::Peripherals::Registry
         .resolve("#{@file_link.storage.short_provider_type}.queries.download_link")
-        .call(storage: @file_link.storage, user: User.current, file_link: @file_link)
+        .call(storage: @file_link.storage, auth_strategy:, file_link: @file_link)
         .match(
           on_success: ->(url) do
             redirect(url, body: "The requested resource can be downloaded from #{url}")

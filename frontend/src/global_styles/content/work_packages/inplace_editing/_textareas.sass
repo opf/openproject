@@ -72,6 +72,10 @@
   height: 29px
   background: none
 
+  // Needed especially for iOS, because it would otherwise add a automatic padding for button resulting in the icon being misplaced
+  // see: https://stackoverflow.com/a/57420996/8900797
+  padding: 0
+
   // Center save/cancel links
   line-height: 27px
   border: 1px solid transparent
@@ -84,4 +88,3 @@
 
   .icon-context:before
     padding: 0
-

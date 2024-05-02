@@ -48,7 +48,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% end %>
 
 <% if @storage.provider_type_one_drive? %>
-  <%= turbo_stream.update :storage_oauth_client_section do %>
-    <%= render(Storages::Admin::Forms::OAuthClientFormComponent.new(oauth_client: @storage.build_oauth_client, storage: @storage)) %>
+  <%= turbo_stream.update :access_management_section do %>
+    <%= render(Storages::Admin::Forms::AccessManagementFormComponent.new(@storage)) %>
   <% end %>
 <% end %>

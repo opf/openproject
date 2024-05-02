@@ -34,20 +34,19 @@ Depending on the module, for which the new custom field is being  created, sligh
 
 3. Specify the **minimal and maximal length**. If a 0 is chosen, no restriction will be imposed on the length of the custom field.
 4. **Regular expression** specifying which values are allowed for the custom field.
-5. **Default value** will be used as a default value for the custom field. 
+5. **Default value** will be used as a default value for the custom field.
 6. Set if the new custom field should be a **required** field.
 7. Specify if the new custom field should be **used for all projects**. This means the custom field will be active for all projects and does not need to be activated separately per project.
 8. Specify if the new custom field should be **used as a filter for work packages**. See [here](../../user-guide/work-packages/work-package-table-configuration/#filter-work-packages) how to filter work packages.
 9. Specify if the new custom field should be **searchable** via the global search.
 10. **Save** the new custom field.
 
-
-
 ## Assign a custom field to a work package type and project
 
 > **Note**: Custom fields need to be activated per work package type and per project. Work package custom fields are only visible when two conditions are met:
->     1. Custom field has been added to the work package type (form configuration).
->         2. Custom field is activated for the project.
+>
+> 1. Custom field has been added to the work package type (form configuration).
+> 2. Custom field is activated for the project.
 
 1. [Assign a custom field to a work package type](../manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on) (Form configuration). You can do this directly via the link in the custom field overview.
 
@@ -64,8 +63,6 @@ To **edit an existing custom field** select the appropriate tab and click on the
 To **delete** a custom field, click on the delete icon next to the respective custom field in the list.
 
 ![Edit or delete a custom field in OpenProject administration](system-admin-edit-delete-custom-field.png)
-
-
 
 ## Create a multi-select custom field
 

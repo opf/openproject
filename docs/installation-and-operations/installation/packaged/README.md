@@ -67,7 +67,7 @@ Add the OpenProject package source:
 
 ```shell
 sudo wget -O /etc/apt/sources.list.d/openproject.list \
-  https://dl.packager.io/srv/opf/openproject/stable/13/installer/ubuntu/22.04.repo
+  https://dl.packager.io/srv/opf/openproject/stable/14/installer/ubuntu/22.04.repo
 ```
 
 Download the OpenProject package:
@@ -100,7 +100,7 @@ Add the OpenProject package source:
 
 ```shell
 sudo wget -O /etc/apt/sources.list.d/openproject.list \
-  https://dl.packager.io/srv/opf/openproject/stable/13/installer/ubuntu/20.04.repo
+  https://dl.packager.io/srv/opf/openproject/stable/14/installer/ubuntu/20.04.repo
 ```
 
 Download the OpenProject package:
@@ -134,7 +134,7 @@ Add the OpenProject package source:
 
 ```shell
 wget -O /etc/apt/sources.list.d/openproject.list \
-  https://dl.packager.io/srv/opf/openproject/stable/13/installer/debian/12.repo
+  https://dl.packager.io/srv/opf/openproject/stable/14/installer/debian/12.repo
 ```
 
 Download the OpenProject package:
@@ -166,7 +166,7 @@ Add the OpenProject package source:
 
 ```shell
 wget -O /etc/apt/sources.list.d/openproject.list \
-  https://dl.packager.io/srv/opf/openproject/stable/13/installer/debian/11.repo
+  https://dl.packager.io/srv/opf/openproject/stable/14/installer/debian/11.repo
 ```
 
 Download the OpenProject package:
@@ -197,7 +197,7 @@ Add the OpenProject package source:
 
 ```shell
 sudo wget -O /etc/apt/sources.list.d/openproject.list \
-  https://dl.packager.io/srv/opf/openproject/stable/13/installer/debian/10.repo
+  https://dl.packager.io/srv/opf/openproject/stable/14/installer/debian/10.repo
 ```
 
 Download the OpenProject package:
@@ -217,7 +217,7 @@ Add the OpenProject package source:
 
 ```shell
 sudo wget -O /etc/yum.repos.d/openproject.repo \
-  https://dl.packager.io/srv/opf/openproject/stable/13/installer/el/9.repo
+  https://dl.packager.io/srv/opf/openproject/stable/14/installer/el/9.repo
 ```
 
 If it is not already enabled, make sure to enable [Extra Packages for Enterprise Linux](https://fedoraproject.org/wiki/EPEL) (EPEL).
@@ -243,7 +243,7 @@ Add the OpenProject package source:
 
 ```shell
 sudo wget -O /etc/yum.repos.d/openproject.repo \
-  https://dl.packager.io/srv/opf/openproject/stable/13/installer/el/8.repo
+  https://dl.packager.io/srv/opf/openproject/stable/14/installer/el/8.repo
 ```
 
 If it is not already enabled, make sure to enable [Extra Packages for Enterprise Linux](https://fedoraproject.org/wiki/EPEL) (EPEL).
@@ -287,7 +287,7 @@ Add the OpenProject package source:
 
 ```shell
 wget -O /etc/zypp/repos.d/openproject.repo \
-  https://dl.packager.io/srv/opf/openproject/stable/13/installer/sles/15.repo
+  https://dl.packager.io/srv/opf/openproject/stable/14/installer/sles/15.repo
 ```
 
 If you already had an old package source that is being updated you must refresh
@@ -305,11 +305,11 @@ sudo zypper install openproject
 
 Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
 
-# Full-text extraction not supported
+## Full-text extraction not supported
 
 For some distributions we do not provide the required dependencies for full-text extraction of attachments. If you need this feature, please install the required dependencies (`catdoc unrtf poppler-utils tesseract-ocr`) manually. For more information, [please see the plaintext gem](https://github.com/planio-gmbh/plaintext). Once installed, check `Administration > Information` to see if OpenProject is able to pick up these dependencies.
 
-# Initial Configuration
+## Initial Configuration
 
 After you have successfully installed the OpenProject package, you can now perform the initial configuration of OpenProject, using the wizard that ships with the OpenProject package.
 
@@ -431,9 +431,7 @@ In that case, you will be shown three additional dialogs to enter the certificat
 
 ![02d-ssl](02d-ssl.png)
 
-
-
-Enabling this mode will result in OpenProject only responding to HTTPS requests, and upgrade any non-secured requests to HTTPS. It will also output HTTP Strict Transport Security (HSTS) headers to the client. 
+Enabling this mode will result in OpenProject only responding to HTTPS requests, and upgrade any non-secured requests to HTTPS. It will also output HTTP Strict Transport Security (HSTS) headers to the client.
 
 #### External SSL/TLS termination
 
@@ -442,7 +440,7 @@ Enabling this mode will result in OpenProject only responding to HTTPS requests,
 If you have a separate server that is terminating SSL and only forwarding/proxying to the OpenProject server, you must select "No" in this dialog. However, there are some parameters you need to put into your outer configuration.
 
 - If you're proxying to the openproject server, you need to forward the HOST header to the internal server. This ensures that the host name of the outer request gets forwarded to the internal server. Otherwise you might see redirects in your browser to the internal host that OpenProject is running on.
-  - In Apache2, set the `ProxyPreserveHost On` directive 
+  - In Apache2, set the `ProxyPreserveHost On` directive
   - In NginX, use the following value: `proxy_set_header X-Forwarded-Host $host:$server_port;`
 - If you're terminating SSL on the outer server, you need to set the `X-Forwarded-Proto https` header to let OpenProject know that the request is HTTPS, even though its been terminated earlier in the request on the outer server.
   - In Apache2, use `RequestHeader set "X-Forwarded-Proto" https`
@@ -484,11 +482,9 @@ Here an example for external SSL/TLS termination with apache (httpd):
 </VirtualHost>
 ```
 
-
-
 ### Skip Apache2 web server install (not recommended)
 
-> **Note:** Skipping step 3 Apache2 web server install will ask later in step 7 for information about the hostname and HTTPS 
+> **Note:** Skipping step 3 Apache2 web server install will ask later in step 7 for information about the hostname and HTTPS
 
 The installer will not set up an external web server for accessing. You will need to either install and set up a web server such as Apache2 or Nginx to function as the web server forwarding to our internal server listening at `localhost:6000` by proxying.
 
@@ -502,8 +498,6 @@ When installing with an existing Apache2, you can take a look at the source of o
 
 > **Please note:** If you reconfigure the OpenProject application and switch to `skip`, you might run into errors with the Apache configuration file, as that will not be automatically remove. Please double-check you removed references to the `openproject.conf` if you do reconfigure.
 
-
-
 ## Step 4: SVN/Git integration server
 
 If you have selected to auto-install an Apache2 web server, you will be asked whether you want to install Git and Subversion repository support. In case you do not need it or when in doubt, choose **Skip** for both options.
@@ -511,7 +505,6 @@ If you have selected to auto-install an Apache2 web server, you will be asked wh
 For more information, [see our help on repositories](../../../user-guide/repository/)
 
 ![03-repos](03-repos.png)
-
 
 ## Step 5: Administrator email
 
@@ -533,13 +526,9 @@ First, enter the fully qualified domain where your OpenProject installation will
 
 ![Select the OpenProject host name](07a-hostname.png)
 
-
-
 Next, tell OpenProject whether you have SSL termination enabled somewhere in your stack. Please note that you need to set up protocol forwarding by the means mentioned in the [Skip Apache2 Installation](#skip-apache2-web-server-install-not-recommended) at step 3 above.
 
 ![HTTPS setting](07b-protocol.png)
-
-
 
 ## Step 8: Default language
 
@@ -555,7 +544,7 @@ Also, this setting will control what is the default language for new users if th
 
 With this last step confirmed, the OpenProject wizard will complete, and apply all the configuration options that you have just selected. This might take a few minutes depending on your machine and internet connection, as OpenProject might need to install additional packages (such as the web server, database) depending on your selections.
 
-In case this process crashes or exits with an obvious error, please keep the output and send your configuration from `/etc/openproject/installer.dat` (removing any passwords from it) to us at support@openproject.com , or [reach out to the community forums](https://community.openproject.org/projects/openproject/forums). 
+In case this process crashes or exits with an obvious error, please keep the output and send your configuration from `/etc/openproject/installer.dat` (removing any passwords from it) to us at support@openproject.com , or [reach out to the community forums](https://community.openproject.org/projects/openproject/forums).
 
 When this process completes, it will have started the internal application and web servers, the background jobs to process work-intensive jobs, and set up the connection to the database.
 
@@ -567,8 +556,6 @@ You can then log in using the default user/password combination:
 * password = `admin`
 
 You will be asked to change this password immediately after the first login.
-
-
 
 ## Post-installation configuration
 

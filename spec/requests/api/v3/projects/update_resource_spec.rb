@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Project resource update', content_type: :json do
+RSpec.describe "API v3 Project resource update", content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -49,15 +49,15 @@ RSpec.describe 'API v3 Project resource update', content_type: :json do
   end
   let(:custom_value) do
     CustomValue.create(custom_field:,
-                       value: '1234',
+                       value: "1234",
                        customized: project)
   end
   let(:permissions) { [:edit_project] }
   let(:path) { api_v3_paths.project(project.id) }
   let(:body) do
     {
-      identifier: 'new_project_identifier',
-      name: 'Project name'
+      identifier: "new_project_identifier",
+      name: "Project name"
     }
   end
 
@@ -69,11 +69,11 @@ RSpec.describe 'API v3 Project resource update', content_type: :json do
     patch path, body.to_json
   end
 
-  it 'responds with 200 OK' do
+  it "responds with 200 OK" do
     expect(last_response.status).to eq(200)
   end
 
-  it 'alters the project' do
+  it "alters the project" do
     project.reload
 
     expect(project.name)
@@ -83,16 +83,16 @@ RSpec.describe 'API v3 Project resource update', content_type: :json do
       .to eql(body[:identifier])
   end
 
-  it 'returns the updated project' do
+  it "returns the updated project" do
     expect(last_response.body)
-      .to be_json_eql('Project'.to_json)
-            .at_path('_type')
+      .to be_json_eql("Project".to_json)
+            .at_path("_type")
     expect(last_response.body)
       .to be_json_eql(body[:name].to_json)
-            .at_path('name')
+            .at_path("name")
   end
 
-  context 'with a visible custom field' do
+  context "with a visible custom field" do
     let(:body) do
       {
         custom_field.attribute_name(:camel_case) => {
@@ -101,22 +101,22 @@ RSpec.describe 'API v3 Project resource update', content_type: :json do
       }
     end
 
-    it 'responds with 200 OK' do
+    it "responds with 200 OK" do
       expect(last_response.status).to eq(200)
     end
 
-    it 'sets the cf value' do
+    it "sets the cf value" do
       expect(project.reload.send(custom_field.attribute_getter))
         .to eql("CF text")
     end
 
-    it 'automatically activates the cf for project if the value was provided' do
+    it "automatically activates the cf for project if the value was provided" do
       expect(project.project_custom_fields)
         .to contain_exactly(custom_field)
     end
   end
 
-  context 'with an invisible custom field' do
+  context "with an invisible custom field" do
     let(:body) do
       {
         invisible_custom_field.attribute_name(:camel_case) => {
@@ -125,58 +125,58 @@ RSpec.describe 'API v3 Project resource update', content_type: :json do
       }
     end
 
-    context 'with admin permissions' do
+    context "with admin permissions" do
       let(:current_user) { create(:admin) }
 
-      it 'responds with 200 OK' do
+      it "responds with 200 OK" do
         expect(last_response.status).to eq(200)
       end
 
-      it 'sets the cf value' do
+      it "sets the cf value" do
         expect(project.reload.send(invisible_custom_field.attribute_getter))
           .to eql("CF text")
       end
 
-      it 'automatically activates the cf for project if the value was provided' do
+      it "automatically activates the cf for project if the value was provided" do
         expect(project.reload.project_custom_fields)
           .to contain_exactly(invisible_custom_field)
       end
     end
 
-    context 'with non-admin permissions' do
-      it 'responds with 200 OK' do
+    context "with non-admin permissions" do
+      it "responds with 200 OK" do
         # TBD: trying to set a not accessible custom field is silently ignored
         expect(last_response.status).to eq(200)
       end
 
-      it 'does not set the cf value' do
+      it "does not set the cf value" do
         expect(project.reload.custom_values)
           .to be_empty
       end
 
-      it 'does not activate the cf for project' do
+      it "does not activate the cf for project" do
         expect(project.reload.project_custom_fields)
           .to be_empty
       end
     end
   end
 
-  context 'without permission to patch projects' do
+  context "without permission to patch projects" do
     let(:permissions) { [] }
 
-    it 'responds with 403' do
+    it "responds with 403" do
       expect(last_response.status).to eq(403)
     end
 
-    it 'does not change the project' do
+    it "does not change the project" do
       attributes_before = project.attributes
 
       expect(project.reload.name)
-        .to eql(attributes_before['name'])
+        .to eql(attributes_before["name"])
     end
   end
 
-  context 'with a nil status' do
+  context "with a nil status" do
     let(:body) do
       {
         statusExplanation: {
@@ -190,14 +190,14 @@ RSpec.describe 'API v3 Project resource update', content_type: :json do
       }
     end
 
-    it 'alters the status' do
+    it "alters the status" do
       expect(last_response.body)
         .to be_json_eql(nil.to_json)
-              .at_path('_links/status/href')
+              .at_path("_links/status/href")
 
       project.reload
       expect(project.status_code).to be_nil
-      expect(project.status_explanation).to eq 'Some explanation.'
+      expect(project.status_explanation).to eq "Some explanation."
 
       expect(last_response.body)
         .to be_json_eql(
@@ -211,7 +211,7 @@ RSpec.describe 'API v3 Project resource update', content_type: :json do
     end
   end
 
-  context 'with a status' do
+  context "with a status" do
     let(:body) do
       {
         statusExplanation: {
@@ -219,16 +219,16 @@ RSpec.describe 'API v3 Project resource update', content_type: :json do
         },
         _links: {
           status: {
-            href: api_v3_paths.project_status('off_track')
+            href: api_v3_paths.project_status("off_track")
           }
         }
       }
     end
 
-    it 'alters the status' do
+    it "alters the status" do
       expect(last_response.body)
-        .to be_json_eql(api_v3_paths.project_status('off_track').to_json)
-              .at_path('_links/status/href')
+        .to be_json_eql(api_v3_paths.project_status("off_track").to_json)
+              .at_path("_links/status/href")
 
       expect(last_response.body)
         .to be_json_eql(
@@ -241,47 +241,47 @@ RSpec.describe 'API v3 Project resource update', content_type: :json do
         .at_path("statusExplanation")
     end
 
-    it 'persists the altered status' do
+    it "persists the altered status" do
       project.reload
 
       expect(project.status_code)
-        .to eql('off_track')
+        .to eql("off_track")
 
       expect(project.status_explanation)
-        .to eql('Some explanation.')
+        .to eql("Some explanation.")
     end
   end
 
-  context 'with faulty name' do
+  context "with faulty name" do
     let(:body) do
       {
         name: nil
       }
     end
 
-    it 'responds with 422' do
+    it "responds with 422" do
       expect(last_response.status).to eq(422)
     end
 
-    it 'does not change the project' do
+    it "does not change the project" do
       attributes_before = project.attributes
 
       expect(project.reload.name)
-        .to eql(attributes_before['name'])
+        .to eql(attributes_before["name"])
     end
 
-    it 'denotes the error' do
+    it "denotes the error" do
       expect(last_response.body)
-        .to be_json_eql('Error'.to_json)
-              .at_path('_type')
+        .to be_json_eql("Error".to_json)
+              .at_path("_type")
 
       expect(last_response.body)
         .to be_json_eql("Name can't be blank.".to_json)
-              .at_path('message')
+              .at_path("message")
     end
   end
 
-  context 'with a faulty status' do
+  context "with a faulty status" do
     let(:body) do
       {
         _links: {
@@ -292,36 +292,36 @@ RSpec.describe 'API v3 Project resource update', content_type: :json do
       }
     end
 
-    it 'responds with 422' do
+    it "responds with 422" do
       expect(last_response.status).to eq(422)
     end
 
-    it 'does not change the project status' do
+    it "does not change the project status" do
       code_before = project.status_code
 
       expect(project.reload.status_code)
         .to eql(code_before)
     end
 
-    it 'denotes the error' do
+    it "denotes the error" do
       expect(last_response.body)
-        .to be_json_eql('Error'.to_json)
-              .at_path('_type')
+        .to be_json_eql("Error".to_json)
+              .at_path("_type")
 
       expect(last_response.body)
         .to be_json_eql("Status is not set to one of the allowed values.".to_json)
-              .at_path('message')
+              .at_path("message")
     end
   end
 
-  context 'when archiving the project (change active from true to false)' do
+  context "when archiving the project (change active from true to false)" do
     let(:body) do
       {
         active: false
       }
     end
 
-    context 'for an admin' do
+    context "for an admin" do
       let(:current_user) do
         create(:admin)
       end
@@ -334,51 +334,51 @@ RSpec.describe 'API v3 Project resource update', content_type: :json do
         create(:project)
       end
 
-      it 'responds with 200 OK' do
+      it "responds with 200 OK" do
         expect(last_response.status)
           .to eq(200)
       end
 
-      it 'archives the project' do
+      it "archives the project" do
         expect(project.reload.active)
           .to be_falsey
       end
 
-      it 'archives the child project' do
+      it "archives the child project" do
         expect(child_project.reload.active)
           .to be_falsey
       end
     end
 
-    context 'for a user with only edit_project permission' do
+    context "for a user with only edit_project permission" do
       let(:permissions) { [:edit_project] }
 
-      it 'responds with 403' do
+      it "responds with 403" do
         expect(last_response.status)
           .to eq(403)
       end
 
-      it 'does not alter the project' do
+      it "does not alter the project" do
         expect(project.reload.active)
           .to be_truthy
       end
     end
 
-    context 'for a user with only archive_project permission' do
+    context "for a user with only archive_project permission" do
       let(:permissions) { [:archive_project] }
 
-      it 'responds with 200 OK' do
+      it "responds with 200 OK" do
         expect(last_response.status)
           .to eq(200)
       end
 
-      it 'archives the project' do
+      it "archives the project" do
         expect(project.reload.active)
           .to be_falsey
       end
     end
 
-    context 'for a user missing archive_project permission on child project' do
+    context "for a user missing archive_project permission on child project" do
       let(:permissions) { [:archive_project] }
       let(:project) do
         create(:project).tap do |p|
@@ -387,19 +387,19 @@ RSpec.describe 'API v3 Project resource update', content_type: :json do
       end
       let(:child_project) { create(:project) }
 
-      it 'responds with 422 (and not 403?)' do
+      it "responds with 422 (and not 403?)" do
         expect(last_response.status)
           .to eq(422)
       end
 
-      it 'does not alter the project' do
+      it "does not alter the project" do
         expect(project.reload.active)
           .to be_truthy
       end
     end
   end
 
-  context 'when setting a custom field and archiving the project' do
+  context "when setting a custom field and archiving the project" do
     let(:body) do
       {
         active: false,
@@ -409,7 +409,7 @@ RSpec.describe 'API v3 Project resource update', content_type: :json do
       }
     end
 
-    context 'for an admin' do
+    context "for an admin" do
       let(:current_user) do
         create(:admin)
       end
@@ -422,56 +422,56 @@ RSpec.describe 'API v3 Project resource update', content_type: :json do
         create(:project)
       end
 
-      it 'responds with 200 OK' do
+      it "responds with 200 OK" do
         expect(last_response.status)
           .to eq(200)
       end
 
-      it 'sets the cf value' do
+      it "sets the cf value" do
         expect(project.reload.send(custom_field.attribute_getter))
           .to eql("CF text")
       end
 
-      it 'archives the project' do
+      it "archives the project" do
         expect(project.reload.active)
           .to be_falsey
       end
 
-      it 'archives the child project' do
+      it "archives the child project" do
         expect(child_project.reload.active)
           .to be_falsey
       end
     end
 
-    context 'for a user with only edit_project permission' do
+    context "for a user with only edit_project permission" do
       let(:permissions) { [:edit_project] }
 
-      it 'responds with 403' do
+      it "responds with 403" do
         expect(last_response.status)
           .to eq(403)
       end
     end
 
-    context 'for a user with only archive_project permission' do
+    context "for a user with only archive_project permission" do
       let(:permissions) { [:archive_project] }
 
-      it 'responds with 403' do
+      it "responds with 403" do
         expect(last_response.status)
           .to eq(403)
       end
     end
 
-    context 'for a user with both archive_project and edit_project permissions' do
+    context "for a user with both archive_project and edit_project permissions" do
       let(:permissions) { %i[archive_project edit_project] }
 
-      it 'responds with 200 OK' do
+      it "responds with 200 OK" do
         expect(last_response.status)
           .to eq(200)
       end
     end
   end
 
-  context 'when unarchiving the project (change active from false to true)' do
+  context "when unarchiving the project (change active from false to true)" do
     let(:project_active) { false }
     let(:body) do
       {
@@ -479,7 +479,7 @@ RSpec.describe 'API v3 Project resource update', content_type: :json do
       }
     end
 
-    context 'for an admin' do
+    context "for an admin" do
       let(:current_user) do
         create(:admin)
       end
@@ -492,31 +492,31 @@ RSpec.describe 'API v3 Project resource update', content_type: :json do
         create(:project)
       end
 
-      it 'responds with 200 OK' do
+      it "responds with 200 OK" do
         expect(last_response.status)
           .to eq(200)
       end
 
-      it 'unarchives the project' do
+      it "unarchives the project" do
         expect(project.reload)
           .to be_active
       end
 
-      it 'unarchives the child project' do
+      it "unarchives the child project" do
         expect(child_project.reload)
           .to be_active
       end
     end
 
-    context 'for a non-admin user, even with both archive_project and edit_project permissions' do
+    context "for a non-admin user, even with both archive_project and edit_project permissions" do
       let(:permissions) { %i[archive_project edit_project] }
 
-      it 'responds with 404' do
+      it "responds with 404" do
         expect(last_response.status)
           .to eq(404)
       end
 
-      it 'does not alter the project' do
+      it "does not alter the project" do
         expect(project.reload)
           .not_to be_active
       end

@@ -30,14 +30,16 @@ Merge request activities will also show up in the Activity tab when the merge re
 ![GitLab comments on work package activity tab](openproject-system-guide-gitlab-integration-activity-tab.png)
 
 ## Configuration
+
 You will first have to configure both OpenProject and GitLab for the integration to work.
 
 ### OpenProject
+
 First you will need to create a user in OpenProject that has the permission to make comments. This role only requires two permissions, *View work packages* and *Add notes*, which you will find in the **Work packages and Gantt charts** section under  [**Roles and Permissions**](../../users-permissions/roles-permissions/).
 
 ![GitLab role with required permissions in OpenProject](openproject-system-guide-gitlab-integration-role.png)
 
-This user will then have to be **added to each project** with a role that allows them to see work packages and comment on them. 
+This user will then have to be **added to each project** with a role that allows them to see work packages and comment on them.
 
 ![GitLab user added as member to project with respective role](openproject-system-guide-gitlab-integration-project-member.png)
 
@@ -48,7 +50,7 @@ Once the user is created you need to generate an OpenProject API token for this 
 3. Go to [*Access Tokens*](../../../getting-started/my-account/#access-tokens)
 4. Click on **+ API token**
 
-> Make sure you copy the generated key and securely save it, as you will not be able to retrieve it later. 
+> Make sure you copy the generated key and securely save it, as you will not be able to retrieve it later.
 
 You can then configure the necessary webhook in [GitLab](#gitlab).
 
@@ -56,7 +58,7 @@ Finally you will need to activate the GitLab module under [Project settings](../
 
 ![Activate a GitLab module in OpenProject](openproject-system-guide-gitlab-integration-project-modules.png)
 
-Seeing the **GitLab** tab requires **Show GitLab content** permission, so this permission needs to be granted to all roles in a project allowed to see the tab. 
+Seeing the **GitLab** tab requires **Show GitLab content** permission, so this permission needs to be granted to all roles in a project allowed to see the tab.
 
 ![Grant permission to show GitLab content to user roles in OpenProject](openproject-system-guide-gitlab-integration-gitlab-content-role-permission.png)
 
@@ -70,9 +72,7 @@ You need to configure the **URL** . It must point to your OpenProject server's G
 
 You will need the API key you copied earlier in OpenProject. Append it to the *URL* as a simple GET parameter named `key`. In the end the URL should look something like this:
 
-```
-https://myopenproject.com/webhooks/gitlab?key=4221687468163843
-```
+`https://myopenproject.com/webhooks/gitlab?key=4221687468163843`
 
 > **Note**: For the events that should be triggered by the webhook, please select the following
 >
@@ -82,12 +82,17 @@ https://myopenproject.com/webhooks/gitlab?key=4221687468163843
 > - Merge request events
 > - Pipeline events
 
+> **Note**: If you are in a local network you might need to allow requests to the local network in your GitLab instance.  
+> You can find this settings in the **Outbound requests** section when you navigate to **Admin area -> Settings -> Network**.
+
 We recommend that you enable the **SSL verification** before you **Add webhook**.
 
 Now the integration is set up on both sides and you can use it.
 
 ## Using GitLab integration
+
 ### Create merge requests
+
 As merge requests are based on branches, a new branch needs to be created first. For that, open the GitLab tab in your OpenProject work package detailed view. Click on **Git snippets** to extend the menu. First, copy the branch name by clicking the corresponding button.
 
 ![Copy the branch name for GitLab in OpenProject](openproject-system-guide-gitlab-integration-branch-name.png)
@@ -108,7 +113,7 @@ Once you are satisfied with the changes you can create a commit. Within the 'Git
 
 ![Copy a Git commit message in OpenProject](openproject-system-guide-gitlab-integration-git-snippets-commit-message.png)
 
-A URL pointing to a work package in the merge request description or a comment will link the two. The link needs to be in the MR and not in a commit, but GitLab will use the first commit message as the proposed branch description (as long as there is only one commit). Alternatively you can also use 'OP#' as a work package reference in an issue or a MR title, in this case "OP#388", where 388 is the ID of the work package. 
+A URL pointing to a work package in the merge request description or a comment will link the two. The link needs to be in the MR and not in a commit, but GitLab will use the first commit message as the proposed branch description (as long as there is only one commit). Alternatively you can also use 'OP#' as a work package reference in an issue or a MR title, in this case "OP#388", where 388 is the ID of the work package.
 
 ![Commit message in a Git client](openproject-system-guide-gitlab-integration-commit-message-in-client.png)
 
@@ -140,16 +145,16 @@ If the status of a merge request changes, it will be reflected in the OpenProjec
 
 ### Link issues
 
-OpenProject GitLab integration allows linking GitLab issues directly with OpenProject work packages. 
+OpenProject GitLab integration allows linking GitLab issues directly with OpenProject work packages.
 
-Initially when no issues were linked yet you will see the following message under **GitLab** tab. 
+Initially when no issues were linked yet you will see the following message under **GitLab** tab.
 
-![](openproject-system-guide-gitlab-integration-no-issues.png)
+![Gitlab no link issues](openproject-system-guide-gitlab-integration-no-issues.png)
 
-You can either create a new issue in GitLab, or edit an already existing one. Enter the code **OP#388** into the issue title or description to create the link between the GitLab issue and the OpenProject work package. In this case 388 is the work package ID. 
+You can either create a new issue in GitLab, or edit an already existing one. Enter the code **OP#388** into the issue title or description to create the link between the GitLab issue and the OpenProject work package. In this case 388 is the work package ID.
 
 ![Link a GitLab issue to OpenProject work package](openproject-system-guide-gitlab-integration-gitlab-issue.png)
 
-Once you save your changes or create a GitLab issue, it will become visible under the **GitLab** tab in OpenProject. 
+Once you save your changes or create a GitLab issue, it will become visible under the **GitLab** tab in OpenProject.
 
 ![New GitLab issues shown in OpenProject work packages](openproject-system-guide-gitlab-integration-new-issues.png)

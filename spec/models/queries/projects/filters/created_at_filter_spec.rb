@@ -55,9 +55,9 @@ RSpec.describe Queries::Projects::Filters::CreatedAtFilter do
           login_as user
         end
 
-        it "is true" do
+        it "is false" do
           expect(instance)
-            .to be_available
+            .not_to be_available
         end
       end
     end
