@@ -26,17 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class EnableCurrentProjectCustomFieldsColumns < ActiveRecord::Migration[6.0]
+class UpdateDefaultProjectColumns < ActiveRecord::Migration[7.1]
   def up
     return unless Setting.where(name: "enabled_projects_columns").exists? # rubocop:disable Rails/WhereExists
 
     columns = Setting.enabled_projects_columns
-    cf_columns = ProjectCustomField.pluck(:id).map { |id| "cf_#{id}" }
+    columns.unshift("name") if columns.exclude?("name")
+    columns.unshift("favored") if columns.exclude?("favored")
 
-    Setting.enabled_projects_columns = (columns + cf_columns).uniq
+    Setting.enabled_projects_columns = columns
   end
 
   def down
-    # Nothing to do as setting is not used
+    # Nothing to do
   end
 end
