@@ -73,7 +73,9 @@ class CustomValue < ApplicationRecord
 
     # if a custom value is created for a project via CustomValue.create(...),
     # the custom field needs to be activated in the project
-    unless customized&.project_custom_fields&.include?(custom_field)
+    if customized&.available_custom_fields&.include?(custom_field) &&
+      customized&.project_custom_fields&.exclude?(custom_field)
+
       customized.project_custom_fields << custom_field
     end
   end

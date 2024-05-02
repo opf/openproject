@@ -462,24 +462,9 @@ RSpec.describe Project, "customizable" do
       let(:user) { create(:user) }
 
       it "does not activate hidden custom fields" do
-        pending <<~REASON.squish
-          Due to backward compatibility for the API,
-          we have to activate the hidden_custom_field too,
-          but it won't receive any value, so its value is not changed.
-          The frontend will not send the hidden field anyway,
-          so this behaviour does not present a real problem.
-        REASON
         # project creation happens with an non-admin user as let(:project) called after setting the current user to an non-admin
         expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
           .to contain_exactly(text_custom_field.id, bool_custom_field.id)
-
-        expect(project.custom_value_for(hidden_custom_field)).to be_nil
-      end
-
-      it "does not set a value for the hidden custom fields" do
-        # project creation happens with an non-admin user as let(:project) called after setting the current user to an non-admin
-        expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
-          .to contain_exactly(text_custom_field.id, bool_custom_field.id, hidden_custom_field.id)
 
         expect(project.custom_value_for(hidden_custom_field)).to be_nil
       end
