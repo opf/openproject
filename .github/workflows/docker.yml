@@ -90,7 +90,7 @@ jobs:
             echo "Unsupported event"
             exit 1
           fi
-          
+
           if [ -z "$TAG_REF" ] || [ -z "$CHECKOUT_REF" ]; then
             echo "No TAG_REF or CHECKOUT_REF set. Aborting"
             exit 1
@@ -240,3 +240,11 @@ jobs:
       - name: Inspect image
         run: |
           docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}
+  notify:
+    needs: [extract_version, build, merge]
+    if: ${{ always() && contains(needs.*.result, 'failure') }}
+    uses: ./.github/workflows/email-notification.yml
+    secrets: inherit
+    with:
+      subject: "Docker build failed"
+      body: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
