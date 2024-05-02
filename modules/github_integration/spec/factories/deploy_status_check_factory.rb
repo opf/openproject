@@ -26,23 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-en:
-  button_add_deploy_target: Add deploy target
-  label_deploy_target: Deploy target
-  label_deploy_target_new: New deploy target
-  label_deploy_target_plural: Deploy targets
-  label_github_integration: GitHub Integration
-  notice_deploy_target_created: Deploy target created
-  notice_deploy_target_destroyed: Deploy target deleted
-  plugin_openproject_github_integration:
-    name: "OpenProject GitHub Integration"
-    description: "Integrates OpenProject and GitHub for a better workflow"
-
-  project_module_github: "GitHub"
-  permission_show_github_content: "Show GitHub content"
-  permission_introspection: Read running OpenProject core version and build SHA
-  text_deploy_target_type_info: >
-    So far we only support OpenProject itself.
-  text_deploy_target_api_key_info: >
-    An OpenProject [API key](docs_url)
-    belonging to a user who has the global introspection permission.
+FactoryBot.define do
+  factory :deploy_status_check do
+    deploy_target
+    github_pull_request
+  end
+end

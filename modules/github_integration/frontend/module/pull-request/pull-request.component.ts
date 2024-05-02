@@ -71,6 +71,9 @@ export class PullRequestComponent {
     if (this.pullRequest.state === 'open') {
       return (this.pullRequest.draft ? 'draft' : 'open');
     }
+    if (this.pullRequest.state === 'deployed') {
+      return 'deployed';
+    }
     return (this.pullRequest.merged ? 'merged' : 'closed');
   }
 

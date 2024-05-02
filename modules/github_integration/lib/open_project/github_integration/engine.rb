@@ -35,14 +35,36 @@ module OpenProject::GithubIntegration
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    register "openproject-github_integration",
-             author_url: "https://www.openproject.org/",
-             bundled: true do
+    initializer "github.feature_decisions" do
+      OpenProject::FeatureDecisions.add :deploy_targets
+    end
+
+    register(
+      "openproject-github_integration",
+      author_url: "https://www.openproject.org/",
+      bundled: true
+    ) do
+      ::Redmine::MenuManager.map(:admin_menu) do |menu|
+        menu.push :admin_github_integration,
+                  { controller: "/deploy_targets", action: "index" },
+                  if: Proc.new { Setting.feature_deploy_targets_active? && User.current.admin? },
+                  caption: :label_github_integration,
+                  icon: "github_logo"
+      end
+
       project_module(:github, dependencies: :work_package_tracking) do
         permission(:show_github_content,
                    {},
                    permissible_on: %i[work_package project])
       end
+
+      menu :admin_menu,
+           :deploy_targets,
+           { controller: "/deploy_targets", action: "index" },
+           if: ->(*) { Setting.feature_deploy_targets_active? && User.current.admin? },
+           parent: :admin_github_integration,
+           caption: :label_deploy_target_plural,
+           icon: "hosting"
     end
 
     initializer "github.register_hook" do
@@ -86,12 +108,24 @@ module OpenProject::GithubIntegration
     end
 
     add_cron_jobs do
-      {
+      jobs = {
         "Cron::ClearOldPullRequestsJob": {
           cron: "25 1 * * *", # runs at 1:25 nightly
           class: ::Cron::ClearOldPullRequestsJob.name
         }
       }
+
+      # Enabling the feature flag at runtime won't enable
+      # the cron job. So if you want this feature, enable it
+      # at start-time.
+      if Setting.feature_deploy_targets_active?
+        jobs["Cron::CheckDeployStatusJob"] = {
+          cron: "15,45 * * * *", # runs every half hour
+          class: ::Cron::CheckDeployStatusJob.name
+        }
+      end
+
+      jobs
     end
   end
 end

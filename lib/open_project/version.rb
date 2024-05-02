@@ -138,7 +138,7 @@ module OpenProject
       def read_optional(file)
         path = Rails.root.join(file)
         if File.exist? path
-          File.read(path)
+          String(File.read(path)).strip
         end
       end
 

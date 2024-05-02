@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,23 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-en:
-  button_add_deploy_target: Add deploy target
-  label_deploy_target: Deploy target
-  label_deploy_target_new: New deploy target
-  label_deploy_target_plural: Deploy targets
-  label_github_integration: GitHub Integration
-  notice_deploy_target_created: Deploy target created
-  notice_deploy_target_destroyed: Deploy target deleted
-  plugin_openproject_github_integration:
-    name: "OpenProject GitHub Integration"
-    description: "Integrates OpenProject and GitHub for a better workflow"
+module DeployTargets
+  class TableComponent < ::TableComponent
+    columns :host, :type, :created_at
+    options :current_user
 
-  project_module_github: "GitHub"
-  permission_show_github_content: "Show GitHub content"
-  permission_introspection: Read running OpenProject core version and build SHA
-  text_deploy_target_type_info: >
-    So far we only support OpenProject itself.
-  text_deploy_target_api_key_info: >
-    An OpenProject [API key](docs_url)
-    belonging to a user who has the global introspection permission.
+    def initial_sort
+      %i[id asc]
+    end
+
+    def headers
+      columns.map do |name|
+        [name.to_s, header_options(name)]
+      end
+    end
+
+    def header_options(name)
+      { caption: User.human_attribute_name(name) }
+    end
+  end
+end
