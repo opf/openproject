@@ -84,7 +84,7 @@ https://myopenproject.com/webhooks/gitlab?key=4221687468163843
 > - Pipeline events 
 
 
-> **Note**: Please note that the *Pipeline events* part of the integration is still in the early stages. If you have any feedback on the *Pipeline events*, please let us know [here](https://github.com/btey/openproject-gitlab-integration/issues/43).
+> **Note**: Please note that the *Pipeline events* part of the integration is still in the early stages. If you have any feedback on the *Pipeline events*, please let us know [here](https://community.openproject.org/wp/54574).
 
 
 >**Note**: If you are in a local network you might need to allow requests to the local network in your GitLab instance.  
