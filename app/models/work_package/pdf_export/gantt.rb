@@ -28,11 +28,16 @@
 
 # How this works:
 # The Gantt chart PDF export is built up of several components:
-# - GanttBuilder: This is the main class that builds the Gantt chart. It is responsible for creating the pages, columns, rows, and shapes.
-#   - GanttBuilderMonths: This class is a subclass of GanttBuilder and is responsible for building the Gantt chart with months as the zoom level.
-#   - GanttBuilderDays: This class is a subclass of GanttBuilder and is responsible for building the Gantt chart with days as the zoom level.
-#   - GanttBuilderQuarters: This class is a subclass of GanttBuilder and is responsible for building the Gantt chart with quarters as the zoom level.
-# - GanttPainter: This class is responsible for painting the Gantt chart. It paints the grid, header row, lines, bars, milestones, and rows.
+# - GanttBuilder: This is the main class that builds the Gantt chart.
+#                 It is responsible for creating the pages, columns, rows, and shapes.
+#   - GanttBuilderMonths: This class is a subclass of GanttBuilder and is responsible for
+#                         building the Gantt chart with months as the zoom level.
+#   - GanttBuilderDays: This class is a subclass of GanttBuilder and is responsible for
+#                       building the Gantt chart with days as the zoom level.
+#   - GanttBuilderQuarters: This class is a subclass of GanttBuilder and is responsible for
+#                           building the Gantt chart with quarters as the zoom level.
+# - GanttPainter: This class is responsible for painting the Gantt chart.
+#                 It paints the grid, header row, lines, bars, milestones, and rows.
 # - Data classes: These classes are used to store the data that is used to build the Gantt chart.
 #
 # 1. Build the data classes, do the layout, measuring, etc.
@@ -96,7 +101,6 @@ module WorkPackage::PDFExport::Gantt
 
   GanttDataPage = Struct.new(:index, :entry_ids, :header_cells, :rows, :columns,
                              :text_column, :width, :height, :header_row_height, :group, :lines) do
-
     def initialize(*args)
       super(*args)
       rows.each { |row| row.page = self }
@@ -105,7 +109,7 @@ module WorkPackage::PDFExport::Gantt
     end
 
     def add_line(left, right, top, bottom)
-      self.lines.push({ left:, right:, top:, bottom: })
+      lines.push({ left:, right:, top:, bottom: })
     end
 
     def add_lines(new_lines)
@@ -150,7 +154,7 @@ module WorkPackage::PDFExport::Gantt
   end
 
   GanttDataEntry = Data.define(:id, :subject, :work_package) do
-    def is_group = work_package.nil?
+    def group? = work_package.nil?
   end
 
   GanttDataShape = Data.define(:type, :left, :width, :top, :height, :entry_id, :columns, :color) do

@@ -147,8 +147,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     pp pdf[:calls]
   end
 
-  def wp_title_column(level, wp)
-    "#{level} #{wp.type} ##{wp.id} #{wp.subject}"
+  def wp_title_column(level, work_package)
+    "#{level} #{work_package.type} ##{work_package.id} #{work_package.subject}"
   end
 
   subject(:pdf) do
@@ -171,8 +171,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   describe "with a request for a PDF gantt" do
     it "contains correct data" do
       expect(pdf[:strings]).to eq [query.name, "2024 Apr 21 22 23", # header columns
-                                   wp_title_column('1.', work_package_task),
-                                   wp_title_column('2.', work_package_milestone),
+                                   wp_title_column("1.", work_package_task),
+                                   wp_title_column("2.", work_package_milestone),
                                    "1/1", export_time_formatted, query.name].join(" ")
 
       # if one of these expect fails you can output the actual pdf calls uncommenting the following line
@@ -238,8 +238,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       Date.new(2024, 5, 8)
     end
 
-    it "contains correct data" do
-      test = [
+    let(:large_example_content) do
+      [
         query.name, "2024 Apr May 21 22 23 24 25 26 27 28 29 30 1 2 3 4 5", # header columns
         wp_title_column("1.", work_package_task),
         filler_work_packages.slice(0, 17).map.with_index { |wp, index| wp_title_column("#{index + 2}.", wp) },
@@ -263,7 +263,10 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
         "2024 May 6 7 8", # header columns
         "6/6", export_time_formatted, query.name
       ].flatten.join(" ")
-      expect(pdf[:strings]).to eq test
+    end
+
+    it "contains correct data" do
+      expect(pdf[:strings]).to eq large_example_content
 
       # if one of these expect fails you can output the actual pdf calls uncommenting the following line
       # show_calls
@@ -295,9 +298,9 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     it "contains correct data" do
       expect(pdf[:strings]).to eq [query.name, "2024 Apr 21 22 23", # header columns
                                    type_milestone.name,
-                                   wp_title_column('1.', work_package_milestone),
+                                   wp_title_column("1.", work_package_milestone),
                                    type_standard.name,
-                                   wp_title_column('2.', work_package_task),
+                                   wp_title_column("2.", work_package_task),
                                    "1/1", export_time_formatted, query.name].join(" ")
 
       # if one of these expect fails you can output the actual pdf calls uncommenting the following line

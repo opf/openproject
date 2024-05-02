@@ -50,34 +50,37 @@ module WorkPackage::PDFExport::Gantt
       @id_wp_meta_map = id_wp_meta_map
       @query = query
       dates = collect_column_dates(work_packages)
-      entries = work_packages.map { |work_package| GanttDataEntry.new(work_package.id, work_package.subject, work_package) }
-      entries = insert_work_package_group_placeholders(entries) if @query.grouped?
+      entries = build_gantt_entries(work_packages)
       adjust_to_pages
+      page_groups = build_page_groups(entries, dates)
+      build_dep_lines(page_groups) if @draw_gantt_lines
+      page_groups.flat_map(&:pages)
+    end
+
+    private
+
+    # Builds the page groups
+    # @param [Array<WorkPackage>] entries
+    # @param [Array<Date>] dates
+    # @return [Array<GanttDataPageGroup>]
+    def build_page_groups(entries, dates)
       page_groups = build_pages(entries, dates)
       if page_groups[0].pages.length == 1
         # if there are not enough columns for even the first page of horizontal pages => distribute space to all columns
         distribute_to_first_page(page_groups[0].pages.first.columns.length)
         page_groups = build_pages(entries, dates)
       end
-      build_dep_lines(page_groups) if @draw_gantt_lines
-      page_groups.flat_map(&:pages)
+      page_groups
     end
 
-    def insert_work_package_group_placeholders(entries)
-      last_group = nil
-      result = []
-      entries.each do |entry|
-        wp_group = @query.group_by_column.value(entry.work_package)
-        if last_group != wp_group
-          last_group = wp_group
-          result << GanttDataEntry.new("group_#{wp_group}", wp_group.to_s, nil)
-        end
-        result << entry
-      end
-      result
+    # Create list of row entries for the gantt chart, including group placeholders
+    # @param [Array<WorkPackage>] work_packages
+    # @return [Array<GanttDataEntry>]
+    def build_gantt_entries(work_packages)
+      entries = work_packages.map { |work_package| GanttDataEntry.new(work_package.id, work_package.subject, work_package) }
+      entries = insert_work_package_group_placeholders(entries) if @query.grouped?
+      entries
     end
-
-    private
 
     # Initializes the default values
     def init_defaults
@@ -127,8 +130,25 @@ module WorkPackage::PDFExport::Gantt
       @nr_columns = nr_of_columns
     end
 
+    # if the query is grouped, insert placeholders "rows" for the group headers
+    # @param [Array<GanttDataEntry>] entries
+    # @return [Array<GanttDataEntry>]
+    def insert_work_package_group_placeholders(entries)
+      last_group = nil
+      result = []
+      entries.each do |entry|
+        wp_group = @query.group_by_column.value(entry.work_package)
+        if last_group != wp_group
+          last_group = wp_group
+          result << GanttDataEntry.new("group_#{wp_group}", wp_group.to_s, nil)
+        end
+        result << entry
+      end
+      result
+    end
+
     # Builds all page groups for the given work packages
-    # @param [Array<WorkPackage>] work_packages
+    # @param [Array<GanttDataEntry>] entries
     # @return [Array<GanttDataPageGroup>]
     def build_pages(entries, dates)
       vertical_pages_needed = (entries.size / @rows_per_page.to_f).ceil
@@ -137,7 +157,7 @@ module WorkPackage::PDFExport::Gantt
     end
 
     # Builds all page groups for the given work packages and dates
-    # @param [Array<WorkPackage>] work_packages
+    # @param [Array<GanttDataEntry>] entries
     # @param [Array<Date>] dates
     # @param [Integer] vertical_pages_needed
     # @param [Integer] horizontal_pages_needed
@@ -151,7 +171,7 @@ module WorkPackage::PDFExport::Gantt
     end
 
     # Builds pages for the given work packages and dates
-    # @param [Array<WorkPackage>] work_packages
+    # @param [Array<GanttDataEntry>] entries
     # @param [Array<Date>] dates
     # @param [Integer] horizontal_pages_needed
     # @return [Array<GanttDataPage>]
@@ -169,7 +189,7 @@ module WorkPackage::PDFExport::Gantt
     # Builds a page for the given dates and work packages
     # @param [Array<Date>] dates
     # @param [Integer] page_index
-    # @param [Array<WorkPackage>] work_packages
+    # @param [Array<GanttDataEntry>] entries
     # @return [GanttDataPage]
     def build_page(dates, page_index, entries)
       left = (page_index == 0 ? @text_column_width : 0)
@@ -190,7 +210,7 @@ module WorkPackage::PDFExport::Gantt
     # Builds the gantt columns for the given dates
     # @param [Float] left
     # @param [Array<Date>] dates
-    # @param [Array<WorkPackage>] work_packages
+    # @param [Array<GanttDataEntry>] entries
     # @return [Array<GanttDataColumn>]
     def build_columns(left, dates, entries)
       dates.each_with_index.map { |date, col_index| build_column(date, left + (col_index * @column_width), entries) }
@@ -199,10 +219,10 @@ module WorkPackage::PDFExport::Gantt
     # Builds the gantt column for the given date
     # @param [Date] date
     # @param [Float] left
-    # @param [Array<WorkPackage>] work_packages
+    # @param [Array<GanttDataEntry>] entries
     # @return [GanttDataColumn]
     def build_column(date, left, entries)
-      work_packages = entries.reject { |entry| entry.is_group }.map(&:work_package)
+      work_packages = entries.reject(&:group?).map(&:work_package)
       GanttDataColumn.new(date, left, @column_width, work_packages_on_date(date, work_packages).map(&:id))
     end
 
@@ -516,7 +536,7 @@ module WorkPackage::PDFExport::Gantt
                                            start_page_index, finish_page_index, page_groups)
       build_multi_page_dep_line_forward_start(source)
       build_multi_page_dep_line_middle(source, start_page_index, finish_page_index, source.finish_top)
-      build_multi_group_dep_line_end(source, target, finish_page_index, page_groups)
+      build_multi_group_dep_line_group_end(source, target, finish_page_index, page_groups)
     end
 
     # Builds the dependency line between two work packages on different horizontal and vertical pages
@@ -530,28 +550,44 @@ module WorkPackage::PDFExport::Gantt
                                             start_page_index, finish_page_index, page_groups)
       build_multi_page_dep_line_backward_start(source, source.finish_row.bottom)
       build_multi_page_dep_line_middle(source, start_page_index, finish_page_index, source.finish_top)
-      build_multi_group_dep_line_end(source, target, finish_page_index, page_groups)
+      build_multi_group_dep_line_group_end(source, target, finish_page_index, page_groups)
     end
-
 
     # Builds the dependency line between two work packages on different vertical pages
     # draw line on the target work package page
     # @param [GanttDataLineInfo] source
     # @param [GanttDataLineInfo] target
-    def build_multi_group_dep_line_end(source, target, finish_page_index, page_groups)
-      target_left = target.start_left
+    def build_multi_group_dep_line_group_end(source, target, finish_page_index, page_groups)
+      target_left = target.start_left - LINE_STEP
+      build_multi_group_dep_line_group_end_start(source, target_left, finish_page_index)
+      build_multi_group_dep_line_middle(source, target, finish_page_index, page_groups)
+      build_multi_group_dep_line_group_end_end(target, target_left)
+    end
+
+    # Builds the dependency line between two work packages on different vertical pages
+    # draw line on the source work package page position
+    # @param [GanttDataLineInfo] source
+    # @param [Float] target_left
+    # @param [Integer] finish_page_index
+    def build_multi_group_dep_line_group_end_start(source, target_left, finish_page_index)
       page = source.finish_row.page.group.pages[finish_page_index]
       page.add_lines(
         [
-          [0, target_left - LINE_STEP, source.finish_top, source.finish_top],
-          [target_left - LINE_STEP, target_left - LINE_STEP, source.finish_top, page.height],
+          [0, target_left, source.finish_top, source.finish_top],
+          [target_left, target_left, source.finish_top, page.height]
         ]
       )
-      build_multi_group_dep_line_middle(source, target, finish_page_index, page_groups)
+    end
+
+    # Builds the dependency line between two work packages on different vertical pages
+    # draw line on the target work package page position
+    # @param [GanttDataLineInfo] target
+    # @param [Float] target_left
+    def build_multi_group_dep_line_group_end_end(target, target_left)
       target.start_row.page.add_lines(
         [
-          [target_left - LINE_STEP, target_left - LINE_STEP, target.finish_row.page.header_row_height, target.finish_top],
-          [target_left - LINE_STEP, target_left, target.finish_top, target.finish_top]
+          [target_left, target_left, target.finish_row.page.header_row_height, target.finish_top],
+          [target_left, target.start_left, target.finish_top, target.finish_top]
         ]
       )
     end
@@ -566,10 +602,18 @@ module WorkPackage::PDFExport::Gantt
       start = [start_group_index, finish_group_index].min
       finish = [start_group_index, finish_group_index].max
       ((start + 1)..(finish - 1)).each do |index|
-        group = page_groups[index]
-        page = group.pages[finish_page_index]
-        page.add_line(target.start_left - LINE_STEP, target.start_left - LINE_STEP, page.header_row_height, page.height)
+        build_multi_group_dep_line_middle_for_group(page_groups[index], target, finish_page_index)
       end
+    end
+
+    # Builds the dependency line between two work packages on different vertical pages
+    # draw line on groups between the source and target work package page groups
+    # @param [GanttDataPageGroup] group
+    # @param [GanttDataLineInfo] target
+    # @param [Integer] finish_page_index
+    def build_multi_group_dep_line_middle_for_group(group, target, finish_page_index)
+      page = group.pages[finish_page_index]
+      page.add_line(target.start_left - LINE_STEP, target.start_left - LINE_STEP, page.header_row_height, page.height)
     end
 
     # Builds the text column data object if the page is first page of horizontal page group
@@ -600,7 +644,7 @@ module WorkPackage::PDFExport::Gantt
     def build_row(entry, row_index, columns, with_text_column)
       paint_columns = columns.filter { |column| column.entry_ids.include?(entry.id) }
       top = @header_row_height + (row_index * GANTT_ROW_HEIGHT)
-      shape = build_shape(top, paint_columns, entry.work_package) unless entry.is_group || paint_columns.empty?
+      shape = build_shape(top, paint_columns, entry.work_package) unless entry.group? || paint_columns.empty?
       text_lines = with_text_column ? build_row_text_lines(entry, top) : []
       GanttDataRow.new(row_index, entry.id, shape, text_lines, 0, top, GANTT_ROW_HEIGHT)
     end
@@ -612,23 +656,46 @@ module WorkPackage::PDFExport::Gantt
     def build_row_text_lines(entry, top)
       left = TEXT_CELL_PADDING_H
       right = left + @text_column_width - (TEXT_CELL_PADDING_H * 2)
-      text_top = top + TEXT_CELL_PADDING_V
-      if entry.is_group
-        text_bottom = text_top + GANTT_ROW_HEIGHT - (TEXT_CELL_PADDING_V * 2)
-        return [
-          GanttDataText.new(entry.subject, left, right, text_top, text_bottom, 8)
-        ]
-      end
+      return build_row_text_lines_group_row(entry, left, right, top) if entry.group?
 
-      text_top = top + TEXT_CELL_PADDING_V
-      text_bottom = text_top + 8
-      info = GanttDataText.new(work_package_info_line(entry.work_package), left, right, text_top, text_bottom, 8)
+      [build_row_text_lines_wp_info(entry, left, right, top),
+       build_row_text_lines_wp_title(entry, left, right, top)]
+    end
 
+    # Builds the title line for the given work package entry
+    # @param [GanttDataEntry] entry
+    # @param [Float] left
+    # @param [Float] right
+    # @param [Float] top
+    # @return [GanttDataText]
+    def build_row_text_lines_wp_title(entry, left, right, top)
       text_top = top + TEXT_CELL_PADDING_V + 4
       text_bottom = text_top + 16
-      title = GanttDataText.new(entry.work_package.subject, left, right, text_top, text_bottom, 8)
+      GanttDataText.new(entry.work_package.subject, left, right, text_top, text_bottom, 8)
+    end
 
-      [info, title]
+    # Builds the group row text lines for the given group entry
+    # @param [GanttDataEntry] entry
+    # @param [Float] left
+    # @param [Float] right
+    # @param [Float] top
+    # @return [Array<GanttDataText>]
+    def build_row_text_lines_group_row(entry, left, right, top)
+      text_top = top + TEXT_CELL_PADDING_V
+      text_bottom = text_top + GANTT_ROW_HEIGHT - (TEXT_CELL_PADDING_V * 2)
+      [GanttDataText.new(entry.subject, left, right, text_top, text_bottom, 8)]
+    end
+
+    # Builds the title line for the given work package entry
+    # @param [GanttDataEntry] entry
+    # @param [Float] left
+    # @param [Float] right
+    # @param [Float] top
+    # @return [GanttDataText]
+    def build_row_text_lines_wp_info(entry, left, right, top)
+      text_top = top + TEXT_CELL_PADDING_V
+      text_bottom = text_top + 8
+      GanttDataText.new(work_package_info_line(entry.work_package), left, right, text_top, text_bottom, 8)
     end
 
     # Returns the info text line for the given work package
@@ -762,12 +829,12 @@ module WorkPackage::PDFExport::Gantt
     def wp_dates(work_package)
       start_date = work_package.start_date || work_package.due_date
       end_date = work_package.due_date || work_package.start_date || Time.zone.today
-      [[start_date, end_date].min, [start_date, end_date].max]
+      [start_date, end_date].minmax
     end
 
     # translates the work package dates to column dates
     # will be overwritten by subclasses
-    # @param [Array<Date>] _range
+    # @param [Range<Date>] _range
     # @return [Array<Date>]
     def build_column_dates_range(_range)
       [] # to be overwritten
@@ -809,7 +876,7 @@ module WorkPackage::PDFExport::Gantt
     # @param [Date] _date
     # @return [Float]
     def calc_end_offset(_work_package, _date)
-      0 # to be overwritten
+      0.0 # to be overwritten
     end
   end
 end
