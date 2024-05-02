@@ -31,7 +31,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FolderFilesFileIdsDeepQuery, :webmock do
+RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilePathToIdMapQuery, :webmock do
   let(:user) { create(:user) }
   let(:storage) do
     create(:nextcloud_storage_with_local_connection, :as_not_automatically_managed, oauth_client_token_user: user)
@@ -40,9 +40,9 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FolderFiles
     Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken.strategy.with_user(user)
   end
 
-  it_behaves_like "folder_files_file_ids_deep_query: basic query setup"
+  it_behaves_like "file_path_to_id_map_query: basic query setup"
 
-  context "with parent folder being root", vcr: "nextcloud/folder_files_file_ids_deep_query_root" do
+  context "with parent folder being root", vcr: "nextcloud/file_path_to_id_map_query_root" do
     let(:folder) { Storages::Peripherals::ParentFolder.new("/") }
     let(:expected_ids) do
       {
@@ -61,10 +61,10 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FolderFiles
       }
     end
 
-    it_behaves_like "folder_files_file_ids_deep_query: successful query"
+    it_behaves_like "file_path_to_id_map_query: successful query"
   end
 
-  context "with a given parent folder", vcr: "nextcloud/folder_files_file_ids_deep_query_parent_folder" do
+  context "with a given parent folder", vcr: "nextcloud/file_path_to_id_map_query_parent_folder" do
     let(:folder) { Storages::Peripherals::ParentFolder.new("/Folder") }
     let(:expected_ids) do
       {
@@ -76,13 +76,13 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FolderFiles
       }
     end
 
-    it_behaves_like "folder_files_file_ids_deep_query: successful query"
+    it_behaves_like "file_path_to_id_map_query: successful query"
   end
 
-  context "with not existent parent folder", vcr: "nextcloud/folder_files_file_ids_deep_query_invalid_parent" do
+  context "with not existent parent folder", vcr: "nextcloud/file_path_to_id_map_query_invalid_parent" do
     let(:folder) { Storages::Peripherals::ParentFolder.new("/I/just/made/that/up") }
     let(:error_source) { Storages::Peripherals::StorageInteraction::Nextcloud::Internal::PropfindQuery }
 
-    it_behaves_like "folder_files_file_ids_deep_query: not found"
+    it_behaves_like "file_path_to_id_map_query: not found"
   end
 end

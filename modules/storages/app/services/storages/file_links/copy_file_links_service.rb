@@ -120,7 +120,7 @@ module Storages
 
       def target_files_map
         Peripherals::Registry
-          .resolve("#{@source.storage.short_provider_type}.queries.folder_files_file_ids_deep")
+          .resolve("#{@source.storage.short_provider_type}.queries.file_path_to_id_map")
           .call(storage: @source.storage, folder: Peripherals::ParentFolder.new(@target.project_folder_location))
       end
 

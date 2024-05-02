@@ -32,7 +32,7 @@ module Storages
   module Peripherals
     module StorageInteraction
       module Nextcloud
-        class FolderFilesFileIdsDeepQuery
+        class FilePathToIdMapQuery
           def self.call(storage:, auth_strategy:, folder:)
             new(storage).call(auth_strategy:, folder:)
           end
