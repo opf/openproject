@@ -33,7 +33,7 @@ class HomescreenController < ApplicationController
 
   def index
     @newest_projects = Project.visible.newest.take(3)
-    @favorite_projects = Project.visible.favored_by(User.current)
+    @favorite_projects = Project.visible.active.favored_by(User.current)
     @newest_users = User.active.newest.take(3)
     @news = News.latest(count: 3)
     @announcement = Announcement.active_and_current
