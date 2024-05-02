@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::Filters::FavoriteFilter < Queries::Projects::Filters::ProjectFilter
+class Queries::Projects::Filters::FavoredFilter < Queries::Projects::Filters::ProjectFilter
   include Queries::Filters::Shared::BooleanFilter
 
   def self.key
