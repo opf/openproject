@@ -25,6 +25,22 @@
 #  See COPYRIGHT and LICENSE files for more details.
 
 class WorkPackages::UpdateAncestors::Loader
+  DESCENDANT_ATTRIBUTES = {
+    id: "id",
+    parent_id: "parent_id",
+    estimated_hours: "estimated_hours",
+    remaining_hours: "remaining_hours",
+    status_excluded_from_totals: "statuses.excluded_from_totals",
+    schedule_manually: "schedule_manually",
+    ignore_non_working_days: "ignore_non_working_days"
+  }.freeze
+
+  WorkPackageLikeStruct = Data.define(*DESCENDANT_ATTRIBUTES.keys) do
+    def included_in_totals_calculation?
+      !status_excluded_from_totals
+    end
+  end
+
   def initialize(work_package, include_former_ancestors)
     self.work_package = work_package
     self.include_former_ancestors = include_former_ancestors
@@ -101,10 +117,10 @@ class WorkPackages::UpdateAncestors::Loader
               .descendants
               .where.not(id: queried_work_package.id)
 
-    attributes = selected_descendants_attributes
     scope
-      .pluck(*attributes)
-      .map { |p| WorkPackageLikeStruct.new(**attributes.zip(p).to_h) }
+      .left_joins(:status)
+      .pluck(*DESCENDANT_ATTRIBUTES.values)
+      .map { |p| WorkPackageLikeStruct.new(**DESCENDANT_ATTRIBUTES.keys.zip(p).to_h) }
   end
 
   # Returns the current ancestors sorted by distance (called generations in the table)
@@ -122,11 +138,6 @@ class WorkPackages::UpdateAncestors::Loader
                           else
                             []
                           end
-  end
-
-  def selected_descendants_attributes
-    # By having the id in here, we can avoid DISTINCT queries squashing duplicate values
-    %i[id parent_id estimated_hours remaining_hours schedule_manually ignore_non_working_days]
   end
 
   ##
@@ -151,8 +162,4 @@ class WorkPackages::UpdateAncestors::Loader
 
     previous_parent_changes&.first
   end
-
-  WorkPackageLikeStruct = Data.define(:id, :parent_id,
-                                      :estimated_hours, :remaining_hours,
-                                      :schedule_manually, :ignore_non_working_days)
 end

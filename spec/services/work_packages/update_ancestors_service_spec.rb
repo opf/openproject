@@ -34,6 +34,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
   shared_association_default(:priority) { create(:priority) }
   shared_association_default(:open_status, factory_name: :status) { create(:status, name: "Open", default_done_ratio: 0) }
   shared_let(:closed_status) { create(:closed_status, name: "Closed", default_done_ratio: 100) }
+  shared_let(:rejected_status) { create(:rejected_status, default_done_ratio: 20) }
   shared_let(:user) { create(:user) }
 
   # In order to have dependent values computed, this leverages
@@ -85,6 +86,21 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
             end
           end
         end
+
+        context "when changing child status to a status excluded from totals calculation" do
+          before do
+            set_attributes_on(child, status: rejected_status)
+            call_update_ancestors_service(child)
+          end
+
+          it "still recomputes child remaining work and updates ancestors total % complete excluding it" do
+            expect_work_packages([parent, child], <<~TABLE)
+              | subject | status   | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete |
+              | parent  | Open     |  10h |    10h |            10h |              10h |         0% |           0% |
+              |   child | Rejected |   5h |        |             4h |                  |        20% |              |
+            TABLE
+          end
+        end
       end
 
       context "with parent having nothing set, and 2 children having values set (bug #54179)" do
@@ -102,7 +118,6 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
           end
 
           it "sets parent total % complete to 100% and its total remaining work to 0h" do
-            table_work_packages.map(&:reload)
             expect_work_packages(table_work_packages, <<~TABLE)
               hierarchy | status | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
               parent    | Open   |      |    15h |                |               0h |         0% |         100%
@@ -729,6 +744,52 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
         expect_work_packages(updated_work_packages, <<~TABLE)
           subject | total work | total % complete
           parent  |        10h |              30%
+        TABLE
+      end
+    end
+
+    context "given child becomes excluded from totals calculation because of its status changed to rejected" do
+      shared_let_work_packages(<<~TABLE)
+        hierarchy | status | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+        parent    | Open   |  10h |    12h |             1h |               8h |        90% |          33%
+          child   | Open   |   2h |        |             7h |                  |        29% |
+      TABLE
+
+      subject(:call_result) do
+        set_attributes_on(child, status: rejected_status)
+        call_update_ancestors_service(child)
+      end
+
+      it "computes parent totals excluding the child from calculations accordingly" do
+        expect(call_result).to be_success
+        updated_work_packages = call_result.all_results
+        expect_work_packages(updated_work_packages, <<~TABLE)
+          hierarchy | status   | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+          parent    | Open     |  10h |    10h |             1h |               1h |        90% |          90%
+            child   | Rejected |   2h |        |             7h |                  |        29% |
+        TABLE
+      end
+    end
+
+    context "given child is no longer excluded from totals calculation because of its status changed from rejected" do
+      shared_let_work_packages(<<~TABLE)
+        hierarchy | status   | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+        parent    | Open     |  10h |    10h |             1h |               1h |        90% |          90%
+          child   | Rejected |   2h |        |             7h |                  |        29% |
+      TABLE
+
+      subject(:call_result) do
+        set_attributes_on(child, status: open_status)
+        call_update_ancestors_service(child)
+      end
+
+      it "computes parent totals excluding the child from calculations accordingly" do
+        expect(call_result).to be_success
+        updated_work_packages = call_result.all_results
+        expect_work_packages(updated_work_packages, <<~TABLE)
+          hierarchy | status | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+          parent    | Open   |  10h |    12h |             1h |               8h |        90% |          33%
+            child   | Open   |   2h |        |             7h |                  |        29% |
         TABLE
       end
     end

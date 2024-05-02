@@ -27,6 +27,17 @@
 require "spec_helper"
 
 RSpec.describe WorkPackages::UpdateAncestors::Loader, type: :model do
+  shared_let(:user) { create(:user) }
+  shared_let(:project) { create(:project_with_types) }
+  shared_let(:included_status) { create(:status) }
+  shared_let(:excluded_status) { create(:rejected_status) }
+
+  before_all do
+    set_factory_default(:project_with_types, project)
+    set_factory_default(:status, included_status)
+    set_factory_default(:user, user)
+  end
+
   shared_let(:grandgrandparent) do
     create(:work_package,
            subject: "grandgrandparent")
@@ -226,6 +237,7 @@ RSpec.describe WorkPackages::UpdateAncestors::Loader, type: :model do
   def work_package_struct(work_package)
     attribute_names = WorkPackages::UpdateAncestors::Loader::WorkPackageLikeStruct.members.map(&:to_s)
     attributes = work_package.attributes.slice(*attribute_names)
+    attributes[:status_excluded_from_totals] = false
     WorkPackages::UpdateAncestors::Loader::WorkPackageLikeStruct.new(**attributes)
   end
 
@@ -234,6 +246,28 @@ RSpec.describe WorkPackages::UpdateAncestors::Loader, type: :model do
       it "is its child (as a struct)" do
         expect(instance.descendants_of(work_package))
           .to contain_exactly(work_package_struct(child))
+      end
+
+      context "with the child having a status not being excluded from totals calculation" do
+        before do
+          child.update(status: included_status)
+        end
+
+        it "correctly responds true to #included_in_totals_calculation? like a WorkPackage instance" do
+          child = instance.descendants_of(work_package).first
+          expect(child.included_in_totals_calculation?).to be true
+        end
+      end
+
+      context "with the child having a status being excluded from totals calculation" do
+        before do
+          child.update(status: excluded_status)
+        end
+
+        it "correctly responds false to #included_in_totals_calculation? like a WorkPackage instance" do
+          child = instance.descendants_of(work_package).first
+          expect(child.included_in_totals_calculation?).to be false
+        end
       end
     end
 
