@@ -40,7 +40,7 @@ class WorkPackages::UpdateAncestors::Loader
 
   def descendants_of(queried_work_package)
     @descendants ||= Hash.new do |hash, wp|
-      hash[wp] = replaced_related_of(wp, :descendants)
+      hash[wp] = replaced_related_descendants(wp)
     end
 
     @descendants[queried_work_package]
@@ -72,7 +72,7 @@ class WorkPackages::UpdateAncestors::Loader
                    end
   end
 
-  # Replace descendants/leaves by ancestors if they are the same.
+  # Replace descendants by ancestors if they are the same.
   # This can e.g. be the case in scenario of
   # grandparent
   #      |
@@ -84,31 +84,27 @@ class WorkPackages::UpdateAncestors::Loader
   # Then grandparent and parent are already in ancestors.
   # Parent might be modified during the UpdateAncestorsService run,
   # and the descendants of grandparent need to have the updated value.
-  def replaced_related_of(queried_work_package, relation_type)
-    related_of(queried_work_package, relation_type).map do |leaf|
+  def replaced_related_descendants(queried_work_package)
+    related_descendants(queried_work_package).map do |leaf|
       if work_package.id == leaf.id
         work_package
       elsif (ancestor = ancestors.detect { |a| a.id == leaf.id })
         ancestor
       else
-        yield leaf if block_given?
         leaf
       end
     end
   end
 
-  def related_of(queried_work_package, relation_type)
+  def related_descendants(queried_work_package)
     scope = queried_work_package
-              .send(relation_type)
+              .descendants
               .where.not(id: queried_work_package.id)
 
-    if send(:"#{relation_type}_joins")
-      scope = scope.joins(send(:"#{relation_type}_joins"))
-    end
-
+    attributes = selected_descendants_attributes
     scope
-      .pluck(*send(:"selected_#{relation_type}_attributes"))
-      .map { |p| LoaderStruct.new(send(:"selected_#{relation_type}_attributes").zip(p).to_h) }
+      .pluck(*attributes)
+      .map { |p| LoaderStruct.new(attributes.zip(p).to_h) }
   end
 
   # Returns the current ancestors sorted by distance (called generations in the table)
@@ -130,19 +126,7 @@ class WorkPackages::UpdateAncestors::Loader
 
   def selected_descendants_attributes
     # By having the id in here, we can avoid DISTINCT queries squashing duplicate values
-    %i(id estimated_hours parent_id schedule_manually ignore_non_working_days remaining_hours)
-  end
-
-  def descendants_joins
-    nil
-  end
-
-  def selected_leaves_attributes
-    %i(id done_ratio derived_estimated_hours estimated_hours is_closed remaining_hours derived_remaining_hours)
-  end
-
-  def leaves_joins
-    :status
+    %i[id estimated_hours parent_id schedule_manually ignore_non_working_days remaining_hours]
   end
 
   ##
@@ -165,7 +149,7 @@ class WorkPackages::UpdateAncestors::Loader
 
     previous_parent_changes = previous[:parent_id] || previous[:parent]
 
-    previous_parent_changes ? previous_parent_changes.first : nil
+    previous_parent_changes&.first
   end
 
   class LoaderStruct < Hashie::Mash; end
