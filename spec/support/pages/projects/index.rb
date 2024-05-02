@@ -179,7 +179,7 @@ module Pages
 
       def filter_by_favored(value)
         set_filter("favored",
-                   "Favored",
+                   "Favorite",
                    "is",
                    [value])
 

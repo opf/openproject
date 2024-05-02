@@ -2055,7 +2055,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key created %{value} ago"
