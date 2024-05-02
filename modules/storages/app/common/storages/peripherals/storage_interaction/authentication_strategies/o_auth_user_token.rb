@@ -44,7 +44,7 @@ module Storages
           # rubocop:disable Metrics/AbcSize
           def call(storage:, http_options: {}, &)
             config = storage.oauth_configuration
-            current_token = OAuthClientToken.find_by(user_id: @user, oauth_client_id: config.oauth_client.id)
+            current_token = OAuthClientToken.find_by(user: @user, oauth_client: config.oauth_client)
             if current_token.nil?
               data = ::Storages::StorageErrorData.new(source: self.class)
               return Failures::Builder.call(code: :unauthorized,
