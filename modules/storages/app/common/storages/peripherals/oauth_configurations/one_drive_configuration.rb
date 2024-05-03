@@ -67,6 +67,8 @@ module Storages
         end
 
         def basic_rack_oauth_client
+          return nil if @oauth_client.nil?
+
           Rack::OAuth2::Client.new(
             identifier: @oauth_client.client_id,
             redirect_uri: @oauth_client.redirect_uri,
