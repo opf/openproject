@@ -318,7 +318,7 @@ be:
     menu:
       all: "All"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Заблакавана"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
       groups: "Groups"
@@ -2480,7 +2480,7 @@ be:
     storages:
       health:
         plaintext:
-          storage: "Storage"
+          storage: "Сховішча"
           healthy:
             summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
             error-solved-on: "Solved On"

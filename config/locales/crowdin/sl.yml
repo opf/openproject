@@ -262,7 +262,7 @@ sl:
       no_results_content_text: Kreiraj nov projekt
     lists:
       active: "Active projects"
-      my: "My projects"
+      my: "Moji projekti"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -315,12 +315,12 @@ sl:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "Vse"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Zaklenjeno"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Skupine"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -409,7 +409,7 @@ sl:
     memberships:
       no_results_title_text: Ta uporabnik trenutno ni član projekta.
   page:
-    text: "Text"
+    text: "Besedilo"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -607,7 +607,7 @@ sl:
         column_count: "Število stolpcev"
         widgets: "Gradniki"
       oauth_client:
-        client: "Client ID"
+        client: "ID odjemalca"
       relation:
         lag: "Lag"
         from: "Zahtevek"
@@ -632,7 +632,7 @@ sl:
           false: "private"
         queries: "Poizvedbe"
         status_code: "Status projekta"
-        description: "Description"
+        description: "Opis"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Ni začeto"
@@ -1048,7 +1048,7 @@ sl:
             ldap_auth_source:
               error_not_found: "Ni najdeno"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "Ni najdeno"
         member:
           principal_blank: "Prosimo izberite vsaj eno osebo ali kategorijo."
           role_blank: "treba dodeliti"
@@ -1256,7 +1256,7 @@ sl:
       token_cooldown: Žeton za varnostno kopiranje bo veljaven v %{hours} urah.
       backup_pending: Ena varnostna kopija je že na čakanju.
       limit_reached: Na dan lahko ustvarite samo %{limit}  varnostnih kopij.
-  button_actions: "Actions"
+  button_actions: "Akcije"
   button_add: "Dodaj"
   button_add_comment: "Dodaj komentar"
   button_add_member: Dodaj člana
@@ -1307,7 +1307,7 @@ sl:
   button_reset: "Ponastavi"
   button_rollback: "Povrni na to verzijo"
   button_save: "Shrani"
-  button_save_as: "Save as"
+  button_save_as: "Shrani kot"
   button_apply_changes: "Apply changes"
   button_save_back: "Shrani in nazaj"
   button_show: "Pokaži"
@@ -1616,7 +1616,7 @@ sl:
     message: Sporočilo urejeno
     news: Novice
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "Projekt urejen"
     projects: "Projekt urejen"
     reply: Odgovori
     time_entry: "Časovnik urejen"
@@ -1679,7 +1679,7 @@ sl:
       postgres_migration: "Selitev namestitve na PostgreSQL"
       user_guides: "Uporabniški priročniki"
       faq: "FAQ"
-      impressum: "Legal notice"
+      impressum: "Pravno obvestilo"
       glossary: "Slovar"
       shortcuts: "Bližnjice"
       blog: "Blog OpenProject"
@@ -1836,7 +1836,7 @@ sl:
   label_ascending: "Naraščajoče"
   label_assigned_to_me_work_packages: "Delovni paketi, ki so mi bili dodeljeni"
   label_associated_revisions: "Povezane revizije"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Priponka"
   label_attribute: "Atribut"
   label_attribute_plural: "Atributi"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1851,9 +1851,9 @@ sl:
   label_available_project_work_package_categories: "Razpoložljive kategorije delovnih paketov"
   label_available_project_work_package_types: "Razpoložljive vrste delovnih paketov"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "API dokumentacija"
   label_backup: "Varnostna kopija"
-  label_backup_code: "Backup code"
+  label_backup_code: "Rezervna koda"
   label_between: "med"
   label_blocked_by: "blokirano od"
   label_blocks: "Bloki"
@@ -1863,7 +1863,7 @@ sl:
   label_forum_plural: "Forumi"
   label_forum_sticky: "Lepljivo"
   label_boolean: "Logika"
-  label_board_plural: "Boards"
+  label_board_plural: "Table"
   label_branch: "Podružnica"
   label_browse: "Brskanje"
   label_bulk_edit_selected_work_packages: "Skupno urejanje izbranih delovnih paketov"
@@ -1922,7 +1922,7 @@ sl:
   label_custom_field_plural: "Polja po meri"
   label_custom_field_default_type: "Prazen tip"
   label_custom_style: "Oblika"
-  label_dashboard: "Dashboard"
+  label_dashboard: "Nadzorna plošča"
   label_database_version: "PostgreSQL verzija"
   label_date: "Datum"
   label_date_and_time: "Datum in ura"
@@ -1984,7 +1984,7 @@ sl:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Uvozi"
   label_export_to: "Na razpolago tudi v:"
-  label_expand: "Expand"
+  label_expand: "Razširi"
   label_expanded_click_to_collapse: "Razširjeno. Kliknite, če želite strniti"
   label_f_hour: "%{value} ura"
   label_f_hour_plural: "%{value} ur"
@@ -1995,7 +1995,7 @@ sl:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Datoteke"
   label_filter_add: "Dodaj filter"
-  label_filter: "Filters"
+  label_filter: "Filtri"
   label_filter_plural: "Filtri"
   label_filters_toggle: "Prikaži/skrij filter"
   label_float: "Lebdeti"
@@ -2022,7 +2022,7 @@ sl:
   label_home: "Domov"
   label_subject_or_id: "Predmet ali ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Identifikator "
   label_in: "v"
   label_in_less_than: "v manj kot"
   label_in_more_than: "v več kot"
@@ -2058,7 +2058,7 @@ sl:
   label_latest_revision: "Zadnja revizija"
   label_latest_revision_plural: "Zadnje revizije"
   label_ldap_authentication: "LDAP avtentikacija"
-  label_learn_more: "Learn more"
+  label_learn_more: "Več o tem"
   label_less_or_equal: "<="
   label_less_than_ago: "pred manj kot nekaj dnevi"
   label_list: "Seznam"
@@ -2254,7 +2254,7 @@ sl:
   label_search: "Išči"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Pošlji testni mail"
-  label_session: "Session"
+  label_session: "Seja"
   label_setting_plural: "Nastavitve"
   label_system_settings: "Sistemske nastavitve"
   label_show_completed_versions: "Prikaži zaključene različice"
@@ -3284,7 +3284,7 @@ sl:
     configure_view:
       heading: Configure view
       columns:
-        input_label: "Add columns"
+        input_label: "Dodaj stolpce"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
   top_menu:
@@ -3403,7 +3403,7 @@ sl:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Ni deljeno"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >

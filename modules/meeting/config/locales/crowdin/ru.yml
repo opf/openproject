@@ -45,10 +45,10 @@ ru:
         start_time: "Start time"
         start_time_hour: "Start time"
       meeting_agenda_item:
-        title: "Title"
-        author: "Author"
+        title: "Заголовок"
+        author: "Автор"
         duration_in_minutes: "мин"
-        description: "Notes"
+        description: "Примечания"
         presenter: "Presenter"
     errors:
       messages:
@@ -172,7 +172,7 @@ ru:
   text_agenda_item_title: 'Agenda item "%{title}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
   text_deleted_agenda_item: 'Deleted agenda item'
-  label_initial_meeting_details: "Meeting"
+  label_initial_meeting_details: "Совещание"
   label_meeting_details: "Детали совещания"
   label_meeting_details_edit: "Изменить сведения о совещании"
   label_meeting_state: "Meeting status"

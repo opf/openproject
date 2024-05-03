@@ -263,7 +263,7 @@ fil:
       no_results_content_text: Gumawa ng bagong proyekto
     lists:
       active: "Active projects"
-      my: "My projects"
+      my: "Ang mga aking proyekto"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -318,10 +318,10 @@ fil:
     menu:
       all: "All"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Naka-lock"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Mga grupo"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -398,7 +398,7 @@ fil:
     memberships:
       no_results_title_text: Ang user na ito ay kasalukuyang hindi myembro ng proyekto.
   page:
-    text: "Text"
+    text: "Teksto"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -621,7 +621,7 @@ fil:
           false: "private"
         queries: "Mga query"
         status_code: "Estado ng proyekto"
-        description: "Description"
+        description: "Deskripsyon"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -1035,7 +1035,7 @@ fil:
             ldap_auth_source:
               error_not_found: "hindi nakita"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "hindi nakita"
         member:
           principal_blank: "Mangayring pumili na kahit isang gumagamit o grupo."
           role_blank: "need to be assigned."
@@ -1229,7 +1229,7 @@ fil:
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: There is already a backup pending.
       limit_reached: You can only do %{limit} backups per day.
-  button_actions: "Actions"
+  button_actions: "Mga aksyon"
   button_add: "Magdagdag"
   button_add_comment: "Magdagdag ng komento"
   button_add_member: Magdagdag ng miyembro
@@ -1280,7 +1280,7 @@ fil:
   button_reset: "I-reset"
   button_rollback: "Pagbabalik ng bersyon ito"
   button_save: "I-save"
-  button_save_as: "Save as"
+  button_save_as: "I-save bilang"
   button_apply_changes: "Apply changes"
   button_save_back: "I-save at bumalik"
   button_show: "Ipakita"
@@ -1553,7 +1553,7 @@ fil:
     message: Naka-edit ang mensahe
     news: Mga balita
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "Naka-edit ang proyekto"
     projects: "Naka-edit ang proyekto"
     reply: Sumagot
     time_entry: "Naka-edit ang timelog"
@@ -1773,7 +1773,7 @@ fil:
   label_ascending: "Pataas"
   label_assigned_to_me_work_packages: "Ang work package ay nakatakaga sa akin"
   label_associated_revisions: "Nauugnay ng mga rebisyon"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Mga kalakip"
   label_attribute: "Katangian"
   label_attribute_plural: "Mga katangian"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1788,9 +1788,9 @@ fil:
   label_available_project_work_package_categories: "Ang mga kategorya ng magagamit na work package"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "API dokumentasyon"
   label_backup: "Backup"
-  label_backup_code: "Backup code"
+  label_backup_code: "Ang Backup code"
   label_between: "sa pagitan ng"
   label_blocked_by: "hinarangan ni"
   label_blocks: "mga hinarang"
@@ -1921,7 +1921,7 @@ fil:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Magagamit rin sa:"
-  label_expand: "Expand"
+  label_expand: "Palawakin"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} oras"
   label_f_hour_plural: "%{value} mga oras"
@@ -1932,7 +1932,7 @@ fil:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Mga file"
   label_filter_add: "Magdagdag ng filter"
-  label_filter: "Filters"
+  label_filter: "Mga nasala"
   label_filter_plural: "Mga nasala"
   label_filters_toggle: "Ipakita/itago ang mga salaan"
   label_float: "Lumutang"
@@ -1959,7 +1959,7 @@ fil:
   label_home: "Tahanan"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Ang pagkakakilanlan"
   label_in: "sa"
   label_in_less_than: "mas mababa kaysa"
   label_in_more_than: "mahigit sa"
@@ -1975,7 +1975,7 @@ fil:
   label_internal: "Panloob"
   label_introduction_video: "Introduction video"
   label_invite_user: "Imbitahan ang user"
-  label_share: "Share"
+  label_share: "Ibahagi"
   label_show_hide: "Ipakita/itago"
   label_show_all_registered_users: "Ipakita lahay ang mga nakarehistrong gumagamit"
   label_journal: "Talaarawan"
@@ -1995,7 +1995,7 @@ fil:
   label_latest_revision: "Pinakamabagong rebisyon"
   label_latest_revision_plural: "Ang mga pinakamabagong rebisyon"
   label_ldap_authentication: "LDAP na pagpapatunay"
-  label_learn_more: "Learn more"
+  label_learn_more: "Matuto ng higit pa"
   label_less_or_equal: "<="
   label_less_than_ago: "mas mababa kaysa sa mga araw na lumipas"
   label_list: "Listahan"
@@ -2191,7 +2191,7 @@ fil:
   label_search: "Hanapin"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Magpadala ng test email"
-  label_session: "Session"
+  label_session: "Sesyon"
   label_setting_plural: "Mga setting"
   label_system_settings: "Mga setting ng system"
   label_show_completed_versions: "Ipakita ang mga kompletong bersyon"
@@ -3216,7 +3216,7 @@ fil:
     configure_view:
       heading: Configure view
       columns:
-        input_label: "Add columns"
+        input_label: "Magdagdag ng hanay"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
   top_menu:
@@ -3333,7 +3333,7 @@ fil:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Hindi ibinahagi"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >

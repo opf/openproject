@@ -46,7 +46,7 @@ ne:
         title: "Title"
         author: "Author"
         duration_in_minutes: "min"
-        description: "Notes"
+        description: "द्रष्टव्यहरु"
         presenter: "Presenter"
     errors:
       messages:

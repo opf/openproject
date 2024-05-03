@@ -263,7 +263,7 @@ si:
       no_results_content_text: නව ව්‍යාපෘතියක් සාදන්න
     lists:
       active: "Active projects"
-      my: "My projects"
+      my: "මගේ ව්යාපෘති"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -316,12 +316,12 @@ si:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "සියලු"
       invited: "Invited"
-      locked: "Locked"
+      locked: "අගුළු දමා ඇත"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "කණ්ඩායම්"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -398,7 +398,7 @@ si:
     memberships:
       no_results_title_text: මෙම පරිශීලකයා දැනට ව්යාපෘතියක සාමාජිකයෙකු නොවේ.
   page:
-    text: "Text"
+    text: "පෙළ"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -596,7 +596,7 @@ si:
         column_count: "තීරු ගණන"
         widgets: "විජට්"
       oauth_client:
-        client: "Client ID"
+        client: "සේවාලාභියා හැඳුනුම්පත"
       relation:
         lag: "Lag"
         from: "වැඩ පැකේජය"
@@ -621,7 +621,7 @@ si:
           false: "private"
         queries: "විමසුම්"
         status_code: "ව්යාපෘති තත්ත්වය"
-        description: "Description"
+        description: "විස්තරය"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -1035,7 +1035,7 @@ si:
             ldap_auth_source:
               error_not_found: "සොයාගත නොහැකි විය"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "සොයාගත නොහැකි විය"
         member:
           principal_blank: "කරුණාකර අවම වශයෙන් එක් පරිශීලකයෙකු හෝ කණ්ඩායමක් තෝරන්න."
           role_blank: "පැවරිය යුතුය."
@@ -1229,7 +1229,7 @@ si:
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: There is already a backup pending.
       limit_reached: You can only do %{limit} backups per day.
-  button_actions: "Actions"
+  button_actions: "ක්‍රියාමාර්ග"
   button_add: "එකතු කරන්න"
   button_add_comment: "අදහස් එක් කරන්න"
   button_add_member: සාමාජිකයෙක් එකතු කරන්න
@@ -1280,7 +1280,7 @@ si:
   button_reset: "යළි පිහිටුවීම"
   button_rollback: "මෙම අනුවාදය වෙත ආපසු යන්න"
   button_save: "සුරකින්න"
-  button_save_as: "Save as"
+  button_save_as: "ලෙස සුරකින්න"
   button_apply_changes: "Apply changes"
   button_save_back: "සුරකින්න සහ නැවත"
   button_show: "පෙන්වන්න"
@@ -1553,7 +1553,7 @@ si:
     message: සංස්කරණය කරන ලද පණිවිඩය
     news: පුවත්
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "සංස්කරණය කරන ලද ව්යාපෘතිය"
     projects: "සංස්කරණය කරන ලද ව්යාපෘතිය"
     reply: පිළිතුරු
     time_entry: "සංස්කරණය ටයිමෙලෝග්"
@@ -1616,7 +1616,7 @@ si:
       postgres_migration: "ඔබගේ ස්ථාපනය PostgreSQL වෙත සංක්රමණය කිරීම"
       user_guides: "පරිශීලක මාර්ගෝපදේශ"
       faq: "නිතර අසන ප්රශ්න"
-      impressum: "Legal notice"
+      impressum: "නීතිමය දැනුම්දීම"
       glossary: "පාරිභාෂික ශබ්ද මාලාව"
       shortcuts: "කෙටිමං"
       blog: "OpenProject බ්ලොග්"
@@ -1773,7 +1773,7 @@ si:
   label_ascending: "නැගීම"
   label_assigned_to_me_work_packages: "මට පවරා ඇති වැඩ පැකේජ"
   label_associated_revisions: "ආශ්රිත සංශෝධන"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "ඇමුණුම්"
   label_attribute: "ගුණාංගය"
   label_attribute_plural: "ගුණාංග"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1788,7 +1788,7 @@ si:
   label_available_project_work_package_categories: "ලබාගත හැකි වැඩ පැකේජ කාණ්ඩ"
   label_available_project_work_package_types: "ලබා ගත හැකි වැඩ පැකේජය වර්ග"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "API ප්රලේඛනය"
   label_backup: "Backup"
   label_backup_code: "Backup code"
   label_between: "අතර"
@@ -1800,7 +1800,7 @@ si:
   label_forum_plural: "සංසද"
   label_forum_sticky: "ඇලවෙන"
   label_boolean: "බූලියන්"
-  label_board_plural: "Boards"
+  label_board_plural: "පුවරු"
   label_branch: "ශාඛාව"
   label_browse: "පිරික්සන්න"
   label_bulk_edit_selected_work_packages: "තොග සංස්කරණය තෝරාගත් වැඩ පැකේජ"
@@ -1921,7 +1921,7 @@ si:
   label_ifc_model_plural: "Ifc Models"
   label_import: "ආනයන"
   label_export_to: "ද ලබා ගත හැකි:"
-  label_expand: "Expand"
+  label_expand: "පුළුල්"
   label_expanded_click_to_collapse: "පුළුල්. කඩා වැටීමට ක්ලික් කරන්න"
   label_f_hour: "පැය%{value}"
   label_f_hour_plural: "පැය%{value}"
@@ -1932,7 +1932,7 @@ si:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "ගොනු"
   label_filter_add: "පෙරහන් එකතු කරන්න"
-  label_filter: "Filters"
+  label_filter: "පෙරහන්"
   label_filter_plural: "පෙරහන්"
   label_filters_toggle: "පෙරහන් පෙන්වන්න/සඟවන්න"
   label_float: "පාවෙන"
@@ -1959,7 +1959,7 @@ si:
   label_home: "නිවස"
   label_subject_or_id: "විෂය හෝ හැඳුනුම්පත"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "හඳුනාගැනීමේ"
   label_in: "තුළ"
   label_in_less_than: "වඩා අඩු"
   label_in_more_than: "වඩා වැඩි"
@@ -1995,7 +1995,7 @@ si:
   label_latest_revision: "නවතම සංශෝධනය"
   label_latest_revision_plural: "නවතම සංශෝධන"
   label_ldap_authentication: "LDAP සත්යාපන"
-  label_learn_more: "Learn more"
+  label_learn_more: "වැඩිදුර ඉගෙන ගන්න"
   label_less_or_equal: "<="
   label_less_than_ago: "දින ගණනකට පෙර"
   label_list: "ලැයිස්තුව"
@@ -2191,7 +2191,7 @@ si:
   label_search: "සොයන්න"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "පරීක්ෂණ ඊ-තැපෑලක් යවන්න"
-  label_session: "Session"
+  label_session: "සැසිය"
   label_setting_plural: "සැකසුම්"
   label_system_settings: "පද්ධති සැකසුම්"
   label_show_completed_versions: "සම්පූර්ණ කළ අනුවාද පෙන්වන්න"
@@ -3218,7 +3218,7 @@ si:
     configure_view:
       heading: Configure view
       columns:
-        input_label: "Add columns"
+        input_label: "තීරු එකතු කරන්න"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
   top_menu:
@@ -3335,7 +3335,7 @@ si:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "බෙදාගෙන නැත"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >

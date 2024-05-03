@@ -284,7 +284,7 @@ hu:
         no_results_title_text: Jelenleg nincs elérhető egyedi mező.
       project_custom_fields:
         header:
-          title: "Project attributes"
+          title: "Projekt attribútumok"
           description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
         filter:
           label: "Search project attribute"
@@ -593,7 +593,7 @@ hu:
         column_count: "Oszlopok száma"
         widgets: "Kisalkalmazások"
       oauth_client:
-        client: "Client ID"
+        client: "Ügyfél azonosító"
       relation:
         lag: "Lag"
         from: "Feladatcsoport"
@@ -711,7 +711,7 @@ hu:
         parent_issue: "Szülő"
         parent_work_package: "Szülő"
         priority: "Fontosság"
-        progress: "% Complete"
+        progress: "%-ban kész"
         readonly: "Olvasható"
         remaining_hours: "Hátralévő munka"
         remaining_time: "Hátralévő munka"
@@ -898,7 +898,7 @@ hu:
             selects:
               name_not_included: "The 'Name' column needs to be included"
               nonexistent: "The column '%{column}' does not exist."
-              format: "%{message}"
+              format: "%{message}\n"
           group_by_hierarchies_exclusive: "kölcsönösen kizárja a csoportot a '%{group_by}' csoporttal. Nem aktiválhatja mindkettőt."
           filters:
             custom_fields:
@@ -993,11 +993,11 @@ hu:
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
               must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
               only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
-              format: "%{message}"
+              format: "%{message}\n"
             remaining_hours:
               cant_exceed_work: "Cannot be higher than Work."
               must_be_set_when_work_is_set: "Required when Work is set."
-              format: "%{message}"
+              format: "%{message}\n"
           readonly_status: "A munkacsomag írásvédett, ezért a tulajdonságai nem módosíthatók."
         type:
           attributes:
@@ -1032,7 +1032,7 @@ hu:
             ldap_auth_source:
               error_not_found: "nem található"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "nem található"
         member:
           principal_blank: "Kérem, válasszon legalább egy felhasználót vagy csoportot."
           role_blank: "Hozzá kell rendelve lennie"
@@ -1226,7 +1226,7 @@ hu:
       token_cooldown: A visszaállítási kulcs még %{hours} óráig érvényes.
       backup_pending: Egy visszaállítás még függőben van.
       limit_reached: Csak a megadott %{limit} visszaállítást tudsz készíteni naponta
-  button_actions: "Actions"
+  button_actions: "Műveletek"
   button_add: "Hozzáadás"
   button_add_comment: "Megjegyzés hozzáadása"
   button_add_member: Tag hozzáadása
@@ -1770,7 +1770,7 @@ hu:
   label_ascending: "Növekvő"
   label_assigned_to_me_work_packages: "Magamhoz rendelt feladatcsoportok"
   label_associated_revisions: "Kapcsolódó módosítások"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Csatolmány"
   label_attribute: "Attribútum"
   label_attribute_plural: "Attribútumok"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1785,9 +1785,9 @@ hu:
   label_available_project_work_package_categories: "Rendelkezésre álló munkacsomag kategóriák"
   label_available_project_work_package_types: "Rendelkezésre álló munkacsomag típusok"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "API dokumentáció"
   label_backup: "Biztonsági mentés"
-  label_backup_code: "Backup code"
+  label_backup_code: "Visszaállítási kulcs"
   label_between: "között"
   label_blocked_by: "Blokkolta"
   label_blocks: "blokkolja"
@@ -1797,7 +1797,7 @@ hu:
   label_forum_plural: "Fórumok"
   label_forum_sticky: "Kiemelt"
   label_boolean: "Logikai"
-  label_board_plural: "Boards"
+  label_board_plural: "Táblák"
   label_branch: "Branch"
   label_browse: "böngész"
   label_bulk_edit_selected_work_packages: "A kiválasztott feladatcsoportok tömeges szerkesztése"
@@ -1856,7 +1856,7 @@ hu:
   label_custom_field_plural: "Választható mezők"
   label_custom_field_default_type: "Üres típus"
   label_custom_style: "Kinézet"
-  label_dashboard: "Dashboard"
+  label_dashboard: "Vezérlőpult"
   label_database_version: "PostgreSQL verzió"
   label_date: "dátum"
   label_date_and_time: "Dátum és idő"
@@ -1918,7 +1918,7 @@ hu:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Importálás"
   label_export_to: "Is elérhető:"
-  label_expand: "Expand"
+  label_expand: "Kibont"
   label_expanded_click_to_collapse: "Kinyitva. Kattintson az összecsukáshoz"
   label_f_hour: "%{value} óra"
   label_f_hour_plural: "%{value} óra"
@@ -1929,7 +1929,7 @@ hu:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Fájlok"
   label_filter_add: "Szűrő hozzáadása"
-  label_filter: "Filters"
+  label_filter: "Szürő"
   label_filter_plural: "Szűrők"
   label_filters_toggle: "Szűrők mutatása/elrejtése"
   label_float: "Mozgó"
@@ -1938,7 +1938,7 @@ hu:
   label_force_user_language_to_default: "Nyelv beállitása a felhasználóknak, amelyeknél nem az alapértelmezett nyelv az elfogadott"
   label_form_configuration: "Űrlap konfiguráció"
   label_gantt_chart: "Gantt-diagram"
-  label_gantt_chart_plural: "Gantt charts"
+  label_gantt_chart_plural: "Gantt-diagram"
   label_general: "Általános"
   label_generate_key: "Létrehoz egy kulcsot"
   label_git_path: ".Git könyvtár elérési útja"
@@ -1956,7 +1956,7 @@ hu:
   label_home: "Home"
   label_subject_or_id: "Tárgy, vagy azonosító"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Azonosító"
   label_in: "in"
   label_in_less_than: "kevesebb, mint"
   label_in_more_than: "több mint"
@@ -1972,7 +1972,7 @@ hu:
   label_internal: "Belső"
   label_introduction_video: "Bemutató videó"
   label_invite_user: "Felhasználó meghívása"
-  label_share: "Share"
+  label_share: "Megosztás"
   label_show_hide: "Megjelenítés/Elrejtés"
   label_show_all_registered_users: "Minden regisztrált felhasználó megjelenítése"
   label_journal: "Hírközlés"
@@ -1992,7 +1992,7 @@ hu:
   label_latest_revision: "Legutolsó változat"
   label_latest_revision_plural: "Legutolsó változatok"
   label_ldap_authentication: "LDAP-hitelesítés"
-  label_learn_more: "Learn more"
+  label_learn_more: "További információ"
   label_less_or_equal: "<="
   label_less_than_ago: "kevesebb, nappal ezelött"
   label_list: "Lista"
@@ -2118,9 +2118,9 @@ hu:
   label_privacy_policy: "Adatvédelmi és biztonsági szabályzat"
   label_product_version: "Termékverzió"
   label_profile: "Profil"
-  label_percent_complete: "% Complete"
+  label_percent_complete: "%-ban kész"
   label_project_activity: "Project activity"
-  label_project_attribute_plural: "Project attributes"
+  label_project_attribute_plural: "Projekt attribútumok"
   label_project_count: "A projektek teljes száma"
   label_project_copy_notifications: "E-mail értesítéseket küld a projekt másolás során"
   label_project_latest: "Legújabb projektek"
@@ -2129,8 +2129,8 @@ hu:
   label_project_new: "Új projekt"
   label_project_plural: "Projektek"
   label_project_list_plural: "Project lists"
-  label_project_attributes_plural: "Project attributes"
-  label_project_custom_field_plural: "Project attributes"
+  label_project_attributes_plural: "Projekt attribútumok"
+  label_project_custom_field_plural: "Projekt attribútumok"
   label_project_settings: "Projekt beállítások"
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
@@ -2155,7 +2155,7 @@ hu:
   label_relation_delete: "Kapcsolat törlése"
   label_relation_new: "Új kapcsolat"
   label_release_notes: "Kiadási megjegyzések"
-  label_remaining_work: "Remaining work"
+  label_remaining_work: "Fennmaradó órák"
   label_remove_columns: "Eltávolítja a kijelölt oszlopokat"
   label_renamed: "átnevez"
   label_reply_plural: "Válaszok"
@@ -2188,7 +2188,7 @@ hu:
   label_search: "Keresés"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Teszt levél küldése"
-  label_session: "Session"
+  label_session: "Munkamenet"
   label_setting_plural: "Beállítások"
   label_system_settings: "Rendszerbeállítások"
   label_show_completed_versions: "Befejezett verziók megjelenítése"
@@ -2288,7 +2288,7 @@ hu:
   label_wiki_show_new_page_link: "Almenüpont megjelenítése \" új gyermekoldal létrehozása\""
   label_wiki_show_submenu_item: "Megjelenítés mint: almenüpont "
   label_wiki_start: "Kezdő oldal"
-  label_work: "Work"
+  label_work: "Munka"
   label_work_package: "Feladatcsoport"
   label_work_package_attachments: "Munkacsomag mellékletek"
   label_work_package_category_new: "Új kategória"
@@ -2389,7 +2389,7 @@ hu:
         assigned: "Hozzárendelve"
         responsible: "Felelős"
         mentioned: "Megemlített"
-        shared: "Shared"
+        shared: "Megosztva"
         subscribed: "mind"
         prefix: "Az értesítés beállítása miatt érkezett: %{reason}\n"
         date_alert_start_date: "Date alert"
@@ -2409,7 +2409,7 @@ hu:
     storages:
       health:
         plaintext:
-          storage: "Storage"
+          storage: "Tárhely"
           healthy:
             summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
             error-solved-on: "Solved On"
@@ -3029,7 +3029,7 @@ hu:
     other: "Egyéb"
     passwords: "Jelszavak"
     project_attributes:
-      heading: "Project attributes"
+      heading: "Projekt attribútumok"
       label_new_attribute: "Project attribute"
       label_new_section: "Section"
       label_edit_section: "Edit title"
@@ -3214,7 +3214,7 @@ hu:
     configure_view:
       heading: Configure view
       columns:
-        input_label: "Add columns"
+        input_label: "Oszlopok hozzáadása"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
   top_menu:
@@ -3331,7 +3331,7 @@ hu:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Nem megosztott"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >

@@ -318,7 +318,7 @@ sr:
     menu:
       all: "All"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Zaključano"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
       groups: "Groups"

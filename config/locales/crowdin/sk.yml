@@ -263,7 +263,7 @@ sk:
       no_results_content_text: Vytvoriť nový projekt
     lists:
       active: "Active projects"
-      my: "My projects"
+      my: "Moje projekty"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -316,12 +316,12 @@ sk:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "Všetky"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Uzamknuté"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Skupiny"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -610,7 +610,7 @@ sk:
         column_count: "Počet stĺpcov"
         widgets: "Miniaplikácie"
       oauth_client:
-        client: "Client ID"
+        client: "ID klienta"
       relation:
         lag: "Lag"
         from: "Pracovný balíček"
@@ -635,7 +635,7 @@ sk:
           false: "private"
         queries: "Požiadavky"
         status_code: "Stav projektu"
-        description: "Description"
+        description: "Popis"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -1051,7 +1051,7 @@ sk:
             ldap_auth_source:
               error_not_found: "nenájdené"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "nenájdené"
         member:
           principal_blank: "Vyberte aspoň jedného používateľa alebo skupinu."
           role_blank: "musí byť pridelené."
@@ -1259,7 +1259,7 @@ sk:
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: There is already a backup pending.
       limit_reached: You can only do %{limit} backups per day.
-  button_actions: "Actions"
+  button_actions: "Akcie"
   button_add: "Pridať"
   button_add_comment: "Pridať komentár"
   button_add_member: Pridať člena
@@ -1310,7 +1310,7 @@ sk:
   button_reset: "Vynulovať"
   button_rollback: "Vrátenie k tejto verzii"
   button_save: "Uložiť"
-  button_save_as: "Save as"
+  button_save_as: "Uložiť ako"
   button_apply_changes: "Apply changes"
   button_save_back: "Uloženie a návrat"
   button_show: "Ukázať"
@@ -1619,7 +1619,7 @@ sk:
     message: Správa upravená
     news: Novinky
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "Projekt upravený"
     projects: "Projekt upravený"
     reply: Zodpovedané
     time_entry: "Časový záznam zmenený"
@@ -1839,7 +1839,7 @@ sk:
   label_ascending: "Vzostupne"
   label_assigned_to_me_work_packages: "Mne priradené pracovné balíčky"
   label_associated_revisions: "Súvisiace revízie"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Prílohy"
   label_attribute: "Atribút"
   label_attribute_plural: "Atribúty"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1854,9 +1854,9 @@ sk:
   label_available_project_work_package_categories: "Dostupné kategórie pracovných balíčkov"
   label_available_project_work_package_types: "Dostupné kategórie pracovných balíčkov"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "Dokumentácia API"
   label_backup: "Backup"
-  label_backup_code: "Backup code"
+  label_backup_code: "Záložný kód"
   label_between: "medzi"
   label_blocked_by: "zablokované používateľom"
   label_blocks: "bloky"
@@ -1866,7 +1866,7 @@ sk:
   label_forum_plural: "Diskusie"
   label_forum_sticky: "Dôležité (vždy vyššie)"
   label_boolean: "Booleovská hodnota (pavda/nepravda)"
-  label_board_plural: "Boards"
+  label_board_plural: "Nástenky"
   label_branch: "Vetva"
   label_browse: "Prechádzať"
   label_bulk_edit_selected_work_packages: "Hromadne upraviť vybrané pracovné balíčky"
@@ -1987,7 +1987,7 @@ sk:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "K dispozícii tiež ako:"
-  label_expand: "Expand"
+  label_expand: "Rozbaliť"
   label_expanded_click_to_collapse: "Rozbalené. Kliknutí zbalíte"
   label_f_hour: "%{value} hodina"
   label_f_hour_plural: "%{value} hodín"
@@ -1998,7 +1998,7 @@ sk:
   label_feeds_access_key_type: "RSS kanál"
   label_file_plural: "Súbory"
   label_filter_add: "Pridať filter"
-  label_filter: "Filters"
+  label_filter: "Filtre"
   label_filter_plural: "Filtre"
   label_filters_toggle: "Zobraziť / skryť filtre"
   label_float: "Plávajúce (float)"
@@ -2025,7 +2025,7 @@ sk:
   label_home: "Úvod"
   label_subject_or_id: "Predmet alebo ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Identifikátor"
   label_in: "v"
   label_in_less_than: "v menej ako"
   label_in_more_than: "vo viac ako"
@@ -2041,7 +2041,7 @@ sk:
   label_internal: "Interné"
   label_introduction_video: "Úvodné video"
   label_invite_user: "Pozvať používateľa"
-  label_share: "Share"
+  label_share: "Zdieľať"
   label_show_hide: "Zobraziť/skryť"
   label_show_all_registered_users: "Zobraziť všetkých registrovaných užívateľov"
   label_journal: "Denník"
@@ -2061,7 +2061,7 @@ sk:
   label_latest_revision: "Posledná revízia"
   label_latest_revision_plural: "Posledné revízie"
   label_ldap_authentication: "LDAP autentifikácia"
-  label_learn_more: "Learn more"
+  label_learn_more: "Zistiť viac"
   label_less_or_equal: "<="
   label_less_than_ago: "pred necelým dňom"
   label_list: "Zoznam"
@@ -2257,7 +2257,7 @@ sk:
   label_search: "Vyhľadávanie"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Odoslať testovací email"
-  label_session: "Session"
+  label_session: "Relácie"
   label_setting_plural: "Nastavenia"
   label_system_settings: "Nastavenia systému"
   label_show_completed_versions: "Zobraziť dokončené verzie"
@@ -3287,7 +3287,7 @@ sk:
     configure_view:
       heading: Configure view
       columns:
-        input_label: "Add columns"
+        input_label: "Pridať stĺpce"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
   top_menu:
@@ -3406,7 +3406,7 @@ sk:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Nezdieľané"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >

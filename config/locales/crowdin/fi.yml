@@ -263,7 +263,7 @@ fi:
       no_results_content_text: Luo uusi projekti
     lists:
       active: "Active projects"
-      my: "My projects"
+      my: "Omat projektit"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -316,12 +316,12 @@ fi:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "Kaikki"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Lukittu"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Ryhmät"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -398,7 +398,7 @@ fi:
     memberships:
       no_results_title_text: Tämä käyttäjä ei ole projektin jäsen.
   page:
-    text: "Text"
+    text: "Teksti"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -621,7 +621,7 @@ fi:
           false: "private"
         queries: "Kyselyt"
         status_code: "Projektin tila"
-        description: "Description"
+        description: "Kuvaus"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -1035,7 +1035,7 @@ fi:
             ldap_auth_source:
               error_not_found: "ei löydetty"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "ei löydetty"
         member:
           principal_blank: "Valitse vähintään yksi käyttäjä tai ryhmä."
           role_blank: "need to be assigned."
@@ -1229,7 +1229,7 @@ fi:
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: There is already a backup pending.
       limit_reached: You can only do %{limit} backups per day.
-  button_actions: "Actions"
+  button_actions: "Toiminnot"
   button_add: "Lisää"
   button_add_comment: "Lisää kommentti"
   button_add_member: Lisää jäsen
@@ -1280,7 +1280,7 @@ fi:
   button_reset: "Nollaus"
   button_rollback: "Siirry takaisin tähän versioon"
   button_save: "Tallenna"
-  button_save_as: "Save as"
+  button_save_as: "Tallenna nimellä"
   button_apply_changes: "Apply changes"
   button_save_back: "Tallenna ja palaa"
   button_show: "Näytä"
@@ -1553,7 +1553,7 @@ fi:
     message: Viestiä muokattu
     news: Uutiset
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "Projektia muokattu"
     projects: "Projektia muokattu"
     reply: Vastattu
     time_entry: "Timelog edited"
@@ -1773,7 +1773,7 @@ fi:
   label_ascending: "Nouseva"
   label_assigned_to_me_work_packages: "Minulle määritellyt tehtävät"
   label_associated_revisions: "Liittyvät versiot"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Liitteet"
   label_attribute: "Määre"
   label_attribute_plural: "Määreet"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1788,9 +1788,9 @@ fi:
   label_available_project_work_package_categories: "Olemassa olevat tehtäväluokat"
   label_available_project_work_package_types: "Olemassa olevat tehtävätyypit"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "API-dokumentaatio"
   label_backup: "Backup"
-  label_backup_code: "Backup code"
+  label_backup_code: "Palautuskoodi"
   label_between: "välillä"
   label_blocked_by: "estänyt"
   label_blocks: "estää"
@@ -1800,7 +1800,7 @@ fi:
   label_forum_plural: "Keskustelupalstat"
   label_forum_sticky: "Pysyvä"
   label_boolean: "Totuusarvo"
-  label_board_plural: "Boards"
+  label_board_plural: "Taulut"
   label_branch: "Haara"
   label_browse: "Selaus"
   label_bulk_edit_selected_work_packages: "Muokkaa valittuja tehtäviä"
@@ -1921,7 +1921,7 @@ fi:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Tuo"
   label_export_to: "Vie"
-  label_expand: "Expand"
+  label_expand: "Laajenna"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} tunti"
   label_f_hour_plural: "%{value} tuntia"
@@ -1932,7 +1932,7 @@ fi:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Tiedostot"
   label_filter_add: "Lisää suodatin"
-  label_filter: "Filters"
+  label_filter: "Suodattimet"
   label_filter_plural: "Suodattimet"
   label_filters_toggle: "Show/hide filters"
   label_float: "Liukuluku"
@@ -1959,7 +1959,7 @@ fi:
   label_home: "Koti"
   label_subject_or_id: "Aihe tai ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Tunniste"
   label_in: "tässä"
   label_in_less_than: "pienempi kuin"
   label_in_more_than: "suurempi kuin"
@@ -1975,7 +1975,7 @@ fi:
   label_internal: "Sisäinen"
   label_introduction_video: "Introduction video"
   label_invite_user: "Kutsu käyttäjä"
-  label_share: "Share"
+  label_share: "Jaa"
   label_show_hide: "Näytä/piilota"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
@@ -2191,7 +2191,7 @@ fi:
   label_search: "Haku"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Lähetä testi sähköposti"
-  label_session: "Session"
+  label_session: "Istunto"
   label_setting_plural: "Asetukset"
   label_system_settings: "Järjestelmäasetukset"
   label_show_completed_versions: "Näytä valmiit versiot"
@@ -3218,7 +3218,7 @@ fi:
     configure_view:
       heading: Configure view
       columns:
-        input_label: "Add columns"
+        input_label: "Lisää sarakkeita"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
   top_menu:
@@ -3335,7 +3335,7 @@ fi:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Ei ole jaettu"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >

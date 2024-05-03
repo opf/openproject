@@ -263,7 +263,7 @@ th:
       no_results_content_text: สร้างโครงการใหม่
     lists:
       active: "Active projects"
-      my: "My projects"
+      my: "โครงการของฉัน"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -316,12 +316,12 @@ th:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "ทั้งหมด"
       invited: "Invited"
-      locked: "Locked"
+      locked: "ล็อค"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "กลุ่ม"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -392,7 +392,7 @@ th:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
   page:
-    text: "Text"
+    text: "ข้อความ"
   placeholder_users:
     right_to_manage_members_missing: >
       คุณไม่ได้รับอนุญาตให้ลบผู้ใช้ตัวยึดตำแหน่ง คุณไม่มีสิทธิ์จัดการสมาชิกสำหรับโครงการทั้งหมดที่ผู้ใช้ตัวแทนเป็นสมาชิกอยู่
@@ -614,7 +614,7 @@ th:
           false: "private"
         queries: "การสอบถาม"
         status_code: "สถานะของโครงการ"
-        description: "Description"
+        description: "คำอธิบาย"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -1265,7 +1265,7 @@ th:
   button_reset: "ตั้งค่าใหม่"
   button_rollback: "ย้อนกลับมาที่รุ่นนี้"
   button_save: "บันทึก"
-  button_save_as: "Save as"
+  button_save_as: "บันทึกเป็น"
   button_apply_changes: "Apply changes"
   button_save_back: "Save and back"
   button_show: "แสดง"
@@ -1520,7 +1520,7 @@ th:
     message: ข้อความได้รับการแก้ไขแล้ว
     news: ข่าวสาร
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "โครงการได้รับการแก้ไขแล้ว"
     projects: "โครงการได้รับการแก้ไขแล้ว"
     reply: ตอบกลับ
     time_entry: "บันทึกเวลาได้รับการแก้ไขแล้ว"
@@ -1740,7 +1740,7 @@ th:
   label_ascending: "จากน้อยไปมาก"
   label_assigned_to_me_work_packages: "ชุดภารกิจที่ฉันได้รับมอบหมาย"
   label_associated_revisions: "การปรับปรุงที่เกี่ยวข้อง"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "ไฟล์แนบ"
   label_attribute: "คุณลักษณะ"
   label_attribute_plural: "คุณลักษณะ"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1888,7 +1888,7 @@ th:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "ยังสามารถพบใน:"
-  label_expand: "Expand"
+  label_expand: "ขยาย"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} ชั่วโมง"
   label_f_hour_plural: "%{value} ชั่วโมง"
@@ -1899,7 +1899,7 @@ th:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "ไฟล์"
   label_filter_add: "เพิ่มตัวกรอง"
-  label_filter: "Filters"
+  label_filter: "ตัวกรอง"
   label_filter_plural: "ตัวกรอง"
   label_filters_toggle: "Show/hide filters"
   label_float: "ลอย"
@@ -1926,7 +1926,7 @@ th:
   label_home: "หน้าหลัก"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "รหัส"
   label_in: "ใน"
   label_in_less_than: "ในไม่เกิน"
   label_in_more_than: "ในมากกว่า"
@@ -1942,7 +1942,7 @@ th:
   label_internal: "ภายใน"
   label_introduction_video: "Introduction video"
   label_invite_user: "Invite user"
-  label_share: "Share"
+  label_share: "แชร์"
   label_show_hide: "แสดง/ซ่อน"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "บันทึก"
@@ -1962,7 +1962,7 @@ th:
   label_latest_revision: "ปรับปรุงล่าสุด"
   label_latest_revision_plural: "ปรับปรุงล่าสุด"
   label_ldap_authentication: "การระบุตัวตนผู้ใช้ระบบโดย LDAP"
-  label_learn_more: "Learn more"
+  label_learn_more: "เรียนรู้เพิ่มเติม"
   label_less_or_equal: "<="
   label_less_than_ago: "น้อยกว่าสามวันที่ผ่านมา"
   label_list: "รายการ"
@@ -2158,7 +2158,7 @@ th:
   label_search: "ค้นหา"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "ส่งอีเมลทดสอบ"
-  label_session: "Session"
+  label_session: "เซสชั่น"
   label_setting_plural: "การตั้งค่า"
   label_system_settings: "System settings"
   label_show_completed_versions: "แสดงเวอร์ชันที่เสร็จสมบูรณ์"
@@ -3299,7 +3299,7 @@ th:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "ไม่ได้แบ่งปัน"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >

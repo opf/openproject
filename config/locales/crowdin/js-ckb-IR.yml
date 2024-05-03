@@ -382,7 +382,7 @@ ckb-IR:
     label_and: "and"
     label_ascending: "Ascending"
     label_author: "Author: %{user}"
-    label_avatar: "ئاڤاتار"
+    label_avatar: "Avatar"
     label_between: "between"
     label_board: "Board"
     label_board_locked: "Locked"

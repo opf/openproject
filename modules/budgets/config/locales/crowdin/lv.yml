@@ -21,7 +21,7 @@
 #++
 lv:
   plugin_budgets_engine:
-    name: 'Budgets'
+    name: 'Budžets'
   activerecord:
     attributes:
       budget:
@@ -30,7 +30,7 @@ lv:
         budget: "Planned"
         budget_ratio: "Spent (ratio)"
         description: "Apraksts"
-        spent: "Spent"
+        spent: "Pavadīts"
         status: "Statuss"
         subject: "Nosaukums"
         type: "Cost type"
@@ -39,13 +39,13 @@ lv:
       work_package:
         budget_subject: "Budget title"
     models:
-      budget: "Budget"
+      budget: "Budžets"
       material_budget_item: "Unit"
   activity:
     filter:
-      budget: "Budgets"
+      budget: "Budžets"
   attributes:
-    budget: "Budget"
+    budget: "Budžets"
   button_add_budget_item: "Add planned costs"
   button_add_budget: "Add budget"
   button_add_cost_type: "Add cost type"
@@ -54,15 +54,15 @@ lv:
   caption_labor: "Labor"
   caption_labor_costs: "Actual labor costs"
   caption_material_costs: "Actual unit costs"
-  budgets_title: "Budgets"
+  budgets_title: "Budžets"
   events:
     budget: "Budget edited"
   help_click_to_edit: "Click here to edit."
   help_currency_format: "Format of displayed currency values. %n is replaced with the currency value, %u ist replaced with the currency unit."
   help_override_rate: "Enter a value here to override the default rate."
-  label_budget: "Budget"
+  label_budget: "Budžets"
   label_budget_new: "New budget"
-  label_budget_plural: "Budgets"
+  label_budget_plural: "Budžets"
   label_budget_id: "Budžets #%{id}"
   label_deliverable: "Budžets"
   label_example_placeholder: 'piemēram, %{decimal}'

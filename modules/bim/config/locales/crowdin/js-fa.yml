@@ -3,7 +3,7 @@ fa:
   js:
     bcf:
       label_bcf: 'BCF'
-      import: 'Import'
+      import: 'درون‌ریزی'
       import_bcf_xml_file: 'Import BCF XML file (BCF version 2.1)'
       export: 'خروجی'
       export_bcf_xml_file: 'Export BCF XML file (BCF version 2.1)'

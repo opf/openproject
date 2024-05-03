@@ -7,7 +7,7 @@ ms:
       label_unnamed_list: 'Senarai tanpa nama'
       label_board_type: "Jenis board\n"
       upsale:
-        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+        teaser_text: 'Adakah anda ingin mengautomatikkan aliran kerja dengan Board? Board lanjutan ada di dalam tambahan Enterprise. Sila naik taraf ke pelan berbayar.'
         upgrade: 'Naik taraf sekarang'
       lists:
         delete: 'Padam senarai'
@@ -62,7 +62,7 @@ ms:
           status: Status
           version: Versi
           subproject: Subprojek
-          subtasks: Parent-child
+          subtasks: Ibu bapa-anak
           basic: "Asas\n"
         select_attribute: "Atribut tindakan"
       add_list_modal:

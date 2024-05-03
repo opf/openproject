@@ -263,7 +263,7 @@ hr:
       no_results_content_text: Novi projekt
     lists:
       active: "Active projects"
-      my: "My projects"
+      my: "Moji projekati"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -316,12 +316,12 @@ hr:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "Svi"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Zaključano"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Grupe"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -404,7 +404,7 @@ hr:
     memberships:
       no_results_title_text: Korisnik trenutno nije član projekta.
   page:
-    text: "Text"
+    text: "Tekst"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -628,7 +628,7 @@ hr:
           false: "private"
         queries: "Upiti"
         status_code: "Status projekta"
-        description: "Description"
+        description: "Opis"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -1043,7 +1043,7 @@ hr:
             ldap_auth_source:
               error_not_found: "nije pronađeno"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "nije pronađeno"
         member:
           principal_blank: "Molim vas odaberite najamnje jednog korisnika ili grupu."
           role_blank: "need to be assigned."
@@ -1295,7 +1295,7 @@ hr:
   button_reset: "Resetiraj"
   button_rollback: "Vrati na ovu verziju"
   button_save: "Spremi"
-  button_save_as: "Save as"
+  button_save_as: "Spremiti kao"
   button_apply_changes: "Apply changes"
   button_save_back: "Snimi i vratiti"
   button_show: "Prikaži"
@@ -1586,7 +1586,7 @@ hr:
     message: Poruka uređena
     news: Vijesti
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "Projekt je uređivan"
     projects: "Projekt je uređivan"
     reply: Je odgovorio
     time_entry: "Timelog uređen"
@@ -1806,7 +1806,7 @@ hr:
   label_ascending: "Uzlazno"
   label_assigned_to_me_work_packages: "Radni paketi dodijeljeni meni"
   label_associated_revisions: "Pridružene revizije"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Prilozi"
   label_attribute: "Atribut"
   label_attribute_plural: "Atributi"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1821,7 +1821,7 @@ hr:
   label_available_project_work_package_categories: "Dostupne kategorije radnih paketa"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "API dokumentacija"
   label_backup: "Backup"
   label_backup_code: "Backup code"
   label_between: "između"
@@ -1954,7 +1954,7 @@ hr:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Također dostupan kao:"
-  label_expand: "Expand"
+  label_expand: "Proširiti"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} sat"
   label_f_hour_plural: "%{value} sati"
@@ -1965,7 +1965,7 @@ hr:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Datoteke"
   label_filter_add: "Dodaj filter"
-  label_filter: "Filters"
+  label_filter: "Filteri"
   label_filter_plural: "Filteri"
   label_filters_toggle: "Pokaži/Sakrij filtere"
   label_float: "Plutajući"
@@ -1992,7 +1992,7 @@ hr:
   label_home: "Početna"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Identifikator"
   label_in: "u"
   label_in_less_than: "u manje od"
   label_in_more_than: "u više od"
@@ -2008,7 +2008,7 @@ hr:
   label_internal: "Unutarnji"
   label_introduction_video: "Introduction video"
   label_invite_user: "Pozovi korisnika"
-  label_share: "Share"
+  label_share: "Podijeli"
   label_show_hide: "Pokaži/Sakrij"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
@@ -2028,7 +2028,7 @@ hr:
   label_latest_revision: "Zadnja revizija"
   label_latest_revision_plural: "Zadnje revizije"
   label_ldap_authentication: "LDAP provjera autentičnosti"
-  label_learn_more: "Learn more"
+  label_learn_more: "Saznaj više"
   label_less_or_equal: "<="
   label_less_than_ago: "manje od dana"
   label_list: "Popis"
@@ -2224,7 +2224,7 @@ hr:
   label_search: "Pretraživanje"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Pošalji probni e-mail"
-  label_session: "Session"
+  label_session: "Sesija"
   label_setting_plural: "Postavke"
   label_system_settings: "Postavke sustava"
   label_show_completed_versions: "Prikažite završene verzije"
@@ -3371,7 +3371,7 @@ hr:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Nije dijeljeno"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >

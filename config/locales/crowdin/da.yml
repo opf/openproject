@@ -261,7 +261,7 @@ da:
       no_results_content_text: Opret et nyt projekt
     lists:
       active: "Active projects"
-      my: "My projects"
+      my: "Mine projekter"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -316,10 +316,10 @@ da:
     menu:
       all: "All"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Låst"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Grupper"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -396,7 +396,7 @@ da:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
   page:
-    text: "Text"
+    text: "Tekst"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -619,7 +619,7 @@ da:
           false: "private"
         queries: "Forespørgsler"
         status_code: "Projektstatus"
-        description: "Description"
+        description: "Beskrivelse"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -1227,7 +1227,7 @@ da:
       token_cooldown: Sikkerhedskopi token vil være gyldig om %{hours} timer.
       backup_pending: There is already a backup pending.
       limit_reached: You can only do %{limit} backups per day.
-  button_actions: "Actions"
+  button_actions: "Handlinger"
   button_add: "Tilføj"
   button_add_comment: "Tilføj kommentar"
   button_add_member: Tilføj medlem
@@ -1278,7 +1278,7 @@ da:
   button_reset: "Nulstil"
   button_rollback: "Vend tilbage til denne version"
   button_save: "Gem"
-  button_save_as: "Save as"
+  button_save_as: "Gem som"
   button_apply_changes: "Apply changes"
   button_save_back: "Save and back"
   button_show: "Vis"
@@ -1551,7 +1551,7 @@ da:
     message: Meddelelse er redigeret
     news: Nyheder
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "Projekt er redigeret"
     projects: "Projekt er redigeret"
     reply: Besvaret
     time_entry: "Tidsregistreringer ændret"
@@ -1771,7 +1771,7 @@ da:
   label_ascending: "Stigende"
   label_assigned_to_me_work_packages: "Mine tilknyttede arbejdspakker"
   label_associated_revisions: "Tilknyttede ændringer"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Vedhæftninger"
   label_attribute: "Egenskab"
   label_attribute_plural: "Egenskaber"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1786,7 +1786,7 @@ da:
   label_available_project_work_package_categories: "Tilgængelige arbejdspakkekategorier"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "API-dokumentation"
   label_backup: "Backup"
   label_backup_code: "Backup code"
   label_between: "mellem"
@@ -1919,7 +1919,7 @@ da:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Også til rådighed i:"
-  label_expand: "Expand"
+  label_expand: "Udvid"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} time"
   label_f_hour_plural: "%{value} timer"
@@ -1930,7 +1930,7 @@ da:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Filer"
   label_filter_add: "Tilføj filter"
-  label_filter: "Filters"
+  label_filter: "Filtre"
   label_filter_plural: "Filtre"
   label_filters_toggle: "Show/hide filters"
   label_float: "Flyd"
@@ -1957,7 +1957,7 @@ da:
   label_home: "Hjem"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "ID"
   label_in: "i"
   label_in_less_than: "på mindre end"
   label_in_more_than: "på mere end"
@@ -1973,7 +1973,7 @@ da:
   label_internal: "Intern"
   label_introduction_video: "Introduction video"
   label_invite_user: "Invitér bruger"
-  label_share: "Share"
+  label_share: "Del"
   label_show_hide: "Vis/Skjul"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
@@ -1993,7 +1993,7 @@ da:
   label_latest_revision: "Seneste revidering"
   label_latest_revision_plural: "Seneste revideringer"
   label_ldap_authentication: "LDAP-godkendelse"
-  label_learn_more: "Learn more"
+  label_learn_more: "Få mere at vide"
   label_less_or_equal: "<="
   label_less_than_ago: "mindre end dage siden"
   label_list: "Liste"
@@ -3331,7 +3331,7 @@ da:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Ikke delt"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >

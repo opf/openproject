@@ -37,7 +37,7 @@ lv:
           off_track: 'Off track'
           at_risk: 'At risk'
           not_set: 'Not set'
-          finished: 'Finished'
+          finished: 'Pabeigts'
           discontinued: 'Discontinued'
         subprojects:
           title: 'Apakšprojekti'

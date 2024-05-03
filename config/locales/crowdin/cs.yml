@@ -285,7 +285,7 @@ cs:
         no_results_title_text: V současné době nejsou k dispozici žádná vlastní pole.
       project_custom_fields:
         header:
-          title: "Project attributes"
+          title: "Atributy projektu"
           description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
         filter:
           label: "Search project attribute"
@@ -1155,12 +1155,12 @@ cs:
           added: "set to %{value}"
           added_html: "set to <i>%{value}</i>"
           removed: "removed"
-          updated: "changed from %{old_value} to %{value}"
+          updated: "změněno z %{old_value} na %{value}"
           updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
         position:
           updated: "reordered"
         work_package:
-          updated: "changed from %{old_value} to %{value}"
+          updated: "změněno z %{old_value} na %{value}"
           updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
       changeset: "Změny"
@@ -1259,7 +1259,7 @@ cs:
       token_cooldown: Záložní token bude platný za %{hours} hodin.
       backup_pending: Záloha je již v pořadí.
       limit_reached: Můžete provádět pouze %{limit} záloh denně.
-  button_actions: "Actions"
+  button_actions: "Akce"
   button_add: "Přidat"
   button_add_comment: "Přidat komentář"
   button_add_member: Přidat člena
@@ -1330,7 +1330,7 @@ cs:
   button_add_menu_entry: "Přidat položku menu"
   button_configure_menu_entry: "Konfigurace položky menu"
   button_delete_menu_entry: "Odstranit položku menu"
-  button_view_shared_work_packages: "View shared work packages"
+  button_view_shared_work_packages: "Zobrazit všechny sdílené pracovní balíčky"
   button_manage_roles: "Manage roles"
   button_remove_member: "Remove member"
   button_remove_member_and_shares: "Remove member and shares"
@@ -1839,7 +1839,7 @@ cs:
   label_ascending: "Vzestupně"
   label_assigned_to_me_work_packages: "Pracovní balíčky přidělené mně"
   label_associated_revisions: "Související revize"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Přílohy"
   label_attribute: "Atribut"
   label_attribute_plural: "Atributy"
   label_ldap_auth_source_new: "Nové připojení LDAP"
@@ -1987,7 +1987,7 @@ cs:
   label_ifc_model_plural: "Ifc modely"
   label_import: "Importovat"
   label_export_to: "K dispozici:"
-  label_expand: "Expand"
+  label_expand: "Rozbalit"
   label_expanded_click_to_collapse: "Rozbaleno. Klepnutím sbalte"
   label_f_hour: "%{value} hodina"
   label_f_hour_plural: "%{value} hodin"
@@ -2061,7 +2061,7 @@ cs:
   label_latest_revision: "Poslední revize"
   label_latest_revision_plural: "Poslední revize"
   label_ldap_authentication: "Ověřování LDAP"
-  label_learn_more: "Learn more"
+  label_learn_more: "Více informací"
   label_less_or_equal: "<="
   label_less_than_ago: "před méně jak (dny)"
   label_list: "Seznam"
@@ -2187,7 +2187,7 @@ cs:
   label_privacy_policy: "Zásady ochrany soukromí a bezpečnosti údajů"
   label_product_version: "Verze produktu"
   label_profile: "Profil"
-  label_percent_complete: "% Complete"
+  label_percent_complete: "% Dokončeno"
   label_project_activity: "Aktivita projektu"
   label_project_attribute_plural: "Atributy projektu"
   label_project_count: "Celkový počet projektů"
@@ -2197,9 +2197,9 @@ cs:
   label_project_hierarchy: "Hierarchie projektu"
   label_project_new: "Nový projekt"
   label_project_plural: "Projekty"
-  label_project_list_plural: "Project lists"
-  label_project_attributes_plural: "Project attributes"
-  label_project_custom_field_plural: "Project attributes"
+  label_project_list_plural: "Seznamy projektů"
+  label_project_attributes_plural: "Atributy projektu"
+  label_project_custom_field_plural: "Atributy projektu"
   label_project_settings: "Nastavení projektu"
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "Úložiště souborů"
@@ -2224,7 +2224,7 @@ cs:
   label_relation_delete: "Odstranit vztah"
   label_relation_new: "Nový vztah"
   label_release_notes: "Poznámky k verzi"
-  label_remaining_work: "Remaining work"
+  label_remaining_work: "Zbývající práce"
   label_remove_columns: "Odstranit vybrané sloupce"
   label_renamed: "přejmenováno"
   label_reply_plural: "odpovědi"
@@ -2357,7 +2357,7 @@ cs:
   label_wiki_show_new_page_link: "Zobrazit položku menu \"Vytvořit novou podřízenou stránku\""
   label_wiki_show_submenu_item: "Zobrazit jako položku podnabídky "
   label_wiki_start: "Úvodní stránka"
-  label_work: "Work"
+  label_work: "Práce"
   label_work_package: "Pracovní balíček"
   label_work_package_attachments: "Přílohy pracovních balíčků"
   label_work_package_category_new: "Nová kategorie"
@@ -2480,7 +2480,7 @@ cs:
     storages:
       health:
         plaintext:
-          storage: "Storage"
+          storage: "Úložiště"
           healthy:
             summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
             error-solved-on: "Solved On"
@@ -3102,7 +3102,7 @@ cs:
     other: "Ostatní"
     passwords: "Hesla"
     project_attributes:
-      heading: "Project attributes"
+      heading: "Atributy projektu"
       label_new_attribute: "Project attribute"
       label_new_section: "Section"
       label_edit_section: "Edit title"
@@ -3409,7 +3409,7 @@ cs:
       text_user_limit_reached: "Přidáním dalších uživatelů bude aktuální limit překročen. Pro zvýšení limitu uživatelů kontaktujte správce, abyste zajistili přístup externích uživatelů k tomuto pracovnímu balíčku."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
-        Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
+        Přidáním dalších uživatelů bude aktuální limit překročen. Pro zvýšení limitu uživatelů kontaktujte správce, abyste zajistili přístup externích uživatelů k tomuto pracovnímu balíčku.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
       warning_no_selected_user: "Vyberte uživatele pro sdílení tohoto pracovního balíčku "
