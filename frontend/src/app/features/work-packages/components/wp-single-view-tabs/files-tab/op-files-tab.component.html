@@ -4,7 +4,7 @@
   <section
     class="op-tab-content--tab-section"
     [ngClass]="{ 'op-tab-content--tab-section_no-header': (showAttachmentHeader$ | async) === false }"
-    *ngIf="!this.workPackage.hideAttachments"
+    *ngIf="showAttachments"
     data-test-selector="op-tab-content--tab-section"
   >
     <div

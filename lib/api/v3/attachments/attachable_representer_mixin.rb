@@ -36,6 +36,8 @@ module API
 
         included do
           link :attachments do
+            next unless list_attachments?
+
             {
               href: attachments_by_resource
             }
@@ -48,7 +50,7 @@ module API
             next if represented.new_record?
 
             {
-              href: attachments_by_resource + "/prepare",
+              href: "#{attachments_by_resource}/prepare",
               method: :post
             }
           end
@@ -68,6 +70,10 @@ module API
                    exec_context: :decorator,
                    if: ->(*) { embed_links },
                    uncacheable: true
+
+          def list_attachments?
+            true
+          end
 
           def attachments
             ::API::V3::Attachments::AttachmentCollectionRepresenter.new(attachment_set,

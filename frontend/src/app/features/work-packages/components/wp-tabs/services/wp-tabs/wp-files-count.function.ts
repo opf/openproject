@@ -43,7 +43,7 @@ export function workPackageFilesCount(
 
   return combineLatest(
     [
-      workPackage.hideAttachments ? new BehaviorSubject([]) : attachmentService.collection(workPackage.$links.attachments.href || ''),
+      workPackage.$links.attachments ? attachmentService.collection(workPackage.$links.attachments.href || '') : new BehaviorSubject([]),
       fileLinkService.collection(workPackage.$links.fileLinks?.href || ''),
     ],
   ).pipe(

@@ -66,7 +66,7 @@ end
             render(Primer::Alpha::ToggleSwitch.new(src: set_hide_attachments_project_path(@project),
                                                    csrf_token: form_authenticity_token,
                                                    status_label_position: :end,
-                                                   checked: @project.hide_attachments,))
+                                                   checked: !@project.hide_attachments))
           end
         end
         l.with_row do

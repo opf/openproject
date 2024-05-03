@@ -468,13 +468,6 @@ module API
                    status_id && status.is_readonly?
                  end
 
-        property :hide_attachments,
-                 writable: false,
-                 render_nil: false,
-                 getter: ->(*) do
-                   project.hide_attachments || Setting.hide_attachments
-                 end
-
         associated_resource :category
 
         associated_resource :type
@@ -585,6 +578,10 @@ module API
           represented.define_all_custom_field_accessors
 
           super
+        end
+
+        def list_attachments?
+          !(represented.project.hide_attachments || Setting.hide_attachments)
         end
 
         # Permissions

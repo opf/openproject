@@ -212,6 +212,14 @@ module API
                  location: :link,
                  writable: false
 
+          schema :attachments,
+                 type: "AttachmentCollection",
+                 required: false,
+                 writable: false,
+                 show_if: ->(*) do
+                            !(represented.work_package.project.hide_attachments || Setting.hide_attachments)
+                          end
+
           schema_with_allowed_link :project,
                                    type: "Project",
                                    required: true,
@@ -223,12 +231,6 @@ module API
                                        api_v3_paths.available_projects_on_edit(represented.id)
                                      end
                                    }
-
-          schema_with_allowed_link :attachments,
-                                   type: "AttachmentCollection",
-                                   required: false,
-                                   writable: false,
-                                   href_callback: -> {}
 
           schema_with_allowed_link :parent,
                                    type: "WorkPackage",
