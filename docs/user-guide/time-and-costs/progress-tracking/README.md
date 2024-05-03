@@ -39,7 +39,7 @@ OpenProject offers two modes for reporting progress:
 
 >**%&nbsp;Complete** is work done (**Work** - **Remaining work**) divided by **Work**, expressed as a percentage. For example, if Work is set at 50h and Remaining work is 30h, this means that %&nbsp;Complete is _(50h-30h)/50h))_ = **40%**. Please note that these calculations are independent and unrelated to the value of **Spent time** (which is based on actual time logged). 
 
-This means that for a work package to have a value for %&nbsp;Complete, both Work and Remaining work are required to be set. To make this link clear and transparent, clicking on any of the three values to modify them will display the following pop-over:
+This means that for a work package to have a value for %&nbsp;Complete, both Work and Remaining work are required to be set. To make this link clear and transparent, clicking on *Work* or *Remaining work* to modify them will display the following pop-over:
 
 ![Work estimates and progress pop-over with work-based progress reporting](progress-popover-work-based.png)
 
