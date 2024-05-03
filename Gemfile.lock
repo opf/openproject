@@ -668,7 +668,7 @@ GEM
     ladle (1.0.1)
       open4 (~> 1.0)
     language_server-protocol (3.17.0.3)
-    launchy (3.0.0)
+    launchy (3.0.1)
       addressable (~> 2.8)
       childprocess (~> 5.0)
     lefthook (1.6.10)
