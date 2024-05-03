@@ -2,14 +2,14 @@ ms:
   activerecord:
     attributes:
       storages/file_link:
-        origin_id: Origin Id
+        origin_id: ID Asal
       storages/storage:
         creator: Pencipta
         drive: ID Pemacu
         host: Hos
         name: Nama
         provider_type: Jenis provider
-        tenant: Directory (tenant) ID
+        tenant: ID Direktori (penyewa)
     errors:
       messages:
         not_linked_to_project: tidak terpaut dengan projek.
@@ -25,7 +25,7 @@ ms:
         storages/storage:
           attributes:
             host:
-              authorization_header_missing: is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is necessary for a Bearer token based authorization of API requests. Please double check your HTTP server configuration.
+              authorization_header_missing: belum disediakan sepenuhnya. Contoh Nextcloud tidak menerima pengepala "Dibenarkan" yang diperlukan untuk token Bearer, berdasarkan kebenaran permintaan API. Sila memeriksa server konfigurasi HTTP anda dengan teliti.
               cannot_be_connected_to: tidak boleh disambungkan.
               minimal_nextcloud_version_unmet: tidak memenuhi keperluan versi minimum (mesti Nextcloud 23 atau lebih tinggi)
               not_nextcloud_server: adalah bukan server Nextcloud
@@ -39,14 +39,14 @@ ms:
   api_v3:
     errors:
       too_many_elements_created_at_once: Terlalu banyak unsur dicipta dalam satu masa. Dijangka %{max} paling banyak, mendapat %{actual}.
-  permission_create_files: 'External Storage: Create files'
-  permission_delete_files: 'External Storage: Delete files'
+  permission_create_files: 'External Storage: Cipta fail'
+  permission_delete_files: 'External Storage: Padam fail'
   permission_manage_file_links: Urus pautan fail
   permission_manage_storages_in_project: Urus fail storan dalam projek
-  permission_read_files: 'External Storage: Read files'
-  permission_share_files: 'External Storage: Share files'
+  permission_read_files: 'External Storage: Baca fail'
+  permission_share_files: 'External Storage: Kongsi fail'
   permission_view_file_links: Papar pautan fail
-  permission_write_files: 'External Storage: Write files'
+  permission_write_files: 'External Storage: Tulis fail'
   project_module_storages: Storan fail
   storages:
     buttons:
@@ -84,7 +84,7 @@ ms:
         manual_management: Manually managed access and folders
         manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
         setup_incomplete: Select the type of management of user access and folder creation.
-        subtitle: Access management
+        subtitle: Akses pengurusan
         title: Access and project folders
       automatically_managed_folders: Folder yang dikendalikan secara automatik
       general_information: Maklumat umum
@@ -104,7 +104,7 @@ ms:
       subtitle: Folder projek yang dikendalikan secara automatik
       title: Status kesihatan
     health_email_notifications:
-      description_subscribed: All administrators receive health status email notifications for this storage.
+      description_subscribed: Semua pentadbir menerima pemberitahuan e-mel status kesihatan untuk storan ini.
       description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
       error_could_not_be_saved: Email notification settings could not be saved. Please try again.
       subscribe: Langgan
