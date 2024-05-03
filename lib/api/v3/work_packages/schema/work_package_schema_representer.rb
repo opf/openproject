@@ -181,9 +181,9 @@ module API
                  type: "Duration",
                  required: false,
                  show_if: ->(*) {
-                            current_user.allowed_in_project?(:view_time_entries, represented.project) ||
-                            current_user.allowed_in_any_work_package?(:view_own_time_entries, in_project: represented.project)
-                          }
+                   current_user.allowed_in_project?(:view_time_entries, represented.project) ||
+                     current_user.allowed_in_any_work_package?(:view_own_time_entries, in_project: represented.project)
+                 }
 
           schema :percentage_done,
                  type: "Integer",
@@ -223,6 +223,12 @@ module API
                                        api_v3_paths.available_projects_on_edit(represented.id)
                                      end
                                    }
+
+          schema_with_allowed_link :attachments,
+                                   type: "AttachmentCollection",
+                                   required: false,
+                                   writable: false,
+                                   href_callback: -> {}
 
           schema_with_allowed_link :parent,
                                    type: "WorkPackage",
