@@ -27,7 +27,7 @@
 //++
 
 import { Injector } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -43,7 +43,7 @@ export function workPackageFilesCount(
 
   return combineLatest(
     [
-      attachmentService.collection(workPackage.$links.attachments.href || ''),
+      workPackage.hideAttachments ? new BehaviorSubject([]) : attachmentService.collection(workPackage.$links.attachments.href || ''),
       fileLinkService.collection(workPackage.$links.fileLinks?.href || ''),
     ],
   ).pipe(

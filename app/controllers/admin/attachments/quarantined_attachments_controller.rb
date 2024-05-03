@@ -35,7 +35,7 @@ module Admin
 
       before_action :find_attachment, only: %i[destroy]
 
-      menu_item :attachment_quarantine
+      menu_item :attachments
 
       def index; end
 

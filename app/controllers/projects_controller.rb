@@ -91,6 +91,10 @@ class ProjectsController < ApplicationController
     hide_project_in_layout
   end
 
+  def set_hide_attachments
+    @project.update_column(:hide_attachments, params["value"])
+  end
+
   private
 
   def has_managed_project_folders?(project)

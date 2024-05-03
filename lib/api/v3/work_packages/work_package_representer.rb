@@ -468,6 +468,13 @@ module API
                    status_id && status.is_readonly?
                  end
 
+        property :hide_attachments,
+                 writable: false,
+                 render_nil: false,
+                 getter: ->(*) do
+                   project.hide_attachments || Setting.hide_attachments
+                 end
+
         associated_resource :category
 
         associated_resource :type

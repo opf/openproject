@@ -736,6 +736,12 @@ module Settings
         default: "",
         writable: false
       },
+      hide_attachments: {
+        description: "Hide attachments by default.",
+        format: :boolean,
+        default: false,
+        writable: true
+      },
       https: {
         description: "Set assumed connection security for the Rails processes",
         format: :boolean,
@@ -761,14 +767,14 @@ module Settings
         default: 3
       },
       httpx_operation_timeout: {
-        description: '',
+        description: "",
         format: :float,
         writable: false,
         allowed: (0..),
         default: 10
       },
       httpx_request_timeout: {
-        description: '',
+        description: "",
         format: :float,
         writable: false,
         allowed: (0..),

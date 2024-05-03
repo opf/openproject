@@ -40,6 +40,7 @@ en:
   api_v3:
     errors:
       too_many_elements_created_at_once: Too many elements created at once. Expected %{max} at most, got %{actual}.
+  external_file_storages: External file storages
   permission_create_files: 'External Storage: Create files'
   permission_delete_files: 'External Storage: Delete files'
   permission_header_for_project_module_storages: Automatically managed project folders
@@ -49,7 +50,7 @@ en:
   permission_share_files: 'External Storage: Share files'
   permission_view_file_links: View file links
   permission_write_files: 'External Storage: Write files'
-  project_module_storages: File storages
+  project_module_storages: Files
   storages:
     buttons:
       complete_without_setup: Complete without it
