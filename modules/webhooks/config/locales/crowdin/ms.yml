@@ -5,7 +5,7 @@ ms:
   activerecord:
     attributes:
       webhooks/webhook:
-        url: 'Payload URL'
+        url: 'Muatan URL'
         secret: 'Signature secret'
         events: 'Agenda'
         projects: 'Projek yang diaktifkan'
@@ -55,7 +55,7 @@ ms:
         events:
           title: 'Enabled events'
         project_ids:
-          title: 'Enabled projects'
+          title: 'Projek yang diaktifkan'
           description: 'Select for which projects this webhook should be executed for.'
           all: 'All projects'
           selected: 'Selected projects only'

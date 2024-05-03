@@ -39,5 +39,11 @@ class Setting
         "http"
       end
     end
+
+    ##
+    # Host name without protocol
+    def host_without_protocol
+      Setting.host_name.split(":").first
+    end
   end
 end

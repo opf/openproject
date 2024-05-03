@@ -1,6 +1,6 @@
 sk:
   js:
     queries:
-      all_open: 'All open'
+      all_open: 'Všetky otvorené'
       timeline: 'Timeline'
       milestones: 'Milestones'

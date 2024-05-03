@@ -58,7 +58,7 @@ ms:
       download_backup: Muat turun sandaran
       request_backup: Request backup
     close_popup_title: "Tutup pop timbul"
-    close_filter_title: "Close filter"
+    close_filter_title: "Tutup penyaring"
     close_form_title: "Close form"
     button_add_watcher: "Tambah pemerhati"
     button_add: "Tambah"
@@ -81,9 +81,9 @@ ms:
     button_details_view: "Paparan butiran"
     button_duplicate: "Duplicate"
     button_edit: "Sunting"
-    button_filter: "Filter"
-    button_collapse_all: "Collapse all"
-    button_expand_all: "Expand all"
+    button_filter: "Penyaring"
+    button_collapse_all: "Sembunyikan semua"
+    button_expand_all: "Kembangkan semua"
     button_advanced_filter: "Advanced filter"
     button_list_view: "List view"
     button_show_view: "Fullscreen view"
@@ -103,11 +103,11 @@ ms:
     button_settings: "Tetapan"
     button_uncheck_all: "Uncheck all"
     button_update: "Kemaskini"
-    button_export-pdf: "Download PDF"
-    button_export-atom: "Download Atom"
-    button_create: "Create"
+    button_export-pdf: "Muat turun PDF"
+    button_export-atom: "Muat Turun Atom"
+    button_create: "Cipta"
     card:
-      add_new: "Add new card"
+      add_new: "Tambah kad baharu"
       highlighting:
         inline: "Highlight inline:"
         entire_card_by: "Entire card by"
@@ -855,7 +855,7 @@ ms:
     field_value_enter_prompt: "Masukkan nilai untuk '%{field}'"
     project_menu_details: "Butiran"
     scheduling:
-      manual: "Manual scheduling"
+      manual: "Penjadualan secara manual"
     sort:
       sorted_asc: "Susunan menaik digunakan, "
       sorted_dsc: "Susunan menurun digunakan, "

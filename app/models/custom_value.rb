@@ -97,7 +97,7 @@ class CustomValue < ApplicationRecord
 
   def validate_format_of_value
     if value.present? && custom_field.has_regexp? && !(value =~ Regexp.new(custom_field.regexp))
-      errors.add(:value, :invalid)
+      errors.add(:value, :regex_match_failed, expression: custom_field.regexp)
     end
   rescue RegexpError => e
     errors.add(:base, :regex_invalid)

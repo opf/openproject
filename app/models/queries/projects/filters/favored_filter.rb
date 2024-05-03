@@ -33,6 +33,10 @@ class Queries::Projects::Filters::FavoredFilter < Queries::Projects::Filters::Pr
     :favored
   end
 
+  def human_name
+    I18n.t(:label_favorite)
+  end
+
   def available?
     User.current.logged?
   end

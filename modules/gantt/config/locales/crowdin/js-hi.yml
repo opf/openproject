@@ -1,6 +1,6 @@
 hi:
   js:
     queries:
-      all_open: 'All open'
+      all_open: 'सभी खुले'
       timeline: 'Timeline'
       milestones: 'Milestones'

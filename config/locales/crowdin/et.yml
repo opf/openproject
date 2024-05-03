@@ -263,7 +263,7 @@ et:
       no_results_content_text: Create a new project
     lists:
       active: "Active projects"
-      my: "My projects"
+      my: "Minu projektid"
       favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
@@ -317,12 +317,12 @@ et:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "Kõik"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Lukus"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Rühmad"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -399,7 +399,7 @@ et:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
   page:
-    text: "Text"
+    text: "Tekst"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -597,7 +597,7 @@ et:
         column_count: "Veergude arv"
         widgets: "Vidinad"
       oauth_client:
-        client: "Client ID"
+        client: "Kliendi ID"
       relation:
         lag: "Lag"
         from: "Teema"
@@ -622,7 +622,7 @@ et:
           false: "private"
         queries: "Päringuid"
         status_code: "Projekti olek"
-        description: "Description"
+        description: "Teave"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -783,6 +783,7 @@ et:
         not_an_iso_date: "is not a valid date. Required format: YYYY-MM-DD."
         not_same_project: "doesn't belong to the same project."
         odd: "peab olema paaritu arv."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "could not be validated with the associated regular expression."
         smaller_than_or_equal_to_max_length: "must be smaller than or equal to maximum length."
         taken: "on juba kasutusel."
@@ -1282,7 +1283,7 @@ et:
   button_reset: "Nulli"
   button_rollback: "Pöördu tagasi sellesse versiooni"
   button_save: "Salvesta"
-  button_save_as: "Save as"
+  button_save_as: "Salvesta kui"
   button_apply_changes: "Apply changes"
   button_save_back: "Salvesta ja mine tagasi"
   button_show: "Kuva"
@@ -1556,7 +1557,7 @@ et:
     message: Sõnum on muudetud
     news: Uudised
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "Projekti on muudetud"
     projects: "Projekti on muudetud"
     reply: Vastatud
     time_entry: "Ajalogi on muudetud"
@@ -1776,7 +1777,7 @@ et:
   label_ascending: "Kasvav"
   label_assigned_to_me_work_packages: "Minu teemad"
   label_associated_revisions: "Seotud muudatused"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Manused"
   label_attribute: "Atribuut"
   label_attribute_plural: "Atribuudid"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1924,18 +1925,18 @@ et:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Saadaval ka:"
-  label_expand: "Expand"
+  label_expand: "Laienda"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} tund"
   label_f_hour_plural: "%{value} tundi"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Kanalid"
   label_feeds_access_key: "RSS kasutuse võti"
   label_feeds_access_key_created_on: "RSS kasutuse võti on loodud %{value} tagasi"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Failid"
   label_filter_add: "Lisa filter"
-  label_filter: "Filters"
+  label_filter: "Filtrid"
   label_filter_plural: "Filtrid"
   label_filters_toggle: "Show/hide filters"
   label_float: "Ujuvkomaarv"
@@ -1962,7 +1963,7 @@ et:
   label_home: "Avaleht"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Identifikaator"
   label_in: "sisaldub hulgas"
   label_in_less_than: "on väiksem kui"
   label_in_more_than: "on suurem kui"
@@ -1978,7 +1979,7 @@ et:
   label_internal: "Sisemine"
   label_introduction_video: "Introduction video"
   label_invite_user: "Invite user"
-  label_share: "Share"
+  label_share: "Jaga"
   label_show_hide: "Show/hide"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
@@ -1998,9 +1999,10 @@ et:
   label_latest_revision: "Viimane versioon"
   label_latest_revision_plural: "Viimased versioonid"
   label_ldap_authentication: "LDAP autentimine"
-  label_learn_more: "Learn more"
+  label_learn_more: "Loe rohkem"
   label_less_or_equal: "<="
   label_less_than_ago: "vähem kui päev tagasi"
+  label_link_url: "Link (URL)"
   label_list: "Nimistu"
   label_loading: "Laadimine..."
   label_lock_user: "Lock user"
@@ -2196,7 +2198,7 @@ et:
   label_search: "Otsi"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Saada kontrollkiri"
-  label_session: "Session"
+  label_session: "Seanss"
   label_setting_plural: "Seaded"
   label_system_settings: "Süsteemiseaded"
   label_show_completed_versions: "Näita lõpetatud versioone"
@@ -3340,7 +3342,7 @@ et:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Ei jaga"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >

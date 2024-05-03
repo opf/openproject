@@ -157,6 +157,10 @@ FactoryBot.define do
       multi_value { true }
     end
 
+    trait :link do
+      field_format { "link" }
+    end
+
     factory :project_custom_field, class: "ProjectCustomField" do
       project_custom_field_section
 
@@ -185,6 +189,7 @@ FactoryBot.define do
       factory :list_project_custom_field, traits: [:list]
       factory :version_project_custom_field, traits: [:version]
       factory :user_project_custom_field, traits: [:user]
+      factory :link_project_custom_field, traits: [:link]
     end
 
     factory :user_custom_field, class: "UserCustomField"
@@ -214,6 +219,7 @@ FactoryBot.define do
       factory :list_wp_custom_field, traits: [:list]
       factory :version_wp_custom_field, traits: [:version]
       factory :user_wp_custom_field, traits: [:user]
+      factory :link_wp_custom_field, traits: [:link]
     end
 
     factory :issue_custom_field, class: "WorkPackageCustomField" do

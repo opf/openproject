@@ -327,6 +327,11 @@ export default class CustomFieldsController extends Controller {
         this.activate(this.possibleValuesTargets, false);
         this.activate(this.textOrientationTargets);
         break;
+      case 'link':
+        this.hide(...this.lengthTargets);
+        this.show(...this.regexpTargets, ...this.searchableTargets);
+        this.activate(this.possibleValuesTargets, false);
+        break;
       default:
         this.show(...this.lengthTargets, ...this.regexpTargets, ...this.searchableTargets);
         this.activate(this.possibleValuesTargets, false);

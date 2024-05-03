@@ -50,7 +50,7 @@ gem "doorkeeper", "~> 5.6.6"
 # Maintain our own omniauth due to relative URL root issues
 # see upstream PR: https://github.com/omniauth/omniauth/pull/903
 gem "omniauth", git: "https://github.com/opf/omniauth", ref: "fe862f986b2e846e291784d2caa3d90a658c67f0"
-gem "request_store", "~> 1.6.0"
+gem "request_store", "~> 1.7.0"
 
 gem "warden", "~> 1.2"
 gem "warden-basic_auth", "~> 0.2.1"
@@ -187,7 +187,7 @@ gem "rack-timeout", "~> 0.6.3", require: "rack/timeout/base"
 
 gem "nokogiri", "~> 1.16.0"
 
-gem "carrierwave", "~> 1.3.1"
+gem "carrierwave", "~> 1.3.4"
 gem "carrierwave_direct", "~> 2.1.0"
 gem "fog-aws"
 

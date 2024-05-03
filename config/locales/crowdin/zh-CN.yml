@@ -261,7 +261,7 @@ zh-CN:
     lists:
       active: "有效项目"
       my: "我的项目"
-      favored: "Favorite projects"
+      favored: "收藏的项目"
       archived: "归档项目"
       my_private: "我的私有项目列表"
       new:
@@ -772,6 +772,7 @@ zh-CN:
         not_an_iso_date: "不是有效日期。所需格式：YYYY-MM-DD。"
         not_same_project: "不属于同一个项目。"
         odd: "必须是奇数。"
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "无法与关联的正则表达式进行验证。"
         smaller_than_or_equal_to_max_length: "必须小于或等于最大长度。"
         taken: "已经采取。"
@@ -1891,7 +1892,7 @@ zh-CN:
   label_expanded_click_to_collapse: "展开。点击折叠"
   label_f_hour: "%{value} 小时"
   label_f_hour_plural: "%{value} 小时"
-  label_favoured: "收藏项"
+  label_favorite: "Favorite"
   label_feed_plural: "订阅源"
   label_feeds_access_key: "RSS 访问密钥"
   label_feeds_access_key_created_on: "RSS 访问密钥创建于 %{value} 前"
@@ -1964,6 +1965,7 @@ zh-CN:
   label_learn_more: "了解更多信息"
   label_less_or_equal: "<="
   label_less_than_ago: "小于数日前"
+  label_link_url: "Link (URL)"
   label_list: "列表"
   label_loading: "正在加载..."
   label_lock_user: "锁住用户"

@@ -263,7 +263,7 @@ bg:
       no_results_content_text: Създаване на нов проект
     lists:
       active: "Active projects"
-      my: "My projects"
+      my: "Моите проекти"
       favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
@@ -319,10 +319,10 @@ bg:
     menu:
       all: "All"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Заключен"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Групи"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -399,7 +399,7 @@ bg:
     memberships:
       no_results_title_text: Този потребител в момента не е член на проекта.
   page:
-    text: "Text"
+    text: "Текст"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -597,7 +597,7 @@ bg:
         column_count: "Брой колони"
         widgets: "Джаджи"
       oauth_client:
-        client: "Client ID"
+        client: "№ на клиент"
       relation:
         lag: "Lag"
         from: "Работен пакет"
@@ -622,7 +622,7 @@ bg:
           false: "private"
         queries: "Търсения"
         status_code: "Статус на проекта"
-        description: "Description"
+        description: "Описание"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -783,6 +783,7 @@ bg:
         not_an_iso_date: "не е валидна дата. Изискван формат: ГГГГ-ММ-ДД."
         not_same_project: "не принадлежат към един и същ проект."
         odd: "трябва да бъде нечетен."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "could not be validated with the associated regular expression."
         smaller_than_or_equal_to_max_length: "трябва да бъде по-малка от или равна на максималната дължина."
         taken: "вече съществува."
@@ -1230,7 +1231,7 @@ bg:
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: There is already a backup pending.
       limit_reached: You can only do %{limit} backups per day.
-  button_actions: "Actions"
+  button_actions: "Действия"
   button_add: "Добави"
   button_add_comment: "Добави коментар"
   button_add_member: Добавяне на член
@@ -1282,7 +1283,7 @@ bg:
   button_reset: "Нулиране"
   button_rollback: "Връщане към тази версия"
   button_save: "Запази"
-  button_save_as: "Save as"
+  button_save_as: "Запиши като"
   button_apply_changes: "Apply changes"
   button_save_back: "Записване и обратно"
   button_show: "Покажи"
@@ -1556,7 +1557,7 @@ bg:
     message: Съобщението е редактирано
     news: Новини
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "Проекта е редактиран"
     projects: "Проекта е редактиран"
     reply: Отговорено
     time_entry: "Редактирани записи по време"
@@ -1776,7 +1777,7 @@ bg:
   label_ascending: "Възходящо"
   label_assigned_to_me_work_packages: "Работни пакети, възложени на мен"
   label_associated_revisions: "Асоциирани ревизии"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Прикачени файлове"
   label_attribute: "Атрибут"
   label_attribute_plural: "Атрибути"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1791,7 +1792,7 @@ bg:
   label_available_project_work_package_categories: "Налични категории работни пакети"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "API документация"
   label_backup: "Backup"
   label_backup_code: "Backup code"
   label_between: "между"
@@ -1862,7 +1863,7 @@ bg:
   label_custom_field_plural: "допълнителни полета"
   label_custom_field_default_type: "Празен тип"
   label_custom_style: "Дизайн"
-  label_dashboard: "Dashboard"
+  label_dashboard: "Табло"
   label_database_version: "Версия на PostgreSQL"
   label_date: "Дата"
   label_date_and_time: "Дата и час"
@@ -1924,18 +1925,18 @@ bg:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Also available in:"
-  label_expand: "Expand"
+  label_expand: "Разтвори"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} час"
   label_f_hour_plural: "%{value} часа"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Информационни канали"
   label_feeds_access_key: "RSS ключ за достъп"
   label_feeds_access_key_created_on: "RSS ключ за достъп създаден преди %{value}"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Файлове"
   label_filter_add: "Добавяне на филтър"
-  label_filter: "Filters"
+  label_filter: "Филтри"
   label_filter_plural: "Филтри"
   label_filters_toggle: "Show/hide filters"
   label_float: "Плаващ"
@@ -1962,7 +1963,7 @@ bg:
   label_home: "Начална страница"
   label_subject_or_id: "Тема или №"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Идентификатор"
   label_in: "в"
   label_in_less_than: "в по-малко от"
   label_in_more_than: "в повече от"
@@ -1978,7 +1979,7 @@ bg:
   label_internal: "Вътрешен"
   label_introduction_video: "Introduction video"
   label_invite_user: "Покани потребител"
-  label_share: "Share"
+  label_share: "Споделяне"
   label_show_hide: "Покажи/Скрий"
   label_show_all_registered_users: "Показване на всички регистрирани потребители"
   label_journal: "Дневник"
@@ -1998,9 +1999,10 @@ bg:
   label_latest_revision: "Последна редакция"
   label_latest_revision_plural: "Последни редакции"
   label_ldap_authentication: "Удостоверяване LDAP"
-  label_learn_more: "Learn more"
+  label_learn_more: "Научете повече"
   label_less_or_equal: "<="
   label_less_than_ago: "по-скоро от няколко дни"
+  label_link_url: "Link (URL)"
   label_list: "Списък"
   label_loading: "Зареждане..."
   label_lock_user: "Заключване на потребител"
@@ -2196,7 +2198,7 @@ bg:
   label_search: "Търсене"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Изпрати пробен имейл"
-  label_session: "Session"
+  label_session: "Сесия"
   label_setting_plural: "Настройки"
   label_system_settings: "Системни настройки"
   label_show_completed_versions: "Покажи завършени версии"
@@ -3340,7 +3342,7 @@ bg:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Не е споделен"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >

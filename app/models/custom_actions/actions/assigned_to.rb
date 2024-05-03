@@ -36,7 +36,8 @@ class CustomActions::Actions::AssignedTo < CustomActions::Actions::Base
   def available_principles
     principal_class
       .not_locked
-      .select(:id, :firstname, :lastname, :type)
+      .select(:id, :type)
+      .select_for_name
       .ordered_by_name
       .map { |u| [u.id, u.name] }
   end
