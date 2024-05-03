@@ -41,7 +41,7 @@ ko:
       too_many_elements_created_at_once: 한 번에 너무 많은 요소가 생성되었습니다. 최대 개수는 %{max}개이지만 %{actual}개가 있습니다.
   permission_create_files: '외부 저장소: 파일 만들기'
   permission_delete_files: '외부 저장소: 파일 삭제'
-  permission_header_for_project_module_storages: Automatically managed project folders
+  permission_header_for_project_module_storages: 자동으로 관리되는 프로젝트 폴더
   permission_manage_file_links: 파일 링크 관리
   permission_manage_storages_in_project: 프로젝트의 파일 저장소 관리
   permission_read_files: '외부 저장소: 파일 읽기'

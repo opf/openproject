@@ -21,7 +21,7 @@
 #++
 ms:
   plugin_costs:
-    name: "Time and costs"
+    name: "Masa dan kos"
     description: "This module adds features for planning and tracking costs of projects."
   activerecord:
     attributes:

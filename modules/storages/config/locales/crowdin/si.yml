@@ -109,7 +109,7 @@ si:
       description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
       error_could_not_be_saved: Email notification settings could not be saved. Please try again.
       subscribe: Subscribe
-      title: Email notifications
+      title: වි-ල් ස්කිනිම්
       unsubscribe: Unsubscribe
     help_texts:
       project_folder: The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.

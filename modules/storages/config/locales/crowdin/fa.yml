@@ -35,7 +35,7 @@ fa:
               unknown_error: could not be validated. Please check your storage connection and try again.
     models:
       file_link: فایل
-      storages/storage: Storage
+      storages/storage: ذخیره‌سازی
   api_v3:
     errors:
       too_many_elements_created_at_once: Too many elements created at once. Expected %{max} at most, got %{actual}.
@@ -109,7 +109,7 @@ fa:
       description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
       error_could_not_be_saved: Email notification settings could not be saved. Please try again.
       subscribe: Subscribe
-      title: Email notifications
+      title: اعلان های ایمیل
       unsubscribe: Unsubscribe
     help_texts:
       project_folder: The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
@@ -184,7 +184,7 @@ fa:
     label_redirect_uri: Redirect URI
     label_show_storage_redirect_uri: Show redirect URI
     label_status: Status
-    label_storage: Storage
+    label_storage: ذخیره‌سازی
     label_uri: URI
     member_connection_status:
       connected: Connected

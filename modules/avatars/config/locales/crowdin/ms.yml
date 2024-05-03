@@ -1,7 +1,7 @@
 #English strings go here
 ms:
   plugin_openproject_avatars:
-    name: "Avatars"
+    name: "Avatar"
     description: >-
       This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
   label_avatar: "Avatar"

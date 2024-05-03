@@ -319,10 +319,10 @@ hi:
     menu:
       all: "All"
       invited: "Invited"
-      locked: "Locked"
+      locked: "अवरोधित"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "समूह"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -399,7 +399,7 @@ hi:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
   page:
-    text: "Text"
+    text: "टेक्स्ट"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -781,6 +781,7 @@ hi:
         not_an_iso_date: "is not a valid date. Required format: YYYY-MM-DD."
         not_same_project: "doesn't belong to the same project."
         odd: "must be odd."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "could not be validated with the associated regular expression."
         smaller_than_or_equal_to_max_length: "must be smaller than or equal to maximum length."
         taken: "has already been taken."
@@ -1228,7 +1229,7 @@ hi:
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: There is already a backup pending.
       limit_reached: You can only do %{limit} backups per day.
-  button_actions: "Actions"
+  button_actions: "क्रियाएँ"
   button_add: "जोड़ें"
   button_add_comment: "टिप्पणी लिखें"
   button_add_member: Add member
@@ -1280,7 +1281,7 @@ hi:
   button_reset: "रीसेट करें"
   button_rollback: "इस संस्करण के लिए रोलबैक"
   button_save: "सहेजें"
-  button_save_as: "Save as"
+  button_save_as: "के रूप में सहेजें..."
   button_apply_changes: "Apply changes"
   button_save_back: "Save and back"
   button_show: "दिखाएँ"
@@ -1922,18 +1923,18 @@ hi:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Also available in:"
-  label_expand: "Expand"
+  label_expand: "विस्तृत करें"
   label_expanded_click_to_collapse: "विस्तार. संक्षिप्त करने के लिए क्लिक करें"
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS पहुंच कुंजी"
   label_feeds_access_key_created_on: "RSS access key created %{value} ago"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "फ़ाइलें"
   label_filter_add: "फ़िल्टर जोड़ें"
-  label_filter: "Filters"
+  label_filter: "फ़िल्टर"
   label_filter_plural: "फ़िल्टर"
   label_filters_toggle: "Show/hide filters"
   label_float: "फ्लोट"
@@ -1960,7 +1961,7 @@ hi:
   label_home: "मुखपृष्ठ"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "पहचानकर्ता"
   label_in: "में"
   label_in_less_than: "से भी कम समय में"
   label_in_more_than: "से अधिक में"
@@ -1976,7 +1977,7 @@ hi:
   label_internal: "आंतरिक"
   label_introduction_video: "परिचय वीडियो"
   label_invite_user: "Invite user"
-  label_share: "Share"
+  label_share: "सांझा करें"
   label_show_hide: "Show/hide"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
@@ -1999,6 +2000,7 @@ hi:
   label_learn_more: "Learn more"
   label_less_or_equal: "<="
   label_less_than_ago: "less than days ago"
+  label_link_url: "Link (URL)"
   label_list: "सूची"
   label_loading: "Loading..."
   label_lock_user: "Lock user"

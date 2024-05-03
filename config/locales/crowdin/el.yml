@@ -259,7 +259,7 @@ el:
       no_results_content_text: Δημιουργία νέου έργου
     lists:
       active: "Active projects"
-      my: "My projects"
+      my: "Τα έργα μου"
       favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
@@ -313,12 +313,12 @@ el:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "Όλα"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Κλειδωμένο"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Ομάδες"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -395,7 +395,7 @@ el:
     memberships:
       no_results_title_text: Αυτός ο χρήστης δεν είναι προς το παρόν μέλος κάποιου έργου.
   page:
-    text: "Text"
+    text: "Κείμενο"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -593,7 +593,7 @@ el:
         column_count: "Πλήθος στηλών"
         widgets: "Γραφικά στοιχεία"
       oauth_client:
-        client: "Client ID"
+        client: "Ταυτότητα Πελάτη"
       relation:
         lag: "Lag"
         from: "Εργασία"
@@ -618,7 +618,7 @@ el:
           false: "private"
         queries: "Αναζητήσεις"
         status_code: "Κατάσταση έργου"
-        description: "Description"
+        description: "Περιγραφή"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -779,6 +779,7 @@ el:
         not_an_iso_date: "δεν είναι έγκυρη ημερομηνία. Απαιτούμενη μορφοποίηση: ΕΕΕΕ-ΜΜ-ΗΗ."
         not_same_project: "δεν ανήκει στο ίδιο έργο."
         odd: "πρέπει να είναι μονός."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "δεν ήταν δυνατή η επικύρωση με τη συσχετιζόμενη κανονική έκφραση."
         smaller_than_or_equal_to_max_length: "πρέπει να είναι μικρότερο ή ίσο με το μέγιστο μήκος."
         taken: "έχει ήδη κατοχυρωθεί."
@@ -1032,7 +1033,7 @@ el:
             ldap_auth_source:
               error_not_found: "δεν βρέθηκε"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "δεν βρέθηκε"
         member:
           principal_blank: "Παρακαλούμε επιλέξτε τουλάχιστον ένα χρήστη ή ομάδα."
           role_blank: "πρέπει να ανατεθεί."
@@ -1226,7 +1227,7 @@ el:
       token_cooldown: Το token αντιγράφου ασφαλείας θα είναι έγκυρο σε %{hours} ώρες.
       backup_pending: Υπάρχει ήδη ένα αντίγραφο ασφαλείας σε εκκρεμότητα.
       limit_reached: Μπορείτε να κάνετε μόνο %{limit} αντίγραφα ασφαλείας την ημέρα.
-  button_actions: "Actions"
+  button_actions: "Ενέργειες"
   button_add: "Προσθήκη"
   button_add_comment: "Προσθέστε σχόλιο"
   button_add_member: Προσθήκη μέλους
@@ -1278,7 +1279,7 @@ el:
   button_reset: "Επαναφορά"
   button_rollback: "Επαναφορά σε αυτή την έκδοση"
   button_save: "Αποθήκευση"
-  button_save_as: "Save as"
+  button_save_as: "Αποθήκευση ως"
   button_apply_changes: "Apply changes"
   button_save_back: "Αποθήκευση και επιστροφή"
   button_show: "Εμφάνιση"
@@ -1552,7 +1553,7 @@ el:
     message: Το μήνυμα επεξεργάστηκε
     news: Νέα
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "Το έργο επεξεργάστηκε"
     projects: "Το έργο επεξεργάστηκε"
     reply: Απάντησε
     time_entry: "Η καταγραφή χρόνου επεξεργάστηκε"
@@ -1615,7 +1616,7 @@ el:
       postgres_migration: "Μεταφορά της εγκατάστασης σας σε PostgreSQL"
       user_guides: "Εγχειρίδια χρηστών"
       faq: "Συχνές Ερωτήσεις"
-      impressum: "Legal notice"
+      impressum: "Νομική Ειδοποίηση"
       glossary: "Γλωσσάριο"
       shortcuts: "Συντομεύσεις"
       blog: "OpenProject blog"
@@ -1772,7 +1773,7 @@ el:
   label_ascending: "Αύξουσα"
   label_assigned_to_me_work_packages: "Πακέτα εργασίας που έχουν ανατεθεί σε μένα"
   label_associated_revisions: "Σχετικές αναθεωρήσεις"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Συνημμένα"
   label_attribute: "Χαρακτηριστικό"
   label_attribute_plural: "Χαρακτηριστικά"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1787,9 +1788,9 @@ el:
   label_available_project_work_package_categories: "Διαθέσιμες κατηγορίες πακέτων εργασίας"
   label_available_project_work_package_types: "Διαθέσιμοι τύποι εργασιών"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "Τεκμηρίωση API"
   label_backup: "Αντίγραφο Ασφαλείας"
-  label_backup_code: "Backup code"
+  label_backup_code: "Κωδικός αντιγράφων ασφαλείας"
   label_between: "μεταξύ"
   label_blocked_by: "αποκλεισμένο από"
   label_blocks: "μπλόκς"
@@ -1799,7 +1800,7 @@ el:
   label_forum_plural: "Φόρουμ"
   label_forum_sticky: "Sticky"
   label_boolean: "Δυαδικές τιμές"
-  label_board_plural: "Boards"
+  label_board_plural: "Πίνακες"
   label_branch: "Κλάδος"
   label_browse: "Περιήγηση"
   label_bulk_edit_selected_work_packages: "Μαζική επεξεργασία επιλεγμένων πακέτων εργασίας"
@@ -1858,7 +1859,7 @@ el:
   label_custom_field_plural: "Προσαρμοσμένα πεδία"
   label_custom_field_default_type: "Άδειος τύπος"
   label_custom_style: "Σχεδιασμός"
-  label_dashboard: "Dashboard"
+  label_dashboard: "Πίνακας Ελέγχου"
   label_database_version: "Έκδοση PostgreSQL"
   label_date: "Ημερομηνία"
   label_date_and_time: "Ημερομηνία και ώρα"
@@ -1920,18 +1921,18 @@ el:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Εισαγωγή"
   label_export_to: "Επίσης διαθέσιμο σε:"
-  label_expand: "Expand"
+  label_expand: "Επέκταση"
   label_expanded_click_to_collapse: "Επεκταμένο. Πατήστε για σύμπτυξη"
   label_f_hour: "%{value} ώρα"
   label_f_hour_plural: "%{value} ώρες"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Τροφοδοσίες"
   label_feeds_access_key: "Κλειδί πρόσβασης RSS"
   label_feeds_access_key_created_on: "Tο κλειδί πρόσβασης RSS δημιουργήθηκε πριν από %{value}"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Αρχεία"
   label_filter_add: "Προσθήκη φίλτρου"
-  label_filter: "Filters"
+  label_filter: "Φίλτρα"
   label_filter_plural: "Φίλτρα"
   label_filters_toggle: "Εμφάνιση/απόκρυψη φίλτρων"
   label_float: "Float"
@@ -1958,7 +1959,7 @@ el:
   label_home: "Αρχική"
   label_subject_or_id: "Θέμα ή ταυτότητα"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Αναγνωριστικό"
   label_in: "σε"
   label_in_less_than: "σε λιγότερο από"
   label_in_more_than: "σε περισσότερο από"
@@ -1994,9 +1995,10 @@ el:
   label_latest_revision: "Τελευταία αναθεώρηση"
   label_latest_revision_plural: "Τελευταίες αναθεωρήσεις"
   label_ldap_authentication: "Ταυτοποίηση LDAP"
-  label_learn_more: "Learn more"
+  label_learn_more: "Μάθετε περισσότερα"
   label_less_or_equal: "<="
   label_less_than_ago: "σε λιγότερο από ημέρες πριν"
+  label_link_url: "Link (URL)"
   label_list: "Προβολή λίστας"
   label_loading: "Φόρτωση..."
   label_lock_user: "Κλείδωμα χρήστη"
@@ -2192,7 +2194,7 @@ el:
   label_search: "Αναζήτηση"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Αποστολή δοκιμαστικού email"
-  label_session: "Session"
+  label_session: "Συνεδρία"
   label_setting_plural: "Ρυθμίσεις"
   label_system_settings: "Ρυθμίσεις συστήματος"
   label_show_completed_versions: "Εμφάνιση ολοκληρωμένων εκδόσεων"
@@ -2413,7 +2415,7 @@ el:
     storages:
       health:
         plaintext:
-          storage: "Storage"
+          storage: "Αποθηκευτικός χώρος"
           healthy:
             summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
             error-solved-on: "Solved On"
@@ -3218,7 +3220,7 @@ el:
     configure_view:
       heading: Configure view
       columns:
-        input_label: "Add columns"
+        input_label: "Προσθέστε στήλη"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
   top_menu:
@@ -3334,7 +3336,7 @@ el:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Δεν μοιράζονται"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >

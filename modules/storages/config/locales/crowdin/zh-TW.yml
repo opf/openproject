@@ -41,7 +41,7 @@ zh-TW:
       too_many_elements_created_at_once: 一次創建的元素過多。最多應為 %{max} 個，實際為 %{actual} 個。
   permission_create_files: '外部儲存空間：建立文件'
   permission_delete_files: '外部儲存空間：刪除文件'
-  permission_header_for_project_module_storages: Automatically managed project folders
+  permission_header_for_project_module_storages: 自動管理的專案文件夾
   permission_manage_file_links: 管理文件鏈接
   permission_manage_storages_in_project: 管理專案中的文件儲存
   permission_read_files: '外部儲存空間：讀取文件'

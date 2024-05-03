@@ -45,10 +45,10 @@ cs:
         start_time: "Start time"
         start_time_hour: "Start time"
       meeting_agenda_item:
-        title: "Title"
-        author: "Author"
+        title: "Název"
+        author: "Autor"
         duration_in_minutes: "min"
-        description: "Notes"
+        description: "Poznámky"
         presenter: "Presenter"
     errors:
       messages:
@@ -172,7 +172,7 @@ cs:
   text_agenda_item_title: 'Agenda item "%{title}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
   text_deleted_agenda_item: 'Deleted agenda item'
-  label_initial_meeting_details: "Meeting"
+  label_initial_meeting_details: "Schůzka"
   label_meeting_details: "Podrobnosti o schůzce"
   label_meeting_details_edit: "Upravit podrobnosti schůzky"
   label_meeting_state: "Meeting status"

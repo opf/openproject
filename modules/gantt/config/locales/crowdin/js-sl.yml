@@ -1,6 +1,6 @@
 sl:
   js:
     queries:
-      all_open: 'All open'
+      all_open: 'Vse odprto'
       timeline: 'Timeline'
       milestones: 'Milestones'

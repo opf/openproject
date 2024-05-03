@@ -26,7 +26,7 @@ el:
       work_packages:
         tab_name: "GitLab"
       tab_header_issue:
-        title: "Issues"
+        title: "Ζητήματα"
       tab_header_mr:
         title: "Merge requests"
         create_mr:
@@ -40,11 +40,11 @@ el:
           commit_message: Commit message
           cmd: Create branch with empty commit
           title: Quick snippets for Git
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          copy_success: '✅ Αντιγράφηκε!'
+          copy_error: '❌ Η αντιγραφή απέτυχε!'
       tab_issue:
         empty: 'There are no issues linked yet. Link an existing issue by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the issue title/description or create a new issue.'
       tab_mrs:
         empty: 'There are no merge requests linked yet. Link an existing MR by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the MR title/description or create a new MR.'
       gitlab_pipelines: Pipelines
-      updated_on: Updated on
+      updated_on: Τροποποιήθηκε

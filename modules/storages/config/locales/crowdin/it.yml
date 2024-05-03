@@ -41,7 +41,7 @@ it:
       too_many_elements_created_at_once: 'Troppi elementi creati contemporaneamente. Massimo atteso: %{max}, effettivi: %{actual}.'
   permission_create_files: 'Archiviazione esterna: Creare file'
   permission_delete_files: 'Archiviazione esterna: Cancellare file'
-  permission_header_for_project_module_storages: Automatically managed project folders
+  permission_header_for_project_module_storages: Cartelle di progetto gestite automaticamente
   permission_manage_file_links: Gestire link ai file
   permission_manage_storages_in_project: Gestisci archivi di file nel progetto
   permission_read_files: 'Archiviazione esterna: Leggere file'
