@@ -171,6 +171,7 @@ class WorkPackages::ProgressForm < ApplicationForm
     data = { "work-packages--progress--preview-progress-target": "progressInput",
              "work-packages--progress--touched-field-marker-target": "progressInput",
              action: "input->work-packages--progress--touched-field-marker#markFieldAsTouched" }
+
     if @focused_field == name
       data[:"work-packages--progress--focus-field-target"] = "fieldToFocus"
     end
