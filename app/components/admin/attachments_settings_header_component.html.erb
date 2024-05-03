@@ -38,7 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(Primer::Alpha::TabNav.new(label: "label")) do |component|
   component.with_tab(selected: @selected == 1, href: admin_settings_attachments_path) do |tab|
-    tab.with_text { "General" }
+    tab.with_text { t("settings.general") }
   end
   component.with_tab(selected: @selected == 2, href: admin_settings_virus_scanning_path) do |tab|
     tab.with_icon(icon: :"op-enterprise-addons") unless EnterpriseToken.allows_to?("virus_scanning")

@@ -36,7 +36,7 @@ module API
 
         included do
           link :attachments do
-            next unless list_attachments?
+            next if hide_attachments?
 
             {
               href: attachments_by_resource
@@ -71,8 +71,8 @@ module API
                    if: ->(*) { embed_links },
                    uncacheable: true
 
-          def list_attachments?
-            true
+          def hide_attachments?
+            false
           end
 
           def attachments

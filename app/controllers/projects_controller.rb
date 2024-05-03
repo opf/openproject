@@ -92,7 +92,7 @@ class ProjectsController < ApplicationController
   end
 
   def set_hide_attachments
-    @project.update_column(:hide_attachments, params["value"])
+    @project.update_column(:hide_attachments, params["value"] != "1")
   end
 
   private

@@ -580,8 +580,8 @@ module API
           super
         end
 
-        def list_attachments?
-          !(represented.project.hide_attachments || Setting.hide_attachments)
+        def hide_attachments?
+          represented.hide_attachments?
         end
 
         # Permissions

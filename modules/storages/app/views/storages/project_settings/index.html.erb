@@ -57,20 +57,24 @@ end
   component.with_tab(selected: false, id: "tab-2") do |tab|
     tab.with_text { t(:"attributes.attachments") }
     tab.with_panel {
-      render(Primer::OpenProject::FlexLayout.new) do |l|
-        l.with_row(flex_layout: true) do |row|
+      render(Primer::OpenProject::FlexLayout.new(border: true , border_radius: 2, p: 3)) do |l|
+        l.with_row(flex_layout: true, align_items: :center, justify_content: :space_between) do |row|
           row.with_column do
-            render(Primer::Beta::Text.new) {"Show attachments in the work packages files tab"}
+            render(Primer::Beta::Text.new(font_weight: :bold)) do
+              t("storages.show_attachments_toggle.label")
+            end
           end
           row.with_column do
             render(Primer::Alpha::ToggleSwitch.new(src: set_hide_attachments_project_path(@project),
                                                    csrf_token: form_authenticity_token,
-                                                   status_label_position: :end,
+                                                   status_label_position: :start,
                                                    checked: !@project.hide_attachments))
           end
         end
         l.with_row do
-          render(Primer::Beta::Text.new) {"Deactivating this option will only hide the attachments list. Files uploaded with the help of the rich text editor will still be uploaded to the attachments internal storage."}
+          render(Primer::Beta::Text.new(color: :muted)) do
+            t("storages.show_attachments_toggle.description")
+          end
         end
       end
     }

@@ -137,7 +137,7 @@ RSpec.describe "Storages module", :js, :with_cuprite do
         end
 
         it "must show the page" do
-          expect(page).to have_text(I18n.t("storages.page_titles.project_settings.index"))
+          expect(page).to have_text(I18n.t("project_module_storages"))
         end
       end
 
@@ -155,7 +155,7 @@ RSpec.describe "Storages module", :js, :with_cuprite do
 
             visit project_settings_project_storages_path(project)
 
-            expect(page).to have_text(I18n.t("storages.page_titles.project_settings.index"))
+            expect(page).to have_text(I18n.t("project_module_storages"))
           end
         end
 
@@ -172,7 +172,7 @@ RSpec.describe "Storages module", :js, :with_cuprite do
 
             visit project_settings_project_storages_path(project)
 
-            expect(page).to have_no_text(I18n.t("storages.page_titles.project_settings.index"))
+            expect(page).to have_no_text(I18n.t("project_module_storages"))
             expect(page).to have_text("[Error 403] You are not authorized to access this page.")
           end
         end

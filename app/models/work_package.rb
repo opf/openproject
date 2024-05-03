@@ -301,6 +301,10 @@ class WorkPackage < ApplicationRecord
     end
   end
 
+  def hide_attachments?
+    project&.hide_attachments || Setting.hide_attachments
+  end
+
   def estimated_hours=(hours)
     converted_hours = (hours.is_a?(String) ? hours.to_hours : hours)
     write_attribute :estimated_hours, !!converted_hours ? converted_hours : hours
@@ -540,7 +544,7 @@ class WorkPackage < ApplicationRecord
 
     key = "activity_id"
     id = attributes[key]
-    default_id = if id&.present?
+    default_id = if id.present?
                    Enumeration.exists? id:, is_default: true, type: "TimeEntryActivity"
                  else
                    true

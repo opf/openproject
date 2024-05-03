@@ -216,9 +216,7 @@ module API
                  type: "AttachmentCollection",
                  required: false,
                  writable: false,
-                 show_if: ->(*) do
-                            !(represented.work_package.project.hide_attachments || Setting.hide_attachments)
-                          end
+                 show_if: ->(*) { !represented.work_package.hide_attachments? }
 
           schema_with_allowed_link :project,
                                    type: "Project",

@@ -227,7 +227,6 @@ en:
       project_settings:
         delete: Delete file storage
         edit: Edit the file storage to this project
-        index: File storages available in this project
         members_connection_status: Members connection status
         new: Add a file storage to this project
       project_storage_members:
@@ -246,6 +245,9 @@ en:
         label_oauth_client_secret: Azure OAuth Client Secret Value
         name: OneDrive/SharePoint
         name_placeholder: e.g. OneDrive
+    show_attachments_toggle:
+      description: Deactivating this option will only hide the attachments list. Files uploaded with the help of the rich text editor will still be uploaded to the attachments internal storage.
+      label: Show attachments in the work packages files tab
     storage_list_blank_slate:
       description: Add a storage to see them here.
       heading: You don't have any storages yet.

@@ -169,6 +169,42 @@ RSpec.describe WorkPackage do
     end
   end
 
+  describe "#hide_attachments?" do
+    subject { work_package.hide_attachments? }
+
+    context "when project is present" do
+      context "when project#hide_attachment is true" do
+        before { work_package.project.hide_attachments = true }
+
+        it { is_expected.to be_truthy }
+      end
+
+      context "when project#hide_attachment is false" do
+        before { work_package.project.hide_attachments = false }
+
+        context "Setting.hide_attachments is true", with_settings: { hide_attachments: true } do
+          it { is_expected.to be_truthy }
+        end
+
+        context "Setting.hide_attachments is false", with_settings: { hide_attachments: false } do
+          it { is_expected.to be_falsey }
+        end
+      end
+    end
+
+    context "when project is absent" do
+      before { work_package.project = nil }
+
+      context "Setting.hide_attachments is true", with_settings: { hide_attachments: true } do
+        it { is_expected.to be_truthy }
+      end
+
+      context "Setting.hide_attachments is false", with_settings: { hide_attachments: false } do
+        it { is_expected.to be_falsey }
+      end
+    end
+  end
+
   describe "#category" do
     let(:user2) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
     let(:category) do
