@@ -76,6 +76,7 @@ module Meetings
         .slice(*writable_meeting_attributes(meeting))
         .merge("start_time" => meeting.start_time + 1.week)
         .merge("author" => user)
+        .merge("state" => "open")
         .merge("participants_attributes" => meeting.allowed_participants.collect(&:copy_attributes))
         .merge(overwritten_attributes)
     end

@@ -19,12 +19,10 @@ And verify that it outputs: postgres/autoinstall **install**.
 
 If that is not the case, you are likely using a self-provisioned database or a remote database. In this case, please follow the instructions from your provider or use generic PostgreSQL upgrade guides. A guide we can recommend for Debian/Ubuntu based servers is [this one](https://gorails.com/guides/upgrading-postgresql-version-on-ubuntu-server). Please adapt that guide or the following steps to your distribution.
 
-In the following, we assume that you initially let OpenProject setup your PostgreSQL installation, using a local database. 
+In the following, we assume that you initially let OpenProject setup your PostgreSQL installation, using a local database.
 
 NOTE: RedHat and CentOS are slightly different, depending on which PostgreSQL package/repository will be used.
 For the documentation parts titled RedHat/CentOS RedHat Enterprise Linux 8 was used.
-
-
 
 1. First, connect to your server and make sure your local version is PostgreSQL v10:
 
@@ -42,8 +40,6 @@ sudo cat /var/lib/pgsql/10/data/PG_VERSION
 10
 ```
 
-
-
 2. Install the new version of PostgreSQL:
 
 For Debian/Ubuntu:
@@ -60,8 +56,6 @@ sudo yum install pgsql13
 sudo /usr/bin/postgresql-13-setup initdb
 ```
 
-
-
 3. Stop the PostgreSQL servers:
 
 For Debian/Ubuntu:
@@ -77,8 +71,6 @@ For RedHat/CentOS:
 sudo su - postgres -c "/usr/pgsql-10/bin/pg_ctl stop --wait --pgdata=/var/lib/pgsql/10/data"
 sudo su - postgres -c "/usr/pgsql-13/bin/pg_ctl stop --wait --pgdata=/var/lib/pgsql/13/data"
 ```
-
-
 
 4. Migrate your data to PostgreSQL 13:
 
@@ -109,8 +101,6 @@ sudo su - postgres <<CMD
   --new-options '-c config_file=/var/lib/pgsql/13/data/postgresql.conf'
 CMD
 ```
-
-
 
 5. Make PostgreSQL v13 the new default server to run on port 45432:
 
@@ -150,11 +140,7 @@ postgres=# \q
 [postgres@openproject ~]$ logout
 ```
 
-
-
 6. Check your OpenProject installation on the GUI. A version higher than `13.0` should be displayed for `PostgreSQL version` in the "Administration > Information" section.
-
-   
 
 7. If everything is fine, you can then remove your older PostgreSQL installation:
 
@@ -207,7 +193,7 @@ docker run --rm -it \
 
 If everything goes well, the process should end with a message as follows:
 
-```
+```text
 Upgrade Complete                                              
 ----------------                                              
 Optimizer statistics are not transferred by pg_upgrade so,                  
@@ -264,11 +250,9 @@ Please change the command appropriately for other installation methods. Once con
 ANALYZE VERBOSE;
 ```
 
-
-
 ## Troubleshooting
 
-###### User "openproject" does not have a valid SCRAM secret - psql: error: FATAL: password authentication failed for user "openproject"
+> User "openproject" does not have a valid SCRAM secret - psql: error: FATAL: password authentication failed for user "openproject"
 
 Check `/var/lib/pgsql/13/data/pg_hba.conf` for any appearance of `scram-sha-256` and replace with `md5`
 

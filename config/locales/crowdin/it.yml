@@ -261,7 +261,7 @@ it:
     lists:
       active: "Progetti attivi"
       my: "I miei progetti"
-      favored: "Favored projects"
+      favored: "Favorite projects"
       archived: "Progetti archiviati"
       my_private: "I miei elenchi di progetti privati"
       new:
@@ -346,11 +346,11 @@ it:
     delete_work_package_shares_dialog:
       title: "Revoca condivisioni della macro-attività"
       shared_with_this_user_html:
-        one: "%{shared_work_packages_link} è stato condiviso con questo utente."
-        other: "%{shared_work_packages_link} sono stati condivisi con questo utente."
+        one: "%{all_shared_work_packages_link} è stato condiviso con questo utente."
+        other: "%{all_shared_work_packages_link} sono stati condivisi con questo utente."
       shared_with_this_group_html:
-        one: "%{shared_work_packages_link} è stato condiviso con questo gruppo."
-        other: "%{shared_work_packages_link} sono stati condivisi con questo gruppo."
+        one: "%{all_shared_work_packages_link} è stato condiviso con questo gruppo."
+        other: "%{all_shared_work_packages_link} sono stati condivisi con questo gruppo."
       shared_with_permission_html:
         one: "Solo %{shared_work_packages_link} è stato condiviso con i permessi di %{shared_role_name}."
         other: "Solo %{shared_work_packages_link} sono stati condivisi con i permessi di %{shared_role_name}."
@@ -780,6 +780,7 @@ it:
         not_an_iso_date: "non è una data valida. Formato richiesto: AAAA-MM-GG."
         not_same_project: "non appartiene allo stesso progetto."
         odd: "deve essere dispari."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "non può essere convalidato con l'espressione regolare associata."
         smaller_than_or_equal_to_max_length: "deve essere minore o uguale alla lunghezza massima."
         taken: "è già stato usato."
@@ -1120,7 +1121,7 @@ it:
         logged_for: "Registrato per"
       meeting_agenda_item:
         duration:
-          added: "impostato a {value}"
+          added: "impostato a %{value}"
           added_html: "impostato a <i>%{value}</i>"
           removed: "rimosso"
           updated: "modificato da %{old_value} a %{value}"
@@ -1261,7 +1262,7 @@ it:
   button_edit: "Modifica"
   button_edit_associated_wikipage: "Modifica pagina wiki associata: %{page_title}"
   button_expand_all: "Espandi tutto"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Filtro"
   button_generate: "Genera"
   button_list: "Elenca"
@@ -1925,7 +1926,7 @@ it:
   label_expanded_click_to_collapse: "Espanso. Clicca per comprimere"
   label_f_hour: "%{value} ora"
   label_f_hour_plural: "%{value} ore"
-  label_favoured: "Preferito"
+  label_favorite: "Favorite"
   label_feed_plural: "Feed"
   label_feeds_access_key: "Chiave di accesso RSS"
   label_feeds_access_key_created_on: "Chiave di accesso RSS creato %{value} fa"
@@ -1998,6 +1999,7 @@ it:
   label_learn_more: "Scopri di più"
   label_less_or_equal: "<="
   label_less_than_ago: "meno di qualche giorno fa"
+  label_link_url: "Link (URL)"
   label_list: "Elenca"
   label_loading: "Caricamento..."
   label_lock_user: "Blocca utente"
@@ -2140,7 +2142,7 @@ it:
   label_project_attributes_settings: "Impostazioni degli attributi del progetto"
   label_project_storage_plural: "Archiviazione dei file"
   label_project_storage_project_folder: "Archiviazione dei file: cartelle di progetto"
-  label_projects_storage_information: "%{count} progetti per %{storage} di spazio di archiviazione su disco"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Vedi tutti i progetti"
   label_project_show_details: "Mostra dettagli progetto"
   label_project_hide_details: "Nascondi dettagli progetto"
@@ -3570,7 +3572,7 @@ it:
   link: link
   plugin_openproject_auth_plugins:
     name: "Plugin Autenticazione OpenProject"
-    description: "Integrazione dei fornitori di strategie OmniAuth per l'autenticazione in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Aggiunge il provider OmniAuth SAML a OpenProject"

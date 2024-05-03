@@ -21,7 +21,7 @@
 #++
 ms:
   plugin_budgets_engine:
-    name: 'Budgets'
+    name: 'Anggaran'
   activerecord:
     attributes:
       budget:

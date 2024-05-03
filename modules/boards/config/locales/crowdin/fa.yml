@@ -7,7 +7,7 @@ fa:
   permission_manage_board_views: "مدیریت تابلو ها"
   project_module_board_view: "Boards"
   boards:
-    label_board: "Board"
+    label_board: "تابلو"
     label_boards: "Boards"
     label_create_new_board: "Create new board"
     label_board_type: "نوع انجمن"

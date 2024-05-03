@@ -28,61 +28,65 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals
-  # rubocop:disable Lint/EmptyClass
-  class UnknownSource; end
+module Storages
+  module Peripherals
+    # rubocop:disable Lint/EmptyClass
+    class UnknownSource; end
 
-  # rubocop:enable Lint/EmptyClass
+    # rubocop:enable Lint/EmptyClass
 
-  module ServiceResultRefinements
-    refine ServiceResult do
-      def match(on_success:, on_failure:)
-        if success?
-          on_success.call(result)
-        else
-          on_failure.call(errors)
-        end
-      end
-
-      def bind
-        return self if failure?
-
-        yield result
-      end
-
-      def >>(other)
-        unless other.respond_to?(:call)
-          raise TypeError, "Expected an object responding to 'call', got #{other.class.name}."
+    module ServiceResultRefinements
+      refine ServiceResult do
+        def match(on_success:, on_failure:)
+          if success?
+            on_success.call(result)
+          else
+            on_failure.call(errors)
+          end
         end
 
-        bind(&other)
-      end
+        def bind
+          return self if failure?
 
-      def error_source
-        if errors.is_a?(::Storages::StorageError) && errors.data&.source.present?
-          errors.data.source
-        else
-          UnknownSource
+          yield result
         end
+
+        def >>(other)
+          unless other.respond_to?(:call)
+            raise TypeError, "Expected an object responding to 'call', got #{other.class.name}."
+          end
+
+          bind(&other)
+        end
+
+        def error_source
+          if errors.is_a?(::Storages::StorageError) && errors.data&.source.present?
+            errors.data.source
+          else
+            UnknownSource
+          end
+        end
+
+        def error_payload
+          errors.data&.payload
+        end
+
+        def result_or
+          return result if success?
+
+          yield errors
+        end
+
+        alias_method :error_and, :result_or
+
+        def result_and
+          return errors if failure?
+
+          yield result
+        end
+
+        alias_method :error_or, :result_and
       end
-
-      def error_payload
-        errors.data&.payload
-      end
-
-      def result_or
-        return result if success?
-
-        yield errors
-      end
-      alias_method :error_and, :result_or
-
-      def result_and
-        return errors if failure?
-
-        yield result
-      end
-      alias_method :error_or, :result_and
     end
   end
 end

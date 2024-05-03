@@ -21,7 +21,7 @@ As Docker runs in a virtual machine, a shared filesystem is needed and applicati
 The following is a benchmark performed on a _MacBook Pro, 2019 16 GB 2667 MHz DDR4 2.3 GHz 8-Core Intel Core i9_
 
 ```shell
-$ time docker compose exec backend-test bundle exec rspec spec/models/work_package_spec.rb
+time docker compose exec backend-test bundle exec rspec spec/models/work_package_spec.rb
 ```
 
 | Runtime    | Run1 | Run2|
@@ -36,7 +36,7 @@ $ time docker compose exec backend-test bundle exec rspec spec/models/work_packa
 _Ref Quick Start Guide [here](https://docs.orbstack.dev/quick-start)_
 
 ```shell
-$ brew install orbstack
+brew install orbstack
 ```
 
 **Note:** You can use Docker contexts to run OrbStack and Docker Desktop side-by-side. Switching contexts affects all Docker commands you run from that point on. [Ref: Side-by-side](https://docs.orbstack.dev/install#reverting)
@@ -51,5 +51,5 @@ docker context use desktop-linux
 To view the list of docker contexts run:
 
 ```shell
-$ docker context ls
+docker context ls
 ```

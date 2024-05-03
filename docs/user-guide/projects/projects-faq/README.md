@@ -17,7 +17,7 @@ There are several possibilities:
 3. Select a project with subprojects, go to the Project overview, add the widget "Work package table" and set the filter "Including subproject". Find more information on this topic [here](../../project-overview/#widgets). Additionally you could add the column "Progress" to compare your different Project progress.
 4. Add the widget "Work package table" to your My page and set the filter mentioned above. Find more information on this topic [here](../../../getting-started/my-page/#configure-the-my-page). Additionally you could add the column "Progress".
 
-We will introduce further similar functions in the course of implementing multi-project management. 
+We will introduce further similar functions in the course of implementing multi-project management.
 
 ## What is the difference between creating a project from a template and copying the template project?
 
@@ -33,7 +33,7 @@ Yes, that is in most cases the best solution.
 In OpenProject, you can work agilely according to Scrum ([backlogs](../../backlogs-scrum)) or Kanban ([boards](../../agile-boards)). Versions in OpenProject represent a "container" that contains the work packages to be processed.
 Versions serve a double function: On the one hand, you can use them to plan your product releases, and on the other hand, you can use them to map the product backlog(s) and sprints required for Scrum.
 As soon as you have created at least one version in a project, the module "[Roadmap](../../roadmap)" is displayed on the left side in your project, which you can use to get an overview of the versions (intended primarily for releases).
-The [Backlogs module](../../backlogs-scrum) uses versions to map the product backlog or sprints. By using the backlog, however, some special rules occur: For example, tasks must be assigned to the same version as the associated (parent) work packages. 
+The [Backlogs module](../../backlogs-scrum) uses versions to map the product backlog or sprints. By using the backlog, however, some special rules occur: For example, tasks must be assigned to the same version as the associated (parent) work packages.
 If you do not work according to Scrum we would recommend to deactivate the Backlogs module and use the [Boards module](../../agile-boards) instead. If you have activated the boards module you can create a version board. You can find an example [here](https://community.openproject.org/projects/openproject/boards/2077).
 
 ## Can I assign work packages in subprojects to versions of the parent project?
@@ -56,6 +56,6 @@ Afterwards, you could adjust the hierarchy of the child project (which you origi
 
 ## Does OpenProject offer portfolio management?
 
-For portfolio management or custom reporting, you can use either the project list, or the global work package table. Both views can be used to create optimal reports via filtering, sorting and other configuration options. 
+For portfolio management or custom reporting, you can use either the project list, or the global work package table. Both views can be used to create optimal reports via filtering, sorting and other configuration options.
 
 For more information on portfolio management options in OpenProject please refer to this [Use Case](../../../use-cases/resource-management).

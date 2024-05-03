@@ -41,6 +41,7 @@ ms:
       too_many_elements_created_at_once: Terlalu banyak unsur dicipta dalam satu masa. Dijangka %{max} paling banyak, mendapat %{actual}.
   permission_create_files: 'External Storage: Create files'
   permission_delete_files: 'External Storage: Delete files'
+  permission_header_for_project_module_storages: Folder projek yang dikendalikan secara automatik
   permission_manage_file_links: Urus pautan fail
   permission_manage_storages_in_project: Urus fail storan dalam projek
   permission_read_files: 'External Storage: Read files'
@@ -89,7 +90,7 @@ ms:
       automatically_managed_folders: Folder yang dikendalikan secara automatik
       general_information: Maklumat umum
       nextcloud_oauth: Nextcloud OAuth
-      oauth_applications: OAuth applications
+      oauth_applications: Aplikasi OAuth
       one_drive_oauth: OAuth Azure
       openproject_oauth: OAuth OpenProject
       project_folders: Folder projek
@@ -101,14 +102,14 @@ ms:
       label_healthy: Sihat
       label_pending: Dalam proses
       since: sejak %{datetime}
-      subtitle: Automatically managed project folders
+      subtitle: Folder projek yang dikendalikan secara automatik
       title: Status kesihatan
     health_email_notifications:
       description_subscribed: All administrators receive health status email notifications for this storage.
       description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
       error_could_not_be_saved: Email notification settings could not be saved. Please try again.
-      subscribe: Subscribe
-      title: Email notifications
+      subscribe: Langgan
+      title: Pemberitahuan e-mel
       unsubscribe: Unsubscribe
     help_texts:
       project_folder: Folder projek adalah folder default untuk muat naik fail bagi projek ini. Pengguna masih boleh muat naik fail ke lokasi lain.
@@ -183,7 +184,7 @@ ms:
     label_redirect_uri: Ubah hala URI
     label_show_storage_redirect_uri: Show redirect URI
     label_status: Status
-    label_storage: Storage
+    label_storage: Penyimpanan
     label_uri: URI
     member_connection_status:
       connected: Disambungkan
@@ -232,7 +233,7 @@ ms:
         title: Status sambungan ahli
     permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
     provider_types:
-      label: Provider type
+      label: Jenis provider
       nextcloud:
         label_oauth_client_id: Nextcloud OAuth Client ID
         label_oauth_client_secret: Nextcloud OAuth Client Secret

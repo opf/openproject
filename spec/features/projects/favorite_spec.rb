@@ -27,30 +27,38 @@
 #++
 
 require "spec_helper"
+require_relative "../../../modules/my_page/spec/support/pages/my/page"
 
-RSpec.describe "Project favorites",
-               :js,
-               with_flag: :favorite_projects do
+RSpec.describe "Favorite projects", :js do
   shared_let(:project) { create(:project, name: "My favorite!", enabled_module_names: []) }
   shared_let(:other_project) { create(:project, name: "Other project", enabled_module_names: []) }
-  let(:permissions) { %i(edit_project select_project_modules view_work_packages) }
+  shared_let(:user) do
+    create(:user,
+           member_with_permissions: {
+             project => %i(edit_project select_project_modules view_work_packages),
+             other_project => %i(edit_project select_project_modules view_work_packages)
+           })
+  end
   let(:projects_page) { Pages::Projects::Index.new }
   let(:top_menu) { Components::Projects::TopMenu.new }
+  let(:my_page) do
+    Pages::My::Page.new
+  end
 
-  current_user do
-    create(:user, member_with_permissions: { project => permissions, other_project => permissions })
+  before do
+    login_as user
   end
 
   it "allows favoriting and unfavoriting projects" do
     visit project_path(project)
-    expect(page).to have_selector 'a', accessible_name: "Mark as favorite"
+    expect(page).to have_selector 'a', accessible_name: "Add to favorites"
 
-    click_link_or_button(accessible_name: "Mark as favorite")
+    click_link_or_button(accessible_name: "Add to favorites")
 
     expect(page).to have_selector 'a', accessible_name: "Remove from favorite"
 
     project.reload
-    expect(project).to be_favored_by(current_user)
+    expect(project).to be_favored_by(user)
 
     projects_page.visit!
     projects_page.open_filters
@@ -66,7 +74,7 @@ RSpec.describe "Project favorites",
 
     visit home_path
 
-    expect(page).to have_text 'Favored projects'
+    expect(page).to have_text 'Favorite projects'
     expect(page).to have_test_selector 'favorite-project', text: 'My favorite!'
 
     retry_block do
@@ -78,9 +86,29 @@ RSpec.describe "Project favorites",
       top_menu.expect_result other_project.name
     end
 
-    top_menu.switch_mode "Favored"
+    top_menu.switch_mode "Favorites"
 
     top_menu.expect_result project.name
     top_menu.expect_no_result other_project.name
+  end
+
+  context 'when project is favored' do
+    before do
+      project.add_favoring_user(user)
+      other_project.add_favoring_user(user)
+      other_project.update! active: false
+    end
+
+    it 'does not show archived projects' do
+      visit home_path
+
+      expect(page).to have_text 'Favorite projects'
+      expect(page).to have_test_selector 'favorite-project', text: 'My favorite!'
+      expect(page).to have_no_text 'Other project'
+
+      my_page.visit!
+      my_page.add_widget(1, 1, :within, "Favorite projects")
+      expect(page).to have_text 'My favorite!'
+    end
   end
 end

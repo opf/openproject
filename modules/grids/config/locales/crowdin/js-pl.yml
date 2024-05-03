@@ -43,8 +43,8 @@ pl:
           title: 'Podprojekty'
           no_results: 'Brak podprojektów.'
         project_favorites:
-          title: 'Project favorites'
-          no_results: 'You currently have no project favorites. Click on the star icon in the project dashboard to add one to your favorites.'
+          title: 'Favorite projects'
+          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
         time_entries_current_user:
           title: 'Mój spędzony czas'
           displayed_days: 'Dni wyświetlane w widżecie:'

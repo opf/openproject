@@ -26,15 +26,13 @@ The design page provides several options to customize your OpenProject Enterpris
 
 You can choose between the three default color themes for OpenProject:
 
-* OpenProject 
+* OpenProject
 * OpenProject Light
 * OpenProject Dark
 
 Press the Save button to apply your changes. The theme will then be changed.
 
 ![System-admin-guide_color-theme](System-admin-guide_color-theme.png)
-
-
 
 ## Upload a custom logo
 
@@ -64,7 +62,7 @@ When you bookmark your OpenProject environment’s URL, you will see that the up
 
 ## Advanced settings
 
-Aside from uploading logos and icons, you can also customize the colors used within your OpenProject environment. 
+Aside from uploading logos and icons, you can also customize the colors used within your OpenProject environment.
 
 To do this change the color values (entered as color hex code) in the *Advanced settings* section. In order to find the right hex code for a color, you can use a website, such as [color-hex.com](https://www.color-hex.com/).
  You can see the selected color in the preview area next to the color hex code. Therefore, it is possible to see the selected color before saving the changes.
@@ -72,4 +70,3 @@ To do this change the color values (entered as color hex code) in the *Advanced 
 ![Advanced color settings in OpenProject](openproject_system_guide_design_advanced_settings_primer.png)
 
 As soon as you press the **Save** button your changes are applied and the colors of your OpenProject environment are adjusted accordingly.
-

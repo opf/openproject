@@ -60,7 +60,6 @@ This will take you to the filtered work package view of all user stories and tas
 
 > **Note**: All tasks created for a user story via the task board view are automatically configured as child work packages of a user story. The task is thus always automatically assigned to the target version of the parent work package (i.e. the user story).
 
-
 ## Prioritize user stories
 
 You can prioritize different work packages within the product backlog using drag & drop and you can assign them to a specific sprint backlog or re-order them within a sprint.
@@ -94,7 +93,6 @@ Moreover, you can adjust the start and end date of a backlog in the backlogs vie
 ![User-guide-backlogs-sprint-duration](User-guide-backlogs-sprint-duration.png)
 
 > **Note**: A backlog version will be shown under [Roadmap](../../roadmap/), but not in a [Gantt chart](../../gantt-chart). If you want to display a sprint in a timeline, you can create a new work package, select a phase as a work package type, give it the same name as to a specific version (for example Sprint 1) and assign the same start and end date.
-
 
 ## Burndown chart
 

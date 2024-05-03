@@ -99,7 +99,7 @@ es:
     attachments:
       text: "Los archivos adjuntos están a disposición de todos los participantes en la reunión. También puede arrastrarlos y soltarlos en las notas de los puntos del orden del día."
     copy:
-      title: "Copy meeting: %{title}"
+      title: "Copiar reunión %{title}"
       attachments: "Copiar adjuntos"
       attachments_text: "Copie todos los archivos adjuntos a la nueva reunión"
       agenda: "Copiar agenda"

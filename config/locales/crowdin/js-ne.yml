@@ -30,7 +30,7 @@ ne:
       delete_confirmation: |
         Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
-        दस्तावेज
+        Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
       quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
     autocomplete_ng_select:
       add_tag: "Add item"
@@ -40,10 +40,10 @@ ne:
       type_to_search: "Type to search"
     autocomplete_select:
       placeholder:
-        multi: 'थप"%{name}"'
-        single: 'छान्नुहोस "%{name}"'
-      remove: "हटाउनुहोस %{name}"
-      active: "चालू %{label} %{name}"
+        multi: 'Add "%{name}"'
+        single: 'Select "%{name}"'
+      remove: "Remove %{name}"
+      active: "Active %{label} %{name}"
     backup:
       attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
       info: >
@@ -57,19 +57,19 @@ ne:
       include_attachments: Include attachments
       download_backup: Download backup
       request_backup: Request backup
-    close_popup_title: "बन्द गर्नुहोस"
-    close_filter_title: "छान्ने"
-    close_form_title: "फर्म बन्द गर्नुहाेस्"
+    close_popup_title: "Close popup"
+    close_filter_title: "Close filter"
+    close_form_title: "Close form"
     button_add_watcher: "Add watcher"
     button_add: "Add"
     button_back: "Back"
-    button_back_to_list_view: "दृश्य"
+    button_back_to_list_view: "Back to list view"
     button_cancel: "Cancel"
     button_close: "Close"
     button_change_project: "Change project"
     button_check_all: "Check all"
-    button_configure-form: "फारम मिलाउनुहोस्"
-    button_confirm: "निश्चित गर्नुहोस्"
+    button_configure-form: "Configure form"
+    button_confirm: "Confirm"
     button_continue: "Continue"
     button_copy: "Copy"
     button_copy_to_clipboard: "Copy to clipboard"
@@ -77,21 +77,21 @@ ne:
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Custom fields"
     button_delete: "Delete"
-    button_delete_watcher: "वाचक हटाउनुहोस्  "
-    button_details_view: "विवरण दृश्य"
+    button_delete_watcher: "Delete watcher"
+    button_details_view: "Details view"
     button_duplicate: "Duplicate"
     button_edit: "Edit"
     button_filter: "Filter"
     button_collapse_all: "Collapse all"
     button_expand_all: "Expand all"
-    button_advanced_filter: "उन्नत फिल्टर"
-    button_list_view: "सूची दृश्य"
-    button_show_view: "पूर्णस्क्रीन दृश्य"
+    button_advanced_filter: "Advanced filter"
+    button_list_view: "List view"
+    button_show_view: "Fullscreen view"
     button_log_time: "Log time"
     button_more: "More"
-    button_open_details: "विवरण दृश्य खोल्नुहोस्"
-    button_close_details: "विवरण दृश्य बन्द गर्नुहोस्"
-    button_open_fullscreen: "पूर्णस्क्रिन दृश्य खोल्नुहोस्"
+    button_open_details: "Open details view"
+    button_close_details: "Close details view"
+    button_open_fullscreen: "Open fullscreen view"
     button_show_cards: "Show card view"
     button_show_list: "Show list view"
     button_show_table: "Show table view"
@@ -103,15 +103,15 @@ ne:
     button_settings: "Settings"
     button_uncheck_all: "Uncheck all"
     button_update: "Update"
-    button_export-pdf: "PDF डाउनलोड गर्नुहोस्"
-    button_export-atom: "एटम डाउनलोड गर्नुहोस्"
+    button_export-pdf: "Download PDF"
+    button_export-atom: "Download Atom"
     button_create: "Create"
     card:
-      add_new: "नयाँ कार्ड थप्नुहोस्"
+      add_new: "Add new card"
       highlighting:
-        inline: "इनलाइन हाइलाइट गर्नुहोस्:"
+        inline: "Highlight inline:"
         entire_card_by: "Entire card by"
-      remove_from_list: "सूचीबाट कार्ड हटाउनुहोस्"
+      remove_from_list: "Remove card from list"
     caption_rate_history: "Rate history"
     clipboard:
       browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
@@ -195,7 +195,7 @@ ne:
         inactive: "Inactive"
         drag_to_activate: "Drag fields from here to activate them"
         add_group: "Add attribute group"
-        add_table: "सम्बन्धित कार्य प्याकेजहरूको तालिका थप्नुहोस्"
+        add_table: "Add table of related work packages"
         edit_query: "Edit query"
         new_group: "New group"
         reset_to_defaults: "Reset to defaults"
@@ -383,11 +383,11 @@ ne:
     label_and: "and"
     label_ascending: "Ascending"
     label_author: "Author: %{user}"
-    label_avatar: "अवतार "
+    label_avatar: "Avatar"
     label_between: "between"
-    label_board: "बोर्ड"
+    label_board: "Board"
     label_board_locked: "Locked"
-    label_board_plural: "बोर्डहरु"
+    label_board_plural: "Boards"
     label_board_sticky: "Sticky"
     label_change: "Change"
     label_create: "Create"
@@ -420,9 +420,9 @@ ne:
     label_expand_project_menu: "Expand project menu"
     label_export: "Export"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
-    label_favored: "Favored"
-    label_filename: "फाइल"
-    label_filesize: "साइज"
+    label_favorites: "Favorites"
+    label_filename: "File"
+    label_filesize: "Size"
     label_general: "General"
     label_global_roles: "Global roles"
     label_greater_or_equal: ">="
@@ -546,7 +546,7 @@ ne:
     label_add_description: "Add a description for %{file}"
     label_upload_notification: "Uploading files..."
     label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}"
-    label_wp_id_added_by: "#%{id} %{author} द्वारा थपिएको"
+    label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "These files will be uploaded:"
     label_rejected_files: "These files cannot be uploaded:"
     label_rejected_files_reason: "These files cannot be uploaded as their size is greater than %{maximumFilesize}"
@@ -713,7 +713,7 @@ ne:
     placeholders:
       default: "-"
       subject: "Enter subject here"
-      selection: "कृपया छान्नुहोस्"
+      selection: "Please select"
       description: "Description: Click to edit..."
       relation_description: "Click to add description for this relation"
     project:
@@ -775,11 +775,11 @@ ne:
         more_information: "More information"
         nevermind: "Nevermind"
       edit:
-        form_configuration: "फारम कन्फिगरेसन"
+        form_configuration: "Form Configuration"
         projects: "Projects"
         settings: "Settings"
     time_entry:
-      work_package_required: "सबै भन्दा पहिले कार्य प्याकेज चयन गर्न आवश्यक छ।"
+      work_package_required: "Requires selecting a work package first."
       title: "Log time"
       tracking: "Time tracking"
       stop: "Stop"
@@ -1142,7 +1142,7 @@ ne:
       destroy_time_entry:
         title: "Confirm deletion of time entry"
         text: "Are you sure you want to delete the following time entry?"
-    notice_no_results_to_display: "देखिने कुनै नतिजाहरू छैनन्।"
+    notice_no_results_to_display: "No visible results to display."
     notice_successful_create: "Successful creation."
     notice_successful_delete: "Successful deletion."
     notice_successful_update: "Successful update."
@@ -1271,6 +1271,9 @@ ne:
           placeholder: "The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
           group: "The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance."
         next_button: "Continue"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Include projects"
       title: "Projects"

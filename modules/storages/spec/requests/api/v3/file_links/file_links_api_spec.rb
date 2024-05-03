@@ -219,15 +219,6 @@ RSpec.describe "API v3 file links resource" do
       end
     end
 
-    context "if storages module is deactivated for the work package's project" do
-      before(:all) { disable_module(project, "storages") }
-      after(:all) { enable_module(project, "storages") }
-
-      it_behaves_like "API V3 collection response", 0, 0, "FileLink", "Collection" do
-        let(:elements) { [] }
-      end
-    end
-
     describe "with filter by storage" do
       let!(:another_project_storage) { create(:project_storage, project:, storage: another_storage) }
       let(:path) { "#{api_v3_paths.file_links(work_package.id)}?filters=#{CGI.escape(filters.to_json)}" }
@@ -517,9 +508,9 @@ RSpec.describe "API v3 file links resource" do
       it_behaves_like "not found"
     end
 
-    context "if file link is in a work package, while the storages module is deactivated in its project." do
-      before(:all) { disable_module(project, "storages") }
-      after(:all) { enable_module(project, "storages") }
+    context "if file link is in a work package, while the work_package_tracking module is deactivated in its project." do
+      before(:all) { disable_module(project, "work_package_tracking") }
+      after(:all) { enable_module(project, "work_package_tracking") }
 
       it_behaves_like "not found"
     end

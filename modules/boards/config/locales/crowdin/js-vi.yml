@@ -7,7 +7,7 @@ vi:
       label_unnamed_list: 'Danh sách không tên'
       label_board_type: 'Kiểu bảng'
       upsale:
-        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+        teaser_text: 'Bạn có muốn tự động hóa quy trình công việc của mình với Bảng không? Bảng nâng cao là một tiện ích bổ sung dành cho Doanh nghiệp. Vui lòng nâng cấp lên gói trả phí.'
         upgrade: 'Nâng cấp ngay'
       lists:
         delete: 'Xoá danh sách'
@@ -62,7 +62,7 @@ vi:
           status: Trạng thái
           version: Phiên bản
           subproject: Dự án con
-          subtasks: Parent-child
+          subtasks: Cha-con
           basic: Cơ bản
         select_attribute: "Thuộc tính hành động"
       add_list_modal:

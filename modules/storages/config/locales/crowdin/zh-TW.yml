@@ -21,7 +21,7 @@ zh-TW:
         storages/project_storage:
           attributes:
             project_folder_mode:
-              mode_unavailable: is not available for this storage.
+              mode_unavailable: 不可用於此儲存空間。
         storages/storage:
           attributes:
             host:
@@ -39,52 +39,53 @@ zh-TW:
   api_v3:
     errors:
       too_many_elements_created_at_once: 一次創建的元素過多。最多應為 %{max} 個，實際為 %{actual} 個。
-  permission_create_files: 'External Storage: Create files'
-  permission_delete_files: 'External Storage: Delete files'
+  permission_create_files: '外部儲存空間：建立文件'
+  permission_delete_files: '外部儲存空間：刪除文件'
+  permission_header_for_project_module_storages: 自動管理的專案文件夾
   permission_manage_file_links: 管理文件鏈接
   permission_manage_storages_in_project: 管理專案中的文件儲存
-  permission_read_files: 'External Storage: Read files'
-  permission_share_files: 'External Storage: Share files'
+  permission_read_files: '外部儲存空間：讀取文件'
+  permission_share_files: '外部儲存空間：分享文件'
   permission_view_file_links: 查看文件鏈接
-  permission_write_files: 'External Storage: Write files'
+  permission_write_files: '外部儲存空間：存取文件'
   project_module_storages: 文件儲存空間
   storages:
     buttons:
-      complete_without_setup: Complete without it
+      complete_without_setup: 排除它完成
       done_complete_setup: 完成。完成設置
       done_continue: 完成，繼續
-      replace_oauth_application: Replace OpenProject OAuth
-      replace_oauth_client: Replace %{provider_type} OAuth
+      replace_oauth_application: 替換 OpenProject OAuth
+      replace_oauth_client: 替換 %{provider_type} OAuth
       save_and_continue: 儲存並繼續
       select_folder: 選擇資料夾
     configuration_checks:
       oauth_client_incomplete:
-        nextcloud: Allow OpenProject to access Nextcloud data using OAuth.
-        one_drive: Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint.
+        nextcloud: 允許 OpenProject 使用 OAuth 存取 Nextcloud 資料。
+        one_drive: 允許 OpenProject 使用 OAuth 連接 OneDrive/Sharepoint 存取 Azure 資料。
       redirect_uri_incomplete:
-        one_drive: Complete the setup with the correct URI redirection.
-    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
-    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
+        one_drive: 使用正確的 URI 重定向完成設定。
+    confirm_replace_oauth_application: 此操作將重設目前的 OAuth 憑證。 確認後，您必須在儲存空間提供者重新輸入憑證，並且所有遠端使用者都必須再次針對 OpenProject 進行授權。 您確定要繼續嗎？
+    confirm_replace_oauth_client: 此操作將重設目前的 OAuth 憑證。 確認後，您必須輸入儲存提供者的新憑證，並且所有使用者都必須再次針對 %{provider_type} 進行授權。 您確定要繼續嗎？
     delete_warning:
-      input_delete_confirmation: Enter the file storage name %{file_storage} to confirm deletion.
-      irreversible_notice: Deleting a file storage is an irreversible action.
-      project_storage: 'Are you sure you want to delete %{file_storage} from this project? To confirm this action please introduce the storage name in the field below, this will:'
-      project_storage_delete_result_1: Remove all links from work packages of this project to files and folders of that storage.
-      project_storage_delete_result_2: In case this storage has an automatically managed project folder, this and its files will be deleted forever.
+      input_delete_confirmation: 輸入檔案儲存名稱 %{file_storage} 以確認刪除。
+      irreversible_notice: 刪除這個儲存空間是不可逆轉的動作
+      project_storage: '您確定要從此項目中刪除 %{file_storage} 嗎？ 若要確認此操作，請在下面的欄位中輸入儲存名稱，這將：'
+      project_storage_delete_result_1: 刪除從此項目的工作包到該儲存的檔案和資料夾的所有連結。
+      project_storage_delete_result_2: 如果此儲存空間具有自動管理的專案資料夾，則該資料夾及其檔案將永久刪除。
       storage: 'Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:'
-      storage_delete_result_1: Remove all storage setups for all projects using this storage.
+      storage_delete_result_1: 刪除使用此儲存的所有項目的所有儲存設定。
       storage_delete_result_2: Remove all links from work packages of all projects to files and folders of that storage.
       storage_delete_result_3: In case this storage has automatically managed project folders, those and their contained files will be deleted forever.
-    error_invalid_provider_type: Please select a valid storage provider.
+    error_invalid_provider_type: 請選擇有效的儲存空間提供者。
     file_storage_view:
       access_management:
-        automatic_management: Automatically managed access and folders
+        automatic_management: 自動管理的專案文件夾
         automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
-        description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
-        manual_management: Manually managed access and folders
-        manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
-        setup_incomplete: Select the type of management of user access and folder creation.
-        subtitle: Access management
+        description: 選擇使用者存取和資料夾建立的管理類型。 我們建議使用自動管理存取以獲得更有組織的結構並保證對所有相關使用者的存取。
+        manual_management: 手動管理的存取和資料夾
+        manual_management_description: 您自己手動建立和管理每個專案的資料夾。 您需要手動確保相關使用者俱有存取權限。
+        setup_incomplete: 選擇使用者存取和資料夾建立的管理類型。
+        subtitle: 存取管理
         title: Access and project folders
       automatically_managed_folders: 自動管理文件夾
       general_information: 基本資訊
@@ -101,30 +102,30 @@ zh-TW:
       label_healthy: 健康的
       label_pending: 待處理
       since: 自從%{datetime}開始
-      subtitle: Automatically managed project folders
+      subtitle: 自動管理的專案文件夾
       title: 健康狀態
     health_email_notifications:
-      description_subscribed: All administrators receive health status email notifications for this storage.
-      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
-      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
-      subscribe: Subscribe
-      title: Email notifications
-      unsubscribe: Unsubscribe
+      description_subscribed: 所有管理員都會收到此儲存空間的運作狀況電子郵件通知。
+      description_unsubscribed: 已向所有管理員關閉此儲存的運作狀況電子郵件通知。
+      error_could_not_be_saved: 無法儲存電子郵件通知設定。 請再試一次。
+      subscribe: 訂閱
+      title: 電子郵件通知
+      unsubscribe: 取消訂閱
     help_texts:
-      project_folder: The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
+      project_folder: 項目資料夾是該項目文件上傳的預設資料夾。 儘管如此，用戶仍然可以將文件上傳到其他位置。
     instructions:
-      all_available_storages_already_added: All available storages are already added to the project.
-      automatic_folder: This will automatically create a root folder for this project and manage the access permissions for each project member.
-      copy_from: Copy this value from
-      empty_project_folder_validation: Selecting a folder is mandatory to proceed.
-      existing_manual_folder: You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
+      all_available_storages_already_added: 所有可用的儲存都已新增至專案。
+      automatic_folder: 這將自動為此專案建立一個根資料夾並管理每個專案成員的存取權限。
+      copy_from: 從以下位置複製此值：
+      empty_project_folder_validation: 必須選擇資料夾才能繼續。
+      existing_manual_folder: 您可以指定現有資料夾作為該專案的根資料夾。 然而，權限不會自動管理，管理員需要手動確保相關使用者俱有存取權限。 所選資料夾可由多個項目使用。
       host: 請添加存儲區的主機地址，包括 https://。不應超過 255 個字符。
-      managed_project_folders_application_password_caption: 'Enable automatic managed folders by copying this value from: %{provider_type_link}.'
+      managed_project_folders_application_password_caption: '透過從 %{provider_type_link} 複製此值來啟用自動託管資料夾。'
       name: 為您的存儲區命名，以便用戶可以區分多個存儲區。
-      new_storage: Read our documentation on <a target='_blank' href='%{provider_link}'>setting up a %{provider_name} file storage</a> integration for more information.
+      new_storage: 請閱讀有關<a target='_blank' href='%{provider_link}'>設定 %{provider_name} 文件儲存</a>整合的文檔，以了解更多資訊。
       nextcloud:
-        application_link_text: application “Integration OpenProject”
-        integration: Nextcloud Administration / OpenProject
+        application_link_text: 應用程式 “Integration OpenProject”
+        integration: Nextcloud 管理 / OpenProject
         oauth_configuration: Copy these values from %{application_link_text}.
         provider_configuration: Please make sure you have administration privileges in your Nextcloud instance and the %{application_link_text} is installed before doing the setup.
       no_specific_folder: 預設情況下，每個使用者上傳檔案時都會從自己的主資料夾開始。

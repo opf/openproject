@@ -9,7 +9,6 @@ sidebar_navigation:
 
 Univention App Center is the marketplace in [Univention Corporate Server (UCS)](https://www.univention.com/products/ucs/), an enterprise operating platform for infrastructure and identity management. OpenProject is available in the [App Center](https://www.univention.com/products/app-catalog/openproject/) and comes integrated with the identity management. Please note that only App Center 5 is receiving updates for OpenProject due to the incompatibility between AppCenter 4.3 and 5.0 for Docker-based installations.
 
-
 **App Appliance for easy deployment**
 
 With the App Appliance you can easily deploy your own OpenProject server in a virtual environment. The App Appliance consists of UCS and OpenProject already pre-installed. The UCS environment is setup with only a few steps. Download the official OpenProject virtual machine image in one of the following formats:

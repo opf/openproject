@@ -4,7 +4,7 @@ ms:
     team_planner:
       add_existing: 'Tambah sedia ada'
       add_existing_title: 'Tambah pakej kerja sedia ada'
-      create_label: 'Team planner'
+      create_label: 'Perancang pasukan'
       create_title: 'Cipta perancang pasukan baharu'
       unsaved_title: 'Unnamed team planner'
       no_data: 'Add assignees to set up your team planner.'

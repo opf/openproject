@@ -26,25 +26,25 @@ ro:
       work_packages:
         tab_name: "GitLab"
       tab_header_issue:
-        title: "Issues"
+        title: "Sunt câteva probleme cu produsele din coșul tău. Te rog mergi înapoi la pagina coșului și remediază aceste probleme înainte de finalizarea comenzii."
       tab_header_mr:
         title: "Merge requests"
         create_mr:
           label: Create MR
           description: Create a Merge Request
         copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
+          label: Git fragmente
+          description: Copiați fragmente git în clipboard
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          branch_name: Nume sucursală
+          commit_message: Mesajul commit-ului
+          cmd: Creați ramura cu un commit gol
+          title: Fragmente rapide pentru Git
+          copy_success: Copiat
+          copy_error: Copiere eşuată
       tab_issue:
         empty: 'There are no issues linked yet. Link an existing issue by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the issue title/description or create a new issue.'
       tab_mrs:
         empty: 'There are no merge requests linked yet. Link an existing MR by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the MR title/description or create a new MR.'
       gitlab_pipelines: Pipelines
-      updated_on: Updated on
+      updated_on: Actualizat pe

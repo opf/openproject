@@ -263,7 +263,7 @@ ms:
     lists:
       active: "Projek yang aktif"
       my: "Projek saya"
-      favored: "Favored projects"
+      favored: "Favorite projects"
       archived: "Projek yang diarkibkan"
       my_private: "Senarai projek peribadi saya"
       new:
@@ -605,7 +605,7 @@ ms:
         active_value:
           true: "tidak diarkibkan"
           false: "diarkibkan"
-        identifier: "Identifier"
+        identifier: "Pengenal"
         latest_activity_at: "Aktiviti terakhir di"
         parent: "Subprojek kepada"
         public_value:
@@ -745,7 +745,7 @@ ms:
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "tidak boleh diakses."
         error_readonly: "telah cuba untuk ditulis tetapi tidak dapat ditulis."
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "Maklumat telah dikemas kini oleh sekurang-kurangnya salah satu pengguna lain sementara itu."
         email: "adalah bukan alamat e-mel yang sah."
         empty: "tidak boleh kosong."
         even: "perlu sama."
@@ -775,6 +775,7 @@ ms:
         not_an_iso_date: "bukan tarikh yang sah. Format yang diperlukan: TTTT-BB-HH."
         not_same_project: "tidak tergolong dalam projek yang sama."
         odd: "mesti ganjil."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "could not be validated with the associated regular expression."
         smaller_than_or_equal_to_max_length: "perlu kurang daripada atau sama dengan panjang maksima."
         taken: "sudah diguna pakai."
@@ -1248,7 +1249,7 @@ ms:
   button_edit: "Sunting"
   button_edit_associated_wikipage: "Sunting halaman wiki berkaitan: %{page_title}"
   button_expand_all: "Kembangkan semua"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Saring"
   button_generate: "Menjana"
   button_list: "Senarai"
@@ -1384,40 +1385,40 @@ ms:
   datetime:
     distance_in_words:
       about_x_hours:
-        other: "sekitar 1 jam"
+        other: "sekitar %{count} jam"
       about_x_months:
-        other: "sekitar 1 bulan"
+        other: "sekitar %{count} bulan"
       about_x_years:
-        other: "sekitar 1 tahun"
+        other: "sekitar %{count} tahun"
       almost_x_years:
-        other: "hampir 1 tahun"
+        other: "hampir %{count} tahun"
       half_a_minute: "setengah minit"
       less_than_x_minutes:
-        other: "kurang dari satu minit"
+        other: "kurang dari %{count} minit"
       less_than_x_seconds:
-        other: "kurang dari 1 saat"
+        other: "kurang dari %{count} saat"
       over_x_years:
-        other: "sepanjang 1 tahun"
+        other: "sepanjang %{count} tahun"
       x_days:
-        other: "1 hari"
+        other: "%{count} hari"
       x_minutes:
-        other: "1 minit"
+        other: "%{count} minit"
       x_minutes_abbreviated:
-        other: "1 min"
+        other: "%{count} min"
       x_hours:
-        other: "1 jam"
+        other: "%{count} jam"
       x_hours_abbreviated:
-        other: "1 j"
+        other: "%{count} j"
       x_weeks:
-        other: "1 minggu"
+        other: "%{count} minggu"
       x_months:
-        other: "1 bulan"
+        other: "%{count} bulan"
       x_years:
-        other: "1 tahun"
+        other: "%{count} tahun"
       x_seconds:
-        other: "1 saat"
+        other: "%{count} saat"
       x_seconds_abbreviated:
-        other: "1 s"
+        other: "%{count} s"
     units:
       hour:
         other: "jam"
@@ -1894,7 +1895,7 @@ ms:
   label_expanded_click_to_collapse: "Dikembangkan. Klik untuk sembunyikan"
   label_f_hour: "%{value} jam"
   label_f_hour_plural: "%{value} jam"
-  label_favoured: "Digemari"
+  label_favorite: "Favorite"
   label_feed_plural: "Feed"
   label_feeds_access_key: "Kunci akses RSS"
   label_feeds_access_key_created_on: "Kunci akses RSS dicipta %{value} yang lalu"
@@ -1902,7 +1903,7 @@ ms:
   label_file_plural: "Fail-fail"
   label_filter_add: "Tambah penapis"
   label_filter: "Penapis"
-  label_filter_plural: "Filters"
+  label_filter_plural: "Penapis"
   label_filters_toggle: "Tunjuk/sembunyi penapis\n"
   label_float: "Float"
   label_folder: "Folder"
@@ -1967,6 +1968,7 @@ ms:
   label_learn_more: "Ketahui lebih lanjut"
   label_less_or_equal: "<="
   label_less_than_ago: "kurang dari beberapa hari yang lalu"
+  label_link_url: "Link (URL)"
   label_list: "Senarai"
   label_loading: "Memuatkan..."
   label_lock_user: "Kunci pengguna"
@@ -2109,7 +2111,7 @@ ms:
   label_project_attributes_settings: "Seting atribut projek"
   label_project_storage_plural: "Penyimpanan fail"
   label_project_storage_project_folder: "Penyimpanan Fail: Folder projek"
-  label_projects_storage_information: "%{count} projek menggunakan %{storage} penyimpanan cakera"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Paparkan semua projek"
   label_project_show_details: "Tunjukkan butiran projek"
   label_project_hide_details: "Sembunyikan butiran projek"
@@ -2810,7 +2812,7 @@ ms:
         url: "Enter the repository URL. This may either target a local repository (starting with %{local_proto} ), or a remote repository.\nThe following URL schemes are supported:"
       managed_title: "Subversion repository integrated into OpenProject"
       managed_introduction: "Let OpenProject create and integrate a local Subversion repository automatically."
-      managed_url: "Managed URL"
+      managed_url: "URL yang diuruskan"
       password: "Repositori Kata laluan"
       username: "Repositori nama pengguna "
     truncated: "Sorry, we had to truncate this directory to %{limit} files. %{truncated} entries were omitted from the list."
@@ -3136,7 +3138,7 @@ ms:
   text_repository_usernames_mapping: "Select or update the OpenProject user mapped to each username found in the repository log.\nUsers with the same OpenProject and repository username or email are automatically mapped."
   text_status_changed_by_changeset: "Dilaksanakan dalam set perubahan %{value}."
   text_table_difference_description: "In this table the single %{entries} are shown. You can view the difference between any two entries by first selecting the according checkboxes in the table. When clicking on the button below the table the differences are shown."
-  text_time_logged_by_changeset: "Applied in changeset %{value}."
+  text_time_logged_by_changeset: "Dilaksanakan dalam set perubahan %{value}."
   text_tip_work_package_begin_day: "pakej kerja bermula pada hari ini"
   text_tip_work_package_begin_end_day: "pakej kerja yang bermula dan berakhir pada hari ini"
   text_tip_work_package_end_day: "pakej kerja berakhir pada hari ini"
@@ -3514,7 +3516,7 @@ ms:
         This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
       oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
       oauth_state_not_present_explanation: >
-        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+        'Kondisi' digunakan untuk menunjukkan ke OpenProject tempat untuk meneruskan selepas kebenaran OAuth2 yang berjaya. Ketiadaan 'Kondisi' adalah ralat dalaman yang mungkin muncul semasa setup. Sila hubungi pentadbir sistem anda.
       rack_oauth2:
         client_secret_invalid: "Rahsia pelanggan adalah tidak sah (rahsia_pelanggan_tidak sah)"
         invalid_request: >
@@ -3535,7 +3537,7 @@ ms:
   link: pautan
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integrasi penyedia strategi OmniAuth untuk pengesahan dalam OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"

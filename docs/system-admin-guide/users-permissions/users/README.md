@@ -8,14 +8,14 @@ keywords: manage users, lock, unlock, invite, default language
 
 # Manage users
 
-The user list provides an overview of all users in OpenProject. You can create new users, make changes to existing user accounts and block or delete users from the system. 
+The user list provides an overview of all users in OpenProject. You can create new users, make changes to existing user accounts and block or delete users from the system.
 
 <div class="glossary">
 **User** is defined as a person (described by an identifier) who uses OpenProject. Users can become project members by assigning them a role and adding them via the project settings.
 </div>
 To manage users click on your avatar (top right corner) and select **Administration**. Select ***Users and permissions -> Users**. The list of current users is shown.
 
-In the Community edition there is no limit to the number of users. In Enterprise editions (cloud and on-premises) the user limit is based on your subscription. The number of users for your subscription is thus not bound to names. For example, if you block a user you can add a new one without upgrading. 
+In the Community edition there is no limit to the number of users. In Enterprise editions (cloud and on-premises) the user limit is based on your subscription. The number of users for your subscription is thus not bound to names. For example, if you block a user you can add a new one without upgrading.
 
 | Topic                                           | Content                                                  |
 | ----------------------------------------------- | -------------------------------------------------------- |
@@ -59,7 +59,7 @@ If a user has repeated failed logins the user will be locked temporarily and a *
 
 ## Create users
 
-New users can be created and configured by an administrator or by the users themselves (if activated). 
+New users can be created and configured by an administrator or by the users themselves (if activated).
 
 ### Invite user (as administrator)
 
@@ -76,13 +76,13 @@ When adding the last of multiple users you can click on **Create** or click the 
 
 ### Create user (via self-registration)
 
-To allow users to create their own user accounts enable self-registration in the [authentication settings](../../authentication/authentication-settings). A person can then create their own user from the home page by clicking on the **Sign in** button (top right), then on the **Create a new account** link in the sign in box. 
+To allow users to create their own user accounts enable self-registration in the [authentication settings](../../authentication/authentication-settings). A person can then create their own user from the home page by clicking on the **Sign in** button (top right), then on the **Create a new account** link in the sign in box.
 
 Enter values in all fields (they cannot be left blank). The email field must be a valid email address that is not used in this system. Click the **Create** button. Depending on the [settings](../../authentication/authentication-settings) the account is created but it could be that it still needs to be activated by an administrator.
 
 #### Activate users
 
-Open the user list. If a user has created their own account (and it has not been activated automatically) it is shown in the user list with an **Activate** link on the right. Click this link and continue to add details to this user as below. 
+Open the user list. If a user has created their own account (and it has not been activated automatically) it is shown in the user list with an **Activate** link on the right. Click this link and continue to add details to this user as below.
 
 ![Activate a user](system_guide_activate_user_list.png)
 
@@ -93,7 +93,7 @@ There is also an **Activate** button at the top of the user's details page.
 ### Set initial details
 
 You can edit the details of a newly created user. Useful fields might be **Username**, **Language** and **Time zone**. You might also fill Projects, Groups and Rates, or leave these to the **Project creator**.
-Also consider the [authentication](#authentication) settings. 
+Also consider the [authentication](#authentication) settings.
 
 See [Manage user settings](#manage-user-settings) for full details.
 
@@ -105,9 +105,9 @@ In the top right, click the **Send invitation** button in order to send the emai
 
 ![Send user invitation in OpenProject](openproject_system_guide_send_user_invitation.png)
 
-
 ### Delete user invitations
-To invalidate or revoke a user's invitation click on the user name and then on **Delete** in the upper right corner. This will prevent the invited user from logging in. 
+
+To invalidate or revoke a user's invitation click on the user name and then on **Delete** in the upper right corner. This will prevent the invited user from logging in.
 Please note: this only works for users who haven't logged in yet. If the user is already active this will delete his/her whole profile and account. Deleting users can't be revoked.
 
 ## Manage user settings
@@ -148,7 +148,7 @@ On the **Projects** tab, select the new project from the drop-down list, choose 
 
 ### Add users to groups
 
-On the **Groups** tab you can see the groups the user belongs to. If a group is shown, click the group name link. 
+On the **Groups** tab you can see the groups the user belongs to. If a group is shown, click the group name link.
 
 ![User groups](system_guide_user_groups.png)
 
@@ -184,7 +184,7 @@ If you want to set a different hourly rate for the user on different projects, y
 
 To enter a new hourly rate, click on the **Update** icon next to the rate history. You can either set a **default hourly rate** or define a rate for a certain project.
 
-![set-hourly-rate-administration](system_guide_rate_history.png) 
+![set-hourly-rate-administration](system_guide_rate_history.png)
 
 1. Enter a date from which the rate is **Valid from**.
 2. Enter the (hourly) **Rate**. The currency can only be changed in the [respective settings](../../time-and-costs).
@@ -204,7 +204,7 @@ This tab shows whether a user has activated a device for two-factor authenticati
 
 ## Authentication
 
-The available authentication methods affect the content of the **Authentication** section in the **General** tab of the user details. 
+The available authentication methods affect the content of the **Authentication** section in the **General** tab of the user details.
 
 Use the **self-registration** field to give the following controls over a new user's access.
 
@@ -223,6 +223,7 @@ Leave all fields blank. When the details are saved OpenProject will send an emai
 ## Delete users
 
 Two [settings](../settings/#user-deletion) allow users to be deleted from the system:
+
 * **User accounts deletable by admins** - if ticked, a **Delete** button is shown on the user details page.
 * **Users allowed to delete their accounts** - if ticked, a **Delete account** menu entry is shown in the **My Account** page.
 

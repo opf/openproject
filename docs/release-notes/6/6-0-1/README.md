@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 6.0.1
-  sidebar_navigation:
-      title: 6.0.1
-  release_version: 6.0.1
-  release_date: 2016-08-01
+title: OpenProject 6.0.1
+sidebar_navigation:
+  title: 6.0.1
+release_version: 6.0.1
+release_date: 2016-08-01
 ---
 
 # OpenProject 6.0.1
@@ -82,10 +82,9 @@ Thanks a lot to Guillaume Ferry and Willy Gardiol for [reporting
 bugs](../../../development/report-a-bug/).
 
 For further information on the release, please refer to the  
-[Changelog v.6.0.1](https://community.openproject.org/versions/807) 
+[Changelog v.6.0.1](https://community.openproject.org/versions/807)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v6.0.1).
 
 For a free 30 day trial create your own OpenProject instance on
 [OpenProject.org](https://openproject.org/).
-

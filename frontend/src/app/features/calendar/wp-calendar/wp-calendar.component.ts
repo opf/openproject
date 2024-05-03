@@ -227,7 +227,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
             editable: false,
             durationEditable: false,
             allDay: false,
-            className: 'fc-event-clickable',
+            className: 'fc-event-clickable op-wp-calendar--meeting-resource',
             meeting,
           };
         });

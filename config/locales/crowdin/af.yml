@@ -263,8 +263,8 @@ af:
       no_results_content_text: Create a new project
     lists:
       active: "Active projects"
-      my: "My projects"
-      favored: "Favored projects"
+      my: "My projekte"
+      favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -319,10 +319,10 @@ af:
     menu:
       all: "All"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Gesluit"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Groepe"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -399,7 +399,7 @@ af:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
   page:
-    text: "Text"
+    text: "Teks"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -622,7 +622,7 @@ af:
           false: "private"
         queries: "Navrae"
         status_code: "Projek status"
-        description: "Description"
+        description: "Beskrywing"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -783,6 +783,7 @@ af:
         not_an_iso_date: "is not a valid date. Required format: YYYY-MM-DD."
         not_same_project: "doesn't belong to the same project."
         odd: "must be odd."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "could not be validated with the associated regular expression."
         smaller_than_or_equal_to_max_length: "must be smaller than or equal to maximum length."
         taken: "has already been taken."
@@ -1264,7 +1265,7 @@ af:
   button_edit: "Redigeer"
   button_edit_associated_wikipage: "Redigeer geassosieerde Wiki bladsy: %{page_title}"
   button_expand_all: "Vou almal uit"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Filtreer"
   button_generate: "Generate"
   button_list: "Lys"
@@ -1556,7 +1557,7 @@ af:
     message: Boodskap geredigeer
     news: Nuus
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "Projek geredigeer"
     projects: "Projek geredigeer"
     reply: Geantwoord
     time_entry: "Tydrekord geredigeer"
@@ -1776,7 +1777,7 @@ af:
   label_ascending: "Stygende"
   label_assigned_to_me_work_packages: "Werkspakkette aan my toegeken"
   label_associated_revisions: "Gepaardgaande hersienings"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Aanhegsels"
   label_attribute: "Kenmerk"
   label_attribute_plural: "Kenmerke"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1862,7 +1863,7 @@ af:
   label_custom_field_plural: "Pasgemaakte velde"
   label_custom_field_default_type: "Leë tipe"
   label_custom_style: "Design"
-  label_dashboard: "Dashboard"
+  label_dashboard: "Beheerpaneel"
   label_database_version: "PostgreSQL version"
   label_date: "Datum"
   label_date_and_time: "Date and time"
@@ -1928,14 +1929,14 @@ af:
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} uur"
   label_f_hour_plural: "%{value} ure"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Toevoere"
   label_feeds_access_key: "RSS toegangsleutel"
   label_feeds_access_key_created_on: "RSS toegang sleutel %{value} gelede geskep"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Lêers"
   label_filter_add: "Voeg filter by"
-  label_filter: "Filters"
+  label_filter: "Filtreerders"
   label_filter_plural: "Filtreerders"
   label_filters_toggle: "Show/hide filters"
   label_float: "Dryf"
@@ -1962,7 +1963,7 @@ af:
   label_home: "Tuis"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Identifiseerder"
   label_in: "in"
   label_in_less_than: "in minder as"
   label_in_more_than: "in meer as"
@@ -2001,6 +2002,7 @@ af:
   label_learn_more: "Learn more"
   label_less_or_equal: "<="
   label_less_than_ago: "minder as dae gelede"
+  label_link_url: "Link (URL)"
   label_list: "Lys"
   label_loading: "Laai tans..."
   label_lock_user: "Lock user"
@@ -2143,7 +2145,7 @@ af:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} projects using %{storage} disk storage"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Bekyk alle projekte"
   label_project_show_details: "Toon projekdetails"
   label_project_hide_details: "Versteek projekdetails"
@@ -3573,7 +3575,7 @@ af:
   link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"

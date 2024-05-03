@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 3.0.13
-  sidebar_navigation:
-      title: 3.0.13
-  release_version: 3.0.13
-  release_date: 2014-09-30
+title: OpenProject 3.0.13
+sidebar_navigation:
+  title: 3.0.13
+release_version: 3.0.13
+release_date: 2014-09-30
 ---
 
 # OpenProject 3.0.13
@@ -27,7 +27,5 @@ An error preventing to copy projects in OpenProject persists in 3.0.13
 ([#15706](https://community.openproject.org/work_packages/15706 "[Copy project] Projects cannot be copied (formerly: Subprojects are not copied correctly and the ... (closed)")),
 it will be addressed in the next patch release (3.0.14).
 
-For a complete list of changes, please refer to the 
+For a complete list of changes, please refer to the
 [OpenProject 3.0.13 query](https://community.openproject.org/versions/466).
-
-

@@ -26,20 +26,20 @@ fa:
       work_packages:
         tab_name: "GitLab"
       tab_header_issue:
-        title: "Issues"
+        title: "مشکلات"
       tab_header_mr:
         title: "Merge requests"
         create_mr:
           label: Create MR
           description: Create a Merge Request
         copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
+          label: تکه کد های گیت
+          description: کپی تکه کد گیت در حافظه
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
+          branch_name: نام شاخه
+          commit_message: کامیت کردن پیام
+          cmd: ساخت شاخه خالی بدون کامیت کردن
+          title: تکه کد های سریع برای گیت
           copy_success: '✅ Copied!'
           copy_error: '❌ Copy failed!'
       tab_issue:
@@ -47,4 +47,4 @@ fa:
       tab_mrs:
         empty: 'There are no merge requests linked yet. Link an existing MR by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the MR title/description or create a new MR.'
       gitlab_pipelines: Pipelines
-      updated_on: Updated on
+      updated_on: به روز شده

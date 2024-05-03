@@ -29,12 +29,7 @@
 #++
 
 module Storages
-  class StorageErrorData
-    attr_reader :source, :payload
-
-    def initialize(source:, payload: nil)
-      @source = source
-      @payload = payload
-    end
+  StorageErrorData = Data.define(:source, :payload) do
+    def initialize(source:, payload: nil) = super
   end
 end

@@ -21,7 +21,7 @@
 #++
 lv:
   plugin_costs:
-    name: "Time and costs"
+    name: "Laiks un izmaksas"
     description: "This module adds features for planning and tracking costs of projects."
   activerecord:
     attributes:
@@ -39,7 +39,7 @@ lv:
         material_costs: "Vienības izmaksas"
         overall_costs: "Kopējās izmaksas"
         spent_costs: "Spent costs"
-        spent_units: "Spent units"
+        spent_units: "Izlietotās vienības"
       rate:
         rate: "Likme"
       user:
@@ -56,21 +56,21 @@ lv:
           is_not_a_valid_target_for_cost_entries: "Work package #%{id} is not a valid target for reassigning the cost entries."
           nullify_is_not_valid_for_cost_entries: ""
   attributes:
-    comment: "Comment"
+    comment: "Komentârs"
     cost_type: "Cost type"
     costs: "Costs"
     current_rate: "Current rate"
     hours: "Stundas"
-    units: "Units"
-    valid_from: "Valid from"
+    units: "Vienības"
+    valid_from: "Derīgs no"
     fixed_date: "Fixed date"
   button_add_rate: "Add rate"
-  button_log_costs: "Log unit costs"
+  button_log_costs: "Uzskaitīt vienības izmaksas"
   caption_booked_on_project: "Booked on project"
   caption_default: "Default"
   caption_default_rate_history_for: "Default rate history for %{user}"
   caption_locked_on: "Locked on"
-  caption_materials: "Units"
+  caption_materials: "Vienības"
   caption_rate_history: "Rate history"
   caption_rate_history_for: "Rate history for %{user}"
   caption_rate_history_for_project: "Rate history for %{user} in project %{project}"
@@ -83,7 +83,7 @@ lv:
   label_cost_filter_add: "Add cost entry filter"
   label_costlog: "Logged unit costs"
   label_cost_plural: "Costs"
-  label_cost_type_plural: "Cost types"
+  label_cost_type_plural: "Izmaksu veids"
   label_cost_type_specific: "Cost type #%{id}: %{name}"
   label_costs_per_page: "Costs per page"
   label_currency: "Currency"

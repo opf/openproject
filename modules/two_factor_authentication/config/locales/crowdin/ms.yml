@@ -7,7 +7,7 @@ ms:
   activerecord:
     attributes:
       two_factor_authentication/device:
-        identifier: "Identifier"
+        identifier: "Pengenal"
         default: "Guna sebagai default"
       two_factor_authentication/device/sms:
         phone_number: "Nombor telefon"

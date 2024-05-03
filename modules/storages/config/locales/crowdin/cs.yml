@@ -41,6 +41,7 @@ cs:
       too_many_elements_created_at_once: Příliš mnoho prvků vytvořených najednou. Očekáváno nanejvýš %{max} , získáno %{actual}.
   permission_create_files: 'External Storage: Create files'
   permission_delete_files: 'External Storage: Delete files'
+  permission_header_for_project_module_storages: Automaticky spravované projektové složky
   permission_manage_file_links: Správa odkazů souborů
   permission_manage_storages_in_project: Spravovat úložiště souborů v projektu
   permission_read_files: 'External Storage: Read files'
@@ -101,14 +102,14 @@ cs:
       label_healthy: Zdravé
       label_pending: Nevyřízeno
       since: od %{datetime}
-      subtitle: Automatically managed project folders
+      subtitle: Automaticky spravované projektové složky
       title: Zdravotní stav
     health_email_notifications:
       description_subscribed: All administrators receive health status email notifications for this storage.
       description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
       error_could_not_be_saved: Email notification settings could not be saved. Please try again.
-      subscribe: Subscribe
-      title: Email notifications
+      subscribe: Přihlásit k odběru
+      title: E-mailová upozornění
       unsubscribe: Unsubscribe
     help_texts:
       project_folder: Složka projektu je výchozí složka pro nahrávání souborů pro tento projekt. Uživatelé přesto mohou nahrávat soubory do jiných umístění.

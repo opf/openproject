@@ -26,7 +26,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import {
+  HalResourceEditingService,
+} from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -48,7 +50,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import {
   displayClassName,
-  DisplayFieldRenderer,
+  DisplayFieldRenderer, displayTriggerLink,
   editFieldContainerClass,
 } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { States } from 'core-app/core/states/states.service';
@@ -168,7 +170,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
 
     // Skip activation if the user clicked on a link or within a macro
     const target = jQuery(event.target as HTMLElement);
-    if (target.closest('a,macro', this.displayContainer.nativeElement).length > 0) {
+    if (target.closest(`a:not(.${displayTriggerLink}),macro`, this.displayContainer.nativeElement).length > 0) {
       return true;
     }
 

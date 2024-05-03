@@ -264,7 +264,7 @@ ko:
     lists:
       active: "활성 프로젝트"
       my: "내 프로젝트"
-      favored: "Favored projects"
+      favored: "Favorite projects"
       archived: "보관된 프로젝트"
       my_private: "내 비공개 프로젝트 목록"
       new:
@@ -775,6 +775,7 @@ ko:
         not_an_iso_date: "은(는) 유효한 날짜가 아닙니다. 필요한 형식: YYYY-MM-DD."
         not_same_project: "은(는) 동일한 프로젝트에 속하지 않습니다."
         odd: "에 홀수를 입력해 주세요"
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "관련 정규식으로 유효성을 확인할 수 없습니다."
         smaller_than_or_equal_to_max_length: "은(는) 최대 길이보다 같거나 작아야 합니다."
         taken: "은(는) 이미 존재합니다."
@@ -1248,7 +1249,7 @@ ko:
   button_edit: "편집"
   button_edit_associated_wikipage: "연결된 위키 페이지 %{page_title} 편집"
   button_expand_all: "모두 확장"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "필터"
   button_generate: "생성"
   button_list: "목록"
@@ -1894,7 +1895,7 @@ ko:
   label_expanded_click_to_collapse: "확장되었습니다. 축소하려면 클릭하세요."
   label_f_hour: "%{value}시간"
   label_f_hour_plural: "%{value}시간"
-  label_favoured: "호감"
+  label_favorite: "Favorite"
   label_feed_plural: "피드"
   label_feeds_access_key: "RSS 액세스 키"
   label_feeds_access_key_created_on: "RSS 액세스 키가 %{value} 전에 생성되었습니다."
@@ -1967,6 +1968,7 @@ ko:
   label_learn_more: "자세히 알아보기"
   label_less_or_equal: "<="
   label_less_than_ago: "일 미만 전"
+  label_link_url: "Link (URL)"
   label_list: "목록"
   label_loading: "로드 중..."
   label_lock_user: "사용자 잠금"
@@ -2109,7 +2111,7 @@ ko:
   label_project_attributes_settings: "프로젝트 특성 설정"
   label_project_storage_plural: "파일 저장소"
   label_project_storage_project_folder: "파일 저장소: 프로젝트 폴더"
-  label_projects_storage_information: "%{count} 개의 프로젝트가 %{storage} 디스크 스토리지를 사용 중"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "모든 프로젝트 보기"
   label_project_show_details: "프로젝트 세부 정보 표시"
   label_project_hide_details: "프로젝트 세부 정보 숨기기"
@@ -3532,7 +3534,7 @@ ko:
   link: 링크
   plugin_openproject_auth_plugins:
     name: "OpenProject 인증 플러그인"
-    description: "인증을 위해 OpenProject에서 OmniAuth 정책 공급자를 통합합니다."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML/Single-Sign On"
     description: "OpenProject에 OmniAuth SAML 공급자를 추가합니다"

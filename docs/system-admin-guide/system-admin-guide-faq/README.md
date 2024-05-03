@@ -28,7 +28,6 @@ Please have a look at [these instructions](../../installation-and-operations/ope
 
 The OpenProject installations do not configure a default timeout for the outer Apache2 web server. Please increase the Apache `Timeout` directive. Please see the Apache web server documentation for more information: [https://httpd.apache.org/docs/2.4/mod/core.html#timeout](https://httpd.apache.org/docs/2.4/mod/core.html#timeout)
 
-
 ## Further information
 
 More FAQ can be found in the respective sections of this System admin guide.

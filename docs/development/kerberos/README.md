@@ -9,19 +9,13 @@ robots: index, follow
 
 **Note:** This guide is targeted only at development with OpenProject. For the Kerberos configuration guide, please see this guide: [Kerberos authentication guide](../../system-admin-guide/authentication/kerberos/)
 
-
-
 To test Kerberos, you'll need to setup a local kerberos admin and kdc server. This guide shows you how to do this for debian/ubuntu systems. YMMV on other distributions.
-
-
 
 ## Prerequisites
 
 - A debian / ubuntu VM or local machine
 
 - A local packaged installation installed using the hostname `openproject.local`
-
-  
 
 ## Installing kerberos server
 
@@ -33,11 +27,7 @@ apt install krb5-kdc krb5-admin-server krb5-config -y
 
 During that installation, you'll be asked to enter the default realm. We'll use `TEST.LOCAL` in the course of this guide.
 
-
-
 ![Defining the default realm](realm.png)
-
-
 
 Next, you'll have to enter the hostnames used for your server. We'll assume this setup:
 
@@ -56,23 +46,15 @@ For the administrative server, also enter `kerberos.local`
 
 The next dialog, you can simply continue with OK. The configuration will continue, and the krb5-kdc service will fail with a missing database. This is normal.
 
-
-
 ### Adding the realm
 
 Next, add the realm with the command `krb5_newrealm`. You'll be prompted for a password. Double-check that it prints this line or similar:
 
 `Initializing database '/var/lib/krb5kdc/principal' for realm 'TEST.LOCAL',`
 
-
-
 Enter a password and continue with enter. The realm is now setup.
 
-
-
 Next,  you'll restart the kdc server with `systemctl restart krb5-kdc` and confirm it's running with `systemctl status krb5-kdc`
-
-
 
 ### Adding your principal
 
@@ -84,7 +66,7 @@ This will prompt for a password for user1, which you have to confirm afterwards.
 
 To check that the user was created successfully, run this command `get_principal`:
 
-```
+```text
 > kadmin.local: get_principal user1
 Principal: user1@TEST.LOCAL
 Expiration date: [never]
@@ -103,8 +85,6 @@ MKey: vno 1
 Attributes: REQUIRES_PRE_AUTH
 Policy: [none]
 ```
-
-
 
 ### Create a service principal and output as keytab
 
@@ -125,12 +105,11 @@ ktadd -k /etc/apache2/openproject.keytab HTTP/openproject.local
 ```
 
 Exit the `kadmin.local` console. Make sure the file is readable by apache2:
+
 ```shell
 chown www-data:www-data /etc/apache2/openproject.keytab
 chmod 400 /etc/apache2/openproject.keytab
 ```
-
-
 
 ## Set up Apache2 kerberos config
 
@@ -139,8 +118,6 @@ First, install the GSSAPI apache module with:
 ```shell
 apt install libapache2-mod-auth-gssapi
 ```
-
-
 
 Add the customization dir `mkdir -p /etc/openproject/addons/apache2/custom/vhost` and create this file: `vim /etc/openproject/addons/apache2/custom/vhost/kerberos.conf`
 
@@ -175,15 +152,9 @@ Add the following contents:
 </Location>
 ```
 
-
-
-Save the file and check the config with `apache2ctl configtest`. If this works fine, restart apache with `systemctl restart apache2`. 
-
-
+Save the file and check the config with `apache2ctl configtest`. If this works fine, restart apache with `systemctl restart apache2`.
 
 If your OpenProject installation isn't yet running under `openproject.local`, run `openproject reconfigure` to change the hostname.
-
-
 
 ## Configure OpenProject
 
@@ -194,21 +165,13 @@ openproject config:set OPENPROJECT_AUTH__SOURCE__SSO_HEADER="X-Authenticated-Use
 openproject config:set OPENPROJECT_AUTH__SOURCE__SSO_SECRET="MyPassword"
 ```
 
-
-
 Afterwards, restart the OpenProject server with `systemctl restart openproject`
-
-
 
 ## Use the integration
 
 If you access OpenProject now, you'll see that the SSO login is tried but fails:
 
-
-
 ![image-20220622164045060](image-20220622164045060.png)
-
-
 
 This is expected, as there is no `user1` login with an auth source connected. To fix that, open a console with `openproject run console` and run:
 
@@ -217,7 +180,5 @@ auth_source = LdapAuthSource.create! name: 'test', host: 'localhost', attr_login
 
 user = User.create! login: 'user1', firstname: 'user', lastname: 'one', mail: 'user1@example.org', admin: true, ldap_auth_source: auth_source
 ```
-
-
 
 Now reload the page and you'll be logged in immediately.
