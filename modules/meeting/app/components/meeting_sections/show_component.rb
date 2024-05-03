@@ -51,6 +51,14 @@ module MeetingSections
       @meeting_section.id
     end
 
+    def insert_target_modified?
+      true
+    end
+
+    def insert_target_modifier_id
+      "meeting-agenda-items-new-item-#{@meeting_section.id}"
+    end
+
     def editable?
       @meeting_section.editable? && User.current.allowed_in_project?(:manage_agendas, @meeting_section.project)
     end
@@ -92,14 +100,6 @@ module MeetingSections
         "target-id": @meeting_section.id, # the id of the target
         "target-allowed-drag-type": "agenda-item" # the type of dragged items which are allowed to be dropped in this target
       }
-    end
-
-    def insert_target_modified?
-      true
-    end
-
-    def insert_target_modifier_id
-      "meeting-agenda-items-new-item"
     end
   end
 end

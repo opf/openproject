@@ -53,6 +53,7 @@ RSpec.describe "Upload attachment to meetings", :js do
     show_page.visit!
 
     show_page.add_agenda_item(save: false) do
+      sleep 1 # TODO: dynamically wait - without sleep running into timing issues locally
       click_on "Notes"
     end
 

@@ -90,15 +90,17 @@ RSpec.describe "Structured meetings CRUD",
     end
 
     show_page.expect_agenda_item title: "My agenda item"
-    show_page.cancel_add_form
-
     item = MeetingAgendaItem.find_by(title: "My agenda item")
+    show_page.cancel_add_form(item)
+
+    # can update
     show_page.edit_agenda_item(item) do
       fill_in "Title", with: "Updated title"
       click_on "Save"
     end
 
     show_page.expect_no_agenda_item title: "My agenda item"
+    show_page.expect_agenda_item title: "Updated title"
 
     # Can add multiple items
     show_page.add_agenda_item do
@@ -136,7 +138,7 @@ RSpec.describe "Structured meetings CRUD",
     # Can remove
     show_page.remove_agenda_item first
     show_page.assert_agenda_order! "Updated title", "Second"
-    show_page.cancel_add_form
+    show_page.cancel_add_form(second)
 
     # Can link work packages
     show_page.add_agenda_item(type: WorkPackage) do
@@ -164,7 +166,7 @@ RSpec.describe "Structured meetings CRUD",
     end
 
     show_page.select_action(item, I18n.t(:label_sort_lowest))
-    show_page.cancel_add_form
+    show_page.cancel_add_form(item)
 
     show_page.add_agenda_item do
       fill_in "Title", with: "My agenda item"
@@ -223,6 +225,16 @@ RSpec.describe "Structured meetings CRUD",
 
       click_on I18n.t(:label_icalendar_download)
 
+      # dynamically wait for download to finish, otherwise expectation is too early
+      seconds = 0
+      while seconds < 5
+        # don't use subject as it will not get reevaluated in the next iteration
+        break if @download_list.refresh_from(page).latest_download.to_s != ""
+
+        sleep 1
+        seconds += 1
+      end
+
       expect(subject).to end_with ".ics"
     end
   end
@@ -237,9 +249,10 @@ RSpec.describe "Structured meetings CRUD",
     end
 
     show_page.expect_agenda_item title: "My agenda item"
-    show_page.cancel_add_form
-
     item = MeetingAgendaItem.find_by!(title: "My agenda item")
+
+    show_page.cancel_add_form(item)
+
     show_page.edit_agenda_item(item) do
       # Side effect: update the item
       item.update!(title: "Updated title")
@@ -261,7 +274,9 @@ RSpec.describe "Structured meetings CRUD",
     end
 
     show_page.expect_agenda_item title: "My agenda item"
-    show_page.cancel_add_form
+    item = MeetingAgendaItem.find_by!(title: "My agenda item")
+
+    show_page.cancel_add_form(item)
 
     click_on("op-meetings-header-action-trigger")
     click_on "Copy"

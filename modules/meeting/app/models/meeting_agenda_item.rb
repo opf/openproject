@@ -72,6 +72,8 @@ class MeetingAgendaItem < ApplicationRecord
   # after_destroy :delete_meeting_section_if_empty
 
   def add_to_latest_meeting_section
+    return if meeting.nil?
+
     if meeting_section_id.nil?
       meeting_section = meeting.sections.order(position: :asc).last
 

@@ -37,6 +37,9 @@ module Pages::StructuredMeeting
       retry_block do
         click_link_or_button "op-meetings-header-action-trigger"
         click_link_or_button "History"
+        # dynamically wait for the modal to be loaded
+        # otherwise running into timing issues with `item = history_page.first_item`
+        expect(page).to have_css(".op-activity-list--item")
       end
     end
 
@@ -66,9 +69,7 @@ module Pages::StructuredMeeting
 
     def find_item(detail)
       detail = page.find("li.op-activity-list--item-detail", text: detail)
-      item = detail.ancestor(".op-activity-list--item-details").ancestor(".op-activity-list--item")
-
-      item
+      detail.ancestor(".op-activity-list--item-details").ancestor(".op-activity-list--item")
     end
   end
 end

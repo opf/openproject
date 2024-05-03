@@ -102,8 +102,14 @@ module Meetings
 
     def copy_meeting_agenda(copy)
       if meeting.is_a?(StructuredMeeting)
-        meeting.agenda_items.each do |agenda_item|
-          copy.agenda_items << agenda_item.dup
+        meeting.sections.each do |section|
+          copy.sections << section.dup
+          copied_section = copy.reload.sections.last
+          section.agenda_items.each do |agenda_item|
+            copied_agenda_item = agenda_item.dup
+            copied_agenda_item.meeting_id = copy.id
+            copied_section.agenda_items << copied_agenda_item
+          end
         end
       else
         MeetingAgenda.create!(

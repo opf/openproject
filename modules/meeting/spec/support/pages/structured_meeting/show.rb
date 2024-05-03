@@ -48,8 +48,8 @@ module Pages::StructuredMeeting
       end
     end
 
-    def cancel_add_form
-      page.within("#meeting-agenda-items-new-component") do
+    def cancel_add_form(item)
+      page.within("#meeting-agenda-items-new-component-#{item.meeting_section_id}") do
         click_on I18n.t(:button_cancel)
         expect(page).to have_no_link I18n.t(:button_cancel)
       end
