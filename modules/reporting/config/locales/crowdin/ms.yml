@@ -31,7 +31,7 @@ ms:
   description_drill_down: "Papar butiran"
   description_filter_selection: "Pilihan"
   description_multi_select: "Show multiselect"
-  description_remove_filter: "Remove filter"
+  description_remove_filter: "Padam penyaringan. "
   information_restricted_depending_on_permission: "Depending on your permissions this page might contain restricted information."
   label_click_to_edit: "Klik untuk edit."
   label_closed: "ditutup"

@@ -22,11 +22,11 @@
 be:
   js:
     ajax:
-      hide: "Hide"
-      loading: "Loading…"
-      updating: "Updating…"
+      hide: "Схаваць"
+      loading: "Ідзе загрузка…"
+      updating: "Абнаўленне…"
     attachments:
-      delete: "Delete attachment"
+      delete: "Выдаліць далучэнне"
       delete_confirmation: |
         Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
@@ -40,9 +40,9 @@ be:
       type_to_search: "Type to search"
     autocomplete_select:
       placeholder:
-        multi: 'Add "%{name}"'
+        multi: 'Дадаць "%{name}"'
         single: 'Select "%{name}"'
-      remove: "Remove %{name}"
+      remove: "Выдаліць %{name}"
       active: "Active %{label} %{name}"
     backup:
       attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
@@ -61,34 +61,34 @@ be:
     close_filter_title: "Close filter"
     close_form_title: "Close form"
     button_add_watcher: "Add watcher"
-    button_add: "Add"
-    button_back: "Back"
+    button_add: "Дадаць"
+    button_back: "Назад"
     button_back_to_list_view: "Back to list view"
     button_cancel: "Cancel"
-    button_close: "Close"
+    button_close: "Зачыніць"
     button_change_project: "Change project"
     button_check_all: "Check all"
     button_configure-form: "Configure form"
     button_confirm: "Confirm"
     button_continue: "Continue"
-    button_copy: "Copy"
+    button_copy: "Скапіраваць"
     button_copy_to_clipboard: "Copy to clipboard"
     button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
-    button_custom-fields: "Custom fields"
-    button_delete: "Delete"
+    button_custom-fields: "Карыстальніцкія палі"
+    button_delete: "Выдаліць"
     button_delete_watcher: "Delete watcher"
     button_details_view: "Details view"
     button_duplicate: "Duplicate"
-    button_edit: "Edit"
-    button_filter: "Filter"
-    button_collapse_all: "Collapse all"
-    button_expand_all: "Expand all"
-    button_advanced_filter: "Advanced filter"
-    button_list_view: "List view"
-    button_show_view: "Fullscreen view"
+    button_edit: "Рэдагаваць"
+    button_filter: "Фільтр"
+    button_collapse_all: "Згарнуць усё"
+    button_expand_all: "Разгарнуць усё"
+    button_advanced_filter: "Пашыраны фільтр"
+    button_list_view: "У выглядзе спіса"
+    button_show_view: "Поўнаэкранны"
     button_log_time: "Log time"
-    button_more: "More"
+    button_more: "Яшчэ"
     button_open_details: "Open details view"
     button_close_details: "Close details view"
     button_open_fullscreen: "Open fullscreen view"
@@ -111,7 +111,7 @@ be:
       highlighting:
         inline: "Highlight inline:"
         entire_card_by: "Entire card by"
-      remove_from_list: "Remove card from list"
+      remove_from_list: "Выдаліць картку са спіса"
     caption_rate_history: "Rate history"
     clipboard:
       browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
@@ -121,15 +121,15 @@ be:
       axis_criteria: "Axis criteria"
       modal_title: "Work package graph configuration"
       types:
-        line: "Line"
+        line: "Лінія"
         horizontal_bar: "Horizontal bar"
         bar: "Bar"
         pie: "Pie"
         doughnut: "Doughnut"
-        radar: "Radar"
+        radar: "Радар"
         polar_area: "Polar area"
       tabs:
-        graph_settings: "General"
+        graph_settings: "Асноўныя"
         dataset: "Dataset %{number}"
       errors:
         could_not_load: "The data to display the graph could not be loaded. The necessary permissions may be lacking."
@@ -191,8 +191,8 @@ be:
           text: "[Placeholder] Embedded calendar"
     admin:
       type_form:
-        custom_field: "Custom field"
-        inactive: "Inactive"
+        custom_field: "Карыстальніцкае поле"
+        inactive: "Неактыўны"
         drag_to_activate: "Drag fields from here to activate them"
         add_group: "Add attribute group"
         add_table: "Add table of related work packages"
@@ -201,7 +201,7 @@ be:
         reset_to_defaults: "Reset to defaults"
       enterprise:
         text_reprieve_days_left: "%{days} days until end of grace period"
-        text_expired: "expired"
+        text_expired: "састарэла"
         trial:
           confirmation: "Confirmation of email address"
           confirmation_info: >
@@ -211,8 +211,8 @@ be:
               I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
             invalid_email: "Invalid email address"
             label_company: "Company"
-            label_first_name: "First name"
-            label_last_name: "Last name"
+            label_first_name: "Імя"
+            label_last_name: "Прозвішча"
             label_domain: "Domain"
             label_subscriber: "Subscriber"
             label_maximum_users: "Maximum active users"
@@ -229,22 +229,22 @@ be:
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
           resend_warning: "Could not resend email."
           session_timeout: "Your session timed out. Please try to reload the page or resend email."
-          status_label: "Status:"
+          status_label: "Стан:"
           status_confirmed: "confirmed"
           status_waiting: "email sent - waiting for confirmation"
-          test_ee: "Test the Enterprise edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
+          test_ee: "Тэсціраваць Enterprise edition 14 дзён бясплатна"
+          quick_overview: "Атрымаць хуткі агляд кіравання праектамі і каманднага ўзаемадзеяння з OpenProject Enterprise edition."
         upsale:
           become_hero: "Become a hero!"
           enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
-            description: "What are the benefits of the Enterprise on-premises edition?"
+            description: "Якія перавагі ў Enterprise edition з лакальным разгортваннем?"
             high_security: "Security features"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
+            high_security_text: "Адзіны ўваход праз (SAML, OpenID Connect, CAS), LDAP групы."
             installation: "Installation support"
             installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Enterprise add-ons"
+            premium_features: "Карпаратыўныя дадаткі."
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
             professional_support: "Professional support"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
@@ -255,11 +255,11 @@ be:
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "Get a quote"
-          more_info: "More information"
+          more_info: "Дадатковыя звесткі"
           text: >
-            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            Карпаратыўнае выданне OpenProject пабудавана паверх Супольнай версіі. Яно ўключае Карпаратыўныя дадаткі, прафесійную падтрымку і накіравана на арганізацыі з больш чым 10 карыстальнікамі, якія кіруюць крытычнымі для бізнесу праектамі з дапамогай OpenProject.
           unlimited: "Unlimited"
-          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+          you_contribute: "Распрацоўшчыкам таксама патрэбна плаціць па рахунках. Абнаўляючыся да Карпаратыўнай версіі, вы падтрымліваеце гэтыя высілкі адкрытай супольнасці і спрыяеце яе развіццю, абслугоўванню і пастаянным паляпшэнням."
       working_days:
         calendar:
           empty_state_header: "Non-working days"
@@ -277,7 +277,7 @@ be:
     custom_actions:
       date:
         specific: "on"
-        current_date: "Current date"
+        current_date: "Бягучая дата"
     error:
       internal: "An internal error has occurred."
       cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
@@ -312,7 +312,7 @@ be:
         right: "Right"
         farRight: "Far right"
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+          Адзначце атрыбуты, якія будуць паказвацца заўсёды ў адпаведных пазіцыях дыяграмы Ганта. Звярніце ўвагу, што пры навядзенні курсора на элемент, замест гэтых атрыбутаў будуць паказаны яго часавыя меткі.
       button_activate: "Show Gantt chart"
       button_deactivate: "Hide Gantt chart"
       filter:
@@ -365,11 +365,11 @@ be:
       ical_generation_error_text: "An error occured while generating the calendar URL."
       success_message: 'The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.'
     label_activate: "Activate"
-    label_assignee: "Assignee"
+    label_assignee: "Прызначаная асоба"
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Add columns"
-    label_add_comment: "Add comment"
+    label_add_comment: "Дадаць каментарый"
     label_add_comment_title: "Comment and type @ to notify other people"
     label_add_row_after: "Add row after"
     label_add_row_before: "Add row before"
@@ -382,28 +382,28 @@ be:
     label_and: "and"
     label_ascending: "Ascending"
     label_author: "Author: %{user}"
-    label_avatar: "Avatar"
+    label_avatar: "Аватар"
     label_between: "between"
-    label_board: "Board"
-    label_board_locked: "Locked"
+    label_board: "Дошка"
+    label_board_locked: "Заблакавана"
     label_board_plural: "Boards"
     label_board_sticky: "Sticky"
-    label_change: "Change"
+    label_change: "Змяніць"
     label_create: "Create"
     label_create_work_package: "Create new work package"
     label_created_by: "Created by"
-    label_date: "Date"
+    label_date: "Дата"
     label_date_with_format: "Enter the %{date_attribute} using the following format: %{format}"
     label_deactivate: "Deactivate"
     label_descending: "Descending"
     label_description: "Description"
-    label_details: "Details"
+    label_details: "Падрабязнасці"
     label_display: "Display"
     label_cancel_comment: "Cancel comment"
     label_closed_work_packages: "closed"
-    label_collapse: "Collapse"
+    label_collapse: "Згарнуць"
     label_collapsed: "collapsed"
-    label_collapse_all: "Collapse all"
+    label_collapse_all: "Згарнуць усё"
     label_comment: "Comment"
     label_committed_at: "%{committed_revision_link} at %{date}"
     label_committed_link: "committed revision %{revision_identifier}"
@@ -415,13 +415,13 @@ be:
     label_equals: "is"
     label_expand: "Expand"
     label_expanded: "expanded"
-    label_expand_all: "Expand all"
+    label_expand_all: "Разгарнуць усё"
     label_expand_project_menu: "Expand project menu"
     label_export: "Export"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
     label_filename: "File"
-    label_filesize: "Size"
-    label_general: "General"
+    label_filesize: "Памер"
+    label_general: "Асноўныя"
     label_global_roles: "Global roles"
     label_greater_or_equal: ">="
     label_group: "Group"
@@ -435,7 +435,7 @@ be:
     label_in_more_than: "in more than"
     label_incoming_emails: "Incoming emails"
     label_information_plural: "Information"
-    label_invalid: "Invalid"
+    label_invalid: "Няверны"
     label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Last updated on"
@@ -561,7 +561,7 @@ be:
         next: "Next"
         got_it: "Got it"
       steps:
-        help_menu: "The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!"
+        help_menu: "Меню Даведка (?) прадстаўляе <b> дадатковыя дапаможную інфармацыю </b>. Тут вы можаце знайсці кіраўніцтва карыстальніка, карысныя відэа інструкцыі і многае іншае. <br> Прыемнай працы з OpenProject!"
         members: "Invite new <b>members</b> to join your project."
         quick_add_button: "Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>."
         sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
@@ -601,11 +601,11 @@ be:
         watched: "watcher"
         assigned: "assignee"
         responsible: "accountable"
-        created: "created"
-        scheduled: "scheduled"
-        commented: "commented"
-        processed: "processed"
-        prioritized: "prioritized"
+        created: "створана"
+        scheduled: "Запланавана"
+        commented: "пракаментавана"
+        processed: "Апрацавана"
+        prioritized: "прыярытэтны"
         dateAlert: "Date alert"
         shared: "shared"
       date_alerts:
@@ -675,7 +675,7 @@ be:
           mentioned:
             title: "Mentioned"
             description: "Receive a notification every time someone mentions me anywhere"
-          assignee: "Assignee"
+          assignee: "Прызначаная асоба"
           responsible: "Accountable"
           shared: "Shared"
           watched: "Watcher"
@@ -687,18 +687,18 @@ be:
         global:
           immediately:
             title: "Participating"
-            description: "Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)."
+            description: "Паведамленні аб актыўнасці ў працоўных пакетах, у якіх вы ўдзельнічаеце (адказны, падсправаздачны або назіральнік)."
           delayed:
             title: "Non-participating"
-            description: "Additional notifications for activities in all projects."
+            description: "Дадатковыя паведамленні аб актыўнасці ва ўсіх праектах."
           date_alerts:
             title: "Date alerts"
-            description: "Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)."
+            description: "Аўтаматычныя паведамленні аб важных падыходзячых датах у адчыняннях працоўных пакетах, у якіх вы ўдзельнічаеце (адказны, падсправаздачны або назіральнік)."
             teaser_text: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
           overdue: When overdue
         project_specific:
           title: "Project-specific notification settings"
-          description: "These project-specific settings override default settings above."
+          description: "Гэтыя спецыфічныя налады праекта перапісваюць налады па ўмаўчанні вышэй."
           add: "Add setting for project"
           already_selected: "This project is already selected"
           remove: "Remove project settings"
@@ -770,9 +770,9 @@ be:
         reset_title: "Reset form configuration"
         confirm_reset: >
           Warning: Are you sure you want to reset the form configuration? This will reset the attributes to their default group and disable ALL custom fields.
-        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
-        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
-        more_information: "More information"
+        upgrade_to_ee: "Абнавіць да Enterprise on-premises edition"
+        upgrade_to_ee_text: "Нічога сабе! Калі вам патрэбны гэты дадатак, вы вялікі прафесіянал! Ці будзеце вы ветлівы падтрымаць нас, OpenSource распрацоўшчыкаў, пераўтварыўшыся ў карыстальніка Enterprise edition?"
+        more_information: "Дадатковыя звесткі"
         nevermind: "Nevermind"
       edit:
         form_configuration: "Form Configuration"
@@ -854,9 +854,9 @@ be:
       select_tag: "Select tag"
       select_branch: "Select branch"
     field_value_enter_prompt: "Enter a value for '%{field}'"
-    project_menu_details: "Details"
+    project_menu_details: "Падрабязнасці"
     scheduling:
-      manual: "Manual scheduling"
+      manual: "Ручное планаванне"
     sort:
       sorted_asc: "Ascending sort applied, "
       sorted_dsc: "Descending sort applied, "
@@ -908,7 +908,7 @@ be:
         show_relations: "Show relations"
         ignore_non_working_days:
           title: "Working days only"
-      description_filter: "Filter"
+      description_filter: "Фільтр"
       description_enter_text: "Enter text"
       description_options_hide: "Hide options"
       description_options_show: "Show options"
@@ -963,16 +963,16 @@ be:
         description: Either none have been created or all work packages are filtered out.
       limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
       property_groups:
-        details: "Details"
+        details: "Падрабязнасці"
         people: "People"
         estimatesAndTime: "Estimates & Time"
         other: "Other"
       properties:
-        assignee: "Assignee"
+        assignee: "Прызначаная асоба"
         author: "Author"
         createdAt: "Created on"
         description: "Description"
-        date: "Date"
+        date: "Дата"
         percentComplete: "% Complete"
         percentCompleteAlternative: "Progress"
         dueDate: "Finish date"
@@ -983,7 +983,7 @@ be:
         priority: "Priority"
         projectName: "Project"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "Засталося гадзін"
         responsible: "Responsible"
         startDate: "Start date"
         status: "Status"
@@ -1088,7 +1088,7 @@ be:
         upsale:
           attribute_highlighting: "Need certain work packages to stand out from the mass?"
           relation_columns: "Need to see relations in the work package list?"
-          check_out_link: "Check out the Enterprise edition."
+          check_out_link: "Азнаёміцца з Enterprise edition."
         relation_filters:
           filter_work_packages_by_relation_type: "Filter work packages by relation type"
       tabs:
@@ -1117,18 +1117,18 @@ be:
         visibility_settings: "Visibility settings"
         share_calendar: "Subscribe to calendar"
         page_settings: "Rename view"
-        delete: "Delete"
-      filter: "Filter"
+        delete: "Выдаліць"
+      filter: "Фільтр"
       unselected_title: "Work package"
       search_query_label: "Search saved views"
     modals:
-      label_name: "Name"
+      label_name: "Імя"
       label_delete_page: "Delete current page"
       button_apply: "Apply"
       button_save: "Save"
       button_submit: "Submit"
       button_cancel: "Cancel"
-      button_delete: "Delete"
+      button_delete: "Выдаліць"
       form_submit:
         title: "Confirm to continue"
         text: "Are you sure you want to perform this action?"
@@ -1158,7 +1158,7 @@ be:
       button_save_all: "Save"
       button_cancel_all: "Cancel"
       link_formatting_help: "Text formatting help"
-      btn_preview_enable: "Preview"
+      btn_preview_enable: "Папярэдні прагляд"
       btn_preview_disable: "Disable preview"
       null_value_label: "No value"
       clear_value_label: "-"
@@ -1210,7 +1210,7 @@ be:
       list: "Table"
       timeline: "Gantt"
     invite_user_modal:
-      back: "Back"
+      back: "Назад"
       invite: "Invite"
       title:
         invite: "Invite user"
@@ -1237,13 +1237,13 @@ be:
           description: "Permissions based on the assigned role in the selected project"
         placeholder:
           title: "Placeholder user"
-          title_no_ee: "Placeholder user (Enterprise edition only add-on)"
+          title_no_ee: "Шаблонны карыстальнік (дадатак толькі для Enterprise edition)"
           description: "Has no access to the project and no emails are sent out."
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
+          description_no_ee: 'Не мае доступу да праекта і не рассылае электронныя лісты. <br>Азнаёмцеся з <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
       principal:
         label:
           name_or_email: "Name or email address"
-          name: "Name"
+          name: "Імя"
         already_member_message: "Already a member of %{project}"
         no_results_user: "No users were found"
         invite_user: "Invite:"
@@ -1332,7 +1332,7 @@ be:
         remove: "Remove"
       drop_modal:
         focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
-        Close: "Close"
+        Close: "Зачыніць"
     open_project_storage_modal:
       waiting_subtitle:
         network_off: "There is a network problem."
