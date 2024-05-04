@@ -1903,7 +1903,7 @@ ms:
   label_file_plural: "Fail-fail"
   label_filter_add: "Tambah penapis"
   label_filter: "Penapis"
-  label_filter_plural: "Penapis"
+  label_filter_plural: "Saringan"
   label_filters_toggle: "Tunjuk/sembunyi penapis\n"
   label_float: "Float"
   label_folder: "Folder"
