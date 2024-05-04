@@ -505,6 +505,8 @@ components:
       $ref: "./components/examples/notification_collection.yml"
     PlaceholderUserResponse:
       $ref: "./components/examples/placeholder-user-response.yml"
+    PriorityCollection:
+      $ref: "./components/examples/priority_collection.yml"
     Project:
       $ref: "./components/examples/project.yml"
     ProjectBody:
@@ -695,8 +697,8 @@ components:
       "$ref": "./components/schemas/principal_collection_model.yml"
     PrincipalModel:
       "$ref": "./components/schemas/principal_model.yml"
-    PrioritiesModel:
-      "$ref": "./components/schemas/priorities_model.yml"
+    PriorityCollectionModel:
+      "$ref": "./components/schemas/priority_collection_model.yml"
     PriorityModel:
       "$ref": "./components/schemas/priority_model.yml"
     ProjectCollectionModel:
