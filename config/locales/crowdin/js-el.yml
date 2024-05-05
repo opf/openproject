@@ -759,7 +759,7 @@ el:
           last_day: "Last day"
     text_are_you_sure: "Είστε σίγουρος/η;"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} έγραψε:"
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Το όνομα %{group} χρησιμοποιείται περισσότερες από μία φορές. Τα ονόματα ομάδων πρέπει να είναι μοναδικά."
@@ -980,7 +980,7 @@ el:
         priority: "Προτεραιότητα"
         projectName: "Έργο"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Υπολειπόμενες ώρες"
+        remainingWorkAlternative: "Remaining hours"
         responsible: "Υπεύθυνος"
         startDate: "Ημερομηνία έναρξης"
         status: "Κατάσταση"
@@ -992,7 +992,7 @@ el:
         versionName: "Έκδοση"
         version: "Έκδοση"
         work: "Work"
-        workAlternative: "Εκτιμώμενος χρόνος"
+        workAlternative: "Estimated time"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Τελευταία δραστηριότητα"

@@ -760,7 +760,7 @@ si:
           last_day: "Last day"
     text_are_you_sure: "ඔබට විශ්වාසද?"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} ලිවීය:"
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "%{group} නම එක් වරකට වඩා භාවිතා වේ. කණ්ඩායම් නම් අද්විතීය විය යුතුය."
@@ -981,7 +981,7 @@ si:
         priority: "ප්රමුඛතාව"
         projectName: "ව්යාපෘති"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "ඉතිරි පැය"
+        remainingWorkAlternative: "Remaining hours"
         responsible: "වගකිව යුතු"
         startDate: "ආරම්භක දිනය"
         status: "තත්වය"
@@ -993,7 +993,7 @@ si:
         versionName: "අනුවාදය"
         version: "අනුවාදය"
         work: "Work"
-        workAlternative: "ඇස්තමේන්තුගත කාලය"
+        workAlternative: "Estimated time"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "නවතම ක්රියාකාරකම්"

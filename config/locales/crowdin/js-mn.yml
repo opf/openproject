@@ -981,7 +981,7 @@ mn:
         priority: "Priority"
         projectName: "Project"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Хүлээгдэж буй хугацаа"
+        remainingWorkAlternative: "Remaining hours"
         responsible: "Responsible"
         startDate: "Start date"
         status: "Status"

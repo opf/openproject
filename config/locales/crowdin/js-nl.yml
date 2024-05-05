@@ -760,7 +760,7 @@ nl:
           last_day: "Laatste dag"
     text_are_you_sure: "Weet u het zeker?"
     text_data_lost: "Alle ingevoerde gegevens zullen verloren gaan."
-    text_user_wrote: "%{value} schreef:"
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "De groep naam %{group} word meer dan één keer gebruikt. Groep namen moeten uniek zijn."
@@ -835,7 +835,7 @@ nl:
       toggle_description: "Wissel de relatie beschrijving"
       update_relation: "Klik op het type relatie wijzigen"
       add_follower: "Volgeling toevoegen"
-      show_relations: "Relaties tonen"
+      show_relations: "Show relations"
       add_predecessor: "Toevoegen van de voorganger"
       remove: "Relatie verwijderen"
       save: "Sla relatie op"
@@ -981,7 +981,7 @@ nl:
         priority: "Prioriteit"
         projectName: "Project"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Resterende uren"
+        remainingWorkAlternative: "Remaining hours"
         responsible: "Verantwoordelijk"
         startDate: "Startdatum"
         status: "Status"
@@ -993,7 +993,7 @@ nl:
         versionName: "Versie"
         version: "Versie"
         work: "Work"
-        workAlternative: "Geschatte tijd"
+        workAlternative: "Estimated time"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Laatste Activiteit"

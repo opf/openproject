@@ -982,7 +982,7 @@ sr:
         priority: "Priority"
         projectName: "Project"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Preostalo časova"
+        remainingWorkAlternative: "Remaining hours"
         responsible: "Responsible"
         startDate: "Start date"
         status: "Status"

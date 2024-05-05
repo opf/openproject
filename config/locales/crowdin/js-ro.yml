@@ -760,7 +760,7 @@ ro:
           last_day: "Ultima zi"
     text_are_you_sure: "Sunteți sigur?"
     text_data_lost: "Toate datele introduse vor fi pierdute."
-    text_user_wrote: "%{value} a scris:"
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Numele %{group} este utilizat de mai multe ori. Fiecare grup trebuie să aibă un nume unic."
@@ -835,7 +835,7 @@ ro:
       toggle_description: "Activați/Dezactivați descrierea legăturilor"
       update_relation: "Faceți click pentru a schimba tipul de legătură"
       add_follower: "Adaugă urmăritor"
-      show_relations: "Arată relațiile"
+      show_relations: "Show relations"
       add_predecessor: "Adăugați predecesorul"
       remove: "Eliminare relaţie"
       save: "Salvează relația"
@@ -981,7 +981,7 @@ ro:
         priority: "Prioritate"
         projectName: "Proiect"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Ore"
+        remainingWorkAlternative: "Remaining hours"
         responsible: "Responsabil"
         startDate: "Data de început"
         status: "Stare"
@@ -993,7 +993,7 @@ ro:
         versionName: "Versiune"
         version: "Versiune"
         work: "Work"
-        workAlternative: "Durata estimată"
+        workAlternative: "Estimated time"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Activitate recentă"

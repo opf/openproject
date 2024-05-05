@@ -760,7 +760,7 @@ fil:
           last_day: "Last day"
     text_are_you_sure: "Sigurado ka ba?"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} isinulat:"
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Ang pangalan ng %{group} ay ginamit higit pa sa isang beses. Ang mga pangalan ng grupo ay dapat nakakakatangi."
@@ -993,7 +993,7 @@ fil:
         versionName: "Bersyon"
         version: "Bersyon"
         work: "Work"
-        workAlternative: "Tinantyang oras"
+        workAlternative: "Estimated time"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"

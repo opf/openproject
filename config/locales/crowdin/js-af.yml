@@ -993,7 +993,7 @@ af:
         versionName: "Weergawe"
         version: "Weergawe"
         work: "Work"
-        workAlternative: "Geraamde tyd"
+        workAlternative: "Estimated time"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"

@@ -443,7 +443,7 @@ ru:
     label_less_than_ago: "менее нескольких дней назад"
     label_loading: "Загрузка..."
     label_mail_notification: "Уведомления по email"
-    label_manage_columns: "Управляйте колонками и изменяйте их порядок"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "я"
     label_meeting_agenda: "Повестка встречи"
     label_meeting_minutes: "Протокол(-ы)"
@@ -1004,7 +1004,7 @@ ru:
         all_open: "Все открытые"
         summary: "Сводка"
         shared_with_users: "Доступно пользователям"
-        shared_with_me: "В общем доступе с"
+        shared_with_me: "Shared with me"
       jump_marks:
         pagination: "Перейти вёрстке таблицы"
         label_pagination: "Кликните здесь чтобы пропустить таблицу рабочих пакетов и перейти к вёрстке"

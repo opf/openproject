@@ -760,7 +760,7 @@ ca:
           last_day: "Últim dia"
     text_are_you_sure: "N'estas segur?"
     text_data_lost: "Totes les dades entrades es perdran."
-    text_user_wrote: "%{value} va escriure:"
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "El nom %{group} ja està en ús. Els noms de grup han de ser únics."
@@ -835,7 +835,7 @@ ca:
       toggle_description: "Activar descripció de la relació"
       update_relation: "Faci clic per a canviar la classe de relació"
       add_follower: "Afegir seguidor"
-      show_relations: "Mostra les relacions"
+      show_relations: "Show relations"
       add_predecessor: "Afegir predecessor"
       remove: "Eliminar la relació"
       save: "Guardar la relació"
@@ -981,7 +981,7 @@ ca:
         priority: "Prioritat"
         projectName: "Projecte"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Hores restants"
+        remainingWorkAlternative: "Remaining hours"
         responsible: "Responsable"
         startDate: "Data d'inici"
         status: "Estat"
@@ -993,7 +993,7 @@ ca:
         versionName: "Versió"
         version: "Versió"
         work: "Work"
-        workAlternative: "Temps estimat"
+        workAlternative: "Estimated time"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Última activitat"

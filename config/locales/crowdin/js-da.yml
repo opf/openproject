@@ -759,7 +759,7 @@ da:
           last_day: "Last day"
     text_are_you_sure: "Sikker?"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} skrev:"
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
@@ -980,7 +980,7 @@ da:
         priority: "Prioritet"
         projectName: "Prjoekt"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Resterende timer"
+        remainingWorkAlternative: "Remaining hours"
         responsible: "Ansvarlig"
         startDate: "Start dato"
         status: "Status"
@@ -992,7 +992,7 @@ da:
         versionName: "Version"
         version: "Version"
         work: "Work"
-        workAlternative: "Anslået tid"
+        workAlternative: "Estimated time"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"

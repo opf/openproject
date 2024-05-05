@@ -484,7 +484,7 @@ fr:
     label_repository_plural: "Dépôts"
     label_save_as: "Enregistrer sous"
     label_search_columns: "Rechercher une colonne"
-    label_select_project: "Sélectionnez un projet"
+    label_select_project: "Sélectionner un projet"
     label_select_watcher: "Sélectionner un observateur…"
     label_selected_filter_list: "Filtres sélectionnés"
     label_show_attributes: "Afficher tous les attributs"
@@ -1278,7 +1278,7 @@ fr:
         all: "Tous les projets"
         selected: "Uniquement la sélection"
       search_placeholder: "Rechercher un projet..."
-      include_subprojects: "Inclure tous les sous-projets"
+      include_subprojects: "inclure tous les sous-projets"
       tooltip:
         include_all_selected: "Projet déjà inclus puisque Include tous les sous-projets sont activés."
         current_project: "Ceci est le projet dans lequel vous vous trouvez actuellement."

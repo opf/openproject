@@ -761,7 +761,7 @@ sl:
           last_day: "Last day"
     text_are_you_sure: "Ste prepričani?"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} je napisal(a):"
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Ime skupine %{group} je že uporabljeno. Imena skupin morajo biti unikatna."
@@ -982,7 +982,7 @@ sl:
         priority: "Prioriteta"
         projectName: "Projekt"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Preostale ure"
+        remainingWorkAlternative: "Remaining hours"
         responsible: "Odgovoren"
         startDate: "Datum začetka"
         status: "Stanje"
@@ -994,7 +994,7 @@ sl:
         versionName: "Različica"
         version: "Različica"
         work: "Work"
-        workAlternative: "Predvideni čas"
+        workAlternative: "Estimated time"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Zadnja dejavnost"

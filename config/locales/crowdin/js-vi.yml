@@ -796,7 +796,7 @@ vi:
       typeahead_placeholder: Search for possible watchers
     relation_labels:
       parent: "Cha"
-      children: "Cấp dưới"
+      children: "Children"
       relates: "Related To"
       duplicates: "Duplicates"
       duplicated: "Duplicated by"
@@ -812,7 +812,7 @@ vi:
     relations_hierarchy:
       parent_headline: "Cha"
       hierarchy_headline: "Hệ thống phân cấp"
-      children_headline: "Cấp dưới"
+      children_headline: "Children"
     relation_buttons:
       set_parent: "Set parent"
       change_parent: "Change parent"
@@ -978,8 +978,8 @@ vi:
         percentageDone: "Percentage done"
         priority: "Độ ưu tiên"
         projectName: "Dự án"
-        remainingWork: "Số giờ làm việc còn lại"
-        remainingWorkAlternative: "Số giờ còn lại"
+        remainingWork: "Remaining work"
+        remainingWorkAlternative: "Remaining hours"
         responsible: "Chịu trách nhiệm"
         startDate: "Ngày bắt đầu"
         status: "Trạng thái"
@@ -991,8 +991,8 @@ vi:
         versionName: "Phiên bản"
         version: "Phiên bản"
         work: "Work"
-        workAlternative: "Thời gian dự kiến"
-        remainingTime: "Số giờ làm việc còn lại"
+        workAlternative: "Estimated time"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Hoạt động mới nhất"
         created_by_me: "Do tôi tạo ra"

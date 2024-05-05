@@ -759,7 +759,7 @@ th:
           last_day: "Last day"
     text_are_you_sure: "คุณแน่ใจหรือไม่ ?"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} เขียนว่า:"
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
@@ -992,7 +992,7 @@ th:
         versionName: "เวอร์ชัน"
         version: "เวอร์ชัน"
         work: "Work"
-        workAlternative: "ระยะเวลาโดยประมาณ"
+        workAlternative: "Estimated time"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"

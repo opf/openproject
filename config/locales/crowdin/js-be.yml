@@ -983,7 +983,7 @@ be:
         priority: "Priority"
         projectName: "Project"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Засталося гадзін"
+        remainingWorkAlternative: "Remaining hours"
         responsible: "Responsible"
         startDate: "Start date"
         status: "Status"
