@@ -48,7 +48,6 @@ class WorkPackages::Progress::MigrateRemoveTotalsFromChildlessWorkPackagesJob < 
         SELECT wp_tree.ancestor_id AS id,
                MAX(generations) AS generations
         FROM work_package_hierarchies wp_tree
-          LEFT JOIN work_packages ON wp_tree.descendant_id = work_packages.id
         GROUP BY wp_tree.ancestor_id
       ) hierarchy
       WHERE work_packages.id = hierarchy.id
