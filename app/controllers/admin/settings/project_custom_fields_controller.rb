@@ -59,7 +59,13 @@ module Admin::Settings
       respond_to :html
     end
 
-    def edit; end
+    def edit
+      @project_custom_field_mapping_query = Queries::Projects::ProjectQuery.new(
+        name: "project-custom-field-mapping-#{@custom_field.id}"
+      ) do |query|
+        query.where(:available_project_attributes, "~", [@custom_field.id])
+      end
+    end
 
     def move
       call = CustomFields::UpdateService.new(user: current_user, model: @custom_field).call(

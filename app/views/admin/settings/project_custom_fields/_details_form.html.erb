@@ -26,32 +26,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% content_controller 'admin--custom-fields',
-                      dynamic: true,
-                      'admin--custom-fields-format-value': @custom_field.field_format
-%>
+<%= error_messages_for 'custom_field' %>
 
-<% local_assigns[:additional_breadcrumb] = @custom_field.name %>
+<%= labelled_tabular_form_for custom_field, as: :custom_field,
+                              url: admin_settings_project_custom_field_path(custom_field),
+                              html: {method: :put, id: 'custom_field_form'} do |f| %>
+  <%= render partial: 'custom_fields/form', locals: { f: f, custom_field: custom_field } %>
 
-<%= render(Settings::ProjectCustomFields::EditFormHeaderComponent.new(custom_field: @custom_field)) %>
+  <% if custom_field.new_record? %>
+    <%= hidden_field_tag 'type', custom_field.type %>
+  <% end %>
 
-<%=
-  render(Primer::Alpha::TabPanels.new(label: 'label')) do |component|
-    component.with_tab(selected: true, id: "project-custom-fields-details-tab") do |tab|
-      tab.with_panel do
-        render partial: 'details_form', locals: { custom_field: @custom_field }
-      end
-
-      tab.with_text { "Details" }
-    end
-
-    component.with_tab(selected: false, id: "project-custom-fields-mapping-tab") do |tab|
-      tab.with_panel do
-        render partial: 'project_custom_field_mapping',
-               locals: { custom_field: @custom_field, query: @project_custom_field_mapping_query }
-      end
-
-      tab.with_text { "Projects" }
-    end
-  end
-%>
+  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>

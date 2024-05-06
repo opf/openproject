@@ -26,32 +26,5 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% content_controller 'admin--custom-fields',
-                      dynamic: true,
-                      'admin--custom-fields-format-value': @custom_field.field_format
-%>
 
-<% local_assigns[:additional_breadcrumb] = @custom_field.name %>
-
-<%= render(Settings::ProjectCustomFields::EditFormHeaderComponent.new(custom_field: @custom_field)) %>
-
-<%=
-  render(Primer::Alpha::TabPanels.new(label: 'label')) do |component|
-    component.with_tab(selected: true, id: "project-custom-fields-details-tab") do |tab|
-      tab.with_panel do
-        render partial: 'details_form', locals: { custom_field: @custom_field }
-      end
-
-      tab.with_text { "Details" }
-    end
-
-    component.with_tab(selected: false, id: "project-custom-fields-mapping-tab") do |tab|
-      tab.with_panel do
-        render partial: 'project_custom_field_mapping',
-               locals: { custom_field: @custom_field, query: @project_custom_field_mapping_query }
-      end
-
-      tab.with_text { "Projects" }
-    end
-  end
-%>
+<%= render(Settings::ProjectCustomFields::ProjectCustomFieldMapping::TableComponent.new(query:, params: {})) %>
