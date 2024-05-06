@@ -13,6 +13,10 @@ module Primer
             add_input WorkPackageAutocompleterInput.new(builder: @builder, form: @form, **, &)
           end
 
+          def project_autocompleter(**, &)
+            add_input ProjectAutocompleterInput.new(builder: @builder, form: @form, **, &)
+          end
+
           def rich_text_area(**)
             add_input RichTextAreaInput.new(builder: @builder, form: @form, **)
           end
