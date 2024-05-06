@@ -39,7 +39,7 @@
         <% tab_panel.with_tab(id: "tab-selects") do |tab| %>
           <% tab.with_text { "Sort By" }%>
           <% tab.with_panel do %>
-            <%= render(Queries::SortByComponent.new(query: query)) %>
+            <%= render(Queries::SortByComponent.new(query: query, selectable_columns:)) %>
           <% end%>
         <% end %>
       <% end %>

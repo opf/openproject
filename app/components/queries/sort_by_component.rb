@@ -30,6 +30,7 @@
 
 class Queries::SortByComponent < ApplicationComponent
   options :query
+  options :selectable_columns
 
   def current_orders
     JSON.dump(query.orders.map { |order| [order.attribute, order.direction] })
@@ -41,11 +42,10 @@ class Queries::SortByComponent < ApplicationComponent
 
   def available_orders
     @available_orders ||= begin
-      all_selectable_columns = helpers.projects_columns_options
       all_order_keys = ::Queries::Register.orders[query.class]&.map(&:key)
 
       # Keys from the order can be symbols, strings or regexes
-      all_selectable_columns.select do |column_option|
+      selectable_columns.select do |column_option|
         all_order_keys.any? { |order_key| order_key === column_option[:id] }
       end
     end

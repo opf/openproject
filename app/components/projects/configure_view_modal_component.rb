@@ -35,6 +35,12 @@ class Projects::ConfigureViewModalComponent < ApplicationComponent
 
   options :query
 
+  def selectable_columns
+    @selectable_columns ||= [
+      { id: :lft, name: I18n.t(:label_project_hierarchy) }
+    ] + helpers.projects_columns_options
+  end
+
   def selected_columns
     @selected_columns ||= query
                             .selects
