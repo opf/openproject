@@ -101,7 +101,7 @@ lt:
     attachments:
       text: "Prisegti failai prieinami visiems susitikimo dalyviams. Taipogi galite nutempti juos į plano elemento pastabas."
     copy:
-      title: "Kopijuoti susitikimą %{title}"
+      title: "Kopijuoti susitikimą: %{title}"
       attachments: "Kopijuoti priedus"
       attachments_text: "Perkopijuoti visus prisegtus failus į naują susitikimą"
       agenda: "Kopijuoti dienotvarkę"

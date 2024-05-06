@@ -12,14 +12,15 @@ We released [OpenProject 10.3.1](https://community.openproject.org/versions/1409
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Activity numbers only partly shown on mobile \[[#31892](https://community.openproject.org/wp/31892)\]
 - Fixed: Text in custom field not correctly displayed \[[#31896](https://community.openproject.org/wp/31896)\]
 - Fixed: New Wiki pages are not shown \[[#31907](https://community.openproject.org/wp/31907)\]
 - Fixed: Date separator (dash) misplaced \[[#31926](https://community.openproject.org/wp/31926)\]
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

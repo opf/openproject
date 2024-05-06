@@ -29,13 +29,11 @@ The new Notification center shows all notifications about changes within your pr
 
 ![notification-center](notification-center.png)
 
-
 ## Improved notification settings
 
 The improved notification settings now allow to fine-tune for which actions and in which projects you want to receive a notification. With 12.0 you can now even add project-specific settings for changes you want to be notified about and override the default settings.
 
 ![notification-settings](notification-settings.png)
-
 
 ## Email summaries
 
@@ -43,15 +41,11 @@ In addition to the in-app notifications, also email reminders can be configured 
 
 ![email-summaries](email-summaries.png)
 
-
-
 ## Improved work packages auto-completer
 
 The work package auto-completer for relations now also shows additional information (project name, status, …). It is now much easier to identify the respective work package.
 
 ![work-package-auto-completion](work-package-auto-completion.png)
-
-
 
 ## Export of the project list
 
@@ -59,21 +53,15 @@ With OpenProject 12.0 it is now possible to export the project list with all pro
 
 ![project-list-export](project-list-export.png)
 
-
-
 ## Change of roles and permissions settings
 
 With 12.0 we have added more granular rights for projects, for example the additional right to configure the project overview page. This way you can even better assign certain permissions to a role in a project.
 
 ![project permissions](image-20211111095046645.png)
 
-
-
 ## Drop official support for PostgreSQL < 13
 
 OpenProject 12.0 will deprecate PostgreSQL versions < 13. This will result in a warning about the necessary migration to inform users trying to upgrade with an older version. The warning will be shown on startup and on the Administration > Info page. It will not result in a hard error for now.
-
-
 
 ## All bug fixes and changes in 12.0
 

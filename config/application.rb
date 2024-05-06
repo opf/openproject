@@ -124,6 +124,14 @@ module OpenProject
     # That directory contains configurations and patches to rails core functionality.
     config.autoload_once_paths << Rails.root.join('lib_static').to_s
 
+    # Configure the relative url root to be whatever the configuration is set to.
+    # This allows for setting the root either via config file or via environment variable.
+    # It must be called early enough. In our case in should be called earlier
+    # than `config.exceptions_app = routes`. Otherwise Rails.application.routes.url_helpers
+    # will not have configured prefix.
+    # Read https://github.com/rails/rails/issues/42243 for some details.
+    config.relative_url_root = OpenProject::Configuration['rails_relative_url_root']
+
     # Use our own error rendering for prettier error pages
     config.exceptions_app = routes
 
@@ -138,7 +146,6 @@ module OpenProject
     # Add locales from crowdin translations to i18n
     config.i18n.load_path += Dir[Rails.root.join("config/locales/crowdin/*.{rb,yml}").to_s]
     config.i18n.default_locale = :en
-
     # Fall back to default locale
     config.i18n.fallbacks = true
 
@@ -208,9 +215,6 @@ module OpenProject
     # initialize variable for register plugin tests
     config.plugins_to_test_paths = []
 
-    # Configure the relative url root to be whatever the configuration is set to.
-    # This allows for setting the root either via config file or via environment variable.
-    config.action_controller.relative_url_root = OpenProject::Configuration['rails_relative_url_root']
 
     config.active_job.queue_adapter = :good_job
 

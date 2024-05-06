@@ -8,7 +8,7 @@ keywords: search, find, filter, search bar
 
 # Search features
 
-There are two ways to search for work packages, documents, projects, etc. in OpenProject: The search bar and the advanced search. 
+There are two ways to search for work packages, documents, projects, etc. in OpenProject: The search bar and the advanced search.
 
 ## Search bar
 

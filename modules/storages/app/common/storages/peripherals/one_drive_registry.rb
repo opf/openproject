@@ -38,7 +38,7 @@ module Storages
         register(:file_info, StorageInteraction::OneDrive::FileInfoQuery)
         register(:files_info, StorageInteraction::OneDrive::FilesInfoQuery)
         register(:open_file_link, StorageInteraction::OneDrive::OpenFileLinkQuery)
-        register(:folder_files_file_ids_deep_query, StorageInteraction::OneDrive::FolderFilesFileIdsDeepQuery)
+        register(:file_path_to_id_map, StorageInteraction::OneDrive::FilePathToIdMapQuery)
         register(:open_storage, StorageInteraction::OneDrive::OpenStorageQuery)
         register(:upload_link, StorageInteraction::OneDrive::UploadLinkQuery)
       end
@@ -57,6 +57,11 @@ module Storages
 
       namespace("models") do
         register(:managed_folder_identifier, ManagedFolderIdentifier::OneDrive)
+      end
+
+      namespace("authentication") do
+        register(:userless, StorageInteraction::AuthenticationStrategies::OneDriveStrategies::UserLess, call: false)
+        register(:userbound, StorageInteraction::AuthenticationStrategies::OneDriveStrategies::UserBound)
       end
     end
   end

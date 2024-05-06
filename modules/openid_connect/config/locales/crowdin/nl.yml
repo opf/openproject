@@ -1,7 +1,7 @@
 nl:
   plugin_openproject_openid_connect:
     name: "OpenProject OpenID Connect"
-    description: "Adds OmniAuth OpenID Connect strategy providers to Openproject."
+    description: "Adds OmniAuth OpenID Connect strategy providers to OpenProject."
   logout_warning: >
     U bent uitgelogd. De inhoud van uw formulier kan verloren gaan. Alstublieft [log in].
   activemodel:

@@ -15,6 +15,8 @@ import {
   PersonIconComponent,
   ScreenFullIconComponent,
   ShareAndroidIconComponent,
+  StarFillIconComponent,
+  StarIconComponent,
   XIconComponent,
 } from '@openproject/octicons-angular';
 
@@ -36,6 +38,8 @@ import {
     ScreenFullIconComponent,
     ShareAndroidIconComponent,
     XIconComponent,
+    StarFillIconComponent,
+    StarIconComponent,
   ],
   declarations: [
     OpIconComponent,
@@ -58,6 +62,9 @@ import {
     ScreenFullIconComponent,
     ShareAndroidIconComponent,
     XIconComponent,
+    OpEnterpriseAddonsIconComponent,
+    StarFillIconComponent,
+    StarIconComponent,
   ],
 })
 export class IconModule {}

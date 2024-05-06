@@ -42,6 +42,9 @@ zh-TW:
         subprojects:
           title: '子專案'
           no_results: '無子專案'
+        project_favorites:
+          title: 'Favorite projects'
+          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
         time_entries_current_user:
           title: '我的耗時'
           displayed_days: '小工具顯示天數'

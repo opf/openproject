@@ -101,7 +101,7 @@ pl:
     attachments:
       text: "Załączone pliki są dostępne dla wszystkich uczestników spotkania. Można je również przeciągać i upuszczać w notatkach do punktów planu spotkania."
     copy:
-      title: "Kopiuj spotkanie %{title}"
+      title: "Copy meeting: %{title}"
       attachments: "Skopiuj załączniki"
       attachments_text: "Skopiuj wszystkie załączone pliki do nowego spotkania"
       agenda: "Kopiuj agendę spotkania"

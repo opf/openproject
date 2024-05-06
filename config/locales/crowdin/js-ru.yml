@@ -102,7 +102,7 @@ ru:
     button_save: "Сохранить"
     button_settings: "Настройки"
     button_uncheck_all: "Снять все отметки"
-    button_update: "Обновить"
+    button_update: "Обновление"
     button_export-pdf: "Скачать PDF"
     button_export-atom: "Скачать Atom"
     button_create: "Создать"
@@ -377,6 +377,7 @@ ru:
     label_added_time_by: 'Добавлено <a href="%{authorLink}">%{author}</a> в %{age}'
     label_ago: "дней назад"
     label_all: "все"
+    label_all_uppercase: "All"
     label_all_work_packages: "Все пакеты работ"
     label_and: "и"
     label_ascending: "По возрастанию"
@@ -418,6 +419,7 @@ ru:
     label_expand_project_menu: "Развернуть меню проекта"
     label_export: "Экспортировать"
     label_export_preparing: "Экспорт готовится и будет загружен в ближайшее время."
+    label_favorites: "Favorites"
     label_filename: "Файл"
     label_filesize: "Размер"
     label_general: "Общее"
@@ -1274,6 +1276,9 @@ ru:
           placeholder: "Теперь плейсхолдер может быть использован в %{project}. Тем временем вы уже можете планировать с этим пользователем и назначать рабочие пакеты."
           group: "Теперь группа является частью %{project}. Тем временем вы уже можете спланировать работу с этой группой и назначить пакеты работ."
         next_button: "Продолжить"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Включить проекты"
       title: "Проекты"

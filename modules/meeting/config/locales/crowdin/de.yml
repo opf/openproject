@@ -99,7 +99,7 @@ de:
     attachments:
       text: "Angehängte Dateien sind für alle Teilnehmer der Besprechung verfügbar. Sie können diese auch per Drag-and-drop in die Notizen der Tagesordnungspunkte ziehen."
     copy:
-      title: "Besprechung %{title} kopieren"
+      title: "Besprechung kopieren: %{title}"
       attachments: "Anhänge kopieren"
       attachments_text: "Alle angehängten Dateien in die neue Besprechung kopieren"
       agenda: "Tagesordnung kopieren"

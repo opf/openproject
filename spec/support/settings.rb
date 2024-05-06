@@ -69,10 +69,15 @@ def get_week_days(*days)
   end
 end
 
+def default_auto_hide_popups_false
+  Setting.default_auto_hide_popups = false
+end
+
 RSpec.configure do |config|
   config.before(:suite) do
     # The test suite assumes the default of all days working.
     # Since the Setting default is with Sat-Sun non-working, we update it before the tests.
     week_with_all_days_working
+    default_auto_hide_popups_false
   end
 end

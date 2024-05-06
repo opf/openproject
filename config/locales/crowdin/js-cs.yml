@@ -377,6 +377,7 @@ cs:
     label_added_time_by: 'Přidal <a href="%{authorLink}">%{author}</a> v %{age}'
     label_ago: "dnů před"
     label_all: "vše"
+    label_all_uppercase: "All"
     label_all_work_packages: "všechny pracovní balíčky"
     label_and: "a"
     label_ascending: "Vzestupně"
@@ -418,6 +419,7 @@ cs:
     label_expand_project_menu: "Rozbalit nabídku projektu"
     label_export: "Export"
     label_export_preparing: "Export je připraven a bude brzy k stažení."
+    label_favorites: "Favorites"
     label_filename: "Soubor"
     label_filesize: "Velikost"
     label_general: "Obecné"
@@ -1274,6 +1276,9 @@ cs:
           placeholder: "Zástupného uživatele lze nyní použít v %{project}. Mezitím již můžete plánovat s tímto uživatelem a přiřadit mu například pracovní balíčky."
           group: "Skupina je nyní součástí %{project}. Mezitím již můžete s touto skupinou plánovat a přiřadit například pracovní balíčky."
         next_button: "Pokračovat"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Zahrnout projekty"
       title: "Projekty"

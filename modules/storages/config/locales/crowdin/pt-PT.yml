@@ -41,6 +41,7 @@ pt-PT:
       too_many_elements_created_at_once: Demasiados elementos criados de uma só vez. Esperados %{max} no máximo, obtidos %{actual}.
   permission_create_files: 'Armazenamento externo: criar ficheiros'
   permission_delete_files: 'Armazenamento externo: eliminar ficheiros'
+  permission_header_for_project_module_storages: Pastas do projeto geridas automaticamente
   permission_manage_file_links: Gerir hiperligações de ficheiro
   permission_manage_storages_in_project: Gerir armazenamentos de ficheiros no projeto
   permission_read_files: 'Armazenamento externo: ler ficheiros'

@@ -41,6 +41,7 @@ ru:
       too_many_elements_created_at_once: Слишком много элементов, созданных сразу. Ожидалось %{max} максимум - получено %{actual}.
   permission_create_files: 'External Storage: Create files'
   permission_delete_files: 'External Storage: Delete files'
+  permission_header_for_project_module_storages: Автоматически управляемые папки проектов
   permission_manage_file_links: Управление ссылками файлов
   permission_manage_storages_in_project: Управление файловыми хранилищами в проекте
   permission_read_files: 'External Storage: Read files'

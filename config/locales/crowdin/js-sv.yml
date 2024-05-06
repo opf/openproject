@@ -377,6 +377,7 @@ sv:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "dagar sedan"
     label_all: "alla"
+    label_all_uppercase: "All"
     label_all_work_packages: "alla arbetspaket"
     label_and: "och"
     label_ascending: "Stigande"
@@ -418,6 +419,7 @@ sv:
     label_expand_project_menu: "Expandera projektmenyn"
     label_export: "Exportera"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_favorites: "Favorites"
     label_filename: "Fil"
     label_filesize: "Filstorlek"
     label_general: "Allmänt"
@@ -1268,6 +1270,9 @@ sv:
           placeholder: "The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
           group: "The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance."
         next_button: "Fortsätt"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Include projects"
       title: "Projekt"

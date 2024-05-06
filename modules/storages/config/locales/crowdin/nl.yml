@@ -41,6 +41,7 @@ nl:
       too_many_elements_created_at_once: Te veel elementen gemaakt tegelijk. %{max} verwacht hoogstens %{actual}.
   permission_create_files: 'External Storage: Create files'
   permission_delete_files: 'External Storage: Delete files'
+  permission_header_for_project_module_storages: Automatisch beheerde projectmappen
   permission_manage_file_links: Bestandslinks beheren
   permission_manage_storages_in_project: Beheer bestandsopslag in het project
   permission_read_files: 'External Storage: Read files'

@@ -75,13 +75,17 @@ class WorkPackages::ApplyStatusesPCompleteJob < ApplicationJob
 
     case cause_type
     when "progress_mode_changed_to_status_based"
-      { type: cause_type }
+      Journal::CausedByProgressModeChangedToStatusBased.new
     when "status_p_complete_changed"
       raise ArgumentError, "status_name must be provided" if status_name.blank?
       raise ArgumentError, "status_id must be provided" if status_id.nil?
       raise ArgumentError, "change must be provided" if change.nil?
 
-      { type: cause_type, status_name:, status_id:, status_p_complete_change: change }
+      Journal::CausedByStatusPCompleteChanged.new(
+        status_name:,
+        status_id:,
+        status_p_complete_change: change
+      )
     else
       raise "Unable to handle cause type #{cause_type.inspect}"
     end

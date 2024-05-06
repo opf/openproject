@@ -39,9 +39,7 @@ module Pages::Meetings
     end
 
     def click_create_new
-      within ".toolbar-items" do
-        click_on "Meeting"
-      end
+      click_on("add-meeting-button")
 
       New.new(project)
     end
@@ -51,15 +49,11 @@ module Pages::Meetings
     end
 
     def expect_no_create_new_button
-      within ".toolbar-items" do
-        expect(page).to have_no_css "#add-meeting-button"
-      end
+      expect(page).not_to have_test_selector("add-meeting-button")
     end
 
     def expect_no_create_new_buttons
-      within ".toolbar-items" do
-        expect(page).to have_no_css "#add-meeting-button"
-      end
+      expect(page).not_to have_test_selector("add-meeting-button")
 
       within "#main-menu" do
         expect(page).to have_no_button "Meeting"
@@ -67,15 +61,11 @@ module Pages::Meetings
     end
 
     def expect_create_new_button
-      within ".toolbar-items" do
-        expect(page).to have_css "#add-meeting-button"
-      end
+      expect(page).to have_test_selector("add-meeting-button")
     end
 
     def expect_create_new_buttons
-      within ".toolbar-items" do
-        expect(page).to have_css "#add-meeting-button"
-      end
+      expect(page).to have_test_selector("add-meeting-button")
 
       within "#main-menu" do
         expect(page).to have_button "Meeting"
