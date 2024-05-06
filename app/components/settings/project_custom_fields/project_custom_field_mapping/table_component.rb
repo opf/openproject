@@ -30,11 +30,6 @@ module Settings
   module ProjectCustomFields
     module ProjectCustomFieldMapping
       class TableComponent < Projects::TableComponent
-        columns :name
-
-        def sortable?
-          false
-        end
       end
     end
   end
