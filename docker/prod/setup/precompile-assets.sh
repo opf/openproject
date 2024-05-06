@@ -6,6 +6,10 @@ set -o pipefail
 if [ -f config/frontend_assets.manifest.json ]; then
   echo "Assets have already been precompiled. Reusing."
 else
+  echo "Assets need to be compield"
+  ls -alh config/
+  ls -alh public/assets
+
   SECRET_KEY_BASE=1 RAILS_ENV=production DATABASE_URL=nulldb://db \
     bin/rails openproject:plugins:register_frontend assets:precompile
 fi

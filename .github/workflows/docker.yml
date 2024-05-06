@@ -39,7 +39,7 @@ jobs:
           
             if [ -z "$TAG_REF" ]; then
               TAG_REF=dev
-              CHECKOUT_REF=refs/heads/dev
+              CHECKOUT_REF=refs/heads/feature/speedup-docker-builds
             fi
           else
             echo "Unsupported event"
