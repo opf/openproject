@@ -37,11 +37,8 @@ class Queries::Projects::Factory
 
   class << self
     def find(id, params:, user:, duplicate: false)
-      query = find_static_query_and_set_attributes(id, params, user, duplicate:) ||
-              find_persisted_query_and_set_attributes(id, params, user, duplicate:)
-      query&.valid_subset!
-
-      query
+      find_static_query_and_set_attributes(id, params, user, duplicate:) ||
+      find_persisted_query_and_set_attributes(id, params, user, duplicate:)
     end
 
     def static_query(id)
@@ -137,6 +134,8 @@ class Queries::Projects::Factory
       query = Queries::Projects::ProjectQuery.where(user:).find_by(id:)
 
       return unless query
+
+      query.valid_subset!
 
       query = duplicate_query(query) if duplicate
 
