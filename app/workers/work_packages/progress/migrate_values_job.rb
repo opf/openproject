@@ -26,11 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackages::UpdateProgressJob < ApplicationJob
-  queue_with_priority :default
-
-  include WorkPackages::ProgressSqlCommands
-
+class WorkPackages::Progress::MigrateValuesJob < WorkPackages::Progress::Job
   attr_reader :current_mode, :previous_mode
 
   def perform(current_mode:, previous_mode:)

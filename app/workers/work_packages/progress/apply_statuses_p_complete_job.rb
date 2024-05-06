@@ -28,11 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackages::ApplyStatusesPCompleteJob < ApplicationJob
-  queue_with_priority :default
-
-  include WorkPackages::ProgressSqlCommands
-
+class WorkPackages::Progress::ApplyStatusesPCompleteJob < WorkPackages::Progress::Job
   VALID_CAUSE_TYPES = %w[
     progress_mode_changed_to_status_based
     status_p_complete_changed

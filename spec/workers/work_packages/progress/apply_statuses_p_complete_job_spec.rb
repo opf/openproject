@@ -28,7 +28,7 @@
 
 require "rails_helper"
 
-RSpec.describe WorkPackages::ApplyStatusesPCompleteJob do
+RSpec.describe WorkPackages::Progress::ApplyStatusesPCompleteJob do
   shared_let(:author) { create(:user) }
   shared_let(:priority) { create(:priority, name: "Normal") }
   shared_let(:project) { create(:project, name: "Main project") }

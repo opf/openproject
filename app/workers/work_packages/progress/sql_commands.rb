@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackages::ProgressSqlCommands
+module WorkPackages::Progress::SqlCommands
   def with_temporary_progress_table
     WorkPackage.transaction do
       create_temporary_progress_table
