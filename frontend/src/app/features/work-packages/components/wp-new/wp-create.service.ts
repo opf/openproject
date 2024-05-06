@@ -403,7 +403,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     wp.updateImmediately = (data:object) => firstValueFrom(this.apiV3Service.work_packages.post(data));
     wp.$links.updateImmediately = (data:object) => firstValueFrom(this.apiV3Service.work_packages.post(data));
 
-    if (form.schema.attachments) {
+    if (form.schema.$links.attachments) {
       wp.$links.attachments = { elements: [] } as unknown as AttachmentCollectionResource;
     }
 

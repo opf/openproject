@@ -125,7 +125,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   end
 
   describe "with a request for a PDF" do
-    xit "contains correct data" do
+    it "contains correct data" do
       details = exporter.send(:attributes_data_by_wp, work_package)
                         .flat_map do |item|
         value = get_column_value(item[:name])

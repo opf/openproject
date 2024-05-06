@@ -91,6 +91,11 @@ module API
             { href: @base_schema_link } if @base_schema_link
           end
 
+          link :attachments do
+            next if represented.work_package.hide_attachments?
+            { href: nil }
+          end
+
           # Needs to not be cached as the queries in the attribute
           # groups might contain information (e.g. project names) whose
           # visibility needs to be checked per user
@@ -211,12 +216,6 @@ module API
                  type: "User",
                  location: :link,
                  writable: false
-
-          schema :attachments,
-                 type: "AttachmentCollection",
-                 required: false,
-                 writable: false,
-                 show_if: ->(*) { !represented.work_package.hide_attachments? }
 
           schema_with_allowed_link :project,
                                    type: "Project",
