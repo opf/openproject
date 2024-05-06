@@ -63,11 +63,6 @@ module MeetingSections
       @meeting_section.editable? && User.current.allowed_in_project?(:manage_agendas, @meeting_section.project)
     end
 
-    def hide_section?
-      false
-      # @meeting.sections.count == 1 && @meeting_agenda_items.empty? && @meeting_section.untitled?
-    end
-
     def render_section_wrapper?
       # true
       !@meeting_section.untitled? || @meeting.sections.count > 1

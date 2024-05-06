@@ -49,7 +49,7 @@ module MeetingSections
 
     def wrapper_data_attributes
       {
-        test_selector: "meeting-section-container-#{@meeting_section.id}"
+        test_selector: "meeting-section-header-container-#{@meeting_section.id}"
       }
     end
 
