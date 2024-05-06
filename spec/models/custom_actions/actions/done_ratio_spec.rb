@@ -35,15 +35,43 @@ RSpec.describe CustomActions::Actions::DoneRatio do
 
   it_behaves_like "base custom action" do
     describe "#apply" do
-      let(:work_package) { build_stubbed(:work_package) }
+      let(:work_package) do
+        build_stubbed(:work_package,
+                      estimated_hours: 10,
+                      remaining_hours: 5)
+      end
 
-      it "sets the done_ratio to the action's value" do
-        instance.values = [95]
+      context "in work-based mode" do
+        it "sets the done_ratio to the action's value" do
+          instance.values = [75]
 
-        instance.apply(work_package)
+          instance.apply(work_package)
 
-        expect(work_package.done_ratio)
-          .to be 95
+          expect(work_package)
+            .to have_attributes(done_ratio: 75,
+                                estimated_hours: 10,
+                                remaining_hours: 2.5)
+        end
+      end
+
+      context "in status-based mode", with_settings: { work_package_done_ratio: "status" } do
+        before do
+          allow(WorkPackages::SetAttributesService)
+            .to receive(:new)
+                  .and_call_original
+        end
+
+        it "leaves the work package in a pristine state" do
+          instance.values = [75]
+
+          instance.apply(work_package)
+
+          expect(WorkPackages::SetAttributesService)
+            .not_to have_received(:new)
+
+          expect(work_package.changes.keys)
+            .not_to include(%i[done_ratio estimated_hours remaining_hours])
+        end
       end
     end
 

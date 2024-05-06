@@ -34,7 +34,12 @@ class CustomActions::Actions::DoneRatio < CustomActions::Actions::Base
   end
 
   def apply(work_package)
-    work_package.done_ratio = values.first
+    if WorkPackage.use_field_for_done_ratio?
+      WorkPackages::SetAttributesService.new(user: User.current,
+                                             model: work_package,
+                                             contract_class: WorkPackages::UpdateContract)
+                                        .call(remaining_hours: compute_remaining_hours(work_package))
+    end
   end
 
   def minimum
@@ -51,5 +56,12 @@ class CustomActions::Actions::DoneRatio < CustomActions::Actions::Base
     else
       []
     end
+  end
+
+  private
+
+  def compute_remaining_hours(work_package)
+    work_done = (work_package.estimated_hours * (values.first / 100.to_f))
+    work_package.estimated_hours - work_done
   end
 end
