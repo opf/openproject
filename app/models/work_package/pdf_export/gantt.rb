@@ -44,32 +44,34 @@
 # 2. Paint the Gantt chart into the PDF
 
 module WorkPackage::PDFExport::Gantt
+  GANTT_DAY_COLUMN_WIDTHS = [64, 32, 24, 18].freeze
+  GANTT_COLUMN_WIDTHS = [128, 64, 32, 24].freeze
+  GANTT_COLUMN_WIDTHS_NAMES = %w[very_wide wide medium narrow].freeze
+  GANTT_MODE_NAMES = %w[day month quarter].freeze
+  GANTT_MODE_DEFAULT = "day".freeze
+  GANTT_COLUMN_DEFAULT = "wide".freeze
+
   def write_work_packages_gantt!(work_packages, id_wp_meta_map)
     wps = work_packages.select { |work_package| work_package.start_date || work_package.due_date }
     return if wps.empty?
 
-    column_width, mode = gantt_settings(options[:zoom] || 1)
+    mode = gantt_settings_mode
+    column_width = gantt_settings_column_width(mode)
     write_gantt(mode, column_width, id_wp_meta_map, wps)
   end
 
   private
 
-  def gantt_settings(zoom)
-    zoom_levels = [
-      [:day, 32],
-      [:day, 24],
-      [:day, 18],
-      [:month, 128],
-      [:month, 64],
-      [:month, 32],
-      [:month, 24],
-      [:quarter, 128],
-      [:quarter, 64],
-      [:quarter, 32],
-      [:quarter, 24]
-    ]
-    mode, column_width = zoom_levels[zoom.to_i - 1].nil? ? zoom_levels[1] : zoom_levels[zoom.to_i - 1]
-    [column_width, mode]
+  def gantt_settings_mode
+    mode = options[:gantt_mode] || GANTT_MODE_DEFAULT
+    mode = GANTT_MODE_DEFAULT if GANTT_MODE_NAMES.exclude?(mode)
+    mode.to_sym
+  end
+
+  def gantt_settings_column_width(mode)
+    width_index = GANTT_COLUMN_WIDTHS_NAMES.find_index(options[:gantt_width] || GANTT_COLUMN_DEFAULT)
+    width_index = GANTT_COLUMN_WIDTHS_NAMES.find_index(GANTT_COLUMN_DEFAULT) if width_index.nil?
+    mode == :day ? GANTT_DAY_COLUMN_WIDTHS[width_index] : GANTT_COLUMN_WIDTHS[width_index]
   end
 
   def gantt_builder(mode, column_width)

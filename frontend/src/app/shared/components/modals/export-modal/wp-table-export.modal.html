@@ -9,7 +9,7 @@
   <div class="spot-divider"></div>
 
   <div class="spot-modal--body spot-container">
-    <ul *ngIf="exportOptions" class="op-export-options op-export-options-grid" [ngClass]="{'-hidden': isLoading}">
+    <ul *ngIf="exportOptions && !ganttOption" class="op-export-options op-export-options-grid" [ngClass]="{'-hidden': isLoading}">
       <li
         *ngFor="let option of exportOptions"
         class="op-export-options--option"
@@ -17,7 +17,7 @@
         <a
           [attr.href]="option.url"
           class="op-export-options--option-link"
-          (click)="triggerByLink(option.url, $event)"
+          (click)="triggerByOption(option, $event)"
           id="export-{{ option.identifier }}"
         >
           <op-icon icon-classes="icon-export-{{ option.identifier }} icon-big"></op-icon>
@@ -25,34 +25,50 @@
         </a>
       </li>
     </ul>
-    <div *ngIf="exportOptions">
-      GANTT-DEBUG:
-      <div style="display: flex; flex-direction: row">
-          <select class="debug-export-values" name="zoom">
-            <option value="1">Zoom: 1 (Day, 32px)</option>
-            <option selected value="2">Zoom: 2 (Day, 24px)</option>
-            <option value="3">Zoom: 3 (Day, 18px)</option>
-            <option value="4">Zoom: 4 (Month, 128px)</option>
-            <option value="5">Zoom: 5 (Month, 64px)</option>
-            <option value="6">Zoom: 6 (Month, 32px)</option>
-            <option value="7">Zoom: 7 (Month, 24px)</option>
-            <option value="8">Zoom: 8 (Quarter, 128px)</option>
-            <option value="9">Zoom: 9 (Quarter, 64px)</option>
-            <option value="10">Zoom: 10 (Quarter, 32px)</option>
-            <option value="11">Zoom: 11 (Quarter, 24px)</option>
-          </select>
-          <select class="debug-export-values" name="paper_size">
-            <option selected value="EXECUTIVE">Page size: EXECUTIVE</option>
-            <option value="A4">Page size: A4</option>
-            <option value="A3">Page size: A3</option>
-            <option value="A2">Page size: A2</option>
-            <option value="A1">Page size: A1</option>
-            <option value="A0">Page size: A0</option>
-          </select>
-      </div>
+    <div *ngIf="exportOptions && ganttOption" class="gantt-export-options">
+      <form class="form">
+        <section class="form--section">
+          <h3 class="form--section-title">{{text.ganttOptionSectionTitle}}</h3>
+          <div *ngFor="let field of ganttFieldsArray" class="form--field">
+            <label
+              for="{{field.id}}"
+              class="form--label">
+              {{ field.label }}
+            </label>
+            <div class="form--field-container">
+              <div class="form--select-container">
+                <select class="form--select"
+                        [attr.id]="field.id"
+                        [ngModelOptions]="{standalone: true}"
+                        [(ngModel)]="field.value">
+                  <option *ngFor="let option of field.options"
+                          [textContent]="option.label"
+                          [ngValue]="option.value">
+                  </option>
+                </select>
+              </div>
+            </div>
+        </div>
+        </section>
+        <div>
+          <button class="button -primary" (click)="exportGantt($event)">{{text.ganttExport}}</button>
+        </div>
+      </form>
     </div>
   </div>
   <div class="spot-action-bar hidden-for-mobile">
+
+    <div *ngIf="ganttOption" class="spot-action-bar--left">
+      <button
+        type="button"
+        class="button"
+        (click)="closeGanttOptions($event)"
+      >
+        <op-icon icon-classes="button--icon icon-arrow-left1"></op-icon>
+        {{ text.backButton }}
+      </button>
+    </div>
+
     <div class="spot-action-bar--right">
       <button
         type="button"
