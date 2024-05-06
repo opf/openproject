@@ -111,7 +111,7 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
         expect(last_response.status).to eq(200)
 
         expect(last_response.body)
-          .to be_json_eql("in_process".to_json)
+          .to be_json_eql("in_queue".to_json)
                 .at_path("status")
 
         GoodJob.perform_inline

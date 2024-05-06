@@ -53,7 +53,12 @@ module API
           batch = GoodJob::Job.find_by(id: represented.job_id)&.batch
           return represented.status unless batch
 
-          return "in_process" unless batch.finished?
+          unless batch.finished?
+            return "in_process" if batch.jobs.any?(&:running?)
+
+            return "in_queue"
+          end
+
           return "success" if batch.succeeded?
 
           "failure" if batch.discarded?

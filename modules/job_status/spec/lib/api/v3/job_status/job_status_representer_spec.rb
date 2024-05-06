@@ -72,7 +72,7 @@ RSpec.describe API::V3::JobStatus::JobStatusRepresenter do
         status = JobStatus::Status.order(:created_at).last
         status_json = described_class.new(status, current_user: user).to_json
 
-        expect(status_json).to be_json_eql("in_process".to_json).at_path("status")
+        expect(status_json).to be_json_eql("in_queue".to_json).at_path("status")
       end
 
       it "returns success if the batch has finished and is successful" do
