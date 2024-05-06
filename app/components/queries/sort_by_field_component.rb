@@ -40,10 +40,6 @@ class Queries::SortByFieldComponent < ApplicationComponent
     )
   end
 
-  def display?
-    active? || index == 0
-  end
-
   def active?
     order.present? && available_orders.any? { |o| order.attribute.to_sym == o[:id] }
   end

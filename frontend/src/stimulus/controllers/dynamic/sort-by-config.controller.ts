@@ -40,14 +40,7 @@ export default class SortByConfigController extends Controller {
   declare readonly sortByFieldTarget:HTMLInputElement;
   declare readonly inputRowTargets:HTMLElement[];
 
-  connect():void {
-    console.log('Hello, we are connected!');
-    console.log(`Current value of the field: ${this.sortByFieldTarget.value}`);
-    console.log(`Visible rows: ${this.visibleFieldCount()}`);
-    console.log(this.inputRowTargets);
-    console.log(this.buildSortJson());
-    this.setDirection(this.inputRowTargets[0], 'desc');
-}
+  connect():void { }
 
 buildSortJson():string {
   const filters = this.inputRowTargets.map((row) => {
@@ -63,6 +56,23 @@ fieldChanged(event:Event):void {
   const target = event.target as HTMLElement;
   const row = target.closest('.op-configure-query-sort-form') as HTMLElement;
 
+  const selectedField = this.getSelectedField(row);
+  const getSelectedDirection = this.getSelectedDirection(row);
+
+  if (!selectedField) {
+    // we have deselected the field, so we need to unset the direction, remove the row and move it to the end of the list
+    // const lastRow = this.inputRowTargets[this.inputRowTargets.length - 1];
+
+    this.unsetDirection(row);
+
+    // Unless we are the first row, hide the rows
+    if (row !== this.inputRowTargets[0]) { this.hideRow(row); }
+  } else if (!getSelectedDirection) {
+      // if we have selected a field but no direction, we default to ascending
+      this.setDirection(row, 'asc');
+    }
+
+  // this.disableOptionInOtherSelects(row);
   this.sortByFieldTarget.value = this.buildSortJson();
 }
 
@@ -100,6 +110,27 @@ fieldChanged(event:Event):void {
       } else {
         control.classList.remove('SegmentedControl-item--selected');
         button.setAttribute('aria-current', 'false');
+      }
+    });
+  }
+
+  showRow(row:HTMLElement):void {
+    row.style.display = '';
+  }
+
+  hideRow(row:HTMLElement):void {
+    row.style.display = 'none';
+  }
+
+  disableOptionInOtherSelects(row:HTMLElement):void {
+    const selectedField = this.getSelectedField(row);
+
+    this.inputRowTargets.forEach((otherRow) => {
+      if (otherRow !== row) {
+        const otherSelect = otherRow.querySelector('select[name="sort_field"]') as HTMLSelectElement;
+        otherSelect.querySelectorAll('option').forEach((option) => {
+          option.disabled = option.value === selectedField;
+        });
       }
     });
   }
