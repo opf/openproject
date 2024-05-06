@@ -92,14 +92,14 @@ RSpec.describe "Favorite projects", :js do
     top_menu.expect_no_result other_project.name
   end
 
-  context 'when project is favored' do
+  context "when projct is favored" do
     before do
       project.add_favoring_user(user)
       other_project.add_favoring_user(user)
       other_project.update! active: false
     end
 
-    it 'does not show archived projects' do
+    it "does not show archived projects" do
       visit home_path
 
       expect(page).to have_text 'Favorite projects'
@@ -109,6 +109,35 @@ RSpec.describe "Favorite projects", :js do
       my_page.visit!
       my_page.add_widget(1, 1, :within, "Favorite projects")
       expect(page).to have_text 'My favorite!'
+    end
+  end
+
+  context "favoriting only one subproject" do
+    before do
+      project.update! parent: other_project
+      project.add_favoring_user(user)
+    end
+
+    it "still shows up in top menu (Regression #54729)" do
+      visit home_path
+
+      expect(page).to have_text 'Favorite projects'
+      expect(page).to have_test_selector 'favorite-project', text: 'My favorite!'
+
+      retry_block do
+        top_menu.toggle unless top_menu.open?
+        top_menu.expect_open
+
+        # projects are displayed initially
+        top_menu.expect_result project.name
+        top_menu.expect_result other_project.name
+      end
+
+      top_menu.switch_mode "Favorites"
+
+      top_menu.expect_result project.name
+      # Parent is also shown
+      top_menu.expect_result other_project.name
     end
   end
 end
