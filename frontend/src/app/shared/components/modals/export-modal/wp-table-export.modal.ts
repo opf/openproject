@@ -175,7 +175,7 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
   }
 
   private addGanttOptionsToHref(href:string) {
-    const url = URI(href);
+    const url = new URI(href);
     this.ganttFieldsArray.forEach((field) => {
       url.addSearch(field.paramName, field.value);
     });
@@ -223,7 +223,7 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
 
     const columnIds = columns.map((column) => column.id);
 
-    const url = URI(href);
+    const url = new URI(href);
     // Remove current columns
     url.removeSearch('columns[]');
     url.addSearch('columns[]', columnIds);
