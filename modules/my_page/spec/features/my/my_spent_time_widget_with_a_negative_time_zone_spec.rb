@@ -78,15 +78,18 @@ RSpec.describe "My spent time widget with a negative time zone", :js,
 
     my_page.expect_and_dismiss_toaster message: I18n.t(:notice_successful_update)
 
+    expect(page)
+      .to have_content time_entry.spent_on.strftime("%-m/%-d")
+
     aggregate_failures("non-working days are displayed properly") do
       expect(page).to have_button("Today", disabled: true)
-      expect(page).to have_no_css(".fc-day-mon.fc-non-working-day", wait: 0)
-      expect(page).to have_css(".fc-day-tue.fc-non-working-day", wait: 0)
-      expect(page).to have_no_css(".fc-day-wed.fc-non-working-day", wait: 0)
-      expect(page).to have_no_css(".fc-day-thu.fc-non-working-day", wait: 0)
-      expect(page).to have_no_css(".fc-day-fri.fc-non-working-day", wait: 0)
-      expect(page).to have_css(".fc-day-sat.fc-non-working-day", wait: 0)
-      expect(page).to have_css(".fc-day-sun.fc-non-working-day", wait: 0)
+      expect(page).to have_no_css(".fc-day-mon.fc-non-working-day")
+      expect(page).to have_css(".fc-day-tue.fc-non-working-day")
+      expect(page).to have_no_css(".fc-day-wed.fc-non-working-day")
+      expect(page).to have_no_css(".fc-day-thu.fc-non-working-day")
+      expect(page).to have_no_css(".fc-day-fri.fc-non-working-day")
+      expect(page).to have_css(".fc-day-sat.fc-non-working-day")
+      expect(page).to have_css(".fc-day-sun.fc-non-working-day")
     end
 
     aggregate_failures("when clicking a day, time entry day is set to the day clicked (Thursday)") do
