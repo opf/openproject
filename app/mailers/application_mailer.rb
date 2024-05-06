@@ -120,10 +120,22 @@ class ApplicationMailer < ActionMailer::Base
     format.text
   end
 
+  ##
+  # Overwrite mailer method to prevent sending mails to locked users.
+  def mail(to:, **args)
+    raise ArgumentError, "Recipient needs to be instance of User" unless to.is_a?(User)
+
+    if to.locked?
+      Rails.logger.info "Not sending #{action_name} mail to locked user #{to.id} (#{to.login})"
+    else
+      super(to: to.mail, **args)
+    end
+  end
+
   def send_localized_mail(user)
     with_locale_for(user) do
       subject = yield
-      mail to: user.mail, subject:
+      mail to: user, subject:
     end
   end
 
