@@ -701,6 +701,26 @@ RSpec.describe Queries::Projects::Factory,
         expect(find.selects.map(&:attribute))
           .to eq(%i[project_status name])
       end
+
+      it { is_expected.not_to be_changed }
+
+      context "when params are changing an attribute" do
+        let(:params) { { selects: %w[description project_status] } }
+
+        it { is_expected.to be_changed }
+      end
+
+      context "when params are changing an attribute to invalid value" do
+        let(:params) { { selects: %w[project_status name blubs] } }
+
+        it { is_expected.to be_changed }
+      end
+
+      context "when params are changing an attribute to valid subset" do
+        let(:params) { { selects: %w[project_status name] } }
+
+        it { is_expected.not_to be_changed }
+      end
     end
   end
 

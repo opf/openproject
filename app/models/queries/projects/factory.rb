@@ -136,6 +136,7 @@ class Queries::Projects::Factory
       return unless query
 
       query.valid_subset!
+      query.clear_changes_information
 
       query = duplicate_query(query) if duplicate
 
