@@ -45,27 +45,11 @@ RSpec.describe LaborBudgetItems::Scopes::Visible do
   shared_let(:budget_item_of_view_own_budget) { create(:labor_budget_item, budget: view_own_budget, user: other_user) }
 
   describe ".visible" do
-    context "for all items" do
-      it "returns all from project the user has view permission and only own from project the user has view own permission" do
-        expect(LaborBudgetItem.visible(user, nil))
-          .to contain_exactly(own_budget_item_of_view_budget,
-                              budget_item_of_view_budget,
-                              own_budget_item_of_view_own_budget)
-      end
-    end
-
-    context "for items in a project the user has view rates permission" do
-      it "returns own and non own items" do
-        expect(LaborBudgetItem.visible(user, view_project))
-          .to contain_exactly(own_budget_item_of_view_budget, budget_item_of_view_budget)
-      end
-    end
-
-    context "for items in a project the user has view own rates permission" do
-      it "returns own items" do
-        expect(LaborBudgetItem.visible(user, view_own_project))
-          .to contain_exactly(own_budget_item_of_view_own_budget)
-      end
+    it "returns all from project the user has view permission and only own from project the user has view own permission" do
+      expect(LaborBudgetItem.visible(user))
+        .to contain_exactly(own_budget_item_of_view_budget,
+                            budget_item_of_view_budget,
+                            own_budget_item_of_view_own_budget)
     end
   end
 end

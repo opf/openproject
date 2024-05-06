@@ -35,7 +35,7 @@ module LaborBudgetItems::Scopes
       # * the user has permission to see all labor budget items in the project the budget is in.
       # * the user has permission to see own labor budget items in the project the budget is in and the item
       # is of the user.
-      def visible(user, project)
+      def visible(user)
         view_scope = includes(:budget)
                        .where(budget: { project_id: Project.allowed_to(user, :view_hourly_rates).select(:id) })
 
@@ -43,13 +43,8 @@ module LaborBudgetItems::Scopes
                            .where(budget: { project_id: Project.allowed_to(user, :view_own_hourly_rate).select(:id) })
                            .where(user_id: user.id)
 
-        scope = view_scope.or(view_own_scope)
-
-        if project
-          scope.where(budget: { project_id: project.id })
-        else
-          scope
-        end
+        view_scope
+          .or(view_own_scope)
       end
     end
   end

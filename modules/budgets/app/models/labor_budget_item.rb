@@ -45,7 +45,7 @@ class LaborBudgetItem < ApplicationRecord
   scopes :visible
 
   scope :visible_costs, lambda { |*args|
-    visible((args.first || User.current), args[1])
+    visible((args.first || User.current))
   }
 
   def costs
