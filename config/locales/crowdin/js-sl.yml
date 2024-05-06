@@ -419,7 +419,7 @@ sl:
     label_expand_project_menu: "Razširi projektni meni"
     label_export: "Izvozi"
     label_export_preparing: "Izvoz je v pripravi in ​​bo kmalu prenesen."
-    label_favored: "Favored"
+    label_favorites: "Favorites"
     label_filename: "Datoteka"
     label_filesize: "Velikost"
     label_general: "Splošno"
@@ -1276,6 +1276,9 @@ sl:
           placeholder: "Rezervirano mesto se zdaj lahko uporabi v %{project}. Medtem lahko planirate s tem uporabnikom in mu dodelite delovne naloge."
           group: "Skupina je zdaj del %{project}. Medtem lahko planirate s to skupino in ji dodelite delovne naloge."
         next_button: "Nadaljuj"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Include projects"
       title: "Projekti"

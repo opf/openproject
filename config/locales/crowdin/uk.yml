@@ -259,7 +259,7 @@ uk:
     lists:
       active: "Активні проєкти"
       my: "Мої проєкти"
-      favored: "Favored projects"
+      favored: "Favorite projects"
       archived: "Заархівовані проєкти"
       my_private: "Особисті списки проєктів"
       new:
@@ -792,6 +792,7 @@ uk:
         not_an_iso_date: "не є дійсною датою. Необхідний формат: YYYY-MM-DD."
         not_same_project: "не належить до одного проекту."
         odd: "має бути непарним."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "неможливо перевірити з відповідним регулярним виразом."
         smaller_than_or_equal_to_max_length: "має бути меншою або дорівнює максимальній довжині."
         taken: "вже прийнято."
@@ -1289,7 +1290,7 @@ uk:
   button_edit: "Редагувати"
   button_edit_associated_wikipage: "Редагувати пов'язану Wiki сторінку: %{page_title}"
   button_expand_all: "Розгорнути все"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Фільтр"
   button_generate: "Згенерувати"
   button_list: "Список"
@@ -1989,7 +1990,7 @@ uk:
   label_expanded_click_to_collapse: "Розширено. Натисніть, щоб згорнути"
   label_f_hour: "%{value} година"
   label_f_hour_plural: "%{value} годин(и)"
-  label_favoured: "Улюблене"
+  label_favorite: "Favorite"
   label_feed_plural: "Канали"
   label_feeds_access_key: "Клавіша доступу RSS"
   label_feeds_access_key_created_on: "Створено ключ доступу RSS %{value} тому"
@@ -2062,6 +2063,7 @@ uk:
   label_learn_more: "Докладніше"
   label_less_or_equal: "<="
   label_less_than_ago: "менше, ніж день тому"
+  label_link_url: "Link (URL)"
   label_list: "Список"
   label_loading: "Завантаження..."
   label_lock_user: "Заблокувати користувача"
@@ -2204,7 +2206,7 @@ uk:
   label_project_attributes_settings: "Налаштування атрибутів проєкту"
   label_project_storage_plural: "Файлові сховища"
   label_project_storage_project_folder: "Файлові сховища: папки проєкту"
-  label_projects_storage_information: "%{count} використання проектів %{storage} дискового сховища"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Переглянути всi проекти"
   label_project_show_details: "Показати деталі проекту"
   label_project_hide_details: "Приховати деталі проекту"
@@ -3437,8 +3439,8 @@ uk:
         working: "%{day} зараз робочий"
         non_working: "%{day} зараз неробочий"
       dates:
-        working: "%{day} зараз робочий день"
-        non_working: "%{day} зараз неробочий день"
+        working: "%{date} зараз робочий день"
+        non_working: "%{date} зараз неробочий день"
   nothing_to_preview: "Нічого для перегляду"
   api_v3:
     attributes:

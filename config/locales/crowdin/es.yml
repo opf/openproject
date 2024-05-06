@@ -261,7 +261,7 @@ es:
     lists:
       active: "Proyectos activos"
       my: "Mis proyectos"
-      favored: "Proyectos favoritos"
+      favored: "Favorite projects"
       archived: "Proyectos archivados"
       my_private: "Mis listas de proyectos privados"
       new:
@@ -780,6 +780,7 @@ es:
         not_an_iso_date: "no es una fecha válida. Requiere formato: AAAA-MM-DD."
         not_same_project: "no pertenecen a un mismo proyecto."
         odd: "debe ser impar."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "no se pudo validar con la expresión regular asociada."
         smaller_than_or_equal_to_max_length: "Debe ser menor o igual que el tamaño maximo."
         taken: "Ya se ha tomado."
@@ -1261,7 +1262,7 @@ es:
   button_edit: "Editar"
   button_edit_associated_wikipage: "Editar página Wiki asociada: %{page_title}"
   button_expand_all: "Expandir todos"
-  button_favorite: "Marcar como favorito"
+  button_favorite: "Add to favorites"
   button_filter: "Filtro"
   button_generate: "Generar"
   button_list: "Lista"
@@ -1925,7 +1926,7 @@ es:
   label_expanded_click_to_collapse: "Expandido. Haga clic para contraer"
   label_f_hour: "%{value} hora"
   label_f_hour_plural: "%{value} horas"
-  label_favoured: "Favorito"
+  label_favorite: "Favorite"
   label_feed_plural: "Flujos"
   label_feeds_access_key: "Código de acceso RSS"
   label_feeds_access_key_created_on: "Código de acceso RSS creado hace %{value}"
@@ -1998,6 +1999,7 @@ es:
   label_learn_more: "Más información"
   label_less_or_equal: "<="
   label_less_than_ago: "menos que hace días"
+  label_link_url: "Link (URL)"
   label_list: "Lista"
   label_loading: "Cargando..."
   label_lock_user: "Bloquear usuario"
@@ -2140,7 +2142,7 @@ es:
   label_project_attributes_settings: "Ajustes de los atributos del proyecto"
   label_project_storage_plural: "Almacenes de archivos"
   label_project_storage_project_folder: "Almacenes de archivos: Carpetas de proyectos"
-  label_projects_storage_information: "%{count} proyectos utilizando %{storage} de almacenamiento en disco"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Ver todos los proyectos"
   label_project_show_details: "Mostrar los detalles del proyecto"
   label_project_hide_details: "Ocultar los detalles del proyecto"
@@ -3568,7 +3570,7 @@ es:
   link: enlace
   plugin_openproject_auth_plugins:
     name: "Plugins Auth de OpenProject"
-    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
+    description: "Integración de los proveedores de estrategia de OmniAuth para la autentificación en OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Inicio de sesión único"
     description: "Añade el proveedor OmniAuth SAML a OpenProject"

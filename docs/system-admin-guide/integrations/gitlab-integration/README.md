@@ -9,6 +9,7 @@ keywords: GitLab, GitLab integration, merge request
 
 OpenProject offers an integration with GitLab merge requests to link software development closely to planning and specification. You can create merge requests in GitLab and link them to work packages in OpenProject.
 
+
 ## Overview
 
 OpenProject work packages will directly display information from GitLab in a separate tab.
@@ -80,7 +81,11 @@ You will need the API key you copied earlier in OpenProject. Append it to the *U
 > - Comments
 > - Issues events
 > - Merge request events
-> - Pipeline events
+> - Pipeline events 
+
+
+> **Note**: Please note that the *Pipeline events* part of the integration is still in the early stages. If you have any feedback on the *Pipeline events*, please let us know [here](https://community.openproject.org/wp/54574).
+
 
 > **Note**: If you are in a local network you might need to allow requests to the local network in your GitLab instance.  
 > You can find this settings in the **Outbound requests** section when you navigate to **Admin area -> Settings -> Network**.
@@ -88,6 +93,15 @@ You will need the API key you copied earlier in OpenProject. Append it to the *U
 We recommend that you enable the **SSL verification** before you **Add webhook**.
 
 Now the integration is set up on both sides and you can use it.
+
+### Updating from the user-generated GitLab Plugin
+
+With [OpenProject 13.4](../../../release-notes/13-4-0/), the user-generated plugin was replaced by this GitLab integration. If you were already using the user-generated GitLab plugin, we recommend removing the plugin module folder and bundler references before upgrading to OpenProject. Your historical dataset will remain unaffected within OpenProject as there were no changes to the data model.
+
+Before upgrading, please do the following:
+
+1. Remove traces of the GitLab integration in your **Gemfile.lock** and **Gemfile.modules**. See [btey/openproject-gitlab-integration#configuration](https://github.com/btey/openproject-gitlab-integration?tab=readme-ov-file#configuration). Failure to do so may result in a `Bundler::GemfileError` matching the following error message: _Your Gemfile lists the gem openproject-gitlab_integration (>= 0) more than once._
+2. Remove the module code traces of the GitLab integration by running this command: `rm -rf /path/to/openproject/modules/gitlab_integration` 
 
 ## Using GitLab integration
 

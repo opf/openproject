@@ -43,8 +43,8 @@
           title: 'Underprosjekter'
           no_results: 'Ingen delprosjekter.'
         project_favorites:
-          title: 'Prosjektfavoritter'
-          no_results: 'Du har ingen prosjektfavoritter. Klikk på stjerneikonet i prosjektdashbordet for å legge til en i favorittene dine.'
+          title: 'Favorite projects'
+          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
         time_entries_current_user:
           title: 'Min tidsbruk'
           displayed_days: 'Dager vist i widgetet:'

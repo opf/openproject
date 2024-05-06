@@ -217,7 +217,7 @@ module Pages
     end
 
     def set_favoured
-      check "Favoured"
+      check "Favorite"
     end
 
     def click_on_submit
@@ -232,6 +232,7 @@ module Pages
         page.find("#{page.test_selector('tp-add-assignee')} input")
         select_user_to_add(name)
       end
+      expect_and_dismiss_toaster
     end
 
     def search_assignee(name)

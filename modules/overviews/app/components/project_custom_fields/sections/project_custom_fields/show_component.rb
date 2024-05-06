@@ -49,6 +49,8 @@ module ProjectCustomFields
 
         def render_value
           case @project_custom_field.field_format
+          when "link"
+            render_link
           when "text"
             render_long_text
           when "user"
@@ -85,6 +87,17 @@ module ProjectCustomFields
 
         def render_avatar(user)
           render(Users::AvatarComponent.new(user:, size: :mini))
+        end
+
+        def render_link
+          href = @project_custom_field_values&.first&.value
+          link = Addressable::URI.parse(href)
+          return href unless link
+
+          target = link.host == Setting.host_without_protocol ? "_top" : "_blank"
+          render(Primer::Beta::Link.new(href:, rel: "noopener noreferrer", target:)) do
+            href
+          end
         end
       end
     end

@@ -421,7 +421,7 @@ ja:
     label_expand_project_menu: "プロジェクトメニューを展開"
     label_export: "外部出力"
     label_export_preparing: "エクスポートは準備中です。まもなくダウンロードされます。"
-    label_favored: "Favored"
+    label_favorites: "Favorites"
     label_filename: "ファイル"
     label_filesize: "サイズ"
     label_general: "概要"
@@ -1269,6 +1269,9 @@ ja:
           placeholder: "プレースホルダーを %{project} で使用できるようになりました。一方で、そのユーザを使って計画を立てたり、ワークパッケージを割り当てたりすることができます。"
           group: "グループは %{project} の一部になりました。一方で、そのグループを使って計画を立てたり、ワークパッケージを割り当てたりすることができます。"
         next_button: "続行"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Include projects"
       title: "プロジェクト"

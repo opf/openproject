@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_examples_for "basic command setup" do
+RSpec.shared_examples_for "create_folder_command: basic command setup" do
   it "is registered as commands.create_folder" do
     expect(Storages::Peripherals::Registry
              .resolve("#{storage.short_provider_type}.commands.create_folder")).to eq(described_class)
@@ -45,7 +45,7 @@ RSpec.shared_examples_for "basic command setup" do
   end
 end
 
-RSpec.shared_examples_for "successful folder creation" do
+RSpec.shared_examples_for "create_folder_command: successful folder creation" do
   it "creates a folder" do
     result = described_class.call(storage:, auth_strategy:, folder_name:, parent_location:)
 
@@ -60,7 +60,7 @@ RSpec.shared_examples_for "successful folder creation" do
   end
 end
 
-RSpec.shared_examples_for "parent not found" do
+RSpec.shared_examples_for "create_folder_command: parent not found" do
   it "returns a failure" do
     result = described_class.call(storage:, auth_strategy:, folder_name:, parent_location:)
 
@@ -72,7 +72,7 @@ RSpec.shared_examples_for "parent not found" do
   end
 end
 
-RSpec.shared_examples_for "folder already exists" do
+RSpec.shared_examples_for "create_folder_command: folder already exists" do
   it "returns a failure" do
     result = described_class.call(storage:, auth_strategy:, folder_name:, parent_location:)
 

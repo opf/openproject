@@ -1,6 +1,6 @@
 sv:
   js:
     queries:
-      all_open: 'All open'
+      all_open: 'Alla öppna'
       timeline: 'Tidslinje'
       milestones: 'Milestones'

@@ -263,8 +263,8 @@ eo:
       no_results_content_text: Krei nova projekton
     lists:
       active: "Active projects"
-      my: "My projects"
-      favored: "Favored projects"
+      my: "Miaj projektoj"
+      favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -317,12 +317,12 @@ eo:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "Ĉiuj"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Ŝlosita"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Grupoj"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -399,7 +399,7 @@ eo:
     memberships:
       no_results_title_text: Tiu ĉi uzanto ne estas nuna membro de la projekto.
   page:
-    text: "Text"
+    text: "Teksto"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -597,7 +597,7 @@ eo:
         column_count: "Numero de kolumnoj"
         widgets: "Kromprogrametoj"
       oauth_client:
-        client: "Client ID"
+        client: "ID de la kliento"
       relation:
         lag: "Lag"
         from: "Laborpakaĵo"
@@ -622,7 +622,7 @@ eo:
           false: "private"
         queries: "Informpetoj"
         status_code: "Projekta stato"
-        description: "Description"
+        description: "Priskribo"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Nekomencita"
@@ -783,6 +783,7 @@ eo:
         not_an_iso_date: "Ĝi ne estas valida dato. Deviga datumo estas: JJJJ-MM-TT."
         not_same_project: "doesn't belong to the same project."
         odd: "devas esti nepara."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "could not be validated with the associated regular expression."
         smaller_than_or_equal_to_max_length: "must be smaller than or equal to maximum length."
         taken: "jam prenita."
@@ -1036,7 +1037,7 @@ eo:
             ldap_auth_source:
               error_not_found: "ne trovita"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "ne trovita"
         member:
           principal_blank: "Please choose at least one user or group."
           role_blank: "ĝi bezonas esti atribuita."
@@ -1230,7 +1231,7 @@ eo:
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: There is already a backup pending.
       limit_reached: You can only do %{limit} backups per day.
-  button_actions: "Actions"
+  button_actions: "Agoj"
   button_add: "Aldoni"
   button_add_comment: "Aldoni komenton"
   button_add_member: Aldoni membron
@@ -1264,7 +1265,7 @@ eo:
   button_edit: "Redakti"
   button_edit_associated_wikipage: "Redakti ligitan vikipaĝon: %{page_title}"
   button_expand_all: "Etendi ĉion"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Filtrilo"
   button_generate: "Krei"
   button_list: "Listo"
@@ -1282,7 +1283,7 @@ eo:
   button_reset: "Restarigi"
   button_rollback: "Rollback to this version"
   button_save: "Konservi"
-  button_save_as: "Save as"
+  button_save_as: "Konservi kiel"
   button_apply_changes: "Apply changes"
   button_save_back: "Konservi kaj retroiri"
   button_show: "Montri"
@@ -1556,7 +1557,7 @@ eo:
     message: Mesaĝo redaktita
     news: Novaĵoj
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "Projekto redaktita"
     projects: "Projekto redaktita"
     reply: Respondis
     time_entry: "Tempprotokolo redaktita"
@@ -1619,7 +1620,7 @@ eo:
       postgres_migration: "Transmetanta vian instalon al PostgreSQL"
       user_guides: "Manlibro por uzantoj"
       faq: "Oftaj Demandoj"
-      impressum: "Legal notice"
+      impressum: "Leĝa atentigo"
       glossary: "Difinvortaro"
       shortcuts: "Fulmoklavoj"
       blog: "Blogo de OpenProject"
@@ -1776,7 +1777,7 @@ eo:
   label_ascending: "Kreskante"
   label_assigned_to_me_work_packages: "Laborpakaĵoj asignitaj al mi"
   label_associated_revisions: "Ligitaj revizioj"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Aldonaĵoj"
   label_attribute: "Atributo"
   label_attribute_plural: "Atributoj"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1791,7 +1792,7 @@ eo:
   label_available_project_work_package_categories: "disponeblaj laborpakaĵaj kategorioj"
   label_available_project_work_package_types: "Disponeblaj laborpakaĵaj tipoj"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "API dokumentado"
   label_backup: "Backup"
   label_backup_code: "Backup code"
   label_between: "inter"
@@ -1803,7 +1804,7 @@ eo:
   label_forum_plural: "Forumoj"
   label_forum_sticky: "Gluita"
   label_boolean: "Bulea"
-  label_board_plural: "Boards"
+  label_board_plural: "Tabuloj"
   label_branch: "Branĉo"
   label_browse: "Foliumi"
   label_bulk_edit_selected_work_packages: "Grupa redakto de laborpakaĵoj"
@@ -1862,7 +1863,7 @@ eo:
   label_custom_field_plural: "Propraj kampoj"
   label_custom_field_default_type: "Malplena tipo"
   label_custom_style: "Aspektigo"
-  label_dashboard: "Dashboard"
+  label_dashboard: "Paneloj"
   label_database_version: "PostgreSQL version"
   label_date: "Dato"
   label_date_and_time: "Dato kaj horo"
@@ -1924,18 +1925,18 @@ eo:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Importi"
   label_export_to: "Krome disponebla ĉe:"
-  label_expand: "Expand"
+  label_expand: "Etendi"
   label_expanded_click_to_collapse: "Etendita. Klaki por maletendi"
   label_f_hour: "%{value} horoj"
   label_f_hour_plural: "%{value} hours"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key created %{value} ago"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Dosieroj"
   label_filter_add: "Add filter"
-  label_filter: "Filters"
+  label_filter: "Filtriloj"
   label_filter_plural: "Filtriloj"
   label_filters_toggle: "Show/hide filters"
   label_float: "Float"
@@ -1962,7 +1963,7 @@ eo:
   label_home: "Ĉefpaĝo"
   label_subject_or_id: "Temo aŭ ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Identigilo"
   label_in: "en"
   label_in_less_than: "en malpli ol"
   label_in_more_than: "in more than"
@@ -2001,6 +2002,7 @@ eo:
   label_learn_more: "Learn more"
   label_less_or_equal: "<="
   label_less_than_ago: "less than days ago"
+  label_link_url: "Link (URL)"
   label_list: "Listo"
   label_loading: "Loading..."
   label_lock_user: "Lock user"
@@ -2143,7 +2145,7 @@ eo:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} projektoj uzas %{storage} da diskospaco"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Vidi ĉiujn projektojn"
   label_project_show_details: "Montri projektajn detalojn"
   label_project_hide_details: "Kaŝi projektajn detalojn"
@@ -2417,7 +2419,7 @@ eo:
     storages:
       health:
         plaintext:
-          storage: "Storage"
+          storage: "Konservejo"
           healthy:
             summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
             error-solved-on: "Solved On"
@@ -3068,7 +3070,7 @@ eo:
     plain: "Plain text"
   status_active: "aktiva"
   status_archived: "archived"
-  status_blocked: "blocked"
+  status_blocked: "barita"
   status_invited: invited
   status_locked: locked
   status_registered: registered
@@ -3223,7 +3225,7 @@ eo:
     configure_view:
       heading: Configure view
       columns:
-        input_label: "Add columns"
+        input_label: "Aldoni kolumnojn"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
   top_menu:

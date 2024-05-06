@@ -31,20 +31,20 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CreateFolderCommand, :vcr, :webmock do
+RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CreateFolderCommand, :webmock do
   let(:storage) { create(:sharepoint_dev_drive_storage) }
   let(:auth_strategy) do
     Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials.strategy
   end
 
-  it_behaves_like "basic command setup"
+  it_behaves_like "create_folder_command: basic command setup"
 
   context "when creating a folder in the root", vcr: "one_drive/create_folder_root" do
     let(:folder_name) { "Földer CreatedBy Çommand" }
     let(:parent_location) { Storages::Peripherals::ParentFolder.new("/") }
     let(:path) { "/#{folder_name}" }
 
-    it_behaves_like "successful folder creation"
+    it_behaves_like "create_folder_command: successful folder creation"
   end
 
   context "when creating a folder in a parent folder", vcr: "one_drive/create_folder_parent" do
@@ -52,7 +52,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CreateFolder
     let(:parent_location) { Storages::Peripherals::ParentFolder.new("01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU") }
     let(:path) { "/Folder with spaces/#{folder_name}" }
 
-    it_behaves_like "successful folder creation"
+    it_behaves_like "create_folder_command: successful folder creation"
   end
 
   context "when creating a folder in a non-existing parent folder", vcr: "one_drive/create_folder_parent_not_found" do
@@ -60,7 +60,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CreateFolder
     let(:parent_location) { Storages::Peripherals::ParentFolder.new("01AZJL5PKU2WV3U3RKKFF4A7ZCWVBXRTEU") }
     let(:error_source) { described_class }
 
-    it_behaves_like "parent not found"
+    it_behaves_like "create_folder_command: parent not found"
   end
 
   context "when folder already exists", vcr: "one_drive/create_folder_already_exists" do
@@ -68,7 +68,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CreateFolder
     let(:parent_location) { Storages::Peripherals::ParentFolder.new("/") }
     let(:error_source) { described_class }
 
-    it_behaves_like "folder already exists"
+    it_behaves_like "create_folder_command: folder already exists"
   end
 
   private

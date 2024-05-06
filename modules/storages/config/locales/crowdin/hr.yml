@@ -41,6 +41,7 @@ hr:
       too_many_elements_created_at_once: Too many elements created at once. Expected %{max} at most, got %{actual}.
   permission_create_files: 'External Storage: Create files'
   permission_delete_files: 'External Storage: Delete files'
+  permission_header_for_project_module_storages: Automatically managed project folders
   permission_manage_file_links: Manage file links
   permission_manage_storages_in_project: Manage file storages in project
   permission_read_files: 'External Storage: Read files'
@@ -108,7 +109,7 @@ hr:
       description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
       error_could_not_be_saved: Email notification settings could not be saved. Please try again.
       subscribe: Subscribe
-      title: Email notifications
+      title: Obavijesti e-mailom
       unsubscribe: Unsubscribe
     help_texts:
       project_folder: The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
@@ -200,7 +201,7 @@ hr:
       body: To get access to the project folder you need to login to %{storage}.
       cancel_button_label: I will do it later
       confirm_button_aria_label: Login to %{storage}
-      confirm_button_label: Login
+      confirm_button_label: Prijava
       requesting_access_to: Requesting access to %{storage}
       storage_ready: You are now ready to use %{storage}
       title: One more step...

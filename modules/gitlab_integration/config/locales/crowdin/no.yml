@@ -31,7 +31,7 @@
         gitlab_merge_request:
           attributes:
             labels:
-              invalid_schema: "must be an array of hashes with keys: color, title"
+              invalid_schema: "må være en liste av hashes med nøkler: farge, tittel"
   project_module_gitlab: "GitLab"
   permission_show_gitlab_content: "Vis GitHub innhold"
   gitlab_integration:

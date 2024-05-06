@@ -261,7 +261,7 @@ lt:
     lists:
       active: "Aktyvūs projektai"
       my: "Mano projektai"
-      favored: "Mėgiami projektai"
+      favored: "Mėgstami projektai"
       archived: "Archyvuoti projektai"
       my_private: "Mano privatūs projektų sąrašai"
       new:
@@ -794,6 +794,7 @@ lt:
         not_an_iso_date: "nėra tinkama data. Reikalingas formatas: YYYY-MM-DD."
         not_same_project: "nepriklauso tam pačiam projektui."
         odd: "turi būti nelyginis."
+        regex_match_failed: "neatitinka reguliariosios išraiškos %{expression}."
         regex_invalid: "negalėjo būti patvirtintas su susieta reguliaria išraiška."
         smaller_than_or_equal_to_max_length: "turi būti mažesnis arba lygus didžiausiam ilgiui."
         taken: "jau užimtas."
@@ -1291,7 +1292,7 @@ lt:
   button_edit: "Redaguoti"
   button_edit_associated_wikipage: "Redaguoti susijusį Wiki puslapį: %{page_title}"
   button_expand_all: "Išskleisti visus"
-  button_favorite: "Žymėti kaip mėgiamą"
+  button_favorite: "Pridėti prie mėgstamų"
   button_filter: "Filtras"
   button_generate: "Generuoti"
   button_list: "Sąrašas"
@@ -1991,7 +1992,7 @@ lt:
   label_expanded_click_to_collapse: "Išplėsta. Spauskite, kad sutrauktumėte"
   label_f_hour: "%{value} valanda"
   label_f_hour_plural: "%{value} valandų(-os)"
-  label_favoured: "Mėgstamas"
+  label_favorite: "Mėgstamas"
   label_feed_plural: "Naujienų srautai"
   label_feeds_access_key: "RSS prieigos raktas"
   label_feeds_access_key_created_on: "RSS prieigos raktas sukurtas prieš %{value}"
@@ -2064,6 +2065,7 @@ lt:
   label_learn_more: "Sužinoti daugiau"
   label_less_or_equal: "<="
   label_less_than_ago: "mažiau nei prieš dieną"
+  label_link_url: "Nuoroda (URL)"
   label_list: "Sąrašas"
   label_loading: "Įkeliama..."
   label_lock_user: "Užrakinti vartotoją"
@@ -2206,7 +2208,7 @@ lt:
   label_project_attributes_settings: "Projekto atributų nustatymai"
   label_project_storage_plural: "Failų saugyklos"
   label_project_storage_project_folder: "Failų saugyklos: projekto aplankai"
-  label_projects_storage_information: "%{count} projektai(-as, -ų) naudoja %{storage} disko vietos"
+  label_projects_disk_usage_information: "%{count} projektai, naudojantys %{used_disk_space} disko vietos"
   label_project_view_all: "Peržiūrėti visus projektus"
   label_project_show_details: "Rodyti detalią projekto informaciją"
   label_project_hide_details: "Slėpti detalią projekto informaciją"
@@ -3639,7 +3641,7 @@ lt:
   link: nuoroda
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Priedai"
-    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
+    description: "OmniAuth stretegijos tiekėjų OpenProject autentifikacijos integracija."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Vienas prisijungimas"
     description: "Prideda OmniAuth SAML tiekėja į OpenProject"

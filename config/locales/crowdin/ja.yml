@@ -261,8 +261,8 @@ ja:
       no_results_content_text: プロジェクトを新規作成
     lists:
       active: "Active projects"
-      my: "My projects"
-      favored: "Favored projects"
+      my: "参加しているプロジェクト"
+      favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -315,12 +315,12 @@ ja:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "全て"
       invited: "Invited"
-      locked: "Locked"
+      locked: "ロックされている"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "グループ"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -391,7 +391,7 @@ ja:
     memberships:
       no_results_title_text: このユーザは現在プロジェクトのメンバーではありません。
   page:
-    text: "Text"
+    text: "テキスト（本文）"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -586,7 +586,7 @@ ja:
         column_count: "列数"
         widgets: "ウィジェット"
       oauth_client:
-        client: "Client ID"
+        client: "クライアントID"
       relation:
         lag: "Lag"
         from: "ワーク パッケージ"
@@ -611,7 +611,7 @@ ja:
           false: "private"
         queries: "クエリ"
         status_code: "プロジェクトの進捗状況"
-        description: "Description"
+        description: "説明"
         status_explanation: "Project status description"
         status_codes:
           not_started: "未着手"
@@ -706,8 +706,8 @@ ja:
         priority: "優先度"
         progress: "% Complete"
         readonly: "読み取り専用"
-        remaining_hours: "Remaining work"
-        remaining_time: "Remaining work"
+        remaining_hours: "残りの作業"
+        remaining_time: "残りの作業"
         shared_with_users: "Shared with"
         schedule_manually: "手動スケジュール"
         spent_hours: "作業時間の記録"
@@ -772,6 +772,7 @@ ja:
         not_an_iso_date: "は有効な日付ではありません。必要な形式: YYYY-MM-dd。"
         not_same_project: "は同じプロジェクトに属していません。"
         odd: "は奇数にしてください。"
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "関連付けられた正規表現を検証できませんでした。"
         smaller_than_or_equal_to_max_length: "は最大長さより以下でなければなりません。"
         taken: "は既に使用されています。"
@@ -1024,7 +1025,7 @@ ja:
             ldap_auth_source:
               error_not_found: "存在しません"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "存在しません"
         member:
           principal_blank: "一つ以上のユーザまたはグループを選択してください。"
           role_blank: "を割り当てる必要があります。"
@@ -1211,7 +1212,7 @@ ja:
       token_cooldown: バックアップトークンは %{hours} 時間で有効になります。
       backup_pending: 既に保留中のバックアップがあります。
       limit_reached: バックアップは 1日あたり %{limit} 回までしかできません。
-  button_actions: "Actions"
+  button_actions: "操作"
   button_add: "追加"
   button_add_comment: "コメントを追加"
   button_add_member: メンバーを追加
@@ -1245,7 +1246,7 @@ ja:
   button_edit: "編集"
   button_edit_associated_wikipage: "関係するWiki ページを編集: %{page_title}"
   button_expand_all: "全てを展開"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "フィルタ"
   button_generate: "生成"
   button_list: "リスト"
@@ -1263,7 +1264,7 @@ ja:
   button_reset: "リセット"
   button_rollback: "このバージョンにロールバック"
   button_save: "保存"
-  button_save_as: "Save as"
+  button_save_as: "名前をつけて保存"
   button_apply_changes: "Apply changes"
   button_save_back: "保存して戻る"
   button_show: "表示"
@@ -1519,7 +1520,7 @@ ja:
     message: メッセージが編集されました。
     news: ニュース
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "プロジェクトが編集されました。"
     projects: "プロジェクトが編集されました。"
     reply: 返信済み
     time_entry: "時系列ログが編集されました。"
@@ -1582,7 +1583,7 @@ ja:
       postgres_migration: "PostgreSQL にインストールを移行しています"
       user_guides: "ユーザーガイド"
       faq: "FAQ"
-      impressum: "Legal notice"
+      impressum: "法的情報"
       glossary: "用語集"
       shortcuts: "ショートカット"
       blog: "OpenProject ブログ"
@@ -1739,7 +1740,7 @@ ja:
   label_ascending: "昇順"
   label_assigned_to_me_work_packages: "担当しているワークパッケージ"
   label_associated_revisions: "関連するリビジョン"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "添付ファイル"
   label_attribute: "属性"
   label_attribute_plural: "属性"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1754,9 +1755,9 @@ ja:
   label_available_project_work_package_categories: "有効なワークパッケージのカテゴリ"
   label_available_project_work_package_types: "利用可能なワークパッケージのタイプ"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "APIドキュメント"
   label_backup: "バックアップ"
-  label_backup_code: "Backup code"
+  label_backup_code: "バックアップコード"
   label_between: "次の範囲内"
   label_blocked_by: "ブロックされている"
   label_blocks: "ブロックしている"
@@ -1766,7 +1767,7 @@ ja:
   label_forum_plural: "フォーラム"
   label_forum_sticky: "固定する"
   label_boolean: "ブール型"
-  label_board_plural: "Boards"
+  label_board_plural: "ボード"
   label_branch: "分岐"
   label_browse: "閲覧"
   label_bulk_edit_selected_work_packages: "選択したワークパッケージを一括編集"
@@ -1825,7 +1826,7 @@ ja:
   label_custom_field_plural: "カスタムフィールド"
   label_custom_field_default_type: "空の種類"
   label_custom_style: "デザイン"
-  label_dashboard: "Dashboard"
+  label_dashboard: "ダッシュボード"
   label_database_version: "PostgreSQL バージョン"
   label_date: "日付"
   label_date_and_time: "日付と時刻"
@@ -1887,18 +1888,18 @@ ja:
   label_ifc_model_plural: "Ifc Models"
   label_import: "インポート"
   label_export_to: "こちらもアクセス可能："
-  label_expand: "Expand"
+  label_expand: "展開"
   label_expanded_click_to_collapse: "拡大しました。クリックすると閉じます"
   label_f_hour: "%{value} 時間"
   label_f_hour_plural: "%{value} 時間"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "フィード"
   label_feeds_access_key: "RSSアクセスキー"
   label_feeds_access_key_created_on: "RSSアクセスキーが%{value}前に作成されました"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "ファイルを添付する"
   label_filter_add: "フィルタを追加"
-  label_filter: "Filters"
+  label_filter: "フィルタ"
   label_filter_plural: "フィルタ"
   label_filters_toggle: "フィルターの表示/非表示"
   label_float: "小数"
@@ -1907,7 +1908,7 @@ ja:
   label_force_user_language_to_default: "ユーザーの言語設定が利用許可されていない場合、デフォルト言語を利用する"
   label_form_configuration: "フォーム設定"
   label_gantt_chart: "ガントチャート"
-  label_gantt_chart_plural: "Gantt charts"
+  label_gantt_chart_plural: "ガントチャート"
   label_general: "概要"
   label_generate_key: "キーを生成する"
   label_git_path: ".gitディレクトリへのパス"
@@ -1925,7 +1926,7 @@ ja:
   label_home: "ホーム"
   label_subject_or_id: "タイトルまたはID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "識別子"
   label_in: "今日から○日後"
   label_in_less_than: "今日から○日後以前"
   label_in_more_than: "今日から○日後以降"
@@ -1941,7 +1942,7 @@ ja:
   label_internal: "社内"
   label_introduction_video: "紹介ビデオ"
   label_invite_user: "ユーザを招待"
-  label_share: "Share"
+  label_share: "共有"
   label_show_hide: "表示/非表示"
   label_show_all_registered_users: "すべての登録ユーザーを表示"
   label_journal: "履歴記述"
@@ -1961,9 +1962,10 @@ ja:
   label_latest_revision: "最新のリビジョン"
   label_latest_revision_plural: "最新のリビジョン"
   label_ldap_authentication: "LDAP認証"
-  label_learn_more: "Learn more"
+  label_learn_more: "もっと詳しく"
   label_less_or_equal: "以下"
   label_less_than_ago: "今日より○日前以降"
+  label_link_url: "Link (URL)"
   label_list: "リスト"
   label_loading: "読み込み中..."
   label_lock_user: "ユーザーをロック"
@@ -2106,7 +2108,7 @@ ja:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} プロジェクトが %{storage} ディスクストレージを使用して います"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "全プロジェクトを表示"
   label_project_show_details: "プロジェクトの詳細を表示"
   label_project_hide_details: "プロジェクトの詳細を非表示"
@@ -2126,7 +2128,7 @@ ja:
   label_relation_delete: "関係の削除"
   label_relation_new: "新しい関係"
   label_release_notes: "リリースノート"
-  label_remaining_work: "Remaining work"
+  label_remaining_work: "残りの作業"
   label_remove_columns: "選択した列を削除"
   label_renamed: "名称変更"
   label_reply_plural: "返信"
@@ -2159,7 +2161,7 @@ ja:
   label_search: "検索"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "テスト電子メールを送信"
-  label_session: "Session"
+  label_session: "セッション"
   label_setting_plural: "設定"
   label_system_settings: "システム設定"
   label_show_completed_versions: "終了したバージョンを表示"
@@ -3184,7 +3186,7 @@ ja:
     configure_view:
       heading: Configure view
       columns:
-        input_label: "Add columns"
+        input_label: "列を追加"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
   top_menu:
@@ -3299,7 +3301,7 @@ ja:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "共有しない"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >

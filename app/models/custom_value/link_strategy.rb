@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,20 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals::StorageInteraction::Nextcloud
-  class FolderFilesFileIdsDeepQuery
-    def self.call(storage:, folder:)
-      ::Storages::Peripherals::Registry
-        .resolve("nextcloud.queries.propfind")
-        .call(
-          storage:,
-          depth: "infinity",
-          path: folder.path,
-          # nc:acl-list is only required to avoid https://community.openproject.org/wp/49628. See comment #4.
-          props: %w[oc:fileid nc:acl-list]
-        ).map do |obj|
-        obj.transform_values { |value| Storages::StorageFileInfo.from_id(value["fileid"]) }
-      end
+class CustomValue::LinkStrategy < CustomValue::FormatStrategy
+  def typed_value
+    formatted_value
+  end
+
+  def parse_value(val)
+    parsed_url(val)&.to_s
+  end
+
+  def validate_type_of_value
+    unless parsed_url(value)&.absolute?
+      :invalid_url
     end
+  end
+
+  private
+
+  def parsed_url(val)
+    Addressable::URI.heuristic_parse(val, scheme: "http")
   end
 end

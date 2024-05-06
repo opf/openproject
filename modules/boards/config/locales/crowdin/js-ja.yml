@@ -7,7 +7,7 @@ ja:
       label_unnamed_list: '無題のリスト'
       label_board_type: 'ボードの形式'
       upsale:
-        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+        teaser_text: 'ボードでワークフローを自動化しませんか？アドバンスボードはエンタープライズアドオンです。有料プランにアップグレードしてください。'
         upgrade: '今すぐアップグレード'
       lists:
         delete: 'リストを削除'

@@ -263,8 +263,8 @@ ro:
       no_results_content_text: Creare proiect nou
     lists:
       active: "Active projects"
-      my: "My projects"
-      favored: "Favored projects"
+      my: "Proiectele mele"
+      favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -286,7 +286,7 @@ ro:
         no_results_title_text: În acest moment nu există câmpuri personalizate disponibile.
       project_custom_fields:
         header:
-          title: "Project attributes"
+          title: "Atributele proiectului"
           description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
         filter:
           label: "Search project attribute"
@@ -317,12 +317,12 @@ ro:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "Toate"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Închis"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Grupuri"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -604,7 +604,7 @@ ro:
         column_count: "Număr de coloane"
         widgets: "Widget-uri"
       oauth_client:
-        client: "Client ID"
+        client: "ID Client"
       relation:
         lag: "Lag"
         from: "Pachet de lucru"
@@ -629,7 +629,7 @@ ro:
           false: "privat"
         queries: "Interogări"
         status_code: "Stare proiect"
-        description: "Description"
+        description: "Descriere"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Neîncepută"
@@ -790,6 +790,7 @@ ro:
         not_an_iso_date: "nu este o dată validă. Formatul necesar: AAAA-MM-ZZ."
         not_same_project: "nu aparține aceluiași proiect."
         odd: "trebuie să fie impar."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "nu a putut fi validată cu expresia regulată asociată."
         smaller_than_or_equal_to_max_length: "trebuie să fie mai mic sau egal cu lungimea maximă."
         taken: "a fost luat deja."
@@ -1044,7 +1045,7 @@ ro:
             ldap_auth_source:
               error_not_found: "%s nu a fost găsit"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "%s nu a fost găsit"
         member:
           principal_blank: "Trebuie să alegeţi cel puţin un utilizator sau grup."
           role_blank: "trebuie să fie atribuite."
@@ -1245,7 +1246,7 @@ ro:
       token_cooldown: Token-ul de backup va fi valabil în %{hours} ore.
       backup_pending: Deja există un backup în procesare.
       limit_reached: Puteţi face doar %{limit} copii de rezervă pe zi.
-  button_actions: "Actions"
+  button_actions: "Acțiuni"
   button_add: "Adăugare"
   button_add_comment: "Adăugare comentariu"
   button_add_member: Adăugare participant
@@ -1279,7 +1280,7 @@ ro:
   button_edit: "Editare"
   button_edit_associated_wikipage: "Editare pagină wiki asociată: %{page_title}"
   button_expand_all: "Extindere totală"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Filtrare"
   button_generate: "Generare"
   button_list: "Listă"
@@ -1297,7 +1298,7 @@ ro:
   button_reset: "Resetare"
   button_rollback: "Revenire la această versiune"
   button_save: "Salvare"
-  button_save_as: "Save as"
+  button_save_as: "Salvare ca"
   button_apply_changes: "Aplica modificariile"
   button_save_back: "Salvare și înapoi"
   button_show: "Afişare"
@@ -1589,7 +1590,7 @@ ro:
     message: Mesaj editat
     news: Noutăţi
     project_attributes: "Atributele proiectului editate"
-    project: "Project edited"
+    project: "Proiect editat"
     projects: "Proiect editat"
     reply: Răspuns
     time_entry: "Jurnal editat"
@@ -1652,7 +1653,7 @@ ro:
       postgres_migration: "Migrarea instalației dvs. către PostgreSQL"
       user_guides: "Ghiduri utilizator"
       faq: "Întrebări Frecvente"
-      impressum: "Legal notice"
+      impressum: "Notificare legala"
       glossary: "Glosar"
       shortcuts: "Scurtături"
       blog: "Blog-ul OpenProject"
@@ -1809,7 +1810,7 @@ ro:
   label_ascending: "Crescător"
   label_assigned_to_me_work_packages: "Pachete de lucru atribuite mie"
   label_associated_revisions: "Revizii asociate"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Atașamente"
   label_attribute: "Atribut"
   label_attribute_plural: "Atribute"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1824,9 +1825,9 @@ ro:
   label_available_project_work_package_categories: "Categorii de pachete de lucru disponibile"
   label_available_project_work_package_types: "Tipuri de pachete de lucru disponibile"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "Documentație API"
   label_backup: "Backup"
-  label_backup_code: "Backup code"
+  label_backup_code: "Cod de rezervă"
   label_between: "între"
   label_blocked_by: "blocat de"
   label_blocks: "blochează"
@@ -1836,7 +1837,7 @@ ro:
   label_forum_plural: "Forumuri"
   label_forum_sticky: "Lipicios"
   label_boolean: "Valoare logică"
-  label_board_plural: "Boards"
+  label_board_plural: "Panouri"
   label_branch: "Ramură"
   label_browse: "Răsfoire"
   label_bulk_edit_selected_work_packages: "Editare în masă a pachetelor de lucru selectate"
@@ -1895,7 +1896,7 @@ ro:
   label_custom_field_plural: "Câmpuri personalizate"
   label_custom_field_default_type: "Golire tip"
   label_custom_style: "Design"
-  label_dashboard: "Dashboard"
+  label_dashboard: "Panou de control"
   label_database_version: "Versiunea PostgreSQL"
   label_date: "Dată"
   label_date_and_time: "Data"
@@ -1957,18 +1958,18 @@ ro:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Importă"
   label_export_to: "Disponibil și în:"
-  label_expand: "Expand"
+  label_expand: "Extindere"
   label_expanded_click_to_collapse: "Extinse. Faceți clic pentru a restrânge"
   label_f_hour: "%{value} oră"
   label_f_hour_plural: "%{value} ore"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Fluxuri"
   label_feeds_access_key: "Cheie de acces RSS"
   label_feeds_access_key_created_on: "Cheia de acces RSS a fost creată acum %{value}"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Fişiere"
   label_filter_add: "Adăugare filtru"
-  label_filter: "Filters"
+  label_filter: "Filtre"
   label_filter_plural: "Filtre"
   label_filters_toggle: "Arată/ascunde filtre"
   label_float: "Număr real"
@@ -1995,7 +1996,7 @@ ro:
   label_home: "Pagina de start"
   label_subject_or_id: "Subiect sau ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Identificator"
   label_in: "în"
   label_in_less_than: "în mai puțin de"
   label_in_more_than: "în mai mult de"
@@ -2011,7 +2012,7 @@ ro:
   label_internal: "Intern"
   label_introduction_video: "Video de introducere"
   label_invite_user: "Invitare utilizator"
-  label_share: "Share"
+  label_share: "Distribuiți"
   label_show_hide: "Afișare/ascundere"
   label_show_all_registered_users: "Afișați toți utilizatorii înregistrați"
   label_journal: "Jurnal"
@@ -2031,9 +2032,10 @@ ro:
   label_latest_revision: "Ultima revizie"
   label_latest_revision_plural: "Ultimele revizii"
   label_ldap_authentication: "Autentificare LDAP"
-  label_learn_more: "Learn more"
+  label_learn_more: "Aflați mai multe"
   label_less_or_equal: "<="
   label_less_than_ago: "acum mai puțin de zile"
+  label_link_url: "Link (URL)"
   label_list: "Listă"
   label_loading: "Se încarcă..."
   label_lock_user: "Blocați utilizatorul"
@@ -2170,13 +2172,13 @@ ro:
   label_project_new: "Proiect nou"
   label_project_plural: "Proiecte"
   label_project_list_plural: "Project lists"
-  label_project_attributes_plural: "Project attributes"
-  label_project_custom_field_plural: "Project attributes"
+  label_project_attributes_plural: "Atributele proiectului"
+  label_project_custom_field_plural: "Atributele proiectului"
   label_project_settings: "Setările proiectului"
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} proiecte folosind %{storage} spațiu pe disc"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Vizualizare toate proiectele"
   label_project_show_details: "Arată detaliile proietului"
   label_project_hide_details: "Ascunde detaliile proiectului"
@@ -2229,7 +2231,7 @@ ro:
   label_search: "Căutare"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Trimite e-mail de test"
-  label_session: "Session"
+  label_session: "Sesiune"
   label_setting_plural: "Setări"
   label_system_settings: "Setări de sistem"
   label_show_completed_versions: "Afișare versiuni complete"
@@ -2451,7 +2453,7 @@ ro:
     storages:
       health:
         plaintext:
-          storage: "Storage"
+          storage: "Depozitare"
           healthy:
             summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
             error-solved-on: "Solved On"
@@ -3072,7 +3074,7 @@ ro:
     other: "Altele"
     passwords: "Parole"
     project_attributes:
-      heading: "Project attributes"
+      heading: "Atributele proiectului"
       label_new_attribute: "Project attribute"
       label_new_section: "Section"
       label_edit_section: "Edit title"
@@ -3255,9 +3257,9 @@ ro:
   queries:
     apply_filter: Aplicare filtru preconfigurat
     configure_view:
-      heading: Configure view
+      heading: Configurați vizualizarea
       columns:
-        input_label: "Add columns"
+        input_label: "Adaugați coloane"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
   top_menu:
@@ -3375,7 +3377,7 @@ ro:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Nu este publică"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
