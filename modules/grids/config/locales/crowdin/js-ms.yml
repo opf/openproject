@@ -5,8 +5,8 @@ ms:
       remove: 'Buang widget'
       configure: 'Konfigurasi widget'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
-        link: 'Enterprise edition.'
+        text: "Beberapa widget seperti widget graf pakej kerja, hanya tersedia dalam edisi Enterprise."
+        link: 'Edisi enterprise'
       widgets:
         missing_permission: "Anda tidak mempunyai kebenaran yang diperlukan untuk melihat widget ini."
         custom_text:

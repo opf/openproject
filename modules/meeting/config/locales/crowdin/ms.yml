@@ -39,8 +39,8 @@ ms:
         participants_invited: "Jemputan"
         project: "Projek"
         start_date: "Tarikh"
-        start_time: "Start time"
-        start_time_hour: "Start time"
+        start_time: "Masa mula"
+        start_time_hour: "Masa mula"
       meeting_agenda_item:
         title: "Tajuk"
         author: "Pengarang"
@@ -76,7 +76,7 @@ ms:
   label_meeting_minutes: "Minit"
   label_meeting_close: "Tutup"
   label_meeting_open: "Buka"
-  label_meeting_agenda_close: "Tutup agenda untuk mulakan minit"
+  label_meeting_agenda_close: "Tutup agenda untuk mulakan Minit mesyuarat"
   label_meeting_date_time: "Tarikh/Masa"
   label_meeting_diff: "Beza"
   label_upcoming_meetings: "Mesyuarat akan datang"
@@ -96,9 +96,9 @@ ms:
   label_start_date: "Tarikh mula"
   meeting:
     attachments:
-      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
+      text: "Lampirkan fail yang tersedia kepada semua peserta mesyuarat. Anda juga boleh menarik dan melepaskannya kedalam nota item agenda."
     copy:
-      title: "Copy meeting: %{title}"
+      title: "Salin mesyuarat: %{title}"
       attachments: "Salin lampiran"
       attachments_text: "Salin semua fail yang dilampirkan ke dalam mesyuarat baru"
       agenda: "Salin agenda"
@@ -113,7 +113,7 @@ ms:
         body: "Mesyuarat %{title} telah dijadual semula oleh %{actor}"
         old_date_time: "Tarikh/masa lama"
         new_date_time: "Tarikh/masa baru"
-    label_mail_all_participants: "Hantar emel ke semua peserta"
+    label_mail_all_participants: "Hantar e-mel ke semua peserta"
     types:
       classic: "Klasik"
       classic_text: "Aturkan mesyuarat anda dalam agenda teks yang boleh diformat dan diprotokol."
@@ -149,12 +149,12 @@ ms:
   text_meeting_empty_description_1: "Mula dengan menambah item agenda dibawah. Setiap item boleh jadi seringkas tajuk, tapi anda juga boleh tambah butiran tambahan seperti jangka masa dan nota."
   text_meeting_empty_description_2: 'Anda juga boleh menambah rujukan ke pakej kerja yang sedia ada. Apabila anda lakukan, nota berkaitan akan boleh dilihat dalam tab "Mesyuarat" pakej kerja secara automatik.'
   label_meeting_empty_action: "Tambah item agenda"
-  label_meeting_actions: "Tindakan mesyuarat"
+  label_meeting_actions: "Tindakan terhadap mesyuarat"
   label_meeting_edit_title: "Sunting tajuk mesyuarat"
   label_meeting_delete: "Hapuskan mesyuarat"
   label_meeting_created_by: "Dicipta oleh"
   label_meeting_last_updated: "Kemas kini terakhir"
-  label_agenda_items: "Agenda items"
+  label_agenda_items: "Item agenda"
   label_agenda_items_reordered: "disusun semula"
   label_agenda_item_remove: "Keluarkan dari agenda"
   label_agenda_item_undisclosed_wp: "Pakej kerja #%{id} tidak kelihatan"
@@ -166,13 +166,13 @@ ms:
   label_agenda_item_move_down: "Alihkan ke bawah"
   label_agenda_item_add_notes: "Tambah nota"
   label_agenda_item_work_package: "Agenda item work package"
-  text_agenda_item_title: 'Agenda item "%{title}"'
+  text_agenda_item_title: 'Item agenda "%{title}"'
   text_agenda_work_package_deleted: 'Item agenda untuk pakej kerja yang telah dipadam.'
   text_deleted_agenda_item: 'Item agenda yang telah dipadam.'
   label_initial_meeting_details: "Mesyuarat"
   label_meeting_details: "Butiran mesyuarat"
   label_meeting_details_edit: "Edit butiran mesyuarat"
-  label_meeting_state: "Meeting status"
+  label_meeting_state: "Status mesyuarat"
   label_meeting_state_open: "Buka"
   label_meeting_state_open_html: "<i>Buka</i>"
   label_meeting_state_closed: "Ditutup"
