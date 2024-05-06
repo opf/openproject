@@ -31,7 +31,6 @@ require "spec_helper"
 require_relative "../../support/pages/my/page"
 
 RSpec.describe "My spent time widget with a negative time zone", :js,
-               driver: :chrome_headless_new,
                with_settings: { start_of_week: 1 } do
   let(:beginning_of_week) { monday }
   let(:end_of_week) { sunday }
@@ -39,7 +38,7 @@ RSpec.describe "My spent time widget with a negative time zone", :js,
   let(:tuesday) { beginning_of_week + 1.day }
   let(:thursday) { beginning_of_week + 3.days }
   let(:sunday) { beginning_of_week + 6.days }
-  let(:time_zone) { "America/Phoenix" }
+  let(:time_zone) { "America/New_York" }
 
   let!(:type) { create(:type) }
   let!(:project) { create(:project, types: [type]) }
@@ -68,19 +67,13 @@ RSpec.describe "My spent time widget with a negative time zone", :js,
   let!(:week_days) { week_with_saturday_and_sunday_as_weekend }
   let!(:non_working_day) { create(:non_working_day, date: tuesday) }
 
-  # Configure the time zone of the browser
-  # @param [String] time_zone The time zone to set, for instance 'Europe/Paris'
-  def set_browser_time_zone(time_zone)
-    page.driver.browser.execute_cdp("Emulation.setTimezoneOverride", timezoneId: time_zone)
-  end
-
   before do
     login_as user
-    set_browser_time_zone(time_zone)
     my_page.visit!
   end
 
-  it "correctly displays non-working days and prefills day when logging time [fix #49779]" do
+  it "correctly displays non-working days and prefills day when logging time [fix #49779]",
+     driver: :chrome_new_york_time_zone do
     my_page.add_widget(1, 1, :within, "My spent time")
 
     my_page.expect_and_dismiss_toaster message: I18n.t(:notice_successful_update)
