@@ -8,7 +8,8 @@
         autocomplete_options: {
           openDirectly: false,
           focusDirectly: false,
-          dropdownPosition: 'bottom'
+          dropdownPosition: 'bottom',
+          disabledProjects: Project.visible.take(10).pluck(:id).to_h { |id| [id, "Disabled reason!"] }
         }
       )
     end

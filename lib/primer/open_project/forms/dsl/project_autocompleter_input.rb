@@ -6,11 +6,17 @@ module Primer
       module Dsl
         class ProjectAutocompleterInput < AutocompleterInput
           def derive_autocompleter_options(options)
-            options.reverse_merge(
+            options.reverse_merge!(
               component: "opce-project-autocompleter",
               defaultData: false,
               filters: [{ name: 'active', operator: '=', values: ['t'] }],
             )
+
+            if options[:disabledProjects]
+              options[:disabledProjects].stringify_keys!
+            end
+
+            options
           end
         end
       end
