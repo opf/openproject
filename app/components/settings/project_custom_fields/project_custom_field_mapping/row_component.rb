@@ -30,6 +30,22 @@ module Settings
   module ProjectCustomFields
     module ProjectCustomFieldMapping
       class RowComponent < Projects::RowComponent
+        private
+
+        def more_menu_items
+          @more_menu_items ||= [more_menu_detach_project].compact
+        end
+
+        def more_menu_detach_project
+          if User.current.admin
+            {
+              scheme: :danger,
+              icon: :trash,
+              label: I18n.t(:button_delete),
+              href: confirm_destroy_project_path(project)
+            }
+          end
+        end
       end
     end
   end
