@@ -89,6 +89,7 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
       ],
     },
   };
+
   public ganttFieldsArray = Object.values(this.ganttFields);
 
   public text = {
@@ -164,9 +165,7 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
   exportGantt(event:MouseEvent):void {
     event.preventDefault();
     if (this.ganttOption) {
-      this.requestExport(
-        this.addGanttOptionsToHref(this.ganttOption.url)
-      );
+      this.requestExport(this.addGanttOptionsToHref(this.ganttOption.url));
     }
   }
 
