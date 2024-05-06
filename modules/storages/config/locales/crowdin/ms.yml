@@ -2,14 +2,14 @@ ms:
   activerecord:
     attributes:
       storages/file_link:
-        origin_id: Origin Id
+        origin_id: ID Asal
       storages/storage:
         creator: Pencipta
         drive: ID Pemacu
         host: Hos
         name: Nama
         provider_type: Jenis provider
-        tenant: Directory (tenant) ID
+        tenant: ID Direktori (penyewa)
     errors:
       messages:
         not_linked_to_project: tidak terpaut dengan projek.
@@ -25,7 +25,7 @@ ms:
         storages/storage:
           attributes:
             host:
-              authorization_header_missing: is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is necessary for a Bearer token based authorization of API requests. Please double check your HTTP server configuration.
+              authorization_header_missing: belum disediakan sepenuhnya. Contoh Nextcloud tidak menerima pengepala "Dibenarkan" yang diperlukan untuk token Bearer, berdasarkan kebenaran permintaan API. Sila memeriksa server konfigurasi HTTP anda dengan teliti.
               cannot_be_connected_to: tidak boleh disambungkan.
               minimal_nextcloud_version_unmet: tidak memenuhi keperluan versi minimum (mesti Nextcloud 23 atau lebih tinggi)
               not_nextcloud_server: adalah bukan server Nextcloud
@@ -39,15 +39,15 @@ ms:
   api_v3:
     errors:
       too_many_elements_created_at_once: Terlalu banyak unsur dicipta dalam satu masa. Dijangka %{max} paling banyak, mendapat %{actual}.
-  permission_create_files: 'External Storage: Create files'
-  permission_delete_files: 'External Storage: Delete files'
+  permission_create_files: 'External Storage: Cipta fail'
+  permission_delete_files: 'External Storage: Padam fail'
   permission_header_for_project_module_storages: Folder projek yang dikendalikan secara automatik
   permission_manage_file_links: Urus pautan fail
   permission_manage_storages_in_project: Urus fail storan dalam projek
-  permission_read_files: 'External Storage: Read files'
-  permission_share_files: 'External Storage: Share files'
+  permission_read_files: 'External Storage: Baca fail'
+  permission_share_files: 'External Storage: Kongsi fail'
   permission_view_file_links: Papar pautan fail
-  permission_write_files: 'External Storage: Write files'
+  permission_write_files: 'External Storage: Tulis fail'
   project_module_storages: Storan fail
   storages:
     buttons:
@@ -85,7 +85,7 @@ ms:
         manual_management: Manually managed access and folders
         manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
         setup_incomplete: Select the type of management of user access and folder creation.
-        subtitle: Access management
+        subtitle: Akses pengurusan
         title: Access and project folders
       automatically_managed_folders: Folder yang dikendalikan secara automatik
       general_information: Maklumat umum
@@ -105,12 +105,12 @@ ms:
       subtitle: Folder projek yang dikendalikan secara automatik
       title: Status kesihatan
     health_email_notifications:
-      description_subscribed: All administrators receive health status email notifications for this storage.
-      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
-      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
+      description_subscribed: Semua pentadbir menerima pemberitahuan e-mel status kesihatan untuk storan ini.
+      description_unsubscribed: Pemberitahuan e-mel status kesihatan untuk storan ini telah ditutup untuk semua pentadbir.
+      error_could_not_be_saved: Tetapan pemberitahuan e-mel tidak dapat disimpan. Sila cuba lagi.
       subscribe: Langgan
       title: Pemberitahuan e-mel
-      unsubscribe: Unsubscribe
+      unsubscribe: Batalkan langganan
     help_texts:
       project_folder: Folder projek adalah folder default untuk muat naik fail bagi projek ini. Pengguna masih boleh muat naik fail ke lokasi lain.
     instructions:
@@ -119,28 +119,28 @@ ms:
       copy_from: Salin nilai ini dari
       empty_project_folder_validation: Memilih folder adalah wajib untuk meneruskan.
       existing_manual_folder: You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
-      host: Please add the host address of your storage including the https://. It should not be longer than 255 characters.
+      host: Sila tambah alamat hos storan anda, termasuklah https://. Ia perlulah mengandungi kurang daripada 255 patah perkataan.
       managed_project_folders_application_password_caption: 'Enable automatic managed folders by copying this value from: %{provider_type_link}.'
-      name: Give your storage a name so that users can differentiate between multiple storages.
-      new_storage: Read our documentation on <a target='_blank' href='%{provider_link}'>setting up a %{provider_name} file storage</a> integration for more information.
+      name: Berikan nama kepada storan anda, supaya pengguna boleh membezakan dengan beberapa storan yang lain.
+      new_storage: Baca dokumentasi di <a target='_blank' href='%{provider_link}'>menetapkan sebuah%{provider_name}storan fail</a>integrasi untuk maklumat selanjutnya.
       nextcloud:
-        application_link_text: application “Integration OpenProject”
-        integration: Nextcloud Administration / OpenProject
-        oauth_configuration: Copy these values from %{application_link_text}.
-        provider_configuration: Please make sure you have administration privileges in your Nextcloud instance and the %{application_link_text} is installed before doing the setup.
-      no_specific_folder: By default, each user will start at their own home folder when they upload a file.
+        application_link_text: aplikasi "Intergrasi OpenProject"
+        integration: Administrasi Nextcloud / OpenProject
+        oauth_configuration: Salin nilai-nilai ini daripada %{application_link_text}
+        provider_configuration: Sila pastikan anda mempunyai kelebihan pentadbiran di contoh Nextcloud anda, dan %{application_link_text} telah dimuat naik sebelum penyediaan.
+      no_specific_folder: Secara tetapan asal, setiap pengguna akan bermula di folder utama mereka apabila ingin memuat naik fail.
       no_storage_set_up: Tiada file storan yang disediakan lagi.
       not_logged_into_storage: Untuk pilih folder projek, sila log masuk dahulu
-      oauth_application_details: The client secret value will not be accessible again after you close this window. Please copy these values into the %{oauth_application_details_link}.
-      oauth_application_details_link_text: Nextcloud OpenProject Integration settings
+      oauth_application_details: Nilai rahsia klien tidak akan dapat untuk diakses semula setelah menutup laman ini. Sila salin nilai-nilai ini ke %{oauth_application_details_link}.
+      oauth_application_details_link_text: Setting Intergrasi Nextcloud OpenProject
       one_drive:
         application_link_text: Azure portal
-        copy_redirect_uri: Copy redirect URI
+        copy_redirect_uri: Salin pelencongan URI
         documentation_link_text: OneDrive/SharePoint file storages documentation
         drive_id: Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}.
         integration: OneDrive/SharePoint
         missing_client_id_for_redirect_uri: Please fill the OAuth values to generate a URI
-        oauth_client_redirect_uri: Please copy this value to a new Web redirect URI under Redirect URIs.
+        oauth_client_redirect_uri: Sila salin nilai ini ke URI pelencongan Web baru di bawah URI Redirect.
         oauth_client_secret: In case there is no application client secret under Client credentials, please create a new one.
         oauth_configuration: Copy these values from the desired application in the %{application_link_text}.
         provider_configuration: Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
