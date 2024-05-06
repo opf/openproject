@@ -21,7 +21,4 @@ if test -f ./docker/prod/setup/postinstall-$PLATFORM.sh ; then
 	./docker/prod/setup/postinstall-$PLATFORM.sh
 fi
 
-echo " ---> Precompiling assets. This will take a while..."
-./docker/prod/setup/postinstall-common.sh
-
 echo "      OK."

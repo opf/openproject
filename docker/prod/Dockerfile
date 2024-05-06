@@ -50,6 +50,7 @@ COPY bin ./bin
 COPY app ./app
 COPY config ./config
 COPY config/database.production.yml ./config/database.yml
+COPY docker/prod/setup ./docker/prod/setup
 COPY lib ./lib
 COPY lib_static ./lib_static
 COPY frontend ./frontend
@@ -58,8 +59,8 @@ COPY vendor ./vendor
 COPY lookbook ./lookbook
 
 RUN --mount=type=cache,target=/app/frontend/.angular/cache,uid=1000,gid=1000 \
-  SECRET_KEY_BASE=1 RAILS_ENV=production DATABASE_URL=nulldb://db \
-  bin/rails openproject:plugins:register_frontend assets:precompile
+    ./docker/prod/setup/precompile-assets.sh
+
 
 # -------------------------------------
 # base (private)
@@ -162,6 +163,8 @@ ENV DATABASE_URL=postgres://openproject:openproject@127.0.0.1/openproject
 ENV PGDATA=/var/openproject/pgdata
 ENV PGBIN="/usr/lib/postgresql/$PGVERSION/bin"
 
+COPY --chown=$APP_USER:$APP_USER --from=assets /app/public/assets /app/public/assets
+COPY --chown=$APP_USER:$APP_USER --from=assets /app/config/frontend_assets.manifest.json /app/config/frontend_assets.manifest.json
 COPY docker/prod/setup ./docker/prod/setup
 RUN ./docker/prod/setup/preinstall.sh
 
