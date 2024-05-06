@@ -36,6 +36,11 @@ jobs:
           elif [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
             TAG_REF=${{ inputs.tag }}
             CHECKOUT_REF=${{ inputs.tag }}
+          
+            if [ -z "$TAG_REF" ]; then
+              TAG_REF=dev
+              CHECKOUT_REF=refs/heads/dev
+            fi
           else
             echo "Unsupported event"
             exit 1
