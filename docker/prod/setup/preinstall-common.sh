@@ -19,51 +19,54 @@ get_architecture() {
 	return 0
 }
 
-set -e
-set -o pipefail
+set -exo pipefail
 ARCHITECTURE=$(get_architecture)
 
 apt-get update -qq
-apt-get install -y git subversion wget curl gnupg2 apt-transport-https unzip build-essential libpq-dev libclang-dev
+# make sure all dependencies are up to date
+apt-get upgrade -y
+
+apt-get install -yq --no-install-recommends \
+	file \
+	curl \
+	gnupg2 \
+
 
 # install node + npm
 curl -s https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${ARCHITECTURE}.tar.gz | tar xzf - -C /usr/local --strip-components=1
 
-wget --quiet -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-echo "deb http://apt.postgresql.org/pub/repos/apt bullseye-pgdg main" > /etc/apt/sources.list.d/pgdg.list
-
-if [ ! "$BIM_SUPPORT" = "false" ]; then
-	# https://learn.microsoft.com/en-gb/dotnet/core/install/linux-debian#debian-11
-	wget --quiet https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O /tmp/packages-microsoft-prod.deb && \
-		dpkg -i /tmp/packages-microsoft-prod.deb && rm /tmp/packages-microsoft-prod.deb
-fi
+curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+echo 'deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main' > /etc/apt/sources.list.d/pgdg.list
 
 apt-get update -qq
-apt-get install -y \
-	poppler-utils \
+apt-get install -yq --no-install-recommends \
+	postgresql-client-$CURRENT_PGVERSION \
+	postgresql-client-$NEXT_PGVERSION \
+	libpq5 \
+	libffi7 \
 	unrtf \
 	tesseract-ocr \
+	poppler-utils \
 	catdoc \
-	postgresql-9.6 \
-	postgresql-client-9.6 \
-	postgresql-13 \
-	postgresql-client-13 \
-	imagemagick \
-	memcached
-
-# remove any existing cluster
-service postgresql stop
-rm -rf /var/lib/postgresql/{9.6,13}
+	imagemagick
 
 # Specifics for BIM edition
 if [ ! "$BIM_SUPPORT" = "false" ]; then
+	apt-get install -y wget unzip
+
+	# https://learn.microsoft.com/en-gb/dotnet/core/install/linux-debian#debian-11
+	wget --quiet https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O /tmp/packages-microsoft-prod.deb
+	dpkg -i /tmp/packages-microsoft-prod.deb
+	rm /tmp/packages-microsoft-prod.deb
+
+	apt-get update -qq
 	apt-get install -y dotnet-runtime-6.0 # required for BIM edition
 
 	tmpdir=$(mktemp -d)
 	cd $tmpdir
 
 	# Install XKT converter
-	npm install @xeokit/xeokit-gltf-to-xkt@1.3.1 -g
+	npm install -g @xeokit/xeokit-gltf-to-xkt@1.3.1
 
 	# Install COLLADA2GLTF
 	wget --quiet https://github.com/KhronosGroup/COLLADA2GLTF/releases/download/v2.1.5/COLLADA2GLTF-v2.1.5-linux.zip
@@ -85,6 +88,9 @@ if [ ! "$BIM_SUPPORT" = "false" ]; then
 	rm -rf $tmpdir
 fi
 
-gem install bundler --version "$BUNDLER_VERSION" --no-document
-
 id $APP_USER || useradd -d /home/$APP_USER -m $APP_USER
+
+apt-get purge -y curl gnupg2 wget unzip
+rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+truncate -s 0 /var/log/*log
+
