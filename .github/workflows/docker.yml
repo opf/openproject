@@ -280,7 +280,7 @@ jobs:
         run: |
           docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}
   notify:
-    needs: [extract_version, build, merge]
+    needs: [setup, build, merge]
     if: ${{ always() && contains(needs.*.result, 'failure') }}
     uses: ./.github/workflows/email-notification.yml
     secrets: inherit
