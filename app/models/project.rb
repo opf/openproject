@@ -156,8 +156,8 @@ class Project < ApplicationRecord
   friendly_id :identifier, use: :finders
 
   scopes :allowed_to,
-         :visible,
-         :with_available_custom_fields
+         :available_custom_fields,
+         :visible
 
   scope :has_module, ->(mod) {
     where(["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s])

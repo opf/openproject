@@ -26,28 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module Projects::Scopes
-  module WithAvailableCustomFields
-    extend ActiveSupport::Concern
+require "spec_helper"
 
-    class_methods do
-      def with_available_custom_fields(custom_field_ids)
-        subquery = project_custom_fields_project_mapping_subquery(custom_field_ids:)
-        where(id: subquery)
-      end
+RSpec.describe Projects::Scopes::AvailableCustomFields do
+  shared_let(:project) { create(:project) }
+  shared_let(:project_custom_field) { create(:project_custom_field) }
 
-      def without_available_custom_fields(custom_field_ids)
-        subquery = project_custom_fields_project_mapping_subquery(custom_field_ids:)
-        where.not(id: subquery)
-      end
+  shared_let(:project_custom_field_mapping) do
+    create(:project_custom_field_project_mapping, project:, project_custom_field:)
+  end
 
-      private
+  describe ".with_available_custom_fields" do
+    it "returns projects with the given custom fields" do
+      expect(Project.with_available_custom_fields([project_custom_field.id])).to contain_exactly(project)
+    end
+  end
 
-      def project_custom_fields_project_mapping_subquery(custom_field_ids:)
-        ProjectCustomFieldProjectMapping.select(:project_id)
-                          .where(custom_field_id: custom_field_ids)
-                          .distinct
-      end
+  describe ".without_available_custom_fields" do
+    it "returns projects without the given custom fields" do
+      expect(Project.without_available_custom_fields([project_custom_field.id])).to be_empty
     end
   end
 end
