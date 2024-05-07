@@ -39,6 +39,5 @@ wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$G
 chmod +x /usr/local/bin/gosu
 gosu nobody true
 
-apt-get purge -y wget
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 truncate -s 0 /var/log/*log

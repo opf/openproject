@@ -90,7 +90,6 @@ fi
 
 id $APP_USER || useradd -d /home/$APP_USER -m $APP_USER
 
-apt-get purge -y curl gnupg2 wget unzip
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 truncate -s 0 /var/log/*log
 
