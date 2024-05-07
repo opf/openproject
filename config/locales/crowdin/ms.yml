@@ -1875,7 +1875,7 @@ ms:
   label_enterprise_active_users: "%{current}/%{limit} pengguna aktif yang ditempah"
   label_enterprise_edition: "Enterprise edition"
   label_enterprise_support: "Enterprise support"
-  label_enterprise_addon: "Enterprise add-on"
+  label_enterprise_addon: "Penambahan Enterprise"
   label_environment: "Persekitaran"
   label_estimates_and_time: "Estimates and progress"
   label_equals: "ialah"
@@ -2414,7 +2414,7 @@ ms:
   mail_body_backup_token_warning: Jika ini bukan anda, log masuk ke OpenProject serta merta dan set semula.
   mail_body_incoming_email_error: E-mel yang anda hantar ke OpenProject tidak boleh proses.
   mail_body_incoming_email_error_in_reply_to: "Di %{received_at} %{from_email} menulis"
-  mail_body_incoming_email_error_logs: "Logs"
+  mail_body_incoming_email_error_logs: "Log"
   mail_body_lost_password: "Untuk menukar kata laluan, klik pada pautan berikut:"
   mail_password_change_not_possible:
     title: "Password change not possible"
@@ -2424,18 +2424,16 @@ ms:
   mail_body_register_header_title: "E-mel jemputan ahli projek"
   mail_body_register_user: "Kepada %{name},"
   mail_body_register_links_html: |
-    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
-    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
-    <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
+    Dengan rasa lapang, sila melayari saluran Youtube kami (%{youtube_link}), di mana kami akan menyediakan webinar (%{webinar_link}) dan video-video "Mari bermula" (%{get_started_link}) untuk membuat langkah pertama anda di OpenProject dengan mudah.
+    Jika anda mempunyai sebarang soalan, rujuklah dokumentasi kami (%{documentation_link}) atau hubungi pentadbir anda.
   mail_body_register_closing: "Pasukan OpenProject anda"
-  mail_body_register_ending: "Stay connected! Kind regards,"
+  mail_body_register_ending: "Kekal berhubung! Yang benar, "
   mail_body_reminder: "%{count} pakej kerja yang ditugaskan pada anda akan tamat dalam masa %{days} hari yang akan datang:"
   mail_body_group_reminder: '%{count} pakej kerja yang ditugaskan pada kumpulan "%{group}" akan tamat dalam masa %{days} hari yang akan datang:'
   mail_body_wiki_page_added: "Halaman wiki '%{id}' telah ditambah oleh %{author}."
   mail_body_wiki_page_updated: "Halaman wiki '%{id}' telah dikemas kini oleh %{author}."
   mail_subject_account_activation_request: "Permintaan pengaktifan akaun %{value}"
-  mail_subject_backup_ready: "Your backup is ready"
+  mail_subject_backup_ready: "Sokongan anda telah siap"
   mail_subject_backup_token_reset: "Set semula token sandaran"
   mail_subject_incoming_email_error: "E-mel yang anda hantar ke OpenProject tidak boleh proses"
   mail_subject_lost_password: "Kata laluan %{value} anda"
@@ -2486,7 +2484,7 @@ ms:
   notice_account_new_password_forced: "Kata laluan baru diperlukan."
   notice_account_password_expired: "Kata laluan anda tamat tempoh selepas %{days} hari. Sila tetapkan yang baharu"
   notice_account_password_updated: "Kata laluan telah berjaya dikemas kini."
-  notice_account_pending: "Your account was created and is now pending administrator approval."
+  notice_account_pending: "Akaun anda telah dicipta dan sedang menunggu kelulusan pentadbir."
   notice_account_register_done: "Akaun anda berjaya dicipta. Untuk mengaktifkan akaun anda, klik pada pautan yang telah dihantar melalui e-mel kepada anda."
   notice_account_unknown_email: "Pengguna tidak diketahui."
   notice_account_update_failed: "Seting akaun tidak dapat dsimpan. Sila lihat pada halaman akaun anda."
@@ -2569,7 +2567,7 @@ ms:
     select_language: "Sila pilih bahasa anda"
   permission_add_work_package_notes: "Tambah nota"
   permission_add_work_packages: "Tambah pakej kerja"
-  permission_add_messages: "Post messages"
+  permission_add_messages: "Hantar mesej"
   permission_add_project: "Create projects"
   permission_add_work_package_attachments: "Tambah lampiran"
   permission_add_work_package_attachments_explanation: "Benarkan penambahan lampiran tanpa kebenaran edit pakej kerja"
@@ -2620,7 +2618,7 @@ ms:
   permission_manage_members: "Urus ahli-ahli"
   permission_manage_news: "Urus berita"
   permission_manage_project_activities: "Urus aktiviti projek"
-  permission_manage_public_queries: "Manage public views"
+  permission_manage_public_queries: "Kendalikan paparan awam"
   permission_manage_repository: "Urus repositori"
   permission_manage_subtasks: "Urus hierarki pakej kerja"
   permission_manage_versions: "Urus versi"
@@ -2762,7 +2760,7 @@ ms:
       remote_save_failed: "Tidak dapat menyimpan repositori dengan parameter yang diambil dari remote tersebut."
     git:
       instructions:
-        managed_url: "This is the URL of the managed (local) Git repository."
+        managed_url: "Ini adalah URL repositori Git terurus (lokal)."
         path: >-
           Specify the path to your local Git repository ( e.g., %{example_path} ). You can also use remote repositories which are cloned to a local copy by using a value starting with http(s):// or file://.
         path_encoding: "Override Git path encoding (Default: UTF-8)"

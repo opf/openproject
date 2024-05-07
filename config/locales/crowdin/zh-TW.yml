@@ -1040,7 +1040,7 @@ zh-TW:
           undeletable_archived_projects: "該版本無法刪除，因為包含工作項目。"
           undeletable_work_packages_attached: "該版本無法刪除，因為包含工作項目。"
         status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
+          readonly_default_exlusive: "，是無法生效的(因其設定為「預設」狀態)"
       template:
         body: "請檢查下列欄位："
         header:

@@ -165,7 +165,7 @@ ms:
   label_agenda_item_move_up: "Alihkan ke atas"
   label_agenda_item_move_down: "Alihkan ke bawah"
   label_agenda_item_add_notes: "Tambah nota"
-  label_agenda_item_work_package: "Agenda item work package"
+  label_agenda_item_work_package: "Pakej kerja item agenda"
   text_agenda_item_title: 'Item agenda "%{title}"'
   text_agenda_work_package_deleted: 'Item agenda untuk pakej kerja yang telah dipadam.'
   text_deleted_agenda_item: 'Item agenda yang telah dipadam.'
