@@ -122,7 +122,10 @@ class MeetingSectionsController < ApplicationController
       .call(position: params[:position].to_i)
 
     if call.success?
-      update_all_via_turbo_stream # TODO: more specific UI update
+      update_list_via_turbo_stream
+      update_header_component_via_turbo_stream
+      # having a more specific update is not that easy as the reordering impacts
+      # the time slot calculations of potentially all agenda items
     else
       generic_call_failure_response(call)
     end
@@ -136,7 +139,10 @@ class MeetingSectionsController < ApplicationController
       .call(move_to: params[:move_to]&.to_sym)
 
     if call.success?
-      update_all_via_turbo_stream # TODO: more specific UI update
+      update_list_via_turbo_stream
+      update_header_component_via_turbo_stream
+      # having a more specific update is not that easy as the reordering impacts
+      # the time slot calculations of potentially all agenda items
     else
       generic_call_failure_response(call)
     end
