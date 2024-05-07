@@ -30,13 +30,6 @@ module MeetingSections
   class UpdateContract < BaseContract
     validate :user_allowed_to_edit
 
-    # attribute :lock_version do
-    #   if model.lock_version.nil? || model.lock_version_changed?
-    #     errors.add :base, :error_conflict
-    #   end
-    # end
-
-    ##
     # Meeting agenda items can currently be only edited
     # through the project permission :manage_agendas
     # When MeetingRole becomes available, agenda items will
