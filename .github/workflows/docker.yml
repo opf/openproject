@@ -80,16 +80,14 @@ jobs:
           cache-dependency-path: |
             package-lock.json
             frontend/package-lock.json
-      - run: npm install
       - name: Precompile assets
         run: |
-          DATABASE_URL=nulldb://db time bin/rails openproject:plugins:register_frontend assets:precompile
+          ./docker/prod/setup/precompile-assets.sh
           cp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json
       - uses: actions/upload-artifact@v3
         with:
           path: public/
           name: public-assets-${{ github.sha }}
-          overwrite: true
     outputs:
       version: ${{ steps.extract_version.outputs.version }}
       checkout_ref: ${{ steps.extract_version.outputs.checkout_ref }}
