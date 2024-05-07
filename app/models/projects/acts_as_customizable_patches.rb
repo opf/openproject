@@ -49,8 +49,8 @@ module Projects::ActsAsCustomizablePatches
     before_create :reject_section_scoped_validation_for_creation
     before_create :build_missing_project_custom_field_project_mappings
 
-    after_create :disable_custom_fields_with_empty_values
     after_save :reset_section_scoped_validation, :set_query_available_custom_fields_to_project_level
+    after_save :disable_custom_fields_with_empty_values, if: :previously_new_record?
 
     def build_missing_project_custom_field_project_mappings
       # activate custom fields for this project (via mapping table) if values have been provided for custom_fields but no mapping exists
@@ -98,6 +98,11 @@ module Projects::ActsAsCustomizablePatches
       # this hook is required as acts_as_customizable build custom values with their default value even if a blank value was provided in the project creation form
       # `build_missing_project_custom_field_project_mappings` will then activate the custom field although the user explicitly provided a blank value
       # in order to not patch `acts_as_customizable` further, we simply identify these custom values and deactivate the custom field
+
+      # This callback should be an after_save callback, because the custom_values association has autosave
+      # and it has after_create callbacks in the model (CustomValue#activate_custom_field_in_customized_project).
+      # The after_create callback in the children objects are ran after the after_create callbacks on the parent.
+      # In order to make sure we execute this callback after the children's callbacks, the after_save hook must be used.
       custom_field_ids = project.custom_values.select { |cv| cv.value.blank? && !cv.required? }.pluck(:custom_field_id)
 
       project_custom_field_project_mappings
