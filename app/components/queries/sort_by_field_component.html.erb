@@ -1,4 +1,4 @@
-<%= render(Primer::OpenProject::GridLayout.new(css_class: "op-configure-query-sort-form", tag: :div, data: { "sort-by-config-target" => "inputRow"})) do |grid| %>
+<%= render(Primer::OpenProject::GridLayout.new(css_class: "op-configure-query-sort-form", tag: :div, data: { "sort-by-config-target" => "inputRow", "index" => index })) do |grid| %>
   <% grid.with_area("field") do %>
     <%= select_tag 'sort_field', select_options, include_blank: true, form: "none", data: { action: "change->sort-by-config#fieldChanged"} %>
   <% end %>

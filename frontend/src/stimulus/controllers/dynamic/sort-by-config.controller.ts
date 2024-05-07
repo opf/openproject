@@ -35,49 +35,86 @@ export default class SortByConfigController extends Controller {
   static targets = [
     'sortByField',
     'inputRow',
+    'inputRowContainer',
   ];
 
   declare readonly sortByFieldTarget:HTMLInputElement;
   declare readonly inputRowTargets:HTMLElement[];
+  declare readonly inputRowContainerTarget:HTMLElement;
 
-  connect():void { }
+  connect():void {
+    this.inputRowTargets.forEach((row, index) => {
+      const selectedField = this.getSelectedField(row);
+      const selectedDirection = this.getSelectedDirection(row);
 
-buildSortJson():string {
-  const filters = this.inputRowTargets.map((row) => {
-    const field = this.getSelectedField(row);
-    if (field) { return [field, this.getSelectedDirection(row)]; }
-    return null;
-});
+      if (!selectedField) {
+        this.hideRow(row);
+      } else if (!selectedDirection) {
+        this.setDirection(row, 'asc');
+      }
 
-  return JSON.stringify(compact(filters));
-}
+      this.displayNewFieldSelectorIfNeeded();
+      this.disableOptions();
+    });
+  }
 
-fieldChanged(event:Event):void {
-  const target = event.target as HTMLElement;
-  const row = target.closest('.op-configure-query-sort-form') as HTMLElement;
+  buildSortJson():string {
+    const filters = this.inputRowTargets.map((row) => {
+      const field = this.getSelectedField(row);
+      if (field) { return [field, this.getSelectedDirection(row)]; }
+      return null;
+    });
 
-  const selectedField = this.getSelectedField(row);
-  const getSelectedDirection = this.getSelectedDirection(row);
+    return JSON.stringify(compact(filters));
+  }
 
-  if (!selectedField) {
+  fieldChanged(event:Event):void {
+    const target = event.target as HTMLElement;
+    const row = target.closest('.op-configure-query-sort-form') as HTMLElement;
+
+    const selectedField = this.getSelectedField(row);
+    const getSelectedDirection = this.getSelectedDirection(row);
+
+    if (!selectedField) {
     // we have deselected the field, so we need to unset the direction, remove the row and move it to the end of the list
-    // const lastRow = this.inputRowTargets[this.inputRowTargets.length - 1];
+      this.moveRowToBottom(row);
+      this.unsetDirection(row);
 
-    this.unsetDirection(row);
-
-    // Unless we are the first row, hide the rows
-    if (row !== this.inputRowTargets[0]) { this.hideRow(row); }
-  } else if (!getSelectedDirection) {
+      if (this.visibleFieldCount() > 1) {
+        this.hideRow(row);
+      }
+    } else if (!getSelectedDirection) {
       // if we have selected a field but no direction, we default to ascending
       this.setDirection(row, 'asc');
     }
 
-  // this.disableOptionInOtherSelects(row);
-  this.sortByFieldTarget.value = this.buildSortJson();
-}
+    this.displayNewFieldSelectorIfNeeded();
+
+    this.disableOptions();
+    this.sortByFieldTarget.value = this.buildSortJson();
+    console.log({ visible: this.visibleFieldCount(), order: this.inputRowTargets.map((iRow) => iRow.dataset.index) });
+  }
+
+  displayNewFieldSelectorIfNeeded():void {
+    // figure out if we need to display a new input field
+    const nextHiddenRow = this.firstHiddenRow();
+
+    // we have not reached the maximum number of visible fields, and there is no visible empty field, display a new one
+    if (nextHiddenRow && !this.anyRowVisibleWithoutSelectedField()) {
+      this.showRow(nextHiddenRow);
+    }
+  }
 
   visibleFieldCount():number {
     return this.inputRowTargets.filter((row) => row.style.display !== 'none').length;
+  }
+
+  firstHiddenRow():HTMLElement|null {
+    return this.inputRowTargets.find((row) => row.style.display === 'none') || null;
+  }
+
+  anyRowVisibleWithoutSelectedField():boolean {
+    return this.inputRowTargets.some((row) => row.style.display !== 'none' && !this.getSelectedField(row));
   }
 
   getSelectedField(row:HTMLElement):string|null {
@@ -122,16 +159,28 @@ fieldChanged(event:Event):void {
     row.style.display = 'none';
   }
 
-  disableOptionInOtherSelects(row:HTMLElement):void {
-    const selectedField = this.getSelectedField(row);
-
-    this.inputRowTargets.forEach((otherRow) => {
-      if (otherRow !== row) {
-        const otherSelect = otherRow.querySelector('select[name="sort_field"]') as HTMLSelectElement;
-        otherSelect.querySelectorAll('option').forEach((option) => {
-          option.disabled = option.value === selectedField;
-        });
+  getAllSelectedFields(...excludedRows:HTMLElement[]):string[] {
+    return compact(this.inputRowTargets.map((row) => {
+      if (!excludedRows.includes(row)) {
+        return this.getSelectedField(row);
       }
+      return null;
+    }));
+  }
+
+  moveRowToBottom(row:HTMLElement):void {
+    const surroundingDiv = row.parentElement as HTMLElement;
+    surroundingDiv.remove();
+    this.inputRowContainerTarget.append(surroundingDiv);
+  }
+
+  disableOptions():void {
+    this.inputRowTargets.forEach((row) => {
+      const selectedFieldsInOtherRows = this.getAllSelectedFields(row);
+      const otherSelect = row.querySelector('select[name="sort_field"]') as HTMLSelectElement;
+      otherSelect.querySelectorAll('option').forEach((option) => {
+        option.disabled = selectedFieldsInOtherRows.includes(option.value);
+      });
     });
   }
 }
