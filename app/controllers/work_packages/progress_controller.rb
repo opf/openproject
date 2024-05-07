@@ -133,17 +133,13 @@ class WorkPackages::ProgressController < ApplicationController
           .permit(allowed_params).tap do |wp_params|
       if wp_params["estimated_hours"].present?
         wp_params["estimated_hours"] =
-          convert_duration_to_hours(wp_params["estimated_hours"])
+          DurationConverter.parse(wp_params["estimated_hours"])
       end
       if wp_params["remaining_hours"].present?
         wp_params["remaining_hours"] =
-          convert_duration_to_hours(wp_params["remaining_hours"])
+          DurationConverter.parse(wp_params["remaining_hours"])
       end
     end
-  end
-
-  def convert_duration_to_hours(duration)
-    ChronicDuration.parse(duration, keep_zero: true) / 3600.to_f
   end
 
   def allowed_params
