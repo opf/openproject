@@ -40,7 +40,13 @@ module Storages
         def initialize(storage)
           @storage = storage
           @uri = storage.uri
-          @oauth_client = storage.oauth_client
+
+          raise(ArgumentError, "Storage must have configured OAuth client credentials") if storage.oauth_client.blank?
+
+          @oauth_client = storage.oauth_client.freeze
+
+          raise(ArgumentError, "Storage must have a configured tenant id") if storage.tenant_id.blank?
+
           @oauth_uri = URI("https://login.microsoftonline.com/#{@storage.tenant_id}/oauth2/v2.0").normalize
         end
 
@@ -67,8 +73,6 @@ module Storages
         end
 
         def basic_rack_oauth_client
-          return nil if @oauth_client.nil?
-
           Rack::OAuth2::Client.new(
             identifier: @oauth_client.client_id,
             redirect_uri: @oauth_client.redirect_uri,

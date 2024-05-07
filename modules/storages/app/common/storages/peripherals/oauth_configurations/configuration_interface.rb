@@ -39,7 +39,7 @@ module Storages
         def to_httpx_oauth_config = raise ::Storages::Errors::SubclassResponsibility
 
         def authorization_uri(state: nil)
-          basic_rack_oauth_client&.authorization_uri(scope:, state:)
+          basic_rack_oauth_client.authorization_uri(scope:, state:)
         end
       end
     end
