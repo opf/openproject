@@ -24,8 +24,6 @@ You can adjust those settings for other SMTP providers, such as Gmail,
 Mandrill, etc. Please refer to the documentation of the corresponding provider
 to see what values should be used.
 
-
-
 ## Configuration through the Admin UI
 
 OpenProject allows you to configure your SMTP settings through the administration UI. Using the default admin account created when you first installed OpenProject, go to Administration > Emails and notifications.
@@ -50,8 +48,6 @@ These are the options that are available. Please see the [Configuration guide](.
 | Automatically use STARTTLS | smtp_enable_starttls_auto | `OPENPROJECT_SMTP__ENABLE__STARTTLS__AUTO` | You can enable or disable STARTTLS here in case it doesn't work. Make sure you don't login to a SMTP server over a public network when using this. Recommended to leave this on if your server supports it. Possible values: true / false |
 | OpenSSL verify mode        | smtp_openssl_verify_mode  | `OPENPROJECT_SMTP__OPENSSL__VERIFY__MODE`  | Define how the SMTP server certificate is validated. Make sure you don't just disable verification here unless both, OpenProject and SMTP servers are on a private network. Possible values: `none`, `peer`, `client_once` or `fail_if_no_peer_cert`.<br>Note: This setting can only be set through ENV/settings |
 
-
-
 ## Package-based installation (DEB/RPM)
 
 If you installed OpenProject with the package-based installation, you can configure the above settings using the config:set helper. Please note that this will disable the settings in the administration UI.
@@ -66,8 +62,6 @@ openproject config:set OPENPROJECT_SMTP__ENABLE__STARTTLS__AUTO=true
 openproject config:set OPENPROJECT_SMTP__USER_NAME="apikey"
 openproject config:set OPENPROJECT_SMTP__PASSWORD="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"
 ```
-
-
 
 ## Docker installation
 

@@ -79,10 +79,10 @@ lv:
   load_query_question: "Report will have %{size} table cells and may take some time to render. Do you still want to try rendering it?"
   permission_save_cost_reports: "Save public cost reports"
   permission_save_private_cost_reports: "Save private cost reports"
-  project_module_reporting_module: "Cost reports"
+  project_module_reporting_module: "Izmaksu pārskati"
   text_costs_are_rounded_note: "Displayed values are rounded. All calculations are based on the non-rounded values."
   toggle_multiselect: "activate/deactivate multiselect"
-  units: "Units"
+  units: "Vienības"
   validation_failure_date: "is not a valid date"
   validation_failure_integer: "is not a valid integer"
   export:

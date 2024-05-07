@@ -10,7 +10,7 @@ keywords: attribute help texts, help texts for projects and work packages
 # Attribute help texts
 
 <div class="glossary">
-**Attribute help texts** provide additional information for attributes in work packages and projects. After setting them up they are displayed when users click on the question mark symbol next to custom fields in projects and work packages. 
+**Attribute help texts** provide additional information for attributes in work packages and projects. After setting them up they are displayed when users click on the question mark symbol next to custom fields in projects and work packages.
 This way you will reduce wrong entries for attributes. This is especially relevant for company specific custom fields.
 </div>
 
@@ -28,11 +28,9 @@ Navigate to -> *Administration* -> *Attribute help texts* to set up help texts f
 
 ![image-20201006165832885](image-20201006165832885.png)
 
-
-
 ## Add Attribute help texts
 
-To add an Attribute help texts for custom fields click on the green **+ Attribute help text** button. 
+To add an Attribute help texts for custom fields click on the green **+ Attribute help text** button.
 
 1. **Choose the attribute** you'd like to explain. Custom fields are also displayed here, which may require further explanation.
 2. Add a **description**. You can add in-line pictures, links or videos, too. This **help text description** which will be shown in work package or project forms for the users.
@@ -41,17 +39,13 @@ To add an Attribute help texts for custom fields click on the green **+ Attribut
 
 ![image-20201006171019961](image-20201006171019961.png)
 
-
-
 Be aware that the help text will be visible in all projects.
 
-Once you configured the help text for an attribute, project members can see the explanation. The will see a question mark item next to the attribute. 
+Once you configured the help text for an attribute, project members can see the explanation. The will see a question mark item next to the attribute.
 
 When the users click on it, they see the description for this attribute.
 
 ![attribute help text description](image-20200122102249268.png)
-
-
 
 ## Edit or delete Attribute help texts
 
@@ -68,8 +62,6 @@ The Attribute help texts for work packages will be displayed in the [details vie
 
 ![Sys-admin-attribute-help-texts-open](Sys-admin-attribute-help-texts-open.png)
 
-
-
 ## Projects
 
 The Attribute help texts for projects will be displayed in the Project details widget in the [Project overview](../../user-guide/project-overview/) (as in the first screenshot below) and in the [Project settings](../../user-guide/projects/project-settings/project-information/) (as in the second screenshot below).
@@ -78,12 +70,8 @@ They will help the users (e.g. the project managers) understand what kind of inf
 
 ![Attribute help texts project overview](image-20201007112035870.png)
 
-
-
 ![Attribute help texts project information](image-20201007112741049.png)
-
-
 
 ## WYSIWYG editor
 
-The Attribute help texts can also be displayed in the WYSIWYG text editor by using a certain syntax. Find out more [here](../../user-guide/wysiwyg/#embedding-of-work-package-attributes-and-project-attributes). 
+The Attribute help texts can also be displayed in the WYSIWYG text editor by using a certain syntax. Find out more [here](../../user-guide/wysiwyg/#embedding-of-work-package-attributes-and-project-attributes).

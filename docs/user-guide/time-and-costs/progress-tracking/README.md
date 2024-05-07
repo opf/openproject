@@ -8,7 +8,7 @@ keywords: Progress tracking, estimated time, remaining time, work, % complete, p
 
 # Progress tracking
 
-OpenProject lets you track and monitor the progress of your work packages. 
+OpenProject lets you track and monitor the progress of your work packages.
 
 > **Note:** Since OpenProject 14.0, the way progress is reported and calculated has changed significantly. Please read the documentation below to understand how OpenProject handles work and progress estimates.
 
@@ -16,11 +16,11 @@ OpenProject lets you track and monitor the progress of your work packages.
 
 [OpenProject 13.2](https://www.openproject.org/docs/release-notes/13-2-0/) introduced important changes in the names of three work package fields:
 
-| **Old term**   	 | **New term**   	      |
+| **Old term**     | **New term**          |
 |--------------------|------------------------|
-| Progress       	 | %&nbsp;Complete	      |
-| Estimated time 	 | Work           	      |
-| Remaining time 	 | Remaining work 	      |
+| Progress         | %&nbsp;Complete       |
+| Estimated time   | Work                  |
+| Remaining time   | Remaining work        |
 
 >**Note**: You will still find the new attributes if you search using their older names (in the list of filters, for example).
 
@@ -37,9 +37,9 @@ OpenProject offers two modes for reporting progress:
 
 %&nbsp;Complete is an automatically calculated value that is a function of Work and Remaining work, unless %&nbsp;Complete is configured to be [set by status](#status-based-progress-reporting).
 
->**%&nbsp;Complete** is work done (**Work** - **Remaining work**) divided by **Work**, expressed as a percentage. For example, if Work is set at 50h and Remaining work is 30h, this means that %&nbsp;Complete is _(50h-30h)/50h))_ = **40%**. Please note that these calculations are independent and unrelated to the value of **Spent time** (which is based on actual time logged). 
+>**%&nbsp;Complete** is work done (**Work** - **Remaining work**) divided by **Work**, expressed as a percentage. For example, if Work is set at 50h and Remaining work is 30h, this means that %&nbsp;Complete is _(50h-30h)/50h))_ = **40%**. Please note that these calculations are independent and unrelated to the value of **Spent time** (which is based on actual time logged).
 
-This means that for a work package to have a value for %&nbsp;Complete, both Work and Remaining work are required to be set. To make this link clear and transparent, clicking on any of the three values to modify them will display the following pop-over:
+This means that for a work package to have a value for %&nbsp;Complete, both Work and Remaining work are required to be set. To make this link clear and transparent, clicking on *Work* or *Remaining work* to modify them will display the following pop-over:
 
 ![Work estimates and progress pop-over with work-based progress reporting](progress-popover-work-based.png)
 
@@ -47,11 +47,11 @@ This allows you to edit Work or Remaining work and get a preview of the updated 
 
 >**Note:** If you enter a value for Remaining work that is higher than Work, you will see an error message telling you that this is not possible. You will have to enter a value lower than Work to be able to save the new value.
 >
->Additionally, the value for Remaining work cannot be removed if a value for Work exists. If you wish to unset Remaining work, you need to also unset Work. 
+>Additionally, the value for Remaining work cannot be removed if a value for Work exists. If you wish to unset Remaining work, you need to also unset Work.
 
 ### Status-based progress reporting
 
-Administrators can also switch to [status-based progress reporting mode](../../../system-admin-guide/manage-work-packages/work-package-settings/) for their instance. 
+Administrators can also switch to [status-based progress reporting mode](../../../system-admin-guide/manage-work-packages/work-package-settings/) for their instance.
 
 In this mode, each status is associated with a fixed %&nbsp;Complete value in the [admin settings for each one](../../../system-admin-guide/manage-work-packages/work-package-status/), which can be freely updated by changing the status of a work package. This allows teams to report progress simply by changing the status of their work packages over time.
 
@@ -69,14 +69,13 @@ This allows you to edit %&nbsp;Complete (by changing status) or Work and get a p
 
 >**Note:** In the upcoming version, statuses cannot have an empty %&nbsp;Complete value in status-based progress reporting mode.When upgrading, all statuses that do not have a value will take the default value of 0%.
 
-
 ## Hierarchy totals
 
 OpenProject will automatically show totals for Work, Remaining work and % Complete in a work package hierarchy (any parent with children). These appear in a work package table as a number with a Σ sign next to it, indicating that it is a total of the values of the parent _and_ children.
 
 ![Hierarchy totals for Work, Remaining work and % Complete](hierarchy-totals.png)
 
-> **Note**: The total %&nbsp;Complete value of a hierarchy is a weighted average tied to Work. For example, a feature with Work set to 50h that is 30% done will influence the total of %&nbsp;Complete of the parent more than a feature with Work set to 5h that is 70% done. 
+> **Note**: The total %&nbsp;Complete value of a hierarchy is a weighted average tied to Work. For example, a feature with Work set to 50h that is 30% done will influence the total of %&nbsp;Complete of the parent more than a feature with Work set to 5h that is 70% done.
 
 <!--
 ### Excluding certain work packages from totals
@@ -88,7 +87,7 @@ A small info icon will appear next to excluded values to remind you of this fact
 ![Warning that a work package type is excluded from hierarchy totals](progress-work-estimates-excludedFromParent.png)
 -->
 
-## Changing modes 
+## Changing modes
 
 When an administrator changes the progress calculation mode from Work-based to Status-based, the % Complete values might be in a transitional stage.
 
@@ -101,11 +100,8 @@ When switching from Work-based to Status-based mode, the previous value for %&nb
 
 ## Status- to work-based
 
-In Status-based mode, it is possible for work packages to have a %&nbsp;Complete value (defined by the status) without having values for Work or Remaining work. In other words, the Work and Remaining work can be empty. 
+In Status-based mode, it is possible for work packages to have a %&nbsp;Complete value (defined by the status) without having values for Work or Remaining work. In other words, the Work and Remaining work can be empty.
 
 When switching to Work-based mode, OpenProject will retain the value for %&nbsp;Complete that was set with status. It can then be modified by inputing Work and Remaining work, thereby overwriting the previous value with a new computed value:
 
 ![Work estimates and progress pop-over with only the previous % Complete value](progress-popover-percentage-complete-only.png)
-
-
-

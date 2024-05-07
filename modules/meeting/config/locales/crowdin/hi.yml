@@ -43,10 +43,10 @@ hi:
         start_time: "Start time"
         start_time_hour: "Start time"
       meeting_agenda_item:
-        title: "Title"
+        title: "शीर्षक"
         author: "Author"
         duration_in_minutes: "min"
-        description: "Notes"
+        description: "टिप्पणियाँ"
         presenter: "Presenter"
     errors:
       messages:

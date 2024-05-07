@@ -11,7 +11,7 @@ zh-TW:
     settings:
       website_key: '網站金鑰'
       response_limit: 'HCaptcha回應限制'
-      response_limit_text: 'The maximum number of characters to treat the HCaptcha response as valid.'
+      response_limit_text: '將 HCAPTCHA 回應視為有效的最大字元數。'
       website_key_text: '輸入您在 reCAPTCHA 管理控制台上為此網域建立的網站金鑰。'
       secret_key: '密鑰'
       secret_key_text: '輸入您在 reCAPTCHA 管理控制台上建立的金鑰。'

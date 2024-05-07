@@ -1,7 +1,7 @@
 ms:
   plugin_openproject_openid_connect:
     name: "OpenProject OpenID Connect"
-    description: "Adds OmniAuth OpenID Connect strategy providers to Openproject."
+    description: "Adds OmniAuth OpenID Connect strategy providers to OpenProject."
   logout_warning: >
     Anda telah log keluar. Apa-apa bentuk kandungan yang anda hantar mungkin hilang. Sila [log masuk].
   activemodel:
@@ -9,7 +9,7 @@ ms:
       openid_connect/provider:
         name: Nama
         display_name: Nama paparan
-        identifier: Identifier
+        identifier: Pengenal
         secret: "Sulit\n"
         scope: Skop
         limit_self_registration: Limit self registration

@@ -1,9 +1,9 @@
 #English strings go here
 ms:
   plugin_openproject_avatars:
-    name: "Avatars"
+    name: "Avatar"
     description: >-
-      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
+      Plugin ini membolehkan pengguna OpenProject untuk memuat naik gambar untuk dijadikan sebagai avatar, atau menggunakan imej berdaftar dari Gravatar.
   label_avatar: "Avatar"
   label_avatar_plural: "Avatar"
   label_current_avatar: "Avatar semasa"

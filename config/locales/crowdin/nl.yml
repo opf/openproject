@@ -260,9 +260,9 @@ nl:
       no_results_content_text: Maak een nieuw project
     lists:
       active: "Active projects"
-      my: "My projects"
-      favored: "Favored projects"
-      archived: "Archived projects"
+      my: "Mijn projecten"
+      favored: "Favorite projects"
+      archived: "Gearchiveerde projecten"
       my_private: "My private project lists"
       new:
         placeholder: "New project list"
@@ -314,12 +314,12 @@ nl:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "Alle"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Vergrendeld"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Groepen"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -396,7 +396,7 @@ nl:
     memberships:
       no_results_title_text: Deze gebruiker is momenteel geen lid van een project.
   page:
-    text: "Text"
+    text: "Tekst"
   placeholder_users:
     right_to_manage_members_missing: >
       U heeft geen toestemming om de placeholder gebruiker te verwijderen. U heeft niet het recht om deelnemers te beheren voor alle projecten waarvan de placeholder gebruiker lid is.
@@ -594,7 +594,7 @@ nl:
         column_count: "Aantal kolommen"
         widgets: "Widgets"
       oauth_client:
-        client: "Client ID"
+        client: "Client-ID"
       relation:
         lag: "Lag"
         from: "Werkpakket"
@@ -619,7 +619,7 @@ nl:
           false: "Privé"
         queries: "Query 's"
         status_code: "Projectstatus"
-        description: "Description"
+        description: "Omschrijving"
         status_explanation: "Beschrijving van projectstatus"
         status_codes:
           not_started: "Nog niet gestart"
@@ -780,6 +780,7 @@ nl:
         not_an_iso_date: "is geen geldige datum. Vereist formaat: JJJJ-MM-DD."
         not_same_project: "hoort niet bij hetzelfde project."
         odd: "moet oneven zijn."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "kon niet worden gevalideerd met de bijbehorende reguliere expressie."
         smaller_than_or_equal_to_max_length: "moet kleiner zijn dan of even groot zijn als de maximale lengte."
         taken: "is al in gebruik."
@@ -1033,7 +1034,7 @@ nl:
             ldap_auth_source:
               error_not_found: "niet gevonden"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "niet gevonden"
         member:
           principal_blank: "Kies ten minste één gebruiker of groep."
           role_blank: "moet worden toegewezen."
@@ -1123,12 +1124,12 @@ nl:
           added: "set to %{value}"
           added_html: "set to <i>%{value}</i>"
           removed: "removed"
-          updated: "changed from %{old_value} to %{value}"
+          updated: "veranderd van %{old_value} naar %{value}"
           updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
         position:
           updated: "reordered"
         work_package:
-          updated: "changed from %{old_value} to %{value}"
+          updated: "veranderd van %{old_value} naar %{value}"
           updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
       changeset: "Wijzigingensets"
@@ -1227,7 +1228,7 @@ nl:
       token_cooldown: Het back-up token zal binnen %{hours} uur geldig zijn.
       backup_pending: Er is al een back-up wachtende.
       limit_reached: U kunt slechts %{limit} back-ups per dag doen.
-  button_actions: "Actions"
+  button_actions: "Acties"
   button_add: "Toevoegen"
   button_add_comment: "Commentaar toevoegen"
   button_add_member: Lid toevoegen
@@ -1261,7 +1262,7 @@ nl:
   button_edit: "Wijzig"
   button_edit_associated_wikipage: "Bewerk gekoppelde wikipagina: %{page_title}"
   button_expand_all: "Alles uitklappen"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Filter"
   button_generate: "Genereer"
   button_list: "Lijst"
@@ -1279,7 +1280,7 @@ nl:
   button_reset: "Herstel"
   button_rollback: "Terugdraaien naar deze versie"
   button_save: "Opslaan"
-  button_save_as: "Save as"
+  button_save_as: "Opslaan als"
   button_apply_changes: "Veranderingen doorvoeren"
   button_save_back: "Opslaan en terug"
   button_show: "Toon"
@@ -1397,29 +1398,29 @@ nl:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: "ongeveer %{count} uur"
+        one: "ongeveer 1 uur"
         other: "ongeveer %{count} uren"
       about_x_months:
-        one: "ongeveer %{count} maand"
+        one: "ongeveer 1 maand"
         other: "ongeveer %{count} maanden"
       about_x_years:
-        one: "ongeveer %{count} jaar"
+        one: "ongeveer 1 jaar"
         other: "ongeveer %{count} jaren"
       almost_x_years:
-        one: "bijna %{count} jaar"
+        one: "bijna 1 jaar"
         other: "bijna %{count} jaren"
       half_a_minute: "een halve minuut"
       less_than_x_minutes:
-        one: "minder dan %{count} minuut"
+        one: "minder dan 1 minuut"
         other: "minder dan %{count} minuten"
       less_than_x_seconds:
-        one: "minder dan %{count} seconde"
+        one: "minder dan 1 seconde"
         other: "minder dan %{count} seconden"
       over_x_years:
-        one: "meer dan %{count} jaar"
+        one: "meer dan 1 jaar"
         other: "meer dan %{count} jaren"
       x_days:
-        one: "%{count} dag"
+        one: "1 dag"
         other: "%{count} dagen"
       x_minutes:
         one: "1 minuut"
@@ -1428,7 +1429,7 @@ nl:
         one: "1 min"
         other: "%{count} mins"
       x_hours:
-        one: "%{count} uur"
+        one: "1 uur"
         other: "%{count} uren"
       x_hours_abbreviated:
         one: "1 hr"
@@ -1437,7 +1438,7 @@ nl:
         one: "1 week"
         other: "%{count} weeks"
       x_months:
-        one: "%{count} maand"
+        one: "1 maand"
         other: "%{count} maanden"
       x_years:
         one: "1 jaar"
@@ -1553,7 +1554,7 @@ nl:
     message: Bericht bewerkt
     news: Nieuws
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "Project bewerkt"
     projects: "Project bewerkt"
     reply: Beantwoord
     time_entry: "Tijdlog bewerkt"
@@ -1616,7 +1617,7 @@ nl:
       postgres_migration: "Uw installatie overzetten naar PostgreSQL"
       user_guides: "Gebruikershandleidingen"
       faq: "Veelgestelde vragen (FAQ)"
-      impressum: "Legal notice"
+      impressum: "Juridische mededeling"
       glossary: "Woordenlijst"
       shortcuts: "Snelkoppelingen"
       blog: "OpenProject blog"
@@ -1709,7 +1710,7 @@ nl:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
-        unknown_storage: "Unknown storage"
+        unknown_storage: "Onbekende opslag"
   notifications:
     send_notifications: "Stuur meldingen voor deze actie"
     work_packages:
@@ -1773,7 +1774,7 @@ nl:
   label_ascending: "Oplopend"
   label_assigned_to_me_work_packages: "Werkpakketten toegewezen aan mij"
   label_associated_revisions: "Bijbehorende revisies"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Bijlagen"
   label_attribute: "Kenmerk"
   label_attribute_plural: "Kenmerken"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1788,9 +1789,9 @@ nl:
   label_available_project_work_package_categories: "Beschikbare werkpakket categorieën"
   label_available_project_work_package_types: "Beschikbare werkpakkettypes"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "API documentatie"
   label_backup: "Back-up"
-  label_backup_code: "Backup code"
+  label_backup_code: "Back-up code"
   label_between: "tussen"
   label_blocked_by: "vergrendeld door"
   label_blocks: "vergrendelingen"
@@ -1800,7 +1801,7 @@ nl:
   label_forum_plural: "Fora"
   label_forum_sticky: "Sticky"
   label_boolean: "Boolean"
-  label_board_plural: "Boards"
+  label_board_plural: "Borden"
   label_branch: "Branch"
   label_browse: "Bladeren"
   label_bulk_edit_selected_work_packages: "Bulk bewerken van geselecteerd werkpakketten"
@@ -1911,7 +1912,7 @@ nl:
   label_enterprise_support: "Ondernemingsondersteuning"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Omgeving"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "is"
   label_everywhere: "overal"
   label_example: "Voorbeeld"
@@ -1921,11 +1922,11 @@ nl:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Importeren"
   label_export_to: "Ook verkrijgbaar in:"
-  label_expand: "Expand"
+  label_expand: "Uitbreiden"
   label_expanded_click_to_collapse: "Uitgebreid. Klik op samenvouwen"
   label_f_hour: "%{value} uur"
   label_f_hour_plural: "%{value} uren"
-  label_favoured: "Favoriet"
+  label_favorite: "Favorite"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS toegangssleutel"
   label_feeds_access_key_created_on: "RSS toegangssleutel %{value} geleden gemaakt"
@@ -1975,7 +1976,7 @@ nl:
   label_internal: "Intern"
   label_introduction_video: "Introductie video"
   label_invite_user: "Gebruiker uitnodigen"
-  label_share: "Share"
+  label_share: "Deel"
   label_show_hide: "Weergeven/verbergen"
   label_show_all_registered_users: "Toon alle geregistreerde gebruikers"
   label_journal: "Logboek"
@@ -1995,9 +1996,10 @@ nl:
   label_latest_revision: "Meest recente revisie"
   label_latest_revision_plural: "Meest recente revisies"
   label_ldap_authentication: "LDAP-verificatie"
-  label_learn_more: "Learn more"
+  label_learn_more: "Meer informatie"
   label_less_or_equal: "<="
   label_less_than_ago: "minder dan dagen geleden"
+  label_link_url: "Link (URL)"
   label_list: "Lijst"
   label_loading: "Laden..."
   label_lock_user: "Gebruiker vergrendelen"
@@ -2023,6 +2025,7 @@ nl:
   label_membership_plural: "Memberships"
   lable_membership_added: "Lid toegevoegd"
   lable_membership_updated: "Lid bijgewerkt"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alfa"
@@ -2124,6 +2127,7 @@ nl:
   label_percent_complete: "% Complete"
   label_project_activity: "Projectactiviteit"
   label_project_attribute_plural: "Project attributes"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Totale aantal projecten"
   label_project_copy_notifications: "Verzenden van e-mailmeldingen tijdens het project kopiëren"
   label_project_latest: "Meest recente projecten"
@@ -2138,7 +2142,7 @@ nl:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "Bestandsopslag"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} projecten die %{storage}-schijfopslag gebruiken"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Bekijk alle projecten"
   label_project_show_details: "Toon project details"
   label_project_hide_details: "Verberg project details"
@@ -2191,7 +2195,7 @@ nl:
   label_search: "Zoeken"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Stuur een test e-mail"
-  label_session: "Session"
+  label_session: "Sessie"
   label_setting_plural: "Instellingen"
   label_system_settings: "Systeeminstellingen"
   label_show_completed_versions: "Toon voltooide versies"
@@ -2315,7 +2319,7 @@ nl:
     other: "%{count} gesloten"
     zero: "0 gesloten"
   label_x_comments:
-    one: "%{count} reactie"
+    one: "1 reactie"
     other: "%{count} reacties"
     zero: "geen reacties"
   label_x_open_work_packages_abbr:
@@ -2412,7 +2416,7 @@ nl:
     storages:
       health:
         plaintext:
-          storage: "Storage"
+          storage: "Opslag"
           healthy:
             summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
             error-solved-on: "Solved On"
@@ -2457,7 +2461,7 @@ nl:
     subtext: "Passwords for external account cannot be changed in the application. Please use the lost password functionality of your authentication provider."
   mail_body_register: "Welkom bij %{app_title}. Activeer uw account door op deze link te klikken:"
   mail_body_register_header_title: "Uitnodigings e-mail van projectlid"
-  mail_body_register_user: "Beste %(name),"
+  mail_body_register_user: "Beste %{name},"
   mail_body_register_links_html: |
     Blader gerust door ons youtube kanaal (%{youtube_link}) waar we een webinar (%{webinar_link})
     en "Aan de slag gaan" video's (%{get_started_link}) voorzien om uw eerste stappen in OpenProject zo eenvoudig mogelijk te maken.
@@ -3215,9 +3219,9 @@ nl:
   queries:
     apply_filter: Vooraf geconfigureerde filter toepassen
     configure_view:
-      heading: Configure view
+      heading: Weergave configureren
       columns:
-        input_label: "Add columns"
+        input_label: "Kolommen toevoegen"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
   top_menu:
@@ -3333,7 +3337,7 @@ nl:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Niet gedeeld"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3566,7 +3570,7 @@ nl:
   link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"

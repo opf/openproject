@@ -87,6 +87,18 @@ RSpec.describe UserMailer do
 
       it_behaves_like "mail is sent"
     end
+
+    context "with true but user is locked" do
+      let(:recipient) { build_stubbed(:user, status: Principal.statuses[:locked]) }
+
+      before do
+        described_class.with_deliveries(true) do
+          described_class.test_mail(recipient).deliver_now
+        end
+      end
+
+      it_behaves_like "mail is not sent"
+    end
   end
 
   describe "#test_mail" do

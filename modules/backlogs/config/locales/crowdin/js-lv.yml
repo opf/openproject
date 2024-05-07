@@ -23,4 +23,4 @@ lv:
   js:
     work_packages:
       properties:
-        storyPoints: "Story Points"
+        storyPoints: "Novērtējums"

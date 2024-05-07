@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 3.0.12
-  sidebar_navigation:
-      title: 3.0.12
-  release_version: 3.0.12
-  release_date: 2014-08-26
+title: OpenProject 3.0.12
+sidebar_navigation:
+  title: 3.0.12
+release_version: 3.0.12
+release_date: 2014-08-26
 ---
 
 # OpenProject 3.0.12
@@ -31,7 +31,5 @@ included in 3.0.12:
     has been fixed. Many thanks to [Björn Blissing](https://github.com/bjornblissing) who reported and fixed
     this error.
 
-For a complete list of changes, pleas refer to the 
+For a complete list of changes, pleas refer to the
 [OpenProject 3.0.12 query](https://community.openproject.org/versions/450).
-
-

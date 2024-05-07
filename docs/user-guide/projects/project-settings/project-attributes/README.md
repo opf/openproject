@@ -8,17 +8,17 @@ keywords: project attributes, project settings, enable, disable, project admin
 
 # Project attributes
 
-**[Project attributes]**(#project-attributes) are a set of project-level custom fields that let you display certain types of information relevant to your project in the [Project overview](../../../project-overview) page. 
+**Project attributes**are a set of project-level custom fields that let you display certain types of information relevant to your project in the [Project overview](../../../project-overview) page.
 
-This guide is aimed at project administrators who want to enable or disable certain project attributes for their project. 
+This guide is aimed at project administrators who want to enable or disable certain project attributes for their project.
 
 >**Note:**  If you are an instance admin and would like to create, modify or add project attributes, please read our [admin guide to project attributes](../../../../system-admin-guide/projects/project-attributes).
 
-Navigate to **Project settings** → **Project attributes**. 
+Navigate to **Project settings** → **Project attributes**.
 
 ![Project attribute list in Project settings](open_project_user_guide_project_settings_project_attributes_list.png)
 
-Here, you will see a list of all existing project attributes and sections. 
+Here, you will see a list of all existing project attributes and sections.
 
 You can use the **On/Off toggle** of each project attribute to enable or disable it in your project. Disabled project attributes are not visible in the [Project Overview](../../../project-overview) page.
 

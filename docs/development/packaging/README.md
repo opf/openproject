@@ -21,8 +21,6 @@ The packager.io website observes changes in the repository through webhooks and 
 
 To see the status of a build, simply follow one of the links and choose a distribution whose logs you want to look at.
 
-
-
 ## Debugging an installed packager integration
 
 In some cases, you have an existing packaged installation and would like to debug or change parts of an addon to see if it breaks or works the way you expect it to.

@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 7.3.0
-  sidebar_navigation:
-      title: 7.3.0
-  release_version: 7.3.0
-  release_date: 2017-09-29
+title: OpenProject 7.3.0
+sidebar_navigation:
+  title: 7.3.0
+release_version: 7.3.0
+release_date: 2017-09-29
 ---
 
 # OpenProject 7.3
@@ -25,8 +25,6 @@ example show the progress (in %) and the assignee directly in the Gantt
 chart without having to include those attributes as separate work
 package columns.
 
-
-
 ## Auto zoom in Gantt chart
 
 Especially for large projects Gantt charts can become difficult to
@@ -34,8 +32,6 @@ manage. In order to quickly see all the work package and intelligently
 adjust the zoom level, we implemented an intelligent zoom button. This
 allows you to immediately switch to the optimal zoom level to see all
 work packages without zooming out too much.
-
-
 
 ## Notify users with @notations on work package page
 
@@ -47,8 +43,6 @@ clear and personal to directly address the person. This is possible with
 a description), simply enter an *@* sign, followed by the user’s name.
 The user then receives an email notification.
 
-
-
 ## Resize work package split screen with drag & drop
 
 With OpenProject 7.3 you can resize the work package split screen using
@@ -57,8 +51,6 @@ the width of the split screen. OpenProject remembers the new size, so
 you don’t have to resize the split screen whenever you open a new work
 package.
 
-
-
 ## Breadcrumb on work package page
 
 Work packages are often part of a hierarchy which is not immediately
@@ -66,8 +58,6 @@ visible when looking at a work package in fullscreen or split screen
 view. In order to make the hierarchy more transparent, OpenProject 7.3
 introduces a breadcrumb for work packages (shown in both the fullscreen
 and split screen view).
-
-
 
 ## Improved usability and design
 
@@ -98,5 +88,5 @@ package to another project.
 
 OpenProject 7.3 contains a large number of bugs fixes.
 
-For an extensive overview of bug fixes please refer to the 
+For an extensive overview of bug fixes please refer to the
 [following list](https://community.openproject.org/projects/openproject/work_packages?query_props=%7B%22c%22:%5B%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22%5D,%22tzl%22:%22days%22,%22hi%22:true,%22t%22:%22parent:desc%22,%22f%22:%5B%7B%22n%22:%22version%22,%22o%22:%22%253D%22,%22v%22:%5B%22841%22%5D%7D,%7B%22n%22:%22type%22,%22o%22:%22%253D%22,%22v%22:%5B%221%22%5D%7D,%7B%22n%22:%22subprojectId%22,%22o%22:%22*%22,%22v%22:%5B%5D%7D%5D,%22pa%22:1,%22pp%22:20%7D).

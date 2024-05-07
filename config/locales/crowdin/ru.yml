@@ -263,7 +263,7 @@ ru:
     lists:
       active: "Активные проекты"
       my: "Мои проекты"
-      favored: "Favored projects"
+      favored: "Favorite projects"
       archived: "Архивные проекты"
       my_private: "Списки моих личных проектов"
       new:
@@ -285,7 +285,7 @@ ru:
         no_results_title_text: Нет доступных настраиваемых полей.
       project_custom_fields:
         header:
-          title: "Project attributes"
+          title: "Атрибуты проекта"
           description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
         filter:
           label: "Search project attribute"
@@ -796,6 +796,7 @@ ru:
         not_an_iso_date: "недопустимая дата. Требуемый формат: гггг-мм-дд."
         not_same_project: "не принадлежит тому же проекту."
         odd: "должно быть нечетным."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "не может быть проверен связанным регулярным выражением."
         smaller_than_or_equal_to_max_length: "должно быть меньше или равно максимальной длине."
         taken: "уже принято."
@@ -1155,12 +1156,12 @@ ru:
           added: "set to %{value}"
           added_html: "set to <i>%{value}</i>"
           removed: "removed"
-          updated: "changed from %{old_value} to %{value}"
+          updated: "изменено с %{old_value} на %{value}"
           updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
         position:
           updated: "reordered"
         work_package:
-          updated: "changed from %{old_value} to %{value}"
+          updated: "изменено с %{old_value} на %{value}"
           updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
       changeset: "Наборы изменений"
@@ -1259,7 +1260,7 @@ ru:
       token_cooldown: Маркер резервной копии будет действителен в течение %{hours} часов.
       backup_pending: Уже есть резервная копия.
       limit_reached: Вы можете делать только %{limit} резервных копий в день.
-  button_actions: "Actions"
+  button_actions: "Действия"
   button_add: "Добавить"
   button_add_comment: "Добавить комментарий"
   button_add_member: Добавить участника
@@ -1293,7 +1294,7 @@ ru:
   button_edit: "Правка"
   button_edit_associated_wikipage: "Редактирование связанной wiki-страницы: %{page_title}"
   button_expand_all: "Развернуть все"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Фильтр"
   button_generate: "Генерировать"
   button_list: "Список"
@@ -1332,7 +1333,7 @@ ru:
   button_add_menu_entry: "Добавление пункта меню"
   button_configure_menu_entry: "Настройка пункта меню"
   button_delete_menu_entry: "Удаление пункта меню"
-  button_view_shared_work_packages: "View shared work packages"
+  button_view_shared_work_packages: "Просмотр общих пакетов работ"
   button_manage_roles: "Manage roles"
   button_remove_member: "Remove member"
   button_remove_member_and_shares: "Remove member and shares"
@@ -1841,7 +1842,7 @@ ru:
   label_ascending: "По возрастанию"
   label_assigned_to_me_work_packages: "Переданные мне пакеты работ"
   label_associated_revisions: "Связанные изменения"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Вложения"
   label_attribute: "Атрибут"
   label_attribute_plural: "Атрибуты"
   label_ldap_auth_source_new: "Новое LDAP соединение"
@@ -1979,7 +1980,7 @@ ru:
   label_enterprise_support: "Поддержка корпоративной версии"
   label_enterprise_addon: "Корпоративное дополнение"
   label_environment: "Переменные среды"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "—"
   label_everywhere: "везде"
   label_example: "Пример"
@@ -1989,11 +1990,11 @@ ru:
   label_ifc_model_plural: "Модели Ifc"
   label_import: "Импорт"
   label_export_to: "Скачать как:"
-  label_expand: "Expand"
+  label_expand: "Развернуть"
   label_expanded_click_to_collapse: "Развернуто. Кликните для сворачивания"
   label_f_hour: "%{value} часов"
   label_f_hour_plural: "%{value} часов"
-  label_favoured: "Избранное"
+  label_favorite: "Favorite"
   label_feed_plural: "Ленты"
   label_feeds_access_key: "Ключ доступа к RSS"
   label_feeds_access_key_created_on: "Ключ доступа RSS, созданный %{value} назад"
@@ -2063,9 +2064,10 @@ ru:
   label_latest_revision: "Последняя редакция"
   label_latest_revision_plural: "Последние изменения"
   label_ldap_authentication: "LDAP - аутентификация"
-  label_learn_more: "Learn more"
+  label_learn_more: "Узнать больше"
   label_less_or_equal: "<="
   label_less_than_ago: "меньше чем день назад"
+  label_link_url: "Link (URL)"
   label_list: "Список"
   label_loading: "Загрузка..."
   label_lock_user: "Заблокировать пользователя"
@@ -2091,6 +2093,7 @@ ru:
   label_membership_plural: "Членство"
   lable_membership_added: "Участник добавлен"
   lable_membership_updated: "Участник обновлен"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "пред-альфа"
     alpha: "альфа"
@@ -2189,9 +2192,10 @@ ru:
   label_privacy_policy: "Политика конфиденциальности данных и безопасности"
   label_product_version: "Версия продукта"
   label_profile: "Профиль"
-  label_percent_complete: "% Complete"
+  label_percent_complete: "% Готово"
   label_project_activity: "Деятельность"
   label_project_attribute_plural: "Атрибуты проекта"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Общее количество проектов"
   label_project_copy_notifications: "Уведомлять по электронной почте по ходу копирования проекта"
   label_project_latest: "Последние проекты"
@@ -2199,14 +2203,14 @@ ru:
   label_project_hierarchy: "Иерархия проектов"
   label_project_new: "Новый проект"
   label_project_plural: "Проекты"
-  label_project_list_plural: "Project lists"
-  label_project_attributes_plural: "Project attributes"
-  label_project_custom_field_plural: "Project attributes"
+  label_project_list_plural: "Списки проектов"
+  label_project_attributes_plural: "Атрибуты проекта"
+  label_project_custom_field_plural: "Атрибуты проекта"
   label_project_settings: "Настройки проекта"
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "Файловые хранилища"
   label_project_storage_project_folder: "Файловые хранилища: Папки проекта"
-  label_projects_storage_information: "%{count} проектов используют %{storage} дискового пространства"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Просмотреть все проекты"
   label_project_show_details: "Показать детали проекта"
   label_project_hide_details: "Скрыть детали проекта"
@@ -2226,7 +2230,7 @@ ru:
   label_relation_delete: "Удалить связь"
   label_relation_new: "Новая связь"
   label_release_notes: "Список изменений"
-  label_remaining_work: "Remaining work"
+  label_remaining_work: "Оставшиеся часы"
   label_remove_columns: "Удалить выбранные столбцы"
   label_renamed: "переименовано"
   label_reply_plural: "Ответы"
@@ -2359,7 +2363,7 @@ ru:
   label_wiki_show_new_page_link: "Показать пункт подменю «Создать новую дочернюю страницу»"
   label_wiki_show_submenu_item: "Показать как пункт подменю "
   label_wiki_start: "Начальная страница"
-  label_work: "Work"
+  label_work: "Предполагаемое время"
   label_work_package: "Пакет работ"
   label_work_package_attachments: "Вложения пакета работ"
   label_work_package_category_new: "Новая категория"
@@ -2477,12 +2481,12 @@ ru:
         subject: "Пакет работ #%{id} был разделен с вами"
         enterprise_text: "Поделитесь пакетами работ с пользователями, не являющимися участниками проекта."
         summary:
-          user: ""
+          user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} поделился пакетом работ с группой %{group}, членом которой вы являетесь "
     storages:
       health:
         plaintext:
-          storage: "Storage"
+          storage: "Хранилище"
           healthy:
             summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
             error-solved-on: "Solved On"
@@ -2768,7 +2772,7 @@ ru:
     default: "-"
   project:
     destroy:
-      confirmation: ""
+      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
       project_delete_result_1: "Удалить все связанные данные."
       project_delete_result_2: "Удалить все папки управляемых проектов в приложенных хранилищах."
       info: "Удаление проекта – действие необратимое."
@@ -3102,7 +3106,7 @@ ru:
     other: "Другие"
     passwords: "Пароли"
     project_attributes:
-      heading: "Project attributes"
+      heading: "Атрибуты проекта"
       label_new_attribute: "Project attribute"
       label_new_section: "Section"
       label_edit_section: "Edit title"
@@ -3640,7 +3644,7 @@ ru:
   link: ссылка
   plugin_openproject_auth_plugins:
     name: "Плагины аутентификации OpenProject"
-    description: "Интеграция поставщиков стратегий OmniAuth для аутентификации в Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Однозначный вход"
     description: "Добавляет поставщика OmniAuth SAML в OpenProject"

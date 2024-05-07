@@ -6,19 +6,17 @@ description: Viewing, creating and modifying project attributes in OpenProject
 keywords: project attributes, create, project settings
 ---
 
-# Project attributes (Enterprise add-on)
-
-> **Please note:** Project attributes are an Enterprise add-on and will only be displayed here for Enterprise on-premises and Enterprise cloud.
+# Project attributes
 
 Project attributes are custom fields that allow you to communicate key information relevant to a project in the [Project Overview](../../../user-guide/project-overview) page.
 
->**Note**: Prior to version 14.0, these were called "project custom fields" and described under the [Custom fields](../../custom-fields/custom-fields-projects/) page. Starting with 14.0, there is now a new entry in the administration section called 'Project attributes' under 'Projects'. 
+>**Note**: Prior to version 14.0, these were called "project custom fields" and described under the [Custom fields](../../custom-fields/custom-fields-projects/) page. Starting with 14.0, there is now a new entry in the administration section called 'Project attributes' under 'Projects'.
 
 This page describes how to create, order and group project attributes and is directed at instance administrators. If you want know how to enable and set the values for project attributes at a project level, please refer to the [Project Overview](../../../user-guide/project-overview) page of the user guide.
 
 ## View project attributes
 
-To view all existing project attributes, navigate to **Administration settings** → **Projects** → **Project attributes**. 
+To view all existing project attributes, navigate to **Administration settings** → **Projects** → **Project attributes**.
 
 ![List of existing project attributes in OpenProject administration](open_project_system_admin_guide_project_attributes_list.png)
 
@@ -32,10 +30,11 @@ Each project attribute will be displayed in individual rows, which contain:
 4. Number of projects using the attribute
 5. More button
 
-Attributes may also be contained in [sections](#sections). 
+Attributes may also be contained in [sections](#sections).
 
 ## Create a project attribute
-To create a new project attribute, click on the **+ Project attribute** button in the top right corner. 
+
+To create a new project attribute, click on the **+ Project attribute** button in the top right corner.
 
 This will display the "New attribute" form with these options:
 
@@ -45,7 +44,7 @@ This will display the "New attribute" form with these options:
 
 - **Section:** If there are sections, you can pick where this new project attribute should appear. [Learn about sections](#sections) for more information.
 
-- **Format**: You can pick from nine different types of fields: text, long text, integer, float, list, date, boolean, user and version. 
+- **Format**: You can pick from nine different types of fields: text, long text, integer, float, list, date, boolean, user and version.
 
   > **Note**: You cannot change this once the project attribute is created.
 
@@ -53,31 +52,29 @@ This will display the "New attribute" form with these options:
 
 - **Required**: Checking this makes this project attribute a required field in projects where it is enabled, i.e. it cannot be left empty.
 
-- **Visible**: Checking this field makes the attribute visible to non-admins. 
+- **Visible**: Checking this field makes the attribute visible to non-admins.
 
   > **Note**: This is enabled by default. Only disable this if you want this field to be invisible to non-admin users.
 
 - **Searchable**: Checking this makes this project attribute (and its value) available to the search engine and filters.
 
-
-## Modify project attributes 
+## Modify project attributes
 
 You can edit existing attributes under **Administration settings** → **Projects** → **Project attributes**.
 
 ![Edit or move a project attribute in the OpenProject administration](open_project_system_admin_guide_project_attributes_more_icon_menu.png)
 
-Click on the  More icon to the right of each project attribute to edit, re-order or delete a project attribute. 
+Click on the  More icon to the right of each project attribute to edit, re-order or delete a project attribute.
 
 >**Note:** Deleting a project attribute will delete it and the corresponding values for it from all projects.
 
-You can also use the drag handles to the left of each project attribute to drag and drop it to a new position. 
+You can also use the drag handles to the left of each project attribute to drag and drop it to a new position.
 
 >**Note**: Project admins can chose to enable or disable a project attribute from their project, but they cannot change the order. The order set in this page is the order in which they will appear in all projects.
 
-
 ## Sections
 
-You can group project attributes into sections to better organise them. 
+You can group project attributes into sections to better organise them.
 
 You can click on more icon to the right of each section to rename it, delete it or change its order.
 
@@ -85,7 +82,6 @@ You can click on more icon to the right of each section to rename it, delete it 
 
 You can drag any existing project attribute into a section to move it there. You may also drag and drop entire sections up and down to re-order them.
 
->**Note:** If a project attribute belongs to a section, it will be displayed within that section in _all_ projects. 
+>**Note:** If a project attribute belongs to a section, it will be displayed within that section in _all_ projects.
 
 ![Edit project attribute sections in OpenProject administration](open_project_system_admin_guide_project_attributes_section_more_icon_menu.png)
-

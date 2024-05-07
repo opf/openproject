@@ -113,8 +113,8 @@ RSpec.describe "API v3 work packages resource with filters for linked storage fi
         end
       end
 
-      context "if a project has the storages module deactivated" do
-        let(:project1) { create(:project, disable_modules: :storages, members: { current_user => role1 }) }
+      context "if a project has the work_package_tracking module deactivated" do
+        let(:project1) { create(:project, disable_modules: :work_package_tracking, members: { current_user => role1 }) }
 
         it_behaves_like "API V3 collection response", 1, 1, "WorkPackage", "WorkPackageCollection" do
           let(:elements) { [work_package3] }

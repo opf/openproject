@@ -2,7 +2,6 @@ import '../typings/shims.d.ts';
 import * as Turbo from '@hotwired/turbo';
 import { registerDialogStreamAction } from './dialog-stream-action';
 import { addTurboEventListeners } from './turbo-event-listeners';
-import morphdom from 'morphdom';
 import { ModalDialogElement } from '@openproject/primer-view-components/app/components/primer/alpha/modal_dialog';
 
 // Disable default turbo-drive for now as we don't need it for now AND it breaks angular routing
@@ -30,14 +29,4 @@ document.addEventListener('turbo:submit-end', (event:CustomEvent) => {
     const dialog = target.closest('modal-dialog') as ModalDialogElement;
     dialog && dialog.close(true);
   }
-});
-
-interface TurboBeforeFrameRenderEventDetail {
-  render:(currentElement:HTMLElement, newElement:HTMLElement) => void;
-}
-
-document.addEventListener('turbo:before-frame-render', (event:CustomEvent<TurboBeforeFrameRenderEventDetail>) => {
-  event.detail.render = (currentElement:HTMLElement, newElement:HTMLElement) => {
-    morphdom(currentElement, newElement, { childrenOnly: true });
-  };
 });

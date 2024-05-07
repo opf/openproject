@@ -28,114 +28,131 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
-  class PropfindQuery
-    UTIL = ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
+module Storages
+  module Peripherals
+    module StorageInteraction
+      module Nextcloud
+        module Internal
+          class PropfindQuery
+            # Only for information purposes currently.
+            # Probably a bit later we could validate `#call` parameters.
+            #
+            # DEPTH = %w[0 1 infinity].freeze
+            # POSSIBLE_PROPS = %w[
+            #   d:getlastmodified
+            #   d:getetag
+            #   d:getcontenttype
+            #   d:resourcetype
+            #   d:getcontentlength
+            #   d:permissions
+            #   d:size
+            #   oc:id
+            #   oc:fileid
+            #   oc:favorite
+            #   oc:comments-href
+            #   oc:comments-count
+            #   oc:comments-unread
+            #   oc:owner-id
+            #   oc:owner-display-name
+            #   oc:share-types
+            #   oc:checksums
+            #   oc:size
+            #   nc:has-preview
+            #   nc:rich-workspace
+            #   nc:contained-folder-count
+            #   nc:contained-file-count
+            #   nc:acl-list
+            # ].freeze
 
-    # Only for information purposes currently.
-    # Probably a bit later we could validate `#call` parameters.
-    #
-    # DEPTH = %w[0 1 infinity].freeze
-    # POSSIBLE_PROPS = %w[
-    #   d:getlastmodified
-    #   d:getetag
-    #   d:getcontenttype
-    #   d:resourcetype
-    #   d:getcontentlength
-    #   d:permissions
-    #   d:size
-    #   oc:id
-    #   oc:fileid
-    #   oc:favorite
-    #   oc:comments-href
-    #   oc:comments-count
-    #   oc:comments-unread
-    #   oc:owner-id
-    #   oc:owner-display-name
-    #   oc:share-types
-    #   oc:checksums
-    #   oc:size
-    #   nc:has-preview
-    #   nc:rich-workspace
-    #   nc:contained-folder-count
-    #   nc:contained-file-count
-    #   nc:acl-list
-    # ].freeze
+            def self.call(storage:, http:, username:, path:, props:)
+              new(storage).call(http:, username:, path:, props:)
+            end
 
-    def initialize(storage)
-      @uri = storage.uri
-      @username = storage.username
-      @password = storage.password
-      @group = storage.group
-    end
+            def initialize(storage)
+              @storage = storage
+            end
 
-    def self.call(storage:, depth:, path:, props:)
-      new(storage).call(depth:, path:, props:)
-    end
+            def call(http:, username:, path:, props:)
+              request_uri = Util.join_uri_path(base_uri, CGI.escapeURIComponent(username), Util.escape_path(path))
+              response = http.request(:propfind, request_uri, xml: request_body(props))
 
-    # rubocop:disable Metrics/AbcSize
-    def call(depth:, path:, props:)
-      body = Nokogiri::XML::Builder.new do |xml|
-        xml["d"].propfind(
-          "xmlns:d" => "DAV:",
-          "xmlns:oc" => "http://owncloud.org/ns",
-          "xmlns:nc" => "http://nextcloud.org/ns"
-        ) do
-          xml["d"].prop do
-            props.each do |prop|
-              namespace, property = prop.split(":")
-              xml[namespace].send(property)
+              handle_response(response, username)
+            end
+
+            private
+
+            def handle_response(response, username)
+              case response
+              in { status: 200..299 }
+                success_result(response, username)
+              in { status: 401 }
+                Util.failure(code: :unauthorized,
+                             data: Util.error_data_from_response(caller: self.class, response:),
+                             log_message: "Outbound request not authorized!")
+              in { status: 404 }
+                Util.failure(code: :not_found,
+                             data: Util.error_data_from_response(caller: self.class, response:),
+                             log_message: "Outbound request destination not found!")
+              in { status: 405 }
+                Util.failure(code: :not_allowed,
+                             data: Util.error_data_from_response(caller: self.class, response:),
+                             log_message: "Outbound request method not allowed!")
+
+              else
+                Util.failure(code: :error,
+                             data: Util.error_data_from_response(caller: self.class, response:),
+                             log_message: "Outbound request failed with unknown error!")
+              end
+            end
+
+            # rubocop:disable Metrics/AbcSize
+            def success_result(response, username)
+              doc = Nokogiri::XML(response.body.to_s)
+              result = {}
+              doc.xpath("/d:multistatus/d:response").each do |resource_section|
+                resource = resource_path(resource_section, username)
+                result[resource] = {}
+
+                # In future it could be useful to respond not only with found, but not found props as well
+                # resource_section.xpath("d:propstat[d:status[text() = 'HTTP/1.1 404 Not Found']]/d:prop/*")
+                resource_section.xpath("d:propstat[d:status[text() = 'HTTP/1.1 200 OK']]/d:prop/*").each do |node|
+                  result[resource][node.name.to_s] = node.text.strip
+                end
+              end
+
+              ServiceResult.success(result:)
+            end
+
+            # rubocop:enable Metrics/AbcSize
+
+            def base_uri = "#{@storage.uri}remote.php/dav/files"
+
+            def resource_path(section, username)
+              path = CGI.unescape(section.xpath("d:href").text.strip)
+                        .gsub!(Util.join_uri_path(URI(base_uri).path, username), "")
+
+              path.end_with?("/") && path.length > 1 ? path.chop : path
+            end
+
+            def request_body(props)
+              Nokogiri::XML::Builder.new do |xml|
+                xml["d"].propfind(
+                  "xmlns:d" => "DAV:",
+                  "xmlns:oc" => "http://owncloud.org/ns",
+                  "xmlns:nc" => "http://nextcloud.org/ns"
+                ) do
+                  xml["d"].prop do
+                    props.each do |prop|
+                      namespace, property = prop.split(":")
+                      xml[namespace].send(property)
+                    end
+                  end
+                end
+              end.to_xml
             end
           end
         end
-      end.to_xml
-
-      response = OpenProject
-                   .httpx
-                   .basic_auth(@username, @password)
-                   .with(headers: { "Depth" => depth })
-                   .request(
-                     "PROPFIND",
-                     UTIL.join_uri_path(
-                       @uri,
-                       "remote.php/dav/files",
-                       CGI.escapeURIComponent(@username),
-                       UTIL.escape_path(path)
-                     ),
-                     xml: body
-                   )
-
-      error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
-
-      case response
-      in { status: 200..299 }
-        doc = Nokogiri::XML(response.body.to_s)
-        result = {}
-        doc.xpath("/d:multistatus/d:response").each do |resource_section|
-          resource = CGI.unescape(resource_section.xpath("d:href").text.strip)
-                        .gsub!(UTIL.join_uri_path(@uri.path, "/remote.php/dav/files/#{@username}/"), "")
-
-          result[resource] = {}
-
-          # In future it could be useful to respond not only with found, but not found props as well
-          # resource_section.xpath("d:propstat[d:status[text() = 'HTTP/1.1 404 Not Found']]/d:prop/*")
-          resource_section.xpath("d:propstat[d:status[text() = 'HTTP/1.1 200 OK']]/d:prop/*").each do |node|
-            result[resource][node.name.to_s] = node.text.strip
-          end
-        end
-
-        ServiceResult.success(result:)
-      in { status: 405 }
-        UTIL.error(:not_allowed, "Outbound request method not allowed", error_data)
-      in { status: 401 }
-        UTIL.error(:unauthorized, "Outbound request not authorized", error_data)
-      in { status: 404 }
-        UTIL.error(:not_found, "Outbound request destination not found", error_data)
-      else
-        UTIL.error(:error, "Outbound request failed", error_data)
       end
     end
-
-    # rubocop:enable Metrics/AbcSize
   end
 end

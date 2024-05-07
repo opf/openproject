@@ -81,7 +81,7 @@ module Projects::CustomFields
       form_args = { custom_field:, object: @project, wrapper_id: @wrapper_id }
 
       case custom_field.field_format
-      when "string"
+      when "string", "link"
         CustomFields::Inputs::String.new(builder, **form_args)
       when "text"
         CustomFields::Inputs::Text.new(builder, **form_args)

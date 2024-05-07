@@ -146,7 +146,7 @@ zh-TW:
         manual: "切換到標記源模式"
         wysiwyg: "切換到所見即所得編輯器"
       macro:
-        error: "無法展開巨集(macro)： %{message}"
+        error: "無法展開巨集(macro)：%{message}"
         attribute_reference:
           macro_help_tooltip: "This text segment is being dynamically rendered by a macro."
           not_found: "Requested resource could not be found"
@@ -199,7 +199,7 @@ zh-TW:
         new_group: "新增群組"
         reset_to_defaults: "重設為預設值"
       enterprise:
-        text_reprieve_days_left: "剩下 %{days} days 測試結束"
+        text_reprieve_days_left: "剩下 %{days} 天測試結束"
         text_expired: "已過期"
         trial:
           confirmation: "確認您的電子郵件地址"
@@ -419,7 +419,7 @@ zh-TW:
     label_expand_project_menu: "展開專案選單"
     label_export: "匯出"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
-    label_favored: "Favored"
+    label_favorites: "Favorites"
     label_filename: "檔案"
     label_filesize: "檔案大小"
     label_general: "一般"
@@ -1267,6 +1267,9 @@ zh-TW:
           placeholder: "The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
           group: "The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance."
         next_button: "繼續"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "包含的專案"
       title: "專案"

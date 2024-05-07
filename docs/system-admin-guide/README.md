@@ -17,8 +17,6 @@ Click on one of the categories in order to proceed with the configuration.
 
 ![openproject_system_administration_start_page](openproject_system_administration_start_page.png)
 
-
-
 ## Overview
 
 | Topic                                                        | Content                                                      |

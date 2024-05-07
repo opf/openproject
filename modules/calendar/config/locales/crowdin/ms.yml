@@ -1,8 +1,8 @@
 #English strings go here
 ms:
   plugin_openproject_calendar:
-    name: "OpenProject Calendar"
-    description: "Provides calendar views."
+    name: "Kalendar OpenProject"
+    description: "Menyediakan paparan kalendar."
   label_calendar: "Kalendar"
   label_calendar_plural: "Kalendar"
   label_new_calendar: "Kalendar baru"

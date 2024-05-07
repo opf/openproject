@@ -179,7 +179,7 @@ module Pages
 
       def filter_by_favored(value)
         set_filter("favored",
-                   "Favored",
+                   "Favorite",
                    "is",
                    [value])
 
@@ -375,8 +375,8 @@ module Pages
       end
 
       def within_row(project)
-        row = page.find("#project-table tr", text: project.name)
-
+        row = page.find("#project-#{project.id}")
+        row.hover
         within row do
           yield row
         end
