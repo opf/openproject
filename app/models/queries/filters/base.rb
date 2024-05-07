@@ -57,7 +57,7 @@ class Queries::Filters::Base
   # Treat the constructor as private, as the filter MAY need to check
   # the options before accepting them as a filter.
   #
-  # Use +#create+ instead.
+  # Use +#create!+ instead.
   private_class_method :new
 
   ##

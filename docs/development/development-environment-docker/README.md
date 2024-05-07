@@ -47,7 +47,6 @@ docker compose run --rm backend-test bundle exec rspec spec/features/work_packag
 
 More details and options follow in the next section.
 
-
 > **Note**: docker compose needs access to at least 4GB of RAM. E.g. for Mac, this requires
 > to [increase the default limit of the virtualized host](https://docs.docker.com/docker-for-mac/).
 > Signs of lacking memory include an "Exit status 137" in the frontend container.
@@ -456,7 +455,7 @@ When a dependency of the image or the base image itself is changed you may need 
 Ruby version is updated you may run into an error like the following when
 running `docker compose run --rm backend setup`:
 
-```
+```text
 Your Ruby version is 2.7.6, but your Gemfile specified ~> 3.2.3
 ```
 

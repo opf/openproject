@@ -2,8 +2,6 @@
 
 This guide serves as a foundation on how to prepare your work for and perform code reviews for OpenProject.
 
-
-
 ## Preparing your pull request
 
 ### Coding style
@@ -20,8 +18,6 @@ The same is true for eslint. Your editor will likely have support for eslint che
 
 For automatically linting your files on committing them, please have a look at [Lefthook](https://github.com/evilmartians/lefthook). You can install these rules by using `bundle exec lefthook install`.
 
-
-
 ### Structure of commit messages
 
 - First line: less than 72 characters, this is when GitHub shows ‘…’
@@ -30,15 +26,11 @@ For automatically linting your files on committing them, please have a look at [
 
 See the [Git Book](https://git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project#Commit-Guidelines).
 
-
-
 ### Pull Request description
 
 - Provide a clear title, optionally linking to a work package
 - Add steps necessary to review / reproduce / set up development data for testing
 - Reference the change in the OpenProject community, if ticket exists. If no ticket exists, double check if one is really optional.
-
-
 
 ### Testing
 
@@ -50,8 +42,6 @@ See the [Git Book](https://git-scm.com/book/en/v2/Distributed-Git-Contributing-t
 - Translations: Never use a specific translation string in a test. We might want to change them in the future and do not want to fix tests when we do.
 - We are aware that there are some flickering specs in our codebase, that might fail randomly. We are actively trying to fix those. If you encounter test failures in code that you have not touched, try re-running the specs.
 
-
-
 ### Security considerations
 
 Every developer and reviewer should read the Rails Security Guide as well as the OWASP top ten.
@@ -60,16 +50,12 @@ Every developer and reviewer should read the Rails Security Guide as well as the
 
 [OWASP Top 10](https://owasp.org/www-project-top-ten/)
 
-
-
 ### Changelog
 
 - All changes made to the OpenProject software are managed and documented via work packages in the [OpenProject project](https://community.openproject.org/projects/openproject/).
 - The [Roadmap view](https://community.openproject.org/projects/openproject/roadmap) gives a corresponding overview.
-- For any nontrivial or pure maintenance changes (Gem bumps etc.), please ensure you have a corresponding ticket you link to in the form of `OP##<Work package ID> `or `https://community.openproject.org/work_packages/ID` in your pull request.
+- For any nontrivial or pure maintenance changes (Gem bumps etc.), please ensure you have a corresponding ticket you link to in the form of `OP##<Work package ID>` or `https://community.openproject.org/work_packages/ID` in your pull request.
 - To prevent inconsistencies and avoid redundant work there is no additional change log in the source code. Releases will contain a changelog of the publicly visible tickets in the GitHub releases pages, as well as [on our release notes](../../release-notes/).
-
-
 
 ### Marking your code as reviewable
 
@@ -86,21 +72,15 @@ Wait for a reviewer to start. If you get feedback or requested changes, do not t
 
 Try to respond to every feedback and resolve feedback that you addressed already. Re-request a review from the same person if you addressed all remarks.
 
-
-
 ## Reviewing
 
 You've found a pull request you want to review. Here is how to do it:
-
-
 
 ### Timeliness
 
 Reviewing code from your colleagues has higher priority than picking up more work. When you start your day, or in between working on other topics, please check the above link if there is any review requested.
 
 If a review is left untouched, feel free to request a review from a group or link the pull request in question in the developers element channel.
-
-
 
 ### Taking a review
 
@@ -110,15 +90,11 @@ If you're ready to perform a review for a pull request, do these things:
 - If there is a linked ticket that has an appropriate status workflow, set it to `in review` and assign yourself
 - Optionally, request yourself as a reviewer
 
-
-
 ### Correctness
 
 As a reviewer, your job is not to make sure that the code is what you would have written – *because it will not be*. Your job as a reviewer of a piece of code is to make sure that the code as written by its author is correct.
 
 Try to think of edge cases when testing or evaluating the code, double check the test coverage. But do not frown if you merged the pull request and something broke after all. This is the learning path to avoiding this mistake on the next attempt. Not doing a review in the first place will not move you forward either.
-
-
 
 ### Language
 
@@ -126,8 +102,6 @@ Keep in mind that we're all trying to do the correct thing. Be kind and honest t
 
 - Prefer questions instead of demands
 - When in doubt, ask for a meeting to clarify things before assuming someone made a mistake.
-
-
 
 ### Testing
 
@@ -141,7 +115,6 @@ If possible, add smaller documentation changes right away.
 
 If there are breaking changes (e.g., to permissions, code relevant for developers), add them to the release notes draft for the release or create a new draft if none exists yet.
 
-
 ## Other
 
 - For external contributions: Check whether the author has signed a [Contributor License Agreement](../#openproject-contributor-license-agreement-cla) and kindly ask for it if not.
@@ -149,8 +122,6 @@ If there are breaking changes (e.g., to permissions, code relevant for developer
 - Copyright notice: When new files are added, make sure they contain the OpenProject copyright notice (copy from any file in OpenProject).
 
 - Adding Gems: When adding gems, make sure not only the Gemfile is updated, but also the Gemfile.lock.
-
-
 
 ## Readability
 
@@ -160,8 +131,6 @@ The reviewer should understand the code without explanations outside the code.
 
 *You should not rush through a code review – but also, you need to do it promptly. Your coworkers are waiting for you.*
 
-
-
 ## Completing the review
 
 Once you've completed the review, you might have left feedback for the developer. In that case:
@@ -169,23 +138,17 @@ Once you've completed the review, you might have left feedback for the developer
 - Publish the review
 - If any, assign the linked work package back to the developer and set to `in development`
 
-
-
 If there are no change requests, perform these steps:
 
 - approve the pull request
 - merge it using the `Merge pull request` button.
 - If there is a linked ticket, set it to merged (or closed for an Implementation ticket) and unassign yourself or the developer.
 
-
-
 **Why merge, not squashing?**
 
 We do not use squashing to retain any commit information of the original developer, which might contain valuable information. If there are a lot of bogus commits, we squash them on the PR first and then merge them. Having all information about a change is deemed more important than a strictly linear history.
 
 The only exception to this rule are single commit pull requests, which can be applied to dev using `Rebase and merge` instead.
-
-
 
 ## Citations
 

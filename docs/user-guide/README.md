@@ -25,7 +25,7 @@ Both the Community edition and Enterprise edition allow you to create an unlimit
 
 </div>
 
-Within a project Modules can be activated and deactivated under "Modules" in the project settings menu by project members who have sufficient permissions to adjust project settings. Which modules or single functionalities will be available within projects is controlled in the global Administration settings (please see [System admin guide](../system-admin-guide/projects) to see how this is done). 
+Within a project Modules can be activated and deactivated under "Modules" in the project settings menu by project members who have sufficient permissions to adjust project settings. Which modules or single functionalities will be available within projects is controlled in the global Administration settings (please see [System admin guide](../system-admin-guide/projects) to see how this is done).
 
 Please choose the module or feature you want to learn more about.
 
@@ -54,4 +54,3 @@ Please choose the module or feature you want to learn more about.
 | [Time and costs](time-and-costs)                             | How to track time and costs in OpenProject and report spent time and costs. |
 | [Wiki](wiki)                                                 | How to create and manage a wiki to collaboratively document and share information. |
 | [Work packages](work-packages)                               | How to manage your work in a project.                        |
-

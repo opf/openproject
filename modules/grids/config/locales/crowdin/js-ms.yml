@@ -42,6 +42,9 @@ ms:
         subprojects:
           title: 'Subprojek'
           no_results: 'Tiada subprojek.'
+        project_favorites:
+          title: 'Projek-projek kegemaran'
+          no_results: 'Kini anda tiada projek kegemaran. Tekan ikon bintang di papan pemuka projek untuk tambahkan ke kegemaran anda.'
         time_entries_current_user:
           title: 'Masa yang saya gunakan'
           displayed_days: 'Hari yang dipaparkan dalam widget:'

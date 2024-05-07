@@ -48,4 +48,3 @@ Create a welcome text block to display the most important information to users o
 4. Do not forget to **save** your changes.
 
    ![image-20211209162118090](image-20211209162118090.png)
-

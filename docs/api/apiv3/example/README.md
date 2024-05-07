@@ -188,7 +188,6 @@ The value taken for the `href` in a resource value will always be the `self` lin
 
 ![work package create schema self link](./wp-create-form-schema-self-link.png)
 
-
 *The correct combination of `project` and `type` needs to be chosen. Sometimes a type is not available in every project. In that case, the type either can be added to the project in the UI or a different type needs to be chosen for the project. This is why it sometimes makes sense to first send the project within the form body as this will update the `availableValues` listed for `type`*
 
 ### Sending the create request

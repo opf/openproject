@@ -13,8 +13,7 @@ Release date: 2022-01-17
 We released [OpenProject 12.0.6](https://community.openproject.org/versions/1504).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Notification center empty state showing during loading \[[#39828](https://community.openproject.org/wp/39828)\]
 - Fixed: Notification images are cached for years without invalidation means - old images shown \[[#40143](https://community.openproject.org/wp/40143)\]
@@ -30,7 +29,8 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Dropdown menu of parent child board not showing all WPs \[[#40647](https://community.openproject.org/wp/40647)\]
 - Fixed: Backup feature does not work with relative URL root \[[#40656](https://community.openproject.org/wp/40656)\]
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

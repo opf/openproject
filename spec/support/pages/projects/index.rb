@@ -120,6 +120,11 @@ module Pages
                                  visible: :hidden)
       end
 
+      def expect_filter_count(count)
+        expect(page)
+          .to have_css('[data-test-selector="filters-button-counter"]', text: count)
+      end
+
       def expect_no_project_create_button
         expect(page).to have_no_css('[data-test-selector="project-new-button"]')
       end
@@ -166,6 +171,15 @@ module Pages
       def filter_by_public(value)
         set_filter("public",
                    "Public",
+                   "is",
+                   [value])
+
+        click_button "Apply"
+      end
+
+      def filter_by_favored(value)
+        set_filter("favored",
+                   "Favorite",
                    "is",
                    [value])
 
@@ -361,8 +375,8 @@ module Pages
       end
 
       def within_row(project)
-        row = page.find("#project-table tr", text: project.name)
-
+        row = page.find("#project-#{project.id}")
+        row.hover
         within row do
           yield row
         end
@@ -371,7 +385,7 @@ module Pages
       private
 
       def boolean_filter?(filter)
-        %w[active member_of public templated].include?(filter.to_s)
+        %w[active member_of favored public templated].include?(filter.to_s)
       end
     end
   end

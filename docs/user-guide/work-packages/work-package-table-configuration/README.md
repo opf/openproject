@@ -21,14 +21,11 @@ You can configure the work package table view in OpenProject to display the info
 
 You can change the header in the table and add or remove columns, filter and group work packages or sort them according to specific criteria. Also, you can change between a flat list view, a hierarchy view and a grouped view.
 
-Save the view to have it available directly from your project menu. A work package view is the sum of all modifications you made to the default table (e.g. filters you set). 
-
-
+Save the view to have it available directly from your project menu. A work package view is the sum of all modifications you made to the default table (e.g. filters you set).
 
 To open the work package table configuration, open the **Settings** icon with the three dots at the top right of the work package table.
 
 ![configure-work-package-table](configure-work-package-table.png)
-
 
 ## Add or remove columns in the work package table
 
@@ -62,7 +59,7 @@ To add a filter criterion, choose one from the drop-down list next to **+ Add fi
 
 ![add-filter](add-filter.png)
 
-You can add as many filter criteria as needed. 
+You can add as many filter criteria as needed.
 Also, you can filter by [custom fields](../../../system-admin-guide/custom-fields) if you set this in the custom field configuration.
 
 > **Good to know**: Filtering a work package table will temporarily change the default work package type and default status to the values used in the filters to make newly created work packages visible in the table.
@@ -82,8 +79,8 @@ Multi-select attributes also have one extra options:
 
 Other attributes like Status might offer additional criteria like _open_ or _closed_. Required attributes might only offer two options, _is (OR)_ and _is not_, since they cannot be empty.
 
-
 ### Filter by text
+
 If you want to search for specific text in the subject, description or comments of a work package, type in the **Filter by text** the expression you want to filter for.
 
 The results will be displayed accordingly in the work package table.
@@ -92,7 +89,7 @@ The results will be displayed accordingly in the work package table.
 
 ### Filter for a work package's children
 
-If you want to only show work package with specific parents (e.g. all work packages belonging to a specific phase of your project) you can use the filter "Parent". Enter all required work packages and press Enter. This will show the selected work package(s) and its/their children. 
+If you want to only show work package with specific parents (e.g. all work packages belonging to a specific phase of your project) you can use the filter "Parent". Enter all required work packages and press Enter. This will show the selected work package(s) and its/their children.
 If you only select work packages without children, no work packages will be shown at all.
 
 ![filter-for-parent-work-package](filter-for-parent-work-package.png)
@@ -108,7 +105,7 @@ To view all work packages across all projects you could select everything, or us
 
 ### Filter by ID or work package name
 
-If you want to [create a work package view](#save-work-package-views) with only specific work packages you can use the filter "ID". By entering the ID or subject of work packages you can select them. 
+If you want to [create a work package view](#save-work-package-views) with only specific work packages you can use the filter "ID". By entering the ID or subject of work packages you can select them.
 Another use case would be to *exclude* specific work packages (e.g. you want to display all milestones but one). Therefore, use the "is not" option next to the filter's name on the left.
 
 ![filtering-by-work-package-id](filtering-by-work-package-id.png)
@@ -118,7 +115,7 @@ Another use case would be to *exclude* specific work packages (e.g. you want to 
 There are several options to filter for the assignee of a work package. You can choose one of these filters:
 
 - Assignee: Filters for work packages where the specified user or group is set as Assignee
-- Assignee or belonging group: 
+- Assignee or belonging group:
   - When filtering for a single user: Work packages assigned to this user, and any group it belongs to
   - When filtering for a group: Work packages assigned to this group, and any users within
 - Assignee's group: Filters for work packages assigned to a user from this group
@@ -134,11 +131,7 @@ Use the filter "Attachment content" or "Attachment file name" to filter attached
 
 ![advanced-filter-work-package-table](advanced-filter-work-package-table.png)
 
-
-
-For both the file name and the content, you can then differentiate the filtering with the "contains" and "does not contain" options for selected keywords and text passages. To do this, please enter the corresponding text in the field next to it. 
-
-
+For both the file name and the content, you can then differentiate the filtering with the "contains" and "does not contain" options for selected keywords and text passages. To do this, please enter the corresponding text in the field next to it.
 
 ![advanced-filter-options](advanced-filter-options.png)
 
@@ -149,10 +142,11 @@ It will then display the corresponding work package with the attachment.
 ## Sort the work package table
 
 ### Automatic sorting of the work package table
-By default, the work package table will be sorted by work package ID. 
+
+By default, the work package table will be sorted by work package ID.
 
 <div class="glossary">
-The **ID** is unique for a work package within OpenProject. It will be set automatically from the system. With the ID you can reference a specific work package in OpenProject. 
+The **ID** is unique for a work package within OpenProject. It will be set automatically from the system. With the ID you can reference a specific work package in OpenProject.
 </div>
 To sort the work package table view, open the [work package table configuration](#work-package-table-configuration) and select the tab **Sort by**. You can sort by up to three attributes, either ascending or descending.
 
@@ -162,9 +156,7 @@ Clicking the blue **Apply** button will save your changes and display the result
 
 ![sort-work-packages](sort-work-packages.png)
 
-> **Please note**:  If you have the hierarchy mode activated, all filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed. 
-
-
+> **Please note**:  If you have the hierarchy mode activated, all filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed.
 
 Therefore, the results may differ if you sort in a flat list or in a hierarchy mode.
 
@@ -174,13 +166,12 @@ The same filter applied in the hierarchy mode.
 
 ### Manual sorting of the work package table
 
-You can sort the work package table manually, using the icon with the 6 dots on the left of each work package to drag and drop it. 
+You can sort the work package table manually, using the icon with the 6 dots on the left of each work package to drag and drop it.
 
 Moving a work package will change its attributes, depending on the kind of table displayed, e.g. hierarchy changes or priority.
 
-To keep the sorting it is necessary to [save the work package view](#save-work-package-views). 
+To keep the sorting it is necessary to [save the work package view](#save-work-package-views).
 Please note: This has no effect on the "All open" view; you have to save your sorting with another name.
-
 
 ## Flat list, Hierarchy mode and Group by
 
@@ -196,8 +187,6 @@ To switch between the different criteria, open the [work package table configura
 
 ![display-settings](image-20210426164224748.png)
 
-
-
 When you group the work package table by an attribute or by project a **button to collapse groups** shows up:
 ![collapse-button](collapse-all-expand-all.png)
 
@@ -205,7 +194,7 @@ Use it to quickly collapse or expand all groups at the same time. Find out [here
 
 ### Display sums in work package table
 
-To display the sums of eligible work package attributes, go to the work package table configuration and click on the tab **Display settings** (see screenshot above). When you tick the box next to **Display sums** the sums of **Work** (earlier called Estimated time) and **Remaining work** (earlier called Remaining hours) as well as custom fields of the type Integer or Float will be displayed at the bottom of the work package table. 
+To display the sums of eligible work package attributes, go to the work package table configuration and click on the tab **Display settings** (see screenshot above). When you tick the box next to **Display sums** the sums of **Work** (earlier called Estimated time) and **Remaining work** (earlier called Remaining hours) as well as custom fields of the type Integer or Float will be displayed at the bottom of the work package table.
 If you group the work package table, sums will be shown for each group.
 
 ## Attribute highlighting (Enterprise add-on)
@@ -266,6 +255,6 @@ If you make changes to a saved view, e.g. change a filter criteria, you have to 
 
 ![Work-package-change-saved-views](Work-package-change-saved-views.png)
 
-If you want to save a completely new work package view, again click on the settings and select **Save as...** as described [above](#save-work-package-views). 
+If you want to save a completely new work package view, again click on the settings and select **Save as...** as described [above](#save-work-package-views).
 
 > **Please note**:  You can't change the default "All open" view. Therefore pressing the disc icon won't have any effect on the default view that is displayed when navigating to the work packages module. You always have to create a new view (filter, group, etc.), set a name and save it (private or public).

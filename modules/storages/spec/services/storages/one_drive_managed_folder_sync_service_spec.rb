@@ -145,7 +145,7 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
         scope = ->(project_storage) { Storages::LastProjectFolder.where(project_storage:).last }
 
         expect { service.call }.to not_change { scope[unmanaged_project_storage].reload.origin_folder_id }
-                                         .and(not_change { scope[inactive_project_storage].reload.origin_folder_id })
+                                     .and(not_change { scope[inactive_project_storage].reload.origin_folder_id })
 
         expect(scope[project_storage].origin_folder_id).to eq(project_storage.reload.project_folder_id)
         expect(scope[public_project_storage].origin_folder_id).to eq(public_project_storage.reload.project_folder_id)
@@ -370,10 +370,14 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
   end
 
   def create_folder_for(project_storage, folder_override = nil)
-    folder_path = folder_override || project_storage.managed_project_folder_path
+    folder_name = folder_override || project_storage.managed_project_folder_path
+    parent_location = Storages::Peripherals::ParentFolder.new("/")
 
     Storages::Peripherals::Registry.resolve("one_drive.commands.create_folder")
-                                   .call(storage: project_storage.storage, folder_path:)
+                                   .call(storage: project_storage.storage,
+                                         auth_strategy:,
+                                         folder_name:,
+                                         parent_location:)
   end
 
   def set_permissions_on(item_id, permissions)
@@ -389,6 +393,11 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
   end
 
   def delete_folder(item_id)
-    Storages::Peripherals::Registry.resolve("one_drive.commands.delete_folder").call(storage:, location: item_id)
+    Storages::Peripherals::Registry.resolve("one_drive.commands.delete_folder")
+                                   .call(storage:, auth_strategy:, location: item_id)
+  end
+
+  def auth_strategy
+    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials.strategy
   end
 end

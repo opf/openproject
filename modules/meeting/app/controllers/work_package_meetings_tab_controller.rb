@@ -28,6 +28,7 @@
 
 class WorkPackageMeetingsTabController < ApplicationController
   include OpTurbo::ComponentStream
+  include OpTurbo::DialogStreamHelper
   include Meetings::WorkPackageMeetingsTabComponentStreams
 
   before_action :set_work_package
@@ -56,7 +57,7 @@ class WorkPackageMeetingsTabController < ApplicationController
   end
 
   def add_work_package_to_meeting_dialog
-    render(WorkPackageMeetingsTab::AddWorkPackageToMeetingFormComponent.new(work_package: @work_package), layout: false)
+    respond_with_dialog WorkPackageMeetingsTab::AddWorkPackageToMeetingDialogComponent.new(work_package: @work_package)
   end
 
   def add_work_package_to_meeting
@@ -65,6 +66,7 @@ class WorkPackageMeetingsTabController < ApplicationController
       .call(
         add_work_package_to_meeting_params.merge(
           work_package_id: @work_package.id,
+          presenter_id: current_user.id,
           item_type: MeetingAgendaItem::ITEM_TYPES[:work_package]
         )
       )

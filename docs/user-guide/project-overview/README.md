@@ -8,7 +8,7 @@ keywords: project overview page
 
 # Project overview
 
-The **Project overview** page is a dashboard with important information about your respective project(s). This page displays all relevant information for your team, such as members, news, project description, work package reports, or project status. 
+The **Project overview** page is a dashboard with important information about your respective project(s). This page displays all relevant information for your team, such as members, news, project description, work package reports, or project status.
 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -32,7 +32,7 @@ Open the project overview by navigating to **Overview** in the project menu on t
 
 ## Project attributes
 
-**[Project attributes]**(#project-attributes) are a set of project-level custom fields that let you display certain types of information relevant to your project. 
+**[Project attributes]**(#project-attributes) are a set of project-level custom fields that let you display certain types of information relevant to your project.
 
 You will see a list of all available project attributes in a pane on the right side of of your Project overview page. They may be grouped in sections.
 
@@ -54,11 +54,11 @@ To add a new widget:
 
 1. Choose the place where to add the new widget.
 
-To add a widget to the project overview, click on the **+ button** on the top right of the page. 
+To add a widget to the project overview, click on the **+ button** on the top right of the page.
 
 ![Overview-add-widget](Overview-add-widget-1573564870548.png)
 
-2. Choose the location of the widget by clicking on one the **+** icons surrounding other widgets. 
+2. Choose the location of the widget by clicking on one the **+** icons surrounding other widgets.
 
    ![Choose widget location on the project overview page](openproject_user_guide_project_overview_select_widget_location.png)
 
@@ -66,11 +66,9 @@ To add a widget to the project overview, click on the **+ button** on the top ri
 
 ![add widget](image-20191112142303373.png)
 
-
 ## Project status
 
 On the project overview page, you can set your project status and give a detailed description. The project status is a widget that you add to your project overview. Find the description [below](#project-status-widget).
-
 
 ## Available project overview widgets
 
@@ -96,7 +94,7 @@ You can add a widget which displays all project members and their corresponding 
 
 ![project members](image-20191112134827557.png)
 
-You can [add members to your project](../../getting-started/invite-members/) via the green **+ Member** button in the bottom left corner. 
+You can [add members to your project](../../getting-started/invite-members/) via the green **+ Member** button in the bottom left corner.
 
 The **View all members** button displays the list of project members that have been added to your project. Members can be individuals as well as entire groups.
 
@@ -108,7 +106,7 @@ Display the latest project news in the news widget on the project overview page.
 
 ### Project description
 
-The project description widget adds the project description to your project overview. 
+The project description widget adds the project description to your project overview.
 
 The description can be added or changed in the [project settings](../projects/project-settings).
 

@@ -127,6 +127,15 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
     field
   end
 
+  let!(:link_project_custom_field) do
+    field = create(:link_project_custom_field, projects: [project], name: "Link field",
+                   project_custom_field_section: section_for_input_fields)
+
+    create(:custom_value, customized: project, custom_field: field, value: "https://www.openproject.org")
+
+    field
+  end
+
   let!(:text_project_custom_field) do
     field = create(:text_project_custom_field, projects: [project], name: "Text field",
                                                project_custom_field_section: section_for_input_fields)
@@ -205,6 +214,7 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
       integer_project_custom_field,
       float_project_custom_field,
       date_project_custom_field,
+      link_project_custom_field,
       text_project_custom_field
     ]
   end

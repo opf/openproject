@@ -141,11 +141,12 @@ RSpec.describe WorkPackages::SetScheduleService do
           .to be_present,
               "Expected work package ##{wp.id} '#{wp.subject}' to be rescheduled"
 
-        expect(result.journal_cause['work_package_id'])
+        expect(result.journal_cause.additional_attributes["work_package_id"])
           .to eql(initiating_work_package.id),
-              "Expected work package change to ##{wp.id} to have been caused by ##{initiating_work_package.id}."
+              "Expected work package change to ##{wp.id} to have been caused by ##{initiating_work_package.id}, but " \
+              "it was caused by ##{result.journal_cause.additional_attributes[:work_package_id]}."
 
-        expect(result.journal_cause['type'])
+        expect(result.journal_cause.type)
         .to eql("work_package_related_changed_times"),
             "Expected work package change to ##{wp.id} to have been caused because ##{expected_cause_type}."
 

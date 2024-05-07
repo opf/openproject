@@ -12,7 +12,6 @@ keywords: manage groups
 A **Group** is defined as a list of users which can be assigned to a project with a selected role. New groups can be defined in **Administration -> Users and permissions -> Groups**.
 </div>
 
-
 OpenProject allows creating tailored project member **groups**, which  grant additional permissions to individual users within a project. Instead of adding individual users to a project you can add a user group, e.g. Marketing. You can edit existing groups, create new ones, add and remove users or delete groups.
 
 ## Add a new group
@@ -38,8 +37,6 @@ You can add users to a group and edit a group by clicking on the **name of the g
 After clicking on a group's name, you can **change the group name**, **add or remove group members** and **assign groups to projects**.
 
 ![edit-groups](image-20210505162541644.png)
-
-
 
 ### Add users to a group
 

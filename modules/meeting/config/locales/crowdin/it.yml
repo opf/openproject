@@ -99,7 +99,7 @@ it:
     attachments:
       text: "I file allegati sono disponibili per tutti i partecipanti alla riunione. Puoi anche trascinarli nelle note dei punti all'ordine del giorno."
     copy:
-      title: "Copia riunione %{title}"
+      title: "Copy meeting: %{title}"
       attachments: "Copia allegati"
       attachments_text: "Copia tutti i file allegati nella nuova riunione"
       agenda: "Copia ordine del giorno"

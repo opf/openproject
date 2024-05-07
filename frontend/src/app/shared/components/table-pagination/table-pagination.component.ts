@@ -163,13 +163,23 @@ export class TablePaginationComponent extends UntilDestroyedMixin implements OnI
       }
 
       // This avoids a truncation when there are not enough elements to truncate for the first elements
-      const startingDiff = currentPage - 2 * truncSize;
-      if (startingDiff >= 0 && startingDiff <= 1) {
-        this.postPageNumbers = this.truncatePageNums(pageNumbers, pageNumbers.length >= maxVisible + (truncSize * 2), maxVisible + truncSize, pageNumbers.length, 0);
-      } else {
-        this.prePageNumbers = this.truncatePageNums(pageNumbers, currentPage >= maxVisible, 0, Math.min(currentPage - Math.ceil(maxVisible / 2), pageNumbers.length - maxVisible), truncSize);
-        this.postPageNumbers = this.truncatePageNums(pageNumbers, pageNumbers.length >= maxVisible + (truncSize * 2), maxVisible, pageNumbers.length, 0);
-      }
+      const preVisible = Math.min(currentPage - Math.ceil(maxVisible / 2), pageNumbers.length - maxVisible);
+
+      this.prePageNumbers = this.truncatePageNums(
+        pageNumbers,
+        (currentPage >= maxVisible) && (pageNumbers.length >= maxVisible + (truncSize * 2)),
+        0,
+        preVisible,
+        truncSize,
+      );
+
+      this.postPageNumbers = this.truncatePageNums(
+        pageNumbers,
+        pageNumbers.length >= maxVisible + (truncSize * 2),
+        maxVisible,
+        pageNumbers.length,
+        0,
+      );
     }
 
     this.pageNumbers = pageNumbers;
@@ -181,7 +191,7 @@ export class TablePaginationComponent extends UntilDestroyedMixin implements OnI
       && this.pagination.total > this.perPageOptions[0];
   }
 
-  private truncatePageNums(pageNumbers:any, perform:any, disectFrom:any, disectLength:any, truncateFrom:any) {
+  private truncatePageNums(pageNumbers:number[], perform:boolean, disectFrom:number, disectLength:number, truncateFrom:number):number[] {
     if (perform) {
       const truncationSize = this.paginationService.getOptionsTruncationSize();
       const truncatedNums = pageNumbers.splice(disectFrom, disectLength);

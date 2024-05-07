@@ -14,7 +14,7 @@ keywords: meetings, meetings faq, tickets, how to, task
 
 ## How long will the classic meetings be available?
 
-[Classic meetings](../classic-meetings) will be deprecated with one of the future releases after 13.1. We will communicate this in advance to ensure a smooth transition for all our users. 
+[Classic meetings](../classic-meetings) will be deprecated with one of the future releases after 13.1. We will communicate this in advance to ensure a smooth transition for all our users.
 
 ## Can I add a meeting to a calendar?
 

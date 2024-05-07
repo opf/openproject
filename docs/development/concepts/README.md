@@ -23,6 +23,3 @@ Please choose an area that you would like to read about:
 | [Resource changesets](resource-changesets)           | How is change tracked to resources in the frontend? How to save the changes.  |
 | [Inline editing](inline-editing)                     | How does inline editing and the edit field functionality work in OpenProject? |
 | [Queries and QuerySpace](queries)                    | What is the Query API concept and how is it used in the frontend?             |
-
-
-

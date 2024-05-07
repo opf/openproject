@@ -62,6 +62,10 @@ module Queries
         attribute
       end
 
+      def available?
+        true
+      end
+
       private
 
       def order

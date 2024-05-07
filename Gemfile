@@ -50,7 +50,7 @@ gem "doorkeeper", "~> 5.6.6"
 # Maintain our own omniauth due to relative URL root issues
 # see upstream PR: https://github.com/omniauth/omniauth/pull/903
 gem "omniauth", git: "https://github.com/opf/omniauth", ref: "fe862f986b2e846e291784d2caa3d90a658c67f0"
-gem "request_store", "~> 1.6.0"
+gem "request_store", "~> 1.7.0"
 
 gem "warden", "~> 1.2"
 gem "warden-basic_auth", "~> 0.2.1"
@@ -115,6 +115,8 @@ gem "ruby-duration", "~> 3.2.0"
 # released.
 gem "mail", "= 2.8.1"
 
+gem "csv", "~> 3.3"
+
 # provide compatible filesystem information for available storage
 gem "sys-filesystem", "~> 1.4.0", require: false
 
@@ -138,7 +140,7 @@ gem "rack-attack", "~> 6.7.0"
 gem "secure_headers", "~> 6.5.0"
 
 # Browser detection for incompatibility checks
-gem "browser", "~> 5.3.0"
+gem "browser", "~> 6.0.0"
 
 # Providing health checks
 gem "okcomputer", "~> 1.18.1"
@@ -160,7 +162,7 @@ gem "prawn", "~> 2.4"
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.2"
 
-gem "meta-tags", "~> 2.20.0"
+gem "meta-tags", "~> 2.21.0"
 
 gem "paper_trail", "~> 15.1.0"
 
@@ -170,7 +172,7 @@ group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
   gem "dalli", "~> 3.2.0"
-  gem "redis", "~> 5.1.0"
+  gem "redis", "~> 5.2.0"
 end
 
 gem "i18n-js", "~> 4.2.3"
@@ -185,7 +187,7 @@ gem "rack-timeout", "~> 0.6.3", require: "rack/timeout/base"
 
 gem "nokogiri", "~> 1.16.0"
 
-gem "carrierwave", "~> 1.3.1"
+gem "carrierwave", "~> 1.3.4"
 gem "carrierwave_direct", "~> 2.1.0"
 gem "fog-aws"
 
@@ -214,7 +216,7 @@ gem "appsignal", "~> 3.0", require: false
 
 gem "view_component"
 # Lookbook
-gem "lookbook", "~> 2.2.1"
+gem "lookbook", "~> 2.3.0"
 
 # Require factory_bot for usage with openproject plugins testing
 gem "factory_bot", "~> 6.4.0", require: false
@@ -264,7 +266,7 @@ group :test do
   gem "capybara-screenshot", "~> 1.0.17"
   gem "cuprite", "~> 0.15.0"
   gem "selenium-devtools"
-  gem "selenium-webdriver", "~> 4.18.0"
+  gem "selenium-webdriver", "~> 4.20"
 
   gem "fuubar", "~> 2.5.0"
   gem "timecop", "~> 0.9.0"
@@ -383,4 +385,4 @@ end
 
 gem "openproject-octicons", "~>19.10.0"
 gem "openproject-octicons_helper", "~>19.10.0"
-gem "openproject-primer_view_components", "~>0.28.1"
+gem "openproject-primer_view_components", "~>0.29.1"

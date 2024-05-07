@@ -24,6 +24,7 @@ Create budgets, log time and costs on specific work packages and create time and
 Watch this short video to get a first overview about time and cost reporting in OpenProject.
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Track-Time-and-Costs.mp4" type="video/mp4" controls="" style="width:100%"></video>
+
 ## Frequently asked questions (FAQ)
 
 ### Does OpenProject provide resource management?

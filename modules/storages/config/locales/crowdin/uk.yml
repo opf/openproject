@@ -41,6 +41,7 @@ uk:
       too_many_elements_created_at_once: Забагато елементів, створених за раз. Очікувалося щонайбільше %{max}; отримано %{actual}.
   permission_create_files: 'Зовнішнє сховище: створення файлів'
   permission_delete_files: 'Зовнішнє сховище: видалення файлів'
+  permission_header_for_project_module_storages: Папки проєкту з автоматичним керуванням
   permission_manage_file_links: Керування посиланнями на файл
   permission_manage_storages_in_project: Керування файловими сховищами в проєкті
   permission_read_files: 'Зовнішнє сховище: читання файлів'

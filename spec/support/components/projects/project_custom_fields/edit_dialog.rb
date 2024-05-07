@@ -96,7 +96,7 @@ module Components
         ###
 
         def input_containers
-          within '.Overlay-body > .FormControl-spacingWrapper' do
+          within '#project-section-edit-form > .FormControl-spacingWrapper' do
             page.all('.FormControl-spacingWrapper')
           end
         end

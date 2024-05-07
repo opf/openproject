@@ -28,6 +28,7 @@
 
 require "spec_helper"
 require_relative "../../support/pages/work_package_meetings_tab"
+require_relative "../../support/pages/structured_meeting/show"
 
 RSpec.describe "Open the Meetings tab", :js do
   shared_let(:project) { create(:project) }
@@ -279,19 +280,16 @@ RSpec.describe "Open the Meetings tab", :js do
     end
 
     context "when user is allowed to edit meetings" do
-      it "shows the add to meeting button" do
+      it "shows the add to meeting button and dialog" do
         work_package_page.visit!
         switch_to_meetings_tab
 
         meetings_tab.expect_add_to_meeting_button_present
-      end
 
-      it "opens the add to meeting dialog when clicking the add to meeting button" do
         work_package_page.visit!
         switch_to_meetings_tab
 
         meetings_tab.open_add_to_meeting_dialog
-
         meetings_tab.expect_add_to_meeting_dialog_shown
       end
 
@@ -303,6 +301,8 @@ RSpec.describe "Open the Meetings tab", :js do
         shared_let(:ongoing_meeting) do
           create(:structured_meeting, title: "Ongoing", project:, start_time: 1.hour.ago, duration: 4.0)
         end
+
+        let(:meeting_page) { Pages::StructuredMeeting::Show.new(first_upcoming_meeting) }
 
         it "enables the user to add the work package to multiple open, upcoming meetings" do
           work_package_page.visit!
@@ -384,6 +384,22 @@ RSpec.describe "Open the Meetings tab", :js do
           click_on("Save")
 
           expect(page).to have_content("Meeting can't be blank")
+        end
+
+        it "adds presenter when the work package is added to a meeting" do
+          work_package_page.visit!
+          switch_to_meetings_tab
+
+          meetings_tab.open_add_to_meeting_dialog
+
+          meetings_tab.fill_and_submit_meeting_dialog(
+            first_upcoming_meeting,
+            "A very important note added from the meetings tab to the first meeting!"
+          )
+
+          meeting_page.visit!
+
+          expect(page.find(".op-meeting-agenda-item--presenter")).to have_text(user.name)
         end
       end
     end

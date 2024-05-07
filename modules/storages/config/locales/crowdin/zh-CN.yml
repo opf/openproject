@@ -41,6 +41,7 @@ zh-CN:
       too_many_elements_created_at_once: 一次创建的元素过多。最多应为 %{max} 个，实际为 %{actual} 个。
   permission_create_files: '外部存储: 创建文件'
   permission_delete_files: '外部存储：删除文件'
+  permission_header_for_project_module_storages: 自动托管项目文件夹
   permission_manage_file_links: 管理文件链接
   permission_manage_storages_in_project: 管理项目中的文件存储
   permission_read_files: '外部存储：读取文件'

@@ -72,6 +72,8 @@ module Pages
       new_board_page.set_board_type action
       new_board_page.click_on_submit
 
+      new_board_page.expect_and_dismiss_toaster
+
       if expect_empty
         expect(page).to have_css(".boards-list--add-item-text", wait: 10)
         expect(page).to have_no_css(".boards-list--item")

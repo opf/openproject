@@ -37,7 +37,7 @@ class AddFileLinkJournalsToExistingContainers < ActiveRecord::Migration[7.0]
       next unless container.class.journaled?
 
       Journals::CreateService.new(container, system_user)
-                             .call(cause: { "type" => 'system_update', "feature" => 'file_links_journal' })
+                             .call(cause: Jounal::CausedBySystemUpdate.new(feature: "file_links_journal"))
     end
   end
 

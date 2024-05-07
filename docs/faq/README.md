@@ -19,7 +19,6 @@ Welcome to the central overview of frequently asked questions for OpenProject.
 | [Other](#other)                                                                 | Additional questions, e.g. about contribution, training, support                                  |
 | [Topic-specific FAQ](#topic-specific-faq)                                       | Links to other FAQ sections                                                                       |
 
-
 ## Learn more about OpenProject
 
 ### How do I get access to the OpenProject Enterprise add-ons?
@@ -33,6 +32,7 @@ If you want to run OpenProject on your own server, the OpenProject Enterprise on
 Have you already installed the [OpenProject Community edition](https://www.openproject.org/download-and-installation/)? If yes, you can request a trial license for the OpenProject Enterprise on-premises edition by clicking on the button "Free trial license" [here](https://www.openproject.org/de/enterprise-edition/) and test the Enterprise on-premises edition for 14 days for free.
 
 ### Can I have some users with Enterprise add-ons and some without?
+
 As the Enterprise Enterprise add-ons affect the whole instance (e.g. with Agile Boards and project custom fields) it's not possible to upgrade only some users.
 
 ### What are the system requirements?
@@ -195,7 +195,6 @@ For portfolio management or custom reporting, you can use either the project lis
 
 For more information on portfolio management options in OpenProject please refer to this [Use Case](../use-cases/portfolio-management).
 
-
 ### Is there an organizational chart in OpenProject?
 
 There's no such feature. However, you can use the wiki to add information regarding your departments and employees. Furthermore, you can upload existing org charts as image or e.g. PDF to the wiki or the documents module.
@@ -247,7 +246,6 @@ Yes. Take a photo with your camera and save it on your phone. Then open the corr
 ### Can I use IFC while a Revit connection is not available?
 
 Yes, of course. Within the BCF module you can upload multiple IFC models and create and manage BCF issues.
-
 
 ## Migration
 

@@ -30,8 +30,6 @@ class Journal < ApplicationRecord
   self.table_name = "journals"
   self.ignored_columns += ["activity_type"]
 
-  WorkingDayUpdate = Struct.new(:working_days, :non_working_days, keyword_init: true)
-
   include ::JournalChanges
   include ::JournalFormatter
   include ::Acts::Journalized::FormatHooks

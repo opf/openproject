@@ -18,10 +18,10 @@ In the dialog that appears, select a meeting from the list of open upcoming meet
 
 ![Add a work package to a new meeting](openproject_user_guide_meeting_dialogue.png)
 
-The newly-created work package agenda item can be [re-ordered and edited](../../meetings/dynamic-meetings/#edit-a-meeting). 
+The newly-created work package agenda item can be [re-ordered and edited](../../meetings/dynamic-meetings/#edit-a-meeting).
 
 ## View existing linked meetings
 
-The **Meetings** tab will also list all meetings, past and upcoming, to which the current work package has already been linked to. 
+The **Meetings** tab will also list all meetings, past and upcoming, to which the current work package has already been linked to.
 
 Each linked meeting will also also include any notes associated with that work package agenda item. This can be useful to recall specific discussion points, open questions or decisions taken during a meeting that concerns the current work package.

@@ -34,6 +34,9 @@ module Bim
       def set_attributes(params)
         model.project = params[:project] if params.key?(:project)
         set_ifc_attachment(params.delete(:ifc_attachment))
+        # Do not proceed to build the IfcModel if the attachment contract is not valid
+        # Let the errors be displayed back to the user
+        return model if model.errors.any?
 
         super
 
@@ -47,16 +50,11 @@ module Bim
       end
 
       def validate_and_result
-        super.tap do |call|
-          # map errors on attachments to better display them
-          if call.errors[:attachments].any?
-            model.ifc_attachment.errors.details.each do |_, errors|
-              errors.each do |error|
-                call.errors.add(:attachments, error[:error], **error.except(:error))
-              end
-            end
-          end
-        end
+        # Do not proceed to build the IfcModel if the attachment contract is not valid
+        # Let the errors be displayed back to the user before validating the IFC contract
+        return ServiceResult.failure(result: model, errors: model.errors) if model.errors.any?
+
+        super
       end
 
       def set_title
@@ -74,10 +72,19 @@ module Bim
 
           model.attachments << ifc_attachment
         else
-          ::Attachments::BuildService
-            .bypass_whitelist(user:)
-            .call(file: ifc_attachment, container: model, filename: ifc_attachment.original_filename, description: "ifc")
+          build_ifc_attachment(ifc_attachment)
         end
+      end
+
+      def build_ifc_attachment(ifc_attachment)
+        ::Attachments::BuildService
+          .bypass_whitelist(user:)
+          .call(file: ifc_attachment, container: model, filename: ifc_attachment.original_filename, description: "ifc")
+          .on_failure do |build_attachment_result|
+            build_attachment_result.errors.each do |error|
+              model.errors.add(:attachments, error.type, **error.detail.except(:error))
+            end
+          end
       end
     end
   end

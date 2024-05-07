@@ -1,6 +1,7 @@
 require:
   - rubocop-rails
   - rubocop-rspec
+  - rubocop-rspec_rails
   - ./lib_static/rubocop/cop/open_project/add_preview_for_view_component.rb
   - ./lib_static/rubocop/cop/open_project/no_do_end_block_with_rspec_capybara_matcher_in_expect.rb
   - ./lib_static/rubocop/cop/open_project/use_service_result_factory_methods.rb
@@ -21,7 +22,7 @@ inherit_mode:
     - Exclude
 
 AllCops:
-  TargetRubyVersion: 3.2
+  TargetRubyVersion: 3.3
   # Enable any new cops in new versions by default
   NewCops: enable
   Exclude:

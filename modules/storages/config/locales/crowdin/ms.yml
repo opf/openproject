@@ -41,6 +41,7 @@ ms:
       too_many_elements_created_at_once: Terlalu banyak unsur dicipta dalam satu masa. Dijangka %{max} paling banyak, mendapat %{actual}.
   permission_create_files: 'External Storage: Cipta fail'
   permission_delete_files: 'External Storage: Padam fail'
+  permission_header_for_project_module_storages: Folder projek yang dikendalikan secara automatik
   permission_manage_file_links: Urus pautan fail
   permission_manage_storages_in_project: Urus fail storan dalam projek
   permission_read_files: 'External Storage: Baca fail'
