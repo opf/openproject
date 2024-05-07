@@ -31,7 +31,6 @@ apt-get install -yq --no-install-recommends \
 	curl \
 	gnupg2 \
 
-
 # install node + npm
 curl -s https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${ARCHITECTURE}.tar.gz | tar xzf - -C /usr/local --strip-components=1
 
@@ -40,6 +39,7 @@ echo 'deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main' > /etc/ap
 
 apt-get update -qq
 apt-get install -yq --no-install-recommends \
+	libpq-dev \
 	postgresql-client-$CURRENT_PGVERSION \
 	postgresql-client-$NEXT_PGVERSION \
 	libpq5 \
@@ -48,7 +48,9 @@ apt-get install -yq --no-install-recommends \
 	tesseract-ocr \
 	poppler-utils \
 	catdoc \
-	imagemagick
+	imagemagick \
+	libclang-dev
+
 
 # Specifics for BIM edition
 if [ ! "$BIM_SUPPORT" = "false" ]; then
