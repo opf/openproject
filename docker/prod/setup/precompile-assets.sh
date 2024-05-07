@@ -12,6 +12,8 @@ else
 
   SECRET_KEY_BASE=1 RAILS_ENV=production DATABASE_URL=nulldb://db \
     bin/rails openproject:plugins:register_frontend assets:precompile
+  # required to store artifact on github
+  cp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json
 fi
 
 rm -rf /tmp/nulldb

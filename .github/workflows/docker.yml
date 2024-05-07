@@ -21,7 +21,7 @@ env:
   REGISTRY_IMAGE: openproject/community
 
 jobs:
-  extract_version:
+  setup:
     runs-on: ubuntu-latest
     steps:
       - name: Extract version
@@ -36,10 +36,10 @@ jobs:
           elif [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
             TAG_REF=${{ inputs.tag }}
             CHECKOUT_REF=${{ inputs.tag }}
-          
+
             if [ -z "$TAG_REF" ]; then
               TAG_REF=dev
-              CHECKOUT_REF=refs/heads/feature/speedup-docker-builds
+              CHECKOUT_REF=dev
             fi
           else
             echo "Unsupported event"
@@ -106,19 +106,19 @@ jobs:
     strategy:
       matrix:
         include:
-          - platform: linux/amd64
-            target: slim
-            runner: runner=4cpu-linux-x64
-          - platform: linux/arm64/v8
-            target: slim
-            runner: runner=4cpu-linux-arm64
-          - platform: linux/amd64
-            target: all-in-one
-            runner: runner=4cpu-linux-x64
-          - platform: linux/arm64/v8
-            bim_support: false
-            target: all-in-one
-            runner: runner=4cpu-linux-arm64
+          # - platform: linux/amd64
+          #   target: slim
+          #   runner: runner=4cpu-linux-x64
+          # - platform: linux/arm64/v8
+          #   target: slim
+          #   runner: runner=4cpu-linux-arm64
+          # - platform: linux/amd64
+          #   target: all-in-one
+          #   runner: runner=4cpu-linux-x64
+          # - platform: linux/arm64/v8
+          #   bim_support: false
+          #   target: all-in-one
+          #   runner: runner=4cpu-linux-arm64
           - platform: linux/ppc64le
             bim_support: false
             target: all-in-one
