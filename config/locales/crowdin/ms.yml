@@ -48,7 +48,7 @@ ms:
         main-menu-border-color: "Sempadan menu utama"
       custom_colors: "Pilihan warna sendiri"
       customize: "Ubah suai pemasangan OpenProject dengan logo dan warna anda sendiri."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
+      enterprise_notice: "'Terima kasih!' sebagai tanda istimewa atas kontribusi kewangan mereka untuk membangunkan OpenProject, penambahan kecil ini hanya tersedia untuk pelanggan sokongan edisi Enterprise."
       enterprise_more_info: "Nota: logo yang digunakan akan boleh diakses secara awam."
       manage_colors: "Edit pilihan warna "
       instructions:
@@ -61,15 +61,15 @@ ms:
         main-menu-bg-color: "Warna latar belakang menu sebelah kiri "
       theme_warning: Penukaran tema akan menulis ganti gaya tersuai anda. Reka bentuk tersebut akan hilang. Adakah anda pasti anda ingin teruskan?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise edition"
-      add_token: "Upload an Enterprise edition support token"
+      upgrade_to_ee: "Naik taraf ke edisi Enterprise"
+      add_token: "Muat naik token sokongan edisi Enterprise"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise edition token used?"
+        text: "Adakah anda yakin anda ingin hapuskan token edisi Enterprise terkini yang telah digunakan?"
         title: "Padam token"
       replace_token: "Ganti token sokongan semasa anda"
-      order: "Order Enterprise on-premises edition"
-      paste: "Paste your Enterprise edition support token"
-      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
+      order: "Pesan edisi di premis Enterprise"
+      paste: "Sisipkan token sokongan edisi Enterprise anda"
+      required_for_feature: "Tambahan ini hanya tersedia dengan token sokongan edisi Enterprise yang aktif"
       enterprise_link: "Untuk info lebih lanjut, klik disini."
       start_trial: "Mulakan percubaan percuma"
       book_now: "Tempah sekarang"
@@ -157,16 +157,16 @@ ms:
       plain: "tiada"
       simple_tls: "LDAPS"
       start_tls: "STARTTTLS"
-      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
-      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
-      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
+      plain_description: "Buka sambungan tidak sulit ke server LDAP. Tidak disyorkan untuk produksi."
+      simple_tls_description: "Gunakan LDAPS. Perlukan port yang berasingan pada server LDAP. Mod ini selalu lapuk, kami sarankan untuk gunakan STARTTLS jika boleh."
+      start_tls_description: "Hantar perintah STARTTLS selepas sambungkan ke port LDAP standard. Disarankan untuk sambungan yang disulitkan."
       section_more_info_link_html: >
         Bahagian ini berkaitan dengan keselamatan sambungan sumber pengesahan LDAP ini. Untuk maklumat lebih lanjut, lawat <a href="%{link}">dokumentasi Net::LDAP</a> berikut.
     tls_options:
-      verify_peer: "Verify SSL certificate"
+      verify_peer: "Sahkan sijil SSL"
       verify_peer_description_html: >
-        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
-      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
+        Membolehkan verifikasi SSL ketat bagi rantaian dipercayai sijil. <br/><strong>Amaran:</strong> Nyahtandakan pilihan ini nyahaktifkan verifikasi SSL bagi sijil server LDAP. Ini mendedahkan hubungan anda kepada Man dalam serangan Tengah.
+      tls_certificate_description: "Jika sijil server LDAP bukan lagi di sumber yang dipercayai di sistem ini, anda boleh tambahkannya secara manual di sini. Masukkan sijil rentetan PEM X509."
   forums:
     show:
       no_results_title_text: Tiada pos sekarang ini untuk forum.
@@ -210,13 +210,13 @@ ms:
     reorder_alphabetical: "Susun semula nilai mengikut abjad"
     reorder_confirmation: "Amaran: Susunan semasa nilai yang sedia ada akan hilang. Teruskan?"
     instructions:
-      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
-      is_for_all: "Mark the custom field as available in all existing and new projects."
-      searchable: "Include the field values when using the global search functionality."
-      editable: "Allow the field to be editable by users themselves."
-      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_required: "Tandakan ruang yang tersuai seperti yang diperlukan. Ini akan buatkan ia wajib untuk isikan ruang tersebut apabila membuat sumber yang baru atau kemas kini sumber sedia ada."
+      is_for_all: "Tandakan ruang tersuai sebagai tersedia di semua projek baru dan sedia ada."
+      searchable: "Sertakan nilai-nilai ruangan apabila gunakan fungsi pencarian global."
+      editable: "Benarkan ruangan tersebut boleh disunting oleh pengguna sendiri."
+      visible: "Buat ruangan boleh dilihat ke semua penngguna (bukan pentadbir) dalam gambaran kesuluruhan projek dan dipaparkan di widget butiran projek di Gambaran Keseluruhan Projek."
       is_filter: >
-        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
+        Benarkan ruang tersuai untuk digunakan di penyaring paparan pakej kerja. Perhatikan bahawa hanya "Untuk semua projek" yang dipilih, ruang tersuai akan dipaparkan di paparan global.
     tab:
       no_results_title_text: Tiada medan tersuai sekarang ini.
       no_results_content_text: Cipta medan tersuai baharu
@@ -255,7 +255,7 @@ ms:
       failed_text: "Permintaan untuk buang projek %{name} telah gagal. Projek telah diarkibkan."
       completed: "Penghapusan projek %{name} selesai"
       completed_text: "Permintaan untuk menghapuskan projek %{name} telah diselesaikan."
-      completed_text_children: "Additionally, the following subprojects have been deleted:"
+      completed_text_children: "Tambahan pula, subprojek berikut telah dipadam:"
     index:
       open_as_gantt: "Buka sebagai paparan Gantt"
       no_results_title_text: Tiada projek buat masa ini.
@@ -405,7 +405,7 @@ ms:
     upsale:
       title: Pengguna gantian
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
+        Pengguna sementara ialah cara untuk memperuntukkan pakej kerja kepada pengguna yang bukan sebahagian daripada projek anda. Ianya berguna dalam pelbagai senario; contohnya, jika anda perlu menjejaki tugas untuk sumber yang masih belum dinamakan atau disediakan, atau jika anda tidak ingin memberikan seseorang akses ke OpenProject, tetapi masih hendak menjejaki tugas yang telah diperuntukkan ke mereka.
   prioritiies:
     edit:
       priority_color_text: |
@@ -439,7 +439,7 @@ ms:
       settings: "Seting"
       form_configuration: "Konfigurasi borang"
       more_info_text_html: >
-        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        Edisi Enterprise membenarkan anda untuk menyuaikan borang konfigurasi dengan segala jenis penambahan: <br> <ul class="%{list_styling_class}"> <li><b>Tambah kumpulan atribut baru</b></li> <li><b>Namakan semula atribut kumpulan</b></li> <li><b>Tambah jadual pakej kerja yang berkaitan</b></li> </ul>
       projects: "Projek"
       enabled_projects: "Projek yang diaktifkan"
       edit_query: "Edit jadual"
@@ -655,7 +655,7 @@ ms:
         color: "Warna"
       user:
         admin: "Pentadbir"
-        auth_source: "Authentication source"
+        auth_source: "Sumber pengesahan"
         ldap_auth_source: "Sambungan LDAP"
         identity_url: "Identiti URL"
         current_password: "Kata laluan semasa"
@@ -741,7 +741,7 @@ ms:
         confirmation: "tidak sepadan dengan %{attribute}."
         could_not_be_copied: "%{dependency} tidak dapat disalin (sepenuhnya)."
         does_not_exist: "tidak wujud."
-        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
+        error_enterprise_only: "%{action} hanya tersedia di OpenProject edisi Enterprise"
         error_unauthorized: "tidak boleh diakses."
         error_readonly: "telah cuba untuk ditulis tetapi tidak dapat ditulis."
         error_conflict: "Maklumat telah dikemas kini oleh sekurang-kurangnya salah satu pengguna lain sementara itu."
@@ -786,7 +786,7 @@ ms:
         unknown_property_nested: "mempunyai laluan yang tidak diketahui '%{path}'."
         unremovable: "tidak dapat dikeluarkan."
         url_not_secure_context: >
-          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
+          tidak menyediakan "Konteks Selamat". Gunakan antara HTTPS atau alamat gelung-balik, seperti localhost.
         wrong_length: "adalah panjang yang salah (sepatutnya %{count} karakter)."
       models:
         ldap_auth_source:
@@ -823,7 +823,7 @@ ms:
               fragment_present: "tidak boleh mengandungi fragment."
               invalid_uri: "mestilah URI yang sah."
               relative_uri: "mestilah URI mutlak."
-              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
+              secured_uri: 'tidak menyediakan "Konteks Selamat". Gunakan antara HTTPS atau alamat gelung-balik, seperti localhost.'
               forbidden_uri: "adalah dilarang oleh server."
             scopes:
               not_match_configured: "tidak sepadan dengan skop yang tersedia."
@@ -1054,7 +1054,7 @@ ms:
       custom_field: "Medan tersuai"
       "doorkeeper/application": "Aplikasi OAuth"
       forum: "Forum"
-      global_role: "Global role"
+      global_role: "Peranan global"
       group: "Kumpulan"
       member: "Ahli"
       news: "Berita"
@@ -1452,11 +1452,11 @@ ms:
   ee:
     upsale:
       form_configuration:
-        description: "Customize the form configuration with these additional add-ons:"
+        description: "Menyuaikan borang konfigurasi dengan segala jenis tambahan ini:"
         add_groups: "Tambah kumpulan atribut baharu"
         rename_groups: "Nama semula kumpulan atribut"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
+        description_html: "Menyaring dan mengisihkan ruang tersuai ialah tambahan edisi Enterprise."
   enumeration_activities: "Aktiviti penjejakan masa"
   enumeration_work_package_priorities: "Keutamaan pakej kerja"
   enumeration_reported_project_statuses: "Status projek yang dilaporkan"
@@ -1480,7 +1480,7 @@ ms:
   error_cookie_missing: "Kuki OpenProject tidak dijumpai. Sila pastikan bahawa kuki telah diaktifkan, kerana aplikasi ini tidak akan berfungsi dengan betul tanpanya."
   error_custom_option_not_found: "Pilihan tidak wujud."
   error_enterprise_activation_user_limit: "Akaun anda tidak dapat diaktifkan (had pengguna dicapai). Sila hubungi pentadbir anda  untuk dapatkan akses."
-  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "Edisi Enterprise tidak aktif. Domain token Enterprise anda (%{actual}) tidak sepadan dengan nama hos sistem (%{expected})."
   error_failed_to_delete_entry: "Gagal untuk menghapuskan kemasukan ini."
   error_in_dependent: "Ralat dalam cubaan untuk mengubah objek yang bergantung: %{dependent_class} #%{related_id} -  %{related_subject}: %{error}"
   error_in_new_dependent: "Ralat dalam cubaan untuk mencipta objek yang bergantung: %{dependent_class} - %{related_subject}"
@@ -1575,10 +1575,10 @@ ms:
     blocks:
       community: "Komuniti OpenProject"
       upsale:
-        title: "Upgrade to Enterprise edition"
+        title: "Naik taraf ke edisi Enterprise"
         more_info: "Maklumat lanjut"
     links:
-      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
+      upgrade_enterprise_edition: "Naik taraf ke edisi Enterprise"
       postgres_migration: "Mengalihkan pemasangan anda ke PostgreSQL"
       user_guides: "Panduan pengguna"
       faq: "SOALAN-SOALAN LAZIM"
@@ -1622,6 +1622,8 @@ ms:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Panduan konfigurasi"
     get_in_touch: "Anda mempunyai soalan? Sila hubungi kami."
@@ -1632,7 +1634,7 @@ ms:
     admin:
       mail_notification: "Pemberitahuan e-mel"
       mails_and_notifications: "E-mel dan pemberitahuan"
-      aggregation: "Aggregation"
+      aggregation: "Pengagregatan"
       api_and_webhooks: "API dan webhooks"
     quick_add:
       label: "Buka menu tambah cepat"
@@ -1873,11 +1875,11 @@ ms:
   label_enumerations: "Penyenaraian"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} pengguna aktif yang ditempah"
-  label_enterprise_edition: "Enterprise edition"
+  label_enterprise_edition: "Edisi Enterprise"
   label_enterprise_support: "Enterprise support"
   label_enterprise_addon: "Penambahan Enterprise"
   label_environment: "Persekitaran"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_time: "Anggaran dan perkembangan"
   label_equals: "ialah"
   label_everywhere: "di mana-mana saja"
   label_example: "Contoh"
@@ -1936,7 +1938,7 @@ ms:
   label_index_by_title: "Indeks mengikut tajuk"
   label_information: "Maklumat"
   label_information_plural: "Maklumat"
-  label_installation_guides: "Installation guides"
+  label_installation_guides: "Panduan pemasangan"
   label_integer: "Integer"
   label_internal: "Dalaman"
   label_introduction_video: "Video pengenalan"
@@ -2303,8 +2305,8 @@ ms:
   label_yesterday: "semalam"
   label_zen_mode: "Mod Zen"
   label_role_type: "Jenis"
-  label_member_role: "Project role"
-  label_global_role: "Global role"
+  label_member_role: "Peranan projek"
+  label_global_role: "Peranan global"
   label_not_changeable: "(tidak boleh diubah)"
   label_global: "Global"
   label_seeded_from_env_warning: Rekod ini telah dicipta melalui seting / pemboleh ubah persekitaran. Tidak boleh disunting melalui UI.
@@ -2351,7 +2353,7 @@ ms:
       mentioned_by: "%{user} menyebut anda di ruang komen"
       more_to_see:
         other: "Terdapat 1 lagi pakej kerja dengan pemberitahuan."
-      open_in_browser: "Open in browser"
+      open_in_browser: "Buka di laman layar"
       reason:
         watched: "Diawasi"
         assigned: "Ditugaskan"
@@ -2417,9 +2419,9 @@ ms:
   mail_body_incoming_email_error_logs: "Log"
   mail_body_lost_password: "Untuk menukar kata laluan, klik pada pautan berikut:"
   mail_password_change_not_possible:
-    title: "Password change not possible"
-    body: "Your account at %{app_title} is connected to an external authentication provider (%{name})."
-    subtext: "Passwords for external account cannot be changed in the application. Please use the lost password functionality of your authentication provider."
+    title: "Tidak dapat menukar kata laluan"
+    body: "Akaun anda %{app_title} telah disambungkan ke penyedia pengesahan luar (%{name})."
+    subtext: "Kata laluan bagi akaun luar tidak boleh ditukar di dalam aplikasi. Sila gunakan fungsi kata laluan hilang di penyedia pengesahan anda."
   mail_body_register: "Selamat datang ke %{app_title}. Sila aktifkan akaun anda dengan mengklik pautan ini:"
   mail_body_register_header_title: "E-mel jemputan ahli projek"
   mail_body_register_user: "Kepada %{name},"
@@ -2568,7 +2570,7 @@ ms:
   permission_add_work_package_notes: "Tambah nota"
   permission_add_work_packages: "Tambah pakej kerja"
   permission_add_messages: "Hantar mesej"
-  permission_add_project: "Create projects"
+  permission_add_project: "Cipta projek"
   permission_add_work_package_attachments: "Tambah lampiran"
   permission_add_work_package_attachments_explanation: "Benarkan penambahan lampiran tanpa kebenaran edit pakej kerja"
   permission_archive_project: "Arkib projek"
@@ -2586,7 +2588,7 @@ ms:
   permission_commit_access: "Baca/tulis akses ke repositori (komit)"
   permission_copy_projects: "Salin projek"
   permission_copy_work_packages: "Salin pakej kerja"
-  permission_create_backup: "Create backups"
+  permission_create_backup: "Cipta sokongan"
   permission_delete_work_package_watchers: "Buang pemerhati"
   permission_delete_work_packages: "Buang pakej kerja"
   permission_delete_messages: "Padam mesej"
@@ -2603,14 +2605,14 @@ ms:
   permission_edit_own_time_entries: "Sunting log masa sendiri"
   permission_edit_project: "Sunting projek"
   permission_edit_reportings: "Sunting laporan"
-  permission_edit_time_entries: "Edit time logs for other users"
+  permission_edit_time_entries: "Sunting log masa untuk pengguna-pengguna lain"
   permission_edit_timelines: "Sunting garis masa"
   permission_edit_wiki_pages: "Sunting halaman wiki"
   permission_export_work_packages: "Eksport pakej kerja"
   permission_export_wiki_pages: "Eksport halaman wiki"
   permission_list_attachments: "Senarai lampiran"
-  permission_log_own_time: "Log own time"
-  permission_log_time: "Log time for other users"
+  permission_log_own_time: "Log masa sendiri"
+  permission_log_time: "Log masa untuk pengguna lain"
   permission_manage_forums: "Uruskan forum"
   permission_manage_categories: "Urus kategori pakej kerja"
   permission_manage_dashboards: "Urus dashboard"
@@ -2689,7 +2691,7 @@ ms:
   project_module_news: "Berita"
   project_module_repository: "Repositori"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
+  permission_header_for_project_module_work_package_tracking: "Pakej kerja dan carta Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2793,7 +2795,7 @@ ms:
       oauth_application_details_link_text: "Pergi ke halaman tetapan"
       setup_documentation_details: "JIka anda memerlukan bantuan mengkonfigurasikan penyimpanan fail baharu lihat dokumentasi berikut:"
       setup_documentation_details_link_text: "Setup penyimpanan fail"
-      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
+      show_warning_details: "Untuk gunakan simpanan fail ini, ingat untuk mengaktifkan modul dan simpanan khusus di tetapan project setiap projek yang dikehendaki."
     subversion:
       existing_title: "Repositori Subversion sedia ada"
       existing_introduction: "JIka anda mempunyai repositori Subversion sedia ada, anda boleh pautkan ia dengan OpenProject untuk mengaksesnya dari dalam aplikasi."
@@ -2892,7 +2894,7 @@ ms:
     In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Ciri-ciri pakej kerja"
   setting_work_package_startdate_is_adddate: "Guna tarikh semasa sebagai tarikh mula untuk pakej kerja baharu"
-  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
+  setting_work_packages_projects_export_limit: "Pakej kerja / had eksport projek"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Log masuk pengguna yang direkodkan, nama, dan alamat mel untuk semua permintaan"
   setting_login_required: "Pengesahan diperlukan"
@@ -2987,7 +2989,7 @@ ms:
         type: "Keseluruhan baris mengikut Jenis"
         priority: "Keseluruhan baris mengikut Keutamaan"
     icalendar:
-      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+      enable_subscriptions_text_html: "Benarkan pengguna dengan kebenaran yang diperlukan untuk melanggan kalendar OpenProject dan akses informasi pakej kerja melalui kalendar pelanggan luar.\n<strong>Nota:</strong> Sila baca tentang <a href=\"%{link}\" target=\"_blank\">langganan iCalendar</a> untuk fahami tentang potensi risiko keselamatan sebelum membenarkannya."
     language_name_being_default: "%{language_name} (asas)"
     notifications:
       events_explanation: "Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user."
@@ -3055,9 +3057,9 @@ ms:
   text_custom_field_hint_activate_per_project_and_type: >
     Medan tersuai perlu diaktifkan untuk setiap jenis pakej kerja dan setiap projek.
   text_wp_status_read_only_html: >
-    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    Edisi Enterprise akan menambahkan segala tambahan ke ruangan status pakej kerja: <br> <ul> <li><b>Benarkan untuk menandakan pakej kerja untuk baca sahaja untuk status tertentu </b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    Edisi Enterprise akan menambahkan segala jenis tambahan ke ruang tersuai projek: <br> <ul> <li><b> Tambah ruang tersuai ke projek ke senarai projek anda untuk ciptakan paparan portfolio project </b></li> </ul>
   text_custom_logo_instructions: >
     Logo putih pada latar belakang telus disyorkan. Untuk hasil yang terbaik pada kedua-dua, paparan konvensional dan paparan retina, pastikan dimensi imej adalah 460px x 60px.
   text_custom_export_logo_instructions: >
@@ -3236,14 +3238,14 @@ ms:
   warning_user_limit_reached_admin: >
     Menambah pengguna tambahan akan melebihi had semasa. Sila <a href="%{upgrade_url}">naik taraf pelan anda</a> bagi memastikan pengguna luaran dapat mengakses salinan ini.
   warning_user_limit_reached_instructions: >
-    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
+    Anda telah mencapai had pengguna anda (%{current}/%{max} pengguna aktif). Siila hubungi sales@openproject.com untuk menaikkan taraf pelan edisi Enterprise anda dan tambah pengguna tambahan.
   warning_protocol_mismatch_html: >
 
   warning_bar:
     https_mismatch:
-      title: "HTTPS mode setup mismatch"
+      title: "Mod persediaan HTTPS tidak sepadan"
       text_html: >
-        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
+        Aplikasi anda sedang berjalan dengan mod HTTPS ditetapkan kepada <code>%{set_protocol}</code>, tetapi permintaannya ialah permintaan <code>%{actual_protocol}</code>. Ini akan mengakibatkan ralat! Anda perlu menetapkan nilai konfigurasi seperti yang berikut: <code>%{setting_value}</code>. Sila lihat <a href="%{more_info_path}">dokumentasi pemasangan</a> atas cara-cara untuk menetapkan konfigurasi ini.
     hostname_mismatch:
       title: "Tetapan nama hos tidak sepadan"
       text_html: >
@@ -3293,8 +3295,8 @@ ms:
         view_description: "Boleh papar pakej kerja ini."
       remove: "Keluarkan"
       share: "Kongsi"
-      text_empty_search_description: "There are no users with the current filter criteria."
-      text_empty_search_header: "We couldn't find any matching results."
+      text_empty_search_description: "Tiada pengguna dengan kriteria penyaring semasa."
+      text_empty_search_header: "Kami tidak menjumpai keputusan yang sepadan."
       text_empty_state_description: "Pakej kerja masih belum dikongsi dengan sesiapa lagi."
       text_empty_state_header: "Tidak dikongsikan"
       text_user_limit_reached: "Menambah pengguna tambahan akan melebihi had semasa. Sila hubungi pentadbir untuk meningkatkan had pengguna bagi memastikan pengguna luaran dapat mengakses pakej kerja ini."
@@ -3304,7 +3306,7 @@ ms:
       warning_user_limit_reached_admin: >
         Menambah pengguna tambahan akan melebihi had semasa. Sila <a href="%{upgrade_url}">naik taraf pelan anda</a> bagi memastikan pengguna luaran dapat mengakses pakej kerja ini.
       warning_no_selected_user: "Sila pilih pengguna untuk berkongsi pakej kerja ini dengan mereka"
-      warning_locked_user: "The user %{user} is locked and cannot be shared with"
+      warning_locked_user: "Pengguna %{user} telah dikunci dan tidak boleh dikongsi dengannya"
       user_details:
         locked: "Pengguna yang dikunci"
         invited: "Jemputan dihantar. "
@@ -3347,7 +3349,7 @@ ms:
       code_429: "Terlalu banyak permintaan. Sila cuba sebentar lagi."
       code_500: "Sebuah ralat dalaman telah berlaku."
       code_500_outbound_request_failure: "Satu permintaan outbound ke sumber lain telah gagal dengan kod status %{status_code}. "
-      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
+      code_500_missing_enterprise_token: "Permintaan tidak boleh dikendalikan kerana token Enterprise yang tidak sah atau hilang."
       not_found:
         work_package: "Pakej kerja yang anda cari tidak dapat ditemui atau telah dihapuskan."
       expected:
@@ -3527,8 +3529,8 @@ ms:
   you: anda
   link: pautan
   plugin_openproject_auth_plugins:
-    name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    name: "Plugin Auth OpenProject"
+    description: "Integrasi penyedia strategi OmniAuth untuk pengesahan di OpenProject."
   plugin_openproject_auth_saml:
-    name: "OmniAuth SAML / Single-Sign On"
-    description: "Adds the OmniAuth SAML provider to OpenProject"
+    name: "SAML OmniAuth / Daftar Masuk Tunggal"
+    description: "Tambah penyedia SAML OmniAuth ke OpenProject"

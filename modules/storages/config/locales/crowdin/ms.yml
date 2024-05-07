@@ -133,17 +133,17 @@ ms:
       oauth_application_details: Nilai rahsia pelanggan tidak akan dapat untuk diakses semula setelah menutup laman ini. Sila salin nilai-nilai ini ke %{oauth_application_details_link}.
       oauth_application_details_link_text: Setting Intergrasi Nextcloud OpenProject
       one_drive:
-        application_link_text: Azure portal
+        application_link_text: Portal Azure
         copy_redirect_uri: Salin alih semula URI
-        documentation_link_text: OneDrive/SharePoint file storages documentation
-        drive_id: Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}.
+        documentation_link_text: Dokumentasi simpanan fail OneDrive/SharePoint
+        drive_id: Sila salin ID daripada pemacu yang dikehendaki dengan mengikuti langkah-langkah di %{drive_id_link_text}
         integration: OneDrive/SharePoint
         missing_client_id_for_redirect_uri: Sila isikan nilai-nilai OAuth untuk menjana URI
         oauth_client_redirect_uri: Sila salin nilai ini ke URI pelencongan Web baru di bawah URI Redirect.
-        oauth_client_secret: In case there is no application client secret under Client credentials, please create a new one.
-        oauth_configuration: Copy these values from the desired application in the %{application_link_text}.
-        provider_configuration: Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
-        tenant_id: Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
+        oauth_client_secret: Sekiranya tiada rahsia klien aplikasi di bawah kelayakan Pelanggan, sila cipta yang baharu.
+        oauth_configuration: Salin nilai-nilai ini dari aplikasi yang diingini dalam %{application_link_text}
+        provider_configuration: Sila pastikan anda mempunyai hak pentadbiran dalam %{application_link_text} atau hubungi pentadbir Microsoft anda sebelum membuat penyediaan. Anda juga perlu mendaftar aplikasi Azure atau menggunakan yang sedia ada untuk pengesahan di portal.
+        tenant_id: Sila salin ID Direktori (penyewa) dari aplikasi yang diingini dan pendaftaran aplikasi di %{application_link_text}.
         tenant_id_placeholder: Nama atau UUID
       setting_up_additional_storages: Untuk menyediakan penyimpanan fail tambahan, sila kunjungi
       setting_up_additional_storages_non_admin: Para pentadbir boleh menyediakan penyimpanan fail tambahan di Administration / File Storages.
@@ -230,7 +230,7 @@ ms:
       project_storage_members:
         subtitle: Semak status sambungan untuk simpanan %{storage_name_link} bagi semua ahli projek.
         title: Status sambungan ahli
-    permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
+    permission_header_explanation: 'Kebenaran fail di simpanan luar hanya digunakan pada folder dan fail dalam folder projek yang dikendalikan secara automatik. Perhatikan bahawa bukan semua kebenaran fail disokong oleh semua penyedia simpanan. Sila semak dokumentasi di <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>kebenaran simpanan fail</a>untuk maklumat lanjut.'
     provider_types:
       label: Jenis provider
       nextcloud:
@@ -249,4 +249,4 @@ ms:
     upsale:
       description: |-
         Mengintegrasikan OneDrive/SharePoint anda sebagai simpanan fail dengan OpenProject. Muat naik fail dan pautkan terus ke pakej kerja dalam projek.
-      title: OneDrive/SharePoint integration
+      title: Integrasi OneDrive/SharePoint
