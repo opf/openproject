@@ -368,7 +368,7 @@ class MeetingsController < ApplicationController
   end
 
   def determine_date_range
-    @days = 31 # Setting.activity_days_default.to_i
+    @days = Setting.activity_days_default.to_i
 
     if params[:from]
       begin
