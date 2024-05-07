@@ -79,7 +79,9 @@ RSpec.describe Queries::Projects::Factory,
   current_user { build_stubbed(:user) }
 
   describe ".find" do
-    subject(:find) { described_class.find(id, params:, user: current_user) }
+    subject(:find) { described_class.find(id, params:, user: current_user, duplicate:) }
+
+    let(:duplicate) { false }
 
     context "without id" do
       it "returns a project query" do
@@ -412,6 +414,40 @@ RSpec.describe Queries::Projects::Factory,
       it { is_expected.to be_changed }
     end
 
+    context "when duplicating without an id" do
+      let(:id) { nil }
+      let(:duplicate) { true }
+
+      it "returns a project query" do
+        expect(find)
+          .to be_a(Queries::Projects::ProjectQuery)
+      end
+
+      it "has no name" do
+        expect(find.name)
+          .to be_nil
+      end
+
+      it { is_expected.to be_new_record }
+
+      it "has a filter for active projects" do
+        expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
+          .to eq([[:active, "=", ["t"]]])
+      end
+
+      it "is ordered by lft asc" do
+        expect(find.orders.map { |order| [order.attribute, order.direction] })
+          .to eq([%i[lft asc]])
+      end
+
+      it "has the enabled_project_columns columns as selects" do
+        expect(find.selects.map(&:attribute))
+          .to eq(default_selects)
+      end
+
+      it { is_expected.to be_changed }
+    end
+
     context "with the 'active' id and with order params" do
       let(:id) { "active" }
       let(:params) do
@@ -535,6 +571,40 @@ RSpec.describe Queries::Projects::Factory,
       it "has the selects overwritten" do
         expect(find.selects.map(&:attribute))
           .to eq(%i[description project_status])
+      end
+
+      it { is_expected.to be_changed }
+    end
+
+    context "when duplicating with the 'active' id" do
+      let(:id) { "active" }
+      let(:duplicate) { true }
+
+      it "returns a project query" do
+        expect(find)
+          .to be_a(Queries::Projects::ProjectQuery)
+      end
+
+      it "has no name" do
+        expect(find.name)
+          .to be_nil
+      end
+
+      it { is_expected.to be_new_record }
+
+      it "has a filter for active projects" do
+        expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
+          .to eq([[:active, "=", ["t"]]])
+      end
+
+      it "is ordered by lft asc" do
+        expect(find.orders.map { |order| [order.attribute, order.direction] })
+          .to eq([%i[lft asc]])
+      end
+
+      it "has the enabled_project_columns columns as selects" do
+        expect(find.selects.map(&:attribute))
+          .to eq(default_selects)
       end
 
       it { is_expected.to be_changed }
@@ -702,6 +772,40 @@ RSpec.describe Queries::Projects::Factory,
         expect(find)
           .to be_nil
       end
+    end
+
+    context "when duplicating with an integer id" do
+      let(:id) { 42 }
+      let(:duplicate) { true }
+
+      it "returns a project query" do
+        expect(find)
+          .to be_a(Queries::Projects::ProjectQuery)
+      end
+
+      it "has no name" do
+        expect(find.name)
+          .to be_nil
+      end
+
+      it { is_expected.to be_new_record }
+
+      it "keeps filters" do
+        expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
+          .to eq([[:project_status_code, "=", [Project.status_codes[:on_track].to_s]]])
+      end
+
+      it "keeps ordereds" do
+        expect(find.orders.map { |order| [order.attribute, order.direction] })
+          .to eq([%i[id asc]])
+      end
+
+      it "keeps selects" do
+        expect(find.selects.map(&:attribute))
+          .to eq(%i[project_status name favored])
+      end
+
+      it { is_expected.to be_changed }
     end
 
     context "without id, as non admin and with a non existing custom field id",
