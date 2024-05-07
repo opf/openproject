@@ -438,7 +438,7 @@ RSpec.describe Queries::Projects::Factory,
     end
 
     context "with the 'active' id and with filter params" do
-      let(:id) { nil }
+      let(:id) { "active" }
       let(:params) do
         {
           filters: [
@@ -485,7 +485,7 @@ RSpec.describe Queries::Projects::Factory,
     end
 
     context "with the 'active' id and with select params" do
-      let(:id) { nil }
+      let(:id) { "active" }
       let(:params) do
         {
           selects: %w[description project_status]
