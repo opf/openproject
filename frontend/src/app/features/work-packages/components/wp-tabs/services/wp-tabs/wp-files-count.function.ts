@@ -40,13 +40,10 @@ export function workPackageFilesCount(
 ):Observable<number> {
   const attachmentService = injector.get(AttachmentsResourceService);
   const fileLinkService = injector.get(FileLinksResourceService);
+  const attachmentsCollection = workPackage.$links.attachments ? attachmentService.collection(workPackage.$links.attachments.href || '') : new BehaviorSubject([]);
+  const fileLinksCollection = fileLinkService.collection(workPackage.$links.fileLinks?.href || '');
 
   return combineLatest(
-    [
-      workPackage.$links.attachments ? attachmentService.collection(workPackage.$links.attachments.href || '') : new BehaviorSubject([]),
-      fileLinkService.collection(workPackage.$links.fileLinks?.href || ''),
-    ],
-  ).pipe(
-    map(([a, f]) => a.length + f.length),
-  );
+    [attachmentsCollection, fileLinksCollection],
+  ).pipe(map(([a, f]) => a.length + f.length));
 }
