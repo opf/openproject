@@ -169,7 +169,7 @@ module.exports = {
         "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
 
         // https://typescript-eslint.io/rules/no-base-to-string/ Disable false positives due to missing types
-        "@typescript-eslint/no-base-to-string": ["error", { "ignoredTypeNames": ["Error", "RegExp", "URL", "URLSearchParams"] }],
+        "@typescript-eslint/no-base-to-string": ["error", { "ignoredTypeNames": ["URI", "Error", "RegExp", "URL", "URLSearchParams"] }],
 
         //////////////////////////////////////////////////////////////////////
         // Anything below this line should be turned on again at some point //
