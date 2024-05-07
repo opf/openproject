@@ -37,25 +37,6 @@ class MeetingSectionsController < ApplicationController
                 except: %i[create]
   before_action :authorize
 
-  # def new
-  #   if @meeting.open?
-  #     update_new_component_via_turbo_stream(hidden: false, type: @agenda_item_type)
-  #     update_new_button_via_turbo_stream(disabled: true)
-  #   else
-  #     update_all_via_turbo_stream
-  #     render_error_flash_message_via_turbo_stream(message: t("text_meeting_not_editable_anymore"))
-  #   end
-
-  #   respond_with_turbo_streams
-  # end
-
-  # def cancel_new
-  #   update_new_component_via_turbo_stream(hidden: true)
-  #   update_new_button_via_turbo_stream(disabled: false)
-
-  #   respond_with_turbo_streams
-  # end
-
   def create
     call = ::MeetingSections::CreateService
       .new(user: current_user)
@@ -127,7 +108,7 @@ class MeetingSectionsController < ApplicationController
       .call
 
     if call.success?
-      update_all_via_turbo_stream # TODO: more specific UI update
+      remove_section_via_turbo_stream
     else
       generic_call_failure_response(call)
     end

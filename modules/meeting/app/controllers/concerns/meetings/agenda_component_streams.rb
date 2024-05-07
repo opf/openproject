@@ -301,6 +301,19 @@ module Meetings
         )
       end
 
+      def remove_section_via_turbo_stream(meeting_section: @meeting_section)
+        if meeting_section.meeting.sections.count == 0
+          # show blank slate again through rerendering the list component
+          update_list_via_turbo_stream
+        else
+          remove_via_turbo_stream(
+            component: MeetingSections::ShowComponent.new(
+              meeting_section:
+            )
+          )
+        end
+      end
+
       def update_all_via_turbo_stream
         update_header_component_via_turbo_stream
         update_sidebar_component_via_turbo_stream
