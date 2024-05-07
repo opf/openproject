@@ -22,7 +22,7 @@
 ms:
   plugin_costs:
     name: "Masa dan kos"
-    description: "This module adds features for planning and tracking costs of projects."
+    description: "Modul ini menambahkan fitur-fitur untuk merancang dan menjejaki kos-kos projek."
   activerecord:
     attributes:
       cost_entry:

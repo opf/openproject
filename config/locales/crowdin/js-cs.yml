@@ -1339,5 +1339,5 @@ cs:
         Close: "Zavřít"
     open_project_storage_modal:
       waiting_subtitle:
-        network_off: "There is a network problem."
+        network_off: "Je tu problém se sítí."
         network_on: "Network is back. We are trying."

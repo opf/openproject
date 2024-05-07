@@ -85,7 +85,7 @@ cs:
         manual_management: Manually managed access and folders
         manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
         setup_incomplete: Select the type of management of user access and folder creation.
-        subtitle: Access management
+        subtitle: Access Management
         title: Access and project folders
       automatically_managed_folders: Automaticky spravované složky
       general_information: Všeobecné informace
