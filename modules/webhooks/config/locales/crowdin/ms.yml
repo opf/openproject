@@ -6,7 +6,7 @@ ms:
     attributes:
       webhooks/webhook:
         url: 'Muatan URL'
-        secret: 'Signature secret'
+        secret: 'Rahsia tandatangan'
         events: 'Kejadian-kejadian'
         projects: 'Projek yang diaktifkan'
       webhooks/log:
@@ -32,7 +32,7 @@ ms:
         updated: "Telah dikemas kini"
       explanation:
         text: >
-          Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the %{link} has passed.
+          Apabila berlakunya peristiwa seperti terciptanya pakej kerja, atau projek yang telah dikemas kini, OpenProject akan menghantar permintaan POST kepada titik akhir web yang dikonfigurasikan. Selalunya peristiwa tersebut akan dihantar selepas %{link} telah lepas.
         link: Tempoh penerimaan yang dikonfigurasikan
       status:
         enabled: 'Webhook telah diaktifkan'
@@ -51,16 +51,16 @@ ms:
           placeholder: 'Deskripsi pilihan untuk webhook'
         enabled:
           description: >
-            When checked, the webhook will trigger on the selected events. Uncheck to disable the webhook.
+            Webhook akan petik peristiwa tertentu apabila ditandakan. Nyahtandakan untuk nyahaktifkan webhook.
         events:
           title: 'Kejadian yang dibenarkan'
         project_ids:
           title: 'Projek yang diaktifkan'
-          description: 'Select for which projects this webhook should be executed for.'
+          description: 'Pilih projek untuk webhook ini dilaksanakan.'
           all: 'Semua projek'
           selected: 'Projek yang dipilih sahaja'
         selected_project_ids:
           title: 'Projek yang dipilih'
         secret:
           description: >
-            If set, this secret value is used by OpenProject to sign the webhook payload.
+            Jika telah ditetapkan, nilai rahsia ini digunakan oleh OpenProject untuk menandatangani muatan webhook.
