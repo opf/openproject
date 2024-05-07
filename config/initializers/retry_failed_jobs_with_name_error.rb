@@ -47,5 +47,7 @@ Rails.application.configure do
       rescue StandardError => e
         Rails.logger.error("Failed to enqueue job for retry #{job.display_name} (job id: #{job.id}): #{e.message}")
       end
+  rescue LoadError
+    # Ignore LoadError that happens when nulldb://db database adapter is used
   end
 end
