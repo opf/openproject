@@ -155,7 +155,7 @@ module Projects::ActsAsCustomizablePatches
       #
       # additionally we provide the `global` parameter to allow querying the available custom fields on a global level
       # when we have explicit control over the call of `available_custom_fields`
-      unless global_custom_fields?
+      unless global_custom_fields_enabled?
         custom_fields = custom_fields
           .where(id: project_custom_field_project_mappings.select(:custom_field_id))
           .or(ProjectCustomField.required)
@@ -164,8 +164,12 @@ module Projects::ActsAsCustomizablePatches
       custom_fields
     end
 
-    def global_custom_fields?
-      new_record? || previously_new_record? || _query_available_custom_fields_on_global_level
+    def global_custom_fields_enabled?
+      global_custom_field_flags.any?(&:present?)
+    end
+
+    def global_custom_field_flags
+      [new_record?, previously_new_record?, _query_available_custom_fields_on_global_level]
     end
 
     def all_available_custom_fields
@@ -176,7 +180,7 @@ module Projects::ActsAsCustomizablePatches
     # that are factored in the calculation of the available_custom_fields method should be included
     # in the custom_values_cache_key too.
     def custom_values_cache_key
-      [global_custom_fields?, _limit_custom_fields_validation_to_section_id]
+      [*global_custom_field_flags, _limit_custom_fields_validation_to_section_id]
     end
 
     # we need to query the available custom fields on a global level when updating custom field values
