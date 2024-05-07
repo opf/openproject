@@ -44,14 +44,12 @@ class WorkPackages::Progress::MigrateRemoveTotalsFromChildlessWorkPackagesJob < 
       SET derived_estimated_hours = NULL,
           derived_remaining_hours = NULL,
           derived_done_ratio = NULL
-      FROM (
-        SELECT wp_tree.ancestor_id AS id,
-               MAX(generations) AS generations
-        FROM work_package_hierarchies wp_tree
-        GROUP BY wp_tree.ancestor_id
-      ) hierarchy
-      WHERE work_packages.id = hierarchy.id
-      AND hierarchy.generations = 0
+      WHERE work_packages.id IN (
+        SELECT ancestor_id AS id
+        FROM work_package_hierarchies
+        GROUP BY id
+        HAVING MAX(generations) = 0
+      )
       AND (
         work_packages.derived_estimated_hours IS NOT NULL
         OR work_packages.derived_remaining_hours IS NOT NULL
