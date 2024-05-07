@@ -45,10 +45,10 @@ RSpec.describe Queries::Projects::Factory,
             .and_return(persisted_query)
   end
   let(:persisted_query) do
-    build_stubbed(:project_query) do |query|
+    build_stubbed(:project_query, name: "My query") do |query|
       query.order(id: :asc)
-      query.where(:project_status, "=", [Project.status_codes[:on_track].to_s])
-      query.select(:project_status, :name, :created_at)
+      query.where(:project_status_code, "=", [Project.status_codes[:on_track].to_s])
+      query.select(:project_status, :name, :favored)
     end
   end
   let(:custom_field) do
@@ -321,6 +321,26 @@ RSpec.describe Queries::Projects::Factory,
           .to eql(persisted_query)
       end
 
+      it "has a name" do
+        expect(find.name)
+          .to eql("My query")
+      end
+
+      it 'has a filter for projects that are "at risk"' do
+        expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
+          .to eq([[:project_status_code, "=", [Project.status_codes[:on_track].to_s]]])
+      end
+
+      it "is ordered by lft asc" do
+        expect(find.orders.map { |order| [order.attribute, order.direction] })
+          .to eq([%i[id asc]])
+      end
+
+      it "has the enabled_project_columns columns as selects" do
+        expect(find.selects.map(&:attribute))
+          .to eq(%i[project_status name favored])
+      end
+
       it { is_expected.not_to be_changed }
     end
 
@@ -556,12 +576,12 @@ RSpec.describe Queries::Projects::Factory,
 
       it "has the orders of the persisted query" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
-          .to eq(persisted_query.orders.map { |order| [order.attribute, order.direction] })
+          .to eq([%i[id asc]])
       end
 
       it "has the selects of the persisted query" do
         expect(find.selects.map(&:attribute))
-          .to eq(persisted_query.selects.map(&:attribute))
+          .to eq(%i[project_status name favored])
       end
 
       it { is_expected.to be_changed }
@@ -596,7 +616,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "has the filters of the persisted query" do
         expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-          .to eq(persisted_query.filters.map { |filter| [filter.field, filter.operator, filter.values] })
+          .to eq([[:project_status_code, "=", [Project.status_codes[:on_track].to_s]]])
       end
 
       it "has the orders overwritten" do
@@ -606,7 +626,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "has the selects of the persisted query" do
         expect(find.selects.map(&:attribute))
-          .to eq(persisted_query.selects.map(&:attribute))
+          .to eq(%i[project_status name favored])
       end
 
       it { is_expected.to be_changed }
@@ -632,12 +652,12 @@ RSpec.describe Queries::Projects::Factory,
 
       it "has the filters of the persisted query" do
         expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-          .to eq(persisted_query.filters.map { |filter| [filter.field, filter.operator, filter.values] })
+          .to eq([[:project_status_code, "=", [Project.status_codes[:on_track].to_s]]])
       end
 
       it "has the orders of the persisted query" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
-          .to eq(persisted_query.orders.map { |order| [order.attribute, order.direction] })
+          .to eq([%i[id asc]])
       end
 
       it "has the selects specified by the params" do
@@ -705,7 +725,7 @@ RSpec.describe Queries::Projects::Factory,
       let(:persisted_query) do
         build_stubbed(:project_query) do |query|
           query.order(id: :asc, blubs: :desc)
-          query.where(:project_status, "=", [Project.status_codes[:on_track].to_s])
+          query.where(:project_status_code, "=", [Project.status_codes[:on_track].to_s])
           query.where(:blubs, "=", [123])
           query.select(:project_status, :name, :blubs)
         end
@@ -723,7 +743,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "has the filters of the persisted query reduced to the valid ones" do
         expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-          .to eq(persisted_query.filters.map { |filter| [filter.field, filter.operator, filter.values] })
+          .to eq([[:project_status_code, "=", [Project.status_codes[:on_track].to_s]]])
       end
 
       it "has the orders reduced to the valid ones" do
