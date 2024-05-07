@@ -70,5 +70,5 @@ export default class extends Controller {
       const valueLength = inputElement.value.length;
       inputElement.setSelectionRange(valueLength, valueLength);
     }
-}
+  }
 }
