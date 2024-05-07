@@ -26,37 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Settings::UpdateService < BaseServices::BaseContracted
-  def initialize(user:)
-    super(user:,
-          contract_class: Settings::UpdateContract)
-  end
-
-  def persist(call)
-    params.each do |name, value|
-      set_setting_value(name, value)
-    end
-    call
+class WorkPackages::Progress::MigrateRemoveTotalsFromChildlessWorkPackagesJob < WorkPackages::Progress::Job
+  def perform
+    updated_work_package_ids = remove_totals_from_childless_work_packages
+    create_journals_for_updated_work_packages(updated_work_package_ids, cause: journal_cause)
   end
 
   private
 
-  def set_setting_value(name, value)
-    old_value = Setting[name]
-    new_value = derive_value(value)
-    Setting[name] = new_value
-    if name == :work_package_done_ratio && old_value != "status" && new_value == "status"
-      WorkPackages::Progress::ApplyStatusesPCompleteJob.perform_later(cause_type: "progress_mode_changed_to_status_based")
-    end
+  def journal_cause
+    { type: "system_update", feature: "totals_removed_from_childless_work_packages" }
   end
 
-  def derive_value(value)
-    case value
-    when Array, Hash
-      # remove blank values in array, hash settings
-      value.compact_blank!
-    else
-      value.strip
-    end
+  def remove_totals_from_childless_work_packages
+    results = execute(<<~SQL.squish)
+      UPDATE work_packages
+      SET derived_estimated_hours = NULL,
+          derived_remaining_hours = NULL,
+          derived_done_ratio = NULL
+      WHERE work_packages.id IN (
+        SELECT ancestor_id AS id
+        FROM work_package_hierarchies
+        GROUP BY id
+        HAVING MAX(generations) = 0
+      )
+      AND (
+        work_packages.derived_estimated_hours IS NOT NULL
+        OR work_packages.derived_remaining_hours IS NOT NULL
+        OR work_packages.derived_done_ratio IS NOT NULL
+      )
+      RETURNING work_packages.id
+    SQL
+    results.column_values(0)
   end
 end
