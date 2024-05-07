@@ -106,6 +106,8 @@ RSpec.describe Queries::Projects::Factory,
         expect(find.selects.map(&:attribute))
           .to eq(default_selects)
       end
+
+      it { is_expected.not_to be_changed }
     end
 
     context "without id and with ee and admin privileges",
@@ -121,6 +123,8 @@ RSpec.describe Queries::Projects::Factory,
         expect(find.selects.map(&:attribute))
           .to eq(default_selects)
       end
+
+      it { is_expected.not_to be_changed }
     end
 
     context "with the 'active' id" do
@@ -150,6 +154,8 @@ RSpec.describe Queries::Projects::Factory,
         expect(find.selects.map(&:attribute))
           .to eq(default_selects)
       end
+
+      it { is_expected.not_to be_changed }
     end
 
     context "with the 'my' id" do
@@ -179,6 +185,8 @@ RSpec.describe Queries::Projects::Factory,
         expect(find.selects.map(&:attribute))
           .to eq(default_selects)
       end
+
+      it { is_expected.not_to be_changed }
     end
 
     context "with the 'archived' id" do
@@ -208,6 +216,8 @@ RSpec.describe Queries::Projects::Factory,
         expect(find.selects.map(&:attribute))
           .to eq(default_selects)
       end
+
+      it { is_expected.not_to be_changed }
     end
 
     context "with the 'on_track' id" do
@@ -237,6 +247,8 @@ RSpec.describe Queries::Projects::Factory,
         expect(find.selects.map(&:attribute))
           .to eq(default_selects)
       end
+
+      it { is_expected.not_to be_changed }
     end
 
     context "with the 'off_track' id" do
@@ -266,6 +278,8 @@ RSpec.describe Queries::Projects::Factory,
         expect(find.selects.map(&:attribute))
           .to eq(default_selects)
       end
+
+      it { is_expected.not_to be_changed }
     end
 
     context "with the 'at_risk' id" do
@@ -295,6 +309,8 @@ RSpec.describe Queries::Projects::Factory,
         expect(find.selects.map(&:attribute))
           .to eq(default_selects)
       end
+
+      it { is_expected.not_to be_changed }
     end
 
     context "with an integer id for which the user has a query" do
@@ -304,6 +320,8 @@ RSpec.describe Queries::Projects::Factory,
         expect(find)
           .to eql(persisted_query)
       end
+
+      it { is_expected.not_to be_changed }
     end
 
     context "with an integer id for which the user does not have a persisted query" do
@@ -370,6 +388,8 @@ RSpec.describe Queries::Projects::Factory,
         expect(find.selects.map(&:attribute))
           .to eq(%i[description name])
       end
+
+      it { is_expected.to be_changed }
     end
 
     context "with the 'active' id and with order params" do
@@ -413,6 +433,8 @@ RSpec.describe Queries::Projects::Factory,
         expect(find.selects.map(&:attribute))
           .to eq(default_selects)
       end
+
+      it { is_expected.to be_changed }
     end
 
     context "with the 'active' id and with filter params" do
@@ -458,6 +480,8 @@ RSpec.describe Queries::Projects::Factory,
         expect(find.selects.map(&:attribute))
           .to eq(default_selects)
       end
+
+      it { is_expected.to be_changed }
     end
 
     context "with the 'active' id and with select params" do
@@ -492,6 +516,8 @@ RSpec.describe Queries::Projects::Factory,
         expect(find.selects.map(&:attribute))
           .to eq(%i[description project_status])
       end
+
+      it { is_expected.to be_changed }
     end
 
     context "with an integer id for which the user has a query and with filter params" do
@@ -537,6 +563,8 @@ RSpec.describe Queries::Projects::Factory,
         expect(find.selects.map(&:attribute))
           .to eq(persisted_query.selects.map(&:attribute))
       end
+
+      it { is_expected.to be_changed }
     end
 
     context "with an integer id for which the user has a query and with order params" do
@@ -580,6 +608,8 @@ RSpec.describe Queries::Projects::Factory,
         expect(find.selects.map(&:attribute))
           .to eq(persisted_query.selects.map(&:attribute))
       end
+
+      it { is_expected.to be_changed }
     end
 
     context "with an integer id for which the user has a query and with select params" do
@@ -614,6 +644,8 @@ RSpec.describe Queries::Projects::Factory,
         expect(find.selects.map(&:attribute))
           .to eq(%i[description project_status])
       end
+
+      it { is_expected.to be_changed }
     end
 
     context "with an integer id for which the user does not have a query and with params" do
@@ -663,6 +695,8 @@ RSpec.describe Queries::Projects::Factory,
         expect(find.selects.map(&:attribute))
           .to eq(%i[name cf_1]) # rubocop:disable Naming/VariableNumber
       end
+
+      it { is_expected.not_to be_changed }
     end
 
     context "with an integer id with non existing selects, filters and orders" do
