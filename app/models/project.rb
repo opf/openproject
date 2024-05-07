@@ -156,7 +156,8 @@ class Project < ApplicationRecord
   friendly_id :identifier, use: :finders
 
   scopes :allowed_to,
-         :visible
+         :visible,
+         :with_available_custom_fields
 
   scope :has_module, ->(mod) {
     where(["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s])
@@ -170,10 +171,6 @@ class Project < ApplicationRecord
   scope :archived, -> { where(active: false) }
   scope :with_member, ->(user = User.current) { where(id: user.memberships.select(:project_id)) }
   scope :without_member, ->(user = User.current) { where.not(id: user.memberships.select(:project_id)) }
-
-  scope :with_available_custom_fields, ->(custom_field_ids) do
-    joins(:project_custom_field_project_mappings).where(project_custom_field_project_mappings: { custom_field_id: custom_field_ids })
-  end
 
   scopes :activated_time_activity,
          :visible_with_activated_time_activity
