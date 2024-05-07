@@ -130,7 +130,7 @@ class ApplicationMailer < ActionMailer::Base
       end
     end
 
-    super(headers, &block)
+    super(headers.merge(to: to.mail), &block)
   end
 
   def send_localized_mail(user)
