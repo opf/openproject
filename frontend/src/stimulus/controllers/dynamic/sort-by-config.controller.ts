@@ -43,7 +43,7 @@ export default class SortByConfigController extends Controller {
   declare readonly inputRowContainerTarget:HTMLElement;
 
   connect():void {
-    this.inputRowTargets.forEach((row, index) => {
+    this.inputRowTargets.forEach((row) => {
       const selectedField = this.getSelectedField(row);
       const selectedDirection = this.getSelectedDirection(row);
 
@@ -54,7 +54,7 @@ export default class SortByConfigController extends Controller {
       }
 
       this.displayNewFieldSelectorIfNeeded();
-      this.disableOptions();
+      this.disableSelectedFieldsForOtherSelects();
     });
   }
 
@@ -89,10 +89,8 @@ export default class SortByConfigController extends Controller {
     }
 
     this.displayNewFieldSelectorIfNeeded();
-
-    this.disableOptions();
+    this.disableSelectedFieldsForOtherSelects();
     this.sortByFieldTarget.value = this.buildSortJson();
-    console.log({ visible: this.visibleFieldCount(), order: this.inputRowTargets.map((iRow) => iRow.dataset.index) });
   }
 
   displayNewFieldSelectorIfNeeded():void {
@@ -169,12 +167,12 @@ export default class SortByConfigController extends Controller {
   }
 
   moveRowToBottom(row:HTMLElement):void {
-    const surroundingDiv = row.parentElement as HTMLElement;
+    const surroundingDiv = row.parentElement as HTMLElement; // the row is wrapped in a div
     surroundingDiv.remove();
     this.inputRowContainerTarget.append(surroundingDiv);
   }
 
-  disableOptions():void {
+  disableSelectedFieldsForOtherSelects():void {
     this.inputRowTargets.forEach((row) => {
       const selectedFieldsInOtherRows = this.getAllSelectedFields(row);
       const otherSelect = row.querySelector('select[name="sort_field"]') as HTMLSelectElement;

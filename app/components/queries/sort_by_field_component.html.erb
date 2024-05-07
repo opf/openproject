@@ -1,6 +1,8 @@
 <%= render(Primer::OpenProject::GridLayout.new(css_class: "op-configure-query-sort-form", tag: :div, data: { "sort-by-config-target" => "inputRow", "index" => index })) do |grid| %>
   <% grid.with_area("field") do %>
-    <%= select_tag 'sort_field', select_options, include_blank: true, form: "none", data: { action: "change->sort-by-config#fieldChanged"} %>
+    <%#- We are just using the classes of the primer component here, because when using the primer component, we cannot detach the input element from the form %>
+    <%#- The form="none" adds the input to a nonexistant form (as we do not have one with the ID="none" and thus the fields to not get appended to the query string %>
+    <%= select_tag 'sort_field', select_options, include_blank: true, form: "none", class: "FormControl-select FormControl-medium", data: { action: "change->sort-by-config#fieldChanged"} %>
   <% end %>
   <% grid.with_area("direction") do %>
     <%= render(Primer::Alpha::SegmentedControl.new("aria-label": "Sort order", hide_labels: true)) do |sort_buttons| %>
