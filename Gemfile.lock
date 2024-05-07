@@ -617,7 +617,7 @@ GEM
     httpclient (2.8.3)
     httpx (1.2.4)
       http-2-next (>= 1.0.3)
-    i18n (1.14.4)
+    i18n (1.14.5)
       concurrent-ruby (~> 1.0)
     i18n-js (4.2.3)
       glob (>= 0.4.0)
