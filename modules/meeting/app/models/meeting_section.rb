@@ -38,9 +38,17 @@ class MeetingSection < ApplicationRecord
 
   before_validation :set_default_title
 
+  after_save :trigger_meeting_agenda_item_time_slots_calculation, if: Proc.new { |section|
+    section.position_previously_changed?
+  }
+
   acts_as_list scope: :meeting
 
   default_scope { order(:position) }
+
+  def trigger_meeting_agenda_item_time_slots_calculation
+    meeting.calculate_agenda_item_time_slots
+  end
 
   def set_default_title
     if title.blank?
