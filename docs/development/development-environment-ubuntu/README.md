@@ -183,7 +183,7 @@ ruby --version
 ruby 3.3.1 (2024-04-23 revision c56cd86388) [arm64-darwin23]
 
 bundler --version
-Bundler version 2.5.9
+Bundler version 2.5.10
 
 node --version
 v20.9.0
