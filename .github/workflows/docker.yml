@@ -107,12 +107,15 @@ jobs:
       matrix:
         include:
           - platform: linux/amd64
+            bim_support: true
             target: slim
             runner: runner=4cpu-linux-x64
           - platform: linux/arm64/v8
+            bim_support: false
             target: slim
             runner: runner=4cpu-linux-arm64
           - platform: linux/amd64
+            bim_support: true
             target: all-in-one
             runner: runner=4cpu-linux-x64
           - platform: linux/arm64/v8
