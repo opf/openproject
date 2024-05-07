@@ -112,7 +112,7 @@ module Redmine
         end
 
         def custom_field_values
-          custom_field_values_cache[custom_field_cache_key] ||=
+          custom_field_values_cache[custom_values_cache_key] ||=
             available_custom_fields.flat_map do |custom_field|
               existing_cvs = custom_values.select { |v| v.custom_field_id == custom_field.id }
 
@@ -132,7 +132,7 @@ module Redmine
         #
         # i.e.: The work package custom field values are changing based on the project_id and type_id.
         # The only way to keep the cache updated is to include those ids in the cache key.
-        def custom_field_cache_key
+        def custom_values_cache_key
           1
         end
 
@@ -233,12 +233,11 @@ module Redmine
           self.custom_field_values = new_values
         end
 
-        def validate_custom_values(custom_field_ids = [])
+        def validate_custom_values
           set_default_values! if new_record?
 
           custom_field_values
             .reject(&:marked_for_destruction?)
-            .select { |cv| custom_field_ids.empty? || custom_field_ids.include?(cv.custom_field_id) }
             .select(&:invalid?)
             .each { |custom_value| add_custom_value_errors! custom_value }
         end

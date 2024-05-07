@@ -237,7 +237,7 @@ class BaseContract < Disposable::Twin
       # as the disabled custom fields would be treated as not-writable
       #
       # relevant especially for the project API
-      model.available_custom_fields(global: true).map(&:attribute_name)
+      model.all_available_custom_fields.map(&:attribute_name)
     else
       model.available_custom_fields.map(&:attribute_name)
     end

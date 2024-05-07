@@ -523,7 +523,7 @@ class WorkPackage < ApplicationRecord
 
   private_class_method :available_custom_field_key
 
-  def custom_field_cache_key
+  def custom_values_cache_key
     [project_id, type_id]
   end
 

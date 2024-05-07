@@ -122,7 +122,7 @@ module Projects::ActsAsCustomizablePatches
       result
     end
 
-    def available_custom_fields(global: false)
+    def available_custom_fields
       # overrides acts_as_customizable
       # in contrast to acts_as_customizable, custom_fields are enabled per project
       # thus we need to check the project_custom_field_project_mappings
@@ -140,6 +140,12 @@ module Projects::ActsAsCustomizablePatches
       # when accessed with the _query_available_custom_fields_on_global_level flag on.
       unless _query_available_custom_fields_on_global_level
         custom_fields = custom_fields.visible
+
+        # Limit the set of available custom fields when the validation is limited to a section
+        if _limit_custom_fields_validation_to_section_id
+          custom_fields =
+            custom_fields.where(custom_field_section_id: _limit_custom_fields_validation_to_section_id)
+        end
       end
 
       # available_custom_fields is called from within the acts_as_customizable module
@@ -149,7 +155,7 @@ module Projects::ActsAsCustomizablePatches
       #
       # additionally we provide the `global` parameter to allow querying the available custom fields on a global level
       # when we have explicit control over the call of `available_custom_fields`
-      unless global || new_record? || _query_available_custom_fields_on_global_level
+      unless new_record? || _query_available_custom_fields_on_global_level
         custom_fields = custom_fields
           .where(id: project_custom_field_project_mappings.select(:custom_field_id))
           .or(ProjectCustomField.required)
@@ -158,15 +164,18 @@ module Projects::ActsAsCustomizablePatches
       custom_fields
     end
 
-    def validate_custom_values
-      # validate custom values only of a specified section
-      # instead of validating ALL custom values like done in acts_as_customizable
-      custom_field_section_ids = CustomField
-        .where(id: custom_field_values.pluck(:custom_field_id))
-        .where(custom_field_section_id: _limit_custom_fields_validation_to_section_id)
-        .pluck(:id)
+    def all_available_custom_fields
+      with_all_available_custom_fields { available_custom_fields }
+    end
 
-      super(custom_field_section_ids)
+    # Important: In order the have the custom values cache working correctly, all the variables
+    # that are factored in the calculation of the available_custom_fields method should be included
+    # in the custom_values_cache_key too.
+    def custom_values_cache_key
+      [
+        _query_available_custom_fields_on_global_level || new_record?,
+        _limit_custom_fields_validation_to_section_id
+      ]
     end
 
     # we need to query the available custom fields on a global level when updating custom field values
