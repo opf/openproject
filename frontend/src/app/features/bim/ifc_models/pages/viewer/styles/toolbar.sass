@@ -1,41 +1,22 @@
+// -------------------------- ICONS ----------------------------
+
+.xeokit-toolbar-icon-replacements
+  display: none
+
 // -------------------------- GENERIC --------------------------
 .op-ifc-viewer--toolbar-container
   pointer-events: none
+
 
   button
     pointer-events: all
     outline: none
 
-  // Use our own icon font instead of including Xeokit's FontAwesome
-  button[class^="fa-"],
-  button[class*=" fa-"]
-    &::before
-      font-family: "openproject-icon-font" !important
-  .fa-home::before
-    @include icon-mixin-home
-  .fa-crop::before
-    @include icon-mixin-zoom-auto
-  .fa-male::before
-    @include icon-mixin-user
-  .fa-info-circle::before
-    @include icon-mixin-info2
-  .fa-cut::before
-    @include icon-mixin-cut
-  .fa-cube::before
-    @include icon-mixin-modules
-  .fa-eraser::before
-    @include icon-mixin-rubber
-  .fa-mouse-pointer::before
-    @include icon-mixin-cursor
-  .fa-th::before
-    @include icon-mixin-menu
-
 // -------------------------- XEOKIT Section tool ----------------------
 .xeokit-section-counter
   opacity: 1.0
   padding: 1px
-  margin: 0
-  margin-left: 10px
+  margin: 0 0 0 10px
   width: 20px
   height: 16px
   float: right
@@ -45,8 +26,7 @@
   border-radius: 5px
   border: 0
   padding: 1px
-  margin: 0
-  margin-left: 10px
+  margin: 0 0 0 10px
   width: 20px
   height: 16px
   float: right

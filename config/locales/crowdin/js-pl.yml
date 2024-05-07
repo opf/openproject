@@ -352,7 +352,7 @@ pl:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Wdrożenie raportowania postępów w hierarchiach pakietów roboczych.</li> <li>Zarządzanie atrybutami projektu w uporządkowany sposób na stronie przeglądu projektu.</li> <li>Usprawniony widok pól niestandardowych na liście projektów i w przeglądzie projektu.</li> <li>Ujednolicone nagłówki stron z eleganckim wyglądem Primer.</li> <li>Ulepszenie spotkań dzięki nowym funkcjom, takim jak przesyłanie załączników, osoby odpowiedzialne i historia spotkań.</li> <li>Automatyczne alerty o magazynach plików w złej kondycji i uzyskiwanie kontroli przy użyciu opcji przełączania.</li> <li>Kopiowanie automatycznie zarządzanego folderu projektu dla usług OneDrive/SharePoint podczas kopiowania projektów.</li> <li>Prośba do administratorów o usunięcie udostępnień pakietów roboczych podczas odwoływania członkostwa w projekcie.</li> <li>Lepsze planowanie dzięki 4- i 8-tygodniowym trybom wyświetlania w planiście zespołu.</li> </ul>
     ical_sharing_modal:
       title: "Subskrybuj kalendarz"
       inital_setup_error_message: "Podczas pobierania danych wystąpił błąd."
@@ -378,6 +378,7 @@ pl:
     label_added_time_by: 'Dodany przez <a href="%{authorLink}">%{author}</a> o %{age}'
     label_ago: "dni temu"
     label_all: "wszystkie"
+    label_all_uppercase: "All"
     label_all_work_packages: "wszystkie pakiety pracy"
     label_and: "i"
     label_ascending: "Rosnąco"
@@ -419,6 +420,7 @@ pl:
     label_expand_project_menu: "Rozwiń menu projektu"
     label_export: "Eksportuj"
     label_export_preparing: "Eksport jest przygotowywany i zostanie wkrótce pobrany."
+    label_favorites: "Favorites"
     label_filename: "Plik"
     label_filesize: "Rozmiar"
     label_general: "Ogólne"
@@ -645,7 +647,7 @@ pl:
           no_selection: "Kliknij powiadomienie, aby wyświetlić wszystkie szczegóły aktywności."
         new_notifications:
           message: "Masz nowe powiadomienia."
-          link_text: "Kliknij tutaj, aby je wczytać"
+          link_text: "Kliknij tutaj, aby je załadować."
       menu:
         accountable: "Osoba odpowiedzialna"
         by_project: "Nieprzeczytane wg projektu"
@@ -928,7 +930,7 @@ pl:
       message_work_package_status_blocked: "Nie można zapisać stanu pakietu roboczego ze względu na jego zamknięty stan i przypisaną mu zamkniętą wersję."
       placeholder_filter_by_text: "Przedmiot, opis, komentarze, ..."
       progress:
-        title: "Work estimates and progress"
+        title: "Szacunki i postęp pracy"
       baseline:
         addition_label: "Dodano do wyświetlania w okresie objętym porównaniem"
         removal_label: "Usunięto z wyświetlania w okresie objętym porównaniem"
@@ -1275,6 +1277,9 @@ pl:
           placeholder: "Symbolu zastępczego można teraz użyć w %{project}. Tymczasem możesz już planować z tym użytkownikiem i na przykład przypisać pakiety robocze."
           group: "Grupa jest teraz częścią %{project}. Tymczasem możesz już planować z tą grupą i na przykład przypisać pakiety robocze."
         next_button: "Kontynuuj"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Uwzględnij projekty"
       title: "Projekty"
@@ -1335,5 +1340,5 @@ pl:
         Close: "Zamknij"
     open_project_storage_modal:
       waiting_subtitle:
-        network_off: "There is a network problem."
-        network_on: "Network is back. We are trying."
+        network_off: "Występuje problem z siecią."
+        network_on: "Sieć znów działa. Staramy się."

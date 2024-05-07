@@ -47,7 +47,7 @@ $form-padding: 0.5rem !default
 
 // Text fields
 $input-color: #000 !default
-$input-border: 1px solid var(--color-border-default) !default
+$input-border: 1px solid var(--borderColor-default) !default
 $input-border-focus: 1px solid #999 !default
 
 // Labels
@@ -157,7 +157,8 @@ select
   border-radius: 0
   border: $input-border
 
-  @if $select-arrow
-    background: transparent url(image-triangle($select-arrow-color)) right 10px center no-repeat
-    background-size: 8px 8px
-    padding-right: rem-calc(18px) + $form-padding
+  &:not(.FormControl-select)
+    @if $select-arrow
+      background: transparent url(image-triangle($select-arrow-color)) right 10px center no-repeat
+      background-size: 8px 8px
+      padding-right: rem-calc(18px) + $form-padding

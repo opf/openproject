@@ -46,9 +46,9 @@ You can add planned unit costs to a budget in your project. These [unit costs fi
 
 5. Enter the number of **units** of the cost type to add to your project budgets.
 
-6. Choose the **cost type** you would like to plan for your budget from the drop-down list. 
-The **unit name** will be set automatically according to the configuration of the cost types in your system administration. 
-   
+6. Choose the **cost type** you would like to plan for your budget from the drop-down list.
+The **unit name** will be set automatically according to the configuration of the cost types in your system administration.
+
 7. Add a **comment** to specify the unit costs.
 
 8. The **planned costs** for this cost type will be calculated automatically based on the configuration of the cost per unit for this cost type. The cost rate will be taken from the fixed date you have configured for your budget.
@@ -104,9 +104,7 @@ You will get and overview of planned as well as spent costs and the available co
 6. The **planned labor costs** are displayed for this budget.
 7. The **actual labor costs** list all work packages that are [assigned to this budget](#assign-a-work-package-to-a-budget) and have logged time on it.
 
-
 ![Budgets-details-view](Budgets-details-view.png)
-
 
 > **Note**: The costs are calculated based on the [configuration for cost types](../../system-admin-guide) and the [configured hourly rate](../time-and-costs/time-tracking/#define-hourly-rate-for-labor-costs) in the user profile.
 

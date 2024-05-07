@@ -32,8 +32,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
   shared_association_default(:author, factory_name: :user) { create(:user) }
   shared_association_default(:project_with_types) { create(:project_with_types) }
   shared_association_default(:priority) { create(:priority) }
-  shared_association_default(:open_status, factory_name: :status) { create(:status) }
-  shared_let(:closed_status) { create(:closed_status) }
+  shared_association_default(:open_status, factory_name: :status) { create(:status, name: "Open", default_done_ratio: 0) }
+  shared_let(:closed_status) { create(:closed_status, name: "Closed", default_done_ratio: 100) }
   shared_let(:user) { create(:user) }
 
   let(:estimated_hours) { [nil, nil, nil] }
@@ -56,11 +56,14 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
 
   describe "done_ratio/estimated_hours/remaining_hours propagation" do
     context "when setting the status of a work package" do
-      shared_let(:open_status) { create(:status, name: "open", default_done_ratio: 0) }
-      shared_let(:complete_status_with_100p_done_ratio) { create(:status, name: "complete", default_done_ratio: 100) }
-
       context 'when using the "status-based" % complete mode',
               with_settings: { work_package_done_ratio: "status" } do
+        def call_update_ancestors_service(work_package)
+          changed_attributes = work_package.changes.keys.map(&:to_sym)
+          described_class.new(user:, work_package:)
+                          .call(changed_attributes)
+        end
+
         context "with both parent and children having estimated hours set" do
           shared_let(:parent) do
             create(:work_package,
@@ -80,19 +83,14 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                    status: open_status)
           end
 
-          def call_update_ancestors_service(work_package)
-            changed_attributes = work_package.changes.keys.map(&:to_sym)
-            described_class.new(user:, work_package:)
-                           .call(changed_attributes)
-          end
           context "when changing child status to a status with a default done ratio" do
             %i[status status_id].each do |field|
               context "with the #{field} field" do
-                it "recomputes child remaining work and update ancestors total % complete accordingly" do
+                it "recomputes child remaining work and updates ancestors total % complete accordingly" do
                   value =
                     case field
-                    when :status then complete_status_with_100p_done_ratio
-                    when :status_id then complete_status_with_100p_done_ratio.id
+                    when :status then closed_status
+                    when :status_id then closed_status.id
                     end
                   set_attributes_on(child, field => value)
                   call_update_ancestors_service(child)
@@ -100,10 +98,37 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                   expect_work_packages([parent, child], <<~TABLE)
                     | subject | work | total work | remaining work | total remaining work | % complete | total % complete |
                     | parent  |  10h |        15h |            10h |                  10h |         0% |              33% |
-                    | child   |   5h |         5h |             0h |                      |       100% |                  |
+                    |   child |   5h |            |             0h |                      |       100% |                  |
                   TABLE
                 end
               end
+            end
+          end
+        end
+
+        context "with parent having nothing set, and 2 children having values set (bug #54179)" do
+          let_work_packages(<<~TABLE)
+            hierarchy | status | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+            parent    | Open   |      |    15h |                |              10h |         0% |          33%
+              child1  | Open   |  10h |        |            10h |                  |         0% |
+              child2  | Closed |   5h |        |             0h |                  |       100% |
+          TABLE
+
+          context "when changing children to all have 100% complete" do
+            before do
+              set_attributes_on(child1, status: closed_status)
+              call_update_ancestors_service(child1)
+            end
+
+            it "sets parent total % complete to 100% and its total remaining work to 0h, " \
+               "and computes totals for the updated children too" do
+              table_work_packages.map(&:reload)
+              expect_work_packages(table_work_packages, <<~TABLE)
+                hierarchy | status | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
+                parent    | Open   |      |    15h |                |               0h |         0% |         100%
+                  child1  | Closed |  10h |        |             0h |                  |       100% |
+                  child2  | Closed |   5h |        |             0h |                  |       100% |
+              TABLE
             end
           end
         end
@@ -224,7 +249,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
             end
           end
 
-          context "with all tasks having estimated hours and no tasks having any progress done yet" do
+          context "with all tasks having estimated hours and no tasks having any remaining hours" do
             it_behaves_like "attributes of parent having children" do
               let(:estimated_hours) do
                 [10.0, 2.0, 3.0]
@@ -237,10 +262,10 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                 15.0
               end
               let(:aggregate_remaining_hours) do
-                nil # zero-values aren't accounted for
+                0.0
               end
               let(:aggregate_done_ratio) do
-                nil
+                100
               end
             end
           end
@@ -431,7 +456,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
             end
           end
 
-          context "with all tasks having estimated hours and no tasks having any progress done yet" do
+          context "with all tasks having estimated hours and no tasks having remaining hours" do
             it_behaves_like "attributes of parent having children" do
               let(:estimated_hours) do
                 [10.0, 2.0, 3.0]
@@ -444,10 +469,10 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                 15.0
               end
               let(:aggregate_remaining_hours) do
-                nil # zero-values aren't accounted for
+                0.0
               end
               let(:aggregate_done_ratio) do
-                nil
+                100
               end
             end
           end
@@ -833,10 +858,11 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
     end
   end
 
-  describe "estimated_hours propagation" do
+  describe "work propagation" do
     shared_let(:parent) { create(:work_package, subject: "parent") }
+    shared_let(:child) { create(:work_package, subject: "child", parent:) }
 
-    context "when setting estimated hours of a work package" do
+    context "when setting work of a work package having children without any work value" do
       before do
         parent.estimated_hours = 2.0
       end
@@ -846,7 +872,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                        .call(%i(estimated_hours))
       end
 
-      it "sets its derived value to the same value" do
+      it "sets its total work to the same value" do
         expect { call_result }
           .to change(parent, :derived_estimated_hours).from(nil).to(2.0)
         expect(call_result).to be_success
@@ -855,7 +881,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
     end
 
     context "for the new ancestors chain" do
-      context "with parent having no work" do
+      context "with parent having no work set" do
         let_work_packages(<<~TABLE)
           hierarchy | work |
           parent    |      |
@@ -869,17 +895,17 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                          .call(%i(estimated_hours))
         end
 
-        it "sets parent derived remaining work to the sum of children remaining work" do
+        it "sets parent total work to the sum of children work" do
           expect(call_result).to be_success
           updated_work_packages = call_result.dependent_results.map(&:result)
           expect_work_packages(updated_work_packages, <<~TABLE)
-            subject | derived work |
-            parent  |         2.5h |
+            subject | total work |
+            parent  |       2.5h |
           TABLE
         end
       end
 
-      context "with parent having some remaining work" do
+      context "with parent having work set" do
         let_work_packages(<<~TABLE)
           hierarchy |  work |
           parent    | 5.25h |
@@ -893,12 +919,12 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                          .call(%i(estimated_hours))
         end
 
-        it "sets parent derived work to the sum of itself and children remaining work" do
+        it "sets parent total work to the sum of itself and children work" do
           expect(call_result).to be_success
           updated_work_packages = call_result.dependent_results.map(&:result)
           expect_work_packages(updated_work_packages, <<~TABLE)
-            subject | derived work |
-            parent  |        7.75h |
+            subject | total work |
+            parent  |      7.75h |
           TABLE
         end
       end
@@ -916,22 +942,23 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                          .call(%i(estimated_hours))
         end
 
-        it "does not update the parent derived work" do
+        it "does not update the parent total work" do
           expect(call_result).to be_success
           expect(call_result.dependent_results).to be_empty
           expect_work_packages([parent.reload], <<~TABLE)
-            subject | derived work |
-            parent  |              |
+            subject | total work |
+            parent  |            |
           TABLE
         end
       end
     end
   end
 
-  describe "remaining_hours propagation" do
+  describe "remaining work propagation" do
     shared_let(:parent) { create(:work_package, subject: "parent") }
+    shared_let(:child) { create(:work_package, subject: "child", parent:) }
 
-    context "when setting remaining hours of a work package" do
+    context "when setting remaining work of a work package having children without any remaining work value" do
       before do
         parent.remaining_hours = 2.0
       end
@@ -941,7 +968,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                        .call(%i(remaining_hours))
       end
 
-      it "sets its derived value to the same value" do
+      it "sets its total remaining work to the same value" do
         expect { call_result }
           .to change(parent, :derived_remaining_hours).from(nil).to(2.0)
         expect(call_result).to be_success
@@ -950,7 +977,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
     end
 
     context "for the new ancestors chain" do
-      context "with parent having no remaining work" do
+      context "with parent having no remaining work set" do
         let_work_packages(<<~TABLE)
           hierarchy | remaining work |
           parent    |                |
@@ -964,17 +991,17 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                          .call(%i(remaining_hours))
         end
 
-        it "sets parent derived remaining work to the sum of children remaining work" do
+        it "sets parent total remaining work to the sum of children remaining work" do
           expect(call_result).to be_success
           updated_work_packages = call_result.dependent_results.map(&:result)
           expect_work_packages(updated_work_packages, <<~TABLE)
-            subject | derived remaining work
-            parent  |                   2.5h
+            subject | total remaining work
+            parent  |                 2.5h
           TABLE
         end
       end
 
-      context "with parent having some remaining work" do
+      context "with parent having remaining work set" do
         let_work_packages(<<~TABLE)
           hierarchy | remaining work |
           parent    |          5.25h |
@@ -988,12 +1015,12 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                          .call(%i(remaining_hours))
         end
 
-        it "sets parent derived remaining work to the sum of itself and children remaining work" do
+        it "sets parent total remaining work to the sum of itself and children remaining work" do
           expect(call_result).to be_success
           updated_work_packages = call_result.dependent_results.map(&:result)
           expect_work_packages(updated_work_packages, <<~TABLE)
-            subject | derived remaining work
-            parent  |                  7.75h
+            subject | total remaining work
+            parent  |                7.75h
           TABLE
         end
       end
@@ -1011,11 +1038,11 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                          .call(%i(remaining_hours))
         end
 
-        it "does not update the parent derived remaining work" do
+        it "does not update the parent total remaining work" do
           expect(call_result).to be_success
           expect(call_result.dependent_results).to be_empty
           expect_work_packages([parent.reload], <<~TABLE)
-            subject | derived remaining work
+            subject | total remaining work
             parent  |
           TABLE
         end
@@ -1030,7 +1057,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
       let_work_packages(<<~TABLE)
         hierarchy | work | total work | remaining work | total remaining work
         parent    |      |        10h |             7h |
-          child1  |  10h |        10h |                |
+          child1  |  10h |            |                |
       TABLE
 
       subject(:call_result) do
@@ -1052,7 +1079,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
       let_work_packages(<<~TABLE)
         hierarchy | work | total work | remaining work | total remaining work
         parent    |  10h |            |                |                   7h
-          child1  |      |            |             7h |                   7h
+          child1  |      |            |             7h |
       TABLE
 
       subject(:call_result) do

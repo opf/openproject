@@ -28,7 +28,7 @@
 
 class MeetingsController < ApplicationController
   around_action :set_time_zone
-  before_action :find_optional_project, only: %i[index new create history]
+  before_action :find_optional_project, only: %i[index new show create history]
   before_action :verify_activities_module_activated, only: %i[history]
   before_action :determine_date_range, only: %i[history]
   before_action :determine_author, only: %i[history]
@@ -68,7 +68,7 @@ class MeetingsController < ApplicationController
   def show
     html_title "#{t(:label_meeting)}: #{@meeting.title}"
     if @meeting.is_a?(StructuredMeeting)
-      render(Meetings::ShowComponent.new(meeting: @meeting))
+      render(Meetings::ShowComponent.new(meeting: @meeting, project: @project))
     elsif @meeting.agenda.present? && @meeting.agenda.locked?
       params[:tab] ||= 'minutes'
     end
@@ -138,8 +138,6 @@ class MeetingsController < ApplicationController
 
   def history
     @events = get_events
-
-    render :history
   rescue ActiveRecord::RecordNotFound => e
     op_handle_warning "Failed to find all resources in activities: #{e.message}"
     render_404 I18n.t(:error_can_not_find_all_resources)
@@ -162,20 +160,14 @@ class MeetingsController < ApplicationController
     end
   end
 
-  def participants_dialog
-    render(Meetings::Sidebar::ParticipantsFormComponent.new(meeting: @meeting), layout: false)
-  end
+  def participants_dialog; end
 
   def update_participants
     @meeting.participants_attributes = @converted_params.delete(:participants_attributes)
     @meeting.save
 
-    if @meeting.errors.any?
-      update_sidebar_participants_form_component_via_turbo_stream
-    else
-      update_sidebar_details_component_via_turbo_stream
-      update_sidebar_participants_component_via_turbo_stream
-    end
+    update_sidebar_details_component_via_turbo_stream
+    update_sidebar_participants_component_via_turbo_stream
 
     respond_with_turbo_streams
   end

@@ -101,7 +101,7 @@ lt:
     attachments:
       text: "Prisegti failai prieinami visiems susitikimo dalyviams. Taipogi galite nutempti juos į plano elemento pastabas."
     copy:
-      title: "Kopijuoti susitikimą %{title}"
+      title: "Kopijuoti susitikimą: %{title}"
       attachments: "Kopijuoti priedus"
       attachments_text: "Perkopijuoti visus prisegtus failus į naują susitikimą"
       agenda: "Kopijuoti dienotvarkę"
@@ -170,7 +170,6 @@ lt:
   label_agenda_item_add_notes: "Pridėti pastabų"
   label_agenda_item_work_package: "Darbotvarkės elemento darbo paketas"
   text_agenda_item_title: 'Darbotvarkės punktas „%{title}“'
-  text_agenda_work_package_title: '%{work_package} darbotvarkės punktas'
   text_agenda_work_package_deleted: 'Ištrinto darbo paketo darbotvarkės punktas'
   text_deleted_agenda_item: 'Ištrintas darbotvarkės punktas'
   label_initial_meeting_details: "Susitikimas"

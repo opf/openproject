@@ -123,7 +123,7 @@ lv:
       totp:
         title: "Use your app-based authenticator"
         provisioning_uri: "Provisioning URI"
-        secret_key: "Secret key"
+        secret_key: "Slepenā atslēga"
         time_based: "Time based"
         account: "Account name / Issuer"
         setup: |

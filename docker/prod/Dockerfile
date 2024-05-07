@@ -1,8 +1,8 @@
-ARG RUBY_VERSION="3.2.3"
+ARG RUBY_VERSION="3.3.1"
 FROM ruby:${RUBY_VERSION}-bullseye as base
 LABEL maintainer="operations@openproject.com"
 
-ARG BUNDLER_VERSION="2.5.5"
+ARG BUNDLER_VERSION="2.5.10"
 ARG NODE_VERSION="20.9.0"
 ARG BIM_SUPPORT=true
 ENV DEBIAN_FRONTEND=noninteractive

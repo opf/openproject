@@ -73,6 +73,7 @@ class ProgressEditField < EditField
 
   def set_value(value)
     page.fill_in field_name, with: value
+    sleep 1
   end
 
   def input_element
@@ -91,6 +92,12 @@ class ProgressEditField < EditField
 
   def submit_by_enter
     input_element.native.send_keys :return
+  end
+
+  def submit_by_clicking_save
+    within modal_element do
+      click_on("Save")
+    end
   end
 
   def close!

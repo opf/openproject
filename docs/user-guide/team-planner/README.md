@@ -7,6 +7,7 @@ keywords: team planner, planning, calendar, resource management, assign, team vi
 ---
 
 # Team planner
+
 The team planner module helps you get a complete overview of what each member of your team is working on. You can use it to track the current progress of work packages your team is working on, schedule new tasks, reschedule them or even reassign them to different members.
 
 ![Example team planner showing a two-week view of work packages assigned to team members](TeamPlanner-12.4-twoWeeks.png)
@@ -25,7 +26,7 @@ To use this module, you must have the work packages module enabled.
 | [Work package detail view](#work-package-details-view)                       | View or edit a specific work package                                 |
 | [Removing a work package](#remove-a-work-package)                            | Removing (unscheduling) visible work packages                        |
 
-<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Team-Planner.mp4" type="video/mp4" controls="" style="width:100%"></video>
+![Video](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Team-Planner.mp4)
 
 ## Module overview
 
@@ -40,7 +41,6 @@ Clicking on the **Team planners** entry on the left sidebar takes you to the tea
 4. New team planners by default appear under the **Private** heading in the left menu bar. These are visible only to you.
 
 > **Info**: Both *public* and *private* team planners can be added as **favored** planners; they will then appear under the **Favorite** heading in the menu bar.
-
 
 ## Team planner basics
 
@@ -92,7 +92,6 @@ You can create a new work package for a particular member of your team by clicki
 A **new work package dialog** will open. The assignee, start and finish dates will already be set based on where you clicked to create the work package. You can add any additional details, such as subject, work package type, a description and add attachments. Scrolling further down on the split screen also gives you access to other attributes such as cost and time and custom fields that might exist.
 
 ![An example of the new work package split screen view](TeamPlanner-12.4-newTask-splitScreen.png)
-
 
 #### Add an existing work package
 

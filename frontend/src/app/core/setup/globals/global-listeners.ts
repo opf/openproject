@@ -152,7 +152,7 @@ export function initializeGlobalListeners():void {
   setupToggableFieldsets();
 
   // Action menu logic
-  jQuery('.project-actions, .toolbar-items').each((idx:number, menu:HTMLElement) => {
+  jQuery('.toolbar-items').each((idx:number, menu:HTMLElement) => {
     installMenuLogic(jQuery(menu));
   });
 

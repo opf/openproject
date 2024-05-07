@@ -14,13 +14,11 @@ In OpenProject you can determine the maximum attachment size and activate the vi
 
 ![Navigation to attachment settings in OpenProject](openproject_system_adminstration_attachments.png)
 
-
-
 ## Attachment settings
 
 1. Here you can increase or decrease **maximum attachment size** (in kB).
 
-2. The box next to **Attachment upload whitelist** is an open-entry text box in which some common file formats are pre-populated by default. The file formats in this list are specifically whitelisted or allowed to be attached to work packages. 
+2. The box next to **Attachment upload whitelist** is an open-entry text box in which some common file formats are pre-populated by default. The file formats in this list are specifically whitelisted or allowed to be attached to work packages.
    If you wish, you can add additional file formats. Use only one file format entry per line, and keep to the following cadence:  
 
    `*****.[**file extension**]`
@@ -30,8 +28,6 @@ In OpenProject you can determine the maximum attachment size and activate the vi
 3. Do not forget to **save** your changes.
 
    ![attachment settings](openproject_system_adminstration_attachment_settings.png)
-
-
 
 ## Virus scanning (Enterprise-add-on)
 

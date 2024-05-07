@@ -257,7 +257,8 @@ id:
       no_results_content_text: Buat proyek baru
     lists:
       active: "Active projects"
-      my: "My projects"
+      my: "Project saya"
+      favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -279,7 +280,7 @@ id:
         no_results_title_text: There are currently no custom fields available.
       project_custom_fields:
         header:
-          title: "Project attributes"
+          title: "Atribut proyek"
           description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
         filter:
           label: "Search project attribute"
@@ -310,12 +311,12 @@ id:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "Semua"
       invited: "Invited"
       locked: "Locked"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Grup"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -386,7 +387,7 @@ id:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
   page:
-    text: "Text"
+    text: "Teks"
   placeholder_users:
     right_to_manage_members_missing: >
       Anda tidak diizinkan untuk menghapus pengguna placeholder. Anda tidak memiliki hak untuk mengelola anggota untuk semua proyek yang menjadi anggota pengguna placeholder.
@@ -582,7 +583,7 @@ id:
         column_count: "Jumlah kolom"
         widgets: "Widget"
       oauth_client:
-        client: "Client ID"
+        client: "ID Pelanggan"
       relation:
         lag: "Lag"
         from: "Paket-Penugasan"
@@ -607,7 +608,7 @@ id:
           false: "pribadi"
         queries: "Query"
         status_code: "Project status"
-        description: "Description"
+        description: "Deskripsi"
         status_explanation: "Deskripsi status proyek"
         status_codes:
           not_started: "Belum mulai"
@@ -702,8 +703,8 @@ id:
         priority: "Prioritas"
         progress: "% Complete"
         readonly: "Baca saja"
-        remaining_hours: "Remaining work"
-        remaining_time: "Remaining work"
+        remaining_hours: "Pekerjaan yang tersisa"
+        remaining_time: "Pekerjaan yang tersisa"
         shared_with_users: "Shared with"
         schedule_manually: "Penjadwalan manual"
         spent_hours: "Durasi"
@@ -768,6 +769,7 @@ id:
         not_an_iso_date: "is not a valid date. Required format: YYYY-MM-DD."
         not_same_project: "harus berasal dari proyek yang sama."
         odd: "harus ganjil."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "tidak dapat divalidasi dengan ekspresi reguler terkait."
         smaller_than_or_equal_to_max_length: "harus lebih kecil atau sama dengan panjang maksimum."
         taken: "sudah dipakai."
@@ -979,12 +981,14 @@ id:
               only_same_project_categories_allowed: "Kategori yang dipilih harus diambil dari kategori yang berlaku pada proyek."
               does_not_exist: "Kategori yang dipilih tidak ada."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "can't be inferior to 'Remaining work'."
-              must_be_set_when_remaining_work_is_set: "must be set when 'Remaining work' is set."
-              only_values_greater_or_equal_zeroes_allowed: "must be >= 0."
+              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "can't exceed 'Work'."
-              must_be_set_when_work_is_set: "must be set when 'Work' is set."
+              cant_exceed_work: "Cannot be higher than Work."
+              must_be_set_when_work_is_set: "Required when Work is set."
+              format: "%{message}"
           readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
         type:
           attributes:
@@ -1018,7 +1022,7 @@ id:
             ldap_auth_source:
               error_not_found: "tidak ditemukan"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "tidak ditemukan"
         member:
           principal_blank: "Silakan pilih setidaknya satu user atau grup."
           role_blank: "need to be assigned."
@@ -1101,12 +1105,12 @@ id:
           added: "set to %{value}"
           added_html: "set to <i>%{value}</i>"
           removed: "removed"
-          updated: "changed from %{old_value} to %{value}"
+          updated: "diubah dari %{old_value} menjadi %{value}"
           updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
         position:
           updated: "reordered"
         work_package:
-          updated: "changed from %{old_value} to %{value}"
+          updated: "diubah dari %{old_value} menjadi %{value}"
           updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
       changeset: "Set perubahan"
@@ -1205,7 +1209,7 @@ id:
       token_cooldown: Token cadangan akan valid dalam %{hours} jam.
       backup_pending: Sudah ada cadangan yang tertunda.
       limit_reached: Anda hanya dapat melakukan %{limit} pencadangan per hari.
-  button_actions: "Actions"
+  button_actions: "Tindakan"
   button_add: "Tambah"
   button_add_comment: "Tambah komentar"
   button_add_member: Add member
@@ -1239,6 +1243,7 @@ id:
   button_edit: "Edit"
   button_edit_associated_wikipage: "Edit Wiki terkait: %{page_title}"
   button_expand_all: "Buka semua"
+  button_favorite: "Add to favorites"
   button_filter: "Filter"
   button_generate: "Generate"
   button_list: "List"
@@ -1256,7 +1261,7 @@ id:
   button_reset: "Reset"
   button_rollback: "Kembali ke versi ini"
   button_save: "Simpan"
-  button_save_as: "Save as"
+  button_save_as: "Simpan sebagai"
   button_apply_changes: "Menerapkan perubahan"
   button_save_back: "Save and back"
   button_show: "Tampilkan"
@@ -1266,6 +1271,7 @@ id:
   button_unarchive: "Batalkan arsip"
   button_uncheck_all: "Uncek semua"
   button_unlock: "Unlock"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Unwatch"
   button_update: "Update"
   button_upgrade: "Tingkatkan"
@@ -1574,7 +1580,7 @@ id:
       postgres_migration: "Migrasi instalasi anda ke PostgreSQL"
       user_guides: "User guides"
       faq: "FAQ"
-      impressum: "Legal notice"
+      impressum: "Pernyataan hukum"
       glossary: "Glossary"
       shortcuts: "Shortcuts"
       blog: "OpenProject blog"
@@ -1610,8 +1616,12 @@ id:
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
-        progress_calculation_changed: >
-          Progress calculation updated.
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Petunjuk Konfigurasi"
     get_in_touch: "Anda punya pertanyaan? Hubungi kami."
@@ -1729,7 +1739,7 @@ id:
   label_ascending: "Askending"
   label_assigned_to_me_work_packages: "Paket-Penugasan yang saya kerjakan"
   label_associated_revisions: "Revisi terkait"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Lampiran"
   label_attribute: "Atribut"
   label_attribute_plural: "Atribut"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1746,7 +1756,7 @@ id:
   label_available_projects: "Available projects"
   label_api_doc: "API documentation"
   label_backup: "Cadangan"
-  label_backup_code: "Backup code"
+  label_backup_code: "Kode cadangan"
   label_between: "antara"
   label_blocked_by: "diblokir oleh"
   label_blocks: "blok"
@@ -1756,7 +1766,7 @@ id:
   label_forum_plural: "Forum"
   label_forum_sticky: "Sticky"
   label_boolean: "Boolean"
-  label_board_plural: "Boards"
+  label_board_plural: "Papan"
   label_branch: "Branch"
   label_browse: "Browse"
   label_bulk_edit_selected_work_packages: "Edit masal Paket-Penugasan yang dipilih"
@@ -1815,7 +1825,7 @@ id:
   label_custom_field_plural: "Isian kustom"
   label_custom_field_default_type: "Tipe kosong"
   label_custom_style: "Rancangan"
-  label_dashboard: "Dashboard"
+  label_dashboard: "Dasbor"
   label_database_version: "Versi PostgreSQL"
   label_date: "Tanggal"
   label_date_and_time: "Tanggal dan waktu"
@@ -1867,7 +1877,7 @@ id:
   label_enterprise_support: "Dukungan perusahaan"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Environment"
-  label_estimates_and_time: "Perkiraan dan waktu"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "adalah"
   label_everywhere: "di mana pun"
   label_example: "Contoh"
@@ -1881,14 +1891,14 @@ id:
   label_expanded_click_to_collapse: "Diperluas. Klik untuk menciutkan"
   label_f_hour: "%{value} jam"
   label_f_hour_plural: "%{value} jam"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Feed"
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key dibuat %{value} yang lalu"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "File"
   label_filter_add: "Tambah Filter"
-  label_filter: "Filters"
+  label_filter: "Filter"
   label_filter_plural: "Filter"
   label_filters_toggle: "Tampilkan/Sembunyikan penyaringan"
   label_float: "Float"
@@ -1915,7 +1925,7 @@ id:
   label_home: "Home"
   label_subject_or_id: "Subyek atau ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Pengenal"
   label_in: "dalam"
   label_in_less_than: "kurang dari"
   label_in_more_than: "lebih dari"
@@ -1951,9 +1961,10 @@ id:
   label_latest_revision: "Revisi terbaru"
   label_latest_revision_plural: "Revisi terbaru"
   label_ldap_authentication: "Otentikasi LDAP"
-  label_learn_more: "Learn more"
+  label_learn_more: "Pelajari lebih lanjut"
   label_less_or_equal: "<="
   label_less_than_ago: "kemarin lusa"
+  label_link_url: "Link (URL)"
   label_list: "List"
   label_loading: "Loading..."
   label_lock_user: "Mengunci pengguna"
@@ -1979,6 +1990,7 @@ id:
   label_membership_plural: "Memberships"
   lable_membership_added: "Anggota ditambahkan"
   lable_membership_updated: "Anggota diperbarui"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pra-alfa"
     alpha: "alfa"
@@ -2080,6 +2092,7 @@ id:
   label_percent_complete: "% Complete"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Atribut proyek"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Jumlah proyek"
   label_project_copy_notifications: "Kirim email notifikasi selama meng-copy Project"
   label_project_latest: "Project terbaru"
@@ -2088,13 +2101,13 @@ id:
   label_project_new: "Project baru"
   label_project_plural: "Project"
   label_project_list_plural: "Project lists"
-  label_project_attributes_plural: "Project attributes"
-  label_project_custom_field_plural: "Project attributes"
+  label_project_attributes_plural: "Atribut proyek"
+  label_project_custom_field_plural: "Atribut proyek"
   label_project_settings: "Projek setting"
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} proyek menggunakan %{storage} dari storage"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Lihat semua Project"
   label_project_show_details: "Tampilkan detail proyek"
   label_project_hide_details: "Sembunyikan detail proyek"
@@ -2114,7 +2127,7 @@ id:
   label_relation_delete: "Hapus keterkaitan"
   label_relation_new: "Keterkaitan baru"
   label_release_notes: "Release notes"
-  label_remaining_work: "Remaining work"
+  label_remaining_work: "Pekerjaan yang tersisa"
   label_remove_columns: "Hapus kolom terpilih"
   label_renamed: "telah diganti nama"
   label_reply_plural: "Balasan"
@@ -2147,7 +2160,7 @@ id:
   label_search: "Cari"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Kirim test email"
-  label_session: "Session"
+  label_session: "Sesi"
   label_setting_plural: "Pengaturan"
   label_system_settings: "System settings"
   label_show_completed_versions: "Tampilkan versi lengkap"
@@ -2367,7 +2380,7 @@ id:
     storages:
       health:
         plaintext:
-          storage: "Storage"
+          storage: "Penyimpanan"
           healthy:
             summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
             error-solved-on: "Solved On"
@@ -2983,7 +2996,7 @@ id:
     other: "Lainnya"
     passwords: "Password"
     project_attributes:
-      heading: "Project attributes"
+      heading: "Atribut proyek"
       label_new_attribute: "Project attribute"
       label_new_section: "Section"
       label_edit_section: "Edit title"
@@ -3168,7 +3181,7 @@ id:
     configure_view:
       heading: Configure view
       columns:
-        input_label: "Add columns"
+        input_label: "Tambah kolom"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
   top_menu:
@@ -3284,7 +3297,7 @@ id:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Tidak dishare"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3364,9 +3377,7 @@ id:
         unsupported_context: "The resource given is not supported as context."
         context_object_not_found: "Cannot find the resource given as the context."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Tanggal selesai tidak dapat diatur pada paket pekerjaan induk."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Pilihan pengguna tidak diperbolehkan untuk menjadi '%{property}' untuk paket pekerjaan ini."
         start_date: "Start date cannot be set on parent work packages."
       eprops:
@@ -3518,7 +3529,7 @@ id:
   link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"

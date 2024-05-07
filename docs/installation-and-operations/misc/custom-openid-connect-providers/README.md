@@ -48,7 +48,6 @@ options = {
 }
 ```
 
-
 Just type this into the console and confirm by pressing *Enter*.
 
 This assumes that you have configured your application in the respective provider correctly
@@ -137,15 +136,11 @@ options = {
 }
 ```
 
-
-
 ### Back-channel logout
 
 OpenProject OIDC integration supports [back-channel logouts](https://openid.net/specs/openid-connect-backchannel-1_0.html) if OpenProject is configured for ActiveRecord based sessions (which is the default).
 
-On the identity provider side, you need to set `https://<OpenProject host>/auth/<provider>/backchannel-logout`. `<provider>` is the identifier of the OIDC configuration as provided above. 
-
-
+On the identity provider side, you need to set `https://<OpenProject host>/auth/<provider>/backchannel-logout`. `<provider>` is the identifier of the OIDC configuration as provided above.
 
 #### Respecting self-registration
 
@@ -159,8 +154,6 @@ options = {
   limit_self_registration: true
 }
 ```
-
-
 
 ### Claims
 
@@ -215,13 +208,9 @@ more complicated `claims` option above but with `"essential": false`.
 
 For all other claims there is no such shorthand.
 
-
-
 ## Instructions for common OIDC providers
 
 The following section contains instructions for common OpenID Connect providers. Feel free to contribute your settings through the editing functionality at the bottom of this page.
-
-
 
 ### Keycloak
 
@@ -231,12 +220,10 @@ In Keycloak, use the following steps to set up a OIDC integration for OpenProjec
 - Under "Clients" menu, click on "Create" or "Create client"
 - **Add client**: Enter the following details
   - **Client type / protocol**: OpenID Connect
-  - **Client ID**: `https://<Your OpenProject hostname>` 
+  - **Client ID**: `https://<Your OpenProject hostname>`
   - **Name**:  Choose any name, used only within keycloak
 - For the **Capability config**, keep Standard flow checked. In our tested version of Keycloak, this was the default.
 - Click on Save
-
-
 
 You will be forwarded to the settings tab  of the new client. Change these settings:
 
@@ -244,14 +231,10 @@ You will be forwarded to the settings tab  of the new client. Change these setti
 - Enable **Sign Documents**
 - If you want to enable [Backchannel logout](https://openid.net/specs/openid-connect-backchannel-1_0.html), set **Backchannel logout URL** to `https://<Your OpenProject hostname>/auth/keycloak/backchannel-logout`
 
-
-
 Next, you will need to create or note down the client secret for that client.
 
-- Go to the **Credentials** tab 
+- Go to the **Credentials** tab
 - Click on the copy to clipboard button next to **Client secret** to copy that value
-
-
 
 **OPTIONAL:** By default, OpenProject will map the user's email to the login attribute in OpenProject. If you want to change that, you can do it by providing an alternate claim value in Keycloak:
 
@@ -263,8 +246,6 @@ Next, you will need to create or note down the client secret for that client.
   - Set name and to `username`
   - Set Token claim name to `preferred_username`
 - Click on **Save**
-
-
 
 #### Setting up OpenProject for Keycloak integration
 
@@ -285,23 +266,17 @@ OPENPROJECT_OPENID__CONNECT_KEYCLOAK_END__SESSION__ENDPOINT="http://<Hostname of
 # OPENPROJECT_OPENID__CONNECT_KEYCLOAK_ATTRIBUTE__MAP_LOGIN="preferred_username"
 ```
 
-
-
 ### Azure with Microsoft Graph API
 
 The Azure integration for OpenProject uses the previous userinfo endpoints, which for some tenants results in not being able to access the user's email attribute. [See this bug report for more information](https://community.openproject.org/projects/openproject/work_packages/45832). While our UI is still being extended to accept the new endpoints, you can manually configure Azure like follows.
-
-
 
 **What you need from Azure**
 
 Use our [Azure Active Directory guide](../../../system-admin-guide/authentication/openid-providers/#azure-active-directory) to create the OpenProject client and note down these values
 
--  The Client ID you set up for OpenProject  (assumed to be `https://<OpenProject hostname>`)
+- The Client ID you set up for OpenProject  (assumed to be `https://<OpenProject hostname>`)
 - The client secret
 - The tenant's UUID ([Please see this guide](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-protocols-oidc) for more information on the tenant value)
-
-
 
 #### Setting up OpenProject for Keycloak integration
 
@@ -317,11 +292,7 @@ openproject config:set OPENPROJECT_OPENID__CONNECT_AZURE_TOKEN__ENDPOINT="https:
 openproject config:set OPENPROJECT_OPENID__CONNECT_AZURE_USERINFO__ENDPOINT="https://graph.microsoft.com/oidc/userinfo"
 ```
 
-
-
 Restart your OpenProject server and test the login button to see if it works.
-
-
 
 ## Troubleshooting
 

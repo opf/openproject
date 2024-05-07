@@ -39,14 +39,14 @@ zh-TW:
         participants_invited: "受邀人員"
         project: "專案"
         start_date: "日期"
-        start_time: "Start time"
-        start_time_hour: "Start time"
+        start_time: "開始時間"
+        start_time_hour: "開始時間"
       meeting_agenda_item:
-        title: "Title"
-        author: "Author"
-        duration_in_minutes: "min"
-        description: "Notes"
-        presenter: "Presenter"
+        title: "標題"
+        author: "作者"
+        duration_in_minutes: "分鐘"
+        description: "備註"
+        presenter: "簡報者"
     errors:
       messages:
         invalid_time_format: "不是有效時間。所需格式: HH:MM"
@@ -96,11 +96,11 @@ zh-TW:
   label_start_date: "開始日期"
   meeting:
     attachments:
-      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
+      text: "所有會議參與者都可以使用附件， 您也可以將它們拖放到議程項目註釋中。"
     copy:
       title: "複製會議 %{title}"
-      attachments: "Copy attachments"
-      attachments_text: "Copy over all attached files to the new meeting"
+      attachments: "複製附件"
+      attachments_text: "將所有附件複製到新會議"
       agenda: "複製議程"
       agenda_text: "複製舊會議之議程"
     email:
@@ -154,9 +154,9 @@ zh-TW:
   label_meeting_delete: "刪除會議"
   label_meeting_created_by: "建立者"
   label_meeting_last_updated: "最後更新於"
-  label_agenda_items: "Agenda items"
-  label_agenda_items_reordered: "reordered"
-  label_agenda_item_remove: "Remove from agenda"
+  label_agenda_items: "議程"
+  label_agenda_items_reordered: "重新排列"
+  label_agenda_item_remove: "從議程中刪除"
   label_agenda_item_undisclosed_wp: "工作項目 #%{id} 非可見"
   label_agenda_item_deleted_wp: "已將引用的工作項目刪除"
   label_agenda_item_actions: "議程項目行動"
@@ -165,19 +165,18 @@ zh-TW:
   label_agenda_item_move_up: "向上移 "
   label_agenda_item_move_down: "向下移 "
   label_agenda_item_add_notes: "新增註記"
-  label_agenda_item_work_package: "Agenda item work package"
-  text_agenda_item_title: 'Agenda item "%{title}"'
-  text_agenda_work_package_title: 'Agenda item for %{work_package}"'
-  text_agenda_work_package_deleted: 'Agenda item for deleted work package'
-  text_deleted_agenda_item: 'Deleted agenda item'
-  label_initial_meeting_details: "Meeting"
+  label_agenda_item_work_package: "議程項目工作包"
+  text_agenda_item_title: '議程項目 "%{title}"'
+  text_agenda_work_package_deleted: '已刪除工作包的議程項目'
+  text_deleted_agenda_item: '已刪除的議程項目'
+  label_initial_meeting_details: "會議"
   label_meeting_details: "會議詳情"
   label_meeting_details_edit: "編輯會議詳情"
-  label_meeting_state: "Meeting status"
+  label_meeting_state: "會議狀態"
   label_meeting_state_open: "開啟"
-  label_meeting_state_open_html: "<i>Open</i>"
+  label_meeting_state_open_html: "<i>開啟</i>"
   label_meeting_state_closed: "關閉"
-  label_meeting_state_closed_html: "<i>Closed</i>"
+  label_meeting_state_closed_html: "<i>關閉</i>"
   label_meeting_reopen_action: "重新開啟會議"
   label_meeting_close_action: "關閉會議"
   text_meeting_open_description: "本次會議已開放。您可以新增/移除議程項目並隨時編輯它們。會議結束後，關閉後鎖定起來。"

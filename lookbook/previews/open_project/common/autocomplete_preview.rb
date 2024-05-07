@@ -40,6 +40,11 @@ module OpenProject
       def work_package
         render_with_template
       end
+
+      # @display min_height 250px
+      def project
+        render_with_template
+      end
     end
   end
 end

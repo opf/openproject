@@ -1,13 +1,13 @@
 #English strings go here for Rails i18n
 ms:
   plugin_openproject_two_factor_authentication:
-    name: "OpenProject Two-factor authentication"
+    name: "Pengesahan Dua Faktor OpenProject"
     description: >-
-      This OpenProject plugin authenticates your users using two-factor authentication by means of one-time password through the TOTP standard (Google Authenticator) or sent to the user's cell phone via SMS or voice call.
+      Plugin OpenProject ini mengesahkan pengguna anda menggunakan pengesahan dua faktor melalui kata laluan sekali sahaja melalui standard TOTP (Google Authenticator) atau dihantar ke telefon bimbit pengguna melalui SMS atau panggilan suara.
   activerecord:
     attributes:
       two_factor_authentication/device:
-        identifier: "Identifier"
+        identifier: "Pengenal"
         default: "Guna sebagai default"
       two_factor_authentication/device/sms:
         phone_number: "Nombor telefon"
@@ -22,13 +22,13 @@ ms:
     models:
       two_factor_authentication/device: "Peranti 2FA "
       two_factor_authentication/device/sms: "Telefon bimbit"
-      two_factor_authentication/device/totp: "Authenticator application"
+      two_factor_authentication/device/totp: "Aplikasi pengesahan"
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "Penghantaran 2FA telah dimatikan."
     error_no_device: "Tiada peranti 2FA berdaftar yang dijumpai untuk pengguna ini, walaupun diperlukan untuk keadaan ini."
     error_no_matching_strategy: "Tiada strategi 2FA yang tersedia untuk pengguna ini. Sila hubungi pentadbir anda."
-    error_is_enforced_not_active: "Configuration error: Two-factor authentication has been enforced, but no active strategies exist."
+    error_is_enforced_not_active: "Ralat konfigurasi: Pengesahan Dua Faktor telah dikuatkuasakan, tetapi masih belum ada strategi sedia ada yang aktif."
     error_invalid_backup_code: "Kod sokongan 2FA tidak sah"
     channel_unavailable: "Saluran penghantaran %{channel} tidak tersedia."
     no_valid_phone_number: "Tiada nombor telefon yang sah wujud."
@@ -53,45 +53,45 @@ ms:
     settings:
       title: "Seting 2FA"
       current_configuration: "Konfigurasi semasa"
-      label_active_strategies: "Active 2FA strategies"
-      label_enforced: "Enforce 2FA"
+      label_active_strategies: "Strategi-strategi 2FA yang aktif"
+      label_enforced: "Kuatkuasakan 2FA"
       label_remember: "Ingat log masuk 2FA"
       text_configuration: |
-        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
+        Nota: Nilai-nilai ini mewakili konfigurasi seluruh aplikasi terkini. Anda tidak boleh nyahaktifkan tetapan yang dikuatkuasakan oleh konfigurasi tersebut atau mengubah strategi aktif terkini, oleh kerana mereka memerlukan server untuk dimulakan semula.
       text_configuration_guide: Untuk maklumat lanjut, sila semak panduan konfigurasi.
-      text_enforced: "Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration."
+      text_enforced: "Aktifkan tetapan ini untuk memaksa semua pengguna untuk mendaftar peranti 2FA pada log masuk mereka yang seterusnya. Hanya boleh dinyahaktifkan apabila tidak dikuatkuasakan oleh konfigurasi."
       text_remember: |
-        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
-        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
-      error_invalid_settings: "The 2FA strategies you selected are invalid"
-      failed_to_save_settings: "Failed to update 2FA settings: %{message}"
+        Tetapkan ini kepada lebih daripada kosong untuk membolehkan pengguna untuk mengingat 2FA mereka untuk bilangan hari yang ditetapkan.
+        Mereka tidak akan diminta untuk masukkan semula 2FA dalam tempoh tersebut. Ia hanya boleh ditetapkan apabila ia tidak dikuatkuasakan oleh konfigurasi.
+      error_invalid_settings: "Strategi-strategi 2FA yang anda telah memilih adalah tidak sah."
+      failed_to_save_settings: "Gagal untuk kemas kini tetapan 2FA: %{message}"
     admin:
-      self_edit_path: "To add or modify your own 2FA devices, please go to %{self_edit_link}"
-      self_edit_link_name: "Two-factor authentication on your account page"
-      self_edit_forbidden: "You may not edit your own 2FA devices on this path. Go to My Account > Two factor authentication instead."
-      no_devices_for_user: "No 2FA device has been registered for this user."
-      all_devices_deleted: "All 2FA devices of this user have been deleted"
+      self_edit_path: "Untuk menambah atau modifikasi peranti-peranti 2FA anda sendiri, sila kunjungi %{self_edit_link}"
+      self_edit_link_name: "Pengesahan dua faktor di halaman akaun anda"
+      self_edit_forbidden: "Anda tidak boleh meyunting peranti 2FA anda sendiri pada laluan ini. Sebaliknya, pergi ke Akaun Saya > Pengesahan dua faktor."
+      no_devices_for_user: "Tiada peranti 2FA yang telah didaftarkan kepada pengguna ini."
+      all_devices_deleted: "Semua peranti 2FA pengguna ini telah dipadamkan."
       delete_all_are_you_sure: "Adakah anda pasti anda ingin membuang semua peranti 2FA untuk pengguna ini?"
       button_delete_all_devices: "Buang peranti 2FA berdaftar"
       button_register_mobile_phone_for_user: "Daftar telefon bimbit"
       text_2fa_enabled: "Setiap kali log masuk, pengguna ini akan diminta untuk memasukkan token OTP daripada peranti 2FA asas mereka."
       text_2fa_disabled: "Pengguna ini tidak menyediakan peranti 2FA melalui 'Laman akaun saya'"
-      only_sms_allowed: "Only SMS delivery can be set up for other users."
+      only_sms_allowed: "Hanya penghantaran SMS boleh disediakan untuk pengguna-pengguna lain."
     upsale:
       title: "Pengesahan dua faktor"
-      description: "Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members."
+      description: "Ketatkan keselamatan contoh OpenProject anda dengan menawarkan (atau kuatkuasakan) pengesahan dua faktor ke semua ahli-ahli projek."
     backup_codes:
-      none_found: No backup codes exist for this account.
+      none_found: Tiada kod sokongan sedia ada untuk akaun ini.
       singular: Kod sokongan
       plural: Kod sokongan
       your_codes: untuk %{login} akaun %{app_name} anda
       overview_description: |
-        If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
-        Use the following button to generate a new set of backup codes.
+        Jika anda tidak boleh mengakses peranti-peranti dua faktor anda, anda boleh menggunakan kod sokongan untuk mendapatkan akses semula ke akaun anda.
+        Gunakan butang berikutnya untuk menjana set kod sokongan baharu.
       generate:
         title: Hasilkan kod sokongan
         keep_safe_as_password: "Penting! Perlakukan kod-kod ini sebagai kata laluan."
-        keep_safe_warning: "Either save them in your password manager, or print this page and put in a safe place."
+        keep_safe_warning: "Antara menyimpannya dalam pengendalian kata laluan anda, atau mencetak halaman ini dan menyimpannya di sebuah tempat yang selamat."
         regenerate_warning: "Amaran: Jika anda telah mencipta kod sandaran sebelum ini, mereka akan dibatalkan dan tidak akan berfungsi lagi."
     devices:
       add_new: "Tambah peranti 2FA baharu"
@@ -112,30 +112,30 @@ ms:
       text_confirm_to_change_default_html: "Sila sahkan perubahan peranti default ke <strong>%{new_identifier}</strong> dengan memasukkan kata laluan satu kali dari peranti default semasa anda."
       text_identifier: "Anda boleh berikan peranti pengecam tersuai menggunakan medan ini."
       failed_to_delete: "Gagal untuk memadam peranti 2FA."
-      is_default_cannot_delete: "The device is marked as default and cannot be deleted due to an active security policy. Mark another device as default before deleting."
+      is_default_cannot_delete: "Peranti ini telah dicatat sebagai default dan tidak boleh dipadam atas sebab polisi keselamatan yang sedang aktif.\nCatatkan peranti lain sebagai default sebelum memadamkannya."
       not_existing: "Tiada peranti 2FA yang berdaftar untuk akaun anda."
-      2fa_from_input: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
-      2fa_from_webauthn: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
+      2fa_from_input: Sila masukkan kod daripada <strong>%{device_name}</strong> anda untuk sahkan identiti anda.
+      2fa_from_webauthn: Sila sediakan peranti WebAuthn <strong>%{device_name}</strong>. Jika ia berdasarkan USB, sila pastikan memasang dan menyentuhnya. Lepas itu, klik butang log masuk.
       webauthn:
         title: "WebAuthn"
-        description: Use Web Authentication to register a FIDO2 device (like a YubiKey) or the secure enclave of your mobile device as a second factor.
-        further_steps: After you have chosen a name, you can click the Continue button. Your browser will prompt you to present your WebAuthn device. When you have done so, you are done registering the device.
+        description: Gunakan Pengesahan Web untuk daftarkan peranti FIDO2 (seperti YubiKey) atau enclave yang selamat telefon bimbit anda sebagai faktor kedua.
+        further_steps: Setelah anda memilih nama, anda boleh klik butang Teruskan. Laman layar anda akan maklumkan kepada anda untuk mengemukakan peranti WebAuthn anda. Setelah berbuat demikian, pendaftaran peranti anda telah selesai.
       totp:
-        title: "Use your app-based authenticator"
-        provisioning_uri: "Provisioning URI"
-        secret_key: "Secret key"
-        time_based: "Time based"
-        account: "Account name / Issuer"
+        title: "Gunakan pengesahan pangkalan aplikasi anda"
+        provisioning_uri: "Peruntukan URI"
+        secret_key: "Kunci rahsia"
+        time_based: "Berdasarkan masa"
+        account: "Nama akaun / Penerbit"
         setup: |
-          For setting up two-factor authentication with Google Authenticator, download the application from the Apple App store or Google Play Store.
-          After opening the app, you can scan the following QR code to register the device.
+          Untuk menetapkan pengesahan dua faktor menggunakan Google Authenticator, muat turun aplikasi tersebut dari Apple App Store atau Google Play Store.
+          Selepas membuka aplikasi tersebut, anda boleh mengimbas kod QR yang berikut untuk mendaftarkan peranti tersebut.
         question_cannot_scan: |
           Tidak dapat mengimbas kod menggunakan aplikasi anda?
         text_cannot_scan: |
           Jika anda tidak dapat mengimbas kod, anda boleh memasukkan entri secara manual dengan menggunakan butiran berikut:
         description: |
-          Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard.
-          Common examples are Google Authenticator or Authy.
+          Daftarkan pengesah aplikasi untuk digunakan bersama OpenProject menggunakan standard pengesahan kata laluan sekali masa berasaskan masa.
+          Contoh biasa ialah Google Authenticator atau Authy.
       sms:
         title: "Guna telefon bimbit anda"
         redacted_identifier: "Peranti (%{redacted_number})"
@@ -145,25 +145,25 @@ ms:
     sns:
       delivery_failed: "Penghantaran SNS gagal:"
     message_bird:
-      sms_delivery_failed: "MessageBird SMS delivery failed."
+      sms_delivery_failed: "Penghantaran SMS MessageBird gagal."
       voice_delivery_failed: "Panggilan suara MessageBird gagal."
     strategies:
-      totp: "Authenticator application"
-      sns: "Amazon SNS"
+      totp: "Aplikasi pengesahan"
+      sns: "SNS Amazon"
       resdt: "SMS Rest API"
       webauthn: "WebAuthn"
     mobile_transmit_notification: "Kata laluan satu kali telah dihantar ke telefon bimbit anda."
     label_two_factor_authentication: "Pengesahan dua faktor"
     forced_registration:
-      required_to_add_device: "An active security policy requires you to enable two-factor authentication. Please use the following form to register a device."
+      required_to_add_device: "Polisi keselamatan yang aktif memerlukan anda untuk membenarkan pengesahan dua faktor. Sila gunakan borang berikut untuk daftarkan peranti."
     remember:
       active_session_notice: >
-        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
-      other_active_session_notice: Your account has an active remember cookie on another session.
+        Akaun ada mempunyai simpanan kuki aktif yang sah sehingga %{expires_on}. Kuki ini membenarkan anda untuk log masuk tanpa faktor kedua ke akaun anda sehingga masa itu.
+      other_active_session_notice: Akaun anda mempunyai simpanan kuki yang aktif pada sesi lain.
       label: "Ingat"
       clear_cookie: "Klik sini untuk buang semua sesi 2FA yang diingati."
-      cookie_removed: "All remembered 2FA sessions have been removed."
-      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
+      cookie_removed: "Semua sesi 2FA yang disimpan telah dipadamkan."
+      dont_ask_again: "Ciptakan kuki untuk menyimpan pengesahan 2FA pada pelanggan selama %{days} hari."
   field_phone: "Telefon bimbit"
   field_otp: "Kata laluan satu kali"
   notice_account_otp_invalid: " Kata laluan satu kali tidak sah."

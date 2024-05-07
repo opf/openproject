@@ -148,6 +148,9 @@ import {
 import {
   DraggableAutocompleteComponent,
 } from 'core-app/shared/components/autocompleter/draggable-autocomplete/draggable-autocomplete.component';
+import {
+  AttributeHelpTextComponent,
+} from 'core-app/shared/components/attribute-help-texts/attribute-help-text.component';
 
 export function initializeServices(injector:Injector) {
   return () => {
@@ -330,5 +333,6 @@ export class OpenProjectModule {
     registerCustomElement('opce-macro-wp-quickinfo', WorkPackageQuickinfoMacroComponent, { injector });
     registerCustomElement('opce-ckeditor-augmented-textarea', CkeditorAugmentedTextareaComponent, { injector });
     registerCustomElement('opce-draggable-autocompleter', DraggableAutocompleteComponent, { injector });
+    registerCustomElement('opce-attribute-help-text', AttributeHelpTextComponent, { injector });
   }
 }

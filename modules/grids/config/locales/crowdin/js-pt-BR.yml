@@ -42,6 +42,9 @@ pt-BR:
         subprojects:
           title: 'Subprojetos'
           no_results: 'Nenhum subprojeto.'
+        project_favorites:
+          title: 'Favorite projects'
+          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
         time_entries_current_user:
           title: 'Meu tempo gasto'
           displayed_days: 'Dias exibidos no widget:'

@@ -17,7 +17,7 @@ if [[ -z "$1" ]] || [[ -z "$2" ]]; then
   exit 1
 fi
 
-CURRENT_OP_MAJOR_VERSION="12"
+CURRENT_OP_MAJOR_VERSION="14"
 
 SECONDS=0
 
@@ -69,7 +69,7 @@ if [[ ! "$SKIP_STEP_1" = "true" ]]; then
   echo
   echo "1.2) Starting OpenProject 7"
   if [[ ! `docker ps | grep $OP7_CONTAINER` ]]; then
-    docker run -d --name $OP7_CONTAINER openproject/community:7 # can use `run -it` directly because the image doesn't support it yet in version 8
+    docker run -d --name $OP7_CONTAINER openproject/openproject:7 # can use `run -it` directly because the image doesn't support it yet in version 8
     if [[ $? -gt 0 ]]; then exit 1; fi
     echo "  OpenProject started"
   else
@@ -79,7 +79,7 @@ if [[ ! "$SKIP_STEP_1" = "true" ]]; then
   echo
   echo "1.3) Starting OpenProject 8"
   if [[ ! `docker ps | grep $OP8_CONTAINER` ]]; then
-    docker run -d --name $OP8_CONTAINER openproject/community:8-mysql # can use `run -it` directly because the image doesn't support it yet in version 8
+    docker run -d --name $OP8_CONTAINER openproject/openproject:8-mysql # can use `run -it` directly because the image doesn't support it yet in version 8
     if [[ $? -gt 0 ]]; then exit 1; fi
     echo "  OpenProject started"
   else
@@ -230,7 +230,7 @@ docker run \
   -e MYSQL_DATABASE_URL="mysql2://$MYSQL_USER:$MYSQL_PWD@$DOCKER_HOST_IP:$MYSQL_PORT/$DATABASE" \
   -e DATABASE_URL="postgresql://postgres:postgres@$DOCKER_HOST_IP:$POSTGRES_PORT/$DATABASE" \
   -e FORCE_YES=true \
-  -t openproject/community:b007c71494a76924396ad0b168ba733471e3e326 \
+  -t openproject/openproject:b007c71494a76924396ad0b168ba733471e3e326 \
   > migration.log &
 
 # wait for migration to finish...
@@ -290,14 +290,14 @@ fi
 echo
 echo "2.8) Migrating from 10 to current ($CURRENT_OP_MAJOR_VERSION)"
 
-docker pull openproject/community:$CURRENT_OP_MAJOR_VERSION
+docker pull openproject/openproject:$CURRENT_OP_MAJOR_VERSION
 
 docker run \
   --rm \
   -v $PWD:/data \
   --name migrate10tocurrent \
   -e DATABASE_URL="postgresql://postgres:postgres@$DOCKER_HOST_IP:$POSTGRES_PORT/$DATABASE" \
-  -it openproject/community:$CURRENT_OP_MAJOR_VERSION \
+  -it openproject/openproject:$CURRENT_OP_MAJOR_VERSION \
   bundle exec rake db:migrate > migration.log
 
 MIGRATION_STATUS=$?
@@ -332,7 +332,7 @@ docker run \
   --rm \
   -e PGPASSWORD=postgres \
   -v /tmp:/data \
-  -it openproject/community:$CURRENT_OP_MAJOR_VERSION pg_dump \
+  -it openproject/openproject:$CURRENT_OP_MAJOR_VERSION pg_dump \
     -h $DOCKER_HOST_IP \
     -p $POSTGRES_PORT \
     -U postgres \

@@ -98,7 +98,7 @@ module API
               "API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter"
             when "user", "version", "float"
               "API::V3::Queries::Schemas::#{format.camelize}FilterDependencyRepresenter"
-            when "string"
+            when "string", "link"
               "API::V3::Queries::Schemas::TextFilterDependencyRepresenter"
             end
           end

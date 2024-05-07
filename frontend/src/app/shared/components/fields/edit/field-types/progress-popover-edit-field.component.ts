@@ -58,7 +58,6 @@ import { HalEventsService } from 'core-app/features/hal/services/hal-events.serv
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import * as moment from 'moment/moment';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
@@ -133,11 +132,11 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
     return this.text.placeholder;
   }
 
-  public formatter(value:null|string):string {
-    if (value === null) {
+  public formatter(value:undefined|null|string):string {
+    if (value === undefined || value === null) {
       return '';
     }
-    return moment.duration(value).asHours().toFixed(1);
+    return `${this.timezoneService.toHours(value)}`;
   }
 
   public statusFormatter(value:null|string):string {
@@ -217,6 +216,10 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
     url.searchParams.set('work_package[remaining_hours]', this.formatter(this.resource.remainingTime));
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     url.searchParams.set('work_package[status_id]', this.statusFormatter(this.resource.status?.id as string));
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    if (this.resource?.id === 'new') {
+      url.searchParams.set('work_package[status_id_touched]', 'true');
+    }
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     this.frameSrc = url.toString();

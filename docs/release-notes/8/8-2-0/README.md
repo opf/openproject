@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 8.2.0
-  sidebar_navigation:
-      title: 8.2.0
-  release_version: 8.2.0
-  release_date: 2018-12-17
+title: OpenProject 8.2.0
+sidebar_navigation:
+  title: 8.2.0
+release_version: 8.2.0
+release_date: 2018-12-17
 ---
 
 
@@ -69,5 +69,3 @@ fixes.
 
 For an overview, please take a look at the [list of bug
 fixes](https://community.openproject.org/projects/openproject/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22type%22%2C%22status%22%2C%22assignee%22%2C%22version%22%5D%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22parent%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22*%22%2C%22v%22%3A%5B%5D%7D%2C%7B%22n%22%3A%22version%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%221253%22%5D%7D%2C%7B%22n%22%3A%22type%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%221%22%5D%7D%2C%7B%22n%22%3A%22subprojectId%22%2C%22o%22%3A%22*%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A20%7D).
-
-

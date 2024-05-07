@@ -39,14 +39,15 @@ it:
   api_v3:
     errors:
       too_many_elements_created_at_once: 'Troppi elementi creati contemporaneamente. Massimo atteso: %{max}, effettivi: %{actual}.'
-  permission_create_files: 'External Storage: Create files'
-  permission_delete_files: 'External Storage: Delete files'
+  permission_create_files: 'Archiviazione esterna: Creare file'
+  permission_delete_files: 'Archiviazione esterna: Cancellare file'
+  permission_header_for_project_module_storages: Cartelle di progetto gestite automaticamente
   permission_manage_file_links: Gestire link ai file
   permission_manage_storages_in_project: Gestisci archivi di file nel progetto
-  permission_read_files: 'External Storage: Read files'
-  permission_share_files: 'External Storage: Share files'
+  permission_read_files: 'Archiviazione esterna: Leggere file'
+  permission_share_files: 'Archiviazione esterna: Condividere file'
   permission_view_file_links: Visualizza link ai file
-  permission_write_files: 'External Storage: Write files'
+  permission_write_files: 'Archiviazione esterna: Scrivere file'
   project_module_storages: Archivi file
   storages:
     buttons:
@@ -78,14 +79,14 @@ it:
     error_invalid_provider_type: Seleziona un fornitore di archiviazione valido.
     file_storage_view:
       access_management:
-        automatic_management: Automatically managed access and folders
-        automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
-        description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
-        manual_management: Manually managed access and folders
-        manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
-        setup_incomplete: Select the type of management of user access and folder creation.
-        subtitle: Access management
-        title: Access and project folders
+        automatic_management: Accesso e cartelle gestiti automaticamente
+        automatic_management_description: Consenti a OpenProject di creare automaticamente cartelle per progetto e di gestirne l'accesso da parte degli utenti. Questa impostazione è consigliata in quanto garantisce che ogni membro del team abbia sempre le autorizzazioni di accesso corrette.
+        description: Seleziona il tipo di gestione dell'accesso degli utenti e della creazione di cartelle. Si consiglia di utilizzare l'accesso gestito automaticamente per avere una struttura più organizzata e garantire l'accesso a tutti gli utenti interessati.
+        manual_management: Accesso e cartelle gestiti manualmente
+        manual_management_description: Crea e gestisci manualmente le cartelle per progetto. Dovrai assicurarti manualmente che gli utenti interessati abbiano accesso.
+        setup_incomplete: Seleziona il tipo di gestione dell'accesso degli utenti e della creazione di cartelle.
+        subtitle: Gestione degli accessi
+        title: Accesso e cartelle di progetto
       automatically_managed_folders: Cartelle gestite automaticamente
       general_information: Informazioni generali
       nextcloud_oauth: Nextcloud OAuth
@@ -101,15 +102,15 @@ it:
       label_healthy: Tutto ok
       label_pending: In sospeso
       since: dal giorno %{datetime}
-      subtitle: Automatically managed project folders
+      subtitle: Cartelle di progetto gestite automaticamente
       title: Stato di salute
     health_email_notifications:
-      description_subscribed: All administrators receive health status email notifications for this storage.
-      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
-      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
-      subscribe: Subscribe
-      title: Email notifications
-      unsubscribe: Unsubscribe
+      description_subscribed: Tutti gli amministratori ricevono notifiche e-mail sullo stato di salute di questo archivio.
+      description_unsubscribed: Le notifiche via e-mail sullo stato di salute di questo archivio sono state disattivate per tutti gli amministratori.
+      error_could_not_be_saved: Impossibile salvare le impostazioni di notifica via e-mail. Riprova.
+      subscribe: Iscriviti
+      title: Notifiche e-mail
+      unsubscribe: Disiscriviti
     help_texts:
       project_folder: La cartella del progetto è la cartella predefinita per il caricamento dei file per questo progetto. Gli utenti possono, comunque, caricare i file in altre posizioni.
     instructions:
@@ -159,7 +160,7 @@ it:
     label_creator: Autore
     label_delete_storage: Elimina archivio
     label_edit_storage: Modifica archivio
-    label_edit_storage_access_management: Edit storage access management
+    label_edit_storage_access_management: Modifica gestione degli accessi all'archivio
     label_edit_storage_automatically_managed_folders: Modifica cartelle gestite automaticamente dall'archivio
     label_edit_storage_host: Modifica host dell'archivio
     label_existing_manual_folder: Cartella esistente con autorizzazioni gestite manualmente
@@ -230,7 +231,7 @@ it:
       project_storage_members:
         subtitle: Controlla lo stato della connessione per lo spazio di archiviazione %{storage_name_link} di tutti i membri del progetto.
         title: Stato della connessione dei membri
-    permission_header_explanation: "File permissions on external storages are applied only to folders and files within automatically managed project folders. \nNote that not all file permissions are supported by all storage providers."
+    permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
     provider_types:
       label: Tipo di fonte
       nextcloud:

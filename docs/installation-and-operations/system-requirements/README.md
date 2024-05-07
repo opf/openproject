@@ -51,7 +51,7 @@ It's best to monitor your server and its resource usage. You can always allocate
 
 See [here](../operation/control/#scaling-the-number-of-web-workers) how to scale those up in a packaged installation. If you are using docker-compose you can [scale](https://docs.docker.com/compose/reference/scale/) the web and worker services too.
 
-> <sup>1</sup> When using [docker-compose](https://github.com/opf/openproject-deploy/tree/stable/13/compose) (with `USE_PUMA=true`) you can use fewer web workers which may use a bit more RAM, however. For instance for 200 users a single web worker would be enough.
+> <sup>1</sup> When using [docker-compose](https://github.com/opf/openproject-deploy/tree/stable/14/compose) (with `USE_PUMA=true`) you can use fewer web workers which may use a bit more RAM, however. For instance for 200 users a single web worker would be enough.
 
 **Scaling horizontally**
 
@@ -65,7 +65,7 @@ One way to scale the _docker_ installation is to use [docker Swarm](../installat
 
 The [package-based installation](../installation/packaged) requires one of the following Linux distributions:
 
-| Distribution (**64 bits only**) |
+| Distribution (__64 bits only__) |
 | ------------------------------- |
 | Ubuntu 22.04 Jammy              |
 | Ubuntu 20.04 Focal              |
@@ -78,7 +78,7 @@ The [package-based installation](../installation/packaged) requires one of the f
 
 The [docker-based installation](../installation/docker) requires a system with Docker installed. Please see the [official Docker page](https://docs.docker.com/install/) for the list of supported systems.
 
-**Please note**, that we only provide packages for the **AMD64** (x86) architecture. We do provide *docker containers* for both **ARM64** and **PPC64** on top of **AMD64**.
+**Please note**, that we only provide packages for the __AMD64__ (x86) architecture. We do provide *docker containers* for both __ARM64__ and __PPC64__ on top of __AMD64__.
 
 ### Overview of dependencies
 

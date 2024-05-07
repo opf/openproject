@@ -18,7 +18,7 @@ permissions:
   contents: read # to fetch code (actions/checkout)
 
 env:
-  REGISTRY_IMAGE: openproject/community
+  REGISTRY_IMAGE: openproject/openproject
 
 jobs:
   setup:
@@ -142,6 +142,11 @@ jobs:
           ls -al public/
           mv public/assets/frontend_assets.manifest.json config/frontend_assets.manifest.json
           ls -al config/frontend_assets.manifest.json
+      - name: Add build information
+        run: |
+          echo "${{ needs.setup.outputs.checkout_ref }}" > PRODUCT_VERSION
+          echo "https://github.com/opf/openproject/commits/${{ needs.setup.outputs.checkout_ref }}" > PRODUCT_URL
+          date -u +"%Y-%m-%dT%H:%M:%SZ" > RELEASE_DATE
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -274,3 +279,11 @@ jobs:
       - name: Inspect image
         run: |
           docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}
+  notify:
+    needs: [extract_version, build, merge]
+    if: ${{ always() && contains(needs.*.result, 'failure') }}
+    uses: ./.github/workflows/email-notification.yml
+    secrets: inherit
+    with:
+      subject: "Docker build failed"
+      body: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

@@ -351,7 +351,7 @@ zh-CN:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+                该版本包含各种新功能和改进： <br> <ul class="%{list_styling_class}"> <li>跨工作包层次实施进度报告。</li> <li>在项目概览页面以结构化方式管理项目属性。</li> <li>简化项目列表和项目概览中自定义字段的视图。</li> <li>采用时尚的 Primer 设计，统一页面标题。</li> <li>利用附件上传、负责和会议历史等新功能增强会议功能。</li> <li>对不健康的文件存储自动发出警报，并通过切换选项进行控制。</li> <li>复制项目时，为 OneDrive/SharePoint 复制自动管理的项目文件夹。</li> <li>撤销项目成员资格时，要求管理员删除工作包上的共享。</li> <li>通过团队计划器中的 4 周和 8 周显示模式增强计划性。</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"
@@ -377,6 +377,7 @@ zh-CN:
     label_added_time_by: '由 <a href=%{authorLink}>%{author}</a> 在 %{age} 添加'
     label_ago: "天前"
     label_all: "所有"
+    label_all_uppercase: "全部"
     label_all_work_packages: "所有工作包"
     label_and: "和"
     label_ascending: "升序"
@@ -418,6 +419,7 @@ zh-CN:
     label_expand_project_menu: "展开项目菜单"
     label_export: "导出"
     label_export_preparing: "导出文件已开始准备并将很快被下载。"
+    label_favorites: "收藏夹"
     label_filename: "文件"
     label_filesize: "大小"
     label_general: "通用"
@@ -641,7 +643,7 @@ zh-CN:
           no_selection: "点击通知可查看所有活动详细信息。"
         new_notifications:
           message: "有新的通知。"
-          link_text: "点击此处加载"
+          link_text: "点击此处加载。"
       menu:
         accountable: "负责人"
         by_project: "按项目筛选未读通知"
@@ -1265,6 +1267,9 @@ zh-CN:
           placeholder: "现在可以在 %{project} 中使用占位符。同时，您已经可以与该用户一起制定计划并分配工作包等。"
           group: "该组现已加入 %{project}。同时，您已经可以与该组一起制定计划并分配工作包等。"
         next_button: "继续"
+    favorite_projects:
+      no_results: "您没有收藏的项目"
+      no_results_subtext: "通过项目概览或项目列表添加一个或多个项目作为收藏夹。"
     include_projects:
       toggle_title: "包含项目"
       title: "项目"

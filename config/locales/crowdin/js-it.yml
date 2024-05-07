@@ -352,7 +352,7 @@ it:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+                Questa versione contiene diverse nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Implementazione della segnalazione dell'avanzamento dei lavori attraverso le gerarchie dei pacchetti di lavoro.</li> <li>Gestione degli attributi del progetto in modo strutturato nella pagina di panoramica del progetto.</li> <li>Visualizzazione semplificata dei campi personalizzati nell'elenco dei progetti e nella panoramica dei progetti.</li> <li>Intestazioni di pagina unificate con l'elegante design di Primer.</li> <li>Miglioramento delle riunioni con nuove funzioni come il caricamento di allegati, la responsabilità e la cronologia delle riunioni.</li> <li>Avvisi automatici per archivi di file non integri e ottenimento del controllo con le opzioni di attivazione/disattivazione. </li> <li>Copia automatica della cartella di progetto per OneDrive/SharePoint quando si copiano i progetti.</li> <li>Richiesta agli amministratori di rimuovere le condivisioni sulle macro-attività quando si revoca la partecipazione a un progetto.</li> <li>Migliora la pianificazione con modalità di visualizzazione a 4 e 8 settimane nel pianificatore del team.</li> </ul>
     ical_sharing_modal:
       title: "Iscriviti al calendario"
       inital_setup_error_message: "Si è verificato un errore recuperando i dati."
@@ -378,6 +378,7 @@ it:
     label_added_time_by: 'Aggiunto da <a href="%{authorLink}">%{author}</a> alle %{age}'
     label_ago: "giorni fa"
     label_all: "tutti"
+    label_all_uppercase: "All"
     label_all_work_packages: "tutte le macro-attività"
     label_and: "e"
     label_ascending: "Crescente"
@@ -419,6 +420,7 @@ it:
     label_expand_project_menu: "Espandi il menù di progetto"
     label_export: "Esporta"
     label_export_preparing: "L'esportazione è in fase di preparazione e il download partirà a breve."
+    label_favorites: "Favorites"
     label_filename: "File"
     label_filesize: "Dimensione"
     label_general: "Generale"
@@ -643,7 +645,7 @@ it:
           no_selection: "Clicca su una notifica per visualizzare tutti i dettagli dell'attività."
         new_notifications:
           message: "Ci sono nuove notifiche."
-          link_text: "Clicca qui per caricarli"
+          link_text: "Clicca qui per caricarli."
       menu:
         accountable: "Responsabile"
         by_project: "Non letto dal progetto"
@@ -926,7 +928,7 @@ it:
       message_work_package_status_blocked: "Lo stato della macro-attività non è scrivibile a causa dello stato chiuso e della versione chiusa assegnata."
       placeholder_filter_by_text: "Oggetto, descrizione, commenti, ..."
       progress:
-        title: "Work estimates and progress"
+        title: "Stime e progressi del lavoro"
       baseline:
         addition_label: "Aggiunto per la visualizzazione entro il periodo di confronto"
         removal_label: "Rimosso dalla vista entro il periodo di confronto"
@@ -1269,6 +1271,9 @@ it:
           placeholder: "Il segnaposto è ora utilizzabile in %{project}. Nel mentre puoi ad esempio già pianificare con quell'utente e assegnare pacchetti di lavoro."
           group: "Il gruppo è ora parte di %{project}. Nel mentre puoi ad esempio già pianificare con quel gruppo e assegnare pacchetti di lavoro."
         next_button: "Continua"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Includi progetti"
       title: "Progetti"
@@ -1329,5 +1334,5 @@ it:
         Close: "Chiuso"
     open_project_storage_modal:
       waiting_subtitle:
-        network_off: "There is a network problem."
-        network_on: "Network is back. We are trying."
+        network_off: "C'è un problema di rete."
+        network_on: "La rete è tornata. Stiamo provando."

@@ -9,6 +9,14 @@
   &--actions
     justify-self: end
 
+  // Render an icon in front of the placeholder
+  &--presenter
+    .ng-placeholder
+      @extend .icon-user
+      &:before
+        @include icon-font-common
+        margin-right: 10px
+
   @media screen and (max-width: $breakpoint-md)
     grid-template-columns: 100px minmax(0, 100%)
     grid-template-areas: "title title" "duration presenter" "notes notes" "add_note actions"

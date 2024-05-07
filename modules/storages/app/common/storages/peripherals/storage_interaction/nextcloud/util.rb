@@ -80,7 +80,47 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Util
     end
 
     def error_text_from_response(response)
-      Nokogiri::XML(response.body).xpath("//s:message").text
+      response.xml.xpath("//s:message").text
+    end
+
+    def origin_user_id(caller:, storage:, auth_strategy:)
+      case auth_strategy.key
+      when :basic_auth
+        ServiceResult.success(result: storage.username)
+      when :oauth_user_token
+        origin_user_id = OAuthClientToken.where(user_id: auth_strategy.user, oauth_client: storage.oauth_client)
+                                         .pick(:origin_user_id)
+        if origin_user_id.present?
+          ServiceResult.success(result: origin_user_id)
+        else
+          failure(code: :error,
+                  data: ::Storages::StorageErrorData.new(source: caller),
+                  log_message: "No origin user ID or user token found. Cannot execute query without user context.")
+        end
+      else
+        failure(code: :error,
+                data: ::Storages::StorageErrorData.new(source: caller),
+                log_message: "No authentication strategy with user context found. " \
+                             "Cannot execute query without user context.")
+      end
+    end
+
+    def error_data_from_response(caller:, response:)
+      payload =
+        case response.content_type.mime_type
+        when "application/json"
+          response.json
+        when "text/xml", "application/xml"
+          response.xml
+        else
+          response.body.to_s
+        end
+
+      ::Storages::StorageErrorData.new(source: caller, payload:)
+    end
+
+    def failure(code:, data:, log_message:)
+      ServiceResult.failure(result: code, errors: ::Storages::StorageError.new(code:, data:, log_message:))
     end
   end
 end

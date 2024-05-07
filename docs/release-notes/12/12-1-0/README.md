@@ -47,15 +47,11 @@ The “Include Projects” filter option makes it easier to add different projec
 
 ![openproject-include-projects](openproject-include-projects.gif)
 
-
-
 ## Files tab for work packages
 
 We added a new “Files” tab in the work package details. This way, you will have all possible information attached to a work package together in one place.
 
 ![openproject-files-tab](openproject-files-tab.png)
-
-
 
 ## Further improvements, changes, and bug fixes
 
@@ -64,7 +60,7 @@ We added a new “Files” tab in the work package details. This way, you will h
 - An index page was added also for the team planner and calendar module.
 - API to CRUD links between files (i.e. for Nextcloud) and work packages in OpenProject.
 
-#### List of all bug fixes and changes
+### List of all bug fixes and changes
 
 - Epic: Introduce module specific queries (e.g. for calendar, team planner and BCF module) \[[#30583](https://community.openproject.org/wp/30583)\]
 - Epic: Team planner \[[#39784](https://community.openproject.org/wp/39784)\]
@@ -128,7 +124,7 @@ We added a new “Files” tab in the work package details. This way, you will h
 - Changed: Seed (migrate) team planner permissions  \[[#41899](https://community.openproject.org/wp/41899)\]
 - Changed: Add packaged installation support for Ubuntu 22.04 \[[#42069](https://community.openproject.org/wp/42069)\]
 - Fixed: Missing translation in custom fields administration \[[#38057](https://community.openproject.org/wp/38057)\]
-- Fixed: [Navigation] Breadcrumbs changes from "Relations" to "Activity" \[[#38531](https://community.openproject.org/wp/38531)\]
+- Fixed: \[Navigation\] Breadcrumbs changes from "Relations" to "Activity" \[[#38531](https://community.openproject.org/wp/38531)\]
 - Fixed: Minor spelling change for work package filter \[[#38533](https://community.openproject.org/wp/38533)\]
 - Fixed: Mobile: When clicking on WP tabs ("Activity", "Watchers", ...) jump to top of page \[[#39848](https://community.openproject.org/wp/39848)\]
 - Fixed: Internal error when trying to set milestone as parent wp \[[#39856](https://community.openproject.org/wp/39856)\]
@@ -150,7 +146,7 @@ We added a new “Files” tab in the work package details. This way, you will h
 - Fixed: Users can't select public template projects in new project dialog \[[#40918](https://community.openproject.org/wp/40918)\]
 - Fixed: Meeting Time in iCalendar is wrong \[[#40941](https://community.openproject.org/wp/40941)\]
 - Fixed: Toolbar icons should be rendered in the "old" style and not the new rounded style (which is a work in progress) \[[#40957](https://community.openproject.org/wp/40957)\]
-- Fixed: [Docker] - Gitlab integration plugin \[[#40959](https://community.openproject.org/wp/40959)\]
+- Fixed: \[Docker\] - Gitlab integration plugin \[[#40959](https://community.openproject.org/wp/40959)\]
 - Fixed: Project dropdown no longer autofocused \[[#40978](https://community.openproject.org/wp/40978)\]
 - Fixed: Not possible to copy work package to another project \[[#41005](https://community.openproject.org/wp/41005)\]
 - Fixed: Changed calendar styles applied to time entries component \[[#41013](https://community.openproject.org/wp/41013)\]
@@ -216,7 +212,8 @@ We added a new “Files” tab in the work package details. This way, you will h
 - Fixed: Search results below include projects modal \[[#42090](https://community.openproject.org/wp/42090)\]
 - Fixed: Include projects - Toggle button is not rounded \[[#42171](https://community.openproject.org/wp/42171)\]
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 - Special thanks for Autoliv for sponsoring the development of the new team planner.

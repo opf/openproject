@@ -151,6 +151,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
       work_package.start_date = days.start_date(work_package.due_date, work_package.duration)
     end
   end
+
   # rubocop:enable Metrics/AbcSize
 
   def set_default_attributes(attributes)
@@ -294,6 +295,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
       update_remaining_hours
       update_done_ratio
     end
+    round_progress_values
   end
 
   def only_percent_complete_initially_set?
@@ -330,7 +332,19 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     end
   end
 
+  def round_progress_values
+    rounded = work_package.estimated_hours&.round(2)
+    if rounded != work_package.estimated_hours
+      work_package.estimated_hours = rounded
+    end
+    rounded = work_package.remaining_hours&.round(2)
+    if rounded != work_package.remaining_hours
+      work_package.remaining_hours = rounded
+    end
+  end
+
   def update_remaining_hours_from_percent_complete
+    return if work_package.remaining_hours_came_from_user?
     return if work_package.estimated_hours&.negative?
 
     work_package.remaining_hours = remaining_hours_from_done_ratio_and_estimated_hours
@@ -364,7 +378,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
 
   def update_estimated_hours
     return unless WorkPackage.use_field_for_done_ratio?
-    return if work_package.estimated_hours_changed?
+    return if work_package.estimated_hours_came_from_user?
     return unless work_package.remaining_hours_changed?
 
     work = work_package.estimated_hours
@@ -384,8 +398,8 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     if WorkPackage.use_status_for_done_ratio?
       update_remaining_hours_from_percent_complete
     elsif WorkPackage.use_field_for_done_ratio? &&
-          work_package.estimated_hours_changed?
-      return if work_package.remaining_hours_changed?
+      work_package.estimated_hours_changed?
+      return if work_package.remaining_hours_came_from_user?
       return if work_package.estimated_hours&.negative?
       return if work_was_unset_and_remaining_work_is_set? # remaining work is kept and % complete will be set
 
@@ -408,13 +422,14 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     return nil if work_package.done_ratio.nil? || work_package.estimated_hours.nil?
 
     completed_work = work_package.estimated_hours * work_package.done_ratio / 100.0
-    (work_package.estimated_hours - completed_work).round(2)
+    remaining_hours = (work_package.estimated_hours - completed_work).round(2)
+    remaining_hours.clamp(0.0, work_package.estimated_hours)
   end
 
   def set_version_to_nil
     if work_package.version &&
-       work_package.project &&
-       work_package.project.shared_versions.exclude?(work_package.version)
+      work_package.project &&
+      work_package.project.shared_versions.exclude?(work_package.version)
       work_package.version = nil
     end
   end
@@ -485,7 +500,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
 
   def new_start_date_from_parent
     return unless work_package.parent_id_changed? &&
-                  work_package.parent
+      work_package.parent
 
     work_package.parent.soonest_start
   end

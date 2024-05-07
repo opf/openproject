@@ -29,6 +29,8 @@
 #++
 module Projects
   class RowComponent < ::RowComponent
+    delegate :favored_project_ids, to: :table
+
     def project
       model.first
     end
@@ -40,6 +42,27 @@ module Projects
     # Hierarchy cell is just a placeholder
     def hierarchy
       ""
+    end
+
+    def favored
+      render(Primer::Beta::IconButton.new(
+        icon: currently_favored? ? "star-fill" : "star",
+        scheme: :invisible,
+        mobile_icon: currently_favored? ? "star-fill" : "star",
+        size: :medium,
+        tag: :a,
+        tooltip_direction: :e,
+        href: helpers.build_favorite_path(project, format: :html),
+        data: { method: currently_favored? ? :delete : :post },
+        classes: currently_favored? ? "op-primer--star-icon " : "op-project-row-component--favorite",
+        label: currently_favored? ? I18n.t(:button_unfavorite) : I18n.t(:button_favorite),
+        aria: { label: currently_favored? ? I18n.t(:button_unfavorite) : I18n.t(:button_favorite) },
+        test_selector: 'project-list-favorite-button'
+      ))
+    end
+
+    def currently_favored?
+      @currently_favored ||= favored_project_ids.include?(project.id)
     end
 
     def column_value(column)
@@ -138,11 +161,15 @@ module Projects
     end
 
     def row_css_class
-      classes = %w[basics context-menu--reveal]
+      classes = %w[basics context-menu--reveal op-project-row-component]
       classes << project_css_classes
       classes << row_css_level_classes
 
       classes.join(" ")
+    end
+
+    def row_css_id
+      "project-#{project.id}"
     end
 
     def row_css_level_classes
@@ -179,82 +206,153 @@ module Projects
       end
     end
 
+    def button_links
+      if more_menu_items.empty?
+        []
+      else
+        [action_menu]
+      end
+    end
+
+    def action_menu
+      render(Primer::Alpha::ActionMenu.new(test_selector: "project-list-row--action-menu")) do |menu|
+        menu.with_show_button(scheme: :invisible,
+                              size: :small,
+                              icon: :"kebab-horizontal",
+                              "aria-label": t(:label_open_menu),
+                              tooltip_direction: :w)
+        more_menu_items.each do |action_options|
+          action_options => { scheme:, label:, icon:, **button_options }
+          menu.with_item(scheme:,
+                         label:,
+                         test_selector: "project-list-row--action-menu-item",
+                         content_arguments: button_options) do |item|
+            item.with_leading_visual_icon(icon:)
+          end
+        end
+      end
+    end
+
     def more_menu_items
       @more_menu_items ||= [more_menu_subproject_item,
                             more_menu_settings_item,
                             more_menu_activity_item,
+                            more_menu_favorite_item,
+                            more_menu_unfavorite_item,
                             more_menu_archive_item,
                             more_menu_unarchive_item,
                             more_menu_copy_item,
                             more_menu_delete_item].compact
     end
 
+    def more_menu_favorite_item
+      return if currently_favored?
+
+      {
+        scheme: :default,
+        icon: "star",
+        href: helpers.build_favorite_path(project, format: :html),
+        data: { method: :post },
+        label: I18n.t(:button_favorite),
+        aria: { label: I18n.t(:button_favorite) },
+      }
+    end
+
+    def more_menu_unfavorite_item
+      return unless currently_favored?
+
+      {
+        scheme: :default,
+        icon: "star-fill",
+        size: :medium,
+        href: helpers.build_favorite_path(project, format: :html),
+        data: { method: :delete },
+        classes: "op-primer--star-icon",
+        label: I18n.t(:button_unfavorite),
+        aria: { label: I18n.t(:button_unfavorite) },
+      }
+    end
+
     def more_menu_subproject_item
       if User.current.allowed_in_project?(:add_subprojects, project)
-        [t(:label_subproject_new),
-         new_project_path(parent_id: project.id),
-         { class: "icon-context icon-add",
-           title: t(:label_subproject_new) }]
+        {
+          scheme: :default,
+          icon: :plus,
+          label: I18n.t(:label_subproject_new),
+          href: new_project_path(parent_id: project.id)
+        }
       end
     end
 
     def more_menu_settings_item
       if User.current.allowed_in_project?({ controller: "/projects/settings/general", action: "show", project_id: project.id },
                                           project)
-        [t(:label_project_settings),
-         project_settings_general_path(project),
-         { class: "icon-context icon-settings",
-           title: t(:label_project_settings) }]
+        {
+          scheme: :default,
+          icon: :gear,
+          label: I18n.t(:label_project_settings),
+          href: project_settings_general_path(project)
+        }
       end
     end
 
     def more_menu_activity_item
       if User.current.allowed_in_project?(:view_project_activity, project)
-        [
-          t(:label_project_activity),
-          project_activity_index_path(project, event_types: ["project_attributes"]),
-          { class: "icon-context icon-checkmark",
-            title: t(:label_project_activity) }
-        ]
+        {
+          scheme: :default,
+          icon: :check,
+          label: I18n.t(:label_project_activity),
+          href: project_activity_index_path(project, event_types: ["project_attributes"]),
+        }
       end
     end
 
     def more_menu_archive_item
       if User.current.allowed_in_project?(:archive_project, project) && project.active?
-        [t(:button_archive),
-         project_archive_path(project, status: params[:status]),
-         { data: { confirm: t("project.archive.are_you_sure", name: project.name) },
-           method: :post,
-           class: "icon-context icon-locked",
-           title: t(:button_archive) }]
+        {
+          scheme: :default,
+          icon: :lock,
+          label: I18n.t(:button_archive),
+          href: project_archive_path(project, status: params[:status]),
+          data: {
+            confirm: t("project.archive.are_you_sure", name: project.name),
+            method: :post
+          },
+        }
       end
     end
 
     def more_menu_unarchive_item
       if User.current.admin? && project.archived? && (project.parent.nil? || project.parent.active?)
-        [t(:button_unarchive),
-         project_archive_path(project, status: params[:status]),
-         { method: :delete,
-           class: "icon-context icon-unlocked",
-           title: t(:button_unarchive) }]
+        {
+          scheme: :default,
+          icon: :unlock,
+          label: I18n.t(:button_unarchive),
+          href: project_archive_path(project, status: params[:status]),
+          data: { method: :delete }
+        }
       end
     end
 
     def more_menu_copy_item
       if User.current.allowed_in_project?(:copy_projects, project) && !project.archived?
-        [t(:button_copy),
-         copy_project_path(project),
-         { class: "icon-context icon-copy",
-           title: t(:button_copy) }]
+        {
+          scheme: :default,
+          icon: :copy,
+          label: I18n.t(:button_copy),
+          href: copy_project_path(project),
+        }
       end
     end
 
     def more_menu_delete_item
       if User.current.admin
-        [t(:button_delete),
-         confirm_destroy_project_path(project),
-         { class: "icon-context icon-delete",
-           title: t(:button_delete) }]
+        {
+          scheme: :danger,
+          icon: :trash,
+          label: I18n.t(:button_delete),
+          href: confirm_destroy_project_path(project),
+        }
       end
     end
 

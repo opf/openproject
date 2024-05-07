@@ -188,13 +188,11 @@ module API
           schema :percentage_done,
                  type: "Integer",
                  name_source: :done_ratio,
-                 show_if: ->(*) { Setting.work_package_done_ratio != "disabled" },
                  required: false
 
           schema :derived_percentage_done,
                  type: "Integer",
                  name_source: :derived_done_ratio,
-                 show_if: ->(*) { Setting.work_package_done_ratio != "disabled" },
                  required: false
 
           schema :readonly,

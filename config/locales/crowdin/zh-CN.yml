@@ -261,6 +261,7 @@ zh-CN:
     lists:
       active: "有效项目"
       my: "我的项目"
+      favored: "收藏的项目"
       archived: "归档项目"
       my_private: "我的私有项目列表"
       new:
@@ -771,6 +772,7 @@ zh-CN:
         not_an_iso_date: "不是有效日期。所需格式：YYYY-MM-DD。"
         not_same_project: "不属于同一个项目。"
         odd: "必须是奇数。"
+        regex_match_failed: "与正则表达式 %{expression}不匹配。"
         regex_invalid: "无法与关联的正则表达式进行验证。"
         smaller_than_or_equal_to_max_length: "必须小于或等于最大长度。"
         taken: "已经采取。"
@@ -982,12 +984,14 @@ zh-CN:
               only_same_project_categories_allowed: "工作包的类别必须包含在相同的项目工作包中。"
               does_not_exist: "指定的类别不存在。"
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "不能低于 \"剩余工时\"。"
+              cant_be_inferior_to_remaining_work: "不能低于剩余工时。"
               must_be_set_when_remaining_work_is_set: "必须在设置 \"剩余工时 \"时设置。"
               only_values_greater_or_equal_zeroes_allowed: "必须 > = 0。"
+              format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "不能超过 \"工时\"。"
-              must_be_set_when_work_is_set: "必须在设置 \"剩余工时 \"时设置。"
+              cant_exceed_work: "不能高于工时。"
+              must_be_set_when_work_is_set: "当设置工时需要。"
+              format: "%{message}"
           readonly_status: "工作包处于只读状态，因此无法更改其属性。"
         type:
           attributes:
@@ -1242,6 +1246,7 @@ zh-CN:
   button_edit: "编辑"
   button_edit_associated_wikipage: "编辑关联的维基页面： %{page_title}"
   button_expand_all: "全部展开"
+  button_favorite: "添加至收藏夹"
   button_filter: "筛选器"
   button_generate: "生成"
   button_list: "列表"
@@ -1269,6 +1274,7 @@ zh-CN:
   button_unarchive: "取消归档"
   button_uncheck_all: "全部不选"
   button_unlock: "解锁​​​​"
+  button_unfavorite: "取消收藏"
   button_unwatch: "取消关注"
   button_update: "更新"
   button_upgrade: "升级"
@@ -1613,8 +1619,12 @@ zh-CN:
       system_update:
         file_links_journal: >
           从现在开始，与文件链接（存储在外部存储器中的文件）相关的活动将出现在“活动”选项卡中。以下是与已经存在的链接相关的活动的表示：
-        progress_calculation_changed: >
-          进度计算已更新。
+        progress_calculation_adjusted_from_disabled_mode: >-
+          进度计算自动<a href="%{href}" target="_blank">设置为基于工时的模式，并随版本更新而调整</a>。
+        progress_calculation_adjusted: >-
+          进度计算自动<a href="%{href}" target="_blank">设置为基于工时的模式，并随版本更新而调整</a>。
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "配置指南"
     get_in_touch: "遇到问题了？与我们联系。"
@@ -1870,7 +1880,7 @@ zh-CN:
   label_enterprise_support: "企业支持"
   label_enterprise_addon: "企业版附加组件"
   label_environment: "环境"
-  label_estimates_and_time: "估算与工时"
+  label_estimates_and_progress: "预估和进度"
   label_equals: "是"
   label_everywhere: "任何位置"
   label_example: "示例"
@@ -1884,7 +1894,7 @@ zh-CN:
   label_expanded_click_to_collapse: "展开。点击折叠"
   label_f_hour: "%{value} 小时"
   label_f_hour_plural: "%{value} 小时"
-  label_favoured: "收藏项"
+  label_favorite: "收藏夹"
   label_feed_plural: "订阅源"
   label_feeds_access_key: "RSS 访问密钥"
   label_feeds_access_key_created_on: "RSS 访问密钥创建于 %{value} 前"
@@ -1957,6 +1967,7 @@ zh-CN:
   label_learn_more: "了解更多信息"
   label_less_or_equal: "<="
   label_less_than_ago: "小于数日前"
+  label_link_url: "链接（URL）"
   label_list: "列表"
   label_loading: "正在加载..."
   label_lock_user: "锁住用户"
@@ -1982,6 +1993,7 @@ zh-CN:
   label_membership_plural: "成员资格"
   lable_membership_added: "已添加成员"
   lable_membership_updated: "已更新成员"
+  label_menu: "菜单"
   label_menu_badge:
     pre_alpha: "pre-beta"
     alpha: "alpha"
@@ -2083,6 +2095,7 @@ zh-CN:
   label_percent_complete: "% 完成"
   label_project_activity: "项目活动"
   label_project_attribute_plural: "项目属性"
+  label_project_attribute_manage_link: "管理项目属性"
   label_project_count: "项目总数"
   label_project_copy_notifications: "在项目复制期间发送电子邮件通知"
   label_project_latest: "最新的项目"
@@ -2097,7 +2110,7 @@ zh-CN:
   label_project_attributes_settings: "项目属性设置"
   label_project_storage_plural: "文件存储区"
   label_project_storage_project_folder: "文件存储区：项目文件夹"
-  label_projects_storage_information: "%{count} 项目使用 %{storage} 磁盘存储"
+  label_projects_disk_usage_information: "%{count} 个项目正在使用 %{used_disk_space} 磁盘空间"
   label_project_view_all: "查看所有项目"
   label_project_show_details: "显示项目详细信息"
   label_project_hide_details: "隐藏项目详细信息"
@@ -3029,7 +3042,7 @@ zh-CN:
   text_are_you_sure: "是否确定？"
   text_are_you_sure_continue: "确定要继续吗？"
   text_are_you_sure_with_children: "删除工作包和所有子工作包吗？"
-  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
+  text_are_you_sure_with_project_custom_fields: "删除该属性也会删除其在所有项目中的值。您确定要这样做吗？"
   text_assign_to_project: "分配给项目"
   text_form_configuration: >
     您可以自定义哪些字段将显示在工作包窗体中。您可以自由地对字段进行分组, 以反映您的域的需求。
@@ -3318,7 +3331,7 @@ zh-CN:
         working: "%{day}现在是工作日"
         non_working: "%{day}现在是非工作日"
       dates:
-        working: "%{day}现在是工作日"
+        working: "%{date}现在是工作日"
         non_working: "%{date}现在是非工作日"
   nothing_to_preview: "没有什么要预览"
   api_v3:
@@ -3364,9 +3377,7 @@ zh-CN:
         unsupported_context: "所提供的资源不被上下文环境所支持。"
         context_object_not_found: "找不到可作为上下文环境的资源。"
       validation:
-        done_ratio: "无法在父级工作包上设置 % 已完成，当其由状态推导或被禁用时。"
         due_date: "不能在父工作包中设置完成日期。"
-        estimated_hours: "不能在父工作包中设置工作。" #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "所选的用户不允许为此工作包的 '%{property}'。"
         start_date: "不能在父工作包中设置开始日期。"
       eprops:

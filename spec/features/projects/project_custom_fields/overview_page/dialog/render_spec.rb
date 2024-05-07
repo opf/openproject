@@ -121,7 +121,8 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
       expect(containers[2].text).to include("Integer field")
       expect(containers[3].text).to include("Float field")
       expect(containers[4].text).to include("Date field")
-      expect(containers[5].text).to include("Text field")
+      expect(containers[5].text).to include("Link field")
+      expect(containers[6].text).to include("Text field")
     end
 
     boolean_project_custom_field.move_to_bottom
@@ -135,8 +136,9 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
       expect(containers[1].text).to include("Integer field")
       expect(containers[2].text).to include("Float field")
       expect(containers[3].text).to include("Date field")
-      expect(containers[4].text).to include("Text field")
-      expect(containers[5].text).to include("Boolean field")
+      expect(containers[4].text).to include("Link field")
+      expect(containers[5].text).to include("Text field")
+      expect(containers[6].text).to include("Boolean field")
     end
   end
 

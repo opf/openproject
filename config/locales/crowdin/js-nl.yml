@@ -378,6 +378,7 @@ nl:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "dagen geleden"
     label_all: "alle"
+    label_all_uppercase: "All"
     label_all_work_packages: "alle werkpakketten"
     label_and: "en"
     label_ascending: "Oplopend"
@@ -419,6 +420,7 @@ nl:
     label_expand_project_menu: "Menu project uitvouwen"
     label_export: "Exporteren"
     label_export_preparing: "De export wordt voorbereid en wordt binnenkort gedownload."
+    label_favorites: "Favorites"
     label_filename: "Bestand"
     label_filesize: "Grootte"
     label_general: "Algemeen"
@@ -643,7 +645,7 @@ nl:
           no_selection: "Klik op een melding om alle activiteit details te bekijken."
         new_notifications:
           message: "Er zijn nieuwe meldingen."
-          link_text: "Klik hier om ze te laden"
+          link_text: "Click here to load them."
       menu:
         accountable: "Verantwoording afleggen"
         by_project: "Ongelezen per project"
@@ -1269,6 +1271,9 @@ nl:
           placeholder: "De tijdelijke gebruiker kan nu worden gebruikt in %{project}. Ondertussen kunt u deze gebruiker al plannen en werkpakketten toewijzen, bijvoorbeeld."
           group: "De groep is nu een deel van %{project}. Ondertussen kun je al plannen maken met die groep en werkpakketten toewijzen, bijvoorbeeld."
         next_button: "Ga verder"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Inclusief de projecten"
       title: "Projecten"

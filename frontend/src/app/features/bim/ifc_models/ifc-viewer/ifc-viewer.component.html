@@ -21,15 +21,49 @@
        data-test-selector="op-ifc-viewer--container">
 
     <div class="op-ifc-viewer--toolbar op-ifc-viewer--model-canvas-overlay">
+      <div #xeokitToolbarIcons class="xeokit-toolbar-icon-replacements">
+        <button id="xeokit-replace-reset">
+          <svg op-threed-return-default-icon size="small"></svg>
+        </button>
+        <button id="xeokit-replace-threeD">
+          <svg op-view-threed-icon size="small"></svg>
+        </button>
+        <button id="xeokit-replace-ortho">
+          <svg op-orthographic-perspective-icon size="small"></svg>
+        </button>
+        <button id="xeokit-replace-fit">
+          <svg op-view-fit-to-icon size="small"></svg>
+        </button>
+        <button id="xeokit-replace-firstPerson">
+          <svg op-first-person-view-icon size="small"></svg>
+        </button>
+        <button id="xeokit-replace-showSpaces">
+          <svg op-view-modal-icon size="small"></svg>
+        </button>
+        <button id="xeokit-replace-hide">
+          <svg op-erase-icon size="small"></svg>
+        </button>
+        <button id="xeokit-replace-select">
+          <svg op-cursor-select-icon size="small"></svg>
+        </button>
+        <button id="xeokit-replace-marquee">
+          <svg op-cursor-rectangle-select-icon size="small"></svg>
+        </button>
+        <button id="xeokit-replace-section">
+          <svg op-scissors-icon size="small"></svg>
+        </button>
+      </div>
+
       <div #toolbar
            class="op-ifc-viewer--toolbar-container"
            data-test-selector="op-ifc-viewer--toolbar-container">
       </div>
 
       <div class="op-ifc-viewer--toolbar-info-button">
-        <button class="icon-info1 xeokit-btn"
+        <button class="xeokit-btn"
                 [class.active]="inspectorVisible$ | async"
                 (click)="toggleInspector()">
+          <svg info-icon size="small"></svg>
         </button>
       </div>
     </div>

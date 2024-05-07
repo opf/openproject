@@ -48,7 +48,7 @@ $button--text-icon-spacing: 0.65em
 a.button
   @extend %button
   @include button-style(var(--button--background-color), var(--button--background-hover-color), var(--button--font-color))
-  border: 1px solid var(--button--border-color)
+  border: 1px solid var(--button-default-borderColor-rest)
 
   position: relative
   transition-property: background, border
@@ -189,4 +189,4 @@ html.-browser-windows.-browser-chrome
   &[disabled], &[disabled]:hover
     cursor: not-allowed
     background: none
-    color: var(--color-fg-muted)
+    color: var(--fgColor-muted)

@@ -22,9 +22,9 @@
 #English strings go here for Rails i18n
 ms:
   plugin_openproject_meeting:
-    name: "OpenProject Meeting"
+    name: "Mesyuarat OpenProject"
     description: >-
-      This module adds functions to support project meetings to OpenProject. Meetings can be scheduled selecting invitees from the same project to take part in the meeting. An agenda can be created and sent to the invitees. After the meeting, attendees can be selected and minutes can be created based on the agenda. Finally, the minutes can be sent to all attendees and invitees.
+      Modul ini tambahkan fungsi-fungsi ke OpenProject untuk menyokong mesyuarat projek. Mesyuarat boleh dijadualkan untuk memilih jemputan dari projek yang sama untuk mengambil bahagian dalam mesyuarat ini. Agenda boleh dibuat dan dihantar ke para jemputan. Selepas mesyuarat, penghadir boleh dipilih dan minit mesyuarat boleh dibuat berdasarkan agenda tersebut. Akhirnya, minit mesyuarat boleh dihantar ke semua penghadir dan jemputan.
   activerecord:
     attributes:
       meeting:
@@ -35,18 +35,18 @@ ms:
         participants: "Peserta"
         participant:
           other: "1 Peserta"
-        participants_attended: "Peserta"
+        participants_attended: "Penghadir"
         participants_invited: "Jemputan"
         project: "Projek"
         start_date: "Tarikh"
-        start_time: "Start time"
-        start_time_hour: "Start time"
+        start_time: "Masa mula"
+        start_time_hour: "Masa mula"
       meeting_agenda_item:
-        title: "Title"
-        author: "Author"
+        title: "Tajuk"
+        author: "Pengarang"
         duration_in_minutes: "min"
-        description: "Notes"
-        presenter: "Presenter"
+        description: "Nota"
+        presenter: "Penyampai"
     errors:
       messages:
         invalid_time_format: "bukan masa yang sah. Format yang diperlukan: JJ:MM"
@@ -61,22 +61,22 @@ ms:
   description_attended: "dihadiri"
   description_invite: "dijemput"
   events:
-    meeting: Mesyuarat telah diedit
-    meeting_agenda: Agenda mesyuarat yang diedit
+    meeting: Mesyuarat telah disunting
+    meeting_agenda: Agenda mesyuarat yang disunting
     meeting_agenda_closed: Agenda mesyuarat ditutup
     meeting_agenda_opened: Agenda mesyuarat dibuka
-    meeting_minutes: Minit mesyuarat diedit
+    meeting_minutes: Minit mesyuarat yang disunting
     meeting_minutes_created: Minit mesyuarat dicipta
   error_notification_with_errors: "Gagal untuk hantar pemberitahuan. Penerima berikut tidak dapat diberitahu: %{recipients}"
   label_meeting: "Mesyuarat"
   label_meeting_plural: "Mesyuarat"
   label_meeting_new: "Mesyuarat Baharu"
-  label_meeting_edit: "Edit mesyuarat"
+  label_meeting_edit: "Menyunting mesyuarat"
   label_meeting_agenda: "Agenda"
   label_meeting_minutes: "Minit"
   label_meeting_close: "Tutup"
   label_meeting_open: "Buka"
-  label_meeting_agenda_close: "Tutup agenda untuk mulakan minit"
+  label_meeting_agenda_close: "Tutup agenda untuk mulakan Minit mesyuarat"
   label_meeting_date_time: "Tarikh/Masa"
   label_meeting_diff: "Beza"
   label_upcoming_meetings: "Mesyuarat akan datang"
@@ -85,8 +85,8 @@ ms:
   label_past_meetings_short: "Lalu"
   label_involvement: "Penglibatan"
   label_upcoming_invitations: "Jemputan akan datang"
-  label_past_invitations: "Jemputan lalu"
-  label_attendee: "Peserta"
+  label_past_invitations: "Jemputan yang lepas"
+  label_attendee: "Penghadir"
   label_author: "Pencipta"
   label_notify: "Hantar untuk semakan"
   label_icalendar: "Hantar iCalendar\n"
@@ -96,9 +96,9 @@ ms:
   label_start_date: "Tarikh mula"
   meeting:
     attachments:
-      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
+      text: "Lampirkan fail yang tersedia kepada semua peserta mesyuarat. Anda juga boleh menarik dan melepaskannya kedalam nota item agenda."
     copy:
-      title: "Salin mesyuarat %{title}"
+      title: "Salin mesyuarat: %{title}"
       attachments: "Salin lampiran"
       attachments_text: "Salin semua fail yang dilampirkan ke dalam mesyuarat baru"
       agenda: "Salin agenda"
@@ -106,29 +106,29 @@ ms:
     email:
       open_meeting_link: "Buka mesyuarat"
       invited:
-        summary: "%{actor} menghantar anda jemputan untuk mesyuarat %{title}"
+        summary: "%{actor} telah menghantar anda jemputan untuk mesyuarat %{title}"
       rescheduled:
-        header: "Meeting %{title} has been rescheduled"
+        header: "Mesyuarat %{title} telah dijadualkan semula"
         summary: "Mesyuarat %{title} telah dijadual semula oleh %{actor}"
         body: "Mesyuarat %{title} telah dijadual semula oleh %{actor}"
         old_date_time: "Tarikh/masa lama"
         new_date_time: "Tarikh/masa baru"
-    label_mail_all_participants: "Hantar emel ke semua peserta"
+    label_mail_all_participants: "Hantar e-mel ke semua peserta"
     types:
       classic: "Klasik"
-      classic_text: "Susun mesyuarat anda dalam agenda teks boleh format dan protokol."
+      classic_text: "Aturkan mesyuarat anda dalam agenda teks yang boleh diformat dan diprotokol."
       structured: "Dinamik"
-      structured_text: "Susun mesyuarat anda sebagai senarai butiran agenda, secara pilihan menghubungnya kepada pakej kerja."
+      structured_text: "Aturkan mesyuarat anda sebagai senarai butiran agenda, pautkannya ke pakej kerja secara pilihan."
       structured_text_copy: "Menyalin mesyuarat pada masa ini tidak akan menyalin item agenda mesyuarat yang berkaitan, hanya butiran sahaja"
-    copied: "Salin dari mesyuarat #%{id}"
+    copied: "Disalin dari mesyuarat #%{id}"
   notice_successful_notification: "Pemberitahuan berjaya dihantar"
   notice_timezone_missing: Tiada zon waktu yang ditetapkan dan %{zone} adalah andaian.Untuk pilih zon waktu anda, sila klik sini.
   permission_create_meetings: "Cipta mesyuarat"
-  permission_edit_meetings: "Edit mesyuarat"
+  permission_edit_meetings: "Menyunting mesyuarat"
   permission_delete_meetings: "Hapuskan Mesyuarat"
   permission_view_meetings: "Lihat Mesyuarat"
   permission_create_meeting_agendas: "Cipta agenda mesyuarat"
-  permission_create_meeting_agendas_explanation: "Benarkan kandungan agenda Mesyuarat Klasik untuk diedit"
+  permission_create_meeting_agendas_explanation: "Benarkan kandungan agenda Mesyuarat Klasik untuk disunting"
   permission_manage_agendas: "Urus agenda"
   permission_manage_agendas_explanation: "Benarkan pengurusan item agenda Dinamik Mesyuarat."
   permission_close_meeting_agendas: "Tutup agenda"
@@ -147,54 +147,53 @@ ms:
   text_notificiation_invited: "Mel ini mengandungi kemasukan ics untuk mesyuarat dibawah:"
   text_meeting_empty_heading: "Mesyuarat anda kosong"
   text_meeting_empty_description_1: "Mula dengan menambah item agenda dibawah. Setiap item boleh jadi seringkas tajuk, tapi anda juga boleh tambah butiran tambahan seperti jangka masa dan nota."
-  text_meeting_empty_description_2: 'Anda juga boleh menambah rujukan ke pakej kerja yang sedia ada. Apabila anda lakukan, nota berkaitan secara automatik akan boleh dilihat dalam tab "Mesyuarat" pakej kerja.'
+  text_meeting_empty_description_2: 'Anda juga boleh menambah rujukan ke pakej kerja yang sedia ada. Apabila anda lakukan, nota berkaitan akan boleh dilihat dalam tab "Mesyuarat" pakej kerja secara automatik.'
   label_meeting_empty_action: "Tambah item agenda"
-  label_meeting_actions: "Tindakan mesyuarat"
-  label_meeting_edit_title: "Edit tajuk mesyuarat"
+  label_meeting_actions: "Tindakan terhadap mesyuarat"
+  label_meeting_edit_title: "Sunting tajuk mesyuarat"
   label_meeting_delete: "Hapuskan mesyuarat"
   label_meeting_created_by: "Dicipta oleh"
   label_meeting_last_updated: "Kemas kini terakhir"
-  label_agenda_items: "Agenda items"
-  label_agenda_items_reordered: "reordered"
+  label_agenda_items: "Item agenda"
+  label_agenda_items_reordered: "disusun semula"
   label_agenda_item_remove: "Keluarkan dari agenda"
   label_agenda_item_undisclosed_wp: "Pakej kerja #%{id} tidak kelihatan"
-  label_agenda_item_deleted_wp: "Hapuskan rujukan pakej kerja"
+  label_agenda_item_deleted_wp: " Rujukan pakej kerja yang dipadam"
   label_agenda_item_actions: "Tindakan item agenda"
   label_agenda_item_move_to_top: "Alih ke paling atas"
   label_agenda_item_move_to_bottom: "Alih ke paling bawah"
   label_agenda_item_move_up: "Alihkan ke atas"
-  label_agenda_item_move_down: "Gerak ke bawah"
+  label_agenda_item_move_down: "Alihkan ke bawah"
   label_agenda_item_add_notes: "Tambah nota"
-  label_agenda_item_work_package: "Agenda item work package"
-  text_agenda_item_title: 'Agenda item "%{title}"'
-  text_agenda_work_package_title: 'Agenda item for %{work_package}"'
-  text_agenda_work_package_deleted: 'Agenda item for deleted work package'
-  text_deleted_agenda_item: 'Deleted agenda item'
-  label_initial_meeting_details: "Meeting"
+  label_agenda_item_work_package: "Pakej kerja item agenda"
+  text_agenda_item_title: 'Item agenda "%{title}"'
+  text_agenda_work_package_deleted: 'Item agenda untuk pakej kerja yang telah dipadam.'
+  text_deleted_agenda_item: 'Item agenda yang telah dipadam.'
+  label_initial_meeting_details: "Mesyuarat"
   label_meeting_details: "Butiran mesyuarat"
   label_meeting_details_edit: "Edit butiran mesyuarat"
-  label_meeting_state: "Meeting status"
+  label_meeting_state: "Status mesyuarat"
   label_meeting_state_open: "Buka"
-  label_meeting_state_open_html: "<i>Open</i>"
+  label_meeting_state_open_html: "<i>Buka</i>"
   label_meeting_state_closed: "Ditutup"
-  label_meeting_state_closed_html: "<i>Closed</i>"
+  label_meeting_state_closed_html: "<i>Tutup</i>"
   label_meeting_reopen_action: "Buka semula mesyuarat"
   label_meeting_close_action: "Tutup mesyuarat"
-  text_meeting_open_description: "Mesyuarat ini terbuka. Anda boleh tambah/keluarkan item agenda dan edit mereka sesuka hati. Setelah mesyuarat berakhir, tutup mesyuarat untuk kunci."
+  text_meeting_open_description: "Mesyuarat ini terbuka. Anda boleh tambah/keluarkan item agenda dan menyuntingnya. Setelah mesyuarat berakhir, tutup mesyuarat untuk menguncinya."
   text_meeting_closed_description: "Mesyuarat ini ditutup. Anda tidak boleh tambah/keluarkan item agenda lagi."
   label_meeting_manage_participants: "Urus peserta"
   label_meeting_no_participants: "Tiada peserta"
-  label_meeting_show_hide_participants: "Tunjuk/hilangkan %{count} lagi"
+  label_meeting_show_hide_participants: "Tunjukkan/sorokkan %{count} lagi"
   label_meeting_show_all_participants: "Tunjukkan semua"
   label_meeting_add_participants: "Tambah peserta"
-  text_meeting_not_editable_anymore: "Mesyuarat ini tidak boleh diedit lagi."
-  text_meeting_not_present_anymore: "Mesyuarat ini telah dihapuskan. Sila pilih mesyuarat lain."
+  text_meeting_not_editable_anymore: "Mesyuarat ini tidak boleh disunting lagi."
+  text_meeting_not_present_anymore: "Mesyuarat ini telah dipadamkan. Sila pilih mesyuarat lain."
   label_add_work_package_to_meeting_dialog_title: "Tambah pakej kerja ke mesyuarat"
   label_add_work_package_to_meeting_dialog_button: "Tambah ke mesyuarat"
-  label_meeting_selection_caption: "It's only possible to add this work package to upcoming or ongoing open meetings."
-  text_add_work_package_to_meeting_description: "Pakej kerja boleh ditambah kepada satu atau beberapa mesyuarat untuk perbincangan. Sebarang nota berkaitan juga kelihatan di sini."
+  label_meeting_selection_caption: "Ia hanya boleh tambahkan pakej kerja ini ke mesyuarat terbuka akan datang atau yang sedang berlangsung."
+  text_add_work_package_to_meeting_description: "Pakej kerja boleh ditambah kepada satu atau beberapa mesyuarat untuk perbincangan. Sebarang nota berkaitan juga boleh dilihat di sini."
   text_agenda_item_no_notes: "Tiada nota disediakan"
-  text_agenda_item_not_editable_anymore: "Item agenda tidak boleh diedit lagi."
-  text_work_package_has_no_upcoming_meeting_agenda_items: "Pakej kerja ini belum dijadualkan dalam mana-mana agenda mesyuarat akan datang lagi."
+  text_agenda_item_not_editable_anymore: "Item agenda tidak boleh disunting lagi."
+  text_work_package_has_no_upcoming_meeting_agenda_items: "Pakej kerja ini belum lagi dijadualkan dalam agenda mesyuarat akan datang."
   text_work_package_add_to_meeting_hint: 'Guna butang "Tambah ke mesyuarat" untuk tambah pakej kerja ini ke mesyuarat akan datang.'
-  text_work_package_has_no_past_meeting_agenda_items: "Pakej kerja ini masih belum diutarakan dalam mesyuarat yang lalu."
+  text_work_package_has_no_past_meeting_agenda_items: "Pakej kerja ini tidak diutarakan dalam mesyuarat yang lalu."

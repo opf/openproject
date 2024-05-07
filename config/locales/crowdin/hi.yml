@@ -264,6 +264,7 @@ hi:
     lists:
       active: "Active projects"
       my: "My projects"
+      favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -318,10 +319,10 @@ hi:
     menu:
       all: "All"
       invited: "Invited"
-      locked: "Locked"
+      locked: "अवरोधित"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "समूह"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -398,7 +399,7 @@ hi:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
   page:
-    text: "Text"
+    text: "टेक्स्ट"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -780,6 +781,7 @@ hi:
         not_an_iso_date: "is not a valid date. Required format: YYYY-MM-DD."
         not_same_project: "doesn't belong to the same project."
         odd: "must be odd."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "could not be validated with the associated regular expression."
         smaller_than_or_equal_to_max_length: "must be smaller than or equal to maximum length."
         taken: "has already been taken."
@@ -991,12 +993,14 @@ hi:
               only_same_project_categories_allowed: "एक कार्य पैकेज की श्रेणी कार्य पैकेज के रूप में एक ही प्रोजेक्ट के भीतर होना चाहिए ।"
               does_not_exist: "निर्दिष्ट श्रेणी मौजूद नहीं है ।"
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "can't be inferior to 'Remaining work'."
-              must_be_set_when_remaining_work_is_set: "must be set when 'Remaining work' is set."
-              only_values_greater_or_equal_zeroes_allowed: "must be >= 0."
+              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "can't exceed 'Work'."
-              must_be_set_when_work_is_set: "must be set when 'Work' is set."
+              cant_exceed_work: "Cannot be higher than Work."
+              must_be_set_when_work_is_set: "Required when Work is set."
+              format: "%{message}"
           readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
         type:
           attributes:
@@ -1225,7 +1229,7 @@ hi:
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: There is already a backup pending.
       limit_reached: You can only do %{limit} backups per day.
-  button_actions: "Actions"
+  button_actions: "क्रियाएँ"
   button_add: "जोड़ें"
   button_add_comment: "टिप्पणी लिखें"
   button_add_member: Add member
@@ -1259,6 +1263,7 @@ hi:
   button_edit: "संपादित करें"
   button_edit_associated_wikipage: "संबद्ध विकी पृष्ठ संपादित करें: %{page_title}"
   button_expand_all: "सभी विस्तृत करें"
+  button_favorite: "Add to favorites"
   button_filter: "Filter"
   button_generate: "Generate"
   button_list: "सूची"
@@ -1276,7 +1281,7 @@ hi:
   button_reset: "रीसेट करें"
   button_rollback: "इस संस्करण के लिए रोलबैक"
   button_save: "सहेजें"
-  button_save_as: "Save as"
+  button_save_as: "के रूप में सहेजें..."
   button_apply_changes: "Apply changes"
   button_save_back: "Save and back"
   button_show: "दिखाएँ"
@@ -1286,6 +1291,7 @@ hi:
   button_unarchive: "अपुरालेखित करें"
   button_uncheck_all: "सभी अचयनित करें"
   button_unlock: "अनलॉक करें"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "अनवॉच"
   button_update: "अद्यतन करें"
   button_upgrade: "Upgrade"
@@ -1648,8 +1654,12 @@ hi:
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
-        progress_calculation_changed: >
-          Progress calculation updated.
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Configuration guide"
     get_in_touch: "You have questions? Get in touch with us."
@@ -1905,7 +1915,7 @@ hi:
   label_enterprise_support: "Enterprise support"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Environment"
-  label_estimates_and_time: "Estimates and time"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "is"
   label_everywhere: "everywhere"
   label_example: "Example"
@@ -1915,18 +1925,18 @@ hi:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Also available in:"
-  label_expand: "Expand"
+  label_expand: "विस्तृत करें"
   label_expanded_click_to_collapse: "विस्तार. संक्षिप्त करने के लिए क्लिक करें"
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS पहुंच कुंजी"
   label_feeds_access_key_created_on: "RSS access key created %{value} ago"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "फ़ाइलें"
   label_filter_add: "फ़िल्टर जोड़ें"
-  label_filter: "Filters"
+  label_filter: "फ़िल्टर"
   label_filter_plural: "फ़िल्टर"
   label_filters_toggle: "Show/hide filters"
   label_float: "फ्लोट"
@@ -1953,7 +1963,7 @@ hi:
   label_home: "मुखपृष्ठ"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "पहचानकर्ता"
   label_in: "में"
   label_in_less_than: "से भी कम समय में"
   label_in_more_than: "से अधिक में"
@@ -1969,7 +1979,7 @@ hi:
   label_internal: "आंतरिक"
   label_introduction_video: "परिचय वीडियो"
   label_invite_user: "Invite user"
-  label_share: "Share"
+  label_share: "सांझा करें"
   label_show_hide: "Show/hide"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
@@ -1992,6 +2002,7 @@ hi:
   label_learn_more: "Learn more"
   label_less_or_equal: "<="
   label_less_than_ago: "less than days ago"
+  label_link_url: "Link (URL)"
   label_list: "सूची"
   label_loading: "Loading..."
   label_lock_user: "Lock user"
@@ -2017,6 +2028,7 @@ hi:
   label_membership_plural: "Memberships"
   lable_membership_added: "Member added"
   lable_membership_updated: "Member updated"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alpha"
@@ -2118,6 +2130,7 @@ hi:
   label_percent_complete: "% Complete"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "प्रोजेक्ट प्रतिलिपी के दौरान ईमेल सूचनाएँ भेजें"
   label_project_latest: "नवीनतम परियोजनाएं"
@@ -2132,7 +2145,7 @@ hi:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} projects using %{storage} disk storage"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "सभी प्रोजेक्ट्स देखें"
   label_project_show_details: "Show project details"
   label_project_hide_details: "Hide project details"
@@ -3409,9 +3422,7 @@ hi:
         unsupported_context: "The resource given is not supported as context."
         context_object_not_found: "Cannot find the resource given as the context."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Finish date cannot be set on parent work packages."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "The chosen user is not allowed to be '%{property}' for this work package."
         start_date: "Start date cannot be set on parent work packages."
       eprops:
@@ -3564,7 +3575,7 @@ hi:
   link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"
