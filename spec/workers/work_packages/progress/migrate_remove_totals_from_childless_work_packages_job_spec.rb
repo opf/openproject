@@ -131,7 +131,7 @@ RSpec.describe WorkPackages::Progress::MigrateRemoveTotalsFromChildlessWorkPacka
     end
     # rubocop:enable RSpec/ExampleLength
 
-    it "does not even try to recompute totals (not that job's business)" do
+    it "does not even try to recompute totals for parent work packages (not that job's business)" do
       expect_performing_job_changes(
         from: <<~TABLE,
           hierarchy   | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
