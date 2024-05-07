@@ -44,16 +44,16 @@ class MeetingSection < ApplicationRecord
 
   def set_default_title
     if title.blank?
-      self.title = "Untitled" # TODO: I18n
+      self.title = I18n.t("meeting_section.untitled_title")
     end
   end
 
   def has_default_title?
-    title == "New Section" # TODO: I18n
+    title == I18n.t("meeting_section.default_title")
   end
 
   def untitled?
-    title == "Untitled" # TODO: I18n
+    title == I18n.t("meeting_section.untitled_title")
   end
 
   def editable?

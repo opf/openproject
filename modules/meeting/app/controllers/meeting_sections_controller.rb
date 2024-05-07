@@ -62,7 +62,7 @@ class MeetingSectionsController < ApplicationController
       .call(
         {
           meeting_id: @meeting.id,
-          title: "New Section"
+          title: t("meeting_section.default_title")
         }
       )
 
