@@ -27,7 +27,7 @@
 #++
 module JobStatus
   module ApplicationJobWithStatus
-    # Backgroun jobs can have a status JobStatus::Status
+    # Background jobs can have a status JobStatus::Status
     # which is related to the job via a reference which is an AR model instance.
     def status_reference
       nil
