@@ -9,43 +9,43 @@ ms:
         ldap_auth_source: 'Sambungan LDAP'
         sync_users: 'Selaraskan pengguna'
       ldap_groups/synchronized_filter:
-        filter_string: 'Penapis LDAP'
+        filter_string: 'Saringan LDAP'
         ldap_auth_source: 'Sambungan LDAP'
         group_name_attribute: "Atribut nama kumpulan"
-        sync_users: 'Selaraskan pengguna'
+        sync_users: 'Selaraskan pengguna-pengguna'
         base_dn: "Pangkalan carian DN"
     models:
       ldap_groups/synchronized_group: 'Kumpulan LDAP yang diselaraskan'
-      ldap_groups/synchronized_filter: 'Penapis penyelarasan kumpulan LDAP'
+      ldap_groups/synchronized_filter: 'Penyaring penyelarasan kumpulan LDAP'
     errors:
       models:
         ldap_groups/synchronized_filter:
-          must_contain_base_dn: "Filter base DN must be contained within the LDAP connection's base DN"
+          must_contain_base_dn: "Pangkalan penyaring DN mestilah terkandung dalam DN asas sambungan LDAP"
   ldap_groups:
     label_menu_item: 'Sinkronisasi kumpulan LDAP'
-    label_group_key: 'LDAP group filter key'
+    label_group_key: 'Kekunci penyaring kumpulan LDAP'
     label_synchronize: 'Selaraskan'
     settings:
       name_attribute: 'Atribut nama kumpulan LDAP'
-      name_attribute_text: 'Atribut LDAP yang digunakan untuk menamakan kumpulan OpenProject apabila dicipta oleh penapis'
+      name_attribute_text: 'Atribut LDAP yang digunakan untuk menamakan kumpulan OpenProject apabila dicipta oleh penyaring'
     synchronized_filters:
-      add_new: 'Tambah penapis LDAP yang diselaraskan'
-      singular: 'Penapis penyelarasan kumpulan LDAP'
-      plural: 'Penapis penyelarasan kumpulan LDAP'
+      add_new: 'Tambah penyaring LDAP yang diselaraskan'
+      singular: 'Penyaring penyelarasan kumpulan LDAP'
+      plural: 'Penyaring penyelarasan kumpulan LDAP'
       label_n_groups_found:
-        one: "1 kumpulan dijumpai oleh penapis"
-        other: "%{count} kumpulan dijumpai oleh penapis"
-        zero: "Tiada kumpulan yang dijumpai penapis"
+        one: "1 kumpulan dijumpai oleh penyaring"
+        other: "%{count} kumpulan dijumpai oleh penyaring"
+        zero: "Tiada kumpulan yang dijumpai oleh penyaring"
       destroy:
-        title: 'Buang penapis yang diselaraskan %{name}'
-        confirmation: "Jika anda teruskan, penapis yang diselaraskan %{name} dan semua kumpulan %{groups_count} yang dicipta melalui itu akan dikeluarkan."
-        removed_groups: "Amaran: Ini akan menghapuskan kumpulan berikut dari OpenProject dan menghapusnya dari semua projek!"
-        verification: "Masukkan nama penapis %{name} untuk mengesahkan pembuangan."
+        title: 'Buang penyaring yang diselaraskan %{name}'
+        confirmation: "Jika anda teruskan, penyaring yang diselaraskan %{name} dan semua kumpulan %{groups_count} yang dicipta melaluinya akan dikeluarkan."
+        removed_groups: "Amaran: Ini akan mengeluarkan kumpulan berikut dari OpenProject dan mengeluarkannya dari semua projek!"
+        verification: "Masukkan nama penyaring %{name} untuk mengesahkan pembuangan."
       form:
         group_name_attribute_text: 'Masukkan atribut kumpulan LDAP yang digunakan untuk tetapkan nama kumpulan OpenProject.'
-        filter_string_text: 'Masukkan penapis LDAP RFC4515 yang kembalikan kumpulan dalam LDAP untuk selaraskan dengan OpenProject.'
+        filter_string_text: 'Masukkan penyaring LDAP RFC4515 yang kembalikan kumpulan dalam LDAP untuk selaraskan dengan OpenProject.'
         base_dn_text: >
-          Enter the search base DN to use for this filter. It needs to be below the base DN of the selected LDAP connection. Leave this option empty to reuse the base DN of the connection
+          Masukkan pangkalan carian DN untuk gunakan saringan ini. Ia perlulah di bawah pangkalan DN daripada sambungan LDAP yang dipilih. Tinggalkan pilihan ini kosong untuk gunakan semula sambungan pangkalan DN
     synchronized_groups:
       add_new: 'Tambah kumpulan LDAP yang diselaraskan'
       destroy:
@@ -54,9 +54,9 @@ ms:
         info: "Perhatian: Kumpulan OpenProject itu sendiri dan ahli yang ditambah di luar penjanaan LDAP tidak akan dikeluarkan."
         verification: "Masukkan nama kumpulan %{name} untuk mengesahkan pembuangan."
       help_text_html: |
-        Modul ini membenarkan anda untuk menyediakan penyelarasan antara LDAP dan kumpulan OpenProject.
+        Modul ini membenarkan anda untuk menyediakan penyelarasan antara LDAP dan kumpulan-kumpulan OpenProject.
         Ia bergantung kepada keperluan kumpulan LDAP untuk menggunakan <em>kumpulanNama / ahliKepada</em><br/>
-        Kumpulan diselaraskan setiap jam melalui cron job.
+        Kumpulan diselaraskan setiap jam melalui tugasan cron.
         <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Sila lihat dokumentasi kami berkenaan topik ini</a>.
       no_results: 'Tiada kumpulan yang diseleraskan ditemui.'
       no_members: 'Kumpulan ini tidak mempunyai ahli yang diselaraskan lagi.'

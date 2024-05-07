@@ -47,19 +47,19 @@ ms:
     backup:
       attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
       info: >
-        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+        Anda boleh meminta sokongan disini. Proses akan mengambil sedikit masa bergantung kepada jumlah data (terutamanya lampiran) anda ada. Anda akan menerima e-mel apabila ianya sedia.
       note: >
-        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+        Sokongan baharu akan mengatasi mana-mana yang terdahulu. Hanya beberapa bilangan sokongan yang terhad boleh diminta mengikut hari.
       last_backup: Sandaran terakhir
-      last_backup_from: Last backup from
-      title: Backup OpenProject
+      last_backup_from: Sokongan terakhir daripada
+      title: Sokongan OpenProject
       options: Pilihan
       include_attachments: Sertakan lampiran
       download_backup: Muat turun sandaran
-      request_backup: Request backup
+      request_backup: Minta sokongan
     close_popup_title: "Tutup pop timbul"
     close_filter_title: "Tutup penyaring"
-    close_form_title: "Close form"
+    close_form_title: "Tutup borang"
     button_add_watcher: "Tambah pemerhati"
     button_add: "Tambah"
     button_back: "Kembali"
@@ -68,9 +68,9 @@ ms:
     button_close: "Tutup"
     button_change_project: "Tukar projek"
     button_check_all: "Tanda semua"
-    button_configure-form: "Configure form"
+    button_configure-form: "Konfigurasi borang"
     button_confirm: "Sahkan"
-    button_continue: "Continue"
+    button_continue: "Seterusnya"
     button_copy: "Salin"
     button_copy_to_clipboard: "Salin ke clipboard"
     button_copy_link_to_clipboard: "Salin pautan ke clipboard"
@@ -79,16 +79,16 @@ ms:
     button_delete: "Padam"
     button_delete_watcher: "Buang pemerhati"
     button_details_view: "Paparan butiran"
-    button_duplicate: "Duplicate"
+    button_duplicate: "Duplikasi"
     button_edit: "Sunting"
     button_filter: "Penyaring"
     button_collapse_all: "Sembunyikan semua"
     button_expand_all: "Kembangkan semua"
     button_advanced_filter: "Advanced filter"
-    button_list_view: "List view"
-    button_show_view: "Fullscreen view"
-    button_log_time: "Log time"
-    button_more: "More"
+    button_list_view: "Paparan senarai"
+    button_show_view: "Pandangan skrin penuh"
+    button_log_time: "Masa log"
+    button_more: "Selanjutnya"
     button_open_details: "Buka paparan butiran"
     button_close_details: "Tutup paparan butiran"
     button_open_fullscreen: "Buka paparan skrin penuh"
@@ -98,10 +98,10 @@ ms:
     button_show_gantt: "Tunjukkan paparan Gantt"
     button_show_fullscreen: "Tunjuk paparan skrin penuh"
     button_more_actions: "More actions"
-    button_quote: "Quote"
+    button_quote: "Sebut harga"
     button_save: "Simpan"
     button_settings: "Tetapan"
-    button_uncheck_all: "Uncheck all"
+    button_uncheck_all: "Nyahtandakan semua"
     button_update: "Kemaskini"
     button_export-pdf: "Muat turun PDF"
     button_export-atom: "Muat Turun Atom"
@@ -110,24 +110,24 @@ ms:
       add_new: "Tambah kad baharu"
       highlighting:
         inline: "Highlight inline:"
-        entire_card_by: "Entire card by"
+        entire_card_by: "Keseluruhan kad dengan"
       remove_from_list: "Remove card from list"
-    caption_rate_history: "Rate history"
+    caption_rate_history: "Sejarah kadar"
     clipboard:
-      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
-      copied_successful: "Successfully copied to clipboard!"
+      browser_error: "Pelayar anda tidak menyokong menyalin ke papan klip. Sila salin secara manual: %{content}"
+      copied_successful: "Berjaya disalin ke papan klip!"
     chart:
       type: "Jenis carta"
-      axis_criteria: "Axis criteria"
-      modal_title: "Work package graph configuration"
+      axis_criteria: "Kriteria paksi"
+      modal_title: "Konfigurasi graf pakej kerja"
       types:
-        line: "Line"
-        horizontal_bar: "Horizontal bar"
+        line: "Baris"
+        horizontal_bar: "Bar mendatar"
         bar: "Bar"
         pie: "Pai"
         doughnut: "Donat"
         radar: "Radar"
-        polar_area: "Polar area"
+        polar_area: "Kawasan polar"
       tabs:
         graph_settings: "Umum"
         dataset: "Set data %{number}"
@@ -136,33 +136,33 @@ ms:
     description_available_columns: "Lajur Tersedia"
     description_current_position: "Anda di sini:"
     description_select_work_package: "Pilih pakej kerja #%{id}"
-    description_subwork_package: "Child of work package #%{id}"
+    description_subwork_package: "Anak kepada pakej kerja #%{id}"
     editor:
-      preview: "Toggle preview mode"
-      source_code: "Toggle Markdown source mode"
+      preview: "Tukar mod tinjauan"
+      source_code: "Tukar mod sumber Markdown"
       error_saving_failed: "Penyimpanan dokumen gagal dengan ralat yang berikut: %{error}"
       ckeditor_error: "Ralat berlaku dalam CKEditor"
       mode:
         manual: "Tukar ke sumber Markdown"
-        wysiwyg: "Switch to WYSIWYG editor"
+        wysiwyg: "Tukar ke editor WYSIWYG"
       macro:
-        error: "Cannot expand macro: %{message}"
+        error: "Tidak dapat kembangkan macro: %{message}"
         attribute_reference:
-          macro_help_tooltip: "This text segment is being dynamically rendered by a macro."
-          not_found: "Requested resource could not be found"
+          macro_help_tooltip: "Bahagian teks ini sedang dihasilkan secara dinamik oleh makro."
+          not_found: "Sumber yang diminta tidak dapat dijumpai"
           invalid_attribute: "Atribut yang dipilih '%{name}' tidak wujud."
         child_pages:
-          button: "Links to child pages"
-          include_parent: "Include parent"
+          button: "Pautkan ke halaman anak"
+          include_parent: "Termasuk induk"
           text: "[Placeholder] Links to child pages of"
-          page: "Wiki page"
-          this_page: "this page"
+          page: "Halaman wiki"
+          this_page: "halaman ini"
           hint: |
             Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
         code_block:
           button: "Insert code snippet"
           title: "Masukkan / sunting snippet Code"
-          language: "Formatting language"
+          language: "Bahasa pemformatan"
           language_hint: "Enter the formatting language that will be used for highlighting (if supported)."
         dropdown:
           macros: "Macros"
@@ -175,12 +175,12 @@ ms:
           page: "Halaman wiki"
           not_set: "(Halaman belum ditetapkan lagi)"
           hint: |
-            Include the content of another wiki page by specifying its title or slug.
-            You can include the wiki page of another project by separating them with a colon like the following example.
+            Termasuk kandungan halaman wiki lain dengan menyatakan tajuk atau slugnya.
+            Anda boleh sertakan halaman wiki projek lain dengan mengasingkan mereka menggunakan kolon seperti contoh berikut.
         work_package_button:
           button: "Masukkan butang cipta pakej kerja"
           type: "Jenis pakej kerja "
-          button_style: "Use button style"
+          button_style: "Guna gaya butang"
           button_style_hint: "Pilihan: Tanda untuk membuat macro muncul sebagai butang, bukan sebagai pautan."
           without_type: "Cipta pakej kerja"
           with_type: "Cipta pakej kerja (Jenis: %{typename})"
@@ -194,9 +194,9 @@ ms:
         custom_field: "Medan tersuai"
         inactive: "Tidak aktif"
         drag_to_activate: "Tarik medan dari sini untuk mengaktifkan mereka"
-        add_group: "Add attribute group"
+        add_group: "Tambah kumpulan atribut"
         add_table: "Tambah jadual pakej kerja yang berkaitan"
-        edit_query: "Edit query"
+        edit_query: "Sunting pertanyaan"
         new_group: "Kumpulan baharu"
         reset_to_defaults: "Set semula ke default"
       enterprise:
@@ -218,59 +218,59 @@ ms:
             label_maximum_users: "Pengguna aktif maksimum"
             label_starts_at: "Mula pada"
             label_expires_at: "Tamat tempoh pada"
-            receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
-            taken_domain: There can only be one active trial per domain.
-            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
-            taken_email: Each user can only create one trial.
-          email_not_received: "You did not receive an email? You can resend the email with the link on the right."
-          try_another_email: "Or try it with another email address."
-          next_steps: "Next steps"
-          resend_link: "Resend"
-          resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
-          resend_warning: "Could not resend email."
-          session_timeout: "Your session timed out. Please try to reload the page or resend email."
+            receive_newsletter: Saya ingin menerima <a target="_blank" href="%{link}">surat berita</a> OpenProject.
+            taken_domain: Hanya boleh satu percubaan aktif setiap domain.
+            domain_mismatch: Permintaan nama hos semasa tidak sepadan dengan nama hos yang dikonfigurasikan. Sila semak tetapan sistem anda sekali lagi.
+            taken_email: Setiap pengguna hanya boleh mencipta satu percubaan.
+          email_not_received: "Anda tidak menerima sebarang e-mel? Anda boleh menghantar semula e-mel dengan pautan di kanan."
+          try_another_email: "Atau cuba dengan alamat e-mel yang lain."
+          next_steps: "Langkah seterusnya"
+          resend_link: "Hantar semula"
+          resend_success: "E-mel telah dihantar semula. Sila semak semula e-mel anda dan klik pautan pengesahan yang disediakan."
+          resend_warning: "Tidak dapat menghantar semula e-mel."
+          session_timeout: "Sesi anda telah tamat tempoh. Sila cuba untuk muat semula halaman atau hantar semula e-mel."
           status_label: "Status:"
-          status_confirmed: "confirmed"
-          status_waiting: "email sent - waiting for confirmation"
-          test_ee: "Test the Enterprise edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
+          status_confirmed: "disahkan"
+          status_waiting: "e-mel dihantar - sedang menunggu pengesahan"
+          test_ee: "Cuba edisi Enterprise 14 hari secara percuma"
+          quick_overview: "Dapatkan rumusan ringkas pengurusan projek dan kolaborasi kumpulan dengan OpenProject edisi Enterprise."
         upsale:
-          become_hero: "Become a hero!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
-          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+          become_hero: "Jadilah wira!"
+          enterprise_info_html: "%{feature_title} adalah tambahan Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
+          upgrade_info: "Sila naik taraf ke pelan berbayar untuk aktifkan dan mula menggunakannya dalam pasukan anda."
           benefits:
-            description: "What are the benefits of the Enterprise on-premises edition?"
-            high_security: "Security features"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
-            installation: "Installation support"
-            installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Enterprise add-ons"
+            description: "Apakah manfaat edisi Enterprise di premis?"
+            high_security: "Fitur keselamatan"
+            high_security_text: "Log masuk tunggal (SAML, OpenID Connect, CAS), kumpulan LDAP."
+            installation: "Bantuan pemasangan"
+            installation_text: "Jurutera perisian berpengalaman membimbing anda melalui pemasangan lengkap dan proses persediaan dalam infrastruktur anda sendiri."
+            premium_features: "Tambahan Enterprise"
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
-            professional_support: "Professional support"
+            professional_support: "Bantuan profesional"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
-          button_start_trial: "Start free trial"
-          button_upgrade: "Upgrade now"
-          button_contact_us: "Contact us for a demo"
-          button_book_now: "Book now"
+          button_start_trial: "Mulakan percubaan percuma"
+          button_upgrade: "Naik taraf sekarang"
+          button_contact_us: "Hubungi kami untuk demo"
+          button_book_now: "Tempah sekarang"
           confidence: >
-            We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
-          link_quote: "Get a quote"
+            Kami memberikan keyakinan dalam perisian pengurusan projek kelas enterprise yang diuji dan disokong - dengan Sumber Terbuka dan minda yang terbuka
+          link_quote: "Dapatkan sebut harga"
           more_info: "Maklumat lanjut"
           text: >
-            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
-          unlimited: "Unlimited"
-          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+            OpenProject edisi Enterprise dibina di atas edisi Komuniti. Ia termasuk tambahan Enterprise dan bantuan profesional terutamanya ditujukan ke organisasi dengan lebih dari 10 pengguna yang menguruskan projek perniagaan kritikal dengan OpenProject.
+          unlimited: "Tanpa had"
+          you_contribute: "Pemaju perlu membayar bil-bil mereka juga. Dengan menaik taraf ke edisi Enterprise, anda akan menyokong usaha komuniti sumber terbuka dan menyumbang ke pembangunan, penyelenggaraan dan penambahbaikan berterusan."
       working_days:
         calendar:
-          empty_state_header: "Non-working days"
-          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
-          new_date: "(new)"
+          empty_state_header: "Hari tidak bekerja"
+          empty_state_description: 'Tiada hari tidak bekerja yang khusus ditentukan untuk tahun ini. Klik "+ Hari tidak bekerja" dibawah untuk menambah tarikh.'
+          new_date: "(baharu)"
         add_non_working_day: "Hari tidak bekerja"
-        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
+        already_added_error: "Hari tidak bekerja untuk tarikh ini sudah ada. Hanya boleh satu hari tidak bekerja dicipta untuk tarikh yang unik."
         change_button: "Simpan dan jadual semula"
         change_title: "Tukar hari bekerja"
         removed_title: "Anda akan mengeluarkan hari berikut dari senarai hari tidak bekerja:"
-        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+        change_description: "Mengubah hari dalam seminggu yang dianggap hari bekerja atau hari tidak bekerja akan mempengaruhi hari mula dan selesai semua pakej kerja dalam semua projek dalam kejadian ini."
         warning: >
           Perubahan mungkin mengambil sedikit masa untuk berkesan. Anda akan dimaklumkan apabila semua pakej kerja yang berkaitan telah dikemas kini.
           Adakah anda pasti anda ingin teruskan?
@@ -289,7 +289,7 @@ ms:
     filter:
       more_values_not_shown: "Terdapat %{total} lagi hasil, cari untuk menapis hasil."
       description:
-        text_open_filter: "Open this filter with 'ALT' and arrow keys."
+        text_open_filter: "Buka penyaring ini dengan 'ALT' dan kekunci anak panah."
         text_close_filter: "To select an entry leave the focus for example by pressing enter. To leave without filter select the first (empty) entry."
       noneElement: "(tiada)"
       time_zone_converted:
@@ -307,7 +307,7 @@ ms:
       quarter_label: "Q%{quarter_number}"
       labels:
         title: "Konfigurasi label"
-        bar: "Bar labels"
+        bar: "Label bar"
         left: "Kiri"
         right: "Kanan"
         farRight: "Paling kanan"
@@ -322,41 +322,41 @@ ms:
       zoom:
         in: "Zum masuk"
         out: "Zum keluar"
-        auto: "Auto zoom"
+        auto: "Zum secara Auto"
         days: "Hari"
         weeks: "Minggu"
         months: "Bulan"
         quarters: "Suku"
         years: "Tahun"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Pilih paras zum permulaan yang akan ditunjukkan apabila zum secara auto tidak tersedia.
     general_text_no: "tidak"
     general_text_yes: "ya"
     general_text_No: "Tidak"
-    general_text_Yes: "Yes"
+    general_text_Yes: "Ya"
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
         edit_prohibited: "Penyuntingan %{attribute} disekat untuk sumber ini. Sama ada atribut ini diperolehi daripada hubungan (cth, anak) atau sebaliknya tidak boleh dikonfigurasikan."
         format:
-          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
-        general: "An error has occurred."
+          date: "%{attribute} bukan tarikh yang sah - dijangka TTTT-BB-HH."
+        general: "Ralat berlaku."
     homescreen:
       blocks:
         new_features:
-          text_new_features: "Read about new features and product updates."
-          learn_about: "Learn more about the new features"
+          text_new_features: "Baca berkenaan ciri-ciri baharu dan kemas kini produk."
+          learn_about: "Ketahui lebih lanjut mengenai ciri-ciri baru."
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           "14_0":
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+                Pelepasan ini mengandungi pelbagai ciri baru dan penambahbaikan: <br> <ul class="%{list_styling_class}"> <li>Implementasi pelaporan kemajuan merentasi hierarki pakej kerja.</li> <li>Menguruskan atribut projek secara berstruktur di laman gambaran keseluruhan projek.</li> <li>Pandangan medan tersuai yang dipermudahkan dalam senarai projek dan gambaran keseluruhan projek.</li> <li>Tajuk halaman yang bersatu dengan reka bentuk Primer yang lancar.</li> <li>Meningkatkan mesyuarat dengan ciri-ciri baru seperti muat naik lampiran, bertanggungjawab, dan sejarah mesyuarat.</li> <li>Pemberitahuan automatik untuk storan fail yang tidak sihat, dan mendapatkan kawalan dengan pilihan toggle.</li> <li>Salin folder projek yang dikelola secara automatik untuk OneDrive/SharePoint semasa menyalin projek.</li> <li>Minta pentadbir untuk mengeluarkan perkongsian pada pakej kerja apabila membatalkan keahlian projek.</li> <li>Meningkatkan perancangan dengan mod paparan 4 dan 8 minggu dalam pelan pasukan.</li> </ul>
     ical_sharing_modal:
       title: "Langgan ke kalendar"
-      inital_setup_error_message: "An error occured while fetching data."
-      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      inital_setup_error_message: "Ralat berlaku ketika sedang mengambil data."
+      description: "Anda boleh menggunakan URL (iCalendar) untuk melanggan ke kalendar ini dalam pelanggan luaran dan lihat maklumat pakej kerja terkini dari situ."
       warning: "Sila jangan kongsi URL ini dengan pengguna lain. Sesiapa sahaja yang mempunyai pautan ini akan boleh melihat butiran pakej kerja tanpa akaun atau kata laluan."
       token_name_label: "Dimanakah anda akan menggunakan ini?"
       token_name_placeholder: 'Taip nama, cth. "Telefon"'
@@ -365,7 +365,7 @@ ms:
       ical_generation_error_text: "Ralat berlaku semasa menjana URL kalendar."
       success_message: 'The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.'
     label_activate: "Aktifkan"
-    label_assignee: "Assignee"
+    label_assignee: "Wakil"
     label_add_column_after: "Tambah kolum selepas"
     label_add_column_before: "Tambah kolum sebelum"
     label_add_columns: "Tambah kolum-kolum"
@@ -424,7 +424,7 @@ ms:
     label_filename: "Fail"
     label_filesize: "Saiz"
     label_general: "Umum"
-    label_global_roles: "Global roles"
+    label_global_roles: "Peranan global"
     label_greater_or_equal: ">="
     label_group: "Kumpulan"
     label_group_by: "Kumpulkan mengikut"
@@ -446,13 +446,13 @@ ms:
     label_less_than_ago: "kurang dari beberapa hari yang lalu"
     label_loading: "Loading..."
     label_mail_notification: "Pemberitahuan e-mel"
-    label_manage_columns: "Manage and reorder columns"
-    label_me: "me"
+    label_manage_columns: "Urus dan susun semula lajur"
+    label_me: "saya"
     label_meeting_agenda: "Agenda"
-    label_meeting_minutes: "Minutes"
-    label_menu_collapse: "collapse"
-    label_menu_expand: "expand"
-    label_more_than_ago: "more than days ago"
+    label_meeting_minutes: "Minit"
+    label_menu_collapse: "sembunyikan"
+    label_menu_expand: "kembangkan"
+    label_more_than_ago: "lebih dari beberapa hari yang lalu"
     label_next: "Next"
     label_no_color: "No color"
     label_no_data: "No data to display"
@@ -473,7 +473,7 @@ ms:
     label_please_wait: "Please wait"
     label_project: "Project"
     label_project_list: "Project lists"
-    label_project_plural: "Projects"
+    label_project_plural: "Projek-projek"
     label_visibility_settings: "Visibility settings"
     label_quote_comment: "Quote this comment"
     label_recent: "Recent"
@@ -561,37 +561,37 @@ ms:
       buttons:
         skip: "Skip"
         next: "Seterusnya"
-        got_it: "Got it"
+        got_it: "Faham"
       steps:
-        help_menu: "The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!"
-        members: "Invite new <b>members</b> to join your project."
-        quick_add_button: "Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>."
-        sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
-        welcome: "Take a three minutes introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time."
-        wiki: "Within the <b>wiki</b> you can document and share knowledge together with your team."
+        help_menu: "Menu bantuan (?) menyediakan <b>sumber bantuan tambahan</b>. Di sini anda akan menjumpai panduan pengguna, video panduan membantu dan lebih lagi. <br> Nikmati kerja anda di OpenProject!"
+        members: "Jemput <b>ahli</b> baru untuk sertai projek anda."
+        quick_add_button: "Klik pada ikon tambah (+) dalam navigasi pengepala untuk <b>cipta projek baru</b> atau untuk <b>jemput rakan sekerja</b>."
+        sidebar_arrow: "Guna anak panah kembali di sudut kiri atas untuk kembali ke <b>menu utama</b> projek."
+        welcome: "Ambil lawatan pengenalan 3 minit untuk belajar <b>ciri-ciri penting</b> dengan banyak. <br> Kami syorkan melengkapi langkah-langkah tersebut sehingga ke akhirnya. Anda boleh mula semula lawatan bila-bila masa."
+        wiki: "Dalam <b>wiki</b> anda boleh mendokumentasikan dan kongsi pengetahuan bersama dengan pasukan anda."
         backlogs:
-          overview: "Manage your work in the <b>backlogs</b> view."
-          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
-          task_board_arrow: "To see your <b>task board</b>, open the sprint drop-down..."
-          task_board_select: "...and select the <b>task board</b> entry."
-          task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
+          overview: "Kendalikan kerja anda dalam paparan <b>tunggakan</b>."
+          sprints: "Pada kanan anda mempunyai tunggakan produk dan tunggakan bug, pada kiri anda mempunyai pecutan yang berkenaan. Di sini anda boleh mencipta <b>epik, cerita pengguna, dan bug</b>, utamakan dengan menarik & melepaskan dan tambah mereka ke pecutan."
+          task_board_arrow: "Untuk lihat <b>papan tugasan</b> anda, buka pecutan drop-down..."
+          task_board_select: "...dan pilih kemasukan <b>papan tugasan</b>."
+          task_board: "Papan tugasan menggambarkan secara visual <b>kemajuan untuk pecutan ini</b>. Klik ikon tambah (+) di sebelah cerita pengguna untuk tambah tugasan baru atau halangan. <br> Status boleh dikemas kini dengan tarik dan lepas."
         boards:
-          overview: "Select <b>boards</b> to shift the view and manage your project using the agile boards view."
-          lists_kanban: "Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example."
-          lists_basic: "Here you can create multiple lists (columns) within your agile board."
-          add: "Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board."
+          overview: "Pilih <b>papan</b> untuk tukar paparan dan kendalikan projek anda menggunakan paparan papan agile."
+          lists_kanban: "Disini anda boleh mencipta pelbagai senarai (kolum) dalam papan anda. Ciri ini membenarkan anda untuk mencipta <b>papan Kanban</b>, sebagai contoh."
+          lists_basic: "Disini anda boleh mencipta pelbagai senarai (kolum) dalam papan agile anda."
+          add: "Klik ikon tambah (+) untuk <b>mencipta kad baru</b> atau <b>menambah kad sedia ada</b> ke senarai pada papan."
           drag: "Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details."
         wp:
-          toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
-          list: "This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row."
-          full_view: "The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments."
-          back_button: "Use the return arrow in the top left corner to exit and return to the work package list."
-          create_button: "The <b>+ Create</b> button will add a new work package to your project."
-          gantt_menu: "Create project schedules and timelines effortlessly using the Gantt chart module."
-          timeline: "Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time."
+          toggler: "Sekarang mari lihat bahagian <b>pakej kerja</b>, yang memberikan anda paparan terperinci kerja anda."
+          list: "Gambaran keseluruhan pakej <b>kerja</b> ini menyediakan senarai semua kerja dalam projek anda, seperti tugasan, pencapaian, fasa dan banyak lagi. <br> Pakej kerja boleh dicipta dan disunting secara langsung dari paparan ini. Untuk mengakses butiran pakej kerja tertentu, hanya klik dua kali pada barisnya."
+          full_view: "Paparan <b>butiran pakej kerja</b> tersebut menyediakan semua maklumat yang berkaitan dengan pakej kerja yang diberi, seperti penerangan, status, keutamaan, aktiviti, kebergantungan, dan komen."
+          back_button: "Guna anak panah kembali di sudut kiri untuk keluar dan kembali ke senarai pakej kerja."
+          create_button: "Butang <b>+ Cipta</b> akan menambah pakej kerja baru ke projek anda."
+          gantt_menu: "Cipta jadual projek dan garis masa dengan mudah menggunakan modul carta Gantt."
+          timeline: "Di sini anda boleh <b>edit pelan projek anda</b>, cipta pakej kerja baru, seperti tugasan, pencapaian, fasa, dan banyak lagi, serta <b>tambah kebergantungan</b>. Semua ahli boleh lihat dan kemas kini pelan terkini pada bila-bila masa."
         team_planner:
           overview: "Perancang pasukan membolehkan anda memberikan tugasan secara visual kepada ahli kumpulan dan dapatkan ringkasan tentang siapa yang mengusahakan apa."
-          calendar: "The weekly or biweekly planning board displays all work packages assigned to your team members."
+          calendar: "Papan perancangan mingguan atau dua mingguan memaparkan semua pakej kerja ditugaskan ke ahli pasukan anda."
           add_assignee: "Untuk memulakan, tambah penerima tugasan ke dalam perancang pasukan."
           add_existing: "Cari pakej kerja sedia ada dan tarik mereka ke perancang pasukan untuk serta merta tugaskan mereka ke ahli pasukan dan tentukan tarikh mula dan akhir."
           card: "Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member."
@@ -603,11 +603,11 @@ ms:
         watched: "pemerhati"
         assigned: "wakil"
         responsible: "bertanggungjawab"
-        created: "created"
+        created: "telah cipta"
         scheduled: "dijadualkan"
-        commented: "commented"
+        commented: "telah komen"
         processed: "diproses"
-        prioritized: "prioritized"
+        prioritized: "telah utamakan"
         dateAlert: "Peringatan tarikh"
         shared: "dikongsi"
       date_alerts:
@@ -616,7 +616,7 @@ ms:
         overdue_since: "sejak %{difference_in_days}"
         property_today: "adalah hari ini"
         property_is: "adalah dalam %{difference_in_days}"
-        property_was: "was %{difference_in_days} ago"
+        property_was: "%{difference_in_days} yang lalu"
         property_is_deleted: "dipadamkan"
         upsale:
           title: "Peringatan tarikh"
@@ -635,7 +635,7 @@ ms:
           with_current_filter: "Tiada pemberitahuan dalam paparan ini pada masa ini"
         mark_all_read: "Tanda semua sudah dibaca"
         mark_as_read: "Tanda sudah dibaca"
-        text_update_date: "%{date} by"
+        text_update_date: "%{date} oleh"
         total_count_warning: "Tunjukkan %{newest_count} pemberitahuan yang terbaru. %{more_count} lagi tidak dipaparkan."
         empty_state:
           no_notification: "Nampaknya anda sudah menyelesaikan semuanya."
@@ -644,7 +644,7 @@ ms:
           no_selection: "Klik pada pemberitahuan untuk paparkan semua butiran aktiviti."
         new_notifications:
           message: "Terdapat pemberitahuan baru."
-          link_text: "Click here to load them."
+          link_text: "Klik sini untuk memuatkan mereka."
       menu:
         accountable: "Bertanggungjawab"
         by_project: "Belum dibaca oleh projek"
@@ -659,29 +659,29 @@ ms:
         title: "Tetapan notifikasi"
         notify_me: "Maklumkan saya"
         reminders:
-          no_notification: No notification
+          no_notification: Tiada pemberitahuan
           timeframes:
             normal:
-              PT0S: same day
-              P1D: 1 day before
-              P3D: 3 days before
-              P7D: a week before
+              PT0S: hari yang sama
+              P1D: 1 hari sebelum
+              P3D: 3 hari sebelum
+              P7D: 1 minggu sebelum
             overdue:
-              P1D: every day
-              P3D: every 3 days
-              P7D: every week
+              P1D: setiap hari
+              P3D: setiap 3 hari
+              P7D: setiap minggu
         reasons:
           mentioned:
-            title: "Mentioned"
-            description: "Receive a notification every time someone mentions me anywhere"
+            title: "Telah disebutkan"
+            description: "Terima pemberitahuan setiap kali sesiapa menyebut saya di mana saja"
           assignee: "Assignee"
-          responsible: "Accountable"
-          shared: "Shared"
-          watched: "Watcher"
-          work_package_commented: "All new comments"
-          work_package_created: "New work packages"
-          work_package_processed: "All status changes"
-          work_package_prioritized: "All priority changes"
+          responsible: "Bertanggungjawab"
+          shared: "Telah dikongsi"
+          watched: "Pemerhati"
+          work_package_commented: "Semua komen baru"
+          work_package_created: "Pakej kerja baru"
+          work_package_processed: "Semua perubahan status"
+          work_package_prioritized: "Semua perubahan keutamaan"
           work_package_scheduled: "All date changes"
         global:
           immediately:
@@ -806,43 +806,43 @@ ms:
       blocks: "Blocks"
       blocked: "Blocked by"
       precedes: "Precedes"
-      follows: "Follows"
-      includes: "Includes"
-      partof: "Part of"
-      requires: "Requires"
-      required: "Required by"
-      relation_type: "relation type"
+      follows: "Mengikuti"
+      includes: "Termasuk"
+      partof: "Sebahagian daripada"
+      requires: "Memerlukan"
+      required: "Diperlukan oleh"
+      relation_type: "jenis perhubungan"
     relations_hierarchy:
-      parent_headline: "Parent"
-      hierarchy_headline: "Hierarchy"
-      children_headline: "Children"
+      parent_headline: "Induk"
+      hierarchy_headline: "Hierarki"
+      children_headline: "Anak"
     relation_buttons:
-      set_parent: "Set parent"
-      change_parent: "Change parent"
-      remove_parent: "Remove parent"
+      set_parent: "Tetapkan induk"
+      change_parent: "Ubah induk"
+      remove_parent: "Keluarkan induk"
       hierarchy_indent: "Indent hierarchy"
       hierarchy_outdent: "Outdent hierarchy"
-      group_by_wp_type: "Group by work package type"
-      group_by_relation_type: "Group by relation type"
-      add_parent: "Add existing parent"
-      add_new_child: "Create new child"
-      create_new: "Create new"
-      add_existing: "Add existing"
-      add_existing_child: "Add existing child"
+      group_by_wp_type: "Kumpulkan mengikut jenis pakej"
+      group_by_relation_type: "Kumpulkan mengikut jenis perhubungan"
+      add_parent: "Tambah induk sedia ada"
+      add_new_child: "Cipta anak baru"
+      create_new: "Cipta baru"
+      add_existing: "Tambah sedia ada"
+      add_existing_child: "Tambah anak sedia ada"
       remove_child: "Remove child"
-      add_new_relation: "Create new relation"
-      add_existing_relation: "Add existing relation"
-      update_description: "Set or update description of this relation"
-      toggle_description: "Toggle relation description"
-      update_relation: "Click to change the relation type"
-      add_follower: "Add follower"
-      show_relations: "Show relations"
-      add_predecessor: "Add predecessor"
-      remove: "Remove relation"
-      save: "Save relation"
-      abort: "Abort"
+      add_new_relation: "Cipta perhubungan baru"
+      add_existing_relation: "Tambah perhubungan sedia ada"
+      update_description: "Tetapkan atau kemas kini penerangan perhubungan ini"
+      toggle_description: "Tukar penerangan perhubungan"
+      update_relation: "Klik untuk ubah jenis perhubungan"
+      add_follower: "Tambah pengikut"
+      show_relations: "Tunjuk perhubungan"
+      add_predecessor: "Tambah pendahulu"
+      remove: "Padam perhubungan"
+      save: "Simpan perhubungan"
+      abort: "Batal"
     relations_autocomplete:
-      placeholder: "Type to search"
+      placeholder: "Taip untuk cari"
       parent_placeholder: "Pilih induk baharu atau tekan escape untuk batalkan."
     autocompleter:
       placeholder: "Taip untuk mencari"
@@ -851,7 +851,7 @@ ms:
         placeholder: "Pilih projek"
     repositories:
       select_tag: "Pilih tag"
-      select_branch: "Select branch"
+      select_branch: "Pilih cawangan"
     field_value_enter_prompt: "Masukkan nilai untuk '%{field}'"
     project_menu_details: "Butiran"
     scheduling:
@@ -889,7 +889,7 @@ ms:
       image: "Gambar"
     work_packages:
       bulk_actions:
-        move: "Bulk change of project"
+        move: "Perubahan projek secara pukal"
         edit: "Bulk edit"
         copy: "Bulk copy"
         delete: "Bulk delete"
@@ -1227,16 +1227,16 @@ ms:
           description: "Permissions based on the assigned role in the selected project"
         group:
           title: "Group"
-          description: "Permissions based on the assigned role in the selected project"
+          description: "Kebenaran berdasarkan peranan yang ditugaskan dalam projek terpilih"
         placeholder:
-          title: "Placeholder user"
+          title: "Pengguna sementara"
           title_no_ee: "Placeholder user (Enterprise edition only add-on)"
-          description: "Has no access to the project and no emails are sent out."
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
+          description: "Tidak mempunyai akses ke projek dan tiada e-mel dihantar keluar."
+          description_no_ee: 'Tidak mempunyai akses ke projek dan tiada e-mel dihantar keluar. <br>Lihat<a href="%{eeHref}" target="_blank">Edisi Enterprise</a>'
       principal:
         label:
-          name_or_email: "Name or email address"
-          name: "Name"
+          name_or_email: "Nama atau alamat e-mel"
+          name: "Nama"
         already_member_message: "Sudah menjadi ahli kepada %{project}"
         no_results_user: "Tiada pengguna dijumpai"
         invite_user: "Jemput:"
@@ -1253,10 +1253,10 @@ ms:
         no_roles_found: "Tiada peranan dijumpai"
         description: >-
           This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>
-        required: "Please select a role"
-        next_button: "Next"
+        required: "Sila pilih peranan"
+        next_button: "Seterusnya"
       message:
-        label: "Invitation message"
+        label: "Mesej jemputan"
         description: "We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started."
         next_button: "Next"
       summary:
@@ -1310,13 +1310,13 @@ ms:
       legends:
         changes_since: "Perubahan sejak"
         changes_between: "Perubahan antara"
-        now_meets_filter_criteria: "Now meets filter criteria"
-        no_longer_meets_filter_criteria: "No longer meets filter criteria"
+        now_meets_filter_criteria: "Kini memenuhi kriteria penyaring"
+        no_longer_meets_filter_criteria: "Tidak lagi memenuhi kriteria penyaring"
         maintained_with_changes: "Dikekalkan dengan perubahan"
         in_your_timezone: "Dalam zon waktu tempatan anda:"
       icon_tooltip:
-        added: "Added to view within the comparison time period"
-        removed: "Removed from view within the comparison time period"
+        added: "Ditambah ke paparan dalam tempoh masa perbandingan"
+        removed: "Dikeluarkan dari paparan dalam tempoh masa perbandingan"
         changed: "Dikekalkan dengan pengubahsuaian"
     forms:
       submit_success_message: "Borang telah berjaya dihantar"
@@ -1331,5 +1331,5 @@ ms:
         Close: "Tutup"
     open_project_storage_modal:
       waiting_subtitle:
-        network_off: "There is a network problem."
-        network_on: "Network is back. We are trying."
+        network_off: "Terdapat masalah rangkaian."
+        network_on: "Rangkaian kembali. Kami sedang mencuba."

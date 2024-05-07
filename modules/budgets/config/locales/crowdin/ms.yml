@@ -68,7 +68,7 @@ ms:
   label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Paparkan semua anggaran"
   label_yes: "Ya"
-  notice_budget_conflict: "Work packages must be of the same project."
+  notice_budget_conflict: "Pakej-pakej kerja mestilah daripada projek yang sama."
   notice_no_budgets_available: "Tiada anggaran yang tersedia."
   permission_edit_budgets: "Edit anggaran"
   permission_view_budgets: "Paparkan anggaran"

@@ -27,11 +27,11 @@ ms:
         gitlab_issue:
           attributes:
             labels:
-              invalid_schema: "must be an array of hashes with keys: color, title"
+              invalid_schema: "perlu menjadi jalur hash dengan kunci-kunci: warna, tajuk"
         gitlab_merge_request:
           attributes:
             labels:
-              invalid_schema: "must be an array of hashes with keys: color, title"
+              invalid_schema: "perlu menjadi jalur hash dengan kunci-kunci: warna, tajuk"
   project_module_gitlab: "GitLab"
   permission_show_gitlab_content: "Tunjuk kandungan GitLab"
   gitlab_integration:
