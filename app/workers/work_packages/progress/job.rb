@@ -26,37 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Settings::UpdateService < BaseServices::BaseContracted
-  def initialize(user:)
-    super(user:,
-          contract_class: Settings::UpdateContract)
-  end
+# Base class for jobs updating work packages progress values.
+#
+# Handles concurrency so that only one progress job is performed at a time.
+class WorkPackages::Progress::Job < ApplicationJob
+  include GoodJob::ActiveJobExtensions::Concurrency
+  include WorkPackages::Progress::SqlCommands
 
-  def persist(call)
-    params.each do |name, value|
-      set_setting_value(name, value)
-    end
-    call
-  end
+  queue_with_priority :default
 
-  private
-
-  def set_setting_value(name, value)
-    old_value = Setting[name]
-    new_value = derive_value(value)
-    Setting[name] = new_value
-    if name == :work_package_done_ratio && old_value != "status" && new_value == "status"
-      WorkPackages::Progress::ApplyStatusesPCompleteJob.perform_later(cause_type: "progress_mode_changed_to_status_based")
-    end
-  end
-
-  def derive_value(value)
-    case value
-    when Array, Hash
-      # remove blank values in array, hash settings
-      value.compact_blank!
-    else
-      value.strip
-    end
-  end
+  good_job_control_concurrency_with(
+    perform_limit: 1,
+    key: -> { "WorkPackagesProgressJob" }
+  )
 end

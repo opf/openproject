@@ -28,7 +28,7 @@
 
 require "rails_helper"
 
-RSpec.describe WorkPackages::ApplyStatusesPCompleteJob do
+RSpec.describe WorkPackages::Progress::ApplyStatusesPCompleteJob do
   shared_let(:author) { create(:user) }
   shared_let(:priority) { create(:priority, name: "Normal") }
   shared_let(:project) { create(:project, name: "Main project") }
@@ -139,17 +139,17 @@ RSpec.describe WorkPackages::ApplyStatusesPCompleteJob do
             hierarchy    | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
             grandparent  | Doing (40%) |   1h |           0.8h |        20% |    20h |             9.8h |          51%
               parent     | Doing (40%) |      |                |        20% |    19h |               9h |          53%
-                child 1  | Done (100%) |   9h |             0h |       100% |     9h |               0h |         100%
-                child 2  | Doing (40%) |   5h |             4h |        20% |     5h |               4h |          20%
-                child 3  | To do (0%)  |   5h |             5h |         0% |     5h |               5h |           0%
+                child 1  | Done (100%) |   9h |             0h |       100% |        |                  |
+                child 2  | Doing (40%) |   5h |             4h |        20% |        |                  |
+                child 3  | To do (0%)  |   5h |             5h |         0% |        |                  |
           TABLE
           to: <<~TABLE
             subject      | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
             grandparent  | Doing (40%) |   1h |           0.6h |        40% |    20h |             8.6h |          57%
               parent     | Doing (40%) |      |                |        40% |    19h |               8h |          58%
-                child 1  | Done (100%) |   9h |             0h |       100% |     9h |               0h |         100%
-                child 2  | Doing (40%) |   5h |             3h |        40% |     5h |               3h |          40%
-                child 3  | To do (0%)  |   5h |             5h |         0% |     5h |               5h |           0%
+                child 1  | Done (100%) |   9h |             0h |       100% |        |                  |
+                child 2  | Doing (40%) |   5h |             3h |        40% |        |                  |
+                child 3  | To do (0%)  |   5h |             5h |         0% |        |                  |
           TABLE
         )
       end
@@ -162,14 +162,14 @@ RSpec.describe WorkPackages::ApplyStatusesPCompleteJob do
           from: <<~TABLE,
             hierarchy  | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
             parent     | To do (0%)  |      |                |         0% |    20h |               8h |          60%
-              child 1  | Doing (40%) |  10h |             8h |        20% |    10h |               8h |          20%
-              child 2  | Done (100%) |  10h |             0h |       100% |    10h |               0h |         100%
+              child 1  | Doing (40%) |  10h |             8h |        20% |        |                  |
+              child 2  | Done (100%) |  10h |             0h |       100% |        |                  |
           TABLE
           to: <<~TABLE,
             subject    | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
             parent     | To do (0%)  |      |                |         0% |    20h |               6h |          70%
-              child 1  | Doing (40%) |  10h |             6h |        40% |    10h |               6h |          40%
-              child 2  | Done (100%) |  10h |             0h |       100% |    10h |               0h |         100%
+              child 1  | Doing (40%) |  10h |             6h |        40% |        |                  |
+              child 2  | Done (100%) |  10h |             0h |       100% |        |                  |
           TABLE
           cause_type: "status_p_complete_changed",
           status_name: status_40p_doing.name,
@@ -196,14 +196,14 @@ RSpec.describe WorkPackages::ApplyStatusesPCompleteJob do
           from: <<~TABLE,
             hierarchy  | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
             parent     | To do (0%)  |      |                |         0% |    20h |               8h |          60%
-              child 1  | Doing (40%) |  10h |             8h |        20% |    10h |               8h |          20%
-              child 2  | Done (100%) |  10h |             0h |       100% |    10h |               0h |         100%
+              child 1  | Doing (40%) |  10h |             8h |        20% |        |                  |
+              child 2  | Done (100%) |  10h |             0h |       100% |        |                  |
           TABLE
           to: <<~TABLE,
             subject    | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
             parent     | To do (0%)  |      |                |         0% |    20h |               6h |          70%
-              child 1  | Doing (40%) |  10h |             6h |        40% |    10h |               6h |          40%
-              child 2  | Done (100%) |  10h |             0h |       100% |    10h |               0h |         100%
+              child 1  | Doing (40%) |  10h |             6h |        40% |        |                  |
+              child 2  | Done (100%) |  10h |             0h |       100% |        |                  |
           TABLE
           cause_type: "progress_mode_changed_to_status_based"
         )
