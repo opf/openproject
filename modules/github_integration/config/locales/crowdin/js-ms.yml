@@ -25,24 +25,24 @@ ms:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull requests"
+        title: "Tarik permintaan"
         copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
+          label: Potongan git
+          description: Salin potongan git ke papan klip
         git_actions:
-          branch_name: Nama cawangan
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
+          branch_name: Nama cabang
+          commit_message: Menyerahkan mesej
+          cmd: Cipta cabang dengan komit kosong
+          title: Potongan cepat untuk Git
           copy_success: '✅ Disalin!'
           copy_error: '❌ Salinan gagal!'
       tab_prs:
-        empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
+        empty: 'Masih belum ada tarik permintaan yang dipautkan lagi. Pautkan PR sedia ada menggunakan kod <code>OP#%{wp_id}</code> di deskripsi PR atau ciptakan PR baru.'
       github_actions: Tindakan
       pull_requests:
-        message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}."
-        merged_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}."
-        referenced_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package."
+        message: "Tarik permintaan #%{pr_number}%{pr_link} untuk %{repository_link} dikarang oleh %{github_user_link} telah %{pr_state}."
+        merged_message: "Tarik permintaan #%{pr_number}%{pr_link} untuk telah %{pr_state} oleh %{github_user_link}."
+        referenced_message: "Tarik permintaan #%{pr_number}%{pr_link} untuk %{repository_link} dikarang oleh %{github_user_link} telah merujuk kepada pakej kerja ini."
         states:
           opened: 'dibuka'
           closed: 'ditutup'

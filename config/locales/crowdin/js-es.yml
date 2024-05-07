@@ -420,7 +420,7 @@ es:
     label_expand_project_menu: "Expandir menú de proyecto"
     label_export: "Exportar"
     label_export_preparing: "La exportación se está preparando y se descargará en breve."
-    label_favorites: "Favorites"
+    label_favorites: "Favoritos"
     label_filename: "Archivo"
     label_filesize: "Tamaño"
     label_general: "General"
@@ -1272,8 +1272,8 @@ es:
           group: "El grupo ya forma parte de %{project}. Mientras tanto, puede crear planes con ese grupo y asignar paquetes de trabajo a este."
         next_button: "Continuar"
     favorite_projects:
-      no_results: "You have no favorite projects"
-      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
+      no_results: "No tiene proyectos favoritos"
+      no_results_subtext: "Añada uno o varios proyectos como favoritos a través del resumen del proyecto o en una lista de proyectos."
     include_projects:
       toggle_title: "Incluir proyectos"
       title: "Proyectos"
