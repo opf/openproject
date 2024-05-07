@@ -18,7 +18,7 @@
           }) do |form| %>
       <%= render(Primer::Alpha::TabPanels.new(label: "label")) do |tab_panel| %>
         <% tab_panel.with_tab(selected: true, id: "tab-selects") do |tab| %>
-          <% tab.with_text { "Fields"} %>
+          <% tab.with_text { I18n.t("label_columns") } %>
           <% tab.with_panel do %>
             <div id="op-draggable-autocomplete-container">
               <%= helpers.angular_component_tag 'opce-draggable-autocompleter',
@@ -37,7 +37,7 @@
           <% end %>
         <% end %>
         <% tab_panel.with_tab(id: "tab-selects") do |tab| %>
-          <% tab.with_text { "Sort By" }%>
+          <% tab.with_text { I18n.t("label_sort") }%>
           <% tab.with_panel do %>
             <%= render(Queries::SortByComponent.new(query: query, selectable_columns:)) %>
           <% end%>
