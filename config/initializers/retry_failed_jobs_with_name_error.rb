@@ -43,9 +43,9 @@ Rails.application.configure do
       .where("error LIKE ?", "NameError: uninitialized constant %Job")
       .find_each do |job|
         job.retry_job
-        Rails.logger.info("Successfully retry job #{job.display_name} (job id: #{job.id})")
+        Rails.logger.info("Successfully enqueued job for retry #{job.display_name} (job id: #{job.id})")
       rescue StandardError => e
-        Rails.logger.error("Failed to retry job #{job.display_name} (job id: #{job.id}): #{e.message}")
+        Rails.logger.error("Failed to enqueue job for retry #{job.display_name} (job id: #{job.id}): #{e.message}")
       end
   end
 end
