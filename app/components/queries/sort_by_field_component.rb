@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Queries::SortByFieldComponent < ApplicationComponent
+class Queries::SortByFieldComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
   options :order,
           :available_orders,
           :index
