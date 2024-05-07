@@ -31,13 +31,15 @@ require "spec_helper"
 RSpec.describe Queries::Projects::Filters::AvailableProjectAttributesFilter do
   it_behaves_like "basic query filter" do
     let(:class_key) { :available_project_attributes }
-    let(:type) { :list_contains }
+    let(:type) { :list }
     let(:human_name) { "Available project attributes" }
   end
 
-  it_behaves_like "list_contains query filter" do
+  it_behaves_like "list query filter", scope: false do
     let(:project_custom_field_project_mapping1) { build_stubbed(:project_custom_field_project_mapping) }
     let(:project_custom_field_project_mapping2) { build_stubbed(:project_custom_field_project_mapping) }
+    let(:valid_values) { [project_custom_field_project_mapping1.id, project_custom_field_project_mapping2.id] }
+    let(:name) { "Available project attributes" }
 
     before do
       allow(ProjectCustomFieldProjectMapping)
@@ -47,8 +49,52 @@ RSpec.describe Queries::Projects::Filters::AvailableProjectAttributesFilter do
                      project_custom_field_project_mapping2.id])
     end
 
-    let(:name) { "Available project attributes" }
-    let(:valid_values) { [project_custom_field_project_mapping1.id, project_custom_field_project_mapping2.id] }
+    describe "#scope" do
+      let(:values) { valid_values }
+
+      let(:project_custom_field_project_mapping_handwritten_sql_subquery) do
+        <<-SQL.squish
+            SELECT DISTINCT "project_custom_field_project_mappings"."project_id"
+              FROM "project_custom_field_project_mappings"
+              WHERE "project_custom_field_project_mappings"."custom_field_id"
+              IN (#{values.join(', ')})
+        SQL
+      end
+
+      context 'for "="' do
+        let(:operator) { "=" }
+
+        it "is the same as handwriting the query" do
+          handwritten_scope_sql = <<-SQL.squish
+            SELECT "projects".* FROM "projects"
+              WHERE "projects"."id" IN (#{project_custom_field_project_mapping_handwritten_sql_subquery})
+          SQL
+
+          expect(instance.scope.to_sql).to eql handwritten_scope_sql
+        end
+      end
+
+      context 'for "!"' do
+        let(:operator) { "!" }
+
+        it "is the same as handwriting the query" do
+          handwritten_scope_sql = <<-SQL.squish
+            SELECT "projects".* FROM "projects"
+              WHERE "projects"."id" NOT IN (#{project_custom_field_project_mapping_handwritten_sql_subquery})
+          SQL
+
+          expect(instance.scope.to_sql).to eql handwritten_scope_sql
+        end
+      end
+
+      context "for an unsupported operator" do
+        let(:operator) { "!=" }
+
+        it "raises an error" do
+          expect { instance.scope }.to raise_error("unsupported operator")
+        end
+      end
+    end
 
     describe "#allowed_values" do
       it "is a list of the possible values" do

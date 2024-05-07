@@ -35,7 +35,7 @@ class Queries::Projects::Filters::AvailableProjectAttributesFilter < Queries::Pr
   end
 
   def type
-    :list_contains
+    :list
   end
 
   def allowed_values
@@ -47,7 +47,14 @@ class Queries::Projects::Filters::AvailableProjectAttributesFilter < Queries::Pr
   end
 
   def scope
-    model.with_available_custom_fields(values)
+    case operator
+    when "="
+      model.with_available_custom_fields(values)
+    when "!"
+      model.without_available_custom_fields(values)
+    else
+      raise "unsupported operator"
+    end
   end
 
   def human_name

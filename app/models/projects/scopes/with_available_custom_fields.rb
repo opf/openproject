@@ -32,10 +32,21 @@ module Projects::Scopes
 
     class_methods do
       def with_available_custom_fields(custom_field_ids)
-        mappings_subquery = ProjectCustomFieldProjectMapping.select(:project_id)
+        subquery = project_custom_fields_project_mapping_subquery(custom_field_ids:)
+        where(id: subquery)
+      end
+
+      def without_available_custom_fields(custom_field_ids)
+        subquery = project_custom_fields_project_mapping_subquery(custom_field_ids:)
+        where.not(id: subquery)
+      end
+
+      private
+
+      def project_custom_fields_project_mapping_subquery(custom_field_ids:)
+        ProjectCustomFieldProjectMapping.select(:project_id)
                           .where(custom_field_id: custom_field_ids)
                           .distinct
-        where(id: mappings_subquery)
       end
     end
   end

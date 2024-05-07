@@ -41,4 +41,10 @@ RSpec.describe Projects::Scopes::WithAvailableCustomFields do
       expect(Project.with_available_custom_fields([project_custom_field.id])).to contain_exactly(project)
     end
   end
+
+  describe ".without_available_custom_fields" do
+    it "returns projects without the given custom fields" do
+      expect(Project.without_available_custom_fields([project_custom_field.id])).to be_empty
+    end
+  end
 end
