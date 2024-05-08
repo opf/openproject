@@ -155,7 +155,7 @@ module Projects::ActsAsCustomizablePatches
       #
       # additionally we provide the `global` parameter to allow querying the available custom fields on a global level
       # when we have explicit control over the call of `available_custom_fields`
-      unless new_record? || previously_new_record? || _query_available_custom_fields_on_global_level
+      unless new_record? || _query_available_custom_fields_on_global_level
         custom_fields = custom_fields
           .where(id: project_custom_field_project_mappings.select(:custom_field_id))
           .or(ProjectCustomField.required)
