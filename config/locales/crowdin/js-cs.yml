@@ -377,7 +377,7 @@ cs:
     label_added_time_by: 'Přidal <a href="%{authorLink}">%{author}</a> v %{age}'
     label_ago: "dnů před"
     label_all: "vše"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Vše"
     label_all_work_packages: "všechny pracovní balíčky"
     label_and: "a"
     label_ascending: "Vzestupně"

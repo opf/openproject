@@ -378,7 +378,7 @@ it:
     label_added_time_by: 'Aggiunto da <a href="%{authorLink}">%{author}</a> alle %{age}'
     label_ago: "giorni fa"
     label_all: "tutti"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Tutti"
     label_all_work_packages: "tutte le macro-attività"
     label_and: "e"
     label_ascending: "Crescente"

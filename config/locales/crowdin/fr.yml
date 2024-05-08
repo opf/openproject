@@ -1931,7 +1931,7 @@ fr:
   label_expanded_click_to_collapse: "Déplié. Cliquez pour replier"
   label_f_hour: "%{value} heure"
   label_f_hour_plural: "%{value} heures"
-  label_favorite: "Favorite"
+  label_favorite: "Favori"
   label_feed_plural: "Fluxs"
   label_feeds_access_key: "Clé d'accès RSS"
   label_feeds_access_key_created_on: "Clé d'accès RSS créé il y a %{value}"

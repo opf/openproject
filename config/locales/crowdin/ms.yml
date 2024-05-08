@@ -1853,7 +1853,7 @@ ms:
   label_development_roadmap: "Development roadmap"
   label_diff: "beza"
   label_diff_inline: "inline"
-  label_diff_side_by_side: "side by side"
+  label_diff_side_by_side: "bersebelahan"
   label_digital_accessibility: "Digital accessibility (DE)"
   label_disabled: "dinyahaktifkan"
   label_disabled_uppercase: "Dinyahaktifkan"
@@ -1863,9 +1863,9 @@ ms:
   label_download: "%{count} Muat turun"
   label_download_plural: "%{count} Muat turun"
   label_downloads_abbr: "D/L"
-  label_duplicated_by: "duplicated by"
-  label_duplicate: "duplicate"
-  label_duplicates: "duplicates"
+  label_duplicated_by: "telah duplikasi oleh"
+  label_duplicate: "duplikasi"
+  label_duplicates: "duplikasi"
   label_edit: "Edit"
   label_edit_x: "Sunting: %{x}"
   label_enable_multi_select: "Toggle multiselect"
@@ -1880,7 +1880,7 @@ ms:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} pengguna aktif yang ditempah"
   label_enterprise_edition: "Edisi Enterprise"
-  label_enterprise_support: "Enterprise support"
+  label_enterprise_support: "sokongan Enterprise"
   label_enterprise_addon: "Penambahan Enterprise"
   label_environment: "Persekitaran"
   label_estimates_and_progress: "Anggaran dan kemajuan"
@@ -2535,18 +2535,16 @@ ms:
   notice_successful_delete: "Penghapusan yang berjaya."
   notice_successful_update: "Kemas kini yang berjaya."
   notice_successful_update_custom_fields_added_to_project: |
-    Successful update. The custom fields of the activated types are automatically activated
-    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+    Naik taraf berjaya. Jenis ruang tersuai yang aktif telah diaktifkan di borang pakej kerja secara automatik. <a href="%{url}" target="_blank">Lihat lebih lagi</a>.
   notice_successful_update_custom_fields_added_to_type: |
-    Successful update. The active custom fields are automatically activated for
-    the associated projects of this type.
-  notice_to_many_principals_to_display: "There are too many results.\nNarrow down the search by typing in the name of the new member (or group)."
+    Naik taraf berjaya. Ruang tersuai yang aktif untuk projek yang berkaitan dengan jenis ini telah diaktifkan secara automatik.
+  notice_to_many_principals_to_display: "Terlalu banyak hasil.\nSpesifikasikan pencarian dengan masukkan nama ahli baru (atau kumpulan)."
   notice_user_missing_authentication_method: Pengguna masih belum memilih kata laluan atau cara lain untuk log masuk.
   notice_user_invitation_resent: Jemputan telah dihantar ke %{email}.
   present_access_key_value: "%{key_name} anda adalah: %{value}"
   notice_automatic_set_of_standard_type: "Tetapkan jenis standard secara automatik."
   notice_logged_out: "Anda telah dilog keluar."
-  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
+  notice_wont_delete_auth_source: Sambungan LDAP tidak boleh dipadam sekiranya masih ada pengguna yang menggunakannya.
   notice_project_cannot_update_custom_fields: "Anda tidak boleh mengemas kini medan tersuai tersedia projek. Projek adalah tidak sah: %{errors}"
   notice_attachment_migration_wiki_page: >
     Halaman ini dijanakan secara automatik semasa penaiktarafan OpenProject. Ia mengandungi semua lampiran yang sebelum ini berkaitan dengan %{container_type} "%{container_name}".
@@ -2808,41 +2806,41 @@ ms:
       existing_introduction: "JIka anda mempunyai repositori Subversion sedia ada, anda boleh pautkan ia dengan OpenProject untuk mengaksesnya dari dalam aplikasi."
       existing_url: "URL sedia ada"
       instructions:
-        managed_url: "This is the URL of the managed (local) Subversion repository."
-        url: "Enter the repository URL. This may either target a local repository (starting with %{local_proto} ), or a remote repository.\nThe following URL schemes are supported:"
-      managed_title: "Subversion repository integrated into OpenProject"
+        managed_url: "Ini ialah URL repositori Subversion yang telah dikendalikan (lokal)."
+        url: "Masukkan URL repositori. Ia mungkin antara menyasarkan repositori lokal (bermula dengan %{local_proto} ), atau repositori jauh.\nSkim URL yang disokong ialah yang berikut:"
+      managed_title: "Repositori Subversion diintegrasikan ke OpenProject"
       managed_introduction: "Biarkan OpenProject mencipta dan mengintegrasikan repositori Subversion lokal secara automatik."
       managed_url: "URL yang diuruskan"
       password: "Repositori Kata laluan"
       username: "Repositori nama pengguna "
-    truncated: "Sorry, we had to truncate this directory to %{limit} files. %{truncated} entries were omitted from the list."
+    truncated: "Harap maaf, kami terpaksa pangkas direktori ini ke fail %{limit}. Entri %{truncated} telah dipadam dari senarai."
     named_repository: "repositori %{vendor_name}"
     update_settings_successful: "Tetapan tersebut telah berjaya disimpan."
     url: "URL ke repositori"
     warnings:
-      cannot_annotate: "This file cannot be annotated."
+      cannot_annotate: "Fail ini tidak boleh dianotasikan."
   scheduling:
     activated: "diaktifkan"
     deactivated: "dinyahaktifkan"
   search_input_placeholder: "Cari ..."
   setting_apiv3_cors_enabled: "Aktifkan CORS"
-  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins: "Asal yang dibenarkan Perkongsian Sumber Rentas Asal (CORS) API V3 "
   setting_apiv3_cors_origins_text_html: >
-    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+    Jika CORS telah dibenarkan, ini ialah asal yang dibenarkan untuk mengakses API OpenProject. <br/> Sila semak dokumentasi <a href="%{origin_link}" target="_blank"> di pengepala Asal </a> untuk cara nyatakan nilai-nilai yang dijangkakan.
   setting_apiv3_write_readonly_attributes: "Tulis akses pada atribut baca sahaja"
   setting_apiv3_write_readonly_attributes_instructions_html: >
     If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and author. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Saiz halaman API maksimum"
   setting_apiv3_max_page_instructions_html: >
-    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
+    Tetapkan saiz halaman maksimum yang boleh direspon API. Ia tidak mungkin boleh melaksanakan permintaan API yang kembalikan lebih banyak nilai pada satu halaman. <br/> <strong>Amaran:</strong> Sila ubah nilai ini hanya jika anda pasti anda perlukannya. Tetapkan ia ke nilai tinggi akan  memberi kesan kepada prestasi yang ketara, manakala nilai yang lagi rendah dari pilihan mengikut halaman akan mengakibatkan ralat di paparan yang dipautkan.
   setting_apiv3_docs: "Dokumentasi"
   setting_apiv3_docs_enabled: "Benarkan halaman docs"
   setting_apiv3_docs_enabled_instructions_html: >
     Jika halaman docs dibenarkan anda boleh mendapatkan paparan interaktif dokumentasi APIv3 dibawah <a href="%{link}" target="_blank">.
-  setting_attachment_whitelist: "Attachment upload whitelist"
+  setting_attachment_whitelist: "Lampiran memuat naik senarai putih"
   setting_email_delivery_method: "Kaedah penghantaran e-mel"
   setting_emails_salutation: "Menggelar pengguna dalam e-mel dengan"
-  setting_sendmail_location: "Location of the sendmail executable"
+  setting_sendmail_location: "Lokasi sendmail boleh dilaksanakan"
   setting_smtp_enable_starttls_auto: "Gunakan secara automatik STARTTLS jika tersedia"
   setting_smtp_ssl: "Guna sambungan SSL"
   setting_smtp_address: "Pelayan SMTP"
@@ -2857,21 +2855,21 @@ ms:
   setting_attachment_max_size: "Saiz maksimum lampiran"
   setting_antivirus_scan_mode: "Mod pengimbas"
   setting_antivirus_scan_action: "Tindakan fail yang dijangkiti"
-  setting_autofetch_changesets: "Autofetch repository changes"
+  setting_autofetch_changesets: "Perubahan repositori autofetch"
   setting_autologin: "Log masuk automatik"
   setting_available_languages: "Bahasa tersedia"
-  setting_bcc_recipients: "Blind carbon copy recipients (bcc)"
+  setting_bcc_recipients: "Penerima salinan karbon tertutup (bcc)"
   setting_brute_force_block_after_failed_logins: "Sekat pengguna selepas bilangan percubaan log masuk gagal ini"
   setting_brute_force_block_minutes: "Masa pengguna diblokkan untuk "
   setting_cache_formatted_text: "Teks yang diformat dalam cache"
   setting_use_wysiwyg_description: "Pilih untuk aktifkan penyunting CKEditor5 WYSIWYG untuk semua pengguna secara asas. CKEditor mempunyai kefungsian terhad untuk GFM Markdown."
   setting_column_options: "Senarai lajur pakej kerja asas"
-  setting_commit_fix_keywords: "Fixing keywords"
+  setting_commit_fix_keywords: "Membetulkan kata kunci"
   setting_commit_logs_encoding: "Pengekodan mesej komit"
-  setting_commit_logtime_activity_id: "Activity for logged time"
+  setting_commit_logtime_activity_id: "Aktiviti log masuk"
   setting_commit_logtime_enabled: "Benarkan pencatatan masa"
-  setting_commit_ref_keywords: "Referencing keywords"
-  setting_consent_time: "Consent time"
+  setting_commit_ref_keywords: "Merujuk kata kunci"
+  setting_consent_time: "Masa pemberian keizinan"
   setting_consent_info: "Teks maklumat kebenaran"
   setting_consent_required: "Persetujuan diperlukan"
   setting_consent_decline_mail: "Consent contact mail address"

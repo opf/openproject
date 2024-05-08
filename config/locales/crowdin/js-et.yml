@@ -378,7 +378,7 @@ et:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "päeva tagasi"
     label_all: "kõik"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Kõik"
     label_all_work_packages: "kõik teemad"
     label_and: "ja"
     label_ascending: "Kasvav"
@@ -762,7 +762,7 @@ et:
           last_day: "Last day"
     text_are_you_sure: "Kas oled kindel?"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} kirjutas:"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
@@ -995,7 +995,7 @@ et:
         versionName: "Versioon"
         version: "Versioon"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "Eeldatav ajakulu"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"

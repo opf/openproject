@@ -1931,7 +1931,7 @@ ka:
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} საათი"
   label_f_hour_plural: "%{value} საათი"
-  label_favorite: "Favorite"
+  label_favorite: "რჩეული"
   label_feed_plural: "არხები"
   label_feeds_access_key: "RSS-ის წვდომის გასაღები"
   label_feeds_access_key_created_on: "RSS access key created %{value} ago"

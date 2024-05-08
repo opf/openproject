@@ -762,7 +762,7 @@ bg:
           last_day: "Last day"
     text_are_you_sure: "Сигурни ли сте?"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} написа:"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
@@ -983,7 +983,7 @@ bg:
         priority: "Приоритет"
         projectName: "Проект"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "Оставащи часове"
         responsible: "Отговорен"
         startDate: "Начална дата"
         status: "Състояние"
@@ -995,7 +995,7 @@ bg:
         versionName: "Версия"
         version: "Версия"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "Очаквано време"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"

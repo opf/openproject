@@ -1926,7 +1926,7 @@ de:
   label_expanded_click_to_collapse: "Erweitert. Klicken Sie zum Ausblenden"
   label_f_hour: "%{value} Stunde"
   label_f_hour_plural: "%{value} Stunden"
-  label_favorite: "Favorite"
+  label_favorite: "Favorit"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS-Zugriffsschlüssel"
   label_feeds_access_key_created_on: "Atom-Zugriffsschlüssel vor %{value} erstellt"
