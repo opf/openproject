@@ -4,7 +4,7 @@
   <%= hidden_field_tag :sortBy, current_orders, data: { "sort-by-config-target" => "sortByField" } %>
   <%= render(Primer::OpenProject::FlexLayout.new(data: { "sort-by-config-target" => "inputRowContainer" })) do |layout| %>
     <% order_limit.times do |i| %>
-      <% layout.with_row(mt: 3) do %>
+      <% layout.with_row(mt: 3, data: { "sort-by-config-target" => "inputRow" }) do %>
         <%= render(Queries::SortByFieldComponent.new(order: query.orders[i], available_orders:, index: i)) %>
       <% end %>
     <% end %>

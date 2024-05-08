@@ -38,24 +38,25 @@ export default class SortByConfigController extends Controller {
     'inputRowContainer',
   ];
 
+  // These fields can only be selected in isolation. When this field is selected, no other option is allowed to be selected
+  static onlySelectableInIsolation = ['lft'];
+
+  // For some fields we must enforce a fixed direction, those can be listed here
+  static fixedDirections:Map<string, string> = new Map([
+    ['lft', 'asc'],
+  ]);
+
   declare readonly sortByFieldTarget:HTMLInputElement;
   declare readonly inputRowTargets:HTMLElement[];
   declare readonly inputRowContainerTarget:HTMLElement;
 
   connect():void {
     this.inputRowTargets.forEach((row) => {
-      const selectedField = this.getSelectedField(row);
-      const selectedDirection = this.getSelectedDirection(row);
-
-      if (!selectedField) {
-        this.hideRow(row);
-      } else if (!selectedDirection) {
-        this.setDirection(row, 'asc');
-      }
-
-      this.displayNewFieldSelectorIfNeeded();
-      this.disableSelectedFieldsForOtherSelects();
+      this.manageRow(row);
     });
+
+    this.displayNewFieldSelectorIfNeeded();
+    this.disableSelectedFieldsForOtherSelects();
   }
 
   buildSortJson():string {
@@ -70,49 +71,95 @@ export default class SortByConfigController extends Controller {
 
   fieldChanged(event:Event):void {
     const target = event.target as HTMLElement;
-    const row = target.closest('.op-configure-query-sort-form') as HTMLElement;
+    const row = target.closest('div[data-sort-by-config-target="inputRow"]') as HTMLElement;
 
+    this.manageRow(row);
+
+    this.displayNewFieldSelectorIfNeeded();
+    this.disableSelectedFieldsForOtherSelects();
+
+    this.sortByFieldTarget.value = this.buildSortJson();
+  }
+
+  manageRow(row:HTMLElement):void {
     const selectedField = this.getSelectedField(row);
-    const getSelectedDirection = this.getSelectedDirection(row);
+    const selectedDirection = this.getSelectedDirection(row);
 
-    if (!selectedField) {
     // we have deselected the field, so we need to unset the direction, remove the row and move it to the end of the list
+    if (!selectedField) {
       this.moveRowToBottom(row);
       this.unsetDirection(row);
 
       if (this.visibleFieldCount() > 1) {
         this.hideRow(row);
       }
-    } else if (!getSelectedDirection) {
-      // if we have selected a field but no direction, we default to ascending
-      this.setDirection(row, 'asc');
-    }
+    } else {
+      // we have selected a field, let's check a few things on it
 
-    this.displayNewFieldSelectorIfNeeded();
-    this.disableSelectedFieldsForOtherSelects();
-    this.sortByFieldTarget.value = this.buildSortJson();
+      // we have added a new field and no direction is set yet, we default to asc
+      if (!selectedDirection) {
+        this.setDirection(row, 'asc');
+      }
+
+      // we have selected a field that requires a fixed direction
+      if (selectedField && SortByConfigController.fixedDirections.has(selectedField)) {
+        this.setDirection(row, SortByConfigController.fixedDirections.get(selectedField) as string);
+        this.toggleDirectionEnabled(row, false);
+      } else {
+        this.toggleDirectionEnabled(row, true);
+      }
+
+      // we have a field that can only be selected in isolation, we need to unset and remove all other fields
+      if (this.isIsolatedField(row)) {
+        this.inputRowTargets.forEach((otherRow) => {
+          if (otherRow !== row) {
+            this.hideRow(otherRow);
+            this.unsetField(otherRow);
+            this.unsetDirection(otherRow);
+            this.moveRowToBottom(otherRow);
+          }
+        });
+      }
+    }
   }
 
   displayNewFieldSelectorIfNeeded():void {
+    // If an isolated field is selected, we do not want to display a new field
+    if (this.anyIsolatedFieldSelected()) { return; }
+
+    // If there is a visible field without a selected field, we do not want to display a new field
+    if (this.anyRowVisibleWithoutSelectedField()) { return; }
+
     // figure out if we need to display a new input field
     const nextHiddenRow = this.firstHiddenRow();
 
     // we have not reached the maximum number of visible fields, and there is no visible empty field, display a new one
-    if (nextHiddenRow && !this.anyRowVisibleWithoutSelectedField()) {
+    if (nextHiddenRow) {
       this.showRow(nextHiddenRow);
     }
   }
 
+  anyIsolatedFieldSelected():boolean {
+    return this.inputRowTargets.some((row) => this.isIsolatedField(row));
+  }
+
+  isIsolatedField(row:HTMLElement):boolean {
+    const selectedField = this.getSelectedField(row);
+    if (!selectedField) { return false; }
+
+    return SortByConfigController.onlySelectableInIsolation.includes(selectedField);
+  }
+
   visibleFieldCount():number {
-    return this.inputRowTargets.filter((row) => row.style.display !== 'none').length;
+    return this.inputRowTargets.filter((row) => this.rowIsVisible(row)).length;
   }
 
   firstHiddenRow():HTMLElement|null {
-    return this.inputRowTargets.find((row) => row.style.display === 'none') || null;
+    return this.inputRowTargets.find((row) => !this.rowIsVisible(row)) || null;
   }
 
   anyRowVisibleWithoutSelectedField():boolean {
-    return this.inputRowTargets.some((row) => row.style.display !== 'none' && !this.getSelectedField(row));
+    return this.inputRowTargets.some((row) => this.rowIsVisible(row) && !this.getSelectedField(row));
   }
 
   getSelectedField(row:HTMLElement):string|null {
@@ -123,6 +170,11 @@ export default class SortByConfigController extends Controller {
   getSelectedDirection(row:HTMLElement):string|null {
     const selectedSegment = row.querySelector('li.SegmentedControl-item--selected > button');
     return selectedSegment?.getAttribute('data-direction') || null;
+  }
+
+  unsetField(row:HTMLElement):void {
+    const select = row.querySelector('select[name="sort_field"]') as HTMLSelectElement;
+    select.value = '';
   }
 
   unsetDirection(row:HTMLElement):void {
@@ -149,12 +201,24 @@ export default class SortByConfigController extends Controller {
     });
   }
 
+  toggleDirectionEnabled(row:HTMLElement, enabled:boolean):void {
+    const segmentControls = row.querySelectorAll('li.SegmentedControl-item');
+    segmentControls.forEach((control) => {
+      const button = control.querySelector('button') as HTMLButtonElement;
+      button.disabled = !enabled;
+    });
+  }
+
+  rowIsVisible(row:HTMLElement):boolean {
+    return !row.classList.contains('d-none');
+  }
+
   showRow(row:HTMLElement):void {
-    row.style.display = '';
+    row.classList.remove('d-none');
   }
 
   hideRow(row:HTMLElement):void {
-    row.style.display = 'none';
+    row.classList.add('d-none');
   }
 
   getAllSelectedFields(...excludedRows:HTMLElement[]):string[] {
@@ -167,9 +231,8 @@ export default class SortByConfigController extends Controller {
   }
 
   moveRowToBottom(row:HTMLElement):void {
-    const surroundingDiv = row.parentElement as HTMLElement; // the row is wrapped in a div
-    surroundingDiv.remove();
-    this.inputRowContainerTarget.append(surroundingDiv);
+    row.remove();
+    this.inputRowContainerTarget.append(row);
   }
 
   disableSelectedFieldsForOtherSelects():void {
