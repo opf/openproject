@@ -11,8 +11,10 @@ require:
   - rubocop-inflector
   - ./config/initializers/inflections.rb
 
-<% if File.exist?('.rubocop-local.yml') %>
 inherit_from:
+  - .rubocop_todo.yml
+  - .rubocop_todo_redundant_cop_disable_directive.yml
+<% if File.exist?('.rubocop-local.yml') %>
   - .rubocop-local.yml
 <% end %>
 
