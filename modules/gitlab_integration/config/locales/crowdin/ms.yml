@@ -62,6 +62,6 @@ ms:
     issue_reopened_referenced_comment: >
       **Isu Dibuka Semula:** Isu %{issue_number} [%{issue_title}](%{issue_url}) untuk [%{repository}](%{repository_url}) sudah dibuka semula oleh [%{gitlab_user}](%{gitlab_user_url}).
     push_single_commit_comment: >
-      **Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
+      **Ditolak ke MR** [%{gitlab_user}] (%{gitlab_user_url}) ditolak [%{commit_number}] (%{commit_url}) ke [%{repository}] (%{repository_url}) di %{commit_timestamp}: %{commit_note}
     push_multiple_commits_comment: >
-      **Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed multiple commits [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
+      **Ditolak ke MR** [%{gitlab_user}] (%{gitlab_user_url}) beberapa komit telah ditolak [%{commit_number}] (%{commit_url}) ke [%{repository}] (%{repository_url}) pada %{commit_timestamp}: %{commit_note}
