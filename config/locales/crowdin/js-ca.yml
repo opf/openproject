@@ -378,7 +378,7 @@ ca:
     label_added_time_by: 'Afegit per <a href=%{authorLink}>%{author}</a> el %{age}'
     label_ago: "dies abans"
     label_all: "tot"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Totes"
     label_all_work_packages: "tots els paquets de treball"
     label_and: "i"
     label_ascending: "Ascendent"
@@ -762,7 +762,7 @@ ca:
           last_day: "Últim dia"
     text_are_you_sure: "N'esteu segur?"
     text_data_lost: "Totes les dades entrades es perdran."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} va escriure:"
     types:
       attribute_groups:
         error_duplicate_group_name: "El nom %{group} ja està en ús. Els noms de grup han de ser únics."
@@ -837,7 +837,7 @@ ca:
       toggle_description: "Activar descripció de la relació"
       update_relation: "Faci clic per a canviar la classe de relació"
       add_follower: "Afegir seguidor"
-      show_relations: "Show relations"
+      show_relations: "Mostra les relacions"
       add_predecessor: "Afegir predecessor"
       remove: "Eliminar la relació"
       save: "Guardar la relació"
@@ -983,7 +983,7 @@ ca:
         priority: "Prioritat"
         projectName: "Projecte"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "Hores restants"
         responsible: "Responsable"
         startDate: "Data d'inici"
         status: "Estat"
@@ -995,7 +995,7 @@ ca:
         versionName: "Versió"
         version: "Versió"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "Temps estimat"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Última activitat"

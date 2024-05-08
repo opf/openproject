@@ -1894,7 +1894,7 @@ ja:
   label_expanded_click_to_collapse: "拡大しました。クリックすると閉じます"
   label_f_hour: "%{value} 時間"
   label_f_hour_plural: "%{value} 時間"
-  label_favorite: "Favorite"
+  label_favorite: "お気に入り"
   label_feed_plural: "フィード"
   label_feeds_access_key: "RSSアクセスキー"
   label_feeds_access_key_created_on: "RSSアクセスキーが%{value}前に作成されました"

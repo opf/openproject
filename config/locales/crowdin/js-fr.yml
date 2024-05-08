@@ -378,7 +378,7 @@ fr:
     label_added_time_by: 'Ajouté par <a href="%{authorLink}">%{author}</a> le %{age}'
     label_ago: "il y a"
     label_all: "tous"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Tout"
     label_all_work_packages: "tous les lots de travaux"
     label_and: "et"
     label_ascending: "Croissant"

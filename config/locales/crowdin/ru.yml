@@ -1996,7 +1996,7 @@ ru:
   label_expanded_click_to_collapse: "Развернуто. Кликните для сворачивания"
   label_f_hour: "%{value} часов"
   label_f_hour_plural: "%{value} часов"
-  label_favorite: "Favorite"
+  label_favorite: "Избранное"
   label_feed_plural: "Ленты"
   label_feeds_access_key: "Ключ доступа к RSS"
   label_feeds_access_key_created_on: "Ключ доступа RSS, созданный %{value} назад"

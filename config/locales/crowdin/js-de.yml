@@ -377,7 +377,7 @@ de:
     label_added_time_by: 'Hinzugefügt von <a href="%{authorLink}">%{author}</a> am %{age}'
     label_ago: "Tage her"
     label_all: "alle"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Alle"
     label_all_work_packages: "alle Arbeitspakete"
     label_and: "und"
     label_ascending: "Aufsteigend"

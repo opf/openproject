@@ -378,7 +378,7 @@ hr:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "dana ranije"
     label_all: "sve"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Svi"
     label_all_work_packages: "svi radni paketi"
     label_and: "i"
     label_ascending: "Uzlazno"
@@ -763,7 +763,7 @@ hr:
           last_day: "Last day"
     text_are_you_sure: "Da li ste sigurni?"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} je napisao:"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
@@ -984,7 +984,7 @@ hr:
         priority: "Prioritet"
         projectName: "Projekt"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "Preostalo vrijeme"
         responsible: "Odgovoran"
         startDate: "Datum Početka"
         status: "Status"
@@ -996,7 +996,7 @@ hr:
         versionName: "Verzija"
         version: "Verzija"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "Predviđeno vrijeme"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"

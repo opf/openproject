@@ -378,7 +378,7 @@ eu:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "days ago"
     label_all: "all"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Denak"
     label_all_work_packages: "all work packages"
     label_and: "and"
     label_ascending: "Ascending"
@@ -983,7 +983,7 @@ eu:
         priority: "Priority"
         projectName: "Project"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "Geratzen diren orduak"
         responsible: "Responsible"
         startDate: "Hasiera data"
         status: "Status"

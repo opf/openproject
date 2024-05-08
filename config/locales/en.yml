@@ -1679,6 +1679,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
       pdf_overview_table: "PDF Table"
       pdf_report_with_images: "PDF Report with images"
       pdf_report: "PDF Report"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Image not exported."
     units:

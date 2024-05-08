@@ -377,7 +377,7 @@ vi:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "vài ngày trước"
     label_all: "tất cả"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Toàn bộ"
     label_all_work_packages: "Tất cả công việc"
     label_and: "and"
     label_ascending: "Tăng dần"
@@ -798,7 +798,7 @@ vi:
       typeahead_placeholder: Search for possible watchers
     relation_labels:
       parent: "Cha"
-      children: "Children"
+      children: "Cấp dưới"
       relates: "Related To"
       duplicates: "Duplicates"
       duplicated: "Duplicated by"
@@ -814,7 +814,7 @@ vi:
     relations_hierarchy:
       parent_headline: "Cha"
       hierarchy_headline: "Hệ thống phân cấp"
-      children_headline: "Children"
+      children_headline: "Cấp dưới"
     relation_buttons:
       set_parent: "Set parent"
       change_parent: "Change parent"
@@ -980,8 +980,8 @@ vi:
         percentageDone: "Percentage done"
         priority: "Độ ưu tiên"
         projectName: "Dự án"
-        remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWork: "Số giờ làm việc còn lại"
+        remainingWorkAlternative: "Số giờ còn lại"
         responsible: "Chịu trách nhiệm"
         startDate: "Ngày bắt đầu"
         status: "Trạng thái"
@@ -993,8 +993,8 @@ vi:
         versionName: "Phiên bản"
         version: "Phiên bản"
         work: "Work"
-        workAlternative: "Estimated time"
-        remainingTime: "Remaining work"
+        workAlternative: "Thời gian dự kiến"
+        remainingTime: "Số giờ làm việc còn lại"
       default_queries:
         latest_activity: "Hoạt động mới nhất"
         created_by_me: "Do tôi tạo ra"

@@ -1928,7 +1928,7 @@ it:
   label_expanded_click_to_collapse: "Espanso. Clicca per comprimere"
   label_f_hour: "%{value} ora"
   label_f_hour_plural: "%{value} ore"
-  label_favorite: "Favorite"
+  label_favorite: "Preferito"
   label_feed_plural: "Feed"
   label_feeds_access_key: "Chiave di accesso RSS"
   label_feeds_access_key_created_on: "Chiave di accesso RSS creato %{value} fa"
