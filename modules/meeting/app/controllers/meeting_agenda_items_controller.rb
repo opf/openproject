@@ -162,7 +162,14 @@ class MeetingAgendaItemsController < ApplicationController
     )
 
     if call.success?
-      update_all_via_turbo_stream # TODO: more specific UI update
+      if call.result[:section_changed]
+        move_item_to_other_section_via_turbo_stream(
+          old_section: call.result[:old_section],
+          current_section: call.result[:current_section]
+        )
+      else
+        move_item_within_section_via_turbo_stream
+      end
     else
       generic_call_failure_response(call)
     end

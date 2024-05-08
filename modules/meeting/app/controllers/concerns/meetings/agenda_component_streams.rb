@@ -253,6 +253,35 @@ module Meetings
         end
       end
 
+      def move_item_within_section_via_turbo_stream(meeting_agenda_item: @meeting_agenda_item)
+        move_item_via_turbo_stream(meeting_agenda_item:)
+
+        # update the displayed time slots of all other items in the section
+        update_show_items_of_section_via_turbo_stream(meeting_section: meeting_agenda_item.meeting_section)
+      end
+
+      def move_item_to_other_section_via_turbo_stream(old_section:, current_section:, meeting_agenda_item: @meeting_agenda_item)
+        move_item_via_turbo_stream(meeting_agenda_item:)
+
+        # update the old section
+        update_section_header_via_turbo_stream(meeting_section: old_section)
+
+        if old_section.agenda_items.empty?
+          update_section_via_turbo_stream(meeting_section: old_section)
+        else
+          update_show_items_of_section_via_turbo_stream(meeting_section: old_section)
+        end
+
+        # update the new section
+        update_section_header_via_turbo_stream(meeting_section: current_section)
+
+        if current_section.agenda_items.count == 1
+          update_section_via_turbo_stream(meeting_section: current_section)
+        else
+          update_show_items_of_section_via_turbo_stream(meeting_section: current_section)
+        end
+      end
+
       def move_item_via_turbo_stream(meeting_agenda_item: @meeting_agenda_item)
         # Note: The `remove_component` and the `component` are pointing to the same
         # component, but we still need to instantiate them separately, otherwise re-adding
@@ -262,24 +291,29 @@ module Meetings
 
         component = MeetingAgendaItems::ItemComponent.new(state: :show, meeting_agenda_item:)
 
-        target_component = if @meeting_agenda_item.lower_item
+        target_component = if meeting_agenda_item.lower_item
                              MeetingAgendaItems::ItemComponent.new(
                                state: :show,
-                               meeting_agenda_item: @meeting_agenda_item.lower_item
+                               meeting_agenda_item: meeting_agenda_item.lower_item
                              )
                            else
                              MeetingSections::ShowComponent.new(
-                               meeting_section: @meeting_agenda_item.meeting_section
+                               meeting_section: meeting_agenda_item.meeting_section
                              )
                            end
 
         add_before_via_turbo_stream(component:, target_component:)
-        update_show_items_of_section_via_turbo_stream(meeting_section: @meeting_agenda_item.meeting_section)
       end
 
       def render_base_error_in_flash_message_via_turbo_stream(errors)
         if errors[:base].present?
           render_error_flash_message_via_turbo_stream(message: errors[:base].to_sentence)
+        end
+      end
+
+      def update_section_headers_via_turbo_stream(meeting: @meeting)
+        meeting.sections.each do |meeting_section|
+          update_section_header_via_turbo_stream(meeting_section:)
         end
       end
 
