@@ -53,9 +53,24 @@ RUN ./docker/prod/setup/preinstall-common.sh
 # stuff required for gems
 COPY Gemfile Gemfile.* .ruby-version ./
 COPY modules ./modules
-RUN bundle install
+# some gemspec files of plugins require files in there, notably OpenProject::Version
+COPY lib ./lib
+
+RUN \
+  bundle config set --local path 'vendor/bundle' && \
+  bundle config set --local without 'test development' && \
+  bundle install --quiet --no-cache --jobs=8 --retry=3 && \
+  bundle config set deployment 'true' && \
+  cp Gemfile.lock Gemfile.lock.bak && \
+  rm -rf vendor/bundle/ruby/*/cache && \
+  rm -rf vendor/bundle/ruby/*/gems/*/spec && \
+  rm -rf vendor/bundle/ruby/*/gems/*/test
 
 COPY . .
+
+# Copy lock file again as the updated version was overriden by COPY just now
+RUN cp Gemfile.lock.bak Gemfile.lock && rm Gemfile.lock.bak
+
 RUN ./docker/prod/setup/precompile-assets.sh
 RUN ./docker/prod/setup/postinstall-common.sh
 
