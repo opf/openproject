@@ -40,6 +40,10 @@ class Queries::SortByComponent < ApplicationComponent
     3
   end
 
+  def queried_model_name
+    query.class.model.model_name
+  end
+
   def available_orders
     @available_orders ||= begin
       all_order_keys = ::Queries::Register.orders[query.class]&.map(&:key)
