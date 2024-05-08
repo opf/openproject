@@ -173,34 +173,28 @@ RSpec.describe WorkPackage do
     subject { work_package.hide_attachments? }
 
     context "when project is present" do
-      context "when project#hide_attachment is true" do
-        before { work_package.project.hide_attachments = true }
+      context "when project#deactivate_work_package_attachments is true" do
+        before { work_package.project.deactivate_work_package_attachments = true }
 
         it { is_expected.to be_truthy }
       end
 
-      context "when project#hide_attachment is false" do
-        before { work_package.project.hide_attachments = false }
+      context "when project#deactivate_work_package_attachments is false" do
+        before { work_package.project.deactivate_work_package_attachments = false }
 
-        context "Setting.hide_attachments is true", with_settings: { hide_attachments: true } do
-          it { is_expected.to be_truthy }
-        end
-
-        context "Setting.hide_attachments is false", with_settings: { hide_attachments: false } do
-          it { is_expected.to be_falsey }
-        end
+        it { is_expected.to be_falsy }
       end
     end
 
     context "when project is absent" do
       before { work_package.project = nil }
 
-      context "Setting.hide_attachments is true", with_settings: { hide_attachments: true } do
-        it { is_expected.to be_truthy }
+      context "if Setting.show_work_package_attachments is true", with_settings: { show_work_package_attachments: true } do
+        it { is_expected.to be_falsy }
       end
 
-      context "Setting.hide_attachments is false", with_settings: { hide_attachments: false } do
-        it { is_expected.to be_falsey }
+      context "if Setting.show_work_package_attachments is false", with_settings: { show_work_package_attachments: false } do
+        it { is_expected.to be_truthy }
       end
     end
   end
@@ -244,8 +238,8 @@ RSpec.describe WorkPackage do
   describe "#assignable_versions" do
     let(:stub_version2) { build_stubbed(:version) }
 
-    def stub_shared_versions(v = nil)
-      versions = v ? [v] : []
+    def stub_shared_versions(version = nil)
+      versions = version ? [version] : []
 
       allow(stub_work_package.project).to receive(:assignable_versions).and_return(versions)
     end
@@ -261,8 +255,7 @@ RSpec.describe WorkPackage do
 
       stub_work_package.version = stub_version2
 
-      allow(stub_work_package).to receive(:version_id_changed?).and_return true
-      allow(stub_work_package).to receive(:version_id_was).and_return(stub_version.id)
+      allow(stub_work_package).to receive_messages(version_id_changed?: true, version_id_was: stub_version.id)
       allow(Version).to receive(:find_by).with(id: stub_version.id).and_return(stub_version)
 
       expect(stub_work_package.assignable_versions).to eq([stub_version])
@@ -414,10 +407,10 @@ RSpec.describe WorkPackage do
         it "updates the done ratio without saving it" do
           expect { work_package_new.update_done_ratio_from_status }
             .to change { work_package_new[:done_ratio] }
-            .from(nil).to(50)
+                  .from(nil).to(50)
           expect { work_package_assigned.update_done_ratio_from_status }
             .to change { work_package_assigned[:done_ratio] }
-            .from(30).to(0)
+                  .from(30).to(0)
 
           expect(work_package_new).to have_changes_to_save
         end
@@ -723,8 +716,8 @@ RSpec.describe WorkPackage do
     it "dissociates the agenda items" do
       expect { subject }
         .to change { MeetingAgendaItem.find(meeting_agenda_items).pluck(:work_package_id) }
-        .from(Array.new(3, work_package.id))
-        .to(Array.new(3, nil))
+              .from(Array.new(3, work_package.id))
+              .to(Array.new(3, nil))
     end
 
     it "does not affect other agenda items" do
@@ -738,8 +731,8 @@ RSpec.describe WorkPackage do
             .where(agenda_item: meeting_agenda_items)
             .pluck(:work_package_id)
         }
-        .from(Array.new(3, work_package.id))
-        .to(Array.new(3, nil))
+              .from(Array.new(3, work_package.id))
+              .to(Array.new(3, nil))
     end
 
     it "does not affect the agenda item journal" do
