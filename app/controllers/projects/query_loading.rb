@@ -29,23 +29,31 @@ module Projects
   module QueryLoading
     private
 
+    def load_query(duplicate:)
+      Queries::Projects::Factory.find(params[:query_id],
+                                      params: permitted_query_params,
+                                      user: current_user,
+                                      duplicate:)
+    end
+
     def load_query_or_deny_access
-      @query = Queries::Projects::Factory.find(params[:query_id],
-                                               params: permitted_query_params,
-                                               user: current_user)
+      @query = load_query(duplicate: false)
+
+      render_403 unless @query
+    end
+
+    def build_query_or_deny_access
+      @query = load_query(duplicate: true)
 
       render_403 unless @query
     end
 
     def permitted_query_params
-      query_params = if params[:query]
-                       params
-                         .require(:query)
-                         .permit(:name)
-                         .to_h
-                     else
-                       {}
-                     end
+      query_params = {}
+
+      if params[:query]
+        query_params.merge!(params.require(:query).permit(:name))
+      end
 
       query_params.merge!(Queries::ParamsParser.parse(params))
 

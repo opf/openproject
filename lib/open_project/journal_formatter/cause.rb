@@ -82,6 +82,8 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
       when "progress_calculation_adjusted_from_disabled_mode",
            "progress_calculation_adjusted"
         { href: OpenProject::Static::Links.links[:blog_article_progress_changes][:href] }
+      when "totals_removed_from_childless_work_packages"
+        { href: OpenProject::Static::Links.links[:release_notes_14_0_1][:href] }
       else
         {}
       end

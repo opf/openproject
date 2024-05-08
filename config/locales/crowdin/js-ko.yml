@@ -378,7 +378,7 @@ ko:
     label_added_time_by: '%{age}, <a href="%{authorLink}">%{author}</a> 님이 추가함'
     label_ago: "일 전"
     label_all: "모두"
-    label_all_uppercase: "All"
+    label_all_uppercase: "모두"
     label_all_work_packages: "모든 작업 패키지"
     label_and: "그리고"
     label_ascending: "오름차순"

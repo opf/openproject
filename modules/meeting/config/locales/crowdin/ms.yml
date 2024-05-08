@@ -22,9 +22,9 @@
 #English strings go here for Rails i18n
 ms:
   plugin_openproject_meeting:
-    name: "OpenProject Meeting"
+    name: "Mesyuarat OpenProject"
     description: >-
-      This module adds functions to support project meetings to OpenProject. Meetings can be scheduled selecting invitees from the same project to take part in the meeting. An agenda can be created and sent to the invitees. After the meeting, attendees can be selected and minutes can be created based on the agenda. Finally, the minutes can be sent to all attendees and invitees.
+      Modul ini tambahkan fungsi-fungsi ke OpenProject untuk menyokong mesyuarat projek. Mesyuarat boleh dijadualkan untuk memilih jemputan dari projek yang sama untuk mengambil bahagian dalam mesyuarat ini. Agenda boleh dibuat dan dihantar ke para jemputan. Selepas mesyuarat, penghadir boleh dipilih dan minit mesyuarat boleh dibuat berdasarkan agenda tersebut. Akhirnya, minit mesyuarat boleh dihantar ke semua penghadir dan jemputan.
   activerecord:
     attributes:
       meeting:
@@ -108,7 +108,7 @@ ms:
       invited:
         summary: "%{actor} telah menghantar anda jemputan untuk mesyuarat %{title}"
       rescheduled:
-        header: "Meeting %{title} has been rescheduled"
+        header: "Mesyuarat %{title} telah dijadualkan semula"
         summary: "Mesyuarat %{title} telah dijadual semula oleh %{actor}"
         body: "Mesyuarat %{title} telah dijadual semula oleh %{actor}"
         old_date_time: "Tarikh/masa lama"
@@ -190,7 +190,7 @@ ms:
   text_meeting_not_present_anymore: "Mesyuarat ini telah dipadamkan. Sila pilih mesyuarat lain."
   label_add_work_package_to_meeting_dialog_title: "Tambah pakej kerja ke mesyuarat"
   label_add_work_package_to_meeting_dialog_button: "Tambah ke mesyuarat"
-  label_meeting_selection_caption: "It's only possible to add this work package to upcoming or ongoing open meetings."
+  label_meeting_selection_caption: "Ia hanya boleh tambahkan pakej kerja ini ke mesyuarat terbuka akan datang atau yang sedang berlangsung."
   text_add_work_package_to_meeting_description: "Pakej kerja boleh ditambah kepada satu atau beberapa mesyuarat untuk perbincangan. Sebarang nota berkaitan juga boleh dilihat di sini."
   text_agenda_item_no_notes: "Tiada nota disediakan"
   text_agenda_item_not_editable_anymore: "Item agenda tidak boleh disunting lagi."

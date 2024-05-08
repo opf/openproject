@@ -61,14 +61,14 @@ ms:
       text_configuration_guide: Untuk maklumat lanjut, sila semak panduan konfigurasi.
       text_enforced: "Aktifkan tetapan ini untuk memaksa semua pengguna untuk mendaftar peranti 2FA pada log masuk mereka yang seterusnya. Hanya boleh dinyahaktifkan apabila tidak dikuatkuasakan oleh konfigurasi."
       text_remember: |
-        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
-        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
+        Tetapkan ini kepada lebih daripada kosong untuk membolehkan pengguna untuk mengingat 2FA mereka untuk bilangan hari yang ditetapkan.
+        Mereka tidak akan diminta untuk masukkan semula 2FA dalam tempoh tersebut. Ia hanya boleh ditetapkan apabila ia tidak dikuatkuasakan oleh konfigurasi.
       error_invalid_settings: "Strategi-strategi 2FA yang anda telah memilih adalah tidak sah."
       failed_to_save_settings: "Gagal untuk kemas kini tetapan 2FA: %{message}"
     admin:
       self_edit_path: "Untuk menambah atau modifikasi peranti-peranti 2FA anda sendiri, sila kunjungi %{self_edit_link}"
       self_edit_link_name: "Pengesahan dua faktor di halaman akaun anda"
-      self_edit_forbidden: "You may not edit your own 2FA devices on this path. Go to My Account > Two factor authentication instead."
+      self_edit_forbidden: "Anda tidak boleh meyunting peranti 2FA anda sendiri pada laluan ini. Sebaliknya, pergi ke Akaun Saya > Pengesahan dua faktor."
       no_devices_for_user: "Tiada peranti 2FA yang telah didaftarkan kepada pengguna ini."
       all_devices_deleted: "Semua peranti 2FA pengguna ini telah dipadamkan."
       delete_all_are_you_sure: "Adakah anda pasti anda ingin membuang semua peranti 2FA untuk pengguna ini?"
@@ -90,9 +90,9 @@ ms:
         Gunakan butang berikutnya untuk menjana set kod sokongan baharu.
       generate:
         title: Hasilkan kod sokongan
-        keep_safe_as_password: "Penting! Perlakukan kod-kod ini sebagai kata laluan."
-        keep_safe_warning: "Antara menyimpannya dalam pengendalian kata laluan anda, atau mencetak halaman ini dan menyimpannya di sebuah tempat yang selamat."
-        regenerate_warning: "Amaran: Jika anda telah mencipta kod sandaran sebelum ini, mereka akan dibatalkan dan tidak akan berfungsi lagi."
+        keep_safe_as_password: "Penting! Perlakukan kod-kod ini sebagaimana kata laluan."
+        keep_safe_warning: "Sama ada menyimpannya dalam pengendalian kata laluan anda, atau mencetak halaman ini dan menyimpannya di tempat yang selamat."
+        regenerate_warning: "Amaran: Jika anda telah mencipta kod sandaran sebelum ini, kod-kod tersebut akan dibatalkan dan tidak akan berfungsi lagi."
     devices:
       add_new: "Tambah peranti 2FA baharu"
       register: "Daftar peranti"
@@ -127,15 +127,15 @@ ms:
         time_based: "Berdasarkan masa"
         account: "Nama akaun / Penerbit"
         setup: |
-          For setting up two-factor authentication with Google Authenticator, download the application from the Apple App store or Google Play Store.
-          After opening the app, you can scan the following QR code to register the device.
+          Untuk menetapkan pengesahan dua faktor menggunakan Google Authenticator, muat turun aplikasi tersebut dari Apple App Store atau Google Play Store.
+          Selepas membuka aplikasi tersebut, anda boleh mengimbas kod QR yang berikut untuk mendaftarkan peranti tersebut.
         question_cannot_scan: |
           Tidak dapat mengimbas kod menggunakan aplikasi anda?
         text_cannot_scan: |
           Jika anda tidak dapat mengimbas kod, anda boleh memasukkan entri secara manual dengan menggunakan butiran berikut:
         description: |
-          Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard.
-          Common examples are Google Authenticator or Authy.
+          Daftarkan pengesah aplikasi untuk digunakan bersama OpenProject menggunakan standard pengesahan kata laluan sekali masa berasaskan masa.
+          Contoh biasa ialah Google Authenticator atau Authy.
       sms:
         title: "Guna telefon bimbit anda"
         redacted_identifier: "Peranti (%{redacted_number})"
@@ -145,25 +145,25 @@ ms:
     sns:
       delivery_failed: "Penghantaran SNS gagal:"
     message_bird:
-      sms_delivery_failed: "MessageBird SMS delivery failed."
+      sms_delivery_failed: "Penghantaran SMS MessageBird gagal."
       voice_delivery_failed: "Panggilan suara MessageBird gagal."
     strategies:
-      totp: "Authenticator application"
-      sns: "Amazon SNS"
+      totp: "Aplikasi pengesahan"
+      sns: "SNS Amazon"
       resdt: "SMS Rest API"
       webauthn: "WebAuthn"
     mobile_transmit_notification: "Kata laluan satu kali telah dihantar ke telefon bimbit anda."
     label_two_factor_authentication: "Pengesahan dua faktor"
     forced_registration:
-      required_to_add_device: "An active security policy requires you to enable two-factor authentication. Please use the following form to register a device."
+      required_to_add_device: "Polisi keselamatan yang aktif memerlukan anda untuk membenarkan pengesahan dua faktor. Sila gunakan borang berikut untuk daftarkan peranti."
     remember:
       active_session_notice: >
-        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
-      other_active_session_notice: Your account has an active remember cookie on another session.
+        Akaun ada mempunyai simpanan kuki aktif yang sah sehingga %{expires_on}. Kuki ini membenarkan anda untuk log masuk tanpa faktor kedua ke akaun anda sehingga masa itu.
+      other_active_session_notice: Akaun anda mempunyai simpanan kuki yang aktif pada sesi lain.
       label: "Ingat"
       clear_cookie: "Klik sini untuk buang semua sesi 2FA yang diingati."
-      cookie_removed: "All remembered 2FA sessions have been removed."
-      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
+      cookie_removed: "Semua sesi 2FA yang disimpan telah dipadamkan."
+      dont_ask_again: "Ciptakan kuki untuk menyimpan pengesahan 2FA pada pelanggan selama %{days} hari."
   field_phone: "Telefon bimbit"
   field_otp: "Kata laluan satu kali"
   notice_account_otp_invalid: " Kata laluan satu kali tidak sah."
