@@ -269,7 +269,7 @@ RSpec.describe "API v3 Work package resource",
 
         include_context "patch request"
 
-        it { expect(response.status).to eq(200) } # rubocop:disable RSpec/Rails/HaveHttpStatus
+        it { expect(response.status).to eq(200) } # rubocop:disable RSpecRails/HaveHttpStatus
 
         it "responds with updated finish date" do
           expect(subject.body).to be_json_eql(duration.to_json).at_path("remainingTime")
