@@ -52,8 +52,9 @@ RUN ./docker/prod/setup/preinstall-common.sh
 # stuff required for gems
 COPY Gemfile Gemfile.* .ruby-version ./
 COPY modules ./modules
+# Add vendor for saas-openproject plugins
 COPY vendor ./vendor
-# some gemspec files of plugins require files in there, notably OpenProject::Version
+# Add lib in case a plugin tries to load VERSION file under lib
 COPY lib ./lib
 
 RUN \
