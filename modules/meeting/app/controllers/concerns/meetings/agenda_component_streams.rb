@@ -302,9 +302,11 @@ module Meetings
       end
 
       def remove_section_via_turbo_stream(meeting_section: @meeting_section)
-        if meeting_section.meeting.sections.count == 0
-          # show blank slate again through rerendering the list component
+        if meeting_section.meeting.sections.count <= 1
+          # show blank slate again through rerendering the list component -> count == 0
+          # or hide section wrapper of first (potentially) untitled section -> count == 1
           update_list_via_turbo_stream
+          # CODE MAINTENANCE: potentially loosing edit state in last section
         else
           remove_via_turbo_stream(
             component: MeetingSections::ShowComponent.new(
