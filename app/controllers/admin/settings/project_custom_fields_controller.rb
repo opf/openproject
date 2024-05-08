@@ -63,7 +63,7 @@ module Admin::Settings
       @project_custom_field_mapping_query = Queries::Projects::ProjectQuery.new(
         name: "project-custom-field-mapping-#{@custom_field.id}"
       ) do |query|
-        query.where(:available_project_attributes, "~", [@custom_field.id])
+        query.where(:available_project_attributes, "=", [@custom_field.id])
         query.select :name
       end
     end

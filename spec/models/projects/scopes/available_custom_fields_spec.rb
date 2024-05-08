@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,40 +25,26 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
-#
 
-class Queries::Projects::Filters::AvailableProjectAttributesFilter < Queries::Projects::Filters::ProjectFilter
-  def self.key
-    :available_project_attributes
+require "spec_helper"
+
+RSpec.describe Projects::Scopes::AvailableCustomFields do
+  shared_let(:project) { create(:project) }
+  shared_let(:project_custom_field) { create(:project_custom_field) }
+
+  shared_let(:project_custom_field_mapping) do
+    create(:project_custom_field_project_mapping, project:, project_custom_field:)
   end
 
-  def type
-    :list
-  end
-
-  def allowed_values
-    @allowed_values ||= ProjectCustomFieldProjectMapping
-      .includes(:project_custom_field)
-      .distinct
-      .pluck(:name, :custom_field_id)
-  end
-
-  def available?
-    User.current.admin?
-  end
-
-  def scope
-    case operator
-    when "="
-      model.with_available_custom_fields(values)
-    when "!"
-      model.without_available_custom_fields(values)
-    else
-      raise "unsupported operator"
+  describe ".with_available_custom_fields" do
+    it "returns projects with the given custom fields" do
+      expect(Project.with_available_custom_fields([project_custom_field.id])).to contain_exactly(project)
     end
   end
 
-  def human_name
-    I18n.t(:label_available_project_attributes)
+  describe ".without_available_custom_fields" do
+    it "returns projects without the given custom fields" do
+      expect(Project.without_available_custom_fields([project_custom_field.id])).to be_empty
+    end
   end
 end

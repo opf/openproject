@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,40 +25,29 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
-#
 
-class Queries::Projects::Filters::AvailableProjectAttributesFilter < Queries::Projects::Filters::ProjectFilter
-  def self.key
-    :available_project_attributes
-  end
+module Projects::Scopes
+  module AvailableCustomFields
+    extend ActiveSupport::Concern
 
-  def type
-    :list
-  end
+    class_methods do
+      def with_available_custom_fields(custom_field_ids)
+        subquery = project_custom_fields_project_mapping_subquery(custom_field_ids:)
+        where(id: subquery)
+      end
 
-  def allowed_values
-    @allowed_values ||= ProjectCustomFieldProjectMapping
-      .includes(:project_custom_field)
-      .distinct
-      .pluck(:name, :custom_field_id)
-  end
+      def without_available_custom_fields(custom_field_ids)
+        subquery = project_custom_fields_project_mapping_subquery(custom_field_ids:)
+        where.not(id: subquery)
+      end
 
-  def available?
-    User.current.admin?
-  end
+      private
 
-  def scope
-    case operator
-    when "="
-      model.with_available_custom_fields(values)
-    when "!"
-      model.without_available_custom_fields(values)
-    else
-      raise "unsupported operator"
+      def project_custom_fields_project_mapping_subquery(custom_field_ids:)
+        ProjectCustomFieldProjectMapping.select(:project_id)
+                          .where(custom_field_id: custom_field_ids)
+                          .distinct
+      end
     end
-  end
-
-  def human_name
-    I18n.t(:label_available_project_attributes)
   end
 end
