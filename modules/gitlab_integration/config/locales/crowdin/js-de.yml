@@ -26,7 +26,7 @@ de:
       work_packages:
         tab_name: "GitLab"
       tab_header_issue:
-        title: "Probleme"
+        title: "Tickets"
       tab_header_mr:
         title: "Merge Requests"
         create_mr:
@@ -36,7 +36,7 @@ de:
           label: Git-Schnipsel
           description: Git-Schnipsel in die Zwischenablage kopieren
         git_actions:
-          branch_name: Name des Branches
+          branch_name: Branch-Name
           commit_message: Commit-Nachricht
           cmd: Branch mit leerem Commit erstellen
           title: Schnelle Schnipsel für Git

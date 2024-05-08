@@ -330,6 +330,18 @@ sk:
         years: "Roky"
         description: >
           Zvoľte počiatočnú úroveň priblíženia, ktorá by sa mala zobraziť, ak nie je k dispozícii autozoom.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "nie"
     general_text_yes: "áno"
     general_text_No: "Nie"

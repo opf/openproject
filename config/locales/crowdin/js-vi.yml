@@ -329,6 +329,18 @@ vi:
         years: "Years"
         description: >
           Chọn mức phóng to ban đầu sẽ được hiển thị khi phóng tự động không có sẵn.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "không"
     general_text_yes: "có"
     general_text_No: "Không"

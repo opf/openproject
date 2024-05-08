@@ -305,7 +305,14 @@ ko:
       storage:
         no_results_title_text: 이 프로젝트에서 사용하는 추가 기록 디스크 공간이 없습니다.
   lists:
-    can_be_saved_as: "수정 사항은 새 목록에만 저장할 수 있습니다."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: 프로젝트에 멤버 파트가 없습니다.
@@ -1545,6 +1552,7 @@ ko:
       pdf_overview_table: "PDF 테이블"
       pdf_report_with_images: "이미지가 포함된 PDF 보고서"
       pdf_report: "PDF 보고서"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "이미지를 내보내지 못했습니다."
     units:
@@ -2854,6 +2862,7 @@ ko:
   setting_app_subtitle: "응용 프로그램 부제목"
   setting_app_title: "응용 프로그램 제목"
   setting_attachment_max_size: "첨부 파일 최대 크기"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "스캔 모드"
   setting_antivirus_scan_action: "감염된 파일 작업"
   setting_autofetch_changesets: "Autofetch 리포지토리 변경 사항"
@@ -2955,6 +2964,8 @@ ko:
     attachments:
       whitelist_text_html: >
         업로드된 파일의 유효한 파일 확장명 및/또는 MIME 형식 목록을 정의합니다. <br/> 파일 확장명(예: <code>%{ext_example}</code>) 또는 MIME 형식(예: <code>%{mime_example}</code>)을 입력합니다. <br/> 모든 파일 형식을 업로드할 수 있도록 허용하려면 비워 둡니다. 여러 값이 허용됩니다(각 값에 대해 한 줄).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "바이러스 검사"
       clamav_ping_failed: "ClamAV 데몬을 연결하지 못했습니다. 구성을 다시 확인하고 다시 시도하세요."

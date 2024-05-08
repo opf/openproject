@@ -329,6 +329,18 @@ zh-TW:
         years: "年"
         description: >
           選擇自動縮放無法接通應顯示的初始縮放級別。
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "否"
     general_text_yes: "是"
     general_text_No: "否"

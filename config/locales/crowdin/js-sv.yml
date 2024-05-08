@@ -329,6 +329,18 @@ sv:
         years: "År"
         description: >
           Välj den initiala zoomnivån som ska visas när autozoom inte är tillgänglig.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "nej"
     general_text_yes: "ja"
     general_text_No: "Nej"

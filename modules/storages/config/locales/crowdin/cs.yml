@@ -39,6 +39,7 @@ cs:
   api_v3:
     errors:
       too_many_elements_created_at_once: Příliš mnoho prvků vytvořených najednou. Očekáváno nanejvýš %{max} , získáno %{actual}.
+  external_file_storages: External file storages
   permission_create_files: 'External Storage: Create files'
   permission_delete_files: 'External Storage: Delete files'
   permission_header_for_project_module_storages: Automaticky spravované projektové složky
@@ -48,7 +49,7 @@ cs:
   permission_share_files: 'External Storage: Share files'
   permission_view_file_links: Zobrazit odkazy na soubor
   permission_write_files: 'External Storage: Write files'
-  project_module_storages: Úložiště souborů
+  project_module_storages: Files
   storages:
     buttons:
       complete_without_setup: Dokončit bez něj
@@ -223,7 +224,6 @@ cs:
       project_settings:
         delete: Odstranit úložiště souborů
         edit: Upravit úložiště souborů pro tento projekt
-        index: Úložiště souborů v tomto projektu
         members_connection_status: Stav připojení členů
         new: Přidat úložiště souborů k tomuto projektu
       project_storage_members:
@@ -242,6 +242,9 @@ cs:
         label_oauth_client_secret: ' utajená Hodnota klienta Azure OAuth'
         name: OneDrive/SharePoint
         name_placeholder: např. OneDrive
+    show_attachments_toggle:
+      description: Deactivating this option will only hide the attachments list. Files uploaded with the help of the rich text editor will still be uploaded to the attachments internal storage.
+      label: Show attachments in the work packages files tab
     storage_list_blank_slate:
       description: Přidejte úložiště, abyste je viděli zde.
       heading: Zatím nemáte žádné úložiště.

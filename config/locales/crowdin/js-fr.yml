@@ -330,6 +330,18 @@ fr:
         years: "Années"
         description: >
           Sélectionnez le niveau de zoom initial qui devrait être affiché lorsque le zoom automatique n'est pas disponible.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "non"
     general_text_yes: "oui"
     general_text_No: "Non"

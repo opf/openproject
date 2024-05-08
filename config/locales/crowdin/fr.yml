@@ -305,7 +305,14 @@ fr:
       storage:
         no_results_title_text: Il n'y a pas d'espace disque supplémentaire utilisé par ce projet.
   lists:
-    can_be_saved_as: "Les modifications ne peuvent être enregistrées que dans une nouvelle liste."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Aucun membre dans ce projet pour le moment.
@@ -1579,6 +1586,7 @@ fr:
       pdf_overview_table: "Tableau PDF"
       pdf_report_with_images: "Rapport PDF avec images"
       pdf_report: "Rapport PDF"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Image non exportée."
     units:
@@ -2893,6 +2901,7 @@ fr:
   setting_app_subtitle: "Sous-titre de l'Application"
   setting_app_title: "Titre de l'Application"
   setting_attachment_max_size: "Taille maximale de la pièce jointe"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Mode analyse"
   setting_antivirus_scan_action: "Action sur le fichier infecté"
   setting_autofetch_changesets: "Rapatrier automatiquement les changements du dépôt"
@@ -2994,6 +3003,8 @@ fr:
     attachments:
       whitelist_text_html: >
         Définissez une liste d'extensions de fichiers et/ou de types MIME valides pour les fichiers téléversés. <br/> Entrez les extensions de fichier (par exemple, <code>%{ext_example}</code>) ou les types mime (par exemple, <code>%{mime_example}</code>). <br/> Laissez vide pour permettre le téléversement de tout type de fichier. Plusieurs valeurs autorisées (une ligne pour chaque valeur).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Analyse de virus"
       clamav_ping_failed: "Échec de la connexion au démon ClamAV. Vérifiez à nouveau la configuration puis réessayez."
