@@ -219,8 +219,18 @@ RSpec.describe "Persisted lists on projects index page",
 
       # The default filter is active
       projects_page.expect_title("Active projects")
-      # Since the page is unchanged, no save as button is shown
-      projects_page.expect_no_save_as_notification
+      # Since the query is static, no save button is shown
+      projects_page.expect_no_notification("Save")
+      projects_page.expect_no_menu_item("Save", visible: false)
+      # Since the query is unchanged, no save as button is shown
+      projects_page.expect_no_notification("Save as")
+      # But save as menu item is always present
+      projects_page.expect_menu_item("Save as", visible: false)
+
+      # Default filters are applied
+      projects_page.expect_projects_listed(project, public_project, development_project)
+      projects_page.expect_columns("Name", "Status")
+      projects_page.expect_no_columns("Public")
 
       # Adding some filters
       projects_page.open_filters
@@ -228,7 +238,12 @@ RSpec.describe "Persisted lists on projects index page",
 
       # By applying another filter, the title is changed as it does not longer match the default filter
       projects_page.expect_title("Projects")
-      projects_page.expect_save_as_notification
+      # Since the query is static, no save button is shown
+      projects_page.expect_no_notification("Save")
+      projects_page.expect_no_menu_item("Save", visible: false)
+      # Since the query changed, save as button is shown
+      projects_page.expect_notification("Save as")
+      projects_page.expect_menu_item("Save as", visible: false)
 
       # The filters are applied
       projects_page.expect_projects_listed(project, development_project)
@@ -236,11 +251,11 @@ RSpec.describe "Persisted lists on projects index page",
 
       projects_page.set_columns("Name")
       projects_page.expect_columns("Name")
-      projects_page.expect_no_columns("Status")
+      projects_page.expect_no_columns("Status", "Public")
 
-      # Saving the query will lead to it being displayed in the sidebar
-      projects_page.save_query("My saved query")
-
+      # Saving the query
+      projects_page.save_query_as("My saved query")
+      # It will be displayed in the sidebar
       projects_page.expect_sidebar_filter("My saved query", selected: false)
 
       # Opening the default filter again to reset the values
@@ -257,17 +272,56 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.expect_projects_listed(project, development_project)
       projects_page.expect_projects_not_listed(public_project)
       projects_page.expect_columns("Name")
+      projects_page.expect_no_columns("Status", "Public")
+      # Since the query was not changed, no save or save as button is shown
+      projects_page.expect_no_notification("Save")
+      projects_page.expect_no_notification("Save as")
+      projects_page.expect_no_menu_item("Save", visible: false)
+      # But save as menu item is always present
+      projects_page.expect_menu_item("Save as", visible: false)
+
+      # Modifying to save again
+      projects_page.set_columns("Name", "Public")
+      # Since the query was changed, there is a save button and both save and save as in the menu
+      projects_page.expect_notification("Save")
+      projects_page.expect_no_notification("Save as")
+      projects_page.expect_menu_item("Save", visible: false)
+      projects_page.expect_menu_item("Save as", visible: false)
+      # Save inplace
+      projects_page.save_query
+
+      # Duplicating (without changes)
+      projects_page.save_query_as("My duplicated query")
+
+      # Modifying to save as again
+      projects_page.set_columns("Name", "Status", "Public")
+      projects_page.save_query_as("My new saved query")
+      projects_page.expect_sidebar_filter("My new saved query", selected: false)
+
+      # Checked query saved inplace
+      projects_page.set_sidebar_filter("My saved query")
+      projects_page.expect_columns("Name", "Public")
       projects_page.expect_no_columns("Status")
+
+      # Checked duplicated query
+      projects_page.set_sidebar_filter("My duplicated query")
+      projects_page.expect_columns("Name", "Public")
+      projects_page.expect_no_columns("Status")
+
+      # Checked second saved query
+      projects_page.set_sidebar_filter("My new saved query")
+      projects_page.expect_columns("Name", "Status", "Public")
 
       # The query can be deleted
       projects_page.delete_query
 
       # It will then also be removed from the sidebar
-      projects_page.expect_no_sidebar_filter("My saved query")
+      projects_page.expect_no_sidebar_filter("My new saved query")
       # And the default filter will be active again
       projects_page.expect_title("Active projects")
       projects_page.expect_projects_listed(project, public_project, development_project)
       projects_page.expect_columns("Name", "Status")
+      projects_page.expect_no_columns("Public")
     end
   end
 

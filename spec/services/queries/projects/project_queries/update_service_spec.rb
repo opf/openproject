@@ -26,13 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Queries::Projects::ProjectQueries::CreateService < BaseServices::Create
-  def initialize(from: nil, **)
-    @from = from
-    super(**)
-  end
+require "spec_helper"
+require "services/base_services/behaves_like_update_service"
 
-  def instance(_params)
-    @from || super
+RSpec.describe Queries::Projects::ProjectQueries::UpdateService, type: :model do
+  it_behaves_like "BaseServices update service" do
+    let(:factory) { :project_query }
   end
 end

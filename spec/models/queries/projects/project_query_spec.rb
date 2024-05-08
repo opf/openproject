@@ -90,6 +90,24 @@ RSpec.describe Queries::Projects::ProjectQuery do
     end
   end
 
+  describe "serialisation" do
+    it "doesn't break checking dirty state" do
+      instance = build(:project_query)
+
+      instance.where("active", "=", OpenProject::Database::DB_VALUE_TRUE)
+      instance.order(id: :desc)
+      instance.select(:name, :public)
+
+      instance.clear_changes_information
+
+      instance.filters
+      instance.orders
+      instance.selects
+
+      expect(instance.changes).to be_empty
+    end
+  end
+
   describe ".available_selects" do
     current_user { user }
 
