@@ -26,32 +26,53 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class NewButtonComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+class MeetingSection < ApplicationRecord
+  self.table_name = "meeting_sections"
 
-    def initialize(meeting:, meeting_section: nil, disabled: false)
-      super
+  belongs_to :meeting
 
-      @meeting = meeting
-      @meeting_section = meeting_section
-      @disabled = @meeting.closed? || disabled
+  has_many :agenda_items, dependent: :destroy, class_name: "MeetingAgendaItem"
+  has_one :project, through: :meeting
+
+  validates :title, presence: true
+
+  before_validation :set_default_title
+
+  after_save :trigger_meeting_agenda_item_time_slots_calculation, if: Proc.new { |section|
+    section.position_previously_changed?
+  }
+
+  acts_as_list scope: :meeting
+
+  default_scope { order(:position) }
+
+  def trigger_meeting_agenda_item_time_slots_calculation
+    meeting.calculate_agenda_item_time_slots
+  end
+
+  def set_default_title
+    if title.blank?
+      self.title = I18n.t("meeting_section.untitled_title")
     end
+  end
 
-    private
+  def has_default_title?
+    title == I18n.t("meeting_section.default_title")
+  end
 
-    def wrapper_uniq_by
-      @meeting_section&.id
-    end
+  def untitled?
+    title == I18n.t("meeting_section.untitled_title")
+  end
 
-    def render?
-      User.current.allowed_in_project?(:manage_agendas, @meeting.project)
-    end
+  def editable?
+    !meeting&.closed?
+  end
 
-    def button_scheme
-      @meeting_section ? :secondary : :primary
-    end
+  def modifiable?
+    !meeting&.closed?
+  end
+
+  def agenda_items_sum_duration_in_minutes
+    agenda_items.sum(:duration_in_minutes)
   end
 end

@@ -38,24 +38,16 @@ export default class extends Controller {
 
   declare cancelUrlValue:string;
 
-  static targets = ['titleInput', 'notesInput', 'notesAddButton'];
-  declare readonly titleInputTarget:HTMLInputElement;
-  declare readonly notesInputTarget:HTMLInputElement;
-  declare readonly notesAddButtonTarget:HTMLInputElement;
-
   connect():void {
     this.focusInput();
-    this.addNotes();
   }
 
   focusInput():void {
-    const titleInput = this.element.querySelector('input[name="meeting_agenda_item[title]"]');
+    const titleInput = this.element.querySelector('input[name="meeting_section[title]"]');
 
     this.element.scrollIntoView({ block: 'center' });
-    if (titleInput) {
-      (titleInput as HTMLInputElement).focus();
-      this.setCursorAtEnd(titleInput as HTMLInputElement);
-    }
+    (titleInput as HTMLInputElement).focus();
+    this.setCursorAtEnd(titleInput as HTMLInputElement);
   }
 
   async cancel() {
@@ -71,10 +63,6 @@ export default class extends Controller {
       const text = await response.text();
       Turbo.renderStreamMessage(text);
     }
-  }
-
-  addNotes() {
-    this.notesInputTarget.classList.remove('d-none');
   }
 
   setCursorAtEnd(inputElement:HTMLInputElement):void {

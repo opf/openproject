@@ -30,26 +30,27 @@ class Meeting < ApplicationRecord
   include VirtualAttribute
   include OpenProject::Journal::AttachmentHelper
 
-  self.table_name = 'meetings'
+  self.table_name = "meetings"
 
   belongs_to :project
-  belongs_to :author, class_name: 'User'
-  has_one :agenda, dependent: :destroy, class_name: 'MeetingAgenda'
-  has_one :minutes, dependent: :destroy, class_name: 'MeetingMinutes'
-  has_many :contents, -> { readonly }, class_name: 'MeetingContent'
+  belongs_to :author, class_name: "User"
+  has_one :agenda, dependent: :destroy, class_name: "MeetingAgenda"
+  has_one :minutes, dependent: :destroy, class_name: "MeetingMinutes"
+  has_many :contents, -> { readonly }, class_name: "MeetingContent"
 
   has_many :participants,
            dependent: :destroy,
-           class_name: 'MeetingParticipant',
+           class_name: "MeetingParticipant",
            after_add: :send_participant_added_mail
 
-  has_many :agenda_items, dependent: :destroy, class_name: 'MeetingAgendaItem'
+  has_many :sections, dependent: :destroy, class_name: "MeetingSection"
+  has_many :agenda_items, dependent: :destroy, class_name: "MeetingAgendaItem"
 
   default_scope do
     order("#{Meeting.table_name}.start_time DESC")
   end
-  scope :from_tomorrow, -> { where(['start_time >= ?', Date.tomorrow.beginning_of_day]) }
-  scope :from_today, -> { where(['start_time >= ?', Time.zone.today.beginning_of_day]) }
+  scope :from_tomorrow, -> { where(["start_time >= ?", Date.tomorrow.beginning_of_day]) }
+  scope :from_today, -> { where(["start_time >= ?", Time.zone.today.beginning_of_day]) }
   scope :with_users_by_date, -> {
     order("#{Meeting.table_name}.title ASC")
       .includes({ participants: :user }, :author)
@@ -108,21 +109,6 @@ class Meeting < ApplicationRecord
     open: 0, # 0 -> default, leave values for future states between open and closed
     closed: 5
   }
-
-  # => {"agenda_items_7"=>{"title"=>["New agenda item edited", "New agenda item edited again"], "duration_in_minutes"=>["5", "3"], "notes"=>["Notes added as well", "Notes edited"]}}
-
-#   => {"project_id"=>[nil, 14],
-#  "user_id"=>[nil, 9],
-#  "work_package_id"=>[nil, 48211],
-#  "hours"=>[nil, 1.0],
-#  "comments"=>[nil, "Alex"],
-#  "activity_id"=>[nil, 8],
-#  "spent_on"=>[nil, Mon, 31 Jul 2023],
-#  "tyear"=>[nil, 2023],
-#  "tmonth"=>[nil, 7],
-#  "tweek"=>[nil, 31],
-#  "costs"=>[nil, 0.0],
-#  "logged_by_id"=>[nil, 9]}
 
   ##
   # Return the computed start_time when changed
@@ -214,7 +200,7 @@ class Meeting < ApplicationRecord
       attachments = agenda.attachments.map { |a| [a, a.copy] }
       original_text = String(agenda.text)
       minutes = create_minutes(text: original_text,
-                               journal_notes: I18n.t('events.meeting_minutes_created'),
+                               journal_notes: I18n.t("events.meeting_minutes_created"),
                                attachments: attachments.map(&:last))
 
       # substitute attachment references in text to use the respective copied attachments
@@ -233,7 +219,7 @@ class Meeting < ApplicationRecord
 
   def participants_attributes=(attrs)
     attrs.each do |participant|
-      participant['_destroy'] = true if !(participant[:attended] || participant[:invited])
+      participant["_destroy"] = true if !(participant[:attended] || participant[:invited])
     end
     self.original_participants_attributes = attrs
   end
@@ -260,7 +246,7 @@ class Meeting < ApplicationRecord
 
   def update_derived_fields
     @start_date = start_time.to_date.iso8601
-    @start_time_hour = start_time.strftime('%H:%M')
+    @start_time_hour = start_time.strftime("%H:%M")
   end
 
   private
@@ -319,7 +305,7 @@ class Meeting < ApplicationRecord
   ##
   # Enforce HH::MM time parsing for the given input string
   def parsed_start_time_hour
-    Time.strptime(@start_time_hour, '%H:%M')
+    Time.strptime(@start_time_hour, "%H:%M")
   rescue ArgumentError
     nil
   end

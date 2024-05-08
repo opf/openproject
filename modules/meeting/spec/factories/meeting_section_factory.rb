@@ -26,32 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class NewButtonComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+FactoryBot.define do
+  factory :meeting_section do |m|
+    meeting factory: :structured_meeting
 
-    def initialize(meeting:, meeting_section: nil, disabled: false)
-      super
-
-      @meeting = meeting
-      @meeting_section = meeting_section
-      @disabled = @meeting.closed? || disabled
-    end
-
-    private
-
-    def wrapper_uniq_by
-      @meeting_section&.id
-    end
-
-    def render?
-      User.current.allowed_in_project?(:manage_agendas, @meeting.project)
-    end
-
-    def button_scheme
-      @meeting_section ? :secondary : :primary
-    end
+    m.sequence(:title) { |n| "Section #{n}" }
   end
 end

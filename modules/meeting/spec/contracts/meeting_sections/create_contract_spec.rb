@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,32 +28,48 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class NewButtonComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
-    def initialize(meeting:, meeting_section: nil, disabled: false)
-      super
+RSpec.describe MeetingSections::CreateContract do
+  include_context "ModelContract shared context"
 
-      @meeting = meeting
-      @meeting_section = meeting_section
-      @disabled = @meeting.closed? || disabled
+  shared_let(:project) { create(:project) }
+  let(:meeting) { create(:structured_meeting, project:) }
+  let(:section) { build(:meeting_section, meeting:) }
+  let(:contract) { described_class.new(section, user) }
+
+  context "with permission" do
+    let(:user) do
+      create(:user, member_with_permissions: { project => %i[view_meetings manage_agendas] })
     end
 
-    private
+    it_behaves_like "contract is valid"
 
-    def wrapper_uniq_by
-      @meeting_section&.id
+    context "when :meeting is not editable" do
+      before do
+        meeting.update_column(:state, :closed)
+      end
+
+      it_behaves_like "contract is invalid", base: I18n.t(:text_agenda_item_not_editable_anymore)
     end
 
-    def render?
-      User.current.allowed_in_project?(:manage_agendas, @meeting.project)
-    end
+    context "when :meeting is not present anymore" do
+      before do
+        meeting.destroy
+      end
 
-    def button_scheme
-      @meeting_section ? :secondary : :primary
+      it_behaves_like "contract is invalid", base: :error_unauthorized
     end
+  end
+
+  context "without permission" do
+    let(:user) { build_stubbed(:user) }
+
+    it_behaves_like "contract is invalid", base: :does_not_exist
+  end
+
+  include_examples "contract reuses the model errors" do
+    let(:user) { build_stubbed(:user) }
   end
 end

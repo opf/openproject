@@ -26,32 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class NewButtonComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+module MeetingSections
+  class DeleteContract < ::DeleteContract
+    include ModifiableItem
 
-    def initialize(meeting:, meeting_section: nil, disabled: false)
-      super
+    delete_permission :manage_agendas
 
-      @meeting = meeting
-      @meeting_section = meeting_section
-      @disabled = @meeting.closed? || disabled
-    end
+    validate :empty_section
 
-    private
-
-    def wrapper_uniq_by
-      @meeting_section&.id
-    end
-
-    def render?
-      User.current.allowed_in_project?(:manage_agendas, @meeting.project)
-    end
-
-    def button_scheme
-      @meeting_section ? :secondary : :primary
+    def empty_section
+      unless model.agenda_items.empty?
+        errors.add :base, "Section is not empty and cannot be deleted."
+      end
     end
   end
 end

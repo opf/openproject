@@ -34,15 +34,15 @@ Rails.application.routes.draw do
   resources :work_packages, only: %i[] do
     resources :meetings, only: %i[] do
       collection do
-        resources :tab, only: %i[index], controller: 'work_package_meetings_tab', as: 'meetings_tab' do
+        resources :tab, only: %i[index], controller: "work_package_meetings_tab", as: "meetings_tab" do
           get :count, on: :collection
         end
       end
     end
     resources :meeting_agenda_items, only: %i[] do
       collection do
-        get :dialog, controller: 'work_package_meetings_tab', action: :add_work_package_to_meeting_dialog
-        post :create, controller: 'work_package_meetings_tab', action: :add_work_package_to_meeting
+        get :dialog, controller: "work_package_meetings_tab", action: :add_work_package_to_meeting_dialog
+        post :create, controller: "work_package_meetings_tab", action: :add_work_package_to_meeting
       end
     end
   end
@@ -59,11 +59,21 @@ Rails.application.routes.draw do
       post :notify
       get :history
     end
-    resources :agenda_items, controller: 'meeting_agenda_items' do
+    resources :agenda_items, controller: "meeting_agenda_items" do
       collection do
         get :new, action: :new, as: :new
         get :cancel_new
-        # get :author_autocomplete_index
+      end
+      member do
+        get :cancel_edit
+        put :drop
+        put :move
+      end
+    end
+    resources :sections, controller: "meeting_sections" do
+      collection do
+        get :new, action: :new, as: :new
+        get :cancel_new
       end
       member do
         get :cancel_edit
@@ -72,7 +82,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resource :agenda, controller: 'meeting_agendas', only: [:update] do
+    resource :agenda, controller: "meeting_agendas", only: [:update] do
       member do
         get :history
         get :diff
@@ -82,17 +92,17 @@ Rails.application.routes.draw do
       end
 
       resources :versions, only: [:show],
-                           controller: 'meeting_agendas'
+                           controller: "meeting_agendas"
     end
 
-    resource :contents, controller: 'meeting_contents', only: %i[show update] do
+    resource :contents, controller: "meeting_contents", only: %i[show update] do
       member do
         get :history
         get :diff
       end
     end
 
-    resource :minutes, controller: 'meeting_minutes', only: [:update] do
+    resource :minutes, controller: "meeting_minutes", only: [:update] do
       member do
         get :history
         get :diff
@@ -100,14 +110,14 @@ Rails.application.routes.draw do
       end
 
       resources :versions, only: [:show],
-                           controller: 'meeting_minutes'
+                           controller: "meeting_minutes"
     end
 
     member do
       get :copy
-      match '/:tab' => 'meetings#show', :constraints => { tab: /(agenda|minutes)/ },
+      match "/:tab" => "meetings#show", :constraints => { tab: /(agenda|minutes)/ },
             :via => :get,
-            :as => 'tab'
+            :as => "tab"
     end
   end
 end

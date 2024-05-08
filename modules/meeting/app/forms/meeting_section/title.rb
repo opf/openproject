@@ -26,32 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class NewButtonComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+class MeetingSection::Title < ApplicationForm
+  form do |meeting_section_form|
+    meeting_section_form.text_field(
+      name: :title,
+      placeholder: Meeting.human_attribute_name(:title),
+      label: Meeting.human_attribute_name(:title),
+      value: init_value(meeting_section_form),
+      visually_hide_label: true,
+      required: true,
+      autofocus: true,
+      bg: :default,
+      data: {
+        action: "keydown.esc->meeting-section-form#cancel"
+      }
+    )
+  end
 
-    def initialize(meeting:, meeting_section: nil, disabled: false)
-      super
+  private
 
-      @meeting = meeting
-      @meeting_section = meeting_section
-      @disabled = @meeting.closed? || disabled
-    end
-
-    private
-
-    def wrapper_uniq_by
-      @meeting_section&.id
-    end
-
-    def render?
-      User.current.allowed_in_project?(:manage_agendas, @meeting.project)
-    end
-
-    def button_scheme
-      @meeting_section ? :secondary : :primary
+  def init_value(meeting_section_form)
+    if meeting_section_form.builder.object.has_default_title? || meeting_section_form.builder.object.untitled?
+      "" # will be set to "Untitled" in the model if left empty
+    else
+      meeting_section_form.builder.object.title
     end
   end
 end

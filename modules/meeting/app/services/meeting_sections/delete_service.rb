@@ -26,32 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class NewButtonComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
-
-    def initialize(meeting:, meeting_section: nil, disabled: false)
-      super
-
-      @meeting = meeting
-      @meeting_section = meeting_section
-      @disabled = @meeting.closed? || disabled
-    end
-
-    private
-
-    def wrapper_uniq_by
-      @meeting_section&.id
-    end
-
-    def render?
-      User.current.allowed_in_project?(:manage_agendas, @meeting.project)
-    end
-
-    def button_scheme
-      @meeting_section ? :secondary : :primary
-    end
+module MeetingSections
+  class DeleteService < ::BaseServices::Delete
   end
 end

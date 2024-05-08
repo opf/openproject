@@ -43,6 +43,7 @@ module MeetingAgendaItems
       render(Primer::Box.new(pl: 3)) do
         render(MeetingAgendaItems::FormComponent.new(
                  meeting: @meeting_agenda_item.meeting,
+                 meeting_section: @meeting_agenda_item.meeting_section,
                  meeting_agenda_item: @meeting_agenda_item,
                  method: :put,
                  submit_path: meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item, format: :turbo_stream),

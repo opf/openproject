@@ -26,32 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class NewButtonComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+module MeetingSections
+  class UpdateContract < BaseContract
+    validate :user_allowed_to_edit
 
-    def initialize(meeting:, meeting_section: nil, disabled: false)
-      super
-
-      @meeting = meeting
-      @meeting_section = meeting_section
-      @disabled = @meeting.closed? || disabled
-    end
-
-    private
-
-    def wrapper_uniq_by
-      @meeting_section&.id
-    end
-
-    def render?
-      User.current.allowed_in_project?(:manage_agendas, @meeting.project)
-    end
-
-    def button_scheme
-      @meeting_section ? :secondary : :primary
+    # Meeting agenda items can currently be only edited
+    # through the project permission :manage_agendas
+    # When MeetingRole becomes available, agenda items will
+    # be edited through meeting permissions :manage_agendas
+    def user_allowed_to_edit
+      unless user.allowed_in_project?(:manage_agendas, model.project)
+        errors.add :base, :error_unauthorized
+      end
     end
   end
 end

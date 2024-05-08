@@ -26,32 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class NewButtonComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+module MeetingSections
+  class BaseContract < ::ModelContract
+    include ModifiableItem
 
-    def initialize(meeting:, meeting_section: nil, disabled: false)
-      super
-
-      @meeting = meeting
-      @meeting_section = meeting_section
-      @disabled = @meeting.closed? || disabled
+    def self.model
+      MeetingSection
     end
 
-    private
+    attribute :meeting
 
-    def wrapper_uniq_by
-      @meeting_section&.id
-    end
-
-    def render?
-      User.current.allowed_in_project?(:manage_agendas, @meeting.project)
-    end
-
-    def button_scheme
-      @meeting_section ? :secondary : :primary
-    end
+    attribute :title
+    attribute :position
   end
 end
