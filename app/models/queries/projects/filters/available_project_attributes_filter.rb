@@ -39,7 +39,10 @@ class Queries::Projects::Filters::AvailableProjectAttributesFilter < Queries::Pr
   end
 
   def allowed_values
-    @allowed_values ||= ProjectCustomFieldProjectMapping.pluck(:custom_field_id).map { |id| [id, id.to_s] }
+    @allowed_values ||= ProjectCustomFieldProjectMapping
+      .includes(:project_custom_field)
+      .distinct
+      .pluck(:name, :custom_field_id)
   end
 
   def available?

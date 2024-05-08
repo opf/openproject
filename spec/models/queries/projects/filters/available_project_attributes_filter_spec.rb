@@ -36,18 +36,14 @@ RSpec.describe Queries::Projects::Filters::AvailableProjectAttributesFilter do
   end
 
   it_behaves_like "list query filter", scope: false do
-    let(:project_custom_field_project_mapping1) { build_stubbed(:project_custom_field_project_mapping) }
-    let(:project_custom_field_project_mapping2) { build_stubbed(:project_custom_field_project_mapping) }
-    let(:valid_values) { [project_custom_field_project_mapping1.id, project_custom_field_project_mapping2.id] }
-    let(:name) { "Available project attributes" }
+    shared_let(:project) { create(:project) }
+    shared_let(:project_custom_field_mapping1) { create(:project_custom_field_project_mapping, project:) }
+    shared_let(:project_custom_field_mapping2) { create(:project_custom_field_project_mapping, project:) }
 
-    before do
-      allow(ProjectCustomFieldProjectMapping)
-        .to receive(:pluck)
-        .with(:custom_field_id)
-        .and_return([project_custom_field_project_mapping1.id,
-                     project_custom_field_project_mapping2.id])
+    let(:valid_values) do
+      [project_custom_field_mapping1.custom_field_id.to_s, project_custom_field_mapping2.custom_field_id.to_s]
     end
+    let(:name) { "Available project attributes" }
 
     describe "#scope" do
       let(:values) { valid_values }
@@ -98,8 +94,10 @@ RSpec.describe Queries::Projects::Filters::AvailableProjectAttributesFilter do
 
     describe "#allowed_values" do
       it "is a list of the possible values" do
-        expected = [[project_custom_field_project_mapping1.id, project_custom_field_project_mapping1.id.to_s],
-                    [project_custom_field_project_mapping2.id, project_custom_field_project_mapping2.id.to_s]]
+        expected = [
+          [project_custom_field_mapping1.project_custom_field.name, project_custom_field_mapping1.custom_field_id],
+          [project_custom_field_mapping2.project_custom_field.name, project_custom_field_mapping2.custom_field_id]
+        ]
 
         expect(instance.allowed_values).to match_array(expected)
       end
