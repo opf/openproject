@@ -2212,6 +2212,7 @@
   label_setting_plural: "Innstillinger"
   label_system_settings: "Systeminnstillinger"
   label_show_completed_versions: "Vis fullførte versjoner"
+  label_columns: "Kolonner"
   label_sort: "Sortèr"
   label_sort_by: "Sorter på %{value}"
   label_sorted_by: "sortert på %{value}"
@@ -3241,6 +3242,10 @@
         input_label: "Legg til kolonner"
         input_placeholder: "Velg en kolonne"
         drag_area_label: "Behandle og endre rekkefølgen på kolonner"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Tilleggsressurser"
     getting_started: "Komme i gang"

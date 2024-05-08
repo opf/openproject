@@ -2275,6 +2275,7 @@ lt:
   label_setting_plural: "Nustatymai"
   label_system_settings: "Sistemos nustatymai"
   label_show_completed_versions: "Rodyti užbaigtas versijas"
+  label_columns: "Stulpeliai"
   label_sort: "Rikiuoti"
   label_sort_by: "Rūšiuoti pagal %{value}"
   label_sorted_by: "suršiuota pagal %{value}"
@@ -3304,6 +3305,10 @@ lt:
         input_label: "Pridėti stulpelių"
         input_placeholder: "Parinkti stulpelį"
         drag_area_label: "Tvarkyti ir perrikiuoti stulpelius"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Papildomi ištekliai"
     getting_started: "Darbo pradžia"

@@ -2245,6 +2245,7 @@ sr:
   label_setting_plural: "Settings"
   label_system_settings: "System settings"
   label_show_completed_versions: "Show completed versions"
+  label_columns: "Columns"
   label_sort: "Sort"
   label_sort_by: "Sort by %{value}"
   label_sorted_by: "sorted by %{value}"
@@ -3276,6 +3277,10 @@ sr:
         input_label: "Add columns"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Additional resources"
     getting_started: "Getting started"

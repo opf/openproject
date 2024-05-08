@@ -2178,6 +2178,7 @@ zh-TW:
   label_setting_plural: "設定"
   label_system_settings: "系統設置"
   label_show_completed_versions: "顯示已完成的版本"
+  label_columns: "欄位"
   label_sort: "排序"
   label_sort_by: "按 %{value} 排序"
   label_sorted_by: "以 %{value} 排序"
@@ -3204,6 +3205,10 @@ zh-TW:
         input_label: "增加欄位"
         input_placeholder: "選取欄位"
         drag_area_label: "重新排列"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "其他資源"
     getting_started: "開始"

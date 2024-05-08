@@ -2273,6 +2273,7 @@ uk:
   label_setting_plural: "Налаштування"
   label_system_settings: "Параметри системи"
   label_show_completed_versions: "Показати завершені версії"
+  label_columns: "Стовпці"
   label_sort: "Сортувати"
   label_sort_by: "Сортувати за %{value}"
   label_sorted_by: "відсортовані за %{value}"
@@ -3303,6 +3304,10 @@ uk:
         input_label: "Додати стовпці"
         input_placeholder: "Вибрати стовпець"
         drag_area_label: "Керування стовпцями і їх перевпорядкування"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Додаткові ресурси"
     getting_started: "Починаємо"

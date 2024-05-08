@@ -2212,6 +2212,7 @@ fr:
   label_setting_plural: "Paramètres"
   label_system_settings: "Paramètres système"
   label_show_completed_versions: "Afficher les versions terminées"
+  label_columns: "Colonnes"
   label_sort: "Trier"
   label_sort_by: "Trier par %{value}"
   label_sorted_by: "trié par %{value}"
@@ -3241,6 +3242,10 @@ fr:
         input_label: "Ajouter des colonnes"
         input_placeholder: "Sélectionner une colonne"
         drag_area_label: "Gérer et réorganiser les colonnes"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Ressources supplémentaires"
     getting_started: "Pour commencer"

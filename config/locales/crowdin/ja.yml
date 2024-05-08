@@ -2175,6 +2175,7 @@ ja:
   label_setting_plural: "設定"
   label_system_settings: "システム設定"
   label_show_completed_versions: "終了したバージョンを表示"
+  label_columns: "列"
   label_sort: "並べ替え"
   label_sort_by: "%{value}で並べ替え"
   label_sorted_by: "%{value}で並べ替えている"
@@ -3202,6 +3203,10 @@ ja:
         input_label: "列を追加"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "追加リソース"
     getting_started: "はじめに"

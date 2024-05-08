@@ -2275,6 +2275,7 @@ pl:
   label_setting_plural: "Ustawienia"
   label_system_settings: "Ustawienia"
   label_show_completed_versions: "Pokaż zakończone wersje"
+  label_columns: "Kolumny"
   label_sort: "Sortowanie"
   label_sort_by: "Sortuj wg %{value}"
   label_sorted_by: "kolejność wg %{value}"
@@ -3305,6 +3306,10 @@ pl:
         input_label: "Dodaj kolumny"
         input_placeholder: "Wybierz kolumnę"
         drag_area_label: "Zarządzaj kolumnami i zmieniaj ich kolejność"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Dodatkowe zasoby"
     getting_started: "Pierwsze kroki"

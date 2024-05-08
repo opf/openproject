@@ -2181,6 +2181,7 @@ vi:
   label_setting_plural: "Cài đặt"
   label_system_settings: "Cài đặt hệ thống"
   label_show_completed_versions: "Xem phiên bản đã hoàn thành"
+  label_columns: "Cột"
   label_sort: "Sắp xếp"
   label_sort_by: "Sắp xếp theo %{value}"
   label_sorted_by: "sắp xếp theo %{value}"
@@ -3208,6 +3209,10 @@ vi:
         input_label: "Add columns"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Tài nguyên bổ sung"
     getting_started: "Bắt đầu"

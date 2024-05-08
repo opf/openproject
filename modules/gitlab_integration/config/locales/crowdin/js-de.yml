@@ -43,7 +43,7 @@ de:
           copy_success: '✅ Kopiert!'
           copy_error: '❌ Kopieren fehlgeschlagen!'
       tab_issue:
-        empty: 'Es sind noch keine Issues verlinkt. Verknüpfen Sie ein bestehendes Issue, indem Sie den Code <code>OP#%{wp_id}</code> (oder <code>PP#%{wp_id}</code> für private Links) im Titel/der Beschreibung verwenden.'
+        empty: 'Es sind noch keine Tickets verlinkt. Verknüpfen Sie ein bestehendes Ticket, indem Sie den Code <code>OP#%{wp_id}</code> (oder <code>PP#%{wp_id}</code> für private Links) im Titel/der Beschreibung verwenden.'
       tab_mrs:
         empty: 'Es sind noch keine Merge Requests verlinkt. Verknüpfen Sie einen bestehenden MR, indem Sie den Code <code>OP#%{wp_id}</code> (oder <code>PP#%{wp_id}</code> für private Links) im MR-Titel/der MR-Beschreibung verwenden, oder erstellen Sie einen neuen MR.'
       gitlab_pipelines: Pipelines

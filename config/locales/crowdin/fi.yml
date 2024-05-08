@@ -2212,6 +2212,7 @@ fi:
   label_setting_plural: "Asetukset"
   label_system_settings: "Järjestelmäasetukset"
   label_show_completed_versions: "Näytä valmiit versiot"
+  label_columns: "Sarakkeet"
   label_sort: "Järjestä"
   label_sort_by: "Lajittele %{value}"
   label_sorted_by: "lajitteluperuste %{value}"
@@ -3241,6 +3242,10 @@ fi:
         input_label: "Lisää sarakkeita"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Lisäresurssit"
     getting_started: "Getting started"

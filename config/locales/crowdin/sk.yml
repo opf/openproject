@@ -2278,6 +2278,7 @@ sk:
   label_setting_plural: "Nastavenia"
   label_system_settings: "Nastavenia systému"
   label_show_completed_versions: "Zobraziť dokončené verzie"
+  label_columns: "Stĺpce"
   label_sort: "Zoradiť"
   label_sort_by: "Zoradiť podľa %{value}"
   label_sorted_by: "zoradené podľa %{value}"
@@ -3310,6 +3311,10 @@ sk:
         input_label: "Pridať stĺpce"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Dodatočné zdroje"
     getting_started: "Začíname"

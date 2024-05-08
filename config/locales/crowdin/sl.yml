@@ -2275,6 +2275,7 @@ sl:
   label_setting_plural: "Nastavitve"
   label_system_settings: "Sistemske nastavitve"
   label_show_completed_versions: "Prikaži zaključene različice"
+  label_columns: "Stolpci"
   label_sort: "Razvrsti"
   label_sort_by: "Razporedi po %{value}"
   label_sorted_by: "Razporejeno po %{value}"
@@ -3307,6 +3308,10 @@ sl:
         input_label: "Dodaj stolpce"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Dodatna sredstva\n"
     getting_started: "Začnite"

@@ -2209,6 +2209,7 @@ nl:
   label_setting_plural: "Instellingen"
   label_system_settings: "Systeeminstellingen"
   label_show_completed_versions: "Toon voltooide versies"
+  label_columns: "Kolommen"
   label_sort: "Sorteren"
   label_sort_by: "Sorteren op %{value}"
   label_sorted_by: "gesorteerd op %{value}"
@@ -3237,6 +3238,10 @@ nl:
         input_label: "Kolommen toevoegen"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Extra middelen"
     getting_started: "Aan de slag"

@@ -2210,6 +2210,7 @@ pt-PT:
   label_setting_plural: "Definições"
   label_system_settings: "Configurações do Sistema"
   label_show_completed_versions: "Mostrar versões concluídas"
+  label_columns: "Colunas"
   label_sort: "Ordenar"
   label_sort_by: "Ordenar por %{value}"
   label_sorted_by: "ordenado por %{value}"
@@ -3236,6 +3237,10 @@ pt-PT:
         input_label: "Adicionar colunas"
         input_placeholder: "Selecione uma coluna"
         drag_area_label: "Gerir e reordenar colunas"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Recursos adicionais"
     getting_started: "Por onde começar"

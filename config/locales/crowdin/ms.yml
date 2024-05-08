@@ -2178,6 +2178,7 @@ ms:
   label_setting_plural: "Tetapan"
   label_system_settings: "Tetapan sistem"
   label_show_completed_versions: "Tunjuk versi lengkap"
+  label_columns: "Lajur"
   label_sort: "Susun"
   label_sort_by: "Sort mengikut %{value}"
   label_sorted_by: "disusun mengikut %{value}"
@@ -3201,6 +3202,10 @@ ms:
         input_label: "Tambah lajur"
         input_placeholder: "Pilih satu lajur"
         drag_area_label: "Urus dan susun semula lajur"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Sumber tambahan"
     getting_started: "Sedang bermula"

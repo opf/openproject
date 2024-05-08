@@ -2245,6 +2245,7 @@ ro:
   label_setting_plural: "Setări"
   label_system_settings: "Setări de sistem"
   label_show_completed_versions: "Afișare versiuni complete"
+  label_columns: "Coloane"
   label_sort: "Sortare"
   label_sort_by: "Sortare după %{value}"
   label_sorted_by: "sortate după %{value}"
@@ -3275,6 +3276,10 @@ ro:
         input_label: "Adaugați coloane"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Resurse suplimentare"
     getting_started: "Noţiuni de bază"

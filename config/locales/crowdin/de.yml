@@ -2207,6 +2207,7 @@ de:
   label_setting_plural: "Einstellungen"
   label_system_settings: "Systemkonfiguration"
   label_show_completed_versions: "Abgeschlossene Versionen anzeigen"
+  label_columns: "Spalten"
   label_sort: "Sortierung"
   label_sort_by: "Sortiere nach %{value}"
   label_sorted_by: "sortiert nach %{value}"
@@ -3236,6 +3237,10 @@ de:
         input_label: "Spalten hinzufügen"
         input_placeholder: "Spalte auswählen"
         drag_area_label: "Spalten verwalten und neu anordnen"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Weitere Ressourcen"
     getting_started: "Erste Schritte"

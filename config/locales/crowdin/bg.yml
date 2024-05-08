@@ -2212,6 +2212,7 @@ bg:
   label_setting_plural: "Настройки"
   label_system_settings: "Системни настройки"
   label_show_completed_versions: "Покажи завършени версии"
+  label_columns: "Колони"
   label_sort: "Сортиране"
   label_sort_by: "Sort by %{value}"
   label_sorted_by: "сортирани по %{value}"
@@ -3241,6 +3242,10 @@ bg:
         input_label: "Add columns"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Допълнителни ресурси"
     getting_started: "Първи стъпки"

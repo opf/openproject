@@ -2212,6 +2212,7 @@ si:
   label_setting_plural: "සැකසුම්"
   label_system_settings: "පද්ධති සැකසුම්"
   label_show_completed_versions: "සම්පූර්ණ කළ අනුවාද පෙන්වන්න"
+  label_columns: "තීරු"
   label_sort: "වර්ග"
   label_sort_by: "%{value}විසින් වර්ග කරන්න"
   label_sorted_by: "%{value}විසින් වර්ග කර ඇත"
@@ -3241,6 +3242,10 @@ si:
         input_label: "තීරු එකතු කරන්න"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "අතිරේක සම්පත්"
     getting_started: "ආරම්භ කිරීම"

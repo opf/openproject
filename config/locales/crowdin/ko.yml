@@ -2178,6 +2178,7 @@ ko:
   label_setting_plural: "설정"
   label_system_settings: "시스템 설정"
   label_show_completed_versions: "완료된 버전 표시"
+  label_columns: "열"
   label_sort: "분류"
   label_sort_by: "%{value}(으)로 정렬"
   label_sorted_by: "%{value}(으)로 정렬됨"
@@ -3202,6 +3203,10 @@ ko:
         input_label: "열 추가"
         input_placeholder: "열 선택"
         drag_area_label: "열 관리 및 재정렬"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "추가 리소스"
     getting_started: "시작하기"

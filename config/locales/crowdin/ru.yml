@@ -2277,6 +2277,7 @@ ru:
   label_setting_plural: "Настройки"
   label_system_settings: "Настройки системы"
   label_show_completed_versions: "Показать завершённые этапы"
+  label_columns: "Столбцы"
   label_sort: "Сортировать"
   label_sort_by: "Сортировать по %{value}"
   label_sorted_by: "отсортировано по %{value}"
@@ -3307,6 +3308,10 @@ ru:
         input_label: "Добавить столбцы"
         input_placeholder: "Выберите столбец"
         drag_area_label: "Управляйте колонками и изменяйте их порядок"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Дополнительные ресурсы"
     getting_started: "Приступая к работе"

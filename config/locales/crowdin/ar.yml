@@ -2344,6 +2344,7 @@ ar:
   label_setting_plural: "إعدادات"
   label_system_settings: "إعدادات النظام"
   label_show_completed_versions: "عرض الإصدارات المنجزة"
+  label_columns: "الأعمدة"
   label_sort: "فرز"
   label_sort_by: "ترتيب حسب %{value}"
   label_sorted_by: "مرتبة حسب %{value}"
@@ -3379,6 +3380,10 @@ ar:
         input_label: "Add columns"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "مصادر إضافية"
     getting_started: "الشروع في البدء"

@@ -2212,6 +2212,7 @@ et:
   label_setting_plural: "Seaded"
   label_system_settings: "Süsteemiseaded"
   label_show_completed_versions: "Näita lõpetatud versioone"
+  label_columns: "Veerud"
   label_sort: "Sorteeri"
   label_sort_by: "Sorteeri %{value} järgi"
   label_sorted_by: "Sorteeritud %{value} järgi"
@@ -3241,6 +3242,10 @@ et:
         input_label: "Add columns"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Additional resources"
     getting_started: "Getting started"

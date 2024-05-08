@@ -2209,6 +2209,7 @@ it:
   label_setting_plural: "Impostazioni"
   label_system_settings: "Impostazioni di sistema"
   label_show_completed_versions: "Visualizza le versioni completate"
+  label_columns: "Colonne"
   label_sort: "Ordina"
   label_sort_by: "Ordina per %{value}"
   label_sorted_by: "ordinati per %{value}"
@@ -3238,6 +3239,10 @@ it:
         input_label: "Aggiungi colonne"
         input_placeholder: "Seleziona una colonna"
         drag_area_label: "Gestisci e riordina colonne"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Risorse aggiuntive"
     getting_started: "Per cominciare"

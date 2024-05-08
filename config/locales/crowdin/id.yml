@@ -2172,6 +2172,7 @@ id:
   label_setting_plural: "Pengaturan"
   label_system_settings: "System settings"
   label_show_completed_versions: "Tampilkan versi lengkap"
+  label_columns: "Kolom"
   label_sort: "Urutkan"
   label_sort_by: "Urutkan %{value}"
   label_sorted_by: "diurutkan berdasarkan %{value}"
@@ -3195,6 +3196,10 @@ id:
         input_label: "Tambah kolom"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Additional resources"
     getting_started: "Getting started"

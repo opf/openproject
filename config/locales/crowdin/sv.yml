@@ -2211,6 +2211,7 @@ sv:
   label_setting_plural: "Inställningar"
   label_system_settings: "Systeminställningar"
   label_show_completed_versions: "Visa slutförda versioner"
+  label_columns: "Kolumner"
   label_sort: "Sortera"
   label_sort_by: "Sortera efter %{value}"
   label_sorted_by: "sorterade efter %{value}"
@@ -3238,6 +3239,10 @@ sv:
         input_label: "Lägg till kolumner"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Ytterligare resurser"
     getting_started: "Komma igång"

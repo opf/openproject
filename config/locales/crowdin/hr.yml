@@ -2245,6 +2245,7 @@ hr:
   label_setting_plural: "Postavke"
   label_system_settings: "Postavke sustava"
   label_show_completed_versions: "Prikažite završene verzije"
+  label_columns: "Stupci"
   label_sort: "Sortiraj"
   label_sort_by: "Sortiraj po %{value}"
   label_sorted_by: "sortirano po %{value}"
@@ -3276,6 +3277,10 @@ hr:
         input_label: "Add columns"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Additional resources"
     getting_started: "Getting started"

@@ -2212,6 +2212,7 @@ fil:
   label_setting_plural: "Mga setting"
   label_system_settings: "Mga setting ng system"
   label_show_completed_versions: "Ipakita ang mga kompletong bersyon"
+  label_columns: "Mga hanay"
   label_sort: "Ayusin"
   label_sort_by: "Ayusin sa %{value}"
   label_sorted_by: "inayos sa %{value}"
@@ -3239,6 +3240,10 @@ fil:
         input_label: "Magdagdag ng hanay"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Karagdagang pinagkukunan"
     getting_started: "Pagsisimula"
