@@ -140,12 +140,12 @@ module Projects::ActsAsCustomizablePatches
       # when accessed with the _query_available_custom_fields_on_global_level flag on.
       unless _query_available_custom_fields_on_global_level
         custom_fields = custom_fields.visible
+      end
 
-        # Limit the set of available custom fields when the validation is limited to a section
-        if _limit_custom_fields_validation_to_section_id
-          custom_fields =
-            custom_fields.where(custom_field_section_id: _limit_custom_fields_validation_to_section_id)
-        end
+      # Limit the set of available custom fields when the validation is limited to a section
+      if _limit_custom_fields_validation_to_section_id
+        custom_fields =
+          custom_fields.where(custom_field_section_id: _limit_custom_fields_validation_to_section_id)
       end
 
       # available_custom_fields is called from within the acts_as_customizable module
