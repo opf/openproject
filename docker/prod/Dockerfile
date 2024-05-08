@@ -51,7 +51,7 @@ COPY ./docker/prod/setup/preinstall-common.sh ./docker/prod/setup/preinstall-com
 RUN ./docker/prod/setup/preinstall-common.sh
 
 # stuff required for gems
-COPY Gemfile Gemfile.modules Gemfile.lock .ruby-version ./
+COPY Gemfile Gemfile.* .ruby-version ./
 COPY modules ./modules
 RUN bundle install
 
