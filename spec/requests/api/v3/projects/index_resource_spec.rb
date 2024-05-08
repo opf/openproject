@@ -125,13 +125,13 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
     context "if using the equals operator" do
       let(:operator) { "=" }
 
-      it_behaves_like "API V3 collection response", 1, 1, "Project"
+      it_behaves_like "API V3 collection response", 2, 2, "Project"
     end
 
     context "if using the all operator" do
       let(:operator) { "&=" }
 
-      it_behaves_like "API V3 collection response", 2, 2, "Project"
+      it_behaves_like "API V3 collection response", 1, 1, "Project"
 
       it "returns the project the current user has the capabilities in" do
         expect(response.body)
