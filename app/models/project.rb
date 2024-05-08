@@ -89,7 +89,7 @@ class Project < ApplicationRecord
   has_many :project_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
   has_many :storages, through: :project_storages
 
-  store_attribute :settings, :deactivate_work_package_attachments, :boolean, default: false
+  store_attribute :settings, :deactivate_work_package_attachments, :boolean
 
   acts_as_favorable
 
