@@ -91,8 +91,9 @@ class ProjectsController < ApplicationController
     hide_project_in_layout
   end
 
-  def set_hide_attachments
-    @project.update_column(:hide_attachments, params["value"] != "1")
+  def deactivate_work_package_attachments
+    @project.deactivate_work_package_attachments = params[:value] != "1"
+    @project.save
   end
 
   private

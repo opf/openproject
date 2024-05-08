@@ -41,7 +41,7 @@ RSpec.describe "Hide attachments", :js, :with_cuprite do
        view_file_links
        manage_file_links)
   end
-  let(:project) { create(:project, hide_attachments: true) }
+  let(:project) { create(:project, deactivate_work_package_attachments: true) }
   let!(:current_user) { create(:user, member_with_permissions: { project => permissions }) }
   let(:work_package) { create(:work_package, project:, description: "Initial description") }
   let(:attachment) { create(:attachment, container: work_package) }
@@ -55,44 +55,44 @@ RSpec.describe "Hide attachments", :js, :with_cuprite do
       login_as current_user
 
       visit project_settings_project_storages_path(project)
-      click_button("Attachments")
+      click_on("Attachments")
 
       expect(page).to have_css("toggle-switch", text: "Off")
-      expect(project.reload.hide_attachments).to be_truthy
+      expect(project.reload).to be_deactivate_work_package_attachments
 
-      find("button.ToggleSwitch-track").click
+      click_on(class: "ToggleSwitch-track")
       expect(page).to have_css("toggle-switch", text: "On")
-      wait_for(page).to have_css('svg[data-target="toggle-switch.loadingSpinner"][hidden="hidden"]', visible: false)
-      expect(project.reload.hide_attachments).to be_falsey
+      wait_for(page).to have_css('svg[data-target="toggle-switch.loadingSpinner"][hidden="hidden"]', visible: :hidden)
+      expect(project.reload).not_to be_deactivate_work_package_attachments
 
-      find("button.ToggleSwitch-track").click
+      click_on(class: "ToggleSwitch-track")
       expect(page).to have_css("toggle-switch", text: "Off")
-      wait_for(page).to have_css('svg[data-target="toggle-switch.loadingSpinner"][hidden="hidden"]', visible: false)
-      expect(project.reload.hide_attachments).to be_truthy
+      wait_for(page).to have_css('svg[data-target="toggle-switch.loadingSpinner"][hidden="hidden"]', visible: :hidden)
+      expect(project.reload).to be_deactivate_work_package_attachments
     end
   end
 
   describe "OpenProject setting" do
     it "changes database value" do
-      checkbox_label = "Hide attachments by default"
+      checkbox_label = "Show attachments in the files tab by default"
 
       login_as create(:admin)
       visit admin_settings_attachments_path
 
-      expect(page).to have_unchecked_field(checkbox_label)
-
-      check(checkbox_label)
-      click_button("Save")
-
-      # Check db directly to avoid cache being used.
-      expect(Setting.find_by(name: "hide_attachments").value).to be_truthy
       expect(page).to have_checked_field(checkbox_label)
 
       uncheck(checkbox_label)
-      click_button("Save")
+      click_on("Save")
 
-      expect(Setting.find_by(name: "hide_attachments").value).to be_falsey
+      # Check db directly to avoid cache being used.
+      expect(Setting.find_by(name: "show_work_package_attachments").value).to be_falsy
       expect(page).to have_unchecked_field(checkbox_label)
+
+      check(checkbox_label)
+      click_on("Save")
+
+      expect(Setting.find_by(name: "show_work_package_attachments").value).to be_truthy
+      expect(page).to have_checked_field(checkbox_label)
     end
   end
 

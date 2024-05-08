@@ -30,6 +30,6 @@
 
 class AddHideAttachmentsToProjects < ActiveRecord::Migration[7.1]
   def change
-    add_column :projects, :hide_attachments, :boolean, default: false
+    add_column :projects, :settings, :jsonb, null: false, default: {}
   end
 end

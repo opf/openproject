@@ -736,10 +736,10 @@ module Settings
         default: "",
         writable: false
       },
-      hide_attachments: {
-        description: "Hide attachments by default.",
+      show_work_package_attachments: {
+        description: "Show work package attachments by default.",
         format: :boolean,
-        default: false,
+        default: true,
         writable: true
       },
       https: {

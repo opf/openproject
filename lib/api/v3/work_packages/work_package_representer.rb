@@ -580,9 +580,7 @@ module API
           super
         end
 
-        def hide_attachments?
-          represented.hide_attachments?
-        end
+        delegate :hide_attachments?, to: :represented
 
         # Permissions
         def current_user_watcher?
@@ -702,6 +700,7 @@ module API
            json_key_representer_parts,
            represented.cache_checksum,
            Setting.work_package_done_ratio,
+           Setting.show_work_package_attachments,
            Setting.feeds_enabled?]
         end
 
