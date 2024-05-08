@@ -55,5 +55,13 @@ module MeetingAgendaItems
         "target-allowed-drag-type": "section" # the type of dragged items which are allowed to be dropped in this target
       }
     end
+
+    def insert_target_modified?
+      true
+    end
+
+    def insert_target_modifier_id
+      "meeting-section-new-item"
+    end
   end
 end

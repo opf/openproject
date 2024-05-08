@@ -50,7 +50,7 @@ class MeetingSectionsController < ApplicationController
     @meeting_section = call.result
 
     if call.success?
-      update_all_via_turbo_stream # TODO: more specific UI update
+      add_section_via_turbo_stream
       update_section_header_via_turbo_stream(state: :edit)
       update_new_button_via_turbo_stream(disabled: true)
     else
@@ -109,6 +109,9 @@ class MeetingSectionsController < ApplicationController
 
     if call.success?
       remove_section_via_turbo_stream
+      # in case the destroy action was called from the cancel_edit action
+      # we need to update the new button state, which was disabled before
+      update_new_button_via_turbo_stream(disabled: false)
     else
       generic_call_failure_response(call)
     end

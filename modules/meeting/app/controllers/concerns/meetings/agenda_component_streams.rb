@@ -301,6 +301,24 @@ module Meetings
         )
       end
 
+      def add_section_via_turbo_stream(meeting_section: @meeting_section)
+        if meeting_section.meeting.sections.count <= 2
+          # hide blank slate again through rerendering the list component -> count == 0
+          # or show section wrapper of first untitled section -> count == 1
+          update_list_via_turbo_stream
+          # CODE MAINTENANCE: potentially loosing edit state in last section
+        else
+          append_via_turbo_stream(
+            component: MeetingSections::ShowComponent.new(
+              meeting_section:
+            ),
+            target_component: MeetingAgendaItems::ListComponent.new(
+              meeting: meeting_section.meeting
+            )
+          )
+        end
+      end
+
       def remove_section_via_turbo_stream(meeting_section: @meeting_section)
         if meeting_section.meeting.sections.count <= 1
           # show blank slate again through rerendering the list component -> count == 0
