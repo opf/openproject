@@ -26,18 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingSections
-  class DeleteContract < ::DeleteContract
-    include ModifiableItem
+FactoryBot.define do
+  factory :meeting_section do |m|
+    meeting factory: :structured_meeting
 
-    delete_permission :manage_agendas
-
-    validate :empty_section
-
-    def empty_section
-      unless model.agenda_items.empty?
-        errors.add :base, "Section is not empty and cannot be deleted."
-      end
-    end
+    m.sequence(:title) { |n| "Section #{n}" }
   end
 end

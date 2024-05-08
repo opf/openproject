@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,18 +28,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingSections
-  class DeleteContract < ::DeleteContract
-    include ModifiableItem
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
-    delete_permission :manage_agendas
+RSpec.describe MeetingSections::UpdateContract do
+  include_context "ModelContract shared context"
 
-    validate :empty_section
+  shared_let(:project) { create(:project) }
+  shared_let(:meeting) { create(:structured_meeting, project:) }
+  shared_let(:section) { create(:meeting_section, meeting:) }
+  let(:contract) { described_class.new(section, user) }
 
-    def empty_section
-      unless model.agenda_items.empty?
-        errors.add :base, "Section is not empty and cannot be deleted."
-      end
+  context "with permission" do
+    let(:user) do
+      create(:user, member_with_permissions: { project => [:manage_agendas] })
     end
+
+    it_behaves_like "contract is valid"
+
+    context "when :meeting is not editable" do
+      before do
+        meeting.update_column(:state, :closed)
+      end
+
+      it_behaves_like "contract is invalid", base: I18n.t(:text_agenda_item_not_editable_anymore)
+    end
+  end
+
+  context "without permission" do
+    let(:user) { build_stubbed(:user) }
+
+    it_behaves_like "contract is invalid", base: :error_unauthorized
+  end
+
+  include_examples "contract reuses the model errors" do
+    let(:user) { build_stubbed(:user) }
   end
 end
