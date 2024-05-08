@@ -34,7 +34,7 @@ module MeetingSections
 
     with_collection_parameter :meeting_section
 
-    def initialize(meeting_section:, first_and_last: [], form_hidden: true, form_type: :simple)
+    def initialize(meeting_section:, first_and_last: [], form_hidden: true, form_type: :simple, insert_target_modified: true)
       super
 
       @meeting = meeting_section.meeting
@@ -43,6 +43,7 @@ module MeetingSections
       @first_and_last = first_and_last
       @form_hidden = form_hidden
       @form_type = form_type
+      @insert_target_modified = insert_target_modified
     end
 
     private
@@ -52,7 +53,7 @@ module MeetingSections
     end
 
     def insert_target_modified?
-      true
+      @insert_target_modified
     end
 
     def insert_target_modifier_id
@@ -70,14 +71,6 @@ module MeetingSections
 
     def render_new_button_in_section?
       @meeting_agenda_items.empty? && @form_hidden && editable?
-    end
-
-    def top_margin
-      if @meeting_section.id == @first_and_last&.first&.id
-        1
-      else
-        3
-      end
     end
 
     def draggable_item_config

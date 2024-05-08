@@ -183,7 +183,7 @@ class MeetingAgendaItemsController < ApplicationController
       .call(move_to: params[:move_to]&.to_sym)
 
     if call.success?
-      move_item_via_turbo_stream
+      move_item_within_section_via_turbo_stream
       update_header_component_via_turbo_stream
     else
       generic_call_failure_response(call)

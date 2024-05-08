@@ -369,6 +369,36 @@ module Meetings
         end
       end
 
+      def move_section_via_turbo_stream(meeting_section: @meeting_section)
+        # Note: The `remove_component` and the `component` are pointing to the same
+        # component, but we still need to instantiate them separately, otherwise re-adding
+        # of the item will render and empty component.
+        remove_component = MeetingSections::ShowComponent.new(meeting_section:)
+        remove_via_turbo_stream(component: remove_component)
+
+        component = MeetingSections::ShowComponent.new(meeting_section:)
+
+        if meeting_section.lower_item
+          add_before_via_turbo_stream(
+            component:,
+            target_component: MeetingSections::ShowComponent.new(
+              meeting_section: meeting_section.lower_item,
+              insert_target_modified: false
+              # insert target is modified for agenda items in this section, but not for sections
+            )
+          )
+        else
+          append_via_turbo_stream(
+            component: MeetingSections::ShowComponent.new(
+              meeting_section:
+            ),
+            target_component: MeetingAgendaItems::ListComponent.new(
+              meeting: meeting_section.meeting
+            )
+          )
+        end
+      end
+
       def update_all_via_turbo_stream
         update_header_component_via_turbo_stream
         update_sidebar_component_via_turbo_stream

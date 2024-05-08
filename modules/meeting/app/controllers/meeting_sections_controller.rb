@@ -125,10 +125,11 @@ class MeetingSectionsController < ApplicationController
       .call(position: params[:position].to_i)
 
     if call.success?
-      update_list_via_turbo_stream
+      # the DOM is already updated on the client-side through the drag
+      # in order to preserve an edit state within the section, we don't send a server-side rendered update
       update_header_component_via_turbo_stream
-      # having a more specific update is not that easy as the reordering impacts
-      # the time slot calculations of potentially all agenda items
+      # update all time slots as a section position change affects potentially all time slots
+      update_show_items_via_turbo_stream
     else
       generic_call_failure_response(call)
     end
@@ -142,10 +143,13 @@ class MeetingSectionsController < ApplicationController
       .call(move_to: params[:move_to]&.to_sym)
 
     if call.success?
-      update_list_via_turbo_stream
+      move_section_via_turbo_stream
+      # CODE MAINTENANCE: edit state within the moved section potentially gets lost
+      # unlike at the drop action, we need to send server-side rendered updates in order to reflect the new position
+      # thus an edit state inside the section gets lost
       update_header_component_via_turbo_stream
-      # having a more specific update is not that easy as the reordering impacts
-      # the time slot calculations of potentially all agenda items
+      # update all time slots as a section position change affects potentially all time slots
+      update_show_items_via_turbo_stream
     else
       generic_call_failure_response(call)
     end
