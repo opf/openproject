@@ -42,7 +42,15 @@ module Settings
               scheme: :danger,
               icon: :trash,
               label: I18n.t(:button_delete),
-              href: confirm_destroy_project_path(project)
+              href: unlink_admin_settings_project_custom_field_path(
+                id: @table.params[:custom_field].id,
+                project_custom_field_project_mapping: { project_id: model.first.id }
+              ),
+              data: {
+                method: :delete,
+                turbo: true,
+                'turbo-stream': true
+              }
             }
           end
         end

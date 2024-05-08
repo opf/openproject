@@ -29,6 +29,8 @@
 #++
 module Projects
   class RowComponent < ::RowComponent
+    include OpTurbo::Streamable
+
     delegate :favored_project_ids, to: :table
 
     def project
@@ -168,7 +170,7 @@ module Projects
       classes.join(" ")
     end
 
-    def row_css_id
+    def wrapper_uniq_by
       "project-#{project.id}"
     end
 

@@ -27,10 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<tr
-  <%= "id=\"#{row_css_id}\"".html_safe if row_css_id %>
-  <%= "class=\"#{row_css_class}\"".html_safe if row_css_class %>
->
+<%= component_wrapper(tag: "tr", class: row_css_class, data: { turbo: true }) do %>
   <% columns.each do |column| %>
     <td class="<%= column_css_class(column) %>">
       <%= column_value(column) %>
@@ -41,4 +38,4 @@ See COPYRIGHT and LICENSE files for more details.
       <%= link %>
     <% end %>
   </td>
-</tr>
+<% end %>

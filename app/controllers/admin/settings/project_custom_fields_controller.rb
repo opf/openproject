@@ -34,10 +34,8 @@ module Admin::Settings
 
     menu_item :project_custom_fields_settings
 
-    before_action :set_sections, only: %i[show index edit update move drop]
-    before_action :find_custom_field, only: %i(show edit update destroy delete_option reorder_alphabetical move drop)
-    before_action :prepare_custom_option_position, only: %i(update create)
-    before_action :find_custom_option, only: :delete_option
+    before_action :set_sections, only: %i[show index edit move drop]
+    before_action :find_custom_field, only: %i(show edit destroy move drop)
 
     def show_local_breadcrumb
       false
@@ -66,6 +64,19 @@ module Admin::Settings
         query.where(:available_project_attributes, "=", [@custom_field.id])
         query.select :name
       end
+    end
+
+    def unlink
+      # call = ProjectCustomFieldProjectMappings::ToggleService
+      #          .new(user: current_user)
+      #          .call(permitted_params.project_custom_field_project_mapping)
+
+      project = Project.find(permitted_params.project_custom_field_project_mapping["project_id"])
+      remove_via_turbo_stream(
+        component: Settings::ProjectCustomFields::ProjectCustomFieldMapping::RowComponent
+                     .new(row: [project, 0], table: OpenStruct.new(columns: [], favored_project_ids: [])))
+
+      respond_to_with_turbo_streams(status: true ? :ok : :unprocessable_entity)
     end
 
     def move
@@ -109,8 +120,8 @@ module Admin::Settings
 
     def set_sections
       @project_custom_field_sections = ProjectCustomFieldSection
-        .includes(custom_fields: :project_custom_field_project_mappings)
-        .all
+                                         .includes(custom_fields: :project_custom_field_project_mappings)
+                                         .all
     end
 
     def find_custom_field
