@@ -538,7 +538,8 @@ class Formatter
         end
       rescue Errno::ENOENT => e
         warn e
-        warn "To display image inline, you need to have a compatible terminal like iTerm2 or Konsole, and the 'imgcat' command installed."
+        warn "To display image inline, you need to have a compatible terminal like iTerm2 or Konsole, and the 'imgcat' command " \
+             "installed."
         warn "See https://iterm2.com/documentation-images.html to know more."
       end
     end
