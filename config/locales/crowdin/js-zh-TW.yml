@@ -758,7 +758,7 @@ zh-TW:
           last_day: "最後一天"
     text_are_you_sure: "是否確定？"
     text_data_lost: "所有資料將遺失"
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} 寫道："
     types:
       attribute_groups:
         error_duplicate_group_name: "名稱 %{group} 已被使用，群組名稱不可重複。"
@@ -833,7 +833,7 @@ zh-TW:
       toggle_description: "切換關係描述"
       update_relation: "按一下此處以更改關聯類型"
       add_follower: "增加後置項目"
-      show_relations: "Show relations"
+      show_relations: "顯示關聯"
       add_predecessor: "增加前置項目"
       remove: "刪除關係"
       save: "儲存關聯"
@@ -1029,7 +1029,7 @@ zh-TW:
         rename_query_placeholder: "此檢視的名稱"
         star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
         public_text: >
-          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+          發布此檢視圖，允許其他使用者存取您的視圖。 具有「管理公用檢視圖」權限的使用者可以修改或刪除公用查詢。 這不會影響該檢視圖中工作項目的可見性，並且根據使用者的權限，使用者可能會看到不同的結果。
         errors:
           unretrievable_query: "無法從 url 取得版面"
           not_found: "無此查詢"

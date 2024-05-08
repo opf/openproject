@@ -983,7 +983,7 @@ he:
         priority: "עדיפות"
         projectName: "פרוייקט"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "שעות שנותרו"
         responsible: "אחראי על"
         startDate: "תאריך התחלה"
         status: "מצב"
@@ -995,7 +995,7 @@ he:
         versionName: "גירסה"
         version: "גירסה"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "זמן משוער"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"

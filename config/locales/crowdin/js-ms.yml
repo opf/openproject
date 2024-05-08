@@ -31,7 +31,7 @@ ms:
         Adakah anda pasti anda ingin memadam fail ini? Tindakan ini tidak boleh dikembalikan.
       draggable_hint: |
         Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
-      quarantined_hint: "Fail ini dikuarantinkan, kerana virus ditemui. Ia tidak tersedia untuk dimuat turun."
+      quarantined_hint: "Fail ini telah dikuarantin kerana virus ditemui. Ia tidak tersedia untuk dimuat turun."
     autocomplete_ng_select:
       add_tag: "Tambah item"
       clear_all: "Padam semua"
@@ -111,7 +111,7 @@ ms:
       highlighting:
         inline: "Highlight inline:"
         entire_card_by: "Keseluruhan kad dengan"
-      remove_from_list: "Remove card from list"
+      remove_from_list: "Keluarkan kad dari senarai"
     caption_rate_history: "Sejarah kadar"
     clipboard:
       browser_error: "Pelayar anda tidak menyokong menyalin ke papan klip. Sila salin secara manual: %{content}"
@@ -442,7 +442,7 @@ ms:
     label_learn_more_link: "Ketahui lebih lanjut"
     label_less_or_equal: "<="
     label_less_than_ago: "kurang dari beberapa hari yang lalu"
-    label_loading: "Loading..."
+    label_loading: "Memuatkan..."
     label_mail_notification: "Pemberitahuan e-mel"
     label_manage_columns: "Urus dan susun semula lajur"
     label_me: "saya"
@@ -461,7 +461,7 @@ ms:
     label_none: "tiada"
     label_not_contains: "tidak mengandungi"
     label_not_equals: "adalah tidak"
-    label_on: "on"
+    label_on: "pada"
     label_open_menu: "Buka menu"
     label_open_context_menu: "Buka menu konteks"
     label_open_work_packages: "buka"
@@ -672,7 +672,7 @@ ms:
           mentioned:
             title: "Telah disebutkan"
             description: "Terima pemberitahuan setiap kali sesiapa menyebut saya di mana saja"
-          assignee: "Assignee"
+          assignee: "Wakil"
           responsible: "Bertanggungjawab"
           shared: "Telah dikongsi"
           watched: "Pemerhati"
@@ -721,11 +721,11 @@ ms:
       click_to_switch_to_project: "Projek: %{projectname}"
       confirm_template_load: "Menukar templat akan memuat semula laman dan anda akan kehilangan semua input untuk borang ini. Teruskan?"
       use_template: "Guna templat"
-      no_template_selected: "(None)"
+      no_template_selected: "(Tiada)"
       copy:
-        copy_options: "Copy options"
+        copy_options: "Pilihan salinan"
       autocompleter:
-        label: "Project autocompletion"
+        label: "Autolengkap projek"
     reminders:
       settings:
         daily:
@@ -768,7 +768,7 @@ ms:
         confirm_reset: >
           Warning: Are you sure you want to reset the form configuration? This will reset the attributes to their default group and disable ALL custom fields.
         upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
-        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
+        upgrade_to_ee_text: "Wow! Jika anda perlukan tambahan ini anda adalah super pro! Bolehkah anda menyokong kami pemaju OpenProject dengan menjadi pelanggan edisi Enterprise?"
         more_information: "Maklumat lanjut"
         nevermind: "Tidak mengapa"
       edit:
@@ -778,29 +778,29 @@ ms:
     time_entry:
       work_package_required: "Memerlukan pemilihan pakej kerja dahulu."
       title: "Masa log"
-      tracking: "Time tracking"
+      tracking: "Penjejakan masa"
       stop: "Berhenti"
     timer:
       start_new_timer: "Mulakan pemasa baharu"
       timer_already_running: "Untuk mula pemasa baharu, anda perlu menghentikan pemasa semasa dahulu:"
       timer_already_stopped: "Tiada pemasa aktif untuk pakej kerja ini, adakah anda telah menghentikannya di window lain?"
-      tracking_time: "Tracking time"
+      tracking_time: "Masa penjejakan"
       button_stop: "Hentikan pemasa semasa"
     two_factor_authentication:
       label_two_factor_authentication: "Pengesahan dua faktor"
     watchers:
-      label_loading: loading watchers...
+      label_loading: memuatkan pemerhati...
       label_error_loading: Ralat berlaku semasa memuatkan pemerhati
       label_search_watchers: Cari pemerhati
       label_add: Tambah pemerhati
       label_discard: Buang pemilihan
       typeahead_placeholder: Search for possible watchers
     relation_labels:
-      parent: "Parent"
-      children: "Children"
-      relates: "Related To"
-      duplicates: "Duplicates"
-      duplicated: "Duplicated by"
+      parent: "Induk"
+      children: "Anak"
+      relates: "Berkaitan Dengan"
+      duplicates: "Duplikasi"
+      duplicated: "Duplikasi oleh"
       blocks: "Blocks"
       blocked: "Blocked by"
       precedes: "Mendahului"
@@ -965,7 +965,7 @@ ms:
         estimatesAndTime: "Anggaran & Masa"
         other: "Lain-lain"
       properties:
-        assignee: "Assignee"
+        assignee: "Wakil"
         author: "Pengarang"
         createdAt: "Dicipta pada"
         description: "Penerangan"
@@ -974,7 +974,7 @@ ms:
         percentCompleteAlternative: "Kemajuan"
         dueDate: "Tarikh tamat"
         duration: "Tempoh"
-        spentTime: "Spent time"
+        spentTime: "Masa yang dihabiskan"
         category: "Kategori"
         percentageDone: "Peratusan selesai"
         priority: "Keutamaan"
@@ -1060,9 +1060,9 @@ ms:
         modal_title: "Work package table configuration"
         embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "default"
-        display_settings: "Display settings"
+        display_settings: "Tetapan paparan"
         default_mode: "Flat list"
-        hierarchy_mode: "Hierarchy"
+        hierarchy_mode: "Hierarki"
         hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
         display_sums_hint: "Display sums of all summable attributes in a row below the table results."
         show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
@@ -1121,7 +1121,7 @@ ms:
     modals:
       label_name: "Nama"
       label_delete_page: "Padam halaman semasa"
-      button_apply: "Apply"
+      button_apply: "Gunakan"
       button_save: "Simpan"
       button_submit: "Hantar"
       button_cancel: "Batal"
@@ -1270,7 +1270,7 @@ ms:
       toggle_title: "Termasuk projek"
       title: "Projek-projek"
       clear_selection: "Kosongkan pilihan"
-      apply: "Apply"
+      apply: "Gunakan"
       selected_filter:
         all: "Semua projek"
         selected: "Hanya terpilih"
@@ -1284,7 +1284,7 @@ ms:
     baseline:
       toggle_title: "Dasar"
       clear: "Kosongkan"
-      apply: "Apply"
+      apply: "Gunakan"
       header_description: "Highlight changes made to this list since any point in the past."
       enterprise_header_description: "Highlight changes made to this list since any point in the past with Enterprise edition."
       show_changes_since: "Tunjuk perubahan sejak"
@@ -1317,7 +1317,7 @@ ms:
       submit_success_message: "Borang telah berjaya dihantar"
       load_error_message: "Terdapat ralat semasa memuatkan borang"
       validation_error_message: "Sila betulkan ralat yang terdapat dalam borang"
-      advanced_settings: "Advanced settings"
+      advanced_settings: "Tetapan maju"
     spot:
       filter_chip:
         remove: "Keluarkan"

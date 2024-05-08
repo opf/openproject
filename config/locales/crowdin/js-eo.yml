@@ -981,7 +981,7 @@ eo:
         priority: "Prioritato"
         projectName: "Projekto"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "Restantaj horoj"
         responsible: "Respondeculo"
         startDate: "Komencdato"
         status: "Stato"
@@ -993,7 +993,7 @@ eo:
         versionName: "Versio"
         version: "Versio"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "Taksita tempo"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Lastaj aktivecoj"
