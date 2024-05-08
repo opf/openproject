@@ -79,7 +79,7 @@ RSpec.describe "OAuthClient callback endpoint" do
       set_cookie "oauth_state_asdf1234=#{state_cookie}"
     end
 
-    # rubocop:disable RSpec/Rails/HaveHttpStatus
+    # rubocop:disable RSpecRails/HaveHttpStatus
     shared_examples "with errors and state param with cookie, not being admin" do
       it "redirects to URI referenced in the state param and held in a cookie" do
         expect(response.status).to eq(302)
@@ -185,6 +185,6 @@ RSpec.describe "OAuthClient callback endpoint" do
 
       it_behaves_like "fallback redirect"
     end
-    # rubocop:enable RSpec/Rails/HaveHttpStatus
+    # rubocop:enable RSpecRails/HaveHttpStatus
   end
 end
