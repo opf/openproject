@@ -1928,7 +1928,7 @@ nl:
   label_expanded_click_to_collapse: "Uitgebreid. Klik op samenvouwen"
   label_f_hour: "%{value} uur"
   label_f_hour_plural: "%{value} uren"
-  label_favorite: "Favorite"
+  label_favorite: "Favoriete"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS toegangssleutel"
   label_feeds_access_key_created_on: "RSS toegangssleutel %{value} geleden gemaakt"

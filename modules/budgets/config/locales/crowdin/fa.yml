@@ -31,7 +31,7 @@ fa:
         budget_ratio: "Spent (ratio)"
         description: "توضیحات"
         spent: "صرف شده"
-        status: "Status"
+        status: "وضعیت"
         subject: "Subject"
         type: "نوع هزینه"
         labor_budget: "Planned labor costs"

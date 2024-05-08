@@ -1931,7 +1931,7 @@
   label_expanded_click_to_collapse: "Utvidet. Klikk for å skjule"
   label_f_hour: "%{value} time"
   label_f_hour_plural: "%{value} timer"
-  label_favorite: "Favorite"
+  label_favorite: "Favoritt"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS tilgangsnøkkel"
   label_feeds_access_key_created_on: "RSS tilgangsnøkkel opprettet for %{value} siden"

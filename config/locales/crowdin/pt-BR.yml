@@ -1930,7 +1930,7 @@ pt-BR:
   label_expanded_click_to_collapse: "Expandido. Clique para recolher"
   label_f_hour: "%{value} hora"
   label_f_hour_plural: "%{value} horas"
-  label_favorite: "Favorite"
+  label_favorite: "Favorito"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "Chave de acesso RSS"
   label_feeds_access_key_created_on: "Chave de acesso RSS criada %{value} atrás"

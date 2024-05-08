@@ -1897,7 +1897,7 @@ ko:
   label_expanded_click_to_collapse: "확장되었습니다. 축소하려면 클릭하세요."
   label_f_hour: "%{value}시간"
   label_f_hour_plural: "%{value}시간"
-  label_favorite: "Favorite"
+  label_favorite: "즐겨찾기"
   label_feed_plural: "피드"
   label_feeds_access_key: "RSS 액세스 키"
   label_feeds_access_key_created_on: "RSS 액세스 키가 %{value} 전에 생성되었습니다."

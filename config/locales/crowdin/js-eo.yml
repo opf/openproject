@@ -378,7 +378,7 @@ eo:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "tagoj antaŭe"
     label_all: "ĉiuj"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Ĉiuj"
     label_all_work_packages: "ĉiuj laborpakaĵoj"
     label_and: "and"
     label_ascending: "Kreskante"
@@ -983,7 +983,7 @@ eo:
         priority: "Prioritato"
         projectName: "Projekto"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "Restantaj horoj"
         responsible: "Respondeculo"
         startDate: "Komencdato"
         status: "Stato"
@@ -995,7 +995,7 @@ eo:
         versionName: "Versio"
         version: "Versio"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "Taksita tempo"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Lastaj aktivecoj"

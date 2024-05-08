@@ -1994,7 +1994,7 @@ pl:
   label_expanded_click_to_collapse: "Rozwinięto. Kliknij, aby zwinąć"
   label_f_hour: "%{value} godzin"
   label_f_hour_plural: "%{value} godzin"
-  label_favorite: "Favorite"
+  label_favorite: "Ulubione"
   label_feed_plural: "Kanały"
   label_feeds_access_key: "Klucz dostępu RSS"
   label_feeds_access_key_created_on: "Klucz dostępu RSS utworzony %{value} temu"
