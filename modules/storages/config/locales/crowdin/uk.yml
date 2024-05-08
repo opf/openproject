@@ -39,6 +39,7 @@ uk:
   api_v3:
     errors:
       too_many_elements_created_at_once: Забагато елементів, створених за раз. Очікувалося щонайбільше %{max}; отримано %{actual}.
+  external_file_storages: External file storages
   permission_create_files: 'Зовнішнє сховище: створення файлів'
   permission_delete_files: 'Зовнішнє сховище: видалення файлів'
   permission_header_for_project_module_storages: Папки проєкту з автоматичним керуванням
@@ -48,7 +49,7 @@ uk:
   permission_share_files: 'Зовнішнє сховище: надання доступу до файлів'
   permission_view_file_links: Перегляд посилань на файл
   permission_write_files: 'Зовнішнє сховище: записування файлів'
-  project_module_storages: Файлові сховища
+  project_module_storages: Files
   storages:
     buttons:
       complete_without_setup: Завершити без налаштування
@@ -225,7 +226,6 @@ uk:
       project_settings:
         delete: Видалити файлове сховище
         edit: Редагувати файлове сховище для цього проєкту
-        index: Файлові сховища доступні в цьому проєкті
         members_connection_status: Стан підключення учасників
         new: Додайте сховище файлів до цього проєкту
       project_storage_members:
@@ -244,6 +244,9 @@ uk:
         label_oauth_client_secret: Значення секрету клієнта Azure OAuth
         name: OneDrive / SharePoint
         name_placeholder: напр. OneDrive
+    show_attachments_toggle:
+      description: Deactivating this option will only hide the attachments list. Files uploaded with the help of the rich text editor will still be uploaded to the attachments internal storage.
+      label: Show attachments in the work packages files tab
     storage_list_blank_slate:
       description: Додайте сховище, щоб воно з’явилося тут.
       heading: У вас ще немає жодного сховища.

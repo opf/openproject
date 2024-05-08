@@ -38,7 +38,7 @@ class StructuredMeeting < Meeting
   def calculate_agenda_item_time_slots
     current_time = start_time
     MeetingAgendaItem.transaction do
-      changed_items = agenda_items.order(:position).map do |top|
+      changed_items = agenda_items.includes(:meeting_section).reorder("meeting_sections.position", :position).map do |top|
         start_time = current_time
         current_time += top.duration_in_minutes&.minutes || 0.minutes
         end_time = current_time

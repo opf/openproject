@@ -304,7 +304,14 @@ zh-TW:
       storage:
         no_results_title_text: 該專案沒有額外消耗磁碟空間。
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: 目前這個專案沒有成員
@@ -1545,6 +1552,7 @@ zh-TW:
       pdf_overview_table: "PDF(表格)"
       pdf_report_with_images: "PDF報表(含圖)"
       pdf_report: "PDF 報表"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "影像沒有匯出。"
     units:
@@ -1897,7 +1905,7 @@ zh-TW:
   label_expanded_click_to_collapse: "已擴大。按一下可折疊"
   label_f_hour: "%{value} 小時"
   label_f_hour_plural: "%{value} 個小時"
-  label_favorite: "Favorite"
+  label_favorite: "最愛"
   label_feed_plural: "串流"
   label_feeds_access_key: "RSS 金鑰"
   label_feeds_access_key_created_on: "RSS 金鑰在 %{value} 前已建立"
@@ -2170,6 +2178,7 @@ zh-TW:
   label_setting_plural: "設定"
   label_system_settings: "系統設置"
   label_show_completed_versions: "顯示已完成的版本"
+  label_columns: "欄位"
   label_sort: "排序"
   label_sort_by: "按 %{value} 排序"
   label_sorted_by: "以 %{value} 排序"
@@ -2856,6 +2865,7 @@ zh-TW:
   setting_app_subtitle: "應用程式副標題"
   setting_app_title: "應用程式標題"
   setting_attachment_max_size: "附件最大容量"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "掃描模式"
   setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "自動擷取版本庫的變更"
@@ -2957,6 +2967,8 @@ zh-TW:
     attachments:
       whitelist_text_html: >
         為上傳的文件定義有效文件副檔名和/或 MIME 類型的列表。 <br/> 輸入文件副檔名（例如 <code>%{ext_example}</code>）或 MIME 類型（例如 <code>%{mime_example}</code>）。 <br/> 留空以允許上傳任何文件類型。允許多個值（每個值一行）。
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "病毒掃描中："
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
@@ -3193,6 +3205,10 @@ zh-TW:
         input_label: "增加欄位"
         input_placeholder: "選取欄位"
         drag_area_label: "重新排列"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "其他資源"
     getting_started: "開始"

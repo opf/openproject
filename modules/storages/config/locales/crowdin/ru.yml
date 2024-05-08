@@ -39,6 +39,7 @@ ru:
   api_v3:
     errors:
       too_many_elements_created_at_once: Слишком много элементов, созданных сразу. Ожидалось %{max} максимум - получено %{actual}.
+  external_file_storages: External file storages
   permission_create_files: 'External Storage: Create files'
   permission_delete_files: 'External Storage: Delete files'
   permission_header_for_project_module_storages: Автоматически управляемые папки проектов
@@ -48,7 +49,7 @@ ru:
   permission_share_files: 'External Storage: Share files'
   permission_view_file_links: Просмотр ссылок на файл
   permission_write_files: 'External Storage: Write files'
-  project_module_storages: Файловые хранилища
+  project_module_storages: Files
   storages:
     buttons:
       complete_without_setup: Обходитесь без этого
@@ -223,7 +224,6 @@ ru:
       project_settings:
         delete: Удалить хранилище файлов
         edit: Редактировать хранилище файлов для этого проекта
-        index: Файловые хранилища, доступные в этом проекте
         members_connection_status: Статус подключения участников
         new: Добавить хранилище файлов в этот проект
       project_storage_members:
@@ -242,6 +242,9 @@ ru:
         label_oauth_client_secret: Секретное значение клиента Azure OAuth
         name: OneDrive/SharePoint
         name_placeholder: напр. OneDrive
+    show_attachments_toggle:
+      description: Deactivating this option will only hide the attachments list. Files uploaded with the help of the rich text editor will still be uploaded to the attachments internal storage.
+      label: Show attachments in the work packages files tab
     storage_list_blank_slate:
       description: Добавьте хранилище, чтобы увидеть его здесь.
       heading: У вас пока нет хранилищ.

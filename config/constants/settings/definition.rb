@@ -736,6 +736,12 @@ module Settings
         default: "",
         writable: false
       },
+      show_work_package_attachments: {
+        description: "Show work package attachments by default.",
+        format: :boolean,
+        default: true,
+        writable: true
+      },
       https: {
         description: "Set assumed connection security for the Rails processes",
         format: :boolean,

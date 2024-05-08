@@ -82,8 +82,8 @@ class WorkPackage < ApplicationRecord
   scope :visible, ->(user = User.current) { allowed_to(user, :view_work_packages) }
 
   scope :in_status, ->(*args) do
-                      where(status_id: (args.first.respond_to?(:id) ? args.first.id : args.first))
-                    end
+    where(status_id: (args.first.respond_to?(:id) ? args.first.id : args.first))
+  end
 
   scope :for_projects, ->(projects) {
     where(project_id: projects)
@@ -291,6 +291,7 @@ class WorkPackage < ApplicationRecord
   def milestone?
     type&.is_milestone?
   end
+
   alias_method :is_milestone?, :milestone?
 
   def done_ratio
@@ -298,6 +299,14 @@ class WorkPackage < ApplicationRecord
       status.default_done_ratio
     else
       read_attribute(:done_ratio)
+    end
+  end
+
+  def hide_attachments?
+    if project&.deactivate_work_package_attachments.nil?
+      !Setting.show_work_package_attachments
+    else
+      project&.deactivate_work_package_attachments?
     end
   end
 
@@ -503,11 +512,13 @@ class WorkPackage < ApplicationRecord
             .where(types: { id: work_packages.map(&:type_id).uniq }))
       .distinct
   end
+
   private_class_method :available_custom_fields_from_db
 
   def self.available_custom_field_key(work_package)
     :"#work_package_custom_fields_#{work_package.project_id}_#{work_package.type_id}"
   end
+
   private_class_method :available_custom_field_key
 
   def custom_field_cache_key
@@ -540,7 +551,7 @@ class WorkPackage < ApplicationRecord
 
     key = "activity_id"
     id = attributes[key]
-    default_id = if id&.present?
+    default_id = if id.present?
                    Enumeration.exists? id:, is_default: true, type: "TimeEntryActivity"
                  else
                    true
@@ -556,6 +567,7 @@ class WorkPackage < ApplicationRecord
       " AND #{Version.table_name}.sharing <> 'system'"
     )
   end
+
   private_class_method :having_version_from_other_project
 
   # Update issues so their versions are not pointing to a
@@ -575,6 +587,7 @@ class WorkPackage < ApplicationRecord
       end
     end
   end
+
   private_class_method :update_versions
 
   # Default assignment based on category
@@ -640,6 +653,7 @@ class WorkPackage < ApplicationRecord
       group by s.id, s.is_closed, j.id"
     ).to_a
   end
+
   private_class_method :count_and_group_by
 
   def set_attachments_error_details

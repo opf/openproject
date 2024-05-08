@@ -90,9 +90,9 @@ ms:
         Gunakan butang berikutnya untuk menjana set kod sokongan baharu.
       generate:
         title: Hasilkan kod sokongan
-        keep_safe_as_password: "Penting! Perlakukan kod-kod ini sebagai kata laluan."
-        keep_safe_warning: "Antara menyimpannya dalam pengendalian kata laluan anda, atau mencetak halaman ini dan menyimpannya di sebuah tempat yang selamat."
-        regenerate_warning: "Amaran: Jika anda telah mencipta kod sandaran sebelum ini, mereka akan dibatalkan dan tidak akan berfungsi lagi."
+        keep_safe_as_password: "Penting! Perlakukan kod-kod ini sebagaimana kata laluan."
+        keep_safe_warning: "Sama ada menyimpannya dalam pengendalian kata laluan anda, atau mencetak halaman ini dan menyimpannya di tempat yang selamat."
+        regenerate_warning: "Amaran: Jika anda telah mencipta kod sandaran sebelum ini, kod-kod tersebut akan dibatalkan dan tidak akan berfungsi lagi."
     devices:
       add_new: "Tambah peranti 2FA baharu"
       register: "Daftar peranti"
@@ -168,7 +168,7 @@ ms:
   field_otp: "Kata laluan satu kali"
   notice_account_otp_invalid: " Kata laluan satu kali tidak sah."
   notice_account_otp_expired: "Kata laluan satu kali yang anda masukkan telah tamat tempoh."
-  notice_developer_strategy_otp: "Developer strategy generated the following one-time password: %{token} (Channel: %{channel})"
+  notice_developer_strategy_otp: "Strategi pembangunan telah generasikan kata laluan satu kali yang berikut: %{token} (Saluran: %{channel})"
   notice_account_otp_send_failed: "Kata laluan satu kali anda tidak dapat dihantar."
   notice_account_has_no_phone: "Tiada nombor telefon bimbit yang berkaitan dengan akaun anda."
   label_expiration_hint: "%{date} atau pada log keluar"

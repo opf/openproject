@@ -1,6 +1,6 @@
 #!/bin/bash
-set -e
-set -o pipefail
+set -eox pipefail
+
 
 # postfix.postinst tries to generate a hostname based on /etc/resolv.conf, which
 # gets copied in to the docker environment from the host system. On systems
@@ -14,10 +14,30 @@ if [ -f /run/.containerenv -o -f /.dockerenv ]; then
 	mv /bin/x-hostname /bin/hostname
 fi
 
+apt-get update -qq
+# embed all-in-one additional software
 apt-get install -y  \
+	postgresql-$CURRENT_PGVERSION \
+	postgresql-$NEXT_PGVERSION \
+	memcached \
 	postfix \
 	apache2 \
-	supervisor
+	supervisor \
+	git subversion \
+	wget
+
+# remove any existing cluster
+service postgresql stop
+rm -rf /var/lib/postgresql/{$CURRENT_PGVERSION,$NEXT_PGVERSION}
 
 a2enmod proxy proxy_http
 rm -f /etc/apache2/sites-enabled/000-default.conf
+
+# gosu
+dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"
+wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch"
+chmod +x /usr/local/bin/gosu
+gosu nobody true
+
+rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+truncate -s 0 /var/log/*log

@@ -39,6 +39,7 @@ kk:
   api_v3:
     errors:
       too_many_elements_created_at_once: Too many elements created at once. Expected %{max} at most, got %{actual}.
+  external_file_storages: External file storages
   permission_create_files: 'External Storage: Create files'
   permission_delete_files: 'External Storage: Delete files'
   permission_header_for_project_module_storages: Automatically managed project folders
@@ -48,7 +49,7 @@ kk:
   permission_share_files: 'External Storage: Share files'
   permission_view_file_links: View file links
   permission_write_files: 'External Storage: Write files'
-  project_module_storages: File storages
+  project_module_storages: Files
   storages:
     buttons:
       complete_without_setup: Complete without it
@@ -225,7 +226,6 @@ kk:
       project_settings:
         delete: Delete file storage
         edit: Edit the file storage to this project
-        index: File storages available in this project
         members_connection_status: Members connection status
         new: Add a file storage to this project
       project_storage_members:
@@ -244,6 +244,9 @@ kk:
         label_oauth_client_secret: Azure OAuth Client Secret Value
         name: OneDrive/SharePoint
         name_placeholder: e.g. OneDrive
+    show_attachments_toggle:
+      description: Deactivating this option will only hide the attachments list. Files uploaded with the help of the rich text editor will still be uploaded to the attachments internal storage.
+      label: Show attachments in the work packages files tab
     storage_list_blank_slate:
       description: Add a storage to see them here.
       heading: You don't have any storages yet.

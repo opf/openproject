@@ -330,6 +330,18 @@ eu:
         years: "Years"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "no"
     general_text_yes: "yes"
     general_text_No: "No"
@@ -378,7 +390,7 @@ eu:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "days ago"
     label_all: "all"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Denak"
     label_all_work_packages: "all work packages"
     label_and: "and"
     label_ascending: "Ascending"
@@ -983,7 +995,7 @@ eu:
         priority: "Priority"
         projectName: "Project"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "Geratzen diren orduak"
         responsible: "Responsible"
         startDate: "Hasiera data"
         status: "Status"

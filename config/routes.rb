@@ -181,7 +181,7 @@ Rails.application.routes.draw do
 
   namespace :projects do
     resource :menu, only: %i[show]
-    resources :queries, only: %i[new create destroy]
+    resources :queries, only: %i[new create update destroy]
   end
 
   resources :projects, except: %i[show edit create update] do
@@ -220,6 +220,7 @@ Rails.application.routes.draw do
 
       # Destroy uses a get request to prompt the user before the actual DELETE request
       get :destroy_info, as: "confirm_destroy"
+      post :deactivate_work_package_attachments
     end
 
     resources :versions, only: %i[new create] do

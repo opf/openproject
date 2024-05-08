@@ -28,10 +28,12 @@
 
 module Admin::Settings
   class AttachmentsSettingsController < ::Admin::SettingsController
-    menu_item :attachments_settings
+    menu_item :attachments
 
-    def default_breadcrumb
-      t(:"attributes.attachments")
+    def default_breadcrumb; end
+
+    def show_local_breadcrumb
+      false
     end
 
     def settings_params

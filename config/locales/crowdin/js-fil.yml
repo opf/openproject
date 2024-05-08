@@ -330,6 +330,18 @@ fil:
         years: "Mga taon"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "hindi"
     general_text_yes: "oo"
     general_text_No: "Hindi"
@@ -762,7 +774,7 @@ fil:
           last_day: "Last day"
     text_are_you_sure: "Sigurado ka ba?"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} isinulat:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Ang pangalan ng %{group} ay ginamit higit pa sa isang beses. Ang mga pangalan ng grupo ay dapat nakakakatangi."
@@ -995,7 +1007,7 @@ fil:
         versionName: "Bersyon"
         version: "Bersyon"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "Tinantyang oras"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"

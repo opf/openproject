@@ -302,7 +302,14 @@ it:
       storage:
         no_results_title_text: Nessuno spazio su disco registrato aggiuntivo consumato da questo progetto.
   lists:
-    can_be_saved_as: "Le modifiche possono essere salvate solo in un nuovo elenco."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Al momento non vi sono partecipanti a questo progetto.
@@ -1576,6 +1583,7 @@ it:
       pdf_overview_table: "Tabella PDF"
       pdf_report_with_images: "Rapporto PDF con immagini"
       pdf_report: "Rapporto PDF"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Immagine non esportata."
     units:
@@ -1928,7 +1936,7 @@ it:
   label_expanded_click_to_collapse: "Espanso. Clicca per comprimere"
   label_f_hour: "%{value} ora"
   label_f_hour_plural: "%{value} ore"
-  label_favorite: "Favorite"
+  label_favorite: "Preferito"
   label_feed_plural: "Feed"
   label_feeds_access_key: "Chiave di accesso RSS"
   label_feeds_access_key_created_on: "Chiave di accesso RSS creato %{value} fa"
@@ -2201,6 +2209,7 @@ it:
   label_setting_plural: "Impostazioni"
   label_system_settings: "Impostazioni di sistema"
   label_show_completed_versions: "Visualizza le versioni completate"
+  label_columns: "Colonne"
   label_sort: "Ordina"
   label_sort_by: "Ordina per %{value}"
   label_sorted_by: "ordinati per %{value}"
@@ -2890,6 +2899,7 @@ it:
   setting_app_subtitle: "Sottotitolo applicazione"
   setting_app_title: "Titolo applicazione"
   setting_attachment_max_size: "Dimensione max. dell'allegato"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Modalità di scansione"
   setting_antivirus_scan_action: "Azione sul file infetto"
   setting_autofetch_changesets: "Recupera automaticamente i cambiamenti dell'archivio di progetto"
@@ -2991,6 +3001,8 @@ it:
     attachments:
       whitelist_text_html: >
         Definisci un elenco di estensioni di file valide e/o tipi MIME per i file caricati. <br/> Inserisci le estensioni dei file (ad es. <code>%{ext_example}</code>) o i tipi MIME (ad es. <code>%{mime_example}</code>). <br/> Lascia vuoto per consentire il caricamento di qualsiasi tipo di file. Sono consentiti più valori (una riga per ogni valore).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Scansione antivirus"
       clamav_ping_failed: "Impossibile connettersi al daemon ClamAV. Ricontrolla la configurazione e riprova."
@@ -3227,6 +3239,10 @@ it:
         input_label: "Aggiungi colonne"
         input_placeholder: "Seleziona una colonna"
         drag_area_label: "Gestisci e riordina colonne"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Risorse aggiuntive"
     getting_started: "Per cominciare"

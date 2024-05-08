@@ -305,7 +305,14 @@
       storage:
         no_results_title_text: Det er ingen ekstra registrert diskplass brukt av dette prosjektet.
   lists:
-    can_be_saved_as: "Endringene kan bare lagres i en ny liste."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Det er ingen medlemmer i prosjektet.
@@ -1579,6 +1586,7 @@
       pdf_overview_table: "PDF tabell"
       pdf_report_with_images: "PDF rapport med bilder"
       pdf_report: "PDF rapport"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Bilde ikke eksportert."
     units:
@@ -1931,7 +1939,7 @@
   label_expanded_click_to_collapse: "Utvidet. Klikk for å skjule"
   label_f_hour: "%{value} time"
   label_f_hour_plural: "%{value} timer"
-  label_favorite: "Favorite"
+  label_favorite: "Favoritt"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS tilgangsnøkkel"
   label_feeds_access_key_created_on: "RSS tilgangsnøkkel opprettet for %{value} siden"
@@ -2204,6 +2212,7 @@
   label_setting_plural: "Innstillinger"
   label_system_settings: "Systeminnstillinger"
   label_show_completed_versions: "Vis fullførte versjoner"
+  label_columns: "Kolonner"
   label_sort: "Sortèr"
   label_sort_by: "Sorter på %{value}"
   label_sorted_by: "sortert på %{value}"
@@ -2893,6 +2902,7 @@
   setting_app_subtitle: "Undertittel for applikasjon"
   setting_app_title: "Applikasjonsnavn"
   setting_attachment_max_size: "Maksstørrelse for vedlegg"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Skannemodus"
   setting_antivirus_scan_action: "Handling for infisert fil"
   setting_autofetch_changesets: "Autofetch kodelagerendringer"
@@ -2994,6 +3004,8 @@
     attachments:
       whitelist_text_html: >
         Definer en liste over gydlige fil-typer og/eller mime typer for opplastingsfiler.<br/>Sett inn fil-typer (f.eks. <code>%{ext_example}</code>) eller mime typer (f.eks. <code>%{mime_example}</code>).<br/> La stå tom for å godta at alle filtyper kan lastes opp.  Flere verdier er tillatt (en linje for hver verdi).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Virusskanning"
       clamav_ping_failed: "Kan ikke koble til ClamAV daemon. Dobbeltsjekk konfigurasjonen og prøv på nytt."
@@ -3230,6 +3242,10 @@
         input_label: "Legg til kolonner"
         input_placeholder: "Velg en kolonne"
         drag_area_label: "Behandle og endre rekkefølgen på kolonner"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Tilleggsressurser"
     getting_started: "Komme i gang"

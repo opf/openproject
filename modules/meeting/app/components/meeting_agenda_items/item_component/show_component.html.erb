@@ -46,7 +46,7 @@
       end
 
       if @meeting_agenda_item.duration_in_minutes.present? && @meeting_agenda_item.duration_in_minutes > 0
-        grid.with_area(:duration, Primer::Beta::Text, color: duration_color_scheme, mr: 1) do
+        grid.with_area(:duration, Primer::Beta::Text, color: duration_color_scheme, mr: 1, font_size: :small) do
           I18n.t('datetime.distance_in_words.x_minutes_abbreviated', count: @meeting_agenda_item.duration_in_minutes)
         end
       end
@@ -71,8 +71,13 @@
                                   test_selector: 'op-meeting-agenda-actions')
             edit_action_item(menu) if @meeting_agenda_item.editable?
             add_note_action_item(menu) if @meeting_agenda_item.editable? && @meeting_agenda_item.notes.blank?
+            unless first? && last?
+              menu.with_divider 
+              move_actions(menu)
+            end
+            menu.with_divider
             copy_action_item(menu)
-            move_actions(menu)
+            menu.with_divider
             delete_action_item(menu)
           end
         end

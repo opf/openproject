@@ -163,11 +163,25 @@ module OpenProject::Storages
       # Add a "storages_admin_settings" to the admin_menu with the specified link,
       # condition ("if:"), caption and icon.
       menu :admin_menu,
-           :storages_admin_settings,
+           :files,
            { controller: "/storages/admin/storages", action: :index },
            if: Proc.new { User.current.admin? },
            caption: :project_module_storages,
            icon: "hosting"
+
+      menu :admin_menu,
+           :external_file_storages,
+           { controller: "/storages/admin/storages", action: :index },
+           if: Proc.new { User.current.admin? },
+           caption: :external_file_storages,
+           parent: :files
+
+      menu :admin_menu,
+           :attachments,
+           { controller: "/admin/settings/attachments_settings", action: :show },
+           if: Proc.new { User.current.admin? },
+           caption: :"attributes.attachments",
+           parent: :files
 
       menu :project_menu,
            :settings_project_storages,

@@ -50,13 +50,8 @@ class Storages::Admin::StoragesController < ApplicationController
   before_action :ensure_valid_provider_type_selected, only: %i[select_provider]
   before_action :require_ee_token_for_one_drive, only: %i[select_provider]
 
-  # menu_item is defined in the Redmine::MenuManager::MenuController
-  # module, included from ApplicationController.
-  # The menu item is defined in the engine.rb
-  menu_item :storages_admin_settings
+  menu_item :external_file_storages
 
-  # Index page with a list of Storages objects
-  # Called by: Global app/config/routes.rb to serve Web page
   def index
     @storages = Storages::Storage.all
   end
