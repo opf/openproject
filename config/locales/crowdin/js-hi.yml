@@ -981,7 +981,7 @@ hi:
         priority: "वरीयता"
         projectName: "परियोजना"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "बाकी बचे घंटे"
         responsible: "जिम्मेदार"
         startDate: "प्रारंभ दिनांक"
         status: "अवस्था"

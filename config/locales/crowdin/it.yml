@@ -345,11 +345,11 @@ it:
     delete_work_package_shares_dialog:
       title: "Revoca condivisioni della macro-attività"
       shared_with_this_user_html:
-        one: "%{shared_work_packages_link} è stato condiviso con questo utente."
-        other: "%{shared_work_packages_link} sono stati condivisi con questo utente."
+        one: "%{all_shared_work_packages_link} è stato condiviso con questo utente."
+        other: "%{all_shared_work_packages_link} sono stati condivisi con questo utente."
       shared_with_this_group_html:
-        one: "%{shared_work_packages_link} è stato condiviso con questo gruppo."
-        other: "%{shared_work_packages_link} sono stati condivisi con questo gruppo."
+        one: "%{all_shared_work_packages_link} è stato condiviso con questo gruppo."
+        other: "%{all_shared_work_packages_link} sono stati condivisi con questo gruppo."
       shared_with_permission_html:
         one: "Solo %{shared_work_packages_link} è stato condiviso con i permessi di %{shared_role_name}."
         other: "Solo %{shared_work_packages_link} sono stati condivisi con i permessi di %{shared_role_name}."
@@ -1119,7 +1119,7 @@ it:
         logged_for: "Registrato per"
       meeting_agenda_item:
         duration:
-          added: "impostato a {value}"
+          added: "impostato a %{value}"
           added_html: "impostato a <i>%{value}</i>"
           removed: "rimosso"
           updated: "modificato da %{old_value} a %{value}"
@@ -1653,6 +1653,8 @@ it:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Guida di configurazione"
     get_in_touch: "Hai dei dubbi? Mettiti in contatto con noi."

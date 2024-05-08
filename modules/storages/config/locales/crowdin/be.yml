@@ -53,7 +53,7 @@ be:
       complete_without_setup: Complete without it
       done_complete_setup: Done, complete setup
       done_continue: Done, continue
-      replace_oauth_application: Replace OpenProject OAuth
+      replace_oauth_application: Замяніць OpenProject OAuth
       replace_oauth_client: Replace %{provider_type} OAuth
       save_and_continue: Save and continue
       select_folder: Select folder

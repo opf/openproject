@@ -318,7 +318,7 @@ be:
     menu:
       all: "All"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Заблакавана"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
       groups: "Groups"
@@ -1722,6 +1722,8 @@ be:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Configuration guide"
     get_in_touch: "You have questions? Get in touch with us."
@@ -2480,7 +2482,7 @@ be:
     storages:
       health:
         plaintext:
-          storage: "Storage"
+          storage: "Сховішча"
           healthy:
             summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
             error-solved-on: "Solved On"

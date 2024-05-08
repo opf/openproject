@@ -1,6 +1,6 @@
 hr:
   js:
     queries:
-      all_open: 'All open'
+      all_open: 'Svi otvoreni'
       timeline: 'Timeline'
       milestones: 'Milestones'

@@ -43,31 +43,43 @@ module Storages
 
           # rubocop:disable Metrics/AbcSize
           def call(storage:, http_options: {}, &)
-            config = storage.oauth_configuration
-            current_token = OAuthClientToken.find_by(user_id: @user, oauth_client_id: config.oauth_client.id)
-            if current_token.nil?
-              data = ::Storages::StorageErrorData.new(source: self.class)
-              return Failures::Builder.call(code: :unauthorized,
-                                            log_message: "Authorization failed. No user access token found.",
-                                            data:)
-            end
+            token = current_token(storage).on_failure { |failure| return failure }
 
-            opts = http_options.deep_merge({ headers: { "Authorization" => "Bearer #{current_token.access_token}" } })
+            opts = http_options.deep_merge({ headers: { "Authorization" => "Bearer #{token.result.access_token}" } })
             response_with_current_token = yield OpenProject.httpx.with(opts)
 
             if response_with_current_token.success? || response_with_current_token.result != :unauthorized
               response_with_current_token
             else
-              httpx_oauth_config = config.to_httpx_oauth_config
+              httpx_oauth_config = storage.oauth_configuration.to_httpx_oauth_config
               return build_failure(storage) unless httpx_oauth_config.valid?
 
-              refresh_and_retry(httpx_oauth_config, http_options, current_token, &)
+              refresh_and_retry(httpx_oauth_config, http_options, token.result, &)
             end
           end
 
           # rubocop:enable Metrics/AbcSize
 
           private
+
+          def current_token(storage)
+            data = ::Storages::StorageErrorData.new(source: self.class)
+
+            if storage.oauth_client.blank?
+              log_message = "Authorization failed. Storage has no configured oauth client credentials."
+              return Failures::Builder.call(code: :unauthorized, log_message:, data:)
+            end
+
+            current_token = OAuthClientToken.find_by(user: @user,
+                                                     oauth_client: storage.oauth_configuration.oauth_client)
+            if current_token.nil?
+              Failures::Builder.call(code: :unauthorized,
+                                     log_message: "Authorization failed. No user access token found.",
+                                     data:)
+            else
+              ServiceResult.success(result: current_token)
+            end
+          end
 
           # rubocop:disable Metrics/AbcSize
           def refresh_and_retry(config, http_options, token, &)

@@ -163,7 +163,7 @@ module API::V3::Storages
     end
 
     link :authorize do
-      next unless authorization_state == :failed_authorization
+      next if hide_authorize_link?
 
       { href: represented.oauth_configuration.authorization_uri, title: "Authorize" }
     end
@@ -211,6 +211,10 @@ module API::V3::Storages
 
     def represent_oauth_application?
       current_user.admin? && represented.provider_type_nextcloud?
+    end
+
+    def hide_authorize_link?
+      represented.oauth_client.blank? || authorization_state != :failed_authorization
     end
 
     def storage_projects(storage)

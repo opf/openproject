@@ -764,7 +764,7 @@ ar:
           last_day: "Last day"
     text_are_you_sure: "هل أنت متأكد؟"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} كتب:"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
@@ -985,7 +985,7 @@ ar:
         priority: "الأولوية"
         projectName: "مشروع"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "الساعات المتبقية"
         responsible: "مسؤول"
         startDate: "تاريخ البدء"
         status: "الحالة"
@@ -997,7 +997,7 @@ ar:
         versionName: "الإصدار"
         version: "الإصدار"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "الوقت المُقّدَّر"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"
@@ -1194,7 +1194,7 @@ ar:
         other: "%{count} h"
         zero: "0 h"
       day:
-        one: "%{count} يوم"
+        one: "1 يوم"
         other: "%{count} يوم"
         zero: "0 days"
     zen_mode:

@@ -1654,6 +1654,8 @@ pt-PT:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Guia de configuração"
     get_in_touch: "Tem questões? Entre em contato conosco."
@@ -2330,7 +2332,7 @@ pt-PT:
     zero: "sem projetos"
   label_x_files:
     one: "1 ficheiro"
-    other: "{count} ficheiros"
+    other: "%{count} ficheiros"
     zero: "sem ficheiros"
   label_yesterday: "ontem"
   label_zen_mode: "Modo Zen"

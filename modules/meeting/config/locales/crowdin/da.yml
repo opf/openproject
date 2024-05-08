@@ -43,10 +43,10 @@ da:
         start_time: "Start time"
         start_time_hour: "Start time"
       meeting_agenda_item:
-        title: "Title"
-        author: "Author"
+        title: "Titel"
+        author: "Forfatter"
         duration_in_minutes: "min"
-        description: "Notes"
+        description: "Kommentarer"
         presenter: "Presenter"
     errors:
       messages:
@@ -170,7 +170,7 @@ da:
   text_agenda_item_title: 'Agenda item "%{title}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
   text_deleted_agenda_item: 'Deleted agenda item'
-  label_initial_meeting_details: "Meeting"
+  label_initial_meeting_details: "Møde"
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
   label_meeting_state: "Meeting status"

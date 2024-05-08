@@ -30,7 +30,7 @@
 
 import { Controller } from '@hotwired/stimulus';
 import { debounce } from 'lodash';
-import morphdom from 'morphdom';
+import Idiomorph from 'idiomorph/dist/idiomorph.cjs';
 
 interface TurboBeforeFrameRenderEventDetail {
   render:(currentElement:HTMLElement, newElement:HTMLElement) => void;
@@ -48,7 +48,7 @@ export default class PreviewProgressController extends Controller {
   private frameMorphRenderer:(event:CustomEvent<TurboBeforeFrameRenderEventDetail>) => void;
 
   connect() {
-    this.debouncedPreview = debounce((event:Event) => { void this.preview(event); }, 500);
+    this.debouncedPreview = debounce((event:Event) => { void this.preview(event); }, 100);
     // TODO: Ideally morphing in this single controller should not be necessary.
     // Turbo supports morphing, by adding the <turbo-frame refresh="morph"> attribute.
     // However, it has a bug, and it doesn't morphs when reloading the frame via javascript.
@@ -56,7 +56,7 @@ export default class PreviewProgressController extends Controller {
     // this code and just use <turbo-frame refresh="morph"> instead.
     this.frameMorphRenderer = (event:CustomEvent<TurboBeforeFrameRenderEventDetail>) => {
       event.detail.render = (currentElement:HTMLElement, newElement:HTMLElement) => {
-        morphdom(currentElement, newElement, { childrenOnly: true });
+        Idiomorph.morph(currentElement, newElement, { ignoreActiveValue: true });
       };
     };
 

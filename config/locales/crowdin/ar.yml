@@ -263,7 +263,7 @@ ar:
       no_results_content_text: إنشاء مشروع جديد
     lists:
       active: "Active projects"
-      my: "My projects"
+      my: "مشاريعي"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -316,12 +316,12 @@ ar:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "الجميع"
       invited: "Invited"
-      locked: "Locked"
+      locked: "مقفل"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "المجموعات"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -422,7 +422,7 @@ ar:
     memberships:
       no_results_title_text: هذا المستخدم حالياً ليس عضواً في المشروع.
   page:
-    text: "Text"
+    text: "النص"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -649,7 +649,7 @@ ar:
           false: "private"
         queries: "الاستفسارات"
         status_code: "حالة المشروع"
-        description: "Description"
+        description: "الوصف"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -1067,7 +1067,7 @@ ar:
             ldap_auth_source:
               error_not_found: "لم يتم العثور"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "لم يتم العثور"
         member:
           principal_blank: "يرجى اختيار مستخدم واحد على الأقل أو مجموعة."
           role_blank: "need to be assigned."
@@ -1340,7 +1340,7 @@ ar:
   button_reset: "إعادة تعيين"
   button_rollback: "العودة إلى هذا الإصدار"
   button_save: "حفظ"
-  button_save_as: "Save as"
+  button_save_as: "احفظ بشكل"
   button_apply_changes: "Apply changes"
   button_save_back: "حفظ والعودة"
   button_show: "إظهار"
@@ -1685,7 +1685,7 @@ ar:
     message: تم تحرير الرسالة
     news: الأخبار
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "تم تعديل المشروع"
     projects: "تم تعديل المشروع"
     reply: تم الرد
     time_entry: "تم تحرير Timelog"
@@ -1788,6 +1788,8 @@ ar:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Configuration guide"
     get_in_touch: "You have questions? Get in touch with us."
@@ -1905,7 +1907,7 @@ ar:
   label_ascending: "ترتيب تصاعدي"
   label_assigned_to_me_work_packages: "مجموعات العمل الموكلة لي"
   label_associated_revisions: "التعديلات المرتبطة بها"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "المرفقات"
   label_attribute: "الواصفة"
   label_attribute_plural: "الواصفات"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1920,7 +1922,7 @@ ar:
   label_available_project_work_package_categories: "فئات مجموعة العمل المتاحة"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "توثيق API"
   label_backup: "Backup"
   label_backup_code: "Backup code"
   label_between: "بين"
@@ -1932,7 +1934,7 @@ ar:
   label_forum_plural: "منتديات"
   label_forum_sticky: "مثبت"
   label_boolean: "قيمة منطقية"
-  label_board_plural: "Boards"
+  label_board_plural: "لوحات"
   label_branch: "فرع"
   label_browse: "تصفّح"
   label_bulk_edit_selected_work_packages: "تحرير كل مجموعات العمل المحددة"
@@ -1991,7 +1993,7 @@ ar:
   label_custom_field_plural: "الحقول المخصصة"
   label_custom_field_default_type: "نوع فارغ"
   label_custom_style: "Design"
-  label_dashboard: "Dashboard"
+  label_dashboard: " لوحة القيادة"
   label_database_version: "PostgreSQL version"
   label_date: "التاريخ"
   label_date_and_time: "Date and time"
@@ -2053,7 +2055,7 @@ ar:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "متاح أيضاً في:"
-  label_expand: "Expand"
+  label_expand: "وسّع"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "ساعة%{value}"
   label_f_hour_plural: "ساعات%{value}"
@@ -2064,7 +2066,7 @@ ar:
   label_feeds_access_key_type: "اختصاراً لِ:\"Rich Site Summary\" \nReally Simple Syndication\" or\""
   label_file_plural: "الملفّات"
   label_filter_add: "إضافة عامل تصفية"
-  label_filter: "Filters"
+  label_filter: "عوامل التصفية"
   label_filter_plural: "عوامل التصفية"
   label_filters_toggle: "Show/hide filters"
   label_float: "عدد عشري"
@@ -2091,7 +2093,7 @@ ar:
   label_home: "الصفحة الرئيسية"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "المعرّف"
   label_in: "في"
   label_in_less_than: "في أقل من"
   label_in_more_than: "في أكثر من"
@@ -2107,7 +2109,7 @@ ar:
   label_internal: "داخلي"
   label_introduction_video: "Introduction video"
   label_invite_user: "دعوة مستخدم"
-  label_share: "Share"
+  label_share: "شارك"
   label_show_hide: "إظهار / إخفاء"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "يوميات"
@@ -2127,7 +2129,7 @@ ar:
   label_latest_revision: "أحدث مراجعة"
   label_latest_revision_plural: "أحدث المراجعات"
   label_ldap_authentication: "المصادقة LDAP"
-  label_learn_more: "Learn more"
+  label_learn_more: "التعرف على المزيد"
   label_less_or_equal: "=>"
   label_less_than_ago: "أقل من أيام"
   label_list: "القائمة"
@@ -2323,7 +2325,7 @@ ar:
   label_search: "البحث"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "إرسال رسالة اختبار"
-  label_session: "Session"
+  label_session: "الجلسة"
   label_setting_plural: "إعدادات"
   label_system_settings: "إعدادات النظام"
   label_show_completed_versions: "عرض الإصدارات المنجزة"
@@ -3377,12 +3379,12 @@ ar:
     assign_random_password: "تعيين كلمة مرور عشوائي (إرسالها إلى المستخدم عبر البريد الإلكتروني)"
     blocked: "مغلق مؤقتاً"
     blocked_num_failed_logins:
-      zero: "مغلق مؤقتا ( فشل واحد في محاولة تسجيل الدخول)\nمغلق مؤقتا\"(محاولات تسجيل الدخول الفاشلة%{count})"
-      one: "مغلق مؤقتا ( فشل واحد في محاولة تسجيل الدخول)\nمغلق مؤقتا\"(محاولات تسجيل الدخول الفاشلة%{count})"
-      two: "مغلق مؤقتا ( فشل واحد في محاولة تسجيل الدخول)\nمغلق مؤقتا\"(محاولات تسجيل الدخول الفاشلة%{count})"
-      few: "مغلق مؤقتا ( فشل واحد في محاولة تسجيل الدخول)\nمغلق مؤقتا\"(محاولات تسجيل الدخول الفاشلة%{count})"
-      many: "مغلق مؤقتا ( فشل واحد في محاولة تسجيل الدخول)\nمغلق مؤقتا\"(محاولات تسجيل الدخول الفاشلة%{count})"
-      other: "مغلق مؤقتا ( فشل واحد في محاولة تسجيل الدخول)\nمغلق مؤقتا\"(محاولات تسجيل الدخول الفاشلة%{count})"
+      zero: "مغلق مؤقتا (محاولات تسجيل الدخول الفاشلة%{count})"
+      one: "مغلق مؤقتا ( فشل واحد في محاولة تسجيل الدخول)"
+      two: "مغلق مؤقتا (محاولات تسجيل الدخول الفاشلة%{count})"
+      few: "مغلق مؤقتا (محاولات تسجيل الدخول الفاشلة%{count})"
+      many: "مغلق مؤقتا (محاولات تسجيل الدخول الفاشلة%{count})"
+      other: "مغلق مؤقتا (محاولات تسجيل الدخول الفاشلة%{count})"
     confirm_status_change: "You are about to change the status of '%{name}'. Are you sure you want to continue?"
     deleted: "حذف المستخدم"
     error_status_change_failed: "فشل تغيير حالة المستخدم نتيجة للأخطاء التالية: %{errors}"
@@ -3477,7 +3479,7 @@ ar:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "غير مشترك"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >

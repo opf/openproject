@@ -114,7 +114,7 @@ cs:
       remove_from_list: "Odstranit kartu ze seznamu"
     caption_rate_history: "Historie sazeb"
     clipboard:
-      browser_error: "Váš prohlížeč nepodporuje, kopírování do schránky. Ručně zkopírujte vybraný text."
+      browser_error: "Váš prohlížeč nepodporuje, kopírování do schránky. Ručně zkopírujte vybraný text: %{content}"
       copied_successful: "Úspěšně zkopírováno do schránky!"
     chart:
       type: "Typ grafu"
@@ -494,7 +494,7 @@ cs:
     label_sort_lower: "Přesunout níž"
     label_sorting: "Řazení"
     label_spent_time: "Strávený čas"
-    label_star_query: "Oblíbené"
+    label_star_query: "Oblíbená"
     label_press_enter_to_save: "Stiskněte Enter pro uložení."
     label_public_query: "Veřejné"
     label_sum: "Suma"
@@ -756,7 +756,7 @@ cs:
           membership_updated: "Členství bylo aktualizováno"
         title: "E-mail upozornění "
         pause:
-          label: "Dočasně pozastavit denní posílání oznámení e-mailem"
+          label: "Dočasně pozastavit denní připomenutí e-mailem"
           first_day: "První den"
           last_day: "Poslední den"
     text_are_you_sure: "Jste si jisti?"
@@ -1334,5 +1334,5 @@ cs:
         Close: "Zavřít"
     open_project_storage_modal:
       waiting_subtitle:
-        network_off: "There is a network problem."
+        network_off: "Je tu problém se sítí."
         network_on: "Network is back. We are trying."

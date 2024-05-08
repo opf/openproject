@@ -1,14 +1,14 @@
 zh-TW:
   js:
     grid:
-      add_widget: '增加工具集'
-      remove: '移除元件'
-      configure: '設定小工具'
+      add_widget: '新增部件'
+      remove: '移除部件'
+      configure: '設定部件'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
         link: '企業版。'
       widgets:
-        missing_permission: "You don't have the necessary permissions to view this widget."
+        missing_permission: "您沒有必要的權限來檢視此部件。"
         custom_text:
           title: '自訂文字'
         documents:
@@ -17,23 +17,23 @@ zh-TW:
         members:
           title: '成員'
           no_results: '無可見成員。'
-          view_all_members: '查看所有的成員'
+          view_all_members: '查看所有成員'
           add: '成員'
-          too_many: '正在顯示 %{count} 個成員，總共 %{total} 個。'
+          too_many: '顯示 %{count} 名成員，共 %{total} 名。'
         news:
           title: '最新消息'
           at: '在'
-          no_results: '沒有新的消息可以報告'
+          no_results: '沒有新消息可報告'
         project_description:
           title: '專案描述'
-          no_results: "尚未寫入任何描述。可以在「項目設置」中提供一個描述。"
+          no_results: "尚未寫入任何描述。可以在「項目設置」中新增。"
         project_details:
           title: '專案詳細資訊'
-          no_results: '沒有為項目定義自定義字段。'
+          no_results: '尚未為項目定義自訂欄位。'
         project_status:
           title: '專案狀態'
           not_started: '未開始'
-          on_track: '進度良好'
+          on_track: '如期進行'
           off_track: '進度落後'
           at_risk: '存在風險'
           not_set: '未設定'

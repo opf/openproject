@@ -981,7 +981,7 @@ eu:
         priority: "Priority"
         projectName: "Project"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "Geratzen diren orduak"
         responsible: "Responsible"
         startDate: "Hasiera data"
         status: "Status"

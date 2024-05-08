@@ -228,7 +228,7 @@ zh-CN:
       project_storage_members:
         subtitle: 检查所有项目成员的存储区 %{storage_name_link} 的连接状态。
         title: 成员连接状态
-    permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
+    permission_header_explanation: '外部存储器上的文件权限仅适用于自动管理的项目文件夹内的文件夹和文件。请注意，并非所有存储提供商都支持所有文件权限。更多信息请查看<a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>文件存储权限</a>文档。'
     provider_types:
       label: 提供商类型
       nextcloud:

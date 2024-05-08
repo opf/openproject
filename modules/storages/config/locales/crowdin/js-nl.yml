@@ -79,7 +79,7 @@ nl:
           An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
         tooltip:
           not_logged_in: "Please log in to the storage to access this file."
-          view_not_allowed: "You have no permission to see this file."
+          view_not_allowed: "U heeft geen toestemming om dit bestand te bekijken."
           not_found: "This file cannot be found."
         already_linked_file: "Dit bestand is al gekoppeld aan dit werkpakket."
         already_linked_directory: "Deze map is al gekoppeld aan dit werkpakket."

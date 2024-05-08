@@ -263,7 +263,7 @@ fa:
       no_results_content_text: Create a new project
     lists:
       active: "Active projects"
-      my: "My projects"
+      my: "پروژه‌های من"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -316,9 +316,9 @@ fa:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "همه"
       invited: "Invited"
-      locked: "Locked"
+      locked: "قفل شده"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
       groups: "Groups"
@@ -398,7 +398,7 @@ fa:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
   page:
-    text: "Text"
+    text: "متن"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -443,7 +443,7 @@ fa:
       no_results_title_text: There are currently no types.
       no_results_content_text: Create a new type
     edit:
-      settings: "Settings"
+      settings: "تنظیمات"
       form_configuration: "Form configuration"
       more_info_text_html: >
         Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
@@ -621,7 +621,7 @@ fa:
           false: "private"
         queries: "پرس و جو ها"
         status_code: "وضعیت پروژه"
-        description: "Description"
+        description: "توضیحات"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -716,8 +716,8 @@ fa:
         priority: "اولويت"
         progress: "% Complete"
         readonly: "Read only"
-        remaining_hours: "Remaining work"
-        remaining_time: "Remaining work"
+        remaining_hours: "کار باقی‌مانده"
+        remaining_time: "کار باقی‌مانده"
         shared_with_users: "Shared with"
         schedule_manually: "زمان‌بندی دستی"
         spent_hours: "زمان صرف شده"
@@ -1035,7 +1035,7 @@ fa:
             ldap_auth_source:
               error_not_found: "یافت نشد"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "یافت نشد"
         member:
           principal_blank: "لطفا حداقل یک کاربر یا گروه را انتخاب کنید."
           role_blank: "need to be assigned."
@@ -1065,7 +1065,7 @@ fa:
       "doorkeeper/application": "OAuth application"
       forum: "تالار گفتگو"
       global_role: "Global role"
-      group: "Group"
+      group: "گروه"
       member: "عضو"
       news: "News"
       notification:
@@ -1144,8 +1144,8 @@ fa:
   #common attributes of all models
   attributes:
     active: "Active"
-    assigned_to: "Assignee"
-    assignee: "Assignee"
+    assigned_to: "نماینده"
+    assignee: "نماینده"
     attachments: "Attachments"
     author: "نویسنده"
     base: "General Error:"
@@ -1170,7 +1170,7 @@ fa:
     estimated_time: "Work"
     expires_at: "Expires at"
     firstname: "نام"
-    group: "Group"
+    group: "گروه"
     groups: "Groups"
     id: "شناسه"
     is_default: "مقدار پیش فرض"
@@ -1189,7 +1189,7 @@ fa:
     role: "Role"
     roles: "نقش‌ها"
     start_date: "Start date"
-    status: "Status"
+    status: "وضعیت"
     subject: "Subject"
     summary: "Summary"
     title: "عنوان"
@@ -1229,7 +1229,7 @@ fa:
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: There is already a backup pending.
       limit_reached: شما فقط قادر به انجام %{limit} پشتیبان گیری در روز می باشید.
-  button_actions: "Actions"
+  button_actions: "اقدامات"
   button_add: "ﺍﻓﺰﻭﺩﻥ"
   button_add_comment: "افزودن دیدگاه"
   button_add_member: Add member
@@ -1280,7 +1280,7 @@ fa:
   button_reset: "تنظیم مجدد"
   button_rollback: "برگرداندن به این نسخه"
   button_save: "ذخیره"
-  button_save_as: "Save as"
+  button_save_as: "ذخیره به عنوان"
   button_apply_changes: "Apply changes"
   button_save_back: "Save and back"
   button_show: "نمایش"
@@ -1553,7 +1553,7 @@ fa:
     message: Message edited
     news: News
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "پروژه ویرایش شد"
     projects: "پروژه ویرایش شد"
     reply: Replied
     time_entry: "Timelog edited"
@@ -1656,6 +1656,8 @@ fa:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "راهنمای پیکربندی"
     get_in_touch: "You have questions? Get in touch with us."
@@ -1800,7 +1802,7 @@ fa:
   label_forum_plural: "Forums"
   label_forum_sticky: "مهم"
   label_boolean: "Boolean"
-  label_board_plural: "Boards"
+  label_board_plural: "تابلو"
   label_branch: "Branch"
   label_browse: "Browse"
   label_bulk_edit_selected_work_packages: "Bulk edit selected work packages"
@@ -1859,7 +1861,7 @@ fa:
   label_custom_field_plural: "Custom fields"
   label_custom_field_default_type: "Empty type"
   label_custom_style: "Design"
-  label_dashboard: "Dashboard"
+  label_dashboard: "پیشخوان"
   label_database_version: "PostgreSQL version"
   label_date: "تاریخ"
   label_date_and_time: "Date and time"
@@ -1919,9 +1921,9 @@ fa:
   label_i_am_member: "I am member"
   label_ifc_viewer: "Ifc Viewer"
   label_ifc_model_plural: "Ifc Models"
-  label_import: "Import"
+  label_import: "درون‌ریزی"
   label_export_to: "Also available in:"
-  label_expand: "Expand"
+  label_expand: "بست دادن"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
@@ -1932,7 +1934,7 @@ fa:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Files"
   label_filter_add: "Add filter"
-  label_filter: "Filters"
+  label_filter: "فیلترها"
   label_filter_plural: "فیلترها"
   label_filters_toggle: "نمایش/پنهان کردن فیلتر"
   label_float: "Float"
@@ -1948,7 +1950,7 @@ fa:
   label_greater_or_equal: ">="
   label_group_by: "گروه‌بندی بر اساس"
   label_group_new: "New group"
-  label_group: "Group"
+  label_group: "گروه"
   label_group_named: "Group %{name}"
   label_group_plural: "Groups"
   label_help: "Help"
@@ -1959,7 +1961,7 @@ fa:
   label_home: "Home"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "شناسه"
   label_in: "in"
   label_in_less_than: "in less than"
   label_in_more_than: "in more than"
@@ -1975,7 +1977,7 @@ fa:
   label_internal: "Internal"
   label_introduction_video: "Introduction video"
   label_invite_user: "Invite user"
-  label_share: "Share"
+  label_share: "به اشتراک گذاری"
   label_show_hide: "Show/hide"
   label_show_all_registered_users: "نمایش تمام کاربران ثبت نام شده"
   label_journal: "Journal"
@@ -2042,7 +2044,7 @@ fa:
   label_module_plural: "Modules"
   label_modules: "Modules"
   label_months_from: "months from"
-  label_more: "More"
+  label_more: "بیشتر"
   label_more_than_ago: "more than days ago"
   label_move_work_package: "Move work package"
   label_my_account: "My account"
@@ -2108,7 +2110,7 @@ fa:
   label_placeholder_user_plural: "Placeholder users"
   label_planning: "Planning"
   label_please_login: "Please log in"
-  label_plugins: "Plugins"
+  label_plugins: "افزونه"
   label_modules_and_plugins: "Modules and Plugins"
   label_precedes: "precedes"
   label_preferences: "Preferences"
@@ -2158,7 +2160,7 @@ fa:
   label_relation_delete: "Delete relation"
   label_relation_new: "New relation"
   label_release_notes: "Release notes"
-  label_remaining_work: "Remaining work"
+  label_remaining_work: "کار باقی‌مانده"
   label_remove_columns: "Remove selected columns"
   label_renamed: "renamed"
   label_reply_plural: "Replies"
@@ -2192,7 +2194,7 @@ fa:
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Send a test email"
   label_session: "Session"
-  label_setting_plural: "Settings"
+  label_setting_plural: "تنظیمات"
   label_system_settings: "System settings"
   label_show_completed_versions: "Show completed versions"
   label_sort: "مرتب‌سازی"
@@ -2206,7 +2208,7 @@ fa:
   label_start_to_end: "start to end"
   label_start_to_start: "start to start"
   label_statistics: "Statistics"
-  label_status: "Status"
+  label_status: "وضعیت"
   label_storage_free_space: "Remaining disk space"
   label_storage_used_space: "Used disk space"
   label_storage_group: "Storage filesystem %{identifier}"
@@ -2412,7 +2414,7 @@ fa:
     storages:
       health:
         plaintext:
-          storage: "Storage"
+          storage: "ذخیره‌سازی"
           healthy:
             summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
             error-solved-on: "Solved On"
@@ -3063,7 +3065,7 @@ fa:
     plain: "Plain text"
   status_active: "active"
   status_archived: "بایگانی"
-  status_blocked: "blocked"
+  status_blocked: "مسدود"
   status_invited: invited
   status_locked: locked
   status_registered: registered
@@ -3218,7 +3220,7 @@ fa:
     configure_view:
       heading: Configure view
       columns:
-        input_label: "Add columns"
+        input_label: "افزودن ستون ها"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
   top_menu:

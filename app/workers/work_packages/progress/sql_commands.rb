@@ -28,65 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# rubocop:disable Rails/SquishedSQLHeredocs
-class WorkPackages::ApplyStatusesPCompleteJob < ApplicationJob
-  queue_with_priority :default
-
-  VALID_CAUSE_TYPES = %w[
-    progress_mode_changed_to_status_based
-    status_p_complete_changed
-  ].freeze
-
-  # Updates % complete and remaining work of all work packages after a status %
-  # complete value has been changed or the progress calculation mode was set to
-  # status-based.
-  #
-  # It creates a journal entry with the System user describing the change.
-  #
-  # @param status_name [String] The cause of the update to be put in the journal
-  #   entry. Must be one of `VALID_CAUSE_TYPES`.
-  # @param status_name [String] The name of the status to apply.
-  # @param status_id [Integer] The ID of the status to apply. Not used
-  #   currently, but here in case we need it in a later version.
-  # @param change [Object] The change object containing an array of [old, new]
-  #   values of the change.
-  # @return [void]
-  def perform(cause_type:, status_name: nil, status_id: nil, change: nil)
-    return if WorkPackage.use_field_for_done_ratio?
-
-    journal_cause = journal_cause_from(cause_type, status_name:, status_id:, change:)
-
-    with_temporary_progress_table do
-      set_p_complete_from_status
-      derive_remaining_work_from_work_and_p_complete
-      update_totals
-
-      copy_progress_values_to_work_packages_and_update_journals(journal_cause)
-    end
-  end
-
-  private
-
-  def journal_cause_from(cause_type, status_name:, status_id:, change:)
-    if VALID_CAUSE_TYPES.exclude?(cause_type)
-      raise ArgumentError, "Invalid cause type #{cause_type.inspect}. " \
-                           "Valid values are #{VALID_CAUSE_TYPES.inspect}"
-    end
-
-    case cause_type
-    when "progress_mode_changed_to_status_based"
-      { type: cause_type }
-    when "status_p_complete_changed"
-      raise ArgumentError, "status_name must be provided" if status_name.blank?
-      raise ArgumentError, "status_id must be provided" if status_id.nil?
-      raise ArgumentError, "change must be provided" if change.nil?
-
-      { type: cause_type, status_name:, status_id:, status_p_complete_change: change }
-    else
-      raise "Unable to handle cause type #{cause_type.inspect}"
-    end
-  end
-
+module WorkPackages::Progress::SqlCommands
   def with_temporary_progress_table
     WorkPackage.transaction do
       create_temporary_progress_table
@@ -97,7 +39,7 @@ class WorkPackages::ApplyStatusesPCompleteJob < ApplicationJob
   end
 
   def create_temporary_progress_table
-    execute(<<~SQL)
+    execute(<<~SQL.squish)
       CREATE UNLOGGED TABLE temp_wp_progress_values
       AS SELECT
         id,
@@ -113,8 +55,22 @@ class WorkPackages::ApplyStatusesPCompleteJob < ApplicationJob
   end
 
   def drop_temporary_progress_table
-    execute(<<~SQL)
+    execute(<<~SQL.squish)
       DROP TABLE temp_wp_progress_values
+    SQL
+  end
+
+  def derive_remaining_work_from_work_and_p_complete
+    execute(<<~SQL.squish)
+      UPDATE temp_wp_progress_values
+      SET remaining_hours =
+        GREATEST(0,
+          LEAST(estimated_hours,
+            ROUND((estimated_hours - (estimated_hours * done_ratio / 100.0))::numeric, 2)
+          )
+        )
+      WHERE estimated_hours IS NOT NULL
+        AND done_ratio IS NOT NULL
     SQL
   end
 
@@ -127,17 +83,10 @@ class WorkPackages::ApplyStatusesPCompleteJob < ApplicationJob
     SQL
   end
 
-  def derive_remaining_work_from_work_and_p_complete
-    execute(<<~SQL.squish)
-      UPDATE temp_wp_progress_values
-      SET remaining_hours = ROUND((estimated_hours - (estimated_hours * done_ratio / 100.0))::numeric, 2)
-      WHERE estimated_hours IS NOT NULL
-        AND done_ratio IS NOT NULL
-    SQL
-  end
-
+  # Computes total work, total remaining work and total % complete for all work
+  # packages having children.
   def update_totals
-    execute(<<~SQL)
+    execute(<<~SQL.squish)
       UPDATE temp_wp_progress_values
       SET total_work = totals.total_work,
           total_remaining_work = totals.total_remaining_work,
@@ -147,6 +96,7 @@ class WorkPackages::ApplyStatusesPCompleteJob < ApplicationJob
           END
       FROM (
         SELECT wp_tree.ancestor_id AS id,
+               MAX(generations) AS generations,
                SUM(estimated_hours) AS total_work,
                SUM(remaining_hours) AS total_remaining_work
         FROM work_package_hierarchies wp_tree
@@ -154,6 +104,7 @@ class WorkPackages::ApplyStatusesPCompleteJob < ApplicationJob
         GROUP BY wp_tree.ancestor_id
       ) totals
       WHERE temp_wp_progress_values.id = totals.id
+      AND totals.generations > 0
     SQL
   end
 
@@ -163,10 +114,12 @@ class WorkPackages::ApplyStatusesPCompleteJob < ApplicationJob
   end
 
   def copy_progress_values_to_work_packages
-    results = execute(<<~SQL)
+    results = execute(<<~SQL.squish)
       UPDATE work_packages
-      SET remaining_hours = temp_wp_progress_values.remaining_hours,
+      SET estimated_hours = temp_wp_progress_values.estimated_hours,
+          remaining_hours = temp_wp_progress_values.remaining_hours,
           done_ratio = temp_wp_progress_values.done_ratio,
+          derived_estimated_hours = temp_wp_progress_values.total_work,
           derived_remaining_hours = temp_wp_progress_values.total_remaining_work,
           derived_done_ratio = temp_wp_progress_values.total_p_complete,
           lock_version = lock_version + 1,
@@ -174,8 +127,10 @@ class WorkPackages::ApplyStatusesPCompleteJob < ApplicationJob
       FROM temp_wp_progress_values
       WHERE work_packages.id = temp_wp_progress_values.id
         AND (
-          work_packages.remaining_hours IS DISTINCT FROM temp_wp_progress_values.remaining_hours
+          work_packages.estimated_hours IS DISTINCT FROM temp_wp_progress_values.estimated_hours
+          OR work_packages.remaining_hours IS DISTINCT FROM temp_wp_progress_values.remaining_hours
           OR work_packages.done_ratio IS DISTINCT FROM temp_wp_progress_values.done_ratio
+          OR work_packages.derived_estimated_hours IS DISTINCT FROM temp_wp_progress_values.total_work
           OR work_packages.derived_remaining_hours IS DISTINCT FROM temp_wp_progress_values.total_remaining_work
           OR work_packages.derived_done_ratio IS DISTINCT FROM temp_wp_progress_values.total_p_complete
         )
@@ -186,7 +141,8 @@ class WorkPackages::ApplyStatusesPCompleteJob < ApplicationJob
 
   def create_journals_for_updated_work_packages(updated_work_package_ids, cause:)
     WorkPackage.where(id: updated_work_package_ids).find_each do |work_package|
-      Journals::CreateService.new(work_package, system_user)
+      Journals::CreateService
+        .new(work_package, system_user)
         .call(cause:)
     end
   end
@@ -200,4 +156,3 @@ class WorkPackages::ApplyStatusesPCompleteJob < ApplicationJob
     @system_user ||= User.system
   end
 end
-# rubocop:enable Rails/SquishedSQLHeredocs

@@ -1291,7 +1291,7 @@ kk:
   button_uncheck_all: "Uncheck all"
   button_unlock: "Unlock"
   button_unwatch: "Unwatch"
-  button_update: "Update"
+  button_update: "Жаңарту"
   button_upgrade: "Upgrade"
   button_upload: "Upload"
   button_view: "View"
@@ -1656,6 +1656,8 @@ kk:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Configuration guide"
     get_in_touch: "You have questions? Get in touch with us."
@@ -2112,7 +2114,7 @@ kk:
   label_modules_and_plugins: "Modules and Plugins"
   label_precedes: "precedes"
   label_preferences: "Preferences"
-  label_preview: "Preview"
+  label_preview: "Алдын-ала көру"
   label_preview_not_available: "Preview not available"
   label_previous: "Previous"
   label_previous_week: "Previous week"

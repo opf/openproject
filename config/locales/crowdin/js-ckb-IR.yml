@@ -981,7 +981,7 @@ ckb-IR:
         priority: "Priority"
         projectName: "Project"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "کاتژمێری ماوە"
         responsible: "Responsible"
         startDate: "Start date"
         status: "Status"
