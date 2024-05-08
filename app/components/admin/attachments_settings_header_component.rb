@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,17 +26,14 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module Admin::QuarantinedAttachments
-  # rubocop:disable OpenProject/AddPreviewForViewComponent
-  class IndexPageHeaderComponent < ApplicationComponent
-    include ApplicationHelper
-
-    def breadcrumb_items
-      [{ href: admin_index_path, text: t("label_administration") },
-       { href: admin_settings_attachments_path, text: t("attributes.attachments") },
-       t("antivirus_scan.quarantined_attachments.title")]
+module Admin
+  class AttachmentsSettingsHeaderComponent < ApplicationComponent
+    def initialize(title:, selected:)
+      raise 'selected must 1, 2 or 3' if [1, 2, 3].exclude?(selected)
+      @title = title
+      @selected = selected
     end
   end
 end
