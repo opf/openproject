@@ -202,12 +202,10 @@ RSpec.describe TwoFactorAuthentication::My::TwoFactorDevicesController do
               let!(:default_device) { create(:two_factor_authentication_device_totp, user:, default: true) }
 
               it "activates the device when entered correctly" do
-                # rubocop:disable RSpec/AnyInstance
                 allow_any_instance_of(TwoFactorAuthentication::TokenService)
                   .to receive(:verify)
                   .with("1234")
                   .and_return(ServiceResult.success)
-                # rubocop:enable RSpec/AnyInstance
 
                 post :confirm, params: { device_id: device.id, otp: "1234" }
                 expect(response).to redirect_to action: :index

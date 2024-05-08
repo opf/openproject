@@ -189,12 +189,10 @@ RSpec.describe TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesCont
             allow(Sessions::DropAllSessionsService)
               .to receive(:call)
 
-            # rubocop:disable RSpec/AnyInstance
             allow_any_instance_of(TwoFactorAuthentication::TokenService)
               .to receive(:verify)
               .with("1234")
               .and_return(ServiceResult.success)
-            # rubocop:enable RSpec/AnyInstance
 
             post :confirm, params: { device_id: device.id, otp: "1234" }
             expect(response).to redirect_to stage_success_path(stage: :two_factor_authentication, secret: "asdf")
