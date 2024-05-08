@@ -263,7 +263,7 @@ zh-TW:
     lists:
       active: "啟用中的專案"
       my: "我的專案"
-      favored: "Favored projects"
+      favored: "Favorite projects"
       archived: "封存專案"
       my_private: "我的私人專案"
       new:
@@ -285,7 +285,7 @@ zh-TW:
         no_results_title_text: 目前沒有客製欄位可用。
       project_custom_fields:
         header:
-          title: "Project attributes"
+          title: "專案屬性"
           description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
         filter:
           label: "Search project attribute"
@@ -323,7 +323,7 @@ zh-TW:
       wp_shares: "共享之工作項目"
       groups: "群組"
     delete_member_dialog:
-      title: "Remove member"
+      title: "移除成員"
       will_remove_the_users_role: "This will remove the user’s role from this project."
       will_remove_the_groups_role: "This will remove the group role from this project."
       however_work_packages_shared_with_user_html:
@@ -343,7 +343,7 @@ zh-TW:
       cannot_delete_inherited_membership_note_admin_html: "You can either remove the group as a member of the project or this specific member from the group in the %{administration_settings_link}."
       cannot_delete_inherited_membership_note_non_admin: "You can either remove the group as a member of the project or contact your administrator to remove this specific member from the group."
     delete_work_package_shares_dialog:
-      title: "Revoke work package shares"
+      title: "撤銷已共享的工作項目"
       shared_with_this_user_html:
         other: "%{all_shared_work_packages_link} have been shared with this user."
       shared_with_this_group_html:
@@ -775,6 +775,7 @@ zh-TW:
         not_an_iso_date: "不是有效日期。所需格式：YYYY-MM-DD。"
         not_same_project: "不屬於相同的專案"
         odd: "必須是奇數"
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "不能被相關聯的正則運算式驗證。"
         smaller_than_or_equal_to_max_length: "必須小於或等於最大長度。"
         taken: "已經被使用"
@@ -1039,9 +1040,9 @@ zh-TW:
               unassignable: "無法分派到專案。"
         version:
           undeletable_archived_projects: "該版本無法刪除，因為包含工作項目。"
-          undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
+          undeletable_work_packages_attached: "該版本無法刪除，因為包含工作項目。"
         status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
+          readonly_default_exlusive: "，是無法生效的(因其設定為「預設」狀態)"
       template:
         body: "請檢查下列欄位："
         header:
@@ -1103,15 +1104,15 @@ zh-TW:
           other: "%{count} 一個小時"
         hour_html:
           other: "<i>%{count} hours</i>"
-        updated: "changed from %{old_value} to %{value}"
+        updated: "從 %{old_value} 更改至 %{value}"
         logged_for: "Logged for"
       meeting_agenda_item:
         duration:
           added: "set to %{value}"
           added_html: "set to <i>%{value}</i>"
           removed: "removed"
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+          updated: "從 %{old_value} 更改至 %{value}"
+          updated_html: "從 <i>%{old_value}</i> 更改至 <i>%{value}</i>"
         position:
           updated: "重新排列"
         work_package:
@@ -1248,7 +1249,7 @@ zh-TW:
   button_edit: "編輯"
   button_edit_associated_wikipage: "編輯關聯的維基頁面：%{page_title}"
   button_expand_all: "全部展開"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "篩選條件"
   button_generate: "產生"
   button_list: "清單"
@@ -1585,7 +1586,7 @@ zh-TW:
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "使用手冊"
       faq: "問答集"
-      impressum: "Legal notice"
+      impressum: "法律聲明"
       glossary: "術語表 "
       shortcuts: "快捷鍵"
       blog: "Openproject 部落格"
@@ -1625,6 +1626,8 @@ zh-TW:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "設定指南"
     get_in_touch: "如有任何問題，歡迎聯繫我們"
@@ -1742,7 +1745,7 @@ zh-TW:
   label_ascending: "昇冪"
   label_assigned_to_me_work_packages: "分配給我的工作項目"
   label_associated_revisions: "關聯的修訂"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "附加檔"
   label_attribute: "属性"
   label_attribute_plural: "属性"
   label_ldap_auth_source_new: "新增LDAP 連線"
@@ -1890,11 +1893,11 @@ zh-TW:
   label_ifc_model_plural: "Ifc Models"
   label_import: "匯入"
   label_export_to: "也可匯出成"
-  label_expand: "Expand"
+  label_expand: "展開"
   label_expanded_click_to_collapse: "已擴大。按一下可折疊"
   label_f_hour: "%{value} 小時"
   label_f_hour_plural: "%{value} 個小時"
-  label_favoured: "收藏"
+  label_favorite: "最愛"
   label_feed_plural: "串流"
   label_feeds_access_key: "RSS 金鑰"
   label_feeds_access_key_created_on: "RSS 金鑰在 %{value} 前已建立"
@@ -1964,9 +1967,10 @@ zh-TW:
   label_latest_revision: "最新版本"
   label_latest_revision_plural: "最新版本"
   label_ldap_authentication: "LDAP 認證"
-  label_learn_more: "Learn more"
+  label_learn_more: "了解更多"
   label_less_or_equal: "<="
   label_less_than_ago: "幾天內"
+  label_link_url: "Link (URL)"
   label_list: "清單"
   label_loading: "讀取中..."
   label_lock_user: "鎖定使用者"
@@ -2091,7 +2095,7 @@ zh-TW:
   label_privacy_policy: "資料隱私與安全性政策"
   label_product_version: "產品版本"
   label_profile: "個人資料"
-  label_percent_complete: "% Complete"
+  label_percent_complete: "完成度(%)"
   label_project_activity: "專案活動"
   label_project_attribute_plural: "專案屬性"
   label_project_attribute_manage_link: "Manage project attributes"
@@ -2102,14 +2106,14 @@ zh-TW:
   label_project_hierarchy: "專案結構"
   label_project_new: "新增專案"
   label_project_plural: "專案"
-  label_project_list_plural: "Project lists"
-  label_project_attributes_plural: "Project attributes"
-  label_project_custom_field_plural: "Project attributes"
+  label_project_list_plural: "列出專案"
+  label_project_attributes_plural: "專案屬性"
+  label_project_custom_field_plural: "專案屬性"
   label_project_settings: "專案設定"
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "文件儲存空間"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} 個專案，使用了 %{storage} 磁碟空間"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "檢視所有專案"
   label_project_show_details: "顯示專案詳細資訊"
   label_project_hide_details: "隱藏專案詳細資訊"
@@ -2129,7 +2133,7 @@ zh-TW:
   label_relation_delete: "刪除關聯"
   label_relation_new: "新增關聯"
   label_release_notes: "發行備註"
-  label_remaining_work: "Remaining work"
+  label_remaining_work: "剩餘工時"
   label_remove_columns: "移除所選欄"
   label_renamed: "重新命名"
   label_reply_plural: "回覆"
@@ -2262,7 +2266,7 @@ zh-TW:
   label_wiki_show_new_page_link: "顯示子功能表 '新增子頁面'"
   label_wiki_show_submenu_item: "呈現於子功能表的 "
   label_wiki_start: "開始頁面"
-  label_work: "Work"
+  label_work: "工時"
   label_work_package: "工作項目"
   label_work_package_attachments: "工作項目附件"
   label_work_package_category_new: "新增類別"
@@ -2382,7 +2386,7 @@ zh-TW:
     storages:
       health:
         plaintext:
-          storage: "Storage"
+          storage: "儲存空間"
           healthy:
             summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
             error-solved-on: "Solved On"
@@ -2467,7 +2471,7 @@ zh-TW:
       updated_by:
         without_message: "%{user} updated the roles you have globally."
         with_message: "%{user} updated the roles you have globally writing:"
-      roles: "You now have the following roles:"
+      roles: "您擁有以下的角色："
   mail_user_activation_limit_reached:
     subject: 已達到用戶激活限制
     message: |
@@ -3001,7 +3005,7 @@ zh-TW:
     other: "其他"
     passwords: "密碼"
     project_attributes:
-      heading: "Project attributes"
+      heading: "專案屬性"
       label_new_attribute: "Project attribute"
       label_new_section: "Section"
       label_edit_section: "Edit title"
@@ -3534,7 +3538,7 @@ zh-TW:
   link: 連結
   plugin_openproject_auth_plugins:
     name: "OpenProject 認證外掛"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"

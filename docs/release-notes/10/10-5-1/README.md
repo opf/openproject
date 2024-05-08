@@ -12,7 +12,7 @@ We released [OpenProject 10.5.1](https://community.openproject.org/versions/1426
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Remove horizontal line in several modules above buttons \[[#32924](https://community.openproject.org/wp/32924)\]
 - Fixed: Alignment for assignee in Gantt chart off \[[#33097](https://community.openproject.org/wp/33097)\]

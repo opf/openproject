@@ -377,7 +377,7 @@ ru:
     label_added_time_by: 'Добавлено <a href="%{authorLink}">%{author}</a> в %{age}'
     label_ago: "дней назад"
     label_all: "все"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Bсе"
     label_all_work_packages: "Все пакеты работ"
     label_and: "и"
     label_ascending: "По возрастанию"
@@ -419,7 +419,7 @@ ru:
     label_expand_project_menu: "Развернуть меню проекта"
     label_export: "Экспортировать"
     label_export_preparing: "Экспорт готовится и будет загружен в ближайшее время."
-    label_favored: "Favored"
+    label_favorites: "Favorites"
     label_filename: "Файл"
     label_filesize: "Размер"
     label_general: "Общее"
@@ -445,7 +445,7 @@ ru:
     label_less_than_ago: "менее нескольких дней назад"
     label_loading: "Загрузка..."
     label_mail_notification: "Уведомления по email"
-    label_manage_columns: "Manage and reorder columns"
+    label_manage_columns: "Управляйте колонками и изменяйте их порядок"
     label_me: "я"
     label_meeting_agenda: "Повестка встречи"
     label_meeting_minutes: "Протокол(-ы)"
@@ -1006,7 +1006,7 @@ ru:
         all_open: "Все открытые"
         summary: "Сводка"
         shared_with_users: "Доступно пользователям"
-        shared_with_me: "Shared with me"
+        shared_with_me: "В общем доступе с"
       jump_marks:
         pagination: "Перейти вёрстке таблицы"
         label_pagination: "Кликните здесь чтобы пропустить таблицу рабочих пакетов и перейти к вёрстке"
@@ -1276,6 +1276,9 @@ ru:
           placeholder: "Теперь плейсхолдер может быть использован в %{project}. Тем временем вы уже можете планировать с этим пользователем и назначать рабочие пакеты."
           group: "Теперь группа является частью %{project}. Тем временем вы уже можете спланировать работу с этой группой и назначить пакеты работ."
         next_button: "Продолжить"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Включить проекты"
       title: "Проекты"

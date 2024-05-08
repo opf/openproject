@@ -34,8 +34,6 @@ module Storages
       module OneDrive
         module Internal
           class DriveItemQuery
-            Util = ::Storages::Peripherals::StorageInteraction::OneDrive::Util
-
             def initialize(storage)
               @storage = storage
             end
@@ -53,11 +51,10 @@ module Storages
             private
 
             def make_file_request(drive_item_id, http, select_url_query)
-              response = http.get(Util.join_uri_path(@storage.uri, uri_path_for(drive_item_id) + select_url_query))
-              handle_responses(response)
+              handle_response http.get("#{@storage.uri}#{uri_path_for(drive_item_id)}#{select_url_query}")
             end
 
-            def handle_responses(response)
+            def handle_response(response)
               case response
               in { status: 200..299 }
                 ServiceResult.success(result: response.json(symbolize_keys: true))
@@ -71,16 +68,16 @@ module Storages
                 ServiceResult.failure(result: :unauthorized,
                                       errors: Util.storage_error(response:, code: :unauthorized, source: self.class))
               else
-                data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
-                ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error, data:))
+                data = StorageErrorData.new(source: self.class, payload: response)
+                ServiceResult.failure(result: :error, errors: StorageError.new(code: :error, data:))
               end
             end
 
             def uri_path_for(file_id)
               if file_id == "/"
-                "/v1.0/drives/#{@storage.drive_id}/root"
+                "v1.0/drives/#{@storage.drive_id}/root"
               else
-                "/v1.0/drives/#{@storage.drive_id}/items/#{file_id}"
+                "v1.0/drives/#{@storage.drive_id}/items/#{file_id}"
               end
             end
           end

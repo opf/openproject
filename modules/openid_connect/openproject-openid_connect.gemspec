@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.authors     = "OpenProject GmbH"
   s.email       = "info@openproject.com"
   s.summary     = "OpenProject OpenID Connect"
-  s.description = "Adds OmniAuth OpenID Connect strategy providers to Openproject."
+  s.description = "Adds OmniAuth OpenID Connect strategy providers to OpenProject."
   s.license     = "GPLv3"
 
   s.files = Dir["{app,config,db,lib}/**/*"] + %w(CHANGELOG.md README.md)

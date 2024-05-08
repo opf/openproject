@@ -29,7 +29,6 @@
 class FavoritesController < ApplicationController
   before_action :find_favored_by_object
   before_action :require_login
-  before_action :check_flag
 
   def favorite
     if @favored.visible?(User.current)
@@ -44,10 +43,6 @@ class FavoritesController < ApplicationController
   end
 
   private
-
-  def check_flag
-    render_403 unless OpenProject::FeatureDecisions.favorite_projects_active?
-  end
 
   def find_favored_by_object
     model_name = params[:object_type]

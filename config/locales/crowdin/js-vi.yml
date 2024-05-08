@@ -377,7 +377,7 @@ vi:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "vài ngày trước"
     label_all: "tất cả"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Toàn bộ"
     label_all_work_packages: "Tất cả công việc"
     label_and: "and"
     label_ascending: "Tăng dần"
@@ -419,7 +419,7 @@ vi:
     label_expand_project_menu: "Mở rộng menu dự án"
     label_export: "Xuất"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
-    label_favored: "Favored"
+    label_favorites: "Favorites"
     label_filename: "Tệp"
     label_filesize: "Kích cỡ"
     label_general: "Tổng quan"
@@ -798,7 +798,7 @@ vi:
       typeahead_placeholder: Search for possible watchers
     relation_labels:
       parent: "Cha"
-      children: "Children"
+      children: "Cấp dưới"
       relates: "Related To"
       duplicates: "Duplicates"
       duplicated: "Duplicated by"
@@ -814,7 +814,7 @@ vi:
     relations_hierarchy:
       parent_headline: "Cha"
       hierarchy_headline: "Hệ thống phân cấp"
-      children_headline: "Children"
+      children_headline: "Cấp dưới"
     relation_buttons:
       set_parent: "Set parent"
       change_parent: "Change parent"
@@ -980,8 +980,8 @@ vi:
         percentageDone: "Percentage done"
         priority: "Độ ưu tiên"
         projectName: "Dự án"
-        remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWork: "Số giờ làm việc còn lại"
+        remainingWorkAlternative: "Số giờ còn lại"
         responsible: "Chịu trách nhiệm"
         startDate: "Ngày bắt đầu"
         status: "Trạng thái"
@@ -993,8 +993,8 @@ vi:
         versionName: "Phiên bản"
         version: "Phiên bản"
         work: "Work"
-        workAlternative: "Estimated time"
-        remainingTime: "Remaining work"
+        workAlternative: "Thời gian dự kiến"
+        remainingTime: "Số giờ làm việc còn lại"
       default_queries:
         latest_activity: "Hoạt động mới nhất"
         created_by_me: "Do tôi tạo ra"
@@ -1267,6 +1267,9 @@ vi:
           placeholder: "The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
           group: "Nhóm này hiện là một phần của %{project}. Trong khi đó, bạn có thể lên kế hoạch cho nhóm đó và chỉ định các gói làm việc cho từng trường hợp."
         next_button: "Tiếp tục"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Dự án bao gồm"
       title: "Các dự án"

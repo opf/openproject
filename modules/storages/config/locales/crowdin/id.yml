@@ -41,6 +41,7 @@ id:
       too_many_elements_created_at_once: Too many elements created at once. Expected %{max} at most, got %{actual}.
   permission_create_files: 'External Storage: Create files'
   permission_delete_files: 'External Storage: Delete files'
+  permission_header_for_project_module_storages: Automatically managed project folders
   permission_manage_file_links: Kelola tautan berkas
   permission_manage_storages_in_project: Kelola penyimpanan berkas di proyek
   permission_read_files: 'External Storage: Read files'
@@ -108,7 +109,7 @@ id:
       description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
       error_could_not_be_saved: Email notification settings could not be saved. Please try again.
       subscribe: Subscribe
-      title: Email notifications
+      title: Notifikasi email
       unsubscribe: Unsubscribe
     help_texts:
       project_folder: The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.

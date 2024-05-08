@@ -377,7 +377,7 @@ sl:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "pred dnevi"
     label_all: "vsi"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Vse"
     label_all_work_packages: "Vsi zahtevki"
     label_and: "in"
     label_ascending: "Naraščajoče"
@@ -419,7 +419,7 @@ sl:
     label_expand_project_menu: "Razširi projektni meni"
     label_export: "Izvozi"
     label_export_preparing: "Izvoz je v pripravi in ​​bo kmalu prenesen."
-    label_favored: "Favored"
+    label_favorites: "Favorites"
     label_filename: "Datoteka"
     label_filesize: "Velikost"
     label_general: "Splošno"
@@ -763,7 +763,7 @@ sl:
           last_day: "Last day"
     text_are_you_sure: "Ste prepričani?"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} je napisal(a):"
     types:
       attribute_groups:
         error_duplicate_group_name: "Ime skupine %{group} je že uporabljeno. Imena skupin morajo biti unikatna."
@@ -984,7 +984,7 @@ sl:
         priority: "Prioriteta"
         projectName: "Projekt"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "Preostale ure"
         responsible: "Odgovoren"
         startDate: "Datum začetka"
         status: "Stanje"
@@ -996,7 +996,7 @@ sl:
         versionName: "Različica"
         version: "Različica"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "Predvideni čas"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Zadnja dejavnost"
@@ -1276,6 +1276,9 @@ sl:
           placeholder: "Rezervirano mesto se zdaj lahko uporabi v %{project}. Medtem lahko planirate s tem uporabnikom in mu dodelite delovne naloge."
           group: "Skupina je zdaj del %{project}. Medtem lahko planirate s to skupino in ji dodelite delovne naloge."
         next_button: "Nadaljuj"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Include projects"
       title: "Projekti"

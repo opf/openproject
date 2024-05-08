@@ -12,8 +12,8 @@ You will **receive an invoice for your OpenProject Enterprise cloud edition via 
 
 The invoice lists the subscription (billing) period as well as the next billing date.
 
-You will also see the payment status. 
-For invoices via bank transfer, the money needs to be paid via bank transfer to the bank account listed at the bottom of the invoice. 
+You will also see the payment status.
+For invoices via bank transfer, the money needs to be paid via bank transfer to the bank account listed at the bottom of the invoice.
 
 > **Note**: For the correct assignment of payments, please enter the  invoice number on your bank transfer.
 
@@ -31,7 +31,7 @@ In the overlay window, click on the link **Billing History**.
 
 ![cloud-billing-history](cloud-billing-history-0584990.png)
 
-Here, you will get an overview about all your past payments for the Enterprise cloud edition. 
+Here, you will get an overview about all your past payments for the Enterprise cloud edition.
 
 With the **Download link** you can download the invoices.
 
@@ -48,8 +48,8 @@ To do this, you can sign into your OpenProject environment and select the "Buy n
 
 ### When does my OpenProject contract end?
 
-The user may terminate the contract at any time, which will apply by the end of the subscription period (including last day). In case of credit card payment the subscription period is one month or one year; in case of payment via invoice the subscription period is one year. The [agreed subscription period](https://www.openproject.org/legal/terms-of-service/) will be extended automatically if the contract was not terminated on time. 
+The user may terminate the contract at any time, which will apply by the end of the subscription period (including last day). In case of credit card payment the subscription period is one month or one year; in case of payment via invoice the subscription period is one year. The [agreed subscription period](https://www.openproject.org/legal/terms-of-service/) will be extended automatically if the contract was not terminated on time.
 
 ### What shall I do when I run into payment issues with OpenProject?
 
-In case you use the bank transfer payment method please indicate the invoice number. You can find this information in the corresponding invoice (OP…). Otherwise the automatic banking system is not able to detect your payment. Please do not hesitate to contact accounting@openproject.com if you have any further questions. 
+In case you use the bank transfer payment method please indicate the invoice number. You can find this information in the corresponding invoice (OP…). Otherwise the automatic banking system is not able to detect your payment. Please do not hesitate to contact accounting@openproject.com if you have any further questions.

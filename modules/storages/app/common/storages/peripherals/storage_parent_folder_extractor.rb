@@ -26,26 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals
-  class ParentFolder
-    attr_reader :path
+module Storages
+  module Peripherals
+    class ParentFolder
+      attr_reader :path
 
-    def initialize(path)
-      @path = path
+      def initialize(path)
+        @path = path
+      end
+
+      def root?
+        @path == "/"
+      end
+
+      def to_s
+        @path
+      end
     end
 
-    def root?
-      @path == "/"
-    end
-
-    def to_s
-      @path
-    end
-  end
-
-  module StorageParentFolderExtractor
-    def extract_parent_folder(params)
-      ParentFolder.new(params[:parent].presence || "/")
+    module StorageParentFolderExtractor
+      def extract_parent_folder(params)
+        ParentFolder.new(params[:parent].presence || "/")
+      end
     end
   end
 end

@@ -13,8 +13,7 @@ Release date: 2022-06-08
 We released [OpenProject 12.1.5](https://community.openproject.org/versions/1552).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Order of work packages in XLS, PDF, CSV export differs from order in OpenProject \[[#34971](https://community.openproject.org/wp/34971)\]
 - Fixed: API notification error on work package query page \[[#40506](https://community.openproject.org/wp/40506)\]
@@ -31,7 +30,8 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Dutch translation additional project status on the project overview page \[[#42754](https://community.openproject.org/wp/42754)\]
 - Fixed: OpenID Connect providers can no longer be set via env \[[#42810](https://community.openproject.org/wp/42810)\]
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

@@ -19,7 +19,6 @@ You must first enable the Calendar module in your [project settings](../projects
 | [Use the calendar](#use-the-calendar)               | How to view, modify, create and filter work packages in the calendar. |
 | [Subscribe to a calendar](#subscribe-to-a-calendar) | How to subscribe to and access a calendar from an external client. |
 
-
 ## Create a new calendar
 
 Once enabled, clicking on the **Calendars** entry on the left sidebar takes you to the Calendar module with a list of all existing calendars. Initially, it will be empty.
@@ -27,17 +26,11 @@ Once enabled, clicking on the **Calendars** entry on the left sidebar takes you 
 ![Calendar overview](calendar-overview.png)
 
 - You can create a new calendar by clicking on either the **+ Calendar** button at the top right corner near your avatar or at the bottom of the sidebar on the left.
-  
 - Click on an existing (saved) calendar to view it.
-  
 - You can change the visibility settings of any calendar by clicking on **\[⋮\] (more)** -> **Visibility settings.**
-  
-    - Any calendar that has the **Favored** option checked will be displayed under the **Favorite** heading in the sidebar to the left.
-      
-    - Any calendar that has the **Public** option checked will be visible to all members of the current project and listed under the **Public** heading in the sidebar to the left.
-      
-    - Any calendar that has the **Public** option unchecked will be considered **private** and displayed under the **Private** heading in the menu bar to the left.
-      
+  - Any calendar that has the **Favored** option checked will be displayed under the **Favorite** heading in the sidebar to the left.
+  - Any calendar that has the **Public** option checked will be visible to all members of the current project and listed under the **Public** heading in the sidebar to the left.
+  - Any calendar that has the **Public** option unchecked will be considered **private** and displayed under the **Private** heading in the menu bar to the left.
 
 ## Use the calendar
 
@@ -47,13 +40,13 @@ Once enabled, clicking on the **Calendars** entry on the left sidebar takes you 
 
 When you open a new calendar, all work packages within the current project are displayed as horizontal strips that span all dates between the start and finish dates (inclusive). The color represents the [work package type](../../system-admin-guide/manage-work-packages/work-package-types). The subject or title displayed on the strip (insomuch as the length allows).
 
-The current month is automatically selected. 
+The current month is automatically selected.
 
 ![Calendar time controls](Calendar-timeControls.png)
 
-1. You can use the previews/next arrow controls (←, →) in the top left corner to move forwards or backwards in time. 
+1. You can use the previews/next arrow controls (←, →) in the top left corner to move forwards or backwards in time.
 2. The **today** button brings you back to the current date.
-3. You can use the month/week toggle on the top right corner to switch between either a month view or a week view. 
+3. You can use the month/week toggle on the top right corner to switch between either a month view or a week view.
 
 If multiple work packages are scheduled on the same day, they are displayed in a vertical stack.
 
@@ -115,10 +108,10 @@ This makes it possible for you to keep an eye on your project schedule from any 
 
 To subscribe to a calendar:
 
-1.  Click on the **\[⋮\] (more) button** on the toolbar and select **Subscribe to calendar**.
-2.  In the modal that appears, give this calendar a unique name (you can only use it once). We recommend naming it based on where you will be subscribing to this calendar from ("personal phone" or "work tablet" for example).  
-3.  Click on **Copy URL**. This creates the a [calendar token](../../getting-started/my-account/#access-tokens) and copies the calendar URL to your clipboard.
-4.  Paste this URL in your desired calendar client to subscribe.
+1. Click on the **\[⋮\] (more) button** on the toolbar and select **Subscribe to calendar**.
+2. In the modal that appears, give this calendar a unique name (you can only use it once). We recommend naming it based on where you will be subscribing to this calendar from ("personal phone" or "work tablet" for example).  
+3. Click on **Copy URL**. This creates the a [calendar token](../../getting-started/my-account/#access-tokens) and copies the calendar URL to your clipboard.
+4. Paste this URL in your desired calendar client to subscribe.
 
 ![Subscribe to calendar modal](subscribeToCalendar-modal.png)
 

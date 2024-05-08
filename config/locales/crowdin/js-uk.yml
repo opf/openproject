@@ -378,7 +378,7 @@ uk:
     label_added_time_by: 'Додано користувачем <a href="%{authorLink}">%{author}</a> о %{age}'
     label_ago: "днів тому"
     label_all: "всі"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Усі"
     label_all_work_packages: "всі пакети в роботі"
     label_and: "і"
     label_ascending: "За зростанням"
@@ -420,7 +420,7 @@ uk:
     label_expand_project_menu: "Розгорніть меню проекту"
     label_export: "Експорт"
     label_export_preparing: "Файл готується для експорту, і невдовзі його буде завантажено."
-    label_favored: "Favored"
+    label_favorites: "Favorites"
     label_filename: "Файл"
     label_filesize: "Розмір"
     label_general: "Загальні"
@@ -1277,6 +1277,9 @@ uk:
           placeholder: "Прототип тепер може ввійти, щоб отримати доступ до проєкту «%{project}». Тим часом ви вже можете включати цього користувача в план і призначати йому пакети робіт."
           group: "Ця група тепер входить у проєкт «%{project}». Тим часом ви вже можете включати її в план і призначати їй пакети робіт."
         next_button: "Продовжити"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Включити проєкти"
       title: "Проекти"

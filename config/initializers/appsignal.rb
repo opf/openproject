@@ -20,6 +20,9 @@ if OpenProject::Appsignal.enabled?
         "ActionController::UnknownFormat",
         "ActiveJob::DeserializationError",
         "Net::SMTPServerBusy"
+      ],
+      ignore_logs: [
+        "GET /health_check"
       ]
     }
 

@@ -18,7 +18,7 @@ With OpenProject 12.3, administrators can define the [global work week](../../..
 
 OpenProject 12.3 also adds [duration](../../../user-guide/work-packages/set-change-dates/#duration) to work packages. Thereby, the duration is bound to the start and the finish date.
 
-With the introduction of the work week and duration, consequently also the [date picker got improved](../../../user-guide/work-packages/set-change-dates/#working-days). You will now see the duration as well as a switch to consider "Working days only" for your planning. 
+With the introduction of the work week and duration, consequently also the [date picker got improved](../../../user-guide/work-packages/set-change-dates/#working-days). You will now see the duration as well as a switch to consider "Working days only" for your planning.
 
 Additionally, this release launches **meaningful tool tips to the most essential actions**, and **when copying a project, all file links attached to work packages will be copied as well**.
 
@@ -26,7 +26,7 @@ As always, this release also contains many more improvements and bug fixes. We r
 
 ## Introduction of the global work week
 
-OpenProject 12.3 gives the administrator the possibility to specify working and non-working days on an overall instance-level and consequently define a global work week. 
+OpenProject 12.3 gives the administrator the possibility to specify working and non-working days on an overall instance-level and consequently define a global work week.
 
 This helps you to create more accurate project schedules and avoid having start or finish date of a work packages on a weekend. Non-working days are displayed grey in the calendar and work packages cannot be scheduled to start or finish on those days. The default value for non-working days is set to Saturday and Sunday, but you set them as needed.
 
@@ -50,7 +50,7 @@ With the addition of duration and introduction of the global work week, the date
 
 The duration field is obviously there to indicate the duration of a work package and to assist with setting start or finish date.
 
-With the working days only switch you can decide to either stick to the set work week or to include weekends. 
+With the working days only switch you can decide to either stick to the set work week or to include weekends.
 
 By default the **Working days only** switch is activated and the work week, as defined in the administration settings, is used to define the duration. Consequently, non-working days are not included in the calculation of the duration. These non-working days show in grey in the calendar and are not clickable.
 
@@ -60,7 +60,7 @@ By moving the switch and deactivate the “Working days only”, non-working day
 
 The functionality of the "Working days only" switch is well [documented](../../../user-guide/work-packages/set-change-dates/#working-days).
 
-### Please note the impact on the scheduling of all work packages 
+### Please note the impact on the scheduling of all work packages
 
 These changes to scheduling will not impact work packages created before the release of OpenProject 12.3 or before the upgrade to OpenProject 12.3. For the work packages created before OpenProject 12.3, the setting will have automatically turned-off the switch for “Working days only”. This is important to not change any existing dates for work packages. However, for new work packages, the switch will be set by default to “Working days only”.
 
@@ -70,9 +70,7 @@ The new and additional tool tips in the OpenProject application will make the na
 
 ![hover over select a project and tool tip view all projects comes up](tool-tip.png)
 
-
-
-##  List of all bug fixes and changes
+## List of all bug fixes and changes
 
 - Epic: Define weekly work schedule (weekends) [#18416](https://community.openproject.org/wp/18416)
 - Epic: Duration (deriving duration from dates, deriving dates from duration, updated datepicker, duration field elsewhere) [#31992](https://community.openproject.org/wp/31992)
@@ -112,7 +110,7 @@ The new and additional tool tips in the OpenProject application will make the na
 - Changed: New release teaser block for 12.3 [#44212](https://community.openproject.org/wp/44212)
 - Changed: Add the Switch component and Switch Field pattern to the design system [#44213](https://community.openproject.org/wp/44213)
 
-### Contributions
+## Contributions
 
 A big thanks to community members for reporting bugs, helping us identify issues and providing fixes.
 

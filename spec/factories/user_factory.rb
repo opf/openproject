@@ -62,7 +62,11 @@ FactoryBot.define do
 
     callback(:after_stub) do |user, evaluator|
       if evaluator.preferences.present?
-        user.preference = build_stubbed(:user_preference, user:, settings: evaluator.preferences)
+        # The assign_attributes workaround is required, because assigning user.preference will trigger
+        # creating a new database record, which raises an error in the build_stubbed context
+        user.pref.assign_attributes(
+          build_stubbed(:user_preference, user:, settings: evaluator.preferences).attributes
+        )
       end
     end
 

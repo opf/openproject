@@ -128,4 +128,56 @@ RSpec.describe Principal do
         .to contain_exactly(active_project_member, global_member)
     end
   end
+
+  describe "#name" do
+    shared_let(:user_id) { create(:user, firstname: "John", lastname: "Smith", login: "john_smith").id }
+    shared_let(:group_id) { create(:group, name: "Folk").id }
+    shared_let(:placeholder_user_id) { create(:placeholder_user, name: "Wannabejohn").id }
+
+    shared_examples "name formatting" do
+      context "for lastname_coma_firstname formatter", with_settings: { user_format: :lastname_coma_firstname } do
+        it "returns formatted user name" do
+          expect(user.name).to eq "Smith, John"
+        end
+
+        it "returns formatted group name" do
+          expect(group.name).to eq "Folk"
+        end
+
+        it "returns formatted placeholder user name" do
+          expect(placeholder_user.name).to eq "Wannabejohn"
+        end
+      end
+
+      context "for username formatter", with_settings: { user_format: :username } do
+        it "returns formatted user name" do
+          expect(user.name).to eq "john_smith"
+        end
+
+        it "returns formatted group name" do
+          expect(group.name).to eq "Folk"
+        end
+
+        it "returns formatted placeholder user name" do
+          expect(placeholder_user.name).to eq "Wannabejohn"
+        end
+      end
+    end
+
+    context "when fetched individually" do
+      let(:user) { User.select_for_name.find(user_id) }
+      let(:group) { Group.select_for_name.find(group_id) }
+      let(:placeholder_user) { PlaceholderUser.select_for_name.find(placeholder_user_id) }
+
+      include_examples "name formatting"
+    end
+
+    context "when fetched as Principal" do
+      let(:user) { described_class.select(:type).select_for_name.find(user_id) }
+      let(:group) { described_class.select(:type).select_for_name.find(group_id) }
+      let(:placeholder_user) { described_class.select(:type).select_for_name.find(placeholder_user_id) }
+
+      include_examples "name formatting"
+    end
+  end
 end

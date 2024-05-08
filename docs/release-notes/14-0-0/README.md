@@ -31,6 +31,7 @@ In version 13.1 we have overhauled our system to handle internal permission chec
 defined on project or global level, but also on resources like work packages. Therefore, we have introduced new methods to check permissions. The old methods have been marked as deprecated and are now removed in 14.0.
 
 Affected methods are:
+
 - `User#allowed_to?`
 - `User#allowed_to_globally?`
 - `User#allowed_to_in_project?`
@@ -50,7 +51,6 @@ The following variables have been changed:
 | alternative-color  | primary-button-color | Was merged with the previous "primary-color". The value of "alternative-color" was kept.                                                                                   |
 | primary-color-dark | -                    | Will now be calculated automatically based on the "primary-button-color"                                                                                                   |
 | link-color         | accent-color         | Is not only used for links, but for all decently highlighted elements (e.g. the selection state in a datepicker).<br/>The (old) value of "primary-color" was use for this. |
-
 
 If you have developed a plugin or have custom code that uses these variables, you need to update your code to use the new
 names. The rest of the variables is unchanged. For more information, see [#53309](https://community.openproject.org/work_packages/53309).
@@ -73,19 +73,19 @@ The `available_responsibles` endpoint has been removed from the API. This endpoi
 
 There are some major changes in terms of progress reporting for work package hierarchies. The calculation of progress (% Complete) in work package hierarchies is now consistent. This leads to the following important changes:
 
-#### % Complete will be an automatically calculated (non-editable) attribute based on Work.
+#### % Complete will be an automatically calculated (non-editable) attribute based on Work
 
 In Work-based progress reporting, % Complete will be automatically calculated and can therefore no longer be edited manually. This means that for a work package to have a value for % Complete, both Work and Remaining work are required to be set. To make this link clear and transparent, clicking on any of the three values to modify them will display the following pop-over:
 
 ![Work-based progress reporting](progress-work-estimates-workMode.jpg)
 
-#### In status-based progress reporting, Remaining work will be automatically calculated.
+#### In status-based progress reporting, Remaining work will be automatically calculated
 
 In Status-based progress reporting mode, Work is not a required value. However, if Work is set, Remaining work is automatically calculated. To make this link clear and transparent, clicking on any of the three values to modify them will display the following pop-over:
 
 ![Status-based progress reporting](progress-work-estimates-statusMode.jpg)
 
-#### Administrators will be able to exclude certain work packages from hierarchy totals of Work, Remaining work and % Complete.
+#### Administrators will be able to exclude certain work packages from hierarchy totals of Work, Remaining work and % Complete
 
 Admins are able to exclude specific work packages (e.g., those marked as rejected) from the total sum calculations of their parent. In this case, a small info icon will appear next to excluded values:
 
@@ -107,7 +107,7 @@ Project attributes as well as the sections can be managed in administration/proj
 
 ### Streamlined view of custom fields in project lists and project overview
 
-Until now, there have been uncertainties with project-specific custom fields from time to time. This is why the tab 'project' has been removed from the custom fields admin settings pages. Instead, project custom fields are now edited within their own admin settings page. Also, the custom fields widget has been removed. 
+Until now, there have been uncertainties with project-specific custom fields from time to time. This is why the tab 'project' has been removed from the custom fields admin settings pages. Instead, project custom fields are now edited within their own admin settings page. Also, the custom fields widget has been removed.
 
 As described above, *project* custom fields are now called 'Project attributes' and can be shown in a sidebar on the project overview page on a per-project configuration.
 
@@ -134,7 +134,7 @@ If you copy a project where a file storage has automatically managed project fol
 * Deactivate the copy option "File Storages: Project folders" – this will copy the file storage, but not the specific project folder.
 * Deactivate the copy option "File Storages" – this will not copy any file storage.
 
-### Reminder for admins when revoking a project membership to remove shares on work packages 
+### Reminder for admins when revoking a project membership to remove shares on work packages
 
 As of 14.0, admins are asked whether they also want to remove access to [shared work packages](https://www.openproject.com/docs/user-guide/work-packages/share-work-packages/) when removing a project member or group from a project.
 
@@ -282,7 +282,7 @@ Apart from the features mentioned above, there have been a lot of other changes,
 <!-- END AUTOMATED SECTION -->
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
-#### Contributions
+## Contributions
 
 A very special thank you goes to our sponsors for features and improvements of this release:
 

@@ -1,15 +1,15 @@
 ---
-  title: OpenProject 3.0.8
-  sidebar_navigation:
-      title: 3.0.8
-  release_version: 3.0.8
-  release_date: 2014-07-04
+title: OpenProject 3.0.8
+sidebar_navigation:
+  title: 3.0.8
+release_version: 3.0.8
+release_date: 2014-07-04
 ---
 
 # OpenProject 3.0.8
 
-The 
-[3.0.8 bugfix release of OpenProject](https://github.com/opf/openproject/tree/v3.0.8) 
+The
+[3.0.8 bugfix release of OpenProject](https://github.com/opf/openproject/tree/v3.0.8)
 addresses a variety of bugs from filtering
 ([#7169](https://community.openproject.org/work_packages/7169 "Filtering for assignee's role returns wrong results (closed)"))
 to accessibility
@@ -18,7 +18,7 @@ and performance limitations when copying projects
 ([#12299](https://community.openproject.org/work_packages/12299 "App server blocked when copying large project (closed)")).
 For the later, delayed job is employed to ensure that the app server
 will still answer while large projects are copied. Please bear in mind
-that for this to happen you need to have 
+that for this to happen you need to have
 [delayed job running](https://github.com/collectiveidea/delayed_job).
 
 For a complete list of changes to OpenProject, please refer to the
@@ -38,11 +38,9 @@ doing this is to follow the stable branches for every plugin and
 OpenProject.
 
 We are aware that this change in versioning has some weird side effects.
-The most noticeable is the 
+The most noticeable is the
 [costs plugin](https://github.com/finnlabs/openproject-costs)
 falling back from
 version 5.0.4 to 3.0.8. While this might be confusing, we are convinced
 that keeping versions in lockstep will convey the intended compatibility
 much better than every other mechanism.
-
-

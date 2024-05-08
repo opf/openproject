@@ -75,6 +75,7 @@ Available arguments that change how the work packages are handled:
 **Gmail API**
 
 In order to use the more secure Gmail API method, some extra initial setup in google cloud is required.
+
 1. Go to https://console.cloud.google.com/
 2. Create new project
 3. Navigate to Enable APIs and Services
@@ -120,7 +121,7 @@ and it will be added as a comment to the work package. You can also update attri
 
 For instance with the following reply.
 
-```
+```text
 status: closed
 
 The issue is sorted then. Closing this.
@@ -140,7 +141,7 @@ there.
 
 For example if you write an email with the subject "Fixing problems" and the following body:
 
-```
+```text
 project: demo-project
 type: Task
 status: In Progress
@@ -167,8 +168,6 @@ to create work packages, set the option `no_permission_check=1` and specify with
 **Users with mail suffixes**
 
 If you're used to using mail accounts with suffix support such as Google Mail, where you can specify `account+suffix@googlemail.com`, you will receive mails to that account but respond with your regular account `account@googlemail.com` . To mitigate this, OpenProject by default will expand searching for mail addresses `account@domain` to accounts `account+suffix@domain`  through regex searching the mail column. If you do not wish that behavior or want to customize the prefix, alter the setting `mail_suffix_separators` by running `bundle exec rails runner "Setting.mail_suffix_separators = ''"`
-
-
 
 #### Attributes
 
@@ -212,8 +211,6 @@ If you create a work package via email and sent it to another email (to or bcc) 
 
 In the administrator's setting you can specify lines after which an email will not be parsed anymore. That is useful if you want to reply to an email automatically sent to you from OpenProject. E.g. you could set it to `--Truncate here--` and insert this line into your email below the updates you want to perform.
 
-
-
 ## Error handling
 
 In case of receiving errors, the application will try to send an email to the user with some error details. This mail will only be sent if:
@@ -223,8 +220,6 @@ In case of receiving errors, the application will try to send an email to the us
 - The user is active on the system (Note that this happens on `unknown_user=create` as well)
 
 - The configuration setting `report_incoming_email_errors` is true (which it is by default)
-
-
 
 By returning an email with error details, you can theoretically be leaking information through the error messages. As from addresses can be spoofed, please be aware of this issue and try to reduce the impact by setting up the integration appropriately.
 

@@ -40,66 +40,38 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
     end
 
     def call(auth_strategy:, location:)
-      origin_user_id = origin_user_id(auth_strategy)
+      origin_user_id = Util.origin_user_id(caller: self.class, storage: @storage, auth_strategy:)
       if origin_user_id.failure?
         return origin_user_id
       end
 
-      response = Auth[auth_strategy].call(storage: @storage) do |http|
-        http.delete(Util.join_uri_path(@storage.uri,
-                                       "remote.php/dav/files",
-                                       CGI.escapeURIComponent(origin_user_id.result),
-                                       Util.escape_path(location)))
-      end
-
-      case response
-      in { status: 200..299 }
-        ServiceResult.success
-      in { status: 404 }
-        failure(code: :not_found,
-                payload: response.json(symbolize_keys: true),
-                log_message: "Outbound request destination not found!")
-      in { status: 401 }
-        failure(code: :unauthorized,
-                payload: response.json(symbolize_keys: true),
-                log_message: "Outbound request not authorized!")
-      else
-        failure(code: :error,
-                payload: response.json(symbolize_keys: true),
-                log_message: "Outbound request failed with unknown error!")
+      Auth[auth_strategy].call(storage: @storage) do |http|
+        handle_response http.delete(Util.join_uri_path(@storage.uri,
+                                                       "remote.php/dav/files",
+                                                       CGI.escapeURIComponent(origin_user_id.result),
+                                                       Util.escape_path(location)))
       end
     end
 
     private
 
-    def origin_user_id(auth_strategy)
-      case auth_strategy.key
-      when :basic_auth
-        ServiceResult.success(result: @storage.username)
-      when :oauth_user_token
-        origin_user_id = OAuthClientToken.find_by(user_id: user, oauth_client: @storage.oauth_client)&.origin_user_id
-        if origin_user_id.present?
-          ServiceResult.success(result: origin_user_id)
-        else
-          failure(code: :error,
-                  payload: nil,
-                  log_message: "No origin user ID or user token found. Cannot execute query without user context.")
-        end
+    def handle_response(response)
+      case response
+      in { status: 200..299 }
+        ServiceResult.success
+      in { status: 404 }
+        Util.failure(code: :not_found,
+                     data: Util.error_data_from_response(caller: self.class, response:),
+                     log_message: "Outbound request destination not found!")
+      in { status: 401 }
+        Util.failure(code: :unauthorized,
+                     data: Util.error_data_from_response(caller: self.class, response:),
+                     log_message: "Outbound request not authorized!")
       else
-        failure(code: :error,
-                payload: nil,
-                log_message: "No authentication strategy with user context found. " \
-                             "Cannot execute query without user context.")
+        Util.failure(code: :error,
+                     data: Util.error_data_from_response(caller: self.class, response:),
+                     log_message: "Outbound request failed with unknown error!")
       end
-    end
-
-    def failure(code:, payload:, log_message:)
-      ServiceResult.failure(
-        result: code,
-        errors: ::Storages::StorageError.new(code:,
-                                             data: ::Storages::StorageErrorData.new(source: self.class, payload:),
-                                             log_message:)
-      )
     end
   end
 end

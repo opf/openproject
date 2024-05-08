@@ -14,7 +14,7 @@ We released [OpenProject 13.1.1](https://community.openproject.org/versions/1980
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Inconsistent hrefs in wp shared mail \[[#51480](https://community.openproject.org/wp/51480)\]
 - Fixed: Slow notification polling \[[#51622](https://community.openproject.org/wp/51622)\]
@@ -26,7 +26,8 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Time and costs \[[#51700](https://community.openproject.org/wp/51700)\]
 - Fixed: Pasting into autocompleter does not work initially \[[#51730](https://community.openproject.org/wp/51730)\]
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

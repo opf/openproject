@@ -17,7 +17,7 @@ Permissions control what users can see and do within OpenProject. Permission are
 
 ### File storages permissions
 
-File storages permissions include the following: 
+File storages permissions include the following:
 
 ![Files storages permissions in OpenProject](openproject_user_guide_file_storages_permissions.png)
 
@@ -47,7 +47,6 @@ A user can have one or more roles which grant permissions on different levels.
 
 **Administrators** have full access to all settings and all projects in an OpenProject environment. The permissions of the Administrator role can not be changed.
 
-
 | Scope of the role                                            | Permission examples                                          | Customization options                                        |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | Application-level: Full control of all aspects of the application | - Assign administration privileges to other users<br>- Create and restore backups in the web interface<br>- Create and configure an OAuth app<br>- Configure custom fields<br>- Archive projects/restore projects<br>- Configure global roles<br>- Configure project roles | Cannot be changed |
@@ -76,11 +75,9 @@ A user can have one or more roles which grant permissions on different levels.
 
 **Note:** The *Non-member* role cannot be deleted.
 
-
 | Scope of the role                                            | Permission examples                                          | Customization options                                        |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | Project-level: Permissions scoped to individual projects for users which are logged in | - View work packages for users that are logged in            | Assign different permissions to the role *Non-member*     |
-
 
 ### Anonymous
 
@@ -127,7 +124,7 @@ Administrators can create new global roles in *Administration* > *Users and perm
 
 - [Edit users](../users/)
 
-	> **Note:** This allows the *Administrator* to delegate the administration of users to other people that should not have full control of the entire OpenProject installation (Administrator). These users can edit attributes of any users, except administrators. This means they are able to impersonate another user by changing email address to match theirs. This is a security risk and should be considered with caution.
+ > **Note:** This allows the *Administrator* to delegate the administration of users to other people that should not have full control of the entire OpenProject installation (Administrator). These users can edit attributes of any users, except administrators. This means they are able to impersonate another user by changing email address to match theirs. This is a security risk and should be considered with caution.
 
 - [Create, edit, and delete placeholder users](../placeholder-users/)
 

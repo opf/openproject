@@ -263,8 +263,8 @@ he:
       no_results_content_text: יצירת פרוייקט חדש
     lists:
       active: "Active projects"
-      my: "My projects"
-      favored: "Favored projects"
+      my: "הפרוייקטים שלי"
+      favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -319,10 +319,10 @@ he:
     menu:
       all: "All"
       invited: "Invited"
-      locked: "Locked"
+      locked: "נעול"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "קבוצות"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -411,7 +411,7 @@ he:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
   page:
-    text: "Text"
+    text: "טקסט"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -636,7 +636,7 @@ he:
           false: "private"
         queries: "שאילתות"
         status_code: "מצב הפרוייקט"
-        description: "Description"
+        description: "תיאור"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -797,6 +797,7 @@ he:
         not_an_iso_date: "is not a valid date. Required format: YYYY-MM-DD."
         not_same_project: "doesn't belong to the same project."
         odd: "must be odd."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "could not be validated with the associated regular expression."
         smaller_than_or_equal_to_max_length: "must be smaller than or equal to maximum length."
         taken: "has already been taken."
@@ -1294,7 +1295,7 @@ he:
   button_edit: "עריכה"
   button_edit_associated_wikipage: "ערוך את דף הויקי הקשור: %{page_title}"
   button_expand_all: "הרחב הכל"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "סינון"
   button_generate: "Generate"
   button_list: "רשימה"
@@ -1312,7 +1313,7 @@ he:
   button_reset: "איפוס"
   button_rollback: "ביטול שינויים לגרסה זו"
   button_save: "שמור"
-  button_save_as: "Save as"
+  button_save_as: "שמירה בשם"
   button_apply_changes: "Apply changes"
   button_save_back: "Save and back"
   button_show: "הצג"
@@ -1622,7 +1623,7 @@ he:
     message: ההודעה נערכה
     news: חדשות
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "הפרויקט נערך"
     projects: "הפרויקט נערך"
     reply: הושב
     time_entry: "רישום הזמן נערך"
@@ -1725,6 +1726,8 @@ he:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Configuration guide"
     get_in_touch: "You have questions? Get in touch with us."
@@ -1842,7 +1845,7 @@ he:
   label_ascending: "סדר עולה"
   label_assigned_to_me_work_packages: "חבילות עבודה שהוקצו לי"
   label_associated_revisions: "תיקונים הקשורים"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "קבצים מצורפים"
   label_attribute: "תכונה"
   label_attribute_plural: "תכונות"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1869,7 +1872,7 @@ he:
   label_forum_plural: "פורומים"
   label_forum_sticky: "נעוץ"
   label_boolean: "בוליאני"
-  label_board_plural: "Boards"
+  label_board_plural: "לוחות"
   label_branch: "ענף"
   label_browse: "עיון"
   label_bulk_edit_selected_work_packages: "חבילות עבודה עריכה בצובר שנבחרו"
@@ -1928,7 +1931,7 @@ he:
   label_custom_field_plural: "שדות מותאמים אישית"
   label_custom_field_default_type: "סוג ריק"
   label_custom_style: "עיצוב"
-  label_dashboard: "Dashboard"
+  label_dashboard: "דאשבורד"
   label_database_version: "PostgreSQL version"
   label_date: "תאריך"
   label_date_and_time: "Date and time"
@@ -1990,18 +1993,18 @@ he:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Also available in:"
-  label_expand: "Expand"
+  label_expand: "הרחב"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key created %{value} ago"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "קבצים"
   label_filter_add: "Add filter"
-  label_filter: "Filters"
+  label_filter: "מסננים"
   label_filter_plural: "מסננים"
   label_filters_toggle: "Show/hide filters"
   label_float: "Float"
@@ -2028,7 +2031,7 @@ he:
   label_home: "דף הבית"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "מזהה"
   label_in: "ב"
   label_in_less_than: "in less than"
   label_in_more_than: "in more than"
@@ -2044,7 +2047,7 @@ he:
   label_internal: "פנימי"
   label_introduction_video: "Introduction video"
   label_invite_user: "Invite user"
-  label_share: "Share"
+  label_share: "שתף"
   label_show_hide: "Show/hide"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
@@ -2064,9 +2067,10 @@ he:
   label_latest_revision: "מהדורה אחרונה"
   label_latest_revision_plural: "מהדורות אחרונות"
   label_ldap_authentication: "LDAP authentication"
-  label_learn_more: "Learn more"
+  label_learn_more: "למידע נוסף"
   label_less_or_equal: "<="
   label_less_than_ago: "less than days ago"
+  label_link_url: "Link (URL)"
   label_list: "רשימה"
   label_loading: "טוען..."
   label_lock_user: "Lock user"
@@ -2209,7 +2213,7 @@ he:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} projects using %{storage} disk storage"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "הצג את כל הפרוייקטים"
   label_project_show_details: "Show project details"
   label_project_hide_details: "Hide project details"
@@ -3647,7 +3651,7 @@ he:
   link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"

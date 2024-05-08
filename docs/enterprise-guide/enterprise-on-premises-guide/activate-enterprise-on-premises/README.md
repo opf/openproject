@@ -11,15 +11,13 @@ The OpenProject Enterprise on-premises edition builds on top of the Community ed
 
 In order to upgrade your OpenProject Community edition to the Enterprise on-premises edition, sign into your OpenProject environment with an administrator account.
 
-**Click on your user avatar in the upper right corner** (1) and select **Administration** from the dropdown menu (2). 
+**Click on your user avatar in the upper right corner** (1) and select **Administration** from the dropdown menu (2).
 
 ![Enterprise-Admin](Enterprise-Admin.png)
 
 Next, select **Enterprise edition** from the menu items (3).
 
 ![enterprise-select-menu](image-20210120113056133.png)
-
-
 
 Do you already have an Enterprise on-premises token?
 
@@ -39,9 +37,6 @@ If you want to **order the Enterprise on-premises edition** click on the **+ Ord
 
 ![Order-Enterprise-on-premises](Upgrade-to-Enterprise-on-premises.png)
 
-
-
 Once you purchased an Enterprise on-premises edition token or received a trial token you can [activate it by pasting the token in the designated area of the Enterprise edition section](#activate-the-enterprise-on-premises-edition).
 
 You can find pricing options and FAQ regarding pricing, booking and billing on our [pricing website](https://www.openproject.org/pricing/#faq).
-

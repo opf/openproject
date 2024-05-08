@@ -5,7 +5,7 @@ vi:
       add_existing: 'Add existing'
       add_existing_title: 'Add existing work packages'
       create_label: 'Team planner'
-      create_title: 'Create new team planner'
+      create_title: 'Tạo team planner mới'
       unsaved_title: 'Unnamed team planner'
       no_data: 'Add assignees to set up your team planner.'
       add_assignee: 'Add assignee'

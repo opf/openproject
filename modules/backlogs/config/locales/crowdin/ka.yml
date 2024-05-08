@@ -64,7 +64,7 @@ ka:
     properties: "თვისებები"
     rebuild: "თავიდან აგება"
     rebuild_positions: "Rebuild positions"
-    remaining_hours: "Remaining work"
+    remaining_hours: "დარჩენილი სამუშაო"
     remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "გამოწვის გრაფიკი"
     story: "ამბავი"

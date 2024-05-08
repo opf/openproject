@@ -264,7 +264,7 @@
     lists:
       active: "Aktive prosjekter"
       my: "Mine prosjekter"
-      favored: "Favorittprosjekter"
+      favored: "Favorite projects"
       archived: "Arkiverte prosjekter"
       my_private: "Mine private prosjektlister"
       new:
@@ -783,6 +783,7 @@
         not_an_iso_date: "er ikke en gyldig dato. Påkrevd format: ÅÅÅÅ-MM-DD."
         not_same_project: "hører ikke til samme prosjekt."
         odd: "må være oddetall."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "kunne ikke valideres med det tilhørende regulære uttrykket."
         smaller_than_or_equal_to_max_length: "må være mindre enn eller lik maksimumslengden."
         taken: "er allerede tatt."
@@ -1264,7 +1265,7 @@
   button_edit: "Rediger"
   button_edit_associated_wikipage: "Rediger tilknyttet Wiki-side: %{page_title}"
   button_expand_all: "Utvid alle"
-  button_favorite: "Merk som favoritt"
+  button_favorite: "Add to favorites"
   button_filter: "Filter"
   button_generate: "Generer"
   button_list: "Liste"
@@ -1659,6 +1660,8 @@
           Fremdriftsberegning automatisk <a href="%{href}" target="_blank">satt til arbeidsbasert modus og justert med versjon</a>.
         progress_calculation_adjusted: >-
           Fremdriftsberegning automatisk <a href="%{href}" target="_blank">justert med versjon</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Konfigurasjonsveiviser"
     get_in_touch: "Har du spørsmål? Ta kontakt med oss."
@@ -1914,7 +1917,7 @@
   label_enterprise_support: "Bedriftsstøtte"
   label_enterprise_addon: "Enterprise utvidelse"
   label_environment: "Miljø"
-  label_estimates_and_progress: "Estimates and progress"
+  label_estimates_and_progress: "Estimater og fremdrift"
   label_equals: "er"
   label_everywhere: "overalt"
   label_example: "Eksempel"
@@ -1928,7 +1931,7 @@
   label_expanded_click_to_collapse: "Utvidet. Klikk for å skjule"
   label_f_hour: "%{value} time"
   label_f_hour_plural: "%{value} timer"
-  label_favoured: "Favoritter"
+  label_favorite: "Favoritt"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS tilgangsnøkkel"
   label_feeds_access_key_created_on: "RSS tilgangsnøkkel opprettet for %{value} siden"
@@ -2001,6 +2004,7 @@
   label_learn_more: "Lær mer"
   label_less_or_equal: "<="
   label_less_than_ago: "mindre enn dager siden"
+  label_link_url: "Link (URL)"
   label_list: "Liste"
   label_loading: "Laster..."
   label_lock_user: "Lås bruker"
@@ -2143,7 +2147,7 @@
   label_project_attributes_settings: "Innstillinger for prosjektegenskaper"
   label_project_storage_plural: "Fillagringer"
   label_project_storage_project_folder: "Fillagringer: Prosjektmapper"
-  label_projects_storage_information: "%{count} prosjekter som bruker %{storage} lagringsplass"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Vis alle prosjekter"
   label_project_show_details: "Vis prosjektdetaljer"
   label_project_hide_details: "Skjul prosjektdetaljer"
@@ -2320,11 +2324,11 @@
     other: "%{count} stengt"
     zero: "0 lukket"
   label_x_comments:
-    one: "%{count} kommentar"
+    one: "1 kommentar"
     other: "%{count} kommentarer"
     zero: "ingen kommentarer"
   label_x_open_work_packages_abbr:
-    one: "%{count} åpen"
+    one: "1 åpen"
     other: "%{count} åpne"
     zero: "0 åpen"
   label_x_work_packages:
@@ -2332,12 +2336,12 @@
     other: "%{count} arbeidspakker"
     zero: "Ingen arbeidspakker"
   label_x_projects:
-    one: "%{count} prosjekt"
+    one: "1 prosjekt"
     other: "%{count} prosjekter"
     zero: "ingen prosjekter"
   label_x_files:
     one: "1 fil"
-    other: "{count} filer"
+    other: "%{count} filer"
     zero: "ingen filer"
   label_yesterday: "i går"
   label_zen_mode: "Zen-modus"
@@ -3244,7 +3248,7 @@
     assign_random_password: "Tilordne et tilfeldig passord (sendt til brukeren via e-post)"
     blocked: "midlertidig låst"
     blocked_num_failed_logins:
-      one: "midlertidig utesteng (%{count} mislykkede pålogginger)"
+      one: "midlertidig utesteng (ett mislykkede pålogginger)"
       other: "midlertidig låst (%{count} mislykkede innloggingsforsøk)"
     confirm_status_change: "Du er i ferd med å endre status for '%{name}'. Er du sikker på at du vil fortsette?"
     deleted: "Slettet bruker"
@@ -3573,7 +3577,7 @@
   link: kobling
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth utvidelse"
-    description: "Integrering av OmniAuth strategileverandører for autentisering i Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Enkeltpålogging på"
     description: "Legger til OmniAuth SAML leverandør til OpenProject"

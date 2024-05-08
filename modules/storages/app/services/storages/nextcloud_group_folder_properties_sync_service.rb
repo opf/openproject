@@ -209,26 +209,19 @@ module Storages
     end
 
     def create_folder(project_storage)
-      folder_path = project_storage.managed_project_folder_path
-      Peripherals::Registry
-        .resolve("nextcloud.commands.create_folder")
-        .call(storage: @storage, folder_path:)
-        .result_or do |error|
-        format_and_log_error(error, folder: folder_path)
+      folder_name = project_storage.managed_project_folder_path
+      parent_location = Peripherals::ParentFolder.new("/")
+
+      created_folder = Peripherals::Registry
+                         .resolve("nextcloud.commands.create_folder")
+                         .call(storage: @storage, auth_strategy:, folder_name:, parent_location:)
+                         .result_or do |error|
+        format_and_log_error(error, folder: folder_name)
 
         return ServiceResult.failure(errors: error)
       end
 
-      folder_id_result = Peripherals::Registry
-                           .resolve("nextcloud.queries.file_ids")
-                           .call(storage: @storage, path: folder_path)
-                           .result_or do |error|
-        format_and_log_error(error, path:)
-
-        return ServiceResult.failure(errors: error)
-      end
-
-      project_folder_id = folder_id_result.dig(folder_path, "fileid")
+      project_folder_id = created_folder.id
       last_project_folder = ::Storages::LastProjectFolder
                               .find_by(
                                 project_storage_id: project_storage.id,
@@ -278,7 +271,7 @@ module Storages
         in { status: Integer }
           { status: payload.status, body: payload.body.to_s }
         else
-          payload.error.to_s
+          payload.to_s
         end
 
       error_message = context.merge({ command: error.data.source, message: error.log_message, data: })
@@ -293,6 +286,10 @@ module Storages
 
     def client_tokens_scope
       OAuthClientToken.where(oauth_client: @storage.oauth_client)
+    end
+
+    def auth_strategy
+      Peripherals::StorageInteraction::AuthenticationStrategies::BasicAuth.strategy
     end
 
     def admin_client_tokens_scope

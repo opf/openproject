@@ -41,6 +41,7 @@ be:
       too_many_elements_created_at_once: Too many elements created at once. Expected %{max} at most, got %{actual}.
   permission_create_files: 'External Storage: Create files'
   permission_delete_files: 'External Storage: Delete files'
+  permission_header_for_project_module_storages: Automatically managed project folders
   permission_manage_file_links: Кіраваць спасылкамі на файлы
   permission_manage_storages_in_project: Кіраваць файлавымі сховішчамі ў праекце
   permission_read_files: 'External Storage: Read files'
@@ -53,7 +54,7 @@ be:
       complete_without_setup: Complete without it
       done_complete_setup: Done, complete setup
       done_continue: Done, continue
-      replace_oauth_application: Replace OpenProject OAuth
+      replace_oauth_application: Замяніць OpenProject OAuth
       replace_oauth_client: Replace %{provider_type} OAuth
       save_and_continue: Save and continue
       select_folder: Select folder

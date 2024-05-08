@@ -30,18 +30,17 @@ flowchart TD
     gih["GitHub (gih)"]
     gil["GitLab (gil)"]
     cal["Calendar (cal)"]
-  	O["API integrations (api)"]
+    O["API integrations (api)"]
     W["Outgoing webhooks"]
-end
+  end
 
   subgraph services[Internal Services]
   direction TB
-  	M[Memcached]
-	  P[PostgreSQL]
-	  S[Object storage or NFS]
-	  email["Email gateways (eml)"]
+    M[Memcached]
+    P[PostgreSQL]
+    S[Object storage or NFS]
+    email["Email gateways (eml)"]
   end
-
 
   openproject <-->|"TCP requests"| services
   openproject -->|"HTTPS requests"| integrations
@@ -49,11 +48,10 @@ end
   
   subgraph localclients[Local Client / User device]
   direction TB
-	browser
-	A1
-	A2	
-	
-end
+  browser
+  A1
+  A2
+  end
 ```
 
 ## Involved services
@@ -79,14 +77,14 @@ end
 | API integrations                    | Structural access to OpenProject through API endpoints. Optional access to users and third party organizations depending on authorized scopes | HTTPS                                                        | (Optional) R<br>(Optional) W<br>          | [API configuration](../../system-admin-guide/api-and-webhooks/) |
 | Outgoing Webhooks                   | Outgoing requests for changes within the application         | HTTPS                                                        | R (Outgoing webhook data)                 | [Webhook configuration an administration](../../system-admin-guide/api-and-webhooks/#webhooks) |
 
-# Software
+## Software
 
 OpenProject is developed as a GPLv3 licensed, open-source software. The software core is developed and maintained using [GitHub](https://github.com/opf/openproject/). OpenProject is available as several versions:
 
 - [Community Edition](https://www.openproject.org/community-edition/)
 - [Enterprise on-premises and Enterprise cloud](https://www.openproject.org/enterprise-edition/)
 
-# Environments
+## Environments
 
 OpenProject is continuously tested, developed, and distributed using the following environments
 
@@ -100,23 +98,23 @@ OpenProject is continuously tested, developed, and distributed using the followi
 | Production<br>(Helm chart)    | [Official public OpenProject Helm charts](../../installation-and-operations/installation/helm-chart/)<br>Stable releases                                                                                                                                   | Stable releases (configurable through container tags)                                                                                                            | Updates to Helm chart are manual, underlying deployment uses OpenProject docker images                                           |
 | PullPreview                   | Temporary instances for development of features scope to a pull request.                                                                                                                                                                                   | Feature branches                                                                                                                                                 | Automatically deployed when developers/QA request a pull preview instance by labelling pull requests with the `PullPreview` tag. |
 
-# Patch and change management
+## Patch and change management
 
 OpenProject uses the Community instance [https://community.openproject.org](https://community.openproject.org) for managing the application lifecycle. For a full overview on the process of developing changes to the application, please see our [product development guide](../product-development-handbook/).
 
 This section summarizes all relevant information about the process for providing releases.
 
-## Current release
+### Current release
 
 The [release notes](../../release-notes) provide a list of all the releases including the current stable one.
 
 Administrators can identify their currently deployed version of OpenProject in the [Administration information page of their installation](../../system-admin-guide/information).
 
-## Upcoming releases
+### Upcoming releases
 
 See the [Roadmap](https://community.openproject.org/projects/openproject/roadmap) for the overview of the upcoming stable releases.
 
-## Versioning
+### Versioning
 
 OpenProject follows [Semantic Versioning](https://semver.org/). Therefore, the version is a composition of three digits in the format of e.g. 0.1.1 and can be summarized as followed:
 
@@ -140,7 +138,7 @@ This list is not conclusive but rather serves to highlight the difference to the
 
 <div id="version-tracing"></div>
 
-## Version tracing in containers and packages
+### Version tracing in containers and packages
 
 OpenProject embeds some release information into the packages and containers to ensure they are traceable. For all containers, the following files exist under `/app`. For packages, these files reside under `/opt/openproject/` and `/opt/openproject/config`, depending on the used version.
 
@@ -149,43 +147,43 @@ OpenProject embeds some release information into the packages and containers to 
 - **PRODUCT_VERSION** Commit of the flavour/product version. In case of the [openDesk container](https://hub.docker.com/r/openproject/open_desk), contains a reference to the openDesk repository https://github.com/opf/openproject-open_desk
 - **BUILDER_VERSION** Internal reference of the building CI repository that we use to create and publish the images.
 
-## Support of releases
+### Support of releases
 
 For the community edition, only the current stable release is maintained. The [Enterprise on-premises](https://www.openproject.org/enterprise-edition) provides extended maintenance.
 
 We recommended to update to a new stable release as soon as possible to have a supported version installed. To that end, OpenProject will show an information banner to administrators in case a new stable release is available.
 
-## Change history
+### Change history
 
 All changes made to the OpenProject software are documented via work packages bundled by the version. The [Roadmap view](https://community.openproject.org/projects/openproject/roadmap) gives a corresponding overview. A release is also summarized in the [release notes](../../release-notes).
 
-## Distribution
+### Distribution
 
 OpenProject is distributed in [various formats](../../installation-and-operations/installation). Manual installation based on the code in GitHub is possible but not supported.
 
-## Versions in the codebase
+### Versions in the codebase
 
 The version is represented as [tags](../git-workflow/#tagging) and [branches](../git-workflow/#branching-model) in the repository. The version is also manifested in the [version.rb](https://github.com/opf/openproject/blob/dev/lib/open_project/version.rb).
 
-# Components
+## Components
 
 A typical installation of OpenProject uses a web server such as NGINX or Apache to proxy requests to and from the internal [Puma](https://puma.io/) application server. All web requests are handled internally by it. A background job queue is used to execute longer running data requests or asynchronous communications.
 
-## Puma application server
+### Puma application server
 
 OpenProject uses a Puma application server to run and handle requests for the Rails stack. All HTTP(S) requests to OpenProject are handled by it. Puma is a configurable multi-process, multithreading server. The exact number of servers being operated depends on your deployment method of OpenProject. See the [process control and scaling documentation](../../installation-and-operations/operation/control/) for more information.
 
-## External load balancer or proxying server
+### External load balancer or proxying server
 
 A web server is expected to handle requests between the end-user and the internal Puma application server. It is responsible for e.g.,  terminating TLS and managing user-facing HTTP connections, but depending on the deployment, also for serving static assets and certain caching related functionality. This server performs a proxy-reverse proxy pattern with the internal application server. No external connections are allowed directly to the Puma server.
 
-## Rails application
+### Rails application
 
 The core application, built on the Ruby on Rails framework, handling business logic, database operations, and user interactions. Utilizes the Model-View-Controller (MVC) design pattern. Follows [secure coding guidelines](../concepts/secure-coding/) for authentication, session management, user input validation, and error logging.
 
 The application aims to return to the MVC pattern using Rails, Hotwire, and ViewComponents for UI element composition. This strategy aims for higher usability and efficient development.
 
-## Angular frontend
+### Angular frontend
 
 Some of the responses of the application include a frontend application approach using Angular. These pages communicate with a REST API to receive data and perform updates. An example of this is the work packages module. Requests within the module are handled completely in the frontend, while boundary requests are forwarded to the Rails stack, returning to a classical request/response pattern.
 
@@ -193,7 +191,7 @@ All requests to the application are still handled by Rails. In some of the respo
 
 In the following, we'll take a look at the different components at use in the application stack of OpenProject as well as concrete examples on how these components interact.
 
-### Exemplary frontend view request
+#### Exemplary frontend view request
 
 Let's take a look at how the request to `/projects/identifier/work_packages` would be handled by Rails and Angular (excluding any external actual HTTP requests to the web server)
 
@@ -209,7 +207,7 @@ This will result in a page on which the majority of the content has been rendere
 
 This approach has the significant disadvantage to go through the entire Rails stack first to output a response that is mostly irrelevant for the Angular application, and both systems (Rails and Angular) need a somewhat duplicated routing information. The long-term goal is to move to a single-page application and avoid the first two steps.
 
-### Exemplary Rails view request augmented by Angular
+#### Exemplary Rails view request augmented by Angular
 
 A response that is fully controlled by Rails but extended by some Angular components in the frontend might look as follows. Let's take a look at the request to [edit a type's form configuration](../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on) `/types/1/edit/form_configuration`:
 
@@ -225,7 +223,7 @@ A response that is fully controlled by Rails but extended by some Angular compon
 
    ![Exemplary form configuration](form-configuration.png)
 
-# Evolution of the application
+## Evolution of the application
 
 Historically, OpenProject has been forked from [Redmine](https://www.redmine.org/) and modified from a primarily software-development focused flow into a general project management application suite. A Ruby on Rails monolith was used to serve the entire application, frontend and API. Javascript was used to extend some of the functionality with Prototype.js and jQuery on existing, Rails-rendered pages.
 

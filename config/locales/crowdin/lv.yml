@@ -155,7 +155,7 @@ lv:
       The following fields are related to how users are created in OpenProject from LDAP entries and
       what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
     tls_mode:
-      plain: "none"
+      plain: "Neviens"
       simple_tls: "LDAPS"
       start_tls: "STARTTLS"
       plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
@@ -184,7 +184,7 @@ lv:
       label_new_color: "New color"
       label_edit_color: "Edit color"
     label_no_color: "No color"
-    label_properties: "Properties"
+    label_properties: "Iestatījumi"
     label_really_delete_color: >
       Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
@@ -222,7 +222,7 @@ lv:
       no_results_title_text: Pašlaik nav neviena pielāgota lauka.
       no_results_content_text: Izveidot jaunu pielāgotu lauku
   concatenation:
-    single: "or"
+    single: "vai"
   global_search:
     placeholder: "Search in %{app_title}"
     overwritten_tabs:
@@ -263,8 +263,8 @@ lv:
       no_results_content_text: Izveidot jaunu projektu
     lists:
       active: "Active projects"
-      my: "My projects"
-      favored: "Favored projects"
+      my: "Mani projekti"
+      favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -317,9 +317,9 @@ lv:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "Visi"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Slēgts"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
       groups: "Groups"
@@ -405,7 +405,7 @@ lv:
     memberships:
       no_results_title_text: Šis lietotājs pašlaik nav projektu dalībnieks.
   page:
-    text: "Text"
+    text: "Teksts"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -607,7 +607,7 @@ lv:
         client: "Client ID"
       relation:
         lag: "Lag"
-        from: "Work package"
+        from: "Darba pieteikums"
         to: "Saistītie pieteikuma tipi"
       status:
         is_closed: "Aizvērtie pieteikuma tipi"
@@ -629,14 +629,14 @@ lv:
           false: "private"
         queries: "Vaicājumi"
         status_code: "Projekta statuss"
-        description: "Description"
+        description: "Apraksts"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
           on_track: "On track"
           at_risk: "At risk"
           off_track: "Off track"
-          finished: "Finished"
+          finished: "Pabeigts"
           discontinued: "Discontinued"
         templated: "Template project"
         templated_value:
@@ -709,7 +709,7 @@ lv:
         derived_remaining_hours: "Total remaining work"
         derived_remaining_time: "Total remaining work"
         done_ratio: "% Complete"
-        duration: "Duration"
+        duration: "Ilgums"
         end_insertion: "Ievietošanas beigas"
         end_deletion: "Dzēšanas beigas"
         ignore_non_working_days: "Ignore non working days"
@@ -724,8 +724,8 @@ lv:
         priority: "Prioritāte"
         progress: "% Complete"
         readonly: "Read only"
-        remaining_hours: "Remaining work"
-        remaining_time: "Remaining work"
+        remaining_hours: "Atlikušie darbi"
+        remaining_time: "Atlikušie darbi"
         shared_with_users: "Shared with"
         schedule_manually: "Manual scheduling"
         spent_hours: "Pavadīts laiks"
@@ -790,6 +790,7 @@ lv:
         not_an_iso_date: "is not a valid date. Required format: YYYY-MM-DD."
         not_same_project: "neietilpst vienā un tai pašā projektā."
         odd: "jābūt nepāra."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "could not be validated with the associated regular expression."
         smaller_than_or_equal_to_max_length: "jābūt mazākam vai vienādam ar maksimālo garumu."
         taken: "jau tika aizņemts."
@@ -1069,7 +1070,7 @@ lv:
       attachment: "Fails"
       attribute_help_text: "Attribute help text"
       category: "Sadaļa"
-      comment: "Comment"
+      comment: "Komentârs"
       custom_action: "Custom action"
       custom_field: "Custom field"
       "doorkeeper/application": "OAuth application"
@@ -1091,10 +1092,10 @@ lv:
         other: "Lomas"
       status: "Work package status"
       type: "Veids"
-      user: "User"
+      user: "Lietotāji"
       version: "Versija"
       workflow: "Darbplūsma"
-      work_package: "Work package"
+      work_package: "Darba pieteikums"
       wiki: "Wiki"
       wiki_page: "Wiki page"
   errors:
@@ -1167,8 +1168,8 @@ lv:
     base: "General Error:"
     blocks_ids: "IDs of blocked work packages"
     category: "Sadaļa"
-    comment: "Comment"
-    comments: "Comment"
+    comment: "Komentârs"
+    comments: "Komentârs"
     content: "Content"
     color: "Krāsa"
     created_at: "Izveidots"
@@ -1193,7 +1194,7 @@ lv:
     is_for_all: "Visiem projektiem"
     public: "Publisks"
     #kept for backwards compatibility
-    issue: "Work package"
+    issue: "Darba pieteikums"
     lastname: "Uzvārds"
     login: "Username"
     mail: "E-Pasts"
@@ -1208,15 +1209,15 @@ lv:
     status: "Statuss"
     subject: "Nosaukums"
     summary: "Kopsavilkums"
-    title: "Title"
+    title: "Virsraksts"
     type: "Veids"
     updated_at: "Labots"
     updated_on: "Labots"
     uploader: "Uploader"
-    user: "User"
+    user: "Lietotāji"
     value: "Vērtība"
     version: "Versija"
-    work_package: "Work package"
+    work_package: "Darba pieteikums"
   backup:
     failed: "Backup failed"
     label_backup_token: "Backup token"
@@ -1261,7 +1262,7 @@ lv:
   button_check_all: "Atzīmēt visus"
   button_clear: "Notīrīt"
   button_click_to_reveal: "Click to reveal"
-  button_close: "Close"
+  button_close: "Aizvērt"
   button_collapse_all: "Collapse all"
   button_configure: "Configure"
   button_continue: "Continue"
@@ -1279,7 +1280,7 @@ lv:
   button_edit: "Labot"
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   button_expand_all: "Expand all"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Filtrēt"
   button_generate: "Ģenerēt"
   button_list: "List"
@@ -1297,7 +1298,7 @@ lv:
   button_reset: "Atjaunot"
   button_rollback: "Rollback to this version"
   button_save: "Saglabāt"
-  button_save_as: "Save as"
+  button_save_as: "Saglabāt kā"
   button_apply_changes: "Apply changes"
   button_save_back: "Saglabāt un atpakaļ"
   button_show: "Rādīt"
@@ -1416,15 +1417,15 @@ lv:
     distance_in_words:
       about_x_hours:
         zero: "aptuveni %{count} stundām"
-        one: "aptuveni %{count} stundas"
+        one: "aptuveni 1 stundas"
         other: "aptuveni %{count} stundām"
       about_x_months:
         zero: "aptuveni %{count} mēnešiem"
-        one: "aptuveni %{count} mēneša"
+        one: "aptuveni 1 mēneša"
         other: "aptuveni %{count} mēnešiem"
       about_x_years:
         zero: "%{count} gadiem"
-        one: "%{count} gada"
+        one: "1 gada"
         other: "%{count} gadiem"
       almost_x_years:
         zero: "gandrīz %{count} gadi"
@@ -1433,19 +1434,19 @@ lv:
       half_a_minute: "half a minute"
       less_than_x_minutes:
         zero: "mazāk nekā %{count} minūtēm"
-        one: "mazāk nekā %{count} minūtes"
+        one: "mazāk par minūti"
         other: "mazāk nekā %{count} minūtēm"
       less_than_x_seconds:
         zero: "mazāk nekā %{count} sekundēm"
-        one: "mazāk nekā %{count} sekundes"
+        one: "mazāk nekā 1 sekundes"
         other: "mazāk nekā %{count} sekundēm"
       over_x_years:
         zero: "senāk kā %{count} gadiem"
-        one: "senāk kā %{count} gada"
+        one: "senāk kā 1 gada"
         other: "senāk kā %{count} gadiem"
       x_days:
         zero: "%{count} dienām"
-        one: "%{count} dienas"
+        one: "1 dienas"
         other: "%{count} dienām"
       x_minutes:
         zero: "%{count} minūtēm"
@@ -1457,7 +1458,7 @@ lv:
         other: "%{count} mins"
       x_hours:
         zero: "%{count} stundas"
-        one: "%{count} stunda"
+        one: "1 stunda"
         other: "%{count} stundas"
       x_hours_abbreviated:
         zero: "%{count} hrs"
@@ -1469,7 +1470,7 @@ lv:
         other: "%{count} weeks"
       x_months:
         zero: "%{count} mēnešiem"
-        one: "%{count} mēneša"
+        one: "1 mēneša"
         other: "%{count} mēnešiem"
       x_years:
         zero: "%{count} years"
@@ -1631,8 +1632,8 @@ lv:
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "no"
   general_text_yes: "yes"
-  general_text_No: "No"
-  general_text_Yes: "Yes"
+  general_text_No: "Nē"
+  general_text_Yes: "Jā"
   general_text_true: "true"
   general_text_false: "false"
   gui_validation_error: "1 error"
@@ -1692,6 +1693,8 @@ lv:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Configuration guide"
     get_in_touch: "You have questions? Get in touch with us."
@@ -1824,7 +1827,7 @@ lv:
   label_available_project_work_package_categories: "Pieejamās darbu kompleksu kategorijas"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "API dokumentācija"
   label_backup: "Backup"
   label_backup_code: "Backup code"
   label_between: "between"
@@ -1895,7 +1898,7 @@ lv:
   label_custom_field_plural: "Pielāgotie lauki"
   label_custom_field_default_type: "Empty type"
   label_custom_style: "Design"
-  label_dashboard: "Dashboard"
+  label_dashboard: "Informācijas panelis"
   label_database_version: "PostgreSQL version"
   label_date: "Datums"
   label_date_and_time: "Date and time"
@@ -1957,18 +1960,18 @@ lv:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Pieejams arī:"
-  label_expand: "Expand"
+  label_expand: "Izvērst"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS piekļuves atslēga"
   label_feeds_access_key_created_on: "API piekļuves atslēga izveidota pirms %{value}"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Faili"
   label_filter_add: "Pievienot filtru"
-  label_filter: "Filters"
+  label_filter: "Filtri"
   label_filter_plural: "Filtri"
   label_filters_toggle: "Show/hide filters"
   label_float: "Float"
@@ -1995,7 +1998,7 @@ lv:
   label_home: "Uz sākumlapu"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Identifikators"
   label_in: "in"
   label_in_less_than: "in less than"
   label_in_more_than: "in more than"
@@ -2011,7 +2014,7 @@ lv:
   label_internal: "Internal"
   label_introduction_video: "Introduction video"
   label_invite_user: "Uzaicināt lietotāju"
-  label_share: "Share"
+  label_share: "Koplietot"
   label_show_hide: "Rādīt/paslēpt"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
@@ -2031,9 +2034,10 @@ lv:
   label_latest_revision: "Latest revision"
   label_latest_revision_plural: "Latest revisions"
   label_ldap_authentication: "LDAP authentication"
-  label_learn_more: "Learn more"
+  label_learn_more: "Uzzināt vairāk"
   label_less_or_equal: "mazāks vai vienāds"
   label_less_than_ago: "less than days ago"
+  label_link_url: "Link (URL)"
   label_list: "List"
   label_loading: "Notiek ielāde..."
   label_lock_user: "Lock user"
@@ -2108,7 +2112,7 @@ lv:
   label_nothing_display: "Nav nekas ko parādīt"
   label_nobody: "nobody"
   label_not_found: "not found"
-  label_none: "none"
+  label_none: "Neviens"
   label_none_parentheses: "(none)"
   label_not_contains: "doesn't contain"
   label_not_equals: "is not"
@@ -2117,13 +2121,13 @@ lv:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
-  label_operator_shared_with_user_any: "any"
+  label_operator_shared_with_user_any: "visi"
   label_open_menu: "Atvērt izvēlni"
   label_open_work_packages: "aktīvi"
   label_open_work_packages_plural: "aktīvi"
   label_openproject_website: "OpenProject website"
   label_optional_description: "Apraksts"
-  label_options: "Options"
+  label_options: "Opcijas"
   label_other: "Other"
   label_overall_activity: "Kopējās darbības"
   label_overview: "Pārskats"
@@ -2176,7 +2180,7 @@ lv:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} projects using %{storage} disk storage"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Skatīt visus projektus"
   label_project_show_details: "Show project details"
   label_project_hide_details: "Hide project details"
@@ -2196,7 +2200,7 @@ lv:
   label_relation_delete: "Delete relation"
   label_relation_new: "New relation"
   label_release_notes: "Informācija par laidienu"
-  label_remaining_work: "Remaining work"
+  label_remaining_work: "Atlikušie darbi"
   label_remove_columns: "Remove selected columns"
   label_renamed: "renamed"
   label_reply_plural: "Atbildes"
@@ -2266,7 +2270,7 @@ lv:
   label_this_year: "this year"
   label_time_entry_plural: "Pavadīts laiks"
   label_time_entry_activity_plural: "Spent time activities"
-  label_title: "Title"
+  label_title: "Virsraksts"
   label_projects_menu: "Projekti"
   label_today: "šodien"
   label_top_menu: "Augšējā izvēlne"
@@ -2330,7 +2334,7 @@ lv:
   label_wiki_show_submenu_item: "Show as submenu item of "
   label_wiki_start: "Sākuma lapa"
   label_work: "Work"
-  label_work_package: "Work package"
+  label_work_package: "Darba pieteikums"
   label_work_package_attachments: "Work package attachments"
   label_work_package_category_new: "New category"
   label_work_package_category_plural: "Work package categories"
@@ -2349,15 +2353,15 @@ lv:
   label_workflow_summary: "Kopsavilkums"
   label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
-    one: "%{count} slēgts"
+    one: "1 slēgts"
     other: "%{count} slēgti"
     zero: "0 closed"
   label_x_comments:
-    one: "%{count} komentārs"
+    one: "1 komentārs"
     other: "%{count} komentāri"
     zero: "no comments"
   label_x_open_work_packages_abbr:
-    one: "%{count} atvērts"
+    one: "1 atvērts"
     other: "%{count} atvērti"
     zero: "0 open"
   label_x_work_packages:
@@ -2365,7 +2369,7 @@ lv:
     other: "%{count} work packages"
     zero: "No work packages"
   label_x_projects:
-    one: "%{count} projekts"
+    one: "1 projekts"
     other: "%{count} projekti"
     zero: "no projects"
   label_x_files:
@@ -2663,7 +2667,7 @@ lv:
   permission_comment_news: "Comment news"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Kopēt projektus"
-  permission_copy_work_packages: "Copy work packages"
+  permission_copy_work_packages: "Kopēt darbu pieteikumus"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "Dzēst sekotājus"
   permission_delete_work_packages: "Delete work packages"
@@ -3009,7 +3013,7 @@ lv:
   setting_start_of_week: "Week starts on"
   setting_sys_api_enabled: "Enable repository management web service"
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
-  setting_time_format: "Time"
+  setting_time_format: "Laiks"
   setting_accessibility_mode_for_anonymous: "Enable accessibility mode for anonymous users"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
@@ -3101,7 +3105,7 @@ lv:
   text_formatting:
     markdown: "Markdown"
     plain: "Plain text"
-  status_active: "active"
+  status_active: "Aktīvs"
   status_archived: "arhivēts"
   status_blocked: "blocked"
   status_invited: uzaicināts
@@ -3268,7 +3272,7 @@ lv:
   total_progress: "Kopējais progress"
   user:
     all: "all"
-    active: "active"
+    active: "Aktīvs"
     activate: "Activate"
     activate_and_reset_failed_logins: "Activate and reset failed logins"
     authentication_provider: "Authentication Provider"
@@ -3364,7 +3368,7 @@ lv:
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
       permissions:
-        comment: "Comment"
+        comment: "Komentârs"
         comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
         edit: "Labot"
@@ -3610,7 +3614,7 @@ lv:
   link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"

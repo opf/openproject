@@ -97,8 +97,8 @@
     "@ng-select/ng-select": "^12.0.7",
     "@ngneat/content-loader": "^7.0.0",
     "@ngx-formly/core": "^6.1.4",
-    "@openproject/octicons-angular": "^19.10.0",
-    "@openproject/primer-view-components": "^0.29.0",
+    "@openproject/octicons-angular": "^19.11.0",
+    "@openproject/primer-view-components": "^0.29.1",
     "@openproject/reactivestates": "^3.0.1",
     "@primer/css": "^21.2.2",
     "@types/hotwired__turbo": "^8.0.1",
@@ -121,10 +121,10 @@
     "dragula": "^3.7.3",
     "expose-loader": "^0.7.5",
     "flatpickr": "^4.6.13",
-    "fuse.js": "^3.4.5",
     "glob": "^7.1.4",
     "hammerjs": "^2.0.8",
     "i18n-js": "^4.3.0",
+    "idiomorph": "^0.3.0",
     "jquery": "^3.5.1",
     "jquery-ui": "1.13.2",
     "jquery-ujs": "^1.2.2",
@@ -136,7 +136,6 @@
     "mime": "^2.5.2",
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.45",
-    "morphdom": "^2.7.2",
     "mousetrap": "~1.6.3",
     "ng-dynamic-component": "^10.7.0",
     "ng2-charts": "^4.1.1",
@@ -178,6 +177,6 @@
     "generate-typings": "tsc -d -p src/tsconfig.app.json"
   },
   "overrides": {
-    "@primer/view-components": "npm:@openproject/primer-view-components@^0.29.0"
+    "@primer/view-components": "npm:@openproject/primer-view-components@^0.29.1"
   }
 }

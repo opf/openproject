@@ -26,7 +26,7 @@ vi:
         costs: "Chi phí"
       properties:
         overallCosts: "Tổng chi phí"
-        spentUnits: "Spent units"
-    button_log_costs: "Log unit costs"
+        spentUnits: "Đơn vị chi phí"
+    button_log_costs: "Ghi lại chi phí đơn vị"
     label_hour: "giờ"
     label_hours: "hours"

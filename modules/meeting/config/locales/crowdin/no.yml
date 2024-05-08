@@ -121,7 +121,7 @@
       structured: "Dynamisk"
       structured_text: "Organiser møtet som en liste over saker, eventuelt knytte dem til en arbeidspakke."
       structured_text_copy: "Kopiering av et møte vil for tiden ikke kopiere de tilknyttede elementene på dagsordenen, bare detaljene"
-    copied: "Kopiert fra møte #"
+    copied: "Kopiert fra møte #%{id}"
   notice_successful_notification: "Påminning sendt"
   notice_timezone_missing: Ingen tidssone angis og %{zone} antas. Vennligst klikk her for å velge egen tidssone.
   permission_create_meetings: "Opprett møter"

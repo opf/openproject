@@ -265,8 +265,8 @@ vi:
       no_results_content_text: Tạo một dự án mới
     lists:
       active: "Active projects"
-      my: "My projects"
-      favored: "Favored projects"
+      my: "Dự án của tôi"
+      favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -319,12 +319,12 @@ vi:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "Toàn bộ"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Đã khóa"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Các Nhóm"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -395,7 +395,7 @@ vi:
     memberships:
       no_results_title_text: Người dùng này không phải là thành viên của dự án.
   page:
-    text: "Text"
+    text: "Văn bản"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -592,7 +592,7 @@ vi:
         column_count: "Số cột"
         widgets: "Tiện ích"
       oauth_client:
-        client: "Client ID"
+        client: "ID Khách hàng"
       relation:
         lag: "Lag"
         from: "Work Package"
@@ -617,7 +617,7 @@ vi:
           false: "private"
         queries: "Truy vấn"
         status_code: "Tình trạng dự án"
-        description: "Description"
+        description: "Mô tả"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -712,8 +712,8 @@ vi:
         priority: "Độ ưu tiên"
         progress: "% Complete"
         readonly: "Read only"
-        remaining_hours: "Remaining work"
-        remaining_time: "Remaining work"
+        remaining_hours: "Số giờ làm việc còn lại"
+        remaining_time: "Số giờ làm việc còn lại"
         shared_with_users: "Shared with"
         schedule_manually: "Manual scheduling"
         spent_hours: "Thời gian"
@@ -778,6 +778,7 @@ vi:
         not_an_iso_date: "không phải là một ngày hợp lệ. Yêu cầu định dạng: YYYY-MM-DD."
         not_same_project: "không thuộc cùng dự án."
         odd: "phải là số lẻ"
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "có thể không được xác nhận với các biểu hiện thường xuyên liên kết."
         smaller_than_or_equal_to_max_length: "phải nhỏ hơn hoặc bằng với chiều dài tối đa"
         taken: "đã bị dùng rồi."
@@ -1030,7 +1031,7 @@ vi:
             ldap_auth_source:
               error_not_found: "không tìm thấy"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "không tìm thấy"
         member:
           principal_blank: "Vui lòng chọn ít nhất một người dùng hoặc nhóm."
           role_blank: "cần được chỉ định."
@@ -1217,7 +1218,7 @@ vi:
       token_cooldown: Mã token sao lưu sẽ có giá trị trong %{hours} giờ.
       backup_pending: Có một bản sao lưu đang chờ xử lý.
       limit_reached: Bạn chỉ có thể tạo %{limit} bản sao lưu mỗi ngày.
-  button_actions: "Actions"
+  button_actions: "Hành động"
   button_add: "Thêm"
   button_add_comment: "Thêm bình luận"
   button_add_member: Thêm thành viên
@@ -1251,7 +1252,7 @@ vi:
   button_edit: "Chỉnh sửa"
   button_edit_associated_wikipage: "Chỉnh sửa trang Wiki liên quan: %{page_title}"
   button_expand_all: "Mở rộng tất cả"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "Bộ lọc"
   button_generate: "Tạo"
   button_list: "Danh sách"
@@ -1269,7 +1270,7 @@ vi:
   button_reset: "Reset"
   button_rollback: "Quay trở lại phiên bản này"
   button_save: "Lưu"
-  button_save_as: "Save as"
+  button_save_as: "Lưu thành"
   button_apply_changes: "Apply changes"
   button_save_back: "Lưu và trở lại"
   button_show: "Hiện"
@@ -1525,7 +1526,7 @@ vi:
     message: Đã chỉnh sửa tin nhắn
     news: Tin tức
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "Đã chỉnh sửa dự án"
     projects: "Đã chỉnh sửa dự án"
     reply: Đã phản hồi
     time_entry: "Đã chỉnh sửa Timelog"
@@ -1588,7 +1589,7 @@ vi:
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "User guides"
       faq: "FAQ"
-      impressum: "Legal notice"
+      impressum: "Thông báo pháp lý"
       glossary: "Glossary"
       shortcuts: "Shortcuts"
       blog: "OpenProject blog"
@@ -1628,6 +1629,8 @@ vi:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Configuration guide"
     get_in_touch: "Nếu bạn còn những câu hỏi khác ? Hãy liên lạc với chúng tôi"
@@ -1745,7 +1748,7 @@ vi:
   label_ascending: "Tăng dần"
   label_assigned_to_me_work_packages: "Work package được chỉ định cho tôi"
   label_associated_revisions: "Các phiên bản kết hợp"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Đính kèm"
   label_attribute: "Thuộc tính"
   label_attribute_plural: "Thuộc tính"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1760,7 +1763,7 @@ vi:
   label_available_project_work_package_categories: "Available work package categories"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "Tài liệu API"
   label_backup: "Sao lưu"
   label_backup_code: "Backup code"
   label_between: "giữa"
@@ -1772,7 +1775,7 @@ vi:
   label_forum_plural: "Diễn đàn"
   label_forum_sticky: "Chú ý"
   label_boolean: "Boolean"
-  label_board_plural: "Boards"
+  label_board_plural: "Bảng"
   label_branch: "Nhánh"
   label_browse: "Duyệt"
   label_bulk_edit_selected_work_packages: "Chỉnh sửa các work package đã chọn"
@@ -1831,7 +1834,7 @@ vi:
   label_custom_field_plural: "Tùy chỉnh mục"
   label_custom_field_default_type: "Kiểu rỗng"
   label_custom_style: "Thiết kế"
-  label_dashboard: "Dashboard"
+  label_dashboard: "Bảng điều khiển"
   label_database_version: "PostgreSQL version"
   label_date: "Ngày"
   label_date_and_time: "Ngày và giờ"
@@ -1893,18 +1896,18 @@ vi:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Nhập"
   label_export_to: "Cũng có sẵn tại:"
-  label_expand: "Expand"
+  label_expand: "Mở rộng"
   label_expanded_click_to_collapse: "Mở rộng. Bấm vào để thu gọn"
   label_f_hour: "%{value} giờ"
   label_f_hour_plural: "%{value} giờ"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Nguồn cấp dữ liệu"
   label_feeds_access_key: "Khóa truy cập RSS"
   label_feeds_access_key_created_on: "Khoá truy cập API đựơc tạo cách đây %{value}"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Tập tin"
   label_filter_add: "Thêm bộ lọc"
-  label_filter: "Filters"
+  label_filter: "Bộ lọc"
   label_filter_plural: "Bộ lọc"
   label_filters_toggle: "Hiển thị/ẩn bộ lọc"
   label_float: "Số thực"
@@ -1931,7 +1934,7 @@ vi:
   label_home: "Trang chủ"
   label_subject_or_id: "Chủ đề hoặc Mã"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Định danh"
   label_in: "trong"
   label_in_less_than: "ít hơn"
   label_in_more_than: "nhiều hơn"
@@ -1947,7 +1950,7 @@ vi:
   label_internal: "Nội bộ"
   label_introduction_video: "Giới thiệu video"
   label_invite_user: "Invite user"
-  label_share: "Share"
+  label_share: "Chia sẻ"
   label_show_hide: "Show/hide"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
@@ -1970,6 +1973,7 @@ vi:
   label_learn_more: "Learn more"
   label_less_or_equal: "<="
   label_less_than_ago: "less than days ago"
+  label_link_url: "Link (URL)"
   label_list: "Danh sách"
   label_loading: "Loading..."
   label_lock_user: "Lock user"
@@ -2112,7 +2116,7 @@ vi:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} dự án sử dụng %{storage} ổ lưu trữ"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Xem tất cả các dự án"
   label_project_show_details: "Hiển thị chi tiết dự án"
   label_project_hide_details: "Ẩn chi tiết Dự án"
@@ -2132,7 +2136,7 @@ vi:
   label_relation_delete: "Xóa quan hệ"
   label_relation_new: "Quan hệ mới"
   label_release_notes: "Ghi chú phát hành"
-  label_remaining_work: "Remaining work"
+  label_remaining_work: "Số giờ làm việc còn lại"
   label_remove_columns: "Loại bỏ cột được chọn"
   label_renamed: "đổi tên"
   label_reply_plural: "Trả lời"
@@ -3305,7 +3309,7 @@ vi:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Không được chia sẻ"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3537,7 +3541,7 @@ vi:
   link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"
