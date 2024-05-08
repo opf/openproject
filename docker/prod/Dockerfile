@@ -53,6 +53,7 @@ RUN ./docker/prod/setup/preinstall-common.sh
 # stuff required for gems
 COPY Gemfile Gemfile.* .ruby-version ./
 COPY modules ./modules
+COPY vendor ./vendor
 # some gemspec files of plugins require files in there, notably OpenProject::Version
 COPY lib ./lib
 
