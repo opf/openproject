@@ -28,22 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Projects::ConfigureViewModalComponent < ApplicationComponent
-  MODAL_ID = "op-project-list-configure-dialog"
-  QUERY_FORM_ID = "op-project-list-configure-query-form"
-  COLUMN_HTML_NAME = "columns"
-
+class Queries::SortByComponent < ApplicationComponent
   options :query
+  options :selectable_columns
 
-  def selectable_columns
-    @selectable_columns ||= [
-      { id: :lft, name: I18n.t(:label_project_hierarchy) }
-    ] + helpers.projects_columns_options
+  def current_orders
+    JSON.dump(query.orders.map { |order| [order.attribute, order.direction] })
   end
 
-  def selected_columns
-    @selected_columns ||= query
-                            .selects
-                            .map { |c| { id: c.attribute, name: c.caption } }
+  def order_limit
+    3
+  end
+
+  def queried_model_name
+    query.class.model.model_name
+  end
+
+  def available_orders
+    @available_orders ||= begin
+      all_order_keys = ::Queries::Register.orders[query.class]&.map(&:key)
+
+      # Keys from the order can be symbols, strings or regexes
+      selectable_columns.select do |column_option|
+        all_order_keys.any? { |order_key| order_key === column_option[:id] }
+      end
+    end
   end
 end

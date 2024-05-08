@@ -111,7 +111,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
         method:,
         controller: "params-from-query",
         "application-target": "dynamic",
-        "params-from-query-allowed-value": '["filters", "columns", "query_id"]'
+        "params-from-query-allowed-value": '["filters", "columns", "sortBy", "query_id"]'
       }.compact
     ) do
       render(
@@ -134,7 +134,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
           method:,
           controller: "params-from-query",
           "application-target": "dynamic",
-          "params-from-query-allowed-value": '["filters", "columns", "query_id"]'
+          "params-from-query-allowed-value": '["filters", "columns", "sortBy", "query_id"]'
         }.compact
       }
     ) do |item|

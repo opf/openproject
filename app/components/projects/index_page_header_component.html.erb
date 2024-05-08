@@ -97,7 +97,7 @@
                          data: {
                            controller: "params-from-query",
                            'application-target': "dynamic",
-                           'params-from-query-allowed-value': '["filters", "columns", "query_id"]'
+                           'params-from-query-allowed-value': '["filters", "columns", "query_id", "sortBy"]'
                          },
                          id: 'project-save-form') do |f|
           render(Queries::Projects::Create.new(f))

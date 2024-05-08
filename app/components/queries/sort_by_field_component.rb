@@ -28,22 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Projects::ConfigureViewModalComponent < ApplicationComponent
-  MODAL_ID = "op-project-list-configure-dialog"
-  QUERY_FORM_ID = "op-project-list-configure-query-form"
-  COLUMN_HTML_NAME = "columns"
+class Queries::SortByFieldComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+  options :order,
+          :available_orders,
+          :index
 
-  options :query
-
-  def selectable_columns
-    @selectable_columns ||= [
-      { id: :lft, name: I18n.t(:label_project_hierarchy) }
-    ] + helpers.projects_columns_options
+  def select_options
+    options_for_select(
+      available_orders.map { |order| [order[:name], order[:id]] },
+      order&.attribute
+    )
   end
 
-  def selected_columns
-    @selected_columns ||= query
-                            .selects
-                            .map { |c| { id: c.attribute, name: c.caption } }
+  def active?
+    order.present? && available_orders.any? { |o| order.attribute.to_sym == o[:id] }
+  end
+
+  def order_asc?
+    active? && order&.direction == :asc
+  end
+
+  def order_desc?
+    active? && order&.direction == :desc
   end
 end
