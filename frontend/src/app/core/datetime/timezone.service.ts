@@ -31,6 +31,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import * as moment from 'moment-timezone';
 import { Moment } from 'moment';
+import { outputChronicDuration } from '../../shared/helpers/chronic_duration';
 
 @Injectable({ providedIn: 'root' })
 export class TimezoneService {
@@ -137,6 +138,10 @@ export class TimezoneService {
         // Case fallthrough for eslint
         return '';
     }
+  }
+
+  public formattedChronicDuration(durationString:string, opts = { format: 'short' }):string {
+    return outputChronicDuration(this.toHours(durationString) * 3600, opts) || '0h';
   }
 
   public formattedISODate(date:any):string {
