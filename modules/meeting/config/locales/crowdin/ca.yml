@@ -48,6 +48,8 @@ ca:
         duration_in_minutes: "min"
         description: "Notes"
         presenter: "Presenter"
+      meeting_section:
+        title: "Title"
     errors:
       messages:
         invalid_time_format: "no és una hora vàlida. El format requerit és: HH:MM"
@@ -122,6 +124,10 @@ ca:
       structured_text: "Organitza la vostra reunió com una llista d'elements de l'agenda, enllaçant-los opcionalment a un paquet de treball."
       structured_text_copy: "Actualment en copiar una reunió  no es copiaran els elements associats a l'agenda de la reunió, només els detalls."
     copied: "Copiat de la reunió #%{id}"
+  meeting_section:
+    default_title: "New section"
+    untitled_title: "Untitled"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Notificació enviada correctament"
   notice_timezone_missing: No s'ha configurat la zona horària i la %{zone} és assumida. Per seleccionar la teva zona horària, si us plau, fes clic aquí.
   permission_create_meetings: "Crea reunions"
