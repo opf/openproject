@@ -39,7 +39,7 @@ ms:
   api_v3:
     errors:
       too_many_elements_created_at_once: Terlalu banyak unsur dicipta dalam satu masa. Dijangka %{max} paling banyak, mendapat %{actual}.
-  external_file_storages: External file storages
+  external_file_storages: Simpanan fail luaran
   permission_create_files: 'External Storage: Cipta fail'
   permission_delete_files: 'External Storage: Padam fail'
   permission_header_for_project_module_storages: Folder projek yang dikendalikan secara automatik
@@ -49,7 +49,7 @@ ms:
   permission_share_files: 'External Storage: Kongsi fail'
   permission_view_file_links: Papar pautan fail
   permission_write_files: 'External Storage: Tulis fail'
-  project_module_storages: Files
+  project_module_storages: Fail-fail
   storages:
     buttons:
       complete_without_setup: Lengkap tanpanya
@@ -245,8 +245,8 @@ ms:
         name: OneDrive/SharePoint
         name_placeholder: seperti OneDrive
     show_attachments_toggle:
-      description: Deactivating this option will only hide the attachments list. Files uploaded with the help of the rich text editor will still be uploaded to the attachments internal storage.
-      label: Show attachments in the work packages files tab
+      description: Menyahaktifkan pilihan ini akan menyorokkan senaran lampiran sahaja. Fail yang dimuat naik dengan bantuan editor teks kaya tetap akan dimuat naik ke simpanan dalam lampiran.
+      label: Paparkan lampiran di tab fail pakej kerja
     storage_list_blank_slate:
       description: Tambah simpanan untuk melihatnya di sini.
       heading: Anda masih belum ada sebarang simpanan.

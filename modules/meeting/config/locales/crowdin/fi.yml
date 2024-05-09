@@ -48,6 +48,8 @@ fi:
         duration_in_minutes: "min"
         description: "Kommentit"
         presenter: "Presenter"
+      meeting_section:
+        title: "Title"
     errors:
       messages:
         invalid_time_format: "ei ole kelvollinen aika. Vaadittava muoto: TT:MM"
@@ -122,6 +124,10 @@ fi:
       structured_text: "Organize your meeting as a list of agenda items, optionally linking them to a work package."
       structured_text_copy: "Copying a meeting will currently not copy the associated meeting agenda items, just the details"
     copied: "Kopioitu kokouksesta #%{id}"
+  meeting_section:
+    default_title: "New section"
+    untitled_title: "Untitled"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Ilmoituksen lähettäminen onnistui"
   notice_timezone_missing: Aikavyöhykettä ei ole määritetty, joten oletuksena on %{zone}. Valitaksesi aikavyöhykkeen, klikkaa tästä.
   permission_create_meetings: "Luo kokouksia"

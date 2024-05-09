@@ -48,6 +48,8 @@ fr:
         duration_in_minutes: "min"
         description: "Notes"
         presenter: "Responsable"
+      meeting_section:
+        title: "Title"
     errors:
       messages:
         invalid_time_format: "n’est pas une heure valide. Format requis : HH:MM"
@@ -122,6 +124,10 @@ fr:
       structured_text: "Organisez votre réunion sous la forme d'une liste de points à l'ordre du jour, en les reliant éventuellement à des lots de travaux."
       structured_text_copy: "Actuellement, la copie d'une réunion n'entraîne pas la copie des points de l'ordre du jour de la réunion, mais uniquement des détails."
     copied: "Copié depuis la réunion #%{id}"
+  meeting_section:
+    default_title: "New section"
+    untitled_title: "Untitled"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Notification envoyée avec succès"
   notice_timezone_missing: Aucun fuseau horaire n'est défini et %{zone} est supposé. Pour choisir votre fuseau horaire, veuillez cliquer ici.
   permission_create_meetings: "Créer des réunions"

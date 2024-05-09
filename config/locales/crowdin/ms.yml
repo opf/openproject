@@ -305,13 +305,13 @@ ms:
         no_results_title_text: Tiada disk space terekod tambahan yang digunakan untuk projek ini.
   lists:
     create:
-      success: "The modified list has been saved as a new list"
-      failure: "The modified list cannot be saved: %{errors}"
+      success: "Senarai yang telah dimodifikasikan telah disimpan sebagai senarai baru."
+      failure: "Senarai yang dimodifikasi tidak boleh disimpan: %{errors}"
     update:
-      success: "The modified list has been saved"
-      failure: "The modified list cannot be saved: %{errors}"
-    can_be_saved: "List modified:"
-    can_be_saved_as: "The modifications can only be saved in a new list:"
+      success: "Senarai yang dimodifikasi telah disimpan"
+      failure: "Senarai yang dimodifikasi tidak boleh disimpan: %{errors}"
+    can_be_saved: "Senarai yang dimodifikasi:"
+    can_be_saved_as: "Modifikasi tersebut hanya boleh disimpan di senarai baru:"
   members:
     index:
       no_results_title_text: Saat ini tiada ahli yang menjadi sebahagian daripada projek ini.
@@ -1552,7 +1552,7 @@ ms:
       pdf_overview_table: "Jadual PDF"
       pdf_report_with_images: "Laporan PDF dengan imej"
       pdf_report: "Laporan PDF"
-      pdf_gantt: "PDF Gantt"
+      pdf_gantt: "Gantt PDF"
     image:
       omitted: "Imej tidak dieksport."
     units:
@@ -2862,7 +2862,7 @@ ms:
   setting_app_subtitle: "Subtajuk aplikasi"
   setting_app_title: "Nama aplikasi"
   setting_attachment_max_size: "Saiz maksimum lampiran"
-  setting_show_work_package_attachments: "Show attachments in the files tab by default"
+  setting_show_work_package_attachments: "Paparkan lampiran di tab fail secara default"
   setting_antivirus_scan_mode: "Mod pengimbas"
   setting_antivirus_scan_action: "Tindakan fail yang dijangkiti"
   setting_autofetch_changesets: "Perubahan repositori autofetch"
@@ -2965,7 +2965,7 @@ ms:
       whitelist_text_html: >
         Jelaskan senarai sambungan fail yang sah dan/atau jenis mime bagi fail yang telah dimuat naik. <br/> Masukkan sambungan fail (e.g., <code>%{ext_example}</code>) atau jenis mime (e.g., <code>%{mime_example}</code>). <br/> Tinggalkan kosong untuk benarkan sebarang jenis fail untuk dimuat naik. Pelbagai nilai juga dibenarkan. (satu baris untuk setiap nilai)
       show_work_package_attachments: >
-        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
+        Menyahaktifkan pilihan ini akan menyorokkan senarai lampiran di tab fail pakej kerja untuk projek baharu. Fail yang dilampirkan di deskripsi pakej kerja masih akan dimuat naik di simpanan lampiran dalaman.
     antivirus:
       title: "Pengimbasan virus"
       clamav_ping_failed: "Gagal untuk sambung ke daemon ClamAV. Semak semula konfigurasi tersebut dan cuba lagi."
@@ -3137,9 +3137,9 @@ ms:
   text_no_notes: "Tiada komen yang tersedia untuk pakej kerja ini."
   text_notice_too_many_values_are_inperformant: "Maklum: Memaparkan lebih daripada 100 item setiap halaman akan meningkatkan masa muat halaman."
   text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel, and on the home page. It is displayed to administrators only. <br/> The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities. For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.
+    Nota: jika dibenarkan, ini akan paparkan lambang bersertaan status pemasangan di <a href="%{information_panel_path}"></a> panel pentadbiran, dan di halaman utama. Ia hanya akan dipaparkan ke para pentadbir sahaja. <br/> Lambang tersebut akan menyemak versi OpenProject terkini terhadap pangkalan data keluaran rasmi OpenProject untuk memaklumkan anda tentang sebarang kemas kini atau kelemahan yang diketahui. Untuk maklumat lanjut bagi penyediaan semakan, data apa yang diperlukan untuk menyediakan kemas kini tersedia, and bagaimana untuk menyahaktifkan semakan ini, sila kunjungi <a href="%{more_info_url}"> dokumentasi konfigurasi</a>.
   text_own_membership_delete_confirmation: "Anda akan mengeluarkan beberapa atau semua kebenaran anda dan mungkin tidak lagi dapat mengedit projek ini selepas itu.\nAdakah anda pasti anda ingin meneruskan?"
-  text_plugin_assets_writable: "Direktori aset plugin boleh ditulis"
+  text_plugin_assets_writable: "Aset plugin direktori yang boleh ditulis"
   text_powered_by: "Dikuasakan oleh %{link}"
   text_project_identifier_info: "Hanya huruf kecil (a-z), nombor, sengkang dan tanda garis bawah adalah dibernarkan, mesti mula dengan huruf kecil."
   text_reassign: "Tugaskan semula ke pakej kerja:"
@@ -3204,8 +3204,8 @@ ms:
         drag_area_label: "Urus dan susun semula lajur"
       sort_by:
         automatic:
-          heading: "Automatic"
-          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
+          heading: "Automatik"
+          description: "Menyusun %{plural} oleh satu atau lebih kriteria pengisihan. Anda akan kehilangan pengisihan sebelumnya."
   top_menu:
     additional_resources: "Sumber tambahan"
     getting_started: "Sedang bermula"

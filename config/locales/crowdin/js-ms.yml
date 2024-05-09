@@ -331,17 +331,17 @@ ms:
         description: >
           Pilih paras zum permulaan yang akan ditunjukkan apabila zum secara auto tidak tersedia.
       export:
-        title: "Gantt chart PDF options"
-        button_export: "Export"
+        title: "Pilihan PDF carta Gantt"
+        button_export: "Eksport"
         column_widths:
-          narrow: "Narrow"
-          medium: "Medium"
-          wide: "Wide"
-          very_wide: "Very wide"
+          narrow: "Kecilkan"
+          medium: "Pertengahan"
+          wide: "Luas"
+          very_wide: "Sangat luas"
         options:
-          date_zoom: "Date zoom"
-          paper_size: "Paper size"
-          column_widths: "Column widths"
+          date_zoom: "Zum tarikh"
+          paper_size: "Saiz kertas"
+          column_widths: "Keluasan lajur"
     general_text_no: "tidak"
     general_text_yes: "ya"
     general_text_No: "Tidak"

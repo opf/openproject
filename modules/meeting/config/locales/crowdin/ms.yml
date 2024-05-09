@@ -47,6 +47,8 @@ ms:
         duration_in_minutes: "min"
         description: "Nota"
         presenter: "Penyampai"
+      meeting_section:
+        title: "Title"
     errors:
       messages:
         invalid_time_format: "bukan masa yang sah. Format yang diperlukan: JJ:MM"
@@ -121,6 +123,10 @@ ms:
       structured_text: "Aturkan mesyuarat anda sebagai senarai butiran agenda, pautkannya ke pakej kerja secara pilihan."
       structured_text_copy: "Menyalin mesyuarat pada masa ini tidak akan menyalin item agenda mesyuarat yang berkaitan, hanya butiran sahaja"
     copied: "Disalin dari mesyuarat #%{id}"
+  meeting_section:
+    default_title: "New section"
+    untitled_title: "Untitled"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Pemberitahuan berjaya dihantar"
   notice_timezone_missing: Tiada zon waktu yang ditetapkan dan %{zone} adalah andaian.Untuk pilih zon waktu anda, sila klik sini.
   permission_create_meetings: "Cipta mesyuarat"

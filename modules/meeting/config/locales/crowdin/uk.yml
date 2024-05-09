@@ -50,6 +50,8 @@ uk:
         duration_in_minutes: "хв"
         description: "Примітки"
         presenter: "Доповідач"
+      meeting_section:
+        title: "Title"
     errors:
       messages:
         invalid_time_format: "не є допустимим часом. Необхідний формат: HH:MM"
@@ -124,6 +126,10 @@ uk:
       structured_text: "Організуйте нараду у вигляді переліку пунктів порядку денного, за бажанням пов’язавши їх із пакетом робіт."
       structured_text_copy: "Зараз копіювання наради стосується лише докладних даних про неї, але не пов’язаних пунктів її порядку денного"
     copied: "Скопійовано з наради #%{id} "
+  meeting_section:
+    default_title: "New section"
+    untitled_title: "Untitled"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Повідомлення успішно надіслано"
   notice_timezone_missing: Часовий пояс не встановлено і %{zone} передбачається. Щоб вибрати часовий пояс, натисніть тут.
   permission_create_meetings: "Створюйте зустрічі"

@@ -50,6 +50,8 @@ sl:
         duration_in_minutes: "min"
         description: "Opombe"
         presenter: "Presenter"
+      meeting_section:
+        title: "Title"
     errors:
       messages:
         invalid_time_format: "ni veljaven čas. Potreben format: HH:MM"
@@ -124,6 +126,10 @@ sl:
       structured_text: "Organize your meeting as a list of agenda items, optionally linking them to a work package."
       structured_text_copy: "Copying a meeting will currently not copy the associated meeting agenda items, just the details"
     copied: "Kopirano iz sestanka #%{id}"
+  meeting_section:
+    default_title: "New section"
+    untitled_title: "Untitled"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Obvestila uspešno poslana"
   notice_timezone_missing: Časovni pas ni določen, %{zone} je izbran avtomatsko. Za določitev časovnega pasu kliknite tukaj.
   permission_create_meetings: "Ustvarite sestanke"

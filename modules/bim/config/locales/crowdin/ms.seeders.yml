@@ -57,17 +57,17 @@ ms:
         item_0:
           name: Arkitek
         item_1:
-          name: Penyelaras BIM
+          name: Koordinator BIM
         item_2:
           name: Pengurus BIM
         item_3:
           name: Pemodel BIM
         item_4:
-          name: Ketua penyelaras BIM
+          name: Ketua Penyelaras BIM
         item_5:
           name: Jurutera MEP
         item_6:
-          name: Perancang
+          name: Perancang-perancang
         item_7:
           name: Jurutera Struktur
       welcome:
@@ -88,17 +88,17 @@ ms:
       projects:
         demo-construction-project:
           name: "(Demo) Projek pembinaan"
-          status_explanation: Semua tugasan dan sub-projek mengikut jadual. Orang yang terlibat tahu tugasan mereka. Sistem ini lengkap sepenuhnya.
+          status_explanation: Semua tugasan dan sub-projek mengikut jadual. Orang yang terlibat tahu akan tugasan mereka. Sistem ini telah disiapkan disiapkan.
           description: Ini adalah ringkasan pendek matlamat projek pembinaan demo ini.
           news:
             item_0:
               title: Selamat datang ke projek demo anda
               summary: |
-                Kami gembira anda menyertai.
-                Dalam modul ini, anda boleh menyampaikan berita projek ke ahli pasukan.
+                Kami gembira anda menyertai kami.
+                Dalam modul ini, anda boleh menyampaikan berita projek ke ahli pasukan anda.
               description: Berita sebenar
           categories:
-            item_0: Kategori 1 (untuk diubah dalam seting Projek)
+            item_0: Kategori 1 (untuk diubah dalam tetapan Projek)
           queries:
             item_0:
               name: Pelan projek
@@ -118,7 +118,7 @@ ms:
                   name: Selamat datang
               item_1:
                 options:
-                  name: Sedang bermula
+                  name: Permulaan
                   text: |
                     Kami gembira anda menyertai! Kami cadangkan beberapa perkara untuk bermula di OpenProject.
 

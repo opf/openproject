@@ -47,6 +47,8 @@ ko:
         duration_in_minutes: "분"
         description: "메모"
         presenter: "발표자"
+      meeting_section:
+        title: "Title"
     errors:
       messages:
         invalid_time_format: "은(는) 유효한 시간이 아닙니다. 필요한 형식: HH:MM"
@@ -121,6 +123,10 @@ ko:
       structured_text: "미팅을 의제 항목 목록으로 구성하고, 선택적으로 작업 패키지에 연결합니다."
       structured_text_copy: "미팅을 복사하면 관련 미팅 의제 항목은 현재 복사되지 않고 세부 정보만 복사됩니다"
     copied: "미팅 #%{id}에서 복사됨"
+  meeting_section:
+    default_title: "New section"
+    untitled_title: "Untitled"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "알림이 전송됨"
   notice_timezone_missing: 표준 시간대가 설정되지 않았으며 %{zone}(으)로 간주됩니다. 해당 표준 시간대를 선택하려면 여기를 클릭하세요.
   permission_create_meetings: "미팅 생성"

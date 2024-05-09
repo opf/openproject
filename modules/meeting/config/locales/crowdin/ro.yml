@@ -49,6 +49,8 @@ ro:
         duration_in_minutes: "min"
         description: "Mențiuni"
         presenter: "Presenter"
+      meeting_section:
+        title: "Title"
     errors:
       messages:
         invalid_time_format: "nu este o oră valabilă. Format necesar: HH:MM"
@@ -123,6 +125,10 @@ ro:
       structured_text: "Organize your meeting as a list of agenda items, optionally linking them to a work package."
       structured_text_copy: "Copying a meeting will currently not copy the associated meeting agenda items, just the details"
     copied: "Copiat de la Întâlnire #%{id}"
+  meeting_section:
+    default_title: "New section"
+    untitled_title: "Untitled"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Notificare trimisă cu succes"
   notice_timezone_missing: Nu este setat niciun fus orar și se presupune %{zone}. Pentru a vă alege fusul orar, vă rugăm să faceți clic aici.
   permission_create_meetings: "Creați întâlniri"
