@@ -264,6 +264,7 @@ ko:
     lists:
       active: "활성 프로젝트"
       my: "내 프로젝트"
+      favored: "Favorite projects"
       archived: "보관된 프로젝트"
       my_private: "내 비공개 프로젝트 목록"
       new:
@@ -304,7 +305,14 @@ ko:
       storage:
         no_results_title_text: 이 프로젝트에서 사용하는 추가 기록 디스크 공간이 없습니다.
   lists:
-    can_be_saved_as: "수정 사항은 새 목록에만 저장할 수 있습니다."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: 프로젝트에 멤버 파트가 없습니다.
@@ -774,6 +782,7 @@ ko:
         not_an_iso_date: "은(는) 유효한 날짜가 아닙니다. 필요한 형식: YYYY-MM-DD."
         not_same_project: "은(는) 동일한 프로젝트에 속하지 않습니다."
         odd: "에 홀수를 입력해 주세요"
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "관련 정규식으로 유효성을 확인할 수 없습니다."
         smaller_than_or_equal_to_max_length: "은(는) 최대 길이보다 같거나 작아야 합니다."
         taken: "은(는) 이미 존재합니다."
@@ -1247,6 +1256,7 @@ ko:
   button_edit: "편집"
   button_edit_associated_wikipage: "연결된 위키 페이지 %{page_title} 편집"
   button_expand_all: "모두 확장"
+  button_favorite: "Add to favorites"
   button_filter: "필터"
   button_generate: "생성"
   button_list: "목록"
@@ -1274,6 +1284,7 @@ ko:
   button_unarchive: "보관 취소"
   button_uncheck_all: "모두 선택 취소"
   button_unlock: "잠금 해제"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "주시 안 함"
   button_update: "업데이트"
   button_upgrade: "업그레이드"
@@ -1541,6 +1552,7 @@ ko:
       pdf_overview_table: "PDF 테이블"
       pdf_report_with_images: "이미지가 포함된 PDF 보고서"
       pdf_report: "PDF 보고서"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "이미지를 내보내지 못했습니다."
     units:
@@ -1622,6 +1634,8 @@ ko:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "구성 가이드"
     get_in_touch: "질문이 있으신가요? 문의해 주세요."
@@ -1877,7 +1891,7 @@ ko:
   label_enterprise_support: "엔터프라이즈 지원"
   label_enterprise_addon: "Enterprise 추가 기능"
   label_environment: "환경"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "일치함"
   label_everywhere: "어디에 있든지"
   label_example: "예"
@@ -1891,7 +1905,7 @@ ko:
   label_expanded_click_to_collapse: "확장되었습니다. 축소하려면 클릭하세요."
   label_f_hour: "%{value}시간"
   label_f_hour_plural: "%{value}시간"
-  label_favoured: "호감"
+  label_favorite: "즐겨찾기"
   label_feed_plural: "피드"
   label_feeds_access_key: "RSS 액세스 키"
   label_feeds_access_key_created_on: "RSS 액세스 키가 %{value} 전에 생성되었습니다."
@@ -1964,6 +1978,7 @@ ko:
   label_learn_more: "자세히 알아보기"
   label_less_or_equal: "<="
   label_less_than_ago: "일 미만 전"
+  label_link_url: "Link (URL)"
   label_list: "목록"
   label_loading: "로드 중..."
   label_lock_user: "사용자 잠금"
@@ -1989,6 +2004,7 @@ ko:
   label_membership_plural: "멤버십"
   lable_membership_added: "멤버 추가됨"
   lable_membership_updated: "멤버 갱신됨"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "프리 알파"
     alpha: "알파"
@@ -2090,6 +2106,7 @@ ko:
   label_percent_complete: "완료 %"
   label_project_activity: "프로젝트 활동"
   label_project_attribute_plural: "프로젝트 특성"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "전체 프로젝트 수"
   label_project_copy_notifications: "프로젝트 복사 중에 이메일 알림 보내기"
   label_project_latest: "최근 프로젝트"
@@ -2104,7 +2121,7 @@ ko:
   label_project_attributes_settings: "프로젝트 특성 설정"
   label_project_storage_plural: "파일 저장소"
   label_project_storage_project_folder: "파일 저장소: 프로젝트 폴더"
-  label_projects_storage_information: "%{count} 개의 프로젝트가 %{storage} 디스크 스토리지를 사용 중"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "모든 프로젝트 보기"
   label_project_show_details: "프로젝트 세부 정보 표시"
   label_project_hide_details: "프로젝트 세부 정보 숨기기"
@@ -2161,6 +2178,7 @@ ko:
   label_setting_plural: "설정"
   label_system_settings: "시스템 설정"
   label_show_completed_versions: "완료된 버전 표시"
+  label_columns: "열"
   label_sort: "분류"
   label_sort_by: "%{value}(으)로 정렬"
   label_sorted_by: "%{value}(으)로 정렬됨"
@@ -2845,6 +2863,7 @@ ko:
   setting_app_subtitle: "응용 프로그램 부제목"
   setting_app_title: "응용 프로그램 제목"
   setting_attachment_max_size: "첨부 파일 최대 크기"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "스캔 모드"
   setting_antivirus_scan_action: "감염된 파일 작업"
   setting_autofetch_changesets: "Autofetch 리포지토리 변경 사항"
@@ -2946,6 +2965,8 @@ ko:
     attachments:
       whitelist_text_html: >
         업로드된 파일의 유효한 파일 확장명 및/또는 MIME 형식 목록을 정의합니다. <br/> 파일 확장명(예: <code>%{ext_example}</code>) 또는 MIME 형식(예: <code>%{mime_example}</code>)을 입력합니다. <br/> 모든 파일 형식을 업로드할 수 있도록 허용하려면 비워 둡니다. 여러 값이 허용됩니다(각 값에 대해 한 줄).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "바이러스 검사"
       clamav_ping_failed: "ClamAV 데몬을 연결하지 못했습니다. 구성을 다시 확인하고 다시 시도하세요."
@@ -3182,6 +3203,10 @@ ko:
         input_label: "열 추가"
         input_placeholder: "열 선택"
         drag_area_label: "열 관리 및 재정렬"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "추가 리소스"
     getting_started: "시작하기"
@@ -3527,7 +3552,7 @@ ko:
   link: 링크
   plugin_openproject_auth_plugins:
     name: "OpenProject 인증 플러그인"
-    description: "인증을 위해 OpenProject에서 OmniAuth 정책 공급자를 통합합니다."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML/Single-Sign On"
     description: "OpenProject에 OmniAuth SAML 공급자를 추가합니다"

@@ -16,7 +16,6 @@ OpenProject supports your work with the Scrum methodology by providing a variety
 A **Backlog** is defined as a plugin that allows to use the backlogs feature in OpenProject. In order to use backlogs in a project, the backlogs module has to be activated in the project settings of a project.
 </div>
 
-
 Please note that this user guide does not represent an introduction into scrum methodology, but merely explains the scrum-related functionalities and user instructions in OpenProject.
 
 | Topic                                       | Content                                                      |

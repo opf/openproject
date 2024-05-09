@@ -49,9 +49,11 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::DeleteFolder
   end
 
   it "deletes a folder", vcr: "one_drive/delete_folder" do
+    parent_location = Storages::Peripherals::ParentFolder.new("/")
+
     create_result = Storages::Peripherals::Registry
                       .resolve("one_drive.commands.create_folder")
-                      .call(storage:, folder_path: "To Be Deleted Soon")
+                      .call(storage:, auth_strategy:, folder_name: "To Be Deleted Soon", parent_location:)
 
     folder = create_result.result
 

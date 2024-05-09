@@ -263,7 +263,8 @@ et:
       no_results_content_text: Create a new project
     lists:
       active: "Active projects"
-      my: "My projects"
+      my: "Minu projektid"
+      favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -304,7 +305,14 @@ et:
       storage:
         no_results_title_text: There is no additional recorded disk space consumed by this project.
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -316,12 +324,12 @@ et:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "Kõik"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Lukus"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Rühmad"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -398,7 +406,7 @@ et:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
   page:
-    text: "Text"
+    text: "Tekst"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -596,7 +604,7 @@ et:
         column_count: "Veergude arv"
         widgets: "Vidinad"
       oauth_client:
-        client: "Client ID"
+        client: "Kliendi ID"
       relation:
         lag: "Lag"
         from: "Teema"
@@ -621,7 +629,7 @@ et:
           false: "private"
         queries: "Päringuid"
         status_code: "Projekti olek"
-        description: "Description"
+        description: "Teave"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -782,6 +790,7 @@ et:
         not_an_iso_date: "is not a valid date. Required format: YYYY-MM-DD."
         not_same_project: "doesn't belong to the same project."
         odd: "peab olema paaritu arv."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "could not be validated with the associated regular expression."
         smaller_than_or_equal_to_max_length: "must be smaller than or equal to maximum length."
         taken: "on juba kasutusel."
@@ -1263,6 +1272,7 @@ et:
   button_edit: "Muuda"
   button_edit_associated_wikipage: "Muuda seotud vikilehte \"%{page_title}\""
   button_expand_all: "Laienda kõik"
+  button_favorite: "Add to favorites"
   button_filter: "Filter"
   button_generate: "Genereeri"
   button_list: "Nimistu"
@@ -1280,7 +1290,7 @@ et:
   button_reset: "Nulli"
   button_rollback: "Pöördu tagasi sellesse versiooni"
   button_save: "Salvesta"
-  button_save_as: "Save as"
+  button_save_as: "Salvesta kui"
   button_apply_changes: "Apply changes"
   button_save_back: "Salvesta ja mine tagasi"
   button_show: "Kuva"
@@ -1290,6 +1300,7 @@ et:
   button_unarchive: "Paki arhiiv lahti"
   button_uncheck_all: "Tühjenda valik"
   button_unlock: "Aktiveeri"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Ära jälgi"
   button_update: "Uuenda"
   button_upgrade: "Uuenda"
@@ -1553,7 +1564,7 @@ et:
     message: Sõnum on muudetud
     news: Uudised
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "Projekti on muudetud"
     projects: "Projekti on muudetud"
     reply: Vastatud
     time_entry: "Ajalogi on muudetud"
@@ -1575,6 +1586,7 @@ et:
       pdf_overview_table: "PDF Table"
       pdf_report_with_images: "PDF Report with images"
       pdf_report: "PDF Report"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Image not exported."
     units:
@@ -1656,6 +1668,8 @@ et:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Configuration guide"
     get_in_touch: "You have questions? Get in touch with us."
@@ -1773,7 +1787,7 @@ et:
   label_ascending: "Kasvav"
   label_assigned_to_me_work_packages: "Minu teemad"
   label_associated_revisions: "Seotud muudatused"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Manused"
   label_attribute: "Atribuut"
   label_attribute_plural: "Atribuudid"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1911,7 +1925,7 @@ et:
   label_enterprise_support: "Enterprise support"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Keskkond"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "võrdub"
   label_everywhere: "everywhere"
   label_example: "Näide"
@@ -1921,18 +1935,18 @@ et:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Saadaval ka:"
-  label_expand: "Expand"
+  label_expand: "Laienda"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} tund"
   label_f_hour_plural: "%{value} tundi"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Kanalid"
   label_feeds_access_key: "RSS kasutuse võti"
   label_feeds_access_key_created_on: "RSS kasutuse võti on loodud %{value} tagasi"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Failid"
   label_filter_add: "Lisa filter"
-  label_filter: "Filters"
+  label_filter: "Filtrid"
   label_filter_plural: "Filtrid"
   label_filters_toggle: "Show/hide filters"
   label_float: "Ujuvkomaarv"
@@ -1959,7 +1973,7 @@ et:
   label_home: "Avaleht"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Identifikaator"
   label_in: "sisaldub hulgas"
   label_in_less_than: "on väiksem kui"
   label_in_more_than: "on suurem kui"
@@ -1975,7 +1989,7 @@ et:
   label_internal: "Sisemine"
   label_introduction_video: "Introduction video"
   label_invite_user: "Invite user"
-  label_share: "Share"
+  label_share: "Jaga"
   label_show_hide: "Show/hide"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
@@ -1995,9 +2009,10 @@ et:
   label_latest_revision: "Viimane versioon"
   label_latest_revision_plural: "Viimased versioonid"
   label_ldap_authentication: "LDAP autentimine"
-  label_learn_more: "Learn more"
+  label_learn_more: "Loe rohkem"
   label_less_or_equal: "<="
   label_less_than_ago: "vähem kui päev tagasi"
+  label_link_url: "Link (URL)"
   label_list: "Nimistu"
   label_loading: "Laadimine..."
   label_lock_user: "Lock user"
@@ -2023,6 +2038,7 @@ et:
   label_membership_plural: "Memberships"
   lable_membership_added: "Member added"
   lable_membership_updated: "Member updated"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alpha"
@@ -2124,6 +2140,7 @@ et:
   label_percent_complete: "% Complete"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "Saada e-postiga teateid projekti kopeerimise ajal"
   label_project_latest: "Viimased projektid"
@@ -2138,7 +2155,7 @@ et:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} projects using %{storage} disk storage"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Vaata kõiki projekte"
   label_project_show_details: "Show project details"
   label_project_hide_details: "Hide project details"
@@ -2191,10 +2208,11 @@ et:
   label_search: "Otsi"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Saada kontrollkiri"
-  label_session: "Session"
+  label_session: "Seanss"
   label_setting_plural: "Seaded"
   label_system_settings: "Süsteemiseaded"
   label_show_completed_versions: "Näita lõpetatud versioone"
+  label_columns: "Veerud"
   label_sort: "Sorteeri"
   label_sort_by: "Sorteeri %{value} järgi"
   label_sorted_by: "Sorteeritud %{value} järgi"
@@ -2884,6 +2902,7 @@ et:
   setting_app_subtitle: "Rakenduse alamnimetus"
   setting_app_title: "Rakenduse nimetus"
   setting_attachment_max_size: "Manuste suurim lubatud suurus"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Scan mode"
   setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Autofetch repository changes"
@@ -2985,6 +3004,8 @@ et:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Virus scanning"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
@@ -3221,6 +3242,10 @@ et:
         input_label: "Add columns"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Additional resources"
     getting_started: "Getting started"
@@ -3335,7 +3360,7 @@ et:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Ei jaga"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3568,7 +3593,7 @@ et:
   link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"

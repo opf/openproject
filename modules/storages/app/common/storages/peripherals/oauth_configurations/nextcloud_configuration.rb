@@ -39,6 +39,9 @@ module Storages
         # rubocop:disable Lint/MissingSuper
         def initialize(storage)
           @uri = storage.uri
+
+          raise(ArgumentError, "Storage must have configured OAuth client credentials") if storage.oauth_client.blank?
+
           @oauth_client = storage.oauth_client.freeze
         end
 

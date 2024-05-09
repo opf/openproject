@@ -35,7 +35,7 @@ RSpec.describe CustomActions::Actions::AssignedTo do
     users = [build_stubbed(:user),
              build_stubbed(:group)]
     allow(Principal)
-      .to receive_message_chain(:not_locked, :select, :ordered_by_name)
+      .to receive_message_chain(:not_locked, :select, :select_for_name, :ordered_by_name)
       .and_return(users)
 
     [{ value: nil, label: "-" },

@@ -33,14 +33,14 @@ We are delighted about the GitLab integration, which is officially available wit
 
 With this integration, you can manage GitLab's units of work (merge requests and issues) from within OpenProject by linking them with work packages. Read more about OpenProject's GitLab integration [in our system admin guide](https://www.openproject.com/docs/system-admin-guide/integrations/gitlab-integration/).
 
-<div class="blog-box-info">	
+<div class="blog-box-info">
 
 **Already using the user-generated GitLab plugin?** With OpenProject 13.4, the existing plugin will be replaced by the new integration. We recommend removing the plugin module folder and bundler references before upgrading to OpenProject. Your historical dataset will remain unaffected within OpenProject as there were no changes to the data model.
 
 Before upgrading, please do the following:
 
 1. Remove traces of the GitLab integration in your **Gemfile.lock** and **Gemfile.modules**. See [btey/openproject-gitlab-integration#configuration](https://github.com/btey/openproject-gitlab-integration?tab=readme-ov-file#configuration). Failure to do so may result in a `Bundler::GemfileError` matching the following error message: _Your Gemfile lists the gem openproject-gitlab_integration (>= 0) more than once._
-2. Remove the module code traces of the GitLab integration by running this command: `rm -rf /path/to/openproject/modules/gitlab_integration` 
+2. Remove the module code traces of the GitLab integration by running this command: `rm -rf /path/to/openproject/modules/gitlab_integration`
 
 </div>
 
@@ -62,7 +62,7 @@ Another long-awaited improvement: When you copy a dynamic meeting, **existing ag
 
 ![Copy a meeting with agenda](openproject-13-4-meetings-copy-agenda-highlighted.png)
 
-And finally, the .ics file now also contains information about the (dynamic) meeting attendees - in addition to other existing information such as PARTSTAT. This now allows you to **confirm or decline invitations to a meeting directly in your calendar software**. 
+And finally, the .ics file now also contains information about the (dynamic) meeting attendees - in addition to other existing information such as PARTSTAT. This now allows you to **confirm or decline invitations to a meeting directly in your calendar software**.
 
 <div class="blog-box-info">
 
@@ -161,11 +161,12 @@ A very special thank you goes to our sponsors for features and improvements:
 
 Another big thanks goes to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to Andreas H., Diego Liberman, Andreas G, Mario Zeppin, Arved Kampe, and Richard Richter.
 
-We are always thankful for our great [Community](https://www.openproject.org/blog/community-instance/). If you are thinking about contributing to OpenProject yourself, we would like to encourage you to do so! 
+We are always thankful for our great [Community](https://www.openproject.org/blog/community-instance/). If you are thinking about contributing to OpenProject yourself, we would like to encourage you to do so!
 
 ### Translation contributors
 
-An important part is also the translations, for which we thank the following contributors in particular for this release: 
+An important part is also the translations, for which we thank the following contributors in particular for this release:
+
 - [Syvert Fossdal](https://crowdin.com/profile/syvert), who translated a lot of OpenProject strings into Norwegian
 - [WilliamfromTW](https://crowdin.com/profile/williamfromtw), who translated to Traditional Chinese
 - [Tomas S](https://crowdin.com/profile/tomass), who translated to Lithuanian

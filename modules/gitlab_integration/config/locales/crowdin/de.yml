@@ -50,17 +50,17 @@ de:
     note_mr_commented_comment: >
       **Kommentiert in MR:** [%{gitlab_user}](%{gitlab_user_url}) kommentierte dieses WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) auf [%{repository}](%{repository_url}): %{mr_note}
     note_issue_referenced_comment: >
-      **Referenziert in Issue:** [%{gitlab_user}](%{gitlab_user_url}) verwies auf dieses WP in %{issue_number} [%{issue_title}](%{issue_url}) auf [%{repository}](%{repository_url}): %{issue_note}
+      **Referenziert in Ticket:** [%{gitlab_user}](%{gitlab_user_url}) verwies auf dieses WP in %{issue_number} [%{issue_title}](%{issue_url}) auf [%{repository}](%{repository_url}): %{issue_note}
     note_issue_commented_comment: >
-      **Kommentiert in Issue:** [%{gitlab_user}](%{gitlab_user_url}) kommentierte dieses WP in Issue %{issue_number} [%{issue_title}](%{issue_url}) auf [%{repository}](%{repository_url}): %{issue_note}
+      **Kommentiert in Ticket:** [%{gitlab_user}](%{gitlab_user_url}) kommentierte dieses WP in Ticket %{issue_number} [%{issue_title}](%{issue_url}) auf [%{repository}](%{repository_url}): %{issue_note}
     note_snippet_referenced_comment: >
       **Referenziert in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) verweist auf dieses WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) auf [%{repository}](%{repository_url}): %{snippet_note}
     issue_opened_referenced_comment: >
-      **Issue eröffnet:** %{issue_number} [%{issue_title}](%{issue_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) eröffnet.
+      **Ticket erstellt:** %{issue_number} [%{issue_title}](%{issue_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) erstellt.
     issue_closed_referenced_comment: >
-      **Issue geschlossen:** %{issue_number} [%{issue_title}](%{issue_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) geschlossen.
+      **Ticket geschlossen:** %{issue_number} [%{issue_title}](%{issue_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) geschlossen.
     issue_reopened_referenced_comment: >
-      **Wiedereröffnetes Issue:** %{issue_number} [%{issue_title}](%{issue_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) wiedereröffnet.
+      **Wiedereröffnetes Ticket:** %{issue_number} [%{issue_title}](%{issue_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) wiedereröffnet.
     push_single_commit_comment: >
       **In MR gepusht:** [%{gitlab_user}](%{gitlab_user_url}) hat [%{commit_number}](%{commit_url}) auf [%{repository}](%{repository_url}) in %{commit_timestamp}gedrückt: %{commit_note}
     push_multiple_commits_comment: >

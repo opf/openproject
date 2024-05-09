@@ -44,11 +44,13 @@ lv:
         start_time: "Start time"
         start_time_hour: "Start time"
       meeting_agenda_item:
-        title: "Title"
-        author: "Author"
+        title: "Virsraksts"
+        author: "Autors"
         duration_in_minutes: "min"
-        description: "Notes"
+        description: "Piezīmes"
         presenter: "Presenter"
+      meeting_section:
+        title: "Title"
     errors:
       messages:
         invalid_time_format: "nav derīgs laiks. Vajadzīgais formāts: HH:MM"
@@ -71,13 +73,13 @@ lv:
     meeting_minutes_created: Izveidots sanāksmes protokols
   error_notification_with_errors: "Failed to send notification. The following recipients could not be notified: %{recipients}"
   label_meeting: "Sanāksmes"
-  label_meeting_plural: "Meetings"
+  label_meeting_plural: "Sanāksmes"
   label_meeting_new: "New Meeting"
   label_meeting_edit: "Edit Meeting"
-  label_meeting_agenda: "Agenda"
-  label_meeting_minutes: "Minutes"
-  label_meeting_close: "Close"
-  label_meeting_open: "Open"
+  label_meeting_agenda: "Darba kārtība"
+  label_meeting_minutes: "Protokols"
+  label_meeting_close: "Aizvērt"
+  label_meeting_open: "Atvērts"
   label_meeting_agenda_close: "Close the agenda to begin the Minutes"
   label_meeting_date_time: "Date/Time"
   label_meeting_diff: "Diff"
@@ -100,7 +102,7 @@ lv:
     attachments:
       text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
-      title: "Copy meeting %{title}"
+      title: "Copy meeting: %{title}"
       attachments: "Copy attachments"
       attachments_text: "Copy over all attached files to the new meeting"
       agenda: "Copy agenda"
@@ -123,6 +125,10 @@ lv:
       structured_text: "Organize your meeting as a list of agenda items, optionally linking them to a work package."
       structured_text_copy: "Copying a meeting will currently not copy the associated meeting agenda items, just the details"
     copied: "Copied from Meeting #%{id}"
+  meeting_section:
+    default_title: "New section"
+    untitled_title: "Untitled"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Notification sent successfully"
   notice_timezone_missing: No time zone is set and %{zone} is assumed. To choose your time zone, please click here.
   permission_create_meetings: "Create meetings"
@@ -139,7 +145,7 @@ lv:
   permission_send_meeting_minutes_notification: "Send review notification for minutes"
   permission_meetings_send_invite: "Invite users to meetings"
   permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
-  project_module_meetings: "Meetings"
+  project_module_meetings: "Sanāksmes"
   text_duration_in_hours: "Duration in hours"
   text_in_hours: "in hours"
   text_meeting_agenda_for_meeting: 'agenda for the meeting "%{meeting}"'
@@ -171,11 +177,11 @@ lv:
   text_agenda_item_title: 'Agenda item "%{title}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
   text_deleted_agenda_item: 'Deleted agenda item'
-  label_initial_meeting_details: "Meeting"
+  label_initial_meeting_details: "Sanāksmes"
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
   label_meeting_state: "Meeting status"
-  label_meeting_state_open: "Open"
+  label_meeting_state_open: "Atvērts"
   label_meeting_state_open_html: "<i>Open</i>"
   label_meeting_state_closed: "Closed"
   label_meeting_state_closed_html: "<i>Closed</i>"

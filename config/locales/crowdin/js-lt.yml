@@ -330,6 +330,18 @@ lt:
         years: "Metai"
         description: >
           Pasirinkite pradinį pritraukimo lygį, kuris bus rodomas kai automatinis pritraukimas negalimas.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "ne"
     general_text_yes: "taip"
     general_text_No: "Ne"
@@ -378,6 +390,7 @@ lt:
     label_added_time_by: 'Pridėjo <a href="%{authorLink}">%{author}</a> %{age}'
     label_ago: "dienų prieš"
     label_all: "visi"
+    label_all_uppercase: "Visi"
     label_all_work_packages: "visi darbų paketai"
     label_and: "ir"
     label_ascending: "Didėjančia tvarka"
@@ -419,6 +432,7 @@ lt:
     label_expand_project_menu: "Išskleisti projekto meniu"
     label_export: "Eksportuoti"
     label_export_preparing: "Eksportas ruošiamas ir greitai bus parsiųstas."
+    label_favorites: "Mėgstami"
     label_filename: "Failas"
     label_filesize: "Dydis"
     label_general: "Bendra"
@@ -1275,6 +1289,9 @@ lt:
           placeholder: "Statytinis naudotojas gali prisijungti ir pasiekti %{project}. Tuo pačiu, jūs jau galite planuoti darbus su šiuo naudotoju ir pavyzdžiui priskirti jam darbo užduotis."
           group: "Grupė jau tapo %{project} dalimi. Tuo pačiu, jūs jau galite planuoti darbus su šia grupe ir pavyzdžiui priskirti jai darbo užduotis."
         next_button: "Tęsti"
+    favorite_projects:
+      no_results: "Jūs neturite mėgstamų projektų"
+      no_results_subtext: "Pridėkite vieną ar kelis projektus kaip mėgiamus jų apžvalgoje ar projektų sąraše."
     include_projects:
       toggle_title: "Įtraukti projektus"
       title: "Projektai"

@@ -73,7 +73,7 @@ hu:
     button_continue: "Folytatás"
     button_copy: "Másol"
     button_copy_to_clipboard: "Másolás a vágólapra"
-    button_copy_link_to_clipboard: "Copy link to clipboard"
+    button_copy_link_to_clipboard: "Hivatkozás másolása a vágólapra"
     button_copy_to_other_project: "Másolás másik projektbe"
     button_custom-fields: "Választható mezők"
     button_delete: "Törlés"
@@ -330,6 +330,18 @@ hu:
         years: "Évek"
         description: >
           Válassza ki a megjelenítendő kezdeti nagyítási szintet, ha az automatikus nagyítás nem áll rendelkezésre.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "nem"
     general_text_yes: "igen"
     general_text_No: "Nem"
@@ -378,6 +390,7 @@ hu:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "nappal ezelőtt"
     label_all: "mind"
+    label_all_uppercase: "Összes"
     label_all_work_packages: "minden feladatcsoport"
     label_and: "és"
     label_ascending: "Növekvő"
@@ -419,6 +432,7 @@ hu:
     label_expand_project_menu: "Project menü kibontása"
     label_export: "Exportálás"
     label_export_preparing: "Az exportálás előkészítés alatt áll, és hamarosan letöltésre kerül."
+    label_favorites: "Favorites"
     label_filename: "File"
     label_filesize: "Méret"
     label_general: "Általános"
@@ -652,7 +666,7 @@ hu:
         mentioned: "Megemlített"
         watched: "Megfigyelő"
         date_alert: "Date alert"
-        shared: "Shared"
+        shared: "Megosztva"
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Értesítési beállítások"
@@ -675,7 +689,7 @@ hu:
             description: "Értesítés fogadása minden alkalommal, amikor bárki bárhol megemlít"
           assignee: "Megbízott"
           responsible: "Felelős"
-          shared: "Shared"
+          shared: "Megosztva"
           watched: "Megfigyelő"
           work_package_commented: "Új megjegyzések"
           work_package_created: "Új munkacsomagok"
@@ -760,7 +774,7 @@ hu:
           last_day: "Utolsó nap"
     text_are_you_sure: "Biztos vagy benne?"
     text_data_lost: "Az összes adat elveszhet"
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} írta:"
     types:
       attribute_groups:
         error_duplicate_group_name: "A %{group} név már használatban van. A csoport névnek egyedinek kell lennie."
@@ -971,7 +985,7 @@ hu:
         createdAt: "Létrehozva"
         description: "Leírás"
         date: "dátum"
-        percentComplete: "% Complete"
+        percentComplete: "%-ban kész"
         percentCompleteAlternative: "Progress"
         dueDate: "Befejezési dátum"
         duration: "Időtartam"
@@ -980,8 +994,8 @@ hu:
         percentageDone: "Százalékosan elkészült"
         priority: "Fontosság"
         projectName: "Projekt"
-        remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWork: "Fennmaradó órák"
+        remainingWorkAlternative: "Fennmaradó órák"
         responsible: "Felelős"
         startDate: "Indulási dátum"
         status: "Állapot"
@@ -992,9 +1006,9 @@ hu:
         updatedAt: "Frissítve"
         versionName: "Verzió"
         version: "Verzió"
-        work: "Work"
-        workAlternative: "Estimated time"
-        remainingTime: "Remaining work"
+        work: "Munka"
+        workAlternative: "Becsült idő (óra)"
+        remainingTime: "Fennmaradó órák"
       default_queries:
         latest_activity: "Utolsó aktivitás"
         created_by_me: "Általam készített"
@@ -1182,7 +1196,7 @@ hu:
         other: "%{count} ó"
         zero: "0 óra"
       day:
-        one: "%{count} nap"
+        one: "1 nap"
         other: "%{count} nap"
         zero: "0 days"
     zen_mode:
@@ -1269,6 +1283,9 @@ hu:
           placeholder: "A tesztfelhasználó mostantól használható a %{project}-ben. Eközben már tervezhetünk ezzel a felhasználóval, és például munkacsomagokat rendelhetünk hozzá."
           group: "A csoport mostantól a %{project} része. Eközben már tervezhet ezzel a csoporttal, és például munkacsomagokat rendelhet hozzá.\n"
         next_button: "Folytatás"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Projekteket tartalmaz"
       title: "Projektek"

@@ -184,7 +184,7 @@ class CustomField < ApplicationRecord
     return if value.blank?
 
     case field_format
-    when "string", "text", "list"
+    when "string", "text", "list", "link"
       value
     when "date"
       begin

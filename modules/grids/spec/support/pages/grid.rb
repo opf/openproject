@@ -83,19 +83,10 @@ module Pages
       area = area_of(row_number, column_number, location)
       area.hover
 
-      enable_add_widget_mode_for(area)
-
-      add_widget_button = area.find(".grid--widget-add")
+      add_widget_button = area.find(".grid--widget-add", visible: :all)
       add_widget_button.click
 
       within(".spot-modal", &)
-    end
-
-    def enable_add_widget_mode_for(area)
-      within('.toolbar-items') do
-        button = find_button "Add widget"
-        button.click if button[:class].exclude? "-active"
-      end
     end
 
     def expect_widget_adding_prohibited_generally(row_number = 1, column_number = 1)

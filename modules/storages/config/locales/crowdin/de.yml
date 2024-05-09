@@ -39,15 +39,17 @@ de:
   api_v3:
     errors:
       too_many_elements_created_at_once: Zu viele Elemente gleichzeitig erstellt. Maximal %{max} erwartet, %{actual} bekommen.
+  external_file_storages: External file storages
   permission_create_files: 'Externe Speicherung: Dateien erstellen'
   permission_delete_files: 'Externe Speicherung: Dateien löschen'
+  permission_header_for_project_module_storages: Automatisch verwaltete Projektordner
   permission_manage_file_links: Datei-Links verwalten
   permission_manage_storages_in_project: Dateispeicher im Projekt verwalten
   permission_read_files: 'Externe Speicherung: Dateien lesen'
   permission_share_files: 'Externe Speicherung: Dateien teilen'
   permission_view_file_links: Datei-Links anzeigen
   permission_write_files: 'Externe Speicherung: Dateien schreiben'
-  project_module_storages: Dateispeicher
+  project_module_storages: Files
   storages:
     buttons:
       complete_without_setup: Ohne fortfahren
@@ -222,13 +224,12 @@ de:
       project_settings:
         delete: Dateispeicher löschen
         edit: Dateispeicher in diesem Projekt bearbeiten
-        index: Dateispeicher in diesem Projekt verfügbar
         members_connection_status: Verbindungsstatus der Mitglieder
         new: Einen Dateispeicher zum Projekt hinzufügen
       project_storage_members:
         subtitle: Überprüfen Sie den Verbindungsstatus für den Speicher- %{storage_name_link} aller Projektmitglieder.
         title: Verbindungsstatus der Mitglieder
-    permission_header_explanation: "Dateiberechtigungen auf externen Speichern werden nur auf Ordner und Dateien in automatisch verwalteten Projektordnern angewendet. \nBeachten Sie, dass nicht alle Dateiberechtigungen von allen Anbietern gleich unterstützt werden."
+    permission_header_explanation: 'Dateiberechtigungen auf externen Speichern werden nur auf Ordner und Dateien in automatisch verwalteten Projektordnern angewendet. Beachten Sie, dass nicht alle Dateiberechtigungen von allen Speicheranbietern unterstützt werden. Weitere Informationen finden Sie in der Dokumentation zu <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>Dateispeicherberechtigungen</a>.'
     provider_types:
       label: Anbieter-Typ
       nextcloud:
@@ -241,6 +242,9 @@ de:
         label_oauth_client_secret: Azure OAuth geheimer Clientschlüssel Wert
         name: OneDrive/SharePoint
         name_placeholder: z.B. OneDrive
+    show_attachments_toggle:
+      description: Deactivating this option will only hide the attachments list. Files uploaded with the help of the rich text editor will still be uploaded to the attachments internal storage.
+      label: Show attachments in the work packages files tab
     storage_list_blank_slate:
       description: Fügen Sie einen Dateispeicher hinzu, um ihn hier zu sehen.
       heading: Sie haben noch keine Dateispeicher.

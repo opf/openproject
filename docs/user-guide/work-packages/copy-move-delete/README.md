@@ -8,7 +8,7 @@ keywords: copy work package, delete work package, move work package
 
 # Copy, change project or delete a work package
 
-If you right-click in a work package table, editing options will be displayed. Here, you can change project, copy the work package, or copy its URL to the clipboard, delete it or move it to another project. 
+If you right-click in a work package table, editing options will be displayed. Here, you can change project, copy the work package, or copy its URL to the clipboard, delete it or move it to another project.
 
 ![change copy delete work package](openproject_user_guide_copy_move_delete_wptableview.png)
 
@@ -20,13 +20,13 @@ Alternatively, open the work packages details view by double clicking the respec
 
 ![User guide copy change project delete](openproject_user_guide_copy_move_delete_detailed_view.png)
 
-To copy, move or delete multiple work packages at once please refer to the documentation for [bulk edit](../edit-work-package/#bulk-edit-work-packages). 
+To copy, move or delete multiple work packages at once please refer to the documentation for [bulk edit](../edit-work-package/#bulk-edit-work-packages).
 
 ## Copy a work package
 
 When copying a work package, a work package form with the pre-set values of the original work package is shown.
 
-Copying a work package allows to easily create and adjust new work packages based on existing one’s. 
+Copying a work package allows to easily create and adjust new work packages based on existing one’s.
 
 ## Copy link to clipboard
 

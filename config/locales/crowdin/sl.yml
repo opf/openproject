@@ -262,7 +262,8 @@ sl:
       no_results_content_text: Kreiraj nov projekt
     lists:
       active: "Active projects"
-      my: "My projects"
+      my: "Moji projekti"
+      favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -303,7 +304,14 @@ sl:
       storage:
         no_results_title_text: There is no additional recorded disk space consumed by this project.
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Trenutno ni nobenega člana tega projekta.
@@ -315,12 +323,12 @@ sl:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "Vse"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Zaklenjeno"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Skupine"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -409,7 +417,7 @@ sl:
     memberships:
       no_results_title_text: Ta uporabnik trenutno ni član projekta.
   page:
-    text: "Text"
+    text: "Besedilo"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -480,9 +488,9 @@ sl:
   work_packages:
     x_descendants:
       one: "En padajoči delovni paket"
-      two: "% {count} padajočih delovnega paketa"
-      few: "% {count} padajočih delovnega paketa"
-      other: "% {count} padajočih delovnega paketa"
+      two: "%{count} padajočih delovnega paketa"
+      few: "%{count} padajočih delovnega paketa"
+      other: "%{count} padajočih delovnega paketa"
     bulk:
       copy_failed: "The work packages could not be copied."
       move_failed: "The work packages could not be moved."
@@ -607,7 +615,7 @@ sl:
         column_count: "Število stolpcev"
         widgets: "Gradniki"
       oauth_client:
-        client: "Client ID"
+        client: "ID odjemalca"
       relation:
         lag: "Lag"
         from: "Zahtevek"
@@ -632,7 +640,7 @@ sl:
           false: "private"
         queries: "Poizvedbe"
         status_code: "Status projekta"
-        description: "Description"
+        description: "Opis"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Ni začeto"
@@ -793,6 +801,7 @@ sl:
         not_an_iso_date: "neveljaven čas. Potreben format: YYYY-MM-DD."
         not_same_project: "ne pripada istemu projektu"
         odd: "mora biti liho. "
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "ni bilo mogoče potrditi s pripadajočim stalnim izrazom."
         smaller_than_or_equal_to_max_length: "mora biti manjše ali enako največji dolžini."
         taken: "je že zasedeno."
@@ -1048,7 +1057,7 @@ sl:
             ldap_auth_source:
               error_not_found: "Ni najdeno"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "Ni najdeno"
         member:
           principal_blank: "Prosimo izberite vsaj eno osebo ali kategorijo."
           role_blank: "treba dodeliti"
@@ -1256,7 +1265,7 @@ sl:
       token_cooldown: Žeton za varnostno kopiranje bo veljaven v %{hours} urah.
       backup_pending: Ena varnostna kopija je že na čakanju.
       limit_reached: Na dan lahko ustvarite samo %{limit}  varnostnih kopij.
-  button_actions: "Actions"
+  button_actions: "Akcije"
   button_add: "Dodaj"
   button_add_comment: "Dodaj komentar"
   button_add_member: Dodaj člana
@@ -1290,6 +1299,7 @@ sl:
   button_edit: "Uredi"
   button_edit_associated_wikipage: "Uredi povezano Wiki stran: %{page_title}"
   button_expand_all: "Razširi vse"
+  button_favorite: "Add to favorites"
   button_filter: "Filtriraj"
   button_generate: "Ustvari"
   button_list: "Seznam"
@@ -1307,7 +1317,7 @@ sl:
   button_reset: "Ponastavi"
   button_rollback: "Povrni na to verzijo"
   button_save: "Shrani"
-  button_save_as: "Save as"
+  button_save_as: "Shrani kot"
   button_apply_changes: "Apply changes"
   button_save_back: "Shrani in nazaj"
   button_show: "Pokaži"
@@ -1317,6 +1327,7 @@ sl:
   button_unarchive: "Odarhiviraj"
   button_uncheck_all: "Odznači vse"
   button_unlock: "Odkleni"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Prenehaj slediti"
   button_update: "Posodobi"
   button_upgrade: "Nadgradi"
@@ -1616,7 +1627,7 @@ sl:
     message: Sporočilo urejeno
     news: Novice
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "Projekt urejen"
     projects: "Projekt urejen"
     reply: Odgovori
     time_entry: "Časovnik urejen"
@@ -1638,6 +1649,7 @@ sl:
       pdf_overview_table: "PDF Table"
       pdf_report_with_images: "PDF Report with images"
       pdf_report: "PDF Report"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Slika ni izvožena."
     units:
@@ -1679,7 +1691,7 @@ sl:
       postgres_migration: "Selitev namestitve na PostgreSQL"
       user_guides: "Uporabniški priročniki"
       faq: "FAQ"
-      impressum: "Legal notice"
+      impressum: "Pravno obvestilo"
       glossary: "Slovar"
       shortcuts: "Bližnjice"
       blog: "Blog OpenProject"
@@ -1719,6 +1731,8 @@ sl:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Vodnik za konfiguracijo"
     get_in_touch: "Imate vprašanja? Stopite v stik z nami.\n"
@@ -1836,7 +1850,7 @@ sl:
   label_ascending: "Naraščajoče"
   label_assigned_to_me_work_packages: "Delovni paketi, ki so mi bili dodeljeni"
   label_associated_revisions: "Povezane revizije"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Priponka"
   label_attribute: "Atribut"
   label_attribute_plural: "Atributi"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1851,9 +1865,9 @@ sl:
   label_available_project_work_package_categories: "Razpoložljive kategorije delovnih paketov"
   label_available_project_work_package_types: "Razpoložljive vrste delovnih paketov"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "API dokumentacija"
   label_backup: "Varnostna kopija"
-  label_backup_code: "Backup code"
+  label_backup_code: "Rezervna koda"
   label_between: "med"
   label_blocked_by: "blokirano od"
   label_blocks: "Bloki"
@@ -1863,7 +1877,7 @@ sl:
   label_forum_plural: "Forumi"
   label_forum_sticky: "Lepljivo"
   label_boolean: "Logika"
-  label_board_plural: "Boards"
+  label_board_plural: "Table"
   label_branch: "Podružnica"
   label_browse: "Brskanje"
   label_bulk_edit_selected_work_packages: "Skupno urejanje izbranih delovnih paketov"
@@ -1922,7 +1936,7 @@ sl:
   label_custom_field_plural: "Polja po meri"
   label_custom_field_default_type: "Prazen tip"
   label_custom_style: "Oblika"
-  label_dashboard: "Dashboard"
+  label_dashboard: "Nadzorna plošča"
   label_database_version: "PostgreSQL verzija"
   label_date: "Datum"
   label_date_and_time: "Datum in ura"
@@ -1974,7 +1988,7 @@ sl:
   label_enterprise_support: "Enterprise support"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Okolje"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "je"
   label_everywhere: "Povsod"
   label_example: "Primer"
@@ -1984,18 +1998,18 @@ sl:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Uvozi"
   label_export_to: "Na razpolago tudi v:"
-  label_expand: "Expand"
+  label_expand: "Razširi"
   label_expanded_click_to_collapse: "Razširjeno. Kliknite, če želite strniti"
   label_f_hour: "%{value} ura"
   label_f_hour_plural: "%{value} ur"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Viri"
   label_feeds_access_key: "RSS dostopni ključ"
   label_feeds_access_key_created_on: "RSS dostopni ključ narejen pred %{value}"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Datoteke"
   label_filter_add: "Dodaj filter"
-  label_filter: "Filters"
+  label_filter: "Filtri"
   label_filter_plural: "Filtri"
   label_filters_toggle: "Prikaži/skrij filter"
   label_float: "Lebdeti"
@@ -2022,7 +2036,7 @@ sl:
   label_home: "Domov"
   label_subject_or_id: "Predmet ali ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Identifikator "
   label_in: "v"
   label_in_less_than: "v manj kot"
   label_in_more_than: "v več kot"
@@ -2058,9 +2072,10 @@ sl:
   label_latest_revision: "Zadnja revizija"
   label_latest_revision_plural: "Zadnje revizije"
   label_ldap_authentication: "LDAP avtentikacija"
-  label_learn_more: "Learn more"
+  label_learn_more: "Več o tem"
   label_less_or_equal: "<="
   label_less_than_ago: "pred manj kot nekaj dnevi"
+  label_link_url: "Link (URL)"
   label_list: "Seznam"
   label_loading: "Nalaganje..."
   label_lock_user: "Zakleni uporabnika"
@@ -2086,6 +2101,7 @@ sl:
   label_membership_plural: "Memberships"
   lable_membership_added: "Član dodan"
   lable_membership_updated: "Član posodobljen"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alpha"
@@ -2187,6 +2203,7 @@ sl:
   label_percent_complete: "% Complete"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Skupno število projektov"
   label_project_copy_notifications: "Med kopijo projekta pošljite obvestila po e-pošti"
   label_project_latest: "Zadnji projekti"
@@ -2201,7 +2218,7 @@ sl:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} projektov, ki uporabljajo %{storage} diskovni pomnilnik"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Prikaži vse projekte"
   label_project_show_details: "Prikaži podrobnosti projekta"
   label_project_hide_details: "Skrij podrobnosti projekta"
@@ -2254,10 +2271,11 @@ sl:
   label_search: "Išči"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Pošlji testni mail"
-  label_session: "Session"
+  label_session: "Seja"
   label_setting_plural: "Nastavitve"
   label_system_settings: "Sistemske nastavitve"
   label_show_completed_versions: "Prikaži zaključene različice"
+  label_columns: "Stolpci"
   label_sort: "Razvrsti"
   label_sort_by: "Razporedi po %{value}"
   label_sorted_by: "Razporejeno po %{value}"
@@ -2950,6 +2968,7 @@ sl:
   setting_app_subtitle: "Podnaslov aplikacije"
   setting_app_title: "Naslov aplikacije"
   setting_attachment_max_size: "Največja velikost priponke"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Scan mode"
   setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Samodejno pridobi spremembe odlagališča"
@@ -3051,6 +3070,8 @@ sl:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Virus scanning"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
@@ -3284,9 +3305,13 @@ sl:
     configure_view:
       heading: Configure view
       columns:
-        input_label: "Add columns"
+        input_label: "Dodaj stolpce"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Dodatna sredstva\n"
     getting_started: "Začnite"
@@ -3306,9 +3331,9 @@ sl:
     blocked: "začasno zaklenjeno"
     blocked_num_failed_logins:
       one: "začasno zaklenjen (en neuspeli poskus prijave)"
-      two: "začasno zaklenjen (več neuspelih poskusov prijave)"
-      few: "začasno zaklenjen (več neuspelih poskusov prijave)"
-      other: "začasno zaklenjen (več neuspelih poskusov prijave)"
+      two: "začasno zaklenjen (%{count} neuspelih poskusov prijave)"
+      few: "začasno zaklenjen (%{count} neuspelih poskusov prijave)"
+      other: "začasno zaklenjen (%{count} neuspelih poskusov prijave)"
     confirm_status_change: "You are about to change the status of '%{name}'. Are you sure you want to continue?"
     deleted: "Izbrisani uporabnik"
     error_status_change_failed: "Spreminjanje uporabnikovega statusa je spodletelo zaradi naslednjih napak: %{errors}"
@@ -3403,7 +3428,7 @@ sl:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Ni deljeno"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3639,7 +3664,7 @@ sl:
   link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"

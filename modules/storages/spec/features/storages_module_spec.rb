@@ -90,14 +90,22 @@ RSpec.describe "Storages module", :js, :with_cuprite do
     end
 
     context "when creating a new role" do
-      it_behaves_like "has storages module", sections: [:content], is_upcase: true do
-        let(:path) { new_role_path }
+      it 'must have appropriate storage permissions header in content section' do
+        visit new_role_path
+
+        within "#content" do
+          expect(page).to have_text(I18n.t(:permission_header_for_project_module_storages).upcase)
+        end
       end
     end
 
     context "when editing a role" do
-      it_behaves_like "has storages module", sections: [:content], is_upcase: true do
-        let(:path) { edit_role_path(role) }
+      it 'must have appropriate storage permissions header in content section' do
+        visit edit_role_path(role)
+
+        within "#content" do
+          expect(page).to have_text(I18n.t(:permission_header_for_project_module_storages).upcase)
+        end
       end
     end
 
@@ -129,7 +137,7 @@ RSpec.describe "Storages module", :js, :with_cuprite do
         end
 
         it "must show the page" do
-          expect(page).to have_text(I18n.t("storages.page_titles.project_settings.index"))
+          expect(page).to have_text(I18n.t("project_module_storages"))
         end
       end
 
@@ -147,7 +155,7 @@ RSpec.describe "Storages module", :js, :with_cuprite do
 
             visit project_settings_project_storages_path(project)
 
-            expect(page).to have_text(I18n.t("storages.page_titles.project_settings.index"))
+            expect(page).to have_text(I18n.t("project_module_storages"))
           end
         end
 
@@ -164,7 +172,7 @@ RSpec.describe "Storages module", :js, :with_cuprite do
 
             visit project_settings_project_storages_path(project)
 
-            expect(page).to have_no_text(I18n.t("storages.page_titles.project_settings.index"))
+            expect(page).to have_no_text(I18n.t("project_module_storages"))
             expect(page).to have_text("[Error 403] You are not authorized to access this page.")
           end
         end

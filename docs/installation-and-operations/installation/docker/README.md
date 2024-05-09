@@ -449,7 +449,7 @@ All the Dockerfile does is copy your custom plugins gemfile into the image, inst
 
 If you are using the `-slim` tag you will need to do the following to add your plugin.
 
-```
+```dockerfile
 FROM openproject/openproject:14 AS plugin
 
 # If installing a local plugin (using `path:` in the `Gemfile.plugins` above),
@@ -771,7 +771,7 @@ But that will be a single point of failure if the manager node goes down.
 To make this more redundant you can use the load balancer directive in your proxy configuration.
 For instance for apache this could look like this:
 
-```
+```apache
 <Proxy balancer://swarm>
     BalancerMember http://10.0.2.77:8080 # swarm node 1 (manager)
     BalancerMember http://10.0.2.78:8080 # swarm node 2

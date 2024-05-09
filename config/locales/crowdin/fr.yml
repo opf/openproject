@@ -264,6 +264,7 @@ fr:
     lists:
       active: "Projets actifs"
       my: "Mes projets"
+      favored: "Favorite projects"
       archived: "Projets archivés"
       my_private: "Mes listes de projets privés"
       new:
@@ -304,7 +305,14 @@ fr:
       storage:
         no_results_title_text: Il n'y a pas d'espace disque supplémentaire utilisé par ce projet.
   lists:
-    can_be_saved_as: "Les modifications ne peuvent être enregistrées que dans une nouvelle liste."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Aucun membre dans ce projet pour le moment.
@@ -782,6 +790,7 @@ fr:
         not_an_iso_date: "n’est pas une date valide. Format requis : AAAA-MM-JJ."
         not_same_project: "n'appartient pas au même projet."
         odd: "doit être impair."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "n’a pas pu être validé avec l’expression régulière associée."
         smaller_than_or_equal_to_max_length: "doit être inférieur ou égal à la longueur maximale."
         taken: "a déjà été pris."
@@ -1263,6 +1272,7 @@ fr:
   button_edit: "Éditer"
   button_edit_associated_wikipage: "Éditer la page wiki associée : %{page_title}"
   button_expand_all: "Tout déplier"
+  button_favorite: "Add to favorites"
   button_filter: "Filtrer"
   button_generate: "Générer"
   button_list: "Liste"
@@ -1290,6 +1300,7 @@ fr:
   button_unarchive: "Désarchiver"
   button_uncheck_all: "Tout désélectionner"
   button_unlock: "Déverrouiller"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Ne plus suivre"
   button_update: "Mettre à jour"
   button_upgrade: "Mise à niveau"
@@ -1575,6 +1586,7 @@ fr:
       pdf_overview_table: "Tableau PDF"
       pdf_report_with_images: "Rapport PDF avec images"
       pdf_report: "Rapport PDF"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Image non exportée."
     units:
@@ -1656,6 +1668,8 @@ fr:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Guide de configuration"
     get_in_touch: "Vous avez des questions ? Contactez-nous."
@@ -1911,7 +1925,7 @@ fr:
   label_enterprise_support: "Assistance Enterprise"
   label_enterprise_addon: "add-on Enterprise"
   label_environment: "Environement"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimations et progression"
   label_equals: "est"
   label_everywhere: "partout"
   label_example: "Exemple"
@@ -1925,7 +1939,7 @@ fr:
   label_expanded_click_to_collapse: "Déplié. Cliquez pour replier"
   label_f_hour: "%{value} heure"
   label_f_hour_plural: "%{value} heures"
-  label_favoured: "Favoris"
+  label_favorite: "Favori"
   label_feed_plural: "Fluxs"
   label_feeds_access_key: "Clé d'accès RSS"
   label_feeds_access_key_created_on: "Clé d'accès RSS créé il y a %{value}"
@@ -1998,6 +2012,7 @@ fr:
   label_learn_more: "En savoir plus"
   label_less_or_equal: "<="
   label_less_than_ago: "il y a moins de quelques jours"
+  label_link_url: "Link (URL)"
   label_list: "Liste"
   label_loading: "Chargement…"
   label_lock_user: "Verrouiller l’utilisateur"
@@ -2023,6 +2038,7 @@ fr:
   label_membership_plural: "Adhésions"
   lable_membership_added: "Membre ajouté"
   lable_membership_updated: "Membre mis à jour"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pré-alpha"
     alpha: "alpha"
@@ -2124,6 +2140,7 @@ fr:
   label_percent_complete: "% réalisé"
   label_project_activity: "Activité du projet"
   label_project_attribute_plural: "Attributs du projet"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Nombre total de projets"
   label_project_copy_notifications: "Notifier par courriel lors de la copie du projet"
   label_project_latest: "Derniers projets"
@@ -2138,7 +2155,7 @@ fr:
   label_project_attributes_settings: "Paramètres des attributs du projet"
   label_project_storage_plural: "Espaces de stockage des fichiers"
   label_project_storage_project_folder: "Espaces de stockage des fichiers : dossiers du projet"
-  label_projects_storage_information: "%{count} projets utilisant %{storage} d'espace disque"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Afficher tous les projets"
   label_project_show_details: "Afficher les détails du projet"
   label_project_hide_details: "Masquer les détails du projet"
@@ -2195,6 +2212,7 @@ fr:
   label_setting_plural: "Paramètres"
   label_system_settings: "Paramètres système"
   label_show_completed_versions: "Afficher les versions terminées"
+  label_columns: "Colonnes"
   label_sort: "Trier"
   label_sort_by: "Trier par %{value}"
   label_sorted_by: "trié par %{value}"
@@ -2884,6 +2902,7 @@ fr:
   setting_app_subtitle: "Sous-titre de l'Application"
   setting_app_title: "Titre de l'Application"
   setting_attachment_max_size: "Taille maximale de la pièce jointe"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Mode analyse"
   setting_antivirus_scan_action: "Action sur le fichier infecté"
   setting_autofetch_changesets: "Rapatrier automatiquement les changements du dépôt"
@@ -2985,6 +3004,8 @@ fr:
     attachments:
       whitelist_text_html: >
         Définissez une liste d'extensions de fichiers et/ou de types MIME valides pour les fichiers téléversés. <br/> Entrez les extensions de fichier (par exemple, <code>%{ext_example}</code>) ou les types mime (par exemple, <code>%{mime_example}</code>). <br/> Laissez vide pour permettre le téléversement de tout type de fichier. Plusieurs valeurs autorisées (une ligne pour chaque valeur).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Analyse de virus"
       clamav_ping_failed: "Échec de la connexion au démon ClamAV. Vérifiez à nouveau la configuration puis réessayez."
@@ -3221,6 +3242,10 @@ fr:
         input_label: "Ajouter des colonnes"
         input_placeholder: "Sélectionner une colonne"
         drag_area_label: "Gérer et réorganiser les colonnes"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Ressources supplémentaires"
     getting_started: "Pour commencer"
@@ -3567,7 +3592,7 @@ fr:
   link: lien
   plugin_openproject_auth_plugins:
     name: "Plugins d'authentification OpenProject"
-    description: "Intégration des fournisseurs de stratégie OmniAuth pour l'authentification dans Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / authentification unique"
     description: "Ajoute le fournisseur SAML OmniAuth à OpenProject"

@@ -1,50 +1,19 @@
 #!/bin/bash
+set -eox pipefail
 
-set -e
-set -o pipefail
+# Ensure we can write in /tmp/op_uploaded_files (cf. #29112)
+mkdir -p /tmp/op_uploaded_files/ && chown -R $APP_USER:$APP_USER /tmp/op_uploaded_files/
 
-pushd "${APP_PATH}/frontend"
+# Remove any existing config/database.yml
+rm -f ./config/database.yml
 
-export NG_CLI_ANALYTICS=ci # so angular cli doesn't block waiting for user input
-
-# Installing frontend dependencies
-npm install
-
-popd
-
-# Bundle assets
-
-su - postgres -c "$PGBIN/initdb -D /tmp/nulldb"
-su - postgres -c "$PGBIN/pg_ctl -D /tmp/nulldb -l /dev/null -l /tmp/nulldb/log -w start"
-
-# give some more time for DB to start
-sleep 5
-
-echo "create database assets; create user assets with encrypted password 'p4ssw0rd'; grant all privileges on database assets to assets;" | su - postgres -c psql
-
-# dump schema
-DATABASE_URL=postgres://assets:p4ssw0rd@127.0.0.1/assets RAILS_ENV=production bundle exec rake db:migrate db:schema:dump db:schema:cache:dump
-
-# this line requires superuser rights, which is not always available and doesn't matter anyway
-sed -i '/^COMMENT ON EXTENSION/d' db/structure.sql
-
-# precompile assets
-DATABASE_URL=postgres://assets:p4ssw0rd@127.0.0.1/assets RAILS_ENV=production bundle exec rake assets:precompile
-
-su - postgres -c "$PGBIN/pg_ctl -D /tmp/nulldb stop"
-
-rm -rf /tmp/nulldb
-
-# Remove sprockets cache
-rm -rf "$APP_PATH/tmp/cache/assets"
-
-# Remove node_modules and entire frontend
-rm -rf "$APP_PATH/node_modules/" "$APP_PATH/frontend/node_modules/"
-
-# Remove angular cache
-rm -rf "$APP_PATH/frontend/.angular"
-
-# Clean cache in root
-rm -rf /root/.npm
-
-rm -f "$APP_PATH/log/production.log"
+# We need this so puma is allowed to create the tmp/pids folder and
+# temporary upload files when running with a uid other than 1000 (app)
+# but with an allowed supplemental group (1000).
+tmp_path="$APP_PATH/tmp"
+# Remove any previously cached files from e.g., asset building
+rm -rf "$tmp_path"
+# Recreate and own it for the user for later files (PID etc. see above)
+mkdir -p "$tmp_path"
+chown -R $APP_USER:$APP_USER "$tmp_path"
+chmod g+rw "$tmp_path"

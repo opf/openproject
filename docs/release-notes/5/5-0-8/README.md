@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 5.0.8
-  sidebar_navigation:
-      title: 5.0.8
-  release_version: 5.0.8
-  release_date: 2016-01-08
+title: OpenProject 5.0.8
+sidebar_navigation:
+  title: 5.0.8
+release_version: 5.0.8
+release_date: 2016-01-08
 ---
 
 # OpenProject 5.0.8
@@ -40,8 +40,6 @@ In addition new icons for the mobile view have been added
 several accessibility improvements have been implemented.
 
 For further information on the release, please refer to the  
-[Changelog v.5.0.8](https://community.openproject.org/versions/786) 
+[Changelog v.5.0.8](https://community.openproject.org/versions/786)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v5.0.8).
-
-

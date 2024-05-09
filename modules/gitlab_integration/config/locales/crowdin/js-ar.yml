@@ -26,7 +26,7 @@ ar:
       work_packages:
         tab_name: "GitLab"
       tab_header_issue:
-        title: "Issues"
+        title: "مشاكل"
       tab_header_mr:
         title: "Merge requests"
         create_mr:
@@ -47,4 +47,4 @@ ar:
       tab_mrs:
         empty: 'There are no merge requests linked yet. Link an existing MR by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the MR title/description or create a new MR.'
       gitlab_pipelines: Pipelines
-      updated_on: Updated on
+      updated_on: تم التحديث بتاريخ

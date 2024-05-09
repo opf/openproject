@@ -48,10 +48,21 @@ module Pages::StructuredMeeting
       end
     end
 
-    def cancel_add_form
-      page.within("#meeting-agenda-items-new-component") do
+    def cancel_add_form(item)
+      page.within("#meeting-agenda-items-new-component-#{item.meeting_section_id}") do
         click_on I18n.t(:button_cancel)
         expect(page).to have_no_link I18n.t(:button_cancel)
+      end
+    end
+
+    def add_agenda_item_to_section(section:, type: MeetingAgendaItem, save: true, &)
+      select_section_action(section, type.model_name.human)
+
+      within("#meeting-sections-show-component-#{section.id}") do
+        in_agenda_form do
+          yield
+          click_on("Save") if save
+        end
       end
     end
 
@@ -91,6 +102,12 @@ module Pages::StructuredMeeting
       expect(page).to have_test_selector("op-meeting-agenda-title", text: title)
     end
 
+    def expect_agenda_item_in_section(title:, section:)
+      within("#meeting-sections-show-component-#{section.id}") do
+        expect_agenda_item(title:)
+      end
+    end
+
     def expect_agenda_link(item)
       if item.is_a?(WorkPackage)
         expect(page).to have_css("[id^='meeting-agenda-items-item-component-']", text: item.subject)
@@ -122,6 +139,23 @@ module Pages::StructuredMeeting
 
       page.within(".Overlay") do
         click_on action
+      end
+    end
+
+    def select_section_action(section, action)
+      retry_block do
+        click_on_section_menu(section)
+        page.find(".Overlay")
+      end
+
+      page.within(".Overlay") do
+        click_on action
+      end
+    end
+
+    def click_on_section_menu(section)
+      page.within_test_selector("meeting-section-header-container-#{section.id}") do
+        page.find_test_selector("meeting-section-action-menu").click
       end
     end
 
@@ -195,6 +229,47 @@ module Pages::StructuredMeeting
 
     def meeting_details_container
       find_by_id("meetings-sidebar-details-component")
+    end
+
+    def in_latest_section_form(&)
+      page.within(all(".op-meeting-section-container").last, &)
+    end
+
+    def add_section(&)
+      page.within("#meeting-agenda-items-new-button-component") do
+        click_on I18n.t(:button_add)
+        click_on "Section"
+        # wait for the disabled button, indicating the turbo streams are applied
+        expect(page).to have_css("#meeting-agenda-items-new-button-component button[disabled='disabled']")
+      end
+
+      in_latest_section_form(&)
+    end
+
+    def expect_section(title:)
+      expect(page).to have_css(".op-meeting-section-container", text: title)
+    end
+
+    def expect_no_section(title:)
+      expect(page).to have_no_css(".op-meeting-section-container", text: title)
+    end
+
+    def expect_section_duration(section:, duration_text:)
+      page.within_test_selector("meeting-section-header-container-#{section.id}") do
+        expect(page).to have_text(duration_text)
+      end
+    end
+
+    def edit_section(section, &)
+      select_section_action(section, "Edit")
+
+      page.within_test_selector("meeting-section-header-container-#{section.id}", &)
+    end
+
+    def remove_section(section)
+      accept_confirm do
+        select_section_action(section, "Delete")
+      end
     end
   end
 end

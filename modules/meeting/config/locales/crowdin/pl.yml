@@ -50,6 +50,8 @@ pl:
         duration_in_minutes: "min"
         description: "Notatki"
         presenter: "Prezenter"
+      meeting_section:
+        title: "Title"
     errors:
       messages:
         invalid_time_format: "nie jest prawidłowy. Wymagany format to: GG:MM"
@@ -101,7 +103,7 @@ pl:
     attachments:
       text: "Załączone pliki są dostępne dla wszystkich uczestników spotkania. Można je również przeciągać i upuszczać w notatkach do punktów planu spotkania."
     copy:
-      title: "Kopiuj spotkanie %{title}"
+      title: "Copy meeting: %{title}"
       attachments: "Skopiuj załączniki"
       attachments_text: "Skopiuj wszystkie załączone pliki do nowego spotkania"
       agenda: "Kopiuj agendę spotkania"
@@ -124,6 +126,10 @@ pl:
       structured_text: "Zorganizuj spotkanie jako listę punktów planu spotkania, opcjonalnie powiązując je z pakietem roboczym."
       structured_text_copy: "Skopiowanie spotkania nie powoduje obecnie skopiowania powiązanych pozycji planu spotkania, a jedynie szczegółów"
     copied: "Skopiowano ze spotkania #%{id}"
+  meeting_section:
+    default_title: "New section"
+    untitled_title: "Untitled"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Powiadomienia wysłane pomyślnie"
   notice_timezone_missing: 'Została ustawiona domyślna strefa czasowa: %{zone}. Aby zmienić strefę czasową, kliknij tutaj.'
   permission_create_meetings: "Utwórz spotkanie"
