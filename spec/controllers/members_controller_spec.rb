@@ -164,7 +164,7 @@ RSpec.describe MembersController do
     end
 
     context "with yet-to-be-invited emails" do
-      let(:emails) { ["h.wurst@openproject.com", "l.lustig@openproject.com"] }
+      let(:emails) { ["h.wurst@openproject.com", "1277551@openproject.com"] }
       let(:params) do
         {
           project_id: project.id,
