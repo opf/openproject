@@ -303,13 +303,13 @@ lt:
         no_results_title_text: Šis projektas papildomos vietos diske nenaudoja.
   lists:
     create:
-      success: "The modified list has been saved as a new list"
-      failure: "The modified list cannot be saved: %{errors}"
+      success: "Pakeistas sąrašas įrašytas kaip naujas sąrašas"
+      failure: "Nepavyksta įrašyti pakeisto sąrašo: %{errors}"
     update:
-      success: "The modified list has been saved"
-      failure: "The modified list cannot be saved: %{errors}"
-    can_be_saved: "List modified:"
-    can_be_saved_as: "The modifications can only be saved in a new list:"
+      success: "Pakeistas sąrašas buvo įrašytas"
+      failure: "Nepavyksta įrašyti pakeisto sąrašo: %{errors}"
+    can_be_saved: "Sąrašas pakeistas:"
+    can_be_saved_as: "Pakeitimus galima įrašyti tik į naują sąrašą:"
   members:
     index:
       no_results_title_text: Nėra nė vieno šio projekto dalyvio.

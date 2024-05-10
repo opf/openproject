@@ -13,15 +13,15 @@ ms:
         delete: 'Padam senarai'
       version:
         is_locked: 'Versi ini dikunci. Tiada item yang dapat ditambah kedalam versi ini.'
-        is_closed: 'Versi ini ditutup. Tiada item yang dapat ditambah kedalam versi ini.'
+        is_closed: 'Versi ini ditutup. Tiada item yang boleh ditambah kedalam versi ini.'
         close_version: 'Versi tertutup'
         open_version: 'Versi terbuka'
         lock_version: 'Versi terkunci'
         unlock_version: 'Versi dibuka'
         edit_version: 'Versi suntingan'
-        show_version: 'Papar versi'
+        show_version: 'Tunjuk versi'
         locked: 'Dikunci'
-        closed: 'Ditutup'
+        closed: 'Tertutup'
       new_board: 'Papan baru'
       add_list: 'Tambah senarai ke papan'
       add_card: 'Tambah kad'
@@ -29,14 +29,14 @@ ms:
       error_loading_the_list: "Ralat memuat senarai: %{error_message}"
       error_permission_missing: "Kebenaran untuk membuat pertanyaan awam tidak dijumpai"
       error_cannot_move_into_self: "Anda tidak boleh mengalihkan pakej kerja ke dalam lajur sendiri."
-      text_hidden_list_warning: "Hanya beberapa senarai dipaparkan kerana anda tidak mempunyai kebenaran. Hubungi pentadbir anda untut maklumat lanjut."
+      text_hidden_list_warning: "Hanya beberapa senarai dipaparkan kerana anda tidak mempunyai kebenaran. Hubungi pentadbir anda untuk maklumat lanjut."
       click_to_remove_list: "Klik untuk padamkan senarai ini"
       board_type:
         text: "Jenis papan\n"
-        free: "asas\n"
+        free: 'asas'
         select_board_type: 'Sila pilih jenis papan yang anda perlukan.'
         free_text: >
-          Bermula dari awal dengan board yang kosong. Tambah kad dan lajur kepada board ini secara manual.
+          Bermula dari awal dengan papan yang kosong. Tambah kad dan lajur kepada papan ini secara manual.
         action: 'Panel tindakan'
         action_by_attribute: 'Panel tindakan (%{attribute})'
         action_text: >
@@ -48,7 +48,7 @@ ms:
         action_text_status: >
           Papan gaya kanban asas dengan lajur untuk status seperti Untuk Dilakukan, Dalam Pelaksanaan, Selesai.
         action_text_assignee: >
-          Board dengan kolum automatik berdasarkan pengguna yang ditentukan. Ideal untuk penghantaran pakej kerja.
+          Papan dengan kolum automatik berdasarkan pengguna yang ditentukan. Ideal untuk penghantaran pakej kerja.
         action_text_version: >
           Papan dengan lajur automatik berdasarkan versi atribut. Bagus untuk merancang pembangunan produk.
         action_type:
@@ -56,7 +56,7 @@ ms:
           status: status
           version: versi
           subproject: subprojek
-          subtasks: ibu bapa-anak
+          subtasks: induk-anak
         board_type_title:
           assignee: Penerima tugasan
           status: Status
