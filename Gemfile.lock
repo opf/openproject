@@ -622,10 +622,9 @@ GEM
     i18n-js (4.2.3)
       glob (>= 0.4.0)
       i18n
-    i18n-tasks (1.0.13)
+    i18n-tasks (1.0.14)
       activesupport (>= 4.0.2)
       ast (>= 2.1.0)
-      better_html (>= 1.0, < 3.0)
       erubi
       highline (>= 2.0.0)
       i18n
@@ -927,7 +926,7 @@ GEM
     redis-client (0.22.1)
       connection_pool
     regexp_parser (2.9.0)
-    reline (0.5.5)
+    reline (0.5.6)
       io-console (~> 0.5)
     representable (3.2.0)
       declarative (< 0.1.0)
