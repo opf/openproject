@@ -585,7 +585,7 @@ ms:
       grids/grid:
         page: "Halaman"
         row_count: "Bilangan baris"
-        column_count: "Bilangan lajur"
+        column_count: "Bilangan kolum"
         widgets: "Widget"
       oauth_client:
         client: "ID pelanggan"
