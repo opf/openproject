@@ -1031,7 +1031,7 @@ nl:
               numeric: "numerieke (bijvoorbeeld ' 1')"
               special: "speciale (bijvoorbeeld ' %')"
               reused:
-                one: "is reeds eerder gebruikt. Kies er één die verschilt van uw laatste %{count}."
+                one: "is reeds eerder gebruikt. Kies er één die verschilt van uw vorige."
                 other: "is reeds eerder gebruikt. Kies er één die verschilt van uw laatste %{count}."
               match:
                 confirm: "Bevestig nieuw wachtwoord."

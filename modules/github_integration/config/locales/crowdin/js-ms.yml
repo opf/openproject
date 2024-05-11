@@ -31,13 +31,13 @@ ms:
           description: Salin potongan git ke papan klip
         git_actions:
           branch_name: Nama cabang
-          commit_message: Menyerahkan mesej
+          commit_message: Mesej komit
           cmd: Cipta cabang dengan komit kosong
           title: Potongan cepat untuk Git
           copy_success: '✅ Disalin!'
           copy_error: '❌ Salinan gagal!'
       tab_prs:
-        empty: 'Masih belum ada tarik permintaan yang dipautkan lagi. Pautkan PR sedia ada menggunakan kod <code>OP#%{wp_id}</code> di deskripsi PR atau ciptakan PR baru.'
+        empty: 'Masih belum ada tarik permintaan yang dipautkan lagi. Pautkan PR yang sedia ada menggunakan kod <code>OP#%{wp_id}</code> di deskripsi PR atau ciptakan PR baru.'
       github_actions: Tindakan
       pull_requests:
         message: "Tarik permintaan #%{pr_number}%{pr_link} untuk %{repository_link} dikarang oleh %{github_user_link} telah %{pr_state}."

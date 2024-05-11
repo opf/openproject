@@ -641,7 +641,7 @@ pt-PT:
       center:
         label_actor_and: "e"
         and_more_users:
-          one: "e %{count} outros"
+          one: "e 1 outro"
           other: "e %{count} outros"
         no_results:
           at_all: "Vão aparecer novas notificações aqui quando houver atividade que lhe interesse"

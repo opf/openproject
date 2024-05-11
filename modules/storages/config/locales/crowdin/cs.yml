@@ -128,11 +128,11 @@ cs:
         application_link_text: aplikace „Integration OpenProject“
         integration: Nextcloud Administrace / OpenProject
         oauth_configuration: Zkopírujte tyto hodnoty z %{application_link_text}.
-        provider_configuration: 'Ujistěte se prosím, že máte oprávnění administrace v Nextcloud instanci a máte nainstalovanou následující aplikaci:'
+        provider_configuration: 'Ujistěte se prosím, že máte oprávnění administrace v Nextcloud instanci a máte nainstalovanou následující aplikaci: %{application_link_text}.'
       no_specific_folder: Ve výchozím nastavení bude každý uživatel ve své vlastní domovské složce, když nahrajou soubor.
       no_storage_set_up: Dosud nejsou nastaveny žádné úložiště souborů.
       not_logged_into_storage: Pro výběr složky projektu se prosím nejprve přihlaste
-      oauth_application_details: 'Tajná hodnota klienta nebude po zavření tohoto okna přístupná. Zkopírujte tyto hodnoty do Nextcloud OpenProject Integration nastavení:'
+      oauth_application_details: Tajná hodnota klienta nebude po zavření tohoto okna přístupná. Zkopírujte prosím tyto hodnoty do %{oauth_application_details_link}.
       oauth_application_details_link_text: Nastavení Nextcloud OpenProject integrace
       one_drive:
         application_link_text: Azure portal

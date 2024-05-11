@@ -34,7 +34,7 @@ zh-CN:
         notes: "备注"
         participants: "参加者"
         participant:
-          other: "1位参与者"
+          other: "%{count}位参与者"
         participants_attended: "与会者"
         participants_invited: "受邀者"
         project: "项目"
@@ -48,7 +48,7 @@ zh-CN:
         description: "备注"
         presenter: "演讲者"
       meeting_section:
-        title: "Title"
+        title: "标题"
     errors:
       messages:
         invalid_time_format: "不是有效时间。所需格式：HH:MM"
@@ -124,9 +124,9 @@ zh-CN:
       structured_text_copy: "目前复制会议不会复制相关会议的议程项目，只会复制会议的详细信息。"
     copied: "从会议 #%{id} 复制"
   meeting_section:
-    default_title: "New section"
-    untitled_title: "Untitled"
-    empty_text: "Drag items here or create a new one"
+    default_title: "新建章节"
+    untitled_title: "无标题"
+    empty_text: "拖动项目到此处或创建一个新项目"
   notice_successful_notification: "通知发送成功"
   notice_timezone_missing: 没有设定时区，预设时区为 %{zone}。要选择您的时区，请单击此处。
   permission_create_meetings: "创建会议"

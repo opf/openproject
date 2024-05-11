@@ -200,7 +200,7 @@ pt-PT:
       access_granted_screen_reader: Acesso concedido. Está agora pronto para utilizar %{storage}.
       body: Para ter acesso à pasta do projeto, tem de iniciar sessão em %{storage}.
       cancel_button_label: Farei isso mais tarde
-      confirm_button_aria_label: Iniciar sessão em %{storageType}
+      confirm_button_aria_label: Iniciar sessão em %{storage}
       confirm_button_label: Iniciar sessão
       requesting_access_to: Solicitando acesso a %{storage}
       storage_ready: Está pronto para utilizar %{storage}

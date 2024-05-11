@@ -44,7 +44,7 @@ ms:
     merge_request_reopened_comment: >
       **MR Dibuka Semula:** Permintaan gabungan %{mr_number} [%{mr_title}](%{mr_url}) untuk [%{repository}](%{repository_url}) sudah dibuka semula oleh [%{gitlab_user}](%{gitlab_user_url}).
     note_commit_referenced_comment: >
-      **Dirujuk dalam Commit:** [%{gitlab_user}](%{gitlab_user_url}) dirujuk WP ini dalam satu Commit Note [%{commit_id}](%{commit_url}) pada [%{repository}](%{repository_url}): %{commit_note}
+      **Dirujuk dalam Komit:** [%{gitlab_user}](%{gitlab_user_url}) dirujuk WP ini dalam satu Commit Note [%{commit_id}](%{commit_url}) pada [%{repository}](%{repository_url}): %{commit_note}
     note_mr_referenced_comment: >
       **Dirujuk dalam MR:** [%{gitlab_user}](%{gitlab_user_url}) dirujuk WP ini dalam satu Merge Request %{mr_number} [%{mr_title}](%{mr_url}) pada [%{repository}](%{repository_url}): %{mr_note}
     note_mr_commented_comment: >

@@ -32,11 +32,11 @@ ms:
         location: "Lokasi"
         duration: "Tempoh"
         notes: "Nota"
-        participants: "Peserta"
+        participants: "Peserta-peserta"
         participant:
-          other: "1 Peserta"
+          other: "%{count} Peserta"
         participants_attended: "Penghadir"
-        participants_invited: "Tetamu"
+        participants_invited: "Tetamu-tetamu"
         project: "Projek"
         start_date: "Tarikh"
         start_time: "Masa mula"
@@ -63,17 +63,17 @@ ms:
   description_attended: "dihadiri"
   description_invite: "dijemput"
   events:
-    meeting: Mesyuarat telah disunting
-    meeting_agenda: Agenda mesyuarat yang disunting
+    meeting: Mesyuarat telah diedit
+    meeting_agenda: Agenda mesyuarat yang diedit
     meeting_agenda_closed: Agenda mesyuarat ditutup
     meeting_agenda_opened: Agenda mesyuarat dibuka
-    meeting_minutes: Minit mesyuarat yang disunting
+    meeting_minutes: Minit mesyuarat diedit
     meeting_minutes_created: Minit mesyuarat dicipta
   error_notification_with_errors: "Gagal untuk hantar pemberitahuan. Penerima berikut tidak dapat dimaklumkan: %{recipients}"
   label_meeting: "Mesyuarat"
   label_meeting_plural: "Mesyuarat-mesyuarat"
   label_meeting_new: "Mesyuarat Baharu"
-  label_meeting_edit: "Menyunting mesyuarat"
+  label_meeting_edit: "Edit mesyuarat"
   label_meeting_agenda: "Agenda"
   label_meeting_minutes: "Minit"
   label_meeting_close: "Tutup"
@@ -92,7 +92,7 @@ ms:
   label_author: "Pencipta"
   label_notify: "Hantar untuk semakan"
   label_icalendar: "Hantar iCalendar\n"
-  label_icalendar_download: "Muat turun acara dalam iCalendar"
+  label_icalendar_download: "Muat turun peristiwa dalam iCalendar"
   label_version: "Versi"
   label_time_zone: "Zon waktu"
   label_start_date: "Tarikh mula"
@@ -130,7 +130,7 @@ ms:
   notice_successful_notification: "Pemberitahuan berjaya dihantar"
   notice_timezone_missing: Tiada zon waktu yang ditetapkan dan %{zone} adalah diandaikan. Untuk pilih zon waktu anda, sila klik sini.
   permission_create_meetings: "Cipta mesyuarat"
-  permission_edit_meetings: "Menyunting mesyuarat"
+  permission_edit_meetings: "Edit mesyuarat"
   permission_delete_meetings: "Padam mesyuarat"
   permission_view_meetings: "Lihat mesyuarat"
   permission_create_meeting_agendas: "Cipta agenda mesyuarat"
