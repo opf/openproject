@@ -1,7 +1,7 @@
 ms:
   js:
     job_status:
-      download_starts: 'Proses muat turun akan mula secara automatik.'
+      download_starts: 'Proses muat turun akan bermula secara automatik.'
       click_to_download: 'Atau klik sini untuk muat turun.'
       title: 'Latar belakang status kerja'
       redirect: 'Anda sedang diubah hala.'
@@ -9,9 +9,9 @@ ms:
       redirect_errors: 'Disebabkan ralat ini, anda tidak akan diubah hala secara automatik.'
       errors: 'Beberapa ralat telah berlaku'
       generic_messages:
-        not_found: 'Kerja ini tidak dapat dijumpai.'
+        not_found: 'Kerja ini tidak dapat ditemui.'
         in_queue: 'Kerja ini sedang menunggu giliran dan akan diproses sebentar lagi.'
         in_process: 'Kerja ini sedang diproses.'
         error: 'Kerja ini gagal disiapkan.'
         cancelled: 'Kerja ini telah dibatalkan disebabkan oleh sebuah ralat.'
-        success: 'Kerja ini selesai dengan jayanya.'
+        success: 'Kerja ini berjaya diselesaikan.'

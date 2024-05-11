@@ -64,11 +64,11 @@ it:
       upgrade_to_ee: "Aggiorna a Enterprise edition"
       add_token: "Carica un token di assistenza per Enterprise edition"
       delete_token_modal:
-        text: "Vuoi davvero rimuovere il token Enterprise edition attualmente utilizzato?"
+        text: "Vuoi davvero rimuovere il token Enterprise Edition attualmente utilizzato?"
         title: "Elimina token"
       replace_token: "Sostituisci il token di assistenza attuale"
       order: "Ordina l'edizione Enterprise on-premises"
-      paste: "Incolla il tuo token di assistenza per Enterprise edition"
+      paste: "Incolla il tuo token di assistenza per Enterprise Edition"
       required_for_feature: "Questa aggiunta è disponibile solo con un token di assistenza Enterprise Edition attivo."
       enterprise_link: "Per ulteriori informazioni, clicca qui."
       start_trial: "Inizia la prova gratuita"
@@ -754,7 +754,7 @@ it:
         confirmation: "non coincide con %{attribute}."
         could_not_be_copied: "%{dependency} non può essere (completamente) copiato."
         does_not_exist: "non esiste."
-        error_enterprise_only: "%{action} è disponibile solo in OpenProject Enterprise edition"
+        error_enterprise_only: "%{action} è disponibile solo in OpenProject Enterprise Edition"
         error_unauthorized: "potrebbe non essere accessibile."
         error_readonly: "è in sola lettura, pertanto non è stato possibile modificarlo."
         error_conflict: "L'informazione è stata aggiornata da almeno un altro utente nel frattempo."
@@ -1507,7 +1507,7 @@ it:
   error_can_not_delete_entry: "Impossibile eliminare la voce"
   error_can_not_delete_custom_field: "Impossibile eliminare il campo personalizzato"
   error_can_not_delete_in_use_archived_undisclosed: "Esistono macro-attività anche nei progetti archiviati. È necessario chiedere a un amministratore di eseguire l'eliminazione per vedere quali progetti sono impattati."
-  error_can_not_delete_in_use_archived_work_packages: "Ci sono macro-attività anche nei progetti archiviati. Devi prima riattivare i seguenti progetti, prima di poter modificare l'attributo delle rispettive macro-attività: %%{archived_projects_urls}"
+  error_can_not_delete_in_use_archived_work_packages: "Ci sono macro-attività anche nei progetti archiviati. Devi prima riattivare i seguenti progetti, prima di poter modificare l'attributo delle rispettive macro-attività: %{archived_projects_urls}"
   error_can_not_delete_type:
     explanation: 'Questo tipo contiene macro-attività e non può essere eliminato. Puoi vedere tutte le macro-attività interessate in <a target="_blank" href="%{url}">questa vista</a>.'
   error_can_not_delete_standard_type: "Tipi standard non possono essere eliminati."
@@ -1522,7 +1522,7 @@ it:
   error_cookie_missing: "Il cookie di OpenProject è mancante. Prego, verifica che i cookie siano attivati, questa applicazione non funziona correttamente senza."
   error_custom_option_not_found: "L'opzione non esiste."
   error_enterprise_activation_user_limit: "Il tuo account potrebbe non essere attivo (raggiunto il limite utente). Si prega di contattare l'amministratore per ottenere l'accesso."
-  error_enterprise_token_invalid_domain: "L'Enterprise edition non è attiva. Il dominio del token Enterprise (%{actual}) non corrisponde al nome host del sistema (%{expected})."
+  error_enterprise_token_invalid_domain: "L'Enterprise Edition non è attiva. Il dominio del token Enterprise (%{actual}) non corrisponde al nome host del sistema (%{expected})."
   error_failed_to_delete_entry: "Cancellazione voce non riuscita."
   error_in_dependent: "Errore nel tentativo di modificare l'oggetto dipendente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Errore nel tentativo di creare un oggetto dipendente: %{dependent_class} - %{related_subject}: %{error}"
@@ -1618,10 +1618,10 @@ it:
     blocks:
       community: "Comunità di OpenProject"
       upsale:
-        title: "Aggiorna ad Enterprise edition"
+        title: "Aggiorna ad Enterprise Edition"
         more_info: "Altre informazioni"
     links:
-      upgrade_enterprise_edition: "Aggiorna ad Enterprise edition"
+      upgrade_enterprise_edition: "Aggiorna ad Enterprise Edition"
       postgres_migration: "Migrazione dell'installazione su PostgreSQL"
       user_guides: "Guide utente"
       faq: "FAQ"
@@ -1918,7 +1918,7 @@ it:
   label_enumerations: "Enumerazioni"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} utenti attivi riservati"
-  label_enterprise_edition: "Enterprise edition"
+  label_enterprise_edition: "Enterprise Edition"
   label_enterprise_support: "Supporto per Imprese"
   label_enterprise_addon: "Componente aggiuntivo Enterprise"
   label_environment: "Ambiente"
@@ -3021,7 +3021,7 @@ it:
           Seleziona l'azione da eseguire per i file su cui è stato rilevato un virus: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Metti in quarantena il file, impedendo agli utenti di accedervi. Gli amministratori possono rivedere ed eliminare i file in quarantena nel pannello di controllo.</li> <li><strong>%{delete_option}</strong>: elimina il file immediatamente.</li> </ul>
       modes:
         clamav_socket_html: Inserisci la socket al daemon clamd, ad esempio %{example}
-        clamav_host_html: Immettere il nome host e la porta del daemon clamd separati dai due punti. Ad esempio, %{esempio}
+        clamav_host_html: Immettere il nome host e la porta del daemon clamd separati dai due punti. Ad esempio, %{example}
         description_html: >
           Seleziona la modalità in cui deve funzionare l'integrazione dello scanner antivirus. <br/> <ul> <li><strong>%{disabled_option}</strong>: i file caricati non vengono sottoposti a scansione antivirus.</li> <li><strong>%{socket_option}</strong>: hai configurato un ClamAV sullo stesso server di OpenProject e il daemon di scansione clamd è in esecuzione in background</li> <li><strong>%{host_option}</strong>: invierai il file a un host di scansione antivirus esterno.</li> </ul>
     brute_force_prevention: "Blocco automatico degli utenti"

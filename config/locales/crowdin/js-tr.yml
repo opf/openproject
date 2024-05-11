@@ -641,7 +641,7 @@ tr:
         label_actor_and: "ve"
         and_more_users:
           one: "ve 1 diğer"
-          other: "ve 1 diğer"
+          other: "ve %{count} diğer"
         no_results:
           at_all: "Sizi ilgilendiren bir etkinlik olduğunda yeni bildirimler burada görünecektir."
           with_current_filter: "Şu anda bu görünümde bildirim yok"

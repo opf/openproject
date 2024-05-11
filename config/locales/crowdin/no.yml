@@ -1034,7 +1034,7 @@
               numeric: "numerisk (f.eks. \"1\")"
               special: "spesialtegn (f.eks. \"%\")"
               reused:
-                one: "har blitt brukt tidligere. Vennligst velg en som er forskjellig fra den forrige %{count}."
+                one: "har blitt brukt tidligere. Vennligst velg en som er forskjellig fra den forrige."
                 other: "har blitt brukt tidligere. Vennligst velg et som er forskjellig fra dine siste %{count}."
               match:
                 confirm: "Bekreft nytt passord."

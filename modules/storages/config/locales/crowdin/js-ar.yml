@@ -57,12 +57,12 @@ ar:
         select: "Select files"
         select_all: "اختر الجميع"
         selection:
-          zero: "Link %{count} files"
-          one: "Link 1 file"
-          two: "Link %{count} files"
-          few: "Link %{count} files"
-          many: "Link %{count} files"
-          other: "Link %{count} files"
+          zero: "ربط %{count} من الملفات"
+          one: "رابط الملف 1"
+          two: "ربط %{count} من الملفات"
+          few: "ربط %{count} من الملفات"
+          many: "ربط %{count} من الملفات"
+          other: "ربط %{count} من الملفات"
         success_create:
           zero: "Successfully created %{count} file links."
           one: "Successfully created 1 file link."

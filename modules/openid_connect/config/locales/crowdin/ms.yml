@@ -1,6 +1,6 @@
 ms:
   plugin_openproject_openid_connect:
-    name: "Connect OpenID OpenProject"
+    name: "Sambungan OpenID OpenProject"
     description: "Tambah penyedia strategi OmniAuth OpenID Connect ke OpenProject."
   logout_warning: >
     Anda telah log keluar. Apa-apa bentuk kandungan yang anda hantar mungkin hilang. Sila [log masuk].

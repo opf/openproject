@@ -200,7 +200,7 @@ pl:
       access_granted_screen_reader: Dostęp przyznany. Jesteś teraz gotowy do użycia %{storage}.
       body: Aby uzyskać dostęp do folderu projektu, musisz zalogować się do %{storage}.
       cancel_button_label: Zrobię to później
-      confirm_button_aria_label: Zaloguj się do %{storageType}
+      confirm_button_aria_label: Zaloguj się do %{storage}
       confirm_button_label: Zaloguj się
       requesting_access_to: Żądanie dostępu do %{storage}
       storage_ready: Możesz już używać %{storage}

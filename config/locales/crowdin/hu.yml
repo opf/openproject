@@ -794,7 +794,7 @@ hu:
         too_long: "túl hosszú (nem lehet több %{count} karakternél)."
         too_short: "túl rövid (legalább %{count} karakter kell legyen)."
         type_mismatch: "nem '%{type}' típusú."
-        type_mismatch_nested: "nem '%{type}' típusú az '%%{path}' elérési útvonalon."
+        type_mismatch_nested: "nem '%{type}' típusú az '%{path}' elérési útvonalon."
         unchangeable: "nem módosítható."
         unknown_property: "nem ismert tulajdonság.\n"
         unknown_property_nested: "ismeretlen '%{path}' elérési útvonal."
@@ -1418,7 +1418,7 @@ hu:
         other: "majdnem %{count} éve"
       half_a_minute: "Fél perc"
       less_than_x_minutes:
-        one: "kevesebb, mint %{count} perc"
+        one: "kevesebb, mint 1 perc"
         other: "kevesebb, mint %{count} perce"
       less_than_x_seconds:
         one: "kevesebb, mint 1 másodperc"

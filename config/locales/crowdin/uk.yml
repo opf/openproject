@@ -363,15 +363,15 @@ uk:
         other: "Цьому користувачу надано доступ до %{all_shared_work_packages_link}."
       shared_with_this_group_html:
         one: "Цій групі надано доступ до %{all_shared_work_packages_link}."
-        few: "Цій групі надано доступ до %{shared_work_packages_link}."
-        many: "Цій групі надано доступ до %{shared_work_packages_link}."
-        other: "Цій групі надано доступ до %{shared_work_packages_link}."
+        few: "Цій групі надано доступ до %{all_shared_work_packages_link}."
+        many: "Цій групі надано доступ до %{all_shared_work_packages_link}."
+        other: "Цій групі надано доступ до %{all_shared_work_packages_link}."
       shared_with_permission_html:
         one: "Доступ із дозволами ролі «%{shared_role_name}» надано лише до %{shared_work_packages_link}."
         few: "Доступ із дозволами ролі «%{shared_role_name}» надано лише до %{shared_work_packages_link}."
         many: "Доступ із дозволами ролі «%{shared_role_name}» надано лише до %{shared_work_packages_link}."
         other: "Доступ із дозволами ролі «%{shared_role_name}» надано лише до %{shared_work_packages_link}."
-      revoke_all_or_with_role: "Хочете відкликати доступ до всіх спільних пакетів робіт чи тільки до тих, доступ до яких надано з дозволами ролі %«{shared_role_name}»?"
+      revoke_all_or_with_role: "Хочете відкликати доступ до всіх спільних пакетів робіт чи тільки до тих, доступ до яких надано з дозволами ролі «%{shared_role_name}»?"
       will_not_affect_inherited_shares: "(Це не вплине на пакети робіт, які спільно використовуються в межах відповідних груп)."
       cannot_remove_inherited: "Дозволи на доступ до пакетів робіт, надані на рівні груп, не можна вилучити."
       cannot_remove_inherited_with_role: "Пакети робіт, до яких надано доступ із дозволами ролі «%{shared_role_name}», використовуються в групах, і їх не можна вилучити."
@@ -1129,7 +1129,7 @@ uk:
       created_by_on_time_entry: "час зареєстровано о %{datetime} користувачем %{user}"
       created_on: "створено %{datetime}"
       created_on_time_entry: "час зареєстровано о %{datetime}"
-      updated_by_on: "оновлено %{date} користувачем %{user}"
+      updated_by_on: "оновлено %{datetime} користувачем %{user}"
       updated_by_on_time_entry: "зареєстрований час оновлено о %{datetime} користувачем %{user}"
       updated_on: "оновлено %{datetime}"
       updated_on_time_entry: "зареєстрований час оновлено о %{datetime}"
@@ -1717,8 +1717,8 @@ uk:
           working: "%{day} зараз робочий"
           non_working: "%{day} зараз неробочий"
         dates:
-          working: "%{day} – зараз робочий день"
-          non_working: "%{day} – зараз неробочий день"
+          working: "%{date} – зараз робочий день"
+          non_working: "%{date} – зараз неробочий день"
       progress_mode_changed_to_status_based: Установлено режим обчислення прогресу на основі статусу
       status_p_complete_changed: >-
         Значення параметра «% завершення» для статусу «%{status_name}» змінилося з %{old_value} на %{new_value}
@@ -2045,7 +2045,7 @@ uk:
   label_index_by_title: "Індекс за назвою"
   label_information: "Інформація"
   label_information_plural: "Інформація"
-  label_installation_guides: "Інструкції зі встановлення"
+  label_installation_guides: "Інструкції із встановлення"
   label_integer: "Ціле число"
   label_internal: "Власне"
   label_introduction_video: "Введення відео"

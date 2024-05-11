@@ -67,7 +67,7 @@ zh-CN:
         text: "您确定要删除当前使用的企业版令牌吗？"
         title: "删除令牌"
       replace_token: "替换您当前的支持令牌"
-      order: "订购本地部署的 Enterprise edition"
+      order: "订购本地部署版的 Enterprise edition"
       paste: "粘贴您企业版的支持令牌"
       required_for_feature: "此功能仅限具激活的企业版支持令牌的订阅者使用。"
       enterprise_link: "如需了解详细信息，请单击此处。"
@@ -303,13 +303,13 @@ zh-CN:
         no_results_title_text: 此项目没有已记录的额外磁盘空间消耗。
   lists:
     create:
-      success: "The modified list has been saved as a new list"
-      failure: "The modified list cannot be saved: %{errors}"
+      success: "已将修改后的列表保存为新列表"
+      failure: "无法保存修改后的列表： %{errors}"
     update:
-      success: "The modified list has been saved"
-      failure: "The modified list cannot be saved: %{errors}"
-    can_be_saved: "List modified:"
-    can_be_saved_as: "The modifications can only be saved in a new list:"
+      success: "已保存修改后的列表"
+      failure: "无法保存修改后的列表： %{errors}"
+    can_be_saved: "列表已修改："
+    can_be_saved_as: "修改内容只能保存在新列表中。"
   members:
     index:
       no_results_title_text: 目前这个项目没有成员。
@@ -1549,7 +1549,7 @@ zh-CN:
       pdf_overview_table: "PDF 表"
       pdf_report_with_images: "带图像的 PDF 报告"
       pdf_report: "PDF 报告"
-      pdf_gantt: "PDF Gantt"
+      pdf_gantt: "PDF 甘特图"
     image:
       omitted: "图像未导出。"
     units:
@@ -1632,7 +1632,7 @@ zh-CN:
         progress_calculation_adjusted: >-
           进度计算自动<a href="%{href}" target="_blank">设置为基于工时的模式，并随版本更新而调整</a>。
         totals_removed_from_childless_work_packages: >-
-          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+          使用 <a href="%{href}" target="_blank">版本更新</a>的非父工作包的工作和进度总计自动移除。 这是一个维护任务，可以安全地被忽略。
   links:
     configuration_guide: "配置指南"
     get_in_touch: "遇到问题了？与我们联系。"
@@ -2159,7 +2159,7 @@ zh-CN:
   label_revision_id: "修订版本 %{value}"
   label_revision_plural: "修订"
   label_roadmap: "路线图"
-  label_roadmap_edit: "编辑路线图 %{name}"
+  label_roadmap_edit: "编辑路线图%{name}"
   label_roadmap_due_in: "%{value} 到期"
   label_roadmap_no_work_packages: "该版本没有工作包。"
   label_roadmap_overdue: "%{value} 超时"
@@ -2799,7 +2799,7 @@ zh-CN:
       managed: "在 OpenProject 中创建新的存储库"
     storage:
       not_available: "磁盘存储开销不可用于此存储库。"
-      update_timeout: "在 N 分钟内保留存储库最后所需磁盘空间的信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。"
+      update_timeout: "在 N 分钟内保留存储库最后所需的磁盘空间信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。"
       oauth_application_details: "关闭此窗口后，将无法再次访问客户端密钥值。请将这些值复制到 Nextcloud OpenProject 集成设置中："
       oauth_application_details_link_text: "转到设置页面"
       setup_documentation_details: "如果您在配置新文件存储方面需要帮助，请查看文档："
@@ -2857,7 +2857,7 @@ zh-CN:
   setting_app_subtitle: "应用副标题"
   setting_app_title: "应用程序标题"
   setting_attachment_max_size: "最大的附件大小"
-  setting_show_work_package_attachments: "Show attachments in the files tab by default"
+  setting_show_work_package_attachments: "默认在文件选项卡中显示附件"
   setting_antivirus_scan_mode: "扫描模式"
   setting_antivirus_scan_action: "受感染文件的操作"
   setting_autofetch_changesets: "自动提取存储库更改"
@@ -2941,7 +2941,7 @@ zh-CN:
   setting_session_ttl_hint: "当设置的值低于5时，其作用类似于禁用。"
   setting_session_ttl_enabled: "会话过期"
   setting_start_of_week: "一周起始日"
-  setting_sys_api_enabled: "启用版本库管理 web 服务"
+  setting_sys_api_enabled: "启用存储库管理网页服务"
   setting_sys_api_description: "存储库管理网页服务提供了集成的，用户授权的存储库访问。"
   setting_time_format: "时间"
   setting_accessibility_mode_for_anonymous: "为匿名用户启用辅助功能模式"
@@ -2960,7 +2960,7 @@ zh-CN:
       whitelist_text_html: >
         为上传的文件定义有效文件扩展名和/或 MIME 类型列表。<br/>输入文件扩展名（例如 <code>%{ext_example}</code>）或 MIME 类型（例如 <code>%{mime_example}</code>）。<br/>留空以允许上传任何文件类型。允许输入多个值（每个值一行）。
       show_work_package_attachments: >
-        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
+        禁用此选项将会为新项目隐藏工作包文件标签上的附件列表。 工作包描述中的文件仍将上传到内部附件存储。
     antivirus:
       title: "病毒扫描"
       clamav_ping_failed: "无法连接 ClamAV 守护进程。请仔细检查配置，然后重试。"
@@ -3199,8 +3199,8 @@ zh-CN:
         drag_area_label: "管理列并对其重新排序"
       sort_by:
         automatic:
-          heading: "Automatic"
-          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
+          heading: "自动"
+          description: "按一个或多个排序标准对 %{plural} 进行排序。您将失去之前的排序。"
   top_menu:
     additional_resources: "其他资源"
     getting_started: "入门指南"
@@ -3253,7 +3253,7 @@ zh-CN:
   warning_user_limit_reached_admin: >
     添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>，以确保外部用户能够访问此实例。
   warning_user_limit_reached_instructions: >
-    您达到了用户限制（%{current}/%{max}活跃用户）。 请联系sales@openproject.com以升级您的Enterprise edition计划并添加其他用户。
+    您已达到用户限制（%{current}/%{max} 活跃用户）。请联系 sales@openproject.com 升级您的企业版计划以添加额外用户。
   warning_protocol_mismatch_html: >
 
   warning_bar:
