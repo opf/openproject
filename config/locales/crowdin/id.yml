@@ -1907,7 +1907,7 @@ id:
   label_file_plural: "File"
   label_filter_add: "Tambah Filter"
   label_filter: "Filter"
-  label_filter_plural: "Filter"
+  label_filter_plural: "Penyaring"
   label_filters_toggle: "Tampilkan/Sembunyikan penyaringan"
   label_float: "Float"
   label_folder: "Folder"
