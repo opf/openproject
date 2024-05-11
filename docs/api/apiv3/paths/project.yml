@@ -140,7 +140,7 @@ patch:
     content:
       application/json:
         schema:
-          type: object
+          $ref: '../components/schemas/project_model.yml'
         examples:
           "with custom fields":
             "$ref": "../components/examples/project_body.yml"
