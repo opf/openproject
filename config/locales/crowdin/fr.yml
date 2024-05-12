@@ -2757,7 +2757,7 @@ fr:
     member_of_group: "Groupe du Destinataire"
     name_or_identifier: "Nom ou identifiant"
     only_subproject_id: "Seulement le sous-projet"
-    shared_with_user: "Partagé avec l'utilisateur"
+    shared_with_user: "Partagés avec l'utilisateur"
     shared_with_me: "Partagés avec moi"
     subproject_id: "Inclure le sous-projet"
   repositories:
