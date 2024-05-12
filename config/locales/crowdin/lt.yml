@@ -1732,7 +1732,7 @@ lt:
         progress_calculation_adjusted: >-
           Eigos skaičiavimas automatiškai <a href="%{href}" target="_blank">pakeistas su versijos atnaujinimu</a>.
         totals_removed_from_childless_work_packages: >-
-          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+          Darbo ir eigos sumos automatiškai išimtos ne tėviniams darbų paketams <a href="%{href}" target="_blank">atnaujinant versiją</a>. Tai palaikymo užduotis ir ją galima saugiai ignoruoti.
   links:
     configuration_guide: "Konfigūravimo vadovas"
     get_in_touch: "Turite klausimų? Susisiekite su mumis."
@@ -2965,7 +2965,7 @@ lt:
   setting_app_subtitle: "Programos paantraštė"
   setting_app_title: "Programos pavadinimas"
   setting_attachment_max_size: "Didžiausias prisegamo failo dydis"
-  setting_show_work_package_attachments: "Show attachments in the files tab by default"
+  setting_show_work_package_attachments: "Pagal nutylėjimą rodyti priedus failų kortelėje"
   setting_antivirus_scan_mode: "Skenavimo režimas"
   setting_antivirus_scan_action: "Užkrėsto failo veiksmas"
   setting_autofetch_changesets: "Automatiškai įkelti repozitorijos pakeitimus"
@@ -3068,7 +3068,7 @@ lt:
       whitelist_text_html: >
         Sudarykite sąrašą leidžiamų failų praplėtimų ir/arba MIME tipų su kuriais bus leidžiama įkelti failus. <br/> Įveskite failų praplėtimus (t.y., <code>%{ext_example}</code>) arba MIME tipus (t.y., <code>%{mime_example}</code>). <br/> Palikite tuščią, jei norite leisti visus tipus. Leidžiama daugiau nei viena reikšmė (po vieną kiekvienoje eilutėje).
       show_work_package_attachments: >
-        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
+        Išjungus šią parinktį naujų projektų darbo paketų failų kortelėje bus paslėptas priedų sąrašas. Darbo paketų aprašyme prisegti failai bus įkeliami į vidinę priedų saugyklą.
     antivirus:
       title: "Virusų tikrinimas"
       clamav_ping_failed: "Nepavyko prisijungti prie ClamAV demono. Dar kartą patikrinkite konfigūraciją ir bandykite dar kartą."
@@ -3307,8 +3307,8 @@ lt:
         drag_area_label: "Tvarkyti ir perrikiuoti stulpelius"
       sort_by:
         automatic:
-          heading: "Automatic"
-          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
+          heading: "Automatinis"
+          description: "Rikiuokite %{plural} pagal vieną ar daugiau rikiavimo kriterijų. Prarasite bet kokį ankstesnį rikiavimą."
   top_menu:
     additional_resources: "Papildomi ištekliai"
     getting_started: "Darbo pradžia"
