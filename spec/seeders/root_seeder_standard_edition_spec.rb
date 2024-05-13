@@ -51,8 +51,9 @@ RSpec.describe RootSeeder,
       expect(WorkPackage.count).to eq 36
       expect(Wiki.count).to eq 2
       expect(Query.having_views.count).to eq 8
-      expect(View.where(type: "work_packages_table").count).to eq 7
+      expect(View.where(type: "work_packages_table").count).to eq 5
       expect(View.where(type: "team_planner").count).to eq 1
+      expect(View.where(type: "gantt").count).to eq 2
       expect(Query.count).to eq 26
       expect(ProjectRole.count).to eq 5
       expect(WorkPackageRole.count).to eq 3
@@ -92,7 +93,8 @@ RSpec.describe RootSeeder,
     it "creates different types of queries" do
       count_by_type = View.group(:type).count
       expect(count_by_type).to eq(
-        "work_packages_table" => 7,
+        "work_packages_table" => 5,
+        "gantt" => 2,
         "team_planner" => 1
       )
     end
@@ -157,8 +159,9 @@ RSpec.describe RootSeeder,
         expect(WorkPackage.count).to eq 36
         expect(Wiki.count).to eq 2
         expect(Query.having_views.count).to eq 8
-        expect(View.where(type: "work_packages_table").count).to eq 7
+        expect(View.where(type: "work_packages_table").count).to eq 5
         expect(View.where(type: "team_planner").count).to eq 1
+        expect(View.where(type: "gantt").count).to eq 2
         expect(Query.count).to eq 26
         expect(ProjectRole.count).to eq 5
         expect(WorkPackageRole.count).to eq 3
