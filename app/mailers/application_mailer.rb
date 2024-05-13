@@ -117,6 +117,8 @@ class ApplicationMailer < ActionMailer::Base
 
   ##
   # Overwrite mailer method to prevent sending mails to locked users.
+  # Usually this would accept a string for the `to:` argument, but
+  # we always require an actual user object since fed95796.
   def mail(headers = {}, &block)
     block ||= method(:default_formats_for_setting)
     to = headers[:to]
