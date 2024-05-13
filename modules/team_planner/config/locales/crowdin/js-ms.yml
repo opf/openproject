@@ -25,4 +25,4 @@ ms:
       modify:
         errors:
           permission_denied: 'Anda tidak mempunyai kebenaran yang diperlukan untuk mengubah suai ini.'
-          fallback: 'Pakej kerja ini tidak boleh disunting.'
+          fallback: 'Pakej kerja ini tidak boleh diedit.'

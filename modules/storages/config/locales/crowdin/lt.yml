@@ -39,7 +39,7 @@ lt:
   api_v3:
     errors:
       too_many_elements_created_at_once: Per daug elementu vienu metu. Tikėtasi daugiausia %{max}, gauta %{actual}.
-  external_file_storages: External file storages
+  external_file_storages: Išorinės failų saugyklos
   permission_create_files: 'Išorinė saugykla: kurti failus'
   permission_delete_files: 'Išorinė saugykla: trinti failus'
   permission_header_for_project_module_storages: Automatiškai valdomi projekto aplankai
@@ -49,7 +49,7 @@ lt:
   permission_share_files: 'Išorinė saugykla: bendrinti failus'
   permission_view_file_links: Žiūrėti failo nuorodas
   permission_write_files: 'Išorinė saugykla: rašyti failus'
-  project_module_storages: Files
+  project_module_storages: Failai
   storages:
     buttons:
       complete_without_setup: Baigti be jo
@@ -243,8 +243,8 @@ lt:
         name: OneDrive/SharePoint
         name_placeholder: pvz. OneDrive
     show_attachments_toggle:
-      description: Deactivating this option will only hide the attachments list. Files uploaded with the help of the rich text editor will still be uploaded to the attachments internal storage.
-      label: Show attachments in the work packages files tab
+      description: Daktyvavus šią parinktį priedų sąrašas bus tik paslėptas. Redaktoriaus pagalba Įkelti failai bus įkeliami į vidinės saugyklos priedus.
+      label: Rodyti priedus darbo paketų failų kortelėje
     storage_list_blank_slate:
       description: Pridėkite saugyklą, kad matytumėte ją čia.
       heading: Jūs dar neturite jokių saugyklų.
