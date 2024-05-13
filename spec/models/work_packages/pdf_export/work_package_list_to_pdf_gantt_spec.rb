@@ -241,21 +241,21 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       [
         query.name, "2024 Apr May 21 22 23 24 25 26 27 28 29 30 1 2 3 4 5", # header columns
         wp_title_column(work_package_task),
-        filler_work_packages.slice(0, 17).map.with_index { |wp, index| wp_title_column(wp) },
+        filler_work_packages.slice(0, 17).map.map { |wp| wp_title_column(wp) },
         "1/6", export_time_formatted, query.name,
 
         "2024 May 6 7 8", # header columns
         "2/6", export_time_formatted, query.name,
 
         query.name, "2024 Apr May 21 22 23 24 25 26 27 28 29 30 1 2 3 4 5", # header columns
-        filler_work_packages.slice(17, 18).map.with_index { |wp, index| wp_title_column(wp) },
+        filler_work_packages.slice(17, 18).map { |wp| wp_title_column(wp) },
         "3/6", export_time_formatted, query.name,
 
         "2024 May 6 7 8", # header columns
         "4/6", export_time_formatted, query.name,
 
         query.name, "2024 Apr May 21 22 23 24 25 26 27 28 29 30 1 2 3 4 5", # header columns
-        filler_work_packages.slice(35, 15).map.with_index { |wp, index| wp_title_column(wp) },
+        filler_work_packages.slice(35, 15).map { |wp| wp_title_column(wp) },
         wp_title_column(work_package_milestone),
         "5/6", export_time_formatted, query.name,
 
@@ -302,15 +302,15 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       [
         query.name, "2024 Apr May 21 22 23 24 25 26 27 28 29 30 1", # header columns
         wp_title_column(work_package_task),
-        filler_work_packages.slice(0, 17).map.with_index { |wp, index| wp_title_column(wp) },
+        filler_work_packages.slice(0, 17).map { |wp| wp_title_column(wp) },
         "1/3", export_time_formatted, query.name,
 
         query.name, "2024 Apr May 21 22 23 24 25 26 27 28 29 30 1", # header columns
-        filler_work_packages.slice(17, 18).map.with_index { |wp, index| wp_title_column(wp) },
+        filler_work_packages.slice(17, 18).map { |wp| wp_title_column(wp) },
         "2/3", export_time_formatted, query.name,
 
         query.name, "2024 Apr May 21 22 23 24 25 26 27 28 29 30 1", # header columns
-        filler_work_packages.slice(35, 15).map.with_index { |wp, index| wp_title_column(wp) },
+        filler_work_packages.slice(35, 15).map { |wp| wp_title_column(wp) },
         wp_title_column(work_package_milestone),
         "3/3", export_time_formatted, query.name
       ].flatten.join(" ")
