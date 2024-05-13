@@ -30,11 +30,11 @@ require "spec_helper"
 
 RSpec.describe "form configuration", :js do
   shared_let(:admin) { create(:admin) }
-  let(:type) { create(:type) }
+  shared_let(:type) { create(:type) }
 
-  let(:project) { create(:project, types: [type]) }
-  let(:category) { create(:category, project:) }
-  let(:work_package) do
+  shared_let(:project) { create(:project, types: [type]) }
+  shared_let(:category) { create(:category, project:) }
+  shared_let(:work_package) do
     create(:work_package,
            project:,
            type:,
@@ -132,8 +132,7 @@ RSpec.describe "form configuration", :js do
                           "Estimates and progress",
                           { key: :estimated_time, translation: "Work" },
                           { key: :remaining_time, translation: "Remaining work" },
-                          { key: :percentage_done, translation: "% Complete" },
-                          { key: :spent_time, translation: "Spent time" }
+                          { key: :percentage_done, translation: "% Complete" }
 
         form.expect_group "details",
                           "Details",
@@ -184,8 +183,7 @@ RSpec.describe "form configuration", :js do
                           "Estimates and progress",
                           { key: :estimated_time, translation: "Work" },
                           { key: :remaining_time, translation: "Remaining work" },
-                          { key: :percentage_done, translation: "% Complete" },
-                          { key: :spent_time, translation: "Spent time" }
+                          { key: :percentage_done, translation: "% Complete" }
 
         form.expect_group "Whatever",
                           "Whatever",
@@ -227,7 +225,6 @@ RSpec.describe "form configuration", :js do
 
         wp_page.expect_group("Estimates and progress") do
           wp_page.expect_attributes estimated_time: "-"
-          wp_page.expect_attributes spent_time: "0 h"
         end
 
         # New work package has the same configuration
@@ -242,6 +239,29 @@ RSpec.describe "form configuration", :js do
         find_by_id("work-packages--edit-actions-cancel").click
         expect(wp_page).not_to have_alert_dialog
         loading_indicator_saveguard
+      end
+    end
+
+    context "with costs module enabled" do
+      before do
+        project.enabled_module_names += ["costs"]
+        project.save!
+        login_as admin
+        visit edit_type_tab_path(id: type.id, tab: "form_configuration")
+      end
+
+      it "also shows the spent_time attribute" do
+        form.expect_group "costs",
+                          "Costs",
+                          { key: :spent_time, translation: "Spent time" }
+
+        # Visit work package with that type
+        wp_page.visit!
+        wp_page.ensure_page_loaded
+
+        wp_page.expect_group("Costs") do
+          wp_page.expect_attributes spent_time: "0 h"
+        end
       end
     end
 

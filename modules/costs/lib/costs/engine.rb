@@ -288,7 +288,7 @@ module Costs
 
       ##
       # Add a new group
-      cost_attributes = %i(costs_by_type labor_costs material_costs overall_costs)
+      cost_attributes = %i(spent_time costs_by_type labor_costs material_costs overall_costs)
       ::Type.add_default_group(:costs, :label_cost_plural)
       ::Type.add_default_mapping(:costs, *cost_attributes)
 

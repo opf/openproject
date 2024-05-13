@@ -186,6 +186,7 @@ module API
                  type: "Duration",
                  required: false,
                  show_if: ->(*) {
+                   represented.project&.costs_enabled? &&
                    current_user.allowed_in_project?(:view_time_entries, represented.project) ||
                      current_user.allowed_in_any_work_package?(:view_own_time_entries, in_project: represented.project)
                  }
