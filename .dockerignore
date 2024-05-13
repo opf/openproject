@@ -33,6 +33,3 @@ frontend/node_modules
 node_modules
 # travis
 vendor/bundle
-# allow precompiled assets to be injected
-!/public/assets
-!/config/frontend_assets.manifest.json

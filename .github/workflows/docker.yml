@@ -83,6 +83,7 @@ jobs:
       - name: Precompile assets
         run: |
           ./docker/prod/setup/precompile-assets.sh
+          # public/assets will be saved as artifact, so temporarily copying config file there as well
           cp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json
       - uses: actions/upload-artifact@v3
         with:
@@ -142,6 +143,10 @@ jobs:
           ls -al public/
           mv public/assets/frontend_assets.manifest.json config/frontend_assets.manifest.json
           ls -al config/frontend_assets.manifest.json
+          # allow precompiled assets to be injected into docker image
+          echo '' >> .dockerignore
+          echo '!/public/assets' >> .dockerignore
+          echo '!/config/frontend_assets.manifest.json' >> .dockerignore
       - name: Add build information
         run: |
           echo "${{ needs.setup.outputs.checkout_ref }}" > PRODUCT_VERSION
