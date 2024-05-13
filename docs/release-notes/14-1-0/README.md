@@ -18,6 +18,12 @@ We released [OpenProject 14.1.0](https://community.openproject.org/versions/2030
 
 This feature was requested by many in the Community and will be a great benefit, especially for organizations with many projects: OpenProject 14.1 allows you to add projects to favorites so that they can be found more quickly. We recently gave an overview in our blog of how exactly you can add projects to favorites or remove them from favorites – and where you can display them.
 
+### PDF export of Gantt view, e.g. for printing (Enterprise add-on)
+
+It is now possible to export a Gantt view as PDF in the OpenProject Enterprise edition. This allows users to print Gantt charts. Choose between different paper formats, set the colomn width, and specify whether the PDF file should display your work packages on a daily, monthly or quarterly basis.
+
+![Export your Gantt view as PDF](openproject-14-1-gantt-pdf-export-figma.png)
+
 ### Advanced features for the Meetings module
 
 The Meetings module is currently being continuously improved. With OpenProject 14.1, you can:
@@ -32,10 +38,9 @@ Apart from these features that apply the Meetings module directly, the following
 - On work packages, the project name is now shown in the Meetings tab.
 - Widgets to show meetings can be added to the My Page and project overview pages.
 
+### Possibility to hide attachments in the Files tab
 
-### PDF export of Gantt view, e.g. for printing (Enterprise add-on)
-
-It is now possible to export a Gantt view as PDF in the OpenProject Enterprise edition. This allows users to print Gantt charts.
+### Links to custom fields of the type text
 
 ### Save a changed sort order of custom project lists
 
