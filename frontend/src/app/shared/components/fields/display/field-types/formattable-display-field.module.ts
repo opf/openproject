@@ -31,6 +31,7 @@ import { ApplicationRef } from '@angular/core';
 import { DynamicBootstrapper } from 'core-app/core/setup/globals/dynamic-bootstrapper';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { ExpressionService } from 'core-app/core/expression/expression.service';
+import mermaid from 'mermaid';
 
 export class FormattableDisplayField extends DisplayField {
   @InjectField() readonly appRef:ApplicationRef;
@@ -53,6 +54,15 @@ export class FormattableDisplayField extends DisplayField {
 
     element.innerHTML = '';
     element.appendChild(div);
+
+    const mermaids = Array.from(element.querySelectorAll('pre[lang="mermaid"]'));
+    if (mermaids.length > 0) {
+       mermaid.initialize({
+         securityLevel: 'strict',
+         startOnLoad: false,
+       });
+       mermaid.run({ nodes: mermaids as HTMLElement[] }).catch(console.error);
+    }
 
     // Allow embeddable rendered content
     DynamicBootstrapper.bootstrapOptionalEmbeddable(this.appRef, div);
