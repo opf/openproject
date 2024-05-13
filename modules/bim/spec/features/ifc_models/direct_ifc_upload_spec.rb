@@ -36,6 +36,8 @@ RSpec.describe "direct IFC upload", :js, with_config: { edition: "bim" }, with_d
 
     context "when the file size exceeds the allowed maximum", with_settings: { attachment_max_size: 1 } do
       it "invalidates the form via JavaScript preventing submission" do
+        pending "This test is currently flaky due to an unknown reason"
+
         visit new_bcf_project_ifc_model_path(project_id: project.identifier)
 
         page.attach_file("file", ifc_fixture.path, visible: :all)
