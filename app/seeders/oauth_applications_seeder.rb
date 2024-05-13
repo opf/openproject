@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,44 +25,35 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-
-class DeleteContract < ModelContract
-  class << self
-    def delete_permission(permission = nil)
-      if permission
-        @delete_permission = permission
+class OAuthApplicationsSeeder < Seeder
+  def seed_data!
+    call = create_app
+    unless call.success?
+      print_error "Seeding mobile oauth application failed:"
+      call.errors.full_messages.each do |msg|
+        print_error "  #{msg}"
       end
-
-      @delete_permission
     end
   end
 
-  validate :user_allowed
-
-  def user_allowed
-    unless authorized?
-      errors.add :base, :error_unauthorized
-    end
+  def applicable?
+    Doorkeeper::Application.where(builtin: true).empty?
   end
 
-  protected
-
-  def validate_model?
-    false
+  def not_applicable_message
+    "No need to seed oauth appplications as they are already present."
   end
 
-  def authorized?
-    permission = self.class.delete_permission
-
-    case permission
-    when :admin
-      user.active_admin?
-    when Proc
-      instance_exec(&permission)
-    when Symbol
-      model.project && user.allowed_in_project?(permission, model.project)
-    else
-      raise ArgumentError, "#{self.class} used without delete_permission. Set a  Proc, or project-based permission symbol"
-    end
+  def create_app
+    OAuth::Applications::CreateService
+      .new(user: User.system)
+      .call(
+        enabled: true,
+        name: "OpenProject Mobile App",
+        redirect_uri: "openprojectapp://oauth-callback",
+        builtin: true,
+        confidential: false,
+        uid: "DgJZ7Rat23xHZbcq_nxPg5RUuxljonLCN7V7N7GoBAA"
+      )
   end
 end

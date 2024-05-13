@@ -29,14 +29,15 @@
 require "spec_helper"
 
 RSpec.describe "OAuth applications management", :js, :with_cuprite do
-  let(:admin) { create(:admin) }
+  shared_let(:admin) { create(:admin) }
 
   before do
     login_as admin
-    visit oauth_applications_path
   end
 
   it "can create, update, show and delete applications" do
+    visit oauth_applications_path
+
     # Initially empty
     expect(page).to have_css(".generic-table--empty-row", text: "There is currently nothing to display")
 
@@ -90,5 +91,45 @@ RSpec.describe "OAuth applications management", :js, :with_cuprite do
 
     # Table is empty again
     expect(page).to have_css(".generic-table--empty-row", text: "There is currently nothing to display")
+  end
+
+  context "with a seeded application" do
+    before do
+      ::OAuthApplicationsSeeder.new.seed_data!
+    end
+
+    it "does not allow editing or deleting the seeded application" do
+      visit oauth_applications_path
+
+      expect(page).to have_css("td.name", text: "OpenProject Mobile App")
+      expect(page).to have_css("td.builtin .icon-checkmark")
+      expect(page).to have_css("td.enabled .icon-checkmark")
+
+      expect(page).not_to have_css("td.buttons", text: "Edit")
+      expect(page).not_to have_css("td.buttons", text: "Delete")
+
+      expect(page).to have_css("td.buttons", text: "Deactivate")
+      click_link_or_button "Deactivate"
+
+      expect(page).to have_css("td.builtin .icon-checkmark")
+      expect(page).not_to have_css("td.enabled .icon-checkmark")
+
+      app = Doorkeeper::Application.last
+      expect(app).to be_builtin
+      expect(app).not_to be_enabled
+
+      expect(page).to have_css("td.buttons", text: "Activate")
+      click_link_or_button "Activate"
+
+      expect(page).to have_css("td.builtin .icon-checkmark")
+      expect(page).to have_css("td.enabled .icon-checkmark")
+
+      app.reload
+      expect(app).to be_builtin
+      expect(app).to be_enabled
+
+      visit edit_oauth_application_path(app)
+      expect(page).to have_text "You are not authorized to access this page."
+    end
   end
 end

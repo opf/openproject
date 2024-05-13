@@ -35,7 +35,7 @@ module RequiresAdminGuard
 
   # Adds an error if user is archived or not an admin.
   def validate_admin_only
-    unless user.admin? && user.active?
+    unless user.active_admin?
       errors.add :base, :error_unauthorized
     end
   end

@@ -712,6 +712,8 @@ en:
         uid: "Client ID"
         secret: "Client secret"
         owner: "Owner"
+        builtin: "Builtin"
+        enabled: "Active"
         redirect_uri: "Redirect URI"
         client_credentials_user_id: "Client Credentials User ID"
         scopes: "Scopes"
@@ -1402,6 +1404,7 @@ en:
       limit_reached: You can only do %{limit} backups per day.
 
   button_actions: "Actions"
+  button_activate: "Activate"
   button_add: "Add"
   button_add_comment: "Add comment"
   button_add_member: Add member
@@ -1427,6 +1430,7 @@ en:
   button_copy_and_follow: "Copy and follow"
   button_create: "Create"
   button_create_and_continue: "Create and continue"
+  button_deactivate: "Deactivate"
   button_delete: "Delete"
   button_decline: "Decline"
   button_delete_watcher: "Delete watcher %{name}"
@@ -3996,6 +4000,7 @@ en:
       new: "New OAuth application"
       default_scopes: "(Default scopes)"
       instructions:
+        enabled: "Enable this application, allowing users to perform authorization grants with it."
         name: "The name of your application. This will be displayed to other users upon authorization."
         redirect_uri_html: >
           The allowed URLs authorized users can be redirected to. One entry per line.

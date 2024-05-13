@@ -47,7 +47,7 @@ module OAuthClients
     private
 
     def validate_user_allowed
-      unless user.admin? && user.active?
+      unless user.active_admin?
         errors.add :base, :error_unauthorized
       end
     end

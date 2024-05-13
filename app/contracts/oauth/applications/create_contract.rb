@@ -26,43 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class DeleteContract < ModelContract
-  class << self
-    def delete_permission(permission = nil)
-      if permission
-        @delete_permission = permission
+module OAuth
+  module Applications
+    class CreateContract < BaseContract
+      attribute :builtin
+      attribute :uid
+
+      validate :validate_owner_present
+
+      private
+
+      def validate_owner_present
+        if model.owner.blank?
+          errors.add(:owner, :blank)
+        end
       end
-
-      @delete_permission
-    end
-  end
-
-  validate :user_allowed
-
-  def user_allowed
-    unless authorized?
-      errors.add :base, :error_unauthorized
-    end
-  end
-
-  protected
-
-  def validate_model?
-    false
-  end
-
-  def authorized?
-    permission = self.class.delete_permission
-
-    case permission
-    when :admin
-      user.active_admin?
-    when Proc
-      instance_exec(&permission)
-    when Symbol
-      model.project && user.allowed_in_project?(permission, model.project)
-    else
-      raise ArgumentError, "#{self.class} used without delete_permission. Set a  Proc, or project-based permission symbol"
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,43 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class DeleteContract < ModelContract
-  class << self
-    def delete_permission(permission = nil)
-      if permission
-        @delete_permission = permission
-      end
-
-      @delete_permission
-    end
-  end
-
-  validate :user_allowed
-
-  def user_allowed
-    unless authorized?
-      errors.add :base, :error_unauthorized
-    end
-  end
-
-  protected
-
-  def validate_model?
-    false
-  end
-
-  def authorized?
-    permission = self.class.delete_permission
-
-    case permission
-    when :admin
-      user.active_admin?
-    when Proc
-      instance_exec(&permission)
-    when Symbol
-      model.project && user.allowed_in_project?(permission, model.project)
-    else
-      raise ArgumentError, "#{self.class} used without delete_permission. Set a  Proc, or project-based permission symbol"
+module OAuth
+  module Applications
+    class UpdateContract < BaseContract
     end
   end
 end

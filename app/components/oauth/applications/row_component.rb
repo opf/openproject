@@ -37,8 +37,20 @@ module OAuth
         model
       end
 
+      def builtin
+        checkmark(application.builtin?)
+      end
+
+      def enabled
+        checkmark(application.enabled?)
+      end
+
       def name
-        link_to application.name, oauth_application_path(application)
+        if enabled
+          link_to application.name, oauth_application_path(application)
+        else
+          render(Primer::Beta::Text.new(color: :muted)) { application.name }
+        end
       end
 
       def owner
@@ -73,7 +85,29 @@ module OAuth
       end
 
       def button_links
-        [edit_link, helpers.delete_link(oauth_application_path(application))]
+        if application.builtin?
+          [toggle_enabled_link]
+        else
+          [edit_link, helpers.delete_link(oauth_application_path(application))]
+        end
+      end
+
+      def toggle_enabled_link
+        if application.enabled?
+          link_to(
+            I18n.t(:button_deactivate),
+            toggle_oauth_application_path(application),
+            class: "oauth-application--edit-link icon icon-lock",
+            method: :post
+          )
+        else
+          link_to(
+            I18n.t(:button_activate),
+            toggle_oauth_application_path(application),
+            class: "oauth-application--edit-link icon icon-unlock",
+            method: :post
+          )
+        end
       end
     end
   end

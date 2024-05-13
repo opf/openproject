@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,38 +27,10 @@
 #++
 
 module OAuth
-  class ApplicationContract < ::ModelContract
-    def self.model
-      ::Doorkeeper::Application
-    end
-
-    validate :validate_client_credential_user
-    validate :validate_integration
-
-    attribute :name
-    attribute :redirect_uri
-    attribute :confidential
-    attribute :owner_id
-    attribute :owner_type
-    attribute :scopes
-    attribute :client_credentials_user_id
-    attribute :integration_id
-    attribute :integration_type
-
-    private
-
-    def validate_integration
-      if (model.integration_id.nil? && model.integration_type.present?) ||
-         (model.integration_id.present? && model.integration_type.nil?)
-        errors.add :integration, :invalid
-      end
-    end
-
-    def validate_client_credential_user
-      return if model.client_credentials_user_id.blank?
-
-      unless User.exists?(id: model.client_credentials_user_id)
-        errors.add :client_credentials_user_id, :invalid
+  module Applications
+    class CreateService < BaseServices::Create
+      def instance(*)
+        Doorkeeper::Application.new
       end
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,40 +27,8 @@
 #++
 
 module OAuth
-  class PersistApplicationService
-    include Contracted
-
-    attr_reader :application, :current_user
-
-    def initialize(model, user:)
-      @application = model
-      @current_user = user
-
-      self.contract_class = OAuth::ApplicationContract
-    end
-
-    def call(attributes)
-      set_defaults
-      application.attributes = attributes
-      set_secret_and_id
-
-      result, errors = validate_and_save(application, current_user)
-      ServiceResult.new success: result, errors:, result: application
-    end
-
-    def set_defaults
-      return if application.owner_id
-
-      application.owner = current_user
-      application.owner_type = "User"
-    end
-
-    def set_secret_and_id
-      application.extend(OpenProject::ChangedBySystem)
-      application.change_by_system do
-        application.renew_secret if application.secret.blank?
-        application.uid = Doorkeeper::OAuth::Helpers::UniqueToken.generate if application.uid.blank?
-      end
+  module Applications
+    class DeleteService < ::BaseServices::Delete
     end
   end
 end

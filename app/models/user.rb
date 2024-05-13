@@ -413,6 +413,10 @@ class User < Principal
     pref.comments_in_reverse_order?
   end
 
+  def active_admin?
+    admin? && active?
+  end
+
   def self.find_by_rss_key(key)
     return nil unless Setting.feeds_enabled?
 

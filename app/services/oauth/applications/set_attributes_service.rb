@@ -26,43 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class DeleteContract < ModelContract
-  class << self
-    def delete_permission(permission = nil)
-      if permission
-        @delete_permission = permission
+module OAuth
+  module Applications
+    class SetAttributesService < ::BaseServices::SetAttributes
+      private
+
+      def set_default_attributes(*)
+        model.extend(OpenProject::ChangedBySystem)
+        model.change_by_system do
+          set_secret_and_id
+          set_default_owner unless model.owner_id
+        end
       end
 
-      @delete_permission
-    end
-  end
+      def set_secret_and_id
+        model.renew_secret if model.secret.blank?
+        model.uid = Doorkeeper::OAuth::Helpers::UniqueToken.generate if model.uid.blank?
+      end
 
-  validate :user_allowed
-
-  def user_allowed
-    unless authorized?
-      errors.add :base, :error_unauthorized
-    end
-  end
-
-  protected
-
-  def validate_model?
-    false
-  end
-
-  def authorized?
-    permission = self.class.delete_permission
-
-    case permission
-    when :admin
-      user.active_admin?
-    when Proc
-      instance_exec(&permission)
-    when Symbol
-      model.project && user.allowed_in_project?(permission, model.project)
-    else
-      raise ArgumentError, "#{self.class} used without delete_permission. Set a  Proc, or project-based permission symbol"
+      def set_default_owner
+        model.owner = user
+        model.owner_type = "User"
+      end
     end
   end
 end
