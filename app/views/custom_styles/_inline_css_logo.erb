@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <style type="text/css">
   <%
-  isRu = current_user.language == 'ru'
+  isRu = I18n.locale == :ru
 
   logo_url = if isRu
     asset_path("logo-white-bg-ua.png")
