@@ -40,7 +40,13 @@ Apart from these features that apply the Meetings module directly, the following
 
 ### Possibility to hide attachments in the Files tab
 
-### Links to custom fields of the type text
+Admins now are able to hide the attachment section in the Files tab. This setting can be made at project level and is particularly useful for projects where users should only upload files via external storage, e.g. Nextcloud.
+
+### Custom fields of the type Link (URL)
+
+Users can now create custom field of the type Link (URL).
+
+![Create a custom field of the type Link](openproject-14-1-custom-field-link.png)
 
 ### Save a changed sort order of custom project lists
 
