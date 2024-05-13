@@ -2891,7 +2891,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
     member_of_group: "Assignee's group"
     name_or_identifier: "Name or identifier"
     only_subproject_id: "Only subproject"
-    shared_with_user: "Shared with user"
+    shared_with_user: "Shared with users"
     shared_with_me: "Shared with me"
     subproject_id: "Including subproject"
 
