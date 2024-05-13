@@ -25,11 +25,11 @@ ms:
           at: 'pada'
           no_results: 'Tiada perkara baru untuk dilaporkan.'
         project_description:
-          title: 'Penerangan projek'
-          no_results: "Tiada penerangan yang tertulis lagi. Penerangan boleh diberikan di dalam 'Seting Projek'."
+          title: 'Deskripsi projek'
+          no_results: "Tiada deskripsi yang tertulis lagi. Deskripsi boleh diberikan di 'Tetapan Projek'."
         project_details:
           title: 'Butiran projek'
-          no_results: 'Tiada medan langganan yang telah ditetapkan untuk projek.'
+          no_results: 'Tiada ruang tersuai telah ditakrifkan untuk projek.'
         project_status:
           title: 'Status projek'
           not_started: 'Belum dimulakan'

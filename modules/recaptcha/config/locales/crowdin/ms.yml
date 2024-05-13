@@ -2,7 +2,7 @@
 ms:
   plugin_openproject_recaptcha:
     name: "ReCaptcha OpenProject"
-    description: "Modul ini menyediakan semakan recaptcha semasa log masuk."
+    description: "Modul ini menyediakan pemeriksaan recaptcha semasa log masuk."
   recaptcha:
     label_recaptcha: "reCAPTCHA"
     button_please_wait: 'Sila tunggu ...'
@@ -16,7 +16,7 @@ ms:
       secret_key: 'Kunci rahsia'
       secret_key_text: 'Masukkan kunci rahsia yang anda telah buat pada konsol pentadbir reCAPTCHA.'
       type: 'Gunakan reCAPTCHA'
-      type_disabled: 'Nyahaktifkan reCAPTCHA'
+      type_disabled: 'Nyahdayakan reCAPTCHA'
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
       type_hcaptcha: 'HCaptcha'

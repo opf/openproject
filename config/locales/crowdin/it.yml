@@ -1507,7 +1507,7 @@ it:
   error_can_not_delete_entry: "Impossibile eliminare la voce"
   error_can_not_delete_custom_field: "Impossibile eliminare il campo personalizzato"
   error_can_not_delete_in_use_archived_undisclosed: "Esistono macro-attività anche nei progetti archiviati. È necessario chiedere a un amministratore di eseguire l'eliminazione per vedere quali progetti sono impattati."
-  error_can_not_delete_in_use_archived_work_packages: "Ci sono macro-attività anche nei progetti archiviati. Devi prima riattivare i seguenti progetti, prima di poter modificare l'attributo delle rispettive macro-attività: %%{archived_projects_urls}"
+  error_can_not_delete_in_use_archived_work_packages: "Ci sono macro-attività anche nei progetti archiviati. Devi prima riattivare i seguenti progetti, prima di poter modificare l'attributo delle rispettive macro-attività: %{archived_projects_urls}"
   error_can_not_delete_type:
     explanation: 'Questo tipo contiene macro-attività e non può essere eliminato. Puoi vedere tutte le macro-attività interessate in <a target="_blank" href="%{url}">questa vista</a>.'
   error_can_not_delete_standard_type: "Tipi standard non possono essere eliminati."
@@ -3021,7 +3021,7 @@ it:
           Seleziona l'azione da eseguire per i file su cui è stato rilevato un virus: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Metti in quarantena il file, impedendo agli utenti di accedervi. Gli amministratori possono rivedere ed eliminare i file in quarantena nel pannello di controllo.</li> <li><strong>%{delete_option}</strong>: elimina il file immediatamente.</li> </ul>
       modes:
         clamav_socket_html: Inserisci la socket al daemon clamd, ad esempio %{example}
-        clamav_host_html: Immettere il nome host e la porta del daemon clamd separati dai due punti. Ad esempio, %{esempio}
+        clamav_host_html: Immettere il nome host e la porta del daemon clamd separati dai due punti. Ad esempio, %{example}
         description_html: >
           Seleziona la modalità in cui deve funzionare l'integrazione dello scanner antivirus. <br/> <ul> <li><strong>%{disabled_option}</strong>: i file caricati non vengono sottoposti a scansione antivirus.</li> <li><strong>%{socket_option}</strong>: hai configurato un ClamAV sullo stesso server di OpenProject e il daemon di scansione clamd è in esecuzione in background</li> <li><strong>%{host_option}</strong>: invierai il file a un host di scansione antivirus esterno.</li> </ul>
     brute_force_prevention: "Blocco automatico degli utenti"

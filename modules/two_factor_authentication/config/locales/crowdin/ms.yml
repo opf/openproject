@@ -3,7 +3,7 @@ ms:
   plugin_openproject_two_factor_authentication:
     name: "Pengesahan Dua Faktor OpenProject"
     description: >-
-      Plugin OpenProject ini mengesahkan pengguna anda menggunakan pengesahan dua faktor melalui kata laluan sekali sahaja melalui standard TOTP (Google Authenticator) atau dihantar ke telefon bimbit pengguna melalui SMS atau panggilan suara.
+      Plugin OpenProject ini mengesahkan pengguna anda menggunakan pengesahan dua faktor melalui kata laluan sekali sahaja melalui standard TOTP (Google Authenticator) atau ianya dihantar ke telefon bimbit pengguna melalui SMS atau panggilan suara.
   activerecord:
     attributes:
       two_factor_authentication/device:
@@ -115,10 +115,10 @@ ms:
       is_default_cannot_delete: "Peranti ini telah dicatat sebagai default dan tidak boleh dipadam atas sebab polisi keselamatan yang sedang aktif.\nCatatkan peranti lain sebagai default sebelum memadamkannya."
       not_existing: "Tiada peranti 2FA yang berdaftar untuk akaun anda."
       2fa_from_input: Sila masukkan kod daripada <strong>%{device_name}</strong> anda untuk sahkan identiti anda.
-      2fa_from_webauthn: Sila sediakan peranti WebAuthn <strong>%{device_name}</strong>. Jika ia berdasarkan USB, sila pastikan memasang dan menyentuhnya. Lepas itu, klik butang log masuk.
+      2fa_from_webauthn: Sila sediakan peranti WebAuthn <strong>%{device_name}</strong>. Jika ia berdasarkan USB, sila pastikan memasang dan menyentuhnya. Selepas itu, klik butang log masuk.
       webauthn:
         title: "WebAuthn"
-        description: Gunakan Pengesahan Web untuk daftarkan peranti FIDO2 (seperti YubiKey) atau enclave yang selamat telefon bimbit anda sebagai faktor kedua.
+        description: Gunakan Pengesahan Web untuk daftarkan peranti FIDO2 (seperti YubiKey) atau enclave yang selamat dari telefon bimbit anda sebagai faktor kedua.
         further_steps: Setelah anda memilih nama, anda boleh klik butang Teruskan. Laman layar anda akan maklumkan kepada anda untuk mengemukakan peranti WebAuthn anda. Setelah berbuat demikian, pendaftaran peranti anda telah selesai.
       totp:
         title: "Gunakan pengesahan pangkalan aplikasi anda"

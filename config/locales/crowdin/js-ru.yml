@@ -654,7 +654,7 @@ ru:
         empty_state:
           no_notification: "Похоже, вы все сделали."
           no_notification_with_current_project_filter: "Похоже, в выбранном проекте вы все сделали."
-          no_notification_with_current_filter: "Похоже, в отфильтрованном вы все сделали."
+          no_notification_with_current_filter: "Похоже, в отфильтрованном вы все сделали %{filter}."
           no_selection: "Нажмите на уведомление, чтобы просмотреть все детали."
         new_notifications:
           message: "Есть новые уведомления."

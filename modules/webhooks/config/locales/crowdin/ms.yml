@@ -1,27 +1,27 @@
 ms:
   plugin_openproject_webhooks:
     name: "Webhook OpenProject"
-    description: "Menyediakan API plug-in untuk menyokong webhook OpenProject membolehkan integrasi pihak ketiga yang lebih baik."
+    description: "Menyediakan API plug-in untuk menyokong webhook OpenProject untuk integrasi pihak ketiga yang lebih baik."
   activerecord:
     attributes:
       webhooks/webhook:
         url: 'Muatan URL'
         secret: 'Rahsia tandatangan'
         events: 'Kejadian-kejadian'
-        projects: 'Projek yang diaktifkan'
+        projects: 'Projek yang didayakan'
       webhooks/log:
         event_name: 'Nama kejadian'
         url: 'Muatan URL'
         response_code: 'Kod maklum balas'
         response_body: 'Maklum balas'
     models:
-      webhooks/outgoing_webhook: "Webhook keluaran"
+      webhooks/outgoing_webhook: "Webhook yang keluar"
   webhooks:
     singular: Webhook
     plural: Webhook
     resources:
       time_entry:
-        name: "Entri masa"
+        name: "Kemasukan masa"
     outgoing:
       no_results_table: Tiada webhook yang ditetapkan lagi.
       label_add_new: Tambah webhook baru
@@ -32,12 +32,12 @@ ms:
         updated: "Telah dikemas kini"
       explanation:
         text: >
-          Apabila berlakunya peristiwa seperti terciptanya pakej kerja, atau projek yang telah dikemas kini, OpenProject akan menghantar permintaan POST kepada titik akhir web yang dikonfigurasikan. Selalunya peristiwa tersebut akan dihantar selepas %{link} telah lepas.
-        link: Tempoh penerimaan yang dikonfigurasikan
+          Apabila berlakunya peristiwa seperti ciptaan pakej kerja, atau projek yang telah dikemas kini, OpenProject akan menghantar permintaan POST kepada titik akhir web yang telah dikonfigurasi. Selalunya peristiwa tersebut akan dihantar selepas %{link} telah lepas.
+        link: tempoh pengumpulan yang dikonfigurasi
       status:
-        enabled: 'Webhook telah diaktifkan'
-        disabled: 'Wekbook telah dinyahaktifkan'
-        enabled_text: 'Webhook akan mengeluarkan muatan data untuk acara yang ditakrifkan dibawah.'
+        enabled: 'Webhook telah didayakan'
+        disabled: 'Wekbook telah dinyahdayakan'
+        enabled_text: 'Webhook akan mengeluarkan muatan untuk acara yang ditentukan dibawah.'
         disabled_text: 'Klik butang edit untuk mengaktifkan webhook.'
       deliveries:
         no_results_table: Tiada penghantaran yang telah dibuat untuk webhook ini dalam beberapa hari yang lepas.
@@ -48,14 +48,14 @@ ms:
           Hantar permintaan POST ke muatan URL di bawah untuk sebarang peristiwa dalam projek yang telah anda langgan. Muatan akan bersepadan dengan objek dari perwakilan APIv3 yang sedang diubah suai.
         apiv3_doc_url: Lawati dokumentasi API untuk maklumat lanjut
         description:
-          placeholder: 'Deskripsi pilihan untuk webhook'
+          placeholder: 'Deskripsi pilihan untuk webhook.'
         enabled:
           description: >
             Webhook akan petik peristiwa tertentu apabila ditandakan. Nyahtandakan untuk nyahaktifkan webhook.
         events:
           title: 'Kejadian yang dibenarkan'
         project_ids:
-          title: 'Projek yang diaktifkan'
+          title: 'Projek yang dibenarkan'
           description: 'Pilih projek untuk webhook ini dilaksanakan.'
           all: 'Semua projek'
           selected: 'Projek yang dipilih sahaja'

@@ -51,7 +51,7 @@ lt:
         description: "Pastabos"
         presenter: "Pateikėjas"
       meeting_section:
-        title: "Title"
+        title: "Pavadinimas"
     errors:
       messages:
         invalid_time_format: "netinkamas laikas. Reikalingas formatas: HH:MM (pvz.: 10:30)"
@@ -127,9 +127,9 @@ lt:
       structured_text_copy: "Šiuo metu nukopijavus susitikimą, susiję susitikimo elmentai nebus kopijuojami, tik detalės."
     copied: "Nukopijuota iš susitikimo #%{id}"
   meeting_section:
-    default_title: "New section"
-    untitled_title: "Untitled"
-    empty_text: "Drag items here or create a new one"
+    default_title: "Nauja skiltis"
+    untitled_title: "Bevardis"
+    empty_text: "Tempkite elementus čia arba sukurtkite naują"
   notice_successful_notification: "Pranešimas sėkmingai išsiųstas"
   notice_timezone_missing: Laiko zona nenustatyta ir %{zone} zona yra rekomenduojama. Kad pasirinktumėte laiko zoną, paspauskite čia.
   permission_create_meetings: "Sukurti pasitarimus"

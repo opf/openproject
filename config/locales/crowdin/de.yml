@@ -1117,7 +1117,7 @@ de:
       parent_no_longer: "Nicht mehr Unterprojekt von"
       time_entry:
         hour:
-          one: "Eine Stunde"
+          one: "%{count} Stunde"
           other: "%{count} Stunden"
         hour_html:
           one: "<i>%{count} Stunde</i>"
