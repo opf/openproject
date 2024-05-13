@@ -27,28 +27,28 @@
 #++
 
 require "spec_helper"
-require_relative "ifc_upload_shared_examples"
+require_module_spec_helper
 
-RSpec.describe "direct IFC upload", :js, with_config: { edition: "bim" }, with_direct_uploads: :redirect do
-  it_behaves_like "can upload an IFC file" do
-    # with direct upload, we don't get the model name
-    let(:model_name) { "model.ifc" }
+RSpec.describe "POST /projects/:project_id/ifc_models/set_direct_upload_file_name" do
+  shared_let(:user) { create(:admin, preferences: { time_zone: "Etc/UTC" }) }
+  let(:project) { build_stubbed(:project) }
 
-    context "when the file size exceeds the allowed maximum", with_settings: { attachment_max_size: 1 } do
-      it "invalidates the form via JavaScript preventing submission" do
-        pending "This test is currently flaky due to an unknown reason"
+  context "when user is not logged in" do
+    it "requires login" do
+      post set_direct_upload_file_name_bcf_project_ifc_models_path(project_id: project.id)
+      expect(last_response.status).to eq(406) # rubocop:disable RSpecRails/HaveHttpStatus
+    end
+  end
 
-        visit new_bcf_project_ifc_model_path(project_id: project.identifier)
+  context "when user is logged in" do
+    before { login_as(user) }
 
-        page.attach_file("file", ifc_fixture.path, visible: :all)
-
-        form_validity = page.evaluate_script <<~JS
-          document
-            .querySelector('#new_bim_ifc_models_ifc_model')
-            .checkValidity();
-        JS
-
-        expect(form_validity).to be(false)
+    context "and the upload exceeds the maximum size", with_settings: { attachment_max_size: 1 } do
+      it "returns a 422" do
+        post set_direct_upload_file_name_bcf_project_ifc_models_path(project_id: project.id),
+             { title: "Test.ifc", isDefault: "0", filesize: "113328073" }
+        expect(last_response.status).to eq(422) # rubocop:disable RSpecRails/HaveHttpStatus
+        expect(parse_json(last_response.body)).to eq({ "error" => "is too large (maximum size is 1024 Bytes)." })
       end
     end
   end
