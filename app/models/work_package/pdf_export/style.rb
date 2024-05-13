@@ -38,7 +38,7 @@ module WorkPackage::PDFExport::Style
     end
 
     def page_size
-      @styles[:page_size] || "EXECUTIVE"
+      @styles[:page_size] || "A4"
     end
 
     def page_header_offset

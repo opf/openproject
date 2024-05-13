@@ -74,18 +74,18 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
       id: 'pdf-option-paper-size',
       label: this.I18n.t('js.gantt_chart.export.options.paper_size'),
       paramName: 'paper_size',
-      value: 'EXECUTIVE',
+      value: 'A4',
       // supported page sizes: https://github.com/prawnpdf/pdf-core/blob/6017800c46ce6cb43e0c8c8904e5e08d8e90b259/lib/pdf/core/page_geometry.rb
       options: [
-        { label: 'Executive', value: 'EXECUTIVE' },
-        { label: 'Folio', value: 'FOLIO' },
-        { label: 'Letter', value: 'LETTER' },
-        { label: 'Tabloid', value: 'TABLOID' },
         { label: 'A4', value: 'A4' },
         { label: 'A3', value: 'A3' },
         { label: 'A2', value: 'A2' },
         { label: 'A1', value: 'A1' },
         { label: 'A0', value: 'A0' },
+        { label: 'Executive', value: 'EXECUTIVE' },
+        { label: 'Folio', value: 'FOLIO' },
+        { label: 'Letter', value: 'LETTER' },
+        { label: 'Tabloid', value: 'TABLOID' },
       ],
     },
   };
