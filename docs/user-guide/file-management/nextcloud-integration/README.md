@@ -151,11 +151,11 @@ In the **Details** side panel, click on the **OpenProject** tab. This tab lets y
 
 To link this file to a work package in OpenProject for the first time, use the search bar to find the correct work package (you can search either using a word in the title of the work package, or simply enter the work package ID) and click on it.
 
-![Search work package in Nextcloud](NC_0_01-FileRelationSearch.png)
+![Search work package in Nextcloud](NC_0_01-FileRelationSearch_new.png)
 
 This linked file will then appear underneath the search bar. Doing so will also automatically add the file to the Files tab of the corresponding work package(s) in OpenProject.
 
-![Show linked work packages in Nextcloud](NC_1_00-FileWPRelation.png)
+![Show linked work packages in Nextcloud](NC_1_00-FileWPRelation_new.png)
 
 #### Link multiple files to a work packages
 
