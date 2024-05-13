@@ -47,9 +47,9 @@ RSpec.describe MeetingsController do
     describe "index" do
       let(:meetings) do
         [
-          create(:meeting, project:),
-          create(:meeting, project:),
-          create(:meeting, project: other_project)
+          create(:meeting, author: user, project:),
+          create(:meeting, author: user, project:),
+          create(:meeting, author: user, project: other_project)
         ]
       end
 
@@ -58,7 +58,6 @@ RSpec.describe MeetingsController do
           before do
             get "index"
           end
-
           it { expect(response).to be_successful }
           it { expect(assigns(:meetings)).to match_array meetings }
         end
