@@ -261,6 +261,7 @@ projects:
       - Category 1 (to be changed in Project settings)
     queries:
       - t_name: Project plan
+        module: gantt
         status: open
         timeline: true
         sort_by: start_date
@@ -408,6 +409,7 @@ projects:
       - Category 1 (to be changed in Project settings)
     queries:
       - t_name: Project plan
+        module: gantt
         status: open
         timeline: true
         sort_by: start_date
@@ -875,6 +877,7 @@ projects:
       - Category 1 (to be changed in Project settings)
     queries:
       - t_name: Project plan
+        module: gantt
         status: open
         timeline: true
         sort_by: start_date
@@ -1481,6 +1484,7 @@ projects:
         type: :default_type_remark
         display_representation: card
       - t_name: Project plan
+        module: gantt
         status: open
         timeline: true
         sort_by: start_date
