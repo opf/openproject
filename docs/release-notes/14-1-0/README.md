@@ -18,7 +18,7 @@ We released [OpenProject 14.1.0](https://community.openproject.org/versions/2030
 
 This feature was requested by many in the Community and will be a great benefit, especially for organizations with many projects: OpenProject 14.1 allows you to add projects to favorites so that they can be found more quickly. We recently gave an overview in our blog of how exactly you can add projects to favorites or remove them from favorites – and where you can display them.
 
-### Advanced features for the meetings module
+### Advanced features for the Meetings module
 
 The Meetings module is currently being continuously improved. With OpenProject 14.1, you can:
 
@@ -27,7 +27,7 @@ The Meetings module is currently being continuously improved. With OpenProject 1
 
 Another change is that the status now changes to open when you copy a closed meeting.
 
-Apart from these features that apply the meetings module directly, the following changes concerning OpenProject meetings have been made:
+Apart from these features that apply the Meetings module directly, the following changes concerning OpenProject meetings have been made:
 
 - On work packages, the project name is now shown in the Meetings tab.
 - Widgets to show meetings can be added to the My Page and project overview pages.
@@ -35,11 +35,19 @@ Apart from these features that apply the meetings module directly, the following
 
 ### PDF export of Gantt view, e.g. for printing (Enterprise add-on)
 
+It is now possible to export a Gantt view as PDF in the OpenProject Enterprise edition. This allows users to print Gantt charts.
+
 ### Save a changed sort order of custom project lists
 
-### Custom set of project attributes grouped in sections
+Custom project lists can now not only be changed in order, but also saved as such. Additionally, you can change your own saved lists and save them again so that you do not have to start from scratch.
+
+### A "Manage project attributes" button on the project overview page
+
+With OpenProject 14.0, we released the feature to create a custom set of project attributes grouped in sections on the project overview page. With 14.1, you will additionally have a button to "Manage project attributes" on the project overview page.
 
 ### OneDrive/SharePoint: A "no permission“ message to file links
+
+If you use the OneDrive/SharePoint integration, you will now be shown a "no permission" message if you try to access a file for which you lack permission.
 
 <!--more-->
 
