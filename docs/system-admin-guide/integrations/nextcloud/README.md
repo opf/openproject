@@ -70,7 +70,9 @@ In the configuration page that appears, you'll see a blank text field titled **O
 
 Click on the **Save** button. 
 
-> **Note:** If the OpenProject host cannot be added, you may check the [Troubleshooting](#troubleshooting) section at the bottom of this page
+> **Note:** If the OpenProject host cannot be added, you may check the [Troubleshooting](#troubleshooting) section at the bottom of this page.
+
+Please note that in order for the integration to work, the **Terms of Service** app on the Nextcloud side needs to be accepted. This is set to happen automatically during the initial set-up. If you see an error message indicating otherwise, please refer to the [Troubleshooting](#troubleshooting) section at the bottom of this page.
 
 The next part of the setup will require you to enter OpenProject OAuth values here, but before we do that, you will need to generate them in OpenProject. To do so, navigate to your OpenProject instance in a new browser tab. 
 
@@ -225,6 +227,15 @@ On Nextcloud inside the _OpenProject Integration_ App, when adding the OpenProje
 Some administrators setup OpenProject using a self signed TLS/SSL certificate with their own CA (certificate authority). That CA needs to be known on the Nextcloud server. On a Debian/Ubuntu based server, make sure you add the CA certificate for your OpenProject certificate to `/usr/local/share/ca-certificates` and run `sudo update-ca-certificates` afterwards. Then Nextcloud's PHP code should be able to verify your OpenProject TLS/SSL certificate when emitting HTTPS requests to your Nextcloud server.
 
 Attention: Please do not confuse the CA for the Nextcloud server's certificate with the CA of the OpenProject server's certificate which you might have provided in the OpenProject installation wizard. They do not necessarily need to be the same.
+
+#### Error message "Sign terms of services"
+
+**Terms of services** is an app on the Nextcloud side of integration that needs to be accepted in order for the integration to work properly. It should be accepted automatically during the set up process. However, it is possible that you may see this message. 
+
+![Terms of service error message in OpenProject](openproject_system_guide_tos_error.png)
+
+To fix this please log into Nextcloud, proceed to Administration and select OpenProject. This will trigger an automatic background check and suggest that *Terms of services* be signed. 
+![Fix a Terms of services error in Nextcloud](openproject_system_guide_tos_fix.png)
 
 #### While setting up Project folders
 
