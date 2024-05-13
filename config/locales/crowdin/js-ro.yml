@@ -653,7 +653,7 @@ ro:
         empty_state:
           no_notification: "Se pare că v-ați pus la punct."
           no_notification_with_current_project_filter: "Se pare că v-ați pus la punct cu proiectul selectat."
-          no_notification_with_current_filter: "Se pare că v-ați pus la punct cu proiectul selectat."
+          no_notification_with_current_filter: "Se pare că v-ați pus la punct pentru filtrul %{filter}."
           no_selection: "Faceți clic pe o notificare pentru a vizualiza toate detaliile activității."
         new_notifications:
           message: "Există notificări noi."

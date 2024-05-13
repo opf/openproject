@@ -1,10 +1,10 @@
 #English strings go here
 ms:
   plugin_openproject_boards:
-    name: "Papan OpenProject"
+    name: "Board OpenProject"
     description: "Menyediakan paparan board"
   permission_show_board_views: "Paparkan board"
-  permission_manage_board_views: "Urus board"
+  permission_manage_board_views: "Urus papan"
   project_module_board_view: "Board"
   boards:
     label_board: "Board"
@@ -13,14 +13,14 @@ ms:
     label_board_type: "Jenis board"
     board_types:
       free: "Asas\n"
-      action: "Board tindakan (%{attribute})"
+      action: "Papan tindakan (%{attribute})"
     board_type_attributes:
-      assignee: Wakil
+      assignee: Penerima tugasan
       status: Status
       version: Versi
       subproject: Subprojek
-      subtasks: Ibu bapa-anak
-      basic: "Asas\n"
+      subtasks: Induk-anak
+      basic: Asas
     board_type_descriptions:
       basic: >
         Bermula dari awal dengan board kosong. Tambah kad dan kolum secara manual kepada board ini.

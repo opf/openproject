@@ -44,4 +44,13 @@ module RolesHelper
     perms.group_by { |p| p.project_module.to_s }
          .slice(*enabled_module_names)
   end
+
+  def permission_header_for_project_module(mod)
+    if mod.blank?
+      Project.model_name.human
+    else
+      I18n.t("permission_header_for_project_module_#{mod}",
+             default: [:"project_module_#{mod}", mod.humanize])
+    end
+  end
 end

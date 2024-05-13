@@ -641,7 +641,7 @@ ms:
       center:
         label_actor_and: "dan"
         and_more_users:
-          other: "dan 1 yang lain"
+          other: "dan %{count} yang lain"
         no_results:
           at_all: "Pemberitahuan baharu akan muncul di sini apabila terdapat aktiviti yang berkaitan dengan anda."
           with_current_filter: "Tiada pemberitahuan dalam paparan ini pada masa ini"
@@ -1187,7 +1187,7 @@ ms:
       workPackage:
         other: "pakej kerja"
       child_work_packages:
-        other: "satu pakej kerja anak"
+        other: "%{count} pakej kerja anak"
       hour:
         one: "1 j"
         other: "%{count} j"

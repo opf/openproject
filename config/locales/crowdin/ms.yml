@@ -471,7 +471,7 @@ ms:
       no_results_title_text: Tiada aliran kerja buat sekarang ini.
   work_packages:
     x_descendants:
-      other: "Satu keturunan pakej kerja"
+      other: "%{count} keturunan pakej kerja"
     bulk:
       copy_failed: "Pakej kerja ini tidak boleh disalin."
       move_failed: "Pakej kerja tidak boleh digerakkan."
@@ -593,7 +593,7 @@ ms:
       grids/grid:
         page: "Halaman"
         row_count: "Bilangan baris"
-        column_count: "Bilangan lajur"
+        column_count: "Bilangan kolum"
         widgets: "Widget"
       oauth_client:
         client: "ID pelanggan"
@@ -1026,7 +1026,7 @@ ms:
               numeric: "angka (cth. '1')"
               special: "istimewa (cth. '%')"
               reused:
-                other: "telah digunakan sebelum ini. SIla pilih yang berbeza daripada yang terakhir."
+                other: "telah digunakan sebelum ini. SIla pilih yang berbeza daripada yang %{count} terakhir."
               match:
                 confirm: "Sahkan kata laluan baharu."
                 description: "'Pengesahan kata laluan' perlu sepadan dengan input dalam medan 'Kata laluan baharu'."
@@ -1053,7 +1053,7 @@ ms:
       template:
         body: "Sila periksa medan-medan yang berikut:"
         header:
-          other: "1 ralat menghalang %{model} ini daripada disimpan"
+          other: "%{count} ralat menghalang %{model} ini daripada disimpan"
     models:
       attachment: "Fail"
       attribute_help_text: "Atribut teks bantuan"
@@ -1494,7 +1494,7 @@ ms:
   error_enterprise_token_invalid_domain: "Edisi Enterprise tidak aktif. Domain token Enterprise anda (%{actual}) tidak sepadan dengan nama hos sistem (%{expected})."
   error_failed_to_delete_entry: "Gagal untuk menghapuskan kemasukan ini."
   error_in_dependent: "Ralat dalam cubaan untuk mengubah objek yang bergantung: %{dependent_class} #%{related_id} -  %{related_subject}: %{error}"
-  error_in_new_dependent: "Ralat dalam cubaan untuk mencipta objek yang bergantung: %{dependent_class} - %{related_subject}"
+  error_in_new_dependent: "Ralat dalam cubaan untuk mencipta objek yang bergantung: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Nilai yang dipilih tidak sah."
   error_journal_attribute_not_present: "Jurnal tidak mempunyai atribut %{attribute}."
   error_pdf_export_too_many_columns: "Terlalu banyak lajur dipilih untuk eksport PDF. Sila kurangkan bilangan lajur."
@@ -1913,7 +1913,7 @@ ms:
   label_file_plural: "Fail-fail"
   label_filter_add: "Tambah penapis"
   label_filter: "Penapis"
-  label_filter_plural: "Saringan"
+  label_filter_plural: "Saring"
   label_filters_toggle: "Tunjuk/sembunyi penapis\n"
   label_float: "Terapung"
   label_folder: "Folder"
@@ -2178,7 +2178,7 @@ ms:
   label_setting_plural: "Tetapan"
   label_system_settings: "Tetapan sistem"
   label_show_completed_versions: "Tunjuk versi lengkap"
-  label_columns: "Lajur"
+  label_columns: "Kolum"
   label_sort: "Susun"
   label_sort_by: "Sort mengikut %{value}"
   label_sorted_by: "disusun mengikut %{value}"
@@ -2368,7 +2368,7 @@ ms:
       mentioned: "Anda telah <b>disebut dalam sebuah komen</b>"
       mentioned_by: "%{user} menyebut anda di ruang komen"
       more_to_see:
-        other: "Terdapat 1 lagi pakej kerja dengan pemberitahuan."
+        other: "Terdapat %{count} lagi pakej kerja dengan pemberitahuan."
       open_in_browser: "Buka di laman layar"
       reason:
         watched: "Diawasi"
@@ -2515,7 +2515,7 @@ ms:
   notice_auth_stage_wrong_stage: "Dijangka tamat peringkat pengesahan '%{expected}', tetapi '%{actual}' dikembalikan."
   notice_auth_stage_error: "Peringkat pengesahan '%{stage}' gagal."
   notice_can_t_change_password: "Akaun ini digunakan sebagai sumber pengesahan luaran. Mustahil untuk ubah kata laluan."
-  notice_custom_options_deleted: "Pilihan '%{option_value}' dan kejadiannya telah dipadamkan."
+  notice_custom_options_deleted: "Pilihan '%{option_value}' dan %{num_deleted} kejadiannya telah dipadamkan."
   notice_email_error: "Ralat berlaku sewaktu menghantar e-mel (%{value})"
   notice_email_sent: "E-mel telah dihantar ke %{value}"
   notice_failed_to_save_work_packages: "Gagal untuk simpan %{count} pakej kerja pada %{total} yang dipilih: %{ids}."
@@ -3137,7 +3137,7 @@ ms:
   text_no_notes: "Tiada komen yang tersedia untuk pakej kerja ini."
   text_notice_too_many_values_are_inperformant: "Maklum: Memaparkan lebih daripada 100 item setiap halaman akan meningkatkan masa muat halaman."
   text_notice_security_badge_displayed_html: >
-    Nota: jika dibenarkan, ini akan paparkan lambang bersertaan status pemasangan di <a href="%{information_panel_path}"></a> panel pentadbiran, dan di halaman utama. Ia hanya akan dipaparkan ke para pentadbir sahaja. <br/> Lambang tersebut akan menyemak versi OpenProject terkini terhadap pangkalan data keluaran rasmi OpenProject untuk memaklumkan anda tentang sebarang kemas kini atau kelemahan yang diketahui. Untuk maklumat lanjut bagi penyediaan semakan, data apa yang diperlukan untuk menyediakan kemas kini tersedia, and bagaimana untuk menyahaktifkan semakan ini, sila kunjungi <a href="%{more_info_url}"> dokumentasi konfigurasi</a>.
+    Nota: jika dibenarkan, ini akan paparkan lambang bersertaan status pemasangan di <a href="%{information_panel_path}">%{information_panel_label}</a> panel pentadbiran, dan di halaman utama. Ia hanya akan dipaparkan ke para pentadbir sahaja. <br/> Lambang tersebut akan menyemak versi OpenProject terkini terhadap pangkalan data keluaran rasmi OpenProject untuk memaklumkan anda tentang sebarang kemas kini atau kelemahan yang diketahui. Untuk maklumat lanjut bagi penyediaan semakan, data apa yang diperlukan untuk menyediakan kemas kini tersedia, and bagaimana untuk menyahaktifkan semakan ini, sila kunjungi <a href="%{more_info_url}">dokumentasi konfigurasi</a>.
   text_own_membership_delete_confirmation: "Anda akan mengeluarkan beberapa atau semua kebenaran anda dan mungkin tidak lagi dapat mengedit projek ini selepas itu.\nAdakah anda pasti anda ingin meneruskan?"
   text_plugin_assets_writable: "Aset plugin direktori yang boleh ditulis"
   text_powered_by: "Dikuasakan oleh %{link}"
@@ -3224,7 +3224,7 @@ ms:
     assign_random_password: "Tetapkan kata laluan rawak (dihantar ke pengguna melalui e-mel)"
     blocked: "dikunci sementara"
     blocked_num_failed_logins:
-      other: "dikunci sementara (satu percubaan log masuk gagal)"
+      other: "dikunci sementara (%{count} percubaan log masuk gagal)"
     confirm_status_change: "Anda akan mengubah status '%{name}'. Adakah anda pasti anda ingin teruskan?"
     deleted: "Padam pengguna"
     error_status_change_failed: "Penukaran status pengguna gagal kerana ralat tersebut: %{errors}"

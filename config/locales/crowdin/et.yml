@@ -1408,7 +1408,7 @@ et:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: "umbes %{count} tundi"
+        one: "umbes 1 tund"
         other: "umbes %{count} tundi"
       about_x_months:
         one: "umbes 1 kuu"

@@ -13,7 +13,7 @@ he:
     label_board_type: "סוג לוח"
     board_types:
       free: בסיס
-      action: "לוח פעולות"
+      action: "לוח פעולות (%{attribute})"
     board_type_attributes:
       assignee: משויך אל
       status: מצב

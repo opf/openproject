@@ -3390,7 +3390,7 @@ es:
         non_working: "%{day} es ahora no laboral"
       dates:
         working: "%{date} es ahora laboral"
-        non_working: "%{day} es ahora no laboral"
+        non_working: "%{date} es ahora no laboral"
   nothing_to_preview: "Nada para previsualizar"
   api_v3:
     attributes:

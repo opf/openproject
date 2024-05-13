@@ -44,11 +44,19 @@ RSpec.describe "Storages module", :js, :with_cuprite do
 
   current_user { user }
 
-  shared_examples_for "content section has storages module" do |is_upcase = false|
+  shared_examples_for "content section has storages module" do
     it 'must show "storages" in content section' do
       within "#content" do
         text = I18n.t(:project_module_storages)
-        expect(page).to have_text(is_upcase ? text.upcase : text)
+        expect(page).to have_text(text)
+      end
+    end
+  end
+
+  shared_examples_for "content section has storages permission header" do
+    it 'must show "Automatically managed project folders" in content section' do
+      within "#content" do
+        expect(page).to have_text(I18n.t(:permission_header_for_project_module_storages).upcase)
       end
     end
   end
@@ -61,10 +69,10 @@ RSpec.describe "Storages module", :js, :with_cuprite do
     end
   end
 
-  shared_examples_for "has storages module" do |sections: %i[content sidebar], is_upcase: false|
+  shared_examples_for "has storages module" do |sections: %i[content sidebar]|
     before { visit(path) }
 
-    include_examples "content section has storages module", is_upcase if sections.include?(:content)
+    include_examples "content section has storages module" if sections.include?(:content)
     include_examples "sidebar has storages module" if sections.include?(:sidebar)
   end
 
@@ -90,29 +98,21 @@ RSpec.describe "Storages module", :js, :with_cuprite do
     end
 
     context "when creating a new role" do
-      it 'must have appropriate storage permissions header in content section' do
-        visit new_role_path
+      before { visit new_role_path }
 
-        within "#content" do
-          expect(page).to have_text(I18n.t(:permission_header_for_project_module_storages).upcase)
-        end
-      end
+      include_examples "content section has storages permission header"
     end
 
     context "when editing a role" do
-      it 'must have appropriate storage permissions header in content section' do
-        visit edit_role_path(role)
+      before { visit edit_role_path(role) }
 
-        within "#content" do
-          expect(page).to have_text(I18n.t(:permission_header_for_project_module_storages).upcase)
-        end
-      end
+      include_examples "content section has storages permission header"
     end
 
-    context "when showing the role permissions report" do
-      it_behaves_like "has storages module", sections: [:content], is_upcase: true do
-        let(:path) { report_roles_path(role) }
-      end
+    context "when showing the permissions report" do
+      before { visit report_roles_path }
+
+      include_examples "content section has storages permission header"
     end
   end
 

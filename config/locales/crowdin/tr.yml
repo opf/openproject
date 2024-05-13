@@ -885,7 +885,7 @@ tr:
             types:
               in_use_by_work_packages: "hala iş paketleri tarafından kullanılmaktadır:%{types}"
             enabled_modules:
-              dependency_missing: "'%{dependency}' modülü buna bağlı olduğundan, '%{dependency}' modülünün de etkinleştirilmesi gerekiyor."
+              dependency_missing: "'%{module}' modülü buna bağlı olduğundan, '%{dependency}' modülünün de etkinleştirilmesi gerekiyor."
               format: "%{message}"
         query:
           attributes:
@@ -2465,7 +2465,7 @@ tr:
   mail_body_backup_waiting_period: Yeni jeton %{hours} saat içinde etkinleştirilecek.
   mail_body_backup_token_warning: Bu siz değildiyseniz, hemen OpenProject'te oturum açın ve yeniden sıfırlayın.
   mail_body_incoming_email_error: OpenProject'e gönderdiğiniz e-posta işlenemedi.
-  mail_body_incoming_email_error_in_reply_to: "%{required_at} adresinde %{from_email} yazdı"
+  mail_body_incoming_email_error_in_reply_to: "%{received_at} adresinde %{from_email} yazdı"
   mail_body_incoming_email_error_logs: "Günlükler"
   mail_body_lost_password: "Parolanızı değiştirmek için aşağıdaki bağlantıyı tıklayın:"
   mail_password_change_not_possible:
