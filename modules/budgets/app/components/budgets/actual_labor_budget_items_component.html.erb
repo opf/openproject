@@ -76,7 +76,7 @@
                 <td class="subject"><%= helpers.link_to_work_package work_package %></td>
                 <td class="hours"><%= link_to helpers.l_hours(t.hours), cost_reports_path(work_package.project_id, 'fields[]': 'WorkPackageId', 'operators[WorkPackageId]': '=', 'values[WorkPackageId]': work_package.id, set_filter: 1) %></td>
                 <td><%=h t.user.name %></td>
-                <td class="currency"><%= number_to_currency(t.real_costs) %></td>
+                <td class="currency"><%= costs_visible?(t) ? number_to_currency(t.real_costs) : "" %></td>
               </tr>
             <% end %>
           <% end %>

@@ -30,4 +30,9 @@
 
 class Budgets::ActualLaborBudgetItemsComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
   options :budget, :project
+
+  def costs_visible?(entry)
+    User.current.allowed_in_project?(:view_hourly_rates, project) ||
+      (User.current.allowed_in_project?(:view_own_hourly_rate, project) && User.current.id == entry.user.id)
+  end
 end
