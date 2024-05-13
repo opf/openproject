@@ -264,6 +264,7 @@ sv:
     lists:
       active: "Aktiva projekt"
       my: "Mina projekt"
+      favored: "Favorite projects"
       archived: "Arkiverade projekt"
       my_private: "My private project lists"
       new:
@@ -304,7 +305,14 @@ sv:
       storage:
         no_results_title_text: There is no additional recorded disk space consumed by this project.
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Det finns för närvarande inga medlemmar i detta projekt.
@@ -318,10 +326,10 @@ sv:
     menu:
       all: "Alla"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Låst"
       project_roles: "Projektroller"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Grupper"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -781,6 +789,7 @@ sv:
         not_an_iso_date: "är inte ett giltigt datum. Använd formatet ÅÅÅÅ-MM-DD."
         not_same_project: "tillhör inte samma projekt."
         odd: "måste vara udda."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "kunde inte valideras med det associerade reguljära uttrycket."
         smaller_than_or_equal_to_max_length: "måste vara mindre än eller lika med maximal längd."
         taken: "har redan använts."
@@ -1034,7 +1043,7 @@ sv:
             ldap_auth_source:
               error_not_found: "hittades inte"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "hittades inte"
         member:
           principal_blank: "Välj minst en användare eller grupp."
           role_blank: "måste tilldelas."
@@ -1228,7 +1237,7 @@ sv:
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: There is already a backup pending.
       limit_reached: You can only do %{limit} backups per day.
-  button_actions: "Actions"
+  button_actions: "Åtgärder"
   button_add: "Lägg till"
   button_add_comment: "Lägg till kommentar"
   button_add_member: Lägg till medlem
@@ -1262,6 +1271,7 @@ sv:
   button_edit: "Redigera"
   button_edit_associated_wikipage: "Redigerade associerad wikisida: %{page_title}"
   button_expand_all: "Expandera alla"
+  button_favorite: "Add to favorites"
   button_filter: "Filter"
   button_generate: "Generera"
   button_list: "Lista"
@@ -1289,6 +1299,7 @@ sv:
   button_unarchive: "Hämta från Arkiv"
   button_uncheck_all: "Avmarkera alla"
   button_unlock: "Lås upp"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Sluta bevaka"
   button_update: "Uppdatera"
   button_upgrade: "Uppgradera"
@@ -1552,7 +1563,7 @@ sv:
     message: Meddelande redigerades
     news: Nyheter
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "Projektet redigerades"
     projects: "Projektet redigerades"
     reply: Svarade
     time_entry: "Tidrapport redigerades"
@@ -1574,6 +1585,7 @@ sv:
       pdf_overview_table: "PDF Table"
       pdf_report_with_images: "PDF Report with images"
       pdf_report: "PDF Report"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Image not exported."
     units:
@@ -1615,7 +1627,7 @@ sv:
       postgres_migration: "Migrera din installation till PostgreSQL"
       user_guides: "Användarguider"
       faq: "Vanliga frågor (FAQ)"
-      impressum: "Legal notice"
+      impressum: "Villkor"
       glossary: "Ordlista"
       shortcuts: "Genvägar"
       blog: "OpenProject blogg"
@@ -1651,8 +1663,12 @@ sv:
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
-        progress_calculation_changed: >
-          Progress calculation updated.
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Konfigurationsguide"
     get_in_touch: "Har du frågor? Ta kontakt med oss."
@@ -1785,9 +1801,9 @@ sv:
   label_available_project_work_package_categories: "Tillgängliga arbetspaketkategorier"
   label_available_project_work_package_types: "Tillgängliga typer för arbetspaket"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "API-dokumentation"
   label_backup: "Backup"
-  label_backup_code: "Backup code"
+  label_backup_code: "Reservkod"
   label_between: "mellan"
   label_blocked_by: "blockeras av"
   label_blocks: "blockerar"
@@ -1797,7 +1813,7 @@ sv:
   label_forum_plural: "Forum"
   label_forum_sticky: "Klistrad"
   label_boolean: "Booleskt värde"
-  label_board_plural: "Boards"
+  label_board_plural: "Tavlor"
   label_branch: "Gren"
   label_browse: "Bläddra"
   label_bulk_edit_selected_work_packages: "Redigera markerade arbetspaket i bulk"
@@ -1856,7 +1872,7 @@ sv:
   label_custom_field_plural: "Anpassade fält"
   label_custom_field_default_type: "Tom typ"
   label_custom_style: "Design"
-  label_dashboard: "Dashboard"
+  label_dashboard: "Översikt"
   label_database_version: "PostgreSQL version"
   label_date: "Datum"
   label_date_and_time: "Datum och tid"
@@ -1908,7 +1924,7 @@ sv:
   label_enterprise_support: "Enterprise support"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Miljö"
-  label_estimates_and_time: "Uppskattningar och tid"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "är"
   label_everywhere: "överallt"
   label_example: "Exempel"
@@ -1918,18 +1934,18 @@ sv:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Importera"
   label_export_to: "Finns även som:"
-  label_expand: "Expand"
+  label_expand: "Expandera"
   label_expanded_click_to_collapse: "Expanderat. Klicka för att dölja"
   label_f_hour: "%{value} timme"
   label_f_hour_plural: "%{value} timmar"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Flöden"
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key skapad %{value} sen"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Filer"
   label_filter_add: "Lägg till filter"
-  label_filter: "Filters"
+  label_filter: "Filter"
   label_filter_plural: "Filter"
   label_filters_toggle: "Visa/dölj filter"
   label_float: "Flyttal"
@@ -1956,7 +1972,7 @@ sv:
   label_home: "Hem"
   label_subject_or_id: "Ämne eller ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Identifierare"
   label_in: "i"
   label_in_less_than: "i mindre än"
   label_in_more_than: "i mer än"
@@ -1972,7 +1988,7 @@ sv:
   label_internal: "Intern"
   label_introduction_video: "Introduktionsvideo"
   label_invite_user: "Bjud in användare"
-  label_share: "Share"
+  label_share: "Dela"
   label_show_hide: "Visa/Dölj"
   label_show_all_registered_users: "Visa alla registrerade användare"
   label_journal: "Journal"
@@ -1992,9 +2008,10 @@ sv:
   label_latest_revision: "Senaste revisionen"
   label_latest_revision_plural: "Senaste revisionerna"
   label_ldap_authentication: "LDAP autentisering"
-  label_learn_more: "Learn more"
+  label_learn_more: "Lär dig mer"
   label_less_or_equal: "<="
   label_less_than_ago: "mindre än dagar sedan"
+  label_link_url: "Link (URL)"
   label_list: "Lista"
   label_loading: "Laddar..."
   label_lock_user: "Lås användare"
@@ -2020,6 +2037,7 @@ sv:
   label_membership_plural: "Memberships"
   lable_membership_added: "Member added"
   lable_membership_updated: "Member updated"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alpha"
@@ -2121,6 +2139,7 @@ sv:
   label_percent_complete: "% Complete"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Totalt antal projekt"
   label_project_copy_notifications: "Skicka e-postaviseringar under projekt kopian"
   label_project_latest: "Senaste projekt"
@@ -2135,7 +2154,7 @@ sv:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} projekt använder %{storage} lagringsutrymme"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Visa alla projekt"
   label_project_show_details: "Visa projektdetaljer"
   label_project_hide_details: "Dölj projektdetaljer"
@@ -2192,6 +2211,7 @@ sv:
   label_setting_plural: "Inställningar"
   label_system_settings: "Systeminställningar"
   label_show_completed_versions: "Visa slutförda versioner"
+  label_columns: "Kolumner"
   label_sort: "Sortera"
   label_sort_by: "Sortera efter %{value}"
   label_sorted_by: "sorterade efter %{value}"
@@ -2879,6 +2899,7 @@ sv:
   setting_app_subtitle: "Undertitel för applikation"
   setting_app_title: "Programnamn"
   setting_attachment_max_size: "Bilaga max. storlek"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Scan mode"
   setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Automatiskt hämtning av databasförändringar"
@@ -2980,6 +3001,8 @@ sv:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Virus scanning"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
@@ -3216,6 +3239,10 @@ sv:
         input_label: "Lägg till kolumner"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Ytterligare resurser"
     getting_started: "Komma igång"
@@ -3329,7 +3356,7 @@ sv:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Inte delade"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3562,7 +3589,7 @@ sv:
   link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"

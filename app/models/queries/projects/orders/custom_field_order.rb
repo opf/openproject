@@ -47,6 +47,10 @@ class Queries::Projects::Orders::CustomFieldOrder < Queries::Orders::Base
     super.select(custom_field.order_statements)
   end
 
+  def available?
+    custom_field.present?
+  end
+
   private
 
   def order

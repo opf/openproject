@@ -13,8 +13,7 @@ Release date: 2022-07-12
 We released [OpenProject 12.1.6](https://community.openproject.org/versions/1586).
 The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: EE Trial creation not possible from form configuration \[[#42806](https://community.openproject.org/wp/42806)\]
 - Fixed: Deleting a user only locks the user \[[#42882](https://community.openproject.org/wp/42882)\]
@@ -25,7 +24,8 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Include projects mistake \[[#43034](https://community.openproject.org/wp/43034)\]
 - Fixed: dots of Ü are missing in notification list \[[#43086](https://community.openproject.org/wp/43086)\]
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

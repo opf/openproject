@@ -132,8 +132,8 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
     return this.text.placeholder;
   }
 
-  public formatter(value:null|string):string {
-    if (value === null) {
+  public formatter(value:undefined|null|string):string {
+    if (value === undefined || value === null) {
       return '';
     }
     return `${this.timezoneService.toHours(value)}`;
@@ -216,6 +216,10 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
     url.searchParams.set('work_package[remaining_hours]', this.formatter(this.resource.remainingTime));
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     url.searchParams.set('work_package[status_id]', this.statusFormatter(this.resource.status?.id as string));
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    if (this.resource?.id === 'new') {
+      url.searchParams.set('work_package[status_id_touched]', 'true');
+    }
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     this.frameSrc = url.toString();

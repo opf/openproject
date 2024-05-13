@@ -330,6 +330,18 @@
         years: "År"
         description: >
           Velg standard zoom-nivå som skal vises når autozoom ikke er tilgjengelig.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "nei"
     general_text_yes: "ja"
     general_text_No: "Nei"
@@ -378,6 +390,7 @@
     label_added_time_by: 'Lagt til av <a href="%{authorLink}">%{author}</a> i %{age}'
     label_ago: "dager siden"
     label_all: "alle"
+    label_all_uppercase: "Alle"
     label_all_work_packages: "alle arbeidspakker"
     label_and: "og"
     label_ascending: "Stigende"
@@ -419,6 +432,7 @@
     label_expand_project_menu: "Utvid prosjektmeny"
     label_export: "Eksportèr"
     label_export_preparing: "Eksporten forberedes og lastes ned i løpet av kort tid."
+    label_favorites: "Favorites"
     label_filename: "Fil"
     label_filesize: "Størrelse"
     label_general: "Generell"
@@ -926,7 +940,7 @@
       message_work_package_status_blocked: "Status for arbeidspakke er ikke skrivbar på grunn av at lukket status og lukket versjon er tildelt."
       placeholder_filter_by_text: "Emne, beskrivelse, kommentarer, ..."
       progress:
-        title: "Work estimates and progress"
+        title: "Arbeidsestimater og framdrift"
       baseline:
         addition_label: "Lagt til for visning i tidsperioden for sammenligning"
         removal_label: "Fjernet fra visning i tidsperioden for sammenligning"
@@ -1269,6 +1283,9 @@
           placeholder: "Plassholderen kan nå brukes i %{project}. Samtidig kan du allerede planlegge med den brukeren og tilordne arbeidspakker i forekomsten."
           group: "Gruppen er nå en del av %{project}. Dette betyr at du allerede kan planlegge med den gruppen og tildele arbeidspakker for forekomst."
         next_button: "Fortsett"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Inkluder prosjekter"
       title: "Prosjekter"
@@ -1329,5 +1346,5 @@
         Close: "Lukk"
     open_project_storage_modal:
       waiting_subtitle:
-        network_off: "There is a network problem."
-        network_on: "Network is back. We are trying."
+        network_off: "Det er et nettverksproblem."
+        network_on: "Nettverket er tilbake. Vi prøver igjen."

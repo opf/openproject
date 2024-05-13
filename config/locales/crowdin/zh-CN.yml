@@ -261,6 +261,7 @@ zh-CN:
     lists:
       active: "有效项目"
       my: "我的项目"
+      favored: "收藏的项目"
       archived: "归档项目"
       my_private: "我的私有项目列表"
       new:
@@ -301,6 +302,13 @@ zh-CN:
       storage:
         no_results_title_text: 此项目没有已记录的额外磁盘空间消耗。
   lists:
+    create:
+      success: "已将修改后的列表保存为新列表"
+      failure: "无法保存修改后的列表： %{errors}"
+    update:
+      success: "已保存修改后的列表"
+      failure: "无法保存修改后的列表： %{errors}"
+    can_be_saved: "列表已修改："
     can_be_saved_as: "修改内容只能保存在新列表中。"
   members:
     index:
@@ -771,6 +779,7 @@ zh-CN:
         not_an_iso_date: "不是有效日期。所需格式：YYYY-MM-DD。"
         not_same_project: "不属于同一个项目。"
         odd: "必须是奇数。"
+        regex_match_failed: "与正则表达式 %{expression}不匹配。"
         regex_invalid: "无法与关联的正则表达式进行验证。"
         smaller_than_or_equal_to_max_length: "必须小于或等于最大长度。"
         taken: "已经采取。"
@@ -1244,6 +1253,7 @@ zh-CN:
   button_edit: "编辑"
   button_edit_associated_wikipage: "编辑关联的维基页面： %{page_title}"
   button_expand_all: "全部展开"
+  button_favorite: "添加至收藏夹"
   button_filter: "筛选器"
   button_generate: "生成"
   button_list: "列表"
@@ -1271,6 +1281,7 @@ zh-CN:
   button_unarchive: "取消归档"
   button_uncheck_all: "全部不选"
   button_unlock: "解锁​​​​"
+  button_unfavorite: "取消收藏"
   button_unwatch: "取消关注"
   button_update: "更新"
   button_upgrade: "升级"
@@ -1538,6 +1549,7 @@ zh-CN:
       pdf_overview_table: "PDF 表"
       pdf_report_with_images: "带图像的 PDF 报告"
       pdf_report: "PDF 报告"
+      pdf_gantt: "PDF 甘特图"
     image:
       omitted: "图像未导出。"
     units:
@@ -1615,8 +1627,12 @@ zh-CN:
       system_update:
         file_links_journal: >
           从现在开始，与文件链接（存储在外部存储器中的文件）相关的活动将出现在“活动”选项卡中。以下是与已经存在的链接相关的活动的表示：
-        progress_calculation_changed: >
-          进度计算已更新。
+        progress_calculation_adjusted_from_disabled_mode: >-
+          进度计算自动<a href="%{href}" target="_blank">设置为基于工时的模式，并随版本更新而调整</a>。
+        progress_calculation_adjusted: >-
+          进度计算自动<a href="%{href}" target="_blank">设置为基于工时的模式，并随版本更新而调整</a>。
+        totals_removed_from_childless_work_packages: >-
+          使用 <a href="%{href}" target="_blank">版本更新</a>的非父工作包的工作和进度总计自动移除。 这是一个维护任务，可以安全地被忽略。
   links:
     configuration_guide: "配置指南"
     get_in_touch: "遇到问题了？与我们联系。"
@@ -1872,7 +1888,7 @@ zh-CN:
   label_enterprise_support: "企业支持"
   label_enterprise_addon: "企业版附加组件"
   label_environment: "环境"
-  label_estimates_and_time: "估算与工时"
+  label_estimates_and_progress: "预估和进度"
   label_equals: "是"
   label_everywhere: "任何位置"
   label_example: "示例"
@@ -1886,7 +1902,7 @@ zh-CN:
   label_expanded_click_to_collapse: "展开。点击折叠"
   label_f_hour: "%{value} 小时"
   label_f_hour_plural: "%{value} 小时"
-  label_favoured: "收藏项"
+  label_favorite: "收藏夹"
   label_feed_plural: "订阅源"
   label_feeds_access_key: "RSS 访问密钥"
   label_feeds_access_key_created_on: "RSS 访问密钥创建于 %{value} 前"
@@ -1959,6 +1975,7 @@ zh-CN:
   label_learn_more: "了解更多信息"
   label_less_or_equal: "<="
   label_less_than_ago: "小于数日前"
+  label_link_url: "链接（URL）"
   label_list: "列表"
   label_loading: "正在加载..."
   label_lock_user: "锁住用户"
@@ -1984,6 +2001,7 @@ zh-CN:
   label_membership_plural: "成员资格"
   lable_membership_added: "已添加成员"
   lable_membership_updated: "已更新成员"
+  label_menu: "菜单"
   label_menu_badge:
     pre_alpha: "pre-beta"
     alpha: "alpha"
@@ -2085,6 +2103,7 @@ zh-CN:
   label_percent_complete: "% 完成"
   label_project_activity: "项目活动"
   label_project_attribute_plural: "项目属性"
+  label_project_attribute_manage_link: "管理项目属性"
   label_project_count: "项目总数"
   label_project_copy_notifications: "在项目复制期间发送电子邮件通知"
   label_project_latest: "最新的项目"
@@ -2099,7 +2118,7 @@ zh-CN:
   label_project_attributes_settings: "项目属性设置"
   label_project_storage_plural: "文件存储区"
   label_project_storage_project_folder: "文件存储区：项目文件夹"
-  label_projects_storage_information: "%{count} 项目使用 %{storage} 磁盘存储"
+  label_projects_disk_usage_information: "%{count} 个项目正在使用 %{used_disk_space} 磁盘空间"
   label_project_view_all: "查看所有项目"
   label_project_show_details: "显示项目详细信息"
   label_project_hide_details: "隐藏项目详细信息"
@@ -2156,6 +2175,7 @@ zh-CN:
   label_setting_plural: "设置"
   label_system_settings: "系统设置"
   label_show_completed_versions: "显示已完成的版本"
+  label_columns: "列"
   label_sort: "排序"
   label_sort_by: "排序按 %{value}"
   label_sorted_by: "排序按 %{value}"
@@ -2837,6 +2857,7 @@ zh-CN:
   setting_app_subtitle: "应用副标题"
   setting_app_title: "应用程序标题"
   setting_attachment_max_size: "最大的附件大小"
+  setting_show_work_package_attachments: "默认在文件选项卡中显示附件"
   setting_antivirus_scan_mode: "扫描模式"
   setting_antivirus_scan_action: "受感染文件的操作"
   setting_autofetch_changesets: "自动提取存储库更改"
@@ -2938,6 +2959,8 @@ zh-CN:
     attachments:
       whitelist_text_html: >
         为上传的文件定义有效文件扩展名和/或 MIME 类型列表。<br/>输入文件扩展名（例如 <code>%{ext_example}</code>）或 MIME 类型（例如 <code>%{mime_example}</code>）。<br/>留空以允许上传任何文件类型。允许输入多个值（每个值一行）。
+      show_work_package_attachments: >
+        禁用此选项将会为新项目隐藏工作包文件标签上的附件列表。 工作包描述中的文件仍将上传到内部附件存储。
     antivirus:
       title: "病毒扫描"
       clamav_ping_failed: "无法连接 ClamAV 守护进程。请仔细检查配置，然后重试。"
@@ -3174,6 +3197,10 @@ zh-CN:
         input_label: "添加列"
         input_placeholder: "选择列"
         drag_area_label: "管理列并对其重新排序"
+      sort_by:
+        automatic:
+          heading: "自动"
+          description: "按一个或多个排序标准对 %{plural} 进行排序。您将失去之前的排序。"
   top_menu:
     additional_resources: "其他资源"
     getting_started: "入门指南"
@@ -3320,7 +3347,7 @@ zh-CN:
         working: "%{day}现在是工作日"
         non_working: "%{day}现在是非工作日"
       dates:
-        working: "%{day}现在是工作日"
+        working: "%{date}现在是工作日"
         non_working: "%{date}现在是非工作日"
   nothing_to_preview: "没有什么要预览"
   api_v3:

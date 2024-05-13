@@ -26,7 +26,7 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | [Archive a project](#archive-a-project)                      | Find out how to archive completed projects.                  |
 | [Delete a project](#delete-a-project)                        | How to delete a project.                                     |
 
-![](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Projects-Introduction.mp4)
+![Video](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Projects-Introduction.mp4)
 
 ## Select a project
 
@@ -43,8 +43,6 @@ To create a subproject for an existing project, navigate to [*Project settings*]
 Then follow the instructions to [create a new project](../../getting-started/projects/#create-a-new-project).
 
 ![project settings subproject](project-settings-subproject.png)
-
-
 
 ## Project structure
 
@@ -85,7 +83,7 @@ You can specify further advanced settings for your project. Navigate to your pro
 
 - Enter a detailed description for your project.
 
-- You see the default project **Identifier**. The identifier will be shown in the URL. 
+- You see the default project **Identifier**. The identifier will be shown in the URL.
 
 **Note**: Changing the project identifier while the project is already being worked on can have major effects and is therefore not recommended. For example, repositories may not be loaded correctly and deep links may no longer work (since the project URL changes when the project identifier is changed).
 
@@ -105,13 +103,11 @@ Press the blue **Save** button to apply your changes.
 
 ![project settings information change hierarchy](project-settings-information-change-hierarchy.png)
 
-
-
 ### Set a project to public
 
 If you want to set a project to public, you can do so by ticking the box next to "Public" in the [project settings](project-settings) *->Information*.
 
-Setting a project to public will make it accessible to all people within your OpenProject instance. 
+Setting a project to public will make it accessible to all people within your OpenProject instance.
 
 (Should your instance be [accessible without authentication](../../system-admin-guide/authentication/authentication-settings) this option will make the project visible to the general public outside your registered users, too)
 
@@ -121,7 +117,7 @@ You can copy an existing project by navigating to the [project settings](project
 
 ![project information copy project](project-information-copy-project.png)
 
-Give the new project a name. Under **Copy options** select which modules and settings you want to copy and whether or not you want to notify users via email during copying. 
+Give the new project a name. Under **Copy options** select which modules and settings you want to copy and whether or not you want to notify users via email during copying.
 You can copy existing [boards](../agile-boards) (apart from the Subproject board) and the [Project overview](../project-overview/#project-overview) dashboards along with your project, too.
 
 ![project settings information copy project copy options](project-settigns-copy-project.png)
@@ -132,7 +128,19 @@ For further configuration open the **Advanced settings**. Here you can specify (
 
 ![copy project advanced settings](project-settings-copy-project-advanced-settings.png)
 
-Then click the blue **Copy** button.
+Under the **Copy options** section you can select what additional project data and settings, such as versions, work package categories, attachments and project members should be copied as well.
+
+![Copy options when copying a project in OpenProject](project-settings-copy-project-copy-options.png)
+
+**Note**: the File storages options only apply if the template project had  [OneDrive/SharePoint](../../system-admin-guide/integrations/one-drive) with automatically managed folders activated.
+
+If you select the **File Storages: Project folders** option, both the storage and the storage folders are copied into the new project if automatically managed project folders were selected for the original file storage. For storages with manually managed project folders setup the copied storage will be referencing the same folder as the original project.
+
+If you de-select the **File Storages: Project folders** option, the storage is copied, but no specific folder is set up.
+
+If you de-select the **File Storages** option, no storages are copied to the new project.
+
+Once you are done, click the green **Save** button.
 
 ### Archive a project
 
@@ -146,14 +154,12 @@ Then, the project cannot be selected from the project selection anymore. It is s
 
 ![project list filter](project-list-filter.png)
 
-
 ### Delete a project
 
-If you want to delete a project, navigate to the [Project settings](project-settings). Click the button **Delete project** on the top right of the page. 
+If you want to delete a project, navigate to the [Project settings](project-settings). Click the button **Delete project** on the top right of the page.
 
 ![delete a project](delete-a-project.png)
 
 Also, you can delete a project via the [projects overview](./project-lists/).
 
 **Note**: Deleting projects is only available for System administrators.
-

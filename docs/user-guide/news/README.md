@@ -80,4 +80,3 @@ You can also include your latest news from a project on the Project overview pag
 Find out how to [configure your Project overview](../project-overview/#news-widget) page.
 
 ![latest-news-project-overview](latest-news-project-overview.png)
-

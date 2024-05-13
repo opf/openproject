@@ -12,7 +12,7 @@ We released [OpenProject 11.0.3](https://community.openproject.org/versions/1456
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Bulk edit: Custom field long text cut off \[[#34829](https://community.openproject.org/wp/34829)\]
 - Fixed: "Estimates and time" not translated to German when not logged in on community.openproject.org \[[#35009](https://community.openproject.org/wp/35009)\]

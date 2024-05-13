@@ -161,6 +161,10 @@ RSpec.describe "history",
       click_on "Save"
     end
 
+    # dynamically wait for the item to be updated successfully
+    # before checking the history modal, otherwise running into timing issues
+    show_page.expect_agenda_item(title: "Updated title")
+
     history_page.open_history_modal
     history_page.expect_event(
       'Agenda item "Updated title"',
@@ -202,6 +206,7 @@ RSpec.describe "history",
     show_page.remove_agenda_item(second)
 
     history_page.open_history_modal
+
     item = history_page.first_item
     expect(item).to have_css(".op-activity-list--item-title", text: 'Agenda item "Second"')
     expect(item).to have_css(".op-activity-list--item-subtitle", text: "deleted by")
@@ -221,6 +226,7 @@ RSpec.describe "history",
     expect(wp_item).to be_present
 
     history_page.open_history_modal
+
     item = history_page.first_item
     expect(item).to have_css(".op-activity-list--item-title", text: work_package.to_s.strip)
     expect(item).to have_css(".op-activity-list--item-subtitle", text: "added by")
@@ -241,6 +247,7 @@ RSpec.describe "history",
     expect(wp_item).to be_present
 
     history_page.open_history_modal
+
     item = history_page.first_item
     expect(item).to have_css(".op-activity-list--item-title", text: changed_wp.to_s.strip)
     expect(item).to have_css(".op-activity-list--item-subtitle", text: "updated by")
@@ -271,6 +278,7 @@ RSpec.describe "history",
 
     # Is visible for user
     history_page.open_history_modal
+
     item = history_page.first_item
     expect(item).to have_css(".op-activity-list--item-title", text: other_wp.to_s.strip)
     expect(item).to have_css(".op-activity-list--item-subtitle", text: "added by")
@@ -281,6 +289,7 @@ RSpec.describe "history",
     show_page.visit!
 
     history_page.open_history_modal
+
     item = history_page.first_item
     expect(item).to have_css(".op-activity-list--item-title", text: I18n.t(:label_agenda_item_undisclosed_wp, id: other_wp.id))
     expect(item).to have_css(".op-activity-list--item-subtitle", text: "added by")
@@ -289,6 +298,10 @@ RSpec.describe "history",
     login_as(user)
     show_page.visit!
     show_page.remove_agenda_item wp_item
+
+    # dynamically wait for the item to be removed successfully
+    show_page.expect_no_agenda_item(title: wp_item.to_s)
+
     history_page.open_history_modal
 
     item = history_page.first_item
@@ -301,6 +314,7 @@ RSpec.describe "history",
     show_page.visit!
 
     history_page.open_history_modal
+
     item = history_page.first_item
     expect(item).to have_css(".op-activity-list--item-title", text: I18n.t(:label_agenda_item_undisclosed_wp, id: other_wp.id))
     expect(item).to have_css(".op-activity-list--item-subtitle", text: "removed by")
@@ -313,12 +327,11 @@ RSpec.describe "history",
 
     show_page.add_agenda_item do
       fill_in "Title", with: "My agenda item"
-      click_on "Notes"
     end
 
     show_page.expect_agenda_item(title: "My agenda item")
     item = MeetingAgendaItem.find_by(title: "My agenda item")
-    show_page.cancel_add_form
+    show_page.cancel_add_form(item)
 
     show_page.select_action(item, "Add notes")
     editor.set_markdown "# Hello there"

@@ -37,27 +37,29 @@ http_interactions:
       P3p:
       - CP="DSP CUR OTPi IND OTRi ONL FIN"
       X-Ms-Request-Id:
-      - 96563b2f-18f0-42f1-bff0-e8a3a6afba00
+      - ff114599-2b16-4e88-8dea-a9a419c19300
       X-Ms-Ests-Server:
-      - 2.1.17282.6 - WEULR1 ProdSlices
+      - 2.1.17846.6 - WEULR1 ProdSlices
+      X-Ms-Srs:
+      - 1.P
       X-Xss-Protection:
       - '0'
       Set-Cookie:
-      - fpc=Aow4CwlsPWdHubKXADsWoDykbDoXAQAAABAKX90OAAAA; expires=Fri, 15-Mar-2024
-        19:22:57 GMT; path=/; secure; HttpOnly; SameSite=None
+      - fpc=AuqfvWCbIcRGhZuoYIZGOQukbDoXAQAAAEDxut0OAAAA; expires=Fri, 24-May-2024
+        12:25:37 GMT; path=/; secure; HttpOnly; SameSite=None
       - stsservicecookie=estsfd; path=/; secure; samesite=none; httponly
       - x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly
       Date:
-      - Wed, 14 Feb 2024 19:22:57 GMT
+      - Wed, 24 Apr 2024 12:25:37 GMT
       Content-Length:
       - '1708'
     body:
       encoding: UTF-8
       string: '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"<ACCESS_TOKEN>"}'
-  recorded_at: Wed, 14 Feb 2024 19:22:57 GMT
+  recorded_at: Wed, 24 Apr 2024 12:25:37 GMT
 - request:
     method: post
-    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/01AZJL5PNRT4JHUBDHNJF2HOFKENALDGCZ/copy?@microsoft.graph.conflictBehavior=fail
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/01AZJL5PK7O3S74VUDBZDID3ZBVXWMQVYS/copy?@microsoft.graph.conflictBehavior=fail
     body:
       encoding: UTF-8
       string: '{"name":"Folder"}'
@@ -69,7 +71,7 @@ http_interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - httpx.rb/1.2.2
+      - httpx.rb/1.2.4
       Accept-Encoding:
       - gzip, deflate
       Content-Length:
@@ -81,8 +83,6 @@ http_interactions:
     headers:
       Cache-Control:
       - no-store, no-cache
-      Transfer-Encoding:
-      - chunked
       Content-Type:
       - application/json
       Content-Encoding:
@@ -92,15 +92,15 @@ http_interactions:
       Strict-Transport-Security:
       - max-age=31536000
       Request-Id:
-      - c25ccc75-416d-40b6-a2c5-58392738a66b
+      - d7be4068-7873-480e-9bf3-8803326071fc
       Client-Request-Id:
-      - c25ccc75-416d-40b6-a2c5-58392738a66b
+      - d7be4068-7873-480e-9bf3-8803326071fc
       X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000001E9"}}'
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"000","RoleInstance":"FR1PEPF0000079B"}}'
       Date:
-      - Wed, 14 Feb 2024 19:22:57 GMT
+      - Wed, 24 Apr 2024 12:25:37 GMT
     body:
       encoding: UTF-8
-      string: '{"error":{"code":"nameAlreadyExists","message":"Name already exists","innerError":{"date":"2024-02-14T19:22:58","request-id":"c25ccc75-416d-40b6-a2c5-58392738a66b","client-request-id":"c25ccc75-416d-40b6-a2c5-58392738a66b"}}}'
-  recorded_at: Wed, 14 Feb 2024 19:22:58 GMT
+      string: '{"error":{"code":"nameAlreadyExists","message":"Name already exists","innerError":{"date":"2024-04-24T12:25:37","request-id":"d7be4068-7873-480e-9bf3-8803326071fc","client-request-id":"d7be4068-7873-480e-9bf3-8803326071fc"}}}'
+  recorded_at: Wed, 24 Apr 2024 12:25:37 GMT
 recorded_with: VCR 6.2.0

@@ -3,6 +3,131 @@ As of now, this page is still a stub. In particular, the considerations on when 
 For now, it can be stated that OpenProject employs Dialogs for more purposes than GitHub [Primer specifies](https://primer.style/components/dialog).
 
 
+## Async dialogs as turbo streams
+
+Primer dialogs need to be rendered and tied to a button, resulting in their content always being present.
+If you have any non-trivial content that should be displayed in a dialog, you should use the async dialog pattern.
+
+To render dialogs asynchronously, you use a Button/Link/IconButton component as a trigger and add the following
+attributes to it:
+
+- `tag: :a` so that the component is rendered as a link
+- `href: link_to_dialog_path` to specify where to request the dialog stream from
+- `data: { controller: "async-dialog" }` to attach the async-dialog controller to the button.
+
+```erb
+<%%= render(Primer::Beta::Button.new(
+  tag: :a,
+  href: link_to_dialog_path,
+  data: { controller: "async-dialog" }
+) do |button|
+  button.with_leading_visual_icon(icon: :edit)
+  "Edit something"
+end)
+%>
+```
+
+On the Rails controller you wish to render the dialog, you need to respond to the request with the dialog content.
+
+```ruby
+class TestController < ApplicationControler
+  # include the helper module
+  include OpTurbo::DialogStreamHelper
+
+  # ...
+
+  def dialog
+    respond_with_dialog MyDialogComponent.new(work_package: @work_package)
+  end
+end
+```
+
+Assuming the MyDialogComponent template looks like this:
+
+```erb
+<%%=
+  render(Primer::Alpha::Dialog.new(title: "Edit something",
+                                   size: :medium_portrait,
+                                   id: "my-dialog-id")) do |d|
+    d.with_header(variant: :large)
+    d.with_body do
+      # Whatever you want to render here..
+    end
+  end
+%>
+```
+
+You can also render the dialog in a manual turbo_stream template
+
+```ruby
+class TestController < ApplicationControler
+  # include the helper module
+  include OpTurbo::DialogStreamHelper
+
+  # ...
+
+  def dialog; end
+end
+```
+
+
+The content of `dialog.turbo_stream.erb` would then look like this:
+
+```erb
+<%%= turbo_stream.dialog do
+  render(Primer::Alpha::Dialog.new(title: t(:label_history),
+                                   id: 'meeting-history-dialog')) do |d|
+    d.with_header(variant: :large)
+    d.with_body do
+      render(Activities::DaysComponent.new(events: @events, current_project: @project, activity_page: @activity_page))
+    end
+  end
+end
+%>
+```
+
+The dialog content is then rendered in a turbo stream response to the request using
+a [custom turbo stream action](https://turbo.hotwired.dev/handbook/streams#custom-actions).
+
+The frontend turbo stream `dialog` action will take this dialog, append it to the body, and open it immediately.
+Once the dialog is closed, the content is removed from the DOM again.
+
+### Dialogs with separate forms
+
+We have seen that we want to render the body part of the dialog in a separate component.
+This will result in the submit buttons being outside of that component that renders a form.
+
+In the following example, the body renders a separate component with a form. You can tell the
+submit button to reference the form attribute using `form: "id-of-the-form"`. With turbo,
+you have to make sure that the data-turbo attribute is also set.
+
+```erb
+<%%= turbo_stream.dialog do
+  render(Primer::Alpha::Dialog.new(title: t(:label_history),
+                                   id: 'my-dialog')) do |d|
+    d.with_header(variant: :large)
+    d.with_body do
+      render(ComponentThatRendersAForm.new(form_id: "my-dialog-form")
+    end
+
+    d.with_footer do
+      render(Primer::Beta::Button.new(
+        tag: :button,
+        type: :submit,
+        form: "my-dialog-form"
+        data: { turbo: true }
+        variant: :primary,
+      ) do |button|
+        button.text = t(:button_save)
+      end)
+    end
+
+  end
+end
+%>
+```
+
+
 ## Special kinds of dialogs
 
 We have multiple kind of dialogs that re-appear throughout the whole application. In order to make sure, they all look and feel alike, we further specify them here.
@@ -18,6 +143,12 @@ This can come in the form of a positive confirmation where a user is asked to e.
 Or it can be to ascertain the user actually wants to destroy a model.
 
 <%= embed OpenProject::Common::DialogPreview, :confirm_deletion %>
+
+**Note:** Currently, confirmation dialog require a lot of manual work to be implemented.
+Prefer using a native browser confirmation dialog when possible using the `data-confirm` attribute and UJS for the time
+being.
+
+Primerized confirmation dialogs are still a work in progress.
 
 
 #### Where it's used

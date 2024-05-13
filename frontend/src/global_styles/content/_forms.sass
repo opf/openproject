@@ -29,7 +29,7 @@
 $form--field-types: (text-field, text-area, select, check-box, radio-button, range-field, search, file, date-picker)
 $base-line-height: 1.5
 $form-label-color: var(--body-font-color)
-$content-form-input-border: 1px solid var(--color-border-default)
+$content-form-input-border: 1px solid var(--borderColor-default)
 
 %input-style
   border: $content-form-input-border
@@ -78,7 +78,7 @@ form
   &.-bordered
     padding: 30px 20px
     background-color: var(--content-form-bg-color)
-    border: 1px solid var(--color-border-muted)
+    border: 1px solid var(--borderColor-muted)
 
     &.-compressed
       padding: 10px 20px 0 20px
@@ -181,7 +181,7 @@ hr
   border: 0
 
   &.form--separator
-    border-bottom: 1px solid var(--color-border-muted)
+    border-bottom: 1px solid var(--borderColor-muted)
     margin: 0 0 30px
     background: none
 
@@ -231,7 +231,7 @@ hr
   font-weight: var(--base-text-weight-bold)
   line-height: 1.8
   text-transform: uppercase
-  border-bottom: 1px solid var(--color-border-muted)
+  border-bottom: 1px solid var(--borderColor-muted)
 
 // HACK. TODO: Remove fieldset element rules in various places.
 .form--fieldset,
@@ -616,7 +616,7 @@ select
   font-size: var(--body-font-size)
 
   &:focus, &:active
-    border-color: var(--color-accent-fg)
+    border-color: var(--fgColor-accent)
 
 .-hide-placeholder-on-focus
   &:focus::placeholder
@@ -914,7 +914,7 @@ input[readonly].-clickable
 
   .form--field-inline-button
     margin-right: 0
-    border: 1px solid var(--button--border-color)
+    border: 1px solid var(--button-default-borderColor-rest)
     border-left-width: 0px
     border-radius: 0px
 

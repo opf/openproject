@@ -74,11 +74,6 @@ class ApplicationMailer < ActionMailer::Base
     end
   end
 
-  def mail(headers = {}, &block)
-    block ||= method(:default_formats_for_setting)
-    super(headers, &block)
-  end
-
   # Sets a Message-ID header.
   #
   # While the value is set in here, email gateways such as postmark, unless instructed explicitly will assign
@@ -120,10 +115,28 @@ class ApplicationMailer < ActionMailer::Base
     format.text
   end
 
+  ##
+  # Overwrite mailer method to prevent sending mails to locked users.
+  def mail(headers = {}, &block)
+    block ||= method(:default_formats_for_setting)
+    to = headers[:to]
+
+    if to
+      raise ArgumentError, "Recipient needs to be instance of User" unless to.is_a?(User)
+
+      if to.locked?
+        Rails.logger.info "Not sending #{action_name} mail to locked user #{to.id} (#{to.login})"
+        return
+      end
+    end
+
+    super(headers.merge(to: to.mail), &block)
+  end
+
   def send_localized_mail(user)
     with_locale_for(user) do
       subject = yield
-      mail to: user.mail, subject:
+      mail to: user, subject:
     end
   end
 

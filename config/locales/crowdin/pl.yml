@@ -261,6 +261,7 @@ pl:
     lists:
       active: "Aktywne projekty"
       my: "Moje projekty"
+      favored: "Favorite projects"
       archived: "Zarchiwizowane projekty"
       my_private: "Moje prywatne listy projektów"
       new:
@@ -301,7 +302,14 @@ pl:
       storage:
         no_results_title_text: Nie ma dodatkowego zarejestrowanego miejsca na dysku zużytego przez ten projekt.
   lists:
-    can_be_saved_as: "Modyfikacje można zapisać tylko na nowej liście."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Nie ma jeszcze żadnych członków projektu.
@@ -351,15 +359,15 @@ pl:
     delete_work_package_shares_dialog:
       title: "Unieważnij udostępnienia pakietów roboczych"
       shared_with_this_user_html:
-        one: "Temu użytkownikowi udostępniono %{shared_work_packages_link}."
-        few: "Temu użytkownikowi udostępniono %{shared_work_packages_link}."
-        many: "Temu użytkownikowi udostępniono %{shared_work_packages_link}."
-        other: "Temu użytkownikowi udostępniono %{shared_work_packages_link}."
+        one: "Temu użytkownikowi udostępniono %{all_shared_work_packages_link}."
+        few: "Temu użytkownikowi udostępniono %{all_shared_work_packages_link}."
+        many: "Temu użytkownikowi udostępniono %{all_shared_work_packages_link}."
+        other: "Temu użytkownikowi udostępniono %{all_shared_work_packages_link}."
       shared_with_this_group_html:
-        one: "Tej grupie udostępniono %{shared_work_packages_link}."
-        few: "Tej grupie udostępniono %{shared_work_packages_link}."
-        many: "Tej grupie udostępniono %{shared_work_packages_link}."
-        other: "Tej grupie udostępniono %{shared_work_packages_link}."
+        one: "Tej grupie udostępniono %{all_shared_work_packages_link}."
+        few: "Tej grupie udostępniono %{all_shared_work_packages_link}."
+        many: "Tej grupie udostępniono %{all_shared_work_packages_link}."
+        other: "Tej grupie udostępniono %{all_shared_work_packages_link}."
       shared_with_permission_html:
         one: "Tylko %{shared_work_packages_link} udostępniono z uprawnieniami %{shared_role_name}."
         few: "Tylko %{shared_work_packages_link} udostępniono z uprawnieniami %{shared_role_name}."
@@ -793,6 +801,7 @@ pl:
         not_an_iso_date: "wprowadzono nieprawidłową datę. Wymagany format: RRRR-MM-DD."
         not_same_project: "nie należy do tego samego projektu."
         odd: "musi być nieparzyste."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "nie może być zastosowany z zastosowanym wyrażeniem regularnym."
         smaller_than_or_equal_to_max_length: "musi być mniejsze niż lub równe z maksymalnej długości."
         taken: "zostały już podjęte."
@@ -1290,6 +1299,7 @@ pl:
   button_edit: "Edycja"
   button_edit_associated_wikipage: "Edytuj powiązaną stronę Wiki: %{page_title}"
   button_expand_all: "Rozwiń wszystkie"
+  button_favorite: "Add to favorites"
   button_filter: "Filtr"
   button_generate: "Utwórz"
   button_list: "Lista"
@@ -1317,6 +1327,7 @@ pl:
   button_unarchive: "Unarchive"
   button_uncheck_all: "Odznacz wszystko"
   button_unlock: "Odblokuj"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Nie obserwuj"
   button_update: "Aktualizacja"
   button_upgrade: "Aktualizuj"
@@ -1638,6 +1649,7 @@ pl:
       pdf_overview_table: "Tabela PDF"
       pdf_report_with_images: "Raport PDF z obrazami"
       pdf_report: "Raport PDF"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Nie wyeksportowano obrazu"
     units:
@@ -1707,7 +1719,7 @@ pl:
           working: "%{day} jest teraz dniem roboczym"
           non_working: "%{day} jest teraz dniem nieroboczym"
         dates:
-          working: "%{day} jest teraz dniem roboczym"
+          working: "%{date} jest teraz dniem roboczym"
           non_working: "%{date} jest teraz wolnym od pracy"
       progress_mode_changed_to_status_based: Tryb obliczania postępu ustawiono na oparty na statusie
       status_p_complete_changed: >-
@@ -1715,8 +1727,12 @@ pl:
       system_update:
         file_links_journal: >
           Od teraz aktywność związana z linkami do plików (plików przechowywanych w magazynach zewnętrznych) będzie wyświetlana na karcie Aktywność. Poniżej przedstawiono aktywność dotyczącą linków, które już istniały:
-        progress_calculation_changed: >
-          Zaktualizowano obliczenie postępu
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Przewodnik po konfiguracji"
     get_in_touch: "Masz pytania? Skontaktuj się z nami."
@@ -1972,7 +1988,7 @@ pl:
   label_enterprise_support: "Wsparcie Enterprise"
   label_enterprise_addon: "Dodatek wersji Enterprise"
   label_environment: "Środowisko"
-  label_estimates_and_time: "Szacowany czas"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "jest"
   label_everywhere: "wszędzie"
   label_example: "Przykład"
@@ -1986,7 +2002,7 @@ pl:
   label_expanded_click_to_collapse: "Rozwinięto. Kliknij, aby zwinąć"
   label_f_hour: "%{value} godzin"
   label_f_hour_plural: "%{value} godzin"
-  label_favoured: "Ulubione"
+  label_favorite: "Ulubione"
   label_feed_plural: "Kanały"
   label_feeds_access_key: "Klucz dostępu RSS"
   label_feeds_access_key_created_on: "Klucz dostępu RSS utworzony %{value} temu"
@@ -2059,6 +2075,7 @@ pl:
   label_learn_more: "Dowiedz się więcej"
   label_less_or_equal: "≤"
   label_less_than_ago: "mniej niż dni temu"
+  label_link_url: "Link (URL)"
   label_list: "Lista"
   label_loading: "Ładowanie..."
   label_lock_user: "Zablokuj użytkownika"
@@ -2084,6 +2101,7 @@ pl:
   label_membership_plural: "Uczestnictwa"
   lable_membership_added: "Dodano członka"
   lable_membership_updated: "Zaktualizowano członka"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "wczesna alfa"
     alpha: "alfa"
@@ -2185,6 +2203,7 @@ pl:
   label_percent_complete: "% ukończenia"
   label_project_activity: "Aktywność projektu"
   label_project_attribute_plural: "Cechy projektu"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Całkowita liczba projektów"
   label_project_copy_notifications: "Wyślij powiadomienia e-mail podczas kopiowania projektów"
   label_project_latest: "Najnowsze projekty"
@@ -2199,7 +2218,7 @@ pl:
   label_project_attributes_settings: "Ustawienia atrybutów projektu"
   label_project_storage_plural: "Magazyny plików"
   label_project_storage_project_folder: "Magazyny plików: foldery projektów"
-  label_projects_storage_information: "%{count} projektów zużywających %{storage} przestrzeni dyskowej"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Zobacz wszystkie projekty"
   label_project_show_details: "Pokaż szczegóły projektu"
   label_project_hide_details: "Ukryj szczegóły projektu"
@@ -2256,6 +2275,7 @@ pl:
   label_setting_plural: "Ustawienia"
   label_system_settings: "Ustawienia"
   label_show_completed_versions: "Pokaż zakończone wersje"
+  label_columns: "Kolumny"
   label_sort: "Sortowanie"
   label_sort_by: "Sortuj wg %{value}"
   label_sorted_by: "kolejność wg %{value}"
@@ -2946,6 +2966,7 @@ pl:
   setting_app_subtitle: "Podtytuł"
   setting_app_title: "Tytuł"
   setting_attachment_max_size: "Maks. rozmiar załącznika"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Tryb skanowania"
   setting_antivirus_scan_action: "Działanie wobec zainfekowanego pliku"
   setting_autofetch_changesets: "Autopobieranie zmian repozytorium"
@@ -3047,6 +3068,8 @@ pl:
     attachments:
       whitelist_text_html: >
         Zdefiniuj listę poprawnych rozszerzeń plików i/lub typów mime dla przesłanych plików. <br/> Wprowadź rozszerzenia plików (np. <code>%{ext_example}</code>) lub typy mime (np. <code>%{mime_example}</code>). <br/> Pozostaw puste, aby umożliwić przesłanie dowolnego typu pliku. Dozwolone wielokrotne wartości (jeden wiersz dla każdej wartości).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Skanowanie antywirusowe"
       clamav_ping_failed: "Nie udało się połączyć z demonem ClamAV. Proszę sprawdzić konfigurację i spróbować ponownie."
@@ -3194,7 +3217,7 @@ pl:
   text_work_packages_ref_in_commit_messages: "Odwołania i poprawki do pakietów roboczych w wiadomościach o zmianach"
   text_journal_added: "%{label} %{value} added"
   text_journal_attachment_added: "%{label} %{value} dodano jako załącznik"
-  text_journal_attachment_deleted: "%{label} %{value} usunięto jako załącznik"
+  text_journal_attachment_deleted: "%{label} %{old} usunięto jako załącznik"
   text_journal_changed_plain: "%{label} zmieniono z %{old} %{linebreak}na %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
@@ -3283,6 +3306,10 @@ pl:
         input_label: "Dodaj kolumny"
         input_placeholder: "Wybierz kolumnę"
         drag_area_label: "Zarządzaj kolumnami i zmieniaj ich kolejność"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Dodatkowe zasoby"
     getting_started: "Pierwsze kroki"
@@ -3433,8 +3460,8 @@ pl:
         working: "%{day} jest teraz dniem roboczym"
         non_working: "%{day} jest teraz dniem nieroboczym"
       dates:
-        working: "%{day} jest teraz roboczym"
-        non_working: "%{day} jest teraz wolnym od pracy"
+        working: "%{date} jest teraz roboczym"
+        non_working: "%{date} jest teraz wolnym od pracy"
   nothing_to_preview: "Nie ma nic do podglądu"
   api_v3:
     attributes:
@@ -3634,7 +3661,7 @@ pl:
   link: link
   plugin_openproject_auth_plugins:
     name: "Wtyczki uwierzytelniające OpenProject"
-    description: "Integracja dostawców strategii OmniAuth w celu uwierzytelniania w Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "SAML OmniAuth / pojedyncze logowanie"
     description: "Dodaje dostawcę SAML OmniAuth do OpenProject"

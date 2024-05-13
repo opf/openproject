@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 8.2.1
-  sidebar_navigation:
-      title: 8.2.1
-  release_version: 8.2.1
-  release_date: 2019-02-14
+title: OpenProject 8.2.1
+sidebar_navigation:
+  title: 8.2.1
+release_version: 8.2.1
+release_date: 2019-02-14
 ---
 
 
@@ -14,9 +14,7 @@ We released
 The release contains several bug fixes and we recommend updating to the
 newest version.
 
-#### Bug fixes and changes
-
- 
+## Bug fixes and changes
 
   - Fixed: Long heading in forum overlaps buttons
     \[[#28839](https://community.openproject.org/wp/28839)\]
@@ -60,11 +58,7 @@ newest version.
     requested from our release servers to render the badge. This page
     also provides means to disable this check.
 
- 
-
-#### Contributions
+## Contributions
 
 A big thanks to community members for reporting bugs and helping us
 identifying and providing fixes.
-
-

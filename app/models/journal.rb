@@ -66,6 +66,7 @@ class Journal < ApplicationRecord
   store_accessor :cause,
                  %i[
                    type
+                   feature
                    work_package_id
                    changed_days
                    status_name

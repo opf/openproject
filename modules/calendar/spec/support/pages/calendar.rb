@@ -132,7 +132,7 @@ module Pages
     end
 
     def set_favoured
-      check "Favoured"
+      check "Favorite"
     end
 
     def click_on_submit

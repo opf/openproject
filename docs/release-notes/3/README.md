@@ -5,7 +5,7 @@ release_date: 2014-10-08
 title: OpenProject Version 3 Release Notes
 ---
 
-# OpenProject Version 3 Release Notes 
+# OpenProject Version 3 Release Notes
 
 | Version                       | Release date |
 |-------------------------------|--------------|

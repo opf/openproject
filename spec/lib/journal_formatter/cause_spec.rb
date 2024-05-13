@@ -359,6 +359,109 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     end
   end
 
+  context "when cause is a system update: change of progress calculation mode from disabled to work-based" do
+    let(:cause) do
+      {
+        "type" => "system_update",
+        "feature" => "progress_calculation_adjusted_from_disabled_mode"
+      }
+    end
+
+    context "when rendering HTML variant" do
+      let(:html) { true }
+
+      it do
+        href = OpenProject::Static::Links.links[:blog_article_progress_changes][:href]
+        expect(subject).to eq "<strong>OpenProject system update:</strong> Progress calculation automatically " \
+                              "<a href=\"#{href}\" target=\"_blank\">set to work-based mode and adjusted with version update</a>."
+      end
+    end
+
+    context "when rendering raw variant" do
+      let(:html) { false }
+
+      it do
+        expect(subject).to eq "OpenProject system update: Progress calculation automatically " \
+                              "set to work-based mode and adjusted with version update."
+      end
+    end
+  end
+
+  context "when cause is a system update: progress calculation adjusted" do
+    let(:cause) do
+      {
+        "type" => "system_update",
+        "feature" => "progress_calculation_adjusted"
+      }
+    end
+
+    context "when rendering HTML variant" do
+      let(:html) { true }
+
+      it do
+        href = OpenProject::Static::Links.links[:blog_article_progress_changes][:href]
+        expect(subject).to eq "<strong>OpenProject system update:</strong> Progress calculation automatically " \
+                              "<a href=\"#{href}\" target=\"_blank\">adjusted with version update</a>."
+      end
+    end
+
+    context "when rendering raw variant" do
+      let(:html) { false }
+
+      it do
+        expect(subject).to eq "OpenProject system update: Progress calculation automatically " \
+                              "adjusted with version update."
+      end
+    end
+
+    context "with previous feature key 'progress_calculation_changed'" do
+      let(:cause) do
+        {
+          "type" => "system_update",
+          "feature" => "progress_calculation_changed"
+        }
+      end
+      let(:html) { false }
+
+      it "is rendered like 'progress_calculation_adjusted'" do
+        expect(subject).to eq "OpenProject system update: Progress calculation automatically " \
+                              "adjusted with version update."
+      end
+    end
+  end
+
+  context "when cause is a system update: totals removed from childless work packages" do
+    let(:cause) do
+      {
+        "type" => "system_update",
+        "feature" => "totals_removed_from_childless_work_packages"
+      }
+    end
+
+    context "when rendering HTML variant" do
+      let(:html) { true }
+
+      it do
+        href = OpenProject::Static::Links.links[:release_notes_14_0_1][:href]
+        expect(subject).to eq "<strong>OpenProject system update:</strong> Work and progress totals " \
+                              "automatically removed for non-parent work packages with " \
+                              "<a href=\"#{href}\" target=\"_blank\">version update</a>. " \
+                              "This is a maintenance task and can be safely ignored."
+      end
+    end
+
+    context "when rendering raw variant" do
+      let(:html) { false }
+
+      it do
+        expect(subject).to eq "OpenProject system update: Work and progress totals " \
+                              "automatically removed for non-parent work packages with " \
+                              "version update. " \
+                              "This is a maintenance task and can be safely ignored."
+      end
+    end
+  end
+
   context "when the change was caused by a system update" do
     let(:cause) do
       {

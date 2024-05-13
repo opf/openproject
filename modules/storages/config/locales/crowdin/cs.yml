@@ -39,15 +39,17 @@ cs:
   api_v3:
     errors:
       too_many_elements_created_at_once: Příliš mnoho prvků vytvořených najednou. Očekáváno nanejvýš %{max} , získáno %{actual}.
+  external_file_storages: External file storages
   permission_create_files: 'External Storage: Create files'
   permission_delete_files: 'External Storage: Delete files'
+  permission_header_for_project_module_storages: Automaticky spravované projektové složky
   permission_manage_file_links: Správa odkazů souborů
   permission_manage_storages_in_project: Spravovat úložiště souborů v projektu
   permission_read_files: 'External Storage: Read files'
   permission_share_files: 'External Storage: Share files'
   permission_view_file_links: Zobrazit odkazy na soubor
   permission_write_files: 'External Storage: Write files'
-  project_module_storages: Úložiště souborů
+  project_module_storages: Files
   storages:
     buttons:
       complete_without_setup: Dokončit bez něj
@@ -84,7 +86,7 @@ cs:
         manual_management: Manually managed access and folders
         manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
         setup_incomplete: Select the type of management of user access and folder creation.
-        subtitle: Access management
+        subtitle: Access Management
         title: Access and project folders
       automatically_managed_folders: Automaticky spravované složky
       general_information: Všeobecné informace
@@ -101,14 +103,14 @@ cs:
       label_healthy: Zdravé
       label_pending: Nevyřízeno
       since: od %{datetime}
-      subtitle: Automatically managed project folders
+      subtitle: Automaticky spravované projektové složky
       title: Zdravotní stav
     health_email_notifications:
       description_subscribed: All administrators receive health status email notifications for this storage.
       description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
       error_could_not_be_saved: Email notification settings could not be saved. Please try again.
-      subscribe: Subscribe
-      title: Email notifications
+      subscribe: Přihlásit k odběru
+      title: E-mailová upozornění
       unsubscribe: Unsubscribe
     help_texts:
       project_folder: Složka projektu je výchozí složka pro nahrávání souborů pro tento projekt. Uživatelé přesto mohou nahrávat soubory do jiných umístění.
@@ -126,11 +128,11 @@ cs:
         application_link_text: aplikace „Integration OpenProject“
         integration: Nextcloud Administrace / OpenProject
         oauth_configuration: Zkopírujte tyto hodnoty z %{application_link_text}.
-        provider_configuration: 'Ujistěte se prosím, že máte oprávnění administrace v Nextcloud instanci a máte nainstalovanou následující aplikaci:'
+        provider_configuration: 'Ujistěte se prosím, že máte oprávnění administrace v Nextcloud instanci a máte nainstalovanou následující aplikaci: %{application_link_text}.'
       no_specific_folder: Ve výchozím nastavení bude každý uživatel ve své vlastní domovské složce, když nahrajou soubor.
       no_storage_set_up: Dosud nejsou nastaveny žádné úložiště souborů.
       not_logged_into_storage: Pro výběr složky projektu se prosím nejprve přihlaste
-      oauth_application_details: 'Tajná hodnota klienta nebude po zavření tohoto okna přístupná. Zkopírujte tyto hodnoty do Nextcloud OpenProject Integration nastavení:'
+      oauth_application_details: Tajná hodnota klienta nebude po zavření tohoto okna přístupná. Zkopírujte prosím tyto hodnoty do %{oauth_application_details_link}.
       oauth_application_details_link_text: Nastavení Nextcloud OpenProject integrace
       one_drive:
         application_link_text: Azure portal
@@ -222,13 +224,12 @@ cs:
       project_settings:
         delete: Odstranit úložiště souborů
         edit: Upravit úložiště souborů pro tento projekt
-        index: Úložiště souborů v tomto projektu
         members_connection_status: Stav připojení členů
         new: Přidat úložiště souborů k tomuto projektu
       project_storage_members:
         subtitle: Zkontrolujte stav připojení úložiště %{storage_name_link} všech členů projektu.
         title: Stav připojení členů
-    permission_header_explanation: "File permissions on external storages are applied only to folders and files within automatically managed project folders. \nNote that not all file permissions are supported by all storage providers."
+    permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
     provider_types:
       label: Typ poskytovatele
       nextcloud:
@@ -241,6 +242,9 @@ cs:
         label_oauth_client_secret: ' utajená Hodnota klienta Azure OAuth'
         name: OneDrive/SharePoint
         name_placeholder: např. OneDrive
+    show_attachments_toggle:
+      description: Deactivating this option will only hide the attachments list. Files uploaded with the help of the rich text editor will still be uploaded to the attachments internal storage.
+      label: Show attachments in the work packages files tab
     storage_list_blank_slate:
       description: Přidejte úložiště, abyste je viděli zde.
       heading: Zatím nemáte žádné úložiště.

@@ -28,32 +28,34 @@ tr:
   activerecord:
     attributes:
       meeting:
-        type: "Meeting type"
+        type: "Toplantı türü "
         location: "Yer"
         duration: "Süre"
         notes: "Notlar"
         participants: "Katılımcılar"
         participant:
-          one: "1 Participant"
+          one: "1 Katılımcı"
           other: "%{count} Participants"
         participants_attended: "Katılımcılar"
         participants_invited: "Davetliler"
         project: "Proje"
         start_date: "Tarih"
-        start_time: "Start time"
-        start_time_hour: "Start time"
+        start_time: "Başlangıç zamanı "
+        start_time_hour: "Başlangıç zamanı "
       meeting_agenda_item:
+        title: "Başlık"
+        author: "Yazar"
+        duration_in_minutes: "dakika"
+        description: "Notlar"
+        presenter: "Sunucu "
+      meeting_section:
         title: "Title"
-        author: "Author"
-        duration_in_minutes: "min"
-        description: "Notes"
-        presenter: "Presenter"
     errors:
       messages:
         invalid_time_format: "geçerli bir zaman değil. Gerekli format: SS:DD"
     models:
-      structured_meeting: "Meeting (dynamic)"
-      meeting_agenda_item: "Agenda item"
+      structured_meeting: "Toplantı (dinamik)"
+      meeting_agenda_item: "Ajanda öğesi"
       meeting_agenda: "Ajanda"
       meeting_minutes: "Dakika"
   activity:
@@ -83,15 +85,15 @@ tr:
   label_upcoming_meetings: "Yaklaşan toplantılar"
   label_past_meetings: "Geçmiş toplantılar"
   label_upcoming_meetings_short: "Yaklaşan"
-  label_past_meetings_short: "Past"
+  label_past_meetings_short: "Geçmiş"
   label_involvement: "Katılım"
   label_upcoming_invitations: "Yaklaşan davetiyeler"
   label_past_invitations: "Geçmiş davetiyeler"
-  label_attendee: "Attendee"
+  label_attendee: "Katılımcı "
   label_author: "Oluşturan"
   label_notify: "Gözden geçirilmek üzere gönder"
   label_icalendar: "Takvime gönder"
-  label_icalendar_download: "Download iCalendar event"
+  label_icalendar_download: "iCalender etkinliğini indir "
   label_version: "Sürüm"
   label_time_zone: "Saat dilim"
   label_start_date: "Başlama tarihi"
@@ -99,7 +101,7 @@ tr:
     attachments:
       text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
-      title: "Copy meeting %{title}"
+      title: "Copy meeting: %{title}"
       attachments: "Copy attachments"
       attachments_text: "Copy over all attached files to the new meeting"
       agenda: "Copy agenda"
@@ -122,6 +124,10 @@ tr:
       structured_text: "Organize your meeting as a list of agenda items, optionally linking them to a work package."
       structured_text_copy: "Copying a meeting will currently not copy the associated meeting agenda items, just the details"
     copied: "#%{id} numaralı toplantıdan kopyalandı"
+  meeting_section:
+    default_title: "New section"
+    untitled_title: "Untitled"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Bildirim başarıyla gönderildi"
   notice_timezone_missing: Saat dilimi ayarlanmadı ve %{zone} kabul edildi. Saat dilimini seçmek için lütfen buraya tıklayın.
   permission_create_meetings: "Toplantı oluşturma"
@@ -170,7 +176,7 @@ tr:
   text_agenda_item_title: 'Agenda item "%{title}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
   text_deleted_agenda_item: 'Deleted agenda item'
-  label_initial_meeting_details: "Meeting"
+  label_initial_meeting_details: "Toplantı"
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
   label_meeting_state: "Meeting status"

@@ -135,7 +135,7 @@
   permission_view_own_time_entries: "Vis egen tidsbruk"
   project_module_costs: "Tid og kostnader"
   text_assign_time_and_cost_entries_to_project: "Overfør rapporterte timer og kostnader til prosjektet"
-  text_destroy_cost_entries_question: "%{hours} timer er ført på arbeidspakkene du er i ferd med å slette. Hva vil du gjøre ?"
+  text_destroy_cost_entries_question: "%{cost_entries} ble rapportert på arbeidspakkene du er i ferd med å slette. Hva vil du gjøre ?"
   text_destroy_time_and_cost_entries: "Slett rapporterte timer og kostnader"
   text_destroy_time_and_cost_entries_question: "%{hours} timer, %{cost_entries} ble rapportert på arbeidspakkene du er i ferd med å slette. Hva ønsker du å gjøre?"
   text_reassign_time_and_cost_entries: "Overfør rapporterte timer og kostnader til denne arbeidspakken:"

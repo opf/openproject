@@ -4,5 +4,5 @@ sl:
     calendar:
       create_new: 'Ustvari nov koledar'
       title: 'Koledar'
-      too_many: 'Skupno obstaja %(count) delovnih paketov, ampak samo %(max) jih je lahko prikazanih.'
+      too_many: 'Skupno obstaja %{count} delovnih paketov, ampak samo %{max} jih je lahko prikazanih.'
       unsaved_title: 'Neimenovani koledar'

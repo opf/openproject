@@ -16,8 +16,5 @@ Versions Affected: Versions <= 9.0.3, 10.0.1
 Fixed Versions: 9.0.4, 10.0.2
 
 ## Credits
-Thanks to David Haintz from the SEC Consult Vulnerability Lab (https://www.sec-consult.com) for identifying and responsibly disclosing the identified issues.
-
-#### Contributions
 
 Thanks to David Haintz from [SEC Consult Vulnerability Lab](https://www.sec-consult.com) for identifying and responsibly disclosing the identified issues.

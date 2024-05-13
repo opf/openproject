@@ -329,6 +329,18 @@ el:
         years: "Χρόνια"
         description: >
           Επιλέξτε το αρχικό επίπεδο μεγέθυνσης που θα πρέπει να εμφανίζεται όταν η αυτόματη μεγέθυνση δεν είναι διαθέσιμη.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "όχι"
     general_text_yes: "ναι"
     general_text_No: "Όχι"
@@ -377,6 +389,7 @@ el:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "ημέρες πριν"
     label_all: "όλα"
+    label_all_uppercase: "Όλα"
     label_all_work_packages: "όλα τα πακέτα εργασίας"
     label_and: "και"
     label_ascending: "Αύξουσα"
@@ -418,6 +431,7 @@ el:
     label_expand_project_menu: "Επέκταση του μενού έργου"
     label_export: "Εξαγωγή"
     label_export_preparing: "Η εξαγωγή προετοιμάζεται και θα κατεβεί σύντομα."
+    label_favorites: "Favorites"
     label_filename: "Aρχείο"
     label_filesize: "Μέγεθος"
     label_general: "Γενικά"
@@ -759,7 +773,7 @@ el:
           last_day: "Last day"
     text_are_you_sure: "Είστε σίγουρος/η;"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} έγραψε:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Το όνομα %{group} χρησιμοποιείται περισσότερες από μία φορές. Τα ονόματα ομάδων πρέπει να είναι μοναδικά."
@@ -980,7 +994,7 @@ el:
         priority: "Προτεραιότητα"
         projectName: "Έργο"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "Υπολειπόμενες ώρες"
         responsible: "Υπεύθυνος"
         startDate: "Ημερομηνία έναρξης"
         status: "Κατάσταση"
@@ -992,7 +1006,7 @@ el:
         versionName: "Έκδοση"
         version: "Έκδοση"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "Εκτιμώμενος χρόνος"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Τελευταία δραστηριότητα"
@@ -1268,6 +1282,9 @@ el:
           placeholder: "The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
           group: "Η ομάδα είναι τώρα μέρος του %{project}. Εν τω μεταξύ, μπορείτε να προγραμματίσετε ήδη με αυτή την ομάδα και να αντιστοιχίσετε πακέτα εργασίας."
         next_button: "Συνέχεια"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Include projects"
       title: "Έργα"

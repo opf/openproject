@@ -10,16 +10,27 @@ We never stop improving OpenProject. Every year there are several stable release
 
 Stay up to date and get an overview of the new features included in the releases.
 
-
 <!--- New release notes are generated below. Do not remove comment. -->
 <!--- RELEASE MARKER -->
+
+## 14.0.1
+
+Release date: 2024-05-08
+
+[Release Notes](14-0-1/)
+
+
+## 14.0.0
+
+Release date: 2024-04-24
+
+[Release Notes](14-0-0/)
 
 ## 13.4.1
 
 Release date: 2024-03-26
 
 [Release Notes](13-4-1/)
-
 
 ## 13.4.0
 
@@ -33,7 +44,6 @@ Release date: 2024-02-28
 
 [Release Notes](13-3-1/)
 
-
 ## 13.3.0
 
 Release date: 2024-02-14
@@ -46,13 +56,11 @@ Release date: 2024-01-31
 
 [Release Notes](13-2-1/)
 
-
 ## 13.2.0
 
 Release date: 2024-01-17
 
 [Release Notes](13-2-0/)
-
 
 ## 13.1.2
 
@@ -60,13 +68,11 @@ Release date: 2023-12-22
 
 [Release Notes](13-1-2/)
 
-
 ## 13.1.1
 
 Release date: 2023-12-20
 
 [Release Notes](13-1-1/)
-
 
 ## 13.1.0
 
@@ -74,13 +80,11 @@ Release date: 2023-12-13
 
 [Release Notes](13-1-0/)
 
-
 ## 13.0.8
 
 Release date: 2023-12-05
 
 [Release Notes](13-0-8/)
-
 
 ## 13.0.7
 
@@ -88,13 +92,11 @@ Release date: 2023-10-23
 
 [Release Notes](13-0-7/)
 
-
 ## 13.0.6
 
 Release date: 2023-10-13
 
 [Release Notes](13-0-6/)
-
 
 ## 13.0.5
 
@@ -102,13 +104,11 @@ Release date: 2023-10-10
 
 [Release Notes](13-0-5/)
 
-
 ## 13.0.4
 
 Release date: 2023-09-26
 
 [Release Notes](13-0-4/)
-
 
 ## 13.0.3
 
@@ -116,20 +116,17 @@ Release date: 2023-09-12
 
 [Release Notes](13-0-3/)
 
-
 ## 13.0.2
 
 Release date: 2023-09-07
 
 [Release Notes](13-0-2/)
 
-
 ## 13.0.1
 
 Release date: 2023-08-29
 
 [Release Notes](13-0-1/)
-
 
 ## 13.0.0
 

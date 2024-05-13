@@ -200,6 +200,47 @@ RSpec.describe "Projects index page",
         end
       end
 
+      specify "project can be marked as favorite" do
+        login_as(admin)
+        visit projects_path
+
+        projects_page.activate_menu_of(project) do |menu|
+          expect(menu).to have_text("Add to favorites")
+          click_link_or_button "Add to favorites"
+        end
+
+        visit project_path(project)
+        expect(project).to be_favored_by(admin)
+
+        visit projects_path
+        projects_page.activate_menu_of(project) do |menu|
+          expect(menu).to have_text("Remove from favorites")
+          click_link_or_button "Remove from favorites"
+        end
+
+        visit project_path(project)
+        expect(project).not_to be_favored_by(admin)
+
+        visit projects_path
+        projects_page.within_row(project) do
+          page.find_test_selector("project-list-favorite-button").click
+        end
+
+        projects_page.activate_menu_of(project) do |menu|
+          expect(menu).to have_text("Remove from favorites")
+        end
+        expect(project).to be_favored_by(admin)
+
+        projects_page.within_row(project) do
+          page.find_test_selector("project-list-favorite-button").click
+        end
+
+        projects_page.activate_menu_of(project) do |menu|
+          expect(menu).to have_text("Add to favorites")
+        end
+        expect(project).not_to be_favored_by(admin)
+      end
+
       specify "flash sortBy is being escaped" do
         login_as(admin)
         visit projects_path(sortBy: "[[\"><script src='/foobar.js'></script>\",\"\"]]")
@@ -469,6 +510,7 @@ RSpec.describe "Projects index page",
 
         # Test visibility of 'more' menu list items
         projects_page.activate_menu_of(parent_project) do |menu|
+          expect(menu).to have_text("Add to favorites")
           expect(menu).to have_text("Unarchive")
           expect(menu).to have_text("Delete")
           expect(menu).to have_no_text("Archive")
@@ -900,15 +942,15 @@ RSpec.describe "Projects index page",
     end
 
     it 'can see the "More" menu' do
-      # For a simple project member the 'More' menu is not visible.
       login_as(simple_member)
       visit projects_path
 
       expect(page).to have_text(parent_project.name)
 
-      # 'More' does not become visible
-      expect(page).to have_no_css('[data-test-selector="project-list-row--single-action"]')
-      expect(page).to have_no_css('[data-test-selector="project-list-row--action-menu"]')
+      projects_page.activate_menu_of(parent_project) do |menu|
+        expect(menu).to have_text("Add to favorites")
+        expect(menu).not_to have_text("Copy")
+      end
 
       # For a project member with :copy_projects privilege the 'More' menu is visible.
       login_as(can_copy_projects_manager)
@@ -916,15 +958,18 @@ RSpec.describe "Projects index page",
 
       expect(page).to have_text(parent_project.name)
 
-      # Test visibility of 'more' menu list items
-      expect(page).to have_css('[data-test-selector="project-list-row--single-action"] .octicon-copy')
+      projects_page.activate_menu_of(parent_project) do |menu|
+        expect(menu).to have_text("Copy")
+      end
 
       # For a project member with :add_subprojects privilege the 'More' menu is visible.
       login_as(can_add_subprojects_manager)
       visit projects_path
 
-      # Test visibility of 'more' menu list items
-      expect(page).to have_css('[data-test-selector="project-list-row--single-action"] .octicon-plus')
+      projects_page.activate_menu_of(parent_project) do |menu|
+        expect(menu).to have_text("Add to favorites")
+        expect(menu).to have_text("New subproject")
+      end
 
       # Test admin only properties are invisible
       within("#project-table") do
@@ -1164,16 +1209,44 @@ RSpec.describe "Projects index page",
 
         expect(page).to have_text(project.name)
 
-        expect(page).to have_css('[data-test-selector="project-list-row--single-action"] .octicon-check')
+        # Test visibility of 'more' menu list items
+        projects_page.activate_menu_of(project) do |menu|
+          expect(menu).to have_text("Project activity")
+          expect(menu).to have_text("Add to favorites")
 
-        # Clicking the menu item should redirect to project activity page
-        # with only project attributes displayed
-        page.find('[data-test-selector="project-list-row--single-action"]').click
+          click_link_or_button "Project activity"
+        end
 
         expect(page).to have_current_path(project_activity_index_path(project_with_activity_enabled), ignore_query: true)
         expect(page).to have_checked_field(id: "event_types_project_attributes")
         expect(page).to have_unchecked_field(id: "event_types_work_packages")
       end
+    end
+  end
+
+  describe "calling the page with the API v3 style parameters",
+           with_settings: { enabled_projects_columns: %w[name created_at project_status] } do
+    let(:filters) do
+      JSON.dump([{ active: { operator: "=", values: ["t"] } },
+                 { name_and_identifier: { operator: "~", values: ["Plain"] } }])
+    end
+
+    current_user { admin }
+
+    it "applies the filters and displays the matching projects" do
+      visit "#{projects_page.path}?filters=#{filters}"
+
+      # Filters have the effect of filtering out projects
+      projects_page.expect_projects_listed(project)
+      projects_page.expect_projects_not_listed(public_project)
+
+      # Applies the filters to the filters section
+      projects_page.toggle_filters_section
+      projects_page.expect_filter_set "active"
+      projects_page.expect_filter_set "name_and_identifier"
+
+      # Columns are taken from the default set as defined by the setting
+      projects_page.expect_columns("Name", "Created on", "Status")
     end
   end
 end

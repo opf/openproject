@@ -36,12 +36,13 @@ class MeetingAgendaItem < ApplicationRecord
   enum item_type: ITEM_TYPES
 
   belongs_to :meeting, class_name: "StructuredMeeting"
+  belongs_to :meeting_section, optional: false
   belongs_to :work_package, class_name: "::WorkPackage"
   has_one :project, through: :meeting
   belongs_to :author, class_name: "User", optional: false
   belongs_to :presenter, class_name: "User", optional: true
 
-  acts_as_list scope: :meeting
+  acts_as_list scope: :meeting_section
   default_scope { order(:position) }
 
   scope :with_includes_to_render, -> { includes(:author, :meeting) }
@@ -61,15 +62,40 @@ class MeetingAgendaItem < ApplicationRecord
             numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1440 },
             allow_nil: true
 
+  before_validation :add_to_latest_meeting_section
+
   after_create :trigger_meeting_agenda_item_time_slots_calculation
   after_save :trigger_meeting_agenda_item_time_slots_calculation, if: Proc.new { |item|
     item.duration_in_minutes_previously_changed? || item.position_previously_changed?
   }
   after_destroy :trigger_meeting_agenda_item_time_slots_calculation
+  # after_destroy :delete_meeting_section_if_empty
+
+  def add_to_latest_meeting_section
+    return if meeting.nil?
+
+    if meeting_section_id.nil?
+      meeting_section = meeting.sections.order(position: :asc).last
+
+      if meeting_section.nil?
+        meeting_section = meeting.sections.build(title: "Untitled")
+      end
+
+      self.meeting_section = meeting_section
+    end
+  end
 
   def trigger_meeting_agenda_item_time_slots_calculation
     meeting.calculate_agenda_item_time_slots
   end
+
+  # def delete_meeting_section_if_empty
+  #   # we need to delete the last existing section if the last meeting agenda item is deleted
+  #   # as we don't render the section (including the section menu) if only one section exists
+  #   # thus the section would silently exist in the database when the very last agenda item was deleted
+  #   # which makes UI rendering inconsistent
+  #   meeting_section.destroy if meeting_section.agenda_items.empty? && meeting.sections.count == 1
+  # end
 
   def linked_work_package?
     item_type == "work_package" && work_package.present?

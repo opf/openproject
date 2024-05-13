@@ -120,6 +120,11 @@ module Pages
                                  visible: :hidden)
       end
 
+      def expect_filter_count(count)
+        expect(page)
+          .to have_css('[data-test-selector="filters-button-counter"]', text: count)
+      end
+
       def expect_no_project_create_button
         expect(page).to have_no_css('[data-test-selector="project-new-button"]')
       end
@@ -144,14 +149,20 @@ module Pages
         end
       end
 
-      def expect_no_save_as_notification
-        expect(page)
-          .to have_no_link("Save as")
+      def expect_notification(text)
+        expect(page).to have_link(text, class: "PageHeader-action", exact: true)
       end
 
-      def expect_save_as_notification
-        expect(page)
-          .to have_link("Save as")
+      def expect_no_notification(text)
+        expect(page).to have_no_link(text, class: "PageHeader-action", exact: true)
+      end
+
+      def expect_menu_item(text, visible: true)
+        expect(page).to have_link(text, class: "ActionListContent", exact: true, visible:)
+      end
+
+      def expect_no_menu_item(text, visible: true)
+        expect(page).to have_no_link(text, class: "ActionListContent", exact: true, visible:)
       end
 
       def filter_by_active(value)
@@ -166,6 +177,15 @@ module Pages
       def filter_by_public(value)
         set_filter("public",
                    "Public",
+                   "is",
+                   [value])
+
+        click_button "Apply"
+      end
+
+      def filter_by_favored(value)
+        set_filter("favored",
+                   "Favorite",
                    "is",
                    [value])
 
@@ -258,9 +278,13 @@ module Pages
 
       def open_filters
         retry_block do
-          page.find('[data-test-selector="filter-component-toggle"]').click
+          toggle_filters_section
           page.find_field("Add filter", visible: true)
         end
+      end
+
+      def toggle_filters_section
+        page.find('[data-test-selector="filter-component-toggle"]').click
       end
 
       def set_columns(*columns)
@@ -320,7 +344,11 @@ module Pages
         page.find('[data-test-selector="project-new-button"]').click
       end
 
-      def save_query(name)
+      def save_query
+        click_more_menu_item("Save")
+      end
+
+      def save_query_as(name)
         click_more_menu_item("Save as")
 
         within '[data-test-selector="project-query-name"]' do
@@ -357,8 +385,8 @@ module Pages
       end
 
       def within_row(project)
-        row = page.find("#project-table tr", text: project.name)
-
+        row = page.find("#project-#{project.id}")
+        row.hover
         within row do
           yield row
         end
@@ -367,7 +395,7 @@ module Pages
       private
 
       def boolean_filter?(filter)
-        %w[active member_of public templated].include?(filter.to_s)
+        %w[active member_of favored public templated].include?(filter.to_s)
       end
     end
   end

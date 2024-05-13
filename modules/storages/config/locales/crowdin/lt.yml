@@ -39,15 +39,17 @@ lt:
   api_v3:
     errors:
       too_many_elements_created_at_once: Per daug elementu vienu metu. Tikėtasi daugiausia %{max}, gauta %{actual}.
+  external_file_storages: Išorinės failų saugyklos
   permission_create_files: 'Išorinė saugykla: kurti failus'
   permission_delete_files: 'Išorinė saugykla: trinti failus'
+  permission_header_for_project_module_storages: Automatiškai valdomi projekto aplankai
   permission_manage_file_links: Tvarkyti failo nuorodas
   permission_manage_storages_in_project: Tvarkyti failų saugyklas projekte
   permission_read_files: 'Išorinė saugykla: skaityti failus'
   permission_share_files: 'Išorinė saugykla: bendrinti failus'
   permission_view_file_links: Žiūrėti failo nuorodas
   permission_write_files: 'Išorinė saugykla: rašyti failus'
-  project_module_storages: Failų saugyklos
+  project_module_storages: Failai
   storages:
     buttons:
       complete_without_setup: Baigti be jo
@@ -222,13 +224,12 @@ lt:
       project_settings:
         delete: Trinti failų saugyklą
         edit: Keisti šio projekto failų saugyklą
-        index: Šiame projekte prieinamos failų saugyklos.
         members_connection_status: Narių jungties būsena
         new: Pridėti failų saugyklą šiam projektui
       project_storage_members:
         subtitle: Patikrinkite saugyklos %{storage_name_link} jungties būseną visiems projekto nariams.
         title: Narių jungties būsena
-    permission_header_explanation: "Failų teisės išorinėse saugyklės taikomos tik aplankams ir failams automatiškai valdomuose projektų aplankuose.\nPastebėtina, kad kai kurių failų prieigos teisių kai kurie saugyklų teikėjai nepalaiko."
+    permission_header_explanation: 'Išorinių saugyklų failų prieigos teisės taikomos tik automatiškai projektų valdomiems aplankams ir failams. Pastebėtina, kad kai kurios failų prieigos teisės nepalaikomos kai kurių saugyklų. Daugiau informacijos rasite rasite dokumente <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>failų saugyklų teisės</a>.'
     provider_types:
       label: Tiekėjo tipas
       nextcloud:
@@ -241,6 +242,9 @@ lt:
         label_oauth_client_secret: Azure OAuth kliento slapta reikšmė
         name: OneDrive/SharePoint
         name_placeholder: pvz. OneDrive
+    show_attachments_toggle:
+      description: Daktyvavus šią parinktį priedų sąrašas bus tik paslėptas. Redaktoriaus pagalba Įkelti failai bus įkeliami į vidinės saugyklos priedus.
+      label: Rodyti priedus darbo paketų failų kortelėje
     storage_list_blank_slate:
       description: Pridėkite saugyklą, kad matytumėte ją čia.
       heading: Jūs dar neturite jokių saugyklų.

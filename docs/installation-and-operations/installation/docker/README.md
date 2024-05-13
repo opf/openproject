@@ -41,10 +41,10 @@ OpenProject's docker setup can be launched in two ways:
 
 ### Quick Start
 
-First, you must clone the [openproject-deploy](https://github.com/opf/openproject-deploy/tree/stable/13/compose) repository:
+First, you must clone the [openproject-deploy](https://github.com/opf/openproject-deploy/tree/stable/14/compose) repository:
 
 ```shell
-git clone https://github.com/opf/openproject-deploy --depth=1 --branch=stable/13 openproject
+git clone https://github.com/opf/openproject-deploy --depth=1 --branch=stable/14 openproject
 ```
 
 Then, change into the compose folder, this folder will be the location where you enter all following commands:
@@ -449,7 +449,7 @@ All the Dockerfile does is copy your custom plugins gemfile into the image, inst
 
 If you are using the `-slim` tag you will need to do the following to add your plugin.
 
-```
+```dockerfile
 FROM openproject/openproject:14 AS plugin
 
 # If installing a local plugin (using `path:` in the `Gemfile.plugins` above),
@@ -771,7 +771,7 @@ But that will be a single point of failure if the manager node goes down.
 To make this more redundant you can use the load balancer directive in your proxy configuration.
 For instance for apache this could look like this:
 
-```
+```apache
 <Proxy balancer://swarm>
     BalancerMember http://10.0.2.77:8080 # swarm node 1 (manager)
     BalancerMember http://10.0.2.78:8080 # swarm node 2

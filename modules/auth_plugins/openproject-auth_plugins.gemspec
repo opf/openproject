@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.authors     = "OpenProject GmbH"
   s.email       = "info@openproject.com"
   s.summary     = "OpenProject Auth Plugins"
-  s.description = "Integration of OmniAuth strategy providers for authentication in Openproject."
+  s.description = "Integration of OmniAuth strategy providers for authentication in OpenProject."
   s.license     = "GPLv3"
 
   s.files = Dir["{app,config,db,lib}/**/*"] + %w(doc/CHANGELOG.md README.md)

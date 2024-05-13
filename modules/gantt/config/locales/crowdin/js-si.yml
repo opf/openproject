@@ -1,6 +1,6 @@
 si:
   js:
     queries:
-      all_open: 'All open'
+      all_open: 'සියල්ල විවෘතයි'
       timeline: 'Timeline'
       milestones: 'Milestones'

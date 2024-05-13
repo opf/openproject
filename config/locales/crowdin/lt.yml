@@ -261,6 +261,7 @@ lt:
     lists:
       active: "Aktyvūs projektai"
       my: "Mano projektai"
+      favored: "Mėgstami projektai"
       archived: "Archyvuoti projektai"
       my_private: "Mano privatūs projektų sąrašai"
       new:
@@ -301,7 +302,14 @@ lt:
       storage:
         no_results_title_text: Šis projektas papildomos vietos diske nenaudoja.
   lists:
-    can_be_saved_as: "Pakeitimus galima išsaugoti tik naujame sąraše."
+    create:
+      success: "Pakeistas sąrašas įrašytas kaip naujas sąrašas"
+      failure: "Nepavyksta įrašyti pakeisto sąrašo: %{errors}"
+    update:
+      success: "Pakeistas sąrašas buvo įrašytas"
+      failure: "Nepavyksta įrašyti pakeisto sąrašo: %{errors}"
+    can_be_saved: "Sąrašas pakeistas:"
+    can_be_saved_as: "Pakeitimus galima įrašyti tik į naują sąrašą:"
   members:
     index:
       no_results_title_text: Nėra nė vieno šio projekto dalyvio.
@@ -338,9 +346,9 @@ lt:
       will_not_affect_inherited_shares: "(Tai neįtakos darbo paketų, bendrinamų su jų grupe)"
       can_remove_direct_but_not_shared_roles: "Jūs galite išimti šį naudotoją kaip tiesioginį projekto narį, bet grupė, kurios narys jis yra, taipogi yra šiame projekte, taigi jie ir toliau bus nariai per grupę."
       also_work_packages_shared_with_user_html:
-        one: "Also, %{shared_work_packages_link} has been shared with this user."
-        few: "Also, %{shared_work_packages_link} have been shared with this user."
-        many: "Also, %{shared_work_packages_link} have been shared with this user."
+        one: "Taipogi, %{shared_work_packages_link} bendrinamas su šiuo naudotoju."
+        few: "Taipogi, %{shared_work_packages_link} bendrinamas su šiuo naudotoju."
+        many: "Taipogi, %{shared_work_packages_link} bendrinama su šiuo naudotoju."
         other: "Taipogi, %{shared_work_packages_link} bendrinami su šiuo naudotoju."
       remove_project_membership_or_work_package_shares_too: "Ar norite išimti tik naudotoją kaip tiesioginį narį (ir palikti bendrinimus), ar taipogi išimti darbo paketų bendrinimus?"
       will_remove_all_user_access_priveleges: "Išėmus šį narį taipogi bus išimtos visos naudotojo privilegijos projektui. Naudotojas vis dar egzistuos kaip šios egzemplioriaus dalis."
@@ -351,19 +359,19 @@ lt:
     delete_work_package_shares_dialog:
       title: "Atšaukti darbo paketų bendrinimus"
       shared_with_this_user_html:
-        one: "%{all_shared_work_packages_link} has been shared with this user."
-        few: "%{all_shared_work_packages_link} have been shared with this user."
-        many: "%{all_shared_work_packages_link} have been shared with this user."
+        one: "%{all_shared_work_packages_link} bendrinamas su šiuo naudotoju."
+        few: "%{all_shared_work_packages_link} bendrinami su šiuo naudotoju."
+        many: "%{all_shared_work_packages_link} bendrinami su šiuo naudotoju."
         other: "%{all_shared_work_packages_link} bendrinami su šiuo naudotoju."
       shared_with_this_group_html:
-        one: "%{all_shared_work_packages_link} has been shared with this group."
-        few: "%{all_shared_work_packages_link} have been shared with this group."
-        many: "%{all_shared_work_packages_link} have been shared with this group."
+        one: "%{all_shared_work_packages_link} pabendrintas su šia grupe."
+        few: "%{all_shared_work_packages_link} pabendrinti su šia grupe."
+        many: "%{all_shared_work_packages_link} pabendrinti su šia grupe."
         other: "%{all_shared_work_packages_link} pabendrinti su šia grupe."
       shared_with_permission_html:
-        one: "Only %{shared_work_packages_link} has been shared with %{shared_role_name} permissions."
-        few: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
-        many: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
+        one: "Tik %{shared_work_packages_link} pabendrintas su %{shared_role_name} teisėmis."
+        few: "Tik %{shared_work_packages_link} pabendrinti su %{shared_role_name} teisėmis."
+        many: "Tik %{shared_work_packages_link} pabendrinti su %{shared_role_name} teisėmis."
         other: "Tik %{shared_work_packages_link} pabendrinti su %{shared_role_name} teisėmis."
       revoke_all_or_with_role: "Ar norite atšaukti prieigą prie visų bendrinamų darbo paketų, ar tik su %{shared_role_name} teisėmis?"
       will_not_affect_inherited_shares: "(Tai neįtakos darbo paketų, bendrinamų su jų grupe)"
@@ -793,6 +801,7 @@ lt:
         not_an_iso_date: "nėra tinkama data. Reikalingas formatas: YYYY-MM-DD."
         not_same_project: "nepriklauso tam pačiam projektui."
         odd: "turi būti nelyginis."
+        regex_match_failed: "neatitinka reguliariosios išraiškos %{expression}."
         regex_invalid: "negalėjo būti patvirtintas su susieta reguliaria išraiška."
         smaller_than_or_equal_to_max_length: "turi būti mažesnis arba lygus didžiausiam ilgiui."
         taken: "jau užimtas."
@@ -1290,6 +1299,7 @@ lt:
   button_edit: "Redaguoti"
   button_edit_associated_wikipage: "Redaguoti susijusį Wiki puslapį: %{page_title}"
   button_expand_all: "Išskleisti visus"
+  button_favorite: "Pridėti prie mėgstamų"
   button_filter: "Filtras"
   button_generate: "Generuoti"
   button_list: "Sąrašas"
@@ -1317,6 +1327,7 @@ lt:
   button_unarchive: "Išarchyvuoti"
   button_uncheck_all: "Atžymėti visus"
   button_unlock: "Atrakinti"
+  button_unfavorite: "Išimti iš mėgiamų"
   button_unwatch: "Nestebėti"
   button_update: "Atnaujinti"
   button_upgrade: "Atnaujinti"
@@ -1638,6 +1649,7 @@ lt:
       pdf_overview_table: "PDF lentelė"
       pdf_report_with_images: "PDF ataskaita su piešiniais"
       pdf_report: "PDF ataskaita"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Paveiksliukas neeksportuotas."
     units:
@@ -1715,8 +1727,12 @@ lt:
       system_update:
         file_links_journal: >
           Nuo dabar, su failų nuorodomis (failais, saugomais išorinse saugyklose) susiję veiksmai bus rodomi Veiksmų kortelėje. Žemiau pateikiamas jau egzistavusių nuorodų veiksmų sąrašas:
-        progress_calculation_changed: >
-          Eigos skaičiavimas atnaujintas
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Eigos skaičiavimas automatiškai <a href="%{href}" target="_blank">nustatytas į paremtą darbu ir pakeistas su versijos atnaujinimu</a>.
+        progress_calculation_adjusted: >-
+          Eigos skaičiavimas automatiškai <a href="%{href}" target="_blank">pakeistas su versijos atnaujinimu</a>.
+        totals_removed_from_childless_work_packages: >-
+          Darbo ir eigos sumos automatiškai išimtos ne tėviniams darbų paketams <a href="%{href}" target="_blank">atnaujinant versiją</a>. Tai palaikymo užduotis ir ją galima saugiai ignoruoti.
   links:
     configuration_guide: "Konfigūravimo vadovas"
     get_in_touch: "Turite klausimų? Susisiekite su mumis."
@@ -1972,7 +1988,7 @@ lt:
   label_enterprise_support: "„Enterprise“ palaikymas"
   label_enterprise_addon: "Enterprise priedas"
   label_environment: "Aplinka"
-  label_estimates_and_time: "Sąmatos ir laikas"
+  label_estimates_and_progress: "Įvertinimai ir eiga"
   label_equals: "yra"
   label_everywhere: "visur"
   label_example: "Pavyzdys"
@@ -1986,7 +2002,7 @@ lt:
   label_expanded_click_to_collapse: "Išplėsta. Spauskite, kad sutrauktumėte"
   label_f_hour: "%{value} valanda"
   label_f_hour_plural: "%{value} valandų(-os)"
-  label_favoured: "Mėgstamas"
+  label_favorite: "Mėgstamas"
   label_feed_plural: "Naujienų srautai"
   label_feeds_access_key: "RSS prieigos raktas"
   label_feeds_access_key_created_on: "RSS prieigos raktas sukurtas prieš %{value}"
@@ -2059,6 +2075,7 @@ lt:
   label_learn_more: "Sužinoti daugiau"
   label_less_or_equal: "<="
   label_less_than_ago: "mažiau nei prieš dieną"
+  label_link_url: "Nuoroda (URL)"
   label_list: "Sąrašas"
   label_loading: "Įkeliama..."
   label_lock_user: "Užrakinti vartotoją"
@@ -2084,6 +2101,7 @@ lt:
   label_membership_plural: "Narystės"
   lable_membership_added: "Narys pridėtas"
   lable_membership_updated: "Narys atnaujintas"
+  label_menu: "Meniu"
   label_menu_badge:
     pre_alpha: "pre-alfa"
     alpha: "alfa"
@@ -2185,6 +2203,7 @@ lt:
   label_percent_complete: "% baigta"
   label_project_activity: "Projekto aktyvumas"
   label_project_attribute_plural: "Projekto atributai"
+  label_project_attribute_manage_link: "Valdyti projekto atributus"
   label_project_count: "Bendras projektų skaičius"
   label_project_copy_notifications: "Vykstant projekto kopijavimui siųsti pranešimus į el. paštą"
   label_project_latest: "Naujausi projektai"
@@ -2199,7 +2218,7 @@ lt:
   label_project_attributes_settings: "Projekto atributų nustatymai"
   label_project_storage_plural: "Failų saugyklos"
   label_project_storage_project_folder: "Failų saugyklos: projekto aplankai"
-  label_projects_storage_information: "%{count} projektai(-as, -ų) naudoja %{storage} disko vietos"
+  label_projects_disk_usage_information: "%{count} projektai, naudojantys %{used_disk_space} disko vietos"
   label_project_view_all: "Peržiūrėti visus projektus"
   label_project_show_details: "Rodyti detalią projekto informaciją"
   label_project_hide_details: "Slėpti detalią projekto informaciją"
@@ -2256,6 +2275,7 @@ lt:
   label_setting_plural: "Nustatymai"
   label_system_settings: "Sistemos nustatymai"
   label_show_completed_versions: "Rodyti užbaigtas versijas"
+  label_columns: "Stulpeliai"
   label_sort: "Rikiuoti"
   label_sort_by: "Rūšiuoti pagal %{value}"
   label_sorted_by: "suršiuota pagal %{value}"
@@ -2945,6 +2965,7 @@ lt:
   setting_app_subtitle: "Programos paantraštė"
   setting_app_title: "Programos pavadinimas"
   setting_attachment_max_size: "Didžiausias prisegamo failo dydis"
+  setting_show_work_package_attachments: "Pagal nutylėjimą rodyti priedus failų kortelėje"
   setting_antivirus_scan_mode: "Skenavimo režimas"
   setting_antivirus_scan_action: "Užkrėsto failo veiksmas"
   setting_autofetch_changesets: "Automatiškai įkelti repozitorijos pakeitimus"
@@ -3046,6 +3067,8 @@ lt:
     attachments:
       whitelist_text_html: >
         Sudarykite sąrašą leidžiamų failų praplėtimų ir/arba MIME tipų su kuriais bus leidžiama įkelti failus. <br/> Įveskite failų praplėtimus (t.y., <code>%{ext_example}</code>) arba MIME tipus (t.y., <code>%{mime_example}</code>). <br/> Palikite tuščią, jei norite leisti visus tipus. Leidžiama daugiau nei viena reikšmė (po vieną kiekvienoje eilutėje).
+      show_work_package_attachments: >
+        Išjungus šią parinktį naujų projektų darbo paketų failų kortelėje bus paslėptas priedų sąrašas. Darbo paketų aprašyme prisegti failai bus įkeliami į vidinę priedų saugyklą.
     antivirus:
       title: "Virusų tikrinimas"
       clamav_ping_failed: "Nepavyko prisijungti prie ClamAV demono. Dar kartą patikrinkite konfigūraciją ir bandykite dar kartą."
@@ -3282,6 +3305,10 @@ lt:
         input_label: "Pridėti stulpelių"
         input_placeholder: "Parinkti stulpelį"
         drag_area_label: "Tvarkyti ir perrikiuoti stulpelius"
+      sort_by:
+        automatic:
+          heading: "Automatinis"
+          description: "Rikiuokite %{plural} pagal vieną ar daugiau rikiavimo kriterijų. Prarasite bet kokį ankstesnį rikiavimą."
   top_menu:
     additional_resources: "Papildomi ištekliai"
     getting_started: "Darbo pradžia"
@@ -3632,7 +3659,7 @@ lt:
   link: nuoroda
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Priedai"
-    description: "Openproject autentifikacijos OmniAuth strategijos teikėjų integracija."
+    description: "OmniAuth stretegijos tiekėjų OpenProject autentifikacijos integracija."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Vienas prisijungimas"
     description: "Prideda OmniAuth SAML tiekėja į OpenProject"

@@ -43,11 +43,13 @@ hu:
         start_time: "Start time"
         start_time_hour: "Start time"
       meeting_agenda_item:
-        title: "Title"
-        author: "Author"
+        title: "Cím"
+        author: "Szerző"
         duration_in_minutes: "min"
-        description: "Notes"
+        description: "Jegyzet"
         presenter: "Presenter"
+      meeting_section:
+        title: "Title"
     errors:
       messages:
         invalid_time_format: "nem egy érvényes időpont. Előírt formátum: óó:pp"
@@ -99,7 +101,7 @@ hu:
     attachments:
       text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
-      title: "%{title} megbeszélés másolása"
+      title: "Copy meeting: %{title}"
       attachments: "Copy attachments"
       attachments_text: "Copy over all attached files to the new meeting"
       agenda: "Napirend másolása"
@@ -122,6 +124,10 @@ hu:
       structured_text: "Szervezd meg a találkozódat napirendi pontokkal, melyeket opcionálisan munkacsomagokhoz rendelhetsz."
       structured_text_copy: "A megbeszélés másolásával jelnleg nem fogja átmásolni a hozzákapcsolt napirendi pontokat, csak a megbeszélés részleteit."
     copied: "#%{id} megbeszélésből másolva"
+  meeting_section:
+    default_title: "New section"
+    untitled_title: "Untitled"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Értesítés sikeresen kiküldve"
   notice_timezone_missing: Nincs időzóna beállítva, %{zone} a feltételezett. Időzóna beállításához kattintson ide.
   permission_create_meetings: "Megbeszélések létrehozása"
@@ -170,7 +176,7 @@ hu:
   text_agenda_item_title: 'Agenda item "%{title}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
   text_deleted_agenda_item: 'Deleted agenda item'
-  label_initial_meeting_details: "Meeting"
+  label_initial_meeting_details: "Megbeszélés"
   label_meeting_details: "A megbeszélés részletei"
   label_meeting_details_edit: "Megbeszélés részleteinek szerkesztése"
   label_meeting_state: "Meeting status"

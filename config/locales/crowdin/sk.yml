@@ -263,7 +263,8 @@ sk:
       no_results_content_text: Vytvoriť nový projekt
     lists:
       active: "Active projects"
-      my: "My projects"
+      my: "Moje projekty"
+      favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -304,7 +305,14 @@ sk:
       storage:
         no_results_title_text: There is no additional recorded disk space consumed by this project.
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Tento projekt nemá momentálne pridelených žiadnych členov.
@@ -316,12 +324,12 @@ sk:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "Všetky"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Uzamknuté"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Skupiny"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -610,7 +618,7 @@ sk:
         column_count: "Počet stĺpcov"
         widgets: "Miniaplikácie"
       oauth_client:
-        client: "Client ID"
+        client: "ID klienta"
       relation:
         lag: "Lag"
         from: "Pracovný balíček"
@@ -635,7 +643,7 @@ sk:
           false: "private"
         queries: "Požiadavky"
         status_code: "Stav projektu"
-        description: "Description"
+        description: "Popis"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -796,6 +804,7 @@ sk:
         not_an_iso_date: "nie je platný dátum. Požadovaný formát: RRRR-MM-DD."
         not_same_project: "nepodlieha rovnakému projektu."
         odd: "musí byť nepárne."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "nebolo možné overiť s príslušným regulárnym výrazom."
         smaller_than_or_equal_to_max_length: "musí byť menšie alebo rovné ako maximálne dĺžka."
         taken: "už existuje v systéme."
@@ -1051,7 +1060,7 @@ sk:
             ldap_auth_source:
               error_not_found: "nenájdené"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "nenájdené"
         member:
           principal_blank: "Vyberte aspoň jedného používateľa alebo skupinu."
           role_blank: "musí byť pridelené."
@@ -1259,7 +1268,7 @@ sk:
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: There is already a backup pending.
       limit_reached: You can only do %{limit} backups per day.
-  button_actions: "Actions"
+  button_actions: "Akcie"
   button_add: "Pridať"
   button_add_comment: "Pridať komentár"
   button_add_member: Pridať člena
@@ -1293,6 +1302,7 @@ sk:
   button_edit: "Upraviť"
   button_edit_associated_wikipage: "Upraviť naviazanú Wiki stránku: %{page_title}"
   button_expand_all: "Rozbaliť všetko"
+  button_favorite: "Add to favorites"
   button_filter: "Filtrovať"
   button_generate: "Generovať"
   button_list: "Zoznam"
@@ -1310,7 +1320,7 @@ sk:
   button_reset: "Vynulovať"
   button_rollback: "Vrátenie k tejto verzii"
   button_save: "Uložiť"
-  button_save_as: "Save as"
+  button_save_as: "Uložiť ako"
   button_apply_changes: "Apply changes"
   button_save_back: "Uloženie a návrat"
   button_show: "Ukázať"
@@ -1320,6 +1330,7 @@ sk:
   button_unarchive: "Odarchivovať"
   button_uncheck_all: "Odznačiť všetky"
   button_unlock: "Odomknúť"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Prestať pozorovať"
   button_update: "Aktualizovať"
   button_upgrade: "Aktualizovať"
@@ -1619,7 +1630,7 @@ sk:
     message: Správa upravená
     news: Novinky
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "Projekt upravený"
     projects: "Projekt upravený"
     reply: Zodpovedané
     time_entry: "Časový záznam zmenený"
@@ -1641,6 +1652,7 @@ sk:
       pdf_overview_table: "PDF Table"
       pdf_report_with_images: "PDF Report with images"
       pdf_report: "PDF Report"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Image not exported."
     units:
@@ -1718,8 +1730,12 @@ sk:
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
-        progress_calculation_changed: >
-          Progress calculation updated.
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Sprievodca konfiguráciou"
     get_in_touch: "You have questions? Get in touch with us."
@@ -1837,7 +1853,7 @@ sk:
   label_ascending: "Vzostupne"
   label_assigned_to_me_work_packages: "Mne priradené pracovné balíčky"
   label_associated_revisions: "Súvisiace revízie"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Prílohy"
   label_attribute: "Atribút"
   label_attribute_plural: "Atribúty"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1852,9 +1868,9 @@ sk:
   label_available_project_work_package_categories: "Dostupné kategórie pracovných balíčkov"
   label_available_project_work_package_types: "Dostupné kategórie pracovných balíčkov"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "Dokumentácia API"
   label_backup: "Backup"
-  label_backup_code: "Backup code"
+  label_backup_code: "Záložný kód"
   label_between: "medzi"
   label_blocked_by: "zablokované používateľom"
   label_blocks: "bloky"
@@ -1864,7 +1880,7 @@ sk:
   label_forum_plural: "Diskusie"
   label_forum_sticky: "Dôležité (vždy vyššie)"
   label_boolean: "Booleovská hodnota (pavda/nepravda)"
-  label_board_plural: "Boards"
+  label_board_plural: "Nástenky"
   label_branch: "Vetva"
   label_browse: "Prechádzať"
   label_bulk_edit_selected_work_packages: "Hromadne upraviť vybrané pracovné balíčky"
@@ -1975,7 +1991,7 @@ sk:
   label_enterprise_support: "Enterprise support"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Prostredie"
-  label_estimates_and_time: "Odhady a čas"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "je"
   label_everywhere: "všade"
   label_example: "Príklad"
@@ -1985,18 +2001,18 @@ sk:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "K dispozícii tiež ako:"
-  label_expand: "Expand"
+  label_expand: "Rozbaliť"
   label_expanded_click_to_collapse: "Rozbalené. Kliknutí zbalíte"
   label_f_hour: "%{value} hodina"
   label_f_hour_plural: "%{value} hodín"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "RSS správy (Feeds?)"
   label_feeds_access_key: "Prístupový kľúč pre RSS"
   label_feeds_access_key_created_on: "Prístupový kľúč pre RSS vytvorený %{value} vzad"
   label_feeds_access_key_type: "RSS kanál"
   label_file_plural: "Súbory"
   label_filter_add: "Pridať filter"
-  label_filter: "Filters"
+  label_filter: "Filtre"
   label_filter_plural: "Filtre"
   label_filters_toggle: "Zobraziť / skryť filtre"
   label_float: "Plávajúce (float)"
@@ -2023,7 +2039,7 @@ sk:
   label_home: "Úvod"
   label_subject_or_id: "Predmet alebo ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Identifikátor"
   label_in: "v"
   label_in_less_than: "v menej ako"
   label_in_more_than: "vo viac ako"
@@ -2039,7 +2055,7 @@ sk:
   label_internal: "Interné"
   label_introduction_video: "Úvodné video"
   label_invite_user: "Pozvať používateľa"
-  label_share: "Share"
+  label_share: "Zdieľať"
   label_show_hide: "Zobraziť/skryť"
   label_show_all_registered_users: "Zobraziť všetkých registrovaných užívateľov"
   label_journal: "Denník"
@@ -2059,9 +2075,10 @@ sk:
   label_latest_revision: "Posledná revízia"
   label_latest_revision_plural: "Posledné revízie"
   label_ldap_authentication: "LDAP autentifikácia"
-  label_learn_more: "Learn more"
+  label_learn_more: "Zistiť viac"
   label_less_or_equal: "<="
   label_less_than_ago: "pred necelým dňom"
+  label_link_url: "Link (URL)"
   label_list: "Zoznam"
   label_loading: "Načítava sa..."
   label_lock_user: "Zamknúť užívateľa"
@@ -2087,6 +2104,7 @@ sk:
   label_membership_plural: "Memberships"
   lable_membership_added: "Member added"
   lable_membership_updated: "Member updated"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alpha"
@@ -2188,6 +2206,7 @@ sk:
   label_percent_complete: "% Complete"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Celkový počet projektov"
   label_project_copy_notifications: "Odoslať e-mail notifikácie počas kopírovania projektu"
   label_project_latest: "Najnovšie projekty"
@@ -2202,7 +2221,7 @@ sk:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "projekty %{count} využívajú celkom %{storage} diskového priestoru"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Zobraziť všetky projekty"
   label_project_show_details: "Zobraziť detaily projektu"
   label_project_hide_details: "Skryť detaily projektu"
@@ -2255,10 +2274,11 @@ sk:
   label_search: "Vyhľadávanie"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Odoslať testovací email"
-  label_session: "Session"
+  label_session: "Relácie"
   label_setting_plural: "Nastavenia"
   label_system_settings: "Nastavenia systému"
   label_show_completed_versions: "Zobraziť dokončené verzie"
+  label_columns: "Stĺpce"
   label_sort: "Zoradiť"
   label_sort_by: "Zoradiť podľa %{value}"
   label_sorted_by: "zoradené podľa %{value}"
@@ -2951,6 +2971,7 @@ sk:
   setting_app_subtitle: "Podtitulok aplikácie"
   setting_app_title: "Názov aplikácie"
   setting_attachment_max_size: "Maximálna veľkosť prílohy"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Scan mode"
   setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Automaticky načítať zmeny úložiska"
@@ -3052,6 +3073,8 @@ sk:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Virus scanning"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
@@ -3285,9 +3308,13 @@ sk:
     configure_view:
       heading: Configure view
       columns:
-        input_label: "Add columns"
+        input_label: "Pridať stĺpce"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Dodatočné zdroje"
     getting_started: "Začíname"
@@ -3404,7 +3431,7 @@ sk:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Nezdieľané"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3639,7 +3666,7 @@ sk:
   link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"

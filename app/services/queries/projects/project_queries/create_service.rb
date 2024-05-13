@@ -26,4 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Queries::Projects::ProjectQueries::CreateService < BaseServices::Create; end
+class Queries::Projects::ProjectQueries::CreateService < BaseServices::Create
+  def initialize(from: nil, **)
+    @from = from
+    super(**)
+  end
+
+  def instance(_params)
+    @from || super
+  end
+end

@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 3.0.1
-  sidebar_navigation:
-      title: 3.0.1
-  release_version: 3.0.1
-  release_date: 2014-03-21
+title: OpenProject 3.0.1
+sidebar_navigation:
+  title: 3.0.1
+release_version: 3.0.1
+release_date: 2014-03-21
 ---
 
 # OpenProject 3.0.1
@@ -14,4 +14,3 @@ Specifically the error in adding a work package process was fixed, as
 well as the duplication of file content display.
 
 [Read more](https://community.openproject.org/versions/296)
-

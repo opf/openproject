@@ -48,6 +48,8 @@ de:
         duration_in_minutes: "Min."
         description: "Anmerkungen"
         presenter: "Referent"
+      meeting_section:
+        title: "Title"
     errors:
       messages:
         invalid_time_format: "ist keine gültige Zeit. Erforderliches Format: HH:MM"
@@ -99,7 +101,7 @@ de:
     attachments:
       text: "Angehängte Dateien sind für alle Teilnehmer der Besprechung verfügbar. Sie können diese auch per Drag-and-drop in die Notizen der Tagesordnungspunkte ziehen."
     copy:
-      title: "Besprechung %{title} kopieren"
+      title: "Besprechung kopieren: %{title}"
       attachments: "Anhänge kopieren"
       attachments_text: "Alle angehängten Dateien in die neue Besprechung kopieren"
       agenda: "Tagesordnung kopieren"
@@ -122,6 +124,10 @@ de:
       structured_text: "Organisieren Sie Ihr Meeting als strukturierte Liste von Einträgen und verknüpfen Sie diese optional mit einem Arbeitspaket."
       structured_text_copy: "Das Kopieren einer Besprechung kopiert derzeit nicht die zugehörigen Tagesordnungspunkte, sondern nur dessen Details"
     copied: "Kopiert von Meeting #%{id}"
+  meeting_section:
+    default_title: "New section"
+    untitled_title: "Untitled"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Benachrichtigung erfolgreich gesendet"
   notice_timezone_missing: Keine Zeitzone eingestellt und daher %{zone} angenommen. Um Ihre Zeitzone einzustellen, klicken Sie bitte hier.
   permission_create_meetings: "Besprechungen erstellen"

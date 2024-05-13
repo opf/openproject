@@ -4,20 +4,20 @@ ms:
     team_planner:
       add_existing: 'Tambah sedia ada'
       add_existing_title: 'Tambah pakej kerja sedia ada'
-      create_label: 'Team planner'
+      create_label: 'Perancang pasukan'
       create_title: 'Cipta perancang pasukan baharu'
-      unsaved_title: 'Unnamed team planner'
-      no_data: 'Add assignees to set up your team planner.'
-      add_assignee: 'Add assignee'
-      remove_assignee: 'Remove assignee'
+      unsaved_title: 'Perancangan pasukan yang belum dinamakan'
+      no_data: 'Tambah penerima tugasan untuk tetapkan perancangan pasukan anda.'
+      add_assignee: 'Tambah penerima tugasan'
+      remove_assignee: 'Keluarkan penerima tugasan'
       two_weeks: '2-minggu'
       one_week: '1-minggu'
       four_weeks: '4-minggu'
       eight_weeks: '8-minggu'
       work_week: 'Minggu kerja'
       today: 'Hari ini'
-      drag_here_to_remove: 'Drag here to remove assignee and start and end dates.'
-      cannot_drag_here: 'Cannot remove the work package due to permissions or editing restrictions.'
+      drag_here_to_remove: 'Tarik ke sini untuk keluarkan penerima tugasan dan tarikh mula dan tamat. '
+      cannot_drag_here: 'Tidak boleh memadam pakej kerja disebabkan batasan kebenaran atau pengeditan.'
       cannot_drag_to_non_working_day: 'Pakej kerja ini tidak boleh mula/habis pada hari tidak bekerja.'
       quick_add:
         empty_state: 'Guna medan carian untuk mencari pakej kerja dan tarik mereka ke perancang untuk menugaskannya ke seseorang dan tetapkan tarikh mula dan habis.'
@@ -25,4 +25,4 @@ ms:
       modify:
         errors:
           permission_denied: 'Anda tidak mempunyai kebenaran yang diperlukan untuk mengubah suai ini.'
-          fallback: 'Pakej kerja ini tidak boleh disunting.'
+          fallback: 'Pakej kerja ini tidak boleh diedit.'

@@ -370,10 +370,14 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
   end
 
   def create_folder_for(project_storage, folder_override = nil)
-    folder_path = folder_override || project_storage.managed_project_folder_path
+    folder_name = folder_override || project_storage.managed_project_folder_path
+    parent_location = Storages::Peripherals::ParentFolder.new("/")
 
     Storages::Peripherals::Registry.resolve("one_drive.commands.create_folder")
-                                   .call(storage: project_storage.storage, folder_path:)
+                                   .call(storage: project_storage.storage,
+                                         auth_strategy:,
+                                         folder_name:,
+                                         parent_location:)
   end
 
   def set_permissions_on(item_id, permissions)

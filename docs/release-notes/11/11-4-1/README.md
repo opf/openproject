@@ -14,7 +14,7 @@ We released [OpenProject 11.4.1](https://community.openproject.org/versions/1491
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Today's Date line does not show up on My Page work package tables \[[#35748](https://community.openproject.org/wp/35748)\]
 - Fixed: openproject configure tries to install postgresql 10 on upgrade, while 13 is already deployed \[[#39086](https://community.openproject.org/wp/39086)\]
@@ -28,7 +28,8 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Help text modal text cut off \[[#39171](https://community.openproject.org/wp/39171)\]
 - Fixed: Switching from "viewer" to "viewer and cards" fails to load viewer \[[#39184](https://community.openproject.org/wp/39184)\]
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

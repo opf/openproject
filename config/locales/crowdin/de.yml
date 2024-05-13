@@ -261,6 +261,7 @@ de:
     lists:
       active: "Aktive Projekte"
       my: "Meine Projekte"
+      favored: "Favorisierte Projekte"
       archived: "Archivierte Projekte"
       my_private: "Meine privaten Projektlisten"
       new:
@@ -301,7 +302,14 @@ de:
       storage:
         no_results_title_text: Durch dieses Projekt wird kein zusätzlicher erfasster Speicherplatz verbraucht.
   lists:
-    can_be_saved_as: "Die Änderungen können nur in einer neuen Liste gespeichert werden."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Zur Zeit hat dieses Projekt keine Mitglieder.
@@ -359,7 +367,7 @@ de:
       cannot_remove_inherited_with_role: "Die mit der Rolle %{shared_role_name} geteilten Arbeitspakete werden über Gruppen geteilt und können nicht entfernt werden."
       cannot_remove_inherited_note_admin_html: "Sie können entweder die Freigabe für die Gruppe widerrufen oder dieses bestimmte Mitglied aus der Gruppe unter %{administration_settings_link} entfernen."
       cannot_remove_inherited_note_non_admin: "Sie können entweder die das geteilte Arbeitspaket für die Gruppe entfernen oder sich an Ihren Administrator wenden, um das betreffende Mitglied aus der Gruppe zu entfernen."
-      will_revoke_directly_granted_access: "This action will revoke their access to all of them, but the work packages shared with a group."
+      will_revoke_directly_granted_access: "Diese Aktion entzieht den gesamten Zugriff auf alle außer die durch eine Gruppenmitgliedschaft geteilten Arbeitspakete."
       will_revoke_access_to_all: "Mit dieser Aktion wird der Zugriff auf alle diese Arbeitspakete entfernt."
   my:
     access_token:
@@ -777,6 +785,7 @@ de:
         not_an_iso_date: "ist kein gültiges Datum - Erwartetes Format: YYY-MM-DD."
         not_same_project: "gehört nicht zum selben Projekt."
         odd: "muss ungerade sein."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "konnte nicht mit dem zugehörigen regulären Ausdruck überprüft werden."
         smaller_than_or_equal_to_max_length: "muss kleiner als oder gleich der maximalen Länge sein."
         taken: "ist bereits vergeben."
@@ -988,13 +997,13 @@ de:
               only_same_project_categories_allowed: "Ein Arbeitpaket und seine Kategorie müssen im selben Projekt sein."
               does_not_exist: "Die angegebene Kategorie existiert nicht."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              cant_be_inferior_to_remaining_work: "Kann nicht niedriger sein als Verbleibender Aufwand."
+              must_be_set_when_remaining_work_is_set: "Ist erforderlich, wenn Verbleibender Aufwand gesetzt ist."
+              only_values_greater_or_equal_zeroes_allowed: "Muss >= 0 sein."
               format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "Cannot be higher than Work."
-              must_be_set_when_work_is_set: "Required when Work is set."
+              cant_exceed_work: "Kann nicht größer als der Aufwand sein."
+              must_be_set_when_work_is_set: "Ist erforderlich, wenn Aufwand gesetzt ist."
               format: "%{message}"
           readonly_status: "Das Arbeitspaket befindet sich in einem schreibgeschützten Status, so dass seine Attribute nicht geändert werden können."
         type:
@@ -1108,7 +1117,7 @@ de:
       parent_no_longer: "Nicht mehr Unterprojekt von"
       time_entry:
         hour:
-          one: "Eine Stunde"
+          one: "%{count} Stunde"
           other: "%{count} Stunden"
         hour_html:
           one: "<i>%{count} Stunde</i>"
@@ -1258,6 +1267,7 @@ de:
   button_edit: "Bearbeiten"
   button_edit_associated_wikipage: "Zugehörige Wikiseite bearbeiten: %{page_title}"
   button_expand_all: "Alle ausklappen"
+  button_favorite: "Zu Favoriten hinzufügen"
   button_filter: "Filter"
   button_generate: "Generieren"
   button_list: "Liste"
@@ -1285,6 +1295,7 @@ de:
   button_unarchive: "Entarchivieren"
   button_uncheck_all: "Alle abwählen"
   button_unlock: "Entsperren"
+  button_unfavorite: "Aus Favoriten entfernen"
   button_unwatch: "Nicht beobachten"
   button_update: "Aktualisieren"
   button_upgrade: "Upgraden"
@@ -1570,6 +1581,7 @@ de:
       pdf_overview_table: "PDF-Tabelle"
       pdf_report_with_images: "PDF-Bericht mit Bildern"
       pdf_report: "PDF-Bericht"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Bild nicht exportiert."
     units:
@@ -1643,12 +1655,16 @@ de:
           non_working: "%{date} ist jetzt ein arbeitsfreier Tag"
       progress_mode_changed_to_status_based: Fortschrittberechnung wurde auf Status-basiert gesetzt
       status_p_complete_changed: >-
-        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
+        % Abgeschlossen für Status '%{status_name}' geändert von %{old_value}% auf %{new_value}%
       system_update:
         file_links_journal: >
           Ab sofort erscheinen hier Aktivitäten, die sich auf Datei-Links beziehen (Dateien in externen Speichermedien) auf der Registerkarte Aktivität. Folgende Aktivitäten betreffen bereits existierende Links:
-        progress_calculation_changed: >
-          Fortschrittsberechnung aktualisiert.
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Die Fortschrittsberechnung wurde <a href=" %{href} " target="_blank">automatisch auf den aufwandsbezogenen Modus gesetzt und durch das Systemupdate angepasst</a>.
+        progress_calculation_adjusted: >-
+          Die Fortschrittsberechnung wurde <a href=" %{href} " target="_blank">automatisch durch das Systemupdate angepasst</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Konfigurationsanleitung"
     get_in_touch: "Sie haben Fragen? Nehmen Sie Kontakt mit uns auf."
@@ -1904,7 +1920,7 @@ de:
   label_enterprise_support: "Enterprise Support"
   label_enterprise_addon: "Enterprise Add-on"
   label_environment: "Umgebung"
-  label_estimates_and_time: "Schätzungen & Zeiten"
+  label_estimates_and_progress: "Schätzungen und Fortschritt"
   label_equals: "ist"
   label_everywhere: "überall"
   label_example: "Beispiel"
@@ -1918,7 +1934,7 @@ de:
   label_expanded_click_to_collapse: "Erweitert. Klicken Sie zum Ausblenden"
   label_f_hour: "%{value} Stunde"
   label_f_hour_plural: "%{value} Stunden"
-  label_favoured: "Favorisiert"
+  label_favorite: "Favorit"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS-Zugriffsschlüssel"
   label_feeds_access_key_created_on: "Atom-Zugriffsschlüssel vor %{value} erstellt"
@@ -1991,6 +2007,7 @@ de:
   label_learn_more: "Mehr erfahren"
   label_less_or_equal: "<="
   label_less_than_ago: "vor weniger als (Tage)"
+  label_link_url: "Link (URL)"
   label_list: "Liste"
   label_loading: "Lade..."
   label_lock_user: "Benutzer sperren"
@@ -2016,6 +2033,7 @@ de:
   label_membership_plural: "Mitgliedschaften"
   lable_membership_added: "Mitglied hinzugefügt"
   lable_membership_updated: "Mitglied aktualisiert"
+  label_menu: "Menü"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alpha"
@@ -2117,6 +2135,7 @@ de:
   label_percent_complete: "% abgeschlossen"
   label_project_activity: "Projektaktivität"
   label_project_attribute_plural: "Projekt-Attribute"
+  label_project_attribute_manage_link: "Projektattribute verwalten"
   label_project_count: "Gesamtzahl der Projekte"
   label_project_copy_notifications: "Sende Mailbenachrichtigungen beim Kopieren des Projekts."
   label_project_latest: "Neueste Projekte"
@@ -2131,7 +2150,7 @@ de:
   label_project_attributes_settings: "Einstellungen für Projektattribute"
   label_project_storage_plural: "Dateispeicher"
   label_project_storage_project_folder: "Dateispeicher: Projektordner"
-  label_projects_storage_information: "%{count} Projekte verbrauchen insgesamt %{storage} Speicherplatz"
+  label_projects_disk_usage_information: "%{count} Projekte, die %{used_disk_space} Speicherplatz belegen"
   label_project_view_all: "Alle Projekte anzeigen"
   label_project_show_details: "Projektdetails anzeigen"
   label_project_hide_details: "Projektdetails verstecken"
@@ -2151,7 +2170,7 @@ de:
   label_relation_delete: "Beziehung löschen"
   label_relation_new: "Neue Beziehung"
   label_release_notes: "Release Notes"
-  label_remaining_work: "Remaining work"
+  label_remaining_work: "Verbleibender Aufwand"
   label_remove_columns: "Ausgewählte Spalten entfernen"
   label_renamed: "umbenannt"
   label_reply_plural: "Antworten"
@@ -2188,6 +2207,7 @@ de:
   label_setting_plural: "Einstellungen"
   label_system_settings: "Systemkonfiguration"
   label_show_completed_versions: "Abgeschlossene Versionen anzeigen"
+  label_columns: "Spalten"
   label_sort: "Sortierung"
   label_sort_by: "Sortiere nach %{value}"
   label_sorted_by: "sortiert nach %{value}"
@@ -2284,7 +2304,7 @@ de:
   label_wiki_show_new_page_link: "'Neue Unterseite anlegen' Link als Untermenüpunkt anzeigen"
   label_wiki_show_submenu_item: "als Untermenüpunkt anzeigen von "
   label_wiki_start: "Hauptseite"
-  label_work: "Work"
+  label_work: "Aufwand"
   label_work_package: "Arbeitspaket"
   label_work_package_attachments: "Anhänge des Arbeitspakets"
   label_work_package_category_new: "Neue Kategorie"
@@ -2853,7 +2873,7 @@ de:
     Wenn CORS aktiviert ist, sind dies die Origins, die auf die OpenProject API zugreifen dürfen. <br/> Bitte überprüfen Sie die <a href="%{origin_link}" target="_blank">Dokumentation über den Origin Header</a>, wie die Werte anzugeben sind.
   setting_apiv3_write_readonly_attributes: "Schreibzugriff auf schreibgeschützte Attribute"
   setting_apiv3_write_readonly_attributes_instructions_html: >
-    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and author. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
+    Diese Option erlaubt API Administratoren, bei der Erstellung statische schreibgeschützte Attribute wie createdAt und author zu schreiben. <br/> <strong>Warnung:</strong> Diese Einstellung ist z.B. für den Import von Daten nützlich, ermöglicht es aber Administratoren, sich bei der Erstellung von Objekten als andere Benutzer auszugeben. Alle Anfragen werden jedoch immer auch mit dem wahren Autor protokolliert. </br> Weitere Informationen zu Attributen und unterstützten Ressourcen finden Sie unter %{api_documentation_link}.
   setting_apiv3_max_page_size: "Maximale API-Seitengröße"
   setting_apiv3_max_page_instructions_html: >
     Legen Sie die maximale Seitengröße fest, mit der die API antworten soll. Es wird nicht möglich sein, API-Anfragen durchzuführen, die mehr Werte auf einer einzelnen Seite zurückgeben. <br/> <strong>Warnung:</strong> Bitte ändern Sie diesen Wert nur, wenn Sie sicher sind, warum Sie ihn benötigen. Die Einstellung auf einen hohen Wert führt zu erheblichen Performance-Auswirkungen, während ein Wert niedriger als die Einstellung "Objekte pro Seite" zu Fehlern in paginierten Ansichten führt.
@@ -2877,6 +2897,7 @@ de:
   setting_app_subtitle: "Applikations-Untertitel"
   setting_app_title: "Applikations-Titel"
   setting_attachment_max_size: "Max. Dateigröße"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Scanmodus"
   setting_antivirus_scan_action: "Aktion für infizierte Datei"
   setting_autofetch_changesets: "Automatisches Abrufen von Projektarchiv-Änderungen"
@@ -2920,7 +2941,7 @@ de:
   setting_work_package_done_ratio_field: "Arbeitsbezogen"
   setting_work_package_done_ratio_status: "Statusbezogen"
   setting_work_package_done_ratio_explanation_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
+    Im <b>aufwandsbezogenen</b> Modus wird % Abgeschlossen durch das Verhältnis zu, Gesamtaufwand berechnet. Im <b>statusbasierten</b> Modus ist mit jedem Status ein fester Wert für % Abgeschlossen verbunden. Wenn Sie den Status ändern, ändert sich dadurch auch das % Abgeschlossen Attribut.
   setting_work_package_properties: "Arbeitspaket-Eigenschaften"
   setting_work_package_startdate_is_adddate: "Neue Arbeitspakete haben \"Heute\" als Anfangsdatum"
   setting_work_packages_projects_export_limit: "Arbeitspakete / Exportlimit für Projekte"
@@ -2978,15 +2999,17 @@ de:
     attachments:
       whitelist_text_html: >
         Legen Sie eine Liste gültiger Dateierweiterungen und/oder Mime-Typen für hochgeladene Dateien fest. <br/> Dateierweiterungen (z. B. <code>%{ext_example}</code>) oder Mime-Typen (z. ., <code>%{mime_example}</code>). <br/> Lassen Sie diese Liste leer, um das Hochladen beliebiger Dateitypen zu erlauben. Mehrere Werte erlaubt (eine Zeile pro Wert).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Virenscan"
       clamav_ping_failed: "Die Verbindung zum ClamAV-Daemon konnte nicht hergestellt werden. Überprüfen Sie die Konfiguration und versuchen Sie es erneut."
       remaining_quarantined_files_html: >
-        Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+        Die Virenprüfung wurde deaktiviert. %{file_count} verbleiben in Quarantäne. Um die unter Quarantäne gestellten Dateien zu überprüfen, besuchen Sie bitte diesen Link: %{link}
       remaining_scan_complete_html: >
         Die verbleibenden Dateien wurden gescannt. Es befinden sich %{file_count} unter Quarantäne. Sie werden zur Quarantäneseite weitergeleitet. Auf dieser Seite können Sie unter Quarantäne gestellte Dateien löschen oder überschreiben.
       remaining_rescanned_files: >
-        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Die Virenprüfung wurde erfolgreich aktiviert. Es gibt %{file_count} , die bis zum aktuellen Zeitpunkt hochgeladen wurden und noch gescannt werden müssen. Dieser Vorgang wird im Hintergrund ausgeführt. Die Dateien bleiben während des Scans zugänglich.
       upsale:
         description: "Stellen Sie sicher, dass hochgeladene Dateien in OpenProject auf Viren gescannt werden, bevor sie für andere Benutzer zugänglich sind."
       actions:
@@ -2995,8 +3018,8 @@ de:
         instructions_html: >
           Wählen Sie die Aktion aus, die für Dateien durchgeführt werden soll, in denen ein Virus erkannt wurde: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Die Datei unter Quarantäne stellen, sodass Benutzer nicht darauf zugreifen können. Administratoren können die unter Quarantäne gestellten Dateien in der Administration überprüfen und löschen.</li> <li><strong>%{delete_option}</strong>: Die Datei sofort löschen.</li> </ul>
       modes:
-        clamav_socket_html: Enter the socket to the clamd daemon, e.g., %{example}
-        clamav_host_html: Enter the hostname and port to the clamd daemon separated by colon. e.g., %{example}
+        clamav_socket_html: Geben Sie den Socket für den clamd-Daemon ein, z.B. %{example}
+        clamav_host_html: 'Geben Sie den Hostnamen und den Port des clamd Daemons ein, getrennt durch einen Doppelpunkt. z.B.: %{example}'
         description_html: >
           Wählen Sie den Betriebsmodus für die Integration des Antiviren-Scanners aus. <br/> <ul> <li><strong>%{disabled_option}</strong>: Hochgeladene Dateien werden nicht auf Viren gescannt.</li> <li><strong>%{socket_option}</strong>: Sie haben ClamAV auf demselben Server wie OpenProject eingerichtet und der Scan-Daemon clamd läuft im Hintergrund</li> <li><strong>%{host_option}</strong>: Sie streamen Dateien an einen externen Virenscanner.</li> </ul>
     brute_force_prevention: "Automatisches Sperren von Benutzern"
@@ -3030,7 +3053,7 @@ de:
       label_new_attribute: "Projektattribut"
       label_new_section: "Abschnitt"
       label_edit_section: "Titel bearbeiten"
-      label_section_actions: "Section actions"
+      label_section_actions: "Abschnittsoptionen"
       heading_description: "Diese Projektattribute erscheinen auf der Übersichtsseite eines jeden Projekts. Sie können neue Attribute hinzufügen, sie in Abschnitte gruppieren und sie nach Belieben neu anordnen. Diese Attribute können aktiviert oder deaktiviert werden, aber nicht auf Projektebene neu geordnet werden."
       label_project_custom_field_actions: "Aktionen für Projektattribute"
       label_no_project_custom_fields: "In diesem Abschnitt sind keine Projektattribute definiert"
@@ -3071,7 +3094,7 @@ de:
   text_are_you_sure: "Sind Sie sicher?"
   text_are_you_sure_continue: "Sind Sie sicher, dass Sie fortfahren möchten?"
   text_are_you_sure_with_children: "Lösche Aufgabe und alle Unteraufgaben?"
-  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
+  text_are_you_sure_with_project_custom_fields: "Wenn Sie dieses Attribut löschen, werden auch dessen Werte in allen Projekten gelöscht. Sind Sie sicher, dass Sie dies tun möchten?"
   text_assign_to_project: "Dem Projekt zuweisen"
   text_form_configuration: >
     Sie können anpassen, welche Felder in den Arbeitspaket-Formularen angezeigt werden. Sie können die Felder entsprechend Ihren Bedürfnissen frei gruppieren.
@@ -3214,6 +3237,10 @@ de:
         input_label: "Spalten hinzufügen"
         input_placeholder: "Spalte auswählen"
         drag_area_label: "Spalten verwalten und neu anordnen"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Weitere Ressourcen"
     getting_started: "Erste Schritte"
@@ -3296,9 +3323,9 @@ de:
     progress:
       label_note: "Hinweis:"
       modal:
-        work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
-        status_based_help_text: "% Complete is set by work package status."
-        migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
+        work_based_help_text: "% Abgeschlossen wird automatisch aus Aufwand und Verbleibender Aufwand abgeleitet."
+        status_based_help_text: "% Abgeschlossen wird durch den Status des Arbeitspakets festgelegt."
+        migration_warning_text: "Im aufwandsbezogenen Modus, kann % Fertig nicht manuell eingegeben werden und ist immer an den Aufwand gebunden. Der vorhandene Wert wurde beibehalten, kann aber nicht bearbeitet werden. Bitte geben Sie zuerst den Wert für Aufwand ein."
     sharing:
       count:
         zero: "0 Benutzer"
@@ -3520,7 +3547,7 @@ de:
       label_request_token: "Token anfordern"
       label_refresh_token: "Token aktualisieren"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
+      oauth_authorization_code_grant_had_errors: "OAuth2 Autorisierung fehlgeschlagen"
       oauth_reported: "OAuth2-Anbieter meldete"
       oauth_returned_error: "OAuth2 hat einen Fehler zurückgemeldet"
       oauth_returned_json_error: "OAuth2 meldet einen JSON-Fehler zurück"
@@ -3560,7 +3587,7 @@ de:
   link: Link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration von externen Authentifizierungsanbietern in Openproject."
+    description: "Integration von externen Authentifizierungsanbietern in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign An"
     description: "Fügt den OmniAuth SAML-Anbieter zu OpenProject hinzu"

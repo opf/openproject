@@ -50,6 +50,12 @@ module Components
         page.has_selector?(autocompleter_selector)
       end
 
+      def switch_mode(mode)
+        within(".op-project-list-modal--header") do
+          find('[data-test-selector="spot-toggle--option"]', text: mode).click
+        end
+      end
+
       def expect_current_project(name)
         page.find_by_id("projects-menu", text: name)
       end

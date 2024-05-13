@@ -36,6 +36,24 @@ import { debugLog } from 'core-app/shared/helpers/debug_output';
 export default class extends Controller {
   drake:Drake|undefined;
 
+  autoScroll() {
+    // options copied from generic-drag-and-drop.controller for consistency
+    void window.OpenProject.getPluginContext().then((pluginContext) => {
+      // eslint-disable-next-line no-new
+      new pluginContext.classes.DomAutoscrollService(
+        [
+          document.getElementById('content-wrapper') as HTMLElement,
+        ],
+        {
+          margin: 25,
+          maxSpeed: 10,
+          scrollWhenOutside: true,
+          autoScroll: () => this.drake?.dragging,
+        },
+      );
+    });
+  }
+
   connect() {
     this.drake = dragula(
       [this.containerTarget],
@@ -43,6 +61,8 @@ export default class extends Controller {
     )
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       .on('drop', this.drop.bind(this));
+
+    this.autoScroll();
   }
 
   get containerTarget():HTMLElement {

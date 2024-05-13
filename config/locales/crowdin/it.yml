@@ -261,6 +261,7 @@ it:
     lists:
       active: "Progetti attivi"
       my: "I miei progetti"
+      favored: "Favorite projects"
       archived: "Progetti archiviati"
       my_private: "I miei elenchi di progetti privati"
       new:
@@ -301,7 +302,14 @@ it:
       storage:
         no_results_title_text: Nessuno spazio su disco registrato aggiuntivo consumato da questo progetto.
   lists:
-    can_be_saved_as: "Le modifiche possono essere salvate solo in un nuovo elenco."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Al momento non vi sono partecipanti a questo progetto.
@@ -345,11 +353,11 @@ it:
     delete_work_package_shares_dialog:
       title: "Revoca condivisioni della macro-attività"
       shared_with_this_user_html:
-        one: "%{shared_work_packages_link} è stato condiviso con questo utente."
-        other: "%{shared_work_packages_link} sono stati condivisi con questo utente."
+        one: "%{all_shared_work_packages_link} è stato condiviso con questo utente."
+        other: "%{all_shared_work_packages_link} sono stati condivisi con questo utente."
       shared_with_this_group_html:
-        one: "%{shared_work_packages_link} è stato condiviso con questo gruppo."
-        other: "%{shared_work_packages_link} sono stati condivisi con questo gruppo."
+        one: "%{all_shared_work_packages_link} è stato condiviso con questo gruppo."
+        other: "%{all_shared_work_packages_link} sono stati condivisi con questo gruppo."
       shared_with_permission_html:
         one: "Solo %{shared_work_packages_link} è stato condiviso con i permessi di %{shared_role_name}."
         other: "Solo %{shared_work_packages_link} sono stati condivisi con i permessi di %{shared_role_name}."
@@ -779,6 +787,7 @@ it:
         not_an_iso_date: "non è una data valida. Formato richiesto: AAAA-MM-GG."
         not_same_project: "non appartiene allo stesso progetto."
         odd: "deve essere dispari."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "non può essere convalidato con l'espressione regolare associata."
         smaller_than_or_equal_to_max_length: "deve essere minore o uguale alla lunghezza massima."
         taken: "è già stato usato."
@@ -1119,7 +1128,7 @@ it:
         logged_for: "Registrato per"
       meeting_agenda_item:
         duration:
-          added: "impostato a {value}"
+          added: "impostato a %{value}"
           added_html: "impostato a <i>%{value}</i>"
           removed: "rimosso"
           updated: "modificato da %{old_value} a %{value}"
@@ -1260,6 +1269,7 @@ it:
   button_edit: "Modifica"
   button_edit_associated_wikipage: "Modifica pagina wiki associata: %{page_title}"
   button_expand_all: "Espandi tutto"
+  button_favorite: "Add to favorites"
   button_filter: "Filtro"
   button_generate: "Genera"
   button_list: "Elenca"
@@ -1287,6 +1297,7 @@ it:
   button_unarchive: "Rimuovi dall'archivio"
   button_uncheck_all: "Deseleziona tutti"
   button_unlock: "Sblocca"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Smetti di Osservare"
   button_update: "Aggiorna"
   button_upgrade: "Aggiornamento"
@@ -1496,7 +1507,7 @@ it:
   error_can_not_delete_entry: "Impossibile eliminare la voce"
   error_can_not_delete_custom_field: "Impossibile eliminare il campo personalizzato"
   error_can_not_delete_in_use_archived_undisclosed: "Esistono macro-attività anche nei progetti archiviati. È necessario chiedere a un amministratore di eseguire l'eliminazione per vedere quali progetti sono impattati."
-  error_can_not_delete_in_use_archived_work_packages: "Ci sono macro-attività anche nei progetti archiviati. Devi prima riattivare i seguenti progetti, prima di poter modificare l'attributo delle rispettive macro-attività: %%{archived_projects_urls}"
+  error_can_not_delete_in_use_archived_work_packages: "Ci sono macro-attività anche nei progetti archiviati. Devi prima riattivare i seguenti progetti, prima di poter modificare l'attributo delle rispettive macro-attività: %{archived_projects_urls}"
   error_can_not_delete_type:
     explanation: 'Questo tipo contiene macro-attività e non può essere eliminato. Puoi vedere tutte le macro-attività interessate in <a target="_blank" href="%{url}">questa vista</a>.'
   error_can_not_delete_standard_type: "Tipi standard non possono essere eliminati."
@@ -1572,6 +1583,7 @@ it:
       pdf_overview_table: "Tabella PDF"
       pdf_report_with_images: "Rapporto PDF con immagini"
       pdf_report: "Rapporto PDF"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Immagine non esportata."
     units:
@@ -1649,8 +1661,12 @@ it:
       system_update:
         file_links_journal: >
           D'ora in poi, l'attività relativa ai collegamenti ai file (file archiviati in archivi esterni) verrà visualizzata qui nella scheda Attività. Di seguito trovi attività riguardanti link già esistenti:
-        progress_calculation_changed: >
-          Calcolo dei progressi aggiornato.
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Guida di configurazione"
     get_in_touch: "Hai dei dubbi? Mettiti in contatto con noi."
@@ -1906,7 +1922,7 @@ it:
   label_enterprise_support: "Supporto per Imprese"
   label_enterprise_addon: "Componente aggiuntivo Enterprise"
   label_environment: "Ambiente"
-  label_estimates_and_time: "Stime e tempi"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "è"
   label_everywhere: "ovunque"
   label_example: "Esempio"
@@ -1920,7 +1936,7 @@ it:
   label_expanded_click_to_collapse: "Espanso. Clicca per comprimere"
   label_f_hour: "%{value} ora"
   label_f_hour_plural: "%{value} ore"
-  label_favoured: "Preferito"
+  label_favorite: "Preferito"
   label_feed_plural: "Feed"
   label_feeds_access_key: "Chiave di accesso RSS"
   label_feeds_access_key_created_on: "Chiave di accesso RSS creato %{value} fa"
@@ -1993,6 +2009,7 @@ it:
   label_learn_more: "Scopri di più"
   label_less_or_equal: "<="
   label_less_than_ago: "meno di qualche giorno fa"
+  label_link_url: "Link (URL)"
   label_list: "Elenca"
   label_loading: "Caricamento..."
   label_lock_user: "Blocca utente"
@@ -2018,6 +2035,7 @@ it:
   label_membership_plural: "Iscrizioni"
   lable_membership_added: "Membro aggiunto"
   lable_membership_updated: "Membro aggiornato"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alpha"
@@ -2119,6 +2137,7 @@ it:
   label_percent_complete: "% completamento"
   label_project_activity: "Attività del progetto"
   label_project_attribute_plural: "Attributi del progetto"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Numero totale di progetti"
   label_project_copy_notifications: "Invia le email di notifica durante la copia del progetto"
   label_project_latest: "Ultimi progetti"
@@ -2133,7 +2152,7 @@ it:
   label_project_attributes_settings: "Impostazioni degli attributi del progetto"
   label_project_storage_plural: "Archiviazione dei file"
   label_project_storage_project_folder: "Archiviazione dei file: cartelle di progetto"
-  label_projects_storage_information: "%{count} progetti per %{storage} di spazio di archiviazione su disco"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Vedi tutti i progetti"
   label_project_show_details: "Mostra dettagli progetto"
   label_project_hide_details: "Nascondi dettagli progetto"
@@ -2190,6 +2209,7 @@ it:
   label_setting_plural: "Impostazioni"
   label_system_settings: "Impostazioni di sistema"
   label_show_completed_versions: "Visualizza le versioni completate"
+  label_columns: "Colonne"
   label_sort: "Ordina"
   label_sort_by: "Ordina per %{value}"
   label_sorted_by: "ordinati per %{value}"
@@ -2879,6 +2899,7 @@ it:
   setting_app_subtitle: "Sottotitolo applicazione"
   setting_app_title: "Titolo applicazione"
   setting_attachment_max_size: "Dimensione max. dell'allegato"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Modalità di scansione"
   setting_antivirus_scan_action: "Azione sul file infetto"
   setting_autofetch_changesets: "Recupera automaticamente i cambiamenti dell'archivio di progetto"
@@ -2980,6 +3001,8 @@ it:
     attachments:
       whitelist_text_html: >
         Definisci un elenco di estensioni di file valide e/o tipi MIME per i file caricati. <br/> Inserisci le estensioni dei file (ad es. <code>%{ext_example}</code>) o i tipi MIME (ad es. <code>%{mime_example}</code>). <br/> Lascia vuoto per consentire il caricamento di qualsiasi tipo di file. Sono consentiti più valori (una riga per ogni valore).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Scansione antivirus"
       clamav_ping_failed: "Impossibile connettersi al daemon ClamAV. Ricontrolla la configurazione e riprova."
@@ -2998,7 +3021,7 @@ it:
           Seleziona l'azione da eseguire per i file su cui è stato rilevato un virus: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Metti in quarantena il file, impedendo agli utenti di accedervi. Gli amministratori possono rivedere ed eliminare i file in quarantena nel pannello di controllo.</li> <li><strong>%{delete_option}</strong>: elimina il file immediatamente.</li> </ul>
       modes:
         clamav_socket_html: Inserisci la socket al daemon clamd, ad esempio %{example}
-        clamav_host_html: Immettere il nome host e la porta del daemon clamd separati dai due punti. Ad esempio, %{esempio}
+        clamav_host_html: Immettere il nome host e la porta del daemon clamd separati dai due punti. Ad esempio, %{example}
         description_html: >
           Seleziona la modalità in cui deve funzionare l'integrazione dello scanner antivirus. <br/> <ul> <li><strong>%{disabled_option}</strong>: i file caricati non vengono sottoposti a scansione antivirus.</li> <li><strong>%{socket_option}</strong>: hai configurato un ClamAV sullo stesso server di OpenProject e il daemon di scansione clamd è in esecuzione in background</li> <li><strong>%{host_option}</strong>: invierai il file a un host di scansione antivirus esterno.</li> </ul>
     brute_force_prevention: "Blocco automatico degli utenti"
@@ -3216,6 +3239,10 @@ it:
         input_label: "Aggiungi colonne"
         input_placeholder: "Seleziona una colonna"
         drag_area_label: "Gestisci e riordina colonne"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Risorse aggiuntive"
     getting_started: "Per cominciare"
@@ -3563,7 +3590,7 @@ it:
   link: link
   plugin_openproject_auth_plugins:
     name: "Plugin Autenticazione OpenProject"
-    description: "Integrazione dei fornitori di strategie OmniAuth per l'autenticazione in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Aggiunge il provider OmniAuth SAML a OpenProject"

@@ -30,11 +30,8 @@ require "spec_helper"
 
 RSpec.describe Meetings::ICalService, type: :model do # rubocop:disable RSpec/SpecFilePathFormat
   shared_let(:user) do
-    create(:user, firstname: "Bob", lastname: "Barker", mail: "bob@example.com").tap do |u|
-      u.pref[:time_zone] = "America/New_York"
-
-      u.save!
-    end
+    create(:user, firstname: "Bob", lastname: "Barker",
+                  mail: "bob@example.com", preferences: { time_zone: "America/New_York" })
   end
   shared_let(:user2) { create(:user, firstname: "Foo", lastname: "Fooer", mail: "foo@example.com") }
   shared_let(:project) { create(:project, name: "My Project") }

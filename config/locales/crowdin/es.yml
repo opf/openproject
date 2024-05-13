@@ -261,6 +261,7 @@ es:
     lists:
       active: "Proyectos activos"
       my: "Mis proyectos"
+      favored: "Proyectos favoritos"
       archived: "Proyectos archivados"
       my_private: "Mis listas de proyectos privados"
       new:
@@ -301,7 +302,14 @@ es:
       storage:
         no_results_title_text: No se ha registrado el uso de espacio en disco adicional por este proyecto.
   lists:
-    can_be_saved_as: "Las modificaciones solo pueden guardarse en una lista nueva."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Actualmente no hay miembros que formen parte de este proyecto.
@@ -779,6 +787,7 @@ es:
         not_an_iso_date: "no es una fecha válida. Requiere formato: AAAA-MM-DD."
         not_same_project: "no pertenecen a un mismo proyecto."
         odd: "debe ser impar."
+        regex_match_failed: "no coincide con la expresión regular %{expression}."
         regex_invalid: "no se pudo validar con la expresión regular asociada."
         smaller_than_or_equal_to_max_length: "Debe ser menor o igual que el tamaño maximo."
         taken: "Ya se ha tomado."
@@ -990,13 +999,13 @@ es:
               only_same_project_categories_allowed: "La categoría de un paquete de trabajo debe estar en el mismo proyecto que el paquete de trabajo."
               does_not_exist: "La categoría especificada no existe."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              cant_be_inferior_to_remaining_work: "No puede ser inferior al Trabajo restante."
+              must_be_set_when_remaining_work_is_set: "Obligatorio cuando el Trabajo restante está establecido."
+              only_values_greater_or_equal_zeroes_allowed: "Debe ser >= 0."
               format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "Cannot be higher than Work."
-              must_be_set_when_work_is_set: "Required when Work is set."
+              cant_exceed_work: "No puede ser superior a Trabajo."
+              must_be_set_when_work_is_set: "Obligatorio cuando Trabajo está establecido."
               format: "%{message}"
           readonly_status: "El paquete de trabajo está en un estado de sólo lectura por lo que sus atributos no se pueden cambiar."
         type:
@@ -1260,6 +1269,7 @@ es:
   button_edit: "Editar"
   button_edit_associated_wikipage: "Editar página Wiki asociada: %{page_title}"
   button_expand_all: "Expandir todos"
+  button_favorite: "Añadir a favoritos"
   button_filter: "Filtro"
   button_generate: "Generar"
   button_list: "Lista"
@@ -1287,6 +1297,7 @@ es:
   button_unarchive: "Desarchivar"
   button_uncheck_all: "Deseleccionar todos"
   button_unlock: "Desbloquear"
+  button_unfavorite: "Eliminar de favoritos"
   button_unwatch: "No controlar más"
   button_update: "Actualizar"
   button_upgrade: "Mejorar"
@@ -1572,6 +1583,7 @@ es:
       pdf_overview_table: "Tabla PDF"
       pdf_report_with_images: "Informe PDF con imágenes"
       pdf_report: "Informe PDF"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Imagen no exportada."
     units:
@@ -1649,8 +1661,12 @@ es:
       system_update:
         file_links_journal: >
           A partir de ahora, la actividad relacionada con los enlaces de archivos (archivos almacenados en almacenamiento externo) aparecerá aquí en la pestaña Actividad. La siguiente representa la actividad relativa a los enlaces que ya existían:
-        progress_calculation_changed: >
-          Cálculo del progreso actualizado.
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Cálculo de progreso automático <a href="%{href}" target="_blank">establecido en modo de trabajo y ajustado con la actualización de versión</a>.
+        progress_calculation_adjusted: >-
+          Cálculo de progreso automático <a href="%{href}" target="_blank">ajustado con la actualización de versión</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Guía de configuración"
     get_in_touch: "¿Tiene alguna pregunta? Póngase en contacto con nosotros."
@@ -1906,7 +1922,7 @@ es:
   label_enterprise_support: "Soporte empresarial"
   label_enterprise_addon: "Extensión Enterprise"
   label_environment: "Entorno"
-  label_estimates_and_time: "Valores estimados y tiempo"
+  label_estimates_and_progress: "Estimaciones y progreso"
   label_equals: "es"
   label_everywhere: "todo"
   label_example: "Ejemplo"
@@ -1920,7 +1936,7 @@ es:
   label_expanded_click_to_collapse: "Expandido. Haga clic para contraer"
   label_f_hour: "%{value} hora"
   label_f_hour_plural: "%{value} horas"
-  label_favoured: "Favorito"
+  label_favorite: "Favorito"
   label_feed_plural: "Flujos"
   label_feeds_access_key: "Código de acceso RSS"
   label_feeds_access_key_created_on: "Código de acceso RSS creado hace %{value}"
@@ -1993,6 +2009,7 @@ es:
   label_learn_more: "Más información"
   label_less_or_equal: "<="
   label_less_than_ago: "menos que hace días"
+  label_link_url: "Enlace (URL)"
   label_list: "Lista"
   label_loading: "Cargando..."
   label_lock_user: "Bloquear usuario"
@@ -2018,6 +2035,7 @@ es:
   label_membership_plural: "Afiliaciones"
   lable_membership_added: "Miembro añadido"
   lable_membership_updated: "Miembro actualizado"
+  label_menu: "Menú"
   label_menu_badge:
     pre_alpha: "pre-alfa"
     alpha: "alfa"
@@ -2119,6 +2137,7 @@ es:
   label_percent_complete: "% compleado"
   label_project_activity: "Actividad del proyecto"
   label_project_attribute_plural: "Atributos del proyecto"
+  label_project_attribute_manage_link: "Administrar atributos del proyecto"
   label_project_count: "Número total de proyectos"
   label_project_copy_notifications: "Enviar notificaciones por correo electrónico durante la copia del proyecto"
   label_project_latest: "Últimos proyectos"
@@ -2133,7 +2152,7 @@ es:
   label_project_attributes_settings: "Ajustes de los atributos del proyecto"
   label_project_storage_plural: "Almacenes de archivos"
   label_project_storage_project_folder: "Almacenes de archivos: Carpetas de proyectos"
-  label_projects_storage_information: "%{count} proyectos utilizando %{storage} de almacenamiento en disco"
+  label_projects_disk_usage_information: "%{count} proyectos utilizando %{used_disk_space} espacio de disco"
   label_project_view_all: "Ver todos los proyectos"
   label_project_show_details: "Mostrar los detalles del proyecto"
   label_project_hide_details: "Ocultar los detalles del proyecto"
@@ -2190,6 +2209,7 @@ es:
   label_setting_plural: "Configuración"
   label_system_settings: "Ajustes de sistema"
   label_show_completed_versions: "Mostrar versiones terminadas"
+  label_columns: "Columnas"
   label_sort: "Ordenar"
   label_sort_by: "Ordenar por %{value}"
   label_sorted_by: "ordenados por %{value}"
@@ -2878,6 +2898,7 @@ es:
   setting_app_subtitle: "Subtítulo de aplicación"
   setting_app_title: "Título de aplicación"
   setting_attachment_max_size: "Tamaño máximo de adjunto"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Modo de escaneo"
   setting_antivirus_scan_action: "Acción del archivo infectado"
   setting_autofetch_changesets: "Recopilación automática de cambios del repositorio"
@@ -2979,6 +3000,8 @@ es:
     attachments:
       whitelist_text_html: >
         Define una lista de extensiones de archivo válidas o tipos MIME para los archivos cargados. <br/> Escriba las extensiones de archivo (por ejemplo, <code>%{ext_example}</code>) o tipos MIME (<code>%{mime_example}</code>). <br/> Deje vacío este campo para que pueda cargarse cualquier tipo de archivo. Se permiten varios valores (una línea para cada valor).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Escaneado de virus"
       clamav_ping_failed: "Ha fallado la conexión con el daemon ClamAV. Vuelva a comprobar la configuración e inténtelo de nuevo."
@@ -3215,6 +3238,10 @@ es:
         input_label: "Añadir columnas"
         input_placeholder: "Seleccionar una columna"
         drag_area_label: "Gestionar y reordenar columnas"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Recursos Adicionales"
     getting_started: "Primeros pasos"
@@ -3362,8 +3389,8 @@ es:
         working: "%{day} es ahora laboral"
         non_working: "%{day} es ahora no laboral"
       dates:
-        working: "%{day} es ahora laboral"
-        non_working: "%{day} es ahora no laboral"
+        working: "%{date} es ahora laboral"
+        non_working: "%{date} es ahora no laboral"
   nothing_to_preview: "Nada para previsualizar"
   api_v3:
     attributes:
@@ -3561,7 +3588,7 @@ es:
   link: enlace
   plugin_openproject_auth_plugins:
     name: "Plugins Auth de OpenProject"
-    description: "Integración de los proveedores de estrategia de OmniAuth para la autentificación en Openproject."
+    description: "Integración de los proveedores de estrategia de OmniAuth para la autentificación en OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Inicio de sesión único"
     description: "Añade el proveedor OmniAuth SAML a OpenProject"

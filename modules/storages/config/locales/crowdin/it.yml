@@ -39,15 +39,17 @@ it:
   api_v3:
     errors:
       too_many_elements_created_at_once: 'Troppi elementi creati contemporaneamente. Massimo atteso: %{max}, effettivi: %{actual}.'
+  external_file_storages: External file storages
   permission_create_files: 'Archiviazione esterna: Creare file'
   permission_delete_files: 'Archiviazione esterna: Cancellare file'
+  permission_header_for_project_module_storages: Cartelle di progetto gestite automaticamente
   permission_manage_file_links: Gestire link ai file
   permission_manage_storages_in_project: Gestisci archivi di file nel progetto
   permission_read_files: 'Archiviazione esterna: Leggere file'
   permission_share_files: 'Archiviazione esterna: Condividere file'
   permission_view_file_links: Visualizza link ai file
   permission_write_files: 'Archiviazione esterna: Scrivere file'
-  project_module_storages: Archivi file
+  project_module_storages: Files
   storages:
     buttons:
       complete_without_setup: Completa senza
@@ -224,13 +226,12 @@ it:
       project_settings:
         delete: Elimina archivio file
         edit: Modifica l'archiviazione dei file per questo progetto
-        index: File di archiviazione disponibili in questo progetto
         members_connection_status: Stato della connessione dei membri
         new: Aggiungi un archivio file al progetto
       project_storage_members:
         subtitle: Controlla lo stato della connessione per lo spazio di archiviazione %{storage_name_link} di tutti i membri del progetto.
         title: Stato della connessione dei membri
-    permission_header_explanation: "Le autorizzazioni dei file sugli archivi esterni vengono applicate solo alle cartelle e ai file all'interno delle cartelle di progetto gestite automaticamente. \nTieni presente che non tutte le autorizzazioni sui file sono supportate da tutti i provider di archiviazione."
+    permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
     provider_types:
       label: Tipo di fonte
       nextcloud:
@@ -243,6 +244,9 @@ it:
         label_oauth_client_secret: Valore segreto client Azure OAuth
         name: OneDrive/SharePoint
         name_placeholder: es. OneDrive
+    show_attachments_toggle:
+      description: Deactivating this option will only hide the attachments list. Files uploaded with the help of the rich text editor will still be uploaded to the attachments internal storage.
+      label: Show attachments in the work packages files tab
     storage_list_blank_slate:
       description: Aggiungi un archivio per vederli qui.
       heading: Non hai ancora archivi.
