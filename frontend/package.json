@@ -121,7 +121,7 @@
     "dragula": "^3.7.3",
     "expose-loader": "^0.7.5",
     "flatpickr": "^4.6.13",
-    "glob": "^7.1.4",
+    "glob": "^9.0.0",
     "hammerjs": "^2.0.8",
     "i18n-js": "^4.3.0",
     "idiomorph": "^0.3.0",
