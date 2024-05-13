@@ -31,8 +31,66 @@
 class Budgets::ActualLaborBudgetItemsComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
   options :budget, :project
 
-  def costs_visible?(entry)
-    User.current.allowed_in_project?(:view_hourly_rates, project) ||
-      (User.current.allowed_in_project?(:view_own_hourly_rate, project) && User.current.id == entry.user.id)
+  def by_work_package_and_time_entry
+    budget
+      .time_entries
+      .not_ongoing
+      .visible(User.current)
+      .group_by(&:work_package)
+      .each do |work_package, time_entries|
+        consolidate_time_entries(time_entries).each do |t|
+          yield work_package, t
+        end
+      end
+  end
+
+  def entry_work_package(work_package)
+    helpers.link_to_work_package work_package
+  end
+
+  def entry_hours(work_package, entry)
+    link_to helpers.l_hours(entry.hours),
+            cost_reports_path(work_package.project_id,
+                              "fields[]": "WorkPackageId",
+                              "operators[WorkPackageId]": "=",
+                              "values[WorkPackageId]": work_package.id,
+                              set_filter: 1)
+  end
+
+  def entry_user(entry)
+    entry.user.name
+  end
+
+  def entry_costs(entry)
+    entry.costs_visible_by?(User.current) ? number_to_currency(entry.real_costs) : ""
+  end
+
+  def spent_sum
+    number_to_currency(budget.spent_labor)
+  end
+
+  def view_rates_allowed?
+    User.current.allowed_in_project?(:view_hourly_rates,
+                                     project) ||
+      User.current.allowed_in_project?(:view_own_hourly_rate,
+                                       project)
+  end
+
+  private
+
+  def consolidate_time_entries(time_entries)
+    time_entries.inject(Hash.new) do |results, entry|
+      result ||= results[entry.user.id.to_s] = empty_time_entry(entry)
+
+      result.overridden_costs += entry.real_costs
+      result.hours += entry.hours
+      results
+    end.values
+  end
+
+  def empty_time_entry(entry)
+    result = TimeEntry.new(user: entry.user, overridden_costs: 0, project:)
+    result.hours = 0
+    result
   end
 end

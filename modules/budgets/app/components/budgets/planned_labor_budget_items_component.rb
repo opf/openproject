@@ -30,4 +30,31 @@
 
 class Budgets::PlannedLaborBudgetItemsComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
   options :budget, :project
+
+  def item_hours(item)
+    helpers.l_hours(item.hours)
+  end
+
+  def item_user(item)
+    item.user.name
+  end
+
+  def item_comments(item)
+    item.comments
+  end
+
+  def item_costs(item)
+    item.costs_visible_by?(User.current) ? number_to_currency(item.costs) : ""
+  end
+
+  def planned_sum
+    number_to_currency(budget.labor_budget)
+  end
+
+  def view_rates_allowed?
+    User.current.allowed_in_project?(:view_hourly_rates,
+                                     project) ||
+      User.current.allowed_in_project?(:view_own_hourly_rate,
+                                       project)
+  end
 end
