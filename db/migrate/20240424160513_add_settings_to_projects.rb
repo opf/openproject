@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class AddHideAttachmentsToProjects < ActiveRecord::Migration[7.1]
+class AddSettingsToProjects < ActiveRecord::Migration[7.1]
   def change
     add_column :projects, :settings, :jsonb, null: false, default: {}
   end
