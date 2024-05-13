@@ -365,6 +365,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
       project_roles: "Project roles"
       wp_shares: "Work package shares"
       groups: "Groups"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -555,7 +556,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
       unsupported_for_multiple_projects: "Bulk move/copy is not supported for work packages from multiple projects"
 
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Workflow missing for work package sharing"
         message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
         link_message: "Configure the workflows in the administration."
@@ -2883,7 +2884,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
     member_of_group: "Assignee's group"
     name_or_identifier: "Name or identifier"
     only_subproject_id: "Only subproject"
-    shared_with_user: "Shared with user"
+    shared_with_user: "Shared with users"
     shared_with_me: "Shared with me"
     subproject_id: "Including subproject"
 
