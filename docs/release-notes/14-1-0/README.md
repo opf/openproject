@@ -10,13 +10,36 @@ release_date: 2024-05-13
 
 Release date: 2024-05-13
 
-We released [OpenProject 14.1.0](https://community.openproject.org/versions/2030).
-The release contains several bug fixes and we recommend updating to the newest version.
+We released [OpenProject 14.1.0](https://community.openproject.org/versions/2030). The release contains several bug fixes and we recommend updating to the newest version. In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
+
+## Important feature changes
+
+### Favorite projects
+
+This feature was requested by many in the Community and will be a great benefit, especially for organizations with many projects: OpenProject 14.1 allows you to add projects to favorites so that they can be found more quickly. We recently gave an overview in our blog of how exactly you can add projects to favorites or remove them from favorites – and where you can display them.
+
+### Advanced features for the meetings module
+
+The Meetings module is currently being continuously improved. With OpenProject 14.1, you can:
+
+- group agenda items with sections,
+- add new agenda items in the form of open notes.
+
+Another change is that the status now changes to open when you copy a closed meeting.
+
+Apart from these features that apply the meetings module directly, the following changes concerning OpenProject meetings have been made:
+
+- On work packages, the project name is now shown in the Meetings tab.
+- Widgets to show meetings can be added to the My Page and project overview pages.
 
 
-## Important updates and breaking changes
+### PDF export of Gantt view, e.g. for printing (Enterprise add-on)
 
-<!-- Remove this section if empty, add to it in pull requests linking to tickets and provide information -->
+### Save a changed sort order of custom project lists
+
+### Custom set of project attributes grouped in sections
+
+### OneDrive/SharePoint: A "no permission“ message to file links
 
 <!--more-->
 
@@ -73,6 +96,4 @@ The release contains several bug fixes and we recommend updating to the newest v
 #### Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
-Special thanks for reporting and finding bugs go to
-
-Marc Burk, Silas Kropf, Hanley Loller
+Special thanks for reporting and finding bugs go to Marc Burk, Silas Kropf, and Hanley Loller.
