@@ -1,5 +1,5 @@
 ARG RUBY_VERSION="3.3.1"
-FROM ruby:${RUBY_VERSION}-bullseye as base
+FROM ruby:${RUBY_VERSION}-bookworm as base
 LABEL maintainer="operations@openproject.com"
 
 ARG BUNDLER_VERSION="2.5.10"
