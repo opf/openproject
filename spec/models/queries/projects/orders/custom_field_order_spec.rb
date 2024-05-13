@@ -26,48 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::Orders::CustomFieldOrder < Queries::Orders::Base
-  self.model = Project.all
+require "spec_helper"
 
-  EXCLUDED_CUSTOM_FIELD_TYPES = %w(text)
-  KEY_FORMAT = /cf_(\d+)/
+RSpec.describe Queries::Projects::Orders::CustomFieldOrder do
+  let!(:cf_text) { FactoryBot.create(:text_project_custom_field) }
+  let!(:cf_int) { FactoryBot.create(:integer_project_custom_field) }
 
-  validates :custom_field, presence: { message: I18n.t(:"activerecord.errors.messages.does_not_exist") }
-
-  def self.key
-    valid_ids = RequestStore.fetch(:custom_sortable_project_custom_fields) do
-      ProjectCustomField.where.not(field_format: EXCLUDED_CUSTOM_FIELD_TYPES).visible.pluck(:id).join("|")
-    end
-
-    /cf_(#{valid_ids})/
+  it "does not allow to sort by the text field" do
+    cf = described_class.new("cf_#{cf_text.id}")
+    expect(cf).not_to be_available
   end
 
-  def custom_field
-    @custom_field ||= begin
-      id = KEY_FORMAT.match(attribute)[1]
-
-      ProjectCustomField
-      .where.not(field_format: EXCLUDED_CUSTOM_FIELD_TYPES)
-      .visible
-      .find_by(id:)
-    end
-  end
-
-  def scope
-    super.select(custom_field.order_statements)
-  end
-
-  def available?
-    custom_field.present?
-  end
-
-  private
-
-  def order
-    joined_statement = custom_field.order_statements.map do |statement|
-      Arel.sql("#{statement} #{direction}")
-    end
-
-    model.order(joined_statement)
+  it "allows to sort by all other fields" do
+    cf = described_class.new("cf_#{cf_int.id}")
+    expect(cf).to be_available
   end
 end
