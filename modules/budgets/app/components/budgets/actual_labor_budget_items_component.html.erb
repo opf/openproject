@@ -1,0 +1,100 @@
+<div class="grid-content medium-6">
+  <h4><%= t(:caption_labor_costs) %></h4>
+  <div>
+    <div class="generic-table--container -with-footer">
+      <div class="generic-table--results-container">
+        <table class="generic-table labor_budget_items">
+          <colgroup>
+            <col opHighlightCol>
+            <col opHighlightCol>
+            <col opHighlightCol>
+            <col opHighlightCol>
+          </colgroup>
+          <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= TimeEntry.human_attribute_name(:work_package) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= TimeEntry.human_attribute_name(:hours) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= TimeEntry.human_attribute_name(:user) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th class="currency">
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= TimeEntry.human_attribute_name(:costs) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <% budget
+               .time_entries
+               .not_ongoing
+               .visible(User.current)
+               .group_by(&:work_package)
+               .each do |work_package, time_entries|
+            entries = time_entries.inject(Hash.new)  do |results, entry|
+              result = results[entry.user.id.to_s]
+              unless result
+                result = TimeEntry.new(:user => entry.user, :overridden_costs => 0)
+                result.hours = 0
+                results[entry.user.id.to_s] = result
+              end
+
+              result.overridden_costs += entry.real_costs
+              result.hours += entry.hours
+              results
+            end.values
+
+            entries.each do |t|
+          %>
+              <tr>
+                <td class="subject"><%= helpers.link_to_work_package work_package %></td>
+                <td class="hours"><%= link_to helpers.l_hours(t.hours), cost_reports_path(work_package.project_id, 'fields[]': 'WorkPackageId', 'operators[WorkPackageId]': '=', 'values[WorkPackageId]': work_package.id, set_filter: 1) %></td>
+                <td><%=h t.user.name %></td>
+                <td class="currency"><%= number_to_currency(t.real_costs) %></td>
+              </tr>
+            <% end %>
+          <% end %>
+          </tbody>
+          <tfoot>
+          <tr>
+            <td colspan="3"></td>
+            <td class="currency">
+              <div class="generic-table--footer-outer">
+                <strong><%= number_to_currency(budget.spent_labor) %></strong>
+              </div>
+            </td>
+          </tr>
+          </tfoot>
+        </table>
+
+        <div class="generic-table--footer-background"></div>
+      </div>
+    </div>
+  </div>
+</div>
