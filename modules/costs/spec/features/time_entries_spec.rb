@@ -54,7 +54,7 @@ RSpec.describe "Work Package table cost entries", :js do
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:query) do
-    query              = build(:query, user:, project:)
+    query = build(:query, user:, project:)
     query.column_names = %w(id subject spent_hours)
 
     query.save!
@@ -73,8 +73,8 @@ RSpec.describe "Work Package table cost entries", :js do
     parent_row = wp_table.row(parent)
     wp_row = wp_table.row(work_package)
 
-    expect(parent_row).to have_css(".inline-edit--container.spentTime", text: "12.5 h")
-    expect(wp_row).to have_css(".inline-edit--container.spentTime", text: "2.5 h")
+    expect(parent_row).to have_css(".inline-edit--container.spentTime", text: "12h 30m")
+    expect(wp_row).to have_css(".inline-edit--container.spentTime", text: "2h 30m")
   end
 
   it "creates an activity" do

@@ -58,13 +58,13 @@ RSpec.describe "Work package activity", :js, :with_cuprite do
       wp_page.expect_and_dismiss_toaster(message: "Successful update.")
     end
 
-    it "displays changed attributes in the activity tab" do
+    it "displays changed attributes in the activity tab", :aggregate_failures do
       within("activity-entry", text: admin.name) do
         expect(page).to have_list_item(text: "% Complete set to 50%")
-        expect(page).to have_list_item(text: "Work set to 10.00")
-        expect(page).to have_list_item(text: "Remaining work set to 5.00")
-        expect(page).to have_list_item(text: "Total work set to 20.00")
-        expect(page).to have_list_item(text: "Total remaining work set to 8.00")
+        expect(page).to have_list_item(text: "Work set to 10h")
+        expect(page).to have_list_item(text: "Remaining work set to 5h")
+        expect(page).to have_list_item(text: "Total work set to 20h")
+        expect(page).to have_list_item(text: "Total remaining work set to 8h")
         expect(page).to have_list_item(text: "Total % complete set to 60%")
       end
     end

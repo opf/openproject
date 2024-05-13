@@ -91,7 +91,7 @@ RSpec.describe "Work display", :js do
         child     |   3h |
     TABLE
 
-    include_examples "work display", expected_text: "1 h·Σ 4 h"
+    include_examples "work display", expected_text: "1h·Σ 4h"
   end
 
   context "with just work" do
@@ -101,7 +101,7 @@ RSpec.describe "Work display", :js do
         child     |   0h |
     TABLE
 
-    include_examples "work display", expected_text: "1 h"
+    include_examples "work display", expected_text: "1h"
   end
 
   context "with just total work with (parent work 0 h)" do
@@ -111,7 +111,7 @@ RSpec.describe "Work display", :js do
         child     |   3h |
     TABLE
 
-    include_examples "work display", expected_text: "0 h·Σ 3 h"
+    include_examples "work display", expected_text: "0h·Σ 3h"
   end
 
   context "with just total work (parent work unset)" do
@@ -121,7 +121,7 @@ RSpec.describe "Work display", :js do
         child     |   3h |
     TABLE
 
-    include_examples "work display", expected_text: "-·Σ 3 h"
+    include_examples "work display", expected_text: "-·Σ 3h"
   end
 
   context "with neither work nor total work (both 0 h)" do
@@ -131,7 +131,7 @@ RSpec.describe "Work display", :js do
         child     |   0h |
     TABLE
 
-    include_examples "work display", expected_text: "0 h"
+    include_examples "work display", expected_text: "0h"
   end
 
   context "with just total work being 0h" do
@@ -141,7 +141,7 @@ RSpec.describe "Work display", :js do
         child     |   0h |
     TABLE
 
-    include_examples "work display", expected_text: "-·Σ 0 h"
+    include_examples "work display", expected_text: "-·Σ 0h"
   end
 
   context "with neither work nor total work (both unset)" do
@@ -172,11 +172,11 @@ RSpec.describe "Work display", :js do
       wp_table.visit_query query
 
       # parent
-      expect(page).to have_content("5 h·Σ 20 h")
-      expect(page).to have_link("Σ 20 h")
+      expect(page).to have_content("5h·Σ 20h")
+      expect(page).to have_link("Σ 20h")
       # child 2
-      expect(page).to have_content("3 h·Σ 15 h")
-      expect(page).to have_link("Σ 15 h")
+      expect(page).to have_content("3h·Σ 15h")
+      expect(page).to have_link("Σ 15h")
     end
 
     context "when clicking the link of a top parent" do
@@ -185,7 +185,7 @@ RSpec.describe "Work display", :js do
       end
 
       it "shows a work package table with a parent filter to list the direct children" do
-        click_on("Σ 20 h")
+        click_on("Σ 20h")
 
         wp_table.expect_work_package_count(4)
         wp_table.expect_work_package_listed(parent, child1, child2, child3)
@@ -202,8 +202,8 @@ RSpec.describe "Work display", :js do
       end
 
       it "shows also all ancestors in the work package table" do
-        expect(page).to have_content("Work\n3 h·Σ 15 h")
-        click_on("Σ 15 h")
+        expect(page).to have_content("Work\n3h·Σ 15h")
+        click_on("Σ 15h")
 
         wp_table.expect_work_package_count(3)
         wp_table.expect_work_package_listed(parent, child2, grand_child21)
