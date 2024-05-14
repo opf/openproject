@@ -822,7 +822,7 @@ module WorkPackage::PDFExport::Gantt
     # @param [WorkPackage] work_package
     # @return [String] hexcode_in_prawn_format
     def wp_type_color(work_package)
-      work_package.type.color.hexcode.sub("#", "")
+      work_package.type&.color&.hexcode&.sub("#", "") || "000000"
     end
 
     # get the dates of the work package with safety checks
