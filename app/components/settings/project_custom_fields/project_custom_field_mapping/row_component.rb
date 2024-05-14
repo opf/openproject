@@ -30,11 +30,17 @@ module Settings
   module ProjectCustomFields
     module ProjectCustomFieldMapping
       class RowComponent < Projects::RowComponent
-        private
+        include OpTurbo::Streamable
+
+        def wrapper_uniq_by
+          "project-#{project.id}"
+        end
 
         def more_menu_items
           @more_menu_items ||= [more_menu_detach_project].compact
         end
+
+        private
 
         def more_menu_detach_project
           if User.current.admin
@@ -47,9 +53,8 @@ module Settings
                 project_custom_field_project_mapping: { project_id: model.first.id }
               ),
               data: {
-                method: :delete,
-                turbo: true,
-                'turbo-stream': true
+                turbo_confirm: t("project.archive.are_you_sure", name: project.name),
+                turbo_method: :delete
               }
             }
           end
