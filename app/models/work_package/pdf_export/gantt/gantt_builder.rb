@@ -511,18 +511,43 @@ module WorkPackage::PDFExport::Gantt
       )
     end
 
-    # Builds the dependency line between two work packages on different horizontal and vertical pages
+    # Builds the dependency line between two work packages on different vertical (and maybe horizontal) pages
     # @param [GanttDataLineInfo] source
     # @param [GanttDataLineInfo] target
     # @param [Array<GanttDataPageGroup>] page_groups
     def build_multi_group_dep_line(source, target, page_groups)
       start_page_index = source.page_group.pages.index(source.finish_row.page)
       finish_page_index = target.page_group.pages.index(target.start_row.page)
-      if start_page_index > finish_page_index
+      if start_page_index == finish_page_index
+        build_multi_group_same_page_dep_line(source, target, start_page_index, page_groups)
+      elsif start_page_index > finish_page_index
         build_multi_group_dep_line_backward(source, target, start_page_index, finish_page_index, page_groups)
       else
         build_multi_group_dep_line_forward(source, target, start_page_index, finish_page_index, page_groups)
       end
+    end
+
+    # Builds the dependency line between two work packages on different vertical but not horizontal pages
+    # @param [GanttDataLineInfo] source
+    # @param [GanttDataLineInfo] target
+    # @param [Integer] page_index
+    # @param [Array<GanttDataPageGroup>] page_groups
+    def build_multi_group_same_page_dep_line(source, target, page_index, page_groups)
+      build_multi_group_same_page_dep_lines_forward_start(source, target)
+      build_multi_group_dep_line_middle(source, target, page_index, page_groups)
+      build_multi_group_dep_line_group_end_end(target, target.start_left - LINE_STEP)
+    end
+
+    # Builds the dependency line between two work packages on different vertical but not horizontal pages (start)
+    # @param [GanttDataLineInfo] source
+    # @param [GanttDataLineInfo] target
+    def build_multi_group_same_page_dep_lines_forward_start(source, target)
+      source_top = source.finish_top
+      target_left = target.start_left - LINE_STEP
+      source.finish_row.page.add_lines([
+                                         [source.finish_left, target_left, source_top, source_top],
+                                         [target_left, target_left, source_top, source.finish_row.page.height]
+                                       ])
     end
 
     # Builds the dependency line between two work packages on different horizontal and vertical pages
@@ -596,13 +621,13 @@ module WorkPackage::PDFExport::Gantt
     # draw line between the source and target work package pages
     # @param [GanttDataLineInfo] source
     # @param [GanttDataLineInfo] target
-    def build_multi_group_dep_line_middle(source, target, finish_page_index, page_groups)
+    def build_multi_group_dep_line_middle(source, target, page_index, page_groups)
       start_group_index = page_groups.index(source.finish_row.page.group)
       finish_group_index = page_groups.index(target.start_row.page.group)
       start = [start_group_index, finish_group_index].min
       finish = [start_group_index, finish_group_index].max
       ((start + 1)..(finish - 1)).each do |index|
-        build_multi_group_dep_line_middle_for_group(page_groups[index], target, finish_page_index)
+        build_multi_group_dep_line_middle_for_group(page_groups[index], target, page_index)
       end
     end
 
@@ -702,9 +727,7 @@ module WorkPackage::PDFExport::Gantt
     # @param [WorkPackage] work_package
     # @return [String]
     def work_package_info_line(work_package)
-      level_path = @id_wp_meta_map[work_package.id][:level_path]
-      level_string = "#{level_path.join('.')}."
-      "#{level_string} #{work_package.type} ##{work_package.id}"
+      "#{work_package.type} ##{work_package.id}"
     end
 
     # Builds the shape for the given work package
@@ -822,7 +845,7 @@ module WorkPackage::PDFExport::Gantt
     # @param [WorkPackage] work_package
     # @return [String] hexcode_in_prawn_format
     def wp_type_color(work_package)
-      work_package.type.color.hexcode.sub("#", "")
+      work_package.type&.color&.hexcode&.sub("#", "") || "000000"
     end
 
     # get the dates of the work package with safety checks
