@@ -53,6 +53,7 @@ RSpec.describe TableHelpers::TableParser do
 
   it "ignores comments and empty lines" do
     table = <<~TABLE
+      # this comment is ignored
       | subject |
       # this comment and the following empty line are ignored
 
