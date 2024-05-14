@@ -2433,7 +2433,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   label_workflow: "Workflow"
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Summary"
-  label_working_days: "Working days"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "1 closed"
     other: "%{count} closed"

@@ -27,11 +27,11 @@
 #++
 
 module Admin::Settings
-  class WorkingDaysSettingsController < ::Admin::SettingsController
-    menu_item :working_days
+  class WorkingDaysAndHoursSettingsController < ::Admin::SettingsController
+    menu_item :working_days_and_hours
 
     def default_breadcrumb
-      t(:label_working_days)
+      t(:label_working_days_and_hours)
     end
 
     def failure_callback(call)

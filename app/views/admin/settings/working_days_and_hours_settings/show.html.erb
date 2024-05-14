@@ -27,18 +27,18 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= toolbar title: t(:label_working_days) %>
+<%= toolbar title: t(:label_working_days_and_hours) %>
 
 <div class="op-toast -warning">
   <div class="op-toast--content">
     <p>
-    <%= t("working_days.warning").html_safe %>
+      <%= t("working_days.warning").html_safe %>
     </p>
   </div>
 </div>
 
 <%= styled_form_tag(
-      admin_settings_working_days_path,
+      admin_settings_working_days_and_hours_path,
       method: :patch,
       class: 'op-working-days-admin-settings'
     ) do %>
@@ -54,8 +54,8 @@ See COPYRIGHT and LICENSE files for more details.
       <div class="form--field op-working-days-admin-settings--day-selectors" id="setting_working_days">
         <%= setting_multiselect :working_days,
 
-              I18n.t('date.day_names').rotate.zip(WeekDay::DAY_RANGE),
-              direction: :horizontal %>
+                                I18n.t('date.day_names').rotate.zip(WeekDay::DAY_RANGE),
+                                direction: :horizontal %>
       </div>
 
     </fieldset>
