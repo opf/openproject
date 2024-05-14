@@ -165,7 +165,7 @@ ms:
     tls_options:
       verify_peer: "Sahkan sijil SSL"
       verify_peer_description_html: >
-        Membolehkan verifikasi SSL ketat bagi rantaian dipercayai sijil. <br/><strong>Amaran:</strong> Nyahtandakan pilihan ini nyahaktifkan verifikasi SSL bagi sijil server LDAP. Ini mendedahkan hubungan anda kepada Man dalam serangan Tengah.
+        Membolehkan verifikasi SSL ketat bagi rantaian dipercayai sijil. <br/><strong>Amaran:</strong> Nyahtandakan pilihan ini nyahaktifkan verifikasi SSL bagi sijil server LDAP. Ini mendedahkan hubungan anda kepada orang dalam serangan Tengah.
       tls_certificate_description: "Jika sijil server LDAP bukan lagi di sumber yang dipercayai di sistem ini, anda boleh tambahkannya secara manual di sini. Masukkan sijil rentetan PEM X509."
   forums:
     show:
@@ -213,8 +213,8 @@ ms:
       is_required: "Tandakan ruang yang tersuai seperti yang diperlukan. Ini akan buatkan ia wajib untuk isikan ruang tersebut apabila membuat sumber yang baru atau kemas kini sumber sedia ada."
       is_for_all: "Tandakan ruang tersuai sebagai tersedia di semua projek baru dan sedia ada."
       searchable: "Sertakan nilai-nilai ruangan apabila gunakan fungsi pencarian global."
-      editable: "Benarkan ruangan tersebut boleh disunting oleh pengguna sendiri."
-      visible: "Buat ruangan boleh dilihat ke semua penngguna (bukan pentadbir) dalam gambaran kesuluruhan projek dan dipaparkan di widget butiran projek di Gambaran Keseluruhan Projek."
+      editable: "Benarkan ruangan tersebut boleh diedit oleh pengguna sendiri."
+      visible: "Buat ruangan boleh dilihat ke semua pengguna (bukan pentadbir) dalam gambaran kesuluruhan projek dan dipaparkan di widget butiran projek di Gambaran Keseluruhan Projek."
       is_filter: >
         Benarkan ruang tersuai untuk digunakan di penyaring paparan pakej kerja. Perhatikan bahawa hanya "Untuk semua projek" yang dipilih, ruang tersuai akan dipaparkan di paparan global.
     tab:
@@ -413,7 +413,7 @@ ms:
     upsale:
       title: Pengguna gantian
       description: >
-        Pengguna sementara ialah cara untuk memperuntukkan pakej kerja kepada pengguna yang bukan sebahagian daripada projek anda. Ianya berguna dalam pelbagai senario; contohnya, jika anda perlu menjejaki tugas untuk sumber yang masih belum dinamakan atau disediakan, atau jika anda tidak ingin memberikan seseorang akses ke OpenProject, tetapi masih hendak menjejaki tugas yang telah diperuntukkan ke mereka.
+        Pengguna sementara ialah satu cara untuk memperuntukkan pakej kerja kepada pengguna yang bukan sebahagian daripada projek anda. Ianya berguna dalam pelbagai senario; contohnya, jika anda perlu menjejaki tugas untuk sumber yang masih belum dinamakan atau disediakan, atau jika anda tidak ingin memberikan seseorang akses ke OpenProject, tetapi masih hendak menjejaki tugas yang telah diperuntukkan ke mereka.
   prioritiies:
     edit:
       priority_color_text: |
@@ -2602,7 +2602,7 @@ ms:
   permission_commit_access: "Baca/tulis akses ke repositori (komit)"
   permission_copy_projects: "Salin projek"
   permission_copy_work_packages: "Salin pakej kerja"
-  permission_create_backup: "Cipta sokongan"
+  permission_create_backup: "Cipta sandaran"
   permission_delete_work_package_watchers: "Buang pemerhati"
   permission_delete_work_packages: "Buang pakej kerja"
   permission_delete_messages: "Padam mesej"
@@ -2619,7 +2619,7 @@ ms:
   permission_edit_own_time_entries: "Sunting log masa sendiri"
   permission_edit_project: "Sunting projek"
   permission_edit_reportings: "Sunting laporan"
-  permission_edit_time_entries: "Sunting log masa untuk pengguna-pengguna lain"
+  permission_edit_time_entries: "Edit log masa untuk pengguna-pengguna lain"
   permission_edit_timelines: "Sunting garis masa"
   permission_edit_wiki_pages: "Sunting halaman wiki"
   permission_export_work_packages: "Eksport pakej kerja"
@@ -2809,7 +2809,7 @@ ms:
       oauth_application_details_link_text: "Pergi ke halaman tetapan"
       setup_documentation_details: "JIka anda memerlukan bantuan mengkonfigurasikan penyimpanan fail baharu lihat dokumentasi berikut:"
       setup_documentation_details_link_text: "Setup penyimpanan fail"
-      show_warning_details: "Untuk gunakan simpanan fail ini, ingat untuk mengaktifkan modul dan simpanan khusus di tetapan project setiap projek yang dikehendaki."
+      show_warning_details: "Untuk gunakan storan fail ini, ingat untuk mengaktifkan modul dan storan khusus di tetapan project setiap projek yang dikehendaki."
     subversion:
       existing_title: "Repositori Subversion sedia ada"
       existing_introduction: "JIka anda mempunyai repositori Subversion sedia ada, anda boleh pautkan ia dengan OpenProject untuk mengaksesnya dari dalam aplikasi."
@@ -3006,7 +3006,7 @@ ms:
         type: "Keseluruhan baris mengikut Jenis"
         priority: "Keseluruhan baris mengikut Keutamaan"
     icalendar:
-      enable_subscriptions_text_html: "Benarkan pengguna dengan kebenaran yang diperlukan untuk melanggan kalendar OpenProject dan akses informasi pakej kerja melalui kalendar pelanggan luar.\n<strong>Nota:</strong> Sila baca tentang <a href=\"%{link}\" target=\"_blank\">langganan iCalendar</a> untuk fahami tentang potensi risiko keselamatan sebelum membenarkannya."
+      enable_subscriptions_text_html: "Benarkan pengguna dengan kebenaran yang diperlukan untuk melanggan kalendar OpenProject dan akses informasi pakej kerja melalui kalendar pelanggan luar.\n<strong>Perhatian:</strong> Sila baca tentang <a href=\"%{link}\" target=\"_blank\">langganan iCalendar</a> untuk fahami tentang potensi risiko keselamatan sebelum membenarkannya."
     language_name_being_default: "%{language_name} (asas)"
     notifications:
       events_explanation: "Tetapkan mana-mana peristiwa untuk e-mel dihantar keluar. Pakej kerja dikecualikan dari senarai ini kerana pemberitahuannya boleh dikonfigurasikan khusus ke setiap pengguna."
@@ -3317,7 +3317,7 @@ ms:
       remove: "Keluarkan"
       share: "Kongsi"
       text_empty_search_description: "Tiada pengguna dengan kriteria penyaring semasa."
-      text_empty_search_header: "Kami tidak menjumpai keputusan yang sepadan."
+      text_empty_search_header: "Kami tidak menemui keputusan yang sepadan."
       text_empty_state_description: "Pakej kerja masih belum dikongsi dengan sesiapa lagi."
       text_empty_state_header: "Tidak dikongsikan"
       text_user_limit_reached: "Menambah pengguna tambahan akan melebihi had semasa. Sila hubungi pentadbir untuk meningkatkan had pengguna bagi memastikan pengguna luaran dapat mengakses pakej kerja ini."
@@ -3327,7 +3327,7 @@ ms:
       warning_user_limit_reached_admin: >
         Menambah pengguna tambahan akan melebihi had semasa. Sila <a href="%{upgrade_url}">naik taraf pelan anda</a> bagi memastikan pengguna luaran dapat mengakses pakej kerja ini.
       warning_no_selected_user: "Sila pilih pengguna untuk berkongsi pakej kerja ini dengan mereka"
-      warning_locked_user: "Pengguna %{user} telah dikunci dan tidak boleh dikongsi dengannya"
+      warning_locked_user: "Pengguna %{user} telah dikunci dan tidak boleh dikongsi"
       user_details:
         locked: "Pengguna yang dikunci"
         invited: "Jemputan dihantar. "
@@ -3488,7 +3488,7 @@ ms:
       successful_application_revocation: "Pembatalan aplikasi %{application_name} berjaya."
       none_given: "Tiada aplikasi OAuth yang telah diberi akses ke akaun anda."
     x_active_tokens:
-      other: "satu token aktif"
+      other: "%{count} token aktif"
     flows:
       authorization_code: "Aliran kod kebenaran"
       client_credentials: "Aliran kelayakan pelanggan"

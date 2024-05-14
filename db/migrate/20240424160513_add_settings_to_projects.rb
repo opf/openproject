@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,30 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
-require_relative "ifc_upload_shared_examples"
-
-RSpec.describe "direct IFC upload", :js, with_config: { edition: "bim" }, with_direct_uploads: :redirect do
-  it_behaves_like "can upload an IFC file" do
-    # with direct upload, we don't get the model name
-    let(:model_name) { "model.ifc" }
-
-    context "when the file size exceeds the allowed maximum", with_settings: { attachment_max_size: 1 } do
-      it "invalidates the form via JavaScript preventing submission" do
-        pending "This test is currently flaky due to an unknown reason"
-
-        visit new_bcf_project_ifc_model_path(project_id: project.identifier)
-
-        page.attach_file("file", ifc_fixture.path, visible: :all)
-
-        form_validity = page.evaluate_script <<~JS
-          document
-            .querySelector('#new_bim_ifc_models_ifc_model')
-            .checkValidity();
-        JS
-
-        expect(form_validity).to be(false)
-      end
-    end
+class AddSettingsToProjects < ActiveRecord::Migration[7.1]
+  def change
+    add_column :projects, :settings, :jsonb, null: false, default: {}
   end
 end

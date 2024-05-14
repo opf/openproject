@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,8 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class AddHideAttachmentsToProjects < ActiveRecord::Migration[7.1]
-  def change
-    add_column :projects, :settings, :jsonb, null: false, default: {}
+require "spec_helper"
+require_module_spec_helper
+
+RSpec.describe "POST /projects/:project_id/ifc_models/set_direct_upload_file_name" do
+  shared_let(:user) { create(:admin, preferences: { time_zone: "Etc/UTC" }) }
+  let(:project) { build_stubbed(:project) }
+
+  context "when user is not logged in" do
+    it "requires login" do
+      post set_direct_upload_file_name_bcf_project_ifc_models_path(project_id: project.id)
+      expect(last_response.status).to eq(406) # rubocop:disable RSpecRails/HaveHttpStatus
+    end
+  end
+
+  context "when user is logged in" do
+    before { login_as(user) }
+
+    context "and the upload exceeds the maximum size", with_settings: { attachment_max_size: 1 } do
+      it "returns a 422" do
+        post set_direct_upload_file_name_bcf_project_ifc_models_path(project_id: project.id),
+             { title: "Test.ifc", isDefault: "0", filesize: "113328073" }
+        expect(last_response.status).to eq(422) # rubocop:disable RSpecRails/HaveHttpStatus
+        expect(parse_json(last_response.body)).to eq({ "error" => "is too large (maximum size is 1024 Bytes)." })
+      end
+    end
   end
 end
