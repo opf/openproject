@@ -1059,7 +1059,7 @@ pl:
       sharing:
         share: "Udostępnij"
         title: "Udostępnij pakiet roboczy"
-        show_all_users: "Pokaż wszystkich udostępnionych użytkowników"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "Wybrano %{count}"
         selection:
           mixed: "Mieszane"

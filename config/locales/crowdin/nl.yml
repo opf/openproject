@@ -327,6 +327,7 @@ nl:
       project_roles: "Project roles"
       wp_shares: "Work package shares"
       groups: "Groepen"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -489,7 +490,7 @@ nl:
       no_common_statuses_exists: "Er is geen status beschikbaar voor alle geselecteerde werkpakketten. Hun status kan niet worden gewijzigd."
       unsupported_for_multiple_projects: "Bulk verplaatsen/kopiëren wordt niet ondersteund voor werkpakketten uit meerdere projecten"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Workflow missing for work package sharing"
         message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
         link_message: "Configure the workflows in the administration."
@@ -1731,17 +1732,6 @@ nl:
         mentioned: "U bent genoemd in %{work_package}"
         responsible: "Je bent verantwoordelijk geworden voor %{work_package}"
         watched: "Je volgt %{work_package}"
-    update_info_mail:
-      body: >
-        We zijn enthousiast om de release van OpenProject 12.0 aan te kondigen. Het is een belangrijke versie die hopelijk de manier waarop je OpenProject gebruikt aanzienlijk zal verbeteren.
-        Vanaf deze release, introduceren we in-app meldingen. Vanaf nu ontvangt u meldingen voor updates voor werkpakketten rechtstreeks in OpenProject. Je kunt deze meldingen als gelezen markeren, reageren op een reactie of zelfs direct de werkpakket kenmerken aanpassen zonder het notificatiecentrum te verlaten.
-        Dit betekent ook dat we geen e-mails meer gebruiken voor meldingen. Wij vinden dat het nieuwe meldingscentrum een betere plek is om deze updates te bekijken en op te volgen. Als u updates wilt blijven ontvangen via e-mail, kunt u ervoor kiezen dagelijks e-mailherinneringen te ontvangen op bepaalde momenten dat u wilt.
-        Zorg ervoor dat u uw nieuwe standaardinstellingen voor meldingen verifieert en uw voorkeuren voor herinneringen per e-mail via uw accountinstellingen instelt. U kunt dit doen via de knop "E-mail instellingen wijzigen" hieronder.
-        We hopen dat je in-app meldingen nuttig vindt en dat ze je nog productiever maken.
-        Met vriendelijke groet, Het OpenProject team
-      body_header: "Versie 12.0 met Notificatie Centrum"
-      body_subheader: "Nieuws"
-      subject: "Belangrijke wijzigingen in meldingen met de release van 12.0"
   label_accessibility: "Toegankelijkheid"
   label_account: "Account"
   label_active: "Actief"
@@ -2753,7 +2743,7 @@ nl:
     member_of_group: "Werknemer's groep"
     name_or_identifier: "Naam of id"
     only_subproject_id: "Alleen subproject"
-    shared_with_user: "Shared with user"
+    shared_with_user: "Shared with users"
     shared_with_me: "Shared with me"
     subproject_id: "Inclusief subproject"
   repositories:

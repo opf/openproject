@@ -63,4 +63,4 @@ ms:
           title: 'Projek yang dipilih'
         secret:
           description: >
-            Jika telah ditetapkan, nilai rahsia ini digunakan oleh OpenProject untuk menandatangani muatan webhook.
+            Jika ditetapkan, nilai rahsia ini digunakan oleh OpenProject untuk menandatangani muatan webhook.

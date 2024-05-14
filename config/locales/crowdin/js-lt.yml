@@ -1059,7 +1059,7 @@ lt:
       sharing:
         share: "Dalintis"
         title: "Dalintis darbo paketu"
-        show_all_users: "Rodyti visus bendrinamus naudotojus"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} pažymėta"
         selection:
           mixed: "Mišrus"

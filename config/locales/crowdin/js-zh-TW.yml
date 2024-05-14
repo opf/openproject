@@ -236,7 +236,7 @@ zh-TW:
         upsale:
           become_hero: "成為英雄!"
           enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
-          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+          upgrade_info: "請升級到付費版以啟用此功能"
           benefits:
             description: "本地部署的 Enterprise edition 具有哪些優勢？"
             high_security: "Security features"
@@ -249,7 +249,7 @@ zh-TW:
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "開始免費試用"
           button_upgrade: "立即更新"
-          button_contact_us: "Contact us for a demo"
+          button_contact_us: "聯絡我們取得試用"
           button_book_now: "立即預約"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
@@ -1055,7 +1055,7 @@ zh-TW:
       sharing:
         share: "共享"
         title: "分享工作項目"
-        show_all_users: "顯示所有使用者"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "已選取 %{count} 個"
         selection:
           mixed: "Mixed"
