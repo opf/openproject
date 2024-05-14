@@ -232,7 +232,6 @@ Attention: Please do not confuse the CA for the Nextcloud server's certificate w
 
 **Terms of services** is an app on the Nextcloud side of integration that makes it mandatory for users to accept terms of services before Nextcloud can be used. In order for the integration to work properly the OpenProject user also needs to accept all terms that are set up. It should be accepted automatically during the set up process. However, it is possible that in certain situations it does not happen automatically. 
 
-![Terms of service error message in OpenProject](openproject_system_guide_tos_error.png)
 
 To fix this please log into Nextcloud, proceed to Administration and select OpenProject. This will trigger an automatic background check and suggest that *Terms of services* be signed. 
 ![Fix a Terms of services error in Nextcloud](openproject_system_guide_tos_fix.png)
