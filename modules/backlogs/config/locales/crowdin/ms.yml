@@ -21,13 +21,13 @@
 #++
 ms:
   plugin_openproject_backlogs:
-    name: "OpenProject Backlogs"
-    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
+    name: "Tunggakan OpenProject"
+    description: "Modul ini menambahkan ciri-ciri yang membolehkan kumpulan-kumpulan yang tangkas untuk bekerja menggunakan OpenProject di projek Scrum."
   activerecord:
     attributes:
       work_package:
         position: "Kedudukan"
-        story_points: "Titik cerita"
+        story_points: "Titik Cerita"
         backlogs_work_package_type: "Jenis tunggakan kerja"
     errors:
       models:
@@ -45,7 +45,7 @@ ms:
     any: "mana-mana"
     backlog_settings: "Tetapan tunggakan"
     burndown_graph: "Graf Burndown"
-    card_paper_size: "Saiz kertas untuk mencetak kad"
+    card_paper_size: "Saiz kertas untuk pencetakan kad"
     chart_options: "Pilihan carta"
     close: "Tutup"
     column_width: "Lebar kolum:"
@@ -54,7 +54,7 @@ ms:
     generating_chart: "Sedang Menjana Graf..."
     hours: "Jam"
     impediment: "Halangan"
-    label_versions_default_fold_state: "Tunjuk versi dilipat"
+    label_versions_default_fold_state: "Paparkan versi dilipat"
     work_package_is_closed: "Pakej kerja selesai apabila"
     label_is_done_status: "Status %{status_name} bermaksud selesai"
     no_burndown_data: "Tiada data burndown tersedia. Adalah perlu untuk menentukan tarikh mula dan tarikh akhir pecutan."
@@ -87,7 +87,7 @@ ms:
   backlogs_sprint_unsized: "Projek mempunyai cerita-cerita berkenaan pecutan aktif atau baru ditutup yang tidak bersaiz"
   backlogs_sprints: "Pecutan"
   backlogs_story: "Cerita"
-  backlogs_story_type: "Jenis Cerita"
+  backlogs_story_type: "Jenis cerita"
   backlogs_task: "Tugasan"
   backlogs_task_type: "Jenis Tugasan"
   backlogs_velocity_missing: "Tiada kelajuan yang boleh dikira untuk projek ini"
@@ -107,7 +107,7 @@ ms:
   label_back_to_project: "Kembali ke laman projek"
   label_backlog: "Tunggakan"
   label_backlogs: "Tunggakan"
-  label_backlogs_unconfigured: "Anda belum mengkonfigurasi tunggakan lagi. Sila pergi ke  %{administration} > %{plugins}, kemudian klik pautan %{configure} untuk plugin ini. Setelah anda menetapkan medan, kembali ke halaman ini untuk mula menggunakan alat ini."
+  label_backlogs_unconfigured: "Anda belum mengkonfigurasi tunggakan lagi. Sila pergi ke  %{administration} > %{plugins}, kemudian klik pautan %{configure} untuk plugin ini. Setelah anda menetapkan ruangan, kembali ke halaman ini untuk mula menggunakan alat ini."
   label_blocks_ids: "ID pakej kerja yang disekat"
   label_burndown: "Burndown"
   label_column_in_backlog: "Kolum dalam tunggakan"
@@ -128,18 +128,18 @@ ms:
   label_stories: "Cerita-cerita"
   label_stories_tasks: "Cerita/Tugasan"
   label_task_board: "Papan tugasan"
-  label_version_setting: "Versi"
+  label_version_setting: "Versi-versi"
   label_version: 'Versi'
   label_webcal: "Webcal Feed"
   label_wiki: "Wiki"
   permission_view_master_backlog: "Paparkan tunggakan utama"
-  permission_view_taskboards: "Paparkan papan tugasan"
+  permission_view_taskboards: "Lihat papan tugasan"
   permission_select_done_statuses: "Pilih status selesai"
   permission_update_sprints: "Kemas kini pecutan"
   points_accepted: "mata diterima"
   points_committed: "mata yang dianggarkan"
   points_resolved: "mata yang diselesaikan"
-  points_to_accept: "mata tidak diterima"
+  points_to_accept: "mata yang tidak diterima"
   points_to_resolve: "mata tidak diselesaikan"
   project_module_backlogs: "Tunggakan"
   rb_label_copy_tasks: "Salin pakej kerja"

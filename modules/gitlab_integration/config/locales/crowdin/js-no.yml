@@ -38,7 +38,7 @@
         git_actions:
           branch_name: Navn på filial
           commit_message: Send inn meldingen
-          cmd: Create branch with empty commit
+          cmd: Opprett gren med tom commit
           title: Quick snippets for Git
           copy_success: '✅ Kopiert!'
           copy_error: '❌ Kopiering mislyktes!'

@@ -284,7 +284,7 @@ ru:
         no_results_title_text: Нет доступных настраиваемых полей.
       project_custom_fields:
         header:
-          title: "Project attributes"
+          title: "Атрибуты проекта"
           description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
         filter:
           label: "Search project attribute"
@@ -1154,12 +1154,12 @@ ru:
           added: "set to %{value}"
           added_html: "set to <i>%{value}</i>"
           removed: "removed"
-          updated: "changed from %{old_value} to %{value}"
+          updated: "изменено с %{old_value} на %{value}"
           updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
         position:
           updated: "reordered"
         work_package:
-          updated: "changed from %{old_value} to %{value}"
+          updated: "изменено с %{old_value} на %{value}"
           updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
       changeset: "Наборы изменений"
@@ -1258,7 +1258,7 @@ ru:
       token_cooldown: Маркер резервной копии будет действителен в течение %{hours} часов.
       backup_pending: Уже есть резервная копия.
       limit_reached: Вы можете делать только %{limit} резервных копий в день.
-  button_actions: "Actions"
+  button_actions: "Действия"
   button_add: "Добавить"
   button_add_comment: "Добавить комментарий"
   button_add_member: Добавить участника
@@ -1329,7 +1329,7 @@ ru:
   button_add_menu_entry: "Добавление пункта меню"
   button_configure_menu_entry: "Настройка пункта меню"
   button_delete_menu_entry: "Удаление пункта меню"
-  button_view_shared_work_packages: "View shared work packages"
+  button_view_shared_work_packages: "Просмотр общих пакетов работ"
   button_manage_roles: "Manage roles"
   button_remove_member: "Remove member"
   button_remove_member_and_shares: "Remove member and shares"
@@ -1721,6 +1721,8 @@ ru:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Руководство по конфигурации"
     get_in_touch: "У вас есть вопросы? Свяжитесь с нами."
@@ -1838,7 +1840,7 @@ ru:
   label_ascending: "По возрастанию"
   label_assigned_to_me_work_packages: "Переданные мне пакеты работ"
   label_associated_revisions: "Связанные изменения"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Вложения"
   label_attribute: "Атрибут"
   label_attribute_plural: "Атрибуты"
   label_ldap_auth_source_new: "Новое LDAP соединение"
@@ -1986,7 +1988,7 @@ ru:
   label_ifc_model_plural: "Модели Ifc"
   label_import: "Импорт"
   label_export_to: "Скачать как:"
-  label_expand: "Expand"
+  label_expand: "Развернуть"
   label_expanded_click_to_collapse: "Развернуто. Кликните для сворачивания"
   label_f_hour: "%{value} часов"
   label_f_hour_plural: "%{value} часов"
@@ -2060,7 +2062,7 @@ ru:
   label_latest_revision: "Последняя редакция"
   label_latest_revision_plural: "Последние изменения"
   label_ldap_authentication: "LDAP - аутентификация"
-  label_learn_more: "Learn more"
+  label_learn_more: "Узнать больше"
   label_less_or_equal: "<="
   label_less_than_ago: "меньше чем день назад"
   label_list: "Список"
@@ -2186,7 +2188,7 @@ ru:
   label_privacy_policy: "Политика конфиденциальности данных и безопасности"
   label_product_version: "Версия продукта"
   label_profile: "Профиль"
-  label_percent_complete: "% Complete"
+  label_percent_complete: "% Готово"
   label_project_activity: "Деятельность"
   label_project_attribute_plural: "Атрибуты проекта"
   label_project_count: "Общее количество проектов"
@@ -2196,9 +2198,9 @@ ru:
   label_project_hierarchy: "Иерархия проектов"
   label_project_new: "Новый проект"
   label_project_plural: "Проекты"
-  label_project_list_plural: "Project lists"
-  label_project_attributes_plural: "Project attributes"
-  label_project_custom_field_plural: "Project attributes"
+  label_project_list_plural: "Списки проектов"
+  label_project_attributes_plural: "Атрибуты проекта"
+  label_project_custom_field_plural: "Атрибуты проекта"
   label_project_settings: "Настройки проекта"
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "Файловые хранилища"
@@ -2223,7 +2225,7 @@ ru:
   label_relation_delete: "Удалить связь"
   label_relation_new: "Новая связь"
   label_release_notes: "Список изменений"
-  label_remaining_work: "Remaining work"
+  label_remaining_work: "Оставшиеся часы"
   label_remove_columns: "Удалить выбранные столбцы"
   label_renamed: "переименовано"
   label_reply_plural: "Ответы"
@@ -2356,7 +2358,7 @@ ru:
   label_wiki_show_new_page_link: "Показать пункт подменю «Создать новую дочернюю страницу»"
   label_wiki_show_submenu_item: "Показать как пункт подменю "
   label_wiki_start: "Начальная страница"
-  label_work: "Work"
+  label_work: "Предполагаемое время"
   label_work_package: "Пакет работ"
   label_work_package_attachments: "Вложения пакета работ"
   label_work_package_category_new: "Новая категория"
@@ -2479,7 +2481,7 @@ ru:
     storages:
       health:
         plaintext:
-          storage: "Storage"
+          storage: "Хранилище"
           healthy:
             summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
             error-solved-on: "Solved On"
@@ -3099,7 +3101,7 @@ ru:
     other: "Другие"
     passwords: "Пароли"
     project_attributes:
-      heading: "Project attributes"
+      heading: "Атрибуты проекта"
       label_new_attribute: "Project attribute"
       label_new_section: "Section"
       label_edit_section: "Edit title"

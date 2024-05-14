@@ -288,7 +288,7 @@ zh-TW:
     filter:
       more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
-        text_open_filter: "使用 ALT 和方向鍵打開此篩選條件。"
+        text_open_filter: "使用 ALT 和方向鍵打開此篩選器。"
         text_close_filter: "要選擇條目離開焦點例如按輸入。離開沒有篩選器的情況下選擇的第一個 （空） 條目。"
       noneElement: "（無）"
       time_zone_converted:
@@ -677,13 +677,13 @@ zh-TW:
           watched: "監看者\n"
           work_package_commented: "有新留言"
           work_package_created: "新增工作項目"
-          work_package_processed: "狀態改變(所有)"
-          work_package_prioritized: "更改優先順序"
-          work_package_scheduled: "日期變更(所有)"
+          work_package_processed: "所有狀態改變"
+          work_package_prioritized: "優先順序已變更"
+          work_package_scheduled: "所有日期變更"
         global:
           immediately:
             title: "參與中"
-            description: "你參與的工作項目中所有活動的通知（執行者、負責人或監督人）。"
+            description: "你參與的工作項目中所有活動的通知（執行者、負責人或監看者）。"
           delayed:
             title: "非參與中"
             description: "額外通知"
@@ -758,7 +758,7 @@ zh-TW:
           last_day: "最後一天"
     text_are_you_sure: "是否確定？"
     text_data_lost: "所有資料將遺失"
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} 寫道："
     types:
       attribute_groups:
         error_duplicate_group_name: "名稱 %{group} 已被使用，群組名稱不可重複。"
@@ -824,7 +824,7 @@ zh-TW:
       add_parent: "增加現有的上一層"
       add_new_child: "建立子工作項目"
       create_new: "新增"
-      add_existing: "增加已有的"
+      add_existing: "添加現有的"
       add_existing_child: "加入現有子項目"
       remove_child: "移除子項目"
       add_new_relation: "建立新關聯"
@@ -833,7 +833,7 @@ zh-TW:
       toggle_description: "切換關係描述"
       update_relation: "按一下此處以更改關聯類型"
       add_follower: "增加後置項目"
-      show_relations: "Show relations"
+      show_relations: "顯示關聯"
       add_predecessor: "增加前置項目"
       remove: "刪除關係"
       save: "儲存關聯"
@@ -1029,7 +1029,7 @@ zh-TW:
         rename_query_placeholder: "此檢視的名稱"
         star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
         public_text: >
-          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+          發布此檢視圖，允許其他使用者存取您的視圖。 具有「管理公用檢視圖」權限的使用者可以修改或刪除公用查詢。 這不會影響該檢視圖中工作項目的可見性，並且根據使用者的權限，使用者可能會看到不同的結果。
         errors:
           unretrievable_query: "無法從 url 取得版面"
           not_found: "無此查詢"
@@ -1227,7 +1227,7 @@ zh-TW:
           description: "Permissions based on the assigned role in the selected project"
         placeholder:
           title: "虛擬群組"
-          title_no_ee: "虛擬群組（Enterprise edition 附加功能）"
+          title_no_ee: "虛擬暫用群組（Enterprise edition 附加功能）"
           description: "Has no access to the project and no emails are sent out."
           description_no_ee: '由於沒有存取專案權限，所以不會發送電子郵件。<br>請查看<a href="%{eeHref}" target="_blank">企業版</a>。'
       principal:

@@ -86,7 +86,7 @@ class MemberMailer < ApplicationMailer
 
         yield if block_given?
 
-        mail to: member.principal.mail,
+        mail to: member.principal,
              subject:
       end
     end

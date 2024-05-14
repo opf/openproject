@@ -143,7 +143,7 @@ RSpec.describe StatusesController do
 
       it "does not start any jobs to update work packages % complete values" do
         expect(status.reload).to have_attributes(default_done_ratio: new_default_done_ratio)
-        expect(WorkPackages::ApplyStatusesPCompleteJob)
+        expect(WorkPackages::Progress::ApplyStatusesPCompleteJob)
           .not_to have_been_enqueued
       end
     end
@@ -158,7 +158,7 @@ RSpec.describe StatusesController do
         it "starts a job to update work packages % complete values" do
           old_default_done_ratio = status.default_done_ratio
           expect(status.reload).to have_attributes(default_done_ratio: new_default_done_ratio)
-          expect(WorkPackages::ApplyStatusesPCompleteJob)
+          expect(WorkPackages::Progress::ApplyStatusesPCompleteJob)
             .to have_been_enqueued.with(cause_type: "status_p_complete_changed",
                                         status_name: status.name,
                                         status_id: status.id,
@@ -175,7 +175,7 @@ RSpec.describe StatusesController do
         let(:status_params) { { default_done_ratio: status.default_done_ratio } }
 
         it "does not start any jobs" do
-          expect(WorkPackages::ApplyStatusesPCompleteJob)
+          expect(WorkPackages::Progress::ApplyStatusesPCompleteJob)
             .not_to have_been_enqueued
         end
       end
@@ -184,7 +184,7 @@ RSpec.describe StatusesController do
         let(:status_params) { { name: "Another status name" } }
 
         it "does not start any jobs" do
-          expect(WorkPackages::ApplyStatusesPCompleteJob)
+          expect(WorkPackages::Progress::ApplyStatusesPCompleteJob)
             .not_to have_been_enqueued
         end
       end

@@ -116,7 +116,7 @@ lv:
           name: Other
       types:
         item_0:
-          name: Task
+          name: Uzdevums
         item_1:
           name: Atskaites punkts
         item_2:
@@ -169,7 +169,7 @@ lv:
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: Komandas plānotājs
           boards:
             kanban:
               name: Kanban board
@@ -324,7 +324,7 @@ lv:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Produkta darbu krātuve
             item_2:
               name: Sprint 1
             item_3:

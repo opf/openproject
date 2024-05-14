@@ -260,7 +260,7 @@ ca:
       no_results_content_text: Crear un nou projecte
     lists:
       active: "Active projects"
-      my: "My projects"
+      my: "Els meus projectes"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -282,7 +282,7 @@ ca:
         no_results_title_text: Actualment no hi ha cap camp personalitzat disponible.
       project_custom_fields:
         header:
-          title: "Project attributes"
+          title: "Atributs de projecte"
           description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
         filter:
           label: "Search project attribute"
@@ -313,12 +313,12 @@ ca:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "Totes"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Bloquejat"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Grups"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -592,7 +592,7 @@ ca:
         column_count: "Nombre de columnes"
         widgets: "Widgets"
       oauth_client:
-        client: "Client ID"
+        client: "ID de client"
       relation:
         lag: "Lag"
         from: "Paquet de treball"
@@ -617,7 +617,7 @@ ca:
           false: "privat"
         queries: "Consultes"
         status_code: "Estat del projecte"
-        description: "Description"
+        description: "Descripció"
         status_explanation: "Descripció de l'estat del projecte"
         status_codes:
           not_started: "No començat"
@@ -1031,7 +1031,7 @@ ca:
             ldap_auth_source:
               error_not_found: "no trobat"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "no trobat"
         member:
           principal_blank: "Trieu com a mínim un usuari o grup."
           role_blank: "s'ha d'assignar."
@@ -1121,12 +1121,12 @@ ca:
           added: "set to %{value}"
           added_html: "set to <i>%{value}</i>"
           removed: "removed"
-          updated: "changed from %{old_value} to %{value}"
+          updated: "canviat de %{old_value} a %{value}"
           updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
         position:
           updated: "reordered"
         work_package:
-          updated: "changed from %{old_value} to %{value}"
+          updated: "canviat de %{old_value} a %{value}"
           updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
       changeset: "Conjunt de canvis"
@@ -1225,7 +1225,7 @@ ca:
       token_cooldown: El token de còpia de seguretat serà vàlid en %{hours} hores.
       backup_pending: Ja hi ha una còpia de seguretat pendent.
       limit_reached: Només pots fer %{limit} còpies de seguretat per dia.
-  button_actions: "Actions"
+  button_actions: "Accions"
   button_add: "Afegir"
   button_add_comment: "Afegeix un comentari"
   button_add_member: Afegir un membre
@@ -1276,7 +1276,7 @@ ca:
   button_reset: "Restablir"
   button_rollback: "Tornar a aquesta versió"
   button_save: "Desa"
-  button_save_as: "Save as"
+  button_save_as: "Desa com a"
   button_apply_changes: "Aplicar canvis"
   button_save_back: "Desar i tornar"
   button_show: "Mostra"
@@ -1549,7 +1549,7 @@ ca:
     message: Missatge editat
     news: Notícies
     project_attributes: "Atributs del projecte editats"
-    project: "Project edited"
+    project: "Projecte editat"
     projects: "Projecte editat"
     reply: Respost
     time_entry: "Registre horari editat"
@@ -1612,7 +1612,7 @@ ca:
       postgres_migration: "Migrant la teva instal·lació a PostgreSQL"
       user_guides: "Guies d'usuari"
       faq: "Preguntes Més Freqüents"
-      impressum: "Legal notice"
+      impressum: "Avís legal"
       glossary: "Glossari"
       shortcuts: "Dreceres"
       blog: "Blog OpenProject"
@@ -1652,6 +1652,8 @@ ca:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Guia de configuració"
     get_in_touch: "Tens preguntes? Posa't en contacte amb nosaltres."
@@ -1769,7 +1771,7 @@ ca:
   label_ascending: "Ascendent"
   label_assigned_to_me_work_packages: "Paquets de treball assignats a mi"
   label_associated_revisions: "Revisions associades"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Fitxers adjunts"
   label_attribute: "Atribut"
   label_attribute_plural: "Atributs"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1784,9 +1786,9 @@ ca:
   label_available_project_work_package_categories: "Categories de paquet de treball disponibles"
   label_available_project_work_package_types: "Classes de paquet de treball disponibles"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "Documentació d'API"
   label_backup: "Còpia de seguretat"
-  label_backup_code: "Backup code"
+  label_backup_code: "Codi de còpia de seguretat"
   label_between: "entre"
   label_blocked_by: "bloquejats per"
   label_blocks: "blocs"
@@ -1796,7 +1798,7 @@ ca:
   label_forum_plural: "Fòrums"
   label_forum_sticky: "Fixa't"
   label_boolean: "Booleà"
-  label_board_plural: "Boards"
+  label_board_plural: "Taulells"
   label_branch: "Branca"
   label_browse: "Navegar"
   label_bulk_edit_selected_work_packages: "Edició massiva de paquets de treball"
@@ -1855,7 +1857,7 @@ ca:
   label_custom_field_plural: "Camps personalitzats"
   label_custom_field_default_type: "Tipus buit"
   label_custom_style: "Disseny"
-  label_dashboard: "Dashboard"
+  label_dashboard: "Tauler de control"
   label_database_version: "Versió PostgreSQL"
   label_date: "Data"
   label_date_and_time: "Data i hora"
@@ -1917,7 +1919,7 @@ ca:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Importació"
   label_export_to: "També disponible en:"
-  label_expand: "Expand"
+  label_expand: "Expandir"
   label_expanded_click_to_collapse: "Desplegat. Fes clic per col·lapsar"
   label_f_hour: "%{value} hora"
   label_f_hour_plural: "%{value} hores"
@@ -1928,7 +1930,7 @@ ca:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Arxius"
   label_filter_add: "Afegir un filtre"
-  label_filter: "Filters"
+  label_filter: "Filtres"
   label_filter_plural: "Filtres"
   label_filters_toggle: "Mostra/amaga filtres"
   label_float: "Flotant"
@@ -1955,7 +1957,7 @@ ca:
   label_home: "Inici"
   label_subject_or_id: "Subjecte o ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Identificador"
   label_in: "en"
   label_in_less_than: "en menys de"
   label_in_more_than: "en més de"
@@ -1971,7 +1973,7 @@ ca:
   label_internal: "Intern"
   label_introduction_video: "Vídeo de presentació"
   label_invite_user: "Invitar usuari"
-  label_share: "Share"
+  label_share: "Compartir"
   label_show_hide: "Mostrae/ocultar"
   label_show_all_registered_users: "Mostra tots els usuaris registrats"
   label_journal: "Diari"
@@ -1991,7 +1993,7 @@ ca:
   label_latest_revision: "Última revisió"
   label_latest_revision_plural: "Últimes revisions"
   label_ldap_authentication: "Autenticació LDAP"
-  label_learn_more: "Learn more"
+  label_learn_more: "Saber-ne més"
   label_less_or_equal: "<="
   label_less_than_ago: "fa menys de"
   label_list: "Llista"
@@ -2128,8 +2130,8 @@ ca:
   label_project_new: "Nou projecte"
   label_project_plural: "Projectes"
   label_project_list_plural: "Project lists"
-  label_project_attributes_plural: "Project attributes"
-  label_project_custom_field_plural: "Project attributes"
+  label_project_attributes_plural: "Atributs de projecte"
+  label_project_custom_field_plural: "Atributs de projecte"
   label_project_settings: "Configuració del projecte"
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
@@ -2187,7 +2189,7 @@ ca:
   label_search: "Cercar"
   label_send_information: "Envia noves credencials a l'usuari"
   label_send_test_email: "Enviar correu electrònic de prova"
-  label_session: "Session"
+  label_session: "Sessió"
   label_setting_plural: "Configuració"
   label_system_settings: "Configuració del Sistema"
   label_show_completed_versions: "Mostra les versions acabades"
@@ -2408,7 +2410,7 @@ ca:
     storages:
       health:
         plaintext:
-          storage: "Storage"
+          storage: "Emmagatzematge"
           healthy:
             summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
             error-solved-on: "Solved On"
@@ -3022,7 +3024,7 @@ ca:
     other: "Altres"
     passwords: "Contrasenyes"
     project_attributes:
-      heading: "Project attributes"
+      heading: "Atributs de projecte"
       label_new_attribute: "Project attribute"
       label_new_section: "Section"
       label_edit_section: "Edit title"
@@ -3205,9 +3207,9 @@ ca:
   queries:
     apply_filter: Aplicar filtre preconfigurat
     configure_view:
-      heading: Configure view
+      heading: Configurar vista
       columns:
-        input_label: "Add columns"
+        input_label: "Afegir una columna"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
   top_menu:
@@ -3324,7 +3326,7 @@ ca:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "No compartit"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >

@@ -21,15 +21,15 @@
 #++
 ms:
   plugin_budgets_engine:
-    name: 'Budgets'
+    name: 'Anggaran'
   activerecord:
     attributes:
       budget:
         author: "Pengarang"
-        available: "Boleh didapati"
+        available: "Tersedia"
         budget: "Dirancang"
         budget_ratio: "Dibelanja (ratio)"
-        description: "Penerangan"
+        description: "Deskripsi"
         spent: "Dibelanja"
         status: "Status"
         subject: "Subjek"
@@ -56,9 +56,9 @@ ms:
   caption_material_costs: "Kos unit sebenar"
   budgets_title: "Anggaran"
   events:
-    budget: "Anggaran yang diedit"
+    budget: "Anggaran yang telah diedit"
   help_click_to_edit: "Klik di sini untuk mengedit"
-  help_currency_format: "Format nilai mata wang yang dipaparkan. %n diganti dengan nilai mata wang, %u diganti dengan unit mata wang."
+  help_currency_format: "Format nilai mata wang yang dipaparkan. %n digantikan dengan nilai mata wang, %u digantikan dengan unit mata wang."
   help_override_rate: "Masukkan nilai disini untuk gantikan kadar default."
   label_budget: "Anggaran"
   label_budget_new: "Anggaran baru"
@@ -66,12 +66,12 @@ ms:
   label_budget_id: "Anggaran #%{id}"
   label_deliverable: "Anggaran"
   label_example_placeholder: 'e.g., %{decimal}'
-  label_view_all_budgets: "Paparkan semua anggaran"
+  label_view_all_budgets: "Lihat semua anggaran"
   label_yes: "Ya"
-  notice_budget_conflict: "Work packages must be of the same project."
+  notice_budget_conflict: "Pakej-pakej kerja mestilah daripada projek yang sama."
   notice_no_budgets_available: "Tiada anggaran yang tersedia."
-  permission_edit_budgets: "Edit budgets"
-  permission_view_budgets: "Paparkan anggaran"
+  permission_edit_budgets: "Edit anggaran"
+  permission_view_budgets: "Lihat anggaran"
   project_module_budgets: "Anggaran"
   text_budget_reassign_to: "Pindahkan mereka ke anggaran ini:"
   text_budget_delete: "Padam anggaran dari semua pakej kerja"

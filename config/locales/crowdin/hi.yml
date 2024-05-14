@@ -318,10 +318,10 @@ hi:
     menu:
       all: "All"
       invited: "Invited"
-      locked: "Locked"
+      locked: "अवरोधित"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "समूह"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -398,7 +398,7 @@ hi:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
   page:
-    text: "Text"
+    text: "टेक्स्ट"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -1227,7 +1227,7 @@ hi:
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: There is already a backup pending.
       limit_reached: You can only do %{limit} backups per day.
-  button_actions: "Actions"
+  button_actions: "क्रियाएँ"
   button_add: "जोड़ें"
   button_add_comment: "टिप्पणी लिखें"
   button_add_member: Add member
@@ -1278,7 +1278,7 @@ hi:
   button_reset: "रीसेट करें"
   button_rollback: "इस संस्करण के लिए रोलबैक"
   button_save: "सहेजें"
-  button_save_as: "Save as"
+  button_save_as: "के रूप में सहेजें..."
   button_apply_changes: "Apply changes"
   button_save_back: "Save and back"
   button_show: "दिखाएँ"
@@ -1654,6 +1654,8 @@ hi:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Configuration guide"
     get_in_touch: "You have questions? Get in touch with us."
@@ -1919,7 +1921,7 @@ hi:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Also available in:"
-  label_expand: "Expand"
+  label_expand: "विस्तृत करें"
   label_expanded_click_to_collapse: "विस्तार. संक्षिप्त करने के लिए क्लिक करें"
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
@@ -1930,7 +1932,7 @@ hi:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "फ़ाइलें"
   label_filter_add: "फ़िल्टर जोड़ें"
-  label_filter: "Filters"
+  label_filter: "फ़िल्टर"
   label_filter_plural: "फ़िल्टर"
   label_filters_toggle: "Show/hide filters"
   label_float: "फ्लोट"
@@ -1957,7 +1959,7 @@ hi:
   label_home: "मुखपृष्ठ"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "पहचानकर्ता"
   label_in: "में"
   label_in_less_than: "से भी कम समय में"
   label_in_more_than: "से अधिक में"
@@ -1973,7 +1975,7 @@ hi:
   label_internal: "आंतरिक"
   label_introduction_video: "परिचय वीडियो"
   label_invite_user: "Invite user"
-  label_share: "Share"
+  label_share: "सांझा करें"
   label_show_hide: "Show/hide"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"

@@ -26,16 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class QueueNotificationUpdateMail < ActiveRecord::Migration[6.1]
-  def up
-    # On a newly created database, we don't want the update mail to be sent.
-    # Users are only created upon seeding.
-    return unless User.not_builtin.exists?
+# Base class for jobs updating work packages progress values.
+#
+# Handles concurrency so that only one progress job is performed at a time.
+class WorkPackages::Progress::Job < ApplicationJob
+  include GoodJob::ActiveJobExtensions::Concurrency
+  include WorkPackages::Progress::SqlCommands
 
-    ::Announcements::SchedulerJob
-      .perform_later subject: :"notifications.update_info_mail.subject",
-                     body: :"notifications.update_info_mail.body",
-                     body_header: :"notifications.update_info_mail.body_header",
-                     body_subheader: :"notifications.update_info_mail.body_subheader"
-  end
+  queue_with_priority :default
+
+  good_job_control_concurrency_with(
+    perform_limit: 1,
+    key: -> { "WorkPackagesProgressJob" }
+  )
 end

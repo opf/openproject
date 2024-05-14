@@ -44,8 +44,6 @@ Please note these minimum version requirements for the integration to work with 
 We recommend using the latest versions of both OneDrive/SharePoint and OpenProject to be able to use the latest
 features.
 
-
-
 ## Set up the integration
 
 > **Important**: You need administrator privileges in the Azure portal for your Microsoft Entra ID and in your
@@ -84,6 +82,8 @@ Finally, copy the *Redirect URl* and click the green *Done, complete setup* butt
 You will see the following message confirming the successful setup on top of the page. 
 
 ![System message on successful OneDrive/SharePoint file storages setup in OpenProject](openproject_system_guide_new_onedrive_message_successful_setup.png)
+
+> **Important note**: in Sharepoint you can add (custom) columns in addition to the ones shown by default (*Modified* and *Modified by*). Please keep in mind if these custom columns are added, OpenProject integration can no longer copy the automatically managed project folders. The columns will have to be de-activated, or ideally not be created in the first place.
 
 ## Using the integration
 

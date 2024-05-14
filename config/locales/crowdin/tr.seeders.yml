@@ -165,7 +165,7 @@ tr:
             item_0:
               name: Proje planı
             item_1:
-              name: Milestones
+              name: Aşamalar
             item_2:
               name: Görevler
             item_3:
@@ -215,7 +215,7 @@ tr:
                   name: İş paketleri
               item_6:
                 options:
-                  name: Milestones
+                  name: Aşamalar
           work_packages:
             item_0:
               subject: Start of project
