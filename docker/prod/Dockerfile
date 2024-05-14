@@ -96,7 +96,7 @@ FROM base as all-in-one
 ENV OPENPROJECT_RAILS__CACHE__STORE=memcache
 ENV DATABASE_URL=postgres://openproject:openproject@127.0.0.1/openproject
 ENV PGDATA=/var/openproject/pgdata
-ARG GOSU_VERSION="1.17"
+ENV GOSU_VERSION="1.17"
 
 RUN ./docker/prod/setup/postinstall-onprem.sh
 
