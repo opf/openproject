@@ -72,8 +72,7 @@ module Pages
       end
 
       def expect_title(name)
-        expect(page)
-          .to have_css('[data-test-selector="project-query-name"]', text: name)
+        expect(page).to have_css('[data-test-selector="project-query-name"]', text: name)
       end
 
       def expect_sidebar_filter(filter_name, selected: false)
@@ -89,21 +88,17 @@ module Pages
       end
 
       def expect_current_page_number(number)
-        expect(page)
-          .to have_css(".op-pagination--item_current", text: number)
+        expect(page).to have_css(".op-pagination--item_current", text: number)
       end
 
       def expect_total_pages(number)
-        expect(page)
-          .to have_css(".op-pagination--item", text: number)
-
-        expect(page)
-          .to have_no_css(".op-pagination--item", text: number + 1)
+        expect(page).to have_css(".op-pagination--item", text: number)
+        expect(page).to have_no_css(".op-pagination--item", text: number + 1)
       end
 
       def set_sidebar_filter(filter_name)
         within "#main-menu" do
-          click_link text: filter_name
+          click_on text: filter_name
         end
       end
 
@@ -116,13 +111,11 @@ module Pages
       end
 
       def expect_filter_set(filter_name)
-        expect(page).to have_css("li[filter-name='#{filter_name}']:not(.hidden)",
-                                 visible: :hidden)
+        expect(page).to have_css("li[filter-name='#{filter_name}']:not(.hidden)", visible: :hidden)
       end
 
       def expect_filter_count(count)
-        expect(page)
-          .to have_css('[data-test-selector="filters-button-counter"]', text: count)
+        expect(page).to have_css('[data-test-selector="filters-button-counter"]', text: count)
       end
 
       def expect_no_project_create_button
@@ -166,39 +159,23 @@ module Pages
       end
 
       def filter_by_active(value)
-        set_filter("active",
-                   "Active",
-                   "is",
-                   [value])
-
-        click_button "Apply"
+        set_filter("active", "Active", "is", [value])
+        click_on "Apply"
       end
 
       def filter_by_public(value)
-        set_filter("public",
-                   "Public",
-                   "is",
-                   [value])
-
-        click_button "Apply"
+        set_filter("public", "Public", "is", [value])
+        click_on "Apply"
       end
 
       def filter_by_favored(value)
-        set_filter("favored",
-                   "Favorite",
-                   "is",
-                   [value])
-
-        click_button "Apply"
+        set_filter("favored", "Favorite", "is", [value])
+        click_on "Apply"
       end
 
       def filter_by_membership(value)
-        set_filter("member_of",
-                   "I am member",
-                   "is",
-                   [value])
-
-        click_button "Apply"
+        set_filter("member_of", "I am member", "is", [value])
+        click_on "Apply"
       end
 
       def set_filter(name, human_name, human_operator = nil, values = [])
@@ -318,13 +295,12 @@ module Pages
 
       def click_more_menu_item(item)
         page.find('[data-test-selector="project-more-dropdown-menu"]').click
-
         page.find(".ActionListItem", text: item, exact_text: true).click
       end
 
       def click_menu_item_of(title, project)
         activate_menu_of(project) do
-          click_link title
+          click_on title
         end
       end
 

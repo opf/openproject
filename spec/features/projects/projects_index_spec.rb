@@ -28,10 +28,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Projects index page",
-               :js,
-               :with_cuprite,
-               with_settings: { login_required?: false } do
+RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login_required?: false } do
   shared_let(:admin) { create(:admin) }
 
   shared_let(:manager)   { create(:project_role, name: "Manager") }
@@ -40,25 +37,13 @@ RSpec.describe "Projects index page",
   shared_let(:custom_field) { create(:text_project_custom_field) }
   shared_let(:invisible_custom_field) { create(:project_custom_field, visible: false) }
 
-  shared_let(:project) do
-    create(:project,
-           name: "Plain project",
-           identifier: "plain-project")
-  end
+  shared_let(:project) { create(:project, name: "Plain project", identifier: "plain-project") }
   shared_let(:public_project) do
-    project = create(:project,
-                     name: "Public project",
-                     identifier: "public-project",
-                     public: true)
-    project.custom_field_values = { invisible_custom_field.id => "Secret CF" }
-    project.save
-    project
+    create(:project, name: "Public project", identifier: "public-project", public: true) do |project|
+      project.custom_field_values = { invisible_custom_field.id => "Secret CF" }
+    end
   end
-  shared_let(:development_project) do
-    create(:project,
-           name: "Development project",
-           identifier: "development-project")
-  end
+  shared_let(:development_project) { create(:project, name: "Development project", identifier: "development-project") }
 
   let(:news) { create(:news, project:) }
   let(:projects_page) { Pages::Projects::Index.new }
@@ -949,7 +934,7 @@ RSpec.describe "Projects index page",
 
       projects_page.activate_menu_of(parent_project) do |menu|
         expect(menu).to have_text("Add to favorites")
-        expect(menu).not_to have_text("Copy")
+        expect(menu).to have_no_text("Copy")
       end
 
       # For a project member with :copy_projects privilege the 'More' menu is visible.
