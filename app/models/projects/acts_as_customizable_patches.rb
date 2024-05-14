@@ -44,13 +44,13 @@ module Projects::ActsAsCustomizablePatches
     # after_save is not touched in this case which causes the flag to stay active
     after_validation :set_query_available_custom_fields_to_project_level
 
-    before_update :set_query_available_custom_fields_to_global_level
+    before_save :set_query_available_custom_fields_to_global_level, unless: :new_record?
 
     before_create :reject_section_scoped_validation_for_creation
     before_create :build_missing_project_custom_field_project_mappings
 
     after_save :reset_section_scoped_validation, :set_query_available_custom_fields_to_project_level
-    after_save :disable_custom_fields_with_empty_values, if: :previously_new_record?
+    after_create :disable_custom_fields_with_empty_values
 
     def build_missing_project_custom_field_project_mappings
       # activate custom fields for this project (via mapping table) if values have been provided for custom_fields but no mapping exists
@@ -140,12 +140,12 @@ module Projects::ActsAsCustomizablePatches
       # when accessed with the _query_available_custom_fields_on_global_level flag on.
       unless _query_available_custom_fields_on_global_level
         custom_fields = custom_fields.visible
-      end
 
-      # Limit the set of available custom fields when the validation is limited to a section
-      if _limit_custom_fields_validation_to_section_id
-        custom_fields =
-          custom_fields.where(custom_field_section_id: _limit_custom_fields_validation_to_section_id)
+        # Limit the set of available custom fields when the validation is limited to a section
+        if _limit_custom_fields_validation_to_section_id
+          custom_fields =
+            custom_fields.where(custom_field_section_id: _limit_custom_fields_validation_to_section_id)
+        end
       end
 
       # available_custom_fields is called from within the acts_as_customizable module
@@ -172,7 +172,7 @@ module Projects::ActsAsCustomizablePatches
     # that are factored in the calculation of the available_custom_fields method should be included
     # in the custom_values_cache_key too.
     def custom_values_cache_key
-      [_limit_custom_fields_validation_to_section_id]
+      [_query_available_custom_fields_on_global_level, _limit_custom_fields_validation_to_section_id]
     end
 
     # we need to query the available custom fields on a global level when updating custom field values
