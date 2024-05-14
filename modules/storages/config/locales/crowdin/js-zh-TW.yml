@@ -8,7 +8,7 @@ zh-TW:
       drop_files: "將檔案拖至此處或上傳至%{name}。"
       drop_or_click_files: "將檔案拖至此處或點選上傳至%{name}。"
       login: "%{storageType} 登入"
-      login_to: "登入到 %{storage}"
+      login_to: "登入到 %{storageType}"
       no_connection: "沒有 %{storageType} 連線"
       open_storage: "開啟 %{storageType}"
       select_location: "選擇位置"

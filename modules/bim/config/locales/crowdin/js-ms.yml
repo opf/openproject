@@ -9,14 +9,14 @@ ms:
       export_bcf_xml_file: 'Eksport fail BCF XML (BCF versi 2.1)'
       viewpoint: 'Sudut pandangan'
       add_viewpoint: 'Tambah sudut pandangan'
-      show_viewpoint: 'Tunjuk sudut pandangan'
+      show_viewpoint: 'Paparkan sudut pandangan'
       delete_viewpoint: 'Padam sudut pandangan'
       management: "Pengurusan BCF\n"
       refresh: 'Muat semula '
       refresh_work_package: 'Muat semula pakej kerja'
     ifc_models:
       empty_warning: "Projek ini belum mempunyai sebarang model IFC."
-      use_this_link_to_manage: "Guna pautan ini untuk kemas kini dan urus model IFC anda"
+      use_this_link_to_manage: "Gunakan pautan ini untuk kemas kini dan urus model IFC anda"
       keyboard_input_disabled: "Pemerhati tidak ada kawalan papan kekunci. Klik pada pemerhati untuk memberikan kawalan papan kekunci kepada pemerhati."
       models:
         ifc_models: 'Model IFC'
@@ -26,4 +26,4 @@ ms:
         split_cards: 'Pemerhati dan kad'
     revit:
       revit_add_in: "Revit Add-In"
-      revit_add_in_settings: "Seting Revit Add-In"
+      revit_add_in_settings: "Tetapan Revit Add-In"

@@ -302,7 +302,14 @@ pl:
       storage:
         no_results_title_text: Nie ma dodatkowego zarejestrowanego miejsca na dysku zużytego przez ten projekt.
   lists:
-    can_be_saved_as: "Modyfikacje można zapisać tylko na nowej liście."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Nie ma jeszcze żadnych członków projektu.
@@ -1642,6 +1649,7 @@ pl:
       pdf_overview_table: "Tabela PDF"
       pdf_report_with_images: "Raport PDF z obrazami"
       pdf_report: "Raport PDF"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Nie wyeksportowano obrazu"
     units:
@@ -1994,7 +2002,7 @@ pl:
   label_expanded_click_to_collapse: "Rozwinięto. Kliknij, aby zwinąć"
   label_f_hour: "%{value} godzin"
   label_f_hour_plural: "%{value} godzin"
-  label_favorite: "Favorite"
+  label_favorite: "Ulubione"
   label_feed_plural: "Kanały"
   label_feeds_access_key: "Klucz dostępu RSS"
   label_feeds_access_key_created_on: "Klucz dostępu RSS utworzony %{value} temu"
@@ -2267,6 +2275,7 @@ pl:
   label_setting_plural: "Ustawienia"
   label_system_settings: "Ustawienia"
   label_show_completed_versions: "Pokaż zakończone wersje"
+  label_columns: "Kolumny"
   label_sort: "Sortowanie"
   label_sort_by: "Sortuj wg %{value}"
   label_sorted_by: "kolejność wg %{value}"
@@ -2957,6 +2966,7 @@ pl:
   setting_app_subtitle: "Podtytuł"
   setting_app_title: "Tytuł"
   setting_attachment_max_size: "Maks. rozmiar załącznika"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Tryb skanowania"
   setting_antivirus_scan_action: "Działanie wobec zainfekowanego pliku"
   setting_autofetch_changesets: "Autopobieranie zmian repozytorium"
@@ -3058,6 +3068,8 @@ pl:
     attachments:
       whitelist_text_html: >
         Zdefiniuj listę poprawnych rozszerzeń plików i/lub typów mime dla przesłanych plików. <br/> Wprowadź rozszerzenia plików (np. <code>%{ext_example}</code>) lub typy mime (np. <code>%{mime_example}</code>). <br/> Pozostaw puste, aby umożliwić przesłanie dowolnego typu pliku. Dozwolone wielokrotne wartości (jeden wiersz dla każdej wartości).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Skanowanie antywirusowe"
       clamav_ping_failed: "Nie udało się połączyć z demonem ClamAV. Proszę sprawdzić konfigurację i spróbować ponownie."
@@ -3205,7 +3217,7 @@ pl:
   text_work_packages_ref_in_commit_messages: "Odwołania i poprawki do pakietów roboczych w wiadomościach o zmianach"
   text_journal_added: "%{label} %{value} added"
   text_journal_attachment_added: "%{label} %{value} dodano jako załącznik"
-  text_journal_attachment_deleted: "%{label} %{value} usunięto jako załącznik"
+  text_journal_attachment_deleted: "%{label} %{old} usunięto jako załącznik"
   text_journal_changed_plain: "%{label} zmieniono z %{old} %{linebreak}na %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
@@ -3294,6 +3306,10 @@ pl:
         input_label: "Dodaj kolumny"
         input_placeholder: "Wybierz kolumnę"
         drag_area_label: "Zarządzaj kolumnami i zmieniaj ich kolejność"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Dodatkowe zasoby"
     getting_started: "Pierwsze kroki"
@@ -3445,7 +3461,7 @@ pl:
         non_working: "%{day} jest teraz dniem nieroboczym"
       dates:
         working: "%{date} jest teraz roboczym"
-        non_working: "%{day} jest teraz wolnym od pracy"
+        non_working: "%{date} jest teraz wolnym od pracy"
   nothing_to_preview: "Nie ma nic do podglądu"
   api_v3:
     attributes:

@@ -39,6 +39,7 @@ pt-BR:
   api_v3:
     errors:
       too_many_elements_created_at_once: Muitos elementos criados ao mesmo tempo. Esperado %{max} no máximo, obteve %{actual}.
+  external_file_storages: External file storages
   permission_create_files: 'Armazenamento externo: Criar arquivos'
   permission_delete_files: 'Armazenamento externo: Excluir arquivos'
   permission_header_for_project_module_storages: Pastas do projeto gerenciadas automaticamente
@@ -48,7 +49,7 @@ pt-BR:
   permission_share_files: 'Armazenamento externo: Compartilhar arquivos'
   permission_view_file_links: Exibir vínculos de arquivos
   permission_write_files: 'Armazenamento externo: Gravar arquivos'
-  project_module_storages: Armazenamento de arquivos
+  project_module_storages: Files
   storages:
     buttons:
       complete_without_setup: Concluir sem isso
@@ -223,7 +224,6 @@ pt-BR:
       project_settings:
         delete: Excluir armazenamento de arquivos
         edit: Editar o armazenamento de arquivos para este projeto
-        index: Armazenamento de arquivos disponíveis neste projeto
         members_connection_status: Status da conexão dos membros
         new: Adicionar um armazenamento de arquivos a este projeto
       project_storage_members:
@@ -242,6 +242,9 @@ pt-BR:
         label_oauth_client_secret: Valor secreto do cliente Azure OAuth
         name: OneDrive/SharePoint
         name_placeholder: 'por ex.: OneDrive'
+    show_attachments_toggle:
+      description: Deactivating this option will only hide the attachments list. Files uploaded with the help of the rich text editor will still be uploaded to the attachments internal storage.
+      label: Show attachments in the work packages files tab
     storage_list_blank_slate:
       description: Adicione um armazenamento para vê-lo aqui.
       heading: Ainda não tem nenhum armazenamento.

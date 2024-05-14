@@ -304,7 +304,14 @@ hu:
       storage:
         no_results_title_text: "Ebben a projektben nincs további rögzített lemezterület.\n"
   lists:
-    can_be_saved_as: "A módosítások csak egy új listában menthetők el."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Jelenleg egy tagja sincs a projektnek.
@@ -787,7 +794,7 @@ hu:
         too_long: "túl hosszú (nem lehet több %{count} karakternél)."
         too_short: "túl rövid (legalább %{count} karakter kell legyen)."
         type_mismatch: "nem '%{type}' típusú."
-        type_mismatch_nested: "nem '%{type}' típusú az '%%{path}' elérési útvonalon."
+        type_mismatch_nested: "nem '%{type}' típusú az '%{path}' elérési útvonalon."
         unchangeable: "nem módosítható."
         unknown_property: "nem ismert tulajdonság.\n"
         unknown_property_nested: "ismeretlen '%{path}' elérési útvonal."
@@ -1411,7 +1418,7 @@ hu:
         other: "majdnem %{count} éve"
       half_a_minute: "Fél perc"
       less_than_x_minutes:
-        one: "kevesebb, mint %{count} perc"
+        one: "kevesebb, mint 1 perc"
         other: "kevesebb, mint %{count} perce"
       less_than_x_seconds:
         one: "kevesebb, mint 1 másodperc"
@@ -1576,6 +1583,7 @@ hu:
       pdf_overview_table: "PDF táblázat"
       pdf_report_with_images: "PDF jelentés képekkel"
       pdf_report: "PDF jelentés"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Kép nem került exportálásra."
     units:
@@ -2201,6 +2209,7 @@ hu:
   label_setting_plural: "Beállítások"
   label_system_settings: "Rendszerbeállítások"
   label_show_completed_versions: "Befejezett verziók megjelenítése"
+  label_columns: "Oszlopok"
   label_sort: "Rendez"
   label_sort_by: "Rendezés %{value} szerint"
   label_sorted_by: "rendezve %{value} szerint"
@@ -2889,6 +2898,7 @@ hu:
   setting_app_subtitle: "Alkalmazás felirat"
   setting_app_title: "Alkalmazás címe"
   setting_attachment_max_size: "Melléklet max. méret"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Scan mode"
   setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Automatikus letöltés tároló változás"
@@ -2990,6 +3000,8 @@ hu:
     attachments:
       whitelist_text_html: >
         Határozza meg a feltöltött fájlok érvényes fájlkiterjesztéseinek és/vagy mime típusainak listáját. <br/> Adjon meg fájlkiterjesztéseket (pl. <code>%{ext_example} </code>) vagy mime típusokat (pl. <code>%{mime_example} </code>). <br/> Hagyja üresen, ha bármilyen fájltípust szeretne feltölteni. Több érték megengedett (egy sor minden értékhez).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Virus scanning"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
@@ -3226,6 +3238,10 @@ hu:
         input_label: "Oszlopok hozzáadása"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "További források"
     getting_started: "Kezdés"

@@ -51,12 +51,11 @@ export default class extends Controller {
   focusInput():void {
     const titleInput = this.element.querySelector('input[name="meeting_agenda_item[title]"]');
 
-    setTimeout(() => {
-      this.element.scrollIntoView({ block: 'center' });
-      if (titleInput) {
-        (titleInput as HTMLInputElement).focus();
-      }
-    }, 100);
+    this.element.scrollIntoView({ block: 'center' });
+    if (titleInput) {
+      (titleInput as HTMLInputElement).focus();
+      this.setCursorAtEnd(titleInput as HTMLInputElement);
+    }
   }
 
   async cancel() {
@@ -76,5 +75,12 @@ export default class extends Controller {
 
   addNotes() {
     this.notesInputTarget.classList.remove('d-none');
+  }
+
+  setCursorAtEnd(inputElement:HTMLInputElement):void {
+    if (document.activeElement === inputElement) {
+      const valueLength = inputElement.value.length;
+      inputElement.setSelectionRange(valueLength, valueLength);
+    }
   }
 }

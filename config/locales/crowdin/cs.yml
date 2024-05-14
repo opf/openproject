@@ -305,7 +305,14 @@ cs:
       storage:
         no_results_title_text: Neexistuje žádné další diskové místo využívané tímto projektem.
   lists:
-    can_be_saved_as: "Úpravy lze uložit pouze v novém seznamu."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Momentálně nejsou žádní členové součástí tohoto projektu.
@@ -1645,6 +1652,7 @@ cs:
       pdf_overview_table: "Tabulka PDF"
       pdf_report_with_images: "PDF report s obrázky"
       pdf_report: "PDF report"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Obrázek nebyl exportován."
     units:
@@ -1997,7 +2005,7 @@ cs:
   label_expanded_click_to_collapse: "Rozbaleno. Klepnutím sbalte"
   label_f_hour: "%{value} hodina"
   label_f_hour_plural: "%{value} hodin"
-  label_favorite: "Favorite"
+  label_favorite: "Oblíbené"
   label_feed_plural: "Informační kanály (feedy)"
   label_feeds_access_key: "Přístupový klíč pro RSS"
   label_feeds_access_key_created_on: "Přístupový klíč pro RSS byl vytvořen před %{value}"
@@ -2270,6 +2278,7 @@ cs:
   label_setting_plural: "Nastavení"
   label_system_settings: "Nastavení systému"
   label_show_completed_versions: "Zobrazit dokončené verze"
+  label_columns: "Sloupce"
   label_sort: "Řadit"
   label_sort_by: "Seřadit podle %{value}"
   label_sorted_by: "seřazeno dle %{value}"
@@ -2962,6 +2971,7 @@ cs:
   setting_app_subtitle: "Podtitulek aplikace"
   setting_app_title: "Název aplikace"
   setting_attachment_max_size: "Maximální velikost příloh"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Režim skenování"
   setting_antivirus_scan_action: "Akce s infikovaným souborem"
   setting_autofetch_changesets: "Automaticky načíst změny repozitáře"
@@ -3063,6 +3073,8 @@ cs:
     attachments:
       whitelist_text_html: >
         Definujte seznam platných přípon souborů a/nebo mime typů pro nahrané soubory. <br/> Zadejte přípony souborů (např. <code>%{ext_example}</code>) nebo mime typy (např. ., <code>%{mime_example}</code>). <br/> Ponechte prázdné pro nahrání jakéhokoli typu souboru. Povoleno více hodnot (jeden řádek pro každou hodnotu).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Antivirová kontrola"
       clamav_ping_failed: "Nepodařilo se připojit k ClamAV démonu. Zkontroluj konfiguraci a zkus to znovu."
@@ -3218,7 +3230,7 @@ cs:
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} smazán (%{link})"
   text_journal_file_link_added: "%{label} odkaz na %{value} (%{storage}) přidán"
-  text_journal_file_link_deleted: "%{label} odkaz na %{value} (%{storage}) přidán"
+  text_journal_file_link_deleted: "%{label} odkaz na %{old} (%{storage}) přidán"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} nastaven na %{value}"
   text_journal_set_with_diff: "%{label} nastaven (%{link})"
@@ -3299,6 +3311,10 @@ cs:
         input_label: "Přidat sloupce"
         input_placeholder: "Vyberte sloupec"
         drag_area_label: "Správa a změna pořadí sloupců"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Další zdroje"
     getting_started: "Začínáme"

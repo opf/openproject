@@ -330,6 +330,18 @@ ar:
         years: "السنوات"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "لا"
     general_text_yes: "نعم"
     general_text_No: "لا"
@@ -378,7 +390,7 @@ ar:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "أيام مضت"
     label_all: "الكل"
-    label_all_uppercase: "All"
+    label_all_uppercase: "الجميع"
     label_all_work_packages: "جميع مجموعات العمل"
     label_and: "و"
     label_ascending: "ترتيب تصاعدي"
@@ -766,7 +778,7 @@ ar:
           last_day: "Last day"
     text_are_you_sure: "هل أنت متأكد؟"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} كتب:"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
@@ -987,7 +999,7 @@ ar:
         priority: "الأولوية"
         projectName: "مشروع"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "الساعات المتبقية"
         responsible: "مسؤول"
         startDate: "تاريخ البدء"
         status: "الحالة"
@@ -999,7 +1011,7 @@ ar:
         versionName: "الإصدار"
         version: "الإصدار"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "الوقت المُقّدَّر"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"

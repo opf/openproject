@@ -302,6 +302,13 @@ zh-CN:
       storage:
         no_results_title_text: 此项目没有已记录的额外磁盘空间消耗。
   lists:
+    create:
+      success: "已将修改后的列表保存为新列表"
+      failure: "无法保存修改后的列表： %{errors}"
+    update:
+      success: "已保存修改后的列表"
+      failure: "无法保存修改后的列表： %{errors}"
+    can_be_saved: "列表已修改："
     can_be_saved_as: "修改内容只能保存在新列表中。"
   members:
     index:
@@ -1542,6 +1549,7 @@ zh-CN:
       pdf_overview_table: "PDF 表"
       pdf_report_with_images: "带图像的 PDF 报告"
       pdf_report: "PDF 报告"
+      pdf_gantt: "PDF 甘特图"
     image:
       omitted: "图像未导出。"
     units:
@@ -1624,7 +1632,7 @@ zh-CN:
         progress_calculation_adjusted: >-
           进度计算自动<a href="%{href}" target="_blank">设置为基于工时的模式，并随版本更新而调整</a>。
         totals_removed_from_childless_work_packages: >-
-          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+          使用 <a href="%{href}" target="_blank">版本更新</a>的非父工作包的工作和进度总计自动移除。 这是一个维护任务，可以安全地被忽略。
   links:
     configuration_guide: "配置指南"
     get_in_touch: "遇到问题了？与我们联系。"
@@ -1970,7 +1978,7 @@ zh-CN:
   label_link_url: "链接（URL）"
   label_list: "列表"
   label_loading: "正在加载..."
-  label_lock_user: "锁住用户"
+  label_lock_user: "锁定用户"
   label_logged_as: "登录用户名"
   label_login: "登录"
   label_custom_logo: "自定义徽标"
@@ -2167,6 +2175,7 @@ zh-CN:
   label_setting_plural: "设置"
   label_system_settings: "系统设置"
   label_show_completed_versions: "显示已完成的版本"
+  label_columns: "列"
   label_sort: "排序"
   label_sort_by: "排序按 %{value}"
   label_sorted_by: "排序按 %{value}"
@@ -2848,6 +2857,7 @@ zh-CN:
   setting_app_subtitle: "应用副标题"
   setting_app_title: "应用程序标题"
   setting_attachment_max_size: "最大的附件大小"
+  setting_show_work_package_attachments: "默认在文件选项卡中显示附件"
   setting_antivirus_scan_mode: "扫描模式"
   setting_antivirus_scan_action: "受感染文件的操作"
   setting_autofetch_changesets: "自动提取存储库更改"
@@ -2949,6 +2959,8 @@ zh-CN:
     attachments:
       whitelist_text_html: >
         为上传的文件定义有效文件扩展名和/或 MIME 类型列表。<br/>输入文件扩展名（例如 <code>%{ext_example}</code>）或 MIME 类型（例如 <code>%{mime_example}</code>）。<br/>留空以允许上传任何文件类型。允许输入多个值（每个值一行）。
+      show_work_package_attachments: >
+        禁用此选项将会为新项目隐藏工作包文件标签上的附件列表。 工作包描述中的文件仍将上传到内部附件存储。
     antivirus:
       title: "病毒扫描"
       clamav_ping_failed: "无法连接 ClamAV 守护进程。请仔细检查配置，然后重试。"
@@ -3185,6 +3197,10 @@ zh-CN:
         input_label: "添加列"
         input_placeholder: "选择列"
         drag_area_label: "管理列并对其重新排序"
+      sort_by:
+        automatic:
+          heading: "自动"
+          description: "按一个或多个排序标准对 %{plural} 进行排序。您将失去之前的排序。"
   top_menu:
     additional_resources: "其他资源"
     getting_started: "入门指南"

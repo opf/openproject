@@ -329,6 +329,18 @@ de:
         years: "Jahre"
         description: >
           Wählen Sie die Zoomstufe für das Gantt-Diagramm aus, wenn kein Autozoom aktiviert ist.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "nein"
     general_text_yes: "ja"
     general_text_No: "Nein"
@@ -377,7 +389,7 @@ de:
     label_added_time_by: 'Hinzugefügt von <a href="%{authorLink}">%{author}</a> am %{age}'
     label_ago: "Tage her"
     label_all: "alle"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Alle"
     label_all_work_packages: "alle Arbeitspakete"
     label_and: "und"
     label_ascending: "Aufsteigend"

@@ -91,6 +91,11 @@ class ProjectsController < ApplicationController
     hide_project_in_layout
   end
 
+  def deactivate_work_package_attachments
+    @project.deactivate_work_package_attachments = params[:value] != "1"
+    @project.save
+  end
+
   private
 
   def has_managed_project_folders?(project)

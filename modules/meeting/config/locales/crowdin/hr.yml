@@ -49,6 +49,8 @@ hr:
         duration_in_minutes: "min"
         description: "Bilješke"
         presenter: "Presenter"
+      meeting_section:
+        title: "Title"
     errors:
       messages:
         invalid_time_format: "is not a valid time. Required format: HH:MM"
@@ -123,6 +125,10 @@ hr:
       structured_text: "Organize your meeting as a list of agenda items, optionally linking them to a work package."
       structured_text_copy: "Copying a meeting will currently not copy the associated meeting agenda items, just the details"
     copied: "Copied from Meeting #%{id}"
+  meeting_section:
+    default_title: "New section"
+    untitled_title: "Untitled"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Notifikacija uspješno poslana"
   notice_timezone_missing: Vremenska zona nije postavljena na osnovu zamišljene %{zone} zone. Da bi ste odabrali vremensku zonu molim vas kliknite ovdje.
   permission_create_meetings: "Dodaj sastanke"

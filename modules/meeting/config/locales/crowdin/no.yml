@@ -48,6 +48,8 @@
         duration_in_minutes: "min"
         description: "Notater"
         presenter: "Foredragsholder"
+      meeting_section:
+        title: "Title"
     errors:
       messages:
         invalid_time_format: "er ikke et gyldig tidpunkt. Formatet må være HH:MM"
@@ -122,6 +124,10 @@
       structured_text: "Organiser møtet som en liste over saker, eventuelt knytte dem til en arbeidspakke."
       structured_text_copy: "Kopiering av et møte vil for tiden ikke kopiere de tilknyttede elementene på dagsordenen, bare detaljene"
     copied: "Kopiert fra møte #%{id}"
+  meeting_section:
+    default_title: "New section"
+    untitled_title: "Untitled"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Påminning sendt"
   notice_timezone_missing: Ingen tidssone angis og %{zone} antas. Vennligst klikk her for å velge egen tidssone.
   permission_create_meetings: "Opprett møter"

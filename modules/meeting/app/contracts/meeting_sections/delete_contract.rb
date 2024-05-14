@@ -26,16 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class QueueNotificationUpdateMail < ActiveRecord::Migration[6.1]
-  def up
-    # On a newly created database, we don't want the update mail to be sent.
-    # Users are only created upon seeding.
-    return unless User.not_builtin.exists?
+module MeetingSections
+  class DeleteContract < ::DeleteContract
+    include ModifiableItem
 
-    ::Announcements::SchedulerJob
-      .perform_later subject: :"notifications.update_info_mail.subject",
-                     body: :"notifications.update_info_mail.body",
-                     body_header: :"notifications.update_info_mail.body_header",
-                     body_subheader: :"notifications.update_info_mail.body_subheader"
+    delete_permission :manage_agendas
+
+    validate :empty_section
+
+    def empty_section
+      unless model.agenda_items.empty?
+        errors.add :base, "Section is not empty and cannot be deleted."
+      end
+    end
   end
 end

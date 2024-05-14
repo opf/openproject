@@ -20,41 +20,41 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 be:
-  no_results_title_text: There is currently nothing to display.
+  no_results_title_text: Зараз няма чаго паказаць.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within this time frame.
+      no_results_title_text: Не было ніякай актыўнасці па праекту на працягу гэтага часу.
   admin:
     plugins:
-      no_results_title_text: There are currently no plugins installed.
-      no_results_content_text: See our integrations and plugins page for more information.
+      no_results_title_text: Зараз ніякіх плагінаў не ўстаноўлена.
+      no_results_content_text: Для атрымання дадатковай інфармацыі глядзіце нашу старонку аб інтэграцыях і плагінах.
     custom_styles:
-      color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme: "Каляровая тэма"
+      color_theme_custom: "(Карыстальніцкая)"
       colors:
-        primary-button-color: "Primary button"
-        accent-color: "Accent"
-        header-bg-color: "Header background"
-        header-item-bg-hover-color: "Header background on hover"
-        header-item-font-color: "Header font"
-        header-item-font-hover-color: "Header font on hover"
-        header-border-bottom-color: "Header border"
-        main-menu-bg-color: "Main menu background"
-        main-menu-bg-selected-background: "Main menu when selected"
-        main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Main menu font"
-        main-menu-selected-font-color: "Main menu font when selected"
-        main-menu-hover-font-color: "Main menu font on hover"
-        main-menu-border-color: "Main menu border"
-      custom_colors: "Custom colors"
-      customize: "Customize your OpenProject installation with your own logo and colors."
+        primary-button-color: "Асноўная кнопка"
+        accent-color: "Акцэнт"
+        header-bg-color: "Фон загалоўка"
+        header-item-bg-hover-color: "Фон загалоўка пры навядзенні"
+        header-item-font-color: "Шрыфт загалоўка"
+        header-item-font-hover-color: "Шрыфт загалоўка пры навядзенні"
+        header-border-bottom-color: "Граніца загалоўка"
+        main-menu-bg-color: "Фон галоўнага меню"
+        main-menu-bg-selected-background: "Галоўнае меню калі выбрана"
+        main-menu-bg-hover-background: "Галоўнае меню пры навядзенні"
+        main-menu-font-color: "Шрыфт галоўнага меню"
+        main-menu-selected-font-color: "Шрыфт галоўнага меню калі выбрана"
+        main-menu-hover-font-color: "Шрыфт галоўнага меню пры навядзенні"
+        main-menu-border-color: "Граніца галоўнага меню"
+      custom_colors: "Карыстальніцкія колеры"
+      customize: "Наладзьце ваш OpenProject з вашым уласным лагатыпам і колерамі."
       enterprise_notice: "Як \"Вялікі дзякуй\" за фінансавую дапамогу ў распрацоўцы OpenProject, гэты маленькі дадатак даступны для падпісчыкаў Entrerprise edition support."
-      enterprise_more_info: "Note: the used logo will be publicly accessible."
-      manage_colors: "Edit color select options"
+      enterprise_more_info: "Заўвага: выкарыстаны лагатып будзе агульнадаступным."
+      manage_colors: "Рэдагаваць параметры выбару колеру"
       instructions:
-        primary-button-color: "Strong accent color, used for the most important button on a screen."
-        accent-color: "Color for links and other decently highlighted elements."
-        header-item-bg-hover-color: "Background color of clickable header items when hovered with the mouse."
+        primary-button-color: "Моцны колер з акцэнтам, які выкарыстоўваецца для самай важнай кнопкі на экране."
+        accent-color: "Колер для спасылак і іншых добра вылучаных элементаў."
+        header-item-bg-hover-color: "Колер фону элементаў загалоўка, якія можна націснуць пры навядзенні курсора мышы."
         header-item-font-color: "Font color of clickable header items."
         header-item-font-hover-color: "Font color of clickable header items when hovered with the mouse."
         header-border-bottom-color: "Thin line under the header. Leave this field empty if you don't want any line."
@@ -305,7 +305,14 @@ be:
       storage:
         no_results_title_text: There is no additional recorded disk space consumed by this project.
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -1645,6 +1652,7 @@ be:
       pdf_overview_table: "PDF Table"
       pdf_report_with_images: "PDF Report with images"
       pdf_report: "PDF Report"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Image not exported."
     units:
@@ -2270,6 +2278,7 @@ be:
   label_setting_plural: "Settings"
   label_system_settings: "System settings"
   label_show_completed_versions: "Show completed versions"
+  label_columns: "Columns"
   label_sort: "Sort"
   label_sort_by: "Sort by %{value}"
   label_sorted_by: "sorted by %{value}"
@@ -2963,6 +2972,7 @@ be:
   setting_app_subtitle: "Application subtitle"
   setting_app_title: "Application title"
   setting_attachment_max_size: "Attachment max. size"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Scan mode"
   setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Autofetch repository changes"
@@ -3064,6 +3074,8 @@ be:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Virus scanning"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
@@ -3300,6 +3312,10 @@ be:
         input_label: "Add columns"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Additional resources"
     getting_started: "Getting started"

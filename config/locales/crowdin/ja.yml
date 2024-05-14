@@ -303,7 +303,14 @@ ja:
       storage:
         no_results_title_text: このプロジェクトによって使用される追加のディスク領域はありません。
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: 現在、このプロジェクトのメンバーはいません。
@@ -1542,6 +1549,7 @@ ja:
       pdf_overview_table: "PDF Table"
       pdf_report_with_images: "PDF Report with images"
       pdf_report: "PDF Report"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "画像はエクスポートされませんでした。"
     units:
@@ -1894,7 +1902,7 @@ ja:
   label_expanded_click_to_collapse: "拡大しました。クリックすると閉じます"
   label_f_hour: "%{value} 時間"
   label_f_hour_plural: "%{value} 時間"
-  label_favorite: "Favorite"
+  label_favorite: "お気に入り"
   label_feed_plural: "フィード"
   label_feeds_access_key: "RSSアクセスキー"
   label_feeds_access_key_created_on: "RSSアクセスキーが%{value}前に作成されました"
@@ -2167,6 +2175,7 @@ ja:
   label_setting_plural: "設定"
   label_system_settings: "システム設定"
   label_show_completed_versions: "終了したバージョンを表示"
+  label_columns: "列"
   label_sort: "並べ替え"
   label_sort_by: "%{value}で並べ替え"
   label_sorted_by: "%{value}で並べ替えている"
@@ -2854,6 +2863,7 @@ ja:
   setting_app_subtitle: "アプリケーションのサブタイトル"
   setting_app_title: "アプリケーションのタイトル"
   setting_attachment_max_size: "添付ファイルの最大サイズ"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Scan mode"
   setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "リポジトリの変更を自動取得"
@@ -2955,6 +2965,8 @@ ja:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Virus scanning"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
@@ -3191,6 +3203,10 @@ ja:
         input_label: "列を追加"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "追加リソース"
     getting_started: "はじめに"

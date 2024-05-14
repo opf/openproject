@@ -1,39 +1,43 @@
 <%=
   component_wrapper(data: wrapper_data_attributes) do
-    # The borderBox needs to be `position: relative` because of bug #49853
-    # (The action menu items float somewhere on the page as soon as you have to scroll the Box in Firefox)
-    render(border_box_container) do |border_box|
-      if @meeting.agenda_items.empty? && @form_hidden
-        border_box.with_body(
-          scheme: :default
-        ) do
-          render(Primer::Beta::Blankslate.new) do |component|
-            component.with_visual_icon(icon: :book)
-            component.with_heading(tag: :h2).with_content(t("text_meeting_empty_heading"))
-            component.with_description do
-              flex_layout do |flex|
-                flex.with_row(mb: 2) do
-                  render(Primer::Beta::Text.new(color: :subtle)) { t("text_meeting_empty_description_1") }
-                end
-                flex.with_row do
-                  render(Primer::Beta::Text.new(color: :subtle)) { t("text_meeting_empty_description_2") }
-                end
-              end
-            end
-          end
-        end
-      else
-        first_and_last = [@meeting.agenda_items.first, @meeting.agenda_items.last]
+    flex_layout(mb: 3) do |flex|
+      flex.with_row(classes: 'dragula-container', id: insert_target_modifier_id, data: { 'allowed-drop-type': 'section' }.merge(drop_target_config) ) do
+        first_and_last = [@meeting.sections.first, @meeting.sections.last]
         render(
-          MeetingAgendaItems::ItemComponent.with_collection(
-            @meeting.agenda_items.with_includes_to_render,
-            container: border_box,
+          MeetingSections::ShowComponent.with_collection(
+            @meeting.sections,
             first_and_last:
           )
         )
       end
-      border_box.with_row(p: 0, border_top: 0, id: insert_target_modifier_id) do
-        render(MeetingAgendaItems::NewComponent.new(meeting: @meeting, hidden: @form_hidden, type: @form_type))
+      if @meeting.agenda_items.empty? && @meeting.sections.empty?
+        flex.with_row do
+          render(border_box_container) do |border_box|
+            if @form_hidden
+              border_box.with_body(
+                scheme: :default
+              ) do
+                render(Primer::Beta::Blankslate.new) do |component|
+                  component.with_visual_icon(icon: :book)
+                  component.with_heading(tag: :h2).with_content(t("text_meeting_empty_heading"))
+                  component.with_description do
+                    flex_layout do |flex|
+                      flex.with_row(mb: 2) do
+                        render(Primer::Beta::Text.new(color: :subtle)) { t("text_meeting_empty_description_1") }
+                      end
+                      flex.with_row do
+                        render(Primer::Beta::Text.new(color: :subtle)) { t("text_meeting_empty_description_2") }
+                      end
+                    end
+                  end
+                end
+              end
+            end
+            border_box.with_row(p: 0, border_top: 0) do
+              render(MeetingAgendaItems::NewComponent.new(meeting: @meeting, hidden: @form_hidden, type: @form_type))
+            end
+          end
+        end
       end
     end
   end

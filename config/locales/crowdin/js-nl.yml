@@ -330,6 +330,18 @@ nl:
         years: "Jaren"
         description: >
           Selecteer het oorspronkelijke zoomniveau dat moet worden weergegeven wanneer autozoom niet beschikbaar is.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "Nee"
     general_text_yes: "Ja"
     general_text_No: "Nee"
@@ -378,7 +390,7 @@ nl:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "dagen geleden"
     label_all: "alle"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Alle"
     label_all_work_packages: "alle werkpakketten"
     label_and: "en"
     label_ascending: "Oplopend"
@@ -762,7 +774,7 @@ nl:
           last_day: "Laatste dag"
     text_are_you_sure: "Weet u het zeker?"
     text_data_lost: "Alle ingevoerde gegevens zullen verloren gaan."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} schreef:"
     types:
       attribute_groups:
         error_duplicate_group_name: "De groep naam %{group} word meer dan één keer gebruikt. Groep namen moeten uniek zijn."
@@ -837,7 +849,7 @@ nl:
       toggle_description: "Wissel de relatie beschrijving"
       update_relation: "Klik op het type relatie wijzigen"
       add_follower: "Volgeling toevoegen"
-      show_relations: "Show relations"
+      show_relations: "Relaties tonen"
       add_predecessor: "Toevoegen van de voorganger"
       remove: "Relatie verwijderen"
       save: "Sla relatie op"
@@ -983,7 +995,7 @@ nl:
         priority: "Prioriteit"
         projectName: "Project"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "Resterende uren"
         responsible: "Verantwoordelijk"
         startDate: "Startdatum"
         status: "Status"
@@ -995,7 +1007,7 @@ nl:
         versionName: "Versie"
         version: "Versie"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "Geschatte tijd"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Laatste Activiteit"

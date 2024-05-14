@@ -39,6 +39,7 @@ ko:
   api_v3:
     errors:
       too_many_elements_created_at_once: 한 번에 너무 많은 요소가 생성되었습니다. 최대 개수는 %{max}개이지만 %{actual}개가 있습니다.
+  external_file_storages: External file storages
   permission_create_files: '외부 저장소: 파일 만들기'
   permission_delete_files: '외부 저장소: 파일 삭제'
   permission_header_for_project_module_storages: 자동으로 관리되는 프로젝트 폴더
@@ -48,7 +49,7 @@ ko:
   permission_share_files: '외부 저장소: 파일 공유'
   permission_view_file_links: 파일 링크 보기
   permission_write_files: '외부 저장소: 파일 쓰기'
-  project_module_storages: 파일 저장소
+  project_module_storages: Files
   storages:
     buttons:
       complete_without_setup: 이것 없이 완료
@@ -223,7 +224,6 @@ ko:
       project_settings:
         delete: 파일 저장소 삭제
         edit: 이 프로젝트에 대한 파일 저장소 편집
-        index: 이 프로젝트에서 사용 가능한 파일 저장소
         members_connection_status: 멤버 연결 상태
         new: 이 프로젝트에 파일 저장소 추가
       project_storage_members:
@@ -242,6 +242,9 @@ ko:
         label_oauth_client_secret: Azure OAuth 클라이언트 비밀번호 값
         name: OneDrive/SharePoint
         name_placeholder: '예: OneDrive'
+    show_attachments_toggle:
+      description: Deactivating this option will only hide the attachments list. Files uploaded with the help of the rich text editor will still be uploaded to the attachments internal storage.
+      label: Show attachments in the work packages files tab
     storage_list_blank_slate:
       description: 여기에서 보려면 저장소를 추가합니다.
       heading: 아직 저장소가 없습니다.

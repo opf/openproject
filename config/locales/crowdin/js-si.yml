@@ -330,6 +330,18 @@ si:
         years: "අවුරුදු"
         description: >
           ස්වයංසූම් ලබා ගත නොහැකි විට පෙන්විය යුතු ආරම්භක විශාලන මට්ටම තෝරන්න.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "නැත"
     general_text_yes: "ඔව්"
     general_text_No: "නැත"
@@ -378,7 +390,7 @@ si:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "දින කිහිපයකට පෙර"
     label_all: "සියලු"
-    label_all_uppercase: "All"
+    label_all_uppercase: "සියලු"
     label_all_work_packages: "සියලුම වැඩ පැකේජ"
     label_and: "සහ"
     label_ascending: "නැගීම"
@@ -762,7 +774,7 @@ si:
           last_day: "Last day"
     text_are_you_sure: "ඔබට විශ්වාසද?"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} ලිවීය:"
     types:
       attribute_groups:
         error_duplicate_group_name: "%{group} නම එක් වරකට වඩා භාවිතා වේ. කණ්ඩායම් නම් අද්විතීය විය යුතුය."
@@ -983,7 +995,7 @@ si:
         priority: "ප්රමුඛතාව"
         projectName: "ව්යාපෘති"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "ඉතිරි පැය"
         responsible: "වගකිව යුතු"
         startDate: "ආරම්භක දිනය"
         status: "තත්වය"
@@ -995,7 +1007,7 @@ si:
         versionName: "අනුවාදය"
         version: "අනුවාදය"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "ඇස්තමේන්තුගත කාලය"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "නවතම ක්රියාකාරකම්"

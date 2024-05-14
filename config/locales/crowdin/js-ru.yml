@@ -329,6 +329,18 @@ ru:
         years: "Лет"
         description: >
           Выберите начальный уровень масштаба, который должен быть показан, когда автозум недоступен.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "нет"
     general_text_yes: "Да"
     general_text_No: "Нет"
@@ -377,7 +389,7 @@ ru:
     label_added_time_by: 'Добавлено <a href="%{authorLink}">%{author}</a> в %{age}'
     label_ago: "дней назад"
     label_all: "все"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Bсе"
     label_all_work_packages: "Все пакеты работ"
     label_and: "и"
     label_ascending: "По возрастанию"
@@ -445,7 +457,7 @@ ru:
     label_less_than_ago: "менее нескольких дней назад"
     label_loading: "Загрузка..."
     label_mail_notification: "Уведомления по email"
-    label_manage_columns: "Manage and reorder columns"
+    label_manage_columns: "Управляйте колонками и изменяйте их порядок"
     label_me: "я"
     label_meeting_agenda: "Повестка встречи"
     label_meeting_minutes: "Протокол(-ы)"
@@ -642,7 +654,7 @@ ru:
         empty_state:
           no_notification: "Похоже, вы все сделали."
           no_notification_with_current_project_filter: "Похоже, в выбранном проекте вы все сделали."
-          no_notification_with_current_filter: "Похоже, в отфильтрованном вы все сделали."
+          no_notification_with_current_filter: "Похоже, в отфильтрованном вы все сделали %{filter}."
           no_selection: "Нажмите на уведомление, чтобы просмотреть все детали."
         new_notifications:
           message: "Есть новые уведомления."
@@ -1006,7 +1018,7 @@ ru:
         all_open: "Все открытые"
         summary: "Сводка"
         shared_with_users: "Доступно пользователям"
-        shared_with_me: "Shared with me"
+        shared_with_me: "В общем доступе с"
       jump_marks:
         pagination: "Перейти вёрстке таблицы"
         label_pagination: "Кликните здесь чтобы пропустить таблицу рабочих пакетов и перейти к вёрстке"

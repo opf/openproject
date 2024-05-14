@@ -304,7 +304,14 @@ ru:
       storage:
         no_results_title_text: Для этого проекта дополнительного дискового пространства не требуется.
   lists:
-    can_be_saved_as: "Изменения могут быть сохранены только в новом списке."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: На данный момент у этого проекта нет участников.
@@ -1129,7 +1136,7 @@ ru:
       updated_by_on: "обновлено %{user} %{datetime}"
       updated_by_on_time_entry: "зарегистрированное время, обновленное %{user} в %{datetime}"
       updated_on: "обновлено %{datetime}"
-      updated_on_time_entry: "зарегистрированное время обновлено в %{дата-время}"
+      updated_on_time_entry: "зарегистрированное время обновлено в %{datetime}"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
       added_on: "added on %{datetime}"
@@ -1644,6 +1651,7 @@ ru:
       pdf_overview_table: "PDF таблица"
       pdf_report_with_images: "PDF отчёт с изображениями"
       pdf_report: "PDF отчёт"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Изображение не экспортировано."
     units:
@@ -1996,7 +2004,7 @@ ru:
   label_expanded_click_to_collapse: "Развернуто. Кликните для сворачивания"
   label_f_hour: "%{value} часов"
   label_f_hour_plural: "%{value} часов"
-  label_favorite: "Favorite"
+  label_favorite: "Избранное"
   label_feed_plural: "Ленты"
   label_feeds_access_key: "Ключ доступа к RSS"
   label_feeds_access_key_created_on: "Ключ доступа RSS, созданный %{value} назад"
@@ -2269,6 +2277,7 @@ ru:
   label_setting_plural: "Настройки"
   label_system_settings: "Настройки системы"
   label_show_completed_versions: "Показать завершённые этапы"
+  label_columns: "Столбцы"
   label_sort: "Сортировать"
   label_sort_by: "Сортировать по %{value}"
   label_sorted_by: "отсортировано по %{value}"
@@ -2959,6 +2968,7 @@ ru:
   setting_app_subtitle: "Второе название приложения"
   setting_app_title: "Название приложения"
   setting_attachment_max_size: "Максимальный размер вложения"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Режим сканирования"
   setting_antivirus_scan_action: "Действие с зараженным файлом"
   setting_autofetch_changesets: "Автоматическое получение изменений репозитория"
@@ -3060,6 +3070,8 @@ ru:
     attachments:
       whitelist_text_html: >
         Определите список допустимых расширений файлов и/или mime типов для загруженных файлов. <br/> Введите расширения файлов (например, <code>%{ext_example}</code>) или mime типы (e. ., <code>%{mime_example}</code>). <br/> Оставьте пустым, чтобы разрешить загрузку любого типа файла. Допустимы несколько значений (одна строка для каждого значения).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Сканирование вирусов"
       clamav_ping_failed: "Не удалось подключиться к сервису ClamAV. Проверьте настройки и повторите попытку."
@@ -3296,6 +3308,10 @@ ru:
         input_label: "Добавить столбцы"
         input_placeholder: "Выберите столбец"
         drag_area_label: "Управляйте колонками и изменяйте их порядок"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Дополнительные ресурсы"
     getting_started: "Приступая к работе"

@@ -329,6 +329,18 @@ cs:
         years: "Roky"
         description: >
           Vyberte počáteční úroveň přiblížení, která by se měla zobrazit, pokud není autozoom dostupný.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "ne"
     general_text_yes: "ano"
     general_text_No: "Ne"
@@ -377,7 +389,7 @@ cs:
     label_added_time_by: 'Přidal <a href="%{authorLink}">%{author}</a> v %{age}'
     label_ago: "dnů před"
     label_all: "vše"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Vše"
     label_all_work_packages: "všechny pracovní balíčky"
     label_and: "a"
     label_ascending: "Vzestupně"

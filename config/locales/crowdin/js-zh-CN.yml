@@ -329,6 +329,18 @@ zh-CN:
         years: "年"
         description: >
           选择自动缩放不可用时应显示的初始缩放级别。
+      export:
+        title: "甘特图 PDF 选项"
+        button_export: "导出"
+        column_widths:
+          narrow: "窄"
+          medium: "正常"
+          wide: "宽"
+          very_wide: "非常宽"
+        options:
+          date_zoom: "日期缩放"
+          paper_size: "纸张大小"
+          column_widths: "列宽"
     general_text_no: "否"
     general_text_yes: "是"
     general_text_No: "否"

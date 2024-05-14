@@ -1,0 +1,23 @@
+@import 'helpers'
+
+.op-meeting-section
+  display: grid
+  grid-template-columns: 20px auto 1fr fit-content(40px)
+  grid-template-areas: "drag-handle content duration actions"
+
+  &--drag-handle,
+  &--duration,
+  &--content
+    align-self: center
+
+  &--actions
+    justify-self: end
+
+  &--duration
+    white-space: nowrap
+
+  &--content
+    @include text-shortener
+
+  @media screen and (max-width: $breakpoint-lg)
+    grid-template-columns: 20px auto 1fr 50px

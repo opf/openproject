@@ -31,8 +31,8 @@ class Projects::QueriesController < ApplicationController
 
   # No need for a more specific authorization check. That is carried out in the contracts.
   before_action :require_login
-  before_action :find_query, only: :destroy
-  before_action :load_query_or_deny_access, only: %i[new]
+  before_action :find_query, only: %i[update destroy]
+  before_action :build_query_or_deny_access, only: %i[new create]
 
   current_menu_item [:new, :create] do
     :projects
@@ -46,12 +46,34 @@ class Projects::QueriesController < ApplicationController
 
   def create
     call = Queries::Projects::ProjectQueries::CreateService
-             .new(user: current_user)
+             .new(from: @query, user: current_user)
              .call(permitted_query_params)
 
     if call.success?
+      flash[:notice] = I18n.t("lists.create.success")
+
       redirect_to projects_path(query_id: call.result.id)
     else
+      flash[:error] = I18n.t("lists.create.failure", errors: call.errors.full_messages.join("\n"))
+
+      render template: "/projects/index",
+             layout: "global",
+             locals: { query: call.result, state: :edit }
+    end
+  end
+
+  def update
+    call = Queries::Projects::ProjectQueries::UpdateService
+             .new(user: current_user, model: @query)
+             .call(permitted_query_params)
+
+    if call.success?
+      flash[:notice] = I18n.t("lists.update.success")
+
+      redirect_to projects_path(query_id: call.result.id)
+    else
+      flash[:error] = I18n.t("lists.update.failure", errors: call.errors.full_messages.join("\n"))
+
       render template: "/projects/index",
              layout: "global",
              locals: { query: call.result, state: :edit }

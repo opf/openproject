@@ -302,7 +302,14 @@ es:
       storage:
         no_results_title_text: No se ha registrado el uso de espacio en disco adicional por este proyecto.
   lists:
-    can_be_saved_as: "Las modificaciones solo pueden guardarse en una lista nueva."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Actualmente no hay miembros que formen parte de este proyecto.
@@ -1576,6 +1583,7 @@ es:
       pdf_overview_table: "Tabla PDF"
       pdf_report_with_images: "Informe PDF con imágenes"
       pdf_report: "Informe PDF"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Imagen no exportada."
     units:
@@ -2201,6 +2209,7 @@ es:
   label_setting_plural: "Configuración"
   label_system_settings: "Ajustes de sistema"
   label_show_completed_versions: "Mostrar versiones terminadas"
+  label_columns: "Columnas"
   label_sort: "Ordenar"
   label_sort_by: "Ordenar por %{value}"
   label_sorted_by: "ordenados por %{value}"
@@ -2889,6 +2898,7 @@ es:
   setting_app_subtitle: "Subtítulo de aplicación"
   setting_app_title: "Título de aplicación"
   setting_attachment_max_size: "Tamaño máximo de adjunto"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Modo de escaneo"
   setting_antivirus_scan_action: "Acción del archivo infectado"
   setting_autofetch_changesets: "Recopilación automática de cambios del repositorio"
@@ -2990,6 +3000,8 @@ es:
     attachments:
       whitelist_text_html: >
         Define una lista de extensiones de archivo válidas o tipos MIME para los archivos cargados. <br/> Escriba las extensiones de archivo (por ejemplo, <code>%{ext_example}</code>) o tipos MIME (<code>%{mime_example}</code>). <br/> Deje vacío este campo para que pueda cargarse cualquier tipo de archivo. Se permiten varios valores (una línea para cada valor).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Escaneado de virus"
       clamav_ping_failed: "Ha fallado la conexión con el daemon ClamAV. Vuelva a comprobar la configuración e inténtelo de nuevo."
@@ -3226,6 +3238,10 @@ es:
         input_label: "Añadir columnas"
         input_placeholder: "Seleccionar una columna"
         drag_area_label: "Gestionar y reordenar columnas"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Recursos Adicionales"
     getting_started: "Primeros pasos"
@@ -3374,7 +3390,7 @@ es:
         non_working: "%{day} es ahora no laboral"
       dates:
         working: "%{date} es ahora laboral"
-        non_working: "%{day} es ahora no laboral"
+        non_working: "%{date} es ahora no laboral"
   nothing_to_preview: "Nada para previsualizar"
   api_v3:
     attributes:

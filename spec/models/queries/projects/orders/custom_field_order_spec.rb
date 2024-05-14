@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,17 +24,21 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module Admin::QuarantinedAttachments
-  # rubocop:disable OpenProject/AddPreviewForViewComponent
-  class IndexPageHeaderComponent < ApplicationComponent
-    include ApplicationHelper
+require "spec_helper"
 
-    def breadcrumb_items
-      [{ href: admin_index_path, text: t("label_administration") },
-       { href: admin_settings_attachments_path, text: t("attributes.attachments") },
-       t("antivirus_scan.quarantined_attachments.title")]
-    end
+RSpec.describe Queries::Projects::Orders::CustomFieldOrder do
+  let!(:cf_text) { FactoryBot.create(:text_project_custom_field) }
+  let!(:cf_int) { FactoryBot.create(:integer_project_custom_field) }
+
+  it "does not allow to sort by the text field" do
+    cf = described_class.new("cf_#{cf_text.id}")
+    expect(cf).not_to be_available
+  end
+
+  it "allows to sort by all other fields" do
+    cf = described_class.new("cf_#{cf_int.id}")
+    expect(cf).to be_available
   end
 end
