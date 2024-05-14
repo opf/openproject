@@ -976,21 +976,12 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
     shared_let(:integer_custom_field) { create(:integer_project_custom_field) }
     # order is important here as the implementation uses lft
     # first but then reorders in ruby
-    shared_let(:child_project_z) do
-      create(:project,
-             parent: project,
-             name: "Z Child")
-    end
-    shared_let(:child_project_m) do
-      create(:project,
-             parent: project,
-             name: "m Child") # intentionally written lowercase to test for case insensitive sorting
-    end
-    shared_let(:child_project_a) do
-      create(:project,
-             parent: project,
-             name: "A Child")
-    end
+    shared_let(:child_project_z) { create(:project, parent: project, name: "Z Child") }
+
+    # intentionally written lowercase to test for case insensitive sorting
+    shared_let(:child_project_m) { create(:project, parent: project, name: "m Child") }
+
+    shared_let(:child_project_a) { create(:project, parent: project, name: "A Child") }
 
     before do
       login_as(admin)
@@ -1010,7 +1001,22 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       child_project_a.save!
     end
 
-    it "allows to alter the order in which projects are displayed" do
+    context "via the configure view dialog" do
+      before do
+        Setting.enabled_projects_columns += [integer_custom_field.column_name]
+      end
+
+      it "allows to sort via multiple columns" do
+      end
+
+      it "does not allow to sort via long text custom fields" do
+      end
+
+      it "only allows exclusive sorting via the hierarchy and does not offer other columns" do
+      end
+    end
+
+    it "allows to alter the order in which projects are displayed via the column headers" do
       Setting.enabled_projects_columns += [integer_custom_field.column_name]
 
       # initially, ordered by name asc on each hierarchical level
