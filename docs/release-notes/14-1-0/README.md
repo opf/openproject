@@ -14,24 +14,27 @@ We released [OpenProject 14.1.0](https://community.openproject.org/versions/2030
 
 ## Important feature changes
 
-### Favorite projects
-
-This feature was requested by many in the Community and will be a great benefit, especially for organizations with many projects: OpenProject 14.1 allows you to add projects to favorites so that they can be found more quickly. We recently gave an overview in our blog of how exactly you can add projects to favorites or remove them from favorites – and where you can display them.
-
 ### PDF export of Gantt view, e.g. for printing (Enterprise add-on)
 
 It is now possible to export a Gantt view as PDF in the OpenProject Enterprise edition. This allows users to print Gantt charts. Choose between different paper formats, set the colomn width, and specify whether the PDF file should display your work packages on a daily, monthly or quarterly basis.
 
 ![Export your Gantt view as PDF](openproject-14-1-gantt-pdf-export-figma.png)
 
+### Favorite projects
+
+This feature was requested by many in the Community and will be a great benefit, especially for organizations with many projects: OpenProject 14.1 allows you to add projects to favorites so that they can be found more quickly. We recently gave an overview in our blog of how exactly you can add projects to favorites or remove them from favorites – and where you can display them.
+
+![OpenProject dropdown menu showing favorite projects, displayed with yellow stars](openproject-14-1-favorite-projects-overview.shadow.png)
+
 ### Advanced features for the Meetings module
 
-The Meetings module is currently being continuously improved. With OpenProject 14.1, you can:
+The Meetings module is currently being continuously improved. With OpenProject 14.1...
 
-- group agenda items with sections,
-- add new agenda items in the form of open notes.
+- you can group agenda items with sections,
+- notes are open when creating new agenda items,
+- and the status now changes to open when you copy a closed meeting.
 
-Another change is that the status now changes to open when you copy a closed meeting.
+![OpenProject's Meetings module, separated in sections](openproject-14-1-meetings-sections-highlighted.png)
 
 Apart from these features that apply the Meetings module directly, the following changes concerning OpenProject meetings have been made:
 
@@ -44,7 +47,7 @@ Admins now are able to hide the attachment section in the Files tab. This settin
 
 ### Custom fields of the type Link (URL)
 
-Users can now create custom field of the type Link (URL).
+Users can now create custom field of the type Link (URL). Remember to activiate it for your project(s) and specific work package type for it to be displayed. The custom field type Link shows an error message if you type in an invalid URL.
 
 ![Create a custom field of the type Link](openproject-14-1-custom-field-link.png)
 
@@ -63,6 +66,8 @@ If you use the OneDrive/SharePoint integration, you will now be shown a "no perm
 <!--more-->
 
 ## Bug fixes and changes
+
+Apart from the features mentioned above, there have been a lot of other changes, smaller features and, of course, bug fixes for OpenProject 14.1:
 
 <!-- Warning: Anything within the below lines will be automatically removed by the release script -->
 <!-- BEGIN AUTOMATED SECTION -->
@@ -113,6 +118,16 @@ If you use the OneDrive/SharePoint integration, you will now be shown a "no perm
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
 #### Contributions
-A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
-Special thanks for reporting and finding bugs go to Marc Burk, Silas Kropf, and Hanley Loller.
+A very special thank you goes to our sponsors for features and improvements of this release:
+
+* German Federal Ministry of the Interior and Home Affairs (BMI) for sponsoring the features on progress reporting
+* City of Cologne for sponsoring features on project attributes
+* Deutsche Bahn for sponsoring the OneDrive/SharePoint integration
+
+Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to Marc Burk, Silas Kropf, and Hanley Loller.
+
+Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to highlight user [Syvert](https://crowdin.com/profile/syvert)
+who has done an outstanding number of translations for the Norwegian language in recent weeks.
+
+Would you like to help out with translations yourself? Then take a look at our [translation guide](https://www.openproject.org/docs/development/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
