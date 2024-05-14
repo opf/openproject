@@ -159,6 +159,7 @@ gem "airbrake", "~> 13.0.0", require: false
 
 gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "8f14736a88ad0064d2a97be108fe7061ffbcee91"
 gem "prawn", "~> 2.4"
+gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues/1346 resolved.
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.2"
 
