@@ -45,15 +45,15 @@ RSpec.describe "Wysiwyg attribute macros", :js do
     create(:work_package,
            subject: "Foo Bar",
            project:,
-           start_date: '2023-01-01',
-           due_date: '2023-01-05',
+           start_date: "2023-01-01",
+           due_date: "2023-01-05",
            type: type_task)
   end
   shared_let(:milestone) do
     create(:work_package,
            subject: "Milestone",
            project:,
-           due_date: '2023-01-10',
+           due_date: "2023-01-10",
            type: type_milestone)
   end
 

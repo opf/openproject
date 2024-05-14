@@ -65,9 +65,9 @@ RSpec.describe "Calendar Widget", :js, :with_cuprite, with_settings: { start_of_
     overview_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
   end
 
-  it 'shows the meeting' do
-    expect(page).to have_css('.fc-event', text: "Weekly", visible: :all)
-    page.find('.fc-event', text: "Weekly", visible: :all).click
+  it "shows the meeting" do
+    expect(page).to have_css(".fc-event", text: "Weekly", visible: :all)
+    page.find(".fc-event", text: "Weekly", visible: :all).click
 
     expect(page).to have_current_path /meetings\/#{meeting.id}/
   end

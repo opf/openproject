@@ -154,7 +154,7 @@ module Projects
     end
 
     def favored_project_ids
-      @favored_projects ||= Favorite.where(user: current_user, favored_type: 'Project').pluck(:favored_id)
+      @favored_projects ||= Favorite.where(user: current_user, favored_type: "Project").pluck(:favored_id)
     end
 
     def sorted_by_lft?

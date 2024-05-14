@@ -31,7 +31,7 @@
 module Admin
   class AttachmentsSettingsHeaderComponent < ApplicationComponent
     def initialize(title:, selected:)
-      raise 'selected must 1, 2 or 3' if [1, 2, 3].exclude?(selected)
+      raise "selected must 1, 2 or 3" if [1, 2, 3].exclude?(selected)
       @title = title
       @selected = selected
     end

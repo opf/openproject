@@ -69,7 +69,7 @@ module Acts::Journalized
 
       def no_nil_to_empty_strings?(normalized_old_data, attribute, new_value)
         old_value = normalized_old_data[attribute]
-        new_value != old_value && ([new_value, old_value] - ['', nil]).present?
+        new_value != old_value && ([new_value, old_value] - ["", nil]).present?
       end
 
       def journaled_attributes(object)
@@ -133,7 +133,7 @@ module Acts::Journalized
         if selected_journals.empty?
           nil
         else
-          selected_journals.sort.join(',')
+          selected_journals.sort.join(",")
         end
       end
     end

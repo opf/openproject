@@ -69,7 +69,7 @@ RSpec.describe "Delete ProjectStorage with FileLinks", :js, :with_cuprite, :webm
     visit project_settings_project_storages_path(project)
 
     # The list of enabled file storages should now contain Storage 1
-    expect(page).to have_selector('h1', text: 'Files')
+    expect(page).to have_selector("h1", text: "Files")
     expect(page).to have_text("Storage 1")
 
     # Press Delete icon to remove the storage from the project

@@ -1,12 +1,12 @@
-require 'webrick'
-require 'httpx'
+require "webrick"
+require "httpx"
 
-RSpec.describe 'HTTPX' do
-  describe 'persistent connections' do
-    it 'does not hang forever when used to request HTTP 1.1 server' do
+RSpec.describe "HTTPX" do
+  describe "persistent connections" do
+    it "does not hang forever when used to request HTTP 1.1 server" do
       server = WEBrick::HTTPServer.new(:Port => 8543)
-      server.mount_proc '/' do |req, res|
-        res.body = 'Response Body'
+      server.mount_proc "/" do |req, res|
+        res.body = "Response Body"
       end
 
       Thread.new { server.start }

@@ -51,11 +51,11 @@ RSpec.describe "Favorite projects", :js do
 
   it "allows favoriting and unfavoriting projects" do
     visit project_path(project)
-    expect(page).to have_selector 'a', accessible_name: "Add to favorites"
+    expect(page).to have_selector "a", accessible_name: "Add to favorites"
 
     click_link_or_button(accessible_name: "Add to favorites")
 
-    expect(page).to have_selector 'a', accessible_name: "Remove from favorite"
+    expect(page).to have_selector "a", accessible_name: "Remove from favorite"
 
     project.reload
     expect(project).to be_favored_by(user)
@@ -64,18 +64,18 @@ RSpec.describe "Favorite projects", :js do
     projects_page.open_filters
     projects_page.filter_by_favored "yes"
 
-    expect(page).to have_text 'My favorite!'
+    expect(page).to have_text "My favorite!"
 
     projects_page.visit!
     projects_page.open_filters
     projects_page.filter_by_favored "no"
 
-    expect(page).to have_no_text 'My favorite!'
+    expect(page).to have_no_text "My favorite!"
 
     visit home_path
 
-    expect(page).to have_text 'Favorite projects'
-    expect(page).to have_test_selector 'favorite-project', text: 'My favorite!'
+    expect(page).to have_text "Favorite projects"
+    expect(page).to have_test_selector "favorite-project", text: "My favorite!"
 
     retry_block do
       top_menu.toggle unless top_menu.open?
@@ -102,13 +102,13 @@ RSpec.describe "Favorite projects", :js do
     it "does not show archived projects" do
       visit home_path
 
-      expect(page).to have_text 'Favorite projects'
-      expect(page).to have_test_selector 'favorite-project', text: 'My favorite!'
-      expect(page).to have_no_text 'Other project'
+      expect(page).to have_text "Favorite projects"
+      expect(page).to have_test_selector "favorite-project", text: "My favorite!"
+      expect(page).to have_no_text "Other project"
 
       my_page.visit!
       my_page.add_widget(1, 1, :within, "Favorite projects")
-      expect(page).to have_text 'My favorite!'
+      expect(page).to have_text "My favorite!"
     end
   end
 
@@ -121,8 +121,8 @@ RSpec.describe "Favorite projects", :js do
     it "still shows up in top menu (Regression #54729)" do
       visit home_path
 
-      expect(page).to have_text 'Favorite projects'
-      expect(page).to have_test_selector 'favorite-project', text: 'My favorite!'
+      expect(page).to have_text "Favorite projects"
+      expect(page).to have_test_selector "favorite-project", text: "My favorite!"
 
       retry_block do
         top_menu.toggle unless top_menu.open?
