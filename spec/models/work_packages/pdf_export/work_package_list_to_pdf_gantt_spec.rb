@@ -56,6 +56,7 @@ end
 RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   include Redmine::I18n
   include PDFExportSpecUtils
+  let!(:status_new) { create(:status, name: "New", is_default: true) }
   let(:type_standard) { create(:type_standard, name: "Standard", color: create(:color, hexcode: "#FFFF00")) }
   let(:type_bug) { create(:type_bug, name: "Bug", color: create(:color, hexcode: "#00FFFF")) }
   let!(:type_milestone) { create(:type, name: "Milestone", is_milestone: true, color: create(:color, hexcode: "#FF0000")) }
@@ -110,6 +111,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   let(:work_package_task) do
     create(:work_package,
            project:,
+           status: status_new,
            type: type_standard,
            subject: "Work package 1",
            start_date: work_package_task_start,
@@ -119,6 +121,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     create(:work_package,
            project:,
            type: type_milestone,
+           status: status_new,
            subject: "Work package 2",
            start_date: work_package_milestone_start,
            due_date: work_package_milestone_due)
@@ -127,6 +130,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     Array.new(50) do
       create(:work_package,
              project:,
+             status: status_new,
              subject: "Work package Filler",
              start_date: work_package_task_start,
              due_date: work_package_task_due,
@@ -147,8 +151,16 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     pp pdf[:calls]
   end
 
+  def wp_title_dates(work_package)
+    if work_package.start_date == work_package.due_date
+      format_date(work_package.start_date)
+    else
+      "#{format_date(work_package.start_date)} - #{format_date(work_package.due_date)}"
+    end
+  end
+
   def wp_title_column(work_package)
-    "#{work_package.type} ##{work_package.id} #{work_package.subject}"
+    "#{work_package.type} ##{work_package.id} • #{work_package.status} • #{wp_title_dates work_package} #{work_package.subject}"
   end
 
   subject(:pdf) do
@@ -173,7 +185,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       expect(pdf[:strings]).to eq [query.name, "2024 Apr 21 22 23", # header columns
                                    wp_title_column(work_package_task),
                                    wp_title_column(work_package_milestone),
-                                   "1/1", export_time_formatted, query.name].join(" ")
+                                   "1/1", export_time_formatted, query.name].join(" ").squeeze(" ")
 
       # if one of these expect fails you can output the actual pdf calls uncommenting the following line
       # show_calls
@@ -207,7 +219,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
                                    wp_title_column(work_package_milestone),
                                    "1/2", export_time_formatted, query.name,
                                    "2024 May 6 7 8", # header columns
-                                   "2/2", export_time_formatted, query.name].join(" ")
+                                   "2/2", export_time_formatted, query.name].join(" ").squeeze(" ")
 
       # if one of these expect fails you can output the actual pdf calls uncommenting the following line
       # show_calls
@@ -261,7 +273,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
         "2024 May 6 7 8", # header columns
         "6/6", export_time_formatted, query.name
-      ].flatten.join(" ")
+      ].flatten.join(" ").squeeze(" ")
     end
 
     it "contains correct data" do
@@ -313,7 +325,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
         filler_work_packages.slice(35, 15).map { |wp| wp_title_column(wp) },
         wp_title_column(work_package_milestone),
         "3/3", export_time_formatted, query.name
-      ].flatten.join(" ")
+      ].flatten.join(" ").squeeze(" ")
     end
 
     it "contains correct data" do
@@ -352,7 +364,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
                                    wp_title_column(work_package_milestone),
                                    type_standard.name,
                                    wp_title_column(work_package_task),
-                                   "1/1", export_time_formatted, query.name].join(" ")
+                                   "1/1", export_time_formatted, query.name].join(" ").squeeze(" ")
 
       # if one of these expect fails you can output the actual pdf calls uncommenting the following line
       # show_calls
