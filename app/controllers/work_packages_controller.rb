@@ -37,6 +37,7 @@ class WorkPackagesController < ApplicationController
   before_action :authorize_on_work_package,
                 :project, only: :show
   before_action :find_optional_project,
+                :check_allowed_export,
                 :protect_from_unauthorized_export, only: :index
 
   before_action :load_and_validate_query, only: :index, unless: -> { request.format.html? }
