@@ -29,20 +29,43 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= toolbar title: t(:label_working_days_and_hours) %>
 
-<div class="op-toast -warning">
-  <div class="op-toast--content">
-    <p>
-      <%= t("working_days.warning").html_safe %>
-    </p>
-  </div>
-</div>
-
 <%= styled_form_tag(
       admin_settings_working_days_and_hours_path,
       method: :patch,
       class: 'op-working-days-admin-settings'
     ) do %>
 
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <div class="form--field">
+        <%= setting_text_field :hours_per_day,
+                               type: :number %>
+        <div class="form--field-instructions"><%= t("setting_hours_per_day_explanation") %></div>
+      </div>
+
+      <div class="form--field">
+        <%= setting_text_field :hours_per_week,
+                               type: :number %>
+        <div class="form--field-instructions"><%= t("setting_hours_per_week_explanation") %></div>
+      </div>
+
+      <div class="form--field">
+        <%= setting_text_field :days_per_month,
+                               type: :number %>
+        <div class="form--field-instructions"><%= t("setting_days_per_month_explanation") %></div>
+      </div>
+
+    </fieldset>
+  </section>
+
+  <div class="op-toast -warning">
+    <div class="op-toast--content">
+      <p>
+        <%= t("working_days.warning").html_safe %>
+      </p>
+    </div>
+  </div>
+  
   <section class="form--section">
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= t('settings.working_days.section_work_week') %></legend>

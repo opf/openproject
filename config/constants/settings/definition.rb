@@ -303,6 +303,12 @@ module Settings
           "%B %d, %Y"
         ].freeze
       },
+      days_per_month: {
+        description: "This will define what is considered a “week” when displaying duration in a more natural way " \
+                     "(for example, if a month is 20 days, 60 days would be 3 months.",
+        default: 20,
+        format: :integer
+      },
       default_auto_hide_popups: {
         description: "Whether to automatically hide success notifications by default",
         default: true
@@ -517,6 +523,18 @@ module Settings
       },
       host_name: {
         default: "localhost:3000"
+      },
+      hours_per_day: {
+        description: "This will define what is considered a “day” when displaying duration in a more natural way " \
+                     "(for example, if a day is 8 hours, 32 hours would be 4 days).",
+        default: 8,
+        format: :integer
+      },
+      hours_per_week: {
+        description: "This will define what is considered a “week” when displaying duration in a more natural way " \
+                     "(for example, if a week is 40 hours, 1260 hours would be 7.5 weeks).",
+        default: 40,
+        format: :integer
       },
       # Health check configuration
       health_checks_authentication_password: {

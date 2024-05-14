@@ -26,29 +26,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Settings
-  class WorkingDaysParamsContract < ::ParamsContract
-    include RequiresAdminGuard
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
-    validate :working_days_are_present
-    validate :unique_job
+RSpec.describe Settings::WorkingDaysAndHoursParamsContract do
+  include_context "ModelContract shared context"
+  shared_let(:current_user) { create(:admin) }
+  let(:setting) { Setting }
+  let(:params) { { working_days: [1] } }
+  let(:contract) do
+    described_class.new(setting, current_user, params:)
+  end
 
-    protected
+  it_behaves_like "contract is valid for active admins and invalid for regular users"
 
-    def working_days_are_present
-      if working_days.blank?
-        errors.add :base, :working_days_are_missing
-      end
+  context "without working days" do
+    let(:params) { { working_days: [] } }
+
+    include_examples "contract is invalid", base: :working_days_are_missing
+  end
+
+  context "with an ApplyWorkingDaysChangeJob already existing",
+          with_good_job: WorkPackages::ApplyWorkingDaysChangeJob do
+    let(:params) { { working_days: [1, 2, 3] } }
+
+    before do
+      WorkPackages::ApplyWorkingDaysChangeJob
+        .set(wait: 10.minutes) # GoodJob executes inline job without wait immediately
+        .perform_later(user_id: current_user.id,
+                       previous_non_working_days: [],
+                       previous_working_days: [1, 2, 3, 4])
     end
 
-    def unique_job
-      WorkPackages::ApplyWorkingDaysChangeJob.new.check_concurrency do
-        errors.add :base, :previous_working_day_changes_unprocessed
-      end
-    end
-
-    def working_days
-      params[:working_days]
-    end
+    include_examples "contract is invalid", base: :previous_working_day_changes_unprocessed
   end
 end

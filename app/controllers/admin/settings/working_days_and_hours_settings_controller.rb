@@ -46,11 +46,14 @@ module Admin::Settings
       settings = super
       settings[:working_days] = working_days_params(settings)
       settings[:non_working_days] = non_working_days_params
+      settings[:hours_per_day] = params[:settings][:hours_per_day]
+      settings[:hours_per_week] = params[:settings][:hours_per_week]
+      settings[:days_per_month] = params[:settings][:days_per_month]
       settings
     end
 
     def update_service
-      ::Settings::WorkingDaysUpdateService
+      ::Settings::WorkingDaysAndHoursUpdateService
     end
 
     private

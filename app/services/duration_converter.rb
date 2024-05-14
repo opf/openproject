@@ -38,7 +38,7 @@ class DurationConverter
     def parse(duration_string)
       # Keep 0 values and convert the extracted duration to hours
       # by dividing by 3600.
-      ChronicDuration.parse(duration_string, keep_zero: true, default_unit: "hours") / 3600.to_f
+      ChronicDuration.parse(duration_string, keep_zero: true, default_unit: "hours", **duration_length_options) / 3600.to_f
     end
 
     def output(duration_in_hours)
@@ -52,10 +52,10 @@ class DurationConverter
       # keeping zeroes, we'd format this as "0 secs".
       #
       # We want to override this behavior.
-      if ChronicDuration.output(duration_in_seconds, default_unit: "hours").nil?
+      if ChronicDuration.output(duration_in_seconds, default_unit: "hours", **duration_length_options).nil?
         "0h"
       else
-        ChronicDuration.output(duration_in_seconds, default_unit: "hours", format: :short)
+        ChronicDuration.output(duration_in_seconds, default_unit: "hours", format: :short, **duration_length_options)
       end
     end
 
@@ -63,6 +63,10 @@ class DurationConverter
 
     def convert_duration_to_seconds(duration_in_hours)
       (BigDecimal(duration_in_hours.to_s) * 3600).to_f
+    end
+
+    def duration_length_options
+      { hours_per_day: Setting.hours_per_day, days_per_month: Setting.days_per_month }
     end
   end
 end

@@ -1018,6 +1018,9 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
             base:
               working_days_are_missing: "At least one day of the week must be defined as a working day."
               previous_working_day_changes_unprocessed: "The previous changes to the working days configuration have not been applied yet."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              hours_per_week_are_missing: "The number of hours per week must be defined."
+              days_per_month_are_missing: "The number of days per month must be defined."
         time_entry:
           attributes:
             hours:
@@ -3074,6 +3077,8 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   setting_cross_project_work_package_relations: "Allow cross-project work package relations"
   setting_first_week_of_year: "First week in year contains"
   setting_date_format: "Date"
+  setting_days_per_month: "Days per month"
+  setting_days_per_month_explanation: "This will define what is considered a “week” when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months."
   setting_default_language: "Default language"
   setting_default_projects_modules: "Default enabled modules for new projects"
   setting_default_projects_public: "New projects are public by default"
@@ -3089,6 +3094,12 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Host name"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >
+    This will define what is considered a “day” when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+  setting_hours_per_week: "Hours per week"
+  setting_hours_per_week_explanation: >
+    This will define what is considered a “week” when displaying duration in a more natural way (for example, if a week is 40 hours, 1260 hours would be 7.5 weeks).
   setting_invitation_expiration_days: "Activation email expires after"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"
