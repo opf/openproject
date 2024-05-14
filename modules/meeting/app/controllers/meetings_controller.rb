@@ -151,6 +151,7 @@ class MeetingsController < ApplicationController
 
   def update
     @meeting.participants_attributes = @converted_params.delete(:participants_attributes)
+    @converted_params.delete(:send_notifications)
     @meeting.attributes = @converted_params
     if @meeting.save
       flash[:notice] = I18n.t(:notice_successful_update)
