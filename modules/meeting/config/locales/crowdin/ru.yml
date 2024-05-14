@@ -113,7 +113,7 @@ ru:
       invited:
         summary: "%{actor} отправил вам приглашение на совещание %{title}"
       rescheduled:
-        header: "Встреча %{title} была перенесена %{actor}"
+        header: "Встреча %{title} была перенесена"
         summary: "Совещание %{title} перенесено %{actor}"
         body: "Совещание %{title} было перенесено пользователем %{actor}."
         old_date_time: "Старые дата/время"

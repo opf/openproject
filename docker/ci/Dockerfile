@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.4
 ARG RUBY_VERSION
-FROM ruby:${RUBY_VERSION}-bullseye
+FROM ruby:${RUBY_VERSION}-bookworm
 
 ENV NODE_VERSION="20.9.0"
 ENV BUNDLER_VERSION="2.5.10"
@@ -9,7 +9,7 @@ ENV BUNDLE_WITHOUT="development:production:docker"
 
 ENV PGVERSION=13
 RUN wget --quiet -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
-  echo "deb http://apt.postgresql.org/pub/repos/apt bullseye-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+  echo "deb http://apt.postgresql.org/pub/repos/apt bookworm-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 
 ENV CHROME_SOURCE_URL="https://dl.google.com/dl/linux/direct/google-chrome-stable_current_amd64.deb"
 RUN --mount=type=cache,target=/var/cache/apt export f="/tmp/chrome.deb" && wget --no-verbose -O $f $CHROME_SOURCE_URL && \
