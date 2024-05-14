@@ -7,7 +7,7 @@ ms:
       label_unnamed_list: 'Senarai tanpa nama'
       label_board_type: "Jenis board\n"
       upsale:
-        teaser_text: 'Adakah anda ingin mengautomatikkan aliran kerja dengan Board? Board lanjutan ada di dalam tambahan Enterprise. Sila naik taraf ke pelan berbayar.'
+        teaser_text: 'Adakah anda ingin mengautomasikan aliran kerja dengan Board? Board lanjutan ada di dalam tambahan Enterprise. Sila naik taraf ke pelan berbayar.'
         upgrade: 'Naik taraf sekarang'
       lists:
         delete: 'Padam senarai'
@@ -36,7 +36,7 @@ ms:
         free: 'asas'
         select_board_type: 'Sila pilih jenis board yang anda perlukan.'
         free_text: >
-          Bermula dari awal dengan board yang kosong. Tambah kad dan kolum kepada papan ini secara manual.
+          Mula dari awal dengan board kosong. Tambah kad dan kolum ke board ini secara manual.
         action: 'Board tindakan'
         action_by_attribute: 'Board tindakan (%{attribute})'
         action_text: >
@@ -75,9 +75,9 @@ ms:
         warning:
           status: |
             Tiada status yang tersedia pada masa ini. <br>
-            Sama ada sudah tiada atau semua sudah ditambah ke papan.
+            Sama ada sudah tiada atau semua sudah ditambah ke board.
           assignee: Tiada ahli yang sepadan dengan nilai penyaringan anda.  <br>
-          no_member: Projek ini tidak mempunyai ahli yang boleh ditambah masa ini.  <br>
+          no_member: Projek ini tidak mempunyai ahli yang boleh ditambah pada masa ini.  <br>
           add_members: <a href="%{link}">Tambah ahli baru ke projek ini</a> untuk pilih pengguna lagi.
       configuration_modal:
         title: 'Konfigurasi board ini'

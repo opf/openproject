@@ -35,7 +35,7 @@ ms:
         subject: "Subjek"
         type: "Jenis kos"
         labor_budget: "Kos buruh terancang"
-        material_budget: "Kos unit yang dirancang"
+        material_budget: "Kos unit terancang"
       work_package:
         budget_subject: "Tajuk anggaran"
     models:
@@ -46,10 +46,10 @@ ms:
       budget: "Anggaran"
   attributes:
     budget: "Anggaran"
-  button_add_budget_item: "Tambah kos yang dirancang"
+  button_add_budget_item: "Tambah kos terancang"
   button_add_budget: "Tambah anggaran"
   button_add_cost_type: "Tambah jenis kos"
-  button_cancel_edit_budget: "Batalkan anggaran penyuntingan"
+  button_cancel_edit_budget: "Batalkan anggaran pengeditan"
   button_cancel_edit_costs: "Batalkan kos penyuntingan"
   caption_labor: "Buruh"
   caption_labor_costs: "Kos buruh sebenar"
@@ -57,7 +57,7 @@ ms:
   budgets_title: "Anggaran"
   events:
     budget: "Anggaran yang telah diedit"
-  help_click_to_edit: "Klik di sini untuk mengedit"
+  help_click_to_edit: "Klik sini untuk mengedit."
   help_currency_format: "Format nilai mata wang yang dipaparkan. %n digantikan dengan nilai mata wang, %u digantikan dengan unit mata wang."
   help_override_rate: "Masukkan nilai disini untuk gantikan kadar default."
   label_budget: "Anggaran"
@@ -75,4 +75,4 @@ ms:
   project_module_budgets: "Anggaran"
   text_budget_reassign_to: "Pindahkan mereka ke anggaran ini:"
   text_budget_delete: "Padam anggaran dari semua pakej kerja"
-  text_budget_destroy_assigned_wp: "Terdapat %{count} pakej kerja ditugaskan untuk anggaran ini. Apa yang anda ingin lakukan?"
+  text_budget_destroy_assigned_wp: "Terdapat %{count} pakej kerja diberikan ke anggaran ini. Apa yang anda ingin lakukan?"

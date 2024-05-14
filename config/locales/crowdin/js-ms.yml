@@ -30,14 +30,14 @@ ms:
       delete_confirmation: |
         Adakah anda pasti anda ingin memadam fail ini? Tindakan ini tidak boleh dikembalikan.
       draggable_hint: |
-        Tarik ruang pengedit ke imej sebaris atau lampiran rujukan. Ruang pengedit yang ditutup akan dibuka sambil anda menariknya.
+        Tarik ruang pengedit ke imej sebaris atau lampiran rujukan. Ruang pengedit yang ditutup akan dibuka semasa anda menariknya.
       quarantined_hint: "Fail ini telah dikuarantin kerana virus ditemui. Ia tidak tersedia untuk dimuat turun."
     autocomplete_ng_select:
       add_tag: "Tambah item"
       clear_all: "Padam semua"
       loading: "Memuatkan..."
       not_found: "Tiada item ditemui"
-      type_to_search: "Taip untuk mencari"
+      type_to_search: "Taip untuk cari"
     autocomplete_select:
       placeholder:
         multi: 'Tambah "%{name}"'
@@ -45,18 +45,18 @@ ms:
       remove: "Keluarkan %{name}"
       active: "%{name} %{label} aktif "
     backup:
-      attachments_disabled: Lampiran tidak akan dimasukkan kerana ia melebihi saiz kesuluruhan maksimum yang dibenarkan. Anda boleh mengubahnya melalui konfigurasi (memerlukan server untuk dimulakan semula).
+      attachments_disabled: Lampiran mungkin tidak akan dimasukkan kerana ia melebihi saiz maksimum keseluruhan yang dibenarkan. Anda boleh mengubah ini melalui konfigurasi (memerlukan server untuk dimulakan semula).
       info: >
         Anda boleh meminta sokongan disini. Proses akan mengambil sedikit masa bergantung kepada jumlah data (terutamanya lampiran) anda ada. Anda akan menerima e-mel apabila ianya sedia.
       note: >
         Sokongan baharu akan mengatasi mana-mana yang terdahulu. Hanya beberapa bilangan sokongan yang terhad boleh diminta mengikut hari.
-      last_backup: Sandaran terakhir
+      last_backup: Sokongan terakhir
       last_backup_from: Sokongan terakhir daripada
-      title: Sokongan OpenProject
+      title: Sandaran OpenProject
       options: Pilihan
       include_attachments: Sertakan lampiran
-      download_backup: Muat turun sandaran
-      request_backup: Minta sokongan
+      download_backup: Muat turun sokongan
+      request_backup: Minta sandaran
     close_popup_title: "Tutup pop timbul"
     close_filter_title: "Tutup penyaring"
     close_form_title: "Tutup borang"
@@ -72,15 +72,15 @@ ms:
     button_confirm: "Sahkan"
     button_continue: "Seterusnya"
     button_copy: "Salin"
-    button_copy_to_clipboard: "Salin ke clipboard"
-    button_copy_link_to_clipboard: "Salin pautan ke clipboard"
+    button_copy_to_clipboard: "Salin ke papan klip"
+    button_copy_link_to_clipboard: "Salin pautan ke papan klip"
     button_copy_to_other_project: "Salin ke projek lain"
-    button_custom-fields: "Medan tersuai"
+    button_custom-fields: "Ruang tersuai"
     button_delete: "Padam"
-    button_delete_watcher: "Buang pemerhati"
+    button_delete_watcher: "Padam pemerhati"
     button_details_view: "Paparan butiran"
     button_duplicate: "Duplikasi"
-    button_edit: "Sunting"
+    button_edit: "Edit"
     button_filter: "Penyaring"
     button_collapse_all: "Sembunyikan semua"
     button_expand_all: "Kembangkan semua"
@@ -92,11 +92,11 @@ ms:
     button_open_details: "Buka paparan butiran"
     button_close_details: "Tutup paparan butiran"
     button_open_fullscreen: "Buka paparan skrin penuh"
-    button_show_cards: "Tunjukkan paparan kad"
-    button_show_list: "Tunjukkan paparan senarai"
-    button_show_table: "Tunjukkan paparan jadual"
-    button_show_gantt: "Tunjukkan paparan Gantt"
-    button_show_fullscreen: "Tunjuk paparan skrin penuh"
+    button_show_cards: "Paparkan paparan kad"
+    button_show_list: "Paparkan paparan senarai"
+    button_show_table: "Paparkan paparan jadual"
+    button_show_gantt: "Paparkan paparan Gantt"
+    button_show_fullscreen: "Paparkan paparan skrin penuh"
     button_more_actions: "Tindakan lebih lanjut"
     button_quote: "Sebut harga"
     button_save: "Simpan"
@@ -114,7 +114,7 @@ ms:
       remove_from_list: "Keluarkan kad dari senarai"
     caption_rate_history: "Sejarah kadar"
     clipboard:
-      browser_error: "Pelayar anda tidak menyokong menyalin ke papan klip. Sila salin secara manual: %{content}"
+      browser_error: "Server anda tidak menyokong menyalin ke papan klip. Sila salin secara manual: %{content}"
       copied_successful: "Berjaya disalin ke papan klip!"
     chart:
       type: "Jenis carta"
@@ -134,7 +134,7 @@ ms:
       errors:
         could_not_load: "Data untuk paparkan graf tidak dapat dimuatkan. Kebenaran yang diperlukan mungkin kurang."
     description_available_columns: "Lajur Tersedia"
-    description_current_position: "Anda di sini:"
+    description_current_position: "Anda di sini: "
     description_select_work_package: "Pilih pakej kerja #%{id}"
     description_subwork_package: "Anak kepada pakej kerja #%{id}"
     editor:
@@ -152,60 +152,60 @@ ms:
           not_found: "Sumber yang diminta tidak dapat dijumpai"
           invalid_attribute: "Atribut yang dipilih '%{name}' tidak wujud."
         child_pages:
-          button: "Pautkan ke halaman anak"
+          button: "Terpaut pada halaman anak"
           include_parent: "Termasuk induk"
           text: "[Pengguna sementara] pautan ke halaman anak"
           page: "Halaman wiki"
           this_page: "halaman ini"
           hint: |
-            Tinggalkan ruangan ini untuk senaraikan halaman-halaman anak daripada halaman semasa. Jika anda ingin merujuk ke halaman berbeza, sediakan tajuk atau slug.
+            Tinggalkan ruangan ini kosong untuk senaraikan halaman-halaman anak daripada halaman semasa. Jika anda ingin merujuk ke halaman berbeza, sediakan tajuk atau slug.
         code_block:
           button: "Masukkan kod potongan"
-          title: "Masukkan / sunting snippet Code"
+          title: "Masukkan / edit snippet Code"
           language: "Bahasa pemformatan"
           language_hint: "Masukkan pemformatan bahasa yang akan digunakan untuk penyerlahan (jika disokong)."
         dropdown:
-          macros: "Macros"
+          macros: "Macro-macro"
           chose_macro: "Pilih macro"
         toc: "Jadual kandungan"
-        toolbar_help: "Klik untuk memilih widget dan tunjuk toolbar. Klik dua kali untuk sunting widget."
+        toolbar_help: "Klik untuk memilih widget dan tunjuk toolbar. Klik dua kali untuk sunting widget"
         wiki_page_include:
           button: "Sertakan kandungan halaman wiki lain"
           text: "[Pengguna sementara] Termasuk halaman wiki"
           page: "Halaman wiki"
           not_set: "(Halaman belum ditetapkan lagi)"
           hint: |
-            Termasuk kandungan halaman wiki lain dengan menyatakan tajuk atau slugnya.
+            Sertakan kandungan halaman wiki lain dengan menyatakan tajuk atau slugnya.
             Anda boleh sertakan halaman wiki projek lain dengan mengasingkan mereka menggunakan kolon seperti contoh berikut.
         work_package_button:
           button: "Masukkan butang cipta pakej kerja"
           type: "Jenis pakej kerja "
           button_style: "Guna gaya butang"
-          button_style_hint: "Pilihan: Tanda untuk membuat macro muncul sebagai butang, bukan sebagai pautan."
+          button_style_hint: "Opsyenal: Tanda untuk membuat macro muncul sebagai butang, bukan sebagai pautan."
           without_type: "Cipta pakej kerja"
           with_type: "Cipta pakej kerja (Jenis: %{typename})"
         embedded_table:
-          button: "Gabungkan rajah pakej kerja "
+          button: "Sematkan jadual pakej kerja "
           text: "[Sementara] Jadual pakej kerja yang tersemat"
         embedded_calendar:
           text: "[Sementara] Kalendar yang tersemat"
     admin:
       type_form:
-        custom_field: "Medan tersuai"
+        custom_field: "Ruang tersuai"
         inactive: "Tidak aktif"
-        drag_to_activate: "Tarik medan dari sini untuk mengaktifkan mereka"
+        drag_to_activate: "Tarik ruangan dari sini untuk mengaktifkan mereka"
         add_group: "Tambah kumpulan atribut"
         add_table: "Tambah jadual pakej kerja yang berkaitan"
-        edit_query: "Sunting pertanyaan"
+        edit_query: "Edit pertanyaan"
         new_group: "Kumpulan baharu"
         reset_to_defaults: "Set semula ke default"
       enterprise:
         text_reprieve_days_left: "%{days} hari sehingga tamat tempoh kelonggaran"
         text_expired: "tamat tempoh"
         trial:
-          confirmation: "Konformasi alamat e-mel "
+          confirmation: "Pengesahan alamat e-mel "
           confirmation_info: >
-            Kami menghantar anda satu e-mel pada %{date} kepada %{email}. Sila semak peti masuk anda dan klik pautan konformasi yang disediakan untuk memulakan percubaan 14 hari anda.
+            Kami menghantar anda satu e-mel pada %{date} kepada %{email}. Sila semak peti masuk anda dan klik pautan pengesahan yang disediakan untuk memulakan percubaan 14 hari anda.
           form:
             general_consent: >
               Saya bersetuju dengan <a target="_blank" href="%{link_terms}">syarat-syarat perkhidmatan</a> dan <a target="_blank" href="%{link_privacy}">polisi privasi</a>.
@@ -218,7 +218,7 @@ ms:
             label_maximum_users: "Pengguna aktif maksimum"
             label_starts_at: "Mula pada"
             label_expires_at: "Tamat tempoh pada"
-            receive_newsletter: Saya ingin menerima <a target="_blank" href="%{link}">surat berita</a> OpenProject.
+            receive_newsletter: Saya ingin menerima <a target="_blank" href="%{link}">buletin</a> OpenProject.
             taken_domain: Hanya boleh satu percubaan aktif setiap domain.
             domain_mismatch: Permintaan nama hos semasa tidak sepadan dengan nama hos yang dikonfigurasikan. Sila semak tetapan sistem anda sekali lagi.
             taken_email: Setiap pengguna hanya boleh mencipta satu percubaan.
@@ -245,7 +245,7 @@ ms:
             installation: "Bantuan pemasangan"
             installation_text: "Jurutera perisian berpengalaman membimbing anda melalui pemasangan lengkap dan proses persediaan dalam infrastruktur anda sendiri."
             premium_features: "Tambahan Enterprise"
-            premium_features_text: "Papan Agile, tema tersuai dan logo, graf, aliran kerja yang cerdas dengan tindakan tersuai, carian teks penuh untuk lampiran pakej kerja dan pelbagai pilihan medan tersuai."
+            premium_features_text: "Board Agile, tema tersuai dan logo, graf, aliran kerja yang cerdas dengan tindakan tersuai, carian teks penuh untuk lampiran pakej kerja dan pelbagai pilihan medan tersuai."
             professional_support: "Bantuan profesional"
             professional_support_text: "Dapatkan sokongan yang boleh dipercayai, sentuhan tinggi daripada jurutera sokongan kanan dengan pengetahuan pakar tentang menjalankan OpenProject dalam persekitaran perniagaan yang kritikal."
           button_start_trial: "Mulakan percubaan percuma"
@@ -253,7 +253,7 @@ ms:
           button_contact_us: "Hubungi kami untuk demo"
           button_book_now: "Tempah sekarang"
           confidence: >
-            Kami memberikan keyakinan dalam perisian pengurusan projek kelas enterprise yang diuji dan disokong - dengan Sumber Terbuka dan minda yang terbuka
+            Kami memberikan keyakinan dalam perisian pengurusan projek kelas enterprise yang diuji dan disokong - dengan Sumber Terbuka dan minda yang terbuka.
           link_quote: "Dapatkan sebut harga"
           more_info: "Maklumat lanjut"
           text: >
@@ -287,7 +287,7 @@ ms:
     enumeration_doc_categories: "Kategori dokumen"
     enumeration_work_package_priorities: "Keutamaan pakej kerja"
     filter:
-      more_values_not_shown: "Terdapat %{total} lagi hasil, cari untuk menapis hasil."
+      more_values_not_shown: "Terdapat %{total} lagi hasil, cari untuk menyaring hasil."
       description:
         text_open_filter: "Buka penyaring ini dengan 'ALT' dan kekunci anak panah."
         text_close_filter: "Untuk memilih satu kemasukan, tinggalkan fokus, contohnya dengan menekan enter. Untuk keluar tanpa penyaringan, pilih kemasukan pertama (kosong)."
@@ -318,7 +318,7 @@ ms:
       filter:
         noneSelection: "(tiada)"
       selection_mode:
-        notification: "Klik pada mana-mana pakej kerja yang ditekankan untuk cipta perhubungan. Tekan escape untuk batalkan."
+        notification: "Klik pada mana-mana pakej kerja yang diserlahkan untuk cipta perhubungan. Tekan escape untuk batalkan."
       zoom:
         in: "Zum masuk"
         out: "Zum keluar"
@@ -335,7 +335,7 @@ ms:
         button_export: "Eksport"
         column_widths:
           narrow: "Kecilkan"
-          medium: "Pertengahan"
+          medium: "Sederhana"
           wide: "Luas"
           very_wide: "Sangat luas"
         options:
@@ -356,15 +356,15 @@ ms:
     homescreen:
       blocks:
         new_features:
-          text_new_features: "Baca berkenaan ciri-ciri baharu dan kemas kini produk."
-          learn_about: "Ketahui lebih lanjut mengenai ciri-ciri baru."
+          text_new_features: "Baca berkenaan fitur-fitur baharu dan kemas kini produk."
+          learn_about: "Ketahui lebih lanjut mengenai fitur-fitur baharu."
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           "14_0":
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                Pelepasan ini mengandungi pelbagai ciri baru dan penambahbaikan: <br> <ul class="%{list_styling_class}"> <li>Implementasi pelaporan kemajuan merentasi hierarki pakej kerja.</li> <li>Menguruskan atribut projek secara berstruktur di laman gambaran keseluruhan projek.</li> <li>Pandangan medan tersuai yang dipermudahkan dalam senarai projek dan gambaran keseluruhan projek.</li> <li>Tajuk halaman yang bersatu dengan reka bentuk Primer yang lancar.</li> <li>Meningkatkan mesyuarat dengan ciri-ciri baru seperti muat naik lampiran, bertanggungjawab, dan sejarah mesyuarat.</li> <li>Pemberitahuan automatik untuk storan fail yang tidak sihat, dan mendapatkan kawalan dengan pilihan toggle.</li> <li>Salin folder projek yang dikelola secara automatik untuk OneDrive/SharePoint semasa menyalin projek.</li> <li>Minta pentadbir untuk mengeluarkan perkongsian pada pakej kerja apabila membatalkan keahlian projek.</li> <li>Meningkatkan perancangan dengan mod paparan 4 dan 8 minggu dalam pelan pasukan.</li> </ul>
+                Pelepasan ini mengandungi pelbagai fitur baru dan penambahbaikan: <br> <ul class="%{list_styling_class}"> <li>Implementasi pelaporan kemajuan merentasi hierarki pakej kerja.</li> <li>Menguruskan atribut projek secara berstruktur di laman gambaran keseluruhan projek.</li> <li>Pandangan medan tersuai yang dipermudahkan dalam senarai projek dan gambaran keseluruhan projek.</li> <li>Tajuk halaman yang bersatu dengan reka bentuk Primer yang lancar.</li> <li>Meningkatkan mesyuarat dengan ciri-ciri baru seperti muat naik lampiran, bertanggungjawab, dan sejarah mesyuarat.</li> <li>Pemberitahuan automatik untuk storan fail yang tidak sihat, dan mendapatkan kawalan dengan pilihan toggle.</li> <li>Salin folder projek yang dikendali secara automatik untuk OneDrive/SharePoint semasa menyalin projek.</li> <li>Minta pentadbir untuk mengeluarkan perkongsian pada pakej kerja apabila membatalkan keahlian projek.</li> <li>Meningkatkan perancangan dengan mod paparan 4 dan 8 minggu dalam pelan pasukan.</li> </ul>
     ical_sharing_modal:
       title: "Langgan ke kalendar"
       inital_setup_error_message: "Ralat berlaku ketika sedang mengambil data."
@@ -397,11 +397,11 @@ ms:
     label_author: "Pengarang: %{user}"
     label_avatar: "Avatar"
     label_between: "antara"
-    label_board: "Papan"
+    label_board: "Board"
     label_board_locked: "Terkunci"
-    label_board_plural: "Papan-papan"
+    label_board_plural: "Board"
     label_board_sticky: "Pelekat"
-    label_change: "Ubah  "
+    label_change: "Tukar"
     label_create: "Cipta"
     label_create_work_package: "Cipta pakej kerja baharu"
     label_created_by: "Dicipta oleh"
@@ -412,24 +412,24 @@ ms:
     label_description: "Penerangan"
     label_details: "Butiran"
     label_display: "Paparan"
-    label_cancel_comment: "Batal komen"
+    label_cancel_comment: "Batalkan komen"
     label_closed_work_packages: "ditutup"
     label_collapse: "Sembunyikan"
     label_collapsed: "disembunyikan"
     label_collapse_all: "Sembunyikan semua"
     label_comment: "Komen"
     label_committed_at: "%{committed_revision_link} pada %{date}"
-    label_committed_link: "Semakan yang dilakukan %{revision_identifier}"
+    label_committed_link: "semakan yang dilakukan %{revision_identifier}"
     label_contains: "mengandungi"
     label_created_on: "dicipta pada"
-    label_edit_comment: "Sunting komen ini"
-    label_edit_status: "Sunting status pakej kerja tersebut"
+    label_edit_comment: "Edit komen ini"
+    label_edit_status: "Edit status pakej kerja tersebut"
     label_email: "E-mel"
     label_equals: "adalah"
-    label_expand: "Kembangkan"
-    label_expanded: "dibesarkan"
-    label_expand_all: "Kembangkan semua"
-    label_expand_project_menu: "Kembangkan menu projek"
+    label_expand: "Besarkan"
+    label_expanded: "dikembangkan"
+    label_expand_all: "Besarkan semua"
+    label_expand_project_menu: "Besarkan menu projek"
     label_export: "Eksport"
     label_export_preparing: "Eksport sedang disediakan dan akan dimuat turun sebentar lagi."
     label_favorites: "Kegemaran"
@@ -474,7 +474,7 @@ ms:
     label_no_value: "Tiada nilai"
     label_none: "tiada"
     label_not_contains: "tidak mengandungi"
-    label_not_equals: "adalah tidak"
+    label_not_equals: "adalah bukan"
     label_on: "pada"
     label_open_menu: "Buka menu"
     label_open_context_menu: "Buka menu konteks"
@@ -502,7 +502,7 @@ ms:
     label_select_watcher: "Pilih pemerhati..."
     label_selected_filter_list: "Penyaring yang dipilih"
     label_show_attributes: "Tunjuk semua atribut"
-    label_show_in_menu: "Tunjuk paparan dalam menu"
+    label_show_in_menu: "Paparkan paparan dalam menu"
     label_sort_by: "Susun mengikut"
     label_sorted_by: "disusun mengikut"
     label_sort_higher: "Alihkan ke atas"
@@ -532,30 +532,30 @@ ms:
     label_work_package: "Pakej kerja"
     label_work_package_parent: "Pakej kerja induk"
     label_work_package_plural: "Pakej kerja"
-    label_watch: "Lihat"
-    label_watch_work_package: "Lihat pakej kerja"
+    label_watch: "Perhati"
+    label_watch_work_package: "Perhatikan pakej kerja"
     label_watcher_added_successfully: "Pemerhati berjaya ditambah!"
     label_watcher_deleted_successfully: "Pemerhati berjaya dikeluarkan!"
     label_work_package_details_you_are_here: "Anda berada di tab %{tab} untuk %{type} %{subject}."
     label_work_package_context_menu: "Menu konteks pakej kerja"
-    label_unwatch: "Berhenti memerhati"
+    label_unwatch: "Berhenti memerhatikan"
     label_unwatch_work_package: "Berhenti memerhati pakej kerja"
     label_uploaded_by: "Dimuat naik oleh"
-    label_default_queries: "Asas"
+    label_default_queries: "Default"
     label_starred_queries: "Kegemaran"
     label_global_queries: "Awam"
     label_custom_queries: "Peribadi"
     label_columns: "Lajur"
     label_attachments: Lampiran
-    label_drop_files: ""
+    label_drop_files: "Letakkan fail disini untuk lampirkan fail."
     label_drop_or_click_files: "Letakkan fail disini atau klik untuk melampirkan fail."
-    label_drop_folders_hint: Anda tidak boleh memuat naik folder sebagaisatulampiran. Sila pilih fail tunggal.
+    label_drop_folders_hint: Anda tidak boleh memuat naik folder sebagai satu lampiran. Sila pilih fail tunggal.
     label_add_attachments: "Lampirkan Fail"
     label_formattable_attachment_hint: "Lampir dan pautkan fail dengan meletakkan pada ruang ini atau menampal dari papan klip."
     label_remove_file: "Padam %{fileName}"
     label_remove_watcher: "Keluarkan pemerhati %{name}"
-    label_remove_all_files: Padam fail tersebut
-    label_add_description: "Tambah penerangan untuk %{file}"
+    label_remove_all_files: Padam semua fail
+    label_add_description: "Tambah deskripsi untuk %{file}"
     label_upload_notification: "Sedang memuat naik fail..."
     label_work_package_upload_notification: "Sedang memuat naik fail untuk Pakej kerja #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} ditambah oleh %{author}"
@@ -615,16 +615,16 @@ ms:
         watched: "pemerhati"
         assigned: "wakil"
         responsible: "bertanggungjawab"
-        created: "telah cipta"
+        created: "telah dicipta"
         scheduled: "dijadualkan"
         commented: "telah komen"
         processed: "diproses"
-        prioritized: "telah utamakan"
+        prioritized: "telah diutamakan"
         dateAlert: "Peringatan tarikh"
-        shared: "dikongsi"
+        shared: "telah dikongsi"
       date_alerts:
         milestone_date: "Tarikh pencapaian"
-        overdue: "Tertunggak"
+        overdue: "Tertangguh"
         overdue_since: "sejak %{difference_in_days}"
         property_today: "adalah hari ini"
         property_is: "adalah dalam %{difference_in_days}"

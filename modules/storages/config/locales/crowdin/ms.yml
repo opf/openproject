@@ -8,7 +8,7 @@ ms:
         drive: ID Pemacu
         host: Hos
         name: Nama
-        provider_type: Jenis provider
+        provider_type: Jenis penyedia
         tenant: ID Direktori (penyewa)
     errors:
       messages:
@@ -21,34 +21,34 @@ ms:
         storages/project_storage:
           attributes:
             project_folder_mode:
-              mode_unavailable: tidak tersedia untuk simpanan ini.
+              mode_unavailable: tidak tersedia untuk storan ini.
         storages/storage:
           attributes:
             host:
               authorization_header_missing: belum disediakan sepenuhnya. Contoh Nextcloud tidak menerima pengepala "Dibenarkan" yang diperlukan untuk token Bearer, berdasarkan kebenaran permintaan API. Sila periksa dua kali server konfigurasi HTTP anda dengan teliti.
               cannot_be_connected_to: tidak boleh disambungkan.
-              minimal_nextcloud_version_unmet: tidak memenuhi keperluan versi minimum (mesti Nextcloud 23 atau lebih tinggi)
-              not_nextcloud_server: adalah bukan server Nextcloud
+              minimal_nextcloud_version_unmet: tidak memenuhi keperluan versi minimum (haruslah Nextcloud 23 atau lebih tinggi)
+              not_nextcloud_server: ialah bukan server Nextcloud
               op_application_not_installed: kelihatan tidak mempunyai aplikasi "Integrasi OpenProject" yang terpasang. Sila pasang terlebih dahulu dan cuba sekali lagi.
             password:
               invalid_password: tidak sah.
               unknown_error: tidak dapat disahkan. Sila periksa sambungan storan anda dan cuba lagi.
     models:
       file_link: Fail
-      storages/storage: Simpanan
+      storages/storage: Storan
   api_v3:
     errors:
-      too_many_elements_created_at_once: Terlalu banyak unsur dicipta dalam satu masa. Dijangka %{max} paling banyak, mendapat %{actual}.
-  external_file_storages: Simpanan fail luaran
-  permission_create_files: 'External Storage: Cipta fail'
-  permission_delete_files: 'External Storage: Padam fail'
+      too_many_elements_created_at_once: Terlalu banyak elemen dicipta dalam satu masa. Dijangka %{max} paling banyak, mendapat %{actual}.
+  external_file_storages: Storan fail luaran
+  permission_create_files: 'Storan Luaran: Cipta fail'
+  permission_delete_files: 'Storan Luaran: Padam fail'
   permission_header_for_project_module_storages: Folder projek yang dikendalikan secara automatik
   permission_manage_file_links: Urus pautan fail
-  permission_manage_storages_in_project: Urus simpanan fail dalam projek
-  permission_read_files: 'Simpanan Luaran: Baca fail'
-  permission_share_files: 'Simpanan Luaran: Kongsi fail'
-  permission_view_file_links: Papar pautan fail
-  permission_write_files: 'Simpanan Luaran: Tulis fail'
+  permission_manage_storages_in_project: Urus storan fail dalam projek
+  permission_read_files: 'Storan Luaran: Baca fail'
+  permission_share_files: 'Storan Luaran: Kongsi fail'
+  permission_view_file_links: Lihat pautan fail
+  permission_write_files: 'Storan Luaran: Tulis fail'
   project_module_storages: Fail-fail
   storages:
     buttons:
@@ -62,22 +62,22 @@ ms:
     configuration_checks:
       oauth_client_incomplete:
         nextcloud: Benarkan OpenProject untuk mengakses data Nextcloud menggunakan OAuth.
-        one_drive: Benarkan OpenProject untuk mengakses data Azure menggunakan OAuth untuk menyambung OneDrive/Sharepoint.
+        one_drive: Benarkan OpenProject untuk mengakses data Azure menggunakan OAuth untuk menyambung ke OneDrive/Sharepoint.
       redirect_uri_incomplete:
-        one_drive: Lengkapkan setup dengan pengalihan semula URI yang betul.
-    confirm_replace_oauth_application: Tindakan ini akan menetapkan semula kelayakan OAuth semasa. Selepas mengesahkan, anda perlu memasukkan semula kelayakan di pembekal simpanan dan semua pengguna jauh perlu membenarkan OpenProject sekali lagi. Adakah anda pasti anda mahu teruskan?
-    confirm_replace_oauth_client: Tindakan ini akan menetapkan semula kelayakan OAuth semasa. Selepas mengesahkan, anda perlu memasukkan semula kelayakan di pembekal simpanan dan semua pengguna jauh perlu membenarkan %{provider_type} sekali lagi. Adakah anda pasti anda mahu teruskan?
+        one_drive: Lengkapkan pemasangan dengan pengalihan semula URI yang betul.
+    confirm_replace_oauth_application: Tindakan ini akan menetapkan semula kelayakan OAuth semasa. Selepas mengesahkan, anda perlu memasukkan semula kelayakan di pembekal storan dan semua pengguna jauh perlu membenarkan OpenProject sekali lagi. Adakah anda pasti anda mahu teruskan?
+    confirm_replace_oauth_client: Tindakan ini akan menetapkan semula kelayakan OAuth semasa. Selepas mengesahkan, anda perlu memasukkan semula kelayakan di pembekal storan dan semua pengguna jauh perlu membenarkan %{provider_type} sekali lagi. Adakah anda pasti anda mahu teruskan?
     delete_warning:
-      input_delete_confirmation: Masukkan nama fail penyimpanan %{file_storage} untuk mengesahkan pembuangan.
-      irreversible_notice: Memadam fail penyimpanan adalah tindakan yang tidak dapat dipulihkan.
-      project_storage: 'Adakah anda pasti anda ingin menghapuskan %{file_storage} dari projek ini? Untuk mengesahkan tindakan ini sila perkenalkan nama penyimpanan di dalam medan di bawah, ini akan:'
-      project_storage_delete_result_1: Padam semua pautan dari pakej kerja projek ini ke fail dan folder penyimpanan tersebut.
-      project_storage_delete_result_2: Sekiranya penyimpanan ini mempunyai folder projek yang dikendalikan secara automatik, folder ini beserta failnya akan dipadamkan selamanya.
-      storage: 'Adakah anda pasti anda ingin menghapuskan %{file_storage}? Untuk mengesahkan tindakan ini sila perkenalkan nama penyimpanan di dalam ruang di bawah, ini akan:'
-      storage_delete_result_1: Padam semua setup penyimpanan untuk semua projek yang menggunakan penyimpanan ini.
-      storage_delete_result_2: Padam semua pautan dari pakej kerja semua projek ke fail dan folder penyimpanan tersebut.
-      storage_delete_result_3: Sekiranya penyimpanan ini mempunyai folder projek yang dikendalikan secara automatik, folder tersebut beserta fail dalam kandungannya akan dipadamkan selamanya.
-    error_invalid_provider_type: Sila pilih pembekal penyimpanan yang sah.
+      input_delete_confirmation: Masukkan nama fail storan %{file_storage} untuk mengesahkan pembuangan.
+      irreversible_notice: Memadam fail storan ialah tindakan yang tidak dapat dipulihkan.
+      project_storage: 'Adakah anda pasti anda ingin memadamkan %{file_storage} dari projek ini? Untuk mengesahkan tindakan ini sila perkenalkan nama storan di dalam ruangan di bawah, ini akan:'
+      project_storage_delete_result_1: Padam semua pautan dari pakej kerja projek ini ke fail dan folder storan tersebut.
+      project_storage_delete_result_2: Sekiranya storan ini mempunyai folder projek yang dikendalikan secara automatik, folder ini beserta failnya akan dipadamkan selamanya.
+      storage: 'Adakah anda pasti anda ingin memadamkan %{file_storage}? Untuk mengesahkan tindakan ini sila perkenalkan nama storan di dalam ruang di bawah, ini akan:'
+      storage_delete_result_1: Padam semua pemasangan s untuktoran semua projek yang menggunakan storan ini.
+      storage_delete_result_2: Padam semua pautan dari pakej kerja semua projek ke fail dan folder storan tersebut.
+      storage_delete_result_3: Sekiranya storan ini mempunyai folder projek yang dikendalikan secara automatik, folder tersebut beserta fail dalam kandungannya akan dipadamkan selamanya.
+    error_invalid_provider_type: Sila pilih pembekal storan yang sah.
     file_storage_view:
       access_management:
         automatic_management: Akses dan folder yang diuruskan secara automatik
@@ -95,7 +95,7 @@ ms:
       one_drive_oauth: OAuth Azure
       openproject_oauth: OAuth OpenProject
       project_folders: Folder projek
-      redirect_uri: Pengalihan URI
+      redirect_uri: Pengalihan semula URI
       storage_provider: Pembekal penyimpanan
     health:
       checked: Terakhir disemak %{datetime}
@@ -106,8 +106,8 @@ ms:
       subtitle: Folder projek yang dikendalikan secara automatik
       title: Status kesihatan
     health_email_notifications:
-      description_subscribed: Semua pentadbir menerima pemberitahuan e-mel status kesihatan untuk simpanan ini.
-      description_unsubscribed: Pemberitahuan e-mel status kesihatan untuk simpanan ini telah ditutup untuk semua pentadbir.
+      description_subscribed: Semua pentadbir menerima pemberitahuan e-mel status kesihatan untuk storan ini.
+      description_unsubscribed: Pemberitahuan e-mel status kesihatan untuk storan ini telah ditutup untuk semua pentadbir.
       error_could_not_be_saved: Tetapan pemberitahuan e-mel tidak dapat disimpan. Sila cuba lagi.
       subscribe: Langgan
       title: Pemberitahuan e-mel
@@ -115,22 +115,22 @@ ms:
     help_texts:
       project_folder: Folder projek adalah folder asal untuk muat naik fail bagi projek ini. Pengguna masih boleh muat naik fail ke lokasi lain.
     instructions:
-      all_available_storages_already_added: Semua simpanan yang tersedia sudah ditambah ke projek ini.
+      all_available_storages_already_added: Semua storan yang tersedia sudah ditambah ke projek ini.
       automatic_folder: Ini akan mencipta folder pangkal untuk projek ini dan kendalikan akses kebenaran kepada setiap ahli projek secara automatik.
       copy_from: Salin nilai ini dari
-      empty_project_folder_validation: Memilih folder adalah wajib untuk meneruskan.
+      empty_project_folder_validation: Memilih folder ialah wajib untuk meneruskan.
       existing_manual_folder: Anda boleh menetapkan folder sedia ada sebagai folder pangkal untuk projek ini. Walau bagaimanapun, kebenarannya bukan dikendalikan secara automatik, ia perlukan pentadbir untuk pastikan pengguna yang berkaitan mempunyai akses secara manual. Folder yang dipilih boleh digunakan oleh pelbagai projek.
-      host: Sila tambah alamat hos simpanan anda, termasuklah https://. Ia perlulah mengandungi kurang daripada 255 patah perkataan.
+      host: Sila tambah alamat hos storan anda, termasuklah https://. Ia perlulah mengandungi kurang daripada 255 patah perkataan.
       managed_project_folders_application_password_caption: 'Benarkan folder yang dikendalikan secara automatic dengan menyalin nilai ini daripada: %{provider_type_link}.'
-      name: Berikan nama kepada simpanan anda, supaya pengguna boleh membezakan dengan beberapa simpanan yang lain.
-      new_storage: Baca dokumentasi kami tentang <a target='_blank' href='%{provider_link}'>menubuhkan sebuah%{provider_name}simpanan fail</a>integrasi untuk maklumat selanjutnya.
+      name: Berikan nama kepada storan anda, supaya pengguna boleh membezakan dengan beberapa storan yang lain.
+      new_storage: Baca dokumentasi kami tentang <a target='_blank' href='%{provider_link}'>menubuhkan sebuah%{provider_name}storan fail</a>integrasi untuk maklumat selanjutnya.
       nextcloud:
         application_link_text: aplikasi "Intergrasi OpenProject"
         integration: Pentadbiran Nextcloud / OpenProject
         oauth_configuration: Salin nilai-nilai ini daripada %{application_link_text}.
         provider_configuration: Sila pastikan anda mempunyai kelebihan pentadbiran di contoh Nextcloud anda, dan %{application_link_text} telah dimuat naik sebelum penyediaan.
       no_specific_folder: Secara default, setiap pengguna akan bermula di folder utama mereka apabila ingin memuat naik fail.
-      no_storage_set_up: Tiada fail simpanan yang disediakan lagi.
+      no_storage_set_up: Tiada file storan yang disediakan lagi.
       not_logged_into_storage: Untuk pilih folder projek, sila log masuk dahulu
       oauth_application_details: Nilai rahsia pelanggan tidak akan dapat untuk diakses semula setelah menutup laman ini. Sila salin nilai-nilai ini ke %{oauth_application_details_link}.
       oauth_application_details_link_text: Tetapan Integrasi Nextcloud OpenProject
@@ -147,25 +147,25 @@ ms:
         provider_configuration: Sila pastikan anda mempunyai hak pentadbiran dalam %{application_link_text} atau hubungi pentadbir Microsoft anda sebelum membuat penyediaan. Anda juga perlu mendaftar aplikasi Azure atau menggunakan yang sedia ada untuk pengesahan di portal.
         tenant_id: Sila salin ID Direktori (penyewa) dari aplikasi yang diingini dan pendaftaran aplikasi di %{application_link_text}.
         tenant_id_placeholder: Nama atau UUID
-      setting_up_additional_storages: Untuk menyediakan penyimpanan fail tambahan, sila kunjungi
-      setting_up_additional_storages_non_admin: Para pentadbir boleh menetapkan penyimpanan fail tambahan di Pentadbiran / Penyimpanan Fail.
-      setting_up_storages: Untuk menyediakan penyimpanan fail, sila kunjungi
+      setting_up_additional_storages: Untuk menyediakan storan fail tambahan, sila kunjungi
+      setting_up_additional_storages_non_admin: Para pentadbir boleh menetapkan storan fail tambahan di Pentadbiran / Storan Fail.
+      setting_up_storages: Untuk penyediaan storan fail, sila kunjungi
       setting_up_storages_non_admin: Para pentadbir boleh menyediakan penyimpanan fail di Administration / File Storages.
       type: 'Sila pastikan anda mempunyai hak keistimewaan pentadbir di, contohnya, Nextcloud, dan mempunyai aplikasi berikut dipasang sebelum membuat penyediaan:'
       type_link_text: "\"Integrasi OpenProject\""
     label_active: Aktif
-    label_add_new_storage: Tambah simpanan baru
+    label_add_new_storage: Tambah storan baru
     label_automatic_folder: Folder baru dengan kebenaran yang dikendalikan secara automatik
     label_completed: Selesai
     label_creation_time: Masa penciptaan
     label_creator: Pencipta
-    label_delete_storage: Padam simpanan
-    label_edit_storage: Edit simpanan
-    label_edit_storage_access_management: Edit pengurusan akses simpanan
-    label_edit_storage_automatically_managed_folders: Edit simpanan folder yang dikendalikan secara automatik
-    label_edit_storage_host: Edit hos penyimpanan
+    label_delete_storage: Padam storan
+    label_edit_storage: Edit storan
+    label_edit_storage_access_management: Edit pengurusan akses storan
+    label_edit_storage_automatically_managed_folders: Edit storan folder yang dikendalikan secara automatik
+    label_edit_storage_host: Edit hos storan
     label_existing_manual_folder: Folder sedia ada dengan kebenaran yang dikendalikan secara manual
-    label_file_storage: Penyimpanan fail
+    label_file_storage: Storan fail
     label_host: URL Hos
     label_inactive: Tidak aktif
     label_incomplete: Tidak lengkap
@@ -174,7 +174,7 @@ ms:
       automatically_managed_folders: Folder yang dikendalikan secara automatik
     label_name: Nama
     label_new_file_storage: Storan %{provider} baharu
-    label_new_storage: Simpanan baru
+    label_new_storage: Storan baru
     label_no_selected_folder: Tiada folder yang dipilih
     label_no_specific_folder: Tiada folder spesifik
     label_oauth_client_id: OAuth ID Pelanggan
@@ -185,16 +185,16 @@ ms:
     label_redirect_uri: URI Alih Semula
     label_show_storage_redirect_uri: Paparkan URI alih semula
     label_status: Status
-    label_storage: Penyimpanan
+    label_storage: Storan
     label_uri: URI
     member_connection_status:
       connected: Disambungkan
-      connected_no_permissions: Peranan pengguna tidak mempunyai kebenaran simpanan
-      not_connected: Tidak bersambung. Pengguna perlu log masuk ke dalam simpanan melalui %{link} berikut.
+      connected_no_permissions: Peranan pengguna tidak mempunyai kebenaran storan
+      not_connected: Tidak bersambung. Pengguna perlu log masuk ke dalam storan melalui %{link} berikut.
     members_no_results: Tiada ahli untuk dipaparkan.
-    no_results: Masih tiada lagi simpanan yang disediakan.
+    no_results: Masih belum ada storan yang disediakan lagi.
     notice_successful_storage_connection: |-
-      Penyimpanan berjaya disambungkan! Ingat untuk mengaktifkan modul dan penyimpanan spesifik dalam tetapan projek
+      Storan berjaya disambungkan! Ingat untuk mengaktifkan modul dan storan spesifik dalam tetapan projek
       setiap projek yang hendak digunakan.
     oauth_grant_nudge_modal:
       access_granted: Akses diberikan
@@ -208,15 +208,15 @@ ms:
       title: Satu langkah lagi...
     open_project_storage_modal:
       success:
-        subtitle: Anda sedang dialihkan
+        subtitle: Anda sedang dialihkan semula
         title: Penyediaan integrasi selesai
       waiting:
         subtitle: Sebentar ya, ini mungkin akan memerlukan sedikit masa...
         title: Kami sedang menyediakan kebenaran anda di folder projek.
     page_titles:
       file_storages:
-        delete: Padamkan simpanan fail
-        subtitle: Tambah simpanan fail luar untuk memuat naik, pautkan dan kendalikan fail di pakej kerja.
+        delete: Padamkan storan fail
+        subtitle: Tambah storan fail luaran untuk memuat naik, pautkan dan kendalikan fail di pakej kerja.
       managed_project_folders:
         subtitle: |-
           Biarkan OpenProject mencipta folder mengikut projek secara automatik. Ini dicadangkan kerana ia memastikan setiap ahli
@@ -224,16 +224,16 @@ ms:
         subtitle_short: Biarkan OpenProject mencipta folder mengikut projek secara automatik.
         title: Folder projek yang dikendalikan secara automatik
       project_settings:
-        delete: Padamkan simpanan fail
-        edit: Edit simpanan fail ke projek ini
+        delete: Padamkan storan fail
+        edit: Edit storan fail ke projek ini
         members_connection_status: Status sambungan ahli
-        new: Tambah simpanan fail ke projek ini
+        new: Tambah storan fail ke projek ini
       project_storage_members:
         subtitle: Semak status sambungan untuk simpanan %{storage_name_link} bagi semua ahli projek.
         title: Status sambungan ahli
     permission_header_explanation: 'Kebenaran fail di storan luaran hanya digunakan pada folder dan fail dalam folder projek yang dikendalikan secara automatik. Perhatikan bahawa bukan semua kebenaran fail disokong oleh semua penyedia storan. Sila semak dokumentasi di <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>kebenaran storan fail</a>untuk maklumat lanjut.'
     provider_types:
-      label: Jenis provider
+      label: Jenis pembekal
       nextcloud:
         label_oauth_client_id: ID Pelanggan OAuth Nextcloud
         label_oauth_client_secret: Rahsia Klien OAuth Nextcloud
@@ -245,12 +245,12 @@ ms:
         name: OneDrive/SharePoint
         name_placeholder: cth. OneDrive
     show_attachments_toggle:
-      description: Menyahaktifkan pilihan ini akan menyorokkan senarai lampiran sahaja. Fail yang dimuat naik dengan bantuan editor teks kaya tetap akan dimuat naik ke simpanan dalaman lampiran.
+      description: Menyahaktifkan pilihan ini akan menyorokkan senarai lampiran sahaja. Fail yang dimuat naik dengan bantuan editor teks kaya tetap akan dimuat naik ke storan dalaman lampiran.
       label: Paparkan lampiran di tab fail pakej kerja
     storage_list_blank_slate:
-      description: Tambah simpanan untuk melihatnya di sini.
-      heading: Anda masih belum ada sebarang simpanan.
+      description: Tambah storan untuk melihatnya di sini.
+      heading: Anda masih belum ada sebarang storan.
     upsale:
       description: |-
-        Mengintegrasikan OneDrive/SharePoint anda sebagai simpanan fail dengan OpenProject. Muat naik fail dan pautkan terus ke pakej kerja dalam projek.
+        Mengintegrasikan OneDrive/SharePoint anda sebagai storan fail dengan OpenProject. Muat naik fail dan pautkan terus ke pakej kerja dalam projek.
       title: Integrasi OneDrive/SharePoint

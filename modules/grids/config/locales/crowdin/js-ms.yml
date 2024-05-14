@@ -10,7 +10,7 @@ ms:
       widgets:
         missing_permission: "Anda tidak mempunyai kebenaran yang diperlukan untuk melihat widget ini."
         custom_text:
-          title: 'Teks custom'
+          title: 'Teks tersuai'
         documents:
           title: 'Dokumen'
           no_results: 'Tiada dokumen lagi.'
@@ -23,7 +23,7 @@ ms:
         news:
           title: 'Berita'
           at: 'pada'
-          no_results: 'Tiada perkara baru untuk dilaporkan.'
+          no_results: 'Tiada perkara baharu untuk dilaporkan.'
         project_description:
           title: 'Deskripsi projek'
           no_results: "Tiada deskripsi yang tertulis lagi. Deskripsi boleh diberikan di 'Tetapan Projek'."
@@ -36,7 +36,7 @@ ms:
           on_track: 'Ikut jadual'
           off_track: 'Lari jadual'
           at_risk: 'Berisiko'
-          not_set: 'Tidak ditetapkan'
+          not_set: 'Belum ditetapkan'
           finished: 'Selesai'
           discontinued: 'Dihentikan'
         subprojects:
@@ -67,4 +67,4 @@ ms:
           title: 'Kalendar'
         work_packages_overview:
           title: 'Gambaran keseluruhan pakej kerja'
-          placeholder: 'Tekan untuk menyunting ...'
+          placeholder: 'Klik untuk edit ...'

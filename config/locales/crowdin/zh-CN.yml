@@ -1978,7 +1978,7 @@ zh-CN:
   label_link_url: "链接（URL）"
   label_list: "列表"
   label_loading: "正在加载..."
-  label_lock_user: "锁住用户"
+  label_lock_user: "锁定用户"
   label_logged_as: "登录用户名"
   label_login: "登录"
   label_custom_logo: "自定义徽标"

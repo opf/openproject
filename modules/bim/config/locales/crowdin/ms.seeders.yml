@@ -47,7 +47,7 @@ ms:
           name: Konflik
       global_queries:
         item_0:
-          name: 'Jadual tetap: Kanak-kanak'
+          name: 'Jadual yang telah disematkan: Kanak-kanak'
       type_configuration:
         item_0:
           form_configuration:
@@ -450,7 +450,7 @@ ms:
                     9.  _Pemangkin kerja? Cipta satu panel baharu:_ → Pergi ke [Board]({{opSetting:base_url}}/projects/demo-bim-project/boards)
 
                     Di sini anda akan menemui [Panduan pengguna](https://www.openproject.org/docs/user-guide/) kami.
-                    Sila beritahu kami untuk sebarang soalan atau bantuan. Hubungi kami: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Sila beritahu kami untuk sebarang soalan atau bantuan. Hubungi kami: [support\[at\]openproject.com](mel ke:support@openproject.com).
               item_4:
                 options:
                   name: Ahli-ahli
