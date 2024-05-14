@@ -3553,11 +3553,6 @@ lt:
           unauthorized: "Jūs neturite teisių atšaukti šį žetoną."
         forbidden_token:
           missing_scope: 'Prieigai prie šio resurso reikia apimties „%{oauth_scopes}“.'
-  unsupported_browser:
-    title: "Jūsų naršyklė pasenusi ir nepalaikoma."
-    message: "Šiame puslapyje jums gali kilti problemų ar jis gali prastai veikti."
-    update_message: "Prašome atnaujinti savo naršyklę."
-    close_warning: "Ignoruoti šį perspėjimą."
   oauth:
     application:
       singular: "OAuth aplikacija"

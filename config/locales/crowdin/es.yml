@@ -3484,11 +3484,6 @@ es:
           unauthorized: "No estás autorizado a revocar este token."
         forbidden_token:
           missing_scope: 'El acceso a este recurso requiere competencia "%{oauth_scopes}".'
-  unsupported_browser:
-    title: "Tu explorador esta desactualizado y no es compatible."
-    message: "Podrás experimentar errores y una experiencia de mala calidad en esta página."
-    update_message: "Por favor, actualiza tu navegador."
-    close_warning: "Ignore esta advertencia."
   oauth:
     application:
       singular: "Aplicación OAuth"

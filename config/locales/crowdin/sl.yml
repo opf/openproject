@@ -3557,11 +3557,6 @@ sl:
           unauthorized: "You are not authorized to revoke this token."
         forbidden_token:
           missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
-  unsupported_browser:
-    title: "Vaš brskalnik je zastarel in nepodprt.\n"
-    message: "Na tej strani lahko naletite na napake in slabšo izkušnjo."
-    update_message: "Posodobite svoj brskalnik.\n"
-    close_warning: "Ignorirajte to opozorilo.\n"
   oauth:
     application:
       singular: "Aplikacija OAuth"

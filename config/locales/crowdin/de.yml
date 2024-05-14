@@ -3483,11 +3483,6 @@ de:
           unauthorized: "Sie sind nicht berechtigt, diesen Token zu widerrufen."
         forbidden_token:
           missing_scope: 'Der Zugriff auf diese Ressource erfordert den Scope "%{oauth_scopes}".'
-  unsupported_browser:
-    title: "Ihr Browser ist veraltet und nicht unterstützt."
-    message: "Sie werden deshalb auf dieser Seite eventuell Fehler feststellen oder Ihr Benutzererlebnis wird eingeschränkt sein."
-    update_message: "Bitte aktualisieren Sie Ihren Browser."
-    close_warning: "Diese Warnung ignorieren."
   oauth:
     application:
       singular: "OAuth-Anwendung"

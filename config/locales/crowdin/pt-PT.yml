@@ -3484,11 +3484,6 @@ pt-PT:
           unauthorized: "Não está autorizado a executar esta tarefa"
         forbidden_token:
           missing_scope: 'O acesso a este recurso requer o escopo "%{oauth_scopes}".'
-  unsupported_browser:
-    title: "O seu navegador está desatualizado e não é suportado."
-    message: "Pode encontrar erros e uma experiência degradada desta página."
-    update_message: "Por favor, atualize o seu browser."
-    close_warning: "Ignore este aviso."
   oauth:
     application:
       singular: "Aplicação OAuth"

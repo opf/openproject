@@ -3478,11 +3478,6 @@ ca:
           unauthorized: "No teniu autorització per revocar aquest token."
         forbidden_token:
           missing_scope: 'L''accés a aquest recurs requereix l''àmbit "%{oauth_scopes}".'
-  unsupported_browser:
-    title: "El teu navegador està desactualitzat o no està suportat."
-    message: "Pots trobar errors o tenir una experiència inferior en aquesta pàgina."
-    update_message: "Si us plau, actualitza el teu navegador."
-    close_warning: "Ignora aquesta advertència."
   oauth:
     application:
       singular: "Aplicació OAuth"

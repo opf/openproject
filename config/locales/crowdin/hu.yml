@@ -3485,11 +3485,6 @@ hu:
           unauthorized: "Nincs jogosultsága ennek a tokennek a visszavonására."
         forbidden_token:
           missing_scope: 'Az erőforrás eléréséhez „%{oauth_scopes}” hatókör szükséges.'
-  unsupported_browser:
-    title: "A böngésződ elavult és nem támogatott"
-    message: "Előfordulhat, hogy hibákba ütközik és romlik az élmény ezen az oldalon."
-    update_message: "Kérjük frissítse a böngészőjét."
-    close_warning: "Figyelmeztetés figyelmen kívül hagyása."
   oauth:
     application:
       singular: "OAuth alkalmazás"

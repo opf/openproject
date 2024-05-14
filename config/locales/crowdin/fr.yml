@@ -3488,11 +3488,6 @@ fr:
           unauthorized: "Vous n'êtes pas autorisé à révoquer ce jeton."
         forbidden_token:
           missing_scope: 'L''accès à cette ressource nécessite la portée « %{oauth_scopes} ».'
-  unsupported_browser:
-    title: "Votre navigateur est obsolète et non pris en charge."
-    message: "Vous pouvez rencontrer des erreurs et une expérience dégradée sur cette page."
-    update_message: "Veuillez mettre à jour votre navigateur."
-    close_warning: "Ignorer cet avertissement."
   oauth:
     application:
       singular: "Application OAuth"

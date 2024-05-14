@@ -3448,11 +3448,6 @@ ja:
           unauthorized: "You are not authorized to revoke this token."
         forbidden_token:
           missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
-  unsupported_browser:
-    title: "お使いのブラウザは古く、サポートされていません。"
-    message: "このページでエラーと崩れを体験するかもしれません。"
-    update_message: "ブラウザを更新してください。"
-    close_warning: "この警告を無視する。"
   oauth:
     application:
       singular: "OAuthアプリケーション"

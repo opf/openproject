@@ -3484,11 +3484,6 @@ tr:
           unauthorized: "Bu belirteci iptal etme yetkiniz yok."
         forbidden_token:
           missing_scope: 'Bu kaynağa erişim, "%{oauth_scopes}" kapsamını gerektirir.'
-  unsupported_browser:
-    title: "Tarayıcınız güncel değil ya da desteklenmiyor."
-    message: "Bu sayfada hatalara ve bozulmuş deneyime maruz kalabilirsiniz."
-    update_message: "Lütfen tarayıcınızı güncelleyin."
-    close_warning: "Bu uyarıyı yoksay."
   oauth:
     application:
       singular: "OAuth uygulaması"

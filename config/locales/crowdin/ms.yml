@@ -3448,11 +3448,6 @@ ms:
           unauthorized: "Anda tidak dibenarkan untuk membatalkan token ini."
         forbidden_token:
           missing_scope: 'Akses kepada sumber ini memerlukan skop "%{oauth_scopes}".'
-  unsupported_browser:
-    title: "Pelayar anda lapuk dan tidak disokong."
-    message: "Anda mungkin mengalami ralat dan pengalaman yang terjejas pada halaman ini."
-    update_message: "Sila kemas kini pelayar anda."
-    close_warning: "Abaikan amaran ini."
   oauth:
     application:
       singular: "Aplikasi OAuth"

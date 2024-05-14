@@ -3555,11 +3555,6 @@ pl:
           unauthorized: "Nie masz uprawnień, aby unieważnić ten token."
         forbidden_token:
           missing_scope: 'Dostęp do tego zasobu wymaga zakresu „%{oauth_scopes}”.'
-  unsupported_browser:
-    title: "Ta przeglądarka jest przestarzała i nieobsługiwana."
-    message: "Na tej stronie mogą wystąpić błędy i pogorszenie działania."
-    update_message: "Prosimy uaktualnić przeglądarkę."
-    close_warning: "Zignoruj to ostrzeżenie."
   oauth:
     application:
       singular: "Aplikacje OAuth"

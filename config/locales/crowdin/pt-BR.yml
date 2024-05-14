@@ -3485,11 +3485,6 @@ pt-BR:
           unauthorized: "Você não está autorizado a revogar este token."
         forbidden_token:
           missing_scope: 'O acesso a este recurso requer o escopo "%{oauth_scopes}".'
-  unsupported_browser:
-    title: "Seu navegador está desatualizado e não é suportado."
-    message: "Você pode encontrar erros e experiência degradada nesta página."
-    update_message: "Por favor, atualize seu navegador."
-    close_warning: "Ignorar este aviso."
   oauth:
     application:
       singular: "Aplicação OAuth"

@@ -3559,11 +3559,6 @@ cs:
           unauthorized: "Nemáte oprávnění ke zrušení tohoto tokenu."
         forbidden_token:
           missing_scope: 'Přístup k tomuto zdroji vyžaduje rozsah "%{oauth_scopes}".'
-  unsupported_browser:
-    title: "Váš prohlížeč je zastaralý a nepodporován."
-    message: "Na této stránce se mohou objevit chyby a zhoršené zkušenosti."
-    update_message: "Aktualizujte svůj prohlížeč prosím."
-    close_warning: "Ignorovat toto upozornění."
   oauth:
     application:
       singular: "OAuth aplikace"

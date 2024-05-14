@@ -3489,11 +3489,6 @@ eu:
           unauthorized: "You are not authorized to revoke this token."
         forbidden_token:
           missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
-  unsupported_browser:
-    title: "Your browser is outdated and unsupported."
-    message: "You may run into errors and degraded experience on this page."
-    update_message: "Please update your browser."
-    close_warning: "Ignore this warning."
   oauth:
     application:
       singular: "OAuth application"

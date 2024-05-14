@@ -3489,11 +3489,6 @@
           unauthorized: "Du er ikke autorisert til å oppheve denne nøkkelen."
         forbidden_token:
           missing_scope: 'Tilgang til denne ressursen krever omfang "%{oauth_scopes}".'
-  unsupported_browser:
-    title: "Nettleseren din er utdatert og støttes ikke."
-    message: "Du kan oppleve feil og svekket opplevelse på denne siden."
-    update_message: "Oppdater nettleseren din."
-    close_warning: "Ignorer denne advarselen."
   oauth:
     application:
       singular: "OAuth program"

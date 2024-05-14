@@ -3489,11 +3489,6 @@ si:
           unauthorized: "You are not authorized to revoke this token."
         forbidden_token:
           missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
-  unsupported_browser:
-    title: "ඔබගේ බ්රව්සරය යල් පැන ගිය සහ සහාය නොදක්වයි."
-    message: "ඔබ මෙම පිටුවේ වැරදි හා පිරිහුණු අත්දැකීම් බවට පත් විය හැක."
-    update_message: "කරුණාකර ඔබගේ බ්රව්සරය යාවත්කාලීන කරන්න."
-    close_warning: "මෙම අනතුරු ඇඟවීම නොසලකා."
   oauth:
     application:
       singular: "OAUTH අයදුම්"

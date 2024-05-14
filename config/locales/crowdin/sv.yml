@@ -3485,11 +3485,6 @@ sv:
           unauthorized: "You are not authorized to revoke this token."
         forbidden_token:
           missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
-  unsupported_browser:
-    title: "Din webbläsare är föråldrad och stöds inte."
-    message: "Du kan stöta på fel och få försämrad upplevelse på denna sida."
-    update_message: "Vänligen uppdatera din webbläsare."
-    close_warning: "Bortse från denna varning."
   oauth:
     application:
       singular: "OAuth-autentisering"

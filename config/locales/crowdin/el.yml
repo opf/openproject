@@ -3483,11 +3483,6 @@ el:
           unauthorized: "You are not authorized to revoke this token."
         forbidden_token:
           missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
-  unsupported_browser:
-    title: "Ο περιηγητής είναι απαρχαιωμένος και δεν υποστηρίζεται."
-    message: "Μπορεί να συναντήσετε σφάλματα και υποβαθμισμένη εμπειρία χρήστη σε αυτή τη σελίδα."
-    update_message: "Παρακαλούμε ενημερώστε το πρόγραμμα περιήγησης σας."
-    close_warning: "Αγνοείστε αυτή την προειδοποίηση."
   oauth:
     application:
       singular: "OAuth εφαρμογή"

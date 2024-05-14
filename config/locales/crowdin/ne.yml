@@ -3489,11 +3489,6 @@ ne:
           unauthorized: "You are not authorized to revoke this token."
         forbidden_token:
           missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
-  unsupported_browser:
-    title: "तपाईंको browser पुरानो र असमर्थित छ।"
-    message: "तपाइँ यस पृष्ठमा त्रुटिहरू र घटाइएको अनुभवमा चल्न सक्नुहुन्छ।"
-    update_message: "Please update your browser."
-    close_warning: "Ignore this warning."
   oauth:
     application:
       singular: "OAuth application"

@@ -95,7 +95,7 @@ PostgreSQL versions 9.6. and up will continue to work, but may result in incompa
 
 ## Client
 
-OpenProject supports the latest versions of the major browsers.
+OpenProject has been tested with the following browsers.
 
 * [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products/) (at least ESR version 102)
 * [Microsoft Edge](https://www.microsoft.com/de-de/windows/microsoft-edge) (only MS Edge version based on Chromium is supported)

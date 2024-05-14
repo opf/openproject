@@ -3524,11 +3524,6 @@ ro:
           unauthorized: "Nu sunteți autorizat să revocați acest token."
         forbidden_token:
           missing_scope: 'Accesul la această resursă necesită domeniul de aplicare "%{oauth_scopes}".'
-  unsupported_browser:
-    title: "Browserul dvs. este învechit și nu este acceptat."
-    message: "Este posibil să întâmpinați erori și o experiență degradată pe această pagină."
-    update_message: "Vă rugăm să actualizaţi browser-ul."
-    close_warning: "Ignoră acest avertisment."
   oauth:
     application:
       singular: "Aplicație OAuth"

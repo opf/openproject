@@ -3449,11 +3449,6 @@ ko:
           unauthorized: "이 토큰을 취소할 권한이 없습니다."
         forbidden_token:
           missing_scope: '이 리소스에 액세스하려면 "%{oauth_scopes}" 범위가 필요합니다.'
-  unsupported_browser:
-    title: "해당 브라우저는 오래되어 지원되지 않습니다."
-    message: "이 페이지에서 오류가 발생하고 기능이 저하될 수 있습니다."
-    update_message: "브라우저를 업데이트하시기 바랍니다."
-    close_warning: "이 경고를 무시하십시오."
   oauth:
     application:
       singular: "OAuth 애플리케이션"

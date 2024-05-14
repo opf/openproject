@@ -3556,11 +3556,6 @@ ru:
           unauthorized: "Вы не авторизованы для отзыва этого токена."
         forbidden_token:
           missing_scope: 'Для доступа к этому ресурсу требуется область "%{oauth_scopes}".'
-  unsupported_browser:
-    title: "Ваш браузер устарел и не поддерживается."
-    message: "На этой странице вы рискуете столкнуться с ошибками и обедненным опытом."
-    update_message: "Пожалуйста, обновите свой браузер."
-    close_warning: "Игнорировать это предупреждение."
   oauth:
     application:
       singular: "Приложение OAuth"

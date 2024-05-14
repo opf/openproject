@@ -3487,11 +3487,6 @@ fil:
           unauthorized: "You are not authorized to revoke this token."
         forbidden_token:
           missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
-  unsupported_browser:
-    title: "Your browser is outdated and unsupported."
-    message: "You may run into errors and degraded experience on this page."
-    update_message: "Magyaring i-update ang iyong broswer."
-    close_warning: "Huwag pansinin ang babala ito."
   oauth:
     application:
       singular: "OAuth application"

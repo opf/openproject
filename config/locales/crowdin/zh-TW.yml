@@ -3451,11 +3451,6 @@ zh-TW:
           unauthorized: "您無權撤銷此裝置。"
         forbidden_token:
           missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
-  unsupported_browser:
-    title: "您的瀏覽器已過時且不再支援。"
-    message: "您可能會在此頁面上遇到錯誤和降級的體驗。"
-    update_message: "請升級您的瀏覽器。"
-    close_warning: "忽略此警告。"
   oauth:
     application:
       singular: "Oauth 應用程式"

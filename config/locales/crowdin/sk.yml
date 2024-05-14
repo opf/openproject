@@ -3560,11 +3560,6 @@ sk:
           unauthorized: "You are not authorized to revoke this token."
         forbidden_token:
           missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
-  unsupported_browser:
-    title: "Váš prehliadač je zastaraný a nepodporovaný."
-    message: "Na tejto stránke môžete naraziť na chyby a neúplné/znehodnotené skúseností."
-    update_message: "Prosím aktualizujte svoj prehliadač."
-    close_warning: "Ignorovať toto upozornenie."
   oauth:
     application:
       singular: "OAuth aplikácia"

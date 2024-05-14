@@ -3552,11 +3552,6 @@ uk:
           unauthorized: "Ви не вповноважені відкликати цей маркер."
         forbidden_token:
           missing_scope: 'Для доступу до цього ресурсу потрібна область «%{oauth_scopes}».'
-  unsupported_browser:
-    title: "Ваш веб-переглядач застарілий і не підтримується."
-    message: "Ви можете зіткнутися з помилками та погіршити досвід роботи на цій сторінці."
-    update_message: "Будь ласка, оновіть ваш браузер."
-    close_warning: "Ігнорувати це попередження."
   oauth:
     application:
       singular: "Програма OAuth"

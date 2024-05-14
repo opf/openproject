@@ -3486,11 +3486,6 @@ it:
           unauthorized: "Non sei autorizzato a revocare questo token. "
         forbidden_token:
           missing_scope: 'L''accesso a questa risorsa richiede l''ambito "%{oauth_scopes}".'
-  unsupported_browser:
-    title: "Il tuo browser è obsoleto e non supportato."
-    message: "Puoi incorrere in errori ed esperienza non ottimizzata su questa pagina."
-    update_message: "Aggiornare il browser, prego."
-    close_warning: "Ignora questo avviso."
   oauth:
     application:
       singular: "Applicazione OAuth"

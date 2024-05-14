@@ -3442,11 +3442,6 @@ zh-CN:
           unauthorized: "您不具备撤销此令牌的权限。"
         forbidden_token:
           missing_scope: '访问此资源需要范围“%{oauth_scopes}”。'
-  unsupported_browser:
-    title: "您的浏览器已经过时，或不被支持。"
-    message: "此页面可能会发生运行错误和不良用户体验。"
-    update_message: "请升级您的浏览器。"
-    close_warning: "请忽略这个警告。"
   oauth:
     application:
       singular: "OAuth应用程序"

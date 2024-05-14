@@ -3484,11 +3484,6 @@ nl:
           unauthorized: "U bent niet gemachtigd om deze token in te trekken."
         forbidden_token:
           missing_scope: 'Toegang tot deze bron vereist scope "%{oauth_scopes}".'
-  unsupported_browser:
-    title: "Uw browser is verouderd en niet ondersteund."
-    message: "U kan lopen in fouten en gedegradeerd ervaring op deze pagina."
-    update_message: "Gebruik een recentere versie van uw browser."
-    close_warning: "Negeer deze waarschuwing."
   oauth:
     application:
       singular: "OAuth-authenticatie"
