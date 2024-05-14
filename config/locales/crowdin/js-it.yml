@@ -1057,7 +1057,7 @@ it:
       sharing:
         share: "Condividi"
         title: "Condividi macro-attività"
-        show_all_users: "Mostra tutti gli utenti condivisi"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selezionati"
         selection:
           mixed: "Misto"

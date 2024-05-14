@@ -16,10 +16,10 @@ ms:
       types:
         nextcloud: "Nextcloud"
         one_drive: "OneDrive/SharePoint"
-        default: "Simpanan"
+        default: "Storan"
       information:
         connection_error: >
-          Beberapa seting %{storageType} tidak berfungsi. Sila hubungi pentadbir anda %{storageType}.
+          Beberapa tetapan %{storageType} tidak berfungsi. Sila hubungi pentadbir anda %{storageType}.
         live_data_error: "Masalah memperoleh butiran fail"
         live_data_error_description: >
           Beberapa data %{storageType} tidak dapat diperolehi. Sila cuba untuk memuat semula halaman ini atau hubungi pentadbir %{storageType} anda.
@@ -48,7 +48,7 @@ ms:
         empty: >
           Pada masa ini, tiada fail yang terpaut pada pakej kerja ini. Mula pautkan fail dengan tindakan di bawah atau dari dalam %{storageType}.
         download: "Muat turun %{fileName}"
-        open: "Buka fail dalam penyimpanan"
+        open: "Buka fail dalam storan"
         open_location: "Buka fail dalam lokasi"
         remove: "Padamkan pautan fail"
         remove_confirmation: >
@@ -69,15 +69,15 @@ ms:
           413: >
             Fail anda (%{fileName}) adalah lebih besar daripada yang OpenProject boleh muat naik ke %{storageType}. Anda boleh memuat naiknya terus ke %{storageType} dahulu kemudian pautkan fail tersebut.
           507: >
-            Fail anda (%{fileName}) adalah lebih besar dari kuota penyimpanan yang dibenarkan. Hubungi pentadbir anda untuk ubah suai kuota ini.
+            Fail anda (%{fileName}) adalah lebih besar dari kuota storan yang dibenarkan. Hubungi pentadbir anda untuk ubah suai kuota ini.
           detail:
             nextcloud: >
               Sila semak versi aplikasi Nextcloud "OpenProject Integration" terbaru sudah di pasang dan hubungi pentadbir anda untuk info lebih lanjut.
         link_uploaded_file_error: >
           Ralat berlaku semasa memautkan fail %{fileName} yang baru sahaja dimuat naik ke pakej kerja %{workPackageId}.
         tooltip:
-          not_logged_in: "Sila log masuk ke dalam penyimpanan untuk mengakses fail ini."
+          not_logged_in: "Sila log masuk ke dalam storan untuk mengakses fail ini."
           view_not_allowed: "Anda tidak mempunyai kebenaran untuk melihat fail ini."
-          not_found: "Fail ini tidak dapat dijumpai."
+          not_found: "Fail ini tidak dapat ditemui."
         already_linked_file: "Fail ini sudah terpaut dengan pakej kerja ini."
         already_linked_directory: "Direktori ini sudah dipautkan dengan pakej kerja ini."

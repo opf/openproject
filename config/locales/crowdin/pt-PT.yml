@@ -328,6 +328,7 @@ pt-PT:
       project_roles: "Funções no projeto"
       wp_shares: "Partilhas do pacote de trabalho"
       groups: "Grupos"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Remover membro"
       will_remove_the_users_role: "Isto irá remover a função do utilizador deste projeto."
@@ -490,10 +491,10 @@ pt-PT:
       no_common_statuses_exists: "Não há nenhum status disponível para todos os pacotes de trabalho selecionados. O seu status não pode ser alterado."
       unsupported_for_multiple_projects: "Mover/copiar em massa não é suportado por pacotes de trabalho de vários projetos"
     sharing:
-      missing_workflow_waring:
-        title: "Falta um fluxo de trabalho para a partilha de pacotes de trabalho"
-        message: "Nenhum fluxo de trabalho está configurado para a função \"Editor do pacote de trabalho\". Sem um fluxo de trabalho, o utilizador não pode alterar o estado do pacote de trabalho. Os fluxos de trabalho podem ser copiados. Selecione um tipo de fonte (por exemplo, \"Tarefa\") e uma função da fonte (por exemplo, \"Membro\"). Em seguida, selecione os tipos de destino. Para começar, pode selecionar todos os tipos como alvos. Por fim, selecione a função \"Editor do pacote de trabalho\" como destino e prima \"Copiar\". Depois de ter criado as predefinições, ajuste os fluxos de trabalho como faz para todas as outras funções."
-        link_message: "Configure os fluxos de trabalho na administração."
+      missing_workflow_warning:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -1732,17 +1733,6 @@ pt-PT:
         mentioned: "Foi mencionado em %{work_package}"
         responsible: "Tornou-se responsável por %{work_package}"
         watched: "Está a observar %{work_package}"
-    update_info_mail:
-      body: >
-        Estamos contentes por anunciar o lançamento do OpenProject 12.0. É uma grande versão que esperamos melhore significativamente a forma como usa o OpenProject.
-        A partir desta versão, introduzimos notificações na aplicação, e pode receber notificações de atualizações de pacotes de trabalho diretamente no OpenProject. Pode marcar estas notificações como lidas, responder a um comentário ou até mesmo modificar diretamente os atributos do pacote de trabalho sem sair do centro de notificação.
-        Também significa que já não vamos utilizar e-mails para notificações. Acreditamos que o novo centro de notificação é o melhor sítio para ver e agir de acordo com as atualizações. No entanto, se quiser continuar a receber atualizações por e-mail, pode optar por receber lembretes diários de e-mail em horários específicos à sua escolha.
-        Verifique as novas definições padrão de notificações e configure as suas preferências de notificações e lembretes por e-mail nas definições de conta. Pode fazê-lo através do botão "Alterar definições de email" abaixo.
-        Esperamos que considere úteis as notificações na aplicação, e que ajudem a aumentar ainda mais a sua produtividade.
-        Atenciosamente, A equipa do OpenProject
-      body_header: "Versão 12.0 com Centro de Notificações"
-      body_subheader: "Noticias"
-      subject: "Alterações importantes nas notificações com o lançamento de 12.0"
   label_accessibility: "Accessibilidade"
   label_account: "Conta"
   label_active: "Ativo"
@@ -2754,7 +2744,7 @@ pt-PT:
     member_of_group: "Grupo do titular"
     name_or_identifier: "Nome ou identificador"
     only_subproject_id: "Apenas sub-projeto"
-    shared_with_user: "Compartilhado com o usuário"
+    shared_with_user: "Shared with users"
     shared_with_me: "Partilhados comigo"
     subproject_id: "Incluindo sub-projeto"
   repositories:

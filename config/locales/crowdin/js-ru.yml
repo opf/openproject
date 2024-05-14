@@ -1058,7 +1058,7 @@ ru:
       sharing:
         share: "Поделиться"
         title: "Поделиться пакетом работ"
-        show_all_users: "Показать всех общих пользователей"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} выбрано"
         selection:
           mixed: "Смешанное"

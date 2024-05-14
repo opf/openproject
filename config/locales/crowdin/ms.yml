@@ -165,7 +165,7 @@ ms:
     tls_options:
       verify_peer: "Sahkan sijil SSL"
       verify_peer_description_html: >
-        Membolehkan verifikasi SSL ketat bagi rantaian dipercayai sijil. <br/><strong>Amaran:</strong> Nyahtandakan pilihan ini nyahaktifkan verifikasi SSL bagi sijil server LDAP. Ini mendedahkan hubungan anda kepada Man dalam serangan Tengah.
+        Membolehkan verifikasi SSL ketat bagi rantaian dipercayai sijil. <br/><strong>Amaran:</strong> Nyahtandakan pilihan ini nyahaktifkan verifikasi SSL bagi sijil server LDAP. Ini mendedahkan hubungan anda kepada orang dalam serangan Tengah.
       tls_certificate_description: "Jika sijil server LDAP bukan lagi di sumber yang dipercayai di sistem ini, anda boleh tambahkannya secara manual di sini. Masukkan sijil rentetan PEM X509."
   forums:
     show:
@@ -213,8 +213,8 @@ ms:
       is_required: "Tandakan ruang yang tersuai seperti yang diperlukan. Ini akan buatkan ia wajib untuk isikan ruang tersebut apabila membuat sumber yang baru atau kemas kini sumber sedia ada."
       is_for_all: "Tandakan ruang tersuai sebagai tersedia di semua projek baru dan sedia ada."
       searchable: "Sertakan nilai-nilai ruangan apabila gunakan fungsi pencarian global."
-      editable: "Benarkan ruangan tersebut boleh disunting oleh pengguna sendiri."
-      visible: "Buat ruangan boleh dilihat ke semua penngguna (bukan pentadbir) dalam gambaran kesuluruhan projek dan dipaparkan di widget butiran projek di Gambaran Keseluruhan Projek."
+      editable: "Benarkan ruangan tersebut boleh diedit oleh pengguna sendiri."
+      visible: "Buat ruangan boleh dilihat ke semua pengguna (bukan pentadbir) dalam gambaran kesuluruhan projek dan dipaparkan di widget butiran projek di Gambaran Keseluruhan Projek."
       is_filter: >
         Benarkan ruang tersuai untuk digunakan di penyaring paparan pakej kerja. Perhatikan bahawa hanya "Untuk semua projek" yang dipilih, ruang tersuai akan dipaparkan di paparan global.
     tab:
@@ -329,6 +329,7 @@ ms:
       project_roles: "Peranan projek"
       wp_shares: "Kongsian pakej kerja"
       groups: "Kumpulan"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Keluarkan ahli"
       will_remove_the_users_role: "Ini akan membatalkan peranan pengguna dari projek ini."
@@ -413,7 +414,7 @@ ms:
     upsale:
       title: Pengguna gantian
       description: >
-        Pengguna sementara ialah cara untuk memperuntukkan pakej kerja kepada pengguna yang bukan sebahagian daripada projek anda. Ianya berguna dalam pelbagai senario; contohnya, jika anda perlu menjejaki tugas untuk sumber yang masih belum dinamakan atau disediakan, atau jika anda tidak ingin memberikan seseorang akses ke OpenProject, tetapi masih hendak menjejaki tugas yang telah diperuntukkan ke mereka.
+        Pengguna sementara ialah satu cara untuk memperuntukkan pakej kerja kepada pengguna yang bukan sebahagian daripada projek anda. Ianya berguna dalam pelbagai senario; contohnya, jika anda perlu menjejaki tugas untuk sumber yang masih belum dinamakan atau disediakan, atau jika anda tidak ingin memberikan seseorang akses ke OpenProject, tetapi masih hendak menjejaki tugas yang telah diperuntukkan ke mereka.
   prioritiies:
     edit:
       priority_color_text: |
@@ -484,10 +485,10 @@ ms:
       no_common_statuses_exists: "Tiada status tersedia untuk semua pakej kerja yang terpilih. Status mereka tidak dapat diubah."
       unsupported_for_multiple_projects: "Pindahan/salinan secara pukal tidak disokong untuk pakej kerja dari projek yang berbeza"
     sharing:
-      missing_workflow_waring:
-        title: "Aliran kerja hilang untuk perkongsian pakej kerja"
-        message: "Tiada aliran kerja yang dikonfigurasi untuk peranan 'Penyunting Pakej Kerja'. Tanpa aliran kerja, perkongsian dengan pengguna tidak boleh mengubah status pakej kerja tersebut. Aliran kerja boleh disalin. Pilih jenis sumber (cth. 'Tugasan') dan peranan sumber (cth. 'Ahli'). Kemudian pilih jenis sasaran. Sebagai permulaan, anda boleh pilih semua jenis sebagai sasaran. Akhirnya, pilih peranan 'Penyunting Pakej Kerja' sebagai sasaran dan tekan 'Salin'. Setelah mencipta tetapan ini, selaraskan semula aliran kerja sebagaimana yang anda lakukan untuk setiap peranan yang lain."
-        link_message: "Konfigurasi aliran kerja dalam pentadbiran."
+      missing_workflow_warning:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -1700,17 +1701,6 @@ ms:
         mentioned: "Anda telah disebut dalam %{work_package}"
         responsible: "Anda telah menjadi bertanggungjawab untuk %{work_package}"
         watched: "Anda sedang melihat %{work_package}"
-    update_info_mail:
-      body: >
-        Kami gembira untuk mengumumkan pengeluaran OpenProject 12.0. Ia adalah pengeluaran besar yang diharapkan dapat meningkatkan secara ketara cara anda menggunakan OpenProject.
-        Bermula dengan pengeluaran ini, kami memperkenalkan pemberitahuan dalam aplikasi. Mulai sekarang, anda akan menerima pemberitahuan untuk kemas kini di pakej kerja secara terus dalam OpenProject. Anda boleh menanda pemberitahuan sebagai sudah dibaca, membalas komen atau mengubah suai secara terus atribut pakej kerja tanpa meninggalkan pusat pemberitahuan tersebut.
-        Ini juga bermakna kami tidak akan menggunakan e-mel sebagai pemberitahuan lagi. Kami berpendapat bahawa pusat pemberitahuan baharu ini adalah tempat yang lebih baik untuk melihat dan bertindak berdasarkan pembaharuan ini. Walaubagaimanapun, jika anda ingin terus menerima perkembangan melalui e-mel, anda boleh memilih untuk menerima peringatan e-mel setiap hari pada masa-masa tertentu yang anda pilih.
-        Sila pastikan untuk mengesahkan seting pemberitahuan asas anda, dan tetapkan pilihan anda untuk pemberitahuan dan peringatan e-mel melalui seting akaun anda. Anda boleh melakukan ini melalui butang "Tukar seting e-mel" di bawah.
-        Kami berharap anda mendapati pemberitahuan dalam aplikasi kami bermanfaat dan ianya akan membuat anda menjadi lebih produktif.
-        Sangat dihargai, Pasukan OpenProject
-      body_header: "Versi 12.0 dengan Pusat Pemberitahuan"
-      body_subheader: "Berita"
-      subject: "Perubahan yang penting pada pemberitahuan dengan pelancaran 12.0"
   label_accessibility: "Kebolehcapaian"
   label_account: "Akaun"
   label_active: "Aktif"
@@ -2602,7 +2592,7 @@ ms:
   permission_commit_access: "Baca/tulis akses ke repositori (komit)"
   permission_copy_projects: "Salin projek"
   permission_copy_work_packages: "Salin pakej kerja"
-  permission_create_backup: "Cipta sokongan"
+  permission_create_backup: "Cipta sandaran"
   permission_delete_work_package_watchers: "Buang pemerhati"
   permission_delete_work_packages: "Buang pakej kerja"
   permission_delete_messages: "Padam mesej"
@@ -2619,7 +2609,7 @@ ms:
   permission_edit_own_time_entries: "Sunting log masa sendiri"
   permission_edit_project: "Sunting projek"
   permission_edit_reportings: "Sunting laporan"
-  permission_edit_time_entries: "Sunting log masa untuk pengguna-pengguna lain"
+  permission_edit_time_entries: "Edit log masa untuk pengguna-pengguna lain"
   permission_edit_timelines: "Sunting garis masa"
   permission_edit_wiki_pages: "Sunting halaman wiki"
   permission_export_work_packages: "Eksport pakej kerja"
@@ -2717,7 +2707,7 @@ ms:
     member_of_group: "Kumpulan penerima tugasan"
     name_or_identifier: "Nama atau pengenal"
     only_subproject_id: "Hanya subprojek"
-    shared_with_user: "Dikongsi dengan pengguna"
+    shared_with_user: "Shared with users"
     shared_with_me: "Dikongsi dengan saya"
     subproject_id: "Termasuk suprojek"
   repositories:
@@ -2809,7 +2799,7 @@ ms:
       oauth_application_details_link_text: "Pergi ke halaman tetapan"
       setup_documentation_details: "JIka anda memerlukan bantuan mengkonfigurasikan penyimpanan fail baharu lihat dokumentasi berikut:"
       setup_documentation_details_link_text: "Setup penyimpanan fail"
-      show_warning_details: "Untuk gunakan simpanan fail ini, ingat untuk mengaktifkan modul dan simpanan khusus di tetapan project setiap projek yang dikehendaki."
+      show_warning_details: "Untuk gunakan storan fail ini, ingat untuk mengaktifkan modul dan storan khusus di tetapan project setiap projek yang dikehendaki."
     subversion:
       existing_title: "Repositori Subversion sedia ada"
       existing_introduction: "JIka anda mempunyai repositori Subversion sedia ada, anda boleh pautkan ia dengan OpenProject untuk mengaksesnya dari dalam aplikasi."
@@ -3006,7 +2996,7 @@ ms:
         type: "Keseluruhan baris mengikut Jenis"
         priority: "Keseluruhan baris mengikut Keutamaan"
     icalendar:
-      enable_subscriptions_text_html: "Benarkan pengguna dengan kebenaran yang diperlukan untuk melanggan kalendar OpenProject dan akses informasi pakej kerja melalui kalendar pelanggan luar.\n<strong>Nota:</strong> Sila baca tentang <a href=\"%{link}\" target=\"_blank\">langganan iCalendar</a> untuk fahami tentang potensi risiko keselamatan sebelum membenarkannya."
+      enable_subscriptions_text_html: "Benarkan pengguna dengan kebenaran yang diperlukan untuk melanggan kalendar OpenProject dan akses informasi pakej kerja melalui kalendar pelanggan luar.\n<strong>Perhatian:</strong> Sila baca tentang <a href=\"%{link}\" target=\"_blank\">langganan iCalendar</a> untuk fahami tentang potensi risiko keselamatan sebelum membenarkannya."
     language_name_being_default: "%{language_name} (asas)"
     notifications:
       events_explanation: "Tetapkan mana-mana peristiwa untuk e-mel dihantar keluar. Pakej kerja dikecualikan dari senarai ini kerana pemberitahuannya boleh dikonfigurasikan khusus ke setiap pengguna."
@@ -3317,7 +3307,7 @@ ms:
       remove: "Keluarkan"
       share: "Kongsi"
       text_empty_search_description: "Tiada pengguna dengan kriteria penyaring semasa."
-      text_empty_search_header: "Kami tidak menjumpai keputusan yang sepadan."
+      text_empty_search_header: "Kami tidak menemui keputusan yang sepadan."
       text_empty_state_description: "Pakej kerja masih belum dikongsi dengan sesiapa lagi."
       text_empty_state_header: "Tidak dikongsikan"
       text_user_limit_reached: "Menambah pengguna tambahan akan melebihi had semasa. Sila hubungi pentadbir untuk meningkatkan had pengguna bagi memastikan pengguna luaran dapat mengakses pakej kerja ini."
@@ -3327,7 +3317,7 @@ ms:
       warning_user_limit_reached_admin: >
         Menambah pengguna tambahan akan melebihi had semasa. Sila <a href="%{upgrade_url}">naik taraf pelan anda</a> bagi memastikan pengguna luaran dapat mengakses pakej kerja ini.
       warning_no_selected_user: "Sila pilih pengguna untuk berkongsi pakej kerja ini dengan mereka"
-      warning_locked_user: "Pengguna %{user} telah dikunci dan tidak boleh dikongsi dengannya"
+      warning_locked_user: "Pengguna %{user} telah dikunci dan tidak boleh dikongsi"
       user_details:
         locked: "Pengguna yang dikunci"
         invited: "Jemputan dihantar. "
@@ -3488,7 +3478,7 @@ ms:
       successful_application_revocation: "Pembatalan aplikasi %{application_name} berjaya."
       none_given: "Tiada aplikasi OAuth yang telah diberi akses ke akaun anda."
     x_active_tokens:
-      other: "satu token aktif"
+      other: "%{count} token aktif"
     flows:
       authorization_code: "Aliran kod kebenaran"
       client_credentials: "Aliran kelayakan pelanggan"

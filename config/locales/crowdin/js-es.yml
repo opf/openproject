@@ -1057,7 +1057,7 @@ es:
       sharing:
         share: "Compartir"
         title: "Compartir paquete de trabajo"
-        show_all_users: "Mostrar todos los usuarios compartidos"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} seleccionados"
         selection:
           mixed: "Mixto"
