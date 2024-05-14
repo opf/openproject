@@ -28,6 +28,7 @@
 
 module WorkPackage::PDFExport::Gantt
   class GanttBuilder
+    include Redmine::I18n
     BAR_CELL_PADDING = 5.to_f
     TEXT_CELL_PADDING_H = 3.to_f
     TEXT_CELL_PADDING_V = 1.to_f
@@ -89,6 +90,7 @@ module WorkPackage::PDFExport::Gantt
       @nr_columns = (@pdf.bounds.width / @column_width).floor
     end
 
+    # distribute empty spaces
     def adjust_to_pages
       # distribute empty space right to the default column widths
       distribute_to_next_page_column
@@ -720,14 +722,27 @@ module WorkPackage::PDFExport::Gantt
     def build_row_text_lines_wp_info(entry, left, right, top)
       text_top = top + TEXT_CELL_PADDING_V
       text_bottom = text_top + 8
-      GanttDataText.new(work_package_info_line(entry.work_package), left, right, text_top, text_bottom, 8)
+      GanttDataText.new(work_package_info_line(entry.work_package), left, right, text_top, text_bottom, 6)
     end
 
     # Returns the info text line for the given work package
     # @param [WorkPackage] work_package
     # @return [String]
     def work_package_info_line(work_package)
-      "#{work_package.type} ##{work_package.id}"
+      "#{work_package.type} ##{work_package.id} • #{work_package.status} • #{work_package_info_line_date work_package}"
+    end
+
+    def work_package_info_line_date(work_package)
+      if work_package.start_date == work_package.due_date
+        format_pdf_date(work_package.start_date)
+      else
+        "#{format_pdf_date(work_package.start_date)} - #{format_pdf_date(work_package.due_date)}"
+      end
+    end
+
+    def format_pdf_date(date)
+      return "" if date.nil?
+      format_date date
     end
 
     # Builds the shape for the given work package
