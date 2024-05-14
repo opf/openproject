@@ -45,6 +45,8 @@ Apart from these features that apply the Meetings module directly, the following
 
 ![A calendar widget on a project overview page, now showing upcoming meetingss](openproject-14-1-meetings-widget-project-overview.png)
 
+**Please note**: On the project overview page, the "+" button on the top right has been removed. You can now only add widgets by hovering at the border of an existing widget and click on the "+" there. 
+
 ### Possibility to hide attachments in the Files tab
 
 Admins now are able to hide the attachment section in the Files tab. This setting can be made at project level and is particularly useful for projects where users should only upload files via external storage, e.g. Nextcloud.
