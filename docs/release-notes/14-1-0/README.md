@@ -16,7 +16,9 @@ We released [OpenProject 14.1.0](https://community.openproject.org/versions/2030
 
 ### PDF export of Gantt view, e.g. for printing (Enterprise add-on)
 
-It is now possible to export a Gantt view as PDF in the OpenProject Enterprise edition. This allows users to print Gantt charts. Choose between different paper formats, set the colomn width, and specify whether the PDF file should display your work packages on a daily, monthly or quarterly basis.
+It is now possible to export a Gantt view as PDF in the OpenProject Enterprise edition. This allows users to easily print Gantt charts in a nice design. Choose between different paper formats, set the colomn width, and specify whether the PDF file should display your work packages on a daily, monthly or quarterly basis.
+
+Please note that we plan to further improve the PDF export of Gantt view in future releases.
 
 ![Export your Gantt view as PDF](openproject-14-1-gantt-pdf-export-figma.png)
 
