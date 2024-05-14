@@ -72,7 +72,7 @@ Click on the **Save** button.
 
 > **Note:** If the OpenProject host cannot be added, you may check the [Troubleshooting](#troubleshooting) section at the bottom of this page.
 
-Please note that in order for the integration to work, the **Terms of Service** app on the Nextcloud side needs to be accepted. This is set to happen automatically during the initial set-up. If you see an error message indicating otherwise, please refer to the [Troubleshooting](#troubleshooting) section at the bottom of this page.
+Please note, when you use the **Terms of Service** app on the Nextcloud side, all terms also need to be accepted for the OpenProject user that gets created during the setup. This is set to happen automatically during the initial set-up. If you see an error message indicating otherwise or the integration does not behave as expected, please refer to the [Troubleshooting](#troubleshooting) section at the bottom of this page.
 
 The next part of the setup will require you to enter OpenProject OAuth values here, but before we do that, you will need to generate them in OpenProject. To do so, navigate to your OpenProject instance in a new browser tab. 
 
