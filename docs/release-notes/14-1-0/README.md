@@ -121,9 +121,9 @@ Apart from the features mentioned above, there have been a lot of other changes,
 
 A very special thank you goes to our sponsors for features and improvements of this release:
 
-* German Federal Ministry of the Interior and Home Affairs (BMI) for sponsoring the features on progress reporting
 * City of Cologne for sponsoring features on project attributes
 * Deutsche Bahn for sponsoring the OneDrive/SharePoint integration
+* German Federal Ministry of the Interior and Home Affairs (BMI) for sponsoring the features on progress reporting
 
 Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to Marc Burk, Silas Kropf, and Hanley Loller.
 
