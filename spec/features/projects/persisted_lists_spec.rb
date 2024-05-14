@@ -214,18 +214,20 @@ RSpec.describe "Persisted lists on projects index page",
     let!(:project_member) { create(:member, principal: user, project:, roles: [developer]) }
     let!(:development_project_member) { create(:member, principal: user, project: development_project, roles: [developer]) }
 
-    it "allows saving, loading and deleting persisted filters and columns" do
+    it "allows saving, renaming, loading and deleting persisted filters and columns" do
       projects_page.visit!
 
       # The default filter is active
       projects_page.expect_title("Active projects")
-      # Since the query is static, no save button is shown
+      # Since the query is static, no save button an no menu item is shown
       projects_page.expect_no_notification("Save")
       projects_page.expect_no_menu_item("Save", visible: false)
       # Since the query is unchanged, no save as button is shown
       projects_page.expect_no_notification("Save as")
       # But save as menu item is always present
       projects_page.expect_menu_item("Save as", visible: false)
+      # Since the query is not persisted, no rename button is shown
+      projects_page.expect_no_menu_item("Rename", visible: false)
 
       # Default filters are applied
       projects_page.expect_projects_listed(project, public_project, development_project)
@@ -238,12 +240,14 @@ RSpec.describe "Persisted lists on projects index page",
 
       # By applying another filter, the title is changed as it does not longer match the default filter
       projects_page.expect_title("Projects")
-      # Since the query is static, no save button is shown
+      # Since the query is static, no save button an no menu item is shown
       projects_page.expect_no_notification("Save")
       projects_page.expect_no_menu_item("Save", visible: false)
-      # Since the query changed, save as button is shown
+      # Since the query changed, save as button and menu item are shown
       projects_page.expect_notification("Save as")
       projects_page.expect_menu_item("Save as", visible: false)
+      # Since the query is not persisted, no rename button is shown
+      projects_page.expect_no_menu_item("Rename", visible: false)
 
       # The filters are applied
       projects_page.expect_projects_listed(project, development_project)
@@ -279,6 +283,8 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.expect_no_menu_item("Save", visible: false)
       # But save as menu item is always present
       projects_page.expect_menu_item("Save as", visible: false)
+      # Since the query is persisted, rename button is shown
+      projects_page.expect_menu_item("Rename", visible: false)
 
       # Modifying to save again
       projects_page.set_columns("Name", "Public")
@@ -292,6 +298,12 @@ RSpec.describe "Persisted lists on projects index page",
 
       # Duplicating (without changes)
       projects_page.save_query_as("My duplicated query")
+      projects_page.expect_sidebar_filter("My duplicated query", selected: false)
+
+      # Renaming
+      projects_page.rename_to("My renamed query")
+      projects_page.expect_no_sidebar_filter("My duplicated query")
+      projects_page.expect_sidebar_filter("My renamed query", selected: false)
 
       # Modifying to save as again
       projects_page.set_columns("Name", "Status", "Public")
@@ -303,8 +315,8 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.expect_columns("Name", "Public")
       projects_page.expect_no_columns("Status")
 
-      # Checked duplicated query
-      projects_page.set_sidebar_filter("My duplicated query")
+      # Checked renamed query
+      projects_page.set_sidebar_filter("My renamed query")
       projects_page.expect_columns("Name", "Public")
       projects_page.expect_no_columns("Status")
 

@@ -67,6 +67,39 @@ RSpec.describe Projects::QueriesController do
     end
   end
 
+  describe "#edit" do
+    it "requires login" do
+      get "edit", params: { id: 42 }
+
+      expect(response).not_to be_successful
+    end
+
+    context "when logged in" do
+      let(:query) { build_stubbed(:project_query) }
+      let(:query_id) { "42" }
+
+      before do
+        allow(Queries::Projects::ProjectQuery).to receive(:find).with(query_id).and_return(query)
+
+        login_as user
+      end
+
+      it "renders projects/index" do
+        get "edit", params: { id: 42 }
+
+        expect(response).to render_template("projects/index")
+      end
+
+      it "passes variables to template" do
+        allow(controller).to receive(:render).and_call_original
+
+        get "edit", params: { id: 42 }
+
+        expect(controller).to have_received(:render).with(include(locals: { query:, state: :edit }))
+      end
+    end
+  end
+
   describe "#create" do
     let(:service_class) { Queries::Projects::ProjectQueries::CreateService }
 

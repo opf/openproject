@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Queries::Projects::Create < ApplicationForm
+class Queries::Projects::Form < ApplicationForm
   include OpenProject::StaticRouting::UrlHelpers
 
   form do |query_form|
@@ -52,8 +52,13 @@ class Queries::Projects::Create < ApplicationForm
         label: I18n.t(:button_cancel),
         tag: :a,
         data: { "params-from-query-target": "anchor" },
-        href: OpenProject::StaticRouting::StaticUrlHelpers.new.projects_path
+        href: projects_path(query_id: @query)
       )
     end
+  end
+
+  def initialize(query:)
+    super()
+    @query = query
   end
 end

@@ -334,6 +334,16 @@ module Pages
         click_on "Save"
       end
 
+      def rename_to(name)
+        click_more_menu_item("Rename")
+
+        within '[data-test-selector="project-query-name"]' do
+          fill_in "Name", with: name
+        end
+
+        click_on "Save"
+      end
+
       def delete_query
         click_more_menu_item("Delete")
 

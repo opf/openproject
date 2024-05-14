@@ -29,6 +29,15 @@
                                 "aria-label": t(:label_more),
                                 data: { "test-selector": "project-more-dropdown-menu" }
                               })  do |menu|
+        if can_rename?
+          menu.with_item(
+            label: t('button_rename'),
+            href: edit_projects_query_path(query),
+          ) do |item|
+            item.with_leading_visual_icon(icon: :pencil)
+          end
+        end
+
         if gantt_portfolio_project_ids.any?
           menu.with_item(
             tag: :a,
@@ -92,7 +101,7 @@
     render(Primer::OpenProject::PageHeader.new) do |header|
       header.with_title(data: { 'test-selector': 'project-query-name'}) do
         primer_form_with(model: query,
-                         url: projects_queries_path,
+                         url: @query.new_record? ? projects_queries_path : projects_query_path(@query),
                          scope: 'query',
                          data: {
                            controller: "params-from-query",
@@ -100,7 +109,7 @@
                            'params-from-query-allowed-value': '["filters", "columns", "query_id", "sortBy"]'
                          },
                          id: 'project-save-form') do |f|
-          render(Queries::Projects::Create.new(f))
+          render(Queries::Projects::Form.new(f, query:))
         end
       end
       header.with_breadcrumbs(breadcrumb_items)
