@@ -741,8 +741,7 @@ module WorkPackage::PDFExport::Gantt
     end
 
     def format_pdf_date(date)
-      return "" if date.nil?
-      format_date date
+      date.nil? ? "" : format_date(date)
     end
 
     # Builds the shape for the given work package
