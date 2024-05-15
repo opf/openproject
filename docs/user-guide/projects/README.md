@@ -154,6 +154,8 @@ Then, the project cannot be selected from the project selection anymore. It is s
 
 ![project list filter](project-list-filter.png)
 
+You can also archive a project directly on the [project overview page.](../project-overview/#archive-a-project) 
+
 ### Delete a project
 
 If you want to delete a project, navigate to the [Project settings](project-settings). Click the button **Delete project** on the top right of the page.
