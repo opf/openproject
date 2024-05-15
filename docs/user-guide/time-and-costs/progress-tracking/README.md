@@ -102,6 +102,6 @@ When switching from Work-based to Status-based mode, the previous value for %&nb
 
 In Status-based mode, it is possible for work packages to have a %&nbsp;Complete value (defined by the status) without having values for Work or Remaining work. In other words, the Work and Remaining work can be empty.
 
-When switching to Work-based mode, OpenProject will retain the value for %&nbsp;Complete that was set with status. It can then be modified by inputing Work and Remaining work, thereby overwriting the previous value with a new computed value:
+When switching to Work-based mode, OpenProject will retain the value for %&nbsp;Complete that was set with status. It can then be modified by putting in Work and Remaining work, thereby overwriting the previous value with a new computed value:
 
 ![Work estimates and progress pop-over with only the previous % Complete value](progress-popover-percentage-complete-only.png)
