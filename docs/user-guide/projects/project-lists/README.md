@@ -22,7 +22,7 @@ Your projects can be available publicly or internally. OpenProject does not limi
 
 ## Select project lists
 
-There are several ways to get an overview of all your projects. You can press the **Project lists** button at the bottom of the **Select a project** menu in the top left header navigation.
+There are several ways to get an overview of all your projects. You can press the **Project lists** button at the bottom of the **Select a project** menu in the top left header navigation. You can search through the projects or use the **Favorites** button to find your projects quicker.
 
 ![project lists button](Project-list-button.png)
 
@@ -40,7 +40,7 @@ You can use the Project overview page to **create a multi-project status dashboa
 
 > **Please note:** Project attributes are an Enterprise add-on and will only be displayed here for Enterprise on-premises and Enterprise cloud.
 
-Each project is displayed in a single line. For the the fields where the text is too long to be displayed completely, please use the **Expand** icon.
+Each project is displayed in a single line, starting with the **Favorite** column, marking favorite projects. For the the fields where the text is too long to be displayed completely, please use the **Expand** icon.
 
 ![Open a project description in the project lists view in OpenProject](expand-link-project-description.png)
 
