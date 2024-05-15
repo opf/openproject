@@ -50,7 +50,7 @@ Edit the values for each project attribute and click on **Save** to confirm and 
 
 ### Project attribute settings 
 
-To adjust the the project attribute settings for a specific project click the **More** (three dots) icon and select *Manage project attributes*. This will lead you directly to the [project attribute settings](../user-guide/projects/project-settings/project-attributes/).
+To adjust the the project attribute settings for a specific project click the **More** (three dots) icon and select *Manage project attributes*. This will lead you directly to the [project attribute settings](../projects/project-settings/project-attributes/).
 
 ![Link to project attribute settings from project overview page in OpenProject](openproject_user_guide_project_overview_project_attributes_settings.png)
 
@@ -58,7 +58,7 @@ To adjust the the project attribute settings for a specific project click the **
 
 ## Mark a project as favorite
 
-You can mark the project as a *Favorite* by clicking the **Favorite** (star) icon in the upper right corner. The icon color will change to yellow and the project will be marked as favorite both on the overview page and in the projects list. Read more about [project lists](../user-guide/projects/project-lists/). 
+You can mark the project as a *Favorite* by clicking the **Favorite** (star) icon in the upper right corner. The icon color will change to yellow and the project will be marked as favorite both on the overview page and in the projects list. Read more about [project lists](../projects/project-lists/). 
 
 ![Mark a project as favorite in OpenProject](openproject_user_guide_project_overview_mark_favorite.png)
 
@@ -71,7 +71,7 @@ You can archive a project directly from the project overview page. To do that cl
 
 >Note: This option is always available to instance and project administrators. It can also be activated for specific roles by enabling the *archive_project* permission for that role via the [Roles and permissions page](../../system-admin-guide/users-permissions/roles-permissions/) in the administrator settings.
 
-You can also archive a project under [project settings](../user-guide/projects/#archive-a-project) or in a [projects list](../user-guide/projects/project-lists/). 
+You can also archive a project under [project settings](../projects/#archive-a-project) or in a [projects list](../projects/project-lists/). 
 
 ## Widgets
 
