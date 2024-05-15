@@ -46,7 +46,6 @@ module Projects::Scopes
       def project_custom_fields_project_mapping_subquery(custom_field_ids:)
         ProjectCustomFieldProjectMapping.select(:project_id)
                           .where(custom_field_id: custom_field_ids)
-                          .distinct
       end
     end
   end
