@@ -24,7 +24,7 @@ Please note that we plan to further improve the PDF export of Gantt view in futu
 
 ### Favorite projects
 
-This feature was requested by many in the Community and will be a great benefit, especially for organizations with many projects: OpenProject 14.1 allows you to add projects to favorites so that they can be found more quickly. We recently gave an overview in our blog of how exactly you can add projects to favorites or remove them from favorites – and where you can display them.
+This feature was requested by many in the Community and will be a great benefit, especially for organizations with many projects: OpenProject 14.1 allows you to add projects to favorites so that they can be found more quickly. We [recently gave an overview in our blog](https://www.openproject.org/blog/favorite-projects/) of how exactly you can add projects to favorites or remove them from favorites – and where you can display them.
 
 ![OpenProject dropdown menu showing favorite projects, displayed with yellow stars](openproject-14-1-favorite-projects-overview.shadow.png)
 
