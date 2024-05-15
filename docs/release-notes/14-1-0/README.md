@@ -28,6 +28,8 @@ This feature was requested by many in the Community and will be a great benefit,
 
 ![OpenProject dropdown menu showing favorite projects, displayed with yellow stars](openproject-14-1-favorite-projects-overview.shadow.png)
 
+See our documentation to learn more about [how to mark a project as favorite](https://www.openproject.org/docs/user-guide/project-overview/#mark-a-project-as-favorite).
+
 ### Advanced features for the Meetings module
 
 The Meetings module is currently being continuously improved. With OpenProject 14.1...
