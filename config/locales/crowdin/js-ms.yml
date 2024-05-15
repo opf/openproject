@@ -551,7 +551,7 @@ ms:
     label_drop_or_click_files: "Letakkan fail disini atau klik untuk melampirkan fail."
     label_drop_folders_hint: Anda tidak boleh memuat naik folder sebagai satu lampiran. Sila pilih fail tunggal.
     label_add_attachments: "Lampirkan Fail"
-    label_formattable_attachment_hint: "Lampir dan pautkan fail dengan meletakkan pada ruang ini atau menampal dari papan klip."
+    label_formattable_attachment_hint: "Lampir dan pautkan fail dengan meletakkan pada ruang ini atau menampal dari board klip."
     label_remove_file: "Padam %{fileName}"
     label_remove_watcher: "Keluarkan pemerhati %{name}"
     label_remove_all_files: Padam semua fail
@@ -588,14 +588,14 @@ ms:
           task_board_select: "...dan pilih kemasukan <b>papan tugasan</b>."
           task_board: "Papan tugasan menggambarkan secara visual <b>kemajuan untuk pecutan ini</b>. Klik ikon tambah (+) di sebelah cerita pengguna untuk tambah tugasan baru atau halangan. <br> Status boleh dikemas kini dengan tarik dan lepas."
         boards:
-          overview: "Pilih <b>papan</b> untuk tukar paparan dan kendalikan projek anda menggunakan paparan papan agile."
-          lists_kanban: "Disini anda boleh mencipta pelbagai senarai (kolum) dalam papan anda. Ciri ini membenarkan anda untuk mencipta <b>papan Kanban</b>, sebagai contoh."
-          lists_basic: "Disini anda boleh mencipta pelbagai senarai (kolum) dalam papan agile anda."
-          add: "Klik ikon tambah (+) untuk <b>mencipta kad baru</b> atau <b>menambah kad sedia ada</b> ke senarai pada papan."
+          overview: "Pilih <b>board</b> untuk tukar paparan dan kendalikan projek anda menggunakan paparan board agile."
+          lists_kanban: "Disini anda boleh mencipta pelbagai senarai (kolum) dalam board anda. Ciri ini membenarkan anda untuk mencipta <b>board Kanban</b>, sebagai contoh."
+          lists_basic: "Disini anda boleh mencipta pelbagai senarai (kolum) dalam board agile anda."
+          add: "Klik ikon tambah (+) untuk <b>mencipta kad baru</b> atau <b>menambah kad sedia ada</b> ke senarai pada board."
           drag: "Tarik dan lepaskan kad anda dalam senarai yang diberikan untuk menyusun mereka semula, atau untuk memindahkannya ke senarai lain. <br> Anda boleh klik ikon maklumat (i) di sudut kanan atas atau klik dua kali pada kad untuk membuka butirannya."
         wp:
           toggler: "Sekarang mari lihat bahagian <b>pakej kerja</b>, yang memberikan anda paparan terperinci kerja anda."
-          list: "Gambaran keseluruhan pakej <b>kerja</b> ini menyediakan senarai semua kerja dalam projek anda, seperti tugasan, pencapaian, fasa dan banyak lagi. <br> Pakej kerja boleh dicipta dan disunting secara langsung dari paparan ini. Untuk mengakses butiran pakej kerja tertentu, hanya klik dua kali pada barisnya."
+          list: "Gambaran keseluruhan pakej <b>kerja</b> ini menyediakan senarai semua kerja dalam projek anda, seperti tugasan, pencapaian, fasa dan banyak lagi. <br> Pakej kerja boleh dicipta dan diedit secara langsung dari paparan ini. Untuk mengakses butiran pakej kerja tertentu, hanya klik dua kali pada barisnya."
           full_view: "Paparan <b>butiran pakej kerja</b> tersebut menyediakan semua maklumat yang berkaitan dengan pakej kerja yang diberi, seperti penerangan, status, keutamaan, aktiviti, kebergantungan, dan komen."
           back_button: "Guna anak panah kembali di sudut kiri untuk keluar dan kembali ke senarai pakej kerja."
           create_button: "Butang <b>+ Cipta</b> akan menambah pakej kerja baru ke projek anda."
@@ -603,7 +603,7 @@ ms:
           timeline: "Di sini anda boleh <b>edit pelan projek anda</b>, cipta pakej kerja baru, seperti tugasan, pencapaian, fasa, dan banyak lagi, serta <b>tambah kebergantungan</b>. Semua ahli boleh lihat dan kemas kini pelan terkini pada bila-bila masa."
         team_planner:
           overview: "Perancang pasukan membolehkan anda memberikan tugasan secara visual kepada ahli kumpulan dan dapatkan ringkasan tentang siapa yang mengusahakan apa."
-          calendar: "Papan perancangan mingguan atau dua mingguan memaparkan semua pakej kerja ditugaskan ke ahli pasukan anda."
+          calendar: "Board perancangan mingguan atau dua mingguan memaparkan semua pakej kerja ditugaskan ke ahli pasukan anda."
           add_assignee: "Untuk memulakan, tambah penerima tugasan ke dalam perancang pasukan."
           add_existing: "Cari pakej kerja sedia ada dan tarik mereka ke perancang pasukan untuk serta merta tugaskan mereka ke ahli pasukan dan tentukan tarikh mula dan akhir."
           card: "Tarik pakej kerja secara mendatar untuk gerakkan mereka ke belakang atau ke hadapan dalam masa, tarik pinggir pakej kerja untuk mengubah tarikh mula dan akhir malah, tarik secara menegak ke baris berbeza untuk tugaskan mereka ke ahli yang lain."
@@ -655,7 +655,7 @@ ms:
           no_notification_with_current_filter: "Nampaknya anda sudah selesai untuk penapis %{filter}."
           no_selection: "Klik pada pemberitahuan untuk paparkan semua butiran aktiviti."
         new_notifications:
-          message: "Terdapat pemberitahuan baru."
+          message: "Terdapat pemberitahuan baharu."
           link_text: "Klik sini untuk memuatkan mereka."
       menu:
         accountable: "Bertanggungjawab"
@@ -686,12 +686,12 @@ ms:
           mentioned:
             title: "Telah disebutkan"
             description: "Terima pemberitahuan setiap kali sesiapa menyebut saya di mana saja"
-          assignee: "Wakil"
+          assignee: "Penerima tugasan"
           responsible: "Bertanggungjawab"
           shared: "Telah dikongsi"
           watched: "Pemerhati"
-          work_package_commented: "Semua komen baru"
-          work_package_created: "Pakej kerja baru"
+          work_package_commented: "Semua komen baharu"
+          work_package_created: "Pakej kerja baharu"
           work_package_processed: "Semua perubahan status"
           work_package_prioritized: "Semua perubahan keutamaan"
           work_package_scheduled: "Semua perubahan tarikh"
@@ -706,7 +706,7 @@ ms:
             title: "Peringatan tarikh"
             description: "Pemberitahuan secaraautomatik apabila tarikh penting menghampiri untuk pakej kerja terbuka yang anda terlibat (wakil, bertanggungjawab atau pemerhati)."
             teaser_text: "Dengan peringatan tarikh, anda akan dimaklumkan tentang tarikh mula dan akhir yang akan datang supaya anda tidak pernah terlepas atau lupa tarikh akhir yang penting."
-          overdue: Apabila tertangguh
+          overdue: Apabila tertunggak
         project_specific:
           title: "Tetapan pemberitahuan khusus projek"
           description: "Tetapan pemberitahuan khusus projek mengatasi tetapan default diatas."
@@ -725,8 +725,8 @@ ms:
       default: "-"
       subject: "Masukkan subjek di sini"
       selection: "Sila pilih"
-      description: "Penerangan: Klik untuk edit..."
-      relation_description: "Klik untuk tambah penerangan untuk hubungan ini"
+      description: "Deskripsi: Klik untuk edit..."
+      relation_description: "Klik untuk tambah deskripsi untuk hubungan ini"
     project:
       required_outside_context: >
         Sila pilih projek untuk mencipta pakej kerja untuk melihat semua atribut. Anda hanya boleh memilih projek yang mempunyai jenis di atas diaktifkan.
@@ -780,7 +780,7 @@ ms:
         error_no_table_configured: "Sila konfigurasi jadual untuk %{group}."
         reset_title: "Set semula konfigurasi borang"
         confirm_reset: >
-          Amaran: Adakah anda pasti anda ingin set semula konfigurasi borang? Ini akan set semula atribut ke kumpulan asal mereka dan menyahdayakan SEMUA medan tersuai.
+          Amaran: Adakah anda pasti anda ingin set semula konfigurasi borang? Ini akan set semula atribut ke kumpulan asal mereka dan menyahdayakan SEMUA ruang tersuai.
         upgrade_to_ee: "Naik taraf edisi Enterprise di premis"
         upgrade_to_ee_text: "Wow! Jika anda perlukan tambahan ini anda adalah super pro! Bolehkah anda menyokong kami pemaju OpenProject dengan menjadi pelanggan edisi Enterprise?"
         more_information: "Maklumat lanjut"
@@ -823,7 +823,7 @@ ms:
       partof: "Sebahagian daripada"
       requires: "Memerlukan"
       required: "Diperlukan oleh"
-      relation_type: "jenis perhubungan"
+      relation_type: "jenis hubungan"
     relations_hierarchy:
       parent_headline: "Induk"
       hierarchy_headline: "Hierarki"
@@ -865,7 +865,7 @@ ms:
       select_tag: "Pilih tag"
       select_branch: "Pilih cawangan"
     field_value_enter_prompt: "Masukkan nilai untuk '%{field}'"
-    project_menu_details: "Butiran"
+    project_menu_details: "Butiran-butiran"
     scheduling:
       manual: "Penjadualan secara manual"
     sort:
@@ -885,17 +885,17 @@ ms:
       ee_only: "Tambahan edisi Enterprise"
     wiki_formatting:
       strong: "Kuat"
-      italic: "Italic"
+      italic: "Italik"
       underline: "Gariskan"
       deleted: "Padamkan"
       code: "Kod sebaris"
-      heading1: "Tajuk 1"
-      heading2: "Tajuk 2"
-      heading3: "Tajuk 3"
+      heading1: "Pengepala 1"
+      heading2: "Pengepala 2"
+      heading3: "Pengepala 3"
       unordered_list: "Senarai tidak tersusun"
       ordered_list: "Senarai tersusun"
-      quote: "Petikan harga"
-      unquote: "Batalkan petikan"
+      quote: "Sebut Harga"
+      unquote: "Batalkan sebut harga"
       preformatted_text: "Teks yang telah diformatkan"
       wiki_link: "Pautan ke halaman wiki"
       image: "Gambar"
@@ -930,14 +930,14 @@ ms:
       label_filter_add: "Tambah penyaring"
       label_filter_by_text: "Saring mengikut teks"
       label_options: "Pilihan"
-      label_column_multiselect: "Medan drop-down digabungkan: Pilih dengan kekunci anak panah, sahkan pemilihan dengan enter, padam dengan backspace"
+      label_column_multiselect: "Ruang drop-down digabungkan: Pilih dengan kekunci anak panah, sahkan pemilihan dengan enter, padam dengan backspace"
       message_error_during_bulk_delete: Ralat berlaku semasa cuba untuk memadam pakej kerja.
       message_successful_bulk_delete: Berjaya memadamkan pakej kerja.
       message_successful_show_in_fullscreen: "Klik di sini untuk buka pakej kerja ini dalam paparan skrin penuh."
       message_view_spent_time: "Tunjuk masa yang dihabiskan untuk pakej kerja ini"
       message_work_package_read_only: "Pakej kerja dikunci dalam status ini. Tiada atribut selain status yang boleh diubah."
       message_work_package_status_blocked: "Status pakej kerja tidak boleh ditulis kerana statusnya yang tertutup dan versi tertutup yang diberikan."
-      placeholder_filter_by_text: "Subjek, penerangan, komen, ..."
+      placeholder_filter_by_text: "Subjek, deskripsi, komen, ..."
       progress:
         title: "Anggaran kerja dan kemajuan"
       baseline:
@@ -950,17 +950,17 @@ ms:
         baseline_incompatible: "Penyaring atribut ini tidak diambil kira dalam mod asas."
         baseline_warning: "Mod asas sedang aktif tetapi beberapa penyaring aktif tidak termasuk dalam perbandingan."
       inline_create:
-        title: "Klik di sini untuk tambah pakej kerja baru ke senarai ini"
+        title: "Klik di sini untuk tambah pakej kerja baharu ke senarai ini"
       create:
         title: "Pakej kerja baru"
         header: "Baru %{type}"
         header_no_type: "Pakej kerja baru (Jenis belum ditetapkan)"
-        header_with_parent: "Baru %{type} (Anak %{parent_type} #%{id})"
+        header_with_parent: "Baharu %{type} (Anak %{parent_type} #%{id})"
         button: "Cipta"
       copy:
         title: "Salin pakej kerja"
       hierarchy:
-        show: "Tunjuk mod hierarki"
+        show: "Paparkan mod hierarki"
         hide: "Sembunyikan mod hierarki"
         toggle_button: "Klik untuk tukar mod hierarki."
         leaf: "Dedaun pakej kerja pada tahap %{level}."
@@ -974,12 +974,12 @@ ms:
         description: Sama ada tiada yang dicipta atau semua pakej kerja telah disaring keluar.
       limited_results: Hanya %{count} pakej kerja boleh ditunjukkan dalam mod penyusunan manual. Sila kurangkan hasil dengan menyaring, atau tukar ke penyusunan secara automatik.
       property_groups:
-        details: "Butiran"
+        details: "Butiran-butiran"
         people: "Orang"
         estimatesAndTime: "Anggaran & Masa"
         other: "Lain-lain"
       properties:
-        assignee: "Wakil"
+        assignee: "Penerima tugasan"
         author: "Pengarang"
         createdAt: "Dicipta pada"
         description: "Penerangan"
@@ -993,8 +993,8 @@ ms:
         percentageDone: "Peratusan selesai"
         priority: "Keutamaan"
         projectName: "Projek"
-        remainingWork: "Kerja berbaki"
-        remainingWorkAlternative: "Waktu berbaki"
+        remainingWork: "Kerja yang berbaki"
+        remainingWorkAlternative: "Waktu yang berbaki"
         responsible: "Bertanggungjawab"
         startDate: "Tarikh mula"
         status: "Status"
@@ -1007,7 +1007,7 @@ ms:
         version: "Versi"
         work: "Kerja"
         workAlternative: "Anggaran masa"
-        remainingTime: "Kerja berbaki"
+        remainingTime: "Kerja yang berbaki"
       default_queries:
         latest_activity: "Aktiviti terkini"
         created_by_me: "Dicipta oleh saya"
@@ -1026,33 +1026,33 @@ ms:
         default: "-"
         date: "Pilih tarikh"
       query:
-        column_names: "Kolum"
+        column_names: "Kolum-kolum"
         group_by: "Kumpulkan hasil mengikut"
         group: "Kumpulkan mengikut"
         group_by_disabled_by_hierarchy: "Kumpulkan mengikut dilumpuhkan kerana mod hierarki aktif."
         hierarchy_disabled_by_group_by: "Mod hierarki dilumpuhkan kerana hasil dikumpulkan oleh %{column}."
-        sort_ascending: "Menyusun menaik"
-        sort_descending: "Menyusun menaik"
-        move_column_left: "Gerakkan kolum kiri"
-        move_column_right: "Gerakkan kolum kanan"
+        sort_ascending: "Susun menaik"
+        sort_descending: "Susun menurun"
+        move_column_left: "Gerakkan kolum ke kiri"
+        move_column_right: "Gerakkan kolum ke kanan"
         hide_column: "Sembunyikan kolum"
         insert_columns: "Masukkan kolum"
-        filters: "Saringan"
+        filters: "Penyaring"
         display_sums: "Paparkan Jumlah"
         confirm_edit_cancel: "Adakah anda pasti ingin membatalkan suntingan nama paparan ini? Tajuk akan ditetapkan semula ke nilai sebelumnya."
         click_to_edit_query_name: "Klik untuk edit tajuk paparan ini."
         rename_query_placeholder: "Nama paparan ini"
         star_text: "Tandakan paparan ini sebagai kegemaran dan tambah ke bar sisi pandangan yang disimpan di sisi kiri."
         public_text: >
-          Terbitkan paparan ini, membenarkan pengguna lain untuk akses paparan anda. Pengguna dengan kebenaran 'Urus paparan awam' boleh ubah suai atau keluarkan pertanyaan awam. Ini tidak akan mempengaruhi keterlihatan hasil pakej kerja dalam paparan itu dan bergantung kepada kebenaran mereka, pengguna mungkin melihat hasil yang berbeza.
+          Terbitkan paparan ini bagi membenarkan pengguna lain untuk akses paparan anda. Pengguna dengan kebenaran 'Urus paparan awam' boleh mengubah suai atau padamkan pertanyaan awam. Ini tidak akan mempengaruhi keterlihatan hasil pakej kerja dalam paparan itu dan bergantung kepada kebenaran mereka, pengguna mungkin akan melihat hasil yang berbeza.
         errors:
-          unretrievable_query: "Tidak dapat untuk mendapatkan paparan dari URL"
+          unretrievable_query: "Tidak dapat untuk memperolehi paparan dari URL"
           not_found: "Tiada paparan seperti itu"
           duplicate_query_title: "Nama paparan ini sudah wujud. Tukar juga?"
-        text_no_results: "Tiada paparan yang sepadan yang dijumpai."
+        text_no_results: "Tiada paparan yang sepadan telah dijumpai."
       scheduling:
         is_parent: "Tarikh pakej kerja ini disimpulkan secara automatik dari anaknya. Aktifkan 'Penjadualan Manual' untuk tetapkan tarikh."
-        is_switched_from_manual_to_automatic: "Tarikh pakej kerja ini mungkin perlu dikira selepas menukar dari penjadualan manual ke automatik kerana hubungan dengan pakej kerja lain."
+        is_switched_from_manual_to_automatic: "Tarikh pakej kerja ini mungkin perlu dikira semula selepas menukar dari penjadualan manual ke automatik kerana hubungan dengan pakej kerja lain."
       sharing:
         share: "Kongsi"
         title: "Kongsi pakej kerja"
@@ -1065,8 +1065,8 @@ ms:
       table:
         configure_button: "Konfigurasi jadual pakej kerja"
         summary: "Jadual dengan baris pakej kerja dan kolum atribut pakej kerja."
-        text_inline_edit: "Kebanyakan sel jadual ini ialah butang yang mengaktifkan kefungsian pengeditan sebaris bagi atribut tersebut."
-        text_sort_hint: "Dengan pautan dalam pengepala jadual anda boleh menyusun, mengumpul, menyusun semula, mengeluar dan menambahkan kolum jadual."
+        text_inline_edit: "Kebanyakan sel jadual ini ialah butang yang mengaktifkan kefungsian suntingan sebaris bagi atribut tersebut."
+        text_sort_hint: "Dengan pautan dalam pengepala jadual anda boleh menyusun, mengumpul, menyusun semula, mengeluarkan dan menambahkan kolum jadual."
         text_select_hint: "Pilih kotak yang sepatutnya dibuka dengan 'ALT' dan kekunci anak panah."
       table_configuration:
         button: "Konfigurasi jadual pakej kerja ini"
@@ -1077,9 +1077,9 @@ ms:
         display_settings: "Tetapan paparan"
         default_mode: "Senarai datar"
         hierarchy_mode: "Hierarki"
-        hierarchy_hint: "Semua hasil jadual tersaring akan ditambah bersama leluhur mereka. Hierarki boleh dikembangkan dan ditutup."
+        hierarchy_hint: "Semua hasil jadual tersaring akan ditambah bersama leluhur mereka. Hierarki boleh dikembang dan ditutup."
         display_sums_hint: "Paparkan jumlah semua atribut yang boleh dijumlahkan dalam baris di bawah hasil jadual."
-        show_timeline_hint: "Tunjuk satu carta gantt yang interaktif pada bahagian kanan jadual. Anda boleh ubah lebar nya dengan menarik pembahagi antara jadual dan carta gantt."
+        show_timeline_hint: "Tunjuk satu carta gantt yang interaktif pada bahagian kanan jadual. Anda boleh ubah lebarnya dengan menarik pembahagi antara jadual dan carta gantt."
         highlighting: "Menyerlahkan"
         highlighting_mode:
           description: "Serlahkan dengan warna"
@@ -1091,7 +1091,7 @@ ms:
           priority: "Keutamaan"
           type: "Jenis"
         sorting_mode:
-          description: "Pilih mod untuk menyusun pakej kerja anda:"
+          description: "Pilih mod untuk menyusun Pakej kerja anda:"
           automatic: "Automatik"
           manually: "Secara manual"
           warning: "Anda akan hilang penyusunan sebelumnya apabila mengaktifkan mod penyusunan automatik."
@@ -1105,17 +1105,17 @@ ms:
       tabs:
         overview: Gambaran keseluruhan
         activity: Aktiviti
-        relations: Hubungan
-        watchers: Pemerhati
+        relations: Hubungan-hubungan
+        watchers: Pemerhati-pemerhati
         files: Fail-fail
       time_relative:
-        days: "hari"
+        days: "hari-hari"
         weeks: "minggu"
-        months: "bulan"
+        months: "bulan-bulan"
     toolbar:
       settings:
         configure_view: "Konfigurasi paparan"
-        columns: "Kolum"
+        columns: "Kolum-kolum"
         sort_by: "Susun mengikut"
         group_by: "Kumpulkan mengikut"
         display_sums: "Paparkan jumlah"
@@ -1144,7 +1144,7 @@ ms:
         title: "Sahkan untuk teruskan"
         text: "Adakah anda pasti anda ingin melaksanakan tindakan ini?"
       destroy_work_package:
-        title: "Sahkan pemadam %{label}"
+        title: "Sahkan pemadaman %{label}"
         single_text: "Adakah anda pasti anda ingin memadam pakej kerja"
         bulk_text: "Adakah anda pasti anda ingin memadam %{label} yang berikut?"
         has_children: "Pakej kerja mempunyai %{childUnits}:"
@@ -1169,7 +1169,7 @@ ms:
       button_save_all: "Simpan"
       button_cancel_all: "Batal"
       link_formatting_help: "Bantuan format teks"
-      btn_preview_enable: "Tinjauan"
+      btn_preview_enable: "Previu"
       btn_preview_disable: "Nyahdayakan tinjauan"
       null_value_label: "Tiada nilai"
       clear_value_label: "-"
@@ -1211,7 +1211,7 @@ ms:
         project_and_subprojects: "dan semua subprojek"
         search_for: "Cari untuk"
     views:
-      card: "Kad-Kad"
+      card: "Kad-kad"
       list: "Jadual"
       timeline: "Gantt"
     invite_user_modal:
@@ -1242,8 +1242,8 @@ ms:
           description: "Kebenaran berdasarkan peranan yang ditugaskan dalam projek terpilih"
         placeholder:
           title: "Pengguna sementara"
-          title_no_ee: "Pengguna sementara (Edisi Enterprise hanya tambahan)"
-          description: "Tidak mempunyai akses ke projek dan tiada e-mel dihantar keluar."
+          title_no_ee: "Pengguna sementara (Edisi Enterprise hanyalah tambahan)"
+          description: "Tidak mempunyai akses ke projek dan tiada e-mel yang dihantar keluar."
           description_no_ee: 'Tidak mempunyai akses ke projek dan tiada e-mel dihantar keluar. <br>Lihat<a href="%{eeHref}" target="_blank">Edisi Enterprise</a>'
       principal:
         label:
@@ -1252,13 +1252,13 @@ ms:
         already_member_message: "Sudah menjadi ahli kepada %{project}"
         no_results_user: "Tiada pengguna dijumpai"
         invite_user: "Jemput:"
-        no_results_placeholder: "Tiada pengguna sementara dijumpai"
+        no_results_placeholder: "Tiada pemegang tempat yang dijumpai"
         create_new_placeholder: "Cipta pengguna sementara baru:"
         no_results_group: "Tiada kumpulan dijumpai"
         next_button: "Seterusnya"
         required:
           user: "Sila pilih pengguna"
-          placeholder: "Sila pilih pengguna sementara"
+          placeholder: "Sila pilih pemegang tempat"
           group: "Sila pilih kumpulan"
       role:
         label: "Peranan dalam %{project}"
@@ -1278,7 +1278,7 @@ ms:
         description:
           user: "Pengguna kini boleh log masuk ke akses %{project}. Sementara itu, anda boleh merancang dengan pengguna itu dan tugaskan pakej kerja sebagai contoh."
           placeholder: "Pengguna sementara kini boleh digunakan dalam %{project}. Sementara itu anda sudah boleh merancang dengan pengguna dan tugaskan pakej kerja sebagai contoh."
-          group: "Kumpulan kini sebahagian daripada %{project}. Sementara tu nda sudah boleh merancang dengan kumpulan tersebut dan tugaskan pakej kerja sebagai contoh."
+          group: "Kumpulan kini sebahagian daripada %{project}. Sementara itu anda sudah boleh merancang dengan kumpulan tersebut dan tugaskan pakej kerja sebagai contoh."
         next_button: "Teruskan"
     favorite_projects:
       no_results: "Anda tiada projek kegemaran"
@@ -1294,7 +1294,7 @@ ms:
       search_placeholder: "Cari projek..."
       include_subprojects: "Termasuk semua sub-projek"
       tooltip:
-        include_all_selected: "Projek sudah dimasukkan sejak Termasuk semua sub-projek didayakan."
+        include_all_selected: "Projek sudah dimasukkan sejak Sertakan semua sub-projek didayakan."
         current_project: "Ini adalah projek yang anda terlibat dalam sekarang."
         does_not_match_search: "Projek tidak sepadan dengan kriteria carian."
       no_results: "Tiada projek yang sepadan dengan kriteria carian anda."
@@ -1302,8 +1302,8 @@ ms:
       toggle_title: "Dasar"
       clear: "Kosongkan"
       apply: "Gunakan"
-      header_description: "Serlahkan perubahan yang dibuat ke senarai ini pada bila-bila masa lalu."
-      enterprise_header_description: "Serlahkan perubahan yang dibuat ke senarai ini pada bila-bila masa lalu dengan edisi Enterprise."
+      header_description: "Sorotkan perubahan yang dibuat ke senarai ini pada bila-bila masa lalu."
+      enterprise_header_description: "Sorotkan perubahan yang dibuat ke senarai ini pada bila-bila masa lalu dengan edisi Enterprise."
       show_changes_since: "Tunjuk perubahan sejak"
       baseline_comparison: "Perbandingan asas"
       help_description: "Zon masa rujukan untuk yang dasar."

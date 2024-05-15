@@ -22,5 +22,5 @@
 ms:
   js:
     reporting_engine:
-      label_remove: "Padam"
+      label_remove: "Padamkan"
       label_response_error: "Terdapat ralat semasa mengendalikan pertanyaan."

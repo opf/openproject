@@ -7,7 +7,7 @@ ms:
     common:
       colors:
         item_0:
-          name: Biru (gelap)
+          name: Biru (tua)
         item_1:
           name: Biru
         item_2:
@@ -15,7 +15,7 @@ ms:
         item_3:
           name: Hijau (muda)
         item_4:
-          name: Hijau (gelap)
+          name: Hijau (tua)
         item_5:
           name: Kuning
         item_6:
@@ -31,7 +31,7 @@ ms:
         item_11:
           name: Kelabu
         item_12:
-          name: Kelabu (gelap)
+          name: Kelabu (tua)
         item_13:
           name: Hitam
       document_categories:
@@ -122,7 +122,7 @@ ms:
         item_2:
           name: Fasa
         item_3:
-          name: Ciri-ciri
+          name: Fitur
         item_4:
           name: Epik
         item_5:
@@ -150,17 +150,17 @@ ms:
       projects:
         demo-project:
           name: Projek demo
-          status_explanation: Semua tugasan mengikut jadual. Orang yang terlibat tahu tugasan mereka. Sistem ini lengkap sepenuhnya.
-          description: Ini adalah ringkasan singkat matlamat projek demo ini.
+          status_explanation: Semua tugasan mengikut jadual. Orang yang terlibat tahu tugasan mereka. Sistem ini telah siap sepenuhnya.
+          description: Ini adalah ringkasan pendek matlamat projek demo ini.
           news:
             item_0:
               title: Selamat datang ke projek demo anda
               summary: |
-                Kami gembira anda menyertai.
-                Dalam modul ini, anda boleh menyampaikan berita projek ke ahli pasukan.
+                Kami gembira anda menyertai kami.
+                Dalam modul ini, anda boleh menyampaikan berita projek ke ahli pasukan anda.
               description: Berita sebenar
           categories:
-            item_0: Kategori 1 (untuk diubah dalam seting Projek)
+            item_0: Kategori 1 (untuk diubah dalam tetapan Projek)
           queries:
             item_0:
               name: Pelan projek
@@ -195,21 +195,21 @@ ms:
                 options:
                   name: Sedang bermula
                   text: |
-                    Kami gembira anda menyertai! Kami cadangkan beberapa perkara untuk bermula di OpenProject.
+                    Kami gembira anda menyertai kami! Kami cadangkan beberapa perkara sebagai permulaan di OpenProject.
 
-                    Temui ciri paling penting dengan [Lawatan Berpandu ({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true) kami.
+                    Temui fitur paling penting dengan [Lawatan Berpandu ({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true) kami.
 
-                    _Cuba ikuti langkah berikut:_
+                    _Cuba ikuti langkah-langkah berikut:_
 
                     1. *Jemput ahli baru ke projek anda*: &rightarrow; Pergi ke [Ahli]({{opSetting:base_url}}/projects/demo-project/members) dalam navigasi projek.
                     2. *Lihat kerja dalam projek anda*: &rightarrow; Pergi ke [Pakej kerja]({{opSetting:base_url}}/projects/demo-project/work_packages) dalam navigasi projek.
                     3. *Cipta satu pakej kerja baharu*: &rightarrow; Pergi ke [Pakej kerja &rightarrow; Cipta]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
-                    4. *Cipta dan kemaskini pelan projek*: &rightarrow; Pergi ke [Pelan projek]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) dalam navigasi projek.
-                    5. *Aktifkan modul lanjutan*: &rightarrow; Pergi ke [Tetapan projek &rightarrow; Modul]({{opSetting:base_url}}/projects/demo-project/settings/modules).
+                    4. *Cipta dan kemas kini pelan projek*: &rightarrow; Pergi ke [Pelan projek]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) dalam navigasi projek.
+                    5. *Aktifkan modul selanjutanya*: &rightarrow; Pergi ke [Tetapan projek &rightarrow; Modul]({{opSetting:base_url}}/projects/demo-project/settings/modules).
                     6. *Lengkapkan tugasan anda dalam projek*: &rightarrow; Pergi ke [Pakej kerja &rightarrow; Tugasan]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
 
-                    Di sini anda akan menemui [Panduan Pengguna](https://www.openproject.org/docs/user-guide/).
-                    Sila beritahu kami jika anda mempunyai sebarang soalan atau memerlukan bantuan. Hubungi kami: [support[at]openproject.com](mailto:support@openproject.com).
+                    Di sini anda akan menemui [Panduan Pengguna] (https://www.openproject.org/docs/user-guide/) kami.
+                    Sila beritahu kami jika anda mempunyai sebarang soalan atau memerlukan bantuan. Hubungi kami: [support[at]openproject.com](mel ke:support@openproject.com).
               item_5:
                 options:
                   name: Pakej kerja
@@ -253,13 +253,13 @@ ms:
               subject: Akhir projek
         scrum-project:
           name: Projek Scrum
-          status_explanation: Semua tugasan mengikut jadual. Orang yang terlibat tahu tugasan mereka. Sistem ini lengkap sepenuhnya.
-          description: Ini adalah ringkasan singkat matlamat demo projek Scrum ini.
+          status_explanation: Semua tugasan mengikut jadual. Orang yang terlibat tahu akan tugasan mereka. Sistem ini telah siap sepenuhnya.
+          description: Ini adalah ringkasan pendek matlamat demo projek Scrum ini.
           news:
             item_0:
               title: Selamat datang ke demo projek Scrum anda
               summary: |
-                Kami gembira anda menyertai.
+                Kami gembira anda menyertai kami.
                 Dalam modul ini, anda boleh menyampaikan berita projek ke ahli pasukan anda.
           versions:
             item_0:
@@ -352,9 +352,9 @@ ms:
                 options:
                   name: Sedang bermula
                   text: |
-                    Kami gembira anda menyertai! Kami cadangkan beberapa perkara untuk bermula di OpenProject.
+                    Kami gembira anda menyertai kami! Kami cadangkan beberapa perkara sebagai permula andi OpenProject.
 
-                    _Cuba ikuti langkah berikut:_
+                    _Cuba ikuti langkah-langkah berikut:_
 
                     1. *Jemput ahli baru ke projek anda*: &rightarrow; Pergi ke [Ahli]({{opSetting:base_url}}/projects/your-scrum-project/members) dalam navigasi produk.
                     2. *Lihat Tunggakan Produk dan Tunggakan Pecutan anda*: &rightarrow; Pergi ke [Tunggakan]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) dalam navigasi projek.
@@ -365,7 +365,7 @@ ms:
                     7. *Aktifkan modul lanjutan*: &rightarrow; Pergi ke [Tetapan projek &rightarrow; Modul]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
                     Disini anda akan menemui [Panduan Pengguna](https://www.openproject.org/docs/user-guide/) kami.
-                    Sila beritahu kami jika anda mempunyai sebarang soalan atau memerlukan bantuan. Hubungi kami: [support[at]openproject.com](mailto:support@openproject.com).
+                    Sila beritahu kami jika anda mempunyai sebarang soalan atau memerlukan bantuan. Hubungi kami: [support[at]openproject.com](mel ke:support@openproject.com).
               item_5:
                 options:
                   name: Pakej kerja
@@ -392,10 +392,10 @@ ms:
             item_3:
               subject: Borang hubungan
             item_4:
-              subject: Ciri-ciri karusel
+              subject: Fitur karusel
               children:
                 item_0:
-                  subject: Buat tangkapan skrin untuk lawatan ciri
+                  subject: Buat tangkapan skrin untuk lawatan fitur
             item_5:
               subject: Warna hover yang salah
             item_6:

@@ -327,7 +327,7 @@ lt:
       project_roles: "Projekto vaidmenys"
       wp_shares: "Darbo paketų bendrinimai"
       groups: "Grupės"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    no_modify_on_shared: "Jūs šiuo metu negalite keisti ar išimti bendrintų narysčių per nario puslapį. Vietoje to naudokite bendrinimo dialogą."
     delete_member_dialog:
       title: "Išimti narį"
       will_remove_the_users_role: "Tai išims naudotojo vaidmenį iš šio projekto."
@@ -505,9 +505,9 @@ lt:
       unsupported_for_multiple_projects: "Masinis darbų paketų perkėlimas/kopijavimas nėra palaikomas darbui iškart su keliais projektais"
     sharing:
       missing_workflow_warning:
-        title: "Workflow missing for work package sharing"
-        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
-        link_message: "Configure the workflows in the administration."
+        title: "Darbo paketo dalinimuisi trūksta darbo proceso"
+        message: "Vaidmeniui „Darbo paketo redaktorius“ nesukonfigūruotas procesas. Be proceso naudotojas negali pakeisti darbo paketo būsenos. Procesą galima nukopijuoti. Parinkite šaltinio tipą („pvz. „Užduotis“) ir šaltinio vaidmenį (pvz. „Narys“). Tada parinkite paskirties tipus. Pradžiai galėtumėte kaip paskirtį parinkti visus tipus. Galų gale parinkite vaidmenį „Darbo paketų redaktorius“ kaip paskirtį ir spauskite „Kopijuoti“. Taip sukūrę numatytąjį variantą, patikslinkite procesus kaip tai darote su kitais vaidmenimis."
+        link_message: "Konfigūruokite procesus administravime."
     summary:
       reports:
         category:
@@ -2812,7 +2812,7 @@ lt:
     member_of_group: "Priskirtojo asmens grupė"
     name_or_identifier: "Pavadinimas arba identifikatorius"
     only_subproject_id: "Tik sub-projektai"
-    shared_with_user: "Shared with users"
+    shared_with_user: "Bendrinamas su naudotojais"
     shared_with_me: "Bendrinama su manimi"
     subproject_id: "Įtraukti sub-projektus"
   repositories:

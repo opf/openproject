@@ -303,13 +303,13 @@ es:
         no_results_title_text: No se ha registrado el uso de espacio en disco adicional por este proyecto.
   lists:
     create:
-      success: "The modified list has been saved as a new list"
-      failure: "The modified list cannot be saved: %{errors}"
+      success: "La lista modificada se ha guardado como una nueva lista"
+      failure: "La lista modificada no se puede guardar: %{errors}"
     update:
-      success: "The modified list has been saved"
-      failure: "The modified list cannot be saved: %{errors}"
-    can_be_saved: "List modified:"
-    can_be_saved_as: "The modifications can only be saved in a new list:"
+      success: "La lista modificada se ha guardado"
+      failure: "La lista modificada no se puede guardar: %{errors}"
+    can_be_saved: "Lista modificada:"
+    can_be_saved_as: "Las modificaciones solo pueden guardarse en una lista nueva:"
   members:
     index:
       no_results_title_text: Actualmente no hay miembros que formen parte de este proyecto.
@@ -3230,7 +3230,7 @@ es:
         drag_area_label: "Gestionar y reordenar columnas"
       sort_by:
         automatic:
-          heading: "Automatic"
+          heading: "Automático"
           description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Recursos Adicionales"

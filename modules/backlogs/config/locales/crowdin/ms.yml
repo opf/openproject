@@ -22,7 +22,7 @@
 ms:
   plugin_openproject_backlogs:
     name: "Tunggakan OpenProject"
-    description: "Modul ini menambahkan ciri-ciri yang membolehkan kumpulan-kumpulan yang tangkas untuk bekerja menggunakan OpenProject di projek Scrum."
+    description: "Modul ini menambahkan fitur-fitur yang membolehkan kumpulan-kumpulan yang tangkas untuk bekerja menggunakan OpenProject di projek Scrum."
   activerecord:
     attributes:
       work_package:
