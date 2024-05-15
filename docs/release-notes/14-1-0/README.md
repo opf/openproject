@@ -16,7 +16,7 @@ We released [OpenProject 14.1.0](https://community.openproject.org/versions/2030
 
 ### PDF export of Gantt view, e.g. for printing (Enterprise add-on)
 
-It is now possible to export a Gantt view as PDF in the OpenProject Enterprise edition. This allows users to easily print Gantt charts in a nice design. Choose between different paper formats, set the colomn width, and specify whether the PDF file should display your work packages on a daily, monthly or quarterly basis.
+It is now possible to export a Gantt view as PDF in the OpenProject Enterprise edition. This allows users to easily print Gantt charts in a nice design. Choose between different paper formats, set the column width, and specify whether the PDF file should display your work packages on a daily, monthly or quarterly basis.
 
 Please note that we plan to further improve the PDF export of Gantt view in future releases.
 
@@ -45,7 +45,7 @@ Apart from these features that apply the Meetings module directly, the following
 - On work packages, the project name is now shown in the Meetings tab.
 - Calendar widgets on the My Page and project overview pages can now show meetings.
 
-![A calendar widget on a project overview page, now showing upcoming meetingss](openproject-14-1-meetings-widget-project-overview.png)
+![A calendar widget on a project overview page, now showing upcoming meetings](openproject-14-1-meetings-widget-project-overview.png)
 
 **Please note**: On the project overview page, the "+" button on the top right has been removed. You can now only add widgets by hovering at the border of an existing widget and click on the "+" there. 
 
@@ -55,7 +55,7 @@ Admins now are able to hide the attachment section in the Files tab. This settin
 
 ### Custom fields of the type Link (URL)
 
-Users can now create custom field of the type Link (URL). Remember to activiate it for your project(s) and specific work package type for it to be displayed. The custom field type Link shows an error message if you type in an invalid URL.
+Users can now create custom field of the type Link (URL). Remember to activate it for your project(s) and specific work package type for it to be displayed. The custom field type Link shows an error message if you type in an invalid URL.
 
 ![Create a custom field of the type Link](openproject-14-1-custom-field-link.png)
 
