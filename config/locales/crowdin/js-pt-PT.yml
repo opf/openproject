@@ -330,6 +330,18 @@ pt-PT:
         years: "Anos"
         description: >
           Selecione o nível de zoom inicial que deve ser mostrado quando o zoom automático não está disponível.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "não"
     general_text_yes: "sim"
     general_text_No: "Não"
@@ -378,7 +390,7 @@ pt-PT:
     label_added_time_by: 'Adicionado por <a href="%{authorLink}">%{author}</a> a %{age}'
     label_ago: "dias atrás"
     label_all: "todos"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Todos"
     label_all_work_packages: "todas as tarefas"
     label_and: "e"
     label_ascending: "Ascendente"
@@ -629,7 +641,7 @@ pt-PT:
       center:
         label_actor_and: "e"
         and_more_users:
-          one: "e %{count} outros"
+          one: "e 1 outro"
           other: "e %{count} outros"
         no_results:
           at_all: "Vão aparecer novas notificações aqui quando houver atividade que lhe interesse"
@@ -1045,7 +1057,7 @@ pt-PT:
       sharing:
         share: "Partilhe"
         title: "Partilhar pacote de trabalho"
-        show_all_users: "Mostrar todos os utilizadores partilhados"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selecionado"
         selection:
           mixed: "Misturado"

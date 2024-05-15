@@ -329,6 +329,18 @@ sv:
         years: "År"
         description: >
           Välj den initiala zoomnivån som ska visas när autozoom inte är tillgänglig.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "nej"
     general_text_yes: "ja"
     general_text_No: "Nej"
@@ -377,7 +389,7 @@ sv:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "dagar sedan"
     label_all: "alla"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Alla"
     label_all_work_packages: "alla arbetspaket"
     label_and: "och"
     label_ascending: "Stigande"
@@ -761,7 +773,7 @@ sv:
           last_day: "Last day"
     text_are_you_sure: "Är du säker?"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} skrev:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Namnet %{group} används redan. Gruppnamn måste vara unika."
@@ -982,7 +994,7 @@ sv:
         priority: "Prioritet"
         projectName: "Projekt"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "Återstående timmar"
         responsible: "Ansvarig"
         startDate: "Startdatum"
         status: "Status"
@@ -994,7 +1006,7 @@ sv:
         versionName: "Version"
         version: "Version"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "Beräknad tid"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Senaste aktivitet"
@@ -1044,7 +1056,7 @@ sv:
       sharing:
         share: "Dela"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"

@@ -330,6 +330,18 @@ fi:
         years: "Vuotta"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "ei"
     general_text_yes: "kyllä"
     general_text_No: "Ei"
@@ -378,7 +390,7 @@ fi:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "päiviä sitten"
     label_all: "kaikki"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Kaikki"
     label_all_work_packages: "kaikki tehtävät"
     label_and: "and"
     label_ascending: "Nouseva"
@@ -762,7 +774,7 @@ fi:
           last_day: "Last day"
     text_are_you_sure: "Oletko varma?"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} kirjoitti:"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
@@ -983,7 +995,7 @@ fi:
         priority: "Prioriteetti"
         projectName: "Projekti"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "Jäljellä olevat tunnit"
         responsible: "Vastuullinen"
         startDate: "Aloituspäivä"
         status: "Tila"
@@ -995,7 +1007,7 @@ fi:
         versionName: "Versio"
         version: "Versio"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "Työmääräarvio"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Viimeisimmät tapahtumat"
@@ -1045,7 +1057,7 @@ fi:
       sharing:
         share: "Jaa"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"

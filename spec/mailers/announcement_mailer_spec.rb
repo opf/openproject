@@ -59,5 +59,14 @@ RSpec.describe AnnouncementMailer do
       expect(mail.to)
         .to contain_exactly(recipient.mail)
     end
+
+    context "when user is locked" do
+      let(:recipient) { build_stubbed(:user, status: Principal.statuses[:locked]) }
+
+      it "does not send an email" do
+        expect(mail.subject).to be nil
+        expect(mail.to).to be nil
+      end
+    end
   end
 end

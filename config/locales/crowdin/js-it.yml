@@ -330,6 +330,18 @@ it:
         years: "Anni"
         description: >
           Seleziona il livello di zoom iniziale da mostrare quando lo zoom automatico non è disponibile.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "no"
     general_text_yes: "si"
     general_text_No: "No"
@@ -378,7 +390,7 @@ it:
     label_added_time_by: 'Aggiunto da <a href="%{authorLink}">%{author}</a> alle %{age}'
     label_ago: "giorni fa"
     label_all: "tutti"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Tutti"
     label_all_work_packages: "tutte le macro-attività"
     label_and: "e"
     label_ascending: "Crescente"
@@ -1045,7 +1057,7 @@ it:
       sharing:
         share: "Condividi"
         title: "Condividi macro-attività"
-        show_all_users: "Mostra tutti gli utenti condivisi"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selezionati"
         selection:
           mixed: "Misto"

@@ -330,6 +330,18 @@ ka:
         years: "წელი"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "არა"
     general_text_yes: "დია"
     general_text_No: "არა"
@@ -378,7 +390,7 @@ ka:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "დღის წინ"
     label_all: "ყველა"
-    label_all_uppercase: "All"
+    label_all_uppercase: "ყველა"
     label_all_work_packages: "all work packages"
     label_and: "და"
     label_ascending: "ზრდადობით"
@@ -837,7 +849,7 @@ ka:
       toggle_description: "Toggle relation description"
       update_relation: "Click to change the relation type"
       add_follower: "გამომწერის დამატება"
-      show_relations: "Show relations"
+      show_relations: "ურთიერთობის ჩვენება"
       add_predecessor: "Add predecessor"
       remove: "Remove relation"
       save: "ურთიერთობის შენახვა"
@@ -973,7 +985,7 @@ ka:
         createdAt: "შექმნის დრო"
         description: "აღწერა"
         date: "თარიღი"
-        percentComplete: "% Complete"
+        percentComplete: "% დასრულებულია"
         percentCompleteAlternative: "Progress"
         dueDate: "დასრულების თარიღი"
         duration: "ხანგრძლივობა"
@@ -982,8 +994,8 @@ ka:
         percentageDone: "Percentage done"
         priority: "პრიორიტეტი"
         projectName: "პროექტი"
-        remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWork: "დარჩენილი სამუშაო"
+        remainingWorkAlternative: "დარჩენილია საათები"
         responsible: "პასუხისმგებელი"
         startDate: "დაწყების თარიღი"
         status: "სტატუსი"
@@ -994,8 +1006,8 @@ ka:
         updatedAt: "განახლების თარიღი"
         versionName: "ვერსია"
         version: "ვერსია"
-        work: "Work"
-        workAlternative: "Estimated time"
+        work: "სამუშაო"
+        workAlternative: "სავარაუდო დრო"
         remainingTime: "დარჩენილი სამუშაო"
       default_queries:
         latest_activity: "Latest activity"
@@ -1045,7 +1057,7 @@ ka:
       sharing:
         share: "გაზიარება"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "შერეული"

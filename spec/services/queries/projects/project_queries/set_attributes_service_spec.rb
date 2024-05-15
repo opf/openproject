@@ -30,6 +30,30 @@ require "spec_helper"
 
 RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :model do
   let(:current_user) { build_stubbed(:user) }
+  let(:contract_instance) do
+    contract = instance_double(Queries::Projects::ProjectQueries::CreateContract)
+    allow(contract)
+      .to receive_messages(validate: contract_valid, errors: contract_errors)
+    contract
+  end
+  let(:contract_errors) { instance_double(ActiveModel::Errors) }
+  let(:contract_valid) { true }
+  let(:model_valid) { true }
+  let(:instance) do
+    described_class.new(user: current_user,
+                        model: model_instance,
+                        contract_class:,
+                        contract_options: {})
+  end
+  let(:model_instance) { Queries::Projects::ProjectQuery.new }
+  let(:contract_class) do
+    allow(Queries::Projects::ProjectQueries::CreateContract)
+      .to receive(:new)
+            .and_return(contract_instance)
+
+    Queries::Projects::ProjectQueries::CreateContract
+  end
+  let(:params) { {} }
   let!(:custom_field) do
     build_stubbed(:project_custom_field, id: 1) do |cf|
       scope = instance_double(ActiveRecord::Relation)
@@ -45,38 +69,9 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
     end
   end
 
-  let(:contract_instance) do
-    contract = instance_double(Queries::Projects::ProjectQueries::CreateContract)
-    allow(contract)
-      .to receive_messages(validate: contract_valid, errors: contract_errors)
-    contract
-  end
-
-  let(:contract_errors) { instance_double(ActiveModel::Errors) }
-  let(:contract_valid) { true }
-  let(:model_valid) { true }
-
-  let(:instance) do
-    described_class.new(user: current_user,
-                        model: model_instance,
-                        contract_class:,
-                        contract_options: {})
-  end
-  let(:model_instance) { Queries::Projects::ProjectQuery.new }
-  let(:contract_class) do
-    allow(Queries::Projects::ProjectQueries::CreateContract)
-      .to receive(:new)
-            .and_return(contract_instance)
-
-    Queries::Projects::ProjectQueries::CreateContract
-  end
-
-  let(:params) { {} }
-
   before do
-    allow(model_instance)
-      .to receive(:valid?)
-            .and_return(model_valid)
+    RequestStore.store[:custom_sortable_project_custom_fields] = "1"
+    allow(model_instance).to receive(:valid?).and_return(model_valid)
   end
 
   subject { instance.call(params) }
@@ -190,7 +185,7 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
       subject
 
       expect(model_instance.selects.map(&:attribute))
-        .to eql [:favored, :name]
+        .to eql %i[favored name]
     end
   end
 

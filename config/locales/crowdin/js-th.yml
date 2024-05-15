@@ -330,6 +330,18 @@ th:
         years: "ปี"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "ไม่ใช่"
     general_text_yes: "ใช่"
     general_text_No: "ไม่ใช่"
@@ -378,7 +390,7 @@ th:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "วันที่ผ่านมา"
     label_all: "ทั้งหมด"
-    label_all_uppercase: "All"
+    label_all_uppercase: "ทั้งหมด"
     label_all_work_packages: "ชุดภารกิจทั้งหมด"
     label_and: "และ"
     label_ascending: "จากน้อยไปมาก"
@@ -761,7 +773,7 @@ th:
           last_day: "Last day"
     text_are_you_sure: "คุณแน่ใจหรือไม่ ?"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} เขียนว่า:"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
@@ -994,7 +1006,7 @@ th:
         versionName: "เวอร์ชัน"
         version: "เวอร์ชัน"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "ระยะเวลาโดยประมาณ"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"
@@ -1044,7 +1056,7 @@ th:
       sharing:
         share: "แชร์"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"

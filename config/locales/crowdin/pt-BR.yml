@@ -304,7 +304,14 @@ pt-BR:
       storage:
         no_results_title_text: Não há espaço adicional gravado em disco que seja consumido por este projeto.
   lists:
-    can_be_saved_as: "As modificações só podem ser salvas em uma nova lista."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Atualmente, não há membros deste projeto.
@@ -322,6 +329,7 @@ pt-BR:
       project_roles: "Papel no projeto"
       wp_shares: "Compartilhamento de pacote de trabalho"
       groups: "Grupos"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Remover membro"
       will_remove_the_users_role: "Isto removerá a função do usuário deste projeto."
@@ -484,10 +492,10 @@ pt-BR:
       no_common_statuses_exists: "Não há situação disponível para todos os pacotes de trabalho selecionados. Sua situação não pode ser alterada."
       unsupported_for_multiple_projects: "Movimentação/cópia em massa não é suportada para pacotes de trabalho de vários projetos"
     sharing:
-      missing_workflow_waring:
-        title: "Fluxo de trabalho ausente para compartilhamento de pacotes de trabalho"
-        message: "Nenhum fluxo de trabalho está configurado para a função 'Editor de pacote de trabalho'. Sem um fluxo de trabalho, o compartilhado com o usuário não pode alterar o status do pacote de trabalho. Os fluxos de trabalho podem ser copiados. Selecione um tipo de fonte (ex. 'Tarefa') e função de origem (ex. 'Membro'). Em seguida, selecione os tipos de destino. Para começar, você pode selecionar todos os tipos como alvos. Por fim, selecione a função 'Editor de pacote de trabalho' como o destino e pressione 'Copiar'. Depois de ter criado os padrões, ajuste os fluxos de trabalho da mesma forma  que faz para todas as outras funções."
-        link_message: "Configure os fluxos de trabalho na administração."
+      missing_workflow_warning:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -1578,6 +1586,7 @@ pt-BR:
       pdf_overview_table: "Tabela PDF"
       pdf_report_with_images: "Relatório em PDF com imagens"
       pdf_report: "Relatório em PDF"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Imagem não exportada."
     units:
@@ -1659,6 +1668,8 @@ pt-BR:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Guia de configuração"
     get_in_touch: "Com dúvidas? Entre em contato conosco."
@@ -1723,17 +1734,6 @@ pt-BR:
         mentioned: "Você foi mencionado em %{work_package}"
         responsible: "Você se tornou responsável por %{work_package}"
         watched: "Você está assistindo %{work_package}"
-    update_info_mail:
-      body: >
-        Estamos ansiosos para anunciar o lançamento do OpenProject 12.0. É um grande lançamento que esperamos que melhore significativamente a forma como você usa o OpenProject.
-        Neste lançamento, estamos apresentando as notificações no aplicativo. de agora em diante, você receberá notificações para as atualizações nos pacotes de trabalho diretamente no OpenProject. Você pode marcas estas notificações como lidas, responder a um comentário ou até mesmo modificar diretamente atributos do pacote de trabalho sem sair do centro de notificações.
-        Isto também significa que não iremos mais utilizar e-mail para notificações. Achamos que um novo centro de notificações é o melhor lugar para visualizar e tomar as ações necessárias para estas atualizações. No entanto, se você deseja continuar a receber atualizações por e-mail, opte por receber lembretes diários por e-mail em horários específicos de sua escolha.
-        Certifique-se de verificar suas novas configurações de notificação padrão e de definir suas preferências sobre notificações e lembretes por e-mail nas configurações de sua conta. Você pode fazer isso através do botão “Alterar configurações de e-mail” abaixo.
-        Esperamos que você ache nossas notificações no aplicativo útil e que ela aumente sua produtividade.
-        Atenciosamente, Equipe OpenProject
-      body_header: "Versão 12.0 com a Central de Notificações"
-      body_subheader: "Notícias"
-      subject: "Alterações importantes das notificações com o lançamento da versão 12.0"
   label_accessibility: "Acessibilidade"
   label_account: "Conta"
   label_active: "Ativo"
@@ -1928,7 +1928,7 @@ pt-BR:
   label_expanded_click_to_collapse: "Expandido. Clique para recolher"
   label_f_hour: "%{value} hora"
   label_f_hour_plural: "%{value} horas"
-  label_favorite: "Favorite"
+  label_favorite: "Favorito"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "Chave de acesso RSS"
   label_feeds_access_key_created_on: "Chave de acesso RSS criada %{value} atrás"
@@ -2201,6 +2201,7 @@ pt-BR:
   label_setting_plural: "Configurações"
   label_system_settings: "Configurações do sistema"
   label_show_completed_versions: "Mostrar versões concluídas"
+  label_columns: "Colunas"
   label_sort: "Ordenar"
   label_sort_by: "Ordenar por %{value}"
   label_sorted_by: "ordenados por %{value}"
@@ -2743,7 +2744,7 @@ pt-BR:
     member_of_group: "Atribuído ao grupo"
     name_or_identifier: "Nome ou identificador"
     only_subproject_id: "Apenas subprojeto"
-    shared_with_user: "Compartilhado com o usuário"
+    shared_with_user: "Shared with users"
     shared_with_me: "Compartilhados comigo"
     subproject_id: "Incluindo Subprojeto"
   repositories:
@@ -2888,6 +2889,7 @@ pt-BR:
   setting_app_subtitle: "Subtítulo do aplicativo"
   setting_app_title: "Título da aplicação"
   setting_attachment_max_size: "Tamanho máximo dos anexos"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Modo escanear"
   setting_antivirus_scan_action: "Ação do arquivo infectado"
   setting_autofetch_changesets: "Busca automática de alterações no repositório"
@@ -2989,6 +2991,8 @@ pt-BR:
     attachments:
       whitelist_text_html: >
         Defina uma lista de extensões de arquivo válidas e/ou tipos MIME para arquivos carregados. <br/> Insira as extensões de arquivo  (e.x., <code>%{ext_example}</code>) ou tipos de mime (e.x., <code>%{mime_example}</code>). <br/> Deixe em branco para permitir que qualquer tipo de arquivo seja carregado. Vários valores permitidos (uma linha para cada valor).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Verificação de vírus"
       clamav_ping_failed: "Não foi possível conectar ao daemon do ClamAV. Verifique novamente a configuração e tente novamente."
@@ -3225,6 +3229,10 @@ pt-BR:
         input_label: "Adicionar colunas"
         input_placeholder: "Selecionar uma coluna"
         drag_area_label: "Gerenciar e reordenar colunas"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Recursos adicionais"
     getting_started: "Guia de introdução"

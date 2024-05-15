@@ -26,7 +26,7 @@ zh-TW:
       no_results_title_text: 在這一時限內, 該專案沒有任何活動。
   admin:
     plugins:
-      no_results_title_text: There are currently no plugins installed.
+      no_results_title_text: 現主時沒有安裝任何外掛程式
       no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "色彩佈景主題"
@@ -47,9 +47,9 @@ zh-TW:
         main-menu-hover-font-color: "主功能表字型（當滑鼠移入時）"
         main-menu-border-color: "主功能表邊框"
       custom_colors: "自訂顏色"
-      customize: "Customize your OpenProject installation with your own logo and colors."
+      customize: "客製OpenProject中專屬您的標誌(logo)與顏色"
       enterprise_notice: "這個插件僅對企業版支持訂閱者開放，以感謝他們對開發 OpenProject 的贊助。"
-      enterprise_more_info: "Note: the used logo will be publicly accessible."
+      enterprise_more_info: "備註：Logo可被公開存取"
       manage_colors: "編輯顏色選擇選項"
       instructions:
         primary-button-color: "Strong accent color, used for the most important button on a screen."
@@ -76,9 +76,9 @@ zh-TW:
       get_quote: "獲取報價"
       buttons:
         upgrade: "立即更新"
-        contact: "Contact us for a demo"
+        contact: "聯絡我們取得試用"
       enterprise_info_html: "是企業版功能 <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> 。"
-      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+      upgrade_info: "請升級到付費版以啟用此功能"
     journal_aggregation:
       explanation:
         text: "使用者操作（例如\"更新\"工作項目兩次），如果時間差異小於指定的時間間隔，則將整合為單次操作。它們將在應用程序中顯示為單個操作。這也會套用在電子郵件通知，以及 %{webhook_link} delay。"
@@ -214,7 +214,7 @@ zh-TW:
       is_for_all: "將客製欄位標記為「所有現有專案」和「新專案」中可用。"
       searchable: "使用全域搜尋功能時包含此欄位。"
       editable: "允許使用者自行編輯此欄位"
-      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      visible: "讓欄位對專案總覽中所有使用者（非管理員）皆可見，並詳細顯示在專案總覽中的小工具程式。"
       is_filter: >
         允許在工作項目檢視中的篩選條件使用客製欄位。請注意，僅在選擇「所有專案」的情況下，客製欄位才會出現在所有檢視中。
     tab:
@@ -304,7 +304,14 @@ zh-TW:
       storage:
         no_results_title_text: 該專案沒有額外消耗磁碟空間。
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: 目前這個專案沒有成員
@@ -322,6 +329,7 @@ zh-TW:
       project_roles: "專案角色"
       wp_shares: "共享之工作項目"
       groups: "群組"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "移除成員"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -477,7 +485,7 @@ zh-TW:
       no_common_statuses_exists: "被選取的工作項目沒有可用的狀態。他們的狀態不可以變更。"
       unsupported_for_multiple_projects: "工作項目不支援從多個專案的大區塊的移動/複製"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Workflow missing for work package sharing"
         message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
         link_message: "Configure the workflows in the administration."
@@ -501,7 +509,7 @@ zh-TW:
   account:
     delete: "刪除帳號"
     delete_confirmation: "您確定要刪除這個帳號嗎？"
-    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
+    deletion_pending: "帳戶已被鎖定且預計刪除。 請注意，此過程背景執行。 可能需要一些時間才能完全刪除使用者。"
     deletion_info:
       data_consequences:
         other: '您創建的資料 （例如電子郵件、 我的最愛、 工作項目，維基條目） 一樣可能會被刪除。但是請注意像工作項目和維基條目的資料刪除可能導致阻礙其他使用者的工作。這種資料因此重新分配到稱為"刪除使用者"的帳戶。由每筆被刪除而分配到這帳戶將不可能再從刪除帳戶中分配資料給你創建。'
@@ -685,7 +693,7 @@ zh-TW:
       planning_element_type_color:
         hexcode: 十六進位碼
       project_custom_field:
-        custom_field_section: Section
+        custom_field_section: 區段
       work_package:
         begin_insertion: "開始插入"
         begin_deletion: "開始刪除"
@@ -1042,7 +1050,7 @@ zh-TW:
           undeletable_archived_projects: "該版本無法刪除，因為包含工作項目。"
           undeletable_work_packages_attached: "該版本無法刪除，因為包含工作項目。"
         status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
+          readonly_default_exlusive: "，是無法生效的(因其設定為「預設」狀態)"
       template:
         body: "請檢查下列欄位："
         header:
@@ -1545,6 +1553,7 @@ zh-TW:
       pdf_overview_table: "PDF(表格)"
       pdf_report_with_images: "PDF報表(含圖)"
       pdf_report: "PDF 報表"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "影像沒有匯出。"
     units:
@@ -1599,7 +1608,7 @@ zh-TW:
     caused_changes:
       dates_changed: "日期變更"
       default_attribute_written: "Read-only attributes written"
-      progress_mode_changed_to_status_based: "Progress calculation updated"
+      progress_mode_changed_to_status_based: "更新計算後的進度"
       status_p_complete_changed: "Status % Complete changed"
       system_update: "OpenProject 系統更新："
     cause_descriptions:
@@ -1616,16 +1625,18 @@ zh-TW:
         dates:
           working: "%{date} 已是工作日"
           non_working: "%{date} 已非工作日"
-      progress_mode_changed_to_status_based: Progress calculation mode set to status-based
+      progress_mode_changed_to_status_based: 自動計算模式設定成「Status-based」
       status_p_complete_changed: >-
         % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
         progress_calculation_adjusted_from_disabled_mode: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+          自動計算進度<a href="%{href}" target="_blank">設定為「Work-based」模式並隨著版本更新進行調整</a>。
         progress_calculation_adjusted: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+          自動計算進度<a href="%{href}" target="_blank">隨版本更新調整</a>。
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "設定指南"
     get_in_touch: "如有任何問題，歡迎聯繫我們"
@@ -1690,17 +1701,6 @@ zh-TW:
         mentioned: "您在工作項目「%{work_package}」中被提到"
         responsible: "您已對 %{work_package} 負責"
         watched: "您正在監看 %{work_package}"
-    update_info_mail:
-      body: >
-        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-        We hope you find in-app notifications useful and that they makes you even more productive.
-        Sincerely, The OpenProject team
-      body_header: "Version 12.0 with Notification Center"
-      body_subheader: "最新消息"
-      subject: "Important changes to notifications with the release of 12.0"
   label_accessibility: "輔助功能"
   label_account: "帳號"
   label_active: "啟用"
@@ -1895,7 +1895,7 @@ zh-TW:
   label_expanded_click_to_collapse: "已擴大。按一下可折疊"
   label_f_hour: "%{value} 小時"
   label_f_hour_plural: "%{value} 個小時"
-  label_favorite: "Favorite"
+  label_favorite: "最愛"
   label_feed_plural: "串流"
   label_feeds_access_key: "RSS 金鑰"
   label_feeds_access_key_created_on: "RSS 金鑰在 %{value} 前已建立"
@@ -2168,6 +2168,7 @@ zh-TW:
   label_setting_plural: "設定"
   label_system_settings: "系統設置"
   label_show_completed_versions: "顯示已完成的版本"
+  label_columns: "欄位"
   label_sort: "排序"
   label_sort_by: "按 %{value} 排序"
   label_sorted_by: "以 %{value} 排序"
@@ -2347,7 +2348,7 @@ zh-TW:
       subject: "%{user_name} 在「 #%{id} - %{subject} 」提到您"
     notification:
       center: "顯示通知中心"
-      see_in_center: "See comment in notification center"
+      see_in_center: "詳見通知中心留言"
       settings: "更改電子郵件設定"
     salutation: "%{user} 您好"
     salutation_full_name: "全名"
@@ -2709,7 +2710,7 @@ zh-TW:
     member_of_group: "執行者的群組"
     name_or_identifier: "名稱或識別碼"
     only_subproject_id: "只限子專案"
-    shared_with_user: "分配給成員"
+    shared_with_user: "Shared with users"
     shared_with_me: "與我共用"
     subproject_id: "包含子專案"
   repositories:
@@ -2854,6 +2855,7 @@ zh-TW:
   setting_app_subtitle: "應用程式副標題"
   setting_app_title: "應用程式標題"
   setting_attachment_max_size: "附件最大容量"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "掃描模式"
   setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "自動擷取版本庫的變更"
@@ -2893,7 +2895,7 @@ zh-TW:
   setting_file_max_size_displayed: "直接显示文字文件內容的最大檔案容量"
   setting_host_name: "主機名稱"
   setting_invitation_expiration_days: "啟動信件在......天後過期"
-  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio: "進度計算"
   setting_work_package_done_ratio_field: "Work-based"
   setting_work_package_done_ratio_status: "Status-based"
   setting_work_package_done_ratio_explanation_html: >
@@ -2919,7 +2921,7 @@ zh-TW:
   setting_plain_text_mail: "純文字郵件（不含 HTML）"
   setting_protocol: "Protocol"
   setting_project_gantt_query: "專案含甘特圖檢視"
-  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
+  setting_project_gantt_query_text: "您可以從專案總覽頁面修改用於顯示甘特圖查詢條件。"
   setting_security_badge_displayed: "顯示安全徽章"
   setting_registration_footer: "註冊頁腳"
   setting_repositories_automatic_managed_vendor: "自動版本控制類型"
@@ -2948,13 +2950,15 @@ zh-TW:
   setting_welcome_text: "歡迎區塊文字"
   setting_welcome_title: "歡迎區塊標題"
   setting_welcome_on_homescreen: "在主頁面上顯示歡迎區塊"
-  setting_work_package_list_default_highlighting_mode: "預設突出顯示模式"
-  setting_work_package_list_default_highlighted_attributes: "預設內聯突出顯示的屬性"
+  setting_work_package_list_default_highlighting_mode: "預設突顯模式"
+  setting_work_package_list_default_highlighted_attributes: "預設突顯屬性"
   setting_working_days: "工作日"
   settings:
     attachments:
       whitelist_text_html: >
         為上傳的文件定義有效文件副檔名和/或 MIME 類型的列表。 <br/> 輸入文件副檔名（例如 <code>%{ext_example}</code>）或 MIME 類型（例如 <code>%{mime_example}</code>）。 <br/> 留空以允許上傳任何文件類型。允許多個值（每個值一行）。
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "病毒掃描中："
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
@@ -2965,7 +2969,7 @@ zh-TW:
       remaining_rescanned_files: >
         Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
-        description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
+        description: "確保在其他使用者存取 OpenProject 中上傳的檔案前，對其進行病毒掃描。"
       actions:
         delete: "刪除檔案"
         quarantine: "隔離該檔案"
@@ -2989,11 +2993,11 @@ zh-TW:
     general: "一般"
     highlighting:
       mode_long:
-        inline: "顯示內聯屬性"
-        none: "不強調"
-        status: "按狀態的整個行"
-        type: "按類型劃分的整行"
-        priority: "按優先順序的整個行"
+        inline: "專案屬性"
+        none: "不須突顯"
+        status: "依工作項目狀態區分"
+        type: "依工作項目類型區分"
+        priority: "依工作項目優先順序區分"
     icalendar:
       enable_subscriptions_text_html: 允許有相關權限用戶通過外部日曆客戶端訂閱 OpenProject 日曆並存取工作項目訊息。<strong>注意</strong>：在啓用此功能之前，請閱讀關於 <a href="%{link}" target="_blank">iCalendar 訂閱</a>的信息以瞭解潛在的安全風險。
     language_name_being_default: "%{language_name} (預設)"
@@ -3004,18 +3008,18 @@ zh-TW:
     passwords: "密碼"
     project_attributes:
       heading: "專案屬性"
-      label_new_attribute: "Project attribute"
-      label_new_section: "Section"
-      label_edit_section: "Edit title"
+      label_new_attribute: "專案屬性"
+      label_new_section: "區段"
+      label_edit_section: "編輯標題"
       label_section_actions: "Section actions"
-      heading_description: "These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level."
+      heading_description: "這些專案屬性顯示在每個專案的總覽頁面中。 您可以新增屬性，將它們分組並根據需要重新排序。 這些屬性可以啟用或停用，但不能在專案層級重新排序。"
       label_project_custom_field_actions: "Project attribute actions"
-      label_no_project_custom_fields: "No project attributes defined in this section"
+      label_no_project_custom_fields: "此區段沒有定義專案屬性"
       edit:
-        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
+        description: "專案屬性的變更將套用在已啟用該屬性專案中。 若為必要屬性，無法個別專案停用。"
       new:
-        heading: "New attribute"
-        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
+        heading: "新屬性"
+        description: "專案屬性的變更將套用在已啟用該屬性專案中。 若為必要屬性，無法個別專案停用。"
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
@@ -3191,6 +3195,10 @@ zh-TW:
         input_label: "增加欄位"
         input_placeholder: "選取欄位"
         drag_area_label: "重新排列"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "其他資源"
     getting_started: "開始"
@@ -3275,7 +3283,7 @@ zh-TW:
       modal:
         work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
         status_based_help_text: "% Complete is set by work package status."
-        migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
+        migration_warning_text: "在「Work-based」進度計算模式下，完成百分比無法手動設置，並且與「Work」相關聯。目前手動輸入數值已保留，無法編輯。 請務必輸入「Work」才能進行。"
     sharing:
       count:
         zero: "0個用戶"
@@ -3311,7 +3319,7 @@ zh-TW:
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
-      warning_no_selected_user: "Please select users to share this work package with"
+      warning_no_selected_user: "請選擇使用者與此工作項目共享"
       warning_locked_user: "使用者 %{user} 已停用，無法共享"
       user_details:
         locked: "使用者已停用"
@@ -3326,7 +3334,7 @@ zh-TW:
         additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      安排工作項目時，未選擇的天數將被跳過（並且不包含在天數計數中）。 這些設定可以在工作項目被改寫覆蓋。
     instance_wide_info: >
       加到下面列表中的日期被視為非工作日，設定工作項目時程時跳過。
     change_button: "修改工作日"

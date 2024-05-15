@@ -50,7 +50,7 @@ RSpec.describe Queries::Projects::Filters::AvailableProjectAttributesFilter do
 
       let(:project_custom_field_project_mapping_handwritten_sql_subquery) do
         <<-SQL.squish
-            SELECT DISTINCT "project_custom_field_project_mappings"."project_id"
+            SELECT "project_custom_field_project_mappings"."project_id"
               FROM "project_custom_field_project_mappings"
               WHERE "project_custom_field_project_mappings"."custom_field_id"
               IN (#{values.join(', ')})

@@ -50,6 +50,8 @@ ru:
         duration_in_minutes: "мин"
         description: "Примечания"
         presenter: "Presenter"
+      meeting_section:
+        title: "Title"
     errors:
       messages:
         invalid_time_format: "недопустимое время. Требуемый формат: ЧЧ:ММ"
@@ -111,7 +113,7 @@ ru:
       invited:
         summary: "%{actor} отправил вам приглашение на совещание %{title}"
       rescheduled:
-        header: "Встреча %{title} была перенесена %{actor}"
+        header: "Встреча %{title} была перенесена"
         summary: "Совещание %{title} перенесено %{actor}"
         body: "Совещание %{title} было перенесено пользователем %{actor}."
         old_date_time: "Старые дата/время"
@@ -124,6 +126,10 @@ ru:
       structured_text: "Организуйте своё совещание в виде списка пунктов повестки, при необходимости связав их с пакетом работ."
       structured_text_copy: "При копировании совещания в настоящее время не скопируются связанные с ним пункты повестки, будут скопированы только детали"
     copied: "Скопировано со встречи #%{id}"
+  meeting_section:
+    default_title: "New section"
+    untitled_title: "Untitled"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Уведомление успешно отправленно"
   notice_timezone_missing: Не установлен часовой пояс и применена %{zone}. Чтобы выбрать часовой пояс, пожалуйста, нажмите сюда.
   permission_create_meetings: "Создание совещания"

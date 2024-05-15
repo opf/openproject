@@ -149,14 +149,20 @@ module Pages
         end
       end
 
-      def expect_no_save_as_notification
-        expect(page)
-          .to have_no_link("Save as")
+      def expect_notification(text)
+        expect(page).to have_link(text, class: "PageHeader-action", exact: true)
       end
 
-      def expect_save_as_notification
-        expect(page)
-          .to have_link("Save as")
+      def expect_no_notification(text)
+        expect(page).to have_no_link(text, class: "PageHeader-action", exact: true)
+      end
+
+      def expect_menu_item(text, visible: true)
+        expect(page).to have_link(text, class: "ActionListContent", exact: true, visible:)
+      end
+
+      def expect_no_menu_item(text, visible: true)
+        expect(page).to have_no_link(text, class: "ActionListContent", exact: true, visible:)
       end
 
       def filter_by_active(value)
@@ -338,7 +344,11 @@ module Pages
         page.find('[data-test-selector="project-new-button"]').click
       end
 
-      def save_query(name)
+      def save_query
+        click_more_menu_item("Save")
+      end
+
+      def save_query_as(name)
         click_more_menu_item("Save as")
 
         within '[data-test-selector="project-query-name"]' do

@@ -300,7 +300,14 @@ uk:
       storage:
         no_results_title_text: Цей проєкт не потребує додаткового дискового простору.
   lists:
-    can_be_saved_as: "Зміни можна зберегти лише в новому списку."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Наразі учасників цього проекту немає.
@@ -318,6 +325,7 @@ uk:
       project_roles: "Ролі в проєкті"
       wp_shares: "Поширення пакета робіт"
       groups: "Групи"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Вилучити учасника"
       will_remove_the_users_role: "Роль користувача буде вилучено із цього проєкту."
@@ -356,15 +364,15 @@ uk:
         other: "Цьому користувачу надано доступ до %{all_shared_work_packages_link}."
       shared_with_this_group_html:
         one: "Цій групі надано доступ до %{all_shared_work_packages_link}."
-        few: "Цій групі надано доступ до %{shared_work_packages_link}."
-        many: "Цій групі надано доступ до %{shared_work_packages_link}."
-        other: "Цій групі надано доступ до %{shared_work_packages_link}."
+        few: "Цій групі надано доступ до %{all_shared_work_packages_link}."
+        many: "Цій групі надано доступ до %{all_shared_work_packages_link}."
+        other: "Цій групі надано доступ до %{all_shared_work_packages_link}."
       shared_with_permission_html:
         one: "Доступ із дозволами ролі «%{shared_role_name}» надано лише до %{shared_work_packages_link}."
         few: "Доступ із дозволами ролі «%{shared_role_name}» надано лише до %{shared_work_packages_link}."
         many: "Доступ із дозволами ролі «%{shared_role_name}» надано лише до %{shared_work_packages_link}."
         other: "Доступ із дозволами ролі «%{shared_role_name}» надано лише до %{shared_work_packages_link}."
-      revoke_all_or_with_role: "Хочете відкликати доступ до всіх спільних пакетів робіт чи тільки до тих, доступ до яких надано з дозволами ролі %«{shared_role_name}»?"
+      revoke_all_or_with_role: "Хочете відкликати доступ до всіх спільних пакетів робіт чи тільки до тих, доступ до яких надано з дозволами ролі «%{shared_role_name}»?"
       will_not_affect_inherited_shares: "(Це не вплине на пакети робіт, які спільно використовуються в межах відповідних груп)."
       cannot_remove_inherited: "Дозволи на доступ до пакетів робіт, надані на рівні груп, не можна вилучити."
       cannot_remove_inherited_with_role: "Пакети робіт, до яких надано доступ із дозволами ролі «%{shared_role_name}», використовуються в групах, і їх не можна вилучити."
@@ -494,10 +502,10 @@ uk:
       no_common_statuses_exists: "Немає доступного статусу для всіх вибраних робочих пакетів. Їх статус не може бути змінений."
       unsupported_for_multiple_projects: "Масове переміщення/копіювання не підтримується для робочих пакетів з декількох проектів"
     sharing:
-      missing_workflow_waring:
-        title: "Відсутній робочий процес для спільного використання пакета робіт"
-        message: "Для ролі «Редактора пакета робіт» не налаштовано жодного робочого процесу. Без робочого процесу користувач, якому надано доступ, не може змінити статус пакета робіт. Робочі процеси можна копіювати. Виберіть вихідний тип (напр., «Завдання») і роль (напр., «Учасник»). Потім виберіть цільові типи. Для початку радимо вибирати всі типи як цільові. Нарешті, виберіть роль «Редактор пакета робіт» і натисніть «Копіювати». Після цього ви зможете налаштовувати робочі процеси для кожної ролі, як ви це зазвичай робите."
-        link_message: "Налаштуйте робочі процеси на панелі адміністрування."
+      missing_workflow_warning:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -1122,7 +1130,7 @@ uk:
       created_by_on_time_entry: "час зареєстровано о %{datetime} користувачем %{user}"
       created_on: "створено %{datetime}"
       created_on_time_entry: "час зареєстровано о %{datetime}"
-      updated_by_on: "оновлено %{date} користувачем %{user}"
+      updated_by_on: "оновлено %{datetime} користувачем %{user}"
       updated_by_on_time_entry: "зареєстрований час оновлено о %{datetime} користувачем %{user}"
       updated_on: "оновлено %{datetime}"
       updated_on_time_entry: "зареєстрований час оновлено о %{datetime}"
@@ -1640,6 +1648,7 @@ uk:
       pdf_overview_table: "Таблиця PDF"
       pdf_report_with_images: "Звіт PDF із зображеннями"
       pdf_report: "Звіт PDF"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Зображення не експортовано."
     units:
@@ -1709,8 +1718,8 @@ uk:
           working: "%{day} зараз робочий"
           non_working: "%{day} зараз неробочий"
         dates:
-          working: "%{day} – зараз робочий день"
-          non_working: "%{day} – зараз неробочий день"
+          working: "%{date} – зараз робочий день"
+          non_working: "%{date} – зараз неробочий день"
       progress_mode_changed_to_status_based: Установлено режим обчислення прогресу на основі статусу
       status_p_complete_changed: >-
         Значення параметра «% завершення» для статусу «%{status_name}» змінилося з %{old_value} на %{new_value}
@@ -1721,6 +1730,8 @@ uk:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Посібник з налаштування"
     get_in_touch: "У вас виникли запитання? Зв'яжіться з нами."
@@ -1785,17 +1796,6 @@ uk:
         mentioned: "Вас було згадано у %{work_package}"
         responsible: "Ви стали відповідальними за %{work_package}"
         watched: "Ви переглядаєте %{work_package}"
-    update_info_mail:
-      body: >
-        Ми з задоволенням оголошуємо про випуск нової версії OpenProject 12.0. Це одне із найбільших наших оновлень, яке ми сподіваємося значно покращить ваш досвід використання OpenProject.
-        Починаючи із цього оновлення, ми вводимо сповіщення у самій програмі. Від сьогодні ви будете отримувати сповіщення про оновлення робочих блоків прямо у  OpenProject. Ви зможете позначати ці сповіщення як прочитані, коментувати їх чи навіть прямо редагувати зміни у робочих блоках не залишаючи центр сповіщень.
-        Це також означає, що ми не будемо більш використовувати електронні листи для сповіщень. Гадаємо, що новий центр сповіщень є кращим місцем, щоб переглянути і відреагувати на усі оновлення. Проте, якщо ви бажаєте отримувати сповіщення на свою електронну адресу і надалі, ви можете обрати отримання загальний лист із усіма оновленнями за день у певний час.
-        Будь ласка, перегляньте новий центр сповіщень та налаштуйте його, оберіть чи бажаєте отримувати оновлення на пошту в налаштуваннях свого профілю. Ви можете зробити це натиснувши на кнопку "Змінити налаштування електронної пошти", що знаходиться внизу.
-        Сподіваємося, що центр сповіщень буде корисним для вас та допоможе вам стати значно продуктивнішими.
-        З повагою, команда OpenProject
-      body_header: "Версія 12.0 з Центром Сповіщень"
-      body_subheader: "Новини"
-      subject: "Важливі зміни в системі сповіщень у випуску 12.0"
   label_accessibility: "Розробникам також потрібно оплачувати свої рахунки. З доступністю"
   label_account: "Обліковий запис"
   label_active: "Активний"
@@ -1990,7 +1990,7 @@ uk:
   label_expanded_click_to_collapse: "Розширено. Натисніть, щоб згорнути"
   label_f_hour: "%{value} година"
   label_f_hour_plural: "%{value} годин(и)"
-  label_favorite: "Favorite"
+  label_favorite: "Обрані"
   label_feed_plural: "Канали"
   label_feeds_access_key: "Клавіша доступу RSS"
   label_feeds_access_key_created_on: "Створено ключ доступу RSS %{value} тому"
@@ -2263,6 +2263,7 @@ uk:
   label_setting_plural: "Налаштування"
   label_system_settings: "Параметри системи"
   label_show_completed_versions: "Показати завершені версії"
+  label_columns: "Стовпці"
   label_sort: "Сортувати"
   label_sort_by: "Сортувати за %{value}"
   label_sorted_by: "відсортовані за %{value}"
@@ -2808,7 +2809,7 @@ uk:
     member_of_group: "Група виконавця"
     name_or_identifier: "Ім'я або ідентифікатор"
     only_subproject_id: "Лише підпроєкт"
-    shared_with_user: "Надано доступ користувачу"
+    shared_with_user: "Shared with users"
     shared_with_me: "Доступ надано мені"
     subproject_id: "Включно з підпроєктом"
   repositories:
@@ -2953,6 +2954,7 @@ uk:
   setting_app_subtitle: "Підзаголовок додатку"
   setting_app_title: "Назва додатку"
   setting_attachment_max_size: "Максимальний розмір вкладення"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Режим перевірки"
   setting_antivirus_scan_action: "Дія із зараженим файлом"
   setting_autofetch_changesets: "Змінюється сховище автозбірки"
@@ -3054,6 +3056,8 @@ uk:
     attachments:
       whitelist_text_html: >
         Визначте список дійсних розширень файлів і/або типів MIME для завантажених файлів. <br/>Введіть розширення файлу (напр., <code>%{ext_example}</code>) або типи MIME (напр., <code>%{mime_example}</code>). Не вказуйте нічого, щоб дозволити завантаження будь-яких типів файлів. Ви можете вводити кілька значень (по одному в кожному рядку).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Перевірка на віруси"
       clamav_ping_failed: "Не вдалося підключити демон ClamAV. Перевірте конфігурацію і повторіть спробу."
@@ -3290,6 +3294,10 @@ uk:
         input_label: "Додати стовпці"
         input_placeholder: "Вибрати стовпець"
         drag_area_label: "Керування стовпцями і їх перевпорядкування"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Додаткові ресурси"
     getting_started: "Починаємо"

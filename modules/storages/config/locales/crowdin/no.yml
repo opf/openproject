@@ -39,6 +39,7 @@
   api_v3:
     errors:
       too_many_elements_created_at_once: For mange elementer opprettet samtidig. Forventet %{max} som høyeste, fikk %{actual}.
+  external_file_storages: External file storages
   permission_create_files: 'External Storage: Create files'
   permission_delete_files: 'External Storage: Delete files'
   permission_header_for_project_module_storages: Automatisk administrerte prosjektmapper
@@ -48,7 +49,7 @@
   permission_share_files: 'External Storage: Share files'
   permission_view_file_links: Vis fil-linker
   permission_write_files: 'External Storage: Write files'
-  project_module_storages: Fillagringer
+  project_module_storages: Files
   storages:
     buttons:
       complete_without_setup: Fullfør uten
@@ -225,7 +226,6 @@
       project_settings:
         delete: Slett fillagring
         edit: Rediger fillagringen i dette prosjektet
-        index: Fillagringer er tilgjengelig i dette prosjektet
         members_connection_status: Medlemmers tilkoblingsstatus
         new: Legg til fillagring i dette prosjektet
       project_storage_members:
@@ -244,6 +244,9 @@
         label_oauth_client_secret: Azure OAuth klient hemmelig verdi
         name: OneDrive/SharePoint
         name_placeholder: f.eks OneDrive
+    show_attachments_toggle:
+      description: Deactivating this option will only hide the attachments list. Files uploaded with the help of the rich text editor will still be uploaded to the attachments internal storage.
+      label: Show attachments in the work packages files tab
     storage_list_blank_slate:
       description: Legg til lagringsplass for å se dem her.
       heading: Du har ingen lagringssted enda.

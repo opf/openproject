@@ -141,6 +141,37 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
     end
   end
 
+  context "when filtering by available project attributes" do
+    shared_let(:other_project) { create(:project) }
+    shared_let(:project) { create(:project) }
+    shared_let(:project_custom_field_mapping1) { create(:project_custom_field_project_mapping, project:) }
+    shared_let(:project_custom_field_mapping2) { create(:project_custom_field_project_mapping, project:) }
+
+    let(:valid_values) do
+      [project_custom_field_mapping1.custom_field_id.to_s, project_custom_field_mapping2.custom_field_id.to_s]
+    end
+
+    let(:get_path) do
+      api_v3_paths.path_for :projects, filters: [{ available_project_attributes: { operator:, values: valid_values } }]
+    end
+
+    context "if using the equals operator" do
+      let(:operator) { "=" }
+
+      it_behaves_like "API V3 collection response", 1, 1, "Project"
+    end
+
+    context "if using the not equals operator" do
+      let(:operator) { "!" }
+
+      it "returns the projects not matching the value" do
+        expect(last_response.body)
+          .to be_json_eql(other_project.id.to_json)
+                .at_path("_embedded/elements/0/id")
+      end
+    end
+  end
+
   context "when filtering for principals (members)" do
     let(:other_project) do
       ProjectRole.non_member

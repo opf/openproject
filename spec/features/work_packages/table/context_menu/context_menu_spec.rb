@@ -74,7 +74,11 @@ RSpec.describe "Work package table context menu",
         # Open context menu
         menu.expect_closed
         menu.open_for(work_package)
-        menu.expect_options "Open details view", "Open fullscreen view", "Add predecessor", "Add follower", "Show relations"
+        menu.expect_options "Open details view",
+                            "Open fullscreen view",
+                            "Add predecessor",
+                            "Add follower",
+                            "Show relations"
         menu.expect_no_options "Log time"
 
         # Show relations tab when selecting show-relations from menu

@@ -1,15 +1,15 @@
 #English strings go here for Rails i18n
 ms:
   plugin_openproject_bim:
-    name: "OpenProject BIM and BCF functionality"
-    description: "This OpenProject plugin introduces BIM and BCF functionality."
+    name: "Kefungsian BIM dan BCF OpenProject"
+    description: "Plugin OpenProject ini mengenalkan kefungsian BIM dana BCF."
   bim:
     label_bim: 'BIM'
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: 'Import topik BCF yang gagal'
     label_imported_successfully: 'Import topik BCF yang berjaya'
-    issues: "Isu"
+    issues: "Isu-isu"
     recommended: 'disarankan'
     not_recommended: 'tidak disarankan'
     no_viewpoints: 'Tiada pandangan'
@@ -36,17 +36,17 @@ ms:
         button_perform_import: 'Sahkan import'
         button_proceed: 'Teruskan dengan proses import'
         button_back_to_list: 'Kembali ke senarai'
-        no_permission_to_add_members: 'Anda tidak mempunyai kebenaran yang mencukupi untuk menambah mereka sebagai ahli ke dalam projek ini.'
+        no_permission_to_add_members: 'Anda tidak mempunyai kebenaran yang mencukupi untuk menambah mereka sebagai ahli ke projek ini.'
         contact_project_admin: 'Hubungi pentadbir projek anda untuk menambah mereka sebagai ahli dan mulakan proses import ini semula.'
         continue_anyways: 'Adakah anda tetap ingin meneruskan dan selesaikan proses import?'
         description: "Sediakan fail BCF-XML v2.1 untuk mengimport ke dalam projek ini. Anda boleh periksa kandungannya sebelum mengimport."
-        invalid_types_found: 'Jenis nama topik tidak sah dijumpai'
-        invalid_statuses_found: 'Status nama tidak sah dijumpai'
-        invalid_priorities_found: 'Nama keutamaan tidak sah dijumpai'
-        invalid_emails_found: 'Alamat e-mel tidak sah dijumpai'
-        unknown_emails_found: 'Alamat e-mel tidak diketahui dijumpai'
+        invalid_types_found: 'Jenis nama topik tidak sah ditemui'
+        invalid_statuses_found: 'Status nama tidak sah ditemui'
+        invalid_priorities_found: 'Nama keutamaan tidak sah ditemui'
+        invalid_emails_found: 'Alamat e-mel tidak sah ditemui'
+        unknown_emails_found: 'Alamat e-mel tidak diketahui ditemui'
         unknown_property: 'Harta tanah yang tidak diketahui'
-        non_members_found: 'Bukan ahli projek dijumpai'
+        non_members_found: 'Bukan ahli projek ditemui'
         import_types_as: 'Tetapkan semua jenis ini kepada'
         import_statuses_as: 'Tetapkan semua status ini kepada'
         import_priorities_as: 'Tetapkan semua keutamaan ini kepada'
@@ -74,7 +74,7 @@ ms:
   oauth:
     scopes:
       bcf_v2_1: "Akses penuh kepada BCF v2.1 API"
-      bcf_v2_1_text: "Aplikasi akan terima akses baca & tulis penuh di OpenProject BCF API v2.1 untuk melaksanakan tindakan bagi pihak anda."
+      bcf_v2_1_text: "Aplikasi akan terima akses penuh membaca & menulis di OpenProject BCF API v2.1 untuk melaksanakan tindakan bagi pihak anda."
   activerecord:
     models:
       bim/ifc_models/ifc_model: "Model IFC"
@@ -104,15 +104,15 @@ ms:
           snapshot_data_blank: "snapshot_data perlu disediakan."
           unsupported_key: "Properti json yang tidak disokong disertakan."
         bim/bcf/issue:
-          uuid_already_taken: "Tidak dapat mengimport isu BCF ini kerana isu yang mempunyai GUID yang sama telah ada. Mungkinkah isu BCF ini telah di import ke dalam projek lain?"
+          uuid_already_taken: "Tidak dapat mengimport isu BCF ini kerana isu yang mempunyai GUID yang sama telah ada. Mungkinkah isu BCF ini telah diimport ke dalam projek lain?"
   ifc_models:
     label_ifc_models: 'Model IFC'
     label_new_ifc_model: 'Model IFC baharu'
-    label_show_defaults: 'Tunjukkan tetapan asal'
-    label_default_ifc_models: 'Model tetapan asal IFC '
-    label_edit_defaults: 'Suntingkan tetapan asal'
+    label_show_defaults: 'Paparkan default'
+    label_default_ifc_models: 'Model default IFC '
+    label_edit_defaults: 'Edit default'
     no_defaults_warning:
-      title: 'Tiada model IFC yang ditetapkan sebagai tetapan asal untuk projek ini.'
+      title: 'Tiada model IFC yang ditetapkan sebagai default untuk projek ini.'
       check_1: 'Semak bahawa anda telah memuat naik sekurang-kurangnya satu model IFC.'
       check_2: 'Semak bahawa salah satu model IFC ditetapkan sebagai "Tetapan Asal".'
     no_results: "Tiada model IFC yang telah dimuat naik di dalam projek ini."
@@ -123,7 +123,7 @@ ms:
       completed: 'Selesai'
       error: 'Ralat'
     processing_notice:
-      processing_default: 'Model IFC tetapan asal berikut masih dalam proses dan oleh kerana itu belum tersedia lagi:'
+      processing_default: 'Model IFC default berikut masih dalam proses dan oleh kerana itu belum tersedia lagi:'
     flash_messages:
       upload_successful: 'Muat naik berjaya. Ia akan diproses dan sedia untuk digunakan dalam masa beberapa minit.'
     conversion:

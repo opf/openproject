@@ -69,6 +69,13 @@ Keep in mind that this component uses the live work packages API, so results wil
 
 <%= embed OpenProject::Common::AutocompletePreview, :work_package, panels: %i[source] %>
 
+### Project autocompletion
+
+For project autocompletion, you can use the same field, but with a different configuration.
+Keep in mind that this component uses the live projects API, so results will depend on whether you are logged in.
+
+<%= embed OpenProject::Common::AutocompletePreview, :project, panels: %i[source] %>
+
 ### Outside primer
 
 If you're not in a primer form, you can render the autocomplete directly like so:

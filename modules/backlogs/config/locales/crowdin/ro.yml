@@ -59,7 +59,7 @@ ro:
     label_is_done_status: "Starea %{status_name} înseamnă terminat"
     no_burndown_data: "Nu sunt disponibile date privind arderea în vegetație. Este necesar să fie stabilite datele de început și de sfârșit ale sprintului."
     points: "Puncte"
-    positions_could_not_be_rebuilt: "Nu s-a putut verifica etapa '%{stage}'."
+    positions_could_not_be_rebuilt: "Pozițiile nu au putut fi reconstruite."
     positions_rebuilt_successfully: "Toate elementele au fost șterse cu succes"
     properties: "Proprietăţi"
     rebuild: "Reconstruiți"

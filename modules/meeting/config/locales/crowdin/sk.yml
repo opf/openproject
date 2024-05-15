@@ -50,6 +50,8 @@ sk:
         duration_in_minutes: "min"
         description: "Poznámky"
         presenter: "Presenter"
+      meeting_section:
+        title: "Title"
     errors:
       messages:
         invalid_time_format: "nie je platný čas. Požadovaný formát: HH:MM"
@@ -124,6 +126,10 @@ sk:
       structured_text: "Organize your meeting as a list of agenda items, optionally linking them to a work package."
       structured_text_copy: "Copying a meeting will currently not copy the associated meeting agenda items, just the details"
     copied: "Copied from Meeting #%{id}"
+  meeting_section:
+    default_title: "New section"
+    untitled_title: "Untitled"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Notifikácia úspešne odoslaná"
   notice_timezone_missing: Časové pásmo nebolo špecificky nastavené, použilo sa teda %{zone}. Ak chcete vybrať iné časové pásmo, kliknite prosím tu.
   permission_create_meetings: "Vytvárať stretnutia"

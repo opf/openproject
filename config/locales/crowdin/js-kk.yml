@@ -330,6 +330,18 @@ kk:
         years: "Years"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "no"
     general_text_yes: "yes"
     general_text_No: "No"
@@ -383,7 +395,7 @@ kk:
     label_and: "and"
     label_ascending: "Ascending"
     label_author: "Author: %{user}"
-    label_avatar: "Avatar"
+    label_avatar: "Аватар"
     label_between: "between"
     label_board: "Board"
     label_board_locked: "Locked"
@@ -1045,7 +1057,7 @@ kk:
       sharing:
         share: "Share"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
@@ -1158,7 +1170,7 @@ kk:
       button_save_all: "Save"
       button_cancel_all: "Cancel"
       link_formatting_help: "Text formatting help"
-      btn_preview_enable: "Preview"
+      btn_preview_enable: "Алдын-ала көру"
       btn_preview_disable: "Disable preview"
       null_value_label: "No value"
       clear_value_label: "-"

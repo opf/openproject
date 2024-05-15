@@ -331,6 +331,18 @@ ja:
         years: " 年"
         description: >
           オートズームが使用できない場合に表示される初期ズームレベルを選択します。
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "いいえ"
     general_text_yes: "はい"
     general_text_No: "いいえ"
@@ -379,7 +391,7 @@ ja:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "○日前"
     label_all: "全て"
-    label_all_uppercase: "All"
+    label_all_uppercase: "全て"
     label_all_work_packages: "全ての作業項目"
     label_and: "及び"
     label_ascending: "昇順"
@@ -762,7 +774,7 @@ ja:
           last_day: "Last day"
     text_are_you_sure: "よろしいですか？"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value}が書き込みました："
     types:
       attribute_groups:
         error_duplicate_group_name: "名前 %{group} が複数回使用されています。グループ名は一意にする必要があります。"
@@ -982,8 +994,8 @@ ja:
         percentageDone: "完了比率"
         priority: "優先度"
         projectName: "プロジェクト"
-        remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWork: "残りの作業"
+        remainingWorkAlternative: "残り時間"
         responsible: "責任者"
         startDate: "開始日"
         status: "ステータス"
@@ -995,8 +1007,8 @@ ja:
         versionName: "バージョン"
         version: "バージョン"
         work: "Work"
-        workAlternative: "Estimated time"
-        remainingTime: "Remaining work"
+        workAlternative: "予定工数"
+        remainingTime: "残りの作業"
       default_queries:
         latest_activity: "最新の活動"
         created_by_me: "私が作成した"
@@ -1045,7 +1057,7 @@ ja:
       sharing:
         share: "共有"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"

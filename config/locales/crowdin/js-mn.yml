@@ -330,6 +330,18 @@ mn:
         years: "Years"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "no"
     general_text_yes: "yes"
     general_text_No: "No"
@@ -983,7 +995,7 @@ mn:
         priority: "Priority"
         projectName: "Project"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "Хүлээгдэж буй хугацаа"
         responsible: "Responsible"
         startDate: "Start date"
         status: "Status"
@@ -1045,7 +1057,7 @@ mn:
       sharing:
         share: "Share"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"

@@ -53,7 +53,7 @@ lv:
       last_backup: Last backup
       last_backup_from: Last backup from
       title: Backup OpenProject
-      options: Options
+      options: Opcijas
       include_attachments: Include attachments
       download_backup: Download backup
       request_backup: Request backup
@@ -65,7 +65,7 @@ lv:
     button_back: "Atpakaļ"
     button_back_to_list_view: "Back to list view"
     button_cancel: "Atcelt"
-    button_close: "Close"
+    button_close: "Aizvērt"
     button_change_project: "Change project"
     button_check_all: "Atzīmēt visus"
     button_configure-form: "Configure form"
@@ -330,10 +330,22 @@ lv:
         years: "Gads"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "no"
     general_text_yes: "yes"
-    general_text_No: "No"
-    general_text_Yes: "Yes"
+    general_text_No: "Nē"
+    general_text_Yes: "Jā"
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -378,7 +390,7 @@ lv:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "days ago"
     label_all: "all"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Visi"
     label_all_work_packages: "visu darbu pakotnes"
     label_and: "and"
     label_ascending: "Ascending"
@@ -405,7 +417,7 @@ lv:
     label_collapse: "Collapse"
     label_collapsed: "sakļauts"
     label_collapse_all: "Collapse all"
-    label_comment: "Comment"
+    label_comment: "Komentârs"
     label_committed_at: "%{committed_revision_link}, %{date}"
     label_committed_link: "ievietotā revīzija %{revision_identifier}"
     label_contains: "contains"
@@ -442,14 +454,14 @@ lv:
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Pēdējās izmaiņas veiktas"
     label_learn_more_link: "Uzzināt vairāk"
-    label_less_or_equal: "<="
+    label_less_or_equal: "mazāks vai vienāds"
     label_less_than_ago: "less than days ago"
     label_loading: "Notiek ielāde..."
     label_mail_notification: "E-pasta paziņojumi"
     label_manage_columns: "Manage and reorder columns"
     label_me: "me"
-    label_meeting_agenda: "Agenda"
-    label_meeting_minutes: "Minutes"
+    label_meeting_agenda: "Darba kārtība"
+    label_meeting_minutes: "Protokols"
     label_menu_collapse: "sakļaut"
     label_menu_expand: "izvērst"
     label_more_than_ago: "more than days ago"
@@ -460,7 +472,7 @@ lv:
     label_no_start_date: "bez sākuma datuma"
     label_no_date: "no date"
     label_no_value: "Nav vērtības"
-    label_none: "none"
+    label_none: "Neviens"
     label_not_contains: "doesn't contain"
     label_not_equals: "is not"
     label_on: " "
@@ -500,7 +512,7 @@ lv:
     label_star_query: "Favored"
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Publisks"
-    label_sum: "Sum"
+    label_sum: "Summa"
     label_sum_for: "Sum for"
     label_total_sum: "Total sum"
     label_subject: "Nosaukums"
@@ -517,7 +529,7 @@ lv:
     label_value_derived_from_children: "(value derived from children)"
     label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Warning"
-    label_work_package: "Work package"
+    label_work_package: "Darba pieteikums"
     label_work_package_parent: "Parent work package"
     label_work_package_plural: "Pieteikumi"
     label_watch: "Sekot"
@@ -624,7 +636,7 @@ lv:
       facets:
         unread: "Unread"
         unread_title: "Show unread"
-        all: "All"
+        all: "Visi"
         all_title: "Rādīt visus"
       center:
         label_actor_and: "and"
@@ -919,7 +931,7 @@ lv:
       label_disable_multi_select: "Disable multiselect"
       label_filter_add: "Pievienot filtru"
       label_filter_by_text: "Filter by text"
-      label_options: "Options"
+      label_options: "Opcijas"
       label_column_multiselect: "Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace"
       message_error_during_bulk_delete: An error occurred while trying to delete work packages.
       message_successful_bulk_delete: Successfully deleted work packages.
@@ -977,27 +989,27 @@ lv:
         percentComplete: "% Complete"
         percentCompleteAlternative: "Progress"
         dueDate: "Finish date"
-        duration: "Duration"
+        duration: "Ilgums"
         spentTime: "Pavadīts laiks"
         category: "Sadaļa"
         percentageDone: "Percentage done"
         priority: "Prioritāte"
         projectName: "Projekts"
-        remainingWork: "Remaining work"
+        remainingWork: "Atlikušie darbi"
         remainingWorkAlternative: "Remaining hours"
         responsible: "Atbildīgais"
         startDate: "Sākuma datums"
         status: "Statuss"
         subject: "Nosaukums"
         subproject: "Subproject"
-        title: "Title"
+        title: "Virsraksts"
         type: "Veids"
         updatedAt: "Labots"
         versionName: "Versija"
         version: "Versija"
         work: "Work"
-        workAlternative: "Estimated time"
-        remainingTime: "Remaining work"
+        workAlternative: "Darbietilpības novērtējums"
+        remainingTime: "Atlikušie darbi"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "Created by me"
@@ -1046,7 +1058,7 @@ lv:
       sharing:
         share: "Koplietot"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
@@ -1120,7 +1132,7 @@ lv:
         page_settings: "Rename view"
         delete: "Dzēst"
       filter: "Filtrēt"
-      unselected_title: "Work package"
+      unselected_title: "Darba pieteikums"
       search_query_label: "Search saved views"
     modals:
       label_name: "Nosaukums"
@@ -1187,7 +1199,7 @@ lv:
         other: "%{count} h"
         zero: "0 h"
       day:
-        one: "%{count} dienas"
+        one: "1 dienas"
         other: "%{count} dienām"
         zero: "0 days"
     zen_mode:
@@ -1229,7 +1241,7 @@ lv:
       type:
         required: "Please select the type to be invited"
         user:
-          title: "User"
+          title: "Lietotāji"
           description: "Permissions based on the assigned role in the selected project"
         group:
           title: "Group"
@@ -1302,7 +1314,7 @@ lv:
       baseline_comparison: "Baseline comparison"
       help_description: "Reference time zone for the baseline."
       time_description: "In your local time: %{datetime}"
-      time: "Time"
+      time: "Laiks"
       from: "From"
       to: "To"
       drop_down:
@@ -1334,7 +1346,7 @@ lv:
         remove: "Noņemt"
       drop_modal:
         focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
-        Close: "Close"
+        Close: "Aizvērt"
     open_project_storage_modal:
       waiting_subtitle:
         network_off: "There is a network problem."

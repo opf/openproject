@@ -39,6 +39,7 @@ fr:
   api_v3:
     errors:
       too_many_elements_created_at_once: Trop d'éléments créés à la fois. %{max} attendu au maximum, obtenu %{actual}.
+  external_file_storages: External file storages
   permission_create_files: 'Espace de stockage externe : Créer des fichiers'
   permission_delete_files: 'Espace de stockage externe : Supprimer des fichiers'
   permission_header_for_project_module_storages: Dossiers de projets gérés automatiquement
@@ -48,7 +49,7 @@ fr:
   permission_share_files: 'Espace de stockage externe : Partager des fichiers'
   permission_view_file_links: Voir les liens des fichiers
   permission_write_files: 'Espace de stockage externe : Écrire des fichiers'
-  project_module_storages: Stockages de fichiers
+  project_module_storages: Files
   storages:
     buttons:
       complete_without_setup: Compléter sans
@@ -223,13 +224,12 @@ fr:
       project_settings:
         delete: Supprimer l'espace de stockage de fichiers
         edit: Modifier l'espace de stockage de fichiers pour ce projet
-        index: Stockages de fichiers disponibles dans ce projet
         members_connection_status: Statut de connexion des membres
         new: Ajouter un stockage de fichiers à ce projet
       project_storage_members:
         subtitle: Vérifiez l'état de la connexion pour l'espace de stockage %{storage_name_link} de tous les membres du projet.
         title: Statut de connexion des membres
-    permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
+    permission_header_explanation: Les droits d'accès aux fichiers sur les supports de stockage externes ne sont appliqués qu'aux dossiers et aux fichiers contenus dans les dossiers de projet gérés automatiquement. Notez que toutes les droits sur les fichiers ne sont pas pris en charge par tous les fournisseurs de stockage. Veuillez consulter la documentation sur <a target='_blank' href='https://www.openproject.org/fr/docs/system-admin-guide/users-permissions/roles-permissions/'>les autorisations de stockage de fichiers</a> pour plus d'informations.
     provider_types:
       label: Type de fournisseur
       nextcloud:
@@ -242,6 +242,9 @@ fr:
         label_oauth_client_secret: Valeur secrète du client OAuth Azure
         name: OneDrive/SharePoint
         name_placeholder: par exemple OneDrive
+    show_attachments_toggle:
+      description: Deactivating this option will only hide the attachments list. Files uploaded with the help of the rich text editor will still be uploaded to the attachments internal storage.
+      label: Show attachments in the work packages files tab
     storage_list_blank_slate:
       description: Ajoutez un stockage pour les voir ici.
       heading: Vous n'avez pas encore d'espace de stockage.

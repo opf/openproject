@@ -304,7 +304,14 @@ ru:
       storage:
         no_results_title_text: Для этого проекта дополнительного дискового пространства не требуется.
   lists:
-    can_be_saved_as: "Изменения могут быть сохранены только в новом списке."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: На данный момент у этого проекта нет участников.
@@ -322,6 +329,7 @@ ru:
       project_roles: "Роли проекта"
       wp_shares: "Пакеты работ используемые совместно"
       groups: "Группы"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -498,10 +506,10 @@ ru:
       no_common_statuses_exists: "Статус не доступен для всех выбранных пакетов работ. Их статус изменен быть не может."
       unsupported_for_multiple_projects: "Массовое перемещение/копирование не поддерживается при работе с пакетами из нескольких проектов"
     sharing:
-      missing_workflow_waring:
-        title: "Отсутствует рабочий процесс для совместного использования пакета работ"
-        message: "Рабочий процесс не настроен для роли 'Редактора пакетов работ'. Без рабочего процесса, общий с пользователем не может изменить статус рабочего пакета. Рабочие процессы могут быть скопированы. Выберите исходный тип (например, «Задача») и исходную роль (например, «Участник»). Затем выберите нужные типы. Чтобы начать, можно выбрать все типы в качестве целей. Наконец, выберите роль 'Редактор пакетов работ' в качестве цели и нажмите 'Копировать'. После создания таким образом по умолчанию, тонкая настройка рабочих процессов как вы делаете для каждой другой роли."
-        link_message: "Настройка рабочих процессов в администрации."
+      missing_workflow_warning:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -1129,7 +1137,7 @@ ru:
       updated_by_on: "обновлено %{user} %{datetime}"
       updated_by_on_time_entry: "зарегистрированное время, обновленное %{user} в %{datetime}"
       updated_on: "обновлено %{datetime}"
-      updated_on_time_entry: "зарегистрированное время обновлено в %{дата-время}"
+      updated_on_time_entry: "зарегистрированное время обновлено в %{datetime}"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
       added_on: "added on %{datetime}"
@@ -1644,6 +1652,7 @@ ru:
       pdf_overview_table: "PDF таблица"
       pdf_report_with_images: "PDF отчёт с изображениями"
       pdf_report: "PDF отчёт"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Изображение не экспортировано."
     units:
@@ -1725,6 +1734,8 @@ ru:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Руководство по конфигурации"
     get_in_touch: "У вас есть вопросы? Свяжитесь с нами."
@@ -1789,17 +1800,6 @@ ru:
         mentioned: "Вы были назначены %{work_package}"
         responsible: "Вы отвечаете за %{work_package}"
         watched: "Вы просматриваете %{work_package}"
-    update_info_mail:
-      body: >
-        Мы рады объявить о выпуске OpenProject 12.0. Это основной релиз, который, как мы надеемся, значительно улучшит процесс использования OpenProject.
-        Начиная с этого выпуска, мы представляем Центр уведомлений. Теперь вы будете получать уведомления об обновлениях для пакетов работ непосредственно в OpenProject. Вы можете отметить эти уведомления как прочитанные, ответить на комментарий или даже напрямую изменить атрибуты пакетов работ не выходя из Центра уведомлений.
-        Это также означает, что мы больше не будем использовать электронные письма для уведомлений. Мы считаем, что Центр уведомлений лучше просматривать и реагировать на эти обновления. Тем не менее, если вы хотите продолжать получать обновления по электронной почте, вы можете ежедневно получать напоминания по электронной почте в определенные моменты по вашему выбору.
-        Вы можете установить настройки уведомлений и напоминаний по электронной почте через настройки учетной записи, или оставить их без изменений, чтобы сохранить стандартные. Вы можете сделать это с помощью кнопки «Изменить настройки электронной почты» ниже.
-        Мы надеемся, что вы найдете Центр уведомлений полезным и что он сделает вас еще более продуктивным.
-        Искренне Команда OpenProject
-      body_header: "Версия 12.0 с центром уведомлений"
-      body_subheader: "Новости"
-      subject: "Важные изменения в уведомлениях с релизом 12.0"
   label_accessibility: "Спец. возможности"
   label_account: "Учетная запись"
   label_active: "Активен"
@@ -1994,7 +1994,7 @@ ru:
   label_expanded_click_to_collapse: "Развернуто. Кликните для сворачивания"
   label_f_hour: "%{value} часов"
   label_f_hour_plural: "%{value} часов"
-  label_favorite: "Favorite"
+  label_favorite: "Избранное"
   label_feed_plural: "Ленты"
   label_feeds_access_key: "Ключ доступа к RSS"
   label_feeds_access_key_created_on: "Ключ доступа RSS, созданный %{value} назад"
@@ -2267,6 +2267,7 @@ ru:
   label_setting_plural: "Настройки"
   label_system_settings: "Настройки системы"
   label_show_completed_versions: "Показать завершённые этапы"
+  label_columns: "Столбцы"
   label_sort: "Сортировать"
   label_sort_by: "Сортировать по %{value}"
   label_sorted_by: "отсортировано по %{value}"
@@ -2814,7 +2815,7 @@ ru:
     member_of_group: "Группа назначенного"
     name_or_identifier: "Имя или идентификатор"
     only_subproject_id: "Только подпроект"
-    shared_with_user: "Доступно пользователю"
+    shared_with_user: "Shared with users"
     shared_with_me: "В общем доступе с"
     subproject_id: "Включая подпроект"
   repositories:
@@ -2957,6 +2958,7 @@ ru:
   setting_app_subtitle: "Второе название приложения"
   setting_app_title: "Название приложения"
   setting_attachment_max_size: "Максимальный размер вложения"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Режим сканирования"
   setting_antivirus_scan_action: "Действие с зараженным файлом"
   setting_autofetch_changesets: "Автоматическое получение изменений репозитория"
@@ -3058,6 +3060,8 @@ ru:
     attachments:
       whitelist_text_html: >
         Определите список допустимых расширений файлов и/или mime типов для загруженных файлов. <br/> Введите расширения файлов (например, <code>%{ext_example}</code>) или mime типы (e. ., <code>%{mime_example}</code>). <br/> Оставьте пустым, чтобы разрешить загрузку любого типа файла. Допустимы несколько значений (одна строка для каждого значения).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Сканирование вирусов"
       clamav_ping_failed: "Не удалось подключиться к сервису ClamAV. Проверьте настройки и повторите попытку."
@@ -3294,6 +3298,10 @@ ru:
         input_label: "Добавить столбцы"
         input_placeholder: "Выберите столбец"
         drag_area_label: "Управляйте колонками и изменяйте их порядок"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Дополнительные ресурсы"
     getting_started: "Приступая к работе"

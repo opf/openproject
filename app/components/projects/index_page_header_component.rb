@@ -69,9 +69,11 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
     query.name || t(:label_project_plural)
   end
 
-  def query_saveable?
-    current_user.logged? && query.name.blank?
-  end
+  def may_save_as? = current_user.logged?
+
+  def can_save_as? = may_save_as? && query.changed?
+
+  def can_save? = can_save_as? && query.persisted? && query.user == current_user
 
   def show_state?
     state == :show
@@ -95,6 +97,48 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
       I18n.t("menus.breadcrumb.nested_element", section_header: current_object.header, title: query.name).html_safe
     else
       page_title
+    end
+  end
+
+  def header_save_action(header:, message:, label:, href:, method: nil)
+    header.with_action_text { message }
+
+    header.with_action_link(
+      mobile_icon: nil, # Do not show on mobile as it is already part of the menu
+      mobile_label: nil,
+      href:,
+      data: {
+        method:,
+        controller: "params-from-query",
+        "application-target": "dynamic",
+        "params-from-query-allowed-value": '["filters", "columns", "sortBy", "query_id"]'
+      }.compact
+    ) do
+      render(
+        Primer::Beta::Octicon.new(
+          icon: "op-save",
+          align_self: :center,
+          "aria-label": label,
+          mr: 1
+        )
+      ) + content_tag(:span, label)
+    end
+  end
+
+  def menu_save_item(menu:, label:, href:, method: nil)
+    menu.with_item(
+      label:,
+      href:,
+      content_arguments: {
+        data: {
+          method:,
+          controller: "params-from-query",
+          "application-target": "dynamic",
+          "params-from-query-allowed-value": '["filters", "columns", "sortBy", "query_id"]'
+        }.compact
+      }
+    ) do |item|
+      item.with_leading_visual_icon(icon: :"op-save")
     end
   end
 end

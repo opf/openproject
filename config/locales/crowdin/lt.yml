@@ -302,7 +302,14 @@ lt:
       storage:
         no_results_title_text: Šis projektas papildomos vietos diske nenaudoja.
   lists:
-    can_be_saved_as: "Pakeitimus galima išsaugoti tik naujame sąraše."
+    create:
+      success: "Pakeistas sąrašas įrašytas kaip naujas sąrašas"
+      failure: "Nepavyksta įrašyti pakeisto sąrašo: %{errors}"
+    update:
+      success: "Pakeistas sąrašas buvo įrašytas"
+      failure: "Nepavyksta įrašyti pakeisto sąrašo: %{errors}"
+    can_be_saved: "Sąrašas pakeistas:"
+    can_be_saved_as: "Pakeitimus galima įrašyti tik į naują sąrašą:"
   members:
     index:
       no_results_title_text: Nėra nė vieno šio projekto dalyvio.
@@ -320,6 +327,7 @@ lt:
       project_roles: "Projekto vaidmenys"
       wp_shares: "Darbo paketų bendrinimai"
       groups: "Grupės"
+    no_modify_on_shared: "Jūs šiuo metu negalite keisti ar išimti bendrintų narysčių per nario puslapį. Vietoje to naudokite bendrinimo dialogą."
     delete_member_dialog:
       title: "Išimti narį"
       will_remove_the_users_role: "Tai išims naudotojo vaidmenį iš šio projekto."
@@ -496,7 +504,7 @@ lt:
       no_common_statuses_exists: "Parinkti darbo paketai neturi būsenos. Jų būsena negali pakeista."
       unsupported_for_multiple_projects: "Masinis darbų paketų perkėlimas/kopijavimas nėra palaikomas darbui iškart su keliais projektais"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Darbo paketo dalinimuisi trūksta darbo proceso"
         message: "Vaidmeniui „Darbo paketo redaktorius“ nesukonfigūruotas procesas. Be proceso naudotojas negali pakeisti darbo paketo būsenos. Procesą galima nukopijuoti. Parinkite šaltinio tipą („pvz. „Užduotis“) ir šaltinio vaidmenį (pvz. „Narys“). Tada parinkite paskirties tipus. Pradžiai galėtumėte kaip paskirtį parinkti visus tipus. Galų gale parinkite vaidmenį „Darbo paketų redaktorius“ kaip paskirtį ir spauskite „Kopijuoti“. Taip sukūrę numatytąjį variantą, patikslinkite procesus kaip tai darote su kitais vaidmenimis."
         link_message: "Konfigūruokite procesus administravime."
@@ -1642,6 +1650,7 @@ lt:
       pdf_overview_table: "PDF lentelė"
       pdf_report_with_images: "PDF ataskaita su piešiniais"
       pdf_report: "PDF ataskaita"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Paveiksliukas neeksportuotas."
     units:
@@ -1723,6 +1732,8 @@ lt:
           Eigos skaičiavimas automatiškai <a href="%{href}" target="_blank">nustatytas į paremtą darbu ir pakeistas su versijos atnaujinimu</a>.
         progress_calculation_adjusted: >-
           Eigos skaičiavimas automatiškai <a href="%{href}" target="_blank">pakeistas su versijos atnaujinimu</a>.
+        totals_removed_from_childless_work_packages: >-
+          Darbo ir eigos sumos automatiškai išimtos ne tėviniams darbų paketams <a href="%{href}" target="_blank">atnaujinant versiją</a>. Tai palaikymo užduotis ir ją galima saugiai ignoruoti.
   links:
     configuration_guide: "Konfigūravimo vadovas"
     get_in_touch: "Turite klausimų? Susisiekite su mumis."
@@ -1787,17 +1798,6 @@ lt:
         mentioned: "Jūs buvote paminėtas %{work_package}"
         responsible: "Jūs tapote atsakingas už %{work_package}"
         watched: "Jūs stebite %{work_package}"
-    update_info_mail:
-      body: >
-        Mes džiaugiamės galėdami pranešti apie OpenProject 12.0. Tai didelė laida, kuri tikimės stipriai pagerins tai, kaip jūs naudojate OpenProject.
-        Pradedant šia laida mes pristatome Pranešimų Centrą. Nuo dabar jūs galėsite gauti pranešimus apie darbo paketų atnaujinimus tiesiai OpenProject. Jūs galite pažymėti šiuos pranešimus perskaitytais, atsakyti į komentarą ar tiesiogiai pakeisti darbo paketo atributus, nepalikdami Pranešimų Centro.
-        Tai taipogi reiškia, kad jūs daugiau nenaudosite e-pašto pranešimams. Mes galvojame, kad Pranešimų centras yra geresnė vieta peržiūrėti ir imtis veiksmų su atnaujinimais. Kaip bebūtų, jei jūs norėtumėte ir toliau gauti atnaujinimus e-paštu, galite pasirinkti kasdieninius e-pašto priminimus jūsų pasirinktu metu.
-        Prašome nustatyti savo e-pašto priminimo parinktis jūsų paskyros nustatymuose. Galite tai padaryti paspaudę žemiau esantį mygtuką „Keisti e-pašto nustatymus“.
-        Mes tikimės, kad vidiniai pranešimai jums bus naudingi ir, kad jie dar labiau pagerins jūsų produktyvumą.
-        Nuoširdžiai, OpenProject komanda
-      body_header: "Versija 12.0 su Pranešimų centru"
-      body_subheader: "Naujienos"
-      subject: "Svarbūs pranešimų pakeitimai laidoje 12.0"
   label_accessibility: "Prieinamumas"
   label_account: "Paskyra"
   label_active: "Aktyvus"
@@ -2265,6 +2265,7 @@ lt:
   label_setting_plural: "Nustatymai"
   label_system_settings: "Sistemos nustatymai"
   label_show_completed_versions: "Rodyti užbaigtas versijas"
+  label_columns: "Stulpeliai"
   label_sort: "Rikiuoti"
   label_sort_by: "Rūšiuoti pagal %{value}"
   label_sorted_by: "suršiuota pagal %{value}"
@@ -2811,7 +2812,7 @@ lt:
     member_of_group: "Priskirtojo asmens grupė"
     name_or_identifier: "Pavadinimas arba identifikatorius"
     only_subproject_id: "Tik sub-projektai"
-    shared_with_user: "Bendrinamas su naudotoju"
+    shared_with_user: "Bendrinamas su naudotojais"
     shared_with_me: "Bendrinama su manimi"
     subproject_id: "Įtraukti sub-projektus"
   repositories:
@@ -2954,6 +2955,7 @@ lt:
   setting_app_subtitle: "Programos paantraštė"
   setting_app_title: "Programos pavadinimas"
   setting_attachment_max_size: "Didžiausias prisegamo failo dydis"
+  setting_show_work_package_attachments: "Pagal nutylėjimą rodyti priedus failų kortelėje"
   setting_antivirus_scan_mode: "Skenavimo režimas"
   setting_antivirus_scan_action: "Užkrėsto failo veiksmas"
   setting_autofetch_changesets: "Automatiškai įkelti repozitorijos pakeitimus"
@@ -3055,6 +3057,8 @@ lt:
     attachments:
       whitelist_text_html: >
         Sudarykite sąrašą leidžiamų failų praplėtimų ir/arba MIME tipų su kuriais bus leidžiama įkelti failus. <br/> Įveskite failų praplėtimus (t.y., <code>%{ext_example}</code>) arba MIME tipus (t.y., <code>%{mime_example}</code>). <br/> Palikite tuščią, jei norite leisti visus tipus. Leidžiama daugiau nei viena reikšmė (po vieną kiekvienoje eilutėje).
+      show_work_package_attachments: >
+        Išjungus šią parinktį naujų projektų darbo paketų failų kortelėje bus paslėptas priedų sąrašas. Darbo paketų aprašyme prisegti failai bus įkeliami į vidinę priedų saugyklą.
     antivirus:
       title: "Virusų tikrinimas"
       clamav_ping_failed: "Nepavyko prisijungti prie ClamAV demono. Dar kartą patikrinkite konfigūraciją ir bandykite dar kartą."
@@ -3291,6 +3295,10 @@ lt:
         input_label: "Pridėti stulpelių"
         input_placeholder: "Parinkti stulpelį"
         drag_area_label: "Tvarkyti ir perrikiuoti stulpelius"
+      sort_by:
+        automatic:
+          heading: "Automatinis"
+          description: "Rikiuokite %{plural} pagal vieną ar daugiau rikiavimo kriterijų. Prarasite bet kokį ankstesnį rikiavimą."
   top_menu:
     additional_resources: "Papildomi ištekliai"
     getting_started: "Darbo pradžia"

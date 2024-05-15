@@ -62,6 +62,10 @@ See COPYRIGHT and LICENSE files for more details.
         fileName = fileNameField[0].files[0].name;
       }
 
+      <%# Reset the form validity %>
+      <%# See: https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement/setCustomValidity %>
+      fileNameField[0].setCustomValidity('');
+
       var titleField = jQuery("#bim_ifc_models_ifc_model_title");
 
       <%# When creating a new model, there is no titleField. %>
@@ -86,11 +90,19 @@ See COPYRIGHT and LICENSE files for more details.
         },
         data: {
           title: title,
-          isDefault: jQuery("#bim_ifc_models_ifc_model_is_default").is(":checked") ? 1 : 0
+          isDefault: jQuery("#bim_ifc_models_ifc_model_is_default").is(":checked") ? 1 : 0,
+          filesize: fileNameField[0].files[0].size
         },
         statusCode: {
           401: function(resp, status, error) {
             document.location.reload(); // reload to make user login again
+          }
+        },
+        error: function(jqXHR, ajaxOptions, errorThrown) {
+          if (jqXHR.status == 422) {
+            var errorMessage = jqXHR.responseJSON.error;
+            fileNameField[0].setCustomValidity(errorMessage);
+            fileNameField[0].reportValidity();
           }
         }
       });

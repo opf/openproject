@@ -329,6 +329,18 @@ el:
         years: "Χρόνια"
         description: >
           Επιλέξτε το αρχικό επίπεδο μεγέθυνσης που θα πρέπει να εμφανίζεται όταν η αυτόματη μεγέθυνση δεν είναι διαθέσιμη.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "όχι"
     general_text_yes: "ναι"
     general_text_No: "Όχι"
@@ -377,7 +389,7 @@ el:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "ημέρες πριν"
     label_all: "όλα"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Όλα"
     label_all_work_packages: "όλα τα πακέτα εργασίας"
     label_and: "και"
     label_ascending: "Αύξουσα"
@@ -761,7 +773,7 @@ el:
           last_day: "Last day"
     text_are_you_sure: "Είστε σίγουρος/η;"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} έγραψε:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Το όνομα %{group} χρησιμοποιείται περισσότερες από μία φορές. Τα ονόματα ομάδων πρέπει να είναι μοναδικά."
@@ -982,7 +994,7 @@ el:
         priority: "Προτεραιότητα"
         projectName: "Έργο"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "Υπολειπόμενες ώρες"
         responsible: "Υπεύθυνος"
         startDate: "Ημερομηνία έναρξης"
         status: "Κατάσταση"
@@ -994,7 +1006,7 @@ el:
         versionName: "Έκδοση"
         version: "Έκδοση"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "Εκτιμώμενος χρόνος"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Τελευταία δραστηριότητα"
@@ -1044,7 +1056,7 @@ el:
       sharing:
         share: "Share"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"

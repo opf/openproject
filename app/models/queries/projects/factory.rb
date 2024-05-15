@@ -36,11 +36,9 @@ class Queries::Projects::Factory
   STATIC_AT_RISK = "at_risk".freeze
 
   class << self
-    def find(id, params:, user:)
-      query = find_and_update_static_query(id, params, user) || find_and_update_persisted_query(id, params, user)
-      query&.valid_subset!
-
-      query
+    def find(id, params:, user:, duplicate: false)
+      find_static_query_and_set_attributes(id, params, user, duplicate:) ||
+      find_persisted_query_and_set_attributes(id, params, user, duplicate:)
     end
 
     def static_query(id)
@@ -112,40 +110,48 @@ class Queries::Projects::Factory
         query.select(*Setting.enabled_projects_columns, add_not_existing: false)
 
         yield query
+
+        # This method is used to create static queries, so assume clean state after building
+        query.clear_changes_information
       end
     end
 
-    def find_and_update_static_query(id, params, user)
+    def find_static_query_and_set_attributes(id, params, user, duplicate:)
       query = static_query(id)
 
       return unless query
 
+      query = duplicate_query(query) if duplicate || params.any?
+
       if params.any?
-        new_query(query, params, user)
+        set_query_attributes(query, params, user)
       else
         query
       end
     end
 
-    def find_and_update_persisted_query(id, params, user)
+    def find_persisted_query_and_set_attributes(id, params, user, duplicate:)
       query = Queries::Projects::ProjectQuery.where(user:).find_by(id:)
 
       return unless query
 
+      query.valid_subset!
+      query.clear_changes_information
+
+      query = duplicate_query(query) if duplicate
+
       if params.any?
-        update_query(query, params, user)
+        set_query_attributes(query, params, user)
       else
         query
       end
     end
 
-    def new_query(source_query, params, user)
-      update_query(Queries::Projects::ProjectQuery.new(source_query.attributes.slice("filters", "orders", "selects")),
-                   params,
-                   user)
+    def duplicate_query(query)
+      Queries::Projects::ProjectQuery.new(query.attributes.slice("filters", "orders", "selects"))
     end
 
-    def update_query(query, params, user)
+    def set_query_attributes(query, params, user)
       Queries::Projects::ProjectQueries::SetAttributesService
         .new(user:,
              model: query,

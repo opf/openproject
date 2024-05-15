@@ -191,7 +191,7 @@ id:
     plural: "Tindakan khusus"
     new: "Tindakan kustom baru"
     edit: "Edit tindakan kustom %{name}"
-    execute: "Jalankan %{nama}"
+    execute: "Jalankan %{name}"
     upsale:
       title: "Tindakan khusus"
       description: "Tindakan kustom adalah pintasan sekali klik ke serangkaian tindakan yang ditentukan sebelumnya yang dapat Anda sediakan pada paket kerja tertentu berdasarkan status, peran, jenis, atau proyek."
@@ -299,7 +299,14 @@ id:
       storage:
         no_results_title_text: Tidak ada ruang disk terekam tambahan yang digunakan oleh proyek ini.
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -317,6 +324,7 @@ id:
       project_roles: "Project roles"
       wp_shares: "Work package shares"
       groups: "Grup"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -471,7 +479,7 @@ id:
       no_common_statuses_exists: "Tidak ada status yang tersedia untuk semua paket pekerjaan yang dipilih. Status mereka tidak dapat diubah."
       unsupported_for_multiple_projects: "Bulk move/copy is not supported for work packages from multiple projects"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Workflow missing for work package sharing"
         message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
         link_message: "Configure the workflows in the administration."
@@ -809,7 +817,7 @@ id:
           empty: "Nilai (%{name}) tidak boleh kosong."
           inclusion: "nilai (%{name}) tidak disetel ke salah satu nilai yang diperbolehkan."
           not_logged_in: "Nilai (%{name}) tidak dapat disetel karena Anda belum masuk."
-          not_an_integer: "(%{nama}) bukan bilangan bulat."
+          not_an_integer: "(%{name}) bukan bilangan bulat."
           smaller_than_or_equal_to: "(%{name}) harus lebih kecil dari atau sama dengan %{count}."
           greater_than_or_equal_to: "(%{name}) harus lebih besar dari atau sama dengan %{count}."
           format: "%{message}"
@@ -1539,6 +1547,7 @@ id:
       pdf_overview_table: "Tabel PDF"
       pdf_report_with_images: "Laporan PDF dengan gambar"
       pdf_report: "Laporan PDF"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Gambar tidak diekspor."
     units:
@@ -1620,6 +1629,8 @@ id:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Petunjuk Konfigurasi"
     get_in_touch: "Anda punya pertanyaan? Hubungi kami."
@@ -1684,17 +1695,6 @@ id:
         mentioned: "Anda telah disebutkan di %{work_package}"
         responsible: "Anda telah bertanggung jawab atas %{work_package}"
         watched: "Anda sedang menonton %{work_package}"
-    update_info_mail:
-      body: >
-        Kami sangat senang mengumumkan rilis OpenProject 12.0. Ini adalah rilis utama yang diharapkan akan secara signifikan meningkatkan cara Anda menggunakan OpenProject.
-        Dimulai dengan rilis ini, kami memperkenalkan notifikasi dalam aplikasi.  Mulai sekarang, Anda akan menerima pemberitahuan untuk pembaruan paket kerja langsung di OpenProject. Anda dapat menandai notifikasi ini sebagai telah dibaca, membalas komentar, atau bahkan langsung mengubah atribut paket kerja tanpa meninggalkan pusat notifikasi.
-        Ini juga berarti bahwa kami tidak akan lagi menggunakan email untuk pemberitahuan. Menurut kami, pusat notifikasi baru adalah tempat yang lebih baik untuk melihat dan menindaklanjuti pembaruan ini. Namun demikian, jika Anda ingin terus menerima pembaruan melalui email, Anda dapat memilih untuk menerima pengingat email setiap hari pada waktu tertentu yang Anda pilih.
-        Pastikan untuk memverifikasi pengaturan notifikasi default baru Anda, dan atur preferensi Anda untuk notifikasi dan pengingat email melalui pengaturan akun Anda. Anda dapat melakukannya melalui tombol "Ubah setelan email" di bawah.
-        Kami harap notifikasi dalam aplikasi bermanfaat dan membuat Anda semakin produktif.
-        Hormat kami, Tim OpenProject
-      body_header: "Versi 12.0 dengan Notification Center"
-      body_subheader: "News"
-      subject: "Perubahan penting pada notifikasi dengan rilis 12.0"
   label_accessibility: "Kemampuan akses"
   label_account: "Akun"
   label_active: "Aktif"
@@ -2162,6 +2162,7 @@ id:
   label_setting_plural: "Pengaturan"
   label_system_settings: "System settings"
   label_show_completed_versions: "Tampilkan versi lengkap"
+  label_columns: "Kolom"
   label_sort: "Urutkan"
   label_sort_by: "Urutkan %{value}"
   label_sorted_by: "diurutkan berdasarkan %{value}"
@@ -2702,7 +2703,7 @@ id:
     member_of_group: "Ditugaskan untuk Grup"
     name_or_identifier: "Nama atau pengenal"
     only_subproject_id: "Hanya subproyek"
-    shared_with_user: "Shared with user"
+    shared_with_user: "Shared with users"
     shared_with_me: "Shared with me"
     subproject_id: "Termasuk subproyek"
   repositories:
@@ -2845,6 +2846,7 @@ id:
   setting_app_subtitle: "Subjudul aplikasi"
   setting_app_title: "Judul aplikasi"
   setting_attachment_max_size: "Ukuran lampiran maks."
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Scan mode"
   setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Ambil perubahan repository secara otomatis"
@@ -2946,6 +2948,8 @@ id:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Virus scanning"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
@@ -3182,6 +3186,10 @@ id:
         input_label: "Tambah kolom"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Additional resources"
     getting_started: "Getting started"

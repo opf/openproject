@@ -48,6 +48,8 @@ es:
         duration_in_minutes: "min"
         description: "Notas"
         presenter: "Responsable"
+      meeting_section:
+        title: "Título"
     errors:
       messages:
         invalid_time_format: "no es una hora válida. Formato requerido: HH:MM"
@@ -122,6 +124,10 @@ es:
       structured_text: "Organice su reunión como una lista de temas del orden del día, enlazándolos opcionalmente a un paquete de trabajo."
       structured_text_copy: "Copiar una reunión no copiará actualmente los elementos asociados de la agenda de la reunión, solo los detalles"
     copied: "Copiado de la reunión %{id}"
+  meeting_section:
+    default_title: "Nueva sección"
+    untitled_title: "Sin título"
+    empty_text: "Arrastre los elementos aquí o cree uno nuevo"
   notice_successful_notification: "Notificación enviada correctamente"
   notice_timezone_missing: No se ha establecido zona horaria y se asume %{zone}. Para elegir su zona horaria, por favor, haga clic aquí.
   permission_create_meetings: "Crear reuniones"

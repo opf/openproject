@@ -140,7 +140,7 @@ gem "rack-attack", "~> 6.7.0"
 gem "secure_headers", "~> 6.5.0"
 
 # Browser detection for incompatibility checks
-gem "browser", "~> 5.3.0"
+gem "browser", "~> 6.0.0"
 
 # Providing health checks
 gem "okcomputer", "~> 1.18.1"
@@ -159,6 +159,7 @@ gem "airbrake", "~> 13.0.0", require: false
 
 gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "8f14736a88ad0064d2a97be108fe7061ffbcee91"
 gem "prawn", "~> 2.4"
+gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues/1346 resolved.
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.2"
 
@@ -383,6 +384,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-octicons", "~>19.10.0"
-gem "openproject-octicons_helper", "~>19.10.0"
-gem "openproject-primer_view_components", "~>0.29.1"
+gem "openproject-octicons", "~>19.12.0"
+gem "openproject-octicons_helper", "~>19.12.0"
+gem "openproject-primer_view_components", "~>0.30.1"
