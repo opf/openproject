@@ -24,7 +24,7 @@ ms:
   plugin_openproject_meeting:
     name: "Mesyuarat OpenProject"
     description: >-
-      Modul ini tambahkan fungsi-fungsi ke OpenProject untuk menyokong mesyuarat projek. Mesyuarat boleh dijadualkan untuk memilih jemputan dari projek yang sama untuk mengambil bahagian dalam mesyuarat ini. Agenda boleh dibuat dan dihantar ke para jemputan. Selepas mesyuarat, penghadir boleh dipilih dan minit mesyuarat boleh dibuat berdasarkan agenda tersebut. Akhirnya, minit mesyuarat boleh dihantar ke semua penghadir dan jemputan.
+      Modul ini menambah fungsi-fungsi ke OpenProject untuk menyokong mesyuarat projek. Mesyuarat boleh dijadualkan dengan memilih jemputan dari projek yang sama untuk mengambil bahagian dalam mesyuarat ini. Agenda boleh dicipta dan dihantar ke para jemputan. Selepas mesyuarat, hadirin boleh dipilih dan minit mesyuarat boleh dibuat berdasarkan agenda tersebut. Akhirnya, minit mesyuarat boleh dihantar ke semua hadirin dan jemputan.
   activerecord:
     attributes:
       meeting:
