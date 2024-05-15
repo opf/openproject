@@ -29,6 +29,13 @@
 module Notifications
   # Creates date alert jobs for users whose local time is 1:00 am.
   class ScheduleDateAlertsNotificationsJob < ApplicationJob
+    include GoodJob::ActiveJobExtensions::Concurrency
+
+    good_job_control_concurrency_with(
+      enqueue_limit: 1,
+      perform_limit: 1
+    )
+
     def perform
       return unless EnterpriseToken.allows_to?(:date_alerts)
 
