@@ -330,6 +330,7 @@ fr:
       project_roles: "Rôle du projet"
       wp_shares: "Partages du lot des travaux"
       groups: "Groupes"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Supprimer le membre"
       will_remove_the_users_role: "Cela supprimera le rôle de l'utilisateur dans ce projet."
@@ -492,10 +493,10 @@ fr:
       no_common_statuses_exists: "Il n’y a pas de statut disponible pour tous les lots de travaux sélectionnés. Ce statut ne peut pas être changé."
       unsupported_for_multiple_projects: "Déplacer/copier en masse n'est pas supporté pour des lots de travaux provenant de plusieurs projets"
     sharing:
-      missing_workflow_waring:
-        title: "Flux de travail manquant pour le partage de lots de travaux"
-        message: "Aucun flux de travail n'est configuré pour le rôle 'Éditeur de lots de travaux'. Sans flux de travail, le partage avec l'utilisateur ne permet pas de modifier l'état du lot de travaux. Les flux de travail peuvent être copiés. Sélectionnez un type de source (par exemple 'Tâche') et un rôle de source (par exemple 'Membre'). Sélectionnez ensuite les types cibles. Pour commencer, vous pouvez sélectionner tous les types comme cibles. Enfin, sélectionnez le rôle 'Éditeur de lot de travaux' comme cible et cliquez sur 'Copier'. Après avoir ainsi créé les valeurs par défaut, affinez les flux de travail comme vous le faites pour tous les autres rôles."
-        link_message: "Configurez les flux de travail dans l'administration."
+      missing_workflow_warning:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -1734,17 +1735,6 @@ fr:
         mentioned: "Vous avez été mentionné dans %{work_package}"
         responsible: "Vous êtes devenu responsable de %{work_package}"
         watched: "Vous surveillez %{work_package}"
-    update_info_mail:
-      body: >
-        Nous sommes heureux d'annoncer la sortie d'OpenProject 12.0. Il s'agit d'une version majeure qui, nous l'espérons, améliorera considérablement la façon dont vous utilisez OpenProject.
-        A partir de cette version, nous lançons les notifications in-app. A partir de maintenant, vous recevrez des notifications pour les mises à jour des paquets de travail directement dans OpenProject. Vous pouvez marquer ces notifications comme lues, répondre à un commentaire, ou même modifier directement les attributs du paquet de travail sans quitter le centre de notification.
-        Cela signifie également que nous n'utiliserons plus les emails pour les notifications. Nous pensons que le nouveau centre de notification est un meilleur endroit pour voir et agir sur ces mises à jour. Néanmoins, si vous souhaitez continuer à recevoir des mises à jour par e-mail, vous pouvez choisir de recevoir des rappels quotidiens à des moments précis de votre choix.
-        Nous vous conseillons de vérifier vos nouveaux paramètres de notification par défaut et de définir vos préférences via les paramètres de votre compte. Vous pouvez le faire en cliquant sur le bouton "Modifier les paramètres de messagerie" ci-dessous.
-        Nous espérons que vous trouverez les notifications in-app utiles et qu'elles vous rendront encore plus productif.
-        Sincèrement, L'équipe OpenProject
-      body_header: "Version 12.0 avec centre de notifications"
-      body_subheader: "Actualités"
-      subject: "Modifications importantes des notifications avec la publication de 12.0"
   label_accessibility: "Accessibilité"
   label_account: "Compte"
   label_active: "Actif"
@@ -2757,7 +2747,7 @@ fr:
     member_of_group: "Groupe du Destinataire"
     name_or_identifier: "Nom ou identifiant"
     only_subproject_id: "Seulement le sous-projet"
-    shared_with_user: "Partagés avec l'utilisateur"
+    shared_with_user: "Shared with users"
     shared_with_me: "Partagés avec moi"
     subproject_id: "Inclure le sous-projet"
   repositories:

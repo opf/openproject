@@ -1055,7 +1055,7 @@ zh-CN:
       sharing:
         share: "共享"
         title: "共享工作包"
-        show_all_users: "显示所有共享用户"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} 已选择"
         selection:
           mixed: "混合"

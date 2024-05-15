@@ -19,7 +19,7 @@ ms:
         default: "Storan"
       information:
         connection_error: >
-          Beberapa tetapan %{storageType} tidak berfungsi. Sila hubungi pentadbir anda %{storageType}.
+          Beberapa tetapan %{storageType} tidak berfungsi. Sila hubungi pentadbir %{storageType} anda.
         live_data_error: "Masalah memperoleh butiran fail"
         live_data_error_description: >
           Beberapa data %{storageType} tidak dapat diperolehi. Sila cuba untuk memuat semula halaman ini atau hubungi pentadbir %{storageType} anda.
@@ -31,11 +31,11 @@ ms:
         already_existing_body: >
           Fail dengan nama "%{fileName}" sudah wujud di lokasi di mana anda sedang cuba untuk memuat naik fail ini. Apakah yang anda ingin lakukan?
         directory_not_writeable: "Anda tidak mempunyai kebenaran untuk menambah fail ke dalam folder ini."
-        dragging_many_files: "Muat naik ke %{storageType} hanya menyokong satu fail pada satu masa."
+        dragging_many_files: "Muat naik ke %{storageType} menyokong hanya satu fail pada satu masa."
         dragging_folder: "Muat naik ke %{storageType} tidak menyokong folder."
         empty_folder: "Folder ini kosong."
         empty_folder_location_hint: "Klik butang di bawah untuk memuat naik fail di lokasi ini."
-        file_not_selectable_location: "Memilih fail tidak boleh dilakukan dalam proses pemilihan lokasi."
+        file_not_selectable_location: "Pemilihan fail tidak boleh dilakukan dalam proses pemilihan lokasi."
         project_folder_no_access: >
           Anda tidak mempunyai akses ke folder projek. Sila hubungi pentadbir anda untuk mendapatkan akses atau muat naik file ke lokasi yang berbeza.
         managed_project_folder_not_available: >
@@ -72,7 +72,7 @@ ms:
             Fail anda (%{fileName}) adalah lebih besar dari kuota storan yang dibenarkan. Hubungi pentadbir anda untuk ubah suai kuota ini.
           detail:
             nextcloud: >
-              Sila semak versi aplikasi Nextcloud "OpenProject Integration" terbaru sudah di pasang dan hubungi pentadbir anda untuk info lebih lanjut.
+              Sila semak versi aplikasi Nextcloud "OpenProject Integration" terbaharu sudah dipasang dan hubungi pentadbir anda untuk maklumat lanjut.
         link_uploaded_file_error: >
           Ralat berlaku semasa memautkan fail %{fileName} yang baru sahaja dimuat naik ke pakej kerja %{workPackageId}.
         tooltip:

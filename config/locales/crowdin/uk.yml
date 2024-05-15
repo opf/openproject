@@ -325,6 +325,7 @@ uk:
       project_roles: "Ролі в проєкті"
       wp_shares: "Поширення пакета робіт"
       groups: "Групи"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Вилучити учасника"
       will_remove_the_users_role: "Роль користувача буде вилучено із цього проєкту."
@@ -501,10 +502,10 @@ uk:
       no_common_statuses_exists: "Немає доступного статусу для всіх вибраних робочих пакетів. Їх статус не може бути змінений."
       unsupported_for_multiple_projects: "Масове переміщення/копіювання не підтримується для робочих пакетів з декількох проектів"
     sharing:
-      missing_workflow_waring:
-        title: "Відсутній робочий процес для спільного використання пакета робіт"
-        message: "Для ролі «Редактора пакета робіт» не налаштовано жодного робочого процесу. Без робочого процесу користувач, якому надано доступ, не може змінити статус пакета робіт. Робочі процеси можна копіювати. Виберіть вихідний тип (напр., «Завдання») і роль (напр., «Учасник»). Потім виберіть цільові типи. Для початку радимо вибирати всі типи як цільові. Нарешті, виберіть роль «Редактор пакета робіт» і натисніть «Копіювати». Після цього ви зможете налаштовувати робочі процеси для кожної ролі, як ви це зазвичай робите."
-        link_message: "Налаштуйте робочі процеси на панелі адміністрування."
+      missing_workflow_warning:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -1795,17 +1796,6 @@ uk:
         mentioned: "Вас було згадано у %{work_package}"
         responsible: "Ви стали відповідальними за %{work_package}"
         watched: "Ви переглядаєте %{work_package}"
-    update_info_mail:
-      body: >
-        Ми з задоволенням оголошуємо про випуск нової версії OpenProject 12.0. Це одне із найбільших наших оновлень, яке ми сподіваємося значно покращить ваш досвід використання OpenProject.
-        Починаючи із цього оновлення, ми вводимо сповіщення у самій програмі. Від сьогодні ви будете отримувати сповіщення про оновлення робочих блоків прямо у  OpenProject. Ви зможете позначати ці сповіщення як прочитані, коментувати їх чи навіть прямо редагувати зміни у робочих блоках не залишаючи центр сповіщень.
-        Це також означає, що ми не будемо більш використовувати електронні листи для сповіщень. Гадаємо, що новий центр сповіщень є кращим місцем, щоб переглянути і відреагувати на усі оновлення. Проте, якщо ви бажаєте отримувати сповіщення на свою електронну адресу і надалі, ви можете обрати отримання загальний лист із усіма оновленнями за день у певний час.
-        Будь ласка, перегляньте новий центр сповіщень та налаштуйте його, оберіть чи бажаєте отримувати оновлення на пошту в налаштуваннях свого профілю. Ви можете зробити це натиснувши на кнопку "Змінити налаштування електронної пошти", що знаходиться внизу.
-        Сподіваємося, що центр сповіщень буде корисним для вас та допоможе вам стати значно продуктивнішими.
-        З повагою, команда OpenProject
-      body_header: "Версія 12.0 з Центром Сповіщень"
-      body_subheader: "Новини"
-      subject: "Важливі зміни в системі сповіщень у випуску 12.0"
   label_accessibility: "Розробникам також потрібно оплачувати свої рахунки. З доступністю"
   label_account: "Обліковий запис"
   label_active: "Активний"
@@ -2819,7 +2809,7 @@ uk:
     member_of_group: "Група виконавця"
     name_or_identifier: "Ім'я або ідентифікатор"
     only_subproject_id: "Лише підпроєкт"
-    shared_with_user: "Надано доступ користувачу"
+    shared_with_user: "Shared with users"
     shared_with_me: "Доступ надано мені"
     subproject_id: "Включно з підпроєктом"
   repositories:

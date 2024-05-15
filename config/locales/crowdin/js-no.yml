@@ -1057,7 +1057,7 @@
       sharing:
         share: "Del"
         title: "Del arbeidspakke"
-        show_all_users: "Vis alle delte brukere"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} valgte"
         selection:
           mixed: "Blandet"

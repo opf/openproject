@@ -1059,7 +1059,7 @@ uk:
       sharing:
         share: "Поширити"
         title: "Надати доступ до пакета робіт"
-        show_all_users: "Показати всіх користувачів із доступом"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "Вибрано: %{count}"
         selection:
           mixed: "Змішані"

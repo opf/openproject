@@ -324,6 +324,7 @@ id:
       project_roles: "Project roles"
       wp_shares: "Work package shares"
       groups: "Grup"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -478,7 +479,7 @@ id:
       no_common_statuses_exists: "Tidak ada status yang tersedia untuk semua paket pekerjaan yang dipilih. Status mereka tidak dapat diubah."
       unsupported_for_multiple_projects: "Bulk move/copy is not supported for work packages from multiple projects"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Workflow missing for work package sharing"
         message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
         link_message: "Configure the workflows in the administration."
@@ -1694,17 +1695,6 @@ id:
         mentioned: "Anda telah disebutkan di %{work_package}"
         responsible: "Anda telah bertanggung jawab atas %{work_package}"
         watched: "Anda sedang menonton %{work_package}"
-    update_info_mail:
-      body: >
-        Kami sangat senang mengumumkan rilis OpenProject 12.0. Ini adalah rilis utama yang diharapkan akan secara signifikan meningkatkan cara Anda menggunakan OpenProject.
-        Dimulai dengan rilis ini, kami memperkenalkan notifikasi dalam aplikasi.  Mulai sekarang, Anda akan menerima pemberitahuan untuk pembaruan paket kerja langsung di OpenProject. Anda dapat menandai notifikasi ini sebagai telah dibaca, membalas komentar, atau bahkan langsung mengubah atribut paket kerja tanpa meninggalkan pusat notifikasi.
-        Ini juga berarti bahwa kami tidak akan lagi menggunakan email untuk pemberitahuan. Menurut kami, pusat notifikasi baru adalah tempat yang lebih baik untuk melihat dan menindaklanjuti pembaruan ini. Namun demikian, jika Anda ingin terus menerima pembaruan melalui email, Anda dapat memilih untuk menerima pengingat email setiap hari pada waktu tertentu yang Anda pilih.
-        Pastikan untuk memverifikasi pengaturan notifikasi default baru Anda, dan atur preferensi Anda untuk notifikasi dan pengingat email melalui pengaturan akun Anda. Anda dapat melakukannya melalui tombol "Ubah setelan email" di bawah.
-        Kami harap notifikasi dalam aplikasi bermanfaat dan membuat Anda semakin produktif.
-        Hormat kami, Tim OpenProject
-      body_header: "Versi 12.0 dengan Notification Center"
-      body_subheader: "News"
-      subject: "Perubahan penting pada notifikasi dengan rilis 12.0"
   label_accessibility: "Kemampuan akses"
   label_account: "Akun"
   label_active: "Aktif"
@@ -2713,7 +2703,7 @@ id:
     member_of_group: "Ditugaskan untuk Grup"
     name_or_identifier: "Nama atau pengenal"
     only_subproject_id: "Hanya subproyek"
-    shared_with_user: "Shared with user"
+    shared_with_user: "Shared with users"
     shared_with_me: "Shared with me"
     subproject_id: "Termasuk subproyek"
   repositories:

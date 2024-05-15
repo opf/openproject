@@ -1055,7 +1055,7 @@ zh-TW:
       sharing:
         share: "共享"
         title: "分享工作項目"
-        show_all_users: "顯示所有使用者"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "已選取 %{count} 個"
         selection:
           mixed: "Mixed"

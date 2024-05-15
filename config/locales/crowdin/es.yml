@@ -303,13 +303,13 @@ es:
         no_results_title_text: No se ha registrado el uso de espacio en disco adicional por este proyecto.
   lists:
     create:
-      success: "The modified list has been saved as a new list"
-      failure: "The modified list cannot be saved: %{errors}"
+      success: "La lista modificada se ha guardado como una nueva lista"
+      failure: "La lista modificada no se puede guardar: %{errors}"
     update:
-      success: "The modified list has been saved"
-      failure: "The modified list cannot be saved: %{errors}"
-    can_be_saved: "List modified:"
-    can_be_saved_as: "The modifications can only be saved in a new list:"
+      success: "La lista modificada se ha guardado"
+      failure: "La lista modificada no se puede guardar: %{errors}"
+    can_be_saved: "Lista modificada:"
+    can_be_saved_as: "Las modificaciones solo pueden guardarse en una lista nueva:"
   members:
     index:
       no_results_title_text: Actualmente no hay miembros que formen parte de este proyecto.
@@ -327,6 +327,7 @@ es:
       project_roles: "Roles de proyecto"
       wp_shares: "Comparticiones de paquete de trabajo"
       groups: "Grupos"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Borrar miembro"
       will_remove_the_users_role: "Esto borrará el rol del usuario de este proyecto."
@@ -489,10 +490,10 @@ es:
       no_common_statuses_exists: "No hay ningún estado disponible para todos los paquetes de trabajo seleccionados. Su estado no se puede cambiar."
       unsupported_for_multiple_projects: "Mover o copiar por lotes no esta soportado para paquetes de trabajo de múltiples proyectos"
     sharing:
-      missing_workflow_waring:
-        title: "Falta el flujo de trabajo para compartir paquetes de trabajo"
-        message: "Ningún flujo de trabajo está configurado para el rol 'Editor de paquetes de trabajo'. Sin un flujo de trabajo, el usuario compartido no puede alterar el estado del paquete de trabajo. Los flujos de trabajo pueden ser copiados. Seleccione un tipo de base (por ejemplo, 'Tarea') y el rol de base (por ejemplo, 'Miembro'). Luego seleccione los tipos de destino. Para empezar, puede seleccionar todos los tipos como objetivos. Por último, seleccione el papel de \"Editor de paquetes de trabajo\" como objetivo y presione \"Copiar\". Después de haber creado así los valores predeterminados, ajuste los flujos de trabajo como lo hace para cualquier otro rol."
-        link_message: "Configure un flujo de trabajo en la administración."
+      missing_workflow_warning:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -1731,17 +1732,6 @@ es:
         mentioned: "Has sido mencionado en %{work_package}"
         responsible: "Ahora es responsable de %{work_package}"
         watched: "Estás viendo a %{work_package}"
-    update_info_mail:
-      body: >
-        Nos complace anunciar el lanzamiento de la versión OpenProject 12.0. Esta, es una nueva versión con muchos cambios que esperamos simplifiquen y mejoren en gran medida la forma en que usa OpenProject.
-        Para empezar, con esta versión introducimos las notificaciones dentro de la aplicación. Des de ahora, va a recibir notificaciones por actualizaciones en los paquetes de trabajo directamente en OpenProject. Puede marcar estas notificaciones como leídas, contestar a comentarios e incluso modificar los atributos de un paquete de trabajo sin salir del centro de notificaciones.
-        Esto también supone que no se van a usar más los correos electrónicos para este tipo de notificaciones. Creemos que el centro de notificaciones es el mejor sitio para ver y realizar cambios sobre estas actualizaciones. No obstante, si desea continuar recibiendo notificaciones vía correo electrónico, puede seleccionar recibir correos recordatorios diarios en horas concretas de su elección.
-        Por favor, asegúrese de validar sus nuevas configuraciones de notificaciones que se han reseteado por defecto y a posteriori puede crear y modificar sus preferencias tanto para las notificaciones dentro de la aplicación como para los recordatorios vía correo electrónico en la configuración de su cuenta. También puede hacer estos cambios usando el botón abajo "Cambiar configuración de correo electrónico".
-        Esperamos que las nuevas notificaciones dentro la aplicación le sean útiles y le ayuden a ser aún más productivo.
-        Sinceramente, El equipo de OpenProject
-      body_header: "Versión 12.0 con el Centro de notificaciones"
-      body_subheader: "Noticias"
-      subject: "Cambios importantes en las notificaciones con el lanzamiento de la versión 12.0"
   label_accessibility: "Accesibilidad"
   label_account: "Cuenta"
   label_active: "Activo"
@@ -2753,7 +2743,7 @@ es:
     member_of_group: "Asignación de grupo"
     name_or_identifier: "Nombre o identificador"
     only_subproject_id: "Sólo subproyecto"
-    shared_with_user: "Compartido con usuario"
+    shared_with_user: "Shared with users"
     shared_with_me: "Compartido conmigo"
     subproject_id: "Incluyendo subproyecto"
   repositories:
@@ -3240,7 +3230,7 @@ es:
         drag_area_label: "Gestionar y reordenar columnas"
       sort_by:
         automatic:
-          heading: "Automatic"
+          heading: "Automático"
           description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Recursos Adicionales"
