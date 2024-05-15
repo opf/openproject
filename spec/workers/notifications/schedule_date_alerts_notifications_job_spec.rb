@@ -48,17 +48,26 @@ RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, wi
   end
 
   let(:scheduled_job) { described_class.perform_later }
+  let(:scheduled_predecessor_job) do
+    described_class.perform_later.tap do
+      GoodJob.perform_inline
+    end
+  end
 
   before do
     ActiveJob::Base.disable_test_adapter
-    scheduled_job
+  end
+
+  def set_predecessor_cron_time(cron_at)
+    GoodJob::Job
+      .where(id: scheduled_predecessor_job.job_id)
+      .update_all(cron_at:)
   end
 
   def set_cron_time(cron_at)
     GoodJob::Job
       .where(id: scheduled_job.job_id)
-      .update_all(cron_at:,
-                  scheduled_at: cron_at)
+      .update_all(cron_at:)
   end
 
   def set_scheduled_at_time(scheduled_at)
@@ -104,6 +113,10 @@ RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, wi
   shared_examples_for "job execution creates date alerts creation job" do
     let(:job_class) { Notifications::CreateDateAlertsNotificationsJob.name }
 
+    before do
+      set_predecessor_cron_time(timezone_time(predecessor_cron_at, timezone)) if defined?(predecessor_cron_at)
+    end
+
     it "creates the job for the user" do
       expect do
         run_job(timezone:,
@@ -120,13 +133,25 @@ RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, wi
   end
 
   shared_examples_for "job execution creates no date alerts creation job" do
+    before do
+      set_predecessor_cron_time(timezone_time(predecessor_cron_at, timezone)) if defined?(predecessor_cron_at)
+    end
+
     it "creates no job" do
       expect do
         run_job(timezone:,
                 cron_at:,
                 scheduled_at: defined?(scheduled_at) ? scheduled_at : cron_at,
                 local_time:)
-      end.not_to change(GoodJob::Job, :count)
+      end.not_to change { GoodJob::Job.where(job_class: Notifications::CreateDateAlertsNotificationsJob.name).count }
+    end
+  end
+
+  describe "#perform_later" do
+    it "only one can be scheduled at a time" do
+      scheduled_job
+
+      expect(described_class.perform_later).to be_falsey
     end
   end
 
@@ -202,6 +227,36 @@ RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, wi
         let(:scheduled_at) { "1:15" }
         let(:local_time) { "1:37" }
         let(:user) { user_paris }
+      end
+    end
+
+    context "when cron-ed at 00:45 am but rescheduled to 1:15 and executed at 01:37 am local time" do
+      it_behaves_like "job execution creates no date alerts creation job" do
+        let(:timezone) { timezone_paris }
+        let(:cron_at) { "0:45" }
+        let(:scheduled_at) { "1:15" }
+        let(:local_time) { "1:37" }
+      end
+    end
+
+    context "when cron-ed, scheduled and executed at 01:15 am and the predecessor being cron-ed to 0:30 am" do
+      it_behaves_like "job execution creates date alerts creation job" do
+        let(:timezone) { timezone_paris }
+        let(:cron_at) { "1:15" }
+        let(:predecessor_cron_at) { "0:30" }
+        let(:scheduled_at) { "1:15" }
+        let(:local_time) { "1:15" }
+        let(:user) { user_paris }
+      end
+    end
+
+    context "when cron-ed, scheduled and executed at 01:15 am and the predecessor being cron-ed to 1:00 am" do
+      it_behaves_like "job execution creates no date alerts creation job" do
+        let(:timezone) { timezone_paris }
+        let(:cron_at) { "1:15" }
+        let(:predecessor_cron_at) { "1:00" }
+        let(:scheduled_at) { "1:15" }
+        let(:local_time) { "1:15" }
       end
     end
 
