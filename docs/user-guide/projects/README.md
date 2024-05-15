@@ -88,7 +88,7 @@ You can specify further advanced settings for your project. Navigate to your pro
 **Note**: Changing the project identifier while the project is already being worked on can have major effects and is therefore not recommended. For example, repositories may not be loaded correctly and deep links may no longer work (since the project URL changes when the project identifier is changed).
 
 - You can set a project to **Public**. This means it can be accessed without signing in to OpenProject.
-- Click the blue **Save** button to save your changes.
+- Click the green **Save** button to save your changes.
 - If you like, use the autocompleter to fill in the project attributes.
 
 ![project information description status](project-information-description-status.png)
@@ -102,6 +102,7 @@ To change the project's hierarchy, navigate to the [project settings](project-se
 Press the blue **Save** button to apply your changes.
 
 ![project settings information change hierarchy](project-settings-information-change-hierarchy.png)
+
 
 ### Set a project to public
 
@@ -150,7 +151,7 @@ In order to archive a project, navigate to the [project settings](project-settin
 
 ![project settings archive project](project-settings-archive-project.png)
 
-Then, the project cannot be selected from the project selection anymore. It is still available in the **View all projects** dashboard if you set the "Active" filter to "off" (move slider to the left). You can un-archive it there, too, using the three dots at the right end of a row.
+Then, the project cannot be selected from the project selection anymore. It is still available in the **[Project lists](./project-lists)** dashboard if you set the "Active" filter to "off" (move slider to the left). You can un-archive it there, too, using the three dots at the right end of a row.
 
 ![project list filter](project-list-filter.png)
 
@@ -162,6 +163,6 @@ If you want to delete a project, navigate to the [Project settings](project-sett
 
 ![delete a project](delete-a-project.png)
 
-Also, you can delete a project via the [projects overview](./project-lists/).
+You can also delete a project via the [projects overview list](./project-lists/).
 
 **Note**: Deleting projects is only available for System administrators.
