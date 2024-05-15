@@ -64,6 +64,8 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
       system_update_message(cause, html)
     when "working_days_changed"
       working_days_changed_message(cause["changed_days"])
+    when "status_excluded_from_totals_changed"
+      status_excluded_from_totals_changed_message(cause, html)
     when "status_p_complete_changed"
       status_p_complete_changed_message(cause, html)
     when "progress_mode_changed_to_status_based"
@@ -110,6 +112,17 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   def working_date_change_message(date, working)
     I18n.t("journals.cause_descriptions.working_days_changed.dates.#{working ? :working : :non_working}",
            date: I18n.l(Date.parse(date)))
+  end
+
+  def status_excluded_from_totals_changed_message(cause, html)
+    cause.symbolize_keys => { status_name:, status_excluded_from_totals_change: change}
+    status_name = html_escape(status_name) if html
+
+    if change == [false, true]
+      I18n.t("journals.cause_descriptions.status_excluded_from_totals_set_to_true_message", status_name:)
+    elsif change == [true, false]
+      I18n.t("journals.cause_descriptions.status_excluded_from_totals_set_to_false_message", status_name:)
+    end
   end
 
   def status_p_complete_changed_message(cause, html)

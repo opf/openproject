@@ -1742,6 +1742,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
       default_attribute_written: "Read-only attributes written"
       progress_mode_changed_to_status_based: "Progress calculation updated"
       status_p_complete_changed: "Status % Complete changed"
+      status_excluded_from_totals_changed: "Status Excluded from totals changed"
       system_update: "OpenProject system update:"
 
     cause_descriptions:
@@ -1759,6 +1760,10 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
+      status_excluded_from_totals_set_to_false_message: >-
+        status '%{status_name}' was included in totals calculations
+      status_excluded_from_totals_set_to_true_message: >-
+        status '%{status_name}' was excluded from totals calculations
       status_p_complete_changed: >-
         % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
       system_update:

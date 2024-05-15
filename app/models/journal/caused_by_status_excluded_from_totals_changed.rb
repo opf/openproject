@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,37 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Settings::UpdateService < BaseServices::BaseContracted
-  def initialize(user:)
-    super(user:,
-          contract_class: Settings::UpdateContract)
-  end
+class Journal::CausedByStatusExcludedFromTotalsChanged < CauseOfChange::Base
+  def initialize(status_name:, status_id:, status_excluded_from_totals_change:)
+    additional = {
+      "status_name" => status_name,
+      "status_id" => status_id,
+      "status_excluded_from_totals_change" => status_excluded_from_totals_change
+    }
 
-  def persist(call)
-    params.each do |name, value|
-      set_setting_value(name, value)
-    end
-    call
-  end
-
-  private
-
-  def set_setting_value(name, value)
-    old_value = Setting[name]
-    new_value = derive_value(value)
-    Setting[name] = new_value
-    if name == :work_package_done_ratio && old_value != "status" && new_value == "status"
-      WorkPackages::Progress::ApplyStatusesChangeJob.perform_later(cause_type: "progress_mode_changed_to_status_based")
-    end
-  end
-
-  def derive_value(value)
-    case value
-    when Array, Hash
-      # remove blank values in array, hash settings
-      value.compact_blank!
-    else
-      value.strip
-    end
+    super("status_excluded_from_totals_changed", additional)
   end
 end

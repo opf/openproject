@@ -71,12 +71,14 @@ class Journal < ApplicationRecord
                    changed_days
                    status_name
                    status_id
+                   status_excluded_from_totals_change
                    status_p_complete_change
                  ],
                  prefix: true
   VALID_CAUSE_TYPES = %w[
     default_attribute_written
     progress_mode_changed_to_status_based
+    status_excluded_from_totals_changed
     status_p_complete_changed
     system_update
     work_package_children_changed_times

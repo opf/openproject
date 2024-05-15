@@ -101,7 +101,7 @@ class StatusesController < ApplicationController
     return unless WorkPackage.use_status_for_done_ratio?
     return unless @status.default_done_ratio_previously_changed?
 
-    WorkPackages::Progress::ApplyStatusesPCompleteJob
+    WorkPackages::Progress::ApplyStatusesChangeJob
       .perform_later(cause_type: "status_p_complete_changed",
                      status_name: @status.name,
                      status_id: @status.id,

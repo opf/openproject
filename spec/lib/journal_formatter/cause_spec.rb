@@ -333,6 +333,90 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     end
   end
 
+  context "when a status being excluded from totals is the cause" do
+    shared_let(:status) { create(:status, name: "Rejected") }
+    let(:cause) do
+      {
+        "type" => "status_excluded_from_totals_changed",
+        "status_name" => status.name,
+        "status_id" => status.id,
+        "status_excluded_from_totals_change" => [false, true]
+      }
+    end
+
+    context "when rendering HTML variant" do
+      let(:html) { true }
+
+      it do
+        expect(subject).to eq "<strong>#{I18n.t('journals.caused_changes.status_excluded_from_totals_changed')}</strong> " \
+                              "status 'Rejected' was excluded from totals calculations"
+      end
+
+      it "escapes the status name" do
+        cause["status_name"] = "<script>alert('xss')</script>"
+        expect(subject).to eq "<strong>#{I18n.t('journals.caused_changes.status_excluded_from_totals_changed')}</strong> " \
+                              "status '&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;' was excluded from totals calculations"
+      end
+    end
+
+    context "when rendering raw variant" do
+      let(:html) { false }
+
+      it do
+        expect(subject).to eq "#{I18n.t('journals.caused_changes.status_excluded_from_totals_changed')} " \
+                              "status 'Rejected' was excluded from totals calculations"
+      end
+
+      it "does not escape the status name" do
+        cause["status_name"] = "<script>alert('xss')</script>"
+        expect(subject).to eq "#{I18n.t('journals.caused_changes.status_excluded_from_totals_changed')} " \
+                              "status '<script>alert('xss')</script>' was excluded from totals calculations"
+      end
+    end
+  end
+
+  context "when a status being no longer excluded from totals is the cause" do
+    shared_let(:status) { create(:status, name: "Rejected") }
+    let(:cause) do
+      {
+        "type" => "status_excluded_from_totals_changed",
+        "status_name" => status.name,
+        "status_id" => status.id,
+        "status_excluded_from_totals_change" => [true, false]
+      }
+    end
+
+    context "when rendering HTML variant" do
+      let(:html) { true }
+
+      it do
+        expect(subject).to eq "<strong>#{I18n.t('journals.caused_changes.status_excluded_from_totals_changed')}</strong> " \
+                              "status 'Rejected' was included in totals calculations"
+      end
+
+      it "escapes the status name" do
+        cause["status_name"] = "<script>alert('xss')</script>"
+        expect(subject).to eq "<strong>#{I18n.t('journals.caused_changes.status_excluded_from_totals_changed')}</strong> " \
+                              "status '&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;' was included in totals calculations"
+      end
+    end
+
+    context "when rendering raw variant" do
+      let(:html) { false }
+
+      it do
+        expect(subject).to eq "#{I18n.t('journals.caused_changes.status_excluded_from_totals_changed')} " \
+                              "status 'Rejected' was included in totals calculations"
+      end
+
+      it "does not escape the status name" do
+        cause["status_name"] = "<script>alert('xss')</script>"
+        expect(subject).to eq "#{I18n.t('journals.caused_changes.status_excluded_from_totals_changed')} " \
+                              "status '<script>alert('xss')</script>' was included in totals calculations"
+      end
+    end
+  end
+
   context "when a change of progress calculation mode to status-based is the cause" do
     let(:cause) do
       {

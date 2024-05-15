@@ -101,6 +101,8 @@ module WorkPackages::Progress::SqlCommands
                SUM(remaining_hours) AS total_remaining_work
         FROM work_package_hierarchies wp_tree
           LEFT JOIN temp_wp_progress_values wp_progress ON wp_tree.descendant_id = wp_progress.id
+          LEFT JOIN statuses ON wp_progress.status_id = statuses.id
+        WHERE statuses.excluded_from_totals = FALSE
         GROUP BY wp_tree.ancestor_id
       ) totals
       WHERE temp_wp_progress_values.id = totals.id
