@@ -384,6 +384,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-octicons", "~>19.10.0"
-gem "openproject-octicons_helper", "~>19.10.0"
-gem "openproject-primer_view_components", "~>0.29.1"
+gem "openproject-octicons", "~>19.12.0"
+gem "openproject-octicons_helper", "~>19.12.0"
+gem "openproject-primer_view_components", "~>0.30.1"
