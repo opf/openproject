@@ -50,17 +50,17 @@ module Notifications
     # between scheduled time and current time need to be considered to match
     # with 1:00am in a time zone.
     def times_from_scheduled_to_execution
-      time = scheduled_time
-      times = []
-      begin
-        times << time
-        time += 15.minutes
-      end while time < Time.current
-      times
+      (scheduled_time.to_i..Time.current.to_i)
+        .step(15.minutes)
+        .map do |time|
+        Time.zone.at(time)
+      end
     end
 
     def scheduled_time
-      job_scheduled_at.then { |t| t.change(min: t.min / 15 * 15) }
+      GoodJob::Job
+        .find(job_id)
+        .cron_at
     end
   end
 end
