@@ -145,11 +145,17 @@ module MeetingSections
     end
 
     def delete_action_item(menu)
+      confirm_text =
+        if @meeting_section.agenda_items.any?
+          t("meeting_section.delete_confirmation")
+        else
+          t("text_are_you_sure")
+        end
       menu.with_item(label: t("text_destroy"),
                      scheme: :danger,
                      href: meeting_section_path(@meeting_section.meeting, @meeting_section),
                      form_arguments: {
-                       method: :delete, data: { confirm: t("meeting_section.delete_confirmation"), "turbo-stream": true,
+                       method: :delete, data: { confirm: confirm_text, "turbo-stream": true,
                                                 test_selector: "meeting-section-delete" }
                      }) do |item|
         item.with_leading_visual_icon(icon: :trash)
