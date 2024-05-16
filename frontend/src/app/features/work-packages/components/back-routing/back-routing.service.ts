@@ -26,7 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
+import {
+  Injectable,
+  Injector,
+} from '@angular/core';
 import { StateService, Transition } from '@uirouter/core';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
@@ -38,6 +41,11 @@ export interface BackRouteOptions {
   baseRoute:string;
 }
 
+// This session value is meant to store whether the WP back button should do a simple browser back.
+// This is needed because we enforce hard reloads when switching to the WP module from any other module.
+// The back button should however navigate back to the original module.
+export const baseRouteSessionKey = 'requestingModuleBaseRoute';
+
 @Injectable({ providedIn: 'root' })
 export class BackRoutingService {
   @InjectField() private $state:StateService;
@@ -46,7 +54,15 @@ export class BackRoutingService {
 
   private _backRoute:BackRouteOptions;
 
+  hardRequestBackRoute:BackRouteOptions|null = null;
+
   constructor(readonly injector:Injector) {
+    const requestingModuleBaseRoute = sessionStorage.getItem(baseRouteSessionKey);
+    if (requestingModuleBaseRoute !== null) {
+      this.hardRequestBackRoute = JSON.parse(requestingModuleBaseRoute);
+    }
+    // delete the key to avoid it laying around until the next refresh
+    sessionStorage.removeItem(baseRouteSessionKey);
   }
 
   private goToOtherState(route:string, params:Record<string, unknown>):Promise<unknown> {
@@ -82,6 +98,13 @@ export class BackRoutingService {
   }
 
   public goBack(preferListOverSplit = false) {
+    // When switching between modules, there was a hard request.
+    // In those cases, we want to navigate back to the original module.
+    if (!this.backRoute && this.hardRequestBackRoute) {
+      this.$state.go(this.hardRequestBackRoute.name, this.hardRequestBackRoute.params);
+      return;
+    }
+
     // Default: back to list
     // When coming from a deep link or a create form
     const baseRoute = this.backRoute?.baseRoute || this.$state.current.data.baseRoute || 'work-packages.partitioned.list';

@@ -48,7 +48,10 @@ import {
   appBaseSelector,
   ApplicationBaseComponent,
 } from 'core-app/core/routing/base/application-base.component';
-import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
+import {
+  BackRoutingService,
+  baseRouteSessionKey,
+} from 'core-app/features/work-packages/components/back-routing/back-routing.service';
 import { MY_ACCOUNT_LAZY_ROUTES } from 'core-app/features/user-preferences/user-preferences.lazy-routes';
 import { IAN_LAZY_ROUTES } from 'core-app/features/in-app-notifications/in-app-notifications.lazy-routes';
 import { StateObject } from '@uirouter/core/lib/state/stateObject';
@@ -248,16 +251,30 @@ export function initializeUiRouterListeners(injector:Injector) {
   $transitions.onBefore(
     {},
     (transition:Transition) => {
+      const fromState = transition.from();
+      const toState = transition.to();
       if (
-        !!transition.from().name
-        && !!transition.to().name
-        && transition.from().name?.split('.')[0] !== transition.to().name?.split('.')[0]
+        !!fromState.name
+        && !!toState.name
+        && fromState.name?.split('.')[0] !== toState.name?.split('.')[0]
       ) {
+        // Remember that we did a hard reload to be able to use the back button correctly
+        const requestingModuleBaseRoute = {
+          name: fromState.name,
+          params: transition.params('from'),
+          parent: fromState.data.parent,
+          baseRoute: fromState.data.baseRoute,
+        };
+        sessionStorage.setItem(baseRouteSessionKey, JSON.stringify(requestingModuleBaseRoute));
+
         window.location.href = stateService.href(
-          transition.to().name || '',
+          toState.name || '',
           transition.params('to'),
         );
+        return false;
       }
+
+      return true;
     },
   );
 

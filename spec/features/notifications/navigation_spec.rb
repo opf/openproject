@@ -49,7 +49,7 @@ RSpec.describe "Notification center navigation", :js, :with_cuprite do
 
       # Navigate to full view and back
       wp_full = split_screen.switch_to_fullscreen
-      expect(page).to have_current_path "/work_packages/#{work_package.id}/relations"
+      expect(page).to have_current_path "/projects/#{project.identifier}/work_packages/#{work_package.id}/relations"
 
       wp_full.go_back
       expect(page).to have_current_path "/notifications/details/#{work_package.id}/relations"
@@ -92,7 +92,7 @@ RSpec.describe "Notification center navigation", :js, :with_cuprite do
 
       page.find_test_selector("op-wp-breadcrumb-parent").click
 
-      expect(page).to have_current_path "/work_packages/#{second_work_package.id}/activity"
+      expect(page).to have_current_path "/projects/#{project.identifier}/work_packages/#{second_work_package.id}/activity"
 
       # Works with another tab as well
       visit "/notifications/details/#{work_package.id}/relations"
@@ -101,7 +101,7 @@ RSpec.describe "Notification center navigation", :js, :with_cuprite do
 
       page.find_test_selector("op-wp-breadcrumb-parent").click
 
-      expect(page).to have_current_path "/work_packages/#{second_work_package.id}/relations"
+      expect(page).to have_current_path "/projects/#{project.identifier}/work_packages/#{second_work_package.id}/relations"
     end
   end
 end
