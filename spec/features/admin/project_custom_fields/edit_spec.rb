@@ -60,7 +60,7 @@ RSpec.describe "Edit project custom fields", :js do
       # TODO: reuse specs for classic custom field form in order to test for other attribute manipulations
       expect(page).to have_css(".PageHeader-title", text: boolean_project_custom_field.name)
 
-      fill_in("custom_field_name", with: "Updated name")
+      fill_in("custom_field_name", with: "Updated name", fill_options: { clear: :backspace })
       select(section_for_select_fields.name, from: "custom_field_custom_field_section_id")
 
       click_on("Save")
