@@ -28,7 +28,12 @@
 
 module MeetingSections
   class CreateContract < BaseContract
-    validate :user_allowed_to_add, :validate_meeting_existence
+    validate :user_allowed_to_add,
+             :validate_meeting_existence
+
+    # We allow an empty title to mark an untitled/implicit section
+    # but users should not be able to create it with an empty title
+    validates :title, presence: true
 
     def self.assignable_meetings(user)
       StructuredMeeting

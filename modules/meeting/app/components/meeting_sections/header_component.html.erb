@@ -9,7 +9,7 @@
         end
         grid.with_area(:content, tag: :span) do
           render(Primer::Beta::Text.new(font_weight: :bold, mr: 2)) do
-            @meeting_section.title
+            @meeting_section.title.presence || I18n.t("meeting_section.untitled_title")
           end
         end
         if @meeting_section.agenda_items_sum_duration_in_minutes > 0
@@ -25,7 +25,7 @@
               menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("settings.project_attributes.label_section_actions"), scheme: :invisible)
               edit_action_item(menu)
               unless first? && last?
-                menu.with_divider 
+                menu.with_divider
                 move_actions(menu)
               end
               menu.with_divider
