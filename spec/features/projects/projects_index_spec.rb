@@ -355,7 +355,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       projects_page.expect_columns("Name")
 
       # Sorts ASC by name
-      projects_page.sort_by("Name")
+      projects_page.sort_by_via_table_header("Name")
       wait_for_reload
 
       # Results should be filtered and ordered ASC by name and only the selected columns should be present
@@ -382,7 +382,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       projects_page.expect_total_pages(2) # Filters kept active, so there is no third page.
 
       # Sorts DESC by name
-      projects_page.sort_by("Name")
+      projects_page.sort_by_via_table_header("Name")
       wait_for_reload
 
       # Clicking on sorting resets the page to the first one

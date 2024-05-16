@@ -342,7 +342,7 @@ module Pages
         end
       end
 
-      def sort_by(column_name)
+      def sort_by_via_table_header(column_name)
         find(".generic-table--sort-header a", text: column_name.upcase).click
       end
 
