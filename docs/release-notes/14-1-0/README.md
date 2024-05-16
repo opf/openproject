@@ -47,7 +47,7 @@ Apart from these features that apply the Meetings module directly, the following
 
 ![A calendar widget on a project overview page, now showing upcoming meetings](openproject-14-1-meetings-widget-project-overview.png)
 
-**Please note**: On the project overview page, the "+" button on the top right has been removed. You can now only add widgets by hovering at the border of an existing widget and click on the "+" there. 
+**Please note**: On the project overview page and on the My page, the "+" button on the top right has been removed. However, new widgets can be added by project admins as usual if you hover at the border of an existing widget and click on the “+” there.
 
 ### Possibility to hide attachments in the Files tab
 
