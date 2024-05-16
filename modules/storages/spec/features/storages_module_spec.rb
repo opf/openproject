@@ -147,7 +147,7 @@ RSpec.describe "Storages module", :js, :with_cuprite do
         context "when user has manage_storages_in_project permission" do
           it "must show the page and storage menu entry" do
             visit project_path(project)
-            find("button.toggler.main-menu-toggler").click # opens project setting menu
+            page.find_test_selector("main-menu-toggler--settings").click # opens project setting menu
 
             within "#menu-sidebar" do
               expect(page).to have_text(I18n.t(:project_module_storages))
@@ -164,7 +164,7 @@ RSpec.describe "Storages module", :js, :with_cuprite do
 
           it "must not show the page and storage menu entry" do
             visit project_path(project)
-            find("button.toggler.main-menu-toggler").click # opens project setting menu
+            page.find_test_selector("main-menu-toggler--settings").click # opens project setting menu
 
             within "#menu-sidebar" do
               expect(page).to have_no_text(I18n.t(:project_module_storages))
