@@ -1,4 +1,4 @@
-<%= render(Primer::OpenProject::FlexLayout.new) do |flex| %>
+<%= render(Primer::OpenProject::FlexLayout.new(test_selector: 'sort-by-field' })) do |flex| %>
   <% flex.with_column(flex: 1) do %>
     <%#- We are just using the classes of the primer component here, because when using the primer component, we cannot detach the input element from the form %>
     <%#- The form="none" adds the input to a nonexistant form (as we do not have one with the ID="none" and thus the fields to not get appended to the query string %>
