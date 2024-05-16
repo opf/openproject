@@ -78,10 +78,12 @@ module Admin::Settings
                .new(user: current_user, model: project_custom_field_mapping)
                .call
 
-      remove_via_turbo_stream(
-        component: Settings::ProjectCustomFields::ProjectCustomFieldMapping::RowComponent
-                     .new(row: [project, 0], table: nil)
-      )
+      delete_service.on_success do
+        remove_via_turbo_stream(
+          component: Settings::ProjectCustomFields::ProjectCustomFieldMapping::RowComponent
+                       .new(row: [project, 0], table: nil)
+        )
+      end
 
       respond_to_with_turbo_streams(status: delete_service.success? ? :ok : :unprocessable_entity)
     end
