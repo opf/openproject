@@ -326,12 +326,15 @@ module Meetings
         )
       end
 
-      def update_section_via_turbo_stream(meeting_section: @meeting_section, form_hidden: true, form_type: :simple)
+      def update_section_via_turbo_stream(meeting_section: @meeting_section, form_hidden: true, form_type: :simple,
+                                          force_wrapper: false, state: :show)
         update_via_turbo_stream(
           component: MeetingSections::ShowComponent.new(
             meeting_section:,
             form_type:,
-            form_hidden:
+            form_hidden:,
+            force_wrapper:,
+            state:
           )
         )
       end

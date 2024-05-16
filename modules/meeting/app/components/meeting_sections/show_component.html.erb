@@ -3,7 +3,7 @@
     render(Primer::Beta::BorderBox.new(mt: 3, data: drag_and_drop_target_config)) do |component|
       if render_section_wrapper?
         component.with_header(font_weight: :bold, pl: 0) do
-          render(MeetingSections::HeaderComponent.new(meeting_section: @meeting_section))
+          render(MeetingSections::HeaderComponent.new(meeting_section: @meeting_section, state: @state))
         end
       end
       if render_new_button_in_section?

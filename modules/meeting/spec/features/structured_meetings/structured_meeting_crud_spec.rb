@@ -330,6 +330,8 @@ RSpec.describe "Structured meetings CRUD",
 
         first_section = MeetingSection.find_by!(title: "First section")
 
+        meeting = first_section.meeting
+
         # edit the first section
         show_page.edit_section(first_section) do
           fill_in "Title", with: "Updated first section title"
@@ -357,22 +359,25 @@ RSpec.describe "Structured meetings CRUD",
         show_page.expect_section(title: "Updated first section title")
         show_page.expect_no_section(title: "Second section")
 
-        # add a section without a name
+        # add a section without a name is not possible
         show_page.add_section do
           click_on "Save"
+          expect(page).to have_text "Title can't be blank"
         end
-
-        ## "Untitled" is applied automatically as a name
-        show_page.expect_section(title: "Updated first section title")
-        show_page.expect_section(title: "Untitled")
 
         # remove the first section
         show_page.remove_section first_section
-
-        ## the last existing section is not explicitly rendered as a section as no name was specified for this section
-        ## -> back to "no section mode"
         show_page.expect_no_section(title: "Updated first section title")
-        show_page.expect_no_section(title: "Untitled")
+
+        # now the meeting completely empty again
+
+        # add an item to the meeting
+        show_page.add_agenda_item do
+          fill_in "Title", with: "First item without explicit section"
+        end
+
+        # the agenda item is wrapped in an "untitled" section, but the section is not explicitly rendered
+        show_page.expect_no_section(title: "Untitled section")
 
         # add a second section again
         show_page.add_section do
@@ -381,7 +386,31 @@ RSpec.describe "Structured meetings CRUD",
         end
 
         ## the first section without a name is now explicitly rendered as "Untitled"
-        show_page.expect_section(title: "Untitled")
+        show_page.expect_section(title: "Untitled section")
+        show_page.expect_section(title: "Second section")
+
+        second_section = MeetingSection.find_by!(title: "Second section")
+
+        # remove the second section
+        show_page.remove_section second_section
+
+        ## the last existing section is not explicitly rendered as a section as no name was specified for this section
+        ## -> back to "no section mode"
+        show_page.expect_no_section(title: "Second section")
+        show_page.expect_no_section(title: "Untitled section")
+
+        # TBD: remove the agenda item again, the untitle section is not rendered explicitly and will not be removed
+        first_item = MeetingAgendaItem.find_by!(title: "First item without explicit section")
+        show_page.remove_agenda_item(first_item)
+
+        # add a second section again
+        show_page.add_section do
+          fill_in "Title", with: "Second section"
+          click_on "Save"
+        end
+
+        ## the first section without a name is now again explicitly rendered as "Untitled"
+        show_page.expect_section(title: "Untitled section")
         show_page.expect_section(title: "Second section")
 
         second_section = MeetingSection.find_by!(title: "Second section")
@@ -394,7 +423,7 @@ RSpec.describe "Structured meetings CRUD",
 
         show_page.expect_agenda_item_in_section title: "First item", section: second_section
 
-        first_section = MeetingSection.find_by!(title: "Untitled")
+        first_section = meeting.sections.first
 
         # add an item to the first section explicitly
         show_page.add_agenda_item_to_section(section: first_section) do
@@ -425,7 +454,7 @@ RSpec.describe "Structured meetings CRUD",
         end
 
         # only untitled secion is left -> will not be rendered explicitly as secion
-        show_page.expect_no_section(title: "Untitled")
+        show_page.expect_no_section(title: "Untitled section")
         show_page.expect_no_section(title: "Second section")
 
         expect { item_in_second_section.reload }.to raise_error(ActiveRecord::RecordNotFound)

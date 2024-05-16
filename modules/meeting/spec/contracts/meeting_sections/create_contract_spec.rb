@@ -61,6 +61,16 @@ RSpec.describe MeetingSections::CreateContract do
 
       it_behaves_like "contract is invalid", base: :error_unauthorized
     end
+
+    context "when :title is empty" do
+      before do
+        section.title = ""
+      end
+
+      # empty title allowed in create contract in contrast to update contract
+      # only used internally and not alongside a user facing form
+      it_behaves_like "contract is valid"
+    end
   end
 
   context "without permission" do

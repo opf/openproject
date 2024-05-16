@@ -34,10 +34,6 @@ class MeetingSection < ApplicationRecord
   has_many :agenda_items, dependent: :destroy, class_name: "MeetingAgendaItem"
   has_one :project, through: :meeting
 
-  validates :title, presence: true
-
-  before_validation :set_default_title
-
   after_save :trigger_meeting_agenda_item_time_slots_calculation, if: Proc.new { |section|
     section.position_previously_changed?
   }
@@ -50,18 +46,8 @@ class MeetingSection < ApplicationRecord
     meeting.calculate_agenda_item_time_slots
   end
 
-  def set_default_title
-    if title.blank?
-      self.title = I18n.t("meeting_section.untitled_title")
-    end
-  end
-
-  def has_default_title?
-    title == I18n.t("meeting_section.default_title")
-  end
-
   def untitled?
-    title == I18n.t("meeting_section.untitled_title")
+    title.blank?
   end
 
   def editable?

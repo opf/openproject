@@ -26,19 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class MeetingSection::Title < ApplicationForm
-  form do |meeting_section_form|
-    meeting_section_form.text_field(
-      name: :title,
-      placeholder: I18n.t("meeting_section.placeholder_title"),
-      label: Meeting.human_attribute_name(:title),
-      visually_hide_label: true,
-      required: true,
-      autofocus: true,
-      bg: :default,
-      data: {
-        action: "keydown.esc->meeting-section-form#cancel"
-      }
-    )
+module MeetingSections
+  class MoveContract < BaseContract
+    validate :user_allowed_to_edit
+
+    # We allow an empty title internally via create to mark an untitled/implicit section
+    # Moving/Dragging them needs to be possible as well
+    # this we're not validating the title here in contrast to the UpdateContract
+    # validates :title, presence: true
+
+    # Meeting agenda items can currently be only edited
+    # through the project permission :manage_agendas
+    # When MeetingRole becomes available, agenda items will
+    # be edited through meeting permissions :manage_agendas
+    def user_allowed_to_edit
+      unless user.allowed_in_project?(:manage_agendas, model.project)
+        errors.add :base, :error_unauthorized
+      end
+    end
   end
 end
