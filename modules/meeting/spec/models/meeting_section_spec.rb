@@ -39,21 +39,11 @@ RSpec.describe MeetingSection do
   describe "#title" do
     let(:attributes) { { title: } }
 
-    context "when title is missing" do
-      let(:title) { nil }
-
-      it "sets a default title" do
-        expect(subject).to be_valid
-        expect(subject.title).to eq I18n.t("meeting_section.default_title")
-      end
-    end
-
     context "when title is blank" do
       let(:title) { "" }
 
-      it "sets a default title" do
+      it "is allowed" do
         expect(subject).to be_valid
-        expect(subject.title).to eq I18n.t("meeting_section.default_title")
       end
     end
 

@@ -61,6 +61,14 @@ RSpec.describe MeetingSections::CreateContract do
 
       it_behaves_like "contract is invalid", base: :error_unauthorized
     end
+
+    context "when :title is empty" do
+      before do
+        section.title = ""
+      end
+
+      it_behaves_like "contract is invalid", title: :blank
+    end
   end
 
   context "without permission" do

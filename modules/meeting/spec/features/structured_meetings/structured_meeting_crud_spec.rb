@@ -394,7 +394,7 @@ RSpec.describe "Structured meetings CRUD",
 
         show_page.expect_agenda_item_in_section title: "First item", section: second_section
 
-        first_section = MeetingSection.find_by!(title: "Untitled")
+        first_section = MeetingSection.find_by!(title: "")
 
         # add an item to the first section explicitly
         show_page.add_agenda_item_to_section(section: first_section) do
