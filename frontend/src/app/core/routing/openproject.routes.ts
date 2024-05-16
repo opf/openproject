@@ -242,6 +242,25 @@ export function initializeUiRouterListeners(injector:Injector) {
     (transition) => redirectToMobileAlternative(transition),
   );
 
+  // Enforce a hard reload when switching between different modules.
+  // We do that to ensure, that no leftovers of already Rails-based code are visible on the page, as they will not be replaced by the uiRouter.
+  // See https://community.openproject.org/projects/openproject/work_packages/55024/activity
+  $transitions.onBefore(
+    {},
+    (transition:Transition) => {
+      if (
+        !!transition.from().name
+        && !!transition.to().name
+        && transition.from().name?.split('.')[0] !== transition.to().name?.split('.')[0]
+      ) {
+        window.location.href = stateService.href(
+          transition.to().name || '',
+          transition.params('to'),
+        );
+      }
+    },
+  );
+
   // Apply classes from bodyClasses in each state definition
   // This was defined as onEnter, onExit functions in each state before
   // but since AOT doesn't allow anonymous functions, we can't re-use them now.
