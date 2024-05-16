@@ -65,12 +65,12 @@ ms:
   label_budget_plural: "Anggaran"
   label_budget_id: "Anggaran #%{id}"
   label_deliverable: "Anggaran"
-  label_example_placeholder: 'e.g., %{decimal}'
+  label_example_placeholder: 'cth., %{decimal}'
   label_view_all_budgets: "Lihat semua anggaran"
   label_yes: "Ya"
   notice_budget_conflict: "Pakej-pakej kerja mestilah daripada projek yang sama."
   notice_no_budgets_available: "Tiada anggaran yang tersedia."
-  permission_edit_budgets: "Edit anggaran"
+  permission_edit_budgets: "Edit belanjawan"
   permission_view_budgets: "Lihat anggaran"
   project_module_budgets: "Anggaran"
   text_budget_reassign_to: "Pindahkan mereka ke anggaran ini:"
