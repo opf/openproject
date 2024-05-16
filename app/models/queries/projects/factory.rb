@@ -35,6 +35,8 @@ class Queries::Projects::Factory
   STATIC_OFF_TRACK = "off_track".freeze
   STATIC_AT_RISK = "at_risk".freeze
 
+  DEFAULT_STATIC = STATIC_ACTIVE
+
   class << self
     def find(id, params:, user:, duplicate: false)
       find_static_query_and_set_attributes(id, params, user, duplicate:) ||

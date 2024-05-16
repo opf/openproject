@@ -27,70 +27,86 @@
 #++
 
 module Menus
-  module ProjectsHelper
+  class Projects
+    include Rails.application.routes.url_helpers
+
+    attr_reader :controller_path, :params, :current_user
+
+    def initialize(controller_path:, params:, current_user:)
+      # rubocop:disable Rails/HelperInstanceVariable
+      @controller_path = controller_path
+      @params = params
+      @current_user = current_user
+      # rubocop:enable Rails/HelperInstanceVariable
+    end
+
     def first_level_menu_items
       [
         OpenProject::Menu::MenuGroup.new(header: nil,
-                                         children: static_filters),
+                                         children: main_static_filters),
         OpenProject::Menu::MenuGroup.new(header: I18n.t(:"projects.lists.my_private"),
                                          children: my_filters),
         OpenProject::Menu::MenuGroup.new(header: I18n.t(:"activerecord.attributes.project.status_code"),
-                                         children: static_status_filters)
+                                         children: status_static_filters)
       ]
     end
 
     private
 
-    def static_filters
-      [
-        query_menu_item(::Queries::Projects::Factory.static_query_active, selected: no_query_props?),
-        query_menu_item(::Queries::Projects::Factory.static_query_favored,
-                        id: ::Queries::Projects::Factory::STATIC_FAVORED),
-        query_menu_item(::Queries::Projects::Factory.static_query_my,
-                        id: ::Queries::Projects::Factory::STATIC_MY),
-        query_menu_item(::Queries::Projects::Factory.static_query_archived,
-                        id: ::Queries::Projects::Factory::STATIC_ARCHIVED)
-      ].compact
+    def main_static_filters
+      static_filters [
+        ::Queries::Projects::Factory::STATIC_ACTIVE,
+        ::Queries::Projects::Factory::STATIC_MY,
+        ::Queries::Projects::Factory::STATIC_FAVORED,
+        ::Queries::Projects::Factory::STATIC_ARCHIVED
+      ]
     end
 
-    def static_status_filters
-      [
-        query_menu_item(::Queries::Projects::Factory.static_query_status_on_track,
-                        id: ::Queries::Projects::Factory::STATIC_ON_TRACK),
-        query_menu_item(::Queries::Projects::Factory.static_query_status_off_track,
-                        id: ::Queries::Projects::Factory::STATIC_OFF_TRACK),
-        query_menu_item(::Queries::Projects::Factory.static_query_status_at_risk,
-                        id: ::Queries::Projects::Factory::STATIC_AT_RISK)
+    def status_static_filters
+      static_filters [
+        ::Queries::Projects::Factory::STATIC_ON_TRACK,
+        ::Queries::Projects::Factory::STATIC_OFF_TRACK,
+        ::Queries::Projects::Factory::STATIC_AT_RISK
       ]
+    end
+
+    def static_filters(ids)
+      ids.map do |id|
+        query_menu_item(::Queries::Projects::Factory.static_query(id), id:)
+      end
     end
 
     def my_filters
       ::Queries::Projects::ProjectQuery
         .where(user: current_user)
         .order(:name)
-        .map do |query|
-        query_menu_item(query)
-      end
+        .map { |query| query_menu_item(query) }
     end
 
-    def query_menu_item(query, id: nil, selected: query_item_selected?(id || query.id))
+    def query_menu_item(query, id: nil)
       OpenProject::Menu::MenuItem.new(title: query.name,
                                       href: projects_path(query_id: id || query.id),
-                                      selected:)
-    end
-
-    def projects_path_with_filters(filters)
-      return projects_path if filters.empty?
-
-      projects_path(filters: filters.to_json, hide_filters_section: true)
+                                      selected: query_item_selected?(id || query.id))
     end
 
     def query_item_selected?(id)
-      id.to_s == params[:query_id] && params[:filters].nil?
+      case controller_path
+      when "projects"
+        case params[:query_id]
+        when nil
+          id.to_s == Queries::Projects::Factory::DEFAULT_STATIC
+        when /\A\d+\z/
+          id.to_s == params[:query_id]
+        else
+          id.to_s == params[:query_id] unless modification_params?
+        end
+      when "projects/queries"
+        id.to_s == params[:id]
+      end
     end
 
-    def no_query_props?
-      params[:query_id].nil? && params[:filters].nil? && params[:sortBy].nil?
+    def modification_params?
+      params.values_at(:filters, :columns, :sortBy).any?
     end
   end
 end

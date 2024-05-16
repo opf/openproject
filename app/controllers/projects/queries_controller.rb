@@ -34,7 +34,7 @@ class Projects::QueriesController < ApplicationController
   before_action :find_query, only: %i[edit update destroy]
   before_action :build_query_or_deny_access, only: %i[new create]
 
-  current_menu_item [:new, :create] do
+  current_menu_item [:new, :edit, :create, :update] do
     :projects
   end
 
