@@ -30,7 +30,7 @@ class MeetingSection::Title < ApplicationForm
   form do |meeting_section_form|
     meeting_section_form.text_field(
       name: :title,
-      placeholder: Meeting.human_attribute_name(:title),
+      placeholder: I18n.t("meeting_section.default_title"),
       label: Meeting.human_attribute_name(:title),
       value: init_value(meeting_section_form),
       visually_hide_label: true,
