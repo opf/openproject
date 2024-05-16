@@ -53,7 +53,8 @@ class MeetingSectionsController < ApplicationController
       add_section_via_turbo_stream
       update_section_header_via_turbo_stream(state: :edit)
       # update the section header of the previously last section in order to ensure the action menu move options are updated
-      update_section_header_via_turbo_stream(meeting_section: @meeting.sections.last(2).first)
+      update_section_header_via_turbo_stream(meeting_section: @meeting.sections.last(2).first) if @meeting.sections.count > 1
+      update_new_button_via_turbo_stream(disabled: true)
     else
       render_base_error_in_flash_message_via_turbo_stream(call.errors)
     end
@@ -93,6 +94,7 @@ class MeetingSectionsController < ApplicationController
       update_section_header_via_turbo_stream(state: :show)
       update_header_component_via_turbo_stream
       update_sidebar_details_component_via_turbo_stream
+      update_new_button_via_turbo_stream(disabled: false)
     else
       # show errors
       update_section_header_via_turbo_stream(state: :edit)
