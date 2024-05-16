@@ -1786,6 +1786,7 @@ fil:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Pagpapatunay"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Available forums"
   label_available_project_repositories: "Magagamit na mga respository"
   label_available_project_versions: "Ang magagamit na bersyon"

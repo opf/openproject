@@ -27,7 +27,7 @@ ms:
     attributes:
       cost_entry:
         work_package: "Pakej kerja"
-        overridden_costs: "Kos yang dinaik taraf"
+        overridden_costs: "Kos yang diambil alih"
         spent: "Dibelanja"
         spent_on: "Tarikh"
       cost_type:

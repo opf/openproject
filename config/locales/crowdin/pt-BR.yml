@@ -1785,6 +1785,7 @@ pt-BR:
   label_attribute_expand_text: "O texto concluído para '%{attribute}'"
   label_authentication: "Autenticação"
   label_available_global_roles: "Funções globais disponíveis"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Fóruns disponíveis"
   label_available_project_repositories: "Repositórios disponíveis"
   label_available_project_versions: "Versões disponíveis"

@@ -1783,6 +1783,7 @@ hu:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Hitelesítés"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Elérhető fórumok"
   label_available_project_repositories: "Rendelkezésre álló tárolók"
   label_available_project_versions: "Rendelkezésre álló verziók"

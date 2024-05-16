@@ -1781,6 +1781,7 @@ de:
   label_attribute_expand_text: "Der vollständige Text für '%{attribute}'"
   label_authentication: "Authentifizierung"
   label_available_global_roles: "Verfügbare globale Rollen"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Verfügbare Foren"
   label_available_project_repositories: "Verfügbare Projektarchive"
   label_available_project_versions: "Verfügbare Versionen"

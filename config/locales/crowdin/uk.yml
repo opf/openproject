@@ -1847,6 +1847,7 @@ uk:
   label_attribute_expand_text: "Повний текст для атрибута «%{attribute}»"
   label_authentication: "Автентифікація"
   label_available_global_roles: "Доступні глобальні ролі"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Доступні форуми"
   label_available_project_repositories: "Доступні сховища"
   label_available_project_versions: "Доступні версії"

@@ -1849,6 +1849,7 @@ pl:
   label_attribute_expand_text: "Pełny tekst atrybutu „%{attribute}”"
   label_authentication: "Uwierzytelnianie"
   label_available_global_roles: "Dostępne role globalne"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Dostępne fora"
   label_available_project_repositories: "Dostępne repozytoria"
   label_available_project_versions: "Dostępne wersje"

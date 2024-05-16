@@ -1786,6 +1786,7 @@
   label_attribute_expand_text: "Den fullstendige teksten for '%{attribute}'"
   label_authentication: "Autentisering"
   label_available_global_roles: "Tilgjengelige globale roller"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Tilgjengelige forum"
   label_available_project_repositories: "Tilgjengelige kodelager"
   label_available_project_versions: "Tilgjengelige versjoner"

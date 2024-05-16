@@ -1782,6 +1782,7 @@ el:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Ταυτοποίηση"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Διαθέσιμα φόρουμ"
   label_available_project_repositories: "Διαθέσιμα αποθετήρια"
   label_available_project_versions: "Διαθέσιμες εκδόσεις"

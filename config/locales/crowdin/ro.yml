@@ -1819,6 +1819,7 @@ ro:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Autentificare"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Forumuri disponibile"
   label_available_project_repositories: "Arhive disponibile"
   label_available_project_versions: "Versiuni disponibile"

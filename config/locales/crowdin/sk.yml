@@ -1852,6 +1852,7 @@ sk:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Autentifikácia"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Available forums"
   label_available_project_repositories: "Dosupné úložíská"
   label_available_project_versions: "Dostupné verzie"

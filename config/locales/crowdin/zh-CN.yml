@@ -1749,6 +1749,7 @@ zh-CN:
   label_attribute_expand_text: "%{attribute}的完整文本"
   label_authentication: "身份验证"
   label_available_global_roles: "可用的全局角色"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "可用论坛"
   label_available_project_repositories: "可用存储库"
   label_available_project_versions: "可用版本"

@@ -1786,6 +1786,7 @@ si:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "සත්යාපන"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "පවතින සංසද"
   label_available_project_repositories: "පවතින ගබඩාවලදී"
   label_available_project_versions: "පවතින අනුවාදයන්"

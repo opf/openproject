@@ -1746,6 +1746,7 @@ id:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Otentikasi"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Forums tersedia"
   label_available_project_repositories: "Available repositories"
   label_available_project_versions: "Available versions"

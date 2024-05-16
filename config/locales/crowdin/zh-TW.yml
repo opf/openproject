@@ -1752,6 +1752,7 @@ zh-TW:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "身份驗證"
   label_available_global_roles: "可用的角色"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "可用的討論區"
   label_available_project_repositories: "可用的版本庫"
   label_available_project_versions: "可用的版本"

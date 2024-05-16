@@ -1749,6 +1749,7 @@ ja:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "認証"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "利用可能なフォーラム"
   label_available_project_repositories: "使用できるリポジトリ"
   label_available_project_versions: "利用できるバージョン"

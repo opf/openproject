@@ -1785,6 +1785,7 @@ sv:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Autentisering"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Tillgängliga forum"
   label_available_project_repositories: "Tillgängliga databaser"
   label_available_project_versions: "Tillgängliga versioner"

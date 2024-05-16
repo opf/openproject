@@ -1056,7 +1056,7 @@ ms:
       sharing:
         share: "Kongsi"
         title: "Kongsi pakej kerja"
-        show_all_users: "Show all users with whom the work package has been shared with"
+        show_all_users: "Paparkan kepada semua pengguna dengan siapa pakej kerja telah dikongsikan"
         selected_count: "%{count} dipilih"
         selection:
           mixed: "Bercampur"

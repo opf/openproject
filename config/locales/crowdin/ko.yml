@@ -1752,6 +1752,7 @@ ko:
   label_attribute_expand_text: "'%{attribute}'의 전체 텍스트"
   label_authentication: "인증"
   label_available_global_roles: "사용 가능한 글로벌 역할"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "사용 가능한 포럼"
   label_available_project_repositories: "사용 가능한 저장소"
   label_available_project_versions: "사용 가능한 버전"
