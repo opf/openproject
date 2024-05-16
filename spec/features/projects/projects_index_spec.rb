@@ -1007,13 +1007,85 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       end
 
       it "allows to sort via multiple columns" do
-        binding.pry
+        projects_page.open_configure_view
+        projects_page.switch_configure_view_tab(I18n.t("label_sort"))
+
+        # Initially we have the projects ordered by hierarchy
+        # When we sort by hierarchy, there is a special behavior that no other sorting is possible
+        # and the sort order is always ascending
+        projects_page.within_sort_row(0) do
+          projects_page.expect_sort_order(column_identifier: "lft", direction: "asc", direction_enabled: false)
+        end
+        projects_page.expect_number_of_sort_fields(1)
+
+        # Switch sorting order to Name descending
+        # We now get a second sort field to add another sort order, but it has nothing selected
+        # in the second field, name is not available as an option
+        projects_page.within_sort_row(0) do
+          projects_page.change_sort_order(column_identifier: :name, direction: :desc)
+        end
+        projects_page.expect_number_of_sort_fields(2)
+
+        projects_page.within_sort_row(1) do
+          projects_page.expect_sort_order(column_identifier: "", direction: "")
+          projects_page.expect_sort_option_is_disabled(column_identifier: :name)
+        end
+
+        # Let's add another sorting, this time by a custom field
+        # This will add a third sorting field
+        projects_page.within_sort_row(1) do
+          projects_page.change_sort_order(column_identifier: integer_custom_field.column_name, direction: :asc)
+        end
+
+        projects_page.expect_number_of_sort_fields(3)
+        projects_page.within_sort_row(2) do
+          projects_page.expect_sort_order(column_identifier: "", direction: "")
+          projects_page.expect_sort_option_is_disabled(column_identifier: :name)
+          projects_page.expect_sort_option_is_disabled(column_identifier: integer_custom_field.column_name)
+        end
+
+        # And now let's select a third option
+        # it will not add a 4th sorting field
+        projects_page.within_sort_row(2) do
+          projects_page.change_sort_order(column_identifier: :public, direction: :asc)
+        end
+        projects_page.expect_number_of_sort_fields(3)
+
+        # We unset the first sorting, this will move the 2nd sorting (custom field) to the first position and
+        # the 3rd sorting (public) to the second position and will add an empty option to the third position
+        projects_page.within_sort_row(0) do
+          projects_page.remove_sort_order
+        end
+
+        projects_page.expect_number_of_sort_fields(3)
+
+        projects_page.within_sort_row(0) do
+          projects_page.expect_sort_order(column_identifier: integer_custom_field.column_name, direction: :asc)
+        end
+        projects_page.within_sort_row(1) { projects_page.expect_sort_order(column_identifier: :public, direction: :asc) }
+        projects_page.within_sort_row(2) { projects_page.expect_sort_order(column_identifier: "", direction: "") }
+
+        # To roll back, we now select hierarchy as the third option, this will remove all other options
+        projects_page.within_sort_row(2) do
+          projects_page.change_sort_order(column_identifier: :lft, direction: :asc)
+        end
+
+        projects_page.within_sort_row(0) do
+          projects_page.expect_sort_order(column_identifier: "lft", direction: "asc", direction_enabled: false)
+        end
+        projects_page.expect_number_of_sort_fields(1)
       end
 
       it "does not allow to sort via long text custom fields" do
-      end
+        long_text_custom_field = create(:text_project_custom_field)
+        Setting.enabled_projects_columns += [long_text_custom_field.column_name]
 
-      it "only allows exclusive sorting via the hierarchy and does not offer other columns" do
+        projects_page.open_configure_view
+        projects_page.switch_configure_view_tab(I18n.t("label_sort"))
+
+        projects_page.within_sort_row(0) do
+          projects_page.expect_sort_option_not_available(column_identifier: long_text_custom_field.column_name)
+        end
       end
     end
 
