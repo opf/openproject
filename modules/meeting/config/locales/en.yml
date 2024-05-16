@@ -143,6 +143,7 @@ en:
     copied: "Copied from Meeting #%{id}"
 
   meeting_section:
+    delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
     default_title: "New section"
     untitled_title: "Untitled"
     empty_text: "Drag items here or create a new one"

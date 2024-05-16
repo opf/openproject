@@ -420,20 +420,15 @@ RSpec.describe "Structured meetings CRUD",
         show_page.expect_section_duration(section: second_section, duration_text: "15 min")
 
         # deleting a section with agenda items is not possible
-        show_page.select_section_action(second_section, "Delete") # delete is disabled
-        ## -> no effect
-        show_page.expect_section(title: "Untitled")
-        show_page.expect_section(title: "Second section")
+        accept_confirm do
+          show_page.select_section_action(second_section, "Delete")
+        end
 
-        show_page.click_on_section_menu(second_section) # close the menu again
-
-        # deleting a section without agenda items is possible
-        show_page.remove_agenda_item(item_in_second_section)
-        show_page.remove_section(second_section) # empty secion gets deleted
-
-        # only untitle secion is left -> will not be rendered explicitly as secion
+        # only untitled secion is left -> will not be rendered explicitly as secion
         show_page.expect_no_section(title: "Untitled")
         show_page.expect_no_section(title: "Second section")
+
+        expect { item_in_second_section.reload }.to raise_error(ActiveRecord::RecordNotFound)
 
         # the agenda items of the "untitled" section are still visible in "no-section mode"
         show_page.expect_agenda_item(title: item_in_first_section.title)
