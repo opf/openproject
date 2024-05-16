@@ -42,7 +42,7 @@ The Meetings module is currently being continuously improved. With OpenProject 1
 
 Apart from these features that apply the Meetings module directly, the following changes concerning OpenProject meetings have been made:
 
-- On work packages, the project name is now shown in the Meetings tab.
+- In work packages, the project name is now shown in the Meetings tab.
 - Calendar widgets on the My Page and project overview pages can now show meetings.
 
 ![A calendar widget on a project overview page, now showing upcoming meetings](openproject-14-1-meetings-widget-project-overview.png)
