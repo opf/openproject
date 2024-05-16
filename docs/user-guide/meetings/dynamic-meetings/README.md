@@ -83,13 +83,13 @@ You can add sections or items to an agenda or directly link to existing work pac
 ![The add button with three choices: section, agenda item or work package](openproject_dynamic_meetings_add_agenda_item.png)
 
 #### Add an agenda section 
-If you select **Section** option you will able to add a specific section, and name it. You can always edit or delete it later. If you created an [agenda item](/#agenda-item) prior to creating a section, this item will automatically move to a first section called **Unnamed section**. 
+If you select **Section** option you will able to add a specific section, and name it. You can always edit or delete it later. If you created an [agenda item](/#add-an-agenda-item) prior to creating a section, this item will automatically move to a first section called **Unnamed section**. 
 
 When you do this for the first time, any agenda items that were added before adding a first section are moved into a first section called "Unnamed  section".
 
 ![Add a new section to a meeting agenda in OpenProject](openproject_dynamic_meetings_add_section.png)
 
-If you created an [agenda item](/#agenda-item) prior to creating a section, this item will automatically move to a first section called **Unnamed section**.
+If you created an [agenda item](/#add-an-agenda-item) prior to creating a section, this item will automatically move to a first section called **Unnamed section**.
 
  ![Untitled section in OpenProject meeting](openproject_dynamic_meetings_untitled section.png)
 
