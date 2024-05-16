@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render(Settings::ProjectCustomFields::EditFormHeaderComponent.new(custom_field: @custom_field)) %>
 
 <%=
-  render(Primer::Alpha::TabNav.new(label: "label")) do |component|
+  render(Primer::Alpha::TabNav.new(label: nil, test_selector: :project_attribute_detail_header)) do |component|
     component.with_tab(
       selected: project_custom_field_edit_selected?,
       href:  edit_admin_settings_project_custom_field_path(@custom_field)
