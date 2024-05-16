@@ -326,12 +326,12 @@ module OpenProject::Storages
     add_cron_jobs do
       {
         "Storages::CleanupUncontaineredFileLinksJob": {
-          cron: "06 22 * * *",
+          cron: "06 22 * * *", # every day at 22:06
           class: ::Storages::CleanupUncontaineredFileLinksJob.name
         },
 
         "Storages::ManageNextcloudIntegrationJob": {
-          cron: "1 * * * *",
+          cron: "1 * * * *", # every hour at xx:01
           class: ::Storages::ManageNextcloudIntegrationJob.name
         }
       }
