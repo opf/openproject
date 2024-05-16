@@ -163,14 +163,15 @@ module Projects::ActsAsCustomizablePatches
       with_all_available_custom_fields { available_custom_fields }
     end
 
-    def custom_fields_to_validate
-      custom_fields = available_custom_fields
+    def custom_field_values_to_validate
       # Limit the set of available custom fields when the validation is limited to a section
       if _limit_custom_fields_validation_to_section_id
-        custom_fields =
-          custom_fields.where(custom_field_section_id: _limit_custom_fields_validation_to_section_id)
+        custom_field_values.select do |cfv|
+          cfv.custom_field.custom_field_section_id == _limit_custom_fields_validation_to_section_id
+        end
+      else
+        custom_field_values
       end
-      custom_fields
     end
 
     # we need to query the available custom fields on a global level when updating custom field values
