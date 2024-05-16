@@ -42,7 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
         render partial: 'details_form', locals: { custom_field: @custom_field }
       end
 
-      tab.with_text { "Details" }
+      tab.with_text { I18n.t(:label_details) }
     end
 
     component.with_tab(selected: false, id: "project-custom-fields-mapping-tab") do |tab|
@@ -51,7 +51,7 @@ See COPYRIGHT and LICENSE files for more details.
                locals: { custom_field: @custom_field, query: @project_custom_field_mapping_query }
       end
 
-      tab.with_text { "Projects" }
+      tab.with_text { I18n.t(:label_project_plural) }
     end
   end
 %>

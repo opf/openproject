@@ -35,7 +35,7 @@ module Admin::Settings
     menu_item :project_custom_fields_settings
 
     before_action :set_sections, only: %i[show index edit move drop]
-    before_action :find_custom_field, only: %i(show edit destroy move drop)
+    before_action :find_custom_field, only: %i[show edit unlink destroy move drop]
 
     def show_local_breadcrumb
       false
@@ -62,21 +62,23 @@ module Admin::Settings
         name: "project-custom-field-mapping-#{@custom_field.id}"
       ) do |query|
         query.where(:available_project_attributes, "=", [@custom_field.id])
-        query.select :name
+        query.select(:name)
       end
     end
 
     def unlink
-      # call = ProjectCustomFieldProjectMappings::ToggleService
-      #          .new(user: current_user)
-      #          .call(permitted_params.project_custom_field_project_mapping)
+      project = Project.find(permitted_params.project_custom_field_project_mapping[:project_id])
+      custom_field_project_mapping = @custom_field.project_custom_field_project_mappings.find_by(project:)
+      delete_service = ProjectCustomFieldProjectMappings::DeleteService
+               .new(user: current_user, model: custom_field_project_mapping)
+               .call
 
-      project = Project.find(permitted_params.project_custom_field_project_mapping["project_id"])
       remove_via_turbo_stream(
         component: Settings::ProjectCustomFields::ProjectCustomFieldMapping::RowComponent
-                     .new(row: [project, 0], table: OpenStruct.new(columns: [], favored_project_ids: [])))
+                     .new(row: [project, 0], table: nil)
+      )
 
-      respond_to_with_turbo_streams(status: true ? :ok : :unprocessable_entity)
+      respond_to_with_turbo_streams(status: delete_service.success? ? :ok : :unprocessable_entity)
     end
 
     def move

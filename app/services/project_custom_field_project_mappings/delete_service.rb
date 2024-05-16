@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,37 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Settings
-  module ProjectCustomFields
-    module ProjectCustomFieldMapping
-      class RowComponent < Projects::RowComponent
-        include OpTurbo::Streamable
-
-        def wrapper_uniq_by
-          "project-#{project.id}"
-        end
-
-        def more_menu_items
-          @more_menu_items ||= [more_menu_detach_project].compact
-        end
-
-        private
-
-        def more_menu_detach_project
-          if User.current.admin
-            {
-              scheme: :danger,
-              icon: :trash,
-              label: I18n.t(:button_delete),
-              href: unlink_admin_settings_project_custom_field_path(
-                id: @table.params[:custom_field].id,
-                project_custom_field_project_mapping: { project_id: model.first.id }
-              ),
-              data: { turbo_method: :delete }
-            }
-          end
-        end
-      end
-    end
+module ProjectCustomFieldProjectMappings
+  class DeleteService < ::BaseServices::Delete
   end
 end
