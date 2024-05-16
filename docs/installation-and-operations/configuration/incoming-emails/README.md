@@ -50,13 +50,13 @@ Available arguments for this rake task that specify the email behavior are
 |key |Docker ENV variable | description|
 |----|------------|------------|
 | `host` | `IMAP_HOST` | address of the email server |
-| `username` | `IMAP_USERNAME` | the name of the user that is used to connect to the email server|
-| `password` | `IMAP_PASSWORd` | the password of the user|
-| `port` | `IMAP_PORT` | the port that is used to connect to the email server|
-| `ssl` | `IMAP_SSL` and ``IMAP_SSL_VERIFICATION` | specifies if SSL should be used when connecting to the email server|
-| `folder` | `IMAP_FOLDER` | the folder to fetch emails from (default: INBOX)|
-| `move_on_success` | `IMAP_MOVE_ON_SUCCESS` | the folder emails that were successfully parsed are moved to (instead of deleted)|
-| `move_on_failure` | `IMAP_MOVE_ON_FAILURE` | the folder emails that were ignored are moved to|
+| `username` | `IMAP_USERNAME` | the name of the user that is used to connect to the email server |
+| `password` | `IMAP_PASSWORD` | the password of the user |
+| `port` | `IMAP_PORT` | the port that is used to connect to the email server |
+| `ssl` | `IMAP_SSL` and ``IMAP_SSL_VERIFICATION` | specifies if SSL should be used when connecting to the email server |
+| `folder` | `IMAP_FOLDER` | the folder to fetch emails from (default: INBOX) |
+| `move_on_success` | `IMAP_MOVE_ON_SUCCESS` | the folder emails that were successfully parsed are moved to (instead of deleted, example: INBOX.success) |
+| `move_on_failure` | `IMAP_MOVE_ON_FAILURE` | the folder emails that were ignored are moved to (example: INBOX.failed) |
 
 Available arguments that change how the work packages are handled:
 
