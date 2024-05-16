@@ -421,9 +421,8 @@ RSpec.describe "Structured meetings CRUD",
 
         # deleting a section with agenda items is not possible
         accept_confirm do
-          show_page.select_section_action(second_section, "Delete") # delete is disabled
+          show_page.select_section_action(second_section, "Delete")
         end
-
 
         # only untitled secion is left -> will not be rendered explicitly as secion
         show_page.expect_no_section(title: "Untitled")
