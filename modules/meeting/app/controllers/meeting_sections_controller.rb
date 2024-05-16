@@ -125,8 +125,11 @@ class MeetingSectionsController < ApplicationController
       .call(position: params[:position].to_i)
 
     if call.success?
-      update_header_component_via_turbo_stream
-      move_section_via_turbo_stream
+      # the DOM is already updated on the client-side through the drag
+      # in order to preserve an edit state within the section,
+      # we don't send a server-side rendered update via `move_section_via_turbo_stream`
+      # update all section header in order to ensure the action menu move options are updated
+      update_section_headers_via_turbo_stream
       # update all time slots as a section position change affects potentially all time slots
       update_show_items_via_turbo_stream
     else
