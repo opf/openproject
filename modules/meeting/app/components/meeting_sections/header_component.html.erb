@@ -32,11 +32,7 @@
               add_agenda_item_action(menu)
               add_work_package_action(menu)
               menu.with_divider
-              if @meeting_agenda_items.empty?
-                delete_action_item(menu)
-              else
-                disabled_delete_action_item(menu)
-              end
+              delete_action_item(menu)
             end
           end
         end

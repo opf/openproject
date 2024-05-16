@@ -109,13 +109,6 @@ module MeetingSections
       end
     end
 
-    def disabled_delete_action_item(menu)
-      menu.with_item(label: t("text_destroy"),
-                     disabled: true) do |item|
-        item.with_leading_visual_icon(icon: :trash)
-      end
-    end
-
     def edit_action_item(menu)
       menu.with_item(label: t("label_edit"),
                      href: edit_meeting_section_path(@meeting_section.meeting, @meeting_section),
@@ -156,7 +149,7 @@ module MeetingSections
                      scheme: :danger,
                      href: meeting_section_path(@meeting_section.meeting, @meeting_section),
                      form_arguments: {
-                       method: :delete, data: { confirm: t("text_are_you_sure"), "turbo-stream": true,
+                       method: :delete, data: { confirm: t("meeting_section.delete_confirmation"), "turbo-stream": true,
                                                 test_selector: "meeting-section-delete" }
                      }) do |item|
         item.with_leading_visual_icon(icon: :trash)
