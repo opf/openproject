@@ -1007,6 +1007,7 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       end
 
       it "allows to sort via multiple columns" do
+        binding.pry
       end
 
       it "does not allow to sort via long text custom fields" do
