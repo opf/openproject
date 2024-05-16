@@ -67,7 +67,9 @@ RSpec.describe MeetingSections::CreateContract do
         section.title = ""
       end
 
-      it_behaves_like "contract is invalid", title: :blank
+      # empty title allowed in create contract in contrast to update contract
+      # only used internally and not alongside a user facing form
+      it_behaves_like "contract is valid"
     end
   end
 
