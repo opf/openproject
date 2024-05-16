@@ -65,10 +65,15 @@ end
             end
           end
           row.with_column do
+            checked = if @project.deactivate_work_package_attachments.nil?
+              Setting.show_work_package_attachments
+            else
+              !@project.deactivate_work_package_attachments
+            end
             render(Primer::Alpha::ToggleSwitch.new(src: deactivate_work_package_attachments_project_path(@project),
                                                    csrf_token: form_authenticity_token,
                                                    status_label_position: :start,
-                                                   checked: !@project.deactivate_work_package_attachments?))
+                                                   checked:))
           end
         end
         l.with_row do

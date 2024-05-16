@@ -70,6 +70,36 @@ RSpec.describe "Hide attachments", :js, :with_cuprite do
       wait_for(page).to have_css('svg[data-target="toggle-switch.loadingSpinner"][hidden="hidden"]', visible: :hidden)
       expect(project.reload).to be_deactivate_work_package_attachments
     end
+
+    context "if Setting.show_work_package_attachments is false", with_settings: { show_work_package_attachments: false } do
+      let(:project) { create(:project) }
+
+      it 'renders the toggle as off for project with not set deactivate_work_package_attachments' do
+        expect(project.deactivate_work_package_attachments).to be_nil
+
+        login_as current_user
+
+        visit project_settings_project_storages_path(project)
+        click_on("Attachments")
+
+        expect(page).to have_css("toggle-switch", text: "Off")
+      end
+    end
+
+    context "if Setting.show_work_package_attachments is true", with_settings: { show_work_package_attachments: true } do
+      let(:project) { create(:project) }
+
+      it 'renders the toggle as on for project with not set deactivate_work_package_attachments' do
+        expect(project.deactivate_work_package_attachments).to be_nil
+
+        login_as current_user
+
+        visit project_settings_project_storages_path(project)
+        click_on("Attachments")
+
+        expect(page).to have_css("toggle-switch", text: "On")
+      end
+    end
   end
 
   describe "OpenProject setting" do
