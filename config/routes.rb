@@ -528,6 +528,12 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :activities, controller: "work_packages/activities_tab", only: %i[index create] do
+      collection do
+        get :journal_streams
+      end
+    end
+
     resource :progress, only: %i[new edit update], controller: "work_packages/progress"
     collection do
       resource :progress,

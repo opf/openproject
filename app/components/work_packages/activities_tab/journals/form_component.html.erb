@@ -1,0 +1,13 @@
+<%=
+  component_wrapper do
+    primer_form_with(
+      id: "work-package-journal-form",
+      model: journal,
+      method: :post,
+      data: { turbo: true, turbo_stream: true },
+      url: work_package_activities_path(work_package_id: work_package.id),
+    ) do |f|
+      render(WorkPackages::ActivitiesTab::JournalForm.new(f))
+    end
+  end
+%>

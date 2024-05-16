@@ -1,0 +1,31 @@
+<%=
+  content_tag("turbo-frame", id: "work-package-activities-tab-content") do
+    component_wrapper(data: wrapper_data_attributes) do
+      flex_layout do |activties_tab_container|
+        if journal_sorting == "desc"
+          activties_tab_container.with_row do
+            render(
+              WorkPackages::ActivitiesTab::Journals::FormComponent.new(work_package:)
+            )
+          end
+        end
+        activties_tab_container.with_row(flex_layout: true, id: insert_target_modifier_id) do |journals_container|
+          journals.each do |journal|
+            journals_container.with_row do
+              render(
+                WorkPackages::ActivitiesTab::Journals::ShowComponent.new(journal:)
+              )
+            end
+          end
+        end
+        if journal_sorting == "asc"
+          activties_tab_container.with_row do
+            render(
+              WorkPackages::ActivitiesTab::Journals::FormComponent.new(work_package:)
+            )
+          end
+        end
+      end
+    end
+  end
+%>

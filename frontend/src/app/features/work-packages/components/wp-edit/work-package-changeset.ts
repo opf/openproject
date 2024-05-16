@@ -11,6 +11,13 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
     if (key === 'project' || key === 'type') {
       this.updateForm();
     }
+
+    // Emit event to notify Stimulus controller in activities tab in order to update the activities list
+    // TODO: emit event when change is persisted
+    // currently the event might be fired too early as it only reflects the client side change
+    document.dispatchEvent(
+      new CustomEvent('work-package-updated'),
+    );
   }
 
   protected applyChanges(payload:any):any {

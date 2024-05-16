@@ -1,0 +1,20 @@
+<%=
+  component_wrapper do
+    render(Primer::Box.new(border: true, border_radius: 2, p: 3, my: 3)) do
+      flex_layout do |journal_container|
+        journal_container.with_row do
+          render(Primer::Beta::Text.new) { @journal.notes }
+        end
+        if @journal.details.any?
+          journal_container.with_row(flex_layout: true, border_radius: 2, p: 3, my: 3, bg: :subtle) do |details_container|
+            @journal.details.each do |detail|
+              details_container.with_row do
+                render(Primer::Beta::Text.new) { detail.to_s }
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+%>
