@@ -52,7 +52,7 @@ class MeetingSection < ApplicationRecord
 
   def set_default_title
     if title.blank?
-      self.title = I18n.t("meeting_section.untitled_title")
+      self.title = I18n.t("meeting_section.default_title")
     end
   end
 

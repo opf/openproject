@@ -44,7 +44,7 @@ RSpec.describe MeetingSection do
 
       it "sets a default title" do
         expect(subject).to be_valid
-        expect(subject.title).to eq I18n.t("meeting_section.untitled_title")
+        expect(subject.title).to eq I18n.t("meeting_section.default_title")
       end
     end
 
@@ -53,7 +53,7 @@ RSpec.describe MeetingSection do
 
       it "sets a default title" do
         expect(subject).to be_valid
-        expect(subject.title).to eq I18n.t("meeting_section.untitled_title")
+        expect(subject.title).to eq I18n.t("meeting_section.default_title")
       end
     end
 
