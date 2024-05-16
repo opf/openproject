@@ -330,6 +330,7 @@ ko:
       project_roles: "프로젝트 역할"
       wp_shares: "작업 패키지 공유"
       groups: "그룹"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "멤버 제거"
       will_remove_the_users_role: "이렇게 하면 이 프로젝트에서 사용자의 역할이 제거됩니다."
@@ -484,10 +485,10 @@ ko:
       no_common_statuses_exists: "선택한 모든 작업 패키지에 사용 가능한 상태가 없습니다. 해당 상태를 변경할 수 없습니다."
       unsupported_for_multiple_projects: "여러 프로젝트에서 작업 패키지 일괄 이동/복사는 지원되지 않습니다."
     sharing:
-      missing_workflow_waring:
-        title: "작업 패키지 공유에 대한 워크플로 누락"
-        message: "'작업 패키지 편집자' 역할에 대해 구성된 워크플로가 없습니다. 워크플로가 없으면 사용자와 공유된 워크플로는 작업 패키지의 상태를 변경할 수 없습니다. 워크플로를 복사할 수는 있습니다. 소스 유형(예: '작업')과 소스 역할(예: '멤버')을 선택하세요. 그런 다음 대상 유형을 선택하세요. 시작하기 위해 모든 유형을 대상으로 선택할 수 있습니다. 마지막으로 '작업 패키지 편집자' 역할을 대상으로 선택하고 '복사'를 누르세요. 기본값을 생성한 후 다른 모든 역할에 대해 수행하는 것처럼 워크플로를 미세 조정하세요."
-        link_message: "관리에서 워크플로를 구성하세요."
+      missing_workflow_warning:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -1700,17 +1701,6 @@ ko:
         mentioned: "%{work_package} 을(를) 멘션하였습니다."
         responsible: "%{work_package}을(를) 담당하게 되었습니다"
         watched: "%{work_package}을(를) 지켜 보는 중입니다."
-    update_info_mail:
-      body: >
-        OpenProject 12.0 릴리스를 발표하게 되어 기쁩니다. 이 메이저 릴리스는 OpenProject를 사용하는 방식을 크게 개선할 것으로 예상됩니다.
-        이 릴리스부터 인앱 알림을 도입합니다. 이제부터 OpenProject에서 작업 패키지 업데이트에 대한 알림을 직접 받게 됩니다. 이러한 알림을 읽음으로 표시하거나, 코멘트에 답하거나, 알림 센터를 나가지 않고도 작업 패키지 특성을 직접 수정할 수도 있습니다.
-        즉, 더 이상 알림용으로 이메일을 사용하지 않을 것입니다. 알림 센터가 이러한 업데이트를 확인하고 조치를 취하기에 더 좋은 공간이라고 생각합니다. 그러나 이메일로 업데이트를 계속 받으려면 선택한 특정 시간에 매일 이메일 미리 알림을 받도록 선택할 수 있습니다.
-        새로운 기본 알림 설정을 확인하고 계정 설정에서 알림 및 이메일 미리 알림에 대한 기본 설정을 지정해야 합니다. 아래의 "이메일 설정 변경" 버튼으로 이 작업을 수행할 수 있습니다.
-        인앱 알림이 유용하고 생산성을 더욱 개선하는 데 도움이 되기를 바랍니다.
-        감사합니다. OpenProject 팀
-      body_header: "버전 12.0, 알림 센터 포함"
-      body_subheader: "뉴스"
-      subject: "12.0 릴리스의 알림에 대한 중요 변경 사항"
   label_accessibility: "접근성"
   label_account: "계정"
   label_active: "활성"
@@ -1762,6 +1752,7 @@ ko:
   label_attribute_expand_text: "'%{attribute}'의 전체 텍스트"
   label_authentication: "인증"
   label_available_global_roles: "사용 가능한 글로벌 역할"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "사용 가능한 포럼"
   label_available_project_repositories: "사용 가능한 저장소"
   label_available_project_versions: "사용 가능한 버전"
@@ -2720,7 +2711,7 @@ ko:
     member_of_group: "담당자의 그룹"
     name_or_identifier: "이름 또는 식별자"
     only_subproject_id: "하위 프로젝트만"
-    shared_with_user: "사용자와 공유됨"
+    shared_with_user: "Shared with users"
     shared_with_me: "나와 공유됨"
     subproject_id: "하위 프로젝트 포함"
   repositories:

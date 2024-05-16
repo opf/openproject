@@ -13,7 +13,7 @@ ms:
     label_board_type: "Jenis board"
     board_types:
       free: "Asas\n"
-      action: "Papan tindakan (%{attribute})"
+      action: "Board tindakan (%{attribute})"
     board_type_attributes:
       assignee: Penerima tugasan
       status: Status
@@ -35,5 +35,5 @@ ms:
       subtasks: >
         Board dengan kolum automatik untuk sub-elements. Menarik pakej kerja ke senarai lain akan mengemas kini (sub-)projek sewajarnya.
     upsale:
-      teaser_text: 'Adakah anda ingin mengautomatikkan aliran kerja dengan Board? Board lanjutan ada di dalam tambahan Enterprise. Sila naik taraf ke pelan berbayar.'
+      teaser_text: 'Adakah anda ingin mengautomasikan aliran kerja dengan Board? Board lanjutan ada di dalam tambahan Enterprise. Sila naik taraf ke pelan berbayar.'
       upgrade: 'Naik taraf sekarang'

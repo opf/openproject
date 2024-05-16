@@ -35,7 +35,7 @@ apt-get install -yq --no-install-recommends \
 curl -s https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${ARCHITECTURE}.tar.gz | tar xzf - -C /usr/local --strip-components=1
 
 curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-echo 'deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main' > /etc/apt/sources.list.d/pgdg.list
+echo 'deb http://apt.postgresql.org/pub/repos/apt/ bookworm-pgdg main' > /etc/apt/sources.list.d/pgdg.list
 
 apt-get update -qq
 apt-get install -yq --no-install-recommends \
@@ -43,21 +43,22 @@ apt-get install -yq --no-install-recommends \
 	postgresql-client-$CURRENT_PGVERSION \
 	postgresql-client-$NEXT_PGVERSION \
 	libpq5 \
-	libffi7 \
+	libffi8 \
 	unrtf \
 	tesseract-ocr \
 	poppler-utils \
 	catdoc \
 	imagemagick \
-	libclang-dev
+	libclang-dev \
+	git
 
 
 # Specifics for BIM edition
 if [ ! "$BIM_SUPPORT" = "false" ]; then
 	apt-get install -y wget unzip
 
-	# https://learn.microsoft.com/en-gb/dotnet/core/install/linux-debian#debian-11
-	wget --quiet https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O /tmp/packages-microsoft-prod.deb
+	# https://learn.microsoft.com/en-gb/dotnet/core/install/linux-debian#debian-12
+	wget --quiet https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O /tmp/packages-microsoft-prod.deb
 	dpkg -i /tmp/packages-microsoft-prod.deb
 	rm /tmp/packages-microsoft-prod.deb
 

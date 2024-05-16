@@ -330,6 +330,7 @@ cs:
       project_roles: "Projektové role"
       wp_shares: "Sdílení pracovních balíčků"
       groups: "Skupiny"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -506,10 +507,10 @@ cs:
       no_common_statuses_exists: "Pro všechny vybrané pracovní balíčky není k dispozici žádný stav. Jejich stav nelze změnit."
       unsupported_for_multiple_projects: "Hromadný přesun/kopírování není podporováno pro pracovní balíčky z více projektů"
     sharing:
-      missing_workflow_waring:
-        title: "Pro sdílení pracovního balíčku chybí pracovní postup"
-        message: "Pro roli 'Pracovní balíček' není nastaven žádný pracovní postup. Bez pracovního postupu nemůže sdílení s uživatelem změnit stav pracovního balíčku. Pracovní toky mohou být zkopírovány. Vyberte typ zdroje (např. 'Úkol') a zdrojovou roli (např. 'Člen'). Pak vyberte cílové typy. Na začátku můžete vybrat všechny typy jako cíle. Nakonec vyberte roli 'Editor pracovních balíčků' jako cíl a stiskněte 'Kopírovat'. Poté, co jste tak vytvořili výchozí nastavení, vyladit pracovní postupy, jak to děláte pro každou jinou roli."
-        link_message: "Konfigurace pracovních postupů v administraci."
+      missing_workflow_warning:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -1800,17 +1801,6 @@ cs:
         mentioned: "Byli jste zmíněni v %{work_package}"
         responsible: "Stali jste se odpovědnými za %{work_package}"
         watched: "Sledujete %{work_package}"
-    update_info_mail:
-      body: >
-        Jsme rádi, že oznamujeme vydání OpenProject 12.0. Je to významná verze, která doufejme výrazně zlepší způsob, jakým používáte OpenProject.
-        Počínaje touto verzí přinášíme oznámení v aplikaci. Od nynějška budete dostávat upozornění na aktualizace pracovních balíčků přímo v OpenProject. Tato oznámení můžete označit jako přečtená, odpovědět na komentář nebo dokonce přímo upravit atributy pracovního balíčku, aniž byste opustili oznamovací centrum.
-        To také znamená, že již nebudeme používat e-maily pro oznámení. Myslíme si, že nové centrum oznámení je lepším místem pro prohlížení a jednání na základě těchto aktualizací. Nicméně, pokud chcete nadále dostávat aktualizace prostřednictvím e-mailu, můžete si vybrat denní připomenutí e-mailem v určitých okamžicích vašeho výběru.
-        Ujistěte se prosím, že jste si ověřili své nové výchozí nastavení oznámení a nastavte své předvolby pro upozornění a připomenutí e-mailem v nastavení vašeho účtu. Můžete to udělat pomocí tlačítka "Změnit nastavení e-mailu".
-        Doufáme, že najdete oznámení v aplikacích užitečná a že vás učiní ještě produktivnějšími.
-        S pozdravem, OpenProject tým
-      body_header: "Verze 12.0 s oznamovacím centrem"
-      body_subheader: "Novinky"
-      subject: "Důležité změny oznámení s vydáním 12.0"
   label_accessibility: "Přístupnost"
   label_account: "Účet"
   label_active: "Aktivní"
@@ -1862,6 +1852,7 @@ cs:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Ověření"
   label_available_global_roles: "Dostupné globální role"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Dostupná fóra"
   label_available_project_repositories: "Dostupné repozitáře"
   label_available_project_versions: "Dostupné verze"
@@ -2826,7 +2817,7 @@ cs:
     member_of_group: "Řešitelova skupina"
     name_or_identifier: "Jméno nebo identifikátor"
     only_subproject_id: "Pouze podprojekt"
-    shared_with_user: "Sdíleno s uživatelem"
+    shared_with_user: "Shared with users"
     shared_with_me: "Sdílené se mnou"
     subproject_id: "Včetně podprojektu"
   repositories:

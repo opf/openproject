@@ -329,6 +329,7 @@ ru:
       project_roles: "Роли проекта"
       wp_shares: "Пакеты работ используемые совместно"
       groups: "Группы"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -505,10 +506,10 @@ ru:
       no_common_statuses_exists: "Статус не доступен для всех выбранных пакетов работ. Их статус изменен быть не может."
       unsupported_for_multiple_projects: "Массовое перемещение/копирование не поддерживается при работе с пакетами из нескольких проектов"
     sharing:
-      missing_workflow_waring:
-        title: "Отсутствует рабочий процесс для совместного использования пакета работ"
-        message: "Рабочий процесс не настроен для роли 'Редактора пакетов работ'. Без рабочего процесса, общий с пользователем не может изменить статус рабочего пакета. Рабочие процессы могут быть скопированы. Выберите исходный тип (например, «Задача») и исходную роль (например, «Участник»). Затем выберите нужные типы. Чтобы начать, можно выбрать все типы в качестве целей. Наконец, выберите роль 'Редактор пакетов работ' в качестве цели и нажмите 'Копировать'. После создания таким образом по умолчанию, тонкая настройка рабочих процессов как вы делаете для каждой другой роли."
-        link_message: "Настройка рабочих процессов в администрации."
+      missing_workflow_warning:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -1799,17 +1800,6 @@ ru:
         mentioned: "Вы были назначены %{work_package}"
         responsible: "Вы отвечаете за %{work_package}"
         watched: "Вы просматриваете %{work_package}"
-    update_info_mail:
-      body: >
-        Мы рады объявить о выпуске OpenProject 12.0. Это основной релиз, который, как мы надеемся, значительно улучшит процесс использования OpenProject.
-        Начиная с этого выпуска, мы представляем Центр уведомлений. Теперь вы будете получать уведомления об обновлениях для пакетов работ непосредственно в OpenProject. Вы можете отметить эти уведомления как прочитанные, ответить на комментарий или даже напрямую изменить атрибуты пакетов работ не выходя из Центра уведомлений.
-        Это также означает, что мы больше не будем использовать электронные письма для уведомлений. Мы считаем, что Центр уведомлений лучше просматривать и реагировать на эти обновления. Тем не менее, если вы хотите продолжать получать обновления по электронной почте, вы можете ежедневно получать напоминания по электронной почте в определенные моменты по вашему выбору.
-        Вы можете установить настройки уведомлений и напоминаний по электронной почте через настройки учетной записи, или оставить их без изменений, чтобы сохранить стандартные. Вы можете сделать это с помощью кнопки «Изменить настройки электронной почты» ниже.
-        Мы надеемся, что вы найдете Центр уведомлений полезным и что он сделает вас еще более продуктивным.
-        Искренне Команда OpenProject
-      body_header: "Версия 12.0 с центром уведомлений"
-      body_subheader: "Новости"
-      subject: "Важные изменения в уведомлениях с релизом 12.0"
   label_accessibility: "Спец. возможности"
   label_account: "Учетная запись"
   label_active: "Активен"
@@ -1861,6 +1851,7 @@ ru:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Аутентификация"
   label_available_global_roles: "Доступные глобальные роли"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Доступные форумы"
   label_available_project_repositories: "Доступные репозитории"
   label_available_project_versions: "Имеющиеся этапы проекта"
@@ -2825,7 +2816,7 @@ ru:
     member_of_group: "Группа назначенного"
     name_or_identifier: "Имя или идентификатор"
     only_subproject_id: "Только подпроект"
-    shared_with_user: "Доступно пользователю"
+    shared_with_user: "Shared with users"
     shared_with_me: "В общем доступе с"
     subproject_id: "Включая подпроект"
   repositories:

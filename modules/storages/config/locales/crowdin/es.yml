@@ -39,7 +39,7 @@ es:
   api_v3:
     errors:
       too_many_elements_created_at_once: Se intentaron crear demasiados elementos a la vez. Se esperaban como máximo %{max}, pero se recibieron %{actual}.
-  external_file_storages: External file storages
+  external_file_storages: Almacenamientos de archivos externos
   permission_create_files: 'Almacenamiento externo: Crear archivos'
   permission_delete_files: 'Almacenamiento externo: Eliminar archivos'
   permission_header_for_project_module_storages: Carpetas de proyecto gestionadas automáticamente
@@ -49,7 +49,7 @@ es:
   permission_share_files: 'Almacenamiento externo: Compartir archivos'
   permission_view_file_links: Ver enlaces de archivos
   permission_write_files: 'Almacenamiento externo: Escribir archivos'
-  project_module_storages: Files
+  project_module_storages: Archivos
   storages:
     buttons:
       complete_without_setup: Completar sin usar
@@ -243,8 +243,8 @@ es:
         name: OneDrive/Sharepoint
         name_placeholder: ej. OneDrive
     show_attachments_toggle:
-      description: Deactivating this option will only hide the attachments list. Files uploaded with the help of the rich text editor will still be uploaded to the attachments internal storage.
-      label: Show attachments in the work packages files tab
+      description: Al desactivar esta opción solo se ocultará la lista de archivos adjuntos. Los archivos subidos con el editor de texto enriquecido seguirán cargándose en el almacenamiento interno de archivos adjuntos.
+      label: Mostrar archivos adjuntos en la pestaña de archivos de los paquetes de trabajo
     storage_list_blank_slate:
       description: Añade un almacenamiento para verlos aquí.
       heading: Aún no tiene ningún almacenamiento.

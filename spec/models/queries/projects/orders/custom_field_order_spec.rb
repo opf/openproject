@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,8 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class AddHideAttachmentsToProjects < ActiveRecord::Migration[7.1]
-  def change
-    add_column :projects, :settings, :jsonb, null: false, default: {}
+require "spec_helper"
+
+RSpec.describe Queries::Projects::Orders::CustomFieldOrder do
+  let!(:cf_text) { FactoryBot.create(:text_project_custom_field) }
+  let!(:cf_int) { FactoryBot.create(:integer_project_custom_field) }
+
+  it "does not allow to sort by the text field" do
+    cf = described_class.new("cf_#{cf_text.id}")
+    expect(cf).not_to be_available
+  end
+
+  it "allows to sort by all other fields" do
+    cf = described_class.new("cf_#{cf_int.id}")
+    expect(cf).to be_available
   end
 end

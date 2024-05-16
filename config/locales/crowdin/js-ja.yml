@@ -1057,7 +1057,7 @@ ja:
       sharing:
         share: "共有"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"

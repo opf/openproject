@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,18 +24,29 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class QueueNotificationUpdateMail < ActiveRecord::Migration[6.1]
-  def up
-    # On a newly created database, we don't want the update mail to be sent.
-    # Users are only created upon seeding.
-    return unless User.not_builtin.exists?
+module Projects::Scopes
+  module AvailableCustomFields
+    extend ActiveSupport::Concern
 
-    ::Announcements::SchedulerJob
-      .perform_later subject: :"notifications.update_info_mail.subject",
-                     body: :"notifications.update_info_mail.body",
-                     body_header: :"notifications.update_info_mail.body_header",
-                     body_subheader: :"notifications.update_info_mail.body_subheader"
+    class_methods do
+      def with_available_custom_fields(custom_field_ids)
+        subquery = project_custom_fields_project_mapping_subquery(custom_field_ids:)
+        where(id: subquery)
+      end
+
+      def without_available_custom_fields(custom_field_ids)
+        subquery = project_custom_fields_project_mapping_subquery(custom_field_ids:)
+        where.not(id: subquery)
+      end
+
+      private
+
+      def project_custom_fields_project_mapping_subquery(custom_field_ids:)
+        ProjectCustomFieldProjectMapping.select(:project_id)
+                          .where(custom_field_id: custom_field_ids)
+      end
+    end
   end
 end

@@ -303,13 +303,13 @@ es:
         no_results_title_text: No se ha registrado el uso de espacio en disco adicional por este proyecto.
   lists:
     create:
-      success: "The modified list has been saved as a new list"
-      failure: "The modified list cannot be saved: %{errors}"
+      success: "La lista modificada se ha guardado como una nueva lista"
+      failure: "La lista modificada no se puede guardar: %{errors}"
     update:
-      success: "The modified list has been saved"
-      failure: "The modified list cannot be saved: %{errors}"
-    can_be_saved: "List modified:"
-    can_be_saved_as: "The modifications can only be saved in a new list:"
+      success: "La lista modificada se ha guardado"
+      failure: "La lista modificada no se puede guardar: %{errors}"
+    can_be_saved: "Lista modificada:"
+    can_be_saved_as: "Las modificaciones solo pueden guardarse en una lista nueva:"
   members:
     index:
       no_results_title_text: Actualmente no hay miembros que formen parte de este proyecto.
@@ -327,6 +327,7 @@ es:
       project_roles: "Roles de proyecto"
       wp_shares: "Comparticiones de paquete de trabajo"
       groups: "Grupos"
+    no_modify_on_shared: "Actualmente no puede modificar o eliminar membresías compartidas a través de la página de miembros. Utilice el diálogo para compartir para completar esta acción."
     delete_member_dialog:
       title: "Borrar miembro"
       will_remove_the_users_role: "Esto borrará el rol del usuario de este proyecto."
@@ -489,7 +490,7 @@ es:
       no_common_statuses_exists: "No hay ningún estado disponible para todos los paquetes de trabajo seleccionados. Su estado no se puede cambiar."
       unsupported_for_multiple_projects: "Mover o copiar por lotes no esta soportado para paquetes de trabajo de múltiples proyectos"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Falta el flujo de trabajo para compartir paquetes de trabajo"
         message: "Ningún flujo de trabajo está configurado para el rol 'Editor de paquetes de trabajo'. Sin un flujo de trabajo, el usuario compartido no puede alterar el estado del paquete de trabajo. Los flujos de trabajo pueden ser copiados. Seleccione un tipo de base (por ejemplo, 'Tarea') y el rol de base (por ejemplo, 'Miembro'). Luego seleccione los tipos de destino. Para empezar, puede seleccionar todos los tipos como objetivos. Por último, seleccione el papel de \"Editor de paquetes de trabajo\" como objetivo y presione \"Copiar\". Después de haber creado así los valores predeterminados, ajuste los flujos de trabajo como lo hace para cualquier otro rol."
         link_message: "Configure un flujo de trabajo en la administración."
@@ -1666,7 +1667,7 @@ es:
         progress_calculation_adjusted: >-
           Cálculo de progreso automático <a href="%{href}" target="_blank">ajustado con la actualización de versión</a>.
         totals_removed_from_childless_work_packages: >-
-          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+          Los totales de trabajo y progreso se eliminan automáticamente para los paquetes de trabajo no padres con la <a href="%{href}" target="_blank">actualización de la versión</a>. Se trata de una tarea de mantenimiento y puede ignorarse con seguridad.
   links:
     configuration_guide: "Guía de configuración"
     get_in_touch: "¿Tiene alguna pregunta? Póngase en contacto con nosotros."
@@ -1731,17 +1732,6 @@ es:
         mentioned: "Has sido mencionado en %{work_package}"
         responsible: "Ahora es responsable de %{work_package}"
         watched: "Estás viendo a %{work_package}"
-    update_info_mail:
-      body: >
-        Nos complace anunciar el lanzamiento de la versión OpenProject 12.0. Esta, es una nueva versión con muchos cambios que esperamos simplifiquen y mejoren en gran medida la forma en que usa OpenProject.
-        Para empezar, con esta versión introducimos las notificaciones dentro de la aplicación. Des de ahora, va a recibir notificaciones por actualizaciones en los paquetes de trabajo directamente en OpenProject. Puede marcar estas notificaciones como leídas, contestar a comentarios e incluso modificar los atributos de un paquete de trabajo sin salir del centro de notificaciones.
-        Esto también supone que no se van a usar más los correos electrónicos para este tipo de notificaciones. Creemos que el centro de notificaciones es el mejor sitio para ver y realizar cambios sobre estas actualizaciones. No obstante, si desea continuar recibiendo notificaciones vía correo electrónico, puede seleccionar recibir correos recordatorios diarios en horas concretas de su elección.
-        Por favor, asegúrese de validar sus nuevas configuraciones de notificaciones que se han reseteado por defecto y a posteriori puede crear y modificar sus preferencias tanto para las notificaciones dentro de la aplicación como para los recordatorios vía correo electrónico en la configuración de su cuenta. También puede hacer estos cambios usando el botón abajo "Cambiar configuración de correo electrónico".
-        Esperamos que las nuevas notificaciones dentro la aplicación le sean útiles y le ayuden a ser aún más productivo.
-        Sinceramente, El equipo de OpenProject
-      body_header: "Versión 12.0 con el Centro de notificaciones"
-      body_subheader: "Noticias"
-      subject: "Cambios importantes en las notificaciones con el lanzamiento de la versión 12.0"
   label_accessibility: "Accesibilidad"
   label_account: "Cuenta"
   label_active: "Activo"
@@ -1793,6 +1783,7 @@ es:
   label_attribute_expand_text: "El texto completo para «%{attribute}»"
   label_authentication: "Autentificación"
   label_available_global_roles: "Roles globales disponibles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Foros disponibles"
   label_available_project_repositories: "Repositorios disponibles"
   label_available_project_versions: "Versiones disponibles"
@@ -2753,7 +2744,7 @@ es:
     member_of_group: "Asignación de grupo"
     name_or_identifier: "Nombre o identificador"
     only_subproject_id: "Sólo subproyecto"
-    shared_with_user: "Compartido con usuario"
+    shared_with_user: "Compartido con usuarios"
     shared_with_me: "Compartido conmigo"
     subproject_id: "Incluyendo subproyecto"
   repositories:
@@ -2898,7 +2889,7 @@ es:
   setting_app_subtitle: "Subtítulo de aplicación"
   setting_app_title: "Título de aplicación"
   setting_attachment_max_size: "Tamaño máximo de adjunto"
-  setting_show_work_package_attachments: "Show attachments in the files tab by default"
+  setting_show_work_package_attachments: "Mostrar archivos adjuntos en la pestaña de archivos por defecto"
   setting_antivirus_scan_mode: "Modo de escaneo"
   setting_antivirus_scan_action: "Acción del archivo infectado"
   setting_autofetch_changesets: "Recopilación automática de cambios del repositorio"
@@ -3001,7 +2992,7 @@ es:
       whitelist_text_html: >
         Define una lista de extensiones de archivo válidas o tipos MIME para los archivos cargados. <br/> Escriba las extensiones de archivo (por ejemplo, <code>%{ext_example}</code>) o tipos MIME (<code>%{mime_example}</code>). <br/> Deje vacío este campo para que pueda cargarse cualquier tipo de archivo. Se permiten varios valores (una línea para cada valor).
       show_work_package_attachments: >
-        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
+        Al desactivar esta opción se ocultará la lista de archivos adjuntos en la pestaña de archivos de los paquetes de trabajo para los nuevos proyectos. Los archivos adjuntos en la descripción de un paquete de trabajo seguirán cargándose en el almacenamiento interno de archivos adjuntos.
     antivirus:
       title: "Escaneado de virus"
       clamav_ping_failed: "Ha fallado la conexión con el daemon ClamAV. Vuelva a comprobar la configuración e inténtelo de nuevo."
@@ -3240,8 +3231,8 @@ es:
         drag_area_label: "Gestionar y reordenar columnas"
       sort_by:
         automatic:
-          heading: "Automatic"
-          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
+          heading: "Automático"
+          description: "Ordene la %{plural} por uno o varios criterios de clasificación. Perderá la ordenación anterior."
   top_menu:
     additional_resources: "Recursos Adicionales"
     getting_started: "Primeros pasos"

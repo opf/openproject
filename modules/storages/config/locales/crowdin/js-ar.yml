@@ -57,7 +57,7 @@ ar:
         select: "Select files"
         select_all: "اختر الجميع"
         selection:
-          zero: "ربط %{count} من الملفات"
+          zero: "حدد الملفات لربطها"
           one: "رابط الملف 1"
           two: "ربط %{count} من الملفات"
           few: "ربط %{count} من الملفات"

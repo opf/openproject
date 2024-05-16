@@ -1057,7 +1057,7 @@ pt-PT:
       sharing:
         share: "Partilhe"
         title: "Partilhar pacote de trabalho"
-        show_all_users: "Mostrar todos os utilizadores partilhados"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selecionado"
         selection:
           mixed: "Misturado"

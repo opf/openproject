@@ -331,17 +331,17 @@ es:
         description: >
           Seleccione el nivel de zoom inicial que debe mostrarse cuando el zoom automático no esté disponible.
       export:
-        title: "Gantt chart PDF options"
-        button_export: "Export"
+        title: "Opciones PDF del diagrama de Gantt"
+        button_export: "Exportar"
         column_widths:
-          narrow: "Narrow"
-          medium: "Medium"
-          wide: "Wide"
-          very_wide: "Very wide"
+          narrow: "Estrecha"
+          medium: "Media"
+          wide: "Amplia"
+          very_wide: "Muy amplia"
         options:
-          date_zoom: "Date zoom"
-          paper_size: "Paper size"
-          column_widths: "Column widths"
+          date_zoom: "Formato de fechas"
+          paper_size: "Tamaño del papel"
+          column_widths: "Anchos de columna"
     general_text_no: "no"
     general_text_yes: "sí"
     general_text_No: "No"
@@ -1057,7 +1057,7 @@ es:
       sharing:
         share: "Compartir"
         title: "Compartir paquete de trabajo"
-        show_all_users: "Mostrar todos los usuarios compartidos"
+        show_all_users: "Mostrar todos los usuarios con los que se ha compartido el paquete de trabajo"
         selected_count: "%{count} seleccionados"
         selection:
           mixed: "Mixto"
