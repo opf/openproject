@@ -2505,7 +2505,7 @@ ms:
   notice_auth_stage_verification_error: "Tidak dapat mengesahkan peringkat '%{stage}'."
   notice_auth_stage_wrong_stage: "Dijangka tamat peringkat pengesahan '%{expected}', tetapi '%{actual}' dikembalikan."
   notice_auth_stage_error: "Peringkat pengesahan '%{stage}' gagal."
-  notice_can_t_change_password: "Akaun ini digunakan sebagai sumber pengesahan luaran. Mustahil untuk ubah kata laluan."
+  notice_can_t_change_password: "Akaun ini digunakan sebagai sumber pengesahan luaran. Mustahil untuk menukar kata laluan."
   notice_custom_options_deleted: "Pilihan '%{option_value}' dan %{num_deleted} kejadiannya telah dipadamkan."
   notice_email_error: "Ralat berlaku sewaktu menghantar e-mel (%{value})"
   notice_email_sent: "E-mel telah dihantar ke %{value}"
