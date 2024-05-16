@@ -71,7 +71,7 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
 
   subject(:response) { last_response }
 
-  # rubocop:disable RSpec/Rails/HaveHttpStatus
+  # rubocop:disable RSpecRails/HaveHttpStatus
   # those are mock responses that don't deal well with the rails helpers
   describe "#POST /api/v3/projects/:id/copy" do
     describe "with empty params" do
@@ -203,5 +203,5 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
       end
     end
   end
-  # rubocop:enable RSpec/Rails/HaveHttpStatus
+  # rubocop:enable RSpecRails/HaveHttpStatus
 end
