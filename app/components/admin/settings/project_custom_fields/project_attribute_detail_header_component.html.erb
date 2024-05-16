@@ -26,18 +26,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% content_controller 'admin--custom-fields',
-                      dynamic: true,
-                      'admin--custom-fields-format-value': @custom_field.field_format
-%>
-
-<% local_assigns[:additional_breadcrumb] = @custom_field.name %>
+<%= render(Settings::ProjectCustomFields::EditFormHeaderComponent.new(custom_field: @custom_field)) %>
 
 <%=
-  render(Admin::Settings::ProjectCustomFields::ProjectAttributeDetailHeaderComponent.new(
-    custom_field: @custom_field,
-    selected: :project_custom_field_edit
-  ))
-%>
+  render(Primer::Alpha::TabNav.new(label: "label")) do |component|
+    component.with_tab(
+      selected: project_custom_field_edit_selected?,
+      href:  edit_admin_settings_project_custom_field_path(@custom_field)
+    ) do |tab|
+      tab.with_text { t(:label_details) }
+    end
 
-<%= render partial: 'details_form', locals: { custom_field: @custom_field } %>
+    component.with_tab(
+      selected: project_custom_field_project_mappings_selected?,
+      href: project_mappings_admin_settings_project_custom_field_path(@custom_field)
+    ) do |tab|
+      tab.with_text { I18n.t(:label_project_plural) }
+    end
+  end
+%>

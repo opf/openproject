@@ -455,6 +455,8 @@ Rails.application.routes.draw do
           post :reorder_alphabetical
           put :move
           put :drop
+
+          get :project_mappings
           delete :unlink
         end
       end

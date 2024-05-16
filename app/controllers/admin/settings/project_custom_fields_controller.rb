@@ -35,7 +35,7 @@ module Admin::Settings
     menu_item :project_custom_fields_settings
 
     before_action :set_sections, only: %i[show index edit move drop]
-    before_action :find_custom_field, only: %i[show edit unlink destroy move drop]
+    before_action :find_custom_field, only: %i[show edit project_mappings unlink destroy move drop]
 
     def show_local_breadcrumb
       false
@@ -66,11 +66,20 @@ module Admin::Settings
       end
     end
 
+    def project_mappings
+      @project_custom_field_mappings_query = Queries::Projects::ProjectQuery.new(
+        name: "project-custom-field-mappings-#{@custom_field.id}"
+      ) do |query|
+        query.where(:available_project_attributes, "=", [@custom_field.id])
+        query.select(:name)
+      end
+    end
+
     def unlink
       project = Project.find(permitted_params.project_custom_field_project_mapping[:project_id])
-      custom_field_project_mapping = @custom_field.project_custom_field_project_mappings.find_by(project:)
+      project_custom_field_mapping = @custom_field.project_custom_field_project_mappings.find_by(project:)
       delete_service = ProjectCustomFieldProjectMappings::DeleteService
-               .new(user: current_user, model: custom_field_project_mapping)
+               .new(user: current_user, model: project_custom_field_mapping)
                .call
 
       remove_via_turbo_stream(

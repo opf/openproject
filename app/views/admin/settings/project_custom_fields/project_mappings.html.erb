@@ -27,4 +27,18 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(Settings::ProjectCustomFields::ProjectCustomFieldMapping::TableComponent.new(query:, params: { custom_field: })) %>
+<% local_assigns[:additional_breadcrumb] = @custom_field.name %>
+
+<%=
+  render(Admin::Settings::ProjectCustomFields::ProjectAttributeDetailHeaderComponent.new(
+    custom_field: @custom_field,
+    selected: :project_custom_field_project_mappings
+  ))
+%>
+
+<%=
+  render(Settings::ProjectCustomFields::ProjectCustomFieldMapping::TableComponent.new(
+    query: @project_custom_field_mappings_query,
+    params: { custom_field: @custom_field })
+  )
+%>
