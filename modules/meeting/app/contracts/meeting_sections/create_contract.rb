@@ -28,12 +28,15 @@
 
 module MeetingSections
   class CreateContract < BaseContract
+    # Note:
+    # the CreateContract is currently only called internally in the create action which substitutes the new action
+    # of the controller. The contract is not used in the context of a form.
+    # Only the UpdateContract is used alongside a user facing form.
+    # Thus we're not validating for title presence here, which enables us to create a section without a title which is required for
+    # the current UX implementation
+
     validate :user_allowed_to_add,
              :validate_meeting_existence
-
-    # We allow an empty title to mark an untitled/implicit section
-    # but users should not be able to create it with an empty title
-    validates :title, presence: true
 
     def self.assignable_meetings(user)
       StructuredMeeting

@@ -143,8 +143,7 @@ en:
     copied: "Copied from Meeting #%{id}"
 
   meeting_section:
-    default_title: "New section"
-    untitled_title: "Untitled"
+    untitled_title: "Untitled section"
     empty_text: "Drag items here or create a new one"
 
   notice_successful_notification: "Notification sent successfully"

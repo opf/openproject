@@ -46,10 +46,6 @@ class MeetingSection < ApplicationRecord
     meeting.calculate_agenda_item_time_slots
   end
 
-  def has_default_title?
-    title == I18n.t("meeting_section.default_title")
-  end
-
   def untitled?
     title.blank?
   end

@@ -42,8 +42,7 @@ class MeetingSectionsController < ApplicationController
       .new(user: current_user)
       .call(
         {
-          meeting_id: @meeting.id,
-          title: t("meeting_section.default_title")
+          meeting_id: @meeting.id
         }
       )
 
@@ -51,7 +50,8 @@ class MeetingSectionsController < ApplicationController
 
     if call.success?
       add_section_via_turbo_stream
-      update_section_header_via_turbo_stream(state: :edit)
+      update_section_via_turbo_stream(force_wrapper: true, state: :edit)
+      # update_section_header_via_turbo_stream(state: :edit)
       update_new_button_via_turbo_stream(disabled: true)
     else
       render_base_error_in_flash_message_via_turbo_stream(call.errors)
@@ -72,8 +72,8 @@ class MeetingSectionsController < ApplicationController
   end
 
   def cancel_edit
-    if @meeting_section.has_default_title? && @meeting_section.agenda_items.empty?
-      # if the section has the default title and no agenda items, we can safely delete it
+    if @meeting_section.untitled? && @meeting_section.agenda_items.empty?
+      # if the section is untitled and no agenda items, we can safely delete it
       destroy and return
     else
       update_section_header_via_turbo_stream(state: :show)
@@ -121,7 +121,7 @@ class MeetingSectionsController < ApplicationController
 
   def drop
     call = ::MeetingSections::UpdateService
-      .new(user: current_user, model: @meeting_section)
+      .new(user: current_user, model: @meeting_section, contract_class: MeetingSections::MoveContract)
       .call(position: params[:position].to_i)
 
     if call.success?
@@ -139,7 +139,7 @@ class MeetingSectionsController < ApplicationController
 
   def move
     call = ::MeetingSections::UpdateService
-      .new(user: current_user, model: @meeting_section)
+      .new(user: current_user, model: @meeting_section, contract_class: MeetingSections::MoveContract)
       .call(move_to: params[:move_to]&.to_sym)
 
     if call.success?
