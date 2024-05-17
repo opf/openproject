@@ -26,28 +26,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  StateDeclaration,
-  StateService,
-  Transition,
-  TransitionService,
-  UIRouter,
-} from '@uirouter/core';
-import {
-  IToast,
-  ToastService,
-} from 'core-app/shared/components/toaster/toast.service';
+import { StateDeclaration, StateService, Transition, TransitionService, UIRouter } from '@uirouter/core';
+import { IToast, ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { Injector } from '@angular/core';
 import { FirstRouteService } from 'core-app/core/routing/first-route-service';
-import {
-  Ng2StateDeclaration,
-  StatesModule,
-} from '@uirouter/angular';
-import {
-  appBaseSelector,
-  ApplicationBaseComponent,
-} from 'core-app/core/routing/base/application-base.component';
+import { Ng2StateDeclaration, StatesModule } from '@uirouter/angular';
+import { appBaseSelector, ApplicationBaseComponent } from 'core-app/core/routing/base/application-base.component';
 import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
 import { MY_ACCOUNT_LAZY_ROUTES } from 'core-app/features/user-preferences/user-preferences.lazy-routes';
 import { IAN_LAZY_ROUTES } from 'core-app/features/in-app-notifications/in-app-notifications.lazy-routes';
@@ -224,13 +209,18 @@ export function initializeUiRouterListeners(injector:Injector) {
   const currentProject:CurrentProjectService = injector.get(CurrentProjectService);
   const firstRoute:FirstRouteService = injector.get(FirstRouteService);
   const backRoutingService:BackRoutingService = injector.get(BackRoutingService);
+  const uiRouter = injector.get(UIRouter);
+
+  // Connect ui router to turbo drive
+  document.addEventListener('turbo:render', (event) => {
+    uiRouter.urlService.sync(event);
+  });
 
   // Check whether we are running within our complete app, or only within some other bootstrapped
   // component
   const wpBase = document.querySelector(appBaseSelector);
 
   // Uncomment to trace route changes
-  // const uiRouter = injector.get(UIRouter);
   // uiRouter.trace.enable();
 
   // For some pages it makes no sense to display them on mobile (e.g. the split screen).
