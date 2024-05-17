@@ -70,17 +70,17 @@ Under the tab *Sort* you can select the sort order for the project lists. You ca
 
  Click **Apply** to see the changes.
 
-You will now be able to save your adjust list by clicking the *Save as* link. Alternatively you can click the *More* icon and select the *Save as* option from the dropdown menu that will open.
+If the list that you were adjusting is a private list, you will then be able to save the changes to that list by clicking the *Save* link. Alternatively you can click the *More* icon and select the *Save as* option from the dropdown menu that will open and save it under a different name. 
 
-**Note:** the *Save as* option in the dropdown *More* menu is always available, unless you are working with a static list, which can not be modified. In this case the *save as* option will not be visible.
+**Note:** The *Save as* option in the *More* dropdown menu is always available. The *Save* action will not be visible if you are working with a static list, which can not be modified.
 
 ![Save a project list view in OpenProject](save-link-project-list.png)
 
-Same as You will then need to name the project list and click the green **Save** button. 
+You will then need to name the project list and click the green **Save** button. 
 
 ![Name and save a new project list in OpenProject](name-new-project-list.png)
 
-It will then appear under **My private project lists**, same as if you adjust the filters and save the list.
+If it is a newly created list then it will appear under **My private project lists**, same as if you adjust the filters and save the list.
 
 ### Project lists filters
 
