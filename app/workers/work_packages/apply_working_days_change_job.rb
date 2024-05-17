@@ -34,6 +34,10 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
     total_limit: 1
   )
 
+  retry_on GoodJob::ActiveJobExtensions::Concurrency::ConcurrencyExceededError,
+           wait: 5.minutes,
+           attempts: 3
+
   def perform(user_id:, previous_working_days:, previous_non_working_days:)
     user = User.find(user_id)
 

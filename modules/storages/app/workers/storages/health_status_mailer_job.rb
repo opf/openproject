@@ -39,6 +39,10 @@ module Storages
       key: -> { "#{self.class.name}-#{arguments.last[:storage].id}" }
     )
 
+    retry_on GoodJob::ActiveJobExtensions::Concurrency::ConcurrencyExceededError,
+             wait: 5.minutes,
+             attempts: 3
+
     discard_on ActiveJob::DeserializationError
 
     def perform(storage:)

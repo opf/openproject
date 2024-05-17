@@ -46,6 +46,11 @@ module Storages
       enqueue_limit: 1,
       perform_limit: 1
     )
+    S
+    retry_on GoodJob::ActiveJobExtensions::Concurrency::ConcurrencyExceededError,
+             wait: 5.minutes,
+             attempts: 3
+
     SINGLE_THREAD_DEBOUNCE_TIME = 4.seconds.freeze
     KEY = :manage_nextcloud_integration_job_debounce_happened_at
     CRON_JOB_KEY = :"Storages::ManageStorageIntegrationsJob"
