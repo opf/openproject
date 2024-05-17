@@ -330,7 +330,6 @@
       project_roles: "Prosjekt roller"
       wp_shares: "Delte arbeidspakker"
       groups: "Grupper"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Fjern medlem"
       will_remove_the_users_role: "Dette vil fjerne brukerens rolle fra dette prosjektet."

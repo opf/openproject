@@ -330,7 +330,6 @@ fi:
       project_roles: "Project roles"
       wp_shares: "Work package shares"
       groups: "Ryhmät"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."

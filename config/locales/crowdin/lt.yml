@@ -327,7 +327,6 @@ lt:
       project_roles: "Projekto vaidmenys"
       wp_shares: "Darbo paketų bendrinimai"
       groups: "Grupės"
-    no_modify_on_shared: "Jūs šiuo metu negalite keisti ar išimti bendrintų narysčių per nario puslapį. Vietoje to naudokite bendrinimo dialogą."
     delete_member_dialog:
       title: "Išimti narį"
       will_remove_the_users_role: "Tai išims naudotojo vaidmenį iš šio projekto."
@@ -1849,7 +1848,7 @@ lt:
   label_attribute_expand_text: "Pilnas tekstas, skirtas „%{attribute}“"
   label_authentication: "Autentifikacija"
   label_available_global_roles: "Galimi globalūs vaidmenys"
-  label_available_project_attributes: "Available project attributes"
+  label_available_project_attributes: "Galimi projekto atributai"
   label_available_project_forums: "Galimi forumai"
   label_available_project_repositories: "Galimos saugyklos"
   label_available_project_versions: "Galimos versijos"

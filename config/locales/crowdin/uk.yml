@@ -325,7 +325,6 @@ uk:
       project_roles: "Ролі в проєкті"
       wp_shares: "Поширення пакета робіт"
       groups: "Групи"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Вилучити учасника"
       will_remove_the_users_role: "Роль користувача буде вилучено із цього проєкту."

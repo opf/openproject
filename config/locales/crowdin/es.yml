@@ -327,7 +327,6 @@ es:
       project_roles: "Roles de proyecto"
       wp_shares: "Comparticiones de paquete de trabajo"
       groups: "Grupos"
-    no_modify_on_shared: "Actualmente no puede modificar o eliminar membresías compartidas a través de la página de miembros. Utilice el diálogo para compartir para completar esta acción."
     delete_member_dialog:
       title: "Borrar miembro"
       will_remove_the_users_role: "Esto borrará el rol del usuario de este proyecto."
