@@ -40,6 +40,13 @@ module Cron::QuarterHourScheduleJob
       enqueue_limit: 1,
       perform_limit: 1
     )
+
+    # The job is scheduled to run every 15 minutes. If the job before takes longer
+    # than expected we retry two more times (at cron_at + 5 and cron_at + 15). Then the job is discarded.
+    # Once the job is discarded, the next job will be scheduled to run at the next quarter hour.
+    retry_on GoodJob::ActiveJobExtensions::Concurrency::ConcurrencyExceededError,
+             wait: 5.minutes,
+             attempts: 3
   end
 
   private
