@@ -57,9 +57,10 @@ module Storages
           private
 
           def upload_data_failure
-            Util.failure(code: :error,
-                         data: StorageErrorData.new(source: self.class),
-                         log_message: "Invalid upload data!")
+            ServiceResult.failure(result: :error,
+                                  errors: StorageError.new(code: :error,
+                                                           data: StorageErrorData.new(source: self.class),
+                                                           log_message: "Invalid upload data!"))
           end
 
           def invalid?(upload_data:)

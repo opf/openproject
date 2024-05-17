@@ -38,7 +38,7 @@ RSpec.describe API::V3::StorageFiles::StorageUploadLinkRepresenter, "rendering" 
   let(:token) { "xyz123" }
   let(:destination) { "https://example.com/upload/#{token}" }
   let(:upload_link) do
-    Storages::UploadLink.new("https://example.com/upload/#{token}")
+    Storages::UploadLink.new("https://example.com/upload/#{token}", :post)
   end
   let(:representer) { described_class.new(upload_link, current_user: user) }
 
