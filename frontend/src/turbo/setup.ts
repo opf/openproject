@@ -8,8 +8,9 @@ import { applyTurboNavigationPatch } from './turbo-navigation-patch';
 import { debugLog, whenDebugging } from 'core-app/shared/helpers/debug_output';
 import { TURBO_EVENTS } from './constants';
 
-// Disable default turbo-drive for now as we don't need it for now AND it breaks angular routing
-Turbo.session.drive = false;
+Turbo.session.drive = true;
+Turbo.setProgressBarDelay(100);
+
 // Start turbo
 Turbo.start();
 

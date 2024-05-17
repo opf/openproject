@@ -38,8 +38,6 @@ See COPYRIGHT and LICENSE files for more details.
   <!-- page specific tags -->
   <%= content_for(:header_tags) if content_for?(:header_tags) %>
   <meta name="current_menu_item" content="<%= current_menu_item %>"/>
-  <%# Disable prefetching while we have data-turbo=false on body %>
-  <meta name="turbo-prefetch" content="false">
 </head>
 <body
   class="<%= body_css_classes %> __overflowing_element_container __overflowing_body"
