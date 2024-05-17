@@ -360,11 +360,11 @@ pt-PT:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
+              learn_about_link: https://www.openproject.org/docs/release-notes/14-1-0/
               new_features_html: >
-                A versão contém várias funcionalidades e melhorias novas: <br> <ul class="%{list_styling_class}"> <li>Implemente relatórios de progresso em hierarquias de pacotes de trabalho.</li> <li>Faça a gestão dos atributos do projeto de uma forma estruturada na página de visão geral do projeto.</li> <li>Veja de forma simplificada os campos personalizados na lista de projetos e na visão geral do projeto.</li> <li>Cabeçalhos de página unificados com o design elegante do Primer.</li> <li>Melhore as reuniões com novas funcionalidades, como carregamentos de anexos, responsáveis e histórico de reuniões.</li> <li>Receba alertas automáticos para armazenamentos de ficheiros não saudáveis e controle através de opções que pode ativar/desativar.</li> <li>Copie automaticamente a pasta do projeto gerida para o OneDrive/SharePoint ao copiar projetos.</li> <li>Peça aos administradores para removerem as partilhas dos pacotes de trabalho quando revogar a adesão a um projeto.</li> <li>Melhore o planeamento com modos de visualização de 4 e 8 semanas no planeador da equipa.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
     ical_sharing_modal:
       title: "Subscrever o calendário"
       inital_setup_error_message: "Ocorreu um erro ao recuperar os dados."

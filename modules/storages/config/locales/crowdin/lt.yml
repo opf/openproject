@@ -243,7 +243,7 @@ lt:
         name: OneDrive/SharePoint
         name_placeholder: pvz. OneDrive
     show_attachments_toggle:
-      description: Daktyvavus šią parinktį priedų sąrašas bus tik paslėptas. Redaktoriaus pagalba Įkelti failai bus įkeliami į vidinės saugyklos priedus.
+      description: 'Deactivating this option will hide the attachments list on the work packages files tab. The files attached in the description of a work package will still be uploaded in the internal attachments storage. '
       label: Rodyti priedus darbo paketų failų kortelėje
     storage_list_blank_slate:
       description: Pridėkite saugyklą, kad matytumėte ją čia.
