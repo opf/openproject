@@ -14,6 +14,8 @@ The **Project overview** page is a dashboard with important information about yo
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [What is the project overview?](#what-is-the-project-overview) | What can I do with the project overview page?                |
 | [Project attributes](#project-attributes)                    | What are project attributes and how can I use them?          |
+| [Mark project as a favorite](#mark-a-project-as-favorite)    | How can I mark a project as favorite?                        |
+| [Archive a project](#archive-a-project)                      | How can I archive a project from the project overview page?  |
 | [Widgets](#widgets)                                          | What are widgets, and how can I add them to my project overview page? |
 | [Project status](#project-status)                            | Set your project status                                      |
 | [Available project overview widgets](#available-project-overview-widgets) | What kind of widgets can I add to the project overview?      |
@@ -22,29 +24,54 @@ The **Project overview** page is a dashboard with important information about yo
 
 ## What is the project overview?
 
-The project overview is a single dashboard page where all important information of a selected project can be displayed. The idea is to provide a central repository of information for the whole project team.
+The project overview is a single dashboard page where all important information of a selected project can be displayed. The idea is to provide a central repository of information for the whole project team. 
 
-Project information is added to the dashboard as either [project attributes](#project-attributes) or [widgets](#widgets).
+Project information is added to the dashboard as either [project attributes](#project-attributes) or [widgets](#widgets). 
 
 Open the project overview by navigating to **Overview** in the project menu on the left.
 
-![project_overview](project_overview.png)
+![project_overview](openproject_user_guide_project_overview.png)
 
 ## Project attributes
 
-**[Project attributes]**(#project-attributes) are a set of project-level custom fields that let you display certain types of information relevant to your project.
+**Project attributes** are a set of project-level custom fields that let you display certain types of information relevant to your project.
 
 You will see a list of all available project attributes in a pane on the right side of of your Project overview page. They may be grouped in sections.
 
-![Project overview page showing project attributes on the right side](openproject_user_guide_project_overview_project_attributes_section.png)
+![Project overview page showing project attributes on the right side](openproject_user_guide_project_overview_project_attributes_section_new.png)
 
 To edit the value of any visible project attribute, click on the **Edit** (pencil) icon next to the name of the section containing that project attribute. A modal will be displayed with all the attributes in that section.
 
-![Edit a project attribute section on project overview page](openproject_user_guide_project_overview_project_attributes_section_edit.png)
+![Edit a project attribute section on project overview page](openproject_user_guide_project_overview_project_attributes_section_edit_new.png)
 
 Edit the values for each project attribute and click on **Save** to confirm and save your changes.
 
 >**Note:** If you are an instance admin and would like to create, modify or add project attributes, please read our [admin guide to project attributes](../../system-admin-guide/projects/project-attributes).
+
+### Project attribute settings 
+
+To adjust the the project attribute settings for a specific project click the **More** (three dots) icon and select *Manage project attributes*. This will lead you directly to the [project attribute settings](../projects/project-settings/project-attributes/).
+
+![Link to project attribute settings from project overview page in OpenProject](openproject_user_guide_project_overview_project_attributes_settings.png)
+
+>Note: This option is always available to instance and project administrators. It can also be activated for specific roles by enabling the *select_project_attributes* permission for that role via the [Roles and permissions page](../../system-admin-guide/users-permissions/roles-permissions/) in the administrator settings.
+
+## Mark a project as favorite
+
+You can mark the project as a *Favorite* by clicking the **Favorite** (star) icon in the upper right corner. The icon color will change to yellow and the project will be marked as favorite both on the overview page and in the projects list. Read more about [project lists](../projects/project-lists/). 
+
+![Mark a project as favorite in OpenProject](openproject_user_guide_project_overview_mark_favorite.png)
+
+To remove a project from favorites click the **Favorite** icon again. 
+
+## Archive a project 
+You can archive a project directly from the project overview page. To do that click the **More** (three dots) icon and select *Archive project*.
+
+![Archive a project on the project overview page in OpenProject](openproject_user_guide_project_overview_archive_project.png)
+
+>Note: This option is always available to instance and project administrators. It can also be activated for specific roles by enabling the *archive_project* permission for that role via the [Roles and permissions page](../../system-admin-guide/users-permissions/roles-permissions/) in the administrator settings.
+
+You can also archive a project under [project settings](../projects/#archive-a-project) or in a [projects list](../projects/project-lists/). 
 
 ## Widgets
 
@@ -54,15 +81,12 @@ To add a new widget:
 
 1. Choose the place where to add the new widget.
 
-To add a widget to the project overview, click on the **+ button** on the top right of the page.
+To add a widget to the project overview, hover around the existing widgets. The **+** icon will appear automatically. 
 
-![Overview-add-widget](Overview-add-widget-1573564870548.png)
+![Add a widget on the project overview page in OpenProject](openproject_user_guide_project_overview_add_widget_icon.png)
 
-2. Choose the location of the widget by clicking on one the **+** icons surrounding other widgets.
+2. Click the **+** icon and choose which kind of widget you want to add.
 
-   ![Choose widget location on the project overview page](openproject_user_guide_project_overview_select_widget_location.png)
-
-2. Choose which kind of widget you want to add.
 
 ![add widget](image-20191112142303373.png)
 
@@ -92,7 +116,7 @@ You can also add files to be displayed or attached to your project overview.
 
 You can add a widget which displays all project members and their corresponding role for this project on the project overview page. This includes both, groups and users (placeholders or registered).
 
-![project members](image-20191112134827557.png)
+![project members](openproject_user_guide_project_overview_project_members_widget.png)
 
 You can [add members to your project](../../getting-started/invite-members/) via the green **+ Member** button in the bottom left corner.
 
@@ -113,6 +137,8 @@ The description can be added or changed in the [project settings](../projects/pr
 ![project description widget](image-20191112143652698.png)
 
 ### Project details widget
+
+> **Important note**: Project details widget was replaced by [Project attributes](#project-attributes) in [OpenProject 14.0](../../release-notes/14-0-0/) and will be removed in the future.
 
 The project details widget displays all custom fields for projects, e.g. project owner, project due date, project number, or any other custom field for this project.
 
@@ -176,19 +202,17 @@ To configure the work package graph, click on the three dots in the top right co
 
 Select the **Axis criteria** to be displayed on the axis of the graph, e.g. Accountable, Priority, Status, Type.
 
-![axis criteria widget](image-20191112151252153.png)
+![axis criteria widget](openproject_user_guide_project_overview_axis_criteria_widget.png)
 
 Next, select the **Chart type** how the work package information shall be displayed, e.g. as a bar graph, a line, a pie chart.
-
-![chart type widget](image-20191112151204029.png)
 
 **Filter** the work packages for your chart.
 
 Click on the Filter tab in order to configure the work packages to be displayed, e.g. only work packages with the priority "high".
 
-![filter work package graph widget](image-20191112151535247.png)
+![filter work package graph widget](openproject_user_guide_project_overview_filter_criteria_widget.png)
 
-Click the blue **Apply** button to save your changes.
+Click the green**Apply** button to save your changes.
 
 If you want to replicate the widgets shown in the example in the screen-shot above:
 

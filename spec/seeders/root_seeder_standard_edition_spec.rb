@@ -82,6 +82,13 @@ RSpec.describe RootSeeder,
       expect(default_modules).to include("reporting_module")
     end
 
+    it "creates a structured meeting of 1h duration" do
+      expect(StructuredMeeting.count).to eq 1
+      expect(StructuredMeeting.last.duration).to eq 1.0
+      expect(MeetingAgendaItem.count).to eq 9
+      expect(MeetingAgendaItem.sum(:duration_in_minutes)).to eq 60
+    end
+
     it "creates different types of queries" do
       count_by_type = View.group(:type).count
       expect(count_by_type).to eq(
