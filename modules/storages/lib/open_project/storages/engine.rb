@@ -129,9 +129,18 @@ module OpenProject::Storages
       # Independent of storages module (Disabling storages module does not revoke enabled permissions).
       project_module nil, order: 100 do
         permission :manage_storages_in_project,
-                   { "storages/admin/project_storages": %i[index members new
-                                                           edit update create oauth_access_grant
-                                                           destroy destroy_info set_permissions],
+                   { "storages/admin/project_storages": %i[external_file_storages
+                                                           attachments
+                                                           members
+                                                           index
+                                                           new
+                                                           edit
+                                                           update
+                                                           create
+                                                           oauth_access_grant
+                                                           destroy
+                                                           destroy_info
+                                                           set_permissions],
                      "storages/project_settings/project_storage_members": %i[index] },
                    permissible_on: :project,
                    dependencies: %i[]
@@ -159,9 +168,6 @@ module OpenProject::Storages
         end
       end
 
-      # Menu extensions
-      # Add a "storages_admin_settings" to the admin_menu with the specified link,
-      # condition ("if:"), caption and icon.
       menu :admin_menu,
            :files,
            { controller: "/storages/admin/storages", action: :index },
@@ -185,7 +191,7 @@ module OpenProject::Storages
 
       menu :project_menu,
            :settings_project_storages,
-           { controller: "/storages/admin/project_storages", action: "index" },
+           { controller: "/storages/admin/project_storages", action: "external_file_storages" },
            if: lambda { |project| User.current.allowed_in_project?(:manage_storages_in_project, project) },
            caption: :project_module_storages,
            parent: :settings

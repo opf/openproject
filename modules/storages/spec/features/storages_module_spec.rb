@@ -133,7 +133,7 @@ RSpec.describe "Storages module", :js, :with_cuprite do
     context "when showing project storages settings page" do
       context "when storages module is enabled" do
         before do
-          visit project_settings_project_storages_path(project)
+          visit external_file_storages_project_settings_project_storages_path(project)
         end
 
         it "must show the page" do
@@ -153,7 +153,7 @@ RSpec.describe "Storages module", :js, :with_cuprite do
               expect(page).to have_text(I18n.t(:project_module_storages))
             end
 
-            visit project_settings_project_storages_path(project)
+            visit external_file_storages_project_settings_project_storages_path(project)
 
             expect(page).to have_text(I18n.t("project_module_storages"))
           end
@@ -170,7 +170,7 @@ RSpec.describe "Storages module", :js, :with_cuprite do
               expect(page).to have_no_text(I18n.t(:project_module_storages))
             end
 
-            visit project_settings_project_storages_path(project)
+            visit external_file_storages_project_settings_project_storages_path(project)
 
             expect(page).to have_no_text(I18n.t("project_module_storages"))
             expect(page).to have_text("[Error 403] You are not authorized to access this page.")
