@@ -144,6 +144,9 @@ module OpenProject::Storages
                      "storages/project_settings/project_storage_members": %i[index] },
                    permissible_on: :project,
                    dependencies: %i[]
+        OpenProject::Storages::Engine.permissions.each do |p|
+          permission(p, {}, permissible_on: :project, dependencies: %i[])
+        end
       end
 
       # Dependent on work_package_tracking module
@@ -158,14 +161,6 @@ module OpenProject::Storages
                    permissible_on: :project,
                    dependencies: %i[view_file_links],
                    contract_actions: { file_links: %i[manage] }
-      end
-
-      # Dependent on storages module (Disabling storages module does revoke enabled permissions).
-      project_module :storages,
-                     dependencies: :work_package_tracking do
-        OpenProject::Storages::Engine.permissions.each do |p|
-          permission(p, {}, permissible_on: :project, dependencies: %i[])
-        end
       end
 
       menu :admin_menu,
