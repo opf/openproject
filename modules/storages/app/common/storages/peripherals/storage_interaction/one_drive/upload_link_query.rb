@@ -33,26 +33,22 @@ module Storages
     module StorageInteraction
       module OneDrive
         class UploadLinkQuery
+          def self.call(storage:, auth_strategy:, upload_data:)
+            new(storage).call(auth_strategy:, upload_data:)
+          end
+
           def initialize(storage)
             @storage = storage
-            @uri = storage.uri
           end
 
-          def self.call(storage:, user:, data:)
-            new(storage).call(user:, data:)
-          end
+          def call(auth_strategy:, upload_data:)
+            return upload_data_failure if invalid?(upload_data:)
 
-          def call(user:, data:)
-            folder, filename = data.slice("parent", "file_name").values
-
-            Util.using_user_token(@storage, user) do |token|
-              response = OpenProject.httpx
-                           .with(headers: { "Authorization" => "Bearer #{token.access_token}",
-                                            "Content-Type" => "application/json" })
-                           .post(
-                             Util.join_uri_path(@uri, uri_path_for(folder, filename)),
-                             json: payload(filename)
-                           )
+            Authentication[auth_strategy].call(storage: @storage) do |http|
+              response = http.post(
+                Util.join_uri_path(@storage.uri, uri_path_for(upload_data.folder_id, upload_data.file_name)),
+                json: payload(upload_data.file_name)
+              )
 
               handle_response(response)
             end
@@ -60,26 +56,36 @@ module Storages
 
           private
 
+          def upload_data_failure
+            Util.failure(code: :error,
+                         data: StorageErrorData.new(source: self.class),
+                         log_message: "Invalid upload data!")
+          end
+
+          def invalid?(upload_data:)
+            upload_data.folder_id.blank? || upload_data.file_name.blank?
+          end
+
           def payload(filename)
             { item: { "@microsoft.graph.conflictBehavior" => "rename", name: filename } }
           end
 
           def handle_response(response)
-            data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
+            data = StorageErrorData.new(source: self.class, payload: response)
 
             case response
             in { status: 200..299 }
               upload_url = response.json(symbolize_keys: true)[:uploadUrl]
-              ServiceResult.success(result: ::Storages::UploadLink.new(URI(upload_url), :put))
-            in { status: 404 }
+              ServiceResult.success(result: UploadLink.new(URI(upload_url), :put))
+            in { status: 404 | 400 } # not existent parent folder in request url is responded with 400
               ServiceResult.failure(result: :not_found,
-                                    errors: ::Storages::StorageError.new(code: :not_found, data:))
+                                    errors: StorageError.new(code: :not_found, data:))
             in { status: 401 }
               ServiceResult.failure(result: :unauthorized,
-                                    errors: ::Storages::StorageError.new(code: :unauthorized, data:))
+                                    errors: StorageError.new(code: :unauthorized, data:))
             else
               ServiceResult.failure(result: :error,
-                                    errors: ::Storages::StorageError.new(code: :error, data:))
+                                    errors: StorageError.new(code: :error, data:))
             end
           end
 

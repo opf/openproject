@@ -27,5 +27,5 @@
 #++
 
 module Storages
-  UploadLink = Data.define(:destination, :method)
+  UploadData = Data.define(:folder_id, :file_name)
 end
