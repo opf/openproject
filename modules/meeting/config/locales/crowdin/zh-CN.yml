@@ -124,8 +124,9 @@ zh-CN:
       structured_text_copy: "目前复制会议不会复制相关会议的议程项目，只会复制会议的详细信息。"
     copied: "从会议 #%{id} 复制"
   meeting_section:
-    default_title: "新建章节"
-    untitled_title: "无标题"
+    untitled_title: "Untitled section"
+    delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
+    placeholder_title: "New section"
     empty_text: "拖动项目到此处或创建一个新项目"
   notice_successful_notification: "通知发送成功"
   notice_timezone_missing: 没有设定时区，预设时区为 %{zone}。要选择您的时区，请单击此处。

@@ -360,11 +360,11 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
+              learn_about_link: https://www.openproject.org/docs/release-notes/14-1-0/
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>작업 패키지 계층 구조 전반에서 진행률 보고를 구현합니다.</li> <li>프로젝트 개요 페이지에서 프로젝트 특성을 체계적으로 관리합니다.</li> <li>프로젝트 목록과 프로젝트 개요에서 사용자 지정 필드의 보기가 간소화되었습니다.</li> <li>세련된 Primer 디자인을 갖춘 통합된 페이지 헤더가 있습니다.</li> <li>첨부 파일 업로드, 책임자, 미팅 기록과 같은 새로운 기능으로 미팅을 개선합니다.</li> <li>비정상적인 파일 저장소에 대한 자동 알림을 받고 토글 옵션으로 제어합니다.</li> <li>프로젝트를 복사할 때 OneDrive/SharePoint의 자동으로 관리되는 프로젝트 폴더를 복사합니다.</li> <li>프로젝트 멤버십을 취소할 때 작업 패키지의 공유를 제거하려면 관리자에게 요청합니다.</li> <li>팀 플래너에서 4주 및 8주 표시 모드로 계획을 개선합니다.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
     ical_sharing_modal:
       title: "캘린더 구독"
       inital_setup_error_message: "데이터를 가져오는 중에 오류가 발생했습니다."

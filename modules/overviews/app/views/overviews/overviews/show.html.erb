@@ -3,7 +3,13 @@
 <% end -%>
 
 <%=
-  render(Primer::OpenProject::PageHeader.new(data: { turbo: true })) do |header|
+  render(Primer::OpenProject::PageHeader.new(
+    data: {
+      'controller': 'overview-header',
+      'application-target': 'dynamic',
+      turbo: true
+    }
+  )) do |header|
     header.with_title(variant: :medium) { t("overviews.label") }
     header.with_breadcrumbs(
       [

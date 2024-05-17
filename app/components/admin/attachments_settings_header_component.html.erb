@@ -30,10 +30,10 @@ See COPYRIGHT and LICENSE files for more details.
 <% helpers.html_title t(:label_administration), @title %>
 
 <%= render(Primer::OpenProject::PageHeader.new(border_bottom: 0)) do |header| %>
-  <% header.with_title { @title } %>
+  <% header.with_title { t(:"attributes.attachments") } %>
   <% header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
                               { href: admin_settings_storages_path, text: t("project_module_storages") },
-                              @title]) %>
+                              t(:"attributes.attachments")]) %>
 <% end %>
 
 <%= render(Primer::Alpha::TabNav.new(label: "label")) do |component|

@@ -28,7 +28,15 @@
 
 module MeetingSections
   class CreateContract < BaseContract
-    validate :user_allowed_to_add, :validate_meeting_existence
+    # Note:
+    # the CreateContract is currently only called internally in the create action which substitutes the new action
+    # of the controller. The contract is not used in the context of a form.
+    # Only the UpdateContract is used alongside a user facing form.
+    # Thus we're not validating for title presence here, which enables us to create a section without a title which is required for
+    # the current UX implementation
+
+    validate :user_allowed_to_add,
+             :validate_meeting_existence
 
     def self.assignable_meetings(user)
       StructuredMeeting

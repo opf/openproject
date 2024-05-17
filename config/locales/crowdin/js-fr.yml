@@ -360,11 +360,11 @@ fr:
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
+              learn_about_link: https://www.openproject.org/docs/release-notes/14-1-0/
               new_features_html: >
-                Cette version contient plusieurs nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Implémentation des rapports de progression dans toutes les hiérarchies de lots de travaux.</li> <li>Gestion des attributs de projet de manière structurée sur la page d'aperçu du projet.</li> <li>Affichage simplifié des champs personnalisés dans la liste et l'aperçu du projet.</li> <li>En-têtes de page unifiés avec le design épuré de Primer.</li> <li>Amélioration des réunions avec de nouvelles fonctionnalités telles que les téléchargements de pièces jointes, les responsables et l'historique de réunion. </li> <li>Alertes automatiques pour les espaces de stockage de fichiers en mauvaise santé, et plus de contrôle avec des options d'activation/de désactivation de paramètres.</li> <li>Copie du dossier de projet géré automatiquement pour OneDrive/SharePoint lors de la copie de projets.</li> <li>Demande aux administrateurs de supprimer les partages des lots de travaux lors de la révocation de la participation à un projet.</li> <li>Amélioration de la planification avec des modes d'affichage sur 4 et 8 semaines dans le planificateur de l'équipe.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
     ical_sharing_modal:
       title: "S'abonner au calendrier"
       inital_setup_error_message: "Une erreur est survenue lors de la récupération des données."

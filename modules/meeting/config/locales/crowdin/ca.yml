@@ -125,8 +125,9 @@ ca:
       structured_text_copy: "Actualment en copiar una reunió  no es copiaran els elements associats a l'agenda de la reunió, només els detalls."
     copied: "Copiat de la reunió #%{id}"
   meeting_section:
-    default_title: "Nova secció"
-    untitled_title: "Sense títol"
+    untitled_title: "Untitled section"
+    delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
+    placeholder_title: "New section"
     empty_text: "Arrossega els elements aquí o crea un de nou"
   notice_successful_notification: "Notificació enviada correctament"
   notice_timezone_missing: No s'ha configurat la zona horària i la %{zone} és assumida. Per seleccionar la teva zona horària, si us plau, fes clic aquí.

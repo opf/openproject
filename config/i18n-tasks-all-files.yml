@@ -1,0 +1,21 @@
+# i18n-tasks finds and manages missing and unused translations: https://github.com/glebm/i18n-tasks
+#
+# This configuration file is only used to check interpolations consistency with command
+# `i18n-tasks check-consistent-interpolations --config config/i18n-tasks-all-files.yml`
+
+data:
+  # Locale files patterns where translations are read from:
+  read:
+    - config/locales/en.seeders.yml
+    - config/locales/en.yml
+    - config/locales/js-en.yml
+    - config/locales/crowdin/%{locale}.seeders.yml
+    - config/locales/crowdin/%{locale}.yml
+    - config/locales/crowdin/js-%{locale}.yml
+    - config/locales/generated/%{locale}.yml
+    - modules/*/config/locales/en.seeders.yml
+    - modules/*/config/locales/en.yml
+    - modules/*/config/locales/js-en.yml
+    - modules/*/config/locales/crowdin/%{locale}.seeders.yml
+    - modules/*/config/locales/crowdin/%{locale}.yml
+    - modules/*/config/locales/crowdin/js-%{locale}.yml

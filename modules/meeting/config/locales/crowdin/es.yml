@@ -125,8 +125,9 @@ es:
       structured_text_copy: "Copiar una reunión no copiará actualmente los elementos asociados de la agenda de la reunión, solo los detalles"
     copied: "Copiado de la reunión %{id}"
   meeting_section:
-    default_title: "Nueva sección"
-    untitled_title: "Sin título"
+    untitled_title: "Untitled section"
+    delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
+    placeholder_title: "New section"
     empty_text: "Arrastre los elementos aquí o cree uno nuevo"
   notice_successful_notification: "Notificación enviada correctamente"
   notice_timezone_missing: No se ha establecido zona horaria y se asume %{zone}. Para elegir su zona horaria, por favor, haga clic aquí.
