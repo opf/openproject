@@ -22,7 +22,7 @@ Your projects can be available publicly or internally. OpenProject does not limi
 
 ## Select project lists
 
-There are several ways to get an overview of all your projects. You can press the **Project lists** button at the bottom of the **Select a project** menu in the top left header navigation.
+There are several ways to get an overview of all your projects. You can press the **Project lists** button at the bottom of the **Select a project** menu in the top left header navigation. You can search through the projects or use the **Favorites** button to find your projects quicker.
 
 ![project lists button](Project-list-button.png)
 
@@ -40,13 +40,17 @@ You can use the Project overview page to **create a multi-project status dashboa
 
 > **Please note:** Project attributes are an Enterprise add-on and will only be displayed here for Enterprise on-premises and Enterprise cloud.
 
-Each project is displayed in a single line. For the the fields where the text is too long to be displayed completely, please use the **Expand** link.
+Each project is displayed in a single line, starting with the **Favorite** column, marking favorite projects. For the the fields where the text is too long to be displayed completely, please use the **Expand** icon.
 
 ![Open a project description in the project lists view in OpenProject](expand-link-project-description.png)
 
-With the horizontal **three dots** icon on the right side of the list you can open **further features**, such as [creating a new subproject](../#create-a-subproject), [project settings](../project-settings), [archiving a project](../#archive-a-project), [copying](../#copy-a-project) and [deleting a project](../#delete-a-project). Please note that you have to be a System Administrator in OpenProject to access these features. Find out how to un-archive projects [here](../#archive-a-project).
+With the horizontal **three dots** icon on the right side of the list you can open **further features**, such as [creating a new subproject](../#create-a-subproject), [project settings](../project-settings), [add a project to favorites](../../project-overview/#mark-a-project-as-favorite), [archiving a project](../#archive-a-project), [copying](../#copy-a-project) and [deleting a project](../#delete-a-project). Please note that you have to be a System Administrator in OpenProject to access these features. Find out how to un-archive projects [here](../#archive-a-project).
 
 ![new subproject project list](new-subproject-project-list.png)
+
+
+
+## Configure project lists view
 
 You can choose the **columns displayed by default** in the [Project lists settings](../../../system-admin-guide/projects/project-lists) in the Administration.
 
@@ -54,11 +58,29 @@ You can add the columns, as well as define the order of the columns by using the
 
 ![Configure view of project lists in OpenProject](configure-view-project-list.png)
 
-A dialogue will open, allowing you to manage and reorder columns. Click **Apply** to see the changes.
+A dialogue will open, allowing you to manage and reorder columns under the tab *Columns*.
 
 ![Configuration form for project lists in OpenProject](configure-view-form-project-list.png)
 
 To change the order of the displayed [project attributes](../../../system-admin-guide/projects/project-lists) (columns) follow the instructions here: [Displaying a project attribute (formerly called custom field)](../../../system-admin-guide/projects/project-lists).
+
+Under the tab *Sort* you can select the sort order for the project lists. You can select up to three criteria and define the sorting order (ascending or descending). You will be able to change the sorting order later by clicking the column header.
+
+![Define sort order for project lists in OpenProject](configure-view-form-project-list-sort-order.png)
+
+ Click **Apply** to see the changes.
+
+If the list that you were adjusting is a private list, you will then be able to save the changes to that list by clicking the *Save* link. Alternatively you can click the *More* icon and select the *Save as* option from the dropdown menu that will open and save it under a different name. 
+
+**Note:** The *Save as* option in the *More* dropdown menu is always available. The *Save* action will not be visible if you are working with a static list, which can not be modified.
+
+![Save a project list view in OpenProject](save-link-project-list.png)
+
+You will then need to name the project list and click the green **Save** button. 
+
+![Name and save a new project list in OpenProject](name-new-project-list.png)
+
+If it is a newly created list then it will appear under **My private project lists**, same as if you adjust the filters and save the list.
 
 ### Project lists filters
 
@@ -66,11 +88,13 @@ Projects can be filtered in OpenProject. The default view will list all currentl
 
 **Active projects** - returns all projects that are active, of which you are a member or have the right to see.
 
+**Favorite projects** - returns all projects that you marked as favorite. 
+
 **My projects** - returns all active projects that you are a member of.
 
 **Archived projects** - returns all projects that are not active, of which you were a member or have the right to see.
 
-**My private project lists** - shows all the project filters that you have customized and saved.
+**My private project lists** - shows all the project lists that you have customized and saved.
 
 **Project status** - includes projects filters based on a project status.
 
