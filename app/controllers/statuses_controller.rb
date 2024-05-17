@@ -61,7 +61,7 @@ class StatusesController < ApplicationController
   def update
     @status = Status.find(params[:id])
     if @status.update(permitted_params.status)
-      apply_status_p_complete_change
+      recompute_progress_values
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: "index"
     else
@@ -97,6 +97,11 @@ class StatusesController < ApplicationController
     true
   end
 
+  def recompute_progress_values
+    apply_status_p_complete_change
+    apply_status_excluded_from_totals_change
+  end
+
   def apply_status_p_complete_change
     return unless WorkPackage.use_status_for_done_ratio?
     return unless @status.default_done_ratio_previously_changed?
@@ -106,5 +111,15 @@ class StatusesController < ApplicationController
                      status_name: @status.name,
                      status_id: @status.id,
                      change: @status.default_done_ratio_previous_change)
+  end
+
+  def apply_status_excluded_from_totals_change
+    return unless @status.excluded_from_totals_previously_changed?
+
+    WorkPackages::Progress::ApplyStatusesChangeJob
+      .perform_later(cause_type: "status_excluded_from_totals_changed",
+                     status_name: @status.name,
+                     status_id: @status.id,
+                     change: @status.excluded_from_totals_previous_change)
   end
 end

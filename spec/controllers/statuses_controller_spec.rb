@@ -180,7 +180,40 @@ RSpec.describe StatusesController do
         end
       end
 
-      context "when changing something else than the default % complete" do
+      context "when marking a status as excluded from totals calculations" do
+        before_all do
+          status.update_columns(name: "Rejected",
+                                default_done_ratio: 70)
+        end
+
+        shared_let(:status_new) { create(:status, name: "New", default_done_ratio: "0") }
+        shared_let_work_packages(<<~TABLE)
+          hierarchy     | status   | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+          parent        | New      |      |                |            |    20h |              16h |          20%
+            child       | Rejected |  10h |             3h |        70% |        |                  |
+            other child | New      |  10h |            10h |         0% |        |                  |
+        TABLE
+
+        let(:status_params) { { excluded_from_totals: true } }
+
+        it "starts a job to update totals of work packages having excluded children" do
+          expect(status.reload).to have_attributes(excluded_from_totals: true)
+          expect(WorkPackages::Progress::ApplyStatusesChangeJob)
+            .to have_been_enqueued.with(cause_type: "status_excluded_from_totals_changed",
+                                        status_name: status.name,
+                                        status_id: status.id,
+                                        change: [false, true])
+
+          perform_enqueued_jobs
+
+          expect(parent.reload.read_attribute(:derived_estimated_hours)).to eq(10)
+          expect(parent.reload.read_attribute(:derived_remaining_hours)).to eq(10)
+          expect(parent.reload.read_attribute(:derived_done_ratio)).to eq(0)
+          expect(parent.last_journal.details["cause"].last).to include("type" => "status_excluded_from_totals_changed")
+        end
+      end
+
+      context "when changing something else than default % complete or exclude from totals" do
         let(:status_params) { { name: "Another status name" } }
 
         it "does not start any jobs" do
