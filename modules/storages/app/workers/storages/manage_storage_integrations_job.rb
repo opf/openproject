@@ -46,7 +46,7 @@ module Storages
       enqueue_limit: 1,
       perform_limit: 1
     )
-    S
+
     retry_on GoodJob::ActiveJobExtensions::Concurrency::ConcurrencyExceededError,
              wait: 5.minutes,
              attempts: 3
