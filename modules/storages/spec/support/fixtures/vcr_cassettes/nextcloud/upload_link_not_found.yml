@@ -1,0 +1,81 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://nextcloud.local/index.php/apps/integration_openproject/direct-upload-token
+    body:
+      encoding: UTF-8
+      string: '{"folder_id":"1337"}'
+    headers:
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      User-Agent:
+      - httpx.rb/1.2.4
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '20'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 06 May 2024 11:12:05 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=9a3a3251b7cbc187c00088e78e17bbff; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=o33JRPalseuNRiLljFz48RATptI5WxIDBH2576Qd92Sf%2B9jkCDw%2FhDd1zftzb0J5cuM7BpwRx0jEHk0p7OtkL5WsP1VbuqaGfXYXADJYFpG2t2AmZA1YGOK%2FpK%2FpkXPx;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=9a3a3251b7cbc187c00088e78e17bbff;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=9a3a3251b7cbc187c00088e78e17bbff;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=9a3a3251b7cbc187c00088e78e17bbff;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=9a3a3251b7cbc187c00088e78e17bbff;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=9a3a3251b7cbc187c00088e78e17bbff;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=9a3a3251b7cbc187c00088e78e17bbff;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=9a3a3251b7cbc187c00088e78e17bbff;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=9a3a3251b7cbc187c00088e78e17bbff;
+        path=/; secure; HttpOnly; SameSite=Lax
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.18
+      X-Request-Id:
+      - 9fSF5aVVJdSy1S96TnLg
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '54'
+    body:
+      encoding: UTF-8
+      string: '{"error":"folder not found or not enough permissions"}'
+  recorded_at: Mon, 06 May 2024 11:12:05 GMT
+recorded_with: VCR 6.2.0
