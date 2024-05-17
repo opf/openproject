@@ -31,7 +31,7 @@
 module Admin
   module Settings
     module ProjectCustomFields
-      class ProjectAttributeDetailHeaderComponent < ApplicationComponent
+      class ProjectAttributeDetailHeaderComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
         TAB_NAVS = %i[
           project_custom_field_edit
           project_custom_field_project_mappings

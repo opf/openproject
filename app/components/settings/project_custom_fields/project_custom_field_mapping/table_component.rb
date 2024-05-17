@@ -29,7 +29,7 @@
 module Settings
   module ProjectCustomFields
     module ProjectCustomFieldMapping
-      class TableComponent < Projects::TableComponent
+      class TableComponent < Projects::TableComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
       end
     end
   end

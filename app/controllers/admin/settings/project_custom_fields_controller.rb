@@ -34,11 +34,13 @@ module Admin::Settings
 
     menu_item :project_custom_fields_settings
 
+    # rubocop:disable Rails/LexicallyScopedActionFilter
     before_action :set_sections, only: %i[show index edit update move drop]
     before_action :find_custom_field,
                   only: %i(show edit project_mappings unlink update destroy delete_option reorder_alphabetical move drop)
     before_action :prepare_custom_option_position, only: %i(update create)
     before_action :find_custom_option, only: :delete_option
+    # rubocop:enable Rails/LexicallyScopedActionFilter
 
     def show_local_breadcrumb
       false
