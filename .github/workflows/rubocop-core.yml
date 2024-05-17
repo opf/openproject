@@ -2,11 +2,6 @@ name: rubocop
 
 on:
   pull_request:
-    branches:
-      - dev
-      - release/*
-    paths:
-      - '**.rb'
 
 jobs:
   rubocop:
@@ -14,12 +9,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+      - name: Fetch all commits for PR branch plus head commit of base branch
+        run: |
+          # fetch all commits of the PR branch
+          git fetch --shallow-exclude "${{ github.base_ref }}" origin "${{ github.ref }}"
+          # fix for "fatal: error in object: unshallow"
+          git repack -d
+          # fetch head commit of base branch
+          git fetch --deepen 1 origin "${{ github.ref }}"
       - uses: ruby/setup-ruby@v1
-      - uses: opf/action-rubocop@v2
+      - uses: opf/action-rubocop@master
         with:
           github_token: ${{ secrets.github_token }}
           rubocop_version: gemfile
-          rubocop_extensions: rubocop-rails:gemfile rubocop-rspec:gemfile
+          rubocop_extensions: rubocop-inflector:gemfile rubocop-performance:gemfile rubocop-rails:gemfile rubocop-rspec:gemfile
           reporter: github-pr-check
+          only_changed: true

@@ -330,7 +330,6 @@
       project_roles: "Prosjekt roller"
       wp_shares: "Delte arbeidspakker"
       groups: "Grupper"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Fjern medlem"
       will_remove_the_users_role: "Dette vil fjerne brukerens rolle fra dette prosjektet."
@@ -1786,6 +1785,7 @@
   label_attribute_expand_text: "Den fullstendige teksten for '%{attribute}'"
   label_authentication: "Autentisering"
   label_available_global_roles: "Tilgjengelige globale roller"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Tilgjengelige forum"
   label_available_project_repositories: "Tilgjengelige kodelager"
   label_available_project_versions: "Tilgjengelige versjoner"

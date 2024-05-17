@@ -328,7 +328,6 @@ ja:
       project_roles: "Project roles"
       wp_shares: "Work package shares"
       groups: "グループ"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -1749,6 +1748,7 @@ ja:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "認証"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "利用可能なフォーラム"
   label_available_project_repositories: "使用できるリポジトリ"
   label_available_project_versions: "利用できるバージョン"

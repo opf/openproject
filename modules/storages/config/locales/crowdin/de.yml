@@ -39,7 +39,7 @@ de:
   api_v3:
     errors:
       too_many_elements_created_at_once: Zu viele Elemente gleichzeitig erstellt. Maximal %{max} erwartet, %{actual} bekommen.
-  external_file_storages: External file storages
+  external_file_storages: Externe Dateispeicher
   permission_create_files: 'Externe Speicherung: Dateien erstellen'
   permission_delete_files: 'Externe Speicherung: Dateien löschen'
   permission_header_for_project_module_storages: Automatisch verwaltete Projektordner
@@ -49,7 +49,7 @@ de:
   permission_share_files: 'Externe Speicherung: Dateien teilen'
   permission_view_file_links: Datei-Links anzeigen
   permission_write_files: 'Externe Speicherung: Dateien schreiben'
-  project_module_storages: Files
+  project_module_storages: Dateien
   storages:
     buttons:
       complete_without_setup: Ohne fortfahren
@@ -243,8 +243,8 @@ de:
         name: OneDrive/SharePoint
         name_placeholder: z.B. OneDrive
     show_attachments_toggle:
-      description: Deactivating this option will only hide the attachments list. Files uploaded with the help of the rich text editor will still be uploaded to the attachments internal storage.
-      label: Show attachments in the work packages files tab
+      description: Wenn Sie diese Option deaktivieren, wird nur die Liste der Anhänge ausgeblendet. Dateien, die mit Hilfe des WYSIWYG-Editors hochgeladen werden, werden weiterhin in den internen Speicher der Anhänge hochgeladen.
+      label: Anhänge auf dem Dateien-Tab der Arbeitspakete anzeigen
     storage_list_blank_slate:
       description: Fügen Sie einen Dateispeicher hinzu, um ihn hier zu sehen.
       heading: Sie haben noch keine Dateispeicher.

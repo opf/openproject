@@ -22,7 +22,7 @@
 ms:
   js:
     ajax:
-      hide: "Sembunyikan"
+      hide: "Sorokkan"
       loading: "Memuatkan..."
       updating: "Mengemas kini..."
     attachments:
@@ -31,7 +31,7 @@ ms:
         Adakah anda pasti anda ingin memadam fail ini? Tindakan ini tidak boleh dikembalikan.
       draggable_hint: |
         Tarik ruang pengedit ke imej sebaris atau lampiran rujukan. Ruang pengedit yang ditutup akan dibuka semasa anda menariknya.
-      quarantined_hint: "Fail ini telah dikuarantin kerana virus ditemui. Ia tidak tersedia untuk dimuat turun."
+      quarantined_hint: "Fail ini telah dikuarantin kerana virus telah ditemui. Ia tidak tersedia untuk dimuat turun."
     autocomplete_ng_select:
       add_tag: "Tambah item"
       clear_all: "Padam semua"
@@ -45,17 +45,17 @@ ms:
       remove: "Keluarkan %{name}"
       active: "%{name} %{label} aktif "
     backup:
-      attachments_disabled: Lampiran mungkin tidak akan dimasukkan kerana ia melebihi saiz maksimum keseluruhan yang dibenarkan. Anda boleh mengubah ini melalui konfigurasi (memerlukan server untuk dimulakan semula).
+      attachments_disabled: Lampiran mungkin tidak akan disertakan kerana ia melebihi saiz maksimum keseluruhan yang dibenarkan. Anda boleh mengubah ini melalui konfigurasi (memerlukan server untuk dimulakan semula).
       info: >
-        Anda boleh meminta sokongan disini. Proses akan mengambil sedikit masa bergantung kepada jumlah data (terutamanya lampiran) anda ada. Anda akan menerima e-mel apabila ianya sedia.
+        Anda boleh mencetuskan sandaran disini. Proses tersebut akan mengambil sedikit masa bergantung kepada jumlah data (terutamanya lampiran) yang anda ada. Anda akan menerima e-mel apabila ianya telah disediakan.
       note: >
-        Sokongan baharu akan mengatasi mana-mana yang terdahulu. Hanya beberapa bilangan sokongan yang terhad boleh diminta mengikut hari.
-      last_backup: Sokongan terakhir
-      last_backup_from: Sokongan terakhir daripada
+        Sandaran baharu akan mengatasi mana-mana yang terdahulu. Hanya beberapa bilangan sandaran yang terhad boleh diminta mengikut hari.
+      last_backup: Sandaran terakhir
+      last_backup_from: Sandaran terakhir daripada
       title: Sandaran OpenProject
       options: Pilihan
       include_attachments: Sertakan lampiran
-      download_backup: Muat turun sokongan
+      download_backup: Muat turun sandaran
       request_backup: Minta sandaran
     close_popup_title: "Tutup pop timbul"
     close_filter_title: "Tutup penyaring"
@@ -98,7 +98,7 @@ ms:
     button_show_gantt: "Paparkan paparan Gantt"
     button_show_fullscreen: "Paparkan paparan skrin penuh"
     button_more_actions: "Tindakan lebih lanjut"
-    button_quote: "Sebut harga"
+    button_quote: "Petikan"
     button_save: "Simpan"
     button_settings: "Tetapan"
     button_uncheck_all: "Nyahtandakan semua"
@@ -109,7 +109,7 @@ ms:
     card:
       add_new: "Tambah kad baharu"
       highlighting:
-        inline: "Serlahkan barisan:"
+        inline: "Sorotkan barisan:"
         entire_card_by: "Keseluruhan kad dengan"
       remove_from_list: "Keluarkan kad dari senarai"
     caption_rate_history: "Sejarah kadar"
@@ -133,7 +133,7 @@ ms:
         dataset: "Set data %{number}"
       errors:
         could_not_load: "Data untuk paparkan graf tidak dapat dimuatkan. Kebenaran yang diperlukan mungkin kurang."
-    description_available_columns: "Lajur Tersedia"
+    description_available_columns: "Kolum Tersedia"
     description_current_position: "Anda di sini: "
     description_select_work_package: "Pilih pakej kerja #%{id}"
     description_subwork_package: "Anak kepada pakej kerja #%{id}"
@@ -149,29 +149,29 @@ ms:
         error: "Tidak dapat kembangkan macro: %{message}"
         attribute_reference:
           macro_help_tooltip: "Bahagian teks ini sedang dihasilkan secara dinamik oleh makro."
-          not_found: "Sumber yang diminta tidak dapat dijumpai"
+          not_found: "Sumber yang diminta tidak dapat ditemui"
           invalid_attribute: "Atribut yang dipilih '%{name}' tidak wujud."
         child_pages:
           button: "Terpaut pada halaman anak"
           include_parent: "Termasuk induk"
-          text: "[Pengguna sementara] pautan ke halaman anak"
+          text: "[Placeholder] Pautan ke halaman anak"
           page: "Halaman wiki"
           this_page: "halaman ini"
           hint: |
             Tinggalkan ruangan ini kosong untuk senaraikan halaman-halaman anak daripada halaman semasa. Jika anda ingin merujuk ke halaman berbeza, sediakan tajuk atau slug.
         code_block:
-          button: "Masukkan kod potongan"
-          title: "Masukkan / edit snippet Code"
+          button: "Masukkan kod snippet"
+          title: "Masukkan / edit Kod snippet"
           language: "Bahasa pemformatan"
-          language_hint: "Masukkan pemformatan bahasa yang akan digunakan untuk penyerlahan (jika disokong)."
+          language_hint: "Masukkan pemformatan bahasa yang akan digunakan untuk penyorotan (jika disokong)."
         dropdown:
-          macros: "Macro-macro"
-          chose_macro: "Pilih macro"
+          macros: "Makro-makro"
+          chose_macro: "Pilih makro"
         toc: "Jadual kandungan"
-        toolbar_help: "Klik untuk memilih widget dan tunjuk toolbar. Klik dua kali untuk sunting widget"
+        toolbar_help: "Klik untuk memilih widget dan tunjuk toolbar. Klik dua kali untuk edit widget"
         wiki_page_include:
           button: "Sertakan kandungan halaman wiki lain"
-          text: "[Pengguna sementara] Termasuk halaman wiki"
+          text: "[Placeholder] Termasuk halaman wiki"
           page: "Halaman wiki"
           not_set: "(Halaman belum ditetapkan lagi)"
           hint: |
@@ -181,14 +181,14 @@ ms:
           button: "Masukkan butang cipta pakej kerja"
           type: "Jenis pakej kerja "
           button_style: "Guna gaya butang"
-          button_style_hint: "Opsyenal: Tanda untuk membuat macro muncul sebagai butang, bukan sebagai pautan."
+          button_style_hint: "Pilihan: Tanda untuk membuat makro muncul sebagai butang, bukan sebagai pautan."
           without_type: "Cipta pakej kerja"
           with_type: "Cipta pakej kerja (Jenis: %{typename})"
         embedded_table:
           button: "Sematkan jadual pakej kerja "
-          text: "[Sementara] Jadual pakej kerja yang tersemat"
+          text: "[Placeholder] Jadual pakej kerja yang tersemat"
         embedded_calendar:
-          text: "[Sementara] Kalendar yang tersemat"
+          text: "[Placeholder] Kalendar yang tersemat"
     admin:
       type_form:
         custom_field: "Ruang tersuai"
@@ -205,7 +205,7 @@ ms:
         trial:
           confirmation: "Pengesahan alamat e-mel "
           confirmation_info: >
-            Kami menghantar anda satu e-mel pada %{date} kepada %{email}. Sila semak peti masuk anda dan klik pautan pengesahan yang disediakan untuk memulakan percubaan 14 hari anda.
+            Kami telah menghantar satu e-mel kepada anda pada %{date} kepada %{email}. Sila semak peti masuk anda dan klik pautan pengesahan yang disediakan untuk memulakan percubaan 14 hari anda.
           form:
             general_consent: >
               Saya bersetuju dengan <a target="_blank" href="%{link_terms}">syarat-syarat perkhidmatan</a> dan <a target="_blank" href="%{link_privacy}">polisi privasi</a>.
@@ -218,11 +218,11 @@ ms:
             label_maximum_users: "Pengguna aktif maksimum"
             label_starts_at: "Mula pada"
             label_expires_at: "Tamat tempoh pada"
-            receive_newsletter: Saya ingin menerima <a target="_blank" href="%{link}">buletin</a> OpenProject.
-            taken_domain: Hanya boleh satu percubaan aktif setiap domain.
+            receive_newsletter: Saya ingin menerima <a target="_blank" href="%{link}">surat berita</a> OpenProject.
+            taken_domain: Hanya boleh mempunyai satu percubaan aktif setiap domain.
             domain_mismatch: Permintaan nama hos semasa tidak sepadan dengan nama hos yang dikonfigurasikan. Sila semak tetapan sistem anda sekali lagi.
             taken_email: Setiap pengguna hanya boleh mencipta satu percubaan.
-          email_not_received: "Anda tidak menerima sebarang e-mel? Anda boleh menghantar semula e-mel dengan pautan di kanan."
+          email_not_received: "Anda tidak menerima sebarang e-mel? Anda boleh menghantar semula e-mel menggunakan pautan di sebelah kanan."
           try_another_email: "Atau cuba dengan alamat e-mel yang lain."
           next_steps: "Langkah seterusnya"
           resend_link: "Hantar semula"
@@ -1056,7 +1056,7 @@ ms:
       sharing:
         share: "Kongsi"
         title: "Kongsi pakej kerja"
-        show_all_users: "Show all users with whom the work package has been shared with"
+        show_all_users: "Paparkan kepada semua pengguna dengan siapa pakej kerja telah dikongsikan"
         selected_count: "%{count} dipilih"
         selection:
           mixed: "Bercampur"

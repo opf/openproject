@@ -119,7 +119,7 @@ ms:
       webauthn:
         title: "WebAuthn"
         description: Gunakan Pengesahan Web untuk daftarkan peranti FIDO2 (seperti YubiKey) atau enclave yang selamat dari telefon bimbit anda sebagai faktor kedua.
-        further_steps: Setelah anda memilih nama, anda boleh klik butang Teruskan. Laman layar anda akan maklumkan kepada anda untuk mengemukakan peranti WebAuthn anda. Setelah berbuat demikian, pendaftaran peranti anda telah selesai.
+        further_steps: Setelah anda memilih nama, anda boleh klik butang Teruskan. Pelayar anda akan maklumkan kepada anda untuk mengemukakan peranti WebAuthn anda. Setelah berbuat demikian, pendaftaran peranti anda telah selesai.
       totp:
         title: "Gunakan pengesahan berasaskan aplikasi anda"
         provisioning_uri: "Peruntukan URI"

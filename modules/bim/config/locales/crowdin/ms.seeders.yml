@@ -95,7 +95,7 @@ ms:
               title: Selamat datang ke projek demo anda
               summary: |
                 Kami gembira anda menyertai kami.
-                Dalam modul ini, anda boleh menyampaikan berita projek ke ahli-ahli pasukan anda.
+                Dalam modul ini, anda boleh menyampaikan berita projek ke ahli pasukan anda.
               description: Berita sebenar
           categories:
             item_0: Kategori 1 (untuk diubah dalam tetapan Projek)
@@ -224,7 +224,7 @@ ms:
 
                     ## Deskripsi
 
-                    *   Mengenalpasti keperluan pelanggan dengan mengadakan bengkel bersama mereka
+                    *   Mengenal pasti keperluan pelanggan dengan mengadakan bengkel bersama mereka
                     *   Setiap keperluan akan mewakili satu tugasan dengan pakej tugasan yang sepadan
                     *   Memperolehi anggaran kos dan jangka waktu
                 item_1:
@@ -421,7 +421,7 @@ ms:
             item_1:
               name: Pencapaian
             item_2:
-              name: Tugasan
+              name: Tugasan-tugasan
             item_3:
               name: Perancang pasukan
           project-overview:

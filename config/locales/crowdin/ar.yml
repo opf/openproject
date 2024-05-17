@@ -330,7 +330,6 @@ ar:
       project_roles: "Project roles"
       wp_shares: "Work package shares"
       groups: "المجموعات"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -1918,6 +1917,7 @@ ar:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "المصادقة"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Available forums"
   label_available_project_repositories: "مستودعات البيانات المتوفرة"
   label_available_project_versions: "الإصدارات المتوفرة"

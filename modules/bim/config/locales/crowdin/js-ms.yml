@@ -11,7 +11,7 @@ ms:
       add_viewpoint: 'Tambah sudut pandangan'
       show_viewpoint: 'Paparkan sudut pandangan'
       delete_viewpoint: 'Padam sudut pandangan'
-      management: "Pengurusan BCF\n"
+      management: 'Pengurusan BCF'
       refresh: 'Muat semula '
       refresh_work_package: 'Muat semula pakej kerja'
     ifc_models:

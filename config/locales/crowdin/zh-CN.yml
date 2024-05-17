@@ -327,7 +327,6 @@ zh-CN:
       project_roles: "项目角色"
       wp_shares: "工作包共享"
       groups: "组"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "删除成员"
       will_remove_the_users_role: "这将从该项目中删除用户的角色。"
@@ -1749,6 +1748,7 @@ zh-CN:
   label_attribute_expand_text: "%{attribute}的完整文本"
   label_authentication: "身份验证"
   label_available_global_roles: "可用的全局角色"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "可用论坛"
   label_available_project_repositories: "可用存储库"
   label_available_project_versions: "可用版本"

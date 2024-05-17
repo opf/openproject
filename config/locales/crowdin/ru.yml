@@ -329,7 +329,6 @@ ru:
       project_roles: "Роли проекта"
       wp_shares: "Пакеты работ используемые совместно"
       groups: "Группы"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -1851,6 +1850,7 @@ ru:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Аутентификация"
   label_available_global_roles: "Доступные глобальные роли"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Доступные форумы"
   label_available_project_repositories: "Доступные репозитории"
   label_available_project_versions: "Имеющиеся этапы проекта"

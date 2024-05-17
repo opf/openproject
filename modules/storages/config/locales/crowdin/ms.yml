@@ -128,7 +128,7 @@ ms:
         application_link_text: aplikasi "Intergrasi OpenProject"
         integration: Pentadbiran Nextcloud / OpenProject
         oauth_configuration: Salin nilai-nilai ini daripada %{application_link_text}.
-        provider_configuration: 'Sila pastikan anda mempunyai hak keistimewaan pentadbir di, contohnya, Nextcloud, dan mempunyai aplikasi berikut dipasang sebelum membuat penyediaan:'
+        provider_configuration: 'Sila pastikan anda mempunyai hak keistimewaan pentadbir di, contohnya, Nextcloud, dan mempunyai aplikasi berikut dipasang sebelum membuat penyediaan: %{application_link_text}'
       no_specific_folder: Secara default, setiap pengguna akan bermula di folder utama mereka apabila ingin memuat naik fail.
       no_storage_set_up: Tiada file storan yang disediakan lagi.
       not_logged_into_storage: Untuk pilih folder projek, sila log masuk dahulu
@@ -138,12 +138,12 @@ ms:
         application_link_text: Portal Azure
         copy_redirect_uri: Salin ubah hala URI
         documentation_link_text: Dokumentasi storan fail OneDrive/SharePoint
-        drive_id: Sila salin ID daripada pemacu yang dikehendaki dengan mengikuti langkah-langkah di %{drive_id_link_text}
+        drive_id: Sila salin ID daripada pemacu yang dikehendaki dengan mengikuti langkah-langkah di %{drive_id_link_text}.
         integration: OneDrive/SharePoint
         missing_client_id_for_redirect_uri: Sila isikan nilai-nilai OAuth untuk menjana URI
         oauth_client_redirect_uri: Sila salin nilai ini ke URI ubah hala Web baharu di bawah URI Redirect.
         oauth_client_secret: Sekiranya tiada aplikasi rahsia pelanggan di bawah kelayakan Pelanggan, sila cipta yang baharu.
-        oauth_configuration: Salin nilai-nilai ini dari aplikasi yang diingini di %{application_link_text}
+        oauth_configuration: Salin nilai-nilai ini dari aplikasi yang diingini di %{application_link_text}.
         provider_configuration: Sila pastikan anda mempunyai hak pentadbiran dalam %{application_link_text} atau hubungi pentadbir Microsoft anda sebelum membuat penyediaan. Anda juga perlu mendaftar aplikasi Azure atau menggunakan yang sedia ada untuk pengesahan di portal.
         tenant_id: Sila salin ID Direktori (penyewa) dari aplikasi yang diingini dan pendaftaran aplikasi di %{application_link_text}.
         tenant_id_placeholder: Nama atau UUID

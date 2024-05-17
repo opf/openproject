@@ -329,7 +329,6 @@ hu:
       project_roles: "Projekt szerepkörök"
       wp_shares: "Munkacsomagok megosztása"
       groups: "Csoportok"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -1783,6 +1782,7 @@ hu:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Hitelesítés"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Elérhető fórumok"
   label_available_project_repositories: "Rendelkezésre álló tárolók"
   label_available_project_versions: "Rendelkezésre álló verziók"

@@ -49,7 +49,7 @@ de:
         description: "Anmerkungen"
         presenter: "Referent"
       meeting_section:
-        title: "Title"
+        title: "Titel"
     errors:
       messages:
         invalid_time_format: "ist keine gültige Zeit. Erforderliches Format: HH:MM"
@@ -125,9 +125,9 @@ de:
       structured_text_copy: "Das Kopieren einer Besprechung kopiert derzeit nicht die zugehörigen Tagesordnungspunkte, sondern nur dessen Details"
     copied: "Kopiert von Meeting #%{id}"
   meeting_section:
-    default_title: "New section"
-    untitled_title: "Untitled"
-    empty_text: "Drag items here or create a new one"
+    default_title: "Neuer Abschnitt"
+    untitled_title: "Ohne Titel"
+    empty_text: "Neue Agendapunkte hierhin bewegen oder neu erstellen"
   notice_successful_notification: "Benachrichtigung erfolgreich gesendet"
   notice_timezone_missing: Keine Zeitzone eingestellt und daher %{zone} angenommen. Um Ihre Zeitzone einzustellen, klicken Sie bitte hier.
   permission_create_meetings: "Besprechungen erstellen"

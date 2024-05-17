@@ -95,7 +95,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
       command_result = described_class.call(storage:, source_path:, destination_path: "My New Folder")
 
       expect(command_result).to be_success
-      expect(command_result.result.requires_polling?).to be_truthy
+      expect(command_result.result).to be_requires_polling
       expect(command_result.result.polling_url).to match %r</drives/#{storage.drive_id}/items/.+\?.+$>
     ensure
       delete_copied_folder(command_result.result.polling_url)
@@ -161,11 +161,10 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
 
     subfolder = command.call(auth_strategy:, folder_name: "Subfolder with File", parent_location:).result
     file_name = "files_query_root.yml"
-    token = OAuthClientToken.last
-
+    upload_data = Storages::UploadData.new(folder_id: subfolder.id, file_name:)
     upload_link = Storages::Peripherals::Registry
                     .resolve("one_drive.queries.upload_link")
-                    .call(storage:, user: token.user, data: { "parent" => subfolder.id, "file_name" => file_name })
+                    .call(storage:, auth_strategy:, upload_data:)
                     .result
 
     path = Rails.root.join("modules/storages/spec/support/fixtures/vcr_cassettes/one_drive", file_name)

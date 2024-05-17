@@ -330,7 +330,6 @@ fr:
       project_roles: "Rôle du projet"
       wp_shares: "Partages du lot des travaux"
       groups: "Groupes"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Supprimer le membre"
       will_remove_the_users_role: "Cela supprimera le rôle de l'utilisateur dans ce projet."
@@ -1786,6 +1785,7 @@ fr:
   label_attribute_expand_text: "Le texte complet pour « %{attribute} »."
   label_authentication: "Authentification"
   label_available_global_roles: "Rôles globaux disponibles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Forums disponibles"
   label_available_project_repositories: "Dépôts disponibles"
   label_available_project_versions: "Versions disponibles"
