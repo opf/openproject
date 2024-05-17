@@ -30,7 +30,7 @@ module Notifications
   # Creates date alert jobs for users whose local time is 1:00 am.
   # The job is scheduled to run every 15 minutes.
   class ScheduleDateAlertsNotificationsJob < ApplicationJob
-    include GoodJob::ActiveJobExtensions::Concurrency
+    include Cron::QuarterHourScheduleJob
 
     def perform
       return unless EnterpriseToken.allows_to?(:date_alerts)
@@ -38,16 +38,7 @@ module Notifications
       Service.new(every_quater_hour_between_predecessor_cron_at_and_own_cron_at).call
     end
 
-    # With good_job and the limit of only allowing a single job to be enqueued and
-    # also a single job being performed at the same time we end up having
-    # up to two jobs that are not yet finished.
-
-    good_job_control_concurrency_with(
-      enqueue_limit: 1,
-      perform_limit: 1
-    )
-
-    # What cannot be controlled however is the time at which a job is actually performed.
+    # What cannot be controlled is the time at which a job is actually performed.
     # A high load on the system can lead to a job being performed later than expected.
     #
     # It might also happen that due to some outage of the background workers, cron
@@ -84,26 +75,6 @@ module Notifications
         .step(15.minutes)
         .map do |time|
         Time.zone.at(time)
-      end
-    end
-
-    def upper_boundary
-      GoodJob::Job
-        .find(job_id)
-        .cron_at
-    end
-
-    def lower_boundary
-      predecessor = GoodJob::Job
-                    .succeeded
-                    .where(job_class: self.class.name)
-                    .order(cron_at: :desc)
-                    .first
-
-      if predecessor
-        predecessor.cron_at + 15.minutes
-      else
-        upper_boundary
       end
     end
   end

@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,19 +24,44 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module Notifications
-  class ScheduleReminderMailsJob < ApplicationJob
-    include Cron::QuarterHourScheduleJob
+module Cron::QuarterHourScheduleJob
+  extend ActiveSupport::Concern
 
-    def perform
-      return unless lower_boundary.present? && upper_boundary.present?
+  included do
+    include GoodJob::ActiveJobExtensions::Concurrency
 
-      User.having_reminder_mail_to_send(lower_boundary, upper_boundary)
-          .pluck(:id)
-          .each do |user_id|
-        Mails::ReminderJob.perform_later(user_id)
+    # With good_job and the limit of only allowing a single job to be enqueued and
+    # also a single job being performed at the same time we end up having
+    # up to two jobs that are not yet finished.
+
+    good_job_control_concurrency_with(
+      enqueue_limit: 1,
+      perform_limit: 1
+    )
+  end
+
+  private
+
+  def upper_boundary
+    @upper_boundary ||= GoodJob::Job
+                          .find(job_id)
+                          .cron_at
+  end
+
+  def lower_boundary
+    @lower_boundary ||= begin
+      predecessor = GoodJob::Job
+                      .succeeded
+                      .where(job_class: self.class.name)
+                      .order(cron_at: :desc)
+                      .first
+
+      if predecessor
+        predecessor.cron_at + 15.minutes
+      else
+        upper_boundary
       end
     end
   end
