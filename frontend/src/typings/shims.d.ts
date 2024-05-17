@@ -35,13 +35,16 @@ declare module '@hotwired/turbo' {
 
   export const navigator:{
     submitForm:(form:HTMLFormElement, submitter?:HTMLElement) => void;
-  }
+  };
 
   export interface StreamElement {
     templateElement:HTMLTemplateElement;
   }
 
   export function start():void;
+
+  export function setProgressBarDelay(delay:number):void;
+
 }
 
 declare global {

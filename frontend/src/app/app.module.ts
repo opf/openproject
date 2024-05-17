@@ -307,6 +307,11 @@ export class OpenProjectModule {
     DynamicBootstrapper.bootstrapOptionalDocument(appRef, document);
     this.registerCustomElements(appRef.injector);
 
+    // Call bootstrapper when rendering document
+    document.addEventListener('turbo:render', () => {
+      DynamicBootstrapper.bootstrapOptionalDocument(appRef, document);
+    });
+
     // Call hook service to allow modules to bootstrap additional elements.
     // We can't use ngDoBootstrap in nested modules since they are not called.
     const hookService = (appRef as any)._injector.get(HookService);
