@@ -359,11 +359,11 @@ pt-BR:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
+              learn_about_link: https://www.openproject.org/docs/release-notes/14-1-0/
               new_features_html: >
-                A nova versão traz várias melhorias e recursos: <br> <ul class="%{list_styling_class}"> <li>Relatório de progresso agora disponível para hierarquias de pacotes de trabalho.</li> <li>Gerenciamento estruturado dos atributos do projeto na página de visão geral do projeto.</li> <li>Visualização simplificada de campos personalizados nas listas de projeto e visão geral do projeto.</li> <li>Cabeçalhos de página unificados com o moderno design Primer.</li> <li>Reuniões aprimoradas com novos recursos, incluindo upload de anexos, atribuição de responsáveis e histórico de reuniões.</li> <li>Alertas automáticos para armazenamentos de arquivos com problemas, com opções de controle.</li> <li>Auto-cópia da pasta de projeto gerenciada automaticamente para o OneDrive/SharePoint durante a cópia de projetos.</li> <li>Solicitação aos administradores para remover compartilhamentos nos pacotes de trabalho ao revogar a participação em um projeto.</li> <li>Melhorias de planejamento com novos modos de exibição de 4 e 8 semanas no planejador de equipe.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
     ical_sharing_modal:
       title: "Assinar calendário"
       inital_setup_error_message: "Ocorreu um erro ao buscar dados."

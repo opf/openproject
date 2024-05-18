@@ -19,11 +19,11 @@ cs:
               title: Novinky od produktového týmu
             item_3:
               title: Novinky od marketingového týmu
-            item_4:
-              title: Novinky od obchodního týmu
             item_5:
-              title: Vyhodnocení čtvrtletních cílů
+              title: Updates from sales team
             item_6:
-              title: Zpětná vazba základních hodnot
+              title: Review of quarterly goals
             item_7:
-              title: Obecná témata
+              title: Core values feedback
+            item_8:
+              title: General topics

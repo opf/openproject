@@ -19,11 +19,11 @@ lt:
               title: Produkto komandos naujienos
             item_3:
               title: Marketingo komandos naujienos
-            item_4:
-              title: Pardavimų komandos naujienos
             item_5:
-              title: Ketvirčio tikslų apžvalga
+              title: Updates from sales team
             item_6:
-              title: Pagrindinių vertybių atsiliepimai
+              title: Review of quarterly goals
             item_7:
-              title: Bendros temos
+              title: Core values feedback
+            item_8:
+              title: General topics

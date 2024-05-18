@@ -243,7 +243,7 @@ lt:
         name: OneDrive/SharePoint
         name_placeholder: pvz. OneDrive
     show_attachments_toggle:
-      description: Daktyvavus šią parinktį priedų sąrašas bus tik paslėptas. Redaktoriaus pagalba Įkelti failai bus įkeliami į vidinės saugyklos priedus.
+      description: 'Išjungus šią parinktį darbo paketų failų kortelėje bus paslėptas priedų sąrašas. Darbo paketų aprašyme prisegti failai bus įkeliami į vidinę priedų saugyklą. '
       label: Rodyti priedus darbo paketų failų kortelėje
     storage_list_blank_slate:
       description: Pridėkite saugyklą, kad matytumėte ją čia.

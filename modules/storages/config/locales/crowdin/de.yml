@@ -243,7 +243,7 @@ de:
         name: OneDrive/SharePoint
         name_placeholder: z.B. OneDrive
     show_attachments_toggle:
-      description: Wenn Sie diese Option deaktivieren, wird nur die Liste der Anhänge ausgeblendet. Dateien, die mit Hilfe des WYSIWYG-Editors hochgeladen werden, werden weiterhin in den internen Speicher der Anhänge hochgeladen.
+      description: 'Deactivating this option will hide the attachments list on the work packages files tab. The files attached in the description of a work package will still be uploaded in the internal attachments storage. '
       label: Anhänge auf dem Dateien-Tab der Arbeitspakete anzeigen
     storage_list_blank_slate:
       description: Fügen Sie einen Dateispeicher hinzu, um ihn hier zu sehen.

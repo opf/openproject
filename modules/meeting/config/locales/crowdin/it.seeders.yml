@@ -19,11 +19,11 @@ it:
               title: Aggiornamenti dal team di prodotto
             item_3:
               title: Aggiornamenti dal team di marketing
-            item_4:
-              title: Aggiornamenti dal team di vendita
             item_5:
-              title: Riesame degli obiettivi trimestrali
+              title: Updates from sales team
             item_6:
-              title: Feedback dei valori fondamentali
+              title: Review of quarterly goals
             item_7:
-              title: Argomenti generali
+              title: Core values feedback
+            item_8:
+              title: General topics

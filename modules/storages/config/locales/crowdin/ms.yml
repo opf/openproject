@@ -245,7 +245,7 @@ ms:
         name: OneDrive/SharePoint
         name_placeholder: cth. OneDrive
     show_attachments_toggle:
-      description: Menyahaktifkan pilihan ini akan menyorokkan senarai lampiran sahaja. Fail yang dimuat naik dengan bantuan editor teks kaya tetap akan dimuat naik ke storan dalaman lampiran.
+      description: 'Deactivating this option will hide the attachments list on the work packages files tab. The files attached in the description of a work package will still be uploaded in the internal attachments storage. '
       label: Paparkan lampiran di tab fail pakej kerja
     storage_list_blank_slate:
       description: Tambah storan untuk melihatnya di sini.

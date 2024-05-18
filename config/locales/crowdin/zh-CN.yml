@@ -482,9 +482,9 @@ zh-CN:
       unsupported_for_multiple_projects: "不支持多个项目工作包的大批量移动/复制"
     sharing:
       missing_workflow_warning:
-        title: "Workflow missing for work package sharing"
-        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
-        link_message: "Configure the workflows in the administration."
+        title: "工作包共享缺少工作流"
+        message: "没有为\"工作包编辑者\"角色配置工作流。没有工作流，共享用户就无法更改工作包的状态。工作流可以复制。选择一个源类型（例如\"任务\"）和源角色（例如\"成员\"）。然后选择目标类型。一开始，您可以将所有类型都选择为目标类型。最后，选择\"工作包编辑者\"角色作为目标，然后点击\"复制\"。在创建默认设置之后，像对其他角色一样进行微调，对工作流进行详细调整。"
+        link_message: "在管理中配置工作流。"
     summary:
       reports:
         category:
@@ -1748,7 +1748,7 @@ zh-CN:
   label_attribute_expand_text: "%{attribute}的完整文本"
   label_authentication: "身份验证"
   label_available_global_roles: "可用的全局角色"
-  label_available_project_attributes: "Available project attributes"
+  label_available_project_attributes: "可用的项目属性"
   label_available_project_forums: "可用论坛"
   label_available_project_repositories: "可用存储库"
   label_available_project_versions: "可用版本"
@@ -2704,7 +2704,7 @@ zh-CN:
     member_of_group: "受理人用户组"
     name_or_identifier: "名称或标识符"
     only_subproject_id: "仅子项目"
-    shared_with_user: "Shared with users"
+    shared_with_user: "与用户共享"
     shared_with_me: "与我共享"
     subproject_id: "包括子项目"
   repositories:
