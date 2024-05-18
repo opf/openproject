@@ -40,15 +40,18 @@ lt:
     errors:
       too_many_elements_created_at_once: Per daug elementu vienu metu. Tikėtasi daugiausia %{max}, gauta %{actual}.
   external_file_storages: Išorinės failų saugyklos
-  permission_create_files: 'Išorinė saugykla: kurti failus'
-  permission_delete_files: 'Išorinė saugykla: trinti failus'
+  permission_create_files: 'Automatically managed project folders: Create files'
+  permission_create_files_explanation: This permission is only available for Nextcloud storages
+  permission_delete_files: 'Automatically managed project folders: Delete files'
+  permission_delete_files_explanation: This permission is only available for Nextcloud storages
   permission_header_for_project_module_storages: Automatiškai valdomi projekto aplankai
   permission_manage_file_links: Tvarkyti failo nuorodas
   permission_manage_storages_in_project: Tvarkyti failų saugyklas projekte
-  permission_read_files: 'Išorinė saugykla: skaityti failus'
-  permission_share_files: 'Išorinė saugykla: bendrinti failus'
+  permission_read_files: 'Automatically managed project folders: Read files'
+  permission_share_files: 'Automatically managed project folders: Share files'
+  permission_share_files_explanation: This permission is only available for Nextcloud storages
   permission_view_file_links: Žiūrėti failo nuorodas
-  permission_write_files: 'Išorinė saugykla: rašyti failus'
+  permission_write_files: 'Automatically managed project folders: Write files'
   project_module_storages: Failai
   storages:
     buttons:
@@ -243,7 +246,7 @@ lt:
         name: OneDrive/SharePoint
         name_placeholder: pvz. OneDrive
     show_attachments_toggle:
-      description: 'Deactivating this option will hide the attachments list on the work packages files tab. The files attached in the description of a work package will still be uploaded in the internal attachments storage. '
+      description: 'Išjungus šią parinktį darbo paketų failų kortelėje bus paslėptas priedų sąrašas. Darbo paketų aprašyme prisegti failai bus įkeliami į vidinę priedų saugyklą. '
       label: Rodyti priedus darbo paketų failų kortelėje
     storage_list_blank_slate:
       description: Pridėkite saugyklą, kad matytumėte ją čia.

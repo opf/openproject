@@ -40,15 +40,18 @@ ko:
     errors:
       too_many_elements_created_at_once: 한 번에 너무 많은 요소가 생성되었습니다. 최대 개수는 %{max}개이지만 %{actual}개가 있습니다.
   external_file_storages: External file storages
-  permission_create_files: '외부 저장소: 파일 만들기'
-  permission_delete_files: '외부 저장소: 파일 삭제'
+  permission_create_files: 'Automatically managed project folders: Create files'
+  permission_create_files_explanation: This permission is only available for Nextcloud storages
+  permission_delete_files: 'Automatically managed project folders: Delete files'
+  permission_delete_files_explanation: This permission is only available for Nextcloud storages
   permission_header_for_project_module_storages: 자동으로 관리되는 프로젝트 폴더
   permission_manage_file_links: 파일 링크 관리
   permission_manage_storages_in_project: 프로젝트의 파일 저장소 관리
-  permission_read_files: '외부 저장소: 파일 읽기'
-  permission_share_files: '외부 저장소: 파일 공유'
+  permission_read_files: 'Automatically managed project folders: Read files'
+  permission_share_files: 'Automatically managed project folders: Share files'
+  permission_share_files_explanation: This permission is only available for Nextcloud storages
   permission_view_file_links: 파일 링크 보기
-  permission_write_files: '외부 저장소: 파일 쓰기'
+  permission_write_files: 'Automatically managed project folders: Write files'
   project_module_storages: Files
   storages:
     buttons:

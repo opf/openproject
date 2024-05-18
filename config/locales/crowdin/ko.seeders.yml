@@ -251,6 +251,21 @@ ko:
                     *   [ ] 더 많은 맥주
             item_4:
               subject: 프로젝트 종료
+          wiki: |
+            _In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki._
+
+            **You can:**
+
+            * Insert text and images, also with copy and paste from other documents
+            * Create a page hierarchy with parent pages
+            * Include wiki pages to the project menu
+            * Use macros to include, e.g. table of contents, work package lists, or Gantt charts
+            * Include wiki pages in other text fields, e.g. project overview page
+            * Include links to other documents
+            * View the change history
+            * View as Markdown
+
+            More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: 스크럼 프로젝트
           status_explanation: 모든 작업이 예정대로 진행되고 있습니다. 관련된 사람들이 자신의 작업을 알고 있습니다. 시스템이 완전히 설정되었습니다.

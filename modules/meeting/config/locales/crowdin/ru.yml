@@ -51,7 +51,7 @@ ru:
         description: "Примечания"
         presenter: "Presenter"
       meeting_section:
-        title: "Title"
+        title: "Заголовок"
     errors:
       messages:
         invalid_time_format: "недопустимое время. Требуемый формат: ЧЧ:ММ"

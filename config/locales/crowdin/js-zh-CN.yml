@@ -363,7 +363,7 @@ zh-CN:
             standard:
               learn_about_link: https://www.openproject.org/docs/release-notes/14-1-0/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
+                该版本包含各种新功能和改进： <br> <ul class="%{list_styling_class}"> <li>甘特视图的 PDF 导出，例如用于打印（企业插件）</li> <li>收藏项目</li> <li>会议中的章节</li> <li>在 "我的 "页面和项目概览页面显示会议</li> <li>在 "文件 "选项卡中隐藏附件的可能性</li> <li>链接（URL）类型的自定义字段</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"
@@ -1055,7 +1055,7 @@ zh-CN:
       sharing:
         share: "共享"
         title: "共享工作包"
-        show_all_users: "Show all users with whom the work package has been shared with"
+        show_all_users: "显示与之共享工作包的所有用户"
         selected_count: "%{count} 已选择"
         selection:
           mixed: "混合"

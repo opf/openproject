@@ -40,15 +40,18 @@ uk:
     errors:
       too_many_elements_created_at_once: Забагато елементів, створених за раз. Очікувалося щонайбільше %{max}; отримано %{actual}.
   external_file_storages: External file storages
-  permission_create_files: 'Зовнішнє сховище: створення файлів'
-  permission_delete_files: 'Зовнішнє сховище: видалення файлів'
+  permission_create_files: 'Automatically managed project folders: Create files'
+  permission_create_files_explanation: This permission is only available for Nextcloud storages
+  permission_delete_files: 'Automatically managed project folders: Delete files'
+  permission_delete_files_explanation: This permission is only available for Nextcloud storages
   permission_header_for_project_module_storages: Папки проєкту з автоматичним керуванням
   permission_manage_file_links: Керування посиланнями на файл
   permission_manage_storages_in_project: Керування файловими сховищами в проєкті
-  permission_read_files: 'Зовнішнє сховище: читання файлів'
-  permission_share_files: 'Зовнішнє сховище: надання доступу до файлів'
+  permission_read_files: 'Automatically managed project folders: Read files'
+  permission_share_files: 'Automatically managed project folders: Share files'
+  permission_share_files_explanation: This permission is only available for Nextcloud storages
   permission_view_file_links: Перегляд посилань на файл
-  permission_write_files: 'Зовнішнє сховище: записування файлів'
+  permission_write_files: 'Automatically managed project folders: Write files'
   project_module_storages: Files
   storages:
     buttons:

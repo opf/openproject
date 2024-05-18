@@ -331,17 +331,17 @@ pl:
         description: >
           Wybierz początkowy poziom powiększenia, który ma być wyświetlany, gdy tryb autopowiększenia jest niedostępny.
       export:
-        title: "Gantt chart PDF options"
-        button_export: "Export"
+        title: "Opcje PDF wykresu Gantta"
+        button_export: "Eksportuj"
         column_widths:
-          narrow: "Narrow"
-          medium: "Medium"
-          wide: "Wide"
-          very_wide: "Very wide"
+          narrow: "Wąskie"
+          medium: "Średnie"
+          wide: "Szerokie"
+          very_wide: "Bardzo szerokie"
         options:
-          date_zoom: "Date zoom"
-          paper_size: "Paper size"
-          column_widths: "Column widths"
+          date_zoom: "Powiększenie daty"
+          paper_size: "Rozmiar papieru"
+          column_widths: "Szerokość kolumn"
     general_text_no: "nie"
     general_text_yes: "tak"
     general_text_No: "Nie"
@@ -364,7 +364,7 @@ pl:
             standard:
               learn_about_link: https://www.openproject.org/docs/release-notes/14-1-0/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
+                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Eksport widoku wykresu Gantta w formacie PDF, np. w celu wydrukowania (dodatek wersji Enterprise)</li> <li>Ulubione projekty</li> <li>Sekcje w spotkaniach</li> <li>Pokazywanie spotkań w obszarze Moja strona i na stronach przeglądu projektów</li> <li>Możliwość ukrywania załączników na karcie Pliki</li> <li>Niestandardowe pola typu Link (adres URL)</li> </ul>
     ical_sharing_modal:
       title: "Subskrybuj kalendarz"
       inital_setup_error_message: "Podczas pobierania danych wystąpił błąd."
@@ -432,7 +432,7 @@ pl:
     label_expand_project_menu: "Rozwiń menu projektu"
     label_export: "Eksportuj"
     label_export_preparing: "Eksport jest przygotowywany i zostanie wkrótce pobrany."
-    label_favorites: "Favorites"
+    label_favorites: "Ulubione"
     label_filename: "Plik"
     label_filesize: "Rozmiar"
     label_general: "Ogólne"
@@ -1059,7 +1059,7 @@ pl:
       sharing:
         share: "Udostępnij"
         title: "Udostępnij pakiet roboczy"
-        show_all_users: "Show all users with whom the work package has been shared with"
+        show_all_users: "Pokaż wszystkich użytkowników, którym udostępniono pakiet roboczy"
         selected_count: "Wybrano %{count}"
         selection:
           mixed: "Mieszane"
@@ -1290,8 +1290,8 @@ pl:
           group: "Grupa jest teraz częścią %{project}. Tymczasem możesz już planować z tą grupą i na przykład przypisać pakiety robocze."
         next_button: "Kontynuuj"
     favorite_projects:
-      no_results: "You have no favorite projects"
-      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
+      no_results: "Nie masz żadnych ulubionych projektów"
+      no_results_subtext: "Dodaj jeden lub wiele projektów jako ulubione w ich przeglądzie lub na liście projektów."
     include_projects:
       toggle_title: "Uwzględnij projekty"
       title: "Projekty"

@@ -19,11 +19,11 @@ uk:
               title: Оновлення від команди розробників
             item_3:
               title: Оновлення від маркетологів
-            item_4:
-              title: Новини від відділу продажів
             item_5:
-              title: Перегляд квартальних цілей
+              title: Updates from sales team
             item_6:
-              title: Зворотний зв'язок щодо головних цінностей
+              title: Review of quarterly goals
             item_7:
-              title: Загальні теми
+              title: Core values feedback
+            item_8:
+              title: General topics

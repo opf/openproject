@@ -40,15 +40,18 @@ ms:
     errors:
       too_many_elements_created_at_once: Terlalu banyak elemen dicipta dalam satu masa. Dijangka %{max} paling banyak, mendapat %{actual}.
   external_file_storages: Storan fail luaran
-  permission_create_files: 'Storan Luaran: Cipta fail'
-  permission_delete_files: 'Storan Luaran: Padam fail'
+  permission_create_files: 'Automatically managed project folders: Create files'
+  permission_create_files_explanation: This permission is only available for Nextcloud storages
+  permission_delete_files: 'Automatically managed project folders: Delete files'
+  permission_delete_files_explanation: This permission is only available for Nextcloud storages
   permission_header_for_project_module_storages: Folder projek yang dikendalikan secara automatik
   permission_manage_file_links: Urus pautan fail
   permission_manage_storages_in_project: Urus storan fail dalam projek
-  permission_read_files: 'Storan Luaran: Baca fail'
-  permission_share_files: 'Storan Luaran: Kongsi fail'
+  permission_read_files: 'Automatically managed project folders: Read files'
+  permission_share_files: 'Automatically managed project folders: Share files'
+  permission_share_files_explanation: This permission is only available for Nextcloud storages
   permission_view_file_links: Lihat pautan fail
-  permission_write_files: 'Storan Luaran: Tulis fail'
+  permission_write_files: 'Automatically managed project folders: Write files'
   project_module_storages: Fail-fail
   storages:
     buttons:
