@@ -49,7 +49,7 @@ pt-BR:
         description: "Anotações"
         presenter: "Apresentador"
       meeting_section:
-        title: "Title"
+        title: "Título"
     errors:
       messages:
         invalid_time_format: "não é um horário válido. Formato exigido: HH:MM"
@@ -101,7 +101,7 @@ pt-BR:
     attachments:
       text: "Os arquivos anexados podem ser acessados por todos os participantes da reunião. Além disso, você pode simplesmente arrastá-los e soltá-los nas anotações do item da agenda."
     copy:
-      title: "Copy meeting: %{title}"
+      title: "Copiar reunião: %{title}"
       attachments: "Copiar anexos"
       attachments_text: "Copie todos os arquivos anexados para a nova reunião"
       agenda: "Copiar agenda"
@@ -128,7 +128,7 @@ pt-BR:
     untitled_title: "Untitled section"
     delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
     placeholder_title: "New section"
-    empty_text: "Drag items here or create a new one"
+    empty_text: "Arraste itens para cá ou crie um novo."
   notice_successful_notification: "Notificação enviada com sucesso"
   notice_timezone_missing: Nenhum fuso horário está definido, portanto assumiu-se %{zone}. Para escolher o seu fuso horário, clique aqui.
   permission_create_meetings: "Criar reuniões"

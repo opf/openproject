@@ -263,7 +263,7 @@ pt-BR:
     lists:
       active: "Projetos ativos"
       my: "Meus projetos"
-      favored: "Favorite projects"
+      favored: "Projetos favoritos"
       archived: "Projetos arquivados"
       my_private: "Minhas listas de projetos privados"
       new:
@@ -305,13 +305,13 @@ pt-BR:
         no_results_title_text: Não há espaço adicional gravado em disco que seja consumido por este projeto.
   lists:
     create:
-      success: "The modified list has been saved as a new list"
-      failure: "The modified list cannot be saved: %{errors}"
+      success: "A lista modificada foi salva como uma nova lista"
+      failure: "Não foi possível salvar a lista modificada: %{erros}"
     update:
-      success: "The modified list has been saved"
-      failure: "The modified list cannot be saved: %{errors}"
-    can_be_saved: "List modified:"
-    can_be_saved_as: "The modifications can only be saved in a new list:"
+      success: "A lista modificada foi salva"
+      failure: "Não foi possível salvar a lista modificada: %{erros}"
+    can_be_saved: "Lista modificada:"
+    can_be_saved_as: "As modificações só podem ser salvas em uma nova lista:"
   members:
     index:
       no_results_title_text: Atualmente, não há membros deste projeto.
@@ -790,7 +790,7 @@ pt-BR:
         not_an_iso_date: "não é uma data válida. Formato exigido: AAAA-MM-DD."
         not_same_project: "não pertence ao mesmo projeto."
         odd: "deve ser ímpar."
-        regex_match_failed: "does not match the regular expression %{expression}."
+        regex_match_failed: "não corresponde à expressão regular %{expression}."
         regex_invalid: "não pode ser validado com a expressão regular associada."
         smaller_than_or_equal_to_max_length: "deve ser menor ou igual ao tamanho máximo."
         taken: "já está sendo utilizado."
@@ -1002,13 +1002,13 @@ pt-BR:
               only_same_project_categories_allowed: "A categoria de um pacote de trabalho deve estar dentro do mesmo projeto do pacote de trabalho."
               does_not_exist: "Categoria especificada não existe."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              cant_be_inferior_to_remaining_work: "Não pode ser menor do que o Trabalho restante."
+              must_be_set_when_remaining_work_is_set: "Necessário quando o Trabalho restante for definido."
+              only_values_greater_or_equal_zeroes_allowed: "Deve ser >= 0."
               format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "Cannot be higher than Work."
-              must_be_set_when_work_is_set: "Required when Work is set."
+              cant_exceed_work: "Não pode ser maior do que o Trabalho."
+              must_be_set_when_work_is_set: "Necessário quando o Trabalho for definido."
               format: "%{message}"
           readonly_status: "O pacote de trabalho está em estado somente leitura, então seus atributos não podem ser alterados."
         type:
@@ -1272,7 +1272,7 @@ pt-BR:
   button_edit: "Editar"
   button_edit_associated_wikipage: "Editar página wiki associada: %{page_title}"
   button_expand_all: "Expandir todos"
-  button_favorite: "Add to favorites"
+  button_favorite: "Adicionar aos favoritos"
   button_filter: "Filtro"
   button_generate: "Gerar"
   button_list: "Lista"
@@ -1300,7 +1300,7 @@ pt-BR:
   button_unarchive: "Desarquivar"
   button_uncheck_all: "Desmarcar todos"
   button_unlock: "Desbloquear"
-  button_unfavorite: "Remove from favorites"
+  button_unfavorite: "Remover dos favoritos"
   button_unwatch: "Não observar"
   button_update: "Atualizar"
   button_upgrade: "Atualizar"
@@ -1586,7 +1586,7 @@ pt-BR:
       pdf_overview_table: "Tabela PDF"
       pdf_report_with_images: "Relatório em PDF com imagens"
       pdf_report: "Relatório em PDF"
-      pdf_gantt: "PDF Gantt"
+      pdf_gantt: "Gantt em PDF"
     image:
       omitted: "Imagem não exportada."
     units:
@@ -1665,11 +1665,11 @@ pt-BR:
         file_links_journal: >
           A partir de agora, a atividade relacionada a links de arquivos (arquivos armazenados em armazenamentos externos) aparecerá aqui na guia Atividade. O seguinte representa a atividade relacionada aos links que já existiam:
         progress_calculation_adjusted_from_disabled_mode: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+          Cálculo de progresso automaticamente <a href="%{href}" target="_blank">definido para o modo com base em trabalho e ajustado com a atualização de versão</a>.
         progress_calculation_adjusted: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+          Cálculo de progresso automaticamente <a href="%{href}" target="_blank"> ajustado com a atualização de versão</a>.
         totals_removed_from_childless_work_packages: >-
-          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+          Os totais de trabalho e progresso foram removidos automaticamente para pacotes de trabalho que não são principais com a <a href="%{href}" target="_blank">atualização de versão</a>. Esta é uma tarefa de manutenção e pode ser ignorada com segurança.
   links:
     configuration_guide: "Guia de configuração"
     get_in_touch: "Com dúvidas? Entre em contato conosco."
@@ -1914,7 +1914,7 @@ pt-BR:
   label_enterprise_support: "Suporte corporativo"
   label_enterprise_addon: "Complemento empresarial"
   label_environment: "Ambiente"
-  label_estimates_and_progress: "Estimates and progress"
+  label_estimates_and_progress: "Estimativas e progresso"
   label_equals: "é"
   label_everywhere: "em todos os lugares"
   label_example: "Exemplo"
@@ -2129,7 +2129,7 @@ pt-BR:
   label_percent_complete: "% de conclusão"
   label_project_activity: "Atividade do projeto"
   label_project_attribute_plural: "Atributos do projeto"
-  label_project_attribute_manage_link: "Manage project attributes"
+  label_project_attribute_manage_link: "Gerenciar atributos do projeto"
   label_project_count: "Número total de projetos"
   label_project_copy_notifications: "Enviar notificações por email durante a cópia do projeto"
   label_project_latest: "Últimos projetos"
@@ -2144,7 +2144,7 @@ pt-BR:
   label_project_attributes_settings: "Configurações de atributos de projeto"
   label_project_storage_plural: "Armazenamentos de arquivo"
   label_project_storage_project_folder: "Armazenamentos de arquivos: pastas do Projeto"
-  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
+  label_projects_disk_usage_information: "%{Count} projetos usando %{used_disk_space} do espaço em disco"
   label_project_view_all: "Ver todos os projetos"
   label_project_show_details: "Mostrar detalhes do projeto"
   label_project_hide_details: "Ocultar detalhes do projeto"
@@ -2889,7 +2889,7 @@ pt-BR:
   setting_app_subtitle: "Subtítulo do aplicativo"
   setting_app_title: "Título da aplicação"
   setting_attachment_max_size: "Tamanho máximo dos anexos"
-  setting_show_work_package_attachments: "Show attachments in the files tab by default"
+  setting_show_work_package_attachments: "Exibir anexos na aba de arquivos por padrão"
   setting_antivirus_scan_mode: "Modo escanear"
   setting_antivirus_scan_action: "Ação do arquivo infectado"
   setting_autofetch_changesets: "Busca automática de alterações no repositório"
@@ -2992,7 +2992,7 @@ pt-BR:
       whitelist_text_html: >
         Defina uma lista de extensões de arquivo válidas e/ou tipos MIME para arquivos carregados. <br/> Insira as extensões de arquivo  (e.x., <code>%{ext_example}</code>) ou tipos de mime (e.x., <code>%{mime_example}</code>). <br/> Deixe em branco para permitir que qualquer tipo de arquivo seja carregado. Vários valores permitidos (uma linha para cada valor).
       show_work_package_attachments: >
-        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
+        Desativar esta opção ocultará a lista de anexos na aba Arquivos dos pacotes de trabalho para novos projetos. Os arquivos anexados na descrição de um pacote de trabalho ainda serão carregados no armazenamento interno de anexos.
     antivirus:
       title: "Verificação de vírus"
       clamav_ping_failed: "Não foi possível conectar ao daemon do ClamAV. Verifique novamente a configuração e tente novamente."
@@ -3231,8 +3231,8 @@ pt-BR:
         drag_area_label: "Gerenciar e reordenar colunas"
       sort_by:
         automatic:
-          heading: "Automatic"
-          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
+          heading: "Automático"
+          description: "Ordene os %{plural} por um ou mais critérios de ordenação. A ordenação anterior será perdida."
   top_menu:
     additional_resources: "Recursos adicionais"
     getting_started: "Guia de introdução"
@@ -3579,7 +3579,7 @@ pt-BR:
   link: link
   plugin_openproject_auth_plugins:
     name: "Plugins OpenProject Auth"
-    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
+    description: "Integração de fornecedores de estratégias OmniAuth para autenticação no OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML/Início de sessão único"
     description: "Adiciona o fornecedor SAML OmniAuth ao OpenProject"

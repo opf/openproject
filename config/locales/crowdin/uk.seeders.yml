@@ -252,20 +252,20 @@ uk:
             item_4:
               subject: Кінець проєкту
           wiki: |
-            _In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki._
+            _На цій вікі-сторінці можна спільно створювати та редагувати сторінки й підсторінки вікі-проєкту._
 
-            **You can:**
+            **Ви можете:**
 
-            * Insert text and images, also with copy and paste from other documents
-            * Create a page hierarchy with parent pages
-            * Include wiki pages to the project menu
-            * Use macros to include, e.g. table of contents, work package lists, or Gantt charts
-            * Include wiki pages in other text fields, e.g. project overview page
-            * Include links to other documents
-            * View the change history
-            * View as Markdown
+            * Копіювати й вставляти текст і зображення, зокрема з інших документів
+            * Створювати ієрархію сторінок із батьківськими сторінками
+            * Включати вікі-сторінки в меню проєкту
+            * Використовувати макроси, щоб додавати, наприклад, зміст, списки пакетів робіт або діаграми Ґанта
+            * Включати вікі-сторінки в інші текстові поля, наприклад сторінку огляду проєкту
+            * Включати посилання на інші документи
+            * Переглядати історію змін
+            * Переглядати контент у режимі розмітки
 
-            More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
+            Докладна інформація: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: Проект Scrum
           status_explanation: Усі завдання заплановано. Виконавців повідомлено про їхні завдання. Систему повністю налаштовано.
