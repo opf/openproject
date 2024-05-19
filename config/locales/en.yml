@@ -2832,6 +2832,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_manage_public_project_queries: "Manage public project lists"
 
   placeholders:
     default: "-"
