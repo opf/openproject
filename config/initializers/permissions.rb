@@ -183,7 +183,7 @@ Rails.application.reloader.to_prepare do
                      {
                        "projects/queries": %i[publish unpublish]
                      },
-                     permissible_on: :globa,
+                     permissible_on: :global,
                      require: :loggedin,
                      grant_to_admin: true
     end
