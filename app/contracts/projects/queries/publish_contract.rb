@@ -1,6 +1,6 @@
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,40 +24,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
-module Projects
-  module QueryLoading
-    private
+#++
 
-    def load_query(duplicate:)
-      ::Queries::Projects::Factory.find(params[:query_id],
-                                        params: permitted_query_params,
-                                        user: current_user,
-                                        duplicate:)
-    end
+class Projects::Queries::PublishContract < BaseContract
+  validate :allowed_to_modify_public_flag
 
-    def load_query_or_deny_access
-      @query = load_query(duplicate: false)
+  protected
 
-      render_403 unless @query
-    end
-
-    def build_query_or_deny_access
-      @query = load_query(duplicate: true)
-
-      render_403 unless @query
-    end
-
-    def permitted_query_params
-      query_params = {}
-
-      if params[:query]
-        query_params.merge!(params.require(:query).permit(:name))
-      end
-
-      query_params.merge!(::Queries::ParamsParser.parse(params))
-
-      query_params.with_indifferent_access
+  def allowed_to_modify_public_flag
+    unless user.allowed_globally?(:manage_public_project_queries)
+      errors.add :base, :error_unauthorized
     end
   end
 end

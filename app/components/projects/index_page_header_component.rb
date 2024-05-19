@@ -74,6 +74,10 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
 
   def can_rename? = may_save_as? && query.persisted? && query.user == current_user && !query.changed?
 
+  def can_publish?
+    current_user.allowed_globally?(:manage_public_project_queries) && query.persisted?
+  end
+
   def show_state?
     state == :show
   end

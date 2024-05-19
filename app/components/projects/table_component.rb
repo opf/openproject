@@ -64,11 +64,18 @@ module Projects
     # We don't return the project row
     # but the [project, level] array from the helper
     def rows
+<<<<<<< HEAD
       @rows ||=
         begin
           projects_enumerator = ->(model) { to_enum(:projects_with_levels_order_sensitive, model).to_a }
           instance_exec(model, &projects_enumerator)
         end
+=======
+      @rows ||= begin
+        projects_enumerator = ->(model) { to_enum(:projects_with_levels_order_sensitive, model).to_a }
+        instance_exec(model, &projects_enumerator)
+      end
+>>>>>>> 0e1a80b408 (Add methods to publish and unpublish a project list based on permission)
     end
 
     def initialize_sorted_model
@@ -113,12 +120,11 @@ module Projects
     end
 
     def columns
-      @columns ||=
-        begin
-          columns = query.selects.reject { |select| select.is_a?(Queries::Selects::NotExistingSelect) }
+      @columns ||= begin
+        columns = query.selects.reject { |select| select.is_a?(::Queries::Selects::NotExistingSelect) }
 
-          index = columns.index { |column| column.attribute == :name }
-          columns.insert(index, Queries::Projects::Selects::Default.new(:hierarchy)) if index
+        index = columns.index { |column| column.attribute == :name }
+        columns.insert(index, ::Queries::Projects::Selects::Default.new(:hierarchy)) if index
 
           columns
         end
@@ -156,7 +162,7 @@ module Projects
     end
 
     def favored_project_ids
-      @favored_projects ||= Favorite.where(user: current_user, favored_type: 'Project').pluck(:favored_id)
+      @favored_projects ||= Favorite.where(user: current_user, favored_type: "Project").pluck(:favored_id)
     end
 
     def sorted_by_lft?

@@ -184,6 +184,9 @@ Rails.application.routes.draw do
     resources :queries, only: %i[new create update destroy] do
       member do
         get :rename
+
+        post :publish
+        post :unpublish
       end
     end
   end
