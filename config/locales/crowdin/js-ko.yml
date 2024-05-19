@@ -331,8 +331,8 @@ ko:
         description: >
           자동 확대/축소를 사용할 수 없는 경우 표시되어야 하는 초기 확대/축소 수준을 선택하세요.
       export:
-        title: "Gantt chart PDF options"
-        button_export: "Export"
+        title: "Gantt 차트 PDF 옵션"
+        button_export: "내보내기"
         column_widths:
           narrow: "Narrow"
           medium: "Medium"

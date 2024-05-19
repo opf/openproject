@@ -43,8 +43,8 @@ uk:
           title: 'Підпроекти'
           no_results: 'Немає підпроектів.'
         project_favorites:
-          title: 'Favorite projects'
-          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
+          title: 'Обрані проєкти'
+          no_results: 'Зараз у вас немає обраних проєктів. Натисніть значок зірочки на панелі проєктом, щоб додати його в обране.'
         time_entries_current_user:
           title: 'Мій витрачений час'
           displayed_days: 'Днів, доступних у віджеті:'

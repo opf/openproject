@@ -51,7 +51,7 @@ uk:
         description: "Примітки"
         presenter: "Доповідач"
       meeting_section:
-        title: "Title"
+        title: "Назва "
     errors:
       messages:
         invalid_time_format: "не є допустимим часом. Необхідний формат: HH:MM"
@@ -103,7 +103,7 @@ uk:
     attachments:
       text: "Прикріплені файли доступні всім учасникам наради. Ви також можете перетягнути їх у примітки до пунктів порядку денного."
     copy:
-      title: "Copy meeting: %{title}"
+      title: "Копіювати нараду: %{title}"
       attachments: "Копіювати вкладення"
       attachments_text: "Скопіюйте всі прикріплені файли до нової наради"
       agenda: "Копіювати порядок денний"
@@ -127,10 +127,10 @@ uk:
       structured_text_copy: "Зараз копіювання наради стосується лише докладних даних про неї, але не пов’язаних пунктів її порядку денного"
     copied: "Скопійовано з наради #%{id} "
   meeting_section:
-    untitled_title: "Untitled section"
-    delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
-    placeholder_title: "New section"
-    empty_text: "Drag items here or create a new one"
+    untitled_title: "Розділ без назви"
+    delete_confirmation: "Видалення цього розділу також призведе до видалення його елементів порядку денного. Ви впевнені?"
+    placeholder_title: "Новий розділ"
+    empty_text: "Перетягніть елементи сюди або створіть новий"
   notice_successful_notification: "Повідомлення успішно надіслано"
   notice_timezone_missing: Часовий пояс не встановлено і %{zone} передбачається. Щоб вибрати часовий пояс, натисніть тут.
   permission_create_meetings: "Створюйте зустрічі"
