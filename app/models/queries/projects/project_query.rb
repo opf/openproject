@@ -36,8 +36,8 @@ class Queries::Projects::ProjectQuery < ApplicationRecord
   serialize :orders, coder: Queries::Serialization::Orders.new(self)
   serialize :selects, coder: Queries::Serialization::Selects.new(self)
 
-  scope :public, -> { where(public: true) }
-  scope :private, ->(user = User.current) { where(public: false, user:) }
+  scope :public_lists, -> { where(public: true) }
+  scope :private_lists, ->(user = User.current) { where(public: false, user:) }
 
   def self.model
     Project
