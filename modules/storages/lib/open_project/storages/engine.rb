@@ -167,7 +167,7 @@ module OpenProject::Storages
            { controller: "/storages/admin/storages", action: :index },
            if: Proc.new { User.current.admin? },
            caption: :project_module_storages,
-           icon: "hosting"
+           icon: "copy-documents"
 
       menu :admin_menu,
            :external_file_storages,
@@ -202,7 +202,7 @@ module OpenProject::Storages
                              (prj_storage.project_folder_automatic? && !u.allowed_in_project?(:read_files, prj))
             next if hide_from_menu
 
-            icon = storage.provider_type_nextcloud? ? "nextcloud-circle" : "hosting"
+            icon = storage.provider_type_nextcloud? ? "nextcloud-circle" : "copy-documents"
             menu.push(
               :"storage_#{storage.id}",
               prj_storage.open_with_connection_ensured,
