@@ -138,14 +138,14 @@ ms:
         application_link_text: Portal Azure
         copy_redirect_uri: Salin ubah hala URI
         documentation_link_text: Dokumentasi storan fail OneDrive/SharePoint
-        drive_id: Sila salin ID daripada pemacu yang dikehendaki dengan mengikuti langkah-langkah di %{drive_id_link_text}.
+        drive_id: Sila salin ID daripada pemacu yang diingini dengan mengikuti langkah-langkah di %{drive_id_link_text}.
         integration: OneDrive/SharePoint
         missing_client_id_for_redirect_uri: Sila isikan nilai-nilai OAuth untuk menjana URI
         oauth_client_redirect_uri: Sila salin nilai ini ke URI ubah hala Web baharu di bawah URI Redirect.
         oauth_client_secret: Sekiranya tiada aplikasi rahsia pelanggan di bawah kelayakan Pelanggan, sila cipta yang baharu.
         oauth_configuration: Salin nilai-nilai ini dari aplikasi yang diingini di %{application_link_text}.
         provider_configuration: Sila pastikan anda mempunyai hak pentadbiran dalam %{application_link_text} atau hubungi pentadbir Microsoft anda sebelum membuat penyediaan. Anda juga perlu mendaftar aplikasi Azure atau menggunakan yang sedia ada untuk pengesahan di portal.
-        tenant_id: Sila salin ID Direktori (penyewa) dari aplikasi yang diingini dan pendaftaran aplikasi di %{application_link_text}.
+        tenant_id: Sila salin ID Direktori (penyewa) dari aplikasi yang diingini dan pendaftaran Aplikasi di %{application_link_text}.
         tenant_id_placeholder: Nama atau UUID
       setting_up_additional_storages: Untuk menyediakan storan fail tambahan, sila kunjungi
       setting_up_additional_storages_non_admin: Para pentadbir boleh menetapkan storan fail tambahan di Pentadbiran / Storan Fail.
@@ -245,7 +245,7 @@ ms:
         name: OneDrive/SharePoint
         name_placeholder: cth. OneDrive
     show_attachments_toggle:
-      description: 'Deactivating this option will hide the attachments list on the work packages files tab. The files attached in the description of a work package will still be uploaded in the internal attachments storage. '
+      description: 'Menyahaktifkan pilihan ini akan sorokkan senarai lampiran di tab fail pakej kerja. Fail yang dilampirkan di deskripsi pakej kerja masih akan dimuat naik di storan lampiran dalaman.'
       label: Paparkan lampiran di tab fail pakej kerja
     storage_list_blank_slate:
       description: Tambah storan untuk melihatnya di sini.

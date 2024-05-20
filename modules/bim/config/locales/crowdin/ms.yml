@@ -2,7 +2,7 @@
 ms:
   plugin_openproject_bim:
     name: "Kefungsian BIM dan BCF OpenProject"
-    description: "Plugin OpenProject ini mengenalkan kefungsian BIM dana BCF."
+    description: "Plugin OpenProject ini mengenalkan kefungsian BIM dan BCF."
   bim:
     label_bim: 'BIM'
   bcf:

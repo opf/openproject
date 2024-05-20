@@ -115,7 +115,7 @@ ms:
       is_default_cannot_delete: "Peranti ini telah dicatat sebagai default dan tidak boleh dipadam atas sebab polisi keselamatan yang sedang aktif.\nCatatkan peranti lain sebagai default sebelum memadamkannya."
       not_existing: "Tiada peranti 2FA yang berdaftar untuk akaun anda."
       2fa_from_input: Sila masukkan kod daripada <strong>%{device_name}</strong> anda untuk sahkan identiti anda.
-      2fa_from_webauthn: Sila sediakan peranti WebAuthn <strong>%{device_name}</strong>. Jika ia berdasarkan USB, sila pastikan memasang dan menyentuhnya. Selepas itu, klik butang log masuk.
+      2fa_from_webauthn: Sila sediakan peranti WebAuthn <strong>%{device_name}</strong>. Jika ia berdasarkan USB, sila pastikan untuk memasang dan menyentuhnya. Selepas itu, klik butang log masuk.
       webauthn:
         title: "WebAuthn"
         description: Gunakan Pengesahan Web untuk daftarkan peranti FIDO2 (seperti YubiKey) atau enclave yang selamat dari telefon bimbit anda sebagai faktor kedua.

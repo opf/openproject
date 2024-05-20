@@ -2,7 +2,7 @@
 ms:
   plugin_openproject_team_planner:
     name: "Pasukan Perancangan OpenProject"
-    description: "Menyediakan paparan pasukan perancangan"
+    description: "Menyediakan paparan pasukan perancangan."
   permission_view_team_planner: "Lihat perancang pasukan"
   permission_manage_team_planner: "Urus perancang pasukan"
   project_module_team_planner_view: "Perancang pasukan"

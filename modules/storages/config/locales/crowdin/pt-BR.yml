@@ -39,7 +39,7 @@ pt-BR:
   api_v3:
     errors:
       too_many_elements_created_at_once: Muitos elementos criados ao mesmo tempo. Esperado %{max} no máximo, obteve %{actual}.
-  external_file_storages: External file storages
+  external_file_storages: Armazenamentos de arquivos externos
   permission_create_files: 'Armazenamento externo: Criar arquivos'
   permission_delete_files: 'Armazenamento externo: Excluir arquivos'
   permission_header_for_project_module_storages: Pastas do projeto gerenciadas automaticamente
@@ -49,7 +49,7 @@ pt-BR:
   permission_share_files: 'Armazenamento externo: Compartilhar arquivos'
   permission_view_file_links: Exibir vínculos de arquivos
   permission_write_files: 'Armazenamento externo: Gravar arquivos'
-  project_module_storages: Files
+  project_module_storages: Arquivos
   storages:
     buttons:
       complete_without_setup: Concluir sem isso
@@ -229,7 +229,7 @@ pt-BR:
       project_storage_members:
         subtitle: Verifique o status da conexão para o armazenamento %{storage_name_link} de todos os membros do projeto
         title: Status da conexão dos membros
-    permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
+    permission_header_explanation: 'As permissões de arquivos em armazenamentos externos são aplicadas apenas a pastas e arquivos dentro das pastas de projetos gerenciadas automaticamente. Observe que nem todas as permissões de arquivos são compatíveis com todos os provedores de armazenamento. Consulte a documentação sobre <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>permissões de armazenamento de arquivos</a> para mais informações.'
     provider_types:
       label: Tipo de provedor
       nextcloud:
@@ -243,8 +243,8 @@ pt-BR:
         name: OneDrive/SharePoint
         name_placeholder: 'por ex.: OneDrive'
     show_attachments_toggle:
-      description: 'Deactivating this option will hide the attachments list on the work packages files tab. The files attached in the description of a work package will still be uploaded in the internal attachments storage. '
-      label: Show attachments in the work packages files tab
+      description: 'Desativar esta opção ocultará a lista de anexos na aba Arquivos dos pacotes de trabalho. Os arquivos anexados na descrição de um pacote de trabalho ainda serão carregados no armazenamento interno de anexos. '
+      label: Exibir anexos na aba arquivos de pacotes de trabalho
     storage_list_blank_slate:
       description: Adicione um armazenamento para vê-lo aqui.
       heading: Ainda não tem nenhum armazenamento.

@@ -1,6 +1,6 @@
 ms:
   plugin_openproject_openid_connect:
-    name: "Sambungan OpenID OpenProject"
+    name: "Sambungkan OpenID OpenProject"
     description: "Tambah penyedia strategi OmniAuth OpenID Connect ke OpenProject."
   logout_warning: >
     Anda telah log keluar. Sebarang bentuk kandungan yang anda hantar mungkin hilang. Sila [log masuk].
@@ -12,7 +12,7 @@ ms:
         identifier: Pengenal
         secret: "Sulit\n"
         scope: Skop
-        limit_self_registration: Had pendaftaran sendiri
+        limit_self_registration: Hadkan pendaftaran sendiri
   openid_connect:
     menu_title: Pembekal OpenID
     providers:
