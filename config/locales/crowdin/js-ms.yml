@@ -1151,14 +1151,14 @@ ms:
         confirm_deletion_children: "Saya mengesahkan semua keturunan pakej kerja yang tersenarai akan dikeluarkan secara berulang-ulang."
         deletes_children: "Semua pakej kerja anak dan keturunan mereka akan dipadamkan secara berulang-ulang."
       destroy_time_entry:
-        title: "Sahkan pemadaman kemasukan masa"
-        text: "Adakah anda pasti anda ingin memadam kemasukan masa yang berikut?"
+        title: "Sahkan pemadaman entri masa"
+        text: "Adakah anda pasti anda ingin memadam entri masa yang berikut?"
     notice_no_results_to_display: "Tiada hasil yang boleh dilihat untuk dipaparkan."
     notice_successful_create: "Penciptaan yang berjaya."
     notice_successful_delete: "Pemadaman yang berjaya."
     notice_successful_update: "Kemas kini yang berjaya."
     notice_job_started: "kerja bermula."
-    notice_bad_request: "Permintaan yang salah."
+    notice_bad_request: "Ralat Permintaan."
     relations:
       empty: Tiada perhubungan wujud
       remove: Padam perhubungan
@@ -1170,7 +1170,7 @@ ms:
       button_cancel_all: "Batal"
       link_formatting_help: "Bantuan format teks"
       btn_preview_enable: "Previu"
-      btn_preview_disable: "Nyahdayakan tinjauan"
+      btn_preview_disable: "Nyahdayakan previu"
       null_value_label: "Tiada nilai"
       clear_value_label: "-"
       errors:
@@ -1178,7 +1178,7 @@ ms:
         number: "%{field} bukan nombor yang sah"
         maxlength: "%{field} tidak boleh mengandungi lebih dari %{maxLength} digit"
         minlength: "%{field} tidak boleh mengandungi kurang dari %{minLength} digit"
-        messages_on_field: "Medan ini tidak sah: %{messages}"
+        messages_on_field: "Ruang ini tidak sah: %{messages}"
     error_could_not_resolve_version_name: "Tidak dapat menyelesaikan nama versi"
     error_could_not_resolve_user_name: "Tidak dapat menyelesaikan nama pengguna"
     error_attachment_upload: "Fail gagal untuk dimuat naik: %{error}"
@@ -1222,15 +1222,15 @@ ms:
         invite_to_project: "Jemput %{type} ke %{project}"
         User: "pengguna"
         Group: "kumpulan"
-        PlaceholderUser: "pengguna sementara"
+        PlaceholderUser: "pengguna placeholder"
         invite_principal_to_project: "Jemput %{principal} ke %{project}"
       project:
         label: "Projek"
         required: "Sila pilih projek"
-        lacking_permission: "Sila pilih projek lain kerana anda kekurangan kebenaran untuk tugaskan pengguna ke projek yang dipilih masa ini."
+        lacking_permission: "Sila pilih projek lain kerana anda kekurangan kebenaran untuk menugaskan pengguna ke projek yang dipilih masa ini."
         lacking_permission_info: "Anda kekurangan kebenaran untuk menugaskan pengguna ke projek yang sedang dijalankan. Anda perlu memilih yang lain."
         next_button: "Seterusnya"
-        no_results: "Tiada projek yang dijumpai"
+        no_results: "Tiada projek yang ditemui"
         no_invite_rights: "Anda tidak dibenarkan untuk menjemput ahli ke projek ini"
       type:
         required: "Sila pilih jenis untuk dijemput"
@@ -1241,8 +1241,8 @@ ms:
           title: "Kumpulan"
           description: "Kebenaran berdasarkan peranan yang ditugaskan dalam projek terpilih"
         placeholder:
-          title: "Pengguna sementara"
-          title_no_ee: "Pengguna sementara (Edisi Enterprise hanyalah tambahan)"
+          title: "Pengguna placeholder"
+          title_no_ee: "Pengguna placeholder (Edisi Enterprise hanyalah tambahan)"
           description: "Tidak mempunyai akses ke projek dan tiada e-mel yang dihantar keluar."
           description_no_ee: 'Tidak mempunyai akses ke projek dan tiada e-mel dihantar keluar. <br>Lihat<a href="%{eeHref}" target="_blank">Edisi Enterprise</a>'
       principal:
@@ -1250,21 +1250,21 @@ ms:
           name_or_email: "Nama atau alamat e-mel"
           name: "Nama"
         already_member_message: "Sudah menjadi ahli kepada %{project}"
-        no_results_user: "Tiada pengguna dijumpai"
+        no_results_user: "Tiada pengguna ditemui"
         invite_user: "Jemput:"
-        no_results_placeholder: "Tiada pemegang tempat yang dijumpai"
-        create_new_placeholder: "Cipta pengguna sementara baru:"
-        no_results_group: "Tiada kumpulan dijumpai"
+        no_results_placeholder: "Tiada placeholder yang ditemui"
+        create_new_placeholder: "Cipta placeholder baharu:"
+        no_results_group: "Tiada kumpulan ditemui"
         next_button: "Seterusnya"
         required:
           user: "Sila pilih pengguna"
-          placeholder: "Sila pilih pemegang tempat"
+          placeholder: "Sila pilih placeholder"
           group: "Sila pilih kumpulan"
       role:
         label: "Peranan dalam %{project}"
-        no_roles_found: "Tiada peranan dijumpai"
+        no_roles_found: "Tiada peranan ditemui"
         description: >-
-          Ini adalah peranan yang pengguna akan menerima apabila mereka menyertai projek anda. Peranan menentukan tindakan yang mereka dibenarkan untuk ambil dan maklumat yang mereka boleh lihat. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Ketahui lebih lanjut tentang peranan dan kebenaran. </a>
+          Ini adalah peranan yang pengguna akan menerima apabila mereka menyertai projek anda. Peranan tersebut menentukan tindakan yang mereka dibenarkan untuk ambil dan maklumat yang mereka boleh lihat. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Ketahui lebih lanjut tentang peranan dan kebenaran. </a>
         required: "Sila pilih peranan"
         next_button: "Seterusnya"
       message:
@@ -1277,8 +1277,8 @@ ms:
         title: "%{principal} telah dijemput!"
         description:
           user: "Pengguna kini boleh log masuk ke akses %{project}. Sementara itu, anda boleh merancang dengan pengguna itu dan tugaskan pakej kerja sebagai contoh."
-          placeholder: "Pengguna sementara kini boleh digunakan dalam %{project}. Sementara itu anda sudah boleh merancang dengan pengguna dan tugaskan pakej kerja sebagai contoh."
-          group: "Kumpulan kini sebahagian daripada %{project}. Sementara itu anda sudah boleh merancang dengan kumpulan tersebut dan tugaskan pakej kerja sebagai contoh."
+          placeholder: "Placeholder kini boleh digunakan dalam %{project}. Sementara itu anda sudah boleh merancang dengan pengguna tersebut dan tugaskan pakej kerja sebagai contoh."
+          group: "Kumpulan tersebut kini sebahagian daripada %{project}. Sementara itu anda sudah boleh merancang dengan kumpulan tersebut dan menugaskan pakej kerja sebagai contoh."
         next_button: "Teruskan"
     favorite_projects:
       no_results: "Anda tiada projek kegemaran"
@@ -1294,7 +1294,7 @@ ms:
       search_placeholder: "Cari projek..."
       include_subprojects: "Termasuk semua sub-projek"
       tooltip:
-        include_all_selected: "Projek sudah dimasukkan sejak Sertakan semua sub-projek didayakan."
+        include_all_selected: "Projek sudah disertakan sejak Sertakan semua sub-projek didayakan."
         current_project: "Ini adalah projek yang anda terlibat dalam sekarang."
         does_not_match_search: "Projek tidak sepadan dengan kriteria carian."
       no_results: "Tiada projek yang sepadan dengan kriteria carian anda."
@@ -1304,7 +1304,7 @@ ms:
       apply: "Gunakan"
       header_description: "Sorotkan perubahan yang dibuat ke senarai ini pada bila-bila masa lalu."
       enterprise_header_description: "Sorotkan perubahan yang dibuat ke senarai ini pada bila-bila masa lalu dengan edisi Enterprise."
-      show_changes_since: "Tunjuk perubahan sejak"
+      show_changes_since: "Paparkan perubahan sejak"
       baseline_comparison: "Perbandingan asas"
       help_description: "Zon masa rujukan untuk yang dasar."
       time_description: "Dalam masa tempatan anda: %{datetime}"
@@ -1334,7 +1334,7 @@ ms:
       submit_success_message: "Borang telah berjaya dihantar"
       load_error_message: "Terdapat ralat semasa memuatkan borang"
       validation_error_message: "Sila betulkan ralat yang terdapat dalam borang"
-      advanced_settings: "Tetapan maju"
+      advanced_settings: "Tetapan lanjutan"
     spot:
       filter_chip:
         remove: "Keluarkan"

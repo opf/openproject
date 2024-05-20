@@ -329,7 +329,7 @@ pt-BR:
       project_roles: "Papel no projeto"
       wp_shares: "Compartilhamento de pacote de trabalho"
       groups: "Grupos"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    no_modify_on_shared: "No momento, você não pode modificar ou remover associações compartilhadas através da página de membros. Em vez disso, use o modal de compartilhamento."
     delete_member_dialog:
       title: "Remover membro"
       will_remove_the_users_role: "Isto removerá a função do usuário deste projeto."
@@ -493,9 +493,9 @@ pt-BR:
       unsupported_for_multiple_projects: "Movimentação/cópia em massa não é suportada para pacotes de trabalho de vários projetos"
     sharing:
       missing_workflow_warning:
-        title: "Workflow missing for work package sharing"
-        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
-        link_message: "Configure the workflows in the administration."
+        title: "Fluxo de trabalho ausente para compartilhamento de pacotes de trabalho"
+        message: "Nenhum fluxo de trabalho está configurado para a função \"Editor de pacote de trabalho\". Sem um fluxo de trabalho, o usuário compartilhado não pode alterar o status do pacote de trabalho. Os fluxos de trabalho podem ser copiados. Selecione um tipo de origem (ex.: \"Tarefa\") e uma função de origem (ex.: \"Membro\"). Em seguida, selecione os tipos de destino. Para começar, você pode selecionar todos os tipos como alvos. Por fim, selecione a função \"Editor de pacote de trabalho\" como o destino e pressione \"Copiar\". Depois de criar os padrões, ajuste os fluxos de trabalho da mesma forma que faz para todas as outras funções."
+        link_message: "Configure os fluxos de trabalho na administração."
     summary:
       reports:
         category:
@@ -2744,7 +2744,7 @@ pt-BR:
     member_of_group: "Atribuído ao grupo"
     name_or_identifier: "Nome ou identificador"
     only_subproject_id: "Apenas subprojeto"
-    shared_with_user: "Shared with users"
+    shared_with_user: "Compartilhado com usuários"
     shared_with_me: "Compartilhados comigo"
     subproject_id: "Incluindo Subprojeto"
   repositories:

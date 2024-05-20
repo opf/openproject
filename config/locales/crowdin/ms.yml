@@ -64,12 +64,12 @@ ms:
       upgrade_to_ee: "Naik taraf ke edisi Enterprise"
       add_token: "Muat naik token sokongan edisi Enterprise"
       delete_token_modal:
-        text: "Adakah anda yakin anda ingin hapuskan token edisi Enterprise terkini yang telah digunakan?"
+        text: "Adakah anda pasti anda ingin hapuskan token edisi Enterprise terkini yang telah digunakan?"
         title: "Padam token"
       replace_token: "Ganti token sokongan semasa anda"
       order: "Pesan edisi di premis Enterprise"
       paste: "Sisipkan token sokongan edisi Enterprise anda"
-      required_for_feature: "Tambahan ini hanya tersedia dengan token sokongan edisi Enterprise yang aktif"
+      required_for_feature: "Tambahan ini hanya tersedia dengan token sokongan edisi Enterprise yang aktif."
       enterprise_link: "Untuk info lebih lanjut, klik disini."
       start_trial: "Mulakan percubaan percuma"
       book_now: "Tempah sekarang"
@@ -157,7 +157,7 @@ ms:
       plain: "tiada"
       simple_tls: "LDAPS"
       start_tls: "STARTTTLS"
-      plain_description: "Buka sambungan tidak sulit ke server LDAP. Tidak disyorkan untuk produksi."
+      plain_description: "Buka sambungan tidak sulit ke server LDAP. Tidak disarankan untuk produksi."
       simple_tls_description: "Gunakan LDAPS. Perlukan port yang berasingan pada server LDAP. Mod ini selalu lapuk, kami sarankan untuk gunakan STARTTLS jika boleh."
       start_tls_description: "Hantar perintah STARTTLS selepas sambungkan ke port LDAP standard. Disarankan untuk sambungan yang disulitkan."
       section_more_info_link_html: >
@@ -165,7 +165,7 @@ ms:
     tls_options:
       verify_peer: "Sahkan sijil SSL"
       verify_peer_description_html: >
-        Membolehkan verifikasi SSL ketat bagi rantaian dipercayai sijil. <br/><strong>Amaran:</strong> Nyahtandakan pilihan ini nyahaktifkan verifikasi SSL bagi sijil server LDAP. Ini mendedahkan hubungan anda kepada orang dalam serangan Tengah.
+        Membolehkan verifikasi SSL ketat bagi rantaian dipercayai sijil. <br/><strong>Amaran:</strong> Nyahtandakan pilihan ini untuk nyahaktifkan verifikasi SSL bagi sijil server LDAP. Ini mendedahkan hubungan anda kepada Orang dalam serangan Tengah.
       tls_certificate_description: "Jika sijil server LDAP bukan lagi di sumber yang dipercayai di sistem ini, anda boleh tambahkannya secara manual di sini. Masukkan sijil rentetan PEM X509."
   forums:
     show:
@@ -210,8 +210,8 @@ ms:
     reorder_alphabetical: "Susun semula nilai mengikut abjad"
     reorder_confirmation: "Amaran: Susunan semasa nilai yang sedia ada akan hilang. Teruskan?"
     instructions:
-      is_required: "Tandakan ruang yang tersuai seperti yang diperlukan. Ini akan buatkan ia wajib untuk isikan ruang tersebut apabila membuat sumber yang baru atau kemas kini sumber sedia ada."
-      is_for_all: "Tandakan ruang tersuai sebagai tersedia di semua projek baru dan sedia ada."
+      is_required: "Tandakan ruang yang tersuai seperti yang diperlukan. Ini akan buatkan ia wajib untuk isikan ruang tersebut apabila membuat sumber yang baharu atau kemas kini sumber sedia ada."
+      is_for_all: "Tandakan ruang tersuai sebagai tersedia di semua projek baharu dan sedia ada."
       searchable: "Sertakan nilai-nilai ruangan apabila gunakan fungsi pencarian global."
       editable: "Benarkan ruangan tersebut boleh diedit oleh pengguna sendiri."
       visible: "Buat ruangan boleh dilihat ke semua pengguna (bukan pentadbir) dalam gambaran kesuluruhan projek dan dipaparkan di widget butiran projek di Gambaran Keseluruhan Projek."
@@ -414,7 +414,7 @@ ms:
     upsale:
       title: Pengguna sementara
       description: >
-        Pengguna sementara ialah satu cara untuk memperuntukkan pakej kerja kepada pengguna yang bukan sebahagian daripada projek anda. Ianya berguna dalam pelbagai senario; contohnya, jika anda perlu menjejaki tugas untuk sumber yang masih belum dinamakan atau disediakan, atau jika anda tidak ingin memberikan seseorang akses ke OpenProject, tetapi masih hendak menjejaki tugas yang telah diperuntukkan ke mereka.
+        Placeholder ialah satu cara untuk memperuntukkan pakej kerja kepada pengguna yang bukan sebahagian daripada projek anda. Ianya berguna dalam pelbagai senario; contohnya, jika anda perlu menjejaki tugas untuk sumber yang masih belum dinamakan atau disediakan, atau jika anda tidak ingin memberikan seseorang akses ke OpenProject, tetapi masih hendak menjejaki tugas yang telah diperuntukkan ke mereka.
   prioritiies:
     edit:
       priority_color_text: |
@@ -448,7 +448,7 @@ ms:
       settings: "Tetapan"
       form_configuration: "Konfigurasi borang"
       more_info_text_html: >
-        Edisi Enterprise membenarkan anda untuk menyuaikan borang konfigurasi dengan segala jenis penambahan: <br> <ul class="%{list_styling_class}"> <li><b>Tambah kumpulan atribut baru</b></li> <li><b>Namakan semula atribut kumpulan</b></li> <li><b>Tambah jadual pakej kerja yang berkaitan</b></li> </ul>
+        Edisi Enterprise membenarkan anda untuk menyuaikan borang konfigurasi dengan segala jenis penambahan: <br> <ul class="%{list_styling_class}"> <li><b>Tambah kumpulan atribut baharu</b></li> <li><b>Namakan semula atribut kumpulan</b></li> <li><b>Tambah jadual pakej kerja yang berkaitan</b></li> </ul>
       projects: "Projek"
       enabled_projects: "Projek yang diaktifkan"
       edit_query: "Edit jadual"

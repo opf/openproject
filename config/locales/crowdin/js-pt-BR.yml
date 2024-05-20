@@ -363,7 +363,7 @@ pt-BR:
             standard:
               learn_about_link: https://www.openproject.org/docs/release-notes/14-1-0/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
+                A versão contém vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Exportação de PDF da visualização de Gantt, por exemplo, para impressão (complemento Enterprise)</li> <li>Projetos favoritos</li> <li>Seções em Reuniões</li> <li>Exibição de reuniões na página Meu trabalho e nas páginas de visão geral do projeto</li> <li>Possibilidade de ocultar anexos na guia Arquivos</li> <li>Campos personalizados do tipo Link (URL)</li> </ul>
     ical_sharing_modal:
       title: "Assinar calendário"
       inital_setup_error_message: "Ocorreu um erro ao buscar dados."
@@ -1056,7 +1056,7 @@ pt-BR:
       sharing:
         share: "Compartilhar"
         title: "Compartilhar pacote de trabalho"
-        show_all_users: "Show all users with whom the work package has been shared with"
+        show_all_users: "Exibir todos os usuários com quem o pacote de trabalho foi compartilhado"
         selected_count: "%{count} selecionado"
         selection:
           mixed: "Misturado"
@@ -1284,7 +1284,7 @@ pt-BR:
         next_button: "Continuar"
     favorite_projects:
       no_results: "Você não possui projetos favoritos"
-      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
+      no_results_subtext: "Adicione um ou vários projetos como favoritos por meio de sua visão geral ou na lista de projetos."
     include_projects:
       toggle_title: "Incluir projetos"
       title: "Projetos"

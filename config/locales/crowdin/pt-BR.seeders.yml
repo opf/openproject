@@ -252,20 +252,20 @@ pt-BR:
             item_4:
               subject: Fim do projeto
           wiki: |
-            _In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki._
+            _Nesta wiki, você pode criar e editar páginas e subpáginas de forma colaborativa para criar uma wiki do projeto._
 
-            **You can:**
+            **Você pode:**
 
-            * Insert text and images, also with copy and paste from other documents
-            * Create a page hierarchy with parent pages
-            * Include wiki pages to the project menu
-            * Use macros to include, e.g. table of contents, work package lists, or Gantt charts
-            * Include wiki pages in other text fields, e.g. project overview page
-            * Include links to other documents
-            * View the change history
-            * View as Markdown
+            * Inserir texto e imagens, inclusive copiando e colando de outros documentos
+            * Criar uma hierarquia de páginas com páginas pai
+            * Incluir páginas da wiki no menu do projeto
+            * Usar macros para incluir, por exemplo, índice, listas de pacotes de trabalho ou gráficos de Gantt
+            * Incluir páginas da wiki em outros campos de texto, como na página de visão geral do projeto
+            * Incluir links para outros documentos
+            * Visualizar o histórico de alterações
+            * Visualizar como Markdown
 
-            More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
+            Mais informações: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: Projeto Scrum
           status_explanation: Todas as tarefas estão dentro do cronograma. As pessoas envolvidas conhecem suas tarefas. O sistema está completamente configurado.
