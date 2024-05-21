@@ -44,6 +44,8 @@ module Menus
       [
         OpenProject::Menu::MenuGroup.new(header: nil,
                                          children: main_static_filters),
+        OpenProject::Menu::MenuGroup.new(header: I18n.t(:"projects.lists.public"),
+                                         children: public_filters),
         OpenProject::Menu::MenuGroup.new(header: I18n.t(:"projects.lists.my_private"),
                                          children: my_filters),
         OpenProject::Menu::MenuGroup.new(header: I18n.t(:"activerecord.attributes.project.status_code"),
@@ -76,9 +78,16 @@ module Menus
       end
     end
 
+    def public_filters
+      ::Queries::Projects::ProjectQuery
+        .public_lists
+        .order(:name)
+        .map { |query| query_menu_item(query) }
+    end
+
     def my_filters
       ::Queries::Projects::ProjectQuery
-        .where(user: current_user)
+        .private_lists(user: current_user)
         .order(:name)
         .map { |query| query_menu_item(query) }
     end
