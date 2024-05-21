@@ -485,9 +485,9 @@ ko:
       unsupported_for_multiple_projects: "여러 프로젝트에서 작업 패키지 일괄 이동/복사는 지원되지 않습니다."
     sharing:
       missing_workflow_warning:
-        title: "Workflow missing for work package sharing"
-        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
-        link_message: "Configure the workflows in the administration."
+        title: "작업 패키지 공유에 대한 워크플로 누락"
+        message: "'작업 패키지 편집자' 역할에 대해 구성된 워크플로가 없습니다. 워크플로가 없으면 사용자와 공유된 워크플로는 작업 패키지의 상태를 변경할 수 없습니다. 워크플로를 복사할 수는 있습니다. 소스 유형(예: '작업')과 소스 역할(예: '멤버')을 선택하세요. 그런 다음 대상 유형을 선택하세요. 시작하기 위해 모든 유형을 대상으로 선택할 수 있습니다. 마지막으로 '작업 패키지 편집자' 역할을 대상으로 선택하고 '복사'를 누르세요. 기본값을 생성한 후 다른 모든 역할에 대해 수행하는 것처럼 워크플로를 미세 조정하세요."
+        link_message: "관리에서 워크플로를 구성하세요."
     summary:
       reports:
         category:
@@ -2710,7 +2710,7 @@ ko:
     member_of_group: "담당자의 그룹"
     name_or_identifier: "이름 또는 식별자"
     only_subproject_id: "하위 프로젝트만"
-    shared_with_user: "Shared with users"
+    shared_with_user: "사용자와 공유됨"
     shared_with_me: "나와 공유됨"
     subproject_id: "하위 프로젝트 포함"
   repositories:
