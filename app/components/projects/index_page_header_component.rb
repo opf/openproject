@@ -70,7 +70,17 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
 
   def can_save_as? = may_save_as? && query.changed?
 
-  def can_save? = can_save_as? && query.persisted? && query.user == current_user
+  def can_save?
+    return false unless current_user.logged?
+    return false unless query.persisted?
+    return false unless query.changed?
+
+    if query.public?
+      current_user.allowed_globally?(:manage_public_project_queries)
+    else
+      query.user == current_user
+    end
+  end
 
   def can_rename? = may_save_as? && query.persisted? && query.user == current_user && !query.changed?
 

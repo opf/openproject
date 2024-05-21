@@ -41,14 +41,26 @@ module Queries::Projects::ProjectQueries
               presence: true,
               length: { maximum: 255 }
 
-    validate :user_is_current_user_and_logged_in
     validate :name_select_included
     validate :existing_selects
+    validate :allowed_to_modify_private_query
+    validate :allowed_to_modify_public_query
 
+    protected
 
-    def user_is_current_user_and_logged_in
-      unless user.logged? && user == model.user
-        errors.add :base, :error_unauthorized
+    def allowed_to_modify_private_query
+      return if model.public?
+
+      if model.user != user
+        errors.add :base, :can_only_be_modified_by_owner
+      end
+    end
+
+    def allowed_to_modify_public_query
+      return unless model.public?
+
+      unless user.allowed_globally?(:manage_public_project_queries)
+        errors.add :base, :need_permission_to_modify_public_query
       end
     end
 
