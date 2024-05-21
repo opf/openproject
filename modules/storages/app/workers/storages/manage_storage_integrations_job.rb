@@ -27,7 +27,7 @@
 #++
 
 module Storages
-  class ManageNextcloudIntegrationJob < ApplicationJob
+  class ManageStorageIntegrationsJob < ApplicationJob
     include GoodJob::ActiveJobExtensions::Concurrency
     using ::Storages::Peripherals::ServiceResultRefinements
 
@@ -44,12 +44,11 @@ module Storages
     good_job_control_concurrency_with(
       total_limit: 2,
       enqueue_limit: 1,
-      perform_limit: 1,
-      key: "ManageNextcloudIntegrationJob"
+      perform_limit: 1
     )
     SINGLE_THREAD_DEBOUNCE_TIME = 4.seconds.freeze
     KEY = :manage_nextcloud_integration_job_debounce_happened_at
-    CRON_JOB_KEY = :"Storages::ManageNextcloudIntegrationJob"
+    CRON_JOB_KEY = :"Storages::ManageStorageIntegrationsJob"
 
     queue_with_priority :above_normal
 
