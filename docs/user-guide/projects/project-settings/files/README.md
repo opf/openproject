@@ -19,7 +19,7 @@ keywords: file storages, project folder, storages
 
 ## Files module overview
 
-Under the **Files** module you will be able to manage external file storages, such as Nextcloud or OneDrive/SharePoint and manage direct attachments upload under *Files* tab in work packages. Navigate to **Project settings -> Files** to get here. 
+Under the **Files** module you will be able to manage external file storages, such as Nextcloud or OneDrive/SharePoint and manage attachments upload under *Files* tab in work packages. Navigate to **Project settings -> Files** to get here. 
 
 ## Show attachments in the work packages files tab
 
