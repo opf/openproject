@@ -87,7 +87,7 @@ In both these cases, use the `ClamAV (Host)` option with `clamav:3310` as the ho
 
 ## Configuration in OpenProject
 
-To enable the virus scanning functionality, visit *Administration > Attachments > Virus scanning*.
+To enable the virus scanning functionality, visit *Administration > Files > Attachments > Virus scanning*.
 
 You will see the following options:
 
