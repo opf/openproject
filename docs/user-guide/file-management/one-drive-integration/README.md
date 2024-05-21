@@ -26,6 +26,7 @@ This integration makes it possible for you to:
 | [Upload files from OpenProject](#upload-files-from-openproject) | How to upload files to OneDrive/SharePoint from OpenProject  |
 | [Download, open folders and remove links](#download-open-folders-and-remove-links) | How to download and open files and folders and remove links  |
 | [Permissions and access control](#permissions-and-access-control) | Permissions and access control in OneDrive/SharePoint file storage |
+| [Possible errors and troubleshooting](#possible-errors-and-troubleshooting) | Common errors in OneDriveS/SharePoint integration and how to troubleshoot them |
 
 ## Connect your OpenProject and OneDrive/SharePoint accounts
 
@@ -110,3 +111,11 @@ When a file or folder from OneDrive/SharePoint is linked to a work package, an O
 However, all available actions depend on permissions the OpenProject user (or more precisely, the OneDrive/SharePoint account tied to that user) has in OneDrive/SharePoint. In other words, a user who does not have the permission to access the file in OneDrive/SharePoint will also *not* be able to open, download, or modify the file in OpenProject.
 
 Please note, that with automatically managed project folders these permissions are set by OpenProject based on user permissions in OpenProject.
+
+## Possible errors and troubleshooting 
+
+### No permission to see this file
+
+If you are unable to see the details of a file or are unable to open some of the files linked to a work package, it could be related to your OneDrive/SharePoint account not having the necessary permissions. In such a case, you will be able to see the name of file, time of last modification and the name of the modifier but you will not be able to perform any further actions. To open or access these files, please contact your OneDrive/SharePoint administrator or the creator of the file so that they can grant you the necessary permissions.
+
+![Error message based on missing permissions to see a file in OpenProject](openproject_onedrive_no_permission_to_view.png)
