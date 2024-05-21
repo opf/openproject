@@ -9,19 +9,21 @@ keywords: file storages, project folder, storages
 
 > **Info**: Before a storage service can be added to a project, an administrator must first set up [Nextcloud integration](../../../../system-admin-guide/integrations/nextcloud/) or [OneDrive/SharePoint integration](../../../../system-admin-guide/integrations/one-drive/) with OpenProject.
 
-| Topic                                                                                                            | Description                                       |
-|------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------|
-| [Activate File Storages module](#activate-file-storages-module)                                                  | Activate File Storages module in a project        |
-| [Add Nextcloud storage](#add-a-nextcloud-storage-to-a-project)                                                   | Add your Nextcloud storage to a project           |
-| [Nextcloud and project folders](#project-folders)                                                                | How to manage Nextcloud project folders           |
-| [Edit and delete Nextcloud storage](#edit-an-existing-nextcloud-storage)                                         | Edit and delete an existing Nextcloud storage     |
+| Topic                                                        | Description                                       |
+| ------------------------------------------------------------ | :------------------------------------------------ |
+| [Files module overview](#files-module-overview)              | Files module explained                            |
+| [Add Nextcloud storage](#add-a-nextcloud-storage-to-a-project) | Add your Nextcloud storage to a project           |
+| [Nextcloud and project folders](#project-folders)            | How to manage Nextcloud project folders           |
+| [Edit and delete Nextcloud storage](#edit-an-existing-nextcloud-storage) | Edit and delete an existing Nextcloud storage     |
 | [Add OneDrive/SharePoint storage to a project](#add-a-onedrivesharepoint-storage-to-a-project-enterprise-add-on) | Add your OneDrive/SharePoint storage to a project |
 
-## Activate File Storages module
+## Files module overview
 
-Once you are certain that an administrator has set up a file storage integration (Nextcloud or OneDrive/SharePoint), navigate to any existing project in your OpenProject instance and click on **Project settings -> Modules**. There, activate the **File Storages** module by clicking on the checkbox next to it and then clicking on **Save**.
+Under the **Files** module you will be able to 
 
-![List of modules activated for a project](project-modules.png)
+Once you are certain that an administrator has set up a file storage integration (Nextcloud or OneDrive/SharePoint), navigate to any existing project in your OpenProject instance and click on **Project settings -> Files**. 
+
+
 
 A new menu item **Files storages** will appear on the left side menu.
 

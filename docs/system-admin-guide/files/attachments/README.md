@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Attachments
-  priority: 955
+  priority: 800
 title: Attachments in OpenProject
 description: Attachment settings and virus scanning in OpenProject
 keywords: Attachment, attachment settings, virus scanning, clamav
