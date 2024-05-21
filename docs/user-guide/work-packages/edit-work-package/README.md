@@ -76,6 +76,8 @@ Starting with OpenProject 13.0 you can add emojis to all text editors. Type a co
 
 ## Attach files to work packages
 
+> **Important note**: please note, that this option needs to activated by your project administrator under [*Project settings*](./../projects/project-settings/files).
+ 
 You can manually upload files to work packages directly under the tab **Files** in the work package detailed view. You can either attach files by dragging and dropping or by using the **+Attach files** option.
 
 ![Manual attachment upload in an OpenProject work package](openproject_user_guide_wp_file_upload.png)
