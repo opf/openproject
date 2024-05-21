@@ -35,6 +35,7 @@ module Projects
     attribute :identifier
     attribute :description
     attribute :public
+    attribute :settings
     attribute :active do
       validate_active_present
       validate_changing_active
@@ -81,7 +82,7 @@ module Projects
     def validate_parent_assignable
       if model.parent &&
          model.parent_id_changed? &&
-         !assignable_parents.where(id: parent.id).exists?
+         !assignable_parents.exists?(id: parent.id)
         errors.add(:parent, :does_not_exist)
       end
     end
