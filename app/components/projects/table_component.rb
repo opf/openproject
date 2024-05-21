@@ -30,8 +30,6 @@
 
 module Projects
   class TableComponent < ::TableComponent
-    include OpTurbo::Streamable
-
     options :params # We read collapsed state from params
     options :current_user # adds this option to those of the base class
     options :query
