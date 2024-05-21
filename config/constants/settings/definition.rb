@@ -533,10 +533,10 @@ module Settings
         default: 8,
         format: :integer
       },
-      hours_per_week: {
+      days_per_week: {
         description: "This will define what is considered a “week” when displaying duration in a more natural way " \
-                     "(for example, if a week is 40 hours, 1260 hours would be 7.5 weeks).",
-        default: 40,
+                     "(for example, if a week is 5 days, 15 days 3 weeks).",
+        default: 5,
         format: :integer
       },
       # Health check configuration

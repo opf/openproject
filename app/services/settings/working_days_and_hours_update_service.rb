@@ -36,7 +36,6 @@ class Settings::WorkingDaysAndHoursUpdateService < Settings::UpdateService
   end
 
   def validate_params(params)
-    binding.pry
     contract = Settings::WorkingDaysAndHoursParamsContract.new(model, user, params:)
     ServiceResult.new success: contract.valid?,
                       errors: contract.errors,

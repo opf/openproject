@@ -35,7 +35,9 @@ See COPYRIGHT and LICENSE files for more details.
       class: 'op-working-days-admin-settings'
     ) do %>
 
-  <section class="form--section">
+  <section class="form--section"
+           data-application-target="dynamic"
+           data-controller="admin--working-days-and-hours">
     <fieldset class="form--fieldset">
       <div class="form--field">
         <%= setting_text_field :hours_per_day,
@@ -44,14 +46,18 @@ See COPYRIGHT and LICENSE files for more details.
       </div>
 
       <div class="form--field">
-        <%= setting_text_field :hours_per_week,
-                               type: :number %>
-        <div class="form--field-instructions"><%= t("setting_hours_per_week_explanation") %></div>
+        <%= setting_text_field :days_per_week,
+                               type: :number,
+                               data: { admin__working_days_and_hours_target: 'daysPerWeekInput',
+                                       action: 'blur->admin--working-days-and-hours#recalculateDaysPerMonth' } %>
+        <div class="form--field-instructions"><%= t("setting_days_per_week_explanation") %></div>
       </div>
 
       <div class="form--field">
         <%= setting_text_field :days_per_month,
-                               type: :number %>
+                               type: :number,
+                               data: { admin__working_days_and_hours_target: 'daysPerMonthInput',
+                                       action: 'blur->admin--working-days-and-hours#recalculateDaysPerWeek' } %>
         <div class="form--field-instructions"><%= t("setting_days_per_month_explanation") %></div>
       </div>
 
@@ -65,7 +71,7 @@ See COPYRIGHT and LICENSE files for more details.
       </p>
     </div>
   </div>
-  
+
   <section class="form--section">
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= t('settings.working_days.section_work_week') %></legend>

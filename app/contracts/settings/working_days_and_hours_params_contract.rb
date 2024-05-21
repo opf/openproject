@@ -32,7 +32,7 @@ module Settings
 
     validate :working_days_are_present
     validate :hours_per_day_are_present
-    validate :hours_per_week_are_present
+    validate :days_per_week_are_present
     validate :days_per_month_are_present
     validate :unique_job
 
@@ -50,9 +50,9 @@ module Settings
       end
     end
 
-    def hours_per_week_are_present
-      if hours_per_week.blank?
-        errors.add :base, :hours_per_week_are_missing
+    def days_per_week_are_present
+      if days_per_week.blank?
+        errors.add :base, :days_per_week_are_missing
       end
     end
 
@@ -76,8 +76,8 @@ module Settings
       params[:hours_per_day]
     end
 
-    def hours_per_week
-      params[:hours_per_week]
+    def days_per_week
+      params[:days_per_week]
     end
 
     def days_per_month
