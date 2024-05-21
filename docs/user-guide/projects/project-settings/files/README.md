@@ -19,17 +19,19 @@ keywords: file storages, project folder, storages
 
 ## Files module overview
 
-Under the **Files** module you will be able to 
+Under the **Files** module you will be able to manage external file storages, such as Nextcloud or OneDrive/SharePoint and manage direct attachments upload under *Files* tab in work packages. Navigate to **Project settings -> Files** to get here. 
 
-Once you are certain that an administrator has set up a file storage integration (Nextcloud or OneDrive/SharePoint), navigate to any existing project in your OpenProject instance and click on **Project settings -> Files**. 
+## Show attachments in the work packages files tab
+
+To activate or de-activate the direct attachments being shown under **Files** tab in work packages, navigate to *Project settings > Files* and select the *Attachments* tab. Here you can decide whether the attachments option will be shown under *Files* tab of work packages detailed view for a specific project. 
+
+![Show attachments in the work packages files tab in OpenProject](project-settings-attachments.png)
 
 
-
-A new menu item **Files storages** will appear on the left side menu.
 
 ## Add a new storage to a project
 
-Click on this new **Files storages** menu entry. It will take you to a page titled **File storages available in this project**, which will initially be empty.
+Click on the **External file storages** tab under **Files**. It will take you to a page showing an overview of all external file storages available in this project, which will initially be empty.
 
 Click on **+ Storage** or the **+** icon below the table.
 
@@ -55,8 +57,6 @@ Here you can choose which kind of OneDrive/SharePoint project folder will be the
 
 Click on **Add** to add your new OneDrive/SharePoint file storage to this project.
 
-![SharePoint/OneDrive file storage is added to an OpenProject project](sharepoint-storage-set.png)
-
 The SharePoint file storage is now available to all work packages in this project.
 
 > **Note:** Please refer to the [OneDrive/SharePoint user guide](../../../file-management/one-drive-integration) for further instructions on using the integration at a user level.
@@ -76,8 +76,6 @@ In the last step of the process, you will be able to choose which kind of projec
 ![Select the project folder type](storage-add-project-folder.png)
 
 Click on **Add** to add your new Nextcloud file storage to this project.
-
-![List of project storages](storage-list.png)
 
 The Nextcloud file storage is now available to all work packages in this project.
 
