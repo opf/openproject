@@ -487,7 +487,7 @@ ms:
     sharing:
       missing_workflow_warning:
         title: "Aliran kerja hilang untuk perkongsian pakej kerja"
-        message: "Tiada aliran kerja yang dikonfigurasikan untuk peranan 'Pengedit Pakej Kerja'. Tanpa aliran pakej kerja, yang dikongsikan dengan pengguna tidak boleh mengubah status pakej kerja. Aliran pakej kerja telah disalin. Pilih jenis sumber (cth. 'Tugasan') dan peranan sumber (cth. 'Ahli'). Kemudian pilih jenis sasaran. Untuk bermula, anda boleh memilih semua jenis sebagai sasaran. Akhirnya, pilih peranan 'Pengedit Pakej Kerja' sebagai sasaran dan tekan 'Salin'. Setelah mencipta default, selaraskan aliran kerja sebagaimana anda lakukan untuk peranan lain."
+        message: "Tiada aliran kerja yang dikonfigurasikan untuk peranan 'Pengedit Pakej Kerja'. Tanpa aliran kerja, yang dikongsikan dengan pengguna tidak boleh mengubah status pakej kerja. Aliran kerja boleh disalin. Pilih jenis sumber (cth. 'Tugasan') dan peranan sumber (cth. 'Ahli'). Kemudian pilih jenis sasaran. Untuk bermula, anda boleh memilih semua jenis sebagai sasaran. Akhirnya, pilih peranan 'Pengedit Pakej Kerja' sebagai sasaran dan tekan 'Salin'. Setelah mencipta default, selaraskan aliran kerja sebagaimana anda lakukan untuk peranan lain."
         link_message: "Konfigurasikan aliran kerja dalam pentadbiran."
     summary:
       reports:
@@ -1468,7 +1468,7 @@ ms:
         add_groups: "Tambah kumpulan atribut baharu"
         rename_groups: "Nama semula kumpulan atribut"
       project_filters:
-        description_html: "Menyaring dan mengisihkan ruang tersuai ialah tambahan edisi Enterprise."
+        description_html: "Menyaring dan menyusun ruang tersuai ialah tambahan edisi Enterprise."
   enumeration_activities: "Aktiviti penjejakan masa"
   enumeration_work_package_priorities: "Keutamaan pakej kerja"
   enumeration_reported_project_statuses: "Status projek yang dilaporkan"
@@ -2359,7 +2359,7 @@ ms:
       mentioned_by: "%{user} menyebut anda di ruang komen"
       more_to_see:
         other: "Terdapat %{count} lagi pakej kerja dengan pemberitahuan."
-      open_in_browser: "Buka di laman layar"
+      open_in_browser: "Buka di pelayar"
       reason:
         watched: "Dipantau"
         assigned: "Ditugaskan"
@@ -2426,8 +2426,8 @@ ms:
   mail_body_lost_password: "Untuk menukar kata laluan, klik pada pautan berikut:"
   mail_password_change_not_possible:
     title: "Tidak dapat menukar kata laluan"
-    body: "Akaun anda %{app_title} telah disambungkan ke penyedia pengesahan luar (%{name})."
-    subtext: "Kata laluan bagi akaun luar tidak boleh ditukar di dalam aplikasi. Sila gunakan fungsi kata laluan hilang di penyedia pengesahan anda."
+    body: "Akaun anda %{app_title} telah disambungkan ke penyedia pengesahan luaran (%{name})."
+    subtext: "Kata laluan bagi akaun luar tidak boleh ditukar di dalam aplikasi. Sila gunakan fungsi kehilangan kata laluan di penyedia pengesahan anda."
   mail_body_register: "Selamat datang ke %{app_title}. Sila aktifkan akaun anda dengan mengklik pautan ini:"
   mail_body_register_header_title: "E-mel jemputan ahli projek"
   mail_body_register_user: "Kepada %{name},"
@@ -2609,7 +2609,7 @@ ms:
   permission_edit_own_time_entries: "Edit log masa sendiri"
   permission_edit_project: "Edit projek"
   permission_edit_reportings: "Edit laporan"
-  permission_edit_time_entries: "Edit log masa untuk pengguna-pengguna lain"
+  permission_edit_time_entries: "Edit log masa untuk pengguna lain"
   permission_edit_timelines: "Edit garis masa"
   permission_edit_wiki_pages: "Edit halaman wiki"
   permission_export_work_packages: "Eksport pakej kerja"
@@ -2799,7 +2799,7 @@ ms:
       oauth_application_details_link_text: "Pergi ke halaman tetapan"
       setup_documentation_details: "Jika anda memerlukan bantuan mengkonfigurasikan storan fail baharu, sila lihat dokumentasi berikut:"
       setup_documentation_details_link_text: "Penyediaan Storan Fail"
-      show_warning_details: "Untuk gunakan storan fail ini, ingat untuk mengaktifkan modul dan storan khusus di tetapan project setiap projek yang dikehendaki."
+      show_warning_details: "Untuk gunakan storan fail ini, ingat untuk mengaktifkan modul dan storan khusus di tetapan projek setiap projek yang dikehendaki."
     subversion:
       existing_title: "Repositori Subversion sedia ada"
       existing_introduction: "Jika anda mempunyai repositori Subversion sedia ada, anda boleh pautkan ia dengan OpenProject untuk mengaksesnya dari dalam aplikasi."
@@ -2899,7 +2899,7 @@ ms:
     Di mod <b>berasaskan kerja</b>, % Lengkap dikira daripada berapa banyak kerja yang telah siap berhubungan dengan jumlah kerja. Di mod <b>berasaskan status</b>, setiap status mempunyai kadar % Lengkap berkait dengannya. Pertukaran status akan mengubah % Lengkap.
   setting_work_package_properties: "Ciri-ciri pakej kerja"
   setting_work_package_startdate_is_adddate: "Guna tarikh semasa sebagai tarikh mula untuk pakej kerja baharu"
-  setting_work_packages_projects_export_limit: "Pakej kerja / had eksport projek"
+  setting_work_packages_projects_export_limit: "Pakej kerja / Had eksport projek"
   setting_journal_aggregation_time_minutes: "Tindakan pengguna dikumpulkan dalam"
   setting_log_requesting_user: "Log masuk pengguna yang direkodkan, nama, dan alamat mel untuk semua permintaan"
   setting_login_required: "Pengesahan diperlukan"
@@ -2996,7 +2996,7 @@ ms:
         type: "Keseluruhan baris mengikut Jenis"
         priority: "Keseluruhan baris mengikut Keutamaan"
     icalendar:
-      enable_subscriptions_text_html: "Benarkan pengguna dengan kebenaran yang diperlukan untuk melanggan kalendar OpenProject dan akses informasi pakej kerja melalui kalendar pelanggan luar.\n<strong>Perhatian:</strong> Sila baca tentang <a href=\"%{link}\" target=\"_blank\">langganan iCalendar</a> untuk fahami tentang potensi risiko keselamatan sebelum membenarkannya."
+      enable_subscriptions_text_html: "Benarkan pengguna dengan kebenaran yang diperlukan untuk melanggan kalendar OpenProject dan akses maklumat pakej kerja melalui kalendar pelanggan luaran.\n<strong>Perhatian:</strong> Sila baca tentang <a href=\"%{link}\" target=\"_blank\">langganan iCalendar</a> untuk fahami tentang potensi risiko keselamatan sebelum membenarkannya."
     language_name_being_default: "%{language_name} (default)"
     notifications:
       events_explanation: "Tetapkan mana-mana peristiwa untuk e-mel dihantar keluar. Pakej kerja dikecualikan dari senarai ini kerana pemberitahuannya boleh dikonfigurasikan khusus ke setiap pengguna."
@@ -3064,9 +3064,9 @@ ms:
   text_custom_field_hint_activate_per_project_and_type: >
     Ruang tersuai perlu diaktifkan untuk setiap jenis pakej kerja dan setiap projek.
   text_wp_status_read_only_html: >
-    Edisi Enterprise akan menambahkan segala tambahan ke ruangan status pakej kerja: <br> <ul> <li><b>Benarkan untuk menandakan pakej kerja untuk baca sahaja untuk status tertentu </b></li> </ul>
+    Edisi Enterprise akan menambahkan segala tambahan ke ruang status pakej kerja: <br> <ul> <li><b>Benarkan untuk menandakan pakej kerja untuk baca sahaja pada status tertentu </b></li> </ul>
   text_project_custom_field_html: >
-    Edisi Enterprise akan menambahkan segala jenis tambahan ke ruang tersuai projek: <br> <ul> <li><b> Tambah ruang tersuai ke projek ke senarai projek anda untuk ciptakan paparan portfolio project </b></li> </ul>
+    Edisi Enterprise akan menambahkan segala jenis tambahan ke ruang tersuai projek: <br> <ul> <li><b> Tambah ruang tersuai ke projek ke senarai Projek anda untuk ciptakan paparan portfolio project </b></li> </ul>
   text_custom_logo_instructions: >
     Logo putih pada latar belakang telus disarankan. Untuk hasil yang terbaik pada kedua-duanya, paparan konvensional dan paparan retina, pastikan dimensi imej adalah 460px kali 60px.
   text_custom_export_logo_instructions: >
@@ -3249,12 +3249,12 @@ ms:
   warning_user_limit_reached_admin: >
     Menambah pengguna tambahan akan melebihi had semasa. Sila <a href="%{upgrade_url}">naik taraf pelan anda</a> bagi memastikan pengguna luaran dapat mengakses contoh ini.
   warning_user_limit_reached_instructions: >
-    Anda telah mencapai had pengguna anda (%{current}/%{max} pengguna aktif). Siila hubungi sales@openproject.com untuk menaikkan taraf pelan edisi Enterprise anda dan tambah pengguna tambahan.
+    Anda telah mencapai had pengguna anda (%{current}/%{max} pengguna aktif). Sila hubungi sales@openproject.com untuk menaik taraf pelan edisi Enterprise anda dan tambah pengguna tambahan.
   warning_protocol_mismatch_html: >
 
   warning_bar:
     https_mismatch:
-      title: "Mod persediaan HTTPS tidak sepadan"
+      title: "Mod penyediaan HTTPS tidak sepadan"
       text_html: >
         Aplikasi anda sedang berjalan dengan mod HTTPS ditetapkan kepada <code>%{set_protocol}</code>, tetapi permintaannya ialah permintaan <code>%{actual_protocol}</code>. Ini akan mengakibatkan ralat! Anda perlu menetapkan nilai konfigurasi seperti yang berikut: <code>%{setting_value}</code>. Sila lihat <a href="%{more_info_path}">dokumentasi pemasangan</a> atas cara-cara untuk menetapkan konfigurasi ini.
     hostname_mismatch:
@@ -3544,4 +3544,4 @@ ms:
     description: "Integrasi penyedia strategi OmniAuth untuk pengesahan dalam OpenProject."
   plugin_openproject_auth_saml:
     name: "SAML OmniAuth / Daftar Masuk Tunggal"
-    description: "Tambah penyedia SAML OmniAuth ke OpenProject"
+    description: "Tambah penyediaan SAML OmniAuth ke OpenProject"

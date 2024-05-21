@@ -361,7 +361,6 @@ pt-BR:
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/docs/release-notes/14-1-0/
               new_features_html: >
                 A versão contém vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Exportação de PDF da visualização de Gantt, por exemplo, para impressão (complemento Enterprise)</li> <li>Projetos favoritos</li> <li>Seções em Reuniões</li> <li>Exibição de reuniões na página Meu trabalho e nas páginas de visão geral do projeto</li> <li>Possibilidade de ocultar anexos na guia Arquivos</li> <li>Campos personalizados do tipo Link (URL)</li> </ul>
     ical_sharing_modal:

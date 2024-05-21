@@ -361,7 +361,6 @@ zh-CN:
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/docs/release-notes/14-1-0/
               new_features_html: >
                 该版本包含各种新功能和改进： <br> <ul class="%{list_styling_class}"> <li>甘特视图的 PDF 导出，例如用于打印（企业插件）</li> <li>收藏项目</li> <li>会议中的章节</li> <li>在 "我的 "页面和项目概览页面显示会议</li> <li>在 "文件 "选项卡中隐藏附件的可能性</li> <li>链接（URL）类型的自定义字段</li> </ul>
     ical_sharing_modal:
