@@ -16,7 +16,7 @@ Under [external file storages](./external-file-storages) you can add Nextcloud o
 
 ## Attachments
 
-Under [attachments](./attachments) you can manage settings for direct attachments, such as for work packages or wiki pages. You will also find the [virus scanning](./attachments/virus-scanning) settings here. 
+Under [attachments](./attachments) you can manage settings for direct attachments in work packages. You will also find the [virus scanning](./attachments/virus-scanning) settings here. 
 
 
 
