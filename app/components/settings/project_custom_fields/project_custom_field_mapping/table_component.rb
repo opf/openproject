@@ -30,6 +30,7 @@ module Settings
   module ProjectCustomFields
     module ProjectCustomFieldMapping
       class TableComponent < Projects::TableComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+        include OpTurbo::Streamable
       end
     end
   end

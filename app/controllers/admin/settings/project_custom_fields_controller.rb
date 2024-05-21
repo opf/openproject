@@ -40,6 +40,7 @@ module Admin::Settings
                   only: %i(show edit project_mappings unlink update destroy delete_option reorder_alphabetical move drop)
     before_action :prepare_custom_option_position, only: %i(update create)
     before_action :find_custom_option, only: :delete_option
+    before_action :project_custom_field_mappings_query, only: %i[project_mappings unlink]
     # rubocop:enable Rails/LexicallyScopedActionFilter
 
     def show_local_breadcrumb
@@ -77,15 +78,10 @@ module Admin::Settings
       project = Project.find(permitted_params.project_custom_field_project_mapping[:project_id])
       project_custom_field_mapping = @custom_field.project_custom_field_project_mappings.find_by(project:)
       delete_service = ProjectCustomFieldProjectMappings::DeleteService
-               .new(user: current_user, model: project_custom_field_mapping)
-               .call
+                         .new(user: current_user, model: project_custom_field_mapping)
+                         .call
 
-      delete_service.on_success do
-        remove_via_turbo_stream(
-          component: Settings::ProjectCustomFields::ProjectCustomFieldMapping::RowComponent
-                       .new(row: [project, 0], table: nil)
-        )
-      end
+      delete_service.on_success { render_unlink_response(project:) }
 
       respond_to_with_turbo_streams(status: delete_service.success? ? :ok : :unprocessable_entity)
     end
@@ -128,6 +124,32 @@ module Admin::Settings
     end
 
     private
+
+    def render_unlink_response(project:)
+      if @custom_field.project_custom_field_project_mappings.empty?
+        update_via_turbo_stream(
+          component: Settings::ProjectCustomFields::ProjectCustomFieldMapping::TableComponent.new(
+            query: @project_custom_field_mappings_query,
+            params: { custom_field: @custom_field }
+          ),
+          status: :ok
+        )
+      else
+        remove_via_turbo_stream(
+          component: Settings::ProjectCustomFields::ProjectCustomFieldMapping::RowComponent
+                       .new(row: [project, 0], table: nil)
+        )
+      end
+    end
+
+    def project_custom_field_mappings_query
+      @project_custom_field_mappings_query = Queries::Projects::ProjectQuery.new(
+        name: "project-custom-field-mappings-#{@custom_field.id}"
+      ) do |query|
+        query.where(:available_project_attributes, "=", [@custom_field.id])
+        query.select(:name)
+      end
+    end
 
     def set_sections
       @project_custom_field_sections = ProjectCustomFieldSection
