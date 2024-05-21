@@ -65,7 +65,7 @@ RSpec.describe "OAuth Access Grant Nudge upon adding a storage to a project",
   end
 
   it "adds a storage, nudges the project admin to grant OAuth access" do
-    visit project_settings_project_storages_path(project_id: project)
+    visit external_file_storages_project_settings_project_storages_path(project_id: project)
 
     click_on("Storage")
 

@@ -488,10 +488,10 @@ ca:
       no_common_statuses_exists: "No hi ha estats disponibles per a tots els paquets de treball seleccionats. El seus estats no es poden canviar."
       unsupported_for_multiple_projects: "Moure o copiar en massa no està soportat per paquets de treball de múltiples projectes"
     sharing:
-      missing_workflow_waring:
-        title: "Falta un flux de treball per compartir paquets de treball"
-        message: "No s'ha configurat cap flux de treball per a la funció \"Editor de paquets de treball\". Sense un flux de treball, el que es comparteix amb l'usuari no pot alterar l'estat del paquet de treball. Els fluxos de treball es poden copiar. Seleccioneu un tipus d'origen (p. ex., \"Tasca\") i una funció d'origen (p. ex., \"Membre\"). A continuació, seleccioneu els tipus d'objectius. Per començar, podeu seleccionar tots els tipus com a objectius. Finalment, seleccioneu la funció \"Editor de paquets de treball\" com a objectiu i premeu \"Copia\". Després d'haver creat els valors predeterminats, ajusteu els fluxos de treball com ho feu per a qualsevol altra funció."
-        link_message: "Configura els fluxos de treball a l'administració."
+      missing_workflow_warning:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -1730,17 +1730,6 @@ ca:
         mentioned: "Has sigut mencionat a %{work_package}"
         responsible: "Has esdevingut responsable de %{work_package}"
         watched: "Estàs observant %{work_package}"
-    update_info_mail:
-      body: >
-        Estem encantats d'anunciar la publicació d'OpenProject 12.0. És una publicació rellevant que esperem que millori de forma significant la forma en què utilitzes OpenProject.
-        Des d'aquesta versió, s'introdueixen les notificacions dins de l'aplicació. Des d'ara, rebràs notificacions relacionades amb els paquets de treball directament a OpenProject. Pots marcar aquestes notificacions com a llegides, respondre comentaris o inclús modificar els atributs del paquet de treball sense sortir del centre de notificacions.
-        Això, també vol dir que a partir d'ara no farem servir més correus electrònics per a les notificacions. Pensem que el nou centre de notificacions és el lloc adequat per actuar sobre les notificacions. Tot i això, si decideixes que és rellevant per a tu continuar rebent correus electrònics pots configurar recordatoris diaris en les hores que tu indiquis.
-        Si us plau, verifica la teva configuració de notificacions per defecte i configura les teves preferències per a notificacions i correus electrònics recordatoris via la configuració del teu compte. Pots fer aquestes accions fent servir el botó de "Canviar notificacions de correus electrònics".
-        Esperem que trobis les notificacions dins l'aplicació útils i que aquests canvis millorin la teva productivitat.
-        Sincerament, L'equip d'OpenProject
-      body_header: "Versió 12.0 amb Centre de Notificacions"
-      body_subheader: "Notícies"
-      subject: "Canvis importants en les notificacions amb el llançament de 12.0"
   label_accessibility: "Accessibilitat"
   label_account: "Compte"
   label_active: "Actiu"
@@ -1792,6 +1781,7 @@ ca:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Autenticació"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Fòrums disponibles"
   label_available_project_repositories: "Repositòris disponibles"
   label_available_project_versions: "Versions disponibles"
@@ -2748,7 +2738,7 @@ ca:
     member_of_group: "Grup de l'assignat"
     name_or_identifier: "Nom o identificador"
     only_subproject_id: "Només subprojecte"
-    shared_with_user: "Shared with user"
+    shared_with_user: "Shared with users"
     shared_with_me: "Shared with me"
     subproject_id: "Incloent subprojectes"
   repositories:

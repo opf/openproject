@@ -499,7 +499,7 @@ ro:
       no_common_statuses_exists: "Nu există o stare disponibilă pentru toate pachetele de lucru selectate. Starea acestora nu poate fi modificată."
       unsupported_for_multiple_projects: "Mutarea/copierea în masă nu este suportată pentru pachete de lucru din proiecte multiple"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Workflow missing for work package sharing"
         message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
         link_message: "Configure the workflows in the administration."
@@ -1767,17 +1767,6 @@ ro:
         mentioned: "Ai fost menționat în %{work_package}"
         responsible: "Ați devenit responsabil pentru %{work_package}"
         watched: "Urmăriți %{work_package}"
-    update_info_mail:
-      body: >
-        Suntem încântați să anunțăm lansarea OpenProject 12.0. Este o versiune majoră care sperăm că va îmbunătăți semnificativ modul în care utilizați OpenProject.
-        Începând cu această versiune, introducem notificări în aplicație. De acum înainte, veți primi notificări pentru actualizările pachetelor de lucru direct în OpenProject. Puteți marca aceste notificări ca fiind citite, puteți răspunde la un comentariu sau chiar modifica direct atributele pachetului de lucru fără a părăsi centrul de notificări.
-        Acest lucru înseamnă, de asemenea, că nu vom mai folosi e-mailurile pentru notificări. Credem că noul centru de notificări este un loc mai bun pentru a vizualiza și a acționa asupra acestor actualizări. Cu toate acestea, dacă doriți să continuați să primiți actualizări prin e-mail, puteți alege să primiți memento-uri zilnice prin e-mail la anumite ore la alegere.
-        Vă rugăm să vă asigurați că ați verificat noile setări de notificare implicite și că v-ați setat preferințele pentru notificări și memento-uri prin e-mail prin intermediul setărilor contului dumneavoastră. Puteți face acest lucru prin intermediul butonului "Change email settings" de mai jos.
-        Sperăm că veți găsi utile notificările din aplicație și că acestea vă fac și mai productiv.
-        Cu stimă, Echipa OpenProject
-      body_header: "Versiunea 12.0 cu Centrul de Notificări"
-      body_subheader: "Noutăţi"
-      subject: "Modificări importante la notificări cu versiunea de 12.0"
   label_accessibility: "Accesibilitate"
   label_account: "Cont"
   label_active: "Activ"
@@ -1829,6 +1818,7 @@ ro:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Autentificare"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Forumuri disponibile"
   label_available_project_repositories: "Arhive disponibile"
   label_available_project_versions: "Versiuni disponibile"
@@ -2791,7 +2781,7 @@ ro:
     member_of_group: "Grupul executantului"
     name_or_identifier: "Nume sau identificator"
     only_subproject_id: "Numai subproiect"
-    shared_with_user: "Shared with user"
+    shared_with_user: "Shared with users"
     shared_with_me: "Shared with me"
     subproject_id: "Inclusiv subproiectul"
   repositories:

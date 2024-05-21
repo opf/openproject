@@ -16,15 +16,19 @@ We released [OpenProject 14.1.0](https://community.openproject.org/versions/2030
 
 ### PDF export of Gantt view, e.g. for printing (Enterprise add-on)
 
-It is now possible to export a Gantt view as PDF in the OpenProject Enterprise edition. This allows users to print Gantt charts. Choose between different paper formats, set the colomn width, and specify whether the PDF file should display your work packages on a daily, monthly or quarterly basis.
+It is now possible to export a Gantt view as PDF in the OpenProject Enterprise edition. This allows users to easily print Gantt charts in a nice design. Choose between different paper formats, set the column width, and specify whether the PDF file should display your work packages on a daily, monthly or quarterly basis.
+
+Please note that we plan to further improve the PDF export of Gantt view in future releases.
 
 ![Export your Gantt view as PDF](openproject-14-1-gantt-pdf-export-figma.png)
 
 ### Favorite projects
 
-This feature was requested by many in the Community and will be a great benefit, especially for organizations with many projects: OpenProject 14.1 allows you to add projects to favorites so that they can be found more quickly. We recently gave an overview in our blog of how exactly you can add projects to favorites or remove them from favorites – and where you can display them.
+This feature was requested by many in the Community and will be a great benefit, especially for organizations with many projects: OpenProject 14.1 allows you to add projects to favorites so that they can be found more quickly. We [recently gave an overview in our blog](https://www.openproject.org/blog/favorite-projects/) of how exactly you can add projects to favorites or remove them from favorites – and where you can display them.
 
 ![OpenProject dropdown menu showing favorite projects, displayed with yellow stars](openproject-14-1-favorite-projects-overview.shadow.png)
+
+See our documentation to learn more about [how to mark a project as favorite](https://www.openproject.org/docs/user-guide/project-overview/#mark-a-project-as-favorite).
 
 ### Advanced features for the Meetings module
 
@@ -38,16 +42,20 @@ The Meetings module is currently being continuously improved. With OpenProject 1
 
 Apart from these features that apply the Meetings module directly, the following changes concerning OpenProject meetings have been made:
 
-- On work packages, the project name is now shown in the Meetings tab.
-- Widgets to show meetings can be added to the My Page and project overview pages.
+- In work packages, the project name is now shown in the Meetings tab.
+- Calendar widgets on the My Page and project overview pages can now show meetings.
+
+![A calendar widget on a project overview page, now showing upcoming meetings](openproject-14-1-meetings-widget-project-overview.png)
+
+**Please note**: On the project overview page and on the My page, the "+" button on the top right has been removed. However, new widgets can be added by project admins as usual if you hover at the border of an existing widget and click on the “+” there.
 
 ### Possibility to hide attachments in the Files tab
 
-Admins now are able to hide the attachment section in the Files tab. This setting can be made at project level and is particularly useful for projects where users should only upload files via external storage, e.g. Nextcloud.
+Admins now are able to hide the attachment section in the Files tab. This setting can be changed at a project level and is particularly useful for projects where users should only upload files via external storage, e.g. Nextcloud.
 
 ### Custom fields of the type Link (URL)
 
-Users can now create custom field of the type Link (URL). Remember to activiate it for your project(s) and specific work package type for it to be displayed. The custom field type Link shows an error message if you type in an invalid URL.
+Users can now create custom field of the type Link (URL). Remember to activate it for your project(s) and specific work package type for it to be displayed. The custom field type Link shows an error message if you type in an invalid URL.
 
 ![Create a custom field of the type Link](openproject-14-1-custom-field-link.png)
 
@@ -121,9 +129,9 @@ Apart from the features mentioned above, there have been a lot of other changes,
 
 A very special thank you goes to our sponsors for features and improvements of this release:
 
-* German Federal Ministry of the Interior and Home Affairs (BMI) for sponsoring the features on progress reporting
 * City of Cologne for sponsoring features on project attributes
 * Deutsche Bahn for sponsoring the OneDrive/SharePoint integration
+* German Federal Ministry of the Interior and Home Affairs (BMI) for sponsoring the features on progress reporting
 
 Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to Marc Burk, Silas Kropf, and Hanley Loller.
 

@@ -2,7 +2,7 @@
 ms:
   plugin_openproject_bim:
     name: "Kefungsian BIM dan BCF OpenProject"
-    description: "Plugin OpenProject ini mengenalkan kefungsian BIM dana BCF."
+    description: "Plugin OpenProject ini mengenalkan kefungsian BIM dan BCF."
   bim:
     label_bim: 'BIM'
   bcf:
@@ -45,7 +45,7 @@ ms:
         invalid_priorities_found: 'Nama keutamaan tidak sah ditemui'
         invalid_emails_found: 'Alamat e-mel tidak sah ditemui'
         unknown_emails_found: 'Alamat e-mel tidak diketahui ditemui'
-        unknown_property: 'Harta tanah yang tidak diketahui'
+        unknown_property: 'Ciri-ciri yang tidak diketahui'
         non_members_found: 'Bukan ahli projek ditemui'
         import_types_as: 'Tetapkan semua jenis ini kepada'
         import_statuses_as: 'Tetapkan semua status ini kepada'
@@ -55,7 +55,7 @@ ms:
         no_type_provided: 'Tiada jenis disediakan'
         no_status_provided: 'Tiada status disediakan'
         no_priority_provided: 'Tiada keutamaan disediakan'
-        perform_description: "Adakah anda ingin mengimport atau mengemas kini isu-isu yang tersenarai diatas?"
+        perform_description: "Adakah anda ingin mengimport atau mengemas kini isu-isu yang tersenarai di atas?"
         replace_with_system_user: 'Gantikan mereka dengan pengguna "Sistem"'
         import_as_system_user: 'Import mereka sebagai pengguna "Sistem".'
         what_to_do: "Apakah yang anda ingin lakukan?"
@@ -88,7 +88,7 @@ ms:
         bim/ifc_models/ifc_model:
           attributes:
             base:
-              ifc_attachment_missing: "Tiada fail IFC yang dilampirkan:"
+              ifc_attachment_missing: "Tiada fail IFC yang dilampirkan."
               invalid_ifc_file: "Fail yang disediakan adalah fail IFC yang tidak sah."
         bim/bcf/viewpoint:
           bitmaps_not_writable: "bitmaps tidak boleh ditulis kerana belum dilaksanakan."
@@ -106,7 +106,7 @@ ms:
         bim/bcf/issue:
           uuid_already_taken: "Tidak dapat mengimport isu BCF ini kerana isu yang mempunyai GUID yang sama telah ada. Mungkinkah isu BCF ini telah diimport ke dalam projek lain?"
   ifc_models:
-    label_ifc_models: 'Model IFC'
+    label_ifc_models: 'Model-model IFC'
     label_new_ifc_model: 'Model IFC baharu'
     label_show_defaults: 'Paparkan default'
     label_default_ifc_models: 'Model default IFC '
@@ -125,7 +125,7 @@ ms:
     processing_notice:
       processing_default: 'Model IFC default berikut masih dalam proses dan oleh kerana itu belum tersedia lagi:'
     flash_messages:
-      upload_successful: 'Muat naik berjaya. Ia akan diproses dan sedia untuk digunakan dalam masa beberapa minit.'
+      upload_successful: 'Muat naik berjaya. Akan diproses dan sedia untuk digunakan dalam masa beberapa minit.'
     conversion:
       missing_commands: "Arahan converter IFC berikut tidak dijumpai dari sistem ini: %{names}"
   project_module_ifc_models: "Model IFC"

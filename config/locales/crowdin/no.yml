@@ -492,10 +492,10 @@
       no_common_statuses_exists: "Det er ingen status tilgjengelig for alle valgte arbeidspakker. Status kan ikke endres."
       unsupported_for_multiple_projects: "Bulk flytt/kopi er ikke støttet for arbeidspakker fra flere prosjekter"
     sharing:
-      missing_workflow_waring:
-        title: "Arbeidsflyt mangler for deling av arbeidspakker"
-        message: "Ingen arbeidsflyt er konfigurert for rollen 'Arbeidspakke redaktør'. Uten en arbeidsflyt kan ikke brukeren endre status på arbeidspakken. Arbeidsflyt kan kopieres. Velg en kildetype (f.eks. 'oppgave') og en kilderolle (f.eks. 'medlem'). Velg så måltyper. Til å begynne med, kan du velge alle typene som mål. Til slutt velger du \"Redigeringsprogrammet for arbeidspakke\" som mål og press \"Copy\". Etter å ha opprettet standardinnstillingene, kan du finjustere arbeidsflytene som du gjør for hver annen rolle."
-        link_message: "Konfigurer arbeidsmetodene i administrasjonen."
+      missing_workflow_warning:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -1734,17 +1734,6 @@
         mentioned: "Du har blitt nevnt i %{work_package}"
         responsible: "Du har blitt ansvarlig for %{work_package}"
         watched: "Du ser på %{work_package}"
-    update_info_mail:
-      body: >
-        Vi kan med stolthet annonsere utgivelsen av OpenProject 12.0.  Dette er en stor utgivelse som forhåpentligvis gir en betydelig forbedring av måten du bruker OpenProject.
-        I denne utgivelsen introduserer vi in-app varslinger.  Fra nå av vil du motta varslinger for oppdateringer i arbeidspakker dirkete i OpenProject.  Du kan merke varslene som lest, svare på en kommentar og til og med endre arbeidspakkens egenskapet uten å forlate varslingssenteret.
-        Dette betyr også at vi ikke lenger vil bruke epost for varslinger.  Vi mener det nye varslingssenteret er bedre egnet til å se og behandle disse oppdateringene.  Uansett, om du skulle ønske å fortsatt motta varslinger på epost, kan du velge å motta daglige påminnelser på epost til tider du velger selv.
-        Vennligst pass på å bekrefte dine nye standard varslingsinnstillinger, og velg dine preferanser ofr varsler og epostvarslinger i dine kontoinnstillinger.  Du kan gjøre dette ved å velge knappen "Endre epost innstillinger" nednfor.
-        Vi håper du finner de nye varslingene nyttige og at de gjør deg enda mer produktiv.
-        Med vennlig hilsen OpenProject teamet
-      body_header: "Versjon 12.0 med varslingssenter"
-      body_subheader: "Nyheter"
-      subject: "Viktige endringer i varsler ved utgivelse av 12.0"
   label_accessibility: "Tilgjengelighet"
   label_account: "Konto"
   label_active: "Aktiv"
@@ -1796,6 +1785,7 @@
   label_attribute_expand_text: "Den fullstendige teksten for '%{attribute}'"
   label_authentication: "Autentisering"
   label_available_global_roles: "Tilgjengelige globale roller"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Tilgjengelige forum"
   label_available_project_repositories: "Tilgjengelige kodelager"
   label_available_project_versions: "Tilgjengelige versjoner"
@@ -2757,7 +2747,7 @@
     member_of_group: "Deltakers gruppe"
     name_or_identifier: "Navn eller identifikator"
     only_subproject_id: "Bare underprosjekt"
-    shared_with_user: "Delt med bruker"
+    shared_with_user: "Shared with users"
     shared_with_me: "Delt med meg"
     subproject_id: "Inkludert underprosjekt"
   repositories:

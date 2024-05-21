@@ -145,7 +145,7 @@ OpenProject is a form-driven application, meaning that users input a lot of data
 - *Cross-site scripting (XSS)*: Failure to validate and sanitize user inputs can allow malicious scripts to be executed in the context of other users' browsers. Potential consequences are: Theft of sensitive user data, session hijacking, and potential defacement or compromise of the web application.
 - *Cross-Site Request Forgery (CSRF):* Lack of proper request validation can make it easier for attackers to trick users into performing unintended actions on their behalf. Potential consequences are unauthorized actions, such as account changes, data deletion, or fund transfers, performed without user consent.
 - *File Upload Vulnerabilities*: Insufficient input validation on file uploads can lead to arbitrary file uploads, enabling attackers to upload malicious files or execute code. Potential consequences are remote malware distribution, and remote code execution.
-- *Open Redirects*: Insufficent validation of redirect URLs leading users to external pages, which might end in phishing attacks.
+- *Open Redirects*: Insufficient validation of redirect URLs leading users to external pages, which might end in phishing attacks.
 
 **Guidelines**
 

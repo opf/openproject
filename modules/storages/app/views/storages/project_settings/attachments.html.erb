@@ -47,37 +47,39 @@ See COPYRIGHT and LICENSE files for more details.
 end
 %>
 
-<%=  render(Primer::Alpha::TabPanels.new(label: "label", align: :left)) do |component|
-  component.with_tab(selected: true, id: "tab-1") do |tab|
+<%= render(Primer::Alpha::TabNav.new(label: nil)) do |component|
+  component.with_tab(selected: false, href: external_file_storages_project_settings_project_storages_path) do |tab|
     tab.with_text { t(:"external_file_storages") }
-    tab.with_panel {
-      render(::Storages::ProjectStorages::TableComponent.new(rows: @project_storages))
-    }
   end
-  component.with_tab(selected: false, id: "tab-2") do |tab|
+  component.with_tab(selected: true, href: attachments_project_settings_project_storages_path) do |tab|
     tab.with_text { t(:"attributes.attachments") }
-    tab.with_panel {
-      render(Primer::OpenProject::FlexLayout.new(border: true , border_radius: 2, p: 3)) do |l|
-        l.with_row(flex_layout: true, align_items: :center, justify_content: :space_between) do |row|
-          row.with_column do
-            render(Primer::Beta::Text.new(font_weight: :bold)) do
-              t("storages.show_attachments_toggle.label")
-            end
-          end
-          row.with_column do
-            render(Primer::Alpha::ToggleSwitch.new(src: deactivate_work_package_attachments_project_path(@project),
-                                                   csrf_token: form_authenticity_token,
-                                                   status_label_position: :start,
-                                                   checked: !@project.deactivate_work_package_attachments?))
-          end
-        end
-        l.with_row do
-          render(Primer::Beta::Text.new(color: :muted)) do
-            t("storages.show_attachments_toggle.description")
-          end
-        end
-      end
-    }
   end
 end
+%>
+
+<%= render(Primer::OpenProject::FlexLayout.new(p: 3)) do |l|
+      l.with_row(flex_layout: true, align_items: :center, justify_content: :space_between) do |row|
+        row.with_column do
+          render(Primer::Beta::Text.new(font_weight: :bold)) do
+            t("storages.show_attachments_toggle.label")
+          end
+        end
+        row.with_column do
+          checked = if @project.deactivate_work_package_attachments.nil?
+            Setting.show_work_package_attachments
+          else
+            !@project.deactivate_work_package_attachments
+          end
+          render(Primer::Alpha::ToggleSwitch.new(src: deactivate_work_package_attachments_project_path(@project),
+                                                  csrf_token: form_authenticity_token,
+                                                  status_label_position: :start,
+                                                  checked:))
+        end
+      end
+      l.with_row do
+        render(Primer::Beta::Text.new(color: :muted)) do
+          t("storages.show_attachments_toggle.description")
+        end
+      end
+    end
 %>

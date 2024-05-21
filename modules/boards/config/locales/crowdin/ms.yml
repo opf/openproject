@@ -2,7 +2,7 @@
 ms:
   plugin_openproject_boards:
     name: "Board OpenProject"
-    description: "Menyediakan paparan board"
+    description: "Menyediakan paparan board."
   permission_show_board_views: "Paparkan board"
   permission_manage_board_views: "Urus papan"
   project_module_board_view: "Board"

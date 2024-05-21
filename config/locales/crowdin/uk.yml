@@ -259,7 +259,7 @@ uk:
     lists:
       active: "Активні проєкти"
       my: "Мої проєкти"
-      favored: "Favorite projects"
+      favored: "Обрані проєкти"
       archived: "Заархівовані проєкти"
       my_private: "Особисті списки проєктів"
       new:
@@ -284,7 +284,7 @@ uk:
           title: "Атрибути проєкту"
           description: "Ці атрибути проєкту відображатимуться на вашій <a href=%{overview_url} target=\"_blank\">сторінці огляду проєкту</a></a> у відповідних розділах. Ви можете ввімкнути або вимкнути окремі атрибути. Атрибути проєкту й розділи визначає адміністратор екземпляра в <a href=%{admin_settings_url} target=\"_blank\">налаштуваннях адміністрування</a>. "
         filter:
-          label: "Search project attribute"
+          label: "Пошук атрибутів проєкту"
         actions:
           label_enable_single: "Увімкнено в цьому проєкті; натисніть, щоб вимкнути"
           label_disable_single: "Вимкнено в цьому проєкті; натисніть, щоб увімкнути"
@@ -301,13 +301,13 @@ uk:
         no_results_title_text: Цей проєкт не потребує додаткового дискового простору.
   lists:
     create:
-      success: "The modified list has been saved as a new list"
-      failure: "The modified list cannot be saved: %{errors}"
+      success: "Змінений список збережено як новий"
+      failure: "Неможливо зберегти змінений список: %{errors}"
     update:
-      success: "The modified list has been saved"
-      failure: "The modified list cannot be saved: %{errors}"
-    can_be_saved: "List modified:"
-    can_be_saved_as: "The modifications can only be saved in a new list:"
+      success: "Змінений список збережено"
+      failure: "Неможливо зберегти змінений список: %{errors}"
+    can_be_saved: "Список змінено:"
+    can_be_saved_as: "Зміни можна зберегти лише в новому списку:"
   members:
     index:
       no_results_title_text: Наразі учасників цього проекту немає.
@@ -377,8 +377,8 @@ uk:
       cannot_remove_inherited_with_role: "Пакети робіт, до яких надано доступ із дозволами ролі «%{shared_role_name}», використовуються в групах, і їх не можна вилучити."
       cannot_remove_inherited_note_admin_html: "Ви можете відкликати дозвіл на доступ групи або вилучити цього конкретного учасника з групи в %{administration_settings_link}."
       cannot_remove_inherited_note_non_admin: "Ви можете або відкликати дозвіл на доступ групи або звернутися до адміністратора з проханням вилучити цього конкретного учасника з групи."
-      will_revoke_directly_granted_access: "This action will revoke their access to all of them, but the work packages shared with a group."
-      will_revoke_access_to_all: "This action will revoke their access to all of them."
+      will_revoke_directly_granted_access: "Доступ учасника буде відкликано до всіх пакетів робіт, крім тих, до яких доступ надано групі."
+      will_revoke_access_to_all: "Доступ учасника буде відкликано до всіх пакетів робіт."
   my:
     access_token:
       failed_to_reset_token: "Не вдалося відновити маркер доступу: %{error}"
@@ -501,9 +501,9 @@ uk:
       no_common_statuses_exists: "Немає доступного статусу для всіх вибраних робочих пакетів. Їх статус не може бути змінений."
       unsupported_for_multiple_projects: "Масове переміщення/копіювання не підтримується для робочих пакетів з декількох проектів"
     sharing:
-      missing_workflow_waring:
-        title: "Відсутній робочий процес для спільного використання пакета робіт"
-        message: "Для ролі «Редактора пакета робіт» не налаштовано жодного робочого процесу. Без робочого процесу користувач, якому надано доступ, не може змінити статус пакета робіт. Робочі процеси можна копіювати. Виберіть вихідний тип (напр., «Завдання») і роль (напр., «Учасник»). Потім виберіть цільові типи. Для початку радимо вибирати всі типи як цільові. Нарешті, виберіть роль «Редактор пакета робіт» і натисніть «Копіювати». Після цього ви зможете налаштовувати робочі процеси для кожної ролі, як ви це зазвичай робите."
+      missing_workflow_warning:
+        title: "Відсутній робочий процес для надання доступу до пакета робіт"
+        message: "Для ролі «Редактор пакета робіт» не налаштовано жодного робочого процесу. Без робочого процесу користувач, якому надано доступ, не може змінити статус пакета робіт. Робочі процеси можна копіювати. Виберіть вихідний тип (напр., «Завдання») і роль (напр., «Учасник»). Потім виберіть цільові типи. Для початку радимо вибирати всі типи як цільові. Нарешті, виберіть роль «Редактор пакета робіт» і натисніть «Копіювати». Після цього ви зможете налаштовувати робочі процеси для кожної ролі, як ви це зазвичай робите."
         link_message: "Налаштуйте робочі процеси на панелі адміністрування."
     summary:
       reports:
@@ -799,7 +799,7 @@ uk:
         not_an_iso_date: "не є дійсною датою. Необхідний формат: YYYY-MM-DD."
         not_same_project: "не належить до одного проекту."
         odd: "має бути непарним."
-        regex_match_failed: "does not match the regular expression %{expression}."
+        regex_match_failed: "не збігається з регулярним виразом %{expression}."
         regex_invalid: "неможливо перевірити з відповідним регулярним виразом."
         smaller_than_or_equal_to_max_length: "має бути меншою або дорівнює максимальній довжині."
         taken: "вже прийнято."
@@ -1011,13 +1011,13 @@ uk:
               only_same_project_categories_allowed: "Категорія комплекс робіт повинен бути в межах одного проекту як комплексу робіт."
               does_not_exist: "Указана категорія не існує."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              cant_be_inferior_to_remaining_work: "Має дорівнювати значенню «Залишок робіт» або перевищувати його."
+              must_be_set_when_remaining_work_is_set: "Потрібно вказати, якщо визначено атрибут «Залишок робіт»."
+              only_values_greater_or_equal_zeroes_allowed: "Має бути >= 0."
               format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "Cannot be higher than Work."
-              must_be_set_when_work_is_set: "Required when Work is set."
+              cant_exceed_work: "Не може перевищувати значення «Робота»."
+              must_be_set_when_work_is_set: "Потрібно вказати, якщо визначено атрибут «Робота»."
               format: "%{message}"
           readonly_status: "Пакет робіт перебуває в стані лише для читання, тому його атрибути не можна змінити."
         type:
@@ -1297,7 +1297,7 @@ uk:
   button_edit: "Редагувати"
   button_edit_associated_wikipage: "Редагувати пов'язану Wiki сторінку: %{page_title}"
   button_expand_all: "Розгорнути все"
-  button_favorite: "Add to favorites"
+  button_favorite: "Додати в обране"
   button_filter: "Фільтр"
   button_generate: "Згенерувати"
   button_list: "Список"
@@ -1325,7 +1325,7 @@ uk:
   button_unarchive: "Розпакувати"
   button_uncheck_all: "Зняти усі відмітки"
   button_unlock: "Розблокувати"
-  button_unfavorite: "Remove from favorites"
+  button_unfavorite: "Вилучити з обраного"
   button_unwatch: "Перестати відстежувати"
   button_update: "Оновити"
   button_upgrade: "Оновити"
@@ -1647,7 +1647,7 @@ uk:
       pdf_overview_table: "Таблиця PDF"
       pdf_report_with_images: "Звіт PDF із зображеннями"
       pdf_report: "Звіт PDF"
-      pdf_gantt: "PDF Gantt"
+      pdf_gantt: "Діаграма Ґанта (PDF)"
     image:
       omitted: "Зображення не експортовано."
     units:
@@ -1726,11 +1726,11 @@ uk:
         file_links_journal: >
           Тепер дії, пов’язані з посиланнями на файли (файли, що зберігаються в зовнішніх сховищах), з’являтимуться на вкладці «Активність». Наявні дії, пов’язані із посиланнями:
         progress_calculation_adjusted_from_disabled_mode: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+          Обчислення прогресу автоматично <a href="%{href}" target="_blank">переведено в режим на основі робіт</a>, і його результати скориговано відповідно до оновленої версії</a>.
         progress_calculation_adjusted: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+          Результати обчислення прогресу автоматично <a href="%{href}" target="_blank">скориговано відповідно до оновленої версії</a>.
         totals_removed_from_childless_work_packages: >-
-          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+          Результати обчислення обсягу й прогресу виконання роботи автоматично вилучено з небатьківських пакетів робіт з <a href="%{href}" target="_blank">оновленням версії</a>. Це завдання з технічного обслуговування, і його можна ігнорувати.
   links:
     configuration_guide: "Посібник з налаштування"
     get_in_touch: "У вас виникли запитання? Зв'яжіться з нами."
@@ -1795,17 +1795,6 @@ uk:
         mentioned: "Вас було згадано у %{work_package}"
         responsible: "Ви стали відповідальними за %{work_package}"
         watched: "Ви переглядаєте %{work_package}"
-    update_info_mail:
-      body: >
-        Ми з задоволенням оголошуємо про випуск нової версії OpenProject 12.0. Це одне із найбільших наших оновлень, яке ми сподіваємося значно покращить ваш досвід використання OpenProject.
-        Починаючи із цього оновлення, ми вводимо сповіщення у самій програмі. Від сьогодні ви будете отримувати сповіщення про оновлення робочих блоків прямо у  OpenProject. Ви зможете позначати ці сповіщення як прочитані, коментувати їх чи навіть прямо редагувати зміни у робочих блоках не залишаючи центр сповіщень.
-        Це також означає, що ми не будемо більш використовувати електронні листи для сповіщень. Гадаємо, що новий центр сповіщень є кращим місцем, щоб переглянути і відреагувати на усі оновлення. Проте, якщо ви бажаєте отримувати сповіщення на свою електронну адресу і надалі, ви можете обрати отримання загальний лист із усіма оновленнями за день у певний час.
-        Будь ласка, перегляньте новий центр сповіщень та налаштуйте його, оберіть чи бажаєте отримувати оновлення на пошту в налаштуваннях свого профілю. Ви можете зробити це натиснувши на кнопку "Змінити налаштування електронної пошти", що знаходиться внизу.
-        Сподіваємося, що центр сповіщень буде корисним для вас та допоможе вам стати значно продуктивнішими.
-        З повагою, команда OpenProject
-      body_header: "Версія 12.0 з Центром Сповіщень"
-      body_subheader: "Новини"
-      subject: "Важливі зміни в системі сповіщень у випуску 12.0"
   label_accessibility: "Розробникам також потрібно оплачувати свої рахунки. З доступністю"
   label_account: "Обліковий запис"
   label_active: "Активний"
@@ -1857,6 +1846,7 @@ uk:
   label_attribute_expand_text: "Повний текст для атрибута «%{attribute}»"
   label_authentication: "Автентифікація"
   label_available_global_roles: "Доступні глобальні ролі"
+  label_available_project_attributes: "Доступні атрибути проєкту"
   label_available_project_forums: "Доступні форуми"
   label_available_project_repositories: "Доступні сховища"
   label_available_project_versions: "Доступні версії"
@@ -1986,7 +1976,7 @@ uk:
   label_enterprise_support: "Корпоративна підтримка"
   label_enterprise_addon: "Доповнення версії Enterprise"
   label_environment: "Навколишнє середовище"
-  label_estimates_and_progress: "Estimates and progress"
+  label_estimates_and_progress: "Оцінки й прогрес виконання"
   label_equals: "є"
   label_everywhere: "скрізь"
   label_example: "Приклад"
@@ -2073,7 +2063,7 @@ uk:
   label_learn_more: "Докладніше"
   label_less_or_equal: "<="
   label_less_than_ago: "менше, ніж день тому"
-  label_link_url: "Link (URL)"
+  label_link_url: "Посилання (URL)"
   label_list: "Список"
   label_loading: "Завантаження..."
   label_lock_user: "Заблокувати користувача"
@@ -2099,7 +2089,7 @@ uk:
   label_membership_plural: "Членство"
   lable_membership_added: "Учасника додано"
   lable_membership_updated: "Учасника оновлено"
-  label_menu: "Menu"
+  label_menu: "Меню"
   label_menu_badge:
     pre_alpha: "попередня альфа"
     alpha: "альфа"
@@ -2201,7 +2191,7 @@ uk:
   label_percent_complete: "% завершення"
   label_project_activity: "Дії в проєкті"
   label_project_attribute_plural: "Атрибути проєкту"
-  label_project_attribute_manage_link: "Manage project attributes"
+  label_project_attribute_manage_link: "Керувати атрибутами проєкту"
   label_project_count: "Загальна кількість проектів"
   label_project_copy_notifications: "Відправлення повідомлень по електронній пошті в ході реалізації проекту копія"
   label_project_latest: "Останні проекти"
@@ -2216,7 +2206,7 @@ uk:
   label_project_attributes_settings: "Налаштування атрибутів проєкту"
   label_project_storage_plural: "Файлові сховища"
   label_project_storage_project_folder: "Файлові сховища: папки проєкту"
-  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
+  label_projects_disk_usage_information: "Проєктів, що використовують %{used_disk_space} місця на диску: %{count}"
   label_project_view_all: "Переглянути всi проекти"
   label_project_show_details: "Показати деталі проекту"
   label_project_hide_details: "Приховати деталі проекту"
@@ -2503,7 +2493,7 @@ uk:
             summary: "Зараз статус вашого сховища, %{storage_name}, – «Помилка». Ми виявили проблему, яка може потребувати вашої уваги."
             error-details: "Деталі помилки"
             error-message: "Повідомлення про помилку"
-            error-occurred-on: "Occurred On"
+            error-occurred-on: "Сталася в"
             recommendation: "Щоб вирішити цю проблему, рекомендуємо перейти на сторінку конфігурації сховища"
             unsubscribe: "Щоб більше не отримувати ці сповіщення, можете відписатися. Для цього виконайте вказівки на цій сторінці"
         email_notification_settings: "Налаштування сповіщень електронною поштою для сховища"
@@ -2819,7 +2809,7 @@ uk:
     member_of_group: "Група виконавця"
     name_or_identifier: "Ім'я або ідентифікатор"
     only_subproject_id: "Лише підпроєкт"
-    shared_with_user: "Надано доступ користувачу"
+    shared_with_user: "Надано доступ користувачам"
     shared_with_me: "Доступ надано мені"
     subproject_id: "Включно з підпроєктом"
   repositories:
@@ -2964,7 +2954,7 @@ uk:
   setting_app_subtitle: "Підзаголовок додатку"
   setting_app_title: "Назва додатку"
   setting_attachment_max_size: "Максимальний розмір вкладення"
-  setting_show_work_package_attachments: "Show attachments in the files tab by default"
+  setting_show_work_package_attachments: "За замовчуванням показувати вкладення на вкладці «Файли»"
   setting_antivirus_scan_mode: "Режим перевірки"
   setting_antivirus_scan_action: "Дія із зараженим файлом"
   setting_autofetch_changesets: "Змінюється сховище автозбірки"
@@ -3067,7 +3057,7 @@ uk:
       whitelist_text_html: >
         Визначте список дійсних розширень файлів і/або типів MIME для завантажених файлів. <br/>Введіть розширення файлу (напр., <code>%{ext_example}</code>) або типи MIME (напр., <code>%{mime_example}</code>). Не вказуйте нічого, щоб дозволити завантаження будь-яких типів файлів. Ви можете вводити кілька значень (по одному в кожному рядку).
       show_work_package_attachments: >
-        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
+        Якщо вимкнути цей параметр, список вкладень буде приховано на вкладці «Файли» пакетів робіт для нових проєктів. Файли, вкладені в опис пакета робіт, усе одно буде додано у внутрішнє сховище вкладень.
     antivirus:
       title: "Перевірка на віруси"
       clamav_ping_failed: "Не вдалося підключити демон ClamAV. Перевірте конфігурацію і повторіть спробу."
@@ -3306,8 +3296,8 @@ uk:
         drag_area_label: "Керування стовпцями і їх перевпорядкування"
       sort_by:
         automatic:
-          heading: "Automatic"
-          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
+          heading: "Автоматично"
+          description: "Упорядкуйте %{plural} за одним або кількома критеріями сортування. Результати попереднього сортування буде втрачено."
   top_menu:
     additional_resources: "Додаткові ресурси"
     getting_started: "Починаємо"
@@ -3658,7 +3648,7 @@ uk:
   link: посилання
   plugin_openproject_auth_plugins:
     name: "Плагіни OpenProject Auth"
-    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
+    description: "Інтеграція постачальників стратегії OmniAuth для автентифікації в OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Служба єдиного входу"
     description: "Додає постачальника OmniAuth SAML в OpenProject"

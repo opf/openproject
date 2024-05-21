@@ -64,10 +64,11 @@ module Projects
     # We don't return the project row
     # but the [project, level] array from the helper
     def rows
-      @rows ||= begin
-        projects_enumerator = ->(model) { to_enum(:projects_with_levels_order_sensitive, model).to_a } # rubocop:disable Lint/ToEnumArguments
-        instance_exec(model, &projects_enumerator)
-      end
+      @rows ||=
+        begin
+          projects_enumerator = ->(model) { to_enum(:projects_with_levels_order_sensitive, model).to_a }
+          instance_exec(model, &projects_enumerator)
+        end
     end
 
     def initialize_sorted_model
@@ -112,14 +113,15 @@ module Projects
     end
 
     def columns
-      @columns ||= begin
-        columns = query.selects.reject { |select| select.is_a?(Queries::Selects::NotExistingSelect) }
+      @columns ||=
+        begin
+          columns = query.selects.reject { |select| select.is_a?(Queries::Selects::NotExistingSelect) }
 
-        index = columns.index { |column| column.attribute == :name }
-        columns.insert(index, Queries::Projects::Selects::Default.new(:hierarchy)) if index
+          index = columns.index { |column| column.attribute == :name }
+          columns.insert(index, Queries::Projects::Selects::Default.new(:hierarchy)) if index
 
-        columns
-      end
+          columns
+        end
     end
 
     def projects(query)

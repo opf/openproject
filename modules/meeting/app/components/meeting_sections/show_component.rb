@@ -34,7 +34,8 @@ module MeetingSections
 
     with_collection_parameter :meeting_section
 
-    def initialize(meeting_section:, first_and_last: [], form_hidden: true, form_type: :simple, insert_target_modified: true)
+    def initialize(meeting_section:, first_and_last: [], form_hidden: true, form_type: :simple, insert_target_modified: true,
+                   force_wrapper: false, state: :show)
       super
 
       @meeting = meeting_section.meeting
@@ -44,6 +45,8 @@ module MeetingSections
       @form_hidden = form_hidden
       @form_type = form_type
       @insert_target_modified = insert_target_modified
+      @force_wrapper = force_wrapper
+      @state = state
     end
 
     private
@@ -65,8 +68,7 @@ module MeetingSections
     end
 
     def render_section_wrapper?
-      # true
-      !@meeting_section.untitled? || @meeting.sections.count > 1
+      @force_wrapper || !@meeting_section.untitled? || @meeting.sections.count > 1
     end
 
     def render_new_button_in_section?

@@ -19,11 +19,11 @@
               title: Oppdateringer fra produkt-teamet
             item_3:
               title: Oppdateringer fra markedsføringsteam
-            item_4:
-              title: Oppdateringer fra salgsteam
             item_5:
-              title: Gjennomgang av kvartalsvise mål
+              title: Updates from sales team
             item_6:
-              title: Tilbakemelding på kjerneverdier
+              title: Review of quarterly goals
             item_7:
-              title: Generelle emner
+              title: Core values feedback
+            item_8:
+              title: General topics

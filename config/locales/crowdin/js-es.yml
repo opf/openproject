@@ -331,17 +331,17 @@ es:
         description: >
           Seleccione el nivel de zoom inicial que debe mostrarse cuando el zoom automático no esté disponible.
       export:
-        title: "Gantt chart PDF options"
-        button_export: "Export"
+        title: "Opciones PDF del diagrama de Gantt"
+        button_export: "Exportar"
         column_widths:
-          narrow: "Narrow"
-          medium: "Medium"
-          wide: "Wide"
-          very_wide: "Very wide"
+          narrow: "Estrecha"
+          medium: "Media"
+          wide: "Amplia"
+          very_wide: "Muy amplia"
         options:
-          date_zoom: "Date zoom"
-          paper_size: "Paper size"
-          column_widths: "Column widths"
+          date_zoom: "Formato de fechas"
+          paper_size: "Tamaño del papel"
+          column_widths: "Anchos de columna"
     general_text_no: "no"
     general_text_yes: "sí"
     general_text_No: "No"
@@ -360,11 +360,10 @@ es:
           learn_about: "Más información sobre las nuevas funciones"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                La versión contiene varias características nuevas y mejoras: <br> <ul class="%{list_styling_class}"> <li>Implemente informes de progreso en todas las jerarquías de paquetes de trabajo.</li> <li>Gestione los atributos del proyecto de forma estructurada en la página de descripción general del proyecto.</li> <li>Vista simplificada de los campos personalizados en la lista de proyectos y en la descripción general del proyecto.</li> <li>Encabezados de página unificados con el elegante diseño Primer.</li> <li>Mejore las reuniones con nuevas funciones como la carga de archivos adjuntos, responsables e historial de reuniones. </li> <li>Alertas automáticas para los almacenamientos de archivos poco saludables, y gane control con las opciones de alternancia.</li> <li>Copie la carpeta de proyecto gestionada automáticamente para OneDrive/SharePoint al copiar proyectos.</li> <li>Pida a los administradores que eliminen los recursos compartidos en los paquetes de trabajo al revocar la pertenencia a un proyecto.</li> <li>Mejore la planificación con los modos de visualización de 4 y 8 semanas en el planificador de equipos.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
     ical_sharing_modal:
       title: "Suscribirse al calendario"
       inital_setup_error_message: "Se ha producido un error al obtener los datos."
@@ -1057,7 +1056,7 @@ es:
       sharing:
         share: "Compartir"
         title: "Compartir paquete de trabajo"
-        show_all_users: "Mostrar todos los usuarios compartidos"
+        show_all_users: "Mostrar todos los usuarios con los que se ha compartido el paquete de trabajo"
         selected_count: "%{count} seleccionados"
         selection:
           mixed: "Mixto"

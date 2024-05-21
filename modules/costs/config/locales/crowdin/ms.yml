@@ -27,7 +27,7 @@ ms:
     attributes:
       cost_entry:
         work_package: "Pakej kerja"
-        overridden_costs: "Kos yang dinaik taraf"
+        overridden_costs: "Kos yang diambil alih"
         spent: "Dibelanja"
         spent_on: "Tarikh"
       cost_type:
@@ -108,11 +108,11 @@ ms:
   label_option_plural: "Pilihan"
   label_overall_costs: "Kos keseluruhan"
   label_rate: "Kadar"
-  label_rate_plural: "Kadar"
-  label_status_finished: "Selesai"
+  label_rate_plural: "Kadar-kadar"
+  label_status_finished: "Telah selesai"
   label_units: "Unit kos"
   label_user: "Pengguna"
-  label_until: "sehingga\n"
+  label_until: "sehingga"
   label_valid_from: "Sah dari"
   label_yes: "Ya"
   notice_something_wrong: "Ada ralat berlaku. Sila cuba lagi."
@@ -137,7 +137,7 @@ ms:
   text_destroy_cost_entries_question: "%{cost_entries} dilaporkan pada pakej kerja yang anda ingin padamkan. Apakah yang anda ingin lakukan ?"
   text_destroy_time_and_cost_entries: "Padam jam dan kos yang dilaporkan"
   text_destroy_time_and_cost_entries_question: "%{hours} jam, %{cost_entries} dilaporkan pada pakej kerja yang anda ingin padamkan. Apakah yang anda ingin lakukan ?"
-  text_reassign_time_and_cost_entries: "Tetapkan semula jam dan kos yang dilaporkan ke projek"
+  text_reassign_time_and_cost_entries: "Tetapkan semula jam dan kos yang dilaporkan ke projek:"
   text_warning_hidden_elements: "Beberapa entri mungkin telah dikecualikan daripada pengumpulan."
   week: "minggu"
   js:

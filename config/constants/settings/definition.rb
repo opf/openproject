@@ -338,6 +338,9 @@ module Settings
       demo_view_of_type_team_planner_seeded: {
         default: false
       },
+      demo_view_of_type_gantt_seeded: {
+        default: false
+      },
       development_highlight_enabled: {
         description: "Enable highlighting of development environment",
         default: -> { Rails.env.development? },
