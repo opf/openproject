@@ -298,6 +298,7 @@ en:
       my: "My projects"
       favored: "Favorite projects"
       archived: "Archived projects"
+      public: "Public project lists"
       my_private: "My private project lists"
       new:
         placeholder: "New project list"
@@ -345,6 +346,12 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
     update:
       success: "The modified list has been saved"
       failure: "The modified list cannot be saved: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
     can_be_saved: "List modified:"
     can_be_saved_as: "The modifications can only be saved in a new list:"
 
@@ -1402,6 +1409,8 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   button_revoke_access: "Revoke access"
   button_revoke_all: "Revoke all"
   button_revoke_only: "Revoke only %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
 
   consent:
     checkbox_label: I have noted and do consent to the above.
