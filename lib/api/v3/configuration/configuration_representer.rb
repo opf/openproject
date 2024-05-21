@@ -76,6 +76,15 @@ module API
                  },
                  render_nil: true
 
+        property :hours_per_day,
+                 render_nil: true
+
+        property :hours_per_week,
+                 render_nil: true
+
+        property :days_per_month,
+                 render_nil: true
+
         property :host_name,
                  getter: ->(*) {
                    Setting.host_name

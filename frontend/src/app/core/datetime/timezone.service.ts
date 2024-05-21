@@ -131,16 +131,25 @@ export class TimezoneService {
   public formattedDuration(durationString:string, unit:'hour'|'days' = 'hour'):string {
     switch (unit) {
       case 'hour':
-        return this.I18n.t('js.units.hour', { count: this.toHours(durationString) });
+        return this.I18n.t('js.units.hour', {
+          count: this.toHours(durationString),
+        });
       case 'days':
-        return this.I18n.t('js.units.day', { count: this.toDays(durationString) });
+        return this.I18n.t('js.units.day', {
+          count: this.toDays(durationString),
+        });
       default:
         // Case fallthrough for eslint
         return '';
     }
   }
 
-  public formattedChronicDuration(durationString:string, opts = { format: 'short' }):string {
+  public formattedChronicDuration(durationString:string, opts = {
+    format: 'short',
+    hoursPerDay: this.configurationService.hoursPerDay(),
+    hoursPerWeek: this.configurationService.hoursPerWeek(),
+    daysPerMonth: this.configurationService.daysPerMonth(),
+  }):string {
     return outputChronicDuration(this.toHours(durationString) * 3600, opts) || '0h';
   }
 
