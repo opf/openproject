@@ -118,7 +118,7 @@ RSpec.describe "Work package timeline navigation",
 
       # Navigate to the WP module
       find(".main-menu--arrow-left-to-project").click
-      find("#main-menu-work-packages-wrapper .main-menu-toggler").click
+      page.find_test_selector("main-menu-toggler--work_packages").click
 
       # Select other query
       query_menu.select query
@@ -128,7 +128,7 @@ RSpec.describe "Work package timeline navigation",
 
       # Navigate to the Gantt module agin
       find(".main-menu--arrow-left-to-project").click
-      find("#main-menu-gantt-wrapper .main-menu-toggler").click
+      page.find_test_selector("main-menu-toggler--gantt").click
 
       # Select first query again
       query_menu.click_item query_tl.name
