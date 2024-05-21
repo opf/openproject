@@ -65,14 +65,7 @@ module Admin::Settings
 
     def edit; end
 
-    def project_mappings
-      @project_custom_field_mappings_query = Queries::Projects::ProjectQuery.new(
-        name: "project-custom-field-mappings-#{@custom_field.id}"
-      ) do |query|
-        query.where(:available_project_attributes, "=", [@custom_field.id])
-        query.select(:name)
-      end
-    end
+    def project_mappings; end
 
     def unlink
       project = Project.find(permitted_params.project_custom_field_project_mapping[:project_id])
