@@ -147,8 +147,11 @@ export class TimezoneService {
   public formattedChronicDuration(durationString:string, opts = {
     format: 'short',
     hoursPerDay: this.configurationService.hoursPerDay(),
-    hoursPerWeek: this.configurationService.hoursPerWeek(),
+    // daysPerWeek is solely a convenience unit for the user's comprehension.
+    // It's not an accepted unit by chronicDuration. daysPerMonth is the value
+    // we provide it.
     daysPerMonth: this.configurationService.daysPerMonth(),
+    weeks: true,
   }):string {
     return outputChronicDuration(this.toHours(durationString) * 3600, opts) || '0h';
   }

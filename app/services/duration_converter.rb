@@ -66,7 +66,9 @@ class DurationConverter
     end
 
     def duration_length_options
-      { hours_per_day: Setting.hours_per_day, days_per_month: Setting.days_per_month }
+      { hours_per_day: Setting.hours_per_day,
+        days_per_month: Setting.days_per_month,
+        weeks: true }
     end
   end
 end

@@ -34,6 +34,7 @@ module Settings
     validate :hours_per_day_are_present
     validate :days_per_week_are_present
     validate :days_per_month_are_present
+    validate :days_per_week_and_days_per_month_are_consistent
     validate :unique_job
 
     protected
@@ -59,6 +60,14 @@ module Settings
     def days_per_month_are_present
       if days_per_month.blank?
         errors.add :base, :days_per_month_are_missing
+      end
+    end
+
+    def days_per_week_and_days_per_month_are_consistent
+      if days_per_week &&
+        days_per_month &&
+        days_per_week.to_i != days_per_month.to_i / ChronicDuration::FULL_WEEKS_PER_MONTH
+        errors.add :base, :days_per_week_and_days_per_month_are_inconsistent
       end
     end
 

@@ -1020,6 +1020,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
               hours_per_day_are_missing: "The number of hours per day must be defined."
               days_per_week_are_missing: "The number of days per week must be defined."
               days_per_month_are_missing: "The number of days per month must be defined."
+              days_per_week_and_days_per_month_are_inconsistent: "The number of days per week and the number of days per month must be consistent."
         time_entry:
           attributes:
             hours:

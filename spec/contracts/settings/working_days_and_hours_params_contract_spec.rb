@@ -33,22 +33,24 @@ RSpec.describe Settings::WorkingDaysAndHoursParamsContract do
   include_context "ModelContract shared context"
   shared_let(:current_user) { create(:admin) }
   let(:setting) { Setting }
-  let(:params) { { working_days: [1] } }
+  let(:params) { { working_days: [1], hours_per_day: 8, days_per_week: 5, days_per_month: 20 } }
   let(:contract) do
     described_class.new(setting, current_user, params:)
   end
 
   it_behaves_like "contract is valid for active admins and invalid for regular users"
 
-  context "without working days" do
-    let(:params) { { working_days: [] } }
+  %i[working_days hours_per_day days_per_week days_per_month].each do |attribute|
+    context "without #{attribute}" do
+      let(:params) { { working_days: [1], hours_per_day: 8, days_per_week: 5, days_per_month: 20 }.except(attribute) }
 
-    include_examples "contract is invalid", base: :working_days_are_missing
+      include_examples "contract is invalid", base: :"#{attribute}_are_missing"
+    end
   end
 
   context "with an ApplyWorkingDaysChangeJob already existing",
           with_good_job: WorkPackages::ApplyWorkingDaysChangeJob do
-    let(:params) { { working_days: [1, 2, 3] } }
+    let(:params) { { working_days: [1, 2, 3], hours_per_day: 8, days_per_week: 5, days_per_month: 20 } }
 
     before do
       WorkPackages::ApplyWorkingDaysChangeJob
@@ -59,5 +61,12 @@ RSpec.describe Settings::WorkingDaysAndHoursParamsContract do
     end
 
     include_examples "contract is invalid", base: :previous_working_day_changes_unprocessed
+  end
+
+  context "when days_per_week and days_per_month aren't consistent with each other" do
+    # There are 4 weeks per month on average, so 10 days per month in non-sensical given 5 days per week
+    let(:params) { { working_days: [1], hours_per_day: 8, days_per_week: 5, days_per_month: 10 } }
+
+    include_examples "contract is invalid", base: :days_per_week_and_days_per_month_are_inconsistent
   end
 end
