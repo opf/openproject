@@ -32,7 +32,7 @@ Following user permissions are set on files and folder in **External Storages**:
 - **Automatically managed folders: Read files (Nextcloud, OneDrive/SharePoint)**
 - **Automatically managed folders:  Write files (Nextcloud, OneDrive/SharePoint)**
 - **Automatically managed folders: Create files (Nextcloud)**
-- **Automatically managed folders:  Delete files (Nextcloud)**
+- **Automatically managed folders: Delete files (Nextcloud)**
 - **Automatically managed folders: Share files (Nextcloud)**
 
 > Please note that not all file permissions are applicable to all storage providers.
