@@ -362,7 +362,6 @@ ko:
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/docs/release-notes/14-1-0/
               new_features_html: >
                 이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>Gantt 보기의 PDF 내보내기(예: 인쇄용)(Enterprise 추가 기능)</li> <li>즐겨 찾는 프로젝트</li> <li>미팅의 섹션</li> <li>내 페이지 및 프로젝트 개요 페이지에 미팅 표시</li> <li>파일 탭에서 첨부 파일을 숨기는 기능</li> <li>링크(URL) 유형의 사용자 지정 필드</li> </ul>
     ical_sharing_modal:

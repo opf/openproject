@@ -40,15 +40,18 @@ zh-TW:
     errors:
       too_many_elements_created_at_once: 一次創建的元素過多。最多應為 %{max} 個，實際為 %{actual} 個。
   external_file_storages: External file storages
-  permission_create_files: '外部儲存空間：建立文件'
-  permission_delete_files: '外部儲存空間：刪除文件'
+  permission_create_files: 'Automatically managed project folders: Create files'
+  permission_create_files_explanation: This permission is only available for Nextcloud storages
+  permission_delete_files: 'Automatically managed project folders: Delete files'
+  permission_delete_files_explanation: This permission is only available for Nextcloud storages
   permission_header_for_project_module_storages: 自動管理的專案文件夾
   permission_manage_file_links: 管理文件鏈接
   permission_manage_storages_in_project: 管理專案中的文件儲存
-  permission_read_files: '外部儲存空間：讀取文件'
-  permission_share_files: '外部儲存空間：分享文件'
+  permission_read_files: 'Automatically managed project folders: Read files'
+  permission_share_files: 'Automatically managed project folders: Share files'
+  permission_share_files_explanation: This permission is only available for Nextcloud storages
   permission_view_file_links: 查看文件鏈接
-  permission_write_files: '外部儲存空間：存取文件'
+  permission_write_files: 'Automatically managed project folders: Write files'
   project_module_storages: Files
   storages:
     buttons:

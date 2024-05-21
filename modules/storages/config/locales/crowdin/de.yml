@@ -40,15 +40,18 @@ de:
     errors:
       too_many_elements_created_at_once: Zu viele Elemente gleichzeitig erstellt. Maximal %{max} erwartet, %{actual} bekommen.
   external_file_storages: Externe Dateispeicher
-  permission_create_files: 'Externe Speicherung: Dateien erstellen'
-  permission_delete_files: 'Externe Speicherung: Dateien löschen'
+  permission_create_files: 'Automatisch verwaltete Projektordner: Dateien erstellen'
+  permission_create_files_explanation: Diese Berechtigung ist nur für Nextcloud-Speicher verfügbar
+  permission_delete_files: 'Automatisch verwaltete Projektordner: Dateien löschen'
+  permission_delete_files_explanation: Diese Berechtigung ist nur für Nextcloud-Speicher verfügbar
   permission_header_for_project_module_storages: Automatisch verwaltete Projektordner
   permission_manage_file_links: Datei-Links verwalten
   permission_manage_storages_in_project: Dateispeicher im Projekt verwalten
-  permission_read_files: 'Externe Speicherung: Dateien lesen'
-  permission_share_files: 'Externe Speicherung: Dateien teilen'
+  permission_read_files: 'Automatisch verwaltete Projektordner: Dateien lesen'
+  permission_share_files: 'Automatisch verwaltete Projektordner: Dateien freigeben'
+  permission_share_files_explanation: Diese Berechtigung ist nur für Nextcloud-Speicher verfügbar
   permission_view_file_links: Datei-Links anzeigen
-  permission_write_files: 'Externe Speicherung: Dateien schreiben'
+  permission_write_files: 'Automatisch verwaltete Projektordner: Dateien schreiben'
   project_module_storages: Dateien
   storages:
     buttons:

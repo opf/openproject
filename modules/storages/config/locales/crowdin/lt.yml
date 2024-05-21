@@ -40,15 +40,18 @@ lt:
     errors:
       too_many_elements_created_at_once: Per daug elementu vienu metu. Tikėtasi daugiausia %{max}, gauta %{actual}.
   external_file_storages: Išorinės failų saugyklos
-  permission_create_files: 'Išorinė saugykla: kurti failus'
-  permission_delete_files: 'Išorinė saugykla: trinti failus'
+  permission_create_files: 'Automatiškai valdomi projekto aplankai: Kurti failus'
+  permission_create_files_explanation: Šis teisė galima tik Nextcloud saugykloms
+  permission_delete_files: 'Automatiškai valdomi projekto aplankai: Trinti failus'
+  permission_delete_files_explanation: Šis teisė galima tik Nextcloud saugykloms
   permission_header_for_project_module_storages: Automatiškai valdomi projekto aplankai
   permission_manage_file_links: Tvarkyti failo nuorodas
   permission_manage_storages_in_project: Tvarkyti failų saugyklas projekte
-  permission_read_files: 'Išorinė saugykla: skaityti failus'
-  permission_share_files: 'Išorinė saugykla: bendrinti failus'
+  permission_read_files: 'Automatiškai valdomi projekto aplankai: Skaityti failus'
+  permission_share_files: 'Automatiškai valdomi projekto aplankai: Bendrinti failus'
+  permission_share_files_explanation: Šis teisė galima tik Nextcloud saugykloms
   permission_view_file_links: Žiūrėti failo nuorodas
-  permission_write_files: 'Išorinė saugykla: rašyti failus'
+  permission_write_files: 'Automatiškai valdomi projekto aplankai: Rašyti failus'
   project_module_storages: Failai
   storages:
     buttons:
