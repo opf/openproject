@@ -387,4 +387,66 @@ RSpec.describe Queries::Projects::ProjectQuery do
       end
     end
   end
+
+  describe "scopes" do
+    describe ".public_lists" do
+      it "returns only public lists" do
+        public_query = create(:project_query, public: true)
+        public_query_other_user = create(:project_query, public: true)
+        private_query = create(:project_query, public: false)
+
+        expect(described_class.public_lists).to contain_exactly(public_query, public_query_other_user)
+      end
+    end
+
+    describe ".private_lists" do
+      it "returns only private lists owned by the user" do
+        public_query = create(:project_query, public: true)
+        private_query = create(:project_query, public: false)
+        private_query_other_user = create(:project_query, public: false)
+
+        expect(described_class.private_lists(user: private_query.user)).to contain_exactly(private_query)
+      end
+    end
+
+    describe ".visible" do
+      it "returns public and private queries owned by the user" do
+        public_query = create(:project_query, public: true)
+        public_query_other_user = create(:project_query, public: true)
+        private_query = create(:project_query, public: false)
+        private_query_other_user = create(:project_query, public: false)
+
+        expect(described_class.visible(user: private_query.user)).to contain_exactly(public_query, public_query_other_user,
+                                                                                     private_query)
+      end
+    end
+  end
+
+  describe "#visible?" do
+    let(:public) { false }
+
+    subject { build(:project_query, user: owner, public:) }
+
+    context "when the user is the owner" do
+      let(:owner) { user }
+
+      it { is_expected.to be_visible(user:) }
+    end
+
+    context "when the user is not the owner" do
+      let(:owner) { build(:user) }
+
+      context "and the query is public" do
+        let(:public) { true }
+
+        it { is_expected.to be_visible(user:) }
+      end
+
+      context "and the query is private" do
+        let(:public) { false }
+
+        it { is_expected.not_to be_visible(user:) }
+      end
+    end
+  end
 end
