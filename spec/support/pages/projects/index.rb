@@ -77,7 +77,9 @@ module Pages
 
       def expect_sidebar_filter(filter_name, selected: false)
         within "#main-menu" do
-          expect(page).to have_css(".op-sidemenu--item-action#{selected ? '.selected' : ''}", text: filter_name)
+          selected_specifier = selected ? ".selected" : ":not(.selected)"
+
+          expect(page).to have_css(".op-sidemenu--item-action#{selected_specifier}", text: filter_name)
         end
       end
 
