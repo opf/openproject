@@ -26,25 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::ProjectQueries::PublishService < BaseServices::BaseContracted
-  include Contracted
+module Queries::Projects::ProjectQueries
+  class PublishService < BaseServices::Update
+    private
 
-  def initialize(user:, model:, contract_class: Projects::Queries::PublishContract)
-    super(user:, contract_class:)
-    self.model = model
-  end
+    def after_validate(params, service_call)
+      model.public = params[:public]
 
-  private
+      service_call
+    end
 
-  def after_validate(params, service_call)
-    model.public = params[:public]
+    def persist(service_call)
+      model.save
 
-    service_call
-  end
+      service_call
+    end
 
-  def persist(service_call)
-    model.save
-
-    service_call
+    def default_contract_class
+      Queries::Projects::ProjectQueries::PublishContract
+    end
   end
 end

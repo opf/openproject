@@ -26,14 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::Queries::PublishContract < BaseContract
-  validate :allowed_to_modify_public_flag
-
-  protected
-
-  def allowed_to_modify_public_flag
-    unless user.allowed_globally?(:manage_public_project_queries)
-      errors.add :base, :error_unauthorized
-    end
+module Queries::Projects::ProjectQueries
+  class PublishContract < BaseContract
+    attribute :public
   end
 end
