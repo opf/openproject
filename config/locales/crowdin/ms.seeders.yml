@@ -252,20 +252,20 @@ ms:
             item_4:
               subject: Akhir projek
           wiki: |
-            _In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki._
+            _Dalam wiki ini, anda boleh bekerjasama mencipta dan edit halaman dan sub-halaman untuk mencipta wiki projek._
 
-            **You can:**
+            **Anda boleh:**
 
-            * Insert text and images, also with copy and paste from other documents
-            * Create a page hierarchy with parent pages
-            * Include wiki pages to the project menu
-            * Use macros to include, e.g. table of contents, work package lists, or Gantt charts
-            * Include wiki pages in other text fields, e.g. project overview page
-            * Include links to other documents
-            * View the change history
-            * View as Markdown
+            *Masukkan teks dan imej, juga menyalin dan sisipkan daripada dokumen lain
+            *Cipta hierarki laman dengan halaman induk
+            *Sertakan halaman wiki ke menu projek
+            *Gunakan makro untuk sertakan, cth. Jadual kandungan, senarai pakej kerja, atau carta Gantt
+            *Sertakan halaman wiki di ruang teks lain, cth. Halaman gambaran keseluruhan projek
+            *Sertakan pautan ke dokumen-dokumen lain
+            *Lihat sejarah perubahan
+            *Lihat sebagai Markdown
 
-            More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
+            Maklumat lanjut: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: Projek Scrum
           status_explanation: Semua tugasan mengikut jadual. Orang yang terlibat tahu akan tugasan mereka. Sistem ini telah siap sepenuhnya.
@@ -280,7 +280,7 @@ ms:
             item_0:
               name: Bug Tunggakan
             item_1:
-              name: Tunggakan produk
+              name: Tunggakan Produk
             item_2:
               name: Pecutan 1
               wiki:

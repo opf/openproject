@@ -306,10 +306,10 @@ pt-BR:
   lists:
     create:
       success: "A lista modificada foi salva como uma nova lista"
-      failure: "Não foi possível salvar a lista modificada: %{erros}"
+      failure: "Não foi possível salvar a lista modificada: %{errors}"
     update:
       success: "A lista modificada foi salva"
-      failure: "Não foi possível salvar a lista modificada: %{erros}"
+      failure: "Não foi possível salvar a lista modificada: %{errors}"
     can_be_saved: "Lista modificada:"
     can_be_saved_as: "As modificações só podem ser salvas em uma nova lista:"
   members:
@@ -2144,7 +2144,7 @@ pt-BR:
   label_project_attributes_settings: "Configurações de atributos de projeto"
   label_project_storage_plural: "Armazenamentos de arquivo"
   label_project_storage_project_folder: "Armazenamentos de arquivos: pastas do Projeto"
-  label_projects_disk_usage_information: "%{Count} projetos usando %{used_disk_space} do espaço em disco"
+  label_projects_disk_usage_information: "%{count} projetos usando %{used_disk_space} do espaço em disco"
   label_project_view_all: "Ver todos os projetos"
   label_project_show_details: "Mostrar detalhes do projeto"
   label_project_hide_details: "Ocultar detalhes do projeto"
