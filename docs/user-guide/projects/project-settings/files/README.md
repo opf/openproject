@@ -23,7 +23,7 @@ Under the **Files** module you will be able to manage external file storages, su
 
 ## Show attachments in the work packages files tab
 
-To activate or de-activate the direct attachments being shown under **Files** tab in work packages, navigate to *Project settings > Files* and select the *Attachments* tab. Here you can decide whether the attachments option will be shown under *Files* tab of work packages detailed view for a specific project. 
+To activate or de-activate the attachments being shown under **Files** tab in work packages, navigate to *Project settings > Files* and select the *Attachments* tab. Here you can decide whether the attachments option will be shown under *Files* tab of work packages detailed view for a specific project. 
 
 ![Show attachments in the work packages files tab in OpenProject](project-settings-attachments.png)
 
