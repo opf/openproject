@@ -42,5 +42,5 @@ class WorkPackages::Progress::Job < ApplicationJob
 
   retry_on GoodJob::ActiveJobExtensions::Concurrency::ConcurrencyExceededError,
            wait: 5.minutes,
-           attempts: 3
+           attempts: :unlimited
 end

@@ -30,14 +30,7 @@ module Notifications
   class CreateDateAlertsNotificationsJob < ApplicationJob
     include GoodJob::ActiveJobExtensions::Concurrency
 
-    good_job_control_concurrency_with(
-      enqueue_limit: 1,
-      perform_limit: 1
-    )
-
-    retry_on GoodJob::ActiveJobExtensions::Concurrency::ConcurrencyExceededError,
-             wait: 5.minutes,
-             attempts: 3
+    good_job_control_concurrency_with total_limit: 1
 
     def perform(user)
       return unless EnterpriseToken.allows_to?(:date_alerts)
