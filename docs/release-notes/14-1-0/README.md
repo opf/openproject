@@ -74,7 +74,7 @@ Read more about [dynamic meetings in OpenProject](../../user-guide/meetings/dyna
 
 Admins now are able to hide the attachment section in the Files tab. This setting can be changed both at an instance and project levels and is particularly useful for projects where users should only upload files via external storage, e.g. Nextcloud. 
 
-To make this possible Attachment and Files Storages settings were moved together under **Files** section, both in the [instance administration](../../system-guide/files/attachments/) and under [project settings](../../user-guide/projects/project-settings/files/).
+To make this possible Attachment and Files Storages settings were moved together under **Files** section, both in the [instance administration](../../system-admin-guide/files/attachments/) and under [project settings](../../user-guide/projects/project-settings/files/).
 
 ![Show attachments setting in OpenProject](openproject-14-1-administration-files.png)
 
