@@ -18,7 +18,7 @@ You need to have administrator rights to be able to setup the integration.
 
 For detailed guide on the initial setup, please consult [Nextcloud integration setup guide](../../integrations/nextcloud/).
 
-Please also remember to activate the **File storages** module under [project settings in a respective project](../../user-guide/projects/project-settings/files/).
+Please also remember to activate the **File storages** module under [project settings in a respective project](../../../user-guide/projects/project-settings/files/).
 
 For instructions on using the integration after the setup has been complete please refer to [Nextcloud integration user guide](../../../user-guide/file-management/nextcloud-integration/).
 
