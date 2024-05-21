@@ -39,6 +39,14 @@ class Queries::Projects::ProjectQuery < ApplicationRecord
   scope :public_lists, -> { where(public: true) }
   scope :private_lists, ->(user: User.current) { where(public: false, user:) }
 
+  scope :visible, ->(user: User.current) {
+                    public_lists.or(private_lists(user:))
+                  }
+
+  def visible?(user: User.current)
+    public? || user == self.user
+  end
+
   def self.model
     Project
   end
