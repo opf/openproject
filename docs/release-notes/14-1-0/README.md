@@ -12,6 +12,18 @@ Release date: 2024-05-13
 
 We released [OpenProject 14.1.0](https://community.openproject.org/versions/2030). The release contains several bug fixes and we recommend updating to the newest version. In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
 
+## Important updates and breaking changes
+
+### Deprecation of Univention app center packages 
+
+We unfortunately can no longer provide the OpenProject app for the Univention app center due to incompatibility of their PostgreSQL version in appi center 5.0. They have announced that a newer PostgreSQL version will be available in a newer version of the app center.
+This means that we are unable to provide new versions of OpenProject in the Univention app center. The last version available in the app center is OpenProject 13.4.1.
+
+As OpenProject currently does not provide its own multi-container setup, the app is no longer upgradable. We recommend you switch to a docker- or packaged-based installation instead. Please use the [integrated backup functionality](https://www.openproject.org/docs/system-admin-guide/backup/) to extract a backup from your installation. See the [restoration guide](https://www.openproject.org/docs/installation-and-operations/operation/restoring/) on how to restore this backup to a new installation.
+
+In the future, we are collaborating with Univention to provide a connector app for OpenProject, allowing you to integrate their IDM solution
+into an existing deployed OpenProject application.
+
 ## Important feature changes
 
 ### PDF export of Gantt view, e.g. for printing (Enterprise add-on)
