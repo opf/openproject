@@ -91,17 +91,19 @@ class Projects::QueriesController < ApplicationController
 
   private
 
-  def render_result(service_call, success_i18n_key:, error_i18n_key:)
+  def render_result(service_call, success_i18n_key:, error_i18n_key:) # rubocop:disable Metrics/AbcSize
+    modified_query = service_call.result
+
     if service_call.success?
       flash[:notice] = I18n.t(success_i18n_key)
 
-      redirect_to projects_path(query_id: service_call.result.id)
+      redirect_to modified_query.visible? ? projects_path(query_id: modified_query.id) : projects_path
     else
       flash[:error] = I18n.t(error_i18n_key, errors: service_call.errors.full_messages.join("\n"))
 
       render template: "/projects/index",
              layout: "global",
-             locals: { query: service_call.result, state: :edit }
+             locals: { query: modified_query, state: :edit }
     end
   end
 
