@@ -31,11 +31,15 @@ class Projects::QueriesController < ApplicationController
 
   # No need for a more specific authorization check. That is carried out in the contracts.
   before_action :require_login
-  before_action :find_query, only: %i[rename update destroy publish unpublish]
+  before_action :find_query, only: %i[show rename update destroy publish unpublish]
   before_action :build_query_or_deny_access, only: %i[new create]
 
   current_menu_item [:new, :rename, :create, :update] do
     :projects
+  end
+
+  def show
+    redirect_to projects_path(query_id: @query.id)
   end
 
   def new
