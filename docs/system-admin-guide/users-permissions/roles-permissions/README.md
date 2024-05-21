@@ -17,7 +17,7 @@ Permissions control what users can see and do within OpenProject. Permission are
 
 ### File storages permissions
 
-File storages permissions include the following:
+Permissions related to the external file storages are part of the *Projects* and *Work packages and Gantt charts*:
 
 ![Files storages permissions in OpenProject](openproject_user_guide_file_storages_permissions.png)
 
@@ -29,11 +29,11 @@ Following are the permissions for file storages within OpenProject:
 
 Following user permissions are set on files and folder in **External Storages**:
 
-- **External Storage: Read files (Nextcloud, OneDrive/SharePoint)**
-- **External Storage: Write files (Nextcloud, OneDrive/SharePoint)**
-- **External Storage: Create files (Nextcloud)**
-- **External Storage: Share files (Nextcloud)**
-- **External Storage: Delete files (Nextcloud)**
+- **Automatically managed folders: Read files (Nextcloud, OneDrive/SharePoint)**
+- **Automatically managed folders:  Write files (Nextcloud, OneDrive/SharePoint)**
+- **Automatically managed folders: : Create files (Nextcloud)**
+- **Automatically managed folders:  Delete files (Nextcloud)**
+- **Automatically managed folders:  Share files (Nextcloud)**
 
 > Please note that not all file permissions are applicable to all storage providers.
 
