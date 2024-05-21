@@ -47,7 +47,7 @@ This feature was requested by many in the Community and will be a great benefit,
 
 ![OpenProject dropdown menu showing favorite projects, displayed with yellow stars](openproject-14-1-favorite-projects-overview.shadow.png)
 
-See our documentation to learn more about [how to mark a project as favorite](https://www.openproject.org/docs/user-guide/project-overview/#mark-a-project-as-favorite).
+See our documentation to learn more about [how to mark a project as favorite](../../user-guide/project-overview/#mark-a-project-as-favorite).
 
 ### Advanced features for the Meetings module
 
@@ -157,4 +157,4 @@ Also a big thanks to our Community members for reporting bugs and helping us ide
 Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to highlight user [Syvert](https://crowdin.com/profile/syvert)
 who has done an outstanding number of translations for the Norwegian language in recent weeks.
 
-Would you like to help out with translations yourself? Then take a look at our [translation guide](https://www.openproject.org/docs/development/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
+Would you like to help out with translations yourself? Then take a look at our [translation guide](../../development/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!

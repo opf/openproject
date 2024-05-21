@@ -293,7 +293,7 @@ A project attribute in OpenProject is a [custom field](#custom-field) that appli
 
 ### Project folder
 
-Project folders help collaborating in the most efficient way. They can be used with OpenProject's [Nextcloud integration](#nextcloud-integration) or with OpenProject's [OneDrive/SharePoint integration](#onedrivesharepoint-integration). [Read more about project folders in OpenProject](../user-guide/projects/project-settings/file-storages/#project-folders).
+Project folders help collaborating in the most efficient way. They can be used with OpenProject's [Nextcloud integration](#nextcloud-integration) or with OpenProject's [OneDrive/SharePoint integration](#onedrivesharepoint-integration). [Read more about project folders in OpenProject](../user-guide/projects/project-settings/files/#project-folders).
 
 ### Project identifier
 
