@@ -31,7 +31,7 @@ OpenProject offers close integration with Nextcloud to allow users to:
 
 OpenProject makes significant efforts to ensure that the integration works with all the latest stable versions.  We strongly recommend continuously updating all systems to the current stable version. This ensures access to the latest features and prompt fixes for any potential bugs.
 
-- OpenProject [latest release](https://www.openproject.org/docs/release-notes/).
+- OpenProject [latest release](../../../release-notes/).
 - The latest version of the [OpenProject Integration Nextcloud app](https://apps.nextcloud.com/apps/integration_openproject)  from the Nextcloud App Store.
 - Nextcloud version in the latest `stable` version.
   - If you run Nextcloud in the community edition be careful to not
