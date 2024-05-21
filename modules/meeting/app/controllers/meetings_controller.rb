@@ -316,7 +316,7 @@ class MeetingsController < ApplicationController
     # Force defaults on participants
     @converted_params[:participants_attributes] ||= {}
     @converted_params[:participants_attributes].each { |p| p.reverse_merge! attended: false, invited: false }
-    @converted_params[:send_notifications] = ActiveRecord::Type::Boolean.new.cast params[:send_notifications]
+    @converted_params[:send_notifications] = params[:send_notifications] == "1"
   end
 
   def meeting_params

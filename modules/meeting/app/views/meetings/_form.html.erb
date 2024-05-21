@@ -192,8 +192,8 @@ See COPYRIGHT and LICENSE files for more details.
 
   <%= render partial: 'meetings/participants_section' %>
 
-<% if @meeting.new_record? || copy_from.present? %>
-   <div class="form--field">
+  <% if @meeting.new_record? || copy_from.present? %>
+    <div class="form--field">
       <%= styled_label_tag 'send_notfications', t(:"meeting.email.send_emails") %>
       <div class="form--field-container">
         <%= styled_check_box_tag 'send_notifications',
