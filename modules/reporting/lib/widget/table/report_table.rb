@@ -105,7 +105,8 @@ class Widget::Table::ReportTable < Widget::Table
 
   # rubocop:disable Metrics/AbcSize
   def render_thead
-    return if walker.headers && walker.headers_empty?
+    walker.headers
+    return if walker.headers_empty?
 
     write "<thead>".html_safe
     walker.headers do |list, first, first_in_col, last_in_col|

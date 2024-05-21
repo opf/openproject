@@ -30,7 +30,7 @@ class Widget::Table < Widget::Base
   extend Report::InheritedAttribute
   include ReportingHelper
 
-  attr_accessor :debug, :fields, :mapping
+  attr_accessor :fields, :mapping
 
   def initialize(query)
     raise ArgumentError, "Tables only work on CostQuery!" unless query.is_a? CostQuery

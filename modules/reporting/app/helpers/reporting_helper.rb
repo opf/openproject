@@ -68,10 +68,6 @@ module ReportingHelper
     end
   end
 
-  def debug_fields(result, prefix = ", ")
-    prefix << result.fields.inspect << ", " << result.important_fields.inspect << ", " << result.key.inspect if params[:debug]
-  end
-
   def month_name(index)
     Date::MONTHNAMES[index].to_s
   end
