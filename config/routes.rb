@@ -455,6 +455,9 @@ Rails.application.routes.draw do
           post :reorder_alphabetical
           put :move
           put :drop
+
+          get :project_mappings
+          delete :unlink
         end
       end
       resources :project_custom_field_sections, controller: "/admin/settings/project_custom_field_sections",

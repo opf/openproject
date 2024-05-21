@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -26,28 +26,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% content_controller 'admin--custom-fields',
-                      dynamic: true,
-                      'admin--custom-fields-format-value': @custom_field.field_format
-%>
 
-<% local_assigns[:additional_breadcrumb] = @custom_field.name %>
-
-<%=
-  render(Admin::Settings::ProjectCustomFields::ProjectAttributeDetailHeaderComponent.new(
-    custom_field: @custom_field,
-    selected: :project_custom_field_edit
-  ))
-%>
-
-<%= error_messages_for 'custom_field' %>
-
-<%= labelled_tabular_form_for @custom_field, as: :custom_field,
-                              url: admin_settings_project_custom_field_path(@custom_field),
-                              html: {method: :put, id: 'custom_field_form'} do |f| %>
-  <%= render partial: 'custom_fields/form', locals: { f: f, custom_field: @custom_field } %>
-  <% if @custom_field.new_record? %>
-    <%= hidden_field_tag 'type', @custom_field.type %>
+<%= component_wrapper(tag: "tr", class: row_css_class, data: { turbo: true }) do %>
+  <% columns.each do |column| %>
+    <td class="<%= column_css_class(column) %>">
+      <%= column_value(column) %>
+    </td>
   <% end %>
-  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+
+  <td class="buttons">
+    <% button_links.each do |link| %>
+      <%= link %>
+    <% end %>
+  </td>
 <% end %>

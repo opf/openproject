@@ -27,15 +27,20 @@
 #++
 
 require "spec_helper"
-require_relative "shared_context"
 
-RSpec.describe "Edit project custom fields", :js do
-  include_context "with seeded project custom fields"
+RSpec.describe "Project Custom Field Mappings", :js do
+  shared_let(:admin) { create(:admin) }
+  shared_let(:non_admin) { create(:user) }
+  shared_let(:project) { create(:project) }
+  shared_let(:project_custom_field) { create(:project_custom_field) }
+  shared_let(:project_custom_field_mapping) { create(:project_custom_field_project_mapping, project_custom_field:, project:) }
+
+  let(:project_custom_field_mappings_page) { Pages::Admin::Settings::ProjectCustomFields::ProjectCustomFieldMappingsIndex.new }
 
   context "with insufficient permissions" do
     it "is not accessible" do
       login_as(non_admin)
-      visit edit_admin_settings_project_custom_field_path(boolean_project_custom_field)
+      visit project_mappings_admin_settings_project_custom_field_path(project_custom_field)
 
       expect(page).to have_text("You are not authorized to access this page.")
     end
@@ -44,7 +49,7 @@ RSpec.describe "Edit project custom fields", :js do
   context "with sufficient permissions" do
     before do
       login_as(admin)
-      visit edit_admin_settings_project_custom_field_path(boolean_project_custom_field)
+      visit project_mappings_admin_settings_project_custom_field_path(project_custom_field)
     end
 
     it "shows a correct breadcrumb menu" do
@@ -52,7 +57,7 @@ RSpec.describe "Edit project custom fields", :js do
         expect(page).to have_link("Administration")
         expect(page).to have_link("Projects")
         expect(page).to have_link("Project attributes")
-        expect(page).to have_text(boolean_project_custom_field.name)
+        expect(page).to have_text(project_custom_field.name)
       end
     end
 
@@ -63,42 +68,22 @@ RSpec.describe "Edit project custom fields", :js do
       end
     end
 
-    it "allows to change basic attributes and the section of the project custom field" do
-      # TODO: reuse specs for classic custom field form in order to test for other attribute manipulations
-      expect(page).to have_css(".PageHeader-title", text: boolean_project_custom_field.name)
-
-      fill_in("custom_field_name", with: "Updated name", fill_options: { clear: :backspace })
-      select(section_for_select_fields.name, from: "custom_field_custom_field_section_id")
-
-      click_on("Save")
-
-      expect(page).to have_text("Successful update")
-
-      expect(page).to have_css(".PageHeader-title", text: "Updated name")
-
-      expect(boolean_project_custom_field.reload.name).to eq("Updated name")
-      expect(boolean_project_custom_field.reload.project_custom_field_section).to eq(section_for_select_fields)
-
-      within ".PageHeader-breadcrumbs" do
-        expect(page).to have_link("Administration")
-        expect(page).to have_link("Projects")
-        expect(page).to have_link("Project attributes")
-        expect(page).to have_text("Updated name")
+    it "shows the correct project mappings" do
+      within "#project-table" do
+        expect(page).to have_text(project.name)
       end
     end
 
-    it "prevents saving a project custom field with an empty name" do
-      original_name = boolean_project_custom_field.name
+    it "renders more menu list item" do
+      project_custom_field_mappings_page.activate_menu_of(project) do |menu|
+        expect(menu).to have_link("Delete")
+      end
+    end
 
-      fill_in("custom_field_name", with: "")
-      click_on("Save")
+    it "allows to unlink a project" do
+      project_custom_field_mappings_page.click_menu_item_of("Delete", project)
 
-      expect(page).to have_field "custom_field_name", validation_message: "Please fill out this field."
-
-      expect(page).to have_no_text("Successful update")
-
-      expect(page).to have_css(".PageHeader-title", text: original_name)
-      expect(boolean_project_custom_field.reload.name).to eq(original_name)
+      expect(page).to have_no_text(project.name)
     end
   end
 end
