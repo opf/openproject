@@ -3,12 +3,12 @@ title: OpenProject 14.1.0
 sidebar_navigation:
     title: 14.1.0
 release_version: 14.1.0
-release_date: 2024-05-13
+release_date: 2024-05-22
 ---
 
 # OpenProject 14.1.0
 
-Release date: 2024-05-13
+Release date: 2024-05-22
 
 We released [OpenProject 14.1.0](https://community.openproject.org/versions/2030). The release contains several bug fixes and we recommend updating to the newest version. In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
 
@@ -16,7 +16,7 @@ We released [OpenProject 14.1.0](https://community.openproject.org/versions/2030
 
 ### Deprecation of Univention app center packages 
 
-We unfortunately can no longer provide the OpenProject app for the Univention app center due to incompatibility of their PostgreSQL version in appi center 5.0. They have announced that a newer PostgreSQL version will be available in a newer version of the app center.
+We unfortunately can no longer provide the OpenProject app for the Univention app center due to incompatibility of their PostgreSQL version in app center 5.0. They have announced that a newer PostgreSQL version will be available in a newer version of the app center.
 This means that we are unable to provide new versions of OpenProject in the Univention app center. The last version available in the app center is OpenProject 13.4.1.
 
 As OpenProject currently does not provide its own multi-container setup, the app is no longer upgradable. We recommend you switch to a docker- or packaged-based installation instead. Please use the [integrated backup functionality](https://www.openproject.org/docs/system-admin-guide/backup/) to extract a backup from your installation. See the [restoration guide](https://www.openproject.org/docs/installation-and-operations/operation/restoring/) on how to restore this backup to a new installation.
@@ -26,8 +26,8 @@ into an existing deployed OpenProject application.
 
 ### Removal of all-in-one PostgreSQL exposed port
 
-In the all-in-one Dockerfile, up until now, both port 80 and 5432 (PostgreSQL database) was exposed by default.
-As we're also not exposing other services such as memcached, we removed the PostgreSQL port for consistency.
+In the all-in-one Dockerfile, up until now, both port 80 and 5432 (PostgreSQL database) were exposed by default.
+As we are also not exposing other services such as memcached, we removed the PostgreSQL port for consistency.
 
 If you need to work on the database directly, you can still use the `docker exec -it <container id> pg_dump` command to e.g., access pg_dump.
 
@@ -37,7 +37,7 @@ If you need to work on the database directly, you can still use the `docker exec
 
 It is now possible to export a Gantt view as PDF in the OpenProject Enterprise edition. This allows users to easily print Gantt charts in a nice design. Choose between different paper formats, set the column width, and specify whether the PDF file should display your work packages on a daily, monthly or quarterly basis.
 
-Please note that we plan to further improve the PDF export of Gantt view in future releases.
+Please note that we plan to further improve the [PDF export of Gantt view](../../user-guide/gantt-chart/#gantt-chart-pdf-export-enterprise-add-on) in future releases.
 
 ![Export your Gantt view as PDF](openproject-14-1-gantt-pdf-export-figma.png)
 
@@ -51,7 +51,7 @@ See our documentation to learn more about [how to mark a project as favorite](..
 
 ### Advanced features for the Meetings module
 
-The Meetings module is currently being continuously improved. With OpenProject 14.1...
+The Meetings module is currently being continuously improved. With OpenProject 14.1.:
 
 - you can group agenda items with sections,
 - notes are open when creating new agenda items,
@@ -68,9 +68,21 @@ Apart from these features that apply the Meetings module directly, the following
 
 **Please note**: On the project overview page and on the My page, the "+" button on the top right has been removed. However, new widgets can be added by project admins as usual if you hover at the border of an existing widget and click on the “+” there.
 
+Read more about [dynamic meetings in OpenProject](../../user-guide/meetings/dynamic-meetings/).
+
 ### Possibility to hide attachments in the Files tab
 
-Admins now are able to hide the attachment section in the Files tab. This setting can be changed at a project level and is particularly useful for projects where users should only upload files via external storage, e.g. Nextcloud.
+Admins now are able to hide the attachment section in the Files tab. This setting can be changed both at an instance and project levels and is particularly useful for projects where users should only upload files via external storage, e.g. Nextcloud. 
+
+To make this possible Attachment and Files Storages settings were moved together under **Files** section, both in the [instance administration](../../system-guide/files/attachments/) and under [project settings](../../user-guide/projects/project-settings/files/).
+
+![Show attachments setting in OpenProject](openproject-14-1-administration-files.png)
+
+### File storages module activated by default
+
+In connection with the feature above, activating file storages integrations was simplified. It is no longer required to active **Files storages** module under project settings. Instead, available file storages are visible under *Project settings > Files > External file storages*, as long as the user has *Manage file storages in project* permission.
+
+![External file storages under project settings in OpenProject](openproject-14-1-project-settings-files.png)
 
 ### Custom fields of the type Link (URL)
 
@@ -78,13 +90,17 @@ Users can now create custom field of the type Link (URL). Remember to activate i
 
 ![Create a custom field of the type Link](openproject-14-1-custom-field-link.png)
 
+Read more about [custom fields](../../system-admin-guide/custom-fields/).
+
 ### Save a changed sort order of custom project lists
 
 Custom project lists can now not only be changed in order, but also saved as such. Additionally, you can change your own saved lists and save them again so that you do not have to start from scratch.
 
+Read more on [project lists](../../user-guide/projects/project-lists/).
+
 ### A "Manage project attributes" button on the project overview page
 
-With OpenProject 14.0, we released the feature to create a custom set of project attributes grouped in sections on the project overview page. With 14.1, you will additionally have a button to "Manage project attributes" on the project overview page.
+With OpenProject 14.0, we released the feature to create a custom set of project attributes grouped in sections on the project overview page. With 14.1, you will additionally have a button to [Manage project attributes](../../user-guide/project-overview/#project-attributes) on the project overview page.
 
 ### OneDrive/SharePoint: A "no permission“ message to file links
 
