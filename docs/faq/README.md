@@ -308,10 +308,6 @@ If you use the Community edition please feel free to use our [forums](https://co
 
 To learn more about OpenProject and how its features work please have a look at [this FAQ](#how-can-i-learn-more-about-openproject).
 
-### Do you support Univention users?
-
-If you're an Enterprise on-premises user you're eligible for Professional Support. However, we can't support you in all Univention-related topics (e.g. server not reachable, authentication setup, ...).
-
 ### Do you have a cyber insurance?
 
 Yes, we do.
