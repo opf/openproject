@@ -24,6 +24,13 @@ As OpenProject currently does not provide its own multi-container setup, the app
 In the future, we are collaborating with Univention to provide a connector app for OpenProject, allowing you to integrate their IDM solution
 into an existing deployed OpenProject application.
 
+### Removal of all-in-one PostgreSQL exposed port
+
+In the all-in-one Dockerfile, up until now, both port 80 and 5432 (PostgreSQL database) was exposed by default.
+As we're also not exposing other services such as memcached, we removed the PostgreSQL port for consistency.
+
+If you need to work on the database directly, you can still use the `docker exec -it <container id> pg_dump` command to e.g., access pg_dump.
+
 ## Important feature changes
 
 ### PDF export of Gantt view, e.g. for printing (Enterprise add-on)
