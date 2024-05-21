@@ -22,7 +22,7 @@ ms:
         item_2:
           name: Diselesaikan
         item_3:
-          name: Tutup
+          name: Ditutup
       time_entry_activities:
         item_0:
           name: Pengurusan
@@ -47,7 +47,7 @@ ms:
           name: Konflik
       global_queries:
         item_0:
-          name: 'Jadual tetap: Kanak-kanak'
+          name: 'Jadual yang telah disematkan: Kanak-kanak'
       type_configuration:
         item_0:
           form_configuration:
@@ -95,7 +95,7 @@ ms:
               title: Selamat datang ke projek demo anda
               summary: |
                 Kami gembira anda menyertai kami.
-                Dalam modul ini, anda boleh menyampaikan berita projek ke ahli-ahli pasukan anda.
+                Dalam modul ini, anda boleh menyampaikan berita projek ke ahli pasukan anda.
               description: Berita sebenar
           categories:
             item_0: Kategori 1 (untuk diubah dalam tetapan Projek)
@@ -224,7 +224,7 @@ ms:
 
                     ## Deskripsi
 
-                    *   Mengenalpasti keperluan pelanggan dengan mengadakan bengkel bersama mereka
+                    *   Mengenal pasti keperluan pelanggan dengan mengadakan bengkel bersama mereka
                     *   Setiap keperluan akan mewakili satu tugasan dengan pakej tugasan yang sepadan
                     *   Memperolehi anggaran kos dan jangka waktu
                 item_1:
@@ -421,7 +421,7 @@ ms:
             item_1:
               name: Pencapaian
             item_2:
-              name: Tugasan
+              name: Tugasan-tugasan
             item_3:
               name: Perancang pasukan
           project-overview:
@@ -450,7 +450,7 @@ ms:
                     9.  _Pemangkin kerja? Cipta satu panel baharu:_ → Pergi ke [Board]({{opSetting:base_url}}/projects/demo-bim-project/boards)
 
                     Di sini anda akan menemui [Panduan pengguna](https://www.openproject.org/docs/user-guide/) kami.
-                    Sila beritahu kami untuk sebarang soalan atau bantuan. Hubungi kami: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Sila beritahu kami untuk sebarang soalan atau bantuan. Hubungi kami: [support\[at\]openproject.com](mel ke:support@openproject.com).
               item_4:
                 options:
                   name: Ahli-ahli

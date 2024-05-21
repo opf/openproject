@@ -48,7 +48,7 @@ zh-TW:
         description: "備註"
         presenter: "簡報者"
       meeting_section:
-        title: "Title"
+        title: "標題"
     errors:
       messages:
         invalid_time_format: "不是有效時間。所需格式: HH:MM"
@@ -124,8 +124,9 @@ zh-TW:
       structured_text_copy: "目前複製會議不會複製相關會議的議程項目，只會複製會議的詳細信息。"
     copied: "從會議紀錄 #%{id} 中複製"
   meeting_section:
-    default_title: "New section"
-    untitled_title: "Untitled"
+    untitled_title: "Untitled section"
+    delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
+    placeholder_title: "New section"
     empty_text: "Drag items here or create a new one"
   notice_successful_notification: "通知傳送成功"
   notice_timezone_missing: 沒有設定時區，預設時區為 %{zone} 。請按這裡選擇您的時區。

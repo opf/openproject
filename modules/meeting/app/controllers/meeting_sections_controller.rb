@@ -42,8 +42,7 @@ class MeetingSectionsController < ApplicationController
       .new(user: current_user)
       .call(
         {
-          meeting_id: @meeting.id,
-          title: t("meeting_section.default_title")
+          meeting_id: @meeting.id
         }
       )
 
@@ -51,7 +50,9 @@ class MeetingSectionsController < ApplicationController
 
     if call.success?
       add_section_via_turbo_stream
-      update_section_header_via_turbo_stream(state: :edit)
+      update_section_via_turbo_stream(force_wrapper: true, state: :edit)
+      # update the section header of the previously last section in order to ensure the action menu move options are updated
+      update_section_header_via_turbo_stream(meeting_section: @meeting.sections.last(2).first) if @meeting.sections.count > 1
       update_new_button_via_turbo_stream(disabled: true)
     else
       render_base_error_in_flash_message_via_turbo_stream(call.errors)
@@ -72,8 +73,8 @@ class MeetingSectionsController < ApplicationController
   end
 
   def cancel_edit
-    if @meeting_section.has_default_title? && @meeting_section.agenda_items.empty?
-      # if the section has the default title and no agenda items, we can safely delete it
+    if @meeting_section.untitled? && @meeting_section.agenda_items.empty?
+      # if the section is untitled and no agenda items, we can safely delete it
       destroy and return
     else
       update_section_header_via_turbo_stream(state: :show)
@@ -90,9 +91,9 @@ class MeetingSectionsController < ApplicationController
 
     if call.success?
       update_section_header_via_turbo_stream(state: :show)
-      update_new_button_via_turbo_stream(disabled: false)
       update_header_component_via_turbo_stream
       update_sidebar_details_component_via_turbo_stream
+      update_new_button_via_turbo_stream(disabled: false)
     else
       # show errors
       update_section_header_via_turbo_stream(state: :edit)
@@ -112,6 +113,8 @@ class MeetingSectionsController < ApplicationController
       # in case the destroy action was called from the cancel_edit action
       # we need to update the new button state, which was disabled before
       update_new_button_via_turbo_stream(disabled: false)
+      # update all section headers in order to ensure the action menu move options are updated
+      update_section_headers_via_turbo_stream
     else
       generic_call_failure_response(call)
     end
@@ -121,13 +124,15 @@ class MeetingSectionsController < ApplicationController
 
   def drop
     call = ::MeetingSections::UpdateService
-      .new(user: current_user, model: @meeting_section)
+      .new(user: current_user, model: @meeting_section, contract_class: MeetingSections::MoveContract)
       .call(position: params[:position].to_i)
 
     if call.success?
       # the DOM is already updated on the client-side through the drag
-      # in order to preserve an edit state within the section, we don't send a server-side rendered update
-      update_header_component_via_turbo_stream
+      # in order to preserve an edit state within the section,
+      # we don't send a server-side rendered update via `move_section_via_turbo_stream`
+      # update all section headers in order to ensure the action menu move options are updated
+      update_section_headers_via_turbo_stream
       # update all time slots as a section position change affects potentially all time slots
       update_show_items_via_turbo_stream
     else
@@ -139,7 +144,7 @@ class MeetingSectionsController < ApplicationController
 
   def move
     call = ::MeetingSections::UpdateService
-      .new(user: current_user, model: @meeting_section)
+      .new(user: current_user, model: @meeting_section, contract_class: MeetingSections::MoveContract)
       .call(move_to: params[:move_to]&.to_sym)
 
     if call.success?
@@ -148,6 +153,8 @@ class MeetingSectionsController < ApplicationController
       # unlike at the drop action, we need to send server-side rendered updates in order to reflect the new position
       # thus an edit state inside the section gets lost
       update_header_component_via_turbo_stream
+      # update all section headers in order to ensure the action menu move options are updated
+      update_section_headers_via_turbo_stream
       # update all time slots as a section position change affects potentially all time slots
       update_show_items_via_turbo_stream
     else

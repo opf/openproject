@@ -28,10 +28,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Projects index page",
-               :js,
-               :with_cuprite,
-               with_settings: { login_required?: false } do
+RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login_required?: false } do
   shared_let(:admin) { create(:admin) }
 
   shared_let(:manager)   { create(:project_role, name: "Manager") }
@@ -40,25 +37,13 @@ RSpec.describe "Projects index page",
   shared_let(:custom_field) { create(:text_project_custom_field) }
   shared_let(:invisible_custom_field) { create(:project_custom_field, visible: false) }
 
-  shared_let(:project) do
-    create(:project,
-           name: "Plain project",
-           identifier: "plain-project")
-  end
+  shared_let(:project) { create(:project, name: "Plain project", identifier: "plain-project") }
   shared_let(:public_project) do
-    project = create(:project,
-                     name: "Public project",
-                     identifier: "public-project",
-                     public: true)
-    project.custom_field_values = { invisible_custom_field.id => "Secret CF" }
-    project.save
-    project
+    create(:project, name: "Public project", identifier: "public-project", public: true) do |project|
+      project.custom_field_values = { invisible_custom_field.id => "Secret CF" }
+    end
   end
-  shared_let(:development_project) do
-    create(:project,
-           name: "Development project",
-           identifier: "development-project")
-  end
+  shared_let(:development_project) { create(:project, name: "Development project", identifier: "development-project") }
 
   let(:news) { create(:news, project:) }
   let(:projects_page) { Pages::Projects::Index.new }
@@ -370,7 +355,7 @@ RSpec.describe "Projects index page",
       projects_page.expect_columns("Name")
 
       # Sorts ASC by name
-      projects_page.sort_by("Name")
+      projects_page.sort_by_via_table_header("Name")
       wait_for_reload
 
       # Results should be filtered and ordered ASC by name and only the selected columns should be present
@@ -397,7 +382,7 @@ RSpec.describe "Projects index page",
       projects_page.expect_total_pages(2) # Filters kept active, so there is no third page.
 
       # Sorts DESC by name
-      projects_page.sort_by("Name")
+      projects_page.sort_by_via_table_header("Name")
       wait_for_reload
 
       # Clicking on sorting resets the page to the first one
@@ -949,7 +934,7 @@ RSpec.describe "Projects index page",
 
       projects_page.activate_menu_of(parent_project) do |menu|
         expect(menu).to have_text("Add to favorites")
-        expect(menu).not_to have_text("Copy")
+        expect(menu).to have_no_text("Copy")
       end
 
       # For a project member with :copy_projects privilege the 'More' menu is visible.
@@ -991,21 +976,12 @@ RSpec.describe "Projects index page",
     shared_let(:integer_custom_field) { create(:integer_project_custom_field) }
     # order is important here as the implementation uses lft
     # first but then reorders in ruby
-    shared_let(:child_project_z) do
-      create(:project,
-             parent: project,
-             name: "Z Child")
-    end
-    shared_let(:child_project_m) do
-      create(:project,
-             parent: project,
-             name: "m Child") # intentionally written lowercase to test for case insensitive sorting
-    end
-    shared_let(:child_project_a) do
-      create(:project,
-             parent: project,
-             name: "A Child")
-    end
+    shared_let(:child_project_z) { create(:project, parent: project, name: "Z Child") }
+
+    # intentionally written lowercase to test for case insensitive sorting
+    shared_let(:child_project_m) { create(:project, parent: project, name: "m Child") }
+
+    shared_let(:child_project_a) { create(:project, parent: project, name: "A Child") }
 
     before do
       login_as(admin)
@@ -1025,7 +1001,95 @@ RSpec.describe "Projects index page",
       child_project_a.save!
     end
 
-    it "allows to alter the order in which projects are displayed" do
+    context "via the configure view dialog" do
+      before do
+        Setting.enabled_projects_columns += [integer_custom_field.column_name]
+      end
+
+      it "allows to sort via multiple columns" do
+        projects_page.open_configure_view
+        projects_page.switch_configure_view_tab(I18n.t("label_sort"))
+
+        # Initially we have the projects ordered by hierarchy
+        # When we sort by hierarchy, there is a special behavior that no other sorting is possible
+        # and the sort order is always ascending
+        projects_page.within_sort_row(0) do
+          projects_page.expect_sort_order(column_identifier: "lft", direction: "asc", direction_enabled: false)
+        end
+        projects_page.expect_number_of_sort_fields(1)
+
+        # Switch sorting order to Name descending
+        # We now get a second sort field to add another sort order, but it has nothing selected
+        # in the second field, name is not available as an option
+        projects_page.within_sort_row(0) do
+          projects_page.change_sort_order(column_identifier: :name, direction: :desc)
+        end
+        projects_page.expect_number_of_sort_fields(2)
+
+        projects_page.within_sort_row(1) do
+          projects_page.expect_sort_order(column_identifier: "", direction: "")
+          projects_page.expect_sort_option_is_disabled(column_identifier: :name)
+        end
+
+        # Let's add another sorting, this time by a custom field
+        # This will add a third sorting field
+        projects_page.within_sort_row(1) do
+          projects_page.change_sort_order(column_identifier: integer_custom_field.column_name, direction: :asc)
+        end
+
+        projects_page.expect_number_of_sort_fields(3)
+        projects_page.within_sort_row(2) do
+          projects_page.expect_sort_order(column_identifier: "", direction: "")
+          projects_page.expect_sort_option_is_disabled(column_identifier: :name)
+          projects_page.expect_sort_option_is_disabled(column_identifier: integer_custom_field.column_name)
+        end
+
+        # And now let's select a third option
+        # it will not add a 4th sorting field
+        projects_page.within_sort_row(2) do
+          projects_page.change_sort_order(column_identifier: :public, direction: :asc)
+        end
+        projects_page.expect_number_of_sort_fields(3)
+
+        # We unset the first sorting, this will move the 2nd sorting (custom field) to the first position and
+        # the 3rd sorting (public) to the second position and will add an empty option to the third position
+        projects_page.within_sort_row(0) do
+          projects_page.remove_sort_order
+        end
+
+        projects_page.expect_number_of_sort_fields(3)
+
+        projects_page.within_sort_row(0) do
+          projects_page.expect_sort_order(column_identifier: integer_custom_field.column_name, direction: :asc)
+        end
+        projects_page.within_sort_row(1) { projects_page.expect_sort_order(column_identifier: :public, direction: :asc) }
+        projects_page.within_sort_row(2) { projects_page.expect_sort_order(column_identifier: "", direction: "") }
+
+        # To roll back, we now select hierarchy as the third option, this will remove all other options
+        projects_page.within_sort_row(2) do
+          projects_page.change_sort_order(column_identifier: :lft, direction: :asc)
+        end
+
+        projects_page.within_sort_row(0) do
+          projects_page.expect_sort_order(column_identifier: "lft", direction: "asc", direction_enabled: false)
+        end
+        projects_page.expect_number_of_sort_fields(1)
+      end
+
+      it "does not allow to sort via long text custom fields" do
+        long_text_custom_field = create(:text_project_custom_field)
+        Setting.enabled_projects_columns += [long_text_custom_field.column_name]
+
+        projects_page.open_configure_view
+        projects_page.switch_configure_view_tab(I18n.t("label_sort"))
+
+        projects_page.within_sort_row(0) do
+          projects_page.expect_sort_option_not_available(column_identifier: long_text_custom_field.column_name)
+        end
+      end
+    end
+
+    it "allows to alter the order in which projects are displayed via the column headers" do
       Setting.enabled_projects_columns += [integer_custom_field.column_name]
 
       # initially, ordered by name asc on each hierarchical level

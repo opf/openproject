@@ -26,14 +26,14 @@ ms:
       two_factor_authentication/device/webauthn: "WebAuthn"
   two_factor_authentication:
     error_2fa_disabled: "Penghantaran 2FA telah dimatikan."
-    error_no_device: "Tiada peranti 2FA berdaftar yang dijumpai untuk pengguna ini, walaupun diperlukan untuk keadaan ini."
-    error_no_matching_strategy: "Tiada strategi 2FA yang tersedia untuk pengguna ini. Sila hubungi pentadbir anda."
+    error_no_device: "Tiada peranti 2FA berdaftar yang dijumpai untuk pengguna ini, walaupun diperlukan untuk contoh ini."
+    error_no_matching_strategy: "Tiada strategi 2FA yang sepadan tersedia untuk pengguna ini. Sila hubungi pentadbir anda."
     error_is_enforced_not_active: "Ralat konfigurasi: Pengesahan Dua Faktor telah dikuatkuasakan, tetapi masih belum ada strategi sedia ada yang aktif."
-    error_invalid_backup_code: "Kod sokongan 2FA tidak sah"
+    error_invalid_backup_code: "Kod sandaran 2FA tidak sah"
     channel_unavailable: "Saluran penghantaran %{channel} tidak tersedia."
     no_valid_phone_number: "Tiada nombor telefon yang sah wujud."
     label_pwd_confirmation: "Kata Laluan"
-    notice_pwd_confirmation: "Anda perlu mengesahkan kata laluan anda apabila membuat perubahan kepada seting ini."
+    notice_pwd_confirmation: "Anda perlu mengesahkan kata laluan anda apabila membuat perubahan kepada tetapan ini."
     label_device_type: "Jenis peranti"
     label_default_device: "Peranti default 2FA "
     label_device: "Peranti 2FA "
@@ -44,20 +44,20 @@ ms:
     text_otp_delivery_message_sms: "Kata laluan satu kali %{app_title} anda adalah %{token}"
     text_otp_delivery_message_voice: "Kata laluan satu kali %{app_title} anda adalah: %{pause} %{token}. Saya ulang: %{pause} %{token}"
     text_enter_2fa: "Sila masukkan kata laluan satu kali daripada peranti anda."
-    text_2fa_enabled: "Setiap kali log masuk, anda akan diminta untuk memasukkan token OTP daripada peranti 2FA asas anda."
-    text_2fa_disabled: "Untuk membolehkan pengesahan dua faktor, guna butang di atas untuk daftar peranti 2FA yang baru. Jika anda sudah mempunyai peranti, anda perlu menjadikannya default."
+    text_2fa_enabled: "Setiap kali log masuk, anda akan diminta untuk memasukkan token OTP daripada peranti 2FA default anda."
+    text_2fa_disabled: "Untuk membenarkan pengesahan dua faktor, guna butang di atas untuk daftar peranti 2FA yang baharu. Jika anda sudah mempunyai peranti, anda perlu menjadikannya default."
     login:
-      enter_backup_code_title: Masukkan kod sokongan
-      enter_backup_code_text: Sila masukkan kod sokongan yang sah daripada senarai kod anda sekiranya anda tidak lagi dapat mengakses peranti 2FA berdaftar anda.
-      other_device: "Guna peranti lain atau kod sokongan"
+      enter_backup_code_title: Masukkan kod sandaran
+      enter_backup_code_text: Sila masukkan kod sandaran yang sah daripada senarai kod anda sekiranya anda tidak lagi dapat mengakses peranti 2FA berdaftar anda.
+      other_device: "Guna peranti lain atau kod sandaran"
     settings:
-      title: "Seting 2FA"
+      title: "Tetapan 2FA"
       current_configuration: "Konfigurasi semasa"
       label_active_strategies: "Strategi-strategi 2FA yang aktif"
       label_enforced: "Kuatkuasakan 2FA"
       label_remember: "Ingat log masuk 2FA"
       text_configuration: |
-        Nota: Nilai-nilai ini mewakili konfigurasi seluruh aplikasi terkini. Anda tidak boleh nyahaktifkan tetapan yang dikuatkuasakan oleh konfigurasi tersebut atau mengubah strategi aktif terkini, oleh kerana mereka memerlukan server untuk dimulakan semula.
+        Perhatian: Nilai-nilai ini mewakili konfigurasi seluruh aplikasi terkini. Anda tidak boleh nyahaktifkan tetapan yang dikuatkuasakan oleh konfigurasi tersebut atau mengubah strategi aktif terkini, oleh kerana mereka memerlukan server untuk dimulakan semula.
       text_configuration_guide: Untuk maklumat lanjut, sila semak panduan konfigurasi.
       text_enforced: "Aktifkan tetapan ini untuk memaksa semua pengguna untuk mendaftar peranti 2FA pada log masuk mereka yang seterusnya. Hanya boleh dinyahaktifkan apabila tidak dikuatkuasakan oleh konfigurasi."
       text_remember: |
@@ -66,39 +66,39 @@ ms:
       error_invalid_settings: "Strategi-strategi 2FA yang anda telah memilih adalah tidak sah."
       failed_to_save_settings: "Gagal untuk kemas kini tetapan 2FA: %{message}"
     admin:
-      self_edit_path: "Untuk menambah atau modifikasi peranti-peranti 2FA anda sendiri, sila kunjungi %{self_edit_link}"
+      self_edit_path: "Untuk menambah atau modifikasi peranti-peranti 2FA anda sendiri, sila ke %{self_edit_link}"
       self_edit_link_name: "Pengesahan dua faktor di halaman akaun anda"
-      self_edit_forbidden: "Anda tidak boleh meyunting peranti 2FA anda sendiri pada laluan ini. Sebaliknya, pergi ke Akaun Saya > Pengesahan dua faktor."
-      no_devices_for_user: "Tiada peranti 2FA yang telah didaftarkan kepada pengguna ini."
+      self_edit_forbidden: "Anda tidak boleh edit peranti 2FA anda sendiri pada laluan ini. Sebaliknya, pergi ke Akaun Saya > Pengesahan dua faktor."
+      no_devices_for_user: "Tiada peranti 2FA yang telah didaftarkan ke pengguna ini."
       all_devices_deleted: "Semua peranti 2FA pengguna ini telah dipadamkan."
       delete_all_are_you_sure: "Adakah anda pasti anda ingin membuang semua peranti 2FA untuk pengguna ini?"
-      button_delete_all_devices: "Buang peranti 2FA berdaftar"
+      button_delete_all_devices: "Padam peranti 2FA berdaftar"
       button_register_mobile_phone_for_user: "Daftar telefon bimbit"
-      text_2fa_enabled: "Setiap kali log masuk, pengguna ini akan diminta untuk memasukkan token OTP daripada peranti 2FA asas mereka."
+      text_2fa_enabled: "Setiap kali log masuk, pengguna ini akan diminta untuk memasukkan token OTP daripada peranti 2FA default mereka."
       text_2fa_disabled: "Pengguna ini tidak menyediakan peranti 2FA melalui 'Laman akaun saya'"
       only_sms_allowed: "Hanya penghantaran SMS boleh disediakan untuk pengguna-pengguna lain."
     upsale:
       title: "Pengesahan dua faktor"
       description: "Ketatkan keselamatan contoh OpenProject anda dengan menawarkan (atau kuatkuasakan) pengesahan dua faktor ke semua ahli-ahli projek."
     backup_codes:
-      none_found: Tiada kod sokongan sedia ada untuk akaun ini.
-      singular: Kod sokongan
-      plural: Kod sokongan
+      none_found: Tiada kod sandaran sedia ada untuk akaun ini.
+      singular: Kod sandaran
+      plural: Kod sandaran
       your_codes: untuk %{login} akaun %{app_name} anda
       overview_description: |
         Jika anda tidak boleh mengakses peranti-peranti dua faktor anda, anda boleh menggunakan kod sokongan untuk mendapatkan akses semula ke akaun anda.
         Gunakan butang berikutnya untuk menjana set kod sokongan baharu.
       generate:
-        title: Hasilkan kod sokongan
+        title: Janakan kod sandaran
         keep_safe_as_password: "Penting! Perlakukan kod-kod ini sebagaimana kata laluan."
         keep_safe_warning: "Sama ada menyimpannya dalam pengendalian kata laluan anda, atau mencetak halaman ini dan menyimpannya di tempat yang selamat."
         regenerate_warning: "Amaran: Jika anda telah mencipta kod sandaran sebelum ini, kod-kod tersebut akan dibatalkan dan tidak akan berfungsi lagi."
     devices:
       add_new: "Tambah peranti 2FA baharu"
       register: "Daftar peranti"
-      confirm_default: "Sahkan perubahan peranti asal"
+      confirm_default: "Sahkan perubahan peranti default"
       confirm_device: "Sahkan peranti"
-      confirm_now: "Tidak disahkan, klik sini untuk mengaktifkan"
+      confirm_now: "Tidak disahkan, klik sini untuk aktifkan"
       cannot_delete_default: "Tidak boleh buang peranti default"
       make_default_are_you_sure: "Adakah anda pasti anda ingin membuat peranti 2FA ini peranti default anda?"
       make_default_failed: "Gagal mengemas kini peranti default 2FA."
@@ -110,18 +110,18 @@ ms:
       button_complete_registration: "Lengkapkan pendaftaran 2FA"
       text_confirm_to_complete_html: "Sila lengkapkan pendaftaran peranti <strong>%{identifier}</strong> anda dengan memasukkan kata laluan satu kali dari peranti default anda."
       text_confirm_to_change_default_html: "Sila sahkan perubahan peranti default ke <strong>%{new_identifier}</strong> dengan memasukkan kata laluan satu kali dari peranti default semasa anda."
-      text_identifier: "Anda boleh berikan peranti pengecam tersuai menggunakan medan ini."
+      text_identifier: "Anda boleh berikan peranti pengecam tersuai menggunakan ruangan ini."
       failed_to_delete: "Gagal untuk memadam peranti 2FA."
       is_default_cannot_delete: "Peranti ini telah dicatat sebagai default dan tidak boleh dipadam atas sebab polisi keselamatan yang sedang aktif.\nCatatkan peranti lain sebagai default sebelum memadamkannya."
       not_existing: "Tiada peranti 2FA yang berdaftar untuk akaun anda."
       2fa_from_input: Sila masukkan kod daripada <strong>%{device_name}</strong> anda untuk sahkan identiti anda.
-      2fa_from_webauthn: Sila sediakan peranti WebAuthn <strong>%{device_name}</strong>. Jika ia berdasarkan USB, sila pastikan memasang dan menyentuhnya. Selepas itu, klik butang log masuk.
+      2fa_from_webauthn: Sila sediakan peranti WebAuthn <strong>%{device_name}</strong>. Jika ia berdasarkan USB, sila pastikan untuk memasang dan menyentuhnya. Selepas itu, klik butang log masuk.
       webauthn:
         title: "WebAuthn"
         description: Gunakan Pengesahan Web untuk daftarkan peranti FIDO2 (seperti YubiKey) atau enclave yang selamat dari telefon bimbit anda sebagai faktor kedua.
-        further_steps: Setelah anda memilih nama, anda boleh klik butang Teruskan. Laman layar anda akan maklumkan kepada anda untuk mengemukakan peranti WebAuthn anda. Setelah berbuat demikian, pendaftaran peranti anda telah selesai.
+        further_steps: Setelah anda memilih nama, anda boleh klik butang Teruskan. Pelayar anda akan maklumkan kepada anda untuk mengemukakan peranti WebAuthn anda. Setelah berbuat demikian, pendaftaran peranti anda telah selesai.
       totp:
-        title: "Gunakan pengesahan pangkalan aplikasi anda"
+        title: "Gunakan pengesahan berasaskan aplikasi anda"
         provisioning_uri: "Peruntukan URI"
         secret_key: "Kunci rahsia"
         time_based: "Berdasarkan masa"
@@ -134,11 +134,11 @@ ms:
         text_cannot_scan: |
           Jika anda tidak dapat mengimbas kod, anda boleh memasukkan entri secara manual dengan menggunakan butiran berikut:
         description: |
-          Daftarkan pengesah aplikasi untuk digunakan bersama OpenProject menggunakan standard pengesahan kata laluan sekali masa berasaskan masa.
+          Daftarkan pengesahan aplikasi untuk digunakan bersama OpenProject menggunakan standard pengesahan kata laluan sekali masa berasaskan masa.
           Contoh biasa ialah Google Authenticator atau Authy.
       sms:
         title: "Guna telefon bimbit anda"
-        redacted_identifier: "Peranti (%{redacted_number})"
+        redacted_identifier: "Peranti mudah alih (%{redacted_number})"
         request_2fa_identifier: "%{redacted_identifier}, kami telah menghantarkan kod pengesahan melalui %{delivery_channel}"
         description: |
           Daftar nombor telefon bimbit anda untuk penghantaran kata laluan satu kali OpenProject.
@@ -158,19 +158,19 @@ ms:
       required_to_add_device: "Polisi keselamatan yang aktif memerlukan anda untuk membenarkan pengesahan dua faktor. Sila gunakan borang berikut untuk daftarkan peranti."
     remember:
       active_session_notice: >
-        Akaun ada mempunyai simpanan kuki aktif yang sah sehingga %{expires_on}. Kuki ini membenarkan anda untuk log masuk tanpa faktor kedua ke akaun anda sehingga masa itu.
+        Akaun anda mempunyai simpanan kuki aktif yang sah sehingga %{expires_on}. Kuki ini membenarkan anda untuk log masuk tanpa faktor kedua ke akaun anda sehingga masa itu.
       other_active_session_notice: Akaun anda mempunyai simpanan kuki yang aktif pada sesi lain.
       label: "Ingat"
       clear_cookie: "Klik sini untuk buang semua sesi 2FA yang diingati."
       cookie_removed: "Semua sesi 2FA yang disimpan telah dipadamkan."
-      dont_ask_again: "Ciptakan kuki untuk menyimpan pengesahan 2FA pada pelanggan selama %{days} hari."
+      dont_ask_again: "Ciptakan kuki untuk menyimpan pengesahan 2FA pada klien ini selama %{days} hari."
   field_phone: "Telefon bimbit"
   field_otp: "Kata laluan satu kali"
   notice_account_otp_invalid: " Kata laluan satu kali tidak sah."
   notice_account_otp_expired: "Kata laluan satu kali yang anda masukkan telah tamat tempoh."
-  notice_developer_strategy_otp: "Strategi pembangunan telah generasikan kata laluan satu kali yang berikut: %{token} (Saluran: %{channel})"
+  notice_developer_strategy_otp: "Strategi pembangunan telah janakan kata laluan satu kali yang berikut: %{token} (Saluran: %{channel})"
   notice_account_otp_send_failed: "Kata laluan satu kali anda tidak dapat dihantar."
-  notice_account_has_no_phone: "Tiada nombor telefon bimbit yang berkaitan dengan akaun anda."
+  notice_account_has_no_phone: "Tiada nombor telefon bimbit yang berpaut dengan akaun anda."
   label_expiration_hint: "%{date} atau pada log keluar"
   label_actions: "Tindakan"
   label_confirmed: "Disahkan"

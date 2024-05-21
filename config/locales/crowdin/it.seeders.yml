@@ -251,6 +251,21 @@ it:
                     *   [ ] Altra birra
             item_4:
               subject: Fine del progetto
+          wiki: |
+            _In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki._
+
+            **You can:**
+
+            * Insert text and images, also with copy and paste from other documents
+            * Create a page hierarchy with parent pages
+            * Include wiki pages to the project menu
+            * Use macros to include, e.g. table of contents, work package lists, or Gantt charts
+            * Include wiki pages in other text fields, e.g. project overview page
+            * Include links to other documents
+            * View the change history
+            * View as Markdown
+
+            More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: Progetto Scrum
           status_explanation: Tutti gli incarichi sono in programma. Le persone coinvolte conoscono i propri compiti. Il sistema è completamente configurato.

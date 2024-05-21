@@ -28,6 +28,7 @@
 
 module WorkPackage::PDFExport::Gantt
   class GanttBuilder
+    include Redmine::I18n
     BAR_CELL_PADDING = 5.to_f
     TEXT_CELL_PADDING_H = 3.to_f
     TEXT_CELL_PADDING_V = 1.to_f
@@ -89,6 +90,7 @@ module WorkPackage::PDFExport::Gantt
       @nr_columns = (@pdf.bounds.width / @column_width).floor
     end
 
+    # distribute empty spaces
     def adjust_to_pages
       # distribute empty space right to the default column widths
       distribute_to_next_page_column
@@ -511,18 +513,43 @@ module WorkPackage::PDFExport::Gantt
       )
     end
 
-    # Builds the dependency line between two work packages on different horizontal and vertical pages
+    # Builds the dependency line between two work packages on different vertical (and maybe horizontal) pages
     # @param [GanttDataLineInfo] source
     # @param [GanttDataLineInfo] target
     # @param [Array<GanttDataPageGroup>] page_groups
     def build_multi_group_dep_line(source, target, page_groups)
       start_page_index = source.page_group.pages.index(source.finish_row.page)
       finish_page_index = target.page_group.pages.index(target.start_row.page)
-      if start_page_index > finish_page_index
+      if start_page_index == finish_page_index
+        build_multi_group_same_page_dep_line(source, target, start_page_index, page_groups)
+      elsif start_page_index > finish_page_index
         build_multi_group_dep_line_backward(source, target, start_page_index, finish_page_index, page_groups)
       else
         build_multi_group_dep_line_forward(source, target, start_page_index, finish_page_index, page_groups)
       end
+    end
+
+    # Builds the dependency line between two work packages on different vertical but not horizontal pages
+    # @param [GanttDataLineInfo] source
+    # @param [GanttDataLineInfo] target
+    # @param [Integer] page_index
+    # @param [Array<GanttDataPageGroup>] page_groups
+    def build_multi_group_same_page_dep_line(source, target, page_index, page_groups)
+      build_multi_group_same_page_dep_lines_forward_start(source, target)
+      build_multi_group_dep_line_middle(source, target, page_index, page_groups)
+      build_multi_group_dep_line_group_end_end(target, target.start_left - LINE_STEP)
+    end
+
+    # Builds the dependency line between two work packages on different vertical but not horizontal pages (start)
+    # @param [GanttDataLineInfo] source
+    # @param [GanttDataLineInfo] target
+    def build_multi_group_same_page_dep_lines_forward_start(source, target)
+      source_top = source.finish_top
+      target_left = target.start_left - LINE_STEP
+      source.finish_row.page.add_lines([
+                                         [source.finish_left, target_left, source_top, source_top],
+                                         [target_left, target_left, source_top, source.finish_row.page.height]
+                                       ])
     end
 
     # Builds the dependency line between two work packages on different horizontal and vertical pages
@@ -596,13 +623,13 @@ module WorkPackage::PDFExport::Gantt
     # draw line between the source and target work package pages
     # @param [GanttDataLineInfo] source
     # @param [GanttDataLineInfo] target
-    def build_multi_group_dep_line_middle(source, target, finish_page_index, page_groups)
+    def build_multi_group_dep_line_middle(source, target, page_index, page_groups)
       start_group_index = page_groups.index(source.finish_row.page.group)
       finish_group_index = page_groups.index(target.start_row.page.group)
       start = [start_group_index, finish_group_index].min
       finish = [start_group_index, finish_group_index].max
       ((start + 1)..(finish - 1)).each do |index|
-        build_multi_group_dep_line_middle_for_group(page_groups[index], target, finish_page_index)
+        build_multi_group_dep_line_middle_for_group(page_groups[index], target, page_index)
       end
     end
 
@@ -695,16 +722,26 @@ module WorkPackage::PDFExport::Gantt
     def build_row_text_lines_wp_info(entry, left, right, top)
       text_top = top + TEXT_CELL_PADDING_V
       text_bottom = text_top + 8
-      GanttDataText.new(work_package_info_line(entry.work_package), left, right, text_top, text_bottom, 8)
+      GanttDataText.new(work_package_info_line(entry.work_package), left, right, text_top, text_bottom, 6)
     end
 
     # Returns the info text line for the given work package
     # @param [WorkPackage] work_package
     # @return [String]
     def work_package_info_line(work_package)
-      level_path = @id_wp_meta_map[work_package.id][:level_path]
-      level_string = "#{level_path.join('.')}."
-      "#{level_string} #{work_package.type} ##{work_package.id}"
+      "#{work_package.type} ##{work_package.id} • #{work_package.status} • #{work_package_info_line_date work_package}"
+    end
+
+    def work_package_info_line_date(work_package)
+      if work_package.start_date == work_package.due_date
+        format_pdf_date(work_package.start_date)
+      else
+        "#{format_pdf_date(work_package.start_date)} - #{format_pdf_date(work_package.due_date)}"
+      end
+    end
+
+    def format_pdf_date(date)
+      date.nil? ? "" : format_date(date)
     end
 
     # Builds the shape for the given work package
@@ -822,7 +859,7 @@ module WorkPackage::PDFExport::Gantt
     # @param [WorkPackage] work_package
     # @return [String] hexcode_in_prawn_format
     def wp_type_color(work_package)
-      work_package.type.color.hexcode.sub("#", "")
+      work_package.type&.color&.hexcode&.sub("#", "") || "000000"
     end
 
     # get the dates of the work package with safety checks

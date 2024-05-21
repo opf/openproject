@@ -17,5 +17,8 @@ if [ "$MIGRATE" = "true" ]; then
 	bundle exec rake db:migrate
 fi
 
+# Clean up any dangling PID file
+rm -f ${APP_PATH}/tmp/pids/*
+
 # see `config/puma.rb` for configuration
 exec bundle exec rails server -u puma -b $BIND -p $PORT

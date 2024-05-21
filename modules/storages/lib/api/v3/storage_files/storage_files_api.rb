@@ -45,7 +45,7 @@ module API::V3::StorageFiles
         case body.transform_keys(&:to_sym)
         in { projectId: project_id, fileName: file_name, parent: parent }
           authorize_in_project(:manage_file_links, project: Project.find(project_id))
-          ServiceResult.success(result: { file_name:, parent: }.transform_keys(&:to_s))
+          ServiceResult.success(result: Storages::UploadData.new(folder_id: parent, file_name:))
         else
           ServiceResult.failure(errors: Storages::StorageError.new(code: :bad_request,
                                                                    log_message: "Request body malformed!"))
@@ -53,10 +53,10 @@ module API::V3::StorageFiles
       end
 
       def fetch_upload_link
-        ->(data) do
+        ->(upload_data) do
           Storages::Peripherals::Registry
             .resolve("#{@storage.short_provider_type}.queries.upload_link")
-            .call(storage: @storage, user: current_user, data:)
+            .call(storage: @storage, auth_strategy:, upload_data:)
         end
       end
 

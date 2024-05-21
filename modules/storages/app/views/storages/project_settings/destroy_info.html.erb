@@ -53,7 +53,7 @@ See COPYRIGHT and LICENSE files for more details.
            concat content_tag :i, '', class: 'button--icon icon-delete'
            concat content_tag :span, t(:button_delete), class: 'button--text'
            end %>
-      <%= link_to project_settings_project_storages_path(@project_storage_to_destroy.project),
+      <%= link_to external_file_storages_project_settings_project_storages_path(@project_storage_to_destroy.project),
           title: t(:button_cancel),
           class: 'button -with-icon icon-cancel' do %>
             <%= t(:button_cancel) %>

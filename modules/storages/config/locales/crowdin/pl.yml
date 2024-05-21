@@ -39,17 +39,20 @@ pl:
   api_v3:
     errors:
       too_many_elements_created_at_once: Zbyt wiele elementów utworzonych jednocześnie. Oczekiwano co najwyżej %{max} , otrzymano %{actual}.
-  external_file_storages: External file storages
-  permission_create_files: 'Magazyn zewnętrzny: tworzenie plików'
-  permission_delete_files: 'Magazyn zewnętrzny: usuwanie plików'
+  external_file_storages: Zewnętrzne magazyny plików
+  permission_create_files: 'Automatically managed project folders: Create files'
+  permission_create_files_explanation: This permission is only available for Nextcloud storages
+  permission_delete_files: 'Automatically managed project folders: Delete files'
+  permission_delete_files_explanation: This permission is only available for Nextcloud storages
   permission_header_for_project_module_storages: Automatycznie zarządzane foldery projektu
   permission_manage_file_links: Zarządzaj linkami do plików
   permission_manage_storages_in_project: Zarządzaj magazynami plików w projekcie
-  permission_read_files: 'Magazyn zewnętrzny: odczyt plików'
-  permission_share_files: 'Magazyn zewnętrzny: udostępnianie plików'
+  permission_read_files: 'Automatically managed project folders: Read files'
+  permission_share_files: 'Automatically managed project folders: Share files'
+  permission_share_files_explanation: This permission is only available for Nextcloud storages
   permission_view_file_links: Wyświetl linki do plików
-  permission_write_files: 'Magazyn zewnętrzny: zapis plików'
-  project_module_storages: Files
+  permission_write_files: 'Automatically managed project folders: Write files'
+  project_module_storages: Pliki
   storages:
     buttons:
       complete_without_setup: Ukończ bez tego
@@ -229,7 +232,7 @@ pl:
       project_storage_members:
         subtitle: Sprawdź status połączenia magazynu %{storage_name_link} wszystkich członków projektu.
         title: Status połączenia członków
-    permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
+    permission_header_explanation: 'Uprawnienia do plików w magazynach zewnętrznych są stosowane tylko do folderów i plików w automatycznie zarządzanych folderach projektu. Pamiętaj, że niektóre uprawnienia do plików nie są obsługiwane przez niektóych dostawców magazynu. Aby uzyskać więcej informacji, zapoznaj się z dokumentacją <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>uprawnień do przechowywania plików</a>.'
     provider_types:
       label: Typ dostawcy
       nextcloud:
@@ -243,8 +246,8 @@ pl:
         name: OneDrive/SharePoint
         name_placeholder: np. OneDrive
     show_attachments_toggle:
-      description: Deactivating this option will only hide the attachments list. Files uploaded with the help of the rich text editor will still be uploaded to the attachments internal storage.
-      label: Show attachments in the work packages files tab
+      description: 'Wyłączenie tej opcji spowoduje ukrycie listy załączników na karcie plików pakietów roboczych. Pliki załączone w opisie pakietu roboczego będą nadal przesyłane do wewnętrznego magazynu załączników.'
+      label: Pokaż załączniki na karcie plików pakietów roboczych
     storage_list_blank_slate:
       description: Dodaj magazyn, aby zobaczyć go tutaj.
       heading: Nie masz jeszcze żadnych magazynów.

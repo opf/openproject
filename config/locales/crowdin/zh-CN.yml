@@ -481,7 +481,7 @@ zh-CN:
       no_common_statuses_exists: "所有选中的工作包都没有可用的状态，因此无法更改其状态。"
       unsupported_for_multiple_projects: "不支持多个项目工作包的大批量移动/复制"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "工作包共享缺少工作流"
         message: "没有为\"工作包编辑者\"角色配置工作流。没有工作流，共享用户就无法更改工作包的状态。工作流可以复制。选择一个源类型（例如\"任务\"）和源角色（例如\"成员\"）。然后选择目标类型。一开始，您可以将所有类型都选择为目标类型。最后，选择\"工作包编辑者\"角色作为目标，然后点击\"复制\"。在创建默认设置之后，像对其他角色一样进行微调，对工作流进行详细调整。"
         link_message: "在管理中配置工作流。"
@@ -1697,17 +1697,6 @@ zh-CN:
         mentioned: "您在 %{work_package} 中被提及"
         responsible: "您已成为 %{work_package} 的负责人"
         watched: "您正在关注 %{work_package}"
-    update_info_mail:
-      body: >
-        我们十分高兴地宣布 OpenProject 12.0 现已发布。这一主要版本有望显著改善您使用 OpenProject 的方式。
-        从此版本开始，我们将引入应用内通知。现在起，您将直接在 OpenProject 中接收有关工作包更新的通知。您可以将这些通知标记为已读、回复评论，甚至直接修改工作包属性，而无需离开通知中心。
-        这也意味着我们将不再使用电子邮件进行通知。我们认为新通知中心是查看这些更新并采取行动的最佳场所。不过，如果您想继续通过电子邮件接收更新，可以选择在您选取的特定时间接收每日电子邮件提醒。
-        请确保验证您的新默认通知设置，在帐户设置中对通知和电子邮件提醒进行偏好设置。您可以通过下方的“更改电子邮件设置”按钮执行此操作。
-        我们希望应用内通知能够满足您的使用需求，帮助您提高效率。
-        谨上， OpenProject 团队
-      body_header: "包含通知中心的 12.0 版本"
-      body_subheader: "新闻"
-      subject: "12.0 版本中加入了针对通知的重要更改"
   label_accessibility: "辅助功能"
   label_account: "帐户"
   label_active: "激活"
@@ -1759,6 +1748,7 @@ zh-CN:
   label_attribute_expand_text: "%{attribute}的完整文本"
   label_authentication: "身份验证"
   label_available_global_roles: "可用的全局角色"
+  label_available_project_attributes: "可用的项目属性"
   label_available_project_forums: "可用论坛"
   label_available_project_repositories: "可用存储库"
   label_available_project_versions: "可用版本"
@@ -1978,7 +1968,7 @@ zh-CN:
   label_link_url: "链接（URL）"
   label_list: "列表"
   label_loading: "正在加载..."
-  label_lock_user: "锁住用户"
+  label_lock_user: "锁定用户"
   label_logged_as: "登录用户名"
   label_login: "登录"
   label_custom_logo: "自定义徽标"

@@ -43,8 +43,8 @@ ko:
           title: '하위 프로젝트'
           no_results: '하위 프로젝트가 없습니다.'
         project_favorites:
-          title: 'Favorite projects'
-          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
+          title: '즐겨 찾는 프로젝트'
+          no_results: '즐겨 찾는 프로젝트가 현재 없습니다. 프로젝트 대시보드에서 별 아이콘을 클릭하여 즐겨찾기에 추가하세요.'
         time_entries_current_user:
           title: '내 소요 시간'
           displayed_days: '위젯에 표시되는 일수:'

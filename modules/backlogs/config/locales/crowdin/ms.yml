@@ -22,7 +22,7 @@
 ms:
   plugin_openproject_backlogs:
     name: "Tunggakan OpenProject"
-    description: "Modul ini menambahkan ciri-ciri yang membolehkan kumpulan-kumpulan yang tangkas untuk bekerja menggunakan OpenProject di projek Scrum."
+    description: "Modul ini menambahkan fitur-fitur yang membolehkan kumpulan-kumpulan yang tangkas untuk bekerja menggunakan OpenProject di projek Scrum."
   activerecord:
     attributes:
       work_package:
@@ -121,7 +121,7 @@ ms:
   label_product_backlog: "produk tunggakan"
   label_select_all: "Pilih semua"
   label_sprint_backlog: "tunggakan pecutan "
-  label_sprint_cards: "Kad eksport"
+  label_sprint_cards: "Eksport kad"
   label_sprint_impediments: "Halangan Pecutan"
   label_sprint_name: "Pecutan \"%{name}\""
   label_sprint_velocity: "Kelajuan %{velocity}, berdasarkan %{sprints} pecutan dengan purata %{days} hari"
@@ -137,7 +137,7 @@ ms:
   permission_select_done_statuses: "Pilih status selesai"
   permission_update_sprints: "Kemas kini pecutan"
   points_accepted: "mata diterima"
-  points_committed: "mata yang dianggarkan"
+  points_committed: "mata yang komited"
   points_resolved: "mata yang diselesaikan"
   points_to_accept: "mata yang tidak diterima"
   points_to_resolve: "mata tidak diselesaikan"
@@ -148,7 +148,7 @@ ms:
   rb_label_copy_tasks_open: "Buka"
   rb_label_link_to_original: "Sertakan pautan ke cerita asal"
   remaining_hours: "baki kerja"
-  required_burn_rate_hours: "kadar pembakaran yang diperlukan (jam)"
+  required_burn_rate_hours: "kadar burn yang diperlukan (jam)"
   required_burn_rate_points: "kadar burn yang diperlukan (mata)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
   todo_work_package_summary: "%{type}: %{summary}"

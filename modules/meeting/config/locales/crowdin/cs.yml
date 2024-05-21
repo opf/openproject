@@ -127,8 +127,9 @@ cs:
       structured_text_copy: "Kopírování schůzky v současné době nezkopíruje související body pořadu jednání, jen podrobnosti"
     copied: "Zkopírováno ze schůzky #%{id}"
   meeting_section:
-    default_title: "New section"
-    untitled_title: "Untitled"
+    untitled_title: "Untitled section"
+    delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
+    placeholder_title: "New section"
     empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Oznámení bylo úspěšně odesláno"
   notice_timezone_missing: Není nastaveno žádné časové pásmo a předpokládá se %{zone} . Chcete-li vybrat časové pásmo, klikněte prosím zde.

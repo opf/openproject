@@ -1,7 +1,7 @@
 ru:
   plugin_openproject_openid_connect:
     name: "OpenProject OpenID Подключение"
-    description: "Adds OmniAuth OpenID Connect strategy providers to OpenProject."
+    description: "Добавлена стратегия OmniAuth OpenID Connect для OpenProject."
   logout_warning: >
     Вы вышли из системы. Содержимое любой формы, которую вы можете отправить, может быть потеряно. Пожалуйста [войдите в систему].
   activemodel:

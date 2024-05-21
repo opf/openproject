@@ -303,13 +303,13 @@ de:
         no_results_title_text: Durch dieses Projekt wird kein zusätzlicher erfasster Speicherplatz verbraucht.
   lists:
     create:
-      success: "The modified list has been saved as a new list"
-      failure: "The modified list cannot be saved: %{errors}"
+      success: "Die geänderte Liste wurde als neue Liste gespeichert"
+      failure: "Die geänderte Liste kann nicht gespeichert werden: %{errors}"
     update:
-      success: "The modified list has been saved"
-      failure: "The modified list cannot be saved: %{errors}"
-    can_be_saved: "List modified:"
-    can_be_saved_as: "The modifications can only be saved in a new list:"
+      success: "Die geänderte Liste wurde gespeichert"
+      failure: "Die geänderte Liste kann nicht gespeichert werden: %{errors}"
+    can_be_saved: "Liste geändert:"
+    can_be_saved_as: "Die Änderungen können nur in einer neuen Liste gespeichert werden:"
   members:
     index:
       no_results_title_text: Zur Zeit hat dieses Projekt keine Mitglieder.
@@ -487,10 +487,10 @@ de:
       no_common_statuses_exists: "Es gibt keine gemeinsamen Status für die ausgewählten Arbeitspakete. Ihr Status kann daher nicht verändert werden."
       unsupported_for_multiple_projects: "Verschieben / Kopieren nicht unterstützt für Arbeitspakete in verschiedenen Projekten"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Der Workflow für das Teilen von Arbeitspaketen fehlt"
-        message: "Es ist kein Arbeitsablauf (Workflow) für die Rolle ‚Arbeitspaket-Editor‘ konfiguriert. Ohne einen Arbeitsablauf kann der gemeinsam mit dem Benutzer den Status des Arbeitspakets nicht ändern. Arbeitsabläufe können kopiert werden. Wählen Sie einen Quelltyp (z. B. ‚Task‘) und eine Quell-Rolle (z. B. 'Member'). Wählen Sie dann die Zieltypen aus, um alle Typen als Ziele auszuwählen und schließlich die Rolle ‚Arbeitspaket-Editor‘ als Ziel aus und drücken Sie ‚Kopieren‘. Nachdem Sie die Standardeinstellungen erstellt haben, können Sie die Arbeitsabläufe so einstellen, wie Sie es für jede andere Rolle tun."
-        link_message: "Konfigurieren Sie die Arbeitsabläufe in der Administration."
+        message: "Es ist kein Workflow für die Rolle ‚Work package editor‘ konfiguriert. Nur mit einem solchen Workflow können Benutzer, mit denen ein Arbeitspaket geteilt wurde, den Status des Arbeitspakets ändern. Workflows lassen sich einfach kopieren. Wählen Sie dazu einen Quell-Typ (z. B. ‚Task‘) und eine Quell-Rolle (z. B. 'Member') aus. Wählen Sie dann die Ziel-Typen aus. Als ersten Schritt können Sie alle Typen als Ziel-Typen auswählen. Danach wählen Sie die Ziel-Rolle ‚Work package editor‘ aus und drücken Sie auf den Knopf ‚Kopieren‘. Nachdem Sie hiermit eine Grundlage geschaffen haben, können Sie danach diese Workflows weiter anpassen, ganz genau wie Sie es für jede andere Rolle bereits getan haben."
+        link_message: "Konfigurieren Sie die Workflows in der Administration."
     summary:
       reports:
         category:
@@ -785,7 +785,7 @@ de:
         not_an_iso_date: "ist kein gültiges Datum - Erwartetes Format: YYY-MM-DD."
         not_same_project: "gehört nicht zum selben Projekt."
         odd: "muss ungerade sein."
-        regex_match_failed: "does not match the regular expression %{expression}."
+        regex_match_failed: "stimmt nicht mit dem regulären Ausdruck %{expression} überein."
         regex_invalid: "konnte nicht mit dem zugehörigen regulären Ausdruck überprüft werden."
         smaller_than_or_equal_to_max_length: "muss kleiner als oder gleich der maximalen Länge sein."
         taken: "ist bereits vergeben."
@@ -1664,7 +1664,7 @@ de:
         progress_calculation_adjusted: >-
           Die Fortschrittsberechnung wurde <a href=" %{href} " target="_blank">automatisch durch das Systemupdate angepasst</a>.
         totals_removed_from_childless_work_packages: >-
-          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+          Arbeits- und Fortschrittssummen werden bei der <a href="%{href}" target="_blank">Versionsaktualisierung</a> automatisch für nicht übergeordnete Arbeitspakete entfernt. Diese Änderung entstand durch ein Upgrade und kann ignoriert werden.
   links:
     configuration_guide: "Konfigurationsanleitung"
     get_in_touch: "Sie haben Fragen? Nehmen Sie Kontakt mit uns auf."
@@ -1729,17 +1729,6 @@ de:
         mentioned: "Sie wurden in %{work_package} erwähnt"
         responsible: "Sie sind für %{work_package} verantwortlich"
         watched: "Du beobachtest %{work_package}"
-    update_info_mail:
-      body: >
-        Mit Spannung kündigen wir die Veröffentlichung von OpenProject 12.0 an. Es ist eine wichtige Aktualisierung, die Ihre Arbeit mit OpenProject erheblich verbessern wird.
-        In dieser Version führen wir eine Benachrichtigungszentrale ein. Von nun an erhalten Sie Benachrichtigungen für Aktualisierungen zu Arbeitspaketen direkt in OpenProject. Sie können diese Benachrichtigungen als gelesen markieren, auf einen Kommentar antworten und direkt die Attribute des Arbeitspakets ändern, ohne das Benachrichtigungszentrum zu verlassen.
-        Das bedeutet auch, dass wir weniger E-Mails für Benachrichtigungen verwenden. Das Benachrichtigungszentrum wird ein besserer Ort werden, um diese Updates anzusehen und zu bearbeiten. Wenn Sie dennoch weiterhin Updates per E-Mail erhalten möchten, können Sie zu wählbaren Zeiten E-Mail-Erinnerungen erhalten.
-        Sie können Ihre Einstellungen für Benachrichtigungen und E-Mail-Erinnerungen über Ihre Kontoeinstellungen festlegen oder diese unverändert lassen, um die Standardeinstellungen beizubehalten. Sie können dies über die Schaltfläche „E-Mail-Einstellungen ändern“ unten tun.
-        Wir hoffen, dass Sie das Benachrichtigungszentrum nützlich finden und dass es Ihre Arbeit mit OpenProject produktiver macht.
-        Mit freundlichen Grüßen Das OpenProject Team
-      body_header: "Version 12.0 mit Benachrichtigungszentrum"
-      body_subheader: "Neuigkeiten"
-      subject: "Wichtige Änderungen an Benachrichtigungen mit der Veröffentlichung von 12.0"
   label_accessibility: "Barrierefreiheit"
   label_account: "Konto"
   label_active: "Aktiv"
@@ -1791,6 +1780,7 @@ de:
   label_attribute_expand_text: "Der vollständige Text für '%{attribute}'"
   label_authentication: "Authentifizierung"
   label_available_global_roles: "Verfügbare globale Rollen"
+  label_available_project_attributes: "Verfügbare Projektattribute"
   label_available_project_forums: "Verfügbare Foren"
   label_available_project_repositories: "Verfügbare Projektarchive"
   label_available_project_versions: "Verfügbare Versionen"
@@ -2752,7 +2742,7 @@ de:
     member_of_group: "Gruppe der zugewiesenen Person"
     name_or_identifier: "Name oder Kennung"
     only_subproject_id: "Nur Unterprojekt"
-    shared_with_user: "Mit Benutzer geteilt"
+    shared_with_user: "Geteilt mit Benutzern"
     shared_with_me: "Mit mir geteilt"
     subproject_id: "Einschließlich Unterprojekt"
   repositories:
@@ -2897,7 +2887,7 @@ de:
   setting_app_subtitle: "Applikations-Untertitel"
   setting_app_title: "Applikations-Titel"
   setting_attachment_max_size: "Max. Dateigröße"
-  setting_show_work_package_attachments: "Show attachments in the files tab by default"
+  setting_show_work_package_attachments: "Anhänge standardmäßig auf dem Tab Dateien anzeigen"
   setting_antivirus_scan_mode: "Scanmodus"
   setting_antivirus_scan_action: "Aktion für infizierte Datei"
   setting_autofetch_changesets: "Automatisches Abrufen von Projektarchiv-Änderungen"
@@ -3000,7 +2990,7 @@ de:
       whitelist_text_html: >
         Legen Sie eine Liste gültiger Dateierweiterungen und/oder Mime-Typen für hochgeladene Dateien fest. <br/> Dateierweiterungen (z. B. <code>%{ext_example}</code>) oder Mime-Typen (z. ., <code>%{mime_example}</code>). <br/> Lassen Sie diese Liste leer, um das Hochladen beliebiger Dateitypen zu erlauben. Mehrere Werte erlaubt (eine Zeile pro Wert).
       show_work_package_attachments: >
-        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
+        Wenn Sie diese Option deaktivieren, wird die Liste der Anhänge auf dem Dateien Tab von Arbeitspaketen für neue Projekte ausgeblendet. Die Dateien, die in der Beschreibung eines Arbeitspakets angehängt sind, werden weiterhin in den internen Speicher für Anhänge hochgeladen.
     antivirus:
       title: "Virenscan"
       clamav_ping_failed: "Die Verbindung zum ClamAV-Daemon konnte nicht hergestellt werden. Überprüfen Sie die Konfiguration und versuchen Sie es erneut."
@@ -3239,8 +3229,8 @@ de:
         drag_area_label: "Spalten verwalten und neu anordnen"
       sort_by:
         automatic:
-          heading: "Automatic"
-          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
+          heading: "Automatisch"
+          description: "Ordnen Sie %{plural} nach einem oder mehreren Sortierkriterien. Die vorherige Sortierung geht dabei verloren."
   top_menu:
     additional_resources: "Weitere Ressourcen"
     getting_started: "Erste Schritte"

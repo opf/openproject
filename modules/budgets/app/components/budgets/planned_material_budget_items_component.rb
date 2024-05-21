@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,18 +26,32 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class QueueNotificationUpdateMail < ActiveRecord::Migration[6.1]
-  def up
-    # On a newly created database, we don't want the update mail to be sent.
-    # Users are only created upon seeding.
-    return unless User.not_builtin.exists?
+class Budgets::PlannedMaterialBudgetItemsComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+  options :budget, :project
 
-    ::Announcements::SchedulerJob
-      .perform_later subject: :"notifications.update_info_mail.subject",
-                     body: :"notifications.update_info_mail.body",
-                     body_header: :"notifications.update_info_mail.body_header",
-                     body_subheader: :"notifications.update_info_mail.body_subheader"
+  def item_units(item)
+    helpers.localized_float(item.units)
+  end
+
+  def item_type(item)
+    item.cost_type.name
+  end
+
+  def item_comments(item)
+    item.comments
+  end
+
+  def item_costs(item)
+    item.costs_visible_by?(User.current) ? number_to_currency(item.costs) : ""
+  end
+
+  def view_rates_allowed?
+    User.current.allowed_in_project?(:view_cost_rates, project)
+  end
+
+  def planned_sum
+    number_to_currency(budget.material_budget)
   end
 end

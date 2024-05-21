@@ -38,7 +38,7 @@ To create a new project attribute, click on the **+ Project attribute** button i
 
 This will display the "New attribute" form with these options:
 
-![Create a new attribute form in OpenProject adminstration](open_project_system_guide_project_attributes_new_attribute.png)
+![Create a new attribute form in OpenProject administration](open_project_system_guide_project_attributes_new_attribute.png)
 
 - **Name**: This is the name that will be visible in the [Project Overview](../../../user-guide/project-overview) page.
 
@@ -74,7 +74,7 @@ You can also use the drag handles to the left of each project attribute to drag 
 
 ## Sections
 
-You can group project attributes into sections to better organise them.
+You can group project attributes into sections to better organize them.
 
 You can click on more icon to the right of each section to rename it, delete it or change its order.
 

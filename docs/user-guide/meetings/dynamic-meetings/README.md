@@ -78,13 +78,48 @@ In order to edit the title of the meeting select the dropdown menu behind the th
 
 After creating a meeting, you can set up a **meeting agenda**.
 
-You can add items to an agenda or directly link to existing work packages by selecting the desired option under the green **Add** button. You can add notes and [attachments](#meeting-attachments) to every agenda item.
+You do this by adding sections, agenda items or existing work packages by selecting the desired option under the green **Add** button. You can then add notes and to each agenda item.
 
-![The add button with two choices: agenda item or work package](openproject_dynamic_meetings_add_agenda_item.png)
+![The add button with three choices: section, agenda item or work package](openproject_dynamic_meetings_add_agenda_item.png)
 
-If you select the **Agenda item** option, you can name that item, set the anticipated duration in minutes and select a user to be displayed next to the agenda item. This could for example be a meeting or a project member that is accountable for or a presenter of this particular agenda item. By default the name of the user adding the agenda item will be pre-selected, but it can either be removed or replaced by one of the other meeting invitees.
+#### Add an agenda section 
+Sections allow you to group agenda items into blocks for better organisation.
+
+To add a section, click on the *+ Add* button at the bottom of the agenda items and select the **Section** option. This will add a new empty section to the very end of the meeting and prompt you to give it a name. 
+
+![Add a new section to a meeting agenda in OpenProject](openproject_dynamic_meetings_add_section.png)
+
+If, prior to creating your first section, your meeting already had existing [agenda items](#add-an-agenda-item), they will automatically be contained in a section called **Unnamed section**. You can rename this if you wish. 
+
+> Note: If you use sections, all agenda items must have sections.
+
+ ![Untitled section in OpenProject meeting](openproject_dynamic_meetings_untitled section.png)
+
+![Add an agenda item to a meeting section](openproject_dynamic_meetings_add_item_to_section.png)
+
+Sections will show the sum of all the duration of all containing items (or at least, those that have a duration specificed).
+
+![Duration of a section in OpenProject meeting](openproject_dynamic_meetings_section_duration.png)
+
+
+You can then add agenda items to specific sections by either dragging and dropping items into each, or by clicking on the **More** button (⋯) and choosing your desired action.
+
+This menu also lets you rename a section, move it or delete the entire section by selecting the respective option from the dropdown menu behind the **More** (⋯) icon on the right side. 
+
+> Deleting a section will delete all containing agenda items. If a section contains agenda items, you will asked for confirmation before deletion.
+
+![Edit or delete a section in an OpenProject meeting](openproject_dynamic_meetings_edit_section_options.png)
+
+You can also re-arrange sections by dragging and dropping sections up and down. If a section is moved, the agenda items will move along with it. 
+
+#### Add an agenda item
+If you select the **Agenda item** option, you can name that item, add notes, set the anticipated duration in minutes and select a user to be displayed next to the agenda item.  This could for example be a meeting or a project member that is accountable for the item or someone who will present that particular topic. 
+
+By default, when creating an agenda item, this will be pre-filled with the name of the user adding the agenda item, but it can either be removed or replaced by one of the other meeting participants.
 
 ![Add agenda item](openproject_userguide_add_agenda_item.png)
+
+#### Link a work package to a meeting
 
 If you select the **Work package** option, you can link a work package by entering either a work package ID, or starting to type in a keyword, which will open a list of possible options.
 
@@ -175,7 +210,7 @@ You can copy an existing meeting. This is useful if you have recurring meetings.
 
 ![Copy a dynamic meeting in OpenProject](openproject_dynamic_meetings_copy_meeting.png)
 
-A screen will open, which will allow you adjust the name, time, location and further details of the copied meeting. By default, the date for the copied meeting will be moved forward by one week from the original meeting's date. You also have an option of copying the agenda and attachments. Don't forget to **Save** the copied meeting by clicking the green **Create** button.
+A screen will open, which will allow you adjust the name, time, location and further details of the copied meeting. By default, the date for the copied meeting will be moved forward by one week from the original meeting's date. You also have an option of copying the agenda and attachments. If you copy a closed meeting, the new meeting status will automatically be set to open. Don't forget to **Save** the copied meeting by clicking the green **Create** button.
 
 ![Edit details of a copied dynamic meeting in OpenProject](openproject_dynamic_meetings_copy_meeting_details.png)
 
