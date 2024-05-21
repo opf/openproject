@@ -53,15 +53,11 @@ module ::Widget
     end
 
     ##
-    # Write a string to the canvas. The string is marked as html_safe.
-    # This will write twice, if @cache_output is set.
+    # Write a string to the canvas.
     def write(str)
-      str ||= ""
       @output ||= "".html_safe
-      @output = @output + "" if @output.frozen? # Rails 2 freezes tag strings
-      @output.concat str.html_safe
-      @cache_output.concat(str.html_safe) if @cache_output
-      str.html_safe
+      @output << str
+      str
     end
 
     ##
@@ -108,15 +104,13 @@ module ::Widget
         write Rails.cache.fetch(cache_key)
       else
         render(&)
-        Rails.cache.write(cache_key, @cache_output || @output) if cache?
+        Rails.cache.write(cache_key, @output) if cache?
       end
     end
 
     ##
-    # Set the canvas. If the canvas object isn't a string (e.g. cannot be cached easily),
-    # a @cache_output String is created, that will mirror what is being written to the canvas.
+    # Set the canvas.
     def set_canvas(canvas)
-      @cache_output = "".html_safe
       @output = canvas
     end
   end

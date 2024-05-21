@@ -48,14 +48,15 @@ class ::Widget::Table::EntryTable < Widget::Table
   def colgroup
     content_tag :colgroup do
       FIELDS.each do
-        concat content_tag(:col, "opHighlightCol" => true) {}
+        concat content_tag(:col, "", "opHighlightCol" => true)
       end
-      concat content_tag(:col, "opHighlightCol" => true) {}
-      concat content_tag(:col, "opHighlightCol" => true) {}
-      concat content_tag(:col) {}
+      concat content_tag(:col, "", "opHighlightCol" => true)
+      concat content_tag(:col, "", "opHighlightCol" => true)
+      concat content_tag(:col, "")
     end
   end
 
+  # rubocop:disable Metrics/AbcSize
   def head
     content_tag :thead do
       content_tag :tr do
@@ -130,17 +131,16 @@ class ::Widget::Table::EntryTable < Widget::Table
       rows = "".html_safe
       @subject.each_direct_result do |result|
         rows << (content_tag(:tr) do
-          "".html_safe
           FIELDS.each do |field|
-            concat content_tag(:td, show_field(field, result.fields[field.to_s]).html_safe,
+            concat content_tag(:td, show_field(field, result.fields[field.to_s]),
                                "raw-data": raw_field(field, result.fields[field.to_s]),
                                class: "left")
           end
-          concat content_tag :td, show_result(result, result.fields["cost_type_id"].to_i).html_safe,
+          concat content_tag :td, show_result(result, result.fields["cost_type_id"].to_i),
                              class: "units right",
                              "raw-data": result.units
           concat content_tag :td,
-                             show_result(result, 0).html_safe,
+                             show_result(result, 0),
                              class: "currency right",
                              "raw-data": result.real_costs
           concat content_tag :td, icons(result)
@@ -176,4 +176,5 @@ class ::Widget::Table::EntryTable < Widget::Table
     end
     icons
   end
+  # rubocop:enable Metrics/AbcSize
 end
