@@ -116,6 +116,6 @@ Please note, that with automatically managed project folders these permissions a
 
 ### No permission to see this file
 
-If you are unable to see the details of a file or are unable to open some  of the files linked to a work package, it could be related to your  OneDrive/SharePoint account not having the necessary permissions. In such a case,  you will be able to see the name of file, time of last modification and the name of the modifier but you will not be able to perform any further  actions. To open or access these files, please contact your OneDrive/SharePoint administrator or the creator of the file so that they can grant you the  necessary permissions.
+If you are unable to see the details of a file or are unable to open some of the files linked to a work package, it could be related to your OneDrive/SharePoint account not having the necessary permissions. In such a case, you will be able to see the name of file, time of last modification and the name of the modifier but you will not be able to perform any further actions. To open or access these files, please contact your OneDrive/SharePoint administrator or the creator of the file so that they can grant you the necessary permissions.
 
 ![Error message based on missing permissions to see a file in OpenProject](openproject_onedrive_no_permission_to_view.png)
