@@ -82,7 +82,7 @@ module Projects
     def validate_parent_assignable
       if model.parent &&
          model.parent_id_changed? &&
-         !assignable_parents.exists?(id: parent.id)
+         !assignable_parents.where(id: parent.id).exists?
         errors.add(:parent, :does_not_exist)
       end
     end
