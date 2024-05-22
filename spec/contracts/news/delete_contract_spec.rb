@@ -26,35 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module News
-      class NewsAPI < ::API::OpenProjectAPI
-        resources :news do
-          get &::API::V3::Utilities::Endpoints::Index
-                 .new(model: ::News,
-                      self_path: :newses)
-                 .mount
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
-          post &::API::V3::Utilities::Endpoints::Create
-            .new(model: News)
-            .mount
+RSpec.describe News::DeleteContract do
+  include_context "ModelContract shared context"
 
-          route_param :id, type: Integer, desc: "News ID" do
-            after_validation do
-              @news = ::News
-                      .visible
-                      .find(params[:id])
-            end
+  shared_let(:project) { create(:project) }
+  shared_let(:news) { create(:news, project:) }
 
-            get &::API::V3::Utilities::Endpoints::Show
-                   .new(model: ::News)
-                   .mount
-            patch &::API::V3::Utilities::Endpoints::Update.new(model: ::News).mount
-            delete &::API::V3::Utilities::Endpoints::Delete.new(model: ::News, success_status: 204).mount
-          end
-        end
-      end
-    end
+  let(:contract) { described_class.new(news, current_user) }
+
+  it_behaves_like "contract is valid for active admins and invalid for regular users"
+
+  context "when user with permission in project" do
+    let(:current_user) { create(:user, member_with_permissions: { project => %i[manage_news] }) }
+
+    it_behaves_like "contract is valid"
+  end
+
+  context "when user with permission in other_project" do
+    let(:other_project) { create(:project) }
+    let(:current_user) { create(:user, member_with_permissions: { other_project => %i[manage_news] }) }
+
+    it_behaves_like "contract is invalid", base: :error_unauthorized
+  end
+
+  include_examples "contract reuses the model errors" do
+    let(:current_user) { build_stubbed(:admin) }
   end
 end

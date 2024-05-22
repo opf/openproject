@@ -24,37 +24,51 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
 
-module API
-  module V3
-    module News
-      class NewsAPI < ::API::OpenProjectAPI
-        resources :news do
-          get &::API::V3::Utilities::Endpoints::Index
-                 .new(model: ::News,
-                      self_path: :newses)
-                 .mount
+require "spec_helper"
+require_relative "update_resource_examples"
 
-          post &::API::V3::Utilities::Endpoints::Create
-            .new(model: News)
-            .mount
+RSpec.describe API::V3::News::NewsAPI,
+               "update" do
+  include API::V3::Utilities::PathHelper
 
-          route_param :id, type: Integer, desc: "News ID" do
-            after_validation do
-              @news = ::News
-                      .visible
-                      .find(params[:id])
-            end
+  shared_let(:project) { create(:project) }
+  shared_let(:news) { create(:news, title: "foo", project:) }
 
-            get &::API::V3::Utilities::Endpoints::Show
-                   .new(model: ::News)
-                   .mount
-            patch &::API::V3::Utilities::Endpoints::Update.new(model: ::News).mount
-            delete &::API::V3::Utilities::Endpoints::Delete.new(model: ::News, success_status: 204).mount
-          end
-        end
-      end
+  let(:parameters) do
+    {}
+  end
+
+  let(:send_request) do
+    header "Content-Type", "application/json"
+    patch api_v3_paths.news(news.id), parameters.to_json
+  end
+
+  let(:parsed_response) { JSON.parse(last_response.body) }
+
+  current_user { user }
+
+  before do
+    send_request
+  end
+
+  describe "admin user" do
+    let(:user) { create(:admin) }
+
+    it_behaves_like "updates the news"
+  end
+
+  describe "user with manage_news permission" do
+    let(:user) { create(:user, member_with_permissions: { project => %i[view_news manage_news] }) }
+
+    it_behaves_like "updates the news"
+  end
+
+  describe "unauthorized user" do
+    let(:user) { build(:user) }
+
+    it "returns a 404 response" do
+      expect(last_response.status).to eq(404)
     end
   end
 end

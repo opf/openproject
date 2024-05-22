@@ -665,6 +665,8 @@ components:
       "$ref": "./components/schemas/membership_schema_model.yml"
     MembershipWriteModel:
       "$ref": "./components/schemas/membership_write_model.yml"
+    NewsCreateModel:
+      "$ref": "./components/schemas/news_create_model.yml"
     NewsModel:
       "$ref": "./components/schemas/news_model.yml"
     NonWorkingDayCollectionModel:
