@@ -18,6 +18,12 @@ Stay up to date and get an overview of the new features included in the releases
 Release date: 2024-05-22
 
 [Release Notes](14-1-0/)
+## 14.0.2
+
+Release date: 2024-05-22
+
+[Release Notes](14-0-2/)
+
 
 ## 14.0.1
 
