@@ -31,11 +31,11 @@ require "services/base_services/behaves_like_create_service"
 
 RSpec.describe Queries::Projects::Factory,
                with_settings: { enabled_projects_columns: %w[favored name project_status] } do
-  let!(:query_finder) do
+  before do
     scope = instance_double(ActiveRecord::Relation)
 
     allow(Queries::Projects::ProjectQuery)
-      .to receive(:where)
+      .to receive(:visible)
             .with(user: current_user)
             .and_return(scope)
 
@@ -44,6 +44,7 @@ RSpec.describe Queries::Projects::Factory,
             .with(id:)
             .and_return(persisted_query)
   end
+
   let(:persisted_query) do
     build_stubbed(:project_query, name: "My query") do |query|
       query.order(id: :asc)
