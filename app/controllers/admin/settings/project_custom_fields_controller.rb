@@ -31,7 +31,7 @@ module Admin::Settings
     include CustomFields::SharedActions
     include OpTurbo::ComponentStream
     include ApplicationComponentStreams
-    include FlashMessagesHelper
+    include FlashMessagesOutputSafetyHelper
     include Admin::Settings::ProjectCustomFields::ComponentStreams
 
     menu_item :project_custom_fields_settings
