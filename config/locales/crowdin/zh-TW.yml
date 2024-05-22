@@ -2342,7 +2342,7 @@ zh-TW:
       subject: "%{user_name} 在「 #%{id} - %{subject} 」提到您"
     notification:
       center: "顯示通知中心"
-      see_in_center: "See comment in notification center"
+      see_in_center: "詳見通知中心留言"
       settings: "更改電子郵件設定"
     salutation: "%{user} 您好"
     salutation_full_name: "全名"

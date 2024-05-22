@@ -52,8 +52,9 @@ RUN ./docker/prod/setup/preinstall-common.sh
 # stuff required for gems
 COPY Gemfile Gemfile.* .ruby-version ./
 COPY modules ./modules
+# Add vendor for saas-openproject plugins
 COPY vendor ./vendor
-# some gemspec files of plugins require files in there, notably OpenProject::Version
+# Add lib in case a plugin tries to load VERSION file under lib
 COPY lib ./lib
 
 RUN \
@@ -73,11 +74,6 @@ RUN cp Gemfile.lock.bak Gemfile.lock && rm Gemfile.lock.bak
 
 RUN ./docker/prod/setup/precompile-assets.sh
 RUN ./docker/prod/setup/postinstall-common.sh
-
-# We need this so puma is allowed to create the tmp/pids folder and
-# temporary upload files when running with a uid other than 1000 (app)
-# but with an allowed supplemental group (1000).
-RUN tmp_path=$APP_PATH/tmp; (mkdir -p $tmp_path || true) && chown $APP_USER:$APP_USER $tmp_path && chmod g+rw $tmp_path
 
 RUN cp ./config/database.production.yml config/database.yml
 RUN ln -s $APP_PATH/docker/prod/setup/.irbrc /home/$APP_USER/

@@ -36,15 +36,15 @@ ms:
           label: Potongan Git
           description: Salin potongan git ke papan klip
         git_actions:
-          branch_name: Nama cawangan
-          commit_message: Menyerahkan mesej
-          cmd: Cipta cawangan dengan komit kosong
+          branch_name: Nama cabang
+          commit_message: Mesej komit
+          cmd: Cipta cabang dengan komit kosong
           title: Potongan cepat untuk Git
           copy_success: '✅ Disalin!'
           copy_error: '❌ Salinan gagal!'
       tab_issue:
-        empty: 'Tiada isu yang dipautkan lagi. Pautkan isu-isu yang sedia ada dengan menggunakan kod <code>OP#%{wp_id}</code> (atau <code>PP#%{wp_id}</code> untuk pautan peribadi) dalam tajuk/penerangan isu atau cipta isu yang baru.'
+        empty: 'Tiada isu yang dipautkan lagi. Pautkan isu-isu yang sedia ada dengan menggunakan kod <code>OP#%{wp_id}</code> (atau <code>PP#%{wp_id}</code> untuk pautan peribadi) dalam tajuk/deskripsi isu atau cipta isu yang baru.'
       tab_mrs:
-        empty: 'Tiada permintaan gabungan yang dipautkan lagi. Pautkan MR sedia ada dengan menggunakan kod <code>OP#%{wp_id}</code> (atau <code>PP#%{wp_id}</code> untuk pautan peribadi) dalam tajuk/penerangan MR atau cipta MR yang baru.'
+        empty: 'Tiada permintaan gabungan yang dipautkan lagi. Pautkan MR sedia ada dengan menggunakan kod <code>OP#%{wp_id}</code> (atau <code>PP#%{wp_id}</code> untuk pautan peribadi) dalam tajuk/deskripsi MR atau cipta MR yang baru.'
       gitlab_pipelines: Saluran
       updated_on: Dikemas kini pada
