@@ -37,9 +37,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
                 :state,
                 :params
 
-  STATE_DEFAULT = :show
-  STATE_EDIT = :edit
-  STATE_OPTIONS = [STATE_DEFAULT, STATE_EDIT].freeze
+  STATE_OPTIONS = %i[show edit rename].freeze
 
   def initialize(current_user:, query:, params:, state: :show)
     super
@@ -74,7 +72,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
 
   def can_save? = can_save_as? && query.persisted? && query.user == current_user
 
-  def can_rename? = may_save_as? && query.persisted? && query.user == current_user
+  def can_rename? = may_save_as? && query.persisted? && query.user == current_user && !query.changed?
 
   def show_state?
     state == :show

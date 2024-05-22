@@ -31,10 +31,10 @@ class Projects::QueriesController < ApplicationController
 
   # No need for a more specific authorization check. That is carried out in the contracts.
   before_action :require_login
-  before_action :find_query, only: %i[edit update destroy]
+  before_action :find_query, only: %i[rename update destroy]
   before_action :build_query_or_deny_access, only: %i[new create]
 
-  current_menu_item [:new, :edit, :create, :update] do
+  current_menu_item [:new, :rename, :create, :update] do
     :projects
   end
 
@@ -44,10 +44,10 @@ class Projects::QueriesController < ApplicationController
            locals: { query: @query, state: :edit }
   end
 
-  def edit
+  def rename
     render template: "/projects/index",
            layout: "global",
-           locals: { query: @query, state: :edit }
+           locals: { query: @query, state: :rename }
   end
 
   def create

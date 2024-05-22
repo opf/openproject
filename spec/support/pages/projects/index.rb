@@ -262,8 +262,12 @@ module Pages
         end
       end
 
+      def filters_toggle
+        page.find('[data-test-selector="filter-component-toggle"]')
+      end
+
       def toggle_filters_section
-        page.find('[data-test-selector="filter-component-toggle"]').click
+        filters_toggle.click
       end
 
       def set_columns(*columns)
@@ -329,21 +333,15 @@ module Pages
       def save_query_as(name)
         click_more_menu_item("Save as")
 
-        within '[data-test-selector="project-query-name"]' do
-          fill_in "Name", with: name
-        end
+        fill_in_the_name(name)
 
         click_on "Save"
       end
 
-      def rename_to(name)
-        click_more_menu_item("Rename")
-
+      def fill_in_the_name(name)
         within '[data-test-selector="project-query-name"]' do
           fill_in "Name", with: name
         end
-
-        click_on "Save"
       end
 
       def delete_query

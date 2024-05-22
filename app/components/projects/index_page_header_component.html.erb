@@ -32,7 +32,7 @@
         if can_rename?
           menu.with_item(
             label: t('button_rename'),
-            href: edit_projects_query_path(query),
+            href: rename_projects_query_path(query),
           ) do |item|
             item.with_leading_visual_icon(icon: :pencil)
           end

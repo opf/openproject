@@ -333,12 +333,22 @@ RSpec.describe "Persisted lists on projects index page",
 
     it "allows renaming persisted query" do
       projects_page.set_sidebar_filter("Persisted query")
-      projects_page.rename_to("My renamed query")
+
+      projects_page.click_more_menu_item("Rename")
+      projects_page.fill_in_the_name("My renamed query")
+      # Can't open filter changing interface
+      expect(projects_page.filters_toggle).to be_disabled
+      projects_page.click_on "Save"
 
       projects_page.expect_no_sidebar_filter("Persisted query")
       projects_page.expect_sidebar_filter("My renamed query", selected: true)
       projects_page.expect_columns("Name")
       projects_page.expect_no_columns("Status", "Public")
+
+      projects_page.open_filters
+      projects_page.filter_by_membership("yes")
+      # Rename menu item is now shown after applying filters
+      projects_page.expect_no_menu_item("Rename", visible: false)
     end
 
     it "allows deleting persisted query" do

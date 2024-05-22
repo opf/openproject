@@ -67,9 +67,9 @@ RSpec.describe Projects::QueriesController do
     end
   end
 
-  describe "#edit" do
+  describe "#rename" do
     it "requires login" do
-      get "edit", params: { id: 42 }
+      get "rename", params: { id: 42 }
 
       expect(response).not_to be_successful
     end
@@ -85,7 +85,7 @@ RSpec.describe Projects::QueriesController do
       end
 
       it "renders projects/index" do
-        get "edit", params: { id: 42 }
+        get "rename", params: { id: 42 }
 
         expect(response).to render_template("projects/index")
       end
@@ -93,9 +93,9 @@ RSpec.describe Projects::QueriesController do
       it "passes variables to template" do
         allow(controller).to receive(:render).and_call_original
 
-        get "edit", params: { id: 42 }
+        get "rename", params: { id: 42 }
 
-        expect(controller).to have_received(:render).with(include(locals: { query:, state: :edit }))
+        expect(controller).to have_received(:render).with(include(locals: { query:, state: :rename }))
       end
     end
   end
