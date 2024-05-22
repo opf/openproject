@@ -31,7 +31,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Storages::ManageNextcloudIntegrationJob, :webmock, type: :job do
+RSpec.describe Storages::ManageStorageIntegrationsJob, :webmock, type: :job do
   describe ".debounce" do
     context "when has been debounced by other thread" do
       before { ActiveJob::Base.disable_test_adapter }
@@ -76,7 +76,7 @@ RSpec.describe Storages::ManageNextcloudIntegrationJob, :webmock, type: :job do
 
         good_job_setting = GoodJob::Setting.first
         expect(good_job_setting.key).to eq("cron_keys_disabled")
-        expect(good_job_setting.value).to eq(["Storages::ManageNextcloudIntegrationJob"])
+        expect(good_job_setting.value).to eq(["Storages::ManageStorageIntegrationsJob"])
 
         expect { subject }.not_to change(GoodJob::Setting, :count).from(1)
 
@@ -100,7 +100,7 @@ RSpec.describe Storages::ManageNextcloudIntegrationJob, :webmock, type: :job do
 
         good_job_setting = GoodJob::Setting.first
         expect(good_job_setting.key).to eq("cron_keys_disabled")
-        expect(good_job_setting.value).to eq(["Storages::ManageNextcloudIntegrationJob"])
+        expect(good_job_setting.value).to eq(["Storages::ManageStorageIntegrationsJob"])
       end
     end
   end
