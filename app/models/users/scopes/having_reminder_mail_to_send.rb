@@ -175,7 +175,8 @@ module Users::Scopes
       end
 
       def quarters_between_earliest_and_latest(earliest_time, latest_time) # rubocop:disable Metrics/AbcSize
-        raise ArgumentError if latest_time < earliest_time || (latest_time - earliest_time) > 1.day
+        raise ArgumentError, "#{latest_time} < #{earliest_time}" if latest_time < earliest_time
+        raise ArgumentError, "#{latest_time} - #{earliest_time} > 1 day" if (latest_time - earliest_time) > 1.day
 
         # The first quarter is equal or greater to the earliest time
         first_quarter = earliest_time.change(min: (earliest_time.min.to_f / 15).ceil * 15)
