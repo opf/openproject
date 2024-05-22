@@ -116,5 +116,18 @@ RSpec.describe Notifications::ScheduleReminderMailsJob, type: :job do
         let(:expected_upper_boundary) { job_cron_at }
       end
     end
+
+    context "when there is a predecessor job with a cron_at more than 24 hours before" do
+      let(:previous_job_cron_at) { job_cron_at - 25.hours }
+
+      before do
+        previous_job
+      end
+
+      it_behaves_like "schedules reminder mails" do
+        let(:expected_lower_boundary) { job_cron_at - 24.hours }
+        let(:expected_upper_boundary) { job_cron_at }
+      end
+    end
   end
 end

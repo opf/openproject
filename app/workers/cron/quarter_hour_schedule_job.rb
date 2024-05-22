@@ -69,7 +69,11 @@ module Cron::QuarterHourScheduleJob
                       .first
 
       if predecessor
-        predecessor.cron_at + 15.minutes
+        # To ovoid the jobs spanning a very long time e.g after a longer downtime, the interval
+        # is limited to a somewhat arbitrary 24 hours.
+        # On the other hand the two jobs currently making use of this module have a time reference where
+        # it would not make sense to send very old data (i.e. reminders or date alerts)
+        [upper_boundary - 24.hours, predecessor.cron_at + 15.minutes].max
       else
         upper_boundary
       end
