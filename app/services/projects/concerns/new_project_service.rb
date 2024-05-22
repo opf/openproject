@@ -34,6 +34,7 @@ module Projects::Concerns
       new_project = attributes_call.result
 
       set_default_role(new_project) unless user.admin?
+      disable_custom_fields_with_empty_values(new_project)
       notify_project_created(new_project)
 
       super
@@ -67,6 +68,26 @@ module Projects::Concerns
         OpenProject::Events::PROJECT_CREATED,
         project: new_project
       )
+    end
+
+    def disable_custom_fields_with_empty_values(new_project)
+      # run only on initial creation! (otherwise we would deactivate custom fields with empty values on every update!)
+      #
+      # ideally, `build_missing_project_custom_field_project_mappings` would not activate custom fields with empty values
+      # but:
+      # this hook is required as acts_as_customizable build custom values with their default value even if a blank value
+      # was provided in the project creation form `build_missing_project_custom_field_project_mappings` will then activate
+      # the custom field although the user explicitly provided a blank value in order to not patch `acts_as_customizable`
+      # further, we simply identify these custom values and deactivate the custom field
+
+      custom_field_ids = new_project.custom_values.select { |cv| cv.value.blank? && !cv.required? }.pluck(:custom_field_id)
+      custom_field_project_mappings = new_project.project_custom_field_project_mappings
+
+      custom_field_project_mappings
+        .where(custom_field_id: custom_field_ids)
+        .or(custom_field_project_mappings
+          .where.not(custom_field_id: new_project.available_custom_fields.select(:id)))
+        .destroy_all
     end
   end
 end
