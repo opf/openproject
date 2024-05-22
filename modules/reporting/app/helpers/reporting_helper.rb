@@ -121,7 +121,7 @@ module ReportingHelper
     when :version_id                            then h(Version.find(value.to_i).name)
     when :singleton_value                       then ""
     when :status_id                             then h(Status.find(value.to_i).name)
-    when /custom_field\d+/                      then custom_value(key, value)
+    when /custom_field\d+/                      then h(custom_value(key, value))
     else h(value.to_s)
     end
   end
@@ -133,7 +133,7 @@ module ReportingHelper
     # and then properly cast the value
     CustomValue
       .new(custom_field_id: cf_id, value:)
-      .typed_value
+      .formatted_value
   end
 
   def field_sort_map(key, value)
