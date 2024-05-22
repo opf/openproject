@@ -141,7 +141,7 @@ Apart from the features mentioned above, there have been a lot of other changes,
 - Bugfix: Pages have unnecessary "..." collapsing between 1st and 2nd page \[[#46116](https://community.openproject.org/wp/46116)\]
 - Bugfix: Creating new/Editing existing Custom action dialogue fails \[[#48964](https://community.openproject.org/wp/48964)\]
 - Bugfix: Misleading error message: IFC upload (file size) \[[#52098](https://community.openproject.org/wp/52098)\]
-- Bugfix: OpenProject behind prefix some assests still loaded from web root  \[[#52292](https://community.openproject.org/wp/52292)\]
+- Bugfix: OpenProject behind prefix some assets still loaded from web root  \[[#52292](https://community.openproject.org/wp/52292)\]
 - Bugfix: Removing a project custom field stored as a filter in a project list leads to wrong counter value \[[#53585](https://community.openproject.org/wp/53585)\]
 - Bugfix: .ics calendar object does not account for daylight savings time. loads incorrectly in MS Outlook \[[#53788](https://community.openproject.org/wp/53788)\]
 - Bugfix: Rails.application.routes don't respects  OPENPROJECT\_RAILS\_\_RELATIVE\_\_URL\_\_ROOT \[[#54061](https://community.openproject.org/wp/54061)\]
