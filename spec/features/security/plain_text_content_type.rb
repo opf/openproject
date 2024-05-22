@@ -28,47 +28,47 @@
 
 require "spec_helper"
 
-RSpec.describe "Session TTL",
-               with_settings: { session_ttl_enabled?: true, session_ttl: "10" } do
+RSpec.describe "Plain text content type XSS prevention", :js, :with_cuprite do
   shared_let(:admin) { create(:admin) }
-  let(:admin_password) { "adminADMIN!" }
+  shared_let(:work_package) { create(:work_package) }
 
-  let!(:work_package) { create(:work_package) }
+  let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
+  let(:attachments) { Components::Attachments.new }
+  let(:attachments_list) { Components::AttachmentsList.new }
+  let(:image_fixture) { UploadedFile.load_from("spec/fixtures/files/test.js") }
 
   before do
-    login_with(admin.login, admin_password)
+    login_as admin
   end
 
-  def expire!
-    page.set_rack_session(updated_at: Time.now - 1.hour)
-  end
+  it "allows accessing text/javascript files as inlinable plain text" do
+    wp_page.visit_tab!(:files)
+    attachments_list.wait_until_visible
 
-  describe "outdated TTL on Rails request" do
-    it "expires on the next Rails request" do
-      visit "/my/account"
-      expect(page).to have_css(".form--field-container", text: admin.login)
+    ##
+    # Attach file manually
+    attachments_list.expect_empty
+    attachments.attach_file_on_input(image_fixture.path)
+    attachments_list.expect_attached("test.js")
 
-      # Expire the session
-      expire!
+    expect(work_package.attachments.count).to eq 1
+    attachment = work_package.attachments.first
 
-      visit "/"
-      expect(page).to have_css(".action-login")
-    end
-  end
+    expect(attachment.content_type).to eq "text/x-javascript"
+    expect(attachment).to be_inlineable
 
-  describe "outdated TTL on API request" do
-    it "expires on the next APIv3 request" do
-      page.driver.header("X-Requested-With", "XMLHttpRequest")
-      visit "/api/v3/work_packages/#{work_package.id}"
+    visit home_path
 
-      body = JSON.parse(page.body)
-      expect(body["id"]).to eq(work_package.id)
-
-      # Expire the session
-      expire!
-      visit "/api/v3/work_packages/#{work_package.id}"
-
-      expect(page.body).to eq("unauthorized")
-    end
+    # Assume we have a HTML sanitation issue
+    expect do
+      accept_alert(wait: 1) do
+        page.execute_script <<-JS
+      const element = document.createElement('script')
+      element.id = "testscript"
+      element.src = '/api/v3/attachments/#{attachment.id}/content'
+      document.body.appendChild(element);
+        JS
+      end
+    end.to raise_error(Capybara::ModalNotFound)
   end
 end

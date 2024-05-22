@@ -219,6 +219,8 @@ RSpec.shared_examples "an APIv3 attachment resource", content_type: :json, type:
 
   let(:missing_permissions_user) { user_with_permissions }
 
+  let(:expected_content_type) { "application/octet-stream" }
+
   before do
     allow(User).to receive(:current).and_return current_user
   end
@@ -452,7 +454,7 @@ RSpec.shared_examples "an APIv3 attachment resource", content_type: :json, type:
             .to eql content_disposition
 
           expect(subject.headers["Content-Type"])
-            .to eql mock_file.content_type
+            .to eql expected_content_type
 
           max_age = OpenProject::Configuration.fog_download_url_expires_in.to_i - 10
 
@@ -473,8 +475,17 @@ RSpec.shared_examples "an APIv3 attachment resource", content_type: :json, type:
 
       context "for a local text file" do
         it_behaves_like "for a local file" do
+          let(:expected_content_type) { "text/plain" }
           let(:mock_file) { FileHelpers.mock_uploaded_file name: "foobar.txt" }
           let(:content_disposition) { "inline; filename=foobar.txt" }
+        end
+      end
+
+      context "for a local JS file" do
+        it_behaves_like "for a local file" do
+          let(:expected_content_type) { "text/plain" }
+          let(:mock_file) { FileHelpers.mock_uploaded_file name: "foobar.js", content_type: "text/x-javascript" }
+          let(:content_disposition) { "inline; filename=foobar.js" }
         end
       end
 

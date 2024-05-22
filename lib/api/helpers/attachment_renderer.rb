@@ -94,6 +94,8 @@ module API
 
       def attachment_content_type(attachment)
         if attachment.is_text?
+          # Even if the text mime type might differ, always output plain text
+          # so this doesn't get interpreted as e.g., a script or html file
           "text/plain"
         elsif attachment.inlineable?
           attachment.content_type
