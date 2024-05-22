@@ -167,17 +167,21 @@ Rails.application.routes.draw do
     resource :wiki_menu_item, only: %i[edit update]
   end
 
-  # generic route for adding/removing watchers.
-  # Models declared as acts_as_watchable will be automatically added to
-  # OpenProject::Acts::Watchable::Routes.watched
+  # generic route for adding/removing watchers
   scope ":object_type/:object_id", constraints: OpenProject::Acts::Watchable::Routes do
     post "/watch" => "watchers#watch"
     delete "/unwatch" => "watchers#unwatch"
   end
 
+  # generic route for adding/removing favorites
+  scope ":object_type/:object_id", constraints: OpenProject::Acts::Favorable::Routes do
+    post "/favorite" => "favorites#favorite"
+    delete "/favorite" => "favorites#unfavorite"
+  end
+
   namespace :projects do
     resource :menu, only: %i[show]
-    resources :queries, only: %i[new create destroy]
+    resources :queries, only: %i[new create update destroy]
   end
 
   resources :projects, except: %i[show edit create update] do
@@ -216,6 +220,7 @@ Rails.application.routes.draw do
 
       # Destroy uses a get request to prompt the user before the actual DELETE request
       get :destroy_info, as: "confirm_destroy"
+      post :deactivate_work_package_attachments
     end
 
     resources :versions, only: %i[new create] do

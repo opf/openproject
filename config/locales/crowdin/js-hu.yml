@@ -330,6 +330,18 @@ hu:
         years: "Évek"
         description: >
           Válassza ki a megjelenítendő kezdeti nagyítási szintet, ha az automatikus nagyítás nem áll rendelkezésre.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "nem"
     general_text_yes: "igen"
     general_text_No: "Nem"
@@ -348,11 +360,10 @@ hu:
           learn_about: "Tudjon meg többet az új funkciókról"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -378,6 +389,7 @@ hu:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "nappal ezelőtt"
     label_all: "mind"
+    label_all_uppercase: "Összes"
     label_all_work_packages: "minden feladatcsoport"
     label_and: "és"
     label_ascending: "Növekvő"
@@ -419,6 +431,7 @@ hu:
     label_expand_project_menu: "Project menü kibontása"
     label_export: "Exportálás"
     label_export_preparing: "Az exportálás előkészítés alatt áll, és hamarosan letöltésre kerül."
+    label_favorites: "Favorites"
     label_filename: "File"
     label_filesize: "Méret"
     label_general: "Általános"
@@ -1043,7 +1056,7 @@ hu:
       sharing:
         share: "Megosztás"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
@@ -1269,6 +1282,9 @@ hu:
           placeholder: "A tesztfelhasználó mostantól használható a %{project}-ben. Eközben már tervezhetünk ezzel a felhasználóval, és például munkacsomagokat rendelhetünk hozzá."
           group: "A csoport mostantól a %{project} része. Eközben már tervezhet ezzel a csoporttal, és például munkacsomagokat rendelhet hozzá.\n"
         next_button: "Folytatás"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Projekteket tartalmaz"
       title: "Projektek"

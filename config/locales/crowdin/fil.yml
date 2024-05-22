@@ -264,6 +264,7 @@ fil:
     lists:
       active: "Active projects"
       my: "Ang mga aking proyekto"
+      favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -304,7 +305,14 @@ fil:
       storage:
         no_results_title_text: There is no additional recorded disk space consumed by this project.
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Sa kasalukuyan ay walang parte ng mga myembro sa proyektong ito.
@@ -322,6 +330,7 @@ fil:
       project_roles: "Project roles"
       wp_shares: "Work package shares"
       groups: "Mga grupo"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -484,7 +493,7 @@ fil:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: "Ang bulk na paglipat/kopya ay hindi suportado sa mga work packages mula sa iba't ibang mga proyekto"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Workflow missing for work package sharing"
         message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
         link_message: "Configure the workflows in the administration."
@@ -782,6 +791,7 @@ fil:
         not_an_iso_date: "ay hindi balido ang petsa. Ang kinakailangan format: YYYY-MM-DD."
         not_same_project: "ay hindi nabibilang sa parehong proyekto."
         odd: "dapat ay kakaiba."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "hindi pwedeng mapatunayan sa nauugnay na mga regular na ekspresyon."
         smaller_than_or_equal_to_max_length: "dapat ay mas maliit kaysa o katumbas sa pinakamataas na haba."
         taken: "ay nakuha na."
@@ -1263,6 +1273,7 @@ fil:
   button_edit: "I-edit"
   button_edit_associated_wikipage: "I-edit ang kaugnay ng Wiki na pahina: %{page_title}"
   button_expand_all: "Malakihin lahat"
+  button_favorite: "Add to favorites"
   button_filter: "Salain"
   button_generate: "Bumuo"
   button_list: "Listahan"
@@ -1290,6 +1301,7 @@ fil:
   button_unarchive: "Tanggalin ang archive"
   button_uncheck_all: "I-uncheck lahat"
   button_unlock: "I-unlock"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "I-unwatch"
   button_update: "I-update"
   button_upgrade: "Upgrade"
@@ -1575,6 +1587,7 @@ fil:
       pdf_overview_table: "PDF Table"
       pdf_report_with_images: "PDF Report with images"
       pdf_report: "PDF Report"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Image not exported."
     units:
@@ -1722,17 +1735,6 @@ fil:
         mentioned: "You have been mentioned in %{work_package}"
         responsible: "You have become accountable for %{work_package}"
         watched: "You are watching %{work_package}"
-    update_info_mail:
-      body: >
-        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-        We hope you find in-app notifications useful and that they makes you even more productive.
-        Sincerely, The OpenProject team
-      body_header: "Version 12.0 with Notification Center"
-      body_subheader: "Mga balita"
-      subject: "Important changes to notifications with the release of 12.0"
   label_accessibility: "Aksibilidad"
   label_account: "Akawnt"
   label_active: "Aktibo"
@@ -1913,7 +1915,7 @@ fil:
   label_enterprise_support: "Enterprise support"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Kalikasan"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "ay"
   label_everywhere: "everywhere"
   label_example: "Halimbawa"
@@ -1927,7 +1929,7 @@ fil:
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} oras"
   label_f_hour_plural: "%{value} mga oras"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Ang mga feed"
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key na nillikha %{value} nakalipas"
@@ -2000,6 +2002,7 @@ fil:
   label_learn_more: "Matuto ng higit pa"
   label_less_or_equal: "<="
   label_less_than_ago: "mas mababa kaysa sa mga araw na lumipas"
+  label_link_url: "Link (URL)"
   label_list: "Listahan"
   label_loading: "Naglo-load..."
   label_lock_user: "I-kandado ang gumagamit"
@@ -2025,6 +2028,7 @@ fil:
   label_membership_plural: "Memberships"
   lable_membership_added: "Member added"
   lable_membership_updated: "Member updated"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alpha"
@@ -2126,6 +2130,7 @@ fil:
   label_percent_complete: "% Complete"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Kabuuang bilang ng mga proyekto"
   label_project_copy_notifications: "Magpadala ng mga email na abiso habang ang proyekto ay kinopya"
   label_project_latest: "Pinakamabagong proyekto"
@@ -2140,7 +2145,7 @@ fil:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "Ang %{count} proyekto gamit ang %{storage} lalagyan ng disk"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Tingnan lahat ang mga proyekto"
   label_project_show_details: "Ipakita ang mga detalye ng proyekto"
   label_project_hide_details: "Itago ang mga detalye ng proyekto"
@@ -2197,6 +2202,7 @@ fil:
   label_setting_plural: "Mga setting"
   label_system_settings: "Mga setting ng system"
   label_show_completed_versions: "Ipakita ang mga kompletong bersyon"
+  label_columns: "Mga hanay"
   label_sort: "Ayusin"
   label_sort_by: "Ayusin sa %{value}"
   label_sorted_by: "inayos sa %{value}"
@@ -2741,7 +2747,7 @@ fil:
     member_of_group: "Itinalagang grupo"
     name_or_identifier: "Pangalan o pagkakakilanlan"
     only_subproject_id: "Only subproject"
-    shared_with_user: "Shared with user"
+    shared_with_user: "Shared with users"
     shared_with_me: "Shared with me"
     subproject_id: "Including subproject"
   repositories:
@@ -2884,6 +2890,7 @@ fil:
   setting_app_subtitle: "Aplikasyong subtitle"
   setting_app_title: "Aplikasyong pamagat"
   setting_attachment_max_size: "Paglalakip ng mataas na laki"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Scan mode"
   setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "I-autofetch ang mga pagbabago ng respositoryo"
@@ -2985,6 +2992,8 @@ fil:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Virus scanning"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
@@ -3221,6 +3230,10 @@ fil:
         input_label: "Magdagdag ng hanay"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Karagdagang pinagkukunan"
     getting_started: "Pagsisimula"
@@ -3568,7 +3581,7 @@ fil:
   link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"

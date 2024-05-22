@@ -32,16 +32,26 @@ module MeetingAgendaItems
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(meeting:, meeting_agenda_item: nil, disabled: false)
+    def initialize(meeting:, meeting_section: nil, disabled: false)
       super
 
       @meeting = meeting
-      @meeting_agenda_item = meeting_agenda_item || MeetingAgendaItem.new(meeting:, author: User.current)
+      @meeting_section = meeting_section
       @disabled = @meeting.closed? || disabled
+    end
+
+    private
+
+    def wrapper_uniq_by
+      @meeting_section&.id
     end
 
     def render?
       User.current.allowed_in_project?(:manage_agendas, @meeting.project)
+    end
+
+    def button_scheme
+      @meeting_section ? :secondary : :primary
     end
   end
 end

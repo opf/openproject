@@ -330,6 +330,18 @@ lt:
         years: "Metai"
         description: >
           Pasirinkite pradinį pritraukimo lygį, kuris bus rodomas kai automatinis pritraukimas negalimas.
+      export:
+        title: "Ganto diagramos PDF parinktys"
+        button_export: "Eksportuoti"
+        column_widths:
+          narrow: "Siauras"
+          medium: "Vidutinis"
+          wide: "Platus"
+          very_wide: "Labai platus"
+        options:
+          date_zoom: "Datos priartinimas"
+          paper_size: "Popieriaus dydis"
+          column_widths: "Stulpelių pločiai"
     general_text_no: "ne"
     general_text_yes: "taip"
     general_text_No: "Ne"
@@ -348,11 +360,10 @@ lt:
           learn_about: "Sužinokite daugiau apie naujas galimybes"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                Šioje laidoje yra keletas naujų savybių ir patobulinimų: <br> <ul class="%{list_styling_class}"> <li>Darbo eigos skaičiavimas darbo paketų hierarchijoje.</li> <li>Projekto atributų valdymas struktūriniu būdu projekto apžvalgos puslapyje.</li> <li>Geresnis savo laukų vaizdas projektų sąraše ir projekto apžvalgoje.</li> <li>Unifikuotos puslapių antraštės su gražiu Primer dizainu.</li> <li>Pagerinti susitikimai su naujomis savybėmis, tokiomis kaip priedų įkėlimas, atsakingais asmenimis ir susitikimų istorija.</li> <li>Automatiniai pranešimai apie nesveikas failų saugyklas, valdymas perjungiamomis parinktimis.</li> <li>Automatiškai valdomų projekto aplankų kopijavimas OneDrive/SharePoint, kai kopijuojami projektai.</li> <li>Administratorių prašymas išimti prieigą prie darbo paketų atšaukiant projekto narystę.</li> <li>Pagerintas planavimas su 4 ir 8 savaičių vaizdo režimais komandos planavime.</li> </ul>
+                Laidoje yra įvairių naujų funkcijų bei patobulinimų: <br> <ul class="%{list_styling_class}"> <li>Ganto vaizdo PDF eksportas pavyzdžiui spausdinimui (Enterprise priedas)</li> <li>Mėgstami projektai</li> <li>Sekcijos susitikimuose</li> <li>Susitikimų rodymas Mano puslapyje ir Projekto apžvalgos puslapyje</li> <li>Galimybė paslėpti priedus Failų kortelėje</li> <li>Nuorodos (URL) tipo savi laukai</li> </ul>
     ical_sharing_modal:
       title: "Prenumeruoti kalendorių"
       inital_setup_error_message: "Gaunant duomenis įvyko klaida."
@@ -378,6 +389,7 @@ lt:
     label_added_time_by: 'Pridėjo <a href="%{authorLink}">%{author}</a> %{age}'
     label_ago: "dienų prieš"
     label_all: "visi"
+    label_all_uppercase: "Visi"
     label_all_work_packages: "visi darbų paketai"
     label_and: "ir"
     label_ascending: "Didėjančia tvarka"
@@ -419,6 +431,7 @@ lt:
     label_expand_project_menu: "Išskleisti projekto meniu"
     label_export: "Eksportuoti"
     label_export_preparing: "Eksportas ruošiamas ir greitai bus parsiųstas."
+    label_favorites: "Mėgstami"
     label_filename: "Failas"
     label_filesize: "Dydis"
     label_general: "Bendra"
@@ -1045,7 +1058,7 @@ lt:
       sharing:
         share: "Dalintis"
         title: "Dalintis darbo paketu"
-        show_all_users: "Rodyti visus bendrinamus naudotojus"
+        show_all_users: "Rodyti visus naudotojus, su kuriais bendrinamas šis darbo paketas"
         selected_count: "%{count} pažymėta"
         selection:
           mixed: "Mišrus"
@@ -1275,6 +1288,9 @@ lt:
           placeholder: "Statytinis naudotojas gali prisijungti ir pasiekti %{project}. Tuo pačiu, jūs jau galite planuoti darbus su šiuo naudotoju ir pavyzdžiui priskirti jam darbo užduotis."
           group: "Grupė jau tapo %{project} dalimi. Tuo pačiu, jūs jau galite planuoti darbus su šia grupe ir pavyzdžiui priskirti jai darbo užduotis."
         next_button: "Tęsti"
+    favorite_projects:
+      no_results: "Jūs neturite mėgstamų projektų"
+      no_results_subtext: "Pridėkite vieną ar kelis projektus kaip mėgiamus jų apžvalgoje ar projektų sąraše."
     include_projects:
       toggle_title: "Įtraukti projektus"
       title: "Projektai"

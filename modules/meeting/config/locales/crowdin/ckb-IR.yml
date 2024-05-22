@@ -48,6 +48,8 @@ ckb-IR:
         duration_in_minutes: "min"
         description: "Notes"
         presenter: "Presenter"
+      meeting_section:
+        title: "Title"
     errors:
       messages:
         invalid_time_format: "is not a valid time. Required format: HH:MM"
@@ -99,7 +101,7 @@ ckb-IR:
     attachments:
       text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
-      title: "Copy meeting %{title}"
+      title: "Copy meeting: %{title}"
       attachments: "Copy attachments"
       attachments_text: "Copy over all attached files to the new meeting"
       agenda: "Copy agenda"
@@ -122,6 +124,11 @@ ckb-IR:
       structured_text: "Organize your meeting as a list of agenda items, optionally linking them to a work package."
       structured_text_copy: "Copying a meeting will currently not copy the associated meeting agenda items, just the details"
     copied: "Copied from Meeting #%{id}"
+  meeting_section:
+    untitled_title: "Untitled section"
+    delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
+    placeholder_title: "New section"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Notification sent successfully"
   notice_timezone_missing: No time zone is set and %{zone} is assumed. To choose your time zone, please click here.
   permission_create_meetings: "Create meetings"

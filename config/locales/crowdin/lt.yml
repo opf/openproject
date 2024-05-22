@@ -261,6 +261,7 @@ lt:
     lists:
       active: "Aktyvūs projektai"
       my: "Mano projektai"
+      favored: "Mėgstami projektai"
       archived: "Archyvuoti projektai"
       my_private: "Mano privatūs projektų sąrašai"
       new:
@@ -301,7 +302,14 @@ lt:
       storage:
         no_results_title_text: Šis projektas papildomos vietos diske nenaudoja.
   lists:
-    can_be_saved_as: "Pakeitimus galima išsaugoti tik naujame sąraše."
+    create:
+      success: "Pakeistas sąrašas įrašytas kaip naujas sąrašas"
+      failure: "Nepavyksta įrašyti pakeisto sąrašo: %{errors}"
+    update:
+      success: "Pakeistas sąrašas buvo įrašytas"
+      failure: "Nepavyksta įrašyti pakeisto sąrašo: %{errors}"
+    can_be_saved: "Sąrašas pakeistas:"
+    can_be_saved_as: "Pakeitimus galima įrašyti tik į naują sąrašą:"
   members:
     index:
       no_results_title_text: Nėra nė vieno šio projekto dalyvio.
@@ -319,6 +327,7 @@ lt:
       project_roles: "Projekto vaidmenys"
       wp_shares: "Darbo paketų bendrinimai"
       groups: "Grupės"
+    no_modify_on_shared: "Jūs šiuo metu negalite keisti ar išimti bendrintų narysčių per nario puslapį. Vietoje to naudokite bendrinimo dialogą."
     delete_member_dialog:
       title: "Išimti narį"
       will_remove_the_users_role: "Tai išims naudotojo vaidmenį iš šio projekto."
@@ -495,7 +504,7 @@ lt:
       no_common_statuses_exists: "Parinkti darbo paketai neturi būsenos. Jų būsena negali pakeista."
       unsupported_for_multiple_projects: "Masinis darbų paketų perkėlimas/kopijavimas nėra palaikomas darbui iškart su keliais projektais"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Darbo paketo dalinimuisi trūksta darbo proceso"
         message: "Vaidmeniui „Darbo paketo redaktorius“ nesukonfigūruotas procesas. Be proceso naudotojas negali pakeisti darbo paketo būsenos. Procesą galima nukopijuoti. Parinkite šaltinio tipą („pvz. „Užduotis“) ir šaltinio vaidmenį (pvz. „Narys“). Tada parinkite paskirties tipus. Pradžiai galėtumėte kaip paskirtį parinkti visus tipus. Galų gale parinkite vaidmenį „Darbo paketų redaktorius“ kaip paskirtį ir spauskite „Kopijuoti“. Taip sukūrę numatytąjį variantą, patikslinkite procesus kaip tai darote su kitais vaidmenimis."
         link_message: "Konfigūruokite procesus administravime."
@@ -793,6 +802,7 @@ lt:
         not_an_iso_date: "nėra tinkama data. Reikalingas formatas: YYYY-MM-DD."
         not_same_project: "nepriklauso tam pačiam projektui."
         odd: "turi būti nelyginis."
+        regex_match_failed: "neatitinka reguliariosios išraiškos %{expression}."
         regex_invalid: "negalėjo būti patvirtintas su susieta reguliaria išraiška."
         smaller_than_or_equal_to_max_length: "turi būti mažesnis arba lygus didžiausiam ilgiui."
         taken: "jau užimtas."
@@ -1290,6 +1300,7 @@ lt:
   button_edit: "Redaguoti"
   button_edit_associated_wikipage: "Redaguoti susijusį Wiki puslapį: %{page_title}"
   button_expand_all: "Išskleisti visus"
+  button_favorite: "Pridėti prie mėgstamų"
   button_filter: "Filtras"
   button_generate: "Generuoti"
   button_list: "Sąrašas"
@@ -1317,6 +1328,7 @@ lt:
   button_unarchive: "Išarchyvuoti"
   button_uncheck_all: "Atžymėti visus"
   button_unlock: "Atrakinti"
+  button_unfavorite: "Išimti iš mėgiamų"
   button_unwatch: "Nestebėti"
   button_update: "Atnaujinti"
   button_upgrade: "Atnaujinti"
@@ -1638,6 +1650,7 @@ lt:
       pdf_overview_table: "PDF lentelė"
       pdf_report_with_images: "PDF ataskaita su piešiniais"
       pdf_report: "PDF ataskaita"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Paveiksliukas neeksportuotas."
     units:
@@ -1720,7 +1733,7 @@ lt:
         progress_calculation_adjusted: >-
           Eigos skaičiavimas automatiškai <a href="%{href}" target="_blank">pakeistas su versijos atnaujinimu</a>.
         totals_removed_from_childless_work_packages: >-
-          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+          Darbo ir eigos sumos automatiškai išimtos ne tėviniams darbų paketams <a href="%{href}" target="_blank">atnaujinant versiją</a>. Tai palaikymo užduotis ir ją galima saugiai ignoruoti.
   links:
     configuration_guide: "Konfigūravimo vadovas"
     get_in_touch: "Turite klausimų? Susisiekite su mumis."
@@ -1785,17 +1798,6 @@ lt:
         mentioned: "Jūs buvote paminėtas %{work_package}"
         responsible: "Jūs tapote atsakingas už %{work_package}"
         watched: "Jūs stebite %{work_package}"
-    update_info_mail:
-      body: >
-        Mes džiaugiamės galėdami pranešti apie OpenProject 12.0. Tai didelė laida, kuri tikimės stipriai pagerins tai, kaip jūs naudojate OpenProject.
-        Pradedant šia laida mes pristatome Pranešimų Centrą. Nuo dabar jūs galėsite gauti pranešimus apie darbo paketų atnaujinimus tiesiai OpenProject. Jūs galite pažymėti šiuos pranešimus perskaitytais, atsakyti į komentarą ar tiesiogiai pakeisti darbo paketo atributus, nepalikdami Pranešimų Centro.
-        Tai taipogi reiškia, kad jūs daugiau nenaudosite e-pašto pranešimams. Mes galvojame, kad Pranešimų centras yra geresnė vieta peržiūrėti ir imtis veiksmų su atnaujinimais. Kaip bebūtų, jei jūs norėtumėte ir toliau gauti atnaujinimus e-paštu, galite pasirinkti kasdieninius e-pašto priminimus jūsų pasirinktu metu.
-        Prašome nustatyti savo e-pašto priminimo parinktis jūsų paskyros nustatymuose. Galite tai padaryti paspaudę žemiau esantį mygtuką „Keisti e-pašto nustatymus“.
-        Mes tikimės, kad vidiniai pranešimai jums bus naudingi ir, kad jie dar labiau pagerins jūsų produktyvumą.
-        Nuoširdžiai, OpenProject komanda
-      body_header: "Versija 12.0 su Pranešimų centru"
-      body_subheader: "Naujienos"
-      subject: "Svarbūs pranešimų pakeitimai laidoje 12.0"
   label_accessibility: "Prieinamumas"
   label_account: "Paskyra"
   label_active: "Aktyvus"
@@ -1976,7 +1978,7 @@ lt:
   label_enterprise_support: "„Enterprise“ palaikymas"
   label_enterprise_addon: "Enterprise priedas"
   label_environment: "Aplinka"
-  label_estimates_and_time: "Įvertinimai ir eiga"
+  label_estimates_and_progress: "Įvertinimai ir eiga"
   label_equals: "yra"
   label_everywhere: "visur"
   label_example: "Pavyzdys"
@@ -1990,7 +1992,7 @@ lt:
   label_expanded_click_to_collapse: "Išplėsta. Spauskite, kad sutrauktumėte"
   label_f_hour: "%{value} valanda"
   label_f_hour_plural: "%{value} valandų(-os)"
-  label_favoured: "Mėgstamas"
+  label_favorite: "Mėgstamas"
   label_feed_plural: "Naujienų srautai"
   label_feeds_access_key: "RSS prieigos raktas"
   label_feeds_access_key_created_on: "RSS prieigos raktas sukurtas prieš %{value}"
@@ -2063,6 +2065,7 @@ lt:
   label_learn_more: "Sužinoti daugiau"
   label_less_or_equal: "<="
   label_less_than_ago: "mažiau nei prieš dieną"
+  label_link_url: "Nuoroda (URL)"
   label_list: "Sąrašas"
   label_loading: "Įkeliama..."
   label_lock_user: "Užrakinti vartotoją"
@@ -2088,6 +2091,7 @@ lt:
   label_membership_plural: "Narystės"
   lable_membership_added: "Narys pridėtas"
   lable_membership_updated: "Narys atnaujintas"
+  label_menu: "Meniu"
   label_menu_badge:
     pre_alpha: "pre-alfa"
     alpha: "alfa"
@@ -2189,6 +2193,7 @@ lt:
   label_percent_complete: "% baigta"
   label_project_activity: "Projekto aktyvumas"
   label_project_attribute_plural: "Projekto atributai"
+  label_project_attribute_manage_link: "Valdyti projekto atributus"
   label_project_count: "Bendras projektų skaičius"
   label_project_copy_notifications: "Vykstant projekto kopijavimui siųsti pranešimus į el. paštą"
   label_project_latest: "Naujausi projektai"
@@ -2203,7 +2208,7 @@ lt:
   label_project_attributes_settings: "Projekto atributų nustatymai"
   label_project_storage_plural: "Failų saugyklos"
   label_project_storage_project_folder: "Failų saugyklos: projekto aplankai"
-  label_projects_storage_information: "%{count} projektai(-as, -ų) naudoja %{storage} disko vietos"
+  label_projects_disk_usage_information: "%{count} projektai, naudojantys %{used_disk_space} disko vietos"
   label_project_view_all: "Peržiūrėti visus projektus"
   label_project_show_details: "Rodyti detalią projekto informaciją"
   label_project_hide_details: "Slėpti detalią projekto informaciją"
@@ -2260,6 +2265,7 @@ lt:
   label_setting_plural: "Nustatymai"
   label_system_settings: "Sistemos nustatymai"
   label_show_completed_versions: "Rodyti užbaigtas versijas"
+  label_columns: "Stulpeliai"
   label_sort: "Rikiuoti"
   label_sort_by: "Rūšiuoti pagal %{value}"
   label_sorted_by: "suršiuota pagal %{value}"
@@ -2806,7 +2812,7 @@ lt:
     member_of_group: "Priskirtojo asmens grupė"
     name_or_identifier: "Pavadinimas arba identifikatorius"
     only_subproject_id: "Tik sub-projektai"
-    shared_with_user: "Bendrinamas su naudotoju"
+    shared_with_user: "Bendrinamas su naudotojais"
     shared_with_me: "Bendrinama su manimi"
     subproject_id: "Įtraukti sub-projektus"
   repositories:
@@ -2949,6 +2955,7 @@ lt:
   setting_app_subtitle: "Programos paantraštė"
   setting_app_title: "Programos pavadinimas"
   setting_attachment_max_size: "Didžiausias prisegamo failo dydis"
+  setting_show_work_package_attachments: "Pagal nutylėjimą rodyti priedus failų kortelėje"
   setting_antivirus_scan_mode: "Skenavimo režimas"
   setting_antivirus_scan_action: "Užkrėsto failo veiksmas"
   setting_autofetch_changesets: "Automatiškai įkelti repozitorijos pakeitimus"
@@ -3050,6 +3057,8 @@ lt:
     attachments:
       whitelist_text_html: >
         Sudarykite sąrašą leidžiamų failų praplėtimų ir/arba MIME tipų su kuriais bus leidžiama įkelti failus. <br/> Įveskite failų praplėtimus (t.y., <code>%{ext_example}</code>) arba MIME tipus (t.y., <code>%{mime_example}</code>). <br/> Palikite tuščią, jei norite leisti visus tipus. Leidžiama daugiau nei viena reikšmė (po vieną kiekvienoje eilutėje).
+      show_work_package_attachments: >
+        Išjungus šią parinktį naujų projektų darbo paketų failų kortelėje bus paslėptas priedų sąrašas. Darbo paketų aprašyme prisegti failai bus įkeliami į vidinę priedų saugyklą.
     antivirus:
       title: "Virusų tikrinimas"
       clamav_ping_failed: "Nepavyko prisijungti prie ClamAV demono. Dar kartą patikrinkite konfigūraciją ir bandykite dar kartą."
@@ -3286,6 +3295,10 @@ lt:
         input_label: "Pridėti stulpelių"
         input_placeholder: "Parinkti stulpelį"
         drag_area_label: "Tvarkyti ir perrikiuoti stulpelius"
+      sort_by:
+        automatic:
+          heading: "Automatinis"
+          description: "Rikiuokite %{plural} pagal vieną ar daugiau rikiavimo kriterijų. Prarasite bet kokį ankstesnį rikiavimą."
   top_menu:
     additional_resources: "Papildomi ištekliai"
     getting_started: "Darbo pradžia"
@@ -3636,7 +3649,7 @@ lt:
   link: nuoroda
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Priedai"
-    description: "Openproject autentifikacijos OmniAuth strategijos teikėjų integracija."
+    description: "OmniAuth stretegijos tiekėjų OpenProject autentifikacijos integracija."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Vienas prisijungimas"
     description: "Prideda OmniAuth SAML tiekėja į OpenProject"

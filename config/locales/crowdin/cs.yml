@@ -264,6 +264,7 @@ cs:
     lists:
       active: "Aktivní projekty"
       my: "Moje projekty"
+      favored: "Oblíbené projekty"
       archived: "Archivované projekty"
       my_private: "soukromé seznamy  projektů"
       new:
@@ -290,10 +291,10 @@ cs:
         filter:
           label: "Search project attribute"
         actions:
-          label_enable_single: "Active in this project, click to disable"
-          label_disable_single: "Inactive in this project, click to enable"
-          label_enable_all: "Enable all"
-          label_disable_all: "Disable all"
+          label_enable_single: "Aktivní v tomto projektu, kliknutím vypnete"
+          label_disable_single: "Neaktivní v tomto projektu, klikněte pro povolení"
+          label_enable_all: "Povolit vše"
+          label_disable_all: "Zakázat vše"
       types:
         no_results_title_text: V současné době nejsou k dispozici žádné typy.
         form:
@@ -304,7 +305,14 @@ cs:
       storage:
         no_results_title_text: Neexistuje žádné další diskové místo využívané tímto projektem.
   lists:
-    can_be_saved_as: "Úpravy lze uložit pouze v novém seznamu."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "Seznam upraven:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Momentálně nejsou žádní členové součástí tohoto projektu.
@@ -322,8 +330,9 @@ cs:
       project_roles: "Projektové role"
       wp_shares: "Sdílení pracovních balíčků"
       groups: "Skupiny"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
-      title: "Remove member"
+      title: "Odebrat člena"
       will_remove_the_users_role: "This will remove the user’s role from this project."
       will_remove_the_groups_role: "This will remove the group role from this project."
       however_work_packages_shared_with_user_html:
@@ -498,10 +507,10 @@ cs:
       no_common_statuses_exists: "Pro všechny vybrané pracovní balíčky není k dispozici žádný stav. Jejich stav nelze změnit."
       unsupported_for_multiple_projects: "Hromadný přesun/kopírování není podporováno pro pracovní balíčky z více projektů"
     sharing:
-      missing_workflow_waring:
-        title: "Pro sdílení pracovního balíčku chybí pracovní postup"
-        message: "Pro roli 'Pracovní balíček' není nastaven žádný pracovní postup. Bez pracovního postupu nemůže sdílení s uživatelem změnit stav pracovního balíčku. Pracovní toky mohou být zkopírovány. Vyberte typ zdroje (např. 'Úkol') a zdrojovou roli (např. 'Člen'). Pak vyberte cílové typy. Na začátku můžete vybrat všechny typy jako cíle. Nakonec vyberte roli 'Editor pracovních balíčků' jako cíl a stiskněte 'Kopírovat'. Poté, co jste tak vytvořili výchozí nastavení, vyladit pracovní postupy, jak to děláte pro každou jinou roli."
-        link_message: "Konfigurace pracovních postupů v administraci."
+      missing_workflow_warning:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -796,6 +805,7 @@ cs:
         not_an_iso_date: "není platné datum. Požadovaný formát: RRRR-MM-DD."
         not_same_project: "nepatří do stejného projektu."
         odd: "musí být liché."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "nelze ověřit s přidruženým regulárním výrazem."
         smaller_than_or_equal_to_max_length: "musí být menší než nebo rovno maximální délce."
         taken: "je již použito."
@@ -1009,7 +1019,7 @@ cs:
             estimated_hours:
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
               must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              only_values_greater_or_equal_zeroes_allowed: "Musí být >= 0."
               format: "%{message}"
             remaining_hours:
               cant_exceed_work: "Cannot be higher than Work."
@@ -1154,7 +1164,7 @@ cs:
         duration:
           added: "set to %{value}"
           added_html: "set to <i>%{value}</i>"
-          removed: "removed"
+          removed: "odstraněno"
           updated: "změněno z %{old_value} na %{value}"
           updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
         position:
@@ -1293,6 +1303,7 @@ cs:
   button_edit: "Upravit"
   button_edit_associated_wikipage: "Upravit přidruženou Wiki stránku: %{page_title}"
   button_expand_all: "Rozbalit vše"
+  button_favorite: "Přidat k oblíbeným"
   button_filter: "Filtr"
   button_generate: "Generovat"
   button_list: "Seznam"
@@ -1320,6 +1331,7 @@ cs:
   button_unarchive: "Obnovit z archivu"
   button_uncheck_all: "Odznačit vše"
   button_unlock: "Odemknout"
+  button_unfavorite: "Odstranit z oblíbených"
   button_unwatch: "Přestat sledovat"
   button_update: "Aktualizovat"
   button_upgrade: "Upgradovat"
@@ -1331,11 +1343,11 @@ cs:
   button_configure_menu_entry: "Konfigurace položky menu"
   button_delete_menu_entry: "Odstranit položku menu"
   button_view_shared_work_packages: "Zobrazit všechny sdílené pracovní balíčky"
-  button_manage_roles: "Manage roles"
-  button_remove_member: "Remove member"
+  button_manage_roles: "Správa rolí"
+  button_remove_member: "Odebrat člena"
   button_remove_member_and_shares: "Remove member and shares"
   button_revoke_work_package_shares: "Revoke work package shares"
-  button_revoke_access: "Revoke access"
+  button_revoke_access: "Odebrat přístup"
   button_revoke_all: "Revoke all"
   button_revoke_only: "Revoke only %{shared_role_name}"
   consent:
@@ -1641,6 +1653,7 @@ cs:
       pdf_overview_table: "Tabulka PDF"
       pdf_report_with_images: "PDF report s obrázky"
       pdf_report: "PDF report"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Obrázek nebyl exportován."
     units:
@@ -1788,17 +1801,6 @@ cs:
         mentioned: "Byli jste zmíněni v %{work_package}"
         responsible: "Stali jste se odpovědnými za %{work_package}"
         watched: "Sledujete %{work_package}"
-    update_info_mail:
-      body: >
-        Jsme rádi, že oznamujeme vydání OpenProject 12.0. Je to významná verze, která doufejme výrazně zlepší způsob, jakým používáte OpenProject.
-        Počínaje touto verzí přinášíme oznámení v aplikaci. Od nynějška budete dostávat upozornění na aktualizace pracovních balíčků přímo v OpenProject. Tato oznámení můžete označit jako přečtená, odpovědět na komentář nebo dokonce přímo upravit atributy pracovního balíčku, aniž byste opustili oznamovací centrum.
-        To také znamená, že již nebudeme používat e-maily pro oznámení. Myslíme si, že nové centrum oznámení je lepším místem pro prohlížení a jednání na základě těchto aktualizací. Nicméně, pokud chcete nadále dostávat aktualizace prostřednictvím e-mailu, můžete si vybrat denní připomenutí e-mailem v určitých okamžicích vašeho výběru.
-        Ujistěte se prosím, že jste si ověřili své nové výchozí nastavení oznámení a nastavte své předvolby pro upozornění a připomenutí e-mailem v nastavení vašeho účtu. Můžete to udělat pomocí tlačítka "Změnit nastavení e-mailu".
-        Doufáme, že najdete oznámení v aplikacích užitečná a že vás učiní ještě produktivnějšími.
-        S pozdravem, OpenProject tým
-      body_header: "Verze 12.0 s oznamovacím centrem"
-      body_subheader: "Novinky"
-      subject: "Důležité změny notifikací s vydáním 12.0"
   label_accessibility: "Přístupnost"
   label_account: "Účet"
   label_active: "Aktivní"
@@ -1979,7 +1981,7 @@ cs:
   label_enterprise_support: "Podpora pro Enterprise edici"
   label_enterprise_addon: "Doplňky Enterprise Edice"
   label_environment: "Prostředí"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "je"
   label_everywhere: "všude"
   label_example: "Příklad"
@@ -1993,7 +1995,7 @@ cs:
   label_expanded_click_to_collapse: "Rozbaleno. Klepnutím sbalte"
   label_f_hour: "%{value} hodina"
   label_f_hour_plural: "%{value} hodin"
-  label_favoured: "Oblíbené"
+  label_favorite: "Oblíbené"
   label_feed_plural: "Informační kanály (feedy)"
   label_feeds_access_key: "Přístupový klíč pro RSS"
   label_feeds_access_key_created_on: "Přístupový klíč pro RSS byl vytvořen před %{value}"
@@ -2066,6 +2068,7 @@ cs:
   label_learn_more: "Více informací"
   label_less_or_equal: "<="
   label_less_than_ago: "před méně jak (dny)"
+  label_link_url: "Odkaz URL"
   label_list: "Seznam"
   label_loading: "Načítání..."
   label_lock_user: "Uzamknout uživatele"
@@ -2091,6 +2094,7 @@ cs:
   label_membership_plural: "Členství"
   lable_membership_added: "Člen přidán"
   lable_membership_updated: "Člen aktualizován"
+  label_menu: "Nabídka"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "Alfa"
@@ -2181,7 +2185,7 @@ cs:
   label_precedes: "předchází"
   label_preferences: "Nastavení"
   label_preview: "Náhled"
-  label_preview_not_available: "Preview not available"
+  label_preview_not_available: "Náhled není k dispozici"
   label_previous: "Předchozí"
   label_previous_week: "Předchozí týden"
   label_principal_invite_via_email: " nebo pozvat nové uživatele e-mailem"
@@ -2192,6 +2196,7 @@ cs:
   label_percent_complete: "% Dokončeno"
   label_project_activity: "Aktivita projektu"
   label_project_attribute_plural: "Atributy projektu"
+  label_project_attribute_manage_link: "Správa atributů produktu"
   label_project_count: "Celkový počet projektů"
   label_project_copy_notifications: "Během kopírování projektu odeslat notifikace e-mailem"
   label_project_latest: "Nejnovější projekty"
@@ -2206,7 +2211,7 @@ cs:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "Úložiště souborů"
   label_project_storage_project_folder: "Úložiště souborů: Složky projektů"
-  label_projects_storage_information: "%{count} projekty používající úložiště disků %{storage}"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Zobrazit všechny projekty - seznam"
   label_project_show_details: "Zobrazit detail projektu"
   label_project_hide_details: "Skrýt detail projektu"
@@ -2263,6 +2268,7 @@ cs:
   label_setting_plural: "Nastavení"
   label_system_settings: "Nastavení systému"
   label_show_completed_versions: "Zobrazit dokončené verze"
+  label_columns: "Sloupce"
   label_sort: "Řadit"
   label_sort_by: "Seřadit podle %{value}"
   label_sorted_by: "seřazeno dle %{value}"
@@ -2452,7 +2458,7 @@ cs:
       mentioned: "Byli jste <b>zmíněni v komentáři</b>"
       mentioned_by: "%{user} vás zmínil v komentáři"
       more_to_see:
-        one: "Existuje ještě %{count} pracovní balíček s notifikací."
+        one: "Existuje ještě 1 pracovní balíček s notifikací."
         few: "Existuje ještě %{count} pracovních balíčků s notifikacema."
         many: "Existuje ještě %{count} pracovních balíčků s notifikacema."
         other: "Existuje ještě %{count} pracovních balíčků s notifikacema."
@@ -2810,7 +2816,7 @@ cs:
     member_of_group: "Řešitelova skupina"
     name_or_identifier: "Jméno nebo identifikátor"
     only_subproject_id: "Pouze podprojekt"
-    shared_with_user: "Sdíleno s uživatelem"
+    shared_with_user: "Shared with users"
     shared_with_me: "Sdílené se mnou"
     subproject_id: "Včetně podprojektu"
   repositories:
@@ -2955,6 +2961,7 @@ cs:
   setting_app_subtitle: "Podtitulek aplikace"
   setting_app_title: "Název aplikace"
   setting_attachment_max_size: "Maximální velikost příloh"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Režim skenování"
   setting_antivirus_scan_action: "Akce s infikovaným souborem"
   setting_autofetch_changesets: "Automaticky načíst změny repozitáře"
@@ -2994,7 +3001,7 @@ cs:
   setting_file_max_size_displayed: "Maximální velikost textových souborů zobrazených přímo na stránce"
   setting_host_name: "Název serveru"
   setting_invitation_expiration_days: "Platnost aktivačního e-mailu vyprší po"
-  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio: "Výpočet průběhu"
   setting_work_package_done_ratio_field: "Work-based"
   setting_work_package_done_ratio_status: "Status-based"
   setting_work_package_done_ratio_explanation_html: >
@@ -3056,6 +3063,8 @@ cs:
     attachments:
       whitelist_text_html: >
         Definujte seznam platných přípon souborů a/nebo mime typů pro nahrané soubory. <br/> Zadejte přípony souborů (např. <code>%{ext_example}</code>) nebo mime typy (např. ., <code>%{mime_example}</code>). <br/> Ponechte prázdné pro nahrání jakéhokoli typu souboru. Povoleno více hodnot (jeden řádek pro každou hodnotu).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Antivirová kontrola"
       clamav_ping_failed: "Nepodařilo se připojit k ClamAV démonu. Zkontroluj konfiguraci a zkus to znovu."
@@ -3105,8 +3114,8 @@ cs:
     passwords: "Hesla"
     project_attributes:
       heading: "Atributy projektu"
-      label_new_attribute: "Project attribute"
-      label_new_section: "Section"
+      label_new_attribute: "Atribut projektu"
+      label_new_section: "Sekce"
       label_edit_section: "Upravit název"
       label_section_actions: "Section actions"
       heading_description: "These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level."
@@ -3211,7 +3220,7 @@ cs:
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} smazán (%{link})"
   text_journal_file_link_added: "%{label} odkaz na %{value} (%{storage}) přidán"
-  text_journal_file_link_deleted: "%{label} odkaz na %{value} (%{storage}) přidán"
+  text_journal_file_link_deleted: "%{label} odkaz na %{old} (%{storage}) přidán"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} nastaven na %{value}"
   text_journal_set_with_diff: "%{label} nastaven (%{link})"
@@ -3292,6 +3301,10 @@ cs:
         input_label: "Přidat sloupce"
         input_placeholder: "Vyberte sloupec"
         drag_area_label: "Správa a změna pořadí sloupců"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Další zdroje"
     getting_started: "Začínáme"
@@ -3642,7 +3655,7 @@ cs:
   link: odkaz
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth pluginy"
-    description: "Integrace poskytovatelů strategie OmniAuth pro ověřování v Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Přidá poskytovatele SAML OmniAuth do OpenProject"

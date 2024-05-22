@@ -330,6 +330,18 @@ ko:
         years: "년"
         description: >
           자동 확대/축소를 사용할 수 없는 경우 표시되어야 하는 초기 확대/축소 수준을 선택하세요.
+      export:
+        title: "Gantt 차트 PDF 옵션"
+        button_export: "내보내기"
+        column_widths:
+          narrow: "좁음"
+          medium: "보통"
+          wide: "넓음"
+          very_wide: "매우 넓음"
+        options:
+          date_zoom: "날짜 확대/축소"
+          paper_size: "용지 크기"
+          column_widths: "열 너비"
     general_text_no: "아니요"
     general_text_yes: "예"
     general_text_No: "아니요"
@@ -348,11 +360,10 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>작업 패키지 계층 구조 전반에서 진행률 보고를 구현합니다.</li> <li>프로젝트 개요 페이지에서 프로젝트 특성을 체계적으로 관리합니다.</li> <li>프로젝트 목록과 프로젝트 개요에서 사용자 지정 필드의 보기가 간소화되었습니다.</li> <li>세련된 Primer 디자인을 갖춘 통합된 페이지 헤더가 있습니다.</li> <li>첨부 파일 업로드, 책임자, 미팅 기록과 같은 새로운 기능으로 미팅을 개선합니다.</li> <li>비정상적인 파일 저장소에 대한 자동 알림을 받고 토글 옵션으로 제어합니다.</li> <li>프로젝트를 복사할 때 OneDrive/SharePoint의 자동으로 관리되는 프로젝트 폴더를 복사합니다.</li> <li>프로젝트 멤버십을 취소할 때 작업 패키지의 공유를 제거하려면 관리자에게 요청합니다.</li> <li>팀 플래너에서 4주 및 8주 표시 모드로 계획을 개선합니다.</li> </ul>
+                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>Gantt 보기의 PDF 내보내기(예: 인쇄용)(Enterprise 추가 기능)</li> <li>즐겨 찾는 프로젝트</li> <li>미팅의 섹션</li> <li>내 페이지 및 프로젝트 개요 페이지에 미팅 표시</li> <li>파일 탭에서 첨부 파일을 숨기는 기능</li> <li>링크(URL) 유형의 사용자 지정 필드</li> </ul>
     ical_sharing_modal:
       title: "캘린더 구독"
       inital_setup_error_message: "데이터를 가져오는 중에 오류가 발생했습니다."
@@ -378,6 +389,7 @@ ko:
     label_added_time_by: '%{age}, <a href="%{authorLink}">%{author}</a> 님이 추가함'
     label_ago: "일 전"
     label_all: "모두"
+    label_all_uppercase: "모두"
     label_all_work_packages: "모든 작업 패키지"
     label_and: "그리고"
     label_ascending: "오름차순"
@@ -419,6 +431,7 @@ ko:
     label_expand_project_menu: "프로젝트 메뉴 확장"
     label_export: "내보내기"
     label_export_preparing: "가져오기 준비 중이며 곧 다운로드됩니다."
+    label_favorites: "즐겨찾기"
     label_filename: "파일"
     label_filesize: "크기"
     label_general: "일반"
@@ -1042,7 +1055,7 @@ ko:
       sharing:
         share: "공유하기"
         title: "작업 패키지 공유"
-        show_all_users: "공유된 사용자 모두 표시"
+        show_all_users: "작업 패키지가 공유된 모든 사용자 표시"
         selected_count: "%{count}개 선택됨"
         selection:
           mixed: "혼합"
@@ -1266,6 +1279,9 @@ ko:
           placeholder: "이제 %{project}에서 이 플레이스홀더를 사용할 수 있게 되었습니다. 한편 당신은 해당 사용자에 대한 계획을 세우거나 작업 패키지를 할당할 수 있습니다."
           group: "이제 이 그룹은 %{project}의 일부입니다. 한편 당신은 해당 사용자에 대한 계획을 세우거나 작업 패키지를 할당할 수 있습니다."
         next_button: "계속"
+    favorite_projects:
+      no_results: "즐겨 찾는 프로젝트가 없습니다"
+      no_results_subtext: "개요 또는 프로젝트 목록에서 하나 이상의 프로젝트를 즐겨찾기로 추가하세요."
     include_projects:
       toggle_title: "프로젝트 포함"
       title: "프로젝트"

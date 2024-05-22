@@ -90,15 +90,17 @@ RSpec.describe "Structured meetings CRUD",
     end
 
     show_page.expect_agenda_item title: "My agenda item"
-    show_page.cancel_add_form
-
     item = MeetingAgendaItem.find_by(title: "My agenda item")
+    show_page.cancel_add_form(item)
+
+    # can update
     show_page.edit_agenda_item(item) do
       fill_in "Title", with: "Updated title"
       click_on "Save"
     end
 
     show_page.expect_no_agenda_item title: "My agenda item"
+    show_page.expect_agenda_item title: "Updated title"
 
     # Can add multiple items
     show_page.add_agenda_item do
@@ -136,7 +138,7 @@ RSpec.describe "Structured meetings CRUD",
     # Can remove
     show_page.remove_agenda_item first
     show_page.assert_agenda_order! "Updated title", "Second"
-    show_page.cancel_add_form
+    show_page.cancel_add_form(second)
 
     # Can link work packages
     show_page.add_agenda_item(type: WorkPackage) do
@@ -164,7 +166,7 @@ RSpec.describe "Structured meetings CRUD",
     end
 
     show_page.select_action(item, I18n.t(:label_sort_lowest))
-    show_page.cancel_add_form
+    show_page.cancel_add_form(item)
 
     show_page.add_agenda_item do
       fill_in "Title", with: "My agenda item"
@@ -223,6 +225,16 @@ RSpec.describe "Structured meetings CRUD",
 
       click_on I18n.t(:label_icalendar_download)
 
+      # dynamically wait for download to finish, otherwise expectation is too early
+      seconds = 0
+      while seconds < 5
+        # don't use subject as it will not get reevaluated in the next iteration
+        break if @download_list.refresh_from(page).latest_download.to_s != ""
+
+        sleep 1
+        seconds += 1
+      end
+
       expect(subject).to end_with ".ics"
     end
   end
@@ -237,9 +249,10 @@ RSpec.describe "Structured meetings CRUD",
     end
 
     show_page.expect_agenda_item title: "My agenda item"
-    show_page.cancel_add_form
-
     item = MeetingAgendaItem.find_by!(title: "My agenda item")
+
+    show_page.cancel_add_form(item)
+
     show_page.edit_agenda_item(item) do
       # Side effect: update the item
       item.update!(title: "Updated title")
@@ -261,7 +274,9 @@ RSpec.describe "Structured meetings CRUD",
     end
 
     show_page.expect_agenda_item title: "My agenda item"
-    show_page.cancel_add_form
+    item = MeetingAgendaItem.find_by!(title: "My agenda item")
+
+    show_page.cancel_add_form(item)
 
     click_on("op-meetings-header-action-trigger")
     click_on "Copy"
@@ -272,7 +287,7 @@ RSpec.describe "Structured meetings CRUD",
 
     show_page.expect_agenda_item title: "My agenda item"
     new_meeting = StructuredMeeting.reorder(id: :asc).last
-    expect(page).to have_current_path "/meetings/#{new_meeting.id}"
+    expect(page).to have_current_path "/projects/#{project.identifier}/meetings/#{new_meeting.id}"
   end
 
   context "with a work package reference to another" do
@@ -294,6 +309,159 @@ RSpec.describe "Structured meetings CRUD",
       show_page.visit!
       show_page.expect_undisclosed_agenda_link agenda_item
       expect(page).to have_no_text "Private task"
+    end
+  end
+
+  context "with sections" do
+    let!(:meeting) { create(:structured_meeting, project:, author: current_user) }
+    let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
+
+    context "when starting with empty sections" do
+      it "can add, edit and delete sections" do
+        show_page.expect_toast(message: "Successful creation")
+
+        # create the first section
+        show_page.add_section do
+          fill_in "Title", with: "First section"
+          click_on "Save"
+        end
+
+        show_page.expect_section(title: "First section")
+
+        first_section = MeetingSection.find_by!(title: "First section")
+
+        meeting = first_section.meeting
+
+        # edit the first section
+        show_page.edit_section(first_section) do
+          fill_in "Title", with: "Updated first section title"
+          click_on "Save"
+        end
+
+        show_page.expect_no_section title: "First section"
+        show_page.expect_section title: "Updated first section title"
+
+        # add a second section
+        show_page.add_section do
+          fill_in "Title", with: "Second section"
+          click_on "Save"
+        end
+
+        show_page.expect_section(title: "Updated first section title")
+        show_page.expect_section(title: "Second section")
+
+        second_section = MeetingSection.find_by!(title: "Second section")
+
+        # remove the second section
+        show_page.remove_section second_section
+
+        ## the first section is still rendered explicitly, as a name was specified
+        show_page.expect_section(title: "Updated first section title")
+        show_page.expect_no_section(title: "Second section")
+
+        # add a section without a name is not possible
+        show_page.add_section do
+          click_on "Save"
+          expect(page).to have_text "Title can't be blank"
+        end
+
+        # remove the first section
+        show_page.remove_section first_section
+        show_page.expect_no_section(title: "Updated first section title")
+
+        # now the meeting completely empty again
+
+        # add an item to the meeting
+        show_page.add_agenda_item do
+          fill_in "Title", with: "First item without explicit section"
+        end
+
+        # the agenda item is wrapped in an "untitled" section, but the section is not explicitly rendered
+        show_page.expect_no_section(title: "Untitled section")
+
+        # add a second section again
+        show_page.add_section do
+          fill_in "Title", with: "Second section"
+          click_on "Save"
+        end
+
+        ## the first section without a name is now explicitly rendered as "Untitled"
+        show_page.expect_section(title: "Untitled section")
+        show_page.expect_section(title: "Second section")
+
+        second_section = MeetingSection.find_by!(title: "Second section")
+
+        # remove the second section
+        show_page.remove_section second_section
+
+        ## the last existing section is not explicitly rendered as a section as no name was specified for this section
+        ## -> back to "no section mode"
+        show_page.expect_no_section(title: "Second section")
+        show_page.expect_no_section(title: "Untitled section")
+
+        # TBD: remove the agenda item again, the untitle section is not rendered explicitly and will not be removed
+        first_item = MeetingAgendaItem.find_by!(title: "First item without explicit section")
+        show_page.remove_agenda_item(first_item)
+
+        # add a second section again
+        show_page.add_section do
+          fill_in "Title", with: "Second section"
+          click_on "Save"
+        end
+
+        ## the first section without a name is now again explicitly rendered as "Untitled"
+        show_page.expect_section(title: "Untitled section")
+        show_page.expect_section(title: "Second section")
+
+        second_section = MeetingSection.find_by!(title: "Second section")
+
+        # add an item to the latest section
+        show_page.add_agenda_item do
+          fill_in "Title", with: "First item"
+          fill_in "min", with: "25"
+        end
+
+        show_page.expect_agenda_item_in_section title: "First item", section: second_section
+
+        first_section = meeting.sections.first
+
+        # add an item to the first section explicitly
+        show_page.add_agenda_item_to_section(section: first_section) do
+          fill_in "Title", with: "Second item"
+          fill_in "min", with: "30"
+        end
+
+        show_page.expect_agenda_item_in_section title: "Second item", section: first_section
+
+        # duration per section is shown
+        show_page.expect_section_duration(section: first_section, duration_text: "30 min")
+        show_page.expect_section_duration(section: second_section, duration_text: "25 min")
+
+        item_in_first_section = MeetingAgendaItem.find_by!(title: "Second item")
+        item_in_second_section = MeetingAgendaItem.find_by!(title: "First item")
+
+        show_page.edit_agenda_item(item_in_second_section) do
+          fill_in "min", with: "15"
+          click_on "Save"
+        end
+
+        # duration gets updated
+        show_page.expect_section_duration(section: second_section, duration_text: "15 min")
+
+        # deleting a section with agenda items is not possible
+        accept_confirm do
+          show_page.select_section_action(second_section, "Delete")
+        end
+
+        # only untitled secion is left -> will not be rendered explicitly as secion
+        show_page.expect_no_section(title: "Untitled section")
+        show_page.expect_no_section(title: "Second section")
+
+        expect { item_in_second_section.reload }.to raise_error(ActiveRecord::RecordNotFound)
+
+        # the agenda items of the "untitled" section are still visible in "no-section mode"
+        show_page.expect_agenda_item(title: item_in_first_section.title)
+      end
     end
   end
 end

@@ -39,15 +39,20 @@ cs:
   api_v3:
     errors:
       too_many_elements_created_at_once: Příliš mnoho prvků vytvořených najednou. Očekáváno nanejvýš %{max} , získáno %{actual}.
-  permission_create_files: 'External Storage: Create files'
-  permission_delete_files: 'External Storage: Delete files'
+  external_file_storages: Externí úložiště souborů
+  permission_create_files: 'Automatically managed project folders: Create files'
+  permission_create_files_explanation: This permission is only available for Nextcloud storages
+  permission_delete_files: 'Automatically managed project folders: Delete files'
+  permission_delete_files_explanation: This permission is only available for Nextcloud storages
+  permission_header_for_project_module_storages: Automaticky spravované projektové složky
   permission_manage_file_links: Správa odkazů souborů
   permission_manage_storages_in_project: Spravovat úložiště souborů v projektu
-  permission_read_files: 'External Storage: Read files'
-  permission_share_files: 'External Storage: Share files'
+  permission_read_files: 'Automatically managed project folders: Read files'
+  permission_share_files: 'Automatically managed project folders: Share files'
+  permission_share_files_explanation: This permission is only available for Nextcloud storages
   permission_view_file_links: Zobrazit odkazy na soubor
-  permission_write_files: 'External Storage: Write files'
-  project_module_storages: Úložiště souborů
+  permission_write_files: 'Automatically managed project folders: Write files'
+  project_module_storages: Soubory
   storages:
     buttons:
       complete_without_setup: Dokončit bez něj
@@ -109,7 +114,7 @@ cs:
       error_could_not_be_saved: Email notification settings could not be saved. Please try again.
       subscribe: Přihlásit k odběru
       title: E-mailová upozornění
-      unsubscribe: Unsubscribe
+      unsubscribe: Odhlásit se z odběru
     help_texts:
       project_folder: Složka projektu je výchozí složka pro nahrávání souborů pro tento projekt. Uživatelé přesto mohou nahrávat soubory do jiných umístění.
     instructions:
@@ -126,11 +131,11 @@ cs:
         application_link_text: aplikace „Integration OpenProject“
         integration: Nextcloud Administrace / OpenProject
         oauth_configuration: Zkopírujte tyto hodnoty z %{application_link_text}.
-        provider_configuration: 'Ujistěte se prosím, že máte oprávnění administrace v Nextcloud instanci a máte nainstalovanou následující aplikaci:'
+        provider_configuration: 'Ujistěte se prosím, že máte oprávnění administrace v Nextcloud instanci a máte nainstalovanou následující aplikaci: %{application_link_text}.'
       no_specific_folder: Ve výchozím nastavení bude každý uživatel ve své vlastní domovské složce, když nahrajou soubor.
       no_storage_set_up: Dosud nejsou nastaveny žádné úložiště souborů.
       not_logged_into_storage: Pro výběr složky projektu se prosím nejprve přihlaste
-      oauth_application_details: 'Tajná hodnota klienta nebude po zavření tohoto okna přístupná. Zkopírujte tyto hodnoty do Nextcloud OpenProject Integration nastavení:'
+      oauth_application_details: Tajná hodnota klienta nebude po zavření tohoto okna přístupná. Zkopírujte prosím tyto hodnoty do %{oauth_application_details_link}.
       oauth_application_details_link_text: Nastavení Nextcloud OpenProject integrace
       one_drive:
         application_link_text: Azure portal
@@ -222,7 +227,6 @@ cs:
       project_settings:
         delete: Odstranit úložiště souborů
         edit: Upravit úložiště souborů pro tento projekt
-        index: Úložiště souborů v tomto projektu
         members_connection_status: Stav připojení členů
         new: Přidat úložiště souborů k tomuto projektu
       project_storage_members:
@@ -241,6 +245,9 @@ cs:
         label_oauth_client_secret: ' utajená Hodnota klienta Azure OAuth'
         name: OneDrive/SharePoint
         name_placeholder: např. OneDrive
+    show_attachments_toggle:
+      description: 'Deactivating this option will hide the attachments list on the work packages files tab. The files attached in the description of a work package will still be uploaded in the internal attachments storage. '
+      label: Show attachments in the work packages files tab
     storage_list_blank_slate:
       description: Přidejte úložiště, abyste je viděli zde.
       heading: Zatím nemáte žádné úložiště.

@@ -50,6 +50,8 @@ he:
         duration_in_minutes: "min"
         description: "הערות"
         presenter: "Presenter"
+      meeting_section:
+        title: "Title"
     errors:
       messages:
         invalid_time_format: "תבנית הזמן אינה תקינה. התבנית הנדרשת היא: HH:MM"
@@ -101,7 +103,7 @@ he:
     attachments:
       text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
-      title: "Copy meeting %{title}"
+      title: "Copy meeting: %{title}"
       attachments: "Copy attachments"
       attachments_text: "Copy over all attached files to the new meeting"
       agenda: "Copy agenda"
@@ -124,6 +126,11 @@ he:
       structured_text: "Organize your meeting as a list of agenda items, optionally linking them to a work package."
       structured_text_copy: "Copying a meeting will currently not copy the associated meeting agenda items, just the details"
     copied: "Copied from Meeting #%{id}"
+  meeting_section:
+    untitled_title: "Untitled section"
+    delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
+    placeholder_title: "New section"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "הודעה נשלחה בהצלחה"
   notice_timezone_missing: אין איזור זמן מוגדר, ההערכה היא %{zone}. כדי לבחור את איזור הזמן שלך, אנא לחץ כאן.
   permission_create_meetings: "צור פגישות"

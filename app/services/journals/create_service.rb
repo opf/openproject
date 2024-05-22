@@ -48,13 +48,9 @@ module Journals
       self.journable = journable
     end
 
-    def call(notes: "", cause: {})
-      # JSON columns read from the database always have string keys. As we do not know what is passed in here,
-      # and we want to compare it to values read from the DB, we need to stringify the keys here as well
-      normalized_cause = cause.deep_stringify_keys
-
+    def call(notes: "", cause: CauseOfChange::NoCause.new)
       Journal.transaction do
-        journal = create_journal(notes, normalized_cause)
+        journal = create_journal(notes, cause)
 
         if journal
           reload_journals
@@ -270,28 +266,28 @@ module Journals
 
     def cleanup_predecessor_attachable(predecessor)
       cleanup_predecessor(predecessor,
-                          'attachable_journals',
+                          "attachable_journals",
                           :journal_id,
                           :id)
     end
 
     def cleanup_predecessor_customizable(predecessor)
       cleanup_predecessor(predecessor,
-                          'customizable_journals',
+                          "customizable_journals",
                           :journal_id,
                           :id)
     end
 
     def cleanup_predecessor_storable(predecessor)
       cleanup_predecessor(predecessor,
-                          'storages_file_links_journals',
+                          "storages_file_links_journals",
                           :journal_id,
                           :id)
     end
 
     def cleanup_predecessor_agenda_itemable(predecessor)
       cleanup_predecessor(predecessor,
-                          'meeting_agenda_item_journals',
+                          "meeting_agenda_item_journals",
                           :journal_id,
                           :id)
     end
@@ -817,7 +813,7 @@ module Journals
         SQL
       end
 
-      data_changes.join(' OR ')
+      data_changes.join(" OR ")
     end
 
     def only_on_changed_or_forced_condition_sql(predecessor, notes, cause)
@@ -835,17 +831,17 @@ module Journals
 
     def data_sink_columns
       text_columns = text_column_names
-      (journable.journaled_columns_names - text_columns + text_columns).join(', ')
+      (journable.journaled_columns_names - text_columns + text_columns).join(", ")
     end
 
     def data_source_columns
       text_columns = text_column_names
       normalized_text_columns = text_columns.map { |column| normalize_newlines_sql(column) }
-      (journable.journaled_columns_names - text_columns + normalized_text_columns).join(', ')
+      (journable.journaled_columns_names - text_columns + normalized_text_columns).join(", ")
     end
 
     def journable_data_sql_addition
-      journable.class.aaj_options[:data_sql]&.call(journable) || ''
+      journable.class.aaj_options[:data_sql]&.call(journable) || ""
     end
 
     def text_column_names

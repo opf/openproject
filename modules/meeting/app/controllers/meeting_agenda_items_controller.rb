@@ -40,8 +40,10 @@ class MeetingAgendaItemsController < ApplicationController
 
   def new
     if @meeting.open?
-      update_new_component_via_turbo_stream(hidden: false, type: @agenda_item_type)
-      update_new_button_via_turbo_stream(disabled: true)
+      if params[:meeting_section_id].present?
+        meeting_section = @meeting.sections.find(params[:meeting_section_id])
+      end
+      render_agenda_item_form_via_turbo_stream(meeting_section:, type: @agenda_item_type)
     else
       update_all_via_turbo_stream
       render_error_flash_message_via_turbo_stream(message: t("text_meeting_not_editable_anymore"))
@@ -51,14 +53,23 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def cancel_new
-    update_new_component_via_turbo_stream(hidden: true)
+    if params[:meeting_section_id].present?
+      meeting_section = @meeting.sections.find(params[:meeting_section_id])
+      if meeting_section.agenda_items.empty?
+        update_section_via_turbo_stream(form_hidden: true, meeting_section:)
+      else
+        update_new_button_via_turbo_stream(disabled: false, meeting_section:)
+      end
+    end
+
+    update_new_component_via_turbo_stream(hidden: true, meeting_section:)
     update_new_button_via_turbo_stream(disabled: false)
 
     respond_with_turbo_streams
   end
 
   def create
-    clear_slate = @meeting.agenda_items.empty?
+    # clear_slate = @meeting.agenda_items.empty?
 
     call = ::MeetingAgendaItems::CreateService
       .new(user: current_user)
@@ -73,7 +84,7 @@ class MeetingAgendaItemsController < ApplicationController
 
     if call.success?
       # enable continue editing
-      add_item_via_turbo_stream(clear_slate:)
+      add_item_via_turbo_stream(clear_slate: false)
       update_header_component_via_turbo_stream
       update_sidebar_details_component_via_turbo_stream
     else
@@ -111,6 +122,7 @@ class MeetingAgendaItemsController < ApplicationController
 
     if call.success?
       update_item_via_turbo_stream
+      update_section_header_via_turbo_stream(meeting_section: @meeting_agenda_item.meeting_section)
       update_header_component_via_turbo_stream
       update_sidebar_details_component_via_turbo_stream
     else
@@ -123,6 +135,8 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def destroy
+    section = @meeting_agenda_item.meeting_section
+
     call = ::MeetingAgendaItems::DeleteService
       .new(user: current_user, model: @meeting_agenda_item)
       .call
@@ -130,6 +144,7 @@ class MeetingAgendaItemsController < ApplicationController
     if call.success?
       remove_item_via_turbo_stream(clear_slate: @meeting.agenda_items.empty?)
       update_header_component_via_turbo_stream
+      update_section_header_via_turbo_stream(meeting_section: section) if section&.reload.present?
       update_sidebar_details_component_via_turbo_stream
     else
       generic_call_failure_response(call)
@@ -139,13 +154,22 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def drop
-    call = ::MeetingAgendaItems::UpdateService
-      .new(user: current_user, model: @meeting_agenda_item)
-      .call(position: params[:position].to_i)
+    call = ::MeetingAgendaItems::DropService.new(
+      user: current_user, meeting_agenda_item: @meeting_agenda_item
+    ).call(
+      target_id: params[:target_id],
+      position: params[:position]
+    )
 
     if call.success?
-      update_show_items_via_turbo_stream
-      update_header_component_via_turbo_stream
+      if call.result[:section_changed]
+        move_item_to_other_section_via_turbo_stream(
+          old_section: call.result[:old_section],
+          current_section: call.result[:current_section]
+        )
+      else
+        move_item_within_section_via_turbo_stream
+      end
     else
       generic_call_failure_response(call)
     end
@@ -159,7 +183,7 @@ class MeetingAgendaItemsController < ApplicationController
       .call(move_to: params[:move_to]&.to_sym)
 
     if call.success?
-      move_item_via_turbo_stream
+      move_item_within_section_via_turbo_stream
       update_header_component_via_turbo_stream
     else
       generic_call_failure_response(call)
@@ -167,17 +191,6 @@ class MeetingAgendaItemsController < ApplicationController
 
     respond_with_turbo_streams
   end
-
-  # Primer's autocomplete displays the ID of a user when selected instead of the name
-  # this cannot be changed at the moment as the component uses a simple text field which
-  # can't differentiate between a display and submit value
-  # thus, we can't use it
-  # leaving the code here for future reference
-  # def author_autocomplete_index
-  #   @users = User.active.like(params[:q]).limit(10)
-
-  #   render(Authors::AutocompleteItemComponent.with_collection(@users), layout: false)
-  # end
 
   private
 
@@ -197,7 +210,7 @@ class MeetingAgendaItemsController < ApplicationController
   def meeting_agenda_item_params
     params
       .require(:meeting_agenda_item)
-      .permit(:title, :duration_in_minutes, :presenter_id, :notes, :work_package_id, :lock_version)
+      .permit(:title, :duration_in_minutes, :presenter_id, :notes, :work_package_id, :lock_version, :meeting_section_id)
   end
 
   def generic_call_failure_response(call)

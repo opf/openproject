@@ -32,18 +32,38 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
   class DownloadLinkQuery
     using Storages::Peripherals::ServiceResultRefinements
 
+    Auth = ::Storages::Peripherals::StorageInteraction::Authentication
+
+    def self.call(storage:, auth_strategy:, file_link:)
+      new(storage).call(auth_strategy:, file_link:)
+    end
+
     def initialize(storage)
-      @uri = storage.uri
-      @configuration = storage.oauth_configuration
+      @storage = storage
     end
 
-    def self.call(storage:, user:, file_link:)
-      new(storage).call(user:, file_link:)
+    def call(auth_strategy:, file_link:)
+      if file_link.nil?
+        return failure(code: :error, payload: nil, log_message: "File link can not be nil.")
+      end
+
+      direct_download_request(auth_strategy:, file_link:)
+        .bind { |response_body| direct_download_token(body: response_body) }
+        .map { |download_token| download_link(download_token, file_link.origin_name) }
     end
 
-    def call(user:, file_link:)
-      result = Util.token(user:, configuration: @configuration) do |token|
-        direct_download_request(token, file_link).bind do |resp|
+    private
+
+    def http_options
+      Util.ocs_api_request.deep_merge(Util.accept_json)
+    end
+
+    def direct_download_request(auth_strategy:, file_link:)
+      Auth[auth_strategy].call(storage: @storage, http_options:) do |http|
+        result = handle_response http.post(Util.join_uri_path(@storage.uri, "/ocs/v2.php/apps/dav/api/v1/direct"),
+                                           json: { fileId: file_link.origin_id })
+
+        result.bind do |resp|
           # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
           if resp.body.blank?
             Util.error(:unauthorized, "Outbound request not authorized!")
@@ -52,41 +72,29 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           end
         end
       end
-
-      result
-        .bind { |response_body| direct_download_token(body: response_body) }
-        .map { |download_token| download_link(download_token, file_link.origin_name) }
     end
 
-    private
-
-    def direct_download_request(token, file_link)
-      response = OpenProject
-                   .httpx
-                   .post(
-                     Util.join_uri_path(@uri, "/ocs/v2.php/apps/dav/api/v1/direct"),
-                     json: { fileId: file_link.origin_id },
-                     headers: {
-                       "Authorization" => "Bearer #{token.access_token}",
-                       "OCS-APIRequest" => "true",
-                       "Accept" => "application/json",
-                       "Content-Type" => "application/json"
-                     }
-                   )
+    def handle_response(response)
       case response
       in { status: 200..299 }
         ServiceResult.success(result: response)
       in { status: 404 }
-        Util.error(:not_found, "Outbound request destination not found!", response)
+        failure(code: :not_found,
+                payload: response.json(symbolize_keys: true),
+                log_message: "Outbound request destination not found!")
       in { status: 401 }
-        Util.error(:unauthorized, "Outbound request not authorized!", response)
+        failure(code: :unauthorized,
+                payload: response.json(symbolize_keys: true),
+                log_message: "Outbound request not authorized!")
       else
-        Util.error(:error, "Outbound request failed!")
+        failure(code: :error,
+                payload: response.json(symbolize_keys: true),
+                log_message: "Outbound request failed with unknown error!")
       end
     end
 
     def download_link(token, origin_name)
-      Util.join_uri_path(@uri, "index.php/apps/integration_openproject/direct", token, CGI.escape(origin_name))
+      Util.join_uri_path(@storage.uri, "index.php/apps/integration_openproject/direct", token, CGI.escape(origin_name))
     end
 
     def direct_download_token(body:)
@@ -112,6 +120,15 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       return nil if path.blank?
 
       path.split("/").last
+    end
+
+    def failure(code:, payload:, log_message:)
+      ServiceResult.failure(
+        result: code,
+        errors: ::Storages::StorageError.new(code:,
+                                             data: ::Storages::StorageErrorData.new(source: self.class, payload:),
+                                             log_message:)
+      )
     end
   end
 end

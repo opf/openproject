@@ -47,6 +47,7 @@
 
 require 'journal_changes'
 require 'journal_formatter'
+require 'cause_of_change'
 
 module Acts
 end

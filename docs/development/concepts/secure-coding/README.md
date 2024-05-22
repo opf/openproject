@@ -126,7 +126,7 @@ At its core, permissions in OpenProject are the central key to determine who can
 - Implement controls and authorization checks with a *Deny by default* or *Fallback deny* rule, preventing authorization flows to miss certain steps and allowing user requests to fall through the authorization checks.
 - Validate the permissions of a user on every request, regardless of the origin of it.
 - Enforce proper authorization controls to ensure that users only access their own data.
-- Provide extensive tests for permission checks, making assertions of all available cases and using visibility testing for asserting that certain actors _cannot_ access data or perform actions. 
+- Provide extensive tests for permission checks, making assertions of all available cases and using visibility testing for asserting that certain actors _cannot_ access data or perform actions.
 - Regularly review and update access controls to reflect changes in application functionality and roles.
 
 **References**
@@ -145,7 +145,7 @@ OpenProject is a form-driven application, meaning that users input a lot of data
 - *Cross-site scripting (XSS)*: Failure to validate and sanitize user inputs can allow malicious scripts to be executed in the context of other users' browsers. Potential consequences are: Theft of sensitive user data, session hijacking, and potential defacement or compromise of the web application.
 - *Cross-Site Request Forgery (CSRF):* Lack of proper request validation can make it easier for attackers to trick users into performing unintended actions on their behalf. Potential consequences are unauthorized actions, such as account changes, data deletion, or fund transfers, performed without user consent.
 - *File Upload Vulnerabilities*: Insufficient input validation on file uploads can lead to arbitrary file uploads, enabling attackers to upload malicious files or execute code. Potential consequences are remote malware distribution, and remote code execution.
-- *Open Redirects*: Insufficent validation of redirect URLs leading users to external pages, which might end in phishing attacks.
+- *Open Redirects*: Insufficient validation of redirect URLs leading users to external pages, which might end in phishing attacks.
 
 **Guidelines**
 
@@ -172,7 +172,7 @@ As OpenProject may handle and distribute sensitive user data, attack vectors suc
 
 **Risks and impacts**
 
-- *Viruses and malware uploads*: Whenever users are able to upload files to a system, potentially malicious files could be provided and distributed through OpenProject by users with the appropriate upload permission. 
+- *Viruses and malware uploads*: Whenever users are able to upload files to a system, potentially malicious files could be provided and distributed through OpenProject by users with the appropriate upload permission.
 - *Malware in software*: OpenProject carefully selects and updates third-party dependencies. Please see the following section on [external dependencies](#external-dependencies) for more information on the best practices of external dependencies.
 
 **Guidelines**
@@ -183,7 +183,7 @@ As OpenProject may handle and distribute sensitive user data, attack vectors suc
   - OpenProject currently does not provide a built-in virus scanner. However, using [webhooks](../../../system-admin-guide/api-and-webhooks/#webhooks) and the [attachments API](../../../api/endpoints/attachments/), users can plug existing virus scanning tools and scrub any uploaded files.
 - *Malware in software*:
   - OpenProject uses statical code analysis on every change provided to the application as well as code scanners on the artifacts generated from the source code (such as Snyk vulnerability scanner for Docker images).
-  - We recommend users to perform their own 
+  - We recommend users to perform their own
 
 ## Logging and Error Handling
 
@@ -235,7 +235,7 @@ OpenProject includes a number of external dependencies both in Ruby as well as i
 **Guidelines**
 
 - *Automate Updates*: Use and maintain automated tools such as Dependabot and workflows that check for dependency updates regularly, and run tests when updates are available. Before updating the dependencies, review its changelog or release notes to understand changes and potential impacts on your application.
-- *Manual update checking:* For pinned versions, use `npm outdated`, `bundle outdated` or `npm-check-updates `to ensure you stay on top of new versions and see if breaking changes occurred.
+- *Manual update checking:* For pinned versions, use `npm outdated`, `bundle outdated` or `npm-check-updates` to ensure you stay on top of new versions and see if breaking changes occurred.
 - *Lockfile integrity*: Use `package-lock.json` and `Gemfile.lock` to pin exact version for a released version of OpenProject, ensuring that all environments use the same versions.
 - *Stay Informed*: Subscribe to mailing lists, newsletters, or vulnerability databases to receive timely information on crucial updates or security patches so that updates can be performed as fast as possible.
 - *Vet new dependencies*: Before adding a new gem or package, research its maintenance history, last update, known vulnerabilities, and community reviews. Check if it's actively maintained, and evaluate all the alternatives.
@@ -251,7 +251,7 @@ Packaging and containerization are critical artifacts in the delivery pipeline o
 
 Properly managed packaging and containerization pipelines ensure smooth installations, upgrades, and scaling, enhancing the deployment process and - as a result - the overall user experience. This section highlights risks connected to improper containerization or packaging as well as our main objectives and  best practices to provide a secure, efficient, and reliable software delivery process.
 
-OpenProject provides several installation mechanisms: 
+OpenProject provides several installation mechanisms:
 
 - [Packaged installations](../../../installation-and-operations/installation/packaged/) using the distribution's package manager for dependency control
 

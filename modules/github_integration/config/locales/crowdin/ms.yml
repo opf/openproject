@@ -21,7 +21,7 @@
 #++
 ms:
   plugin_openproject_github_integration:
-    name: "Integrasi OpenProject GitHub"
+    name: "Integrasi GitHub OpenProject"
     description: "Mengintegrasikan OpenProject dan GitHub untuk aliran kerja yang lebih baik"
   project_module_github: "GitHub"
   permission_show_github_content: "Paparkan kandungan GitHub"

@@ -126,8 +126,31 @@ module OpenProject::Storages
              settings: {} do
       # Defines permission constraints used in the module (controller, etc.)
       # Permissions documentation: https://www.openproject.org/docs/development/concepts/permissions/#definition-of-permissions
-      project_module :storages,
-                     dependencies: :work_package_tracking do
+      # Independent of storages module (Disabling storages module does not revoke enabled permissions).
+      project_module nil, order: 100 do
+        permission :manage_storages_in_project,
+                   { "storages/admin/project_storages": %i[external_file_storages
+                                                           attachments
+                                                           members
+                                                           index
+                                                           new
+                                                           edit
+                                                           update
+                                                           create
+                                                           oauth_access_grant
+                                                           destroy
+                                                           destroy_info
+                                                           set_permissions],
+                     "storages/project_settings/project_storage_members": %i[index] },
+                   permissible_on: :project,
+                   dependencies: %i[]
+        OpenProject::Storages::Engine.permissions.each do |p|
+          permission(p, {}, permissible_on: :project, dependencies: %i[])
+        end
+      end
+
+      # Dependent on work_package_tracking module
+      project_module :work_package_tracking do
         permission :view_file_links,
                    {},
                    permissible_on: :project,
@@ -138,32 +161,33 @@ module OpenProject::Storages
                    permissible_on: :project,
                    dependencies: %i[view_file_links],
                    contract_actions: { file_links: %i[manage] }
-        permission :manage_storages_in_project,
-                   { "storages/admin/project_storages": %i[index members new
-                                                           edit update create oauth_access_grant
-                                                           destroy destroy_info set_permissions],
-                     "storages/project_settings/project_storage_members": %i[index] },
-                   permissible_on: :project,
-                   dependencies: %i[]
-
-        OpenProject::Storages::Engine.permissions.each do |p|
-          permission(p, {}, permissible_on: :project, dependencies: %i[])
-        end
       end
 
-      # Menu extensions
-      # Add a "storages_admin_settings" to the admin_menu with the specified link,
-      # condition ("if:"), caption and icon.
       menu :admin_menu,
-           :storages_admin_settings,
+           :files,
            { controller: "/storages/admin/storages", action: :index },
            if: Proc.new { User.current.admin? },
            caption: :project_module_storages,
            icon: "hosting"
 
+      menu :admin_menu,
+           :external_file_storages,
+           { controller: "/storages/admin/storages", action: :index },
+           if: Proc.new { User.current.admin? },
+           caption: :external_file_storages,
+           parent: :files
+
+      menu :admin_menu,
+           :attachments,
+           { controller: "/admin/settings/attachments_settings", action: :show },
+           if: Proc.new { User.current.admin? },
+           caption: :"attributes.attachments",
+           parent: :files
+
       menu :project_menu,
            :settings_project_storages,
-           { controller: "/storages/admin/project_storages", action: "index" },
+           { controller: "/storages/admin/project_storages", action: "external_file_storages" },
+           if: lambda { |project| User.current.allowed_in_project?(:manage_storages_in_project, project) },
            caption: :project_module_storages,
            parent: :settings
 

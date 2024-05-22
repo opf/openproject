@@ -20,9 +20,9 @@ ms:
       cannot_drag_here: 'Tidak boleh memadam pakej kerja disebabkan batasan kebenaran atau pengeditan.'
       cannot_drag_to_non_working_day: 'Pakej kerja ini tidak boleh mula/habis pada hari tidak bekerja.'
       quick_add:
-        empty_state: 'Guna medan carian untuk mencari pakej kerja dan tarik mereka ke perancang untuk menugaskannya ke seseorang dan tetapkan tarikh mula dan habis.'
+        empty_state: 'Guna ruang carian untuk mencari pakej kerja dan tarik mereka ke perancang untuk menugaskannya ke seseorang dan tetapkan tarikh mula dan habis.'
         search_placeholder: 'Cari...'
       modify:
         errors:
           permission_denied: 'Anda tidak mempunyai kebenaran yang diperlukan untuk mengubah suai ini.'
-          fallback: 'Pakej kerja ini tidak boleh disunting.'
+          fallback: 'Pakej kerja ini tidak boleh diedit.'

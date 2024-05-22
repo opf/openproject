@@ -42,7 +42,10 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
   let(:folder) do
     Storages::Peripherals::Registry
       .resolve("one_drive.commands.create_folder")
-      .call(storage:, folder_path: "Permission Test Folder")
+      .call(storage:,
+            auth_strategy:,
+            folder_name: "Permission Test Folder",
+            parent_location: Storages::Peripherals::ParentFolder.new("/"))
       .result
   end
 
@@ -63,7 +66,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
     after do
       Storages::Peripherals::Registry
         .resolve("one_drive.commands.delete_folder")
-        .call(storage:, location: path)
+        .call(storage:, auth_strategy:, location: path)
     end
 
     context "when trying to access a non-existing driveItem" do
@@ -142,7 +145,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
     end
 
     context "when there is a timeout" do
-      it "logs a warnig and does not raise NoMethodError", vcr: "one_drive/set_permissions_delete_permission_read" do
+      it "logs a warning and does not raise NoMethodError", vcr: "one_drive/set_permissions_delete_permission_read" do
         stub_request_with_timeout(:post, /invite$/)
         allow(OpenProject.logger).to receive(:warn)
 
@@ -152,7 +155,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
           .to have_received(:warn)
                 .with(command: described_class,
                       message: nil,
-                      data: { body: "/usr/local/bundle/gems/httpx-1.2.3/lib/httpx/response.rb:260:in `full_message': timed out while waiting on select (HTTPX::ConnectTimeoutError)\n",
+                      data: { body: match_regex(%r{/lib/httpx/response.rb:260:in `full_message': timed out while waiting on select \(HTTPX::ConnectTimeoutError\)\n$}),
                               status: nil }).once
       end
     end
@@ -173,5 +176,9 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
           .json(symbolize_keys: true)
           .fetch(:value)
     end
+  end
+
+  def auth_strategy
+    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials.strategy
   end
 end

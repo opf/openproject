@@ -1,26 +1,24 @@
-<%=
-  render(Primer::OpenProject::PageHeader.new) do |header|
-    if show_state?
+<% if show_state? %>
+  <%=
+    render(Primer::OpenProject::PageHeader.new) do |header|
       header.with_title(data: { 'test-selector': 'project-query-name'}) { page_title }
-      header.with_breadcrumbs(breadcrumb_items)
+      header.with_breadcrumbs(breadcrumb_items, selected_item_font_weight: current_breadcrumb_element == page_title ? :bold : :normal)
 
-      if query_saveable?
-        header.with_action_text { t('lists.can_be_saved_as') }
-
-        header.with_action_link(mobile_icon: nil, # Do not show on mobile as it is already part of the menu
-                                mobile_label: nil,
-                                href: new_projects_query_path,
-                                data: {
-                                  controller: "params-from-query",
-                                  'application-target': "dynamic",
-                                  'params-from-query-allowed-value': '["filters", "columns"]'
-                                }) do
-          render(Primer::Beta::Octicon.new(icon: "op-save",
-                                           align_self: :center,
-                                           "aria-label": I18n.t("button_save_as"),
-                                           mr: 1)
-          ) + content_tag(:span, t("button_save_as"))
-        end
+      if can_save?
+        header_save_action(
+          header:,
+          message: t("lists.can_be_saved"),
+          label: t("button_save"),
+          href: projects_query_path(query),
+          method: :patch
+        )
+      elsif can_save_as?
+        header_save_action(
+          header:,
+          message: t("lists.can_be_saved_as"),
+          label: t("button_save_as"),
+          href: new_projects_query_path
+        )
       end
 
       header.with_action_menu(menu_arguments: {
@@ -51,20 +49,12 @@
           item.with_leading_visual_icon(icon: 'tasklist')
         end
 
-        if query_saveable?
-          menu.with_item(
-            label: t('button_save_as'),
-            href: new_projects_query_path,
-            content_arguments: {
-              data: {
-                controller: "params-from-query",
-                'application-target': "dynamic",
-                'params-from-query-allowed-value': '["filters", "columns"]'
-              }
-            }
-          ) do |item|
-            item.with_leading_visual_icon(icon: :'op-save')
-          end
+        if can_save?
+          menu_save_item(menu:, label: t('button_save'), href: projects_query_path(query), method: :patch)
+        end
+
+        if may_save_as?
+          menu_save_item(menu:, label: t('button_save_as'), href: new_projects_query_path)
         end
 
         menu.with_item(
@@ -91,9 +81,15 @@
           end
         end
       end
+    end
+  %>
 
-
-    else
+  <%= render(Projects::ConfigureViewModalComponent.new(query:)) %>
+  <%= render(Projects::DeleteListModalComponent.new(query:)) if query.persisted? %>
+  <%= render(Projects::ExportListModalComponent.new(query:)) %>
+<% else %>
+  <%=
+    render(Primer::OpenProject::PageHeader.new) do |header|
       header.with_title(data: { 'test-selector': 'project-query-name'}) do
         primer_form_with(model: query,
                          url: projects_queries_path,
@@ -101,7 +97,7 @@
                          data: {
                            controller: "params-from-query",
                            'application-target': "dynamic",
-                           'params-from-query-allowed-value': '["filters", "columns"]'
+                           'params-from-query-allowed-value': '["filters", "columns", "query_id", "sortBy"]'
                          },
                          id: 'project-save-form') do |f|
           render(Queries::Projects::Create.new(f))
@@ -109,11 +105,5 @@
       end
       header.with_breadcrumbs(breadcrumb_items)
     end
-  end
-%>
-
-<% if show_state? %>
-  <%= render(Projects::ConfigureViewModalComponent.new(query:)) %>
-  <%= render(Projects::DeleteListModalComponent.new(query:)) if query.persisted? %>
-  <%= render(Projects::ExportListModalComponent.new(query:)) %>
+  %>
 <% end %>

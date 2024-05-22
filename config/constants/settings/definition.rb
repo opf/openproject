@@ -424,7 +424,7 @@ module Settings
         default: false
       },
       enabled_projects_columns: {
-        default: %w[project_status public created_at latest_activity_at required_disk_space],
+        default: %w[favored name project_status public created_at latest_activity_at required_disk_space],
         allowed: -> { Queries::Projects::ProjectQuery.new.available_selects.map { |s| s.attribute.to_s } }
       },
       enabled_scm: {
@@ -736,6 +736,12 @@ module Settings
         default: "",
         writable: false
       },
+      show_work_package_attachments: {
+        description: "Show work package attachments by default.",
+        format: :boolean,
+        default: true,
+        writable: true
+      },
       https: {
         description: "Set assumed connection security for the Rails processes",
         format: :boolean,
@@ -761,14 +767,14 @@ module Settings
         default: 3
       },
       httpx_operation_timeout: {
-        description: '',
+        description: "",
         format: :float,
         writable: false,
         allowed: (0..),
         default: 10
       },
       httpx_request_timeout: {
-        description: '',
+        description: "",
         format: :float,
         writable: false,
         allowed: (0..),

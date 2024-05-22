@@ -12,12 +12,12 @@ Work packages can have various status depending on their types, e.g. tasks can h
 
 The status can be set at the top of the work package details view or in the table view in the corresponding column.
 
-![Work packages status dropdown menu in OpenProject](openproject_system_guide_create_wp_stati_dropdown.png)The status field can be configured under *Administration ->* *Work packages* -> *Status*. You will see the list of all the existing work package status in the system. You can add new status or change the name and order of existing status. 
+![Work packages status dropdown menu in OpenProject](openproject_system_guide_create_wp_stati_dropdown.png)The status field can be configured under *Administration ->* *Work packages* -> *Status*. You will see the list of all the existing work package status in the system. You can add new status or change the name and order of existing status.
 To learn about the options for configuring the transition from one status to another navigate to [Manage work package workflows](../work-package-workflows).
 
 ## Create a new work package status
 
-To create a new work package status click the green ***+ Status*** icon. 
+To create a new work package status click the green ***+ Status*** icon.
 
 A new window will open, where you will be able to specify the following:
 
@@ -44,7 +44,7 @@ When you decide to set the new status as default status please note the followin
 
 ## Edit, re-order or remove a work package status
 
-1. To **edit** an existing work package type click on the work package name. 
+1. To **edit** an existing work package type click on the work package name.
 2. To **sort** the status, e.g. in the status drop-down list of the work packages, click on the arrows to move the status up or down in the list.
 3. To **delete** the work package type click on the delete icon.
 

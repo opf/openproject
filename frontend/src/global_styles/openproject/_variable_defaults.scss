@@ -29,8 +29,10 @@
 
 // use CSS4 variables for easier theming
 :root {
-  --primary-button-color: var(--button-primary-bgColor-rest, var(--color-btn-primary-bg));
+  --primary-button-color: #1F883D;
   --primary-button-color--major1: #197032;
+  --primary-button-color--minor1: #d2e7d8;
+  --primary-button-color--minor2: #a5cfb1;
 
   --control-checked-color: var(--accent-color);
   --control-checked-color--major1: var(--accent-color--major1);
@@ -47,6 +49,7 @@
 
   --app-height: 100vh;
   --body-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --body-font-size: var(--text-body-size-medium);
 
   --gray: #EAEAEA;
   --gray-light: #F8F8F8;
@@ -91,7 +94,7 @@
   --main-menu-selected-font-color: var(--main-menu-font-color);
   --main-menu-font-size: 14px;
   --main-menu-fieldset-header-color: #B0B2B3;
-  --main-menu-hover-border-color: var(--color-canvas-default-transparent);
+  --main-menu-hover-border-color: transparent;
   --toolbar-title-color: #5F5F5F;
   --toolbar-item--bg-color: #F8F8F8;
   --toolbar-item--bg-color-pressed: var(--gray-lighter);
@@ -122,12 +125,13 @@
   --button--font-color: #222222;
   --button--background-color: var(--gray-light);
   --button--background-hover-color: #ededed;
-  --button--border-color: #dddddd;
   --button--active-font-color: #666666;
   --button--active-background-color: #eeeeee;
   --button--active-border-color: #cacaca;
   --button--primary-background-color: var(--primary-button-color);
   --button--primary-background-hover-color: var(--primary-button-color--major1);
+  --button--primary-background-disabled-color: var(--primary-button-color--minor2);
+  --button--primary-border-disabled-color: var(--primary-button-color--minor2);
   --button--primary-font-color: var(--font-color-on-primary);
   --generic-table--header-font-size: 0.875rem;
   --generic-table--header-height: 45px;
@@ -140,7 +144,7 @@
   --warn:#C92A2A;
   --grid-background-color: #F3F6F8;
   --avatar-border-color: transparent;
-  --list-item-hover--border-color: var(--color-canvas-default-transparent);
+  --list-item-hover--border-color: transparent;
   --list-item-hover--color: var(--accent-color);
   --link-text-decoration: none;
 }

@@ -50,8 +50,10 @@ RSpec.describe "Admin Create a new file storage",
 
       expect(page).to be_axe_clean.within "#content"
 
-      within(".PageHeader") { click_on("Storage") }
-      within_test_selector("storages-select-provider-action-menu") { click_on("Nextcloud") }
+      within(".PageHeader-titleBar") do
+        click_on("Storage")
+        within_test_selector("storages-select-provider-action-menu") { click_on("Nextcloud") }
+      end
 
       expect(page).to have_current_path(select_provider_admin_settings_storages_path(provider: "nextcloud"))
 
@@ -190,11 +192,14 @@ RSpec.describe "Admin Create a new file storage",
   context "with OneDrive Storage and enterprise token missing", with_ee: false do
     it "renders enterprise icon and redirects to upsale", :webmock do
       visit admin_settings_storages_path
-      within(".PageHeader") { click_on("Storage") }
 
-      within_test_selector("storages-select-provider-action-menu") do
-        expect(page).to have_css(".octicon-op-enterprise-addons")
-        click_on("OneDrive/SharePoint")
+      within(".PageHeader-titleBar") do
+        click_on("Storage")
+
+        within_test_selector("storages-select-provider-action-menu") do
+          expect(page).to have_css(".octicon-op-enterprise-addons")
+          click_on("OneDrive/SharePoint")
+        end
       end
 
       expect(page).to have_current_path(upsale_admin_settings_storages_path)
@@ -208,8 +213,11 @@ RSpec.describe "Admin Create a new file storage",
 
       expect(page).to be_axe_clean.within "#content"
 
-      within(".PageHeader") { click_on("Storage") }
-      within_test_selector("storages-select-provider-action-menu") { click_on("OneDrive/SharePoint") }
+      within(".PageHeader-titleBar") do
+        click_on("Storage")
+
+        within_test_selector("storages-select-provider-action-menu") { click_on("OneDrive/SharePoint") }
+      end
 
       expect(page).to have_current_path(select_provider_admin_settings_storages_path(provider: "one_drive"))
 

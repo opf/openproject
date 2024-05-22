@@ -264,6 +264,7 @@ ro:
     lists:
       active: "Active projects"
       my: "Proiectele mele"
+      favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -304,7 +305,14 @@ ro:
       storage:
         no_results_title_text: Acest proiect nu consumă spațiu suplimentar pe disc înregistrat.
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: În acest moment nu există niciun participant la acest proiect.
@@ -322,6 +330,7 @@ ro:
       project_roles: "Project roles"
       wp_shares: "Work package shares"
       groups: "Grupuri"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -491,7 +500,7 @@ ro:
       no_common_statuses_exists: "Nu există o stare disponibilă pentru toate pachetele de lucru selectate. Starea acestora nu poate fi modificată."
       unsupported_for_multiple_projects: "Mutarea/copierea în masă nu este suportată pentru pachete de lucru din proiecte multiple"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Workflow missing for work package sharing"
         message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
         link_message: "Configure the workflows in the administration."
@@ -789,6 +798,7 @@ ro:
         not_an_iso_date: "nu este o dată validă. Formatul necesar: AAAA-MM-ZZ."
         not_same_project: "nu aparține aceluiași proiect."
         odd: "trebuie să fie impar."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "nu a putut fi validată cu expresia regulată asociată."
         smaller_than_or_equal_to_max_length: "trebuie să fie mai mic sau egal cu lungimea maximă."
         taken: "a fost luat deja."
@@ -1278,6 +1288,7 @@ ro:
   button_edit: "Editare"
   button_edit_associated_wikipage: "Editare pagină wiki asociată: %{page_title}"
   button_expand_all: "Extindere totală"
+  button_favorite: "Add to favorites"
   button_filter: "Filtrare"
   button_generate: "Generare"
   button_list: "Listă"
@@ -1305,6 +1316,7 @@ ro:
   button_unarchive: "Dezarhivare"
   button_uncheck_all: "Deselecteaza tot"
   button_unlock: "Deblocare"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Stop monitorizare"
   button_update: "Actualizare"
   button_upgrade: "Actualizare"
@@ -1608,6 +1620,7 @@ ro:
       pdf_overview_table: "PDF Table"
       pdf_report_with_images: "PDF Report with images"
       pdf_report: "PDF Report"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Imaginea nu a fost exportată."
     units:
@@ -1755,17 +1768,6 @@ ro:
         mentioned: "Ai fost menționat în %{work_package}"
         responsible: "Ați devenit responsabil pentru %{work_package}"
         watched: "Urmăriți %{work_package}"
-    update_info_mail:
-      body: >
-        Suntem încântați să anunțăm lansarea OpenProject 12.0. Este o versiune majoră care sperăm că va îmbunătăți semnificativ modul în care utilizați OpenProject.
-        Începând cu această versiune, introducem notificări în aplicație. De acum înainte, veți primi notificări pentru actualizările pachetelor de lucru direct în OpenProject. Puteți marca aceste notificări ca fiind citite, puteți răspunde la un comentariu sau chiar modifica direct atributele pachetului de lucru fără a părăsi centrul de notificări.
-        Acest lucru înseamnă, de asemenea, că nu vom mai folosi e-mailurile pentru notificări. Credem că noul centru de notificări este un loc mai bun pentru a vizualiza și a acționa asupra acestor actualizări. Cu toate acestea, dacă doriți să continuați să primiți actualizări prin e-mail, puteți alege să primiți memento-uri zilnice prin e-mail la anumite ore la alegere.
-        Vă rugăm să vă asigurați că ați verificat noile setări de notificare implicite și că v-ați setat preferințele pentru notificări și memento-uri prin e-mail prin intermediul setărilor contului dumneavoastră. Puteți face acest lucru prin intermediul butonului "Change email settings" de mai jos.
-        Sperăm că veți găsi utile notificările din aplicație și că acestea vă fac și mai productiv.
-        Cu stimă, Echipa OpenProject
-      body_header: "Versiunea 12.0 cu Centrul de Notificări"
-      body_subheader: "Noutăţi"
-      subject: "Modificări importante la notificări cu versiunea de 12.0"
   label_accessibility: "Accesibilitate"
   label_account: "Cont"
   label_active: "Activ"
@@ -1946,7 +1948,7 @@ ro:
   label_enterprise_support: "Enterprise support"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Mediu"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "este"
   label_everywhere: "Peste tot"
   label_example: "Exemplu"
@@ -1960,7 +1962,7 @@ ro:
   label_expanded_click_to_collapse: "Extinse. Faceți clic pentru a restrânge"
   label_f_hour: "%{value} oră"
   label_f_hour_plural: "%{value} ore"
-  label_favoured: "Favoured"
+  label_favorite: "Favorit"
   label_feed_plural: "Fluxuri"
   label_feeds_access_key: "Cheie de acces RSS"
   label_feeds_access_key_created_on: "Cheia de acces RSS a fost creată acum %{value}"
@@ -2033,6 +2035,7 @@ ro:
   label_learn_more: "Aflați mai multe"
   label_less_or_equal: "<="
   label_less_than_ago: "acum mai puțin de zile"
+  label_link_url: "Link (URL)"
   label_list: "Listă"
   label_loading: "Se încarcă..."
   label_lock_user: "Blocați utilizatorul"
@@ -2058,6 +2061,7 @@ ro:
   label_membership_plural: "Memberships"
   lable_membership_added: "Membru adăugat"
   lable_membership_updated: "Membru actualizat"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alfa"
@@ -2159,6 +2163,7 @@ ro:
   label_percent_complete: "% Complete"
   label_project_activity: "Activitate proiect"
   label_project_attribute_plural: "Atributele proiectului"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Număr total de proiecte"
   label_project_copy_notifications: "Trimitere notificări e-mail în timpul copierii proiectului"
   label_project_latest: "Ultimele proiecte"
@@ -2173,7 +2178,7 @@ ro:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} proiecte folosind %{storage} spațiu pe disc"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Vizualizare toate proiectele"
   label_project_show_details: "Arată detaliile proietului"
   label_project_hide_details: "Ascunde detaliile proiectului"
@@ -2230,6 +2235,7 @@ ro:
   label_setting_plural: "Setări"
   label_system_settings: "Setări de sistem"
   label_show_completed_versions: "Afișare versiuni complete"
+  label_columns: "Coloane"
   label_sort: "Sortare"
   label_sort_by: "Sortare după %{value}"
   label_sorted_by: "sortate după %{value}"
@@ -2775,7 +2781,7 @@ ro:
     member_of_group: "Grupul executantului"
     name_or_identifier: "Nume sau identificator"
     only_subproject_id: "Numai subproiect"
-    shared_with_user: "Shared with user"
+    shared_with_user: "Shared with users"
     shared_with_me: "Shared with me"
     subproject_id: "Inclusiv subproiectul"
   repositories:
@@ -2920,6 +2926,7 @@ ro:
   setting_app_subtitle: "Subtitlu aplicație"
   setting_app_title: "Titlu aplicație"
   setting_attachment_max_size: "Dimensiune maximă atașament"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Scan mode"
   setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Preluare automată a schimbărilor din repo"
@@ -3021,6 +3028,8 @@ ro:
     attachments:
       whitelist_text_html: >
         Definește o listă validă de extensii de fișiere și/sau tipuri mime pentru fișierele încărcate. <br/> Introduceți extensii de fișiere (de ex. <code>%{ext_example}</code>) sau tipuri mime (e. ., <code>%{mime_example}</code>). <br/> Lăsați gol pentru a permite oricărui tip de fișier să fie încărcat. Valori multiple permise (o linie pentru fiecare valoare).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Virus scanning"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
@@ -3257,6 +3266,10 @@ ro:
         input_label: "Adaugați coloane"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Resurse suplimentare"
     getting_started: "Noţiuni de bază"
@@ -3606,7 +3619,7 @@ ro:
   link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"

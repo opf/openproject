@@ -14,7 +14,7 @@ We released [OpenProject 11.3.1](https://community.openproject.org/versions/1479
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: Search autocompleter n+1 loads schemas -> slow \[[#34884](https://community.openproject.org/wp/34884)\]
 - Fixed: "Click here to open [...] in fullscreen view" not working \[[#37555](https://community.openproject.org/wp/37555)\]

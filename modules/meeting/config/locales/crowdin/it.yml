@@ -48,6 +48,8 @@ it:
         duration_in_minutes: "min"
         description: "Note"
         presenter: "Presentatore"
+      meeting_section:
+        title: "Titolo"
     errors:
       messages:
         invalid_time_format: "non è un tempo valido. Formato richiesto: HH: mm"
@@ -99,7 +101,7 @@ it:
     attachments:
       text: "I file allegati sono disponibili per tutti i partecipanti alla riunione. Puoi anche trascinarli nelle note dei punti all'ordine del giorno."
     copy:
-      title: "Copia riunione %{title}"
+      title: "Copia riunione: %{title}"
       attachments: "Copia allegati"
       attachments_text: "Copia tutti i file allegati nella nuova riunione"
       agenda: "Copia ordine del giorno"
@@ -122,6 +124,11 @@ it:
       structured_text: "Organizza la tua riunione come un elenco di punti all'ordine del giorno, collegandoli facoltativamente a un pacchetto di lavoro."
       structured_text_copy: "La copia di una riunione al momento non copierà gli elementi dell'ordine del giorno della riunione, ma solo i dettagli"
     copied: "Copiato dalla riunione #%{id}"
+  meeting_section:
+    untitled_title: "Sezione senza titolo"
+    delete_confirmation: "L'eliminazione della sezione eliminerà anche tutti i suoi elementi dell'ordine del giorno. Continuare?"
+    placeholder_title: "Nuova sezione"
+    empty_text: "Trascina gli elementi qui o creane una nuova"
   notice_successful_notification: "Notifica inviata con successo"
   notice_timezone_missing: Nessun fuso orario è impostato e la %{zone} è un requisito necessario. Per scegliere il tuo fuso orario, fare clic qui.
   permission_create_meetings: "Creare riunioni"

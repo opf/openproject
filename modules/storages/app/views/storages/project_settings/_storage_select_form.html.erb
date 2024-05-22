@@ -48,7 +48,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%= spot_icon('checkmark') %>
     <%= content_tag :span, submit_button_label %>
   <% end %>
-  <%= link_to project_settings_project_storages_path(@project), class: 'button' do %>
+  <%= link_to external_file_storages_project_settings_project_storages_path(@project), class: 'button' do %>
     <%= spot_icon('cancel') %>
     <%= content_tag :span, t(:button_cancel) %>
   <% end %>

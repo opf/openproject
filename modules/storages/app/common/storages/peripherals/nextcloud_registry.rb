@@ -38,7 +38,7 @@ module Storages
         register(:file_info, StorageInteraction::Nextcloud::FileInfoQuery)
         register(:files_info, StorageInteraction::Nextcloud::FilesInfoQuery)
         register(:files, StorageInteraction::Nextcloud::FilesQuery)
-        register(:folder_files_file_ids_deep_query, StorageInteraction::Nextcloud::FolderFilesFileIdsDeepQuery)
+        register(:file_path_to_id_map, StorageInteraction::Nextcloud::FilePathToIdMapQuery)
         register(:propfind, StorageInteraction::Nextcloud::Internal::PropfindQuery)
         register(:group_users, StorageInteraction::Nextcloud::GroupUsersQuery)
         register(:upload_link, StorageInteraction::Nextcloud::UploadLinkQuery)
@@ -63,6 +63,11 @@ module Storages
 
       namespace("models") do
         register(:managed_folder_identifier, ManagedFolderIdentifier::Nextcloud)
+      end
+
+      namespace("authentication") do
+        register(:userless, StorageInteraction::AuthenticationStrategies::NextcloudStrategies::UserLess, call: false)
+        register(:userbound, StorageInteraction::AuthenticationStrategies::NextcloudStrategies::UserBound)
       end
     end
   end

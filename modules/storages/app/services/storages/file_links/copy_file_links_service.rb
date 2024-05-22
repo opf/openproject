@@ -46,10 +46,10 @@ module Storages
 
       def call
         source_file_links = FileLink
-          .includes(:creator)
-          .where(storage: @source.storage,
-                 container_id: @work_packages_map.keys,
-                 container_type: "WorkPackage")
+                              .includes(:creator)
+                              .where(storage: @source.storage,
+                                     container_id: @work_packages_map.keys,
+                                     container_type: "WorkPackage")
 
         with_locale_for(@user) do
           if @source.project_folder_automatic?
@@ -62,11 +62,19 @@ module Storages
 
       private
 
+      # rubocop:disable Metrics/AbcSize
       def create_managed_file_links(source_file_links)
-        location_map = build_location_map(
-          source_files_info(source_file_links).result,
-          target_files_map.result
-        )
+        source_info = source_files_info(source_file_links).on_failure do |failed|
+          log_errors(failed)
+          return failed
+        end
+
+        target_map = target_files_map.on_failure do |failed|
+          log_errors(failed)
+          return failed
+        end
+
+        location_map = build_location_map(source_info.result, target_map.result)
 
         source_file_links.find_each do |source_link|
           next unless location_map.has_key?(source_link.origin_id)
@@ -82,7 +90,9 @@ module Storages
                        .call(attributes).on_failure { |failed| log_errors(failed) }
         end
       end
+      # rubocop:enable Metrics/AbcSize
 
+      # rubocop:disable Metrics/AbcSize
       def build_location_map(source_files, target_location_map)
         # We need this due to inconsistencies of how we represent the File Path
         target_location_map.transform_keys! { |key| key.starts_with?("/") ? key : "/#{key}" }
@@ -98,14 +108,12 @@ module Storages
           output[id] = target_location_map[target]&.id || id
         end
       end
+      # rubocop:enable Metrics/AbcSize
 
       def auth_strategy
-        Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken
-          .strategy
-          .with_user(@user)
+        Peripherals::Registry.resolve("#{@source.storage.short_provider_type}.authentication.userless").call
       end
 
-      # Known issue, this can lead to 403s.
       def source_files_info(source_file_links)
         Peripherals::Registry
           .resolve("#{@source.storage.short_provider_type}.queries.files_info")
@@ -114,8 +122,8 @@ module Storages
 
       def target_files_map
         Peripherals::Registry
-          .resolve("#{@source.storage.short_provider_type}.queries.folder_files_file_ids_deep_query")
-          .call(storage: @source.storage, folder: Peripherals::ParentFolder.new(@target.project_folder_location))
+          .resolve("#{@source.storage.short_provider_type}.queries.file_path_to_id_map")
+          .call(storage: @source.storage, auth_strategy:, folder: Peripherals::ParentFolder.new(@target.project_folder_location))
       end
 
       def create_unmanaged_file_links(source_file_links)

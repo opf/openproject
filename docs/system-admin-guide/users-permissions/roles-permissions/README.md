@@ -17,23 +17,23 @@ Permissions control what users can see and do within OpenProject. Permission are
 
 ### File storages permissions
 
-File storages permissions include the following: 
+Permissions related to the external file storages are part of the *Projects* and *Work packages and Gantt charts*:
 
 ![Files storages permissions in OpenProject](openproject_user_guide_file_storages_permissions.png)
 
 Following are the permissions for file storages within OpenProject:
 
-- **View file links**: Allows a user to see file links to external storages Files tab of work packages
+- **View file links**: Allows a user to see file links to external storages in the Files tab of work packages
 - **Manage file links**: Allows a user to create and edit file links to work packages
 - **Manage file storages in project**: Allows a user to add or edit file storages for a project
 
 Following user permissions are set on files and folder in **External Storages**:
 
-- **External Storage: Read files (Nextcloud, OneDrive/SharePoint)**
-- **External Storage: Write files (Nextcloud, OneDrive/SharePoint)**
-- **External Storage: Create files (Nextcloud)**
-- **External Storage: Share files (Nextcloud)**
-- **External Storage: Delete files (Nextcloud)**
+- **Automatically managed folders: Read files (Nextcloud, OneDrive/SharePoint)**
+- **Automatically managed folders:  Write files (Nextcloud, OneDrive/SharePoint)**
+- **Automatically managed folders: Create files (Nextcloud)**
+- **Automatically managed folders: Delete files (Nextcloud)**
+- **Automatically managed folders: Share files (Nextcloud)**
 
 > Please note that not all file permissions are applicable to all storage providers.
 
@@ -46,7 +46,6 @@ A user can have one or more roles which grant permissions on different levels.
 ### Administrator
 
 **Administrators** have full access to all settings and all projects in an OpenProject environment. The permissions of the Administrator role can not be changed.
-
 
 | Scope of the role                                            | Permission examples                                          | Customization options                                        |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -76,11 +75,9 @@ A user can have one or more roles which grant permissions on different levels.
 
 **Note:** The *Non-member* role cannot be deleted.
 
-
 | Scope of the role                                            | Permission examples                                          | Customization options                                        |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | Project-level: Permissions scoped to individual projects for users which are logged in | - View work packages for users that are logged in            | Assign different permissions to the role *Non-member*     |
-
 
 ### Anonymous
 
@@ -127,7 +124,7 @@ Administrators can create new global roles in *Administration* > *Users and perm
 
 - [Edit users](../users/)
 
-	> **Note:** This allows the *Administrator* to delegate the administration of users to other people that should not have full control of the entire OpenProject installation (Administrator). These users can edit attributes of any users, except administrators. This means they are able to impersonate another user by changing email address to match theirs. This is a security risk and should be considered with caution.
+ > **Note:** This allows the *Administrator* to delegate the administration of users to other people that should not have full control of the entire OpenProject installation (Administrator). These users can edit attributes of any users, except administrators. This means they are able to impersonate another user by changing email address to match theirs. This is a security risk and should be considered with caution.
 
 - [Create, edit, and delete placeholder users](../placeholder-users/)
 

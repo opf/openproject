@@ -8,9 +8,9 @@ keywords: new project, settings, default, modules
 
 # New project
 
-To set defaults for new projects, navigate to **Administration settings** → **Projects** → **New project**. 
+To set defaults for new projects, navigate to **Administration settings** → **Projects** → **New project**.
 
-![New project settings in OpenProject adminstration](open_project_system_guide_new_project_settings.png)
+![New project settings in OpenProject administration](open_project_system_guide_new_project_settings.png)
 
 You will find the following options on this page:
 

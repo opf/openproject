@@ -39,15 +39,20 @@
   api_v3:
     errors:
       too_many_elements_created_at_once: For mange elementer opprettet samtidig. Forventet %{max} som høyeste, fikk %{actual}.
-  permission_create_files: 'External Storage: Create files'
-  permission_delete_files: 'External Storage: Delete files'
+  external_file_storages: External file storages
+  permission_create_files: 'Automatically managed project folders: Create files'
+  permission_create_files_explanation: This permission is only available for Nextcloud storages
+  permission_delete_files: 'Automatically managed project folders: Delete files'
+  permission_delete_files_explanation: This permission is only available for Nextcloud storages
+  permission_header_for_project_module_storages: Automatisk administrerte prosjektmapper
   permission_manage_file_links: Administrer fil-linker
   permission_manage_storages_in_project: Administrer fillagring i prosjektet
-  permission_read_files: 'External Storage: Read files'
-  permission_share_files: 'External Storage: Share files'
+  permission_read_files: 'Automatically managed project folders: Read files'
+  permission_share_files: 'Automatically managed project folders: Share files'
+  permission_share_files_explanation: This permission is only available for Nextcloud storages
   permission_view_file_links: Vis fil-linker
-  permission_write_files: 'External Storage: Write files'
-  project_module_storages: Fillagringer
+  permission_write_files: 'Automatically managed project folders: Write files'
+  project_module_storages: Files
   storages:
     buttons:
       complete_without_setup: Fullfør uten
@@ -224,7 +229,6 @@
       project_settings:
         delete: Slett fillagring
         edit: Rediger fillagringen i dette prosjektet
-        index: Fillagringer er tilgjengelig i dette prosjektet
         members_connection_status: Medlemmers tilkoblingsstatus
         new: Legg til fillagring i dette prosjektet
       project_storage_members:
@@ -243,6 +247,9 @@
         label_oauth_client_secret: Azure OAuth klient hemmelig verdi
         name: OneDrive/SharePoint
         name_placeholder: f.eks OneDrive
+    show_attachments_toggle:
+      description: 'Deactivating this option will hide the attachments list on the work packages files tab. The files attached in the description of a work package will still be uploaded in the internal attachments storage. '
+      label: Show attachments in the work packages files tab
     storage_list_blank_slate:
       description: Legg til lagringsplass for å se dem her.
       heading: Du har ingen lagringssted enda.

@@ -28,36 +28,49 @@
 
 module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
   class DeleteEntityCommand
-    UTIL = ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
+    Util = ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
+    Auth = ::Storages::Peripherals::StorageInteraction::Authentication
+
+    def self.call(storage:, auth_strategy:, location:)
+      new(storage).call(auth_strategy:, location:)
+    end
 
     def initialize(storage)
-      @uri = storage.uri
-      @username = storage.username
-      @password = storage.password
+      @storage = storage
     end
 
-    def self.call(storage:, location:)
-      new(storage).call(location:)
+    def call(auth_strategy:, location:)
+      origin_user_id = Util.origin_user_id(caller: self.class, storage: @storage, auth_strategy:)
+      if origin_user_id.failure?
+        return origin_user_id
+      end
+
+      Auth[auth_strategy].call(storage: @storage) do |http|
+        handle_response http.delete(Util.join_uri_path(@storage.uri,
+                                                       "remote.php/dav/files",
+                                                       CGI.escapeURIComponent(origin_user_id.result),
+                                                       Util.escape_path(location)))
+      end
     end
 
-    def call(location:)
-      response = OpenProject
-                   .httpx
-                   .basic_auth(@username, @password)
-                   .delete(UTIL.join_uri_path(@uri,
-                                              "remote.php/dav/files",
-                                              CGI.escapeURIComponent(@username),
-                                              UTIL.escape_path(location)))
+    private
 
+    def handle_response(response)
       case response
       in { status: 200..299 }
         ServiceResult.success
       in { status: 404 }
-        UTIL.error(:not_found)
+        Util.failure(code: :not_found,
+                     data: Util.error_data_from_response(caller: self.class, response:),
+                     log_message: "Outbound request destination not found!")
       in { status: 401 }
-        UTIL.error(:unauthorized)
+        Util.failure(code: :unauthorized,
+                     data: Util.error_data_from_response(caller: self.class, response:),
+                     log_message: "Outbound request not authorized!")
       else
-        UTIL.error(:error)
+        Util.failure(code: :error,
+                     data: Util.error_data_from_response(caller: self.class, response:),
+                     log_message: "Outbound request failed with unknown error!")
       end
     end
   end

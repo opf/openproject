@@ -36,6 +36,7 @@ module MeetingAgendaItems
 
     attribute :meeting
     attribute :work_package
+    attribute :meeting_section
 
     attribute :position
     attribute :title

@@ -18,4 +18,3 @@ Navigate to *Project settings -> Time tracking activities*.
 Select the activities which you want to activate for time tracking in your project. Press the blue **Save** button to apply your changes.
 
 ![time tracking activities](image-20200211134150920.png)
-

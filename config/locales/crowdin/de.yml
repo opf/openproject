@@ -261,6 +261,7 @@ de:
     lists:
       active: "Aktive Projekte"
       my: "Meine Projekte"
+      favored: "Favorisierte Projekte"
       archived: "Archivierte Projekte"
       my_private: "Meine privaten Projektlisten"
       new:
@@ -301,7 +302,14 @@ de:
       storage:
         no_results_title_text: Durch dieses Projekt wird kein zusätzlicher erfasster Speicherplatz verbraucht.
   lists:
-    can_be_saved_as: "Die Änderungen können nur in einer neuen Liste gespeichert werden."
+    create:
+      success: "Die geänderte Liste wurde als neue Liste gespeichert"
+      failure: "Die geänderte Liste kann nicht gespeichert werden: %{errors}"
+    update:
+      success: "Die geänderte Liste wurde gespeichert"
+      failure: "Die geänderte Liste kann nicht gespeichert werden: %{errors}"
+    can_be_saved: "Liste geändert:"
+    can_be_saved_as: "Die Änderungen können nur in einer neuen Liste gespeichert werden:"
   members:
     index:
       no_results_title_text: Zur Zeit hat dieses Projekt keine Mitglieder.
@@ -319,6 +327,7 @@ de:
       project_roles: "Projektrollen"
       wp_shares: "Arbeitspaket-Freigaben"
       groups: "Gruppen"
+    no_modify_on_shared: "Sie können die freigegebenen Mitgliedschaften derzeit nicht über die Mitgliederseite ändern oder entfernen. Verwenden Sie stattdessen bitte das Teilen-Fenster."
     delete_member_dialog:
       title: "Mitglied entfernen"
       will_remove_the_users_role: "Dadurch wird die Rolle des Benutzers aus diesem Projekt entfernt."
@@ -479,7 +488,7 @@ de:
       no_common_statuses_exists: "Es gibt keine gemeinsamen Status für die ausgewählten Arbeitspakete. Ihr Status kann daher nicht verändert werden."
       unsupported_for_multiple_projects: "Verschieben / Kopieren nicht unterstützt für Arbeitspakete in verschiedenen Projekten"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Der Workflow für das Teilen von Arbeitspaketen fehlt"
         message: "Es ist kein Workflow für die Rolle ‚Work package editor‘ konfiguriert. Nur mit einem solchen Workflow können Benutzer, mit denen ein Arbeitspaket geteilt wurde, den Status des Arbeitspakets ändern. Workflows lassen sich einfach kopieren. Wählen Sie dazu einen Quell-Typ (z. B. ‚Task‘) und eine Quell-Rolle (z. B. 'Member') aus. Wählen Sie dann die Ziel-Typen aus. Als ersten Schritt können Sie alle Typen als Ziel-Typen auswählen. Danach wählen Sie die Ziel-Rolle ‚Work package editor‘ aus und drücken Sie auf den Knopf ‚Kopieren‘. Nachdem Sie hiermit eine Grundlage geschaffen haben, können Sie danach diese Workflows weiter anpassen, ganz genau wie Sie es für jede andere Rolle bereits getan haben."
         link_message: "Konfigurieren Sie die Workflows in der Administration."
@@ -744,7 +753,7 @@ de:
         confirmation: "stimmt nicht mit %{attribute} überein."
         could_not_be_copied: "%{dependency} konnte nicht (vollständig) kopiert werden."
         does_not_exist: "existiert nicht."
-        error_enterprise_only: "ist nur in OpenProject Enterprise on-premises verfügbar"
+        error_enterprise_only: "%{action} ist nur in OpenProject Enterprise on-premises verfügbar"
         error_unauthorized: "kann nicht zugegriffen werden."
         error_readonly: "wurde versucht zu beschreiben, ist aber nicht beschreibbar."
         error_conflict: "Die Informationen wurde zwischenzeitlich durch andere Benutzer geändert."
@@ -777,6 +786,7 @@ de:
         not_an_iso_date: "ist kein gültiges Datum - Erwartetes Format: YYY-MM-DD."
         not_same_project: "gehört nicht zum selben Projekt."
         odd: "muss ungerade sein."
+        regex_match_failed: "stimmt nicht mit dem regulären Ausdruck %{expression} überein."
         regex_invalid: "konnte nicht mit dem zugehörigen regulären Ausdruck überprüft werden."
         smaller_than_or_equal_to_max_length: "muss kleiner als oder gleich der maximalen Länge sein."
         taken: "ist bereits vergeben."
@@ -1108,7 +1118,7 @@ de:
       parent_no_longer: "Nicht mehr Unterprojekt von"
       time_entry:
         hour:
-          one: "Eine Stunde"
+          one: "%{count} Stunde"
           other: "%{count} Stunden"
         hour_html:
           one: "<i>%{count} Stunde</i>"
@@ -1258,6 +1268,7 @@ de:
   button_edit: "Bearbeiten"
   button_edit_associated_wikipage: "Zugehörige Wikiseite bearbeiten: %{page_title}"
   button_expand_all: "Alle ausklappen"
+  button_favorite: "Zu Favoriten hinzufügen"
   button_filter: "Filter"
   button_generate: "Generieren"
   button_list: "Liste"
@@ -1285,6 +1296,7 @@ de:
   button_unarchive: "Entarchivieren"
   button_uncheck_all: "Alle abwählen"
   button_unlock: "Entsperren"
+  button_unfavorite: "Aus Favoriten entfernen"
   button_unwatch: "Nicht beobachten"
   button_update: "Aktualisieren"
   button_upgrade: "Upgraden"
@@ -1570,6 +1582,7 @@ de:
       pdf_overview_table: "PDF-Tabelle"
       pdf_report_with_images: "PDF-Bericht mit Bildern"
       pdf_report: "PDF-Bericht"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Bild nicht exportiert."
     units:
@@ -1652,7 +1665,7 @@ de:
         progress_calculation_adjusted: >-
           Die Fortschrittsberechnung wurde <a href=" %{href} " target="_blank">automatisch durch das Systemupdate angepasst</a>.
         totals_removed_from_childless_work_packages: >-
-          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+          Arbeits- und Fortschrittssummen werden bei der <a href="%{href}" target="_blank">Versionsaktualisierung</a> automatisch für nicht übergeordnete Arbeitspakete entfernt. Diese Änderung entstand durch ein Upgrade und kann ignoriert werden.
   links:
     configuration_guide: "Konfigurationsanleitung"
     get_in_touch: "Sie haben Fragen? Nehmen Sie Kontakt mit uns auf."
@@ -1717,17 +1730,6 @@ de:
         mentioned: "Sie wurden in %{work_package} erwähnt"
         responsible: "Sie sind für %{work_package} verantwortlich"
         watched: "Du beobachtest %{work_package}"
-    update_info_mail:
-      body: >
-        Mit Spannung kündigen wir die Veröffentlichung von OpenProject 12.0 an. Es ist eine wichtige Aktualisierung, die Ihre Arbeit mit OpenProject erheblich verbessern wird.
-        In dieser Version führen wir eine Benachrichtigungszentrale ein. Von nun an erhalten Sie Benachrichtigungen für Aktualisierungen zu Arbeitspaketen direkt in OpenProject. Sie können diese Benachrichtigungen als gelesen markieren, auf einen Kommentar antworten und direkt die Attribute des Arbeitspakets ändern, ohne das Benachrichtigungszentrum zu verlassen.
-        Das bedeutet auch, dass wir weniger E-Mails für Benachrichtigungen verwenden. Das Benachrichtigungszentrum wird ein besserer Ort werden, um diese Updates anzusehen und zu bearbeiten. Wenn Sie dennoch weiterhin Updates per E-Mail erhalten möchten, können Sie zu wählbaren Zeiten E-Mail-Erinnerungen erhalten.
-        Sie können Ihre Einstellungen für Benachrichtigungen und E-Mail-Erinnerungen über Ihre Kontoeinstellungen festlegen oder diese unverändert lassen, um die Standardeinstellungen beizubehalten. Sie können dies über die Schaltfläche „E-Mail-Einstellungen ändern“ unten tun.
-        Wir hoffen, dass Sie das Benachrichtigungszentrum nützlich finden und dass es Ihre Arbeit mit OpenProject produktiver macht.
-        Mit freundlichen Grüßen Das OpenProject Team
-      body_header: "Version 12.0 mit Benachrichtigungszentrum"
-      body_subheader: "Neuigkeiten"
-      subject: "Wichtige Änderungen an Benachrichtigungen mit der Veröffentlichung von 12.0"
   label_accessibility: "Barrierefreiheit"
   label_account: "Konto"
   label_active: "Aktiv"
@@ -1908,7 +1910,7 @@ de:
   label_enterprise_support: "Enterprise Support"
   label_enterprise_addon: "Enterprise Add-on"
   label_environment: "Umgebung"
-  label_estimates_and_time: "Schätzungen und Fortschritt"
+  label_estimates_and_progress: "Schätzungen und Fortschritt"
   label_equals: "ist"
   label_everywhere: "überall"
   label_example: "Beispiel"
@@ -1922,7 +1924,7 @@ de:
   label_expanded_click_to_collapse: "Erweitert. Klicken Sie zum Ausblenden"
   label_f_hour: "%{value} Stunde"
   label_f_hour_plural: "%{value} Stunden"
-  label_favoured: "Favorisiert"
+  label_favorite: "Favorit"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS-Zugriffsschlüssel"
   label_feeds_access_key_created_on: "Atom-Zugriffsschlüssel vor %{value} erstellt"
@@ -1995,6 +1997,7 @@ de:
   label_learn_more: "Mehr erfahren"
   label_less_or_equal: "<="
   label_less_than_ago: "vor weniger als (Tage)"
+  label_link_url: "Link (URL)"
   label_list: "Liste"
   label_loading: "Lade..."
   label_lock_user: "Benutzer sperren"
@@ -2020,6 +2023,7 @@ de:
   label_membership_plural: "Mitgliedschaften"
   lable_membership_added: "Mitglied hinzugefügt"
   lable_membership_updated: "Mitglied aktualisiert"
+  label_menu: "Menü"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alpha"
@@ -2121,6 +2125,7 @@ de:
   label_percent_complete: "% abgeschlossen"
   label_project_activity: "Projektaktivität"
   label_project_attribute_plural: "Projekt-Attribute"
+  label_project_attribute_manage_link: "Projektattribute verwalten"
   label_project_count: "Gesamtzahl der Projekte"
   label_project_copy_notifications: "Sende Mailbenachrichtigungen beim Kopieren des Projekts."
   label_project_latest: "Neueste Projekte"
@@ -2135,7 +2140,7 @@ de:
   label_project_attributes_settings: "Einstellungen für Projektattribute"
   label_project_storage_plural: "Dateispeicher"
   label_project_storage_project_folder: "Dateispeicher: Projektordner"
-  label_projects_storage_information: "%{count} Projekte verbrauchen insgesamt %{storage} Speicherplatz"
+  label_projects_disk_usage_information: "%{count} Projekte, die %{used_disk_space} Speicherplatz belegen"
   label_project_view_all: "Alle Projekte anzeigen"
   label_project_show_details: "Projektdetails anzeigen"
   label_project_hide_details: "Projektdetails verstecken"
@@ -2192,6 +2197,7 @@ de:
   label_setting_plural: "Einstellungen"
   label_system_settings: "Systemkonfiguration"
   label_show_completed_versions: "Abgeschlossene Versionen anzeigen"
+  label_columns: "Spalten"
   label_sort: "Sortierung"
   label_sort_by: "Sortiere nach %{value}"
   label_sorted_by: "sortiert nach %{value}"
@@ -2736,7 +2742,7 @@ de:
     member_of_group: "Gruppe der zugewiesenen Person"
     name_or_identifier: "Name oder Kennung"
     only_subproject_id: "Nur Unterprojekt"
-    shared_with_user: "Mit Benutzer geteilt"
+    shared_with_user: "Geteilt mit Benutzern"
     shared_with_me: "Mit mir geteilt"
     subproject_id: "Einschließlich Unterprojekt"
   repositories:
@@ -2881,6 +2887,7 @@ de:
   setting_app_subtitle: "Applikations-Untertitel"
   setting_app_title: "Applikations-Titel"
   setting_attachment_max_size: "Max. Dateigröße"
+  setting_show_work_package_attachments: "Anhänge standardmäßig auf dem Tab Dateien anzeigen"
   setting_antivirus_scan_mode: "Scanmodus"
   setting_antivirus_scan_action: "Aktion für infizierte Datei"
   setting_autofetch_changesets: "Automatisches Abrufen von Projektarchiv-Änderungen"
@@ -2982,6 +2989,8 @@ de:
     attachments:
       whitelist_text_html: >
         Legen Sie eine Liste gültiger Dateierweiterungen und/oder Mime-Typen für hochgeladene Dateien fest. <br/> Dateierweiterungen (z. B. <code>%{ext_example}</code>) oder Mime-Typen (z. ., <code>%{mime_example}</code>). <br/> Lassen Sie diese Liste leer, um das Hochladen beliebiger Dateitypen zu erlauben. Mehrere Werte erlaubt (eine Zeile pro Wert).
+      show_work_package_attachments: >
+        Wenn Sie diese Option deaktivieren, wird die Liste der Anhänge auf dem Dateien Tab von Arbeitspaketen für neue Projekte ausgeblendet. Die Dateien, die in der Beschreibung eines Arbeitspakets angehängt sind, werden weiterhin in den internen Speicher für Anhänge hochgeladen.
     antivirus:
       title: "Virenscan"
       clamav_ping_failed: "Die Verbindung zum ClamAV-Daemon konnte nicht hergestellt werden. Überprüfen Sie die Konfiguration und versuchen Sie es erneut."
@@ -3218,6 +3227,10 @@ de:
         input_label: "Spalten hinzufügen"
         input_placeholder: "Spalte auswählen"
         drag_area_label: "Spalten verwalten und neu anordnen"
+      sort_by:
+        automatic:
+          heading: "Automatisch"
+          description: "Ordnen Sie %{plural} nach einem oder mehreren Sortierkriterien. Die vorherige Sortierung geht dabei verloren."
   top_menu:
     additional_resources: "Weitere Ressourcen"
     getting_started: "Erste Schritte"
@@ -3564,7 +3577,7 @@ de:
   link: Link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration von externen Authentifizierungsanbietern in Openproject."
+    description: "Integration von externen Authentifizierungsanbietern in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign An"
     description: "Fügt den OmniAuth SAML-Anbieter zu OpenProject hinzu"

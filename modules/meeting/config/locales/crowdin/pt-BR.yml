@@ -48,6 +48,8 @@ pt-BR:
         duration_in_minutes: "min"
         description: "Anotações"
         presenter: "Apresentador"
+      meeting_section:
+        title: "Título"
     errors:
       messages:
         invalid_time_format: "não é um horário válido. Formato exigido: HH:MM"
@@ -99,7 +101,7 @@ pt-BR:
     attachments:
       text: "Os arquivos anexados podem ser acessados por todos os participantes da reunião. Além disso, você pode simplesmente arrastá-los e soltá-los nas anotações do item da agenda."
     copy:
-      title: "Copiar reunião %{title}"
+      title: "Copiar reunião: %{title}"
       attachments: "Copiar anexos"
       attachments_text: "Copie todos os arquivos anexados para a nova reunião"
       agenda: "Copiar agenda"
@@ -122,6 +124,11 @@ pt-BR:
       structured_text: "Organize sua reunião como uma lista de itens da agenda, opcionalmente vinculando-os a um pacote de trabalho."
       structured_text_copy: "Copiar uma reunião atualmente não copiará os itens associados da agenda da reunião, apenas os detalhes"
     copied: "Copiado para a Reunião #%{id}"
+  meeting_section:
+    untitled_title: "Seção sem título"
+    delete_confirmation: "Excluir a seção também excluirá todos os itens da pauta. Tem certeza de que deseja fazer isso?"
+    placeholder_title: "Nova seção"
+    empty_text: "Arraste itens para cá ou crie um novo."
   notice_successful_notification: "Notificação enviada com sucesso"
   notice_timezone_missing: Nenhum fuso horário está definido, portanto assumiu-se %{zone}. Para escolher o seu fuso horário, clique aqui.
   permission_create_meetings: "Criar reuniões"

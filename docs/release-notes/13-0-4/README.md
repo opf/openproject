@@ -14,7 +14,7 @@ We released [OpenProject 13.0.4](https://community.openproject.org/versions/1902
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
-#### Bug fixes and changes
+## Bug fixes and changes
 
 - Fixed: PDF export does not contain custom fields and some core values \[[#49948](https://community.openproject.org/wp/49948)\]
 - Fixed: Poor performance of work package autocompleter and /api/v3/work_packages in some scenarios \[[#50102](https://community.openproject.org/wp/50102)\]
@@ -23,7 +23,8 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: DATABASE_URL environment variable is not validated before usage \[[#50152](https://community.openproject.org/wp/50152)\]
 - Fixed: Work package activity not shown when using Polish language \[[#50197](https://community.openproject.org/wp/50197)\]
 
-#### Contributions
+## Contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
 Special thanks for reporting and finding bugs go to

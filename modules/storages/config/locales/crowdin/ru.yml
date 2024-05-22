@@ -39,15 +39,20 @@ ru:
   api_v3:
     errors:
       too_many_elements_created_at_once: Слишком много элементов, созданных сразу. Ожидалось %{max} максимум - получено %{actual}.
-  permission_create_files: 'External Storage: Create files'
-  permission_delete_files: 'External Storage: Delete files'
+  external_file_storages: Внешние хранилища файлов
+  permission_create_files: 'Automatically managed project folders: Create files'
+  permission_create_files_explanation: This permission is only available for Nextcloud storages
+  permission_delete_files: 'Automatically managed project folders: Delete files'
+  permission_delete_files_explanation: This permission is only available for Nextcloud storages
+  permission_header_for_project_module_storages: Автоматически управляемые папки проектов
   permission_manage_file_links: Управление ссылками файлов
   permission_manage_storages_in_project: Управление файловыми хранилищами в проекте
-  permission_read_files: 'External Storage: Read files'
-  permission_share_files: 'External Storage: Share files'
+  permission_read_files: 'Automatically managed project folders: Read files'
+  permission_share_files: 'Automatically managed project folders: Share files'
+  permission_share_files_explanation: This permission is only available for Nextcloud storages
   permission_view_file_links: Просмотр ссылок на файл
-  permission_write_files: 'External Storage: Write files'
-  project_module_storages: Файловые хранилища
+  permission_write_files: 'Automatically managed project folders: Write files'
+  project_module_storages: Файлы
   storages:
     buttons:
       complete_without_setup: Обходитесь без этого
@@ -78,14 +83,14 @@ ru:
     error_invalid_provider_type: Пожалуйста, выберите допустимого поставщика хранилища.
     file_storage_view:
       access_management:
-        automatic_management: Automatically managed access and folders
+        automatic_management: Автоматически управляемый доступ и папки
         automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
         description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
-        manual_management: Manually managed access and folders
+        manual_management: Вручную управляемый доступ и папки
         manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
-        setup_incomplete: Select the type of management of user access and folder creation.
-        subtitle: Access management
-        title: Access and project folders
+        setup_incomplete: Выберите тип управления доступом пользователя и созданием папок.
+        subtitle: Управление доступом
+        title: Доступ и папки проекта
       automatically_managed_folders: Автоматически управляемые папки
       general_information: Информация общего характера
       nextcloud_oauth: Nextcloud OAuth
@@ -104,12 +109,12 @@ ru:
       subtitle: Автоматически управляемые папки проектов
       title: Состояние здоровья
     health_email_notifications:
-      description_subscribed: All administrators receive health status email notifications for this storage.
-      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
-      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
+      description_subscribed: Все администраторы получают уведомления о состоянии здоровья этого хранилища.
+      description_unsubscribed: Уведомления о состоянии здоровья этого хранилища были отключены для всех администраторов.
+      error_could_not_be_saved: Не удалось сохранить настройки уведомления по электронной почте. Пожалуйста, попробуйте еще раз.
       subscribe: Подписаться
       title: Уведомления по электронной почте
-      unsubscribe: Unsubscribe
+      unsubscribe: Отписаться
     help_texts:
       project_folder: Папка проекта является папкой по умолчанию для загрузки файлов для этого проекта. Тем не менее, пользователи по-прежнему могут загружать файлы в другие места.
     instructions:
@@ -159,7 +164,7 @@ ru:
     label_creator: Создатель
     label_delete_storage: Удалить хранилище
     label_edit_storage: Редактировать хранилище
-    label_edit_storage_access_management: Edit storage access management
+    label_edit_storage_access_management: Редактировать управление доступом к хранилищу
     label_edit_storage_automatically_managed_folders: Редактирование хранилища автоматически управляемых папок
     label_edit_storage_host: Изменить узел хранения
     label_existing_manual_folder: Существующая папка с разрешениями, управляемыми вручную
@@ -195,14 +200,14 @@ ru:
       Хранилище подключено успешно! Не забудьте активировать модуль и конкретное хранилище в настройках проекта для его дальнейшего использования.
     oauth_grant_nudge_modal:
       access_granted: Доступ предоставлен
-      access_granted_screen_reader: Access granted. You are now ready to use %{storage}.
-      body: To get access to the project folder you need to login to %{storage}.
+      access_granted_screen_reader: Доступ разрешен. Хранилище %{storage} готово к использованию.
+      body: Чтобы получить доступ к папке проекта, вам нужно войти в %{storage}.
       cancel_button_label: Я сделаю это позже
-      confirm_button_aria_label: Login to %{storage}
+      confirm_button_aria_label: Войти в %{storage}
       confirm_button_label: Входное имя
-      requesting_access_to: Requesting access to %{storage}
+      requesting_access_to: Запрос доступа к %{storage}
       storage_ready: Теперь вы готовы к использованию %{storage}
-      title: One more step...
+      title: Еще один шаг...
     open_project_storage_modal:
       success:
         subtitle: Вы будете перенаправлены
@@ -222,7 +227,6 @@ ru:
       project_settings:
         delete: Удалить хранилище файлов
         edit: Редактировать хранилище файлов для этого проекта
-        index: Файловые хранилища, доступные в этом проекте
         members_connection_status: Статус подключения участников
         new: Добавить хранилище файлов в этот проект
       project_storage_members:
@@ -241,6 +245,9 @@ ru:
         label_oauth_client_secret: Секретное значение клиента Azure OAuth
         name: OneDrive/SharePoint
         name_placeholder: напр. OneDrive
+    show_attachments_toggle:
+      description: 'Deactivating this option will hide the attachments list on the work packages files tab. The files attached in the description of a work package will still be uploaded in the internal attachments storage. '
+      label: Показывать вложения во вкладке "Файлы" пакетов работ
     storage_list_blank_slate:
       description: Добавьте хранилище, чтобы увидеть его здесь.
       heading: У вас пока нет хранилищ.

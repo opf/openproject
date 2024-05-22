@@ -2,8 +2,8 @@
 ms:
   plugin_openproject_team_planner:
     name: "Pasukan Perancangan OpenProject"
-    description: "Menyediakan paparan pasukan perancangan"
-  permission_view_team_planner: "Paparkan perancang pasukan"
+    description: "Menyediakan paparan pasukan perancangan."
+  permission_view_team_planner: "Lihat perancang pasukan"
   permission_manage_team_planner: "Urus perancang pasukan"
   project_module_team_planner_view: "Perancang pasukan"
   team_planner:
@@ -14,4 +14,4 @@ ms:
     label_assignees: "Penerima tugasan"
     upsale:
       title: "Perancang pasukan"
-      description: "Dapatkan ringkasan lengkap perancangan pasukan anda dengan Perancang Pasukan. Renggangkan, pendekkan, dan tarik dan lepas pakej kerja untuk mengubah tarikh, memindahkan mereka, atau menukar penerima tugasan."
+      description: "Dapatkan gambaran keseluruhan lengkap perancangan pasukan anda dengan Perancang Pasukan. Renggangkan, pendekkan, dan tarik dan lepas pakej kerja untuk mengubah tarikh, memindahkan mereka, atau menukar penerima tugasan."

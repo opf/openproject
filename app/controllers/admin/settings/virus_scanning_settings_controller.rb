@@ -28,7 +28,7 @@
 
 module Admin::Settings
   class VirusScanningSettingsController < ::Admin::SettingsController
-    menu_item :virus_scanning_settings
+    menu_item :attachments
 
     before_action :require_ee
     before_action :check_clamav, only: %i[update], if: -> { scan_enabled? }
@@ -36,6 +36,7 @@ module Admin::Settings
     def show_local_breadcrumb
       false
     end
+
     def av_form
       selected = params.dig(:settings, :antivirus_scan_mode)&.to_sym || :disabled
 
@@ -87,7 +88,7 @@ module Admin::Settings
 
     def rescan_files
       flash[:notice] = t("settings.antivirus.remaining_rescanned_files",
-                       file_count: t(:label_x_files, count: Attachment.status_uploaded.count))
+                         file_count: t(:label_x_files, count: Attachment.status_uploaded.count))
       Attachment.status_uploaded.update_all(status: :rescan)
 
       job = Attachments::VirusRescanJob.perform_later

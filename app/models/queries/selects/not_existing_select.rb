@@ -39,6 +39,10 @@ module Queries
         I18n.t("activerecord.errors.messages.does_not_exist")
       end
 
+      def available?
+        false
+      end
+
       private
 
       def always_false

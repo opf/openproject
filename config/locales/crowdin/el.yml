@@ -260,6 +260,7 @@ el:
     lists:
       active: "Active projects"
       my: "Τα έργα μου"
+      favored: "Favorite projects"
       archived: "Archived projects"
       my_private: "My private project lists"
       new:
@@ -300,7 +301,14 @@ el:
       storage:
         no_results_title_text: There is no additional recorded disk space consumed by this project.
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Αυτή τη στιγμή δεν υπάρχουν μέλη που να αποτελούν μέρος αυτού του έργου.
@@ -318,6 +326,7 @@ el:
       project_roles: "Project roles"
       wp_shares: "Work package shares"
       groups: "Ομάδες"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -480,7 +489,7 @@ el:
       no_common_statuses_exists: "Δεν υπάρχει διαθέσιμη κατάσταση για όλα τα επιλεγμένα πακέτα εργασίας. Η κατάσταση τους δεν μπορεί να αλλάξει."
       unsupported_for_multiple_projects: "Η μαζική μετακίνηση/αντιγραφή δεν υποστηρίζεται για πακέτα εργασίας από πολλά έργα"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Workflow missing for work package sharing"
         message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
         link_message: "Configure the workflows in the administration."
@@ -778,6 +787,7 @@ el:
         not_an_iso_date: "δεν είναι έγκυρη ημερομηνία. Απαιτούμενη μορφοποίηση: ΕΕΕΕ-ΜΜ-ΗΗ."
         not_same_project: "δεν ανήκει στο ίδιο έργο."
         odd: "πρέπει να είναι μονός."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "δεν ήταν δυνατή η επικύρωση με τη συσχετιζόμενη κανονική έκφραση."
         smaller_than_or_equal_to_max_length: "πρέπει να είναι μικρότερο ή ίσο με το μέγιστο μήκος."
         taken: "έχει ήδη κατοχυρωθεί."
@@ -1259,6 +1269,7 @@ el:
   button_edit: "Επεξεργασία"
   button_edit_associated_wikipage: "Επεξεργασία της συσχετιζόμενης σελίδας Wiki: %{page_title}"
   button_expand_all: "Ανάπτυξη όλων"
+  button_favorite: "Add to favorites"
   button_filter: "Φίλτρο"
   button_generate: "Παραγωγή"
   button_list: "Προβολή λίστας"
@@ -1286,6 +1297,7 @@ el:
   button_unarchive: "Αναίρεση αρχειοθέτησης"
   button_uncheck_all: "Αποεπιλογή όλων"
   button_unlock: "Ξεκλείδωμα"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Αναίρεση παρακολούθησης"
   button_update: "Ενημέρωση"
   button_upgrade: "Αναβάθμιση"
@@ -1571,6 +1583,7 @@ el:
       pdf_overview_table: "PDF Table"
       pdf_report_with_images: "PDF Report with images"
       pdf_report: "PDF Report"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Η εικόνα δεν εξήχθη."
     units:
@@ -1718,17 +1731,6 @@ el:
         mentioned: "You have been mentioned in %{work_package}"
         responsible: "You have become accountable for %{work_package}"
         watched: "You are watching %{work_package}"
-    update_info_mail:
-      body: >
-        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-        We hope you find in-app notifications useful and that they makes you even more productive.
-        Sincerely, The OpenProject team
-      body_header: "Version 12.0 with Notification Center"
-      body_subheader: "Νέα"
-      subject: "Important changes to notifications with the release of 12.0"
   label_accessibility: "Προσβασιμότητα"
   label_account: "Λογαριασμός"
   label_active: "Ενεργό"
@@ -1909,7 +1911,7 @@ el:
   label_enterprise_support: "Enterprise support"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Περιβάλλον"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "είναι"
   label_everywhere: "παντού"
   label_example: "Παράδειγμα"
@@ -1923,7 +1925,7 @@ el:
   label_expanded_click_to_collapse: "Επεκταμένο. Πατήστε για σύμπτυξη"
   label_f_hour: "%{value} ώρα"
   label_f_hour_plural: "%{value} ώρες"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Τροφοδοσίες"
   label_feeds_access_key: "Κλειδί πρόσβασης RSS"
   label_feeds_access_key_created_on: "Tο κλειδί πρόσβασης RSS δημιουργήθηκε πριν από %{value}"
@@ -1996,6 +1998,7 @@ el:
   label_learn_more: "Μάθετε περισσότερα"
   label_less_or_equal: "<="
   label_less_than_ago: "σε λιγότερο από ημέρες πριν"
+  label_link_url: "Link (URL)"
   label_list: "Προβολή λίστας"
   label_loading: "Φόρτωση..."
   label_lock_user: "Κλείδωμα χρήστη"
@@ -2021,6 +2024,7 @@ el:
   label_membership_plural: "Memberships"
   lable_membership_added: "Το μέλος προστέθηκε"
   lable_membership_updated: "Το μέλος ενημερώθηκε"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alpha"
@@ -2122,6 +2126,7 @@ el:
   label_percent_complete: "% Complete"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Συνολικός αριθμός έργων"
   label_project_copy_notifications: "Αποστολή ειδοποιήσεων με email κατά την διάρκεια της αντιγραφής του έργου"
   label_project_latest: "Τελευταία έργα"
@@ -2136,7 +2141,7 @@ el:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} έργα χρησιμοποιούν %{storage} από τον χώρο αποθήκευσης του δίσκου"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Εμφάνιση όλων των έργων"
   label_project_show_details: "Εμφάνιση λεπτομερειών έργου"
   label_project_hide_details: "Απόκρυψη λεπτομερειών έργου"
@@ -2193,6 +2198,7 @@ el:
   label_setting_plural: "Ρυθμίσεις"
   label_system_settings: "Ρυθμίσεις συστήματος"
   label_show_completed_versions: "Εμφάνιση ολοκληρωμένων εκδόσεων"
+  label_columns: "Στήλες"
   label_sort: "Ταξινόμηση"
   label_sort_by: "Ταξινόμηση κατά %{value}"
   label_sorted_by: "ταξινομημένα κατά %{value}"
@@ -2736,7 +2742,7 @@ el:
     member_of_group: "Ομάδα ανάθεσης"
     name_or_identifier: "Όνομα ή αναγνωριστικό"
     only_subproject_id: "Μόνο υποέργο"
-    shared_with_user: "Shared with user"
+    shared_with_user: "Shared with users"
     shared_with_me: "Shared with me"
     subproject_id: "Including subproject"
   repositories:
@@ -2881,6 +2887,7 @@ el:
   setting_app_subtitle: "Υπότιτλος εφαρμογής"
   setting_app_title: "Τίτλος εφαρμογής"
   setting_attachment_max_size: "Μέγιστο μέγεθος συνημμένων"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Scan mode"
   setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Αυτόματη ανάκτηση αλλαγών αποθετηρίου"
@@ -2982,6 +2989,8 @@ el:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Virus scanning"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
@@ -3218,6 +3227,10 @@ el:
         input_label: "Προσθέστε στήλη"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Επιπλέον πόροι"
     getting_started: "Ξεκινώντας"
@@ -3564,7 +3577,7 @@ el:
   link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"

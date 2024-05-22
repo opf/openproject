@@ -264,6 +264,7 @@ ko:
     lists:
       active: "활성 프로젝트"
       my: "내 프로젝트"
+      favored: "즐겨 찾는 프로젝트"
       archived: "보관된 프로젝트"
       my_private: "내 비공개 프로젝트 목록"
       new:
@@ -304,7 +305,14 @@ ko:
       storage:
         no_results_title_text: 이 프로젝트에서 사용하는 추가 기록 디스크 공간이 없습니다.
   lists:
-    can_be_saved_as: "수정 사항은 새 목록에만 저장할 수 있습니다."
+    create:
+      success: "수정된 목록이 새 목록으로 저장되었습니다"
+      failure: "수정된 목록을 저장할 수 없습니다: %{errors}"
+    update:
+      success: "수정된 목록이 저장되었습니다"
+      failure: "수정된 목록을 저장할 수 없습니다: %{errors}"
+    can_be_saved: "목록이 수정되었습니다:"
+    can_be_saved_as: "수정 사항은 새 목록에만 저장할 수 있습니다:"
   members:
     index:
       no_results_title_text: 프로젝트에 멤버 파트가 없습니다.
@@ -322,6 +330,7 @@ ko:
       project_roles: "프로젝트 역할"
       wp_shares: "작업 패키지 공유"
       groups: "그룹"
+    no_modify_on_shared: "현재는 멤버 페이지에서 공유 멤버십을 수정하거나 제거할 수 없습니다. 대신 공유 모달을 사용하세요."
     delete_member_dialog:
       title: "멤버 제거"
       will_remove_the_users_role: "이렇게 하면 이 프로젝트에서 사용자의 역할이 제거됩니다."
@@ -476,7 +485,7 @@ ko:
       no_common_statuses_exists: "선택한 모든 작업 패키지에 사용 가능한 상태가 없습니다. 해당 상태를 변경할 수 없습니다."
       unsupported_for_multiple_projects: "여러 프로젝트에서 작업 패키지 일괄 이동/복사는 지원되지 않습니다."
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "작업 패키지 공유에 대한 워크플로 누락"
         message: "'작업 패키지 편집자' 역할에 대해 구성된 워크플로가 없습니다. 워크플로가 없으면 사용자와 공유된 워크플로는 작업 패키지의 상태를 변경할 수 없습니다. 워크플로를 복사할 수는 있습니다. 소스 유형(예: '작업')과 소스 역할(예: '멤버')을 선택하세요. 그런 다음 대상 유형을 선택하세요. 시작하기 위해 모든 유형을 대상으로 선택할 수 있습니다. 마지막으로 '작업 패키지 편집자' 역할을 대상으로 선택하고 '복사'를 누르세요. 기본값을 생성한 후 다른 모든 역할에 대해 수행하는 것처럼 워크플로를 미세 조정하세요."
         link_message: "관리에서 워크플로를 구성하세요."
@@ -774,6 +783,7 @@ ko:
         not_an_iso_date: "은(는) 유효한 날짜가 아닙니다. 필요한 형식: YYYY-MM-DD."
         not_same_project: "은(는) 동일한 프로젝트에 속하지 않습니다."
         odd: "에 홀수를 입력해 주세요"
+        regex_match_failed: "%{expression} 정규식과 일치하지 않습니다."
         regex_invalid: "관련 정규식으로 유효성을 확인할 수 없습니다."
         smaller_than_or_equal_to_max_length: "은(는) 최대 길이보다 같거나 작아야 합니다."
         taken: "은(는) 이미 존재합니다."
@@ -985,13 +995,13 @@ ko:
               only_same_project_categories_allowed: "작업 패키지의 카테고리는 작업 패키지와 동일한 프로젝트에 있어야 합니다."
               does_not_exist: "지정한 카테고리가 존재하지 않습니다."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              cant_be_inferior_to_remaining_work: "남은 작업보다 낮을 수 없습니다."
+              must_be_set_when_remaining_work_is_set: "'남은 작업'이 설정된 경우 필수입니다."
+              only_values_greater_or_equal_zeroes_allowed: "0 이상이어야 합니다."
               format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "Cannot be higher than Work."
-              must_be_set_when_work_is_set: "Required when Work is set."
+              cant_exceed_work: "작업보다 높을 수 없습니다."
+              must_be_set_when_work_is_set: "작업이 설정된 경우 필수입니다."
               format: "%{message}"
           readonly_status: "작업 패키지가 읽기 전용 상태이므로 해당 속성을 변경할 수 없습니다."
         type:
@@ -1247,6 +1257,7 @@ ko:
   button_edit: "편집"
   button_edit_associated_wikipage: "연결된 위키 페이지 %{page_title} 편집"
   button_expand_all: "모두 확장"
+  button_favorite: "즐겨찾기에 추가"
   button_filter: "필터"
   button_generate: "생성"
   button_list: "목록"
@@ -1274,6 +1285,7 @@ ko:
   button_unarchive: "보관 취소"
   button_uncheck_all: "모두 선택 취소"
   button_unlock: "잠금 해제"
+  button_unfavorite: "즐겨찾기에서 제거"
   button_unwatch: "주시 안 함"
   button_update: "업데이트"
   button_upgrade: "업그레이드"
@@ -1541,6 +1553,7 @@ ko:
       pdf_overview_table: "PDF 테이블"
       pdf_report_with_images: "이미지가 포함된 PDF 보고서"
       pdf_report: "PDF 보고서"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "이미지를 내보내지 못했습니다."
     units:
@@ -1619,11 +1632,11 @@ ko:
         file_links_journal: >
           지금부터 파일 링크(외부 저장소에 저장된 파일)와 관련된 활동이 활동 탭에 표시됩니다. 다음은 이미 존재하는 링크와 관련된 활동을 나타냅니다.
         progress_calculation_adjusted_from_disabled_mode: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+          진행률 계산은 자동으로 <a href="%{href}" target="_blank">작업 기반 모드로 설정되고 버전 업데이트에 따라 조정됩니다</a>.
         progress_calculation_adjusted: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+          진행률 계산은 자동으로 <a href="%{href}" target="_blank">버전 업데이트에 따라 조정됩니다</a>.
         totals_removed_from_childless_work_packages: >-
-          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+          <a href="%{href}" target="_blank">버전 업데이트</a>를 통해 부모가 아닌 작업 패키지의 작업 및 진행률 합계가 자동으로 제거됩니다. 유지 관리 작업이므로 무시해도 됩니다.
   links:
     configuration_guide: "구성 가이드"
     get_in_touch: "질문이 있으신가요? 문의해 주세요."
@@ -1688,17 +1701,6 @@ ko:
         mentioned: "%{work_package} 을(를) 멘션하였습니다."
         responsible: "%{work_package}을(를) 담당하게 되었습니다"
         watched: "%{work_package}을(를) 지켜 보는 중입니다."
-    update_info_mail:
-      body: >
-        OpenProject 12.0 릴리스를 발표하게 되어 기쁩니다. 이 메이저 릴리스는 OpenProject를 사용하는 방식을 크게 개선할 것으로 예상됩니다.
-        이 릴리스부터 인앱 알림을 도입합니다. 이제부터 OpenProject에서 작업 패키지 업데이트에 대한 알림을 직접 받게 됩니다. 이러한 알림을 읽음으로 표시하거나, 코멘트에 답하거나, 알림 센터를 나가지 않고도 작업 패키지 특성을 직접 수정할 수도 있습니다.
-        즉, 더 이상 알림용으로 이메일을 사용하지 않을 것입니다. 알림 센터가 이러한 업데이트를 확인하고 조치를 취하기에 더 좋은 공간이라고 생각합니다. 그러나 이메일로 업데이트를 계속 받으려면 선택한 특정 시간에 매일 이메일 미리 알림을 받도록 선택할 수 있습니다.
-        새로운 기본 알림 설정을 확인하고 계정 설정에서 알림 및 이메일 미리 알림에 대한 기본 설정을 지정해야 합니다. 아래의 "이메일 설정 변경" 버튼으로 이 작업을 수행할 수 있습니다.
-        인앱 알림이 유용하고 생산성을 더욱 개선하는 데 도움이 되기를 바랍니다.
-        감사합니다. OpenProject 팀
-      body_header: "버전 12.0, 알림 센터 포함"
-      body_subheader: "뉴스"
-      subject: "12.0 릴리스의 알림에 대한 중요 변경 사항"
   label_accessibility: "접근성"
   label_account: "계정"
   label_active: "활성"
@@ -1879,7 +1881,7 @@ ko:
   label_enterprise_support: "엔터프라이즈 지원"
   label_enterprise_addon: "Enterprise 추가 기능"
   label_environment: "환경"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "견적 및 진행률"
   label_equals: "일치함"
   label_everywhere: "어디에 있든지"
   label_example: "예"
@@ -1893,7 +1895,7 @@ ko:
   label_expanded_click_to_collapse: "확장되었습니다. 축소하려면 클릭하세요."
   label_f_hour: "%{value}시간"
   label_f_hour_plural: "%{value}시간"
-  label_favoured: "호감"
+  label_favorite: "즐겨찾기"
   label_feed_plural: "피드"
   label_feeds_access_key: "RSS 액세스 키"
   label_feeds_access_key_created_on: "RSS 액세스 키가 %{value} 전에 생성되었습니다."
@@ -1966,6 +1968,7 @@ ko:
   label_learn_more: "자세히 알아보기"
   label_less_or_equal: "<="
   label_less_than_ago: "일 미만 전"
+  label_link_url: "링크(URL)"
   label_list: "목록"
   label_loading: "로드 중..."
   label_lock_user: "사용자 잠금"
@@ -1991,6 +1994,7 @@ ko:
   label_membership_plural: "멤버십"
   lable_membership_added: "멤버 추가됨"
   lable_membership_updated: "멤버 갱신됨"
+  label_menu: "메뉴"
   label_menu_badge:
     pre_alpha: "프리 알파"
     alpha: "알파"
@@ -2092,6 +2096,7 @@ ko:
   label_percent_complete: "완료 %"
   label_project_activity: "프로젝트 활동"
   label_project_attribute_plural: "프로젝트 특성"
+  label_project_attribute_manage_link: "프로젝트 특성 관리"
   label_project_count: "전체 프로젝트 수"
   label_project_copy_notifications: "프로젝트 복사 중에 이메일 알림 보내기"
   label_project_latest: "최근 프로젝트"
@@ -2106,7 +2111,7 @@ ko:
   label_project_attributes_settings: "프로젝트 특성 설정"
   label_project_storage_plural: "파일 저장소"
   label_project_storage_project_folder: "파일 저장소: 프로젝트 폴더"
-  label_projects_storage_information: "%{count} 개의 프로젝트가 %{storage} 디스크 스토리지를 사용 중"
+  label_projects_disk_usage_information: "%{used_disk_space} 디스크 공간을 사용하고 있는 %{count}개 프로젝트"
   label_project_view_all: "모든 프로젝트 보기"
   label_project_show_details: "프로젝트 세부 정보 표시"
   label_project_hide_details: "프로젝트 세부 정보 숨기기"
@@ -2163,6 +2168,7 @@ ko:
   label_setting_plural: "설정"
   label_system_settings: "시스템 설정"
   label_show_completed_versions: "완료된 버전 표시"
+  label_columns: "열"
   label_sort: "분류"
   label_sort_by: "%{value}(으)로 정렬"
   label_sorted_by: "%{value}(으)로 정렬됨"
@@ -2847,6 +2853,7 @@ ko:
   setting_app_subtitle: "응용 프로그램 부제목"
   setting_app_title: "응용 프로그램 제목"
   setting_attachment_max_size: "첨부 파일 최대 크기"
+  setting_show_work_package_attachments: "기본적으로 파일 탭에 첨부 파일 표시"
   setting_antivirus_scan_mode: "스캔 모드"
   setting_antivirus_scan_action: "감염된 파일 작업"
   setting_autofetch_changesets: "Autofetch 리포지토리 변경 사항"
@@ -2948,6 +2955,8 @@ ko:
     attachments:
       whitelist_text_html: >
         업로드된 파일의 유효한 파일 확장명 및/또는 MIME 형식 목록을 정의합니다. <br/> 파일 확장명(예: <code>%{ext_example}</code>) 또는 MIME 형식(예: <code>%{mime_example}</code>)을 입력합니다. <br/> 모든 파일 형식을 업로드할 수 있도록 허용하려면 비워 둡니다. 여러 값이 허용됩니다(각 값에 대해 한 줄).
+      show_work_package_attachments: >
+        이 옵션을 비활성화하면 새 프로젝트의 작업 패키지 파일 탭에서 첨부 파일 목록이 숨겨집니다. 작업 패키지 설명에 첨부된 파일은 내부 첨부 파일 저장소에 계속 업로드됩니다.
     antivirus:
       title: "바이러스 검사"
       clamav_ping_failed: "ClamAV 데몬을 연결하지 못했습니다. 구성을 다시 확인하고 다시 시도하세요."
@@ -3184,6 +3193,10 @@ ko:
         input_label: "열 추가"
         input_placeholder: "열 선택"
         drag_area_label: "열 관리 및 재정렬"
+      sort_by:
+        automatic:
+          heading: "자동"
+          description: "하나 이상의 정렬 기준에 따라 %{plural}을(를) 정렬합니다. 이전 정렬은 손실됩니다."
   top_menu:
     additional_resources: "추가 리소스"
     getting_started: "시작하기"

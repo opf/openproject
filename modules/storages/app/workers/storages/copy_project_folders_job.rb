@@ -48,7 +48,7 @@ module Storages
                                           project_folder_mode: source.project_folder_mode)
                                     .on_failure { |failed| log_failure(failed) and return failed }
 
-      FileLinks::CopyFileLinksService.call(source: @source, target:, user:, work_packages_map:)
+      FileLinks::CopyFileLinksService.call(source: @source, target: target.reload, user:, work_packages_map:)
     end
 
     private

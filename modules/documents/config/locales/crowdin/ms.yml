@@ -28,7 +28,7 @@ ms:
       document: "Dokumen"
   activity:
     filter:
-      document: "Dokumen"
+      document: "Dokumen-dokumen"
   default_doc_category_tech: "Dokumen teknikal"
   default_doc_category_user: "Dokumentasi pengguna"
   enumeration_doc_categories: "Kategori dokumen"
@@ -36,8 +36,8 @@ ms:
     label_attachment_author: "Pengarang lampiran"
   label_document_added: "Dokumen ditambah"
   label_document_new: "Dokumen baru"
-  label_document_plural: "Dokumen"
+  label_document_plural: "Dokumen-dokumen"
   label_documents: "Dokumen"
   permission_manage_documents: "Urus dokumen"
   permission_view_documents: "Lihat dokumen"
-  project_module_documents: "Dokumen"
+  project_module_documents: "Dokumen-dokumen"

@@ -13,7 +13,6 @@ To modify these settings, navigate to **Administration → System settings**.
 
 ![Administration system settings](system-settings.png)
 
-
 ## Overview
 
 | Topic                        | Content                                                      |
@@ -22,4 +21,3 @@ To modify these settings, navigate to **Administration → System settings**.
 | [Languages](languages)       | How to configure languages.                                  |
 | [Project](../projects)       | Settings for new projects.                                   |
 | [Repositories](repositories) | How to integrate SVN or GIT repositories.                    |
-

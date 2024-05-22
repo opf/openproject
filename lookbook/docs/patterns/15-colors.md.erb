@@ -57,7 +57,7 @@ The following variables of Primer are overwritten with the `--accent-color`:
 ```css
 /* --primer-variable: var(--openProject-variable) */
 
---color-accent-fg: var(--accent-color) !important;
+--fgColor-accent: var(--accent-color) !important;
 --control-checked-bgColor-rest: var(--accent-color) !important;
 --control-checked-bgColor-active: var(--accent-color) !important;
 --control-checked-bgColor-hover: var(--accent-color--major1) !important;
@@ -86,11 +86,11 @@ The goal is to use Primer variables all over the application. Once we get to tha
 ```css
 /* --openProject-variable: var(--primer-variable) */
 
- --avatar-border-color: var(--color-avatar-border);
- --ck-color-base-border: var(--color-border-default);
- --header-bg-color: var(--color-page-header-bg);
- --main-menu-bg-color: var(--color-page-header-bg);
- --accent-color: var(--color-accent-fg);
- --primary-button-color: var(--color-btn-primary-bg);
+ --avatar-border-color: var(--avatar-borderColor);
+ --ck-color-base-border: var(--borderColor-default);
+ --header-bg-color: var(--page-header-bgColor);
+ --main-menu-bg-color: var(--page-header-bgColor);
+ --accent-color: var(--fgColor-accent);
+ --primary-button-color: var(--button-primary-bgColor-rest);
  ...
 ```

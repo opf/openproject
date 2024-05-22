@@ -330,6 +330,18 @@ pl:
         years: "Lata"
         description: >
           Wybierz początkowy poziom powiększenia, który ma być wyświetlany, gdy tryb autopowiększenia jest niedostępny.
+      export:
+        title: "Opcje PDF wykresu Gantta"
+        button_export: "Eksportuj"
+        column_widths:
+          narrow: "Wąskie"
+          medium: "Średnie"
+          wide: "Szerokie"
+          very_wide: "Bardzo szerokie"
+        options:
+          date_zoom: "Powiększenie daty"
+          paper_size: "Rozmiar papieru"
+          column_widths: "Szerokość kolumn"
     general_text_no: "nie"
     general_text_yes: "tak"
     general_text_No: "Nie"
@@ -348,11 +360,10 @@ pl:
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Wdrożenie raportowania postępów w hierarchiach pakietów roboczych.</li> <li>Zarządzanie atrybutami projektu w uporządkowany sposób na stronie przeglądu projektu.</li> <li>Usprawniony widok pól niestandardowych na liście projektów i w przeglądzie projektu.</li> <li>Ujednolicone nagłówki stron z eleganckim wyglądem Primer.</li> <li>Ulepszenie spotkań dzięki nowym funkcjom, takim jak przesyłanie załączników, osoby odpowiedzialne i historia spotkań.</li> <li>Automatyczne alerty o magazynach plików w złej kondycji i uzyskiwanie kontroli przy użyciu opcji przełączania.</li> <li>Kopiowanie automatycznie zarządzanego folderu projektu dla usług OneDrive/SharePoint podczas kopiowania projektów.</li> <li>Prośba do administratorów o usunięcie udostępnień pakietów roboczych podczas odwoływania członkostwa w projekcie.</li> <li>Lepsze planowanie dzięki 4- i 8-tygodniowym trybom wyświetlania w planiście zespołu.</li> </ul>
+                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Eksport widoku wykresu Gantta w formacie PDF, np. w celu wydrukowania (dodatek wersji Enterprise)</li> <li>Ulubione projekty</li> <li>Sekcje w spotkaniach</li> <li>Pokazywanie spotkań w obszarze Moja strona i na stronach przeglądu projektów</li> <li>Możliwość ukrywania załączników na karcie Pliki</li> <li>Niestandardowe pola typu Link (adres URL)</li> </ul>
     ical_sharing_modal:
       title: "Subskrybuj kalendarz"
       inital_setup_error_message: "Podczas pobierania danych wystąpił błąd."
@@ -378,6 +389,7 @@ pl:
     label_added_time_by: 'Dodany przez <a href="%{authorLink}">%{author}</a> o %{age}'
     label_ago: "dni temu"
     label_all: "wszystkie"
+    label_all_uppercase: "Wszystko"
     label_all_work_packages: "wszystkie pakiety pracy"
     label_and: "i"
     label_ascending: "Rosnąco"
@@ -419,6 +431,7 @@ pl:
     label_expand_project_menu: "Rozwiń menu projektu"
     label_export: "Eksportuj"
     label_export_preparing: "Eksport jest przygotowywany i zostanie wkrótce pobrany."
+    label_favorites: "Ulubione"
     label_filename: "Plik"
     label_filesize: "Rozmiar"
     label_general: "Ogólne"
@@ -1045,7 +1058,7 @@ pl:
       sharing:
         share: "Udostępnij"
         title: "Udostępnij pakiet roboczy"
-        show_all_users: "Pokaż wszystkich udostępnionych użytkowników"
+        show_all_users: "Pokaż wszystkich użytkowników, którym udostępniono pakiet roboczy"
         selected_count: "Wybrano %{count}"
         selection:
           mixed: "Mieszane"
@@ -1275,6 +1288,9 @@ pl:
           placeholder: "Symbolu zastępczego można teraz użyć w %{project}. Tymczasem możesz już planować z tym użytkownikiem i na przykład przypisać pakiety robocze."
           group: "Grupa jest teraz częścią %{project}. Tymczasem możesz już planować z tą grupą i na przykład przypisać pakiety robocze."
         next_button: "Kontynuuj"
+    favorite_projects:
+      no_results: "Nie masz żadnych ulubionych projektów"
+      no_results_subtext: "Dodaj jeden lub wiele projektów jako ulubione w ich przeglądzie lub na liście projektów."
     include_projects:
       toggle_title: "Uwzględnij projekty"
       title: "Projekty"

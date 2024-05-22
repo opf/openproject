@@ -24,8 +24,6 @@ To adapt repositories settings, go to System settings on the tab **Repositories*
 
     ![image-20211209174118702](image-20211209174118702.png)
 
-
-
 ## Checkout instructions for Subversion and GIT
 
 Show checkout instructions for Subversion and GIT.

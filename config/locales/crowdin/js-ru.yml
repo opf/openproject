@@ -329,6 +329,18 @@ ru:
         years: "Лет"
         description: >
           Выберите начальный уровень масштаба, который должен быть показан, когда автозум недоступен.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "нет"
     general_text_yes: "Да"
     general_text_No: "Нет"
@@ -347,11 +359,10 @@ ru:
           learn_about: "Подробнее о новых функциях"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
     ical_sharing_modal:
       title: "Подписаться на календарь"
       inital_setup_error_message: "Произошла ошибка при получении данных."
@@ -377,6 +388,7 @@ ru:
     label_added_time_by: 'Добавлено <a href="%{authorLink}">%{author}</a> в %{age}'
     label_ago: "дней назад"
     label_all: "все"
+    label_all_uppercase: "Bсе"
     label_all_work_packages: "Все пакеты работ"
     label_and: "и"
     label_ascending: "По возрастанию"
@@ -418,6 +430,7 @@ ru:
     label_expand_project_menu: "Развернуть меню проекта"
     label_export: "Экспортировать"
     label_export_preparing: "Экспорт готовится и будет загружен в ближайшее время."
+    label_favorites: "Favorites"
     label_filename: "Файл"
     label_filesize: "Размер"
     label_general: "Общее"
@@ -640,7 +653,7 @@ ru:
         empty_state:
           no_notification: "Похоже, вы все сделали."
           no_notification_with_current_project_filter: "Похоже, в выбранном проекте вы все сделали."
-          no_notification_with_current_filter: "Похоже, в отфильтрованном вы все сделали."
+          no_notification_with_current_filter: "Похоже, в отфильтрованном вы все сделали %{filter}."
           no_selection: "Нажмите на уведомление, чтобы просмотреть все детали."
         new_notifications:
           message: "Есть новые уведомления."
@@ -1044,7 +1057,7 @@ ru:
       sharing:
         share: "Поделиться"
         title: "Поделиться пакетом работ"
-        show_all_users: "Показать всех общих пользователей"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} выбрано"
         selection:
           mixed: "Смешанное"
@@ -1274,6 +1287,9 @@ ru:
           placeholder: "Теперь плейсхолдер может быть использован в %{project}. Тем временем вы уже можете планировать с этим пользователем и назначать рабочие пакеты."
           group: "Теперь группа является частью %{project}. Тем временем вы уже можете спланировать работу с этой группой и назначить пакеты работ."
         next_button: "Продолжить"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Включить проекты"
       title: "Проекты"

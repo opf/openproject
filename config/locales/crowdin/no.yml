@@ -264,6 +264,7 @@
     lists:
       active: "Aktive prosjekter"
       my: "Mine prosjekter"
+      favored: "Favorite projects"
       archived: "Arkiverte prosjekter"
       my_private: "Mine private prosjektlister"
       new:
@@ -304,7 +305,14 @@
       storage:
         no_results_title_text: Det er ingen ekstra registrert diskplass brukt av dette prosjektet.
   lists:
-    can_be_saved_as: "Endringene kan bare lagres i en ny liste."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Det er ingen medlemmer i prosjektet.
@@ -322,6 +330,7 @@
       project_roles: "Prosjekt roller"
       wp_shares: "Delte arbeidspakker"
       groups: "Grupper"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Fjern medlem"
       will_remove_the_users_role: "Dette vil fjerne brukerens rolle fra dette prosjektet."
@@ -484,10 +493,10 @@
       no_common_statuses_exists: "Det er ingen status tilgjengelig for alle valgte arbeidspakker. Status kan ikke endres."
       unsupported_for_multiple_projects: "Bulk flytt/kopi er ikke støttet for arbeidspakker fra flere prosjekter"
     sharing:
-      missing_workflow_waring:
-        title: "Arbeidsflyt mangler for deling av arbeidspakker"
-        message: "Ingen arbeidsflyt er konfigurert for rollen 'Arbeidspakke redaktør'. Uten en arbeidsflyt kan ikke brukeren endre status på arbeidspakken. Arbeidsflyt kan kopieres. Velg en kildetype (f.eks. 'oppgave') og en kilderolle (f.eks. 'medlem'). Velg så måltyper. Til å begynne med, kan du velge alle typene som mål. Til slutt velger du \"Redigeringsprogrammet for arbeidspakke\" som mål og press \"Copy\". Etter å ha opprettet standardinnstillingene, kan du finjustere arbeidsflytene som du gjør for hver annen rolle."
-        link_message: "Konfigurer arbeidsmetodene i administrasjonen."
+      missing_workflow_warning:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -782,6 +791,7 @@
         not_an_iso_date: "er ikke en gyldig dato. Påkrevd format: ÅÅÅÅ-MM-DD."
         not_same_project: "hører ikke til samme prosjekt."
         odd: "må være oddetall."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "kunne ikke valideres med det tilhørende regulære uttrykket."
         smaller_than_or_equal_to_max_length: "må være mindre enn eller lik maksimumslengden."
         taken: "er allerede tatt."
@@ -1025,7 +1035,7 @@
               numeric: "numerisk (f.eks. \"1\")"
               special: "spesialtegn (f.eks. \"%\")"
               reused:
-                one: "har blitt brukt tidligere. Vennligst velg en som er forskjellig fra den forrige %{count}."
+                one: "har blitt brukt tidligere. Vennligst velg en som er forskjellig fra den forrige."
                 other: "har blitt brukt tidligere. Vennligst velg et som er forskjellig fra dine siste %{count}."
               match:
                 confirm: "Bekreft nytt passord."
@@ -1263,6 +1273,7 @@
   button_edit: "Rediger"
   button_edit_associated_wikipage: "Rediger tilknyttet Wiki-side: %{page_title}"
   button_expand_all: "Utvid alle"
+  button_favorite: "Add to favorites"
   button_filter: "Filter"
   button_generate: "Generer"
   button_list: "Liste"
@@ -1290,6 +1301,7 @@
   button_unarchive: "Pakk ut"
   button_uncheck_all: "Avmerk alle"
   button_unlock: "Lås opp"
+  button_unfavorite: "Fjern fra favoritter"
   button_unwatch: "Stopp overvåking"
   button_update: "Oppdatèr"
   button_upgrade: "Oppgrader"
@@ -1575,6 +1587,7 @@
       pdf_overview_table: "PDF tabell"
       pdf_report_with_images: "PDF rapport med bilder"
       pdf_report: "PDF rapport"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Bilde ikke eksportert."
     units:
@@ -1722,17 +1735,6 @@
         mentioned: "Du har blitt nevnt i %{work_package}"
         responsible: "Du har blitt ansvarlig for %{work_package}"
         watched: "Du ser på %{work_package}"
-    update_info_mail:
-      body: >
-        Vi kan med stolthet annonsere utgivelsen av OpenProject 12.0.  Dette er en stor utgivelse som forhåpentligvis gir en betydelig forbedring av måten du bruker OpenProject.
-        I denne utgivelsen introduserer vi in-app varslinger.  Fra nå av vil du motta varslinger for oppdateringer i arbeidspakker dirkete i OpenProject.  Du kan merke varslene som lest, svare på en kommentar og til og med endre arbeidspakkens egenskapet uten å forlate varslingssenteret.
-        Dette betyr også at vi ikke lenger vil bruke epost for varslinger.  Vi mener det nye varslingssenteret er bedre egnet til å se og behandle disse oppdateringene.  Uansett, om du skulle ønske å fortsatt motta varslinger på epost, kan du velge å motta daglige påminnelser på epost til tider du velger selv.
-        Vennligst pass på å bekrefte dine nye standard varslingsinnstillinger, og velg dine preferanser ofr varsler og epostvarslinger i dine kontoinnstillinger.  Du kan gjøre dette ved å velge knappen "Endre epost innstillinger" nednfor.
-        Vi håper du finner de nye varslingene nyttige og at de gjør deg enda mer produktiv.
-        Med vennlig hilsen OpenProject teamet
-      body_header: "Versjon 12.0 med varslingssenter"
-      body_subheader: "Nyheter"
-      subject: "Viktige endringer i varsler ved utgivelse av 12.0"
   label_accessibility: "Tilgjengelighet"
   label_account: "Konto"
   label_active: "Aktiv"
@@ -1913,7 +1915,7 @@
   label_enterprise_support: "Bedriftsstøtte"
   label_enterprise_addon: "Enterprise utvidelse"
   label_environment: "Miljø"
-  label_estimates_and_time: "Estimater og fremdrift"
+  label_estimates_and_progress: "Estimater og fremdrift"
   label_equals: "er"
   label_everywhere: "overalt"
   label_example: "Eksempel"
@@ -1927,7 +1929,7 @@
   label_expanded_click_to_collapse: "Utvidet. Klikk for å skjule"
   label_f_hour: "%{value} time"
   label_f_hour_plural: "%{value} timer"
-  label_favoured: "Favoritter"
+  label_favorite: "Favoritt"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS tilgangsnøkkel"
   label_feeds_access_key_created_on: "RSS tilgangsnøkkel opprettet for %{value} siden"
@@ -2000,6 +2002,7 @@
   label_learn_more: "Lær mer"
   label_less_or_equal: "<="
   label_less_than_ago: "mindre enn dager siden"
+  label_link_url: "Link (URL)"
   label_list: "Liste"
   label_loading: "Laster..."
   label_lock_user: "Lås bruker"
@@ -2025,6 +2028,7 @@
   label_membership_plural: "Medlemskap"
   lable_membership_added: "Medlem lagt til"
   lable_membership_updated: "Medlem oppdatert"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alpha"
@@ -2126,6 +2130,7 @@
   label_percent_complete: "% Ferdig"
   label_project_activity: "Aktivitet i prosjektet"
   label_project_attribute_plural: "Prosjekt egenskaper"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Antall prosjekter"
   label_project_copy_notifications: "Send e-postvarsler mens prosjektkopieringen pågår"
   label_project_latest: "Siste prosjekter"
@@ -2140,7 +2145,7 @@
   label_project_attributes_settings: "Innstillinger for prosjektegenskaper"
   label_project_storage_plural: "Fillagringer"
   label_project_storage_project_folder: "Fillagringer: Prosjektmapper"
-  label_projects_storage_information: "%{count} prosjekter som bruker %{storage} lagringsplass"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Vis alle prosjekter"
   label_project_show_details: "Vis prosjektdetaljer"
   label_project_hide_details: "Skjul prosjektdetaljer"
@@ -2197,6 +2202,7 @@
   label_setting_plural: "Innstillinger"
   label_system_settings: "Systeminnstillinger"
   label_show_completed_versions: "Vis fullførte versjoner"
+  label_columns: "Kolonner"
   label_sort: "Sortèr"
   label_sort_by: "Sorter på %{value}"
   label_sorted_by: "sortert på %{value}"
@@ -2741,7 +2747,7 @@
     member_of_group: "Deltakers gruppe"
     name_or_identifier: "Navn eller identifikator"
     only_subproject_id: "Bare underprosjekt"
-    shared_with_user: "Delt med bruker"
+    shared_with_user: "Shared with users"
     shared_with_me: "Delt med meg"
     subproject_id: "Inkludert underprosjekt"
   repositories:
@@ -2886,6 +2892,7 @@
   setting_app_subtitle: "Undertittel for applikasjon"
   setting_app_title: "Applikasjonsnavn"
   setting_attachment_max_size: "Maksstørrelse for vedlegg"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Skannemodus"
   setting_antivirus_scan_action: "Handling for infisert fil"
   setting_autofetch_changesets: "Autofetch kodelagerendringer"
@@ -2987,6 +2994,8 @@
     attachments:
       whitelist_text_html: >
         Definer en liste over gydlige fil-typer og/eller mime typer for opplastingsfiler.<br/>Sett inn fil-typer (f.eks. <code>%{ext_example}</code>) eller mime typer (f.eks. <code>%{mime_example}</code>).<br/> La stå tom for å godta at alle filtyper kan lastes opp.  Flere verdier er tillatt (en linje for hver verdi).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Virusskanning"
       clamav_ping_failed: "Kan ikke koble til ClamAV daemon. Dobbeltsjekk konfigurasjonen og prøv på nytt."
@@ -3223,6 +3232,10 @@
         input_label: "Legg til kolonner"
         input_placeholder: "Velg en kolonne"
         drag_area_label: "Behandle og endre rekkefølgen på kolonner"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Tilleggsressurser"
     getting_started: "Komme i gang"
@@ -3570,7 +3583,7 @@
   link: kobling
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth utvidelse"
-    description: "Integrering av OmniAuth strategileverandører for autentisering i Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Enkeltpålogging på"
     description: "Legger til OmniAuth SAML leverandør til OpenProject"
