@@ -57,6 +57,8 @@ module Authorization
       # ^-- still a problem in some cases
       allowed_scope = entity_class.allowed_to(user, perms)
 
+      # TODO: Also refactor to allow for checking non-project scoped entities
+
       if in_project
         allowed_in_single_project?(perms, in_project) || allowed_scope.exists?(project: in_project)
       else
