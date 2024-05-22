@@ -3021,7 +3021,7 @@ en:
         Remaining files have been scanned. There are %{file_count} in quarantine.
         You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        Virus scanning has been enabled successfuly.
+        Virus scanning has been enabled successfully.
         There are %{file_count} that were uploaded previously and still need to be scanned.
         This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
