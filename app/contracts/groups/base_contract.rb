@@ -38,6 +38,9 @@ module Groups
 
     validate :validate_unique_users
 
+    delegate :validate_custom_values, to: :model
+    validate :validate_custom_values
+
     private
 
     # Validating on the group_users since those are dealt with in the
