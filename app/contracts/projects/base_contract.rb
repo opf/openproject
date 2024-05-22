@@ -57,9 +57,6 @@ module Projects
 
     validate :validate_user_allowed_to_manage
 
-    delegate :validate_custom_values, to: :model
-    validate :validate_custom_values
-
     def assignable_parents
       Project
         .allowed_to(user, :add_subprojects)
