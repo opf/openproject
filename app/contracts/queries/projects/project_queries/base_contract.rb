@@ -43,10 +43,17 @@ module Queries::Projects::ProjectQueries
 
     validate :name_select_included
     validate :existing_selects
+    validate :user_is_logged_in
     validate :allowed_to_modify_private_query
     validate :allowed_to_modify_public_query
 
     protected
+
+    def user_is_logged_in
+      if !user.logged?
+        errors.add :base, :error_unauthorized
+      end
+    end
 
     def allowed_to_modify_private_query
       return if model.public?
