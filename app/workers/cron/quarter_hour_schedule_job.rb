@@ -52,16 +52,19 @@ module Cron::QuarterHourScheduleJob
   private
 
   def upper_boundary
-    @upper_boundary ||= GoodJob::Job
-                          .find(job_id)
-                          .cron_at
+    @upper_boundary ||= good_job.cron_at
   end
 
   def lower_boundary
     @lower_boundary ||= begin
+      # The cron_key is used here to find the predecessor job.
+      # The job_class has been used before as a comparison but this fails in
+      # the SaaS environment where multiple tenants exist. The cron_key gets the
+      # tenant information prepended and is thus scoped to the tenant.
       predecessor = GoodJob::Job
                       .succeeded
-                      .where(job_class: self.class.name)
+                      .where(cron_key: good_job.cron_key)
+                      .where("cron_at < ?", upper_boundary)
                       .order(cron_at: :desc)
                       .first
 
@@ -71,5 +74,9 @@ module Cron::QuarterHourScheduleJob
         upper_boundary
       end
     end
+  end
+
+  def good_job
+    @good_job ||= GoodJob::Job.find(job_id)
   end
 end
