@@ -45,6 +45,11 @@ module FlashMessagesHelper
     render(BannerMessageComponent.new(**flash[:primer_banner].to_hash))
   end
 
+  # Primer's flash message component wrapped in a component which is empty initially but can be updated via turbo stream
+  def render_streameable_primer_flash_component
+    render(FlashMessageComponent.new)
+  end
+
   # Renders flash messages
   def render_flash_messages
     return if render_primer_banner_message?
