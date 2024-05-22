@@ -393,7 +393,7 @@ RSpec.describe Queries::Projects::ProjectQuery do
       it "returns only public lists" do
         public_query = create(:project_query, public: true)
         public_query_other_user = create(:project_query, public: true)
-        private_query = create(:project_query, public: false)
+        create(:project_query, public: false)
 
         expect(described_class.public_lists).to contain_exactly(public_query, public_query_other_user)
       end
@@ -401,9 +401,9 @@ RSpec.describe Queries::Projects::ProjectQuery do
 
     describe ".private_lists" do
       it "returns only private lists owned by the user" do
-        public_query = create(:project_query, public: true)
+        create(:project_query, public: true)
         private_query = create(:project_query, public: false)
-        private_query_other_user = create(:project_query, public: false)
+        create(:project_query, public: false)
 
         expect(described_class.private_lists(user: private_query.user)).to contain_exactly(private_query)
       end
@@ -414,7 +414,7 @@ RSpec.describe Queries::Projects::ProjectQuery do
         public_query = create(:project_query, public: true)
         public_query_other_user = create(:project_query, public: true)
         private_query = create(:project_query, public: false)
-        private_query_other_user = create(:project_query, public: false)
+        create(:project_query, public: false)
 
         expect(described_class.visible(user: private_query.user)).to contain_exactly(public_query, public_query_other_user,
                                                                                      private_query)
