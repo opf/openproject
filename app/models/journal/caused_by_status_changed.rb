@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 #
-class Journal::CausedByStatusPCompleteChanged < CauseOfChange::Base
-  def initialize(status_name:, status_id:, status_p_complete_change:)
+class Journal::CausedByStatusChanged < CauseOfChange::Base
+  def initialize(status_name:, status_id:, status_changes:)
     additional = {
       "status_name" => status_name,
       "status_id" => status_id,
-      "status_p_complete_change" => status_p_complete_change
+      "status_changes" => status_changes
     }
 
-    super("status_p_complete_changed", additional)
+    super("status_changed", additional)
   end
 end

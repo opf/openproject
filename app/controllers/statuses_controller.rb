@@ -98,28 +98,15 @@ class StatusesController < ApplicationController
   end
 
   def recompute_progress_values
-    apply_status_p_complete_change
-    apply_status_excluded_from_totals_change
-  end
-
-  def apply_status_p_complete_change
-    return unless WorkPackage.use_status_for_done_ratio?
-    return unless @status.default_done_ratio_previously_changed?
+    attributes_triggering_recomputing = ["excluded_from_totals"]
+    attributes_triggering_recomputing << "default_done_ratio" if WorkPackage.use_status_for_done_ratio?
+    changes = @status.previous_changes.slice(*attributes_triggering_recomputing)
+    return if changes.empty?
 
     WorkPackages::Progress::ApplyStatusesChangeJob
-      .perform_later(cause_type: "status_p_complete_changed",
+      .perform_later(cause_type: "status_changed",
                      status_name: @status.name,
                      status_id: @status.id,
-                     change: @status.default_done_ratio_previous_change)
-  end
-
-  def apply_status_excluded_from_totals_change
-    return unless @status.excluded_from_totals_previously_changed?
-
-    WorkPackages::Progress::ApplyStatusesChangeJob
-      .perform_later(cause_type: "status_excluded_from_totals_changed",
-                     status_name: @status.name,
-                     status_id: @status.id,
-                     change: @status.excluded_from_totals_previous_change)
+                     changes:)
   end
 end

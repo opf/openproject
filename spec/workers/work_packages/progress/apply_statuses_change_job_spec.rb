@@ -57,13 +57,13 @@ RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob do
   subject(:job) { described_class }
 
   def expect_performing_job_changes(from:, to:,
-                                    cause_type: "status_p_complete_changed",
-                                    status_name: "New",
+                                    cause_type: "status_changed",
+                                    status_name: "Some status name",
                                     status_id: 99,
-                                    change: [33, 66])
+                                    changes: { "default_done_ratio" => [33, 66] })
     table = create_table(from)
 
-    job.perform_now(cause_type:, status_name:, status_id:, change:)
+    job.perform_now(cause_type:, status_name:, status_id:, changes:)
 
     table.work_packages.map(&:reload)
     expect_work_packages(table.work_packages, to)
@@ -107,10 +107,10 @@ RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob do
 
       before do
         job.perform_now(
-          cause_type: "status_excluded_from_totals_changed",
+          cause_type: "status_changed",
           status_name: status_excluded.name,
           status_id: status_excluded.id,
-          change: [false, true]
+          changes: { "excluded_from_totals" => [false, true] }
         )
         table_work_packages.map(&:reload)
       end
@@ -132,10 +132,10 @@ RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob do
           expect(work_package.journals.count).to eq(2), "expected #{work_package} to have a new journal"
           last_journal = work_package.last_journal
           expect(last_journal.user).to eq(User.system)
-          expect(last_journal.cause_type).to eq("status_excluded_from_totals_changed")
+          expect(last_journal.cause_type).to eq("status_changed")
           expect(last_journal.cause_status_name).to eq("Excluded")
           expect(last_journal.cause_status_id).to eq(status_excluded.id)
-          expect(last_journal.cause_status_excluded_from_totals_change).to eq([false, true])
+          expect(last_journal.cause_status_changes).to eq({ "excluded_from_totals" => [false, true] })
         end
 
         unchanged_work_packages = table_work_packages - changed_worked_packages
@@ -227,10 +227,10 @@ RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob do
 
       before do
         job.perform_now(
-          cause_type: "status_excluded_from_totals_changed",
+          cause_type: "status_changed",
           status_name: status_excluded.name,
           status_id: status_excluded.id,
-          change: [false, true]
+          changes: { "excluded_from_totals" => [false, true] }
         )
         table_work_packages.map(&:reload)
       end
@@ -252,10 +252,10 @@ RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob do
           expect(work_package.journals.count).to eq(2), "expected #{work_package} to have a new journal"
           last_journal = work_package.last_journal
           expect(last_journal.user).to eq(User.system)
-          expect(last_journal.cause_type).to eq("status_excluded_from_totals_changed")
+          expect(last_journal.cause_type).to eq("status_changed")
           expect(last_journal.cause_status_name).to eq("Excluded")
           expect(last_journal.cause_status_id).to eq(status_excluded.id)
-          expect(last_journal.cause_status_excluded_from_totals_change).to eq([false, true])
+          expect(last_journal.cause_status_changes).to eq({ "excluded_from_totals" => [false, true] })
         end
 
         unchanged_work_packages = table_work_packages - changed_worked_packages
@@ -281,19 +281,19 @@ RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob do
               child 1  | Doing (40%) |  10h |             6h |        40% |        |                  |
               child 2  | Done (100%) |  10h |             0h |       100% |        |                  |
           TABLE
-          cause_type: "status_p_complete_changed",
+          cause_type: "status_changed",
           status_name: status_40p_doing.name,
           status_id: status_40p_doing.id,
-          change: [20, 40]
+          changes: { "default_done_ratio" => [20, 40] }
         )
         [parent, child1].each do |work_package|
           expect(work_package.journals.count).to eq 2
           last_journal = work_package.last_journal
           expect(last_journal.user).to eq(User.system)
-          expect(last_journal.cause_type).to eq("status_p_complete_changed")
+          expect(last_journal.cause_type).to eq("status_changed")
           expect(last_journal.cause_status_name).to eq("Doing (40%)")
           expect(last_journal.cause_status_id).to eq(status_40p_doing.id)
-          expect(last_journal.cause_status_p_complete_change).to eq([20, 40])
+          expect(last_journal.cause_status_changes).to eq({ "default_done_ratio" => [20, 40] })
         end
 
         # unchanged => no new journals
@@ -351,10 +351,10 @@ RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob do
               .and_return(nil)
 
       begin
-        job.perform_now(cause_type: "status_p_complete_changed",
+        job.perform_now(cause_type: "status_changed",
                         status_name: "New",
                         status_id: 99,
-                        change: [33, 66])
+                        changes: { "default_done_ratio" => [33, 66] })
       rescue StandardError
       end
     end

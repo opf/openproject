@@ -31,31 +31,31 @@
 class WorkPackages::Progress::ApplyStatusesChangeJob < WorkPackages::Progress::Job
   VALID_CAUSE_TYPES = %w[
     progress_mode_changed_to_status_based
-    status_excluded_from_totals_changed
-    status_p_complete_changed
+    status_changed
   ].freeze
 
-  attr_reader :cause_type, :status_name, :status_id, :change
+  attr_reader :cause_type, :status_name, :status_id, :changes
 
   # Updates % complete and remaining work of all work packages after a status %
   # complete value has been changed or the progress calculation mode was set to
   # status-based.
   #
-  # It creates a journal entry with the System user describing the change.
+  # It creates a journal entry with the System user describing the changes.
   #
   # @param status_name [String] The cause of the update to be put in the journal
   #   entry. Must be one of `VALID_CAUSE_TYPES`.
   # @param status_name [String] The name of the status to apply.
   # @param status_id [Integer] The ID of the status to apply. Not used
   #   currently, but here in case we need it in a later version.
-  # @param change [Object] The change object containing an array of [old, new]
-  #   values of the change.
+  # @param changes [Object] The changes object containing an map of array of
+  #   [old, new] values of the change, for instance
+  #   `{"default_done_ratio" => [20, 40], "excluded_from_totals" => [false, true]}`.
   # @return [void]
-  def perform(cause_type:, status_name: nil, status_id: nil, change: nil)
+  def perform(cause_type:, status_name: nil, status_id: nil, changes: nil)
     @cause_type = cause_type
     @status_name = status_name
     @status_id = status_id
-    @change = change
+    @changes = changes
 
     with_temporary_progress_table do
       if WorkPackage.use_status_for_done_ratio?
@@ -77,19 +77,12 @@ class WorkPackages::Progress::ApplyStatusesChangeJob < WorkPackages::Progress::J
       case cause_type
       when "progress_mode_changed_to_status_based"
         Journal::CausedByProgressModeChangedToStatusBased.new
-      when "status_excluded_from_totals_changed"
+      when "status_changed"
         assert_status_information_present!
-        Journal::CausedByStatusExcludedFromTotalsChanged.new(
+        Journal::CausedByStatusChanged.new(
           status_name:,
           status_id:,
-          status_excluded_from_totals_change: change
-        )
-      when "status_p_complete_changed"
-        assert_status_information_present!
-        Journal::CausedByStatusPCompleteChanged.new(
-          status_name:,
-          status_id:,
-          status_p_complete_change: change
+          status_changes: changes
         )
       else
         raise "Unable to handle cause type #{cause_type.inspect}"
@@ -112,8 +105,8 @@ class WorkPackages::Progress::ApplyStatusesChangeJob < WorkPackages::Progress::J
       raise ArgumentError, "status_id must be provided"
     end
 
-    if change.nil?
-      raise ArgumentError, "change must be provided"
+    if changes.nil?
+      raise ArgumentError, "changes must be provided"
     end
   end
 end

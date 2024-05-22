@@ -305,25 +305,20 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     shared_let(:status) { create(:status, name: "In progress", default_done_ratio: 40) }
     subject(:cause) do
       {
-        "type" => "status_p_complete_changed",
+        "type" => "status_changed",
         "status_name" => status.name,
         "status_id" => status.id,
-        "status_p_complete_change" => [20, 40]
+        "status_changes" => { "default_done_ratio" => [20, 40] }
       }
     end
 
     it do
-      expect(cause).to render_html_variant(
-        "<strong>#{I18n.t('journals.caused_changes.status_p_complete_changed')}</strong> " \
-        "% complete value for status 'In progress' changed from 20% to 40%"
-      )
+      expect(cause).to render_html_variant("<strong>Status &#39;In progress&#39;</strong> " \
+                                           "% complete changed from 20% to 40%")
     end
 
     it do
-      expect(cause).to render_raw_variant(
-        "#{I18n.t('journals.caused_changes.status_p_complete_changed')} " \
-        "% complete value for status 'In progress' changed from 20% to 40%"
-      )
+      expect(cause).to render_raw_variant("Status 'In progress' % complete changed from 20% to 40%")
     end
 
     it_behaves_like "XSS-proof rendering of status name"
@@ -333,24 +328,22 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     shared_let(:status) { create(:status, name: "Rejected") }
     subject(:cause) do
       {
-        "type" => "status_excluded_from_totals_changed",
+        "type" => "status_changed",
         "status_name" => status.name,
         "status_id" => status.id,
-        "status_excluded_from_totals_change" => [false, true]
+        "status_changes" => { "excluded_from_totals" => [false, true] }
       }
     end
 
     it do
       expect(cause).to render_html_variant(
-        "<strong>Status Excluded from totals changed</strong> " \
-        "status 'Rejected' was excluded from totals calculations"
+        "<strong>Status &#39;Rejected&#39;</strong> now excluded from hierarchy totals"
       )
     end
 
     it do
       expect(cause).to render_raw_variant(
-        "Status Excluded from totals changed " \
-        "status 'Rejected' was excluded from totals calculations"
+        "Status 'Rejected' now excluded from hierarchy totals"
       )
     end
 
@@ -361,24 +354,22 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     shared_let(:status) { create(:status, name: "Rejected") }
     subject(:cause) do
       {
-        "type" => "status_excluded_from_totals_changed",
+        "type" => "status_changed",
         "status_name" => status.name,
         "status_id" => status.id,
-        "status_excluded_from_totals_change" => [true, false]
+        "status_changes" => { "excluded_from_totals" => [true, false] }
       }
     end
 
     it do
       expect(cause).to render_html_variant(
-        "<strong>Status Excluded from totals changed</strong> " \
-        "status 'Rejected' was included in totals calculations"
+        "<strong>Status &#39;Rejected&#39;</strong> now included in hierarchy totals"
       )
     end
 
     it do
       expect(cause).to render_raw_variant(
-        "Status Excluded from totals changed " \
-        "status 'Rejected' was included in totals calculations"
+        "Status 'Rejected' now included in hierarchy totals"
       )
     end
 
@@ -405,6 +396,31 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
         "Progress calculation mode set to status-based"
       )
     end
+  end
+
+  context "when both a change of status % complete and excluded from totals is the cause" do
+    shared_let(:status) { create(:status, name: "In progress", default_done_ratio: 40) }
+    subject(:cause) do
+      {
+        "type" => "status_changed",
+        "status_name" => status.name,
+        "status_id" => status.id,
+        "status_changes" => { "default_done_ratio" => [20, 40],
+                              "excluded_from_totals" => [false, true] }
+      }
+    end
+
+    it do
+      expect(cause).to render_html_variant("<strong>Status &#39;In progress&#39;</strong> " \
+                                           "% complete changed from 20% to 40% and now excluded from hierarchy totals")
+    end
+
+    it do
+      expect(cause).to render_raw_variant("Status 'In progress' " \
+                                          "% complete changed from 20% to 40% and now excluded from hierarchy totals")
+    end
+
+    it_behaves_like "XSS-proof rendering of status name"
   end
 
   context "when cause is a system update: change of progress calculation mode from disabled to work-based" do
