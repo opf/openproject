@@ -42,6 +42,9 @@ module Versions
     validate :validate_project_is_set
     validate :validate_sharing_included
 
+    delegate :validate_custom_values, to: :model
+    validate :validate_custom_values
+
     attribute :name
     attribute :description
     attribute :start_date

@@ -49,7 +49,7 @@ module Redmine
              dependent: :delete_all,
              validate: false,
              autosave: true
-          validate :validate_custom_values
+
           send :include, Redmine::Acts::Customizable::InstanceMethods
 
           before_save :ensure_custom_values_complete

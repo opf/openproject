@@ -154,6 +154,9 @@ module WorkPackages
 
     validate :validate_duration_and_dates_are_not_derivable
 
+    delegate :validate_custom_values, to: :model
+    validate :validate_custom_values
+
     def initialize(work_package, user, options: {})
       super
 
