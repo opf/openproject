@@ -39,7 +39,7 @@ RSpec.describe Projects::QueriesController do
     end
 
     context "when logged in" do
-      let(:query) { build_stubbed(:project_query) }
+      let(:query) { build_stubbed(:project_query, user:) }
       let(:query_id) { "42" }
       let(:query_params) { double }
 
@@ -110,7 +110,7 @@ RSpec.describe Projects::QueriesController do
     end
 
     context "when logged in" do
-      let(:query) { build_stubbed(:project_query) }
+      let(:query) { build_stubbed(:project_query, user:) }
       let(:query_params) { double }
       let(:service_instance) { instance_double(service_class) }
       let(:service_result) { instance_double(ServiceResult, success?: success?, result: query) }
@@ -181,7 +181,7 @@ RSpec.describe Projects::QueriesController do
     end
 
     context "when logged in" do
-      let(:query) { build_stubbed(:project_query) }
+      let(:query) { build_stubbed(:project_query, user:) }
       let(:query_id) { "42" }
       let(:query_params) { double }
       let(:service_instance) { instance_double(service_class) }
@@ -190,7 +190,9 @@ RSpec.describe Projects::QueriesController do
 
       before do
         allow(controller).to receive(:permitted_query_params).and_return(query_params)
-        allow(Queries::Projects::ProjectQuery).to receive(:find).with(query_id).and_return(query)
+        scope = instance_double(ActiveRecord::Relation)
+        allow(Queries::Projects::ProjectQuery).to receive(:visible).and_return(scope)
+        allow(scope).to receive(:find).with(query_id).and_return(query)
         allow(service_class).to receive(:new).with(model: query, user:).and_return(service_instance)
         allow(service_instance).to receive(:call).with(query_params).and_return(service_result)
 
@@ -252,12 +254,15 @@ RSpec.describe Projects::QueriesController do
     end
 
     context "when logged in" do
-      let(:query) { build_stubbed(:project_query) }
+      let(:query) { build_stubbed(:project_query, user:) }
       let(:query_id) { "42" }
       let(:service_instance) { instance_spy(service_class) }
 
       before do
-        allow(Queries::Projects::ProjectQuery).to receive(:find).with(query_id).and_return(query)
+        scope = instance_double(ActiveRecord::Relation)
+        allow(Queries::Projects::ProjectQuery).to receive(:visible).and_return(scope)
+        allow(scope).to receive(:find).with(query_id).and_return(query)
+
         allow(service_class).to receive(:new).with(model: query, user:).and_return(service_instance)
 
         login_as user
