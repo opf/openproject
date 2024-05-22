@@ -30,7 +30,8 @@ class Member < ApplicationRecord
   include ::Scopes::Scoped
 
   ALLOWED_ENTITIES = [
-    "WorkPackage"
+    "WorkPackage",
+    "Queries::Projects::ProjectQuery"
   ].freeze
 
   extend DeprecatedAlias
