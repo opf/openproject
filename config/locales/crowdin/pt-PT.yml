@@ -328,7 +328,6 @@ pt-PT:
       project_roles: "Funções no projeto"
       wp_shares: "Partilhas do pacote de trabalho"
       groups: "Grupos"
-    no_modify_on_shared: "Atualmente, não é possível modificar ou remover associações partilhadas na página do membro. Em vez disso, utilize o modal de partilha."
     delete_member_dialog:
       title: "Remover membro"
       will_remove_the_users_role: "Isto irá remover a função do utilizador deste projeto."
@@ -1784,6 +1783,7 @@ pt-PT:
   label_attribute_expand_text: "O texto completo para \"%{attribute}\""
   label_authentication: "Autenticação"
   label_available_global_roles: "Papéis globais disponíveis"
+  label_available_project_attributes: "Atributos do projeto disponíveis"
   label_available_project_forums: "Fóruns disponíveis"
   label_available_project_repositories: "Repositórios disponíveis"
   label_available_project_versions: "Versões disponíveis"
