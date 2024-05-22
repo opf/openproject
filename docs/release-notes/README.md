@@ -19,12 +19,17 @@ Release date: 2024-05-08
 
 [Release Notes](14-0-1/)
 
-
 ## 14.0.0
 
 Release date: 2024-04-24
 
 [Release Notes](14-0-0/)
+
+## 13.4.2
+
+Release date: 2024-05-22
+
+[Release Notes](13-4-2/)
 
 ## 13.4.1
 
