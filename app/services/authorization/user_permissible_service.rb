@@ -95,6 +95,14 @@ module Authorization
     end
 
     def allowed_in_single_entity?(permissions, entity)
+      if entity_is_project_scoped?(entity.class)
+        allowed_in_single_project_scoped_entity?(permissions, entity)
+      else
+        allowed_in_single_standalone_entity?(permissions, entity)
+      end
+    end
+
+    def allowed_in_single_project_scoped_entity?(permissions, entity)
       return false if entity.nil?
       return false if entity.project.nil?
       return false unless entity.project.active? || entity.project.being_archived?
@@ -109,6 +117,13 @@ module Authorization
       # Because this way, all permissions for that context are fetched and cached.
       allowed_in_single_project?(permissions, entity.project) ||
         cached_permissions(entity).intersect?(permissions_filtered_for_project)
+    end
+
+    def allowed_in_single_standalone_entity?(permissions, entity)
+      return false if entity.nil?
+      return true if admin_and_all_granted_to_admin?(permissions)
+
+      cached_permissions(entity).intersect?(permissions)
     end
 
     def admin_and_all_granted_to_admin?(permissions)
@@ -132,6 +147,10 @@ module Authorization
 
     def context_name(entity_class)
       entity_class.model_name.element.to_sym
+    end
+
+    def entity_is_project_scoped?(entity_class)
+      entity_class.reflect_on_association(:project).present?
     end
   end
 end
