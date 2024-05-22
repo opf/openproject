@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,23 +25,26 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+module WorkPackages::ActivitiesTab::Journals
+  class NotesForm < ApplicationForm
+    form do |notes_form|
+      notes_form.rich_text_area(
+        name: :notes,
+        label: nil,
+        rich_text_options: {
+          resource: nil,
+          showAttachments: false
+        }
+      )
+    end
 
-module WorkPackages
-  module ActivitiesTab
-    module Journals
-      class FormComponent < ApplicationComponent
-        include ApplicationHelper
-        include OpPrimer::ComponentHelpers
+    private
 
-        def initialize(journal:, submit_path:)
-          super
+    def resource
+      return unless object&.journal
 
-          @journal = journal
-          @submit_path = submit_path
-        end
-
-        attr_reader :journal, :submit_path
-      end
+      API::V3::Journals::JournalRepresenter
+        .new(object.journal, current_user: User.current, embed_links: false)
     end
   end
 end

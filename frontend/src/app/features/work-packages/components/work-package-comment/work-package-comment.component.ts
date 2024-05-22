@@ -111,7 +111,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
 
     this.canAddComment = !!this.workPackage.addComment;
     this.showAbove = this.configurationService.commentsSortedInDescendingOrder();
-    this.primerizedActivitiesEnabled = true; // TODO: check for feature flag setting
+    this.primerizedActivitiesEnabled = this.configurationService.activeFeatureFlags.includes('primerizedWorkPackageActivities');
     this.turboFrameSrc = `${this.PathHelper.staticBase}/work_packages/${this.workPackage.id}/activities`;
 
     this.commentService.draft$

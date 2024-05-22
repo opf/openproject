@@ -29,18 +29,29 @@
 module WorkPackages
   module ActivitiesTab
     module Journals
-      class FormComponent < ApplicationComponent
+      class NewComponent < ApplicationComponent
         include ApplicationHelper
         include OpPrimer::ComponentHelpers
+        include OpTurbo::Streamable
 
-        def initialize(journal:, submit_path:)
+        def initialize(work_package:)
           super
 
-          @journal = journal
-          @submit_path = submit_path
+          @work_package = work_package
         end
 
-        attr_reader :journal, :submit_path
+        attr_reader :work_package
+
+        def journal
+          Journal.new(journable: work_package)
+        end
+
+        def wrapper_data_attributes
+          {
+            controller: "work-packages--activities-tab--new",
+            "application-target": "dynamic"
+          }
+        end
       end
     end
   end

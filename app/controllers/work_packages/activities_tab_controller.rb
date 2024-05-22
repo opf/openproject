@@ -47,7 +47,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   def journal_streams
     # TODO: only update specific journal components or append/prepend new journals based on latest client state
     update_via_turbo_stream(
-      component: WorkPackages::ActivitiesTab::IndexComponent.new(
+      component: WorkPackages::ActivitiesTab::Journals::IndexComponent.new(
         work_package: @work_package
       )
     )
@@ -56,34 +56,17 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   end
 
   def create
+    latest_journal_version = @work_package.journals.last.try(:version) || 0
+
     call = Journals::CreateService.new(@work_package, User.current).call(
       notes: journal_params[:notes]
     )
 
-    if call.success?
-      stream_config = {
-        target_component: WorkPackages::ActivitiesTab::IndexComponent.new(
-          work_package: @work_package
-        ),
-        component: WorkPackages::ActivitiesTab::Journals::ShowComponent.new(
-          journal: call.result
-        )
-      }
-
-      # Append or prepend the new journal depending on the sorting
-      if journal_sorting == "asc"
-        append_via_turbo_stream(**stream_config)
-      else
-        prepend_via_turbo_stream(**stream_config)
-      end
-
-      # Clear the form
-      update_via_turbo_stream(
-        component: WorkPackages::ActivitiesTab::Journals::FormComponent.new(
-          work_package: @work_package
-        )
-      )
+    if call.success? && call.result
+      after_create_turbo_stream(call, latest_journal_version)
     end
+
+    clear_form_via_turbo_stream
 
     respond_with_turbo_streams
   end
@@ -104,5 +87,47 @@ class WorkPackages::ActivitiesTabController < ApplicationController
 
   def journal_params
     params.require(:journal).permit(:notes)
+  end
+
+  def after_create_turbo_stream(call, latest_journal_version)
+    # journals might get merged in some cases,
+    # thus we need to check if the journal is already present and update it rather then ap/prepending it
+    if latest_journal_version < call.result.version
+      append_or_prepend_latest_journal_via_turbo_stream(call.result)
+    else
+      update_journal_via_turbo_stream(call.result)
+    end
+  end
+
+  def append_or_prepend_latest_journal_via_turbo_stream(journal)
+    stream_config = {
+      target_component: WorkPackages::ActivitiesTab::Journals::IndexComponent.new(
+        work_package: @work_package
+      ),
+      component: WorkPackages::ActivitiesTab::Journals::ShowComponent.new(
+        journal:
+      )
+    }
+
+    # Append or prepend the new journal depending on the sorting
+    if journal_sorting == "asc"
+      append_via_turbo_stream(**stream_config)
+    else
+      prepend_via_turbo_stream(**stream_config)
+    end
+  end
+
+  def update_journal_via_turbo_stream(journal)
+    update_via_turbo_stream(
+      component: WorkPackages::ActivitiesTab::Journals::ShowComponent.new(journal:)
+    )
+  end
+
+  def clear_form_via_turbo_stream
+    update_via_turbo_stream(
+      component: WorkPackages::ActivitiesTab::Journals::NewComponent.new(
+        work_package: @work_package
+      )
+    )
   end
 end

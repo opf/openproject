@@ -528,7 +528,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :activities, controller: "work_packages/activities_tab", only: %i[index create] do
+    resources :activities, controller: "work_packages/activities_tab", only: %i[index create edit] do
       collection do
         get :journal_streams
       end

@@ -31,6 +31,8 @@ module WorkPackages
     module Journals
       class ShowComponent < ApplicationComponent
         include ApplicationHelper
+        include AvatarHelper
+        include JournalFormatter
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
 
@@ -44,6 +46,71 @@ module WorkPackages
 
         def wrapper_uniq_by
           @journal.id
+        end
+
+        def wrapper_data_attributes
+          {
+            controller: "work-packages--activities-tab--show",
+            "application-target": "dynamic",
+            "work-packages--activities-tab--show-activity-url-value": activity_url
+          }
+        end
+
+        def activity_url
+          "#{project_work_package_url(@journal.journable.project, @journal.journable)}/activity#{activity_anchor}"
+        end
+
+        def activity_anchor
+          "#activity-#{@journal.version}"
+        end
+
+        def data_type
+          @journal.data_type
+        end
+
+        def editable?
+          @journal.user == User.current
+        end
+
+        def initial_version?
+          @journal.version == 1
+        end
+
+        def updated?
+          return false if initial_version?
+
+          @journal.updated_at - @journal.created_at > 5.seconds
+        end
+
+        def copy_url_action_item(menu)
+          menu.with_item(label: t("button_copy_link_to_clipboard"),
+                         tag: :button,
+                         content_arguments: {
+                           data: {
+                             action: "click->work-packages--activities-tab--show#copyActivityUrlToClipboard"
+                           }
+                         }) do |item|
+            item.with_leading_visual_icon(icon: :copy)
+          end
+        end
+
+        def edit_action_item(menu)
+          # menu.with_item(label: t("label_edit"),
+          #                href: edit_work_package_activity_path(@journal.journable, @journal),
+          #                content_arguments: {
+          #                  data: { "turbo-stream": true }
+          #                }) do |item|
+          #   item.with_leading_visual_icon(icon: :pencil)
+          # end
+          menu.with_item(label: t("label_edit"),
+                         tag: :button,
+                         content_arguments: {
+                           data: {
+                             action: "click->work-packages--activities-tab--show#edit"
+                           }
+                         }) do |item|
+            item.with_leading_visual_icon(icon: :pencil)
+          end
         end
       end
     end

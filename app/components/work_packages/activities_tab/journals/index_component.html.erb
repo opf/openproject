@@ -1,0 +1,13 @@
+<%=
+  component_wrapper do
+    flex_layout(id: insert_target_modifier_id) do |journals_index_container|
+      journals.each do |journal|
+        journals_index_container.with_row do
+          render(
+            WorkPackages::ActivitiesTab::Journals::ShowComponent.new(journal:)
+          )
+        end
+      end
+    end
+  end
+%>

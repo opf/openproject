@@ -45,19 +45,12 @@ module WorkPackages
 
       attr_reader :work_package
 
-      def insert_target_modified?
-        true
-      end
-
-      def insert_target_id
-        "work-package-journals"
-      end
-
       def wrapper_data_attributes
         {
           controller: "work-packages--activities-tab--index",
           "application-target": "dynamic",
-          "work-packages--activities-tab--index-journal-streams-url-value": journal_streams_work_package_activities_path(work_package)
+          "work-packages--activities-tab--index-journal-streams-url-value": journal_streams_work_package_activities_path(work_package),
+          "work-packages--activities-tab--index-sorting-value": journal_sorting
         }
       end
 

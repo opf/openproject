@@ -25,32 +25,10 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module WorkPackages::ActivitiesTab
-  class JournalForm < ApplicationForm
-    form do |journal_form|
-      journal_form.rich_text_area(
-        name: :notes,
-        label: nil,
-        rich_text_options: {
-          resource: nil,
-          showAttachments: false
-        }
-      )
-      journal_form.submit(name: :submit, label: "Save", scheme: :primary)
-    end
-
-    private
-
-    def initialize(disabled: false)
-      super()
-      @disabled = disabled
-    end
-
-    def resource
-      return unless object&.journal
-
-      API::V3::Journals::JournalRepresenter
-        .new(object.journal, current_user: User.current, embed_links: false)
+module WorkPackages::ActivitiesTab::Journals
+  class Submit < ApplicationForm
+    form do |notes_form|
+      notes_form.submit(name: :submit, label: "Save", scheme: :primary)
     end
   end
 end

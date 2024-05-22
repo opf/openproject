@@ -34,17 +34,43 @@ import { Controller } from '@hotwired/stimulus';
 export default class IndexController extends Controller {
   static values = {
     journalStreamsUrl: String,
+    sorting: String,
   };
 
   declare journalStreamsUrlValue:string;
+  declare sortingValue:string;
 
   connect() {
     this.handleWorkPackageUpdate = this.handleWorkPackageUpdate.bind(this);
     document.addEventListener('work-package-updated', this.handleWorkPackageUpdate);
+
+    if (window.location.hash.includes('#activity-')) {
+      this.scrollToActivity();
+    } else if (this.sortingValue === 'asc') {
+      this.scrollToBottom();
+    }
   }
 
   disconnect() {
     document.removeEventListener('work-package-updated', this.handleWorkPackageUpdate);
+  }
+
+  scrollToActivity() {
+    const activityId = window.location.hash.replace('#activity-', '');
+    const activityElement = document.getElementById(`activity-${activityId}`);
+    if (activityElement) {
+      activityElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  scrollToBottom():void {
+    // copied from frontend/src/app/features/work-packages/components/work-package-comment/work-package-comment.component.ts
+    const scrollableContainer = jQuery(this.element).scrollParent()[0];
+    if (scrollableContainer) {
+      setTimeout(() => {
+        scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
+      }, 400);
+    }
   }
 
   async handleWorkPackageUpdate(event:Event) {

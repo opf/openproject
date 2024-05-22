@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,23 +26,49 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
 module WorkPackages
   module ActivitiesTab
     module Journals
-      class FormComponent < ApplicationComponent
+      class IndexComponent < ApplicationComponent
         include ApplicationHelper
         include OpPrimer::ComponentHelpers
+        include OpTurbo::Streamable
 
-        def initialize(journal:, submit_path:)
+        def initialize(work_package:)
           super
 
-          @journal = journal
-          @submit_path = submit_path
+          @work_package = work_package
         end
 
-        attr_reader :journal, :submit_path
+        private
+
+        attr_reader :work_package
+
+        def insert_target_modified?
+          true
+        end
+
+        def insert_target_modifier_id
+          "work-package-journals"
+        end
+
+        def journal_sorting
+          User.current.preference&.comments_sorting || "desc"
+        end
+
+        def only_comments?
+          false # TODO: Implement this
+        end
+
+        def journals
+          result = work_package.journals.includes(:user).reorder(version: journal_sorting)
+
+          result = result.where.not(notes: "") if only_comments?
+
+          result
+        end
       end
     end
   end

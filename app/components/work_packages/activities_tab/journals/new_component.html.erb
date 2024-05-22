@@ -1,0 +1,30 @@
+<%=
+  component_wrapper(data: wrapper_data_attributes) do
+    flex_layout(my: 2) do |new_form_container|
+      new_form_container.with_row() do
+        render(Primer::Beta::Button.new(
+                scheme: :default,
+                size: :medium,
+                block: true,
+                data: { 
+                  "work-packages--activities-tab--new-target": "button",
+                  "action": "click->work-packages--activities-tab--new#showForm"
+                }
+              )) do
+          render(Primer::Beta::Text.new()) { I18n.t("js.label_add_comment_title") }
+        end
+      end
+      new_form_container.with_row(
+        display: :none,
+        data: { "work-packages--activities-tab--new-target": "form" }
+      ) do
+        render(
+          WorkPackages::ActivitiesTab::Journals::FormComponent.new(
+            journal:,
+            submit_path: work_package_activities_path(work_package_id: work_package.id)
+          )
+        )
+      end
+    end
+  end
+%>
