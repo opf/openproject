@@ -30,6 +30,7 @@ module Admin::Settings
   class ProjectCustomFieldsController < ::Admin::SettingsController
     include CustomFields::SharedActions
     include OpTurbo::ComponentStream
+    include ApplicationComponentStreams
     include Admin::Settings::ProjectCustomFields::ComponentStreams
 
     menu_item :project_custom_fields_settings
@@ -41,6 +42,7 @@ module Admin::Settings
     before_action :prepare_custom_option_position, only: %i(update create)
     before_action :find_custom_option, only: :delete_option
     before_action :project_custom_field_mappings_query, only: %i[project_mappings unlink]
+    before_action :find_unlink_project_custom_field_mapping, only: %i[unlink]
     # rubocop:enable Rails/LexicallyScopedActionFilter
 
     def show_local_breadcrumb
@@ -68,10 +70,8 @@ module Admin::Settings
     def project_mappings; end
 
     def unlink
-      project = Project.find(permitted_params.project_custom_field_project_mapping[:project_id])
-      project_custom_field_mapping = @custom_field.project_custom_field_project_mappings.find_by(project:)
       delete_service = ProjectCustomFieldProjectMappings::DeleteService
-                         .new(user: current_user, model: project_custom_field_mapping)
+                         .new(user: current_user, model: @project_custom_field_mapping)
                          .call
 
       delete_service.on_success { render_unlink_response(project:) }
@@ -148,6 +148,23 @@ module Admin::Settings
       @project_custom_field_sections = ProjectCustomFieldSection
                                          .includes(custom_fields: :project_custom_field_project_mappings)
                                          .all
+    end
+
+    def find_unlink_project_custom_field_mapping
+      @project = Project.find(permitted_params.project_custom_field_project_mapping[:project_id])
+      @project_custom_field_mapping = @custom_field.project_custom_field_project_mappings.find_by!(project: @project)
+    rescue ActiveRecord::RecordNotFound
+      update_flash_message_via_turbo_stream(
+        message: t(:notice_file_not_found), full: true, dismiss_scheme: :hide, scheme: :danger
+      )
+      replace_via_turbo_stream(
+        component: Settings::ProjectCustomFields::ProjectCustomFieldMapping::TableComponent.new(
+          query: project_custom_field_mappings_query,
+          params: { custom_field: @custom_field }
+        )
+      )
+
+      respond_with_turbo_streams
     end
 
     def find_custom_field
