@@ -62,9 +62,6 @@ module Users
 
     delegate :available_custom_fields, to: :model
 
-    delegate :validate_custom_values, to: :model
-    validate :validate_custom_values
-
     def reduce_writable_attributes(attributes)
       super.tap do |writable|
         writable << "password" if password_writable?
