@@ -26,35 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module News
-      class NewsAPI < ::API::OpenProjectAPI
-        resources :news do
-          get &::API::V3::Utilities::Endpoints::Index
-                 .new(model: ::News,
-                      self_path: :newses)
-                 .mount
+require "spec_helper"
+require_relative "shared_contract_examples"
 
-          post &::API::V3::Utilities::Endpoints::Create
-            .new(model: News)
-            .mount
+RSpec.describe News::UpdateContract do
+  include_context "ModelContract shared context"
 
-          route_param :id, type: Integer, desc: "News ID" do
-            after_validation do
-              @news = ::News
-                      .visible
-                      .find(params[:id])
-            end
-
-            get &::API::V3::Utilities::Endpoints::Show
-                   .new(model: ::News)
-                   .mount
-            patch &::API::V3::Utilities::Endpoints::Update.new(model: ::News).mount
-            delete &::API::V3::Utilities::Endpoints::Delete.new(model: ::News, success_status: 204).mount
-          end
-        end
-      end
-    end
+  it_behaves_like "news contract" do
+    let(:news) { build_stubbed(:news, project:) }
+    let(:contract) { described_class.new(news, current_user) }
   end
 end

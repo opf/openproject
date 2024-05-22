@@ -243,6 +243,7 @@ module API
           show :message
 
           index :newses, :news
+          show :news
 
           def self.news(id)
             "#{newses}/#{id}"

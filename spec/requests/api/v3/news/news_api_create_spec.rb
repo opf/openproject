@@ -24,37 +24,35 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
 
-module API
-  module V3
-    module News
-      class NewsAPI < ::API::OpenProjectAPI
-        resources :news do
-          get &::API::V3::Utilities::Endpoints::Index
-                 .new(model: ::News,
-                      self_path: :newses)
-                 .mount
+require "spec_helper"
+require "rack/test"
+require_relative "create_shared_examples"
 
-          post &::API::V3::Utilities::Endpoints::Create
-            .new(model: News)
-            .mount
+RSpec.describe API::V3::News::NewsAPI, "create" do
+  include_context "create news request context"
+  shared_let(:project) { create(:project, enabled_module_names: %w[news]) }
+  current_user { user }
 
-          route_param :id, type: Integer, desc: "News ID" do
-            after_validation do
-              @news = ::News
-                      .visible
-                      .find(params[:id])
-            end
+  describe "admin user" do
+    let(:user) { build(:admin) }
 
-            get &::API::V3::Utilities::Endpoints::Show
-                   .new(model: ::News)
-                   .mount
-            patch &::API::V3::Utilities::Endpoints::Update.new(model: ::News).mount
-            delete &::API::V3::Utilities::Endpoints::Delete.new(model: ::News, success_status: 204).mount
-          end
-        end
-      end
+    it_behaves_like "create news request flow"
+  end
+
+  describe "user with manage_news permission" do
+    let(:user) { create(:user, member_with_permissions: { project => %i[view_news manage_news] }) }
+
+    it_behaves_like "create news request flow"
+  end
+
+  describe "unauthorized user" do
+    let(:user) { create(:user, member_with_permissions: { project => %i[view_news] }) }
+
+    it "returns an erroneous response" do
+      send_request
+
+      expect(last_response.status).to eq(403)
     end
   end
 end
