@@ -8,7 +8,7 @@ keywords: files, file storages, Nextcloud integration, OneDrive setup, Sharepoin
 
 # Files 
 
-Under *Adminstration -> Files* you can add external file storages, such as Nextcloud or OneDrive/SharePoint and manage settings for attachments to work packages. 
+Under *Administration -> Files* you can add external file storages, such as Nextcloud or OneDrive/SharePoint and manage settings for attachments to work packages. 
 
 ## External file storages
 
