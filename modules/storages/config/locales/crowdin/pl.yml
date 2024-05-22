@@ -40,18 +40,18 @@ pl:
     errors:
       too_many_elements_created_at_once: Zbyt wiele elementów utworzonych jednocześnie. Oczekiwano co najwyżej %{max} , otrzymano %{actual}.
   external_file_storages: Zewnętrzne magazyny plików
-  permission_create_files: 'Automatically managed project folders: Create files'
-  permission_create_files_explanation: This permission is only available for Nextcloud storages
-  permission_delete_files: 'Automatically managed project folders: Delete files'
-  permission_delete_files_explanation: This permission is only available for Nextcloud storages
+  permission_create_files: 'Automatycznie zarządzane foldery projektu: tworzenie plików'
+  permission_create_files_explanation: To uprawnienie jest dostępne tylko dla magazynów Nextcloud
+  permission_delete_files: 'Automatycznie zarządzane foldery projektu: usuwanie plików'
+  permission_delete_files_explanation: To uprawnienie jest dostępne tylko dla magazynów Nextcloud
   permission_header_for_project_module_storages: Automatycznie zarządzane foldery projektu
   permission_manage_file_links: Zarządzaj linkami do plików
   permission_manage_storages_in_project: Zarządzaj magazynami plików w projekcie
-  permission_read_files: 'Automatically managed project folders: Read files'
-  permission_share_files: 'Automatically managed project folders: Share files'
-  permission_share_files_explanation: This permission is only available for Nextcloud storages
+  permission_read_files: 'Automatycznie zarządzane foldery projektu: odczyt plików'
+  permission_share_files: 'Automatycznie zarządzane foldery projektu: udostępnianie plików'
+  permission_share_files_explanation: To uprawnienie jest dostępne tylko dla magazynów Nextcloud
   permission_view_file_links: Wyświetl linki do plików
-  permission_write_files: 'Automatically managed project folders: Write files'
+  permission_write_files: 'Automatycznie zarządzane foldery projektu: zapis plików'
   project_module_storages: Pliki
   storages:
     buttons:

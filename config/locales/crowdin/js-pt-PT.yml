@@ -331,17 +331,17 @@ pt-PT:
         description: >
           Selecione o nível de zoom inicial que deve ser mostrado quando o zoom automático não está disponível.
       export:
-        title: "Gantt chart PDF options"
-        button_export: "Export"
+        title: "Opções de PDF do gráfico de Gantt"
+        button_export: "Exportar"
         column_widths:
-          narrow: "Narrow"
-          medium: "Medium"
-          wide: "Wide"
-          very_wide: "Very wide"
+          narrow: "Estreito"
+          medium: "Médio"
+          wide: "Amplo"
+          very_wide: "Muito amplo"
         options:
-          date_zoom: "Date zoom"
-          paper_size: "Paper size"
-          column_widths: "Column widths"
+          date_zoom: "Formato de datas"
+          paper_size: "Tamanho do papel"
+          column_widths: "Larguras da coluna"
     general_text_no: "não"
     general_text_yes: "sim"
     general_text_No: "Não"
@@ -363,7 +363,7 @@ pt-PT:
           "14_1":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
+                A versão contém uma série de novas funcionalidades e melhorias: <br> <ul class="%{list_styling_class}"> <li>Exportação em PDF da vista Gantt, por exemplo, para impressão (suplemento Enterprise)</li> <li>Projetos favoritos</li> <li>Secções em Reuniões</li> <li>Apresentação de reuniões nas páginas A minha página e Visão geral do projeto</li> <li>Possibilidade de ocultar anexos no separador Ficheiros</li> <li>Campos personalizados do tipo Ligação (URL)</li> </ul>
     ical_sharing_modal:
       title: "Subscrever o calendário"
       inital_setup_error_message: "Ocorreu um erro ao recuperar os dados."
@@ -431,7 +431,7 @@ pt-PT:
     label_expand_project_menu: "Expandir menu do projeto"
     label_export: "Exportar"
     label_export_preparing: "A exportação está a ser preparada e será descarregada brevemente."
-    label_favorites: "Favorites"
+    label_favorites: "Favoritos"
     label_filename: "Ficheiro"
     label_filesize: "Tamanho"
     label_general: "Geral"
@@ -1056,7 +1056,7 @@ pt-PT:
       sharing:
         share: "Partilhe"
         title: "Partilhar pacote de trabalho"
-        show_all_users: "Show all users with whom the work package has been shared with"
+        show_all_users: "Mostrar todos os utilizadores com quem o pacote de trabalho foi partilhado"
         selected_count: "%{count} selecionado"
         selection:
           mixed: "Misturado"
@@ -1283,8 +1283,8 @@ pt-PT:
           group: "O grupo agora faz parte de %{project}. Enquanto isso, já pode planear com este grupo e atribuir pacotes de trabalho, por exemplo."
         next_button: "Continuar"
     favorite_projects:
-      no_results: "You have no favorite projects"
-      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
+      no_results: "Não tem projetos favoritos"
+      no_results_subtext: "Adicione um ou vários projetos como favoritos através da sua visão geral ou numa lista de projetos."
     include_projects:
       toggle_title: "Incluir projetos"
       title: "Projetos"
