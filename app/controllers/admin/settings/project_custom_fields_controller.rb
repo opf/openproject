@@ -31,6 +31,7 @@ module Admin::Settings
     include CustomFields::SharedActions
     include OpTurbo::ComponentStream
     include ApplicationComponentStreams
+    include FlashMessagesHelper
     include Admin::Settings::ProjectCustomFields::ComponentStreams
 
     menu_item :project_custom_fields_settings
@@ -74,7 +75,14 @@ module Admin::Settings
                          .new(user: current_user, model: @project_custom_field_mapping)
                          .call
 
-      delete_service.on_success { render_unlink_response(project:) }
+      delete_service.on_success { render_unlink_response(project: @project) }
+
+      delete_service.on_failure do
+        update_flash_message_via_turbo_stream(
+          message: join_flash_messages(delete_service.errors.full_messages),
+          full: true, dismiss_scheme: :hide, scheme: :danger
+        )
+      end
 
       respond_to_with_turbo_streams(status: delete_service.success? ? :ok : :unprocessable_entity)
     end
