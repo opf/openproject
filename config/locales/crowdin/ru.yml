@@ -286,7 +286,7 @@ ru:
       project_custom_fields:
         header:
           title: "Атрибуты проекта"
-          description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
+          description: "Эти атрибуты проекта будут отображаться на Вашей <a href=%{overview_url} target=\"_blank\">странице обзора проекта</a> в соответствующих разделах. Вы можете включить или отключить отдельные атрибуты. Атрибуты проекта и разделы определяются в <a href=%{admin_settings_url} target=\"_blank\">настройках администрирования</a> администратором экземпляра."
         filter:
           label: "Поиск атрибута проекта"
         actions:
@@ -361,24 +361,24 @@ ru:
     delete_work_package_shares_dialog:
       title: "Отменить общий доступ к пакету работ"
       shared_with_this_user_html:
-        one: "%{all_shared_work_packages_link} has been shared with this user."
+        one: "%{all_shared_work_packages_link} был разделен с этим пользователем."
         few: "%{all_shared_work_packages_link} have been shared with this user."
         many: "%{all_shared_work_packages_link} have been shared with this user."
         other: "%{all_shared_work_packages_link} have been shared with this user."
       shared_with_this_group_html:
-        one: "%{all_shared_work_packages_link} has been shared with this group."
+        one: "%{all_shared_work_packages_link} был разделен с этой группой."
         few: "%{all_shared_work_packages_link} have been shared with this group."
         many: "%{all_shared_work_packages_link} have been shared with this group."
         other: "%{all_shared_work_packages_link} have been shared with this group."
       shared_with_permission_html:
-        one: "Only %{shared_work_packages_link} has been shared with %{shared_role_name} permissions."
+        one: "Только %{shared_work_packages_link} был предоставлен общий доступ с правами %{shared_role_name}."
         few: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
         many: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
         other: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
-      revoke_all_or_with_role: "Would you like to revoke access to all shared work packages, or only those with %{shared_role_name} permissions?"
-      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
-      cannot_remove_inherited: "The work packages shares shared via groups cannot be removed."
-      cannot_remove_inherited_with_role: "The work packages shares with role %{shared_role_name} are shared via groups and cannot be removed."
+      revoke_all_or_with_role: "Хотите ли Вы отменить доступ ко всем общим пакетам работ или только к тем, которые имеют разрешения %{shared_role_name}?"
+      will_not_affect_inherited_shares: "(Это не повлияет на пакеты работ, разделенные с их группой)."
+      cannot_remove_inherited: "Общие пакеты работ, к которым предоставлен общий доступ через группы, не могут быть удалены."
+      cannot_remove_inherited_with_role: "Общие пакеты работ с ролью %{shared_role_name} доступны через группы и не могут быть удалены.\n\n\n\n"
       cannot_remove_inherited_note_admin_html: "You can either revoke the share to the group or remove this specific member from the group in the %{administration_settings_link}."
       cannot_remove_inherited_note_non_admin: "You can either revoke the share to the group or contact your administrator to remove this specific member from the group."
       will_revoke_directly_granted_access: "This action will revoke their access to all of them, but the work packages shared with a group."
@@ -619,7 +619,7 @@ ru:
       oauth_client:
         client: "ID клиента"
       relation:
-        lag: "Lag"
+        lag: "Задержка"
         from: "Пакет работ"
         to: "Похожий пакет работ"
       status:
@@ -713,7 +713,7 @@ ru:
       planning_element_type_color:
         hexcode: Шестнадцатеричный код
       project_custom_field:
-        custom_field_section: Section
+        custom_field_section: Раздел
       work_package:
         begin_insertion: "Начало вставки"
         begin_deletion: "Начало удаления"
@@ -803,7 +803,7 @@ ru:
         not_an_iso_date: "недопустимая дата. Требуемый формат: гггг-мм-дд."
         not_same_project: "не принадлежит тому же проекту."
         odd: "должно быть нечетным."
-        regex_match_failed: "does not match the regular expression %{expression}."
+        regex_match_failed: "не соответствует регулярному выражению %{expression}."
         regex_invalid: "не может быть проверен связанным регулярным выражением."
         smaller_than_or_equal_to_max_length: "должно быть меньше или равно максимальной длине."
         taken: "уже принято."
@@ -1015,9 +1015,9 @@ ru:
               only_same_project_categories_allowed: "Категория пакета работ должна быть в рамках того же проекта, что и пакет работ."
               does_not_exist: "Указанная категория не существует."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              cant_be_inferior_to_remaining_work: "Не может быть меньше, чем Оставшаяся работа."
+              must_be_set_when_remaining_work_is_set: "Требуется, если установлен параметр Оставшаяся работа."
+              only_values_greater_or_equal_zeroes_allowed: "Должно быть >= 0."
               format: "%{message}"
             remaining_hours:
               cant_exceed_work: "Cannot be higher than Work."
