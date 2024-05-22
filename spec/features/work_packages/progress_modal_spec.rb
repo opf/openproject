@@ -350,7 +350,7 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
 
           work_edit_field.activate!
 
-          work_edit_field.expect_modal_field_value("10h")
+          work_edit_field.expect_modal_field_value("1d 2h")
           remaining_work_edit_field.expect_modal_field_value("2h 7m 12s")
           percent_complete_edit_field.expect_modal_field_value("78", readonly: true)
         end
@@ -521,7 +521,7 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
       specify "Case 2: when work is set to 12h, " \
               "remaining work is automatically set to 6h " \
               "and subsequently work is set to 14h, " \
-              "remaining work updates to 8h" do
+              "remaining work updates to 1d" do
         work_package_table.visit_query(progress_query)
         work_package_table.expect_work_package_listed(work_package)
 
@@ -537,7 +537,7 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
 
         work_edit_field.set_value("14")
         page.driver.wait_for_network_idle # Wait for live-update to finish
-        remaining_work_edit_field.expect_modal_field_value("8h")
+        remaining_work_edit_field.expect_modal_field_value("1d")
       end
 
       specify "Case 3: when work is set to 2h, " \

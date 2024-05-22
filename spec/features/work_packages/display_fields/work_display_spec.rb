@@ -172,11 +172,11 @@ RSpec.describe "Work display", :js do
       wp_table.visit_query query
 
       # parent
-      expect(page).to have_content("5h·Σ 20h")
-      expect(page).to have_link("Σ 20h")
+      expect(page).to have_content("5h·Σ 2d 4h")
+      expect(page).to have_link("Σ 2d 4h")
       # child 2
-      expect(page).to have_content("3h·Σ 15h")
-      expect(page).to have_link("Σ 15h")
+      expect(page).to have_content("3h·Σ 1d 7h")
+      expect(page).to have_link("Σ 1d 7h")
     end
 
     context "when clicking the link of a top parent" do
@@ -185,7 +185,7 @@ RSpec.describe "Work display", :js do
       end
 
       it "shows a work package table with a parent filter to list the direct children" do
-        click_on("Σ 20h")
+        click_on("Σ 2d 4h")
 
         wp_table.expect_work_package_count(4)
         wp_table.expect_work_package_listed(parent, child1, child2, child3)
@@ -202,8 +202,8 @@ RSpec.describe "Work display", :js do
       end
 
       it "shows also all ancestors in the work package table" do
-        expect(page).to have_content("Work\n3h·Σ 15h")
-        click_on("Σ 15h")
+        expect(page).to have_content("Work\n3h·Σ 1d 7h")
+        click_on("Σ 1d 7h")
 
         wp_table.expect_work_package_count(3)
         wp_table.expect_work_package_listed(parent, child2, grand_child21)

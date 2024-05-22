@@ -61,10 +61,10 @@ RSpec.describe "Work package activity", :js, :with_cuprite do
     it "displays changed attributes in the activity tab", :aggregate_failures do
       within("activity-entry", text: admin.name) do
         expect(page).to have_list_item(text: "% Complete set to 50%")
-        expect(page).to have_list_item(text: "Work set to 10h")
+        expect(page).to have_list_item(text: "Work set to 1d 2h")
         expect(page).to have_list_item(text: "Remaining work set to 5h")
-        expect(page).to have_list_item(text: "Total work set to 20h")
-        expect(page).to have_list_item(text: "Total remaining work set to 8h")
+        expect(page).to have_list_item(text: "Total work set to 2d 4h")
+        expect(page).to have_list_item(text: "Total remaining work set to 1d")
         expect(page).to have_list_item(text: "Total % complete set to 60%")
       end
     end
