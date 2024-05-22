@@ -31,7 +31,7 @@ OpenProject offers close integration with Nextcloud to allow users to:
 
 OpenProject makes significant efforts to ensure that the integration works with all the latest stable versions.  We strongly recommend continuously updating all systems to the current stable version. This ensures access to the latest features and prompt fixes for any potential bugs.
 
-- OpenProject [latest release](https://www.openproject.org/docs/release-notes/).
+- OpenProject [latest release](../../../release-notes/).
 - The latest version of the [OpenProject Integration Nextcloud app](https://apps.nextcloud.com/apps/integration_openproject)  from the Nextcloud App Store.
 - Nextcloud version in the latest `stable` version.
   - If you run Nextcloud in the community edition be careful to not
@@ -164,7 +164,7 @@ Additional settings on this page also allow you, as an administrator, to define 
 
 Now that the integration is set up, the next step is to make the Nextcloud file storage you just created available to individual projects.
 
-To do so, navigate to any existing project in your OpenProject instance and click on **Project settings** **→ Modules** and follow the instructions in the [Project settings user guide](../../../user-guide/projects/project-settings/file-storages).
+To do so, navigate to any existing project in your OpenProject instance and click on **Project settings** **→ Modules** and follow the instructions in the [Project settings user guide](../../../user-guide/projects/project-settings/files/).
 
 > **Note:** For information on how to use the file storage (link Nextcloud user accounts at a user level, link files to a work package, view and download linked files, unlink files), please read our [Nextcloud integration user guide](../../../user-guide/file-management/nextcloud-integration/).
 

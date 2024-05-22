@@ -32,7 +32,7 @@ class ProjectsController < ApplicationController
 
   before_action :find_project, except: %i[index new]
   before_action :load_query_or_deny_access, only: %i[index]
-  before_action :authorize, only: %i[copy]
+  before_action :authorize, only: %i[copy deactivate_work_package_attachments]
   before_action :authorize_global, only: %i[new]
   before_action :require_admin, only: %i[destroy destroy_info]
 
