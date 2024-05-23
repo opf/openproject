@@ -10,6 +10,7 @@ require "optparse"
 require "base64"
 require "pathname"
 require "pry"
+require "time"
 require "yaml"
 require "httpx"
 
@@ -274,6 +275,7 @@ class Report
                 :head_branch,
                 :head_sha,
                 :commit_message,
+                :run_started_at,
                 :merge_branch_sha
 end
 
@@ -453,9 +455,11 @@ class Formatter
     report.head_branch = workflow_run["head_branch"]
     report.head_sha = workflow_run["head_sha"]
     report.commit_message = commit_message(workflow_run)
+    report.run_started_at = Time.parse(workflow_run["run_started_at"]).utc
     warn "  Branch: #{report.head_branch.bold}"
     warn "  Commit SHA: #{report.head_sha.bold}"
     warn "  Commit message: #{report.commit_message.bold}"
+    warn "  Run started at: #{report.run_started_at.localtime.to_s.bold}"
     display_pull_request_info(workflow_run)
   end
 
