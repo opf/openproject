@@ -50,7 +50,7 @@ module Queries::Projects::ProjectQueries
     protected
 
     def user_is_logged_in
-      if !user.logged?
+      unless user.logged?
         errors.add :base, :error_unauthorized
       end
     end
