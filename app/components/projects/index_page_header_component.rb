@@ -82,7 +82,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
     end
   end
 
-  def can_rename? = may_save_as? && query.persisted? && query.user == current_user && !query.changed?
+  alias can_rename? can_save?
 
   def can_publish?
     OpenProject::FeatureDecisions.project_list_sharing_active? &&
