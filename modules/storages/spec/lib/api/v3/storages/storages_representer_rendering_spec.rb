@@ -32,9 +32,7 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe API::V3::Storages::StorageRepresenter, "rendering" do
-  let(:oauth_application) { build_stubbed(:oauth_application) }
   let(:oauth_client_credentials) { build_stubbed(:oauth_client) }
-  let(:storage) { build_stubbed(:nextcloud_storage, oauth_application:, oauth_client: oauth_client_credentials) }
   let(:user) { build_stubbed(:user) }
   let(:auth_check_result) { ServiceResult.success }
   let(:representer) { described_class.new(storage, current_user: user, embed_links: true) }
@@ -48,7 +46,33 @@ RSpec.describe API::V3::Storages::StorageRepresenter, "rendering" do
     )
   end
 
-  describe "_links" do
+  shared_examples_for "common file storage properties" do
+    it_behaves_like "property", :_type do
+      let(:value) { "Storage" }
+    end
+
+    it_behaves_like "property", :id do
+      let(:value) { storage.id }
+    end
+
+    it_behaves_like "property", :name do
+      let(:value) { storage.name }
+    end
+
+    it_behaves_like "property", :complete do
+      let(:value) { true }
+    end
+
+    it_behaves_like "datetime property", :createdAt do
+      let(:value) { storage.created_at }
+    end
+
+    it_behaves_like "datetime property", :updatedAt do
+      let(:value) { storage.updated_at }
+    end
+  end
+
+  shared_examples_for "common file storage links" do
     describe "self" do
       it_behaves_like "has a titled link" do
         let(:link) { "self" }
@@ -57,18 +81,31 @@ RSpec.describe API::V3::Storages::StorageRepresenter, "rendering" do
       end
     end
 
-    describe "origin" do
-      it_behaves_like "has an untitled link" do
-        let(:link) { "origin" }
-        let(:href) { storage.host }
-      end
-    end
-
-    describe "connectionState" do
+    describe "authorizationState" do
       it_behaves_like "has a titled link" do
         let(:link) { "authorizationState" }
         let(:href) { "urn:openproject-org:api:v3:storages:authorization:Connected" }
         let(:title) { "Connected" }
+      end
+
+      context "if authentication check returns unauthorized" do
+        let(:auth_check_result) { ServiceResult.failure(errors: Storages::StorageError.new(code: :unauthorized)) }
+
+        it_behaves_like "has a titled link" do
+          let(:link) { "authorizationState" }
+          let(:href) { "urn:openproject-org:api:v3:storages:authorization:FailedAuthorization" }
+          let(:title) { "Authorization failed" }
+        end
+      end
+
+      context "if authentication check returns error" do
+        let(:auth_check_result) { ServiceResult.failure(errors: Storages::StorageError.new(code: :error)) }
+
+        it_behaves_like "has a titled link" do
+          let(:link) { "authorizationState" }
+          let(:href) { "urn:openproject-org:api:v3:storages:authorization:Error" }
+          let(:title) { "Error" }
+        end
       end
     end
 
@@ -130,31 +167,6 @@ RSpec.describe API::V3::Storages::StorageRepresenter, "rendering" do
       end
     end
 
-    describe "oauthApplication" do
-      it_behaves_like "has no link" do
-        let(:link) { "oauthApplication" }
-      end
-
-      context "as admin" do
-        let(:user) { build_stubbed(:admin) }
-
-        it_behaves_like "has a titled link" do
-          let(:link) { "oauthApplication" }
-          let(:href) { "/api/v3/oauth_applications/#{oauth_application.id}" }
-          let(:title) { oauth_application.name }
-        end
-
-        context "with invalid configured storage with missing oauth application" do
-          let(:oauth_application) { nil }
-
-          it_behaves_like "has an untitled link" do
-            let(:link) { "oauthApplication" }
-            let(:href) { nil }
-          end
-        end
-      end
-    end
-
     describe "oauthClientCredentials" do
       it_behaves_like "has no link" do
         let(:link) { "oauthClientCredentials" }
@@ -181,17 +193,7 @@ RSpec.describe API::V3::Storages::StorageRepresenter, "rendering" do
     end
   end
 
-  describe "_embedded" do
-    describe "oauthApplication" do
-      it { is_expected.not_to have_json_path("_embedded/oauthApplication") }
-
-      context "as admin" do
-        let(:user) { build_stubbed(:admin) }
-
-        it { is_expected.to be_json_eql(oauth_application.id).at_path("_embedded/oauthApplication/id") }
-      end
-    end
-
+  shared_examples_for "common file storage embedded resources" do
     describe "oauthClientCredentials" do
       it { is_expected.not_to have_json_path("_embedded/oauthClientCredentials") }
 
@@ -210,86 +212,102 @@ RSpec.describe API::V3::Storages::StorageRepresenter, "rendering" do
     end
   end
 
-  describe "properties" do
-    it_behaves_like "property", :_type do
-      let(:value) { "Storage" }
-    end
+  context "if file storage has provider type Nextcloud" do
+    let(:oauth_application) { build_stubbed(:oauth_application) }
+    let(:storage) { build_stubbed(:nextcloud_storage, oauth_application:, oauth_client: oauth_client_credentials) }
 
-    it_behaves_like "property", :id do
-      let(:value) { storage.id }
-    end
+    it_behaves_like "common file storage properties"
 
-    it_behaves_like "datetime property", :createdAt do
-      let(:value) { storage.created_at }
-    end
-
-    it_behaves_like "datetime property", :updatedAt do
-      let(:value) { storage.updated_at }
-    end
-
-    describe "Automatically managed project folders" do
-      shared_examples "protects applicationPassword" do
-        it "does not render the applicationPassword" do
-          expect(generated).not_to have_json_path("applicationPassword")
-        end
+    describe "properties (Nextcloud only)" do
+      it_behaves_like "property", :hasApplicationPassword do
+        let(:value) { false }
       end
 
-      context "with automatic project folder management enabled" do
-        let(:storage) do
-          build(:nextcloud_storage, :as_automatically_managed, oauth_application:, oauth_client: oauth_client_credentials)
-        end
-
-        it_behaves_like "property", :hasApplicationPassword do
-          let(:value) { true }
-        end
-
-        it_behaves_like "protects applicationPassword"
-      end
-
-      context "with automatic project folder management disabled" do
-        let(:storage) do
-          build(:nextcloud_storage, :as_not_automatically_managed, oauth_application:, oauth_client: oauth_client_credentials)
-        end
-
+      describe "hasApplicationPassword" do
         it_behaves_like "property", :hasApplicationPassword do
           let(:value) { false }
         end
 
-        it_behaves_like "protects applicationPassword"
-      end
+        context "if file storage is configured as 'automatically managed project folders'" do
+          let(:storage) do
+            build(:nextcloud_storage, :as_automatically_managed, oauth_application:, oauth_client: oauth_client_credentials)
+          end
 
-      context "when automatic project folder management is not configured" do
-        let(:storage) do
-          build(:nextcloud_storage,
-                provider_fields: { automatically_managed: false },
-                oauth_application:, oauth_client: oauth_client_credentials)
+          it_behaves_like "property", :hasApplicationPassword do
+            let(:value) { true }
+          end
         end
-
-        it "hasApplicationPassword is false" do
-          expect(generated).to be_json_eql(false).at_path("hasApplicationPassword")
-        end
-
-        it_behaves_like "protects applicationPassword"
-      end
-
-      context "with a non-Nextcloud storage" do
-        let(:storage) do
-          build(:one_drive_storage, oauth_application:, oauth_client: oauth_client_credentials)
-        end
-
-        before do
-          Storages::Peripherals::Registry.stub(
-            "one_drive.queries.open_storage",
-            ->(_) { ServiceResult.success(result: "https://my.sharepoint.com/sites/DeathStar/Documents") }
-          )
-        end
-
-        it "does not include the property hasApplicationPassword" do
-          expect(generated).not_to have_json_path("hasApplicationPassword")
-        end
-
-        it_behaves_like "protects applicationPassword"
       end
     end
+
+    it_behaves_like "common file storage links"
+
+    describe "_links (Nextcloud only)" do
+      describe "origin" do
+        it_behaves_like "has an untitled link" do
+          let(:link) { "origin" }
+          let(:href) { storage.host }
+        end
+      end
+
+      describe "oauthApplication" do
+        it_behaves_like "has no link" do
+          let(:link) { "oauthApplication" }
+        end
+
+        context "as admin" do
+          let(:user) { build_stubbed(:admin) }
+
+          it_behaves_like "has a titled link" do
+            let(:link) { "oauthApplication" }
+            let(:href) { "/api/v3/oauth_applications/#{oauth_application.id}" }
+            let(:title) { oauth_application.name }
+          end
+
+          context "with invalid configured storage with missing oauth application" do
+            let(:oauth_application) { nil }
+
+            it_behaves_like "has an untitled link" do
+              let(:link) { "oauthApplication" }
+              let(:href) { nil }
+            end
+          end
+        end
+      end
+    end
+
+    it_behaves_like "common file storage embedded resources"
+
+    describe "_embedded (Nextcloud only)" do
+      describe "oauthApplication" do
+        it { is_expected.not_to have_json_path("_embedded/oauthApplication") }
+
+        context "as admin" do
+          let(:user) { build_stubbed(:admin) }
+
+          it { is_expected.to be_json_eql(oauth_application.id).at_path("_embedded/oauthApplication/id") }
+        end
+      end
+    end
+  end
+
+  context "if file storage has provider type OneDrive/SharePoint" do
+    let(:storage) { build_stubbed(:one_drive_storage, oauth_client: oauth_client_credentials) }
+
+    it_behaves_like "common file storage properties"
+
+    describe "properties (OneDrive/SharePoint only)" do
+      it_behaves_like "property", :tenantId do
+        let(:value) { storage.tenant_id }
+      end
+
+      it_behaves_like "property", :driveId do
+        let(:value) { storage.drive_id }
+      end
+    end
+
+    it_behaves_like "common file storage links"
+
+    it_behaves_like "common file storage embedded resources"
   end
 end
