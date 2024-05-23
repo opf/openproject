@@ -73,6 +73,25 @@ RSpec.describe TableHelpers::TableParser do
       .to raise_error(ArgumentError, 'Please use "remaining work" instead of "remaining hours"')
   end
 
+  it "raises an error if there are more cells than headers in a row" do
+    table = <<~TABLE
+      subject | work
+      wp      |   4h |   6h
+    TABLE
+    expect { described_class.new.parse(table) }
+      .to raise_error(ArgumentError, "Too many cells in row 1, have you forgotten some headers?")
+  end
+
+  it "is ok to have more headers than cells (value of missing cells will be nil)" do
+    table = <<~TABLE
+      subject | work | remaining work
+      wp      |   4h
+    TABLE
+    parsed_data = described_class.new.parse(table)
+    expect(parsed_data.dig(0, :attributes, :estimated_hours)).to eq(4.0)
+    expect(parsed_data.dig(0, :attributes, :remaining_hours)).to be_nil
+  end
+
   describe "subject column" do
     let(:table) do
       <<~TABLE

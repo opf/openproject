@@ -33,6 +33,10 @@ module TableHelpers
     def parse(representation)
       headers, *rows = representation.split("\n").filter_map { |line| split_line_into_cells(line) }
       work_packages_data = rows.map.with_index do |cells, index|
+        if cells.size > headers.size
+          raise ArgumentError, "Too many cells in row #{index + 1}, have you forgotten some headers?"
+        end
+
         {
           attributes: {},
           index:,
