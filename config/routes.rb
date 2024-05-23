@@ -181,7 +181,11 @@ Rails.application.routes.draw do
 
   namespace :projects do
     resource :menu, only: %i[show]
-    resources :queries, only: %i[new create update destroy]
+    resources :queries, only: %i[new create update destroy] do
+      member do
+        get :rename
+      end
+    end
   end
 
   resources :projects, except: %i[show edit create update] do

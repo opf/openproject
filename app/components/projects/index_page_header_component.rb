@@ -31,16 +31,13 @@
 class Projects::IndexPageHeaderComponent < ApplicationComponent
   include OpPrimer::ComponentHelpers
   include Primer::FetchOrFallbackHelper
-  include Menus::ProjectsHelper
 
   attr_accessor :current_user,
                 :query,
                 :state,
                 :params
 
-  STATE_DEFAULT = :show
-  STATE_EDIT = :edit
-  STATE_OPTIONS = [STATE_DEFAULT, STATE_EDIT].freeze
+  STATE_OPTIONS = %i[show edit rename].freeze
 
   def initialize(current_user:, query:, params:, state: :show)
     super
@@ -75,6 +72,8 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
 
   def can_save? = can_save_as? && query.persisted? && query.user == current_user
 
+  def can_rename? = may_save_as? && query.persisted? && query.user == current_user && !query.changed?
+
   def show_state?
     state == :show
   end
@@ -89,15 +88,19 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
   def current_breadcrumb_element
     return page_title if query.name.blank?
 
-    current_object = first_level_menu_items.find do |section|
-      section.children.any?(&:selected)
-    end
-
-    if current_object && current_object.header.present?
-      I18n.t("menus.breadcrumb.nested_element", section_header: current_object.header, title: query.name).html_safe
+    if current_section && current_section.header.present?
+      I18n.t("menus.breadcrumb.nested_element", section_header: current_section.header, title: query.name).html_safe
     else
       page_title
     end
+  end
+
+  def current_section
+    return @current_section if defined?(@current_section)
+
+    projects_menu = Menus::Projects.new(controller_path:, params:, current_user:)
+
+    @current_section = projects_menu.first_level_menu_items.find { |section| section.children.any?(&:selected) }
   end
 
   def header_save_action(header:, message:, label:, href:, method: nil)
