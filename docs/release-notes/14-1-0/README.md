@@ -14,7 +14,12 @@ We released [OpenProject 14.1.0](https://community.openproject.org/versions/2030
 
 ## Important updates and breaking changes
 
-### Deprecation of Univention app center packages 
+### Fixes a stored XSS vulnerability in the cost report functionality (CVE-2024-135224)
+OpenProject Cost Report functionality uses improper sanitization of user input. This can lead to Stored XSS via the header values of the report table. This attack requires the permissions "Edit work packages" as well as "Add attachments".
+
+For more information, [please see our security advisory](https://github.com/opf/openproject/security/advisories/GHSA-h26c-j8wg-frjc).
+
+### Deprecation of Univention app center packages
 
 We unfortunately can no longer provide the OpenProject app for the Univention app center due to incompatibility of their PostgreSQL version in app center 5.0. They have announced that a newer PostgreSQL version will be available in a newer version of the app center.
 This means that we are unable to provide new versions of OpenProject in the Univention app center. The last version available in the app center is OpenProject 13.4.1.
@@ -72,7 +77,7 @@ Read more about [dynamic meetings in OpenProject](../../user-guide/meetings/dyna
 
 ### Possibility to hide attachments in the Files tab
 
-Admins now are able to hide the attachment section in the Files tab. This setting can be changed both at an instance and project levels and is particularly useful for projects where users should only upload files via external storage, e.g. Nextcloud. 
+Admins now are able to hide the attachment section in the Files tab. This setting can be changed both at an instance and project levels and is particularly useful for projects where users should only upload files via external storage, e.g. Nextcloud.
 
 To make this possible Attachment and Files Storages settings were moved together under **Files** section, both in the [instance administration](../../system-admin-guide/files/attachments/) and under [project settings](../../user-guide/projects/project-settings/files/).
 
@@ -179,6 +184,8 @@ A very special thank you goes to our sponsors for features and improvements of t
 * German Federal Ministry of the Interior and Home Affairs (BMI) for sponsoring the features on progress reporting
 
 Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to Marc Burk, Silas Kropf, and Hanley Loller.
+
+Also thanks for finding and responsibly disclosing the CVE-2024-135224 vulnerability go to [Sean Marpo](https://github.com/seanmarpo). Thank you for reaching out to us and helping in identifying this issue.
 
 Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to highlight user [Syvert](https://crowdin.com/profile/syvert)
 who has done an outstanding number of translations for the Norwegian language in recent weeks.
