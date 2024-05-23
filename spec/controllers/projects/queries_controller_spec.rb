@@ -96,7 +96,9 @@ RSpec.describe Projects::QueriesController do
       let(:query_id) { "42" }
 
       before do
-        allow(Queries::Projects::ProjectQuery).to receive(:find).with(query_id).and_return(query)
+        scope = instance_double(ActiveRecord::Relation)
+        allow(Queries::Projects::ProjectQuery).to receive(:visible).and_return(scope)
+        allow(scope).to receive(:find).with(query_id).and_return(query)
 
         login_as user
       end
