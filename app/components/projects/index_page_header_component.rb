@@ -82,7 +82,17 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
     end
   end
 
-  alias can_rename? can_save?
+  def can_rename?
+    return false unless current_user.logged?
+    return false unless query.persisted?
+    return false if query.changed?
+
+    if query.public?
+      current_user.allowed_globally?(:manage_public_project_queries)
+    else
+      query.user == current_user
+    end
+  end
 
   def can_publish?
     OpenProject::FeatureDecisions.project_list_sharing_active? &&
