@@ -3235,7 +3235,7 @@ fr:
       sort_by:
         automatic:
           heading: "Automatique"
-          description: "Classez les %{pluriel} selon un ou plusieurs critères de tri. Vous perdrez le tri précédent."
+          description: "Classez les %{plural} selon un ou plusieurs critères de tri. Vous perdrez le tri précédent."
   top_menu:
     additional_resources: "Ressources supplémentaires"
     getting_started: "Pour commencer"
