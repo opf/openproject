@@ -916,7 +916,7 @@ GEM
       ffi (~> 1.0)
     rb_sys (0.9.97)
     rbtree3 (0.7.1)
-    rdoc (6.6.3.1)
+    rdoc (6.7.0)
       psych (>= 4.0.0)
     recaptcha (5.16.0)
     redcarpet (3.6.0)
