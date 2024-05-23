@@ -96,7 +96,6 @@ module WorkPackages::Progress::SqlCommands
           END
       FROM (
         SELECT wp_tree.ancestor_id AS id,
-               MAX(generations) AS generations,
                SUM(estimated_hours) AS total_work,
                SUM(remaining_hours) AS total_remaining_work
         FROM work_package_hierarchies wp_tree
@@ -106,7 +105,12 @@ module WorkPackages::Progress::SqlCommands
         GROUP BY wp_tree.ancestor_id
       ) totals
       WHERE temp_wp_progress_values.id = totals.id
-      AND totals.generations > 0
+      AND temp_wp_progress_values.id IN (
+        SELECT ancestor_id AS id
+        FROM work_package_hierarchies
+        GROUP BY id
+        HAVING MAX(generations) > 0
+      )
     SQL
   end
 

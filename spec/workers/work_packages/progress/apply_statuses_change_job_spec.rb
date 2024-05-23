@@ -95,52 +95,84 @@ RSpec.describe WorkPackages::Progress::ApplyStatusesChangeJob do
     end
 
     context "when a status is being excluded from progress calculation" do
-      # The work packages are created like if the status is not excluded yet
-      shared_let_work_packages(<<~TABLE)
-        hierarchy    | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
-        grandparent  | New         |   1h |           0.6h |        40% |    24h |            11.3h |          53%
-          parent     | Excluded    |   4h |             1h |        75% |    23h |            10.7h |          53%
-            child 1  | Excluded    |   9h |           7.2h |        20% |        |                  |
-            child 2  | In progress |   5h |           2.5h |        50% |        |                  |
-            child 3  | Closed      |   5h |             0h |       100% |        |                  |
-      TABLE
-
-      before do
-        job.perform_now(
-          cause_type: "status_changed",
-          status_name: status_excluded.name,
-          status_id: status_excluded.id,
-          changes: { "excluded_from_totals" => [false, true] }
+      it "computes totals of the parent having work when all children are excluded" do
+        expect_performing_job_changes(
+          from: <<~TABLE,
+            hierarchy   | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            parent      | In progress |  10h |             3h |        70% |    20h |               5h |          75%
+              child     | Excluded    |  10h |             2h |        50% |        |                  |
+          TABLE
+          to: <<~TABLE
+            subject     | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            parent      | In progress |  10h |             3h |        70% |    10h |               3h |          70%
+              child     | Excluded    |  10h |             2h |        50% |        |                  |
+          TABLE
         )
-        table_work_packages.map(&:reload)
       end
 
-      it "recomputes totals without the values from work packages having the excluded status" do
-        expect_work_packages(table_work_packages, <<~TABLE)
-          subject      | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
-          grandparent  | New         |   1h |           0.6h |        40% |    11h |             3.1h |          72%
-            parent     | Excluded    |   4h |             1h |        75% |    10H |             2.5h |          75%
+      it "keeps the totals unset if work, remaining work, and % complete are all nil" do
+        expect_performing_job_changes(
+          from: <<~TABLE,
+            hierarchy   | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            parent      | In progress |      |                |            |        |                  |
+              child     | Excluded    |      |                |            |        |                  |
+          TABLE
+          to: <<~TABLE
+            subject     | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            parent      | In progress |      |                |            |        |                  |
+              child     | Excluded    |      |                |            |        |                  |
+          TABLE
+        )
+      end
+
+      describe "general case" do
+        # The work packages are created like if the status is not excluded yet
+        shared_let_work_packages(<<~TABLE)
+          hierarchy    | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+          grandparent  | New         |   1h |           0.6h |        40% |    24h |            11.3h |          53%
+            parent     | Excluded    |   4h |             1h |        75% |    23h |            10.7h |          53%
               child 1  | Excluded    |   9h |           7.2h |        20% |        |                  |
               child 2  | In progress |   5h |           2.5h |        50% |        |                  |
               child 3  | Closed      |   5h |             0h |       100% |        |                  |
         TABLE
-      end
 
-      it "adds a relevant journal entry for the parent with recomputed total" do
-        changed_worked_packages = [grandparent, parent]
-        changed_worked_packages.each do |work_package|
-          expect(work_package.journals.count).to eq(2), "expected #{work_package} to have a new journal"
-          last_journal = work_package.last_journal
-          expect(last_journal.user).to eq(User.system)
-          expect(last_journal.cause_type).to eq("status_changed")
-          expect(last_journal.cause_status_name).to eq("Excluded")
-          expect(last_journal.cause_status_id).to eq(status_excluded.id)
-          expect(last_journal.cause_status_changes).to eq({ "excluded_from_totals" => [false, true] })
+        before do
+          job.perform_now(
+            cause_type: "status_changed",
+            status_name: status_excluded.name,
+            status_id: status_excluded.id,
+            changes: { "excluded_from_totals" => [false, true] }
+          )
+          table_work_packages.map(&:reload)
         end
 
-        unchanged_work_packages = table_work_packages - changed_worked_packages
-        unchanged_work_packages.each do |work_package|
-          expect(work_package.journals.count).to eq(1), "expected #{work_package} not to have new journals"
+        it "recomputes totals without the values from work packages having the excluded status" do
+          expect_work_packages(table_work_packages, <<~TABLE)
+            subject      | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            grandparent  | New         |   1h |           0.6h |        40% |    11h |             3.1h |          72%
+              parent     | Excluded    |   4h |             1h |        75% |    10H |             2.5h |          75%
+                child 1  | Excluded    |   9h |           7.2h |        20% |        |                  |
+                child 2  | In progress |   5h |           2.5h |        50% |        |                  |
+                child 3  | Closed      |   5h |             0h |       100% |        |                  |
+          TABLE
+        end
+
+        it "adds a relevant journal entry for the parent with recomputed total" do
+          changed_worked_packages = [grandparent, parent]
+          changed_worked_packages.each do |work_package|
+            expect(work_package.journals.count).to eq(2), "expected #{work_package} to have a new journal"
+            last_journal = work_package.last_journal
+            expect(last_journal.user).to eq(User.system)
+            expect(last_journal.cause_type).to eq("status_changed")
+            expect(last_journal.cause_status_name).to eq("Excluded")
+            expect(last_journal.cause_status_id).to eq(status_excluded.id)
+            expect(last_journal.cause_status_changes).to eq({ "excluded_from_totals" => [false, true] })
+          end
+
+          unchanged_work_packages = table_work_packages - changed_worked_packages
+          unchanged_work_packages.each do |work_package|
+            expect(work_package.journals.count).to eq(1), "expected #{work_package} not to have new journals"
+          end
         end
       end
     end
