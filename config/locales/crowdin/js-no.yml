@@ -331,17 +331,17 @@
         description: >
           Velg standard zoom-nivå som skal vises når autozoom ikke er tilgjengelig.
       export:
-        title: "Gantt chart PDF options"
-        button_export: "Export"
+        title: "Gantt-diagram PDF alternativer"
+        button_export: "Eksportèr"
         column_widths:
-          narrow: "Narrow"
+          narrow: "Smal"
           medium: "Medium"
-          wide: "Wide"
-          very_wide: "Very wide"
+          wide: "Bred"
+          very_wide: "Veldig bred"
         options:
-          date_zoom: "Date zoom"
-          paper_size: "Paper size"
-          column_widths: "Column widths"
+          date_zoom: "Dato zoom"
+          paper_size: "Papirstørrelse"
+          column_widths: "Kolonnebredder"
     general_text_no: "nei"
     general_text_yes: "ja"
     general_text_No: "Nei"
@@ -363,7 +363,7 @@
           "14_1":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
+                Utgivelsen inneholder ulike nye funksjoner og forbedringer: <br> <ul class="%{list_styling_class}"> <li>PDF eksport av Gantt visning, f.eks for utskrift (Enterprise add-on)</li> <li>Favorittprosjekter</li> <li>Avsnitt i Møter</li> <li>Viser møter på Min side og i prosjektoversikten</li> <li>Mulighet for å skjule vedlegg i Filer-fanen</li> <li>Egendefinerte felter av typen lenke (URL)</li> </ul>
     ical_sharing_modal:
       title: "Abonner på kalender"
       inital_setup_error_message: "En feil oppstod under henting av data."
@@ -431,7 +431,7 @@
     label_expand_project_menu: "Utvid prosjektmeny"
     label_export: "Eksportèr"
     label_export_preparing: "Eksporten forberedes og lastes ned i løpet av kort tid."
-    label_favorites: "Favorites"
+    label_favorites: "Favoritter"
     label_filename: "Fil"
     label_filesize: "Størrelse"
     label_general: "Generell"
@@ -656,7 +656,7 @@
           no_selection: "Klikk på en melding for å se alle aktivitetsdetaljer."
         new_notifications:
           message: "Det finnes nye varsler."
-          link_text: "Click here to load them."
+          link_text: "Klikk her for å laste dem"
       menu:
         accountable: "Ansvarlig"
         by_project: "Ulest av prosjektet"
@@ -1056,7 +1056,7 @@
       sharing:
         share: "Del"
         title: "Del arbeidspakke"
-        show_all_users: "Show all users with whom the work package has been shared with"
+        show_all_users: "Vis alle brukere som arbeidspakken er delt med"
         selected_count: "%{count} valgte"
         selection:
           mixed: "Blandet"
@@ -1283,8 +1283,8 @@
           group: "Gruppen er nå en del av %{project}. Dette betyr at du allerede kan planlegge med den gruppen og tildele arbeidspakker for forekomst."
         next_button: "Fortsett"
     favorite_projects:
-      no_results: "You have no favorite projects"
-      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
+      no_results: "Du har ingen favorittprosjekter"
+      no_results_subtext: "Legg til ett eller flere prosjekter som favoritt via oversikten eller i en prosjektliste."
     include_projects:
       toggle_title: "Inkluder prosjekter"
       title: "Prosjekter"
