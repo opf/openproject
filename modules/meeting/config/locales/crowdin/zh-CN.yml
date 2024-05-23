@@ -106,6 +106,8 @@ zh-CN:
       agenda: "复制议程"
       agenda_text: "复制之前会议的议程"
     email:
+      send_emails: "Send emails"
+      send_invitation_emails: "Send out invitation emails upon creation"
       open_meeting_link: "打开会议"
       invited:
         summary: "%{actor} 已经向您发送了一个 %{title} 会议邀请"

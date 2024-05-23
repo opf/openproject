@@ -43,7 +43,7 @@ ru:
           title: 'Подпроекты'
           no_results: 'Подпроектов нет.'
         project_favorites:
-          title: 'Favorite projects'
+          title: 'Избранные проекты'
           no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
         time_entries_current_user:
           title: 'Затраченное мной время'

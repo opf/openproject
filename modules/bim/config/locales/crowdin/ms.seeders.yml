@@ -80,7 +80,7 @@ ms:
               * [(Demo) Projek BIM]({{opSetting:base_url}}/projects/demo-bim-project): Proses dan koordinasi BIM.
                   * [(Demo) Pengurusan BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project): Pengurusan BCF.
 
-          Anda juga boleh mencipta [projek baru]({{opSetting:base_url}}/projects/new) yang baru.
+          Anda juga boleh mencipta [projek baharu]({{opSetting:base_url}}/projects/new) yang baharu.
 
           Jangan berhenti bekerjasama. Dengan sumber dan minda terbuka.
 
@@ -631,7 +631,7 @@ ms:
                     ## Deskripsi
 
                     *   Permulaan ditapak pembinaan termasuk pengenalan kepada model
-                    *   Semua objek perlu ada maklumat yang diperlukan untuk tugasan. JIka tidak, penambahan data model perlu dilakukan
+                    *   Semua objek perlu ada maklumat yang diperlukan untuk tugasan. Jika tidak, penambahan data model perlu dilakukan
                     *   ...
                 item_1:
                   subject: Bina bangunan

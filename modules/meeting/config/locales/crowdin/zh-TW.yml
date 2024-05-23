@@ -106,6 +106,8 @@ zh-TW:
       agenda: "複製議程"
       agenda_text: "複製舊會議之議程"
     email:
+      send_emails: "Send emails"
+      send_invitation_emails: "Send out invitation emails upon creation"
       open_meeting_link: "打開會議連結"
       invited:
         summary: "%{actor} 已經向您發送了一個 %{title} 會議邀請"

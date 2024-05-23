@@ -109,6 +109,8 @@ cs:
       agenda: "Kopírovat program"
       agenda_text: "Zkopírujte program staré schůzky"
     email:
+      send_emails: "Send emails"
+      send_invitation_emails: "Send out invitation emails upon creation"
       open_meeting_link: "Otevřít schůzku"
       invited:
         summary: "%{actor} vám poslal pozvánku na schůzku %{title}"
