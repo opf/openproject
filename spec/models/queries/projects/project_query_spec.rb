@@ -416,8 +416,8 @@ RSpec.describe Queries::Projects::ProjectQuery do
         private_query = create(:project_query, public: false)
         create(:project_query, public: false)
 
-        expect(described_class.visible(user: private_query.user)).to contain_exactly(public_query, public_query_other_user,
-                                                                                     private_query)
+        expect(described_class.visible(private_query.user)).to contain_exactly(public_query, public_query_other_user,
+                                                                               private_query)
       end
     end
   end
@@ -430,7 +430,7 @@ RSpec.describe Queries::Projects::ProjectQuery do
     context "when the user is the owner" do
       let(:owner) { user }
 
-      it { is_expected.to be_visible(user:) }
+      it { is_expected.to be_visible(user) }
     end
 
     context "when the user is not the owner" do
@@ -439,13 +439,13 @@ RSpec.describe Queries::Projects::ProjectQuery do
       context "and the query is public" do
         let(:public) { true }
 
-        it { is_expected.to be_visible(user:) }
+        it { is_expected.to be_visible(user) }
       end
 
       context "and the query is private" do
         let(:public) { false }
 
-        it { is_expected.not_to be_visible(user:) }
+        it { is_expected.not_to be_visible(user) }
       end
     end
   end

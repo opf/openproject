@@ -36,7 +36,7 @@ RSpec.describe Queries::Projects::Factory,
 
     allow(Queries::Projects::ProjectQuery)
       .to receive(:visible)
-            .with(user: current_user)
+            .with(current_user)
             .and_return(scope)
 
     allow(scope)
