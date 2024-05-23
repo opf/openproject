@@ -81,7 +81,7 @@
         end
 
         if query.persisted?
-          if can_publish? && OpenProject::FeatureDecisions.project_list_sharing_active?
+          if can_publish?
             if query.public?
               menu.with_item(
                 label: t(:button_unpublish),
