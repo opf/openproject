@@ -329,7 +329,7 @@ ru:
       project_roles: "Роли проекта"
       wp_shares: "Пакеты работ используемые совместно"
       groups: "Группы"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    no_modify_on_shared: "В настоящее время вы не можете изменять или удалять общие членства через страницу участников. Используйте вместо этого режим общего доступа."
     delete_member_dialog:
       title: "Удалить участника"
       will_remove_the_users_role: "Это удалит роль пользователя из этого проекта."
@@ -507,9 +507,9 @@ ru:
       unsupported_for_multiple_projects: "Массовое перемещение/копирование не поддерживается при работе с пакетами из нескольких проектов"
     sharing:
       missing_workflow_warning:
-        title: "Workflow missing for work package sharing"
+        title: "Отсутствует рабочий процесс для совместного использования пакета работ"
         message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
-        link_message: "Configure the workflows in the administration."
+        link_message: "Настройте рабочие процессы в Администрировании."
     summary:
       reports:
         category:
@@ -3002,7 +3002,7 @@ ru:
   setting_work_package_done_ratio_field: "Рабочий"
   setting_work_package_done_ratio_status: "Статус"
   setting_work_package_done_ratio_explanation_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
+    В режиме <b>На основе работы</b>, % Выполнения рассчитывается на основе того, сколько работы выполнено по отношению к общему объему работы. В режиме <b>На основе статуса</b>, каждый статус имеет связанное с ним значение % Выполнения. Изменение статуса изменит % Выполнения.
   setting_work_package_properties: "Свойства пакета работ"
   setting_work_package_startdate_is_adddate: "Использовать текущую дату как дату начала для новых пакетов работ"
   setting_work_packages_projects_export_limit: "Ограничение экспорта пакетов работ / проектов"
@@ -3061,7 +3061,7 @@ ru:
       whitelist_text_html: >
         Определите список допустимых расширений файлов и/или mime типов для загруженных файлов. <br/> Введите расширения файлов (например, <code>%{ext_example}</code>) или mime типы (e. ., <code>%{mime_example}</code>). <br/> Оставьте пустым, чтобы разрешить загрузку любого типа файла. Допустимы несколько значений (одна строка для каждого значения).
       show_work_package_attachments: >
-        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
+        Отключение этой опции скроет список вложений на вкладке "Файлы" пакетов работ для новых проектов. Файлы, прикрепленные в описании пакета работ, по-прежнему будут загружаться во внутреннее хранилище вложений.
     antivirus:
       title: "Сканирование вирусов"
       clamav_ping_failed: "Не удалось подключиться к сервису ClamAV. Проверьте настройки и повторите попытку."
@@ -3115,14 +3115,14 @@ ru:
       label_new_section: "Раздел"
       label_edit_section: "Переименовать"
       label_section_actions: "Действия в разделе"
-      heading_description: "These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level."
+      heading_description: "Эти атрибуты проекта отображаются на странице обзора каждого проекта. Вы можете добавлять новые атрибуты, группировать их в разделы и изменять их порядок по своему усмотрению. Эти атрибуты можно включать или отключать, но не изменять их порядок на уровне проекта."
       label_project_custom_field_actions: "Действия с атрибутами проекта"
-      label_no_project_custom_fields: "No project attributes defined in this section"
+      label_no_project_custom_fields: "В этом разделе атрибуты проекта не определены"
       edit:
-        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
+        description: "Изменения этого атрибута проекта будут отражены во всех проектах, где он включен. Обязательные атрибуты не могут быть отключены для каждого проекта."
       new:
         heading: "Новый атрибут"
-        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
+        description: "Изменения этого атрибута проекта будут отражены во всех проектах, где он включен. Обязательные атрибуты не могут быть отключены для каждого проекта."
     projects:
       missing_dependencies: "Был проверен модуль проекта %{module}, который зависит от %{dependencies}. Вам также необходимо проверить эти зависимости."
       section_new_projects: "Настройки для новых проектов"
@@ -3155,7 +3155,7 @@ ru:
   text_are_you_sure: "Вы уверены?"
   text_are_you_sure_continue: "Вы уверены, что хотите продолжить?"
   text_are_you_sure_with_children: "Удалить пакет работ и все дочерние пакеты работ?"
-  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
+  text_are_you_sure_with_project_custom_fields: "Удаление этого атрибута также приведет к удалению его значений во всех проектах. Вы уверены, что хотите это сделать?"
   text_assign_to_project: "Назначить на проект"
   text_form_configuration: >
     Вы можете настроить, какие поля будут показываться в формах пакетов работ. Вы можете свободно сгруппировать поля с учетом потребностей вашего домена.
@@ -3301,7 +3301,7 @@ ru:
       sort_by:
         automatic:
           heading: "Автоматически"
-          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
+          description: "Упорядочьте %{plural} по одному или нескольким критериям сортировки. Вы потеряете предыдущую сортировку."
   top_menu:
     additional_resources: "Дополнительные ресурсы"
     getting_started: "Приступая к работе"
@@ -3338,7 +3338,7 @@ ru:
     status_user_and_brute_force: "%{user} и %{brute_force}"
     status_change: "Смена статуса"
     text_change_disabled_for_provider_login: "Это имя задано вашим поставщиком авторизации, поэтому его нельзя изменить."
-    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
+    text_change_disabled_for_ldap_login: "Имя и адрес электронной почты заданы LDAP и не могут быть изменены."
     unlock: "Разблокировать"
     unlock_and_reset_failed_logins: "Разблокировать и сбросить неудачные попытки входа"
   version_status_closed: "закрыт"
@@ -3386,8 +3386,8 @@ ru:
     progress:
       label_note: "Примечание:"
       modal:
-        work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
-        status_based_help_text: "% Complete is set by work package status."
+        work_based_help_text: "% Выполнения автоматически выводится из Работ и Оставшихся работ."
+        status_based_help_text: "% Выполнения определяется статусом пакета работ."
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
     sharing:
       count:

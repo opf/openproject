@@ -31,7 +31,7 @@ ru:
         Вы уверены, что хотите удалить этот файл? Это действие необратимо.
       draggable_hint: |
         Перенесите в поле редактора для вставки изображения или прикрепления ссылки. Закрытые поля будут открыты в процессе переноса.
-      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
+      quarantined_hint: "Этот файл помещен в карантин, так как в нем обнаружен вирус. Он недоступен для загрузки."
     autocomplete_ng_select:
       add_tag: "Добавить элемент"
       clear_all: "Очистить все"
@@ -338,7 +338,7 @@ ru:
           wide: "Широкий"
           very_wide: "Очень широкий"
         options:
-          date_zoom: "Date zoom"
+          date_zoom: "Изменение даты"
           paper_size: "Размер бумаги"
           column_widths: "Ширина столбца"
     general_text_no: "нет"
@@ -362,7 +362,7 @@ ru:
           "14_1":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
+                Выпуск содержит новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Экспорт диаграммы Ганта в формате PDF, например, для печати</li> <li>Избранные проекты</li> <li>Разделы в Совещаниях</li> <li>Отображение встреч на странице "Мои страницы" и страницах обзора проектов</li> <li>Возможность скрыть вложения на вкладке "Файлы"</li> <li>Пользовательские поля типа Ссылка (URL)</li> </ul>
     ical_sharing_modal:
       title: "Подписаться на календарь"
       inital_setup_error_message: "Произошла ошибка при получении данных."
@@ -1057,7 +1057,7 @@ ru:
       sharing:
         share: "Поделиться"
         title: "Поделиться пакетом работ"
-        show_all_users: "Show all users with whom the work package has been shared with"
+        show_all_users: "Показать всех пользователей, которым был предоставлен общий доступ к пакету работ"
         selected_count: "%{count} выбрано"
         selection:
           mixed: "Смешанное"
@@ -1289,7 +1289,7 @@ ru:
         next_button: "Продолжить"
     favorite_projects:
       no_results: "У вас нет избранных проектов"
-      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
+      no_results_subtext: "Добавьте один или несколько проектов в избранное через их обзор или в списке проектов."
     include_projects:
       toggle_title: "Включить проекты"
       title: "Проекты"
@@ -1350,5 +1350,5 @@ ru:
         Close: "Закрыть"
     open_project_storage_modal:
       waiting_subtitle:
-        network_off: "There is a network problem."
-        network_on: "Network is back. We are trying."
+        network_off: "Проблема с сетью."
+        network_on: "Проблема с сетью решена."

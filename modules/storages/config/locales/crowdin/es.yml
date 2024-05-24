@@ -40,18 +40,18 @@ es:
     errors:
       too_many_elements_created_at_once: Se intentaron crear demasiados elementos a la vez. Se esperaban como máximo %{max}, pero se recibieron %{actual}.
   external_file_storages: Almacenamientos de archivos externos
-  permission_create_files: 'Automatically managed project folders: Create files'
-  permission_create_files_explanation: This permission is only available for Nextcloud storages
-  permission_delete_files: 'Automatically managed project folders: Delete files'
-  permission_delete_files_explanation: This permission is only available for Nextcloud storages
+  permission_create_files: 'Carpetas de proyecto gestionadas automáticamente: Crear archivos'
+  permission_create_files_explanation: Este permiso solo está disponible para los almacenamientos Nextcloud
+  permission_delete_files: 'Carpetas de proyecto gestionadas automáticamente: Eliminar archivos'
+  permission_delete_files_explanation: Este permiso solo está disponible para los almacenamientos Nextcloud
   permission_header_for_project_module_storages: Carpetas de proyecto gestionadas automáticamente
   permission_manage_file_links: Administrar enlaces de archivos
   permission_manage_storages_in_project: Administrar almacenes de archivos en el proyecto
-  permission_read_files: 'Automatically managed project folders: Read files'
-  permission_share_files: 'Automatically managed project folders: Share files'
-  permission_share_files_explanation: This permission is only available for Nextcloud storages
+  permission_read_files: 'Carpetas de proyecto gestionadas automáticamente: Ver archivos'
+  permission_share_files: 'Carpetas de proyecto gestionadas automáticamente: Compartir archivos'
+  permission_share_files_explanation: Este permiso solo está disponible para los almacenamientos Nextcloud
   permission_view_file_links: Ver enlaces de archivos
-  permission_write_files: 'Automatically managed project folders: Write files'
+  permission_write_files: 'Carpetas de proyecto gestionadas automáticamente: Escribir archivos'
   project_module_storages: Archivos
   storages:
     buttons:
@@ -246,7 +246,7 @@ es:
         name: OneDrive/Sharepoint
         name_placeholder: ej. OneDrive
     show_attachments_toggle:
-      description: 'Deactivating this option will hide the attachments list on the work packages files tab. The files attached in the description of a work package will still be uploaded in the internal attachments storage. '
+      description: 'Al desactivar esta opción se ocultará la lista de archivos adjuntos en la pestaña de archivos de los paquetes de trabajo. Los archivos adjuntos en la descripción de un paquete de trabajo seguirán cargándose en el almacenamiento interno de archivos adjuntos.'
       label: Mostrar archivos adjuntos en la pestaña de archivos de los paquetes de trabajo
     storage_list_blank_slate:
       description: Añade un almacenamiento para verlos aquí.
