@@ -46,7 +46,6 @@ module Admin::Settings
       super.tap do |settings|
         settings[:working_days] = working_days_params(settings)
         settings[:non_working_days] = non_working_days_params
-        settings.merge(duration_configuration_params)
       end
     end
 
@@ -63,11 +62,6 @@ module Admin::Settings
     def non_working_days_params
       non_working_days = params[:settings].to_unsafe_hash[:non_working_days_attributes] || {}
       non_working_days.to_h.values
-    end
-
-    def duration_configuration_params
-      params.require(:settings)
-            .permit(:hours_per_day, :days_per_week, :days_per_month)
     end
 
     def modified_non_working_days_for(result)
