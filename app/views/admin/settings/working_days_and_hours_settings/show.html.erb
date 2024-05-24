@@ -67,18 +67,9 @@ See COPYRIGHT and LICENSE files for more details.
     </fieldset>
   </section>
 
-  <div class="op-toast -warning">
-    <div class="op-toast--content">
-      <p>
-        <%= t("working_days.warning").html_safe %>
-      </p>
-    </div>
-  </div>
-
   <section class="form--section">
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= t('settings.working_days.section_work_week') %></legend>
-
       <p>
         <%= t("working_days.info").html_safe %>
       </p>
@@ -90,6 +81,13 @@ See COPYRIGHT and LICENSE files for more details.
                                 direction: :horizontal %>
       </div>
 
+      <div class="op-toast -warning">
+        <div class="op-toast--content">
+          <p>
+            <%= t("working_days.warning").html_safe %>
+          </p>
+        </div>
+      </div>
     </fieldset>
   </section>
 
