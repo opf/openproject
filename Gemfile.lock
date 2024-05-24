@@ -458,7 +458,7 @@ GEM
     disposable (0.6.3)
       declarative (>= 0.0.9, < 1.0.0)
       representable (>= 3.1.1, < 4)
-    doorkeeper (5.6.9)
+    doorkeeper (5.7.0)
       railties (>= 5)
     dotenv (3.1.2)
     dotenv-rails (3.1.2)
@@ -1196,7 +1196,7 @@ DEPENDENCIES
   debug
   deckar01-task_list (~> 2.3.1)
   disposable (~> 0.6.2)
-  doorkeeper (~> 5.6.6)
+  doorkeeper (~> 5.7.0)
   dotenv-rails
   dry-container
   email_validator (~> 2.2.3)
