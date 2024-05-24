@@ -33,8 +33,8 @@ class Projects::ColumnHeaderComponent < ApplicationComponent # rubocop:disable O
 
   with_collection_parameter :column
 
-  def initialize(column:, query:, **options)
-    super(column, **options)
+  def initialize(column:, query:, **)
+    super(column, **)
     @query = query
   end
 

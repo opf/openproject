@@ -69,10 +69,7 @@ module Queries::BaseQuery
                 apply_orders(apply_filters(default_scope))
               end
 
-      if scope.with_values.any?
-        merged_with = scope.with_values.each_with_object({}) { |v, hash| hash.merge!(v) }
-        scope.with_values = [merged_with]
-      end
+      merge_with_values(scope)
 
       scope
     else
@@ -261,6 +258,13 @@ module Queries::BaseQuery
       order.respond_to?(:value) && order.value.respond_to?(:relation) &&
         order.value.relation.name == self.class.model.table_name &&
         order.value.name == "id"
+    end
+  end
+
+  def merge_with_values(scope)
+    if scope.with_values.any?
+      merged_with = scope.with_values.each_with_object({}) { |v, hash| hash.merge!(v) }
+      scope.with_values = [merged_with]
     end
   end
 end

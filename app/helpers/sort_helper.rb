@@ -346,10 +346,10 @@ module SortHelper
 
   def within_sort_header_tag_hierarchy(head_options:,
                                        content_classes:,
-                                       sort_header_outer_classes: '',
+                                       sort_header_outer_classes: "",
                                        &)
     content_tag "th", head_options do
-      content_tag "div", class: "generic-table--sort-header-outer #{Array(sort_header_outer_classes).join()}" do
+      content_tag "div", class: "generic-table--sort-header-outer #{Array(sort_header_outer_classes).join}" do
         content_tag "div", class: "generic-table--sort-header" do
           content_tag("span", class: content_classes, &)
         end

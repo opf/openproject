@@ -27,7 +27,7 @@
 # ++
 
 class Queries::Projects::Selects::LatestActivityAt < Queries::Selects::Base
-  TABLE_NAME = 'latest_activity'.freeze
+  TABLE_NAME = "latest_activity".freeze
 
   def self.key
     :latest_activity_at
