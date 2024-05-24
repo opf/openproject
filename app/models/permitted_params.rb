@@ -180,10 +180,8 @@ class PermittedParams
   end
 
   def settings
-    permitted_params = params.require(:settings).permit
-    all_valid_keys = AllowedSettings.all
-
-    permitted_params.merge(params[:settings].to_unsafe_hash.slice(*all_valid_keys))
+    scalar_filters, complex_filters = AllowedSettings.scalar_and_complex_filters
+    params.require(:settings).permit(*scalar_filters, **complex_filters)
   end
 
   def user(additional_params = [])

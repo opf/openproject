@@ -812,6 +812,41 @@ RSpec.describe PermittedParams do
 
       it { expect(subject).to eq(expected_permitted_hash) }
     end
+
+    context "when fetching settings" do
+      include_context "with prepare params comparison"
+
+      let(:hash) do
+        {
+          "registration_footer" => {
+            "en" => "some footer"
+          },
+          "working_days" => ["", "1", "2", "3", "4", "5"]
+        }
+      end
+
+      def recording_notifications_for(notification)
+        events = []
+        subscription = ActiveSupport::Notifications.subscribe notification do |*args|
+          events << ActiveSupport::Notifications::Event.new(*args)
+        end
+
+        begin
+          yield
+        ensure
+          ActiveSupport::Notifications.unsubscribe(subscription)
+        end
+
+        events
+      end
+
+      it "does not log any 'unpermitted' message" do
+        events = recording_notifications_for(/unpermitted_parameters/) do
+          subject
+        end
+        expect(events).to be_empty
+      end
+    end
   end
 
   describe "#enumerations" do

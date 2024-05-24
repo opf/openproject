@@ -29,6 +29,31 @@ class PermittedParams
       keys
     end
 
+    def scalar_and_complex_filters
+      restricted_keys = Set.new(self.restricted_keys)
+      scalar_filters = []
+      complex_filters = {}
+      Settings::Definition.all.each do |key, definition| # rubocop:disable Rails/FindEach
+        next if restricted_keys.include?(key)
+
+        case definition.format
+        when :hash
+          complex_filters[key] = {}
+        when :array
+          complex_filters[key] = []
+        else
+          scalar_filters << key
+        end
+      end
+
+      [scalar_filters, complex_filters]
+    end
+
+    def restricted_keys
+      restrictions.select(&:applicable?)
+                  .flat_map(&:restricted_keys)
+    end
+
     def add_restriction!(keys:, condition:)
       restrictions << Restriction.new(keys, condition)
     end
