@@ -68,6 +68,8 @@ RSpec.describe "adding a new budget", :js do
       # change cost type
       select "Foobar", from: "budget_new_material_budget_item_attributes_0_cost_type_id"
 
+      expect(page).to have_content "bars"
+
       click_on "Create"
 
       expect(page).to have_content "Successful creation"
