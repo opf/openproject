@@ -8,7 +8,7 @@ value:
   driveId: null
   createdAt: '2021-12-20T13:37:00.211Z'
   updatedAt: '2021-12-20T13:37:00.211Z'
-  complete: true
+  complete: false
   _links:
     self:
       href: /api/v3/storages/1337

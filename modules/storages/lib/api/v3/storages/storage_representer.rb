@@ -102,7 +102,7 @@ module API::V3::Storages
              getter: ->(represented:, **) { represented.drive_id if represented.provider_type_one_drive? },
              setter: ->(fragment:, represented:, **) { represented.drive_id = fragment }
 
-    property :complete,
+    property :configured,
              skip_parse: true,
              getter: ->(represented:, **) { represented.configured? }
 

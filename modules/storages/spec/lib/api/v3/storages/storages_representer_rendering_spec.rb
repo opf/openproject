@@ -59,7 +59,7 @@ RSpec.describe API::V3::Storages::StorageRepresenter, "rendering" do
       let(:value) { storage.name }
     end
 
-    it_behaves_like "property", :complete do
+    it_behaves_like "property", :configured do
       let(:value) { true }
     end
 
@@ -218,11 +218,15 @@ RSpec.describe API::V3::Storages::StorageRepresenter, "rendering" do
 
     it_behaves_like "common file storage properties"
 
-    describe "properties (Nextcloud only)" do
-      it_behaves_like "property", :hasApplicationPassword do
+    context "if file storage is not completely configured" do
+      let(:storage) { build_stubbed(:nextcloud_storage, oauth_client: nil) }
+
+      it_behaves_like "property", :configured do
         let(:value) { false }
       end
+    end
 
+    describe "properties (Nextcloud only)" do
       describe "hasApplicationPassword" do
         it_behaves_like "property", :hasApplicationPassword do
           let(:value) { false }
@@ -295,6 +299,14 @@ RSpec.describe API::V3::Storages::StorageRepresenter, "rendering" do
     let(:storage) { build_stubbed(:one_drive_storage, oauth_client: oauth_client_credentials) }
 
     it_behaves_like "common file storage properties"
+
+    context "if file storage is not completely configured" do
+      let(:storage) { build_stubbed(:one_drive_storage, drive_id: nil, oauth_client: oauth_client_credentials) }
+
+      it_behaves_like "property", :configured do
+        let(:value) { false }
+      end
+    end
 
     describe "properties (OneDrive/SharePoint only)" do
       it_behaves_like "property", :tenantId do
