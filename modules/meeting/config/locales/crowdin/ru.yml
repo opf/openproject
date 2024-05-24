@@ -109,8 +109,8 @@ ru:
       agenda: "Копировать повестку дня"
       agenda_text: "Копировать повестку дня старой встречи"
     email:
-      send_emails: "Send emails"
-      send_invitation_emails: "Send out invitation emails upon creation"
+      send_emails: "Рассылка"
+      send_invitation_emails: "Отправлять приглашения при создании"
       open_meeting_link: "Открыть совещание"
       invited:
         summary: "%{actor} отправил вам приглашение на совещание %{title}"
