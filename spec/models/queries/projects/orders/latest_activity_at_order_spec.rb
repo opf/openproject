@@ -40,7 +40,7 @@ RSpec.describe Queries::Projects::Orders::LatestActivityAtOrder do
     context "with a valid direction" do
       it "orders by the disk space" do
         expect(instance.apply_to(Project).to_sql)
-          .to include(Arel.sql("activity_for_sort.latest_activity_at").asc.to_sql)
+          .to eql(Project.order(Arel.sql("latest_activity.latest_activity_at").asc).to_sql)
       end
     end
 

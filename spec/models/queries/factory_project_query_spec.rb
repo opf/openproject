@@ -404,7 +404,7 @@ RSpec.describe Queries::Factory,
 
       it "has the orders applied" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
-          .to eq([["id", :asc], ["name", :desc]])
+          .to eq([%i[id asc], %i[name desc]])
       end
 
       it "has the selects" do
@@ -483,7 +483,7 @@ RSpec.describe Queries::Factory,
 
       it "has the orders overwritten" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
-          .to eq([["id", :asc], ["name", :desc]])
+          .to eq([%i[id asc], %i[name desc]])
       end
 
       it "has the enabled_project_columns columns as selects" do
@@ -692,7 +692,7 @@ RSpec.describe Queries::Factory,
 
       it "has the orders overwritten" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
-          .to eq [["id", :asc], ["name", :desc]]
+          .to eq [%i[id asc], %i[name desc]]
       end
 
       it "has the selects of the persisted query" do
