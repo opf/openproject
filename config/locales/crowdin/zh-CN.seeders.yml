@@ -252,20 +252,20 @@ zh-CN:
             item_4:
               subject: 项目结束
           wiki: |
-            _In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki._
+            _在这个wiki中，您可以协作创建和编辑页面及子页面，以创建项目wiki._
 
-            **You can:**
+            **您可以：**
 
-            * Insert text and images, also with copy and paste from other documents
-            * Create a page hierarchy with parent pages
-            * Include wiki pages to the project menu
-            * Use macros to include, e.g. table of contents, work package lists, or Gantt charts
-            * Include wiki pages in other text fields, e.g. project overview page
-            * Include links to other documents
-            * View the change history
-            * View as Markdown
+            * 插入文本和图片，也可以从其他文档中复制和粘贴
+            * 创建带父页面的页面层次结构
+            * 在项目菜单中包含wiki页面
+            * 使用宏来包含，例如：目录、工作包列表或甘特图
+            * 在其他文本字段中包含wiki页面，例如：项目概览页面
+            * 包含指向其他文档的链接
+            * 查看更改历史
+            * 以 Markdown 格式查看
 
-            More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
+            更多信息：[https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: Scrum 项目
           status_explanation: 所有任务都按计划进行。相关人员均知晓各自任务。系统已完全建立。

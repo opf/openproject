@@ -1254,7 +1254,7 @@ ms:
   button_download: "Muat turun"
   button_duplicate: "Salinan"
   button_edit: "Edit"
-  button_edit_associated_wikipage: "Edit halaman wiki berkaitan: %{page_title}"
+  button_edit_associated_wikipage: "Edit halaman Wiki berkaitan: %{page_title}"
   button_expand_all: "Kembangkan semua"
   button_favorite: "Tambah ke kegemaran"
   button_filter: "Saring"

@@ -106,6 +106,8 @@ ko:
       agenda: "의제 복사"
       agenda_text: "이전 미팅의 의제 복사"
     email:
+      send_emails: "Send emails"
+      send_invitation_emails: "Send out invitation emails upon creation"
       open_meeting_link: "미팅 열기"
       invited:
         summary: "%{actor} 님이 %{title} 미팅 초대장을 귀하에게 보냈습니다"

@@ -65,10 +65,10 @@ RSpec.describe "Structured meetings CRUD",
   let(:meeting) { StructuredMeeting.order(id: :asc).last }
   let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
 
-  before do
+  before do |test|
     login_as current_user
     new_page.visit!
-    expect(page).to have_current_path(new_page.path)
+    expect(page).to have_current_path(new_page.path) # rubocop:disable RSpec/ExpectInHook
     new_page.set_title "Some title"
     new_page.set_type "Dynamic"
 
@@ -77,11 +77,20 @@ RSpec.describe "Structured meetings CRUD",
     new_page.set_duration "1.5"
     new_page.invite(other_user)
 
+    if test.metadata[:unchecked]
+      expect(page).to have_checked_field "send_notifications" # rubocop:disable RSpec/ExpectInHook
+      uncheck "send_notifications"
+    end
+
     new_page.click_create
   end
 
   it "can create a structured meeting and add agenda items" do
     show_page.expect_toast(message: "Successful creation")
+
+    # Can send invitation mails by default
+    perform_enqueued_jobs
+    expect(ActionMailer::Base.deliveries.size).to eq 2
 
     # Can add and edit a single item
     show_page.add_agenda_item do
@@ -312,6 +321,11 @@ RSpec.describe "Structured meetings CRUD",
     end
   end
 
+  it "does not send emails on creation when 'Send emails' is unchecked", :unchecked do
+    perform_enqueued_jobs
+    expect(ActionMailer::Base.deliveries.size).to eq 0
+  end
+    
   context "with sections" do
     let!(:meeting) { create(:structured_meeting, project:, author: current_user) }
     let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }

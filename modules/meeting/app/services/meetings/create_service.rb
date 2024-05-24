@@ -41,5 +41,19 @@ module Meetings
         Meeting.new
       end
     end
+
+    def after_perform(call)
+      if call.success? && Journal::NotificationConfiguration.active?
+        meeting = call.result
+
+        meeting.participants.where(invited: true).each do |participant|
+          MeetingMailer
+            .invited(meeting, participant.user, User.current)
+            .deliver_later
+        end
+      end
+
+      call
+    end
   end
 end

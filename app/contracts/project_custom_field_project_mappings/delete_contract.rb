@@ -27,6 +27,7 @@
 #++
 
 module ProjectCustomFieldProjectMappings
-  class DeleteContract < BaseContract
+  class DeleteContract < ::DeleteContract
+    delete_permission :select_project_custom_fields
   end
 end

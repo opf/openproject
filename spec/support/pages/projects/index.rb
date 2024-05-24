@@ -77,7 +77,9 @@ module Pages
 
       def expect_sidebar_filter(filter_name, selected: false)
         within "#main-menu" do
-          expect(page).to have_css(".op-sidemenu--item-action#{selected ? '.selected' : ''}", text: filter_name)
+          selected_specifier = selected ? ".selected" : ":not(.selected)"
+
+          expect(page).to have_css(".op-sidemenu--item-action#{selected_specifier}", text: filter_name)
         end
       end
 
@@ -260,8 +262,12 @@ module Pages
         end
       end
 
+      def filters_toggle
+        page.find('[data-test-selector="filter-component-toggle"]')
+      end
+
       def toggle_filters_section
-        page.find('[data-test-selector="filter-component-toggle"]').click
+        filters_toggle.click
       end
 
       def set_columns(*columns)
@@ -327,11 +333,15 @@ module Pages
       def save_query_as(name)
         click_more_menu_item("Save as")
 
+        fill_in_the_name(name)
+
+        click_on "Save"
+      end
+
+      def fill_in_the_name(name)
         within '[data-test-selector="project-query-name"]' do
           fill_in "Name", with: name
         end
-
-        click_on "Save"
       end
 
       def delete_query

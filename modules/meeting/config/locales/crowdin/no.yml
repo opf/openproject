@@ -49,7 +49,7 @@
         description: "Notater"
         presenter: "Foredragsholder"
       meeting_section:
-        title: "Title"
+        title: "Tittel"
     errors:
       messages:
         invalid_time_format: "er ikke et gyldig tidpunkt. Formatet må være HH:MM"
@@ -107,6 +107,8 @@
       agenda: "Kopier saksliste"
       agenda_text: "Kopier sakslisten fra det forrige møtet"
     email:
+      send_emails: "Send emails"
+      send_invitation_emails: "Send out invitation emails upon creation"
       open_meeting_link: "Åpne møte"
       invited:
         summary: "%{actor} har sendt deg en invitasjon til møtet %{title}"
@@ -125,10 +127,10 @@
       structured_text_copy: "Kopiering av et møte vil for tiden ikke kopiere de tilknyttede elementene på dagsordenen, bare detaljene"
     copied: "Kopiert fra møte #%{id}"
   meeting_section:
-    untitled_title: "Untitled section"
-    delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
-    placeholder_title: "New section"
-    empty_text: "Drag items here or create a new one"
+    untitled_title: "Ikke navngitt del"
+    delete_confirmation: "Hvis du sletter denne delen, slettes også dets verdier i alle prosjekter. Er du sikker på at du vil gjøre dette?"
+    placeholder_title: "Ny seksjon"
+    empty_text: "Dra punkter hit eller opprett et nytt"
   notice_successful_notification: "Påminning sendt"
   notice_timezone_missing: Ingen tidssone angis og %{zone} antas. Vennligst klikk her for å velge egen tidssone.
   permission_create_meetings: "Opprett møter"

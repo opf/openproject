@@ -86,10 +86,23 @@ module API
       end
 
       def send_attachment(attachment)
-        content_type attachment.content_type
+        content_type attachment_content_type(attachment)
         header["Content-Disposition"] = attachment.content_disposition
         env["api.format"] = :binary
         sendfile attachment.diskfile.path
+      end
+
+      def attachment_content_type(attachment)
+        if attachment.is_text?
+          # Even if the text mime type might differ, always output plain text
+          # so this doesn't get interpreted as e.g., a script or html file
+          "text/plain"
+        elsif attachment.inlineable?
+          attachment.content_type
+        else
+          # For security reasons, mark all non-inlinable files as an octet-stream first
+          "application/octet-stream"
+        end
       end
 
       def set_cache_headers

@@ -109,6 +109,8 @@ pl:
       agenda: "Kopiuj agendę spotkania"
       agenda_text: "Skopiuj agendę starego spotkania"
     email:
+      send_emails: "Send emails"
+      send_invitation_emails: "Send out invitation emails upon creation"
       open_meeting_link: "Spotkania otwarte"
       invited:
         summary: "Użytkownik %{actor} wysłał Ci zaproszenie na spotkanie %{title}"
