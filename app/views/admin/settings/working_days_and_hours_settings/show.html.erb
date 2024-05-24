@@ -41,13 +41,15 @@ See COPYRIGHT and LICENSE files for more details.
     <fieldset class="form--fieldset">
       <div class="form--field">
         <%= setting_text_field :hours_per_day,
-                               type: :number %>
+                               type: :number,
+                               container_class: "-wide" %>
         <div class="form--field-instructions"><%= t("setting_hours_per_day_explanation") %></div>
       </div>
 
       <div class="form--field">
         <%= setting_text_field :days_per_week,
                                type: :number,
+                               container_class: "-wide",
                                data: { admin__working_days_and_hours_target: 'daysPerWeekInput',
                                        action: 'blur->admin--working-days-and-hours#recalculateDaysPerMonth' } %>
         <div class="form--field-instructions"><%= t("setting_days_per_week_explanation") %></div>
@@ -56,6 +58,7 @@ See COPYRIGHT and LICENSE files for more details.
       <div class="form--field">
         <%= setting_text_field :days_per_month,
                                type: :number,
+                               container_class: "-wide",
                                data: { admin__working_days_and_hours_target: 'daysPerMonthInput',
                                        action: 'blur->admin--working-days-and-hours#recalculateDaysPerWeek' } %>
         <div class="form--field-instructions"><%= t("setting_days_per_month_explanation") %></div>
