@@ -45,7 +45,7 @@ module FlashMessagesHelper
   end
 
   # Primer's flash message component wrapped in a component which is empty initially but can be updated via turbo stream
-  def render_streameable_primer_flash_component
+  def render_streameable_primer_banner_message
     render(FlashMessageComponent.new)
   end
 
