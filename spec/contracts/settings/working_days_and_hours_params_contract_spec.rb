@@ -69,4 +69,32 @@ RSpec.describe Settings::WorkingDaysAndHoursParamsContract do
 
     include_examples "contract is invalid", base: :days_per_week_and_days_per_month_are_inconsistent
   end
+
+  describe "0 durations" do
+    context "when hours_per_day is 0" do
+      let(:params) { { working_days: [1], hours_per_day: 0, days_per_week: 5, days_per_month: 20 } }
+
+      include_examples "contract is invalid", base: :durations_are_not_positive_numbers
+    end
+
+    # These two are correlated. Making only one of them 0 will also
+    # add the "incosistent" error tested for above.
+    context "when days_per_week or days_per_month is 0" do
+      let(:params) { { working_days: [1], hours_per_day: 8, days_per_week: 0, days_per_month: 0 } }
+
+      include_examples "contract is invalid", base: :durations_are_not_positive_numbers
+    end
+
+    context "when all durations are 0" do
+      let(:params) { { working_days: [1], hours_per_day: 0, days_per_week: 0, days_per_month: 0 } }
+
+      include_examples "contract is invalid", base: :durations_are_not_positive_numbers
+    end
+  end
+
+  describe "Negative durations" do
+    let(:params) { { working_days: [1], hours_per_day: -2, days_per_week: -5, days_per_month: -20 } }
+
+    include_examples "contract is invalid", base: :durations_are_not_positive_numbers
+  end
 end

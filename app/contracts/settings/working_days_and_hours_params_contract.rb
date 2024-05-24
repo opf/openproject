@@ -34,6 +34,7 @@ module Settings
     validate :hours_per_day_are_present
     validate :days_per_week_are_present
     validate :days_per_month_are_present
+    validate :durations_are_positive_values
     validate :days_per_week_and_days_per_month_are_consistent
     validate :unique_job
 
@@ -61,6 +62,21 @@ module Settings
       if days_per_month.blank?
         errors.add :base, :days_per_month_are_missing
       end
+    end
+
+    def durations_are_positive_values
+      if hours_per_day &&
+        days_per_week &&
+        days_per_month &&
+        any_duration_is_negative_or_zero?
+        errors.add :base, :durations_are_not_positive_numbers
+      end
+    end
+
+    def any_duration_is_negative_or_zero?
+      !hours_per_day.to_i.positive? ||
+        !days_per_week.to_i.positive? ||
+        !days_per_month.to_i.positive?
     end
 
     def days_per_week_and_days_per_month_are_consistent
