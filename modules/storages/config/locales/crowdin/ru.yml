@@ -40,18 +40,18 @@ ru:
     errors:
       too_many_elements_created_at_once: Слишком много элементов, созданных сразу. Ожидалось %{max} максимум - получено %{actual}.
   external_file_storages: Внешние хранилища файлов
-  permission_create_files: 'Automatically managed project folders: Create files'
-  permission_create_files_explanation: This permission is only available for Nextcloud storages
-  permission_delete_files: 'Automatically managed project folders: Delete files'
-  permission_delete_files_explanation: This permission is only available for Nextcloud storages
+  permission_create_files: 'Автоматически управляемые папки проекта: Создание файлов'
+  permission_create_files_explanation: Это разрешение доступно только для хранилищ Nextcloud
+  permission_delete_files: 'Автоматически управляемые папки проекта: Удаление файлов'
+  permission_delete_files_explanation: Это разрешение доступно только для хранилищ Nextcloud
   permission_header_for_project_module_storages: Автоматически управляемые папки проектов
   permission_manage_file_links: Управление ссылками файлов
   permission_manage_storages_in_project: Управление файловыми хранилищами в проекте
-  permission_read_files: 'Automatically managed project folders: Read files'
-  permission_share_files: 'Automatically managed project folders: Share files'
-  permission_share_files_explanation: This permission is only available for Nextcloud storages
+  permission_read_files: 'Автоматически управляемые папки проекта: Чтение файлов'
+  permission_share_files: 'Автоматически управляемые папки проекта: Делиться файлами'
+  permission_share_files_explanation: Это разрешение доступно только для хранилищ Nextcloud
   permission_view_file_links: Просмотр ссылок на файл
-  permission_write_files: 'Automatically managed project folders: Write files'
+  permission_write_files: 'Автоматически управляемые папки проекта: Запись файлов'
   project_module_storages: Файлы
   storages:
     buttons:
@@ -68,8 +68,8 @@ ru:
         one_drive: Разрешить OpenProject доступ к данным Azure, используя OAuth для подключения OneDrive/Sharepoint.
       redirect_uri_incomplete:
         one_drive: Завершите установку с правильным перенаправлением URI.
-    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
-    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
+    confirm_replace_oauth_application: Это действие приведет к сбросу текущих учетных данных OAuth. После подтверждения вам придется повторно ввести учетные данные у поставщика хранилища, и всем удаленным пользователям придется снова авторизоваться в OpenProject. Вы уверены, что хотите продолжить?
+    confirm_replace_oauth_client: Это действие приведет к сбросу текущих учетных данных OAuth. После подтверждения вам нужно будет ввести новые учетные данные от поставщика хранилища, и всем пользователям придется снова авторизоваться в %{provider_type}. Вы уверены, что хотите продолжить?
     delete_warning:
       input_delete_confirmation: Введите имя хранилища файлов %{file_storage} для подтверждения удаления.
       irreversible_notice: Удаление хранилища файлов является необратимым действием.
@@ -85,9 +85,9 @@ ru:
       access_management:
         automatic_management: Автоматически управляемый доступ и папки
         automatic_management_description: Разрешить OpenProject автоматически создавать папки для каждого проекта и управлять доступом пользователей к ним. Это рекомендуется, так как гарантирует, что каждый член команды всегда будет иметь правильные права на доступ.
-        description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
+        description: Выберите тип управления доступом пользователя и созданием папок. Мы рекомендуем использовать "автоматически управляемый доступ" для более организованной структуры и гарантировать доступ всем необходимым пользователям.
         manual_management: Вручную управляемый доступ и папки
-        manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
+        manual_management_description: Создавайте и управляйте папками для каждого проекта вручную. Вам нужно будет вручную обеспечить доступ соответствующим пользователям.
         setup_incomplete: Выберите тип управления доступом пользователя и созданием папок.
         subtitle: Управление доступом
         title: Доступ и папки проекта
@@ -232,7 +232,7 @@ ru:
       project_storage_members:
         subtitle: Проверьте статус подключения для хранилища %{storage_name_link} всех участников проекта.
         title: Статус подключения участников
-    permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
+    permission_header_explanation: 'Разрешения для файлов во внешних хранилищах применяются только к папкам и файлам в автоматически управляемых папках проекта. Обратите внимание, что не все разрешения для файлов поддерживаются всеми поставщиками хранилищ. Для получения дополнительной информации ознакомьтесь с документацией по <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>разрешениям на хранение файлов</a>.'
     provider_types:
       label: Тип поставщика
       nextcloud:
@@ -246,7 +246,7 @@ ru:
         name: OneDrive/SharePoint
         name_placeholder: напр. OneDrive
     show_attachments_toggle:
-      description: 'Deactivating this option will hide the attachments list on the work packages files tab. The files attached in the description of a work package will still be uploaded in the internal attachments storage. '
+      description: 'Деактивация этой опции скроет список вложений на вкладке «Файлы» пакетов работ. Файлы, прикрепленные к описанию пакета работ, по-прежнему будут загружены во внутреннее хранилище вложений.'
       label: Показывать вложения во вкладке "Файлы" пакетов работ
     storage_list_blank_slate:
       description: Добавьте хранилище, чтобы увидеть его здесь.

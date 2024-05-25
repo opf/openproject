@@ -338,12 +338,12 @@ ru:
         one: "Однако, %{shared_work_packages_link} также был предоставлен этому пользователю.\n"
         few: "Однако, %{shared_work_packages_link} также был предоставлен этому пользователю."
         many: "However, %{shared_work_packages_link} have also been shared with this user."
-        other: "However, %{shared_work_packages_link} have also been shared with this user."
+        other: "Однако, %{shared_work_packages_link} также был предоставлен этому пользователю."
       however_work_packages_shared_with_group_html:
         one: "Однако, %{shared_work_packages_link} также был предоставлен этой группе."
         few: "However, %{shared_work_packages_link} have also been shared with this group."
         many: "However, %{shared_work_packages_link} have also been shared with this group."
-        other: "However, %{shared_work_packages_link} have also been shared with this group."
+        other: "Однако, %{shared_work_packages_link} также был предоставлен этой группе."
       remove_work_packages_shared_with_user_too: "Пользователь, который был удален как участник по-прежнему может получить доступ к общим пакетам работ. Вы хотели бы также удалить эти ресурсы?"
       remove_work_packages_shared_with_group_too: "Группа, которая была удалена как участник, все еще может получить доступ к общим пакетам работ. Вы хотели бы также удалить эти ресурсы?"
       will_not_affect_inherited_shares: "(Это не повлияет на пакеты работ, разделенные с их группой)."
@@ -352,7 +352,7 @@ ru:
         one: "Также, %{shared_work_packages_link} был предоставлен этому пользователю."
         few: "Also, %{shared_work_packages_link} have been shared with this user."
         many: "Also, %{shared_work_packages_link} have been shared with this user."
-        other: "Also, %{shared_work_packages_link} have been shared with this user."
+        other: "Также, %{shared_work_packages_link} был предоставлен этому пользователю."
       remove_project_membership_or_work_package_shares_too: "Вы хотите удалить только пользователя как непосредственного члена (и сохранить ресурсы) или также удалить пакет работ?"
       will_remove_all_user_access_priveleges: "Удаление этого участника удалит все права доступа пользователя к проекту. Пользователь по-прежнему будет существовать как часть экземпляра."
       will_remove_all_group_access_priveleges: "Удаление этого участника удалит все права доступа группы к проекту. Группа по-прежнему будет существовать как часть экземпляра."
@@ -365,25 +365,25 @@ ru:
         one: "%{all_shared_work_packages_link} был предоставлен этому пользователю."
         few: "%{all_shared_work_packages_link} have been shared with this user."
         many: "%{all_shared_work_packages_link} have been shared with this user."
-        other: "%{all_shared_work_packages_link} have been shared with this user."
+        other: "%{all_shared_work_packages_link} был предоставлен этому пользователю."
       shared_with_this_group_html:
         one: "%{all_shared_work_packages_link} был предоставлен этой группе."
         few: "%{all_shared_work_packages_link} have been shared with this group."
         many: "%{all_shared_work_packages_link} have been shared with this group."
-        other: "%{all_shared_work_packages_link} have been shared with this group."
+        other: "%{all_shared_work_packages_link} был предоставлен этой группе."
       shared_with_permission_html:
         one: "Только %{shared_work_packages_link} был предоставлен общий доступ с правами %{shared_role_name}."
         few: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
         many: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
-        other: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
+        other: "Только %{shared_work_packages_link} был предоставлен общий доступ с правами %{shared_role_name}."
       revoke_all_or_with_role: "Хотите ли Вы отменить доступ ко всем общим пакетам работ или только к тем, которые имеют разрешения %{shared_role_name}?"
       will_not_affect_inherited_shares: "(Это не повлияет на пакеты работ, разделенные с их группой)."
       cannot_remove_inherited: "Общие пакеты работ, к которым предоставлен общий доступ через группы, не могут быть удалены."
       cannot_remove_inherited_with_role: "Общие пакеты работ с ролью %{shared_role_name} доступны через группы и не могут быть удалены.\n\n\n\n"
       cannot_remove_inherited_note_admin_html: "Вы можете либо отозвать общий доступ к группе, либо удалить этого конкретного участника из группы в %{administration_settings_link}."
       cannot_remove_inherited_note_non_admin: "Вы можете либо отозвать общий доступ к группе, либо обратиться к администратору, чтобы удалить этого конкретного участника из группы."
-      will_revoke_directly_granted_access: "This action will revoke their access to all of them, but the work packages shared with a group."
-      will_revoke_access_to_all: "This action will revoke their access to all of them."
+      will_revoke_directly_granted_access: "Это действие лишит их доступа ко всем пакетам работ, кроме тех, которыми поделились с группой."
+      will_revoke_access_to_all: "Это действие лишит их доступа ко всем пакетам работ."
   my:
     access_token:
       failed_to_reset_token: "Не удалось сбросить маркер доступа: %{error}"
@@ -508,7 +508,7 @@ ru:
     sharing:
       missing_workflow_warning:
         title: "Отсутствует рабочий процесс для совместного использования пакета работ"
-        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        message: "Для роли «Редактор рабочего пакета» не настроен рабочий процесс. Без рабочего процесса пользователь, к которому предоставлен общий доступ, не может изменить состояние рабочего пакета. Рабочие процессы можно копировать. Выберите тип источника (например, «Задача») и роль источника (например, «Участник»). Затем выберите целевые типы. Для начала вы можете выбрать все типы в качестве целей. Наконец, выберите роль «Редактор рабочего пакета» в качестве цели и нажмите «Копировать». После создания настроек по умолчанию настройте рабочие процессы так же, как и для любой другой роли."
         link_message: "Настройте рабочие процессы в Администрировании."
     summary:
       reports:
@@ -1494,10 +1494,10 @@ ru:
         many: "%{count} часов"
         other: "%{count} часов"
       x_hours_abbreviated:
-        one: "1 ч"
+        one: "1 час"
         few: "%{count} hrs"
         many: "%{count} hrs"
-        other: "%{count} ч"
+        other: "%{count} часов"
       x_weeks:
         one: "1 неделя"
         few: "%{count} weeks"
@@ -1519,10 +1519,10 @@ ru:
         many: "%{count} секунд"
         other: "%{count} секунды"
       x_seconds_abbreviated:
-        one: "1 с"
+        one: "1 секунда"
         few: "%{count} s"
         many: "%{count} s"
-        other: "%{count} с"
+        other: "%{count} секунд"
     units:
       hour:
         one: "час"
@@ -1724,18 +1724,18 @@ ru:
         dates:
           working: "%{date} сейчас рабочий"
           non_working: "%{date} теперь нерабочий"
-      progress_mode_changed_to_status_based: Режим расчета прогресса установлен на основе статуса
+      progress_mode_changed_to_status_based: Расчет прогресса установлен в режим "На основе статуса"
       status_p_complete_changed: >-
         "% завершения" для статуса '%{status_name}' изменено с %{old_value}% на %{new_value}%
       system_update:
         file_links_journal: >
           Теперь на вкладке Активность появится активность, связанная со ссылками файлов (файлы, хранящиеся во внешних хранилищах). Ниже описывается деятельность по уже существующим ссылкам:
         progress_calculation_adjusted_from_disabled_mode: >-
-          Расчет прогресса автоматически <a href="%{href}" target="_blank">переводится в рабочий режим и корректируется при обновлении версии</a>.
+          Расчет прогресса автоматически <a href="%{href}" target="_blank">устанавливается в режим "На основе трудозатрат" и корректируется при обновлении версии</a>.
         progress_calculation_adjusted: >-
           Расчет прогресса автоматически <a href="%{href}" target="_blank">корректируется при обновлении версии</a>.
         totals_removed_from_childless_work_packages: >-
-          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+          При <a href="%{href}" target="_blank">обновлении версии</a> автоматически удаляются итоги работы и прогресса для неродительских пакетов работ. Это задача по обслуживанию, и её можно смело игнорировать.
   links:
     configuration_guide: "Руководство по конфигурации"
     get_in_touch: "У вас есть вопросы? Свяжитесь с нами."
@@ -2934,7 +2934,7 @@ ru:
     Если CORS включен, то это источники, которым разрешен доступ к OpenProject API. <br/> Пожалуйста, проверьте <a href="%{origin_link}" target="_blank">документацию по происхождению</a> о том, как указывать ожидаемые значения.
   setting_apiv3_write_readonly_attributes: "Доступ на запись к атрибутам, доступным только для чтения"
   setting_apiv3_write_readonly_attributes_instructions_html: >
-    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and author. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
+    Если этот параметр включен, API позволит администраторам записывать во время создания статические атрибуты, доступные только для чтения, такие как «Создано в» и «Автор». <br/> <strong>Внимание!</strong> Этот параметр можно использовать, например, для импорта данных, но он позволяет администраторам выдавать себя при создании элементов за других пользователей. Однако все запросы на создание регистрируются с указанием истинного автора. </br> Для получения дополнительной информации об атрибутах и ​​поддерживаемых ресурсах см. %{api_documentation_link}.
   setting_apiv3_max_page_size: "Максимальный размер страницы API"
   setting_apiv3_max_page_instructions_html: >
     Установите максимальный размер страницы, который будет отвечать API. Невозможно выполнить API-запросы, возвращающие много значений на одной странице. <br/> <strong>Предупреждение:</strong> Пожалуйста, измените это значение, только если вы уверены, зачем вам это нужно. Установка большого значения приведет к значительному снижению производительности, в то время как значение ниже, чем для параметров страницы, вызовет ошибки в представлениях с разбивкой на страницы.
@@ -2998,11 +2998,11 @@ ru:
   setting_file_max_size_displayed: "Максимальная длина  строки текстовых файлов"
   setting_host_name: "Имя компьютера в сети"
   setting_invitation_expiration_days: "Действие письма активации истекает после"
-  setting_work_package_done_ratio: "Расчет прогресса"
-  setting_work_package_done_ratio_field: "Рабочий"
-  setting_work_package_done_ratio_status: "Статус"
+  setting_work_package_done_ratio: "Режим расчета прогресса"
+  setting_work_package_done_ratio_field: "На основе трудозатрат"
+  setting_work_package_done_ratio_status: "На основе статуса"
   setting_work_package_done_ratio_explanation_html: >
-    В режиме <b>На основе работы</b>, % Выполнения рассчитывается на основе того, сколько работы выполнено по отношению к общему объему работы. В режиме <b>На основе статуса</b>, каждый статус имеет связанное с ним значение % Выполнения. Изменение статуса изменит % Выполнения.
+    В режиме <b>На основе трудозатрат</b>, процент завершения рассчитывается на основе того, сколько работы выполнено по отношению к общему объему работ. В режиме <b>На основе статуса</b>, каждый статус имеет связанное с ним значение процента завершения. Изменение статуса изменит процент завершения.
   setting_work_package_properties: "Свойства пакета работ"
   setting_work_package_startdate_is_adddate: "Использовать текущую дату как дату начала для новых пакетов работ"
   setting_work_packages_projects_export_limit: "Ограничение экспорта пакетов работ / проектов"
@@ -3070,7 +3070,7 @@ ru:
       remaining_scan_complete_html: >
         Оставшиеся файлы были просканированы. В карантине находится %{file_count} . Вы перенаправляетесь на страницу карантина. Используйте эту страницу, чтобы удалить или отменить файлы, помещенные в карантин.
       remaining_rescanned_files: >
-        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Проверка на вирусы успешно включена. Есть %{file_count}, которые были загружены ранее и все еще нуждаются в сканировании. Этот процесс был запланирован в фоновом режиме. Файлы останутся доступными во время сканирования.
       upsale:
         description: "Убедитесь, что загруженные файлы в OpenProject проверяются на наличие вирусов, прежде чем они станут доступны другим пользователям."
       actions:
@@ -3388,7 +3388,7 @@ ru:
       modal:
         work_based_help_text: "% Выполнения автоматически выводится из Работ и Оставшихся работ."
         status_based_help_text: "% Выполнения определяется статусом пакета работ."
-        migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
+        migration_warning_text: "В режиме расчета прогресса \"На основе трудозатрат\" процент завершения невозможно установить вручную, он привязан к трудозатратам. Существующее значение сохранено, но его нельзя изменить. Пожалуйста, сначала введите трудозатраты."
     sharing:
       count:
         zero: "0 пользователей"
@@ -3612,7 +3612,7 @@ ru:
       label_request_token: "Токен запроса"
       label_refresh_token: "Токен обновления"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
+      oauth_authorization_code_grant_had_errors: "Ошибка авторизации OAuth2"
       oauth_reported: "Источник OAuth2 сообщил"
       oauth_returned_error: "OAuth2 вернул ошибку"
       oauth_returned_json_error: "OAuth2 вернул ошибку JSON"
@@ -3652,7 +3652,7 @@ ru:
   link: ссылка
   plugin_openproject_auth_plugins:
     name: "Плагины аутентификации OpenProject"
-    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
+    description: "Интеграция поставщиков стратегии OmniAuth для аутентификации в OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Однозначный вход"
     description: "Добавляет поставщика OmniAuth SAML в OpenProject"
