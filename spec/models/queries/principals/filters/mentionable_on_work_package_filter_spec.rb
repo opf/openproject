@@ -36,7 +36,7 @@ RSpec.describe Queries::Principals::Filters::MentionableOnWorkPackageFilter do
     let(:type) { :list_optional }
 
     describe "#scope" do
-      subject { instance.scope }
+      subject { instance.scope(Principal) }
 
       shared_let(:project) { create(:project) }
       shared_let(:other_project) { create(:project) }

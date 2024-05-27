@@ -40,11 +40,11 @@ class Queries::Principals::Filters::TypeFilter < Queries::Principals::Filters::P
     :type
   end
 
-  def scope
+  def scope(query_scope)
     if operator == "="
-      Principal.where(type: values)
+      query_scope.where(type: values)
     else
-      Principal.where.not(type: values)
+      query_scope.where.not(type: values)
     end
   end
 end

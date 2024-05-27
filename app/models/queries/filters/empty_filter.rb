@@ -48,7 +48,7 @@ module Queries
       # deactivating superclass validation
       def validate_inclusion_of_operator; end
 
-      def scope
+      def scope(_query_scope)
         context.default_scope
       end
 
