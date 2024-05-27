@@ -49,7 +49,7 @@ lt:
   permission_manage_storages_in_project: Tvarkyti failų saugyklas projekte
   permission_read_files: 'Automatiškai valdomi projekto aplankai: Skaityti failus'
   permission_share_files: 'Automatiškai valdomi projekto aplankai: Bendrinti failus'
-  permission_share_files_explanation: Šis teisė galima tik Nextcloud saugykloms
+  permission_share_files_explanation: Ši teisė galima tik Nextcloud saugykloms
   permission_view_file_links: Žiūrėti failo nuorodas
   permission_write_files: 'Automatiškai valdomi projekto aplankai: Rašyti failus'
   project_module_storages: Failai
