@@ -46,8 +46,8 @@ class Queries::WorkPackages::Filter::RelatableFilter < Queries::WorkPackages::Fi
     "(1 = 1)"
   end
 
-  def scope
-    WorkPackage.relatable(WorkPackage.find_by(id: values.first), scope_operator)
+  def scope(query_scope)
+    query_scope.relatable(WorkPackage.find_by(id: values.first), scope_operator)
   end
 
   private

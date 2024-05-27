@@ -34,7 +34,7 @@ class Queries::WorkPackages::Filter::SharedWithUserFilter <
     super && view_shared_work_packages_allowed?
   end
 
-  def scope
+  def scope(query_scope)
     query = visible_shared_work_packages(scoped_to_visible_projects: !querying_for_self?)
 
     if operator == "="
@@ -43,7 +43,7 @@ class Queries::WorkPackages::Filter::SharedWithUserFilter <
       query = query.where(shared_with_all_of_condition)
     end
 
-    WorkPackage.where(id: query.select("work_packages.id").distinct)
+    query_scope.where(id: query.select("work_packages.id").distinct)
   end
 
   # Conditions handled in +scope+ method
