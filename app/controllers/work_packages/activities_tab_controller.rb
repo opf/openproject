@@ -46,12 +46,19 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   end
 
   def journal_streams
-    # TODO: only update specific journal components or append/prepend new journals based on latest client state
-    update_via_turbo_stream(
-      component: WorkPackages::ActivitiesTab::Journals::IndexComponent.new(
-        work_package: @work_package
+    # TODO: prototypical implementation
+    @work_package.journals.where("updated_at > ?", params[:last_update_timestamp]).find_each do |journal|
+      update_via_turbo_stream(
+        # only use the show component in order not to loose an edit state
+        component: WorkPackages::ActivitiesTab::Journals::ItemComponent::Show.new(
+          journal:
+        )
       )
-    )
+    end
+
+    @work_package.journals.where("created_at > ?", params[:last_update_timestamp]).find_each do |journal|
+      append_or_prepend_latest_journal_via_turbo_stream(journal)
+    end
 
     respond_with_turbo_streams
   end

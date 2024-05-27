@@ -49,8 +49,9 @@ module WorkPackages
         {
           controller: "work-packages--activities-tab--index",
           "application-target": "dynamic",
-          "work-packages--activities-tab--index-journal-streams-url-value": journal_streams_work_package_activities_path(work_package),
-          "work-packages--activities-tab--index-sorting-value": journal_sorting
+          "work-packages--activities-tab--index-journal-streams-url-value": journal_streams_work_package_activities_url(work_package),
+          "work-packages--activities-tab--index-sorting-value": journal_sorting,
+          "work-packages--activities-tab--index-polling-interval-in-ms-value": 5000 # protoypical implementation
         }
       end
 

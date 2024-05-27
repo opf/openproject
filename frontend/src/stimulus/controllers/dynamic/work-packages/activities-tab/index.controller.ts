@@ -35,12 +35,17 @@ export default class IndexController extends Controller {
   static values = {
     journalStreamsUrl: String,
     sorting: String,
+    pollingIntervalInMs: Number,
   };
 
   declare journalStreamsUrlValue:string;
   declare sortingValue:string;
+  declare lastUpdateTimestamp:string;
+  declare intervallId:number;
+  declare pollingIntervalInMsValue:number;
 
   connect() {
+    this.lastUpdateTimestamp = new Date().toISOString();
     this.handleWorkPackageUpdate = this.handleWorkPackageUpdate.bind(this);
     document.addEventListener('work-package-updated', this.handleWorkPackageUpdate);
 
@@ -49,10 +54,13 @@ export default class IndexController extends Controller {
     } else if (this.sortingValue === 'asc') {
       this.scrollToBottom();
     }
+
+    this.intervallId = this.pollForUpdates();
   }
 
   disconnect() {
     document.removeEventListener('work-package-updated', this.handleWorkPackageUpdate);
+    window.clearInterval(this.intervallId);
   }
 
   scrollToActivity() {
@@ -80,18 +88,32 @@ export default class IndexController extends Controller {
   }
 
   async updateActivitiesList() {
-    const response = await fetch(this.journalStreamsUrlValue, {
-      method: 'GET',
-      headers: {
-        'X-CSRF-Token': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement).content,
-        Accept: 'text/vnd.turbo-stream.html',
+    const url = new URL(this.journalStreamsUrlValue);
+    url.searchParams.append('last_update_timestamp', this.lastUpdateTimestamp);
+
+    const response = await fetch(
+      url,
+      {
+        method: 'GET',
+        headers: {
+          'X-CSRF-Token': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement).content,
+          Accept: 'text/vnd.turbo-stream.html',
+        },
+        credentials: 'same-origin',
       },
-      credentials: 'same-origin',
-    });
+    );
 
     if (response.ok) {
       const text = await response.text();
       Turbo.renderStreamMessage(text);
+      this.lastUpdateTimestamp = new Date().toISOString();
     }
+  }
+
+  pollForUpdates() {
+    // protypical implementation of polling for updates in order to evaluate if we want to have this feature
+    return window.setInterval(() => {
+      this.updateActivitiesList();
+    }, this.pollingIntervalInMsValue);
   }
 }
