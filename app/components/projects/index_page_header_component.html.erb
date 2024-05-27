@@ -81,6 +81,7 @@
         end
 
         if query.persisted?
+          # TODO: Remove section when the sharing modal is implemented (https://community.openproject.org/projects/openproject/work_packages/55163)
           if can_publish?
             if query.public?
               menu.with_item(
