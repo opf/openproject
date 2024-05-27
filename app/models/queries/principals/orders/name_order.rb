@@ -35,7 +35,7 @@ class Queries::Principals::Orders::NameOrder < Queries::Orders::Base
 
   protected
 
-  def order
-    model.ordered_by_name(desc: direction == :desc)
+  def order(scope)
+    scope.ordered_by_name(desc: direction == :desc)
   end
 end

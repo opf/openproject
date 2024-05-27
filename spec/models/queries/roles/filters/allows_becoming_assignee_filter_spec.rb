@@ -43,7 +43,7 @@ RSpec.describe Queries::Roles::Filters::AllowsBecomingAssigneeFilter do
     let(:permission_name) { "work_package_assigned" }
   end
 
-  describe "#scope" do
+  describe "#apply_to" do
     shared_let(:assignable_role) do
       create(:project_role,
              name: "assignable_role",
@@ -64,7 +64,7 @@ RSpec.describe Queries::Roles::Filters::AllowsBecomingAssigneeFilter do
       end
     end
 
-    subject { instance.scope.map(&:name) }
+    subject { instance.apply_to(Role).map(&:name) }
 
     context 'with a "=" operator' do
       let(:operator) { "=" }
