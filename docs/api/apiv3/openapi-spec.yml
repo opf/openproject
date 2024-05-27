@@ -513,6 +513,16 @@ components:
       $ref: "./components/examples/project_body.yml"
     ProjectCollection:
       $ref: "./components/examples/project_collection.yml"
+    StorageNextcloudResponse:
+      $ref: "./components/examples/storage-nextcloud-response.yml"
+    StorageNextcloudResponseForCreation:
+      $ref: "./components/examples/storage-nextcloud-response-for-creation.yml"
+    StorageNextcloudUnauthorizedResponse:
+      $ref: "./components/examples/storage-nextcloud-unauthorized-response.yml"
+    StorageOneDriveIncompleteResponse:
+      $ref: "./components/examples/storage-one-drive-incomplete-response.yml"
+    StorageOneDriveResponse:
+      $ref: "./components/examples/storage-one-drive-response.yml"
     QueriesModel:
       $ref: "./components/examples/queries.yml"
     QueryModel:

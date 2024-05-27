@@ -62,7 +62,7 @@ module OpenProject::Storages
           OpenProject::Events::PROJECT_UNARCHIVED
         ].each do |event|
           OpenProject::Notifications.subscribe(event) do |_payload|
-            ::Storages::ManageNextcloudIntegrationJob.debounce
+            ::Storages::ManageStorageIntegrationsJob.debounce
           end
         end
 
@@ -70,7 +70,7 @@ module OpenProject::Storages
           OpenProject::Events::OAUTH_CLIENT_TOKEN_CREATED
         ) do |payload|
           if payload[:integration_type] == "Storages::Storage"
-            ::Storages::ManageNextcloudIntegrationJob.debounce
+            ::Storages::ManageStorageIntegrationsJob.debounce
           end
         end
 
@@ -78,7 +78,7 @@ module OpenProject::Storages
           OpenProject::Events::ROLE_UPDATED
         ) do |payload|
           if payload[:permissions_diff]&.intersect?(OpenProject::Storages::Engine.permissions)
-            ::Storages::ManageNextcloudIntegrationJob.debounce
+            ::Storages::ManageStorageIntegrationsJob.debounce
           end
         end
 
@@ -86,7 +86,7 @@ module OpenProject::Storages
           OpenProject::Events::ROLE_DESTROYED
         ) do |payload|
           if payload[:permissions]&.intersect?(OpenProject::Storages::Engine.permissions)
-            ::Storages::ManageNextcloudIntegrationJob.debounce
+            ::Storages::ManageStorageIntegrationsJob.debounce
           end
         end
 
@@ -97,8 +97,8 @@ module OpenProject::Storages
         ].each do |event|
           OpenProject::Notifications.subscribe(event) do |payload|
             if payload[:project_folder_mode] == :automatic
-              ::Storages::ManageNextcloudIntegrationJob.debounce
-              ::Storages::ManageNextcloudIntegrationJob.disable_cron_job_if_needed
+              ::Storages::ManageStorageIntegrationsJob.debounce
+              ::Storages::ManageStorageIntegrationsJob.disable_cron_job_if_needed
             end
           end
         end
@@ -331,9 +331,9 @@ module OpenProject::Storages
           class: ::Storages::CleanupUncontaineredFileLinksJob.name
         },
 
-        "Storages::ManageNextcloudIntegrationJob": {
+        "Storages::ManageStorageIntegrationsJob": {
           cron: "1 * * * *", # every hour at xx:01
-          class: ::Storages::ManageNextcloudIntegrationJob.name
+          class: ::Storages::ManageStorageIntegrationsJob.name
         }
       }
     end

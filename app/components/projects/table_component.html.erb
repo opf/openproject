@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
+
 <div class="project-list-page--table">
   <div class="generic-table--flex-container">
     <div class="generic-table--container <%= container_class %>">
@@ -84,7 +85,7 @@ See COPYRIGHT and LICENSE files for more details.
           <tbody>
           <% if rows.empty? %>
             <tr class="generic-table--empty-row">
-              <td colspan="<%= headers.length + 1 %>"><%= empty_row_message %></td>
+              <td colspan="<%= columns.length + 1 %>"><%= empty_row_message %></td>
             </tr>
           <% end %>
           <%= render_collection rows %>

@@ -252,20 +252,20 @@
             item_4:
               subject: Slutten av prosjektet
           wiki: |
-            _In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki._
+            _På denne wikien kan du opprette og redigere sider og undersider for å opprette en prosjektwiki.
 
-            **You can:**
+            **Du kan:**
 
-            * Insert text and images, also with copy and paste from other documents
-            * Create a page hierarchy with parent pages
-            * Include wiki pages to the project menu
-            * Use macros to include, e.g. table of contents, work package lists, or Gantt charts
-            * Include wiki pages in other text fields, e.g. project overview page
-            * Include links to other documents
-            * View the change history
-            * View as Markdown
+            * Sett inn tekst og bilder, også med kopier og lim inn fra andre dokumenter
+            * Lag et sidehierarki med overordnede sider
+            * Inkluder wiki-sider til prosjektmenyen
+            * Bruk makroer til å inkludere, f.eks. Liste over innhold, arbeidspakker eller Gantt karter
+            * Inkluder wiki-sider i andre tekstfelt, f.eks. prosjektoversikten side
+            * Inkluder lenker til andre dokumenter
+            * Se endringshistorien
+            * Vis som Markdown
 
-            More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
+            Mer informasjon: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: Scrum prosjekt
           status_explanation: Alle oppgaver er i rute. Personene som er involvert kjenner sine oppgaver. Systemet er ferdig satt opp.

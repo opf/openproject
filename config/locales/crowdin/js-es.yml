@@ -363,7 +363,7 @@ es:
           "14_1":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
+                La versión contiene varias novedades y mejoras: <br> <ul class="%{list_styling_class}"> <li>Exportación a PDF de la vista Gantt, por ejemplo para imprimir (complemento Enterprise)</li> <li>Proyectos favoritos</li> <li>Secciones en reuniones</li> <li>Visualización de reuniones en las páginas Mi página y Resumen del proyecto</li> <li>Posibilidad de ocultar los archivos adjuntos en la pestaña Archivos</li> <li>Campos personalizados del tipo Enlace (URL)</li> </ul>
     ical_sharing_modal:
       title: "Suscribirse al calendario"
       inital_setup_error_message: "Se ha producido un error al obtener los datos."

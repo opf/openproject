@@ -387,7 +387,7 @@ RSpec.describe RolesController do
         subject
 
         expect(enqueued_jobs.count).to eq(1)
-        expect(enqueued_jobs[0][:job]).to eq(Storages::ManageNextcloudIntegrationJob)
+        expect(enqueued_jobs[0][:job]).to eq(Storages::ManageStorageIntegrationsJob)
         expect(response).to redirect_to roles_path
         expect(Role.count).to eq(0)
       end

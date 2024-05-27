@@ -1782,7 +1782,7 @@ es:
   label_attribute_expand_text: "El texto completo para «%{attribute}»"
   label_authentication: "Autentificación"
   label_available_global_roles: "Roles globales disponibles"
-  label_available_project_attributes: "Available project attributes"
+  label_available_project_attributes: "Atributos del proyecto disponibles"
   label_available_project_forums: "Foros disponibles"
   label_available_project_repositories: "Repositorios disponibles"
   label_available_project_versions: "Versiones disponibles"

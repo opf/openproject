@@ -107,6 +107,8 @@ tr:
       agenda: "Gündemi kopyala"
       agenda_text: "Eski toplantının gündemini kopyalayın"
     email:
+      send_emails: "Send emails"
+      send_invitation_emails: "Send out invitation emails upon creation"
       open_meeting_link: "Açık toplantı"
       invited:
         summary: "%{actor} size toplantı için bir davetiye gönderdi %{title}"

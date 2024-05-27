@@ -95,6 +95,7 @@ Rails.application.reloader.to_prepare do
                      {
                        "projects/settings/general": %i[show],
                        "projects/settings/storage": %i[show],
+                       projects: %i[deactivate_work_package_attachments],
                        "projects/templated": %i[create destroy],
                        "projects/identifier": %i[show update]
                      },
@@ -173,6 +174,14 @@ Rails.application.reloader.to_prepare do
                      {
                        admin: %i[index],
                        attribute_help_texts: %i[index new edit upsale create update destroy]
+                     },
+                     permissible_on: :global,
+                     require: :loggedin,
+                     grant_to_admin: true
+
+      map.permission :manage_public_project_queries,
+                     {
+                       "projects/queries": %i[publish unpublish]
                      },
                      permissible_on: :global,
                      require: :loggedin,

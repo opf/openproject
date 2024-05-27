@@ -103,7 +103,7 @@ RUN ./docker/prod/setup/postinstall-onprem.sh
 RUN ln -s /app/docker/prod/setup/.irbrc /root/
 
 # Expose ports for apache and postgres
-EXPOSE 80 5432
+EXPOSE 80
 
 # Expose the postgres data directory and OpenProject data directory as volumes
 VOLUME ["$PGDATA", "$APP_DATA_PATH"]
