@@ -2,7 +2,7 @@
   primer_form_with(
     id: "work-package-journal-form",
     model: journal,
-    method: :post,
+    method: method,
     data: { turbo: true, turbo_stream: true },
     url: submit_path,
   ) do |f|
@@ -12,15 +12,7 @@
       end
       form_container.with_row(flex_layout: true, mt: 3, justify_content: :flex_end) do |submit_container|
         submit_container.with_column(mr: 2) do
-          render(Primer::Beta::Button.new(
-            scheme: :default,
-            size: :medium,
-            data: { 
-              "action": "click->work-packages--activities-tab--new#hideForm"
-            }
-          )) do
-            render(Primer::Beta::Text.new()) { I18n.t("button_cancel") }
-          end
+          cancel_button
         end
         submit_container.with_column do
           render(WorkPackages::ActivitiesTab::Journals::Submit.new(f))

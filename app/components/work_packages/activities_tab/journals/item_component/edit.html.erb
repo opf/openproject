@@ -1,0 +1,13 @@
+<%=
+  component_wrapper do
+    render(Primer::Box.new(mt: 3)) do
+      render(
+        WorkPackages::ActivitiesTab::Journals::FormComponent.new(
+          journal:,
+          submit_path: work_package_activity_path(work_package_id: work_package.id, id: journal.id),
+          cancel_path: cancel_edit_work_package_activity_path(work_package.id, id: journal.id)
+        )
+      )
+    end
+  end
+%>

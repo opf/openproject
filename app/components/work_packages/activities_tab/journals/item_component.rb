@@ -29,57 +29,67 @@
 module WorkPackages
   module ActivitiesTab
     module Journals
-      class ShowComponent < ApplicationComponent
+      class ItemComponent < ApplicationComponent
         include ApplicationHelper
-        include AvatarHelper
-        include JournalFormatter
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
 
-        def initialize(journal:)
+        def initialize(journal:, state: :show)
           super
 
           @journal = journal
+          @state = state
+        end
+
+        def content
+          case state
+          when :show
+            render(WorkPackages::ActivitiesTab::Journals::ItemComponent::Show.new(**child_component_params))
+          when :edit
+            render(WorkPackages::ActivitiesTab::Journals::ItemComponent::Edit.new(**child_component_params))
+          end
         end
 
         private
 
+        attr_reader :journal, :state
+
         def wrapper_uniq_by
-          @journal.id
+          journal.id
+        end
+
+        def child_component_params
+          { journal: }.compact
         end
 
         def wrapper_data_attributes
           {
-            controller: "work-packages--activities-tab--show",
+            controller: "work-packages--activities-tab--item",
             "application-target": "dynamic",
-            "work-packages--activities-tab--show-activity-url-value": activity_url
+            "work-packages--activities-tab--item-activity-url-value": activity_url
           }
         end
 
         def activity_url
-          "#{project_work_package_url(@journal.journable.project, @journal.journable)}/activity#{activity_anchor}"
+          "#{project_work_package_url(journal.journable.project, journal.journable)}/activity#{activity_anchor}"
         end
 
         def activity_anchor
-          "#activity-#{@journal.version}"
-        end
-
-        def data_type
-          @journal.data_type
+          "#activity-#{journal.version}"
         end
 
         def editable?
-          @journal.user == User.current
+          journal.user == User.current
         end
 
         def initial_version?
-          @journal.version == 1
+          journal.version == 1
         end
 
         def updated?
           return false if initial_version?
 
-          @journal.updated_at - @journal.created_at > 5.seconds
+          journal.updated_at - journal.created_at > 5.seconds
         end
 
         def copy_url_action_item(menu)
@@ -87,7 +97,7 @@ module WorkPackages
                          tag: :button,
                          content_arguments: {
                            data: {
-                             action: "click->work-packages--activities-tab--show#copyActivityUrlToClipboard"
+                             action: "click->work-packages--activities-tab--item#copyActivityUrlToClipboard"
                            }
                          }) do |item|
             item.with_leading_visual_icon(icon: :copy)
@@ -95,19 +105,10 @@ module WorkPackages
         end
 
         def edit_action_item(menu)
-          # menu.with_item(label: t("label_edit"),
-          #                href: edit_work_package_activity_path(@journal.journable, @journal),
-          #                content_arguments: {
-          #                  data: { "turbo-stream": true }
-          #                }) do |item|
-          #   item.with_leading_visual_icon(icon: :pencil)
-          # end
           menu.with_item(label: t("label_edit"),
-                         tag: :button,
+                         href: edit_work_package_activity_path(journal.journable, journal),
                          content_arguments: {
-                           data: {
-                             action: "click->work-packages--activities-tab--show#edit"
-                           }
+                           data: { "turbo-stream": true }
                          }) do |item|
             item.with_leading_visual_icon(icon: :pencil)
           end

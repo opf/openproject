@@ -33,6 +33,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
 
   before_action :find_work_package
   before_action :find_project
+  before_action :find_journal, only: %i[edit cancel_edit update]
   before_action :authorize
 
   def index
@@ -55,6 +56,29 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     respond_with_turbo_streams
   end
 
+  def edit
+    # check if allowed to edit at all
+    update_via_turbo_stream(
+      component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
+        journal: @journal,
+        state: :edit
+      )
+    )
+
+    respond_with_turbo_streams
+  end
+
+  def cancel_edit
+    update_via_turbo_stream(
+      component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
+        journal: @journal,
+        state: :show
+      )
+    )
+
+    respond_with_turbo_streams
+  end
+
   def create
     latest_journal_version = @work_package.journals.last.try(:version) || 0
 
@@ -71,6 +95,24 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     respond_with_turbo_streams
   end
 
+  def update
+    call = Journals::UpdateService.new(model: @journal, user: User.current).call(
+      notes: journal_params[:notes]
+    )
+
+    if call.success? && call.result
+      update_via_turbo_stream(
+        component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
+          journal: call.result,
+          state: :show
+        )
+      )
+    end
+    # TODO: handle errors
+
+    respond_with_turbo_streams
+  end
+
   private
 
   def find_work_package
@@ -79,6 +121,10 @@ class WorkPackages::ActivitiesTabController < ApplicationController
 
   def find_project
     @project = @work_package.project
+  end
+
+  def find_journal
+    @journal = Journal.find(params[:id])
   end
 
   def journal_sorting
@@ -104,7 +150,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
       target_component: WorkPackages::ActivitiesTab::Journals::IndexComponent.new(
         work_package: @work_package
       ),
-      component: WorkPackages::ActivitiesTab::Journals::ShowComponent.new(
+      component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
         journal:
       )
     }
@@ -119,7 +165,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
 
   def update_journal_via_turbo_stream(journal)
     update_via_turbo_stream(
-      component: WorkPackages::ActivitiesTab::Journals::ShowComponent.new(journal:)
+      component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(journal:)
     )
   end
 

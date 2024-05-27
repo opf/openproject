@@ -30,7 +30,7 @@
 
 import { Controller } from '@hotwired/stimulus';
 
-export default class ShowController extends Controller {
+export default class ItemController extends Controller {
   static values = {
     activityUrl: String,
   };
@@ -39,9 +39,5 @@ export default class ShowController extends Controller {
 
   async copyActivityUrlToClipboard() {
     await navigator.clipboard.writeText(this.activityUrlValue);
-  }
-
-  edit() {
-    alert('Not yet implemented');
   }
 }

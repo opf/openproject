@@ -29,45 +29,25 @@
 module WorkPackages
   module ActivitiesTab
     module Journals
-      class FormComponent < ApplicationComponent
+      class ItemComponent::Show < ApplicationComponent
         include ApplicationHelper
+        include AvatarHelper
+        include JournalFormatter
         include OpPrimer::ComponentHelpers
+        include OpTurbo::Streamable
 
-        def initialize(journal:, submit_path:, cancel_path: nil)
+        def initialize(journal:)
           super
 
           @journal = journal
-          @submit_path = submit_path
-          @cancel_path = cancel_path
-          @method = journal.new_record? ? :post : :put
         end
 
         private
 
-        attr_reader :journal, :submit_path, :cancel_path, :method
+        attr_reader :journal
 
-        def cancel_button
-          if cancel_path
-            render(Primer::Beta::Button.new(
-                     scheme: :secondary,
-                     size: :medium,
-                     tag: :a,
-                     href: cancel_path,
-                     data: { "turbo-stream": true }
-                   )) do
-              t("button_cancel")
-            end
-          else
-            render(Primer::Beta::Button.new(
-                     scheme: :default,
-                     size: :medium,
-                     data: {
-                       action: "click->work-packages--activities-tab--new#hideForm"
-                     }
-                   )) do
-              I18n.t("button_cancel")
-            end
-          end
+        def wrapper_uniq_by
+          journal.id
         end
       end
     end

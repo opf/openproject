@@ -1,22 +1,22 @@
 <%=
   component_wrapper(data: wrapper_data_attributes) do
-    render(Primer::Box.new(id: "activity-#{@journal.version}", border: true, border_radius: 2, p: 3, my: 2)) do
+    render(Primer::Box.new(id: "activity-#{journal.version}", border: true, border_radius: 2, p: 3, my: 2)) do
       flex_layout do |journal_container|
         journal_container.with_row(flex_layout: true, align_items: :center, justify_content: :space_between) do |header_container|
           header_container.with_column(flex_layout: true) do |header_start_container|
             header_start_container.with_column(mr: 2) do
-              render Users::AvatarComponent.new(user: @journal.user, show_name: false)
+              render Users::AvatarComponent.new(user: journal.user, show_name: false)
             end
             header_start_container.with_column(flex_layout: true) do |header_text_container|
               header_text_container.with_row do
                 render(Primer::Beta::Link.new(
-                  href: user_url(@journal.user),
+                  href: user_url(journal.user),
                   target: "_blank",
                   scheme: :primary,
                   underline: false, 
                   font_weight: :bold
                 )) do
-                  @journal.user.name
+                  journal.user.name
                 end
               end
               header_text_container.with_row(flex_layout: true) do |header_text_timestamp_container|
@@ -30,7 +30,7 @@
                   end
                 end
                 header_text_timestamp_container.with_column do
-                  render(Primer::Beta::Text.new(color: :subtle, mt: 1, font_size: :small)) { format_time(@journal.updated_at) }
+                  render(Primer::Beta::Text.new(color: :subtle, mt: 1, font_size: :small)) { format_time(journal.updated_at) }
                 end
               end
             end
@@ -44,7 +44,7 @@
                 font_size: :small,
                 data: { turbo: false }
               )) do
-                "##{@journal.version}"
+                "##{journal.version}"
               end
             end
             header_end_container.with_column(ml: 2) do
@@ -58,21 +58,8 @@
             end
           end
         end
-        if @journal.notes.present?
-          journal_container.with_row(mt: 3) do
-            render(Primer::Box.new(mt: 1)) do
-              format_text(@journal, :notes)
-            end
-          end
-        end
-        if @journal.details.any? && @journal.version != 1
-          journal_container.with_row(flex_layout: true, border_radius: 2, p: 3, my: 3, bg: :subtle) do |details_container|
-            @journal.details.each do |detail|
-              details_container.with_row(mt: 1, font_size: :small) do
-                render(Primer::Beta::Text.new) { @journal.render_detail(detail) }
-              end
-            end
-          end
+        journal_container.with_row do
+          content
         end
       end
     end
