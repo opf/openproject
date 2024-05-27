@@ -43,7 +43,7 @@ module Authorization
       entities = Array(entities_to_check)
 
       entities.all? do |entity|
-        allowed_in_single_entity?(perms, entity)
+        allowed_in_single_entity?(perms, entity, entity_class)
       end
     end
 
@@ -96,8 +96,8 @@ module Authorization
       cached_permissions(project).intersect?(permissions_filtered_for_project)
     end
 
-    def allowed_in_single_entity?(permissions, entity)
-      if entity_is_project_scoped?(entity.class)
+    def allowed_in_single_entity?(permissions, entity, entity_class)
+      if entity_is_project_scoped?(entity_class)
         allowed_in_single_project_scoped_entity?(permissions, entity)
       else
         allowed_in_single_standalone_entity?(permissions, entity)
