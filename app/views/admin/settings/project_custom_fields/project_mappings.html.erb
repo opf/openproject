@@ -37,8 +37,17 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <%=
-  render(Settings::ProjectCustomFields::ProjectCustomFieldMapping::TableComponent.new(
-    query: @project_custom_field_mappings_query,
-    params: { custom_field: @custom_field })
-  )
+
+  if @custom_field.required?
+    render Primer::Beta::Blankslate.new(border: true) do |component|
+      component.with_visual_icon(icon: :checklist)
+      component.with_heading(tag: :h2).with_content(I18n.t("projects.settings.project_custom_fields.is_required_blank_slate.heading"))
+      component.with_description { I18n.t("projects.settings.project_custom_fields.is_required_blank_slate.description") }
+    end
+  else
+    render(Settings::ProjectCustomFields::ProjectCustomFieldMapping::TableComponent.new(
+      query: @project_custom_field_mappings_query,
+      params: { custom_field: @custom_field })
+    )
+  end
 %>
