@@ -180,8 +180,7 @@ class PermittedParams
   end
 
   def settings
-    scalar_filters, complex_filters = AllowedSettings.scalar_and_complex_filters
-    params.require(:settings).permit(*scalar_filters, **complex_filters)
+    params.require(:settings).permit(*AllowedSettings.filters)
   end
 
   def user(additional_params = [])
