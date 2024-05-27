@@ -179,8 +179,8 @@ class PermittedParams
     params.require(:status).permit(*self.class.permitted_attributes[:status])
   end
 
-  def settings
-    params.require(:settings).permit(*AllowedSettings.filters)
+  def settings(extra_permitted_filters = nil)
+    params.require(:settings).permit(*AllowedSettings.filters, *extra_permitted_filters)
   end
 
   def user(additional_params = [])
