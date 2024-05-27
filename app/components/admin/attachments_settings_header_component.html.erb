@@ -29,25 +29,23 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% helpers.html_title t(:label_administration), @title %>
 
-<%= render(Primer::OpenProject::PageHeader.new(border_bottom: 0)) do |header| %>
-  <% header.with_title { t(:"attributes.attachments") } %>
-  <% header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
-                              { href: admin_settings_storages_path, text: t("project_module_storages") },
-                              t(:"attributes.attachments")]) %>
-<% end %>
-
-<%= render(Primer::Alpha::TabNav.new(label: "label")) do |component|
-  component.with_tab(selected: @selected == 1, href: admin_settings_attachments_path) do |tab|
-    tab.with_text { t("settings.general") }
-  end
-  component.with_tab(selected: @selected == 2, href: admin_settings_virus_scanning_path) do |tab|
-    tab.with_icon(icon: :"op-enterprise-addons") unless EnterpriseToken.allows_to?("virus_scanning")
-    tab.with_text { t(:"settings.antivirus.title") }
-  end
-  if User.current.admin? && (EnterpriseToken.allows_to?(:virus_scanning) || Attachment.status_quarantined.any?)
-    component.with_tab(selected: @selected == 3, href: admin_quarantined_attachments_path) do |tab|
-      tab.with_text { t(:"antivirus_scan.quarantined_attachments.title") }
+<%= render(Primer::OpenProject::PageHeader.new(border_bottom: 0)) do |header|
+  header.with_title { t(:"attributes.attachments") }
+  header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                           { href: admin_settings_storages_path, text: t("project_module_storages") },
+                           t(:"attributes.attachments")])
+  header.with_tab_nav(label: nil) do |tab_nav|
+    tab_nav.with_tab(selected: @selected == 1, href: admin_settings_attachments_path) do |tab|
+      tab.with_text { t("settings.general") }
+    end
+    tab_nav.with_tab(selected: @selected == 2, href: admin_settings_virus_scanning_path) do |tab|
+      tab.with_icon(icon: :"op-enterprise-addons") unless EnterpriseToken.allows_to?("virus_scanning")
+      tab.with_text { t(:"settings.antivirus.title") }
+    end
+    if User.current.admin? && (EnterpriseToken.allows_to?(:virus_scanning) || Attachment.status_quarantined.any?)
+      tab_nav.with_tab(selected: @selected == 3, href: admin_quarantined_attachments_path) do |tab|
+        tab.with_text { t(:"antivirus_scan.quarantined_attachments.title") }
+      end
     end
   end
-end
-%>
+end %>
