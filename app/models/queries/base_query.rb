@@ -187,32 +187,29 @@ module Queries::BaseQuery
     self
   end
 
-  def apply_filters(scope)
-    filters.each do |filter|
+  def apply_filters(query_scope)
+    filters.inject(query_scope) do |scope, filter|
       # TODO: rename to filter.apply
-      scope = filter.scope(scope)
+      filter.scope(scope)
     end
-
-    scope
   end
 
-  def apply_orders(scope)
-    build_orders.each do |order|
-      scope = scope.merge(order.scope)
+  def apply_orders(query_scope)
+    query_scope = build_orders.inject(query_scope) do |scope, order|
+      order.scope(scope)
     end
 
     # To get deterministic results, especially when paginating (limit + offset)
     # an order needs to be prepended that is ensured to be
     # different between all elements.
     # Without such a criteria, results can occur on multiple pages.
-    already_ordered_by_id?(scope) ? scope : scope.order(id: :desc)
+    already_ordered_by_id?(query_scope) ? query_scope : query_scope.order(id: :desc)
   end
 
-  def apply_group_by(scope)
-    return scope if group_by.nil?
+  def apply_group_by(query_scope)
+    return query_scope if group_by.nil?
 
-    scope
-      .merge(group_by.scope)
+    group_by.scope(query_scope)
       .order(group_by.name)
   end
 

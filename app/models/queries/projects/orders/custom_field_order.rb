@@ -53,7 +53,7 @@ class Queries::Projects::Orders::CustomFieldOrder < Queries::Orders::Base
     end
   end
 
-  def scope
+  def scope(_query_scope)
     super.select(custom_field.order_statements)
   end
 
