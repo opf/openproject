@@ -35,11 +35,30 @@ class Queries::Projects::Filters::PrincipalFilter < Queries::Projects::Filters::
     @allowed_values ||= ::Principal.pluck(:id).map { |id| [id, id.to_s] }
   end
 
-  def scope
-    super.includes(:memberships).references(:members)
+  def scope(_query_scope)
+    if operator_strategy == Queries::Operators::NotEquals
+      super
+        .where.not(id: member_statement(Queries::Operators::Equals))
+    elsif operator_strategy == Queries::Operators::None
+      super
+        .where.not(id: member_statement(Queries::Operators::All))
+    else
+      super
+        .where(id: member_statement(operator_strategy))
+    end
   end
 
   def where
-    operator_strategy.sql_for_field(values, "members", "user_id")
+    # handled by scope
+    nil
+  end
+
+  private
+
+  def member_statement(used_operator_strategy)
+    Member
+      .of_any_project
+      .where(used_operator_strategy.sql_for_field(values, "members", "user_id"))
+      .select(:project_id)
   end
 end

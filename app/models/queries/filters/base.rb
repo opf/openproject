@@ -102,12 +102,14 @@ class Queries::Filters::Base
     type_strategy.default_operator_class
   end
 
-  def scope
-    scope = model.where(where)
-    scope = scope.from(from) if from
-    scope = scope.joins(joins) if joins
-    scope = scope.left_outer_joins(left_outer_joins) if left_outer_joins
-    scope
+  # TODO: rename to apply
+  # remove model ? as it might no longer be needed
+  def scope(query_scope)
+    query_scope = query_scope.where(where) if where
+    query_scope = query_scope.from(from) if from
+    query_scope = query_scope.joins(joins) if joins
+    query_scope = query_scope.left_outer_joins(left_outer_joins) if left_outer_joins
+    query_scope
   end
 
   def self.key

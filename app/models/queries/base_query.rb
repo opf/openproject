@@ -189,7 +189,8 @@ module Queries::BaseQuery
 
   def apply_filters(scope)
     filters.each do |filter|
-      scope = scope.merge(filter.scope)
+      # TODO: rename to filter.apply
+      scope = filter.scope(scope)
     end
 
     scope

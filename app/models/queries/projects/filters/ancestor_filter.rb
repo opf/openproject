@@ -30,17 +30,21 @@ module Queries
   module Projects
     module Filters
       class AncestorFilter < ::Queries::Projects::Filters::ProjectFilter
-        def scope
+        def scope(_query_scope)
           case operator
           when "="
-            Project
+            super
               .where(exists_condition.exists)
           when "!"
-            Project
+            super
               .where.not(exists_condition.exists)
           else
             raise "unsupported operator"
           end
+        end
+
+        def where
+          nil
         end
 
         def type
