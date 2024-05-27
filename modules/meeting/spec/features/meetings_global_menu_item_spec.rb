@@ -55,9 +55,9 @@ RSpec.describe "Meetings global menu item",
       expect(page).to have_current_path("/meetings")
     end
 
-    specify '"Upcoming meetings" is the default filter set' do
+    specify '"Upcoming invitations" is the default filter set' do
       within "#main-menu" do
-        expect(page).to have_css(".selected", text: I18n.t(:label_upcoming_meetings))
+        expect(page).to have_css(".selected", text: I18n.t(:label_upcoming_invitations))
       end
     end
   end
