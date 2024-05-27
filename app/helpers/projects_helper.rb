@@ -32,12 +32,12 @@ module ProjectsHelper
   # Just like sort_header tag but removes sorting by
   # lft from the sort criteria as lft is mutually exclusive with
   # the other criteria.
-  def projects_sort_header_tag(*)
+  def projects_sort_header_tag(column, **)
     former_criteria = @sort_criteria.criteria.dup
 
     @sort_criteria.criteria.reject! { |a, _| a == "lft" }
 
-    sort_header_tag(*)
+    sort_header_tag(column, **, allowed_params: %i[query_id filters columns per_page])
   ensure
     @sort_criteria.criteria = former_criteria
   end
@@ -69,5 +69,9 @@ module ProjectsHelper
   def protected_projects_columns_options
     projects_columns_options
       .select { |c| c[:id] == :name }
+  end
+
+  def projects_query_params
+    safe_query_params(%i[query_id filters columns sortBy per_page page])
   end
 end
