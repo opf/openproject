@@ -63,7 +63,7 @@ description: |-
   | derivedEstimatedTime    | Time a work package likely needs to be completed including its descendants                                                                                                    | Duration    |                                                                                                                                                                                              | READ                 |                                  |
   | ignoreNonWorkingDays    | When scheduling, whether or not to ignore the non working days being defined. A work package with the flag set to true will be allowed to be scheduled to a non working day.  | Boolean     | Cannot be set for parent work packages unless it is scheduled manually                                                                                                                       | READ                 |                                  |
   | spentTime               | The time booked for this work package by users working on it                                                                                                                  | Duration    |                                                                                                                                                                                              | READ                 | **Permission** view time entries |
-  | percentageDone          | Amount of total completion for a work package                                                                                                                                 | Integer     | 0 <= x <= 100; Cannot be set for parent work packages                                                                                                                                        | READ / WRITE         |                                  |
+  | percentageDone          | Amount of total completion for a work package                                                                                                                                 | Integer     | 0 <= x <= 100                                                                                                                                                                                | READ                 |                                  |
   | readonly                | If true, the work package is in a readonly status so with the exception of the status, no other property can be altered.                                                      | Boolean     |                                                                                                                                                                                              | READ                 | Enterprise edition only          |
   | createdAt               | Time of creation                                                                                                                                                              | DateTime    |                                                                                                                                                                                              | READ                 |                                  |
   | updatedAt               | Time of the most recent change to the work package                                                                                                                            | DateTime    |                                                                                                                                                                                              | READ                 |                                  |
@@ -83,13 +83,15 @@ description: |-
 
   * `dueDate` is the latest finish date from its children if manual scheduling is activated.
 
-  * `estimatedTime` is the sum of estimated times from its children
+  * `derivedEstimatedTime` is the sum of estimated times from its children and the work package's own estimated time.
+  
+  * `derivedRemainingTime` is the sum of remaining times from its children and the work package's own remaining time
 
-  * `percentageDone` is the weighted average of the sum of its children percentages done. The weight is given by the average of its children estimatedHours. However, if the percentage done is given by a work package's status, then only the status matters and no value is inferred.
+  * `derivedPercentageDone` is computed by the work package's derivedEstimatedTime and derivedRemainingTime.
 
   `startDate` can also not be earlier than a finish date of any predecessor.
 
-  While attachments are returned as a link which's content is to be fetched separately, clients can choose to
+  While attachments are returned as a link whose content is to be fetched separately, clients can choose to
   replace the work package's attachments by providing an array of already uploaded [Attachment resources](https://www.openproject.org/docs/api/endpoints/attachments/) 
   on [create](https://www.openproject.org/docs/api/endpoints/work-packages/#create-work-package)
   and [update](https://www.openproject.org/docs/api/endpoints/work-packages/#update-a-work-package). The attachments the work package has had prior to the request will be removed.
