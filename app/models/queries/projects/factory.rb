@@ -133,7 +133,7 @@ class Queries::Projects::Factory
     end
 
     def find_persisted_query_and_set_attributes(id, params, user, duplicate:)
-      query = Queries::Projects::ProjectQuery.where(user:).find_by(id:)
+      query = Queries::Projects::ProjectQuery.visible(user).find_by(id:)
 
       return unless query
 

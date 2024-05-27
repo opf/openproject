@@ -81,6 +81,29 @@
         end
 
         if query.persisted?
+          # TODO: Remove section when the sharing modal is implemented (https://community.openproject.org/projects/openproject/work_packages/55163)
+          if can_publish?
+            if query.public?
+              menu.with_item(
+                label: t(:button_unpublish),
+                scheme: :danger,
+                href: unpublish_projects_query_path(query),
+                content_arguments: { data: { method: :post } }
+              ) do |item|
+                item.with_leading_visual_icon(icon: 'eye-closed')
+              end
+            else
+              menu.with_item(
+                label: t(:button_publish),
+                scheme: :default,
+                href: publish_projects_query_path(query),
+                content_arguments: { data: { method: :post } }
+              ) do |item|
+                item.with_leading_visual_icon(icon: 'eye')
+              end
+            end
+          end
+
           menu.with_item(
             label: t(:button_delete),
             scheme: :danger,
@@ -92,7 +115,6 @@
       end
     end
   %>
-
   <%= render(Projects::ConfigureViewModalComponent.new(query:)) %>
   <%= render(Projects::DeleteListModalComponent.new(query:)) if query.persisted? %>
   <%= render(Projects::ExportListModalComponent.new(query:)) %>

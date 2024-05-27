@@ -45,11 +45,15 @@ RSpec.describe Menus::Projects do
     Queries::Projects::ProjectQuery.create!(name: "Other user query", user: build(:user))
   end
 
+  shared_let(:public_query) do
+    Queries::Projects::ProjectQuery.create!(name: "Public query", user: build(:user), public: true)
+  end
+
   subject(:first_level_menu_items) { instance.first_level_menu_items }
 
-  it "returns 3 menu groups" do
+  it "returns 4 menu groups" do
     expect(first_level_menu_items).to all(be_a(OpenProject::Menu::MenuGroup))
-    expect(first_level_menu_items.length).to eq(3)
+    expect(first_level_menu_items.length).to eq(4)
   end
 
   describe "children items" do
@@ -65,6 +69,10 @@ RSpec.describe Menus::Projects do
 
     it "doesn't contain item for other user query" do
       expect(children_menu_items).not_to include(have_attributes(title: "Other user query"))
+    end
+
+    it "contains item for public query" do
+      expect(children_menu_items).to include(have_attributes(title: "Public query"))
     end
   end
 
