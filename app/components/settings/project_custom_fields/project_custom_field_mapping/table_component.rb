@@ -31,6 +31,10 @@ module Settings
     module ProjectCustomFieldMapping
       class TableComponent < Projects::TableComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
         include OpTurbo::Streamable
+
+        def columns
+          @columns ||= query.selects.reject { |select| select.is_a?(Queries::Selects::NotExistingSelect) }
+        end
       end
     end
   end

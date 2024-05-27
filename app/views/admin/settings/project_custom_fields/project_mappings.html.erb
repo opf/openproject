@@ -39,6 +39,6 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   render(Settings::ProjectCustomFields::ProjectCustomFieldMapping::TableComponent.new(
     query: @project_custom_field_mappings_query,
-    params: { custom_field: @custom_field })
+    params: params.merge({ custom_field: @custom_field }))
   )
 %>

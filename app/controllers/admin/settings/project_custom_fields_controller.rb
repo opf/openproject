@@ -141,6 +141,7 @@ module Admin::Settings
       ) do |query|
         query.where(:available_project_attributes, "=", [@custom_field.id])
         query.select(:name)
+        query.order("lft" => "asc")
       end
     end
 
