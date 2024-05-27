@@ -27,10 +27,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% local_assigns[:additional_breadcrumb] = @custom_field.name %>
-
 <%=
-  render(Admin::Settings::ProjectCustomFields::ProjectAttributeDetailHeaderComponent.new(
+  render(Settings::ProjectCustomFields::EditFormHeaderComponent.new(
     custom_field: @custom_field,
     selected: :project_custom_field_project_mappings
   ))
