@@ -1087,7 +1087,7 @@ module Settings
         description: "Web worker count and threads configuration",
         default: {
           "workers" => 2,
-          "timeout" => 120,
+          "timeout" => Rails.env.production? ? 120 : 0,
           "wait_timeout" => 10,
           "min_threads" => 4,
           "max_threads" => 16
