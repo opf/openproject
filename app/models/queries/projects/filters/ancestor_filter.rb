@@ -30,7 +30,7 @@ module Queries
   module Projects
     module Filters
       class AncestorFilter < ::Queries::Projects::Filters::ProjectFilter
-        def scope(_query_scope)
+        def apply_to(_query_scope)
           case operator
           when "="
             super

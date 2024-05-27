@@ -36,7 +36,7 @@ class Queries::Projects::Filters::MemberOfFilter < Queries::Projects::Filters::P
     :member_of
   end
 
-  def scope(_query_scope)
+  def apply_to(_query_scope)
     if allowed_values.first.intersect?(values)
       super.with_member
     else

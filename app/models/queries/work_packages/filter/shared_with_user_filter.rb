@@ -34,7 +34,7 @@ class Queries::WorkPackages::Filter::SharedWithUserFilter <
     super && view_shared_work_packages_allowed?
   end
 
-  def scope(query_scope)
+  def apply_to(query_scope)
     query = visible_shared_work_packages(scoped_to_visible_projects: !querying_for_self?)
 
     if operator == "="

@@ -42,7 +42,7 @@ class Queries::Principals::Filters::AccessToAnythingInProjectFilter < Queries::P
     :access_to_anything_in_project
   end
 
-  def scope(query_scope)
+  def apply_to(query_scope)
     case operator
     when "="
       query_scope.visible.in_anything_in_project(values)

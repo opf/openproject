@@ -39,7 +39,7 @@ class Queries::Principals::Filters::MemberFilter < Queries::Principals::Filters:
     :member
   end
 
-  def scope(query_scope)
+  def apply_to(query_scope)
     case operator
     when "="
       query_scope.visible.in_project(values)

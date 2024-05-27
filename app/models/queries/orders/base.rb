@@ -51,7 +51,7 @@ module Queries
         raise NotImplementedError
       end
 
-      def scope(query_scope)
+      def apply_to(query_scope)
         query_scope = order(query_scope)
         query_scope = query_scope.joins(joins) if joins
         query_scope = query_scope.left_outer_joins(left_outer_joins) if left_outer_joins

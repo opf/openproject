@@ -43,7 +43,7 @@ class Queries::Principals::Filters::MentionableOnWorkPackageFilter <
     :mentionable_on_work_package
   end
 
-  def scope(query_scope)
+  def apply_to(query_scope)
     case operator
     when "="
       query_scope.where(id: principals_with_a_membership)

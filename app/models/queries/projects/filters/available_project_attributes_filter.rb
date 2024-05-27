@@ -49,7 +49,7 @@ class Queries::Projects::Filters::AvailableProjectAttributesFilter < Queries::Pr
     User.current.admin?
   end
 
-  def scope(_query_scope)
+  def apply_to(_query_scope)
     case operator
     when "="
       super.with_available_custom_fields(values)

@@ -40,7 +40,7 @@ class Queries::Principals::Filters::TypeFilter < Queries::Principals::Filters::P
     :type
   end
 
-  def scope(query_scope)
+  def apply_to(query_scope)
     if operator == "="
       query_scope.where(type: values)
     else

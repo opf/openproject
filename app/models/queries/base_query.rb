@@ -189,14 +189,13 @@ module Queries::BaseQuery
 
   def apply_filters(query_scope)
     filters.inject(query_scope) do |scope, filter|
-      # TODO: rename to filter.apply
-      filter.scope(scope)
+      filter.apply_to(scope)
     end
   end
 
   def apply_orders(query_scope)
     query_scope = build_orders.inject(query_scope) do |scope, order|
-      order.scope(scope)
+      order.apply_to(scope)
     end
 
     # To get deterministic results, especially when paginating (limit + offset)
@@ -209,7 +208,7 @@ module Queries::BaseQuery
   def apply_group_by(query_scope)
     return query_scope if group_by.nil?
 
-    group_by.scope(query_scope)
+    group_by.apply_to(query_scope)
       .order(group_by.name)
   end
 

@@ -46,14 +46,14 @@ class Queries::WorkPackages::Filter::RelatableFilter < Queries::WorkPackages::Fi
     "(1 = 1)"
   end
 
-  def scope(query_scope)
+  def apply_to(query_scope)
     query_scope.relatable(WorkPackage.find_by(id: values.first), scope_operator)
   end
 
   private
 
   # 'children' used to be supported by the API although 'child' would be more fitting.
-  def scope_operator
+  def apply_to_operator
     if operator == "children"
       Relation::TYPE_CHILD
     else

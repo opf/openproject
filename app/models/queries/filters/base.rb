@@ -102,9 +102,7 @@ class Queries::Filters::Base
     type_strategy.default_operator_class
   end
 
-  # TODO: rename to apply
-  # remove model ? as it might no longer be needed
-  def scope(query_scope)
+  def apply_to(query_scope)
     query_scope = query_scope.where(where) if where
     query_scope = query_scope.from(from) if from
     query_scope = query_scope.joins(joins) if joins

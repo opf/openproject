@@ -41,7 +41,7 @@ class Queries::Projects::Filters::FavoredFilter < Queries::Projects::Filters::Pr
     User.current.logged?
   end
 
-  def scope(_query_scope)
+  def apply_to(_query_scope)
     if (values.first == OpenProject::Database::DB_VALUE_TRUE && operator_strategy == Queries::Operators::BooleanEquals) ||
       (values.first == OpenProject::Database::DB_VALUE_FALSE && operator_strategy == Queries::Operators::BooleanNotEquals)
       super.where(id: favored_project_ids)

@@ -35,7 +35,7 @@ class Queries::Projects::Filters::PrincipalFilter < Queries::Projects::Filters::
     @allowed_values ||= ::Principal.pluck(:id).map { |id| [id, id.to_s] }
   end
 
-  def scope(_query_scope)
+  def apply_to(_query_scope)
     if operator_strategy == Queries::Operators::NotEquals
       super
         .where.not(id: member_statement(Queries::Operators::Equals))

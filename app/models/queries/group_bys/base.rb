@@ -50,7 +50,7 @@ module Queries
         nil
       end
 
-      def scope(query_scope)
+      def apply_to(query_scope)
         query_scope = query_scope.joins(joins) if joins
         group_by query_scope
       end
