@@ -103,7 +103,7 @@ class Queries::Filters::Base
   end
 
   def apply_to(query_scope)
-    query_scope = query_scope.where(where) if where
+    query_scope = query_scope.where(where)
     query_scope = query_scope.from(from) if from
     query_scope = query_scope.joins(joins) if joins
     query_scope = query_scope.left_outer_joins(left_outer_joins) if left_outer_joins
