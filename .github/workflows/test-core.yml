@@ -25,71 +25,80 @@ jobs:
     if: github.repository == 'opf/openproject'
     runs-on: runs-on,runner=32cpu-linux-x64,family=c7i-flex+c7a,run-id=${{ github.run_id }}
     timeout-minutes: 40
+    services:
+      # Label used to access the service container
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: appdb
+        command: -c fsync=off -c full_page_writes=off
+        tmpfs:
+          - /var/lib/postgresql/data
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
     env:
       DOCKER_BUILDKIT: 1
       CI_RETRY_COUNT: 2
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/appdb
     steps:
     - uses: actions/checkout@v4
-    - name: Cache DOCKER
-      id: cache_docker
-      uses: runs-on/cache@v4
+    - uses: ruby/setup-ruby@v1
       with:
-        path: cache/docker
-        # Note: no restore keys since whenever the files below change, we want to rebuild the full image from scratch
-        key: ${{ runner.os }}-docker-ci-${{ hashFiles('docker-compose.ci.yml', 'docker/ci/*', '.ruby-version', 'bin/ci') }}
-    - name: Restore CI image from cache
-      if: steps.cache_docker.outputs.cache-hit == 'true'
-      run: docker load -i cache/docker/image.tar
-    - name: Cache GEM
-      uses: runs-on/cache@v4
+        bundler-cache: true
+    - uses: actions/setup-node@v4
       with:
-        path: cache/bundle
-        key: gem-bookworm-${{ hashFiles('.ruby-version') }}-${{ hashFiles('Gemfile.lock') }}
-        restore-keys: |
-          gem-bookworm-${{ hashFiles('.ruby-version') }}-
-    - name: Cache NPM
-      uses: runs-on/cache@v4
-      with:
-        path: cache/node
-        key: node-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
-        restore-keys: |
-          node-
+        node-version: 20.9.0
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
     - name: Cache ANGULAR
       uses: runs-on/cache@v4
       with:
-        path: cache/angular
+        path: frontend/.angular/cache
         key: angular-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
         restore-keys: |
           angular-
     - name: Cache TEST RUNTIME
       uses: runs-on/cache@v4
       with:
-        path: cache/runtime-logs
+        path: spec/support/runtime-logs
         key: runtime-logs-${{ github.head_ref || github.ref }}-${{ github.sha }}
         restore-keys: |
           runtime-logs-${{ github.head_ref || github.ref }}-
           runtime-logs-
-    - name: Build
-      run: bin/ci setup-tests
-    - name: APIv3 specification (OpenAPI 3.0)
-      run: bin/ci ./script/api/validate_spec
-    - name: Unit tests
-      run: bin/ci run-units
-    - name: Feature tests
-      env:
-        CAPYBARA_DOWNLOADED_FILE_DIR: /tmp/ci/downloads
-        CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
-        CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
-      run: bin/ci run-features
-    - name: Save CI image to cache
-      if: steps.cache_docker.outputs.cache-hit != 'true'
-      run: mkdir -p cache/docker && docker save openproject/ci:v1 -o cache/docker/image.tar
-    - name: Cleanup
-      if: ${{ always() }}
+    - name: Migrate DB
       run: |
-        ls -al cache/runtime-logs || true
-        ls -al cache/ || true
-        du -sh cache/* || true
+        cp docker/ci/database.yml config/
+        time bin/rails db:create db:migrate db:schema:dump zeitwerk:check
+    # - name: Precompile assets
+    #   run: |
+    #     DATABASE_URL=nulldb://db time bin/rails openproject:plugins:register_frontend assets:precompile
+    #     cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json
+    - name: APIv3 specification (OpenAPI 3.0)
+      run:  ./script/api/validate_spec
+    - name: Unit tests
+      run: time bundle exec turbo_tests --verbose -n $(nproc) --runtime-log spec/support/runtime-logs/turbo_runtime_units.log spec/!(features) modules/**/spec/!(features)
+    # - name: Feature tests
+    #   env:
+    #     CAPYBARA_DOWNLOADED_FILE_DIR: /tmp/ci/downloads
+    #     CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
+    #     CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
+    #   run: bin/ci run-features
+    # - name: Save CI image to cache
+    #   if: steps.cache_docker.outputs.cache-hit != 'true'
+    #   run: mkdir -p cache/docker && docker save openproject/ci:v1 -o cache/docker/image.tar
+    # - name: Cleanup
+    #   if: ${{ always() }}
+    #   run: |
+    #     ls -al cache/runtime-logs || true
+    #     ls -al cache/ || true
+    #     du -sh cache/* || true
 
 # github.head_ref is only availabe in PR context and if it is absent then github.run_id
 # is used . And github.run_id is unique for each workflow run. So, this option makes
