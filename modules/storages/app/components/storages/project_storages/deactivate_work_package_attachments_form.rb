@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,15 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
-require_module_spec_helper
+module Storages::ProjectStorages
+  class DeactivateWorkPackageAttachmentsForm < ApplicationForm
+    def initialize(checked:, **system_arguments)
+      super(**system_arguments)
+      @checked = checked
+    end
 
-# rubocop:disable RSpec/EmptyExampleGroup
-RSpec.describe Storages::Admin::ProjectStoragesController, "manage_storage_in_project permission", type: :controller do
-  include PermissionSpecs
-
-  (controller_actions - %w[deactivate_work_package_attachments]).each do |action|
-    check_permission_required_for("#{described_class.controller_path}##{action}", :manage_storages_in_project)
+    form do |f|
+      f.check_box(name: :show_work_package_attachments,
+                  checked: @checked,
+                  label: I18n.t("storages.show_attachments_toggle.label"),
+                  caption: I18n.t("storages.show_attachments_toggle.description"))
+      f.submit(name: :submit, scheme: :primary, label: I18n.t("button_save"))
+    end
   end
 end
-# rubocop:enable RSpec/EmptyExampleGroup

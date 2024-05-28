@@ -132,6 +132,17 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
     render "/storages/project_settings/destroy_info"
   end
 
+  def deactivate_work_package_attachments
+    service_call = Projects::UpdateService
+                     .new(user: current_user, model: @project)
+                     .call(deactivate_work_package_attachments: params[:show_work_package_attachments] != "1")
+
+    if service_call.success?
+      flash[:notice] = I18n.t(:notice_successful_update)
+    end
+    redirect_to attachments_project_settings_project_storages_path(@project)
+  end
+
   private
 
   def permitted_storage_settings_params

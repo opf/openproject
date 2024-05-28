@@ -74,6 +74,7 @@ Rails.application.routes.draw do
           get :oauth_access_grant
           # Destroy uses a get request to prompt the user before the actual DELETE request
           get :destroy_info, as: "confirm_destroy"
+          post :deactivate_work_package_attachments
         end
 
         resources :members, controller: "/storages/project_settings/project_storage_members", only: %i[index]
