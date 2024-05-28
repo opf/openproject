@@ -90,7 +90,7 @@ jobs:
       PGPASSWORD: postgres
     steps:
     - name: tmpfs
-      run: sudo mount -t tmpfs -o size=4G tmpfs /home/runner/_work
+      run: sudo mount -t tmpfs -o size=4G tmpfs /home/runner/_work/openproject
     - uses: actions/checkout@v4
     - uses: ruby/setup-ruby@v1
       with:
