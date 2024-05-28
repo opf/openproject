@@ -41,7 +41,7 @@ RSpec.shared_examples_for "bcf api successful response" do
       expected_modified_date = expected_item.delete("modified_date")&.to_time
 
       if expected_modified_date
-        expect(subject_modified_date).to be_within(10.seconds).of(expected_modified_date)
+        expect(subject_modified_date).to equal_time_without_usec(expected_modified_date)
       else
         expect(subject_modified_date).to eql(expected_modified_date)
       end
@@ -50,7 +50,7 @@ RSpec.shared_examples_for "bcf api successful response" do
       expected_created_date = expected_item.delete("date")&.to_time
 
       if expected_created_date
-        expect(subject_created_date).to be_within(10.seconds).of(expected_created_date)
+        expect(subject_created_date).to equal_time_without_usec(expected_created_date)
       else
         expect(subject_created_date).to eql(expected_created_date)
       end
