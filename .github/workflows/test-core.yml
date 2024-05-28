@@ -127,7 +127,8 @@ jobs:
       run: bin/rails db:create db:migrate db:schema:dump
     - name: Precompile assets
       run: |
-        cd frontend && npm ci
+        npm config set audit=false fund=false
+        cd frontend && npm ci && cd -
         DATABASE_URL=nulldb://db time bin/rails openproject:plugins:register_frontend assets:precompile
         cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json
     - name: Reset DBs
@@ -139,8 +140,7 @@ jobs:
     - name: Unit tests
       run: |
         shopt -s extglob
-        echo ok
-        # time bundle exec turbo_tests --verbose -n $(nproc) --runtime-log spec/support/runtime-logs/turbo_runtime_units.log spec/!(features) modules/**/spec/!(features)
+        time bundle exec turbo_tests --verbose -n $(nproc) --runtime-log spec/support/runtime-logs/turbo_runtime_units.log spec/!(features) modules/**/spec/!(features)
     # - name: Feature tests
     #   env:
     #     CAPYBARA_DOWNLOADED_FILE_DIR: /tmp/ci/downloads
