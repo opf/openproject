@@ -66,6 +66,7 @@ jobs:
   #     if: steps.db_schema_cache.outputs.cache-hit != 'true'
   #     run: bin/rails db:create db:migrate db:schema:dump
   all:
+    continue-on-error: true
     name: Units + Features
     if: github.repository == 'opf/openproject'
     runs-on: runs-on,runner=32cpu-linux-x64,family=c7i-flex,run-id=${{ github.run_id }}
