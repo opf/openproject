@@ -68,7 +68,7 @@ jobs:
   all:
     name: Units + Features
     if: github.repository == 'opf/openproject'
-    runs-on: runs-on,runner=8cpu-linux-x64,family=c7i-flex+c7a,run-id=${{ github.run_id }}
+    runs-on: runs-on,runner=32cpu-linux-x64,family=c7i-flex+c7a,run-id=${{ github.run_id }}
     timeout-minutes: 40
     services:
       # Label used to access the service container
@@ -136,8 +136,8 @@ jobs:
       run: bin/rails db:create db:migrate db:schema:dump
     - name: Precompile assets
       run: |
+        export JOBS=4
         df -ah
-        mount || true
         npm config set audit=false fund=false
         cd frontend && npm ci && cd -
         DATABASE_URL=nulldb://db time bin/rails openproject:plugins:register_frontend assets:precompile
@@ -152,6 +152,8 @@ jobs:
       run: |
         shopt -s extglob
         time bundle exec turbo_tests --verbose -n $(nproc) --runtime-log spec/support/runtime-logs/turbo_runtime_units.log spec/!(features) modules/**/spec/!(features)
+    - name: Reset DBs
+      run: ./docker/ci/reset-dbs.sh
     - name: Feature tests
       env:
         CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
@@ -159,10 +161,8 @@ jobs:
         PARALLEL_TEST_FIRST_IS_1: true
         DISABLE_DATABASE_ENVIRONMENT_CHECK: 1
       run: |
-        export JOBS=$(nproc)
-        export PARALLEL_TEST_PROCESSORS=$JOBS
         shopt -s extglob
-        bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_features.log spec/features modules/**/spec/features
+        bundle exec turbo_tests --verbose -n $(nproc) --runtime-log spec/support/runtime-logs/turbo_runtime_features.log spec/features modules/**/spec/features
 
 # github.head_ref is only availabe in PR context and if it is absent then github.run_id
 # is used . And github.run_id is unique for each workflow run. So, this option makes
