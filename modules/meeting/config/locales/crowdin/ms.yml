@@ -106,8 +106,8 @@ ms:
       agenda: "Salin agenda"
       agenda_text: "Salin agenda mesyuarat lama"
     email:
-      send_emails: "Send emails"
-      send_invitation_emails: "Send out invitation emails upon creation"
+      send_emails: "Hantar e-mel"
+      send_invitation_emails: "Hantar jemputan e-mel semasa penciptaan"
       open_meeting_link: "Buka mesyuarat"
       invited:
         summary: "%{actor} telah menghantar anda jemputan ke mesyuarat %{title}"

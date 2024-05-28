@@ -263,6 +263,7 @@ it:
       my: "I miei progetti"
       favored: "Progetti preferiti"
       archived: "Progetti archiviati"
+      public: "Public project lists"
       my_private: "I miei elenchi di progetti privati"
       new:
         placeholder: "Nuovo elenco progetti"
@@ -308,6 +309,12 @@ it:
     update:
       success: "L'elenco modificato è stato salvato"
       failure: "L'elenco modificato non può essere salvato: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
     can_be_saved: "Elenco modificato:"
     can_be_saved_as: "Le modifiche possono essere salvate solo in un nuovo elenco:"
   members:
@@ -909,6 +916,8 @@ it:
               nonexistent: "La colonna '%{column}' non esiste."
               format: "%{message}"
           group_by_hierarchies_exclusive: "è mutuamente esclusivo con il raggruppamento per '%{group_by}'. Non puoi attivare entrambi."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "Nessun campo personalizzato per il filtro."
@@ -1316,6 +1325,8 @@ it:
   button_revoke_access: "Revoca accesso"
   button_revoke_all: "Revoca tutto"
   button_revoke_only: "Revoca solo %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: Ho letto e acconsento a quanto sopra.
     failure_message: Consenso respinto, impossibile procedere.
@@ -2698,6 +2709,7 @@ it:
   permission_save_bcf_queries: "Salva query BCF"
   permission_manage_public_bcf_queries: "Gestisci query BCF pubbliche"
   permission_edit_attribute_help_texts: "Modifica i testi guida dell'attributo"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:

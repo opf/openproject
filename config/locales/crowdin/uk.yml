@@ -261,6 +261,7 @@ uk:
       my: "Мої проєкти"
       favored: "Обрані проєкти"
       archived: "Заархівовані проєкти"
+      public: "Public project lists"
       my_private: "Особисті списки проєктів"
       new:
         placeholder: "Новий список проєктів"
@@ -306,6 +307,12 @@ uk:
     update:
       success: "Змінений список збережено"
       failure: "Неможливо зберегти змінений список: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
     can_be_saved: "Список змінено:"
     can_be_saved_as: "Зміни можна зберегти лише в новому списку:"
   members:
@@ -921,6 +928,8 @@ uk:
               nonexistent: "Стовпець «%{column}» не існує."
               format: "%{message}"
           group_by_hierarchies_exclusive: "є взаємовиключним з групою %{group_by} Ви не можете активувати обидва."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "Немає спеціального поля для фільтра."
@@ -1344,6 +1353,8 @@ uk:
   button_revoke_access: "Відкликати доступ"
   button_revoke_all: "Відкликати все"
   button_revoke_only: "Відкликати лише для ролі «%{shared_role_name}»"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: Я проінформований і згоден з вищесказаним.
     failure_message: Згода не отримана, продовження неможливе.
@@ -2763,6 +2774,7 @@ uk:
   permission_save_bcf_queries: "Зберігання запитів BCF"
   permission_manage_public_bcf_queries: "Керування загальнодоступними запитами BCF"
   permission_edit_attribute_help_texts: "Редагування текстів довідки для атрибутів"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:

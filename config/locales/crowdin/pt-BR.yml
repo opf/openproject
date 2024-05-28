@@ -265,6 +265,7 @@ pt-BR:
       my: "Meus projetos"
       favored: "Projetos favoritos"
       archived: "Projetos arquivados"
+      public: "Public project lists"
       my_private: "Minhas listas de projetos privados"
       new:
         placeholder: "Nova lista de projetos"
@@ -310,6 +311,12 @@ pt-BR:
     update:
       success: "A lista modificada foi salva"
       failure: "Não foi possível salvar a lista modificada: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
     can_be_saved: "Lista modificada:"
     can_be_saved_as: "As modificações só podem ser salvas em uma nova lista:"
   members:
@@ -911,6 +918,8 @@ pt-BR:
               nonexistent: "A coluna '%{column}' não existe."
               format: "%{message}"
           group_by_hierarchies_exclusive: "é mutuamente exclusivo com o agrupamento por '%{group_by}'. Você não pode ativar os dois."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "Não há nenhum campo personalizado para o filtro."
@@ -1318,6 +1327,8 @@ pt-BR:
   button_revoke_access: "Revogar acesso"
   button_revoke_all: "Revogar todos"
   button_revoke_only: "Revogar apenas %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: Eu li e concordo com o exposto acima.
     failure_message: Consentimento falhou, não pode continuar.
@@ -2698,6 +2709,7 @@ pt-BR:
   permission_save_bcf_queries: "Salvar consultas a BCF"
   permission_manage_public_bcf_queries: "Gerenciar consultas públicas a BCF"
   permission_edit_attribute_help_texts: "Editar textos de ajuda do atributos"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:
