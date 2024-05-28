@@ -29,8 +29,6 @@
 require "spec_helper"
 
 RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, with_ee: %i[date_alerts] do
-  include ActiveSupport::Testing::TimeHelpers
-
   shared_let(:project) { create(:project, name: "main") }
   # Paris and Berlin are both UTC+01:00 (CET) or UTC+02:00 (CEST)
   shared_let(:timezone_paris) { ActiveSupport::TimeZone["Europe/Paris"] }
