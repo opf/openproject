@@ -55,7 +55,7 @@ RSpec.describe Projects::CreateService, "integration", type: :model do
           .to be_success
 
         new_project.reload
-        expect(new_project.created_at).to bequal_time_without_usec(created_at)
+        expect(new_project.created_at).to equal_time_without_usec(created_at)
       end
     end
 
