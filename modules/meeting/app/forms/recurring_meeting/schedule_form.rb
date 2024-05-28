@@ -85,14 +85,32 @@ class RecurringMeeting::ScheduleForm < ApplicationForm
     form.select_list(
       name: :end,
       input_width: :medium,
-      label: RecurringMeeting.human_attribute_name(:ends_on),
+      label: RecurringMeeting.human_attribute_name(:ends),
       required: true,
       autofocus: true
     ) do |list|
-      list.option(label: "Never", value: "Never")
-      list.option(label: "After a number of events", value: "after")
-      list.option(label: "On a pecific date", value: "date")
+      list.option(label: "Never", value: "never")
+      list.option(label: "After a number of occurrences", value: "after")
+      list.option(label: "On a specific date", value: "date")
     end
+
+    form.text_field(
+      name: :count,
+      input_width: :medium,
+      label: RecurringMeeting.human_attribute_name(:count),
+      type: :number,
+      step: 1
+    )
+
+    # form.date_select(
+    #   :start_date,
+    #   label: RecurringMeeting.human_attribute_name(:start_date)
+    # )
+
+    # form.date_select(
+    #   :end_date,
+    #   label: RecurringMeeting.human_attribute_name(:end_date)
+    # )
   end
 
   def initialize(meeting:)
