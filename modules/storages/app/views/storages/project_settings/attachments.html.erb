@@ -57,10 +57,11 @@ end
 end
 %>
 
-<%= primer_form_with(url: deactivate_work_package_attachments_project_settings_project_storage_path(id: @project.id)) do |f| %>
-  <%= render(
-    Storages::ProjectStorages::DeactivateWorkPackageAttachmentsForm.new(
-      f,
-      checked: !@project.deactivate_work_package_attachments
-    )) %>
-<% end %>
+<%= primer_form_with(url: deactivate_work_package_attachments_project_settings_project_storage_path(id: @project.id)) do |f|
+  checked = if @project.deactivate_work_package_attachments.nil?
+    Setting.show_work_package_attachments
+  else
+    !@project.deactivate_work_package_attachments
+  end
+  render(Storages::ProjectStorages::DeactivateWorkPackageAttachmentsForm.new(f, checked:))
+end %>

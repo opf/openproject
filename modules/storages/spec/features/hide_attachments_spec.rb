@@ -57,24 +57,24 @@ RSpec.describe "Hide attachments", :js, :with_cuprite do
       visit external_file_storages_project_settings_project_storages_path(project)
       click_on("Attachments")
 
-      expect(page).to have_css("toggle-switch", text: "Off")
+      expect(page).to have_unchecked_field("show_work_package_attachments")
       expect(project.reload).to be_deactivate_work_package_attachments
 
-      click_on(class: "ToggleSwitch-track")
-      expect(page).to have_css("toggle-switch", text: "On")
-      wait_for(page).to have_css('svg[data-target="toggle-switch.loadingSpinner"][hidden="hidden"]', visible: :hidden)
+      check("show_work_package_attachments")
+      click_on("Save")
+      expect(page).to have_checked_field("show_work_package_attachments")
       expect(project.reload).not_to be_deactivate_work_package_attachments
 
-      click_on(class: "ToggleSwitch-track")
-      expect(page).to have_css("toggle-switch", text: "Off")
-      wait_for(page).to have_css('svg[data-target="toggle-switch.loadingSpinner"][hidden="hidden"]', visible: :hidden)
+      uncheck("show_work_package_attachments")
+      click_on("Save")
+      expect(page).to have_unchecked_field("show_work_package_attachments")
       expect(project.reload).to be_deactivate_work_package_attachments
     end
 
     context "if Setting.show_work_package_attachments is false", with_settings: { show_work_package_attachments: false } do
       let(:project) { create(:project) }
 
-      it 'renders the toggle as off for project with not set deactivate_work_package_attachments' do
+      it 'renders unchecked checkbox for project with not set deactivate_work_package_attachments' do
         expect(project.deactivate_work_package_attachments).to be_nil
 
         login_as current_user
@@ -82,14 +82,14 @@ RSpec.describe "Hide attachments", :js, :with_cuprite do
         visit external_file_storages_project_settings_project_storages_path(project)
         click_on("Attachments")
 
-        expect(page).to have_css("toggle-switch", text: "Off")
+        expect(page).to have_unchecked_field("show_work_package_attachments")
       end
     end
 
     context "if Setting.show_work_package_attachments is true", with_settings: { show_work_package_attachments: true } do
       let(:project) { create(:project) }
 
-      it 'renders the toggle as on for project with not set deactivate_work_package_attachments' do
+      it 'renders checked checkbox for project with not set deactivate_work_package_attachments' do
         expect(project.deactivate_work_package_attachments).to be_nil
 
         login_as current_user
@@ -97,7 +97,7 @@ RSpec.describe "Hide attachments", :js, :with_cuprite do
         visit external_file_storages_project_settings_project_storages_path(project)
         click_on("Attachments")
 
-        expect(page).to have_css("toggle-switch", text: "On")
+        expect(page).to have_checked_field("show_work_package_attachments")
       end
     end
   end
