@@ -40,7 +40,7 @@ class Role < ApplicationRecord
   HIDDEN_ROLE_TYPES = [
     "WorkPackageRole",
     "ProjectQueryRole"
-  ]
+  ].freeze
 
   scope :builtin, ->(*args) {
     compare = "not" if args.first == true
