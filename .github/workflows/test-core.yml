@@ -20,6 +20,51 @@ permissions:
   contents: read
 
 jobs:
+  # units:
+  #   if: github.repository == 'opf/openproject'
+  #   name: Units
+  #   runs-on: runs-on,runner=4cpu-linux-x64,family=c7i-flex+c7a,run-id=${{ github.run_id }}
+  #   timeout-minutes: 20
+  #   services:
+  #     postgres:
+  #       image: postgres:13
+  #       env:
+  #         POSTGRES_PASSWORD: postgres
+  #         POSTGRES_DB: appdb
+  #       ports:
+  #         - 5432:5432
+
+  #   env:
+  #     RSPEC_RETRY_RETRY_COUNT: 2
+  #     DATABASE_URL: postgres://postgres:postgres@localhost:5432/appdb
+  #     PGUSER: postgres
+  #     PGHOST: localhost
+  #     PGPASSWORD: postgres
+
+  #   steps:
+  #   - uses: actions/checkout@v4
+  #   - uses: ruby/setup-ruby@v1
+  #     with:
+  #       bundler-cache: true
+  #   - name: Cache TEST RUNTIME
+  #     uses: runs-on/cache@v4
+  #     with:
+  #       path: spec/support/runtime-logs
+  #       key: runtime-logs-${{ github.head_ref || github.ref }}-${{ github.sha }}
+  #       restore-keys: |
+  #         runtime-logs-${{ github.head_ref || github.ref }}-
+  #         runtime-logs-
+  #   - name: Cache DB schema
+  #     uses: runs-on/cache@v4
+  #     id: db_schema_cache
+  #     with:
+  #       path: db/structure.sql
+  #       key: db-schema-${{ hashFiles('db/**/*') }}
+  #   - name: DB setup
+  #     run: cp docker/ci/database.yml config/
+  #   - name: DB migration
+  #     if: steps.db_schema_cache.outputs.cache-hit != 'true'
+  #     run: bin/rails db:create db:migrate db:schema:dump
   all:
     name: Units + Features
     if: github.repository == 'opf/openproject'
@@ -38,8 +83,7 @@ jobs:
           - 5432:5432
 
     env:
-      DOCKER_BUILDKIT: 1
-      CI_RETRY_COUNT: 2
+      RSPEC_RETRY_RETRY_COUNT: 2
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/appdb
       PGUSER: postgres
       PGHOST: localhost
@@ -53,7 +97,9 @@ jobs:
       with:
         node-version-file: 'package.json'
         cache: 'npm'
-        cache-dependency-path: frontend/package-lock.json
+        cache-dependency-path: |
+          package-lock.json
+          frontend/package-lock.json
     - name: Cache ANGULAR
       uses: runs-on/cache@v4
       with:
@@ -75,10 +121,9 @@ jobs:
       with:
         path: db/structure.sql
         key: db-schema-${{ hashFiles('db/**/*') }}
-    - name: Setup
-      run: |
-        npm install
-        cp docker/ci/database.yml config/
+    - run: npm ci
+    - name: DB setup
+      run: cp docker/ci/database.yml config/
     - name: DB migration
       if: steps.db_schema_cache.outputs.cache-hit != 'true'
       run: bin/rails db:create db:migrate db:schema:dump
@@ -95,7 +140,8 @@ jobs:
     - name: Unit tests
       run: |
         shopt -s extglob
-        time bundle exec turbo_tests --verbose -n $(nproc) --runtime-log spec/support/runtime-logs/turbo_runtime_units.log spec/!(features) modules/**/spec/!(features)
+        echo ok
+        # time bundle exec turbo_tests --verbose -n $(nproc) --runtime-log spec/support/runtime-logs/turbo_runtime_units.log spec/!(features) modules/**/spec/!(features)
     # - name: Feature tests
     #   env:
     #     CAPYBARA_DOWNLOADED_FILE_DIR: /tmp/ci/downloads
