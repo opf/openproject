@@ -25,6 +25,11 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
+RSpec.configure do |config|
+  config.include ActiveSupport::Testing::TimeHelpers
+end
+
 RSpec::Matchers.define :equal_time_without_usec do |expected|
   failure_message { "expected: #{expected.iso8601}, actual: #{actual.iso8601}, difference: #{actual - expected}s" }
 
