@@ -449,8 +449,8 @@ GEM
     debug (1.9.2)
       irb (~> 1.10)
       reline (>= 0.3.8)
-    deckar01-task_list (2.3.4)
-      html-pipeline (~> 2.0)
+    deckar01-task_list (2.3.3)
+      html-pipeline
     declarative (0.0.20)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
@@ -606,9 +606,9 @@ GEM
     hashery (2.1.2)
     hashie (3.6.0)
     highline (3.0.1)
-    html-pipeline (2.14.3)
-      activesupport (>= 2)
-      nokogiri (>= 1.4)
+    html-pipeline (3.2.0)
+      selma (~> 0.1)
+      zeitwerk (~> 2.5)
     htmlbeautifier (1.4.3)
     htmldiff (0.0.1)
     htmlentities (4.3.4)
@@ -1031,6 +1031,8 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    selma (0.2.2)
+      rb_sys (~> 0.9)
     semantic (1.6.1)
     shoulda-context (2.0.0)
     shoulda-matchers (6.2.0)
@@ -1218,7 +1220,7 @@ DEPENDENCIES
   grape (~> 2.0.0)
   grape_logging (~> 1.8.4)
   grids!
-  html-pipeline (~> 2.14.0)
+  html-pipeline (~> 3.2.0)
   htmldiff
   httpx
   i18n-js (~> 4.2.3)
