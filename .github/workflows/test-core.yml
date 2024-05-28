@@ -32,9 +32,7 @@ jobs:
         env:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: appdb
-        command: -c fsync=off -c full_page_writes=off
-        tmpfs:
-          - /var/lib/postgresql/data
+          POSTGRES_INITDB_ARGS: "-c fsync=off -c full_page_writes=off"
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
