@@ -134,9 +134,9 @@ export class OpModalService {
     const scrollY:string = document.body.style.top;
 
     this.bodyRenderer.setStyle(document.body, 'position', '');
-    this.bodyRenderer.setStyle(document.body, 'top', ``);
+    this.bodyRenderer.setStyle(document.body, 'top', '');
 
-    window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
   }
 
   /**
