@@ -76,14 +76,22 @@ RSpec.describe "Project Custom Field Mappings", :js do
 
     it "renders more menu list item" do
       project_custom_field_mappings_page.activate_menu_of(project) do |menu|
-        expect(menu).to have_link("Delete")
+        expect(menu).to have_link("Deactivate for this project")
       end
     end
 
     it "allows to unlink a project" do
-      project_custom_field_mappings_page.click_menu_item_of("Delete", project)
+      project_custom_field_mappings_page.click_menu_item_of("Deactivate for this project", project)
 
       expect(page).to have_no_text(project.name)
+    end
+
+    context "and the project custom field is required" do
+      shared_let(:project_custom_field) { create(:project_custom_field, is_required: true) }
+
+      it "renders a blank slate" do
+        expect(page).to have_text("Required in all projects")
+      end
     end
   end
 end
