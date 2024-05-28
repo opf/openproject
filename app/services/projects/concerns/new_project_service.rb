@@ -124,7 +124,7 @@ module Projects::Concerns
       activated_custom_field_ids = project.project_custom_field_project_mappings.pluck(:custom_field_id).uniq
 
       mappings = (custom_field_ids - activated_custom_field_ids).uniq
-        .map { |pcf_id| { project_id: project.id, custom_field_id: pcf_id } }
+        .map { |custom_field_id| { custom_field_id: } }
 
       project.project_custom_field_project_mappings.build(mappings)
     end

@@ -87,24 +87,66 @@ RSpec.describe Projects::CreateService, type: :model do
         create(:text_project_custom_field, project_custom_field_section: section, visible: false)
       end
       let(:project) { subject.result }
+      let(:project_attributes) { {} }
+      let(:call_attributes) do
+        attributes_for(:project, project_attributes).except(:created_at, :updated_at)
+      end
+
+      let(:user) { build_stubbed(:admin) }
 
       before do
         User.current = user
       end
 
+      context "with correct handling of custom fields with default values" do
+        let!(:text_custom_field_with_default) do
+          create(:text_project_custom_field,
+                 default_value: "default",
+                 project_custom_field_section: section)
+        end
+
+        context "if the default value is not explicitly set to blank" do
+          let(:project_attributes) do
+            { custom_field_values: {
+              text_custom_field.id => "foo",
+              bool_custom_field.id => true
+            } }
+          end
+
+          it "activates custom fields with default values" do
+            subject
+            expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
+              .to contain_exactly(text_custom_field.id, bool_custom_field.id, text_custom_field_with_default.id)
+          end
+        end
+
+        context "if the default value is explicitly set to blank" do
+          let(:project_attributes) do
+            { custom_field_values: {
+              text_custom_field.id => "foo",
+              bool_custom_field.id => true,
+              text_custom_field_with_default.id => ""
+            } }
+          end
+
+          it "does not activate custom fields with default values" do
+            subject
+            expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
+              .to contain_exactly(text_custom_field.id, bool_custom_field.id)
+          end
+        end
+      end
+
       context "with hidden custom fields" do
-        let(:call_attributes) do
-          attributes_for(:project,
-                         custom_field_values: {
-                           text_custom_field.id => "foo",
-                           bool_custom_field.id => true,
-                           hidden_custom_field.id => "hidden"
-                         }).except(:created_at, :updated_at)
+        let(:project_attributes) do
+          { custom_field_values: {
+            text_custom_field.id => "foo",
+            bool_custom_field.id => true,
+            hidden_custom_field.id => "hidden"
+          } }
         end
 
         context "with admin permission" do
-          let(:user) { build_stubbed(:admin) }
-
           it "does activate hidden custom fields" do
             subject
             expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
@@ -133,11 +175,9 @@ RSpec.describe Projects::CreateService, type: :model do
       end
 
       context "with a section scoped validation" do
-        let(:call_attributes) do
-          attributes_for(:project,
-                         custom_field_values: { text_custom_field.id => "foo" },
-                         _limit_custom_fields_validation_to_section_id: section.id
-                        ).except(:created_at, :updated_at)
+        let(:project_attributes) do
+          { custom_field_values: { text_custom_field.id => "foo" },
+            _limit_custom_fields_validation_to_section_id: section.id }
         end
 
         it "rejects section validation scoping for project creation" do
