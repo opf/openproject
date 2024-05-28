@@ -27,17 +27,28 @@
 #++
 
 module Projects::Concerns
-  module ResetGlobalQueryAfterValidateHook
+  module ResetGlobalQueryHooks
     private
 
     def after_validate(params, service_call)
       # we need to reset the query_available_custom_fields_on_global_level already after validation
       # as the update service just calls .valid? and returns if invalid
       # after_save is not touched in this case which causes the flag to stay active
-      model = service_call.result
-      model._query_available_custom_fields_on_global_level = nil
+      set_query_available_custom_fields_to_project_level(service_call.result)
 
       super
+    end
+
+    def after_perform(service_call)
+      set_query_available_custom_fields_to_project_level(service_call.result)
+
+      super
+    end
+
+    def set_query_available_custom_fields_to_project_level(model)
+      # reset the query_available_custom_fields_on_global_level after saving
+      # in order not to silently carry this setting in this instance
+      model._query_available_custom_fields_on_global_level = nil
     end
   end
 end

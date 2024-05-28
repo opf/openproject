@@ -29,7 +29,7 @@
 module Projects
   class UpdateService < ::BaseServices::Update
     prepend Projects::Concerns::UpdateDemoData
-    include Projects::Concerns::ResetGlobalQueryAfterValidateHook
+    include Projects::Concerns::ResetGlobalQueryHooks
 
     private
 
@@ -46,13 +46,14 @@ module Projects
     end
 
     def after_perform(service_call)
+      ret = super
       touch_on_custom_values_update
       notify_on_identifier_renamed
       send_update_notification
       update_wp_versions_on_parent_change
       handle_archiving
 
-      service_call
+      ret
     end
 
     def touch_on_custom_values_update
