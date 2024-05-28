@@ -249,7 +249,7 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
           expect(service_result)
             .to be_success
 
-          expect(new_work_package.created_at).to be_within(1.second).of(created_at)
+          expect(new_work_package.created_at).to equal_time_without_usec(created_at)
         end
       end
 
