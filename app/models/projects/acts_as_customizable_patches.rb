@@ -39,11 +39,6 @@ module Projects::ActsAsCustomizablePatches
                                                      dependent: :destroy, inverse_of: :project
     has_many :project_custom_fields, through: :project_custom_field_project_mappings, class_name: "ProjectCustomField"
 
-    # we need to reset the query_available_custom_fields_on_global_level already after validation
-    # as the update service just calls .valid? and returns if invalid
-    # after_save is not touched in this case which causes the flag to stay active
-    after_validation :set_query_available_custom_fields_to_project_level
-
     before_update :set_query_available_custom_fields_to_global_level
 
     before_create :reject_section_scoped_validation_for_creation
