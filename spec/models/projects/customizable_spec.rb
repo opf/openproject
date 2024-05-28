@@ -190,16 +190,6 @@ RSpec.describe Project, "customizable" do
         expect { project.save! }.to raise_error(ActiveRecord::RecordInvalid)
       end
 
-      it "rejects section validation scoping for project creation" do
-        project = build(:project, custom_field_values: {
-                                    text_custom_field.id => "foo",
-                                    bool_custom_field.id => true
-                                  },
-                                  _limit_custom_fields_validation_to_section_id: section.id)
-
-        expect { project.save! }.to raise_error(ArgumentError)
-      end
-
       it "temporarly validates only custom values of a section if section scope is provided while updating" do
         project = create(:project, custom_field_values: {
                            text_custom_field.id => "foo",

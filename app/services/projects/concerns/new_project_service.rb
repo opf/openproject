@@ -32,21 +32,30 @@ module Projects::Concerns
 
     private
 
-    def after_perform(attributes_call)
-      new_project = attributes_call.result
-
-      set_default_role(new_project) unless user.admin?
-      disable_custom_fields_with_empty_values(new_project)
-      notify_project_created(new_project)
-
-      super
+    def before_perform(params, service_call)
+      # we need to reset the query_available_custom_fields_on_global_level already after validation
+      # as the update service just calls .valid? and returns if invalid
+      # after_save is not touched in this case which causes the flag to stay active
+      super.tap do |super_call|
+        reject_section_scoped_validation(super_call.result)
+      end
     end
 
     def after_validate(params, service_call)
       # we need to reset the query_available_custom_fields_on_global_level already after validation
       # as the update service just calls .valid? and returns if invalid
       # after_save is not touched in this case which causes the flag to stay active
-      reject_section_scoped_validation(service_call.result)
+      super.tap do |super_call|
+        build_missing_project_custom_field_project_mappings(super_call.result)
+      end
+    end
+
+    def after_perform(attributes_call)
+      new_project = attributes_call.result
+
+      set_default_role(new_project) unless user.admin?
+      disable_custom_fields_with_empty_values(new_project)
+      notify_project_created(new_project)
 
       super
     end
@@ -81,9 +90,14 @@ module Projects::Concerns
       )
     end
 
+    def reject_section_scoped_validation(new_project)
+      if new_project._limit_custom_fields_validation_to_section_id.present?
+        raise ArgumentError,
+              "Section scoped validation is not supported for project creation, only for project updates"
+      end
+    end
+
     def disable_custom_fields_with_empty_values(new_project)
-      # run only on initial creation! (otherwise we would deactivate custom fields with empty values on every update!)
-      #
       # ideally, `build_missing_project_custom_field_project_mappings` would not activate custom fields with empty values
       # but:
       # this hook is required as acts_as_customizable build custom values with their default value even if a blank value
@@ -101,11 +115,18 @@ module Projects::Concerns
         .destroy_all
     end
 
-    def reject_section_scoped_validation(new_project)
-      if new_project._limit_custom_fields_validation_to_section_id.present?
-        raise ArgumentError,
-              "Section scoped validation is not supported for project creation, only for project updates"
-      end
+    def build_missing_project_custom_field_project_mappings(project)
+      # activate custom fields for this project (via mapping table) if values have been provided
+      # for custom_fields but no mapping exists
+      custom_field_ids = project.custom_values
+        .select { |cv| cv.value.present? }
+        .pluck(:custom_field_id).uniq
+      activated_custom_field_ids = project.project_custom_field_project_mappings.pluck(:custom_field_id).uniq
+
+      mappings = (custom_field_ids - activated_custom_field_ids).uniq
+        .map { |pcf_id| { project_id: project.id, custom_field_id: pcf_id } }
+
+      project.project_custom_field_project_mappings.build(mappings)
     end
   end
 end
