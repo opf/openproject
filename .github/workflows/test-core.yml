@@ -93,9 +93,8 @@ jobs:
       run:  ./script/api/validate_spec
     - name: Unit tests
       run: |
-        echo OK
-        # shopt -s extglob
-        # time bundle exec turbo_tests --verbose -n $(nproc) --runtime-log spec/support/runtime-logs/turbo_runtime_units.log spec/!(features) modules/**/spec/!(features)
+        shopt -s extglob
+        time bundle exec turbo_tests --verbose -n $(nproc) --runtime-log spec/support/runtime-logs/turbo_runtime_units.log spec/!(features) modules/**/spec/!(features)
     # - name: Feature tests
     #   env:
     #     CAPYBARA_DOWNLOADED_FILE_DIR: /tmp/ci/downloads
