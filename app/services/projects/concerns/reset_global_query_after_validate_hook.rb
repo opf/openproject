@@ -31,6 +31,10 @@ module Projects::Concerns
     private
 
     def after_validate(params, service_call)
+      # we need to reset the query_available_custom_fields_on_global_level already after validation
+      # as the update service just calls .valid? and returns if invalid
+      # after_save is not touched in this case which causes the flag to stay active
+      model = service_call.result
       model._query_available_custom_fields_on_global_level = nil
 
       super
