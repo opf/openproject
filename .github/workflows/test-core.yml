@@ -32,12 +32,8 @@ jobs:
         env:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: appdb
+          # only available in postgres:16
           # POSTGRES_INITDB_ARGS: --no-sync --no-instructions --set fsync=off --set full_page_writes=off
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 2s
-          --health-timeout 5s
-          --health-retries 5
         ports:
           - 5432:5432
 
@@ -73,20 +69,23 @@ jobs:
         restore-keys: |
           runtime-logs-${{ github.head_ref || github.ref }}-
           runtime-logs-
-    - name: Migrate DB
-      run: |
-        JOBS=$(nproc)
-        cp docker/ci/database.yml config/
-        time bin/rails db:create db:migrate db:schema:dump zeitwerk:check
-        echo 'drop database if exists appdb ; create database appdb' | psql -v ON_ERROR_STOP=1 -d postgres
-        cat db/structure.sql | psql -v ON_ERROR_STOP=1 -d appdb
-        # create and load schema for test databases "appdb1" to "appdb$JOBS", far faster than using parallel_rspec tasks for that
-        for i in $(seq 1 $JOBS); do
-          echo "drop database if exists appdb$i ; create database appdb$i with template appdb owner $PGUSER;" | psql -v ON_ERROR_STOP=1 -d postgres
-        done
-    - name: Precompile assets
+    - name: Cache DB schema
+      uses: runs-on/cache@v4
+      id: db_schema_cache
+      with:
+        path: db/structure.sql
+        key: db-schema-${{ hashFiles('db/**/*') }}
+    - name: Setup
       run: |
         npm install
+        cp docker/ci/database.yml config/
+    - name: Zeitwerk check
+      run: bin/rails zeitwerk:check
+    - name: DB migration
+      if: steps.db_schema_cache.outputs.cache-hit != 'true'
+      run: bin/rails db:create db:migrate db:schema:dump
+    - name: Precompile assets
+      run: |
         DATABASE_URL=nulldb://db time bin/rails openproject:plugins:register_frontend assets:precompile
         cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json
     - name: APIv3 specification (OpenAPI 3.0)
@@ -94,6 +93,7 @@ jobs:
     - name: Unit tests
       run: |
         shopt -s extglob
+        ./docker/ci/reset-dbs.sh
         time bundle exec turbo_tests --verbose -n $(nproc) --runtime-log spec/support/runtime-logs/turbo_runtime_units.log spec/!(features) modules/**/spec/!(features)
     # - name: Feature tests
     #   env:
@@ -101,15 +101,6 @@ jobs:
     #     CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
     #     CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
     #   run: bin/ci run-features
-    # - name: Save CI image to cache
-    #   if: steps.cache_docker.outputs.cache-hit != 'true'
-    #   run: mkdir -p cache/docker && docker save openproject/ci:v1 -o cache/docker/image.tar
-    # - name: Cleanup
-    #   if: ${{ always() }}
-    #   run: |
-    #     ls -al cache/runtime-logs || true
-    #     ls -al cache/ || true
-    #     du -sh cache/* || true
 
 # github.head_ref is only availabe in PR context and if it is absent then github.run_id
 # is used . And github.run_id is unique for each workflow run. So, this option makes
