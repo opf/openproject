@@ -79,8 +79,6 @@ jobs:
       run: |
         npm install
         cp docker/ci/database.yml config/
-    - name: Zeitwerk check
-      run: bin/rails zeitwerk:check
     - name: DB migration
       if: steps.db_schema_cache.outputs.cache-hit != 'true'
       run: bin/rails db:create db:migrate db:schema:dump
@@ -88,12 +86,15 @@ jobs:
       run: |
         DATABASE_URL=nulldb://db time bin/rails openproject:plugins:register_frontend assets:precompile
         cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json
+    - name: Reset DBs
+      run: ./docker/ci/reset-dbs.sh
+    - name: Zeitwerk check
+      run: bin/rails zeitwerk:check
     - name: APIv3 specification (OpenAPI 3.0)
       run:  ./script/api/validate_spec
     - name: Unit tests
       run: |
         shopt -s extglob
-        ./docker/ci/reset-dbs.sh
         time bundle exec turbo_tests --verbose -n $(nproc) --runtime-log spec/support/runtime-logs/turbo_runtime_units.log spec/!(features) modules/**/spec/!(features)
     # - name: Feature tests
     #   env:

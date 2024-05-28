@@ -203,7 +203,7 @@ RSpec.describe MembersController do
 
         expect(invited_users.size).to eq 2
         expect(mails.size).to eq invited_users.size
-        expect(mails.map(&:to).flatten).to eq invited_users.map(&:mail)
+        expect(mails.map(&:to).flatten.sort).to eq invited_users.map(&:mail).sort
 
         mails.each do |mail|
           expect(mail.subject).to include "account activation"
