@@ -31,9 +31,19 @@ RSpec.configure do |config|
 end
 
 RSpec::Matchers.define :equal_time_without_usec do |expected|
-  failure_message { "expected: #{expected.iso8601}, actual: #{actual.iso8601}, difference: #{actual - expected}s" }
+  expected_without_usec = expected.change(usec: 0)
+
+  failure_message do
+    actual_without_usec = actual.change(usec: 0)
+    [
+      "expected: #{expected_without_usec.iso8601}",
+      "actual: #{actual_without_usec.iso8601}",
+      "difference: #{actual_without_usec - expected_without_usec}s"
+    ].join(" - ")
+  end
 
   match do |actual|
-    actual.change(usec: 0) == expected.change(usec: 0)
+    actual_without_usec = actual.change(usec: 0)
+    expected_without_usec == actual_without_usec
   end
 end
