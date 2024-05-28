@@ -263,8 +263,7 @@ class ::Query::Results
 
   def filter_merges
     query.filters.inject(::WorkPackage.unscoped) do |scope, filter|
-      scope = scope.merge(filter.scope)
-      scope
+      filter.apply_to(scope)
     end
   end
 
