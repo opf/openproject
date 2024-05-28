@@ -29,6 +29,7 @@
 module Projects
   class UpdateService < ::BaseServices::Update
     prepend Projects::Concerns::UpdateDemoData
+    include Projects::Concerns::ResetGlobalQueryAfterValidateHook
 
     private
 

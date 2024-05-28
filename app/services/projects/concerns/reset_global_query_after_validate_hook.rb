@@ -26,9 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects
-  class CreateService < ::BaseServices::Create
-    include Projects::Concerns::NewProjectService
-    include Projects::Concerns::ResetGlobalQueryAfterValidateHook
+module Projects::Concerns
+  module ResetGlobalQueryAfterValidateHook
+    private
+
+    def after_validate(params, service_call)
+      model._query_available_custom_fields_on_global_level = nil
+
+      super
+    end
   end
 end
