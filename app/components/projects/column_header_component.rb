@@ -90,7 +90,7 @@ class Projects::ColumnHeaderComponent < ApplicationComponent # rubocop:disable O
   end
 
   def order_string(column, inverted: false)
-    if column.attribute == first_order_by.attribute
+    if column.attribute == first_order_by&.attribute
       if first_order_by.asc?
         inverted ? "desc" : "asc"
       else
@@ -120,7 +120,7 @@ class Projects::ColumnHeaderComponent < ApplicationComponent # rubocop:disable O
   def sort_link_title(column)
     if lft_column?(column)
       t(:label_sort_by, value: %("#{t(:label_project_hierarchy)}"))
-    elsif column.attribute == first_order_by.attribute
+    elsif column.attribute == first_order_by&.attribute
       order = first_order_by.asc? ? t(:label_ascending) : t(:label_descending)
       order + " #{t(:label_sorted_by, value: "\"#{column.caption}\"")}"
     else
