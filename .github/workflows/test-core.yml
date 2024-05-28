@@ -89,6 +89,8 @@ jobs:
       PGHOST: localhost
       PGPASSWORD: postgres
     steps:
+    - name: tmpfs
+      run: sudo mount -t tmpfs -o size=4G tmpfs /home/runner/_work
     - uses: actions/checkout@v4
     - uses: ruby/setup-ruby@v1
       with:
@@ -96,9 +98,16 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version-file: 'package.json'
-        cache: 'npm'
-        cache-dependency-path: |
-          frontend/package-lock.json
+    - name: Cache NPM
+      uses: runs-on/cache@v4
+      with:
+        path: |
+          frontend/node_modules
+          node_modules
+          .npm
+        key: npm-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
+        restore-keys: |
+          npm-
     - name: Cache ANGULAR
       uses: runs-on/cache@v4
       with:
