@@ -148,14 +148,7 @@ jobs:
       run: bin/rails zeitwerk:check
     - name: APIv3 specification (OpenAPI 3.0)
       run:  ./script/api/validate_spec
-    - name: Unit tests
-      run: |
-        shopt -s extglob
-        time bundle exec turbo_tests --verbose -n $(nproc) --runtime-log spec/support/runtime-logs/turbo_runtime_units.log spec/!(features) modules/**/spec/!(features)
-    - name: Reset DBs
-      run: ./docker/ci/reset-dbs.sh
-    - name: Feature tests
-      continue-on-error: true
+    - name: All tests
       env:
         CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
         CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
@@ -166,8 +159,27 @@ jobs:
         CAPYBARA_DYNAMIC_BIND_IP: 1
         CAPYBARA_DOWNLOADED_FILE_DIR: /tmp
       run: |
-        shopt -s extglob
-        bundle exec turbo_tests --verbose -n $(nproc) --runtime-log spec/support/runtime-logs/turbo_runtime_features.log spec/features modules/**/spec/features
+        bundle exec turbo_tests --verbose -n $(nproc) --runtime-log spec/support/runtime-logs/turbo_runtime_all.log spec modules/**/spec
+    # - name: Unit tests
+    #   run: |
+    #     shopt -s extglob
+    #     time bundle exec turbo_tests --verbose -n $(nproc) --runtime-log spec/support/runtime-logs/turbo_runtime_units.log spec/!(features) modules/**/spec/!(features)
+    # - name: Reset DBs
+    #   run: ./docker/ci/reset-dbs.sh
+    # - name: Feature tests
+    #   continue-on-error: true
+    #   env:
+    #     CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
+    #     CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
+    #     PARALLEL_TEST_FIRST_IS_1: true
+    #     DISABLE_DATABASE_ENVIRONMENT_CHECK: 1
+    #     RAILS_ENV: test
+    #     OPENPROJECT_DISABLE_DEV_ASSET_PROXY: 1
+    #     CAPYBARA_DYNAMIC_BIND_IP: 1
+    #     CAPYBARA_DOWNLOADED_FILE_DIR: /tmp
+    #   run: |
+    #     shopt -s extglob
+    #     bundle exec turbo_tests --verbose -n $(nproc) --runtime-log spec/support/runtime-logs/turbo_runtime_features.log spec/features modules/**/spec/features
 
 # github.head_ref is only availabe in PR context and if it is absent then github.run_id
 # is used . And github.run_id is unique for each workflow run. So, this option makes
