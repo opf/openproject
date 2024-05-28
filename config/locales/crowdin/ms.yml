@@ -265,6 +265,7 @@ ms:
       my: "Projek saya"
       favored: "Projek kegemaran"
       archived: "Projek yang diarkibkan"
+      public: "Public project lists"
       my_private: "Senarai projek peribadi saya"
       new:
         placeholder: "Senarai projek baharu"
@@ -310,6 +311,12 @@ ms:
     update:
       success: "Senarai yang dimodifikasi telah disimpan"
       failure: "Senarai yang dimodifikasi tidak boleh disimpan: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
     can_be_saved: "Senarai yang dimodifikasi:"
     can_be_saved_as: "Modifikasi tersebut hanya boleh disimpan di senarai baharu:"
   members:
@@ -904,6 +911,8 @@ ms:
               nonexistent: "Kolum '%{column}' tidak wujud."
               format: "%{message}"
           group_by_hierarchies_exclusive: "saling eksklusif dengan kumpulan '%{group_by}'. Anda tidak boleh mengaktifkan kedua-duanya."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "Tiada ruangan tersuai untuk saringan tersebut."
@@ -1303,6 +1312,8 @@ ms:
   button_revoke_access: "Batalkan akses"
   button_revoke_all: "Batalkan semua"
   button_revoke_only: "Tarik balik %{shared_role_name} sahaja"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: Saya sudah menyatakan dan bersetuju dengan perkara di atas.
     failure_message: Persetujuan gagal, tidak boleh teruskan.
@@ -2661,6 +2672,7 @@ ms:
   permission_save_bcf_queries: "Simpan pertanyaan BCF"
   permission_manage_public_bcf_queries: "Urus pertanyaan BCF awam"
   permission_edit_attribute_help_texts: "Edit atribut teks bantuan"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:

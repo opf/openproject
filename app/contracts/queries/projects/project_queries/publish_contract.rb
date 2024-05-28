@@ -26,23 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Notifications::Orders::ProjectOrder < Queries::Orders::Base
-  self.model = Notification
-
-  def self.key
-    :project
-  end
-
-  def joins
-    :project
-  end
-
-  protected
-
-  def order(scope)
-    order_string = "projects.name"
-    order_string += " DESC" if direction == :desc
-
-    scope.order(order_string)
+module Queries::Projects::ProjectQueries
+  class PublishContract < BaseContract
+    attribute :public
   end
 end

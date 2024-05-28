@@ -263,6 +263,7 @@ zh-CN:
       my: "我的项目"
       favored: "收藏的项目"
       archived: "归档项目"
+      public: "Public project lists"
       my_private: "我的私有项目列表"
       new:
         placeholder: "新项目列表"
@@ -308,6 +309,12 @@ zh-CN:
     update:
       success: "已保存修改后的列表"
       failure: "无法保存修改后的列表： %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
     can_be_saved: "列表已修改："
     can_be_saved_as: "修改内容只能保存在新列表中。"
   members:
@@ -901,6 +908,8 @@ zh-CN:
               nonexistent: "列“%{column}”不存在。"
               format: "%{message}"
           group_by_hierarchies_exclusive: "与按照“%{group_by}”分组的组互相排斥。您无法将它们都激活。"
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "过滤器没有自定义字段"
@@ -1300,6 +1309,8 @@ zh-CN:
   button_revoke_access: "撤消访问权限"
   button_revoke_all: "全部撤销"
   button_revoke_only: "仅撤销 %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: 我已注意到并同意上述情况。
     failure_message: 同意失败, 无法继续。
@@ -2658,6 +2669,7 @@ zh-CN:
   permission_save_bcf_queries: "保存 BCF 查询"
   permission_manage_public_bcf_queries: "管理公开的 BCF 查询"
   permission_edit_attribute_help_texts: "编辑属性帮助文本"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:

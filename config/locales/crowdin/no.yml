@@ -266,6 +266,7 @@
       my: "Mine prosjekter"
       favored: "Favorittprosjekter"
       archived: "Arkiverte prosjekter"
+      public: "Public project lists"
       my_private: "Mine private prosjektlister"
       new:
         placeholder: "Ny prosjektliste"
@@ -311,6 +312,12 @@
     update:
       success: "Den endrede listen er lagret"
       failure: "Den endrede listen kan ikke lagres: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
     can_be_saved: "Listen endret:"
     can_be_saved_as: "Endringene kan bare lagres i en ny liste."
   members:
@@ -912,6 +919,8 @@
               nonexistent: "Kolonnen '%{column}' eksisterer ikke."
               format: "%{message}"
           group_by_hierarchies_exclusive: "er gjensidig eksklusiv med grupper med '%{group_by}'. Du kan ikke aktivere begge."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "Det er ikke noe egendefinert felt for filteret."
@@ -1319,6 +1328,8 @@
   button_revoke_access: "Fjern tilgang"
   button_revoke_all: "Fjern alle"
   button_revoke_only: "Fjern kun %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: Jeg har merket meg og samtykker til det ovenfor.
     failure_message: Samtykke mislyktes, kan ikke fortsette.
@@ -2701,6 +2712,7 @@
   permission_save_bcf_queries: "Lagre BCF-spørringer"
   permission_manage_public_bcf_queries: "Administrere offentlige BCF-spørringer"
   permission_edit_attribute_help_texts: "Rediger hjelpetekster for egenskap"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:

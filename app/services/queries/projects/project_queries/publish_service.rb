@@ -26,23 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Notifications::Orders::ProjectOrder < Queries::Orders::Base
-  self.model = Notification
+module Queries::Projects::ProjectQueries
+  class PublishService < BaseServices::Update
+    private
 
-  def self.key
-    :project
-  end
+    def after_validate(params, service_call)
+      model.public = params[:public]
 
-  def joins
-    :project
-  end
+      service_call
+    end
 
-  protected
+    def persist(service_call)
+      model.save
 
-  def order(scope)
-    order_string = "projects.name"
-    order_string += " DESC" if direction == :desc
+      service_call
+    end
 
-    scope.order(order_string)
+    def default_contract_class
+      Queries::Projects::ProjectQueries::PublishContract
+    end
   end
 end

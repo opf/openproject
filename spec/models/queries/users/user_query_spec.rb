@@ -48,10 +48,9 @@ RSpec.describe Queries::Users::UserQuery do
     describe "#results" do
       it "is the same as handwriting the query" do
         expected = base_scope
-                   .merge(User
-                          .user
-                          .where(["unaccent(LOWER(CONCAT(users.firstname, ' ', users.lastname))) LIKE unaccent(?)",
-                                  "%a user%"]))
+                     .user
+                     .where(["unaccent(LOWER(CONCAT(users.firstname, ' ', users.lastname))) LIKE unaccent(?)",
+                             "%a user%"])
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end
@@ -76,7 +75,7 @@ RSpec.describe Queries::Users::UserQuery do
 
     describe "#results" do
       it "is the same as handwriting the query" do
-        expected = base_scope.merge(User.user.where("users.status IN (1)"))
+        expected = base_scope.user.where("users.status IN (1)")
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end
@@ -112,9 +111,8 @@ RSpec.describe Queries::Users::UserQuery do
     describe "#results" do
       it "is the same as handwriting the query" do
         expected = base_scope
-                     .merge(User
-                              .user
-                              .where(["users.id IN (#{User.in_group([group_1.id.to_s]).select(:id).to_sql})"]))
+                   .user
+                   .where(["users.id IN (#{User.in_group([group_1.id.to_s]).select(:id).to_sql})"])
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end
@@ -165,7 +163,7 @@ RSpec.describe Queries::Users::UserQuery do
 
     describe "#results" do
       it "is the same as handwriting the query" do
-        expected = User.user.merge(User.order(id: :asc))
+        expected = User.user.order(id: :asc)
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end
@@ -205,7 +203,7 @@ RSpec.describe Queries::Users::UserQuery do
 
     describe "#results" do
       it "is the same as handwriting the query" do
-        expected = User.user.merge(User.joins(:groups).order("groups_users.lastname DESC")).order(id: :desc)
+        expected = User.user.joins(:groups).order("groups_users.lastname DESC").order(id: :desc)
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end

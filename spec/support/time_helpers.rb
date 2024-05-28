@@ -26,23 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Notifications::Orders::ProjectOrder < Queries::Orders::Base
-  self.model = Notification
+RSpec.configure do |config|
+  config.include ActiveSupport::Testing::TimeHelpers
+end
 
-  def self.key
-    :project
+RSpec::Matchers.define :equal_time_without_usec do |expected|
+  expected_without_usec = expected.change(usec: 0)
+
+  failure_message do
+    actual_without_usec = actual.change(usec: 0)
+    [
+      "expected: #{expected_without_usec.iso8601}",
+      "actual: #{actual_without_usec.iso8601}",
+      "difference: #{actual_without_usec - expected_without_usec}s"
+    ].join(" - ")
   end
 
-  def joins
-    :project
-  end
-
-  protected
-
-  def order(scope)
-    order_string = "projects.name"
-    order_string += " DESC" if direction == :desc
-
-    scope.order(order_string)
+  match do |actual|
+    actual_without_usec = actual.change(usec: 0)
+    expected_without_usec == actual_without_usec
   end
 end

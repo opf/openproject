@@ -264,6 +264,7 @@ pt-PT:
       my: "Os meus projetos"
       favored: "Projetos favoritos"
       archived: "Projetos arquivados"
+      public: "Public project lists"
       my_private: "As minhas listas de projetos privados"
       new:
         placeholder: "Nova lista de projetos"
@@ -309,6 +310,12 @@ pt-PT:
     update:
       success: "A lista modificada foi guardada"
       failure: "Não foi possível guardar a lista modificada: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
     can_be_saved: "Lista modificada:"
     can_be_saved_as: "As alterações só podem ser guardadas numa nova lista:"
   members:
@@ -910,6 +917,8 @@ pt-PT:
               nonexistent: "A coluna '%{column}' não existe."
               format: "%{message}"
           group_by_hierarchies_exclusive: "é mutuamente exclusivo com o grupo '%{group_by}'. Não é possível ativar os dois."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "Não existe nenhum campo personalizado para o filtro."
@@ -1317,6 +1326,8 @@ pt-PT:
   button_revoke_access: "Revogar acesso"
   button_revoke_all: "Revogar tudo"
   button_revoke_only: "Revogar apenas %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: Eu reparei e dou consentimento com o acima.
     failure_message: Consentimento falhou, não pode continuar.
@@ -2698,6 +2709,7 @@ pt-PT:
   permission_save_bcf_queries: "Guardar consultas BCF"
   permission_manage_public_bcf_queries: "Gerir consultas BCF públicas"
   permission_edit_attribute_help_texts: "Editar textos de ajuda de atributos"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:
