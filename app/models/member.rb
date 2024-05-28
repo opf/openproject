@@ -86,7 +86,7 @@ class Member < ApplicationRecord
   end
 
   def project_role?
-    entity_id.nil?
+    entity_id.nil? && project_id.present?
   end
 
   def deletable_role?(role)
