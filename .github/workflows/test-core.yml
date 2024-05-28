@@ -105,6 +105,7 @@ jobs:
           frontend/node_modules
           node_modules
           .npm
+          public/assets
         key: npm-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
         restore-keys: |
           npm-
@@ -134,16 +135,15 @@ jobs:
     - name: DB migration
       if: steps.db_schema_cache.outputs.cache-hit != 'true'
       run: bin/rails db:create db:migrate db:schema:dump
-    - name: Precompile assets
-      run: |
-        export JOBS=4
-        df -ah
-        npm config set audit=false fund=false
-        cd frontend && npm ci && cd -
-        DATABASE_URL=nulldb://db time bin/rails openproject:plugins:register_frontend assets:precompile
-        cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json
     - name: Reset DBs
       run: ./docker/ci/reset-dbs.sh
+    - name: Precompile assets
+      run: |
+        export JOBS=$(nproc)
+        npm config set audit=false fund=false
+        npm install
+        DATABASE_URL=nulldb://db time bin/rails openproject:plugins:register_frontend assets:precompile
+        cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json
     - name: Zeitwerk check
       run: bin/rails zeitwerk:check
     - name: APIv3 specification (OpenAPI 3.0)
