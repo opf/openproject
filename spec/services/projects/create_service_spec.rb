@@ -70,5 +70,65 @@ RSpec.describe Projects::CreateService, type: :model do
           .not_to(have_received(:call))
       end
     end
+
+    context "with hidden custom fields" do
+      # Skip stubbing in order to execute the real service call
+      let(:stub_model_instance) { false }
+      let(:call_attributes) do
+        attributes_for(:project,
+                       custom_field_values: {
+                         text_custom_field.id => "foo",
+                         bool_custom_field.id => true,
+                         hidden_custom_field.id => "hidden"
+                       }).except(:created_at, :updated_at)
+      end
+      let!(:section) { create(:project_custom_field_section) }
+      let!(:bool_custom_field) do
+        create(:boolean_project_custom_field, project_custom_field_section: section)
+      end
+      let!(:text_custom_field) do
+        create(:text_project_custom_field, project_custom_field_section: section)
+      end
+      let!(:list_custom_field) do
+        create(:list_project_custom_field, project_custom_field_section: section)
+      end
+      let!(:hidden_custom_field) do
+        create(:text_project_custom_field, project_custom_field_section: section, visible: false)
+      end
+      let(:project) { subject.result }
+
+      before do
+        User.current = user
+      end
+
+      context "with admin permission" do
+        let(:user) { build_stubbed(:admin) }
+
+        it "does activate hidden custom fields" do
+          subject
+          expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
+            .to contain_exactly(text_custom_field.id, bool_custom_field.id, hidden_custom_field.id)
+          expect(project.custom_value_for(hidden_custom_field).typed_value).to eq("hidden")
+        end
+      end
+
+      context "without admin permission" do
+        let(:user) { create(:user) }
+
+        before do
+          mock_permissions_for(user) do |mock|
+            mock.allow_globally :add_project
+          end
+        end
+
+        it "does not activate hidden custom fields" do
+          subject
+
+          expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
+            .to contain_exactly(text_custom_field.id, bool_custom_field.id)
+          expect(project.custom_value_for(hidden_custom_field)).to be_nil
+        end
+      end
+    end
   end
 end
