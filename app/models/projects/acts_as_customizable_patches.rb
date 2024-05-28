@@ -41,7 +41,6 @@ module Projects::ActsAsCustomizablePatches
 
     before_update :set_query_available_custom_fields_to_global_level
 
-    before_create :reject_section_scoped_validation_for_creation
     before_create :build_missing_project_custom_field_project_mappings
 
     after_save :reset_section_scoped_validation
@@ -69,13 +68,6 @@ module Projects::ActsAsCustomizablePatches
       # query the available custom fields on a global level when updating custom field values
       # in order to support implicit activation of custom fields when values are provided during an update
       self._query_available_custom_fields_on_global_level = true
-    end
-
-    def reject_section_scoped_validation_for_creation
-      if _limit_custom_fields_validation_to_section_id.present?
-        raise ArgumentError,
-              "Section scoped validation is not supported for project creation, only for project updates"
-      end
     end
 
     def with_all_available_custom_fields

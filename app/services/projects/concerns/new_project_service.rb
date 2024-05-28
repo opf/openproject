@@ -42,6 +42,15 @@ module Projects::Concerns
       super
     end
 
+    def after_validate(params, service_call)
+      # we need to reset the query_available_custom_fields_on_global_level already after validation
+      # as the update service just calls .valid? and returns if invalid
+      # after_save is not touched in this case which causes the flag to stay active
+      reject_section_scoped_validation(service_call.result)
+
+      super
+    end
+
     # Add default role to the newly created project
     # based on the setting ('new_project_user_role_id')
     # defined in the administration. Will either create a new membership
@@ -90,6 +99,13 @@ module Projects::Concerns
         .or(custom_field_project_mappings
           .where.not(custom_field_id: new_project.available_custom_fields.select(:id)))
         .destroy_all
+    end
+
+    def reject_section_scoped_validation(new_project)
+      if new_project._limit_custom_fields_validation_to_section_id.present?
+        raise ArgumentError,
+              "Section scoped validation is not supported for project creation, only for project updates"
+      end
     end
   end
 end
