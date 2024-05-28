@@ -28,11 +28,11 @@ jobs:
     services:
       # Label used to access the service container
       postgres:
-        image: postgres:16
+        image: postgres:13
         env:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: appdb
-          POSTGRES_INITDB_ARGS: --no-sync --no-instructions --set fsync=off --set full_page_writes=off
+          # POSTGRES_INITDB_ARGS: --no-sync --no-instructions --set fsync=off --set full_page_writes=off
         options: >-
           --health-cmd pg_isready
           --health-interval 2s
