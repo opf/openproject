@@ -41,7 +41,7 @@ methods. For more information, see [#51212](https://community.openproject.org/wo
 
 ### Reduced number of configurable design variables
 
-We have changed the number and naming of the [configurable design variables](https://www.openproject.org/docs/system-admin-guide/design/#advanced-settings). This simplifies the process of setting the desired color scheme for users. It also allows us to get closer to the **Primer design system** in order to benefit from its other modes such as the dark mode or the colorblind mode in the future.
+We have changed the number and naming of the [configurable design variables](../../system-admin-guide/design/#advanced-settings). This simplifies the process of setting the desired color scheme for users. It also allows us to get closer to the **Primer design system** in order to benefit from its other modes such as the dark mode or the colorblind mode in the future.
 
 The following variables have been changed:
 
@@ -113,7 +113,7 @@ As described above, *project* custom fields are now called 'Project attributes' 
 
 ### Enhanced Meetings module with new features
 
-OpenProject's [(Dynamic) Meetings](https://www.openproject.org/docs/user-guide/meetings/dynamic-meetings/) have been updated with the following new features:
+OpenProject's [(Dynamic) Meetings](../../user-guide/meetings/dynamic-meetings/) have been updated with the following new features:
 
 * [Meetings attachments](https://www.openproject.com/docs/user-guide/meetings/dynamic-meetings/#meeting-attachments) are now shown in the bottom section of the right-hand sidebar. You can add them directly to the meeting there and drag and drop them from this section to the Notes section of the agenda items.
 * When [copying a meeting](https://www.openproject.com/docs/user-guide/meetings/dynamic-meetings/#copy-a-meeting), you can now check a box to choose whether you want to include attachments.
@@ -297,4 +297,4 @@ Silas Kropf, Philipp Schulz, Benjamin Rönnau, Mario Haustein, Matt User, Mario 
 Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to highlight user [izzahk](https://crowdin.com/profile/izzahk)
 who has done an outstanding number of translations for the Malaysian language in recent weeks.
 
-Would you like to help out with translations yourself? Then take a look at our [translation guide](https://www.openproject.org/docs/development/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
+Would you like to help out with translations yourself? Then take a look at our [translation guide](../../development/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!

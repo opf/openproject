@@ -251,6 +251,21 @@ ms:
                     *   [ ] Lagi banyak bir
             item_4:
               subject: Akhir projek
+          wiki: |
+            _Dalam wiki ini, anda boleh bekerjasama mencipta dan edit halaman dan sub-halaman untuk mencipta wiki projek._
+
+            **Anda boleh:**
+
+            *Masukkan teks dan imej, juga menyalin dan sisipkan daripada dokumen lain
+            *Cipta hierarki laman dengan halaman induk
+            *Sertakan halaman wiki ke menu projek
+            *Gunakan makro untuk sertakan, cth. Jadual kandungan, senarai pakej kerja, atau carta Gantt
+            *Sertakan halaman wiki di ruang teks lain, cth. Halaman gambaran keseluruhan projek
+            *Sertakan pautan ke dokumen-dokumen lain
+            *Lihat sejarah perubahan
+            *Lihat sebagai Markdown
+
+            Maklumat lanjut: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: Projek Scrum
           status_explanation: Semua tugasan mengikut jadual. Orang yang terlibat tahu akan tugasan mereka. Sistem ini telah siap sepenuhnya.
@@ -265,7 +280,7 @@ ms:
             item_0:
               name: Bug Tunggakan
             item_1:
-              name: Tunggakan produk
+              name: Tunggakan Produk
             item_2:
               name: Pecutan 1
               wiki:

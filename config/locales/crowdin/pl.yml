@@ -261,7 +261,7 @@ pl:
     lists:
       active: "Aktywne projekty"
       my: "Moje projekty"
-      favored: "Favorite projects"
+      favored: "Ulubione projekty"
       archived: "Zarchiwizowane projekty"
       my_private: "Moje prywatne listy projektów"
       new:
@@ -303,13 +303,13 @@ pl:
         no_results_title_text: Nie ma dodatkowego zarejestrowanego miejsca na dysku zużytego przez ten projekt.
   lists:
     create:
-      success: "The modified list has been saved as a new list"
-      failure: "The modified list cannot be saved: %{errors}"
+      success: "Zmodyfikowana lista została zapisana jako nowa lista"
+      failure: "Nie można zapisać zmodyfikowanej listy: %{errors}"
     update:
-      success: "The modified list has been saved"
-      failure: "The modified list cannot be saved: %{errors}"
-    can_be_saved: "List modified:"
-    can_be_saved_as: "The modifications can only be saved in a new list:"
+      success: "Zmodyfikowana lista została zapisana"
+      failure: "Nie można zapisać zmodyfikowanej listy: %{errors}"
+    can_be_saved: "Zmodyfikowano listę:"
+    can_be_saved_as: "Modyfikacje można zapisać tylko na nowej liście:"
   members:
     index:
       no_results_title_text: Nie ma jeszcze żadnych członków projektu.
@@ -327,7 +327,7 @@ pl:
       project_roles: "Role w projekcie"
       wp_shares: "Udostępnienia pakietu roboczego"
       groups: "Grupy"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    no_modify_on_shared: "Obecnie nie możesz modyfikować ani usuwać współdzielonych członkostw za pośrednictwem strony członka. Zamiast tego użyj okna modalnego udostępniania."
     delete_member_dialog:
       title: "Usuń członka"
       will_remove_the_users_role: "Spowoduje to usunięcie roli użytkownika z tego projektu."
@@ -505,9 +505,9 @@ pl:
       unsupported_for_multiple_projects: "Hurtowe przenoszenie / kopiowanie nie jest obsługiwane dla Zestawu zadań z różnych projektów"
     sharing:
       missing_workflow_warning:
-        title: "Workflow missing for work package sharing"
-        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
-        link_message: "Configure the workflows in the administration."
+        title: "Brak przepływu pracy udostępniania pakietu roboczego"
+        message: "Dla roli „Edytor pakietów roboczych” nie skonfigurowano przepływu pracy. Bez przepływu pracy użytkownik, któremu ją  udostępniono nie może zmienić statusu pakietu roboczego. Przepływy pracy można kopiować. Wybierz typ źródłowy (np. „Zadanie”) i rolę źródłową (np. „Członek”). Następnie wybierz typy docelowe. Na początek możesz wybrać wszystkie typy jako docelowe. Na koniec wybierz rolę  „Edytor pakietów roboczych”  jako cel i naciśnij przycisk „Kopiuj”. Po utworzeniu ustawień domyślnych dostosuj przepływy pracy tak, jak w przypadku każdej innej roli."
+        link_message: "Skonfiguruj przepływy pracy w administracji."
     summary:
       reports:
         category:
@@ -802,7 +802,7 @@ pl:
         not_an_iso_date: "wprowadzono nieprawidłową datę. Wymagany format: RRRR-MM-DD."
         not_same_project: "nie należy do tego samego projektu."
         odd: "musi być nieparzyste."
-        regex_match_failed: "does not match the regular expression %{expression}."
+        regex_match_failed: "nie pasuje do wyrażenia regularnego %{expression}."
         regex_invalid: "nie może być zastosowany z zastosowanym wyrażeniem regularnym."
         smaller_than_or_equal_to_max_length: "musi być mniejsze niż lub równe z maksymalnej długości."
         taken: "zostały już podjęte."
@@ -1014,13 +1014,13 @@ pl:
               only_same_project_categories_allowed: "Kategoria pakietu roboczego musi znajdować się w tym samym projekcie co pakiet roboczy."
               does_not_exist: "Podana kategoria nie istnieje."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              cant_be_inferior_to_remaining_work: "Nie może być mniejsza niż wartość pozostałej pracy."
+              must_be_set_when_remaining_work_is_set: "Wymagane, gdy ustawiona jest opcja Pozostała praca."
+              only_values_greater_or_equal_zeroes_allowed: "Musi być >= 0."
               format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "Cannot be higher than Work."
-              must_be_set_when_work_is_set: "Required when Work is set."
+              cant_exceed_work: "Nie może być wyższa niż wartość pracy."
+              must_be_set_when_work_is_set: "Wymagane, gdy ustawiona jest opcja Praca."
               format: "%{message}"
           readonly_status: "Pakiet roboczy ma status tylko do odczytu, więc jego atrybutów nie można zmienić."
         type:
@@ -1300,7 +1300,7 @@ pl:
   button_edit: "Edycja"
   button_edit_associated_wikipage: "Edytuj powiązaną stronę Wiki: %{page_title}"
   button_expand_all: "Rozwiń wszystkie"
-  button_favorite: "Add to favorites"
+  button_favorite: "Dodaj do ulubionych"
   button_filter: "Filtr"
   button_generate: "Utwórz"
   button_list: "Lista"
@@ -1328,7 +1328,7 @@ pl:
   button_unarchive: "Unarchive"
   button_uncheck_all: "Odznacz wszystko"
   button_unlock: "Odblokuj"
-  button_unfavorite: "Remove from favorites"
+  button_unfavorite: "Usuń z ulubionych"
   button_unwatch: "Nie obserwuj"
   button_update: "Aktualizacja"
   button_upgrade: "Aktualizuj"
@@ -1650,7 +1650,7 @@ pl:
       pdf_overview_table: "Tabela PDF"
       pdf_report_with_images: "Raport PDF z obrazami"
       pdf_report: "Raport PDF"
-      pdf_gantt: "PDF Gantt"
+      pdf_gantt: "Wykres Gantta w formacie PDF"
     image:
       omitted: "Nie wyeksportowano obrazu"
     units:
@@ -1729,11 +1729,11 @@ pl:
         file_links_journal: >
           Od teraz aktywność związana z linkami do plików (plików przechowywanych w magazynach zewnętrznych) będzie wyświetlana na karcie Aktywność. Poniżej przedstawiono aktywność dotyczącą linków, które już istniały:
         progress_calculation_adjusted_from_disabled_mode: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+          Obliczanie postępu jest automatycznie <a href="%{href}" target="_blank">ustawiane na tryb oparty na pracy i dostosowywane wraz z aktualizacją wersji</a>.
         progress_calculation_adjusted: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+          Obliczanie postępu jest automatycznie <a href="%{href}" target="_blank">dostosowywane wraz z aktualizacją wersji</a>.
         totals_removed_from_childless_work_packages: >-
-          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+          Sumy pracy i postępu są automatycznie usuwane dla pakietów pracy innych niż nadrzędne wraz z <a href="%{href}" target="_blank">aktualizacją wersji</a>. Jest to zadanie konserwacyjne i można je bezpiecznie zignorować.
   links:
     configuration_guide: "Przewodnik po konfiguracji"
     get_in_touch: "Masz pytania? Skontaktuj się z nami."
@@ -1978,7 +1978,7 @@ pl:
   label_enterprise_support: "Wsparcie Enterprise"
   label_enterprise_addon: "Dodatek wersji Enterprise"
   label_environment: "Środowisko"
-  label_estimates_and_progress: "Estimates and progress"
+  label_estimates_and_progress: "Szacunki i postęp"
   label_equals: "jest"
   label_everywhere: "wszędzie"
   label_example: "Przykład"
@@ -2065,7 +2065,7 @@ pl:
   label_learn_more: "Dowiedz się więcej"
   label_less_or_equal: "≤"
   label_less_than_ago: "mniej niż dni temu"
-  label_link_url: "Link (URL)"
+  label_link_url: "Link (adres URL)"
   label_list: "Lista"
   label_loading: "Ładowanie..."
   label_lock_user: "Zablokuj użytkownika"
@@ -2193,7 +2193,7 @@ pl:
   label_percent_complete: "% ukończenia"
   label_project_activity: "Aktywność projektu"
   label_project_attribute_plural: "Cechy projektu"
-  label_project_attribute_manage_link: "Manage project attributes"
+  label_project_attribute_manage_link: "Zarządzaj atrybutami projektu"
   label_project_count: "Całkowita liczba projektów"
   label_project_copy_notifications: "Wyślij powiadomienia e-mail podczas kopiowania projektów"
   label_project_latest: "Najnowsze projekty"
@@ -2208,7 +2208,7 @@ pl:
   label_project_attributes_settings: "Ustawienia atrybutów projektu"
   label_project_storage_plural: "Magazyny plików"
   label_project_storage_project_folder: "Magazyny plików: foldery projektów"
-  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
+  label_projects_disk_usage_information: "Projekty (%{count}) zajmują %{used_disk_space} miejsca na dysku"
   label_project_view_all: "Zobacz wszystkie projekty"
   label_project_show_details: "Pokaż szczegóły projektu"
   label_project_hide_details: "Ukryj szczegóły projektu"
@@ -2813,7 +2813,7 @@ pl:
     member_of_group: "Przypisany do grupy"
     name_or_identifier: "Nazwa lub identyfikator"
     only_subproject_id: "Tylko podprojekt"
-    shared_with_user: "Shared with users"
+    shared_with_user: "Udostępnione użytkownikom"
     shared_with_me: "Udostępnione dla mnie"
     subproject_id: "Uwzględniając podprojekt"
   repositories:
@@ -2956,7 +2956,7 @@ pl:
   setting_app_subtitle: "Podtytuł"
   setting_app_title: "Tytuł"
   setting_attachment_max_size: "Maks. rozmiar załącznika"
-  setting_show_work_package_attachments: "Show attachments in the files tab by default"
+  setting_show_work_package_attachments: "Domyślnie pokazuj załączniki na karcie plików"
   setting_antivirus_scan_mode: "Tryb skanowania"
   setting_antivirus_scan_action: "Działanie wobec zainfekowanego pliku"
   setting_autofetch_changesets: "Autopobieranie zmian repozytorium"
@@ -3059,7 +3059,7 @@ pl:
       whitelist_text_html: >
         Zdefiniuj listę poprawnych rozszerzeń plików i/lub typów mime dla przesłanych plików. <br/> Wprowadź rozszerzenia plików (np. <code>%{ext_example}</code>) lub typy mime (np. <code>%{mime_example}</code>). <br/> Pozostaw puste, aby umożliwić przesłanie dowolnego typu pliku. Dozwolone wielokrotne wartości (jeden wiersz dla każdej wartości).
       show_work_package_attachments: >
-        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
+        Wyłączenie tej opcji spowoduje ukrycie listy załączników na karcie plików pakietów roboczych dla nowych projektów. Pliki załączone w opisie pakietu roboczego będą nadal przesyłane do wewnętrznego magazynu załączników.
     antivirus:
       title: "Skanowanie antywirusowe"
       clamav_ping_failed: "Nie udało się połączyć z demonem ClamAV. Proszę sprawdzić konfigurację i spróbować ponownie."
@@ -3298,8 +3298,8 @@ pl:
         drag_area_label: "Zarządzaj kolumnami i zmieniaj ich kolejność"
       sort_by:
         automatic:
-          heading: "Automatic"
-          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
+          heading: "Automatycznie"
+          description: "Ustaw kolejność %{plural} według jednego lub więcej kryteriów sortowania. Poprzednie sortowanie zostanie utracone."
   top_menu:
     additional_resources: "Dodatkowe zasoby"
     getting_started: "Pierwsze kroki"
@@ -3651,7 +3651,7 @@ pl:
   link: link
   plugin_openproject_auth_plugins:
     name: "Wtyczki uwierzytelniające OpenProject"
-    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
+    description: "Integracja dostawców strategii OmniAuth w celu uwierzytelniania w OpenProject."
   plugin_openproject_auth_saml:
     name: "SAML OmniAuth / pojedyncze logowanie"
     description: "Dodaje dostawcę SAML OmniAuth do OpenProject"

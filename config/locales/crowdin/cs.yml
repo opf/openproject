@@ -264,7 +264,7 @@ cs:
     lists:
       active: "Aktivní projekty"
       my: "Moje projekty"
-      favored: "Favorite projects"
+      favored: "Oblíbené projekty"
       archived: "Archivované projekty"
       my_private: "soukromé seznamy  projektů"
       new:
@@ -291,10 +291,10 @@ cs:
         filter:
           label: "Search project attribute"
         actions:
-          label_enable_single: "Active in this project, click to disable"
-          label_disable_single: "Inactive in this project, click to enable"
-          label_enable_all: "Enable all"
-          label_disable_all: "Disable all"
+          label_enable_single: "Aktivní v tomto projektu, kliknutím vypnete"
+          label_disable_single: "Neaktivní v tomto projektu, klikněte pro povolení"
+          label_enable_all: "Povolit vše"
+          label_disable_all: "Zakázat vše"
       types:
         no_results_title_text: V současné době nejsou k dispozici žádné typy.
         form:
@@ -311,7 +311,7 @@ cs:
     update:
       success: "The modified list has been saved"
       failure: "The modified list cannot be saved: %{errors}"
-    can_be_saved: "List modified:"
+    can_be_saved: "Seznam upraven:"
     can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
@@ -332,7 +332,7 @@ cs:
       groups: "Skupiny"
     no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
-      title: "Remove member"
+      title: "Odebrat člena"
       will_remove_the_users_role: "This will remove the user’s role from this project."
       will_remove_the_groups_role: "This will remove the group role from this project."
       however_work_packages_shared_with_user_html:
@@ -1019,7 +1019,7 @@ cs:
             estimated_hours:
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
               must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              only_values_greater_or_equal_zeroes_allowed: "Musí být >= 0."
               format: "%{message}"
             remaining_hours:
               cant_exceed_work: "Cannot be higher than Work."
@@ -1164,7 +1164,7 @@ cs:
         duration:
           added: "set to %{value}"
           added_html: "set to <i>%{value}</i>"
-          removed: "removed"
+          removed: "odstraněno"
           updated: "změněno z %{old_value} na %{value}"
           updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
         position:
@@ -1303,7 +1303,7 @@ cs:
   button_edit: "Upravit"
   button_edit_associated_wikipage: "Upravit přidruženou Wiki stránku: %{page_title}"
   button_expand_all: "Rozbalit vše"
-  button_favorite: "Add to favorites"
+  button_favorite: "Přidat k oblíbeným"
   button_filter: "Filtr"
   button_generate: "Generovat"
   button_list: "Seznam"
@@ -1331,7 +1331,7 @@ cs:
   button_unarchive: "Obnovit z archivu"
   button_uncheck_all: "Odznačit vše"
   button_unlock: "Odemknout"
-  button_unfavorite: "Remove from favorites"
+  button_unfavorite: "Odstranit z oblíbených"
   button_unwatch: "Přestat sledovat"
   button_update: "Aktualizovat"
   button_upgrade: "Upgradovat"
@@ -1343,11 +1343,11 @@ cs:
   button_configure_menu_entry: "Konfigurace položky menu"
   button_delete_menu_entry: "Odstranit položku menu"
   button_view_shared_work_packages: "Zobrazit všechny sdílené pracovní balíčky"
-  button_manage_roles: "Manage roles"
-  button_remove_member: "Remove member"
+  button_manage_roles: "Správa rolí"
+  button_remove_member: "Odebrat člena"
   button_remove_member_and_shares: "Remove member and shares"
   button_revoke_work_package_shares: "Revoke work package shares"
-  button_revoke_access: "Revoke access"
+  button_revoke_access: "Odebrat přístup"
   button_revoke_all: "Revoke all"
   button_revoke_only: "Revoke only %{shared_role_name}"
   consent:
@@ -2068,7 +2068,7 @@ cs:
   label_learn_more: "Více informací"
   label_less_or_equal: "<="
   label_less_than_ago: "před méně jak (dny)"
-  label_link_url: "Link (URL)"
+  label_link_url: "Odkaz URL"
   label_list: "Seznam"
   label_loading: "Načítání..."
   label_lock_user: "Uzamknout uživatele"
@@ -2094,7 +2094,7 @@ cs:
   label_membership_plural: "Členství"
   lable_membership_added: "Člen přidán"
   lable_membership_updated: "Člen aktualizován"
-  label_menu: "Menu"
+  label_menu: "Nabídka"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "Alfa"
@@ -2185,7 +2185,7 @@ cs:
   label_precedes: "předchází"
   label_preferences: "Nastavení"
   label_preview: "Náhled"
-  label_preview_not_available: "Preview not available"
+  label_preview_not_available: "Náhled není k dispozici"
   label_previous: "Předchozí"
   label_previous_week: "Předchozí týden"
   label_principal_invite_via_email: " nebo pozvat nové uživatele e-mailem"
@@ -2196,7 +2196,7 @@ cs:
   label_percent_complete: "% Dokončeno"
   label_project_activity: "Aktivita projektu"
   label_project_attribute_plural: "Atributy projektu"
-  label_project_attribute_manage_link: "Manage project attributes"
+  label_project_attribute_manage_link: "Správa atributů produktu"
   label_project_count: "Celkový počet projektů"
   label_project_copy_notifications: "Během kopírování projektu odeslat notifikace e-mailem"
   label_project_latest: "Nejnovější projekty"
@@ -3001,7 +3001,7 @@ cs:
   setting_file_max_size_displayed: "Maximální velikost textových souborů zobrazených přímo na stránce"
   setting_host_name: "Název serveru"
   setting_invitation_expiration_days: "Platnost aktivačního e-mailu vyprší po"
-  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio: "Výpočet průběhu"
   setting_work_package_done_ratio_field: "Work-based"
   setting_work_package_done_ratio_status: "Status-based"
   setting_work_package_done_ratio_explanation_html: >
@@ -3114,8 +3114,8 @@ cs:
     passwords: "Hesla"
     project_attributes:
       heading: "Atributy projektu"
-      label_new_attribute: "Project attribute"
-      label_new_section: "Section"
+      label_new_attribute: "Atribut projektu"
+      label_new_section: "Sekce"
       label_edit_section: "Upravit název"
       label_section_actions: "Section actions"
       heading_description: "These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level."

@@ -262,7 +262,7 @@ pt-PT:
     lists:
       active: "Projetos ativos"
       my: "Os meus projetos"
-      favored: "Favorite projects"
+      favored: "Projetos favoritos"
       archived: "Projetos arquivados"
       my_private: "As minhas listas de projetos privados"
       new:
@@ -304,13 +304,13 @@ pt-PT:
         no_results_title_text: Não há espaço adicional gravado em disco que seja consumido por este projeto.
   lists:
     create:
-      success: "The modified list has been saved as a new list"
-      failure: "The modified list cannot be saved: %{errors}"
+      success: "A lista modificada foi guardada como uma nova lista"
+      failure: "Não foi possível guardar a lista modificada: %{errors}"
     update:
-      success: "The modified list has been saved"
-      failure: "The modified list cannot be saved: %{errors}"
-    can_be_saved: "List modified:"
-    can_be_saved_as: "The modifications can only be saved in a new list:"
+      success: "A lista modificada foi guardada"
+      failure: "Não foi possível guardar a lista modificada: %{errors}"
+    can_be_saved: "Lista modificada:"
+    can_be_saved_as: "As alterações só podem ser guardadas numa nova lista:"
   members:
     index:
       no_results_title_text: Atualmente, não existem membros pertencentes a este projeto.
@@ -328,7 +328,7 @@ pt-PT:
       project_roles: "Funções no projeto"
       wp_shares: "Partilhas do pacote de trabalho"
       groups: "Grupos"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    no_modify_on_shared: "Atualmente, não é possível modificar ou remover associações partilhadas na página do membro. Em vez disso, utilize o modal de partilha."
     delete_member_dialog:
       title: "Remover membro"
       will_remove_the_users_role: "Isto irá remover a função do utilizador deste projeto."
@@ -492,9 +492,9 @@ pt-PT:
       unsupported_for_multiple_projects: "Mover/copiar em massa não é suportado por pacotes de trabalho de vários projetos"
     sharing:
       missing_workflow_warning:
-        title: "Workflow missing for work package sharing"
-        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
-        link_message: "Configure the workflows in the administration."
+        title: "Falta um fluxo de trabalho para a partilha de pacotes de trabalho"
+        message: "Nenhum fluxo de trabalho está configurado para a função \"Editor do pacote de trabalho\". Sem um fluxo de trabalho, o utilizador não pode alterar o estado do pacote de trabalho. Os fluxos de trabalho podem ser copiados. Selecione um tipo de fonte (por exemplo, \"Tarefa\") e uma função da fonte (por exemplo, \"Membro\"). Em seguida, selecione os tipos de destino. Para começar, pode selecionar todos os tipos como alvos. Por fim, selecione a função \"Editor do pacote de trabalho\" como destino e prima \"Copiar\". Depois de ter criado as predefinições, ajuste os fluxos de trabalho como faz para todas as outras funções."
+        link_message: "Configure os fluxos de trabalho na administração."
     summary:
       reports:
         category:
@@ -789,7 +789,7 @@ pt-PT:
         not_an_iso_date: "não é uma data válida. Formato exigido: AAAA-MM-DD."
         not_same_project: "não pertence ao mesmo projeto."
         odd: "deve ser ímpar."
-        regex_match_failed: "does not match the regular expression %{expression}."
+        regex_match_failed: "não corresponde à expressão regular %{expression}."
         regex_invalid: "não pode ser validado com a expressão regular associada."
         smaller_than_or_equal_to_max_length: "deve ser menor ou igual ao comprimento máximo."
         taken: "já está a ser utilizado."
@@ -1001,13 +1001,13 @@ pt-PT:
               only_same_project_categories_allowed: "A categoria de um pacote de trabalho deve estar dentro do mesmo projeto que o pacote de trabalho."
               does_not_exist: "A categoria especificada não existe."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              cant_be_inferior_to_remaining_work: "Não pode ser inferior a Trabalho restante."
+              must_be_set_when_remaining_work_is_set: "Obrigatório quando o Trabalho restante está definido."
+              only_values_greater_or_equal_zeroes_allowed: "Tem de ser >= 0."
               format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "Cannot be higher than Work."
-              must_be_set_when_work_is_set: "Required when Work is set."
+              cant_exceed_work: "Não pode ser superior a Trabalho."
+              must_be_set_when_work_is_set: "Obrigatório quando o Trabalho é definido."
               format: "%{message}"
           readonly_status: "O pacote de trabalho está em estado de apenas leitura, por isso os seus atributos não podem ser alterados."
         type:
@@ -1271,7 +1271,7 @@ pt-PT:
   button_edit: "Editar"
   button_edit_associated_wikipage: "Editar página Wiki associada: %{page_title}"
   button_expand_all: "Expandir Tudo"
-  button_favorite: "Add to favorites"
+  button_favorite: "Adicionar aos favoritos"
   button_filter: "Filtro"
   button_generate: "Gerar"
   button_list: "Lista"
@@ -1299,7 +1299,7 @@ pt-PT:
   button_unarchive: "Desarquivar"
   button_uncheck_all: "Anular selecção"
   button_unlock: "Desbloquear"
-  button_unfavorite: "Remove from favorites"
+  button_unfavorite: "Remover dos favoritos"
   button_unwatch: "Não observar"
   button_update: "Atualizar"
   button_upgrade: "Atualizar"
@@ -1664,11 +1664,11 @@ pt-PT:
         file_links_journal: >
           A partir de agora, a atividade relacionada a links de arquivos (arquivos armazenados em armazenamentos externos) aparecerá aqui na guia Atividade. O seguinte representa a atividade relacionada aos links que já existiam:
         progress_calculation_adjusted_from_disabled_mode: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+          O cálculo do progresso é automaticamente <a href="%{href}" target="_blank">definido no modo baseado no trabalho e ajustado com a atualização da versão</a>.
         progress_calculation_adjusted: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+          O cálculo do progresso é automaticamente <a href="%{href}" target="_blank">ajustado com a atualização da versão</a>.
         totals_removed_from_childless_work_packages: >-
-          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+          Os totais de trabalho e de progresso são automaticamente removidos dos pacotes de trabalho que não são principais com a <a href="%{href}" target="_blank">atualização da versão</a>. Esta é uma tarefa de manutenção e pode ser ignorada com segurança.
   links:
     configuration_guide: "Guia de configuração"
     get_in_touch: "Tem questões? Entre em contato conosco."
@@ -1913,7 +1913,7 @@ pt-PT:
   label_enterprise_support: "Suporte Enterprise"
   label_enterprise_addon: "Suplemento Enterprise"
   label_environment: "Ambiente"
-  label_estimates_and_progress: "Estimates and progress"
+  label_estimates_and_progress: "Estimativas e progresso"
   label_equals: "é"
   label_everywhere: "em todo o lado"
   label_example: "Exemplo"
@@ -2128,7 +2128,7 @@ pt-PT:
   label_percent_complete: "% de conclusão"
   label_project_activity: "Atividade do projeto"
   label_project_attribute_plural: "Atributos do projeto"
-  label_project_attribute_manage_link: "Manage project attributes"
+  label_project_attribute_manage_link: "Gerir atributos do projeto"
   label_project_count: "Número total de projetos"
   label_project_copy_notifications: "Envie notificações por correio eletrónico durante a cópia do projeto"
   label_project_latest: "Últimos projetos"
@@ -2143,7 +2143,7 @@ pt-PT:
   label_project_attributes_settings: "Definições dos atributos do projeto"
   label_project_storage_plural: "Armazenamentos de ficheiros"
   label_project_storage_project_folder: "Armazenamentos de ficheiros: pastas do projeto"
-  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
+  label_projects_disk_usage_information: "%{count} projetos utilizam %{used_disk_space} espaço no disco"
   label_project_view_all: "Ver todos os projetos"
   label_project_show_details: "Mostrar detalhes do projeto"
   label_project_hide_details: "Ocultar detalhes do projeto"
@@ -2744,7 +2744,7 @@ pt-PT:
     member_of_group: "Grupo do titular"
     name_or_identifier: "Nome ou identificador"
     only_subproject_id: "Apenas sub-projeto"
-    shared_with_user: "Shared with users"
+    shared_with_user: "Partilhado com utilizadores"
     shared_with_me: "Partilhados comigo"
     subproject_id: "Incluindo sub-projeto"
   repositories:
@@ -2887,7 +2887,7 @@ pt-PT:
   setting_app_subtitle: "Subtítulo da aplicação"
   setting_app_title: "Título da aplicação"
   setting_attachment_max_size: "Tamanho máx. do anexo"
-  setting_show_work_package_attachments: "Show attachments in the files tab by default"
+  setting_show_work_package_attachments: "Mostrar anexos no separador dos ficheiros por padrão"
   setting_antivirus_scan_mode: "Modo de digitalização"
   setting_antivirus_scan_action: "Ação para ficheiro infetado"
   setting_autofetch_changesets: "Alterações do repositório autofetch"
@@ -2990,7 +2990,7 @@ pt-PT:
       whitelist_text_html: >
         Defina uma lista de extensões de ficheiros e/ou de tipos mime para ficheiros carregados. <br/> Insira extensões de ficheiro (por exemplo, <code>%{ext_example}</code>) ou tipos mime (ex., <code>%{mime_example}</code>). <br/> Deixe em branco para permitir que qualquer tipo de ficheiro seja carregado. Vários valores permitidos (uma linha para cada valor).
       show_work_package_attachments: >
-        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
+        Se desativar esta opção, irá ocultar a lista de anexos no separador de ficheiros dos pacotes de trabalho para novos projetos. Os ficheiros anexados na descrição de um pacote de trabalho irão continuar a ser carregados no armazenamento interno de anexos.
     antivirus:
       title: "Verificação de vírus"
       clamav_ping_failed: "Não foi possível ligar o daemon do ClamAV. Verifique novamente a configuração e tente novamente."
@@ -3229,8 +3229,8 @@ pt-PT:
         drag_area_label: "Gerir e reordenar colunas"
       sort_by:
         automatic:
-          heading: "Automatic"
-          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
+          heading: "Automático"
+          description: "Ordene o %{plural} por um ou mais critérios de ordenação. Irá perder a ordenação anterior."
   top_menu:
     additional_resources: "Recursos adicionais"
     getting_started: "Por onde começar"
@@ -3578,7 +3578,7 @@ pt-PT:
   link: link
   plugin_openproject_auth_plugins:
     name: "Plugins de autenticação OpenProject"
-    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
+    description: "Integração de fornecedores de estratégias OmniAuth para autenticação no OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML/Início de sessão único"
     description: "Adiciona o fornecedor SAML OmniAuth ao OpenProject"

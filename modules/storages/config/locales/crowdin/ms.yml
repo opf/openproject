@@ -40,15 +40,18 @@ ms:
     errors:
       too_many_elements_created_at_once: Terlalu banyak elemen dicipta dalam satu masa. Dijangka %{max} paling banyak, mendapat %{actual}.
   external_file_storages: Storan fail luaran
-  permission_create_files: 'Storan Luaran: Cipta fail'
-  permission_delete_files: 'Storan Luaran: Padam fail'
+  permission_create_files: 'Folder projek yang dikendalikan secara automatik: Cipta fail'
+  permission_create_files_explanation: Kebenaran ini hanya tersedia untuk storan Nextcloud
+  permission_delete_files: 'Folder projek yang dikendalikan secara automatik: Padam fail'
+  permission_delete_files_explanation: Kebenaran ini hanya tersedia untuk storan Nextcloud
   permission_header_for_project_module_storages: Folder projek yang dikendalikan secara automatik
   permission_manage_file_links: Urus pautan fail
   permission_manage_storages_in_project: Urus storan fail dalam projek
-  permission_read_files: 'Storan Luaran: Baca fail'
-  permission_share_files: 'Storan Luaran: Kongsi fail'
+  permission_read_files: 'Folder projek yang dikendalikan secara automatik: Baca fail'
+  permission_share_files: 'Folder projek yang dikendalikan secara automatik: Kongsi fail'
+  permission_share_files_explanation: Kebenaran ini hanya tersedia untuk storan Nextcloud
   permission_view_file_links: Lihat pautan fail
-  permission_write_files: 'Storan Luaran: Tulis fail'
+  permission_write_files: 'Folder projek yang dikendalikan secara automatik: Tulis fail'
   project_module_storages: Fail-fail
   storages:
     buttons:
@@ -138,14 +141,14 @@ ms:
         application_link_text: Portal Azure
         copy_redirect_uri: Salin ubah hala URI
         documentation_link_text: Dokumentasi storan fail OneDrive/SharePoint
-        drive_id: Sila salin ID daripada pemacu yang dikehendaki dengan mengikuti langkah-langkah di %{drive_id_link_text}.
+        drive_id: Sila salin ID daripada pemacu yang diingini dengan mengikuti langkah-langkah di %{drive_id_link_text}.
         integration: OneDrive/SharePoint
         missing_client_id_for_redirect_uri: Sila isikan nilai-nilai OAuth untuk menjana URI
         oauth_client_redirect_uri: Sila salin nilai ini ke URI ubah hala Web baharu di bawah URI Redirect.
         oauth_client_secret: Sekiranya tiada aplikasi rahsia pelanggan di bawah kelayakan Pelanggan, sila cipta yang baharu.
         oauth_configuration: Salin nilai-nilai ini dari aplikasi yang diingini di %{application_link_text}.
         provider_configuration: Sila pastikan anda mempunyai hak pentadbiran dalam %{application_link_text} atau hubungi pentadbir Microsoft anda sebelum membuat penyediaan. Anda juga perlu mendaftar aplikasi Azure atau menggunakan yang sedia ada untuk pengesahan di portal.
-        tenant_id: Sila salin ID Direktori (penyewa) dari aplikasi yang diingini dan pendaftaran aplikasi di %{application_link_text}.
+        tenant_id: Sila salin ID Direktori (penyewa) dari aplikasi yang diingini dan pendaftaran Aplikasi di %{application_link_text}.
         tenant_id_placeholder: Nama atau UUID
       setting_up_additional_storages: Untuk menyediakan storan fail tambahan, sila kunjungi
       setting_up_additional_storages_non_admin: Para pentadbir boleh menetapkan storan fail tambahan di Pentadbiran / Storan Fail.
@@ -245,7 +248,7 @@ ms:
         name: OneDrive/SharePoint
         name_placeholder: cth. OneDrive
     show_attachments_toggle:
-      description: Menyahaktifkan pilihan ini akan menyorokkan senarai lampiran sahaja. Fail yang dimuat naik dengan bantuan editor teks kaya tetap akan dimuat naik ke storan dalaman lampiran.
+      description: 'Menyahaktifkan pilihan ini akan sorokkan senarai lampiran di tab fail pakej kerja. Fail yang dilampirkan di deskripsi pakej kerja masih akan dimuat naik di storan lampiran dalaman.'
       label: Paparkan lampiran di tab fail pakej kerja
     storage_list_blank_slate:
       description: Tambah storan untuk melihatnya di sini.

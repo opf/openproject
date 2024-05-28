@@ -59,7 +59,7 @@ RSpec.describe MeetingSections::DeleteContract do
         create(:meeting_agenda_item, meeting_section: section)
       end
 
-      it_behaves_like "contract is invalid", base: "Section is not empty and cannot be deleted."
+      it_behaves_like "contract is valid"
     end
   end
 

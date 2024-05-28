@@ -331,17 +331,17 @@ fr:
         description: >
           Sélectionnez le niveau de zoom initial qui devrait être affiché lorsque le zoom automatique n'est pas disponible.
       export:
-        title: "Gantt chart PDF options"
-        button_export: "Export"
+        title: "Options du PDF de diagramme de Gantt"
+        button_export: "Exporter"
         column_widths:
-          narrow: "Narrow"
-          medium: "Medium"
-          wide: "Wide"
-          very_wide: "Very wide"
+          narrow: "Étroite"
+          medium: "Moyenne"
+          wide: "Large"
+          very_wide: "Très large"
         options:
-          date_zoom: "Date zoom"
-          paper_size: "Paper size"
-          column_widths: "Column widths"
+          date_zoom: "Échelle de date"
+          paper_size: "Format du papier"
+          column_widths: "Largeur de colonnes"
     general_text_no: "non"
     general_text_yes: "oui"
     general_text_No: "Non"
@@ -360,11 +360,10 @@ fr:
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                Cette version contient plusieurs nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Implémentation des rapports de progression dans toutes les hiérarchies de lots de travaux.</li> <li>Gestion des attributs de projet de manière structurée sur la page d'aperçu du projet.</li> <li>Affichage simplifié des champs personnalisés dans la liste et l'aperçu du projet.</li> <li>En-têtes de page unifiés avec le design épuré de Primer.</li> <li>Amélioration des réunions avec de nouvelles fonctionnalités telles que les téléchargements de pièces jointes, les responsables et l'historique de réunion. </li> <li>Alertes automatiques pour les espaces de stockage de fichiers en mauvaise santé, et plus de contrôle avec des options d'activation/de désactivation de paramètres.</li> <li>Copie du dossier de projet géré automatiquement pour OneDrive/SharePoint lors de la copie de projets.</li> <li>Demande aux administrateurs de supprimer les partages des lots de travaux lors de la révocation de la participation à un projet.</li> <li>Amélioration de la planification avec des modes d'affichage sur 4 et 8 semaines dans le planificateur de l'équipe.</li> </ul>
+                Cette version contient différentes nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Exportation au format PDF de la vue Gantt, par exemple pour l'impression (add-on Enterprise)</li> <li>Projets favoris</li> <li>Sections dans les réunions</li> <li>Affichage des réunions sur Ma page et les pages de vue d'ensemble des projets</li> <li>Possibilité de masquer les pièces jointes dans l'onglet Fichiers</li> <li>Champs personnalisés de type Lien (URL)</li> </ul>
     ical_sharing_modal:
       title: "S'abonner au calendrier"
       inital_setup_error_message: "Une erreur est survenue lors de la récupération des données."
@@ -432,7 +431,7 @@ fr:
     label_expand_project_menu: "Déplier le menu du projet"
     label_export: "Exporter"
     label_export_preparing: "L'export est en cours de préparation et sera téléchargé sous peu."
-    label_favorites: "Favorites"
+    label_favorites: "Favoris"
     label_filename: "Fichier"
     label_filesize: "Taille"
     label_general: "Général"
@@ -1057,7 +1056,7 @@ fr:
       sharing:
         share: "Partager"
         title: "Partager le lot de travaux"
-        show_all_users: "Show all users with whom the work package has been shared with"
+        show_all_users: "Afficher tous les utilisateurs avec lesquels le lot de travaux a été partagé"
         selected_count: "%{count} sélectionné"
         selection:
           mixed: "Mixte"
@@ -1284,8 +1283,8 @@ fr:
           group: "Le groupe fait maintenant partie du %{project}. Entre-temps, vous pouvez déjà planifier avec ce groupe et l'assigner des lots de travaux par exemple."
         next_button: "Continuer"
     favorite_projects:
-      no_results: "You have no favorite projects"
-      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
+      no_results: "Vous n'avez pas de projet favori"
+      no_results_subtext: "Ajoutez un ou plusieurs projets en tant que favoris via leur vue d'ensemble ou dans une liste de projets."
     include_projects:
       toggle_title: "Inclure les projets"
       title: "Projets"

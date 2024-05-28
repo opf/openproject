@@ -110,7 +110,7 @@ RSpec.describe("Activation of storages in projects",
 
     # Check for an empty table in Project -> Settings -> File storages
     expect(page).to have_title("Files")
-    expect(page).to have_current_path project_settings_project_storages_path(project)
+    expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)
     expect(page).to have_text(I18n.t("storages.no_results"))
     page.first(:link, 'New storage').click
 
@@ -118,7 +118,7 @@ RSpec.describe("Activation of storages in projects",
     expect(page).to have_current_path new_project_settings_project_storage_path(project_id: project)
     expect(page).to have_text("Add a file storage")
     page.click_link("Cancel")
-    expect(page).to have_current_path project_settings_project_storages_path(project)
+    expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)
 
     # Enable one file storage together with a project folder mode
     page.first(:link, 'New storage').click
@@ -179,7 +179,7 @@ RSpec.describe("Activation of storages in projects",
                                                                                  storages_project_storage: {project_folder_mode: "inactive"})
     expect(page).to have_text("Edit the file storage to this project")
     page.click_link("Cancel")
-    expect(page).to have_current_path project_settings_project_storages_path(project)
+    expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)
 
     # Press Delete icon to remove the storage from the project
     page.find(".icon.icon-delete").click
@@ -191,7 +191,7 @@ RSpec.describe("Activation of storages in projects",
 
     # Cancel Confirmation
     page.click_link("Cancel")
-    expect(page).to have_current_path project_settings_project_storages_path(project)
+    expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)
 
     page.find(".icon.icon-delete").click
 
@@ -200,7 +200,7 @@ RSpec.describe("Activation of storages in projects",
     page.click_button("Delete")
 
     # List of ProjectStorages empty again
-    expect(page).to have_current_path project_settings_project_storages_path(project)
+    expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)
     expect(page).to have_text(I18n.t("storages.no_results"))
   end
 
@@ -235,7 +235,7 @@ RSpec.describe("Activation of storages in projects",
     let!(:unconfigured_storage) { create(:nextcloud_storage) }
 
     it "excludes storages that are not configured correctly" do
-      visit project_settings_project_storages_path(project)
+      visit external_file_storages_project_settings_project_storages_path(project)
 
       page.first(:link, 'New storage').click
 

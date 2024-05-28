@@ -47,7 +47,7 @@
           name: Konflikt
       global_queries:
         item_0:
-          name: 'Innebygd tabell: Barn'
+          name: 'Innebygd tabell: Underordnet'
       type_configuration:
         item_0:
           form_configuration:
@@ -61,7 +61,7 @@
         item_2:
           name: BIM -ledere
         item_3:
-          name: BIM-modeller
+          name: BIM utviklere
         item_4:
           name: Ledende BIM-koordinatorer
         item_5:

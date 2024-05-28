@@ -43,15 +43,15 @@ ru:
         project: "Проект"
         start_date: "Дата"
         start_time: "Время начала"
-        start_time_hour: "Start time"
+        start_time_hour: "Время начала"
       meeting_agenda_item:
         title: "Заголовок"
         author: "Автор"
         duration_in_minutes: "мин"
         description: "Примечания"
-        presenter: "Presenter"
+        presenter: "Ведущий"
       meeting_section:
-        title: "Title"
+        title: "Заголовок"
     errors:
       messages:
         invalid_time_format: "недопустимое время. Требуемый формат: ЧЧ:ММ"
@@ -101,11 +101,11 @@ ru:
   label_start_date: "Дата начала"
   meeting:
     attachments:
-      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
+      text: "Прикрепленные файлы доступны всем участникам встречи. Вы также можете перенести их в примечания к пунктам повестки дня."
     copy:
-      title: "Copy meeting: %{title}"
-      attachments: "Copy attachments"
-      attachments_text: "Copy over all attached files to the new meeting"
+      title: "Копировать встречу %{title}"
+      attachments: "Копировать вложения"
+      attachments_text: "Копировать все прикрепленные файлы в новую встречу"
       agenda: "Копировать повестку дня"
       agenda_text: "Копировать повестку дня старой встречи"
     email:
@@ -127,9 +127,10 @@ ru:
       structured_text_copy: "При копировании совещания в настоящее время не скопируются связанные с ним пункты повестки, будут скопированы только детали"
     copied: "Скопировано со встречи #%{id}"
   meeting_section:
-    default_title: "New section"
-    untitled_title: "Untitled"
-    empty_text: "Drag items here or create a new one"
+    untitled_title: "Раздел без названия"
+    delete_confirmation: "Удаление раздела также удалит все пункты его повестки дня. Вы уверены, что хотите это сделать?"
+    placeholder_title: "Новый раздел"
+    empty_text: "Перенесите элементы сюда или создайте новый"
   notice_successful_notification: "Уведомление успешно отправленно"
   notice_timezone_missing: Не установлен часовой пояс и применена %{zone}. Чтобы выбрать часовой пояс, пожалуйста, нажмите сюда.
   permission_create_meetings: "Создание совещания"
@@ -163,9 +164,9 @@ ru:
   label_meeting_delete: "Удалить совещание"
   label_meeting_created_by: "Автор"
   label_meeting_last_updated: "Последнее обновление"
-  label_agenda_items: "Agenda items"
-  label_agenda_items_reordered: "reordered"
-  label_agenda_item_remove: "Remove from agenda"
+  label_agenda_items: "Пункты повестки дня"
+  label_agenda_items_reordered: "переупорядочено"
+  label_agenda_item_remove: "Удалить из повестки дня"
   label_agenda_item_undisclosed_wp: "Пакет работ #%{id} невидим"
   label_agenda_item_deleted_wp: "Ссылка на удалённый пакет работ"
   label_agenda_item_actions: "Действия по пунктам повестки"
@@ -174,18 +175,18 @@ ru:
   label_agenda_item_move_up: "Вверх"
   label_agenda_item_move_down: "Вниз"
   label_agenda_item_add_notes: "Добавить заметки"
-  label_agenda_item_work_package: "Agenda item work package"
-  text_agenda_item_title: 'Agenda item "%{title}"'
-  text_agenda_work_package_deleted: 'Agenda item for deleted work package'
-  text_deleted_agenda_item: 'Deleted agenda item'
+  label_agenda_item_work_package: "Пункт повестки дня Комплекс работ"
+  text_agenda_item_title: 'Пункт повестки дня "%{title}"'
+  text_agenda_work_package_deleted: 'Пункт повестки дня для удаленного пакета работ'
+  text_deleted_agenda_item: 'Удаленный пункт повестки дня'
   label_initial_meeting_details: "Совещание"
   label_meeting_details: "Детали совещания"
   label_meeting_details_edit: "Изменить сведения о совещании"
-  label_meeting_state: "Meeting status"
+  label_meeting_state: "Статус встречи"
   label_meeting_state_open: "Открыть"
-  label_meeting_state_open_html: "<i>Open</i>"
+  label_meeting_state_open_html: "<i>Открыть</i>"
   label_meeting_state_closed: "Закрыто"
-  label_meeting_state_closed_html: "<i>Closed</i>"
+  label_meeting_state_closed_html: "<i>Закрытый</i>"
   label_meeting_reopen_action: "Открыть совещание заново"
   label_meeting_close_action: "Закрыть совещание"
   text_meeting_open_description: "Эта совещание является открытым. Вы можете добавлять/удалять пункты повестки и редактировать их по своему усмотрению. После завершения совещания закройте его, чтобы заблокировать."

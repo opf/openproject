@@ -303,13 +303,13 @@ de:
         no_results_title_text: Durch dieses Projekt wird kein zusätzlicher erfasster Speicherplatz verbraucht.
   lists:
     create:
-      success: "The modified list has been saved as a new list"
-      failure: "The modified list cannot be saved: %{errors}"
+      success: "Die geänderte Liste wurde als neue Liste gespeichert"
+      failure: "Die geänderte Liste kann nicht gespeichert werden: %{errors}"
     update:
-      success: "The modified list has been saved"
-      failure: "The modified list cannot be saved: %{errors}"
-    can_be_saved: "List modified:"
-    can_be_saved_as: "The modifications can only be saved in a new list:"
+      success: "Die geänderte Liste wurde gespeichert"
+      failure: "Die geänderte Liste kann nicht gespeichert werden: %{errors}"
+    can_be_saved: "Liste geändert:"
+    can_be_saved_as: "Die Änderungen können nur in einer neuen Liste gespeichert werden:"
   members:
     index:
       no_results_title_text: Zur Zeit hat dieses Projekt keine Mitglieder.
@@ -327,7 +327,7 @@ de:
       project_roles: "Projektrollen"
       wp_shares: "Arbeitspaket-Freigaben"
       groups: "Gruppen"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    no_modify_on_shared: "Sie können die freigegebenen Mitgliedschaften derzeit nicht über die Mitgliederseite ändern oder entfernen. Verwenden Sie stattdessen bitte das Teilen-Fenster."
     delete_member_dialog:
       title: "Mitglied entfernen"
       will_remove_the_users_role: "Dadurch wird die Rolle des Benutzers aus diesem Projekt entfernt."
@@ -489,9 +489,9 @@ de:
       unsupported_for_multiple_projects: "Verschieben / Kopieren nicht unterstützt für Arbeitspakete in verschiedenen Projekten"
     sharing:
       missing_workflow_warning:
-        title: "Workflow missing for work package sharing"
-        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
-        link_message: "Configure the workflows in the administration."
+        title: "Der Workflow für das Teilen von Arbeitspaketen fehlt"
+        message: "Es ist kein Workflow für die Rolle ‚Work package editor‘ konfiguriert. Nur mit einem solchen Workflow können Benutzer, mit denen ein Arbeitspaket geteilt wurde, den Status des Arbeitspakets ändern. Workflows lassen sich einfach kopieren. Wählen Sie dazu einen Quell-Typ (z. B. ‚Task‘) und eine Quell-Rolle (z. B. 'Member') aus. Wählen Sie dann die Ziel-Typen aus. Als ersten Schritt können Sie alle Typen als Ziel-Typen auswählen. Danach wählen Sie die Ziel-Rolle ‚Work package editor‘ aus und drücken Sie auf den Knopf ‚Kopieren‘. Nachdem Sie hiermit eine Grundlage geschaffen haben, können Sie danach diese Workflows weiter anpassen, ganz genau wie Sie es für jede andere Rolle bereits getan haben."
+        link_message: "Konfigurieren Sie die Workflows in der Administration."
     summary:
       reports:
         category:
@@ -786,7 +786,7 @@ de:
         not_an_iso_date: "ist kein gültiges Datum - Erwartetes Format: YYY-MM-DD."
         not_same_project: "gehört nicht zum selben Projekt."
         odd: "muss ungerade sein."
-        regex_match_failed: "does not match the regular expression %{expression}."
+        regex_match_failed: "stimmt nicht mit dem regulären Ausdruck %{expression} überein."
         regex_invalid: "konnte nicht mit dem zugehörigen regulären Ausdruck überprüft werden."
         smaller_than_or_equal_to_max_length: "muss kleiner als oder gleich der maximalen Länge sein."
         taken: "ist bereits vergeben."
@@ -1665,7 +1665,7 @@ de:
         progress_calculation_adjusted: >-
           Die Fortschrittsberechnung wurde <a href=" %{href} " target="_blank">automatisch durch das Systemupdate angepasst</a>.
         totals_removed_from_childless_work_packages: >-
-          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+          Arbeits- und Fortschrittssummen werden bei der <a href="%{href}" target="_blank">Versionsaktualisierung</a> automatisch für nicht übergeordnete Arbeitspakete entfernt. Diese Änderung entstand durch ein Upgrade und kann ignoriert werden.
   links:
     configuration_guide: "Konfigurationsanleitung"
     get_in_touch: "Sie haben Fragen? Nehmen Sie Kontakt mit uns auf."
@@ -2742,7 +2742,7 @@ de:
     member_of_group: "Gruppe der zugewiesenen Person"
     name_or_identifier: "Name oder Kennung"
     only_subproject_id: "Nur Unterprojekt"
-    shared_with_user: "Shared with users"
+    shared_with_user: "Geteilt mit Benutzern"
     shared_with_me: "Mit mir geteilt"
     subproject_id: "Einschließlich Unterprojekt"
   repositories:
@@ -2887,7 +2887,7 @@ de:
   setting_app_subtitle: "Applikations-Untertitel"
   setting_app_title: "Applikations-Titel"
   setting_attachment_max_size: "Max. Dateigröße"
-  setting_show_work_package_attachments: "Show attachments in the files tab by default"
+  setting_show_work_package_attachments: "Anhänge standardmäßig auf dem Tab Dateien anzeigen"
   setting_antivirus_scan_mode: "Scanmodus"
   setting_antivirus_scan_action: "Aktion für infizierte Datei"
   setting_autofetch_changesets: "Automatisches Abrufen von Projektarchiv-Änderungen"
@@ -2990,7 +2990,7 @@ de:
       whitelist_text_html: >
         Legen Sie eine Liste gültiger Dateierweiterungen und/oder Mime-Typen für hochgeladene Dateien fest. <br/> Dateierweiterungen (z. B. <code>%{ext_example}</code>) oder Mime-Typen (z. ., <code>%{mime_example}</code>). <br/> Lassen Sie diese Liste leer, um das Hochladen beliebiger Dateitypen zu erlauben. Mehrere Werte erlaubt (eine Zeile pro Wert).
       show_work_package_attachments: >
-        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
+        Wenn Sie diese Option deaktivieren, wird die Liste der Anhänge auf dem Dateien Tab von Arbeitspaketen für neue Projekte ausgeblendet. Die Dateien, die in der Beschreibung eines Arbeitspakets angehängt sind, werden weiterhin in den internen Speicher für Anhänge hochgeladen.
     antivirus:
       title: "Virenscan"
       clamav_ping_failed: "Die Verbindung zum ClamAV-Daemon konnte nicht hergestellt werden. Überprüfen Sie die Konfiguration und versuchen Sie es erneut."
@@ -3229,8 +3229,8 @@ de:
         drag_area_label: "Spalten verwalten und neu anordnen"
       sort_by:
         automatic:
-          heading: "Automatic"
-          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
+          heading: "Automatisch"
+          description: "Ordnen Sie %{plural} nach einem oder mehreren Sortierkriterien. Die vorherige Sortierung geht dabei verloren."
   top_menu:
     additional_resources: "Weitere Ressourcen"
     getting_started: "Erste Schritte"

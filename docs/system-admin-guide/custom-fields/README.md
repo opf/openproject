@@ -25,7 +25,7 @@ If none have been created so far, click on the link **Create a new custom field*
 
 Depending on the module, for which the new custom field is being  created, slightly different options may be offered. This is an example of a new custom field for a work package.
 
-![Sys-admin-create-custom-field](openproject_system_guide_new_custom_field.png)
+![Sys-admin-create-custom-field](openproject_system_guide_new_custom_field_new.png)
 
 1. Custom field **Name**, which will appear as the attribute name on the work package form.
 2. Choose a **Format** of the custom field, e.g. text, list, date, boolean. You can choose between the following formats for custom fields:

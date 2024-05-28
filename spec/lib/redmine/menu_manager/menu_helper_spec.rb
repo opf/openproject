@@ -123,7 +123,7 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
                 <span class="ellipsis">Parent node</span>
                 </span>
               </a>
-              <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend">
+              <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend" data-test-selector="main-menu-toggler--parent_node">
                 <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-arrow-right">
                   <path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l2.97-2.97H3.75a.75.75 0 0 1 0-1.5h7.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"></path>
                 </svg>
@@ -218,7 +218,7 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
                   <span class="ellipsis">Parent node</span>
                 </span>
               </a>
-              <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend">
+              <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend" data-test-selector="main-menu-toggler--parent_node">
                 <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-arrow-right">
                   <path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l2.97-2.97H3.75a.75.75 0 0 1 0-1.5h7.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"></path>
                 </svg>
@@ -296,7 +296,7 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
                   <span class="ellipsis">Parent node</span>
                 </span>
               </a>
-              <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend">
+              <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend" data-test-selector="main-menu-toggler--parent_node">
                 <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-arrow-right">
                   <path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l2.97-2.97H3.75a.75.75 0 0 1 0-1.5h7.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"></path>
                 </svg>
@@ -320,7 +320,7 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
                       <span class="ellipsis">Child node</span>
                     </span>
                   </a>
-                  <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend">
+                  <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend" data-test-selector="main-menu-toggler--child_node">
                     <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-arrow-right">
                       <path d="M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l2.97-2.97H3.75a.75.75 0 0 1 0-1.5h7.44L8.22 4.03a.75.75 0 0 1 0-1.06Z"></path>
                     </svg>
