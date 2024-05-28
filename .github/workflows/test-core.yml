@@ -68,7 +68,7 @@ jobs:
   all:
     name: Units + Features
     if: github.repository == 'opf/openproject'
-    runs-on: runs-on,runner=32cpu-linux-x64,family=c7i-flex+c7a,run-id=${{ github.run_id }}
+    runs-on: runs-on,runner=32cpu-linux-x64,family=c7i-flex,run-id=${{ github.run_id }}
     timeout-minutes: 40
     services:
       # Label used to access the service container
@@ -160,6 +160,10 @@ jobs:
         CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
         PARALLEL_TEST_FIRST_IS_1: true
         DISABLE_DATABASE_ENVIRONMENT_CHECK: 1
+        RAILS_ENV: test
+        OPENPROJECT_DISABLE_DEV_ASSET_PROXY: 1
+        CAPYBARA_DYNAMIC_BIND_IP: 1
+        CAPYBARA_DOWNLOADED_FILE_DIR: /tmp
       run: |
         shopt -s extglob
         bundle exec turbo_tests --verbose -n $(nproc) --runtime-log spec/support/runtime-logs/turbo_runtime_features.log spec/features modules/**/spec/features
