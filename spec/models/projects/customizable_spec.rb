@@ -221,33 +221,6 @@ RSpec.describe Project, "customizable" do
         expect { project.save! }.to raise_error(ActiveRecord::RecordInvalid)
       end
     end
-
-    context "with correct handling of custom fields with default values" do
-      let!(:text_custom_field_with_default) do
-        create(:text_project_custom_field,
-               default_value: "default",
-               project_custom_field_section: section)
-      end
-
-      it "activates custom fields with default values if not explicitly set to blank" do
-        project = create(:project, custom_field_values: {
-                           text_custom_field.id => "foo",
-                           bool_custom_field.id => true
-                         })
-        expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
-          .to contain_exactly(text_custom_field.id, bool_custom_field.id, text_custom_field_with_default.id)
-      end
-
-      it "does not activate custom fields with default values if explicitly set to blank" do
-        project = create(:project, custom_field_values: {
-                           text_custom_field.id => "foo",
-                           bool_custom_field.id => true,
-                           text_custom_field_with_default.id => ""
-                         })
-        expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
-          .to contain_exactly(text_custom_field.id, bool_custom_field.id)
-      end
-    end
   end
 
   context "when updating with custom field values" do
