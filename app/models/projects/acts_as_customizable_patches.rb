@@ -41,22 +41,7 @@ module Projects::ActsAsCustomizablePatches
 
     before_update :set_query_available_custom_fields_to_global_level
 
-    before_create :build_missing_project_custom_field_project_mappings
-
     after_save :reset_section_scoped_validation
-
-    def build_missing_project_custom_field_project_mappings
-      # activate custom fields for this project (via mapping table) if values have been provided for custom_fields but no mapping exists
-      custom_field_ids = project.custom_values
-        .select { |cv| cv.value.present? }
-        .pluck(:custom_field_id).uniq
-      activated_custom_field_ids = project_custom_field_project_mappings.pluck(:custom_field_id).uniq
-
-      mappings = (custom_field_ids - activated_custom_field_ids).uniq
-        .map { |pcf_id| { project_id: id, custom_field_id: pcf_id } }
-
-      project_custom_field_project_mappings.build(mappings)
-    end
 
     def reset_section_scoped_validation
       # reset the section scope after saving
