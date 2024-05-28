@@ -29,6 +29,7 @@
 class Queries::Projects::ProjectQuery < ApplicationRecord
   include Queries::BaseQuery
   include Queries::Serialization::Hash
+  include HasMembers
 
   belongs_to :user
 
