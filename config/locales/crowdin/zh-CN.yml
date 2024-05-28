@@ -261,7 +261,9 @@ zh-CN:
     lists:
       active: "有效项目"
       my: "我的项目"
+      favored: "收藏的项目"
       archived: "归档项目"
+      public: "Public project lists"
       my_private: "我的私有项目列表"
       new:
         placeholder: "新项目列表"
@@ -301,6 +303,19 @@ zh-CN:
       storage:
         no_results_title_text: 此项目没有已记录的额外磁盘空间消耗。
   lists:
+    create:
+      success: "已将修改后的列表保存为新列表"
+      failure: "无法保存修改后的列表： %{errors}"
+    update:
+      success: "已保存修改后的列表"
+      failure: "无法保存修改后的列表： %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
+    can_be_saved: "列表已修改："
     can_be_saved_as: "修改内容只能保存在新列表中。"
   members:
     index:
@@ -308,7 +323,6 @@ zh-CN:
       no_results_content_text: 将成员添加到该项目
     invite_by_mail: "发送邀请到 %{mail}"
     send_invite_to: "发送邀请至"
-    no_modify_on_shared: "您目前无法通过成员页面修改或移除共享成员资格。请改用共享模态框。"
     columns:
       shared: "共享"
     filters:
@@ -320,6 +334,42 @@ zh-CN:
       project_roles: "项目角色"
       wp_shares: "工作包共享"
       groups: "组"
+    delete_member_dialog:
+      title: "删除成员"
+      will_remove_the_users_role: "这将从该项目中删除用户的角色。"
+      will_remove_the_groups_role: "这将从该项目中删除组角色。"
+      however_work_packages_shared_with_user_html:
+        other: "不过， %{shared_work_packages_link} 也与该用户共享。"
+      however_work_packages_shared_with_group_html:
+        other: "不过， %{shared_work_packages_link} 也与该用户共享。"
+      remove_work_packages_shared_with_user_too: "已删除成员身份的用户仍可访问共享工作包。您想同时删除共享吗？"
+      remove_work_packages_shared_with_group_too: "已删除成员身份的组仍可访问共享工作包。您想同时删除共享吗？"
+      will_not_affect_inherited_shares: "(这不会影响与其小组共享的工作包）。"
+      can_remove_direct_but_not_shared_roles: "您可以删除该用户的直接项目成员身份，但他们所在的组也是该项目的成员，因此他们将继续通过组成为成员。"
+      also_work_packages_shared_with_user_html:
+        other: "此外，还与该用户共享了 %{shared_work_packages_link}。"
+      remove_project_membership_or_work_package_shares_too: "您只想删除作为直接成员的用户（保留共享），还是也删除工作包共享？"
+      will_remove_all_user_access_priveleges: "删除该成员将删除用户对项目的所有访问权限。该用户仍将作为实例的一部分存在。"
+      will_remove_all_group_access_priveleges: "删除该成员将删除该组对项目的所有访问权限。该组仍将作为实例的一部分存在。"
+      cannot_delete_inherited_membership: "您不能删除此成员，因为他们所属的组本身就是此项目的成员。"
+      cannot_delete_inherited_membership_note_admin_html: "您可以在 %{administration_settings_link}中删除作为项目成员的组或组中的特定成员。"
+      cannot_delete_inherited_membership_note_non_admin: "您可以将该组作为项目成员移除，或者联系管理员将该特定成员从组中移除。"
+    delete_work_package_shares_dialog:
+      title: "撤销工作包共享"
+      shared_with_this_user_html:
+        other: "%{all_shared_work_packages_link} 已与该用户共享。"
+      shared_with_this_group_html:
+        other: "%{all_shared_work_packages_link} 已与该组共享。"
+      shared_with_permission_html:
+        other: "只有 %{shared_work_packages_link} 共享了 %{shared_role_name} 权限。"
+      revoke_all_or_with_role: "您想撤销对所有共享工作包的访问权限，还是只撤销对具有 %{shared_role_name} 权限的工作包的访问权限？"
+      will_not_affect_inherited_shares: "(这不会影响与他们组共享的工作包）。"
+      cannot_remove_inherited: "无法删除通过组共享的工作包共享。"
+      cannot_remove_inherited_with_role: "与角色 %{shared_role_name} 共享的工作包是通过组共享的，不能删除。"
+      cannot_remove_inherited_note_admin_html: "您可以在 %{administration_settings_link}中撤销组中的共享，或从组中删除该特定成员。"
+      cannot_remove_inherited_note_non_admin: "您可以撤销对该组的共享，或者联系管理员将该特定成员从组中删除。"
+      will_revoke_directly_granted_access: "此操作将取消他们对所有工作包的访问权限，但会取消他们对某个组共享的工作包的访问权限。"
+      will_revoke_access_to_all: "此操作将撤销他们对所有这些系统的访问权限。"
   my:
     access_token:
       failed_to_reset_token: "无法重置访问令牌: %{error}"
@@ -438,7 +488,7 @@ zh-CN:
       no_common_statuses_exists: "所有选中的工作包都没有可用的状态，因此无法更改其状态。"
       unsupported_for_multiple_projects: "不支持多个项目工作包的大批量移动/复制"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "工作包共享缺少工作流"
         message: "没有为\"工作包编辑者\"角色配置工作流。没有工作流，共享用户就无法更改工作包的状态。工作流可以复制。选择一个源类型（例如\"任务\"）和源角色（例如\"成员\"）。然后选择目标类型。一开始，您可以将所有类型都选择为目标类型。最后，选择\"工作包编辑者\"角色作为目标，然后点击\"复制\"。在创建默认设置之后，像对其他角色一样进行微调，对工作流进行详细调整。"
         link_message: "在管理中配置工作流。"
@@ -552,7 +602,7 @@ zh-CN:
       oauth_client:
         client: "客户端 ID"
       relation:
-        delay: "延迟"
+        lag: "延迟"
         from: "工作包"
         to: "相关的工作包"
       status:
@@ -736,6 +786,7 @@ zh-CN:
         not_an_iso_date: "不是有效日期。所需格式：YYYY-MM-DD。"
         not_same_project: "不属于同一个项目。"
         odd: "必须是奇数。"
+        regex_match_failed: "与正则表达式 %{expression}不匹配。"
         regex_invalid: "无法与关联的正则表达式进行验证。"
         smaller_than_or_equal_to_max_length: "必须小于或等于最大长度。"
         taken: "已经采取。"
@@ -857,6 +908,8 @@ zh-CN:
               nonexistent: "列“%{column}”不存在。"
               format: "%{message}"
           group_by_hierarchies_exclusive: "与按照“%{group_by}”分组的组互相排斥。您无法将它们都激活。"
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "过滤器没有自定义字段"
@@ -947,7 +1000,14 @@ zh-CN:
               only_same_project_categories_allowed: "工作包的类别必须包含在相同的项目工作包中。"
               does_not_exist: "指定的类别不存在。"
             estimated_hours:
+              cant_be_inferior_to_remaining_work: "不能低于剩余工时。"
+              must_be_set_when_remaining_work_is_set: "必须在设置 \"剩余工时 \"时设置。"
               only_values_greater_or_equal_zeroes_allowed: "必须 > = 0。"
+              format: "%{message}"
+            remaining_hours:
+              cant_exceed_work: "不能高于工时。"
+              must_be_set_when_work_is_set: "当设置工时需要。"
+              format: "%{message}"
           readonly_status: "工作包处于只读状态，因此无法更改其属性。"
         type:
           attributes:
@@ -1044,6 +1104,12 @@ zh-CN:
       updated_by_on_time_entry: "%{user} 在 %{datetime} 更新了记录的时间"
       updated_on: "在 %{datetime} 更新"
       updated_on_time_entry: "在 %{datetime} 更新了记录的时间"
+      deleted_on: "在 %{datetime}上删除"
+      deleted_by_on: "由 %{user} 在 %{datetime}上删除"
+      added_on: "添加于 %{datetime}"
+      added_by_on: "由 %{user} 添加于 %{datetime}"
+      removed_on: "删除于 %{datetime}"
+      removed_by_on: "由 %{user} 删除于 %{datetime}"
       parent_without_of: "子项目"
       parent_no_longer: "不再是该项目的子项目："
       time_entry:
@@ -1053,6 +1119,18 @@ zh-CN:
           other: "<i>%{count} 小时</i>"
         updated: "从 %{old_value} 更改为 %{value}"
         logged_for: "已登录"
+      meeting_agenda_item:
+        duration:
+          added: "设为 %{value}"
+          added_html: "设为 <i>%{value}</i>"
+          removed: "已删除"
+          updated: "从 %{old_value} 更改为 %{value}"
+          updated_html: "从 <i>%{old_value}</i>改为 <i>%{value}</i>"
+        position:
+          updated: "重新排序"
+        work_package:
+          updated: "从 %{old_value} 更改为 %{value}"
+          updated_html: "从 <i>%{old_value}</i>改为 <i>%{value}</i>"
     filter:
       changeset: "更改集"
       message: "论坛"
@@ -1150,6 +1228,7 @@ zh-CN:
       token_cooldown: 备份令牌将在 %{hours} 小时后有效。
       backup_pending: 已有备份待处理。
       limit_reached: 您每天只能进行 %{limit} 次备份。
+  button_actions: "操作"
   button_add: "添加"
   button_add_comment: "添加评论"
   button_add_member: 添加成员
@@ -1183,6 +1262,7 @@ zh-CN:
   button_edit: "编辑"
   button_edit_associated_wikipage: "编辑关联的维基页面： %{page_title}"
   button_expand_all: "全部展开"
+  button_favorite: "添加至收藏夹"
   button_filter: "筛选器"
   button_generate: "生成"
   button_list: "列表"
@@ -1210,6 +1290,7 @@ zh-CN:
   button_unarchive: "取消归档"
   button_uncheck_all: "全部不选"
   button_unlock: "解锁​​​​"
+  button_unfavorite: "取消收藏"
   button_unwatch: "取消关注"
   button_update: "更新"
   button_upgrade: "升级"
@@ -1220,6 +1301,16 @@ zh-CN:
   button_add_menu_entry: "添加菜单项"
   button_configure_menu_entry: "配置菜单项"
   button_delete_menu_entry: "删除菜单项"
+  button_view_shared_work_packages: "查看共享工作包"
+  button_manage_roles: "管理角色"
+  button_remove_member: "删除成员"
+  button_remove_member_and_shares: "删除成员和共享"
+  button_revoke_work_package_shares: "撤销工作包共享"
+  button_revoke_access: "撤消访问权限"
+  button_revoke_all: "全部撤销"
+  button_revoke_only: "仅撤销 %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: 我已注意到并同意上述情况。
     failure_message: 同意失败, 无法继续。
@@ -1417,7 +1508,6 @@ zh-CN:
   error_pdf_export_too_many_columns: "选择 PDF 导出的列太多。请减少列数。"
   error_pdf_failed_to_export: "无法保存被导出的 PDF 文件：%{error}"
   error_token_authenticity: "无法验证跨站请求伪造令牌。您是否曾尝试在多个浏览器或选项卡上提交数据？请关闭所有选项卡并重试。"
-  error_work_package_done_ratios_not_updated: "工作包 % 已完成值未更新。"
   error_work_package_not_found_in_project: "工作包找不到或不属于此项目"
   error_must_be_project_member: "必须是项目成员"
   error_migrations_are_pending: "您的 OpenProject 安装具有待定的数据库迁移。您可能在上次升级时错过了迁移。请查阅升级指南，正确升级您的安装。"
@@ -1470,6 +1560,7 @@ zh-CN:
       pdf_overview_table: "PDF 表"
       pdf_report_with_images: "带图像的 PDF 报告"
       pdf_report: "PDF 报告"
+      pdf_gantt: "PDF 甘特图"
     image:
       omitted: "图像未导出。"
     units:
@@ -1522,8 +1613,10 @@ zh-CN:
   journals:
     changes_retracted: "更改已撤回。"
     caused_changes:
-      default_attribute_written: "已写入只读属性"
       dates_changed: "日期已更改"
+      default_attribute_written: "已写入只读属性"
+      progress_mode_changed_to_status_based: "更新进度计算"
+      status_p_complete_changed: "状态%已更改"
       system_update: "OpenProject 系统更新："
     cause_descriptions:
       work_package_predecessor_changed_times: 根据前置任务 %{link}的更改
@@ -1539,9 +1632,18 @@ zh-CN:
         dates:
           working: "%{date}现在是工作日"
           non_working: "%{date}现在是非工作日"
+      progress_mode_changed_to_status_based: 进度计算模式设置为基于状态
+      status_p_complete_changed: >-
+        状态 "%{status_name}"的 %完成值从 %{old_value}% 变为 %{new_value}%
       system_update:
         file_links_journal: >
           从现在开始，与文件链接（存储在外部存储器中的文件）相关的活动将出现在“活动”选项卡中。以下是与已经存在的链接相关的活动的表示：
+        progress_calculation_adjusted_from_disabled_mode: >-
+          进度计算自动<a href="%{href}" target="_blank">设置为基于工时的模式，并随版本更新而调整</a>。
+        progress_calculation_adjusted: >-
+          进度计算自动<a href="%{href}" target="_blank">设置为基于工时的模式，并随版本更新而调整</a>。
+        totals_removed_from_childless_work_packages: >-
+          使用 <a href="%{href}" target="_blank">版本更新</a>的非父工作包的工作和进度总计自动移除。 这是一个维护任务，可以安全地被忽略。
   links:
     configuration_guide: "配置指南"
     get_in_touch: "遇到问题了？与我们联系。"
@@ -1556,6 +1658,8 @@ zh-CN:
       api_and_webhooks: "API 和 Webhook"
     quick_add:
       label: "打开快速添加菜单"
+    breadcrumb:
+      nested_element: "%{section_header}: <b>%{title}</b>"
   my_account:
     access_tokens:
       no_results:
@@ -1604,17 +1708,6 @@ zh-CN:
         mentioned: "您在 %{work_package} 中被提及"
         responsible: "您已成为 %{work_package} 的负责人"
         watched: "您正在关注 %{work_package}"
-    update_info_mail:
-      body: >
-        我们十分高兴地宣布 OpenProject 12.0 现已发布。这一主要版本有望显著改善您使用 OpenProject 的方式。
-        从此版本开始，我们将引入应用内通知。现在起，您将直接在 OpenProject 中接收有关工作包更新的通知。您可以将这些通知标记为已读、回复评论，甚至直接修改工作包属性，而无需离开通知中心。
-        这也意味着我们将不再使用电子邮件进行通知。我们认为新通知中心是查看这些更新并采取行动的最佳场所。不过，如果您想继续通过电子邮件接收更新，可以选择在您选取的特定时间接收每日电子邮件提醒。
-        请确保验证您的新默认通知设置，在帐户设置中对通知和电子邮件提醒进行偏好设置。您可以通过下方的“更改电子邮件设置”按钮执行此操作。
-        我们希望应用内通知能够满足您的使用需求，帮助您提高效率。
-        谨上， OpenProject 团队
-      body_header: "包含通知中心的 12.0 版本"
-      body_subheader: "新闻"
-      subject: "12.0 版本中加入了针对通知的重要更改"
   label_accessibility: "辅助功能"
   label_account: "帐户"
   label_active: "激活"
@@ -1663,8 +1756,10 @@ zh-CN:
   label_ldap_auth_source_new: "新建 LDAP 连接"
   label_ldap_auth_source: "LDAP 连接"
   label_ldap_auth_source_plural: "LDAP 连接"
+  label_attribute_expand_text: "%{attribute}的完整文本"
   label_authentication: "身份验证"
   label_available_global_roles: "可用的全局角色"
+  label_available_project_attributes: "可用的项目属性"
   label_available_project_forums: "可用论坛"
   label_available_project_repositories: "可用存储库"
   label_available_project_versions: "可用版本"
@@ -1794,7 +1889,7 @@ zh-CN:
   label_enterprise_support: "企业支持"
   label_enterprise_addon: "企业版附加组件"
   label_environment: "环境"
-  label_estimates_and_time: "估算与工时"
+  label_estimates_and_progress: "预估和进度"
   label_equals: "是"
   label_everywhere: "任何位置"
   label_example: "示例"
@@ -1808,7 +1903,7 @@ zh-CN:
   label_expanded_click_to_collapse: "展开。点击折叠"
   label_f_hour: "%{value} 小时"
   label_f_hour_plural: "%{value} 小时"
-  label_favoured: "收藏项"
+  label_favorite: "收藏夹"
   label_feed_plural: "订阅源"
   label_feeds_access_key: "RSS 访问密钥"
   label_feeds_access_key_created_on: "RSS 访问密钥创建于 %{value} 前"
@@ -1878,11 +1973,13 @@ zh-CN:
   label_latest_revision: "最新修订版本"
   label_latest_revision_plural: "最新修订版本"
   label_ldap_authentication: "LDAP 身份验证"
+  label_learn_more: "了解更多信息"
   label_less_or_equal: "<="
   label_less_than_ago: "小于数日前"
+  label_link_url: "链接（URL）"
   label_list: "列表"
   label_loading: "正在加载..."
-  label_lock_user: "锁住用户"
+  label_lock_user: "锁定用户"
   label_logged_as: "登录用户名"
   label_login: "登录"
   label_custom_logo: "自定义徽标"
@@ -1905,6 +2002,7 @@ zh-CN:
   label_membership_plural: "成员资格"
   lable_membership_added: "已添加成员"
   lable_membership_updated: "已更新成员"
+  label_menu: "菜单"
   label_menu_badge:
     pre_alpha: "pre-beta"
     alpha: "alpha"
@@ -1995,7 +2093,7 @@ zh-CN:
   label_precedes: "之前"
   label_preferences: "首选项"
   label_preview: "预览"
-  label_preview_not_available: "（预览不可用）"
+  label_preview_not_available: "预览不可用"
   label_previous: "上一个"
   label_previous_week: "前一周"
   label_principal_invite_via_email: " 或通过电子邮件邀请新用户"
@@ -2003,8 +2101,10 @@ zh-CN:
   label_privacy_policy: "数据隐私和安全政策"
   label_product_version: "产品版本"
   label_profile: "配置文件"
+  label_percent_complete: "% 完成"
   label_project_activity: "项目活动"
   label_project_attribute_plural: "项目属性"
+  label_project_attribute_manage_link: "管理项目属性"
   label_project_count: "项目总数"
   label_project_copy_notifications: "在项目复制期间发送电子邮件通知"
   label_project_latest: "最新的项目"
@@ -2012,13 +2112,14 @@ zh-CN:
   label_project_hierarchy: "项目层次结构"
   label_project_new: "新的项目"
   label_project_plural: "项目"
+  label_project_list_plural: "项目列表"
   label_project_attributes_plural: "项目属性"
   label_project_custom_field_plural: "项目属性"
   label_project_settings: "项目设置"
   label_project_attributes_settings: "项目属性设置"
   label_project_storage_plural: "文件存储区"
   label_project_storage_project_folder: "文件存储区：项目文件夹"
-  label_projects_storage_information: "%{count} 项目使用 %{storage} 磁盘存储"
+  label_projects_disk_usage_information: "%{count} 个项目正在使用 %{used_disk_space} 磁盘空间"
   label_project_view_all: "查看所有项目"
   label_project_show_details: "显示项目详细信息"
   label_project_hide_details: "隐藏项目详细信息"
@@ -2038,6 +2139,7 @@ zh-CN:
   label_relation_delete: "删除关系"
   label_relation_new: "新的关系"
   label_release_notes: "更新日志"
+  label_remaining_work: "剩余工时"
   label_remove_columns: "删除选定的列"
   label_renamed: "重命名"
   label_reply_plural: "答复"
@@ -2074,6 +2176,7 @@ zh-CN:
   label_setting_plural: "设置"
   label_system_settings: "系统设置"
   label_show_completed_versions: "显示已完成的版本"
+  label_columns: "列"
   label_sort: "排序"
   label_sort_by: "排序按 %{value}"
   label_sorted_by: "排序按 %{value}"
@@ -2116,7 +2219,6 @@ zh-CN:
   label_type_new: "新类型"
   label_type_plural: "类型"
   label_ui: "用户界面"
-  label_update_work_package_done_ratios: "更新工作包 % 已完成值"
   label_updated_time: "%{value} 前更新"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "%{author} 于 %{age} 前更新"
@@ -2171,6 +2273,7 @@ zh-CN:
   label_wiki_show_new_page_link: "显示‘创建新的子页面’子菜单项"
   label_wiki_show_submenu_item: "显示为子菜单项"
   label_wiki_start: "起始页"
+  label_work: "工时"
   label_work_package: "工作包"
   label_work_package_attachments: "工作包附件"
   label_work_package_category_new: "新的类别"
@@ -2214,6 +2317,7 @@ zh-CN:
     other: "%{count} 个文件"
     zero: "无文件"
   label_yesterday: "昨天"
+  label_zen_mode: "极简模式"
   label_role_type: "类型"
   label_member_role: "项目角色"
   label_global_role: "全局角色"
@@ -2289,31 +2393,31 @@ zh-CN:
     storages:
       health:
         plaintext:
-          storage: "Storage"
+          storage: "存储"
           healthy:
-            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
-            error-solved-on: "Solved On"
+            summary: "好消息！您的存储 %{storage_name}当前显示为 \"健康\"。"
+            error-solved-on: "解决于"
             recommendation: "我们将继续监测该系统，确保其保持良好的健康状态。若出现任何故障，我们将通知您。"
-            details: "For more details or to make any necessary amendments, you can visit your storage configuration"
+            details: "如需了解更多详情或进行必要的修改，请访问您的存储配置"
           unhealthy:
-            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
+            summary: "您的存储设备 %{storage_name}的状态目前显示为 \"错误\"。我们检测到一个可能需要您注意的问题。"
             error-details: "错误详情"
             error-message: "错误消息"
-            error-occurred-on: "Occurred On"
-            recommendation: "We recommend heading over to the storage configuration page to address this issue"
-            unsubscribe: "If you would no longer like to receive these notifications, you can unsubscribe at any time. To unsubscribe, please follow the instructions on this page"
-        email_notification_settings: "Storage email notification settings"
-        see_storage_settings: "See storage settings"
+            error-occurred-on: "发生于"
+            recommendation: "我们建议您前往存储配置页面来解决这个问题"
+            unsubscribe: "如果您不想再收到这些通知，可以随时取消订阅。要取消订阅，请按照本页面的说明进行操作"
+        email_notification_settings: "存储电子邮件通知设置"
+        see_storage_settings: "查看存储设置"
         healthy:
-          subject: "Storage \"%{name}\" is now healthy!"
-          solved_at: "solved at"
-          summary: "The problem with your %{storage_name} storage integration is now solved"
+          subject: "存储 \"%{name}\" 现在很健康！"
+          solved_at: "解决时间"
+          summary: "%{storage_name} 存储集成的问题已经解决"
         unhealthy:
-          subject: "Storage \"%{name}\" is unhealthy!"
-          since: "since"
-          summary: "There is a problem with your %{storage_name} storage integration"
+          subject: "存储 \"%{name}\" 不是健康状态！"
+          since: "从"
+          summary: "%{storage_name} 存储集成存在问题"
           troubleshooting:
-            text: "For more information, check file storages"
+            text: "如需了解更多信息，请检查文件存储"
             link_text: "故障排除文档"
   mail_body_account_activation_request: "一个新的用户 (%{value}) 注册。该帐户正在等待您的批准："
   mail_body_account_information: "您的帐户信息"
@@ -2418,7 +2522,6 @@ zh-CN:
   notice_file_not_found: "你想要访问的页面不存在或已被删除。"
   notice_forced_logout: "%{ttl_time} 分钟不活动后，您已经被自动注销。"
   notice_internal_server_error: "你想要访问的页面上出错。如果您继续遇到问题请联系您 %{app_title} 管理员寻求帮助。"
-  notice_work_package_done_ratios_updated: "% 已完成更新"
   notice_locking_conflict: "信息已由至少一个其他用户同时更新。"
   notice_locking_conflict_additional_information: "更新来自 %{users}。"
   notice_locking_conflict_reload_page: "请重新加载该页面，查看所做的更改并重新应用您的更新。"
@@ -2566,6 +2669,7 @@ zh-CN:
   permission_save_bcf_queries: "保存 BCF 查询"
   permission_manage_public_bcf_queries: "管理公开的 BCF 查询"
   permission_edit_attribute_help_texts: "编辑属性帮助文本"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:
@@ -2755,6 +2859,7 @@ zh-CN:
   setting_app_subtitle: "应用副标题"
   setting_app_title: "应用程序标题"
   setting_attachment_max_size: "最大的附件大小"
+  setting_show_work_package_attachments: "默认在文件选项卡中显示附件"
   setting_antivirus_scan_mode: "扫描模式"
   setting_antivirus_scan_action: "受感染文件的操作"
   setting_autofetch_changesets: "自动提取存储库更改"
@@ -2794,10 +2899,11 @@ zh-CN:
   setting_file_max_size_displayed: "内联显示的文本文件的最大大小"
   setting_host_name: "主机名"
   setting_invitation_expiration_days: "激活电子邮件将在此时间后过期"
-  setting_work_package_done_ratio: "计算工作包 %已完成"
-  setting_work_package_done_ratio_field: "工作包字段"
-  setting_work_package_done_ratio_status: "工作包状态"
-  setting_work_package_done_ratio_disabled: "禁用 (隐藏 % 已完成字段)"
+  setting_work_package_done_ratio: "进度计算"
+  setting_work_package_done_ratio_field: "基于工时"
+  setting_work_package_done_ratio_status: "基于状态"
+  setting_work_package_done_ratio_explanation_html: >
+    在<b>基于工时</b>模式下，完成百分比是根据已完成的工时占总工时的比例计算出来的。在<b>基于状态</b>模式下，每个状态都有一个与之相关的完成百分比。更改状态将改变完成百分比。
   setting_work_package_properties: "工作包属性"
   setting_work_package_startdate_is_adddate: "使用当前日期作为新工作包的开始日期"
   setting_work_packages_projects_export_limit: "工作包/项目导出限制"
@@ -2855,6 +2961,8 @@ zh-CN:
     attachments:
       whitelist_text_html: >
         为上传的文件定义有效文件扩展名和/或 MIME 类型列表。<br/>输入文件扩展名（例如 <code>%{ext_example}</code>）或 MIME 类型（例如 <code>%{mime_example}</code>）。<br/>留空以允许上传任何文件类型。允许输入多个值（每个值一行）。
+      show_work_package_attachments: >
+        禁用此选项将会为新项目隐藏工作包文件标签上的附件列表。 工作包描述中的文件仍将上传到内部附件存储。
     antivirus:
       title: "病毒扫描"
       clamav_ping_failed: "无法连接 ClamAV 守护进程。请仔细检查配置，然后重试。"
@@ -2863,7 +2971,7 @@ zh-CN:
       remaining_scan_complete_html: >
         剩余文件已扫描。%{file_count} 个文件位于隔离区。您将被重定向到隔离区页面。使用此页面可以删除或覆盖被隔离的文件。
       remaining_rescanned_files: >
-        已成功启用病毒扫描。之前上传的 %{file_count} 个文件仍需扫描。此过程已安排在后台执行。扫描期间，文件仍可访问。
+        病毒扫描已成功启用。之前上传的 %{file_count} 仍需扫描。此过程已在后台安排。扫描期间，文件仍可访问。
       upsale:
         description: "确保在其他用户可以访问 OpenProject 中上传的文件之前对其进行病毒扫描。"
       actions:
@@ -2948,6 +3056,7 @@ zh-CN:
   text_are_you_sure: "是否确定？"
   text_are_you_sure_continue: "确定要继续吗？"
   text_are_you_sure_with_children: "删除工作包和所有子工作包吗？"
+  text_are_you_sure_with_project_custom_fields: "删除该属性也会删除其在所有项目中的值。您确定要这样做吗？"
   text_assign_to_project: "分配给项目"
   text_form_configuration: >
     您可以自定义哪些字段将显示在工作包窗体中。您可以自由地对字段进行分组, 以反映您的域的需求。
@@ -3090,6 +3199,10 @@ zh-CN:
         input_label: "添加列"
         input_placeholder: "选择列"
         drag_area_label: "管理列并对其重新排序"
+      sort_by:
+        automatic:
+          heading: "自动"
+          description: "按一个或多个排序标准对 %{plural} 进行排序。您将失去之前的排序。"
   top_menu:
     additional_resources: "其他资源"
     getting_started: "入门指南"
@@ -3168,6 +3281,12 @@ zh-CN:
     destroy:
       info: "删除工作包是不可逆的操作。"
       title: "删除工作包"
+    progress:
+      label_note: "注意："
+      modal:
+        work_based_help_text: "完成百分比由 \"工时\" 和 \"剩余工时\" 自动得出。"
+        status_based_help_text: "完成百分比由工作包状态设定。"
+        migration_warning_text: "在基于工时的进度计算模式下，完成百分比不能手动设置，而是与工时绑定。现有值已被保留，但无法编辑。请先输入工时。"
     sharing:
       count:
         zero: "0 个用户"
@@ -3230,7 +3349,7 @@ zh-CN:
         working: "%{day}现在是工作日"
         non_working: "%{day}现在是非工作日"
       dates:
-        working: "%{day}现在是工作日"
+        working: "%{date}现在是工作日"
         non_working: "%{date}现在是非工作日"
   nothing_to_preview: "没有什么要预览"
   api_v3:
@@ -3276,9 +3395,7 @@ zh-CN:
         unsupported_context: "所提供的资源不被上下文环境所支持。"
         context_object_not_found: "找不到可作为上下文环境的资源。"
       validation:
-        done_ratio: "无法在父级工作包上设置 % 已完成，当其由状态推导或被禁用时。"
         due_date: "不能在父工作包中设置完成日期。"
-        estimated_hours: "不能在父工作包中设置工作。" #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "所选的用户不允许为此工作包的 '%{property}'。"
         start_date: "不能在父工作包中设置开始日期。"
       eprops:
@@ -3390,7 +3507,7 @@ zh-CN:
       label_request_token: "请求令牌"
       label_refresh_token: "刷新令牌"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 返回错误"
+      oauth_authorization_code_grant_had_errors: "OAuth2 授权授予失败"
       oauth_reported: "OAuth2 提供程序报告"
       oauth_returned_error: "OAuth2 返回错误"
       oauth_returned_json_error: "OAuth2 返回 JSON 错误"

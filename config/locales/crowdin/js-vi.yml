@@ -329,6 +329,18 @@ vi:
         years: "Years"
         description: >
           Chọn mức phóng to ban đầu sẽ được hiển thị khi phóng tự động không có sẵn.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "không"
     general_text_yes: "có"
     general_text_No: "Không"
@@ -347,11 +359,10 @@ vi:
           learn_about: "Tìm hiểu thêm về các tính năng mới"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -377,6 +388,7 @@ vi:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "vài ngày trước"
     label_all: "tất cả"
+    label_all_uppercase: "Toàn bộ"
     label_all_work_packages: "Tất cả công việc"
     label_and: "and"
     label_ascending: "Tăng dần"
@@ -418,6 +430,7 @@ vi:
     label_expand_project_menu: "Mở rộng menu dự án"
     label_export: "Xuất"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_favorites: "Favorites"
     label_filename: "Tệp"
     label_filesize: "Kích cỡ"
     label_general: "Tổng quan"
@@ -641,7 +654,7 @@ vi:
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: "There are new notifications."
-          link_text: "Click here to load them"
+          link_text: "Click here to load them."
       menu:
         accountable: "Trách nhiệm"
         by_project: "Unread by project"
@@ -796,7 +809,7 @@ vi:
       typeahead_placeholder: Search for possible watchers
     relation_labels:
       parent: "Cha"
-      children: "Children"
+      children: "Cấp dưới"
       relates: "Related To"
       duplicates: "Duplicates"
       duplicated: "Duplicated by"
@@ -812,7 +825,7 @@ vi:
     relations_hierarchy:
       parent_headline: "Cha"
       hierarchy_headline: "Hệ thống phân cấp"
-      children_headline: "Children"
+      children_headline: "Cấp dưới"
     relation_buttons:
       set_parent: "Set parent"
       change_parent: "Change parent"
@@ -923,6 +936,8 @@ vi:
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       placeholder_filter_by_text: "Chủ đề, mô tả, bình luận, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Added to view within the comparison time period"
         removal_label: "Removed from view within the comparison time period"
@@ -976,8 +991,8 @@ vi:
         percentageDone: "Percentage done"
         priority: "Độ ưu tiên"
         projectName: "Dự án"
-        remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWork: "Số giờ làm việc còn lại"
+        remainingWorkAlternative: "Số giờ còn lại"
         responsible: "Chịu trách nhiệm"
         startDate: "Ngày bắt đầu"
         status: "Trạng thái"
@@ -989,8 +1004,8 @@ vi:
         versionName: "Phiên bản"
         version: "Phiên bản"
         work: "Work"
-        workAlternative: "Estimated time"
-        remainingTime: "Remaining work"
+        workAlternative: "Thời gian dự kiến"
+        remainingTime: "Số giờ làm việc còn lại"
       default_queries:
         latest_activity: "Hoạt động mới nhất"
         created_by_me: "Do tôi tạo ra"
@@ -1039,7 +1054,7 @@ vi:
       sharing:
         share: "Chia sẻ"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
@@ -1246,7 +1261,8 @@ vi:
       role:
         label: "Vai trò trong %{project}"
         no_roles_found: "Không tìm thấy vai trò nào"
-        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: >-
+          This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>
         required: "Vui lòng chọn một vai trò"
         next_button: "Tiếp"
       message:
@@ -1262,6 +1278,9 @@ vi:
           placeholder: "The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
           group: "Nhóm này hiện là một phần của %{project}. Trong khi đó, bạn có thể lên kế hoạch cho nhóm đó và chỉ định các gói làm việc cho từng trường hợp."
         next_button: "Tiếp tục"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Dự án bao gồm"
       title: "Các dự án"
@@ -1320,3 +1339,7 @@ vi:
       drop_modal:
         focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
         Close: "Đóng"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

@@ -27,10 +27,8 @@
 #++
 
 class Journal < ApplicationRecord
-  self.table_name = 'journals'
-  self.ignored_columns += ['activity_type']
-
-  WorkingDayUpdate = Struct.new(:working_days, :non_working_days, keyword_init: true)
+  self.table_name = "journals"
+  self.ignored_columns += ["activity_type"]
 
   include ::JournalChanges
   include ::JournalFormatter
@@ -52,19 +50,40 @@ class Journal < ApplicationRecord
   register_journal_formatter :time_entry_named_association, OpenProject::JournalFormatter::TimeEntryNamedAssociation
   register_journal_formatter :cause, OpenProject::JournalFormatter::Cause
   register_journal_formatter :file_link, OpenProject::JournalFormatter::FileLink
+  register_journal_formatter :meeting_start_time, OpenProject::JournalFormatter::MeetingStartTime
+  register_journal_formatter :agenda_item_position, OpenProject::JournalFormatter::AgendaItemPosition
+  register_journal_formatter :agenda_item_duration, OpenProject::JournalFormatter::AgendaItemDuration
+  register_journal_formatter :agenda_item_diff, OpenProject::JournalFormatter::AgendaItemDiff
+  register_journal_formatter :agenda_item_title, OpenProject::JournalFormatter::AgendaItemTitle
+  register_journal_formatter :meeting_work_package_id, OpenProject::JournalFormatter::MeetingWorkPackageId
+  register_journal_formatter :meeting_state, OpenProject::JournalFormatter::MeetingState
+  register_journal_formatter :agenda_item_diff, OpenProject::JournalFormatter::AgendaItemDiff
+  register_journal_formatter :agenda_item_title, OpenProject::JournalFormatter::AgendaItemTitle
 
   # Attributes related to the cause are stored in a JSONB column so we can easily add new relations and related
   # attributes without a heavy database migration. Fields will be prefixed with `cause_` but are stored in the JSONB
   # hash without that prefix
-  store_accessor :cause, %i[type work_package_id changed_days], prefix: true
+  store_accessor :cause,
+                 %i[
+                   type
+                   feature
+                   work_package_id
+                   changed_days
+                   status_name
+                   status_id
+                   status_p_complete_change
+                 ],
+                 prefix: true
   VALID_CAUSE_TYPES = %w[
-    work_package_predecessor_changed_times
-    work_package_parent_changed_times
+    default_attribute_written
+    progress_mode_changed_to_status_based
+    status_p_complete_changed
+    system_update
     work_package_children_changed_times
+    work_package_parent_changed_times
+    work_package_predecessor_changed_times
     work_package_related_changed_times
     working_days_changed
-    default_attribute_written
-    system_update
   ].freeze
 
   # Make sure each journaled model instance only has unique version ids
@@ -75,16 +94,16 @@ class Journal < ApplicationRecord
   belongs_to :journable, polymorphic: true
   belongs_to :data, polymorphic: true, dependent: :destroy
 
-  has_many :attachable_journals, class_name: 'Journal::AttachableJournal', dependent: :delete_all
-  has_many :customizable_journals, class_name: 'Journal::CustomizableJournal', dependent: :delete_all
-  has_many :storable_journals, class_name: 'Journal::StorableJournal', dependent: :delete_all
-  has_many :agenda_item_journals, class_name: 'Journal::MeetingAgendaItemJournal', dependent: :delete_all
+  has_many :attachable_journals, class_name: "Journal::AttachableJournal", dependent: :delete_all
+  has_many :customizable_journals, class_name: "Journal::CustomizableJournal", dependent: :delete_all
+  has_many :storable_journals, class_name: "Journal::StorableJournal", dependent: :delete_all
+  has_many :agenda_item_journals, class_name: "Journal::MeetingAgendaItemJournal", dependent: :delete_all
 
   has_many :notifications, dependent: :destroy
 
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show
-  scope :changing, -> { where(['version > 1']) }
+  scope :changing, -> { where(["version > 1"]) }
 
   scope :for_wiki_page, -> { where(journable_type: "WikiPage") }
   scope :for_work_package, -> { where(journable_type: "WorkPackage") }

@@ -4,36 +4,47 @@
                                      # Hack to give the draggable autcompleter (ng-select) bound to the dialog
                                      # enough height to display all options.
                                      # This is necessary as long as ng-select does not support popovers.
-                                     style: "min-height: 430px")) do |d| %>
+                                     style: "min-height: 480px")) do |d| %>
   <% d.with_header(variant: :large, mb: 3) %>
-
   <%= render(Primer::Alpha::Dialog::Body.new) do %>
     <%= primer_form_with(
           url: projects_path,
-          id: COLUMN_FORM_ID,
+          id: QUERY_FORM_ID,
           method: :get,
           data: {
             controller: "params-from-query",
             'application-target': "dynamic",
-            'params-from-query-allowed-value': '["filters", "query_id", "page", "per_page", "sortBy"]'
-          }) do %>
-          <%= helpers.angular_component_tag 'opce-draggable-autocompleter',
-                                            inputs: {
-                                              options: helpers.projects_columns_options,
-                                              selected: selected_columns,
-                                              protected: helpers.protected_projects_columns_options,
-                                              name: COLUMN_HTML_NAME,
-                                              id: 'columns-select',
-                                              inputLabel: I18n.t(:'queries.configure_view.columns.input_label'),
-                                              inputPlaceholder: I18n.t(:'queries.configure_view.columns.input_placeholder'),
-                                              dragAreaLabel: I18n.t(:'queries.configure_view.columns.drag_area_label'),
-                                              appendToComponent: true
-                                            }%>
+            'params-from-query-allowed-value': '["filters", "query_id", "page", "per_page"]'
+          }) do |form| %>
+      <%= render(Primer::Alpha::TabPanels.new(label: "label")) do |tab_panel| %>
+        <% tab_panel.with_tab(selected: true, id: "tab-selects") do |tab| %>
+          <% tab.with_text { I18n.t("label_columns") } %>
+          <% tab.with_panel do %>
+            <%= helpers.angular_component_tag 'opce-draggable-autocompleter',
+                                          inputs: {
+                                            options: helpers.projects_columns_options,
+                                            selected: selected_columns,
+                                            protected: helpers.protected_projects_columns_options,
+                                            name: COLUMN_HTML_NAME,
+                                            id: 'columns-select',
+                                            inputLabel: I18n.t(:'queries.configure_view.columns.input_label'),
+                                            inputPlaceholder: I18n.t(:'queries.configure_view.columns.input_placeholder'),
+                                            dragAreaLabel: I18n.t(:'queries.configure_view.columns.drag_area_label'),
+                                            appendToComponent: true
+                                          }%>
+          <% end %>
+        <% end %>
+        <% tab_panel.with_tab(id: "tab-selects") do |tab| %>
+          <% tab.with_text { I18n.t("label_sort") }%>
+          <% tab.with_panel do %>
+            <%= render(Queries::SortByComponent.new(query: query, selectable_columns:)) %>
+          <% end%>
+        <% end %>
+      <% end %>
     <% end %>
   <% end %>
-
   <%= render(Primer::Alpha::Dialog::Footer.new) do %>
     <%= render(Primer::ButtonComponent.new(data: { "close-dialog-id": MODAL_ID })) { I18n.t(:button_cancel) } %>
-    <%= render(Primer::ButtonComponent.new(scheme: :primary, type: :submit, form: COLUMN_FORM_ID)) { I18n.t(:button_apply) } %>
+    <%= render(Primer::ButtonComponent.new(scheme: :primary, type: :submit, form: QUERY_FORM_ID)) { I18n.t(:button_apply) } %>
   <% end %>
 <% end %>

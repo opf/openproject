@@ -20,8 +20,8 @@ get:
                   self:
                     href: "/api/v3/relations/schema"
                 _type: Schema
-                delay:
-                  name: Delay
+                lag:
+                  name: Lag
                   type: Integer
                   writable: true
                 description:

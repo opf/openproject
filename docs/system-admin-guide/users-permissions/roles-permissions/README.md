@@ -15,6 +15,28 @@ A user is any individual who can log into your OpenProject instance.
 
 Permissions control what users can see and do within OpenProject. Permission are granted to users by assigning one or more roles to the users.
 
+### File storages permissions
+
+Permissions related to the external file storages are part of the *Projects* and *Work packages and Gantt charts*:
+
+![Files storages permissions in OpenProject](openproject_user_guide_file_storages_permissions.png)
+
+Following are the permissions for file storages within OpenProject:
+
+- **View file links**: Allows a user to see file links to external storages in the Files tab of work packages
+- **Manage file links**: Allows a user to create and edit file links to work packages
+- **Manage file storages in project**: Allows a user to add or edit file storages for a project
+
+Following user permissions are set on files and folder in **External Storages**:
+
+- **Automatically managed folders: Read files (Nextcloud, OneDrive/SharePoint)**
+- **Automatically managed folders:  Write files (Nextcloud, OneDrive/SharePoint)**
+- **Automatically managed folders: Create files (Nextcloud)**
+- **Automatically managed folders: Delete files (Nextcloud)**
+- **Automatically managed folders: Share files (Nextcloud)**
+
+> Please note that not all file permissions are applicable to all storage providers.
+
 ## Roles
 
 A role bundles a collection of permissions. It is an convenient way of granting permissions to multiple users in your organization that need the same permissions or restrictions.
@@ -24,7 +46,6 @@ A user can have one or more roles which grant permissions on different levels.
 ### Administrator
 
 **Administrators** have full access to all settings and all projects in an OpenProject environment. The permissions of the Administrator role can not be changed.
-
 
 | Scope of the role                                            | Permission examples                                          | Customization options                                        |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -54,11 +75,9 @@ A user can have one or more roles which grant permissions on different levels.
 
 **Note:** The *Non-member* role cannot be deleted.
 
-
 | Scope of the role                                            | Permission examples                                          | Customization options                                        |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | Project-level: Permissions scoped to individual projects for users which are logged in | - View work packages for users that are logged in            | Assign different permissions to the role *Non-member*     |
-
 
 ### Anonymous
 
@@ -105,7 +124,7 @@ Administrators can create new global roles in *Administration* > *Users and perm
 
 - [Edit users](../users/)
 
-	> **Note:** This allows the *Administrator* to delegate the administration of users to other people that should not have full control of the entire OpenProject installation (Administrator). These users can edit attributes of any users, except administrators. This means they are able to impersonate another user by changing email address to match theirs. This is a security risk and should be considered with caution.
+ > **Note:** This allows the *Administrator* to delegate the administration of users to other people that should not have full control of the entire OpenProject installation (Administrator). These users can edit attributes of any users, except administrators. This means they are able to impersonate another user by changing email address to match theirs. This is a security risk and should be considered with caution.
 
 - [Create, edit, and delete placeholder users](../placeholder-users/)
 
@@ -131,7 +150,7 @@ No, only Administrators can update other Administrators attributes like name or 
 
 ### Can I set a default role for a user that creates a new project?
 
-You can set a [default role](../../system-settings/project-system-settings/#settings-for-new-projects) that users with this permission will have in a project they created.
+You can set a [default role](../../projects/new-project) that users with this permission will have in a project they created.
 
 ### Users do not see the action *Create project* in the main navigation even though they have the create project permission?
 

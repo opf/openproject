@@ -44,7 +44,12 @@ module MeetingsHelper
   end
 
   def menu_upcoming_meetings_item
-    path = project_or_global_meetings_path
+    path = project_or_global_meetings_path(
+      filters: [
+        { time: { operator: "=", values: ["future"] } }
+      ],
+      sort: "start_time"
+    )
 
     menu_link_element path, t(:label_upcoming_meetings)
   end
@@ -59,13 +64,7 @@ module MeetingsHelper
   end
 
   def menu_upcoming_invitations_item
-    path = project_or_global_meetings_path(
-      filters: [
-        { time: { operator: "=", values: ["future"] } },
-        { invited_user_id: { operator: "=", values: [User.current.id.to_s] } }
-      ],
-      sort: "start_time"
-    )
+    path = project_or_global_meetings_path
 
     menu_link_element path, t(:label_upcoming_invitations)
   end

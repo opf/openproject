@@ -37,7 +37,11 @@ require_module_spec_helper
 
 # We decrease the notification polling interval because some portions of the JS code rely on something triggering
 # the Angular change detection. This is usually done by the notification polling, but we don't want to wait
-RSpec.describe "Activation of storages in projects", :js, :webmock, with_settings: { notifications_polling_interval: 1_000 } do
+RSpec.describe("Activation of storages in projects",
+               :js,
+               :with_cuprite,
+               :webmock,
+               with_settings: { notifications_polling_interval: 1_000 }) do
   let(:user) { create(:user) }
   # The first page is the Project -> Settings -> General page, so we need
   # to provide the user with the edit_project permission in the role.
@@ -102,22 +106,22 @@ RSpec.describe "Activation of storages in projects", :js, :webmock, with_setting
   it "adds, edits and removes storages to projects" do
     # Go to Projects -> Settings -> File Storages
     visit project_settings_general_path(project)
-    page.click_link("File storages")
+    page.click_link("Files")
 
     # Check for an empty table in Project -> Settings -> File storages
-    expect(page).to have_title("File storages")
-    expect(page).to have_current_path project_settings_project_storages_path(project)
+    expect(page).to have_title("Files")
+    expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)
     expect(page).to have_text(I18n.t("storages.no_results"))
-    page.find(".toolbar .button--icon.icon-add").click
+    page.first(:link, 'New storage').click
 
     # Can cancel the creation of a new file storage
     expect(page).to have_current_path new_project_settings_project_storage_path(project_id: project)
     expect(page).to have_text("Add a file storage")
     page.click_link("Cancel")
-    expect(page).to have_current_path project_settings_project_storages_path(project)
+    expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)
 
     # Enable one file storage together with a project folder mode
-    page.find(".toolbar .button--icon.icon-add").click
+    page.first(:link, 'New storage').click
     expect(page).to have_current_path new_project_settings_project_storage_path(project_id: project)
     expect(page).to have_text("Add a file storage")
     expect(page).to have_select("storages_project_storage_storage_id",
@@ -145,7 +149,7 @@ RSpec.describe "Activation of storages in projects", :js, :webmock, with_setting
     page.click_button("Add")
 
     # The list of enabled file storages should now contain Storage 1
-    expect(page).to have_text("File storages available in this project")
+    expect(page).to have_selector('h1', text: 'Files')
     expect(page).to have_text(storage.name)
 
     # Press Edit icon to change the project folder mode to inactive
@@ -165,7 +169,7 @@ RSpec.describe "Activation of storages in projects", :js, :webmock, with_setting
     page.click_button("Save")
 
     # The list of enabled file storages should still contain Storage 1
-    expect(page).to have_text("File storages available in this project")
+    expect(page).to have_selector('h1', text: 'Files')
     expect(page).to have_text(storage.name)
 
     # Click Edit icon again but cancel the edit
@@ -175,7 +179,7 @@ RSpec.describe "Activation of storages in projects", :js, :webmock, with_setting
                                                                                  storages_project_storage: {project_folder_mode: "inactive"})
     expect(page).to have_text("Edit the file storage to this project")
     page.click_link("Cancel")
-    expect(page).to have_current_path project_settings_project_storages_path(project)
+    expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)
 
     # Press Delete icon to remove the storage from the project
     page.find(".icon.icon-delete").click
@@ -187,7 +191,7 @@ RSpec.describe "Activation of storages in projects", :js, :webmock, with_setting
 
     # Cancel Confirmation
     page.click_link("Cancel")
-    expect(page).to have_current_path project_settings_project_storages_path(project)
+    expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)
 
     page.find(".icon.icon-delete").click
 
@@ -196,7 +200,7 @@ RSpec.describe "Activation of storages in projects", :js, :webmock, with_setting
     page.click_button("Delete")
 
     # List of ProjectStorages empty again
-    expect(page).to have_current_path project_settings_project_storages_path(project)
+    expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)
     expect(page).to have_text(I18n.t("storages.no_results"))
   end
 
@@ -231,9 +235,9 @@ RSpec.describe "Activation of storages in projects", :js, :webmock, with_setting
     let!(:unconfigured_storage) { create(:nextcloud_storage) }
 
     it "excludes storages that are not configured correctly" do
-      visit project_settings_project_storages_path(project)
+      visit external_file_storages_project_settings_project_storages_path(project)
 
-      page.find(".toolbar .button--icon.icon-add").click
+      page.first(:link, 'New storage').click
 
       aggregate_failures "select field options" do
         expect(page).to have_select("storages_project_storage_storage_id",

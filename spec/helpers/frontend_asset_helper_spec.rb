@@ -37,7 +37,17 @@ RSpec.describe FrontendAssetHelper do
       end
 
       it "returns the proxied frontend server" do
-        expect(helper.include_frontend_assets).to match(%r{script src="http://localhost:4200/assets/frontend/main(.*).js"})
+        expect(helper.include_frontend_assets).to match(%r{script src="http://(frontend-test|localhost):4200/assets/frontend/main(.*).js"})
+      end
+
+      context "when using relative_url_root" do
+        before do
+          allow(Rails.application.config).to receive(:relative_url_root).and_return("/openproject")
+        end
+
+        it "prepends it to the asset path" do
+          expect(helper.include_frontend_assets).to match(%r{script src="http://(frontend-test|localhost):4200/openproject/assets/frontend/main(.*).js"})
+        end
       end
     end
 

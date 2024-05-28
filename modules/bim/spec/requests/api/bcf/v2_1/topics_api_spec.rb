@@ -586,7 +586,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
       description: nil,
       base: nil
     )
-      work_package = base || issue.work_package
+      work_package = (base || issue.work_package).reload
 
       {
         guid: issue&.uuid,
@@ -603,9 +603,9 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
         due_date: due_date || base&.due_date,
         stage: nil,
         creation_author: creation_author_mail,
-        creation_date: work_package&.created_at&.iso8601(3),
+        creation_date: work_package&.created_at,
         modified_author: modified_author_mail,
-        modified_date: work_package&.updated_at&.iso8601(3),
+        modified_date: work_package&.updated_at,
         description: description || base&.description,
         authorization: {
           topic_status: [(base && base.status.name) || default_status.name],

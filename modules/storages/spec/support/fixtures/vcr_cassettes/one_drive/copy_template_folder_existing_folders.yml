@@ -37,24 +37,26 @@ http_interactions:
       P3p:
       - CP="DSP CUR OTPi IND OTRi ONL FIN"
       X-Ms-Request-Id:
-      - 84773f73-ac7f-48cb-b431-55cbd33d1200
+      - 6b6e6f98-f504-4d1e-89ee-d80ea9797c00
       X-Ms-Ests-Server:
-      - 2.1.17282.6 - FRC ProdSlices
+      - 2.1.17846.6 - WEULR1 ProdSlices
+      X-Ms-Srs:
+      - 1.P
       X-Xss-Protection:
       - '0'
       Set-Cookie:
-      - fpc=AjCv_Bb-N59Jgeqer0Ba5g-kbDoXAQAAAAsKX90OAAAA; expires=Fri, 15-Mar-2024
-        19:22:52 GMT; path=/; secure; HttpOnly; SameSite=None
+      - fpc=Ah9Kxo1ii3pBpZUzkQee-bykbDoXAQAAADrxut0OAAAA; expires=Fri, 24-May-2024
+        12:25:30 GMT; path=/; secure; HttpOnly; SameSite=None
       - stsservicecookie=estsfd; path=/; secure; samesite=none; httponly
       - x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly
       Date:
-      - Wed, 14 Feb 2024 19:22:52 GMT
+      - Wed, 24 Apr 2024 12:25:30 GMT
       Content-Length:
       - '1708'
     body:
       encoding: UTF-8
       string: '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"<ACCESS_TOKEN>"}'
-  recorded_at: Wed, 14 Feb 2024 19:22:52 GMT
+  recorded_at: Wed, 24 Apr 2024 12:25:30 GMT
 - request:
     method: get
     uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root/children?$select=name,id,folder
@@ -69,7 +71,7 @@ http_interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - httpx.rb/1.2.2
+      - httpx.rb/1.2.4
       Accept-Encoding:
       - gzip, deflate
   response:
@@ -79,30 +81,25 @@ http_interactions:
     headers:
       Cache-Control:
       - no-store, no-cache
-      Transfer-Encoding:
-      - chunked
       Content-Type:
-      - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+      - application/json; odata.metadata=minimal; odata.streaming=true; IEEE754Compatible=false;
+        charset=utf-8
       Content-Encoding:
       - gzip
-      Vary:
-      - Accept-Encoding
       Strict-Transport-Security:
       - max-age=31536000
       Request-Id:
-      - 61e81838-7829-41a7-aa97-a42f6a231c3a
+      - 41608542-7e95-4037-90bb-c324eced64c6
       Client-Request-Id:
-      - 61e81838-7829-41a7-aa97-a42f6a231c3a
+      - 41608542-7e95-4037-90bb-c324eced64c6
       X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000003EE"}}'
-      Odata-Version:
-      - '4.0'
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"000","RoleInstance":"FR1PEPF000007AC"}}'
       Date:
-      - Wed, 14 Feb 2024 19:22:52 GMT
+      - Wed, 24 Apr 2024 12:25:30 GMT
     body:
       encoding: UTF-8
-      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs'')/root/children(name,id,folder)","value":[{"@odata.etag":"\"{6087B980-4C01-4020-BBF2-1E349BD0C831},1\"","id":"01AZJL5PMAXGDWAAKMEBALX4Q6GSN5BSBR","name":"Folder","folder":{"childCount":5}},{"@odata.etag":"\"{BAABD554-2A6E-4B51-A07F-22B54378CC94},1\"","id":"01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU","name":"Folder
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#Collection(driveItem)","value":[{"@odata.etag":"\"{6087B980-4C01-4020-BBF2-1E349BD0C831},1\"","id":"01AZJL5PMAXGDWAAKMEBALX4Q6GSN5BSBR","name":"Folder","folder":{"childCount":5}},{"@odata.etag":"\"{BAABD554-2A6E-4B51-A07F-22B54378CC94},1\"","id":"01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU","name":"Folder
         with spaces","folder":{"childCount":4}},{"@odata.etag":"\"{73565DBB-32EA-46CE-9F64-A01EDD691B01},3\"","id":"01AZJL5PN3LVLHH2RSZZDJ6ZFAD3OWSGYB","name":"Permissions
-        Folder","folder":{"childCount":0}}]}'
-  recorded_at: Wed, 14 Feb 2024 19:22:52 GMT
+        Folder","folder":{"childCount":0,"decorator":{"iconColor":"darkRed"}}}]}'
+  recorded_at: Wed, 24 Apr 2024 12:25:31 GMT
 recorded_with: VCR 6.2.0

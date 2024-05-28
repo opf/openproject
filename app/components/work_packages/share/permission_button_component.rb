@@ -72,7 +72,7 @@ module WorkPackages
       end
 
       def permission_name(value)
-        options.select { |option| option[:value] == value }
+        options.find { |option| option[:value] == value }[:label]
       end
 
       def form_inputs(role_id)

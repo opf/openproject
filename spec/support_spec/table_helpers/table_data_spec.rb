@@ -51,20 +51,49 @@ module TableHelpers
     describe ".from_work_packages" do
       it "reads data from work packages according to the given columns" do
         table = <<~TABLE
-          | subject      | remaining work |
-          | work package |             3h |
-          | another one  |                |
+          | subject      | status | remaining work |
+          | work package | To do  |             3h |
+          | another one  | Done   |                |
         TABLE
         columns = described_class.for(table).columns
 
-        work_package = build(:work_package, subject: "work package", remaining_hours: 3)
-        another_one = build(:work_package, subject: "another one")
+        status_todo = build(:status, name: "To do")
+        status_done = build(:status, name: "Done")
+        work_package = build(:work_package, subject: "work package", status: status_todo, remaining_hours: 3)
+        another_one = build(:work_package, subject: "another one", status: status_done)
 
         table_data = described_class.from_work_packages([work_package, another_one], columns)
         expect(table_data.work_packages_data.size).to eq(2)
-        expect(table_data.columns.size).to eq(2)
-        expect(table_data.headers).to eq(["subject", "remaining work"])
+        expect(table_data.columns.size).to eq(3)
+        expect(table_data.headers).to eq(["subject", "status", "remaining work"])
+        expect(table_data.values_for_attribute(:subject)).to eq(["work package", "another one"])
+        expect(table_data.values_for_attribute(:status)).to eq(["To do", "Done"])
+        expect(table_data.values_for_attribute(:remaining_hours)).to eq([3.0, nil])
         expect(table_data.work_package_identifiers).to eq(%i[work_package another_one])
+      end
+    end
+
+    describe "#headers" do
+      it "returns headers of a table data as they were read" do
+        table = <<~TABLE
+          | subject      | remaining work | derived work |
+          | work package |             3h |           3h |
+        TABLE
+
+        table_data = described_class.for(table)
+        expect(table_data.headers).to eq([" subject      ", " remaining work ", " derived work "])
+        expect(table_data.columns.size).to eq(3)
+      end
+
+      it "returns headers even if some values are blank in the first row" do
+        table = <<~TABLE
+          | subject      | remaining work | derived work |
+          | work package |                |              |
+        TABLE
+
+        table_data = described_class.for(table)
+        expect(table_data.headers).to eq([" subject      ", " remaining work ", " derived work "])
+        expect(table_data.columns.size).to eq(3)
       end
     end
 
@@ -79,6 +108,41 @@ module TableHelpers
         table_data = described_class.for(table)
         expect(table_data.values_for_attribute(:remaining_hours)).to eq([3.0, nil])
         expect(table_data.values_for_attribute(:subject)).to eq(["work package", "another one"])
+      end
+    end
+
+    describe "#create_work_packages" do
+      it "creates work packages out of the table data" do
+        status = create(:status, name: "To do")
+        table_representation = <<~TABLE
+          subject | status | work |
+          My wp   | To do  |   5h |
+        TABLE
+
+        table_data = described_class.for(table_representation)
+        table = table_data.create_work_packages
+        expect(table.work_packages.count).to eq(1)
+        expect(table.work_package(:my_wp))
+          .to have_attributes(subject: "My wp", status:, estimated_hours: 5.0)
+      end
+
+      it "raises an error if a given status name does not exist" do
+        table_representation = <<~TABLE
+          subject | status |
+          My wp   | To do  |
+        TABLE
+
+        expect { described_class.for(table_representation).create_work_packages }
+          .to raise_error(NameError, 'No status with name "To do" found. Available statuses are: [].')
+
+        create(:status, name: "Doing")
+        create(:status, name: "Done")
+        expect { described_class.for(table_representation).create_work_packages }
+          .to raise_error(NameError, 'No status with name "To do" found. Available statuses are: ["Doing", "Done"].')
+
+        create(:status, name: "To do")
+        expect { described_class.for(table_representation).create_work_packages }
+          .not_to raise_error
       end
     end
   end

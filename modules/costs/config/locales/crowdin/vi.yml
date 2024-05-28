@@ -103,7 +103,7 @@ vi:
   label_work_package_filter_add: "Add work package filter"
   label_kind: "Kiểu"
   label_less_or_equal: "<="
-  label_log_costs: "Log unit costs"
+  label_log_costs: "Ghi lại chi phí đơn vị"
   label_no: "Không"
   label_option_plural: "Tuỳ chọn"
   label_overall_costs: "Tổng chi phí"

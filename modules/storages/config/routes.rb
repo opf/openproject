@@ -41,11 +41,14 @@ Rails.application.routes.draw do
         resource :automatically_managed_project_folders, controller: "/storages/admin/automatically_managed_project_folders",
                                                          only: %i[new create edit update]
 
+        resource :access_management, controller: "/storages/admin/access_management", only: %i[new create edit update]
+
         get :select_provider, on: :collection
 
         member do
           get :show_oauth_application
           get :edit_host
+          patch :change_health_notifications_enabled
           get :confirm_destroy
           delete :replace_oauth_application
         end
@@ -62,7 +65,11 @@ Rails.application.routes.draw do
 
   scope "projects/:project_id", as: "project" do
     namespace "settings" do
-      resources :project_storages, controller: "/storages/admin/project_storages", except: %i[show] do
+      resources :project_storages, controller: "/storages/admin/project_storages", except: %i[index show] do
+        collection do
+          get :external_file_storages
+          get :attachments
+        end
         member do
           get :oauth_access_grant
           # Destroy uses a get request to prompt the user before the actual DELETE request

@@ -28,6 +28,7 @@
 
 module UsersHelper
   include OpenProject::FormTagHelper
+  include IconsHelper
 
   ##
   # @param selected The option to be marked as selected.
@@ -96,25 +97,32 @@ module UsersHelper
     result
   end
 
-  def change_user_status_buttons(user)
-    build_change_user_status_action(user) do |title, name|
-      submit_tag(title, name:, class: "button")
-    end
-  end
-
-  def change_user_status_links(user)
-    icons = {
+  def change_user_status_icons
+    {
       "unlock" => "unlocked",
       "activate" => "unlocked",
       "lock" => "locked"
     }
+  end
+
+  def change_user_status_buttons(user)
+    build_change_user_status_action(user) do |title, name|
+      button_tag(class: "button", name:, type: "submit", title:) do
+        concat op_icon("button--icon icon-#{change_user_status_icons[name]}")
+        concat content_tag(:span, title, class: "button--text")
+      end
+    end
+  end
+
+  def change_user_status_links(user)
+
     build_change_user_status_action(user) do |title, name|
       link_to title,
               change_status_user_path(user,
                                       name.to_sym => "1",
                                       back_url: request.fullpath),
               method: :post,
-              class: "icon icon-#{icons[name]}"
+              class: "icon icon-#{change_user_status_icons[name]}"
     end
   end
 

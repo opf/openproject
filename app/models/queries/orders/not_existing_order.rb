@@ -35,6 +35,10 @@ module Queries
         :inexistent
       end
 
+      def available?
+        false
+      end
+
       private
 
       def always_false

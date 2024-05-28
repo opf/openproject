@@ -329,6 +329,18 @@ sl:
         years: "let"
         description: >
           Izberite začetno stopnjo povečave, ki naj bo prikazana, ko samodejno povečanje ni na voljo.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "ne"
     general_text_yes: "da"
     general_text_No: "Ne"
@@ -347,11 +359,10 @@ sl:
           learn_about: "Preberite več o novostih"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -377,6 +388,7 @@ sl:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "pred dnevi"
     label_all: "vsi"
+    label_all_uppercase: "Vse"
     label_all_work_packages: "Vsi zahtevki"
     label_and: "in"
     label_ascending: "Naraščajoče"
@@ -418,6 +430,7 @@ sl:
     label_expand_project_menu: "Razširi projektni meni"
     label_export: "Izvozi"
     label_export_preparing: "Izvoz je v pripravi in ​​bo kmalu prenesen."
+    label_favorites: "Favorites"
     label_filename: "Datoteka"
     label_filesize: "Velikost"
     label_general: "Splošno"
@@ -644,7 +657,7 @@ sl:
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: "There are new notifications."
-          link_text: "Click here to load them"
+          link_text: "Click here to load them."
       menu:
         accountable: "Odgovorni"
         by_project: "Neprebrano po projektu"
@@ -761,7 +774,7 @@ sl:
           last_day: "Last day"
     text_are_you_sure: "Ste prepričani?"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} je napisal(a):"
     types:
       attribute_groups:
         error_duplicate_group_name: "Ime skupine %{group} je že uporabljeno. Imena skupin morajo biti unikatna."
@@ -926,6 +939,8 @@ sl:
       message_work_package_read_only: "Delovni paket je zaklenjen v tem stanju. Spremenite lahko samo stanje. "
       message_work_package_status_blocked: "Stanja delovnega paketa ni mogoče napisati zaradi zaprtega stanja in dodeljene zaprte različice."
       placeholder_filter_by_text: "Subjekt, opis, komentarji,... "
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Added to view within the comparison time period"
         removal_label: "Removed from view within the comparison time period"
@@ -980,7 +995,7 @@ sl:
         priority: "Prioriteta"
         projectName: "Projekt"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "Preostale ure"
         responsible: "Odgovoren"
         startDate: "Datum začetka"
         status: "Stanje"
@@ -992,7 +1007,7 @@ sl:
         versionName: "Različica"
         version: "Različica"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "Predvideni čas"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Zadnja dejavnost"
@@ -1042,7 +1057,7 @@ sl:
       sharing:
         share: "Share"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
@@ -1255,7 +1270,8 @@ sl:
       role:
         label: "Vloge v %{project}"
         no_roles_found: "No roles were found"
-        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: >-
+          This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>
         required: "Izberite vlogo"
         next_button: "Naprej"
       message:
@@ -1271,6 +1287,9 @@ sl:
           placeholder: "Rezervirano mesto se zdaj lahko uporabi v %{project}. Medtem lahko planirate s tem uporabnikom in mu dodelite delovne naloge."
           group: "Skupina je zdaj del %{project}. Medtem lahko planirate s to skupino in ji dodelite delovne naloge."
         next_button: "Nadaljuj"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Include projects"
       title: "Projekti"
@@ -1329,3 +1348,7 @@ sl:
       drop_modal:
         focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
         Close: "Zapri"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

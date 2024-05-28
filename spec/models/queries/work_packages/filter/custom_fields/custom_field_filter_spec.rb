@@ -38,6 +38,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
   let(:version_wp_custom_field) { build_stubbed(:version_wp_custom_field) }
   let(:date_wp_custom_field) { build_stubbed(:date_wp_custom_field) }
   let(:string_wp_custom_field) { build_stubbed(:string_wp_custom_field) }
+  let(:link_wp_custom_field) { build_stubbed(:link_wp_custom_field) }
   let(:custom_field) { list_wp_custom_field }
   let(:all_custom_fields) do
     [list_wp_custom_field,
@@ -48,7 +49,8 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
      user_wp_custom_field,
      version_wp_custom_field,
      date_wp_custom_field,
-     string_wp_custom_field]
+     string_wp_custom_field,
+     link_wp_custom_field]
   end
   let(:query) { build_stubbed(:query, project:) }
   let(:cf_accessor) { custom_field.column_name }
@@ -134,7 +136,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
   end
 
   describe "#type" do
-    context "integer" do
+    describe "integer" do
       let(:cf_accessor) { int_wp_custom_field.column_name }
 
       it "is integer for an integer" do
@@ -143,7 +145,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
       end
     end
 
-    context "float" do
+    describe "float" do
       let(:cf_accessor) { float_wp_custom_field.column_name }
 
       it "is integer for a float" do
@@ -152,7 +154,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
       end
     end
 
-    context "text" do
+    describe "text" do
       let(:cf_accessor) { text_wp_custom_field.column_name }
 
       it "is text for a text" do
@@ -161,7 +163,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
       end
     end
 
-    context "list optional" do
+    describe "list optional" do
       let(:cf_accessor) { list_wp_custom_field.column_name }
 
       it "is list_optional for a list" do
@@ -170,7 +172,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
       end
     end
 
-    context "user" do
+    describe "user" do
       let(:cf_accessor) { user_wp_custom_field.column_name }
 
       it "is list_optional for a user" do
@@ -179,7 +181,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
       end
     end
 
-    context "version" do
+    describe "version" do
       let(:cf_accessor) { version_wp_custom_field.column_name }
 
       it "is list_optional for a version" do
@@ -188,7 +190,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
       end
     end
 
-    context "version" do
+    describe "date" do
       let(:cf_accessor) { date_wp_custom_field.column_name }
 
       it "is date for a date" do
@@ -197,7 +199,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
       end
     end
 
-    context "bool" do
+    describe "bool" do
       let(:cf_accessor) { bool_wp_custom_field.column_name }
 
       it "is list for a bool" do
@@ -206,10 +208,19 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
       end
     end
 
-    context "string" do
+    describe "string" do
       let(:cf_accessor) { string_wp_custom_field.column_name }
 
       it "is string for a string" do
+        expect(instance.type)
+          .to be(:string)
+      end
+    end
+
+    describe "link" do
+      let(:cf_accessor) { link_wp_custom_field.column_name }
+
+      it "is string for a link" do
         expect(instance.type)
           .to be(:string)
       end

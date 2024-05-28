@@ -36,7 +36,7 @@ ruby File.read(".ruby-version").strip
 
 gem "actionpack-xml_parser", "~> 2.0.0"
 gem "activemodel-serializers-xml", "~> 1.0.1"
-gem "activerecord-import", "~> 1.6.0"
+gem "activerecord-import", "~> 1.7.0"
 gem "activerecord-session_store", "~> 2.1.0"
 gem "ox"
 gem "rails", "~> 7.1.3"
@@ -46,11 +46,11 @@ gem "ffi", "~> 1.15"
 
 gem "rdoc", ">= 2.4.2"
 
-gem "doorkeeper", "~> 5.6.6"
+gem "doorkeeper", "~> 5.7.0"
 # Maintain our own omniauth due to relative URL root issues
 # see upstream PR: https://github.com/omniauth/omniauth/pull/903
 gem "omniauth", git: "https://github.com/opf/omniauth", ref: "fe862f986b2e846e291784d2caa3d90a658c67f0"
-gem "request_store", "~> 1.6.0"
+gem "request_store", "~> 1.7.0"
 
 gem "warden", "~> 1.2"
 gem "warden-basic_auth", "~> 0.2.1"
@@ -83,7 +83,7 @@ gem "htmldiff"
 gem "stringex", "~> 2.8.5"
 
 # CommonMark markdown parser with GFM extension
-gem "commonmarker", "~> 1.0.3"
+gem "commonmarker", "~> 1.1.3"
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
@@ -115,6 +115,8 @@ gem "ruby-duration", "~> 3.2.0"
 # released.
 gem "mail", "= 2.8.1"
 
+gem "csv", "~> 3.3"
+
 # provide compatible filesystem information for available storage
 gem "sys-filesystem", "~> 1.4.0", require: false
 
@@ -138,7 +140,7 @@ gem "rack-attack", "~> 6.7.0"
 gem "secure_headers", "~> 6.5.0"
 
 # Browser detection for incompatibility checks
-gem "browser", "~> 5.3.0"
+gem "browser", "~> 6.0.0"
 
 # Providing health checks
 gem "okcomputer", "~> 1.18.1"
@@ -157,20 +159,21 @@ gem "airbrake", "~> 13.0.0", require: false
 
 gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "8f14736a88ad0064d2a97be108fe7061ffbcee91"
 gem "prawn", "~> 2.4"
+gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues/1346 resolved.
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.2"
 
-gem "meta-tags", "~> 2.20.0"
+gem "meta-tags", "~> 2.21.0"
 
 gem "paper_trail", "~> 15.1.0"
 
-gem "clamav-client", github: "honestica/clamav-client", ref: "29e78ae94307cb34e79ddd29c5da79752239d8b7"
+gem "op-clamav-client", "~> 3.4", require: "clamav"
 
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
   gem "dalli", "~> 3.2.0"
-  gem "redis", "~> 5.1.0"
+  gem "redis", "~> 5.2.0"
 end
 
 gem "i18n-js", "~> 4.2.3"
@@ -181,11 +184,11 @@ gem "sprockets-rails", "~> 3.4.2"
 
 gem "puma", "~> 6.4"
 gem "puma-plugin-statsd", "~> 2.0"
-gem "rack-timeout", "~> 0.6.3", require: "rack/timeout/base"
+gem "rack-timeout", "~> 0.7.0", require: "rack/timeout/base"
 
 gem "nokogiri", "~> 1.16.0"
 
-gem "carrierwave", "~> 1.3.1"
+gem "carrierwave", "~> 1.3.4"
 gem "carrierwave_direct", "~> 2.1.0"
 gem "fog-aws"
 
@@ -214,7 +217,7 @@ gem "appsignal", "~> 3.0", require: false
 
 gem "view_component"
 # Lookbook
-gem "lookbook", "~> 2.2.1"
+gem "lookbook", "~> 2.3.0"
 
 # Require factory_bot for usage with openproject plugins testing
 gem "factory_bot", "~> 6.4.0", require: false
@@ -233,7 +236,7 @@ group :test do
   # Test prof provides factories from code
   # and other niceties
   gem "test-prof", "~> 1.3.0"
-  gem "turbo_tests", github: "crohr/turbo_tests", ref: "fix/runtime-info"
+  gem "turbo_tests", github: "opf/turbo_tests", ref: "with-patches"
 
   gem "rack_session_access"
   gem "rspec", "~> 3.13.0"
@@ -264,7 +267,7 @@ group :test do
   gem "capybara-screenshot", "~> 1.0.17"
   gem "cuprite", "~> 0.15.0"
   gem "selenium-devtools"
-  gem "selenium-webdriver", "~> 4.18.0"
+  gem "selenium-webdriver", "~> 4.20"
 
   gem "fuubar", "~> 2.5.0"
   gem "timecop", "~> 0.9.0"
@@ -292,7 +295,7 @@ end
 group :development do
   gem "listen", "~> 3.9.0" # Use for event-based reloaders
 
-  gem 'letter_opener_web'
+  gem "letter_opener_web"
 
   gem "spring"
   gem "spring-commands-rspec"
@@ -381,6 +384,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-octicons", "~>19.8.0"
-gem "openproject-octicons_helper", "~>19.8.0"
-gem "openproject-primer_view_components", "~>0.23.0"
+gem "openproject-octicons", "~>19.12.0"
+gem "openproject-octicons_helper", "~>19.12.0"
+gem "openproject-primer_view_components", "~>0.31.0"

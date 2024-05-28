@@ -70,19 +70,23 @@ statuses:
     t_name: New
     color_name: blue-6
     is_default: true
+    default_done_ratio: 0
     position: 1
   - reference: :default_status_in_progress
     t_name: In progress
     color_name: orange-6
+    default_done_ratio: 40
     position: 2
   - reference: :default_status_resolved
     t_name: Resolved
     color_name: green-3
+    default_done_ratio: 80
     position: 3
   - reference: :default_status_closed
     t_name: Closed
     color_name: gray-3
     is_closed: true
+    default_done_ratio: 100
     position: 4
 
 time_entry_activities:
@@ -257,6 +261,7 @@ projects:
       - Category 1 (to be changed in Project settings)
     queries:
       - t_name: Project plan
+        module: gantt
         status: open
         timeline: true
         sort_by: start_date
@@ -404,6 +409,7 @@ projects:
       - Category 1 (to be changed in Project settings)
     queries:
       - t_name: Project plan
+        module: gantt
         status: open
         timeline: true
         sort_by: start_date
@@ -871,6 +877,7 @@ projects:
       - Category 1 (to be changed in Project settings)
     queries:
       - t_name: Project plan
+        module: gantt
         status: open
         timeline: true
         sort_by: start_date
@@ -1477,6 +1484,7 @@ projects:
         type: :default_type_remark
         display_representation: card
       - t_name: Project plan
+        module: gantt
         status: open
         timeline: true
         sort_by: start_date

@@ -15,7 +15,7 @@ In the **Administration -> Work packages -> Types** you can add or edit the work
 You will see a list of all work package types in the system.
 
 1. Click the work package type name to **edit an existing work package type**.
-2. Click the arrows (up or down) to change the order how work package types should be displayed, e.g. in the list when creating new work packages or when changing the type. 
+2. Click the arrows (up or down) to change the order how work package types should be displayed, e.g. in the list when creating new work packages or when changing the type.
    The work package type you moved to the top of the list is the current default type and will be selected when you create a new work package.
 3. Delete work package types.
 
@@ -86,15 +86,15 @@ Click the blue **Apply** button to add this work package list to your form.
 
 ![Sys-admin-work-package-table-config](op_sys_admin_filter_wp.png)
 
-The embedded related work package table in the work package form will look like this. Here, the work packages with the chosen relation will be shown automatically (based on the filtered criteria in the embedded list) or new work packages with this relation can be added. 
+The embedded related work package table in the work package form will look like this. Here, the work packages with the chosen relation will be shown automatically (based on the filtered criteria in the embedded list) or new work packages with this relation can be added.
 
 ![Sys-admin-related-work-package-table](open_project_admin_related_wp_table.png)
 
 ## Activate work package types for projects
 
-Under **Administration -> Work packages -> Types** on the tab **Projects** you can select for which projects this work package type should be activated. 
+Under **Administration -> Work packages -> Types** on the tab **Projects** you can select for which projects this work package type should be activated.
 
-The **Activated for new projects by default** setting in the Types will only activate this type for new projects. For existing projects, the type needs to be activated manually. 
+The **Activated for new projects by default** setting in the Types will only activate this type for new projects. For existing projects, the type needs to be activated manually.
 This can be also configured in the [project settings](../../../user-guide/projects/project-settings).
 
 ![activate projects for work package types](image-20200116150513323.png)

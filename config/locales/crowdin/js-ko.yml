@@ -330,6 +330,18 @@ ko:
         years: "년"
         description: >
           자동 확대/축소를 사용할 수 없는 경우 표시되어야 하는 초기 확대/축소 수준을 선택하세요.
+      export:
+        title: "Gantt 차트 PDF 옵션"
+        button_export: "내보내기"
+        column_widths:
+          narrow: "좁음"
+          medium: "보통"
+          wide: "넓음"
+          very_wide: "매우 넓음"
+        options:
+          date_zoom: "날짜 확대/축소"
+          paper_size: "용지 크기"
+          column_widths: "열 너비"
     general_text_no: "아니요"
     general_text_yes: "예"
     general_text_No: "아니요"
@@ -348,11 +360,10 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>GitLab 통합(커뮤니티 기여자가 원래 개발함)</li> <li>사용자 지정 프로젝트 목록의 고급 기능</li> <li>미팅 모듈의 고급 기능</li> <li>ClamAV(Enterprise 추가 기능)를 통한 바이러스 검사 기능</li> <li>PDF 내보내기: 테이블 셀의 목록이 지원됩니다.</li> <li>2단계 인증으로 WebAuthn/FIDO/U2F가 추가되었습니다.</li> <li>사용 가능한 기본 언어 세트에 더 많은 언어가 추가되었습니다.</li> </ul>
+                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>Gantt 보기의 PDF 내보내기(예: 인쇄용)(Enterprise 추가 기능)</li> <li>즐겨 찾는 프로젝트</li> <li>미팅의 섹션</li> <li>내 페이지 및 프로젝트 개요 페이지에 미팅 표시</li> <li>파일 탭에서 첨부 파일을 숨기는 기능</li> <li>링크(URL) 유형의 사용자 지정 필드</li> </ul>
     ical_sharing_modal:
       title: "캘린더 구독"
       inital_setup_error_message: "데이터를 가져오는 중에 오류가 발생했습니다."
@@ -378,6 +389,7 @@ ko:
     label_added_time_by: '%{age}, <a href="%{authorLink}">%{author}</a> 님이 추가함'
     label_ago: "일 전"
     label_all: "모두"
+    label_all_uppercase: "모두"
     label_all_work_packages: "모든 작업 패키지"
     label_and: "그리고"
     label_ascending: "오름차순"
@@ -419,6 +431,7 @@ ko:
     label_expand_project_menu: "프로젝트 메뉴 확장"
     label_export: "내보내기"
     label_export_preparing: "가져오기 준비 중이며 곧 다운로드됩니다."
+    label_favorites: "즐겨찾기"
     label_filename: "파일"
     label_filesize: "크기"
     label_general: "일반"
@@ -642,7 +655,7 @@ ko:
           no_selection: "모든 활동 세부 정보를 보려면 알림을 클릭하세요."
         new_notifications:
           message: "새 알림이 있습니다."
-          link_text: "로드하려면 여기를 클릭하세요"
+          link_text: "로드하려면 여기를 클릭하세요."
       menu:
         accountable: "담당"
         by_project: "프로젝트 기준 읽지 않음"
@@ -924,6 +937,8 @@ ko:
       message_work_package_read_only: "작업 패키지가 이 상태로 잠겨 있습니다. 상태 이외의 특성은 변경할 수 없습니다."
       message_work_package_status_blocked: "닫힌 상태이고 닫힌 버전이 할당되었기 때문에 작업 패키지 상태를 쓸 수 없습니다."
       placeholder_filter_by_text: "제목, 설명, 코멘트, ..."
+      progress:
+        title: "작업 견적 및 진행률"
       baseline:
         addition_label: "비교 기간 내에서 보기에 추가됨"
         removal_label: "비교 기간 내에서 보기에서 제거됨"
@@ -1040,7 +1055,7 @@ ko:
       sharing:
         share: "공유하기"
         title: "작업 패키지 공유"
-        show_all_users: "공유된 사용자 모두 표시"
+        show_all_users: "작업 패키지가 공유된 모든 사용자 표시"
         selected_count: "%{count}개 선택됨"
         selection:
           mixed: "혼합"
@@ -1247,7 +1262,8 @@ ko:
       role:
         label: "%{project} 내 역할"
         no_roles_found: "역할이 없습니다"
-        description: '사용자가 프로젝트에 참여할 때 받게 되는 역할입니다. 역할은 수행할 수 있는 작업과 볼 수 있는 정보를 정의합니다. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> 역할과 권한에 대해 자세히 알아보세요. </a>'
+        description: >-
+          사용자가 프로젝트에 참여할 때 받게 되는 역할입니다. 역할은 수행할 수 있는 작업과 볼 수 있는 정보를 정의합니다. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> 역할과 권한에 대해 자세히 알아보세요. </a>
         required: "역할을 선택하십시오"
         next_button: "다음"
       message:
@@ -1263,6 +1279,9 @@ ko:
           placeholder: "이제 %{project}에서 이 플레이스홀더를 사용할 수 있게 되었습니다. 한편 당신은 해당 사용자에 대한 계획을 세우거나 작업 패키지를 할당할 수 있습니다."
           group: "이제 이 그룹은 %{project}의 일부입니다. 한편 당신은 해당 사용자에 대한 계획을 세우거나 작업 패키지를 할당할 수 있습니다."
         next_button: "계속"
+    favorite_projects:
+      no_results: "즐겨 찾는 프로젝트가 없습니다"
+      no_results_subtext: "개요 또는 프로젝트 목록에서 하나 이상의 프로젝트를 즐겨찾기로 추가하세요."
     include_projects:
       toggle_title: "프로젝트 포함"
       title: "프로젝트"
@@ -1321,3 +1340,7 @@ ko:
       drop_modal:
         focus_grab: "모달용 포커스 앵커입니다. 모달 트리거 요소로 돌아가려면 shift+tab을 누르세요."
         Close: "닫기"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "네트워크 문제가 있습니다."
+        network_on: "네트워크가 복원되었습니다. 작업 중입니다."

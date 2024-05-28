@@ -51,9 +51,9 @@ You can do that using the `filters` property, which is an array of objects with 
 ```
 
 
-# Examples
+## Examples
 
-## Decorated selects
+### Decorated selects
 
 If you have a fixed selection of options that do not originate from an API call, you can pass these options manually:
 
@@ -62,14 +62,21 @@ If you have a fixed selection of options that do not originate from an API call,
 You can also use this outside the primer form using the `views/augmented/_autocomplete_select_decoration.html.erb`
 partial.
 
-## Work package autocompletion
+### Work package autocompletion
 
 For work package autocompletion, you can use the same field, but with a different configuration.
 Keep in mind that this component uses the live work packages API, so results will depend on whether you are logged in.
 
 <%= embed OpenProject::Common::AutocompletePreview, :work_package, panels: %i[source] %>
 
-## Outside primer
+### Project autocompletion
+
+For project autocompletion, you can use the same field, but with a different configuration.
+Keep in mind that this component uses the live projects API, so results will depend on whether you are logged in.
+
+<%= embed OpenProject::Common::AutocompletePreview, :project, panels: %i[source] %>
+
+### Outside primer
 
 If you're not in a primer form, you can render the autocomplete directly like so:
 

@@ -329,6 +329,18 @@ zh-CN:
         years: "年"
         description: >
           选择自动缩放不可用时应显示的初始缩放级别。
+      export:
+        title: "甘特图 PDF 选项"
+        button_export: "导出"
+        column_widths:
+          narrow: "窄"
+          medium: "正常"
+          wide: "宽"
+          very_wide: "非常宽"
+        options:
+          date_zoom: "日期缩放"
+          paper_size: "纸张大小"
+          column_widths: "列宽"
     general_text_no: "否"
     general_text_yes: "是"
     general_text_No: "否"
@@ -347,11 +359,10 @@ zh-CN:
           learn_about: "详细了解新功能"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                该版本包含各种新功能和改进： <br> <ul class="%{list_styling_class}"> <li>GitLab 集成（最初由社区贡献者开发）</li> <li>自定义项目列表的高级功能</li> <li>会议模块的高级功能</li> <li>使用 ClamAV（企业插件）的病毒扫描功能</li> <li>PDF 导出：支持表格单元格中的列表</li> <li>添加 WebAuthn/FIDO/U2F 作为双因子认证</li> <li>在默认可用语言集中添加了更多语言</li> </ul>
+                该版本包含各种新功能和改进： <br> <ul class="%{list_styling_class}"> <li>甘特视图的 PDF 导出，例如用于打印（企业插件）</li> <li>收藏项目</li> <li>会议中的章节</li> <li>在 "我的 "页面和项目概览页面显示会议</li> <li>在 "文件 "选项卡中隐藏附件的可能性</li> <li>链接（URL）类型的自定义字段</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"
@@ -377,6 +388,7 @@ zh-CN:
     label_added_time_by: '由 <a href=%{authorLink}>%{author}</a> 在 %{age} 添加'
     label_ago: "天前"
     label_all: "所有"
+    label_all_uppercase: "全部"
     label_all_work_packages: "所有工作包"
     label_and: "和"
     label_ascending: "升序"
@@ -418,6 +430,7 @@ zh-CN:
     label_expand_project_menu: "展开项目菜单"
     label_export: "导出"
     label_export_preparing: "导出文件已开始准备并将很快被下载。"
+    label_favorites: "收藏夹"
     label_filename: "文件"
     label_filesize: "大小"
     label_general: "通用"
@@ -641,7 +654,7 @@ zh-CN:
           no_selection: "点击通知可查看所有活动详细信息。"
         new_notifications:
           message: "有新的通知。"
-          link_text: "点击此处加载"
+          link_text: "点击此处加载。"
       menu:
         accountable: "负责人"
         by_project: "按项目筛选未读通知"
@@ -923,6 +936,8 @@ zh-CN:
       message_work_package_read_only: "工作包被锁定在此状态。除状态外，其他属性均不可更改。"
       message_work_package_status_blocked: "由于处于关闭状态并且分配了关闭版本，因此工作包状态不可写。"
       placeholder_filter_by_text: "主题, 描述, 评论,..。"
+      progress:
+        title: "工时估计和进展"
       baseline:
         addition_label: "在比较时间段内添加到视图"
         removal_label: "在比较时间段内从视图删除"
@@ -1039,7 +1054,7 @@ zh-CN:
       sharing:
         share: "共享"
         title: "共享工作包"
-        show_all_users: "显示所有共享用户"
+        show_all_users: "显示与之共享工作包的所有用户"
         selected_count: "%{count} 已选择"
         selection:
           mixed: "混合"
@@ -1246,7 +1261,8 @@ zh-CN:
       role:
         label: "%{project} 中的角色"
         no_roles_found: "没有找到角色"
-        description: '这是用户在加入您的项目时将获得的角色。角色定义了允许其执行哪些操作以及允许其查看哪些信息。<a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank">详细了解角色和权限</a>。'
+        description: >-
+          这是用户在加入您的项目时将获得的角色。角色定义了允许其执行哪些操作以及允许其查看哪些信息。<a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank">详细了解角色和权限</a>。
         required: "请选择一个角色"
         next_button: "下一个"
       message:
@@ -1262,6 +1278,9 @@ zh-CN:
           placeholder: "现在可以在 %{project} 中使用占位符。同时，您已经可以与该用户一起制定计划并分配工作包等。"
           group: "该组现已加入 %{project}。同时，您已经可以与该组一起制定计划并分配工作包等。"
         next_button: "继续"
+    favorite_projects:
+      no_results: "您没有收藏的项目"
+      no_results_subtext: "通过项目概览或项目列表添加一个或多个项目作为收藏夹。"
     include_projects:
       toggle_title: "包含项目"
       title: "项目"
@@ -1320,3 +1339,7 @@ zh-CN:
       drop_modal:
         focus_grab: "该信息是模态框的焦点锚点。按 Shift+Tab 可以返回到模态框的触发元素。"
         Close: "关闭"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "网络有问题。"
+        network_on: "网络已恢复。我们正在努力。"

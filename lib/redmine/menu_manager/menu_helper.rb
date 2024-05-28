@@ -152,7 +152,7 @@ module Redmine::MenuManager::MenuHelper
     html_id = node.html_options[:id] || node.name
     content_tag(:div, class: "main-item-wrapper", id: "#{html_id}-wrapper") do
       concat render_single_menu_node(node, project)
-      concat render_menu_toggler
+      concat render_menu_toggler(node.name)
     end
   end
 
@@ -163,11 +163,14 @@ module Redmine::MenuManager::MenuHelper
     end
   end
 
-  def render_menu_toggler
+  def render_menu_toggler(node_name)
     content_tag(:button,
                 class: "toggler main-menu-toggler",
                 type: :button,
-                data: { action: "menus--main#descend" }) do
+                data: {
+                  action: "menus--main#descend",
+                  test_selector: "main-menu-toggler--#{node_name}"
+                }) do
       render(Primer::Beta::Octicon.new("arrow-right", size: :small))
     end
   end

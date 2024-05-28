@@ -48,7 +48,6 @@ RSpec.describe "Admin List File storages",
 
     it "renders a list of all storages" do
       within :css, "#content" do
-        expect(page).to have_list_item(count: 2)
         expect(page).to have_list_item(nextcloud_storage.name)
         expect(page).to have_list_item(one_drive_storage.name)
       end
@@ -65,8 +64,8 @@ RSpec.describe "Admin List File storages",
     end
 
     it "renders a blank slate" do
-      expect(page).to have_title("File storages")
-      expect(page.find(".PageHeader-title")).to have_text("File storages")
+      expect(page).to have_title("Files")
+      expect(page.find(".PageHeader-title")).to have_text("External file storages")
       expect(page).to have_text("You don't have any storages yet.")
     end
 

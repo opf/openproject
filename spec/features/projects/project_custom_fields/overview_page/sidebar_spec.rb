@@ -82,14 +82,15 @@ RSpec.describe "Show project custom fields on project overview page", :js, :with
         overview_page.within_custom_field_section_container(section_for_input_fields) do
           fields = page.all(".op-project-custom-field-container")
 
-          expect(fields.size).to eq(6)
+          expect(fields.size).to eq(7)
 
           expect(fields[0].text).to include("Boolean field")
           expect(fields[1].text).to include("String field")
           expect(fields[2].text).to include("Integer field")
           expect(fields[3].text).to include("Float field")
           expect(fields[4].text).to include("Date field")
-          expect(fields[5].text).to include("Text field")
+          expect(fields[5].text).to include("Link field")
+          expect(fields[6].text).to include("Text field")
         end
 
         overview_page.within_custom_field_section_container(section_for_select_fields) do
@@ -121,14 +122,15 @@ RSpec.describe "Show project custom fields on project overview page", :js, :with
         overview_page.within_custom_field_section_container(section_for_input_fields) do
           fields = page.all(".op-project-custom-field-container")
 
-          expect(fields.size).to eq(6)
+          expect(fields.size).to eq(7)
 
           expect(fields[0].text).to include("Boolean field")
           expect(fields[1].text).to include("Integer field")
           expect(fields[2].text).to include("Float field")
           expect(fields[3].text).to include("Date field")
-          expect(fields[4].text).to include("Text field")
-          expect(fields[5].text).to include("String field")
+          expect(fields[4].text).to include("Link field")
+          expect(fields[5].text).to include("Text field")
+          expect(fields[6].text).to include("String field")
         end
       end
     end
@@ -146,10 +148,6 @@ RSpec.describe "Show project custom fields on project overview page", :js, :with
 
   describe "with correct values" do
     describe "with boolean CF" do
-      # it_behaves_like 'a project custom field' do
-      #   let(subject) { boolean_project_custom_field }
-      # end
-
       describe "with value set by user" do
         it "shows the correct value for the project custom field if given" do
           overview_page.visit_page
@@ -473,22 +471,30 @@ RSpec.describe "Show project custom fields on project overview page", :js, :with
 
     describe "with text CF" do
       describe "with value set by user" do
-        context "with a value that is shorter than 100 characters" do
+        context "with a value that does not have a line break and spans less than 3 lines" do
+          before do
+            text_project_custom_field.custom_values.where(customized: project).first.update!(value: "Lorem ipsum")
+          end
+
           it "shows the correct value for the project custom field if given without truncation and dialog button" do
             overview_page.visit_page
 
             overview_page.within_async_loaded_sidebar do
               overview_page.within_custom_field_container(text_project_custom_field) do
                 expect(page).to have_text "Text field"
-                expect(page).to have_text "Lorem\nipsum"
+                expect(page).to have_text "Lorem ipsum"
               end
+
+              overview_page.expect_text_not_truncated(text_project_custom_field)
             end
           end
         end
 
-        context "with a value that is longer than 100 characters" do
+        context "with a value that spans more than three lines" do
+          let(:cf_value) { ("lorem " * 100).strip }
+
           before do
-            text_project_custom_field.custom_values.where(customized: project).first.update!(value: "a" * 101)
+            text_project_custom_field.custom_values.where(customized: project).first.update!(value: cf_value)
           end
 
           it "shows the correct value for the project custom field if given with truncation and dialog button" do
@@ -497,16 +503,14 @@ RSpec.describe "Show project custom fields on project overview page", :js, :with
             overview_page.within_async_loaded_sidebar do
               overview_page.within_custom_field_container(text_project_custom_field) do
                 expect(page).to have_text "Text field"
-                expect(page).to have_text ("#{'a' * 97}...")
-                expect(page).to have_text "Expand"
-
-                click_on "Expand"
-
-                within "dialog" do
-                  expect(page).to have_text "a" * 101
-                end
+                expect(page).to have_text (("lorem " * 5).to_s)
               end
+
+              overview_page.expect_text_truncated(text_project_custom_field)
+              overview_page.expand_text(text_project_custom_field)
             end
+
+            overview_page.expect_full_text_in_dialog(cf_value)
           end
         end
       end
@@ -524,6 +528,8 @@ RSpec.describe "Show project custom fields on project overview page", :js, :with
               expect(page).to have_text "Text field"
               expect(page).to have_text I18n.t("placeholders.default")
             end
+
+            overview_page.expect_text_not_truncated(text_project_custom_field)
           end
         end
       end
@@ -541,6 +547,8 @@ RSpec.describe "Show project custom fields on project overview page", :js, :with
               expect(page).to have_text "Text field"
               expect(page).to have_text I18n.t("placeholders.default")
             end
+
+            overview_page.expect_text_not_truncated(text_project_custom_field)
           end
         end
 
@@ -554,6 +562,8 @@ RSpec.describe "Show project custom fields on project overview page", :js, :with
               expect(page).to have_text "Text field"
               expect(page).to have_text I18n.t("placeholders.default")
             end
+
+            overview_page.expect_text_not_truncated(text_project_custom_field)
           end
         end
       end
@@ -718,14 +728,6 @@ RSpec.describe "Show project custom fields on project overview page", :js, :with
           end
         end
       end
-
-      describe "with support for user groups" do
-        # TODO
-      end
-
-      describe "with support for user placeholders" do
-        # TODO
-      end
     end
 
     describe "with multi list CF" do
@@ -838,6 +840,22 @@ RSpec.describe "Show project custom fields on project overview page", :js, :with
           end
         end
       end
+    end
+  end
+
+  describe "with attribute helper texts" do
+    let!(:instance) do
+      create :project_help_text,
+             attribute_name: boolean_project_custom_field.attribute_name
+    end
+    let(:modal) { Components::AttributeHelpTextModal.new(instance) }
+
+    it "displays when active" do
+      overview_page.visit_page
+      # Open help text modal
+      modal.open!
+      expect(modal.modal_container).to have_text "Attribute help text"
+      modal.expect_edit(editable: true)
     end
   end
 end

@@ -95,7 +95,7 @@ RSpec.describe "Project details widget on dashboard", :js do
           .to have_content("Project details have now moved to a column on the right edge of this page.")
         expect(page).to have_content(
           <<~TEXT.strip
-            Starting with version 13.5, project attributes can be grouped \
+            Starting with version 14.0, project attributes can be grouped \
             in sections and enabled and disabled at a project level.
           TEXT
         )
@@ -121,7 +121,7 @@ RSpec.describe "Project details widget on dashboard", :js do
           .to have_content("Project details have now moved to a column on the right edge of this page.")
         expect(page).to have_content(
           <<~TEXT.strip
-            Starting with version 13.5, project attributes can be grouped \
+            Starting with version 14.0, project attributes can be grouped \
             in sections and enabled and disabled at a project level.
           TEXT
         )
@@ -140,8 +140,6 @@ RSpec.describe "Project details widget on dashboard", :js do
 
     it 'has a "Project activity" entry in More menu linking to the project activity page' do
       details_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
-
-      details_widget.expect_menu_item("Project details activity")
 
       details_widget.click_menu_item("Project details activity")
       expect(page).to have_current_path(project_activity_index_path(project), ignore_query: true)

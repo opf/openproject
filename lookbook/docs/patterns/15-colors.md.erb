@@ -1,0 +1,96 @@
+This document serves as a reference guide for developers and designers with essential information about the colors used within OpenProject.
+Consistent utilization of colors not only enhances the visual appeal of the application but also improves user experience by creating a cohesive and intuitive design language.
+
+
+
+## Primer colors
+
+Primer already offers a wide palette of color variables as well as a [clear guide](https://primer.style/foundations/color/overview) on how to use them. We follow these rules within OpenProject. Thus we gain two main advantages:
+
+1. The Primer color system is proven to be accessible
+2. Primer offers different modes (dark, high contrast, colorblind, ..) which we can simply benefit from by using their variables.
+
+## Customization within OpenProject
+
+OpenProject offers the possibility to customize the color palette. For that to work, we unfortunately have to overwrite some of the Primer variables so that every component matches the desired colours. Please note, that we do not adapt these colors depending on the current mode. It is in the users responsibility to select colors that work with all modes.
+
+### Primary button color
+
+| Variable                 | Default hex code | Usage                                                                                                       |
+|--------------------------|------------------|-------------------------------------------------------------------------------------------------------------|
+| `--primary-button-color` | #1F883D          | This vibrant green is used sparingly for the most important button on a screen (usually the create action). |
+
+#### Where it's used
+
+- Global create button in the header
+- Module create button in the sidebar
+- All create buttons within the pages (e.g. Work packages &rarr; Create a Work package)
+
+#### Interaction with Primer
+
+The following variables of Primer are overwritten with the `--primary-button-color`:
+
+```css
+/* --primer-variable: var(--openProject-variable) */
+
+--button-primary-bgColor-rest: var(--primary-button-color) !important;
+--button-primary-bgColor-hover: var(--primary-button-color--major1) !important;
+```
+
+### Accent color
+
+| Variable         | Default hex code | Usage                                                                         |
+|------------------|------------------|-------------------------------------------------------------------------------|
+| `--accent-color` | #1A67A3          | This shade of blue is used for links and other decently highlighted elements. |
+
+
+#### Where it's used
+
+- All links
+- Selected dates in the datepicker (e.g within a Work package)
+- Toggle switch color (e.g. on the Project settings &rarr; Project attributes, or any boolean filter)
+
+#### Interaction with Primer
+
+The following variables of Primer are overwritten with the `--accent-color`:
+
+```css
+/* --primer-variable: var(--openProject-variable) */
+
+--fgColor-accent: var(--accent-color) !important;
+--control-checked-bgColor-rest: var(--accent-color) !important;
+--control-checked-bgColor-active: var(--accent-color) !important;
+--control-checked-bgColor-hover: var(--accent-color--major1) !important;
+--controlKnob-borderColor-checked: var(--accent-color) !important;
+```
+
+## Accessibility considerations
+
+When implementing colors in the application, we should ensure compliance with Primer's [accessibility standards](https://primer.style/foundations/color/accessibility).
+
+## Modes
+
+### High contrast mode
+
+The High contrast mode in our application is a user accessibility feature designed to enhance visibility and readability for individuals with visual impairments or those
+who prefer distinct visual elements. When enabled, the high contrast mode adjusts the application's color scheme, typically by increasing the contrast between text and
+background, using bold fonts, and employing vibrant colors to ensure clear distinction between interface elements.
+This mode aims to make content more discernible, thereby improving usability and accessibility for all users regardless of their visual abilities. The high contrast mode will be activated by following [these steps](https://www.openproject.org/docs/getting-started/my-account/#select-the-high-contrast-color-mode).
+
+Please note, that the high contrast mode is a **personal** setting, meaning it will only affect that user and not the whole instance. Further, it will override any customized colors for that users, as the accessibility compliance is valued higher then the theme.
+
+#### Technical notes
+
+The goal is to use Primer variables all over the application. Once we get to that state, we can simply switch between the modes and Primer offers the correct colors. Since we are currently **not** using Primer variables everywhere yet, we have to map some of OpenProject's global color variables to the Primer color variables. We do that in [app/views/custom_styles/_primer_color_mapping.erb](https://github.com/opf/openproject/blob/dev/app/views/custom_styles/_primer_color_mapping.erb). The following is only an excerpt of that:
+
+```css
+/* --openProject-variable: var(--primer-variable) */
+
+ --avatar-border-color: var(--avatar-borderColor);
+ --ck-color-base-border: var(--borderColor-default);
+ --header-bg-color: var(--page-header-bgColor);
+ --main-menu-bg-color: var(--page-header-bgColor);
+ --accent-color: var(--fgColor-accent);
+ --primary-button-color: var(--button-primary-bgColor-rest);
+ ...
+```

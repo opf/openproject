@@ -8,7 +8,7 @@ keywords: application start page
 
 # Application Home page
 
-On the **application home page** (start page) you will get an overview about important information. From here you can access all [global modules](./global-modules) in the left hand navigation. 
+On the **application home page** (start page) you will get an overview about important information. From here you can access all [global modules](./global-modules) in the left hand navigation.
 
 To get to the application home page, click on the logo in the header of the application.
 

@@ -45,7 +45,7 @@ RSpec.describe Grids::Filters::ScopeFilter, type: :model do
     let(:values) { ["/my/page"] }
   end
 
-  describe "#scope" do
+  describe "#apply_to" do
     context 'for "="' do
       let(:operator) { "=" }
 
@@ -53,7 +53,7 @@ RSpec.describe Grids::Filters::ScopeFilter, type: :model do
         it "is the same as handwriting the query" do
           expected = model.where("(grids.type IN ('Grids::MyPage'))")
 
-          expect(instance.scope.to_sql).to eql expected.to_sql
+          expect(instance.apply_to(model).to_sql).to eql expected.to_sql
         end
       end
     end

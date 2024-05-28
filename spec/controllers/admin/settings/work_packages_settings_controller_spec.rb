@@ -31,10 +31,70 @@
 
 require "spec_helper"
 
-RSpec.describe Admin::Settings::WorkPackagesSettingsController do # rubocop:disable RSpec/EmptyExampleGroup
+RSpec.describe Admin::Settings::WorkPackagesSettingsController do
   shared_let(:user) { create(:admin) }
 
   current_user { user }
 
   require_admin_and_render_template("work_packages_settings")
+
+  context "when changing progress calculation from work-based to status-based" do
+    shared_let(:status) { create(:status, default_done_ratio: 42) }
+    shared_let(:work_package) { create(:work_package, status:, done_ratio: 10, estimated_hours: 100) }
+
+    before do
+      Setting.work_package_done_ratio = "field"
+    end
+
+    it "starts a job to update work packages % complete and remaining work values" do
+      patch "update",
+            params: {
+              settings: {
+                work_package_done_ratio: "status"
+              }
+            }
+      expect(Setting.work_package_done_ratio).to eq("status")
+      expect(WorkPackages::Progress::ApplyStatusesPCompleteJob)
+        .to have_been_enqueued.with(cause_type: "progress_mode_changed_to_status_based")
+
+      perform_enqueued_jobs
+
+      expect(work_package.reload.read_attribute(:done_ratio)).to eq(status.default_done_ratio)
+      expect(work_package.last_journal.details["cause"]).to eq([nil, { "type" => "progress_mode_changed_to_status_based" }])
+    end
+  end
+
+  context "when sending path request to change progress calculation from status-based to status-based" do
+    before do
+      Setting.work_package_done_ratio = "status"
+    end
+
+    it "does not start a job" do
+      patch "update",
+            params: {
+              settings: {
+                work_package_done_ratio: "status"
+              }
+            }
+      expect(WorkPackages::Progress::ApplyStatusesPCompleteJob)
+        .not_to have_been_enqueued
+    end
+  end
+
+  context "when changing progress calculation from status-based to work-based" do
+    before do
+      Setting.work_package_done_ratio = "status"
+    end
+
+    it "does not start a job" do
+      patch "update",
+            params: {
+              settings: {
+                work_package_done_ratio: "field"
+              }
+            }
+      expect(WorkPackages::Progress::ApplyStatusesPCompleteJob)
+        .not_to have_been_enqueued
+    end
+  end
 end

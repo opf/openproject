@@ -67,11 +67,10 @@
             <td>
               <table <%= placeholder_table_styles(style: 'font-size:16px;font-weight:bold') %>>
                 <tr>
-                  <td style="color: <%= type_color(work_package.type, '#333333') %>;white-space: nowrap;">
-                    <%= work_package.type.to_s.upcase %>
-                  </td>
-                  <%= placeholder_cell('4px', vertical: true) %>
                   <td width="100%" style="color: #333333;">
+                    <span style="color: <%= type_color(work_package.type, '#333333') %>;white-space: nowrap;">
+                      <%= work_package.type.to_s.upcase %>
+                    </span>
                     <%= work_package.subject %>
                   </td>
                 </tr>

@@ -35,19 +35,21 @@
         participants: "Deltagere"
         participant:
           one: "1 Deltaker"
-          other: "%{count} deltakere"
+          other: "%{count} Deltakere"
         participants_attended: "Tilsluttete"
         participants_invited: "Inviterte"
         project: "Prosjekt"
         start_date: "Dato"
-        start_time: "Tidspunkt"
-        start_time_hour: "Starter"
-      meeting_agenda_items:
+        start_time: "Starttid"
+        start_time_hour: "Starttid"
+      meeting_agenda_item:
         title: "Tittel"
         author: "Forfatter"
-        duration_in_minutes: "Varighet (min)"
+        duration_in_minutes: "minutter"
         description: "Notater"
         presenter: "Foredragsholder"
+      meeting_section:
+        title: "Tittel"
     errors:
       messages:
         invalid_time_format: "er ikke et gyldig tidpunkt. Formatet må være HH:MM"
@@ -105,7 +107,9 @@
       agenda: "Kopier saksliste"
       agenda_text: "Kopier sakslisten fra det forrige møtet"
     email:
-      open_meeting_link: "Åpne møte"
+      send_emails: "Send e-post"
+      send_invitation_emails: "Send ut invitasjons e-poster ved opprettelse"
+      open_meeting_link: "Åpent møte"
       invited:
         summary: "%{actor} har sendt deg en invitasjon til møtet %{title}"
       rescheduled:
@@ -121,7 +125,12 @@
       structured: "Dynamisk"
       structured_text: "Organiser møtet som en liste over saker, eventuelt knytte dem til en arbeidspakke."
       structured_text_copy: "Kopiering av et møte vil for tiden ikke kopiere de tilknyttede elementene på dagsordenen, bare detaljene"
-    copied: "Kopiert fra møte #"
+    copied: "Kopiert fra møte #%{id}"
+  meeting_section:
+    untitled_title: "Ikke navngitt del"
+    delete_confirmation: "Hvis du sletter denne delen, slettes også dets verdier i alle prosjekter. Er du sikker på at du vil gjøre dette?"
+    placeholder_title: "Ny seksjon"
+    empty_text: "Dra punkter hit eller opprett et nytt"
   notice_successful_notification: "Påminning sendt"
   notice_timezone_missing: Ingen tidssone angis og %{zone} antas. Vennligst klikk her for å velge egen tidssone.
   permission_create_meetings: "Opprett møter"
@@ -143,7 +152,7 @@
   text_in_hours: "i timer"
   text_meeting_agenda_for_meeting: 'saksliste for møtet "%{meeting}"'
   text_meeting_closing_are_you_sure: "Er du sikker på at du vil lukke agendaen?"
-  text_meeting_agenda_open_are_you_sure: "Dette vil overskrive alle endringer i minuttene! Vil du fortsette?"
+  text_meeting_agenda_open_are_you_sure: "Dette vil overskrive alle endringer i referatet! Vil du fortsette?"
   text_meeting_minutes_for_meeting: 'referat for møtet "%{meeting}"'
   text_notificiation_invited: "Denne e-posten inneholder ny informasjon for møtet nedenfor:"
   text_meeting_empty_heading: "Ditt møte er tomt"
@@ -155,7 +164,9 @@
   label_meeting_delete: "Slett møte"
   label_meeting_created_by: "Opprettet av"
   label_meeting_last_updated: "Sist oppdatert"
-  label_agenda_item_remove: "Remove from agenda"
+  label_agenda_items: "Dagsordenens poster"
+  label_agenda_items_reordered: "omsortert"
+  label_agenda_item_remove: "Fjern fra dagsorden"
   label_agenda_item_undisclosed_wp: "Arbeidspakke #%{id} er ikke synlig"
   label_agenda_item_deleted_wp: "Slettet arbeidspakkereferanse"
   label_agenda_item_actions: "Tiltak på punkter i dagsorden"
@@ -164,10 +175,18 @@
   label_agenda_item_move_up: "Flytt opp"
   label_agenda_item_move_down: "Flytt ned"
   label_agenda_item_add_notes: "Legg til notater"
+  label_agenda_item_work_package: "Arbeidspakke for dagsordenen"
+  text_agenda_item_title: 'Dagsordenpost "%{title}"'
+  text_agenda_work_package_deleted: 'Dagsordenpost for slettet arbeidspakke'
+  text_deleted_agenda_item: 'Slettet dagsordenpost'
+  label_initial_meeting_details: "Møte"
   label_meeting_details: "Møtedetaljer"
   label_meeting_details_edit: "Rediger møtedetaljer"
-  label_meeting_state_open: "Åpne"
+  label_meeting_state: "Møtestatus"
+  label_meeting_state_open: "Åpen"
+  label_meeting_state_open_html: "<i>Åpen</i>"
   label_meeting_state_closed: "Stengt"
+  label_meeting_state_closed_html: "<i>Stengt</i>"
   label_meeting_reopen_action: "Gjenåpne møte"
   label_meeting_close_action: "Lukk møtet"
   text_meeting_open_description: "Dette møtet er åpen. Du kan legge til/fjerne punkter på dagsorden og redigere dem etter hvert som du ønsker. Etter at møtet er over, lukk det for å låse det."

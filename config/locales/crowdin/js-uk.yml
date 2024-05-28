@@ -330,6 +330,18 @@ uk:
         years: "Років"
         description: >
           Виберіть початкове значення масштабу, коли функція автомасштабування недоступна.
+      export:
+        title: "Параметри діаграми Ґанта (PDF)"
+        button_export: "Експорт"
+        column_widths:
+          narrow: "Вузькі"
+          medium: "Середні"
+          wide: "Широкі"
+          very_wide: "Дуже широкі"
+        options:
+          date_zoom: "Масштабування дати"
+          paper_size: "Розмір паперу"
+          column_widths: "Ширина стовпців"
     general_text_no: "ні"
     general_text_yes: "так"
     general_text_No: "Ні"
@@ -348,11 +360,10 @@ uk:
           learn_about: "Дізнатися більше про нові функції"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                Цей випуск містить кілька нових і поліпшених функцій. <br> <ul class="%{list_styling_class}"><ul class="%{list_styling_class}"><ul class="%{list_styling_class}"> <li>Інтеграція з GitLab (розроблена членами спільноти)</li> <li>Розширені можливості роботи з користувацькими списками проєктів</li> <li>Розширені можливості роботи з модулем «Наради»</li> <li>Можливіть перевірки на віруси за допомогою ClamAV (доповнення версії Enterprise)</li> <li>Екпорт PDF: підтримка списків у клітинках таблиці</li> <li>WebAuthn / FIDO / U2F додано як другий фактор</li> <li>Розширено список мов набору за умовчанням</li> </ul>
+                Цей випуск містить кілька нових і поліпшених функцій. <br> <ul class="%{list_styling_class}"> <li>Експорт діаграми Ґанта у форматі PDF, наприклад для друку (доповнення версії Enterprise)</li> <li>Обрані проєкти</li> <li>Розділи на сторінці «Наради»</li> <li>Показ нарад на Моїй сторінці й сторінках огляду проєкту</li> <li>Можливість приховувати вкладення на вкладці «Файли»</li> <li>Користувацькі поля типу «Посилання (URL)</li> </ul>
     ical_sharing_modal:
       title: "Підписатися на календар"
       inital_setup_error_message: "Під час отримання даних сталася помилка."
@@ -378,6 +389,7 @@ uk:
     label_added_time_by: 'Додано користувачем <a href="%{authorLink}">%{author}</a> о %{age}'
     label_ago: "днів тому"
     label_all: "всі"
+    label_all_uppercase: "Усі"
     label_all_work_packages: "всі пакети в роботі"
     label_and: "і"
     label_ascending: "За зростанням"
@@ -419,6 +431,7 @@ uk:
     label_expand_project_menu: "Розгорніть меню проекту"
     label_export: "Експорт"
     label_export_preparing: "Файл готується для експорту, і невдовзі його буде завантажено."
+    label_favorites: "Обране"
     label_filename: "Файл"
     label_filesize: "Розмір"
     label_general: "Загальні"
@@ -645,7 +658,7 @@ uk:
           no_selection: "Натисніть сповіщення, щоб переглянути всі дані про дію."
         new_notifications:
           message: "Немає нових сповіщень."
-          link_text: "Натисніть тут, щоб завантажити їх"
+          link_text: "Натисніть тут, щоб завантажити."
       menu:
         accountable: "Відповідальний"
         by_project: "Непрочитані проєктом"
@@ -927,6 +940,8 @@ uk:
       message_work_package_read_only: "Робочий пакет заблоковано в цьому статусі. Атрибут, відмінний від статусу, може бути змінений."
       message_work_package_status_blocked: "Пакет робіт недоступний для запису, оскільки призначено закритий статус або закриту версію."
       placeholder_filter_by_text: "Тема, опис, коментарі, ..."
+      progress:
+        title: "Оцінки й прогрес виконання роботи"
       baseline:
         addition_label: "Додано до подання з періодом для порівняння"
         removal_label: "Вилучено з подання з періодом для порівняння"
@@ -1043,7 +1058,7 @@ uk:
       sharing:
         share: "Поширити"
         title: "Надати доступ до пакета робіт"
-        show_all_users: "Показати всіх користувачів із доступом"
+        show_all_users: "Показувати всіх користувачів, яким надано доступ до пакета робіт"
         selected_count: "Вибрано: %{count}"
         selection:
           mixed: "Змішані"
@@ -1256,7 +1271,8 @@ uk:
       role:
         label: "Ролі у проєкті «%{project}»"
         no_roles_found: "Ролей не знайдено"
-        description: 'Це роль, яку користувач отримає в разі приєднання до вашого проєкту. Роль визначає, які дії йому дозволено та яку інформацію він може бачити. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Дізнатися більше про ролі й дозволи. </a>'
+        description: >-
+          Це роль, яку користувач отримає в разі приєднання до вашого проєкту. Роль визначає, які дії йому дозволено та яку інформацію він може бачити. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Дізнатися більше про ролі й дозволи. </a>
         required: "Виберіть роль"
         next_button: "Далі"
       message:
@@ -1272,6 +1288,9 @@ uk:
           placeholder: "Прототип тепер може ввійти, щоб отримати доступ до проєкту «%{project}». Тим часом ви вже можете включати цього користувача в план і призначати йому пакети робіт."
           group: "Ця група тепер входить у проєкт «%{project}». Тим часом ви вже можете включати її в план і призначати їй пакети робіт."
         next_button: "Продовжити"
+    favorite_projects:
+      no_results: "У вас немає обраних проєктів"
+      no_results_subtext: "Додайте один або кілька проєктів в обране на відповідній сторінці огляду або в списку проєктів."
     include_projects:
       toggle_title: "Включити проєкти"
       title: "Проекти"
@@ -1330,3 +1349,7 @@ uk:
       drop_modal:
         focus_grab: "Це якір фокуса для модальних вікон. Натисніть клавіші Shift + Tab, щоб повернутися до тригера модального вікна."
         Close: "Закрити"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "Існує проблема з мережею."
+        network_on: "З’єднання відновлено. Ми намагаємося."

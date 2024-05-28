@@ -14,8 +14,6 @@ Wiki menu items are marked with the wiki icon to clearly identify the pages in t
 
 ![wiki-menu](wiki-menu.png)
 
-
-
 ## Add a wiki page to the project menu
 
 To add a wiki page as a menu item to the project menu, select the **More** functions button on top of a wiki page and choose the **Configure menu item** topic.
@@ -30,8 +28,6 @@ To add a wiki page as a menu item to the project menu, select the **More** funct
 - **Show as submenu item of ...** will display the wiki page a sub-menu item in the project navigation.
 
 3. **Save** your changes to the wiki page menu.
-
-
 
 ![wiki-menu-item-settings](wiki-menu-item-settings.png)
 

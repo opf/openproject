@@ -42,6 +42,9 @@ de:
         subprojects:
           title: 'Unterprojekte'
           no_results: 'Keine Unterprojekte.'
+        project_favorites:
+          title: 'Favorisierte Projekte'
+          no_results: 'Sie haben derzeit keine favorisierten Projekte. Klicken Sie auf den Stern auf der Projektübersicht, um ein Projekt zu Ihren Favoriten hinzuzufügen.'
         time_entries_current_user:
           title: 'Meine gebuchte Zeit'
           displayed_days: 'Dargestellte Tage im Widget:'

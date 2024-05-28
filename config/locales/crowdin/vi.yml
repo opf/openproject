@@ -265,8 +265,10 @@ vi:
       no_results_content_text: Tạo một dự án mới
     lists:
       active: "Active projects"
-      my: "My projects"
+      my: "Dự án của tôi"
+      favored: "Favorite projects"
       archived: "Archived projects"
+      public: "Public project lists"
       my_private: "My private project lists"
       new:
         placeholder: "New project list"
@@ -306,25 +308,73 @@ vi:
       storage:
         no_results_title_text: There is no additional recorded disk space consumed by this project.
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: Hiện có không có thành viên của dự án này.
       no_results_content_text: Thêm một thành viên vào dự án
     invite_by_mail: "Gửi lời mời cho  %{mail}"
     send_invite_to: "Send invite to"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     columns:
       shared: "Shared"
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "Toàn bộ"
       invited: "Invited"
-      locked: "Locked"
+      locked: "Đã khóa"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "Các Nhóm"
+    delete_member_dialog:
+      title: "Remove member"
+      will_remove_the_users_role: "This will remove the user’s role from this project."
+      will_remove_the_groups_role: "This will remove the group role from this project."
+      however_work_packages_shared_with_user_html:
+        other: "However, %{shared_work_packages_link} have also been shared with this user."
+      however_work_packages_shared_with_group_html:
+        other: "However, %{shared_work_packages_link} have also been shared with this group."
+      remove_work_packages_shared_with_user_too: "A user that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
+      remove_work_packages_shared_with_group_too: "A group that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
+      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
+      can_remove_direct_but_not_shared_roles: "You can remove this user as a direct project member but a group they are in is also a member of this project, so they will continue being a member via the group."
+      also_work_packages_shared_with_user_html:
+        other: "Also, %{shared_work_packages_link} have been shared with this user."
+      remove_project_membership_or_work_package_shares_too: "Do you want to remove just the user as a direct member (and keep the shares) or remove the work package shares too?"
+      will_remove_all_user_access_priveleges: "Deleting this member will remove all access privileges of the user to the project. The user will still exist as part of the instance."
+      will_remove_all_group_access_priveleges: "Deleting this member will remove all access privileges of the group to the project. The group will still exist as part of the instance."
+      cannot_delete_inherited_membership: "You cannot delete this member because they belong to a group that is itself a member of this project."
+      cannot_delete_inherited_membership_note_admin_html: "You can either remove the group as a member of the project or this specific member from the group in the %{administration_settings_link}."
+      cannot_delete_inherited_membership_note_non_admin: "You can either remove the group as a member of the project or contact your administrator to remove this specific member from the group."
+    delete_work_package_shares_dialog:
+      title: "Revoke work package shares"
+      shared_with_this_user_html:
+        other: "%{all_shared_work_packages_link} have been shared with this user."
+      shared_with_this_group_html:
+        other: "%{all_shared_work_packages_link} have been shared with this group."
+      shared_with_permission_html:
+        other: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
+      revoke_all_or_with_role: "Would you like to revoke access to all shared work packages, or only those with %{shared_role_name} permissions?"
+      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
+      cannot_remove_inherited: "The work packages shares shared via groups cannot be removed."
+      cannot_remove_inherited_with_role: "The work packages shares with role %{shared_role_name} are shared via groups and cannot be removed."
+      cannot_remove_inherited_note_admin_html: "You can either revoke the share to the group or remove this specific member from the group in the %{administration_settings_link}."
+      cannot_remove_inherited_note_non_admin: "You can either revoke the share to the group or contact your administrator to remove this specific member from the group."
+      will_revoke_directly_granted_access: "This action will revoke their access to all of them, but the work packages shared with a group."
+      will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
       failed_to_reset_token: "Lỗi cập nhật mã truy cập: %{error}"
@@ -359,7 +409,7 @@ vi:
     memberships:
       no_results_title_text: Người dùng này không phải là thành viên của dự án.
   page:
-    text: "Text"
+    text: "Văn bản"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -444,7 +494,7 @@ vi:
       no_common_statuses_exists: "Có là tình trạng không có sẵn cho tất cả các gói đã chọn công việc. Tình trạng của họ không thể thay đổi."
       unsupported_for_multiple_projects: "Bulk move/copy is not supported for work packages from multiple projects"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Workflow missing for work package sharing"
         message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
         link_message: "Configure the workflows in the administration."
@@ -556,9 +606,9 @@ vi:
         column_count: "Số cột"
         widgets: "Tiện ích"
       oauth_client:
-        client: "Client ID"
+        client: "ID Khách hàng"
       relation:
-        delay: "Trì hoãn"
+        lag: "Lag"
         from: "Work Package"
         to: "Work package liên quan"
       status:
@@ -581,7 +631,7 @@ vi:
           false: "private"
         queries: "Truy vấn"
         status_code: "Tình trạng dự án"
-        description: "Description"
+        description: "Mô tả"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -676,8 +726,8 @@ vi:
         priority: "Độ ưu tiên"
         progress: "% Complete"
         readonly: "Read only"
-        remaining_hours: "Remaining work"
-        remaining_time: "Remaining work"
+        remaining_hours: "Số giờ làm việc còn lại"
+        remaining_time: "Số giờ làm việc còn lại"
         shared_with_users: "Shared with"
         schedule_manually: "Manual scheduling"
         spent_hours: "Thời gian"
@@ -742,6 +792,7 @@ vi:
         not_an_iso_date: "không phải là một ngày hợp lệ. Yêu cầu định dạng: YYYY-MM-DD."
         not_same_project: "không thuộc cùng dự án."
         odd: "phải là số lẻ"
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "có thể không được xác nhận với các biểu hiện thường xuyên liên kết."
         smaller_than_or_equal_to_max_length: "phải nhỏ hơn hoặc bằng với chiều dài tối đa"
         taken: "đã bị dùng rồi."
@@ -863,6 +914,8 @@ vi:
               nonexistent: "The column '%{column}' does not exist."
               format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "Không có trường tùy chỉnh cho bộ lọc."
@@ -953,7 +1006,14 @@ vi:
               only_same_project_categories_allowed: "Các thể loại của một work package phải trong dự án tương tự như work package."
               does_not_exist: "Thể loại đã chỉ định không tồn tại."
             estimated_hours:
-              only_values_greater_or_equal_zeroes_allowed: "must be >= 0."
+              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              format: "%{message}"
+            remaining_hours:
+              cant_exceed_work: "Cannot be higher than Work."
+              must_be_set_when_work_is_set: "Required when Work is set."
+              format: "%{message}"
           readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
         type:
           attributes:
@@ -987,7 +1047,7 @@ vi:
             ldap_auth_source:
               error_not_found: "không tìm thấy"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "không tìm thấy"
         member:
           principal_blank: "Vui lòng chọn ít nhất một người dùng hoặc nhóm."
           role_blank: "cần được chỉ định."
@@ -1050,6 +1110,12 @@ vi:
       updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
       updated_on_time_entry: "logged time updated on %{datetime}"
+      deleted_on: "deleted on %{datetime}"
+      deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "Dự án con"
       parent_no_longer: "No longer subproject of"
       time_entry:
@@ -1059,6 +1125,18 @@ vi:
           other: "<i>%{count} hours</i>"
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value}"
+          added_html: "set to <i>%{value}</i>"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+        position:
+          updated: "reordered"
+        work_package:
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
       changeset: "Nhóm thay đổi"
       message: "Diễn đàn"
@@ -1156,6 +1234,7 @@ vi:
       token_cooldown: Mã token sao lưu sẽ có giá trị trong %{hours} giờ.
       backup_pending: Có một bản sao lưu đang chờ xử lý.
       limit_reached: Bạn chỉ có thể tạo %{limit} bản sao lưu mỗi ngày.
+  button_actions: "Hành động"
   button_add: "Thêm"
   button_add_comment: "Thêm bình luận"
   button_add_member: Thêm thành viên
@@ -1189,6 +1268,7 @@ vi:
   button_edit: "Chỉnh sửa"
   button_edit_associated_wikipage: "Chỉnh sửa trang Wiki liên quan: %{page_title}"
   button_expand_all: "Mở rộng tất cả"
+  button_favorite: "Add to favorites"
   button_filter: "Bộ lọc"
   button_generate: "Tạo"
   button_list: "Danh sách"
@@ -1206,7 +1286,7 @@ vi:
   button_reset: "Reset"
   button_rollback: "Quay trở lại phiên bản này"
   button_save: "Lưu"
-  button_save_as: "Save as"
+  button_save_as: "Lưu thành"
   button_apply_changes: "Apply changes"
   button_save_back: "Lưu và trở lại"
   button_show: "Hiện"
@@ -1216,6 +1296,7 @@ vi:
   button_unarchive: "Ngừng lưu trữ"
   button_uncheck_all: "Bỏ chọn tất cả"
   button_unlock: "Mở khoá"
+  button_unfavorite: "Remove from favorites"
   button_unwatch: "Ngừng theo dõi"
   button_update: "Cập Nhật"
   button_upgrade: "Nâng cấp"
@@ -1226,6 +1307,16 @@ vi:
   button_add_menu_entry: "Thêm mục trình đơn"
   button_configure_menu_entry: "Cấu hình các mục trình đơn"
   button_delete_menu_entry: "Xóa mục trình đơn"
+  button_view_shared_work_packages: "View shared work packages"
+  button_manage_roles: "Manage roles"
+  button_remove_member: "Remove member"
+  button_remove_member_and_shares: "Remove member and shares"
+  button_revoke_work_package_shares: "Revoke work package shares"
+  button_revoke_access: "Revoke access"
+  button_revoke_all: "Revoke all"
+  button_revoke_only: "Revoke only %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: Tôi đã ghi nhận và đồng ý với những điều trên.
     failure_message: Sự đồng ý không thành công, không thể tiếp tục.
@@ -1423,7 +1514,6 @@ vi:
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
   error_token_authenticity: "Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again."
-  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "Work package không được tìm thấy hoặc không thuộc về dự án này"
   error_must_be_project_member: "phải là thành viên dự án"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
@@ -1454,7 +1544,7 @@ vi:
     message: Đã chỉnh sửa tin nhắn
     news: Tin tức
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "Đã chỉnh sửa dự án"
     projects: "Đã chỉnh sửa dự án"
     reply: Đã phản hồi
     time_entry: "Đã chỉnh sửa Timelog"
@@ -1476,6 +1566,7 @@ vi:
       pdf_overview_table: "PDF Table"
       pdf_report_with_images: "PDF Report with images"
       pdf_report: "PDF Report"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Hình ảnh không được xuất"
     units:
@@ -1517,7 +1608,7 @@ vi:
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "User guides"
       faq: "FAQ"
-      impressum: "Legal notice"
+      impressum: "Thông báo pháp lý"
       glossary: "Glossary"
       shortcuts: "Shortcuts"
       blog: "OpenProject blog"
@@ -1528,8 +1619,10 @@ vi:
   journals:
     changes_retracted: "Những thay đổi đã bị rút lại"
     caused_changes:
-      default_attribute_written: "Read-only attributes written"
       dates_changed: "Dates changed"
+      default_attribute_written: "Read-only attributes written"
+      progress_mode_changed_to_status_based: "Progress calculation updated"
+      status_p_complete_changed: "Status % Complete changed"
       system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
@@ -1545,9 +1638,18 @@ vi:
         dates:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
+      progress_mode_changed_to_status_based: Progress calculation mode set to status-based
+      status_p_complete_changed: >-
+        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Configuration guide"
     get_in_touch: "Nếu bạn còn những câu hỏi khác ? Hãy liên lạc với chúng tôi"
@@ -1562,6 +1664,8 @@ vi:
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
+    breadcrumb:
+      nested_element: "%{section_header}: <b>%{title}</b>"
   my_account:
     access_tokens:
       no_results:
@@ -1610,17 +1714,6 @@ vi:
         mentioned: "You have been mentioned in %{work_package}"
         responsible: "You have become accountable for %{work_package}"
         watched: "You are watching %{work_package}"
-    update_info_mail:
-      body: >
-        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-        We hope you find in-app notifications useful and that they makes you even more productive.
-        Sincerely, The OpenProject team
-      body_header: "Version 12.0 with Notification Center"
-      body_subheader: "Tin tức"
-      subject: "Important changes to notifications with the release of 12.0"
   label_accessibility: "Trợ năng"
   label_account: "Tài khoản"
   label_active: "Đang hoạt động"
@@ -1663,21 +1756,23 @@ vi:
   label_ascending: "Tăng dần"
   label_assigned_to_me_work_packages: "Work package được chỉ định cho tôi"
   label_associated_revisions: "Các phiên bản kết hợp"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "Đính kèm"
   label_attribute: "Thuộc tính"
   label_attribute_plural: "Thuộc tính"
   label_ldap_auth_source_new: "New LDAP connection"
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
+  label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Xác thực"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Available forums"
   label_available_project_repositories: "Kho có sẵn"
   label_available_project_versions: "Phiên bản sẵn có"
   label_available_project_work_package_categories: "Available work package categories"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "Tài liệu API"
   label_backup: "Sao lưu"
   label_backup_code: "Backup code"
   label_between: "giữa"
@@ -1689,7 +1784,7 @@ vi:
   label_forum_plural: "Diễn đàn"
   label_forum_sticky: "Chú ý"
   label_boolean: "Boolean"
-  label_board_plural: "Boards"
+  label_board_plural: "Bảng"
   label_branch: "Nhánh"
   label_browse: "Duyệt"
   label_bulk_edit_selected_work_packages: "Chỉnh sửa các work package đã chọn"
@@ -1748,7 +1843,7 @@ vi:
   label_custom_field_plural: "Tùy chỉnh mục"
   label_custom_field_default_type: "Kiểu rỗng"
   label_custom_style: "Thiết kế"
-  label_dashboard: "Dashboard"
+  label_dashboard: "Bảng điều khiển"
   label_database_version: "PostgreSQL version"
   label_date: "Ngày"
   label_date_and_time: "Ngày và giờ"
@@ -1800,7 +1895,7 @@ vi:
   label_enterprise_support: "Enterprise support"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Môi trường"
-  label_estimates_and_time: "Ước tính và thời gian"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "là"
   label_everywhere: "mọi nơi"
   label_example: "Ví dụ"
@@ -1810,18 +1905,18 @@ vi:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Nhập"
   label_export_to: "Cũng có sẵn tại:"
-  label_expand: "Expand"
+  label_expand: "Mở rộng"
   label_expanded_click_to_collapse: "Mở rộng. Bấm vào để thu gọn"
   label_f_hour: "%{value} giờ"
   label_f_hour_plural: "%{value} giờ"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "Nguồn cấp dữ liệu"
   label_feeds_access_key: "Khóa truy cập RSS"
   label_feeds_access_key_created_on: "Khoá truy cập API đựơc tạo cách đây %{value}"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Tập tin"
   label_filter_add: "Thêm bộ lọc"
-  label_filter: "Filters"
+  label_filter: "Bộ lọc"
   label_filter_plural: "Bộ lọc"
   label_filters_toggle: "Hiển thị/ẩn bộ lọc"
   label_float: "Số thực"
@@ -1848,7 +1943,7 @@ vi:
   label_home: "Trang chủ"
   label_subject_or_id: "Chủ đề hoặc Mã"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "Định danh"
   label_in: "trong"
   label_in_less_than: "ít hơn"
   label_in_more_than: "nhiều hơn"
@@ -1864,7 +1959,7 @@ vi:
   label_internal: "Nội bộ"
   label_introduction_video: "Giới thiệu video"
   label_invite_user: "Invite user"
-  label_share: "Share"
+  label_share: "Chia sẻ"
   label_show_hide: "Show/hide"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
@@ -1884,8 +1979,10 @@ vi:
   label_latest_revision: "Latest revision"
   label_latest_revision_plural: "Latest revisions"
   label_ldap_authentication: "LDAP authentication"
+  label_learn_more: "Learn more"
   label_less_or_equal: "<="
   label_less_than_ago: "less than days ago"
+  label_link_url: "Link (URL)"
   label_list: "Danh sách"
   label_loading: "Loading..."
   label_lock_user: "Lock user"
@@ -1911,6 +2008,7 @@ vi:
   label_membership_plural: "Memberships"
   lable_membership_added: "Thành viên đã thêm"
   lable_membership_updated: "Thành viên đã cập nhật"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alpha"
@@ -2001,7 +2099,7 @@ vi:
   label_precedes: "trước"
   label_preferences: "Tùy chỉnh"
   label_preview: "Xem trước"
-  label_preview_not_available: "(Preview not available)"
+  label_preview_not_available: "Preview not available"
   label_previous: "Trước đó"
   label_previous_week: "Tuần trước"
   label_principal_invite_via_email: "hoặc mời người dùng mới qua email"
@@ -2009,8 +2107,10 @@ vi:
   label_privacy_policy: "Chính sách bảo mật và quyền riêng tư dữ liệu"
   label_product_version: "Phiên bản sản phẩm"
   label_profile: "Hồ sơ"
+  label_percent_complete: "% Complete"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Tổng số dự án"
   label_project_copy_notifications: "Gửi email thông báo trong quá trình sao chép dự án"
   label_project_latest: "Dự án mới nhất"
@@ -2018,13 +2118,14 @@ vi:
   label_project_hierarchy: "Phân cấp dự án"
   label_project_new: "Dự án mới"
   label_project_plural: "Các dự án"
+  label_project_list_plural: "Project lists"
   label_project_attributes_plural: "Project attributes"
   label_project_custom_field_plural: "Project attributes"
   label_project_settings: "Thiết lập dự án"
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} dự án sử dụng %{storage} ổ lưu trữ"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "Xem tất cả các dự án"
   label_project_show_details: "Hiển thị chi tiết dự án"
   label_project_hide_details: "Ẩn chi tiết Dự án"
@@ -2044,6 +2145,7 @@ vi:
   label_relation_delete: "Xóa quan hệ"
   label_relation_new: "Quan hệ mới"
   label_release_notes: "Ghi chú phát hành"
+  label_remaining_work: "Số giờ làm việc còn lại"
   label_remove_columns: "Loại bỏ cột được chọn"
   label_renamed: "đổi tên"
   label_reply_plural: "Trả lời"
@@ -2080,6 +2182,7 @@ vi:
   label_setting_plural: "Cài đặt"
   label_system_settings: "Cài đặt hệ thống"
   label_show_completed_versions: "Xem phiên bản đã hoàn thành"
+  label_columns: "Cột"
   label_sort: "Sắp xếp"
   label_sort_by: "Sắp xếp theo %{value}"
   label_sorted_by: "sắp xếp theo %{value}"
@@ -2122,7 +2225,6 @@ vi:
   label_type_new: "Kiểu mới"
   label_type_plural: "Các loại"
   label_ui: "Giao diện người dùng"
-  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Cập nhật cách đây %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Cập nhật bởi %{author} cách đây %{age}"
@@ -2177,6 +2279,7 @@ vi:
   label_wiki_show_new_page_link: "Hiển thị mục menu con 'Tạo trang con mới'"
   label_wiki_show_submenu_item: "Hiển thị dưới dạng mục menu con của"
   label_wiki_start: "Trang bắt đầu"
+  label_work: "Work"
   label_work_package: "Work Package"
   label_work_package_attachments: "Phần đính kèm công việc"
   label_work_package_category_new: "Danh mục mới"
@@ -2220,6 +2323,7 @@ vi:
     other: "%{count} files"
     zero: "no files"
   label_yesterday: "yesterday"
+  label_zen_mode: "Zen mode"
   label_role_type: "Kiểu"
   label_member_role: "Project role"
   label_global_role: "Global role"
@@ -2426,7 +2530,6 @@ vi:
   notice_file_not_found: "The page you were trying to access doesn't exist or has been removed."
   notice_forced_logout: "You have been automatically logged out after %{ttl_time} minutes of inactivity."
   notice_internal_server_error: "An error occurred on the page you were trying to access. If you continue to experience problems please contact your %{app_title} administrator for assistance."
-  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "Information has been updated by at least one other user in the meantime."
   notice_locking_conflict_additional_information: "The update(s) came from %{users}."
   notice_locking_conflict_reload_page: "Please reload the page, review the changes and reapply your updates."
@@ -2576,6 +2679,7 @@ vi:
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:
@@ -2622,7 +2726,7 @@ vi:
     member_of_group: "Assignee's group"
     name_or_identifier: "Name or identifier"
     only_subproject_id: "Only subproject"
-    shared_with_user: "Shared with user"
+    shared_with_user: "Shared with users"
     shared_with_me: "Shared with me"
     subproject_id: "Including subproject"
   repositories:
@@ -2767,6 +2871,7 @@ vi:
   setting_app_subtitle: "Application subtitle"
   setting_app_title: "Application title"
   setting_attachment_max_size: "Attachment max. size"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Scan mode"
   setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Autofetch repository changes"
@@ -2806,10 +2911,11 @@ vi:
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Host name"
   setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Calculate work package % Complete with"
-  setting_work_package_done_ratio_field: "The work package field"
-  setting_work_package_done_ratio_status: "The work package status"
-  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
+  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_explanation_html: >
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Work package properties"
   setting_work_package_startdate_is_adddate: "Use current date as start date for new work packages"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
@@ -2867,6 +2973,8 @@ vi:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Virus scanning"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
@@ -2875,7 +2983,7 @@ vi:
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
@@ -2960,6 +3068,7 @@ vi:
   text_are_you_sure: "Are you sure?"
   text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Delete work package and all child work packages?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Assign to the project"
   text_form_configuration: >
     Bạn có thể tùy chỉnh các trường sẽ được hiển thị trong các gói công việc. Bạn có thể tự do nhóm các trường để phản ánh nhu cầu cho tên miền của bạn.
@@ -3102,6 +3211,10 @@ vi:
         input_label: "Add columns"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Tài nguyên bổ sung"
     getting_started: "Bắt đầu"
@@ -3180,6 +3293,12 @@ vi:
     destroy:
       info: "Deleting the work package is an irreversible action."
       title: "Delete the work package"
+    progress:
+      label_note: "Note:"
+      modal:
+        work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
+        status_based_help_text: "% Complete is set by work package status."
+        migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
     sharing:
       count:
         zero: "0 users"
@@ -3208,7 +3327,7 @@ vi:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Không được chia sẻ"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3288,9 +3407,7 @@ vi:
         unsupported_context: "The resource given is not supported as context."
         context_object_not_found: "Cannot find the resource given as the context."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Finish date cannot be set on parent work packages."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "The chosen user is not allowed to be '%{property}' for this work package."
         start_date: "Start date cannot be set on parent work packages."
       eprops:
@@ -3402,7 +3519,7 @@ vi:
       label_request_token: "Request token"
       label_refresh_token: "Refresh token"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
       oauth_reported: "OAuth2 provider reported"
       oauth_returned_error: "OAuth2 returned an error"
       oauth_returned_json_error: "OAuth2 returned a JSON error"
@@ -3442,7 +3559,7 @@ vi:
   link: link
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"

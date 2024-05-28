@@ -33,7 +33,6 @@ class Project < ApplicationRecord
   include Projects::Activity
   include Projects::Hierarchy
   include Projects::AncestorsFromRoot
-
   include ::Scopes::Scoped
 
   include Projects::ActsAsCustomizablePatches
@@ -42,7 +41,7 @@ class Project < ApplicationRecord
   IDENTIFIER_MAX_LENGTH = 100
 
   # reserved identifiers
-  RESERVED_IDENTIFIERS = %w(new menu).freeze
+  RESERVED_IDENTIFIERS = %w[new menu queries].freeze
 
   has_many :members, -> {
     # TODO: check whether this should
@@ -52,10 +51,10 @@ class Project < ApplicationRecord
       .references(:principal, :roles)
   }
 
-  has_many :memberships, class_name: 'Member'
+  has_many :memberships, class_name: "Member"
   has_many :member_principals,
            -> { not_locked },
-           class_name: 'Member'
+           class_name: "Member"
   has_many :users, through: :members, source: :principal
   has_many :principals, through: :member_principals, source: :principal
 
@@ -76,7 +75,7 @@ class Project < ApplicationRecord
   has_many :queries, dependent: :destroy
   has_many :news, -> { includes(:author) }, dependent: :destroy
   has_many :categories, -> { order("#{Category.table_name}.name") }, dependent: :delete_all
-  has_many :forums, -> { order('position ASC') }, dependent: :destroy
+  has_many :forums, -> { order("position ASC") }, dependent: :destroy
   has_one :repository, dependent: :destroy
   has_many :changesets, through: :repository
   has_one :wiki, dependent: :destroy
@@ -84,37 +83,41 @@ class Project < ApplicationRecord
   has_and_belongs_to_many :work_package_custom_fields,
                           -> { order("#{CustomField.table_name}.position") },
                           join_table: :custom_fields_projects,
-                          association_foreign_key: 'custom_field_id'
+                          association_foreign_key: "custom_field_id"
   has_many :budgets, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
-  has_many :project_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
+  has_many :project_storages, dependent: :destroy, class_name: "Storages::ProjectStorage"
   has_many :storages, through: :project_storages
+
+  store_attribute :settings, :deactivate_work_package_attachments, :boolean
+
+  acts_as_favorable
 
   acts_as_customizable # partially overridden via Projects::ActsAsCustomizablePatches in order to support sections and
   # project-leval activation of custom fields
 
   acts_as_searchable columns: %W(#{table_name}.name #{table_name}.identifier #{table_name}.description),
                      date_column: "#{table_name}.created_at",
-                     project_key: 'id',
+                     project_key: "id",
                      permission: nil
 
   acts_as_journalized
 
   # Necessary for acts_as_searchable which depends on the event_datetime method for sorting
   acts_as_event title: Proc.new { |o| "#{Project.model_name.human}: #{o.name}" },
-                url: Proc.new { |o| { controller: 'overviews/overviews', action: 'show', project_id: o } },
+                url: Proc.new { |o| { controller: "overviews/overviews", action: "show", project_id: o } },
                 author: nil,
                 datetime: :created_at
 
-  register_journal_formatted_fields(:active_status, 'active')
-  register_journal_formatted_fields(:template, 'templated')
-  register_journal_formatted_fields(:plaintext, 'identifier')
-  register_journal_formatted_fields(:plaintext, 'name')
-  register_journal_formatted_fields(:diff, 'status_explanation')
-  register_journal_formatted_fields(:diff, 'description')
-  register_journal_formatted_fields(:project_status_code, 'status_code')
-  register_journal_formatted_fields(:visibility, 'public')
-  register_journal_formatted_fields(:subproject_named_association, 'parent_id')
+  register_journal_formatted_fields(:active_status, "active")
+  register_journal_formatted_fields(:template, "templated")
+  register_journal_formatted_fields(:plaintext, "identifier")
+  register_journal_formatted_fields(:plaintext, "name")
+  register_journal_formatted_fields(:diff, "status_explanation")
+  register_journal_formatted_fields(:diff, "description")
+  register_journal_formatted_fields(:project_status_code, "status_code")
+  register_journal_formatted_fields(:visibility, "public")
+  register_journal_formatted_fields(:subproject_named_association, "parent_id")
   register_journal_formatted_fields(:custom_field, /custom_fields_\d+/)
 
   has_paper_trail
@@ -155,6 +158,7 @@ class Project < ApplicationRecord
   friendly_id :identifier, use: :finders
 
   scopes :allowed_to,
+         :available_custom_fields,
          :visible
 
   scope :has_module, ->(mod) {
@@ -242,7 +246,7 @@ class Project < ApplicationRecord
     Version.transaction do
       versions.where(status: %w(open locked)).find_each do |version|
         if version.completed?
-          version.update_attribute(:status, 'closed')
+          version.update_attribute(:status, "closed")
         end
       end
     end

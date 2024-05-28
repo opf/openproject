@@ -29,8 +29,6 @@
 require "spec_helper"
 
 RSpec.describe ScheduleHelpers::ChartBuilder do
-  include ActiveSupport::Testing::TimeHelpers
-
   let(:fake_today) { Date.new(2022, 6, 16) } # Thursday 16 June 2022
   let(:monday) { Date.new(2022, 6, 20) } # Monday 20 June
   let(:tuesday) { Date.new(2022, 6, 21) }
@@ -107,7 +105,7 @@ RSpec.describe ScheduleHelpers::ChartBuilder do
           follower   |           | follows main
         CHART
         expect(chart.predecessors_by_follower(:follower)).to eq([:main])
-        expect(chart.delay_between(predecessor: :main, follower: :follower)).to eq(0)
+        expect(chart.lag_between(predecessor: :main, follower: :follower)).to eq(0)
       end
 
       it "can be declared in any order" do
@@ -117,19 +115,19 @@ RSpec.describe ScheduleHelpers::ChartBuilder do
           main       |           |
         CHART
         expect(chart.predecessors_by_follower(:follower)).to eq([:main])
-        expect(chart.delay_between(predecessor: :main, follower: :follower)).to eq(0)
+        expect(chart.lag_between(predecessor: :main, follower: :follower)).to eq(0)
       end
     end
 
-    describe "follows <name> with delay <n>" do
-      it "adds a follows relation to the named with a delay" do
+    describe "follows <name> with lag <n>" do
+      it "adds a follows relation to the named with a lag" do
         chart = builder.parse(<<~CHART)
           days       | MTWTFSS   |
           main       |           |
-          follower   |           | follows main with delay 3
+          follower   |           | follows main with lag 3
         CHART
         expect(chart.predecessors_by_follower(:follower)).to eq([:main])
-        expect(chart.delay_between(predecessor: :main, follower: :follower)).to eq(3)
+        expect(chart.lag_between(predecessor: :main, follower: :follower)).to eq(3)
       end
     end
 

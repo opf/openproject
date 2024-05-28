@@ -330,6 +330,18 @@ ca:
         years: "Anys"
         description: >
           Seleccioni el nivell inicial de zoom que s'ha de mostrar quan el zoom automàtic no estigui disponible.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "no"
     general_text_yes: "sí"
     general_text_No: "No"
@@ -348,11 +360,10 @@ ca:
           learn_about: "Més informació sobre les noves funcions"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "S'ha produït un error en carregar les dades."
@@ -378,6 +389,7 @@ ca:
     label_added_time_by: 'Afegit per <a href=%{authorLink}>%{author}</a> el %{age}'
     label_ago: "dies abans"
     label_all: "tot"
+    label_all_uppercase: "Totes"
     label_all_work_packages: "tots els paquets de treball"
     label_and: "i"
     label_ascending: "Ascendent"
@@ -419,6 +431,7 @@ ca:
     label_expand_project_menu: "Expandieix el menú de projecte"
     label_export: "Exportar"
     label_export_preparing: "S'està preparant l'exportació i serà descarregada aviat."
+    label_favorites: "Favorites"
     label_filename: "Fitxer"
     label_filesize: "Mida"
     label_general: "General"
@@ -643,7 +656,7 @@ ca:
           no_selection: "Fes clic en una notificació per veure els detalls de l'activitat."
         new_notifications:
           message: "No hi ha notificacions noves"
-          link_text: "Fes clic aquí per carregar-les"
+          link_text: "Click here to load them."
       menu:
         accountable: "Responsable"
         by_project: "No llegit per projecte"
@@ -760,7 +773,7 @@ ca:
           last_day: "Últim dia"
     text_are_you_sure: "N'esteu segur?"
     text_data_lost: "Totes les dades entrades es perdran."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} va escriure:"
     types:
       attribute_groups:
         error_duplicate_group_name: "El nom %{group} ja està en ús. Els noms de grup han de ser únics."
@@ -835,7 +848,7 @@ ca:
       toggle_description: "Activar descripció de la relació"
       update_relation: "Faci clic per a canviar la classe de relació"
       add_follower: "Afegir seguidor"
-      show_relations: "Show relations"
+      show_relations: "Mostra les relacions"
       add_predecessor: "Afegir predecessor"
       remove: "Eliminar la relació"
       save: "Guardar la relació"
@@ -925,6 +938,8 @@ ca:
       message_work_package_read_only: "El paquet de treball està bloquejat en aquest estat. Cap atribut excepte l'estat es pot modificar."
       message_work_package_status_blocked: "L'estat del paquet de treball no permet l'escriptura perquè el seu estat i versió estan tancats."
       placeholder_filter_by_text: "Assumpte, descripció, comentaris, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Afegit a la vista en el període de temps de la comparació"
         removal_label: "Eliminat de la vista en el període de temps de la comparació"
@@ -979,7 +994,7 @@ ca:
         priority: "Prioritat"
         projectName: "Projecte"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "Hores restants"
         responsible: "Responsable"
         startDate: "Data d'inici"
         status: "Estat"
@@ -991,7 +1006,7 @@ ca:
         versionName: "Versió"
         version: "Versió"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "Temps estimat"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Última activitat"
@@ -1041,7 +1056,7 @@ ca:
       sharing:
         share: "Compartir"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
@@ -1250,7 +1265,8 @@ ca:
       role:
         label: "Rol en %{project}"
         no_roles_found: "No s'ha trobat cap rol"
-        description: 'Aquest és el rol que l''usuari rebrà quan s''uneixin al teu projecte. El rol defineix quines accions els hi són permeses i quina informació poden veure. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Més informació sobre rols i permisos. </a>'
+        description: >-
+          Aquest és el rol que l'usuari rebrà quan s'uneixin al teu projecte. El rol defineix quines accions els hi són permeses i quina informació poden veure. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Més informació sobre rols i permisos. </a>
         required: "Si us plau, selecciona un rol"
         next_button: "Següent"
       message:
@@ -1266,6 +1282,9 @@ ca:
           placeholder: "L'usuari de marcador de posició ara pot ser utilitzat a %{project}. Per tant, ja pots planejar amb aquest usuari i assignar-li paquets de treball."
           group: "El grup és ara part de %{project}. Per tant, ja pots planejar amb aquest grup i assignar-li paquets de treball."
         next_button: "Continua"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Inclou projectes"
       title: "Projectes"
@@ -1324,3 +1343,7 @@ ca:
       drop_modal:
         focus_grab: "Estàs en un focus ancorat per a finestres emergents. Fes clic a shift+tab per tornar a l'element que ha activat la finestra emergent."
         Close: "Tanca"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

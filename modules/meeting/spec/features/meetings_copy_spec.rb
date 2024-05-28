@@ -66,7 +66,7 @@ RSpec.describe "Meetings copy", :js, :with_cuprite do
     start_of_meeting = start_time.strftime(twelve_hour_format)
     end_of_meeting = (start_time + meeting.duration.hours).strftime(twelve_hour_format)
 
-    "Time: #{date} #{start_of_meeting} - #{end_of_meeting} (GMT+00:00) UTC"
+    "Start time: #{date} #{start_of_meeting} - #{end_of_meeting} (GMT+00:00) UTC"
   end
 
   before do

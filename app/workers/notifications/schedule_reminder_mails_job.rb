@@ -23,13 +23,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Notifications
   class ScheduleReminderMailsJob < ApplicationJob
+    include Cron::QuarterHourScheduleJob
+
     def perform
-      User.having_reminder_mail_to_send(job_scheduled_at)
+      return unless lower_boundary.present? && upper_boundary.present?
+
+      User.having_reminder_mail_to_send(lower_boundary, upper_boundary)
           .pluck(:id)
           .each do |user_id|
         Mails::ReminderJob.perform_later(user_id)

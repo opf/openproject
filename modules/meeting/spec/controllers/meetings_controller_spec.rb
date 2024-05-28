@@ -48,8 +48,8 @@ RSpec.describe MeetingsController do
       let(:meetings) do
         [
           create(:meeting, project:),
-          create(:meeting, project:),
-          create(:meeting, project: other_project)
+          create(:meeting, author: user, project:),
+          create(:meeting, author: user, project: other_project)
         ]
       end
 
@@ -58,9 +58,8 @@ RSpec.describe MeetingsController do
           before do
             get "index"
           end
-
           it { expect(response).to be_successful }
-          it { expect(assigns(:meetings)).to match_array meetings }
+          it { expect(assigns(:meetings)).to match_array meetings[1..2] }
         end
 
         context "when requesting meetings scoped to a project ID" do
@@ -69,7 +68,7 @@ RSpec.describe MeetingsController do
           end
 
           it { expect(response).to be_successful }
-          it { expect(assigns(:meetings)).to match_array meetings[0..1] }
+          it { expect(assigns(:meetings)).to match_array meetings[1] }
         end
       end
     end
@@ -192,7 +191,7 @@ RSpec.describe MeetingsController do
             expect(response).to render_template :new
             expect(response.body)
               .to have_css "#errorExplanation li",
-                           text: "Starting time #{I18n.t('activerecord.errors.messages.invalid_time_format')}"
+                           text: "Start time #{I18n.t('activerecord.errors.messages.invalid_time_format')}"
           end
         end
       end

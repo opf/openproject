@@ -35,7 +35,7 @@ module Admin
 
       before_action :find_attachment, only: %i[destroy]
 
-      menu_item :attachment_quarantine
+      menu_item :attachments
 
       def index; end
 
@@ -51,12 +51,10 @@ module Admin
         redirect_to action: :index
       end
 
-      def default_breadcrumb
-        t("antivirus_scan.quarantined_attachments.title")
-      end
+      def default_breadcrumb; end
 
       def show_local_breadcrumb
-        true
+        false
       end
 
       private

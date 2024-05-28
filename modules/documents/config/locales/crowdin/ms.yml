@@ -21,23 +21,23 @@
 #++
 ms:
   plugin_openproject_documents:
-    name: "OpenProject Documents"
-    description: "An OpenProject plugin to allow creation of documents in projects."
+    name: "Dokumen OpenProject"
+    description: "Plugin OpenProject membolehkan penciptaan dokumen dalam projek."
   activerecord:
     models:
       document: "Dokumen"
   activity:
     filter:
-      document: "Dokumen"
+      document: "Dokumen-dokumen"
   default_doc_category_tech: "Dokumen teknikal"
-  default_doc_category_user: "Dokumen pengguna"
+  default_doc_category_user: "Dokumentasi pengguna"
   enumeration_doc_categories: "Kategori dokumen"
   documents:
     label_attachment_author: "Pengarang lampiran"
   label_document_added: "Dokumen ditambah"
   label_document_new: "Dokumen baru"
-  label_document_plural: "Dokumen"
+  label_document_plural: "Dokumen-dokumen"
   label_documents: "Dokumen"
   permission_manage_documents: "Urus dokumen"
-  permission_view_documents: "Papar dokumen"
-  project_module_documents: "Dokumen"
+  permission_view_documents: "Lihat dokumen"
+  project_module_documents: "Dokumen-dokumen"

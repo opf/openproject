@@ -33,6 +33,9 @@ require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::DeleteFolderCommand, :vcr, :webmock do
   let(:storage) { create(:sharepoint_dev_drive_storage) }
+  let(:auth_strategy) do
+    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials.strategy
+  end
 
   it "is registered as commands.one_drive.delete_folder" do
     expect(Storages::Peripherals::Registry.resolve("one_drive.commands.delete_folder")).to eq(described_class)
@@ -42,21 +45,23 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::DeleteFolder
     expect(described_class).to respond_to(:call)
 
     method = described_class.method(:call)
-    expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq location])
+    expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq auth_strategy], %i[keyreq location])
   end
 
   it "deletes a folder", vcr: "one_drive/delete_folder" do
+    parent_location = Storages::Peripherals::ParentFolder.new("/")
+
     create_result = Storages::Peripherals::Registry
-               .resolve("one_drive.commands.create_folder")
-               .call(storage:, folder_path: "To Be Deleted Soon")
+                      .resolve("one_drive.commands.create_folder")
+                      .call(storage:, auth_strategy:, folder_name: "To Be Deleted Soon", parent_location:)
 
     folder = create_result.result
 
-    expect(described_class.call(storage:, location: folder.id)).to be_success
+    expect(described_class.call(storage:, auth_strategy:, location: folder.id)).to be_success
   end
 
   it "when the folder is not found, returns a failure", vcr: "one_drive/delete_folder_not_found" do
-    result = described_class.call(storage:, location: "NOT_HERE")
+    result = described_class.call(storage:, auth_strategy:, location: "NOT_HERE")
     expect(result).to be_failure
     expect(result.result).to eq(:not_found)
   end

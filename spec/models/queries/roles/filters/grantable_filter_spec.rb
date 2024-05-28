@@ -39,7 +39,7 @@ RSpec.describe Queries::Roles::Filters::GrantableFilter do
     let(:model) { Role }
     let(:attribute) { :type }
 
-    describe "#scope" do
+    describe "#apply_to" do
       context "for the true value" do
         let(:values) { [OpenProject::Database::DB_VALUE_TRUE] }
 
@@ -50,7 +50,7 @@ RSpec.describe Queries::Roles::Filters::GrantableFilter do
             expected = expected_base_scope
                        .where(["#{expected_table_name}.builtin IN (?)", Role::NON_BUILTIN])
 
-            expect(instance.scope.to_sql).to eql expected.to_sql
+            expect(instance.apply_to(model).to_sql).to eql expected.to_sql
           end
         end
 
@@ -61,7 +61,7 @@ RSpec.describe Queries::Roles::Filters::GrantableFilter do
             expected = expected_base_scope
                        .where(["#{expected_table_name}.builtin NOT IN (?)", Role::NON_BUILTIN])
 
-            expect(instance.scope.to_sql).to eql expected.to_sql
+            expect(instance.apply_to(model).to_sql).to eql expected.to_sql
           end
         end
       end
@@ -76,7 +76,7 @@ RSpec.describe Queries::Roles::Filters::GrantableFilter do
             expected = expected_base_scope
                        .where(["#{expected_table_name}.builtin IN (?)", [Role::BUILTIN_ANONYMOUS, Role::BUILTIN_NON_MEMBER]])
 
-            expect(instance.scope.to_sql).to eql expected.to_sql
+            expect(instance.apply_to(model).to_sql).to eql expected.to_sql
           end
         end
 
@@ -87,7 +87,7 @@ RSpec.describe Queries::Roles::Filters::GrantableFilter do
             expected = expected_base_scope
                        .where(["#{expected_table_name}.builtin NOT IN (?)", [Role::BUILTIN_ANONYMOUS, Role::BUILTIN_NON_MEMBER]])
 
-            expect(instance.scope.to_sql).to eql expected.to_sql
+            expect(instance.apply_to(model).to_sql).to eql expected.to_sql
           end
         end
       end

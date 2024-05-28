@@ -85,7 +85,7 @@ RSpec.describe "form configuration", :js do
 
       it "can remove all groups to be left with an invisible one (Regression #33592)" do
         form.remove_group "Details"
-        form.remove_group "Estimates and Time"
+        form.remove_group "Estimates and progress"
         form.remove_group "People"
         form.remove_group "Costs"
 
@@ -125,19 +125,20 @@ RSpec.describe "form configuration", :js do
         #
         form.expect_group "people",
                           "People",
-                          key: :responsible, translation: "Accountable"
+                          { key: :assignee, translation: "Assignee" },
+                          { key: :responsible, translation: "Accountable" }
 
-        form.expect_group "estimates_and_time",
-                          "Estimates and time",
+        form.expect_group "estimates_and_progress",
+                          "Estimates and progress",
                           { key: :estimated_time, translation: "Work" },
-                          { key: :spent_time, translation: "Spent time" },
-                          { key: :remaining_time, translation: "Remaining work" }
+                          { key: :remaining_time, translation: "Remaining work" },
+                          { key: :percentage_done, translation: "% Complete" },
+                          { key: :spent_time, translation: "Spent time" }
 
         form.expect_group "details",
                           "Details",
                           { key: :category, translation: "Category" },
                           { key: :date, translation: "Date" },
-                          { key: :percentage_done, translation: "% Complete" },
                           { key: :priority, translation: "Priority" },
                           { key: :version, translation: "Version" }
 
@@ -179,16 +180,16 @@ RSpec.describe "form configuration", :js do
                           "Cool Stuff",
                           { key: :responsible, translation: "Accountable" }
 
-        form.expect_group "estimates_and_time",
-                          "Estimates and time",
+        form.expect_group "estimates_and_progress",
+                          "Estimates and progress",
                           { key: :estimated_time, translation: "Work" },
-                          { key: :spent_time, translation: "Spent time" },
-                          { key: :remaining_time, translation: "Remaining work" }
+                          { key: :remaining_time, translation: "Remaining work" },
+                          { key: :percentage_done, translation: "% Complete" },
+                          { key: :spent_time, translation: "Spent time" }
 
         form.expect_group "Whatever",
                           "Whatever",
-                          { key: :date, translation: "Date" },
-                          { key: :percentage_done, translation: "% Complete" }
+                          { key: :date, translation: "Date" }
 
         form.expect_group "New Group",
                           "New Group",
@@ -199,7 +200,7 @@ RSpec.describe "form configuration", :js do
         # Test the actual type backend
         type.reload
         expect(type.attribute_groups.map(&:key))
-          .to include("Cool Stuff", :estimates_and_time, "Whatever", "New Group")
+          .to include("Cool Stuff", :estimates_and_progress, "Whatever", "New Group")
 
         # Visit work package with that type
         wp_page.visit!
@@ -213,7 +214,7 @@ RSpec.describe "form configuration", :js do
         end
 
         wp_page.expect_group("Whatever") do
-          wp_page.expect_attributes percentageDone: "10"
+          wp_page.expect_attributes combinedDate: "no start date - no finish date"
         end
 
         wp_page.expect_group("Cool Stuff") do
@@ -224,7 +225,7 @@ RSpec.describe "form configuration", :js do
         wp_page.expect_hidden_field(:assignee)
         wp_page.expect_hidden_field(:spent_time)
 
-        wp_page.expect_group("Estimates and time") do
+        wp_page.expect_group("Estimates and progress") do
           wp_page.expect_attributes estimated_time: "-"
           wp_page.expect_attributes spent_time: "0 h"
         end
@@ -234,7 +235,7 @@ RSpec.describe "form configuration", :js do
         wp_page.expect_hidden_field(:spent_time)
         wp_page.click_create_wp_button(type)
 
-        wp_page.expect_group("Estimates and time") do
+        wp_page.expect_group("Estimates and progress") do
           expect(page).to have_css(".inline-edit--container.estimatedTime")
         end
 

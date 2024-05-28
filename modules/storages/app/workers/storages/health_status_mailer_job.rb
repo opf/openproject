@@ -36,18 +36,21 @@ module Storages
       total_limit: 2,
       enqueue_limit: 1,
       perform_limit: 1,
-      key: -> { "#{self.class.name}-#{arguments.last[:storage]}" }
+      key: -> { "#{self.class.name}-#{arguments.last[:storage].id}" }
     )
 
+    retry_on GoodJob::ActiveJobExtensions::Concurrency::ConcurrencyExceededError,
+             wait: 5.minutes,
+             attempts: 3
+
+    discard_on ActiveJob::DeserializationError
+
     def perform(storage:)
-      return unless Storages::Storage.exists?(storage.id)
-
-      storage.reload
-
+      return unless storage.health_notifications_should_be_sent?
       return if storage.health_healthy?
 
       admin_users.each do |admin|
-        Storages::StoragesMailer.notify_unhealthy(admin, storage).deliver_later
+        ::Storages::StoragesMailer.notify_unhealthy(admin, storage).deliver_later
       end
 
       HealthStatusMailerJob.schedule(storage:)

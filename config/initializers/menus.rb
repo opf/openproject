@@ -331,21 +331,27 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :admin_work_packages
 
   menu.push :admin_projects_settings,
-            { controller: '/admin/settings/project_custom_fields', action: :index },
+            { controller: "/admin/settings/project_custom_fields", action: :index },
             if: Proc.new { User.current.admin? },
             caption: :label_project_plural,
-            icon: 'projects'
+            icon: "projects"
 
   menu.push :project_custom_fields_settings,
-            { controller: '/admin/settings/project_custom_fields', action: :index },
+            { controller: "/admin/settings/project_custom_fields", action: :index },
             if: Proc.new { User.current.admin? },
             caption: :label_project_attributes_plural,
             parent: :admin_projects_settings
 
-  menu.push :projects_settings,
-            { controller: '/admin/settings/projects_settings', action: :show },
+  menu.push :new_project_settings,
+            { controller: "/admin/settings/new_project_settings", action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :label_setting_plural,
+            caption: :label_project_new,
+            parent: :admin_projects_settings
+
+  menu.push :project_lists_settings,
+            { controller: "/admin/settings/projects_settings", action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_project_list_plural,
             parent: :admin_projects_settings
 
   menu.push :custom_fields,
@@ -367,34 +373,6 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :"attribute_help_texts.label_plural",
             icon: "help2",
             if: Proc.new { User.current.allowed_globally?(:edit_attribute_help_texts) }
-
-  menu.push :attachments,
-            { controller: "/admin/settings/attachments_settings", action: :show },
-            caption: :"attributes.attachments",
-            icon: "attachment",
-            if: Proc.new { User.current.admin? }
-
-  menu.push :attachments_settings,
-            { controller: "/admin/settings/attachments_settings", action: :show },
-            if: Proc.new { User.current.admin? },
-            caption: :label_setting_plural,
-            parent: :attachments
-
-  menu.push :virus_scanning_settings,
-            { controller: "/admin/settings/virus_scanning_settings", action: :show },
-            caption: :"settings.antivirus.title",
-            parent: :attachments,
-            enterprise_feature: "virus_scanning",
-            if: Proc.new { User.current.admin? }
-
-  menu.push :attachment_quarantine,
-            { controller: "/admin/attachments/quarantined_attachments", action: :index },
-            caption: :"antivirus_scan.quarantined_attachments.title",
-            parent: :attachments,
-            if: Proc.new {
-              User.current.admin? &&
-                (EnterpriseToken.allows_to?(:virus_scanning) || Attachment.status_quarantined.any?)
-            }
 
   menu.push :enumerations,
             { controller: "/enumerations" },

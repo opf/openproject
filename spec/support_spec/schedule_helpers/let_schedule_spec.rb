@@ -35,7 +35,7 @@ RSpec.describe ScheduleHelpers::LetSchedule do
     let_schedule(<<~CHART)
       days      | MTWTFSS |
       main      | XX      |
-      follower  |   XXX   | follows main with delay 2
+      follower  |   XXX   | follows main with lag 2
       child     |         | child of main
     CHART
 

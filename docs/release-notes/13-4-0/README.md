@@ -33,14 +33,14 @@ We are delighted about the GitLab integration, which is officially available wit
 
 With this integration, you can manage GitLab's units of work (merge requests and issues) from within OpenProject by linking them with work packages. Read more about OpenProject's GitLab integration [in our system admin guide](https://www.openproject.com/docs/system-admin-guide/integrations/gitlab-integration/).
 
-<div class="blog-box-info">	
+<div class="blog-box-info">
 
 **Already using the user-generated GitLab plugin?** With OpenProject 13.4, the existing plugin will be replaced by the new integration. We recommend removing the plugin module folder and bundler references before upgrading to OpenProject. Your historical dataset will remain unaffected within OpenProject as there were no changes to the data model.
 
 Before upgrading, please do the following:
 
 1. Remove traces of the GitLab integration in your **Gemfile.lock** and **Gemfile.modules**. See [btey/openproject-gitlab-integration#configuration](https://github.com/btey/openproject-gitlab-integration?tab=readme-ov-file#configuration). Failure to do so may result in a `Bundler::GemfileError` matching the following error message: _Your Gemfile lists the gem openproject-gitlab_integration (>= 0) more than once._
-2. Remove the module code traces of the GitLab integration by running this command: `rm -rf /path/to/openproject/modules/gitlab_integration` 
+2. Remove the module code traces of the GitLab integration by running this command: `rm -rf /path/to/openproject/modules/gitlab_integration`
 
 </div>
 
@@ -48,7 +48,7 @@ Before upgrading, please do the following:
 
 ### Advanced features for custom project lists
 
-With OpenProject 13.4 we are again releasing further features for custom [project lists](https://www.openproject.org/docs/user-guide/projects/project-lists/). The most important update here is that you can now modify the selection and order of columns, then save them in a  newly configured view, much like how you typically manage a work package list.
+With OpenProject 13.4 we are again releasing further features for custom [project lists](../../user-guide/projects/project-lists/). The most important update here is that you can now modify the selection and order of columns, then save them in a  newly configured view, much like how you typically manage a work package list.
 
 In addition, you will now be reminded to save changes to your project list in the form of a **Save link** in the top right corner. This helps users remember to save the view and not lose their work when they leave the page.
 
@@ -62,7 +62,7 @@ Another long-awaited improvement: When you copy a dynamic meeting, **existing ag
 
 ![Copy a meeting with agenda](openproject-13-4-meetings-copy-agenda-highlighted.png)
 
-And finally, the .ics file now also contains information about the (dynamic) meeting attendees - in addition to other existing information such as PARTSTAT. This now allows you to **confirm or decline invitations to a meeting directly in your calendar software**. 
+And finally, the .ics file now also contains information about the (dynamic) meeting attendees - in addition to other existing information such as PARTSTAT. This now allows you to **confirm or decline invitations to a meeting directly in your calendar software**.
 
 <div class="blog-box-info">
 
@@ -72,7 +72,7 @@ Stay tuned: Further advanced features for our Meetings module are planned for up
 
 ### Virus scanning functionality with ClamAV (Enterprise add-on)
 
-Another important step towards data security: With OpenProject 13.4, users' uploaded files can be scanned for viruses, using the ClamAV antivirus engine. To do so, a new attachment menu item is created with Antivirus settings. Read more about virus scanning using ClamAV in our [system admin guide](https://www.openproject.org/docs/system-admin-guide/attachments/virus-scanning).
+Another important step towards data security: With OpenProject 13.4, users' uploaded files can be scanned for viruses, using the ClamAV antivirus engine. To do so, a new attachment menu item is created with Antivirus settings. Read more about virus scanning using ClamAV in our [system admin guide](../../system-admin-guide/files/attachments/virus-scanning/).
 
 ![OpenProject's admin settings for virus scanning with ClamAV](openproject_virus_scanning.png)
 
@@ -88,7 +88,7 @@ Accessibility functionality: Convey to screenreaders when OAuth login has starte
 
 OpenProject version 13.4 now supports PDF exports with lists in table cells that are displayed correctly. Export a work package that contains a table with lists in it into a PDF. Here is an example of how this looks from now on:
 
-![Work package with a table in the description field and how it looks when exportet as PDF](openproject-13-4-pdf-export-table-lists.png)
+![Work package with a table in the description field and how it looks when exported as PDF](openproject-13-4-pdf-export-table-lists.png)
 
 ### WebAuthn/FIDO/U2F is added as a second factor
 
@@ -139,13 +139,13 @@ Thanks to our great Community we can continuously offer more languages for OpenP
 - Bugfix: LDAP user can't be created if optional attributes are not mapped \[[#53327](https://community.openproject.org/wp/53327)\]
 - Bugfix: Page editor menu moves under the header \[[#53365](https://community.openproject.org/wp/53365)\]
 - Bugfix: Project folder is shown in the main menu based on the wrong permission for automatically managed project folders \[[#53367](https://community.openproject.org/wp/53367)\]
-- Bugfix: Portuguese and Portuguese Brezilian should be distinct from each other \[[#53374](https://community.openproject.org/wp/53374)\]
+- Bugfix: Portuguese and Portuguese Brazilian should be distinct from each other \[[#53374](https://community.openproject.org/wp/53374)\]
 - Bugfix: Blacklisted routes not working \[[#53399](https://community.openproject.org/wp/53399)\]
 - Bugfix: Incorrect spelling of GitLab module under project settings \[[#53434](https://community.openproject.org/wp/53434)\]
 - Bugfix: Webauthn fails on mobile Safari \[[#53442](https://community.openproject.org/wp/53442)\]
 - Bugfix: Rake secret task gone in 13.3.1 (breaking scripts & diverging from docs) \[[#53447](https://community.openproject.org/wp/53447)\]
 - Bugfix: WebAuth fails on iOS \[[#53494](https://community.openproject.org/wp/53494)\]
-- Bugfix: WebAuthen not selectable on mobile \[[#53495](https://community.openproject.org/wp/53495)\]
+- Bugfix: WebAuthn not selectable on mobile \[[#53495](https://community.openproject.org/wp/53495)\]
 - Bugfix: Cannot delete reports in time and costs \[[#52284](https://community.openproject.org/projects/openproject/work_packages/52284/activity)\]
 
 <!-- END AUTOMATED SECTION -->
@@ -161,15 +161,16 @@ A very special thank you goes to our sponsors for features and improvements:
 
 Another big thanks goes to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to Andreas H., Diego Liberman, Andreas G, Mario Zeppin, Arved Kampe, and Richard Richter.
 
-We are always thankful for our great [Community](https://www.openproject.org/blog/community-instance/). If you are thinking about contributing to OpenProject yourself, we would like to encourage you to do so! 
+We are always thankful for our great [Community](https://www.openproject.org/blog/community-instance/). If you are thinking about contributing to OpenProject yourself, we would like to encourage you to do so!
 
 ### Translation contributors
 
-An important part is also the translations, for which we thank the following contributors in particular for this release: 
+An important part is also the translations, for which we thank the following contributors in particular for this release:
+
 - [Syvert Fossdal](https://crowdin.com/profile/syvert), who translated a lot of OpenProject strings into Norwegian
 - [WilliamfromTW](https://crowdin.com/profile/williamfromtw), who translated to Traditional Chinese
 - [Tomas S](https://crowdin.com/profile/tomass), who translated to Lithuanian
 - [Marek Bajon](https://crowdin.com/profile/mbajon), who translated to Polish
 - [Vlastislav Dockal](https://crowdin.com/profile/vdockal), who translated to Czech
 
-Would you like to help out with translations yourself? Then take a look at our [translation guide](https://www.openproject.org/docs/development/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
+Would you like to help out with translations yourself? Then take a look at our [translation guide](../../development/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!

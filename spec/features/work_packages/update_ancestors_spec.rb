@@ -101,35 +101,29 @@ RSpec.describe "Update ancestors", :js, :with_cuprite do
     wp_table.visit_query query
   end
 
-  context "when changing a child work and remaining work values", retry: 2 do
+  context "when changing a child work and remaining work values" do
     it "updates the derived parent work, remaining work, and % complete values" do
       expect do
         wp_table.update_work_package_attributes(child, estimatedTime: child.estimated_hours + 1)
         parent.reload
-      end.to change(parent, :derived_estimated_hours).by(1)
-        .and change(parent, :derived_done_ratio).to(35) # 7h at 50% and 3h at 0% => 35% complete for 10h
+        child.reload
+      end.to change(child, :remaining_hours).by(1) # remaining work increased as a side effect of increasing work
+        .and change(parent, :derived_estimated_hours).by(1)
+        .and change(parent, :derived_done_ratio).to(33) # 12h total work and 8h total remaining work => 33% complete
       expect do
         wp_table.update_work_package_attributes(child, remainingTime: child.remaining_hours + 2)
         parent.reload
       end.to change(parent, :derived_remaining_hours).by(2)
-    end
-  end
-
-  context "when changing a child % complete value" do
-    it "updates the derived parent % complete value" do
-      expect do
-        wp_table.update_work_package_attributes(child, percentageDone: 100)
-        parent.reload
-      end.to change(parent, :derived_done_ratio).to(67) # 6h at 100% and 3h at 0% => 67% complete for 9h
+        .and change(parent, :derived_done_ratio).to(17) # 12h total work and 10h total remaining work => 17% complete
     end
   end
 
   context "when setting a child status to closed" do
-    it "considers child % complete to be 100% and updates the derived parent % complete value accordingly" do
+    it "does not consider child % complete to be 100% and so does not update the derived parent % complete value" do
       expect do
         wp_table.update_work_package_attributes(child, status: "Closed")
         parent.reload
-      end.to change(parent, :derived_done_ratio).to(67) # 6h at 100% and 3h at 0% => 67% complete for 9h
+      end.not_to change(parent, :derived_done_ratio)
     end
   end
 
@@ -145,23 +139,33 @@ RSpec.describe "Update ancestors", :js, :with_cuprite do
     end
   end
 
+  def expect_totals(parent, descendants)
+    parent.reload
+    work_packages_for_total = [parent] + descendants
+    expected_total_work = work_packages_for_total.pluck(:estimated_hours).sum
+    expected_total_remaining_work = work_packages_for_total.pluck(:remaining_hours).sum
+    expected_done_ratio = 100.0 * (1.0 - (expected_total_remaining_work / expected_total_work))
+    expect(parent.derived_estimated_hours).to eq(expected_total_work)
+    expect(parent.derived_remaining_hours).to eq(expected_total_remaining_work)
+    expect(parent.derived_done_ratio).to eq(expected_done_ratio.round)
+  end
+
   context "when adding a new child" do
     it "updates the derived parent work, remaining work, and % complete values" do
       context_menu = wp_table.open_context_menu_for(parent)
       context_menu.choose(I18n.t("js.relation_buttons.add_new_child"))
 
       split_view_create = Pages::SplitWorkPackageCreate.new(project:)
-      split_view_create.set_attributes({ subject: "new child", estimatedTime: 1, remainingTime: 3 })
+      split_view_create.set_attributes({ subject: "new child" })
+      # Need a better way to deal with interacting with the
+      # Progress Modal due to the intermediate updates it is
+      # capable of.
+      split_view_create.set_progress_attributes({ estimatedTime: 3, remainingTime: 1 })
       split_view_create.save!
       split_view_create.expect_and_dismiss_toaster message: "Successful creation"
 
-      parent.reload
       new_child = WorkPackage.last
-      expect(parent.derived_estimated_hours).to eq([parent, child, second_child, new_child].pluck(:estimated_hours).sum)
-      expect(parent.derived_remaining_hours).to eq([parent, child, second_child, new_child].pluck(:remaining_hours).sum)
-      #   child   + second child + new child => parent
-      # 6h at 50% +   3h at 0%   + 1h at 0%  => 30% complete for 10h
-      expect(parent.derived_done_ratio).to eq(30)
+      expect_totals(parent, [child, second_child, new_child])
     end
   end
 
@@ -171,21 +175,13 @@ RSpec.describe "Update ancestors", :js, :with_cuprite do
       context_menu.choose(I18n.t("js.relation_buttons.hierarchy_outdent"))
       wp_table.expect_and_dismiss_toaster message: "Successful update"
 
-      parent.reload
-      expect(parent.derived_estimated_hours).to eq([parent, child].pluck(:estimated_hours).sum)
-      expect(parent.derived_remaining_hours).to eq([parent, child].pluck(:remaining_hours).sum)
-      expect(parent.derived_done_ratio).to eq(child.done_ratio)
+      expect_totals(parent, [child])
 
       context_menu = wp_table.open_context_menu_for(second_child)
       context_menu.choose(I18n.t("js.relation_buttons.hierarchy_indent"))
       wp_table.expect_and_dismiss_toaster message: "Successful update"
 
-      parent.reload
-      expect(parent.derived_estimated_hours).to eq([parent, child, second_child].pluck(:estimated_hours).sum)
-      expect(parent.derived_remaining_hours).to eq([parent, child, second_child].pluck(:remaining_hours).sum)
-      #   child   + second child => parent
-      # 6h at 50% +   3h at 0%   => 33% complete for 9h
-      expect(parent.derived_done_ratio).to eq(33)
+      expect_totals(parent, [child, second_child])
     end
   end
 end

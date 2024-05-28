@@ -83,12 +83,7 @@ module Pages
       area = area_of(row_number, column_number, location)
       area.hover
 
-      add_widget_button = if using_cuprite?
-                            area.find(".grid--widget-add")
-                          else
-                            area.find(".grid--widget-add", visible: :all)
-                          end
-
+      add_widget_button = area.find(".grid--widget-add", visible: :all)
       add_widget_button.click
 
       within(".spot-modal", &)

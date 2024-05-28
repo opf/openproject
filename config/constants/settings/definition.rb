@@ -230,10 +230,6 @@ module Settings
         default: nil,
         writable: false
       },
-      commit_fix_done_ratio: {
-        description: "Progress to apply when commit fixes work package",
-        default: 100
-      },
       commit_fix_keywords: {
         description: "Keywords to look for in commit for fixing work packages",
         default: "fixes,closes"
@@ -336,6 +332,9 @@ module Settings
       demo_view_of_type_team_planner_seeded: {
         default: false
       },
+      demo_view_of_type_gantt_seeded: {
+        default: false
+      },
       development_highlight_enabled: {
         description: "Enable highlighting of development environment",
         default: -> { Rails.env.development? },
@@ -428,7 +427,7 @@ module Settings
         default: false
       },
       enabled_projects_columns: {
-        default: %w[project_status public created_at latest_activity_at required_disk_space],
+        default: %w[favored name project_status public created_at latest_activity_at required_disk_space],
         allowed: -> { Queries::Projects::ProjectQuery.new.available_selects.map { |s| s.attribute.to_s } }
       },
       enabled_scm: {
@@ -740,6 +739,12 @@ module Settings
         default: "",
         writable: false
       },
+      show_work_package_attachments: {
+        description: "Show work package attachments by default.",
+        format: :boolean,
+        default: true,
+        writable: true
+      },
       https: {
         description: "Set assumed connection security for the Rails processes",
         format: :boolean,
@@ -765,14 +770,14 @@ module Settings
         default: 3
       },
       httpx_operation_timeout: {
-        description: '',
+        description: "",
         format: :float,
         writable: false,
         allowed: (0..),
         default: 10
       },
       httpx_request_timeout: {
-        description: '',
+        description: "",
         format: :float,
         writable: false,
         allowed: (0..),
@@ -1082,7 +1087,7 @@ module Settings
         description: "Web worker count and threads configuration",
         default: {
           "workers" => 2,
-          "timeout" => 120,
+          "timeout" => Rails.env.production? ? 120 : 0,
           "wait_timeout" => 10,
           "min_threads" => 4,
           "max_threads" => 16
@@ -1102,7 +1107,7 @@ module Settings
       },
       work_package_done_ratio: {
         default: "field",
-        allowed: %w[field status disabled]
+        allowed: %w[field status]
       },
       work_packages_projects_export_limit: {
         default: 500

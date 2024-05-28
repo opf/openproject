@@ -12,6 +12,7 @@ module MyPage
             "work_packages_calendar",
             "work_packages_table",
             "time_entries_current_user",
+            "project_favorites",
             "news"
 
     wp_table_strategy_proc = Proc.new do

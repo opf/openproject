@@ -72,13 +72,14 @@ module Pages
       end
 
       def expect_title(name)
-        expect(page)
-          .to have_css('[data-test-selector="project-query-name"]', text: name)
+        expect(page).to have_css('[data-test-selector="project-query-name"]', text: name)
       end
 
       def expect_sidebar_filter(filter_name, selected: false)
         within "#main-menu" do
-          expect(page).to have_css(".op-sidemenu--item-action#{selected ? '.selected' : ''}", text: filter_name)
+          selected_specifier = selected ? ".selected" : ":not(.selected)"
+
+          expect(page).to have_css(".op-sidemenu--item-action#{selected_specifier}", text: filter_name)
         end
       end
 
@@ -89,21 +90,17 @@ module Pages
       end
 
       def expect_current_page_number(number)
-        expect(page)
-          .to have_css(".op-pagination--item_current", text: number)
+        expect(page).to have_css(".op-pagination--item_current", text: number)
       end
 
       def expect_total_pages(number)
-        expect(page)
-          .to have_css(".op-pagination--item", text: number)
-
-        expect(page)
-          .to have_no_css(".op-pagination--item", text: number + 1)
+        expect(page).to have_css(".op-pagination--item", text: number)
+        expect(page).to have_no_css(".op-pagination--item", text: number + 1)
       end
 
       def set_sidebar_filter(filter_name)
         within "#main-menu" do
-          click_link text: filter_name
+          click_on text: filter_name
         end
       end
 
@@ -116,8 +113,11 @@ module Pages
       end
 
       def expect_filter_set(filter_name)
-        expect(page).to have_css("li[filter-name='#{filter_name}']:not(.hidden)",
-                                 visible: :hidden)
+        expect(page).to have_css("li[filter-name='#{filter_name}']:not(.hidden)", visible: :hidden)
+      end
+
+      def expect_filter_count(count)
+        expect(page).to have_css('[data-test-selector="filters-button-counter"]', text: count)
       end
 
       def expect_no_project_create_button
@@ -144,41 +144,40 @@ module Pages
         end
       end
 
-      def expect_no_save_as_notification
-        expect(page)
-          .to have_no_link("Save as")
+      def expect_notification(text)
+        expect(page).to have_link(text, class: "PageHeader-action", exact: true)
       end
 
-      def expect_save_as_notification
-        expect(page)
-          .to have_link("Save as")
+      def expect_no_notification(text)
+        expect(page).to have_no_link(text, class: "PageHeader-action", exact: true)
+      end
+
+      def expect_menu_item(text, visible: true)
+        expect(page).to have_link(text, class: "ActionListContent", exact: true, visible:)
+      end
+
+      def expect_no_menu_item(text, visible: true)
+        expect(page).to have_no_link(text, class: "ActionListContent", exact: true, visible:)
       end
 
       def filter_by_active(value)
-        set_filter("active",
-                   "Active",
-                   "is",
-                   [value])
-
-        click_button "Apply"
+        set_filter("active", "Active", "is", [value])
+        click_on "Apply"
       end
 
       def filter_by_public(value)
-        set_filter("public",
-                   "Public",
-                   "is",
-                   [value])
+        set_filter("public", "Public", "is", [value])
+        click_on "Apply"
+      end
 
-        click_button "Apply"
+      def filter_by_favored(value)
+        set_filter("favored", "Favorite", "is", [value])
+        click_on "Apply"
       end
 
       def filter_by_membership(value)
-        set_filter("member_of",
-                   "I am member",
-                   "is",
-                   [value])
-
-        click_button "Apply"
+        set_filter("member_of", "I am member", "is", [value])
+        click_on "Apply"
       end
 
       def set_filter(name, human_name, human_operator = nil, values = [])
@@ -258,13 +257,21 @@ module Pages
 
       def open_filters
         retry_block do
-          page.find('[data-test-selector="filter-component-toggle"]').click
+          toggle_filters_section
           page.find_field("Add filter", visible: true)
         end
       end
 
+      def filters_toggle
+        page.find('[data-test-selector="filter-component-toggle"]')
+      end
+
+      def toggle_filters_section
+        filters_toggle.click
+      end
+
       def set_columns(*columns)
-        click_more_menu_item(I18n.t(:"queries.configure_view.heading"))
+        open_configure_view
 
         # Assumption: there is always one item selected, the 'Name' column
         # That column can currently not be removed.
@@ -294,23 +301,23 @@ module Pages
 
       def click_more_menu_item(item)
         page.find('[data-test-selector="project-more-dropdown-menu"]').click
-
         page.find(".ActionListItem", text: item, exact_text: true).click
       end
 
       def click_menu_item_of(title, project)
         activate_menu_of(project) do
-          click_link title
+          click_on title
         end
       end
 
       def activate_menu_of(project)
         within_row(project) do |row|
           row.hover
-          menu = find("ul.project-actions")
-          menu.click
+          menu = find("[data-test-selector='project-list-row--action-menu']")
+          menu_button = find("[data-test-selector='project-list-row--action-menu'] button")
+          menu_button.click
           wait_for_network_idle if using_cuprite?
-          expect(page).to have_css(".menu-drop-down-container")
+          expect(page).to have_css("[data-test-selector='project-list-row--action-menu-item']")
           yield menu
         end
       end
@@ -319,14 +326,22 @@ module Pages
         page.find('[data-test-selector="project-new-button"]').click
       end
 
-      def save_query(name)
+      def save_query
+        click_more_menu_item("Save")
+      end
+
+      def save_query_as(name)
         click_more_menu_item("Save as")
 
+        fill_in_the_name(name)
+
+        click_on "Save"
+      end
+
+      def fill_in_the_name(name)
         within '[data-test-selector="project-query-name"]' do
           fill_in "Name", with: name
         end
-
-        click_on "Save"
       end
 
       def delete_query
@@ -337,7 +352,7 @@ module Pages
         end
       end
 
-      def sort_by(column_name)
+      def sort_by_via_table_header(column_name)
         find(".generic-table--sort-header a", text: column_name.upcase).click
       end
 
@@ -351,13 +366,69 @@ module Pages
         end
       end
 
+      def open_configure_view
+        click_more_menu_item(I18n.t(:"queries.configure_view.heading"))
+      end
+
+      def switch_configure_view_tab(tab_name)
+        within "tab-container" do
+          find('button[role="tab"]', text: tab_name).click
+        end
+      end
+
+      def expect_sort_order(column_identifier:, direction:, direction_enabled: true)
+        select = find("select")
+        segmented_control = find("segmented-control")
+
+        expect(select.value).to eq(column_identifier.to_s)
+
+        if direction.present?
+          active_direction = segmented_control.find("button[aria-current='true']")["data-direction"]
+          expect(active_direction).to eq(direction.to_s)
+        else
+          expect(segmented_control).to have_no_button("[aria-current='true']")
+        end
+
+        expect(segmented_control).to have_button(disabled: !direction_enabled, count: 2)
+      end
+
+      def expect_number_of_sort_fields(number, visible: true)
+        expect(page).to have_css("[data-test-selector='sort-by-field']", count: number, visible:)
+      end
+
+      def change_sort_order(column_identifier:, direction:)
+        find("select option[value='#{column_identifier}']").select_option
+        find("segmented-control button[data-direction='#{direction}']").click
+      end
+
+      def remove_sort_order
+        find("select option[value='']").select_option
+      end
+
+      def expect_sort_option_is_disabled(column_identifier:)
+        select = find("select")
+
+        expect(select).to have_css("option[value='#{column_identifier}']:disabled")
+      end
+
+      def expect_sort_option_not_available(column_identifier:)
+        select = find("select")
+
+        expect(select).to have_no_css("option[value='#{column_identifier}']")
+      end
+
+      def within_sort_row(index, &)
+        field_component = page.all("[data-test-selector='sort-by-field']")[index]
+        within(field_component, &)
+      end
+
       def within_table(&)
         within "#project-table", &
       end
 
       def within_row(project)
-        row = page.find("#project-table tr", text: project.name)
-
+        row = page.find("#project-#{project.id}")
+        row.hover
         within row do
           yield row
         end
@@ -366,7 +437,7 @@ module Pages
       private
 
       def boolean_filter?(filter)
-        %w[active member_of public templated].include?(filter.to_s)
+        %w[active member_of favored public templated].include?(filter.to_s)
       end
     end
   end

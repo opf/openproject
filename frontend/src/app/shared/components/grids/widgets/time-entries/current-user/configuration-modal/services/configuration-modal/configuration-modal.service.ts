@@ -25,8 +25,9 @@ export class TimeEntriesCurrentUserConfigurationModalService {
     // offsetToApply = -1, so we need to pass the last daysCheckedValues to the start of the array to match the localeWeekDays order
     // In order save the result, we will have to reorder it with offset 1 (getCheckedValuesInOriginalOrder)
     const offsetToApply = localeOffset - 1;
-    const offsetCheckedValues = offsetToApply >= 0 ? daysCheckedValues.splice(0, offsetToApply) : daysCheckedValues.splice(offsetToApply);
-    const orderedDaysCheckedValues = offsetToApply >= 0 ? [...daysCheckedValues, ...offsetCheckedValues] : [...offsetCheckedValues, ...daysCheckedValues];
+    const checkedValues = Array.from(daysCheckedValues);
+    const offsetCheckedValues = offsetToApply >= 0 ? checkedValues.splice(0, offsetToApply) : checkedValues.splice(offsetToApply);
+    const orderedDaysCheckedValues = offsetToApply >= 0 ? [...checkedValues, ...offsetCheckedValues] : [...offsetCheckedValues, ...checkedValues];
     const weekDaysWithCheckedValue = orderedDaysCheckedValues
       .map(
         (dayCheckedValue, index) => ({
@@ -61,7 +62,7 @@ export class TimeEntriesCurrentUserConfigurationModalService {
 
   private validDays(days:DisplayedDays) {
     if (days.every((value) => !value)) {
-      return Array.apply(null, Array(7)).map(() => true);
+      return Array.from({ length: 7 }, () => true);
     }
     return days;
   }

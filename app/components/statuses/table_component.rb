@@ -59,15 +59,12 @@ module Statuses
       [
         [:name, { caption: Status.human_attribute_name(:name) }],
         [:color, { caption: Status.human_attribute_name(:color) }],
+        [:done_ratio, { caption: WorkPackage.human_attribute_name(:done_ratio) }],
         [:default?, { caption: Status.human_attribute_name(:is_default) }],
         [:closed?, { caption: Status.human_attribute_name(:is_closed) }],
         [:readonly?, { caption: Status.human_attribute_name(:is_readonly) }],
         [:sort, { caption: I18n.t(:label_sort) }]
-      ].tap do |default|
-        if WorkPackage.use_status_for_done_ratio?
-          default.insert 2, [:done_ratio, { caption: WorkPackage.human_attribute_name(:done_ratio) }]
-        end
-      end
+      ]
     end
   end
 end

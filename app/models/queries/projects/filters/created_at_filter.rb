@@ -30,4 +30,10 @@ class Queries::Projects::Filters::CreatedAtFilter < Queries::Projects::Filters::
   def type
     :datetime_past
   end
+
+  def available?
+    # The column is only available for admins.
+    # When the filter is used, one could get the same information as with the column.
+    User.current.admin?
+  end
 end

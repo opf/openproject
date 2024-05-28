@@ -58,8 +58,8 @@ it:
         select_all: "Seleziona tutto"
         selection:
           zero: "Seleziona i files da collegare"
-          one: "Collega %{count} files"
-          other: "Collega %{number} file"
+          one: "Collega 1 file"
+          other: "Collega %{count} file"
         success_create:
           one: "1 link del file creato correttamente."
           other: "%{count} link di file creati correttamente."

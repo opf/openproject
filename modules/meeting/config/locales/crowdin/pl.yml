@@ -42,14 +42,16 @@ pl:
         participants_invited: "Zaproszone osoby"
         project: "Projekt"
         start_date: "Data"
-        start_time: "Czas"
-        start_time_hour: "Czas rozpoczęcia"
-      meeting_agenda_items:
+        start_time: "Data rozpoczęcia"
+        start_time_hour: "Godzina rozpoczęcia"
+      meeting_agenda_item:
         title: "Tytuł"
-        author: "Author"
-        duration_in_minutes: "Czas trwania (min)"
+        author: "Autor"
+        duration_in_minutes: "min"
         description: "Notatki"
-        presenter: "Presenter"
+        presenter: "Prezenter"
+      meeting_section:
+        title: "Tytuł"
     errors:
       messages:
         invalid_time_format: "nie jest prawidłowy. Wymagany format to: GG:MM"
@@ -99,14 +101,16 @@ pl:
   label_start_date: "Data rozpoczęcia"
   meeting:
     attachments:
-      text: "Attached files are available to all meeting participants. You can also drag and drop tehse into agenda item notes."
+      text: "Załączone pliki są dostępne dla wszystkich uczestników spotkania. Można je również przeciągać i upuszczać w notatkach do punktów planu spotkania."
     copy:
-      title: "Kopiuj spotkanie %{title}"
-      attachments: "Copy attachments"
-      attachments_text: "Copy over all attached files to the new meeting"
+      title: "Kopiuj spotkanie: %{title}"
+      attachments: "Skopiuj załączniki"
+      attachments_text: "Skopiuj wszystkie załączone pliki do nowego spotkania"
       agenda: "Kopiuj agendę spotkania"
       agenda_text: "Skopiuj agendę starego spotkania"
     email:
+      send_emails: "Send emails"
+      send_invitation_emails: "Send out invitation emails upon creation"
       open_meeting_link: "Spotkania otwarte"
       invited:
         summary: "Użytkownik %{actor} wysłał Ci zaproszenie na spotkanie %{title}"
@@ -124,6 +128,11 @@ pl:
       structured_text: "Zorganizuj spotkanie jako listę punktów planu spotkania, opcjonalnie powiązując je z pakietem roboczym."
       structured_text_copy: "Skopiowanie spotkania nie powoduje obecnie skopiowania powiązanych pozycji planu spotkania, a jedynie szczegółów"
     copied: "Skopiowano ze spotkania #%{id}"
+  meeting_section:
+    untitled_title: "Sekcja bez nazwy"
+    delete_confirmation: "Usunięcie sekcji spowoduje również usunięcie wszystkich jej elementów punktów planu spotkania. Czy na pewno chcesz to zrobić?"
+    placeholder_title: "Nowa sekcja"
+    empty_text: "Przeciągnij elementy tutaj lub utwórz nowe"
   notice_successful_notification: "Powiadomienia wysłane pomyślnie"
   notice_timezone_missing: 'Została ustawiona domyślna strefa czasowa: %{zone}. Aby zmienić strefę czasową, kliknij tutaj.'
   permission_create_meetings: "Utwórz spotkanie"
@@ -157,7 +166,9 @@ pl:
   label_meeting_delete: "Usuń spotkanie"
   label_meeting_created_by: "Utworzony przez"
   label_meeting_last_updated: "Ostatnia aktualizacja"
-  label_agenda_item_remove: "Remove from agenda"
+  label_agenda_items: "Punkty planu spotkania"
+  label_agenda_items_reordered: "zmieniono kolejność"
+  label_agenda_item_remove: "Usuń z planu spotkania"
   label_agenda_item_undisclosed_wp: "Pakiet roboczy nr %{id} nie jest widoczny"
   label_agenda_item_deleted_wp: "Usunięte odniesienie do pakietu roboczego"
   label_agenda_item_actions: "Działania punktów planu spotkania"
@@ -166,10 +177,18 @@ pl:
   label_agenda_item_move_up: "Przenieś wyżej"
   label_agenda_item_move_down: "Przenieś niżej"
   label_agenda_item_add_notes: "Dodawanie notatek"
+  label_agenda_item_work_package: "Pakiet roboczy punktu planu spotkania"
+  text_agenda_item_title: 'Punkt planu spotkania „%{title}”'
+  text_agenda_work_package_deleted: 'Punkt planu spotkania dotyczący usuniętego pakietu roboczego'
+  text_deleted_agenda_item: 'Usunięty punkt planu spotkania'
+  label_initial_meeting_details: "Spotkanie"
   label_meeting_details: "Szczegóły spotkania"
   label_meeting_details_edit: "Edytuj szczegóły spotkania"
+  label_meeting_state: "Status spotkania"
   label_meeting_state_open: "Otwórz"
+  label_meeting_state_open_html: "<i>Otwarte</i>"
   label_meeting_state_closed: "Zamknięte"
+  label_meeting_state_closed_html: "<i>Zamknięte</i>"
   label_meeting_reopen_action: "Otwórz ponownie spotkanie"
   label_meeting_close_action: "Zamknij spotkanie"
   text_meeting_open_description: "To spotkanie jest otwarte. Możesz dodać/usunąć elementy planu spotkania i edytować je tak, jak chcesz. Po zakończeniu spotkania zamknij je, aby je zablokować."

@@ -33,7 +33,8 @@ class CustomFields::Inputs::Text < CustomFields::Inputs::Base::Input
 
   def rich_text_options
     {
-      resource: nil
+      resource: nil,
+      macros: "none"
     }
   end
 end

@@ -51,6 +51,10 @@ module Projects
       "project-table"
     end
 
+    def container_class
+      "generic-table--container_visible-overflow"
+    end
+
     ##
     # The project sort by is handled differently
     def build_sort_header(column, options)
@@ -61,7 +65,7 @@ module Projects
     # but the [project, level] array from the helper
     def rows
       @rows ||= begin
-        projects_enumerator = ->(model) { to_enum(:projects_with_levels_order_sensitive, model).to_a } # rubocop:disable Lint/ToEnumArguments
+        projects_enumerator = ->(model) { to_enum(:projects_with_levels_order_sensitive, model).to_a }
         instance_exec(model, &projects_enumerator)
       end
     end
@@ -109,10 +113,10 @@ module Projects
 
     def columns
       @columns ||= begin
-        columns = query.selects.reject { |select| select.is_a?(Queries::Selects::NotExistingSelect) }
+        columns = query.selects.reject { |select| select.is_a?(::Queries::Selects::NotExistingSelect) }
 
         index = columns.index { |column| column.attribute == :name }
-        columns.insert(index, Queries::Projects::Selects::Default.new(:hierarchy)) if index
+        columns.insert(index, ::Queries::Projects::Selects::Default.new(:hierarchy)) if index
 
         columns
       end
@@ -147,6 +151,10 @@ module Projects
 
         ancestors << project
       end
+    end
+
+    def favored_project_ids
+      @favored_project_ids ||= Favorite.where(user: current_user, favored_type: "Project").pluck(:favored_id)
     end
 
     def sorted_by_lft?

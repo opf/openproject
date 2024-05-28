@@ -39,15 +39,20 @@ it:
   api_v3:
     errors:
       too_many_elements_created_at_once: 'Troppi elementi creati contemporaneamente. Massimo atteso: %{max}, effettivi: %{actual}.'
-  permission_create_files: Crea file
-  permission_delete_files: Elimina file
+  external_file_storages: Archivi di file esterni
+  permission_create_files: 'Cartelle di progetto gestite automaticamente: Creare file'
+  permission_create_files_explanation: Questa autorizzazione è disponibile solo per gli archivi Nextcloud.
+  permission_delete_files: 'Cartelle di progetto gestite automaticamente: Eliminare file'
+  permission_delete_files_explanation: Questa autorizzazione è disponibile solo per gli archivi Nextcloud.
+  permission_header_for_project_module_storages: Cartelle di progetto gestite automaticamente
   permission_manage_file_links: Gestire link ai file
   permission_manage_storages_in_project: Gestisci archivi di file nel progetto
-  permission_read_files: Leggi file
-  permission_share_files: Condividi file
+  permission_read_files: 'Cartelle di progetto gestite automaticamente: Leggere file'
+  permission_share_files: 'Cartelle di progetto gestite automaticamente: Condividere file'
+  permission_share_files_explanation: Questa autorizzazione è disponibile solo per gli archivi Nextcloud.
   permission_view_file_links: Visualizza link ai file
-  permission_write_files: Scrivi file
-  project_module_storages: Archivi file
+  permission_write_files: 'Cartelle di progetto gestite automaticamente: Scrivere file'
+  project_module_storages: File
   storages:
     buttons:
       complete_without_setup: Completa senza
@@ -77,6 +82,15 @@ it:
       storage_delete_result_3: Nel caso in cui questo archivio gestisca automaticamente le cartelle di progetto, quelle e i file in esse contenuti verranno eliminati per sempre.
     error_invalid_provider_type: Seleziona un fornitore di archiviazione valido.
     file_storage_view:
+      access_management:
+        automatic_management: Accesso e cartelle gestiti automaticamente
+        automatic_management_description: Consenti a OpenProject di creare automaticamente cartelle per progetto e di gestirne l'accesso da parte degli utenti. Questa impostazione è consigliata in quanto garantisce che ogni membro del team abbia sempre le autorizzazioni di accesso corrette.
+        description: Seleziona il tipo di gestione dell'accesso degli utenti e della creazione di cartelle. Si consiglia di utilizzare l'accesso gestito automaticamente per avere una struttura più organizzata e garantire l'accesso a tutti gli utenti interessati.
+        manual_management: Accesso e cartelle gestiti manualmente
+        manual_management_description: Crea e gestisci manualmente le cartelle per progetto. Dovrai assicurarti manualmente che gli utenti interessati abbiano accesso.
+        setup_incomplete: Seleziona il tipo di gestione dell'accesso degli utenti e della creazione di cartelle.
+        subtitle: Gestione degli accessi
+        title: Accesso e cartelle di progetto
       automatically_managed_folders: Cartelle gestite automaticamente
       general_information: Informazioni generali
       nextcloud_oauth: Nextcloud OAuth
@@ -94,6 +108,13 @@ it:
       since: dal giorno %{datetime}
       subtitle: Cartelle di progetto gestite automaticamente
       title: Stato di salute
+    health_email_notifications:
+      description_subscribed: Tutti gli amministratori ricevono notifiche e-mail sullo stato di salute di questo archivio.
+      description_unsubscribed: Le notifiche via e-mail sullo stato di salute di questo archivio sono state disattivate per tutti gli amministratori.
+      error_could_not_be_saved: Impossibile salvare le impostazioni di notifica via e-mail. Riprova.
+      subscribe: Iscriviti
+      title: Notifiche e-mail
+      unsubscribe: Disiscriviti
     help_texts:
       project_folder: La cartella del progetto è la cartella predefinita per il caricamento dei file per questo progetto. Gli utenti possono, comunque, caricare i file in altre posizioni.
     instructions:
@@ -143,6 +164,7 @@ it:
     label_creator: Autore
     label_delete_storage: Elimina archivio
     label_edit_storage: Modifica archivio
+    label_edit_storage_access_management: Modifica gestione degli accessi all'archivio
     label_edit_storage_automatically_managed_folders: Modifica cartelle gestite automaticamente dall'archivio
     label_edit_storage_host: Modifica host dell'archivio
     label_existing_manual_folder: Cartella esistente con autorizzazioni gestite manualmente
@@ -199,11 +221,6 @@ it:
         delete: Elimina archivio file
         subtitle: Aggiungi un archivio file esterno per caricare, collegare e gestire i file nelle macro-attività.
       managed_project_folders:
-        one_drive_information: |-
-          Per abilitare le cartelle di progetto gestite automaticamente in OneDrive/SharePoint, è necessaria una configurazione aggiuntiva
-          per l'unità utilizzata per l'archiviazione di questo file. Se OpenProject gestisce le autorizzazioni di questa unità,
-          molto probabilmente sarà inutilizzabile per altri casi d'uso in SharePoint. Per ulteriori informazioni e indicazioni
-          consulta il %{drive_id_link_text}.
         subtitle: |-
           Consenti a OpenProject di creare automaticamente cartelle per progetto. Questa impostazione è consigliata in quanto garantisce che ogni
           membro del team abbia sempre le autorizzazioni di accesso corrette.
@@ -212,12 +229,12 @@ it:
       project_settings:
         delete: Elimina archivio file
         edit: Modifica l'archiviazione dei file per questo progetto
-        index: File di archiviazione disponibili in questo progetto
         members_connection_status: Stato della connessione dei membri
         new: Aggiungi un archivio file al progetto
       project_storage_members:
         subtitle: Controlla lo stato della connessione per lo spazio di archiviazione %{storage_name_link} di tutti i membri del progetto.
         title: Stato della connessione dei membri
+    permission_header_explanation: 'Le autorizzazioni dei file sugli archivi esterni vengono applicate solo alle cartelle e ai file all''interno delle cartelle di progetto gestite automaticamente. Tieni presente che non tutte le autorizzazioni sui file sono supportate da tutti i provider di archiviazione. Controlla la documentazione sulle <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>autorizzazioni per gli archivi di file</a> per ulteriori informazioni.'
     provider_types:
       label: Tipo di fonte
       nextcloud:
@@ -230,6 +247,9 @@ it:
         label_oauth_client_secret: Valore segreto client Azure OAuth
         name: OneDrive/SharePoint
         name_placeholder: es. OneDrive
+    show_attachments_toggle:
+      description: 'La disattivazione di questa opzione nasconderà l''elenco degli allegati nella scheda dei file delle macro-attività. I file allegati nella descrizione di una macro-attività verranno comunque caricati nell''archivio interno degli allegati. '
+      label: Mostra gli allegati nella scheda File delle macro-attività
     storage_list_blank_slate:
       description: Aggiungi un archivio per vederli qui.
       heading: Non hai ancora archivi.

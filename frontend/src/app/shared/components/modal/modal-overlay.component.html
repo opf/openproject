@@ -2,6 +2,7 @@
   class="spot-modal-overlay"
   [class.spot-modal-overlay_active]="(activeModalInstance$ | async) !== null"
   [class.spot-modal-overlay_not-full-screen]="notFullscreen"
+  [class.spot-modal-overlay_top]="mobileTopPosition"
   #overlay
   tabindex="0"
   cdkFocusInitial

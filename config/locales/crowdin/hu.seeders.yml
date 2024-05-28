@@ -130,7 +130,7 @@ hu:
         item_6:
           name: Hiba
       welcome:
-        title: Welcome to OpenProject!
+        title: Üdvözöl az OpenProject
         text: |
           OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
 
@@ -150,24 +150,24 @@ hu:
       projects:
         demo-project:
           name: Demo project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+          status_explanation: Minden feladat és alprojekt az ütemterv szerint halad. Az érintettek ismerik a feladataikat. A rendszer teljesen ki van építve.
           description: This is a short summary of the goals of this demo project.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Üdvözöljük a demó projektben
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Örülünk, hogy csatlakoztál.
+                Ebben a modulban projekthíreket közölhet csapattagjaival.
+              description: Aktuális hírek
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: 1. kategória (a Projekt beállításai között módosítható)
           queries:
             item_0:
-              name: Project plan
+              name: Projektterv
             item_1:
-              name: Milestones
+              name: Mérföldkövek
             item_2:
-              name: Tasks
+              name: Feladatok
             item_3:
               name: Csoport tervező
           boards:
@@ -190,7 +190,7 @@ hu:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Üdvözlünk
               item_1:
                 options:
                   name: Kezdés
@@ -215,7 +215,7 @@ hu:
                   name: Munkacsomagok
               item_6:
                 options:
-                  name: Milestones
+                  name: Mérföldkövek
           work_packages:
             item_0:
               subject: Start of project
@@ -251,16 +251,31 @@ hu:
                     *   [ ] Even more beer
             item_4:
               subject: End of project
+          wiki: |
+            _In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki._
+
+            **You can:**
+
+            * Insert text and images, also with copy and paste from other documents
+            * Create a page hierarchy with parent pages
+            * Include wiki pages to the project menu
+            * Use macros to include, e.g. table of contents, work package lists, or Gantt charts
+            * Include wiki pages in other text fields, e.g. project overview page
+            * Include links to other documents
+            * View the change history
+            * View as Markdown
+
+            More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: Scrum project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+          status_explanation: Minden feladat és alprojekt az ütemterv szerint halad. Az érintettek ismerik a feladataikat. A rendszer teljesen ki van építve.
           description: This is a short summary of the goals of this demo Scrum project.
           news:
             item_0:
               title: Welcome to your Scrum demo project
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                Örülünk, hogy csatlakoztál.
+                Ebben a modulban projekthíreket közölhet csapattagjaival.
           versions:
             item_0:
               name: Bug Backlog
@@ -319,16 +334,16 @@ hu:
             item_3:
               name: Sprint 2
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: 1. kategória (a Projekt beállításai között módosítható)
           queries:
             item_0:
-              name: Project plan
+              name: Projektterv
             item_1:
               name: Termék backlog
             item_2:
               name: Sprint 1
             item_3:
-              name: Tasks
+              name: Feladatok
           boards:
             kanban:
               name: Kanban board
@@ -347,7 +362,7 @@ hu:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Üdvözlünk
               item_1:
                 options:
                   name: Kezdés
@@ -371,7 +386,7 @@ hu:
                   name: Munkacsomagok
               item_6:
                 options:
-                  name: Project plan
+                  name: Projektterv
           work_packages:
             item_0:
               subject: New login screen

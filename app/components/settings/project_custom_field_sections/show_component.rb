@@ -49,18 +49,18 @@ module Settings
 
       def drag_and_drop_target_config
         {
-          'is-drag-and-drop-target': true,
-          'target-container-accessor': '.Box > ul', # the accessor of the container that contains the drag and drop items
-          'target-id': @project_custom_field_section.id, # the id of the target
-          'target-allowed-drag-type': 'custom-field' # the type of dragged items which are allowed to be dropped in this target
+          "is-drag-and-drop-target": true,
+          "target-container-accessor": ".Box > ul", # the accessor of the container that contains the drag and drop items
+          "target-id": @project_custom_field_section.id, # the id of the target
+          "target-allowed-drag-type": "custom-field" # the type of dragged items which are allowed to be dropped in this target
         }
       end
 
       def draggable_item_config(project_custom_field)
         {
-          'draggable-id': project_custom_field.id,
-          'draggable-type': 'custom-field',
-          'drop-url': drop_admin_settings_project_custom_field_path(project_custom_field)
+          "draggable-id": project_custom_field.id,
+          "draggable-type": "custom-field",
+          "drop-url": drop_admin_settings_project_custom_field_path(project_custom_field)
         }
       end
 
@@ -82,7 +82,8 @@ module Settings
         menu.with_item(label: label_text,
                        href: move_admin_settings_project_custom_field_section_path(@project_custom_field_section, move_to:),
                        form_arguments: {
-                         method: :put, data: { 'turbo-stream': true, qa_selector: "project-custom-field-section-move-#{move_to}" }
+                         method: :put, data: { "turbo-stream": true,
+                                               test_selector: "project-custom-field-section-move-#{move_to}" }
                        }) do |item|
           item.with_leading_visual_icon(icon:)
         end
@@ -99,8 +100,8 @@ module Settings
         menu.with_item(label: t("settings.project_attributes.label_edit_section"),
                        tag: :button,
                        content_arguments: {
-                         'data-show-dialog-id': "project-custom-field-section-dialog#{@project_custom_field_section.id}",
-                         'data-qa-selector': "project-custom-field-section-edit"
+                         "data-show-dialog-id": "project-custom-field-section-dialog#{@project_custom_field_section.id}",
+                         "data-test-selector": "project-custom-field-section-edit"
                        },
                        value: "") do |item|
           item.with_leading_visual_icon(icon: :pencil)
@@ -112,8 +113,8 @@ module Settings
                        scheme: :danger,
                        href: admin_settings_project_custom_field_section_path(@project_custom_field_section),
                        form_arguments: {
-                         method: :delete, data: { confirm: t("text_are_you_sure"), 'turbo-stream': true,
-                                                  qa_selector: "project-custom-field-section-delete" }
+                         method: :delete, data: { confirm: t("text_are_you_sure"), "turbo-stream": true,
+                                                  test_selector: "project-custom-field-section-delete" }
                        }) do |item|
           item.with_leading_visual_icon(icon: :trash)
         end

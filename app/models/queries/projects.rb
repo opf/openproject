@@ -29,6 +29,7 @@
 module Queries::Projects
   ::Queries::Register.register(ProjectQuery) do
     filter Filters::AncestorFilter
+    filter Filters::AvailableProjectAttributesFilter
     filter Filters::TypeFilter
     filter Filters::ActiveFilter
     filter Filters::TemplatedFilter
@@ -46,6 +47,7 @@ module Queries::Projects
     filter Filters::ProjectStatusFilter
     filter Filters::UserActionFilter
     filter Filters::VisibleFilter
+    filter Filters::FavoredFilter
 
     order Orders::DefaultOrder
     order Orders::LatestActivityAtOrder
@@ -61,5 +63,6 @@ module Queries::Projects
     select Selects::LatestActivityAt
     select Selects::RequiredDiskSpace
     select Selects::Status
+    select Selects::Favored
   end
 end

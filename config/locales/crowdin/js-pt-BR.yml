@@ -329,6 +329,18 @@ pt-BR:
         years: "Anos"
         description: >
           Selecione o nível de zoom inicial que deve ser exibido quando o zoom automático não estiver disponível.
+      export:
+        title: "Opções de PDF do gráfico de Gantt"
+        button_export: "Exportar"
+        column_widths:
+          narrow: "Estreito"
+          medium: "Médio"
+          wide: "Amplo"
+          very_wide: "Muito amplo"
+        options:
+          date_zoom: "Zoom de data"
+          paper_size: "Tamanho do papel"
+          column_widths: "Largura da coluna:"
     general_text_no: "não"
     general_text_yes: "sim"
     general_text_No: "Não"
@@ -347,11 +359,10 @@ pt-BR:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                A versão contém vários recursos e aprimoramentos novos: <br> <ul class="%{list_styling_class}"> <li>Integração com o GitLab (originalmente desenvolvido por colaboradores da Comunidade)</li> <li>Recursos avançados para listas de projetos personalizadas</li> <li>Recursos avançados para o módulo Meetings</li> <li>Funcionalidade de verificação de vírus com o ClamAV (complemento Enterprise)</li> <li>Exportação de PDF: Há suporte para listas em células de tabela</li> <li>O WebAuthn/FIDO/U2F foi adicionado como um segundo fator</li> <li>Mais idiomas adicionados ao conjunto padrão disponível</li> </ul>
+                A versão contém vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Exportação de PDF da visualização de Gantt, por exemplo, para impressão (complemento Enterprise)</li> <li>Projetos favoritos</li> <li>Seções em Reuniões</li> <li>Exibição de reuniões na página Meu trabalho e nas páginas de visão geral do projeto</li> <li>Possibilidade de ocultar anexos na guia Arquivos</li> <li>Campos personalizados do tipo Link (URL)</li> </ul>
     ical_sharing_modal:
       title: "Assinar calendário"
       inital_setup_error_message: "Ocorreu um erro ao buscar dados."
@@ -377,6 +388,7 @@ pt-BR:
     label_added_time_by: 'Adicionado por <a href="%{authorLink}">%{author}</a> em %{age}'
     label_ago: "dias atrás"
     label_all: "todos"
+    label_all_uppercase: "Todos"
     label_all_work_packages: "todos pacotes de trabalho"
     label_and: "e"
     label_ascending: "Crescente"
@@ -418,6 +430,7 @@ pt-BR:
     label_expand_project_menu: "Expandir menu do projeto"
     label_export: "Exportar"
     label_export_preparing: "A exportação está sendo preparada e será baixada em breve."
+    label_favorites: "Favoritos"
     label_filename: "Arquivo"
     label_filesize: "Tamanho"
     label_general: "Geral"
@@ -642,7 +655,7 @@ pt-BR:
           no_selection: "Clique em uma notificação para visualizar todos os detalhes da atividade."
         new_notifications:
           message: "Há novas notificações."
-          link_text: "Clique aqui para carregá-las"
+          link_text: "Clique aqui para carregá-las."
       menu:
         accountable: "Responsável"
         by_project: "Não lido por projeto"
@@ -924,6 +937,8 @@ pt-BR:
       message_work_package_read_only: "Pacote de trabalho está bloqueado na presente situação. Nenhum atributo que não seja a situação pode ser alterado."
       message_work_package_status_blocked: "A situação do pacote de trabalho não é gravável devido a situação fechada e a versão fechada."
       placeholder_filter_by_text: "Assunto, descrição, comentários, ..."
+      progress:
+        title: "Estimativas e progresso de trabalho"
       baseline:
         addition_label: "Adicionado à exibição dentro do período de comparação"
         removal_label: "Removido da exibição dentro do período de comparação"
@@ -1040,7 +1055,7 @@ pt-BR:
       sharing:
         share: "Compartilhar"
         title: "Compartilhar pacote de trabalho"
-        show_all_users: "Exibir todos os usuários compartilhados"
+        show_all_users: "Exibir todos os usuários com quem o pacote de trabalho foi compartilhado"
         selected_count: "%{count} selecionado"
         selection:
           mixed: "Misturado"
@@ -1249,7 +1264,8 @@ pt-BR:
       role:
         label: "Papel em %{project}"
         no_roles_found: "Nenhum papel encontrado"
-        description: 'Esta é a função que o usuário receberá ao ingressar em seu projeto. A função define quais ações  podem ser realizadas e quais informações podem ser visualizadas. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Saiba mais sobre as funções e permissões. </a>'
+        description: >-
+          Esta é a função que o usuário receberá ao ingressar em seu projeto. A função define quais ações  podem ser realizadas e quais informações podem ser visualizadas. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Saiba mais sobre as funções e permissões. </a>
         required: "Selecione um papel"
         next_button: "Próxima"
       message:
@@ -1265,6 +1281,9 @@ pt-BR:
           placeholder: "O espaço reservado agora pode ser usado em %{project}. Enquanto isso, você já pode planejar com este usuário e atribuir pacotes de trabalho por exemplo."
           group: "O grupo agora faz parte de %{project}. Enquanto isso, você já pode planejar com este grupo e atribuir pacotes de trabalho por exemplo."
         next_button: "Continuar"
+    favorite_projects:
+      no_results: "Você não possui projetos favoritos"
+      no_results_subtext: "Adicione um ou vários projetos como favoritos por meio de sua visão geral ou na lista de projetos."
     include_projects:
       toggle_title: "Incluir projetos"
       title: "Projetos"
@@ -1323,3 +1342,7 @@ pt-BR:
       drop_modal:
         focus_grab: "Esta é uma âncora de foco para modais. Pressione Shift+tab para voltar ao elemento trigger modal."
         Close: "Fechar"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "Ocorreu um problema de rede"
+        network_on: "A rede voltou. Estamos tentando."

@@ -330,6 +330,18 @@ ar:
         years: "السنوات"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "لا"
     general_text_yes: "نعم"
     general_text_No: "لا"
@@ -348,11 +360,10 @@ ar:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -378,6 +389,7 @@ ar:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "أيام مضت"
     label_all: "الكل"
+    label_all_uppercase: "الجميع"
     label_all_work_packages: "جميع مجموعات العمل"
     label_and: "و"
     label_ascending: "ترتيب تصاعدي"
@@ -419,6 +431,7 @@ ar:
     label_expand_project_menu: "Expand project menu"
     label_export: "تصدير"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_favorites: "Favorites"
     label_filename: "ملف"
     label_filesize: "حجم"
     label_general: "عام"
@@ -647,7 +660,7 @@ ar:
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: "There are new notifications."
-          link_text: "Click here to load them"
+          link_text: "Click here to load them."
       menu:
         accountable: "Accountable"
         by_project: "Unread by project"
@@ -764,7 +777,7 @@ ar:
           last_day: "Last day"
     text_are_you_sure: "هل أنت متأكد؟"
     text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} كتب:"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
@@ -929,6 +942,8 @@ ar:
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       placeholder_filter_by_text: "Subject, description, comments, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Added to view within the comparison time period"
         removal_label: "Removed from view within the comparison time period"
@@ -983,7 +998,7 @@ ar:
         priority: "الأولوية"
         projectName: "مشروع"
         remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWorkAlternative: "الساعات المتبقية"
         responsible: "مسؤول"
         startDate: "تاريخ البدء"
         status: "الحالة"
@@ -995,7 +1010,7 @@ ar:
         versionName: "الإصدار"
         version: "الإصدار"
         work: "Work"
-        workAlternative: "Estimated time"
+        workAlternative: "الوقت المُقّدَّر"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"
@@ -1045,7 +1060,7 @@ ar:
       sharing:
         share: "شارك"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
@@ -1192,7 +1207,7 @@ ar:
         other: "%{count} h"
         zero: "0 h"
       day:
-        one: "%{count} يوم"
+        one: "1 يوم"
         other: "%{count} يوم"
         zero: "0 days"
     zen_mode:
@@ -1262,7 +1277,8 @@ ar:
       role:
         label: "Role in %{project}"
         no_roles_found: "No roles were found"
-        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: >-
+          This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>
         required: "Please select a role"
         next_button: "التالي"
       message:
@@ -1278,6 +1294,9 @@ ar:
           placeholder: "The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
           group: "The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance."
         next_button: "Continue"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "Include projects"
       title: "المشاريع"
@@ -1336,3 +1355,7 @@ ar:
       drop_modal:
         focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
         Close: "أغلِق"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

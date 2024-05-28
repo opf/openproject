@@ -23,6 +23,17 @@ get:
         application/hal+json:
           schema:
             $ref: '../components/schemas/storage_read_model.yml'
+          examples:
+            'Nextcloud storage':
+              $ref: '../components/examples/storage-nextcloud-response.yml'
+            'Freshly created Nextcloud storage':
+              $ref: '../components/examples/storage-nextcloud-response-for-creation.yml'
+            'OneDrive storage':
+              $ref: '../components/examples/storage-one-drive-response.yml'
+            'Incomplete OneDrive storage':
+              $ref: '../components/examples/storage-one-drive-incomplete-response.yml'
+            'Unauthorized Nextcloud storage':
+              $ref: '../components/examples/storage-nextcloud-unauthorized-response.yml'
     '404':
       content:
         application/hal+json:

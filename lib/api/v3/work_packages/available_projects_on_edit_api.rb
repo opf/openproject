@@ -33,9 +33,6 @@ module API
         resource :available_projects do
           after_validation do
             authorize_in_work_package(:edit_work_packages, work_package: @work_package)
-
-            checked_permissions = Projects::ProjectCollectionRepresenter.checked_permissions
-            current_user.preload_projects_allowed_to(checked_permissions)
           end
 
           get &::API::V3::Utilities::Endpoints::SqlFallbackedIndex

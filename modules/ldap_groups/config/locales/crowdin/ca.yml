@@ -50,7 +50,7 @@ ca:
       add_new: 'Afegeix grup de sincronització LDAP'
       destroy:
         title: 'Elimina el grup de sincronització %{name}'
-        confirmation: "Si continues, el grup de sincronització %{name} i tots els %{groups_count} usuaris sincronitzats seran eliminats."
+        confirmation: "Si continues, el grup de sincronització %{name} i tots els %{users_count} usuaris sincronitzats seran eliminats."
         info: "Nota: El grup d'OpenProject i els membres afegits fora d'aquesta sincronització de LDAP no seran eliminats."
         verification: "Introdueix el nom del grup %{name} per verificar l'eliminació."
       help_text_html: |

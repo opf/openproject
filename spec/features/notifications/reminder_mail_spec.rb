@@ -1,7 +1,7 @@
 require "spec_helper"
 require_relative "../users/notifications/shared_examples"
 
-RSpec.describe "Reminder email sending", :js, :with_cuprite do
+RSpec.describe "Reminder email sending", js: false do
   let!(:project) { create(:project, members: { current_user => role }) }
   let!(:mute_project) { create(:project, members: { current_user => role }) }
   let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
@@ -9,17 +9,26 @@ RSpec.describe "Reminder email sending", :js, :with_cuprite do
   let(:work_package) { create(:work_package, project:) }
   let(:watched_work_package) { create(:work_package, project:, watcher_users: [current_user]) }
   let(:involved_work_package) { create(:work_package, project:, assigned_to: current_user) }
-  # ApplicationJob#job_scheduled_at is used for scheduling the reminder mails
-  # needs to be within a time frame eligible for sending out mails for the chose
-  # time zone. For the time zone Hawaii (UTC-10) this means between 8:00:00 and 8:14:59 UTC.
-  # The job is scheduled to run every 15 min so the scheduled_at will in production always move between the quarters of an hour.
-  # The current time can be way behind that.
-  let(:current_utc_time) { ActiveSupport::TimeZone["Pacific/Honolulu"].parse("2021-09-30T08:34:10").utc }
+  # GoodJob::Job#cron_at is used for scheduling the reminder mails.
+  # It needs to be within a time frame eligible for sending out mails for the chosen
+  # time zone. For the time zone Hawaii (UTC-10) this means 8:00:00 as the job has a cron tab to be run every 15 min.
   let(:job_run_at) { ActiveSupport::TimeZone["Pacific/Honolulu"].parse("2021-09-30T08:00:00").utc }
 
-  # Fix the time of the specs to ensure a consistent run
+  let(:scheduled_job) do
+    Notifications::ScheduleReminderMailsJob.perform_later.tap do |job|
+      GoodJob::Job
+        .where(id: job.job_id)
+        .update_all(cron_at: job_run_at)
+    end
+  end
+
+  # The reminder mail is sent out after notifications have been created which might have happened way earlier.
+  # This spec will be fixed to this time ensure a consistent run and to mimic the time that typically has passed
+  # between the changes to a work package and the reminder mail being sent out.
+  let(:work_package_update_time) { ActiveSupport::TimeZone["Pacific/Honolulu"].parse("2021-09-30T01:50:34").utc }
+
   around do |example|
-    Timecop.travel(current_utc_time) do
+    Timecop.travel(work_package_update_time) do
       example.run
     end
   end
@@ -31,7 +40,7 @@ RSpec.describe "Reminder email sending", :js, :with_cuprite do
         time_zone: "Pacific/Honolulu",
         daily_reminders: {
           enabled: true,
-          times: [hitting_reminder_slot_for("Pacific/Honolulu", current_utc_time)]
+          times: [hitting_reminder_slot_for("Pacific/Honolulu", job_run_at)]
         },
         immediate_reminders: {
           mentioned: false
@@ -59,8 +68,7 @@ RSpec.describe "Reminder email sending", :js, :with_cuprite do
 
     ActiveJob::Base.disable_test_adapter
 
-    scheduled_job = Notifications::ScheduleReminderMailsJob.perform_later
-    GoodJob::Job.where(id: scheduled_job.job_id).update_all(scheduled_at: job_run_at)
+    scheduled_job
   end
 
   it "sends a digest mail based on the configuration", with_settings: { journal_aggregation_time_minutes: 0 } do

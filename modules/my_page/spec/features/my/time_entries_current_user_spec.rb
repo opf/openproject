@@ -277,6 +277,16 @@ RSpec.describe "My page time entries current user widget spec", :js do
     expect(page)
       .to have_content "Total: 13 h"
 
+    ## Opening the configuration modal multiple times (Regression#54966)
+    entries_area.click_menu_item I18n.t("js.grid.configure")
+    click_on "Cancel"
+    entries_area.click_menu_item I18n.t("js.grid.configure")
+
+    ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].each do |day_name|
+      expect(page).to have_field(day_name, checked: true)
+    end
+    click_on "Cancel"
+
     ## Hiding weekdays
     entries_area.click_menu_item I18n.t("js.grid.configure")
 

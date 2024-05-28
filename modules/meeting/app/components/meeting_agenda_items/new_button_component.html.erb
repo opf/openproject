@@ -1,7 +1,7 @@
 <%=
-  component_wrapper(class: "mt-3", style: 'position: relative') do
+  component_wrapper(style: "position: relative") do
     render(Primer::Alpha::ActionMenu.new) do |component|
-      component.with_show_button(scheme: :primary, disabled: @disabled) do |button|
+      component.with_show_button(scheme: button_scheme, disabled: @disabled) do |button|
         button.with_leading_visual_icon(icon: :plus)
         t("button_add")
       end
@@ -9,18 +9,28 @@
         label: t("activerecord.models.meeting_agenda_item", count: 1),
         tag: :a,
         content_arguments: {
-          href: new_meeting_agenda_item_path(@meeting, type: "simple"),
-          data: { 'turbo-stream': true }
+          href: new_meeting_agenda_item_path(@meeting, type: "simple", meeting_section_id: @meeting_section&.id),
+          data: { "turbo-stream": true }
         }
       )
       component.with_item(
         label: t("activerecord.models.work_package", count: 1),
         tag: :a,
         content_arguments: {
-          href: new_meeting_agenda_item_path(@meeting, type: "work_package"),
-          data: { 'turbo-stream': true }
+          href: new_meeting_agenda_item_path(@meeting, type: "work_package", meeting_section_id: @meeting_section&.id),
+          data: { "turbo-stream": true }
         }
       )
+      unless @meeting_section
+        component.with_item(
+          label: "Section",
+          tag: :a,
+          content_arguments: {
+            href: meeting_sections_path(@meeting),
+            data: { "turbo-stream": true, "turbo-method": :post }
+          }
+        )
+      end
     end
   end
 %>
