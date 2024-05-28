@@ -135,6 +135,10 @@ module Projects
       nil
     end
 
+    def empty_row_message
+      I18n.t :no_results_title_text
+    end
+
     class << self
       def row_class
         mod = name.deconstantize
