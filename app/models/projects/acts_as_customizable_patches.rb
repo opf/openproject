@@ -44,7 +44,7 @@ module Projects::ActsAsCustomizablePatches
     before_create :reject_section_scoped_validation_for_creation
     before_create :build_missing_project_custom_field_project_mappings
 
-    after_save :reset_section_scoped_validation, :set_query_available_custom_fields_to_project_level
+    after_save :reset_section_scoped_validation
 
     def build_missing_project_custom_field_project_mappings
       # activate custom fields for this project (via mapping table) if values have been provided for custom_fields but no mapping exists
@@ -69,12 +69,6 @@ module Projects::ActsAsCustomizablePatches
       # query the available custom fields on a global level when updating custom field values
       # in order to support implicit activation of custom fields when values are provided during an update
       self._query_available_custom_fields_on_global_level = true
-    end
-
-    def set_query_available_custom_fields_to_project_level
-      # reset the query_available_custom_fields_on_global_level after saving
-      # in order not to silently carry this setting in this instance
-      self._query_available_custom_fields_on_global_level = nil
     end
 
     def reject_section_scoped_validation_for_creation

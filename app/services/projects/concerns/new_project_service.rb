@@ -28,6 +28,8 @@
 
 module Projects::Concerns
   module NewProjectService
+    include Projects::Concerns::ResetGlobalQueryHooks
+
     private
 
     def after_perform(attributes_call)

@@ -31,7 +31,6 @@
 module Projects
   class CopyService < ::BaseServices::Copy
     include Projects::Concerns::NewProjectService
-    include Projects::Concerns::ResetGlobalQueryAfterValidateHook
 
     def self.copy_dependencies
       [
