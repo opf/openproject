@@ -84,7 +84,7 @@ module Projects
         columns = query.selects.reject { |select| select.is_a?(::Queries::Selects::NotExistingSelect) }
 
         index = columns.index { |column| column.attribute == :name }
-        columns.insert(index, ::Queries::Projects::Selects::Default.new(:hierarchy)) if index
+        columns.insert(index, ::Queries::Projects::Selects::Default.new(:lft)) if index
 
         columns
       end
