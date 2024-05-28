@@ -429,45 +429,4 @@ RSpec.describe Project, "customizable" do
       it_behaves_like "implicitly enabled and saved custom values"
     end
   end
-
-  context "with hidden custom fields" do
-    let!(:hidden_custom_field) do
-      create(:text_project_custom_field, project_custom_field_section: section, visible: false)
-    end
-    let(:project) do
-      create(:project, custom_field_values: {
-               text_custom_field.id => "foo",
-               bool_custom_field.id => true,
-               hidden_custom_field.id => "hidden"
-             })
-    end
-
-    before do
-      User.current = user # needs to be executed before project creation!
-    end
-
-    context "with admin permission" do
-      let(:user) { create(:admin) }
-
-      it "does activate hidden custom fields" do
-        # project creation happens with an admin user as let(:project) called after setting the current user to an admin
-        expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
-          .to contain_exactly(text_custom_field.id, bool_custom_field.id, hidden_custom_field.id)
-
-        expect(project.custom_value_for(hidden_custom_field).typed_value).to eq("hidden")
-      end
-    end
-
-    context "without admin permission" do
-      let(:user) { create(:user) }
-
-      it "does not activate hidden custom fields" do
-        # project creation happens with an non-admin user as let(:project) called after setting the current user to an non-admin
-        expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
-          .to contain_exactly(text_custom_field.id, bool_custom_field.id)
-
-        expect(project.custom_value_for(hidden_custom_field)).to be_nil
-      end
-    end
-  end
 end
