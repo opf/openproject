@@ -98,7 +98,6 @@ jobs:
         node-version-file: 'package.json'
         cache: 'npm'
         cache-dependency-path: |
-          package-lock.json
           frontend/package-lock.json
     - name: Cache ANGULAR
       uses: runs-on/cache@v4
@@ -121,7 +120,6 @@ jobs:
       with:
         path: db/structure.sql
         key: db-schema-${{ hashFiles('db/**/*') }}
-    - run: npm install
     - name: DB setup
       run: cp docker/ci/database.yml config/
     - name: DB migration
@@ -129,6 +127,7 @@ jobs:
       run: bin/rails db:create db:migrate db:schema:dump
     - name: Precompile assets
       run: |
+        cd frontend && npm ci
         DATABASE_URL=nulldb://db time bin/rails openproject:plugins:register_frontend assets:precompile
         cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json
     - name: Reset DBs
