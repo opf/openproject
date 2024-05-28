@@ -219,7 +219,7 @@ RSpec.describe MyController, :skip_2fa_stage do
 
       expect(service).to have_received(:call!).with(other_user)
       expect(response).to redirect_to my_account_path
-      expect(user.reload.last_login_on).to be_within(10.seconds).of(Time.current)
+      expect(user.reload.last_login_on).to equal_time_without_usec(Time.current)
       expect(session[:user_id]).to eq user.id
       expect(session[:updated_at]).to be > session_update_time
     end
