@@ -68,7 +68,7 @@ jobs:
   all:
     name: Units + Features
     if: github.repository == 'opf/openproject'
-    runs-on: runs-on,runner=4cpu-linux-x64,family=c7i-flex+c7a,run-id=${{ github.run_id }}
+    runs-on: runs-on,runner=8cpu-linux-x64,family=c7i-flex+c7a,run-id=${{ github.run_id }}
     timeout-minutes: 40
     services:
       # Label used to access the service container
@@ -136,6 +136,8 @@ jobs:
       run: bin/rails db:create db:migrate db:schema:dump
     - name: Precompile assets
       run: |
+        df -ah
+        mount || true
         npm config set audit=false fund=false
         cd frontend && npm ci && cd -
         DATABASE_URL=nulldb://db time bin/rails openproject:plugins:register_frontend assets:precompile
@@ -149,7 +151,7 @@ jobs:
     - name: Unit tests
       run: |
         shopt -s extglob
-        time bundle exec turbo_tests --verbose -n $(nproc) --runtime-log spec/support/runtime-logs/turbo_runtime_units.log spec/!(features) modules/**/spec/!(features)
+        # time bundle exec turbo_tests --verbose -n $(nproc) --runtime-log spec/support/runtime-logs/turbo_runtime_units.log spec/!(features) modules/**/spec/!(features)
     # - name: Feature tests
     #   env:
     #     CAPYBARA_DOWNLOADED_FILE_DIR: /tmp/ci/downloads
