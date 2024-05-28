@@ -121,7 +121,7 @@ jobs:
       with:
         path: db/structure.sql
         key: db-schema-${{ hashFiles('db/**/*') }}
-    - run: npm ci
+    - run: npm install
     - name: DB setup
       run: cp docker/ci/database.yml config/
     - name: DB migration
