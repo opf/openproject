@@ -40,7 +40,7 @@ RSpec.describe Queries::Roles::Filters::UnitFilter do
     let(:model) { Role }
     let(:valid_values) { ["project"] }
 
-    describe "#scope" do
+    describe "#apply_to" do
       context "for the system value" do
         let(:values) { ["system"] }
 
@@ -51,7 +51,7 @@ RSpec.describe Queries::Roles::Filters::UnitFilter do
             expected = model
                        .where(["roles.type = ?", GlobalRole.name]) # rubocop:disable Rails/WhereEquals
 
-            expect(instance.scope.to_sql).to eql expected.to_sql
+            expect(instance.apply_to(model).to_sql).to eql expected.to_sql
           end
         end
 
@@ -62,7 +62,7 @@ RSpec.describe Queries::Roles::Filters::UnitFilter do
             expected = model
                        .where(["roles.type != ?", GlobalRole.name]) # rubocop:disable Rails/WhereNot
 
-            expect(instance.scope.to_sql).to eql expected.to_sql
+            expect(instance.apply_to(model).to_sql).to eql expected.to_sql
           end
         end
       end
@@ -77,7 +77,7 @@ RSpec.describe Queries::Roles::Filters::UnitFilter do
             expected = model
                        .where(["roles.type = ? AND roles.builtin = ?", ProjectRole.name, Role::NON_BUILTIN])
 
-            expect(instance.scope.to_sql).to eql expected.to_sql
+            expect(instance.apply_to(model).to_sql).to eql expected.to_sql
           end
         end
 
@@ -88,7 +88,7 @@ RSpec.describe Queries::Roles::Filters::UnitFilter do
             expected = model
                        .where(["roles.type != ?", ProjectRole.name]) # rubocop:disable Rails/WhereNot
 
-            expect(instance.scope.to_sql).to eql expected.to_sql
+            expect(instance.apply_to(model).to_sql).to eql expected.to_sql
           end
         end
       end

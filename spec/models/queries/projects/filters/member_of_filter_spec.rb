@@ -36,16 +36,16 @@ RSpec.describe Queries::Projects::Filters::MemberOfFilter do
     let(:model) { Project }
     let(:attribute) { :member_of }
 
-    describe "#scope" do
+    describe "#apply_to" do
       let(:operator) { "=" }
 
       context 'for "t"' do
         let(:values) { [OpenProject::Database::DB_VALUE_TRUE] }
 
         it "queries for projects where current user is a member" do
-          expected = expected_base_scope.visible.with_member
+          expected = expected_base_scope.with_member
 
-          expect(instance.scope.to_sql).to eql expected.to_sql
+          expect(instance.apply_to(model).to_sql).to eql expected.to_sql
         end
       end
 
@@ -53,9 +53,9 @@ RSpec.describe Queries::Projects::Filters::MemberOfFilter do
         let(:values) { [OpenProject::Database::DB_VALUE_FALSE] }
 
         it "queries for projects where current user is not a member" do
-          expected = expected_base_scope.visible.without_member
+          expected = expected_base_scope.without_member
 
-          expect(instance.scope.to_sql).to eql expected.to_sql
+          expect(instance.apply_to(model).to_sql).to eql expected.to_sql
         end
       end
     end
