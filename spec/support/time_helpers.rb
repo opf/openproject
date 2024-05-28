@@ -26,47 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+RSpec.configure do |config|
+  config.include ActiveSupport::Testing::TimeHelpers
+end
 
-RSpec.describe Projects::CreateService, "integration", type: :model do
-  let(:instance) { described_class.new(user:) }
-  let(:new_project) { service_result.result }
-  let(:service_result) { instance.call(**attributes) }
+RSpec::Matchers.define :equal_time_without_usec do |expected|
+  expected_without_usec = expected.change(usec: 0)
 
-  before do
-    login_as(user)
+  failure_message do
+    actual_without_usec = actual.change(usec: 0)
+    [
+      "expected: #{expected_without_usec.iso8601}",
+      "actual: #{actual_without_usec.iso8601}",
+      "difference: #{actual_without_usec - expected_without_usec}s"
+    ].join(" - ")
   end
 
-  describe "writing created_at timestamp" do
-    shared_let(:user) { create(:admin) }
-
-    let(:created_at) { 11.days.ago }
-
-    let(:attributes) do
-      {
-        name: "test",
-        created_at:
-      }
-    end
-
-    context "when enabled", with_settings: { apiv3_write_readonly_attributes: true } do
-      it "updates the timestamps correctly" do
-        expect(service_result)
-          .to be_success
-
-        new_project.reload
-        expect(new_project.created_at).to equal_time_without_usec(created_at)
-      end
-    end
-
-    context "when disabled", with_settings: { apiv3_write_readonly_attributes: false } do
-      it "rejects the creation" do
-        expect(service_result)
-          .not_to be_success
-
-        expect(new_project.errors.symbols_for(:created_at))
-          .to contain_exactly(:error_readonly)
-      end
-    end
+  match do |actual|
+    actual_without_usec = actual.change(usec: 0)
+    expected_without_usec == actual_without_usec
   end
 end
