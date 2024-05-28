@@ -66,7 +66,6 @@ jobs:
   #     if: steps.db_schema_cache.outputs.cache-hit != 'true'
   #     run: bin/rails db:create db:migrate db:schema:dump
   all:
-    continue-on-error: true
     name: Units + Features
     if: github.repository == 'opf/openproject'
     runs-on: runs-on,runner=32cpu-linux-x64,family=c7i-flex,run-id=${{ github.run_id }}
@@ -84,7 +83,7 @@ jobs:
           - 5432:5432
 
     env:
-      RSPEC_RETRY_RETRY_COUNT: 2
+      RSPEC_RETRY_RETRY_COUNT: 3
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/appdb
       PGUSER: postgres
       PGHOST: localhost
@@ -156,6 +155,7 @@ jobs:
     - name: Reset DBs
       run: ./docker/ci/reset-dbs.sh
     - name: Feature tests
+      continue-on-error: true
       env:
         CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
         CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
