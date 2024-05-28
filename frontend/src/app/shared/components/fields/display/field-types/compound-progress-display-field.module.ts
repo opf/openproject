@@ -36,11 +36,15 @@ import {
 import {
   HierarchyQueryLinkHelperService,
 } from 'core-app/shared/components/fields/display/field-types/hierarchy-query-link-helper.service';
+import { ExcludedIconHelperService } from 'core-app/shared/components/fields/display/field-types/excluded-icon-helper.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 export class CompoundProgressDisplayField extends DisplayField {
   @InjectField() PathHelper:PathHelperService;
 
   @InjectField() apiV3Service:ApiV3Service;
+
+  @InjectField() excludedIconHelperService:ExcludedIconHelperService;
 
   @InjectField() hierarchyQueryLinkHelper:HierarchyQueryLinkHelperService;
 
@@ -64,6 +68,8 @@ export class CompoundProgressDisplayField extends DisplayField {
     span.textContent = displayText;
     span.title = this.valueString;
     span.classList.add('-actual-value');
+
+    this.excludedIconHelperService.addIconIfExcludedFromTotals(span, this.resource as WorkPackageResource);
 
     element.appendChild(span);
   }

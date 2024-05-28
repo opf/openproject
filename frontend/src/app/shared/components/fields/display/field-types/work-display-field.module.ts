@@ -32,7 +32,9 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { uiStateLinkClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
+import { ExcludedIconHelperService } from 'core-app/shared/components/fields/display/field-types/excluded-icon-helper.service';
 import { HierarchyQueryLinkHelperService } from 'core-app/shared/components/fields/display/field-types/hierarchy-query-link-helper.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 export class WorkDisplayField extends DisplayField {
   @InjectField() timezoneService:TimezoneService;
@@ -40,6 +42,8 @@ export class WorkDisplayField extends DisplayField {
   @InjectField() PathHelper:PathHelperService;
 
   @InjectField() apiV3Service:ApiV3Service;
+
+  @InjectField() excludedIconHelperService:ExcludedIconHelperService;
 
   @InjectField() hierarchyQueryLinkHelper:HierarchyQueryLinkHelperService;
 
@@ -98,6 +102,9 @@ export class WorkDisplayField extends DisplayField {
     }
     span.classList.add('-actual-value');
 
+    if (this.value) {
+      this.excludedIconHelperService.addIconIfExcludedFromTotals(span, this.resource as WorkPackageResource);
+    }
     element.appendChild(span);
   }
 
