@@ -74,7 +74,7 @@ module Admin::Settings
                          .new(user: current_user, model: project_custom_field_mapping)
                          .call
 
-      delete_service.on_success { render_unlink_response(project:) }
+      delete_service.on_success { render_unlink_response }
 
       respond_to_with_turbo_streams(status: delete_service.success? ? :ok : :unprocessable_entity)
     end
@@ -118,21 +118,14 @@ module Admin::Settings
 
     private
 
-    def render_unlink_response(project:)
-      if @custom_field.project_custom_field_project_mappings.empty?
-        update_via_turbo_stream(
-          component: Settings::ProjectCustomFields::ProjectCustomFieldMapping::TableComponent.new(
-            query: @project_custom_field_mappings_query,
-            params: { custom_field: @custom_field }
-          ),
-          status: :ok
-        )
-      else
-        remove_via_turbo_stream(
-          component: Settings::ProjectCustomFields::ProjectCustomFieldMapping::RowComponent
-                       .new(row: [project, 0], table: nil)
-        )
-      end
+    def render_unlink_response
+      update_via_turbo_stream(
+        component: Settings::ProjectCustomFields::ProjectCustomFieldMapping::TableComponent.new(
+          query: @project_custom_field_mappings_query,
+          params: { custom_field: @custom_field }
+        ),
+        status: :ok
+      )
     end
 
     def project_custom_field_mappings_query
