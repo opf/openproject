@@ -39,14 +39,6 @@ module Projects::ActsAsCustomizablePatches
                                                      dependent: :destroy, inverse_of: :project
     has_many :project_custom_fields, through: :project_custom_field_project_mappings, class_name: "ProjectCustomField"
 
-    before_update :set_query_available_custom_fields_to_global_level
-
-    def set_query_available_custom_fields_to_global_level
-      # query the available custom fields on a global level when updating custom field values
-      # in order to support implicit activation of custom fields when values are provided during an update
-      self._query_available_custom_fields_on_global_level = true
-    end
-
     def with_all_available_custom_fields
       # query the available custom fields on a global level when updating custom field values
       # in order to support implicit activation of custom fields when values are provided during an update
