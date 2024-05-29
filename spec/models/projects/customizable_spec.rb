@@ -190,7 +190,7 @@ RSpec.describe Project, "customizable" do
         expect { project.save! }.to raise_error(ActiveRecord::RecordInvalid)
       end
 
-      it "temporarly validates only custom values of a section if section scope is provided while updating" do
+      it "validates only custom values of a section if section scope is provided while updating" do
         project = create(:project, custom_field_values: {
                            text_custom_field.id => "foo",
                            bool_custom_field.id => true,
@@ -217,7 +217,8 @@ RSpec.describe Project, "customizable" do
 
         expect { project.save! }.not_to raise_error
 
-        # section scope is resetted after each update
+        # Removing the section scoped limitation should result a validation error again.
+        project._limit_custom_fields_validation_to_section_id = nil
         expect { project.save! }.to raise_error(ActiveRecord::RecordInvalid)
       end
     end
