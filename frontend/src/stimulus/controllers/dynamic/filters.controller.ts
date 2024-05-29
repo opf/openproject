@@ -202,9 +202,9 @@ export default class FiltersController extends Controller {
     let filterParam;
 
     if (this.outputFormatValue === 'json') {
-      filterParam = JSON.stringify(filters.map((filter) => { return this.buildFilterJSON(filter); }));
+      filterParam = JSON.stringify(filters.map((filter) => this.buildFilterJSON(filter)));
     } else {
-      filterParam = filters.map((filter) => { return this.buildFilterString(filter); }).join('&');
+      filterParam = filters.map((filter) => this.buildFilterString(filter)).join('&');
     }
 
     let queryString = `?filters=${encodeURIComponent(filterParam)}`;
