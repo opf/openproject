@@ -265,7 +265,7 @@ ru:
       my: "Мои проекты"
       favored: "Избранные проекты"
       archived: "Архивные проекты"
-      public: "Public project lists"
+      public: "Списки общедоступных проектов"
       my_private: "Списки моих личных проектов"
       new:
         placeholder: "Список новых проектов"
@@ -312,11 +312,11 @@ ru:
       success: "Измененный список был сохранен"
       failure: "Измененный список не может быть сохранен: %{errors}"
     publish:
-      success: "The list has been made public"
-      failure: "The list cannot be made public: %{errors}"
+      success: "Список был сделан общедоступным"
+      failure: "Список не может быть сделан общедоступным: %{errors}"
     unpublish:
-      success: "The list has been made private"
-      failure: "The list cannot be made private: %{errors}"
+      success: "Список был сделан приватным"
+      failure: "Список не может быть сделан приватным: %{errors}"
     can_be_saved: "Список изменён:"
     can_be_saved_as: "Изменения могут быть сохранены только в новом списке:"
   members:
@@ -932,8 +932,8 @@ ru:
               nonexistent: "Столбец '%{column}' не существует."
               format: "%{message}"
           group_by_hierarchies_exclusive: "является взаимоисключающим при группировке «%{group_by}». Вы не можете активировать оба."
-          can_only_be_modified_by_owner: "The query can only be modified by its owner."
-          need_permission_to_modify_public_query: "You cannot modify a public query."
+          can_only_be_modified_by_owner: "Запрос может быть изменен только его владельцем."
+          need_permission_to_modify_public_query: "Вы не можете изменить общедоступный запрос."
           filters:
             custom_fields:
               inexistent: "Для этого фильтра нет настраиваемого поля."
@@ -1357,8 +1357,8 @@ ru:
   button_revoke_access: "Отменить доступ"
   button_revoke_all: "Отменить всё"
   button_revoke_only: "Отменить только %{shared_role_name}"
-  button_publish: "Make public"
-  button_unpublish: "Make private"
+  button_publish: "Сделать общедоступным"
+  button_unpublish: "Сделать приватным"
   consent:
     checkbox_label: Принимаю к сведению и соглашаюсь с вышеизложенным.
     failure_message: Согласие не получено, продолжение невозможно.
@@ -2780,7 +2780,7 @@ ru:
   permission_save_bcf_queries: "Сохранить запросы BCF"
   permission_manage_public_bcf_queries: "Управление публичными BCF запросами"
   permission_edit_attribute_help_texts: "Редактировать атрибут справки"
-  permission_manage_public_project_queries: "Manage public project lists"
+  permission_manage_public_project_queries: "Управление списками общедоступных проектов"
   placeholders:
     default: "-"
   project:
