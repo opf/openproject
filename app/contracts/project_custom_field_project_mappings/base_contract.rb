@@ -46,7 +46,7 @@ module ProjectCustomFieldProjectMappings
       # enabling a custom field which is required happens in an after_save hook within the custom field model itself
       return if model.project_custom_field.nil? || !model.project_custom_field.required?
 
-      errors.add :custom_field_id, :invalid
+      errors.add :custom_field_id, :cannot_delete_mapping
     end
 
     def visbile_to_user

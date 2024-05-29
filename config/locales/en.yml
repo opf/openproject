@@ -831,6 +831,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
         before_or_equal_to: "must be before or equal to %{date}."
         blank: "can't be blank."
         blank_nested: "needs to have the property '%{property}' set."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "A work package cannot be linked to one of its subtasks."
         circular_dependency: "This relation would create a circular dependency."
         confirmation: "doesn't match %{attribute}."

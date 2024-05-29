@@ -25,9 +25,21 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
 
-module ProjectCustomFieldProjectMappings
-  class DeleteContract < ::DeleteContract
-    delete_permission :select_project_custom_fields
+module FlashMessagesOutputSafetyHelper
+  extend ActiveSupport::Concern
+
+  included do
+    # For .safe_join in join_flash_messages
+    include ActionView::Helpers::OutputSafetyHelper
+  end
+
+  def join_flash_messages(messages)
+    if messages.respond_to?(:join)
+      safe_join(messages, "<br />".html_safe)
+    else
+      messages
+    end
   end
 end
