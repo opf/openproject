@@ -51,14 +51,7 @@ export class ExcludedIconHelperService {
   }
 
   public addExcludedInfoIcon(element:HTMLElement):void {
-    // This should work, but does not work when adding it through javascript
-    // <svg
-    //   info-icon
-    //   class="button--icon"
-    //   size="small"
-    // ></svg>
-    const icon = document.createElement('i');
-    icon.classList.add('icon-info1', 'excluded-from-totals');
-    element.appendChild(icon);
+    const infoIcon = document.createElement('opce-exclusion-info');
+    element.appendChild(infoIcon);
   }
 }
