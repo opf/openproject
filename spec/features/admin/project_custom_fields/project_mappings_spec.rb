@@ -52,38 +52,42 @@ RSpec.describe "Project Custom Field Mappings", :js do
       visit project_mappings_admin_settings_project_custom_field_path(project_custom_field)
     end
 
-    it "shows a correct breadcrumb menu" do
-      within ".PageHeader-breadcrumbs" do
-        expect(page).to have_link("Administration")
-        expect(page).to have_link("Projects")
-        expect(page).to have_link("Project attributes")
-        expect(page).to have_text(project_custom_field.name)
+    it "renders the project custom field mappings page" do
+      aggregate_failures "shows a correct breadcrumb menu" do
+        within ".PageHeader-breadcrumbs" do
+          expect(page).to have_link("Administration")
+          expect(page).to have_link("Projects")
+          expect(page).to have_link("Project attributes")
+          expect(page).to have_text(project_custom_field.name)
+        end
+      end
+
+      aggregate_failures "shows tab navigation" do
+        within_test_selector("project_attribute_detail_header") do
+          expect(page).to have_link("Details")
+          expect(page).to have_link("Projects")
+        end
+      end
+
+      aggregate_failures "shows the correct project mappings" do
+        within "#project-table" do
+          expect(page).to have_text(project.name)
+        end
+      end
+
+      aggregate_failures "allows to unlinking a project" do
+        project_custom_field_mappings_page.click_menu_item_of("Deactivate for this project", project)
+
+        expect(page).to have_no_text(project.name)
       end
     end
 
-    it "shows tab navigation" do
-      within_test_selector("project_attribute_detail_header") do
-        expect(page).to have_link("Details")
-        expect(page).to have_link("Projects")
+    context "and the project custom field is required" do
+      shared_let(:project_custom_field) { create(:project_custom_field, is_required: true) }
+
+      it "renders a blank slate" do
+        expect(page).to have_text("Required in all projects")
       end
-    end
-
-    it "shows the correct project mappings" do
-      within "#project-table" do
-        expect(page).to have_text(project.name)
-      end
-    end
-
-    it "renders more menu list item" do
-      project_custom_field_mappings_page.activate_menu_of(project) do |menu|
-        expect(menu).to have_link("Delete")
-      end
-    end
-
-    it "allows to unlink a project" do
-      project_custom_field_mappings_page.click_menu_item_of("Delete", project)
-
-      expect(page).to have_no_text(project.name)
     end
   end
 end
