@@ -29,6 +29,8 @@
 module ProjectsHelper
   include WorkPackagesFilterHelper
 
+  PROJECTS_QUERY_PARAM_NAMES = %i[query_id filters columns sortBy per_page page].freeze
+
   # Just like sort_header tag but removes sorting by
   # lft from the sort criteria as lft is mutually exclusive with
   # the other criteria.
@@ -37,7 +39,7 @@ module ProjectsHelper
 
     @sort_criteria.criteria.reject! { |a, _| a == "lft" }
 
-    sort_header_tag(column, **, allowed_params: %i[query_id filters columns per_page])
+    sort_header_tag(column, **, allowed_params: PROJECTS_QUERY_PARAM_NAMES - %i[sortBy page])
   ensure
     @sort_criteria.criteria = former_criteria
   end
@@ -72,6 +74,6 @@ module ProjectsHelper
   end
 
   def projects_query_params
-    safe_query_params(%i[query_id filters columns sortBy per_page page])
+    safe_query_params(PROJECTS_QUERY_PARAM_NAMES)
   end
 end
