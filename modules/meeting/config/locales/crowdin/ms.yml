@@ -63,7 +63,7 @@ ms:
   description_attended: "dihadiri"
   description_invite: "dijemput"
   events:
-    meeting: Mesyuarat telah diedit
+    meeting: Mesyuarat diedit
     meeting_agenda: Agenda mesyuarat yang diedit
     meeting_agenda_closed: Agenda mesyuarat ditutup
     meeting_agenda_opened: Agenda mesyuarat dibuka
@@ -73,12 +73,12 @@ ms:
   label_meeting: "Mesyuarat"
   label_meeting_plural: "Mesyuarat-mesyuarat"
   label_meeting_new: "Mesyuarat Baharu"
-  label_meeting_edit: "Edit mesyuarat"
+  label_meeting_edit: "Edit Mesyuarat"
   label_meeting_agenda: "Agenda"
-  label_meeting_minutes: "Minit"
+  label_meeting_minutes: "Minit Mesyuarat"
   label_meeting_close: "Tutup"
   label_meeting_open: "Buka"
-  label_meeting_agenda_close: "Tutup agenda untuk mulakan Minit mesyuarat"
+  label_meeting_agenda_close: "Tutup agenda untuk mulakan Minit Mesyuarat"
   label_meeting_date_time: "Tarikh/Masa"
   label_meeting_diff: "Beza"
   label_upcoming_meetings: "Mesyuarat akan datang"
@@ -98,11 +98,11 @@ ms:
   label_start_date: "Tarikh mula"
   meeting:
     attachments:
-      text: "Lampirkan fail yang tersedia kepada semua peserta mesyuarat. Anda juga boleh menarik dan melepaskannya ke dalam nota item agenda."
+      text: "Fail yang dilampirkan tersedia kepada semua peserta mesyuarat. Anda juga boleh menarik dan melepaskannya ke dalam nota item agenda."
     copy:
       title: "Salin mesyuarat: %{title}"
       attachments: "Salin lampiran"
-      attachments_text: "Salin semua fail yang dilampirkan ke dalam mesyuarat baharu"
+      attachments_text: "Salin semua fail yang dilampirkan ke mesyuarat baharu"
       agenda: "Salin agenda"
       agenda_text: "Salin agenda mesyuarat lama"
     email:
@@ -122,7 +122,7 @@ ms:
       structured: "Dinamik"
       structured_text: "Aturkan mesyuarat anda sebagai senarai butiran agenda, pautkannya ke pakej kerja secara pilihan."
       structured_text_copy: "Menyalin mesyuarat pada masa ini tidak akan menyalin item agenda mesyuarat yang berkaitan, hanya butiran sahaja"
-    copied: "Disalin dari Mesyuarat #%{id}"
+    copied: "Disalin daripada Mesyuarat #%{id}"
   meeting_section:
     untitled_title: "Bahagian tanpa tajuk"
     delete_confirmation: "Memadam bahagian ini akan memadam setiap item agenda juga. Adakah anda pasti anda ingin berbuat demikian?"
@@ -153,7 +153,7 @@ ms:
   text_meeting_minutes_for_meeting: 'minit untuk mesyuarat "%{meeting}"'
   text_notificiation_invited: "Mel ini mengandungi entri ics untuk mesyuarat dibawah:"
   text_meeting_empty_heading: "Mesyuarat anda kosong"
-  text_meeting_empty_description_1: "Mula dengan menambah item agenda dibawah. Setiap item boleh jadi seringkas tajuk, tapi anda juga boleh tambah butiran tambahan seperti tempoh masa dan nota."
+  text_meeting_empty_description_1: "Mulakan dengan menambah item agenda dibawah. Setiap item boleh jadi seringkas tajuk, tapi anda juga boleh menambah butiran tambahan seperti tempoh masa dan nota."
   text_meeting_empty_description_2: 'Anda juga boleh menambah rujukan ke pakej kerja yang sedia ada. Apabila anda lakukannya, nota berkaitan boleh dilihat dalam tab "Mesyuarat" pakej kerja secara automatik.'
   label_meeting_empty_action: "Tambah item agenda"
   label_meeting_actions: "Tindakan mesyuarat"
@@ -163,7 +163,7 @@ ms:
   label_meeting_last_updated: "Kemas kini terakhir"
   label_agenda_items: "Item-item agenda"
   label_agenda_items_reordered: "disusun semula"
-  label_agenda_item_remove: "Keluarkan dari agenda"
+  label_agenda_item_remove: "Keluarkan daripada agenda"
   label_agenda_item_undisclosed_wp: "Pakej kerja #%{id} tidak kelihatan"
   label_agenda_item_deleted_wp: " Rujukan pakej kerja yang dipadam"
   label_agenda_item_actions: "Tindakan item agenda"
@@ -186,11 +186,11 @@ ms:
   label_meeting_state_closed_html: "<i>Ditutup</i>"
   label_meeting_reopen_action: "Buka semula mesyuarat"
   label_meeting_close_action: "Tutup mesyuarat"
-  text_meeting_open_description: "Mesyuarat ini dibuka. Anda boleh tambah/keluarkan item agenda dan mengeditnya. Setelah mesyuarat berakhir, tutup untuk menguncinya."
+  text_meeting_open_description: "Mesyuarat ini dibuka. Anda boleh tambah/keluarkan item agenda dan mengeditnya mengikut kesukaan anda. Setelah mesyuarat berakhir, tutup untuk menguncinya."
   text_meeting_closed_description: "Mesyuarat ini ditutup. Anda tidak boleh tambah/keluarkan item agenda lagi."
   label_meeting_manage_participants: "Urus peserta"
   label_meeting_no_participants: "Tiada peserta"
-  label_meeting_show_hide_participants: "Paparkan/sorokkan %{count} lagi"
+  label_meeting_show_hide_participants: "Paparkan/sembunyikan %{count} lagi"
   label_meeting_show_all_participants: "Paparkan semua"
   label_meeting_add_participants: "Tambah peserta"
   text_meeting_not_editable_anymore: "Mesyuarat ini tidak boleh diedit lagi."

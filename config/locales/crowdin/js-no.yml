@@ -1344,6 +1344,10 @@
         focus_grab: "Dette er et fokusanker for modaler. Trykk shift+tab for å gå tilbake til modal trigger elementet."
         Close: "Lukk"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
       waiting_subtitle:
         network_off: "Det er et nettverksproblem."
         network_on: "Nettverket er tilbake. Vi prøver igjen."
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact you OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.
