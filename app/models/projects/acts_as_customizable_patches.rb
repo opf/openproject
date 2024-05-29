@@ -41,14 +41,6 @@ module Projects::ActsAsCustomizablePatches
 
     before_update :set_query_available_custom_fields_to_global_level
 
-    after_save :reset_section_scoped_validation
-
-    def reset_section_scoped_validation
-      # reset the section scope after saving
-      # in order not to silently carry this setting in this instance
-      self._limit_custom_fields_validation_to_section_id = nil
-    end
-
     def set_query_available_custom_fields_to_global_level
       # query the available custom fields on a global level when updating custom field values
       # in order to support implicit activation of custom fields when values are provided during an update
