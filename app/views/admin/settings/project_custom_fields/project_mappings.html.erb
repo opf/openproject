@@ -35,7 +35,13 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <%=
+  render(Settings::ProjectCustomFields::ProjectCustomFieldMapping::NewProjectMappingComponent.new(
+    project_mapping: @project_mapping,
+    project_custom_field: @custom_field
+  ))
+%>
 
+<%=
   if @custom_field.required?
     render Primer::Beta::Blankslate.new(border: true) do |component|
       component.with_visual_icon(icon: :checklist)

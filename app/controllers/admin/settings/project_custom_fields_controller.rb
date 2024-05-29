@@ -68,7 +68,28 @@ module Admin::Settings
 
     def edit; end
 
-    def project_mappings; end
+    def project_mappings
+      @project_mapping = ProjectCustomFieldProjectMapping.new(project_custom_field: @custom_field)
+    end
+
+    def link
+      @project_mapping = ProjectCustomFieldProjectMapping.new(permitted_params.project_custom_field_project_mapping)
+
+      create_service = ProjectCustomFieldProjectMappings::CreateService
+                       .new(user: current_user, model: @project_mapping)
+                       .call
+
+      create_service.on_success { render_unlink_response(project: @project_mapping.project) }
+
+      create_service.on_failure do
+        update_flash_message_via_turbo_stream(
+          message: join_flash_messages(create_service.errors.full_messages),
+          full: true, dismiss_scheme: :hide, scheme: :danger
+        )
+      end
+
+      respond_to_with_turbo_streams(status: create_service.success? ? :ok : :unprocessable_entity)
+    end
 
     def unlink
       delete_service = ProjectCustomFieldProjectMappings::DeleteService
