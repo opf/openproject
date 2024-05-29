@@ -199,6 +199,7 @@ export default class FiltersController extends Controller {
     const orderParam = this.getUrlParameter('sortBy');
     const columnParam = this.getUrlParameter('columns');
     const idParam = this.getUrlParameter('query_id');
+    const perPageParam = this.getUrlParameter('per_page');
     let filterParam;
 
     if (this.outputFormatValue === 'json') {
@@ -217,6 +218,9 @@ export default class FiltersController extends Controller {
     }
     if (idParam) {
       queryString = `${queryString}&query_id=${idParam.toString()}`;
+    }
+    if (perPageParam) {
+      queryString = `${queryString}&query_id=${perPageParam.toString()}`;
     }
 
     window.location.href = window.location.pathname + queryString;
