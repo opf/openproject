@@ -33,18 +33,12 @@ module Projects::Concerns
     private
 
     def before_perform(params, service_call)
-      # we need to reset the query_available_custom_fields_on_global_level already after validation
-      # as the update service just calls .valid? and returns if invalid
-      # after_save is not touched in this case which causes the flag to stay active
       super.tap do |super_call|
         reject_section_scoped_validation(super_call.result)
       end
     end
 
     def after_validate(params, service_call)
-      # we need to reset the query_available_custom_fields_on_global_level already after validation
-      # as the update service just calls .valid? and returns if invalid
-      # after_save is not touched in this case which causes the flag to stay active
       super.tap do |super_call|
         build_missing_project_custom_field_project_mappings(super_call.result)
       end
