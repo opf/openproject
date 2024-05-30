@@ -57,8 +57,7 @@ class News < ApplicationRecord
   after_create :add_author_as_watcher
 
   scope :visible, ->(*args) do
-    includes(:project)
-      .references(:projects)
+    left_joins(:project)
       .merge(Project.allowed_to(args.first || User.current, :view_news))
   end
 

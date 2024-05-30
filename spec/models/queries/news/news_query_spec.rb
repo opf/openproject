@@ -29,37 +29,41 @@
 require "spec_helper"
 
 RSpec.describe Queries::News::NewsQuery do
-  let(:user) { build_stubbed(:user) }
-  let(:base_scope) { News.visible(user).order(id: :desc) }
   let(:instance) { described_class.new }
 
-  before do
-    login_as(user)
+  shared_let(:role) { create(:project_role, permissions: [:view_news]) }
+  shared_let(:project) { create(:project) }
+  shared_let(:visible_news) { create(:news, project:) }
+  shared_let(:other_project)  { create(:project) }
+  shared_let(:other_visible_news) { create(:news, project: other_project) }
+  shared_let(:invisible_news) { create(:news) }
+
+  current_user do
+    create(:user,
+           member_with_roles: {
+             project => [role],
+             other_project => [role]
+           })
   end
 
   context "without a filter" do
     describe "#results" do
       it "is the same as getting all the visible news" do
-        expect(instance.results.to_sql).to eql base_scope.to_sql
+        expect(instance.results)
+          .to eq [other_visible_news, visible_news]
       end
     end
   end
 
   context "with a project filter" do
     before do
-      allow(Project)
-        .to receive_message_chain(:visible, :pluck)
-        .with(:id)
-        .and_return([1])
-      instance.where("project_id", "=", ["1"])
+      instance.where("project_id", "=", [project.id])
     end
 
     describe "#results" do
-      it "is the same as handwriting the query" do
-        expected = base_scope
-                   .where(["news.project_id IN (?)", ["1"]])
-
-        expect(instance.results.to_sql).to eql expected.to_sql
+      it "returns the news from the project" do
+        expect(instance.results)
+          .to contain_exactly(visible_news)
       end
     end
 
@@ -78,8 +82,8 @@ RSpec.describe Queries::News::NewsQuery do
   context "with an order by id asc" do
     describe "#results" do
       it "returns all visible news ordered by id asc" do
-        expect(instance.order(id: :asc).results.to_sql)
-          .to eql base_scope.except(:order).order(id: :asc).to_sql
+        expect(instance.order(id: :asc).results)
+          .to eq [visible_news, other_visible_news]
       end
     end
   end

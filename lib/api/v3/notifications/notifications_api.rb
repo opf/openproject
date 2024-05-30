@@ -52,7 +52,12 @@ module API
 
             def bulk_update_status(attributes)
               if notification_query.valid?
-                notification_query.results.update_all({ updated_at: Time.zone.now }.merge(attributes))
+                # The simpler notification_query.results.update_all(...) does not work as
+                # rails does not yet retain CTEs in the update_all method.
+                # https://github.com/rails/rails/pull/47193
+                Notification
+                  .where(id: notification_query.results.select(:id))
+                  .update_all({ updated_at: Time.zone.now }.merge(attributes))
                 status 204
               else
                 raise_query_errors(notification_query)

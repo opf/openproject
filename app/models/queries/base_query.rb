@@ -63,14 +63,10 @@ module Queries::BaseQuery
 
   def results
     if valid?
-      filter_scope = model
-                       .with(filtered: apply_filters(default_scope))
-                       .joins("JOIN filtered ON #{model.table_name}.id = filtered.id")
-
       scope = if selects.any?
-                apply_selects(apply_orders(filter_scope.select("#{model.table_name}.*")))
+                apply_selects(apply_orders(filtered_results_scope.select("#{model.table_name}.*")))
               else
-                apply_orders(filter_scope)
+                apply_orders(filtered_results_scope)
               end
 
       merge_with_values(scope)
@@ -156,6 +152,12 @@ module Queries::BaseQuery
   end
 
   protected
+
+  def filtered_results_scope
+    model
+      .with(filtered: apply_filters(default_scope).reselect(:id))
+      .where(model.select(1).from("filtered").where("#{model.table_name}.id = filtered.id").arel.exists)
+  end
 
   def model
     self.class.model

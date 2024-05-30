@@ -48,8 +48,7 @@ class Document < ApplicationRecord
   validates_length_of :title, maximum: 60
 
   scope :visible, ->(user = User.current) {
-    includes(:project)
-      .references(:projects)
+    left_joins(:project)
       .merge(Project.allowed_to(user, :view_documents))
   }
 

@@ -56,8 +56,7 @@ class Meeting < ApplicationRecord
       .includes({ participants: :user }, :author)
   }
   scope :visible, ->(*args) {
-    includes(:project)
-      .references(:projects)
+    left_joins(:project)
       .merge(Project.allowed_to(args.first || User.current, :view_meetings))
   }
 
