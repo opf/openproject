@@ -21,11 +21,6 @@ jobs:
           POSTGRES_PASSWORD: p4ssw0rd
         ports:
           - 5432:5432
-      redis:
-        image: redis:6.2
-        ports:
-          - 6379:6379
-
     strategy:
       fail-fast: false
       matrix:
@@ -57,8 +52,7 @@ jobs:
           target: ${{ matrix.target }}
           version: ${{ steps.setup.outputs.version }}
         env:
-          DATABASE_URL: postgres://app:p4ssw0rd@localhost:5432/app
-          REDIS_URL: redis://localhost:6379
+          DATABASE_URL: postgres://app:p4ssw0rd@127.0.0.1:5432/app
 
       # - name: Upload
       #   uses: actions/upload-artifact@v4
