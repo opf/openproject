@@ -66,11 +66,11 @@ module Queries::BaseQuery
       scope = if selects.any?
                 filtered_scope = apply_filters(default_scope)
 
-                filtered_scope = self.class.model
+                filtered_scope = model
                                    .with(filtered: filtered_scope)
-                                   .joins("JOIN filtered ON #{self.class.model.table_name}.id = filtered.id")
+                                   .joins("JOIN filtered ON #{model.table_name}.id = filtered.id")
 
-                apply_selects(apply_orders(filtered_scope))
+                apply_selects(apply_orders(filtered_scope.select("#{model.table_name}.*")))
               else
                 apply_orders(apply_filters(default_scope))
               end
@@ -158,6 +158,10 @@ module Queries::BaseQuery
   end
 
   protected
+
+  def model
+    self.class.model
+  end
 
   def filters_valid
     filters.each do |filter|
