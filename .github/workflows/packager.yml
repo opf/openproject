@@ -12,6 +12,20 @@ jobs:
   build:
     name: ${{ matrix.target }}
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: app
+          POSTGRES_USER: app
+          POSTGRES_PASSWORD: p4ssw0rd
+        ports:
+          - 5432:5432
+      redis:
+        image: redis:6.2
+        ports:
+          - 6379:6379
+
     strategy:
       fail-fast: false
       matrix:
@@ -37,11 +51,15 @@ jobs:
           VERSION=$(ruby -r ./lib/open_project/version.rb -e "puts OpenProject::VERSION")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
       - name: Package
-        uses: pkgr/action/package@v1
+        uses: pkgr/action/package@feature/publish
         id: package
         with:
           target: ${{ matrix.target }}
           version: ${{ steps.setup.outputs.version }}
+        env:
+          DATABASE_URL: postgres://app:p4ssw0rd@localhost:5432/app
+          REDIS_URL: redis://localhost:6379
+
       # - name: Upload
       #   uses: actions/upload-artifact@v4
       #   with:
