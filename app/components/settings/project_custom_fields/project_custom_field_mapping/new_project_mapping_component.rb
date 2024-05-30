@@ -42,11 +42,11 @@ module Settings
         private
 
         def title
-          "Add projects"
+          I18n.t("projects.settings.project_custom_fields.new_project_mapping_form.add_projects")
         end
 
         def show_button_text
-          "Add projects"
+          I18n.t("projects.settings.project_custom_fields.new_project_mapping_form.add_projects")
         end
 
         def cancel_button_text

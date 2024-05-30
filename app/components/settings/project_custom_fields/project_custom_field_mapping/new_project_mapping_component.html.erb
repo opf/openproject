@@ -9,9 +9,33 @@
           openDirectly: false,
           focusDirectly: false,
           dropdownPosition: 'bottom',
-          disabledProjects: Project.visible.take(10).pluck(:id).to_h { |id| [id, "Disabled reason!"] }
+          disabledProjects: projects_with_custom_field_mapping
         }
       )
+
+      f.check_box(
+        name: :include_sub_projects,
+        label: I18n.t("projects.settings.project_custom_fields.new_project_mapping_form.include_sub_projects"),
+        checked: false
+      )
+    end
+
+    def initialize(project_custom_field:)
+      super()
+      @project_custom_field = project_custom_field
+    end
+
+    private
+
+    def projects_with_custom_field_mapping
+      ProjectCustomFieldProjectMapping
+        .where(project_custom_field: @project_custom_field)
+        .pluck(:project_id)
+        .to_h { |id| [id, project_disabled_reason] }
+    end
+
+    def project_disabled_reason
+      I18n.t("projects.settings.project_custom_fields.new_project_mapping_form.autocompleter_disabled_reason")
     end
   end
 %>
@@ -21,17 +45,18 @@
     Primer::Alpha::Dialog.new(
       id: dialog_id,
       title:,
-      test_selector: dialog_id
+      test_selector: dialog_id,
+      size: :large
     )
   ) do |dialog|
-    dialog.with_show_button(icon: :project, aria: { label: show_button_text }) { show_button_text }
+    dialog.with_show_button(scheme: :primary) { show_button_text }
 
     dialog.with_header(
       show_divider: false,
       visually_hide_title: false
     )
 
-    render(Primer::Beta::Text.new(tag: :div, test_selector: 'storage-oauth-client-form')) do
+    render(Primer::Beta::Text.new(tag: :div)) do
       primer_form_with(
         model: @project_mapping,
         url: link_admin_settings_project_custom_field_path(@project_custom_field),
@@ -40,12 +65,12 @@
         concat(render(Primer::Alpha::Dialog::Body.new(
           id: dialog_body_id, test_selector: dialog_body_id, aria: { label: title }
         )) do
-          render(new_project_mapping_form.new(form))
+          render(new_project_mapping_form.new(form, project_custom_field: @project_custom_field))
         end)
 
         concat(render(Primer::Alpha::Dialog::Footer.new(show_divider: false)) do
           concat(render(Primer::ButtonComponent.new(data: { 'close-dialog-id': dialog_id })) { cancel_button_text })
-          concat(render(Primer::ButtonComponent.new(scheme: :primary)) { submit_button_text })
+          concat(render(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) { submit_button_text })
         end)
       end
     end
