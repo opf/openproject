@@ -64,7 +64,13 @@ module Queries::BaseQuery
   def results
     if valid?
       scope = if selects.any?
-                apply_selects(apply_orders(apply_filters(default_scope.select("#{self.class.model.table_name}.*"))))
+                filtered_scope = apply_filters(default_scope)
+
+                filtered_scope = self.class.model
+                                   .with(filtered: filtered_scope)
+                                   .joins("JOIN filtered ON #{self.class.model.table_name}.id = filtered.id")
+
+                apply_selects(apply_orders(filtered_scope))
               else
                 apply_orders(apply_filters(default_scope))
               end
@@ -221,6 +227,7 @@ module Queries::BaseQuery
 
   def apply_selects(scope)
     selects.select { _1.respond_to?(:scope) }.each do |select|
+      # TODO: change selects into apply_to pattern
       scope = scope.merge(select.scope)
     end
 
