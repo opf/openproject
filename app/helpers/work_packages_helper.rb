@@ -248,7 +248,7 @@ module WorkPackagesHelper
       empty_element_tag
     else
       ::OpenProject::TextFormatting::Renderer.format_text(
-        description_lines.join(""),
+        description_lines.join,
         object: work_package,
         attribute: :description,
         no_nesting: true

@@ -43,7 +43,7 @@ RSpec.describe OpenProject::Acts::Watchable::Routes do
         let(:id) { "1" }
 
         it "is true" do
-          expect(OpenProject::Acts::Watchable::Routes.matches?(request)).to be_truthy
+          expect(described_class).to be_matches(request)
         end
       end
 
@@ -51,7 +51,7 @@ RSpec.describe OpenProject::Acts::Watchable::Routes do
         let(:id) { "schmu" }
 
         it "is false" do
-          expect(OpenProject::Acts::Watchable::Routes.matches?(request)).to be_falsey
+          expect(described_class).not_to be_matches(request)
         end
       end
     end
@@ -69,7 +69,7 @@ RSpec.describe OpenProject::Acts::Watchable::Routes do
       let(:id) { "4" }
 
       it "is false" do
-        expect(OpenProject::Acts::Watchable::Routes.matches?(request)).to be_falsey
+        expect(described_class).not_to be_matches(request)
       end
     end
   end

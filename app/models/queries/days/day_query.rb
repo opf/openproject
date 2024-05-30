@@ -43,7 +43,7 @@ class Queries::Days::DayQuery
   # If there are multiple filters with custom from clause (currently not possible),
   # the first one is applied and the rest is ignored.
   def apply_filters(scope)
-    scope = super
+    scope = super(scope) # rubocop:disable Style/SuperArguments
     from_clause_filter = filters.find(&:from)
     scope = scope.from(from_clause_filter.from) if from_clause_filter
     scope

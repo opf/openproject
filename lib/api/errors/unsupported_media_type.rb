@@ -31,10 +31,6 @@ module API
     class UnsupportedMediaType < ErrorBase
       identifier "TypeNotSupported"
       code 415
-
-      def initialize(message)
-        super
-      end
     end
   end
 end
