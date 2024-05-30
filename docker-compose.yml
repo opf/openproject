@@ -138,6 +138,8 @@ services:
     build:
       <<: *build
       target: test
+    tty: true
+    stdin_open: true
     command: setup-tests
     hostname: backend-test
     networks:
