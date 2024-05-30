@@ -28,8 +28,6 @@
 
 module Projects::Concerns
   module NewProjectService
-    include Projects::Concerns::ResetGlobalQueryHooks
-
     private
 
     def before_perform(params, service_call)
