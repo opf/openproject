@@ -294,8 +294,12 @@ cs:
         actions:
           label_enable_single: "Aktivní v tomto projektu, kliknutím vypnete"
           label_disable_single: "Neaktivní v tomto projektu, klikněte pro povolení"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Povolit vše"
           label_disable_all: "Zakázat vše"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
       types:
         no_results_title_text: V současné době nejsou k dispozici žádné typy.
         form:
@@ -773,6 +777,7 @@ cs:
         before_or_equal_to: "musí být před nebo rovno %{date}."
         blank: "nemůže být prázdné."
         blank_nested: "musí mít nastavenou vlastnost '%{property}'."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "Pracovní balíček nemůže být propojen s jedním z jeho podúkolů."
         circular_dependency: "Tento vztah by vytvořil kruhovou závislost."
         confirmation: "neshoduje se s %{attribute}."

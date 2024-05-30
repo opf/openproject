@@ -289,8 +289,12 @@ uk:
         actions:
           label_enable_single: "Увімкнено в цьому проєкті; натисніть, щоб вимкнути"
           label_disable_single: "Вимкнено в цьому проєкті; натисніть, щоб увімкнути"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Увімкнути все"
           label_disable_all: "Вимкнути все"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
       types:
         no_results_title_text: Наразі немає доступних типів.
         form:
@@ -768,6 +772,7 @@ uk:
         before_or_equal_to: "має бути до або  %{date}"
         blank: "не може бути порожнім."
         blank_nested: "– потрібно встановити властивість «%{property}»."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "Робочий пакет не може бути пов'язаний з одним з підзадач."
         circular_dependency: "Це співвідношення створить кругову залежність."
         confirmation: "не збігається %{attribute}"

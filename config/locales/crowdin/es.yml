@@ -291,8 +291,12 @@ es:
         actions:
           label_enable_single: "Activo en este proyecto, pulse para desactivarlo"
           label_disable_single: "Inactivo en este proyecto, pulse para activarlo"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Activar todo"
           label_disable_all: "Desactivar todo"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
       types:
         no_results_title_text: Actualmente no hay tipos disponibles.
         form:
@@ -756,6 +760,7 @@ es:
         before_or_equal_to: "debe ser antes o igual a %{date}."
         blank: "no puede estar en blanco."
         blank_nested: "necesita tener la propiedad '%{property}' definida."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "Un paquete de trabajo no puede ser vinculado a una de sus subtareas."
         circular_dependency: "Esta relación podría crear una dependencia circular."
         confirmation: "no coincide con %{attribute}."
