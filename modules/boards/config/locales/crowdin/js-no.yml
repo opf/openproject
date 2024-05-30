@@ -48,17 +48,17 @@
         action_text_status: >
           Grunnleggende kanban-stil tavle med kolonner for status, slik som Å Gjøre, Underveis, Ferdig.
         action_text_assignee: >
-          Tavle med automatiserte kolonner basert på tildelte brukere. Ideelt for utsendelse av arbeidspakker.
+          Tavle med automatiserte kolonner basert på utførende. Ideelt for utsendelse av arbeidspakker.
         action_text_version: >
           Tavle med automatiserte kolonner basert på versjonsattributt. Ideelt for planlegging av produktutvikling.
         action_type:
-          assignee: oppdragstaker
+          assignee: utførende
           status: status
           version: versjon
           subproject: underprosjekt
           subtasks: overordnet-underordnet
         board_type_title:
-          assignee: Deltaker
+          assignee: Utførende
           status: Status
           version: Versjon
           subproject: Underprosjekt
@@ -67,7 +67,7 @@
         select_attribute: "Oppgave egenskap"
       add_list_modal:
         labels:
-          assignee: Velg bruker å legge til som ny oppdragstaker liste
+          assignee: Velg bruker å legge til som ny liste over utførende
           status: Velg status å legge til som ny liste
           version: Velg versjon som skal legges til som ny liste
           subproject: Velg underprosjekt å legge til som ny liste

@@ -56,7 +56,7 @@ ms:
           title: 'Peristiwa yang dibenarkan'
         project_ids:
           title: 'Projek yang dibenarkan'
-          description: 'Pilih projek untuk webhook ini dilaksanakan.'
+          description: 'Pilih projek bagi melaksanakan webhook ini.'
           all: 'Semua projek'
           selected: 'Projek yang dipilih sahaja'
         selected_project_ids:

@@ -214,7 +214,7 @@
       is_required: "Marker det egendefinerte feltet som påkrevd. Dette vil gjøre det obligatorisk å fylle ut feltet når du oppretter nye eller oppdaterer eksisterende ressurser."
       is_for_all: "Merk egendefinert felt som tilgjengelig for alle eksisterende og nye prosjekter."
       searchable: "Inkluder feltverdier ved bruk av den globale søkefunksjonaliteten."
-      editable: "La feltet være redigerbar av brukere selv."
+      editable: "La feltet være redigerbart av brukere selv."
       visible: "Feltet synlig for alle brukere (ikke-administratorer) i prosjektoversikten og vises i prosjektdetalj-widgeten i Prosjektoversikten."
       is_filter: >
         Tillat at egendefinert felt brukes i filter i arbeidspakkevisninger. Merk at med 'For alle prosjekter' som er valgt, vil egendefinert felt vises i globale visninger.
@@ -415,7 +415,7 @@
     deletion_info:
       heading: "Slett plassholderbruker %{name}"
       data_consequences: >
-        Alle forekomster av plassholderbrukeren (f.eks. som deltaker, ansvarlig eller andre brukerverdier) blir tilordnet på nytt til en konto kalt "Slettet bruker". Siden dataene for hver slettede konto blir tilordnet denne kontoen vil det ikke være mulig å skille dataene brukeren har opprettet fra data for en annen slettet konto.
+        Alle forekomster av plassholderbrukeren (f.eks. som utførende, ansvarlig eller andre brukerverdier) blir tilordnet på nytt til en konto kalt "Slettet bruker". Siden dataene for hver slettede konto blir tilordnet denne kontoen vil det ikke være mulig å skille dataene brukeren har opprettet fra data for en annen slettet konto.
       irreversible: "Du kan ikke angre denne handlingen"
       confirmation: "Skriv inn plassholderbrukernavnet %{name} for å bekrefte slettingen."
     upsale:
@@ -1155,7 +1155,7 @@
   attributes:
     active: "Aktiv"
     assigned_to: "Deltaker"
-    assignee: "Deltaker"
+    assignee: "Utførende"
     attachments: "Vedlegg"
     author: "Forfatter"
     base: "Generell feil:"
@@ -2743,7 +2743,7 @@
   query_fields:
     active_or_archived: "Aktiv eller arkivert"
     assigned_to_role: "Deltakers rolle"
-    assignee_or_group: "Tildelt eller tilhørende gruppe"
+    assignee_or_group: "Utførende eller tilhørende gruppe"
     member_of_group: "Deltakers gruppe"
     name_or_identifier: "Navn eller identifikator"
     only_subproject_id: "Bare underprosjekt"

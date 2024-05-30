@@ -2816,7 +2816,7 @@ ru:
     name_or_identifier: "Имя или идентификатор"
     only_subproject_id: "Только подпроект"
     shared_with_user: "Доступно пользователям"
-    shared_with_me: "В общем доступе с"
+    shared_with_me: "Поделились со мной"
     subproject_id: "Включая подпроект"
   repositories:
     at_identifier: "в %{identifier}"

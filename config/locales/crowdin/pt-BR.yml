@@ -326,7 +326,7 @@ pt-BR:
       all: "Todos"
       invited: "Convites"
       locked: "Trancado"
-      project_roles: "Papel no projeto"
+      project_roles: "Funções do projeto"
       wp_shares: "Compartilhamento de pacote de trabalho"
       groups: "Grupos"
     no_modify_on_shared: "No momento, você não pode modificar ou remover associações compartilhadas através da página de membros. Em vez disso, use o modal de compartilhamento."

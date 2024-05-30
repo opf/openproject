@@ -35,30 +35,30 @@ ms:
         primary-button-color: "Butang utama"
         accent-color: "Aksen"
         header-bg-color: "Latar belakang pengepala"
-        header-item-bg-hover-color: "Latar belakang pengepala apabila tetikus berlegar"
+        header-item-bg-hover-color: "Latar belakang pengepala pada hover"
         header-item-font-color: "Fon pengepala"
-        header-item-font-hover-color: "Fon pengepala apabila tetikus berlegar"
+        header-item-font-hover-color: "Fon pengepala pada hover"
         header-border-bottom-color: "Sempadan pengepala"
         main-menu-bg-color: "Latar belakang menu utama"
         main-menu-bg-selected-background: "Menu utama apabila dipilih"
-        main-menu-bg-hover-background: "Menu utama apabila tetikus berlegar"
+        main-menu-bg-hover-background: "Menu utama pada hover"
         main-menu-font-color: "Fon menu utama"
-        main-menu-selected-font-color: "Muka taip menu utama apabila dipilih"
-        main-menu-hover-font-color: "Fon menu utama apabila tetikus berlegar"
+        main-menu-selected-font-color: "Fon menu utama apabila dipilih"
+        main-menu-hover-font-color: "Fon menu utama pada hover"
         main-menu-border-color: "Sempadan menu utama"
-      custom_colors: "Pilihan warna sendiri"
+      custom_colors: "Pilihan warna tersuai"
       customize: "Ubah suai pemasangan OpenProject dengan logo dan warna anda sendiri."
       enterprise_notice: "'Terima kasih!' sebagai tanda istimewa atas kontribusi kewangan mereka untuk membangunkan OpenProject, penambahan kecil ini hanya tersedia untuk pelanggan sokongan edisi Enterprise."
-      enterprise_more_info: "Nota: logo yang digunakan akan boleh diakses secara awam."
-      manage_colors: "Edit pilihan warna "
+      enterprise_more_info: "Perhatian: logo yang digunakan akan boleh diakses secara umum."
+      manage_colors: "Edit pilihan pilihan warna "
       instructions:
         primary-button-color: "Warna aksen yang kuat, digunakan untuk butang paling penting pada skrin"
-        accent-color: "Warna untuk pautan dan elemen-elemen yang diserlahkan."
-        header-item-bg-hover-color: "Warna latar belakang item pengepala boleh diklik apabila digegar dengan tetikus."
+        accent-color: "Warna untuk pautan dan elemen-elemen lain yang disorotkan."
+        header-item-bg-hover-color: "Warna latar belakang item pengepala boleh diklik apabila hover dengan tetikus."
         header-item-font-color: "Warna fon item pengepala boleh diklik."
-        header-item-font-hover-color: "Warna fon item pengepala boleh diklik apabila digegar dengan tetikus."
-        header-border-bottom-color: "Garisan halus di bawah tajuk. Biarkan ruangan ini kosong jika anda tidak mahu sebarang garisan."
-        main-menu-bg-color: "Warna latar belakang menu sebelah kiri "
+        header-item-font-hover-color: "Warna fon item pengepala boleh diklik apabila hover dengan tetikus."
+        header-border-bottom-color: "Garisan halus di bawah pengepala. Biarkan ruangan ini kosong jika anda tidak mahu sebarang garisan."
+        main-menu-bg-color: "Warna latar belakang menu sebelah kiri."
       theme_warning: Penukaran tema akan menulis ganti gaya tersuai anda. Reka bentuk tersebut akan hilang. Adakah anda pasti anda ingin teruskan?
     enterprise:
       upgrade_to_ee: "Naik taraf ke edisi Enterprise"
@@ -70,25 +70,25 @@ ms:
       order: "Pesan edisi di premis Enterprise"
       paste: "Sisipkan token sokongan edisi Enterprise anda"
       required_for_feature: "Tambahan ini hanya tersedia dengan token sokongan edisi Enterprise yang aktif."
-      enterprise_link: "Untuk info lebih lanjut, klik disini."
-      start_trial: "Mulakan percubaan percuma"
+      enterprise_link: "Untuk maklumat lanjut, klik disini."
+      start_trial: "Mulakan tempoh percubaan percuma"
       book_now: "Tempah sekarang"
       get_quote: "Dapatkan sebut harga"
       buttons:
         upgrade: "Naik taraf sekarang"
         contact: "Hubungi kami untuk demo"
-      enterprise_info_html: "adalah tambahan Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'>."
-      upgrade_info: "Sila naik taraf ke pelan berbayar untuk aktifkan dan mula menggunakannya dalam pasukan anda."
+      enterprise_info_html: "ialah tambahan Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'>."
+      upgrade_info: "Sila naik taraf ke pelan berbayar untuk mengaktifkan dan mula menggunakannya dalam pasukan anda."
     journal_aggregation:
       explanation:
-        text: "Tindakan individu pengguna (cth. mengemas kini pakej kerja dua kali) digabungkan ke dalam satu tindakan tunggal jika perbezaan umur mereka kurang daripada tempoh masa yang ditetapkan. Mereka akan dipaparkan sebagai satu tindakan di dalam aplikasi. Ini juga akan menangguhkan pemberitahuan dengan jumlah masa yang sama, mengurangkan bilangan emel yang dihantar dan juga akan memberi kesan kepada penagguhan %{webhook_link}."
+        text: "Tindakan individu pengguna (cth. mengemas kini pakej kerja dua kali) dikumpulkan ke dalam satu tindakan tunggal jika perbezaan umur mereka kurang daripada tempoh masa yang ditetapkan. Mereka akan dipaparkan sebagai tindakan tunggal dalam aplikasi. Ini juga akan menangguhkan pemberitahuan dengan jumlah masa yang sama, mengurangkan bilangan e-mel yang dihantar serta akan memberi kesan kepada penagguhan %{webhook_link}."
         link: "webhook"
   announcements:
     show_until: Paparkan sehingga
     is_active: kini dipaparkan
-    is_inactive: tidak dipaparkan pada masa ini
+    is_inactive: tidak dipaparkan buat masa ini
   antivirus_scan:
-    not_processed_yet_message: "Muat turun disekat, kerana fail tidak diimbas untuk virus lagi. Sila cuba sebentar lagi."
+    not_processed_yet_message: "Muat turun disekat kerana fail masih belum diimbas untuk virus. Sila cuba sebentar lagi."
     quarantined_message: "Virus telah dikesan dalam fail '%{filename}'. Ia telah diasingkan dan tidak tersedia untuk muat turun."
     deleted_message: "Virus telah dikesan dalam fail '%{filename}'. Fail berikut telah dipadamkan."
     deleted_by_admin: "Fail '%{filename}' yang diasingkan telah dipadamkan oleh pentadbir."
@@ -108,50 +108,50 @@ ms:
   background_jobs:
     status:
       error_requeue: "Pekerjaan mengalami ralat tetapi sedang mencuba semula. Ralat tersebut ialah: %{message}"
-      cancelled_due_to: "Pekerjaan dibatalkan disebabkan ralat: %{message}"
+      cancelled_due_to: "Pekerjaan dibatalkan disebabkan oleh ralat: %{message}"
   ldap_auth_sources:
     ldap_error: "Ralat-LDAP: %{error_message}"
-    ldap_auth_failed: "Tidak boleh mengesahkan di LDAP-Server."
+    ldap_auth_failed: "Tidak boleh mengesahkan di Server-LDAP."
     sync_failed: "Gagal untuk diselaraskan daripada LDAP: %{message}."
     back_to_index: "Klik di sini untuk kembali ke senarai sambungan."
     technical_warning_html: |
-      Borang LDAP ini memerlukan pengetahuan teknikal LDAP anda/ Pemasangan Direktori Aktif.
+      Borang LDAP ini memerlukan pengetahuan teknikal LDAP anda / pemasangan Direktori Aktif.
       <br/>
       <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Sila kunjungi dokumentasi kami untuk arahan lebih terperinci</a>.
     attribute_texts:
       name: Nama arbitrari sambungan LDAP
-      host: Nama hos LDAP atau alamat IP
-      login_map: Kunci atribut dalam LDAP yang digunakan untuk kenal pasti login pengguna yang unik. Biasanya, ini akan menjadi `uid` atau `samAccountName`.
+      host: Nama hos atau alamat IP LDAP
+      login_map: Kunci atribut dalam LDAP yang digunakan untuk mengenal pasti log masuk pengguna yang unik. Biasanya, ini akan menjadi `uid` atau `samAccountName`.
       generic_map: Kunci atribut LDAP yang telah dipetakan ke atribut `%{attribute}` OpenProject
-      admin_map_html: "Pilihan: kunci atribut LDAP yang<strong>jika hadir</strong> menandakan pengguna OpenProject sebagai pentadbir. Biarkan kosong jika ragu-ragu."
+      admin_map_html: "Pilihan: Kunci atribut LDAP yang <strong>jika hadir</strong> menandakan pengguna OpenProject sebagai pentadbir. Biarkan kosong jika ragu-ragu."
       system_user_dn_html: |
         Masukkan DN sistem pengguna yang digunakan untuk akses baca sahaja.
         <br/>
         Contoh: uid=openproject,ou=sistem,dc=contoh,dc=com
       system_user_password: Masukkan kata laluan ikatan bagi pengguna sistem
       base_dn: |
-        Masukkan pangkalan DN dari peranti LDAP yang anda mahukan di OpenProject untuk mencari pengguna dan kumpulan.
-        OpenProject akan menyaring nama pengguna yang disediakan di peranti ini sahaja.
+        Masukkan pangkalan DN dari subpokok LDAP yang anda mahukan di OpenProject untuk mencari pengguna dan kumpulan.
+        OpenProject akan menyaring nama pengguna yang disediakan di subpokok ini sahaja.
         Contoh: ou=pengguna,dc=contoh,dc=com
       filter_string: |
-        Tambah penyaring RFC4515 pilihan untuk digunakan pada hasil yang dikembalikan bagi pengguna yang disaring dalam LDAP.
-        Ini boleh digunakan untuk mengehadkan set pengguna yang dijumpai oleh OpenProject untuk pengesahan dan sinkronisasi kumpulan.
+        Tambah penyaring RFC4515 secara pilihan untuk digunakan pada hasil yang dikembalikan untuk pengguna yang disaring dalam LDAP.
+        Ini boleh digunakan untuk mengehadkan set pengguna yang ditemui oleh OpenProject untuk pengesahan dan sinkronisasi kumpulan.
       filter_string_concat: |
-        OpenProject akan sentiasa menyaring atribut log masuk yang disediakan oleh pengguna untuk mengenalpasti rekod. Jika anda menyediakan penyaringan di sini, ia akan digabungkan ke satu AND. Secara default, tangkap semua (objekKelas=*) akan digunakan sebagai penyaring.
+        OpenProject akan sentiasa menyaring atribut log masuk yang disediakan oleh pengguna untuk mengenal pasti rekod. Jika anda menyediakan penyaringan di sini, ia akan digabungkan ke satu AND. Secara default, tangkap semua (objekKelas=*) akan digunakan sebagai penyaring.
       onthefly_register: |
-        Jika anda tanda kotak ini, OpenProject akan mencipta pengguna baharu secara automatik dari entri LDAP mereka
+        Jika anda menandakan kotak ini, OpenProject akan mencipta pengguna baharu secara automatik daripada entri LDAP mereka
         apabila mereka pertama kali mengesahkan dengan OpenProject.
-        Biarkan kotak ini tidak bertanda untuk hanya membenarkan akaun sedia ada dalam OpenProject untuk mengesahkan melalui LDAP!
+        Biarkan kotak ini kosong untuk hanya membenarkan akaun sedia ada dalam OpenProject untuk mengesahkan melalui LDAP!
     connection_encryption: "Penyulitan sambungan"
     encryption_details: "pilihan-pilihan LDAPS/STARTTTLS"
     system_account: "Akaun sistem"
     system_account_legend: |
       OpenProject memerlukan akses baca-sahaja melalui akaun sistem untuk pencarian pengguna dan kumpulan dalam pokok LDAP anda.
-      Sila tetapkan kelayakan ikatan bagi pengguna sistem tersebut dalam bahagian yang berikutnya.
+      Sila tetapkan kelayakan ikatan bagi pengguna sistem tersebut dalam bahagian berikutnya.
     ldap_details: "Butiran LDAP"
     user_settings: "Pemetaan atribut"
     user_settings_legend: |
-      Ruang yang berikut adalah berkaitan tentang bagaimana pengguna dicipta dalam OpenProject dari entri LDAP dan
+      Ruang berikut berkaitan tentang bagaimana pengguna dicipta dalam OpenProject daripada entri LDAP dan
       atribut LDAP apa yang digunakan untuk menentukan atribut pengguna OpenProject (pemetaan atribut)
     tls_mode:
       plain: "tiada"
@@ -169,7 +169,7 @@ ms:
       tls_certificate_description: "Jika sijil server LDAP bukan lagi di sumber yang dipercayai di sistem ini, anda boleh tambahkannya secara manual di sini. Masukkan sijil rentetan PEM X509."
   forums:
     show:
-      no_results_title_text: Tiada pos untuk forum buat masa ini.
+      no_results_title_text: Tiada pos bagi forum buat masa ini.
   colors:
     index:
       no_results_title_text: Tiada warna buat masa ini.
@@ -185,7 +185,7 @@ ms:
     label_no_color: "Tiada warna"
     label_properties: "Ciri-ciri"
     label_really_delete_color: >
-      Adakah anda pasti, anda ingin membuang warna berikut? Jenis-jenis yang menggunakan warna ini tidak akan dipadam.
+      Adakah anda pasti anda ingin membuang warna berikut? Jenis-jenis yang menggunakan warna ini tidak akan dipadam.
   custom_actions:
     actions:
       name: "Tindakan"
@@ -412,7 +412,7 @@ ms:
       irreversible: "Tindakan ini tidak dapat dipulihkan"
       confirmation: "Masukkan nama pengguna sementara %{name} untuk mengesahkan pembuangan."
     upsale:
-      title: Pengguna sementara
+      title: Pengguna placeholder
       description: >
         Placeholder ialah satu cara untuk memperuntukkan pakej kerja kepada pengguna yang bukan sebahagian daripada projek anda. Ianya berguna dalam pelbagai senario; contohnya, jika anda perlu menjejaki tugas untuk sumber yang masih belum dinamakan atau disediakan, atau jika anda tidak ingin memberikan seseorang akses ke OpenProject, tetapi masih hendak menjejaki tugas yang telah diperuntukkan ke mereka.
   prioritiies:
@@ -1070,7 +1070,7 @@ ms:
       news: "Berita"
       notification:
         other: "Pemberitahuan"
-      placeholder_user: "Pengguna sementara"
+      placeholder_user: "Pengguna placeholder"
       project: "Projek"
       query: "Pertanyaan tersuai"
       role:
@@ -1119,7 +1119,7 @@ ms:
           added: "ditetapkan kepada %{value}"
           added_html: "ditetapkan kepada <i>%{value}</i>"
           removed: "dikeluarkan"
-          updated: "diubah dari %{old_value} kepada %{value}"
+          updated: "ditukar dari %{old_value} kepada %{value}"
           updated_html: "diubah dari <i>%{old_value}</i> kepada <i>%{value}</i>"
         position:
           updated: "disusun semula"
@@ -1537,7 +1537,7 @@ ms:
     time_entry: "Log masa diedit"
     wiki_page: "Halaman wiki telah diedit"
     work_package_closed: "Pakej Kerja ditutup"
-    work_package_edit: "Pakej kerja diedit"
+    work_package_edit: "Pakej Kerja diedit"
     work_package_note: "Nota Pakej Kerja ditambah"
     title:
       project: "Projek: %{name}"
@@ -1903,7 +1903,7 @@ ms:
   label_file_plural: "Fail-fail"
   label_filter_add: "Tambah penyaring"
   label_filter: "Penyaring"
-  label_filter_plural: "Saring"
+  label_filter_plural: "Penyaring"
   label_filters_toggle: "Papar/sembunyi penyaring\n"
   label_float: "Terapung"
   label_folder: "Folder"
@@ -2076,7 +2076,7 @@ ms:
   label_permissions_report: "Laporan kebenaran"
   label_personalize_page: "Peribadikan halaman ini"
   label_placeholder_user: "Pengguna sementara"
-  label_placeholder_user_new: "Pengguna sementara baharu"
+  label_placeholder_user_new: "Pengguna placeholder baharu"
   label_placeholder_user_plural: "Pengguna sementara"
   label_planning: "Perancangan"
   label_please_login: "Sila log masuk"
@@ -2093,7 +2093,7 @@ ms:
   label_privacy_policy: "Privasi data dan dasar keselamatan"
   label_product_version: "Versi produk"
   label_profile: "Profil"
-  label_percent_complete: "% Lengkap"
+  label_percent_complete: "% Selesai"
   label_project_activity: "Aktiviti projek"
   label_project_attribute_plural: "Atribut projek"
   label_project_attribute_manage_link: "Urus atribut projek"

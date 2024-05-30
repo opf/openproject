@@ -376,7 +376,7 @@
       ical_generation_error_text: "Det oppstod en feil ved generering av kalenderURL."
       success_message: 'URL-adressen "%{name}" ble vellykket kopiert til utklippstavlen. Lim den inn i kalenderklienten for å fullføre abonnementet.'
     label_activate: "Aktiver"
-    label_assignee: "Deltaker"
+    label_assignee: "Utførende"
     label_add_column_after: "Legg til kolonne etter"
     label_add_column_before: "Legg til kolonne før"
     label_add_columns: "Legg til kolonner"
@@ -603,7 +603,7 @@
         team_planner:
           overview: "Gruppeplanleggeren lar deg visuelt tildele oppgaver til teammedlemmer og få en oversikt over hvem som jobber med hva."
           calendar: "Ukentlig eller annenhver uke viser tavlen alle arbeidspakker som er tilordnet gruppemedlemmene."
-          add_assignee: "For å komme i gang, legg til personer i gruppeplanleggeren."
+          add_assignee: "For å komme i gang, legg til utførende i gruppeplanleggeren."
           add_existing: "Søk etter eksisterende arbeidspakker og dra dem til gruppeplanleggeren for å umiddelbart tildele dem til et gruppemedlem og definere start- og sluttdato."
           card: "Dra arbeidspakker horisontalt for å flytte dem bakover eller forover i tid, dra kantene for å endre start- og sluttdatoer, og selv dra dem vertikalt til en annen rad for å tilordne dem til en annen medlem."
     notifications:
@@ -612,7 +612,7 @@
       reasons:
         mentioned: "nevnt"
         watched: "overvåker"
-        assigned: "oppdragstaker"
+        assigned: "utførende"
         responsible: "ansvarlig"
         created: "opprettet"
         scheduled: "planlagt"
@@ -686,7 +686,7 @@
           mentioned:
             title: "Nevnt"
             description: "Motta en melding hver gang noen nevner meg hvor som helst"
-          assignee: "Deltaker"
+          assignee: "Utførende"
           responsible: "Ansvarlig"
           shared: "Delt"
           watched: "Overvåker"
@@ -698,13 +698,13 @@
         global:
           immediately:
             title: "Deltar"
-            description: "Varsler for alle aktiviteter i arbeidspakker du er involvert i (oppdragstaker, ansvarlig eller overvåker)."
+            description: "Varsler for alle aktiviteter i arbeidspakker du er involvert i (utførende, ansvarlig eller overvåker)."
           delayed:
             title: "Ikke-deltakende"
             description: "Melding om ytterligere aktiviteter i alle prosjekter."
           date_alerts:
             title: "Dato varsler"
-            description: "Automatiske varsler når viktige datoer nærmer seg for åpne arbeidspakker du er med i (oppdragstaker, ansvarlig eller overvåker)."
+            description: "Automatiske varsler når viktige datoer nærmer seg for åpne arbeidspakker du er med i (utførende, ansvarlig eller overvåker)."
             teaser_text: "Med datovarsler, vil du bli varslet om kommende start- eller sluttdatoer slik at du aldri går glipp av eller glemmer en viktig frist."
           overdue: Når forfalt
         project_specific:
@@ -979,7 +979,7 @@
         estimatesAndTime: "Estimater og tid"
         other: "Øvrig"
       properties:
-        assignee: "Deltaker"
+        assignee: "Utførende"
         author: "Forfatter"
         createdAt: "Opprettet"
         description: "Beskrivelse"
@@ -1345,9 +1345,9 @@
         Close: "Lukk"
     open_project_storage_modal:
       waiting_title:
-        timeout: "Timeout"
+        timeout: "Tidsavbrudd"
       waiting_subtitle:
         network_off: "Det er et nettverksproblem."
         network_on: "Nettverket er tilbake. Vi prøver igjen."
         timeout: >
-          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact you OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.
+          OpenProject kunne ikke gi deg tilgang til prosjektmappen i løpet av den forventede tiden. Vennligst prøv igjen.<br><br> Hvis dette problemet vedvarer, kontakt din OpenProject-administrator for å sjekke <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">statusen på fillagringsoppsettet</a>.
