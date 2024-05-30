@@ -2,7 +2,6 @@
   [opened]="opened"
   (closed)="opened = false"
   class="op-exclusion-info"
-  alignment="bottom-end"
 >
   <svg
     slot="trigger"
@@ -12,22 +11,25 @@
     (click)="toggleOpen($event)"
   ></svg>
 
-  <ng-container slot="body">
+  <ng-container slot="body" class="op-exclusion-info--modal">
     <div class="op-exclusion-info--modal">
-      <div class="op-exclusion-info--modal-header">
-        Status excluded from hierarchy totals
+      <div class="spot-drop-modal--header">
+        <div class="spot-drop-modal--header-title">  Status excluded from hierarchy totals</div>
+
       </div>
-      <div class="op-exclusion-info--modal-content">
+      <div class="spot-drop-modal--content">
         The status 'Rejected (TODO: replace me)' has been configured to be excluded from hierarchy
         totals of Work, Remaining work, and %&nbsp;Complete. The totals do not take
         this value into account.
       </div>
-      <div class="op-exclusion-info--modal-buttons">
-        <button
-          (click)="toggleOpen($event)"
-          class="button">
-          Close
-        </button>
+      <div class="spot-action-bar">
+        <div class="spot-action-bar--left">
+          <button
+            (click)="toggleOpen($event)"
+            class="button">
+            Close
+          </button>
+        </div>
       </div>
     </div>
   </ng-container>
