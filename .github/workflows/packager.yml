@@ -35,7 +35,7 @@ jobs:
         id: setup
         run: |
           VERSION=$(ruby -r ./lib/open_project/version.rb -e "puts OpenProject::VERSION")
-          echo "version=$VERSION" >> $GITHUB_ENV
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
       - name: Package
         uses: pkgr/action/package@v1
         id: package
