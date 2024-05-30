@@ -77,7 +77,9 @@ module Queries
       private
 
       def order(scope)
-        scope.order(name => direction)
+        with_raise_on_invalid do
+          scope.order(name => direction)
+        end
       end
 
       def joins
