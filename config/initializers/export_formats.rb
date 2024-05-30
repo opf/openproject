@@ -20,6 +20,8 @@ Rails.application.configure do |application|
       formatter Project, Exports::Formatters::CustomField
       formatter Project, Projects::Exports::Formatters::Status
       formatter Project, Projects::Exports::Formatters::Description
+      formatter Project, Projects::Exports::Formatters::Public
+      formatter Project, Projects::Exports::Formatters::Active
     end
   end
 end

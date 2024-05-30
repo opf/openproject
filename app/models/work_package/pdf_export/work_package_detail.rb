@@ -143,7 +143,7 @@ module WorkPackage::PDFExport::WorkPackageDetail
 
       return [] unless cf.is_for_all? || work_package.project.work_package_custom_field_ids.include?(cf.id)
 
-      return [{ label: cf.name || form_key, name: form_key }]
+      return [{ label: cf.name || form_key, name: form_key.to_s.sub("custom_field_", "cf_") }]
     end
 
     if form_key == :date

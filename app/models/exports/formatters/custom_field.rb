@@ -24,7 +24,7 @@ module Exports
         case custom_field.field_format
         when "bool"
           value = object.typed_custom_value_for(custom_field)
-          value == nil ? false : value
+          value ? I18n.t(:general_text_Yes) : I18n.t(:general_text_No)
         when "text"
           object.typed_custom_value_for(custom_field)
         else
