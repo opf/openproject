@@ -29,7 +29,6 @@
 module Projects
   class UpdateService < ::BaseServices::Update
     prepend Projects::Concerns::UpdateDemoData
-    include Projects::Concerns::ResetGlobalQueryHooks
 
     private
 
@@ -43,12 +42,6 @@ module Projects
       self.memoized_changes = model.changes
 
       ret
-    end
-
-    def after_validate(params, service_call)
-      super.tap do
-        set_query_available_custom_fields_to_global_level
-      end
     end
 
     def after_perform(service_call)
@@ -109,12 +102,6 @@ module Projects
       # reset the section scope after saving
       # in order not to silently carry this setting in this instance
       model._limit_custom_fields_validation_to_section_id = nil
-    end
-
-    def set_query_available_custom_fields_to_global_level
-      # query the available custom fields on a global level when updating custom field values
-      # in order to support implicit activation of custom fields when values are provided during an update
-      model._query_available_custom_fields_on_global_level = true
     end
   end
 end
