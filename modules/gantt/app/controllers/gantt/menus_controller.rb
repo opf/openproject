@@ -60,7 +60,7 @@ module Gantt
 
         menu_item(
           params,
-          I18n.t("js.queries.#{query_key.to_s}"),
+          I18n.t("js.queries.#{query_key}")
         )
       end
     end

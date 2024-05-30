@@ -35,8 +35,8 @@ module Storages::Admin::Forms
     attr_reader :storage
     alias_method :oauth_client, :model
 
-    def initialize(oauth_client:, storage:, **options)
-      super(oauth_client, **options)
+    def initialize(oauth_client:, storage:, **)
+      super(oauth_client, **)
       @storage = storage
     end
 

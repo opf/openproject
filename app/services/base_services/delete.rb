@@ -34,7 +34,7 @@ module BaseServices
     end
 
     def persist(service_result)
-      service_result = super(service_result)
+      service_result = super
 
       unless destroy(service_result.result)
         service_result.errors = service_result.result.errors

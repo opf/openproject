@@ -48,7 +48,7 @@ class Notifications::CreateFromModelService
      MENTION_GROUP_TAG_ID_PATTERN,
      MENTION_GROUP_HASH_ID_PATTERN]
       .map { |pattern| "(?:#{pattern})" }
-      .join('|').freeze
+      .join("|").freeze
 
   # Skip looking for mentions in quoted lines completely.
   # We need to allow an optional single white space before the ">", because the `#text_for_mentions`
@@ -264,7 +264,7 @@ class Notifications::CreateFromModelService
       end
     end
 
-    potential_text.gsub(QUOTED_LINES_PATTERN, '')
+    potential_text.gsub(QUOTED_LINES_PATTERN, "")
   end
 
   def mentioned_ids

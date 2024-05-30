@@ -96,7 +96,7 @@ module WorkPackage::PDFExport::Gantt
 
   GanttDataPageGroup = Struct.new(:index, :entry_ids, :pages) do
     def initialize(*args)
-      super(*args)
+      super
       pages.each { |page| page.group = self }
     end
   end
@@ -104,7 +104,7 @@ module WorkPackage::PDFExport::Gantt
   GanttDataPage = Struct.new(:index, :entry_ids, :header_cells, :rows, :columns,
                              :text_column, :width, :height, :header_row_height, :group, :lines) do
     def initialize(*args)
-      super(*args)
+      super
       rows.each { |row| row.page = self }
       columns.each { |column| column.page = self }
       self.lines = []

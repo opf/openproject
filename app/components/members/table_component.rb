@@ -43,7 +43,7 @@ module Members
     sortable_columns :name, :mail, :status
 
     def apply_sort(model)
-      apply_member_scopes super(model)
+      apply_member_scopes super
     end
 
     def apply_member_scopes(model)

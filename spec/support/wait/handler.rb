@@ -4,12 +4,12 @@
 module RSpec
   module Wait
     module Handler
-      def handle_matcher(target, *args, &)
+      def handle_matcher(target, *, &)
         t = Time.current
 
         begin
           actual = target.respond_to?(:call) ? target.call : target
-          super(actual, *args, &)
+          super(actual, *, &)
         rescue RSpec::Expectations::ExpectationNotMetError => e
           elapsed = Time.current - t
           if elapsed < RSpec.configuration.wait_timeout

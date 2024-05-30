@@ -34,7 +34,7 @@ module API
           include ::API::Utilities::PayloadRepresenter
 
           def initialize(model)
-            super(model)
+            super
           end
         end
       end

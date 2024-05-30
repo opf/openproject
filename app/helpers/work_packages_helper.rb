@@ -85,7 +85,7 @@ module WorkPackagesHelper
     if package.closed? && !options[:no_hidden]
       parts[:hidden_link] << content_tag(:span,
                                          I18n.t(:label_closed_work_packages),
-                                         class: 'hidden-for-sighted')
+                                         class: "hidden-for-sighted")
     end
 
     # Suffix part
@@ -109,12 +109,12 @@ module WorkPackagesHelper
 
     # combining
 
-    prefix = parts[:prefix].join(' ')
-    suffix = parts[:suffix].join(' ')
-    link = parts[:link].join(' ').strip
+    prefix = parts[:prefix].join(" ")
+    suffix = parts[:suffix].join(" ")
+    link = parts[:link].join(" ").strip
     hidden_link = parts[:hidden_link].join
-    title = parts[:title].join(' ')
-    css_class = parts[:css_class].join(' ')
+    title = parts[:title].join(" ")
+    css_class = parts[:css_class].join(" ")
 
     # Determine path or url
     work_package_link =
@@ -125,8 +125,8 @@ module WorkPackagesHelper
       end
 
     if options[:all_link]
-      link_text = [prefix, link].reject(&:empty?).join(' - ')
-      link_text = [link_text, suffix].reject(&:empty?).join(': ')
+      link_text = [prefix, link].reject(&:empty?).join(" - ")
+      link_text = [link_text, suffix].reject(&:empty?).join(": ")
       link_text = [hidden_link, link_text].reject(&:empty?).join
 
       link_to(link_text.html_safe,
@@ -141,8 +141,8 @@ module WorkPackagesHelper
                           title:,
                           class: css_class)
 
-      [[prefix, html_link].reject(&:empty?).join(' - '),
-       suffix].reject(&:empty?).join(': ')
+      [[prefix, html_link].reject(&:empty?).join(" - "),
+       suffix].reject(&:empty?).join(": ")
     end.html_safe
   end
 
@@ -158,41 +158,41 @@ module WorkPackagesHelper
   end
 
   def send_notification_option(checked = false)
-    content_tag(:label, for: 'send_notification', class: 'form--label-with-check-box') do
-      (content_tag 'span', class: 'form--check-box-container' do
-        boxes = hidden_field_tag('send_notification', '0', id: nil)
+    content_tag(:label, for: "send_notification", class: "form--label-with-check-box") do
+      (content_tag "span", class: "form--check-box-container" do
+        boxes = hidden_field_tag("send_notification", "0", id: nil)
 
-        boxes += check_box_tag('send_notification',
-                               '1',
+        boxes += check_box_tag("send_notification",
+                               "1",
                                checked,
-                               class: 'form--check-box')
+                               class: "form--check-box")
         boxes
-      end) + I18n.t('notifications.send_notifications')
+      end) + I18n.t("notifications.send_notifications")
     end
   end
 
   # Returns a string of css classes that apply to the issue
   def work_package_css_classes(work_package)
-    s = 'work_package preview-trigger'.html_safe
+    s = "work_package preview-trigger".html_safe
     s << " status-#{work_package.status.position}" if work_package.status
     s << " priority-#{work_package.priority.position}" if work_package.priority
-    s << ' closed' if work_package.closed?
-    s << ' overdue' if work_package.overdue?
-    s << ' child' if work_package.child?
-    s << ' parent' unless work_package.leaf?
-    s << ' created-by-me' if User.current.logged? && work_package.author_id == User.current.id
-    s << ' assigned-to-me' if User.current.logged? && work_package.assigned_to_id == User.current.id
+    s << " closed" if work_package.closed?
+    s << " overdue" if work_package.overdue?
+    s << " child" if work_package.child?
+    s << " parent" unless work_package.leaf?
+    s << " created-by-me" if User.current.logged? && work_package.author_id == User.current.id
+    s << " assigned-to-me" if User.current.logged? && work_package.assigned_to_id == User.current.id
     s
   end
 
   def work_package_associations_to_address(associated)
-    ret = ''.html_safe
+    ret = "".html_safe
 
-    ret += content_tag(:p, I18n.t(:text_destroy_with_associated), class: 'bold')
+    ret += content_tag(:p, I18n.t(:text_destroy_with_associated), class: "bold")
 
     ret += content_tag(:ul) do
-      associated.inject(''.html_safe) do |list, associated_class|
-        list += content_tag(:li, associated_class.model_name.human, class: 'decorated')
+      associated.inject("".html_safe) do |list, associated_class|
+        list += content_tag(:li, associated_class.model_name.human, class: "decorated")
 
         list
       end
@@ -202,8 +202,8 @@ module WorkPackagesHelper
   end
 
   def back_url_is_wp_show?
-    route = Rails.application.routes.recognize_path(params[:back_url] || request.env['HTTP_REFERER'])
-    route[:controller] == 'work_packages' && route[:action] == 'index' && route[:state]&.match?(/^\d+/)
+    route = Rails.application.routes.recognize_path(params[:back_url] || request.env["HTTP_REFERER"])
+    route[:controller] == "work_packages" && route[:action] == "index" && route[:state]&.match?(/^\d+/)
   end
 
   def last_work_package_note(work_package)
@@ -228,7 +228,7 @@ module WorkPackagesHelper
 
   def protected_work_packages_columns_options
     work_packages_columns_options
-      .select { |column| column[:id] == 'id' || column[:id] == 'subject' }
+      .select { |column| column[:id] == "id" || column[:id] == "subject" }
   end
 
   private
@@ -239,8 +239,8 @@ module WorkPackagesHelper
     if description_lines[lines - 1] && work_package.description.to_s.lines.to_a.size > lines
       description_lines[lines - 1].strip!
 
-      while !description_lines[lines - 1].end_with?('...')
-        description_lines[lines - 1] = description_lines[lines - 1] + '.'
+      while !description_lines[lines - 1].end_with?("...")
+        description_lines[lines - 1] = description_lines[lines - 1] + "."
       end
     end
 
@@ -248,7 +248,7 @@ module WorkPackagesHelper
       empty_element_tag
     else
       ::OpenProject::TextFormatting::Renderer.format_text(
-        description_lines.join(''),
+        description_lines.join(""),
         object: work_package,
         attribute: :description,
         no_nesting: true
@@ -267,12 +267,12 @@ module WorkPackagesHelper
                    h(work_package.assigned_to.name).to_s
                end
 
-    [responsible, assignee].compact.join('<br>').html_safe
+    [responsible, assignee].compact.join("<br>").html_safe
   end
 
   def link_to_work_package_css_classes(package, options)
-    classes = ['work_package']
-    classes << 'closed' if package.closed?
+    classes = ["work_package"]
+    classes << "closed" if package.closed?
     classes << options[:class].to_s
 
     classes

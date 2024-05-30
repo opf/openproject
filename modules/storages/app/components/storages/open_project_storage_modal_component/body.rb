@@ -30,8 +30,8 @@ class Storages::OpenProjectStorageModalComponent::Body < ApplicationComponent # 
           waiting_title: I18n.t("storages.open_project_storage_modal.waiting.title"),
           waiting_subtitle: I18n.t("storages.open_project_storage_modal.waiting.subtitle")
 
-  def initialize(state, **options)
+  def initialize(state, **)
     @state = state
-    super(nil, **options)
+    super(nil, **)
   end
 end

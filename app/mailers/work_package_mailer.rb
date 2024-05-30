@@ -43,7 +43,7 @@ class WorkPackageMailer < ApplicationMailer
       references journal
 
       send_localized_mail(recipient) do
-        I18n.t(:'mail.mention.subject',
+        I18n.t(:"mail.mention.subject",
                user_name: author.name,
                id: @work_package.id,
                subject: @work_package.subject)
@@ -75,13 +75,13 @@ class WorkPackageMailer < ApplicationMailer
   end
 
   def set_work_package_headers(work_package)
-    open_project_headers 'Project' => work_package.project.identifier,
-                         'WorkPackage-Id' => work_package.id,
-                         'WorkPackage-Author' => work_package.author.login,
-                         'Type' => 'WorkPackage'
+    open_project_headers "Project" => work_package.project.identifier,
+                         "WorkPackage-Id" => work_package.id,
+                         "WorkPackage-Author" => work_package.author.login,
+                         "Type" => "WorkPackage"
 
     if work_package.assigned_to
-      open_project_headers 'WorkPackage-Assignee' => work_package.assigned_to.login
+      open_project_headers "WorkPackage-Assignee" => work_package.assigned_to.login
     end
   end
 end

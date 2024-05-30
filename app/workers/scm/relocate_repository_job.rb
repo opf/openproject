@@ -32,7 +32,7 @@ class SCM::RelocateRepositoryJob < SCM::RemoteRepositoryJob
   queue_with_priority :below_normal
 
   def perform(repository)
-    super(repository)
+    super
 
     if repository.class.manages_remote?
       relocate_remote
