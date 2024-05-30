@@ -32,6 +32,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Input,
+  OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
@@ -41,13 +43,25 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
   styleUrls: ['./op-exclusion-info.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OpExclusionInfoComponent {
+export class OpExclusionInfoComponent implements OnInit {
   public opened = false;
+
+  @Input() public statusName:string;
+
+  public text = {
+    modalTitle: this.I18n.t('js.exclusion_info.modal.title'),
+    modalContent: '',
+    buttonClose: this.I18n.t('js.button_close'),
+  };
 
   constructor(
     readonly I18n:I18nService,
     readonly cdRef:ChangeDetectorRef,
   ) {}
+
+  ngOnInit() {
+    this.text.modalContent = this.I18n.t('js.exclusion_info.modal.content', { status_name: this.statusName || '' });
+  }
 
   public toggleOpen(event:Event):void {
     event.stopPropagation();

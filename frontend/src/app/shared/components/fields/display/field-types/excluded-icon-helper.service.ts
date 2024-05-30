@@ -43,15 +43,16 @@ export class ExcludedIconHelperService {
       this.apiV3Service.statuses.id(resource.status as StatusResource).get().subscribe(
         (status:StatusResource) => {
           if (status.excludedFromTotals) {
-            this.addExcludedInfoIcon(element);
+            this.addExcludedInfoIcon(element, status.name);
           }
         },
       );
     }
   }
 
-  public addExcludedInfoIcon(element:HTMLElement):void {
+  public addExcludedInfoIcon(element:HTMLElement, name:string):void {
     const infoIcon = document.createElement('opce-exclusion-info');
+    infoIcon.setAttribute('status-name', name);
     element.appendChild(infoIcon);
   }
 }
