@@ -1,0 +1,49 @@
+name: Package
+on: 
+  push:
+    branches:
+      - feature/package-via-github-actions
+      - dev
+      - release/*
+      - stable/*
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: ${{ matrix.target }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          # - debian:10
+          # - debian:11
+          - debian:12
+          # - ubuntu:20.04
+          # - ubuntu:22.04
+          # - ubuntu:24.04
+          # - el:7
+          # - el:8
+          # - el:9
+          # - sles:12
+          # - sles:15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup
+        id: setup
+        run: |
+          VERSION=$(ruby -r ./lib/open_project/version.rb -e "puts OpenProject::VERSION")
+          echo "version=$VERSION" >> $GITHUB_ENV
+      - name: Package
+        uses: pkgr/action/package@v1
+        id: package
+        with:
+          target: ${{ matrix.target }}
+          version: ${{ steps.setup.outputs.version }}
+      # - name: Upload
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: ${{ steps.package.outputs.package_name }}
+      #     path: ${{ steps.package.outputs.package_path }}
