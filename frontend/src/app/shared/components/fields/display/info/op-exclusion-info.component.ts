@@ -30,6 +30,7 @@
 
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -45,10 +46,12 @@ export class OpExclusionInfoComponent {
 
   constructor(
     readonly I18n:I18nService,
+    readonly cdRef:ChangeDetectorRef,
   ) {}
 
   public toggleOpen(event:Event):void {
     event.stopPropagation();
     this.opened = !this.opened;
+    this.cdRef.detectChanges();
   }
 }
