@@ -51,37 +51,37 @@ RSpec.describe Notifications::Scopes::UnsentRemindersBefore do
     let(:notification_created_at) { 10.minutes.ago }
     let(:notification_recipient) { recipient }
 
-    context "with a unread and not reminded notification that was created before the time and for the user" do
+    context "with an unread and not reminded notification that was created before the time and for the user" do
       it "returns the notification" do
         expect(scope).to contain_exactly(notification)
       end
     end
 
-    context "with a unread and not reminded notification that was created after the time and for the user" do
+    context "with a notification that was created after the time" do
       let(:notification_created_at) { 10.minutes.from_now }
 
       it { is_expected.to be_empty }
     end
 
-    context "with a unread and not reminded notification that was created before the time and for different user" do
+    context "with a notification that was created for different user" do
       let(:notification_recipient) { create(:user) }
 
       it { is_expected.to be_empty }
     end
 
-    context "with a unread and not reminded notification created before the time and for the user" do
+    context "with a notification reminded mark set to nil" do
       let(:notification_mail_reminder_sent) { nil }
 
       it { is_expected.to be_empty }
     end
 
-    context "with a unread but reminded notification created before the time and for the user" do
+    context "with a reminded notification" do
       let(:notification_mail_reminder_sent) { true }
 
       it { is_expected.to be_empty }
     end
 
-    context "with a read notification that was created before the time" do
+    context "with a read notification" do
       let(:notification_read_ian) { true }
 
       it { is_expected.to be_empty }
