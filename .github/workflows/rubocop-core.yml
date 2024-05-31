@@ -9,8 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 2 # we are comparing PR merge head with base
+      - name: Fetch all commits for PR branch plus head commit of base branch
+        run: |
+          # fetch all commits of the PR branch
+          git fetch --shallow-exclude "${{ github.base_ref }}" origin "${{ github.ref }}"
+          # fix for "fatal: error in object: unshallow"
+          git repack -d
+          # fetch head commit of base branch
+          git fetch --deepen 1 origin "${{ github.ref }}"
       - uses: ruby/setup-ruby@v1
       - uses: opf/action-rubocop@master
         with:
