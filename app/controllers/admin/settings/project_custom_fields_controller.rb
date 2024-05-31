@@ -82,7 +82,7 @@ module Admin::Settings
                          .new(user: current_user)
                          .call(custom_field_id: @project_mapping.custom_field_id, project_id: @project_mapping.project_id)
 
-      create_service.on_success { render_unlink_response(project: @project_mapping.project) }
+      create_service.on_success { render_project_list }
 
       create_service.on_failure do
         update_flash_message_via_turbo_stream(
@@ -99,7 +99,7 @@ module Admin::Settings
                          .new(user: current_user, model: @project_custom_field_mapping)
                          .call
 
-      delete_service.on_success { render_unlink_response }
+      delete_service.on_success { render_project_list }
 
       delete_service.on_failure do
         update_flash_message_via_turbo_stream(
@@ -150,7 +150,7 @@ module Admin::Settings
 
     private
 
-    def render_unlink_response
+    def render_project_list
       update_via_turbo_stream(
         component: Settings::ProjectCustomFields::ProjectCustomFieldMapping::TableComponent.new(
           query: @project_custom_field_mappings_query,
