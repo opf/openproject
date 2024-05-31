@@ -99,8 +99,8 @@ module Projects
     end
 
     def reset_section_scoped_validation
-      # reset the section scope after saving
-      # in order not to silently carry this setting in this instance
+      # Reset the section scope after saving in order to not silently
+      # carry this setting in this instance.
       model._limit_custom_fields_validation_to_section_id = nil
     end
   end
