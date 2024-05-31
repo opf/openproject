@@ -81,6 +81,14 @@ RSpec.describe Notifications::Scopes::UnsentRemindersBefore do
       it { is_expected.to be_empty }
     end
 
+    context "with a notification read mark set to nil" do
+      let(:notification_read_ian) { nil }
+
+      it "returns the notification" do
+        expect(scope).to contain_exactly(notification)
+      end
+    end
+
     context "with a read notification" do
       let(:notification_read_ian) { true }
 
