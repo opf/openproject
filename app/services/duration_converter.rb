@@ -34,11 +34,71 @@
 require "bigdecimal"
 
 class DurationConverter
+  UNIT_ABBREVIATION_MAP = {
+    "seconds" => "seconds",
+    "second" => "seconds",
+    "secs" => "seconds",
+    "sec" => "seconds",
+    "s" => "seconds",
+    "minutes" => "minutes",
+    "minute" => "minutes",
+    "mins" => "minutes",
+    "min" => "minutes",
+    "m" => "minutes",
+    "hours" => "hours",
+    "hour" => "hours",
+    "hrs" => "hours",
+    "hr" => "hours",
+    "h" => "hours",
+    "days" => "days",
+    "day" => "days",
+    "dy" => "days",
+    "d" => "days",
+    "weeks" => "weeks",
+    "week" => "weeks",
+    "wks" => "weeks",
+    "wk" => "weeks",
+    "w" => "weeks",
+    "months" => "months",
+    "mo" => "months",
+    "mos" => "months",
+    "month" => "months",
+    "years" => "years",
+    "year" => "years",
+    "yrs" => "years",
+    "yr" => "years",
+    "y" => "years"
+  }.freeze
+
+  NEXT_UNIT_MAP = {
+    "years" => "months",
+    "months" => "weeks",
+    "weeks" => "days",
+    "days" => "hours",
+    "hours" => "minutes",
+    "minutes" => "seconds"
+  }.freeze
+
   class << self
     def parse(duration_string)
       # Keep 0 values and convert the extracted duration to hours
       # by dividing by 3600.
-      ChronicDuration.parse(duration_string, keep_zero: true, default_unit: "hours", **duration_length_options) / 3600.to_f
+
+      last_unit_in_string = duration_string.scan(/[a-zA-Z]+/)
+                                           .last
+
+      default_unit = if last_unit_in_string
+                       last_unit_in_string
+                         .then { |last_unit| UNIT_ABBREVIATION_MAP[last_unit.downcase] }
+                         .then { |last_unit| NEXT_UNIT_MAP[last_unit] }
+                     else
+                       "hours"
+                     end
+
+      ChronicDuration.parse(duration_string,
+                            keep_zero: true,
+                            default_unit:,
+                            **duration_length_options) / 3600.to_f
     end
 
     def output(duration_in_hours)

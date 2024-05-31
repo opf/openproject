@@ -40,8 +40,16 @@ RSpec.describe DurationConverter do
       expect(described_class.parse("5 hrs 30 mins")).to eq(5.5)
     end
 
-    it "assumes hours as the default unit for input" do
+    it "assumes hours as the default unit for input if no other units given" do
       expect(described_class.parse("5.75")).to eq(5.75)
+    end
+
+    it "assumes the next logical unit if at least one unit is given" do
+      expect(described_class.parse("2h 15")).to eq(2.25)
+      expect(described_class.parse("1d 24")).to eq(32)
+      expect(described_class.parse("1w 1")).to eq(48)
+      expect(described_class.parse("1mo 1")).to eq(200)
+      expect(described_class.parse("1mo 1w 1d 1h 30")).to eq(209.5)
     end
   end
 
