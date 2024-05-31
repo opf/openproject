@@ -109,7 +109,7 @@ cs:
       agenda: "Kopírovat program"
       agenda_text: "Zkopírujte program staré schůzky"
     email:
-      send_emails: "Send emails"
+      send_emails: "Odeslat e-maily"
       send_invitation_emails: "Send out invitation emails upon creation"
       open_meeting_link: "Otevřít schůzku"
       invited:
@@ -166,9 +166,9 @@ cs:
   label_meeting_delete: "Smazat schůzku"
   label_meeting_created_by: "Vytvořil"
   label_meeting_last_updated: "Naposledy aktualizováno"
-  label_agenda_items: "Agenda items"
+  label_agenda_items: "Bod programu"
   label_agenda_items_reordered: "přeřazeno"
-  label_agenda_item_remove: "Remove from agenda"
+  label_agenda_item_remove: "Odebrat z programu"
   label_agenda_item_undisclosed_wp: "Pracovní balíček #%{id} není viditelný"
   label_agenda_item_deleted_wp: "Odstraněna reference pracovního balíčku"
   label_agenda_item_actions: "volby pro body schůzky"

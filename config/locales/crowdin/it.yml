@@ -263,7 +263,7 @@ it:
       my: "I miei progetti"
       favored: "Progetti preferiti"
       archived: "Progetti archiviati"
-      public: "Public project lists"
+      public: "Elenchi di progetti pubblici"
       my_private: "I miei elenchi di progetti privati"
       new:
         placeholder: "Nuovo elenco progetti"
@@ -291,12 +291,12 @@ it:
         actions:
           label_enable_single: "Attivo in questo progetto, clicca per disattivarlo"
           label_disable_single: "Non attivo in questo progetto, clicca per attivarlo"
-          deactivate_for_project: "Deactivate for this project"
+          deactivate_for_project: "Disattiva per questo progetto"
           label_enable_all: "Abilita tutti"
           label_disable_all: "Disabilita tutti"
         is_required_blank_slate:
-          heading: Required in all projects
-          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+          heading: Richiesto in tutti i progetti
+          description: Questo attributo di progetto è attivato in tutti i progetti, poiché l'opzione "Richiesto in tutti i progetti" è selezionata. Non può essere disattivato per i singoli progetti.
       types:
         no_results_title_text: Al momento non sono disponibili tipi.
         form:
@@ -314,11 +314,11 @@ it:
       success: "L'elenco modificato è stato salvato"
       failure: "L'elenco modificato non può essere salvato: %{errors}"
     publish:
-      success: "The list has been made public"
-      failure: "The list cannot be made public: %{errors}"
+      success: "L'elenco è stato reso pubblico"
+      failure: "L'elenco non può essere reso pubblico: %{errors}"
     unpublish:
-      success: "The list has been made private"
-      failure: "The list cannot be made private: %{errors}"
+      success: "L'elenco è stato reso privato"
+      failure: "L'elenco non può essere reso privato: %{errors}"
     can_be_saved: "Elenco modificato:"
     can_be_saved_as: "Le modifiche possono essere salvate solo in un nuovo elenco:"
   members:
@@ -760,7 +760,7 @@ it:
         before_or_equal_to: "deve essere precedente o uguale al %{date}."
         blank: "non può essere lasciato vuoto."
         blank_nested: "deve avere la proprietà '%{property}' impostata."
-        cannot_delete_mapping: "is required. Cannot be deleted."
+        cannot_delete_mapping: "è necessario. Non può essere cancellato."
         cant_link_a_work_package_with_a_descendant: "Una macro-attività non può essere collegato a una delle sue sottoattività."
         circular_dependency: "Questa relazione creerebbe una dipendenza circolare."
         confirmation: "non coincide con %{attribute}."
@@ -921,8 +921,8 @@ it:
               nonexistent: "La colonna '%{column}' non esiste."
               format: "%{message}"
           group_by_hierarchies_exclusive: "è mutuamente esclusivo con il raggruppamento per '%{group_by}'. Non puoi attivare entrambi."
-          can_only_be_modified_by_owner: "The query can only be modified by its owner."
-          need_permission_to_modify_public_query: "You cannot modify a public query."
+          can_only_be_modified_by_owner: "La query può essere modificata solo dal suo proprietario."
+          need_permission_to_modify_public_query: "Non puoi modificare una query pubblica."
           filters:
             custom_fields:
               inexistent: "Nessun campo personalizzato per il filtro."
@@ -2714,7 +2714,7 @@ it:
   permission_save_bcf_queries: "Salva query BCF"
   permission_manage_public_bcf_queries: "Gestisci query BCF pubbliche"
   permission_edit_attribute_help_texts: "Modifica i testi guida dell'attributo"
-  permission_manage_public_project_queries: "Manage public project lists"
+  permission_manage_public_project_queries: "Gestisci elenchi di progetti pubblici"
   placeholders:
     default: "-"
   project:

@@ -293,12 +293,12 @@ ru:
         actions:
           label_enable_single: "Активно в этом проекте, нажмите для отключения"
           label_disable_single: "Неактивно в этом проекте, нажмите для включения"
-          deactivate_for_project: "Deactivate for this project"
+          deactivate_for_project: "Деактивировать для этого проекта"
           label_enable_all: "Включить всё"
           label_disable_all: "Выключить всё"
         is_required_blank_slate:
-          heading: Required in all projects
-          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+          heading: Требуется во всех проектах
+          description: Этот атрибут проекта активирован во всех проектах, поскольку установлен флажок «Требуется во всех проектах». Его нельзя отключить для отдельных проектов.
       types:
         no_results_title_text: На данный момент доступных типов нет.
         form:
@@ -776,7 +776,7 @@ ru:
         before_or_equal_to: "должны быть до или ровно %{date}."
         blank: "не может быть пустым."
         blank_nested: "должно быть установлено свойство '%{property}'."
-        cannot_delete_mapping: "is required. Cannot be deleted."
+        cannot_delete_mapping: "требуется. Невозможно удалить."
         cant_link_a_work_package_with_a_descendant: "Пакет работ не может быть связан с одной из своих подзадач."
         circular_dependency: "Это отношение создаст циклическую зависимость."
         confirmation: "не совпадает со значением поля %{attribute}."
