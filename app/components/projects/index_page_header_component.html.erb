@@ -9,7 +9,7 @@
           header:,
           message: t("lists.can_be_saved"),
           label: t("button_save"),
-          href: projects_query_path(query),
+          href: projects_query_path(query, projects_query_params),
           method: :patch
         )
       elsif can_save_as?
@@ -17,7 +17,7 @@
           header:,
           message: t("lists.can_be_saved_as"),
           label: t("button_save_as"),
-          href: new_projects_query_path
+          href: new_projects_query_path(projects_query_params)
         )
       end
 
@@ -59,11 +59,20 @@
         end
 
         if can_save?
-          menu_save_item(menu:, label: t('button_save'), href: projects_query_path(query), method: :patch)
+          menu_save_item(
+            menu:,
+            label: t('button_save'),
+            href: projects_query_path(query, projects_query_params),
+            method: :patch
+          )
         end
 
         if may_save_as?
-          menu_save_item(menu:, label: t('button_save_as'), href: new_projects_query_path)
+          menu_save_item(
+            menu:,
+            label: t('button_save_as'),
+            href: new_projects_query_path(projects_query_params)
+          )
         end
 
         menu.with_item(
@@ -123,15 +132,15 @@
     render(Primer::OpenProject::PageHeader.new) do |header|
       header.with_title(data: { 'test-selector': 'project-query-name'}) do
         primer_form_with(model: query,
-                         url: @query.new_record? ? projects_queries_path : projects_query_path(@query),
+                         url: @query.new_record? ? projects_queries_path(projects_query_params) : projects_query_path(@query, projects_query_params),
                          scope: 'query',
-                         data: {
-                           controller: "params-from-query",
-                           'application-target': "dynamic",
-                           'params-from-query-allowed-value': '["filters", "columns", "query_id", "sortBy"]'
-                         },
                          id: 'project-save-form') do |f|
-          render(Queries::Projects::Form.new(f, query:))
+          render(
+            Queries::Projects::Form.new(
+              f,
+              cancel_url: projects_path(**projects_query_params, **{ query_id: query.id }.compact)
+            )
+          )
         end
       end
       header.with_breadcrumbs(breadcrumb_items)

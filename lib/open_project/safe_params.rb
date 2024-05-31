@@ -28,8 +28,8 @@
 
 module OpenProject
   module SafeParams
-    def safe_query_params(whitelist = [], current_request = request)
-      current_request.query_parameters.select { |k, _| whitelist.include?(k) }
+    def safe_query_params(whitelist = [])
+      params.slice(*whitelist).to_unsafe_h
     end
   end
 end

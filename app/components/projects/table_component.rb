@@ -58,7 +58,7 @@ module Projects
     ##
     # The project sort by is handled differently
     def build_sort_header(column, options)
-      helpers.projects_sort_header_tag(column, options.merge(param: :json))
+      helpers.projects_sort_header_tag(column, **options, param: :json)
     end
 
     # We don't return the project row
@@ -90,20 +90,16 @@ module Projects
 
     def href_only_when_not_sort_lft
       unless sorted_by_lft?
-        projects_path(sortBy: JSON::dump([["lft", "asc"]]))
+        projects_path(
+          sortBy: JSON.dump([%w[lft asc]]),
+          **helpers.projects_query_params.slice(*helpers.projects_query_param_names_for_sort)
+        )
       end
     end
 
     def order_options(select)
       {
-        caption: select.caption,
-        data:
-          {
-            controller: "params-from-query",
-            "application-target": "dynamic",
-            "params-from-query-allowed-value": '["query_id"]',
-            "params-from-query-all-anchors-value": "true"
-          }
+        caption: select.caption
       }
     end
 

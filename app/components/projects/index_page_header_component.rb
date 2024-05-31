@@ -39,6 +39,8 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
 
   STATE_OPTIONS = %i[show edit rename].freeze
 
+  delegate :projects_query_params, to: :helpers
+
   def initialize(current_user:, query:, params:, state: :show)
     super
 
@@ -136,12 +138,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
       mobile_icon: nil, # Do not show on mobile as it is already part of the menu
       mobile_label: nil,
       href:,
-      data: {
-        method:,
-        controller: "params-from-query",
-        "application-target": "dynamic",
-        "params-from-query-allowed-value": '["filters", "columns", "sortBy", "query_id"]'
-      }.compact
+      data: { method: }
     ) do
       render(
         Primer::Beta::Octicon.new(
@@ -159,12 +156,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
       label:,
       href:,
       content_arguments: {
-        data: {
-          method:,
-          controller: "params-from-query",
-          "application-target": "dynamic",
-          "params-from-query-allowed-value": '["filters", "columns", "sortBy", "query_id"]'
-        }.compact
+        data: { method: }
       }
     ) do |item|
       item.with_leading_visual_icon(icon: :"op-save")
