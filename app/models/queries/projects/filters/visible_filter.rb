@@ -41,13 +41,13 @@ module Queries
           @allowed_values ||= User.pluck(:id, :id)
         end
 
-        def scope
+        def apply_to(_query_scope)
           super.where(id: Project.visible(User.find(values.first)))
         end
 
         def where
           # Handled by scope
-          "1 = 1"
+          nil
         end
 
         def type

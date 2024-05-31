@@ -263,6 +263,7 @@ zh-CN:
       my: "我的项目"
       favored: "收藏的项目"
       archived: "归档项目"
+      public: "Public project lists"
       my_private: "我的私有项目列表"
       new:
         placeholder: "新项目列表"
@@ -290,8 +291,12 @@ zh-CN:
         actions:
           label_enable_single: "在此项目中处于活动状态，点击禁用"
           label_disable_single: "在此项目中未启用，点击启用"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "全部启用"
           label_disable_all: "全部禁用"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
       types:
         no_results_title_text: 目前有可用的类型。
         form:
@@ -308,6 +313,12 @@ zh-CN:
     update:
       success: "已保存修改后的列表"
       failure: "无法保存修改后的列表： %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
     can_be_saved: "列表已修改："
     can_be_saved_as: "修改内容只能保存在新列表中。"
   members:
@@ -741,6 +752,7 @@ zh-CN:
         before_or_equal_to: "必须在早于或等于 %{date}"
         blank: "不能为空。"
         blank_nested: "需要设置属性“%{property}”。"
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "工作包无法链接到它的子任务之一。"
         circular_dependency: "这种关系将创建循环依赖项。"
         confirmation: "不匹配 %{attribute}。"
@@ -901,6 +913,8 @@ zh-CN:
               nonexistent: "列“%{column}”不存在。"
               format: "%{message}"
           group_by_hierarchies_exclusive: "与按照“%{group_by}”分组的组互相排斥。您无法将它们都激活。"
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "过滤器没有自定义字段"
@@ -1300,6 +1314,8 @@ zh-CN:
   button_revoke_access: "撤消访问权限"
   button_revoke_all: "全部撤销"
   button_revoke_only: "仅撤销 %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: 我已注意到并同意上述情况。
     failure_message: 同意失败, 无法继续。
@@ -2658,6 +2674,7 @@ zh-CN:
   permission_save_bcf_queries: "保存 BCF 查询"
   permission_manage_public_bcf_queries: "管理公开的 BCF 查询"
   permission_edit_attribute_help_texts: "编辑属性帮助文本"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:

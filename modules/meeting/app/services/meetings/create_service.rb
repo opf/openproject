@@ -31,7 +31,6 @@ module Meetings
     protected
 
     def instance(params)
-
       # Setting the #type as attributes will not work
       # as the STI instance is not changed without using e.g., +becomes!+
       case params.delete(:type)

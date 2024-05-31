@@ -45,9 +45,9 @@ module Settings
         def more_menu_detach_project
           if User.current.admin
             {
-              scheme: :danger,
-              icon: :trash,
-              label: I18n.t(:button_delete),
+              scheme: :default,
+              icon: nil,
+              label: I18n.t("projects.settings.project_custom_fields.actions.deactivate_for_project"),
               href: unlink_admin_settings_project_custom_field_path(
                 id: @table.params[:custom_field].id,
                 project_custom_field_project_mapping: { project_id: model.first.id }

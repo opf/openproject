@@ -1,0 +1,50 @@
+# Example: OneDrive storage
+---
+value:
+  _type: Storage
+  id: 1337
+  name: It's no moon
+  tenantId: e36f1dbc-fdae-427e-b61b-0d96ddfb81a4
+  driveId: b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY8Qconfm2i6SKEoCmuGYqQK
+  createdAt: '2021-12-20T13:37:00.211Z'
+  updatedAt: '2021-12-20T13:37:00.211Z'
+  configured: true
+  _embedded:
+    oauthClientCredentials:
+      _type: OAuthClientCredentials
+      id: 42
+      clientId: b8a5bb54-5fb2-4e0e-9427-9d24dbac32ff
+      confidential: true
+      createdAt: '2023-12-08T09:49:24.397Z'
+      updatedAt: '2023-12-08T09:49:24.397Z'
+      _links:
+        self:
+          href: /api/v3/oauth_client_credentials/42
+        integration:
+          href: /api/v3/storages/1337
+          title: It's no moon
+  _links:
+    self:
+      href: /api/v3/storages/1337
+      title: It's no moon
+    type:
+      href: urn:openproject-org:api:v3:storages:OneDrive
+      title: OneDrive/SharePoint
+    prepareUpload:
+      - href: /api/v3/storages/1337/files/prepare_upload
+        method: post
+        title: Upload file
+        payload:
+          projectId: 33
+          fileName: '{fileName}'
+          parent: '{parent}'
+        templated: true
+    open:
+      href: /api/v3/storages/1337/open
+    authorizationState:
+      href: urn:openproject-org:api:v3:storages:authorization:Connected
+      title: Connected
+    projectStorages:
+      href: /api/v3/project_storages?filters=[{"storageId":{"operator":"=","values":["1337"]}}]
+    oauthClientCredentials:
+      href: /api/v3/oauth_client_credentials/42

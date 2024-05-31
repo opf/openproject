@@ -9,7 +9,7 @@
           header:,
           message: t("lists.can_be_saved"),
           label: t("button_save"),
-          href: projects_query_path(query),
+          href: projects_query_path(query, projects_query_params),
           method: :patch
         )
       elsif can_save_as?
@@ -17,7 +17,7 @@
           header:,
           message: t("lists.can_be_saved_as"),
           label: t("button_save_as"),
-          href: new_projects_query_path
+          href: new_projects_query_path(projects_query_params)
         )
       end
 
@@ -59,11 +59,20 @@
         end
 
         if can_save?
-          menu_save_item(menu:, label: t('button_save'), href: projects_query_path(query), method: :patch)
+          menu_save_item(
+            menu:,
+            label: t('button_save'),
+            href: projects_query_path(query, projects_query_params),
+            method: :patch
+          )
         end
 
         if may_save_as?
-          menu_save_item(menu:, label: t('button_save_as'), href: new_projects_query_path)
+          menu_save_item(
+            menu:,
+            label: t('button_save_as'),
+            href: new_projects_query_path(projects_query_params)
+          )
         end
 
         menu.with_item(
@@ -81,6 +90,29 @@
         end
 
         if query.persisted?
+          # TODO: Remove section when the sharing modal is implemented (https://community.openproject.org/projects/openproject/work_packages/55163)
+          if can_publish?
+            if query.public?
+              menu.with_item(
+                label: t(:button_unpublish),
+                scheme: :danger,
+                href: unpublish_projects_query_path(query),
+                content_arguments: { data: { method: :post } }
+              ) do |item|
+                item.with_leading_visual_icon(icon: 'eye-closed')
+              end
+            else
+              menu.with_item(
+                label: t(:button_publish),
+                scheme: :default,
+                href: publish_projects_query_path(query),
+                content_arguments: { data: { method: :post } }
+              ) do |item|
+                item.with_leading_visual_icon(icon: 'eye')
+              end
+            end
+          end
+
           menu.with_item(
             label: t(:button_delete),
             scheme: :danger,
@@ -92,7 +124,6 @@
       end
     end
   %>
-
   <%= render(Projects::ConfigureViewModalComponent.new(query:)) %>
   <%= render(Projects::DeleteListModalComponent.new(query:)) if query.persisted? %>
   <%= render(Projects::ExportListModalComponent.new(query:)) %>
@@ -101,15 +132,15 @@
     render(Primer::OpenProject::PageHeader.new) do |header|
       header.with_title(data: { 'test-selector': 'project-query-name'}) do
         primer_form_with(model: query,
-                         url: @query.new_record? ? projects_queries_path : projects_query_path(@query),
+                         url: @query.new_record? ? projects_queries_path(projects_query_params) : projects_query_path(@query, projects_query_params),
                          scope: 'query',
-                         data: {
-                           controller: "params-from-query",
-                           'application-target': "dynamic",
-                           'params-from-query-allowed-value': '["filters", "columns", "query_id", "sortBy"]'
-                         },
                          id: 'project-save-form') do |f|
-          render(Queries::Projects::Form.new(f, query:))
+          render(
+            Queries::Projects::Form.new(
+              f,
+              cancel_url: projects_path(**projects_query_params, **{ query_id: query.id }.compact)
+            )
+          )
         end
       end
       header.with_breadcrumbs(breadcrumb_items)

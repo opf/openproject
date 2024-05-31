@@ -113,7 +113,7 @@
   label_column_in_backlog: "Kolonne i forsinkelse"
   label_hours: " timer"
   label_work_package_hierarchy: "Hierarki for arbeidspakker"
-  label_master_backlog: "Master Backlog"
+  label_master_backlog: "Master Forsinkelse"
   label_not_prioritized: "ikke prioritert"
   label_points: "punkter"
   label_points_burn_down: "Ned"
@@ -132,7 +132,7 @@
   label_version: 'Versjon'
   label_webcal: "Webcal Feed"
   label_wiki: "Wiki"
-  permission_view_master_backlog: "Vis master backlog"
+  permission_view_master_backlog: "Vis master forsinkelse"
   permission_view_taskboards: "Vis oppgavetavler"
   permission_select_done_statuses: "Velg ferdige statuser"
   permission_update_sprints: "Oppdater etapper"

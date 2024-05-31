@@ -36,11 +36,11 @@ class Queries::Projects::Filters::MemberOfFilter < Queries::Projects::Filters::P
     :member_of
   end
 
-  def scope
+  def apply_to(query_scope)
     if allowed_values.first.intersect?(values)
-      model.visible.with_member
+      query_scope.with_member
     else
-      model.visible.without_member
+      query_scope.without_member
     end
   end
 

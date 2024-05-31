@@ -39,6 +39,8 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
 
   STATE_OPTIONS = %i[show edit rename].freeze
 
+  delegate :projects_query_params, to: :helpers
+
   def initialize(current_user:, query:, params:, state: :show)
     super
 
@@ -70,9 +72,35 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
 
   def can_save_as? = may_save_as? && query.changed?
 
-  def can_save? = can_save_as? && query.persisted? && query.user == current_user
+  def can_save?
+    return false unless current_user.logged?
+    return false unless query.persisted?
+    return false unless query.changed?
 
-  def can_rename? = may_save_as? && query.persisted? && query.user == current_user && !query.changed?
+    if query.public?
+      current_user.allowed_globally?(:manage_public_project_queries)
+    else
+      query.user == current_user
+    end
+  end
+
+  def can_rename?
+    return false unless current_user.logged?
+    return false unless query.persisted?
+    return false if query.changed?
+
+    if query.public?
+      current_user.allowed_globally?(:manage_public_project_queries)
+    else
+      query.user == current_user
+    end
+  end
+
+  def can_publish?
+    OpenProject::FeatureDecisions.project_list_sharing_active? &&
+    current_user.allowed_globally?(:manage_public_project_queries) &&
+    query.persisted?
+  end
 
   def show_state?
     state == :show
@@ -110,12 +138,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
       mobile_icon: nil, # Do not show on mobile as it is already part of the menu
       mobile_label: nil,
       href:,
-      data: {
-        method:,
-        controller: "params-from-query",
-        "application-target": "dynamic",
-        "params-from-query-allowed-value": '["filters", "columns", "sortBy", "query_id"]'
-      }.compact
+      data: { method: }
     ) do
       render(
         Primer::Beta::Octicon.new(
@@ -133,12 +156,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
       label:,
       href:,
       content_arguments: {
-        data: {
-          method:,
-          controller: "params-from-query",
-          "application-target": "dynamic",
-          "params-from-query-allowed-value": '["filters", "columns", "sortBy", "query_id"]'
-        }.compact
+        data: { method: }
       }
     ) do |item|
       item.with_leading_visual_icon(icon: :"op-save")

@@ -1349,6 +1349,10 @@ ru:
         focus_grab: "Это якорь фокусировки для модальностей. Нажмите shift+ tab, чтобы вернуться к элементу модального триггера."
         Close: "Закрыть"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Время ожидания истекло"
       waiting_subtitle:
         network_off: "Проблема с сетью."
         network_on: "Проблема с сетью решена."
+        timeout: >
+          OpenProject не смог предоставить Вам доступ к папке проекта в течение ожидаемого периода времени. Пожалуйста, попробуйте еще раз.<br><br> Если проблема не исчезла, пожалуйста, свяжитесь с администратором OpenProject, чтобы проверить <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">состояние файлового хранилища</a>.

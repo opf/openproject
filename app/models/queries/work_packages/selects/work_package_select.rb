@@ -27,18 +27,17 @@
 #++
 
 class Queries::WorkPackages::Selects::WorkPackageSelect
-  attr_accessor :highlightable
+  attr_accessor :highlightable,
+                :name,
+                :sortable_join,
+                :summable,
+                :default_order,
+                :association
   alias_method :highlightable?, :highlightable
 
   attr_reader :groupable,
               :sortable,
               :displayable
-
-  attr_accessor :name,
-                :sortable_join,
-                :summable,
-                :default_order,
-                :association
 
   attr_writer :null_handling,
               :summable_select,

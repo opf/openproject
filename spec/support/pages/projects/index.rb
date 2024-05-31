@@ -90,12 +90,16 @@ module Pages
       end
 
       def expect_current_page_number(number)
-        expect(page).to have_css(".op-pagination--item_current", text: number)
+        within ".op-pagination--pages" do
+          expect(page).to have_css(".op-pagination--item_current", text: number)
+        end
       end
 
       def expect_total_pages(number)
-        expect(page).to have_css(".op-pagination--item", text: number)
-        expect(page).to have_no_css(".op-pagination--item", text: number + 1)
+        within ".op-pagination--pages" do
+          expect(page).to have_css(".op-pagination--item", text: number)
+          expect(page).to have_no_css(".op-pagination--item", text: number + 1)
+        end
       end
 
       def set_sidebar_filter(filter_name)
@@ -162,22 +166,22 @@ module Pages
 
       def filter_by_active(value)
         set_filter("active", "Active", "is", [value])
-        click_on "Apply"
+        apply_filters
       end
 
       def filter_by_public(value)
         set_filter("public", "Public", "is", [value])
-        click_on "Apply"
+        apply_filters
       end
 
       def filter_by_favored(value)
         set_filter("favored", "Favorite", "is", [value])
-        click_on "Apply"
+        apply_filters
       end
 
       def filter_by_membership(value)
         set_filter("member_of", "I am member", "is", [value])
-        click_on "Apply"
+        apply_filters
       end
 
       def set_filter(name, human_name, human_operator = nil, values = [])

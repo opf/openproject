@@ -38,6 +38,8 @@ interface InternalFilterValue {
 }
 
 export default class FiltersController extends Controller {
+  static paramsToCopy = ['sortBy', 'columns', 'query_id', 'per_page'];
+
   static targets = [
     'filterFormToggle',
     'filterForm',
@@ -195,31 +197,18 @@ export default class FiltersController extends Controller {
     const ajaxIndicator = document.querySelector('#ajax-indicator') as HTMLElement;
     ajaxIndicator.style.display = '';
 
-    const filters = this.parseFilters();
-    const orderParam = this.getUrlParameter('sortBy');
-    const columnParam = this.getUrlParameter('columns');
-    const idParam = this.getUrlParameter('query_id');
-    let filterParam;
+    const params = new URLSearchParams();
 
-    if (this.outputFormatValue === 'json') {
-      filterParam = JSON.stringify(filters.map((filter) => { return this.buildFilterJSON(filter); }));
-    } else {
-      filterParam = filters.map((filter) => { return this.buildFilterString(filter); }).join('&');
-    }
+    params.append('filters', this.buildFiltersParam(this.parseFilters()));
 
-    let queryString = `?filters=${encodeURIComponent(filterParam)}`;
+    const currentParams = new URLSearchParams(window.location.search);
+    FiltersController.paramsToCopy.forEach((name) => {
+      if (currentParams.has(name)) {
+        params.append(name, currentParams.get(name) as string);
+      }
+    });
 
-    if (orderParam) {
-      queryString = `${queryString}&sortBy=${encodeURIComponent(orderParam)}`;
-    }
-    if (columnParam) {
-      queryString = `${queryString}&columns=${columnParam.toString()}`;
-    }
-    if (idParam) {
-      queryString = `${queryString}&query_id=${idParam.toString()}`;
-    }
-
-    window.location.href = window.location.pathname + queryString;
+    window.location.href = `${window.location.pathname}?${params.toString()}`;
   }
 
   private parseFilters():InternalFilterValue[] {
@@ -251,6 +240,13 @@ export default class FiltersController extends Controller {
 
   private buildFilterJSON(filter:InternalFilterValue) {
     return { [filter.name]: { operator: filter.operator, values: filter.value } };
+  }
+
+  private buildFiltersParam(filters:InternalFilterValue[]):string {
+    if (this.outputFormatValue === 'json') {
+      return JSON.stringify(filters.map((filter) => this.buildFilterJSON(filter)));
+    }
+    return filters.map((filter) => this.buildFilterString(filter)).join('&');
   }
 
   private replaceDoubleQuotes(value:string) {
@@ -335,20 +331,6 @@ export default class FiltersController extends Controller {
     }
     if (value && value.length > 0) {
       return value;
-    }
-    return null;
-  }
-
-  private getUrlParameter(sortParam:string) {
-    const queryString = decodeURIComponent(window.location.search.substring(1));
-    const queryParams = queryString.split('&');
-
-    for (let i = 0; i < queryParams.length; i++) {
-      const [key, value] = queryParams[i].split('=');
-
-      if (key === sortParam) {
-        return value || true;
-      }
     }
     return null;
   }

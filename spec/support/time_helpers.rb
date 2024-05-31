@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,30 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin
-  module Settings
-    module ProjectCustomFields
-      class ProjectAttributeDetailHeaderComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-        TAB_NAVS = %i[
-          project_custom_field_edit
-          project_custom_field_project_mappings
-        ].freeze
+RSpec.configure do |config|
+  config.include ActiveSupport::Testing::TimeHelpers
+end
 
-        def initialize(custom_field:, selected:)
-          selected = selected.to_sym
-          raise "selected must be one of the following: #{TAB_NAVS.join(', ')}" unless TAB_NAVS.include?(selected)
+RSpec::Matchers.define :equal_time_without_usec do |expected|
+  expected_without_usec = expected.change(usec: 0)
 
-          super
-          @custom_field = custom_field
-          @selected = selected
-        end
+  failure_message do
+    actual_without_usec = actual.change(usec: 0)
+    [
+      "expected: #{expected_without_usec.iso8601}",
+      "actual: #{actual_without_usec.iso8601}",
+      "difference: #{actual_without_usec - expected_without_usec}s"
+    ].join(" - ")
+  end
 
-        TAB_NAVS.each do |tab_nav|
-          define_method(:"#{tab_nav}_selected?") do
-            @selected == tab_nav
-          end
-        end
-      end
-    end
+  match do |actual|
+    actual_without_usec = actual.change(usec: 0)
+    expected_without_usec == actual_without_usec
   end
 end

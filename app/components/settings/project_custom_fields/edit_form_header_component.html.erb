@@ -31,5 +31,20 @@ See COPYRIGHT and LICENSE files for more details.
     header.with_title { @custom_field.name }
     header.with_description { t("settings.project_attributes.edit.description") }
     header.with_breadcrumbs(breadcrumbs_items)
+    header.with_tab_nav(label: nil, test_selector: :project_attribute_detail_header) do |tab_nav|
+      tab_nav.with_tab(
+        selected: project_custom_field_edit_selected?,
+        href:  edit_admin_settings_project_custom_field_path(@custom_field)
+      ) do |tab|
+        tab.with_text { t(:label_details) }
+      end
+
+      tab_nav.with_tab(
+        selected: project_custom_field_project_mappings_selected?,
+        href: project_mappings_admin_settings_project_custom_field_path(@custom_field)
+      ) do |tab|
+        tab.with_text { I18n.t(:label_project_plural) }
+      end
+    end
   end
 %>

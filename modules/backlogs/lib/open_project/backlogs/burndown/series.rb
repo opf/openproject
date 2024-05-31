@@ -35,7 +35,7 @@ module OpenProject::Backlogs::Burndown
 
       raise "Unsupported unit '#{@unit}'" unless %i[points hours].include? @unit
 
-      super(*args)
+      super
     end
 
     attr_reader :unit, :name

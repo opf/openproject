@@ -184,14 +184,13 @@ RSpec.describe "BCF 2.1 comments resource", content_type: :json do
       let(:expected_status) { 201 }
       let(:expected_body) do
         comment = Bim::Bcf::Comment.last.reload
-        creation_date = comment&.journal&.created_at&.iso8601
 
         {
           guid: comment&.uuid,
-          date: creation_date,
+          date: comment&.journal&.created_at&.iso8601,
           author: edit_user.mail,
           comment: "this is a new bcf comment",
-          modified_date: creation_date,
+          modified_date: comment&.journal&.updated_at&.iso8601,
           modified_author: edit_user.mail,
           topic_guid: bcf_issue.uuid,
           reply_to_comment_guid: nil,
@@ -223,14 +222,13 @@ RSpec.describe "BCF 2.1 comments resource", content_type: :json do
         let(:expected_status) { 201 }
         let(:expected_body) do
           comment = Bim::Bcf::Comment.last.reload
-          creation_date = comment&.journal&.created_at&.iso8601
 
           {
             guid: comment&.uuid,
-            date: creation_date,
+            date: comment&.journal&.created_at,
             author: edit_user.mail,
             comment: "this is a comment to a specific viewpoint",
-            modified_date: creation_date,
+            modified_date: comment&.journal&.updated_at,
             modified_author: edit_user.mail,
             topic_guid: bcf_issue.uuid,
             reply_to_comment_guid: nil,
@@ -270,14 +268,13 @@ RSpec.describe "BCF 2.1 comments resource", content_type: :json do
         let(:expected_status) { 201 }
         let(:expected_body) do
           comment = Bim::Bcf::Comment.last.reload
-          creation_date = comment&.journal&.created_at&.iso8601
 
           {
             guid: comment&.uuid,
-            date: creation_date,
+            date: comment&.journal&.created_at,
             author: edit_user.mail,
             comment: "this is a reply comment to another comment",
-            modified_date: creation_date,
+            modified_date: comment&.journal&.updated_at,
             modified_author: edit_user.mail,
             topic_guid: bcf_issue.uuid,
             reply_to_comment_guid: bcf_comment.uuid,
@@ -318,14 +315,13 @@ RSpec.describe "BCF 2.1 comments resource", content_type: :json do
         let(:expected_status) { 201 }
         let(:expected_body) do
           comment = Bim::Bcf::Comment.last.reload
-          creation_date = comment&.journal&.created_at&.iso8601
 
           {
             guid: comment&.uuid,
-            date: creation_date,
+            date: comment&.journal&.created_at,
             author: edit_user.mail,
             comment: "this is a reply comment to another comment with a specific reference to a viewpoint",
-            modified_date: creation_date,
+            modified_date: comment&.journal&.updated_at,
             modified_author: edit_user.mail,
             topic_guid: bcf_issue.uuid,
             reply_to_comment_guid: bcf_comment.uuid,
@@ -409,6 +405,8 @@ RSpec.describe "BCF 2.1 comments resource", content_type: :json do
 
     it_behaves_like "bcf api successful response" do
       let(:expected_body) do
+        bcf_comment.reload
+
         {
           guid: bcf_comment.uuid,
           date: bcf_comment.journal.created_at,
@@ -429,6 +427,8 @@ RSpec.describe "BCF 2.1 comments resource", content_type: :json do
 
       it_behaves_like "bcf api successful response" do
         let(:expected_body) do
+          bcf_comment.reload
+
           {
             guid: bcf_comment.uuid,
             date: bcf_comment.journal.created_at,
@@ -476,6 +476,8 @@ RSpec.describe "BCF 2.1 comments resource", content_type: :json do
 
     it_behaves_like "bcf api successful response" do
       let(:expected_body) do
+        updated_comment.reload
+
         {
           guid: updated_comment.uuid,
           date: updated_comment.journal.created_at,
@@ -513,6 +515,8 @@ RSpec.describe "BCF 2.1 comments resource", content_type: :json do
 
       it_behaves_like "bcf api successful response" do
         let(:expected_body) do
+          updated_comment.reload
+
           {
             guid: updated_comment.uuid,
             date: updated_comment.journal.created_at,
@@ -573,6 +577,8 @@ RSpec.describe "BCF 2.1 comments resource", content_type: :json do
 
       it_behaves_like "bcf api successful response" do
         let(:expected_body) do
+          updated_comment.reload
+
           {
             guid: updated_comment.uuid,
             date: updated_comment.journal.created_at,

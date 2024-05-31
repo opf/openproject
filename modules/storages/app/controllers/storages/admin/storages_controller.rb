@@ -32,7 +32,7 @@
 class Storages::Admin::StoragesController < ApplicationController
   using Storages::Peripherals::ServiceResultRefinements
 
-  include FlashMessagesHelper
+  include FlashMessagesOutputSafetyHelper
   include OpTurbo::ComponentStream
 
   # See https://guides.rubyonrails.org/layouts_and_rendering.html for reference on layout

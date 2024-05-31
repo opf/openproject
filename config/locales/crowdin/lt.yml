@@ -263,6 +263,7 @@ lt:
       my: "Mano projektai"
       favored: "Mėgstami projektai"
       archived: "Archyvuoti projektai"
+      public: "Public project lists"
       my_private: "Mano privatūs projektų sąrašai"
       new:
         placeholder: "Naujas projektų sąrašas"
@@ -290,8 +291,12 @@ lt:
         actions:
           label_enable_single: "Aktyvus šiame projekte, spauskite, jei norite išjungti"
           label_disable_single: "Neakvyus šiame projekte, spauskite, jei norite įjungti"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Įjungti visus"
           label_disable_all: "Išjungti visus"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
       types:
         no_results_title_text: Nėra prieinamų tipų.
         form:
@@ -308,6 +313,12 @@ lt:
     update:
       success: "Pakeistas sąrašas buvo įrašytas"
       failure: "Nepavyksta įrašyti pakeisto sąrašo: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
     can_be_saved: "Sąrašas pakeistas:"
     can_be_saved_as: "Pakeitimus galima įrašyti tik į naują sąrašą:"
   members:
@@ -763,6 +774,7 @@ lt:
         before_or_equal_to: "turi eiti prieš arba būti lygu %{date}."
         blank: "negali būti tuščia."
         blank_nested: "reikalauja, kad savybė '%{property}' būtų nustatyta."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "Darbų paketas negali būti susietas su viena iš savo vidinių užduočių."
         circular_dependency: "Šis ryšys sukurtų ciklinę priklausomybę."
         confirmation: "nesutampa su %{attribute}."
@@ -923,6 +935,8 @@ lt:
               nonexistent: "Stulpelis „%{column}“ neegzistuoja."
               format: "%{message}"
           group_by_hierarchies_exclusive: "yra nesuderinamas su grupavimu pagal '%{group_by}'. Jūs negalite įjungti abiejų."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "Filtrui nėra jokio pasirenkamo laukelio."
@@ -1346,6 +1360,8 @@ lt:
   button_revoke_access: "Atšaukti prieigą"
   button_revoke_all: "Atšaukti viską"
   button_revoke_only: "Atšaukti tik %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: Perskaičiau ir sutinku su tekstu aukščiau.
     failure_message: Sutikimas negautas. Tęsti negalima.
@@ -2766,6 +2782,7 @@ lt:
   permission_save_bcf_queries: "Įrašyti BCF užklausas"
   permission_manage_public_bcf_queries: "Valdyti viešas BCF užklausas"
   permission_edit_attribute_help_texts: "Keisti atributų pagalbos tekstus"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:
