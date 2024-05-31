@@ -38,6 +38,7 @@ module Notifications::Scopes
           .where(recipient:)
           .where(read_ian: [false, nil])
           .where(mail_reminder_sent: false)
+          .where(mail_alert_sent: [false, nil])
       end
     end
   end
