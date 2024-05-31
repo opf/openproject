@@ -39,7 +39,7 @@ RSpec.describe Notifications::Scopes::UnsentRemindersBefore do
       Time.current
     end
 
-    let(:notification) do
+    let!(:notification) do
       create(:notification,
              recipient: notification_recipient,
              read_ian: notification_read_ian,
@@ -51,50 +51,40 @@ RSpec.describe Notifications::Scopes::UnsentRemindersBefore do
     let(:notification_created_at) { 10.minutes.ago }
     let(:notification_recipient) { recipient }
 
-    let!(:notifications) { notification }
-
-    shared_examples_for "is empty" do
-      it "is empty" do
-        expect(scope)
-          .to be_empty
-      end
-    end
-
     context "with a unread and not reminded notification that was created before the time and for the user" do
       it "returns the notification" do
-        expect(scope)
-          .to contain_exactly(notification)
+        expect(scope).to contain_exactly(notification)
       end
     end
 
     context "with a unread and not reminded notification that was created after the time and for the user" do
       let(:notification_created_at) { 10.minutes.from_now }
 
-      it_behaves_like "is empty"
+      it { is_expected.to be_empty }
     end
 
     context "with a unread and not reminded notification that was created before the time and for different user" do
       let(:notification_recipient) { create(:user) }
 
-      it_behaves_like "is empty"
+      it { is_expected.to be_empty }
     end
 
     context "with a unread and not reminded notification created before the time and for the user" do
       let(:notification_mail_reminder_sent) { nil }
 
-      it_behaves_like "is empty"
+      it { is_expected.to be_empty }
     end
 
     context "with a unread but reminded notification created before the time and for the user" do
       let(:notification_mail_reminder_sent) { true }
 
-      it_behaves_like "is empty"
+      it { is_expected.to be_empty }
     end
 
     context "with a read notification that was created before the time" do
       let(:notification_read_ian) { true }
 
-      it_behaves_like "is empty"
+      it { is_expected.to be_empty }
     end
   end
 end
