@@ -29,7 +29,7 @@
 require "spec_helper"
 require "rack/test"
 
-RSpec.describe "API v3 members available projects resource" do
+RSpec.describe "API v3 versions available projects resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -78,7 +78,7 @@ RSpec.describe "API v3 members available projects resource" do
 
   subject(:response) { last_response }
 
-  describe "GET api/v3/members/available_projects" do
+  describe "GET api/v3/versions/available_projects" do
     let(:projects) { [manage_project, view_project, unauthorized_project] }
     let(:path) { api_v3_paths.versions_available_projects }
 
