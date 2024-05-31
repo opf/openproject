@@ -58,6 +58,7 @@ RSpec.describe MeetingsController do
           before do
             get "index"
           end
+
           it { expect(response).to be_successful }
           it { expect(assigns(:meetings)).to match_array meetings[1..2] }
         end

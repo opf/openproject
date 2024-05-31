@@ -39,7 +39,7 @@ module OpenProject::Backlogs::Mixins
     def find_sti_class(type_name)
       type_name = to_s if type_name == "WorkPackage"
 
-      super(type_name)
+      super
     end
   end
 end

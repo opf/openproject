@@ -60,7 +60,7 @@ module Meetings
           }
         }
       else
-        super(filter)
+        super
       end
     end
 

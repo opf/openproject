@@ -50,7 +50,8 @@ RSpec.configure do |config|
         "chromedriver.storage.googleapis.com",
         "openproject-ci-public-logs.s3.eu-west-1.amazonaws.com",
         "cuprite-chrome"
-      ])
+      ]
+    )
     WebMock.enable!
     example.run
   ensure

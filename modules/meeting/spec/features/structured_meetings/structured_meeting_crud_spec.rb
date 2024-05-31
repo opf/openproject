@@ -325,7 +325,7 @@ RSpec.describe "Structured meetings CRUD",
     perform_enqueued_jobs
     expect(ActionMailer::Base.deliveries.size).to eq 0
   end
-    
+
   context "with sections" do
     let!(:meeting) { create(:structured_meeting, project:, author: current_user) }
     let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }

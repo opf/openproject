@@ -47,7 +47,7 @@ module API
         def create(model, **args)
           meta = args.delete(:meta)
 
-          super(model, **args).tap do |instance|
+          super.tap do |instance|
             instance.meta = meta
           end
         end

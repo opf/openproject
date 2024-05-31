@@ -31,9 +31,9 @@ require "spec_helper"
 RSpec.describe "Project attributes activity", :js, :with_cuprite do
   let(:user) do
     create(:user, member_with_permissions: {
-        project => %i[view_work_packages edit_work_packages],
-        project2 => %i[view_work_packages edit_work_packages]
-      })
+             project => %i[view_work_packages edit_work_packages],
+             project2 => %i[view_work_packages edit_work_packages]
+           })
   end
   let(:parent_project) { create(:project, name: "parent") }
   let(:project) { create(:project, parent: parent_project, active: false) }
