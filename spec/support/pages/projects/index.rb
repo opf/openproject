@@ -162,22 +162,22 @@ module Pages
 
       def filter_by_active(value)
         set_filter("active", "Active", "is", [value])
-        click_on "Apply"
+        apply_filters
       end
 
       def filter_by_public(value)
         set_filter("public", "Public", "is", [value])
-        click_on "Apply"
+        apply_filters
       end
 
       def filter_by_favored(value)
         set_filter("favored", "Favorite", "is", [value])
-        click_on "Apply"
+        apply_filters
       end
 
       def filter_by_membership(value)
         set_filter("member_of", "I am member", "is", [value])
-        click_on "Apply"
+        apply_filters
       end
 
       def set_filter(name, human_name, human_operator = nil, values = [])
