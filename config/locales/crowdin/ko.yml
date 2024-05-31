@@ -294,8 +294,12 @@ ko:
         actions:
           label_enable_single: "이 프로젝트에서 활성화되어 있습니다. 비활성화하려면 클릭하세요."
           label_disable_single: "이 프로젝트에서 비활성화되어 있습니다. 활성화하려면 클릭하세요."
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "모두 활성화"
           label_disable_all: "모두 비활성화"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
       types:
         no_results_title_text: 사용 가능한 타입이 없습니다.
         form:
@@ -751,6 +755,7 @@ ko:
         before_or_equal_to: "은(는) %{date} 이전이어야 합니다."
         blank: "내용을 입력해주세요"
         blank_nested: "- '%{property}' 속성이 설정되어 있어야 합니다."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "작업 패키지는 하위 작업패키지들 중 하나에 연결 될 수 없습니다."
         circular_dependency: "이 연계는 순환 종속관계를 만듭니다."
         confirmation: "%{attribute} 속성에 부합하지 않습니다."

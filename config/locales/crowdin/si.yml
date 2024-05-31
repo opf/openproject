@@ -294,8 +294,12 @@ si:
         actions:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Enable all"
           label_disable_all: "Disable all"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
       types:
         no_results_title_text: දැනට වර්ග නොමැත.
         form:
@@ -759,6 +763,7 @@ si:
         before_or_equal_to: "%{date}ට පෙර හෝ සමාන විය යුතුය."
         blank: "හිස් විය නොහැක."
         blank_nested: "needs to have the property '%{property}' set."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "වැඩ පැකේජයක් එහි එක් උප කර්තව්යයකට සම්බන්ධ කළ නොහැක."
         circular_dependency: "මෙම සම්බන්ධතාවය චක්රලේඛය යැපීමක් නිර්මාණය කරනු ඇත."
         confirmation: "%{attribute}නොගැලපේ."

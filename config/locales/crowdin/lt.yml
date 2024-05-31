@@ -291,8 +291,12 @@ lt:
         actions:
           label_enable_single: "Aktyvus šiame projekte, spauskite, jei norite išjungti"
           label_disable_single: "Neakvyus šiame projekte, spauskite, jei norite įjungti"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Įjungti visus"
           label_disable_all: "Išjungti visus"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
       types:
         no_results_title_text: Nėra prieinamų tipų.
         form:
@@ -770,6 +774,7 @@ lt:
         before_or_equal_to: "turi eiti prieš arba būti lygu %{date}."
         blank: "negali būti tuščia."
         blank_nested: "reikalauja, kad savybė '%{property}' būtų nustatyta."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "Darbų paketas negali būti susietas su viena iš savo vidinių užduočių."
         circular_dependency: "Šis ryšys sukurtų ciklinę priklausomybę."
         confirmation: "nesutampa su %{attribute}."

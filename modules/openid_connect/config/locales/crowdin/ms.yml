@@ -10,7 +10,7 @@ ms:
         name: Nama
         display_name: Nama paparan
         identifier: Pengenal
-        secret: "Sulit\n"
+        secret: "Rahsia\n"
         scope: Skop
         limit_self_registration: Hadkan pendaftaran sendiri
   openid_connect:

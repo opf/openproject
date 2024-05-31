@@ -214,7 +214,7 @@
       is_required: "Marker det egendefinerte feltet som påkrevd. Dette vil gjøre det obligatorisk å fylle ut feltet når du oppretter nye eller oppdaterer eksisterende ressurser."
       is_for_all: "Merk egendefinert felt som tilgjengelig for alle eksisterende og nye prosjekter."
       searchable: "Inkluder feltverdier ved bruk av den globale søkefunksjonaliteten."
-      editable: "La feltet være redigerbar av brukere selv."
+      editable: "La feltet være redigerbart av brukere selv."
       visible: "Feltet synlig for alle brukere (ikke-administratorer) i prosjektoversikten og vises i prosjektdetalj-widgeten i Prosjektoversikten."
       is_filter: >
         Tillat at egendefinert felt brukes i filter i arbeidspakkevisninger. Merk at med 'For alle prosjekter' som er valgt, vil egendefinert felt vises i globale visninger.
@@ -294,8 +294,12 @@
         actions:
           label_enable_single: "Aktivert i dette prosjektet, klikk for å deaktivere"
           label_disable_single: "Deaktivert i dette prosjektet, klikk for å aktivere"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Aktiver alle"
           label_disable_all: "Deaktiver alle"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
       types:
         no_results_title_text: Det finnes ingen tilgjengelige typer.
         form:
@@ -421,7 +425,7 @@
     deletion_info:
       heading: "Slett plassholderbruker %{name}"
       data_consequences: >
-        Alle forekomster av plassholderbrukeren (f.eks. som deltaker, ansvarlig eller andre brukerverdier) blir tilordnet på nytt til en konto kalt "Slettet bruker". Siden dataene for hver slettede konto blir tilordnet denne kontoen vil det ikke være mulig å skille dataene brukeren har opprettet fra data for en annen slettet konto.
+        Alle forekomster av plassholderbrukeren (f.eks. som utførende, ansvarlig eller andre brukerverdier) blir tilordnet på nytt til en konto kalt "Slettet bruker". Siden dataene for hver slettede konto blir tilordnet denne kontoen vil det ikke være mulig å skille dataene brukeren har opprettet fra data for en annen slettet konto.
       irreversible: "Du kan ikke angre denne handlingen"
       confirmation: "Skriv inn plassholderbrukernavnet %{name} for å bekrefte slettingen."
     upsale:
@@ -759,6 +763,7 @@
         before_or_equal_to: "må være før eller lik %{date}."
         blank: "kan ikke være blank."
         blank_nested: "må ha egenskapen '%{property}' aktivert."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "En arbeidspakke kan ikke knyttes til en av sine deloppgaver."
         circular_dependency: "En slik relasjon ville lage en sirkulær avhengighet."
         confirmation: "samsvarer ikke med %{attribute}."
@@ -1163,7 +1168,7 @@
   attributes:
     active: "Aktiv"
     assigned_to: "Deltaker"
-    assignee: "Deltaker"
+    assignee: "Utførende"
     attachments: "Vedlegg"
     author: "Forfatter"
     base: "Generell feil:"
@@ -2755,7 +2760,7 @@
   query_fields:
     active_or_archived: "Aktiv eller arkivert"
     assigned_to_role: "Deltakers rolle"
-    assignee_or_group: "Tildelt eller tilhørende gruppe"
+    assignee_or_group: "Utførende eller tilhørende gruppe"
     member_of_group: "Deltakers gruppe"
     name_or_identifier: "Navn eller identifikator"
     only_subproject_id: "Bare underprosjekt"

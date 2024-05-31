@@ -333,7 +333,7 @@ cs:
         title: "Gantt chart PDF options"
         button_export: "Export"
         column_widths:
-          narrow: "Narrow"
+          narrow: "Úzké"
           medium: "Střední"
           wide: "Široké"
           very_wide: "Velmi široký"
@@ -657,7 +657,7 @@ cs:
           no_selection: "Klikněte na oznámení pro zobrazení všech podrobností o aktivitě."
         new_notifications:
           message: "Máte nová oznámení."
-          link_text: "Click here to load them."
+          link_text: "Klikněte zde pro jejich načtení."
       menu:
         accountable: "Odpovědný"
         by_project: "Nepřečteno dle projektu"
@@ -1350,7 +1350,7 @@ cs:
         Close: "Zavřít"
     open_project_storage_modal:
       waiting_title:
-        timeout: "Timeout"
+        timeout: "Vypršel časový limit"
       waiting_subtitle:
         network_off: "Je tu problém se sítí."
         network_on: "Network is back. We are trying."
