@@ -90,12 +90,13 @@ module Projects::Concerns
     end
 
     def disable_custom_fields_with_empty_values(new_project)
-      # ideally, `build_missing_project_custom_field_project_mappings` would not activate custom fields with empty values
-      # but:
-      # this hook is required as acts_as_customizable build custom values with their default value even if a blank value
-      # was provided in the project creation form `build_missing_project_custom_field_project_mappings` will then activate
-      # the custom field although the user explicitly provided a blank value in order to not patch `acts_as_customizable`
-      # further, we simply identify these custom values and deactivate the custom field
+      # Ideally, `build_missing_project_custom_field_project_mappings` would not activate custom fields
+      # with empty values, but:
+      # This hook is required as acts_as_customizable build custom values with their default value
+      # even if a blank value was provided in the project creation form.
+      # `build_missing_project_custom_field_project_mappings` will then activate the custom field,
+      # although the user explicitly provided a blank value. In order to not patch `acts_as_customizable`
+      # further, we simply identify these custom values and deactivate the custom field.
 
       custom_field_ids = new_project.custom_values.select { |cv| cv.value.blank? && !cv.required? }.pluck(:custom_field_id)
       custom_field_project_mappings = new_project.project_custom_field_project_mappings
@@ -108,8 +109,8 @@ module Projects::Concerns
     end
 
     def build_missing_project_custom_field_project_mappings(project)
-      # activate custom fields for this project (via mapping table) if values have been provided
-      # for custom_fields but no mapping exists
+      # Activate custom fields for this project (via mapping table) if values have been provided
+      # for custom_fields, but no mapping exists.
       custom_field_ids = project.custom_values
         .select { |cv| cv.value.present? }
         .pluck(:custom_field_id).uniq
