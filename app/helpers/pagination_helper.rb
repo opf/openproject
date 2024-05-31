@@ -48,7 +48,7 @@ module PaginationHelper
   end
 
   def pagination_option_links(paginator, pagination_options)
-    allowed_params = pagination_options[:allowed_params] || %w[filters sortBy expand]
+    allowed_params = pagination_options[:allowed_params] || %w[filters sortBy]
 
     option_links = pagination_settings(paginator,
                                        pagination_options[:params]
