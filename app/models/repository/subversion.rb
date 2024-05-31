@@ -54,7 +54,7 @@ class Repository::Subversion < Repository
   end
 
   def self.permitted_params(params)
-    super(params).merge(params.permit(:login, :password))
+    super.merge(params.permit(:login, :password))
   end
 
   def self.supported_types

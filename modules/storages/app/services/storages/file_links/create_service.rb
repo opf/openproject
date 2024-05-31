@@ -33,7 +33,7 @@ class Storages::FileLinks::CreateService < BaseServices::Create
       service_result
     else
       # create
-      super(service_result)
+      super
     end
   end
 

@@ -45,7 +45,7 @@ module Storages::ProjectStorages
     # by ::BaseServices::Delete
     def persist(service_result)
       # Perform the @object.destroy etc. in the super-class
-      super(service_result).tap do |deletion_result|
+      super.tap do |deletion_result|
         if deletion_result.success?
           delete_associated_file_links
           OpenProject::Notifications.send(

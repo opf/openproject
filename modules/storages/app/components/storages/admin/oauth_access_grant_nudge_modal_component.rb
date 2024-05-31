@@ -36,9 +36,9 @@ module Storages::Admin
 
     attr_reader :project_storage
 
-    def initialize(project_storage:, **options)
+    def initialize(project_storage:, **)
       @project_storage = find_project_storage(project_storage)
-      super(@project_storage, **options)
+      super(@project_storage, **)
     end
 
     def render?

@@ -50,7 +50,7 @@ module Pages
     end
 
     def expect_work_package_listed(*work_packages)
-      super(*work_packages)
+      super
 
       within(timeline_container) do
         work_packages.each do |wp|

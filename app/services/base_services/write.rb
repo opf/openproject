@@ -31,7 +31,7 @@ module BaseServices
     protected
 
     def persist(service_result)
-      service_result = super(service_result)
+      service_result = super(service_result) # rubocop:disable Style/SuperArguments
 
       unless service_result.result.save
         service_result.errors = service_result.result.errors

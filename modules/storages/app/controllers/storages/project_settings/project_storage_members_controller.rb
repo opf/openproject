@@ -58,7 +58,7 @@ class Storages::ProjectSettings::ProjectStorageMembersController < Projects::Set
   private
 
   def find_model_object(object_id = :project_storage_id)
-    super(object_id)
+    super
     @project_storage = @object
     @storage = @project_storage.storage
   end
