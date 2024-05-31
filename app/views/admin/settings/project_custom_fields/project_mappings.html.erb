@@ -35,7 +35,6 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <%=
-
   if @custom_field.required?
     render Primer::Beta::Blankslate.new(border: true) do |component|
       component.with_visual_icon(icon: :checklist)
@@ -45,7 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
   else
     render(Settings::ProjectCustomFields::ProjectCustomFieldMapping::TableComponent.new(
       query: @project_custom_field_mappings_query,
-      params: { custom_field: @custom_field })
+      params: params.merge({ custom_field: @custom_field }))
     )
   end
 %>
