@@ -30,57 +30,35 @@
 
 require "spec_helper"
 
-module TableHelpers::Column
-  RSpec.describe Generic do
-    subject(:column) { described_class.new(header: "Some header") }
-
-    describe "#format" do
-      it "renders the value as string" do
-        expect(column.format("hello")).to eq "hello"
-        expect(column.format(42)).to eq "42"
-        expect(column.format(3.5)).to eq "3.5"
-        expect(column.format(nil)).to eq ""
-        expect(column.format(true)).to eq "true"
-      end
-    end
-
-    describe "#cell_format" do
-      it "renders the value on the left side of the cell" do
-        expect(column.cell_format("hello", 0)).to eq "hello"
-        expect(column.cell_format("hello", 10)).to eq "hello     "
-        expect(column.cell_format("hello", 20)).to eq "hello               "
-      end
-    end
-  end
-
+module TableHelpers::ColumnType
   RSpec.describe Duration do
-    subject(:column) { described_class.new(header: "Duration in hours") }
+    subject(:column_type) { described_class.new }
 
     describe "#parse" do
       it "parses empty string as nil" do
-        expect(column.parse("")).to be_nil
+        expect(column_type.parse("")).to be_nil
       end
     end
 
     describe "#format" do
       it 'renders the duration with a "h" suffix' do
-        expect(column.format(3.5)).to eq "3.5h"
+        expect(column_type.format(3.5)).to eq "3.5h"
       end
 
       it "renders the duration without the decimal part if the decimal part is 0" do
-        expect(column.format(3.0)).to eq "3h"
+        expect(column_type.format(3.0)).to eq "3h"
       end
 
       it "renders nothing if nil" do
-        expect(column.format(nil)).to eq ""
+        expect(column_type.format(nil)).to eq ""
       end
     end
 
     describe "#cell_format" do
       it "renders the duration on the right side of the cell" do
-        expect(column.cell_format(3.5, 0)).to eq "3.5h"
-        expect(column.cell_format(3.5, 10)).to eq "      3.5h"
-        expect(column.cell_format(3.5, 20)).to eq "                3.5h"
+        expect(column_type.cell_format(3.5, 0)).to eq "3.5h"
+        expect(column_type.cell_format(3.5, 10)).to eq "      3.5h"
+        expect(column_type.cell_format(3.5, 20)).to eq "                3.5h"
       end
     end
   end

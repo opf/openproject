@@ -29,195 +29,98 @@
 #++
 
 require_relative "identifier"
+require_relative "column_type/generic"
+require_relative "column_type/with_identifier_metadata"
+require_relative "column_type/duration"
+require_relative "column_type/hierarchy"
+require_relative "column_type/percentage"
+require_relative "column_type/status"
+require_relative "column_type/subject"
 
 module TableHelpers
-  module Column
+  class Column
     extend Identifier
 
+    COLUMN_TYPES = {
+      estimated_hours: ColumnType::Duration,
+      derived_estimated_hours: ColumnType::Duration,
+      remaining_hours: ColumnType::Duration,
+      derived_remaining_hours: ColumnType::Duration,
+      done_ratio: ColumnType::Percentage,
+      derived_done_ratio: ColumnType::Percentage,
+      hierarchy: ColumnType::Hierarchy,
+      status: ColumnType::Status,
+      subject: ColumnType::Subject,
+      __fallback__: ColumnType::Generic
+    }.freeze
+
     def self.for(header)
+      new(header:, attribute: attribute_for(header))
+    end
+
+    def self.attribute_for(header)
       case header
       when /\A\s*estimated hours/i
         raise ArgumentError, 'Please use "work" instead of "estimated hours"'
       when /derived estimated hours/i
-        raise ArgumentError, 'Please use "derived work" instead of "derived estimated hours"'
-      when /derived remaining hours/i
-        raise ArgumentError, 'Please use "derived remaining work" instead of "derived remaining hours"'
+        raise ArgumentError, 'Please use "∑ work" instead of "derived estimated hours"'
       when /\A\s*remaining hours/i
         raise ArgumentError, 'Please use "remaining work" instead of "remaining hours"'
+      when /derived remaining hours/i
+        raise ArgumentError, 'Please use "∑ remaining work" instead of "derived remaining hours"'
       when /\A\s*work/i
-        Duration.new(header:, attribute: :estimated_hours)
+        :estimated_hours
       when /(∑|derived|total) work/i
-        Duration.new(header:, attribute: :derived_estimated_hours)
+        :derived_estimated_hours
       when /\A\s*remaining work/i
-        Duration.new(header:, attribute: :remaining_hours)
+        :remaining_hours
       when /(∑|derived|total) remaining work/i
-        Duration.new(header:, attribute: :derived_remaining_hours)
+        :derived_remaining_hours
       when /\A\s*% complete/i
-        Percentage.new(header:, attribute: :done_ratio)
+        :done_ratio
       when /(∑|derived|total) % complete/i
-        Percentage.new(header:, attribute: :derived_done_ratio)
+        :derived_done_ratio
       when /end date/i
-        Generic.new(header:, attribute: :due_date)
-      when /status/
-        Status.new(header:)
-      when /subject/
-        Subject.new(header:)
-      when /hierarchy/
-        Hierarchy.new(header:)
+        :due_date
+      when /status/, /hierarchy/
+        to_identifier(header)
       else
-        assert_work_package_attribute_exists(header)
-        Generic.new(header:)
+        attribute = to_identifier(header)
+        assert_work_package_attribute_exists(attribute)
+        attribute
+      end
+    end
+
+    attr_reader :attribute, :raw_header, :title
+
+    def initialize(header:, attribute:)
+      @raw_header = header
+      @title = header.strip
+      @attribute = attribute
+    end
+
+    def column_type
+      @column_type ||= COLUMN_TYPES.fetch(attribute, COLUMN_TYPES[:__fallback__]).new
+    end
+
+    delegate :format, :cell_format, to: :column_type
+
+    def attributes_for_work_package(work_package)
+      column_type.attributes_for_work_package(attribute, work_package)
+    end
+
+    def read_and_update_work_packages_data(work_packages_data)
+      work_packages_data.each do |work_package_data|
+        work_package_data.deep_merge!(
+          column_type.extract_data(attribute, raw_header, work_package_data, work_packages_data)
+        )
       end
     end
 
     def self.assert_work_package_attribute_exists(attribute)
-      attribute = to_identifier(attribute).to_s
-      return if WorkPackage.attribute_names.include?(attribute)
+      return if WorkPackage.attribute_names.include?(attribute.to_s)
 
       raise ArgumentError, "WorkPackage does not have an attribute named #{attribute.inspect}"
-    end
-
-    class Generic
-      include Identifier
-
-      attr_reader :attribute, :title, :raw_header
-
-      def initialize(header:, attribute: nil)
-        @raw_header = header
-        @title = header.strip
-        @attribute = attribute || to_identifier(title)
-      end
-
-      def format(value)
-        value.to_s
-      end
-
-      def cell_format(value, size)
-        format(value).send(text_align, size)
-      end
-
-      def parse(raw_value)
-        raw_value.strip
-      end
-
-      def text_align
-        :ljust
-      end
-
-      def attribute_value_for(work_package)
-        work_package.read_attribute(attribute)
-      end
-
-      def read_and_update_work_packages_data(work_packages_data)
-        work_packages_data.each do |work_package_data|
-          work_package_data => { attributes:, row: }
-          raw_value = row[raw_header]
-          work_package_data.merge!(metadata_for_value(raw_value))
-          attributes.merge!(attributes_for_raw_value(raw_value, work_package_data, work_packages_data))
-        end
-      end
-
-      def attributes_for_work_package(work_package)
-        { attribute => work_package.read_attribute(attribute) }
-      end
-
-      def attributes_for_raw_value(raw_value, _data, _work_packages_data)
-        { attribute => parse(raw_value) }
-      end
-
-      def metadata_for_value(_raw_value)
-        {}
-      end
-    end
-
-    module WithIdentifierMetadata
-      include Identifier
-
-      def metadata_for_value(raw_value, *)
-        super.merge(identifier: to_identifier(raw_value))
-      end
-    end
-
-    class Duration < Generic
-      def text_align
-        :rjust
-      end
-
-      def format(value)
-        if value.nil?
-          ""
-        elsif value == value.truncate
-          "%sh" % value.to_i
-        else
-          "%sh" % value
-        end
-      end
-
-      def parse(raw_value)
-        raw_value.blank? ? nil : raw_value.to_f
-      end
-    end
-
-    class Percentage < Generic
-      def text_align
-        :rjust
-      end
-
-      def format(value)
-        if value.nil?
-          ""
-        else
-          "%s%%" % value.to_i
-        end
-      end
-
-      def parse(raw_value)
-        raw_value.blank? ? nil : raw_value.to_i
-      end
-    end
-
-    class Status < Generic
-      def attributes_for_work_package(work_package)
-        { status: work_package.status.name }
-      end
-    end
-
-    class Subject < Generic
-      include WithIdentifierMetadata
-    end
-
-    class Hierarchy < Generic
-      include WithIdentifierMetadata
-
-      def attributes_for_work_package(work_package)
-        {
-          parent: to_identifier(work_package.parent&.subject),
-          subject: work_package.subject
-        }
-      end
-
-      def attributes_for_raw_value(raw_value, data, work_packages_data)
-        {
-          parent: find_parent(data, work_packages_data),
-          subject: parse(raw_value)
-        }
-      end
-
-      def metadata_for_value(raw_value)
-        super.merge(hierarchy_indent: raw_value[/\A */].size)
-      end
-
-      private
-
-      def find_parent(data, work_packages_data)
-        return if data[:hierarchy_indent] == 0
-
-        work_packages_data
-            .slice(0, data[:index])
-            .reverse
-            .find { _1[:hierarchy_indent] < data[:hierarchy_indent] }
-            .then { _1&.fetch(:identifier) }
-      end
     end
   end
 end
