@@ -39,7 +39,7 @@ module Admin::Settings
     # rubocop:disable Rails/LexicallyScopedActionFilter
     before_action :set_sections, only: %i[show index edit update move drop]
     before_action :find_custom_field,
-                  only: %i(show edit project_mappings unlink update destroy delete_option reorder_alphabetical move drop)
+                  only: %i(show edit project_mappings link unlink update destroy delete_option reorder_alphabetical move drop)
     before_action :prepare_custom_option_position, only: %i(update create)
     before_action :find_custom_option, only: :delete_option
     before_action :project_custom_field_mappings_query, only: %i[project_mappings unlink]
@@ -73,11 +73,14 @@ module Admin::Settings
     end
 
     def link
-      @project_mapping = ProjectCustomFieldProjectMapping.new(permitted_params.project_custom_field_project_mapping)
+      @project_mapping = ProjectCustomFieldProjectMapping.new(
+        project_id: permitted_params.project_custom_field_project_mapping["project_id"],
+        custom_field_id: @custom_field.id
+      )
 
       create_service = ProjectCustomFieldProjectMappings::CreateService
-                       .new(user: current_user, model: @project_mapping)
-                       .call
+                         .new(user: current_user)
+                         .call(custom_field_id: @project_mapping.custom_field_id, project_id: @project_mapping.project_id)
 
       create_service.on_success { render_unlink_response(project: @project_mapping.project) }
 
