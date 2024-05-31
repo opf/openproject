@@ -17,7 +17,7 @@ You can adjust the following:
 
 3. **Use current date as start date for new work packages**. This way the current date will always be set as a start date if your create new work packages. Also, if you copy projects, the new work packages will get the current date as start date.
 
-4. **Progress calculation** lets you pick between two modes for how the **% Complete** field is calculated for work packages.
+4. **Progress calculation** lets you pick between two modes for how the **%&nbsp;Complete** field is calculated for work packages.
   - **Work-based**: %&nbsp;Complete is automatically calculated based on Work and Remaining work values for that work package, both of which are then necessary to have a value for %&nbsp;Complete.
   - **Status-based**: you will have to define fixed %&nbsp;Complete values for each [work package status](../work-package-status), which will update automatically when team members update the status of their work packages.
 
