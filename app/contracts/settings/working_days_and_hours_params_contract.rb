@@ -35,6 +35,7 @@ module Settings
     validate :days_per_week_are_present
     validate :days_per_month_are_present
     validate :durations_are_positive_values
+    validate :durations_are_within_bounds
     validate :days_per_week_and_days_per_month_are_consistent
     validate :unique_job
 
@@ -71,6 +72,12 @@ module Settings
         any_duration_is_negative_or_zero?
         errors.add :base, :durations_are_not_positive_numbers
       end
+    end
+
+    def durations_are_within_bounds
+      errors.add :base, :hours_per_day_is_out_of_bounds if hours_per_day.to_i > 24
+      errors.add :base, :days_per_week_is_out_of_bounds if days_per_week.to_i > 7
+      errors.add :base, :days_per_month_is_out_of_bounds if days_per_month.to_i > 31
     end
 
     def any_duration_is_negative_or_zero?

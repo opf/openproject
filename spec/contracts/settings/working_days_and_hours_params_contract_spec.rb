@@ -92,9 +92,29 @@ RSpec.describe Settings::WorkingDaysAndHoursParamsContract do
     end
   end
 
+  describe "Text durations" do
+    let(:params) { { working_days: [1], hours_per_day: "blah", days_per_week: "5", days_per_month: "20" } }
+
+    include_examples "contract is invalid", base: :durations_are_not_positive_numbers
+  end
+
   describe "Negative durations" do
     let(:params) { { working_days: [1], hours_per_day: -2, days_per_week: -5, days_per_month: -20 } }
 
     include_examples "contract is invalid", base: :durations_are_not_positive_numbers
+  end
+
+  describe "Out-of-bounds durations" do
+    context "when hours_per_day is greater than 24" do
+      let(:params) { { working_days: [1], hours_per_day: 25, days_per_week: 5, days_per_month: 20 } }
+
+      include_examples "contract is invalid", base: :hours_per_day_is_out_of_bounds
+    end
+
+    context "when days_per_week is greater than 7 and days_per_month is greater than 31" do
+      let(:params) { { working_days: [1], hours_per_day: 8, days_per_week: 8, days_per_month: 32 } }
+
+      include_examples "contract is invalid", base: %i[days_per_week_is_out_of_bounds days_per_month_is_out_of_bounds]
+    end
   end
 end
