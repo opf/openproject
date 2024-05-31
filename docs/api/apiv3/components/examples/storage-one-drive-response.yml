@@ -8,7 +8,7 @@ value:
   driveId: b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY8Qconfm2i6SKEoCmuGYqQK
   createdAt: '2021-12-20T13:37:00.211Z'
   updatedAt: '2021-12-20T13:37:00.211Z'
-  complete: true
+  configured: true
   _embedded:
     oauthClientCredentials:
       _type: OAuthClientCredentials
@@ -44,7 +44,7 @@ value:
     authorizationState:
       href: urn:openproject-org:api:v3:storages:authorization:Connected
       title: Connected
-    projectStrages:
+    projectStorages:
       href: /api/v3/project_storages?filters=[{"storageId":{"operator":"=","values":["1337"]}}]
     oauthClientCredentials:
       href: /api/v3/oauth_client_credentials/42

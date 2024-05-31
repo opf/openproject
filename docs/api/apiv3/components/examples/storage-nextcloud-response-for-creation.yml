@@ -7,7 +7,7 @@ value:
   hasApplicationPassword: false
   createdAt: '2024-05-21T09:11:53.880Z'
   updatedAt: '2024-05-21T09:11:53.880Z'
-  complete: false
+  configured: false
   _embedded:
     oauthApplication:
       id: 42
@@ -46,7 +46,7 @@ value:
     authorizationState:
       href: urn:openproject-org:api:v3:storages:authorization:FailedAuthorization
       title: Authorization failed
-    projectStrages:
+    projectStorages:
       href: /api/v3/project_storages?filters=[{"storageId":{"operator":"=","values":["1337"]}}]
     oauthApplication:
       href: /api/v3/oauth_application/42

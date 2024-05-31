@@ -7,7 +7,7 @@ value:
   hasApplicationPassword: false
   createdAt: '2021-12-20T13:37:00.211Z'
   updatedAt: '2021-12-20T13:37:00.211Z'
-  complete: true
+  configured: true
   _embedded:
     oauthApplication:
       id: 42
@@ -61,7 +61,7 @@ value:
     authorize:
       href: https://nextcloud25.local/index.php/apps/oauth2/authorize?client_id=fnrIeJZqqAKGQlejuDaGhSQfCAVtoayHLACWCYcPJ0w17Pp6daPPUktkM9QaGxca&redirect_uri=https://openproject.local/oauth_clients/fnrIeJZqqAKGQlejuDaGhSQfCAVtoayHLACWCYcPJ0w17Pp6daPPUktkM9QaGxca/callback&response_type=code
       title: Authorize
-    projectStrages:
+    projectStorages:
       href: /api/v3/project_storages?filters=[{"storageId":{"operator":"=","values":["1337"]}}]
     oauthApplication:
       href: /api/v3/oauth_application/42
