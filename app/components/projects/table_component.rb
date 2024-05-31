@@ -90,7 +90,10 @@ module Projects
 
     def href_only_when_not_sort_lft
       unless sorted_by_lft?
-        projects_path(sortBy: JSON.dump([%w[lft asc]]), **helpers.projects_query_params.except(:sortBy))
+        projects_path(
+          sortBy: JSON.dump([%w[lft asc]]),
+          **helpers.projects_query_params.slice(*helpers.projects_query_param_names_for_sort)
+        )
       end
     end
 
