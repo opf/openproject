@@ -560,9 +560,11 @@ class PermittedParams
           { type_ids: [] }
         ],
         project_custom_field_project_mapping: %i(
+          id
           project_id
           custom_field_id
           custom_field_section_id
+          include_sub_projects
         ),
         query: %i(
           name
