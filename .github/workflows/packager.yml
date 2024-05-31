@@ -31,10 +31,8 @@ jobs:
           - ubuntu:20.04
           - ubuntu:22.04
           - ubuntu:24.04
-          - el:7
           - el:8
           - el:9
-          - sles:12
           - sles:15
     steps:
       - uses: actions/checkout@v4
@@ -46,7 +44,7 @@ jobs:
           VERSION=$(ruby -r ./lib/open_project/version.rb -e "puts OpenProject::VERSION")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
       - name: Package
-        uses: pkgr/action/package@feature/publish
+        uses: pkgr/action/package@v1
         id: package
         with:
           target: ${{ matrix.target }}
@@ -54,10 +52,11 @@ jobs:
           debug: true
           env: |
             DATABASE_URL=postgres://app:p4ssw0rd@127.0.0.1:5432/app
-            OTHER_ENV=value
-
-      # - name: Upload
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: ${{ steps.package.outputs.package_name }}
-      #     path: ${{ steps.package.outputs.package_path }}
+      - name: Publish
+        uses: pkgr/action/publish@v1
+        with:
+          target: ${{ matrix.target }}
+          token: ${{ secrets.PACKAGER_PUBLISH_TOKEN }}
+          repository: opf/openproject
+          channel: test
+          artefact: ${{ steps.package.outputs.package_path }}
