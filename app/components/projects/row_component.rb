@@ -227,7 +227,7 @@ module Projects
                          label:,
                          test_selector: "project-list-row--action-menu-item",
                          content_arguments: button_options) do |item|
-            item.with_leading_visual_icon(icon:)
+            item.with_leading_visual_icon(icon:) if icon
           end
         end
       end

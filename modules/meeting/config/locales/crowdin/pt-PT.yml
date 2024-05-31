@@ -107,8 +107,8 @@ pt-PT:
       agenda: "Copiar agenda"
       agenda_text: "Copiar agenda da reunião anterior"
     email:
-      send_emails: "Send emails"
-      send_invitation_emails: "Send out invitation emails upon creation"
+      send_emails: "Enviar e-mails"
+      send_invitation_emails: "Enviar e-mails de convite após a criação"
       open_meeting_link: "Entrar na Reunião"
       invited:
         summary: "%{actor} enviou-lhe um convite para a reunião %{title}"

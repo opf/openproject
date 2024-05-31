@@ -9,8 +9,8 @@ ms:
   export:
     format:
       xls: "XLS"
-      xls_with_descriptions: "XLS serta deskripsi"
-      xls_with_relations: "XLS serta hubungan"
+      xls_with_descriptions: "XLS dengan deskripsi"
+      xls_with_relations: "XLS dengan hubungan"
   xls_export:
     child_of: anak kepada
     parent_of: induk kepada
