@@ -728,7 +728,7 @@ module Settings
         writable: false
       },
       rails_cache_store: {
-        description: "Set cache store implemenation to use with OpenProject",
+        description: "Set cache store implementation to use with OpenProject",
         format: :symbol,
         default: :file_store,
         writable: false,
