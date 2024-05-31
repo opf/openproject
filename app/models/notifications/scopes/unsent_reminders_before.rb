@@ -36,7 +36,7 @@ module Notifications::Scopes
       def unsent_reminders_before(recipient:, time:)
         where(Notification.arel_table[:created_at].lteq(time))
           .where(recipient:)
-          .where("read_ian IS NULL OR read_ian IS FALSE")
+          .where(read_ian: [false, nil])
           .where(mail_reminder_sent: false)
       end
     end
