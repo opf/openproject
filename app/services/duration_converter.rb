@@ -81,12 +81,10 @@ class DurationConverter
 
   class << self
     def parse(duration_string)
-      # Keep 0 values and convert the extracted duration to hours
-      # by dividing by 3600.
-
+      # Assume the next logical unit to allow users to write
+      # durations such as "2h 1" assuming "1" is "1 minute"
       last_unit_in_string = duration_string.scan(/[a-zA-Z]+/)
                                            .last
-
       default_unit = if last_unit_in_string
                        last_unit_in_string
                          .then { |last_unit| UNIT_ABBREVIATION_MAP[last_unit.downcase] }
@@ -104,7 +102,11 @@ class DurationConverter
     def output(duration_in_hours)
       return duration_in_hours if duration_in_hours.nil?
 
-      duration_in_seconds = convert_duration_to_seconds(duration_in_hours)
+      # Prevents rounding errors when including seconds by chopping
+      # off the overflow seconds and keeping the nearest minute.
+      seconds = ((duration_in_hours * 3600) + 30).to_i
+      seconds_overflow = seconds % 60
+      seconds_to_the_nearest_minute = seconds - seconds_overflow
 
       # return "0 h" if parsing 0.
       # ChronicDuration returns nil when parsing 0.
@@ -112,10 +114,15 @@ class DurationConverter
       # keeping zeroes, we'd format this as "0 secs".
       #
       # We want to override this behavior.
-      if ChronicDuration.output(duration_in_seconds, default_unit: "hours", **duration_length_options).nil?
+      if ChronicDuration.output(seconds_to_the_nearest_minute,
+                                default_unit: "hours",
+                                **duration_length_options).nil?
         "0h"
       else
-        ChronicDuration.output(duration_in_seconds, default_unit: "hours", format: :short, **duration_length_options)
+        ChronicDuration.output(seconds_to_the_nearest_minute,
+                               default_unit: "hours",
+                               format: :short,
+                               **duration_length_options)
       end
     end
 

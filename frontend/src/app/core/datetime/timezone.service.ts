@@ -116,6 +116,10 @@ export class TimezoneService {
     ];
   }
 
+  public toSeconds(durationString:string):number {
+    return Number(moment.duration(durationString).asSeconds().toFixed(2));
+  }
+
   public toHours(durationString:string):number {
     return Number(moment.duration(durationString).asHours().toFixed(2));
   }
@@ -153,7 +157,12 @@ export class TimezoneService {
     daysPerMonth: this.configurationService.daysPerMonth(),
     weeks: true,
   }):string {
-    return outputChronicDuration(this.toHours(durationString) * 3600, opts) || '0h';
+    // Keep in sync with app/services/duration_converter#output
+    const seconds = this.toSeconds(durationString) + 30;
+    const secondsOverflow = seconds % 60;
+    const secondsToTheNearestMinute = seconds - secondsOverflow;
+
+    return outputChronicDuration(secondsToTheNearestMinute, opts) || '0h';
   }
 
   public formattedISODate(date:any):string {

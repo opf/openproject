@@ -67,9 +67,11 @@ RSpec.describe DurationConverter do
         .to eq("5h 45m")
     end
 
-    it "handles floating point numbers gracefully" do
+    it "ignores seconds and keep the nearest minute" do
       expect(described_class.output(0.28))
-        .to eq("16m 48s")
+        .to eq("17m")
+      expect(described_class.output(2.23))
+        .to eq("2h 14m")
     end
   end
 end
