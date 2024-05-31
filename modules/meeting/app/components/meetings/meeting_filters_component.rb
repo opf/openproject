@@ -39,15 +39,6 @@ module Meetings
         .sort_by(&:human_name)
     end
 
-    def filters_count
-      @filters_count ||= begin
-        count = super
-        count -= 1 if project.present?
-
-        count
-      end
-    end
-
     protected
 
     def additional_filter_attributes(filter)

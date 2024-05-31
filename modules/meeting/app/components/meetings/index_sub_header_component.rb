@@ -29,29 +29,39 @@
 # ++
 
 module Meetings
-  class IndexPageHeaderComponent < ApplicationComponent
+  # rubocop:disable OpenProject/AddPreviewForViewComponent
+  class IndexSubHeaderComponent < ApplicationComponent
+    # rubocop:enable OpenProject/AddPreviewForViewComponent
     include ApplicationHelper
 
-    def initialize(project: nil)
+    def initialize(query:, project: nil)
       super
+      @query = query
       @project = project
     end
 
-    def page_title
-      I18n.t(:label_meeting_plural)
-    end
-
-    def breadcrumb_items
-      [parent_element,
-       page_title]
-    end
-
-    def parent_element
-      if @project.present?
-        { href: project_overview_path(@project.id), text: @project.name }
+    def render_create_button?
+      if @project
+        User.current.allowed_in_project?(:create_meetings, @project)
       else
-        { href: home_path, text: I18n.t(:label_home) }
+        User.current.allowed_in_any_project?(:create_meetings)
       end
+    end
+
+    def dynamic_path
+      polymorphic_path([:new, @project, :meeting])
+    end
+
+    def id
+      "add-meeting-button"
+    end
+
+    def accessibility_label_text
+      I18n.t(:label_meeting_new)
+    end
+
+    def label_text
+      I18n.t(:label_meeting)
     end
   end
 end
