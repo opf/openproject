@@ -51,11 +51,11 @@ module Queries
         raise NotImplementedError
       end
 
-      def scope
-        scope = order
-        scope = scope.joins(joins) if joins
-        scope = scope.left_outer_joins(left_outer_joins) if left_outer_joins
-        scope
+      def apply_to(query_scope)
+        query_scope = order(query_scope)
+        query_scope = query_scope.joins(joins) if joins
+        query_scope = query_scope.left_outer_joins(left_outer_joins) if left_outer_joins
+        query_scope
       end
 
       def name
@@ -68,8 +68,8 @@ module Queries
 
       private
 
-      def order
-        model.order(name => direction)
+      def order(scope)
+        scope.order(name => direction)
       end
 
       def joins

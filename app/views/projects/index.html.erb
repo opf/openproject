@@ -39,20 +39,24 @@ See COPYRIGHT and LICENSE files for more details.
       )
   %>
 
-  <%= render(Projects::ProjectsFiltersComponent.new(query:)) do |component|
-    if current_user.allowed_globally?(:add_project)
-      component.with_button(
-        tag: :a,
-        href: new_project_path,
-        scheme: :primary,
-        size: :medium,
-        aria: { label: I18n.t(:label_project_new) },
-        data: { 'test-selector': 'project-new-button' }) do |button|
-        button.with_leading_visual_icon(icon: :plus)
-        Project.model_name.human
+  <%=
+    disable_extra_controls = state == :rename
+
+    render(Projects::ProjectsFiltersComponent.new(query:, disabled: disable_extra_controls)) do |component|
+      if current_user.allowed_globally?(:add_project)
+        component.with_button(
+          tag: :a,
+          href: new_project_path,
+          scheme: :primary,
+          disabled: disable_extra_controls,
+          size: :medium,
+          aria: { label: I18n.t(:label_project_new) },
+          data: { 'test-selector': 'project-new-button' }) do |button|
+          button.with_leading_visual_icon(icon: :plus)
+          Project.model_name.human
+        end
       end
     end
-  end
   %>
 
 

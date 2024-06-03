@@ -45,7 +45,7 @@ module LdapGroups
     def map_to_users(sync_group, entries)
       create_missing!(entries) if sync_group.sync_users
 
-      User.where('LOWER(login) IN (?)', entries.keys.map(&:downcase))
+      User.where("LOWER(login) IN (?)", entries.keys.map(&:downcase))
     end
 
     ##
@@ -129,7 +129,7 @@ module LdapGroups
     # Get the memberof filter to use for querying members
     def memberof_filter(group)
       # memberOf filter to identify member entries of the group
-      filter = Net::LDAP::Filter.eq('memberOf', group.dn)
+      filter = Net::LDAP::Filter.eq("memberOf", group.dn)
 
       # Add the LDAP auth source own filter if present
       if ldap.filter_string.present?

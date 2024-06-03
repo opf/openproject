@@ -46,19 +46,19 @@ module Projects
 
     def favored
       render(Primer::Beta::IconButton.new(
-        icon: currently_favored? ? "star-fill" : "star",
-        scheme: :invisible,
-        mobile_icon: currently_favored? ? "star-fill" : "star",
-        size: :medium,
-        tag: :a,
-        tooltip_direction: :e,
-        href: helpers.build_favorite_path(project, format: :html),
-        data: { method: currently_favored? ? :delete : :post },
-        classes: currently_favored? ? "op-primer--star-icon " : "op-project-row-component--favorite",
-        label: currently_favored? ? I18n.t(:button_unfavorite) : I18n.t(:button_favorite),
-        aria: { label: currently_favored? ? I18n.t(:button_unfavorite) : I18n.t(:button_favorite) },
-        test_selector: 'project-list-favorite-button'
-      ))
+               icon: currently_favored? ? "star-fill" : "star",
+               scheme: :invisible,
+               mobile_icon: currently_favored? ? "star-fill" : "star",
+               size: :medium,
+               tag: :a,
+               tooltip_direction: :e,
+               href: helpers.build_favorite_path(project, format: :html),
+               data: { method: currently_favored? ? :delete : :post },
+               classes: currently_favored? ? "op-primer--star-icon " : "op-project-row-component--favorite",
+               label: currently_favored? ? I18n.t(:button_unfavorite) : I18n.t(:button_favorite),
+               aria: { label: currently_favored? ? I18n.t(:button_unfavorite) : I18n.t(:button_favorite) },
+               test_selector: "project-list-favorite-button"
+             ))
     end
 
     def currently_favored?
@@ -197,7 +197,7 @@ module Projects
     def additional_css_class(column)
       if column.attribute == :name
         "project--hierarchy #{project.archived? ? 'archived' : ''}"
-      elsif [:status_explanation, :description].include?(column.attribute)
+      elsif %i[status_explanation description].include?(column.attribute)
         "project-long-text-container"
       elsif custom_field_column?(column)
         cf = column.custom_field
@@ -227,7 +227,7 @@ module Projects
                          label:,
                          test_selector: "project-list-row--action-menu-item",
                          content_arguments: button_options) do |item|
-            item.with_leading_visual_icon(icon:)
+            item.with_leading_visual_icon(icon:) if icon
           end
         end
       end
@@ -254,7 +254,7 @@ module Projects
         href: helpers.build_favorite_path(project, format: :html),
         data: { method: :post },
         label: I18n.t(:button_favorite),
-        aria: { label: I18n.t(:button_favorite) },
+        aria: { label: I18n.t(:button_favorite) }
       }
     end
 
@@ -269,7 +269,7 @@ module Projects
         data: { method: :delete },
         classes: "op-primer--star-icon",
         label: I18n.t(:button_unfavorite),
-        aria: { label: I18n.t(:button_unfavorite) },
+        aria: { label: I18n.t(:button_unfavorite) }
       }
     end
 
@@ -302,7 +302,7 @@ module Projects
           scheme: :default,
           icon: :check,
           label: I18n.t(:label_project_activity),
-          href: project_activity_index_path(project, event_types: ["project_attributes"]),
+          href: project_activity_index_path(project, event_types: ["project_attributes"])
         }
       end
     end
@@ -317,7 +317,7 @@ module Projects
           data: {
             confirm: t("project.archive.are_you_sure", name: project.name),
             method: :post
-          },
+          }
         }
       end
     end
@@ -340,7 +340,7 @@ module Projects
           scheme: :default,
           icon: :copy,
           label: I18n.t(:button_copy),
-          href: copy_project_path(project),
+          href: copy_project_path(project)
         }
       end
     end
@@ -351,7 +351,7 @@ module Projects
           scheme: :danger,
           icon: :trash,
           label: I18n.t(:button_delete),
-          href: confirm_destroy_project_path(project),
+          href: confirm_destroy_project_path(project)
         }
       end
     end
@@ -361,7 +361,7 @@ module Projects
     end
 
     def custom_field_column?(column)
-      column.is_a?(Queries::Projects::Selects::CustomField)
+      column.is_a?(::Queries::Projects::Selects::CustomField)
     end
   end
 end

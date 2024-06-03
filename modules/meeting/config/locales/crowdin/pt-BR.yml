@@ -49,7 +49,7 @@ pt-BR:
         description: "Anotações"
         presenter: "Apresentador"
       meeting_section:
-        title: "Title"
+        title: "Título"
     errors:
       messages:
         invalid_time_format: "não é um horário válido. Formato exigido: HH:MM"
@@ -101,12 +101,14 @@ pt-BR:
     attachments:
       text: "Os arquivos anexados podem ser acessados por todos os participantes da reunião. Além disso, você pode simplesmente arrastá-los e soltá-los nas anotações do item da agenda."
     copy:
-      title: "Copy meeting: %{title}"
+      title: "Copiar reunião: %{title}"
       attachments: "Copiar anexos"
       attachments_text: "Copie todos os arquivos anexados para a nova reunião"
       agenda: "Copiar agenda"
       agenda_text: "Copiar a agenda da antiga reunião"
     email:
+      send_emails: "Enviar e-mails"
+      send_invitation_emails: "Enviar e-mails de convite após a criação"
       open_meeting_link: "Abrir reunião"
       invited:
         summary: "%{actor} enviou a você um convite para a reunião %{title}"
@@ -125,9 +127,10 @@ pt-BR:
       structured_text_copy: "Copiar uma reunião atualmente não copiará os itens associados da agenda da reunião, apenas os detalhes"
     copied: "Copiado para a Reunião #%{id}"
   meeting_section:
-    default_title: "New section"
-    untitled_title: "Untitled"
-    empty_text: "Drag items here or create a new one"
+    untitled_title: "Seção sem título"
+    delete_confirmation: "Excluir a seção também excluirá todos os itens da pauta. Tem certeza de que deseja fazer isso?"
+    placeholder_title: "Nova seção"
+    empty_text: "Arraste itens para cá ou crie um novo."
   notice_successful_notification: "Notificação enviada com sucesso"
   notice_timezone_missing: Nenhum fuso horário está definido, portanto assumiu-se %{zone}. Para escolher o seu fuso horário, clique aqui.
   permission_create_meetings: "Criar reuniões"

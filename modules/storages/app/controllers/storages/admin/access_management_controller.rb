@@ -97,7 +97,7 @@ class Storages::Admin::AccessManagementController < ApplicationController
   private
 
   def find_model_object(object_id = :storage_id)
-    super(object_id)
+    super
     @storage = @object
   end
 

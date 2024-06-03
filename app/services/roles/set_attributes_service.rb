@@ -29,7 +29,7 @@
 module Roles
   class SetAttributesService < ::BaseServices::SetAttributes
     def set_attributes(params)
-      super(params)
+      super
 
       if model.is_a?(ProjectRole)
         model.permissions += OpenProject::AccessControl.public_permissions.map(&:name)

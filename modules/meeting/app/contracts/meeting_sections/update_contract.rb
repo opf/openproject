@@ -30,6 +30,10 @@ module MeetingSections
   class UpdateContract < BaseContract
     validate :user_allowed_to_edit
 
+    # We allow an empty title internally via create to mark an untitled/implicit section
+    # but users should not be able to update it with an empty title through this contract
+    validates :title, presence: true
+
     # Meeting agenda items can currently be only edited
     # through the project permission :manage_agendas
     # When MeetingRole becomes available, agenda items will

@@ -360,11 +360,10 @@ es:
           learn_about: "Más información sobre las nuevas funciones"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                La versión contiene varias características nuevas y mejoras: <br> <ul class="%{list_styling_class}"> <li>Implemente informes de progreso en todas las jerarquías de paquetes de trabajo.</li> <li>Gestione los atributos del proyecto de forma estructurada en la página de descripción general del proyecto.</li> <li>Vista simplificada de los campos personalizados en la lista de proyectos y en la descripción general del proyecto.</li> <li>Encabezados de página unificados con el elegante diseño Primer.</li> <li>Mejore las reuniones con nuevas funciones como la carga de archivos adjuntos, responsables e historial de reuniones. </li> <li>Alertas automáticas para los almacenamientos de archivos poco saludables, y gane control con las opciones de alternancia.</li> <li>Copie la carpeta de proyecto gestionada automáticamente para OneDrive/SharePoint al copiar proyectos.</li> <li>Pida a los administradores que eliminen los recursos compartidos en los paquetes de trabajo al revocar la pertenencia a un proyecto.</li> <li>Mejore la planificación con los modos de visualización de 4 y 8 semanas en el planificador de equipos.</li> </ul>
+                La versión contiene varias novedades y mejoras: <br> <ul class="%{list_styling_class}"> <li>Exportación a PDF de la vista Gantt, por ejemplo para imprimir (complemento Enterprise)</li> <li>Proyectos favoritos</li> <li>Secciones en reuniones</li> <li>Visualización de reuniones en las páginas Mi página y Resumen del proyecto</li> <li>Posibilidad de ocultar los archivos adjuntos en la pestaña Archivos</li> <li>Campos personalizados del tipo Enlace (URL)</li> </ul>
     ical_sharing_modal:
       title: "Suscribirse al calendario"
       inital_setup_error_message: "Se ha producido un error al obtener los datos."
@@ -1345,6 +1344,10 @@ es:
         focus_grab: "Este es una ancla de enfoque para modales. Presione shift+tab para volver al elemento que activa el modal."
         Close: "Cerrar"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
       waiting_subtitle:
         network_off: "Hay un problema de red."
         network_on: "La red ha vuelto. Lo estamos intentando."
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact you OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

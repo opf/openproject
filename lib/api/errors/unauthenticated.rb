@@ -33,7 +33,7 @@ module API
       code 401
 
       def initialize(message = I18n.t("api_v3.errors.code_401"))
-        super(message)
+        super
       end
     end
   end

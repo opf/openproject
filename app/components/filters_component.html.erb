@@ -6,6 +6,7 @@
   <div class="op-filters-header">
     <%= render(Primer::Beta::Button.new(
       scheme: :secondary,
+      disabled:,
       data: { 'filters-target': 'filterFormToggle',
             'action': 'filters#toggleDisplayFilters',
             'test-selector': 'filter-component-toggle' })) do %>

@@ -263,6 +263,7 @@ ca:
       my: "Els meus projectes"
       favored: "Projectes preferits"
       archived: "Projectes arxivats"
+      public: "Public project lists"
       my_private: "Les meves llistes de projectes privats"
       new:
         placeholder: "New project list"
@@ -290,8 +291,12 @@ ca:
         actions:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Enable all"
           label_disable_all: "Disable all"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
       types:
         no_results_title_text: Actualment no hi ha cap classe disponible.
         form:
@@ -308,6 +313,12 @@ ca:
     update:
       success: "The modified list has been saved"
       failure: "The modified list cannot be saved: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
     can_be_saved: "List modified:"
     can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
@@ -327,7 +338,6 @@ ca:
       project_roles: "Project roles"
       wp_shares: "Work package shares"
       groups: "Grups"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -749,6 +759,7 @@ ca:
         before_or_equal_to: "ha de ser igual o abans de %{date}."
         blank: "no pot estar en blanc."
         blank_nested: "és necessari de definir la propietat  '%{property}' ."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "Un paquet de treball no es pot enllaçar a una de les seves subtasques."
         circular_dependency: "Aquesta relació crearia una dependència circular."
         confirmation: "no coincideix amb el %{attribute}."
@@ -909,6 +920,8 @@ ca:
               nonexistent: "La columna '%{column}' no existeix."
               format: "%{message}"
           group_by_hierarchies_exclusive: "és mútuament exclusiu amb el grup per \"%{group_by}\". No pots activar els dos."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "No hi ha cap camp personalitzat pel filtre."
@@ -1316,6 +1329,8 @@ ca:
   button_revoke_access: "Revoke access"
   button_revoke_all: "Revoke all"
   button_revoke_only: "Revoke only %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: Ho entenc i consenteixo els termes explicats a sobre.
     failure_message: Error de concentiment, no es pot procedir.
@@ -2693,6 +2708,7 @@ ca:
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:

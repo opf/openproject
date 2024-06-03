@@ -30,6 +30,7 @@
 
 class FiltersComponent < ApplicationComponent
   options :query
+  options :disabled
   options output_format: "params"
 
   renders_many :buttons, lambda { |**system_arguments|

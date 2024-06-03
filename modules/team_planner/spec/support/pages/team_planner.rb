@@ -36,7 +36,7 @@ module Pages
     attr_reader :filters
 
     def initialize(project)
-      super(project)
+      super
 
       @filters = ::Components::WorkPackages::Filters.new
     end

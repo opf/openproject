@@ -1,6 +1,6 @@
 ms:
   plugin_openproject_openid_connect:
-    name: "Sambungan OpenID OpenProject"
+    name: "Sambungkan OpenID OpenProject"
     description: "Tambah penyedia strategi OmniAuth OpenID Connect ke OpenProject."
   logout_warning: >
     Anda telah log keluar. Sebarang bentuk kandungan yang anda hantar mungkin hilang. Sila [log masuk].
@@ -10,17 +10,17 @@ ms:
         name: Nama
         display_name: Nama paparan
         identifier: Pengenal
-        secret: "Sulit\n"
+        secret: "Rahsia\n"
         scope: Skop
-        limit_self_registration: Had pendaftaran sendiri
+        limit_self_registration: Hadkan pendaftaran sendiri
   openid_connect:
-    menu_title: Pembekal OpenID
+    menu_title: Penyedia OpenID
     providers:
-      label_add_new: Tambah pembekal OpenID baharu
-      label_edit: Edit pembekal OpenID %{name}
-      no_results_table: Belum ada pembekal yang ditetapkan lagi.
-      plural: Pembekal OpenID
-      singular: Pembekal OpenID
+      label_add_new: Tambah penyedia OpenID baru
+      label_edit: Edit penyedia OpenID %{name}
+      no_results_table: Belum ada penyedia yang ditetapkan lagi.
+      plural: Penyedia OpenID
+      singular: Penyedia OpenID
     setting_instructions:
       azure_deprecation_warning: >
         Aplikasi Azure yang dikonfigurasikan menghala ke API yang ditamatkan daripada Azure. Sila buat aplikasi Azure baharu untuk memastikan kefungsiannya pada masa akan datang.

@@ -14,7 +14,7 @@ OpenProject lets you track and monitor the progress of your work packages.
 
 ## Terms
 
-[OpenProject 13.2](https://www.openproject.org/docs/release-notes/13-2-0/) introduced important changes in the names of three work package fields:
+[OpenProject 13.2](../../../release-notes/13-2-0/) introduced important changes in the names of three work package fields:
 
 | **Old term**     | **New term**          |
 |--------------------|------------------------|

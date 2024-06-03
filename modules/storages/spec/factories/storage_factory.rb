@@ -163,6 +163,7 @@ FactoryBot.define do
     host { nil }
     tenant_id { SecureRandom.uuid }
     drive_id { SecureRandom.uuid }
+    automatically_managed { false }
 
     trait :as_automatically_managed do
       automatically_managed { true }

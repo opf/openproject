@@ -128,7 +128,7 @@ module Members
       end
 
       def apply_filters(params, query)
-        super(params, query)
+        super
         filter_shares(query, params[:shared_role_id]) if params.key?(:shared_role_id)
 
         query

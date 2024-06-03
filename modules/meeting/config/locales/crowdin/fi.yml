@@ -107,6 +107,8 @@ fi:
       agenda: "Copy agenda"
       agenda_text: "Copy the agenda of the old meeting"
     email:
+      send_emails: "Send emails"
+      send_invitation_emails: "Send out invitation emails upon creation"
       open_meeting_link: "Open meeting"
       invited:
         summary: "%{actor} has sent you an invitation for the meeting %{title}"
@@ -125,8 +127,9 @@ fi:
       structured_text_copy: "Copying a meeting will currently not copy the associated meeting agenda items, just the details"
     copied: "Kopioitu kokouksesta #%{id}"
   meeting_section:
-    default_title: "New section"
-    untitled_title: "Untitled"
+    untitled_title: "Untitled section"
+    delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
+    placeholder_title: "New section"
     empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Ilmoituksen lähettäminen onnistui"
   notice_timezone_missing: Aikavyöhykettä ei ole määritetty, joten oletuksena on %{zone}. Valitaksesi aikavyöhykkeen, klikkaa tästä.

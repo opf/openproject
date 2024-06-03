@@ -57,13 +57,13 @@ module TwoFactorAuthentication
 
     ##
     # Validate a token that was input by the user
-    def verify(input, **options)
+    def verify(input, **)
       # Validate that we can request the token for this user
       # and get the matching strategy we will use
       verify_device_and_strategy
 
       # Produce the token with the given strategy (e.g., sending an sms)
-      result = strategy.verify(input, **options)
+      result = strategy.verify(input, **)
 
       ServiceResult.new(success: result)
     rescue StandardError => e

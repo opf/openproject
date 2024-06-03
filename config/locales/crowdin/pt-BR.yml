@@ -263,8 +263,9 @@ pt-BR:
     lists:
       active: "Projetos ativos"
       my: "Meus projetos"
-      favored: "Favorite projects"
+      favored: "Projetos favoritos"
       archived: "Projetos arquivados"
+      public: "Listas públicas de projetos"
       my_private: "Minhas listas de projetos privados"
       new:
         placeholder: "Nova lista de projetos"
@@ -292,8 +293,12 @@ pt-BR:
         actions:
           label_enable_single: "Ativo neste projeto, clique para desativar"
           label_disable_single: "Inativo neste projeto, clique para ativar"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Ativar tudo"
           label_disable_all: "Desativar tudo"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
       types:
         no_results_title_text: Atualmente, não há tipos disponíveis.
         form:
@@ -305,13 +310,19 @@ pt-BR:
         no_results_title_text: Não há espaço adicional gravado em disco que seja consumido por este projeto.
   lists:
     create:
-      success: "The modified list has been saved as a new list"
-      failure: "The modified list cannot be saved: %{errors}"
+      success: "A lista modificada foi salva como uma nova lista"
+      failure: "Não foi possível salvar a lista modificada: %{errors}"
     update:
-      success: "The modified list has been saved"
-      failure: "The modified list cannot be saved: %{errors}"
-    can_be_saved: "List modified:"
-    can_be_saved_as: "The modifications can only be saved in a new list:"
+      success: "A lista modificada foi salva"
+      failure: "Não foi possível salvar a lista modificada: %{errors}"
+    publish:
+      success: "A lista foi tornada pública"
+      failure: "A lista não pode ser tornada pública: %{errors}"
+    unpublish:
+      success: "A lista foi tornada privada"
+      failure: "A lista não pode ser tornada privada: %{errors}"
+    can_be_saved: "Lista modificada:"
+    can_be_saved_as: "As modificações só podem ser salvas em uma nova lista:"
   members:
     index:
       no_results_title_text: Atualmente, não há membros deste projeto.
@@ -326,10 +337,9 @@ pt-BR:
       all: "Todos"
       invited: "Convites"
       locked: "Trancado"
-      project_roles: "Papel no projeto"
+      project_roles: "Funções do projeto"
       wp_shares: "Compartilhamento de pacote de trabalho"
       groups: "Grupos"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Remover membro"
       will_remove_the_users_role: "Isto removerá a função do usuário deste projeto."
@@ -493,9 +503,9 @@ pt-BR:
       unsupported_for_multiple_projects: "Movimentação/cópia em massa não é suportada para pacotes de trabalho de vários projetos"
     sharing:
       missing_workflow_warning:
-        title: "Workflow missing for work package sharing"
-        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
-        link_message: "Configure the workflows in the administration."
+        title: "Fluxo de trabalho ausente para compartilhamento de pacotes de trabalho"
+        message: "Nenhum fluxo de trabalho está configurado para a função \"Editor de pacote de trabalho\". Sem um fluxo de trabalho, o usuário compartilhado não pode alterar o status do pacote de trabalho. Os fluxos de trabalho podem ser copiados. Selecione um tipo de origem (ex.: \"Tarefa\") e uma função de origem (ex.: \"Membro\"). Em seguida, selecione os tipos de destino. Para começar, você pode selecionar todos os tipos como alvos. Por fim, selecione a função \"Editor de pacote de trabalho\" como o destino e pressione \"Copiar\". Depois de criar os padrões, ajuste os fluxos de trabalho da mesma forma que faz para todas as outras funções."
+        link_message: "Configure os fluxos de trabalho na administração."
     summary:
       reports:
         category:
@@ -752,6 +762,7 @@ pt-BR:
         before_or_equal_to: "deve ser antes ou igual a %{date}."
         blank: "não pode ficar em branco."
         blank_nested: "precisa ter a propriedade '%{property}' definida. "
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "Um pacote de trabalho não pode ser vinculado a uma das suas subtarefas."
         circular_dependency: "Esta relação vai criar uma dependência circular."
         confirmation: "não coincide com %{attribute}."
@@ -790,7 +801,7 @@ pt-BR:
         not_an_iso_date: "não é uma data válida. Formato exigido: AAAA-MM-DD."
         not_same_project: "não pertence ao mesmo projeto."
         odd: "deve ser ímpar."
-        regex_match_failed: "does not match the regular expression %{expression}."
+        regex_match_failed: "não corresponde à expressão regular %{expression}."
         regex_invalid: "não pode ser validado com a expressão regular associada."
         smaller_than_or_equal_to_max_length: "deve ser menor ou igual ao tamanho máximo."
         taken: "já está sendo utilizado."
@@ -912,6 +923,8 @@ pt-BR:
               nonexistent: "A coluna '%{column}' não existe."
               format: "%{message}"
           group_by_hierarchies_exclusive: "é mutuamente exclusivo com o agrupamento por '%{group_by}'. Você não pode ativar os dois."
+          can_only_be_modified_by_owner: "A consulta só pode ser modificada por seu proprietário."
+          need_permission_to_modify_public_query: "Você não pode modificar uma consulta pública."
           filters:
             custom_fields:
               inexistent: "Não há nenhum campo personalizado para o filtro."
@@ -1002,13 +1015,13 @@ pt-BR:
               only_same_project_categories_allowed: "A categoria de um pacote de trabalho deve estar dentro do mesmo projeto do pacote de trabalho."
               does_not_exist: "Categoria especificada não existe."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              cant_be_inferior_to_remaining_work: "Não pode ser menor do que o Trabalho restante."
+              must_be_set_when_remaining_work_is_set: "Necessário quando o Trabalho restante for definido."
+              only_values_greater_or_equal_zeroes_allowed: "Deve ser >= 0."
               format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "Cannot be higher than Work."
-              must_be_set_when_work_is_set: "Required when Work is set."
+              cant_exceed_work: "Não pode ser maior do que o Trabalho."
+              must_be_set_when_work_is_set: "Necessário quando o Trabalho for definido."
               format: "%{message}"
           readonly_status: "O pacote de trabalho está em estado somente leitura, então seus atributos não podem ser alterados."
         type:
@@ -1272,7 +1285,7 @@ pt-BR:
   button_edit: "Editar"
   button_edit_associated_wikipage: "Editar página wiki associada: %{page_title}"
   button_expand_all: "Expandir todos"
-  button_favorite: "Add to favorites"
+  button_favorite: "Adicionar aos favoritos"
   button_filter: "Filtro"
   button_generate: "Gerar"
   button_list: "Lista"
@@ -1300,7 +1313,7 @@ pt-BR:
   button_unarchive: "Desarquivar"
   button_uncheck_all: "Desmarcar todos"
   button_unlock: "Desbloquear"
-  button_unfavorite: "Remove from favorites"
+  button_unfavorite: "Remover dos favoritos"
   button_unwatch: "Não observar"
   button_update: "Atualizar"
   button_upgrade: "Atualizar"
@@ -1319,6 +1332,8 @@ pt-BR:
   button_revoke_access: "Revogar acesso"
   button_revoke_all: "Revogar todos"
   button_revoke_only: "Revogar apenas %{shared_role_name}"
+  button_publish: "Tornar público"
+  button_unpublish: "Tornar privada"
   consent:
     checkbox_label: Eu li e concordo com o exposto acima.
     failure_message: Consentimento falhou, não pode continuar.
@@ -1586,7 +1601,7 @@ pt-BR:
       pdf_overview_table: "Tabela PDF"
       pdf_report_with_images: "Relatório em PDF com imagens"
       pdf_report: "Relatório em PDF"
-      pdf_gantt: "PDF Gantt"
+      pdf_gantt: "Gantt em PDF"
     image:
       omitted: "Imagem não exportada."
     units:
@@ -1665,11 +1680,11 @@ pt-BR:
         file_links_journal: >
           A partir de agora, a atividade relacionada a links de arquivos (arquivos armazenados em armazenamentos externos) aparecerá aqui na guia Atividade. O seguinte representa a atividade relacionada aos links que já existiam:
         progress_calculation_adjusted_from_disabled_mode: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+          Cálculo de progresso automaticamente <a href="%{href}" target="_blank">definido para o modo com base em trabalho e ajustado com a atualização de versão</a>.
         progress_calculation_adjusted: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+          Cálculo de progresso automaticamente <a href="%{href}" target="_blank"> ajustado com a atualização de versão</a>.
         totals_removed_from_childless_work_packages: >-
-          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+          Os totais de trabalho e progresso foram removidos automaticamente para pacotes de trabalho que não são principais com a <a href="%{href}" target="_blank">atualização de versão</a>. Esta é uma tarefa de manutenção e pode ser ignorada com segurança.
   links:
     configuration_guide: "Guia de configuração"
     get_in_touch: "Com dúvidas? Entre em contato conosco."
@@ -1785,7 +1800,7 @@ pt-BR:
   label_attribute_expand_text: "O texto concluído para '%{attribute}'"
   label_authentication: "Autenticação"
   label_available_global_roles: "Funções globais disponíveis"
-  label_available_project_attributes: "Available project attributes"
+  label_available_project_attributes: "Atributos de projeto disponíveis"
   label_available_project_forums: "Fóruns disponíveis"
   label_available_project_repositories: "Repositórios disponíveis"
   label_available_project_versions: "Versões disponíveis"
@@ -1915,7 +1930,7 @@ pt-BR:
   label_enterprise_support: "Suporte corporativo"
   label_enterprise_addon: "Complemento empresarial"
   label_environment: "Ambiente"
-  label_estimates_and_progress: "Estimates and progress"
+  label_estimates_and_progress: "Estimativas e progresso"
   label_equals: "é"
   label_everywhere: "em todos os lugares"
   label_example: "Exemplo"
@@ -2130,7 +2145,7 @@ pt-BR:
   label_percent_complete: "% de conclusão"
   label_project_activity: "Atividade do projeto"
   label_project_attribute_plural: "Atributos do projeto"
-  label_project_attribute_manage_link: "Manage project attributes"
+  label_project_attribute_manage_link: "Gerenciar atributos do projeto"
   label_project_count: "Número total de projetos"
   label_project_copy_notifications: "Enviar notificações por email durante a cópia do projeto"
   label_project_latest: "Últimos projetos"
@@ -2145,7 +2160,7 @@ pt-BR:
   label_project_attributes_settings: "Configurações de atributos de projeto"
   label_project_storage_plural: "Armazenamentos de arquivo"
   label_project_storage_project_folder: "Armazenamentos de arquivos: pastas do Projeto"
-  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
+  label_projects_disk_usage_information: "%{count} projetos usando %{used_disk_space} do espaço em disco"
   label_project_view_all: "Ver todos os projetos"
   label_project_show_details: "Mostrar detalhes do projeto"
   label_project_hide_details: "Ocultar detalhes do projeto"
@@ -2699,6 +2714,7 @@ pt-BR:
   permission_save_bcf_queries: "Salvar consultas a BCF"
   permission_manage_public_bcf_queries: "Gerenciar consultas públicas a BCF"
   permission_edit_attribute_help_texts: "Editar textos de ajuda do atributos"
+  permission_manage_public_project_queries: "Gerenciar listas de projetos públicos"
   placeholders:
     default: "-"
   project:
@@ -2745,7 +2761,7 @@ pt-BR:
     member_of_group: "Atribuído ao grupo"
     name_or_identifier: "Nome ou identificador"
     only_subproject_id: "Apenas subprojeto"
-    shared_with_user: "Shared with users"
+    shared_with_user: "Compartilhado com usuários"
     shared_with_me: "Compartilhados comigo"
     subproject_id: "Incluindo Subprojeto"
   repositories:
@@ -2890,7 +2906,7 @@ pt-BR:
   setting_app_subtitle: "Subtítulo do aplicativo"
   setting_app_title: "Título da aplicação"
   setting_attachment_max_size: "Tamanho máximo dos anexos"
-  setting_show_work_package_attachments: "Show attachments in the files tab by default"
+  setting_show_work_package_attachments: "Exibir anexos na aba de arquivos por padrão"
   setting_antivirus_scan_mode: "Modo escanear"
   setting_antivirus_scan_action: "Ação do arquivo infectado"
   setting_autofetch_changesets: "Busca automática de alterações no repositório"
@@ -2993,7 +3009,7 @@ pt-BR:
       whitelist_text_html: >
         Defina uma lista de extensões de arquivo válidas e/ou tipos MIME para arquivos carregados. <br/> Insira as extensões de arquivo  (e.x., <code>%{ext_example}</code>) ou tipos de mime (e.x., <code>%{mime_example}</code>). <br/> Deixe em branco para permitir que qualquer tipo de arquivo seja carregado. Vários valores permitidos (uma linha para cada valor).
       show_work_package_attachments: >
-        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
+        Desativar esta opção ocultará a lista de anexos na aba Arquivos dos pacotes de trabalho para novos projetos. Os arquivos anexados na descrição de um pacote de trabalho ainda serão carregados no armazenamento interno de anexos.
     antivirus:
       title: "Verificação de vírus"
       clamav_ping_failed: "Não foi possível conectar ao daemon do ClamAV. Verifique novamente a configuração e tente novamente."
@@ -3232,8 +3248,8 @@ pt-BR:
         drag_area_label: "Gerenciar e reordenar colunas"
       sort_by:
         automatic:
-          heading: "Automatic"
-          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
+          heading: "Automático"
+          description: "Ordene os %{plural} por um ou mais critérios de ordenação. A ordenação anterior será perdida."
   top_menu:
     additional_resources: "Recursos adicionais"
     getting_started: "Guia de introdução"
@@ -3580,7 +3596,7 @@ pt-BR:
   link: link
   plugin_openproject_auth_plugins:
     name: "Plugins OpenProject Auth"
-    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
+    description: "Integração de fornecedores de estratégias OmniAuth para autenticação no OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML/Início de sessão único"
     description: "Adiciona o fornecedor SAML OmniAuth ao OpenProject"

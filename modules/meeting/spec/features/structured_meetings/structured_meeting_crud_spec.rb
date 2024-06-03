@@ -65,10 +65,10 @@ RSpec.describe "Structured meetings CRUD",
   let(:meeting) { StructuredMeeting.order(id: :asc).last }
   let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
 
-  before do
+  before do |test|
     login_as current_user
     new_page.visit!
-    expect(page).to have_current_path(new_page.path)
+    expect(page).to have_current_path(new_page.path) # rubocop:disable RSpec/ExpectInHook
     new_page.set_title "Some title"
     new_page.set_type "Dynamic"
 
@@ -77,11 +77,20 @@ RSpec.describe "Structured meetings CRUD",
     new_page.set_duration "1.5"
     new_page.invite(other_user)
 
+    if test.metadata[:unchecked]
+      expect(page).to have_checked_field "send_notifications" # rubocop:disable RSpec/ExpectInHook
+      uncheck "send_notifications"
+    end
+
     new_page.click_create
   end
 
   it "can create a structured meeting and add agenda items" do
     show_page.expect_toast(message: "Successful creation")
+
+    # Can send invitation mails by default
+    perform_enqueued_jobs
+    expect(ActionMailer::Base.deliveries.size).to eq 2
 
     # Can add and edit a single item
     show_page.add_agenda_item do
@@ -312,6 +321,11 @@ RSpec.describe "Structured meetings CRUD",
     end
   end
 
+  it "does not send emails on creation when 'Send emails' is unchecked", :unchecked do
+    perform_enqueued_jobs
+    expect(ActionMailer::Base.deliveries.size).to eq 0
+  end
+
   context "with sections" do
     let!(:meeting) { create(:structured_meeting, project:, author: current_user) }
     let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
@@ -329,6 +343,8 @@ RSpec.describe "Structured meetings CRUD",
         show_page.expect_section(title: "First section")
 
         first_section = MeetingSection.find_by!(title: "First section")
+
+        meeting = first_section.meeting
 
         # edit the first section
         show_page.edit_section(first_section) do
@@ -357,22 +373,25 @@ RSpec.describe "Structured meetings CRUD",
         show_page.expect_section(title: "Updated first section title")
         show_page.expect_no_section(title: "Second section")
 
-        # add a section without a name
+        # add a section without a name is not possible
         show_page.add_section do
           click_on "Save"
+          expect(page).to have_text "Title can't be blank"
         end
-
-        ## "Untitled" is applied automatically as a name
-        show_page.expect_section(title: "Updated first section title")
-        show_page.expect_section(title: "Untitled")
 
         # remove the first section
         show_page.remove_section first_section
-
-        ## the last existing section is not explicitly rendered as a section as no name was specified for this section
-        ## -> back to "no section mode"
         show_page.expect_no_section(title: "Updated first section title")
-        show_page.expect_no_section(title: "Untitled")
+
+        # now the meeting completely empty again
+
+        # add an item to the meeting
+        show_page.add_agenda_item do
+          fill_in "Title", with: "First item without explicit section"
+        end
+
+        # the agenda item is wrapped in an "untitled" section, but the section is not explicitly rendered
+        show_page.expect_no_section(title: "Untitled section")
 
         # add a second section again
         show_page.add_section do
@@ -381,7 +400,31 @@ RSpec.describe "Structured meetings CRUD",
         end
 
         ## the first section without a name is now explicitly rendered as "Untitled"
-        show_page.expect_section(title: "Untitled")
+        show_page.expect_section(title: "Untitled section")
+        show_page.expect_section(title: "Second section")
+
+        second_section = MeetingSection.find_by!(title: "Second section")
+
+        # remove the second section
+        show_page.remove_section second_section
+
+        ## the last existing section is not explicitly rendered as a section as no name was specified for this section
+        ## -> back to "no section mode"
+        show_page.expect_no_section(title: "Second section")
+        show_page.expect_no_section(title: "Untitled section")
+
+        # TBD: remove the agenda item again, the untitle section is not rendered explicitly and will not be removed
+        first_item = MeetingAgendaItem.find_by!(title: "First item without explicit section")
+        show_page.remove_agenda_item(first_item)
+
+        # add a second section again
+        show_page.add_section do
+          fill_in "Title", with: "Second section"
+          click_on "Save"
+        end
+
+        ## the first section without a name is now again explicitly rendered as "Untitled"
+        show_page.expect_section(title: "Untitled section")
         show_page.expect_section(title: "Second section")
 
         second_section = MeetingSection.find_by!(title: "Second section")
@@ -394,7 +437,7 @@ RSpec.describe "Structured meetings CRUD",
 
         show_page.expect_agenda_item_in_section title: "First item", section: second_section
 
-        first_section = MeetingSection.find_by!(title: "Untitled")
+        first_section = meeting.sections.first
 
         # add an item to the first section explicitly
         show_page.add_agenda_item_to_section(section: first_section) do
@@ -420,20 +463,15 @@ RSpec.describe "Structured meetings CRUD",
         show_page.expect_section_duration(section: second_section, duration_text: "15 min")
 
         # deleting a section with agenda items is not possible
-        show_page.select_section_action(second_section, "Delete") # delete is disabled
-        ## -> no effect
-        show_page.expect_section(title: "Untitled")
-        show_page.expect_section(title: "Second section")
+        accept_confirm do
+          show_page.select_section_action(second_section, "Delete")
+        end
 
-        show_page.click_on_section_menu(second_section) # close the menu again
-
-        # deleting a section without agenda items is possible
-        show_page.remove_agenda_item(item_in_second_section)
-        show_page.remove_section(second_section) # empty secion gets deleted
-
-        # only untitle secion is left -> will not be rendered explicitly as secion
-        show_page.expect_no_section(title: "Untitled")
+        # only untitled secion is left -> will not be rendered explicitly as secion
+        show_page.expect_no_section(title: "Untitled section")
         show_page.expect_no_section(title: "Second section")
+
+        expect { item_in_second_section.reload }.to raise_error(ActiveRecord::RecordNotFound)
 
         # the agenda items of the "untitled" section are still visible in "no-section mode"
         show_page.expect_agenda_item(title: item_in_first_section.title)

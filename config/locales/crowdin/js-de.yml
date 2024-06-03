@@ -330,17 +330,17 @@ de:
         description: >
           Wählen Sie die Zoomstufe für das Gantt-Diagramm aus, wenn kein Autozoom aktiviert ist.
       export:
-        title: "Gantt chart PDF options"
-        button_export: "Export"
+        title: "Gantt-Diagramm PDF-Optionen"
+        button_export: "Exportieren"
         column_widths:
-          narrow: "Narrow"
-          medium: "Medium"
-          wide: "Wide"
-          very_wide: "Very wide"
+          narrow: "Schmal"
+          medium: "Mittel"
+          wide: "Breit"
+          very_wide: "Sehr breit"
         options:
-          date_zoom: "Date zoom"
-          paper_size: "Paper size"
-          column_widths: "Column widths"
+          date_zoom: "Datumszoom"
+          paper_size: "Papierformat"
+          column_widths: "Spaltenbreite"
     general_text_no: "nein"
     general_text_yes: "ja"
     general_text_No: "Nein"
@@ -359,11 +359,10 @@ de:
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/de/blog/openproject-14-0-release
               new_features_html: >
-                Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Fortschrittsberechnung über Arbeitspaket-Hierarchien hinweg.</li> <li>Strukturierte Verwaltung von Attributen auf der Projektübersichtsseite.</li> <li>Optimierte Ansicht der benutzerdefinierten Felder in der Projektliste und der Projektübersicht.</li> <li>Vereinheitlichte Seitenköpfe mit dem schlanken Primer-Design.</li> <li>Weitere Verbesserungen an Besprechungen, wie dem Hochladen von Anhängen, setzen eines Referenten und Anzeige des Änderungsverlaufs.</li> <li>Automatische Warnungen für defekte Dateispeicher und Kontrolle durch mehr Optionen.</li> <li>Verwaltete Projektordner für OneDrive/SharePoint können beim Kopieren von Projekten mit kopiert werden.</li> <li>Admins anfragen können, Freigaben für Arbeitspakete zu entfernen, wenn Sie eine Projektmitgliedschaft widerrufen.</li> <li>4- und 8-Wochen-Anzeigemodi im Teamplaner.</li> </ul>
+                Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>PDF-Export der Gantt-Ansicht, z.B. zum Drucken (Enterprise Add-on)</li> <li>Favorisierte Projekte</li> <li>Abschnitte in Besprechungen</li> <li>Anzeige von Besprechungen im Kalender auf "Meine Seite" und den Projektübersichtsseiten</li> <li>Möglichkeit, Anhänge auf dem Dateien-Tab auszublenden</li> <li>Benutzerdefinierte Felder vom Typ Link (URL)</li> </ul>
     ical_sharing_modal:
       title: "Kalender abonnieren"
       inital_setup_error_message: "Beim Abrufen der Daten ist ein Fehler aufgetreten."
@@ -431,7 +430,7 @@ de:
     label_expand_project_menu: "Projektmenü aufklappen"
     label_export: "Exportieren"
     label_export_preparing: "Der Export wird vorbereitet und wird in Kürze heruntergeladen."
-    label_favorites: "Favorites"
+    label_favorites: "Favoriten"
     label_filename: "Datei"
     label_filesize: "Größe"
     label_general: "Allgemein"
@@ -1056,7 +1055,7 @@ de:
       sharing:
         share: "Teilen"
         title: "Arbeitspaket teilen"
-        show_all_users: "Show all users with whom the work package has been shared with"
+        show_all_users: "Alle Benutzer anzeigen, für die das Arbeitspaket geteilt wurde"
         selected_count: "%{count} ausgewählt"
         selection:
           mixed: "Gemischt"
@@ -1283,8 +1282,8 @@ de:
           group: "Die Gruppe ist nun %{project} zugewiesen. In der Zwischenzeit können Sie bereits mit dieser Gruppe planen und ihr zum Beispiel Arbeitspakete zuweisen."
         next_button: "Fortfahren"
     favorite_projects:
-      no_results: "You have no favorite projects"
-      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
+      no_results: "Sie haben keine favorisierten Projekte"
+      no_results_subtext: "Fügen Sie ein oder mehrere Projekte als Favorit in ihrer Übersicht oder in einer Projektliste hinzu."
     include_projects:
       toggle_title: "Enthaltene Projekte"
       title: "Projekte"
@@ -1344,6 +1343,10 @@ de:
         focus_grab: "Dies ist ein Fokusanker für Modale. Drücken Sie Shift+Tab um zum vorherigen öffnenden Element zurückzukehren."
         Close: "Schließen"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
       waiting_subtitle:
         network_off: "Es gibt ein Netzwerkproblem."
         network_on: "Netzwerk ist wieder da. Wir versuchen es erneut."
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact you OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

@@ -31,13 +31,5 @@ module MeetingSections
     include ModifiableItem
 
     delete_permission :manage_agendas
-
-    validate :empty_section
-
-    def empty_section
-      unless model.agenda_items.empty?
-        errors.add :base, "Section is not empty and cannot be deleted."
-      end
-    end
   end
 end

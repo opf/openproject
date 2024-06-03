@@ -28,7 +28,7 @@ ms:
         title: "Tarik permintaan"
         copy_menu:
           label: Potongan git
-          description: Salin potongan git ke board klip
+          description: Salin potongan git ke papan klip
         git_actions:
           branch_name: Nama cabang
           commit_message: Mesej komit

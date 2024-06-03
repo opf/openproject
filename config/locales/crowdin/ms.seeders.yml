@@ -132,9 +132,9 @@ ms:
       welcome:
         title: Selamat datang ke OpenProject!
         text: |
-          OpenProject adalah perisian pengurusan projek sumber terbuka terkemuka. Ia menyokong pengurusan projek klasik, agile serta hibrid dan akan memberi anda kawalan sepenuhnya terhadap data anda.
+          OpenProject adalah perisian pengurusan projek sumber terbuka terkemuka. Ia menyokong pengurusan projek klasik, agile serta hibrid dan memberi anda kawalan sepenuhnya terhadap data anda.
 
-          Ciri-ciri teras dan kes penggunaan:
+          Fitur-fitur teras dan kes penggunaan:
 
           * [Pengurusan Portfolio Projek](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
           * [Perancangan dan Penjadualan Projek](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
@@ -146,11 +146,11 @@ ms:
 
           Selamat datang ke masa hadapan pengurusan projek.
 
-          Untuk Admin: Anda boleh menukar teks selamat datang ini [di sini]({{opSetting:base_url}}/admin/settings/general).
+          Untuk Pentadbir: Anda boleh mengubah teks selamat datang ini [di sini]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Projek demo
-          status_explanation: Semua tugasan mengikut jadual. Orang yang terlibat tahu tugasan mereka. Sistem ini telah siap sepenuhnya.
+          status_explanation: Semua tugasan mengikut jadual. Orang yang terlibat tahu akan tugasan mereka. Sistem ini telah siap sepenuhnya.
           description: Ini adalah ringkasan pendek matlamat projek demo ini.
           news:
             item_0:
@@ -172,9 +172,9 @@ ms:
               name: Perancang pasukan
           boards:
             kanban:
-              name: Board Kanban
+              name: Papan Kanban
             basic:
-              name: Board asas
+              name: Papan asas
               lists:
                 item_0:
                   name: Senarai keinginan
@@ -251,6 +251,21 @@ ms:
                     *   [ ] Lagi banyak bir
             item_4:
               subject: Akhir projek
+          wiki: |
+            _Dalam wiki ini, anda boleh bekerjasama untuk mencipta dan edit halaman dan sub-halaman untuk mencipta wiki projek._
+
+            **Anda boleh:**
+
+            *Masukkan teks dan imej, serta menyalin dan sisipkan daripada dokumen lain
+            *Cipta hierarki laman dengan halaman induk
+            *Sertakan halaman wiki ke menu projek
+            *Gunakan makro untuk sertakan, cth. jadual kandungan, senarai pakej kerja, atau carta Gantt
+            *Sertakan halaman wiki di ruang teks lain, cth. halaman gambaran keseluruhan projek
+            *Sertakan pautan ke dokumen-dokumen lain
+            *Lihat sejarah perubahan
+            *Lihat sebagai Markdown
+
+            Maklumat lanjut: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: Projek Scrum
           status_explanation: Semua tugasan mengikut jadual. Orang yang terlibat tahu akan tugasan mereka. Sistem ini telah siap sepenuhnya.
@@ -265,7 +280,7 @@ ms:
             item_0:
               name: Bug Tunggakan
             item_1:
-              name: Tunggakan produk
+              name: Tunggakan Produk
             item_2:
               name: Pecutan 1
               wiki:
@@ -281,8 +296,8 @@ ms:
 
                   * Dibahagi kepada dua kotak masa tambahan selama 4 j:
 
-                      * Pemilik produk menyampaikan [Tunggakan Produk]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) dan keutamaan kepada pasukan dan menjelaskan Matlamat Pecutan, yang mana pasukan harus bersetuju. Bersama-sama, mereka mengutamakan topik dari Tunggakan Produk yang akan ditangani dalam pecutan seterusnya. Pasukan memberi komitmen terhadap penghantaran yang telah dibincangkan.
-                      * Pasukan merancang secara autonomi (tanpa pemilik produk) dengan terperinci dan memecahkan tugas-tugas dari keperluan yang dibincangkan untuk menyusun sebuah [Tunggakan Pecutan]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
+                      * Pemilik produk menyampaikan [Tunggakan Produk]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) dan keutamaan kepada pasukan dan menjelaskan Matlamat Pecutan, di mana pasukan harus mempersetujuinya. Bersama-sama mereka mengutamakan topik dari Tunggakan Produk yang akan ditangani dalam pecutan seterusnya. Pasukan memberi komitmen terhadap penghantaran yang telah dibincangkan.
+                      * Pasukan merancang secara autonomi (tanpa pemilik produk) dengan terperinci dan memecahkan tugasan-tugasan dari keperluan yang dibincangkan untuk menyusun sebuah [Tunggakan Pecutan]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
 
                   ### Mesyuarat Harian Scrum
@@ -295,7 +310,7 @@ ms:
                       * Apa yang saya rancang untuk lakukan sehingga mesyuarat harian Scrum?
                       * Apa yang telah menghalang kerja saya (Halangan)?
                   * Ketua Scrum menyelia dan mencatat [Halangan Pecutan](##sprint:scrum_project__version__sprint_1).
-                  * Pemilik produk boleh mengambil bahagian untuk kekal dimaklumkan.
+                  * Pemilik produk boleh mengambil bahagian untuk kekal maklum.
 
                   ### Mesyuarat Semakan Pecutan
 
@@ -314,7 +329,7 @@ ms:
                   _Sila dokumen di sini topik untuk mesyuarat Retrospektif Pecutan_
 
                   * Kotak masa (3 j).
-                  * Setelah Semakan Pecutan, akan dikendalikan oleh Ketua Scrum.
+                  * Setelah Semakan Pecutan, ia akan dikendalikan oleh Ketua Scrum.
                   * Pasukan membincangkan pecutan: apa yang berjalan lancar, apa yang perlu diperbaiki untuk menjadi lebih produktif untuk pecutan seterusnya atau lebih menyeronokkan.
             item_3:
               name: Pecutan 2
@@ -381,16 +396,16 @@ ms:
               subject: Laman web baharu
               children:
                 item_0:
-                  subject: Borang pendaftaran buletin
+                  subject: Borang pendaftaran surat berita
                 item_1:
                   subject: Melaksanakan lawatan produk
                 item_2:
                   subject: Halaman muka baru
                   children:
                     item_0:
-                      subject: Cipta skema laman arahan untuk laman arahan baru
+                      subject: Cipta rangka wayar untuk halaman arahan baru
             item_3:
-              subject: Borang hubungan
+              subject: Borang perhubungan
             item_4:
               subject: Fitur karusel
               children:
@@ -434,8 +449,8 @@ ms:
 
             * Dibahagi kepada dua kotak masa tambahan selama 4 j:
 
-                * Pemilik produk menyampaikan [Tunggakan Produk]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) dan keutamaan kepada pasukan dan menjelaskan Matlamat Pecutan, yang mana pasukan harus bersetuju. Bersama-sama, mereka mengutamakan topik dari Tunggakan Produk yang akan ditangani dalam pecutan seterusnya. Pasukan memberi komitmen terhadap penghantaran yang telah dibincangkan.
-                * Pasukan merancang secara autonomi (tanpa pemilik produk) dengan terperinci dan memecahkan tugas-tugas dari keperluan yang dibincangkan untuk menyusun sebuah [Tunggakan Pecutan]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
+                * Pemilik produk menyampaikan [Tunggakan Produk]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) dan keutamaan kepada pasukan dan menjelaskan Matlamat Pecutan, di mana pasukan harus mempersetujuinya. Bersama-sama, mereka mengutamakan topik dari Tunggakan Produk yang akan ditangani dalam pecutan seterusnya. Pasukan memberi komitmen terhadap penghantaran yang telah dibincangkan.
+                * Pasukan merancang secara autonomi (tanpa pemilik produk) dengan terperinci dan memecahkan tugasan-tugasan dari keperluan yang dibincangkan untuk menyusun sebuah [Tunggakan Pecutan]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
 
             ### Mesyuarat Harian Scrum
@@ -443,12 +458,12 @@ ms:
             _Sila dokumen di sini topik untuk mesyuarat Harian Scrum_
 
             * Pendek, status harian mesyuarat pasukan.
-            * TKotak masa (maks. 15 minit).
+            * Kotak masa (maks. 15 minit).
             * Mesyuarat stand-up untuk membincangkan topik-topik berikut dari Board tugasan.
                 * Apa yang saya rancang untuk lakukan sehingga mesyuarat harian Scrum berikutnya?
                 * Apa yang telah menghalang kerja saya (Halangan)?
             * Ketua Scrum menyelia dan mencatat Halangan Pecutan.
-            * Pemilik produk boleh mengambil bahagian untuk kekal dimaklumkan.
+            * Pemilik produk boleh mengambil bahagian untuk kekal maklum.
 
             ### Mesyuarat Semakan Pecutan
 

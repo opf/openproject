@@ -109,6 +109,8 @@ lt:
       agenda: "Kopijuoti dienotvarkę"
       agenda_text: "Kopijuoti seno susitikimo darbotvarkę"
     email:
+      send_emails: "Siųsti laiškus"
+      send_invitation_emails: "Išsiųsti pakvietimo laiškus baigus kūrimą"
       open_meeting_link: "Atverti susitikimą"
       invited:
         summary: "%{actor} atsiuntė jums pakvietimą į susitikimą %{title}"
@@ -127,8 +129,9 @@ lt:
       structured_text_copy: "Šiuo metu nukopijavus susitikimą, susiję susitikimo elmentai nebus kopijuojami, tik detalės."
     copied: "Nukopijuota iš susitikimo #%{id}"
   meeting_section:
-    default_title: "Nauja skiltis"
-    untitled_title: "Bevardis"
+    untitled_title: "Bevardė skiltis"
+    delete_confirmation: "Ištrynus skiltį taipogi bus ištrinti ir visi jos plano elementai. Ar tikrai norite tai padaryti?"
+    placeholder_title: "Nauja skiltis"
     empty_text: "Tempkite elementus čia arba sukurtkite naują"
   notice_successful_notification: "Pranešimas sėkmingai išsiųstas"
   notice_timezone_missing: Laiko zona nenustatyta ir %{zone} zona yra rekomenduojama. Kad pasirinktumėte laiko zoną, paspauskite čia.

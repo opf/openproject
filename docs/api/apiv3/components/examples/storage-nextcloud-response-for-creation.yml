@@ -1,0 +1,55 @@
+# Example: Nextcloud storage on creation (includes client secret)
+---
+value:
+  _type: Storage
+  id: 1337
+  name: My New DeathStar
+  hasApplicationPassword: false
+  createdAt: '2024-05-21T09:11:53.880Z'
+  updatedAt: '2024-05-21T09:11:53.880Z'
+  configured: false
+  _embedded:
+    oauthApplication:
+      id: 42
+      _type: OAuthApplication
+      name: My New DeathStar (Nextcloud)
+      clientId: gNQ-gi3VX59ruoft5B9aRmukEYbZOhKIsxXE9iT1tcQ
+      confidential: true
+      clientSecret: 79hIlb1Ezj5kPx8LgE6LI9L1-mb8g7jX1-u_a08RJlI
+      createdAt: '2024-05-21T09:11:53.908Z'
+      updatedAt: '2024-05-21T09:11:53.908Z'
+      scopes:
+        - api_v3
+      _links:
+        self:
+          href: '/api/v3/oauth_applications/42'
+        owner:
+          href: '/api/v3/users/13'
+          title: Darth Vader
+        integration:
+          href: '/api/v3/storages/1337'
+          title: My New DeathStar
+        redirectUri:
+          - href: 'https://nextcloud.deathstar.rocks/index.php/apps/integration_openproject/oauth-redirect'
+  _links:
+    self:
+      href: /api/v3/storages/1337
+      title: My New DeathStar
+    type:
+      href: urn:openproject-org:api:v3:storages:Nextcloud
+      title: Nextcloud
+    origin:
+      href: https://nextcloud.deathstar.rocks/
+    open:
+      href: /api/v3/storages/1337/open
+    prepareUpload: []
+    authorizationState:
+      href: urn:openproject-org:api:v3:storages:authorization:FailedAuthorization
+      title: Authorization failed
+    projectStorages:
+      href: /api/v3/project_storages?filters=[{"storageId":{"operator":"=","values":["1337"]}}]
+    oauthApplication:
+      href: /api/v3/oauth_application/42
+      title: My New DeathStar (Nextcloud)
+    oauthClientCredentials:
+      href: null

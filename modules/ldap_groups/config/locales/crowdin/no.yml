@@ -11,7 +11,7 @@
       ldap_groups/synchronized_filter:
         filter_string: 'LDAP-filter'
         ldap_auth_source: 'LDAP-tilkobling'
-        group_name_attribute: "Gruppenavn-attributt"
+        group_name_attribute: "Gruppenavn-egenskap"
         sync_users: 'Synkroniser brukere'
         base_dn: "Søk i DN-basen"
     models:

@@ -27,7 +27,7 @@
 #++
 
 class OpenProject::JournalFormatter::AgendaItemPosition < JournalFormatter::Base
-  def render(_key, values, options = { html: true })
+  def render(_key, _values, options = { html: true })
     label_text = I18n.t(:label_agenda_items)
     label_text = content_tag(:strong, label_text) if options[:html]
 

@@ -45,6 +45,9 @@ RSpec.describe "Meetings deletion" do
   let(:index_path) { project_meetings_path(project) }
 
   before do
+    create(:meeting_participant, :invitee, user:, meeting:)
+    create(:meeting_participant, :invitee, user:, meeting: other_meeting)
+
     login_as(user)
   end
 

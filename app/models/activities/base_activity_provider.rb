@@ -108,7 +108,7 @@ class Activities::BaseActivityProvider
   end
 
   def event_datetime(event)
-    event['event_datetime'].is_a?(String) ? DateTime.parse(event['event_datetime']) : event['event_datetime']
+    event["event_datetime"].is_a?(String) ? DateTime.parse(event["event_datetime"]) : event["event_datetime"]
   end
 
   def event_type(_event_data)
@@ -128,12 +128,12 @@ class Activities::BaseActivityProvider
   # reference table is different from 'project_id'                            #
   #############################################################################
   def project_id_reference_field
-    'project_id'
+    "project_id"
   end
 
   def activitied_type
     class_name = self.class.name.demodulize
-    class_name.gsub('ActivityProvider', '').constantize
+    class_name.gsub("ActivityProvider", "").constantize
   end
 
   protected
@@ -174,11 +174,11 @@ class Activities::BaseActivityProvider
 
   def event_params(event_data)
     params = { provider: self,
-               event_id: event_data['event_id'],
-               event_description: event_data['event_description'],
-               author_id: event_data['author_id'].to_i,
-               journable_id: event_data['journable_id'],
-               project_id: event_data['project_id'].to_i }
+               event_id: event_data["event_id"],
+               event_description: event_data["event_description"],
+               author_id: event_data["author_id"].to_i,
+               journable_id: event_data["journable_id"],
+               project_id: event_data["project_id"].to_i }
 
     %i[event_name event_title event_type event_description event_datetime event_path event_url].each do |a|
       params[a] = send(a, event_data) if self.class.method_defined? a
@@ -190,12 +190,12 @@ class Activities::BaseActivityProvider
   end
 
   def event_projection
-    [[:id, 'event_id'],
-     [:created_at, 'event_datetime'],
-     [:user_id, 'author_id'],
-     [:notes, 'event_description'],
-     [:version, 'version'],
-     [:journable_id, 'journable_id']].map do |column, alias_name|
+    [[:id, "event_id"],
+     [:created_at, "event_datetime"],
+     [:user_id, "author_id"],
+     [:notes, "event_description"],
+     [:version, "version"],
+     [:journable_id, "journable_id"]].map do |column, alias_name|
       journals_table[column].as(alias_name)
     end
   end
@@ -281,7 +281,7 @@ class Activities::BaseActivityProvider
 
   def event_name(event)
     @event_names ||= {}
-    @event_names[event_type(event)] ||= I18n.t(event_type(event).underscore, scope: 'events')
+    @event_names[event_type(event)] ||= I18n.t(event_type(event).underscore, scope: "events")
   end
 
   def url_helpers

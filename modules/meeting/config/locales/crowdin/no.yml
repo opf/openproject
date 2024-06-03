@@ -35,7 +35,7 @@
         participants: "Deltagere"
         participant:
           one: "1 Deltaker"
-          other: "%{count} deltakere"
+          other: "%{count} Deltakere"
         participants_attended: "Tilsluttete"
         participants_invited: "Inviterte"
         project: "Prosjekt"
@@ -45,11 +45,11 @@
       meeting_agenda_item:
         title: "Tittel"
         author: "Forfatter"
-        duration_in_minutes: "min"
+        duration_in_minutes: "minutter"
         description: "Notater"
         presenter: "Foredragsholder"
       meeting_section:
-        title: "Title"
+        title: "Tittel"
     errors:
       messages:
         invalid_time_format: "er ikke et gyldig tidpunkt. Formatet må være HH:MM"
@@ -107,7 +107,9 @@
       agenda: "Kopier saksliste"
       agenda_text: "Kopier sakslisten fra det forrige møtet"
     email:
-      open_meeting_link: "Åpne møte"
+      send_emails: "Send e-post"
+      send_invitation_emails: "Send ut invitasjons e-poster ved opprettelse"
+      open_meeting_link: "Åpent møte"
       invited:
         summary: "%{actor} har sendt deg en invitasjon til møtet %{title}"
       rescheduled:
@@ -125,9 +127,10 @@
       structured_text_copy: "Kopiering av et møte vil for tiden ikke kopiere de tilknyttede elementene på dagsordenen, bare detaljene"
     copied: "Kopiert fra møte #%{id}"
   meeting_section:
-    default_title: "New section"
-    untitled_title: "Untitled"
-    empty_text: "Drag items here or create a new one"
+    untitled_title: "Ikke navngitt del"
+    delete_confirmation: "Hvis du sletter denne delen, slettes også dets verdier i alle prosjekter. Er du sikker på at du vil gjøre dette?"
+    placeholder_title: "Ny seksjon"
+    empty_text: "Dra punkter hit eller opprett et nytt"
   notice_successful_notification: "Påminning sendt"
   notice_timezone_missing: Ingen tidssone angis og %{zone} antas. Vennligst klikk her for å velge egen tidssone.
   permission_create_meetings: "Opprett møter"
@@ -149,7 +152,7 @@
   text_in_hours: "i timer"
   text_meeting_agenda_for_meeting: 'saksliste for møtet "%{meeting}"'
   text_meeting_closing_are_you_sure: "Er du sikker på at du vil lukke agendaen?"
-  text_meeting_agenda_open_are_you_sure: "Dette vil overskrive alle endringer i minuttene! Vil du fortsette?"
+  text_meeting_agenda_open_are_you_sure: "Dette vil overskrive alle endringer i referatet! Vil du fortsette?"
   text_meeting_minutes_for_meeting: 'referat for møtet "%{meeting}"'
   text_notificiation_invited: "Denne e-posten inneholder ny informasjon for møtet nedenfor:"
   text_meeting_empty_heading: "Ditt møte er tomt"
@@ -180,7 +183,7 @@
   label_meeting_details: "Møtedetaljer"
   label_meeting_details_edit: "Rediger møtedetaljer"
   label_meeting_state: "Møtestatus"
-  label_meeting_state_open: "Åpne"
+  label_meeting_state_open: "Åpen"
   label_meeting_state_open_html: "<i>Åpen</i>"
   label_meeting_state_closed: "Stengt"
   label_meeting_state_closed_html: "<i>Stengt</i>"

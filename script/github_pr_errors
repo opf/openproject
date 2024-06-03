@@ -255,7 +255,7 @@ def get_last_workflow_run(branch_name)
   last_completed = last_with_status(test_workflow_runs, "completed")
   last_in_progress = last_with_status(test_workflow_runs, "in_progress")
 
-  last_completed || last_in_progress or raise "No workflow run found for branch #{branch_name}"
+  last_in_progress || last_completed or raise "No workflow run found for branch #{branch_name}"
 end
 
 def get_workflow_run(run_id)
@@ -651,13 +651,15 @@ def get_failed_jobs_logs_from_github(report, formatter)
   formatter.display_workflow_run_info(report, workflow_run)
 
   formatter.display_workflow_status(workflow_run)
-  get_jobs(workflow_run)
+  job_logs = get_jobs(workflow_run)
     .then { |jobs_response| jobs_response["jobs"] }
     .sort_by { _1["name"] }
     .each { |job| formatter.display_job_status(job) }
     .select { _1["conclusion"] == "failure" }
     .reject { EXCLUDED_JOB_NAMES.include?(_1["name"]) }
     .map { |job| get_log(job) }
+
+  [job_logs, job_logs.any? ? "error" : workflow_run["status"]]
 end
 
 def get_failed_jobs_logs_from_args
@@ -666,7 +668,7 @@ end
 
 def get_failed_jobs_logs(report, formatter)
   if Options.failed_jobs_logs.any?
-    get_failed_jobs_logs_from_args
+    [get_failed_jobs_logs_from_args, failed_jobs_logs.none? ? "completed" : "error"]
   else
     get_failed_jobs_logs_from_github(report, formatter)
   end
@@ -678,13 +680,15 @@ end
 report = Report.new
 formatter = Formatter.new(compact: Options.compact)
 
-failed_jobs_logs = get_failed_jobs_logs(report, formatter)
+failed_jobs_logs, status = get_failed_jobs_logs(report, formatter)
 
-is_successful = failed_jobs_logs.none?
 JobErrorsFinder.scan_logs(report, failed_jobs_logs)
 
-if is_successful
+case status
+when "completed"
   warn "All jobs successful 🎉"
-else
+when "in_progress"
+  # NOOP
+when "error"
   formatter.display_report(report)
 end

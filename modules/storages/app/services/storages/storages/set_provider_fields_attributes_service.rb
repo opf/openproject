@@ -40,7 +40,7 @@ module Storages::Storages
     private
 
     def set_attributes(params)
-      super(params)
+      super
       set_default_provider_fields(params)
     end
 

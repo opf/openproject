@@ -6,7 +6,7 @@ ms:
       configure: 'Konfigurasi widget'
       upsale:
         text: "Beberapa widget seperti widget graf pakej kerja, hanya tersedia dalam edisi Enterprise."
-        link: 'Edisi enterprise'
+        link: 'Edisi Enterprise'
       widgets:
         missing_permission: "Anda tidak mempunyai kebenaran yang diperlukan untuk melihat widget ini."
         custom_text:

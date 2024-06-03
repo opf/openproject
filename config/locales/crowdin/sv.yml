@@ -266,6 +266,7 @@ sv:
       my: "Mina projekt"
       favored: "Favorite projects"
       archived: "Arkiverade projekt"
+      public: "Public project lists"
       my_private: "My private project lists"
       new:
         placeholder: "Ny projektlista"
@@ -293,8 +294,12 @@ sv:
         actions:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Enable all"
           label_disable_all: "Disable all"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
       types:
         no_results_title_text: Det finns för närvarande inga typer tillgängliga.
         form:
@@ -311,6 +316,12 @@ sv:
     update:
       success: "The modified list has been saved"
       failure: "The modified list cannot be saved: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
     can_be_saved: "List modified:"
     can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
@@ -330,7 +341,6 @@ sv:
       project_roles: "Projektroller"
       wp_shares: "Work package shares"
       groups: "Grupper"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -752,6 +762,7 @@ sv:
         before_or_equal_to: "måste vara före eller lika med %{date}."
         blank: "kan inte vara tomt."
         blank_nested: "needs to have the property '%{property}' set."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "Ett arbetspaket kan inte kopplas till någon av dess underaktiviteter."
         circular_dependency: "Detta förhållande skulle skapa ett cirkelberoende."
         confirmation: "matchar inte %{attribute}."
@@ -912,6 +923,8 @@ sv:
               nonexistent: "The column '%{column}' does not exist."
               format: "%{message}"
           group_by_hierarchies_exclusive: "är ömsesidigt uteslutande med grupperingen '%{group_by}'. Du kan inte aktivera båda."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "Det finns inget anpassat fält för filtret."
@@ -1272,7 +1285,7 @@ sv:
   button_edit: "Redigera"
   button_edit_associated_wikipage: "Redigerade associerad wikisida: %{page_title}"
   button_expand_all: "Expandera alla"
-  button_favorite: "Add to favorites"
+  button_favorite: "Lägg till i favoriter"
   button_filter: "Filter"
   button_generate: "Generera"
   button_list: "Lista"
@@ -1319,6 +1332,8 @@ sv:
   button_revoke_access: "Revoke access"
   button_revoke_all: "Revoke all"
   button_revoke_only: "Revoke only %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: Jag har noterat och samtycker till ovanstående.
     failure_message: Samtycke misslyckades, kan inte fortsätta.
@@ -2002,7 +2017,7 @@ sv:
   label_learn_more: "Lär dig mer"
   label_less_or_equal: "<="
   label_less_than_ago: "mindre än dagar sedan"
-  label_link_url: "Link (URL)"
+  label_link_url: "Länk (URL)"
   label_list: "Lista"
   label_loading: "Laddar..."
   label_lock_user: "Lås användare"
@@ -2701,6 +2716,7 @@ sv:
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:

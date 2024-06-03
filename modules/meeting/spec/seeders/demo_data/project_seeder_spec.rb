@@ -93,11 +93,11 @@ RSpec.describe DemoData::ProjectSeeder do
     expect(first.author).to eq user
     expect(first.notes).to eq "Some **markdown**"
 
-    second = meeting.agenda_items.find_by(title: "Reference")
+    second = meeting.agenda_items.find_by(work_package:)
+    expect(second.title).to be_nil
     expect(second.duration_in_minutes).to eq 5
     expect(second.author).to eq user
     expect(second.notes).to eq "Some **markdown**"
-    expect(second.work_package).to eq work_package
   end
 
   it "uses default duration of 1h if not specified" do

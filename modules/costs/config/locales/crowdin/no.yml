@@ -46,7 +46,7 @@
         default_rates: "Standard satser"
     models:
       cost_type:
-        one: "Type kostnader"
+        one: "Kostnadstype"
         other: "Kostnadstyper"
       rate: "Sats"
     errors:
@@ -56,7 +56,7 @@
           nullify_is_not_valid_for_cost_entries: "Kostnadsoppføringer kan ikke tilordnes et prosjekt."
   attributes:
     comment: "Kommentar"
-    cost_type: "Type kostnader"
+    cost_type: "Kostnadstype"
     costs: "Kostnader"
     current_rate: "Nåværende sats"
     hours: "Timer"

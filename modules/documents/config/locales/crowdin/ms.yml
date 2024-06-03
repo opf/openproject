@@ -29,7 +29,7 @@ ms:
   activity:
     filter:
       document: "Dokumen"
-  default_doc_category_tech: "Dokumen teknikal"
+  default_doc_category_tech: "Dokumentasi teknikal"
   default_doc_category_user: "Dokumentasi pengguna"
   enumeration_doc_categories: "Kategori dokumen"
   documents:
