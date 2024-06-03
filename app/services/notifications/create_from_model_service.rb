@@ -111,9 +111,9 @@ class Notifications::CreateFromModelService
       journal:,
       actor: user_with_fallback,
       reason:,
-      read_ian: strategy.supports_ian? ? false : nil,
-      mail_reminder_sent: strategy.supports_mail_digest? ? false : nil,
-      mail_alert_sent: strategy.supports_mail? ? false : nil
+      read_ian: strategy.supports_ian?(reason) ? false : nil,
+      mail_reminder_sent: strategy.supports_mail_digest?(reason) ? false : nil,
+      mail_alert_sent: strategy.supports_mail?(reason) ? false : nil
     }
 
     Notifications::CreateService
@@ -129,7 +129,7 @@ class Notifications::CreateFromModelService
 
     Notifications::UpdateService
       .new(model: existing_notification, user:, contract_class: EmptyContract)
-      .call(read_ian: strategy.supports_ian? ? false : nil,
+      .call(read_ian: strategy.supports_ian?(reason) ? false : nil,
             reason:)
   end
 
