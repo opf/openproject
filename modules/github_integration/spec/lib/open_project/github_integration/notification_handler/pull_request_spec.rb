@@ -51,7 +51,7 @@ RSpec.describe OpenProject::GithubIntegration::NotificationHandler::PullRequest 
         "merged" => pr_merged,
         "merged_by" => nil,
         "merged_at" => nil,
-        "merge_commit_sha" => "955af2f83de81c39fcf912376855eb3ee5e38f26",
+        "merge_commit_sha" => nil,
         "comments" => 1,
         "review_comments" => 2,
         "additions" => 3,
