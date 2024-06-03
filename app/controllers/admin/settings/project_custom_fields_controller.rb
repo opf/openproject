@@ -74,16 +74,10 @@ module Admin::Settings
     end
 
     def link
-      create_service = if include_sub_projects?
-                         ProjectCustomFieldProjectMappings::BulkCreateService
-                                            .new(user: current_user, project: @project, project_custom_field: @custom_field)
-                                            .call
-                       else
-                         ProjectCustomFieldProjectMappings::CreateService
-                                          .new(user: current_user)
-                                          .call(custom_field_id: @custom_field.id,
-                                                project_id: permitted_params.project_custom_field_project_mapping["project_id"])
-                       end
+      create_service = ProjectCustomFieldProjectMappings::BulkCreateService
+                         .new(user: current_user, project: @project, project_custom_field: @custom_field,
+                              include_sub_projects: include_sub_projects?)
+                         .call
 
       create_service.on_success { render_project_list }
 
