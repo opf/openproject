@@ -2,24 +2,26 @@
   component_wrapper do
     new_project_mapping_form = Class.new(ApplicationForm) do
       form do |f|
-        f.project_autocompleter(
-          name: :id,
-          label: Project.model_name.human,
-          visually_hide_label: true,
-          autocomplete_options: {
-            openDirectly: false,
-            focusDirectly: false,
-            dropdownPosition: 'bottom',
-            disabledProjects: projects_with_custom_field_mapping,
-            inputName: 'project_custom_field_project_mapping[project_id]'
-          }
-        )
+        f.group(layout: :horizontal) do |f_group|
+          f_group.project_autocompleter(
+            name: :id,
+            label: Project.model_name.human,
+            visually_hide_label: true,
+            autocomplete_options: {
+              openDirectly: false,
+              focusDirectly: false,
+              dropdownPosition: 'bottom',
+              disabledProjects: projects_with_custom_field_mapping,
+              inputName: 'project_custom_field_project_mapping[project_id]'
+            }
+          )
 
-        f.check_box(
-          name: :include_sub_projects,
-          label: I18n.t("projects.settings.project_custom_fields.new_project_mapping_form.include_sub_projects"),
-          checked: false
-        )
+          f_group.check_box(
+            name: :include_sub_projects,
+            label: I18n.t("projects.settings.project_custom_fields.new_project_mapping_form.include_sub_projects"),
+            checked: false
+          )
+        end
       end
 
       def initialize(project_custom_field:)
