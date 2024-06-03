@@ -1,75 +1,75 @@
-<%
-  new_project_mapping_form = Class.new(ApplicationForm) do
-    form do |f|
-      f.project_autocompleter(
-        name: :id,
-        label: Project.model_name.human,
-        visually_hide_label: true,
-        autocomplete_options: {
-          openDirectly: false,
-          focusDirectly: false,
-          dropdownPosition: 'bottom',
-          disabledProjects: projects_with_custom_field_mapping,
-          inputName: 'project_custom_field_project_mapping[project_id]'
-        }
-      )
-
-      f.check_box(
-        name: :include_sub_projects,
-        label: I18n.t("projects.settings.project_custom_fields.new_project_mapping_form.include_sub_projects"),
-        checked: false
-      )
-    end
-
-    def initialize(project_custom_field:)
-      super()
-      @project_custom_field = project_custom_field
-    end
-
-    private
-
-    def projects_with_custom_field_mapping
-      ProjectCustomFieldProjectMapping
-        .where(project_custom_field: @project_custom_field)
-        .pluck(:project_id)
-        .to_h { |id| [id, id] }
-    end
-  end
-%>
-
 <%=
-  render(
-    Primer::Alpha::Dialog.new(
-      id: dialog_id,
-      title:,
-      test_selector: dialog_id,
-      size: :large
-    )
-  ) do |dialog|
-    dialog.with_show_button(scheme: :primary) { show_button_text }
+  component_wrapper do
+    new_project_mapping_form = Class.new(ApplicationForm) do
+      form do |f|
+        f.project_autocompleter(
+          name: :id,
+          label: Project.model_name.human,
+          visually_hide_label: true,
+          autocomplete_options: {
+            openDirectly: false,
+            focusDirectly: false,
+            dropdownPosition: 'bottom',
+            disabledProjects: projects_with_custom_field_mapping,
+            inputName: 'project_custom_field_project_mapping[project_id]'
+          }
+        )
 
-    dialog.with_header(
-      show_divider: false,
-      visually_hide_title: false
-    )
+        f.check_box(
+          name: :include_sub_projects,
+          label: I18n.t("projects.settings.project_custom_fields.new_project_mapping_form.include_sub_projects"),
+          checked: false
+        )
+      end
 
-    render(Primer::Beta::Text.new(tag: :div)) do
-      primer_form_with(
-        model: @project_mapping,
-        url: link_admin_settings_project_custom_field_path(@project_custom_field),
-        data: { turbo: true },
-        method: :post
-      ) do |form|
-        concat(render(Primer::Alpha::Dialog::Body.new(
-          id: dialog_body_id, test_selector: dialog_body_id, aria: { label: title }
-        )) do
-          render(new_project_mapping_form.new(form, project_custom_field: @project_custom_field))
-        end)
+      def initialize(project_custom_field:)
+        super()
+        @project_custom_field = project_custom_field
+      end
 
-        concat(render(Primer::Alpha::Dialog::Footer.new(show_divider: false)) do
-          concat(render(Primer::ButtonComponent.new(data: { 'close-dialog-id': dialog_id })) { cancel_button_text })
-          concat(render(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) { submit_button_text })
-        end)
+      private
+
+      def projects_with_custom_field_mapping
+        ProjectCustomFieldProjectMapping
+          .where(project_custom_field: @project_custom_field)
+          .pluck(:project_id)
+          .to_h { |id| [id, id] }
+      end
+    end
+
+    render(
+      Primer::Alpha::Dialog.new(
+        id: dialog_id,
+        title:,
+        test_selector: dialog_id,
+        size: :large
+      )
+    ) do |dialog|
+      dialog.with_show_button(scheme: :primary) { show_button_text }
+
+      dialog.with_header(
+        show_divider: false,
+        visually_hide_title: false
+      )
+
+      render(Primer::Beta::Text.new(tag: :div)) do
+        primer_form_with(
+          model: @project_mapping,
+          url: link_admin_settings_project_custom_field_path(@project_custom_field),
+          data: { turbo: true },
+          method: :post
+        ) do |form|
+          concat(render(Primer::Alpha::Dialog::Body.new(
+            id: dialog_body_id, test_selector: dialog_body_id, aria: { label: title }
+          )) do
+            render(new_project_mapping_form.new(form, project_custom_field: @project_custom_field))
+          end)
+
+          concat(render(Primer::Alpha::Dialog::Footer.new(show_divider: false)) do
+            concat(render(Primer::ButtonComponent.new(data: { 'close-dialog-id': dialog_id })) { cancel_button_text })
+            concat(render(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) { submit_button_text })
+          end)
+        end
       end
     end
   end

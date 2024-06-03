@@ -30,6 +30,8 @@ module Settings
   module ProjectCustomFields
     module ProjectCustomFieldMapping
       class NewProjectMappingComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+        include OpTurbo::Streamable
+
         options dialog_id: "settings--new-project-custom-field-mapping-component",
                 dialog_body_id: "settings--new-project-custom-field-mapping-body-component"
 
