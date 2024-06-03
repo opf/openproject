@@ -51,7 +51,6 @@ export const mainMenuResizerSelector = 'main-menu-resizer';
                 (resizeFinished)="resizeEnd()"
                 (resizeStarted)="resizeStart()"
                 (move)="resizeMove($event)">
-      <!--      <div class="resizer-toggle-container">-->
       <button
         class="spot-link main-menu--navigation-toggler"
         [attr.title]="toggleTitle"
@@ -59,11 +58,7 @@ export const mainMenuResizerSelector = 'main-menu-resizer';
         (click)="toggleService.toggleNavigation($event)"
       >
         <span class="spot-icon spot-icon_1"></span>
-<!--        <span class="spot-icon spot-icon_1 spot-icon_resizer-vertical-lines"></span>-->
-<!--        <span class="collapse-menu spot-icon spot-icon_1 spot-icon_arrow-left2"></span>-->
-<!--        <span class="open-menu spot-icon spot-icon_1 spot-icon_arrow-right2"></span>-->
       </button>
-      <!--      </div>-->
     </op-resizer>
   `,
 })
@@ -72,8 +67,6 @@ export class MainMenuResizerComponent extends UntilDestroyedMixin implements OnI
   public toggleTitle:string;
 
   private resizeEvent:string;
-
-  private localStorageKey:string;
 
   private elementWidth:number;
 
@@ -101,7 +94,6 @@ export class MainMenuResizerComponent extends UntilDestroyedMixin implements OnI
       });
 
     this.resizeEvent = 'main-menu-resize';
-    this.localStorageKey = 'openProject-mainMenuWidth';
   }
 
   public resizeStart() {
