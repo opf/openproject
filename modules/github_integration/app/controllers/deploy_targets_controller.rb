@@ -48,11 +48,11 @@ class DeployTargetsController < ApplicationController
     @deploy_target = DeployTarget.create **args
 
     if @deploy_target.persisted?
-      flash[:success] = "Deploy target created"
+      flash[:success] = I18n.t(:notice_deploy_target_created)
 
       redirect_to deploy_targets_path
     else
-      render 'new'
+      render "new"
     end
   end
 
@@ -61,7 +61,7 @@ class DeployTargetsController < ApplicationController
 
     deploy_target.destroy!
 
-    flash[:success] = "Deploy target deleted"
+    flash[:success] = I18n.t(:notice_deploy_target_destroyed)
 
     redirect_to deploy_targets_path
   end

@@ -29,7 +29,7 @@
 #++
 
 module DeployTargets
-  class RowComponent < ::RowComponent
+  class RowComponent < ::RowComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     property :host, :type
 
     def deploy_target

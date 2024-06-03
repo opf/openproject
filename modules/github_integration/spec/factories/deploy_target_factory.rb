@@ -32,6 +32,6 @@ FactoryBot.define do
 
     sequence(:host) { |n| "https://qa-#{n}.openproject-edge.com" }
 
-    api_key { '4p1k3y' }
+    api_key { "4p1k3y" }
   end
 end

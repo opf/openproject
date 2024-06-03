@@ -29,7 +29,7 @@
 #++
 
 module DeployTargets
-  class TableComponent < ::TableComponent
+  class TableComponent < ::TableComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     columns :host, :type, :created_at
     options :current_user
 
