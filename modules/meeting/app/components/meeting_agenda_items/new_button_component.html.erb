@@ -23,7 +23,7 @@
       )
       unless @meeting_section
         component.with_item(
-          label: "Section",
+          label: t("activerecord.models.meeting_section", count: 1),
           tag: :a,
           content_arguments: {
             href: meeting_sections_path(@meeting),

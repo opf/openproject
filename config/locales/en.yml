@@ -1171,6 +1171,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
       global_role: "Global role"
       group: "Group"
       member: "Member"
+      meeting_section: "Section"
       news: "News"
       notification:
         one: "Notification"
