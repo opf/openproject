@@ -32,11 +32,7 @@
       ProjectCustomFieldProjectMapping
         .where(project_custom_field: @project_custom_field)
         .pluck(:project_id)
-        .to_h { |id| [id, project_disabled_reason] }
-    end
-
-    def project_disabled_reason
-      I18n.t("projects.settings.project_custom_fields.new_project_mapping_form.autocompleter_disabled_reason")
+        .to_h { |id| [id, id] }
     end
   end
 %>
