@@ -227,7 +227,7 @@ RSpec.describe "form configuration", :js do
 
         wp_page.expect_group("Estimates and progress") do
           wp_page.expect_attributes estimated_time: "-"
-          wp_page.expect_attributes spent_time: "0 h"
+          wp_page.expect_attributes spent_time: "0h"
         end
 
         # New work package has the same configuration

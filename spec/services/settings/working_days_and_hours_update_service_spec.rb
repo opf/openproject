@@ -27,7 +27,7 @@
 require "spec_helper"
 require_relative "shared/shared_call_examples"
 
-RSpec.describe Settings::WorkingDaysUpdateService do
+RSpec.describe Settings::WorkingDaysAndHoursUpdateService do
   let(:instance) do
     described_class.new(user:)
   end
@@ -39,7 +39,7 @@ RSpec.describe Settings::WorkingDaysUpdateService do
   end
   let(:contract_success) { true }
   let(:params_contract) do
-    instance_double(Settings::WorkingDaysParamsContract,
+    instance_double(Settings::WorkingDaysAndHoursParamsContract,
                     valid?: params_contract_success,
                     errors: instance_double(ActiveModel::Error))
   end
@@ -55,20 +55,20 @@ RSpec.describe Settings::WorkingDaysUpdateService do
     # stub a setting definition
     allow(Setting)
       .to receive(:[])
-          .and_call_original
+            .and_call_original
     allow(Setting)
       .to receive(:[]).with(setting_name)
-          .and_return(previous_setting_value)
+                      .and_return(previous_setting_value)
     allow(Setting)
       .to receive(:[]=)
 
     # stub contract
     allow(Settings::UpdateContract)
       .to receive(:new)
-          .and_return(contract)
-    allow(Settings::WorkingDaysParamsContract)
+            .and_return(contract)
+    allow(Settings::WorkingDaysAndHoursParamsContract)
       .to receive(:new)
-          .and_return(params_contract)
+            .and_return(params_contract)
   end
 
   describe "#call" do
@@ -87,7 +87,7 @@ RSpec.describe Settings::WorkingDaysUpdateService do
 
         expect(WorkPackages::ApplyWorkingDaysChangeJob)
           .to have_received(:perform_later)
-          .with(user_id: user.id, previous_working_days:, previous_non_working_days:)
+                .with(user_id: user.id, previous_working_days:, previous_non_working_days:)
       end
     end
 

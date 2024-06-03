@@ -47,7 +47,7 @@ RSpec.describe "Working Days", :js, :with_cuprite do
   current_user { admin }
 
   before do
-    visit admin_settings_working_days_path
+    visit admin_settings_working_days_and_hours_path
   end
 
   describe "week days" do
@@ -284,7 +284,7 @@ RSpec.describe "Working Days", :js, :with_cuprite do
       # rubocop:disable RSpec/AnyInstance
       allow_any_instance_of(NonWorkingDay)
         .to receive(:errors)
-        .and_return(errors)
+              .and_return(errors)
       # rubocop:enable RSpec/AnyInstance
 
       delete_button = page.first(".op-non-working-days-list--delete-icon .icon-delete", visible: :all)

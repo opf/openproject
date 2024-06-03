@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Settings::WorkingDaysUpdateService < Settings::UpdateService
+class Settings::WorkingDaysAndHoursUpdateService < Settings::UpdateService
   def call(params)
     params = params.to_h.deep_symbolize_keys
     self.non_working_days_params = params.delete(:non_working_days) || []
@@ -36,7 +36,7 @@ class Settings::WorkingDaysUpdateService < Settings::UpdateService
   end
 
   def validate_params(params)
-    contract = Settings::WorkingDaysParamsContract.new(model, user, params:)
+    contract = Settings::WorkingDaysAndHoursParamsContract.new(model, user, params:)
     ServiceResult.new success: contract.valid?,
                       errors: contract.errors,
                       result: model

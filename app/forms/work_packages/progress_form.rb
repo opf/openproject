@@ -97,7 +97,7 @@ class WorkPackages::ProgressForm < ApplicationForm
 
   def ensure_only_one_error_for_remaining_work_exceeding_work
     if work_package.errors.added?(:remaining_hours, :cant_exceed_work) &&
-       work_package.errors.added?(:estimated_hours, :cant_be_inferior_to_remaining_work)
+      work_package.errors.added?(:estimated_hours, :cant_be_inferior_to_remaining_work)
       error_to_delete =
         if @focused_field == :estimated_hours
           :remaining_hours
@@ -154,10 +154,12 @@ class WorkPackages::ProgressForm < ApplicationForm
 
   def field_value(name)
     errors = @work_package.errors.where(name)
-    if user_value = errors.map { |error| error.options[:value] }.find { !_1.nil? }
+    if (user_value = errors.map { |error| error.options[:value] }.find { !_1.nil? })
       user_value
-    else
+    elsif name == :done_ratio
       format_to_smallest_fractional_part(@work_package.public_send(name))
+    else
+      DurationConverter.output(@work_package.public_send(name))
     end
   end
 
