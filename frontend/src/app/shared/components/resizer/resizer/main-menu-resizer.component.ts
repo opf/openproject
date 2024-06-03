@@ -57,7 +57,9 @@ export const mainMenuResizerSelector = 'main-menu-resizer';
         [class.open]="toggleService.showNavigation"
         (click)="toggleService.toggleNavigation($event)"
       >
-        <span class="spot-icon spot-icon_1"></span>
+        <span class="resize-handle"><svg op-resizer-vertical-lines-icon size="small"></svg></span>
+        <span class="collapse-menu"><svg chevron-left-icon size="small"></svg></span>
+        <span class="expand-menu"><svg chevron-right-icon size="small"></svg></span>
       </button>
     </op-resizer>
   `,

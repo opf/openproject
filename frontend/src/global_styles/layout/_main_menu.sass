@@ -66,8 +66,8 @@ $arrow-left-width: 40px
       height: 100%
 
     .main-menu--children
-      height: calc(100% - (var(--main-menu-item-height) + 10px))
       // 10px spacing
+      height: calc(100% - (var(--main-menu-item-height) + 10px))
       overflow: auto
       @include styled-scroll-bar
 
@@ -351,22 +351,32 @@ a.main-menu--parent-node
     cursor: pointer
     color: var(--main-menu-font-color)
 
-    > .spot-icon:before
-      @include spot-icon_resizer-vertical-lines
+    > .collapse-menu,
+    > .expand-menu
+      display: none
 
-    &:hover
-      > .spot-icon:before
-        @include spot-icon_arrow-left2
+    &.open:hover
+      > .resize-handle
+        display: none
+
+      > .collapse-menu
+        display: block
 
     &:not(.open)
       left: 1rem
       color: var(--accent-color)
 
-      > .spot-icon:before
-        @include spot-icon_arrow-right2
+      > .resize-handle
+        display: none
 
-  &:hover .main-menu--navigation-toggler
-    color: var(--accent-color)
+      > .expand-menu
+        display: block
+
+  &:hover
+    border-right: 0.125rem solid var(--main-menu-border-color)
+
+    .main-menu--navigation-toggler
+      color: var(--main-menu-border-color)
 
 // Badges for menu items such as "EXPERIMENTAL" or "BETA"
 $badge_offset: 4px
