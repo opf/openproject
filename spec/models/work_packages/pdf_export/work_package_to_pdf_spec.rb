@@ -206,17 +206,17 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           ["status", status.name],
           ["subject", "Work package 1"],
           ["type", type.name],
-          ["description", "[Rich text embedding currently not supported in export]"]
+          ["description", "[#{I18n.t('export.macro.rich_text_unsupported')}]"]
         ]
       end
       let(:supported_project_embeds) do
         [
           ["active", "Yes"],
-          ["description", "[Rich text embedding currently not supported in export]"],
+          ["description", "[#{I18n.t('export.macro.rich_text_unsupported')}]"],
           ["identifier", project.identifier],
           ["name", project.name],
           ["status", I18n.t("activerecord.attributes.project.status_codes.#{project.status_code}")],
-          ["statusExplanation", "[Rich text embedding currently not supported in export]"],
+          ["statusExplanation", "[#{I18n.t('export.macro.rich_text_unsupported')}]"],
           ["parent", parent_project.name],
           ["public", "Yes"]
         ]
@@ -229,7 +229,19 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
       let(:description) do
         <<~DESCRIPTION
           ## Work package attributes and labels
-          <table><tbody>#{supported_work_package_embeds_table}</tbody></table>
+          <table><tbody>#{supported_work_package_embeds_table}
+            <tr><td>No replacement of:</td><td>
+                <code>workPackageValue:1:assignee</code>
+                <code>workPackageLabel:assignee</code>
+            </td></tr>
+            </tbody></table>
+
+            `workPackageValue:2:assignee workPackageLabel:assignee`
+
+            ```
+            workPackageValue:3:assignee
+            workPackageLabel:assignee
+            ```
         DESCRIPTION
       end
       let(:supported_project_embeds_table) do
@@ -256,7 +268,10 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
               API::Utilities::PropertyNameConverter.to_ar_name(embed[0].to_sym, context: work_package)
             ), embed[1]]
           end,
+          "No replacement of:", "workPackageValue:1:assignee", " ", "workPackageLabel:assignee",
+          "workPackageValue:2:assignee workPackageLabel:assignee",
           "1", export_time_formatted, project.name,
+          "workPackageValue:3:assignee", "workPackageLabel:assignee",
           "LongText",
           "Project attributes and labels",
           supported_project_embeds.map do |embed|

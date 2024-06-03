@@ -67,8 +67,20 @@ module WorkPackage::Exports
         elsif model_s == "project"
           resolve_project_match(id || work_package.project.id, type, attribute, user)
         else
-          "[Error: Invalid attribute macro: #{model_s}]"
+          msg_macro_error I18n.t('export.macro.model_not_found', model: model_s)
         end
+      end
+
+      def self.msg_macro_error(message)
+        msg_inline I18n.t('export.macro.error', message:)
+      end
+
+      def self.msg_macro_error_rich_text
+        msg_inline I18n.t('export.macro.rich_text_unsupported')
+      end
+
+      def self.msg_inline(message)
+        "[#{message}]"
       end
 
       def self.resolve_label_work_package(attribute)
@@ -87,11 +99,11 @@ module WorkPackage::Exports
 
       def self.resolve_work_package_match(id, type, attribute, user)
         return resolve_label_work_package(attribute) if type == "label"
-        return "[Error: Invalid attribute macro: #{type}]" unless type == "value"
+        return msg_macro_error(I18n.t('export.macro.model_not_found', model: type)) unless type == "value"
 
         work_package = WorkPackage.find_by(id:)
         if work_package.nil? || !user.allowed_in_project?(:view_work_packages, work_package.project)
-          return "[Error: #{WorkPackage.name} #{id} not found}]"
+          return msg_macro_error(I18n.t('export.macro.resource_not_found', resource: "#{WorkPackage.name} #{id}"))
         end
 
         resolve_value_work_package(work_package, attribute)
@@ -99,11 +111,11 @@ module WorkPackage::Exports
 
       def self.resolve_project_match(id, type, attribute, user)
         return resolve_label_project(attribute) if type == "label"
-        return "[Error: Invalid attribute macro: #{type}]" unless type == "value"
+        return msg_macro_error(I18n.t("export.macro.model_not_found", model: type)) unless type == "value"
 
         project = Project.find_by(id:)
         if project.nil? || !user.allowed_in_project?(:view_project, project)
-          return "[Error: #{Project.name} #{id} not found}]"
+          return msg_macro_error(I18n.t("export.macro.resource_not_found", resource: "#{Project.name} #{id}"))
         end
 
         resolve_value_project(project, attribute)
@@ -121,14 +133,14 @@ module WorkPackage::Exports
         else
           ar_name = "cf_#{cf.id}"
           # currently we do not support embedding rich text fields: long text custom fields
-          return "[Rich text embedding currently not supported in export]" if cf.formattable?
+          return msg_macro_error_rich_text if cf.formattable?
 
           # TODO: Is the user allowed to see this custom field/"project attribute"?
         end
 
         # currently we do not support embedding rich text field: e.g. projectValue:1234:description
         if DISABLED_PROJECT_RICH_TEXT_FIELDS.include?(ar_name.to_sym)
-          return "[Rich text embedding currently not supported in export]"
+          return msg_macro_error_rich_text
 
         end
 
@@ -142,14 +154,14 @@ module WorkPackage::Exports
         else
           ar_name = "cf_#{cf.id}"
           # currently we do not support embedding rich text fields: long text custom fields
-          return "[Rich text embedding currently not supported in export]" if cf.formattable?
+          return msg_macro_error_rich_text if cf.formattable?
 
           # TODO: Are there access restrictions on work_package custom fields?
         end
 
         # currently we do not support embedding rich text field: workPackageValue:1234:description
         if DISABLED_WORK_PACKAGE_RICH_TEXT_FIELDS.include?(ar_name.to_sym)
-          return "[Rich text embedding currently not supported in export]"
+          return msg_macro_error_rich_text
 
         end
 
