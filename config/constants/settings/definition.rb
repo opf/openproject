@@ -535,7 +535,7 @@ module Settings
       },
       days_per_week: {
         description: "This will define what is considered a “week” when displaying duration in a more natural way " \
-                     "(for example, if a week is 5 days, 15 days 3 weeks).",
+                     "(for example, if a week is 5 days, 15 days would be 3 weeks).",
         default: 5,
         format: :integer
       },
