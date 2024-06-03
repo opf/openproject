@@ -45,7 +45,7 @@ module DeployTargets
     end
 
     def delete_link
-      link_to "Delete",
+      link_to I18n.t(:button_delete),
               deploy_target_path(deploy_target, back_url: request.fullpath),
               method: :delete,
               class: "icon icon-delete"
