@@ -57,6 +57,7 @@
       primer_form_with(
         model: @project_mapping,
         url: link_admin_settings_project_custom_field_path(@project_custom_field),
+        data: { turbo: true },
         method: :post
       ) do |form|
         concat(render(Primer::Alpha::Dialog::Body.new(
