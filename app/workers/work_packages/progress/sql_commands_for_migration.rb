@@ -28,60 +28,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Statuses
-  class RowComponent < ::RowComponent
-    def status
-      model
-    end
-
-    def name
-      link_to status.name, edit_status_path(status)
-    end
-
-    def default?
-      checkmark(status.is_default?)
-    end
-
-    def closed?
-      checkmark(status.is_closed?)
-    end
-
-    def readonly?
-      checkmark(status.is_readonly?)
-    end
-
-    def excluded_from_totals?
-      checkmark(status.excluded_from_totals?)
-    end
-
-    def color
-      helpers.icon_for_color status.color
-    end
-
-    def done_ratio
-      h(status.default_done_ratio)
-    end
-
-    def sort
-      helpers.reorder_links "status",
-                            { action: "update", id: status },
-                            method: :patch
-    end
-
-    def button_links
-      [
-        delete_link
-      ]
-    end
-
-    def delete_link
-      link_to(
-        helpers.op_icon("icon icon-delete"),
-        status_path(status),
-        method: :delete,
-        data: { confirm: I18n.t(:text_are_you_sure) },
-        title: t(:button_delete)
-      )
-    end
+# Specific SQL commands for updating work package progress values during
+# migrations, as some methods in `WorkPackages::Progress::SqlCommands` rely on
+# fields that may not exist yet.
+module WorkPackages::Progress::SqlCommandsForMigration
+  # Computes total work, total remaining work and total % complete for all work
+  # packages having children.
+  def update_totals
+    execute(<<~SQL.squish)
+      UPDATE temp_wp_progress_values
+      SET total_work = totals.total_work,
+          total_remaining_work = totals.total_remaining_work,
+          total_p_complete = CASE
+            WHEN totals.total_work = 0 THEN NULL
+            ELSE (1 - (totals.total_remaining_work / totals.total_work)) * 100
+          END
+      FROM (
+        SELECT wp_tree.ancestor_id AS id,
+               MAX(generations) AS generations,
+               SUM(estimated_hours) AS total_work,
+               SUM(remaining_hours) AS total_remaining_work
+        FROM work_package_hierarchies wp_tree
+          LEFT JOIN temp_wp_progress_values wp_progress ON wp_tree.descendant_id = wp_progress.id
+        GROUP BY wp_tree.ancestor_id
+      ) totals
+      WHERE temp_wp_progress_values.id = totals.id
+      AND totals.generations > 0
+    SQL
   end
 end

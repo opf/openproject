@@ -28,60 +28,46 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Statuses
-  class RowComponent < ::RowComponent
-    def status
-      model
-    end
+module RSpecOpExt
+  module ForEachContext
+    # Runs the same example group multiple times: once for each given named
+    # context.
+    #
+    # For each named context, the context is applied and the tests are run. It
+    # allows to have multiple shared contexts and only one example group,
+    # instead of having shared examples and multiple contexts including the
+    # shared examples. It generally reads better.
+    #
+    # @example
+    #
+    #     RSpec.describe "something" do
+    #       shared_context "early in the morning" do
+    #         let(:time) { "06:30" }
+    #       end
+    #
+    #       shared_context "late in the evening" do
+    #         let(:time) { "23:00" }
+    #       end
+    #
+    #       for_each_context "early in the morning",
+    #                        "late in the evening" do
+    #         it "has energy" do
+    #           expect(body.energy_level).to eq(100)
+    #         end
+    #       end
+    #     end
+    def for_each_context(*context_names, &blk)
+      context_names.each do |context_name|
+        context context_name do
+          include_context context_name
 
-    def name
-      link_to status.name, edit_status_path(status)
-    end
-
-    def default?
-      checkmark(status.is_default?)
-    end
-
-    def closed?
-      checkmark(status.is_closed?)
-    end
-
-    def readonly?
-      checkmark(status.is_readonly?)
-    end
-
-    def excluded_from_totals?
-      checkmark(status.excluded_from_totals?)
-    end
-
-    def color
-      helpers.icon_for_color status.color
-    end
-
-    def done_ratio
-      h(status.default_done_ratio)
-    end
-
-    def sort
-      helpers.reorder_links "status",
-                            { action: "update", id: status },
-                            method: :patch
-    end
-
-    def button_links
-      [
-        delete_link
-      ]
-    end
-
-    def delete_link
-      link_to(
-        helpers.op_icon("icon icon-delete"),
-        status_path(status),
-        method: :delete,
-        data: { confirm: I18n.t(:text_are_you_sure) },
-        title: t(:button_delete)
-      )
+          instance_exec(&blk)
+        end
+      end
     end
   end
+end
+
+RSpec.configure do |config|
+  config.extend RSpecOpExt::ForEachContext
 end

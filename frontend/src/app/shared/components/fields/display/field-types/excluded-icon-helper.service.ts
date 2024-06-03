@@ -26,19 +26,33 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { InputState } from '@openproject/reactivestates';
+import { Injectable } from '@angular/core';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 
-export class StatusResource extends HalResource {
-  isClosed:boolean;
+@Injectable({ providedIn: 'root' })
 
-  isDefault:boolean;
+export class ExcludedIconHelperService {
+  constructor(
+    private apiV3Service:ApiV3Service,
+  ) {}
 
-  isReadonly:boolean;
+  public addIconIfExcludedFromTotals(element:HTMLElement, resource:WorkPackageResource):void {
+    if (resource?.status) {
+      this.apiV3Service.statuses.id(resource.status as StatusResource).get().subscribe(
+        (status:StatusResource) => {
+          if (status.excludedFromTotals) {
+            this.addExcludedInfoIcon(element, status.name);
+          }
+        },
+      );
+    }
+  }
 
-  excludedFromTotals:boolean;
-
-  public get state():InputState<this> {
-    return this.states.statuses.get(this.href as string) as any;
+  public addExcludedInfoIcon(element:HTMLElement, name:string):void {
+    const infoIcon = document.createElement('opce-exclusion-info');
+    infoIcon.setAttribute('status-name', name);
+    element.appendChild(infoIcon);
   }
 }
