@@ -42,7 +42,8 @@
         id: dialog_id,
         title:,
         test_selector: dialog_id,
-        size: :large
+        size: :large,
+        style: "min-height: 400px"
       )
     ) do |dialog|
       dialog.with_show_button(scheme: :primary) { show_button_text }
@@ -52,25 +53,23 @@
         visually_hide_title: false
       )
 
-      render(Primer::Beta::Text.new(tag: :div)) do
+      concat(render(Primer::Alpha::Dialog::Body.new(
+        id: dialog_body_id, test_selector: dialog_body_id, aria: { label: title }
+      )) do
         primer_form_with(
           model: @project_mapping,
           url: link_admin_settings_project_custom_field_path(@project_custom_field),
           data: { turbo: true },
           method: :post
         ) do |form|
-          concat(render(Primer::Alpha::Dialog::Body.new(
-            id: dialog_body_id, test_selector: dialog_body_id, aria: { label: title }
-          )) do
-            render(new_project_mapping_form.new(form, project_custom_field: @project_custom_field))
-          end)
-
-          concat(render(Primer::Alpha::Dialog::Footer.new(show_divider: false)) do
-            concat(render(Primer::ButtonComponent.new(data: { 'close-dialog-id': dialog_id })) { cancel_button_text })
-            concat(render(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) { submit_button_text })
-          end)
+          render(new_project_mapping_form.new(form, project_custom_field: @project_custom_field))
         end
-      end
+      end)
+
+      concat(render(Primer::Alpha::Dialog::Footer.new(show_divider: false)) do
+        concat(render(Primer::ButtonComponent.new(data: { 'close-dialog-id': dialog_id })) { cancel_button_text })
+        concat(render(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) { submit_button_text })
+      end)
     end
   end
 %>
