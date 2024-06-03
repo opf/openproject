@@ -15,6 +15,7 @@ Rails.application.configure do |application|
       formatter WorkPackage, WorkPackage::Exports::Formatters::Costs
       formatter WorkPackage, WorkPackage::Exports::Formatters::DoneRatio
       formatter WorkPackage, Exports::Formatters::CustomField
+      formatter WorkPackage, Exports::Formatters::CustomFieldPdf
 
       list Project, Projects::Exports::CSV
       formatter Project, Exports::Formatters::CustomField

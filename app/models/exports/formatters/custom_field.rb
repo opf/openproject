@@ -1,8 +1,8 @@
 module Exports
   module Formatters
     class CustomField < Default
-      def self.apply?(attribute, _export_format)
-        attribute.start_with?("cf_")
+      def self.apply?(attribute, export_format)
+        export_format != :pdf && attribute.start_with?("cf_")
       end
 
       ##
@@ -24,7 +24,7 @@ module Exports
         case custom_field.field_format
         when "bool"
           value = object.typed_custom_value_for(custom_field)
-          value ? I18n.t(:general_text_Yes) : I18n.t(:general_text_No)
+          value == nil ? false : value
         when "text"
           object.typed_custom_value_for(custom_field)
         else
