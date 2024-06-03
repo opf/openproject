@@ -130,7 +130,16 @@ class WorkPackages::ProgressController < ApplicationController
 
   def work_package_params
     params.require(:work_package)
-          .permit(allowed_params)
+          .permit(allowed_params).tap do |wp_params|
+      if wp_params["estimated_hours"].present?
+        wp_params["estimated_hours"] =
+          DurationConverter.parse(wp_params["estimated_hours"])
+      end
+      if wp_params["remaining_hours"].present?
+        wp_params["remaining_hours"] =
+          DurationConverter.parse(wp_params["remaining_hours"])
+      end
+    end
   end
 
   def allowed_params
@@ -138,12 +147,6 @@ class WorkPackages::ProgressController < ApplicationController
       %i[estimated_hours status_id]
     else
       %i[estimated_hours remaining_hours]
-    end
-  end
-
-  def reject_params_that_dont_differ_from_persisted_values
-    work_package_params.reject do |key, value|
-      @persisted_progress_attributes[key.to_s].to_f.to_s == value.to_f.to_s
     end
   end
 

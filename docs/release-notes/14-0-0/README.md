@@ -41,7 +41,7 @@ methods. For more information, see [#51212](https://community.openproject.org/wo
 
 ### Reduced number of configurable design variables
 
-We have changed the number and naming of the [configurable design variables](https://www.openproject.org/docs/system-admin-guide/design/#advanced-settings). This simplifies the process of setting the desired color scheme for users. It also allows us to get closer to the **Primer design system** in order to benefit from its other modes such as the dark mode or the colorblind mode in the future.
+We have changed the number and naming of the [configurable design variables](../../system-admin-guide/design/#advanced-settings). This simplifies the process of setting the desired color scheme for users. It also allows us to get closer to the **Primer design system** in order to benefit from its other modes such as the dark mode or the colorblind mode in the future.
 
 The following variables have been changed:
 
@@ -113,7 +113,7 @@ As described above, *project* custom fields are now called 'Project attributes' 
 
 ### Enhanced Meetings module with new features
 
-OpenProject's [(Dynamic) Meetings](https://www.openproject.org/docs/user-guide/meetings/dynamic-meetings/) have been updated with the following new features:
+OpenProject's [(Dynamic) Meetings](../../user-guide/meetings/dynamic-meetings/) have been updated with the following new features:
 
 * [Meetings attachments](https://www.openproject.com/docs/user-guide/meetings/dynamic-meetings/#meeting-attachments) are now shown in the bottom section of the right-hand sidebar. You can add them directly to the meeting there and drag and drop them from this section to the Notes section of the agenda items.
 * When [copying a meeting](https://www.openproject.com/docs/user-guide/meetings/dynamic-meetings/#copy-a-meeting), you can now check a box to choose whether you want to include attachments.
@@ -168,10 +168,10 @@ Apart from the features mentioned above, there have been a lot of other changes,
 - Bugfix: +Create button disabled after creating a child work package until reloading the page \[[#49136](https://community.openproject.org/wp/49136)\]
 - Bugfix: Missing space between avatars and usernames in Administration -> Users \[[#50213](https://community.openproject.org/wp/50213)\]
 - Bugfix: Taskboard column width stopped working \[[#51416](https://community.openproject.org/wp/51416)\]
-- Bugfix: share workpackages - share user can not be selected as assignee/responsible \[[#51551](https://community.openproject.org/wp/51551)\]
+- Bugfix: share work packages - share user can not be selected as assignee/responsible \[[#51551](https://community.openproject.org/wp/51551)\]
 - Bugfix: Double close button on Share modal for mobile \[[#51699](https://community.openproject.org/wp/51699)\]
 - Bugfix: Odd spacing in Notification and Email Reminder personal setting pages \[[#51772](https://community.openproject.org/wp/51772)\]
-- Bugfix: OpenProject behind prefix some assests still loaded from web root  \[[#52292](https://community.openproject.org/wp/52292)\]
+- Bugfix: OpenProject behind prefix some assets still loaded from web root  \[[#52292](https://community.openproject.org/wp/52292)\]
 - Bugfix: Position of status selector too high after opening the drop down \[[#52669](https://community.openproject.org/wp/52669)\]
 - Bugfix: Add meaningful flash error message when user cancels OAuth flow on OneDrive/SharePoint \[[#52798](https://community.openproject.org/wp/52798)\]
 - Bugfix: Waiting modal stuck on network error \[[#53005](https://community.openproject.org/wp/53005)\]
@@ -188,7 +188,7 @@ Apart from the features mentioned above, there have been a lot of other changes,
 - Bugfix: Empty assignee board for user with reader role \[[#53436](https://community.openproject.org/wp/53436)\]
 - Bugfix: Toolbar buttons too close on user page \[[#53477](https://community.openproject.org/wp/53477)\]
 - Bugfix: Link on top of the storage should be removed if the read\_files permission is missing when it is a automatically managed project folder. \[[#53484](https://community.openproject.org/wp/53484)\]
-- Bugfix: Buttons have the wrong colour in freshly seeded BIM instance \[[#53504](https://community.openproject.org/wp/53504)\]
+- Bugfix: Buttons have the wrong color in freshly seeded BIM instance \[[#53504](https://community.openproject.org/wp/53504)\]
 - Bugfix: Meetings: Remove the "Add notes" item from the dropdown menu when notes already exist \[[#53618](https://community.openproject.org/wp/53618)\]
 - Bugfix: Macros text should wrap \[[#53644](https://community.openproject.org/wp/53644)\]
 - Bugfix: iOS zooms in when commenting \[[#53651](https://community.openproject.org/wp/53651)\]
@@ -218,7 +218,7 @@ Apart from the features mentioned above, there have been a lot of other changes,
 - Bugfix: Total Remaining work of parent ticket does not get updated according to children values \[[#54179](https://community.openproject.org/wp/54179)\]
 - Bugfix: Inconsistent UX with commas for time unit when inputting remaining work or work \[[#54193](https://community.openproject.org/wp/54193)\]
 - Bugfix: Wording is off for progress calculation input errors \[[#54288](https://community.openproject.org/wp/54288)\]
-- Bugfix: Superflous drop-down arrow on %Complete input modal \[[#54290](https://community.openproject.org/wp/54290)\]
+- Bugfix: Superfluous drop-down arrow on %Complete input modal \[[#54290](https://community.openproject.org/wp/54290)\]
 - Bugfix: Non-Parent work package should not show 'Total work' in journal entry \[[#54299](https://community.openproject.org/wp/54299)\]
 - Bugfix: Rounding is inconsistent on progress calculation modal \[[#54308](https://community.openproject.org/wp/54308)\]
 - Bugfix: Totals with ∑ 0h should be visible \[[#54309](https://community.openproject.org/wp/54309)\]
@@ -297,4 +297,4 @@ Silas Kropf, Philipp Schulz, Benjamin Rönnau, Mario Haustein, Matt User, Mario 
 Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to highlight user [izzahk](https://crowdin.com/profile/izzahk)
 who has done an outstanding number of translations for the Malaysian language in recent weeks.
 
-Would you like to help out with translations yourself? Then take a look at our [translation guide](https://www.openproject.org/docs/development/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
+Would you like to help out with translations yourself? Then take a look at our [translation guide](../../development/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!

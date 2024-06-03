@@ -154,12 +154,12 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   describe "with a request for a PDF table" do
     it "contains correct data" do
       expect(pdf_strings).to eq [
-                                  query.name,
-                                  *column_titles,
-                                  *work_package_columns(work_package_parent),
-                                  *work_package_columns(work_package_child),
-                                  "1/1", export_time_formatted, query.name
-                                ].join(" ")
+        query.name,
+        *column_titles,
+        *work_package_columns(work_package_parent),
+        *work_package_columns(work_package_child),
+        "1/1", export_time_formatted, query.name
+      ].join(" ")
     end
   end
 
@@ -168,15 +168,15 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
     it "contains correct data" do
       expect(pdf_strings).to eq [
-                                  query.name,
-                                  work_package_parent.type.name,
-                                  *column_titles,
-                                  *work_package_columns(work_package_parent),
-                                  work_package_child.type.name,
-                                  *column_titles,
-                                  *work_package_columns(work_package_child),
-                                  "1/1", export_time_formatted, query.name
-                                ].join(" ")
+        query.name,
+        work_package_parent.type.name,
+        *column_titles,
+        *work_package_columns(work_package_parent),
+        work_package_child.type.name,
+        *column_titles,
+        *work_package_columns(work_package_child),
+        "1/1", export_time_formatted, query.name
+      ].join(" ")
     end
   end
 
@@ -185,17 +185,17 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
     it "contains correct data" do
       expect(pdf_strings).to eq [
-                                  query.name,
-                                  work_package_parent.type.name,
-                                  *column_titles,
-                                  *work_package_columns(work_package_parent),
-                                  I18n.t("js.label_sum"), work_package_parent.story_points.to_s,
-                                  work_package_child.type.name,
-                                  *column_titles,
-                                  *work_package_columns(work_package_child),
-                                  I18n.t("js.label_sum"), work_package_child.story_points.to_s,
-                                  "1/1", export_time_formatted, query.name
-                                ].join(" ")
+        query.name,
+        work_package_parent.type.name,
+        *column_titles,
+        *work_package_columns(work_package_parent),
+        I18n.t("js.label_sum"), work_package_parent.story_points.to_s,
+        work_package_child.type.name,
+        *column_titles,
+        *work_package_columns(work_package_child),
+        I18n.t("js.label_sum"), work_package_child.story_points.to_s,
+        "1/1", export_time_formatted, query.name
+      ].join(" ")
     end
   end
 
@@ -204,17 +204,17 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
     it "contains correct data" do
       expect(pdf_strings).to eq [
-                                  query.name,
-                                  "Foo",
-                                  *column_titles,
-                                  *work_package_columns(work_package_child),
-                                  I18n.t("js.label_sum"), work_package_child.story_points.to_s,
-                                  "Foo, Bar",
-                                  *column_titles,
-                                  *work_package_columns(work_package_parent),
-                                  I18n.t("js.label_sum"), work_package_parent.story_points.to_s,
-                                  "1/1", export_time_formatted, query.name
-                                ].join(" ")
+        query.name,
+        "Foo",
+        *column_titles,
+        *work_package_columns(work_package_child),
+        I18n.t("js.label_sum"), work_package_child.story_points.to_s,
+        "Foo, Bar",
+        *column_titles,
+        *work_package_columns(work_package_parent),
+        I18n.t("js.label_sum"), work_package_parent.story_points.to_s,
+        "1/1", export_time_formatted, query.name
+      ].join(" ")
     end
   end
 
@@ -223,15 +223,15 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
     it "contains correct data" do
       expect(pdf_strings).to eq [
-                                  *cover_page_content,
-                                  query.name,
-                                  "1.", "2", work_package_parent.subject,
-                                  "2.", "2", work_package_child.subject,
-                                  "1/2", export_time_formatted, query.name,
-                                  *work_package_details(work_package_parent, "1"),
-                                  *work_package_details(work_package_child, "2"),
-                                  "2/2", export_time_formatted, query.name
-                                ].join(" ")
+        *cover_page_content,
+        query.name,
+        "1.", "2", work_package_parent.subject,
+        "2.", "2", work_package_child.subject,
+        "1/2", export_time_formatted, query.name,
+        *work_package_details(work_package_parent, "1"),
+        *work_package_details(work_package_child, "2"),
+        "2/2", export_time_formatted, query.name
+      ].join(" ")
     end
   end
 
@@ -241,15 +241,15 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
     it "contains correct data" do
       expect(pdf_strings).to eq [
-                                  *cover_page_content,
-                                  query.name,
-                                  "1.", "2", work_package_parent.subject,
-                                  "1.1.", "2", work_package_child.subject,
-                                  "1/2", export_time_formatted, query.name,
-                                  *work_package_details(work_package_parent, "1"),
-                                  *work_package_details(work_package_child, "1.1"),
-                                  "2/2", export_time_formatted, query.name
-                                ].join(" ")
+        *cover_page_content,
+        query.name,
+        "1.", "2", work_package_parent.subject,
+        "1.1.", "2", work_package_child.subject,
+        "1/2", export_time_formatted, query.name,
+        *work_package_details(work_package_parent, "1"),
+        *work_package_details(work_package_child, "1.1"),
+        "2/2", export_time_formatted, query.name
+      ].join(" ")
     end
   end
 
@@ -259,18 +259,18 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
     it "contains correct data" do
       expect(pdf_strings).to eq [
-                                  *cover_page_content,
-                                  query.name,
-                                  "1.", "2", work_package_parent.subject,
-                                  "2.", "2", work_package_child.subject,
-                                  "1/2", export_time_formatted, query.name,
-                                  I18n.t("js.work_packages.tabs.overview"),
-                                  column_title(:story_points),
-                                  I18n.t("js.label_sum"), work_packages_sum.to_s,
-                                  *work_package_details(work_package_parent, "1"),
-                                  *work_package_details(work_package_child, "2"),
-                                  "2/2", export_time_formatted, query.name
-                                ].join(" ")
+        *cover_page_content,
+        query.name,
+        "1.", "2", work_package_parent.subject,
+        "2.", "2", work_package_child.subject,
+        "1/2", export_time_formatted, query.name,
+        I18n.t("js.work_packages.tabs.overview"),
+        column_title(:story_points),
+        I18n.t("js.label_sum"), work_packages_sum.to_s,
+        *work_package_details(work_package_parent, "1"),
+        *work_package_details(work_package_child, "2"),
+        "2/2", export_time_formatted, query.name
+      ].join(" ")
     end
   end
 
@@ -280,20 +280,20 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
     it "contains correct data" do
       expect(pdf_strings).to eq [
-                                  *cover_page_content,
-                                  query.name,
-                                  "1.", "2", work_package_parent.subject,
-                                  "2.", "2", work_package_child.subject,
-                                  "1/2", export_time_formatted, query.name,
-                                  I18n.t("js.work_packages.tabs.overview"),
-                                  column_title(:type), column_title(:story_points),
-                                  work_package_parent.type.name, work_package_parent.story_points.to_s,
-                                  work_package_child.type.name, work_package_child.story_points.to_s,
-                                  I18n.t("js.label_sum"), work_packages_sum.to_s,
-                                  *work_package_details(work_package_parent, "1"),
-                                  *work_package_details(work_package_child, "2"),
-                                  "2/2", export_time_formatted, query.name
-                                ].join(" ")
+        *cover_page_content,
+        query.name,
+        "1.", "2", work_package_parent.subject,
+        "2.", "2", work_package_child.subject,
+        "1/2", export_time_formatted, query.name,
+        I18n.t("js.work_packages.tabs.overview"),
+        column_title(:type), column_title(:story_points),
+        work_package_parent.type.name, work_package_parent.story_points.to_s,
+        work_package_child.type.name, work_package_child.story_points.to_s,
+        I18n.t("js.label_sum"), work_packages_sum.to_s,
+        *work_package_details(work_package_parent, "1"),
+        *work_package_details(work_package_child, "2"),
+        "2/2", export_time_formatted, query.name
+      ].join(" ")
     end
   end
 
@@ -303,22 +303,22 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
     it "contains correct data" do
       expect(pdf_strings).to eq [
-                                  *cover_page_content,
-                                  query.name,
-                                  "1.", "2", work_package_child.subject,
-                                  "2.", "2", work_package_parent.subject,
-                                  "1/2", export_time_formatted, query.name,
-                                  I18n.t("js.work_packages.tabs.overview"),
-                                  list_custom_field.name.upcase, column_title(:story_points),
+        *cover_page_content,
+        query.name,
+        "1.", "2", work_package_child.subject,
+        "2.", "2", work_package_parent.subject,
+        "1/2", export_time_formatted, query.name,
+        I18n.t("js.work_packages.tabs.overview"),
+        list_custom_field.name.upcase, column_title(:story_points),
 
-                                  "Foo", work_package_child.story_points.to_s,
-                                  "Foo, Bar", work_package_parent.story_points.to_s,
-                                  I18n.t("js.label_sum"), work_packages_sum.to_s,
+        "Foo", work_package_child.story_points.to_s,
+        "Foo, Bar", work_package_parent.story_points.to_s,
+        I18n.t("js.label_sum"), work_packages_sum.to_s,
 
-                                  *work_package_details(work_package_child, "1"),
-                                  *work_package_details(work_package_parent, "2"),
-                                  "2/2", export_time_formatted, query.name
-                                ].join(" ")
+        *work_package_details(work_package_child, "1"),
+        *work_package_details(work_package_parent, "2"),
+        "2/2", export_time_formatted, query.name
+      ].join(" ")
     end
   end
 end

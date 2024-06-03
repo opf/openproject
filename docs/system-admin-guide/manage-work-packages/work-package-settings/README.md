@@ -17,7 +17,7 @@ You can adjust the following:
 
 3. **Use current date as start date for new work packages**. This way the current date will always be set as a start date if your create new work packages. Also, if you copy projects, the new work packages will get the current date as start date.
 
-4. **Progress calculation** lets you pick between two modes for how the **%&nsbp;Complete** field is calculated for work packages.
+4. **Progress calculation** lets you pick between two modes for how the **%&nbsp;Complete** field is calculated for work packages.
   - **Work-based**: %&nbsp;Complete is automatically calculated based on Work and Remaining work values for that work package, both of which are then necessary to have a value for %&nbsp;Complete.
   - **Status-based**: you will have to define fixed %&nbsp;Complete values for each [work package status](../work-package-status), which will update automatically when team members update the status of their work packages.
 
@@ -25,7 +25,7 @@ You can adjust the following:
 
    ![default highlighting mode](openproject_system_guide_default_highlighting_mode.png)
 
-6. Customize the appearance of the work package tables to **define which work package attributes are displayed in the work package tables by default**.
+6. Customize the appearance of the work package lists to **define which work package attributes are displayed in the work package lists by default and in what order**.
 
 Do not forget to save your changes with the blue **Save** button at the bottom.
 

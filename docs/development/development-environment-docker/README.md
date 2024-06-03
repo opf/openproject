@@ -419,6 +419,41 @@ Should you need to reset your root password, execute the following command:
 docker compose --project-directory docker/dev/gitlab exec -it gitlab gitlab-rake "gitlab:password:reset[root]"
 ```
 
+## Keycloak Service
+
+> NOTE: OpenID connect is an enterprise feature in OpenProject. So, to be able to use this feature for development setup, we need to have an `Enterprise Edition Token` which is restricted to the domain `openproject.local`
+
+Within `docker/dev/keycloak` a compose file is provided for running local keycloak instance with TLS support. This provides
+a production like environment for testing the OpenProject Keycloak integration against a keycloak instance accessible on `https://keycloak.local`.
+
+> NOTE: Configure [TLS Support](#tls-support) first before starting the Keycloak service
+
+### Running the Keycloak Instance
+
+Start up the docker compose service for Keycloak as follows:
+
+```shell
+docker compose --project-directory docker/dev/keycloak up -d
+```
+
+Once the keycloak service is started and running, you can access the keycloak instance on `https://keycloak.local` 
+and login with initial username and password as `admin`.
+
+Keycloak being an OpenID connect provider, we need to setup an OIDC integration for OpenProject.
+[Setup OIDC (keycloak) integration for OpenProject](https://www.openproject.org/docs/installation-and-operations/misc/custom-openid-connect-providers/#keycloak)
+
+Once the above setup is completed, In the root `docker-compose.override.yml` file, uncomment all the environment in `backend` service for keycloak and set the values according to configuration done in keycloak for OpenProject Integration.
+
+```shell
+# Stop all the service if already running
+docker compose down
+
+# or else simply start frontend service
+docker compose up -d frontend
+```
+
+Upon setting up all the things correctly, we can see a login with `keycloak` option in login page of `OpenProject`.
+
 ## Local files
 
 Running the docker images will change some of your local files in the mounted code directory. The

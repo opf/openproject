@@ -1,7 +1,7 @@
 ko:
   plugin_openproject_openid_connect:
     name: "OpenProject OpenID Connect"
-    description: "Adds OmniAuth OpenID Connect strategy providers to OpenProject."
+    description: "OpenProject에 OmniAuth OpenID Connect 전략 공급자를 추가합니다."
   logout_warning: >
     로그아웃되었습니다. 제출한 양식의 내용이 손실될 수 있습니다. [로그인]하십시오.
   activemodel:

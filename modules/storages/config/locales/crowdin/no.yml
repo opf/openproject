@@ -39,16 +39,20 @@
   api_v3:
     errors:
       too_many_elements_created_at_once: For mange elementer opprettet samtidig. Forventet %{max} som høyeste, fikk %{actual}.
-  permission_create_files: 'External Storage: Create files'
-  permission_delete_files: 'External Storage: Delete files'
+  external_file_storages: Eksterne fillagringer
+  permission_create_files: 'Automatisk administrerte prosjektmapper: Opprett filer'
+  permission_create_files_explanation: Denne tillatelsen er bare tilgjengelig for Nextcloud lagre
+  permission_delete_files: 'Automatisk administrerte prosjektmapper: Slett filer'
+  permission_delete_files_explanation: Denne tillatelsen er bare tilgjengelig for Nextcloud lagre
   permission_header_for_project_module_storages: Automatisk administrerte prosjektmapper
   permission_manage_file_links: Administrer fil-linker
   permission_manage_storages_in_project: Administrer fillagring i prosjektet
-  permission_read_files: 'External Storage: Read files'
-  permission_share_files: 'External Storage: Share files'
+  permission_read_files: 'Automatisk administrerte prosjektmapper: Les filer'
+  permission_share_files: 'Automatisk administrerte prosjektmapper: Del filer'
+  permission_share_files_explanation: Denne tillatelsen er bare tilgjengelig for Nextcloud lagre
   permission_view_file_links: Vis fil-linker
-  permission_write_files: 'External Storage: Write files'
-  project_module_storages: Fillagringer
+  permission_write_files: 'Automatisk administrerte prosjektmapper: Skriv filer'
+  project_module_storages: Filer
   storages:
     buttons:
       complete_without_setup: Fullfør uten
@@ -79,14 +83,14 @@
     error_invalid_provider_type: Vennligst velg en gyldig lagringsleverandør.
     file_storage_view:
       access_management:
-        automatic_management: Automatically managed access and folders
-        automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
-        description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
-        manual_management: Manually managed access and folders
-        manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
-        setup_incomplete: Select the type of management of user access and folder creation.
-        subtitle: Access management
-        title: Access and project folders
+        automatic_management: Administrere automatisk tilgang og mapper
+        automatic_management_description: La OpenProject lage mapper automatisk og administrere brukertilgang hver av sine mapper. Det anbefales fordi den sikrer at alle gruppemedlemmer alltid har riktig tilgangsrettigheter.
+        description: Velg type behandling av brukertilgang og opprettelse av mappe. Vi anbefaler å bruke automatisk administrert tilgang for å ha en mer organisert struktur og garantere tilgang til alle relevante brukere.
+        manual_management: Manuelt administrert tilgang og mapper
+        manual_management_description: Opprett og behandle mapper manuelt per prosjekt på egenhånd. Du må manuelt sikre at relevante brukere har tilgang.
+        setup_incomplete: Velg type behandling av brukertilgang og opprettelse av mappe.
+        subtitle: Tilgangsstyring
+        title: Tilgang og prosjektmapper
       automatically_managed_folders: Automatisk administrerte mapper
       general_information: Generell informasjon
       nextcloud_oauth: Nextcloud OAuth
@@ -105,12 +109,12 @@
       subtitle: Automatisk administrerte prosjektmapper
       title: Helse-status
     health_email_notifications:
-      description_subscribed: All administrators receive health status email notifications for this storage.
-      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
-      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
+      description_subscribed: Alle administratorer mottar e-postmeldinger med helsestatus for denne lagringen.
+      description_unsubscribed: E-postvarsler for helsestatus for denne lagringen er slått av for alle administratorer.
+      error_could_not_be_saved: Kunne ikke lagre e-postvarslingsinnstillingene. Prøv på nytt.
       subscribe: Abonner
       title: E-postvarsler
-      unsubscribe: Unsubscribe
+      unsubscribe: Avslutt abonnement
     help_texts:
       project_folder: Prosjektmappen er standardmappen for filopplasting for dette prosjektet. Brukere kan likevel laste opp filer til andre steder.
     instructions:
@@ -160,7 +164,7 @@
     label_creator: Skaper
     label_delete_storage: Slett fillagring
     label_edit_storage: Redigere fillagring
-    label_edit_storage_access_management: Edit storage access management
+    label_edit_storage_access_management: Redigere administrasjon for lagringstilgang
     label_edit_storage_automatically_managed_folders: Rediger automatisk administrerte mapper
     label_edit_storage_host: Redigere lagringsvert
     label_existing_manual_folder: Eksisterende mappe med manuelt administrerte tillatelser
@@ -225,13 +229,12 @@
       project_settings:
         delete: Slett fillagring
         edit: Rediger fillagringen i dette prosjektet
-        index: Fillagringer er tilgjengelig i dette prosjektet
         members_connection_status: Medlemmers tilkoblingsstatus
         new: Legg til fillagring i dette prosjektet
       project_storage_members:
         subtitle: Sjekk tilkoblingsstatusen for lagringsstedet  %{storage_name_link} for alle prosjektmedlemmer.
         title: Medlemmers tilkoblingsstatus
-    permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
+    permission_header_explanation: 'Filtillatelser til eksterne lagringsplasser brukes bare på mapper og filer innenfor automatisk administrerte prosjektmapper. Merk at ikke alle filtillatelser støttes av alle lagringstilbydere. Kontroller dokumentasjonen for <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>-filens lagringsrettigheter</a> for mer informasjon.'
     provider_types:
       label: Tjenestetype
       nextcloud:
@@ -244,6 +247,9 @@
         label_oauth_client_secret: Azure OAuth klient hemmelig verdi
         name: OneDrive/SharePoint
         name_placeholder: f.eks OneDrive
+    show_attachments_toggle:
+      description: 'Deaktivering av dette valget vil skjule listen over vedlegg på arbeidspakkefiler for nye prosjekter. Filene som ligger i beskrivelsen av en arbeidspakke vil fortsatt bli lastet opp i den interne lagringen.'
+      label: Vis vedlegg i fanen for arbeidspakker
     storage_list_blank_slate:
       description: Legg til lagringsplass for å se dem her.
       heading: Du har ingen lagringssted enda.

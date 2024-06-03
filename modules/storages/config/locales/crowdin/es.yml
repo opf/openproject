@@ -39,16 +39,20 @@ es:
   api_v3:
     errors:
       too_many_elements_created_at_once: Se intentaron crear demasiados elementos a la vez. Se esperaban como máximo %{max}, pero se recibieron %{actual}.
-  permission_create_files: 'Almacenamiento externo: Crear archivos'
-  permission_delete_files: 'Almacenamiento externo: Eliminar archivos'
+  external_file_storages: Almacenamientos de archivos externos
+  permission_create_files: 'Carpetas de proyecto gestionadas automáticamente: Crear archivos'
+  permission_create_files_explanation: Este permiso solo está disponible para los almacenamientos Nextcloud
+  permission_delete_files: 'Carpetas de proyecto gestionadas automáticamente: Eliminar archivos'
+  permission_delete_files_explanation: Este permiso solo está disponible para los almacenamientos Nextcloud
   permission_header_for_project_module_storages: Carpetas de proyecto gestionadas automáticamente
   permission_manage_file_links: Administrar enlaces de archivos
   permission_manage_storages_in_project: Administrar almacenes de archivos en el proyecto
-  permission_read_files: 'Almacenamiento externo: Leer archivos'
-  permission_share_files: 'Almacenamiento externo: Compartir archivos'
+  permission_read_files: 'Carpetas de proyecto gestionadas automáticamente: Ver archivos'
+  permission_share_files: 'Carpetas de proyecto gestionadas automáticamente: Compartir archivos'
+  permission_share_files_explanation: Este permiso solo está disponible para los almacenamientos Nextcloud
   permission_view_file_links: Ver enlaces de archivos
-  permission_write_files: 'Almacenamiento externo: Escribir archivos'
-  project_module_storages: Almacenes de archivos
+  permission_write_files: 'Carpetas de proyecto gestionadas automáticamente: Escribir archivos'
+  project_module_storages: Archivos
   storages:
     buttons:
       complete_without_setup: Completar sin usar
@@ -223,7 +227,6 @@ es:
       project_settings:
         delete: Eliminar el almacenamiento de archivos
         edit: Edite el archivo de almacenamiento a este proyecto
-        index: Hay almacenes de archivos disponibles en este proyecto
         members_connection_status: Estado de conexión de los miembros
         new: Añadir un almacenamiento de archivos a este proyecto
       project_storage_members:
@@ -242,6 +245,9 @@ es:
         label_oauth_client_secret: Azure OAuth Client Secret Value
         name: OneDrive/Sharepoint
         name_placeholder: ej. OneDrive
+    show_attachments_toggle:
+      description: 'Al desactivar esta opción se ocultará la lista de archivos adjuntos en la pestaña de archivos de los paquetes de trabajo. Los archivos adjuntos en la descripción de un paquete de trabajo seguirán cargándose en el almacenamiento interno de archivos adjuntos.'
+      label: Mostrar archivos adjuntos en la pestaña de archivos de los paquetes de trabajo
     storage_list_blank_slate:
       description: Añade un almacenamiento para verlos aquí.
       heading: Aún no tiene ningún almacenamiento.

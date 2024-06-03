@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'digest/md5'
+require "digest/md5"
 
 class Attachment < ApplicationRecord
   enum status: {
@@ -38,7 +38,7 @@ class Attachment < ApplicationRecord
   }.freeze, _prefix: true
 
   belongs_to :container, polymorphic: true
-  belongs_to :author, class_name: 'User'
+  belongs_to :author, class_name: "User"
 
   validates :author, :content_type, :filesize, :status, presence: true
   validates :description, length: { maximum: 255 }
@@ -65,7 +65,7 @@ class Attachment < ApplicationRecord
   acts_as_journalized
   acts_as_event title: -> { file.name },
                 url: (Proc.new do |o|
-                  { controller: '/attachments', action: 'download', id: o.id, filename: o.filename }
+                  { controller: "/attachments", action: "download", id: o.id, filename: o.filename }
                 end)
 
   mount_uploader :file, OpenProject::Configuration.file_uploader
@@ -108,7 +108,7 @@ class Attachment < ApplicationRecord
   end
 
   def content_disposition(include_filename: true)
-    disposition = inlineable? ? 'inline' : 'attachment'
+    disposition = inlineable? ? "inline" : "attachment"
 
     if include_filename
       "#{disposition}; filename=#{filename}"
@@ -137,9 +137,10 @@ class Attachment < ApplicationRecord
     status_uploaded? && Setting::VirusScanning.enabled?
   end
 
-  # images are sent inline
+  # Determine mime types that we deem safe for inline content disposition
+  # e.g., which will be loaded by the browser without forcing to download them
   def inlineable?
-    is_plain_text? || is_image? || is_movie? || is_pdf?
+    is_text? || is_image? || is_movie? || is_pdf?
   end
 
   # rubocop:disable Naming/PredicateName
@@ -159,11 +160,11 @@ class Attachment < ApplicationRecord
   alias :image? :is_image?
 
   def is_pdf?
-    content_type == 'application/pdf'
+    content_type == "application/pdf"
   end
 
   def is_text?
-    content_type =~ /\Atext\/.+/
+    content_type.match?(/\Atext\/.+/)
   end
 
   def is_diff?
@@ -193,7 +194,7 @@ class Attachment < ApplicationRecord
   end
 
   def filename
-    attributes['file'] || super
+    attributes["file"] || super
   end
 
   ##

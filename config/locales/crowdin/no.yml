@@ -214,7 +214,7 @@
       is_required: "Marker det egendefinerte feltet som påkrevd. Dette vil gjøre det obligatorisk å fylle ut feltet når du oppretter nye eller oppdaterer eksisterende ressurser."
       is_for_all: "Merk egendefinert felt som tilgjengelig for alle eksisterende og nye prosjekter."
       searchable: "Inkluder feltverdier ved bruk av den globale søkefunksjonaliteten."
-      editable: "La feltet være redigerbar av brukere selv."
+      editable: "La feltet være redigerbart av brukere selv."
       visible: "Feltet synlig for alle brukere (ikke-administratorer) i prosjektoversikten og vises i prosjektdetalj-widgeten i Prosjektoversikten."
       is_filter: >
         Tillat at egendefinert felt brukes i filter i arbeidspakkevisninger. Merk at med 'For alle prosjekter' som er valgt, vil egendefinert felt vises i globale visninger.
@@ -264,8 +264,9 @@
     lists:
       active: "Aktive prosjekter"
       my: "Mine prosjekter"
-      favored: "Favorite projects"
+      favored: "Favorittprosjekter"
       archived: "Arkiverte prosjekter"
+      public: "Public project lists"
       my_private: "Mine private prosjektlister"
       new:
         placeholder: "Ny prosjektliste"
@@ -293,8 +294,12 @@
         actions:
           label_enable_single: "Aktivert i dette prosjektet, klikk for å deaktivere"
           label_disable_single: "Deaktivert i dette prosjektet, klikk for å aktivere"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Aktiver alle"
           label_disable_all: "Deaktiver alle"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
       types:
         no_results_title_text: Det finnes ingen tilgjengelige typer.
         form:
@@ -305,6 +310,19 @@
       storage:
         no_results_title_text: Det er ingen ekstra registrert diskplass brukt av dette prosjektet.
   lists:
+    create:
+      success: "Den endrede listen er lagret som en ny liste"
+      failure: "Den endrede listen kan ikke lagres: %{errors}"
+    update:
+      success: "Den endrede listen er lagret"
+      failure: "Den endrede listen kan ikke lagres: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
+    can_be_saved: "Listen endret:"
     can_be_saved_as: "Endringene kan bare lagres i en ny liste."
   members:
     index:
@@ -363,7 +381,7 @@
       cannot_remove_inherited_with_role: "Arbeidspakkenes delinger med rollen %{shared_role_name} er delt via grupper og kan ikke fjernes."
       cannot_remove_inherited_note_admin_html: "Du kan enten oppheve delingen til gruppen eller fjerne dette bestemte medlemmet fra gruppen i %{administration_settings_link}."
       cannot_remove_inherited_note_non_admin: "Du kan enten oppheve delingen til gruppen eller kontakte systemansvarlig for å fjerne dette medlemmet fra gruppen."
-      will_revoke_directly_granted_access: "This action will revoke their access to all of them, but the work packages shared with a group."
+      will_revoke_directly_granted_access: "Denne handlingen vil tilbakekalle tilgangen til alle med unntak av arbeidspakker delt med en gruppe."
       will_revoke_access_to_all: "Denne handlingen vil fjerne deres tilgang til alle."
   my:
     access_token:
@@ -407,7 +425,7 @@
     deletion_info:
       heading: "Slett plassholderbruker %{name}"
       data_consequences: >
-        Alle forekomster av plassholderbrukeren (f.eks. som deltaker, ansvarlig eller andre brukerverdier) blir tilordnet på nytt til en konto kalt "Slettet bruker". Siden dataene for hver slettede konto blir tilordnet denne kontoen vil det ikke være mulig å skille dataene brukeren har opprettet fra data for en annen slettet konto.
+        Alle forekomster av plassholderbrukeren (f.eks. som utførende, ansvarlig eller andre brukerverdier) blir tilordnet på nytt til en konto kalt "Slettet bruker". Siden dataene for hver slettede konto blir tilordnet denne kontoen vil det ikke være mulig å skille dataene brukeren har opprettet fra data for en annen slettet konto.
       irreversible: "Du kan ikke angre denne handlingen"
       confirmation: "Skriv inn plassholderbrukernavnet %{name} for å bekrefte slettingen."
     upsale:
@@ -485,9 +503,9 @@
       no_common_statuses_exists: "Det er ingen status tilgjengelig for alle valgte arbeidspakker. Status kan ikke endres."
       unsupported_for_multiple_projects: "Bulk flytt/kopi er ikke støttet for arbeidspakker fra flere prosjekter"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Arbeidsflyt mangler for deling av arbeidspakker"
-        message: "Ingen arbeidsflyt er konfigurert for rollen 'Arbeidspakke redaktør'. Uten en arbeidsflyt kan ikke brukeren endre status på arbeidspakken. Arbeidsflyt kan kopieres. Velg en kildetype (f.eks. 'oppgave') og en kilderolle (f.eks. 'medlem'). Velg så måltyper. Til å begynne med, kan du velge alle typene som mål. Til slutt velger du \"Redigeringsprogrammet for arbeidspakke\" som mål og press \"Copy\". Etter å ha opprettet standardinnstillingene, kan du finjustere arbeidsflytene som du gjør for hver annen rolle."
+        message: "Ingen arbeidsflyt er konfigurert for rollen 'Arbeidspakke redaktør'. Uten en arbeidsflyt kan ikke brukeren endre status på arbeidspakken. Arbeidsflyt kan kopieres. Velg en kildetype (f.eks. 'oppgave') og en kilderolle (f.eks. 'medlem'). Velg så måltyper. Til å begynne med, kan du velge alle typene som mål. Til slutt velger du \"Redigeringsprogrammet for arbeidspakke\" som mål og klikk \"Kopier\". Etter å ha opprettet standardinnstillingene, kan du finjustere arbeidsflytene som du gjør for enhver annen rolle."
         link_message: "Konfigurer arbeidsmetodene i administrasjonen."
     summary:
       reports:
@@ -745,6 +763,7 @@
         before_or_equal_to: "må være før eller lik %{date}."
         blank: "kan ikke være blank."
         blank_nested: "må ha egenskapen '%{property}' aktivert."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "En arbeidspakke kan ikke knyttes til en av sine deloppgaver."
         circular_dependency: "En slik relasjon ville lage en sirkulær avhengighet."
         confirmation: "samsvarer ikke med %{attribute}."
@@ -783,7 +802,7 @@
         not_an_iso_date: "er ikke en gyldig dato. Påkrevd format: ÅÅÅÅ-MM-DD."
         not_same_project: "hører ikke til samme prosjekt."
         odd: "må være oddetall."
-        regex_match_failed: "does not match the regular expression %{expression}."
+        regex_match_failed: "samsvarer ikke med det regulære uttrykket %{expression}."
         regex_invalid: "kunne ikke valideres med det tilhørende regulære uttrykket."
         smaller_than_or_equal_to_max_length: "må være mindre enn eller lik maksimumslengden."
         taken: "er allerede tatt."
@@ -905,6 +924,8 @@
               nonexistent: "Kolonnen '%{column}' eksisterer ikke."
               format: "%{message}"
           group_by_hierarchies_exclusive: "er gjensidig eksklusiv med grupper med '%{group_by}'. Du kan ikke aktivere begge."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "Det er ikke noe egendefinert felt for filteret."
@@ -1027,7 +1048,7 @@
               numeric: "numerisk (f.eks. \"1\")"
               special: "spesialtegn (f.eks. \"%\")"
               reused:
-                one: "har blitt brukt tidligere. Vennligst velg en som er forskjellig fra den forrige %{count}."
+                one: "har blitt brukt tidligere. Vennligst velg en som er forskjellig fra den forrige."
                 other: "har blitt brukt tidligere. Vennligst velg et som er forskjellig fra dine siste %{count}."
               match:
                 confirm: "Bekreft nytt passord."
@@ -1147,7 +1168,7 @@
   attributes:
     active: "Aktiv"
     assigned_to: "Deltaker"
-    assignee: "Deltaker"
+    assignee: "Utførende"
     attachments: "Vedlegg"
     author: "Forfatter"
     base: "Generell feil:"
@@ -1265,7 +1286,7 @@
   button_edit: "Rediger"
   button_edit_associated_wikipage: "Rediger tilknyttet Wiki-side: %{page_title}"
   button_expand_all: "Utvid alle"
-  button_favorite: "Add to favorites"
+  button_favorite: "Legg til i favoritter"
   button_filter: "Filter"
   button_generate: "Generer"
   button_list: "Liste"
@@ -1312,6 +1333,8 @@
   button_revoke_access: "Fjern tilgang"
   button_revoke_all: "Fjern alle"
   button_revoke_only: "Fjern kun %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: Jeg har merket meg og samtykker til det ovenfor.
     failure_message: Samtykke mislyktes, kan ikke fortsette.
@@ -1579,6 +1602,7 @@
       pdf_overview_table: "PDF tabell"
       pdf_report_with_images: "PDF rapport med bilder"
       pdf_report: "PDF rapport"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Bilde ikke eksportert."
     units:
@@ -1660,6 +1684,8 @@
           Fremdriftsberegning automatisk <a href="%{href}" target="_blank">satt til arbeidsbasert modus og justert med versjon</a>.
         progress_calculation_adjusted: >-
           Fremdriftsberegning automatisk <a href="%{href}" target="_blank">justert med versjon</a>.
+        totals_removed_from_childless_work_packages: >-
+          Arbeids- og fremdriftssummer fjernet automatisk for ikke-overordnede arbeidspakker med <a href="%{href}" target="_blank">-versjon</a>. Dette er en vedlikeholdsoppgave og kan trygt ignoreres.
   links:
     configuration_guide: "Konfigurasjonsveiviser"
     get_in_touch: "Har du spørsmål? Ta kontakt med oss."
@@ -1724,17 +1750,6 @@
         mentioned: "Du har blitt nevnt i %{work_package}"
         responsible: "Du har blitt ansvarlig for %{work_package}"
         watched: "Du ser på %{work_package}"
-    update_info_mail:
-      body: >
-        Vi kan med stolthet annonsere utgivelsen av OpenProject 12.0.  Dette er en stor utgivelse som forhåpentligvis gir en betydelig forbedring av måten du bruker OpenProject.
-        I denne utgivelsen introduserer vi in-app varslinger.  Fra nå av vil du motta varslinger for oppdateringer i arbeidspakker dirkete i OpenProject.  Du kan merke varslene som lest, svare på en kommentar og til og med endre arbeidspakkens egenskapet uten å forlate varslingssenteret.
-        Dette betyr også at vi ikke lenger vil bruke epost for varslinger.  Vi mener det nye varslingssenteret er bedre egnet til å se og behandle disse oppdateringene.  Uansett, om du skulle ønske å fortsatt motta varslinger på epost, kan du velge å motta daglige påminnelser på epost til tider du velger selv.
-        Vennligst pass på å bekrefte dine nye standard varslingsinnstillinger, og velg dine preferanser ofr varsler og epostvarslinger i dine kontoinnstillinger.  Du kan gjøre dette ved å velge knappen "Endre epost innstillinger" nednfor.
-        Vi håper du finner de nye varslingene nyttige og at de gjør deg enda mer produktiv.
-        Med vennlig hilsen OpenProject teamet
-      body_header: "Versjon 12.0 med varslingssenter"
-      body_subheader: "Nyheter"
-      subject: "Viktige endringer i varsler ved utgivelse av 12.0"
   label_accessibility: "Tilgjengelighet"
   label_account: "Konto"
   label_active: "Aktiv"
@@ -1786,6 +1801,7 @@
   label_attribute_expand_text: "Den fullstendige teksten for '%{attribute}'"
   label_authentication: "Autentisering"
   label_available_global_roles: "Tilgjengelige globale roller"
+  label_available_project_attributes: "Tilgjengelige prosjektegenskaper"
   label_available_project_forums: "Tilgjengelige forum"
   label_available_project_repositories: "Tilgjengelige kodelager"
   label_available_project_versions: "Tilgjengelige versjoner"
@@ -1929,7 +1945,7 @@
   label_expanded_click_to_collapse: "Utvidet. Klikk for å skjule"
   label_f_hour: "%{value} time"
   label_f_hour_plural: "%{value} timer"
-  label_favorite: "Favorite"
+  label_favorite: "Favoritt"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS tilgangsnøkkel"
   label_feeds_access_key_created_on: "RSS tilgangsnøkkel opprettet for %{value} siden"
@@ -2002,7 +2018,7 @@
   label_learn_more: "Lær mer"
   label_less_or_equal: "<="
   label_less_than_ago: "mindre enn dager siden"
-  label_link_url: "Link (URL)"
+  label_link_url: "Lenke (URL)"
   label_list: "Liste"
   label_loading: "Laster..."
   label_lock_user: "Lås bruker"
@@ -2028,7 +2044,7 @@
   label_membership_plural: "Medlemskap"
   lable_membership_added: "Medlem lagt til"
   lable_membership_updated: "Medlem oppdatert"
-  label_menu: "Menu"
+  label_menu: "Meny"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alpha"
@@ -2130,7 +2146,7 @@
   label_percent_complete: "% Ferdig"
   label_project_activity: "Aktivitet i prosjektet"
   label_project_attribute_plural: "Prosjekt egenskaper"
-  label_project_attribute_manage_link: "Manage project attributes"
+  label_project_attribute_manage_link: "Administrer prosjektegenskaper"
   label_project_count: "Antall prosjekter"
   label_project_copy_notifications: "Send e-postvarsler mens prosjektkopieringen pågår"
   label_project_latest: "Siste prosjekter"
@@ -2145,7 +2161,7 @@
   label_project_attributes_settings: "Innstillinger for prosjektegenskaper"
   label_project_storage_plural: "Fillagringer"
   label_project_storage_project_folder: "Fillagringer: Prosjektmapper"
-  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
+  label_projects_disk_usage_information: "%{count} prosjekter som bruker %{used_disk_space} diskplass"
   label_project_view_all: "Vis alle prosjekter"
   label_project_show_details: "Vis prosjektdetaljer"
   label_project_hide_details: "Skjul prosjektdetaljer"
@@ -2202,6 +2218,7 @@
   label_setting_plural: "Innstillinger"
   label_system_settings: "Systeminnstillinger"
   label_show_completed_versions: "Vis fullførte versjoner"
+  label_columns: "Kolonner"
   label_sort: "Sortèr"
   label_sort_by: "Sorter på %{value}"
   label_sorted_by: "sortert på %{value}"
@@ -2700,6 +2717,7 @@
   permission_save_bcf_queries: "Lagre BCF-spørringer"
   permission_manage_public_bcf_queries: "Administrere offentlige BCF-spørringer"
   permission_edit_attribute_help_texts: "Rediger hjelpetekster for egenskap"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:
@@ -2742,11 +2760,11 @@
   query_fields:
     active_or_archived: "Aktiv eller arkivert"
     assigned_to_role: "Deltakers rolle"
-    assignee_or_group: "Tildelt eller tilhørende gruppe"
+    assignee_or_group: "Utførende eller tilhørende gruppe"
     member_of_group: "Deltakers gruppe"
     name_or_identifier: "Navn eller identifikator"
     only_subproject_id: "Bare underprosjekt"
-    shared_with_user: "Delt med bruker"
+    shared_with_user: "Delt med brukere"
     shared_with_me: "Delt med meg"
     subproject_id: "Inkludert underprosjekt"
   repositories:
@@ -2891,6 +2909,7 @@
   setting_app_subtitle: "Undertittel for applikasjon"
   setting_app_title: "Applikasjonsnavn"
   setting_attachment_max_size: "Maksstørrelse for vedlegg"
+  setting_show_work_package_attachments: "Vis vedlegg i fil-fanen som standard"
   setting_antivirus_scan_mode: "Skannemodus"
   setting_antivirus_scan_action: "Handling for infisert fil"
   setting_autofetch_changesets: "Autofetch kodelagerendringer"
@@ -2992,6 +3011,8 @@
     attachments:
       whitelist_text_html: >
         Definer en liste over gydlige fil-typer og/eller mime typer for opplastingsfiler.<br/>Sett inn fil-typer (f.eks. <code>%{ext_example}</code>) eller mime typer (f.eks. <code>%{mime_example}</code>).<br/> La stå tom for å godta at alle filtyper kan lastes opp.  Flere verdier er tillatt (en linje for hver verdi).
+      show_work_package_attachments: >
+        Deaktivering av dette valget vil skjule listen over vedlegg på arbeidspakkefiler for nye prosjekter. Filene som ligger i beskrivelsen av en arbeidspakke vil fortsatt bli lastet opp i den interne lagringen.
     antivirus:
       title: "Virusskanning"
       clamav_ping_failed: "Kan ikke koble til ClamAV daemon. Dobbeltsjekk konfigurasjonen og prøv på nytt."
@@ -3228,6 +3249,10 @@
         input_label: "Legg til kolonner"
         input_placeholder: "Velg en kolonne"
         drag_area_label: "Behandle og endre rekkefølgen på kolonner"
+      sort_by:
+        automatic:
+          heading: "Automatisk"
+          description: "Sorter %{plural} med ett eller flere sorteringskriterier. Du vil miste den forrige sorteringen."
   top_menu:
     additional_resources: "Tilleggsressurser"
     getting_started: "Komme i gang"
@@ -3575,7 +3600,7 @@
   link: kobling
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth utvidelse"
-    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
+    description: "Integrering av OmniAuth strategileverandører for autentisering i Openproject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Enkeltpålogging på"
     description: "Legger til OmniAuth SAML leverandør til OpenProject"

@@ -50,7 +50,7 @@ class Repository::Git < Repository
   end
 
   def self.permitted_params(params)
-    super(params).merge(params.permit(:path_encoding))
+    super.merge(params.permit(:path_encoding))
   end
 
   def self.supported_types

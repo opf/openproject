@@ -251,6 +251,21 @@ pt-PT:
                     * [ ] Ainda mais cerveja
             item_4:
               subject: Fim do projeto
+          wiki: |
+            _Neste wiki pode criar e editar páginas e subpáginas de forma colaborativa para criar um projeto wiki._
+
+            **Pode:**
+
+            * Inserir texto e imagens, inclusive ao copiar e colar de outros documentos
+            * Criar uma hierarquia de páginas com páginas principais
+            * Incluir páginas wiki no menu do projeto
+            * Utilizar macros para incluir, por exemplo, índice, listas de pacotes de trabalho ou gráficos de Gantt
+            * Incluir páginas wiki noutros campos de texto, por exemplo, na página de visão geral do projeto
+            * Incluir ligações para outros documentos
+            * Ver o histórico de alterações
+            * Ver como Markdown
+
+            Mais informações: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: Projeto Scrum
           status_explanation: Todas as tarefas estão agendadas. As pessoas envolvidas conhecem as suas tarefas. O sistema está configurado por completo.

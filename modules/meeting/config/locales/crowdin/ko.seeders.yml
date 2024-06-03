@@ -19,11 +19,11 @@ ko:
               title: 제품 팀의 업데이트
             item_3:
               title: 마케팅 팀의 업데이트
-            item_4:
-              title: 세일즈 팀의 업데이트
             item_5:
-              title: 분기별 목표 검토
+              title: 세일즈 팀의 업데이트
             item_6:
-              title: 핵심 가치 피드백
+              title: 분기별 목표 검토
             item_7:
+              title: 핵심 가치 피드백
+            item_8:
               title: 일반 주제

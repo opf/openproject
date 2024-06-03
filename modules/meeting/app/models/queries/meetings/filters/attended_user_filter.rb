@@ -43,8 +43,8 @@ class Queries::Meetings::Filters::AttendedUserFilter < Queries::Meetings::Filter
     "meeting_participants.user_id IN (#{values.join(',')}) AND meeting_participants.attended"
   end
 
-  def scope
-    super.joins(:participants)
+  def joins
+    :participants
   end
 
   def self.key

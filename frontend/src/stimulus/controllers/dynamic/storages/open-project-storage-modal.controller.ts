@@ -30,6 +30,7 @@
 
 import { Controller } from '@hotwired/stimulus';
 import { renderStreamMessage } from '@hotwired/turbo';
+import { xCircleIconData, toDOMString } from '@openproject/octicons-angular';
 
 export default class OpenProjectStorageModalController extends Controller<HTMLDialogElement> {
   static values = {
@@ -37,26 +38,35 @@ export default class OpenProjectStorageModalController extends Controller<HTMLDi
     redirectUrl: String,
   };
 
-  interval:number;
+  loadingInterval:number;
+  timeoutInterval:number;
   networkErrorHappend:boolean;
   projectStorageOpenUrlValue:string;
   redirectUrlValue:string;
 
   connect() {
     this.element.showModal();
-    this.interval = 0;
+    this.loadingInterval = 0;
     this.networkErrorHappend = false;
     this.load();
+    this.timeoutInterval = setTimeout(
+      () => {
+        clearInterval(this.loadingInterval);
+        this.setTimeoutMessage();
+      },
+      120000,
+    );
     this.element.addEventListener('close', () => { this.disconnect(); });
     this.element.addEventListener('cancel', () => { this.disconnect(); });
   }
 
   disconnect() {
-    clearInterval(this.interval);
+    clearInterval(this.loadingInterval);
+    clearInterval(this.timeoutInterval);
   }
 
   load() {
-    this.interval = setTimeout(
+    this.loadingInterval = setTimeout(
       async () => {
         try {
           const response = await fetch(
@@ -100,5 +110,31 @@ export default class OpenProjectStorageModalController extends Controller<HTMLDi
       );
     }
     this.networkErrorHappend = value;
+  }
+
+  private setTimeoutMessage() {
+    const waitingLogo = document.getElementById('waiting_logo');
+    const waitingTitle = document.getElementById('waiting_title');
+    const waitingSubtitle = document.getElementById('waiting_subtitle');
+    if (waitingLogo) {
+      waitingLogo.innerHTML = toDOMString(
+        xCircleIconData,
+        'medium',
+        {
+          'aria-hidden': 'true',
+          class: 'octicon octicon-x-circle-icon color-fg-danger',
+        },
+      );
+    }
+    if (waitingTitle) {
+      waitingTitle.innerText = I18n.t(
+        'js.open_project_storage_modal.waiting_title.timeout',
+      );
+    }
+    if (waitingSubtitle) {
+      waitingSubtitle.innerHTML = I18n.t(
+        'js.open_project_storage_modal.waiting_subtitle.timeout',
+      );
+    }
   }
 }

@@ -96,12 +96,8 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
       [{ ancestor: { operator: "=", values: [parent_project.id.to_s] } }]
     end
 
-    it_behaves_like "API V3 collection response", 1, 1, "Project"
-
-    it "returns the child project" do
-      expect(response.body)
-        .to be_json_eql(api_v3_paths.project(project.id).to_json)
-              .at_path("_embedded/elements/0/_links/self/href")
+    it_behaves_like "API V3 collection response", 1, 1, "Project" do
+      let(:elements) { [project] }
     end
   end
 
@@ -118,25 +114,59 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
                                          another_project => another_role })
     end
 
-    let(:get_path) do
-      api_v3_paths.path_for :projects, filters: [{ user_action: { operator:, values: %w[projects/copy work_packages/read] } }]
+    let(:filters) do
+      [{ user_action: { operator:, values: %w[projects/copy work_packages/read] } }]
     end
 
     context "if using the equals operator" do
       let(:operator) { "=" }
 
-      it_behaves_like "API V3 collection response", 2, 2, "Project"
+      it_behaves_like "API V3 collection response", 2, 2, "Project" do
+        let(:elements) { [other_project, project] }
+      end
     end
 
     context "if using the all operator" do
       let(:operator) { "&=" }
 
-      it_behaves_like "API V3 collection response", 1, 1, "Project"
+      it_behaves_like "API V3 collection response", 1, 1, "Project" do
+        let(:elements) { [project] }
+      end
+    end
+  end
 
-      it "returns the project the current user has the capabilities in" do
-        expect(response.body)
-          .to be_json_eql(api_v3_paths.project(project.id).to_json)
-                .at_path("_embedded/elements/0/_links/self/href")
+  context "when filtering by available project attributes" do
+    shared_let(:other_project) { create(:project) }
+    shared_let(:project) { create(:project) }
+    shared_let(:project_custom_field_mapping1) { create(:project_custom_field_project_mapping, project:) }
+    shared_let(:project_custom_field_mapping2) { create(:project_custom_field_project_mapping, project:) }
+
+    let(:current_user) do
+      create(:user, member_with_roles: { project => role,
+                                         other_project => role })
+    end
+
+    let(:valid_values) do
+      [project_custom_field_mapping1.custom_field_id.to_s, project_custom_field_mapping2.custom_field_id.to_s]
+    end
+
+    let(:filters) do
+      [{ available_project_attributes: { operator:, values: valid_values } }]
+    end
+
+    context "if using the equals operator" do
+      let(:operator) { "=" }
+
+      it_behaves_like "API V3 collection response", 1, 1, "Project" do
+        let(:elements) { [project] }
+      end
+    end
+
+    context "if using the not equals operator" do
+      let(:operator) { "!" }
+
+      it_behaves_like "API V3 collection response", 1, 1, "Project" do
+        let(:elements) { [other_project] }
       end
     end
   end
@@ -147,41 +177,110 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
       create(:public_project)
     end
     let(:projects) { [project, other_project] }
+    # Just here to make sure that work package members do not interfere
+    let!(:share) do
+      create(:work_package_member,
+             entity: create(:work_package, project: other_project),
+             roles: [create(:work_package_role)])
+    end
 
     context "if filtering for a value" do
-      let(:filter_query) do
+      let(:filters) do
         [{ principal: { operator: "=", values: [current_user.id.to_s] } }]
       end
 
-      let(:get_path) do
-        api_v3_paths.path_for :projects, filters: filter_query
-      end
-
-      it "returns the filtered for value" do
-        expect(response.body)
-          .to be_json_eql(project.id.to_json)
-                .at_path("_embedded/elements/0/id")
+      it_behaves_like "API V3 collection response", 1, 1, "Project" do
+        let(:elements) { [project] }
       end
     end
 
     context "if filtering for a negative value" do
-      let(:filter_query) do
+      let(:filters) do
         [{ principal: { operator: "!", values: [current_user.id.to_s] } }]
       end
 
-      let(:get_path) do
-        api_v3_paths.path_for :projects, filters: filter_query
+      it_behaves_like "API V3 collection response", 1, 1, "Project" do
+        let(:elements) { [other_project] }
+      end
+    end
+
+    context "if filtering for all" do
+      let(:filters) do
+        [{ principal: { operator: "*", values: [] } }]
       end
 
-      it "returns the projects not matching the value" do
-        expect(last_response.body)
-          .to be_json_eql(other_project.id.to_json)
-                .at_path("_embedded/elements/0/id")
+      # Does not contain the other project as that does not have members
+      it_behaves_like "API V3 collection response", 1, 1, "Project" do
+        let(:elements) { [project] }
+      end
+    end
+
+    context "if filtering for none" do
+      let(:filters) do
+        [{ principal: { operator: "!*", values: [] } }]
+      end
+
+      it_behaves_like "API V3 collection response", 1, 1, "Project" do
+        let(:elements) { [other_project] }
       end
     end
   end
 
-  context "with filtering by visiblity" do
+  context "when filtering for favored" do
+    let(:favored_project) { create(:project) }
+    let(:unfavored_project) { create(:project) }
+
+    let(:projects) { [favored_project, unfavored_project] }
+
+    current_user do
+      create(:user, member_with_roles: { favored_project => role,
+                                         unfavored_project => role }) do |user|
+        favored_project.set_favored(user)
+      end
+    end
+
+    context "when filtering for favorite projects" do
+      let(:filters) do
+        [{ favored: { operator: "=", values: ["t"] } }]
+      end
+
+      it_behaves_like "API V3 collection response", 1, 1, "Project" do
+        let(:elements) { [favored_project] }
+      end
+    end
+
+    context "when filtering for nonfavorite projects" do
+      let(:filters) do
+        [{ favored: { operator: "=", values: ["f"] } }]
+      end
+
+      it_behaves_like "API V3 collection response", 1, 1, "Project" do
+        let(:elements) { [unfavored_project] }
+      end
+    end
+
+    context "when not filtering for favorite projects" do
+      let(:filters) do
+        [{ favored: { operator: "!", values: ["t"] } }]
+      end
+
+      it_behaves_like "API V3 collection response", 1, 1, "Project" do
+        let(:elements) { [unfavored_project] }
+      end
+    end
+
+    context "when not filtering for nonfavorite projects" do
+      let(:filters) do
+        [{ favored: { operator: "!", values: ["f"] } }]
+      end
+
+      it_behaves_like "API V3 collection response", 1, 1, "Project" do
+        let(:elements) { [favored_project] }
+      end
+    end
+  end
+
+  context "with filtering by visibility" do
     let(:public_project) do
       # Otherwise, the public project is invisible
       create(:non_member)
@@ -208,16 +307,8 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
 
     current_user { admin }
 
-    it_behaves_like "API V3 collection response", 2, 2, "Project"
-
-    it "contains the expected projects" do
-      expect(last_response.body)
-        .to be_json_eql(public_project.id.to_json)
-              .at_path("_embedded/elements/0/id")
-
-      expect(last_response.body)
-        .to be_json_eql(member_project.id.to_json)
-              .at_path("_embedded/elements/1/id")
+    it_behaves_like "API V3 collection response", 2, 2, "Project" do
+      let(:elements) { [public_project, member_project] }
     end
   end
 
@@ -232,7 +323,9 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
         expect(last_response.status).to eq(200)
       end
 
-      it_behaves_like "API V3 collection response", 1, 1, "Project"
+      it_behaves_like "API V3 collection response", 1, 1, "Project" do
+        let(:elements) { [project] }
+      end
     end
 
     context "with the user being no admin" do

@@ -49,6 +49,17 @@ RSpec.describe "work package export" do
   let(:group_by) { Components::WorkPackages::GroupBy.new }
   let(:hierarchies) { Components::WorkPackages::Hierarchies.new }
   let(:settings_menu) { Components::WorkPackages::SettingsMenu.new }
+  let(:query) { create(:query, user: current_user, project:) }
+  let!(:query_tl) do
+    query = build(:query_with_view_gantt, user: current_user, project:)
+    query.column_names = ["id", "type", "subject"]
+    query.filters.clear
+    query.timeline_visible = true
+    query.timeline_zoom_level = "days"
+    query.name = "Query with Timeline"
+    query.save!
+    query
+  end
 
   before do
     @download_list = DownloadList.new
@@ -62,19 +73,21 @@ RSpec.describe "work package export" do
 
   subject { @download_list.refresh_from(page).latest_downloaded_content }
 
-  def export!(expect_success = true)
-    work_packages_page.ensure_loaded
-
+  def expect_export
     settings_menu.open_and_choose "Export"
     click_on export_type
+    expect_export_in_queue
+  end
 
+  def expect_export_in_queue
     # Expect to get a response regarding queuing
     expect(page).to have_content I18n.t("js.job_status.generic_messages.in_queue"),
                                  wait: 10
-
     # Expect title
     expect(page).to have_test_selector "job-status--header", text: I18n.t("export.your_work_packages_export")
+  end
 
+  def perform!(expect_success = true)
     begin
       perform_enqueued_jobs
     rescue StandardError
@@ -84,6 +97,12 @@ RSpec.describe "work package export" do
     if expect_success
       expect(page).to have_text("The export has completed successfully")
     end
+  end
+
+  def export!(expect_success = true)
+    work_packages_page.ensure_loaded
+    expect_export
+    perform!(expect_success)
   end
 
   after do
@@ -209,32 +228,96 @@ RSpec.describe "work package export" do
   end
 
   context "PDF export", :js do
-    let(:export_type) { I18n.t("export.format.pdf_overview_table") }
-    let(:query) do
-      create(:query,
-             user: current_user,
-             project:)
-    end
+    before do
+      query.column_names = query.displayable_columns.map { |c| c.name.to_s } - ["bcf_thumbnail"]
+      query.save!
+      allow_any_instance_of(WorkPackage::PDFExport::WorkPackageListToPdf)
+        .to receive(:export!)
+              .and_return(
+                ::Exports::Result.new format: :pdf,
+                                      title: 'foo',
+                                      content: Tempfile.new("something"),
+                                      mime_type: "application/pdf"
+              )
+     end
 
-    context "with many columns" do
-      before do
-        query.column_names = query.displayable_columns.map { |c| c.name.to_s } - ["bcf_thumbnail"]
-        query.save!
+    context "table" do
+      let(:export_type) { I18n.t("export.format.pdf_overview_table") }
+      context "with many columns" do
+        before do
+          # Despite attempts to provoke the error by having a lot of columns, the pdf
+          # is still being drawn successfully. We thus have to fake the error.
+          allow_any_instance_of(WorkPackage::PDFExport::WorkPackageListToPdf)
+            .to receive(:export!)
+                  .and_raise(I18n.t(:error_pdf_export_too_many_columns))
+        end
 
-        # Despite attempts to provoke the error by having a lot of columns, the pdf
-        # is still being drawn successfully. We thus have to fake the error.
-        allow_any_instance_of(WorkPackage::PDFExport::WorkPackageListToPdf)
-          .to receive(:export!)
-          .and_raise(I18n.t(:error_pdf_export_too_many_columns))
+        it "returns the error" do
+          wp_table.visit_query query
+          export!(false)
+          expect(page)
+            .to have_content(I18n.t(:error_pdf_export_too_many_columns), wait: 10)
+        end
       end
 
-      it "returns the error" do
+      it "exports a pdf table" do
         wp_table.visit_query query
+        export!
+      end
+    end
 
-        export!(false)
+    context "report" do
+      let(:export_type) { I18n.t("export.format.pdf_report") }
 
-        expect(page)
-          .to have_content(I18n.t(:error_pdf_export_too_many_columns), wait: 10)
+      it "exports a pdf report" do
+        wp_table.visit_query query
+        export!
+      end
+    end
+
+    context "report with images" do
+      let(:export_type) { I18n.t("export.format.pdf_report_with_images") }
+
+      it "exports a pdf report with images" do
+        wp_table.visit_query query
+        export!
+      end
+    end
+
+    context "gantt" do
+      let(:export_type) { I18n.t("export.format.pdf_gantt") }
+
+      context "not in module gantt and not EE" do
+        it "has no gantt export" do
+          wp_table.visit_query query
+          work_packages_page.ensure_loaded
+          settings_menu.open_and_choose "Export"
+          expect(page).not_to have_content(export_type)
+        end
+      end
+
+      context "in module gantt" do
+        let(:wp_table) { Pages::WorkPackagesTimeline.new(project) }
+
+        context "EE not active" do
+          it "has no gantt export" do
+            wp_table.visit_query query_tl
+            settings_menu.open_and_choose "Export"
+            expect(page).not_to have_content(export_type)
+          end
+        end
+
+        context "EE active", with_ee: %i[gantt_pdf_export] do
+          it "exports a gantt pdf" do
+            wp_table.visit_query query_tl
+            settings_menu.open_and_choose "Export"
+            click_on export_type
+            expect(page).to have_content I18n.t("js.gantt_chart.export.title").upcase
+            click_on I18n.t("js.gantt_chart.export.button_export")
+            expect_export_in_queue
+            perform!
+          end
+        end
       end
     end
   end

@@ -37,7 +37,7 @@ class CostQuery::SqlStatement < Report::SqlStatement
   attr_accessor :entry_union
 
   def initialize(table, desc = "")
-    super(table, desc)
+    super
     @entry_union = false
   end
 

@@ -129,21 +129,21 @@ module Components
 
       def expect_bulk_actions_available
         within shares_header do
-          expect(page).to have_button "Remove"
+          expect(page).to have_test_selector("op-share-wp--bulk-remove")
           expect(page).to have_test_selector("op-share-wp-bulk-update-role")
         end
       end
 
       def expect_bulk_actions_not_available
         within shares_header do
-          expect(page).to have_no_button("Remove", wait: 0)
+          expect(page).not_to have_test_selector("op-share-wp--bulk-remove", wait: 0)
           expect(page).not_to have_test_selector("op-share-wp-bulk-update-role", wait: 0)
         end
       end
 
       def bulk_remove
         within shares_header do
-          click_button "Remove"
+          page.find_test_selector("op-share-wp--bulk-remove").click
         end
       end
 
@@ -238,7 +238,7 @@ module Components
 
       def remove_user(user)
         within user_row(user) do
-          click_button "Remove"
+          page.find_test_selector("op-share-wp--remove").click
         end
       end
 

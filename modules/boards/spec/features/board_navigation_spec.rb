@@ -104,8 +104,7 @@ RSpec.describe "Work Package boards spec", :js, with_ee: %i[board_view] do
      with_settings: { notifications_polling_interval: 1_000 } do
     visit project_path(project)
 
-    item = page.find('#menu-sidebar li[data-name="boards"]', wait: 10)
-    item.find(".toggler").click
+    page.find_test_selector("main-menu-toggler--boards", wait: 10).click
 
     subitem = page.find_test_selector("op-sidemenu--item-action--Myboard", wait: 10)
     # Ends with boards due to lazy route

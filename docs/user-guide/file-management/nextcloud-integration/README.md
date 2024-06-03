@@ -24,9 +24,9 @@ Additionally you can:
 - Pick and preview links to work packages in Nextcloud
 - Search for work packages using Nextcloud's search bar
 
-It is also possible to automatically create dedicated [project folders](../../projects/project-settings/file-storages/#project-folders), which makes documentation structure clearer and makes navigation more intuitive.
+It is also possible to automatically create dedicated [project folders](../../projects/project-settings/files/#project-folders), which makes documentation structure clearer and makes navigation more intuitive.
 
-> **Important note**: To be able to use Nextcloud as a file storage in your project, the administrator of your instance should first have completed the [Nextcloud integration setup](../../../system-admin-guide/integrations/nextcloud). Then a project administrator can activate Nextcloud in the [File storages](../../projects/project-settings/file-storages/) for a project.
+> **Important note**: To be able to use Nextcloud as a file storage in your project, the administrator of your instance should first have completed the [Nextcloud integration setup](../../../system-admin-guide/integrations/nextcloud). Then a project administrator can activate Nextcloud in the [File storages](../../projects/project-settings/files/) for a project.
 
 | Topic                                                                                               | Description                                                                               |
 |-----------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------|
@@ -83,7 +83,7 @@ To link a Nextcloud file to the current work package, you can either:
 
 ![Link existing file in Nextcloud](link_existing_files.png)
 
-> **Info**: The default project that opens in the location picker is set by the project administrators in the [File storages settings](../../projects/project-settings/file-storages).
+> **Info**: The default project that opens in the location picker is set by the project administrators in the [File storages settings](../../projects/project-settings/files/).
 
 ![Select a file to be linked in Nextcloud](nc_select_file_to_link.png)
 
@@ -101,7 +101,7 @@ Alternatively, you can also simply drag a file or folder from your computer to t
 
 Once you have selected or dropped the files you would like to upload, you will need to select a folder on Nextcloud to which they should be stored.
 
-> **Info**: The default project that opens in the location picker is defined by the project administrators in the [File storages settings](../../projects/project-settings/file-storages).
+> **Info**: The default project that opens in the location picker is defined by the project administrators in the [File storages settings](../../projects/project-settings/files/).
 
 ![Select the destination folder on Nextcloud](NC_12.5-selectLocationToUploadTo.png)
 
@@ -149,11 +149,11 @@ In the **Details** side panel, click on the **OpenProject** tab. This tab lets y
 
 To link this file to a work package in OpenProject for the first time, use the search bar to find the correct work package (you can search either using a word in the title of the work package, or simply enter the work package ID) and click on it.
 
-![Search work package in Nextcloud](NC_0_01-FileRelationSearch.png)
+![Search work package in Nextcloud](NC_0_01-FileRelationSearch_new.png)
 
 This linked file will then appear underneath the search bar. Doing so will also automatically add the file to the Files tab of the corresponding work package(s) in OpenProject.
 
-![Show linked work packages in Nextcloud](NC_1_00-FileWPRelation.png)
+![Show linked work packages in Nextcloud](NC_1_00-FileWPRelation_new.png)
 
 #### Link multiple files to a work packages
 

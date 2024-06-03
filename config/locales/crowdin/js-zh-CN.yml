@@ -329,6 +329,18 @@ zh-CN:
         years: "年"
         description: >
           选择自动缩放不可用时应显示的初始缩放级别。
+      export:
+        title: "甘特图 PDF 选项"
+        button_export: "导出"
+        column_widths:
+          narrow: "窄"
+          medium: "正常"
+          wide: "宽"
+          very_wide: "非常宽"
+        options:
+          date_zoom: "日期缩放"
+          paper_size: "纸张大小"
+          column_widths: "列宽"
     general_text_no: "否"
     general_text_yes: "是"
     general_text_No: "否"
@@ -347,11 +359,10 @@ zh-CN:
           learn_about: "详细了解新功能"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                该版本包含各种新功能和改进： <br> <ul class="%{list_styling_class}"> <li>跨工作包层次实施进度报告。</li> <li>在项目概览页面以结构化方式管理项目属性。</li> <li>简化项目列表和项目概览中自定义字段的视图。</li> <li>采用时尚的 Primer 设计，统一页面标题。</li> <li>利用附件上传、负责和会议历史等新功能增强会议功能。</li> <li>对不健康的文件存储自动发出警报，并通过切换选项进行控制。</li> <li>复制项目时，为 OneDrive/SharePoint 复制自动管理的项目文件夹。</li> <li>撤销项目成员资格时，要求管理员删除工作包上的共享。</li> <li>通过团队计划器中的 4 周和 8 周显示模式增强计划性。</li> </ul>
+                该版本包含各种新功能和改进： <br> <ul class="%{list_styling_class}"> <li>甘特视图的 PDF 导出，例如用于打印（企业插件）</li> <li>收藏项目</li> <li>会议中的章节</li> <li>在 "我的 "页面和项目概览页面显示会议</li> <li>在 "文件 "选项卡中隐藏附件的可能性</li> <li>链接（URL）类型的自定义字段</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"
@@ -1043,7 +1054,7 @@ zh-CN:
       sharing:
         share: "共享"
         title: "共享工作包"
-        show_all_users: "显示所有共享用户"
+        show_all_users: "显示与之共享工作包的所有用户"
         selected_count: "%{count} 已选择"
         selection:
           mixed: "混合"
@@ -1329,6 +1340,10 @@ zh-CN:
         focus_grab: "该信息是模态框的焦点锚点。按 Shift+Tab 可以返回到模态框的触发元素。"
         Close: "关闭"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
       waiting_subtitle:
         network_off: "网络有问题。"
         network_on: "网络已恢复。我们正在努力。"
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact you OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

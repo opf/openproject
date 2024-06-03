@@ -31,10 +31,14 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { uiStateLinkClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
 import { ExcludedIconHelperService } from 'core-app/shared/components/fields/display/field-types/excluded-icon-helper.service';
-import { HierarchyQueryLinkHelperService } from 'core-app/shared/components/fields/display/field-types/hierarchy-query-link-helper.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import {
+  uiStateLinkClass,
+} from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
+import {
+  HierarchyQueryLinkHelperService,
+} from 'core-app/shared/components/fields/display/field-types/hierarchy-query-link-helper.service';
 
 export class WorkDisplayField extends DisplayField {
   @InjectField() timezoneService:TimezoneService;
@@ -50,7 +54,7 @@ export class WorkDisplayField extends DisplayField {
   private derivedText = this.I18n.t('js.label_value_derived_from_children');
 
   public get valueString():string {
-    return this.timezoneService.formattedDuration(this.value as string);
+    return this.timezoneService.formattedChronicDuration(this.value as string);
   }
 
   /**
@@ -69,7 +73,7 @@ export class WorkDisplayField extends DisplayField {
     const value = this.derivedValue;
 
     if (value) {
-      return this.timezoneService.formattedDuration(value);
+      return this.timezoneService.formattedChronicDuration(value);
     }
     return this.placeholder;
   }

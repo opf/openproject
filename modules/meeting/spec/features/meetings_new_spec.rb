@@ -306,6 +306,13 @@ RSpec.describe "Meetings new", :js, with_cuprite: false do
         new_page.set_type "Classic"
         new_page.set_title "Some title"
 
+        # Ensure we have the correct type labels set up (Regression #15625)
+        dynamic_button = find_field "Dynamic"
+        classic_button = find_field "Classic"
+
+        expect(page).to have_css("label[for='#{dynamic_button[:id]}']")
+        expect(page).to have_css("label[for='#{classic_button[:id]}']")
+
         show_page = new_page.click_create
 
         show_page.expect_toast(message: "Successful creation")

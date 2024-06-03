@@ -63,10 +63,10 @@ module Versions
           true
         else
           case s
-          when 'system'
+          when "system"
             # Only admin users can set a systemwide sharing
             user.admin?
-          when 'hierarchy', 'tree'
+          when "hierarchy", "tree"
             # Only users allowed to manage versions of the root project can
             # set sharing to hierarchy or tree
             model.project.nil? || user.allowed_in_project?(:manage_versions, model.project.root)
@@ -83,7 +83,7 @@ module Versions
       if wiki
         wiki.pages
       else
-        WikiPage.where('1=0')
+        WikiPage.where("1=0")
       end
     end
 

@@ -39,16 +39,20 @@ ko:
   api_v3:
     errors:
       too_many_elements_created_at_once: 한 번에 너무 많은 요소가 생성되었습니다. 최대 개수는 %{max}개이지만 %{actual}개가 있습니다.
-  permission_create_files: '외부 저장소: 파일 만들기'
-  permission_delete_files: '외부 저장소: 파일 삭제'
+  external_file_storages: 외부 파일 저장소
+  permission_create_files: '자동으로 관리되는 프로젝트 폴더: 파일 만들기'
+  permission_create_files_explanation: 이 권한은 Nextcloud 저장소에만 사용할 수 있습니다
+  permission_delete_files: '자동으로 관리되는 프로젝트 폴더: 파일 삭제'
+  permission_delete_files_explanation: 이 권한은 Nextcloud 저장소에만 사용할 수 있습니다
   permission_header_for_project_module_storages: 자동으로 관리되는 프로젝트 폴더
   permission_manage_file_links: 파일 링크 관리
   permission_manage_storages_in_project: 프로젝트의 파일 저장소 관리
-  permission_read_files: '외부 저장소: 파일 읽기'
-  permission_share_files: '외부 저장소: 파일 공유'
+  permission_read_files: '자동으로 관리되는 프로젝트 폴더: 파일 읽기'
+  permission_share_files: '자동으로 관리되는 프로젝트 폴더: 파일 공유'
+  permission_share_files_explanation: 이 권한은 Nextcloud 저장소에만 사용할 수 있습니다
   permission_view_file_links: 파일 링크 보기
-  permission_write_files: '외부 저장소: 파일 쓰기'
-  project_module_storages: 파일 저장소
+  permission_write_files: '자동으로 관리되는 프로젝트 폴더: 파일 쓰기'
+  project_module_storages: 파일
   storages:
     buttons:
       complete_without_setup: 이것 없이 완료
@@ -223,13 +227,12 @@ ko:
       project_settings:
         delete: 파일 저장소 삭제
         edit: 이 프로젝트에 대한 파일 저장소 편집
-        index: 이 프로젝트에서 사용 가능한 파일 저장소
         members_connection_status: 멤버 연결 상태
         new: 이 프로젝트에 파일 저장소 추가
       project_storage_members:
         subtitle: 모든 프로젝트 멤버의 저장소 %{storage_name_link}에 대한 연결 상태를 확인하세요.
         title: 멤버 연결 상태
-    permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
+    permission_header_explanation: '외부 저장소에 대한 파일 권한은 자동으로 관리되는 프로젝트 폴더 내의 폴더와 파일에만 적용됩니다. 모든 저장소 공급자가 모든 파일 권한을 지원하는 것은 아닙니다. 자세한 내용은 <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>파일 저장소 권한</a>에 대한 설명서를 참조하세요.'
     provider_types:
       label: 공급자 유형
       nextcloud:
@@ -242,6 +245,9 @@ ko:
         label_oauth_client_secret: Azure OAuth 클라이언트 비밀번호 값
         name: OneDrive/SharePoint
         name_placeholder: '예: OneDrive'
+    show_attachments_toggle:
+      description: '이 옵션을 비활성화하면 작업 패키지 파일 탭에서 첨부 파일 목록이 숨겨집니다. 작업 패키지 설명에 첨부된 파일은 내부 첨부 파일 저장소에 계속 업로드됩니다. '
+      label: 작업 패키지 파일 탭에 첨부 파일 표시
     storage_list_blank_slate:
       description: 여기에서 보려면 저장소를 추가합니다.
       heading: 아직 저장소가 없습니다.

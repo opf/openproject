@@ -23,17 +23,17 @@ ar:
       basic: Basic
     board_type_descriptions:
       basic: >
-        Start from scratch with a blank board. Manually add cards and columns to this board.
+        ابدأ من الصفر بلوحة فارغة. قم بإضافة البطاقات والأعمدة إلى هذه اللوحة يدويًا.
       status: >
-        Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        لوحة أساسية بنمط كانبان مع أعمدة للحالة مثل: المهام، قيد التنفيذ، تم الإنجاز.
       assignee: >
-        Board with automated columns based on assigned users. Ideal for dispatching work packages.
+        لوحة بأعمدة تلقائية بناءً على المستخدمين المعينين. وتعتبر لوحة مثالية لتوزيع حزم العمل.
       version: >
-        Board with automated columns based on the version attribute. Ideal for planning product development.
+        لوحة بأعمدة تلقائية بناءً على الإصدار. و هي مثالية لتخطيط تطوير المنتجات.
       subproject: >
-        Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+        لوحة بأعمدة تلقائية للمشاريع الفرعية. يؤدي سحب حزم العمل إلى قوائم أخرى إلى تحديث المشروع (أو المشروع الفرعي) وفقًا لذلك.
       subtasks: >
-        Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        لوحة بأعمدة تلقائية للعناصر الفرعية. يؤدي سحب حزم العمل إلى قوائم أخرى إلى تحديث العنصر الرئيسي وفقًا لذلك.
     upsale:
-      teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+      teaser_text: 'هل ترغب في أتمتة سير العمل الخاص بك باستخدام اللوحات؟ اللوحات المتقدمة هي إضافة خاصة بالمؤسسات. يرجى الترقية إلى خطة مدفوعة.'
       upgrade: 'الترقية الآن'

@@ -90,14 +90,28 @@ module API::V3::Storages
                end
              }
 
+    property :tenant_id,
+             skip_render: ->(represented:, **) { !represented.provider_type_one_drive? },
+             render_nil: true,
+             getter: ->(represented:, **) { represented.tenant_id if represented.provider_type_one_drive? },
+             setter: ->(fragment:, represented:, **) { represented.tenant_id = fragment }
+
+    property :drive_id,
+             skip_render: ->(represented:, **) { !represented.provider_type_one_drive? },
+             render_nil: true,
+             getter: ->(represented:, **) { represented.drive_id if represented.provider_type_one_drive? },
+             setter: ->(fragment:, represented:, **) { represented.drive_id = fragment }
+
+    property :configured,
+             skip_parse: true,
+             getter: ->(represented:, **) { represented.configured? }
+
     property :hasApplicationPassword,
              skip_parse: true,
              skip_render: ->(represented:, **) { !represented.provider_type_nextcloud? },
-             getter: ->(represented:, **) {
-               break unless represented.provider_type_nextcloud?
-
-               represented.automatic_management_enabled?
-             },
+             getter: ->(represented:, **) do
+               represented.automatic_management_enabled? if represented.provider_type_nextcloud?
+             end,
              setter: ->(*) {}
 
     date_time_property :created_at
@@ -120,7 +134,7 @@ module API::V3::Storages
                           }
 
     link_without_resource :origin,
-                          getter: ->(*) { { href: represented.host } },
+                          getter: ->(*) { { href: represented.host } if represented.host.present? },
                           setter: ->(fragment:, **) {
                             break if fragment["href"].blank?
 
@@ -163,7 +177,7 @@ module API::V3::Storages
     end
 
     link :authorize do
-      next unless authorization_state == :failed_authorization
+      next if hide_authorize_link?
 
       { href: represented.oauth_configuration.authorization_uri, title: "Authorize" }
     end
@@ -211,6 +225,10 @@ module API::V3::Storages
 
     def represent_oauth_application?
       current_user.admin? && represented.provider_type_nextcloud?
+    end
+
+    def hide_authorize_link?
+      represented.oauth_client.blank? || authorization_state != :failed_authorization
     end
 
     def storage_projects(storage)

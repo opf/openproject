@@ -329,6 +329,18 @@ tr:
         years: "Yıl"
         description: >
           Otomatik zoom mevcut olmadığında gösterilmesi gereken ilk yakınlaştırma seviyesini seçin.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "hayır"
     general_text_yes: "evet"
     general_text_No: "Hayır"
@@ -347,11 +359,10 @@ tr:
           learn_about: "Yeni özellikler hakkında daha fazla bilgi edinin"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -377,7 +388,7 @@ tr:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "gün önce"
     label_all: "tüm"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Hepsi"
     label_all_work_packages: "tüm iş paketleri"
     label_and: "ve"
     label_ascending: "Azalan"
@@ -629,7 +640,7 @@ tr:
         label_actor_and: "ve"
         and_more_users:
           one: "ve 1 diğer"
-          other: "ve 1 diğer"
+          other: "ve %{count} diğer"
         no_results:
           at_all: "Sizi ilgilendiren bir etkinlik olduğunda yeni bildirimler burada görünecektir."
           with_current_filter: "Şu anda bu görünümde bildirim yok"
@@ -761,7 +772,7 @@ tr:
           last_day: "Son gün"
     text_are_you_sure: "Emin misiniz?"
     text_data_lost: "Girilen tüm veriler silinecek."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} demiş ki:"
     types:
       attribute_groups:
         error_duplicate_group_name: "%{group} ismi birden fazla kullanıldı. Grup isimleri eşsiz olmalıdır."
@@ -836,7 +847,7 @@ tr:
       toggle_description: "İlişki açıklamasını göster"
       update_relation: "İlişki türünü değiştirmek için tıklayın"
       add_follower: "Takipçi ekle"
-      show_relations: "Show relations"
+      show_relations: "İlişkileri göster"
       add_predecessor: "Öncelik ekle"
       remove: "İlişkiyi kaldır"
       save: "İlişkiyi kaydet"
@@ -981,8 +992,8 @@ tr:
         percentageDone: "Tamamlanan yüzde"
         priority: "Öncelik"
         projectName: "Proje"
-        remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWork: "Kalan çalışma"
+        remainingWorkAlternative: "Kalan saat"
         responsible: "Sorumlu"
         startDate: "Başlangıç tarihi"
         status: "Durum"
@@ -994,8 +1005,8 @@ tr:
         versionName: "Sürüm"
         version: "Sürüm"
         work: "Work"
-        workAlternative: "Estimated time"
-        remainingTime: "Remaining work"
+        workAlternative: "Tahmini süre"
+        remainingTime: "Kalan çalışma"
       default_queries:
         latest_activity: "En son etkinlik"
         created_by_me: "Benim oluşturduklarım"
@@ -1044,7 +1055,7 @@ tr:
       sharing:
         share: "Paylaş"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
@@ -1332,6 +1343,10 @@ tr:
         focus_grab: "Bu, modallar için bir odak noktasıdır. Modal tetikleme öğesine geri dönmek için shift+tab tuşlarına basın."
         Close: "Kapat"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
       waiting_subtitle:
         network_off: "There is a network problem."
         network_on: "Network is back. We are trying."
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact you OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

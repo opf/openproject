@@ -25,7 +25,6 @@ Click on one of the categories in order to proceed with the configuration.
 | [Work packages](./manage-work-packages)                      | How to configure work packages, types, status and workflows. |
 | [Custom fields](./custom-fields)                             | Set custom fields for work packages, Spent time, projects, versions, users, groups and more. |
 | [Attribute help texts](./attribute-help-texts)               | Add help texts to explain attributes (including custom fields) in projects and work packages. |
-| [Attachments](./attachments)                                 | Settings for attachments and virus scanning functionality in OpenProject. |
 | [Enumerations](./enumerations/)                              | Set enumerations, e.g. work package priorities, time tracking activities, document categories, and more. |
 | [Calendars and dates](./calendars-and-dates/)                | Configure working days, dates formats and calendar subscriptions. |
 | [System settings](./system-settings/)                        | Configure your system settings, e.g. a welcome text block on the landing page, languages, repositories, and more. |
@@ -39,8 +38,9 @@ Click on one of the categories in order to proceed with the configuration.
 | [Enterprise edition](../enterprise-guide/)                   | Upgrading and managing OpenProject Enterprise and other administrative topics. |
 | [Time and costs](./time-and-costs)                           | Configure your currency and create cost types in OpenProject. |
 | [Backlogs](./backlogs)                                       | Configure your backlogs settings in OpenProject, e.g. story types to be displayed in the backlogs, task types, and more. |
-| [File storages - Nextcloud](./integrations/nextcloud/)       | Manage and set up file storages with Nextcloud.              |
-| [File storages - One Drive](./integrations/one-drive/)       | Manage and set up file storages with One Drive.              |
+| [Files](./files)                                             | Settings for attachments and virus scanning functionality in OpenProject. Manage external file storages. |
+| [External file storages - Nextcloud](./integrations/nextcloud/) | Set up external file storages with Nextcloud.                |
+| [External file storages - One Drive](./integrations/one-drive/) | Set up external file storages with One Drive.                |
 | [Plugins](./plugins)                                         | Manage plugins in OpenProject.                               |
 | [Information](./information/)                                | View the latest system information status.                   |
 | [Integrations](./integrations/)                              | How to integration OpenProject into other tools (eg. GitHub, Nextcloud...) |

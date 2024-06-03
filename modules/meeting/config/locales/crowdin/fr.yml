@@ -48,6 +48,8 @@ fr:
         duration_in_minutes: "min"
         description: "Notes"
         presenter: "Responsable"
+      meeting_section:
+        title: "Titre"
     errors:
       messages:
         invalid_time_format: "n’est pas une heure valide. Format requis : HH:MM"
@@ -99,12 +101,14 @@ fr:
     attachments:
       text: "Les fichiers joints sont accessibles à tous les participants à la réunion. Vous pouvez également les glisser-déposer dans les notes relatives aux points de l'ordre du jour."
     copy:
-      title: "Copy meeting: %{title}"
+      title: "Copier la réunion : %{title}"
       attachments: "Copier les fichiers"
       attachments_text: "Copiez tous les fichiers joints dans la nouvelle réunion."
       agenda: "Copier l'ordre du jour"
       agenda_text: "Copier l'ordre du jour de l'ancienne réunion"
     email:
+      send_emails: "Send emails"
+      send_invitation_emails: "Send out invitation emails upon creation"
       open_meeting_link: "Ouvrir la réunion"
       invited:
         summary: "%{actor} vous a envoyé une invitation pour la réunion %{title}"
@@ -122,6 +126,11 @@ fr:
       structured_text: "Organisez votre réunion sous la forme d'une liste de points à l'ordre du jour, en les reliant éventuellement à des lots de travaux."
       structured_text_copy: "Actuellement, la copie d'une réunion n'entraîne pas la copie des points de l'ordre du jour de la réunion, mais uniquement des détails."
     copied: "Copié depuis la réunion #%{id}"
+  meeting_section:
+    untitled_title: "Section sans titre"
+    delete_confirmation: "Supprimer la section supprimera également tous les éléments de l'ordre du jour qui s'y rapportent. Voulez-vous vraiment continuer ?"
+    placeholder_title: "Nouvelle section"
+    empty_text: "Faites glisser des éléments ici ou créez-en un nouveau"
   notice_successful_notification: "Notification envoyée avec succès"
   notice_timezone_missing: Aucun fuseau horaire n'est défini et %{zone} est supposé. Pour choisir votre fuseau horaire, veuillez cliquer ici.
   permission_create_meetings: "Créer des réunions"
