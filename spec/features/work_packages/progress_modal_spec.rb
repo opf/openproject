@@ -351,7 +351,7 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
           work_edit_field.activate!
 
           work_edit_field.expect_modal_field_value("1d 2h")
-          remaining_work_edit_field.expect_modal_field_value("2h 7m 12s")
+          remaining_work_edit_field.expect_modal_field_value("2h 7m")
           percent_complete_edit_field.expect_modal_field_value("78", readonly: true)
         end
       end
@@ -364,7 +364,7 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
           work_package.save(validate: false)
         end
 
-        it "does not lose precision due to conversion from ISO duration to hours" do
+        it "does not lose precision due to conversion from ISO duration to hours (rounded to closest minute)" do
           work_package_table.visit_query(progress_query)
           work_package_table.expect_work_package_listed(work_package)
 
@@ -381,10 +381,11 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
           expect(work_package.estimated_hours).to eq(2.56)
           expect(work_package.remaining_hours).to eq(0.28)
 
-          # work should be displayed as "2h 33m 36s", and remaining work as "16m 48s"
+          # work should be displayed as "2h 34m" ("2h 33m 36s" rounded to minutes),
+          # and remaining work as "17m" ("16m 48s" rounded to minutes)
           work_edit_field.activate!
-          work_edit_field.expect_modal_field_value("2h 33m 36s")
-          remaining_work_edit_field.expect_modal_field_value("16m 48s")
+          work_edit_field.expect_modal_field_value("2h 34m")
+          remaining_work_edit_field.expect_modal_field_value("17m")
         end
       end
 
