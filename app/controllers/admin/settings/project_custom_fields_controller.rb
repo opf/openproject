@@ -43,6 +43,7 @@ module Admin::Settings
     before_action :prepare_custom_option_position, only: %i(update create)
     before_action :find_custom_option, only: :delete_option
     before_action :project_custom_field_mappings_query, only: %i[project_mappings unlink]
+    before_action :find_link_project_custom_field_mapping, only: :link
     before_action :find_unlink_project_custom_field_mapping, only: :unlink
     # rubocop:enable Rails/LexicallyScopedActionFilter
 
@@ -73,10 +74,16 @@ module Admin::Settings
     end
 
     def link
-      create_service = ProjectCustomFieldProjectMappings::CreateService
-                         .new(user: current_user)
-                         .call(custom_field_id: @custom_field.id,
-                               project_id: permitted_params.project_custom_field_project_mapping["project_id"])
+      create_service = if include_sub_projects?
+                         ProjectCustomFieldProjectMappings::BulkCreateService
+                                            .new(user: current_user, project: @project, project_custom_field: @custom_field)
+                                            .call
+                       else
+                         ProjectCustomFieldProjectMappings::CreateService
+                                          .new(user: current_user)
+                                          .call(custom_field_id: @custom_field.id,
+                                                project_id: permitted_params.project_custom_field_project_mapping["project_id"])
+                       end
 
       create_service.on_success { render_project_list }
 
@@ -194,6 +201,17 @@ module Admin::Settings
       respond_with_turbo_streams
     end
 
+    def find_link_project_custom_field_mapping
+      @project = Project.find(permitted_params.project_custom_field_project_mapping[:project_id])
+    rescue ActiveRecord::RecordNotFound
+      update_flash_message_via_turbo_stream(
+        message: t(:notice_file_not_found), full: true, dismiss_scheme: :hide, scheme: :danger
+      )
+      render_project_list
+
+      respond_with_turbo_streams
+    end
+
     def find_custom_field
       @custom_field = ProjectCustomField.find(params[:id])
     rescue ActiveRecord::RecordNotFound
@@ -205,6 +223,10 @@ module Admin::Settings
       if call.result[:section_changed]
         update_section_via_turbo_stream(project_custom_field_section: call.result[:old_section])
       end
+    end
+
+    def include_sub_projects?
+      ActiveRecord::Type::Boolean.new.cast(permitted_params.project_custom_field_project_mapping[:include_sub_projects])
     end
   end
 end
