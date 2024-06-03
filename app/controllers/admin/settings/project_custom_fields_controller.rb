@@ -73,14 +73,10 @@ module Admin::Settings
     end
 
     def link
-      @project_mapping = ProjectCustomFieldProjectMapping.new(
-        project_id: permitted_params.project_custom_field_project_mapping["project_id"],
-        custom_field_id: @custom_field.id
-      )
-
       create_service = ProjectCustomFieldProjectMappings::CreateService
                          .new(user: current_user)
-                         .call(custom_field_id: @project_mapping.custom_field_id, project_id: @project_mapping.project_id)
+                         .call(custom_field_id: @custom_field.id,
+                               project_id: permitted_params.project_custom_field_project_mapping["project_id"])
 
       create_service.on_success { render_project_list }
 
