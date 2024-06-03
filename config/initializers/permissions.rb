@@ -61,14 +61,6 @@ Rails.application.reloader.to_prepare do
                      require: :loggedin,
                      contract_actions: { users: %i[read create] }
 
-      map.permission :introspection,
-                     {
-                       admin: %i[info]
-                     },
-                     permissible_on: :global,
-                     require: :loggedin,
-                     enabled: -> { Setting.introspection_enabled? }
-
       map.permission :manage_user,
                      {
                        users: %i[index show edit update change_status change_status_info],

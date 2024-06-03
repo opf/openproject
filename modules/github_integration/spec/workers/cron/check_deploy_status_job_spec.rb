@@ -28,18 +28,88 @@
 
 require "spec_helper"
 
-RSpec.describe Cron::CheckDeployStatusJob, type: :job, with_flags { deploy_targets: true } do
-  let!(:deploy_target) { create(:deploy_target) }
+RSpec.describe Cron::CheckDeployStatusJob, type: :job, with_flag: { deploy_targets: true } do
+  let(:api_key) { "foobar42" }
 
-  let(:deploy_status_check) { create(:deploy_status_check, deploy_target:, pull_request:) }
-  let(:pull_request) { create(:github_pull_request, work_packages: [work_package]) }
+  let(:merge_commit_sha) { "576e25f7befffa5fc02a4311704e9894a5c9bdd4" }
+  let(:core_sha) { "663f3a128aef9c0b031cbd59bb6f740ee50130a7" }
+
   let(:work_package) { create(:work_package) }
+
+  let(:deploy_target) { create(:deploy_target, api_key:) }
+  let(:pull_request) { create(:github_pull_request, work_packages: [work_package], state: :closed, merge_commit_sha:) }
 
   let(:job) { described_class.new }
 
-  context "with no prior checks" do
+  context "with no prior checks and the same deployed sha" do
     before do
-      job.run
+      deploy_target
+      pull_request
+
+      allow(job).to receive(:openproject_core_sha).with(deploy_target.host, api_key).and_return(core_sha)
+      allow(job).to receive(:commit_contains?).with(core_sha, merge_commit_sha).and_return true
+
+      job.perform
+    end
+
+    it "marks the pull request 'deployed'" do
+      expect(pull_request.reload.state).to eq "deployed"
+    end
+  end
+
+  context "with prior checks" do
+    before do
+      allow(job).to receive(:openproject_core_sha).with(deploy_target.host, api_key).and_return(core_sha)
+      allow(job).to receive :commit_contains?
+    end
+
+    context "with the same core sha" do
+      let!(:deploy_status_check) { create(:deploy_status_check, deploy_target:, github_pull_request: pull_request, core_sha:) }
+
+      before do
+        job.perform
+      end
+
+      it "leaves the pull request closed while not checking with github again" do
+        expect(pull_request.reload.state).to eq "closed"
+        expect(job).not_to have_received :commit_contains?
+      end
+    end
+
+    context "with a different core sha in the previous check" do
+      let!(:deploy_status_check) do
+        create(:deploy_status_check, deploy_target:, github_pull_request: pull_request, core_sha: "foo")
+      end
+
+      before do
+        allow(job).to receive(:commit_contains?).with(core_sha, merge_commit_sha).and_return contains_commit
+
+        job.perform
+      end
+
+      context "with the same core sha deployed" do
+        let(:contains_commit) { true }
+
+        it "marks the pull request deployed" do
+          expect(pull_request.reload.state).to eq "deployed"
+        end
+
+        it "has checked with github again" do
+          expect(job).to have_received(:commit_contains?).with(core_sha, merge_commit_sha)
+        end
+      end
+
+      context "with a different core sha deployed" do
+        let(:contains_commit) { false }
+
+        it "leaves the pull request closed" do
+          expect(pull_request.reload.state).to eq "closed"
+        end
+
+        it "has checked with github again" do
+          expect(job).to have_received(:commit_contains?).with(core_sha, merge_commit_sha)
+        end
+      end
     end
   end
 end

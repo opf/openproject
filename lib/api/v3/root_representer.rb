@@ -111,11 +111,6 @@ module API
                getter: ->(*) { OpenProject::VERSION.to_semver },
                if: ->(*) { current_user.admin? || current_user.allowed_globally?(:introspection) }
 
-      property :core_sha,
-               exec_context: :decorator,
-               getter: ->(*) { OpenProject::VERSION.core_sha },
-               if: ->(*) { current_user.admin? || current_user.allowed_globally?(:introspection) }
-
       def _type
         "Root"
       end

@@ -31,5 +31,7 @@ FactoryBot.define do
     type { "OpenProject" }
 
     sequence(:host) { |n| "https://qa-#{n}.openproject-edge.com" }
+
+    api_key { '4p1k3y' }
   end
 end

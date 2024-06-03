@@ -567,10 +567,6 @@ module Settings
         description: "Require password confirmations for certain administrative actions",
         default: true
       },
-      introspection_enabled: {
-        description: "If enabled, expose detailed information the running OpenProject environment to users with the necessary permissions.",
-        default: true
-      },
       invitation_expiration_days: {
         default: 7
       },
