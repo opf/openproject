@@ -39,6 +39,10 @@ module Settings
           super(@project_mapping, **)
         end
 
+        def render?
+          !@project_custom_field.required?
+        end
+
         private
 
         def title
