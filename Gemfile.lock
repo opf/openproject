@@ -529,7 +529,7 @@ GEM
       concurrent-ruby (~> 1.1)
       webrick (~> 1.7)
       websocket-driver (>= 0.6, < 0.8)
-    ffi (1.16.3)
+    ffi (1.17.0)
     flamegraph (0.9.5)
     fog-aws (3.22.0)
       fog-core (~> 2.1)
