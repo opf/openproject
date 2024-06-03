@@ -31,7 +31,7 @@ module API
     module Activities
       class ActivitiesAPI < ::API::OpenProjectAPI
         resources :activities do
-          route_param :id, type: Integer, desc: 'Activity ID' do
+          route_param :id, type: Integer, desc: "Activity ID" do
             after_validation do
               @activity = Journal.find(declared_params[:id])
 
@@ -41,7 +41,7 @@ module API
             end
 
             get &::API::V3::Utilities::Endpoints::Show.new(model: ::Journal,
-                                                           api_name: 'Activity',
+                                                           api_name: "Activity",
                                                            instance_generator: ->(*) { @activity })
                                                       .mount
 
@@ -50,7 +50,7 @@ module API
             end
 
             patch &::API::V3::Utilities::Endpoints::Update.new(model: ::Journal,
-                                                               api_name: 'Activity',
+                                                               api_name: "Activity",
                                                                instance_generator: ->(*) { @activity },
                                                                params_modifier: ->(*) {
                                                                  { notes: declared_params[:comment] }

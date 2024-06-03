@@ -102,46 +102,34 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       describe "estimated hours" do
-        before do
-          allow(work_package)
-            .to receive(:leaf?)
-            .and_return(true)
-        end
-
-        it { is_expected.to have_json_path("estimatedTime") }
-
-        it do
-          expect(subject).to be_json_eql(work_package.estimated_hours.to_json)
-            .at_path("estimatedTime")
-        end
-
         context "when not set" do
           it { is_expected.to have_json_type(NilClass).at_path("estimatedTime") }
         end
 
         context "when set" do
-          let(:work_package) { build(:work_package, estimated_hours: 0) }
+          let(:work_package) { build(:work_package, estimated_hours: 2) }
 
           it { is_expected.to have_json_type(String).at_path("estimatedTime") }
+
+          it "has a ISO duration representation (PT2H for instance)" do
+            expect(subject).to be_json_eql("PT2H".to_json).at_path("estimatedTime")
+          end
         end
       end
 
       describe "remaining hours" do
-        it { is_expected.to have_json_path("remainingTime") }
-
-        it do
-          expect(subject).to be_json_eql(work_package.estimated_hours.to_json)
-                               .at_path("estimatedTime")
-        end
-
         context "when not set" do
-          it { is_expected.to have_json_type(NilClass).at_path("estimatedTime") }
+          it { is_expected.not_to have_json_path("remainingTime") }
         end
 
         context "when set" do
           let(:work_package) { build(:work_package, estimated_hours: 7, remaining_hours: 5) }
 
-          it { is_expected.to have_json_type(String).at_path("estimatedTime") }
+          it { is_expected.to have_json_type(String).at_path("remainingTime") }
+
+          it "has a ISO duration representation (PT2H for instance)" do
+            expect(subject).to be_json_eql("PT5H".to_json).at_path("remainingTime")
+          end
         end
       end
 

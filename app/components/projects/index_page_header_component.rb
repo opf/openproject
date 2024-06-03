@@ -31,16 +31,15 @@
 class Projects::IndexPageHeaderComponent < ApplicationComponent
   include OpPrimer::ComponentHelpers
   include Primer::FetchOrFallbackHelper
-  include Menus::ProjectsHelper
 
   attr_accessor :current_user,
                 :query,
                 :state,
                 :params
 
-  STATE_DEFAULT = :show
-  STATE_EDIT = :edit
-  STATE_OPTIONS = [STATE_DEFAULT, STATE_EDIT].freeze
+  STATE_OPTIONS = %i[show edit rename].freeze
+
+  delegate :projects_query_params, to: :helpers
 
   def initialize(current_user:, query:, params:, state: :show)
     super
@@ -69,8 +68,38 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
     query.name || t(:label_project_plural)
   end
 
-  def query_saveable?
-    current_user.logged? && query.name.blank?
+  def may_save_as? = current_user.logged?
+
+  def can_save_as? = may_save_as? && query.changed?
+
+  def can_save?
+    return false unless current_user.logged?
+    return false unless query.persisted?
+    return false unless query.changed?
+
+    if query.public?
+      current_user.allowed_globally?(:manage_public_project_queries)
+    else
+      query.user == current_user
+    end
+  end
+
+  def can_rename?
+    return false unless current_user.logged?
+    return false unless query.persisted?
+    return false if query.changed?
+
+    if query.public?
+      current_user.allowed_globally?(:manage_public_project_queries)
+    else
+      query.user == current_user
+    end
+  end
+
+  def can_publish?
+    OpenProject::FeatureDecisions.project_list_sharing_active? &&
+    current_user.allowed_globally?(:manage_public_project_queries) &&
+    query.persisted?
   end
 
   def show_state?
@@ -87,14 +116,50 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
   def current_breadcrumb_element
     return page_title if query.name.blank?
 
-    current_object = first_level_menu_items.find do |section|
-      section.children.any?(&:selected)
-    end
-
-    if current_object && current_object.header.present?
-      I18n.t("menus.breadcrumb.nested_element", section_header: current_object.header, title: query.name).html_safe
+    if current_section && current_section.header.present?
+      I18n.t("menus.breadcrumb.nested_element", section_header: current_section.header, title: query.name).html_safe
     else
       page_title
+    end
+  end
+
+  def current_section
+    return @current_section if defined?(@current_section)
+
+    projects_menu = Menus::Projects.new(controller_path:, params:, current_user:)
+
+    @current_section = projects_menu.first_level_menu_items.find { |section| section.children.any?(&:selected) }
+  end
+
+  def header_save_action(header:, message:, label:, href:, method: nil)
+    header.with_action_text { message }
+
+    header.with_action_link(
+      mobile_icon: nil, # Do not show on mobile as it is already part of the menu
+      mobile_label: nil,
+      href:,
+      data: { method: }
+    ) do
+      render(
+        Primer::Beta::Octicon.new(
+          icon: "op-save",
+          align_self: :center,
+          "aria-label": label,
+          mr: 1
+        )
+      ) + content_tag(:span, label)
+    end
+  end
+
+  def menu_save_item(menu:, label:, href:, method: nil)
+    menu.with_item(
+      label:,
+      href:,
+      content_arguments: {
+        data: { method: }
+      }
+    ) do |item|
+      item.with_leading_visual_icon(icon: :"op-save")
     end
   end
 end

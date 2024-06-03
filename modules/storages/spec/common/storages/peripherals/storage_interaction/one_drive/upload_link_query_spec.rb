@@ -32,63 +32,47 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::UploadLinkQuery, :webmock do
-  let(:storage) { create(:one_drive_storage, :with_oauth_client, drive_id: "b!~bunchOfLettersAndNumb3rs") }
-  let(:token) { create(:oauth_client_token, oauth_client: storage.oauth_client) }
-  let(:user) { token.user }
-
-  # Need to verify the actual object
-  let(:query_payload) { { "parent" => "LFHLUDSILANC", "file_name" => "it_is_a_trap.flac" } }
-
-  subject(:upload_query) { described_class.new(storage) }
-
-  before do
-    stub_request(
-      :post,
-      "https://graph.microsoft.com/v1.0/drives/b!~bunchOfLettersAndNumb3rs/items/LFHLUDSILANC:/it_is_a_trap.flac:/createUploadSession"
-    ).with(
-      headers: { "Authorization" => "Bearer #{token.access_token}", "Content-Type" => "application/json" },
-      body: { item: { "@microsoft.graph.conflictBehavior" => "rename", name: query_payload["file_name"] } }
-    ).to_return(
-      status: 200,
-      headers: { "Content-Type" => "application/json" },
-      body: { uploadUrl: "https://sn3302.up.1drv.com/up/fe6987415ace7X4e1eF866337",
-              expirationDateTime: "2015-01-29T09:21:55.523Z" }.to_json
-    )
+  let(:storage) { create(:sharepoint_dev_drive_storage) }
+  let(:auth_strategy) do
+    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials.strategy
   end
 
-  it ".call requires 3 arguments: storage, user, and data" do
-    expect(described_class).to respond_to(:call)
+  it_behaves_like "upload_link_query: basic query setup"
 
-    method = described_class.method(:call)
-    expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq user], %i[keyreq data])
-  end
+  it_behaves_like "upload_link_query: validating input data"
 
-  it "must return an upload link URL" do
-    link = upload_query.call(user:, data: query_payload).result
-
-    expect(link.destination).not_to be_nil
-    expect(link.method).to eq(:put)
-  end
-
-  shared_examples_for "outbound is failing" do |code, symbol|
-    describe "with outbound request returning #{code}" do
-      before do
-        stub_request(
-          :post,
-          "https://graph.microsoft.com/v1.0/drives/b!~bunchOfLettersAndNumb3rs/items/LFHLUDSILANC:/it_is_a_trap.flac:/createUploadSession"
-        ).to_return(status: code)
-      end
-
-      it "must return :#{symbol} ServiceResult" do
-        result = upload_query.call(user:, data: query_payload)
-        expect(result).to be_failure
-        expect(result.errors.code).to be(symbol)
-      end
+  context "when requesting an upload link for an existing file", vcr: "one_drive/upload_link_success" do
+    let(:upload_data) do
+      Storages::UploadData.new(folder_id: "01AZJL5PN6Y2GOVW7725BZO354PWSELRRZ", file_name: "DeathStart_blueprints.tiff")
     end
+    let(:token) do
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXVkIjoiMDAwMDA" \
+        "wMDMtMDAwMC0wZmYxLWNlMDAtMDAwMDAwMDAwMDAwL2Zpbm4uc2hhcmVwb2ludC5jb21ANGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg" \
+        "2ZGQwNDdmIiwiY2lkIjoiR3k0SDY0aTF2MEN6NXVxU0tDTkNodz09IiwiZW5kcG9pbnR1cmwiOiJ6cFdrZGttVmxSUEZYRG55eWVmb0thaUg" \
+        "ycFhmV0RUdmkvNTVReHVYSlAwPSIsImVuZHBvaW50dXJsTGVuZ3RoIjoiMjc3IiwiZXhwIjoiMTcxNTA5MjYxOCIsImlwYWRkciI6IjIwLjE" \
+        "5MC4xOTAuMTAwIiwiaXNsb29wYmFjayI6IlRydWUiLCJpc3MiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAiLCJuYW1" \
+        "laWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDJANGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiw" \
+        "ibmJmIjoiMTcxNTAwNjIxOCIsInJvbGVzIjoiYWxsc2l0ZXMucmVhZCBhbGxzaXRlcy53cml0ZSBhbGxmaWxlcy53cml0ZSIsInNpdGVpZCI" \
+        "6Ik1XSTBZalkxTnpZdE9UQTJaQzAwWkRrMExUaG1ORGt0Tm1Rd01HRTVOVEEzWWpVdyIsInR0IjoiMSIsInZlciI6Imhhc2hlZHByb29mdG9" \
+        "rZW4ifQ.UMqPAjuiXSt1rQgFiE0h-k3wkBZ3DmF3I3Nj_zYuYuI"
+    end
+    let(:upload_url) do
+      "https://finn.sharepoint.com/sites/openprojectfilestoragetests/_api/v2.0/drives/" \
+        "b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/01AZJL5PKRK4XUJQQH3JHIUGK2ALGEJEK4/" \
+        "uploadSession?guid=%2789f10eb4-b8d9-4ba9-ab64-eb1e6d39b2ee%27&overwrite=False&rename=True&dc=0" \
+        "&tempauth=#{token}"
+    end
+    let(:upload_method) { :put }
+
+    it_behaves_like "upload_link_query: successful upload link response"
   end
 
-  include_examples "outbound is failing", 400, :error
-  include_examples "outbound is failing", 401, :unauthorized
-  include_examples "outbound is failing", 404, :not_found
-  include_examples "outbound is failing", 500, :error
+  context "when requesting an upload link for a not existing file", vcr: "one_drive/upload_link_not_found" do
+    let(:upload_data) do
+      Storages::UploadData.new(folder_id: "04AZJL5PN6Y2GOVW7725BZO354PWSELRRZ", file_name: "DeathStart_blueprints.tiff")
+    end
+    let(:error_source) { described_class }
+
+    it_behaves_like "upload_link_query: not found"
+  end
 end

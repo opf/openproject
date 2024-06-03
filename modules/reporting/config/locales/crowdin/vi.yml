@@ -61,7 +61,7 @@ vi:
   label_saving: "Saving ..."
   label_spent_on_reporting: "Date (Spent)"
   label_sum: "Tổng"
-  label_units: "Units"
+  label_units: "Đơn vị"
   label_week_reporting: "Week (Spent)"
   label_year_reporting: "Year (Spent)"
   label_count: "Count"
@@ -82,7 +82,7 @@ vi:
   project_module_reporting_module: "Cost reports"
   text_costs_are_rounded_note: "Displayed values are rounded. All calculations are based on the non-rounded values."
   toggle_multiselect: "activate/deactivate multiselect"
-  units: "Units"
+  units: "Đơn vị"
   validation_failure_date: "is not a valid date"
   validation_failure_integer: "is not a valid integer"
   export:

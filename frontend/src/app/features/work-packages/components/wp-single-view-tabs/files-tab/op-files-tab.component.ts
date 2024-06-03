@@ -62,6 +62,8 @@ export class WorkPackageFilesTabComponent implements OnInit {
 
   allowManageFileLinks$:Observable<boolean>;
 
+  showAttachments:boolean;
+
   constructor(
     private readonly i18n:I18nService,
     private readonly currentUserService:CurrentUserService,
@@ -74,6 +76,7 @@ export class WorkPackageFilesTabComponent implements OnInit {
       return;
     }
 
+    this.showAttachments = !!this.workPackage.$links.attachments;
     const canViewFileLinks = this.currentUserService.hasCapabilities$('file_links/view', project.id);
 
     this.projectStorages = this

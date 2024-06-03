@@ -192,7 +192,8 @@ RSpec.shared_examples_for "nextcloud storage contract", :storage_server_helpers,
 
             it "retries failed request once" do
               contract.validate
-              expect(stub_server_capabilities).to have_been_made.once
+              # twice due to HTTPX retry plugin being enabled.
+              expect(stub_server_capabilities).to have_been_made.twice
             end
           end
 
@@ -203,8 +204,8 @@ RSpec.shared_examples_for "nextcloud storage contract", :storage_server_helpers,
 
             it "retries failed request once" do
               contract.validate
-
-              expect(stub_config_check).to have_been_made.once
+              # twice due to HTTPX retry plugin being enabled.
+              expect(stub_config_check).to have_been_made.twice
             end
           end
         end

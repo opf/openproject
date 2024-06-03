@@ -129,7 +129,7 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
   # GET    /admin/settings/storages/:storage_id/automatically_managed_project_folders/new
   # POST   /admin/settings/storages/:storage_id/automatically_managed_project_folders
   def find_model_object(object_id = :storage_id)
-    super(object_id)
+    super
     @storage = @object
   end
 

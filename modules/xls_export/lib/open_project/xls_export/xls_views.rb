@@ -16,7 +16,7 @@ class OpenProject::XlsExport::XlsViews
     when :project_id                then project_representation(value)
     when :user_id, :assigned_to_id  then user_representation(value)
     when :work_package_id           then work_package_representation(value)
-    else super(key, value)
+    else super
     end
   end
 

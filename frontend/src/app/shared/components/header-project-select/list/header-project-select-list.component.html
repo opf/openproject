@@ -25,7 +25,7 @@
       [textContent]="project.name"></span>
 
     <svg
-      *ngIf="favoredFeatureActive && favored?.includes(project.id.toString())"
+      *ngIf="favored?.includes(project.id.toString())"
       star-fill-icon
       class="op-primer--star-icon"
       size="small"

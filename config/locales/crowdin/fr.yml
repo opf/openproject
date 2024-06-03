@@ -264,8 +264,9 @@ fr:
     lists:
       active: "Projets actifs"
       my: "Mes projets"
-      favored: "Favored projects"
+      favored: "Projets favoris"
       archived: "Projets archivés"
+      public: "Public project lists"
       my_private: "Mes listes de projets privés"
       new:
         placeholder: "Nouvelle liste de projets"
@@ -293,8 +294,12 @@ fr:
         actions:
           label_enable_single: "Actif dans ce projet, cliquez pour le désactiver"
           label_disable_single: "Inactif dans ce projet, cliquez pour l'activer"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Activer tout"
           label_disable_all: "Désactiver tout"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
       types:
         no_results_title_text: Il n'y a actuellement aucun type disponible.
         form:
@@ -305,7 +310,20 @@ fr:
       storage:
         no_results_title_text: Il n'y a pas d'espace disque supplémentaire utilisé par ce projet.
   lists:
-    can_be_saved_as: "Les modifications ne peuvent être enregistrées que dans une nouvelle liste."
+    create:
+      success: "La liste modifiée a été enregistrée en tant que nouvelle liste"
+      failure: "La liste modifiée ne peut pas être enregistrée : %{errors}"
+    update:
+      success: "La liste modifiée a été enregistrée"
+      failure: "La liste modifiée ne peut pas être enregistrée : %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
+    can_be_saved: "Liste modifiée :"
+    can_be_saved_as: "Les modifications ne peuvent être enregistrées que dans une nouvelle liste :"
   members:
     index:
       no_results_title_text: Aucun membre dans ce projet pour le moment.
@@ -485,7 +503,7 @@ fr:
       no_common_statuses_exists: "Il n’y a pas de statut disponible pour tous les lots de travaux sélectionnés. Ce statut ne peut pas être changé."
       unsupported_for_multiple_projects: "Déplacer/copier en masse n'est pas supporté pour des lots de travaux provenant de plusieurs projets"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Flux de travail manquant pour le partage de lots de travaux"
         message: "Aucun flux de travail n'est configuré pour le rôle 'Éditeur de lots de travaux'. Sans flux de travail, le partage avec l'utilisateur ne permet pas de modifier l'état du lot de travaux. Les flux de travail peuvent être copiés. Sélectionnez un type de source (par exemple 'Tâche') et un rôle de source (par exemple 'Membre'). Sélectionnez ensuite les types cibles. Pour commencer, vous pouvez sélectionner tous les types comme cibles. Enfin, sélectionnez le rôle 'Éditeur de lot de travaux' comme cible et cliquez sur 'Copier'. Après avoir ainsi créé les valeurs par défaut, affinez les flux de travail comme vous le faites pour tous les autres rôles."
         link_message: "Configurez les flux de travail dans l'administration."
@@ -745,6 +763,7 @@ fr:
         before_or_equal_to: "doit être antérieur(e) ou égal(e) à %{date}."
         blank: "ne peut pas être vide."
         blank_nested: "doit avoir la propriété « %{property} » définie."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "Un lot de travaux ne peut pas être lié à l'une de ses sous-tâches."
         circular_dependency: "Cette relation créerait une dépendance circulaire."
         confirmation: "ne correspond pas à %{attribute}."
@@ -783,6 +802,7 @@ fr:
         not_an_iso_date: "n’est pas une date valide. Format requis : AAAA-MM-JJ."
         not_same_project: "n'appartient pas au même projet."
         odd: "doit être impair."
+        regex_match_failed: "ne correspond pas à l'expression régulière %{expression}."
         regex_invalid: "n’a pas pu être validé avec l’expression régulière associée."
         smaller_than_or_equal_to_max_length: "doit être inférieur ou égal à la longueur maximale."
         taken: "a déjà été pris."
@@ -904,6 +924,8 @@ fr:
               nonexistent: "La colonne '%{column}' n'existe pas."
               format: "%{message}"
           group_by_hierarchies_exclusive: "est mutuellement exclusif avec grouper par '%{group_by}'. Vous ne pouvez pas activer les deux."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "Il n’y a pas de champ personnalisé pour le filtre."
@@ -994,13 +1016,13 @@ fr:
               only_same_project_categories_allowed: "La catégorie du lot de travaux doit faire partie du même projet que le lot de travaux."
               does_not_exist: "La catégorie spécifiée n'existe pas."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              cant_be_inferior_to_remaining_work: "Ne peut être inférieur au Travail restant."
+              must_be_set_when_remaining_work_is_set: "Requis lorsque le Travail restant est défini."
+              only_values_greater_or_equal_zeroes_allowed: "Doit être >= 0."
               format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "Cannot be higher than Work."
-              must_be_set_when_work_is_set: "Required when Work is set."
+              cant_exceed_work: "Ne peut être supérieur au Travail."
+              must_be_set_when_work_is_set: "Requis lorsque le Travail est défini."
               format: "%{message}"
           readonly_status: "Le lot de travaux est en lecture seule, ses attributs ne peuvent donc pas être changés."
         type:
@@ -1264,7 +1286,7 @@ fr:
   button_edit: "Éditer"
   button_edit_associated_wikipage: "Éditer la page wiki associée : %{page_title}"
   button_expand_all: "Tout déplier"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Ajouter aux favoris"
   button_filter: "Filtrer"
   button_generate: "Générer"
   button_list: "Liste"
@@ -1292,7 +1314,7 @@ fr:
   button_unarchive: "Désarchiver"
   button_uncheck_all: "Tout désélectionner"
   button_unlock: "Déverrouiller"
-  button_unfavorite: "Remove from favorites"
+  button_unfavorite: "Supprimer des favoris"
   button_unwatch: "Ne plus suivre"
   button_update: "Mettre à jour"
   button_upgrade: "Mise à niveau"
@@ -1311,6 +1333,8 @@ fr:
   button_revoke_access: "Révoquer l'accès"
   button_revoke_all: "Révoquer tout"
   button_revoke_only: "Révoquer uniquement %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: J'ai pris note de ce qui précède et je l'accepte.
     failure_message: Échec de l'accord, impossible de continuer.
@@ -1578,6 +1602,7 @@ fr:
       pdf_overview_table: "Tableau PDF"
       pdf_report_with_images: "Rapport PDF avec images"
       pdf_report: "Rapport PDF"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Image non exportée."
     units:
@@ -1656,9 +1681,11 @@ fr:
         file_links_journal: >
           À partir de maintenant, l'activité liée aux liens de fichiers (fichiers stockés sur des supports externes) apparaîtra ici dans l'onglet Activité. Les activités suivantes concernent des liens déjà existants :
         progress_calculation_adjusted_from_disabled_mode: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+          Le calcul de la progression est automatiquement <a href="%{href}" target="_blank">défini en mode travail et ajusté avec la mise à jour de la version</a>.
         progress_calculation_adjusted: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+          Le calcul de la progression est automatiquement <a href="%{href}" target="_blank">ajusté avec la mise à jour de la version</a>.
+        totals_removed_from_childless_work_packages: >-
+          Les totaux de travail et de progression sont automatiquement supprimés pour les lots de travaux non parents avec <a href="%{href}" target="_blank">la mise à jour de la version</a>. Il s'agit d'une tâche de maintenance qui peut être ignorée.
   links:
     configuration_guide: "Guide de configuration"
     get_in_touch: "Vous avez des questions ? Contactez-nous."
@@ -1723,17 +1750,6 @@ fr:
         mentioned: "Vous avez été mentionné dans %{work_package}"
         responsible: "Vous êtes devenu responsable de %{work_package}"
         watched: "Vous surveillez %{work_package}"
-    update_info_mail:
-      body: >
-        Nous sommes heureux d'annoncer la sortie d'OpenProject 12.0. Il s'agit d'une version majeure qui, nous l'espérons, améliorera considérablement la façon dont vous utilisez OpenProject.
-        A partir de cette version, nous lançons les notifications in-app. A partir de maintenant, vous recevrez des notifications pour les mises à jour des paquets de travail directement dans OpenProject. Vous pouvez marquer ces notifications comme lues, répondre à un commentaire, ou même modifier directement les attributs du paquet de travail sans quitter le centre de notification.
-        Cela signifie également que nous n'utiliserons plus les emails pour les notifications. Nous pensons que le nouveau centre de notification est un meilleur endroit pour voir et agir sur ces mises à jour. Néanmoins, si vous souhaitez continuer à recevoir des mises à jour par e-mail, vous pouvez choisir de recevoir des rappels quotidiens à des moments précis de votre choix.
-        Nous vous conseillons de vérifier vos nouveaux paramètres de notification par défaut et de définir vos préférences via les paramètres de votre compte. Vous pouvez le faire en cliquant sur le bouton "Modifier les paramètres de messagerie" ci-dessous.
-        Nous espérons que vous trouverez les notifications in-app utiles et qu'elles vous rendront encore plus productif.
-        Sincèrement, L'équipe OpenProject
-      body_header: "Version 12.0 avec centre de notifications"
-      body_subheader: "Actualités"
-      subject: "Modifications importantes des notifications avec la publication de 12.0"
   label_accessibility: "Accessibilité"
   label_account: "Compte"
   label_active: "Actif"
@@ -1785,6 +1801,7 @@ fr:
   label_attribute_expand_text: "Le texte complet pour « %{attribute} »."
   label_authentication: "Authentification"
   label_available_global_roles: "Rôles globaux disponibles"
+  label_available_project_attributes: "Attributs de projet disponibles"
   label_available_project_forums: "Forums disponibles"
   label_available_project_repositories: "Dépôts disponibles"
   label_available_project_versions: "Versions disponibles"
@@ -1914,7 +1931,7 @@ fr:
   label_enterprise_support: "Assistance Enterprise"
   label_enterprise_addon: "add-on Enterprise"
   label_environment: "Environement"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimations et progression"
   label_equals: "est"
   label_everywhere: "partout"
   label_example: "Exemple"
@@ -1928,7 +1945,7 @@ fr:
   label_expanded_click_to_collapse: "Déplié. Cliquez pour replier"
   label_f_hour: "%{value} heure"
   label_f_hour_plural: "%{value} heures"
-  label_favoured: "Favoris"
+  label_favorite: "Favori"
   label_feed_plural: "Fluxs"
   label_feeds_access_key: "Clé d'accès RSS"
   label_feeds_access_key_created_on: "Clé d'accès RSS créé il y a %{value}"
@@ -2001,6 +2018,7 @@ fr:
   label_learn_more: "En savoir plus"
   label_less_or_equal: "<="
   label_less_than_ago: "il y a moins de quelques jours"
+  label_link_url: "Lien (URL)"
   label_list: "Liste"
   label_loading: "Chargement…"
   label_lock_user: "Verrouiller l’utilisateur"
@@ -2026,6 +2044,7 @@ fr:
   label_membership_plural: "Adhésions"
   lable_membership_added: "Membre ajouté"
   lable_membership_updated: "Membre mis à jour"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pré-alpha"
     alpha: "alpha"
@@ -2127,6 +2146,7 @@ fr:
   label_percent_complete: "% réalisé"
   label_project_activity: "Activité du projet"
   label_project_attribute_plural: "Attributs du projet"
+  label_project_attribute_manage_link: "Gérer les attributs de projet"
   label_project_count: "Nombre total de projets"
   label_project_copy_notifications: "Notifier par courriel lors de la copie du projet"
   label_project_latest: "Derniers projets"
@@ -2141,7 +2161,7 @@ fr:
   label_project_attributes_settings: "Paramètres des attributs du projet"
   label_project_storage_plural: "Espaces de stockage des fichiers"
   label_project_storage_project_folder: "Espaces de stockage des fichiers : dossiers du projet"
-  label_projects_storage_information: "%{count} projets utilisant %{storage} d'espace disque"
+  label_projects_disk_usage_information: "%{count} projets utilisant %{used_disk_space} d'espace disque"
   label_project_view_all: "Afficher tous les projets"
   label_project_show_details: "Afficher les détails du projet"
   label_project_hide_details: "Masquer les détails du projet"
@@ -2198,6 +2218,7 @@ fr:
   label_setting_plural: "Paramètres"
   label_system_settings: "Paramètres système"
   label_show_completed_versions: "Afficher les versions terminées"
+  label_columns: "Colonnes"
   label_sort: "Trier"
   label_sort_by: "Trier par %{value}"
   label_sorted_by: "trié par %{value}"
@@ -2696,6 +2717,7 @@ fr:
   permission_save_bcf_queries: "Enregistrer les requêtes BCF"
   permission_manage_public_bcf_queries: "Gérer les requêtes publiques BCF"
   permission_edit_attribute_help_texts: "Modifier les textes d'aide des attributs"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:
@@ -2742,7 +2764,7 @@ fr:
     member_of_group: "Groupe du Destinataire"
     name_or_identifier: "Nom ou identifiant"
     only_subproject_id: "Seulement le sous-projet"
-    shared_with_user: "Partagés avec l'utilisateur"
+    shared_with_user: "Partagés avec des utilisateurs"
     shared_with_me: "Partagés avec moi"
     subproject_id: "Inclure le sous-projet"
   repositories:
@@ -2887,6 +2909,7 @@ fr:
   setting_app_subtitle: "Sous-titre de l'Application"
   setting_app_title: "Titre de l'Application"
   setting_attachment_max_size: "Taille maximale de la pièce jointe"
+  setting_show_work_package_attachments: "Afficher les pièces jointes dans l'onglet des fichiers par défaut"
   setting_antivirus_scan_mode: "Mode analyse"
   setting_antivirus_scan_action: "Action sur le fichier infecté"
   setting_autofetch_changesets: "Rapatrier automatiquement les changements du dépôt"
@@ -2988,6 +3011,8 @@ fr:
     attachments:
       whitelist_text_html: >
         Définissez une liste d'extensions de fichiers et/ou de types MIME valides pour les fichiers téléversés. <br/> Entrez les extensions de fichier (par exemple, <code>%{ext_example}</code>) ou les types mime (par exemple, <code>%{mime_example}</code>). <br/> Laissez vide pour permettre le téléversement de tout type de fichier. Plusieurs valeurs autorisées (une ligne pour chaque valeur).
+      show_work_package_attachments: >
+        Si vous désactivez cette option, la liste des pièces jointes dans l'onglet des fichiers des lots de travaux sera masquée pour les nouveaux projets. Les fichiers joints dans la description d'un lot de travaux seront toujours téléchargés dans l'espace de stockage interne des pièces jointes.
     antivirus:
       title: "Analyse de virus"
       clamav_ping_failed: "Échec de la connexion au démon ClamAV. Vérifiez à nouveau la configuration puis réessayez."
@@ -3224,6 +3249,10 @@ fr:
         input_label: "Ajouter des colonnes"
         input_placeholder: "Sélectionner une colonne"
         drag_area_label: "Gérer et réorganiser les colonnes"
+      sort_by:
+        automatic:
+          heading: "Automatique"
+          description: "Classez les %{plural} selon un ou plusieurs critères de tri. Vous perdrez le tri précédent."
   top_menu:
     additional_resources: "Ressources supplémentaires"
     getting_started: "Pour commencer"
@@ -3570,7 +3599,7 @@ fr:
   link: lien
   plugin_openproject_auth_plugins:
     name: "Plugins d'authentification OpenProject"
-    description: "Intégration des fournisseurs de stratégie OmniAuth pour l'authentification dans Openproject."
+    description: "Intégration des fournisseurs de stratégie OmniAuth pour l'authentification dans OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / authentification unique"
     description: "Ajoute le fournisseur SAML OmniAuth à OpenProject"

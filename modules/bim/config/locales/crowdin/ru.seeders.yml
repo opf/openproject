@@ -120,25 +120,7 @@ ru:
                 options:
                   name: Приступая к работе
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
-
-                    But before you jump right into it, you should know that this exemplary project is split up into two different projects:
-
-                    1.  [Construction project]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Here you will find the classical roles, some workflows and work packages for your construction project.
-                    2.  [Creating BIM Model]({{opSetting:base_url}}/projects/demo-bim-project): This project also offers roles, workflows and work packages but especially in the BIM context.
-
-                    _Try the following steps:_
-
-                    1.  _Invite new members to your project_: → Go to [Members]({{opSetting:base_url}}/projects/demo-construction-project/members) in the project navigation.
-                    2.  _View the work in your projects_: → Go to [Work packages]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    3.  _Create a new work package_: → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    4.  _Create and update a Gantt chart_: → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Activate further modules_: → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules).
-                    6.  _Check out the tile view to get an overview of your BCF issues:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    7.  _Agile working? Check out our brand new boards:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-construction-project/boards)
-
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    shared with me
               item_4:
                 options:
                   name: Участники

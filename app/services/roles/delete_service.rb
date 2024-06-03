@@ -30,13 +30,13 @@ class Roles::DeleteService < BaseServices::Delete
   def persist(service_result)
     # after destroy permissions can not be reached
     @permissions = model.permissions
-    super(service_result)
+    super
   end
 
   protected
 
   def after_perform(service_call)
-    super(service_call).tap do |_call|
+    super.tap do |_call|
       ::OpenProject::Notifications.send(
         ::OpenProject::Events::ROLE_DESTROYED,
         permissions: @permissions

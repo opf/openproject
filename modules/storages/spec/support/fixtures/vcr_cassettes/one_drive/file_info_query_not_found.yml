@@ -1,0 +1,144 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/not_existent?$select=id,name,fileSystemInfo,file,folder,size,createdBy,lastModifiedBy,parentReference
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      User-Agent:
+      - httpx.rb/1.2.4
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - e8f4d212-b8de-4c44-9c99-f3f44761314d
+      Client-Request-Id:
+      - e8f4d212-b8de-4c44-9c99-f3f44761314d
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"000","RoleInstance":"FR1PEPF0000109D"}}'
+      Date:
+      - Thu, 25 Apr 2024 09:40:30 GMT
+    body:
+      encoding: UTF-8
+      string: '{"error":{"code":"itemNotFound","message":"Item not found"}}'
+  recorded_at: Thu, 25 Apr 2024 09:40:31 GMT
+- request:
+    method: post
+    uri: https://login.microsoftonline.com/4d44bf36-9b56-45c0-8807-bbf386dd047f/oauth2/v2.0/token
+    body:
+      encoding: ASCII-8BIT
+      string: grant_type=client_credentials&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default+offline_access&client_id=4262df2b-77bb-49c2-a5df-28355da676d2&client_secret=Vwk8Q%7EJTuPh.pAjvPiWBQBdTFMDK%7EAIwxbj9_axB
+    headers:
+      User-Agent:
+      - httpx.rb/1.2.4
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Content-Length:
+      - '201'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Pragma:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      P3p:
+      - CP="DSP CUR OTPi IND OTRi ONL FIN"
+      X-Ms-Request-Id:
+      - 102e41d2-ebf8-4412-8a93-1f5e31309800
+      X-Ms-Ests-Server:
+      - 2.1.17846.6 - WEULR1 ProdSlices
+      X-Ms-Srs:
+      - 1.P
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - fpc=Aq6ssGKvEZdKjk_vkF-IR9akbDoXAQAAAA8cvN0OAAAA; expires=Sat, 25-May-2024
+        09:40:32 GMT; path=/; secure; HttpOnly; SameSite=None, x-ms-gateway-slice=estsfd;
+        path=/; secure; samesite=none; httponly, stsservicecookie=estsfd; path=/;
+        secure; samesite=none; httponly
+      Date:
+      - Thu, 25 Apr 2024 09:40:31 GMT
+      Content-Length:
+      - '1735'
+    body:
+      encoding: UTF-8
+      string: '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"<ACCESS_TOKEN>"}'
+  recorded_at: Thu, 25 Apr 2024 09:40:32 GMT
+- request:
+    method: get
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/not_existent?$select=id,name,fileSystemInfo,file,folder,size,createdBy,lastModifiedBy,parentReference
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - httpx.rb/1.2.4
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <BEARER TOKEN>
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - 303046bb-b35f-445f-94b0-0c3616a26892
+      Client-Request-Id:
+      - 303046bb-b35f-445f-94b0-0c3616a26892
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"4","ScaleUnit":"000","RoleInstance":"FR1PEPF00000C2E"}}'
+      Date:
+      - Thu, 25 Apr 2024 09:40:31 GMT
+    body:
+      encoding: UTF-8
+      string: '{"error":{"code":"itemNotFound","message":"Item not found"}}'
+  recorded_at: Thu, 25 Apr 2024 09:40:32 GMT
+recorded_with: VCR 6.2.0

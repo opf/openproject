@@ -32,7 +32,8 @@ class CustomActions::Actions::Responsible < CustomActions::Actions::Base
   def available_principles
     User
       .not_locked
-      .select(:id, :firstname, :lastname, :type)
+      .select(:id, :type)
+      .select_for_name
       .ordered_by_name
       .map { |u| [u.id, u.name] }
   end

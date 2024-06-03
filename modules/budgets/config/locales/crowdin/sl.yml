@@ -75,4 +75,4 @@ sl:
   project_module_budgets: "Proračuni"
   text_budget_reassign_to: "Prerazporedi jih k temu proračunu:"
   text_budget_delete: "Izbriši proračun iz vseh delovnih paketov"
-  text_budget_destroy_assigned_wp: "Obstaja %(count) delovnih paketov, ki so prirejeni temu proračunu. Kaj bi radi naredili?"
+  text_budget_destroy_assigned_wp: "Obstaja %{count} delovnih paketov, ki so prirejeni temu proračunu. Kaj bi radi naredili?"

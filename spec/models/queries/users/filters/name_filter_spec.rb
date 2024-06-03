@@ -45,7 +45,7 @@ RSpec.describe Queries::Users::Filters::NameFilter do
     end
   end
 
-  describe "#scope" do
+  describe "#apply_to" do
     before do
       allow(Setting)
         .to receive(:user_format)
@@ -58,7 +58,7 @@ RSpec.describe Queries::Users::Filters::NameFilter do
       it "is the same as handwriting the query" do
         expected = model.where("LOWER(users.firstname) IN ('#{values.first.downcase}') OR unaccent(LOWER(users.firstname)) IN ('#{values.first.downcase}')")
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
 
@@ -68,7 +68,7 @@ RSpec.describe Queries::Users::Filters::NameFilter do
       it "is the same as handwriting the query" do
         expected = model.where("LOWER(users.firstname) NOT IN ('a name') AND unaccent(LOWER(users.firstname)) NOT IN ('a name')")
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
 
@@ -78,7 +78,7 @@ RSpec.describe Queries::Users::Filters::NameFilter do
       it "is the same as handwriting the query" do
         expected = model.where("unaccent(LOWER(users.firstname)) LIKE unaccent('%#{values.first.downcase}%')")
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
 
@@ -88,7 +88,7 @@ RSpec.describe Queries::Users::Filters::NameFilter do
       it "is the same as handwriting the query" do
         expected = model.where("unaccent(LOWER(users.firstname)) NOT LIKE unaccent('%#{values.first.downcase}%')")
 
-        expect(instance.scope.to_sql).to eql expected.to_sql
+        expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
     end
   end

@@ -1,0 +1,83 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://nextcloud.local/index.php/apps/integration_openproject/direct-upload-token
+    body:
+      encoding: UTF-8
+      string: '{"folder_id":"169"}'
+    headers:
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      User-Agent:
+      - httpx.rb/1.2.4
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '19'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 06 May 2024 09:25:48 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.59 (Debian)
+      Set-Cookie:
+      - oc07ul6b4oaw=5bdbb2c751d818cadef4274aa05639b9; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=JA6XDklQ7fJ3p3ByU6FPE0zMDZWIsfKMqMVMTeYXZTxE85Mjz6dubPDY0KXgTIodJ1yvOdVecO53s7F%2BSezG8tZfXAI4IF9ZFg2u26ORsS0uj1kyqK%2FnwPVMNO%2BE7rgQ;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=5bdbb2c751d818cadef4274aa05639b9;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, oc07ul6b4oaw=5bdbb2c751d818cadef4274aa05639b9;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=5bdbb2c751d818cadef4274aa05639b9;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=5bdbb2c751d818cadef4274aa05639b9;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=5bdbb2c751d818cadef4274aa05639b9;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=5bdbb2c751d818cadef4274aa05639b9;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=5bdbb2c751d818cadef4274aa05639b9;
+        path=/; secure; HttpOnly; SameSite=Lax, oc07ul6b4oaw=5bdbb2c751d818cadef4274aa05639b9;
+        path=/; secure; HttpOnly; SameSite=Lax
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.18
+      X-Request-Id:
+      - D6jBXxuqooeclF8XBlxq
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '117'
+    body:
+      encoding: UTF-8
+      string: '{"token":"SrQJeC5zM3B5Gw64d7dEQFQpFw8YBAtZWoxeLb59AR7PpGPyoGAkAko5G6ZiZ2HA","expires_on":1714991149}'
+  recorded_at: Mon, 06 May 2024 09:25:49 GMT
+recorded_with: VCR 6.2.0

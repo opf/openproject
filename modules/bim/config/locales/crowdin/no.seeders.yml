@@ -47,7 +47,7 @@
           name: Konflikt
       global_queries:
         item_0:
-          name: 'Innebygd tabell: Barn'
+          name: 'Innebygd tabell: Underordnet'
       type_configuration:
         item_0:
           form_configuration:
@@ -61,7 +61,7 @@
         item_2:
           name: BIM -ledere
         item_3:
-          name: BIM-modeller
+          name: BIM utviklere
         item_4:
           name: Ledende BIM-koordinatorer
         item_5:
@@ -120,7 +120,7 @@
                 options:
                   name: Komme i gang
                   text: |
-                    Vi er glade for at du ble med!  Vi foreslå et par ting du bør prøve for å komme i gang med OpenProject.
+                    Vi er glade for at du ble med!  Vi foreslår et par ting du bør prøve for å komme i gang med OpenProject.
 
                     Men før du begynner skal du vite at dette demoprosjektet er delt inn i to forskjellige prosjekter:
 
@@ -437,7 +437,7 @@
                 options:
                   name: Komme i gang
                   text: |
-                    Vi er gald for at du ble med! Vi forelsår at prøver et par ting for å komme i gang med OpenProject.
+                    Vi er glad for at du ble med! Vi foreslår at du prøver et par ting for å komme i gang med OpenProject.
 
                     Dette demoprosjektet tilbyr roller, arbeidsflyt og arbeidspakker som er tilpasset BIM.
 
@@ -713,7 +713,7 @@
                 options:
                   name: Komme i gang
                   text: |
-                    Vi er glad du ble med! Vi forelås at du prøver et par ting for å komme i gang i OpenPorject.
+                    Vi er glad du ble med! Vi foreslår at du prøver et par ting for å komme i gang i OpenProject.
 
                     Dette demoprosjektet viser funksjonaliteter i BCF-styring.
 

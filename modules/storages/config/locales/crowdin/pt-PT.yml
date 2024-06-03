@@ -39,15 +39,20 @@ pt-PT:
   api_v3:
     errors:
       too_many_elements_created_at_once: Demasiados elementos criados de uma só vez. Esperados %{max} no máximo, obtidos %{actual}.
-  permission_create_files: 'Armazenamento externo: criar ficheiros'
-  permission_delete_files: 'Armazenamento externo: eliminar ficheiros'
+  external_file_storages: Armazenamentos externos de ficheiros
+  permission_create_files: 'Pastas do projeto geridas automaticamente: Criar ficheiros'
+  permission_create_files_explanation: Esta permissão só está disponível para os armazenamentos Nextcloud
+  permission_delete_files: 'Pastas do projeto geridas automaticamente: Eliminar ficheiros'
+  permission_delete_files_explanation: Esta permissão só está disponível para os armazenamentos Nextcloud
+  permission_header_for_project_module_storages: Pastas do projeto geridas automaticamente
   permission_manage_file_links: Gerir hiperligações de ficheiro
   permission_manage_storages_in_project: Gerir armazenamentos de ficheiros no projeto
-  permission_read_files: 'Armazenamento externo: ler ficheiros'
-  permission_share_files: 'Armazenamento externo: partilhar ficheiros'
+  permission_read_files: 'Pastas do projeto geridas automaticamente: Ler ficheiros'
+  permission_share_files: 'Pastas do projeto geridas automaticamente: Partilhar ficheiros'
+  permission_share_files_explanation: Esta permissão só está disponível para os armazenamentos Nextcloud
   permission_view_file_links: Mostrar hiperligações de ficheiros
-  permission_write_files: 'Armazenamento externo: escrever ficheiros'
-  project_module_storages: Armazenamentos de ficheiros
+  permission_write_files: 'Pastas do projeto geridas automaticamente: Escrever ficheiros'
+  project_module_storages: Ficheiros
   storages:
     buttons:
       complete_without_setup: Concluir sem isso
@@ -198,7 +203,7 @@ pt-PT:
       access_granted_screen_reader: Acesso concedido. Está agora pronto para utilizar %{storage}.
       body: Para ter acesso à pasta do projeto, tem de iniciar sessão em %{storage}.
       cancel_button_label: Farei isso mais tarde
-      confirm_button_aria_label: Iniciar sessão em %{storageType}
+      confirm_button_aria_label: Iniciar sessão em %{storage}
       confirm_button_label: Iniciar sessão
       requesting_access_to: Solicitando acesso a %{storage}
       storage_ready: Está pronto para utilizar %{storage}
@@ -222,13 +227,12 @@ pt-PT:
       project_settings:
         delete: Eliminar armazenamento de ficheiros
         edit: Edite o armazenamento de ficheiros para este projeto
-        index: Armazenamentos de ficheiros disponíveis neste projeto
         members_connection_status: Estado da ligação dos membros
         new: Adicionar um armazenamento de ficheiros a este projeto
       project_storage_members:
         subtitle: Verifique o estado da ligação para o armazenamento %{storage_name_link} de todos os membros do projeto.
         title: Estado da ligação dos membros
-    permission_header_explanation: 'File permissions on external storages are applied only to folders and files within automatically managed project folders. Note that not all file permissions are supported by all storage providers. Please check the documentation on <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>file storage permissions</a> for more information.'
+    permission_header_explanation: 'As permissões de ficheiros em armazenamentos externos são aplicadas apenas a pastas e ficheiros dentro de pastas de projetos geridas automaticamente. Tenha em conta que nem todas as permissões de ficheiros são suportadas por todos os fornecedores de armazenamento. Para mais informações, consulte a documentação sobre <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>permissões de armazenamento de ficheiros</a>.'
     provider_types:
       label: Tipo de fornecedor
       nextcloud:
@@ -241,6 +245,9 @@ pt-PT:
         label_oauth_client_secret: Valor Secreto do Cliente Azure OAuth
         name: OneDrive/SharePoint
         name_placeholder: p. ex., OneDrive
+    show_attachments_toggle:
+      description: 'Se desativar esta opção, irá ocultar a lista de anexos no separador de ficheiros dos pacotes de trabalho. Os ficheiros anexados na descrição de um pacote de trabalho irão continuar a ser carregados no armazenamento interno de anexos.'
+      label: Mostrar anexos no separador dos ficheiros dos pacotes de trabalho
     storage_list_blank_slate:
       description: Adicione um armazenamento para vê-lo aqui.
       heading: Ainda não tem nenhum armazenamento.

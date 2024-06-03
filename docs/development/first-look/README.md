@@ -9,7 +9,7 @@ keywords: first look, beta testing
 
 ## Join OpenProject beta testing
 
-Your feedback is what makes our product stand out. We are happy if you feel like helping to optimize OpenProject. 
+Your feedback is what makes our product stand out. We are happy if you feel like helping to optimize OpenProject.
 
 ![OpenProject first look beta testing](openproject-first-look-beta-testing.jpg)
 

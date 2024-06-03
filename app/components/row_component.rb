@@ -33,8 +33,8 @@
 class RowComponent < ApplicationComponent
   attr_reader :table
 
-  def initialize(row:, table:, **options)
-    super(row, **options)
+  def initialize(row:, table:, **)
+    super(row, **)
     @table = table
   end
 

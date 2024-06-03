@@ -17,10 +17,6 @@ For the work packages table, the query object holds the way the table displays (
 
 A query can be persisted by a user or created dynamically through a set of parameters. It can be published and shared with other users of the project or application.
 
-
-
-
-
 ## Key takeaways
 
 *Queries ...*
@@ -30,8 +26,6 @@ A query can be persisted by a user or created dynamically through a set of param
 - can be created on the fly through URL / body parameters
 - can be requested through the APIv3 to get the resulting resources collection of the query in a paginated way
 
-
-
 ## Prerequisites
 
 The following guides are related:
@@ -39,8 +33,6 @@ The following guides are related:
 - [HAL resources](../hal-resources)
 
 - Backend API overview
-
-
 
 ## Query definition
 
@@ -50,9 +42,6 @@ A query is an object that revolves about two types of information:
 2. The way the results retrieved from the database with the above filters are displayed (set of visible columns, highlighting, display mode of the work package table, etc.)
 
 Currently, the Queries endpoint and object is highly specific to work packages, but this is bound to change with more resources becoming queryable. For some other resources such as projects, queries already exists in the backend, but not yet in the frontend application.
-
-
-
 
 ## API Backend
 
@@ -66,8 +55,6 @@ The default query `/api/v3/queries/default`  and `/api/v3/:project_id/queries/de
 A number of parameters can be passed to the Query through parameters as elaborated on in [the APIv3 Queries documentation](../../../api/endpoints/queries/).
 
 Clients can define a query once, save it and use it later on to load the same set of filters, columns, and so on. When retrieved from the database (a query id is passed), the query has been previously stored. Saved properties may be overridden through URL parameters, which override the existing saved query.
-
-
 
 ### Query collections responses
 
@@ -103,11 +90,7 @@ A major, but complex functionality of the query is the `filters` object to deter
 
 ![Work package query filters](filters.png)
 
-
-
 These filters are also saved within the queries. Read the [APIv3 filters documentation guide](../../../api/filters/) to know more about how filters and their syntax work.
-
-
 
 ### Exemplary query response
 
@@ -117,15 +100,11 @@ It returns a saved query for the OpenProject 11.0 release, with a type filter `t
 
 The resulting work packages will differ based on the visibility of the work packages and your permissions in the projects. For more information, check out [the concept on permissions](../permissions).
 
-
-
 ## Frontend usage
 
 As the singular Query JSON object encompasses a large amount of different concerns, the frontend splits this resource up into quite a substantial amount of services for isolating the individual behaviors.
 
 This guide will not go into too much detail on the actual components using these services, as they will be subject to change and detailed in another guide.
-
-
 
 ### Isolating query spaces in the frontend
 

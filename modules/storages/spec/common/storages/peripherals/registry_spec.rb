@@ -216,87 +216,6 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
     end
   end
 
-  describe "#create_folder_command" do
-    let(:folder_path) { "OpenProject/JediProject" }
-
-    before do
-      stub_request(:mkcol, "https://example.com/remote.php/dav/files/OpenProject/OpenProject/JediProject")
-        .with(
-          headers: {
-            "Authorization" => "Basic T3BlblByb2plY3Q6T3BlblByb2plY3RTZWN1cmVQYXNzd29yZA=="
-          }
-        )
-        .to_return(expected_response)
-    end
-
-    context "when folder does not exist yet" do
-      let(:expected_response) do
-        {
-          status: 201,
-          body: "",
-          headers: {}
-        }
-      end
-
-      it "creates a folder and responds with a success" do
-        result = registry.resolve("nextcloud.commands.create_folder").call(storage:, folder_path:)
-        expect(result).to be_success
-        expect(result.message).to eq("Folder was successfully created.")
-      end
-    end
-
-    context "when folder exists already" do
-      let(:expected_response_body) do
-        <<~XML
-          <?xml version="1.0" encoding="utf-8"?>
-          <d:error xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">
-            <s:exception>Sabre\\DAV\\Exception\\MethodNotAllowed</s:exception>
-            <s:message>The resource you tried to create already exists</s:message>
-          </d:error>
-        XML
-      end
-      let(:expected_response) do
-        {
-          status: 405,
-          body: expected_response_body,
-          headers: {}
-        }
-      end
-
-      it "does not create a folder and responds with a success" do
-        result = registry.resolve("nextcloud.commands.create_folder").call(storage:, folder_path:)
-        expect(result).to be_success
-        expect(result.message).to eq("Folder already exists.")
-      end
-    end
-
-    context "when parent folder is missing for any reason" do
-      let(:expected_response_body) do
-        <<~XML
-          <?xml version="1.0" encoding="utf-8"?>
-          <d:error xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">
-            <s:exception>Sabre\\DAV\\Exception\\Conflict</s:exception>
-            <s:message>Parent node does not exist</s:message>
-          </d:error>
-        XML
-      end
-      let(:expected_response) do
-        {
-          status: 409,
-          body: expected_response_body,
-          headers: {}
-        }
-      end
-
-      it "does not create a folder and responds with a failure" do
-        result = registry.resolve("nextcloud.commands.create_folder").call(storage:, folder_path:)
-        expect(result).to be_failure
-        expect(result.result).to eq(:conflict)
-        expect(result.errors.log_message).to eq("Parent node does not exist")
-      end
-    end
-  end
-
   describe "#set_permissions_command" do
     let(:path) { "OpenProject/JediProject" }
     let(:permissions) do
@@ -610,7 +529,7 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
   end
 
   describe "#delete_folder_command" do
-    let(:auth_strategy) { ::Storages::Peripherals::StorageInteraction::AuthenticationStrategies::BasicAuth.strategy }
+    let(:auth_strategy) { Storages::Peripherals::StorageInteraction::AuthenticationStrategies::BasicAuth.strategy }
 
     before do
       stub_request(:delete, "https://example.com/remote.php/dav/files/OpenProject/OpenProject/Folder%201")

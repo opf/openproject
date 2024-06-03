@@ -34,7 +34,7 @@ zh-CN:
         notes: "备注"
         participants: "参加者"
         participant:
-          other: "1位参与者"
+          other: "%{count}位参与者"
         participants_attended: "与会者"
         participants_invited: "受邀者"
         project: "项目"
@@ -47,6 +47,8 @@ zh-CN:
         duration_in_minutes: "分钟"
         description: "备注"
         presenter: "演讲者"
+      meeting_section:
+        title: "标题"
     errors:
       messages:
         invalid_time_format: "不是有效时间。所需格式：HH:MM"
@@ -98,12 +100,14 @@ zh-CN:
     attachments:
       text: "所有与会者都可以查看附件。您还可以将这些文件拖放到议程项目注释中。"
     copy:
-      title: "Copy meeting: %{title}"
+      title: "复制会议： %{title}"
       attachments: "复制附件"
       attachments_text: "将所有附件复制到新会议"
       agenda: "复制议程"
       agenda_text: "复制之前会议的议程"
     email:
+      send_emails: "发送电子邮件"
+      send_invitation_emails: "创建后发送邀请电子邮件"
       open_meeting_link: "打开会议"
       invited:
         summary: "%{actor} 已经向您发送了一个 %{title} 会议邀请"
@@ -121,6 +125,11 @@ zh-CN:
       structured_text: "将您的会议组织成一个议程项目列表，并可选择地将它们与一个工作包连接起来。"
       structured_text_copy: "目前复制会议不会复制相关会议的议程项目，只会复制会议的详细信息。"
     copied: "从会议 #%{id} 复制"
+  meeting_section:
+    untitled_title: "无标题章节"
+    delete_confirmation: "删除该属性也会删除其在所有项目中的值。您确定要这样做吗？"
+    placeholder_title: "新建章节"
+    empty_text: "拖动项目到此处或创建一个新项目"
   notice_successful_notification: "通知发送成功"
   notice_timezone_missing: 没有设定时区，预设时区为 %{zone}。要选择您的时区，请单击此处。
   permission_create_meetings: "创建会议"

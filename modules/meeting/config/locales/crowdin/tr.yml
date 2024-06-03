@@ -48,6 +48,8 @@ tr:
         duration_in_minutes: "dakika"
         description: "Notlar"
         presenter: "Sunucu "
+      meeting_section:
+        title: "Başlık"
     errors:
       messages:
         invalid_time_format: "geçerli bir zaman değil. Gerekli format: SS:DD"
@@ -102,26 +104,33 @@ tr:
       title: "Copy meeting: %{title}"
       attachments: "Copy attachments"
       attachments_text: "Copy over all attached files to the new meeting"
-      agenda: "Copy agenda"
-      agenda_text: "Copy the agenda of the old meeting"
+      agenda: "Gündemi kopyala"
+      agenda_text: "Eski toplantının gündemini kopyalayın"
     email:
-      open_meeting_link: "Open meeting"
+      send_emails: "Send emails"
+      send_invitation_emails: "Send out invitation emails upon creation"
+      open_meeting_link: "Açık toplantı"
       invited:
-        summary: "%{actor} has sent you an invitation for the meeting %{title}"
+        summary: "%{actor} size toplantı için bir davetiye gönderdi %{title}"
       rescheduled:
         header: "Meeting %{title} has been rescheduled"
-        summary: "Meeting %{title} has been rescheduled by %{actor}"
-        body: "The meeting %{title} has been rescheduled by %{actor}."
-        old_date_time: "Old date/time"
-        new_date_time: "New date/time"
-    label_mail_all_participants: "Send email to all participants"
+        summary: "%{title} toplantısı %{actor} tarafından yeniden planlanmıştır."
+        body: "%{title} toplantısı %{actor} tarafından yeniden planlanmıştır."
+        old_date_time: "Eski tarih/saat"
+        new_date_time: "Yeni tarih/saat"
+    label_mail_all_participants: "Tüm katılımcılara e-posta gönderin"
     types:
       classic: "Klasik"
-      classic_text: "Organize your meeting in a formattable text agenda and protocol."
-      structured: "Dynamic"
-      structured_text: "Organize your meeting as a list of agenda items, optionally linking them to a work package."
+      classic_text: "Toplantınızı biçimlendirilebilir bir metin gündemi ve protokolüyle düzenleyin."
+      structured: "Dinamik"
+      structured_text: "Toplantınızı, isteğe bağlı olarak bunları bir çalışma paketine bağlayarak, gündem maddelerinin bir listesi halinde düzenleyin."
       structured_text_copy: "Copying a meeting will currently not copy the associated meeting agenda items, just the details"
     copied: "#%{id} numaralı toplantıdan kopyalandı"
+  meeting_section:
+    untitled_title: "Untitled section"
+    delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
+    placeholder_title: "New section"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Bildirim başarıyla gönderildi"
   notice_timezone_missing: Saat dilimi ayarlanmadı ve %{zone} kabul edildi. Saat dilimini seçmek için lütfen buraya tıklayın.
   permission_create_meetings: "Toplantı oluşturma"
@@ -151,11 +160,11 @@ tr:
   text_meeting_empty_description_2: 'You can also add references to existing work packages. When you do, related notes will automatically be visible in the work package''s "Meetings" tab.'
   label_meeting_empty_action: "Add agenda item"
   label_meeting_actions: "Meeting actions"
-  label_meeting_edit_title: "Edit meeting title"
-  label_meeting_delete: "Delete meeting"
+  label_meeting_edit_title: "Toplantı başlığını düzenle"
+  label_meeting_delete: "Toplantıyı sil"
   label_meeting_created_by: "Oluşturan"
   label_meeting_last_updated: "Last updated"
-  label_agenda_items: "Agenda items"
+  label_agenda_items: "Gündem maddeleri"
   label_agenda_items_reordered: "reordered"
   label_agenda_item_remove: "Remove from agenda"
   label_agenda_item_undisclosed_wp: "Work package #%{id} not visible"
@@ -170,7 +179,7 @@ tr:
   text_agenda_item_title: 'Agenda item "%{title}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
   text_deleted_agenda_item: 'Deleted agenda item'
-  label_initial_meeting_details: "Meeting"
+  label_initial_meeting_details: "Toplantı"
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
   label_meeting_state: "Meeting status"

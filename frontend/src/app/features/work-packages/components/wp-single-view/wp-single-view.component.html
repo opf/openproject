@@ -122,7 +122,9 @@
   *ngIf="isNewResource"
   class="work-packages--storages"
 >
-  <div>
+  <div
+    *ngIf="workPackage.$links.attachments"
+  >
     <div class="op-tab-content--header">
       <span class="op-tab-content--header-text" [textContent]="text.attachments.label"></span>
     </div>

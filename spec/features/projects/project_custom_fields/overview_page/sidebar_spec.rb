@@ -82,14 +82,15 @@ RSpec.describe "Show project custom fields on project overview page", :js, :with
         overview_page.within_custom_field_section_container(section_for_input_fields) do
           fields = page.all(".op-project-custom-field-container")
 
-          expect(fields.size).to eq(6)
+          expect(fields.size).to eq(7)
 
           expect(fields[0].text).to include("Boolean field")
           expect(fields[1].text).to include("String field")
           expect(fields[2].text).to include("Integer field")
           expect(fields[3].text).to include("Float field")
           expect(fields[4].text).to include("Date field")
-          expect(fields[5].text).to include("Text field")
+          expect(fields[5].text).to include("Link field")
+          expect(fields[6].text).to include("Text field")
         end
 
         overview_page.within_custom_field_section_container(section_for_select_fields) do
@@ -121,14 +122,15 @@ RSpec.describe "Show project custom fields on project overview page", :js, :with
         overview_page.within_custom_field_section_container(section_for_input_fields) do
           fields = page.all(".op-project-custom-field-container")
 
-          expect(fields.size).to eq(6)
+          expect(fields.size).to eq(7)
 
           expect(fields[0].text).to include("Boolean field")
           expect(fields[1].text).to include("Integer field")
           expect(fields[2].text).to include("Float field")
           expect(fields[3].text).to include("Date field")
-          expect(fields[4].text).to include("Text field")
-          expect(fields[5].text).to include("String field")
+          expect(fields[4].text).to include("Link field")
+          expect(fields[5].text).to include("Text field")
+          expect(fields[6].text).to include("String field")
         end
       end
     end
@@ -838,6 +840,22 @@ RSpec.describe "Show project custom fields on project overview page", :js, :with
           end
         end
       end
+    end
+  end
+
+  describe "with attribute helper texts" do
+    let!(:instance) do
+      create :project_help_text,
+             attribute_name: boolean_project_custom_field.attribute_name
+    end
+    let(:modal) { Components::AttributeHelpTextModal.new(instance) }
+
+    it "displays when active" do
+      overview_page.visit_page
+      # Open help text modal
+      modal.open!
+      expect(modal.modal_container).to have_text "Attribute help text"
+      modal.expect_edit(editable: true)
     end
   end
 end

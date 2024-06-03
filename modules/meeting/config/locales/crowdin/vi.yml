@@ -42,11 +42,13 @@ vi:
         start_time: "Start time"
         start_time_hour: "Start time"
       meeting_agenda_item:
-        title: "Title"
-        author: "Author"
+        title: "Tiêu đề"
+        author: "Tác giả"
         duration_in_minutes: "min"
-        description: "Notes"
+        description: "Ghi chú"
         presenter: "Presenter"
+      meeting_section:
+        title: "Title"
     errors:
       messages:
         invalid_time_format: "không phải giờ hợp lệ. Yêu cầu định dạng: HH:MM"
@@ -104,6 +106,8 @@ vi:
       agenda: "Copy agenda"
       agenda_text: "Copy the agenda of the old meeting"
     email:
+      send_emails: "Send emails"
+      send_invitation_emails: "Send out invitation emails upon creation"
       open_meeting_link: "Open meeting"
       invited:
         summary: "%{actor} has sent you an invitation for the meeting %{title}"
@@ -121,6 +125,11 @@ vi:
       structured_text: "Organize your meeting as a list of agenda items, optionally linking them to a work package."
       structured_text_copy: "Copying a meeting will currently not copy the associated meeting agenda items, just the details"
     copied: "Copied from Meeting #%{id}"
+  meeting_section:
+    untitled_title: "Untitled section"
+    delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
+    placeholder_title: "New section"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Đã gửi thông báo thành công"
   notice_timezone_missing: Chưa đặt múi giờ và %{zone} đã được chọn. Để chọn múi giowf của bạn, nhấn vào đây.
   permission_create_meetings: "Create meetings"
@@ -169,7 +178,7 @@ vi:
   text_agenda_item_title: 'Agenda item "%{title}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
   text_deleted_agenda_item: 'Deleted agenda item'
-  label_initial_meeting_details: "Meeting"
+  label_initial_meeting_details: "Cuộc họp"
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
   label_meeting_state: "Meeting status"

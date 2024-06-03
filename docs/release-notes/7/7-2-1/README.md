@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 7.2.1
-  sidebar_navigation:
-      title: 7.2.1
-  release_version: 7.2.1
-  release_date: 2017-08-16
+title: OpenProject 7.2.1
+sidebar_navigation:
+  title: 7.2.1
+release_version: 7.2.1
+release_date: 2017-08-16
 ---
 
 # OpenProject 7.2.1
@@ -35,8 +35,6 @@ Thanks a lot to the community, in particular to Mark Brown for reporting
 bugs!
 
 For further information on the release, please refer to the [Changelog
-v7.2.1](https://community.openproject.org/versions/843) 
+v7.2.1](https://community.openproject.org/versions/843)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v7.2.1).
-
-

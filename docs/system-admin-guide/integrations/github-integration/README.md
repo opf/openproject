@@ -126,9 +126,8 @@ The **Payload URL** must point to your OpenProject server's GitHub webhook endpo
 
 Now you need the API key you copied earlier. Append it to the *Payload URL* as a simple GET parameter named `key`. In the end the URL should look something like this:
 
-```
-https://myopenproject.com/webhooks/github?key=42
-```
+`https://myopenproject.com/webhooks/github?key=42`
+
 _Earlier version may have used the `api_key` parameter. In OpenProject 10.4, it is `key`._
 
 Now the integration is set up on both sides and you can use it.

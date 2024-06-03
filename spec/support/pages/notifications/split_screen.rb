@@ -35,7 +35,7 @@ module Pages
       include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
       def initialize(work_package, project = nil)
-        super(work_package, project)
+        super
         @selector = ".work-packages--details"
       end
     end

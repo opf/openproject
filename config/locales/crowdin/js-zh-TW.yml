@@ -146,7 +146,7 @@ zh-TW:
         manual: "切換到標記源模式"
         wysiwyg: "切換到所見即所得編輯器"
       macro:
-        error: "無法展開巨集(macro)： %{message}"
+        error: "無法展開巨集(macro)：%{message}"
         attribute_reference:
           macro_help_tooltip: "This text segment is being dynamically rendered by a macro."
           not_found: "Requested resource could not be found"
@@ -199,7 +199,7 @@ zh-TW:
         new_group: "新增群組"
         reset_to_defaults: "重設為預設值"
       enterprise:
-        text_reprieve_days_left: "剩下 %{days} days 測試結束"
+        text_reprieve_days_left: "剩下 %{days} 天測試結束"
         text_expired: "已過期"
         trial:
           confirmation: "確認您的電子郵件地址"
@@ -236,7 +236,7 @@ zh-TW:
         upsale:
           become_hero: "成為英雄!"
           enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
-          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+          upgrade_info: "請升級到付費版以啟用此功能"
           benefits:
             description: "本地部署的 Enterprise edition 具有哪些優勢？"
             high_security: "Security features"
@@ -249,7 +249,7 @@ zh-TW:
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "開始免費試用"
           button_upgrade: "立即更新"
-          button_contact_us: "Contact us for a demo"
+          button_contact_us: "聯絡我們取得試用"
           button_book_now: "立即預約"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
@@ -329,6 +329,18 @@ zh-TW:
         years: "年"
         description: >
           選擇自動縮放無法接通應顯示的初始縮放級別。
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "否"
     general_text_yes: "是"
     general_text_No: "否"
@@ -347,11 +359,10 @@ zh-TW:
           learn_about: "瞭解更多新功能的資訊"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
     ical_sharing_modal:
       title: "訂閱日曆"
       inital_setup_error_message: "更新資料時發生錯誤"
@@ -377,7 +388,7 @@ zh-TW:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "天前"
     label_all: "所有"
-    label_all_uppercase: "All"
+    label_all_uppercase: "全部"
     label_all_work_packages: "所有工作項目"
     label_and: "和"
     label_ascending: "昇冪"
@@ -419,7 +430,7 @@ zh-TW:
     label_expand_project_menu: "展開專案選單"
     label_export: "匯出"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
-    label_favored: "Favored"
+    label_favorites: "Favorites"
     label_filename: "檔案"
     label_filesize: "檔案大小"
     label_general: "一般"
@@ -760,7 +771,7 @@ zh-TW:
           last_day: "最後一天"
     text_are_you_sure: "是否確定？"
     text_data_lost: "所有資料將遺失"
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} 寫道："
     types:
       attribute_groups:
         error_duplicate_group_name: "名稱 %{group} 已被使用，群組名稱不可重複。"
@@ -835,7 +846,7 @@ zh-TW:
       toggle_description: "切換關係描述"
       update_relation: "按一下此處以更改關聯類型"
       add_follower: "增加後置項目"
-      show_relations: "Show relations"
+      show_relations: "顯示關聯"
       add_predecessor: "增加前置項目"
       remove: "刪除關係"
       save: "儲存關聯"
@@ -1031,7 +1042,7 @@ zh-TW:
         rename_query_placeholder: "此檢視的名稱"
         star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
         public_text: >
-          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+          發布此檢視圖，允許其他使用者存取您的視圖。 具有「管理公用檢視圖」權限的使用者可以修改或刪除公用查詢。 這不會影響該檢視圖中工作項目的可見性，並且根據使用者的權限，使用者可能會看到不同的結果。
         errors:
           unretrievable_query: "無法從 url 取得版面"
           not_found: "無此查詢"
@@ -1043,7 +1054,7 @@ zh-TW:
       sharing:
         share: "共享"
         title: "分享工作項目"
-        show_all_users: "顯示所有使用者"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "已選取 %{count} 個"
         selection:
           mixed: "Mixed"
@@ -1267,6 +1278,9 @@ zh-TW:
           placeholder: "The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
           group: "The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance."
         next_button: "繼續"
+    favorite_projects:
+      no_results: "You have no favorite projects"
+      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
     include_projects:
       toggle_title: "包含的專案"
       title: "專案"
@@ -1326,6 +1340,10 @@ zh-TW:
         focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
         Close: "關閉"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
       waiting_subtitle:
         network_off: "There is a network problem."
         network_on: "Network is back. We are trying."
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact you OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

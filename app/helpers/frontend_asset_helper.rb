@@ -43,7 +43,7 @@ module FrontendAssetHelper
   def include_frontend_assets
     capture do
       %w(vendor.js polyfills.js runtime.js main.js).each do |file|
-        concat javascript_include_tag variable_asset_path(file), skip_pipeline: true
+        concat nonced_javascript_include_tag variable_asset_path(file), skip_pipeline: true
       end
 
       concat stylesheet_link_tag variable_asset_path("styles.css"), media: :all, skip_pipeline: true
@@ -56,10 +56,19 @@ module FrontendAssetHelper
     end
   end
 
+  def nonced_javascript_include_tag(path, **)
+    javascript_include_tag(path, nonce: content_security_policy_script_nonce, **)
+  end
+
   private
 
-  def frontend_asset_path(unhashed_file_name)
-    "/assets/frontend/#{::OpenProject::Assets.lookup_asset(unhashed_file_name)}"
+  def lookup_frontend_asset(unhashed_file_name)
+    hashed_file_name = ::OpenProject::Assets.lookup_asset(unhashed_file_name)
+    frontend_asset_path(hashed_file_name)
+  end
+
+  def frontend_asset_path(file_name)
+    "/assets/frontend/#{file_name}"
   end
 
   def variable_asset_path(path)
@@ -72,7 +81,7 @@ module FrontendAssetHelper
     else
       # we do not need to take care about Rails.application.config.relative_url_root
       # because in this case javascript|stylesheet_include_tag will add it automatically.
-      frontend_asset_path(path)
+      lookup_frontend_asset(path)
     end
   end
 end

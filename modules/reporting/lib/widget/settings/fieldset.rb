@@ -33,7 +33,7 @@ class Widget::Settings::Fieldset < Widget::Base
     @type = options.delete(:type) || "filter"
     @id = @type.to_s
     @label = :"label_#{@type}"
-    super(options, &)
+    super
   end
 
   def render

@@ -105,8 +105,6 @@ RSpec.describe ScheduleHelpers::ExampleMethods do
   end
 
   describe "change_schedule" do
-    include ActiveSupport::Testing::TimeHelpers
-
     let(:fake_today) { Date.new(2022, 6, 16) } # Thursday 16 June 2022
     let(:monday) { Date.new(2022, 6, 20) } # Monday 20 June
     let(:tuesday) { Date.new(2022, 6, 21) }

@@ -30,7 +30,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation } from '@angular/core';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { debounceTime, defaultIfEmpty, filter, map, mergeMap, shareReplay, take } from 'rxjs/operators';
 import { IProject } from 'core-app/core/state/projects/project.model';
 import { insertInList } from 'core-app/shared/components/project-include/insert-in-list';
@@ -66,8 +66,6 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
   public textFieldFocused = false;
 
   public canCreateNewProjects$ = this.currentUserService.hasCapabilities$('projects/create', 'global');
-
-  public favoredFeatureActive = this.configuration.activeFeatureFlags.includes('favoriteProjects');
 
   public projects$ = combineLatest([
     this.searchableProjectListService.allProjects$,
@@ -107,7 +105,7 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
     shareReplay(),
   );
 
-  public favorites$ = this
+  public favorites$:Observable<string[]> = this
     .apiV3Service
     .projects
     .signalled(
@@ -126,7 +124,9 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
 
   public text = {
     all: this.I18n.t('js.label_all_uppercase'),
-    favored: this.I18n.t('js.label_favored'),
+    favored: this.I18n.t('js.label_favorites'),
+    no_favorites: this.I18n.t('js.favorite_projects.no_results'),
+    no_favorites_subtext: this.I18n.t('js.favorite_projects.no_results_subtext'),
     project: {
       singular: this.I18n.t('js.label_project'),
       plural: this.I18n.t('js.label_project_plural'),
@@ -216,5 +216,13 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
   newProjectPath():string {
     const parentParam = this.currentProject.id ? `?parent_id=${this.currentProject.id}` : '';
     return `${this.pathHelper.projectsNewPath()}${parentParam}`;
+  }
+
+  anyProjectsFound(projects:IProjectData[], favorites:string[]):boolean {
+    if (this.displayMode === 'all') {
+      return projects.length > 0;
+    }
+
+    return projects.length > 0 && favorites.length > 0;
   }
 }

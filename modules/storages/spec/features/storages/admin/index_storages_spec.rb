@@ -64,8 +64,8 @@ RSpec.describe "Admin List File storages",
     end
 
     it "renders a blank slate" do
-      expect(page).to have_title("File storages")
-      expect(page.find(".PageHeader-title")).to have_text("File storages")
+      expect(page).to have_title("Files")
+      expect(page.find(".PageHeader-title")).to have_text("External file storages")
       expect(page).to have_text("You don't have any storages yet.")
     end
 

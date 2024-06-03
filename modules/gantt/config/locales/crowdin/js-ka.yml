@@ -1,6 +1,6 @@
 ka:
   js:
     queries:
-      all_open: 'All open'
+      all_open: 'ყველა ღია'
       timeline: 'Timeline'
-      milestones: 'Milestones'
+      milestones: 'ნიშანსვეტები'

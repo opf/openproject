@@ -33,12 +33,17 @@ class Queries::Projects::Filters::FavoredFilter < Queries::Projects::Filters::Pr
     :favored
   end
 
+  def human_name
+    I18n.t(:label_favorite)
+  end
+
   def available?
     User.current.logged?
   end
 
-  def scope
-    if values.first == OpenProject::Database::DB_VALUE_TRUE
+  def apply_to(_query_scope)
+    if (values.first == OpenProject::Database::DB_VALUE_TRUE && operator_strategy == Queries::Operators::BooleanEquals) ||
+      (values.first == OpenProject::Database::DB_VALUE_FALSE && operator_strategy == Queries::Operators::BooleanNotEquals)
       super.where(id: favored_project_ids)
     else
       super.where.not(id: favored_project_ids)
@@ -47,7 +52,7 @@ class Queries::Projects::Filters::FavoredFilter < Queries::Projects::Filters::Pr
 
   # Handled by scope
   def where
-    "1=1"
+    nil
   end
 
   def favored_project_ids

@@ -29,7 +29,6 @@
       ></h1>
 
       <spot-toggle
-        *ngIf="favoredFeatureActive"
         [options]="displayModeOptions"
         [(ngModel)]="displayMode"
       ></spot-toggle>
@@ -40,6 +39,7 @@
       *ngIf="projects$ | async as projects"
     >
       <spot-text-field
+        *ngIf="displayMode !== 'favored' || (favorites$ | async)?.length > 0"
         [placeholder]="text.search_placeholder"
         [(ngModel)]="searchableProjectListService.searchText"
         [ngModelOptions]="{standalone: true}"
@@ -57,7 +57,7 @@
 
       <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
         <ul
-          *ngIf="projects.length > 0; else noResultsTemplate"
+          *ngIf="anyProjectsFound(projects, (favorites$ | async)); else noResultsTemplate"
           op-header-project-select-list
           [ngClass]="{ 'spot-list_active': textFieldFocused }"
           [projects]="projects"
@@ -70,8 +70,24 @@
         ></ul>
 
         <ng-template #noResultsTemplate>
-          <span class="op-project-list-modal--no-results">
-            {{text.no_results}}
+          <div *ngIf="displayMode === 'favored' && (favorites$ | async).length === 0"
+               class="op-header-project-select--no-favorites"
+          >
+            <svg
+              class="op-header-project-select--no-favorites-icon"
+              star-icon
+              size="medium"
+            ></svg>
+            <p>
+              <strong [textContent]="text.no_favorites"></strong>
+              <br/>
+              <span class="op-header-project-select--no-favorites-subtext"
+                    [textContent]="text.no_favorites_subtext"></span>
+            </p>
+          </div>
+          <span *ngIf="!(displayMode === 'favored' && (favorites$ | async).length === 0)"
+                class="op-project-list-modal--no-results">
+            {{ text.no_results }}
           </span>
         </ng-template>
       </ng-container>

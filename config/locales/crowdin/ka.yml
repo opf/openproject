@@ -263,9 +263,10 @@ ka:
       no_results_content_text: Create a new project
     lists:
       active: "Active projects"
-      my: "My projects"
-      favored: "Favored projects"
+      my: "ჩემი პროექტები"
+      favored: "Favorite projects"
       archived: "Archived projects"
+      public: "Public project lists"
       my_private: "My private project lists"
       new:
         placeholder: "New project list"
@@ -293,8 +294,12 @@ ka:
         actions:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Enable all"
           label_disable_all: "Disable all"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
       types:
         no_results_title_text: There are currently no types available.
         form:
@@ -305,7 +310,20 @@ ka:
       storage:
         no_results_title_text: There is no additional recorded disk space consumed by this project.
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -313,7 +331,7 @@ ka:
     invite_by_mail: "Send invite to %{mail}"
     send_invite_to: "მოსაწვევი გაეგზავნება"
     columns:
-      shared: "Shared"
+      shared: "გაზიარებული"
     filters:
       all_shares: "ყველა გაზიარებული"
     menu:
@@ -399,7 +417,7 @@ ka:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
   page:
-    text: "Text"
+    text: "ტექსტი"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -485,7 +503,7 @@ ka:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: "Bulk move/copy is not supported for work packages from multiple projects"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Workflow missing for work package sharing"
         message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
         link_message: "Configure the workflows in the administration."
@@ -597,7 +615,7 @@ ka:
         column_count: "Number of columns"
         widgets: "ვიჯეტები"
       oauth_client:
-        client: "Client ID"
+        client: "კლიენტის ID"
       relation:
         lag: "Lag"
         from: "სამუშაო პაკეტი"
@@ -622,7 +640,7 @@ ka:
           false: "პირადი"
         queries: "მოთხოვნები"
         status_code: "პროექტის სტატუსი"
-        description: "Description"
+        description: "აღწერა"
         status_explanation: "Project status description"
         status_codes:
           not_started: "დაწყებული არაა"
@@ -745,6 +763,7 @@ ka:
         before_or_equal_to: "must be before or equal to %{date}."
         blank: "can't be blank."
         blank_nested: "needs to have the property '%{property}' set."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "A work package cannot be linked to one of its subtasks."
         circular_dependency: "This relation would create a circular dependency."
         confirmation: "doesn't match %{attribute}."
@@ -783,6 +802,7 @@ ka:
         not_an_iso_date: "is not a valid date. Required format: YYYY-MM-DD."
         not_same_project: "doesn't belong to the same project."
         odd: "კენტი უნდა იყოს."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "could not be validated with the associated regular expression."
         smaller_than_or_equal_to_max_length: "must be smaller than or equal to maximum length."
         taken: "has already been taken."
@@ -904,6 +924,8 @@ ka:
               nonexistent: "The column '%{column}' does not exist."
               format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "There is no custom field for the filter."
@@ -1036,7 +1058,7 @@ ka:
             ldap_auth_source:
               error_not_found: "ვერ მოიძებნა"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "ვერ მოიძებნა"
         member:
           principal_blank: "Please choose at least one user or group."
           role_blank: "need to be assigned."
@@ -1230,7 +1252,7 @@ ka:
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: There is already a backup pending.
       limit_reached: You can only do %{limit} backups per day.
-  button_actions: "Actions"
+  button_actions: "ქმედებები"
   button_add: "დამატება"
   button_add_comment: "კომენტარის დამატება"
   button_add_member: წევრის დამატება
@@ -1264,7 +1286,7 @@ ka:
   button_edit: "ჩასწორება"
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   button_expand_all: "ყველას გაშლა"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "ფილტრი"
   button_generate: "გენერაცია"
   button_list: "სია"
@@ -1282,7 +1304,7 @@ ka:
   button_reset: "ჩამოყრა"
   button_rollback: "Rollback to this version"
   button_save: "შენახვა"
-  button_save_as: "Save as"
+  button_save_as: "შენახვა, როგორც"
   button_apply_changes: "ცვლილებების გადატარება"
   button_save_back: "შენახვა და დაბრუნება"
   button_show: "ჩვენება"
@@ -1311,6 +1333,8 @@ ka:
   button_revoke_access: "Revoke access"
   button_revoke_all: "Revoke all"
   button_revoke_only: "Revoke only %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: I have noted and do consent to the above.
     failure_message: Consent failed, cannot proceed.
@@ -1556,7 +1580,7 @@ ka:
     message: შეტყობინება ჩასწორდა
     news: სიახლეები
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "პროექტი ჩასწორდა"
     projects: "პროექტი ჩასწორდა"
     reply: ნაპასუხებია
     time_entry: "დროის ჟურნალი ჩასწორდა"
@@ -1578,6 +1602,7 @@ ka:
       pdf_overview_table: "PDF ცხრილი"
       pdf_report_with_images: "PDF Report with images"
       pdf_report: "PDF ანგარიში"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Image not exported."
     units:
@@ -1619,7 +1644,7 @@ ka:
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "მომხმარებლის სახელმძღვანელო"
       faq: "ხდკ"
-      impressum: "Legal notice"
+      impressum: "იურიდიული გაფრთხილება"
       glossary: "ლექსიკონი"
       shortcuts: "მალსახმობები"
       blog: "OpenProject blog"
@@ -1659,6 +1684,8 @@ ka:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Configuration guide"
     get_in_touch: "You have questions? Get in touch with us."
@@ -1723,17 +1750,6 @@ ka:
         mentioned: "You have been mentioned in %{work_package}"
         responsible: "You have become accountable for %{work_package}"
         watched: "You are watching %{work_package}"
-    update_info_mail:
-      body: >
-        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-        We hope you find in-app notifications useful and that they makes you even more productive.
-        Sincerely, The OpenProject team
-      body_header: "Version 12.0 with Notification Center"
-      body_subheader: "სიახლეები"
-      subject: "Important changes to notifications with the release of 12.0"
   label_accessibility: "წვდომადობა"
   label_account: "ანგარიში"
   label_active: "აქტიური"
@@ -1776,7 +1792,7 @@ ka:
   label_ascending: "ზრდადობით"
   label_assigned_to_me_work_packages: "Work packages assigned to me"
   label_associated_revisions: "Associated revisions"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "მიმაგრებული ფაილები"
   label_attribute: "ატრიბუტი"
   label_attribute_plural: "ატრიბუტები"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1785,6 +1801,7 @@ ka:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "ავთენტიკაცია"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Available forums"
   label_available_project_repositories: "Available repositories"
   label_available_project_versions: "Available versions"
@@ -1793,7 +1810,7 @@ ka:
   label_available_projects: "Available projects"
   label_api_doc: "API documentation"
   label_backup: "მარქაფი"
-  label_backup_code: "Backup code"
+  label_backup_code: "მარქაფის კოდი"
   label_between: "მითითებულ დროის შუალედში"
   label_blocked_by: "დაბლოკილია"
   label_blocks: "ბლოკავს"
@@ -1803,7 +1820,7 @@ ka:
   label_forum_plural: "ფორუმები"
   label_forum_sticky: "მიმაგრებული"
   label_boolean: "ლოგიკური მნიშვნელობა"
-  label_board_plural: "Boards"
+  label_board_plural: "დაფები"
   label_branch: "ბრენჩი"
   label_browse: "დათვალიერება"
   label_bulk_edit_selected_work_packages: "Bulk edit selected work packages"
@@ -1862,7 +1879,7 @@ ka:
   label_custom_field_plural: "მორგებადი ველები"
   label_custom_field_default_type: "ცარიელი ტიპი"
   label_custom_style: "დიზაინი"
-  label_dashboard: "Dashboard"
+  label_dashboard: "სამუშაო დაფა"
   label_database_version: "PostgreSQL version"
   label_date: "თარიღი"
   label_date_and_time: "დრო და თარიღი"
@@ -1914,7 +1931,7 @@ ka:
   label_enterprise_support: "Enterprise support"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "გარემო"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "არის"
   label_everywhere: "ყველგან"
   label_example: "მაგალითი"
@@ -1924,18 +1941,18 @@ ka:
   label_ifc_model_plural: "Ifc Models"
   label_import: "შემოტანა"
   label_export_to: "Also available in:"
-  label_expand: "Expand"
+  label_expand: "გაფართოება"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} საათი"
   label_f_hour_plural: "%{value} საათი"
-  label_favoured: "რჩეული"
+  label_favorite: "რჩეული"
   label_feed_plural: "არხები"
   label_feeds_access_key: "RSS-ის წვდომის გასაღები"
   label_feeds_access_key_created_on: "RSS access key created %{value} ago"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "ფაილები"
   label_filter_add: "ფილტრის დამატება"
-  label_filter: "Filters"
+  label_filter: "ფილტრები"
   label_filter_plural: "ფილტრები"
   label_filters_toggle: "Show/hide filters"
   label_float: "მცურავი"
@@ -1962,7 +1979,7 @@ ka:
   label_home: "მთავარი"
   label_subject_or_id: "სათაური ან ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "იდენტიფიკატორი"
   label_in: "სად"
   label_in_less_than: "ნაკლებია, ვიდრე"
   label_in_more_than: "მეტია, ვიდრე"
@@ -1978,7 +1995,7 @@ ka:
   label_internal: "შიდა"
   label_introduction_video: "Introduction video"
   label_invite_user: "მომხმარებლის მოწვევა"
-  label_share: "Share"
+  label_share: "გაზიარება"
   label_show_hide: "ჩვენება/დამალვა"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "ჟურნალი"
@@ -1998,9 +2015,10 @@ ka:
   label_latest_revision: "Latest revision"
   label_latest_revision_plural: "Latest revisions"
   label_ldap_authentication: "LDAP authentication"
-  label_learn_more: "Learn more"
+  label_learn_more: "გაიგეთ მეტი"
   label_less_or_equal: "<="
   label_less_than_ago: "less than days ago"
+  label_link_url: "Link (URL)"
   label_list: "სია"
   label_loading: "იტვირთება..."
   label_lock_user: "მომხმარებლის დაბლოკვა"
@@ -2026,6 +2044,7 @@ ka:
   label_membership_plural: "Memberships"
   lable_membership_added: "წევრი დაემატა"
   lable_membership_updated: "წევრი განახლდა"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "პრე-ალფა"
     alpha: "ალფა"
@@ -2124,9 +2143,10 @@ ka:
   label_privacy_policy: "Data privacy and security policy"
   label_product_version: "Product version"
   label_profile: "პროფილი"
-  label_percent_complete: "% Complete"
+  label_percent_complete: "% დასრულებულია"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "Send email notifications during the project copy"
   label_project_latest: "Latest projects"
@@ -2141,7 +2161,7 @@ ka:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "ფაილების საცავი"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} projects using %{storage} disk storage"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "View all projects"
   label_project_show_details: "Show project details"
   label_project_hide_details: "Hide project details"
@@ -2161,7 +2181,7 @@ ka:
   label_relation_delete: "Delete relation"
   label_relation_new: "ახალი ურთიერთობა"
   label_release_notes: "გამოშვების შენიშვნები"
-  label_remaining_work: "Remaining work"
+  label_remaining_work: "დარჩენილი სამუშაო"
   label_remove_columns: "Remove selected columns"
   label_renamed: "გადარქმეულია"
   label_reply_plural: "პასუხები"
@@ -2194,10 +2214,11 @@ ka:
   label_search: "ძებნა"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Send a test email"
-  label_session: "Session"
+  label_session: "სესია"
   label_setting_plural: "მორგება"
   label_system_settings: "System settings"
   label_show_completed_versions: "Show completed versions"
+  label_columns: "სვეტები"
   label_sort: "დალაგება"
   label_sort_by: "Sort by %{value}"
   label_sorted_by: "sorted by %{value}"
@@ -2294,7 +2315,7 @@ ka:
   label_wiki_show_new_page_link: "Show submenu item 'Create new child page'"
   label_wiki_show_submenu_item: "Show as submenu item of "
   label_wiki_start: "საწყისი გვერდი"
-  label_work: "Work"
+  label_work: "სამუშაო"
   label_work_package: "სამუშაო პაკეტი"
   label_work_package_attachments: "Work package attachments"
   label_work_package_category_new: "ახალი კატეგორია"
@@ -2415,7 +2436,7 @@ ka:
     storages:
       health:
         plaintext:
-          storage: "Storage"
+          storage: "საცავი"
           healthy:
             summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
             error-solved-on: "Solved On"
@@ -2696,6 +2717,7 @@ ka:
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:
@@ -2742,7 +2764,7 @@ ka:
     member_of_group: "Assignee's group"
     name_or_identifier: "Name or identifier"
     only_subproject_id: "Only subproject"
-    shared_with_user: "Shared with user"
+    shared_with_user: "Shared with users"
     shared_with_me: "Shared with me"
     subproject_id: "Including subproject"
   repositories:
@@ -2887,6 +2909,7 @@ ka:
   setting_app_subtitle: "Application subtitle"
   setting_app_title: "Application title"
   setting_attachment_max_size: "Attachment max. size"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Scan mode"
   setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Autofetch repository changes"
@@ -2988,6 +3011,8 @@ ka:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Virus scanning"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
@@ -3219,11 +3244,15 @@ ka:
   queries:
     apply_filter: Apply preconfigured filter
     configure_view:
-      heading: Configure view
+      heading: ხედის მორგება
       columns:
-        input_label: "Add columns"
+        input_label: "სვეტების დამატება"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Additional resources"
     getting_started: "Getting started"
@@ -3338,7 +3367,7 @@ ka:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "გაზიარებული არაა"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3571,7 +3600,7 @@ ka:
   link: ბმული
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Adds the OmniAuth SAML provider to OpenProject"

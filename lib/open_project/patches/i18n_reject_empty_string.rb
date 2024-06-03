@@ -60,6 +60,6 @@ module OpenProject
   end
 end
 
-OpenProject::Patches.patch_gem_version "i18n", "1.14.4" do
+OpenProject::Patches.patch_gem_version "i18n", "1.14.5" do
   I18n.backend.singleton_class.prepend OpenProject::Patches::I18nRejectEmptyString
 end

@@ -24,8 +24,6 @@ Click the green **Sign in button** and you will be logged into your OpenProject 
 
 ![Sign-in-enter-organization](Sign-in-enter-organization.png)
 
-
-
 ## Forgot organization name of OpenProject Enterprise cloud
 
 If you forgot the URL or the organization name of your OpenProject Enterprise cloud edition and need to find your organization, you can click the **Find your organization** link on the Sign in page of the website.
@@ -39,8 +37,6 @@ Click the Submit button to get an email with further information.
 ![Forgot organization](image-20191203175438315.png)
 
 You will receive an email from OpenProject with the installations you are currently member of.
-
-
 
 ![E-Mail-Instances](E-Mail-Instances.png)
 

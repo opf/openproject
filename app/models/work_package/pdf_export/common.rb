@@ -285,6 +285,10 @@ module WorkPackage::PDFExport::Common
     options[:show_report]
   end
 
+  def wants_gantt?
+    options[:gantt]
+  end
+
   def with_cover?
     false
   end

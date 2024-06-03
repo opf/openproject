@@ -33,7 +33,12 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% local_assigns[:additional_breadcrumb] = @custom_field.name %>
 
-<%= render(Settings::ProjectCustomFields::EditFormHeaderComponent.new(custom_field: @custom_field)) %>
+<%=
+  render(Settings::ProjectCustomFields::EditFormHeaderComponent.new(
+    custom_field: @custom_field,
+    selected: :project_custom_field_edit
+  ))
+%>
 
 <%= error_messages_for 'custom_field' %>
 
@@ -46,6 +51,3 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
   <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>
-
-
-

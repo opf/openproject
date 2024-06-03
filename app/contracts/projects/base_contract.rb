@@ -35,6 +35,7 @@ module Projects
     attribute :identifier
     attribute :description
     attribute :public
+    attribute :settings
     attribute :active do
       validate_active_present
       validate_changing_active

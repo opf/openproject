@@ -263,9 +263,10 @@ ar:
       no_results_content_text: إنشاء مشروع جديد
     lists:
       active: "Active projects"
-      my: "My projects"
-      favored: "Favored projects"
+      my: "مشاريعي"
+      favored: "Favorite projects"
       archived: "Archived projects"
+      public: "Public project lists"
       my_private: "My private project lists"
       new:
         placeholder: "New project list"
@@ -293,8 +294,12 @@ ar:
         actions:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Enable all"
           label_disable_all: "Disable all"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
       types:
         no_results_title_text: لا يوجد حالياً أي أنواع متاحة.
         form:
@@ -305,7 +310,20 @@ ar:
       storage:
         no_results_title_text: There is no additional recorded disk space consumed by this project.
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: لا يوجد حالياً قسم للأعضاء في هذا المشروع.
@@ -317,12 +335,12 @@ ar:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "الجميع"
       invited: "Invited"
-      locked: "Locked"
+      locked: "مقفل"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-      groups: "Groups"
+      groups: "المجموعات"
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
@@ -423,7 +441,7 @@ ar:
     memberships:
       no_results_title_text: هذا المستخدم حالياً ليس عضواً في المشروع.
   page:
-    text: "Text"
+    text: "النص"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -513,7 +531,7 @@ ar:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: "حجم النقل أو النسخ غير مدعوم من أجل حزم العمل المكونة من عدة مشاريع"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Workflow missing for work package sharing"
         message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
         link_message: "Configure the workflows in the administration."
@@ -650,7 +668,7 @@ ar:
           false: "private"
         queries: "الاستفسارات"
         status_code: "حالة المشروع"
-        description: "Description"
+        description: "الوصف"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -773,6 +791,7 @@ ar:
         before_or_equal_to: "يجب أن يكون قبل أو يساوي %{date}."
         blank: "لا يمكن أن يكون فارغا."
         blank_nested: "needs to have the property '%{property}' set."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "حزمة العمل لا يمكن أن تكون مرتبطة إلى واحدة من المهام الفرعية."
         circular_dependency: "ان هذه العلاقة خلق تبعية دائرية."
         confirmation: "لا يتطابق مع %{attribute}."
@@ -811,6 +830,7 @@ ar:
         not_an_iso_date: "ليس تاريخًا صالحًا. الشكل المطلوب: YYYY-MM-DD."
         not_same_project: "لا ينتمي إلى نفس المشروع."
         odd: "يجب أن يكون فردي."
+        regex_match_failed: "does not match the regular expression %{expression}."
         regex_invalid: "could not be validated with the associated regular expression."
         smaller_than_or_equal_to_max_length: "يجب أن يكون أصغر أو يساوي الطول الأعظم."
         taken: "قد اتخذت بالفعل."
@@ -932,6 +952,8 @@ ar:
               nonexistent: "The column '%{column}' does not exist."
               format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "لا يوجد أي حقل مخصص لعامل التصفية."
@@ -1068,7 +1090,7 @@ ar:
             ldap_auth_source:
               error_not_found: "لم يتم العثور"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "لم يتم العثور"
         member:
           principal_blank: "يرجى اختيار مستخدم واحد على الأقل أو مجموعة."
           role_blank: "need to be assigned."
@@ -1324,7 +1346,7 @@ ar:
   button_edit: "تعديل"
   button_edit_associated_wikipage: "تعديل مرتبط بصفحة ويكيبيديا: %{page_title}"
   button_expand_all: "توسيع الجميع"
-  button_favorite: "Mark as favorite"
+  button_favorite: "Add to favorites"
   button_filter: "فلترة"
   button_generate: "أنتج"
   button_list: "القائمة"
@@ -1342,7 +1364,7 @@ ar:
   button_reset: "إعادة تعيين"
   button_rollback: "العودة إلى هذا الإصدار"
   button_save: "حفظ"
-  button_save_as: "Save as"
+  button_save_as: "احفظ بشكل"
   button_apply_changes: "Apply changes"
   button_save_back: "حفظ والعودة"
   button_show: "إظهار"
@@ -1371,6 +1393,8 @@ ar:
   button_revoke_access: "Revoke access"
   button_revoke_all: "Revoke all"
   button_revoke_only: "Revoke only %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: I have noted and do consent to the above.
     failure_message: Consent failed, cannot proceed.
@@ -1688,7 +1712,7 @@ ar:
     message: تم تحرير الرسالة
     news: الأخبار
     project_attributes: "Project attributes edited"
-    project: "Project edited"
+    project: "تم تعديل المشروع"
     projects: "تم تعديل المشروع"
     reply: تم الرد
     time_entry: "تم تحرير Timelog"
@@ -1710,6 +1734,7 @@ ar:
       pdf_overview_table: "PDF Table"
       pdf_report_with_images: "PDF Report with images"
       pdf_report: "PDF Report"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Image not exported."
     units:
@@ -1791,6 +1816,8 @@ ar:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Configuration guide"
     get_in_touch: "You have questions? Get in touch with us."
@@ -1855,17 +1882,6 @@ ar:
         mentioned: "You have been mentioned in %{work_package}"
         responsible: "You have become accountable for %{work_package}"
         watched: "You are watching %{work_package}"
-    update_info_mail:
-      body: >
-        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-        We hope you find in-app notifications useful and that they makes you even more productive.
-        Sincerely, The OpenProject team
-      body_header: "Version 12.0 with Notification Center"
-      body_subheader: "الأخبار"
-      subject: "Important changes to notifications with the release of 12.0"
   label_accessibility: "Accessibility"
   label_account: "الحساب"
   label_active: "مفعّل"
@@ -1908,7 +1924,7 @@ ar:
   label_ascending: "ترتيب تصاعدي"
   label_assigned_to_me_work_packages: "مجموعات العمل الموكلة لي"
   label_associated_revisions: "التعديلات المرتبطة بها"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "المرفقات"
   label_attribute: "الواصفة"
   label_attribute_plural: "الواصفات"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1917,13 +1933,14 @@ ar:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "المصادقة"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Available forums"
   label_available_project_repositories: "مستودعات البيانات المتوفرة"
   label_available_project_versions: "الإصدارات المتوفرة"
   label_available_project_work_package_categories: "فئات مجموعة العمل المتاحة"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_doc: "API documentation"
+  label_api_doc: "توثيق API"
   label_backup: "Backup"
   label_backup_code: "Backup code"
   label_between: "بين"
@@ -1935,7 +1952,7 @@ ar:
   label_forum_plural: "منتديات"
   label_forum_sticky: "مثبت"
   label_boolean: "قيمة منطقية"
-  label_board_plural: "Boards"
+  label_board_plural: "لوحات"
   label_branch: "فرع"
   label_browse: "تصفّح"
   label_bulk_edit_selected_work_packages: "تحرير كل مجموعات العمل المحددة"
@@ -1994,7 +2011,7 @@ ar:
   label_custom_field_plural: "الحقول المخصصة"
   label_custom_field_default_type: "نوع فارغ"
   label_custom_style: "Design"
-  label_dashboard: "Dashboard"
+  label_dashboard: " لوحة القيادة"
   label_database_version: "PostgreSQL version"
   label_date: "التاريخ"
   label_date_and_time: "Date and time"
@@ -2046,7 +2063,7 @@ ar:
   label_enterprise_support: "Enterprise support"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "بيئة"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_progress: "Estimates and progress"
   label_equals: "يكون"
   label_everywhere: "everywhere"
   label_example: "مثال"
@@ -2056,18 +2073,18 @@ ar:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "متاح أيضاً في:"
-  label_expand: "Expand"
+  label_expand: "وسّع"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "ساعة%{value}"
   label_f_hour_plural: "ساعات%{value}"
-  label_favoured: "Favoured"
+  label_favorite: "Favorite"
   label_feed_plural: "التدفقات"
   label_feeds_access_key: "مفتاح الوصول ل RSS"
   label_feeds_access_key_created_on: "مفتاح الوصول إلى RSS التي تم إنشاؤها %{value} من قبل"
   label_feeds_access_key_type: "اختصاراً لِ:\"Rich Site Summary\" \nReally Simple Syndication\" or\""
   label_file_plural: "الملفّات"
   label_filter_add: "إضافة عامل تصفية"
-  label_filter: "Filters"
+  label_filter: "عوامل التصفية"
   label_filter_plural: "عوامل التصفية"
   label_filters_toggle: "Show/hide filters"
   label_float: "عدد عشري"
@@ -2094,7 +2111,7 @@ ar:
   label_home: "الصفحة الرئيسية"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
-  label_identifier: "Identifier"
+  label_identifier: "المعرّف"
   label_in: "في"
   label_in_less_than: "في أقل من"
   label_in_more_than: "في أكثر من"
@@ -2110,7 +2127,7 @@ ar:
   label_internal: "داخلي"
   label_introduction_video: "Introduction video"
   label_invite_user: "دعوة مستخدم"
-  label_share: "Share"
+  label_share: "شارك"
   label_show_hide: "إظهار / إخفاء"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "يوميات"
@@ -2130,9 +2147,10 @@ ar:
   label_latest_revision: "أحدث مراجعة"
   label_latest_revision_plural: "أحدث المراجعات"
   label_ldap_authentication: "المصادقة LDAP"
-  label_learn_more: "Learn more"
+  label_learn_more: "التعرف على المزيد"
   label_less_or_equal: "=>"
   label_less_than_ago: "أقل من أيام"
+  label_link_url: "Link (URL)"
   label_list: "القائمة"
   label_loading: "جاري التحميل..."
   label_lock_user: "Lock user"
@@ -2158,6 +2176,7 @@ ar:
   label_membership_plural: "Memberships"
   lable_membership_added: "Member added"
   lable_membership_updated: "Member updated"
+  label_menu: "Menu"
   label_menu_badge:
     pre_alpha: "pre-alpha"
     alpha: "alpha"
@@ -2259,6 +2278,7 @@ ar:
   label_percent_complete: "% Complete"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
+  label_project_attribute_manage_link: "Manage project attributes"
   label_project_count: "العدد الإجمالي للمشاريع"
   label_project_copy_notifications: "إرسال إشعارات البريد الالكتروني أثناء نسخ المشروع"
   label_project_latest: "أحدث المشاريع"
@@ -2273,7 +2293,7 @@ ar:
   label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "مشاريع%{count} باستخدام التخزين %{storage} على القرص"
+  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_project_view_all: "عرض جميع المشاريع"
   label_project_show_details: "Show project details"
   label_project_hide_details: "Hide project details"
@@ -2326,10 +2346,11 @@ ar:
   label_search: "البحث"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "إرسال رسالة اختبار"
-  label_session: "Session"
+  label_session: "الجلسة"
   label_setting_plural: "إعدادات"
   label_system_settings: "إعدادات النظام"
   label_show_completed_versions: "عرض الإصدارات المنجزة"
+  label_columns: "الأعمدة"
   label_sort: "فرز"
   label_sort_by: "ترتيب حسب %{value}"
   label_sorted_by: "مرتبة حسب %{value}"
@@ -2525,7 +2546,7 @@ ar:
         few: "There are %{count} more work packages with notifications."
         many: "There are %{count} more work packages with notifications."
         other: "There are %{count} more work packages with notifications."
-      open_in_browser: "Open in browser"
+      open_in_browser: "فتح في المتصفح"
       reason:
         watched: "Watched"
         assigned: "Assigned"
@@ -2592,8 +2613,8 @@ ar:
   mail_body_lost_password: "لتغيير كلمة المرور الخاصة بك، انقر فوق الارتباط التالي:"
   mail_password_change_not_possible:
     title: "Password change not possible"
-    body: "Your account at %{app_title} is connected to an external authentication provider (%{name})."
-    subtext: "Passwords for external account cannot be changed in the application. Please use the lost password functionality of your authentication provider."
+    body: "حسابك في %{app_title} متصل بمزود مصادقة خارجي (%{name})."
+    subtext: "لا يمكن تغيير كلمات المرور للحساب الخارجي في التطبيق. يرجى استخدام وظيفة فقدان كلمة المرور الخاصة بموفر المصادقة لديك."
   mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
@@ -2749,7 +2770,7 @@ ar:
   permission_add_work_package_notes: "إضافة ملاحظات"
   permission_add_work_packages: "إضافة مجموعات عمل"
   permission_add_messages: "نشر الرسائل"
-  permission_add_project: "Create projects"
+  permission_add_project: "أنشئ مشروعات"
   permission_add_work_package_attachments: "إضافة مرفقات"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Archive project"
@@ -2767,7 +2788,7 @@ ar:
   permission_commit_access: "الوصول للقراءة/الكتابة إلى المستودع (الالتزام)"
   permission_copy_projects: "نسخ المشاريع"
   permission_copy_work_packages: "انسخ مجموعات العمل"
-  permission_create_backup: "Create backups"
+  permission_create_backup: "انشيئ نسخ احتياطية"
   permission_delete_work_package_watchers: "حذف مراقبات"
   permission_delete_work_packages: "حذف مجموعات العمل"
   permission_delete_messages: "حذف الرسائل"
@@ -2784,14 +2805,14 @@ ar:
   permission_edit_own_time_entries: "تحرير سجلات الوقت الخاصة"
   permission_edit_project: "تحرير المشروع"
   permission_edit_reportings: "تحرير التقرير"
-  permission_edit_time_entries: "Edit time logs for other users"
+  permission_edit_time_entries: "تحرير سجلات الوقت للمستخدمين الآخرين"
   permission_edit_timelines: "تحرير الجداول الزمنية"
   permission_edit_wiki_pages: "تحرير صفحات wiki"
   permission_export_work_packages: "تصدير مجموعات العمل"
   permission_export_wiki_pages: "تصدير صفحات wiki"
   permission_list_attachments: "قائمة المرفقات"
-  permission_log_own_time: "Log own time"
-  permission_log_time: "Log time for other users"
+  permission_log_own_time: "تسجيل الوقت الخاص بك"
+  permission_log_time: "تسجيل الوقت للمستخدمين الآخرين"
   permission_manage_forums: "إدارة منتديات"
   permission_manage_categories: "إدارة فئات مجموعة العمل"
   permission_manage_dashboards: "Manage dashboards"
@@ -2836,6 +2857,7 @@ ar:
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:
@@ -2870,7 +2892,7 @@ ar:
   project_module_news: "الأخبار"
   project_module_repository: "مستودع البيانات"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
+  permission_header_for_project_module_work_package_tracking: "حزم العمل ومخططات Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2882,7 +2904,7 @@ ar:
     member_of_group: "مجموعة الموكل إليه"
     name_or_identifier: "Name or identifier"
     only_subproject_id: "Only subproject"
-    shared_with_user: "Shared with user"
+    shared_with_user: "مشترك مع المستخدمين"
     shared_with_me: "Shared with me"
     subproject_id: "Including subproject"
   repositories:
@@ -2972,7 +2994,7 @@ ar:
       oauth_application_details_link_text: "Go to settings page"
       setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
       setup_documentation_details_link_text: "File Storages setup"
-      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
+      show_warning_details: "لاستخدام هذا التخزين للملفات، تذكر تفعيل الوحدة والتخزين المحدد في إعدادات المشروع لكل مشروع مرغوب."
     subversion:
       existing_title: "مستودع التخريب موجود"
       existing_introduction: "إذا كان لديك مستودع بوابة محلية القائمة، يمكنك ربطه مع open project للوصول إليها من داخل التطبيق."
@@ -3025,6 +3047,7 @@ ar:
   setting_app_subtitle: "العنوان الفرعي للتطبيق"
   setting_app_title: "عنوان التطبيق"
   setting_attachment_max_size: "الحد الأقصى لحجم المرفقات"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Scan mode"
   setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Autofetch repository changes"
@@ -3071,7 +3094,7 @@ ar:
     In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "خصائص مجموعة العمل"
   setting_work_package_startdate_is_adddate: "استخدام التاريخ الحالي كتاريخ البدء لمجموعات العمل الجديدة"
-  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
+  setting_work_packages_projects_export_limit: "حد تصدير حزم العمل / المشاريع"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "تسجيل الدخول تسجيل دخول المستخدم واسم وعنوان البريد لجميع الطلبات"
   setting_login_required: "مطلوب مصادقة"
@@ -3126,6 +3149,8 @@ ar:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Virus scanning"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
@@ -3166,7 +3191,7 @@ ar:
         type: "Entire row by Type"
         priority: "Entire row by Priority"
     icalendar:
-      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+      enable_subscriptions_text_html: يتيح للمستخدمين الذين لديهم الأذونات اللازمة الاشتراك في تقاويم OpenProject والوصول إلى معلومات حزم العمل عبر عميل تقويم خارجي. <strong>ملاحظة:</strong> يرجى قراءة <a href="%{link}" target="_blank">اشتراكات iCalendar</a> لفهم المخاطر الأمنية المحتملة قبل تفعيل هذه الميزة.
     language_name_being_default: "%{language_name} (default)"
     notifications:
       events_explanation: "Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user."
@@ -3234,9 +3259,9 @@ ar:
   text_custom_field_hint_activate_per_project_and_type: >
     Custom fields need to be activated per work package type and per project.
   text_wp_status_read_only_html: >
-    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    ستضيف النسخة المؤسسية هذه الإضافات الإضافية لحقول حالات حزم العمل: <br> <ul> <li><b>السماح بوضع حزم العمل في وضع القراءة فقط لحالات محددة</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    ستضيف النسخة المؤسسية هذه الإضافات الإضافية للحقول المخصصة للمشاريع: <br> <ul> <li><b>إضافة حقول مخصصة للمشاريع إلى قائمة مشروعك لإنشاء عرض محفظة المشاريع</b></li> </ul>
   text_custom_logo_instructions: >
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
   text_custom_export_logo_instructions: >
@@ -3362,6 +3387,10 @@ ar:
         input_label: "Add columns"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "مصادر إضافية"
     getting_started: "الشروع في البدء"
@@ -3380,12 +3409,12 @@ ar:
     assign_random_password: "تعيين كلمة مرور عشوائي (إرسالها إلى المستخدم عبر البريد الإلكتروني)"
     blocked: "مغلق مؤقتاً"
     blocked_num_failed_logins:
-      zero: "مغلق مؤقتا ( فشل واحد في محاولة تسجيل الدخول)\nمغلق مؤقتا\"(محاولات تسجيل الدخول الفاشلة%{count})"
-      one: "مغلق مؤقتا ( فشل واحد في محاولة تسجيل الدخول)\nمغلق مؤقتا\"(محاولات تسجيل الدخول الفاشلة%{count})"
-      two: "مغلق مؤقتا ( فشل واحد في محاولة تسجيل الدخول)\nمغلق مؤقتا\"(محاولات تسجيل الدخول الفاشلة%{count})"
-      few: "مغلق مؤقتا ( فشل واحد في محاولة تسجيل الدخول)\nمغلق مؤقتا\"(محاولات تسجيل الدخول الفاشلة%{count})"
-      many: "مغلق مؤقتا ( فشل واحد في محاولة تسجيل الدخول)\nمغلق مؤقتا\"(محاولات تسجيل الدخول الفاشلة%{count})"
-      other: "مغلق مؤقتا ( فشل واحد في محاولة تسجيل الدخول)\nمغلق مؤقتا\"(محاولات تسجيل الدخول الفاشلة%{count})"
+      zero: "مغلق مؤقتا (محاولات تسجيل الدخول الفاشلة%{count})"
+      one: "مغلق مؤقتا ( فشل واحد في محاولة تسجيل الدخول)"
+      two: "مغلق مؤقتا (محاولات تسجيل الدخول الفاشلة%{count})"
+      few: "مغلق مؤقتا (محاولات تسجيل الدخول الفاشلة%{count})"
+      many: "مغلق مؤقتا (محاولات تسجيل الدخول الفاشلة%{count})"
+      other: "مغلق مؤقتا (محاولات تسجيل الدخول الفاشلة%{count})"
     confirm_status_change: "You are about to change the status of '%{name}'. Are you sure you want to continue?"
     deleted: "حذف المستخدم"
     error_status_change_failed: "فشل تغيير حالة المستخدم نتيجة للأخطاء التالية: %{errors}"
@@ -3420,14 +3449,14 @@ ar:
   warning_user_limit_reached_admin: >
     Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
   warning_user_limit_reached_instructions: >
-    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
+    لقد وصلت إلى حد المستخدمين الخاص بك (%{current}/%{max} مستخدمين نشطين). يرجى الاتصال بـ sales@openproject.com لترقية خطة النسخة المؤسسية الخاصة بك وإضافة مستخدمين إضافيين.
   warning_protocol_mismatch_html: >
 
   warning_bar:
     https_mismatch:
-      title: "HTTPS mode setup mismatch"
+      title: "عدم تطابق إعداد وضع HTTPS\n"
       text_html: >
-        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
+        تطبيقك يعمل بوضع HTTPS مضبوط إلى <code>%{set_protocol}</code>، ولكن الطلب هو طلب <code>%{actual_protocol}</code>. سيؤدي ذلك إلى حدوث أخطاء! ستحتاج إلى تعيين قيمة الإعداد التالية: <code>%{setting_value}</code>. يرجى الاطلاع على <a href="%{more_info_path}">وثائق التثبيت</a> لمعرفة كيفية تعيين هذا الإعداد.
     hostname_mismatch:
       title: "Hostname setting mismatch"
       text_html: >
@@ -3477,10 +3506,10 @@ ar:
         view_description: "Can view this work package."
       remove: "إزالة"
       share: "شارك"
-      text_empty_search_description: "There are no users with the current filter criteria."
-      text_empty_search_header: "We couldn't find any matching results."
+      text_empty_search_description: "لا يوجد مستخدمون بالمعايير الحالية للتصفية."
+      text_empty_search_header: "لم نتمكن من العثور على أي نتائج مطابقة."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "غير مشترك"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3488,7 +3517,7 @@ ar:
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
       warning_no_selected_user: "Please select users to share this work package with"
-      warning_locked_user: "The user %{user} is locked and cannot be shared with"
+      warning_locked_user: "المستخدم %{user} مقفل ولا يمكن مشاركته"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "
@@ -3531,7 +3560,7 @@ ar:
       code_429: "Too many requests. Please try again later."
       code_500: "حدث خطأ داخلي."
       code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
-      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
+      code_500_missing_enterprise_token: "لا يمكن معالجة الطلب بسبب أن رمز المؤسسة غير صالح أو مفقود."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
@@ -3716,8 +3745,8 @@ ar:
   you: you
   link: link
   plugin_openproject_auth_plugins:
-    name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    name: "إضافات OpenProject Auth"
+    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
-    name: "OmniAuth SAML / Single-Sign On"
-    description: "Adds the OmniAuth SAML provider to OpenProject"
+    name: "OmniAuth SAML / تسجيل الدخول الموحد"
+    description: "يضيف مزود OmniAuth SAML إلى OpenProject"

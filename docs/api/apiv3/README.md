@@ -9,6 +9,6 @@ retrieve the complete, singular file from any OpenProject server under `/api/v3/
 Additionally, there is a script that outputs the specification as a whole as well, either as json or yaml depending on
 the given format argument:
 
-```
+```shell
 ./script/api/spec --format yaml > openproject-oas.yml
 ```

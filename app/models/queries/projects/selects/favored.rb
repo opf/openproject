@@ -36,6 +36,6 @@ class Queries::Projects::Selects::Favored < Queries::Selects::Base
   end
 
   def caption
-    I18n.t(:label_favoured)
+    I18n.t(:label_favorite)
   end
 end

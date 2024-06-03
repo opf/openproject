@@ -34,6 +34,7 @@ module API
           "string" => "String",
           "empty" => "String",
           "text" => "Formattable",
+          "link" => "Link",
           "int" => "Integer",
           "float" => "Float",
           "date" => "Date",

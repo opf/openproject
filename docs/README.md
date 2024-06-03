@@ -29,7 +29,6 @@ The guides for [upgrading](./installation-and-operations/operation/upgrading) ar
 * [Configure incoming mails](./installation-and-operations/configuration/incoming-emails)
 * [Install custom plugins](./installation-and-operations/configuration/plugins)
 
-
 ## User Guides
 
 Please see our [User Guide pages](./user-guide/) for detailed documentation on the functionality of OpenProject.
@@ -37,7 +36,6 @@ Please see our [User Guide pages](./user-guide/) for detailed documentation on t
 ## Use Cases
 
 Please see our [Use Cases section](./use-cases/) for detailed how-to guides and step-by-step instruction on how to set up a variety of common cases and views.
-
 
 ## Development
 
@@ -47,7 +45,6 @@ Please see our [Use Cases section](./use-cases/) for detailed how-to guides and 
 * [Running tests](./development/running-tests)
 * [Code review guidelines](./development/code-review-guidelines)
 * [API documentation](./api)
-
 
 ## APIv3 documentation sources
 

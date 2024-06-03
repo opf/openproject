@@ -28,7 +28,8 @@ export class WidgetProjectFavoritesComponent extends AbstractWidgetComponent imp
   @HostBinding('class.op-widget-project-favorites') className = true;
 
   public text = {
-    noResults: this.i18n.t('js.grid.widgets.project_favorites.no_results'),
+    no_favorites: this.i18n.t('js.favorite_projects.no_results'),
+    no_favorites_subtext: this.i18n.t('js.favorite_projects.no_results_subtext'),
   };
 
   public projects$:Observable<ProjectResource[]>;
@@ -49,6 +50,7 @@ export class WidgetProjectFavoritesComponent extends AbstractWidgetComponent imp
   ngOnInit() {
     const filters = new ApiV3FilterBuilder();
     filters.add('favored', '=', true);
+    filters.add('active', '=', true);
 
     this.projects$ = this
       .apiV3Service

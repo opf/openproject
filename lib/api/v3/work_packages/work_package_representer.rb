@@ -410,7 +410,7 @@ module API
                                                                  allow_nil: true)
                  end,
                  writable: ->(*) { !WorkPackage.use_status_for_done_ratio? },
-                 render_nil: true
+                 render_nil: false
 
         property :derived_remaining_time,
                  exec_context: :decorator,
@@ -580,6 +580,8 @@ module API
           super
         end
 
+        delegate :hide_attachments?, to: :represented
+
         # Permissions
         def current_user_watcher?
           @current_user_watcher ||= represented.watchers.any? { |w| w.user_id == current_user.id }
@@ -698,6 +700,7 @@ module API
            json_key_representer_parts,
            represented.cache_checksum,
            Setting.work_package_done_ratio,
+           Setting.show_work_package_attachments,
            Setting.feeds_enabled?]
         end
 

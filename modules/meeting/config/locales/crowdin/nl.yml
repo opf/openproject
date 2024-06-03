@@ -43,11 +43,13 @@ nl:
         start_time: "Start time"
         start_time_hour: "Start time"
       meeting_agenda_item:
-        title: "Title"
-        author: "Author"
+        title: "Titel"
+        author: "Auteur"
         duration_in_minutes: "min"
-        description: "Notes"
+        description: "Notities"
         presenter: "Presenter"
+      meeting_section:
+        title: "Title"
     errors:
       messages:
         invalid_time_format: "is geen geldige tijd. Vereist formaat: UH:MM"
@@ -105,6 +107,8 @@ nl:
       agenda: "Copy agenda"
       agenda_text: "Copy the agenda of the old meeting"
     email:
+      send_emails: "Send emails"
+      send_invitation_emails: "Send out invitation emails upon creation"
       open_meeting_link: "Open vergadering"
       invited:
         summary: "%{actor} heeft je een uitnodiging gestuurd voor de meeting %{title}"
@@ -122,6 +126,11 @@ nl:
       structured_text: "Organiseren van uw vergadering als een lijst met agendapunten, eventueel koppelen aan een werkpakket."
       structured_text_copy: "Een vergadering kopiëren zal momenteel niet de bijbehorende agendapunten kopiëren, alleen de details"
     copied: "Gekopieerd van vergadering #%{id}"
+  meeting_section:
+    untitled_title: "Untitled section"
+    delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
+    placeholder_title: "New section"
+    empty_text: "Drag items here or create a new one"
   notice_successful_notification: "Notificatie succesvol verzonden"
   notice_timezone_missing: Geen tijdzone is ingesteld en %{zone} is aangenomen. Om uw tijdzone te kiezen, klik dan hier.
   permission_create_meetings: "Creëer vergaderingen"
@@ -170,7 +179,7 @@ nl:
   text_agenda_item_title: 'Agenda item "%{title}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
   text_deleted_agenda_item: 'Deleted agenda item'
-  label_initial_meeting_details: "Meeting"
+  label_initial_meeting_details: "Vergadering"
   label_meeting_details: "Vergaderdetails"
   label_meeting_details_edit: "Bewerk vergader details"
   label_meeting_state: "Meeting status"

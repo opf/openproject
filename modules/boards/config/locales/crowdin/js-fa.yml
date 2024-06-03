@@ -2,7 +2,7 @@
 fa:
   js:
     boards:
-      create_new: 'Create new board'
+      create_new: 'ایجاد تابلوی‌ اعلانات'
       label_unnamed_board: 'انجمن بدون نام'
       label_unnamed_list: 'Unnamed list'
       label_board_type: 'نوع انجمن'
@@ -36,7 +36,7 @@ fa:
         free: 'basic'
         select_board_type: 'Please choose the type of board you need.'
         free_text: >
-          Start from scratch with a blank board. Manually add cards and columns to this board.
+          از ابتدا با یک تخته خالی شروع کنید. به صورت دستی کارت ها و ستون ها را به این تابلو اضافه کنید.
         action: 'Action board'
         action_by_attribute: 'Action board (%{attribute})'
         action_text: >
@@ -46,9 +46,9 @@ fa:
         action_text_subtasks: >
           Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
         action_text_status: >
-          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+          ستون هایی برای وضعیت هایی مانند To Do، در حال انجام، انجام شد.
         action_text_assignee: >
-          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+          تابلو با ستون های خودکار بر اساس کاربران اختصاص داده شده. ایده آل برای ارسال بسته های کاری
         action_text_version: >
           Board with automated columns based on the version attribute. Ideal for planning product development.
         action_type:
@@ -58,12 +58,12 @@ fa:
           subproject: subproject
           subtasks: parent-child
         board_type_title:
-          assignee: Assignee
-          status: Status
+          assignee: نماینده
+          status: وضعیت
           version: نسخه
           subproject: زیر پروژه
-          subtasks: Parent-child
-          basic: Basic
+          subtasks: والد-فرزند
+          basic: اصول اولیه
         select_attribute: "Action attribute"
       add_list_modal:
         labels:

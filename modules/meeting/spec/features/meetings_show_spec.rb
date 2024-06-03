@@ -43,6 +43,10 @@ RSpec.describe "Meetings", :js do
   current_user { user }
 
   describe "navigate to meeting page" do
+    before do
+      create(:meeting_participant, :invitee, user:, meeting:)
+    end
+
     let(:permissions) { %i[view_meetings] }
 
     it "can visit the meeting" do

@@ -1,9 +1,9 @@
 ---
-  title: OpenProject 6.0.5
-  sidebar_navigation:
-      title: 6.0.5
-  release_version: 6.0.5
-  release_date: 2016-10-18
+title: OpenProject 6.0.5
+sidebar_navigation:
+  title: 6.0.5
+release_version: 6.0.5
+release_date: 2016-10-18
 ---
 
 # OpenProject 6.0.5
@@ -97,10 +97,9 @@ Berthold  for [reporting
 bugs](../../../development/report-a-bug/)!
 
 For further information on the release, please refer to the  
-[Changelog v.6.0.5](https://community.openproject.org/versions/817) 
+[Changelog v.6.0.5](https://community.openproject.org/versions/817)
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v6.0.5).
 
 You can try OpenProject for free. For a free 30 day trial create your
 OpenProject instance on [OpenProject.org](https://openproject.org/).
-

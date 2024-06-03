@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
+
 <div class="project-list-page--table">
   <div class="generic-table--flex-container">
     <div class="generic-table--container <%= container_class %>">
@@ -43,11 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
               <% if column.attribute == :hierarchy %>
                 <th id="project-table--hierarchy-header">
                   <div class="generic-table--sort-header-outer generic-table--sort-header-outer_no-highlighting">
-                    <div class="generic-table--sort-header"
-                         data-controller="params-from-query"
-                         data-application-target="dynamic"
-                         data-params-from-query-all-anchors-value="true"
-                         data-params-from-query-allowed-value='["query_id", "per_page", "filters", "columns"]'>
+                    <div class="generic-table--sort-header">
                       <%= content_tag :a,
                                       helpers.op_icon("icon-hierarchy"),
                                       href: href_only_when_not_sort_lft,
@@ -65,7 +62,7 @@ See COPYRIGHT and LICENSE files for more details.
                     <div class="generic-table--sort-header">
                       <span>
                         <% if column.attribute == :favored %>
-                        <%= render(Primer::Beta::Octicon.new(icon: "star-fill", color: :subtle, "aria-label": I18n.t(:label_favoured))) %>
+                        <%= render(Primer::Beta::Octicon.new(icon: "star-fill", color: :subtle, ml: 2, "aria-label": I18n.t(:label_favorite))) %>
                       <% else %>
                         <%= column.caption %>
                       <% end %>
@@ -84,7 +81,7 @@ See COPYRIGHT and LICENSE files for more details.
           <tbody>
           <% if rows.empty? %>
             <tr class="generic-table--empty-row">
-              <td colspan="<%= headers.length + 1 %>"><%= empty_row_message %></td>
+              <td colspan="<%= columns.length + 1 %>"><%= empty_row_message %></td>
             </tr>
           <% end %>
           <%= render_collection rows %>
@@ -101,10 +98,5 @@ See COPYRIGHT and LICENSE files for more details.
 </div>
 
 <% if paginated? %>
-  <div data-controller="params-from-query"
-       data-application-target="dynamic"
-       data-params-from-query-all-anchors-value="true"
-       data-params-from-query-allowed-value='["query_id", "columns"]'>
-    <%= helpers.pagination_links_full model, { blocked_url_params: [:query_id, :columns] } %>
-  </div>
+  <%= helpers.pagination_links_full model, allowed_params: %i[query_id filters columns sortBy] %>
 <% end %>

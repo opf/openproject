@@ -53,6 +53,7 @@ Feel free to ask for help in our [Development Forum](https://community.openproje
 The following steps are necessary to release a new plugin:
 
 ### Code Review
+
 A code review should check the whole code and remove glitches like:
 
 - Inappropriate comments
@@ -64,6 +65,7 @@ A code review should check the whole code and remove glitches like:
 1. Check the license and the copyright of the plugin to be released
 
  Usually, this should be GPLv3 and we are the copyright owner. However, some plugins might have additional authors or might originate from code with a different license. These issues have to be resolved first. Also check the years in the copyright. If you need to find all contributors of a repository including their contribution period use the following rake task:
+
  ```shell
 rake copyright:authors:show['../Path/to/repository/']
  ```
@@ -137,8 +139,7 @@ It is probably best to use READMEs of already released plugins as a template.
 4. Twitter with a link to the news article.
 5. If the plugin is referenced in our feature tour, add a download link to the plugin in the feature tour
 
-
-# Frontend plugins [WIP]
+## Frontend plugins [WIP]
 
 Plugins that extend the frontend application may be packaged as **npm modules**.
 These plugins must contain a `package.json` in the root directory of the plugin.

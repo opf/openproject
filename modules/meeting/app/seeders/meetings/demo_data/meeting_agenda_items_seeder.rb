@@ -40,13 +40,27 @@ module Meetings
 
       def model_attributes(meeting_data)
         {
-          title: meeting_data["title"],
+          item_type: item_type(meeting_data),
+          title: title(meeting_data),
           notes: meeting_data["notes"],
           duration_in_minutes: meeting_data["duration"],
           author: seed_data.find_reference(meeting_data["author"]),
+          presenter: seed_data.find_reference(meeting_data["presenter"]),
           meeting: seed_data.find_reference(meeting_data["meeting"]),
           work_package: seed_data.find_reference(meeting_data["work_package"])
         }
+      end
+
+      def item_type(meeting_data)
+        if meeting_data["work_package"]
+          MeetingAgendaItem.item_types[:work_package]
+        else
+          MeetingAgendaItem.item_types[:simple]
+        end
+      end
+
+      def title(meeting_data)
+        meeting_data["title"] unless meeting_data["work_package"]
       end
     end
   end

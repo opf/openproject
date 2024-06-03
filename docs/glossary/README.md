@@ -114,11 +114,12 @@ A custom action in OpenProject is defined as customizable buttons which trigger 
 
 ### Custom field
 
-In OpenProject, a custom field is defined as an additional field which can be added to existing fields. Custom fields can be created for the following resources: [work packages](#work-package), [spent time](#time-and-costs), [projects](#project), [versions](#versions), [users](#user), and [groups](#group).
+In OpenProject, a custom field is defined as an additional field which can be added to existing fields. Custom fields can be created for the following resources: [work packages](#work-package), [spent time](#time-and-costs), [versions](#versions), [users](#user), and [groups](#group).
 
 ![Custom fields in OpenProject](glossary-openproject-custom-field.png)
 
 **More information on custom fields in OpenProject**
+
 - [Read how to enable custom fields in projects to use them in work packages](../user-guide/projects/project-settings/custom-fields/)
 - [Read how to create custom fields as a system admin in OpenProject](../system-admin-guide/custom-fields/)
 
@@ -134,7 +135,7 @@ A dashboard is defined as an overview page in a software. In OpenProject, you ha
 
 1. You have the [My Page](#my-page), which shows your personal customized [widgets](#widget) on one page, for example a calendar or work package reports.
 
-2. You have the [project overview](#project-overview) dashboard, which gives you an overview of your project. Please note that only project admins can add and remove widgets to the project overview. 
+2. You have the [project overview](#project-overview) dashboard, which gives you an overview of your project. Please note that only project admins can add and remove widgets to the project overview.
 
 In addition to those overview dashboard options, you can create a [custom query](#custom-query) to save a filtered work package view, which might serve you as kind of a dashboard as well.
 
@@ -164,7 +165,7 @@ File storages can be configured in the System Administration and then be selecte
 
 ### Filters
 
-Filters are essential for task and project management in OpenProject. You have several filtering options applicable to a [work package table](#work-package-table). Filter options can be saved via [custom queries](#custom-query). A filtered work packages table view (e.g. only open work packages) can be saved and therefore work as a [dashboard](#dashboard). 
+Filters are essential for task and project management in OpenProject. You have several filtering options applicable to a [work package table](#work-package-table). Filter options can be saved via [custom queries](#custom-query). A filtered work packages table view (e.g. only open work packages) can be saved and therefore work as a [dashboard](#dashboard).
 
 ### Forum
 
@@ -251,6 +252,7 @@ OpenProject offers a OneDrive/SharePoint [integration](#integration) as an [Ente
 OpenProject on-premises is a self-hosted version of OpenProject. As opposed to the Cloud version, you install, run and maintain the hardware locally and manage the software application there. The on-premises [Community Edition](#community-edition) is free of charge.
 
 **More information on OpenProject on-premises**
+
 - [See our pricing side about your options for OpenProject](https://www.openproject.org/pricing/)
 - [Read a blog article comparing on-premises and cloud](https://www.openproject.org/blog/why-self-hosting-software/)
 - [Read how to activate the Enterprise on-premises edition](../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/)
@@ -266,9 +268,10 @@ A phase in OpenProject is defined as a [work package type](#work-package-types),
 
 In OpenProject, you can choose from several plugins or [integrations](#integration), or add your own plugins to the Community. In contrast to an integration, a plugin is installed on top of / as part of the OpenProject installation. As an open source software, OpenProject is open to Community-created plugins. Please note that we do not guarantee error-free and seamless use of those plugins.
 
-Your activated plugins are listed together with your [modules](#module) in your instance under --> Administration --> Plugins. 
+Your activated plugins are listed together with your [modules](#module) in your instance under --> Administration --> Plugins.
 
 **More information on plugins in OpenProject**
+
 - [See all available plugins and integrations for OpenProject](../system-admin-guide/integrations/)
 - [Read how to create an OpenProject plugin](../development/create-openproject-plugin/)
 
@@ -284,9 +287,13 @@ In OpenProject, a [project](../user-guide/projects/) is defined as an individual
 - an overarching team working on one topic or
 - separate products or customers.
 
+### Project attribute
+
+A project attribute in OpenProject is a [custom field](#custom-field) that applies to an entire project. It is displayed in the right-hand column on the project overview page and can be divided into sections for a better structure.
+
 ### Project folder
 
-Project folders help collaborating in the most efficient way. They can be used with OpenProject's [Nextcloud integration](#nextcloud-integration) or with OpenProject's [OneDrive/SharePoint integration](#onedrivesharepoint-integration). [Read more about project folders in OpenProject](../user-guide/projects/project-settings/file-storages/#project-folders).
+Project folders help collaborating in the most efficient way. They can be used with OpenProject's [Nextcloud integration](#nextcloud-integration) or with OpenProject's [OneDrive/SharePoint integration](#onedrivesharepoint-integration). [Read more about project folders in OpenProject](../user-guide/projects/project-settings/files/#project-folders).
 
 ### Project identifier
 
@@ -358,7 +365,7 @@ Story points is a term known in Scrum. They are defined as numbers assigned to a
 
 ### Team planner
 
-The team planner in OpenProject is defined as a [module](#module) ([Enterprise add-on](#enterprise-add-on)) that helps you get a complete overview of what each [member](#member) of your team is working on in a weekly or bi-weekly view. You can use it to track the current progress of [work packages](#work-package) your team is working on, schedule new tasks, reschedule them or even reassign them to different members. [Read more about the OpenProject team planner](../user-guide/team-planner/).
+The team planner in OpenProject is defined as a [module](#module) ([Enterprise add-on](#enterprise-add-on)) that helps you get a complete overview of what each [member](#member) of your team is working on – in different timeframes. You can use it to track the current progress of [work packages](#work-package) your team is working on, schedule new tasks, reschedule them or even reassign them to different members. [Read more about the OpenProject team planner](../user-guide/team-planner/).
 
 ### Time and costs
 
@@ -376,7 +383,7 @@ In OpenProject, a user is defined as a person who uses OpenProject, described by
 
 ### User guide
 
-The OpenProject [user guide](../user-guide/) is an in-depth guide of all features in OpenProject. It offers users detailed information about how to use OpenProject's features, [modules](#module), [integrations](#integration) and more. For more technical information on how to configure your OpenProject instance, see our [system admin guide](../system-admin-guide/). 
+The OpenProject [user guide](../user-guide/) is an in-depth guide of all features in OpenProject. It offers users detailed information about how to use OpenProject's features, [modules](#module), [integrations](#integration) and more. For more technical information on how to configure your OpenProject instance, see our [system admin guide](../system-admin-guide/).
 
 ## V
 
@@ -388,7 +395,7 @@ Versions in OpenProject are defined as an attribute for [work packages](#work-pa
 
 ### Widget
 
-A widget in OpenProject is defined as a small and customizable element that provides relevant information at a glance. Use widgets on your [My Page](#my-page) dashboard or on the [project overview](#project-overview). [See all available project overview widgets](../user-guide/project-overview/#available-project-overview-widgets) and read [how to add a widget to the project overview](../user-guide/project-overview/#add-a-widget-to-the-project-overview).
+A widget in OpenProject is defined as a small and customizable element that provides relevant information at a glance. Use widgets on your [My Page](#my-page) dashboard or on the [project overview](#project-overview). [See all available project overview widgets](../user-guide/project-overview/#available-project-overview-widgets) and read [how to add a widget to the project overview](../user-guide/project-overview/#widgets).
 
 ### Wiki
 
@@ -396,9 +403,12 @@ In OpenProject, a wiki is defined as a [module](#module) that allows to use wiki
 
 ![A wiki module in OpenProject](glossary-openproject-wiki.png)
 
-### Work and Remaining Work
+### Work, Remaining Work and % Complete
 
-In OpenProject, 'Work' refers to a work package attribute indicating the estimated hours needed to complete a task. You can edit the value for work manually, as well as the value for the work package attribute '**Remaining work**'. To make it easier for project managers to work with work package hierarchies, OpenProject also displays a value (in blue) for the total amount of work in the Work field for parent work packages – next to the value for the dedicated work package. This **total work value** is the sum of the work value of the parent work package and all the work values of its children. The same principle applies to the work package attribute Remaining Work. [Read in our user guide about how to configure a work package](../user-guide/work-packages/work-package-table-configuration/)
+In OpenProject, '**Work**' refers to a work package attribute indicating the estimated hours needed to complete a task.  
+'**Remaining work**' is a work package attribute that shows how much work is left to finish the work package. It is automatically calculated if you work with [status-based progress reporting](../user-guide/time-and-costs/progress-tracking/#status-based-progress-reporting). And '**% Complete**' is an automatically calculated work package attribute that shows in percentage how much work is already completed. All three attributes are important for [progress reporting with OpenProject](https://www.openproject.org/blog/changes-progress-work-estimates/).
+
+To make it easier for project managers to work with work package hierarchies, OpenProject also displays a value (in blue) for the total amount of work in the Work field for parent work packages – next to the value for the dedicated work package. This **total work value** is the sum of the work value of the parent work package and all the work values of its children. The same principle applies to the work package attribute Remaining Work. [Read in our user guide about how to configure a work package](../user-guide/work-packages/work-package-table-configuration/)
 
 ### Workflow
 
@@ -413,6 +423,7 @@ In OpenProject, a [work package](../user-guide/work-packages/#overview) is defin
 ![A work package in OpenProject](glossary-openproject-work-package.png)
 
 **More information on work packages in OpenProject**
+
 - [Read our user guide on work packages](../user-guide/work-packages/)
 - [Read a blog article on how to work with work packages](https://www.openproject.org/blog/how-to-work-with-work-packages/)
 

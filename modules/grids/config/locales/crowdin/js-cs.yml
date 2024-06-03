@@ -43,8 +43,8 @@ cs:
           title: 'Podprojekty'
           no_results: 'Žádné podprojekty.'
         project_favorites:
-          title: 'Project favorites'
-          no_results: 'You currently have no project favorites. Click on the star icon in the project dashboard to add one to your favorites.'
+          title: 'Oblíbené projekty'
+          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
         time_entries_current_user:
           title: 'Můj strávený čas'
           displayed_days: 'Dny zobrazené ve widgetu:'

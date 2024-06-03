@@ -37,6 +37,11 @@ class PlaceholderUser < Principal
 
   scopes :visible
 
+  # Columns required for formatting the placeholder user's name.
+  def self.columns_for_name(_formatter = nil)
+    [:lastname]
+  end
+
   def to_s
     lastname
   end
