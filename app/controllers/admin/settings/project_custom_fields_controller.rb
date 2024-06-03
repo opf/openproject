@@ -153,7 +153,7 @@ module Admin::Settings
     def render_project_list
       update_via_turbo_stream(
         component: Settings::ProjectCustomFields::ProjectCustomFieldMapping::TableComponent.new(
-          query: @project_custom_field_mappings_query,
+          query: project_custom_field_mappings_query,
           params: { custom_field: @custom_field }
         ),
         status: :ok
