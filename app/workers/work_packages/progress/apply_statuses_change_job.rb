@@ -47,7 +47,7 @@ class WorkPackages::Progress::ApplyStatusesChangeJob < WorkPackages::Progress::J
   # @param status_name [String] The name of the status to apply.
   # @param status_id [Integer] The ID of the status to apply. Not used
   #   currently, but here in case we need it in a later version.
-  # @param changes [Object] The changes object containing an map of array of
+  # @param changes [Object] The changes object containing a map of array of
   #   [old, new] values of the change, for instance
   #   `{"default_done_ratio" => [20, 40], "excluded_from_totals" => [false, true]}`.
   # @return [void]
