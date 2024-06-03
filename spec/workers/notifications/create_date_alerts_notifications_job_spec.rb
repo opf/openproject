@@ -29,8 +29,6 @@
 require "spec_helper"
 
 RSpec.describe Notifications::CreateDateAlertsNotificationsJob, type: :job, with_ee: %i[date_alerts] do
-  include ActiveSupport::Testing::TimeHelpers
-
   shared_let(:project) { create(:project, name: "main") }
 
   shared_let(:status_open) { create(:status, name: "open", is_closed: false) }
@@ -150,7 +148,7 @@ RSpec.describe Notifications::CreateDateAlertsNotificationsJob, type: :job, with
     timezone.now.change(time_hash(time))
   end
 
-  def run_job(scheduled_at: "1:00", local_time: "1:04", timezone: timezone_paris)
+  def run_job(local_time: "1:04", timezone: timezone_paris)
     travel_to(timezone_time(local_time, timezone)) do
       job.perform_now(user)
 

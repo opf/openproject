@@ -47,7 +47,7 @@ tr:
   label_is_project_with_subprojects: "(alt projeler dahil)"
   label_work_package_attributes: "Çalışma paketi nitelikleri"
   label_less: "<"
-  label_logged_by_reporting: "Logged by"
+  label_logged_by_reporting: "Giriş yapan:"
   label_money: "Nakit değer"
   label_month_reporting: "Ay (harcanan)"
   label_new_report: "Yeni maliyet raporu"

@@ -40,7 +40,7 @@ class AnnouncementMailer < ApplicationMailer
     with_locale_for(user) do
       localized_subject = localized(subject)
 
-      mail to: user.mail,
+      mail to: user,
            subject: localized_subject do |format|
         locals = {
           body: localized(body),

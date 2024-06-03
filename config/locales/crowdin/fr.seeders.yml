@@ -251,6 +251,21 @@ fr:
                     * [ ] Encore plus de bière
             item_4:
               subject: Fin du projet
+          wiki: |
+            _Dans ce wiki, vous pouvez créer et modifier des pages et des sous-pages de manière collaborative afin de créer un wiki de projet._
+
+            **Vous pouvez :**
+
+            * Insérer du texte et des images, y compris par copier-coller à partir d'autres documents
+            * Créer une hiérarchie de pages avec des pages parentes
+            * Inclure des pages wiki dans le menu du projet
+            * Utilisez des macros pour inclure des éléments, tels qu'une table des matières, des listes de lots de travaux ou des diagrammes de Gantt
+            * Inclure des pages wiki dans d'autres champs de texte, tels que la page de présentation d'un projet
+            * Inclure des liens vers d'autres documents
+            * Afficher l'historique des modifications
+            * Afficher en tant que Markdown
+
+            Plus d'informations : [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: Projet Scrum
           status_explanation: Toutes les tâches sont en cours. Les personnes concernées connaissent leurs tâches. Le système est entièrement configuré.

@@ -40,7 +40,9 @@ class Queries::Serialization::Orders
   end
 
   def dump(orders)
-    orders.map { |o| { attribute: o.attribute, direction: o.direction } }
+    orders.map do |o|
+      { "attribute" => o.attribute.to_s, "direction" => o.direction.to_s }
+    end
   end
 
   def orders_register

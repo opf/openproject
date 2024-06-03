@@ -36,8 +36,8 @@ module Storages::Admin
     attr_reader :storage
     alias_method :oauth_application, :model
 
-    def initialize(oauth_application:, storage:, **options)
-      super(oauth_application, **options)
+    def initialize(oauth_application:, storage:, **)
+      super(oauth_application, **)
       @storage = storage
     end
   end

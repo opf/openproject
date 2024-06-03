@@ -30,20 +30,13 @@ require "spec_helper"
 
 RSpec.describe User, ".having_reminder_mail_to_send" do
   subject(:scope) do
-    described_class.having_reminder_mail_to_send(scope_time)
-  end
-
-  # Fix the time of the specs to ensure a consistent run
-  around do |example|
-    Timecop.travel(current_time) do
-      example.run
-    end
+    described_class.having_reminder_mail_to_send(scope_lower_boundary_time, scope_upper_boundary_time)
   end
 
   # Let the date be one where workdays are enabled by default
   # to avoid specifying them explicitly
-  let(:current_time) { "2021-09-30T08:10:59Z".to_datetime }
-  let(:scope_time) { "2021-09-30T08:00:00Z".to_datetime }
+  let(:scope_upper_boundary_time) { "2021-09-30T08:10:59Z".to_datetime }
+  let(:scope_lower_boundary_time) { "2021-09-30T08:00:00Z".to_datetime }
 
   let(:paris_user) do
     create(
@@ -66,10 +59,14 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
   let(:paris_user_daily_reminders) do
     {
       enabled: true,
-      times: [hitting_reminder_slot_for("Europe/Paris", current_time)]
+      times: [hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time)]
     }
   end
-  let(:notifications) { create(:notification, recipient: paris_user, created_at: 5.minutes.ago) }
+  let(:notifications) do
+    create(:notification,
+           recipient: paris_user,
+           created_at: scope_upper_boundary_time - 5.minutes)
+  end
   let(:users) { [paris_user] }
 
   before do
@@ -140,8 +137,8 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
   end
 
   context "for a user whose local time is not matching the configured time" do
-    let(:current_time) { "2021-09-30T08:20:59Z".to_datetime }
-    let(:scope_time) { "2021-09-30T08:15:00Z".to_datetime }
+    let(:scope_upper_boundary_time) { "2021-09-30T08:20:59Z".to_datetime }
+    let(:scope_lower_boundary_time) { "2021-09-30T08:15:00Z".to_datetime }
 
     it "is empty" do
       expect(scope)
@@ -160,7 +157,7 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
           workdays: hawaii_user_workdays,
           daily_reminders: {
             enabled: true,
-            times: [hitting_reminder_slot_for("Pacific/Honolulu", current_time)]
+            times: [hitting_reminder_slot_for("Pacific/Honolulu", scope_upper_boundary_time)]
           },
           pause_reminders: hawaii_user_pause_reminders
         }
@@ -172,7 +169,9 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
       }
     end
     let(:notifications) do
-      create(:notification, recipient: hawaii_user, created_at: 5.minutes.ago)
+      create(:notification,
+             recipient: hawaii_user,
+             created_at: scope_upper_boundary_time - 5.minutes)
     end
     let(:users) { [hawaii_user] }
     let(:hawaii_user_workdays) { paris_user_workdays }
@@ -191,7 +190,7 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
       end
     end
 
-    context "with local date range for pausing that includes scope_time" do
+    context "with local date range for pausing that includes the boundary time" do
       let(:hawaii_user_pause_reminders) do
         {
           enabled: true,
@@ -206,7 +205,7 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
       end
     end
 
-    context "with local date range for pausing that excludes scope_time" do
+    context "with local date range for pausing that excludes the boundary time" do
       let(:hawaii_user_pause_reminders) do
         {
           enabled: true,
@@ -224,8 +223,8 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
 
   context "for a user whose local time is on the next workday" do
     # 12:00 thursday Etc/UTC = 03:00 friday @ Pacific/Apia
-    let(:current_time) { "2021-09-30T12:05:59Z".to_datetime }
-    let(:scope_time) { "2021-09-30T12:00:00Z".to_datetime }
+    let(:scope_upper_boundary_time) { "2021-09-30T12:05:59Z".to_datetime }
+    let(:scope_lower_boundary_time) { "2021-09-30T12:00:00Z".to_datetime }
 
     let(:samoa_user) do
       create(
@@ -236,13 +235,15 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
           workdays: samoa_user_workdays,
           daily_reminders: {
             enabled: true,
-            times: [hitting_reminder_slot_for("Pacific/Apia", current_time)]
+            times: [hitting_reminder_slot_for("Pacific/Apia", scope_upper_boundary_time)]
           }
         }
       )
     end
     let(:notifications) do
-      create(:notification, recipient: samoa_user, created_at: 5.minutes.ago)
+      create(:notification,
+             recipient: samoa_user,
+             created_at: scope_upper_boundary_time - 5.minutes)
     end
     let(:users) { [samoa_user] }
     let(:samoa_user_workdays) { paris_user_workdays }
@@ -271,13 +272,15 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
           time_zone: "Europe/Moscow",
           daily_reminders: {
             enabled: true,
-            times: [hitting_reminder_slot_for("Europe/Moscow", current_time)]
+            times: [hitting_reminder_slot_for("Europe/Moscow", scope_upper_boundary_time)]
           }
         }
       )
     end
     let(:notifications) do
-      create(:notification, recipient: moscow_user, created_at: 5.minutes.ago)
+      create(:notification,
+             recipient: moscow_user,
+             created_at: scope_upper_boundary_time - 5.minutes)
     end
     let(:users) { [moscow_user] }
 
@@ -292,9 +295,9 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
       {
         enabled: true,
         times: [
-          hitting_reminder_slot_for("Europe/Paris", current_time - 3.hours),
-          hitting_reminder_slot_for("Europe/Paris", current_time),
-          hitting_reminder_slot_for("Europe/Paris", current_time + 3.hours)
+          hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time - 3.hours),
+          hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time),
+          hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time + 3.hours)
         ]
       }
     end
@@ -305,17 +308,17 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
     end
   end
 
-  context "for a user who has configured a slot between the earliest_time (in local time) and his current local time" do
+  context "for a user who has configured a slot between the earliest_time (in local time) and latest_time (in local time)" do
     let(:paris_user_daily_reminders) do
       {
         enabled: true,
         times: [
-          hitting_reminder_slot_for("Europe/Paris", current_time - 2.hours),
-          hitting_reminder_slot_for("Europe/Paris", current_time + 3.hours)
+          hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time - 2.hours),
+          hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time + 3.hours)
         ]
       }
     end
-    let(:scope_time) { ActiveSupport::TimeZone["Etc/UTC"].parse("06:00") }
+    let(:scope_lower_boundary_time) { scope_upper_boundary_time - 3.hours }
 
     it "contains the user" do
       expect(scope)
@@ -323,17 +326,17 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
     end
   end
 
-  context "for a user who has configured a slot before the earliest_time (in local time) and after his current local time" do
+  context "for a user who has configured a slot before the earliest_time (in local time) and after latest_time (in local time)" do
     let(:paris_user_daily_reminders) do
       {
         enabled: true,
         times: [
-          hitting_reminder_slot_for("Europe/Paris", current_time - 3.hours),
-          hitting_reminder_slot_for("Europe/Paris", current_time + 1.hour)
+          hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time - 3.hours),
+          hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time + 1.hour)
         ]
       }
     end
-    let(:scope_time) { current_time - 2.hours }
+    let(:scope_lower_boundary_time) { scope_upper_boundary_time - 2.hours }
 
     it "is empty" do
       expect(scope)
@@ -356,7 +359,7 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
     let(:paris_user_daily_reminders) do
       {
         enabled: false,
-        times: [hitting_reminder_slot_for("Europe/Paris", current_time)]
+        times: [hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time)]
       }
     end
 
@@ -376,8 +379,8 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
         }
       )
     end
-    let(:current_time) { ActiveSupport::TimeZone["Europe/Paris"].parse("2021-09-30T08:09").utc }
-    let(:scope_time) { ActiveSupport::TimeZone["Europe/Paris"].parse("2021-09-30T08:00") }
+    let(:scope_upper_boundary_time) { ActiveSupport::TimeZone["Europe/Paris"].parse("2021-09-30T08:09").utc }
+    let(:scope_lower_boundary_time) { ActiveSupport::TimeZone["Europe/Paris"].parse("2021-09-30T08:00") }
 
     it "contains the user" do
       expect(scope)
@@ -395,8 +398,8 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
         }
       )
     end
-    let(:current_time) { ActiveSupport::TimeZone["Europe/Paris"].parse("2021-09-30T10:00").utc }
-    let(:scope_time) { ActiveSupport::TimeZone["Europe/Paris"].parse("2021-09-30T10:00") }
+    let(:scope_upper_boundary_time) { ActiveSupport::TimeZone["Europe/Paris"].parse("2021-09-30T10:00").utc }
+    let(:scope_lower_boundary_time) { ActiveSupport::TimeZone["Europe/Paris"].parse("2021-09-30T10:00") }
 
     it "is empty" do
       expect(scope)
@@ -404,7 +407,7 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
     end
   end
 
-  context "for a user who is in a 45 min time zone and having reminder set to 8:00 and being executed at 8:10" do
+  context "for a user who is in a 45 min time zone and having reminder set to 8:00 and with the boundaries matching" do
     let(:kathmandu_user) do
       create(
         :user,
@@ -413,15 +416,17 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
           time_zone: "Asia/Kathmandu",
           daily_reminders: {
             enabled: true,
-            times: [hitting_reminder_slot_for("Asia/Kathmandu", current_time)]
+            times: [hitting_reminder_slot_for("Asia/Kathmandu", scope_upper_boundary_time)]
           }
         }
       )
     end
-    let(:current_time) { ActiveSupport::TimeZone["Asia/Kathmandu"].parse("2021-09-30T08:10").utc }
-    let(:scope_time) { ActiveSupport::TimeZone["Asia/Kathmandu"].parse("2021-09-30T08:00").utc }
+    let(:scope_upper_boundary_time) { ActiveSupport::TimeZone["Asia/Kathmandu"].parse("2021-09-30T08:10").utc }
+    let(:scope_lower_boundary_time) { ActiveSupport::TimeZone["Asia/Kathmandu"].parse("2021-09-30T08:00").utc }
     let(:notifications) do
-      create(:notification, recipient: kathmandu_user, created_at: 5.minutes.ago)
+      create(:notification,
+             recipient: kathmandu_user,
+             created_at: scope_upper_boundary_time - 5.minutes)
     end
 
     let(:users) { [kathmandu_user] }
@@ -432,7 +437,7 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
     end
   end
 
-  context "for a user who is in a 45 min time zone and having reminder set to 8:00 and being executed at 8:40" do
+  context "for a user who is in a 45 min time zone and having reminder set to 8:00 and with the boundaries too high" do
     let(:kathmandu_user) do
       create(
         :user,
@@ -441,15 +446,17 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
           time_zone: "Asia/Kathmandu",
           daily_reminders: {
             enabled: true,
-            times: [hitting_reminder_slot_for("Asia/Kathmandu", current_time)]
+            times: [hitting_reminder_slot_for("Asia/Kathmandu", scope_upper_boundary_time)]
           }
         }
       )
     end
-    let(:current_time) { ActiveSupport::TimeZone["Asia/Kathmandu"].parse("2021-09-30T08:40").utc }
-    let(:scope_time) { ActiveSupport::TimeZone["Asia/Kathmandu"].parse("2021-09-30T08:30").utc }
+    let(:scope_upper_boundary_time) { ActiveSupport::TimeZone["Asia/Kathmandu"].parse("2021-09-30T08:40").utc }
+    let(:scope_lower_boundary_time) { ActiveSupport::TimeZone["Asia/Kathmandu"].parse("2021-09-30T08:30").utc }
     let(:notifications) do
-      create(:notification, recipient: kathmandu_user, created_at: 5.minutes.ago)
+      create(:notification,
+             recipient: kathmandu_user,
+             created_at: scope_upper_boundary_time - 5.minutes)
     end
 
     let(:users) { [kathmandu_user] }
@@ -460,7 +467,7 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
     end
   end
 
-  context "for a user who is in a 45 min time zone and having reminder set to 8:00 and being executed at 7:55" do
+  context "for a user who is in a 45 min time zone and having reminder set to 8:00 and with the boundaries being too low" do
     let(:kathmandu_user) do
       create(
         :user,
@@ -469,15 +476,17 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
           time_zone: "Asia/Kathmandu",
           daily_reminders: {
             enabled: true,
-            times: [hitting_reminder_slot_for("Asia/Kathmandu", current_time)]
+            times: [hitting_reminder_slot_for("Asia/Kathmandu", scope_upper_boundary_time)]
           }
         }
       )
     end
-    let(:current_time) { ActiveSupport::TimeZone["Asia/Kathmandu"].parse("2021-09-30T07:55").utc }
-    let(:scope_time) { ActiveSupport::TimeZone["Asia/Kathmandu"].parse("2021-09-30T07:45").utc }
+    let(:scope_upper_boundary_time) { ActiveSupport::TimeZone["Asia/Kathmandu"].parse("2021-09-30T07:55").utc }
+    let(:scope_lower_boundary_time) { ActiveSupport::TimeZone["Asia/Kathmandu"].parse("2021-09-30T07:45").utc }
     let(:notifications) do
-      create(:notification, recipient: kathmandu_user, created_at: 5.minutes.ago)
+      create(:notification,
+             recipient: kathmandu_user,
+             created_at: scope_upper_boundary_time - 5.minutes)
     end
 
     let(:users) { [kathmandu_user] }
@@ -490,7 +499,10 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
 
   context "for a user whose local time is matching the configured time but with an already read notification (IAN)" do
     let(:notifications) do
-      create(:notification, recipient: paris_user, created_at: 5.minutes.ago, read_ian: true)
+      create(:notification,
+             recipient: paris_user,
+             created_at: scope_upper_boundary_time - 5.minutes,
+             read_ian: true)
     end
 
     it "is empty" do
@@ -501,7 +513,10 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
 
   context "for a user whose local time is matching the configured time but with an already read notification (reminder)" do
     let(:notifications) do
-      create(:notification, recipient: paris_user, created_at: 5.minutes.ago, mail_reminder_sent: true)
+      create(:notification,
+             recipient: paris_user,
+             created_at: scope_upper_boundary_time - 5.minutes,
+             mail_reminder_sent: true)
     end
 
     it "is empty" do
@@ -512,7 +527,9 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
 
   context "for a user whose local time is matching the configured time but with the user being inactive" do
     let(:notifications) do
-      create(:notification, recipient: paris_user, created_at: 5.minutes.ago)
+      create(:notification,
+             recipient: paris_user,
+             created_at: scope_upper_boundary_time - 5.minutes)
     end
 
     before do
@@ -525,11 +542,24 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
     end
   end
 
-  context "for a user whose local time is before the configured time" do
+  context "for a user whose local time is matching the configured time but with the notification being created later" do
+    let(:notifications) do
+      create(:notification,
+             recipient: paris_user,
+             created_at: scope_upper_boundary_time + 5.minutes)
+    end
+
+    it "is empty" do
+      expect(scope)
+        .to be_empty
+    end
+  end
+
+  context "for a user whose local time is before the boundary time" do
     let(:paris_user_daily_reminders) do
       {
         enabled: true,
-        times: [hitting_reminder_slot_for("Europe/Paris", current_time + 1.hour)]
+        times: [hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time + 1.hour)]
       }
     end
 
@@ -539,11 +569,11 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
     end
   end
 
-  context "for a user whose local time is after the configured time" do
+  context "for a user whose local time is after the boundary time" do
     let(:paris_user_daily_reminders) do
       {
         enabled: true,
-        times: [hitting_reminder_slot_for("Europe/Paris", current_time - 1.hour)]
+        times: [hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time - 1.hour)]
       }
     end
 
@@ -561,7 +591,7 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
         preferences: {
           daily_reminders: {
             enabled: true,
-            times: [hitting_reminder_slot_for("Etc/UTC", current_time)]
+            times: [hitting_reminder_slot_for("Etc/UTC", scope_upper_boundary_time)]
           }
         }
       )
@@ -582,7 +612,7 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
           time_zone: "",
           daily_reminders: {
             enabled: true,
-            times: [hitting_reminder_slot_for("Etc/UTC", current_time)]
+            times: [hitting_reminder_slot_for("Etc/UTC", scope_upper_boundary_time)]
           }
         }
       )
@@ -602,7 +632,7 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
         preferences: {}
       )
     end
-    let(:current_time) { ActiveSupport::TimeZone["Etc/UTC"].parse("2021-09-30T08:00").utc }
+    let(:scope_upper_boundary_time) { ActiveSupport::TimeZone["Etc/UTC"].parse("2021-09-30T08:00").utc }
 
     it "is including the user as Etc/UTC at 08:00 is assumed" do
       expect(scope)
@@ -618,8 +648,8 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
         preferences: {}
       )
     end
-    let(:current_time) { ActiveSupport::TimeZone["Etc/UTC"].parse("2021-09-30T10:00").utc }
-    let(:scope_time) { ActiveSupport::TimeZone["Etc/UTC"].parse("2021-09-30T10:00").utc }
+    let(:scope_upper_boundary_time) { ActiveSupport::TimeZone["Etc/UTC"].parse("2021-09-30T10:00").utc }
+    let(:scope_lower_boundary_time) { ActiveSupport::TimeZone["Etc/UTC"].parse("2021-09-30T10:00").utc }
 
     it "is empty as Etc/UTC at 08:00 is assumed" do
       expect(scope)
@@ -636,13 +666,15 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
         preferences: {
           daily_reminders: {
             enabled: true,
-            times: [hitting_reminder_slot_for("Europe/Moscow", current_time)]
+            times: [hitting_reminder_slot_for("Europe/Moscow", scope_upper_boundary_time)]
           }
         }
       )
     end
     let(:notifications) do
-      create(:notification, recipient: moscow_user, created_at: 5.minutes.ago)
+      create(:notification,
+             recipient: moscow_user,
+             created_at: scope_upper_boundary_time - 5.minutes)
     end
     let(:users) { [moscow_user] }
 
@@ -652,8 +684,8 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
     end
   end
 
-  context "when the provided scope_time is after the current time" do
-    let(:scope_time) { 1.minute.from_now }
+  context "when the provided lower boundary is after the current time" do
+    let(:scope_lower_boundary_time) { 1.minute.from_now }
 
     it "raises an error" do
       expect { scope }
@@ -662,8 +694,8 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
   end
 
   context "for a user without preferences at 08:00" do
-    let(:current_time) { ActiveSupport::TimeZone["Etc/UTC"].parse("2021-09-30T08:00").utc }
-    let(:scope_time) { ActiveSupport::TimeZone["Etc/UTC"].parse("2021-09-30T08:00").utc }
+    let(:scope_upper_boundary_time) { ActiveSupport::TimeZone["Etc/UTC"].parse("2021-09-30T08:00").utc }
+    let(:scope_lower_boundary_time) { ActiveSupport::TimeZone["Etc/UTC"].parse("2021-09-30T08:00").utc }
 
     before do
       paris_user.pref.destroy
@@ -676,8 +708,8 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
   end
 
   context "for a user without preferences at 10:00" do
-    let(:current_time) { ActiveSupport::TimeZone["Etc/UTC"].parse("2021-09-30T10:00").utc }
-    let(:scope_time) { ActiveSupport::TimeZone["Etc/UTC"].parse("2021-09-30T10:00").utc }
+    let(:scope_upper_boundary_time) { ActiveSupport::TimeZone["Etc/UTC"].parse("2021-09-30T10:00").utc }
+    let(:scope_lower_boundary_time) { ActiveSupport::TimeZone["Etc/UTC"].parse("2021-09-30T10:00").utc }
 
     before do
       paris_user.pref.destroy

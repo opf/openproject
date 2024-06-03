@@ -223,6 +223,6 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
       return projects.length > 0;
     }
 
-    return projects.some((project) => favorites.includes(project.id.toString()));
+    return projects.length > 0 && favorites.length > 0;
   }
 }

@@ -61,7 +61,7 @@ class ApplicationJob < ActiveJob::Base
     if value.is_a?(Symbol)
       super(priority_number(value))
     else
-      super(value)
+      super
     end
   end
 

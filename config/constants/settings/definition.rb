@@ -332,6 +332,9 @@ module Settings
       demo_view_of_type_team_planner_seeded: {
         default: false
       },
+      demo_view_of_type_gantt_seeded: {
+        default: false
+      },
       development_highlight_enabled: {
         description: "Enable highlighting of development environment",
         default: -> { Rails.env.development? },
@@ -725,7 +728,7 @@ module Settings
         writable: false
       },
       rails_cache_store: {
-        description: "Set cache store implemenation to use with OpenProject",
+        description: "Set cache store implementation to use with OpenProject",
         format: :symbol,
         default: :file_store,
         writable: false,
@@ -735,6 +738,12 @@ module Settings
         description: "Set a URL prefix / base path to run OpenProject under, e.g., host.tld/openproject",
         default: "",
         writable: false
+      },
+      show_work_package_attachments: {
+        description: "Show work package attachments by default.",
+        format: :boolean,
+        default: true,
+        writable: true
       },
       https: {
         description: "Set assumed connection security for the Rails processes",
@@ -1078,7 +1087,7 @@ module Settings
         description: "Web worker count and threads configuration",
         default: {
           "workers" => 2,
-          "timeout" => 120,
+          "timeout" => Rails.env.production? ? 120 : 0,
           "wait_timeout" => 10,
           "min_threads" => 4,
           "max_threads" => 16

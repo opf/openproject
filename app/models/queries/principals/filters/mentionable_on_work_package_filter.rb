@@ -43,17 +43,13 @@ class Queries::Principals::Filters::MentionableOnWorkPackageFilter <
     :mentionable_on_work_package
   end
 
-  def scope
+  def apply_to(query_scope)
     case operator
     when "="
-      principals_with_a_membership
+      query_scope.where(id: principals_with_a_membership)
     when "!"
-      visible_scope.where.not(id: principals_with_a_membership.select(:id))
+      query_scope.where(id: visible_scope.where.not(id: principals_with_a_membership.select(:id)))
     end
-  end
-
-  def where
-    "1=1"
   end
 
   private

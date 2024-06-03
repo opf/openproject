@@ -100,7 +100,7 @@ RSpec.describe Meetings::CopyService, "integration", type: :model do
     end
 
     it "copies the agenda item" do
-      expect(copy.agenda_items.length)
+      expect(copy.reload.agenda_items.length)
         .to eq 1
 
       expect(copy.agenda_items.first.notes)
@@ -129,6 +129,7 @@ RSpec.describe Meetings::CopyService, "integration", type: :model do
 
     context "when asking to copy attachments" do
       let(:params) { { copy_attachments: true } }
+
       it "copies the attachment" do
         expect(copy.attachments.length)
           .to eq 1

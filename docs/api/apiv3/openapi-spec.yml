@@ -350,14 +350,8 @@ paths:
     "$ref": "./paths/query_unstar.yml"
   "/api/v3/relations":
     "$ref": "./paths/relations.yml"
-  "/api/v3/relations/schema":
-    "$ref": "./paths/relations_schema.yml"
-  "/api/v3/relations/schema/{type}":
-    "$ref": "./paths/relations_schema_{type}.yml"
   "/api/v3/relations/{id}":
     "$ref": "./paths/relation.yml"
-  "/api/v3/relations/{id}/form":
-    "$ref": "./paths/relation_form.yml"
   "/api/v3/render/markdown":
     "$ref": "./paths/render_markdown.yml"
   "/api/v3/render/plain":
@@ -505,12 +499,28 @@ components:
       $ref: "./components/examples/notification_collection.yml"
     PlaceholderUserResponse:
       $ref: "./components/examples/placeholder-user-response.yml"
+    PriorityCollection:
+      $ref: "./components/examples/priority_collection.yml"
     Project:
       $ref: "./components/examples/project.yml"
     ProjectBody:
       $ref: "./components/examples/project_body.yml"
     ProjectCollection:
       $ref: "./components/examples/project_collection.yml"
+    RelationCollectionResponse:
+      $ref: "./components/examples/relation_collection_response.yml"
+    RelationResponse:
+      $ref: "./components/examples/relation_response.yml"
+    StorageNextcloudResponse:
+      $ref: "./components/examples/storage-nextcloud-response.yml"
+    StorageNextcloudResponseForCreation:
+      $ref: "./components/examples/storage-nextcloud-response-for-creation.yml"
+    StorageNextcloudUnauthorizedResponse:
+      $ref: "./components/examples/storage-nextcloud-unauthorized-response.yml"
+    StorageOneDriveIncompleteResponse:
+      $ref: "./components/examples/storage-one-drive-incomplete-response.yml"
+    StorageOneDriveResponse:
+      $ref: "./components/examples/storage-one-drive-response.yml"
     QueriesModel:
       $ref: "./components/examples/queries.yml"
     QueryModel:
@@ -695,8 +705,8 @@ components:
       "$ref": "./components/schemas/principal_collection_model.yml"
     PrincipalModel:
       "$ref": "./components/schemas/principal_model.yml"
-    PrioritiesModel:
-      "$ref": "./components/schemas/priorities_model.yml"
+    PriorityCollectionModel:
+      "$ref": "./components/schemas/priority_collection_model.yml"
     PriorityModel:
       "$ref": "./components/schemas/priority_model.yml"
     ProjectCollectionModel:
@@ -731,14 +741,10 @@ components:
       "$ref": "./components/schemas/query_sort_by_model.yml"
     Query_Update_Form:
       "$ref": "./components/schemas/query_update_form.yml"
+    RelationCollectionModel:
+      "$ref": "./components/schemas/relation_collection_model.yml"
     RelationModel:
       "$ref": "./components/schemas/relation_model.yml"
-    Relation_edit_formModel:
-      "$ref": "./components/schemas/relation_edit_form_model.yml"
-    Relation_schemaModel:
-      "$ref": "./components/schemas/relation_schema_model.yml"
-    RelationsModel:
-      "$ref": "./components/schemas/relations_model.yml"
     RevisionModel:
       "$ref": "./components/schemas/revision_model.yml"
     RevisionsModel:

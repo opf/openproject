@@ -76,10 +76,8 @@ module API::V3::OAuth
       }
     end
 
-    link :redirectUri do
-      {
-        href: represented.redirect_uri
-      }
+    links :redirectUri do
+      represented.redirect_uri.split(/[\r\n]+/).map { |href| { href: } }
     end
 
     def _type

@@ -266,6 +266,7 @@ ro:
       my: "Proiectele mele"
       favored: "Favorite projects"
       archived: "Archived projects"
+      public: "Public project lists"
       my_private: "My private project lists"
       new:
         placeholder: "New project list"
@@ -293,8 +294,12 @@ ro:
         actions:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Enable all"
           label_disable_all: "Disable all"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
       types:
         no_results_title_text: În acest moment nu există tipuri disponibile.
         form:
@@ -305,7 +310,20 @@ ro:
       storage:
         no_results_title_text: Acest proiect nu consumă spațiu suplimentar pe disc înregistrat.
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    create:
+      success: "The modified list has been saved as a new list"
+      failure: "The modified list cannot be saved: %{errors}"
+    update:
+      success: "The modified list has been saved"
+      failure: "The modified list cannot be saved: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
+    can_be_saved: "List modified:"
+    can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
     index:
       no_results_title_text: În acest moment nu există niciun participant la acest proiect.
@@ -492,7 +510,7 @@ ro:
       no_common_statuses_exists: "Nu există o stare disponibilă pentru toate pachetele de lucru selectate. Starea acestora nu poate fi modificată."
       unsupported_for_multiple_projects: "Mutarea/copierea în masă nu este suportată pentru pachete de lucru din proiecte multiple"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Workflow missing for work package sharing"
         message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
         link_message: "Configure the workflows in the administration."
@@ -752,6 +770,7 @@ ro:
         before_or_equal_to: "trebuie să fie înainte sau în %{date}."
         blank: "nu poate fi gol."
         blank_nested: "trebuie să aibă setul '%{property}' al proprietății."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "Un pachet de lucru nu poate fi legat de una din sub-activitățile sale."
         circular_dependency: "Această relație ar crea o dependință circulară."
         confirmation: "nu se potrivește cu %{attribute}."
@@ -912,6 +931,8 @@ ro:
               nonexistent: "The column '%{column}' does not exist."
               format: "%{message}"
           group_by_hierarchies_exclusive: "se exclude reciproc cu grupul de \"%{group_by}\". Nu le puteți activa pe amândouă."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "Nu există un câmp personalizat pentru filtru."
@@ -1327,6 +1348,8 @@ ro:
   button_revoke_access: "Revoke access"
   button_revoke_all: "Revoke all"
   button_revoke_only: "Revoke only %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: Am luat la cunoștință și consimt la cele de mai sus.
     failure_message: Consimţământul a eșuat, nu putem continua.
@@ -1612,6 +1635,7 @@ ro:
       pdf_overview_table: "PDF Table"
       pdf_report_with_images: "PDF Report with images"
       pdf_report: "PDF Report"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Imaginea nu a fost exportată."
     units:
@@ -1693,6 +1717,8 @@ ro:
           Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         progress_calculation_adjusted: >-
           Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+        totals_removed_from_childless_work_packages: >-
+          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
   links:
     configuration_guide: "Ghid de configurare"
     get_in_touch: "Aveți întrebări? Luați legătura cu noi."
@@ -1757,17 +1783,6 @@ ro:
         mentioned: "Ai fost menționat în %{work_package}"
         responsible: "Ați devenit responsabil pentru %{work_package}"
         watched: "Urmăriți %{work_package}"
-    update_info_mail:
-      body: >
-        Suntem încântați să anunțăm lansarea OpenProject 12.0. Este o versiune majoră care sperăm că va îmbunătăți semnificativ modul în care utilizați OpenProject.
-        Începând cu această versiune, introducem notificări în aplicație. De acum înainte, veți primi notificări pentru actualizările pachetelor de lucru direct în OpenProject. Puteți marca aceste notificări ca fiind citite, puteți răspunde la un comentariu sau chiar modifica direct atributele pachetului de lucru fără a părăsi centrul de notificări.
-        Acest lucru înseamnă, de asemenea, că nu vom mai folosi e-mailurile pentru notificări. Credem că noul centru de notificări este un loc mai bun pentru a vizualiza și a acționa asupra acestor actualizări. Cu toate acestea, dacă doriți să continuați să primiți actualizări prin e-mail, puteți alege să primiți memento-uri zilnice prin e-mail la anumite ore la alegere.
-        Vă rugăm să vă asigurați că ați verificat noile setări de notificare implicite și că v-ați setat preferințele pentru notificări și memento-uri prin e-mail prin intermediul setărilor contului dumneavoastră. Puteți face acest lucru prin intermediul butonului "Change email settings" de mai jos.
-        Sperăm că veți găsi utile notificările din aplicație și că acestea vă fac și mai productiv.
-        Cu stimă, Echipa OpenProject
-      body_header: "Versiunea 12.0 cu Centrul de Notificări"
-      body_subheader: "Noutăţi"
-      subject: "Modificări importante la notificări cu versiunea de 12.0"
   label_accessibility: "Accesibilitate"
   label_account: "Cont"
   label_active: "Activ"
@@ -1819,6 +1834,7 @@ ro:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Autentificare"
   label_available_global_roles: "Available global roles"
+  label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Forumuri disponibile"
   label_available_project_repositories: "Arhive disponibile"
   label_available_project_versions: "Versiuni disponibile"
@@ -1962,7 +1978,7 @@ ro:
   label_expanded_click_to_collapse: "Extinse. Faceți clic pentru a restrânge"
   label_f_hour: "%{value} oră"
   label_f_hour_plural: "%{value} ore"
-  label_favorite: "Favorite"
+  label_favorite: "Favorit"
   label_feed_plural: "Fluxuri"
   label_feeds_access_key: "Cheie de acces RSS"
   label_feeds_access_key_created_on: "Cheia de acces RSS a fost creată acum %{value}"
@@ -2235,6 +2251,7 @@ ro:
   label_setting_plural: "Setări"
   label_system_settings: "Setări de sistem"
   label_show_completed_versions: "Afișare versiuni complete"
+  label_columns: "Coloane"
   label_sort: "Sortare"
   label_sort_by: "Sortare după %{value}"
   label_sorted_by: "sortate după %{value}"
@@ -2734,6 +2751,7 @@ ro:
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:
@@ -2780,7 +2798,7 @@ ro:
     member_of_group: "Grupul executantului"
     name_or_identifier: "Nume sau identificator"
     only_subproject_id: "Numai subproiect"
-    shared_with_user: "Shared with user"
+    shared_with_user: "Shared with users"
     shared_with_me: "Shared with me"
     subproject_id: "Inclusiv subproiectul"
   repositories:
@@ -2925,6 +2943,7 @@ ro:
   setting_app_subtitle: "Subtitlu aplicație"
   setting_app_title: "Titlu aplicație"
   setting_attachment_max_size: "Dimensiune maximă atașament"
+  setting_show_work_package_attachments: "Show attachments in the files tab by default"
   setting_antivirus_scan_mode: "Scan mode"
   setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Preluare automată a schimbărilor din repo"
@@ -3026,6 +3045,8 @@ ro:
     attachments:
       whitelist_text_html: >
         Definește o listă validă de extensii de fișiere și/sau tipuri mime pentru fișierele încărcate. <br/> Introduceți extensii de fișiere (de ex. <code>%{ext_example}</code>) sau tipuri mime (e. ., <code>%{mime_example}</code>). <br/> Lăsați gol pentru a permite oricărui tip de fișier să fie încărcat. Valori multiple permise (o linie pentru fiecare valoare).
+      show_work_package_attachments: >
+        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
     antivirus:
       title: "Virus scanning"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
@@ -3262,6 +3283,10 @@ ro:
         input_label: "Adaugați coloane"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
+      sort_by:
+        automatic:
+          heading: "Automatic"
+          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Resurse suplimentare"
     getting_started: "Noţiuni de bază"

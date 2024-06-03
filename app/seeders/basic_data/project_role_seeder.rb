@@ -31,7 +31,7 @@ module BasicData
     self.seed_data_model_key = "project_roles"
 
     def update_permissions_with_modules_data(role_data)
-      super(role_data)
+      super
 
       role_data["permissions"] += OpenProject::AccessControl.public_permissions.map(&:name)
     end

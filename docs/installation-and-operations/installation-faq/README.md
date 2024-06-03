@@ -12,7 +12,7 @@ keywords: installation FAQ, upgrades, updates, operation faq
 
 ### Which options are there to install OpenProject?
 
-There's the package based installation (recommended), installation via Docker, using a provider (like Univention, Bitnami, IONOS) and the manual installation.
+There's the package based installation (recommended), installation via Docker, using a provider (like Bitnami, IONOS) and the manual installation.
 
 ### What skills should I have for the installation of Community edition or Enterprise on-premises?
 
@@ -41,7 +41,6 @@ You can use a virtual machine as long as the hardware and the operating system m
 The Community edition and Enterprise edition of OpenProject are not a desktop application but a server application, typically for Linux servers. Therefore there's no typical user interface to install it.
 If you want to install it on Windows or Mac you can use the Docker based installation. Please note that installing on Windows Desktop usually works but is not officially supported.
 The package based installation (for Linux) offers an installation wizard.
-If you already use Univention, you can use it to install OpenProject, too.
 
 Alternatively, you could use OpenProject [as cloud version](https://www.openproject.org/enterprise-edition/#hosting-options) to avoid installation.
 

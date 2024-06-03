@@ -330,6 +330,18 @@
         years: "År"
         description: >
           Velg standard zoom-nivå som skal vises når autozoom ikke er tilgjengelig.
+      export:
+        title: "Gantt-diagram PDF alternativer"
+        button_export: "Eksportèr"
+        column_widths:
+          narrow: "Smal"
+          medium: "Medium"
+          wide: "Bred"
+          very_wide: "Veldig bred"
+        options:
+          date_zoom: "Dato zoom"
+          paper_size: "Papirstørrelse"
+          column_widths: "Kolonnebredder"
     general_text_no: "nei"
     general_text_yes: "ja"
     general_text_No: "Nei"
@@ -348,11 +360,10 @@
           learn_about: "Lær mer om de nye funksjonene"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+                Utgivelsen inneholder ulike nye funksjoner og forbedringer: <br> <ul class="%{list_styling_class}"> <li>PDF eksport av Gantt visning, f.eks for utskrift (Enterprise add-on)</li> <li>Favorittprosjekter</li> <li>Avsnitt i Møter</li> <li>Viser møter på Min side og i prosjektoversikten</li> <li>Mulighet for å skjule vedlegg i Filer-fanen</li> <li>Egendefinerte felter av typen lenke (URL)</li> </ul>
     ical_sharing_modal:
       title: "Abonner på kalender"
       inital_setup_error_message: "En feil oppstod under henting av data."
@@ -365,7 +376,7 @@
       ical_generation_error_text: "Det oppstod en feil ved generering av kalenderURL."
       success_message: 'URL-adressen "%{name}" ble vellykket kopiert til utklippstavlen. Lim den inn i kalenderklienten for å fullføre abonnementet.'
     label_activate: "Aktiver"
-    label_assignee: "Deltaker"
+    label_assignee: "Utførende"
     label_add_column_after: "Legg til kolonne etter"
     label_add_column_before: "Legg til kolonne før"
     label_add_columns: "Legg til kolonner"
@@ -420,7 +431,7 @@
     label_expand_project_menu: "Utvid prosjektmeny"
     label_export: "Eksportèr"
     label_export_preparing: "Eksporten forberedes og lastes ned i løpet av kort tid."
-    label_favorites: "Favorites"
+    label_favorites: "Favoritter"
     label_filename: "Fil"
     label_filesize: "Størrelse"
     label_general: "Generell"
@@ -592,7 +603,7 @@
         team_planner:
           overview: "Gruppeplanleggeren lar deg visuelt tildele oppgaver til teammedlemmer og få en oversikt over hvem som jobber med hva."
           calendar: "Ukentlig eller annenhver uke viser tavlen alle arbeidspakker som er tilordnet gruppemedlemmene."
-          add_assignee: "For å komme i gang, legg til personer i gruppeplanleggeren."
+          add_assignee: "For å komme i gang, legg til utførende i gruppeplanleggeren."
           add_existing: "Søk etter eksisterende arbeidspakker og dra dem til gruppeplanleggeren for å umiddelbart tildele dem til et gruppemedlem og definere start- og sluttdato."
           card: "Dra arbeidspakker horisontalt for å flytte dem bakover eller forover i tid, dra kantene for å endre start- og sluttdatoer, og selv dra dem vertikalt til en annen rad for å tilordne dem til en annen medlem."
     notifications:
@@ -601,7 +612,7 @@
       reasons:
         mentioned: "nevnt"
         watched: "overvåker"
-        assigned: "oppdragstaker"
+        assigned: "utførende"
         responsible: "ansvarlig"
         created: "opprettet"
         scheduled: "planlagt"
@@ -645,7 +656,7 @@
           no_selection: "Klikk på en melding for å se alle aktivitetsdetaljer."
         new_notifications:
           message: "Det finnes nye varsler."
-          link_text: "Click here to load them."
+          link_text: "Klikk her for å laste dem"
       menu:
         accountable: "Ansvarlig"
         by_project: "Ulest av prosjektet"
@@ -675,7 +686,7 @@
           mentioned:
             title: "Nevnt"
             description: "Motta en melding hver gang noen nevner meg hvor som helst"
-          assignee: "Deltaker"
+          assignee: "Utførende"
           responsible: "Ansvarlig"
           shared: "Delt"
           watched: "Overvåker"
@@ -687,13 +698,13 @@
         global:
           immediately:
             title: "Deltar"
-            description: "Varsler for alle aktiviteter i arbeidspakker du er involvert i (oppdragstaker, ansvarlig eller overvåker)."
+            description: "Varsler for alle aktiviteter i arbeidspakker du er involvert i (utførende, ansvarlig eller overvåker)."
           delayed:
             title: "Ikke-deltakende"
             description: "Melding om ytterligere aktiviteter i alle prosjekter."
           date_alerts:
             title: "Dato varsler"
-            description: "Automatiske varsler når viktige datoer nærmer seg for åpne arbeidspakker du er med i (oppdragstaker, ansvarlig eller overvåker)."
+            description: "Automatiske varsler når viktige datoer nærmer seg for åpne arbeidspakker du er med i (utførende, ansvarlig eller overvåker)."
             teaser_text: "Med datovarsler, vil du bli varslet om kommende start- eller sluttdatoer slik at du aldri går glipp av eller glemmer en viktig frist."
           overdue: Når forfalt
         project_specific:
@@ -968,7 +979,7 @@
         estimatesAndTime: "Estimater og tid"
         other: "Øvrig"
       properties:
-        assignee: "Deltaker"
+        assignee: "Utførende"
         author: "Forfatter"
         createdAt: "Opprettet"
         description: "Beskrivelse"
@@ -1045,7 +1056,7 @@
       sharing:
         share: "Del"
         title: "Del arbeidspakke"
-        show_all_users: "Vis alle delte brukere"
+        show_all_users: "Vis alle brukere som arbeidspakken er delt med"
         selected_count: "%{count} valgte"
         selection:
           mixed: "Blandet"
@@ -1272,8 +1283,8 @@
           group: "Gruppen er nå en del av %{project}. Dette betyr at du allerede kan planlegge med den gruppen og tildele arbeidspakker for forekomst."
         next_button: "Fortsett"
     favorite_projects:
-      no_results: "You have no favorite projects"
-      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
+      no_results: "Du har ingen favorittprosjekter"
+      no_results_subtext: "Legg til ett eller flere prosjekter som favoritt via oversikten eller i en prosjektliste."
     include_projects:
       toggle_title: "Inkluder prosjekter"
       title: "Prosjekter"
@@ -1333,6 +1344,10 @@
         focus_grab: "Dette er et fokusanker for modaler. Trykk shift+tab for å gå tilbake til modal trigger elementet."
         Close: "Lukk"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Tidsavbrudd"
       waiting_subtitle:
         network_off: "Det er et nettverksproblem."
         network_on: "Nettverket er tilbake. Vi prøver igjen."
+        timeout: >
+          OpenProject kunne ikke gi deg tilgang til prosjektmappen i løpet av den forventede tiden. Vennligst prøv igjen.<br><br> Hvis dette problemet vedvarer, kontakt din OpenProject-administrator for å sjekke <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">statusen på fillagringsoppsettet</a>.

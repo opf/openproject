@@ -181,7 +181,14 @@ Rails.application.routes.draw do
 
   namespace :projects do
     resource :menu, only: %i[show]
-    resources :queries, only: %i[new create destroy]
+    resources :queries, only: %i[show new create update destroy] do
+      member do
+        get :rename
+
+        post :publish
+        post :unpublish
+      end
+    end
   end
 
   resources :projects, except: %i[show edit create update] do
@@ -220,6 +227,7 @@ Rails.application.routes.draw do
 
       # Destroy uses a get request to prompt the user before the actual DELETE request
       get :destroy_info, as: "confirm_destroy"
+      post :deactivate_work_package_attachments
     end
 
     resources :versions, only: %i[new create] do
@@ -454,6 +462,9 @@ Rails.application.routes.draw do
           post :reorder_alphabetical
           put :move
           put :drop
+
+          get :project_mappings
+          delete :unlink
         end
       end
       resources :project_custom_field_sections, controller: "/admin/settings/project_custom_field_sections",

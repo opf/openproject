@@ -159,7 +159,7 @@ RSpec.describe "Work package navigation", :js, :selenium do
   it "access the work package views directly from a non-angular view" do
     visit project_path(project)
 
-    find("#main-menu-work-packages ~ .toggler").click
+    page.find_test_selector("main-menu-toggler--work_packages").click
     expect(page).to have_css(".op-view-select--search-results")
     find(".op-sidemenu--item-action", text: query.name).click
 

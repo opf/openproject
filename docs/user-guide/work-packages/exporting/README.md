@@ -65,6 +65,8 @@ PDF Report with images is the same as PDF Report, but also includes the images f
 
 ![OpenProject_work_package_export](openproject_pdf_report_images.png)
 
+> **Note**: if you need to export work packages in a Gantt chart form, please refer to the [Gantt chart PDF Export guide](../../gantt-chart/#gantt-chart-pdf-export-enterprise-add-on). 
+
 ## Excel (XLS) export
 
 > **Note**: To open XLS exported files into Microsoft Excel, ensure you set the encoding to UTF-8. Excel will not auto-detect the encoding or ask you to specify it, but simply open with a wrong encoding under Microsoft Windows.

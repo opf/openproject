@@ -31,7 +31,7 @@ fa:
         budget_ratio: "Spent (ratio)"
         description: "توضیحات"
         spent: "صرف شده"
-        status: "Status"
+        status: "وضعیت"
         subject: "Subject"
         type: "نوع هزینه"
         labor_budget: "Planned labor costs"
@@ -63,7 +63,7 @@ fa:
   label_budget: "بودجه"
   label_budget_new: "بودجه جدید"
   label_budget_plural: "بودجه ها"
-  label_budget_id: "بودجه"
+  label_budget_id: "بودجه #%{id}"
   label_deliverable: "بودجه"
   label_example_placeholder: 'به عنوان مثال، %{decimal}'
   label_view_all_budgets: "مشاهده همه بودجه‌ها"

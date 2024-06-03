@@ -1,4 +1,4 @@
 ms:
   plugin_openproject_job_status:
-    name: "Status pekerjaan OpenProject"
+    name: "Status Pekerjaan OpenProject"
     description: "Senarai dan status latar belakang pekerjaan."

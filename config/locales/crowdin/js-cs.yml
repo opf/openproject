@@ -329,6 +329,18 @@ cs:
         years: "Roky"
         description: >
           Vyberte počáteční úroveň přiblížení, která by se měla zobrazit, pokud není autozoom dostupný.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Úzké"
+          medium: "Střední"
+          wide: "Široké"
+          very_wide: "Velmi široký"
+        options:
+          date_zoom: "Přiblížení data"
+          paper_size: "Velikost papíru"
+          column_widths: "Šířka sloupce"
     general_text_no: "ne"
     general_text_yes: "ano"
     general_text_No: "Ne"
@@ -347,11 +359,10 @@ cs:
           learn_about: "Další informace o nových funkcích"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
     ical_sharing_modal:
       title: "Přihlásit kalendář k odběru"
       inital_setup_error_message: "Při načítání dat došlo k chybě."
@@ -377,7 +388,7 @@ cs:
     label_added_time_by: 'Přidal <a href="%{authorLink}">%{author}</a> v %{age}'
     label_ago: "dnů před"
     label_all: "vše"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Vše"
     label_all_work_packages: "všechny pracovní balíčky"
     label_and: "a"
     label_ascending: "Vzestupně"
@@ -419,7 +430,7 @@ cs:
     label_expand_project_menu: "Rozbalit nabídku projektu"
     label_export: "Export"
     label_export_preparing: "Export je připraven a bude brzy k stažení."
-    label_favorites: "Favorites"
+    label_favorites: "Oblíbené"
     label_filename: "Soubor"
     label_filesize: "Velikost"
     label_general: "Obecné"
@@ -646,7 +657,7 @@ cs:
           no_selection: "Klikněte na oznámení pro zobrazení všech podrobností o aktivitě."
         new_notifications:
           message: "Máte nová oznámení."
-          link_text: "Click here to load them."
+          link_text: "Klikněte zde pro jejich načtení."
       menu:
         accountable: "Odpovědný"
         by_project: "Nepřečteno dle projektu"
@@ -1046,7 +1057,7 @@ cs:
       sharing:
         share: "Sdílet"
         title: "Sdílet pracovní balíček"
-        show_all_users: "Zobrazit všechny sdílené uživatele"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} vybráno"
         selection:
           mixed: "Smíšená"
@@ -1338,6 +1349,10 @@ cs:
         focus_grab: "Toto je ukotvení pro modaly. Stisknutím karty shift+b se vrátíte k aktivačnímu prvku modalu."
         Close: "Zavřít"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Vypršel časový limit"
       waiting_subtitle:
-        network_off: "There is a network problem."
+        network_off: "Je tu problém se sítí."
         network_on: "Network is back. We are trying."
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact you OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

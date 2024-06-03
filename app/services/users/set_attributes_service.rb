@@ -37,7 +37,7 @@ module Users
     def set_attributes(params)
       self.pref = params.delete(:pref)
 
-      super(params)
+      super
     end
 
     def validate_and_result

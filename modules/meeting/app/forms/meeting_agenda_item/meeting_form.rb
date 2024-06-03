@@ -47,11 +47,14 @@ class MeetingAgendaItem::MeetingForm < ApplicationForm
         .where("meetings.start_time + (interval '1 hour' * meetings.duration) >= ?", Time.zone.now)
         .includes(:project)
         .find_each do |meeting|
-        select.option(
-          label: "#{meeting.project.name}: #{meeting.title} #{format_date(meeting.start_time)} #{format_time(meeting.start_time, false)}",
-          value: meeting.id
-        )
-      end
+          select.option(
+            label: "#{meeting.project.name}: " \
+                   "#{meeting.title} " \
+                   "#{format_date(meeting.start_time)} " \
+                   "#{format_time(meeting.start_time, false)}",
+            value: meeting.id
+          )
+        end
     end
   end
 

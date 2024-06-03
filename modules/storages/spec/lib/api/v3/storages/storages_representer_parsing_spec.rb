@@ -32,14 +32,41 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe API::V3::Storages::StorageRepresenter, "parsing" do
-  let(:storage) { build_stubbed(:nextcloud_storage) }
   let(:current_user) { build_stubbed(:user) }
+  let(:representer) { described_class.new(storage, current_user:) }
 
-  describe "parsing" do
-    subject(:parsed) { representer.from_hash parsed_hash }
+  subject(:parsed) { representer.from_hash parsed_hash }
 
-    let(:representer) { described_class.new(storage, current_user:) }
+  describe "OneDrive/SharePoint" do
+    let(:storage) { build_stubbed(:one_drive_storage) }
+    let(:parsed_hash) do
+      {
+        "name" => "My SharePoint",
+        "tenantId" => "e36f1dbc-fdae-427e-b61b-0d96ddfb81a4",
+        "_links" => {
+          "type" => {
+            "href" => API::V3::Storages::URN_STORAGE_TYPE_ONE_DRIVE
+          }
+        }
+      }
+    end
 
+    context "with basic attributes" do
+      it "is parsed correctly" do
+        expect(parsed).to have_attributes(name: "My SharePoint",
+                                          tenant_id: "e36f1dbc-fdae-427e-b61b-0d96ddfb81a4",
+                                          provider_type: "Storages::OneDriveStorage")
+
+        aggregate_failures "honors provider fields defaults" do
+          expect(parsed).not_to be_automatically_managed
+          expect(parsed).to be_health_notifications_enabled
+        end
+      end
+    end
+  end
+
+  describe "Nextcloud" do
+    let(:storage) { build_stubbed(:nextcloud_storage) }
     let(:parsed_hash) do
       {
         "name" => "Nextcloud Local",
@@ -56,7 +83,8 @@ RSpec.describe API::V3::Storages::StorageRepresenter, "parsing" do
 
     context "with basic attributes" do
       it "is parsed correctly" do
-        expect(parsed).to have_attributes(name: "Nextcloud Local", host: storage.host,
+        expect(parsed).to have_attributes(name: "Nextcloud Local",
+                                          host: storage.host,
                                           provider_type: "Storages::NextcloudStorage")
 
         aggregate_failures "honors provider fields defaults" do

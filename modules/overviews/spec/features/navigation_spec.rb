@@ -52,4 +52,53 @@ RSpec.describe "Navigate to overview", :js do
         .to have_content("Overview")
     end
   end
+
+  context "as user with permissions" do
+    let(:project) { create(:project, enabled_module_names: %i[work_package_tracking]) }
+    let(:user) { create(:admin) }
+    let(:query) do
+      create(:query_with_view_work_packages_table,
+             project:,
+             user:,
+             name: "My important Query")
+    end
+
+    before do
+      query
+      login_as user
+    end
+
+    it "can navigate to other modules (regression #55024)" do
+      visit project_overview_path(project.id)
+
+      # Expect page to be loaded
+      within "#content" do
+        expect(page).to have_content("Overview")
+      end
+
+      # Navigate to the WP module
+      page.find_test_selector("main-menu-toggler--work_packages").click
+
+      # Click on a saved query
+      page.find_test_selector("op-sidemenu--item-action--MyimportantQuery", wait: 10).click
+
+      loading_indicator_saveguard
+
+      within "#content" do
+        # Expect the query content to be shown
+        expect(page).to have_field("editable-toolbar-title", with: query.name)
+
+        # Expect no page header of the Overview to be shown any more
+        expect(page).to have_no_content("Overview")
+      end
+
+      # Navigate back to the Overview page
+      page.execute_script("window.history.back()")
+
+      # Expect page to be loaded
+      within "#content" do
+        expect(page).to have_content("Overview")
+      end
+    end
+  end
 end

@@ -95,6 +95,7 @@ Rails.application.reloader.to_prepare do
                      {
                        "projects/settings/general": %i[show],
                        "projects/settings/storage": %i[show],
+                       projects: %i[deactivate_work_package_attachments],
                        "projects/templated": %i[create destroy],
                        "projects/identifier": %i[show update]
                      },
@@ -111,7 +112,7 @@ Rails.application.reloader.to_prepare do
 
       map.permission :select_project_custom_fields,
                      {
-                       'projects/settings/project_custom_fields': %i[show toggle enable_all_of_section disable_all_of_section]
+                       "projects/settings/project_custom_fields": %i[show toggle enable_all_of_section disable_all_of_section]
                      },
                      permissible_on: :project,
                      require: :member
@@ -173,6 +174,14 @@ Rails.application.reloader.to_prepare do
                      {
                        admin: %i[index],
                        attribute_help_texts: %i[index new edit upsale create update destroy]
+                     },
+                     permissible_on: :global,
+                     require: :loggedin,
+                     grant_to_admin: true
+
+      map.permission :manage_public_project_queries,
+                     {
+                       "projects/queries": %i[publish unpublish]
                      },
                      permissible_on: :global,
                      require: :loggedin,

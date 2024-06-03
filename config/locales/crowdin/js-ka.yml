@@ -330,6 +330,18 @@ ka:
         years: "წელი"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
+      export:
+        title: "Gantt chart PDF options"
+        button_export: "Export"
+        column_widths:
+          narrow: "Narrow"
+          medium: "Medium"
+          wide: "Wide"
+          very_wide: "Very wide"
+        options:
+          date_zoom: "Date zoom"
+          paper_size: "Paper size"
+          column_widths: "Column widths"
     general_text_no: "არა"
     general_text_yes: "დია"
     general_text_No: "არა"
@@ -348,11 +360,10 @@ ka:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -378,7 +389,7 @@ ka:
     label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "დღის წინ"
     label_all: "ყველა"
-    label_all_uppercase: "All"
+    label_all_uppercase: "ყველა"
     label_all_work_packages: "all work packages"
     label_and: "და"
     label_ascending: "ზრდადობით"
@@ -837,7 +848,7 @@ ka:
       toggle_description: "Toggle relation description"
       update_relation: "Click to change the relation type"
       add_follower: "გამომწერის დამატება"
-      show_relations: "Show relations"
+      show_relations: "ურთიერთობის ჩვენება"
       add_predecessor: "Add predecessor"
       remove: "Remove relation"
       save: "ურთიერთობის შენახვა"
@@ -973,7 +984,7 @@ ka:
         createdAt: "შექმნის დრო"
         description: "აღწერა"
         date: "თარიღი"
-        percentComplete: "% Complete"
+        percentComplete: "% დასრულებულია"
         percentCompleteAlternative: "Progress"
         dueDate: "დასრულების თარიღი"
         duration: "ხანგრძლივობა"
@@ -982,8 +993,8 @@ ka:
         percentageDone: "Percentage done"
         priority: "პრიორიტეტი"
         projectName: "პროექტი"
-        remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWork: "დარჩენილი სამუშაო"
+        remainingWorkAlternative: "დარჩენილია საათები"
         responsible: "პასუხისმგებელი"
         startDate: "დაწყების თარიღი"
         status: "სტატუსი"
@@ -994,8 +1005,8 @@ ka:
         updatedAt: "განახლების თარიღი"
         versionName: "ვერსია"
         version: "ვერსია"
-        work: "Work"
-        workAlternative: "Estimated time"
+        work: "სამუშაო"
+        workAlternative: "სავარაუდო დრო"
         remainingTime: "დარჩენილი სამუშაო"
       default_queries:
         latest_activity: "Latest activity"
@@ -1045,7 +1056,7 @@ ka:
       sharing:
         share: "გაზიარება"
         title: "Share work package"
-        show_all_users: "Show all shared users"
+        show_all_users: "Show all users with whom the work package has been shared with"
         selected_count: "%{count} selected"
         selection:
           mixed: "შერეული"
@@ -1333,6 +1344,10 @@ ka:
         focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
         Close: "დახურვა"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
       waiting_subtitle:
         network_off: "There is a network problem."
         network_on: "Network is back. We are trying."
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact you OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

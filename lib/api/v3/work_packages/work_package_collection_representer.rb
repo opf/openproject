@@ -235,11 +235,12 @@ module API
             representation_format_pdf,
             representation_format_pdf_report_with_images,
             representation_format_pdf_report,
+            representation_format_pdf_gantt,
             representation_format_xls,
             representation_format_xls_descriptions,
             representation_format_xls_relations,
             representation_format_csv
-          ]
+          ].compact
 
           if Setting.feeds_enabled?
             formats << representation_format_atom
@@ -285,6 +286,16 @@ module API
                                 i18n_key: "pdf_report",
                                 mime_type: "application/pdf",
                                 url_query_extras: "show_report=true"
+        end
+
+        def representation_format_pdf_gantt
+          return unless EnterpriseToken.allows_to?(:gantt_pdf_export)
+
+          representation_format "pdf",
+                                format: "pdf",
+                                i18n_key: "pdf_gantt",
+                                mime_type: "application/pdf",
+                                url_query_extras: "gantt=true"
         end
 
         def representation_format_xls

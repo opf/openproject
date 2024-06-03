@@ -40,7 +40,7 @@ class Members::DeleteService < BaseServices::Delete
   protected
 
   def after_perform(service_call)
-    super(service_call).tap do |call|
+    super.tap do |call|
       member = call.result
 
       cleanup_for_group(member)

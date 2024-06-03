@@ -166,8 +166,9 @@ RSpec.describe WorkPackages::Shared::AllDays do
       end
 
       context "with lag" do
-        include_examples "soonest working day with lag", date: Date.new(2022, 12, 24), lag: 7,
-                                                           expected: Date.new(2022, 12, 31)
+        include_examples "soonest working day with lag", date: Date.new(2022, 12, 24),
+                                                         lag: 7,
+                                                         expected: Date.new(2022, 12, 31)
       end
     end
   end

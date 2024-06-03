@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe BackupJob, type: :model do
   shared_examples "it creates a backup" do |opts = {}|
@@ -85,16 +85,16 @@ RSpec.describe BackupJob, type: :model do
       job.perform **arguments.first
     end
 
-    describe 'environment variables' do
+    describe "environment variables" do
       let(:hash_config) do
-        ActiveRecord::DatabaseConfigurations::HashConfig.new('test', 'primary', config_double)
+        ActiveRecord::DatabaseConfigurations::HashConfig.new("test", "primary", config_double)
       end
 
       before do
         allow(ActiveRecord::Base).to receive(:connection_db_config).and_return(hash_config)
       end
 
-      context 'when config has username' do
+      context "when config has username" do
         let(:config_double) do
           {
             adapter: :postgresql,
@@ -104,16 +104,16 @@ RSpec.describe BackupJob, type: :model do
           }
         end
 
-        it 'sets PGUSER and other variables' do
+        it "sets PGUSER and other variables" do
           perform
 
           expect(Open3).to have_received(:capture3) do |*args|
-            expect(args[0]).to include('PGUSER' => 'foobar', 'PGPASSWORD' => 'blabla', 'PGDATABASE' => 'test')
+            expect(args[0]).to include("PGUSER" => "foobar", "PGPASSWORD" => "blabla", "PGDATABASE" => "test")
           end
         end
       end
 
-      context 'when config has user reference, not username (regression #44251)' do
+      context "when config has user reference, not username (regression #44251)" do
         let(:config_double) do
           {
             adapter: :postgresql,
@@ -123,11 +123,11 @@ RSpec.describe BackupJob, type: :model do
           }
         end
 
-        it 'still sets PGUSER and other variables' do
+        it "still sets PGUSER and other variables" do
           perform
 
           expect(Open3).to have_received(:capture3) do |*args|
-            expect(args[0]).to include('PGUSER' => 'foobar', 'PGPASSWORD' => 'blabla', 'PGDATABASE' => 'test')
+            expect(args[0]).to include("PGUSER" => "foobar", "PGPASSWORD" => "blabla", "PGDATABASE" => "test")
           end
         end
       end
@@ -218,7 +218,7 @@ RSpec.describe BackupJob, type: :model do
 
     before do
       FileUtils.mkdir_p Pathname(dummy_path).parent.to_s
-      File.open(dummy_path, "w") { |f| f.puts 'dummy' }
+      File.open(dummy_path, "w") { |f| f.puts "dummy" }
 
       allow_any_instance_of(LocalFileUploader).to receive(:cached?).and_return(true)
       allow_any_instance_of(LocalFileUploader)

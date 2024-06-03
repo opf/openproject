@@ -39,16 +39,20 @@ zh-CN:
   api_v3:
     errors:
       too_many_elements_created_at_once: 一次创建的元素过多。最多应为 %{max} 个，实际为 %{actual} 个。
-  permission_create_files: '外部存储: 创建文件'
-  permission_delete_files: '外部存储：删除文件'
+  external_file_storages: 外部文件存储
+  permission_create_files: '自动管理项目文件夹：创建文件'
+  permission_create_files_explanation: 此权限仅适用于 Nextcloud 存储器
+  permission_delete_files: '自动管理项目文件夹：删除文件'
+  permission_delete_files_explanation: 此权限仅适用于 Nextcloud 存储器
   permission_header_for_project_module_storages: 自动托管项目文件夹
   permission_manage_file_links: 管理文件链接
   permission_manage_storages_in_project: 管理项目中的文件存储
-  permission_read_files: '外部存储：读取文件'
-  permission_share_files: '外部存储：共享文件'
+  permission_read_files: '自动管理项目文件夹：读取文件'
+  permission_share_files: '自动管理项目文件夹：共享文件'
+  permission_share_files_explanation: 此权限仅适用于 Nextcloud 存储器
   permission_view_file_links: 查看文件链接
-  permission_write_files: '外部存储：写入文件'
-  project_module_storages: 文件存储
+  permission_write_files: '自动管理项目文件夹：写入文件'
+  project_module_storages: 文件
   storages:
     buttons:
       complete_without_setup: 没有它就完成
@@ -223,7 +227,6 @@ zh-CN:
       project_settings:
         delete: 删除文件存储区
         edit: 编辑文件存储到此项目
-        index: 文件存储在此项目中可用
         members_connection_status: 成员连接状态
         new: 将文件存储添加到此项目
       project_storage_members:
@@ -242,6 +245,9 @@ zh-CN:
         label_oauth_client_secret: Azure OAuth 客户端密钥值
         name: OneDrive/SharePoint
         name_placeholder: 例如OneDrive
+    show_attachments_toggle:
+      description: '禁用此选项将会为新项目隐藏工作包文件标签上的附件列表。 工作包描述中的文件仍将上传到内部附件存储。'
+      label: 在工作包文件选项卡中显示附件
     storage_list_blank_slate:
       description: 在这里添加一个存储以查看它们。
       heading: 您还没有任何存储。

@@ -330,6 +330,18 @@ uk:
         years: "Років"
         description: >
           Виберіть початкове значення масштабу, коли функція автомасштабування недоступна.
+      export:
+        title: "Параметри діаграми Ґанта (PDF)"
+        button_export: "Експорт"
+        column_widths:
+          narrow: "Вузькі"
+          medium: "Середні"
+          wide: "Широкі"
+          very_wide: "Дуже широкі"
+        options:
+          date_zoom: "Масштабування дати"
+          paper_size: "Розмір паперу"
+          column_widths: "Ширина стовпців"
     general_text_no: "ні"
     general_text_yes: "так"
     general_text_No: "Ні"
@@ -348,11 +360,10 @@ uk:
           learn_about: "Дізнатися більше про нові функції"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_0":
+          "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                Цей випуск містить кілька нових і поліпшених функцій. <br> <ul class="%{list_styling_class}"> <li>Звітування про прогрес в ієрархії пакетів робіт.</li> <li>Керування атрибутами проєкту в структурований спосіб на сторінці огляду проєкту.</li> <li>Оптимізований перегляд користувацьких полів у списку проєкту і в огляді проєкту.</li> <li>Вишуканий дизайн Primer для узгодженого вигляду заголовків сторінок.</li> <li>Зручніше проведення нарад завдяки новим функціям, таким як «Вивантаження вкладень», «Відповідальна особа» й «Історія нарад».</li> <li>Автоматичні сповіщення про несправні файлові сховища й керування ними за допомогою перемикачів.</li> <li>Автоматичне копіювання керованої папку проєкту для OneDrive / SharePoint під час копіювання проєктів.</li> <li>Можливість надсилання адміністраторам запиту на видалення доступу до пакетів робіт у разі відкликання участі в проєкті.</li> <li>Покращене планування за допомогою режимів перегляду на 4 й 8 тижнів у командному планувальнику.</li> </ul>
+                Цей випуск містить кілька нових і поліпшених функцій. <br> <ul class="%{list_styling_class}"> <li>Експорт діаграми Ґанта у форматі PDF, наприклад для друку (доповнення версії Enterprise)</li> <li>Обрані проєкти</li> <li>Розділи на сторінці «Наради»</li> <li>Показ нарад на Моїй сторінці й сторінках огляду проєкту</li> <li>Можливість приховувати вкладення на вкладці «Файли»</li> <li>Користувацькі поля типу «Посилання (URL)</li> </ul>
     ical_sharing_modal:
       title: "Підписатися на календар"
       inital_setup_error_message: "Під час отримання даних сталася помилка."
@@ -378,7 +389,7 @@ uk:
     label_added_time_by: 'Додано користувачем <a href="%{authorLink}">%{author}</a> о %{age}'
     label_ago: "днів тому"
     label_all: "всі"
-    label_all_uppercase: "All"
+    label_all_uppercase: "Усі"
     label_all_work_packages: "всі пакети в роботі"
     label_and: "і"
     label_ascending: "За зростанням"
@@ -420,7 +431,7 @@ uk:
     label_expand_project_menu: "Розгорніть меню проекту"
     label_export: "Експорт"
     label_export_preparing: "Файл готується для експорту, і невдовзі його буде завантажено."
-    label_favorites: "Favorites"
+    label_favorites: "Обране"
     label_filename: "Файл"
     label_filesize: "Розмір"
     label_general: "Загальні"
@@ -1047,7 +1058,7 @@ uk:
       sharing:
         share: "Поширити"
         title: "Надати доступ до пакета робіт"
-        show_all_users: "Показати всіх користувачів із доступом"
+        show_all_users: "Показувати всіх користувачів, яким надано доступ до пакета робіт"
         selected_count: "Вибрано: %{count}"
         selection:
           mixed: "Змішані"
@@ -1278,8 +1289,8 @@ uk:
           group: "Ця група тепер входить у проєкт «%{project}». Тим часом ви вже можете включати її в план і призначати їй пакети робіт."
         next_button: "Продовжити"
     favorite_projects:
-      no_results: "You have no favorite projects"
-      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
+      no_results: "У вас немає обраних проєктів"
+      no_results_subtext: "Додайте один або кілька проєктів в обране на відповідній сторінці огляду або в списку проєктів."
     include_projects:
       toggle_title: "Включити проєкти"
       title: "Проекти"
@@ -1339,6 +1350,10 @@ uk:
         focus_grab: "Це якір фокуса для модальних вікон. Натисніть клавіші Shift + Tab, щоб повернутися до тригера модального вікна."
         Close: "Закрити"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
       waiting_subtitle:
         network_off: "Існує проблема з мережею."
         network_on: "З’єднання відновлено. Ми намагаємося."
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact you OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

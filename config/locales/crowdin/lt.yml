@@ -263,6 +263,7 @@ lt:
       my: "Mano projektai"
       favored: "Mėgstami projektai"
       archived: "Archyvuoti projektai"
+      public: "Public project lists"
       my_private: "Mano privatūs projektų sąrašai"
       new:
         placeholder: "Naujas projektų sąrašas"
@@ -290,8 +291,12 @@ lt:
         actions:
           label_enable_single: "Aktyvus šiame projekte, spauskite, jei norite išjungti"
           label_disable_single: "Neakvyus šiame projekte, spauskite, jei norite įjungti"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Įjungti visus"
           label_disable_all: "Išjungti visus"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
       types:
         no_results_title_text: Nėra prieinamų tipų.
         form:
@@ -302,7 +307,20 @@ lt:
       storage:
         no_results_title_text: Šis projektas papildomos vietos diske nenaudoja.
   lists:
-    can_be_saved_as: "Pakeitimus galima išsaugoti tik naujame sąraše."
+    create:
+      success: "Pakeistas sąrašas įrašytas kaip naujas sąrašas"
+      failure: "Nepavyksta įrašyti pakeisto sąrašo: %{errors}"
+    update:
+      success: "Pakeistas sąrašas buvo įrašytas"
+      failure: "Nepavyksta įrašyti pakeisto sąrašo: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
+    can_be_saved: "Sąrašas pakeistas:"
+    can_be_saved_as: "Pakeitimus galima įrašyti tik į naują sąrašą:"
   members:
     index:
       no_results_title_text: Nėra nė vieno šio projekto dalyvio.
@@ -496,7 +514,7 @@ lt:
       no_common_statuses_exists: "Parinkti darbo paketai neturi būsenos. Jų būsena negali pakeista."
       unsupported_for_multiple_projects: "Masinis darbų paketų perkėlimas/kopijavimas nėra palaikomas darbui iškart su keliais projektais"
     sharing:
-      missing_workflow_waring:
+      missing_workflow_warning:
         title: "Darbo paketo dalinimuisi trūksta darbo proceso"
         message: "Vaidmeniui „Darbo paketo redaktorius“ nesukonfigūruotas procesas. Be proceso naudotojas negali pakeisti darbo paketo būsenos. Procesą galima nukopijuoti. Parinkite šaltinio tipą („pvz. „Užduotis“) ir šaltinio vaidmenį (pvz. „Narys“). Tada parinkite paskirties tipus. Pradžiai galėtumėte kaip paskirtį parinkti visus tipus. Galų gale parinkite vaidmenį „Darbo paketų redaktorius“ kaip paskirtį ir spauskite „Kopijuoti“. Taip sukūrę numatytąjį variantą, patikslinkite procesus kaip tai darote su kitais vaidmenimis."
         link_message: "Konfigūruokite procesus administravime."
@@ -756,6 +774,7 @@ lt:
         before_or_equal_to: "turi eiti prieš arba būti lygu %{date}."
         blank: "negali būti tuščia."
         blank_nested: "reikalauja, kad savybė '%{property}' būtų nustatyta."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "Darbų paketas negali būti susietas su viena iš savo vidinių užduočių."
         circular_dependency: "Šis ryšys sukurtų ciklinę priklausomybę."
         confirmation: "nesutampa su %{attribute}."
@@ -916,6 +935,8 @@ lt:
               nonexistent: "Stulpelis „%{column}“ neegzistuoja."
               format: "%{message}"
           group_by_hierarchies_exclusive: "yra nesuderinamas su grupavimu pagal '%{group_by}'. Jūs negalite įjungti abiejų."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "Filtrui nėra jokio pasirenkamo laukelio."
@@ -1339,6 +1360,8 @@ lt:
   button_revoke_access: "Atšaukti prieigą"
   button_revoke_all: "Atšaukti viską"
   button_revoke_only: "Atšaukti tik %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: Perskaičiau ir sutinku su tekstu aukščiau.
     failure_message: Sutikimas negautas. Tęsti negalima.
@@ -1642,6 +1665,7 @@ lt:
       pdf_overview_table: "PDF lentelė"
       pdf_report_with_images: "PDF ataskaita su piešiniais"
       pdf_report: "PDF ataskaita"
+      pdf_gantt: "PDF Gantt"
     image:
       omitted: "Paveiksliukas neeksportuotas."
     units:
@@ -1723,6 +1747,8 @@ lt:
           Eigos skaičiavimas automatiškai <a href="%{href}" target="_blank">nustatytas į paremtą darbu ir pakeistas su versijos atnaujinimu</a>.
         progress_calculation_adjusted: >-
           Eigos skaičiavimas automatiškai <a href="%{href}" target="_blank">pakeistas su versijos atnaujinimu</a>.
+        totals_removed_from_childless_work_packages: >-
+          Darbo ir eigos sumos automatiškai išimtos ne tėviniams darbų paketams <a href="%{href}" target="_blank">atnaujinant versiją</a>. Tai palaikymo užduotis ir ją galima saugiai ignoruoti.
   links:
     configuration_guide: "Konfigūravimo vadovas"
     get_in_touch: "Turite klausimų? Susisiekite su mumis."
@@ -1787,17 +1813,6 @@ lt:
         mentioned: "Jūs buvote paminėtas %{work_package}"
         responsible: "Jūs tapote atsakingas už %{work_package}"
         watched: "Jūs stebite %{work_package}"
-    update_info_mail:
-      body: >
-        Mes džiaugiamės galėdami pranešti apie OpenProject 12.0. Tai didelė laida, kuri tikimės stipriai pagerins tai, kaip jūs naudojate OpenProject.
-        Pradedant šia laida mes pristatome Pranešimų Centrą. Nuo dabar jūs galėsite gauti pranešimus apie darbo paketų atnaujinimus tiesiai OpenProject. Jūs galite pažymėti šiuos pranešimus perskaitytais, atsakyti į komentarą ar tiesiogiai pakeisti darbo paketo atributus, nepalikdami Pranešimų Centro.
-        Tai taipogi reiškia, kad jūs daugiau nenaudosite e-pašto pranešimams. Mes galvojame, kad Pranešimų centras yra geresnė vieta peržiūrėti ir imtis veiksmų su atnaujinimais. Kaip bebūtų, jei jūs norėtumėte ir toliau gauti atnaujinimus e-paštu, galite pasirinkti kasdieninius e-pašto priminimus jūsų pasirinktu metu.
-        Prašome nustatyti savo e-pašto priminimo parinktis jūsų paskyros nustatymuose. Galite tai padaryti paspaudę žemiau esantį mygtuką „Keisti e-pašto nustatymus“.
-        Mes tikimės, kad vidiniai pranešimai jums bus naudingi ir, kad jie dar labiau pagerins jūsų produktyvumą.
-        Nuoširdžiai, OpenProject komanda
-      body_header: "Versija 12.0 su Pranešimų centru"
-      body_subheader: "Naujienos"
-      subject: "Svarbūs pranešimų pakeitimai laidoje 12.0"
   label_accessibility: "Prieinamumas"
   label_account: "Paskyra"
   label_active: "Aktyvus"
@@ -1849,6 +1864,7 @@ lt:
   label_attribute_expand_text: "Pilnas tekstas, skirtas „%{attribute}“"
   label_authentication: "Autentifikacija"
   label_available_global_roles: "Galimi globalūs vaidmenys"
+  label_available_project_attributes: "Galimi projekto atributai"
   label_available_project_forums: "Galimi forumai"
   label_available_project_repositories: "Galimos saugyklos"
   label_available_project_versions: "Galimos versijos"
@@ -2265,6 +2281,7 @@ lt:
   label_setting_plural: "Nustatymai"
   label_system_settings: "Sistemos nustatymai"
   label_show_completed_versions: "Rodyti užbaigtas versijas"
+  label_columns: "Stulpeliai"
   label_sort: "Rikiuoti"
   label_sort_by: "Rūšiuoti pagal %{value}"
   label_sorted_by: "suršiuota pagal %{value}"
@@ -2765,6 +2782,7 @@ lt:
   permission_save_bcf_queries: "Įrašyti BCF užklausas"
   permission_manage_public_bcf_queries: "Valdyti viešas BCF užklausas"
   permission_edit_attribute_help_texts: "Keisti atributų pagalbos tekstus"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:
@@ -2811,7 +2829,7 @@ lt:
     member_of_group: "Priskirtojo asmens grupė"
     name_or_identifier: "Pavadinimas arba identifikatorius"
     only_subproject_id: "Tik sub-projektai"
-    shared_with_user: "Bendrinamas su naudotoju"
+    shared_with_user: "Bendrinamas su naudotojais"
     shared_with_me: "Bendrinama su manimi"
     subproject_id: "Įtraukti sub-projektus"
   repositories:
@@ -2954,6 +2972,7 @@ lt:
   setting_app_subtitle: "Programos paantraštė"
   setting_app_title: "Programos pavadinimas"
   setting_attachment_max_size: "Didžiausias prisegamo failo dydis"
+  setting_show_work_package_attachments: "Pagal nutylėjimą rodyti priedus failų kortelėje"
   setting_antivirus_scan_mode: "Skenavimo režimas"
   setting_antivirus_scan_action: "Užkrėsto failo veiksmas"
   setting_autofetch_changesets: "Automatiškai įkelti repozitorijos pakeitimus"
@@ -3055,6 +3074,8 @@ lt:
     attachments:
       whitelist_text_html: >
         Sudarykite sąrašą leidžiamų failų praplėtimų ir/arba MIME tipų su kuriais bus leidžiama įkelti failus. <br/> Įveskite failų praplėtimus (t.y., <code>%{ext_example}</code>) arba MIME tipus (t.y., <code>%{mime_example}</code>). <br/> Palikite tuščią, jei norite leisti visus tipus. Leidžiama daugiau nei viena reikšmė (po vieną kiekvienoje eilutėje).
+      show_work_package_attachments: >
+        Išjungus šią parinktį naujų projektų darbo paketų failų kortelėje bus paslėptas priedų sąrašas. Darbo paketų aprašyme prisegti failai bus įkeliami į vidinę priedų saugyklą.
     antivirus:
       title: "Virusų tikrinimas"
       clamav_ping_failed: "Nepavyko prisijungti prie ClamAV demono. Dar kartą patikrinkite konfigūraciją ir bandykite dar kartą."
@@ -3291,6 +3312,10 @@ lt:
         input_label: "Pridėti stulpelių"
         input_placeholder: "Parinkti stulpelį"
         drag_area_label: "Tvarkyti ir perrikiuoti stulpelius"
+      sort_by:
+        automatic:
+          heading: "Automatinis"
+          description: "Rikiuokite %{plural} pagal vieną ar daugiau rikiavimo kriterijų. Prarasite bet kokį ankstesnį rikiavimą."
   top_menu:
     additional_resources: "Papildomi ištekliai"
     getting_started: "Darbo pradžia"

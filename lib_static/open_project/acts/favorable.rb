@@ -47,6 +47,7 @@ module OpenProject
         # as it's used to identify whether a user can actually favorite the object.
         def acts_as_favorable
           return if included_modules.include?(::OpenProject::Acts::Favorable::InstanceMethods)
+
           OpenProject::Acts::Favorable::Registry.add(self)
 
           class_eval do

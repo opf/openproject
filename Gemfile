@@ -36,7 +36,7 @@ ruby File.read(".ruby-version").strip
 
 gem "actionpack-xml_parser", "~> 2.0.0"
 gem "activemodel-serializers-xml", "~> 1.0.1"
-gem "activerecord-import", "~> 1.6.0"
+gem "activerecord-import", "~> 1.7.0"
 gem "activerecord-session_store", "~> 2.1.0"
 gem "ox"
 gem "rails", "~> 7.1.3"
@@ -46,7 +46,7 @@ gem "ffi", "~> 1.15"
 
 gem "rdoc", ">= 2.4.2"
 
-gem "doorkeeper", "~> 5.6.6"
+gem "doorkeeper", "~> 5.7.0"
 # Maintain our own omniauth due to relative URL root issues
 # see upstream PR: https://github.com/omniauth/omniauth/pull/903
 gem "omniauth", git: "https://github.com/opf/omniauth", ref: "fe862f986b2e846e291784d2caa3d90a658c67f0"
@@ -83,7 +83,7 @@ gem "htmldiff"
 gem "stringex", "~> 2.8.5"
 
 # CommonMark markdown parser with GFM extension
-gem "commonmarker", "~> 1.0.3"
+gem "commonmarker", "~> 1.1.3"
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
@@ -140,7 +140,7 @@ gem "rack-attack", "~> 6.7.0"
 gem "secure_headers", "~> 6.5.0"
 
 # Browser detection for incompatibility checks
-gem "browser", "~> 5.3.0"
+gem "browser", "~> 6.0.0"
 
 # Providing health checks
 gem "okcomputer", "~> 1.18.1"
@@ -159,6 +159,7 @@ gem "airbrake", "~> 13.0.0", require: false
 
 gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "8f14736a88ad0064d2a97be108fe7061ffbcee91"
 gem "prawn", "~> 2.4"
+gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues/1346 resolved.
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.2"
 
@@ -183,7 +184,7 @@ gem "sprockets-rails", "~> 3.4.2"
 
 gem "puma", "~> 6.4"
 gem "puma-plugin-statsd", "~> 2.0"
-gem "rack-timeout", "~> 0.6.3", require: "rack/timeout/base"
+gem "rack-timeout", "~> 0.7.0", require: "rack/timeout/base"
 
 gem "nokogiri", "~> 1.16.0"
 
@@ -383,6 +384,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-octicons", "~>19.10.0"
-gem "openproject-octicons_helper", "~>19.10.0"
-gem "openproject-primer_view_components", "~>0.29.1"
+gem "openproject-octicons", "~>19.13.0"
+gem "openproject-octicons_helper", "~>19.13.0"
+gem "openproject-primer_view_components", "~>0.32.1"

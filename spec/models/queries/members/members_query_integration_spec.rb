@@ -65,12 +65,12 @@ RSpec.describe Queries::Members::MemberQuery, "Integration" do
       expect(subject.first).to have_attributes(
         project:,
         entity: work_package,
-        user:
+        principal: user
       )
       expect(subject.second).to have_attributes(
         project:,
         entity: nil,
-        user:
+        principal: user
       )
     end
   end
