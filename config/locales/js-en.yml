@@ -1441,7 +1441,7 @@ en:
         remove: "Remove"
       drop_modal:
         focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
-        Close: "Close"
+        close: "Close modal"
     open_project_storage_modal:
       waiting_title:
         timeout: "Timeout"
