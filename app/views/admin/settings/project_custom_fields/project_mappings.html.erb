@@ -35,10 +35,14 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <%=
-  render(Settings::ProjectCustomFields::ProjectCustomFieldMapping::NewProjectMappingComponent.new(
-    project_mapping: @project_mapping,
-    project_custom_field: @custom_field
-  ))
+  render(Primer::OpenProject::SubHeader.new) do |component|
+    component.with_action_component do
+      render(Settings::ProjectCustomFields::ProjectCustomFieldMapping::NewProjectMappingComponent.new(
+        project_mapping: @project_mapping,
+        project_custom_field: @custom_field
+      ))
+    end
+  end unless @custom_field.required?
 %>
 
 <%=
