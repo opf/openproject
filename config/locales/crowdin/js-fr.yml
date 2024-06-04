@@ -1282,6 +1282,11 @@ fr:
           placeholder: "Le utilisateur fictif peut maintenant être utilisé dans %{project}. En attendant, vous pouvez déjà planifier des taches avec cet utilisateur et l'assigner à des lots de travaux par exemple."
           group: "Le groupe fait maintenant partie du %{project}. Entre-temps, vous pouvez déjà planifier avec ce groupe et l'assigner des lots de travaux par exemple."
         next_button: "Continuer"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
     favorite_projects:
       no_results: "Vous n'avez pas de projet favori"
       no_results_subtext: "Ajoutez un ou plusieurs projets en tant que favoris via leur vue d'ensemble ou dans une liste de projets."
@@ -1342,7 +1347,7 @@ fr:
         remove: "Supprimer"
       drop_modal:
         focus_grab: "Il s'agit d'une ancre de mise au point pour les fenêtres modales. Appuyez sur Maj+Tab pour revenir à l'élément de déclenchement modal."
-        Close: "Fermer"
+        close: "Close modal"
     open_project_storage_modal:
       waiting_title:
         timeout: "Timeout"

@@ -441,12 +441,20 @@ ms:
         Tiada atribut yang boleh diubah dengan pengecualian status.
         <br/>
         <strong>Perhatian</strong>: Nilai yang diwarisi (cth, dari anak-anak atau saudara) masih akan digunakan.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         Klik untuk menugaskan atau menukar warna status ini.
         Ia ditunjukkan pada butang status dan boleh digunakan untuk menyoroti pakej kerja dalam jadual.
     index:
       no_results_title_text: Tiada status pakej kerja buat masa ini.
       no_results_content_text: Tambah status baharu
+      headers:
+        is_default: "Default"
+        is_closed: "Closed"
+        is_readonly: "Read-only"
+        excluded_from_totals: "Excluded from totals"
   themes:
     light: "Terang"
     light_high_contrast: "Kontras tinggi yang terang"
@@ -615,6 +623,7 @@ ms:
       status:
         is_closed: "Pakej kerja ditutup"
         is_readonly: "Pakej kerja baca-sahaja"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Nota"
       member:
@@ -951,6 +960,14 @@ ms:
             base:
               working_days_are_missing: "Sekurang-kurangnya sehari dalam seminggu perlu ditentukan sebagai hari bekerja."
               previous_working_day_changes_unprocessed: "Perubahan terdahulu pada konfigurasi hari bekerja belum dilaksanakan lagi."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              days_per_week_are_missing: "The number of days per week must be defined."
+              days_per_month_are_missing: "The number of days per month must be defined."
+              durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+              days_per_week_is_out_of_bounds: "Days per week can't be more than 7"
+              days_per_month_is_out_of_bounds: "Days per month can't be more than 31"
+              days_per_week_and_days_per_month_are_inconsistent: "The number of days per week and the number of days per month must be consistent."
         time_entry:
           attributes:
             hours:
@@ -1624,7 +1641,7 @@ ms:
       dates_changed: "Tarikh ditukar"
       default_attribute_written: "Atribut baca-sahaja ditulis"
       progress_mode_changed_to_status_based: "Pengiraan perkembangan dikemas kini"
-      status_p_complete_changed: "Status % Selesai diubah"
+      status_changed: "Status '%{status_name}'"
       system_update: "Kemas kini sistem OpenProject:"
     cause_descriptions:
       work_package_predecessor_changed_times: dengan perubahan pada pendahulu %{link}
@@ -1641,8 +1658,9 @@ ms:
           working: "%{date} kini hari bekerja"
           non_working: "%{date} kini bukan hari bekerja"
       progress_mode_changed_to_status_based: Mod pengiraan perkembangan ditetapkan kepada berasaskan status
-      status_p_complete_changed: >-
-        % nilai selesai untuk status '%{status_name}' diubah dari %{old_value}% kepada %{new_value}%
+      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
+      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
+      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           Mulai sekarang, aktiviti berkaitan dengan pautan fail (fail-fail yang disimpan di storan luaran) akan muncul dalam tab Aktiviti. Yang berikut mewakili aktiviti berkenaan pautan yang sudah sedia ada:
@@ -2299,7 +2317,7 @@ ms:
   label_workflow: "Aliran kerja"
   label_workflow_plural: "Aliran kerja"
   label_workflow_summary: "Ringkasan"
-  label_working_days: "Hari bekerja"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "1 ditutup"
     other: "%{count} ditutup"
@@ -2895,6 +2913,9 @@ ms:
   setting_cross_project_work_package_relations: "Benarkan hubungan pakej kerja rentas projek"
   setting_first_week_of_year: "Minggu pertama dalam tahun mengandungi "
   setting_date_format: "Tarikh"
+  setting_days_per_month: "Days per month"
+  setting_days_per_month_explanation: >-
+    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Bahasa default"
   setting_default_projects_modules: "Modul yang diaktifkan secara default untuk projek baharu"
   setting_default_projects_public: "Projek baharu adalah awam secara default"
@@ -2910,6 +2931,12 @@ ms:
   setting_feeds_limit: "Had kandungan feed "
   setting_file_max_size_displayed: "Saiz maksimum fail teks ditampilkan sebaris "
   setting_host_name: "Nama hos"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >-
+    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+  setting_days_per_week: "Days per week"
+  setting_days_per_week_explanation: >-
+    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a week is 5 days, 15 days would be 3 weeks).
   setting_invitation_expiration_days: "Pengaktifan e-mel tamat tempoh selepas"
   setting_work_package_done_ratio: "Pengiraan perkembangan"
   setting_work_package_done_ratio_field: "Berasaskan kerja"
@@ -3113,10 +3140,10 @@ ms:
   text_hours_between: "Antara %{min} dan %{max} jam."
   text_work_package_added: "Pakej kerja %{id} telah dilaporkan oleh %{author}."
   text_work_package_category_destroy_assignments: "Padam kategori tugasan"
-  text_work_package_category_destroy_question: "Beberapa pakej kerja (%{count}) ditugaskan untuk kategori ini. Apakah yang anda ingin lakukan?"
+  text_work_package_category_destroy_question: "Beberapa pakej kerja (%{count}) ditugaskan bagi kategori ini. Apakah yang anda ingin lakukan?"
   text_work_package_category_reassign_to: "Tetapkan semula pakej kerja ke kategori ini"
   text_work_package_updated: "Pakej kerja %{id} telah dikemas kini oleh %{author}."
-  text_work_package_watcher_added: "Anda telah ditambah sebagai pemerhati untuk Pakej kerja %{id} oleh %{watcher_changer}."
+  text_work_package_watcher_added: "Anda telah ditambah sebagai pemerhati bagi Pakej kerja %{id} oleh %{watcher_changer}."
   text_work_package_watcher_removed: "Anda telah dikeluarkan dari pemerhati Pakej kerja %{id} oleh %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Adakah anda pasti anda ingin memadam pakej kerja yang dipilih tersebut?"
   text_work_packages_ref_in_commit_messages: "Merujuk dan memperbaiki pakej kerja dalam mesej kommit"
@@ -3142,7 +3169,7 @@ ms:
   text_min_max_length_info: "0 bermakna tiada had"
   text_no_roles_defined: Tiada peranan ditentukan.
   text_no_access_tokens_configurable: "Tiada token akses yang boleh dikonfigurasikan."
-  text_no_configuration_data: "Peranan, jenis, status pakej kerja dan aliran kerja belum dikonfigurasikan lagi. Sangat disarankan untuk memuatkan konfigurasi default. Anda akan dapat mengubahnya selepas dimuatkan."
+  text_no_configuration_data: "Peranan, jenis, status pakej kerja dan aliran kerja belum dikonfigurasikan lagi. Sangat disarankan untuk memuatkan konfigurasi default. Anda akan dapat mengubahnya setelah ianya dimuatkan."
   text_no_notes: "Tiada komen yang tersedia untuk pakej kerja ini."
   text_notice_too_many_values_are_inperformant: "Perhatian: Memaparkan lebih daripada 100 item setiap halaman akan meningkatkan masa muat halaman."
   text_notice_security_badge_displayed_html: >
@@ -3168,14 +3195,14 @@ ms:
   text_warn_on_leaving_unsaved: "Pakej kerja tersebut mengandungi teks yang belum disimpan yang akan hilang jika anda tinggalkan halaman ini."
   text_what_did_you_change_click_to_add_comment: "Apakah yang telah anda ubah? Klik untuk tambah komen"
   text_wiki_destroy_confirmation: "Adakah anda pasti anda ingin memadam wiki ini dan semua kandungannya?"
-  text_wiki_page_destroy_children: "Padam halaman anak dan semua keturunannya"
-  text_wiki_page_destroy_question: "Halaman ini mempunyai %{descendants} halaman anak dan keturunannya. Apakah yang anda ingin lakukan?"
-  text_wiki_page_nullify_children: "Kekalkan halaman anak sebagai halaman berhubung"
+  text_wiki_page_destroy_children: "Padam halaman anak dan semua turunannya"
+  text_wiki_page_destroy_question: "Halaman ini mempunyai %{descendants} halaman anak dan turunannya. Apakah yang anda ingin lakukan?"
+  text_wiki_page_nullify_children: "Kekalkan halaman anak sebagai halaman asas"
   text_wiki_page_reassign_children: "Tetapkan semula halaman anak kepada halaman induk ini"
   text_workflow_edit: "Pilih satu peranan dan satu jenis untuk edit aliran kerja tersebut"
   text_zoom_in: "Zum masuk"
   text_zoom_out: "Zum keluar"
-  text_setup_mail_configuration: "Konfigurasi pembekal e-mel anda"
+  text_setup_mail_configuration: "Konfigurasi penyedia e-mel anda"
   help_texts:
     views:
       project: >
@@ -3225,10 +3252,10 @@ ms:
     active: "aktif"
     activate: "Aktifkan"
     activate_and_reset_failed_logins: "Aktifkan dan set semula log masuk yang gagal"
-    authentication_provider: "Pemberi Pengesahan"
-    identity_url_text: "Pengenal unik dalaman diberikan oleh pemberi pengesahan."
+    authentication_provider: "Penyedia Pengesahan"
+    identity_url_text: "Pengenal unik dalaman disediakan oleh pemberi pengesahan."
     authentication_settings_disabled_due_to_external_authentication: >
-      Pengguna ini mengesahkan melalui pembekal pengesahan luaran, jadi tiada kata laluan dalam OpenProject untuk diubah.
+      Pengguna ini mengesahkan melalui penyedia pengesahan luaran, jadi tiada kata laluan dalam OpenProject untuk diubah.
     authorization_rejected: "Anda tidak dibenarkan untuk daftar masuk."
     assign_random_password: "Tetapkan kata laluan rawak (dihantar ke pengguna melalui e-mel)"
     blocked: "dikunci sementara"
@@ -3244,10 +3271,10 @@ ms:
     no_login: "Pengguna ini mengesahkan melalui log masuk dengan kata laluan. Kerana ia tidak dibenarkan, mereka tidak dapat log masuk."
     password_change_unsupported: Penukaran kata laluan tidak disokong.
     registered: "berdaftar"
-    reset_failed_logins: "Set semula log masuk yang gagal"
+    reset_failed_logins: "Tetapkan semula log masuk yang gagal"
     status_user_and_brute_force: "%{user} dan %{brute_force}"
     status_change: "Perubahan status"
-    text_change_disabled_for_provider_login: "Nama tersebut ditetapkan oleh pembekal log masuk anda dan oleh itu tidak boleh diubah."
+    text_change_disabled_for_provider_login: "Nama tersebut ditetapkan oleh penyedia log masuk anda dan oleh itu tidak boleh diubah."
     text_change_disabled_for_ldap_login: "Nama dan e-mel ditetapkan oleh LDAP dan oleh itu tidak boleh diubah."
     unlock: "Buka kunci"
     unlock_and_reset_failed_logins: "Buka kunci dan set semula log masuk yang gagal"
@@ -3350,12 +3377,12 @@ ms:
         additional_privileges_project_or_group: "Mungkin mempunyai keistimewaan tambahan (sebagai ahli projek atau kumpulan)"
   working_days:
     info: >
-      Hari yang tidak dipilih akan dilangkau semasa penjadualan pakej kerja (dan tidak disertakan dalam jumlah hari). Ini boleh digantikan pada peringkat pakej kerja.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
     instance_wide_info: >
       Tarikh yang ditambah ke senarai dibawah diterima sebagai tidak berfungsi dan dilangkau semasa menjadualkan pakej kerja.
     change_button: "Tukar hari bekerja"
     warning: >
-      Menukar hari mana dalam seminggu dianggap hari bekerja atau hari tidak bekerja boleh memberi kesan kepada hari mula dan tamat bagi semua pakej kerja dalam semua projek dalam kejadian ini. <br/> Sila ambil perhatian bahawa perubahan hanya dilaksanakan selepas anda klik butang terapkan perubahan.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
       changed: _**Hari bekerja** telah diubah (%{changes})._
       days:

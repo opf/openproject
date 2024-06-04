@@ -448,12 +448,20 @@
         Ingen attributter kan endres med unntak av status.
         <br/>
         <strong>Merknad</strong>: Arvede verdier (for eksempel fra barn eller relasjoner) vil fortsatt gjelde.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         Klikk for å tilknytte eller endre fargen på denne statusen.
         Den vises i statusknappen og kan brukes til å fremheve arbeidspakker i tabellen.
     index:
       no_results_title_text: Det er for tiden ingen status for arbeidspakken.
       no_results_content_text: Legg til en ny status
+      headers:
+        is_default: "Default"
+        is_closed: "Closed"
+        is_readonly: "Read-only"
+        excluded_from_totals: "Excluded from totals"
   themes:
     light: "Lyst"
     light_high_contrast: "Lys høy kontrast"
@@ -623,6 +631,7 @@
       status:
         is_closed: "Arbeidspakke lukket"
         is_readonly: "Arbeidspakken er skrivebeskyttet"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Notater"
       member:
@@ -959,6 +968,14 @@
             base:
               working_days_are_missing: "Minst en ukedag må defineres som en virkedag."
               previous_working_day_changes_unprocessed: "De tidligere endringene i konfigurasjonen av arbeidsdager har ikke blitt brukt ennå."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              days_per_week_are_missing: "The number of days per week must be defined."
+              days_per_month_are_missing: "The number of days per month must be defined."
+              durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+              days_per_week_is_out_of_bounds: "Days per week can't be more than 7"
+              days_per_month_is_out_of_bounds: "Days per month can't be more than 31"
+              days_per_week_and_days_per_month_are_inconsistent: "The number of days per week and the number of days per month must be consistent."
         time_entry:
           attributes:
             hours:
@@ -1658,7 +1675,7 @@
       dates_changed: "Datoer endret"
       default_attribute_written: "Skrivebeskyttet attributter skrevet"
       progress_mode_changed_to_status_based: "Fremdriftsberegning oppdatert"
-      status_p_complete_changed: "Status % ferdig endret"
+      status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system oppdatering:"
     cause_descriptions:
       work_package_predecessor_changed_times: etter endringer i forgjenger %{link}
@@ -1675,8 +1692,9 @@
           working: "%{date} er nå arbeidsdag"
           non_working: "%{date} er nå arbeidsfri"
       progress_mode_changed_to_status_based: Framdriftsmodus satt til statusbasert
-      status_p_complete_changed: >-
-        % ferdigstilt verdi for status '%{status_name}' endret fra %{old_value}% til %{new_value}%
+      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
+      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
+      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           Fra nå av vil aktivitet knyttet til linker (filer lagret i eksterne lagringer) vises her i aktivitetsfanen. Følgende representerer aktivitet med lenker som allerede eksisterer:
@@ -2333,7 +2351,7 @@
   label_workflow: "Arbeidsflyt"
   label_workflow_plural: "Arbeidsflyt"
   label_workflow_summary: "Sammendrag"
-  label_working_days: "Arbeidsdager"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "1 lukket"
     other: "%{count} stengt"
@@ -2933,6 +2951,9 @@
   setting_cross_project_work_package_relations: "Tillat relasjoner mellom arbeidspakker i ulike prosjekter"
   setting_first_week_of_year: "Første uke i år inneholder"
   setting_date_format: "Dato"
+  setting_days_per_month: "Days per month"
+  setting_days_per_month_explanation: >-
+    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Standardspråk"
   setting_default_projects_modules: "Standardaktiverte moduler for nye prosjekter"
   setting_default_projects_public: "Nye prosjekter er offentlige som standard"
@@ -2948,6 +2969,12 @@
   setting_feeds_limit: "Innholdsgrense for Feed"
   setting_file_max_size_displayed: "Maks størrelse på tekstfiler som vises inline"
   setting_host_name: "Vertsnavn"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >-
+    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+  setting_days_per_week: "Days per week"
+  setting_days_per_week_explanation: >-
+    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a week is 5 days, 15 days would be 3 weeks).
   setting_invitation_expiration_days: "Aktiverings e-post utløper etter"
   setting_work_package_done_ratio: "Beregning av fremdrift"
   setting_work_package_done_ratio_field: "Arbeidsbasert"
@@ -3389,12 +3416,12 @@
         additional_privileges_project_or_group: "Kan ha flere privilegier (som prosjekt- eller gruppemedlem)"
   working_days:
     info: >
-      Hoppet over dager som ikke er valgt, ved planlegging av arbeidspakker (og ikke inkludert i antall dager). Disse kan overstyres på et arbeidspakkenivå.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
     instance_wide_info: >
       Datoer som er lagt til i listen nedenfor regnes som arbeidsfrie og hoppet over når arbeidspakker planlegges.
     change_button: "Endre arbeidsdager"
     warning: >
-      Endring av hvilke ukedager som regnes som arbeidsdager eller arbeidsfrie dager kan påvirke start- og sluttdager for alle arbeidspakker i alle prosjekter i denne forekomsten. <br/> Vær oppmerksom på at endringer kun brukes etter at du har klikket på knappen Bruk endringer.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
       changed: _**Arbeidsdager** endret (%{changes})._
       days:

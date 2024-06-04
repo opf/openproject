@@ -1287,6 +1287,11 @@ ru:
           placeholder: "Теперь плейсхолдер может быть использован в %{project}. Тем временем вы уже можете планировать с этим пользователем и назначать рабочие пакеты."
           group: "Теперь группа является частью %{project}. Тем временем вы уже можете спланировать работу с этой группой и назначить пакеты работ."
         next_button: "Продолжить"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
     favorite_projects:
       no_results: "У вас нет избранных проектов"
       no_results_subtext: "Добавьте один или несколько проектов в избранное через их обзор или в списке проектов."
@@ -1347,7 +1352,7 @@ ru:
         remove: "Удалить"
       drop_modal:
         focus_grab: "Это якорь фокусировки для модальностей. Нажмите shift+ tab, чтобы вернуться к элементу модального триггера."
-        Close: "Закрыть"
+        close: "Close modal"
     open_project_storage_modal:
       waiting_title:
         timeout: "Время ожидания истекло"

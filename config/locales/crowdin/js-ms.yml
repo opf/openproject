@@ -1279,6 +1279,11 @@ ms:
           placeholder: "Placeholder kini boleh digunakan dalam %{project}. Sementara itu anda sudah boleh merancang dengan pengguna tersebut dan tugaskan pakej kerja sebagai contoh."
           group: "Kumpulan tersebut kini sebahagian daripada %{project}. Sementara itu anda sudah boleh merancang dengan kumpulan tersebut dan menugaskan pakej kerja sebagai contoh."
         next_button: "Teruskan"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
     favorite_projects:
       no_results: "Anda tiada projek kegemaran"
       no_results_subtext: "Tambah satu atau beberapa projek sebagai kegemaran melalui gambaran keseluruhan mereka atau dalam senarai projek."
@@ -1339,7 +1344,7 @@ ms:
         remove: "Keluarkan"
       drop_modal:
         focus_grab: "Ini adalah paksi fokus untuk modul. Tekan shift+tab untuk kembali ke elemen pencetus modul."
-        Close: "Tutup"
+        close: "Close modal"
     open_project_storage_modal:
       waiting_title:
         timeout: "Had Masa"
