@@ -60,10 +60,9 @@ module Queries::Projects::ProjectQueries::Scopes
 
       def allowed_to_member_relation(user, permissions)
         Member
-          .joins(allowed_to_member_in_query_join)
+          .joins(allowed_to_member_in_query_join(user))
           .joins(member_roles: :role)
           .joins(allowed_to_role_permission_join(permissions))
-          .where(member_conditions(user))
           .select(arel_table[:id])
       end
 
@@ -86,16 +85,14 @@ module Queries::Projects::ProjectQueries::Scopes
           .join_sources
       end
 
-      def allowed_to_member_in_query_join
+      def allowed_to_member_in_query_join(user) # rubocop:disable Metrics/AbcSize
         members_table = Member.arel_table
-        arel_table.join(arel_table)
-        .on(members_table[:entity_id].eq(arel_table[:id]))
-        .join_sources
-      end
 
-      def member_conditions(user)
-        Member.arel_table[:user_id].eq(user.id)
-        .and(Member.arel_table[:entity_type].eq(model_name.name))
+        join_conditions = members_table[:user_id].eq(user.id)
+          .and(members_table[:entity_type].eq(model_name.name))
+          .and(members_table[:entity_id].eq(arel_table[:id]))
+
+        arel_table.join(arel_table).on(join_conditions).join_sources
       end
     end
   end
