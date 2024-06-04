@@ -43,20 +43,7 @@ module OpenProject::OpenIDConnect
       ##
       # Once omniauth has returned with an auth hash
       # persist the access token
-      def omniauth_user_authorized(context)
-        auth_hash = context[:auth_hash]
-        controller = context[:controller]
-
-        # fetch the access token if it's present
-        access_token = auth_hash.fetch(:credentials, {})[:token]
-        # put it into a cookie
-        if controller && access_token
-          controller.send(:cookies)[:_open_project_session_access_token] = {
-            value: access_token,
-            secure: !!Rails.configuration.force_ssl
-          }
-        end
-      end
+      def omniauth_user_authorized(_context); end
     end
   end
 end
