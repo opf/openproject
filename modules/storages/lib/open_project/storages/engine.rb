@@ -203,7 +203,7 @@ module OpenProject::Storages
                              (prj_storage.project_folder_automatic? && !u.allowed_in_project?(:read_files, prj))
             next if hide_from_menu
 
-            icon = storage.provider_type_nextcloud? ? "nextcloud-circle" : "copy-documents"
+            icon = storage.provider_type_nextcloud? ? "nextcloud-circle" : "hosting"
             menu.push(
               :"storage_#{storage.id}",
               prj_storage.open_with_connection_ensured,
