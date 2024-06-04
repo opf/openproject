@@ -137,7 +137,10 @@ module WorkPackage::Exports
           # currently we do not support embedding rich text fields: long text custom fields
           return msg_macro_error_rich_text if cf.formattable?
 
-          # TODO: Is the user allowed to see this custom field/"project attribute"?
+          # Is the user allowed to see this custom field/"project attribute"?
+          if project.available_custom_fields.find { |pcf| pcf.id == cf.id }.nil?
+            return msg_macro_error(I18n.t("export.macro.resource_not_found", resource: attribute))
+          end
         end
 
         # currently we do not support embedding rich text field: e.g. projectValue:1234:description
