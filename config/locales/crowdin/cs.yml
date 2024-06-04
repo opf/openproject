@@ -361,7 +361,7 @@ cs:
       cannot_delete_inherited_membership_note_admin_html: "You can either remove the group as a member of the project or this specific member from the group in the %{administration_settings_link}."
       cannot_delete_inherited_membership_note_non_admin: "You can either remove the group as a member of the project or contact your administrator to remove this specific member from the group."
     delete_work_package_shares_dialog:
-      title: "Revoke work package shares"
+      title: "Zrušit sdílení pracovních balíčků"
       shared_with_this_user_html:
         one: "%{all_shared_work_packages_link} has been shared with this user."
         few: "%{all_shared_work_packages_link} have been shared with this user."
@@ -715,7 +715,7 @@ cs:
       planning_element_type_color:
         hexcode: Hex kód
       project_custom_field:
-        custom_field_section: Section
+        custom_field_section: Sekce
       work_package:
         begin_insertion: "Začátek vložení"
         begin_deletion: "Začátek odstranění"
@@ -1162,8 +1162,8 @@ cs:
         logged_for: "Přihlášen "
       meeting_agenda_item:
         duration:
-          added: "set to %{value}"
-          added_html: "set to <i>%{value}</i>"
+          added: "nastavit na %{value}"
+          added_html: "nastavit na <i>%{value}</i>"
           removed: "odstraněno"
           updated: "změněno z %{old_value} na %{value}"
           updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
@@ -2409,7 +2409,7 @@ cs:
     other: "%{count} souborů"
     zero: "žádné soubory"
   label_yesterday: "včera"
-  label_zen_mode: "Zen mode"
+  label_zen_mode: "Zen mód"
   label_role_type: "Typ"
   label_member_role: "Projektová role"
   label_global_role: "Globální role"
@@ -2513,7 +2513,7 @@ cs:
           summary: "There is a problem with your %{storage_name} storage integration"
           troubleshooting:
             text: "For more information, check file storages"
-            link_text: "troubleshooting documentation"
+            link_text: "Dokumentace pro řešení problémů"
   mail_body_account_activation_request: "Nový uživatel (%{value}) byl zaregistrován. Účet čeká na Vaše schválení:"
   mail_body_account_information: "Informace o vašem účtu"
   mail_body_account_information_external: "Můžete použít váš %{value} účet pro přihlášení."
@@ -2795,9 +2795,9 @@ cs:
       are_you_sure: "Opravdu chcete archivovat projekt '%{name}'?"
       archived: "Archivováno"
     count:
-      zero: "0 Projects"
-      one: "1 Project"
-      other: "%{count} Projects"
+      zero: "0 projektů"
+      one: "1 projekt"
+      other: "%{count} Projektů"
   project_module_activity: "Aktivita"
   project_module_forums: "Fóra"
   project_module_work_package_tracking: "Pracovní balíčky"
@@ -3303,7 +3303,7 @@ cs:
         drag_area_label: "Správa a změna pořadí sloupců"
       sort_by:
         automatic:
-          heading: "Automatic"
+          heading: "Automaticky"
           description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
   top_menu:
     additional_resources: "Další zdroje"

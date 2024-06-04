@@ -26,7 +26,7 @@ This integration makes it possible for you to:
 | [Upload files from OpenProject](#upload-files-from-openproject) | How to upload files to OneDrive/SharePoint from OpenProject  |
 | [Download, open folders and remove links](#download-open-folders-and-remove-links) | How to download and open files and folders and remove links  |
 | [Permissions and access control](#permissions-and-access-control) | Permissions and access control in OneDrive/SharePoint file storage |
-| [Possible errors and troubleshooting](#possible-errors-and-troubleshooting) | Common errors in OneDriveS/SharePoint integration and how to troubleshoot them |
+| [Possible errors and troubleshooting](#possible-errors-and-troubleshooting) | Common errors in OneDrive/SharePoint integration and how to troubleshoot them |
 
 ## Connect your OpenProject and OneDrive/SharePoint accounts
 

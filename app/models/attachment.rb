@@ -137,9 +137,10 @@ class Attachment < ApplicationRecord
     status_uploaded? && Setting::VirusScanning.enabled?
   end
 
-  # images are sent inline
+  # Determine mime types that we deem safe for inline content disposition
+  # e.g., which will be loaded by the browser without forcing to download them
   def inlineable?
-    is_plain_text? || is_image? || is_movie? || is_pdf?
+    is_text? || is_image? || is_movie? || is_pdf?
   end
 
   # rubocop:disable Naming/PredicateName
@@ -163,7 +164,7 @@ class Attachment < ApplicationRecord
   end
 
   def is_text?
-    content_type =~ /\Atext\/.+/
+    content_type.match?(/\Atext\/.+/)
   end
 
   def is_diff?

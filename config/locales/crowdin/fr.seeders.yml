@@ -252,20 +252,20 @@ fr:
             item_4:
               subject: Fin du projet
           wiki: |
-            _In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki._
+            _Dans ce wiki, vous pouvez créer et modifier des pages et des sous-pages de manière collaborative afin de créer un wiki de projet._
 
-            **You can:**
+            **Vous pouvez :**
 
-            * Insert text and images, also with copy and paste from other documents
-            * Create a page hierarchy with parent pages
-            * Include wiki pages to the project menu
-            * Use macros to include, e.g. table of contents, work package lists, or Gantt charts
-            * Include wiki pages in other text fields, e.g. project overview page
-            * Include links to other documents
-            * View the change history
-            * View as Markdown
+            * Insérer du texte et des images, y compris par copier-coller à partir d'autres documents
+            * Créer une hiérarchie de pages avec des pages parentes
+            * Inclure des pages wiki dans le menu du projet
+            * Utilisez des macros pour inclure des éléments, tels qu'une table des matières, des listes de lots de travaux ou des diagrammes de Gantt
+            * Inclure des pages wiki dans d'autres champs de texte, tels que la page de présentation d'un projet
+            * Inclure des liens vers d'autres documents
+            * Afficher l'historique des modifications
+            * Afficher en tant que Markdown
 
-            More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
+            Plus d'informations : [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: Projet Scrum
           status_explanation: Toutes les tâches sont en cours. Les personnes concernées connaissent leurs tâches. Le système est entièrement configuré.

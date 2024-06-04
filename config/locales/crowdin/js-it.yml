@@ -1344,6 +1344,10 @@ it:
         focus_grab: "Questo è un punto focale per i modali. Premere MAIUSC+TAB per tornare all'elemento scatenante modale."
         Close: "Chiuso"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
       waiting_subtitle:
         network_off: "C'è un problema di rete."
         network_on: "La rete è tornata. Stiamo provando."
+        timeout: >
+          OpenProject non è riuscito a fornirti l'accesso alla cartella del progetto entro il periodo di tempo previsto. Ti preghiamo di riprovare.<br><br> Se il problema persiste, contatta l'amministratore di OpenProject per verificare lo <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">stato di salute della configurazione di archiviazione dei file</a>.

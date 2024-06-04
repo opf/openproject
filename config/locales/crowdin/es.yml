@@ -720,7 +720,7 @@ es:
         parent_issue: "Padre"
         parent_work_package: "Padre"
         priority: "Prioridad"
-        progress: "% Compleado"
+        progress: "% Completado"
         readonly: "Solo lectura"
         remaining_hours: "Trabajo restante"
         remaining_time: "Trabajo restante"

@@ -1343,6 +1343,10 @@ pt-BR:
         focus_grab: "Esta é uma âncora de foco para modais. Pressione Shift+tab para voltar ao elemento trigger modal."
         Close: "Fechar"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Tempo de espera"
       waiting_subtitle:
         network_off: "Ocorreu um problema de rede"
         network_on: "A rede voltou. Estamos tentando."
+        timeout: >
+          O OpenProject não pôde fornecer acesso à pasta do projeto dentro do período de tempo esperado. Por favor, tente novamente.<br><br> Se o problema persistir, entre em contato com o administrador do OpenProject para verificar o <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">status de integridade da configuração do armazenamento de arquivos</a>.

@@ -2530,7 +2530,7 @@ ar:
         few: "There are %{count} more work packages with notifications."
         many: "There are %{count} more work packages with notifications."
         other: "There are %{count} more work packages with notifications."
-      open_in_browser: "Open in browser"
+      open_in_browser: "فتح في المتصفح"
       reason:
         watched: "Watched"
         assigned: "Assigned"
@@ -2597,8 +2597,8 @@ ar:
   mail_body_lost_password: "لتغيير كلمة المرور الخاصة بك، انقر فوق الارتباط التالي:"
   mail_password_change_not_possible:
     title: "Password change not possible"
-    body: "Your account at %{app_title} is connected to an external authentication provider (%{name})."
-    subtext: "Passwords for external account cannot be changed in the application. Please use the lost password functionality of your authentication provider."
+    body: "حسابك في %{app_title} متصل بمزود مصادقة خارجي (%{name})."
+    subtext: "لا يمكن تغيير كلمات المرور للحساب الخارجي في التطبيق. يرجى استخدام وظيفة فقدان كلمة المرور الخاصة بموفر المصادقة لديك."
   mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
@@ -2754,7 +2754,7 @@ ar:
   permission_add_work_package_notes: "إضافة ملاحظات"
   permission_add_work_packages: "إضافة مجموعات عمل"
   permission_add_messages: "نشر الرسائل"
-  permission_add_project: "Create projects"
+  permission_add_project: "أنشئ مشروعات"
   permission_add_work_package_attachments: "إضافة مرفقات"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Archive project"
@@ -2772,7 +2772,7 @@ ar:
   permission_commit_access: "الوصول للقراءة/الكتابة إلى المستودع (الالتزام)"
   permission_copy_projects: "نسخ المشاريع"
   permission_copy_work_packages: "انسخ مجموعات العمل"
-  permission_create_backup: "Create backups"
+  permission_create_backup: "انشيئ نسخ احتياطية"
   permission_delete_work_package_watchers: "حذف مراقبات"
   permission_delete_work_packages: "حذف مجموعات العمل"
   permission_delete_messages: "حذف الرسائل"
@@ -2789,14 +2789,14 @@ ar:
   permission_edit_own_time_entries: "تحرير سجلات الوقت الخاصة"
   permission_edit_project: "تحرير المشروع"
   permission_edit_reportings: "تحرير التقرير"
-  permission_edit_time_entries: "Edit time logs for other users"
+  permission_edit_time_entries: "تحرير سجلات الوقت للمستخدمين الآخرين"
   permission_edit_timelines: "تحرير الجداول الزمنية"
   permission_edit_wiki_pages: "تحرير صفحات wiki"
   permission_export_work_packages: "تصدير مجموعات العمل"
   permission_export_wiki_pages: "تصدير صفحات wiki"
   permission_list_attachments: "قائمة المرفقات"
-  permission_log_own_time: "Log own time"
-  permission_log_time: "Log time for other users"
+  permission_log_own_time: "تسجيل الوقت الخاص بك"
+  permission_log_time: "تسجيل الوقت للمستخدمين الآخرين"
   permission_manage_forums: "إدارة منتديات"
   permission_manage_categories: "إدارة فئات مجموعة العمل"
   permission_manage_dashboards: "Manage dashboards"
@@ -2875,7 +2875,7 @@ ar:
   project_module_news: "الأخبار"
   project_module_repository: "مستودع البيانات"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
+  permission_header_for_project_module_work_package_tracking: "حزم العمل ومخططات Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2887,7 +2887,7 @@ ar:
     member_of_group: "مجموعة الموكل إليه"
     name_or_identifier: "Name or identifier"
     only_subproject_id: "Only subproject"
-    shared_with_user: "Shared with users"
+    shared_with_user: "مشترك مع المستخدمين"
     shared_with_me: "Shared with me"
     subproject_id: "Including subproject"
   repositories:
@@ -2977,7 +2977,7 @@ ar:
       oauth_application_details_link_text: "Go to settings page"
       setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
       setup_documentation_details_link_text: "File Storages setup"
-      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
+      show_warning_details: "لاستخدام هذا التخزين للملفات، تذكر تفعيل الوحدة والتخزين المحدد في إعدادات المشروع لكل مشروع مرغوب."
     subversion:
       existing_title: "مستودع التخريب موجود"
       existing_introduction: "إذا كان لديك مستودع بوابة محلية القائمة، يمكنك ربطه مع open project للوصول إليها من داخل التطبيق."
@@ -3077,7 +3077,7 @@ ar:
     In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "خصائص مجموعة العمل"
   setting_work_package_startdate_is_adddate: "استخدام التاريخ الحالي كتاريخ البدء لمجموعات العمل الجديدة"
-  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
+  setting_work_packages_projects_export_limit: "حد تصدير حزم العمل / المشاريع"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "تسجيل الدخول تسجيل دخول المستخدم واسم وعنوان البريد لجميع الطلبات"
   setting_login_required: "مطلوب مصادقة"
@@ -3174,7 +3174,7 @@ ar:
         type: "Entire row by Type"
         priority: "Entire row by Priority"
     icalendar:
-      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+      enable_subscriptions_text_html: يتيح للمستخدمين الذين لديهم الأذونات اللازمة الاشتراك في تقاويم OpenProject والوصول إلى معلومات حزم العمل عبر عميل تقويم خارجي. <strong>ملاحظة:</strong> يرجى قراءة <a href="%{link}" target="_blank">اشتراكات iCalendar</a> لفهم المخاطر الأمنية المحتملة قبل تفعيل هذه الميزة.
     language_name_being_default: "%{language_name} (default)"
     notifications:
       events_explanation: "Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user."
@@ -3242,9 +3242,9 @@ ar:
   text_custom_field_hint_activate_per_project_and_type: >
     Custom fields need to be activated per work package type and per project.
   text_wp_status_read_only_html: >
-    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    ستضيف النسخة المؤسسية هذه الإضافات الإضافية لحقول حالات حزم العمل: <br> <ul> <li><b>السماح بوضع حزم العمل في وضع القراءة فقط لحالات محددة</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    ستضيف النسخة المؤسسية هذه الإضافات الإضافية للحقول المخصصة للمشاريع: <br> <ul> <li><b>إضافة حقول مخصصة للمشاريع إلى قائمة مشروعك لإنشاء عرض محفظة المشاريع</b></li> </ul>
   text_custom_logo_instructions: >
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
   text_custom_export_logo_instructions: >
@@ -3432,14 +3432,14 @@ ar:
   warning_user_limit_reached_admin: >
     Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
   warning_user_limit_reached_instructions: >
-    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
+    لقد وصلت إلى حد المستخدمين الخاص بك (%{current}/%{max} مستخدمين نشطين). يرجى الاتصال بـ sales@openproject.com لترقية خطة النسخة المؤسسية الخاصة بك وإضافة مستخدمين إضافيين.
   warning_protocol_mismatch_html: >
 
   warning_bar:
     https_mismatch:
-      title: "HTTPS mode setup mismatch"
+      title: "عدم تطابق إعداد وضع HTTPS\n"
       text_html: >
-        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
+        تطبيقك يعمل بوضع HTTPS مضبوط إلى <code>%{set_protocol}</code>، ولكن الطلب هو طلب <code>%{actual_protocol}</code>. سيؤدي ذلك إلى حدوث أخطاء! ستحتاج إلى تعيين قيمة الإعداد التالية: <code>%{setting_value}</code>. يرجى الاطلاع على <a href="%{more_info_path}">وثائق التثبيت</a> لمعرفة كيفية تعيين هذا الإعداد.
     hostname_mismatch:
       title: "Hostname setting mismatch"
       text_html: >
@@ -3489,8 +3489,8 @@ ar:
         view_description: "Can view this work package."
       remove: "إزالة"
       share: "شارك"
-      text_empty_search_description: "There are no users with the current filter criteria."
-      text_empty_search_header: "We couldn't find any matching results."
+      text_empty_search_description: "لا يوجد مستخدمون بالمعايير الحالية للتصفية."
+      text_empty_search_header: "لم نتمكن من العثور على أي نتائج مطابقة."
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "غير مشترك"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
@@ -3500,7 +3500,7 @@ ar:
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
       warning_no_selected_user: "Please select users to share this work package with"
-      warning_locked_user: "The user %{user} is locked and cannot be shared with"
+      warning_locked_user: "المستخدم %{user} مقفل ولا يمكن مشاركته"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "
@@ -3543,7 +3543,7 @@ ar:
       code_429: "Too many requests. Please try again later."
       code_500: "حدث خطأ داخلي."
       code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
-      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
+      code_500_missing_enterprise_token: "لا يمكن معالجة الطلب بسبب أن رمز المؤسسة غير صالح أو مفقود."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
@@ -3728,8 +3728,8 @@ ar:
   you: you
   link: link
   plugin_openproject_auth_plugins:
-    name: "OpenProject Auth Plugins"
+    name: "إضافات OpenProject Auth"
     description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
   plugin_openproject_auth_saml:
-    name: "OmniAuth SAML / Single-Sign On"
-    description: "Adds the OmniAuth SAML provider to OpenProject"
+    name: "OmniAuth SAML / تسجيل الدخول الموحد"
+    description: "يضيف مزود OmniAuth SAML إلى OpenProject"

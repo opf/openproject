@@ -40,18 +40,18 @@ zh-CN:
     errors:
       too_many_elements_created_at_once: 一次创建的元素过多。最多应为 %{max} 个，实际为 %{actual} 个。
   external_file_storages: 外部文件存储
-  permission_create_files: 'Automatically managed project folders: Create files'
-  permission_create_files_explanation: This permission is only available for Nextcloud storages
-  permission_delete_files: 'Automatically managed project folders: Delete files'
-  permission_delete_files_explanation: This permission is only available for Nextcloud storages
+  permission_create_files: '自动管理项目文件夹：创建文件'
+  permission_create_files_explanation: 此权限仅适用于 Nextcloud 存储器
+  permission_delete_files: '自动管理项目文件夹：删除文件'
+  permission_delete_files_explanation: 此权限仅适用于 Nextcloud 存储器
   permission_header_for_project_module_storages: 自动托管项目文件夹
   permission_manage_file_links: 管理文件链接
   permission_manage_storages_in_project: 管理项目中的文件存储
-  permission_read_files: 'Automatically managed project folders: Read files'
-  permission_share_files: 'Automatically managed project folders: Share files'
-  permission_share_files_explanation: This permission is only available for Nextcloud storages
+  permission_read_files: '自动管理项目文件夹：读取文件'
+  permission_share_files: '自动管理项目文件夹：共享文件'
+  permission_share_files_explanation: 此权限仅适用于 Nextcloud 存储器
   permission_view_file_links: 查看文件链接
-  permission_write_files: 'Automatically managed project folders: Write files'
+  permission_write_files: '自动管理项目文件夹：写入文件'
   project_module_storages: 文件
   storages:
     buttons:
