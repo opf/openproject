@@ -50,6 +50,13 @@ OpenProject offers an integration with OneDrive/Sharepoint for file storage and 
 
 > **Note**: OneDrive/SharePoint integration is an Enterprise add-on and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easy and helps support OpenProject.
 
+
+## SL2OP 
+
+SL2OP is an integration between SelectLine ERP and OpenProject. Please note that it was developed and is maintained by DAKO-IT, we do not provide any support for it. You can find more information [here](https://dako-it.com/captain-finn-software-fuer-selectline/schnittstelle-openproject-fuer-selectline/detail/80).
+
+> **Note**: it is currently only available in German. 
+
 ## Slack
 
 There is a rudimentary OpenProject Slack integration from the community. It messages a configured Slack channel, every time a Work Package or Wiki site is modified. This integration is not officially supported by OpenProject.

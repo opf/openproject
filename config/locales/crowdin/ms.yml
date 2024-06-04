@@ -3277,18 +3277,18 @@ ms:
     text_change_disabled_for_provider_login: "Nama tersebut ditetapkan oleh penyedia log masuk anda dan oleh itu tidak boleh diubah."
     text_change_disabled_for_ldap_login: "Nama dan e-mel ditetapkan oleh LDAP dan oleh itu tidak boleh diubah."
     unlock: "Buka kunci"
-    unlock_and_reset_failed_logins: "Buka kunci dan set semula log masuk yang gagal"
+    unlock_and_reset_failed_logins: "Buka kunci dan tetapkan semula log masuk yang gagal"
   version_status_closed: "ditutup"
   version_status_locked: "dikunci"
-  version_status_open: "dibuka"
+  version_status_open: "buka"
   note: Perhatian
   note_password_login_disabled: "Kata laluan log masuk telah dibatalkan oleh %{configuration}."
   warning: Amaran
   warning_attachments_not_saved: "%{count} fail tidak dapat disimpan."
   warning_imminent_user_limit: >
-    Anda menjemput pengguna lebih dari yang disokong pelan semasa anda. Pengguna yang dijemput mungkin tidak dapat sertai persekitaran OpenProject anda. Sila <a href="%{upgrade_url}">naik taraf pelan anda</a> atau sekat pengguna sedia ada untuk membenarkan pengguna yang dijemput dan berdaftar untuk sertai.
+    Anda menjemput pengguna lebih dari yang disokong pelan semasa anda. Pengguna yang dijemput mungkin tidak dapat sertai persekitaran OpenProject anda. Sila <a href="%{upgrade_url}">naik taraf pelan anda</a> atau sekat pengguna sedia ada untuk membenarkan pengguna yang dijemput dan berdaftar untuk menyertai.
   warning_registration_token_expired: |
-    Pengaktifan e-mel telah tamat tempoh. Kami hantar anda yang baharu ke %{email}.
+    Pengaktifan e-mel telah tamat tempoh. Kami telah hantar yang baharu kepada anda di %{email}.
     Sila klik pautan di dalamnya untuk mengaktifkan akaun anda.
   warning_user_limit_reached: >
     Menambah pengguna tambahan akan melebihi had semasa. Sila hubungi pentadbir untuk meningkatkan had pengguna bagi memastikan pengguna luaran dapat mengakses contoh ini.
