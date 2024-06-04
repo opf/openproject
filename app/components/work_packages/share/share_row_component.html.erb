@@ -28,7 +28,11 @@
 
         user_row_grid.with_area(:remove, tag: :div) do
           form_with url: work_packages_share_path(share), method: :delete do
-            render(Primer::Beta::Button.new(type: :submit, scheme: :link)) { I18n.t('work_package.sharing.remove') }
+            render(Primer::Beta::IconButton.new(icon: "trash",
+                                                type: :submit,
+                                                scheme: :danger,
+                                                "aria-label": I18n.t('work_package.sharing.remove'),
+                                                test_selector: 'op-share-wp--remove'))
           end
         end
       end

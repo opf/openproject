@@ -34,7 +34,7 @@ module Pages
     attr_reader :selector
 
     def initialize(work_package, project = nil)
-      super(work_package, project)
+      super
       @selector = ".work-packages--details"
     end
 

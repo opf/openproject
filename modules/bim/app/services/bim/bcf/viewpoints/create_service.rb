@@ -35,7 +35,7 @@ module Bim::Bcf
         # snapshot base64 data must not get stored
         service_result.result.json_viewpoint["snapshot"]&.delete("snapshot_data")
 
-        super(service_result)
+        super
       end
     end
   end

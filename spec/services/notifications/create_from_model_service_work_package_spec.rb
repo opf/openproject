@@ -121,7 +121,7 @@ RSpec.describe Notifications::CreateFromModelService,
         {
           read_ian: false,
           reason: :assigned,
-          mail_alert_sent: false,
+          mail_alert_sent: nil,
           mail_reminder_sent: false
         }
       end
@@ -139,7 +139,7 @@ RSpec.describe Notifications::CreateFromModelService,
           {
             read_ian: false,
             reason: :assigned,
-            mail_alert_sent: false,
+            mail_alert_sent: nil,
             mail_reminder_sent: false
           }
         end
@@ -168,7 +168,7 @@ RSpec.describe Notifications::CreateFromModelService,
           {
             read_ian: false,
             reason: :assigned,
-            mail_alert_sent: false,
+            mail_alert_sent: nil,
             mail_reminder_sent: false
           }
         end
@@ -212,7 +212,7 @@ RSpec.describe Notifications::CreateFromModelService,
         {
           read_ian: false,
           reason: :responsible,
-          mail_alert_sent: false,
+          mail_alert_sent: nil,
           mail_reminder_sent: false
         }
       end
@@ -265,7 +265,7 @@ RSpec.describe Notifications::CreateFromModelService,
         {
           read_ian: false,
           reason: :watched,
-          mail_alert_sent: false,
+          mail_alert_sent: nil,
           mail_reminder_sent: false
         }
       end
@@ -283,7 +283,7 @@ RSpec.describe Notifications::CreateFromModelService,
           {
             read_ian: false,
             reason: :watched,
-            mail_alert_sent: false,
+            mail_alert_sent: nil,
             mail_reminder_sent: false
           }
         end
@@ -332,7 +332,7 @@ RSpec.describe Notifications::CreateFromModelService,
         {
           read_ian: false,
           reason: :created,
-          mail_alert_sent: false,
+          mail_alert_sent: nil,
           mail_reminder_sent: false
         }
       end
@@ -350,7 +350,7 @@ RSpec.describe Notifications::CreateFromModelService,
           {
             read_ian: false,
             reason: :created,
-            mail_alert_sent: false,
+            mail_alert_sent: nil,
             mail_reminder_sent: false
           }
         end
@@ -380,7 +380,7 @@ RSpec.describe Notifications::CreateFromModelService,
           {
             read_ian: false,
             reason: :created,
-            mail_alert_sent: false,
+            mail_alert_sent: nil,
             mail_reminder_sent: false
           }
         end
@@ -429,7 +429,7 @@ RSpec.describe Notifications::CreateFromModelService,
         {
           read_ian: false,
           reason: :shared,
-          mail_alert_sent: false,
+          mail_alert_sent: nil,
           mail_reminder_sent: false
         }
       end
@@ -477,7 +477,7 @@ RSpec.describe Notifications::CreateFromModelService,
           {
             read_ian: false,
             reason: :created,
-            mail_alert_sent: false,
+            mail_alert_sent: nil,
             mail_reminder_sent: false
           }
         end
@@ -533,7 +533,7 @@ RSpec.describe Notifications::CreateFromModelService,
           {
             read_ian: false,
             reason: :commented,
-            mail_alert_sent: false,
+            mail_alert_sent: nil,
             mail_reminder_sent: false
           }
         end
@@ -582,7 +582,7 @@ RSpec.describe Notifications::CreateFromModelService,
           {
             read_ian: false,
             reason: :processed,
-            mail_alert_sent: false,
+            mail_alert_sent: nil,
             mail_reminder_sent: false
           }
         end
@@ -631,7 +631,7 @@ RSpec.describe Notifications::CreateFromModelService,
           {
             read_ian: false,
             reason: :prioritized,
-            mail_alert_sent: false,
+            mail_alert_sent: nil,
             mail_reminder_sent: false
           }
         end
@@ -680,7 +680,7 @@ RSpec.describe Notifications::CreateFromModelService,
           {
             read_ian: false,
             reason: :scheduled,
-            mail_alert_sent: false,
+            mail_alert_sent: nil,
             mail_reminder_sent: false
           }
         end
@@ -729,7 +729,7 @@ RSpec.describe Notifications::CreateFromModelService,
           {
             read_ian: false,
             reason: :scheduled,
-            mail_alert_sent: false,
+            mail_alert_sent: nil,
             mail_reminder_sent: false
           }
         end
@@ -762,7 +762,7 @@ RSpec.describe Notifications::CreateFromModelService,
         {
           read_ian: false,
           reason: :assigned,
-          mail_alert_sent: false,
+          mail_alert_sent: nil,
           mail_reminder_sent: false
         }
       end

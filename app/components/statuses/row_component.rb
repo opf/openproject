@@ -50,6 +50,10 @@ module Statuses
       checkmark(status.is_readonly?)
     end
 
+    def excluded_from_totals?
+      checkmark(status.excluded_from_totals?)
+    end
+
     def color
       helpers.icon_for_color status.color
     end

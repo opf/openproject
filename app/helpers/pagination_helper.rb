@@ -48,9 +48,11 @@ module PaginationHelper
   end
 
   def pagination_option_links(paginator, pagination_options)
+    allowed_params = pagination_options[:allowed_params] || %w[filters sortBy]
+
     option_links = pagination_settings(paginator,
                                        pagination_options[:params]
-                                        .merge(safe_query_params(%w{filters sortBy expand})))
+                                        .merge(safe_query_params(allowed_params)))
 
     content_tag(:div, option_links, class: "op-pagination--options")
   end
@@ -168,7 +170,7 @@ module PaginationHelper
 
     def merge_get_params(url_params)
       params = super
-      params.except(*blocked_url_params)
+      allowed_params ? params.slice(*allowed_params) : params
     end
 
     def page_number(page)
@@ -203,8 +205,8 @@ module PaginationHelper
       end
     end
 
-    def blocked_url_params
-      @options[:blocked_url_params] || [] # rubocop:disable Rails/HelperInstanceVariable
+    def allowed_params
+      @options[:allowed_params] # rubocop:disable Rails/HelperInstanceVariable
     end
   end
 

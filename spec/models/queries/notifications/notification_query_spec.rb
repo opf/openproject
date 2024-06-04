@@ -56,7 +56,7 @@ RSpec.describe Queries::Notifications::NotificationQuery do
 
     describe "#results" do
       it "is the same as handwriting the query" do
-        expected = base_scope.merge(Notification.where("notifications.read_ian IN ('t')").order(id: :desc)).to_sql
+        expected = base_scope.where("notifications.read_ian IN ('t')").order(id: :desc).to_sql
 
         expect(instance.results.to_sql).to eql expected
       end
@@ -107,7 +107,7 @@ RSpec.describe Queries::Notifications::NotificationQuery do
 
     describe "#results" do
       it "is the same as handwriting the query" do
-        expected = base_scope.merge(Notification.order(id: :asc))
+        expected = base_scope.order(id: :asc)
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end
@@ -121,7 +121,7 @@ RSpec.describe Queries::Notifications::NotificationQuery do
 
     describe "#results" do
       it "is the same as handwriting the query" do
-        expected = base_scope.merge(Notification.order(read_ian: :desc, id: :desc)).to_sql
+        expected = base_scope.order(read_ian: :desc, id: :desc).to_sql
 
         expect(instance.results.to_sql).to eql expected
       end
@@ -135,7 +135,7 @@ RSpec.describe Queries::Notifications::NotificationQuery do
 
     describe "#results" do
       it "is the same as handwriting the query" do
-        expected = base_scope.merge(Notification.order(reason: :desc, id: :desc)).to_sql
+        expected = base_scope.order(reason: :desc, id: :desc).to_sql
 
         expect(instance.results.to_sql).to eql expected
       end
@@ -169,11 +169,11 @@ RSpec.describe Queries::Notifications::NotificationQuery do
 
     describe "#results" do
       it "is the same as handwriting the query" do
-        scope = Notification
-          .group(:reason)
-          .order(reason: :asc)
-          .select(:reason, Arel.sql("COUNT(*)"))
-        expected = base_scope.merge(scope).to_sql
+        expected = base_scope
+                     .group(:reason)
+                     .order(reason: :asc)
+                     .select(:reason, Arel.sql("COUNT(*)"))
+                     .to_sql
 
         expect(instance.groups.to_sql).to eql expected
       end
@@ -187,11 +187,11 @@ RSpec.describe Queries::Notifications::NotificationQuery do
 
     describe "#results" do
       it "is the same as handwriting the query" do
-        scope = Notification
-          .group(:project_id)
-          .order(project_id: :asc)
-          .select(:project_id, Arel.sql("COUNT(*)"))
-        expected = base_scope.merge(scope).to_sql
+        expected = base_scope
+                     .group(:project_id)
+                     .order(project_id: :asc)
+                     .select(:project_id, Arel.sql("COUNT(*)"))
+                     .to_sql
 
         expect(instance.groups.to_sql).to eql expected
       end

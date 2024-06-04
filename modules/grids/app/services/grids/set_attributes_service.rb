@@ -34,7 +34,7 @@ class Grids::SetAttributesService < BaseServices::SetAttributes
   def set_attributes(attributes)
     widget_attributes = attributes.delete(:widgets)
 
-    ret = super(attributes)
+    ret = super
 
     update_widgets(widget_attributes)
 

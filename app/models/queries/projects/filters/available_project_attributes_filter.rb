@@ -49,15 +49,19 @@ class Queries::Projects::Filters::AvailableProjectAttributesFilter < Queries::Pr
     User.current.admin?
   end
 
-  def scope
+  def apply_to(_query_scope)
     case operator
     when "="
-      model.with_available_custom_fields(values)
+      super.with_available_custom_fields(values)
     when "!"
-      model.without_available_custom_fields(values)
+      super.without_available_custom_fields(values)
     else
       raise "unsupported operator"
     end
+  end
+
+  def where
+    nil
   end
 
   def human_name

@@ -40,15 +40,18 @@ uk:
     errors:
       too_many_elements_created_at_once: Забагато елементів, створених за раз. Очікувалося щонайбільше %{max}; отримано %{actual}.
   external_file_storages: Зовнішні файлові сховища
-  permission_create_files: 'Зовнішнє сховище: створення файлів'
-  permission_delete_files: 'Зовнішнє сховище: видалення файлів'
+  permission_create_files: 'Папки проєкту з автоматичним керуванням: створення файлів'
+  permission_create_files_explanation: Цей дозвіл доступний лише для сховищ Nextcloud
+  permission_delete_files: 'Папки проєкту з автоматичним керуванням: видалення файлів'
+  permission_delete_files_explanation: Цей дозвіл доступний лише для сховищ Nextcloud
   permission_header_for_project_module_storages: Папки проєкту з автоматичним керуванням
   permission_manage_file_links: Керування посиланнями на файл
   permission_manage_storages_in_project: Керування файловими сховищами в проєкті
-  permission_read_files: 'Зовнішнє сховище: читання файлів'
-  permission_share_files: 'Зовнішнє сховище: надання доступу до файлів'
+  permission_read_files: 'Папки проєкту з автоматичним керуванням: читання файлів'
+  permission_share_files: 'Папки проєкту з автоматичним керуванням: надання доступу до файлів'
+  permission_share_files_explanation: Цей дозвіл доступний лише для сховищ Nextcloud
   permission_view_file_links: Перегляд посилань на файл
-  permission_write_files: 'Зовнішнє сховище: записування файлів'
+  permission_write_files: 'Папки проєкту з автоматичним керуванням: записування файлів'
   project_module_storages: Файли
   storages:
     buttons:
@@ -231,7 +234,7 @@ uk:
       project_storage_members:
         subtitle: Перевірте стан підключення до сховища %{storage_name_link} для всіх учасників проєкту.
         title: Стан підключення учасників
-    permission_header_explanation: 'Права доступу до файлів у зовнішніх сховищах застосовуються лише до папок і файлів у межах папок проєкту з автоматичним керуванням. Зауважте, що деякі постачальники сховищ права не підтримують права доступу до файлів. Щоб дізнатися більше, ознайомтеся з документацією щодо <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>дозволів для файлових сховищ</a>.'
+    permission_header_explanation: 'Дозволи на доступ до файлів у зовнішніх сховищах застосовуються лише до папок і файлів у межах папок проєкту з автоматичним керуванням. Зауважте, що деякі постачальники сховищ не підтримують дозволи на доступ до файлів. Щоб дізнатися більше, ознайомтеся з документацією щодо <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>дозволів для файлових сховищ</a>.'
     provider_types:
       label: Тип постачальника
       nextcloud:

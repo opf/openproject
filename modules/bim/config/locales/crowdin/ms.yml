@@ -45,7 +45,7 @@ ms:
         invalid_priorities_found: 'Nama keutamaan tidak sah ditemui'
         invalid_emails_found: 'Alamat e-mel tidak sah ditemui'
         unknown_emails_found: 'Alamat e-mel tidak diketahui ditemui'
-        unknown_property: 'Harta tanah yang tidak diketahui'
+        unknown_property: 'Ciri-ciri yang tidak diketahui'
         non_members_found: 'Bukan ahli projek ditemui'
         import_types_as: 'Tetapkan semua jenis ini kepada'
         import_statuses_as: 'Tetapkan semua status ini kepada'

@@ -263,6 +263,7 @@ nl:
       my: "Mijn projecten"
       favored: "Favorite projects"
       archived: "Gearchiveerde projecten"
+      public: "Public project lists"
       my_private: "My private project lists"
       new:
         placeholder: "New project list"
@@ -290,8 +291,12 @@ nl:
         actions:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Enable all"
           label_disable_all: "Disable all"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
       types:
         no_results_title_text: Er zijn momenteel geen types beschikbaar.
         form:
@@ -308,6 +313,12 @@ nl:
     update:
       success: "The modified list has been saved"
       failure: "The modified list cannot be saved: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
     can_be_saved: "List modified:"
     can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
@@ -434,12 +445,20 @@ nl:
         geen kenmerken kunnen worden gewijzigd met uitzondering van de status.
         <br/>
         <strong></strong>Opmerking: overgenomen waarden (bijvoorbeeld van kinderen of betrekkingen) blijft van toepassing.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         Klik op toewijzen of wijzigen van de kleur van deze status.
         het wordt weergegeven in de statusknop en kan worden gebruikt voor het benadrukken van de werkpakketten in de tabel.
     index:
       no_results_title_text: Er zijn momenteel geen werkpakket statussen.
       no_results_content_text: Voeg een nieuwe status toe
+      headers:
+        is_default: "Default"
+        is_closed: "Closed"
+        is_readonly: "Read-only"
+        excluded_from_totals: "Excluded from totals"
   themes:
     light: "Licht"
     light_high_contrast: "Licht hoog contrast"
@@ -609,6 +628,7 @@ nl:
       status:
         is_closed: "Werkpakket gesloten"
         is_readonly: "Werkpakket is alleen-lezen"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Notities"
       member:
@@ -749,6 +769,7 @@ nl:
         before_or_equal_to: "moet voor of gelijk zijn aan %{date}."
         blank: "mag niet leeg zijn."
         blank_nested: "moet de eigenschap '%{property}' ingesteld hebben."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "Een werkpakket kan niet worden gekoppeld aan een van de bijbehorende subtaken."
         circular_dependency: "Deze relatie zou een circulaire afhankelijkheid creëren."
         confirmation: "komt niet overeen met %{attribute}."
@@ -909,6 +930,8 @@ nl:
               nonexistent: "The column '%{column}' does not exist."
               format: "%{message}"
           group_by_hierarchies_exclusive: "is uitsluiten door samenvoeging, '%{group_by}'. U kunt beide niet activeren."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "Er is geen aangepast veld voor dit filter."
@@ -942,6 +965,14 @@ nl:
             base:
               working_days_are_missing: "Ten minste één dag van de week moet worden gedefinieerd als een werkdag."
               previous_working_day_changes_unprocessed: "De vorige wijzigingen in de configuratie van de werkdagen zijn nog niet toegepast."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              days_per_week_are_missing: "The number of days per week must be defined."
+              days_per_month_are_missing: "The number of days per month must be defined."
+              durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+              days_per_week_is_out_of_bounds: "Days per week can't be more than 7"
+              days_per_month_is_out_of_bounds: "Days per month can't be more than 31"
+              days_per_week_and_days_per_month_are_inconsistent: "The number of days per week and the number of days per month must be consistent."
         time_entry:
           attributes:
             hours:
@@ -1316,6 +1347,8 @@ nl:
   button_revoke_access: "Revoke access"
   button_revoke_all: "Revoke all"
   button_revoke_only: "Revoke only %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: Ik heb kennis genomen van en stemt in met het bovenstaande.
     failure_message: Toestemming mislukt, kan niet doorgaan.
@@ -1639,7 +1672,7 @@ nl:
       dates_changed: "Dates changed"
       default_attribute_written: "Read-only attributes written"
       progress_mode_changed_to_status_based: "Progress calculation updated"
-      status_p_complete_changed: "Status % Complete changed"
+      status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
@@ -1656,8 +1689,9 @@ nl:
           working: "%{date} werkt nu"
           non_working: "%{date} is nu niet actief"
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
-      status_p_complete_changed: >-
-        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
+      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
+      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
+      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
@@ -2314,7 +2348,7 @@ nl:
   label_workflow: "Werkstroom"
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Samenvatting"
-  label_working_days: "Werkdagen"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "1 gesloten"
     other: "%{count} gesloten"
@@ -2697,6 +2731,7 @@ nl:
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:
@@ -2912,6 +2947,9 @@ nl:
   setting_cross_project_work_package_relations: "Sta werkpakketten over meerdere projecten toe"
   setting_first_week_of_year: "De eerste week in het jaar bevat"
   setting_date_format: "Datum"
+  setting_days_per_month: "Days per month"
+  setting_days_per_month_explanation: >-
+    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Standaard taal"
   setting_default_projects_modules: "Standaard actieve modules voor nieuwe projecten"
   setting_default_projects_public: "Nieuwe projecten zijn standaard publiek"
@@ -2927,6 +2965,12 @@ nl:
   setting_feeds_limit: "Feed inhoud limiet"
   setting_file_max_size_displayed: "Maximale grootte van tekstbestanden inline weergegeven"
   setting_host_name: "Hostnaam"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >-
+    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+  setting_days_per_week: "Days per week"
+  setting_days_per_week_explanation: >-
+    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a week is 5 days, 15 days would be 3 weeks).
   setting_invitation_expiration_days: "Activatie e-mail verloopt na"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"
@@ -3367,12 +3411,12 @@ nl:
         additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
     instance_wide_info: >
       Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Wijzig werkdagen"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
       changed: _**Werkdagen** veranderd (%{changes})._
       days:

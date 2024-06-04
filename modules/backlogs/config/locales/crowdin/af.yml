@@ -28,7 +28,7 @@ af:
       work_package:
         position: "Posisie"
         story_points: "Story Points"
-        backlogs_work_package_type: "Backlog type"
+        backlogs_work_package_type: "Agterstand tipe"
     errors:
       models:
         work_package:

@@ -213,50 +213,91 @@ RSpec.describe "Persisted lists on projects index page",
 
     let!(:project_member) { create(:member, principal: user, project:, roles: [developer]) }
     let!(:development_project_member) { create(:member, principal: user, project: development_project, roles: [developer]) }
+    let!(:persisted_query) do
+      build(:project_query, user:, name: "Persisted query")
+        .where("active", "=", "t")
+        .select("name")
+        .save!
+    end
 
-    it "allows saving, loading and deleting persisted filters and columns" do
+    before do
       projects_page.visit!
+    end
 
-      # The default filter is active
+    it "starts at active projects static query" do
       projects_page.expect_title("Active projects")
-      # Since the query is static, no save button is shown
+
+      # Since the query is static, no save button an no menu item is shown
       projects_page.expect_no_notification("Save")
       projects_page.expect_no_menu_item("Save", visible: false)
       # Since the query is unchanged, no save as button is shown
       projects_page.expect_no_notification("Save as")
       # But save as menu item is always present
       projects_page.expect_menu_item("Save as", visible: false)
+      # Since the query is not persisted, no rename button is shown
+      projects_page.expect_no_menu_item("Rename", visible: false)
 
-      # Default filters are applied
       projects_page.expect_projects_listed(project, public_project, development_project)
       projects_page.expect_columns("Name", "Status")
       projects_page.expect_no_columns("Public")
+    end
 
-      # Adding some filters
+    it "allows changing filters" do
       projects_page.open_filters
       projects_page.filter_by_membership("yes")
 
-      # By applying another filter, the title is changed as it does not longer match the default filter
-      projects_page.expect_title("Projects")
-      # Since the query is static, no save button is shown
+      # Since the query is static, no save button an no menu item is shown
       projects_page.expect_no_notification("Save")
       projects_page.expect_no_menu_item("Save", visible: false)
-      # Since the query changed, save as button is shown
+      # Since the query changed, save as button and menu item are shown
       projects_page.expect_notification("Save as")
       projects_page.expect_menu_item("Save as", visible: false)
+      # Since the query is not persisted, no rename button is shown
+      projects_page.expect_no_menu_item("Rename", visible: false)
 
-      # The filters are applied
+      # By applying another filter, the title is changed as it does not longer match the default filter
+      projects_page.expect_title("Projects")
       projects_page.expect_projects_listed(project, development_project)
       projects_page.expect_projects_not_listed(public_project)
+    end
 
+    it "allows changing columns" do
       projects_page.set_columns("Name")
+
       projects_page.expect_columns("Name")
       projects_page.expect_no_columns("Status", "Public")
+    end
 
-      # Saving the query
+    it "allows saving static query as persisted list without changes" do
+      projects_page.save_query_as("Active project copy")
+
+      projects_page.expect_sidebar_filter("Active project copy", selected: true)
+      projects_page.expect_columns("Name", "Status")
+      projects_page.expect_no_columns("Public")
+    end
+
+    it "keeps changes when cancelling save" do
+      projects_page.open_filters
+      projects_page.filter_by_membership("yes")
+      projects_page.set_columns("Name")
+
+      projects_page.click_more_menu_item("Save as")
+      projects_page.click_on("Cancel")
+
+      projects_page.expect_projects_listed(project, development_project)
+      projects_page.expect_projects_not_listed(public_project)
+      projects_page.expect_columns("Name")
+      projects_page.expect_no_columns("Status", "Public")
+    end
+
+    it "allows saving static query as user list" do
+      projects_page.open_filters
+      projects_page.filter_by_membership("yes")
+      projects_page.set_columns("Name")
       projects_page.save_query_as("My saved query")
+
       # It will be displayed in the sidebar
-      projects_page.expect_sidebar_filter("My saved query", selected: false)
+      projects_page.expect_sidebar_filter("My saved query", selected: true)
 
       # Opening the default filter again to reset the values
       projects_page.set_sidebar_filter("Active projects")
@@ -273,51 +314,63 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.expect_projects_not_listed(public_project)
       projects_page.expect_columns("Name")
       projects_page.expect_no_columns("Status", "Public")
+
       # Since the query was not changed, no save or save as button is shown
       projects_page.expect_no_notification("Save")
-      projects_page.expect_no_notification("Save as")
       projects_page.expect_no_menu_item("Save", visible: false)
+      projects_page.expect_no_notification("Save as")
       # But save as menu item is always present
       projects_page.expect_menu_item("Save as", visible: false)
+      # Since the query is persisted, rename button is shown
+      projects_page.expect_menu_item("Rename", visible: false)
+    end
 
-      # Modifying to save again
-      projects_page.set_columns("Name", "Public")
-      # Since the query was changed, there is a save button and both save and save as in the menu
-      projects_page.expect_notification("Save")
-      projects_page.expect_no_notification("Save as")
-      projects_page.expect_menu_item("Save", visible: false)
-      projects_page.expect_menu_item("Save as", visible: false)
-      # Save inplace
-      projects_page.save_query
-
-      # Duplicating (without changes)
-      projects_page.save_query_as("My duplicated query")
-
-      # Modifying to save as again
+    it "allows saving persisted query with new name" do
+      projects_page.set_sidebar_filter("Persisted query")
       projects_page.set_columns("Name", "Status", "Public")
       projects_page.save_query_as("My new saved query")
-      projects_page.expect_sidebar_filter("My new saved query", selected: false)
 
-      # Checked query saved inplace
-      projects_page.set_sidebar_filter("My saved query")
-      projects_page.expect_columns("Name", "Public")
-      projects_page.expect_no_columns("Status")
-
-      # Checked duplicated query
-      projects_page.set_sidebar_filter("My duplicated query")
-      projects_page.expect_columns("Name", "Public")
-      projects_page.expect_no_columns("Status")
-
-      # Checked second saved query
-      projects_page.set_sidebar_filter("My new saved query")
+      projects_page.expect_sidebar_filter("Persisted query", selected: false)
+      projects_page.expect_sidebar_filter("My new saved query", selected: true)
       projects_page.expect_columns("Name", "Status", "Public")
+    end
 
-      # The query can be deleted
+    it "allows duplicating persisted query without changes" do
+      projects_page.set_sidebar_filter("Persisted query")
+      projects_page.save_query_as("My duplicated query")
+
+      projects_page.expect_sidebar_filter("Persisted query", selected: false)
+      projects_page.expect_sidebar_filter("My duplicated query", selected: true)
+      projects_page.expect_columns("Name")
+      projects_page.expect_no_columns("Status", "Public")
+    end
+
+    it "allows renaming persisted query" do
+      projects_page.set_sidebar_filter("Persisted query")
+
+      projects_page.click_more_menu_item("Rename")
+      projects_page.fill_in_the_name("My renamed query")
+      # Can't open filter changing interface
+      expect(projects_page.filters_toggle).to be_disabled
+      projects_page.click_on "Save"
+
+      projects_page.expect_no_sidebar_filter("Persisted query")
+      projects_page.expect_sidebar_filter("My renamed query", selected: true)
+      projects_page.expect_columns("Name")
+      projects_page.expect_no_columns("Status", "Public")
+
+      projects_page.open_filters
+      projects_page.filter_by_membership("yes")
+      # Rename menu item is now shown after applying filters
+      projects_page.expect_no_menu_item("Rename", visible: false)
+    end
+
+    it "allows deleting persisted query" do
+      projects_page.set_sidebar_filter("Persisted query")
       projects_page.delete_query
 
-      # It will then also be removed from the sidebar
       projects_page.expect_no_sidebar_filter("My new saved query")
-      # And the default filter will be active again
+      # Default filter will be active again
       projects_page.expect_title("Active projects")
       projects_page.expect_projects_listed(project, public_project, development_project)
       projects_page.expect_columns("Name", "Status")

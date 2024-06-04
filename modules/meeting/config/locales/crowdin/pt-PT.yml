@@ -49,7 +49,7 @@ pt-PT:
         description: "Notas"
         presenter: "Apresentador"
       meeting_section:
-        title: "Title"
+        title: "Título"
     errors:
       messages:
         invalid_time_format: "não é uma hora válida. Formato exigido: HH:MM"
@@ -101,12 +101,14 @@ pt-PT:
     attachments:
       text: "Os ficheiros anexados estão disponíveis para todos os participantes na reunião. Também pode arrastar e soltar estes ficheiros nas notas do item da agenda."
     copy:
-      title: "Copy meeting: %{title}"
+      title: "Copiar reunião: %{title}"
       attachments: "Copiar anexos"
       attachments_text: "Copiar todos os ficheiros anexados para a nova reunião"
       agenda: "Copiar agenda"
       agenda_text: "Copiar agenda da reunião anterior"
     email:
+      send_emails: "Enviar e-mails"
+      send_invitation_emails: "Enviar e-mails de convite após a criação"
       open_meeting_link: "Entrar na Reunião"
       invited:
         summary: "%{actor} enviou-lhe um convite para a reunião %{title}"
@@ -125,10 +127,10 @@ pt-PT:
       structured_text_copy: "Atualmente, a cópia de uma reunião não copia os itens associados da agenda da reunião, apenas os detalhes"
     copied: "Copiado da reunião #%{id}"
   meeting_section:
-    untitled_title: "Untitled section"
-    delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
-    placeholder_title: "New section"
-    empty_text: "Drag items here or create a new one"
+    untitled_title: "Secção sem título"
+    delete_confirmation: "A eliminação da secção também irá eliminar os seus pontos da ordem de trabalhos. Tem a certeza de que pretende fazê-lo?"
+    placeholder_title: "Nova secção"
+    empty_text: "Arraste itens para aqui ou crie um novo"
   notice_successful_notification: "Notificação enviada com sucesso"
   notice_timezone_missing: Sem fuso horário definido, presume-se %{zone}. Para escolher o seu fuso horário, por favor clique aqui.
   permission_create_meetings: "Criar reuniões"

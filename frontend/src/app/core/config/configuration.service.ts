@@ -95,6 +95,18 @@ export class ConfigurationService {
     return this.systemPreference('dateFormat');
   }
 
+  public hoursPerDay():number {
+    return this.systemPreference('hoursPerDay');
+  }
+
+  public hoursPerWeek():number {
+    return this.systemPreference('hoursPerWeek');
+  }
+
+  public daysPerMonth():number {
+    return this.systemPreference('daysPerMonth');
+  }
+
   public timeFormatPresent():boolean {
     return !!this.systemPreference('timeFormat');
   }

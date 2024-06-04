@@ -361,7 +361,6 @@ sl:
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/docs/release-notes/14-1-0/
               new_features_html: >
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
     ical_sharing_modal:
@@ -1288,6 +1287,11 @@ sl:
           placeholder: "Rezervirano mesto se zdaj lahko uporabi v %{project}. Medtem lahko planirate s tem uporabnikom in mu dodelite delovne naloge."
           group: "Skupina je zdaj del %{project}. Medtem lahko planirate s to skupino in ji dodelite delovne naloge."
         next_button: "Nadaljuj"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
     favorite_projects:
       no_results: "You have no favorite projects"
       no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
@@ -1348,8 +1352,12 @@ sl:
         remove: "Odstrani"
       drop_modal:
         focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
-        Close: "Zapri"
+        close: "Close modal"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
       waiting_subtitle:
         network_off: "There is a network problem."
         network_on: "Network is back. We are trying."
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact you OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

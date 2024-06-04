@@ -107,6 +107,8 @@ hu:
       agenda: "Napirend másolása"
       agenda_text: "A régi megbeszélés napirendjének másolása"
     email:
+      send_emails: "Send emails"
+      send_invitation_emails: "Send out invitation emails upon creation"
       open_meeting_link: "Nyitott megbeszélés"
       invited:
         summary: "%{actor} meghívott a következő megbeszélésre: %{title}"

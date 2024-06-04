@@ -294,6 +294,10 @@ class WorkPackage < ApplicationRecord
 
   alias_method :is_milestone?, :milestone?
 
+  def included_in_totals_calculation?
+    !status.excluded_from_totals
+  end
+
   def done_ratio
     if WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
       status.default_done_ratio

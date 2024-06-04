@@ -41,5 +41,11 @@ module Admin::Settings
         settings["attachment_whitelist"] = settings["attachment_whitelist"].split(/\r?\n/)
       end
     end
+
+    def extra_permitted_filters
+      # attachment_whitelist is normally permitted as an array parameter.
+      # Explicitly permit it as a string here.
+      [:attachment_whitelist]
+    end
   end
 end

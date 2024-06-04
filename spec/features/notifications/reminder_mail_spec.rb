@@ -2,13 +2,13 @@ require "spec_helper"
 require_relative "../users/notifications/shared_examples"
 
 RSpec.describe "Reminder email sending", js: false do
-  let!(:project) { create(:project, members: { current_user => role }) }
-  let!(:mute_project) { create(:project, members: { current_user => role }) }
+  let!(:project) { create(:project, members: { receiving_user => role }) }
+  let!(:mute_project) { create(:project, members: { receiving_user => role }) }
   let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
   let(:other_user) { create(:user) }
   let(:work_package) { create(:work_package, project:) }
-  let(:watched_work_package) { create(:work_package, project:, watcher_users: [current_user]) }
-  let(:involved_work_package) { create(:work_package, project:, assigned_to: current_user) }
+  let(:watched_work_package) { create(:work_package, project:, watcher_users: [receiving_user]) }
+  let(:involved_work_package) { create(:work_package, project:, assigned_to: receiving_user) }
   # GoodJob::Job#cron_at is used for scheduling the reminder mails.
   # It needs to be within a time frame eligible for sending out mails for the chosen
   # time zone. For the time zone Hawaii (UTC-10) this means 8:00:00 as the job has a cron tab to be run every 15 min.
@@ -27,13 +27,7 @@ RSpec.describe "Reminder email sending", js: false do
   # between the changes to a work package and the reminder mail being sent out.
   let(:work_package_update_time) { ActiveSupport::TimeZone["Pacific/Honolulu"].parse("2021-09-30T01:50:34").utc }
 
-  around do |example|
-    Timecop.travel(work_package_update_time) do
-      example.run
-    end
-  end
-
-  current_user do
+  let!(:receiving_user) do
     create(
       :user,
       preferences: {
@@ -61,25 +55,29 @@ RSpec.describe "Reminder email sending", js: false do
     )
   end
 
+  around do |example|
+    Timecop.travel(work_package_update_time) do
+      example.run
+    end
+  end
+
   before do
-    watched_work_package
-    work_package
-    involved_work_package
-
     ActiveJob::Base.disable_test_adapter
-
-    scheduled_job
   end
 
   it "sends a digest mail based on the configuration", with_settings: { journal_aggregation_time_minutes: 0 } do
     # Perform some actions the user listens to
     User.execute_as other_user do
+      watched_work_package
+      work_package
+      involved_work_package
+
       note = <<~NOTE
         Hey <mention class="mention"
-                     data-id="#{current_user.id}"
+                     data-id="#{receiving_user.id}"
                      data-type="user"
-                     data-text="@#{current_user.name}">
-              @#{current_user.name}
+                     data-text="@#{receiving_user.name}">
+              @#{receiving_user.name}
             </mention>
       NOTE
 
@@ -93,10 +91,15 @@ RSpec.describe "Reminder email sending", js: false do
       involved_work_package.save!
     end
 
-    2.times { GoodJob.perform_inline }
+    GoodJob.perform_inline
+    scheduled_job
+    GoodJob.perform_inline
 
     expect(ActionMailer::Base.deliveries.length).to be 1
+    # 3 work package created
+    # 3 times updated (1 for each work package)
+    # One of those was a mention for which the user opted out to not receive immediate notifications
     expect(ActionMailer::Base.deliveries.first.subject)
-      .to eql "OpenProject - 1 unread notification including a mention"
+      .to eql "OpenProject - 6 unread notifications including a mention"
   end
 end

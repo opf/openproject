@@ -106,6 +106,8 @@ ko:
       agenda: "의제 복사"
       agenda_text: "이전 미팅의 의제 복사"
     email:
+      send_emails: "Send emails"
+      send_invitation_emails: "Send out invitation emails upon creation"
       open_meeting_link: "미팅 열기"
       invited:
         summary: "%{actor} 님이 %{title} 미팅 초대장을 귀하에게 보냈습니다"
@@ -124,9 +126,9 @@ ko:
       structured_text_copy: "미팅을 복사하면 관련 미팅 의제 항목은 현재 복사되지 않고 세부 정보만 복사됩니다"
     copied: "미팅 #%{id}에서 복사됨"
   meeting_section:
-    untitled_title: "Untitled section"
-    delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
-    placeholder_title: "New section"
+    untitled_title: "제목 없는 섹션"
+    delete_confirmation: "이 섹션을 삭제하면 모든 의제 항목도 삭제됩니다. 계속하시겠습니까?"
+    placeholder_title: "새 섹션"
     empty_text: "항목을 여기에 끌어오거나 새로 만들기"
   notice_successful_notification: "알림이 전송됨"
   notice_timezone_missing: 표준 시간대가 설정되지 않았으며 %{zone}(으)로 간주됩니다. 해당 표준 시간대를 선택하려면 여기를 클릭하세요.

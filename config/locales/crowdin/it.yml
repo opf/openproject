@@ -261,8 +261,9 @@ it:
     lists:
       active: "Progetti attivi"
       my: "I miei progetti"
-      favored: "Favorite projects"
+      favored: "Progetti preferiti"
       archived: "Progetti archiviati"
+      public: "Elenchi di progetti pubblici"
       my_private: "I miei elenchi di progetti privati"
       new:
         placeholder: "Nuovo elenco progetti"
@@ -290,8 +291,12 @@ it:
         actions:
           label_enable_single: "Attivo in questo progetto, clicca per disattivarlo"
           label_disable_single: "Non attivo in questo progetto, clicca per attivarlo"
+          deactivate_for_project: "Disattiva per questo progetto"
           label_enable_all: "Abilita tutti"
           label_disable_all: "Disabilita tutti"
+        is_required_blank_slate:
+          heading: Richiesto in tutti i progetti
+          description: Questo attributo di progetto è attivato in tutti i progetti, poiché l'opzione "Richiesto in tutti i progetti" è selezionata. Non può essere disattivato per i singoli progetti.
       types:
         no_results_title_text: Al momento non sono disponibili tipi.
         form:
@@ -303,13 +308,19 @@ it:
         no_results_title_text: Nessuno spazio su disco registrato aggiuntivo consumato da questo progetto.
   lists:
     create:
-      success: "The modified list has been saved as a new list"
-      failure: "The modified list cannot be saved: %{errors}"
+      success: "L'elenco modificato è stato salvato come nuovo elenco"
+      failure: "L'elenco modificato non può essere salvato: %{errors}"
     update:
-      success: "The modified list has been saved"
-      failure: "The modified list cannot be saved: %{errors}"
-    can_be_saved: "List modified:"
-    can_be_saved_as: "The modifications can only be saved in a new list:"
+      success: "L'elenco modificato è stato salvato"
+      failure: "L'elenco modificato non può essere salvato: %{errors}"
+    publish:
+      success: "L'elenco è stato reso pubblico"
+      failure: "L'elenco non può essere reso pubblico: %{errors}"
+    unpublish:
+      success: "L'elenco è stato reso privato"
+      failure: "L'elenco non può essere reso privato: %{errors}"
+    can_be_saved: "Elenco modificato:"
+    can_be_saved_as: "Le modifiche possono essere salvate solo in un nuovo elenco:"
   members:
     index:
       no_results_title_text: Al momento non vi sono partecipanti a questo progetto.
@@ -434,12 +445,20 @@ it:
         Nessun attributo può essere modificato ad eccezione dello stato.
         <br/>
         <strong> Nota </strong>: i valori ereditati (ad esempio, dai figli o dalle relazioni) verranno comunque applicati.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         Clicca per assegnare o modificare il colore di questo stato.
         Viene mostrato come tasto di stato e può essere utilizzato per evidenziare le macro-attività nella tabella.
     index:
       no_results_title_text: Al momento non vi sono relazioni sullo stato delle macro-attività.
       no_results_content_text: Aggiungi un nuovo stato
+      headers:
+        is_default: "Default"
+        is_closed: "Closed"
+        is_readonly: "Read-only"
+        excluded_from_totals: "Excluded from totals"
   themes:
     light: "Chiaro"
     light_high_contrast: "Chiaro ad alto contrasto"
@@ -490,9 +509,9 @@ it:
       unsupported_for_multiple_projects: "Il comando sposta/copia multiplo non è supportato per macroattività da più progetti"
     sharing:
       missing_workflow_warning:
-        title: "Workflow missing for work package sharing"
-        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
-        link_message: "Configure the workflows in the administration."
+        title: "Flusso di lavoro mancante per la condivisione di macro-attività"
+        message: "Nessun flusso di lavoro è configurato per il ruolo \"Editor di macro-attività\". Senza un flusso di lavoro, la condivisione con l'utente non può alterare lo stato della macro-attività. I flussi di lavoro possono essere copiati. Seleziona un tipo di origine (ad esempio \"Attività\") e un ruolo di origine (ad esempio \"Membro\"). Quindi seleziona i tipi obiettivo. Per cominciare, potresti selezionare tutti i tipi come obiettivi. Infine, seleziona il ruolo \"Editor di macro-attività\" come destinazione e premi \"Copia\". Dopo aver creato le impostazioni predefinite, perfeziona i flussi di lavoro come fai per ogni altro ruolo."
+        link_message: "Configura i flussi di lavoro nell'amministrazione."
     summary:
       reports:
         category:
@@ -609,6 +628,7 @@ it:
       status:
         is_closed: "Macro-attività chiusa"
         is_readonly: "Pacchetto di lavoro di sola lettura"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Note"
       member:
@@ -749,6 +769,7 @@ it:
         before_or_equal_to: "deve essere precedente o uguale al %{date}."
         blank: "non può essere lasciato vuoto."
         blank_nested: "deve avere la proprietà '%{property}' impostata."
+        cannot_delete_mapping: "è necessario. Non può essere cancellato."
         cant_link_a_work_package_with_a_descendant: "Una macro-attività non può essere collegato a una delle sue sottoattività."
         circular_dependency: "Questa relazione creerebbe una dipendenza circolare."
         confirmation: "non coincide con %{attribute}."
@@ -787,7 +808,7 @@ it:
         not_an_iso_date: "non è una data valida. Formato richiesto: AAAA-MM-GG."
         not_same_project: "non appartiene allo stesso progetto."
         odd: "deve essere dispari."
-        regex_match_failed: "does not match the regular expression %{expression}."
+        regex_match_failed: "non corrisponde all'espressione regolare %{expression}."
         regex_invalid: "non può essere convalidato con l'espressione regolare associata."
         smaller_than_or_equal_to_max_length: "deve essere minore o uguale alla lunghezza massima."
         taken: "è già stato usato."
@@ -909,6 +930,8 @@ it:
               nonexistent: "La colonna '%{column}' non esiste."
               format: "%{message}"
           group_by_hierarchies_exclusive: "è mutuamente esclusivo con il raggruppamento per '%{group_by}'. Non puoi attivare entrambi."
+          can_only_be_modified_by_owner: "La query può essere modificata solo dal suo proprietario."
+          need_permission_to_modify_public_query: "Non puoi modificare una query pubblica."
           filters:
             custom_fields:
               inexistent: "Nessun campo personalizzato per il filtro."
@@ -942,6 +965,14 @@ it:
             base:
               working_days_are_missing: "Almeno un giorno della settimana deve essere impostato giorno lavorativo."
               previous_working_day_changes_unprocessed: "Le modifiche precedenti alla configurazione dei giorni lavorativi non sono ancora state applicate."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              days_per_week_are_missing: "The number of days per week must be defined."
+              days_per_month_are_missing: "The number of days per month must be defined."
+              durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+              days_per_week_is_out_of_bounds: "Days per week can't be more than 7"
+              days_per_month_is_out_of_bounds: "Days per month can't be more than 31"
+              days_per_week_and_days_per_month_are_inconsistent: "The number of days per week and the number of days per month must be consistent."
         time_entry:
           attributes:
             hours:
@@ -999,13 +1030,13 @@ it:
               only_same_project_categories_allowed: "La categoria di una macro-attività deve essere contenuta nel medesimo progetto della macro-attività."
               does_not_exist: "La categoria specificata non esiste."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              cant_be_inferior_to_remaining_work: "Non può essere inferiore al Lavoro residuo."
+              must_be_set_when_remaining_work_is_set: "Obbligatorio quando si imposta Lavoro residuo."
+              only_values_greater_or_equal_zeroes_allowed: "Deve essere >=0."
               format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "Cannot be higher than Work."
-              must_be_set_when_work_is_set: "Required when Work is set."
+              cant_exceed_work: "Non può essere superiore a Lavoro."
+              must_be_set_when_work_is_set: "Obbligatorio quando è impostato Lavoro."
               format: "%{message}"
           readonly_status: "La macro-attività è in uno stato di sola lettura perciò i suoi attributi non possono essere modificati."
         type:
@@ -1269,7 +1300,7 @@ it:
   button_edit: "Modifica"
   button_edit_associated_wikipage: "Modifica pagina wiki associata: %{page_title}"
   button_expand_all: "Espandi tutto"
-  button_favorite: "Add to favorites"
+  button_favorite: "Aggiunti ai preferiti"
   button_filter: "Filtro"
   button_generate: "Genera"
   button_list: "Elenca"
@@ -1297,7 +1328,7 @@ it:
   button_unarchive: "Rimuovi dall'archivio"
   button_uncheck_all: "Deseleziona tutti"
   button_unlock: "Sblocca"
-  button_unfavorite: "Remove from favorites"
+  button_unfavorite: "Rimuovi dai preferiti"
   button_unwatch: "Smetti di Osservare"
   button_update: "Aggiorna"
   button_upgrade: "Aggiornamento"
@@ -1316,6 +1347,8 @@ it:
   button_revoke_access: "Revoca accesso"
   button_revoke_all: "Revoca tutto"
   button_revoke_only: "Revoca solo %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: Ho letto e acconsento a quanto sopra.
     failure_message: Consenso respinto, impossibile procedere.
@@ -1583,7 +1616,7 @@ it:
       pdf_overview_table: "Tabella PDF"
       pdf_report_with_images: "Rapporto PDF con immagini"
       pdf_report: "Rapporto PDF"
-      pdf_gantt: "PDF Gantt"
+      pdf_gantt: "Gantt in PDF"
     image:
       omitted: "Immagine non esportata."
     units:
@@ -1639,7 +1672,7 @@ it:
       dates_changed: "Date cambiate"
       default_attribute_written: "Attributi di sola lettura scritti"
       progress_mode_changed_to_status_based: "Calcolo dei progressi aggiornato"
-      status_p_complete_changed: "Stato di % completamento modificato"
+      status_changed: "Status '%{status_name}'"
       system_update: "Aggiornamento del sistema OpenProject:"
     cause_descriptions:
       work_package_predecessor_changed_times: da modifiche al predecessore %{link}
@@ -1656,17 +1689,18 @@ it:
           working: "%{date} è ora lavorativo"
           non_working: "%{date} è ora non lavorativo"
       progress_mode_changed_to_status_based: La modalità di calcolo dell'avanzamento è impostata in funzione dello stato.
-      status_p_complete_changed: >-
-        Il valore di % completamento per lo stato "%{status_name}" è cambiato da %{old_value}% a %{new_value}%
+      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
+      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
+      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           D'ora in poi, l'attività relativa ai collegamenti ai file (file archiviati in archivi esterni) verrà visualizzata qui nella scheda Attività. Di seguito trovi attività riguardanti link già esistenti:
         progress_calculation_adjusted_from_disabled_mode: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+          Il calcolo dei progressi è <a href="%{href}" target="_blank">impostato automaticamente in modalità basata sul lavoro e modificato con l'aggiornamento della versione</a>.
         progress_calculation_adjusted: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+          Il calcolo dei progressi è <a href="%{href}" target="_blank">modificato con l'aggiornamento della versione</a>.
         totals_removed_from_childless_work_packages: >-
-          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
+          I totali di lavoro e avanzamento vengono rimossi automaticamente per le macro-attività non principali con l'<a href="%{href}" target="_blank">aggiornamento della versione</a>. Questa è un'attività di manutenzione e può essere tranquillamente ignorata.
   links:
     configuration_guide: "Guida di configurazione"
     get_in_touch: "Hai dei dubbi? Mettiti in contatto con noi."
@@ -1782,7 +1816,7 @@ it:
   label_attribute_expand_text: "Testo completo per \"%{attribute}\""
   label_authentication: "Autenticazione"
   label_available_global_roles: "Ruoli globali disponibili"
-  label_available_project_attributes: "Available project attributes"
+  label_available_project_attributes: "Attributi del progetto disponibili"
   label_available_project_forums: "Forum disponibili"
   label_available_project_repositories: "Archivi disponibili"
   label_available_project_versions: "Versioni disponibili"
@@ -1912,7 +1946,7 @@ it:
   label_enterprise_support: "Supporto per Imprese"
   label_enterprise_addon: "Componente aggiuntivo Enterprise"
   label_environment: "Ambiente"
-  label_estimates_and_progress: "Estimates and progress"
+  label_estimates_and_progress: "Stime e progressi"
   label_equals: "è"
   label_everywhere: "ovunque"
   label_example: "Esempio"
@@ -2127,7 +2161,7 @@ it:
   label_percent_complete: "% completamento"
   label_project_activity: "Attività del progetto"
   label_project_attribute_plural: "Attributi del progetto"
-  label_project_attribute_manage_link: "Manage project attributes"
+  label_project_attribute_manage_link: "Gestisci gli attributi del progetto"
   label_project_count: "Numero totale di progetti"
   label_project_copy_notifications: "Invia le email di notifica durante la copia del progetto"
   label_project_latest: "Ultimi progetti"
@@ -2142,7 +2176,7 @@ it:
   label_project_attributes_settings: "Impostazioni degli attributi del progetto"
   label_project_storage_plural: "Archiviazione dei file"
   label_project_storage_project_folder: "Archiviazione dei file: cartelle di progetto"
-  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
+  label_projects_disk_usage_information: "%{count} progetti occupano uno spazio su disco di %{used_disk_space}"
   label_project_view_all: "Vedi tutti i progetti"
   label_project_show_details: "Mostra dettagli progetto"
   label_project_hide_details: "Nascondi dettagli progetto"
@@ -2314,7 +2348,7 @@ it:
   label_workflow: "Flusso di lavoro"
   label_workflow_plural: "Flussi di lavoro"
   label_workflow_summary: "Sommario"
-  label_working_days: "Giorni lavorativi"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "1 chiuso"
     other: "%{count} chiusi"
@@ -2698,6 +2732,7 @@ it:
   permission_save_bcf_queries: "Salva query BCF"
   permission_manage_public_bcf_queries: "Gestisci query BCF pubbliche"
   permission_edit_attribute_help_texts: "Modifica i testi guida dell'attributo"
+  permission_manage_public_project_queries: "Gestisci elenchi di progetti pubblici"
   placeholders:
     default: "-"
   project:
@@ -2744,7 +2779,7 @@ it:
     member_of_group: "Gruppo dell'incaricato"
     name_or_identifier: "Nome o identificativo"
     only_subproject_id: "Solo sottoprogetto"
-    shared_with_user: "Shared with users"
+    shared_with_user: "Condiviso con gli utenti"
     shared_with_me: "Condivisi con me"
     subproject_id: "Sottoprogetto incluso"
   repositories:
@@ -2889,7 +2924,7 @@ it:
   setting_app_subtitle: "Sottotitolo applicazione"
   setting_app_title: "Titolo applicazione"
   setting_attachment_max_size: "Dimensione max. dell'allegato"
-  setting_show_work_package_attachments: "Show attachments in the files tab by default"
+  setting_show_work_package_attachments: "Mostra gli allegati nella scheda File per impostazione predefinita"
   setting_antivirus_scan_mode: "Modalità di scansione"
   setting_antivirus_scan_action: "Azione sul file infetto"
   setting_autofetch_changesets: "Recupera automaticamente i cambiamenti dell'archivio di progetto"
@@ -2913,6 +2948,9 @@ it:
   setting_cross_project_work_package_relations: "Consenti di correlare macro-attività tra più progetti"
   setting_first_week_of_year: "La prima settimana dell'anno contiene"
   setting_date_format: "Data"
+  setting_days_per_month: "Days per month"
+  setting_days_per_month_explanation: >-
+    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Linguaggio predefinito"
   setting_default_projects_modules: "Moduli abilitati in automatico su nuovi progetti"
   setting_default_projects_public: "I nuovi progetti sono pubblici come impostazione predefinita"
@@ -2928,6 +2966,12 @@ it:
   setting_feeds_limit: "Limite al contenuto del contributo"
   setting_file_max_size_displayed: "Dimensione massima dei file di testo visualizzati inline"
   setting_host_name: "Nome dell'Host"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >-
+    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+  setting_days_per_week: "Days per week"
+  setting_days_per_week_explanation: >-
+    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a week is 5 days, 15 days would be 3 weeks).
   setting_invitation_expiration_days: "L'email di attivazione scade dopo"
   setting_work_package_done_ratio: "Calcolo dei progressi"
   setting_work_package_done_ratio_field: "Basato sul lavoro"
@@ -2992,7 +3036,7 @@ it:
       whitelist_text_html: >
         Definisci un elenco di estensioni di file valide e/o tipi MIME per i file caricati. <br/> Inserisci le estensioni dei file (ad es. <code>%{ext_example}</code>) o i tipi MIME (ad es. <code>%{mime_example}</code>). <br/> Lascia vuoto per consentire il caricamento di qualsiasi tipo di file. Sono consentiti più valori (una riga per ogni valore).
       show_work_package_attachments: >
-        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
+        La disattivazione di questa opzione nasconderà l'elenco degli allegati nella scheda dei file delle macro-attività per i nuovi progetti. I file allegati nella descrizione di una macro-attività verranno comunque caricati nell'archivio interno degli allegati.
     antivirus:
       title: "Scansione antivirus"
       clamav_ping_failed: "Impossibile connettersi al daemon ClamAV. Ricontrolla la configurazione e riprova."
@@ -3231,8 +3275,8 @@ it:
         drag_area_label: "Gestisci e riordina colonne"
       sort_by:
         automatic:
-          heading: "Automatic"
-          description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
+          heading: "Automatico"
+          description: "Ordina %{plural} in base a uno o più criteri di ordinamento. Perderai l'ordinamento precedente."
   top_menu:
     additional_resources: "Risorse aggiuntive"
     getting_started: "Per cominciare"
@@ -3369,12 +3413,12 @@ it:
         additional_privileges_project_or_group: "Potrebbe avere privilegi aggiuntivi (in quanto membro del progetto o del gruppo)"
   working_days:
     info: >
-      I giorni non selezionati vengono saltati durante la pianificazione delle macro-attività (e non inclusi nel conteggio dei giorni). Questi possono essere sovrascritti a livello di macro-attività.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
     instance_wide_info: >
       Le date aggiunte all'elenco seguente sono considerate non lavorative e saltate durante la pianificazione delle macro-attività.
     change_button: "Cambia giorni lavorativi"
     warning: >
-      La modifica dei giorni della settimana da considerare lavorativi o non lavorativi può influire sui giorni di inizio e di fine di tutte le macro-attività in tutti i progetti in questa istanza. <br/> Tieni presente che le modifiche vengono applicate solo dopo aver fatto clic sul pulsante Applica modifiche.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
       changed: _**Giorni lavorativi** cambiati (%{changes})._
       days:
@@ -3580,7 +3624,7 @@ it:
   link: link
   plugin_openproject_auth_plugins:
     name: "Plugin Autenticazione OpenProject"
-    description: "Integration of OmniAuth strategy providers for authentication in OpenProject."
+    description: "Integrazione dei fornitori di strategie OmniAuth per l'autenticazione in OpenProject."
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / Single-Sign On"
     description: "Aggiunge il provider OmniAuth SAML a OpenProject"

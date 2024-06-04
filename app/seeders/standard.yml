@@ -305,6 +305,7 @@ projects:
         sort_by: id
         hierarchy: true
         starred: true
+        module: gantt
         columns:
           - id
           - type
@@ -663,6 +664,7 @@ projects:
       - Category 1 (to be changed in Project settings)
     queries:
       - t_name: Project plan
+        module: gantt
         reference: :scrum_project__query__project_plan
         status: open
         sort_by: id

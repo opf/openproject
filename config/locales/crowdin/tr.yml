@@ -266,6 +266,7 @@ tr:
       my: "Projelerim"
       favored: "Favorite projects"
       archived: "Archived projects"
+      public: "Public project lists"
       my_private: "My private project lists"
       new:
         placeholder: "New project list"
@@ -293,8 +294,12 @@ tr:
         actions:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Enable all"
           label_disable_all: "Disable all"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
       types:
         no_results_title_text: Şu anda hiçbir tip mevcut değil.
         form:
@@ -311,6 +316,12 @@ tr:
     update:
       success: "The modified list has been saved"
       failure: "The modified list cannot be saved: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
     can_be_saved: "List modified:"
     can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
@@ -437,12 +448,20 @@ tr:
         Durum haricindeki başka özellikler değiştirilemez.
         <br/>
         <strong>Uyarı</strong>: Devralınan değerler (örneğin; çocuklardan ve bağlantılardan) hala geçerli olacaktır.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         Bu durumun rengini atamak veya değiştirmek için tıklayın.
         Durum düğmesinde gösterilir ve tablodaki iş paketlerini vurgulamak için kullanılabilir.
     index:
       no_results_title_text: Şu anda çalışma paketi durumu yok.
       no_results_content_text: Yeni durum ekle
+      headers:
+        is_default: "Default"
+        is_closed: "Closed"
+        is_readonly: "Read-only"
+        excluded_from_totals: "Excluded from totals"
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
@@ -611,6 +630,7 @@ tr:
       status:
         is_closed: "İş paketi kapalı"
         is_readonly: "İş paketi salt okunur"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Notlar"
       member:
@@ -751,6 +771,7 @@ tr:
         before_or_equal_to: "%{date}} tarihinden önce veya ona eşit olmalıdır."
         blank: "boş bırakılamaz."
         blank_nested: "'%{property}' özelliğinin ayarlanmış olması gerekir."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "İş paketi alt görevlerinden birine bağlanamaz."
         circular_dependency: "Bu ilişki döngüsel bağımlılık oluşturacak."
         confirmation: "%{attribute} eşleşmiyor."
@@ -911,6 +932,8 @@ tr:
               nonexistent: "The column '%{column}' does not exist."
               format: "%{message}"
           group_by_hierarchies_exclusive: "grubu tarafından '%{group_by}' ile birlikte kullanılamaz. Her ikisi de etkinleştiremezsiniz."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "Hiçbir özel alan filtresi yok."
@@ -944,6 +967,14 @@ tr:
             base:
               working_days_are_missing: "Haftanın en az bir günü iş günü olarak tanımlanmalıdır."
               previous_working_day_changes_unprocessed: "Çalışma günleri yapılandırmasında yapılan önceki değişiklikler henüz uygulanmadı."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              days_per_week_are_missing: "The number of days per week must be defined."
+              days_per_month_are_missing: "The number of days per month must be defined."
+              durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+              days_per_week_is_out_of_bounds: "Days per week can't be more than 7"
+              days_per_month_is_out_of_bounds: "Days per month can't be more than 31"
+              days_per_week_and_days_per_month_are_inconsistent: "The number of days per week and the number of days per month must be consistent."
         time_entry:
           attributes:
             hours:
@@ -1318,6 +1349,8 @@ tr:
   button_revoke_access: "Revoke access"
   button_revoke_all: "Revoke all"
   button_revoke_only: "Revoke only %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: Yukarıdakilere dikkat ettim ve onay verdim.
     failure_message: Rıza alımı başarısız oldu, işlenemedi.
@@ -1641,7 +1674,7 @@ tr:
       dates_changed: "Dates changed"
       default_attribute_written: "Read-only attributes written"
       progress_mode_changed_to_status_based: "Progress calculation updated"
-      status_p_complete_changed: "Status % Complete changed"
+      status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
@@ -1658,8 +1691,9 @@ tr:
           working: "%{date} artık çalışma günü"
           non_working: "%{date} artık çalışılmayan tarih"
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
-      status_p_complete_changed: >-
-        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
+      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
+      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
+      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
@@ -2316,7 +2350,7 @@ tr:
   label_workflow: "İş akışı"
   label_workflow_plural: "İş Akışları"
   label_workflow_summary: "Özet"
-  label_working_days: "İş Günleri"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "1 kapalı"
     other: "%{count} kapatıldı"
@@ -2697,6 +2731,7 @@ tr:
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:
@@ -2912,6 +2947,9 @@ tr:
   setting_cross_project_work_package_relations: "Projeler arası iş paketi ilişkilerine izin ver"
   setting_first_week_of_year: "Yılın ilk haftası"
   setting_date_format: "Tarih"
+  setting_days_per_month: "Days per month"
+  setting_days_per_month_explanation: >-
+    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Varsayılan dil"
   setting_default_projects_modules: "Yeni projeler için varsayılan etkin modüller"
   setting_default_projects_public: "Yeni projeler varsayılan olarak herkese açık"
@@ -2927,6 +2965,12 @@ tr:
   setting_feeds_limit: "Besleme içeriği sınırı"
   setting_file_max_size_displayed: "Satır içi görüntülenen maksimum metin dosyası boyutu"
   setting_host_name: "Ana bilgisayar adı"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >-
+    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+  setting_days_per_week: "Days per week"
+  setting_days_per_week_explanation: >-
+    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a week is 5 days, 15 days would be 3 weeks).
   setting_invitation_expiration_days: "Etkinleştirme e-postasının süresi doluyor"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"
@@ -3367,12 +3411,12 @@ tr:
         additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
     instance_wide_info: >
       Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "İş günlerini değiştir"
     warning: >
-      Haftanın hangi günlerinin iş günü veya tatil günü olarak kabul edileceğini değiştirmek, bu durumda tüm projelerdeki tüm iş paketlerinin başlangıç ve bitiş günlerini etkileyebilir. <br/> Değişikliklerin yalnızca siz değişiklikleri kaydet düğmesine tıkladıktan sonra uygulanacağını lütfen unutmayın.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
       changed: _**Çalışma günleri** değişti (%{changes})._
       days:

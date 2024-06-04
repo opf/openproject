@@ -48,7 +48,7 @@ class Notifications::CreateFromModelService
      MENTION_GROUP_TAG_ID_PATTERN,
      MENTION_GROUP_HASH_ID_PATTERN]
       .map { |pattern| "(?:#{pattern})" }
-      .join('|').freeze
+      .join("|").freeze
 
   # Skip looking for mentions in quoted lines completely.
   # We need to allow an optional single white space before the ">", because the `#text_for_mentions`
@@ -111,9 +111,9 @@ class Notifications::CreateFromModelService
       journal:,
       actor: user_with_fallback,
       reason:,
-      read_ian: strategy.supports_ian? ? false : nil,
-      mail_reminder_sent: strategy.supports_mail_digest? ? false : nil,
-      mail_alert_sent: strategy.supports_mail? ? false : nil
+      read_ian: strategy.supports_ian?(reason) ? false : nil,
+      mail_reminder_sent: strategy.supports_mail_digest?(reason) ? false : nil,
+      mail_alert_sent: strategy.supports_mail?(reason) ? false : nil
     }
 
     Notifications::CreateService
@@ -129,7 +129,7 @@ class Notifications::CreateFromModelService
 
     Notifications::UpdateService
       .new(model: existing_notification, user:, contract_class: EmptyContract)
-      .call(read_ian: strategy.supports_ian? ? false : nil,
+      .call(read_ian: strategy.supports_ian?(reason) ? false : nil,
             reason:)
   end
 
@@ -264,7 +264,7 @@ class Notifications::CreateFromModelService
       end
     end
 
-    potential_text.gsub(QUOTED_LINES_PATTERN, '')
+    potential_text.gsub(QUOTED_LINES_PATTERN, "")
   end
 
   def mentioned_ids

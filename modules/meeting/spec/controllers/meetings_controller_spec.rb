@@ -48,8 +48,8 @@ RSpec.describe MeetingsController do
       let(:meetings) do
         [
           create(:meeting, project:),
-          create(:meeting, project:),
-          create(:meeting, project: other_project)
+          create(:meeting, author: user, project:),
+          create(:meeting, author: user, project: other_project)
         ]
       end
 
@@ -60,7 +60,7 @@ RSpec.describe MeetingsController do
           end
 
           it { expect(response).to be_successful }
-          it { expect(assigns(:meetings)).to match_array meetings }
+          it { expect(assigns(:meetings)).to match_array meetings[1..2] }
         end
 
         context "when requesting meetings scoped to a project ID" do
@@ -69,7 +69,7 @@ RSpec.describe MeetingsController do
           end
 
           it { expect(response).to be_successful }
-          it { expect(assigns(:meetings)).to match_array meetings[0..1] }
+          it { expect(assigns(:meetings)).to match_array meetings[1] }
         end
       end
     end

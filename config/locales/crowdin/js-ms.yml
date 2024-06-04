@@ -362,9 +362,8 @@ ms:
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/docs/release-notes/14-1-0/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
+                Keluaran tersebut mengandungi pelbagai fitur baharu dan penambahbaikan: <br> <ul class="%{list_styling_class}"> <li> eksport PDF paparan Gantt, cth. untuk mencetak (tambahan Enterprise)</li> <li>Projek kegemaran</li> <li>Bahagian dalam Mesyuarat</li> <li>Paparkan mesyuarat di Halaman Saya dan halaman gambaran keseluruhan projek</li> <li>Kemungkinan untuk sorokkan lampiran dalam tab Fail</li> <li>Ruang tersuai jenis Pautan (URL)</li> </ul>
     ical_sharing_modal:
       title: "Langgan ke kalendar"
       inital_setup_error_message: "Ralat berlaku ketika sedang mengambil data."
@@ -1280,6 +1279,11 @@ ms:
           placeholder: "Placeholder kini boleh digunakan dalam %{project}. Sementara itu anda sudah boleh merancang dengan pengguna tersebut dan tugaskan pakej kerja sebagai contoh."
           group: "Kumpulan tersebut kini sebahagian daripada %{project}. Sementara itu anda sudah boleh merancang dengan kumpulan tersebut dan menugaskan pakej kerja sebagai contoh."
         next_button: "Teruskan"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
     favorite_projects:
       no_results: "Anda tiada projek kegemaran"
       no_results_subtext: "Tambah satu atau beberapa projek sebagai kegemaran melalui gambaran keseluruhan mereka atau dalam senarai projek."
@@ -1340,8 +1344,12 @@ ms:
         remove: "Keluarkan"
       drop_modal:
         focus_grab: "Ini adalah paksi fokus untuk modul. Tekan shift+tab untuk kembali ke elemen pencetus modul."
-        Close: "Tutup"
+        close: "Close modal"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Had Masa"
       waiting_subtitle:
         network_off: "Terdapat masalah rangkaian."
         network_on: "Rangkaian kembali. Kami sedang mencuba."
+        timeout: >
+          OpenProject tidak dapat memberikan anda akses ke folder projek dalam tempoh masa yang dijangkakan. Sila cuba sekali lagi. <br><br> Jika masalah berlanjutan sila hubungi pentadbir OpenProject anda untuk semak <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">status kesihatan persediaan storan fail</a>.

@@ -32,10 +32,6 @@ module API
       module Filters
         class QueryFilterInstancePayloadRepresenter < QueryFilterInstanceRepresenter
           include ::API::Utilities::PayloadRepresenter
-
-          def initialize(model)
-            super(model)
-          end
         end
       end
     end

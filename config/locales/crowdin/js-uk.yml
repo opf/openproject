@@ -362,7 +362,6 @@ uk:
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/docs/release-notes/14-1-0/
               new_features_html: >
                 Цей випуск містить кілька нових і поліпшених функцій. <br> <ul class="%{list_styling_class}"> <li>Експорт діаграми Ґанта у форматі PDF, наприклад для друку (доповнення версії Enterprise)</li> <li>Обрані проєкти</li> <li>Розділи на сторінці «Наради»</li> <li>Показ нарад на Моїй сторінці й сторінках огляду проєкту</li> <li>Можливість приховувати вкладення на вкладці «Файли»</li> <li>Користувацькі поля типу «Посилання (URL)</li> </ul>
     ical_sharing_modal:
@@ -1289,6 +1288,11 @@ uk:
           placeholder: "Прототип тепер може ввійти, щоб отримати доступ до проєкту «%{project}». Тим часом ви вже можете включати цього користувача в план і призначати йому пакети робіт."
           group: "Ця група тепер входить у проєкт «%{project}». Тим часом ви вже можете включати її в план і призначати їй пакети робіт."
         next_button: "Продовжити"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
     favorite_projects:
       no_results: "У вас немає обраних проєктів"
       no_results_subtext: "Додайте один або кілька проєктів в обране на відповідній сторінці огляду або в списку проєктів."
@@ -1349,8 +1353,12 @@ uk:
         remove: "Видалити"
       drop_modal:
         focus_grab: "Це якір фокуса для модальних вікон. Натисніть клавіші Shift + Tab, щоб повернутися до тригера модального вікна."
-        Close: "Закрити"
+        close: "Close modal"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
       waiting_subtitle:
         network_off: "Існує проблема з мережею."
         network_on: "З’єднання відновлено. Ми намагаємося."
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact you OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

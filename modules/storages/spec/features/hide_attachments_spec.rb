@@ -54,7 +54,7 @@ RSpec.describe "Hide attachments", :js, :with_cuprite do
     it "changes database value" do
       login_as current_user
 
-      visit project_settings_project_storages_path(project)
+      visit external_file_storages_project_settings_project_storages_path(project)
       click_on("Attachments")
 
       expect(page).to have_css("toggle-switch", text: "Off")
@@ -79,7 +79,7 @@ RSpec.describe "Hide attachments", :js, :with_cuprite do
 
         login_as current_user
 
-        visit project_settings_project_storages_path(project)
+        visit external_file_storages_project_settings_project_storages_path(project)
         click_on("Attachments")
 
         expect(page).to have_css("toggle-switch", text: "Off")
@@ -94,7 +94,7 @@ RSpec.describe "Hide attachments", :js, :with_cuprite do
 
         login_as current_user
 
-        visit project_settings_project_storages_path(project)
+        visit external_file_storages_project_settings_project_storages_path(project)
         click_on("Attachments")
 
         expect(page).to have_css("toggle-switch", text: "On")

@@ -362,9 +362,8 @@ es:
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           "14_1":
             standard:
-              learn_about_link: https://www.openproject.org/docs/release-notes/14-1-0/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>PDF export of Gantt view, e.g. for printing (Enterprise add-on)</li> <li>Favorite projects</li> <li>Sections in Meetings</li> <li>Showing meetings on the My page and project overview pages</li> <li>Possibility to hide attachments in the Files tab</li> <li>Custom fields of the type Link (URL)</li> </ul>
+                La versión contiene varias novedades y mejoras: <br> <ul class="%{list_styling_class}"> <li>Exportación a PDF de la vista Gantt, por ejemplo para imprimir (complemento Enterprise)</li> <li>Proyectos favoritos</li> <li>Secciones en reuniones</li> <li>Visualización de reuniones en las páginas Mi página y Resumen del proyecto</li> <li>Posibilidad de ocultar los archivos adjuntos en la pestaña Archivos</li> <li>Campos personalizados del tipo Enlace (URL)</li> </ul>
     ical_sharing_modal:
       title: "Suscribirse al calendario"
       inital_setup_error_message: "Se ha producido un error al obtener los datos."
@@ -985,7 +984,7 @@ es:
         createdAt: "Creado en"
         description: "Descripción"
         date: "Fecha"
-        percentComplete: "% compleado"
+        percentComplete: "% Completado"
         percentCompleteAlternative: "Progreso"
         dueDate: "Fecha de finalización"
         duration: "Duración"
@@ -1283,6 +1282,11 @@ es:
           placeholder: "El marcador de posición ya puede usarse en %{project}. Mientras tanto, puede crear planes con ese usuario y asignarle paquetes de trabajo."
           group: "El grupo ya forma parte de %{project}. Mientras tanto, puede crear planes con ese grupo y asignar paquetes de trabajo a este."
         next_button: "Continuar"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
     favorite_projects:
       no_results: "No tiene proyectos favoritos"
       no_results_subtext: "Añada uno o varios proyectos como favoritos a través del resumen del proyecto o en una lista de proyectos."
@@ -1343,8 +1347,12 @@ es:
         remove: "Eliminar"
       drop_modal:
         focus_grab: "Este es una ancla de enfoque para modales. Presione shift+tab para volver al elemento que activa el modal."
-        Close: "Cerrar"
+        close: "Close modal"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "Timeout"
       waiting_subtitle:
         network_off: "Hay un problema de red."
         network_on: "La red ha vuelto. Lo estamos intentando."
+        timeout: >
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact you OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

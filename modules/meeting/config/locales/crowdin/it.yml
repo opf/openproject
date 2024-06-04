@@ -49,7 +49,7 @@ it:
         description: "Note"
         presenter: "Presentatore"
       meeting_section:
-        title: "Title"
+        title: "Titolo"
     errors:
       messages:
         invalid_time_format: "non è un tempo valido. Formato richiesto: HH: mm"
@@ -101,12 +101,14 @@ it:
     attachments:
       text: "I file allegati sono disponibili per tutti i partecipanti alla riunione. Puoi anche trascinarli nelle note dei punti all'ordine del giorno."
     copy:
-      title: "Copy meeting: %{title}"
+      title: "Copia riunione: %{title}"
       attachments: "Copia allegati"
       attachments_text: "Copia tutti i file allegati nella nuova riunione"
       agenda: "Copia ordine del giorno"
       agenda_text: "Copia l'ordine del giorno della vecchia riunione"
     email:
+      send_emails: "Invia email"
+      send_invitation_emails: "Invia e-mail d'invito al momento della creazione"
       open_meeting_link: "Apri riunione"
       invited:
         summary: "%{actor} ti ha inviato un invito per la riunione %{title}"
@@ -125,10 +127,10 @@ it:
       structured_text_copy: "La copia di una riunione al momento non copierà gli elementi dell'ordine del giorno della riunione, ma solo i dettagli"
     copied: "Copiato dalla riunione #%{id}"
   meeting_section:
-    untitled_title: "Untitled section"
-    delete_confirmation: "Deleting the section will also delete all of its agenda items. Are you sure you want to do this?"
-    placeholder_title: "New section"
-    empty_text: "Drag items here or create a new one"
+    untitled_title: "Sezione senza titolo"
+    delete_confirmation: "L'eliminazione della sezione eliminerà anche tutti i suoi elementi dell'ordine del giorno. Continuare?"
+    placeholder_title: "Nuova sezione"
+    empty_text: "Trascina gli elementi qui o creane una nuova"
   notice_successful_notification: "Notifica inviata con successo"
   notice_timezone_missing: Nessun fuso orario è impostato e la %{zone} è un requisito necessario. Per scegliere il tuo fuso orario, fare clic qui.
   permission_create_meetings: "Creare riunioni"

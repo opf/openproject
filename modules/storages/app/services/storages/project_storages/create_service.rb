@@ -32,7 +32,7 @@ module Storages::ProjectStorages
     protected
 
     def after_perform(service_call)
-      super(service_call)
+      super
 
       project_storage = service_call.result
       project_folder_mode = project_storage.project_folder_mode.to_sym

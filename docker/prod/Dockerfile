@@ -1,8 +1,8 @@
-ARG RUBY_VERSION="3.3.1"
+ARG RUBY_VERSION="3.3.2"
 FROM ruby:${RUBY_VERSION}-bookworm as base
 LABEL maintainer="operations@openproject.com"
 
-ARG BUNDLER_VERSION="2.5.10"
+ARG BUNDLER_VERSION="2.5.11"
 ARG NODE_VERSION="20.9.0"
 ARG BIM_SUPPORT=true
 ENV DEBIAN_FRONTEND=noninteractive
@@ -103,7 +103,7 @@ RUN ./docker/prod/setup/postinstall-onprem.sh
 RUN ln -s /app/docker/prod/setup/.irbrc /root/
 
 # Expose ports for apache and postgres
-EXPOSE 80 5432
+EXPOSE 80
 
 # Expose the postgres data directory and OpenProject data directory as volumes
 VOLUME ["$PGDATA", "$APP_DATA_PATH"]

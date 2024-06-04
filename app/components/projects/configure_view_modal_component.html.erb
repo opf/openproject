@@ -10,12 +10,11 @@
     <%= primer_form_with(
           url: projects_path,
           id: QUERY_FORM_ID,
-          method: :get,
-          data: {
-            controller: "params-from-query",
-            'application-target': "dynamic",
-            'params-from-query-allowed-value': '["filters", "query_id", "page", "per_page"]'
-          }) do |form| %>
+          method: :get
+        ) do |form| %>
+      <% helpers.projects_query_params.except(:columns, :sortBy).each do |name, value| %>
+        <%= hidden_field_tag name, value %>
+      <% end %>
       <%= render(Primer::Alpha::TabPanels.new(label: "label")) do |tab_panel| %>
         <% tab_panel.with_tab(selected: true, id: "tab-selects") do |tab| %>
           <% tab.with_text { I18n.t("label_columns") } %>

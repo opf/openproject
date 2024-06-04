@@ -78,12 +78,13 @@ In order to edit the title of the meeting select the dropdown menu behind the th
 
 After creating a meeting, you can set up a **meeting agenda**.
 
-You do this by adding sections, agenda items or existing work packages by selecting the desired option under the green **Add** button. You can then add notes and to each agenda item.
+You do this by adding sections, agenda items or existing work packages by selecting the desired option under the green **Add** button. You can then add notes to each agenda item.
 
 ![The add button with three choices: section, agenda item or work package](openproject_dynamic_meetings_add_agenda_item.png)
 
 #### Add an agenda section 
-Sections allow you to group agenda items into blocks for better organisation.
+
+Sections allow you to group agenda items into blocks for better organization.
 
 To add a section, click on the *+ Add* button at the bottom of the agenda items and select the **Section** option. This will add a new empty section to the very end of the meeting and prompt you to give it a name. 
 
@@ -97,7 +98,7 @@ If, prior to creating your first section, your meeting already had existing [age
 
 ![Add an agenda item to a meeting section](openproject_dynamic_meetings_add_item_to_section.png)
 
-Sections will show the sum of all the duration of all containing items (or at least, those that have a duration specificed).
+Sections will show the sum of all the duration of all containing items (or at least, those that have a duration specified).
 
 ![Duration of a section in OpenProject meeting](openproject_dynamic_meetings_section_duration.png)
 

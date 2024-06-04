@@ -17,12 +17,24 @@ properties:
   name:
     type: string
     description: Storage name
+  tenantId:
+    type: string
+    description: |-
+      The tenant id of a file storage of type OneDrive/SharePoint.
+
+      Ignored if the provider type is not OneDrive/SharePoint.
+  driveId:
+    type: string
+    description: |-
+      The drive id of a file storage of type OneDrive/SharePoint.
+
+      Ignored if the provider type is not OneDrive/SharePoint.
   hasApplicationPassword:
     type: boolean
     description: |-
       Whether the storage has the application password to use for the Nextcloud storage.
 
-      Ignored if the provider type is not Nextcloud
+      Ignored if the provider type is not Nextcloud.
   createdAt:
     type: string
     format: date-time
@@ -31,11 +43,11 @@ properties:
     type: string
     format: date-time
     description: Time of the most recent change to the storage
+  configured:
+    type: boolean
+    description: Indication, if the storage is fully configured
   _embedded:
     type: object
-    required:
-      - oauthApplication
-      - oauthClientCredentials
     properties:
       oauthApplication:
         $ref: './oauth_application_read_model.yml'
@@ -46,7 +58,6 @@ properties:
     required:
       - self
       - type
-      - origin
       - open
       - authorizationState
     properties:
@@ -68,7 +79,8 @@ properties:
         allOf:
           - $ref: './link.yml'
           - description: |-
-              Web URI of the storage instance.
+              Web URI of the storage instance. This link is ignored, if the storage is hosted in a cloud and has no own
+              URL, like file storages of type OneDrive/SharePoint.
 
               **Resource**: N/A
       open:
@@ -124,32 +136,3 @@ properties:
               - User has role `admin`
 
               **Resource**: OAuthClientCredentials
-example:
-  id: 1337
-  _type: Storage
-  name: It's no moon
-  hasApplicationPassword: true
-  createdAt: '2021-12-20T13:37:00.211Z'
-  updatedAt: '2021-12-20T13:37:00.211Z'
-  _links:
-    self:
-      href: /api/v3/storages/1337
-      title: It's no moon
-    type:
-      href: urn:openproject-org:api:v3:storages:nextcloud
-      title: Nextcloud
-    origin:
-      href: https://nextcloud.deathstar.rocks/
-    open:
-      href: https://nextcloud.deathstar.rocks/apps/files
-    authorizationState:
-      href: urn:openproject-org:api:v3:storages:authorization:FailedAuthorization
-      title: Failed Authorization
-    authorize:
-      href: https://nextcloud.deathstar.rocks/authorize/
-      title: Authorize
-    oauthApplication:
-      href: /api/v3/oauth_application/42
-      title: It's no moon (Nextcloud)
-    oauthClientCredentials:
-      href: /api/v3/oauth_client_credentials/42
