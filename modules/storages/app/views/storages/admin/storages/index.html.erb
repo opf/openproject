@@ -19,7 +19,8 @@ end %>
     render(Primer::Alpha::ActionMenu.new(test_selector: 'storages-select-provider-action-menu',
                                          anchor_align: :end)) do |menu|
       menu.with_show_button(scheme: :primary,
-                            aria: { label: I18n.t("storages.label_add_new_storage") }) do |button|
+                            aria: { label: I18n.t("storages.label_add_new_storage") },
+                            test_selector: "storages-create-new-provider-button") do |button|
         button.with_leading_visual_icon(icon: :plus)
         button.with_trailing_action_icon(icon: :"triangle-down")
         I18n.t("storages.label_storage")
