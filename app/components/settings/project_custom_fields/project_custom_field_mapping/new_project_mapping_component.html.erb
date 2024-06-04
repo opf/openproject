@@ -47,7 +47,10 @@
         size: :large
       )
     ) do |dialog|
-      dialog.with_show_button(scheme: :primary) { show_button_text }
+      dialog.with_show_button(scheme: :primary) do |button|
+        button.with_leading_visual_icon(icon: :project)
+        show_button_text
+      end
 
       dialog.with_header(
         show_divider: false,
