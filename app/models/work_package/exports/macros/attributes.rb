@@ -102,7 +102,8 @@ module WorkPackage::Exports
         return msg_macro_error(I18n.t('export.macro.model_not_found', model: type)) unless type == "value"
 
         work_package = WorkPackage.find_by(id:)
-        if work_package.nil? || !user.allowed_in_project?(:view_work_packages, work_package.project)
+        if work_package.nil? ||
+          !user.allowed_in_work_package?(:view_work_packages, work_package)
           return msg_macro_error(I18n.t('export.macro.resource_not_found', resource: "#{WorkPackage.name} #{id}"))
         end
 
@@ -114,7 +115,8 @@ module WorkPackage::Exports
         return msg_macro_error(I18n.t("export.macro.model_not_found", model: type)) unless type == "value"
 
         project = Project.find_by(id:)
-        if project.nil? || !user.allowed_in_project?(:view_project, project)
+        if project.nil? ||
+          !user.allowed_in_project?(:view_project, project)
           return msg_macro_error(I18n.t("export.macro.resource_not_found", resource: "#{Project.name} #{id}"))
         end
 

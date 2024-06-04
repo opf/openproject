@@ -50,9 +50,24 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
            work_package_custom_fields: [cf_long_text, cf_disabled_in_project, cf_global_bool],
            work_package_custom_field_ids: [cf_long_text.id, cf_global_bool.id]) # cf_disabled_in_project.id is disabled
   end
+  let(:forbidden_project) do
+    create(:project,
+           name: "Forbidden project",
+           types: [type],
+           id: 666,
+           public: true,
+           status_code: "on_track",
+           active: true,
+           parent: parent_project,
+           work_package_custom_fields: [cf_long_text, cf_disabled_in_project, cf_global_bool],
+           work_package_custom_field_ids: [cf_long_text.id, cf_global_bool.id]) # cf_disabled_in_project.id is disabled
+  end
   let(:user) do
     create(:user,
            member_with_permissions: { project => %w[view_work_packages export_work_packages] })
+  end
+  let(:another_user) do
+    create(:user, firstname: "Secret User")
   end
   let(:category) { create(:category, project:, name: "Demo") }
   let(:version) { create(:version, project:) }
@@ -62,8 +77,9 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   let(:priority) { create(:priority_normal) }
   let(:image_attachment) { Attachment.new author: user, file: File.open(image_path) }
   let(:attachments) { [image_attachment] }
-  let(:cf_long_text_description) { "foo" }
-  let(:cf_long_text) { create(:issue_custom_field, :text, name: "LongText") }
+  let(:cf_long_text_description) { "" }
+  let(:cf_long_text) { create(:issue_custom_field, :text,
+                              name: "Work Package Custom Field Long Text") }
   let!(:cf_disabled_in_project) do
     # NOT enabled by project.work_package_custom_field_ids => NOT in PDF
     create(:float_wp_custom_field, name: "DisabledCustomField")
@@ -71,6 +87,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   let(:cf_global_bool) do
     create(
       :work_package_custom_field,
+      name: "Work Package Custom Field Boolean",
       field_format: "bool",
       is_for_all: true,
       default_value: true
@@ -78,7 +95,6 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   end
   let(:status) { create(:status, name: "random", is_default: true) }
   let!(:parent_work_package) { create(:work_package, type:, subject: "Parent wp") }
-
   let(:description) do
     <<~DESCRIPTION
       **Lorem** _ipsum_ ~~dolor~~ `sit` [amet](https://example.com/), consetetur sadipscing elitr.
@@ -128,6 +144,24 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
               .and_return attachments
     end
   end
+  let(:forbidden_work_package) do
+    create(:work_package,
+           id: 10,
+           project: forbidden_project,
+           type:,
+           subject: "forbidden Work package",
+           start_date: "2024-05-30",
+           due_date: "2024-05-30",
+           created_at: export_time,
+           updated_at: export_time,
+           author: another_user,
+           assigned_to: another_user
+    ).tap do |wp|
+      allow(wp)
+        .to receive(:attachments)
+              .and_return attachments
+    end
+  end
   let(:options) { {} }
   let(:exporter) do
     described_class.new(work_package, options)
@@ -142,13 +176,14 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
     end
   end
   let(:expected_details) do
-    exporter.send(:attributes_data_by_wp, work_package)
-            .flat_map do |item|
-      value = get_column_value(item[:name])
-      result = [item[:label].upcase]
-      result << value if value.present?
-      result
-    end
+    ["#{type.name} ##{work_package.id} - #{work_package.subject}"] +
+      exporter.send(:attributes_data_by_wp, work_package)
+              .flat_map do |item|
+        value = get_column_value(item[:name])
+        result = [item[:label].upcase]
+        result << value if value.present?
+        result
+      end
   end
 
   def get_column_value(column_name)
@@ -166,26 +201,28 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   end
 
   describe "with a request for a PDF" do
-    it "contains correct data" do
-      result = pdf[:strings]
-      expected_result = [
-        "#{type.name} ##{work_package.id} - #{work_package.subject}",
-        *expected_details,
-        label_title(:description),
-        "Lorem", " ", "ipsum", " ", "dolor", " ", "sit", " ",
-        "amet", ", consetetur sadipscing elitr.", " ", "@OpenProject Admin",
-        "Image Caption",
-        "Foo",
-        "LongText", "foo",
-        "1", export_time_formatted, project.name
-      ].flatten
-      # Joining the results for comparison since word wrapping leads to a different array for the same content
-      expect(result.join(" ")).to eq(expected_result.join(" "))
-      expect(result.join(" ")).not_to include("DisabledCustomField")
-      expect(pdf[:images].length).to eq(2)
+    describe "with rich text and images" do
+      let(:cf_long_text_description) { "foo" }
+      it "contains correct data" do
+        result = pdf[:strings]
+        expected_result = [
+          *expected_details,
+          label_title(:description),
+          "Lorem", " ", "ipsum", " ", "dolor", " ", "sit", " ",
+          "amet", ", consetetur sadipscing elitr.", " ", "@OpenProject Admin",
+          "Image Caption",
+          "Foo",
+          cf_long_text.name, "foo",
+          "1", export_time_formatted, project.name
+        ].flatten
+        # Joining the results for comparison since word wrapping leads to a different array for the same content
+        expect(result.join(" ")).to eq(expected_result.join(" "))
+        expect(result.join(" ")).not_to include("DisabledCustomField")
+        expect(pdf[:images].length).to eq(2)
+      end
     end
 
-    describe "with embedded attributes" do
+    describe "with embedded work package attributes" do
       let(:supported_work_package_embeds) do
         [
           ["assignee", user.name],
@@ -209,18 +246,6 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           ["description", "[#{I18n.t('export.macro.rich_text_unsupported')}]"]
         ]
       end
-      let(:supported_project_embeds) do
-        [
-          ["active", "Yes"],
-          ["description", "[#{I18n.t('export.macro.rich_text_unsupported')}]"],
-          ["identifier", project.identifier],
-          ["name", project.name],
-          ["status", I18n.t("activerecord.attributes.project.status_codes.#{project.status_code}")],
-          ["statusExplanation", "[#{I18n.t('export.macro.rich_text_unsupported')}]"],
-          ["parent", parent_project.name],
-          ["public", "Yes"]
-        ]
-      end
       let(:supported_work_package_embeds_table) do
         supported_work_package_embeds.map do |embed|
           "<tr><td>workPackageLabel:#{embed[0]}</td><td>workPackageValue:#{embed[0]}</td></tr>"
@@ -230,6 +255,12 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
         <<~DESCRIPTION
           ## Work package attributes and labels
           <table><tbody>#{supported_work_package_embeds_table}
+            <tr><td>Custom field boolean</td><td>
+                workPackageValue:1:"#{cf_global_bool.name}"
+            </td></tr>
+            <tr><td>Custom field rich text</td><td>
+                workPackageValue:1:"#{cf_long_text.name}"
+            </td></tr>
             <tr><td>No replacement of:</td><td>
                 <code>workPackageValue:1:assignee</code>
                 <code>workPackageLabel:assignee</code>
@@ -242,24 +273,16 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
             workPackageValue:3:assignee
             workPackageLabel:assignee
             ```
-        DESCRIPTION
-      end
-      let(:supported_project_embeds_table) do
-        supported_project_embeds.map do |embed|
-          "<tr><td>projectLabel:#{embed[0]}</td><td>projectValue:#{embed[0]}</td></tr>"
-        end
-      end
-      let(:cf_long_text_description) do
-        <<~DESCRIPTION
-          ## Project attributes and labels
-          <table><tbody>#{supported_project_embeds_table}</tbody></table>
-        DESCRIPTION
-      end
 
+            Work package not found:
+            workPackageValue:1234567890:assignee
+            Access denied:
+            workPackageValue:#{forbidden_work_package.id}:assignee
+        DESCRIPTION
+      end
       it "contains resolved attributes and labels" do
         result = pdf[:strings]
         expected_result = [
-          "#{type.name} ##{work_package.id} - #{work_package.subject}",
           *expected_details,
           label_title(:description),
           "Work package attributes and labels",
@@ -268,20 +291,90 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
               API::Utilities::PropertyNameConverter.to_ar_name(embed[0].to_sym, context: work_package)
             ), embed[1]]
           end,
+          "Custom field boolean", I18n.t(:general_text_Yes),
+          "1", export_time_formatted, project.name,
+          "Custom field rich text", "[#{I18n.t('export.macro.rich_text_unsupported')}]",
           "No replacement of:", "workPackageValue:1:assignee", " ", "workPackageLabel:assignee",
           "workPackageValue:2:assignee workPackageLabel:assignee",
-          "1", export_time_formatted, project.name,
           "workPackageValue:3:assignee", "workPackageLabel:assignee",
-          "LongText",
+          "Work package not found:  ",
+          "[#{I18n.t('export.macro.error', message:
+            I18n.t('export.macro.resource_not_found', resource: "WorkPackage 1234567890"))}]  ",
+          "Access denied:  ",
+          "[#{I18n.t('export.macro.error', message:
+            I18n.t('export.macro.resource_not_found', resource: "WorkPackage #{forbidden_work_package.id}"))}]",
+          "2", export_time_formatted, project.name
+        ].flatten
+        expect(result.join(" ")).to eq(expected_result.join(" "))
+      end
+    end
+
+    describe "with embedded project attributes" do
+      let(:supported_project_embeds) do
+        [
+          ["active", I18n.t(:general_text_Yes)],
+          ["description", "[#{I18n.t('export.macro.rich_text_unsupported')}]"],
+          ["identifier", project.identifier],
+          ["name", project.name],
+          ["status", I18n.t("activerecord.attributes.project.status_codes.#{project.status_code}")],
+          ["statusExplanation", "[#{I18n.t('export.macro.rich_text_unsupported')}]"],
+          ["parent", parent_project.name],
+          ["public", I18n.t(:general_text_Yes)]
+        ]
+      end
+      let(:supported_project_embeds_table) do
+        supported_project_embeds.map do |embed|
+          "<tr><td>projectLabel:#{embed[0]}</td><td>projectValue:#{embed[0]}</td></tr>"
+        end
+      end
+      let(:description) do
+        <<~DESCRIPTION
+          ## Project attributes and labels
+          <table><tbody>#{supported_project_embeds_table}
+            <tr><td>No replacement of:</td><td>
+                <code>projectValue:1:status</code>
+                <code>projectLabel:status</code>
+            </td></tr>
+            </tbody></table>
+
+            `projectValue:2:status projectLabel:status`
+
+            ```
+            projectValue:3:status
+            projectLabel:status
+            ```
+
+            Project not found:
+            projectValue:1234567890:active
+            Access denied:
+            projectValue:#{forbidden_project.id}:active
+        DESCRIPTION
+      end
+      it "contains resolved attributes and labels" do
+        result = pdf[:strings]
+        expected_result = [
+          *expected_details,
+          label_title(:description),
           "Project attributes and labels",
           supported_project_embeds.map do |embed|
             [Project.human_attribute_name(
               API::Utilities::PropertyNameConverter.to_ar_name(embed[0].to_sym, context: project)
             ), embed[1]]
           end,
-          "2", export_time_formatted, project.name
+
+          "No replacement of:", "projectValue:1:status", " ", "projectLabel:status",
+          "projectValue:2:status projectLabel:status",
+          "projectValue:3:status", "projectLabel:status",
+
+          "Project not found:  ",
+          "[#{I18n.t('export.macro.error', message:
+            I18n.t('export.macro.resource_not_found', resource: "Project 1234567890"))}]  ",
+          "Access denied:  ",
+          "[#{I18n.t('export.macro.error', message:
+            I18n.t('export.macro.resource_not_found', resource: "Project #{forbidden_project.id}"))}]",
+
+          "1", export_time_formatted, project.name
         ].flatten
-        # Joining the results for comparison since word wrapping leads to a different array for the same content
         expect(result.join(" ")).to eq(expected_result.join(" "))
       end
     end
