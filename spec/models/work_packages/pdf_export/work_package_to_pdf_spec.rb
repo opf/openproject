@@ -39,6 +39,19 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   let(:parent_project) do
     create(:project, name: "Parent project")
   end
+  let(:project_custom_field_bool) { create(:project_custom_field, :boolean,
+                                           name: "Boolean project custom field") }
+  let(:project_custom_field_string) {
+    create(:project_custom_field, :string,
+           name: "Secret string", default_value: "admin eyes only",
+           visible: false)
+  }
+  let(:project_custom_field_long_text) {
+    create(:project_custom_field, :text,
+           name: "Rich text project custom field",
+           default_value: "rich text field value"
+    )
+  }
   let(:project) do
     create(:project,
            name: "Foo Bla. Report No. 4/2021 with/for Case 42",
@@ -47,6 +60,9 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
            status_code: "on_track",
            active: true,
            parent: parent_project,
+           custom_field_values: {
+             project_custom_field_bool.id => true
+           },
            work_package_custom_fields: [cf_long_text, cf_disabled_in_project, cf_global_bool],
            work_package_custom_field_ids: [cf_long_text.id, cf_global_bool.id]) # cf_disabled_in_project.id is disabled
   end
@@ -55,7 +71,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
            name: "Forbidden project",
            types: [type],
            id: 666,
-           public: true,
+           public: false,
            status_code: "on_track",
            active: true,
            parent: parent_project,
@@ -331,6 +347,15 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
         <<~DESCRIPTION
           ## Project attributes and labels
           <table><tbody>#{supported_project_embeds_table}
+          <tr><td>Custom field boolean</td><td>
+                projectValue:"#{project_custom_field_bool.name}"
+            </td></tr>
+            <tr><td>Custom field rich text</td><td>
+                projectValue:"#{project_custom_field_long_text.name}"
+            </td></tr>
+            <tr><td>Custom field hidden</td><td>
+                projectValue:"#{project_custom_field_string.name}"
+            </td></tr>
             <tr><td>No replacement of:</td><td>
                 <code>projectValue:1:status</code>
                 <code>projectLabel:status</code>
@@ -361,6 +386,11 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
               API::Utilities::PropertyNameConverter.to_ar_name(embed[0].to_sym, context: project)
             ), embed[1]]
           end,
+          "Custom field boolean", I18n.t(:general_text_Yes),
+          "Custom field rich text", "[#{I18n.t('export.macro.rich_text_unsupported')}]",
+          "Custom field hidden",
+          "[#{I18n.t('export.macro.error', message:
+            I18n.t('export.macro.resource_not_found', resource: "Secret string"))}]",
 
           "No replacement of:", "projectValue:1:status", " ", "projectLabel:status",
           "projectValue:2:status projectLabel:status",
