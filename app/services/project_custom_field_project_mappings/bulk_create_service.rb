@@ -46,6 +46,8 @@ module ProjectCustomFieldProjectMappings
       service_call
     end
 
+    private
+
     def validate_permissions
       if @user.allowed_in_project?(:select_project_custom_fields, projects)
         ServiceResult.success
