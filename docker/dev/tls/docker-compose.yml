@@ -7,7 +7,6 @@ services:
       --providers.docker.network=gateway
       --providers.docker.exposedByDefault=false
       --api.dashboard=true
-      --api.disabledashboardad=true
       --entryPoints.web.address=:80
       --entryPoints.web.http.redirections.entrypoint.to=websecure
       --entryPoints.websecure.address=:443
