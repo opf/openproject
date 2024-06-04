@@ -6,32 +6,40 @@
   I18n.t("storages.label_storage")
 end %>
 
-<%= render(Primer::OpenProject::PageHeader.new(border_bottom: 0)) do |header| %>
+<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
   <% header.with_title { t("external_file_storages") } %>
   <% header.with_description { t("storages.page_titles.file_storages.subtitle") } %>
   <% header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
                               { href: admin_settings_storages_path, text: t("project_module_storages") },
                               t("external_file_storages")]) %>
+<% end %>
 
-  <%= header.with_action_menu(menu_arguments: { test_selector: 'storages-select-provider-action-menu',
-                                                anchor_align: :end },
-                              button_arguments: { scheme: :primary,
-                                                  aria: { label: I18n.t("storages.label_add_new_storage") },
-                                                  button_block: button_block }) do |menu|
-    ::Storages::Storage::PROVIDER_TYPES.each do |provider_type|
-      short_provider_type = ::Storages::Storage.shorten_provider_type(provider_type)
+<%= render(Primer::OpenProject::SubHeader.new) do |subheader|
+  subheader.with_action_component do
+    render(Primer::Alpha::ActionMenu.new(test_selector: 'storages-select-provider-action-menu',
+                                         anchor_align: :end)) do |menu|
+      menu.with_show_button(scheme: :primary,
+                            aria: { label: I18n.t("storages.label_add_new_storage") }) do |button|
+        button.with_leading_visual_icon(icon: :plus)
+        button.with_trailing_action_icon(icon: :"triangle-down")
+        I18n.t("storages.label_storage")
+      end
 
-      menu.with_item(
-        label: I18n.t("storages.provider_types.#{short_provider_type}.name"),
-        href: url_helpers.select_provider_admin_settings_storages_path(provider: short_provider_type)
-      ) do |item|
-        item.with_trailing_visual_icon(
-          icon: "op-enterprise-addons",
-          classes: "upsale-colored"
-        ) if ::Storages::Storage::one_drive_without_ee_token?(provider_type)
+      ::Storages::Storage::PROVIDER_TYPES.each do |provider_type|
+        short_provider_type = ::Storages::Storage.shorten_provider_type(provider_type)
+
+        menu.with_item(
+          label: I18n.t("storages.provider_types.#{short_provider_type}.name"),
+          href: url_helpers.select_provider_admin_settings_storages_path(provider: short_provider_type)
+        ) do |item|
+          item.with_trailing_visual_icon(
+            icon: "op-enterprise-addons",
+            classes: "upsale-colored"
+          ) if ::Storages::Storage::one_drive_without_ee_token?(provider_type)
+        end
       end
     end
-  end %>
-<% end %>
+  end
+end %>
 
 <%= render(::Storages::Admin::StorageListComponent.new(@storages)) %>
