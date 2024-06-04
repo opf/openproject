@@ -38,25 +38,6 @@ class Members::IndexPageHeaderComponent < ApplicationComponent
     @project = project
   end
 
-  def add_button_data_attributes
-    attributes = {
-      "members-form-target": "addMemberButton",
-      action: "members-form#showAddMemberForm",
-      "test-selector": "member-add-button"
-    }
-
-    attributes["trigger-initially"] = "true" if params[:show_add_members]
-
-    attributes
-  end
-
-  def filter_button_data_attributes
-    {
-      "members-form-target": "filterMemberButton",
-      action: "members-form#toggleMemberFilter"
-    }
-  end
-
   def breadcrumb_items
     [{ href: project_overview_path(@project.id), text: @project.name },
      { href: project_members_path(@project), text: t(:label_member_plural) },

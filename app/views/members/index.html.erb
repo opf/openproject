@@ -28,12 +28,11 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <% html_title t(:label_member_plural) -%>
 
-
-
 <div data-controller="members-form"
      data-application-target="dynamic">
 
   <%= render ::Members::IndexPageHeaderComponent.new(project: @project) %>
+  <%= render ::Members::IndexSubHeaderComponent.new(project: @project, filter_options: @members_filter_options) %>
 
   <%= error_messages_for 'member' %>
 
@@ -50,7 +49,6 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 
   <div>
-    <%= render ::Members::UserFilterComponent.new(params, **@members_filter_options) %>
     <%= render ::Members::TableComponent.new(rows: @members, **@members_table_options) %>
   </div>
 </div>
