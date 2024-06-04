@@ -28,34 +28,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackages::Progress::ApplyStatusesPCompleteJob < WorkPackages::Progress::Job
+class WorkPackages::Progress::ApplyStatusesChangeJob < WorkPackages::Progress::Job
   VALID_CAUSE_TYPES = %w[
     progress_mode_changed_to_status_based
-    status_p_complete_changed
+    status_changed
   ].freeze
+
+  attr_reader :cause_type, :status_name, :status_id, :changes
 
   # Updates % complete and remaining work of all work packages after a status %
   # complete value has been changed or the progress calculation mode was set to
   # status-based.
   #
-  # It creates a journal entry with the System user describing the change.
+  # It creates a journal entry with the System user describing the changes.
   #
   # @param status_name [String] The cause of the update to be put in the journal
   #   entry. Must be one of `VALID_CAUSE_TYPES`.
   # @param status_name [String] The name of the status to apply.
   # @param status_id [Integer] The ID of the status to apply. Not used
   #   currently, but here in case we need it in a later version.
-  # @param change [Object] The change object containing an array of [old, new]
-  #   values of the change.
+  # @param changes [Object] The changes object containing a map of array of
+  #   [old, new] values of the change, for instance
+  #   `{"default_done_ratio" => [20, 40], "excluded_from_totals" => [false, true]}`.
   # @return [void]
-  def perform(cause_type:, status_name: nil, status_id: nil, change: nil)
-    return if WorkPackage.use_field_for_done_ratio?
-
-    journal_cause = journal_cause_from(cause_type, status_name:, status_id:, change:)
+  def perform(cause_type:, status_name: nil, status_id: nil, changes: nil)
+    @cause_type = cause_type
+    @status_name = status_name
+    @status_id = status_id
+    @changes = changes
 
     with_temporary_progress_table do
-      set_p_complete_from_status
-      derive_remaining_work_from_work_and_p_complete
+      if WorkPackage.use_status_for_done_ratio?
+        set_p_complete_from_status
+        derive_remaining_work_from_work_and_p_complete
+      end
       update_totals
 
       copy_progress_values_to_work_packages_and_update_journals(journal_cause)
@@ -64,23 +70,43 @@ class WorkPackages::Progress::ApplyStatusesPCompleteJob < WorkPackages::Progress
 
   private
 
-  def journal_cause_from(cause_type, status_name:, status_id:, change:)
-    if VALID_CAUSE_TYPES.exclude?(cause_type)
+  def journal_cause
+    assert_valid_cause_type!
+
+    @journal_cause ||=
+      case cause_type
+      when "progress_mode_changed_to_status_based"
+        Journal::CausedByProgressModeChangedToStatusBased.new
+      when "status_changed"
+        assert_status_information_present!
+        Journal::CausedByStatusChanged.new(
+          status_name:,
+          status_id:,
+          status_changes: changes
+        )
+      else
+        raise "Unable to handle cause type #{cause_type.inspect}"
+      end
+  end
+
+  def assert_valid_cause_type!
+    unless VALID_CAUSE_TYPES.include?(cause_type)
       raise ArgumentError, "Invalid cause type #{cause_type.inspect}. " \
                            "Valid values are #{VALID_CAUSE_TYPES.inspect}"
     end
+  end
 
-    case cause_type
-    when "progress_mode_changed_to_status_based"
-      { type: cause_type }
-    when "status_p_complete_changed"
-      raise ArgumentError, "status_name must be provided" if status_name.blank?
-      raise ArgumentError, "status_id must be provided" if status_id.nil?
-      raise ArgumentError, "change must be provided" if change.nil?
+  def assert_status_information_present!
+    if status_name.blank?
+      raise ArgumentError, "status_name must be provided"
+    end
 
-      { type: cause_type, status_name:, status_id:, status_p_complete_change: change }
-    else
-      raise "Unable to handle cause type #{cause_type.inspect}"
+    if status_id.nil?
+      raise ArgumentError, "status_id must be provided"
+    end
+
+    if changes.nil?
+      raise ArgumentError, "changes must be provided"
     end
   end
 end

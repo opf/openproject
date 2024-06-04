@@ -1288,6 +1288,11 @@ lt:
           placeholder: "Statytinis naudotojas gali prisijungti ir pasiekti %{project}. Tuo pačiu, jūs jau galite planuoti darbus su šiuo naudotoju ir pavyzdžiui priskirti jam darbo užduotis."
           group: "Grupė jau tapo %{project} dalimi. Tuo pačiu, jūs jau galite planuoti darbus su šia grupe ir pavyzdžiui priskirti jai darbo užduotis."
         next_button: "Tęsti"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
     favorite_projects:
       no_results: "Jūs neturite mėgstamų projektų"
       no_results_subtext: "Pridėkite vieną ar kelis projektus kaip mėgiamus jų apžvalgoje ar projektų sąraše."
@@ -1348,7 +1353,7 @@ lt:
         remove: "Pašalinti"
       drop_modal:
         focus_grab: "Tai fokuso inkaras modalams. Spauskite shift+tab, kad grįžtumėte į modalinių trigerių elementą."
-        Close: "Uždaryti"
+        close: "Close modal"
     open_project_storage_modal:
       waiting_title:
         timeout: "Timeout"

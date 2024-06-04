@@ -27,11 +27,11 @@
 #++
 
 module Admin::Settings
-  class WorkingDaysSettingsController < ::Admin::SettingsController
-    menu_item :working_days
+  class WorkingDaysAndHoursSettingsController < ::Admin::SettingsController
+    menu_item :working_days_and_hours
 
     def default_breadcrumb
-      t(:label_working_days)
+      t(:label_working_days_and_hours)
     end
 
     def failure_callback(call)
@@ -43,14 +43,14 @@ module Admin::Settings
     protected
 
     def settings_params
-      settings = super
-      settings[:working_days] = working_days_params(settings)
-      settings[:non_working_days] = non_working_days_params
-      settings
+      super.tap do |settings|
+        settings[:working_days] = working_days_params(settings)
+        settings[:non_working_days] = non_working_days_params
+      end
     end
 
     def update_service
-      ::Settings::WorkingDaysUpdateService
+      ::Settings::WorkingDaysAndHoursUpdateService
     end
 
     private

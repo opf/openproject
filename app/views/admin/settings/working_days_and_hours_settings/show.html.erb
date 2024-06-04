@@ -27,37 +27,66 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= toolbar title: t(:label_working_days) %>
-
-<div class="op-toast -warning">
-  <div class="op-toast--content">
-    <p>
-    <%= t("working_days.warning").html_safe %>
-    </p>
-  </div>
-</div>
+<%= toolbar title: t(:label_working_days_and_hours) %>
 
 <%= styled_form_tag(
-      admin_settings_working_days_path,
+      admin_settings_working_days_and_hours_path,
       method: :patch,
       class: 'op-working-days-admin-settings'
     ) do %>
 
+  <section class="form--section"
+           data-application-target="dynamic"
+           data-controller="admin--working-days-and-hours">
+    <fieldset class="form--fieldset">
+      <div class="form--field">
+        <%= setting_text_field :hours_per_day,
+                               type: :number,
+                               container_class: "-wide" %>
+        <div class="form--field-instructions"><%= t("setting_hours_per_day_explanation") %></div>
+      </div>
+
+      <div class="form--field">
+        <%= setting_text_field :days_per_week,
+                               type: :number,
+                               container_class: "-wide",
+                               data: { admin__working_days_and_hours_target: 'daysPerWeekInput',
+                                       action: 'blur->admin--working-days-and-hours#recalculateDaysPerMonth' } %>
+        <div class="form--field-instructions"><%= t("setting_days_per_week_explanation") %></div>
+      </div>
+
+      <div class="form--field">
+        <%= setting_text_field :days_per_month,
+                               type: :number,
+                               container_class: "-wide",
+                               data: { admin__working_days_and_hours_target: 'daysPerMonthInput',
+                                       action: 'blur->admin--working-days-and-hours#recalculateDaysPerWeek' } %>
+        <div class="form--field-instructions"><%= t("setting_days_per_month_explanation") %></div>
+      </div>
+
+    </fieldset>
+  </section>
+
   <section class="form--section">
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= t('settings.working_days.section_work_week') %></legend>
-
+      <div class="op-toast -warning">
+        <div class="op-toast--content">
+          <p>
+            <%= t("working_days.warning") %>
+          </p>
+        </div>
+      </div>
       <p>
-        <%= t("working_days.info").html_safe %>
+      <p>
+        <%= t("working_days.info") %>
       </p>
 
       <div class="form--field op-working-days-admin-settings--day-selectors" id="setting_working_days">
         <%= setting_multiselect :working_days,
-
-              I18n.t('date.day_names').rotate.zip(WeekDay::DAY_RANGE),
-              direction: :horizontal %>
+                                I18n.t('date.day_names').rotate.zip(WeekDay::DAY_RANGE),
+                                direction: :horizontal %>
       </div>
-
     </fieldset>
   </section>
 
@@ -66,7 +95,7 @@ See COPYRIGHT and LICENSE files for more details.
       <legend class="form--fieldset-legend"><%= t('settings.working_days.section_holidays_and_closures') %></legend>
 
       <p>
-        <%= t("working_days.instance_wide_info").html_safe %>
+        <%= t("working_days.instance_wide_info") %>
       </p>
       <%= angular_component_tag 'op-non-working-days-list',
                                 data: { modified_non_working_days: @modified_non_working_days } %>

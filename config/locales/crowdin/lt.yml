@@ -457,12 +457,20 @@ lt:
         Nebebus galima keisti jokių atributų išskyrus būseną.
         <br/>
         <strong>Pastaba:</strong> paveldėti atributai (pvz., iš vaikų ar sąryšių) gali būti keičiami automatiškai.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         Spauskite, kad priskirtumėte arba pakeistumėte šios būsenos spalvą.
         Ji rodoma būsenos mygtuke arba gali būti naudojama paryškinti darbo paketus lentelėje.
     index:
       no_results_title_text: Nėra jokių darbų paketo būsenų.
       no_results_content_text: Pridėti naują būseną
+      headers:
+        is_default: "Default"
+        is_closed: "Closed"
+        is_readonly: "Read-only"
+        excluded_from_totals: "Excluded from totals"
   themes:
     light: "Šviesi"
     light_high_contrast: "Šviesi kontrastinga"
@@ -634,6 +642,7 @@ lt:
       status:
         is_closed: "Darbų paketas uždarytas"
         is_readonly: "Darbų paketas nekeičiamas"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Pastabos"
       member:
@@ -970,6 +979,14 @@ lt:
             base:
               working_days_are_missing: "Bent viena diena savaitėje turi būti apibrėžta kaip darbo diena."
               previous_working_day_changes_unprocessed: "Ankstesni darbo dienų konfigūracijos pakeitimai dar nebuvo pritaikyti."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              days_per_week_are_missing: "The number of days per week must be defined."
+              days_per_month_are_missing: "The number of days per month must be defined."
+              durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+              days_per_week_is_out_of_bounds: "Days per week can't be more than 7"
+              days_per_month_is_out_of_bounds: "Days per month can't be more than 31"
+              days_per_week_and_days_per_month_are_inconsistent: "The number of days per week and the number of days per month must be consistent."
         time_entry:
           attributes:
             hours:
@@ -1721,7 +1738,7 @@ lt:
       dates_changed: "Datos pasikeitė"
       default_attribute_written: "Tik-skaitymo atributai įrašyti"
       progress_mode_changed_to_status_based: "Eigos skaičiavimas atnaujintas"
-      status_p_complete_changed: "Būsenos % baigta pakeista"
+      status_changed: "Status '%{status_name}'"
       system_update: "OpenProject sistemos atnaujinimas"
     cause_descriptions:
       work_package_predecessor_changed_times: dėl pirmtako pakeitimų %{link}
@@ -1738,8 +1755,9 @@ lt:
           working: "%{date} dabar yra darbo"
           non_working: "%{date} dabar yra nedarbo"
       progress_mode_changed_to_status_based: Nustatytas eigos skaičiavimo režimas priklausantis-nuo-būsenos
-      status_p_complete_changed: >-
-        % baigta reikšmė būsenai „%{status_name}“ pakeista iš %{old_value}% į %{new_value}%
+      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
+      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
+      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           Nuo dabar, su failų nuorodomis (failais, saugomais išorinse saugyklose) susiję veiksmai bus rodomi Veiksmų kortelėje. Žemiau pateikiamas jau egzistavusių nuorodų veiksmų sąrašas:
@@ -2396,7 +2414,7 @@ lt:
   label_workflow: "Darbų eiga"
   label_workflow_plural: "Darbų eigos"
   label_workflow_summary: "Santrauka"
-  label_working_days: "Darbo dienos"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "1 uždarytas"
     other: "%{count} uždaryti (-as, -ų)"
@@ -2996,6 +3014,9 @@ lt:
   setting_cross_project_work_package_relations: "Leisti tarp-projektinius darbų paketo ryšius"
   setting_first_week_of_year: "Pirma metų savaitė turi"
   setting_date_format: "Data"
+  setting_days_per_month: "Days per month"
+  setting_days_per_month_explanation: >-
+    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Numatytoji kalba"
   setting_default_projects_modules: "Pagal nutylėjimą naujame projekte įjungti moduliai"
   setting_default_projects_public: "Nauji projektai yra vieši pagal nutylėjimą"
@@ -3011,6 +3032,12 @@ lt:
   setting_feeds_limit: "Naujienų kanalų turinio limitas"
   setting_file_max_size_displayed: "Maksimalus tekstinių failų dydis rodomas vienoje eilutėje"
   setting_host_name: "Serverio vardas"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >-
+    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+  setting_days_per_week: "Days per week"
+  setting_days_per_week_explanation: >-
+    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a week is 5 days, 15 days would be 3 weeks).
   setting_invitation_expiration_days: "Aktyvavimo laiško galiojimas baigiasi po"
   setting_work_package_done_ratio: "Eigos skaičiavimas"
   setting_work_package_done_ratio_field: "Pagal-darbą"
@@ -3453,12 +3480,12 @@ lt:
         additional_privileges_project_or_group: "Gali turėti papildomų privilegijų (kaip projekto ar grupės narys)"
   working_days:
     info: >
-      Nepažymėtos dienos praleidžiamos skaičiuojant darbo paketus (ir neįtraukiamos į dienų skaičių). Šituos nustatymus galima permušti darbo paketo lygyje.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
     instance_wide_info: >
       Į žemiau esantį sąrašą pridėtos datos laikomos nedarbo dienomis ir praleidžiamos planuojant darbo paketus.
     change_button: "Keisti darbo dienas"
     warning: >
-      Keičiant dienas, kurios yra darbo ar nedarbo dienos, gali keistis visų projektų darbo paketų pradžios ir pabaigos dienos. <br/>Prašome atkreipti dėmesį, kad pakeitimai pritaikomi tik po to, kai jūs paspaudžiate mygtuką pritaikyti.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
       changed: _**Darbo dienos** pakeistos (%{changes})._
       days:

@@ -28,18 +28,21 @@
 
 require "spec_helper"
 
-RSpec.describe Admin::Settings::WorkingDaysSettingsController do
+RSpec.describe Admin::Settings::WorkingDaysAndHoursSettingsController do
   shared_let(:user) { create(:admin) }
 
   current_user { user }
 
-  require_admin_and_render_template("working_days_settings")
+  require_admin_and_render_template("working_days_and_hours_settings")
 
   describe "update" do
     let(:working_days) { [*"1".."7"] }
     let(:non_working_days_attributes) { {} }
+    let(:hours_per_day) { 4 }
+    let(:days_per_week) { 5 }
+    let(:days_per_month) { 20 }
     let(:params) do
-      { settings: { working_days:, non_working_days_attributes: } }
+      { settings: { working_days:, non_working_days_attributes:, hours_per_day:, days_per_week:, days_per_month: } }
     end
 
     subject { patch "update", params: }
@@ -91,7 +94,8 @@ RSpec.describe Admin::Settings::WorkingDaysSettingsController do
         expect(assigns(:modified_non_working_days)).to contain_exactly(
           hash_including("name" => "Christmas Eve", "date" => "2022-12-24"),
           hash_including("name" => "Christmas Eve2", "date" => "2022-12-24"),
-          hash_including(nwd_to_delete.as_json(only: %i[id name date]).merge("_destroy" => true))
+          hash_including(nwd_to_delete.as_json(only: %i[id name
+                                                        date]).merge("_destroy" => true))
         )
       end
 

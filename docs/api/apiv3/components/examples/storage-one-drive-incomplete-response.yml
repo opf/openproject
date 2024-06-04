@@ -8,7 +8,7 @@ value:
   driveId: null
   createdAt: '2021-12-20T13:37:00.211Z'
   updatedAt: '2021-12-20T13:37:00.211Z'
-  complete: false
+  configured: false
   _links:
     self:
       href: /api/v3/storages/1337
@@ -22,7 +22,7 @@ value:
     authorizationState:
       href: urn:openproject-org:api:v3:storages:authorization:FailedAuthorization
       title: Authorization failed
-    projectStrages:
+    projectStorages:
       href: /api/v3/project_storages?filters=[{"storageId":{"operator":"=","values":["1337"]}}]
     oauthClientCredentials:
       href: /api/v3/oauth_client_credentials/42

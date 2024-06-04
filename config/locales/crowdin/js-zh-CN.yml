@@ -1278,6 +1278,11 @@ zh-CN:
           placeholder: "现在可以在 %{project} 中使用占位符。同时，您已经可以与该用户一起制定计划并分配工作包等。"
           group: "该组现已加入 %{project}。同时，您已经可以与该组一起制定计划并分配工作包等。"
         next_button: "继续"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
     favorite_projects:
       no_results: "您没有收藏的项目"
       no_results_subtext: "通过项目概览或项目列表添加一个或多个项目作为收藏夹。"
@@ -1338,7 +1343,7 @@ zh-CN:
         remove: "移除"
       drop_modal:
         focus_grab: "该信息是模态框的焦点锚点。按 Shift+Tab 可以返回到模态框的触发元素。"
-        Close: "关闭"
+        close: "Close modal"
     open_project_storage_modal:
       waiting_title:
         timeout: "Timeout"

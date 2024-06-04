@@ -1284,6 +1284,11 @@ ro:
           placeholder: "Marca de poziție poate fi utilizată acum în %{project}. Între timp, puteți deja să planificați cu acel utilizator și să atribuiți pachete de lucru, de exemplu."
           group: "Grupul este acum o parte din %{project}. Între timp, puteți deja să planificați cu acest grup și să atribuiți pachete de lucru, de exemplu."
         next_button: "Continuaţi"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
     favorite_projects:
       no_results: "You have no favorite projects"
       no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
@@ -1344,7 +1349,7 @@ ro:
         remove: "Eliminare"
       drop_modal:
         focus_grab: "Aceasta este o ancoră de focalizare pentru modalități. Apăsați shift+tab pentru a reveni la elementul de declanșare modal."
-        Close: "Închide"
+        close: "Close modal"
     open_project_storage_modal:
       waiting_title:
         timeout: "Timeout"

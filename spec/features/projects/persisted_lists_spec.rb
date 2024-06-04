@@ -276,6 +276,20 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.expect_no_columns("Public")
     end
 
+    it "keeps changes when cancelling save" do
+      projects_page.open_filters
+      projects_page.filter_by_membership("yes")
+      projects_page.set_columns("Name")
+
+      projects_page.click_more_menu_item("Save as")
+      projects_page.click_on("Cancel")
+
+      projects_page.expect_projects_listed(project, development_project)
+      projects_page.expect_projects_not_listed(public_project)
+      projects_page.expect_columns("Name")
+      projects_page.expect_no_columns("Status", "Public")
+    end
+
     it "allows saving static query as user list" do
       projects_page.open_filters
       projects_page.filter_by_membership("yes")

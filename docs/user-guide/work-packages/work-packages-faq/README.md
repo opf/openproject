@@ -45,12 +45,7 @@ You can set the assignee filter in the work package table to "Assignee and belon
 
 ### How can I track the progress of my work package?
 
-You can track the progress either manually by changing the progress
-bar in the work package details yourself. Or you can track it
-automatically by assigning the progress in % to each status of
-a work package. Please find the guide on how to do the automatic
-tracking (in bullet point 5)
-[here](../../../system-admin-guide/manage-work-packages/work-package-settings).
+Progress of a work package is demonstrated by the value of **% Complete**. This is calculated either based on the status of the work package or on the values of *Work* and *Remaining work*. Please read more on progress reporting [here](../../time-and-costs/progress-tracking/#progress-reporting-modes).
 
 ### How can I track the progress of work packages with children?
 

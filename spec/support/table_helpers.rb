@@ -36,6 +36,7 @@ RSpec.configure do |config|
     match do |actual_work_packages|
       expected_data = TableHelpers::TableData.for(expected)
       actual_data = TableHelpers::TableData.from_work_packages(actual_work_packages, expected_data.columns)
+      actual_data.order_like!(expected_data)
 
       representer = TableHelpers::TableRepresenter.new(tables_data: [expected_data, actual_data],
                                                        columns: expected_data.columns)

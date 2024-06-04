@@ -1282,6 +1282,11 @@ pt-PT:
           placeholder: "O espaço reservado agora pode ser usado em %{project}. Enquanto isso, já pode planear com este utilizador e atribuir pacotes de trabalho, por exemplo."
           group: "O grupo agora faz parte de %{project}. Enquanto isso, já pode planear com este grupo e atribuir pacotes de trabalho, por exemplo."
         next_button: "Continuar"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
     favorite_projects:
       no_results: "Não tem projetos favoritos"
       no_results_subtext: "Adicione um ou vários projetos como favoritos através da sua visão geral ou numa lista de projetos."
@@ -1342,7 +1347,7 @@ pt-PT:
         remove: "Remover"
       drop_modal:
         focus_grab: "Esta é uma âncora de foco para modais. Pressione Shift+tab para voltar ao elemento de gatilho modal."
-        Close: "Fechar"
+        close: "Close modal"
     open_project_storage_modal:
       waiting_title:
         timeout: "Tempo esgotado"

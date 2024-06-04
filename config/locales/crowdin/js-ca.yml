@@ -1282,6 +1282,11 @@ ca:
           placeholder: "L'usuari de marcador de posició ara pot ser utilitzat a %{project}. Per tant, ja pots planejar amb aquest usuari i assignar-li paquets de treball."
           group: "El grup és ara part de %{project}. Per tant, ja pots planejar amb aquest grup i assignar-li paquets de treball."
         next_button: "Continua"
+    exclusion_info:
+      modal:
+        title: "Status excluded from hierarchy totals"
+        content: >-
+          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
     favorite_projects:
       no_results: "You have no favorite projects"
       no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
@@ -1342,7 +1347,7 @@ ca:
         remove: "Eliminar"
       drop_modal:
         focus_grab: "Estàs en un focus ancorat per a finestres emergents. Fes clic a shift+tab per tornar a l'element que ha activat la finestra emergent."
-        Close: "Tanca"
+        close: "Close modal"
     open_project_storage_modal:
       waiting_title:
         timeout: "Timeout"

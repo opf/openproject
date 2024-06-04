@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,16 +24,18 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
-#
-class Journal::CausedByStatusPCompleteChanged < CauseOfChange::Base
-  def initialize(status_name:, status_id:, status_p_complete_change:)
-    additional = {
-      "status_name" => status_name,
-      "status_id" => status_id,
-      "status_p_complete_change" => status_p_complete_change
-    }
+# ++
 
-    super("status_p_complete_changed", additional)
+module JournalFormatter
+  class ChronicDuration < Attribute
+    def format_values(values)
+      values.map do |v|
+        if v.nil?
+          nil
+        else
+          ::DurationConverter.output(v.to_f)
+        end
+      end
+    end
   end
 end
