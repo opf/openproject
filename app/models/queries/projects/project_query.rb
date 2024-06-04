@@ -30,6 +30,7 @@ class Queries::Projects::ProjectQuery < ApplicationRecord
   include Queries::BaseQuery
   include Queries::Serialization::Hash
   include HasMembers
+  include ::Scopes::Scoped
 
   belongs_to :user
 
@@ -41,8 +42,10 @@ class Queries::Projects::ProjectQuery < ApplicationRecord
   scope :private_lists, ->(user: User.current) { where(public: false, user:) }
 
   scope :visible, ->(user = User.current) {
-                    public_lists.or(private_lists(user:))
+                    allowed_to(user, :view_project_query)
                   }
+
+  scopes :allowed_to
 
   def visible?(user = User.current)
     public? || user == self.user
