@@ -3111,7 +3111,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   setting_date_format: "Date"
   setting_days_per_month: "Days per month"
   setting_days_per_month_explanation: >-
-    This will define what is considered a "week" when displaying duration in a more natural
+    This will define what is considered a "month" when displaying duration in a more natural
     way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Default language"
   setting_default_projects_modules: "Default enabled modules for new projects"

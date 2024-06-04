@@ -304,7 +304,7 @@ module Settings
         ].freeze
       },
       days_per_month: {
-        description: "This will define what is considered a “week” when displaying duration in a more natural way " \
+        description: "This will define what is considered a “month” when displaying duration in a more natural way " \
                      "(for example, if a month is 20 days, 60 days would be 3 months.",
         default: 20,
         format: :integer
