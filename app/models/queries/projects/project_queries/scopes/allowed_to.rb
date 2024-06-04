@@ -52,7 +52,15 @@ module Queries::Projects::ProjectQueries::Scopes
             public_queries:,
             user_owned_queries:,
             allowed_queries: allowed_via_membership
-          ).where("project_queries.id IN (SELECT id FROM public_queries UNION SELECT id FROM user_owned_queries UNION SELECT id FROM allowed_queries)")
+          ).where(<<~SQL.squish)
+            project_queries.id IN (
+              SELECT id FROM public_queries
+              UNION
+              SELECT id FROM user_owned_queries
+              UNION
+              SELECT id FROM allowed_queries
+            )
+          SQL
         end
       end
 
