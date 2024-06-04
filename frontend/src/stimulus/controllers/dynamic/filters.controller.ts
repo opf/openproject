@@ -72,6 +72,11 @@ export default class FiltersController extends Controller {
   declare displayFiltersValue:boolean;
   declare outputFormatValue:string;
 
+  connect() {
+    const urlParams = new URLSearchParams(window.location.search);
+    this.displayFiltersValue = urlParams.has('filters');
+  }
+
   toggleDisplayFilters() {
     this.displayFiltersValue = !this.displayFiltersValue;
   }
@@ -83,9 +88,9 @@ export default class FiltersController extends Controller {
 
   toggleButtonActive() {
     if (this.displayFiltersValue) {
-      this.filterFormToggleTarget.setAttribute('aria-disabled', 'true');
+      this.filterFormToggleTarget.setAttribute('aria-pressed', 'true');
     } else {
-      this.filterFormToggleTarget.removeAttribute('aria-disabled');
+      this.filterFormToggleTarget.removeAttribute('aria-pressed');
     }
   }
 

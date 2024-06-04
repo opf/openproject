@@ -3,6 +3,6 @@
                                     data: { "filters-target": "filterFormToggle",
                                             action: "filters#toggleDisplayFilters" },
                                     test_selector: "filter-component-toggle")) do |button| %>
-  <% button.with_trailing_visual_counter(count: filters_count) %>
+  <% button.with_trailing_visual_counter(count: filters_count, test_selector: "filters-button-counter") %>
   <%= t(:label_filter) %>
 <% end %>

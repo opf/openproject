@@ -1,7 +1,6 @@
 <%= render(Primer::OpenProject::SubHeader.new(data: {
   controller: "filters",
   "application-target": "dynamic",
-  "filters-display-filters-value": false, # TODO: show_filters_section?,
   "filters-output-format-value": "json",
 })) do |subheader|
   subheader.with_filter_component do

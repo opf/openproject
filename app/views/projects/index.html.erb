@@ -44,7 +44,6 @@ See COPYRIGHT and LICENSE files for more details.
     render(Primer::OpenProject::SubHeader.new(data: {
       controller: "filters",
       "application-target": "dynamic",
-      "filters-display-filters-value": true, # TODO: show_filters_section?,
     })) do |subheader|
       subheader.with_filter_component do
         render(Filter::FilterButtonComponent.new(query:))
