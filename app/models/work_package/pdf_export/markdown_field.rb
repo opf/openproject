@@ -38,17 +38,17 @@ module WorkPackage::PDFExport::MarkdownField
       pdf.formatted_text([styles.wp_markdown_label.merge({ text: label })])
     end
     with_margin(styles.wp_markdown_margins) do
-      write_markdown! work_package, apply_markdown_field_macros(markdown)
+      write_markdown! work_package, apply_markdown_field_macros(markdown, work_package)
     end
   end
 
   private
 
-  def apply_markdown_field_macros(markdown)
-    apply_macros(markdown, WorkPackage::Exports::Macros::Attributes)
+  def apply_markdown_field_macros(markdown, work_package)
+    apply_macros(markdown, work_package, WorkPackage::Exports::Macros::Attributes)
   end
 
-  def apply_macros(markdown, formatter)
+  def apply_macros(markdown, work_package, formatter)
     return markdown unless formatter.applicable?(markdown)
 
     document = Markly.parse(markdown)
