@@ -33,9 +33,9 @@ ru:
         project_status:
           title: 'Статус проекта'
           not_started: 'Не начато'
-          on_track: 'В работе'
+          on_track: 'По плану'
           off_track: 'Приостановлен'
-          at_risk: 'Есть риск'
+          at_risk: 'Под угрозой'
           not_set: 'Не задано'
           finished: 'Завершено'
           discontinued: 'Прекращено'

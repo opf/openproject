@@ -3096,10 +3096,10 @@ ms:
   text_hours_between: "Antara %{min} dan %{max} jam."
   text_work_package_added: "Pakej kerja %{id} telah dilaporkan oleh %{author}."
   text_work_package_category_destroy_assignments: "Padam kategori tugasan"
-  text_work_package_category_destroy_question: "Beberapa pakej kerja (%{count}) ditugaskan untuk kategori ini. Apakah yang anda ingin lakukan?"
+  text_work_package_category_destroy_question: "Beberapa pakej kerja (%{count}) ditugaskan bagi kategori ini. Apakah yang anda ingin lakukan?"
   text_work_package_category_reassign_to: "Tetapkan semula pakej kerja ke kategori ini"
   text_work_package_updated: "Pakej kerja %{id} telah dikemas kini oleh %{author}."
-  text_work_package_watcher_added: "Anda telah ditambah sebagai pemerhati untuk Pakej kerja %{id} oleh %{watcher_changer}."
+  text_work_package_watcher_added: "Anda telah ditambah sebagai pemerhati bagi Pakej kerja %{id} oleh %{watcher_changer}."
   text_work_package_watcher_removed: "Anda telah dikeluarkan dari pemerhati Pakej kerja %{id} oleh %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Adakah anda pasti anda ingin memadam pakej kerja yang dipilih tersebut?"
   text_work_packages_ref_in_commit_messages: "Merujuk dan memperbaiki pakej kerja dalam mesej kommit"
@@ -3125,7 +3125,7 @@ ms:
   text_min_max_length_info: "0 bermakna tiada had"
   text_no_roles_defined: Tiada peranan ditentukan.
   text_no_access_tokens_configurable: "Tiada token akses yang boleh dikonfigurasikan."
-  text_no_configuration_data: "Peranan, jenis, status pakej kerja dan aliran kerja belum dikonfigurasikan lagi. Sangat disarankan untuk memuatkan konfigurasi default. Anda akan dapat mengubahnya selepas dimuatkan."
+  text_no_configuration_data: "Peranan, jenis, status pakej kerja dan aliran kerja belum dikonfigurasikan lagi. Sangat disarankan untuk memuatkan konfigurasi default. Anda akan dapat mengubahnya setelah ianya dimuatkan."
   text_no_notes: "Tiada komen yang tersedia untuk pakej kerja ini."
   text_notice_too_many_values_are_inperformant: "Perhatian: Memaparkan lebih daripada 100 item setiap halaman akan meningkatkan masa muat halaman."
   text_notice_security_badge_displayed_html: >
@@ -3151,14 +3151,14 @@ ms:
   text_warn_on_leaving_unsaved: "Pakej kerja tersebut mengandungi teks yang belum disimpan yang akan hilang jika anda tinggalkan halaman ini."
   text_what_did_you_change_click_to_add_comment: "Apakah yang telah anda ubah? Klik untuk tambah komen"
   text_wiki_destroy_confirmation: "Adakah anda pasti anda ingin memadam wiki ini dan semua kandungannya?"
-  text_wiki_page_destroy_children: "Padam halaman anak dan semua keturunannya"
-  text_wiki_page_destroy_question: "Halaman ini mempunyai %{descendants} halaman anak dan keturunannya. Apakah yang anda ingin lakukan?"
-  text_wiki_page_nullify_children: "Kekalkan halaman anak sebagai halaman berhubung"
+  text_wiki_page_destroy_children: "Padam halaman anak dan semua turunannya"
+  text_wiki_page_destroy_question: "Halaman ini mempunyai %{descendants} halaman anak dan turunannya. Apakah yang anda ingin lakukan?"
+  text_wiki_page_nullify_children: "Kekalkan halaman anak sebagai halaman asas"
   text_wiki_page_reassign_children: "Tetapkan semula halaman anak kepada halaman induk ini"
   text_workflow_edit: "Pilih satu peranan dan satu jenis untuk edit aliran kerja tersebut"
   text_zoom_in: "Zum masuk"
   text_zoom_out: "Zum keluar"
-  text_setup_mail_configuration: "Konfigurasi pembekal e-mel anda"
+  text_setup_mail_configuration: "Konfigurasi penyedia e-mel anda"
   help_texts:
     views:
       project: >
@@ -3208,10 +3208,10 @@ ms:
     active: "aktif"
     activate: "Aktifkan"
     activate_and_reset_failed_logins: "Aktifkan dan set semula log masuk yang gagal"
-    authentication_provider: "Pemberi Pengesahan"
-    identity_url_text: "Pengenal unik dalaman diberikan oleh pemberi pengesahan."
+    authentication_provider: "Penyedia Pengesahan"
+    identity_url_text: "Pengenal unik dalaman disediakan oleh pemberi pengesahan."
     authentication_settings_disabled_due_to_external_authentication: >
-      Pengguna ini mengesahkan melalui pembekal pengesahan luaran, jadi tiada kata laluan dalam OpenProject untuk diubah.
+      Pengguna ini mengesahkan melalui penyedia pengesahan luaran, jadi tiada kata laluan dalam OpenProject untuk diubah.
     authorization_rejected: "Anda tidak dibenarkan untuk daftar masuk."
     assign_random_password: "Tetapkan kata laluan rawak (dihantar ke pengguna melalui e-mel)"
     blocked: "dikunci sementara"
@@ -3227,24 +3227,24 @@ ms:
     no_login: "Pengguna ini mengesahkan melalui log masuk dengan kata laluan. Kerana ia tidak dibenarkan, mereka tidak dapat log masuk."
     password_change_unsupported: Penukaran kata laluan tidak disokong.
     registered: "berdaftar"
-    reset_failed_logins: "Set semula log masuk yang gagal"
+    reset_failed_logins: "Tetapkan semula log masuk yang gagal"
     status_user_and_brute_force: "%{user} dan %{brute_force}"
     status_change: "Perubahan status"
-    text_change_disabled_for_provider_login: "Nama tersebut ditetapkan oleh pembekal log masuk anda dan oleh itu tidak boleh diubah."
+    text_change_disabled_for_provider_login: "Nama tersebut ditetapkan oleh penyedia log masuk anda dan oleh itu tidak boleh diubah."
     text_change_disabled_for_ldap_login: "Nama dan e-mel ditetapkan oleh LDAP dan oleh itu tidak boleh diubah."
     unlock: "Buka kunci"
-    unlock_and_reset_failed_logins: "Buka kunci dan set semula log masuk yang gagal"
+    unlock_and_reset_failed_logins: "Buka kunci dan tetapkan semula log masuk yang gagal"
   version_status_closed: "ditutup"
   version_status_locked: "dikunci"
-  version_status_open: "dibuka"
+  version_status_open: "buka"
   note: Perhatian
   note_password_login_disabled: "Kata laluan log masuk telah dibatalkan oleh %{configuration}."
   warning: Amaran
   warning_attachments_not_saved: "%{count} fail tidak dapat disimpan."
   warning_imminent_user_limit: >
-    Anda menjemput pengguna lebih dari yang disokong pelan semasa anda. Pengguna yang dijemput mungkin tidak dapat sertai persekitaran OpenProject anda. Sila <a href="%{upgrade_url}">naik taraf pelan anda</a> atau sekat pengguna sedia ada untuk membenarkan pengguna yang dijemput dan berdaftar untuk sertai.
+    Anda menjemput pengguna lebih dari yang disokong pelan semasa anda. Pengguna yang dijemput mungkin tidak dapat sertai persekitaran OpenProject anda. Sila <a href="%{upgrade_url}">naik taraf pelan anda</a> atau sekat pengguna sedia ada untuk membenarkan pengguna yang dijemput dan berdaftar untuk menyertai.
   warning_registration_token_expired: |
-    Pengaktifan e-mel telah tamat tempoh. Kami hantar anda yang baharu ke %{email}.
+    Pengaktifan e-mel telah tamat tempoh. Kami telah hantar yang baharu kepada anda di %{email}.
     Sila klik pautan di dalamnya untuk mengaktifkan akaun anda.
   warning_user_limit_reached: >
     Menambah pengguna tambahan akan melebihi had semasa. Sila hubungi pentadbir untuk meningkatkan had pengguna bagi memastikan pengguna luaran dapat mengakses contoh ini.

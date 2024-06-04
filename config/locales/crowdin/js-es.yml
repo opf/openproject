@@ -984,7 +984,7 @@ es:
         createdAt: "Creado en"
         description: "Descripción"
         date: "Fecha"
-        percentComplete: "% compleado"
+        percentComplete: "% Completado"
         percentCompleteAlternative: "Progreso"
         dueDate: "Fecha de finalización"
         duration: "Duración"
