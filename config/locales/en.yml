@@ -36,6 +36,8 @@ en:
       activity_tab:
         no_results_title_text: Nothing to display
         no_results_description_text: "Try to update your filter to see more."
+        label_activity_show_only_comments: "Only comments"
+        label_activity_show_all: "All activities"
 
   admin:
     plugins:
