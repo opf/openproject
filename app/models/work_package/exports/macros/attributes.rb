@@ -129,7 +129,7 @@ module WorkPackage::Exports
       end
 
       def self.resolve_value_project(project, attribute)
-        cf = CustomField.find_by(name: attribute, type: "ProjectCustomField")
+        cf = ProjectCustomField.find_by(name: attribute)
         if cf.nil?
           ar_name = ::API::Utilities::PropertyNameConverter.to_ar_name(attribute.to_sym, context: project)
         else
