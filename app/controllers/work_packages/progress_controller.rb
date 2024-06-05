@@ -131,13 +131,14 @@ class WorkPackages::ProgressController < ApplicationController
   def work_package_params
     params.require(:work_package)
           .permit(allowed_params).tap do |wp_params|
-      if wp_params["estimated_hours"].present?
-        wp_params["estimated_hours"] =
-          DurationConverter.parse(wp_params["estimated_hours"])
-      end
-      if wp_params["remaining_hours"].present?
-        wp_params["remaining_hours"] =
-          DurationConverter.parse(wp_params["remaining_hours"])
+      %w[estimated_hours remaining_hours].each do |attr|
+        if wp_params[attr].present?
+          begin
+            wp_params[attr] = DurationConverter.parse(wp_params[attr])
+          rescue ChronicDuration::DurationParseError
+            @work_package.errors.add(attr.to_sym, :invalid)
+          end
+        end
       end
     end
   end
