@@ -1237,6 +1237,7 @@ DEPENDENCIES
   lograge (~> 0.14.0)
   lookbook (~> 2.3.0)
   mail (= 2.8.1)
+  markly (~> 0.10)
   matrix (~> 0.4.2)
   md_to_pdf!
   meta-tags (~> 2.21.0)

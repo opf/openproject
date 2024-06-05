@@ -1,12 +1,12 @@
 module Exports
   module Formatters
     class CustomField < Default
-      def self.apply?(attribute, _export_format)
-        attribute.start_with?("cf_")
+      def self.apply?(attribute, export_format)
+        export_format != :pdf && attribute.start_with?("cf_")
       end
 
       ##
-      # Takes a WorkPackage and an attribute and returns the value to be exported.
+      # Takes a WorkPackage or Project and an attribute and returns the value to be exported.
       def retrieve_value(object)
         custom_field = find_custom_field(object)
         return "" if custom_field.nil?
