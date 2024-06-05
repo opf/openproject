@@ -26,7 +26,7 @@ export class OpApplicationController extends ApplicationController {
   /**
    * Derive dynamic path from controller name.
    *
-   * Stimlus conventions allow subdirectories to be used by double dashes.
+   * Stimulus conventions allow subdirectories to be used by double dashes.
    * We convert these to slashes for the dynamic import.
    *
    * https://stimulus.hotwired.dev/handbook/installing#controller-filenames-map-to-identifiers
