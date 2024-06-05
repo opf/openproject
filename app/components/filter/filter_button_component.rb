@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,31 +27,15 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
+module Filter
+  # rubocop:disable OpenProject/AddPreviewForViewComponent
+  class FilterButtonComponent < ApplicationComponent
+    # rubocop:enable OpenProject/AddPreviewForViewComponent
+    options :query
+    options :disabled
 
-module Meetings
-  class IndexPageHeaderComponent < ApplicationComponent
-    include ApplicationHelper
-
-    def initialize(project: nil)
-      super
-      @project = project
-    end
-
-    def page_title
-      I18n.t(:label_meeting_plural)
-    end
-
-    def breadcrumb_items
-      [parent_element,
-       page_title]
-    end
-
-    def parent_element
-      if @project.present?
-        { href: project_overview_path(@project.id), text: @project.name }
-      else
-        { href: home_path, text: I18n.t(:label_home) }
-      end
+    def filters_count
+      @filters_count ||= query.filters.count
     end
   end
 end

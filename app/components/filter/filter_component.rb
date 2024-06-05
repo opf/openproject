@@ -27,51 +27,57 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
-module Meetings
+module Filter
   # rubocop:disable OpenProject/AddPreviewForViewComponent
-  class MeetingFiltersComponent < Filter::FilterComponent
+  class FilterComponent < ApplicationComponent
     # rubocop:enable OpenProject/AddPreviewForViewComponent
-    options :project
+    options :query
+    options always_visible: false
+
+    def show_filters_section?
+      always_visible || params[:filters].present?
+    end
+
+    # Returns filters, active and inactive.
+    # In case a filter is active, the active one will be preferred over the inactive one.
+    def each_filter
+      allowed_filters.each do |filter|
+        active_filter = query.find_active_filter(filter.name)
+        additional_attributes = additional_filter_attributes(filter)
+
+        yield active_filter.presence || filter, active_filter.present?, additional_attributes
+      end
+    end
 
     def allowed_filters
-      super
-        .select { |f| allowed_filter?(f) }
-        .sort_by(&:human_name)
+      query
+        .available_filters
     end
 
     protected
 
+    # With this method we can pass additional options for each type of filter into the frontend. This is especially
+    # useful when we want to pass options for the autocompleter components.
+    #
+    # When the method is overwritten in a subclass, the subclass should call super(filter) to get the default attributes.
+    #
+    # @param filter [QueryFilter] the filter for which we want to pass additional attributes
+    # @return [Hash] the additional attributes for the filter, that will be yielded in the each_filter method
     def additional_filter_attributes(filter)
       case filter
-      when Queries::Meetings::Filters::AuthorFilter,
-           Queries::Meetings::Filters::AttendedUserFilter,
-           Queries::Meetings::Filters::InvitedUserFilter
+      when Queries::Filters::Shared::ProjectFilter
         {
           autocomplete_options: {
-            component: "opce-user-autocompleter",
-            resource: "principals"
+            component: "opce-project-autocompleter",
+            resource: "projects",
+            filters: [
+              { name: "active", operator: "=", values: ["t"] }
+            ]
           }
         }
       else
-        super
+        {}
       end
-    end
-
-    private
-
-    def allowed_filter?(filter)
-      allowlist = [
-        Queries::Meetings::Filters::TimeFilter,
-        Queries::Meetings::Filters::AttendedUserFilter,
-        Queries::Meetings::Filters::InvitedUserFilter,
-        Queries::Meetings::Filters::AuthorFilter
-      ]
-
-      if project.nil?
-        allowlist << Queries::Meetings::Filters::ProjectFilter
-      end
-
-      allowlist.detect { |clazz| filter.is_a? clazz }
     end
   end
 end

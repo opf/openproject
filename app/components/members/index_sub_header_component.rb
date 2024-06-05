@@ -28,30 +28,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module Meetings
-  class IndexPageHeaderComponent < ApplicationComponent
+module Members
+  # rubocop:disable OpenProject/AddPreviewForViewComponent
+  class IndexSubHeaderComponent < ApplicationComponent
+    # rubocop:enable OpenProject/AddPreviewForViewComponent
     include ApplicationHelper
 
-    def initialize(project: nil)
+    def initialize(project: nil, filter_options: nil)
       super
       @project = project
+      @members_filter_options = filter_options
     end
 
-    def page_title
-      I18n.t(:label_meeting_plural)
+    def add_button_data_attributes
+      attributes = {
+        "members-form-target": "addMemberButton",
+        action: "members-form#showAddMemberForm",
+        "test-selector": "member-add-button"
+      }
+
+      attributes["trigger-initially"] = "true" if params[:show_add_members]
+
+      attributes
     end
 
-    def breadcrumb_items
-      [parent_element,
-       page_title]
-    end
-
-    def parent_element
-      if @project.present?
-        { href: project_overview_path(@project.id), text: @project.name }
-      else
-        { href: home_path, text: I18n.t(:label_home) }
-      end
+    def filter_button_data_attributes
+      {
+        "members-form-target": "filterMemberButton",
+        action: "members-form#toggleMemberFilter"
+      }
     end
   end
 end

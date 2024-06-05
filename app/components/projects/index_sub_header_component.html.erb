@@ -1,0 +1,23 @@
+<%= render(Primer::OpenProject::SubHeader.new(data: {
+    controller: "filters",
+    "application-target": "dynamic",
+  })) do |subheader|
+    subheader.with_filter_component do
+      render(Filter::FilterButtonComponent.new(query: @query, disabled: @disable_buttons))
+    end
+
+    subheader.with_action_button(tag: :a,
+                                 href: new_project_path,
+                                 scheme: :primary,
+                                 disabled: @disable_buttons,
+                                 size: :medium,
+                                 aria: { label: I18n.t(:label_project_new) },
+                                 data: { 'test-selector': 'project-new-button' }) do |button|
+      button.with_leading_visual_icon(icon: :plus)
+      Project.model_name.human
+    end if @current_user.allowed_globally?(:add_project)
+
+    subheader.with_bottom_pane_component(mt: 0) do
+      render(Projects::ProjectsFiltersComponent.new(query: @query))
+    end
+  end %>

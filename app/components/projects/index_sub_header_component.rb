@@ -28,30 +28,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module Meetings
-  class IndexPageHeaderComponent < ApplicationComponent
+module Projects
+  # rubocop:disable OpenProject/AddPreviewForViewComponent
+  class IndexSubHeaderComponent < ApplicationComponent
+    # rubocop:enable OpenProject/AddPreviewForViewComponent
     include ApplicationHelper
 
-    def initialize(project: nil)
+    def initialize(query:, current_user:, disable_buttons: nil)
       super
-      @project = project
-    end
-
-    def page_title
-      I18n.t(:label_meeting_plural)
-    end
-
-    def breadcrumb_items
-      [parent_element,
-       page_title]
-    end
-
-    def parent_element
-      if @project.present?
-        { href: project_overview_path(@project.id), text: @project.name }
-      else
-        { href: home_path, text: I18n.t(:label_home) }
-      end
+      @query = query
+      @current_user = current_user
+      @disable_buttons = disable_buttons
     end
   end
 end
