@@ -543,7 +543,8 @@ Rails.application.routes.draw do
         get :cancel_edit
       end
       collection do
-        get :journal_streams
+        get :filter_streams
+        get :update_streams
       end
     end
 

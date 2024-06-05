@@ -32,6 +32,10 @@ en:
   activities:
     index:
       no_results_title_text: There has not been any activity for the project within this time frame.
+    work_packages:
+      activity_tab:
+        no_results_title_text: Nothing to display
+        no_results_description_text: "Try to update your filter to see more."
 
   admin:
     plugins:

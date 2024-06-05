@@ -39,15 +39,41 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   def index
     render(
       WorkPackages::ActivitiesTab::IndexComponent.new(
-        work_package: @work_package
+        work_package: @work_package,
+        only_comments: params[:only_comments] || false
       ),
       layout: false
     )
   end
 
-  def journal_streams
+  def filter_streams
+    only_comments = params[:only_comments] || false
+
+    update_via_turbo_stream(
+      component: WorkPackages::ActivitiesTab::Journals::FilterComponent.new(
+        work_package: @work_package,
+        only_comments:
+      )
+    )
+    update_via_turbo_stream(
+      component: WorkPackages::ActivitiesTab::Journals::IndexComponent.new(
+        work_package: @work_package,
+        only_comments:
+      )
+    )
+
+    respond_with_turbo_streams
+  end
+
+  def update_streams
+    journals = @work_package.journals
+
+    if params[:only_comments] == "true"
+      journals = journals.where.not(notes: "")
+    end
+
     # TODO: prototypical implementation
-    @work_package.journals.where("updated_at > ?", params[:last_update_timestamp]).find_each do |journal|
+    journals.where("updated_at > ?", params[:last_update_timestamp]).find_each do |journal|
       update_via_turbo_stream(
         # only use the show component in order not to loose an edit state
         component: WorkPackages::ActivitiesTab::Journals::ItemComponent::Show.new(
@@ -56,7 +82,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
       )
     end
 
-    @work_package.journals.where("created_at > ?", params[:last_update_timestamp]).find_each do |journal|
+    journals.where("created_at > ?", params[:last_update_timestamp]).find_each do |journal|
       append_or_prepend_latest_journal_via_turbo_stream(journal)
     end
 

@@ -1,11 +1,21 @@
 <%=
   component_wrapper do
     flex_layout(id: insert_target_modifier_id) do |journals_index_container|
-      journals.each do |journal|
-        journals_index_container.with_row do
-          render(
-            WorkPackages::ActivitiesTab::Journals::ItemComponent.new(journal:)
-          )
+      if journals.any?
+        journals.each do |journal|
+          journals_index_container.with_row do
+            render(
+              WorkPackages::ActivitiesTab::Journals::ItemComponent.new(journal:)
+            )
+          end
+        end
+      else
+        journals_index_container.with_row(mt: 2) do
+          render(Primer::Beta::Blankslate.new(border: true)) do |component|
+            component.with_visual_icon(icon: :pulse)
+            component.with_heading(tag: :h2).with_content(t("activities.work_packages.activity_tab.no_results_title_text"))
+            component.with_description { t("activities.work_packages.activity_tab.no_results_description_text") }
+          end
         end
       end
     end

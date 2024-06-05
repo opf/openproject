@@ -30,35 +30,26 @@
 
 module WorkPackages
   module ActivitiesTab
-    class IndexComponent < ApplicationComponent
-      include ApplicationHelper
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
+    module Journals
+      class FilterComponent < ApplicationComponent
+        include ApplicationHelper
+        include OpPrimer::ComponentHelpers
+        include OpTurbo::Streamable
 
-      def initialize(work_package:, only_comments: false)
-        super
+        def initialize(work_package:, only_comments: false)
+          super
 
-        @work_package = work_package
-        @only_comments = only_comments
-      end
+          @work_package = work_package
+          @only_comments = only_comments
+        end
 
-      private
+        private
 
-      attr_reader :work_package, :only_comments
+        attr_reader :work_package, :only_comments
 
-      def wrapper_data_attributes
-        {
-          controller: "work-packages--activities-tab--index",
-          "application-target": "dynamic",
-          "work-packages--activities-tab--index-update-streams-url-value": update_streams_work_package_activities_url(work_package),
-          "work-packages--activities-tab--index-sorting-value": journal_sorting,
-          "work-packages--activities-tab--index-only-comments-value": only_comments,
-          "work-packages--activities-tab--index-polling-interval-in-ms-value": 60000 # protoypical implementation
-        }
-      end
-
-      def journal_sorting
-        User.current.preference&.comments_sorting || "desc"
+        def journals_with_notes_present?
+          work_package.journals.where.not(notes: "").any?
+        end
       end
     end
   end

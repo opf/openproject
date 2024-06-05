@@ -1,0 +1,23 @@
+<%=
+  component_wrapper do
+    if journals_with_notes_present? 
+      render(Primer::Alpha::SegmentedControl.new(id: "only-comments-filter", "aria-label": "File view")) do |component|
+        component.with_item(
+          tag: :a,
+          href: filter_streams_work_package_activities_url(work_package),
+          label: "All activities",
+          icon: :pulse,
+          selected: !only_comments,
+          data: { "turbo-stream": true, "action": "click->work-packages--activities-tab--index#unsetOnlyComments" }
+        )
+        component.with_item(
+          tag: :a,
+          href: filter_streams_work_package_activities_url(work_package, only_comments: true),
+          label: "Only comments",
+          icon: :"comment-discussion", selected: only_comments,
+          data: { "turbo-stream": true, "action": "click->work-packages--activities-tab--index#setOnlyComments" }
+        )
+      end
+    end
+  end
+%>

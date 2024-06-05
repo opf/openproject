@@ -33,16 +33,18 @@ import { Controller } from '@hotwired/stimulus';
 
 export default class IndexController extends Controller {
   static values = {
-    journalStreamsUrl: String,
+    updateStreamsUrl: String,
     sorting: String,
     pollingIntervalInMs: Number,
+    onlyComments: Boolean,
   };
 
-  declare journalStreamsUrlValue:string;
+  declare updateStreamsUrlValue:string;
   declare sortingValue:string;
   declare lastUpdateTimestamp:string;
   declare intervallId:number;
   declare pollingIntervalInMsValue:number;
+  declare onlyCommentsValue:boolean;
 
   connect() {
     this.lastUpdateTimestamp = new Date().toISOString();
@@ -88,8 +90,9 @@ export default class IndexController extends Controller {
   }
 
   async updateActivitiesList() {
-    const url = new URL(this.journalStreamsUrlValue);
+    const url = new URL(this.updateStreamsUrlValue);
     url.searchParams.append('last_update_timestamp', this.lastUpdateTimestamp);
+    url.searchParams.append('only_comments', this.onlyCommentsValue.toString());
 
     const response = await fetch(
       url,
@@ -115,5 +118,13 @@ export default class IndexController extends Controller {
     return window.setInterval(() => {
       this.updateActivitiesList();
     }, this.pollingIntervalInMsValue);
+  }
+
+  setOnlyComments() {
+    this.onlyCommentsValue = true;
+  }
+
+  unsetOnlyComments() {
+    this.onlyCommentsValue = false;
   }
 }
