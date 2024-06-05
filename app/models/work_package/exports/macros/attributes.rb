@@ -127,48 +127,26 @@ module WorkPackage::Exports
       end
 
       def self.resolve_value_project(project, attribute)
-        cf = ProjectCustomField.find_by(name: attribute)
-        if cf.nil?
-          ar_name = ::API::Utilities::PropertyNameConverter.to_ar_name(attribute.to_sym, context: project)
-        else
-          ar_name = "cf_#{cf.id}"
-          # currently we do not support embedding rich text fields: long text custom fields
-          return msg_macro_error_rich_text if cf.formattable?
-
-          # Is the user allowed to see this custom field/"project attribute"?
-          if project.available_custom_fields.find { |pcf| pcf.id == cf.id }.nil?
-            return msg_macro_error(I18n.t("export.macro.resource_not_found", resource: attribute))
-          end
-        end
-
-        # currently we do not support embedding rich text field: e.g. projectValue:1234:description
-        if DISABLED_PROJECT_RICH_TEXT_FIELDS.include?(ar_name.to_sym)
-          return msg_macro_error_rich_text
-
-        end
-
-        format_attribute_value(ar_name, Project, project)
+        resolve_value(project, attribute, DISABLED_PROJECT_RICH_TEXT_FIELDS)
       end
 
       def self.resolve_value_work_package(work_package, attribute)
-        cf = CustomField.find_by(name: attribute, type: "WorkPackageCustomField")
-        if cf.nil?
-          ar_name = ::API::Utilities::PropertyNameConverter.to_ar_name(attribute.to_sym, context: work_package)
-        else
-          ar_name = "cf_#{cf.id}"
-          # currently we do not support embedding rich text fields: long text custom fields
-          return msg_macro_error_rich_text if cf.formattable?
+        resolve_value(work_package, attribute, DISABLED_WORK_PACKAGE_RICH_TEXT_FIELDS)
+      end
 
-          # TODO: Are there access restrictions on work_package custom fields?
-        end
+      def self.resolve_value(obj, attribute, disabled_rich_text_fields)
+        cf = obj.available_custom_fields.find { |pcf| pcf.name == attribute }
 
-        # currently we do not support embedding rich text field: workPackageValue:1234:description
-        if DISABLED_WORK_PACKAGE_RICH_TEXT_FIELDS.include?(ar_name.to_sym)
-          return msg_macro_error_rich_text
+        return msg_macro_error_rich_text if cf&.formattable?
 
-        end
+        ar_name = if cf.nil?
+                    ::API::Utilities::PropertyNameConverter.to_ar_name(attribute.to_sym, context: obj)
+                  else
+                    "cf_#{cf.id}"
+                  end
+        return msg_macro_error_rich_text if disabled_rich_text_fields.include?(ar_name.to_sym)
 
-        format_attribute_value(ar_name, WorkPackage, work_package)
+        format_attribute_value(ar_name, obj.class, obj)
       end
 
       def self.format_attribute_value(ar_name, model, obj)

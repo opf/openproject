@@ -61,7 +61,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
            active: true,
            parent: parent_project,
            custom_field_values: {
-             project_custom_field_bool.id => true
+             project_custom_field_bool.id => true,
+             project_custom_field_long_text.id => "foo",
            },
            work_package_custom_fields: [cf_long_text, cf_disabled_in_project, cf_global_bool],
            work_package_custom_field_ids: [cf_long_text.id, cf_global_bool.id]) # cf_disabled_in_project.id is disabled
@@ -389,12 +390,12 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           "Custom field boolean", I18n.t(:general_text_Yes),
           "Custom field rich text", "[#{I18n.t('export.macro.rich_text_unsupported')}]",
           "Custom field hidden",
-          "[#{I18n.t('export.macro.error', message:
-            I18n.t('export.macro.resource_not_found', resource: "Secret string"))}]",
 
-          "No replacement of:", "projectValue:1:status", " ", "projectLabel:status",
+          "No replacement of:", "projectValue:1:status", "projectLabel:status",
           "projectValue:2:status projectLabel:status",
           "projectValue:3:status", "projectLabel:status",
+
+          "1", export_time_formatted, project.name,
 
           "Project not found:  ",
           "[#{I18n.t('export.macro.error', message:
@@ -403,7 +404,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           "[#{I18n.t('export.macro.error', message:
             I18n.t('export.macro.resource_not_found', resource: "Project #{forbidden_project.id}"))}]",
 
-          "1", export_time_formatted, project.name
+           "2", export_time_formatted, project.name,
         ].flatten
         expect(result.join(" ")).to eq(expected_result.join(" "))
       end
