@@ -34,7 +34,7 @@ class DeployTarget < ApplicationRecord
   has_many :deploy_status_checks, dependent: :destroy
 
   validates_presence_of :host
-
+  validates_presence_of :type
   # this is very much specific to the only type of target we support for now, OpenProject
   validates_presence_of :api_key
 end
