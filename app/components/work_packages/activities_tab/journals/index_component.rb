@@ -60,7 +60,7 @@ module WorkPackages
         end
 
         def journals
-          result = work_package.journals.includes(:user).reorder(version: journal_sorting)
+          result = work_package.journals.includes(:user, :notifications).reorder(version: journal_sorting)
 
           result = result.where.not(notes: "") if only_comments
 

@@ -36,6 +36,11 @@
             end
           end
           header_container.with_column(flex_layout: true, align_items: :center) do |header_end_container|
+            if has_unread_notifications?
+              header_end_container.with_column(mr: 2, pt: 1) do
+                bubble_html
+              end
+            end
             header_end_container.with_column do
               render(Primer::Beta::Link.new(
                 href: activity_anchor,

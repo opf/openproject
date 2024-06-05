@@ -82,14 +82,14 @@ module WorkPackages
           journal.user == User.current
         end
 
-        def initial_version?
-          journal.version == 1
-        end
-
         def updated?
-          return false if initial_version?
+          return false if journal.initial?
 
           journal.updated_at - journal.created_at > 5.seconds
+        end
+
+        def has_unread_notifications?
+          journal.notifications.where(read_ian: false, recipient_id: User.current.id).any?
         end
 
         def copy_url_action_item(menu)
@@ -112,6 +112,15 @@ module WorkPackages
                          }) do |item|
             item.with_leading_visual_icon(icon: :pencil)
           end
+        end
+
+        def bubble_html
+          "
+          <span
+            class=\"comments-number--bubble op-bubble op-bubble_mini\"
+            data-test-selector=\"user-activity-bubble\"
+          ></span>
+          ".html_safe
         end
       end
     end
