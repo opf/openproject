@@ -121,8 +121,7 @@ RSpec.describe "Omniauth authentication" do
   end
 
   describe "sign out a user with direct login and login required",
-           with_config: { omniauth_direct_login_provider: "developer" },
-           with_settings: { login_required?: true } do
+           with_config: { omniauth_direct_login_provider: "developer", login_required: true } do
     it "shows a notice that the user has been logged out" do
       visit signout_path
 
