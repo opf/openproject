@@ -87,7 +87,7 @@ module ProjectCustomFieldProjectMappings
 
     def projects
       [@project].tap do |projects_array|
-        projects_array.concat(@project.children.to_a) if @include_sub_projects
+        projects_array.concat(@project.active_subprojects.to_a) if @include_sub_projects
       end
     end
 
