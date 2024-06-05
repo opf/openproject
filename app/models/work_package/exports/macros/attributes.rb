@@ -114,6 +114,7 @@ module WorkPackage::Exports
         return msg_macro_error(I18n.t("export.macro.model_not_found", model: type)) unless type == "value"
 
         project = Project.visible(user).find_by(id:)
+        project = Project.visible(user).find_by(identifier: id) if project.nil?
         if project.nil?
           return msg_macro_error(I18n.t("export.macro.resource_not_found", resource: "#{Project.name} #{id}"))
         end

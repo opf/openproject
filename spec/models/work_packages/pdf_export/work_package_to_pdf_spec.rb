@@ -72,6 +72,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
            name: "Forbidden project",
            types: [type],
            id: 666,
+           identifier: "forbidden-project",
            public: false,
            status_code: "on_track",
            active: true,
@@ -370,10 +371,15 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
             projectLabel:status
             ```
 
+            Project by identifier:
+            projectValue:"#{project.identifier}":active
+
             Project not found:
             projectValue:1234567890:active
             Access denied:
             projectValue:#{forbidden_project.id}:active
+            Access denied by identifier:
+            projectValue:"#{forbidden_project.identifier}":active
         DESCRIPTION
       end
       it "contains resolved attributes and labels" do
@@ -397,14 +403,16 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
 
           "1", export_time_formatted, project.name,
 
+          "Project by identifier:", " ", I18n.t(:general_text_Yes),
           "Project not found:  ",
           "[#{I18n.t('export.macro.error', message:
             I18n.t('export.macro.resource_not_found', resource: "Project 1234567890"))}]  ",
           "Access denied:  ",
           "[#{I18n.t('export.macro.error', message:
-            I18n.t('export.macro.resource_not_found', resource: "Project #{forbidden_project.id}"))}]",
+            I18n.t('export.macro.resource_not_found', resource: "Project #{forbidden_project.id}"))}]  ",
+          "Access denied by identifier:", " ", "[Macro error, resource not found: Project", "forbidden-project]",
 
-           "2", export_time_formatted, project.name,
+          "2", export_time_formatted, project.name,
         ].flatten
         expect(result.join(" ")).to eq(expected_result.join(" "))
       end

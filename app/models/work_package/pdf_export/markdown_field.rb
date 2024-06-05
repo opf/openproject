@@ -54,9 +54,9 @@ module WorkPackage::PDFExport::MarkdownField
     document = Markly.parse(markdown)
     document.walk do |node|
       if node.type == :html
-        node.string_content = apply_macro_html(node.string_content, work_package, formatter)
+        node.string_content = apply_macro_html(node.string_content, work_package, formatter) || node.string_content
       elsif node.type == :text
-        node.string_content = apply_macro_text(node.string_content, work_package, formatter)
+        node.string_content = apply_macro_text(node.string_content, work_package, formatter) || node.string_content
       end
     end
     document.to_markdown
@@ -72,6 +72,8 @@ module WorkPackage::PDFExport::MarkdownField
   end
 
   def apply_macro_html(html, work_package, formatter)
+    return html unless formatter.applicable?(html)
+
     doc = Nokogiri::HTML.fragment(html)
     apply_macro_html_node(doc, work_package, formatter)
     doc.to_html
