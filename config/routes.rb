@@ -466,6 +466,7 @@ Rails.application.routes.draw do
           put :drop
 
           get :project_mappings
+          post :link
           delete :unlink
         end
       end

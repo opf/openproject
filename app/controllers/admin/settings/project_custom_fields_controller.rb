@@ -39,10 +39,11 @@ module Admin::Settings
     # rubocop:disable Rails/LexicallyScopedActionFilter
     before_action :set_sections, only: %i[show index edit update move drop]
     before_action :find_custom_field,
-                  only: %i(show edit project_mappings unlink update destroy delete_option reorder_alphabetical move drop)
+                  only: %i(show edit project_mappings link unlink update destroy delete_option reorder_alphabetical move drop)
     before_action :prepare_custom_option_position, only: %i(update create)
     before_action :find_custom_option, only: :delete_option
     before_action :project_custom_field_mappings_query, only: %i[project_mappings unlink]
+    before_action :find_link_project_custom_field_mapping, only: :link
     before_action :find_unlink_project_custom_field_mapping, only: :unlink
     # rubocop:enable Rails/LexicallyScopedActionFilter
 
@@ -68,14 +69,34 @@ module Admin::Settings
 
     def edit; end
 
-    def project_mappings; end
+    def project_mappings
+      @project_mapping = ProjectCustomFieldProjectMapping.new(project_custom_field: @custom_field)
+    end
+
+    def link
+      create_service = ProjectCustomFieldProjectMappings::BulkCreateService
+                         .new(user: current_user, project: @project, project_custom_field: @custom_field,
+                              include_sub_projects: include_sub_projects?)
+                         .call
+
+      create_service.on_success { render_project_list }
+
+      create_service.on_failure do
+        update_flash_message_via_turbo_stream(
+          message: join_flash_messages(create_service.errors.full_messages),
+          full: true, dismiss_scheme: :hide, scheme: :danger
+        )
+      end
+
+      respond_to_with_turbo_streams(status: create_service.success? ? :ok : :unprocessable_entity)
+    end
 
     def unlink
       delete_service = ProjectCustomFieldProjectMappings::DeleteService
                          .new(user: current_user, model: @project_custom_field_mapping)
                          .call
 
-      delete_service.on_success { render_unlink_response }
+      delete_service.on_success { render_project_list }
 
       delete_service.on_failure do
         update_flash_message_via_turbo_stream(
@@ -126,13 +147,18 @@ module Admin::Settings
 
     private
 
-    def render_unlink_response
+    def render_project_list
+      update_via_turbo_stream(
+        component: Settings::ProjectCustomFields::ProjectCustomFieldMapping::NewProjectMappingComponent.new(
+          project_mapping: ProjectCustomFieldProjectMapping.new(project_custom_field: @custom_field),
+          project_custom_field: @custom_field
+        )
+      )
       update_via_turbo_stream(
         component: Settings::ProjectCustomFields::ProjectCustomFieldMapping::TableComponent.new(
-          query: @project_custom_field_mappings_query,
+          query: project_custom_field_mappings_query,
           params: { custom_field: @custom_field }
-        ),
-        status: :ok
+        )
       )
     end
 
@@ -169,6 +195,17 @@ module Admin::Settings
       respond_with_turbo_streams
     end
 
+    def find_link_project_custom_field_mapping
+      @project = Project.find(permitted_params.project_custom_field_project_mapping[:project_id])
+    rescue ActiveRecord::RecordNotFound
+      update_flash_message_via_turbo_stream(
+        message: t(:notice_file_not_found), full: true, dismiss_scheme: :hide, scheme: :danger
+      )
+      render_project_list
+
+      respond_with_turbo_streams
+    end
+
     def find_custom_field
       @custom_field = ProjectCustomField.find(params[:id])
     rescue ActiveRecord::RecordNotFound
@@ -180,6 +217,10 @@ module Admin::Settings
       if call.result[:section_changed]
         update_section_via_turbo_stream(project_custom_field_section: call.result[:old_section])
       end
+    end
+
+    def include_sub_projects?
+      ActiveRecord::Type::Boolean.new.cast(permitted_params.project_custom_field_project_mapping[:include_sub_projects])
     end
   end
 end

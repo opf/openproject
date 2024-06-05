@@ -82,6 +82,24 @@ RSpec.describe "Project Custom Field Mappings", :js do
       end
     end
 
+    it "allows to link a project" do
+      project = create(:project)
+      subproject = create(:project, parent: project)
+      click_on "Add projects"
+
+      within_test_selector("settings--new-project-custom-field-mapping-component") do
+        autocompleter = page.find(".op-project-autocompleter")
+        autocompleter.fill_in with: project.name
+        find(".ng-option-label", text: project.name).click
+        check "Include sub-projects"
+
+        click_on "Add"
+      end
+
+      expect(page).to have_text(project.name)
+      expect(page).to have_text(subproject.name)
+    end
+
     context "and the project custom field is required" do
       shared_let(:project_custom_field) { create(:project_custom_field, is_required: true) }
 
