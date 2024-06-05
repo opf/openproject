@@ -69,11 +69,12 @@ export class OpNonWorkingDaysListComponent implements OnInit {
 
   form_submitted = false;
 
+  originalNonWorkingDays:INonWorkingDay[] = [];
   nonWorkingDays:INonWorkingDay[] = [];
 
   datepickerOpened = false;
 
-  selectedNonWorkingDayName= '';
+  selectedNonWorkingDayName = '';
 
   calendarOptions:CalendarOptions = {
     locales: allLocales,
@@ -135,7 +136,11 @@ export class OpNonWorkingDaysListComponent implements OnInit {
   private listenToFormSubmit() {
     const form = this.elementRef.nativeElement.closest('form') as HTMLFormElement;
     form.addEventListener('submit', (evt:Event) => {
-      if (!this.form_submitted) {
+      if (
+        !this.form_submitted
+        && (this.removedNonWorkingDays.length > 0
+          || this.modifiedNonWorkingDays.length > 0
+          || this.nonWorkingDays.length > this.originalNonWorkingDays.length)) {
         this.form_submitted = true;
         const target = evt.target as HTMLFormElement;
         const options:ConfirmDialogOptions = {
@@ -176,6 +181,7 @@ export class OpNonWorkingDaysListComponent implements OnInit {
       .map((el) => moment(el.date).format('MMMM DD, YYYY'));
   }
 
+  // Initializes nonWorkingDays from the API
   public calendarEventsFunction(
     fetchInfo:EventSourceFuncArg,
     successCallback:(events:EventInput[]) => void,
@@ -187,7 +193,7 @@ export class OpNonWorkingDaysListComponent implements OnInit {
           this.nonWorkingDays = _
             .uniqBy([...this.nonWorkingDays, ...days], (el) => el.date)
             .filter((el:INonWorkingDay) => !this.nonWorkingDays.find((existing) => existing.id === el.id && existing._destroy));
-
+          this.originalNonWorkingDays = [...this.nonWorkingDays];
           const events = this.mapToCalendarEvents(this.nonWorkingDays);
           successCallback(events);
           this.cdRef.detectChanges();
