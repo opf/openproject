@@ -72,8 +72,6 @@ module WorkPackage::PDFExport::MarkdownField
   end
 
   def apply_macro_html(html, work_package, formatter)
-    return html unless formatter.applicable?(html)
-
     doc = Nokogiri::HTML.fragment(html)
     apply_macro_html_node(doc, work_package, formatter)
     doc.to_html
