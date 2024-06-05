@@ -1185,18 +1185,6 @@ uk:
           other: "<i>%{count} год</i>"
         updated: "змінено з %{old_value} на %{value}"
         logged_for: "Зареєстровано для"
-      meeting_agenda_item:
-        duration:
-          added: "встановлено значення %{value}"
-          added_html: "встановлено значення <i>%{value}</i>"
-          removed: "вилучено"
-          updated: "змінено %{old_value} на %{value}"
-          updated_html: "змінено з <i>%{old_value}</i> на <i>%{value}</i>"
-        position:
-          updated: "перевпорядковано"
-        work_package:
-          updated: "змінено з %{old_value} на %{value}"
-          updated_html: "змінено з <i>%{old_value}</i> на <i>%{value}</i>"
     filter:
       changeset: "Набори змін"
       message: "Форуми"
@@ -3015,7 +3003,7 @@ uk:
   setting_date_format: "Дата"
   setting_days_per_month: "Days per month"
   setting_days_per_month_explanation: >-
-    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
+    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Мова за замовчуванням"
   setting_default_projects_modules: "Включені по замовчуванню модулі для нових проектів"
   setting_default_projects_public: "Нові проекти є загальнодоступними"

@@ -98,14 +98,14 @@
     "@ngneat/content-loader": "^7.0.0",
     "@ngx-formly/core": "^6.1.4",
     "@openproject/octicons-angular": "^19.14.0",
-    "@openproject/primer-view-components": "^0.32.1",
+    "@openproject/primer-view-components": "^0.33.1",
     "@openproject/reactivestates": "^3.0.1",
     "@primer/css": "^21.2.2",
     "@types/hotwired__turbo": "^8.0.1",
     "@uirouter/angular": "^13.0.0",
     "@uirouter/core": "^6.1.0",
     "@uirouter/rx": "^1.0.0",
-    "@vusion/webfonts-generator": "^0.8.0",
+    "webfonts-generator-casaper": "^0.5.2",
     "@w11k/ngx-componentdestroyed": "^5.0.2",
     "@xeokit/xeokit-bim-viewer": "2.5.1-beta-28",
     "autoprefixer": "^10.4.19",
@@ -177,6 +177,6 @@
     "generate-typings": "tsc -d -p src/tsconfig.app.json"
   },
   "overrides": {
-    "@primer/view-components": "npm:@openproject/primer-view-components@^0.32.1"
+    "@primer/view-components": "npm:@openproject/primer-view-components@^0.33.1"
   }
 }

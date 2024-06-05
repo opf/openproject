@@ -1144,18 +1144,6 @@ zh-TW:
           other: "<i>%{count} hours</i>"
         updated: "從 %{old_value} 更改至 %{value}"
         logged_for: "Logged for"
-      meeting_agenda_item:
-        duration:
-          added: "set to %{value}"
-          added_html: "set to <i>%{value}</i>"
-          removed: "removed"
-          updated: "從 %{old_value} 更改至 %{value}"
-          updated_html: "從 <i>%{old_value}</i> 更改至 <i>%{value}</i>"
-        position:
-          updated: "重新排列"
-        work_package:
-          updated: "從 %{old_value} 更改至 %{value}"
-          updated_html: "從 <i>%{old_value}</i> 更改至 <i>%{value}</i>"
     filter:
       changeset: "變更集"
       message: "討論區"
@@ -2916,7 +2904,7 @@ zh-TW:
   setting_date_format: "日期"
   setting_days_per_month: "Days per month"
   setting_days_per_month_explanation: >-
-    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
+    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "預設語言"
   setting_default_projects_modules: "新專案預設啟用的模組"
   setting_default_projects_public: "新專案預設為公開"

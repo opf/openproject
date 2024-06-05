@@ -266,7 +266,7 @@
       my: "Mine prosjekter"
       favored: "Favorittprosjekter"
       archived: "Arkiverte prosjekter"
-      public: "Public project lists"
+      public: "Offentlige prosjektlister"
       my_private: "Mine private prosjektlister"
       new:
         placeholder: "Ny prosjektliste"
@@ -294,12 +294,12 @@
         actions:
           label_enable_single: "Aktivert i dette prosjektet, klikk for å deaktivere"
           label_disable_single: "Deaktivert i dette prosjektet, klikk for å aktivere"
-          deactivate_for_project: "Deactivate for this project"
+          deactivate_for_project: "Deaktiver for dette prosjektet"
           label_enable_all: "Aktiver alle"
           label_disable_all: "Deaktiver alle"
         is_required_blank_slate:
-          heading: Required in all projects
-          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+          heading: Påkrevd i alle prosjekter
+          description: Prosjektattributten er aktivert i alle prosjekter fordi "Påkrevd i alle prosjekter"-alternativet er valgt. Attributten kan ikke deaktiveres for hvert enkelt prosjekt.
       types:
         no_results_title_text: Det finnes ingen tilgjengelige typer.
         form:
@@ -317,11 +317,11 @@
       success: "Den endrede listen er lagret"
       failure: "Den endrede listen kan ikke lagres: %{errors}"
     publish:
-      success: "The list has been made public"
-      failure: "The list cannot be made public: %{errors}"
+      success: "Listen er blitt offentliggjort"
+      failure: "Listen kan ikke offentliggjøres: %{errors}"
     unpublish:
-      success: "The list has been made private"
-      failure: "The list cannot be made private: %{errors}"
+      success: "Listen er blitt gjort privat"
+      failure: "Listen kan ikke gjøres privat: %{errors}"
     can_be_saved: "Listen endret:"
     can_be_saved_as: "Endringene kan bare lagres i en ny liste."
   members:
@@ -449,8 +449,7 @@
         <br/>
         <strong>Merknad</strong>: Arvede verdier (for eksempel fra barn eller relasjoner) vil fortsatt gjelde.
       status_excluded_from_totals_text: |-
-        Check this option to exclude work packages with this status from totals of Work,
-        Remaining work, and % Complete in a hierarchy.
+        Velg denne innstillingen for å utelukke arbeidspakker med denne statusen fra oppsummeringer for Arbeid, Gjenstående arbeid og % Ferdig i et hierarki.
       status_color_text: |
         Klikk for å tilknytte eller endre fargen på denne statusen.
         Den vises i statusknappen og kan brukes til å fremheve arbeidspakker i tabellen.
@@ -458,10 +457,10 @@
       no_results_title_text: Det er for tiden ingen status for arbeidspakken.
       no_results_content_text: Legg til en ny status
       headers:
-        is_default: "Default"
-        is_closed: "Closed"
-        is_readonly: "Read-only"
-        excluded_from_totals: "Excluded from totals"
+        is_default: "Standard"
+        is_closed: "Lukket"
+        is_readonly: "Kun lesetilgang"
+        excluded_from_totals: "Unntatt fra totaler"
   themes:
     light: "Lyst"
     light_high_contrast: "Lys høy kontrast"
@@ -631,7 +630,7 @@
       status:
         is_closed: "Arbeidspakke lukket"
         is_readonly: "Arbeidspakken er skrivebeskyttet"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        excluded_from_totals: "Unnta fra beregning av totaler i hierarki"
       journal:
         notes: "Notater"
       member:
@@ -772,7 +771,7 @@
         before_or_equal_to: "må være før eller lik %{date}."
         blank: "kan ikke være blank."
         blank_nested: "må ha egenskapen '%{property}' aktivert."
-        cannot_delete_mapping: "is required. Cannot be deleted."
+        cannot_delete_mapping: "er påkrevd. Kan ikke slettes."
         cant_link_a_work_package_with_a_descendant: "En arbeidspakke kan ikke knyttes til en av sine deloppgaver."
         circular_dependency: "En slik relasjon ville lage en sirkulær avhengighet."
         confirmation: "samsvarer ikke med %{attribute}."
@@ -933,8 +932,8 @@
               nonexistent: "Kolonnen '%{column}' eksisterer ikke."
               format: "%{message}"
           group_by_hierarchies_exclusive: "er gjensidig eksklusiv med grupper med '%{group_by}'. Du kan ikke aktivere begge."
-          can_only_be_modified_by_owner: "The query can only be modified by its owner."
-          need_permission_to_modify_public_query: "You cannot modify a public query."
+          can_only_be_modified_by_owner: "Spørringen kan bare endres av sin eier."
+          need_permission_to_modify_public_query: "Du kan ikke endre på et offentlig søk."
           filters:
             custom_fields:
               inexistent: "Det er ikke noe egendefinert felt for filteret."
@@ -968,14 +967,14 @@
             base:
               working_days_are_missing: "Minst en ukedag må defineres som en virkedag."
               previous_working_day_changes_unprocessed: "De tidligere endringene i konfigurasjonen av arbeidsdager har ikke blitt brukt ennå."
-              hours_per_day_are_missing: "The number of hours per day must be defined."
-              days_per_week_are_missing: "The number of days per week must be defined."
-              days_per_month_are_missing: "The number of days per month must be defined."
-              durations_are_not_positive_numbers: "The durations must be positive numbers."
-              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
-              days_per_week_is_out_of_bounds: "Days per week can't be more than 7"
-              days_per_month_is_out_of_bounds: "Days per month can't be more than 31"
-              days_per_week_and_days_per_month_are_inconsistent: "The number of days per week and the number of days per month must be consistent."
+              hours_per_day_are_missing: "Antall timer per dag må defineres."
+              days_per_week_are_missing: "Antall dager per uke må være definert."
+              days_per_month_are_missing: "Antall dager per måned må defineres."
+              durations_are_not_positive_numbers: "Varigheten må være positive tall."
+              hours_per_day_is_out_of_bounds: "Timer per dag kan ikke være mer enn 24"
+              days_per_week_is_out_of_bounds: "Dager per uke kan ikke være mer enn 7"
+              days_per_month_is_out_of_bounds: "Dager per måned kan ikke være mer enn 31"
+              days_per_week_and_days_per_month_are_inconsistent: "Antall dager per uke og antall dager per måned må være konsekvent."
         time_entry:
           attributes:
             hours:
@@ -1160,18 +1159,6 @@
           other: "<i>%{count} timer</i>"
         updated: "endret fra %{old_value} til %{value}"
         logged_for: "Logget for"
-      meeting_agenda_item:
-        duration:
-          added: "satt til %{value}"
-          added_html: "satt til <i>%{value}</i>"
-          removed: "fjernet"
-          updated: "endret fra %{old_value} til %{value}"
-          updated_html: "endret fra <i>%{old_value}</i> til <i>%{value}</i>"
-        position:
-          updated: "omsortert"
-        work_package:
-          updated: "endret fra %{old_value} til %{value}"
-          updated_html: "endret fra <i>%{old_value}</i> til <i>%{value}</i>"
     filter:
       changeset: "Changesets"
       message: "Forum"
@@ -1350,8 +1337,8 @@
   button_revoke_access: "Fjern tilgang"
   button_revoke_all: "Fjern alle"
   button_revoke_only: "Fjern kun %{shared_role_name}"
-  button_publish: "Make public"
-  button_unpublish: "Make private"
+  button_publish: "Offentliggjør"
+  button_unpublish: "Gjør privat"
   consent:
     checkbox_label: Jeg har merket meg og samtykker til det ovenfor.
     failure_message: Samtykke mislyktes, kan ikke fortsette.
@@ -1692,9 +1679,9 @@
           working: "%{date} er nå arbeidsdag"
           non_working: "%{date} er nå arbeidsfri"
       progress_mode_changed_to_status_based: Framdriftsmodus satt til statusbasert
-      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
-      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
-      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
+      status_excluded_from_totals_set_to_false_message: nå inkludert i hierarkiske summer
+      status_excluded_from_totals_set_to_true_message: nå ekskludert fra hierarkiske summer
+      status_percent_complete_changed: "% ferdig endret fra %{old_value}% til %{new_value}%"
       system_update:
         file_links_journal: >
           Fra nå av vil aktivitet knyttet til linker (filer lagret i eksterne lagringer) vises her i aktivitetsfanen. Følgende representerer aktivitet med lenker som allerede eksisterer:
@@ -2351,7 +2338,7 @@
   label_workflow: "Arbeidsflyt"
   label_workflow_plural: "Arbeidsflyt"
   label_workflow_summary: "Sammendrag"
-  label_working_days_and_hours: "Working days and hours"
+  label_working_days_and_hours: "Arbeidsdager og timer"
   label_x_closed_work_packages_abbr:
     one: "1 lukket"
     other: "%{count} stengt"
@@ -2735,7 +2722,7 @@
   permission_save_bcf_queries: "Lagre BCF-spørringer"
   permission_manage_public_bcf_queries: "Administrere offentlige BCF-spørringer"
   permission_edit_attribute_help_texts: "Rediger hjelpetekster for egenskap"
-  permission_manage_public_project_queries: "Manage public project lists"
+  permission_manage_public_project_queries: "Administrere offentlige prosjektlister"
   placeholders:
     default: "-"
   project:
@@ -2951,9 +2938,9 @@
   setting_cross_project_work_package_relations: "Tillat relasjoner mellom arbeidspakker i ulike prosjekter"
   setting_first_week_of_year: "Første uke i år inneholder"
   setting_date_format: "Dato"
-  setting_days_per_month: "Days per month"
+  setting_days_per_month: "Dager per måned"
   setting_days_per_month_explanation: >-
-    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
+    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Standardspråk"
   setting_default_projects_modules: "Standardaktiverte moduler for nye prosjekter"
   setting_default_projects_public: "Nye prosjekter er offentlige som standard"
@@ -2969,12 +2956,12 @@
   setting_feeds_limit: "Innholdsgrense for Feed"
   setting_file_max_size_displayed: "Maks størrelse på tekstfiler som vises inline"
   setting_host_name: "Vertsnavn"
-  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day: "Timer per dag"
   setting_hours_per_day_explanation: >-
-    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
-  setting_days_per_week: "Days per week"
+    Dette vil definere hva som anses som en "dag" når varigheten vises på en mer naturlig måte (for eksempel hvis dagen er 8 timer, vil 32 timer være 4 dager).
+  setting_days_per_week: "Dager per uke"
   setting_days_per_week_explanation: >-
-    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a week is 5 days, 15 days would be 3 weeks).
+    Denne vil definere hva som regnes som en "uke" når varigheten vises på en mer naturlig måte (for eksempel hvis en uke er på 5 dager, er 15 dager 3 uker).
   setting_invitation_expiration_days: "Aktiverings e-post utløper etter"
   setting_work_package_done_ratio: "Beregning av fremdrift"
   setting_work_package_done_ratio_field: "Arbeidsbasert"
@@ -3416,12 +3403,12 @@
         additional_privileges_project_or_group: "Kan ha flere privilegier (som prosjekt- eller gruppemedlem)"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
+      Hoppet over dager som ikke er valgt ved planlegging av arbeidspakker (og ikke inkludert i antall dager). Disse kan overstyres på arbeidspakkenivå.
     instance_wide_info: >
       Datoer som er lagt til i listen nedenfor regnes som arbeidsfrie og hoppet over når arbeidspakker planlegges.
     change_button: "Endre arbeidsdager"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
+      Endring av hvilke ukedager som regnes som arbeidsdager eller arbeidsfrie dager kan påvirke start- og sluttdager for alle arbeidspakker i alle prosjekter i denne forekomsten.
     journal_note:
       changed: _**Arbeidsdager** endret (%{changes})._
       days:

@@ -6,7 +6,7 @@
         t("button_add")
       end
       component.with_item(
-        label: t("activerecord.models.meeting_agenda_item", count: 1),
+        label: t("activerecord.models.meeting_agenda_item"),
         tag: :a,
         content_arguments: {
           href: new_meeting_agenda_item_path(@meeting, type: "simple", meeting_section_id: @meeting_section&.id),
@@ -14,7 +14,7 @@
         }
       )
       component.with_item(
-        label: t("activerecord.models.work_package", count: 1),
+        label: t("activerecord.models.work_package"),
         tag: :a,
         content_arguments: {
           href: new_meeting_agenda_item_path(@meeting, type: "work_package", meeting_section_id: @meeting_section&.id),
@@ -23,7 +23,7 @@
       )
       unless @meeting_section
         component.with_item(
-          label: "Section",
+          label: t("activerecord.models.meeting_section"),
           tag: :a,
           content_arguments: {
             href: meeting_sections_path(@meeting),

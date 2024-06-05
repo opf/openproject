@@ -1159,18 +1159,6 @@ pt-BR:
           other: "<i>%{count} horas</i>"
         updated: "alterado de %{old_value} para %{value}"
         logged_for: "Registrado por"
-      meeting_agenda_item:
-        duration:
-          added: "definido como %{value}"
-          added_html: "definido como <i>%{value}</i>"
-          removed: "removido"
-          updated: "alterado de %{old_value} para %{value}"
-          updated_html: "alterado de <i>%{old_value}</i> para <i>%{value}</i>"
-        position:
-          updated: "reorganizado"
-        work_package:
-          updated: "alterado de %{old_value} para %{value}"
-          updated_html: "alterado de <i>%{old_value}</i> para <i>%{value}</i>"
     filter:
       changeset: "Cj de alterações"
       message: "Fóruns"
@@ -2950,7 +2938,7 @@ pt-BR:
   setting_date_format: "Data"
   setting_days_per_month: "Days per month"
   setting_days_per_month_explanation: >-
-    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
+    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Idioma padrão"
   setting_default_projects_modules: "Módulos habilitados por padrão para novos projetos"
   setting_default_projects_public: "Novos projetos são públicos por padrão"

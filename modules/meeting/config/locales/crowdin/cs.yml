@@ -60,9 +60,23 @@ cs:
       meeting_agenda_item: "Pořad jednání"
       meeting_agenda: "Agenda"
       meeting_minutes: "Zápis"
+      meeting_section: "Section"
   activity:
     filter:
       meeting: "Schůzky"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "nastavit na %{value}"
+          added_html: "nastavit na <i>%{value}</i>"
+          removed: "odstraněno"
+          updated: "změněno z %{old_value} na %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+        position:
+          updated: "reordered"
+        work_package:
+          updated: "změněno z %{old_value} na %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
   description_attended: "zúčastněn"
   description_invite: "pozván"
   events:

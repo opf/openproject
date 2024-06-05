@@ -58,9 +58,23 @@ it:
       meeting_agenda_item: "Attività"
       meeting_agenda: "Ordine del giorno"
       meeting_minutes: "Verbali"
+      meeting_section: "Section"
   activity:
     filter:
       meeting: "Riunioni"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "impostato a %{value}"
+          added_html: "impostato a <i>%{value}</i>"
+          removed: "rimosso"
+          updated: "modificato da %{old_value} a %{value}"
+          updated_html: "modificato da <i>%{old_value}</i> a <i>%{value}</i>"
+        position:
+          updated: "riordinato"
+        work_package:
+          updated: "modificato da %{old_value} a %{value}"
+          updated_html: "modificato da <i>%{old_value}</i> a <i>%{value}</i>"
   description_attended: "ha partecipato"
   description_invite: "invitato"
   events:

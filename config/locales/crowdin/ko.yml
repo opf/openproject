@@ -1144,18 +1144,6 @@ ko:
           other: "<i>%{count}시간</i>"
         updated: "%{old_value}에서 %{value}(으)로 변경됨"
         logged_for: "기록함 -"
-      meeting_agenda_item:
-        duration:
-          added: "%{value}(으)로 설정됨"
-          added_html: "<i>%{value}</i>(으)로 설정됨"
-          removed: "제거됨"
-          updated: "%{old_value}에서 %{value}(으)로 변경됨"
-          updated_html: "<i>%{old_value}</i>에서 <i>%{value}</i>(으)로 변경됨"
-        position:
-          updated: "재정렬됨"
-        work_package:
-          updated: "%{old_value}에서 %{value}(으)로 변경됨"
-          updated_html: "<i>%{old_value}</i>에서 <i>%{value}</i>(으)로 변경됨"
     filter:
       changeset: "변경 집합"
       message: "포럼"
@@ -2914,7 +2902,7 @@ ko:
   setting_date_format: "날짜"
   setting_days_per_month: "Days per month"
   setting_days_per_month_explanation: >-
-    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
+    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "기본 언어"
   setting_default_projects_modules: "새 프로젝트에 대해 기본적으로 활성화된 모듈"
   setting_default_projects_public: "새 프로젝트는 기본적으로 공용입니다."

@@ -1145,18 +1145,6 @@ th:
           other: "<i>%{count} hours</i>"
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
-      meeting_agenda_item:
-        duration:
-          added: "set to %{value}"
-          added_html: "set to <i>%{value}</i>"
-          removed: "removed"
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
-        position:
-          updated: "reordered"
-        work_package:
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
       changeset: "ชุดการเปลี่ยนแปลง"
       message: "กระทู้"
@@ -2918,7 +2906,7 @@ th:
   setting_date_format: "วันที่"
   setting_days_per_month: "Days per month"
   setting_days_per_month_explanation: >-
-    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
+    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "ภาษาเริ่มต้น"
   setting_default_projects_modules: "ค่าเริ่มต้นของโมดูลที่เปิดใช้สำหรับโครงการใหม่"
   setting_default_projects_public: "โดยเริ่มแรก โครงการใหม่จะเป็นสาธารณะ"

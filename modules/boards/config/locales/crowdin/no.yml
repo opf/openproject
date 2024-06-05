@@ -15,7 +15,7 @@
       free: Enkel
       action: "Handlingstavle (%{attribute})"
     board_type_attributes:
-      assignee: Deltaker
+      assignee: Utførende
       status: Status
       version: Versjon
       subproject: Underprosjekt

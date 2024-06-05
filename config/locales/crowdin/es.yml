@@ -1157,18 +1157,6 @@ es:
           other: "<i>%{count} horas</i>"
         updated: "cambiado de %{old_value} a %{value}"
         logged_for: "Registrado para"
-      meeting_agenda_item:
-        duration:
-          added: "fijado en %{value}"
-          added_html: "fijado en <i>%{value}</i>"
-          removed: "eliminado"
-          updated: "cambiado de %{old_value} a %{value}"
-          updated_html: "cambiado de <i>%{old_value}</i> a <i>%{value}</i>"
-        position:
-          updated: "reordenado"
-        work_package:
-          updated: "cambiado de %{old_value} a %{value}"
-          updated_html: "cambiado de <i>%{old_value}</i> a <i>%{value}</i>"
     filter:
       changeset: "Conjuntos de cambios"
       message: "Foros"
@@ -2949,7 +2937,7 @@ es:
   setting_date_format: "Fecha"
   setting_days_per_month: "Days per month"
   setting_days_per_month_explanation: >-
-    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
+    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Idioma predeterminado"
   setting_default_projects_modules: "Modulos activados por defecto para nuevos proyectos"
   setting_default_projects_public: "Nuevos proyectos son públicos por defecto"

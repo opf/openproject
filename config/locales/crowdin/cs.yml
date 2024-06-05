@@ -1190,18 +1190,6 @@ cs:
           other: "<i>%{count} hodiny</i>"
         updated: "změněno z %{old_value} na %{value}"
         logged_for: "Přihlášen "
-      meeting_agenda_item:
-        duration:
-          added: "nastavit na %{value}"
-          added_html: "nastavit na <i>%{value}</i>"
-          removed: "odstraněno"
-          updated: "změněno z %{old_value} na %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
-        position:
-          updated: "reordered"
-        work_package:
-          updated: "změněno z %{old_value} na %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
       changeset: "Změny"
       message: "Fóra"
@@ -3022,7 +3010,7 @@ cs:
   setting_date_format: "Datum"
   setting_days_per_month: "Days per month"
   setting_days_per_month_explanation: >-
-    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
+    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Výchozí jazyk"
   setting_default_projects_modules: "Výchozí zapnutné moduly pro nový projekt"
   setting_default_projects_public: "Nové projekty nastavovat jako veřejné"
