@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -45,7 +46,7 @@ export interface INonWorkingDay {
   styleUrls: ['./op-non-working-days-list.component.sass'],
   templateUrl: './op-non-working-days-list.component.html',
 })
-export class OpNonWorkingDaysListComponent implements OnInit {
+export class OpNonWorkingDaysListComponent implements OnInit, AfterViewInit {
   @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
 
   @HostBinding('class.op-non-working-days-list') className = true;
@@ -71,6 +72,8 @@ export class OpNonWorkingDaysListComponent implements OnInit {
 
   originalNonWorkingDays:INonWorkingDay[] = [];
   nonWorkingDays:INonWorkingDay[] = [];
+
+  originalWorkingDays:string[] = [];
 
   datepickerOpened = false;
 
@@ -136,11 +139,8 @@ export class OpNonWorkingDaysListComponent implements OnInit {
   private listenToFormSubmit() {
     const form = this.elementRef.nativeElement.closest('form') as HTMLFormElement;
     form.addEventListener('submit', (evt:Event) => {
-      if (
-        !this.form_submitted
-        && (this.removedNonWorkingDays.length > 0
-          || this.modifiedNonWorkingDays.length > 0
-          || this.nonWorkingDays.length > this.originalNonWorkingDays.length)) {
+      if (!this.form_submitted
+        && (this.nonWorkingDaysModified() || this.workingDaysModified())) {
         this.form_submitted = true;
         const target = evt.target as HTMLFormElement;
         const options:ConfirmDialogOptions = {
@@ -172,6 +172,16 @@ export class OpNonWorkingDaysListComponent implements OnInit {
       .forEach((el) => {
         this.nonWorkingDays.push({ ...el });
       });
+  }
+
+  ngAfterViewInit():void {
+    const form = this.elementRef.nativeElement.closest('form') as HTMLFormElement;
+    const workingDayCheckboxes = Array.from(form.querySelectorAll('input[name="settings[working_days][]"]'));
+    workingDayCheckboxes.forEach((checkbox:HTMLInputElement) => {
+      if (checkbox.checked) {
+        this.originalWorkingDays.push(checkbox.value);
+      }
+    });
   }
 
   public get removedNonWorkingDays():string[] {
@@ -237,5 +247,30 @@ export class OpNonWorkingDaysListComponent implements OnInit {
 
     this.nonWorkingDays = [...this.nonWorkingDays, day];
     api.addEvent({ ...day, id: date });
+  }
+
+  private get workingDays():string[] {
+    const workingDays:string[] = [];
+
+    const form = this.elementRef.nativeElement.closest('form') as HTMLFormElement;
+    const workingDayCheckboxes = Array.from(form.querySelectorAll('input[name="settings[working_days][]"]'));
+    workingDayCheckboxes.forEach((checkbox:HTMLInputElement) => {
+      if (checkbox.checked) {
+        workingDays.push(checkbox.value);
+      }
+    });
+
+    return workingDays;
+  }
+
+  private nonWorkingDaysModified():boolean {
+    return this.removedNonWorkingDays.length > 0
+      || this.modifiedNonWorkingDays.length > 0
+      || this.nonWorkingDays.length > this.originalNonWorkingDays.length;
+  }
+
+  private workingDaysModified():boolean {
+    return _.difference(this.workingDays, this.originalWorkingDays).length > 0
+      || _.difference(this.originalWorkingDays, this.workingDays).length > 0;
   }
 }
