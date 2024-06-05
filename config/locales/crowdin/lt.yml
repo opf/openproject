@@ -1187,18 +1187,6 @@ lt:
           other: "<i>%{count} valandos</i>"
         updated: "pakeitė iš %{old_value} į %{value}"
         logged_for: "Registruota"
-      meeting_agenda_item:
-        duration:
-          added: "nustatyti %{value}"
-          added_html: "nustatyti <i>%{value}</i>"
-          removed: "išimta"
-          updated: "pakeitė iš %{old_value} į %{value}"
-          updated_html: "pakeista iš <i>%{old_value}</i> į <i>%{value}</i>"
-        position:
-          updated: "perrikiuota"
-        work_package:
-          updated: "pakeista iš %{old_value} į %{value}"
-          updated_html: "pakeista iš <i>%{old_value}</i> į <i>%{value}</i>"
     filter:
       changeset: "Pakeitimų paketai"
       message: "Forumai"
@@ -3016,7 +3004,7 @@ lt:
   setting_date_format: "Data"
   setting_days_per_month: "Days per month"
   setting_days_per_month_explanation: >-
-    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
+    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Numatytoji kalba"
   setting_default_projects_modules: "Pagal nutylėjimą naujame projekte įjungti moduliai"
   setting_default_projects_public: "Nauji projektai yra vieši pagal nutylėjimą"

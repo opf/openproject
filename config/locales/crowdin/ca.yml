@@ -1156,18 +1156,6 @@ ca:
           other: "%{count} hores</i>"
         updated: "canviat de %{old_value} a %{value}"
         logged_for: "Registrat per"
-      meeting_agenda_item:
-        duration:
-          added: "set to %{value}"
-          added_html: "set to <i>%{value}</i>"
-          removed: "eliminat"
-          updated: "canviat de %{old_value} a %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
-        position:
-          updated: "reordenat"
-        work_package:
-          updated: "canviat de %{old_value} a %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
       changeset: "Conjunt de canvis"
       message: "Fòrums"
@@ -2942,7 +2930,7 @@ ca:
   setting_date_format: "Data"
   setting_days_per_month: "Days per month"
   setting_days_per_month_explanation: >-
-    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
+    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Idioma per defecte"
   setting_default_projects_modules: "Mòduls activats per defecte en els projectes nous"
   setting_default_projects_public: "Els projectes nous són públics per defecte"

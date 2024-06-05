@@ -1284,9 +1284,9 @@
         next_button: "Fortsett"
     exclusion_info:
       modal:
-        title: "Status excluded from hierarchy totals"
+        title: "Status ekskludert fra hierarkiske summer"
         content: >-
-          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
+          Statusen '%{status_name}' er konfigurert til å bli ekskludert fra hierarkiske summer av Arbeid, Gjenstående arbeid og % Ferdig. Summene tar ikke hensyn til denne verdien.
     favorite_projects:
       no_results: "Du har ingen favorittprosjekter"
       no_results_subtext: "Legg til ett eller flere prosjekter som favoritt via oversikten eller i en prosjektliste."
@@ -1347,7 +1347,7 @@
         remove: "Fjern"
       drop_modal:
         focus_grab: "Dette er et fokusanker for modaler. Trykk shift+tab for å gå tilbake til modal trigger elementet."
-        close: "Close modal"
+        close: "Lukk modal"
     open_project_storage_modal:
       waiting_title:
         timeout: "Tidsavbrudd"

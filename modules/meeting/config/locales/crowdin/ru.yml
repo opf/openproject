@@ -60,9 +60,23 @@ ru:
       meeting_agenda_item: "Пункт повестки"
       meeting_agenda: "Повестка дня"
       meeting_minutes: "Протокол(-ы)"
+      meeting_section: "Section"
   activity:
     filter:
       meeting: "Совещания"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "установлено в %{value}"
+          added_html: "установлено в <i>%{value}</i>"
+          removed: "удалено"
+          updated: "изменено с %{old_value} на %{value}"
+          updated_html: "изменено с <i>%{old_value}</i> на <i>%{value}</i>"
+        position:
+          updated: "переупорядочено"
+        work_package:
+          updated: "изменено с %{old_value} на %{value}"
+          updated_html: "изменено с <i>%{old_value}</i> на <i>%{value}</i>"
   description_attended: "участие"
   description_invite: "приглашено"
   events:

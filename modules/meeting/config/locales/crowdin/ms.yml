@@ -57,9 +57,23 @@ ms:
       meeting_agenda_item: "Item agenda"
       meeting_agenda: "Agenda"
       meeting_minutes: "Minit mesyuarat"
+      meeting_section: "Section"
   activity:
     filter:
       meeting: "Mesyuarat"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "ditetapkan kepada %{value}"
+          added_html: "ditetapkan kepada <i>%{value}</i>"
+          removed: "dikeluarkan"
+          updated: "ditukar dari %{old_value} kepada %{value}"
+          updated_html: "ditukar dari <i>%{old_value}</i> kepada <i>%{value}</i>"
+        position:
+          updated: "disusun semula"
+        work_package:
+          updated: "ditukar dari %{old_value} kepada %{value}"
+          updated_html: "ditukar dari <i>%{old_value}</i> kepada <i>%{value}</i>"
   description_attended: "dihadiri"
   description_invite: "dijemput"
   events:

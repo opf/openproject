@@ -58,9 +58,23 @@ de:
       meeting_agenda_item: "Tagesordnungspunkt"
       meeting_agenda: "Agenda"
       meeting_minutes: "Protokoll"
+      meeting_section: "Section"
   activity:
     filter:
       meeting: "Besprechungen"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "auf %{value} eingestellt"
+          added_html: "auf <i>%{value}</i> eingestellt"
+          removed: "entfernt"
+          updated: "von %{old_value} zu %{value} geändert"
+          updated_html: "von <i>%{old_value}</i> zu <i>%{value}</i> geändert"
+        position:
+          updated: "neu geordnet"
+        work_package:
+          updated: "von %{old_value} zu %{value} geändert"
+          updated_html: "von <i>%{old_value}</i> zu <i>%{value}</i> geändert"
   description_attended: "teilgenommen"
   description_invite: "eingeladen"
   events:

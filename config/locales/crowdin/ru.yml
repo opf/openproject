@@ -460,8 +460,8 @@ ru:
         <br/>
         <strong>Примечание</ strong>: Будут применены унаследованные значения (например, элементов предков или потомков).
       status_excluded_from_totals_text: |-
-        Check this option to exclude work packages with this status from totals of Work,
-        Remaining work, and % Complete in a hierarchy.
+        Отметьте эту опцию, чтобы исключить пакеты работ с этим статусом из итогов Работы,
+        Оставшейся работы и % Завершения в иерархии.
       status_color_text: |
         Щелкните, чтобы задать или изменить цвет этого статуса.
         Этот цвет отображается на кнопке статуса и может использоваться для выделения пакетов работ в таблице.
@@ -469,10 +469,10 @@ ru:
       no_results_title_text: В данный момент статусы пакетов работ отсутствуют.
       no_results_content_text: Добавить новый статус
       headers:
-        is_default: "Default"
-        is_closed: "Closed"
-        is_readonly: "Read-only"
-        excluded_from_totals: "Excluded from totals"
+        is_default: "По умолчанию"
+        is_closed: "Закрыто"
+        is_readonly: "Только для чтения"
+        excluded_from_totals: "Исключено из итогов"
   themes:
     light: "Светлая"
     light_high_contrast: "Светлый высокий контраст"
@@ -644,7 +644,7 @@ ru:
       status:
         is_closed: "Пакет работ закрыт"
         is_readonly: "Пакет работ только для просмотра"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        excluded_from_totals: "Исключить из расчета итогов в иерархии"
       journal:
         notes: "Примечания"
       member:
@@ -981,14 +981,14 @@ ru:
             base:
               working_days_are_missing: "По крайней мере, один день недели должен быть определен как рабочий."
               previous_working_day_changes_unprocessed: "Предыдущие изменения конфигурации рабочих дней еще не были применены."
-              hours_per_day_are_missing: "The number of hours per day must be defined."
-              days_per_week_are_missing: "The number of days per week must be defined."
-              days_per_month_are_missing: "The number of days per month must be defined."
-              durations_are_not_positive_numbers: "The durations must be positive numbers."
-              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
-              days_per_week_is_out_of_bounds: "Days per week can't be more than 7"
-              days_per_month_is_out_of_bounds: "Days per month can't be more than 31"
-              days_per_week_and_days_per_month_are_inconsistent: "The number of days per week and the number of days per month must be consistent."
+              hours_per_day_are_missing: "Необходимо указать количество часов в день."
+              days_per_week_are_missing: "Необходимо указать количество дней в неделю."
+              days_per_month_are_missing: "Необходимо указать количество дней в месяце."
+              durations_are_not_positive_numbers: "Длительность должна быть положительным числом."
+              hours_per_day_is_out_of_bounds: "Количество часов в день не может быть больше 24"
+              days_per_week_is_out_of_bounds: "Количество дней в неделю не может быть больше 7"
+              days_per_month_is_out_of_bounds: "Количество дней в месяце не может быть больше 31"
+              days_per_week_and_days_per_month_are_inconsistent: "Количество дней в неделю и количество дней в месяц должны быть постоянными."
         time_entry:
           attributes:
             hours:
@@ -1189,18 +1189,6 @@ ru:
           other: "<i>%{count} часов</i>"
         updated: "изменено с %{old_value} на %{value}"
         logged_for: "Зарегистрирован для"
-      meeting_agenda_item:
-        duration:
-          added: "установлено в %{value}"
-          added_html: "установлено в <i>%{value}</i>"
-          removed: "удалено"
-          updated: "изменено с %{old_value} на %{value}"
-          updated_html: "изменено с <i>%{old_value}</i> на <i>%{value}</i>"
-        position:
-          updated: "переупорядочено"
-        work_package:
-          updated: "изменено с %{old_value} на %{value}"
-          updated_html: "изменено с <i>%{old_value}</i> на <i>%{value}</i>"
     filter:
       changeset: "Наборы изменений"
       message: "Форумы"
@@ -1254,7 +1242,7 @@ ru:
     password: "Пароль"
     priority: "Приоритет"
     project: "Проект"
-    responsible: "Подотчетный"
+    responsible: "Ответственный"
     role: "Роль"
     roles: "Роли"
     start_date: "Дата начала"
@@ -1740,7 +1728,7 @@ ru:
       dates_changed: "Даты изменены"
       default_attribute_written: "Запись атрибутов со свойством \"только для чтения\""
       progress_mode_changed_to_status_based: "Расчет прогресса обновлен"
-      status_changed: "Status '%{status_name}'"
+      status_changed: "Статус '%{status_name}'"
       system_update: "Обновление системы OpenProject:"
     cause_descriptions:
       work_package_predecessor_changed_times: внесением изменений в предшественника %{link}
@@ -1757,9 +1745,9 @@ ru:
           working: "%{date} сейчас рабочий"
           non_working: "%{date} теперь нерабочий"
       progress_mode_changed_to_status_based: Расчет прогресса установлен в режим "На основе статуса"
-      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
-      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
-      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
+      status_excluded_from_totals_set_to_false_message: теперь включено в иерархию итогов
+      status_excluded_from_totals_set_to_true_message: теперь исключено из иерархии итогов
+      status_percent_complete_changed: "% завершения изменен с %{old_value}% на %{new_value}%"
       system_update:
         file_links_journal: >
           Теперь на вкладке Активность появится активность, связанная со ссылками файлов (файлы, хранящиеся во внешних хранилищах). Ниже описывается деятельность по уже существующим ссылкам:
@@ -2416,7 +2404,7 @@ ru:
   label_workflow: "Рабочий поток"
   label_workflow_plural: "Рабочие потоки"
   label_workflow_summary: "Сводка"
-  label_working_days_and_hours: "Working days and hours"
+  label_working_days_and_hours: "Рабочие дни и часы"
   label_x_closed_work_packages_abbr:
     one: "1 закрыто"
     other: "%{count} закрыто"
@@ -2499,7 +2487,7 @@ ru:
       reason:
         watched: "Просмотрено"
         assigned: "Назначено"
-        responsible: "Подотчетный"
+        responsible: "Ответственный"
         mentioned: "Упомянутые"
         shared: "Общий доступ"
         subscribed: "все"
@@ -3017,9 +3005,9 @@ ru:
   setting_cross_project_work_package_relations: "Разрешить перектестные связи пакетов работ проекта"
   setting_first_week_of_year: "Первая неделя в году содержит"
   setting_date_format: "Дата"
-  setting_days_per_month: "Days per month"
+  setting_days_per_month: "Количество дней в месяце"
   setting_days_per_month_explanation: >-
-    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
+    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Язык по умолчанию"
   setting_default_projects_modules: "По умолчанию доступные в новых проектах модули"
   setting_default_projects_public: "По умолчанию новые проекты видимы всем"
@@ -3035,12 +3023,12 @@ ru:
   setting_feeds_limit: "Предел содержимого новостной ленты"
   setting_file_max_size_displayed: "Максимальная длина  строки текстовых файлов"
   setting_host_name: "Имя компьютера в сети"
-  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day: "Количество часов в день"
   setting_hours_per_day_explanation: >-
-    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
-  setting_days_per_week: "Days per week"
+    Это определяет, что считается «днем» при более естественном отображении продолжительности (например, если день 8 часов, то 32 часа будет 4 дня).
+  setting_days_per_week: "Количество дней в неделю"
   setting_days_per_week_explanation: >-
-    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a week is 5 days, 15 days would be 3 weeks).
+    Это определяет, что считается "неделей" при более естественном отображении продолжительности (например, если в неделю 5 дней, то 15 дней будет 3 недели).
   setting_invitation_expiration_days: "Действие письма активации истекает после"
   setting_work_package_done_ratio: "Режим расчета прогресса"
   setting_work_package_done_ratio_field: "На основе трудозатрат"
@@ -3483,12 +3471,12 @@ ru:
         additional_privileges_project_or_group: "Есть дополнительные привилегии (в качестве участника проекта или группы)"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
+      Невыбранные дни пропускаются при планировании пакетов работ (и не включаются в подсчет дней). Они могут быть переопределены на уровне пакетов работ.
     instance_wide_info: >
       Даты, добавленные в список ниже, считаются нерабочими и пропускаются при планировании пакетов работ.
     change_button: "Изменить рабочие дни"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
+      Изменение дней недели, считающихся рабочими или нерабочими днями, может повлиять на начало и завершение всех пакетов работ во всех проектах.
     journal_note:
       changed: _**Рабочие дни** изменены (%{changes})._
       days:

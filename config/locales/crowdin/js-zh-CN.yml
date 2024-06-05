@@ -1280,9 +1280,9 @@ zh-CN:
         next_button: "继续"
     exclusion_info:
       modal:
-        title: "Status excluded from hierarchy totals"
+        title: "从层次结构总计中排除的状态"
         content: >-
-          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
+          状态 "%{status_name}"已被配置为排除在 "工时"、"剩余工时 "和 "完成百分比 "的层次结构总计中。总计不考虑该值。
     favorite_projects:
       no_results: "您没有收藏的项目"
       no_results_subtext: "通过项目概览或项目列表添加一个或多个项目作为收藏夹。"
@@ -1343,12 +1343,12 @@ zh-CN:
         remove: "移除"
       drop_modal:
         focus_grab: "该信息是模态框的焦点锚点。按 Shift+Tab 可以返回到模态框的触发元素。"
-        close: "Close modal"
+        close: "关闭模式"
     open_project_storage_modal:
       waiting_title:
-        timeout: "Timeout"
+        timeout: "超时"
       waiting_subtitle:
         network_off: "网络有问题。"
         network_on: "网络已恢复。我们正在努力。"
         timeout: >
-          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact you OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.
+          OpenProject无法让您在预期时间内访问项目文件夹。请再试一次。<br><br> 如果问题仍然存在，请联系OpenProject管理员检查<a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">文件存储设置的运行状况</a>。
