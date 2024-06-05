@@ -26,23 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-en:
-  button_add_deploy_target: Add deploy target
-  label_deploy_target: Deploy target
-  label_deploy_target_new: New deploy target
-  label_deploy_target_plural: Deploy targets
-  label_github_integration: GitHub Integration
-  notice_deploy_target_created: Deploy target created
-  notice_deploy_target_destroyed: Deploy target deleted
-  plugin_openproject_github_integration:
-    name: "OpenProject GitHub Integration"
-    description: "Integrates OpenProject and GitHub for a better workflow"
+class DeployTarget < ApplicationRecord
+  self.inheritance_column = nil
 
-  project_module_github: "GitHub"
-  permission_show_github_content: "Show GitHub content"
-  permission_introspection: Read running OpenProject core version and build SHA
-  text_deploy_target_type_info: >
-    So far we only support OpenProject itself.
-  text_deploy_target_api_key_info: >
-    An OpenProject [API key](docs_url)
-    belonging to a user who has the global introspection permission.
+  store_accessor :options, :api_key
+
+  has_many :deploy_status_checks, dependent: :destroy
+
+  validates_presence_of :host
+  validates_uniqueness_of :host
+
+  validates_presence_of :type
+
+  # this is very much specific to the only type of target we support for now, OpenProject
+  validates_presence_of :api_key
+end

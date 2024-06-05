@@ -26,23 +26,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-en:
-  button_add_deploy_target: Add deploy target
-  label_deploy_target: Deploy target
-  label_deploy_target_new: New deploy target
-  label_deploy_target_plural: Deploy targets
-  label_github_integration: GitHub Integration
-  notice_deploy_target_created: Deploy target created
-  notice_deploy_target_destroyed: Deploy target deleted
-  plugin_openproject_github_integration:
-    name: "OpenProject GitHub Integration"
-    description: "Integrates OpenProject and GitHub for a better workflow"
+class DeployTargetsController < ApplicationController
+  layout "admin"
 
-  project_module_github: "GitHub"
-  permission_show_github_content: "Show GitHub content"
-  permission_introspection: Read running OpenProject core version and build SHA
-  text_deploy_target_type_info: >
-    So far we only support OpenProject itself.
-  text_deploy_target_api_key_info: >
-    An OpenProject [API key](docs_url)
-    belonging to a user who has the global introspection permission.
+  before_action :require_admin
+
+  def index
+    @deploy_targets = DeployTarget.all
+  end
+
+  def new
+    @deploy_target = DeployTarget.new type: "OpenProject"
+  end
+
+  def create
+    args = params
+      .permit("deploy_target" => ["host", "type", "api_key"])[:deploy_target]
+      .to_h
+      .merge(type: "OpenProject")
+
+    @deploy_target = DeployTarget.create **args
+
+    if @deploy_target.persisted?
+      flash[:success] = I18n.t(:notice_deploy_target_created)
+
+      redirect_to deploy_targets_path
+    else
+      render "new"
+    end
+  end
+
+  def destroy
+    deploy_target = DeployTarget.find params[:id]
+
+    deploy_target.destroy!
+
+    flash[:success] = I18n.t(:notice_deploy_target_destroyed)
+
+    redirect_to deploy_targets_path
+  end
+end

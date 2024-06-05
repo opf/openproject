@@ -27,15 +27,14 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title(t(:label_administration), t(:label_overview)) -%>
+<% html_title t(:label_administration), t(:label_github_integration) %>
+<%= toolbar title: t(:label_deploy_target_plural) do %>
+  <li class="toolbar-item">
+    <a href="<%= new_deploy_target_path %>" aria-label="<%= t(:button_add_deploy_target) %>" title="<%= t(:button_add_deploy_target) %>" class="button -primary">
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t(:label_deploy_target) %></span>
+    </a>
+  </li>
+<% end %>
 
-<%= toolbar title: t(:label_overview) %>
-
-<div class="menu-blocks--container" data-test-selector="menu-blocks--container">
-  <% @menu_nodes.each do |menu_node| -%>
-    <%= link_to menu_node.url, { class: 'menu-block', 'data-test-selector': 'menu-block' } do %>
-      <%= spot_icon("#{(menu_node.icon || '')}", classnames: "menu-block--icon icon3") %>
-      <span class="menu-block--title"> <%= menu_node.caption %> </span>
-    <% end %>
-  <% end %>
-</div>
+<%= render DeployTargets::TableComponent.new(rows: @deploy_targets, current_user: ) %>

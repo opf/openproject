@@ -27,15 +27,14 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title(t(:label_administration), t(:label_overview)) -%>
+<% html_title t(:label_administration), t("label_deploy_target_new") %>
+<% local_assigns[:additional_breadcrumb] = t(:label_deploy_target_new) %>
 
-<%= toolbar title: t(:label_overview) %>
+<%= toolbar title: t(:label_deploy_target_new) %>
 
-<div class="menu-blocks--container" data-test-selector="menu-blocks--container">
-  <% @menu_nodes.each do |menu_node| -%>
-    <%= link_to menu_node.url, { class: 'menu-block', 'data-test-selector': 'menu-block' } do %>
-      <%= spot_icon("#{(menu_node.icon || '')}", classnames: "menu-block--icon icon3") %>
-      <span class="menu-block--title"> <%= menu_node.caption %> </span>
-    <% end %>
-  <% end %>
-</div>
+<%= error_messages_for @deploy_target %>
+
+<%= labelled_tabular_form_for @deploy_target, url: deploy_targets_path do |f| %>
+  <%= render partial: 'deploy_targets/form', locals: { f: f, deploy_target: @deploy_target } %>
+  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>
