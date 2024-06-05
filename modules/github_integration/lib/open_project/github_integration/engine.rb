@@ -58,7 +58,7 @@ module OpenProject::GithubIntegration
                   { controller: "/deploy_targets", action: "index" },
                   if: Proc.new { OpenProject::FeatureDecisions.deploy_targets_active? && User.current.admin? },
                   caption: :label_github_integration,
-                  icon: "github_logo"
+                  icon: "mark-github"
       end
 
       project_module(:github, dependencies: :work_package_tracking) do
@@ -81,7 +81,7 @@ module OpenProject::GithubIntegration
            if: ->(*) { OpenProject::FeatureDecisions.deploy_targets_active? && User.current.admin? },
            parent: :admin_github_integration,
            caption: :label_deploy_target_plural,
-           icon: "hosting"
+           icon: "cloud"
     end
 
     initializer "github.register_hook" do
