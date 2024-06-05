@@ -27,6 +27,17 @@
 require "spec_helper"
 
 RSpec.describe WorkPackages::UpdateAncestors::Loader, type: :model do
+  shared_let(:user) { create(:user) }
+  shared_let(:project) { create(:project_with_types) }
+  shared_let(:included_status) { create(:status) }
+  shared_let(:excluded_status) { create(:rejected_status) }
+
+  before_all do
+    set_factory_default(:project_with_types, project)
+    set_factory_default(:status, included_status)
+    set_factory_default(:user, user)
+  end
+
   shared_let(:grandgrandparent) do
     create(:work_package,
            subject: "grandgrandparent")
@@ -223,67 +234,78 @@ RSpec.describe WorkPackages::UpdateAncestors::Loader, type: :model do
     end
   end
 
-  describe "#descendants_of" do
-    def descendants_of_hash(hashed_work_package)
-      { "estimated_hours" => nil,
-        "id" => hashed_work_package.id,
-        "ignore_non_working_days" => false,
-        "parent_id" => hashed_work_package.parent_id,
-        "remaining_hours" => nil,
-        "schedule_manually" => false }
-    end
+  def work_package_struct(work_package)
+    attribute_names = WorkPackages::UpdateAncestors::Loader::WorkPackageLikeStruct.members.map(&:to_s)
+    attributes = work_package.attributes.slice(*attribute_names)
+    attributes[:status_excluded_from_totals] = false
+    WorkPackages::UpdateAncestors::Loader::WorkPackageLikeStruct.new(**attributes)
+  end
 
+  describe "#descendants_of" do
     context "for the work_package" do
-      it "is its child (as a hash)" do
+      it "is its child (as a struct)" do
         expect(instance.descendants_of(work_package))
-          .to contain_exactly(descendants_of_hash(child))
+          .to contain_exactly(work_package_struct(child))
+      end
+
+      context "with the child having a status not being excluded from totals calculation" do
+        before do
+          child.update(status: included_status)
+        end
+
+        it "correctly responds true to #included_in_totals_calculation? like a WorkPackage instance" do
+          child = instance.descendants_of(work_package).first
+          expect(child.included_in_totals_calculation?).to be true
+        end
+      end
+
+      context "with the child having a status being excluded from totals calculation" do
+        before do
+          child.update(status: excluded_status)
+        end
+
+        it "correctly responds false to #included_in_totals_calculation? like a WorkPackage instance" do
+          child = instance.descendants_of(work_package).first
+          expect(child.included_in_totals_calculation?).to be false
+        end
       end
     end
 
     context "for the parent" do
-      it "is the work package, its child (as a hash) and its sibling (as a hash)" do
+      it "is the work package, its child (as a struct) and its sibling (as a struct)" do
         expect(instance.descendants_of(parent))
-          .to contain_exactly(descendants_of_hash(child), work_package, descendants_of_hash(sibling))
+          .to contain_exactly(work_package_struct(child), work_package, work_package_struct(sibling))
       end
     end
 
     context "for the grandparent" do
-      it "is the parent, the work package, its child (as a hash) and its sibling (as a hash)" do
+      it "is the parent, the work package, its child (as a struct) and its sibling (as a struct)" do
         expect(instance.descendants_of(grandparent))
-          .to contain_exactly(parent, work_package, descendants_of_hash(child), descendants_of_hash(sibling))
+          .to contain_exactly(parent, work_package, work_package_struct(child), work_package_struct(sibling))
       end
     end
 
     context "for the grandgrandparent (the root)" do
-      it "is the complete tree, partly as a hash and partly as the preloaded work packages" do
+      it "is the complete tree, partly as a struct and partly as the preloaded work packages" do
         expect(instance.descendants_of(grandgrandparent))
-          .to contain_exactly(descendants_of_hash(grandparent_sibling), grandparent, parent, work_package,
-                              descendants_of_hash(child), descendants_of_hash(sibling))
+          .to contain_exactly(work_package_struct(grandparent_sibling), grandparent, parent, work_package,
+                              work_package_struct(child), work_package_struct(sibling))
       end
     end
   end
 
   describe "#children_of" do
-    def children_of_hash(hashed_work_package)
-      { "estimated_hours" => nil,
-        "id" => hashed_work_package.id,
-        "ignore_non_working_days" => false,
-        "parent_id" => hashed_work_package.parent_id,
-        "remaining_hours" => nil,
-        "schedule_manually" => false }
-    end
-
     context "for the work_package" do
-      it "is its child (as a hash)" do
+      it "is its child (as a struct)" do
         expect(instance.children_of(work_package))
-          .to contain_exactly(children_of_hash(child))
+          .to contain_exactly(work_package_struct(child))
       end
     end
 
     context "for the parent" do
-      it "is the work package and its sibling (as a hash)" do
+      it "is the work package and its sibling (as a struct)" do
         expect(instance.children_of(parent))
-          .to contain_exactly(work_package, children_of_hash(sibling))
+          .to contain_exactly(work_package, work_package_struct(sibling))
       end
     end
 
@@ -295,9 +317,9 @@ RSpec.describe WorkPackages::UpdateAncestors::Loader, type: :model do
     end
 
     context "for the grandgrandparent" do
-      it "is the grandparent and its sibling (as a hash)" do
+      it "is the grandparent and its sibling (as a struct)" do
         expect(instance.children_of(grandgrandparent))
-          .to contain_exactly(children_of_hash(grandparent_sibling), grandparent)
+          .to contain_exactly(work_package_struct(grandparent_sibling), grandparent)
       end
     end
   end

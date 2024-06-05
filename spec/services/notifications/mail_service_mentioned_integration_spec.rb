@@ -75,7 +75,7 @@ RSpec.describe Notifications::MailService, "Mentioned integration", type: :model
     expect(assigned_notification).to be_present
     expect(assigned_notification.recipient).to eq assignee
     expect(assigned_notification.read_ian).to be false
-    expect(assigned_notification.mail_alert_sent).to be false
+    expect(assigned_notification.mail_alert_sent).to be_nil
   end
 
   it "triggers only one mention notification mail when editing attributes afterwards" do

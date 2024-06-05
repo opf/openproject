@@ -99,6 +99,7 @@ import {
   HoursDurationEditFieldComponent,
 } from 'core-app/shared/components/fields/edit/field-types/hours-duration-edit-field.component';
 import { ProgressPopoverEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/progress-popover-edit-field.component';
+import { OpExclusionInfoComponent } from 'core-app/shared/components/fields/display/info/op-exclusion-info.component';
 import { UserEditFieldComponent } from './edit/field-types/user-edit-field.component';
 import {
   DaysDurationEditFieldComponent,
@@ -152,6 +153,7 @@ import { FormsModule } from '@angular/forms';
     EditFormPortalComponent,
     HoursDurationEditFieldComponent,
     ProgressPopoverEditFieldComponent,
+    OpExclusionInfoComponent,
     DaysDurationEditFieldComponent,
     FloatEditFieldComponent,
     PlainFormattableEditFieldComponent,

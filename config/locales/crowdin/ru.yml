@@ -459,12 +459,20 @@ ru:
         Никакие атрибуты не могут быть изменены за исключением статуса.
         <br/>
         <strong>Примечание</ strong>: Будут применены унаследованные значения (например, элементов предков или потомков).
+      status_excluded_from_totals_text: |-
+        Отметьте эту опцию, чтобы исключить пакеты работ с этим статусом из итогов Работы,
+        Оставшейся работы и % Завершения в иерархии.
       status_color_text: |
         Щелкните, чтобы задать или изменить цвет этого статуса.
         Этот цвет отображается на кнопке статуса и может использоваться для выделения пакетов работ в таблице.
     index:
       no_results_title_text: В данный момент статусы пакетов работ отсутствуют.
       no_results_content_text: Добавить новый статус
+      headers:
+        is_default: "По умолчанию"
+        is_closed: "Закрыто"
+        is_readonly: "Только для чтения"
+        excluded_from_totals: "Исключено из итогов"
   themes:
     light: "Светлая"
     light_high_contrast: "Светлый высокий контраст"
@@ -636,6 +644,7 @@ ru:
       status:
         is_closed: "Пакет работ закрыт"
         is_readonly: "Пакет работ только для просмотра"
+        excluded_from_totals: "Исключить из расчета итогов в иерархии"
       journal:
         notes: "Примечания"
       member:
@@ -972,6 +981,14 @@ ru:
             base:
               working_days_are_missing: "По крайней мере, один день недели должен быть определен как рабочий."
               previous_working_day_changes_unprocessed: "Предыдущие изменения конфигурации рабочих дней еще не были применены."
+              hours_per_day_are_missing: "Необходимо указать количество часов в день."
+              days_per_week_are_missing: "Необходимо указать количество дней в неделю."
+              days_per_month_are_missing: "Необходимо указать количество дней в месяце."
+              durations_are_not_positive_numbers: "Длительность должна быть положительным числом."
+              hours_per_day_is_out_of_bounds: "Количество часов в день не может быть больше 24"
+              days_per_week_is_out_of_bounds: "Количество дней в неделю не может быть больше 7"
+              days_per_month_is_out_of_bounds: "Количество дней в месяце не может быть больше 31"
+              days_per_week_and_days_per_month_are_inconsistent: "Количество дней в неделю и количество дней в месяц должны быть постоянными."
         time_entry:
           attributes:
             hours:
@@ -1172,18 +1189,6 @@ ru:
           other: "<i>%{count} часов</i>"
         updated: "изменено с %{old_value} на %{value}"
         logged_for: "Зарегистрирован для"
-      meeting_agenda_item:
-        duration:
-          added: "установлено в %{value}"
-          added_html: "установлено в <i>%{value}</i>"
-          removed: "удалено"
-          updated: "изменено с %{old_value} на %{value}"
-          updated_html: "изменено с <i>%{old_value}</i> на <i>%{value}</i>"
-        position:
-          updated: "переупорядочено"
-        work_package:
-          updated: "изменено с %{old_value} на %{value}"
-          updated_html: "изменено с <i>%{old_value}</i> на <i>%{value}</i>"
     filter:
       changeset: "Наборы изменений"
       message: "Форумы"
@@ -1237,7 +1242,7 @@ ru:
     password: "Пароль"
     priority: "Приоритет"
     project: "Проект"
-    responsible: "Подотчетный"
+    responsible: "Ответственный"
     role: "Роль"
     roles: "Роли"
     start_date: "Дата начала"
@@ -1723,7 +1728,7 @@ ru:
       dates_changed: "Даты изменены"
       default_attribute_written: "Запись атрибутов со свойством \"только для чтения\""
       progress_mode_changed_to_status_based: "Расчет прогресса обновлен"
-      status_p_complete_changed: "Статус \"% завершения\" изменен"
+      status_changed: "Статус '%{status_name}'"
       system_update: "Обновление системы OpenProject:"
     cause_descriptions:
       work_package_predecessor_changed_times: внесением изменений в предшественника %{link}
@@ -1740,8 +1745,9 @@ ru:
           working: "%{date} сейчас рабочий"
           non_working: "%{date} теперь нерабочий"
       progress_mode_changed_to_status_based: Расчет прогресса установлен в режим "На основе статуса"
-      status_p_complete_changed: >-
-        "% завершения" для статуса '%{status_name}' изменено с %{old_value}% на %{new_value}%
+      status_excluded_from_totals_set_to_false_message: теперь включено в иерархию итогов
+      status_excluded_from_totals_set_to_true_message: теперь исключено из иерархии итогов
+      status_percent_complete_changed: "% завершения изменен с %{old_value}% на %{new_value}%"
       system_update:
         file_links_journal: >
           Теперь на вкладке Активность появится активность, связанная со ссылками файлов (файлы, хранящиеся во внешних хранилищах). Ниже описывается деятельность по уже существующим ссылкам:
@@ -2398,7 +2404,7 @@ ru:
   label_workflow: "Рабочий поток"
   label_workflow_plural: "Рабочие потоки"
   label_workflow_summary: "Сводка"
-  label_working_days: "Рабочие дни"
+  label_working_days_and_hours: "Рабочие дни и часы"
   label_x_closed_work_packages_abbr:
     one: "1 закрыто"
     other: "%{count} закрыто"
@@ -2481,7 +2487,7 @@ ru:
       reason:
         watched: "Просмотрено"
         assigned: "Назначено"
-        responsible: "Подотчетный"
+        responsible: "Ответственный"
         mentioned: "Упомянутые"
         shared: "Общий доступ"
         subscribed: "все"
@@ -2999,6 +3005,9 @@ ru:
   setting_cross_project_work_package_relations: "Разрешить перектестные связи пакетов работ проекта"
   setting_first_week_of_year: "Первая неделя в году содержит"
   setting_date_format: "Дата"
+  setting_days_per_month: "Количество дней в месяце"
+  setting_days_per_month_explanation: >-
+    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Язык по умолчанию"
   setting_default_projects_modules: "По умолчанию доступные в новых проектах модули"
   setting_default_projects_public: "По умолчанию новые проекты видимы всем"
@@ -3014,6 +3023,12 @@ ru:
   setting_feeds_limit: "Предел содержимого новостной ленты"
   setting_file_max_size_displayed: "Максимальная длина  строки текстовых файлов"
   setting_host_name: "Имя компьютера в сети"
+  setting_hours_per_day: "Количество часов в день"
+  setting_hours_per_day_explanation: >-
+    Это определяет, что считается «днем» при более естественном отображении продолжительности (например, если день 8 часов, то 32 часа будет 4 дня).
+  setting_days_per_week: "Количество дней в неделю"
+  setting_days_per_week_explanation: >-
+    Это определяет, что считается "неделей" при более естественном отображении продолжительности (например, если в неделю 5 дней, то 15 дней будет 3 недели).
   setting_invitation_expiration_days: "Действие письма активации истекает после"
   setting_work_package_done_ratio: "Режим расчета прогресса"
   setting_work_package_done_ratio_field: "На основе трудозатрат"
@@ -3461,7 +3476,7 @@ ru:
       Даты, добавленные в список ниже, считаются нерабочими и пропускаются при планировании пакетов работ.
     change_button: "Изменить рабочие дни"
     warning: >
-      Изменение того, какие дни недели считаются рабочими или нерабочими, может повлиять на дни начала и окончания всех рабочих пакетов во всех проектах в данной системе. <br/> Пожалуйста, обратите внимание, что изменения вступят в силу после того, как вы нажмете на кнопку применить.
+      Изменение дней недели, считающихся рабочими или нерабочими днями, может повлиять на начало и завершение всех пакетов работ во всех проектах.
     journal_note:
       changed: _**Рабочие дни** изменены (%{changes})._
       days:

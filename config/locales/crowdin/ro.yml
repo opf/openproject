@@ -454,12 +454,20 @@ ro:
         Nu se poate modifica niciun atribut, cu excepția statutului.
         <br/>
         <strong>Notă</strong>: Valorile moștenite (de exemplu, de la copii sau relații) se vor aplica în continuare.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         Faceți click pentru a desemna sau schimba culoarea pentru acest flux de lucru.
         Acesta este afișat în butonul de statut și poate fi folosit pentru a evidenția pachetele de lucru din tabel.
     index:
       no_results_title_text: În acest moment nu există stări pentru pachetele de lucru.
       no_results_content_text: Adăugare stare nouă
+      headers:
+        is_default: "Default"
+        is_closed: "Closed"
+        is_readonly: "Read-only"
+        excluded_from_totals: "Excluded from totals"
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
@@ -630,6 +638,7 @@ ro:
       status:
         is_closed: "Pachet de lucru închis"
         is_readonly: "Pachet de lucru numai pentru citire"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Mențiuni"
       member:
@@ -966,6 +975,14 @@ ro:
             base:
               working_days_are_missing: "Cel puțin o zi a săptămânii trebuie să fie definită ca zi lucrătoare."
               previous_working_day_changes_unprocessed: "Modificările anterioare la configurația din zilele lucrătoare nu au fost încă aplicate."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              days_per_week_are_missing: "The number of days per week must be defined."
+              days_per_month_are_missing: "The number of days per month must be defined."
+              durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+              days_per_week_is_out_of_bounds: "Days per week can't be more than 7"
+              days_per_month_is_out_of_bounds: "Days per month can't be more than 31"
+              days_per_week_and_days_per_month_are_inconsistent: "The number of days per week and the number of days per month must be consistent."
         time_entry:
           attributes:
             hours:
@@ -1158,18 +1175,6 @@ ro:
           other: "<i>%{count} hours</i>"
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
-      meeting_agenda_item:
-        duration:
-          added: "set to %{value}"
-          added_html: "set to <i>%{value}</i>"
-          removed: "removed"
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
-        position:
-          updated: "reordered"
-        work_package:
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
       changeset: "Seturi de modificări"
       message: "Forumuri"
@@ -1691,7 +1696,7 @@ ro:
       dates_changed: "Dates changed"
       default_attribute_written: "Read-only attributes written"
       progress_mode_changed_to_status_based: "Progress calculation updated"
-      status_p_complete_changed: "Status % Complete changed"
+      status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
@@ -1708,8 +1713,9 @@ ro:
           working: "%{date} este acum în funcțiune"
           non_working: "%{date} este acum nefuncțională"
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
-      status_p_complete_changed: >-
-        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
+      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
+      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
+      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
@@ -2366,7 +2372,7 @@ ro:
   label_workflow: "Flux de lucru"
   label_workflow_plural: "Fluxuri de lucru"
   label_workflow_summary: "Descriere"
-  label_working_days: "Zile lucrătoare"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "unul închis"
     other: "%{count} închise"
@@ -2967,6 +2973,9 @@ ro:
   setting_cross_project_work_package_relations: "Permiteți legături între pachetele de lucru din proiecte diferite"
   setting_first_week_of_year: "Prima săptămână din an conține"
   setting_date_format: "Dată"
+  setting_days_per_month: "Days per month"
+  setting_days_per_month_explanation: >-
+    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Limbă implicită"
   setting_default_projects_modules: "Module activate implicit la creare proiect"
   setting_default_projects_public: "Proiectele noi sunt implicit publice"
@@ -2982,6 +2991,12 @@ ro:
   setting_feeds_limit: "Limită conținut flux"
   setting_file_max_size_displayed: "Numărul maxim de linii afișat în text"
   setting_host_name: "Numele serverului"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >-
+    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+  setting_days_per_week: "Days per week"
+  setting_days_per_week_explanation: >-
+    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a week is 5 days, 15 days would be 3 weeks).
   setting_invitation_expiration_days: "E-mailul de activare expiră după"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"
@@ -3424,12 +3439,12 @@ ro:
         additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
     instance_wide_info: >
       Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Modificarea zilelor lucrătoare"
     warning: >
-      În acest caz, modificarea zilelor săptămânii care sunt considerate zile lucrătoare sau nelucrătoare poate afecta zilele de început și de sfârșit ale tuturor pachetelor de lucru din toate proiectele. <br/> Vă rugăm să rețineți că modificările sunt aplicate numai după ce faceți clic pe butonul de aplicare a modificărilor.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
       changed: _**Zile lucrătoare** schimbate (%{changes})._
       days:

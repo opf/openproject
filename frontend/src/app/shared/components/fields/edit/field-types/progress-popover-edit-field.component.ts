@@ -126,7 +126,7 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
   public get asHours():string {
     if (this.value) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      return this.timezoneService.formattedDuration(this.value);
+      return this.timezoneService.formattedChronicDuration(this.value);
     }
 
     return this.text.placeholder;

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,30 +25,15 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
+class Journal::CausedByStatusChanged < CauseOfChange::Base
+  def initialize(status_name:, status_id:, status_changes:)
+    additional = {
+      "status_name" => status_name,
+      "status_id" => status_id,
+      "status_changes" => status_changes
+    }
 
-module Settings
-  class WorkingDaysParamsContract < ::ParamsContract
-    include RequiresAdminGuard
-
-    validate :working_days_are_present
-    validate :unique_job
-
-    protected
-
-    def working_days_are_present
-      if working_days.blank?
-        errors.add :base, :working_days_are_missing
-      end
-    end
-
-    def unique_job
-      WorkPackages::ApplyWorkingDaysChangeJob.new.check_concurrency do
-        errors.add :base, :previous_working_day_changes_unprocessed
-      end
-    end
-
-    def working_days
-      params[:working_days]
-    end
+    super("status_changed", additional)
   end
 end

@@ -445,12 +445,20 @@ es:
         Excepto el estado, ningún otro atributo se puede modificar.
         <br/>
         <strong>Nota</strong>: Los valores heredados (por ejemplo, de elementos secundarios o relaciones) seguirán aplicándose.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         Haga clic para asignar o cambiar el color de este estado.
         Se muestra en el botón de estado y puede usarse para resaltar paquetes de trabajo en la tabla.
     index:
       no_results_title_text: Actualmente no hay estados de paquetes de trabajo.
       no_results_content_text: Añadir un nuevo estado
+      headers:
+        is_default: "Default"
+        is_closed: "Closed"
+        is_readonly: "Read-only"
+        excluded_from_totals: "Excluded from totals"
   themes:
     light: "Claro"
     light_high_contrast: "Contraste alto claro"
@@ -620,6 +628,7 @@ es:
       status:
         is_closed: "Paquete de trabajo cerrado"
         is_readonly: "Paquete de trabajo de solo lectura"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Notas"
       member:
@@ -730,7 +739,7 @@ es:
         parent_issue: "Padre"
         parent_work_package: "Padre"
         priority: "Prioridad"
-        progress: "% Compleado"
+        progress: "% Completado"
         readonly: "Solo lectura"
         remaining_hours: "Trabajo restante"
         remaining_time: "Trabajo restante"
@@ -956,6 +965,14 @@ es:
             base:
               working_days_are_missing: "Al menos un día de la semana debe definirse como laboral."
               previous_working_day_changes_unprocessed: "Los cambios anteriores en la configuración de días laborables no se han aplicado aún."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              days_per_week_are_missing: "The number of days per week must be defined."
+              days_per_month_are_missing: "The number of days per month must be defined."
+              durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+              days_per_week_is_out_of_bounds: "Days per week can't be more than 7"
+              days_per_month_is_out_of_bounds: "Days per month can't be more than 31"
+              days_per_week_and_days_per_month_are_inconsistent: "The number of days per week and the number of days per month must be consistent."
         time_entry:
           attributes:
             hours:
@@ -1140,18 +1157,6 @@ es:
           other: "<i>%{count} horas</i>"
         updated: "cambiado de %{old_value} a %{value}"
         logged_for: "Registrado para"
-      meeting_agenda_item:
-        duration:
-          added: "fijado en %{value}"
-          added_html: "fijado en <i>%{value}</i>"
-          removed: "eliminado"
-          updated: "cambiado de %{old_value} a %{value}"
-          updated_html: "cambiado de <i>%{old_value}</i> a <i>%{value}</i>"
-        position:
-          updated: "reordenado"
-        work_package:
-          updated: "cambiado de %{old_value} a %{value}"
-          updated_html: "cambiado de <i>%{old_value}</i> a <i>%{value}</i>"
     filter:
       changeset: "Conjuntos de cambios"
       message: "Foros"
@@ -1655,7 +1660,7 @@ es:
       dates_changed: "Cambio de fechas"
       default_attribute_written: "Atributos de solo lectura escritos"
       progress_mode_changed_to_status_based: "Cálculo del progreso actualizado"
-      status_p_complete_changed: "Estado % completado cambiado"
+      status_changed: "Status '%{status_name}'"
       system_update: "Actualización del sistema OpenProject:"
     cause_descriptions:
       work_package_predecessor_changed_times: por cambios al %{link} predecesor
@@ -1672,8 +1677,9 @@ es:
           working: "%{date} es ahora laboral"
           non_working: "%{date} es ahora no laboral"
       progress_mode_changed_to_status_based: Modo de cálculo del progreso establecido como basado en el estado
-      status_p_complete_changed: >-
-        Valor de % completado para el estado «%{status_name}» cambiado de %{old_value} % a %{new_value} %
+      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
+      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
+      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           A partir de ahora, la actividad relacionada con los enlaces de archivos (archivos almacenados en almacenamiento externo) aparecerá aquí en la pestaña Actividad. La siguiente representa la actividad relativa a los enlaces que ya existían:
@@ -2330,7 +2336,7 @@ es:
   label_workflow: "Flujo de trabajo"
   label_workflow_plural: "Flujos de trabajo"
   label_workflow_summary: "Resumen"
-  label_working_days: "Días laborables"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "1 cerrado"
     other: "%{count} cerrados"
@@ -2929,6 +2935,9 @@ es:
   setting_cross_project_work_package_relations: "Permitir relaciones cruzadas en paquetes de trabajo de proyecto"
   setting_first_week_of_year: "La primera semana del año contiene"
   setting_date_format: "Fecha"
+  setting_days_per_month: "Days per month"
+  setting_days_per_month_explanation: >-
+    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Idioma predeterminado"
   setting_default_projects_modules: "Modulos activados por defecto para nuevos proyectos"
   setting_default_projects_public: "Nuevos proyectos son públicos por defecto"
@@ -2944,6 +2953,12 @@ es:
   setting_feeds_limit: "Limite de contenido de feed"
   setting_file_max_size_displayed: "Tamaño máximo de archivos de texto mostrado en linea"
   setting_host_name: "Nombre de host"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >-
+    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+  setting_days_per_week: "Days per week"
+  setting_days_per_week_explanation: >-
+    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a week is 5 days, 15 days would be 3 weeks).
   setting_invitation_expiration_days: "El correo electrónico de activación caduca después de"
   setting_work_package_done_ratio: "Cálculo del progreso"
   setting_work_package_done_ratio_field: "Basado en el trabajo"
@@ -3384,12 +3399,12 @@ es:
         additional_privileges_project_or_group: "Puede tener privilegios adicionales (como miembros del proyecto o de un grupo)"
   working_days:
     info: >
-      Los días no seleccionados se omiten al programar los paquetes de trabajo (y no se incluyen en el recuento de días). Esto puede anularse a nivel de paquete de trabajo.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
     instance_wide_info: >
       Las fechas añadidas a la lista siguiente se consideran no laborables y se omiten al programar los paquetes de trabajo.
     change_button: "Cambiar los días laborables"
     warning: >
-      Cambiar qué días de la semana se consideran días laborables o no laborables puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo en todos los proyectos de esta instancia. <br/> Tenga en cuenta que los cambios solo se aplican después de hacer clic en el botón aplicar cambios.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
       changed: _**Días laborales** cambiados (%{changes})._
       days:

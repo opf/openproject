@@ -445,12 +445,20 @@ ca:
         No es poden canviar els atributs amb l'excepció de l'atribut estat-
         <br/>
         <strong>Nota</strong> : Els valors heretats (p.e., de fills o relacions) es continuaran aplicant.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         Clica per a assignar o canviar el color d'aquest estat.
         Es mostra al botó d'estat i es pot fer servir per a destacar paquets de treball a la taula.
     index:
       no_results_title_text: Actualment no hi ha cap estat de paquet de treball.
       no_results_content_text: Afegir un nou estat
+      headers:
+        is_default: "Default"
+        is_closed: "Closed"
+        is_readonly: "Read-only"
+        excluded_from_totals: "Excluded from totals"
   themes:
     light: "Clar"
     light_high_contrast: "Clar alt contrast"
@@ -619,6 +627,7 @@ ca:
       status:
         is_closed: "Paquet de treball tancat"
         is_readonly: "Paquet de treball en sols lectura"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Notes"
       member:
@@ -955,6 +964,14 @@ ca:
             base:
               working_days_are_missing: "Almenys un dia de la setmana s'ha de definir com a dia laborable."
               previous_working_day_changes_unprocessed: "Els canvis anteriors a la configuració de dies laborals encara no s'han aplicat."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              days_per_week_are_missing: "The number of days per week must be defined."
+              days_per_month_are_missing: "The number of days per month must be defined."
+              durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+              days_per_week_is_out_of_bounds: "Days per week can't be more than 7"
+              days_per_month_is_out_of_bounds: "Days per month can't be more than 31"
+              days_per_week_and_days_per_month_are_inconsistent: "The number of days per week and the number of days per month must be consistent."
         time_entry:
           attributes:
             hours:
@@ -1139,18 +1156,6 @@ ca:
           other: "%{count} hores</i>"
         updated: "canviat de %{old_value} a %{value}"
         logged_for: "Registrat per"
-      meeting_agenda_item:
-        duration:
-          added: "set to %{value}"
-          added_html: "set to <i>%{value}</i>"
-          removed: "eliminat"
-          updated: "canviat de %{old_value} a %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
-        position:
-          updated: "reordenat"
-        work_package:
-          updated: "canviat de %{old_value} a %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
       changeset: "Conjunt de canvis"
       message: "Fòrums"
@@ -1654,7 +1659,7 @@ ca:
       dates_changed: "Les dates han canviat"
       default_attribute_written: "Read-only attributes written"
       progress_mode_changed_to_status_based: "Progress calculation updated"
-      status_p_complete_changed: "Status % Complete changed"
+      status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: per canvis en el predecessor %{link}
@@ -1671,8 +1676,9 @@ ca:
           working: "%{date} és ara laboral"
           non_working: "%{date} és ara no laboral"
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
-      status_p_complete_changed: >-
-        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
+      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
+      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
+      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
@@ -2329,7 +2335,7 @@ ca:
   label_workflow: "Flux de treball"
   label_workflow_plural: "Fluxos de treball"
   label_workflow_summary: "Resum"
-  label_working_days: "Dies laborals"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "Un tancat"
     other: "%{count} tancats"
@@ -2922,6 +2928,9 @@ ca:
   setting_cross_project_work_package_relations: "Permetre les relacions creuades entre projectes pels paquets de treball"
   setting_first_week_of_year: "La primera setmana de l'any conté"
   setting_date_format: "Data"
+  setting_days_per_month: "Days per month"
+  setting_days_per_month_explanation: >-
+    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Idioma per defecte"
   setting_default_projects_modules: "Mòduls activats per defecte en els projectes nous"
   setting_default_projects_public: "Els projectes nous són públics per defecte"
@@ -2937,6 +2946,12 @@ ca:
   setting_feeds_limit: "Límit de contingut del canals"
   setting_file_max_size_displayed: "Mida màxima dels fitxers de text mostrats en línia"
   setting_host_name: "Nom del servidor"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >-
+    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+  setting_days_per_week: "Days per week"
+  setting_days_per_week_explanation: >-
+    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a week is 5 days, 15 days would be 3 weeks).
   setting_invitation_expiration_days: "L'activació de correu electrònic caduca després de"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"
@@ -3378,12 +3393,12 @@ ca:
         additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
-      Els dies que no estan seleccionats s'ometen en planificar paquets de treball (i no inclosos en contar els dies). Aquests poden ser substituïts directament als paquets de treball.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
     instance_wide_info: >
       Les dates afegides a la llista de sota són considerades com a no laborals i omeses en programar paquets de treball.
     change_button: "Canvia els dies laborals"
     warning: >
-      Canviar quins dies de la setmana es consideren laborables i quins no pot afectar les dates d'inici i final de tots els paquets de treball en tots els projectes d'aquesta instància. <br/>Si us plau, tingues en compte que els canvis només s'apliquen després de fer clic al botó d'aplicar els canvis.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
       changed: _**Dies laborals"" han canviat (%{changes})._
       days:

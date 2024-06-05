@@ -453,7 +453,9 @@ Rails.application.routes.draw do
       resource :aggregation, controller: "/admin/settings/aggregation_settings", only: %i[show update]
       resource :mail_notifications, controller: "/admin/settings/mail_notifications_settings", only: %i[show update]
       resource :api, controller: "/admin/settings/api_settings", only: %i[show update]
-      resource :work_packages, controller: "/admin/settings/work_packages_settings", only: %i[show update]
+      # It is important to have this named something else than "work_packages".
+      # Otherwise the angular ui-router will also recognize that as a WorkPackage page and apply according classes.
+      resource :work_package_tracking, controller: "/admin/settings/work_packages_settings", only: %i[show update]
       resource :projects, controller: "/admin/settings/projects_settings", only: %i[show update]
       resource :new_project, controller: "/admin/settings/new_project_settings", only: %i[show update]
       resources :project_custom_fields, controller: "/admin/settings/project_custom_fields" do
@@ -474,7 +476,7 @@ Rails.application.routes.draw do
           put :drop
         end
       end
-      resource :working_days, controller: "/admin/settings/working_days_settings", only: %i[show update]
+      resource :working_days_and_hours, controller: "/admin/settings/working_days_and_hours_settings", only: %i[show update]
       resource :users, controller: "/admin/settings/users_settings", only: %i[show update]
       resource :date_format, controller: "/admin/settings/date_format_settings", only: %i[show update]
       resource :icalendar, controller: "/admin/settings/icalendar_settings", only: %i[show update]

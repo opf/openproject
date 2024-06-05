@@ -58,9 +58,23 @@ es:
       meeting_agenda_item: "Puntos de Agenda"
       meeting_agenda: "Agenda"
       meeting_minutes: "Minutas"
+      meeting_section: "Section"
   activity:
     filter:
       meeting: "Reuniones"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "fijado en %{value}"
+          added_html: "fijado en <i>%{value}</i>"
+          removed: "eliminado"
+          updated: "cambiado de %{old_value} a %{value}"
+          updated_html: "cambiado de <i>%{old_value}</i> a <i>%{value}</i>"
+        position:
+          updated: "reordenado"
+        work_package:
+          updated: "cambiado de %{old_value} a %{value}"
+          updated_html: "cambiado de <i>%{old_value}</i> a <i>%{value}</i>"
   description_attended: "ha asistido"
   description_invite: "invitado"
   events:

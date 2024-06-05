@@ -34,6 +34,7 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="form--field">
     <%= f.select :default_done_ratio,
                  (0..100).step(10).map { |r| ["#{r} %", r] },
+                 { container_class: "-xslim" },
                  label: WorkPackage.human_attribute_name(:done_ratio) %>
   </div>
   <div class="form--field"><%= f.check_box "is_closed" %></div>
@@ -61,6 +62,13 @@ See COPYRIGHT and LICENSE files for more details.
         <p><%= t("statuses.edit.status_readonly_html") %></p>
       </div>
     <% end %>
+  </div>
+
+  <div class="form--field">
+    <%= f.check_box "excluded_from_totals" %>
+    <div class="form--field-instructions">
+      <p><%= t("statuses.edit.status_excluded_from_totals_text") %></p>
+    </div>
   </div>
 
   <%= render partial: "/colors/color_autocomplete_field",

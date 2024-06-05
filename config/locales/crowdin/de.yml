@@ -444,11 +444,19 @@ de:
         Außer dem Status selbst können dann keine Attribute verändert werden.
         <br/>
         <strong>Hinweis</strong>: Vererbte Attribute (z.B. von Kinderelementen oder Relationen) werden auch auf Arbeitspakete in diesen Status angewandt.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         Klicken zum Zuweisen einer Farbe für diesen Status. Diese wird für die Hervorhebung von Arbeitspaketen in Tabellen verwendet.
     index:
       no_results_title_text: Derzeit gibt es keine Arbeitspaket-Status.
       no_results_content_text: Neuen Status hinzufügen
+      headers:
+        is_default: "Default"
+        is_closed: "Closed"
+        is_readonly: "Read-only"
+        excluded_from_totals: "Excluded from totals"
   themes:
     light: "Hell"
     light_high_contrast: "Hell (hoher Kontrast)"
@@ -618,6 +626,7 @@ de:
       status:
         is_closed: "Arbeitspaket geschlossen"
         is_readonly: "Arbeitspakete schreibgeschützt"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Kommentare"
       member:
@@ -954,6 +963,14 @@ de:
             base:
               working_days_are_missing: "Mindestens ein Wochentag muss als Arbeitstag definiert werden."
               previous_working_day_changes_unprocessed: "Die vorherigen Änderungen an der Konfiguration der Arbeitstage wurden noch nicht angewendet."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              days_per_week_are_missing: "The number of days per week must be defined."
+              days_per_month_are_missing: "The number of days per month must be defined."
+              durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+              days_per_week_is_out_of_bounds: "Days per week can't be more than 7"
+              days_per_month_is_out_of_bounds: "Days per month can't be more than 31"
+              days_per_week_and_days_per_month_are_inconsistent: "The number of days per week and the number of days per month must be consistent."
         time_entry:
           attributes:
             hours:
@@ -1138,18 +1155,6 @@ de:
           other: "<i>%{count} Stunden</i>"
         updated: "geändert von %{old_value} zu %{value}"
         logged_for: "Gebucht für"
-      meeting_agenda_item:
-        duration:
-          added: "auf %{value} eingestellt"
-          added_html: "auf <i>%{value}</i> eingestellt"
-          removed: "entfernt"
-          updated: "von %{old_value} zu %{value} geändert"
-          updated_html: "von <i>%{old_value}</i> zu <i>%{value}</i> geändert"
-        position:
-          updated: "neu geordnet"
-        work_package:
-          updated: "von %{old_value} zu %{value} geändert"
-          updated_html: "von <i>%{old_value}</i> zu <i>%{value}</i> geändert"
     filter:
       changeset: "Änderungssätze"
       message: "Foren"
@@ -1653,7 +1658,7 @@ de:
       dates_changed: "Datum geändert"
       default_attribute_written: "Nur-Lese-Attribute wurde geschrieben"
       progress_mode_changed_to_status_based: "Fortschrittsberechnung aktualisiert"
-      status_p_complete_changed: "Status % abgeschlossen geändert"
+      status_changed: "Status '%{status_name}'"
       system_update: "OpenProject-Systemaktualisierung:"
     cause_descriptions:
       work_package_predecessor_changed_times: durch Änderungen am Vorgänger %{link}
@@ -1670,8 +1675,9 @@ de:
           working: "%{date} ist jetzt ein Arbeitstag"
           non_working: "%{date} ist jetzt ein arbeitsfreier Tag"
       progress_mode_changed_to_status_based: Fortschrittberechnung wurde auf Status-basiert gesetzt
-      status_p_complete_changed: >-
-        % Abgeschlossen für Status '%{status_name}' geändert von %{old_value}% auf %{new_value}%
+      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
+      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
+      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           Ab sofort erscheinen hier Aktivitäten, die sich auf Datei-Links beziehen (Dateien in externen Speichermedien) auf der Registerkarte Aktivität. Folgende Aktivitäten betreffen bereits existierende Links:
@@ -2328,7 +2334,7 @@ de:
   label_workflow: "Workflow"
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Zusammenfassung"
-  label_working_days: "Werktage"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "1 geschlossen"
     other: "%{count} geschlossen"
@@ -2928,6 +2934,9 @@ de:
   setting_cross_project_work_package_relations: "Arbeitspaket-Beziehungen zwischen Projekten erlauben"
   setting_first_week_of_year: "Die erste Woche im Jahr enthält"
   setting_date_format: "Datum"
+  setting_days_per_month: "Days per month"
+  setting_days_per_month_explanation: >-
+    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Standard-Sprache"
   setting_default_projects_modules: "Standardmäßig aktivierte Module für neue Projekte"
   setting_default_projects_public: "Neue Projekte sind standardmäßig öffentlich"
@@ -2943,6 +2952,12 @@ de:
   setting_feeds_limit: "Max. Anzahl Einträge pro Atom-Feed"
   setting_file_max_size_displayed: "Maximale Größe inline angezeigter Textdateien"
   setting_host_name: "Hostname"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >-
+    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+  setting_days_per_week: "Days per week"
+  setting_days_per_week_explanation: >-
+    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a week is 5 days, 15 days would be 3 weeks).
   setting_invitation_expiration_days: "Aktivierungs-Mail läuft ab nach"
   setting_work_package_done_ratio: "Fortschrittsberechnung"
   setting_work_package_done_ratio_field: "Arbeitsbezogen"
@@ -3383,12 +3398,12 @@ de:
         additional_privileges_project_or_group: "hat möglicherweise zusätzliche Berechtigungen (als Projekt- oder Gruppenmitglied)"
   working_days:
     info: >
-      Tage, die nicht ausgewählt sind, werden bei der Planung von Arbeitspaketen übersprungen (und bei der Tageszählung nicht berücksichtigt). Diese können auf Arbeitspaket-Ebene überschrieben werden.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
     instance_wide_info: >
       Daten, die der Liste unten hinzugefügt werden, gelten als arbeitsfrei und werden bei der Planung von Arbeitspaketen übersprungen.
     change_button: "Arbeitstage ändern"
     warning: >
-      Die Änderung der Wochentage, die als Arbeitstage oder arbeitsfreie Tage gelten, kann sich in diesem Fall auf die Start- und Endtage aller Arbeitspakete in allen Projekten auswirken. <br/> Bitte beachten Sie, dass die Änderungen erst wirksam werden, nachdem Sie auf die Schaltfläche Änderungen anwenden geklickt haben.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
       changed: _**Arbeitstage** geändert (%{changes})._
       days:

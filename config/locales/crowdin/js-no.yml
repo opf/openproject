@@ -1282,6 +1282,11 @@
           placeholder: "Plassholderen kan nå brukes i %{project}. Samtidig kan du allerede planlegge med den brukeren og tilordne arbeidspakker i forekomsten."
           group: "Gruppen er nå en del av %{project}. Dette betyr at du allerede kan planlegge med den gruppen og tildele arbeidspakker for forekomst."
         next_button: "Fortsett"
+    exclusion_info:
+      modal:
+        title: "Status ekskludert fra hierarkiske summer"
+        content: >-
+          Statusen '%{status_name}' er konfigurert til å bli ekskludert fra hierarkiske summer av Arbeid, Gjenstående arbeid og % Ferdig. Summene tar ikke hensyn til denne verdien.
     favorite_projects:
       no_results: "Du har ingen favorittprosjekter"
       no_results_subtext: "Legg til ett eller flere prosjekter som favoritt via oversikten eller i en prosjektliste."
@@ -1342,7 +1347,7 @@
         remove: "Fjern"
       drop_modal:
         focus_grab: "Dette er et fokusanker for modaler. Trykk shift+tab for å gå tilbake til modal trigger elementet."
-        Close: "Lukk"
+        close: "Lukk modal"
     open_project_storage_modal:
       waiting_title:
         timeout: "Tidsavbrudd"

@@ -263,7 +263,7 @@ zh-CN:
       my: "我的项目"
       favored: "收藏的项目"
       archived: "归档项目"
-      public: "Public project lists"
+      public: "公开项目列表"
       my_private: "我的私有项目列表"
       new:
         placeholder: "新项目列表"
@@ -291,12 +291,12 @@ zh-CN:
         actions:
           label_enable_single: "在此项目中处于活动状态，点击禁用"
           label_disable_single: "在此项目中未启用，点击启用"
-          deactivate_for_project: "Deactivate for this project"
+          deactivate_for_project: "停用此项目"
           label_enable_all: "全部启用"
           label_disable_all: "全部禁用"
         is_required_blank_slate:
-          heading: Required in all projects
-          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+          heading: 所有项目中需要
+          description: 此项目属性已在所有项目中激活，因为选中了“所有项目中需要”的选项。它在单个项目中不能被停用。
       types:
         no_results_title_text: 目前有可用的类型。
         form:
@@ -314,11 +314,11 @@ zh-CN:
       success: "已保存修改后的列表"
       failure: "无法保存修改后的列表： %{errors}"
     publish:
-      success: "The list has been made public"
-      failure: "The list cannot be made public: %{errors}"
+      success: "此列表已设为公开"
+      failure: "此列表不能设为公开：%{errors}"
     unpublish:
-      success: "The list has been made private"
-      failure: "The list cannot be made private: %{errors}"
+      success: "此列表已被设为私有"
+      failure: "此列表不能被设为私有：%{errors}"
     can_be_saved: "列表已修改："
     can_be_saved_as: "修改内容只能保存在新列表中。"
   members:
@@ -439,12 +439,19 @@ zh-CN:
         除状态外，不能更改任何属性。
         <br/>
         <strong>注</strong>：继承值（例如，来自子级或关系的值）仍然适用。
+      status_excluded_from_totals_text: |-
+        选中此选项可将具有此状态的工作包在层级结构中从“总工时”，“剩余工作”，以及“完成百分比”中排除。
       status_color_text: |
         单击可以分配或更改此状态的颜色。
         颜色显示在状态按钮中，可用于突出显示表中的工作包。
     index:
       no_results_title_text: 目前没有工作包状态。
       no_results_content_text: 添加新的状态
+      headers:
+        is_default: "默认"
+        is_closed: "已关闭"
+        is_readonly: "只读"
+        excluded_from_totals: "不包括在总计中"
   themes:
     light: "浅色"
     light_high_contrast: "浅色高对比度"
@@ -612,6 +619,7 @@ zh-CN:
       status:
         is_closed: "工作包已关闭"
         is_readonly: "只读工作包"
+        excluded_from_totals: "从层次结构的总计中排除"
       journal:
         notes: "备注"
       member:
@@ -752,7 +760,7 @@ zh-CN:
         before_or_equal_to: "必须在早于或等于 %{date}"
         blank: "不能为空。"
         blank_nested: "需要设置属性“%{property}”。"
-        cannot_delete_mapping: "is required. Cannot be deleted."
+        cannot_delete_mapping: "必需项，不能删除"
         cant_link_a_work_package_with_a_descendant: "工作包无法链接到它的子任务之一。"
         circular_dependency: "这种关系将创建循环依赖项。"
         confirmation: "不匹配 %{attribute}。"
@@ -913,8 +921,8 @@ zh-CN:
               nonexistent: "列“%{column}”不存在。"
               format: "%{message}"
           group_by_hierarchies_exclusive: "与按照“%{group_by}”分组的组互相排斥。您无法将它们都激活。"
-          can_only_be_modified_by_owner: "The query can only be modified by its owner."
-          need_permission_to_modify_public_query: "You cannot modify a public query."
+          can_only_be_modified_by_owner: "查询只能由其所有者修改"
+          need_permission_to_modify_public_query: "您不能修改公开查询"
           filters:
             custom_fields:
               inexistent: "过滤器没有自定义字段"
@@ -948,6 +956,14 @@ zh-CN:
             base:
               working_days_are_missing: "每周必须至少有一天定义为工作日。"
               previous_working_day_changes_unprocessed: "先前对工作日配置的更改尚未应用。"
+              hours_per_day_are_missing: "必须定义每天的小时数"
+              days_per_week_are_missing: "必须定义每周的天数"
+              days_per_month_are_missing: "必须定义每月的天数"
+              durations_are_not_positive_numbers: "持续时间必须是正数"
+              hours_per_day_is_out_of_bounds: "每天小时数不能超过24"
+              days_per_week_is_out_of_bounds: "每周天数不能超过7"
+              days_per_month_is_out_of_bounds: "每月天数不能超过31"
+              days_per_week_and_days_per_month_are_inconsistent: "每周天数及每月天数必须保持一致"
         time_entry:
           attributes:
             hours:
@@ -1124,18 +1140,6 @@ zh-CN:
           other: "<i>%{count} 小时</i>"
         updated: "从 %{old_value} 更改为 %{value}"
         logged_for: "已登录"
-      meeting_agenda_item:
-        duration:
-          added: "设为 %{value}"
-          added_html: "设为 <i>%{value}</i>"
-          removed: "已删除"
-          updated: "从 %{old_value} 更改为 %{value}"
-          updated_html: "从 <i>%{old_value}</i>改为 <i>%{value}</i>"
-        position:
-          updated: "重新排序"
-        work_package:
-          updated: "从 %{old_value} 更改为 %{value}"
-          updated_html: "从 <i>%{old_value}</i>改为 <i>%{value}</i>"
     filter:
       changeset: "更改集"
       message: "论坛"
@@ -1314,8 +1318,8 @@ zh-CN:
   button_revoke_access: "撤消访问权限"
   button_revoke_all: "全部撤销"
   button_revoke_only: "仅撤销 %{shared_role_name}"
-  button_publish: "Make public"
-  button_unpublish: "Make private"
+  button_publish: "设为公开"
+  button_unpublish: "设为私有"
   consent:
     checkbox_label: 我已注意到并同意上述情况。
     failure_message: 同意失败, 无法继续。
@@ -1621,7 +1625,7 @@ zh-CN:
       dates_changed: "日期已更改"
       default_attribute_written: "已写入只读属性"
       progress_mode_changed_to_status_based: "更新进度计算"
-      status_p_complete_changed: "状态%已更改"
+      status_changed: "状态 '%{status_name}'"
       system_update: "OpenProject 系统更新："
     cause_descriptions:
       work_package_predecessor_changed_times: 根据前置任务 %{link}的更改
@@ -1638,8 +1642,9 @@ zh-CN:
           working: "%{date}现在是工作日"
           non_working: "%{date}现在是非工作日"
       progress_mode_changed_to_status_based: 进度计算模式设置为基于状态
-      status_p_complete_changed: >-
-        状态 "%{status_name}"的 %完成值从 %{old_value}% 变为 %{new_value}%
+      status_excluded_from_totals_set_to_false_message: 现在包含在层次结构总计中
+      status_excluded_from_totals_set_to_true_message: 现在不包含在层次结构总计中
+      status_percent_complete_changed: "完成百分比从 %{old_value}% 变为 %{new_value}%"
       system_update:
         file_links_journal: >
           从现在开始，与文件链接（存储在外部存储器中的文件）相关的活动将出现在“活动”选项卡中。以下是与已经存在的链接相关的活动的表示：
@@ -2296,7 +2301,7 @@ zh-CN:
   label_workflow: "工作流"
   label_workflow_plural: "工作流"
   label_workflow_summary: "摘要"
-  label_working_days: "工作日"
+  label_working_days_and_hours: "工作日和工作小时"
   label_x_closed_work_packages_abbr:
     one: "1 个已关闭"
     other: "%{count} 个已关闭"
@@ -2674,7 +2679,7 @@ zh-CN:
   permission_save_bcf_queries: "保存 BCF 查询"
   permission_manage_public_bcf_queries: "管理公开的 BCF 查询"
   permission_edit_attribute_help_texts: "编辑属性帮助文本"
-  permission_manage_public_project_queries: "Manage public project lists"
+  permission_manage_public_project_queries: "管理公开项目列表"
   placeholders:
     default: "-"
   project:
@@ -2888,6 +2893,9 @@ zh-CN:
   setting_cross_project_work_package_relations: "允许跨项目工作包关系"
   setting_first_week_of_year: "全年首周包含"
   setting_date_format: "日期"
+  setting_days_per_month: "每月天数"
+  setting_days_per_month_explanation: >-
+    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "默认语言"
   setting_default_projects_modules: "新项目的默认启用模块"
   setting_default_projects_public: "新项目默认公开"
@@ -2903,6 +2911,12 @@ zh-CN:
   setting_feeds_limit: "Feed 内容限制"
   setting_file_max_size_displayed: "内联显示的文本文件的最大大小"
   setting_host_name: "主机名"
+  setting_hours_per_day: "每日小时数"
+  setting_hours_per_day_explanation: >-
+    这将以更自然的方式在显示持续时间时定义什么是 "一天"（例如，如果一天是8小时，32小时就是4天）。
+  setting_days_per_week: "每周天数"
+  setting_days_per_week_explanation: >-
+    这将以更自然的方式在显示持续时间时定义什么是 "一周"（例如，如果一周是5天，15天就是3周）。
   setting_invitation_expiration_days: "激活电子邮件将在此时间后过期"
   setting_work_package_done_ratio: "进度计算"
   setting_work_package_done_ratio_field: "基于工时"
@@ -3342,12 +3356,12 @@ zh-CN:
         additional_privileges_project_or_group: "可能有额外的权限(作为项目成员或组成员)"
   working_days:
     info: >
-      当安排工作包时，未选择的日期将被跳过（不计入天数）。这些日期可以在工作包级别进行覆盖。
+      在安排工作包时，未选择的日期将被跳过（且不计入天数）。可以在工作包级别覆盖这些选项。
     instance_wide_info: >
       添加到以下列表的日期被视为非工作日，在安排工作包时将被跳过。
     change_button: "更改工作日"
     warning: >
-      更改将一周中的哪几天视为工作日或非工作日会影响此实例的所有项目中所有工作包的开始和结束日期。<br/>请注意，只有在您点击“应用更改”按钮后，更改才会应用。
+      在这种情况下，更改一周中哪些天被视为工作日或非工作日，会影响所有项目中所有工作包的开始和结束日期。
     journal_note:
       changed: _**工作日**已更改（%{changes}）。_
       days:

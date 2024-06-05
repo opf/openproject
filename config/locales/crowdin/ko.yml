@@ -441,12 +441,20 @@ ko:
         이 상태를 읽기 전용으로 작업 패키지에 표시하려면 이 옵션을 선택합니다. 상태를 제외하고 특성은 변경할 수 없습니다.
         <br/>
         <strong>참고</strong>: 상속된 값(예: 자식 또는 관계)은 계속 적용됩니다.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         이 상태 색상을 할당하거나 변경하려면 클릭하세요.
         상태 버튼에 표시되고 테이블의 작업 패키지를 강조 표시하는 데 사용할 수 있습니다.
     index:
       no_results_title_text: 작업 패키지 상태가 없습니다.
       no_results_content_text: 새 상태 추가
+      headers:
+        is_default: "Default"
+        is_closed: "Closed"
+        is_readonly: "Read-only"
+        excluded_from_totals: "Excluded from totals"
   themes:
     light: "라이트"
     light_high_contrast: "라이트 하이 콘트라스트"
@@ -615,6 +623,7 @@ ko:
       status:
         is_closed: "종료된 작업 패키지"
         is_readonly: "읽기 전용 작업 패키지"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "노트"
       member:
@@ -951,6 +960,14 @@ ko:
             base:
               working_days_are_missing: "적어도 일주일의 하루는 근무일로 정의해야 합니다."
               previous_working_day_changes_unprocessed: "근무일 구성에 대한 이전 변경 사항이 아직 적용되지 않았습니다."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              days_per_week_are_missing: "The number of days per week must be defined."
+              days_per_month_are_missing: "The number of days per month must be defined."
+              durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+              days_per_week_is_out_of_bounds: "Days per week can't be more than 7"
+              days_per_month_is_out_of_bounds: "Days per month can't be more than 31"
+              days_per_week_and_days_per_month_are_inconsistent: "The number of days per week and the number of days per month must be consistent."
         time_entry:
           attributes:
             hours:
@@ -1127,18 +1144,6 @@ ko:
           other: "<i>%{count}시간</i>"
         updated: "%{old_value}에서 %{value}(으)로 변경됨"
         logged_for: "기록함 -"
-      meeting_agenda_item:
-        duration:
-          added: "%{value}(으)로 설정됨"
-          added_html: "<i>%{value}</i>(으)로 설정됨"
-          removed: "제거됨"
-          updated: "%{old_value}에서 %{value}(으)로 변경됨"
-          updated_html: "<i>%{old_value}</i>에서 <i>%{value}</i>(으)로 변경됨"
-        position:
-          updated: "재정렬됨"
-        work_package:
-          updated: "%{old_value}에서 %{value}(으)로 변경됨"
-          updated_html: "<i>%{old_value}</i>에서 <i>%{value}</i>(으)로 변경됨"
     filter:
       changeset: "변경 집합"
       message: "포럼"
@@ -1624,7 +1629,7 @@ ko:
       dates_changed: "변경된 날짜"
       default_attribute_written: "읽기 전용 특성 작성됨"
       progress_mode_changed_to_status_based: "진행률 계산 업데이트됨"
-      status_p_complete_changed: "상태 완료 % 변경됨"
+      status_changed: "Status '%{status_name}'"
       system_update: "OpenProject 시스템 업데이트:"
     cause_descriptions:
       work_package_predecessor_changed_times: 이전 %{link}에 대한 변경 사항 기준
@@ -1641,8 +1646,9 @@ ko:
           working: "%{date}은(는) 이제 근무일입니다."
           non_working: "%{date}은(는) 이제 휴무일입니다."
       progress_mode_changed_to_status_based: 진행률 계산 모드가 상태 기반으로 설정되었습니다
-      status_p_complete_changed: >-
-        상태 '%{status_name}'의 완료 % 값이 %{old_value}%에서 %{new_value}%(으)로 변경되었습니다
+      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
+      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
+      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           지금부터 파일 링크(외부 저장소에 저장된 파일)와 관련된 활동이 활동 탭에 표시됩니다. 다음은 이미 존재하는 링크와 관련된 활동을 나타냅니다.
@@ -2299,7 +2305,7 @@ ko:
   label_workflow: "워크플로"
   label_workflow_plural: "워크플로"
   label_workflow_summary: "요약"
-  label_working_days: "근무일"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "1개 닫힘"
     other: "%{count}개 닫힘"
@@ -2894,6 +2900,9 @@ ko:
   setting_cross_project_work_package_relations: "교차 프로젝트 작업 패키지 관계 허용"
   setting_first_week_of_year: "1년의 첫 주 기준"
   setting_date_format: "날짜"
+  setting_days_per_month: "Days per month"
+  setting_days_per_month_explanation: >-
+    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "기본 언어"
   setting_default_projects_modules: "새 프로젝트에 대해 기본적으로 활성화된 모듈"
   setting_default_projects_public: "새 프로젝트는 기본적으로 공용입니다."
@@ -2909,6 +2918,12 @@ ko:
   setting_feeds_limit: "피드 콘텐츠 제한"
   setting_file_max_size_displayed: "인라인에 표시되는 텍스트 파일의 최대 크기"
   setting_host_name: "호스트 이름"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >-
+    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
+  setting_days_per_week: "Days per week"
+  setting_days_per_week_explanation: >-
+    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a week is 5 days, 15 days would be 3 weeks).
   setting_invitation_expiration_days: "활성화 이메일 만료 기간:"
   setting_work_package_done_ratio: "진행률 계산"
   setting_work_package_done_ratio_field: "작업 기반"
@@ -3349,12 +3364,12 @@ ko:
         additional_privileges_project_or_group: "(프로젝트 또는 그룹 멤버로서) 추가적인 권한을 가질 수 있습니다"
   working_days:
     info: >
-      선택하지 않은 요일은 작업 패키지를 예약할 때 건너뜁니다(일 수에 포함되지 않음). 작업 패키지 수준에서 재정의할 수 있습니다.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
     instance_wide_info: >
       아래 목록에 추가된 날짜는 휴무로 간주되며 작업 패키지를 예약할 때 건너뜁니다.
     change_button: "근무일 변경"
     warning: >
-      근무일 또는 휴무일로 간주되는 요일을 변경하면 이 인스턴스의 모든 프로젝트에 있는 모든 작업 패키지의 시작 날짜 및 완료 날짜에 영향을 미칠 수 있습니다. <br/> 변경 사항 적용 버튼을 클릭한 후에만 변경 사항이 적용됩니다.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
       changed: _**근무일**이 변경되었습니다(%{changes})._
       days:

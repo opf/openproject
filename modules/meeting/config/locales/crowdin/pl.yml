@@ -60,9 +60,23 @@ pl:
       meeting_agenda_item: "Punkt programu"
       meeting_agenda: "Plan spotkania"
       meeting_minutes: "Protokół ze spotkania"
+      meeting_section: "Section"
   activity:
     filter:
       meeting: "Spotkania"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "ustawiono na %{value}"
+          added_html: "ustawiono na <i>%{value}</i>"
+          removed: "usunięto"
+          updated: "zmieniono z %{old_value} na %{value}"
+          updated_html: "zmieniono z <i>%{old_value}</i> na <i>%{value}</i>"
+        position:
+          updated: "zmieniono kolejność"
+        work_package:
+          updated: "zmieniono z %{old_value} na %{value}"
+          updated_html: "zmieniono z <i>%{old_value}</i> na <i>%{value}</i>"
   description_attended: "Obecny"
   description_invite: "Zaproszony"
   events:
