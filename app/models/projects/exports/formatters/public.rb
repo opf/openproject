@@ -33,9 +33,9 @@ module Projects::Exports
       end
 
       ##
-      # Takes a project and returns the localized status code
+      # Takes a project and returns yes/no depending on the public attribute
       def format(project, **)
-        project.active ? I18n.t(:general_text_Yes) : I18n.t(:general_text_No)
+        project.public? ? I18n.t(:general_text_Yes) : I18n.t(:general_text_No)
       end
     end
   end
