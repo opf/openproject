@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OpIconComponent } from './icon.component';
 import {
+  ChevronLeftIconComponent,
+  ChevronRightIconComponent,
   HomeIconComponent,
   InfoIconComponent,
   OpCursorRectangleSelectIconComponent,
@@ -11,6 +13,7 @@ import {
   OpFirstPersonViewIconComponent,
   OpGridMenuIconComponent,
   OpOrthographicPerspectiveIconComponent,
+  OpResizerVerticalLinesIconComponent,
   OpScissorsIconComponent,
   OpThreedReturnDefaultIconComponent,
   OpViewFitToIconComponent,
@@ -29,6 +32,8 @@ import {
   imports: [
     CommonModule,
 
+    ChevronLeftIconComponent,
+    ChevronRightIconComponent,
     HomeIconComponent,
     InfoIconComponent,
     OpCursorRectangleSelectIconComponent,
@@ -38,6 +43,7 @@ import {
     OpFirstPersonViewIconComponent,
     OpGridMenuIconComponent,
     OpOrthographicPerspectiveIconComponent,
+    OpResizerVerticalLinesIconComponent,
     OpScissorsIconComponent,
     OpThreedReturnDefaultIconComponent,
     OpViewFitToIconComponent,
@@ -58,6 +64,8 @@ import {
   exports: [
     OpIconComponent,
 
+    ChevronLeftIconComponent,
+    ChevronRightIconComponent,
     HomeIconComponent,
     InfoIconComponent,
     OpCursorRectangleSelectIconComponent,
@@ -67,6 +75,7 @@ import {
     OpFirstPersonViewIconComponent,
     OpGridMenuIconComponent,
     OpOrthographicPerspectiveIconComponent,
+    OpResizerVerticalLinesIconComponent,
     OpScissorsIconComponent,
     OpThreedReturnDefaultIconComponent,
     OpViewFitToIconComponent,
@@ -79,6 +88,7 @@ import {
     StarFillIconComponent,
     StarIconComponent,
     XIconComponent,
+
   ],
 })
 export class IconModule {}
