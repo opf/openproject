@@ -113,9 +113,8 @@ module WorkPackage::Exports
         return resolve_label_project(attribute) if type == "label"
         return msg_macro_error(I18n.t("export.macro.model_not_found", model: type)) unless type == "value"
 
-        project = Project.find_by(id:)
-        if project.nil? ||
-          !user.allowed_in_project?(:view_project, project)
+        project = Project.visible(user).find_by(id:)
+        if project.nil?
           return msg_macro_error(I18n.t("export.macro.resource_not_found", resource: "#{Project.name} #{id}"))
         end
 
