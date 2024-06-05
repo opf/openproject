@@ -3266,10 +3266,10 @@ ms:
   menu_item: "Item menu"
   menu_item_setting: "Keterlihatan"
   wiki_menu_item_for: 'Item menu untuk halaman wiki "%{title}"'
-  wiki_menu_item_setting: "Penglihatan"
+  wiki_menu_item_setting: "Keterlihatan"
   wiki_menu_item_new_main_item_explanation: >
-    Anda sedang memadam item menu utama wiki yang tunggal. Anda kini perlu memilih halaman wiki di mana item menu baharu akan dijanakan. Untuk memadamkan modul wiki tersebut, ianya boleh dinyahaktifkan oleh pentadbir projek.
-  wiki_menu_item_delete_not_permitted: Item menu wiki bagi halaman wiki tunggal tidak boleh dipadam.
+    Anda sedang memadam satu-satunya item menu utama wiki. Anda kini perlu memilih halaman wiki di mana item menu baharu akan dijanakan. Untuk memadamkan modul wiki tersebut, ianya boleh dinyahaktifkan oleh pentadbir projek.
+  wiki_menu_item_delete_not_permitted: Item menu wiki bagi satu-satunya halaman wiki tidak boleh dipadam.
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -3280,9 +3280,9 @@ ms:
     progress:
       label_note: "Perhatian:"
       modal:
-        work_based_help_text: "% Lengkap secara automatik diperolehi daripada Kerja dan Kerja yang berbaki."
-        status_based_help_text: "% Lengkap ditetapkan oleh status pakej kerja."
-        migration_warning_text: "Dalam mod pengiraan perkembangan berdasarkan kerja, % Lengkap tidak boleh ditetapkan secara manual dan ianya terikat dengan Kerja. Nilai sedia ada tersebut telah disimpan tetapi tidak boleh diedit. Sila input Kerja dahulu."
+        work_based_help_text: "% Selesai secara automatik diperolehi daripada Kerja dan Kerja yang berbaki."
+        status_based_help_text: "% Selesai ditetapkan oleh status pakej kerja."
+        migration_warning_text: "Dalam mod pengiraan perkembangan berdasarkan kerja, % Selesai tidak boleh ditetapkan secara manual dan ianya terikat kepada Kerja. Nilai sedia ada tersebut telah disimpan tetapi tidak boleh diedit. Sila input Kerja dahulu."
     sharing:
       count:
         zero: "0 pengguna"
@@ -3300,7 +3300,7 @@ ms:
       label_toggle_all: "Tukar semua perkongsian"
       permissions:
         comment: "Komen"
-        comment_description: "Boleh lihat dan komen tentang pakej kerja ini."
+        comment_description: "Boleh lihat dan komen berkenaan pakej kerja ini."
         denied: "Anda tidak mempunyai kebenaran untuk berkongsi pakej kerja."
         edit: "Edit"
         edit_description: "Boleh lihat, komen dan edit pakej kerja ini."
@@ -3313,7 +3313,7 @@ ms:
       text_empty_state_description: "Pakej kerja masih belum dikongsikan dengan sesiapa lagi."
       text_empty_state_header: "Tidak dikongsikan"
       text_user_limit_reached: "Menambah pengguna tambahan akan melebihi had semasa. Sila hubungi pentadbir untuk meningkatkan had pengguna bagi memastikan pengguna luaran dapat mengakses pakej kerja ini."
-      text_user_limit_reached_admins: 'Menambah pengguna tambahan akan melebihi had semasa. Sila <a href="%{upgrade_url}"><a href="%{upgrade_url}">naik taraf pelan anda</a> untuk dapat menambah lebih banyak pengguna.'
+      text_user_limit_reached_admins: 'Menambah pengguna tambahan akan melebihi had semasa. Sila <a href="%{upgrade_url}"><a href="%{upgrade_url}">naik taraf pelan anda</a> untuk membolehkan untuk menambah lebih banyak pengguna.'
       warning_user_limit_reached: >
         Menambah pengguna tambahan akan melebihi had semasa. Sila hubungi pentadbir untuk meningkatkan had pengguna bagi memastikan pengguna luaran dapat mengakses pakej kerja ini.
       warning_user_limit_reached_admin: >
@@ -3335,7 +3335,7 @@ ms:
     info: >
       Hari yang tidak dipilih akan dilangkau semasa penjadualan pakej kerja (dan tidak disertakan dalam jumlah hari). Ini boleh digantikan pada peringkat pakej kerja.
     instance_wide_info: >
-      Tarikh yang ditambah ke senarai dibawah diterima sebagai tidak berfungsi dan dilangkau semasa menjadualkan pakej kerja.
+      Tarikh yang ditambah ke senarai dibawah diterima sebagai tidak berfungsi dan dilangkau semasa penjadualan pakej kerja.
     change_button: "Tukar hari bekerja"
     warning: >
       Menukar hari mana dalam seminggu dianggap hari bekerja atau hari tidak bekerja boleh memberi kesan kepada hari mula dan tamat bagi semua pakej kerja dalam semua projek dalam kejadian ini. <br/> Sila ambil perhatian bahawa perubahan hanya dilaksanakan selepas anda klik butang terapkan perubahan.
@@ -3375,7 +3375,7 @@ ms:
       invalid_relation: "Hubungan tersebut adalah tidak sah."
       invalid_resource: "Untuk ciri-ciri '%{property}' sebuah pautan seperti '%{expected}' dijangkakan, tetapi mendapat '%{actual}'."
       invalid_signal:
-        embed: "Permintaan menyemat %{invalid} tidak disokong. Penyematan yang disokong adalah %{supported}."
+        embed: "Permintaan menyemat %{invalid} tidak disokong. Penyematan yang disokong ialah %{supported}."
         select: "Permintaan %{invalid} yang dipilih tidak disokong. Pilihan yang disokong ialah %{supported}."
       invalid_user_status_transition: "Status akaun pengguna semasa tidak membenarkan operasi ini."
       missing_content_type: "tidak ditentukan"

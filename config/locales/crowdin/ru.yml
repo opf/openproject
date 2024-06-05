@@ -1224,7 +1224,7 @@ ru:
     password: "Пароль"
     priority: "Приоритет"
     project: "Проект"
-    responsible: "Подотчетный"
+    responsible: "Ответственный"
     role: "Роль"
     roles: "Роли"
     start_date: "Дата начала"
@@ -2465,7 +2465,7 @@ ru:
       reason:
         watched: "Просмотрено"
         assigned: "Назначено"
-        responsible: "Подотчетный"
+        responsible: "Ответственный"
         mentioned: "Упомянутые"
         shared: "Общий доступ"
         subscribed: "все"
