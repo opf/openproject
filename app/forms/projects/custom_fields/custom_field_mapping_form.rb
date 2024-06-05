@@ -46,7 +46,8 @@ module Projects::CustomFields
         f_group.check_box(
           name: :include_sub_projects,
           label: I18n.t("projects.settings.project_custom_fields.new_project_mapping_form.include_sub_projects"),
-          checked: false
+          checked: false,
+          label_arguments: { class: "no-wrap" }
         )
       end
     end
