@@ -29,11 +29,21 @@ module WorkPackage::Exports
   module Macros
     # OpenProject attribute macros syntax
     # Examples:
-    #   workPackageLabel:1234:subject # Outputs work package label attribute "Subject" + help text
-    #   workPackageValue:1234:subject # Outputs the actual subject of #1234
+    #   workPackageLabel:subject # Outputs work package label attribute "Subject"
+    #   workPackageLabel:1234:subject # Outputs work package label attribute "Subject"
+
+    #   workPackageValue:subject # Outputs the subject of the current work package
+    #   workPackageValue:1234:subject # Outputs the subject of #1234
+    #   workPackageValue:"custom field name" # Outputs the custom field value of the current work package
+    #   workPackageValue:1234:"custom field name" # Outputs the custom field value of #1234
     #
-    #   projectLabel:statusExplanation # Outputs current project label attribute "Status description" + help text
-    #   projectValue:statusExplanation # Outputs current project value for "Status description"
+    #   projectLabel:active # Outputs current project label attribute "active"
+    #   projectLabel:1234:active # Outputs project label attribute "active"
+    #   projectLabel:my-project-identifier:active # Outputs project label attribute "active"
+
+    #   projectValue:active # Outputs current project value for "active"
+    #   projectValue:1234:active # Outputs project with id 1234 value for "active"
+    #   projectValue:my-project-identifier:active # Outputs project with identifier my-project-identifier value for "active"
     class Attributes < OpenProject::TextFormatting::Matchers::RegexMatcher
       DISABLED_PROJECT_RICH_TEXT_FIELDS = %i[description status_explanation status_description].freeze
       DISABLED_WORK_PACKAGE_RICH_TEXT_FIELDS = %i[description].freeze
