@@ -105,7 +105,7 @@
     "@uirouter/angular": "^13.0.0",
     "@uirouter/core": "^6.1.0",
     "@uirouter/rx": "^1.0.0",
-    "webfonts-generator-casaper": "^0.5.2",
+    "@vusion/webfonts-generator": "^0.8.0",
     "@w11k/ngx-componentdestroyed": "^5.0.2",
     "@xeokit/xeokit-bim-viewer": "2.5.1-beta-28",
     "autoprefixer": "^10.4.19",
