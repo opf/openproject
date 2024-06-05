@@ -51,14 +51,17 @@ RSpec.describe ProjectCustomFieldProjectMappings::BulkCreateService do
     context "with subprojects" do
       let(:project) { create(:project) }
       let!(:subproject) { create(:project, parent: project) }
-      let(:instance) { described_class.new(user:, project:, project_custom_field:, include_sub_projects: true) }
+      let!(:subproject2) { create(:project, parent: subproject) }
 
       it "creates the mappings for the project and sub-projects" do
-        expect { instance.call }.to change(ProjectCustomFieldProjectMapping, :count).by(2)
+        create_service = described_class.new(user:, project: project.reload, project_custom_field:,
+                                             include_sub_projects: true)
+
+        expect { create_service.call }.to change(ProjectCustomFieldProjectMapping, :count).by(3)
 
         aggregate_failures "creates the mapping for the correct project and custom field" do
-          expect(ProjectCustomFieldProjectMapping.last.project).to eq(subproject)
-          expect(ProjectCustomFieldProjectMapping.last.project_custom_field).to eq(project_custom_field)
+          expect(ProjectCustomFieldProjectMapping.where(project_custom_field:).pluck(:project_id))
+            .to contain_exactly(project.id, subproject.id, subproject2.id)
         end
       end
     end
