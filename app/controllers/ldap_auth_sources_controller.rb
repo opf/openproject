@@ -119,6 +119,6 @@ class LdapAuthSourcesController < ApplicationController
   end
 
   def block_if_password_login_disabled
-    render_404 if OpenProject::Configuration.disable_password_login?
+    render_404 if Setting.disable_password_login?
   end
 end

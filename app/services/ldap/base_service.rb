@@ -72,7 +72,7 @@ module Ldap
     ##
     # Locks the given user if this is what the sync service should do.
     def lock_user!(user)
-      if OpenProject::Configuration.ldap_users_sync_status?
+      if Setting.ldap_users_sync_status?
         Rails.logger.info { "Could not find user #{user.login} in #{ldap.name}. Locking the user." }
         user.update_column(:status, Principal.statuses[:locked])
       else
@@ -85,7 +85,7 @@ module Ldap
     ##
     # Activates the given user if this is what the sync service should do.
     def activate_user!(user)
-      if OpenProject::Configuration.ldap_users_sync_status?
+      if Setting.ldap_users_sync_status?
         Rails.logger.info { "Activating #{user.login} due to it being synced from LDAP #{ldap.name}." }
         user.update_column(:status, Principal.statuses[:active])
       else

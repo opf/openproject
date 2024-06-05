@@ -32,7 +32,7 @@ module API
       class BackupsAPI < ::API::OpenProjectAPI
         resources :backups do
           before do
-            raise API::Errors::NotFound unless OpenProject::Configuration.backup_enabled?
+            raise API::Errors::NotFound unless Setting.backup_enabled?
           end
 
           after_validation do

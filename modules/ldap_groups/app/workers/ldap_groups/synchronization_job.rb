@@ -36,7 +36,7 @@ module LdapGroups
     end
 
     def skipped?
-      OpenProject::Configuration.ldap_groups_disable_sync_job?
+      Setting.ldap_groups_disable_sync_job?
     end
   end
 end

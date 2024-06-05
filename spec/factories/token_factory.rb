@@ -53,7 +53,7 @@ FactoryBot.define do
     user
 
     after(:build) do |token|
-      token.created_at = DateTime.now - OpenProject::Configuration.backup_initial_waiting_period
+      token.created_at = DateTime.now - Setting.backup_initial_waiting_period
     end
 
     trait :with_waiting_period do

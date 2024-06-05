@@ -32,7 +32,7 @@ class Storages::CleanupUncontaineredFileLinksJob < ApplicationJob
   def perform
     Storages::FileLink
       .where(container: nil)
-      .where("created_at <= ?", Time.current - OpenProject::Configuration.attachments_grace_period.minutes)
+      .where("created_at <= ?", Time.current - Setting.attachments_grace_period.minutes)
       .delete_all
   end
 end

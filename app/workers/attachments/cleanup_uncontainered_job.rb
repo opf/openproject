@@ -47,7 +47,7 @@ class Attachments::CleanupUncontaineredJob < ApplicationJob
     attachment_table = Attachment.arel_table
 
     attachment_table[:created_at]
-      .lteq(Time.zone.now - OpenProject::Configuration.attachments_grace_period.minutes)
+      .lteq(Time.zone.now - Setting.attachments_grace_period.minutes)
       .to_sql
   end
 end

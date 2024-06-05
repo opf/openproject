@@ -467,7 +467,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :ldap_authentication,
             { controller: "/ldap_auth_sources", action: "index" },
-            if: Proc.new { User.current.admin? && !OpenProject::Configuration.disable_password_login? },
+            if: Proc.new { User.current.admin? && !Setting.disable_password_login? },
             parent: :authentication,
             caption: :label_ldap_auth_source_plural,
             html: { class: "server_authentication" },
@@ -494,7 +494,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :backups,
             { controller: "/admin/backups", action: "show" },
-            if: Proc.new { OpenProject::Configuration.backup_enabled? && User.current.allowed_globally?(Backup.permission) },
+            if: Proc.new { Setting.backup_enabled? && User.current.allowed_globally?(Backup.permission) },
             caption: :label_backup,
             last: true,
             icon: "save"

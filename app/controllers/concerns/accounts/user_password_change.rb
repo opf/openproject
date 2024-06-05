@@ -34,7 +34,7 @@ module Accounts::UserPasswordChange
   # to change the password.
   # When making changes here, also check MyController.change_password
   def change_password_flow(user:, params:, update_legacy: true, show_user_name: false)
-    return render_404 if OpenProject::Configuration.disable_password_login?
+    return render_404 if Setting.disable_password_login?
 
     # A JavaScript hides the force_password_change field for external
     # auth sources in the admin UI, so this shouldn't normally happen.

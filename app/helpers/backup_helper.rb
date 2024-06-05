@@ -49,7 +49,7 @@ module BackupHelper
   end
 
   def instant_backup_threshold_date
-    DateTime.now - OpenProject::Configuration.backup_initial_waiting_period
+    DateTime.now - Setting.backup_initial_waiting_period
   end
 
   def just_installed_openproject?(after: instant_backup_threshold_date)
@@ -71,7 +71,7 @@ module BackupHelper
   end
 
   def notify_user_and_admins(user, backup_token:)
-    waiting_period = backup_token.waiting? && OpenProject::Configuration.backup_initial_waiting_period
+    waiting_period = backup_token.waiting? && Setting.backup_initial_waiting_period
     users = ([user] + User.admin.active).uniq
 
     users.each do |recipient|

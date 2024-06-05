@@ -31,7 +31,7 @@ module Token
     def ready?
       return false if created_at.nil?
 
-      created_at.since(OpenProject::Configuration.backup_initial_waiting_period).past?
+      created_at.since(Setting.backup_initial_waiting_period).past?
     end
 
     def waiting?

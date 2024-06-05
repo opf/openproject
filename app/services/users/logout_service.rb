@@ -38,7 +38,7 @@ module Users
     def call!(user)
       OpenProject.logger.info { "Logging out ##{user.id}" }
 
-      if OpenProject::Configuration.drop_old_sessions_on_logout?
+      if Setting.drop_old_sessions_on_logout?
         remove_all_autologin_tokens! user
         remove_all_sessions! user
       else

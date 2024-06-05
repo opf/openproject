@@ -35,7 +35,7 @@ module Ldap
     private
 
     def run_user_sync
-      return if OpenProject::Configuration.ldap_users_disable_sync_job?
+      return if Setting.ldap_users_disable_sync_job?
 
       ::LdapAuthSource.find_each do |ldap|
         Rails.logger.info { "[LDAP groups] Synchronizing users for LDAP connection #{ldap.name}" }

@@ -295,7 +295,7 @@ class UsersController < ApplicationController
   end
 
   def set_password?(params)
-    params[:user][:password].present? && !OpenProject::Configuration.disable_password_choice?
+    params[:user][:password].present? && !Setting.disable_password_choice?
   end
 
   protected

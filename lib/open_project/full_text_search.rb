@@ -37,7 +37,7 @@ module OpenProject
         query = tokenize(value, concatenation, normalization)
         return if query.blank?
 
-        language = OpenProject::Configuration.main_content_language
+        language = Setting.main_content_language
 
         ActiveRecord::Base.send(
           :sanitize_sql_array, ["#{column} @@ to_tsquery(?, ?)",
