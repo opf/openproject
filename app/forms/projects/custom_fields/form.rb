@@ -55,11 +55,12 @@ module Projects::CustomFields
         if @custom_field.present?
           [@custom_field]
         elsif @custom_field_section.present?
+          # This should be also called active_custom_fields
           @project
-            .available_custom_fields
+            .available_custom_fields(active: true)
             .where(custom_field_section_id: @custom_field_section.id)
         else
-          @project.available_custom_fields
+          @project.available_custom_fields(active: true)
         end
     end
 
