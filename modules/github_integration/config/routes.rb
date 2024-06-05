@@ -27,5 +27,5 @@
 #++
 
 Rails.application.routes.draw do
-  resources :deploy_targets, only: %i[index new edit update create destroy]
+  resources :deploy_targets, only: %i[index new create destroy]
 end

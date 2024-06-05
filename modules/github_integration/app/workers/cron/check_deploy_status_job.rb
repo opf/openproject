@@ -90,13 +90,13 @@ module Cron
     end
 
     def delete_status_check(pull_request, deploy_target)
-      # we use `find` and delete it this way to also cover
+      # we use `select` and delete it this way to also cover
       # not-yet-persisted records
-      check = pull_request
+      checks = pull_request
         .deploy_status_checks
-        .find { |c| c.deploy_target == deploy_target }
+        .select { |c| c.deploy_target == deploy_target }
 
-      pull_request.deploy_status_checks.delete(check)
+      pull_request.deploy_status_checks.delete(checks)
     end
 
     ##
@@ -143,6 +143,16 @@ module Cron
 
       return false if data.nil?
 
+      status_identical?(data) || status_behind?(data)
+    end
+
+    def status_identical?(data)
+      status = data["status"].presence
+
+      status == "identical"
+    end
+
+    def status_behind?(data)
       status = data["status"].presence
       ahead_by = data["ahead_by"].presence
       behind_by = data["behind_by"].presence
