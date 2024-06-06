@@ -299,6 +299,12 @@ ms:
         is_required_blank_slate:
           heading: Diperlukan dalam semua projek
           description: Atribut projek ini telah diaktifkan dalam semua projek sejak pilihan "Diperlukan dalam semua projek" telah ditandakan. Ia tidak boleh dinyahaktifkan untuk projek individu.
+        new_project_mapping_form:
+          add_projects: Add projects
+          include_sub_projects: Include sub-projects
+        project_mapping_filter:
+          label: Search project
+          placeholder: Filter by text
       types:
         no_results_title_text: Tiada jenis yang tersedia buat masa ini.
         form:
@@ -1575,6 +1581,12 @@ ms:
       pdf_gantt: "Gantt PDF"
     image:
       omitted: "Imej tidak dieksport."
+    macro:
+      error: "Macro error, %{message}"
+      attribute_not_found: "attribute not found: %{attribute}"
+      model_not_found: "invalid attribute model: %{model}"
+      resource_not_found: "resource not found: %{resource}"
+      rich_text_unsupported: "Rich text embedding currently not supported in export"
     units:
       hours: j
       days: h
@@ -3412,7 +3424,7 @@ ms:
       missing_content_type: "tidak ditentukan"
       missing_property: "Ciri-ciri yang hilang '%{property}'."
       missing_request_body: "Tiada badan permintaan."
-      missing_or_malformed_parameter: "Parameter pertanyaan '%{parameter}' tidak ditemui atau cacat."
+      missing_or_malformed_parameter: "Parameter pertanyaan '%{parameter}' tidak ditemui atau tidak betul."
       multipart_body_error: "Badan permintaan tidak mempunyai bahagian multipart seperti yang dijangka."
       multiple_errors: "Beberapa kekangan ruang telah dilanggar."
       unable_to_create_attachment: "Lampiran tidak boleh dicipta"
@@ -3436,31 +3448,31 @@ ms:
   doorkeeper:
     pre_authorization:
       status: "Pra-kebenaran"
-    auth_url: "Auth URL"
+    auth_url: "URL Auth"
     access_token_url: "Akses token URL"
     errors:
       messages:
         #Common error messages
         invalid_request:
-          unknown: "Permintaan tersebut tidak mengandungi parameter yang diperlukan, termasuk nilai parameter yang tidak disokong, atau sebaliknya telah cacat."
+          unknown: "Permintaan tersebut tidak mengandungi parameter yang diperlukan, termasuk nilai parameter yang tidak disokong, atau sebaliknya tidak betul."
           missing_param: "Parameter yang diperlukan hilang: %{value}."
           request_not_authorized: "Permintaan perlu dibenarkan. Parameter yang diperlukan untuk membenarkan permintaan tiada atau tidak sah."
         invalid_redirect_uri: "Pengubah hala URI yang diminta tidak betul atau tidak sepadan dengan pengubah hala URI pelanggan."
         unauthorized_client: "Pelanggan tersebut tidak dibenarkan untuk melaksanakan permintaan ini menggunakan kaedah ini."
         access_denied: "Pemilik sumber atau server kebenaran menafikan permintaan ini."
-        invalid_scope: "Skop yang diminta adalah tidak sah, tidak diketahui, atau salah bentuk."
+        invalid_scope: "Skop yang diminta adalah tidak sah, tidak diketahui, atau tidak betul."
         invalid_code_challenge_method: "Kaedah kod cabaran mesti biasa atau S256."
         server_error: "Server kebenaran mengalami keadaan yang tidak dijangka yang menghalangnya daripada memenuhi permintaan."
         temporarily_unavailable: "Server kebenaran pada masa ini tidak dapat mengendalikan permintaan kerana beban berlebihan sementara atau penyelenggaraan server."
         #Configuration error messages
         credential_flow_not_configured: "Aliran Kelayakan Kata Laluan Pemilik Sumber telah gagal disebabkan oleh Doorkeeper.configure.resource_owner_authenticator tidak dikonfigurasikan."
         resource_owner_authenticator_not_configured: "Carian Pemilik Sumber gagal kerana Doorkeeper.configure.resource_owner_authenticator tidak dikonfigurasikan."
-        admin_authenticator_not_configured: "Akses ke panel admin dilarang kerana Doorkeeper.configure.admin_authenticator tidak dikonfigurasi."
+        admin_authenticator_not_configured: "Akses ke panel pentadbir dilarang kerana Doorkeeper.configure.admin_authenticator tidak dikonfigurasi."
         #Access grant errors
         unsupported_response_type: "Server kebenaran tidak menyokong jenis tindak balas ini."
         unsupported_response_mode: "Server kebenaran tidak menyokong mod tindak balas ini."
         #Access token errors
-        invalid_client: "Pengesahan pelanggan gagal kerana pelanggan yang tidak diketahui, tiada pengesahan pelanggan yang disertakan, atau kaedah pengesahan yang tidak disokong."
+        invalid_client: "Pengesahan pelanggan gagal kerana pelanggan yang tidak diketahui, tiada pengesahan pelanggan yang disertakan, atau kaedah pengesahan tidak disokong."
         invalid_grant: "Pemberian kebenaran yang diberikan adalah tidak sah, luput, dibatalkan, tidak sepadan dengan pengubah hala URI yang digunakan dalam permintaan kebenaran, atau dikeluarkan kepada pelanggan lain."
         unsupported_grant_type: "Jenis pemberian kebenaran tidak disokong oleh server pengesahan."
         invalid_token:
@@ -3486,9 +3498,9 @@ ms:
       instructions:
         name: "Nama aplikasi anda. Ini akan dipaparkan ke pengguna lain selepas kebenaran."
         redirect_uri_html: >
-          URL yang dibenarkan membenarkan pengguna boleh diubah hala. Satu entri setiap baris. <br/> Jika anda mendaftar aplikasi desktop, guna URL berikut.
-        confidential: "Semak jika aplikasi akan digunakan dimana rahsia pelanggan boleh dikekalkan sulit. Mobile apps asal dan Single Page Apps dianggap sebagai tidak sulit."
-        scopes: "Tandakan skop yang anda mahu aplikasi untuk berikan akses. Jika tiada skop  ditandakan, api_v3 akan diandaikan."
+          URL yang dibenarkan membenarkan pengguna boleh diubah hala. Satu entri setiap baris. <br/> Jika anda mendaftar aplikasi desktop, gunakan URL berikut.
+        confidential: "Semak jika aplikasi akan digunakan dimana rahsia pelanggan boleh dikekalkan sulit. Aplikasi mudah alih asal dan Single Page Apps dianggap sebagai tidak sulit."
+        scopes: "Tandakan skop yang anda mahu untuk berikan akses ke aplikasi tersebut. Jika tiada skop ditandakan, api_v3 akan diandaikan."
         client_credential_user_id: "ID pengguna pilihan untuk menyamar apabila pelanggan menggunakan aplikasi ini. Tinggalkan kosong untuk benarkan akses awam sahaja."
         register_intro: "Jika anda sedang membangunkan aplikasi pelanggan API OAuth untuk OpenProject, anda boleh mendaftarkannya menggunakan borang ini untuk semua pengguna menggunakannya."
         default_scopes: ""
@@ -3521,7 +3533,7 @@ ms:
     client_credentials_impersonation_html: >
       Secara default, OpenProject menyediakan kebenaran OAuth 2.0 melalui %{authorization_code_flow_link}. Anda boleh memilih untuk mengaktifkan %{client_credentials_flow_link}, tetapi anda mesti menyediakan pengguna yang akan mewakili permintaan.
     authorization_error: "Sebuah ralat kebenaran telah berlaku."
-    revoke_my_application_confirmation: "Adakah anda benar-benar mahu keluarkan aplikasi ini? Ini akan menarik balik %{token_count} aktif darinya."
+    revoke_my_application_confirmation: "Adakah anda benar-benar mahu memadam aplikasi ini? Ini akan menarik balik %{token_count} yang aktif darinya."
     my_registered_applications: "Aplikasi OAuth berdaftar"
   oauth_client:
     urn_connection_status:
@@ -3531,11 +3543,11 @@ ms:
     labels:
       label_oauth_integration: "Integrasi OAuth2"
       label_redirect_uri: "Ubah hala URI"
-      label_request_token: "Permintaan token"
+      label_request_token: "Token permintaan"
       label_refresh_token: "Token muat semula"
     errors:
       oauth_authorization_code_grant_had_errors: "Pemberian pengesahan OAuth2 tidak berjaya"
-      oauth_reported: "Pembekal OAuth2 melaporkan"
+      oauth_reported: "Penyedia OAuth2 melaporkan"
       oauth_returned_error: "OAuth2 telah kembalikan sebuah ralat"
       oauth_returned_json_error: "OAuth2 telah kembalikan ralat JSON"
       oauth_returned_http_error: "OAuth2 telah kembalikan ralat rangkaian"
@@ -3547,13 +3559,13 @@ ms:
         Ralat dalaman: Memanggil refresh_token tanpa token yang sedia ada sebelum ini.
       refresh_token_updated_failed: "Ralat semasa kemas kini OAuthClientToken"
       oauth_client_not_found_explanation: >
-        Ralat muncul selepas anda mengemas kini client_id dan client_secret di Openproject, tetapi belum mengemas kini ruangan 'URI Kembali' dalam pembekal OAuth2.
+        Ralat muncul selepas anda mengemas kini client_id dan client_secret di Openproject, tetapi belum mengemas kini ruangan 'URI Kembali' dalam penyedia OAuth2.
       oauth_code_not_present: "'Kod' OAuth2 tidak ditemui dalam titik terakhir 'panggilan balik' (redirect_url)."
       oauth_code_not_present_explanation: >
         Ralat ini muncul jika anda telah memilih response_type yang salah dalam pembekal OAuth2. Response_type perlu 'kod' atau serupa.
       oauth_state_not_present: "'Kondisi' OAuth2 tidak ditemui dalam titik terakhir 'panggilan balik' (ubah hala_url)."
       oauth_state_not_present_explanation: >
-        'Kondisi' digunakan untuk menunjukkan ke OpenProject tempat untuk meneruskan selepas kebenaran OAuth2 berjaya. Ketiadaan 'Kondisi' adalah ralat dalaman yang mungkin muncul semasa penyediaan. Sila hubungi pentadbir sistem anda.
+        'Kondisi' digunakan untuk menunjukkan ke OpenProject tempat untuk meneruskan selepas kebenaran OAuth2 berjaya. Ketiadaan 'kondisi' adalah ralat dalaman yang mungkin muncul semasa penyediaan. Sila hubungi pentadbir sistem anda.
       rack_oauth2:
         client_secret_invalid: "Rahsia pelanggan adalah tidak sah (rahsia_pelanggan_tidak sah)"
         invalid_request: >
@@ -3567,7 +3579,7 @@ ms:
   http:
     request:
       failed_authorization: "Permintaan dari pihak server gagal mengesahkan dirinya sendiri."
-      missing_authorization: "Permintaan dari pihak server  gagal disebabkan maklumat pengesahan yang hilang."
+      missing_authorization: "Permintaan dari pihak server gagal disebabkan maklumat pengesahan yang hilang."
     response:
       unexpected: "Tindak balas yang tidak dijangka diterima."
   you: anda

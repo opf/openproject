@@ -57,7 +57,7 @@ zh-CN:
       meeting_agenda_item: "议程项目"
       meeting_agenda: "议程"
       meeting_minutes: "会议记录"
-      meeting_section: "Section"
+      meeting_section: "节"
   activity:
     filter:
       meeting: "会议"

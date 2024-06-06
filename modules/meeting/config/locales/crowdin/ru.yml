@@ -60,7 +60,7 @@ ru:
       meeting_agenda_item: "Пункт повестки"
       meeting_agenda: "Повестка дня"
       meeting_minutes: "Протокол(-ы)"
-      meeting_section: "Section"
+      meeting_section: "Раздел"
   activity:
     filter:
       meeting: "Совещания"

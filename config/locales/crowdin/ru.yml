@@ -299,6 +299,12 @@ ru:
         is_required_blank_slate:
           heading: Требуется во всех проектах
           description: Этот атрибут проекта активирован во всех проектах, поскольку установлен флажок «Требуется во всех проектах». Его нельзя отключить для отдельных проектов.
+        new_project_mapping_form:
+          add_projects: Add projects
+          include_sub_projects: Include sub-projects
+        project_mapping_filter:
+          label: Search project
+          placeholder: Filter by text
       types:
         no_results_title_text: На данный момент доступных типов нет.
         form:
@@ -1675,6 +1681,12 @@ ru:
       pdf_gantt: "Диаграмма Гантта в PDF"
     image:
       omitted: "Изображение не экспортировано."
+    macro:
+      error: "Macro error, %{message}"
+      attribute_not_found: "attribute not found: %{attribute}"
+      model_not_found: "invalid attribute model: %{model}"
+      resource_not_found: "resource not found: %{resource}"
+      rich_text_unsupported: "Rich text embedding currently not supported in export"
     units:
       hours: ч
       days: д
@@ -3007,7 +3019,7 @@ ru:
   setting_date_format: "Дата"
   setting_days_per_month: "Количество дней в месяце"
   setting_days_per_month_explanation: >-
-    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
+    Это определяет, что считается "месяцем" при более естественном отображении продолжительности (например, если месяц 20 дней, то 60 дней будет 3 месяца).
   setting_default_language: "Язык по умолчанию"
   setting_default_projects_modules: "По умолчанию доступные в новых проектах модули"
   setting_default_projects_public: "По умолчанию новые проекты видимы всем"
@@ -3025,7 +3037,7 @@ ru:
   setting_host_name: "Имя компьютера в сети"
   setting_hours_per_day: "Количество часов в день"
   setting_hours_per_day_explanation: >-
-    Это определяет, что считается «днем» при более естественном отображении продолжительности (например, если день 8 часов, то 32 часа будет 4 дня).
+    Это определяет, что считается "днем" при более естественном отображении продолжительности (например, если день 8 часов, то 32 часа будет 4 дня).
   setting_days_per_week: "Количество дней в неделю"
   setting_days_per_week_explanation: >-
     Это определяет, что считается "неделей" при более естественном отображении продолжительности (например, если в неделю 5 дней, то 15 дней будет 3 недели).
