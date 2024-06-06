@@ -315,13 +315,11 @@ class WorkPackage < ApplicationRecord
   end
 
   def estimated_hours=(hours)
-    converted_hours = (hours.is_a?(String) ? hours.to_hours : hours)
-    write_attribute :estimated_hours, !!converted_hours ? converted_hours : hours
+    write_attribute :estimated_hours, convert_duration_to_hours(hours)
   end
 
   def remaining_hours=(hours)
-    converted_hours = (hours.is_a?(String) ? hours.to_hours : hours)
-    write_attribute :remaining_hours, !!converted_hours ? converted_hours : hours
+    write_attribute :remaining_hours, convert_duration_to_hours(hours)
   end
 
   def duration_in_hours
@@ -544,6 +542,17 @@ class WorkPackage < ApplicationRecord
                               spent_on: Time.zone.today)
 
     time_entries.build(attributes)
+  end
+
+  def convert_duration_to_hours(value)
+    if value.is_a?(String)
+      begin
+        value = value.blank? ? nil : DurationConverter.parse(value)
+      rescue ChronicDuration::DurationParseError
+        # keep invalid value, error shall be caught by numericality validator
+      end
+    end
+    value
   end
 
   ##
