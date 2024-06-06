@@ -126,7 +126,7 @@ module Cron
     end
 
     def introspection_request(host, api_token)
-      OpenProject.httpx.basic_auth("apikey", api_token).get("http://#{host}/api/v3")
+      OpenProject.httpx.basic_auth("apikey", api_token).get("https://#{host}/api/v3")
     end
 
     ##
