@@ -77,8 +77,8 @@ form
 
   &.-bordered
     padding: 30px 20px
-    background-color: var(--content-form-bg-color)
-    border: 1px solid var(--borderColor-default)
+    background-color: var(--bgColor-neutral-muted)
+    border: 1px solid var(--borderColor-neutral-muted)
 
     &.-compressed
       padding: 10px 20px 0 20px
@@ -226,7 +226,7 @@ hr
 
 
 %form--fieldset-legend-or-section-title
-  color: #4d4d4d
+  color: var(--fgColor-muted)
   font-size: var(--body-font-size)
   font-weight: var(--base-text-weight-bold)
   line-height: 1.8
@@ -771,18 +771,10 @@ input[readonly].-clickable
 .form--matrix-header-row
   font-weight: var(--base-text-weight-bold)
   border-bottom: $content-form-input-border
-  background-color: var(--gray-light)
+  background-color: var(--bgColor-muted)
 
 .form--matrix-header-cell
   padding: 0 1rem
-
-.form--matrix-row
-
-  &:nth-child(odd)
-    background-color: var(--gray-light)
-
-  &:nth-child(even)
-    background-color: white
 
 .form--matrix-checkbox-cell
   min-width: 1rem
@@ -878,7 +870,7 @@ input[readonly].-clickable
   flex: 0 0 auto
   display: flex
   font-size: 0.9rem
-  background: #EEEEEE
+  background: var(--bgColor-neutral-muted)
   color: var(--body-font-color)
   border: $content-form-input-border
   border-radius: 2px
