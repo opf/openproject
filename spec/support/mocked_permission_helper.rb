@@ -68,6 +68,15 @@ class PermissionMock
     permitted_entities[work_package] += permissions
   end
 
+  def allow_in_project_query(*permissions, project_query:)
+    raise ArgumentError, NIL_ERROR if project_query.nil?
+
+    permissions.each do |permission|
+      Authorization.contextual_permissions(permission, :project_query, raise_on_unknown: true)
+    end
+    permitted_entities[project_query] += permissions
+  end
+
   def allow_globally(*permissions)
     permissions.each do |permission|
       Authorization.contextual_permissions(permission, :global, raise_on_unknown: true)
