@@ -33,12 +33,13 @@ module Projects::Activity
 
   module ActivityScopes
     def latest_project_activity
-      @latest_project_activity ||= OpenProject::ProjectLatestActivity.registered.map do |params|
-        build_latest_project_activity_for(on: params[:on].constantize,
-                                          chain: Array(params[:chain]).map(&:constantize),
-                                          attribute: params[:attribute],
-                                          project_id_attribute: params[:project_id_attribute])
-      end
+      @latest_project_activity ||=
+        OpenProject::ProjectLatestActivity.registered.map do |params|
+          build_latest_project_activity_for(on: params[:on].constantize,
+                                            chain: Array(params[:chain]).map(&:constantize),
+                                            attribute: params[:attribute],
+                                            project_id_attribute: params[:project_id_attribute])
+        end
     end
 
     def with_latest_activity
@@ -49,7 +50,7 @@ module Projects::Activity
     end
 
     def latest_activity_sql
-      <<-SQL.squish
+      <<-SQL
         SELECT project_id, MAX(updated_at) latest_activity_at
         FROM (#{all_activity_provider_union_sql}) activity
         GROUP BY project_id
@@ -66,7 +67,7 @@ module Projects::Activity
 
       joins = build_joins_from_chain(join_chain)
 
-      <<-SQL.squish
+      <<-SQL
         SELECT #{project_id_attribute} project_id, MAX(#{on.table_name}.#{attribute}) updated_at
         FROM #{from.table_name}
         #{joins.join(' ')}
@@ -76,17 +77,21 @@ module Projects::Activity
     end
 
     def build_joins_from_chain(join_chain)
-      (0..join_chain.length - 2).map do |i|
-        build_join(join_chain[i + 1],
-                   join_chain[i])
+      joins = []
+
+      (0..join_chain.length - 2).each do |i|
+        joins << build_join(join_chain[i + 1],
+                            join_chain[i])
       end
+
+      joins
     end
 
     def build_join(right, left)
       associations = right.reflect_on_all_associations
       association = associations.detect { |a| a.class_name == left.to_s }
 
-      <<-SQL.squish
+      <<-SQL
         LEFT OUTER JOIN #{right.table_name}
         ON #{left.table_name}.id =
            #{right.table_name}.#{association.foreign_key}
