@@ -22,7 +22,7 @@
 ms:
   js:
     ajax:
-      hide: "Sorokkan"
+      hide: "Sembunyikan"
       loading: "Memuatkan..."
       updating: "Mengemas kini..."
     attachments:
@@ -146,7 +146,7 @@ ms:
         manual: "Tukar ke sumber Markdown"
         wysiwyg: "Tukar ke editor WYSIWYG"
       macro:
-        error: "Tidak dapat kembangkan macro: %{message}"
+        error: "Tidak dapat kembangkan makro: %{message}"
         attribute_reference:
           macro_help_tooltip: "Bahagian teks ini sedang dihasilkan secara dinamik oleh makro."
           not_found: "Sumber yang diminta tidak dapat ditemui"
@@ -168,7 +168,7 @@ ms:
           macros: "Makro-makro"
           chose_macro: "Pilih makro"
         toc: "Jadual kandungan"
-        toolbar_help: "Klik untuk memilih widget dan tunjuk toolbar. Klik dua kali untuk edit widget"
+        toolbar_help: "Klik untuk memilih widget dan paparkan toolbar. Klik dua kali untuk edit widget"
         wiki_page_include:
           button: "Sertakan kandungan halaman wiki lain"
           text: "[Placeholder] Termasuk halaman wiki"
@@ -205,7 +205,7 @@ ms:
         trial:
           confirmation: "Pengesahan alamat e-mel "
           confirmation_info: >
-            Kami telah menghantar satu e-mel kepada anda pada %{date} kepada %{email}. Sila semak peti masuk anda dan klik pautan pengesahan yang disediakan untuk memulakan percubaan 14 hari anda.
+            Kami telah menghantar e-mel kepada anda pada %{date} di %{email}. Sila semak peti masuk anda dan klik pautan pengesahan yang disediakan untuk memulakan percubaan 14 hari anda.
           form:
             general_consent: >
               Saya bersetuju dengan <a target="_blank" href="%{link_terms}">syarat-syarat perkhidmatan</a> dan <a target="_blank" href="%{link_privacy}">polisi privasi</a>.
@@ -247,7 +247,7 @@ ms:
             premium_features: "Tambahan Enterprise"
             premium_features_text: "Board Agile, tema tersuai dan logo, graf, aliran kerja yang cerdas dengan tindakan tersuai, carian teks penuh untuk lampiran pakej kerja dan pelbagai pilihan ruang tersuai."
             professional_support: "Sokongan profesional"
-            professional_support_text: "Dapatkan sokongan yang boleh dipercayai, sentuhan tinggi daripada jurutera sokongan kanan dengan pengetahuan pakar tentang menjalankan OpenProject dalam persekitaran perniagaan yang kritikal."
+            professional_support_text: "Dapatkan sokongan yang boleh dipercayai, sokongan peribadi yang berkualiti tinggi daripada jurutera sokongan berpengalaman dengan pengetahuan pakar tentang menjalankan OpenProject dalam persekitaran perniagaan yang kritikal."
           button_start_trial: "Mulakan percubaan percuma"
           button_upgrade: "Naik taraf sekarang"
           button_contact_us: "Hubungi kami untuk demo"
@@ -267,7 +267,7 @@ ms:
           new_date: "(baharu)"
         add_non_working_day: "Hari tidak bekerja"
         already_added_error: "Hari tidak bekerja untuk tarikh ini sudah ada. Hanya boleh mempunyai satu hari tidak bekerja dicipta untuk setiap tarikh yang unik."
-        change_button: "Simpan dan jadual semula"
+        change_button: "Simpan dan jadualkan semula"
         change_title: "Tukar hari bekerja"
         removed_title: "Anda akan mengeluarkan hari berikut dari senarai hari tidak bekerja:"
         change_description: "Mengubah hari dalam seminggu yang dianggap hari bekerja atau hari tidak bekerja akan mempengaruhi hari mula dan selesai semua pakej kerja dalam semua projek dalam kejadian ini."
@@ -365,9 +365,9 @@ ms:
               new_features_html: >
                 Keluaran tersebut mengandungi pelbagai fitur baharu dan penambahbaikan: <br> <ul class="%{list_styling_class}"> <li> eksport PDF paparan Gantt, cth. untuk mencetak (tambahan Enterprise)</li> <li>Projek kegemaran</li> <li>Bahagian dalam Mesyuarat</li> <li>Paparkan mesyuarat di Halaman Saya dan halaman gambaran keseluruhan projek</li> <li>Kemungkinan untuk sorokkan lampiran dalam tab Fail</li> <li>Ruang tersuai jenis Pautan (URL)</li> </ul>
     ical_sharing_modal:
-      title: "Langgan ke kalendar"
+      title: "Langgan kalendar"
       inital_setup_error_message: "Ralat berlaku ketika sedang mengambil data."
-      description: "Anda boleh menggunakan URL (iCalendar) untuk melanggan ke kalendar ini dalam pelanggan luaran dan lihat maklumat pakej kerja terkini dari situ."
+      description: "Anda boleh menggunakan URL (iCalendar) untuk melanggan kalendar ini dalam pelanggan luaran dan lihat maklumat pakej kerja terkini dari situ."
       warning: "Sila jangan kongsi URL ini dengan pengguna lain. Sesiapa sahaja yang mempunyai pautan ini akan boleh melihat butiran pakej kerja tanpa akaun atau kata laluan."
       token_name_label: "Dimanakah anda akan menggunakan ini?"
       token_name_placeholder: 'Taip nama, cth. "Telefon"'
@@ -451,7 +451,7 @@ ms:
     label_invalid: "Tidak sah"
     label_import: "Import"
     label_latest_activity: "Aktiviti terkini"
-    label_last_updated_on: "Dikemas kini terakhir pada"
+    label_last_updated_on: "Kemas kini terakhir pada"
     label_learn_more_link: "Ketahui lebih lanjut"
     label_less_or_equal: "<="
     label_less_than_ago: "kurang dari beberapa hari yang lalu"
@@ -562,8 +562,8 @@ ms:
     label_rejected_files: "Fail-fail tersebut tidak dapat dimuat naik:"
     label_rejected_files_reason: "Fail-fail tersebut tidak boleh dimuat naik kerana saiz mereka adalah lebih besar daripada %{maximumFilesize}"
     label_wait: "Sila tunggu untuk konfigurasi..."
-    label_upload_counter: "%{done} dari %{count} fail selesai"
-    label_validation_error: "Pakej kerja tidak dapat disimpan kerana ralat berikut:"
+    label_upload_counter: "%{done} daripada %{count} fail selesai"
+    label_validation_error: "Pakej kerja tidak dapat disimpan disebabkan ralat berikut:"
     label_version_plural: "Versi-versi"
     label_view_has_changed: "Paparan ini mempunyai perubahan yang tidak disimpan. Klik untuk simpan mereka."
     help_texts:
@@ -574,12 +574,12 @@ ms:
         next: "Seterusnya"
         got_it: "Faham"
       steps:
-        help_menu: "Menu Bantuan (?) menyediakan <b>sumber bantuan tambahan</b>. Di sini anda akan menjumpai panduan pengguna, video panduan membantu dan lebih lagi. <br> Nikmati kerja anda di OpenProject!"
-        members: "Jemput <b>ahli</b> baru untuk sertai projek anda."
-        quick_add_button: "Klik pada ikon tambah (+) dalam navigasi pengepala untuk <b>cipta projek baru</b> atau untuk <b>jemput rakan sekerja</b>."
+        help_menu: "Menu Bantuan (?) menyediakan <b>sumber bantuan tambahan</b>. Di sini anda akan menjumpai panduan pengguna, video panduan dan lebih lagi. <br> Nikmati kerja anda di OpenProject!"
+        members: "Jemput <b>ahli</b> baharu untuk sertai projek anda."
+        quick_add_button: "Klik ikon tambah (+) dalam navigasi pengepala untuk <b>cipta projek baharu</b> atau untuk <b>jemput rakan sekerja</b>."
         sidebar_arrow: "Guna anak panah kembali di sudut kiri atas untuk kembali ke <b>menu utama</b> projek."
         welcome: "Ambil lawatan pengenalan 3 minit untuk belajar <b>fitur-fitur penting</b> dengan banyak. <br> Kami sarankan melengkapi langkah-langkah tersebut sehingga ke akhirnya. Anda boleh mula semula lawatan bila-bila masa."
-        wiki: "Dalam <b>wiki</b> anda boleh mendokumentasikan dan kongsi pengetahuan bersama dengan pasukan anda."
+        wiki: "Dalam <b>wiki</b> anda boleh mendokumentasikan dan kongsi pengetahuan bersama pasukan anda."
         backlogs:
           overview: "Kendalikan kerja anda dalam paparan <b>tunggakan</b>."
           sprints: "Di kanan anda mempunyai tunggakan produk dan tunggakan bug, di kiri anda mempunyai pecutan yang berkenaan. Di sini anda boleh mencipta <b>epik, cerita pengguna, dan bug</b>, utamakan dengan menarik & melepaskan dan tambah mereka ke pecutan."
