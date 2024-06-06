@@ -34,8 +34,8 @@ module Queries::Projects::ProjectQueries::Scopes
       # Returns an ActiveRecord::Relation to find all project queries for which
       # the +user+ either has the given +permission+ directly on the project query
       # or if the project query is owned by the +user+
-      def allowed_to(user, permission) # rubocop:disable Metrics/AbcSize
-        permissions = Authorization.contextual_permissions(permission, :project_query, raise_on_unknown: true)
+      def allowed_to(user, permission)
+        permissions = Authorization.contextual_permissions(permission, :project_query, raise_on_unknown: true).map(&:name)
 
         return none if user.locked?
         return none if permissions.empty?
@@ -44,21 +44,19 @@ module Queries::Projects::ProjectQueries::Scopes
           # TODO: Possible chance to also allow access to public queries here
           none
         else
-          public_queries = where(public: true).select(:id).arel
-          user_owned_queries = where(user_id: user.id).select(:id).arel
-          allowed_via_membership = allowed_to_member_relation(user, permissions).select(arel_table[:id]).arel
+          ctes = if permissions.include?(:edit_project_query)
+                   ctes_for_edit_permission(user)
+                 else
+                   ctes_for_view_permission(user)
+                 end
 
-          with(
-            public_queries:,
-            user_owned_queries:,
-            allowed_queries: allowed_via_membership
-          ).where(<<~SQL.squish)
+          with(ctes).where(<<~SQL.squish)
             project_queries.id IN (
               SELECT id FROM public_queries
               UNION
               SELECT id FROM user_owned_queries
               UNION
-              SELECT id FROM allowed_queries
+              SELECT id FROM allowed_via_membership
             )
           SQL
         end
@@ -66,30 +64,50 @@ module Queries::Projects::ProjectQueries::Scopes
 
       private
 
-      def allowed_to_member_relation(user, permissions)
+      def ctes_for_view_permission(user)
+        public_queries = where(public: true).select(:id).arel
+        user_owned_queries = where(user_id: user.id).select(:id).arel
+        allowed_via_membership = allowed_to_member_relation(user, :view_project_query).select(arel_table[:id]).arel
+
+        { public_queries:, user_owned_queries:, allowed_via_membership: }
+      end
+
+      def ctes_for_edit_permission(user) # rubocop:disable Metrics/AbcSize
+        can_manage_global_queries = user.allowed_globally?(:manage_public_project_queries)
+
+        public_queries = if can_manage_global_queries
+                           where(public: true).select(:id).arel
+                         else
+                           none.select(:id).arel
+                         end
+
+        user_owned_queries = if can_manage_global_queries
+                               where(user_id: user.id).select(:id).arel
+                             else
+                               where(user_id: user.id, public: false).select(:id).arel
+                             end
+
+        allowed_via_membership = allowed_to_member_relation(user, :edit_project_query).select(arel_table[:id]).arel
+
+        { public_queries:, user_owned_queries:, allowed_via_membership: }
+      end
+
+      def allowed_to_member_relation(user, permission)
         Member
           .joins(allowed_to_member_in_query_join(user))
           .joins(member_roles: :role)
-          .joins(allowed_to_role_permission_join(permissions))
+          .joins(allowed_to_role_permission_join(permission))
           .select(arel_table[:id])
       end
 
-      def allowed_to_role_permission_join(permissions) # rubocop:disable Metrics/AbcSize
-        return if permissions.all?(&:public?)
-
+      def allowed_to_role_permission_join(permission)
         role_permissions_table = RolePermission.arel_table
         roles_table = Role.arel_table
-
-        condition = permissions.inject(Arel::Nodes::False.new) do |or_condition, permission|
-          permission_condition = role_permissions_table[:permission].eq(permission.name)
-
-          or_condition.or(permission_condition)
-        end
 
         arel_table
           .join(role_permissions_table, Arel::Nodes::InnerJoin)
           .on(roles_table[:id].eq(role_permissions_table[:role_id])
-                              .and(condition))
+                              .and(role_permissions_table[:permission].eq(permission.name)))
           .join_sources
       end
 

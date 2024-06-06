@@ -51,6 +51,15 @@ class Queries::Projects::ProjectQuery < ApplicationRecord
     public? || user == self.user
   end
 
+  def can_edit?(user = User.current)
+    # non public queries can only be edited by the owner
+    (!public? && user == self.user) ||
+    # public queries can be edited by users with the global permission (regardless of ownership)
+    (public? && user.allowed_globally?(:manage_public_project_queries)) ||
+    # or by users with the edit permission on the query
+    user.allowed_to?(:edit_project_query, self)
+  end
+
   def self.model
     Project
   end
