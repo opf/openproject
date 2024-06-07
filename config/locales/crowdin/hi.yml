@@ -1037,6 +1037,7 @@ hi:
               only_same_project_categories_allowed: "एक कार्य पैकेज की श्रेणी कार्य पैकेज के रूप में एक ही प्रोजेक्ट के भीतर होना चाहिए ।"
               does_not_exist: "निर्दिष्ट श्रेणी मौजूद नहीं है ।"
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
               must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
               only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."

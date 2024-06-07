@@ -102,7 +102,7 @@ ru:
     button_save: "Сохранить"
     button_settings: "Настройки"
     button_uncheck_all: "Снять все отметки"
-    button_update: "Обновление"
+    button_update: "Обновить"
     button_export-pdf: "Скачать PDF"
     button_export-atom: "Скачать Atom"
     button_create: "Создать"
@@ -275,9 +275,9 @@ ru:
           Хотите продолжить?
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+          При изменении расчета прогресса с режима на основе статуса на режим на основе трудозатрат поле <i>% Завершения</i> станет нередактируемым, его значение будет получено из значений <i>Работа</i> и <i>Оставшаяся работа</i>. Существующие значения для <i>% Завершения</i> сохраняются. Если значения для <i>Работа</i> и <i>Оставшаяся работа</i> отсутствуют, они потребуются для изменения <i>% Завершения</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
-          Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
+          При изменении расчета прогресса с режима на основе трудозатрат на режим на основе статуса все существующие значения <i>% Завершения</i> будут потеряны и заменены значениями, связанными с каждым статусом. Существующие значения параметра <i>Оставшаяся работа</i> также могут быть пересчитаны с учетом этого изменения. Это действие необратимо.
     custom_actions:
       date:
         specific: "вкл"
@@ -416,7 +416,7 @@ ru:
     label_details: "Детали"
     label_display: "Отображение"
     label_cancel_comment: "Отменить комментарий"
-    label_closed_work_packages: "закрыт"
+    label_closed_work_packages: "закрыто"
     label_collapse: "свернуть"
     label_collapsed: "свернуто"
     label_collapse_all: "Свернуть все"

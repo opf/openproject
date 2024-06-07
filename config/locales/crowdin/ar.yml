@@ -1067,6 +1067,7 @@ ar:
               only_same_project_categories_allowed: "يجب أن يكون فئة مجموعة العمل ضمن نفس المشروع كمجموعة عمل."
               does_not_exist: "الفئة المحددة غير موجودة."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
               must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
               only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."

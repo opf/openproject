@@ -335,7 +335,7 @@ cs:
         description: >
           Vyberte počáteční úroveň přiblížení, která by se měla zobrazit, pokud není autozoom dostupný.
       export:
-        title: "Gantt chart PDF options"
+        title: "Možnosti Ganttova diagramu PDF"
         button_export: "Export"
         column_widths:
           narrow: "Úzké"

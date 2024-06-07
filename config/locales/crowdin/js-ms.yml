@@ -368,7 +368,7 @@ ms:
           "14_1":
             standard:
               new_features_html: >
-                Keluaran tersebut mengandungi pelbagai fitur baharu dan penambahbaikan: <br> <ul class="%{list_styling_class}"> <li> eksport PDF paparan Gantt, cth. untuk mencetak (tambahan Enterprise)</li> <li>Projek kegemaran</li> <li>Bahagian dalam Mesyuarat</li> <li>Paparkan mesyuarat di Halaman Saya dan halaman gambaran keseluruhan projek</li> <li>Kemungkinan untuk sorokkan lampiran dalam tab Fail</li> <li>Ruang tersuai jenis Pautan (URL)</li> </ul>
+                Keluaran tersebut mengandungi pelbagai fitur baharu dan penambahbaikan: <br> <ul class="%{list_styling_class}"> <li> eksport PDF paparan Gantt, cth. untuk mencetak (tambahan Enterprise)</li> <li>Projek kegemaran</li> <li>Bahagian dalam Mesyuarat</li> <li>Paparkan mesyuarat di Halaman Saya dan halaman gambaran keseluruhan projek</li> <li>Kemungkinan untuk sembunyikan lampiran dalam tab Fail</li> <li>Ruang tersuai jenis Pautan (URL)</li> </ul>
     ical_sharing_modal:
       title: "Langgan kalendar"
       inital_setup_error_message: "Ralat berlaku ketika sedang mengambil data."
@@ -595,7 +595,7 @@ ms:
           overview: "Pilih <b>board</b> untuk tukar paparan dan uruskan projek anda menggunakan paparan board agile."
           lists_kanban: "Disini anda boleh mencipta pelbagai senarai (kolum) dalam board anda. Fitur ini membenarkan anda untuk mencipta, sebagai contoh, <b>board Kanban</b>."
           lists_basic: "Disini anda boleh mencipta pelbagai senarai (kolum) dalam board agile anda."
-          add: "Klik ikon tambah (+) untuk <b>mencipta kad baru</b> atau <b>menambah kad sedia ada</b> ke senarai pada board."
+          add: "Klik ikon tambah (+) untuk <b>mencipta kad baharu</b> atau <b>menambah kad sedia ada</b> ke senarai pada board."
           drag: "Tarik dan lepaskan kad anda dalam senarai yang diberikan untuk menyusun mereka semula, atau untuk memindahkannya ke senarai lain. <br> Anda boleh klik ikon maklumat (i) di sudut kanan atas atau klik dua kali pada kad untuk membuka butirannya."
         wp:
           toggler: "Sekarang mari lihat bahagian <b>pakej kerja</b>, yang memberikan anda paparan kerja anda secara terperinci."
@@ -604,7 +604,7 @@ ms:
           back_button: "Guna anak panah kembali di sudut kiri untuk keluar dan kembali ke senarai pakej kerja."
           create_button: "Butang <b>+ Cipta</b> akan menambah pakej kerja baharu ke projek anda."
           gantt_menu: "Cipta jadual projek dan garis masa dengan mudah menggunakan modul carta Gantt."
-          timeline: "Di sini anda boleh <b>edit pelan projek anda</b>, cipta pakej kerja baru, seperti tugasan, pencapaian, fasa, dan banyak lagi, serta <b>tambah kebergantungan</b>. Semua ahli pasukan boleh lihat dan kemas kini pelan terkini pada bila-bila masa."
+          timeline: "Di sini anda boleh <b>edit pelan projek anda</b>, cipta pakej kerja baharu, seperti tugasan, pencapaian, fasa, dan banyak lagi, serta <b>tambah kebergantungan</b>. Semua ahli pasukan boleh lihat dan kemas kini pelan terkini pada bila-bila masa."
         team_planner:
           overview: "Perancang pasukan membolehkan anda memberikan tugasan secara visual kepada ahli pasukan dan dapatkan gambaran keseluruhan tentang siapa yang mengusahakan apa."
           calendar: "Board perancangan mingguan atau dua mingguan memaparkan semua pakej kerja yang ditugaskan ke ahli pasukan anda."
@@ -648,7 +648,7 @@ ms:
           other: "dan %{count} yang lain"
         no_results:
           at_all: "Pemberitahuan baharu akan muncul di sini apabila terdapat aktiviti yang berkaitan dengan anda."
-          with_current_filter: "Tiada pemberitahuan dalam paparan ini pada masa ini"
+          with_current_filter: "Tiada pemberitahuan dalam paparan ini buat masa ini"
         mark_all_read: "Tanda semua sudah dibaca"
         mark_as_read: "Tanda sudah dibaca"
         text_update_date: "%{date} oleh"
@@ -657,7 +657,7 @@ ms:
           no_notification: "Nampaknya anda telah selesaikan semuanya."
           no_notification_with_current_project_filter: "Nampaknya anda sudah selesai dengan projek yang dipilih."
           no_notification_with_current_filter: "Nampaknya anda sudah selesai untuk penyaringan %{filter}."
-          no_selection: "Klik pada pemberitahuan untuk paparkan semua butiran aktiviti."
+          no_selection: "Klik pemberitahuan untuk paparkan semua butiran aktiviti."
         new_notifications:
           message: "Terdapat pemberitahuan baharu."
           link_text: "Klik sini untuk memuatkan mereka."
@@ -697,7 +697,7 @@ ms:
           work_package_commented: "Semua komen baharu"
           work_package_created: "Pakej kerja baharu"
           work_package_processed: "Semua perubahan status"
-          work_package_prioritized: "Semua perubahan keutamaan"
+          work_package_prioritized: "Semua perubahan utama"
           work_package_scheduled: "Semua perubahan tarikh"
         global:
           immediately:
@@ -780,13 +780,13 @@ ms:
     text_user_wrote: "%{value} menulis:"
     types:
       attribute_groups:
-        error_duplicate_group_name: "Nama %{group} digunakan lebih dari sekali. Nama kumpulan mesti unik."
+        error_duplicate_group_name: "Nama %{group} digunakan lebih dari sekali. Nama kumpulan mestilah unik."
         error_no_table_configured: "Sila konfigurasi jadual untuk %{group}."
         reset_title: "Set semula konfigurasi borang"
         confirm_reset: >
           Amaran: Adakah anda pasti anda ingin set semula konfigurasi borang? Ini akan set semula atribut kumpulan asal mereka dan menyahdayakan SEMUA ruang tersuai.
         upgrade_to_ee: "Naik taraf edisi Enterprise di premis"
-        upgrade_to_ee_text: "Wah! Jika anda perlukan tambahan ini anda adalah sungguh pro! Bolehkah anda menyokong kami pemaju OpenProject dengan menjadi pelanggan edisi Enterprise?"
+        upgrade_to_ee_text: "Wah! Jika anda perlukan tambahan ini anda sungguh pro! Bolehkah anda menyokong kami, pembangun OpenProject, dengan menjadi pelanggan edisi Enterprise?"
         more_information: "Maklumat lanjut"
         nevermind: "Tidak mengapa"
       edit:
@@ -846,10 +846,10 @@ ms:
       add_existing: "Tambah sedia ada"
       add_existing_child: "Tambah anak sedia ada"
       remove_child: "Padam anak"
-      add_new_relation: "Cipta perhubungan baru"
+      add_new_relation: "Cipta perhubungan baharu"
       add_existing_relation: "Tambah perhubungan sedia ada"
       update_description: "Tetapkan atau kemas kini penerangan perhubungan ini"
-      toggle_description: "Tukar penerangan perhubungan"
+      toggle_description: "Tukar deskripsi perhubungan"
       update_relation: "Klik untuk ubah jenis perhubungan"
       add_follower: "Tambah pengikut"
       show_relations: "Paparkan perhubungan"
@@ -951,15 +951,15 @@ ms:
         column_incompatible: "Kolum ini tidak menunjukkan perubahan dalam mod asas."
       filters:
         title: "Saring pakej kerja"
-        baseline_incompatible: "Penyaring atribut ini tidak diambil kira dalam mod asas."
-        baseline_warning: "Mod asas sedang aktif tetapi beberapa penyaring aktif tidak termasuk dalam perbandingan."
+        baseline_incompatible: "Penyaring atribut ini tidak diambil kira dalam mod Asas."
+        baseline_warning: "Mod garis panduan asas sedang aktif tetapi beberapa penyaring aktif tidak termasuk dalam perbandingan."
       inline_create:
         title: "Klik di sini untuk tambah pakej kerja baharu ke senarai ini"
       create:
         title: "Pakej kerja baharu"
         header: "%{type} baharu"
         header_no_type: "Pakej kerja baharu (Jenis belum ditetapkan)"
-        header_with_parent: "%{type} baharu (Anak %{parent_type} #%{id})"
+        header_with_parent: "%{type} baharu (Anak kepada %{parent_type} #%{id})"
         button: "Cipta"
       copy:
         title: "Salin pakej kerja"
@@ -988,8 +988,8 @@ ms:
         createdAt: "Dicipta pada"
         description: "Deskripsi"
         date: "Tarikh"
-        percentComplete: "% Lengkap"
-        percentCompleteAlternative: "\nPerkembangan"
+        percentComplete: "% Selesai"
+        percentCompleteAlternative: "Perkembangan"
         dueDate: "Tarikh tamat"
         duration: "Tempoh"
         spentTime: "Masa yang dihabiskan"
@@ -1025,7 +1025,7 @@ ms:
         pagination: "Pergi ke jadual penomboran"
         label_pagination: "Klik di sini untuk langkau jadual pakej kerja dan pergi ke penomboran"
         content: "Lompat ke kandungan"
-        label_content: "Klik di sini untuk langkau ke menu dan pergi ke kandungan"
+        label_content: "Klik sini untuk langkau ke menu dan pergi ke kandungan"
       placeholders:
         default: "-"
         date: "Pilih tarikh"
@@ -1033,7 +1033,7 @@ ms:
         column_names: "Kolum-kolum"
         group_by: "Kumpulkan hasil mengikut"
         group: "Kumpulkan mengikut"
-        group_by_disabled_by_hierarchy: "Kumpulkan mengikut dinyahaktifkan kerana mod hierarki sedang aktif."
+        group_by_disabled_by_hierarchy: "Kumpulkan mengikut telah dinyahaktifkan kerana mod hierarki sedang aktif."
         hierarchy_disabled_by_group_by: "Mod hierarki dinyahaktifkan kerana hasil dikumpulkan oleh %{column}."
         sort_ascending: "Susun menaik"
         sort_descending: "Susun menurun"
@@ -1130,7 +1130,7 @@ ms:
         save_as: "Simpan sebagai"
         export: "Eksport"
         visibility_settings: "Tetapan keterlihatan"
-        share_calendar: "Langgan ke kalendar"
+        share_calendar: "Langgan kalendar"
         page_settings: "Namakan semula paparan"
         delete: "Padam"
       filter: "Saring"
@@ -1160,7 +1160,7 @@ ms:
     notice_no_results_to_display: "Tiada hasil yang boleh dilihat untuk dipaparkan."
     notice_successful_create: "Penciptaan yang berjaya."
     notice_successful_delete: "Pemadaman yang berjaya."
-    notice_successful_update: "Kemas kini yang berjaya."
+    notice_successful_update: "Kemas kini berjaya."
     notice_job_started: "kerja bermula."
     notice_bad_request: "Ralat Permintaan."
     relations:
@@ -1180,8 +1180,8 @@ ms:
       errors:
         required: "%{field} tidak boleh kosong"
         number: "%{field} bukan nombor yang sah"
-        maxlength: "%{field} tidak boleh mengandungi lebih dari %{maxLength} digit"
-        minlength: "%{field} tidak boleh mengandungi kurang dari %{minLength} digit"
+        maxlength: "%{field} tidak boleh mengandungi lebih daripada %{maxLength} digit"
+        minlength: "%{field} tidak boleh mengandungi kurang daripada %{minLength} digit"
         messages_on_field: "Ruang ini tidak sah: %{messages}"
     error_could_not_resolve_version_name: "Tidak dapat menyelesaikan nama versi"
     error_could_not_resolve_user_name: "Tidak dapat menyelesaikan nama pengguna"
@@ -1280,15 +1280,15 @@ ms:
       success:
         title: "%{principal} telah dijemput!"
         description:
-          user: "Pengguna kini boleh log masuk ke akses %{project}. Sementara itu, anda boleh merancang dengan pengguna itu dan tugaskan pakej kerja sebagai contoh."
+          user: "Pengguna kini boleh log masuk untuk mengakses %{project}. Sementara itu, anda boleh merancang dengan pengguna tersebut dan tugaskan pakej kerja sebagai contoh."
           placeholder: "Placeholder kini boleh digunakan dalam %{project}. Sementara itu anda sudah boleh merancang dengan pengguna tersebut dan tugaskan pakej kerja sebagai contoh."
           group: "Kumpulan tersebut kini sebahagian daripada %{project}. Sementara itu anda sudah boleh merancang dengan kumpulan tersebut dan menugaskan pakej kerja sebagai contoh."
         next_button: "Teruskan"
     exclusion_info:
       modal:
-        title: "Status excluded from hierarchy totals"
+        title: "Status dikeluarkan daripada jumlah hierarki"
         content: >-
-          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
+          Status %{status_name} telah dikonfigurasikan untuk dikeluarkan daripada jumlah hierarki Kerja, Kerja yang berbaki, dan % Selesai. Jumlah tersebut tidak mengambil kira nilai ini.
     favorite_projects:
       no_results: "Anda tiada projek kegemaran"
       no_results_subtext: "Tambah satu atau beberapa projek sebagai kegemaran melalui gambaran keseluruhan mereka atau dalam senarai projek."
@@ -1308,14 +1308,14 @@ ms:
         does_not_match_search: "Projek tidak sepadan dengan kriteria carian."
       no_results: "Tiada projek yang sepadan dengan kriteria carian anda."
     baseline:
-      toggle_title: "Dasar"
+      toggle_title: "Garis panduan asas"
       clear: "Kosongkan"
       apply: "Gunakan"
       header_description: "Sorotkan perubahan yang dibuat ke senarai ini pada bila-bila masa lalu."
       enterprise_header_description: "Sorotkan perubahan yang dibuat ke senarai ini pada bila-bila masa lalu dengan edisi Enterprise."
       show_changes_since: "Paparkan perubahan sejak"
-      baseline_comparison: "Perbandingan asas"
-      help_description: "Zon masa rujukan untuk yang dasar."
+      baseline_comparison: "Perbandingan garis panduan asas"
+      help_description: "Zon masa rujukan untuk garis panduan asas."
       time_description: "Dalam masa tempatan anda: %{datetime}"
       time: "Masa"
       from: "Dari"
@@ -1349,7 +1349,7 @@ ms:
         remove: "Keluarkan"
       drop_modal:
         focus_grab: "Ini adalah paksi fokus untuk modul. Tekan shift+tab untuk kembali ke elemen pencetus modul."
-        close: "Close modal"
+        close: "Tutup modal"
     open_project_storage_modal:
       waiting_title:
         timeout: "Had Masa"
