@@ -32,22 +32,25 @@ Underscores within keys have to be escaped by doubling them.
 For example, given the following configuration:
 
 ```yaml
-storage:
-  tmp_path: tmp
+scm:
+  subversion:
+    access_token: 'token'
 ```
 
 You can override it by defining the following environment variable:
 
 ```ruby
-OPENPROJECT_STORAGE_TMP__PATH=/some/other/path
+OPENPROJECT_SCM_SUBVERSION_ACCESS__TOKEN=some-other-token
 ```
 
-You can also add new values this way. For instance you could add another field 'type' to the
-storage config above like this:
+You can also add new values this way. For instance you could add another field 'insecure' to the
+subversion configuration above like this:
 
 ```ruby
-OPENPROJECT_STORAGE_TYPE=nfs
+OPENPROJECT_SCM_SUBVERSION_INSECURE=true
 ```
+
+Mind, these options are simply examples. Neither are they an exhaustive list, nor will they appear as possible options for the `OPENPROJECT_SCM` option listed in the section on supported environment variables below. This is due to the nature of that option as a hash which will allow passing of arbitrary values which are simply passed through to the scm adapter used.
 
 ## Seed variables
 
