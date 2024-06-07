@@ -7,6 +7,7 @@ module ::Recaptcha
 
     # User is not yet logged in, so skip login required check
     skip_before_action :check_if_login_required
+    no_authorization_required! only: %i[perform verify]
 
     # Skip if recaptcha was disabled
     before_action :skip_if_disabled

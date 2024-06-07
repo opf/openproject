@@ -30,12 +30,19 @@ class CustomStylesController < ApplicationController
   layout "admin"
   menu_item :custom_style
 
+  UNGUARDED_ACTIONS = %i[logo_download
+                         export_logo_download
+                         export_cover_download
+                         favicon_download
+                         touch_icon_download].freeze
+
   before_action :require_admin,
-                except: %i[logo_download export_logo_download export_cover_download favicon_download touch_icon_download]
+                except: UNGUARDED_ACTIONS
   before_action :require_ee_token,
-                except: %i[upsale logo_download export_logo_download export_cover_download favicon_download touch_icon_download]
+                except: UNGUARDED_ACTIONS + %i[upsale]
   skip_before_action :check_if_login_required,
-                     only: %i[logo_download export_logo_download export_cover_download favicon_download touch_icon_download]
+                     only: UNGUARDED_ACTIONS
+  no_authorization_required! only: UNGUARDED_ACTIONS
 
   def show
     @custom_style = CustomStyle.current || CustomStyle.new

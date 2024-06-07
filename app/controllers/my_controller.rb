@@ -39,6 +39,22 @@ class MyController < ApplicationController
   before_action :set_grouped_ical_tokens, only: %i[access_token]
   before_action :set_ical_token, only: %i[revoke_ical_token]
 
+  no_authorization_required! only: %i[account
+                                      update_account
+                                      settings
+                                      update_settings
+                                      password
+                                      change_password
+                                      access_token
+                                      delete_storage_token
+                                      notifications
+                                      reminders
+                                      generate_rss_key
+                                      revoke_rss_key
+                                      generate_api_key
+                                      revoke_api_key
+                                      revoke_ical_token]
+
   menu_item :account,             only: [:account]
   menu_item :settings,            only: [:settings]
   menu_item :password,            only: [:password]
@@ -177,6 +193,8 @@ class MyController < ApplicationController
     redirect_to action: 'access_token'
   end
 
+  private
+
   def default_breadcrumb
     I18n.t(:label_my_account)
   end
@@ -184,8 +202,6 @@ class MyController < ApplicationController
   def show_local_breadcrumb
     false
   end
-
-  private
 
   def redirect_if_password_change_not_allowed_for(user)
     unless user.change_password_allowed?

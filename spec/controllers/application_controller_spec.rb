@@ -33,6 +33,8 @@ RSpec.describe ApplicationController do
 
   # Fake controller to test calling an action
   controller do
+    no_authorization_required!
+
     def index
       # just do anything that doesn't require an extra template
       redirect_to root_path
@@ -151,6 +153,8 @@ RSpec.describe ApplicationController do
   describe "rack timeout duplicate error suppression", with_settings: { login_required: false } do
     controller do
       include OpenProjectErrorHelper
+
+      no_authorization_required!
 
       def index
         op_handle_error "fail"

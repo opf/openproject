@@ -29,6 +29,7 @@
 module OAuth
   class GrantsController < ::ApplicationController
     before_action :require_login
+    authorization_checked! only: %i[index revoke_application]
 
     layout "my"
     menu_item :access_token
@@ -57,6 +58,7 @@ module OAuth
 
     def find_application
       ::Doorkeeper::Application
+        .authorized_for(current_user)
         .where(id: params[:application_id])
         .select(:name, :id)
         .take

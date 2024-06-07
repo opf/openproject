@@ -29,6 +29,7 @@ module Projects
   class MenusController < ApplicationController
     # No authorize as every user (or logged in user)
     # is allowed to see the menu.
+    no_authorization_required! only: :show
 
     def show
       projects_menu = Menus::Projects.new(controller_path: params[:controller_path], params:, current_user:)

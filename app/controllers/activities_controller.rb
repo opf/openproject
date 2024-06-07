@@ -30,7 +30,7 @@ class ActivitiesController < ApplicationController
   include Layout
 
   menu_item :activity
-  before_action :find_optional_project,
+  before_action :authorize_in_optional_project,
                 :verify_activities_module_activated,
                 :determine_subprojects,
                 :determine_author,

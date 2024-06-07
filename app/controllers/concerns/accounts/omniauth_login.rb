@@ -38,10 +38,13 @@ module Accounts::OmniauthLogin
     # the other filters are not applicable either since OmniAuth is doing authentication
     # itself
     %i[
-      verify_authenticity_token user_setup
-      check_if_login_required check_session_lifetime
+      verify_authenticity_token
+      user_setup
+      check_if_login_required
+      check_session_lifetime
     ]
       .each { |key| skip_before_action key, only: [:omniauth_login] }
+    no_authorization_required! only: %i[omniauth_login omniauth_failure]
 
     helper :omniauth
   end

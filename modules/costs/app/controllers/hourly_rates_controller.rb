@@ -38,8 +38,9 @@ class HourlyRatesController < ApplicationController
   before_action :find_optional_project, only: %i[show edit update]
   before_action :find_project, only: [:set_rate]
 
-  # #show, #edit have their own authorization
+  # #show, #edit and #update have their own authorization
   before_action :authorize, except: %i[show edit update]
+  no_authorization_required! only: %i[show edit update]
 
   # TODO: this should be an index
   def show

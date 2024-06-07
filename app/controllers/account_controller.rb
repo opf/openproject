@@ -36,6 +36,7 @@ class AccountController < ApplicationController
 
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_action :check_if_login_required
+  no_authorization_required!
 
   before_action :apply_csp_appends, only: %i[login]
   before_action :disable_api

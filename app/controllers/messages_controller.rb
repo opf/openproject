@@ -32,6 +32,8 @@ class MessagesController < ApplicationController
   model_object Message, scope: Forum
   before_action :find_object_and_scope
   before_action :authorize, except: %i[edit update destroy]
+  # Checked inside the method.
+  no_authorization_required! only: %i[edit update destroy]
 
   include AttachmentsHelper
   include PaginationHelper

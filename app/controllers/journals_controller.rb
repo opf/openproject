@@ -29,9 +29,12 @@
 #++
 
 class JournalsController < ApplicationController
-  before_action :find_optional_project, only: [:index]
-  before_action :find_journal, only: [:diff]
-  before_action :ensure_permitted, only: [:diff]
+  before_action :authorize_in_optional_project, only: [:index]
+  before_action :find_journal,
+                :ensure_permitted,
+                only: [:diff]
+  authorization_checked! only: %i[diff]
+
   accept_key_auth :index
   menu_item :issues
 

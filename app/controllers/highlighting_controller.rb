@@ -29,6 +29,7 @@
 class HighlightingController < ApplicationController
   before_action :determine_freshness
   skip_before_action :check_if_login_required, only: [:styles]
+  no_authorization_required! only: [:styles]
 
   def styles
     response.content_type = Mime[:css]

@@ -28,6 +28,7 @@
 
 class APIDocsController < ApplicationController
   before_action :require_login
+  no_authorization_required! only: :index
 
   helper API::APIDocsHelper
 

@@ -29,6 +29,8 @@
 class AngularController < ApplicationController
   before_action :require_login
 
+  no_authorization_required!
+
   def empty_layout
     # Frontend will handle rendering
     # but we will need to render with layout
