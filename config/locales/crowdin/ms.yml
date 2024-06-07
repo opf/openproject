@@ -1030,6 +1030,7 @@ ms:
               only_same_project_categories_allowed: "Kategori pakej kerja mesti dalam projek yang sama dengan pakej kerja."
               does_not_exist: "Kategori yang ditentukan tidak wujud."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Tidak boleh lebih rendah daripada kerja yang Berbaki."
               must_be_set_when_remaining_work_is_set: "Diperlukan apabila kerja yang Berbaki ditetapkan."
               only_values_greater_or_equal_zeroes_allowed: "Perlu >= 0."

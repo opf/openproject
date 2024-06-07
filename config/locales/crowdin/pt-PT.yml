@@ -1037,6 +1037,7 @@ pt-PT:
               only_same_project_categories_allowed: "A categoria de um pacote de trabalho deve estar dentro do mesmo projeto que o pacote de trabalho."
               does_not_exist: "A categoria especificada não existe."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Não pode ser inferior a Trabalho restante."
               must_be_set_when_remaining_work_is_set: "Obrigatório quando o Trabalho restante está definido."
               only_values_greater_or_equal_zeroes_allowed: "Tem de ser >= 0."

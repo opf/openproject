@@ -1036,6 +1036,7 @@ es:
               only_same_project_categories_allowed: "La categoría de un paquete de trabajo debe estar en el mismo proyecto que el paquete de trabajo."
               does_not_exist: "La categoría especificada no existe."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "No puede ser inferior al Trabajo restante."
               must_be_set_when_remaining_work_is_set: "Obligatorio cuando el Trabajo restante está establecido."
               only_values_greater_or_equal_zeroes_allowed: "Debe ser >= 0."

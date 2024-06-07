@@ -57,7 +57,7 @@ ms:
       meeting_agenda_item: "Item agenda"
       meeting_agenda: "Agenda"
       meeting_minutes: "Minit mesyuarat"
-      meeting_section: "Section"
+      meeting_section: "Bahagian"
   activity:
     filter:
       meeting: "Mesyuarat"

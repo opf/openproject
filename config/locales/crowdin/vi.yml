@@ -1034,6 +1034,7 @@ vi:
               only_same_project_categories_allowed: "Các thể loại của một work package phải trong dự án tương tự như work package."
               does_not_exist: "Thể loại đã chỉ định không tồn tại."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
               must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
               only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."

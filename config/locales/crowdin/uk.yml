@@ -1048,6 +1048,7 @@ uk:
               only_same_project_categories_allowed: "Категорія комплекс робіт повинен бути в межах одного проекту як комплексу робіт."
               does_not_exist: "Указана категорія не існує."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Має дорівнювати значенню «Залишок робіт» або перевищувати його."
               must_be_set_when_remaining_work_is_set: "Потрібно вказати, якщо визначено атрибут «Залишок робіт»."
               only_values_greater_or_equal_zeroes_allowed: "Має бути >= 0."
@@ -2069,7 +2070,7 @@ uk:
   label_index_by_title: "Індекс за назвою"
   label_information: "Інформація"
   label_information_plural: "Інформація"
-  label_installation_guides: "Інструкції зі встановлення"
+  label_installation_guides: "Інструкції із встановлення"
   label_integer: "Ціле число"
   label_internal: "Власне"
   label_introduction_video: "Введення відео"

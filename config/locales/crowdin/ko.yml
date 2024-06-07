@@ -1031,6 +1031,7 @@ ko:
               only_same_project_categories_allowed: "작업 패키지의 카테고리는 작업 패키지와 동일한 프로젝트에 있어야 합니다."
               does_not_exist: "지정한 카테고리가 존재하지 않습니다."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "남은 작업보다 낮을 수 없습니다."
               must_be_set_when_remaining_work_is_set: "'남은 작업'이 설정된 경우 필수입니다."
               only_values_greater_or_equal_zeroes_allowed: "0 이상이어야 합니다."

@@ -1050,6 +1050,7 @@ sl:
               only_same_project_categories_allowed: "Kategorija delovnega paketa mora biti v istem projektu kot delovni paket."
               does_not_exist: "Izbrana kategorija ne obstaja."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
               must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
               only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
@@ -1453,8 +1454,8 @@ sl:
       - "avgust"
       - "september"
       - "oktober"
-      - "November"
-      - "December"
+      - "november"
+      - "december"
     order:
       - :leto
       - :mesec
