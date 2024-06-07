@@ -41,8 +41,8 @@ module OpenProject::OpenIDConnect
       end
 
       ##
-      # Once omniauth has returned with an auth hash
-      # persist the access token
+      # Called once omniauth has returned with an auth hash
+      # NOTE: It's a passthrough as we no longer persist the access token into the cookie
       def omniauth_user_authorized(_context); end
     end
   end
