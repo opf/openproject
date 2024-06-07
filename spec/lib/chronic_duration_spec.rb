@@ -28,7 +28,8 @@
 # Changes to this file should be kept in sync with
 # frontend/src/app/shared/helpers/chronic_duration.js.
 
-require "spec_helper"
+require "rspec_helper"
+require "chronic_duration"
 
 RSpec.describe ChronicDuration do
   describe ".parse" do
