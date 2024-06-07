@@ -1,11 +1,12 @@
-module Queries
+module OpenProject::Queries
+  # @logical_path OpenProject/Queries
   class SortByComponentPreview < Lookbook::Preview
     def default
       query = ::Queries::Projects::ProjectQuery.new
       query.order(lft: :asc)
       query.order(created_at: :desc)
 
-      render SortByComponent.new(
+      render ::Queries::SortByComponent.new(
         query:,
         selectable_columns: [
           { id: :lft, name: I18n.t(:label_project_hierarchy) },
