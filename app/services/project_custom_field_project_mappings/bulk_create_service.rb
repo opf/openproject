@@ -30,10 +30,10 @@
 
 module ProjectCustomFieldProjectMappings
   class BulkCreateService < ::BaseServices::BaseCallable
-    def initialize(user:, project:, project_custom_field:, include_sub_projects: false)
+    def initialize(user:, projects:, project_custom_field:, include_sub_projects: false)
       super()
       @user = user
-      @project = project
+      @projects = projects
       @project_custom_field = project_custom_field
       @include_sub_projects = include_sub_projects
     end
@@ -49,7 +49,7 @@ module ProjectCustomFieldProjectMappings
     private
 
     def validate_permissions
-      if @user.allowed_in_project?(:select_project_custom_fields, projects)
+      if @user.allowed_in_project?(:select_project_custom_fields, incoming_projects)
         ServiceResult.success
       else
         ServiceResult.failure(errors: { base: :error_unauthorized })
@@ -81,13 +81,16 @@ module ProjectCustomFieldProjectMappings
     end
 
     def incoming_mapping_ids
-      project_ids = projects.pluck(:id)
+      project_ids = incoming_projects.pluck(:id)
       project_ids - existing_project_mappings(project_ids)
     end
 
-    def projects
-      [@project].tap do |projects_array|
-        projects_array.concat(@project.active_subprojects.to_a) if @include_sub_projects
+    def incoming_projects
+      @projects.each_with_object([]) do |project, projects_array|
+        next unless project.active?
+
+        projects_array << project
+        projects_array.concat(project.active_subprojects.to_a) if @include_sub_projects
       end
     end
 

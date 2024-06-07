@@ -43,7 +43,7 @@ module Admin::Settings
     before_action :prepare_custom_option_position, only: %i(update create)
     before_action :find_custom_option, only: :delete_option
     before_action :project_custom_field_mappings_query, only: %i[project_mappings unlink]
-    before_action :find_link_project_custom_field_mapping, only: :link
+    before_action :find_custom_field_projects_to_link, only: :link
     before_action :find_unlink_project_custom_field_mapping, only: :unlink
     # rubocop:enable Rails/LexicallyScopedActionFilter
 
@@ -75,7 +75,7 @@ module Admin::Settings
 
     def link
       create_service = ProjectCustomFieldProjectMappings::BulkCreateService
-                         .new(user: current_user, project: @project, project_custom_field: @custom_field,
+                         .new(user: current_user, projects: @projects, project_custom_field: @custom_field,
                               include_sub_projects: include_sub_projects?)
                          .call
 
@@ -195,8 +195,8 @@ module Admin::Settings
       respond_with_turbo_streams
     end
 
-    def find_link_project_custom_field_mapping
-      @project = Project.find(permitted_params.project_custom_field_project_mapping[:project_id])
+    def find_custom_field_projects_to_link
+      @projects = Project.where(id: permitted_params.project_custom_field_project_mapping[:project_ids])
     rescue ActiveRecord::RecordNotFound
       update_flash_message_via_turbo_stream(
         message: t(:notice_file_not_found), full: true, dismiss_scheme: :hide, scheme: :danger

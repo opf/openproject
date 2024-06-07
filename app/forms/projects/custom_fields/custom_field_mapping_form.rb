@@ -37,9 +37,10 @@ module Projects::CustomFields
           autocomplete_options: {
             openDirectly: false,
             focusDirectly: false,
+            multiple: true,
             dropdownPosition: "bottom",
             disabledProjects: projects_with_custom_field_mapping,
-            inputName: "project_custom_field_project_mapping[project_id]"
+            inputName: "project_custom_field_project_mapping[project_ids]"
           }
         )
 
