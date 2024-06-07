@@ -476,6 +476,10 @@ GEM
       concurrent-ruby (~> 1.0)
       dry-core (~> 1.0, < 2)
       zeitwerk (~> 2.6)
+    dry-monads (1.6.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.0, < 2)
+      zeitwerk (~> 2.6)
     dry-types (1.7.2)
       bigdecimal (~> 3.0)
       concurrent-ruby (~> 1.0)
@@ -1195,6 +1199,7 @@ DEPENDENCIES
   doorkeeper (~> 5.7.0)
   dotenv-rails
   dry-container
+  dry-monads
   email_validator (~> 2.2.3)
   equivalent-xml (~> 0.6)
   erb_lint

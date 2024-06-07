@@ -116,6 +116,16 @@ en:
       subscribe: Subscribe
       title: Email notifications
       unsubscribe: Unsubscribe
+    connection_validation:
+      title: Connection validation
+      action: Validate connection
+      not_configured: The connection could not be validated. Please finish configuration first.
+      drive_id_wrong: The configured drive id could not be found. Please check the configuration.
+      tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
+      client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
+      client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
+      unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
+      success: The connection works as expected.
     help_texts:
       project_folder: The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     instructions:
