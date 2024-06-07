@@ -67,13 +67,13 @@ ms:
           added: "ditetapkan kepada %{value}"
           added_html: "ditetapkan kepada <i>%{value}</i>"
           removed: "dikeluarkan"
-          updated: "ditukar dari %{old_value} kepada %{value}"
-          updated_html: "ditukar dari <i>%{old_value}</i> kepada <i>%{value}</i>"
+          updated: "ditukar daripada %{old_value} kepada %{value}"
+          updated_html: "ditukar daripada <i>%{old_value}</i> kepada <i>%{value}</i>"
         position:
           updated: "disusun semula"
         work_package:
-          updated: "ditukar dari %{old_value} kepada %{value}"
-          updated_html: "ditukar dari <i>%{old_value}</i> kepada <i>%{value}</i>"
+          updated: "ditukar daripada %{old_value} kepada %{value}"
+          updated_html: "ditukar daripada <i>%{old_value}</i> kepada <i>%{value}</i>"
   description_attended: "dihadiri"
   description_invite: "dijemput"
   events:

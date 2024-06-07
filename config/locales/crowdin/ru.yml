@@ -300,11 +300,11 @@ ru:
           heading: Требуется во всех проектах
           description: Этот атрибут проекта активирован во всех проектах, поскольку установлен флажок «Требуется во всех проектах». Его нельзя отключить для отдельных проектов.
         new_project_mapping_form:
-          add_projects: Add projects
-          include_sub_projects: Include sub-projects
+          add_projects: Добавить проекты
+          include_sub_projects: Включить подпроекты
         project_mapping_filter:
-          label: Search project
-          placeholder: Filter by text
+          label: Поиск проекта
+          placeholder: Фильтр по тексту
       types:
         no_results_title_text: На данный момент доступных типов нет.
         form:
@@ -1682,11 +1682,11 @@ ru:
     image:
       omitted: "Изображение не экспортировано."
     macro:
-      error: "Macro error, %{message}"
-      attribute_not_found: "attribute not found: %{attribute}"
-      model_not_found: "invalid attribute model: %{model}"
-      resource_not_found: "resource not found: %{resource}"
-      rich_text_unsupported: "Rich text embedding currently not supported in export"
+      error: "Ошибка макроса, %{message}"
+      attribute_not_found: "атрибут не найден: %{attribute}"
+      model_not_found: "неверная модель атрибута: %{model}"
+      resource_not_found: "ресурс не найден: %{resource}"
+      rich_text_unsupported: "Встраивание форматированного текста в настоящее время не поддерживается при экспорте."
     units:
       hours: ч
       days: д
