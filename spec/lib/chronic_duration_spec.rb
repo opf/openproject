@@ -128,6 +128,7 @@ RSpec.describe ChronicDuration do
           short: "1m 20s",
           default: "1 min 20 secs",
           long: "1 minute 20 seconds",
+          days_and_hours: "0.02h",
           chrono: "1:20"
         },
       (60 + 20.51) =>
@@ -136,6 +137,7 @@ RSpec.describe ChronicDuration do
           short: "1m 20.51s",
           default: "1 min 20.51 secs",
           long: "1 minute 20.51 seconds",
+          days_and_hours: "0.02h",
           chrono: "1:20.51"
         },
       (60 + 20.51928) =>
@@ -144,6 +146,7 @@ RSpec.describe ChronicDuration do
           short: "1m 20.51928s",
           default: "1 min 20.51928 secs",
           long: "1 minute 20.51928 seconds",
+          days_and_hours: "0.02h",
           chrono: "1:20.51928"
         },
       ((4 * 3600) + 60 + 1) =>
@@ -152,6 +155,7 @@ RSpec.describe ChronicDuration do
           short: "4h 1m 1s",
           default: "4 hrs 1 min 1 sec",
           long: "4 hours 1 minute 1 second",
+          days_and_hours: "4.02h",
           chrono: "4:01:01"
         },
       ((2 * 3600) + (20 * 60)) =>
@@ -160,15 +164,17 @@ RSpec.describe ChronicDuration do
           short: "2h 20m",
           default: "2 hrs 20 mins",
           long: "2 hours 20 minutes",
-          chrono: "2:20"
-        },
-      ((2 * 3600) + (20 * 60)) =>
-        {
-          micro: "2h20m",
-          short: "2h 20m",
-          default: "2 hrs 20 mins",
-          long: "2 hours 20 minutes",
+          days_and_hours: "2.33h",
           chrono: "2:20:00"
+        },
+      ((8 * 24 * 3600) + (3 * 3600) + (30 * 60)) =>
+        {
+          micro: "8d3h30m",
+          short: "8d 3h 30m",
+          default: "8 days 3 hrs 30 mins",
+          long: "8 days 3 hours 30 minutes",
+          days_and_hours: "8d 3.5h",
+          chrono: "8:03:30:00"
         },
       ((6 * 30 * 24 * 3600) + (24 * 3600)) =>
         {
@@ -176,6 +182,7 @@ RSpec.describe ChronicDuration do
           short: "6mo 1d",
           default: "6 mos 1 day",
           long: "6 months 1 day",
+          days_and_hours: "181d 0h",
           chrono: "6:01:00:00:00" # Yuck. FIXME
         },
       ((365.25 * 24 * 3600) + (24 * 3600)).to_i =>
@@ -184,6 +191,7 @@ RSpec.describe ChronicDuration do
           short: "1y 1d",
           default: "1 yr 1 day",
           long: "1 year 1 day",
+          days_and_hours: "366d 0h",
           chrono: "1:00:01:00:00:00"
         },
       ((3 * 365.25 * 24 * 3600) + (24 * 3600)).to_i =>
@@ -192,6 +200,7 @@ RSpec.describe ChronicDuration do
           short: "3y 1d",
           default: "3 yrs 1 day",
           long: "3 years 1 day",
+          days_and_hours: "1096d 0h",
           chrono: "3:00:01:00:00:00"
         },
       (3600 * 24 * 30 * 18) =>
@@ -200,6 +209,7 @@ RSpec.describe ChronicDuration do
           short: "18mo",
           default: "18 mos",
           long: "18 months",
+          days_and_hours: "540d 0h",
           chrono: "18:00:00:00:00"
         }
     }
@@ -219,6 +229,7 @@ RSpec.describe ChronicDuration do
         short: "0s",
         default: "0 secs",
         long: "0 seconds",
+        days_and_hours: "0h",
         chrono: "0"
       },
       false =>
@@ -227,6 +238,7 @@ RSpec.describe ChronicDuration do
         short: nil,
         default: nil,
         long: nil,
+        days_and_hours: "0h",
         chrono: "0"
       }
     }
@@ -288,6 +300,8 @@ RSpec.describe ChronicDuration do
 
     exemplars.each do |seconds, format_spec|
       format_spec.each_key do |format|
+        next if format == :days_and_hours # this format is inaccurate
+
         it "outputs a duration for #{seconds} that parses back to the same thing when using the #{format} format" do
           expect(described_class.parse(
                    described_class.output(seconds, format:, use_complete_matcher: true)

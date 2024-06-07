@@ -88,6 +88,7 @@ module ChronicDuration
     hours_per_day = opts[:hours_per_day] || ChronicDuration.hours_per_day
     days_per_month = opts[:days_per_month] || ChronicDuration.days_per_month
     days_per_week = days_per_month / FULL_WEEKS_PER_MONTH
+    seconds_per_year = 31_557_600
 
     years = months = weeks = days = hours = minutes = 0
 
@@ -97,9 +98,9 @@ module ChronicDuration
     hour = 60 * minute
     day = hours_per_day * hour
     month = days_per_month * day
-    year = 31_557_600
+    year = seconds_per_year
 
-    if seconds >= 31_557_600 && seconds % year < seconds % month
+    if seconds >= seconds_per_year && seconds % year < seconds % month
       years = seconds / year
       months = seconds % year / month
       days = seconds % year % month / day
@@ -155,6 +156,21 @@ module ChronicDuration
         years: " year", months: " month", weeks: " week", days: " day", hours: " hour", minutes: " minute", seconds: " second",
         pluralize: true
       }
+    when :days_and_hours
+      dividers = {
+        hours: "h", keep_zero: true
+      }
+
+      days += weeks * days_per_week
+      days += months * days_per_month
+      days += years * seconds_per_year / 3600 / 24
+      dividers[:days] = "d" if days > 0
+      years = months = weeks = 0
+
+      hours += (((minutes * 60) + seconds) / 3600.0).round(2)
+      hours_int = hours.to_i
+      hours = hours_int if hours - hours_int == 0 # if hours end with .0
+      minutes = seconds = 0
     when :chrono
       dividers = {
         years: ":", months: ":", weeks: ":", days: ":", hours: ":", minutes: ":", seconds: ":", keep_zero: true
@@ -175,6 +191,7 @@ module ChronicDuration
 
     result = %i[years months weeks days hours minutes seconds].map do |t|
       next if t == :weeks && !opts[:weeks]
+      next unless dividers[t]
 
       num = eval(t.to_s) # rubocop:disable Security/Eval
       num = ("%.#{decimal_places}f" % num) if num.is_a?(Float) && t == :seconds
