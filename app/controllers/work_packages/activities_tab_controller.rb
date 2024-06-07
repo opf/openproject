@@ -40,25 +40,25 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     render(
       WorkPackages::ActivitiesTab::IndexComponent.new(
         work_package: @work_package,
-        only_comments: params[:only_comments] || false
+        filter: params[:filter]&.to_sym || :all
       ),
       layout: false
     )
   end
 
   def filter_streams
-    only_comments = params[:only_comments] || false
+    filter = params[:filter]&.to_sym || :all
 
     update_via_turbo_stream(
       component: WorkPackages::ActivitiesTab::Journals::FilterComponent.new(
         work_package: @work_package,
-        only_comments:
+        filter:
       )
     )
     update_via_turbo_stream(
       component: WorkPackages::ActivitiesTab::Journals::IndexComponent.new(
         work_package: @work_package,
-        only_comments:
+        filter:
       )
     )
 
@@ -68,8 +68,12 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   def update_streams
     journals = @work_package.journals
 
-    if params[:only_comments] == "true"
+    if params[:filter] == "only_comments"
       journals = journals.where.not(notes: "")
+    end
+
+    if params[:filter] == "only_changes"
+      journals = journals.where(notes: "")
     end
 
     # TODO: prototypical implementation

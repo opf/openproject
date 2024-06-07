@@ -32,8 +32,9 @@ module WorkPackages::ActivitiesTab::Journals
         name: :notes,
         label: nil,
         rich_text_options: {
-          resource: nil,
-          showAttachments: false
+          resource:,
+          showAttachments: false,
+          macros: "none"
         }
       )
     end

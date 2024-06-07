@@ -35,16 +35,16 @@ module WorkPackages
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def initialize(work_package:, only_comments: false)
+      def initialize(work_package:, filter: :all)
         super
 
         @work_package = work_package
-        @only_comments = only_comments
+        @filter = filter
       end
 
       private
 
-      attr_reader :work_package, :only_comments
+      attr_reader :work_package, :filter
 
       def wrapper_data_attributes
         {
@@ -52,7 +52,7 @@ module WorkPackages
           "application-target": "dynamic",
           "work-packages--activities-tab--index-update-streams-url-value": update_streams_work_package_activities_url(work_package),
           "work-packages--activities-tab--index-sorting-value": journal_sorting,
-          "work-packages--activities-tab--index-only-comments-value": only_comments,
+          "work-packages--activities-tab--index-filter-value": filter,
           "work-packages--activities-tab--index-polling-interval-in-ms-value": 60000 # protoypical implementation
         }
       end

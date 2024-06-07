@@ -36,7 +36,7 @@ export default class IndexController extends Controller {
     updateStreamsUrl: String,
     sorting: String,
     pollingIntervalInMs: Number,
-    onlyComments: Boolean,
+    filter: String,
   };
 
   declare updateStreamsUrlValue:string;
@@ -44,7 +44,7 @@ export default class IndexController extends Controller {
   declare lastUpdateTimestamp:string;
   declare intervallId:number;
   declare pollingIntervalInMsValue:number;
-  declare onlyCommentsValue:boolean;
+  declare filterValue:string;
 
   connect() {
     this.lastUpdateTimestamp = new Date().toISOString();
@@ -92,7 +92,7 @@ export default class IndexController extends Controller {
   async updateActivitiesList() {
     const url = new URL(this.updateStreamsUrlValue);
     url.searchParams.append('last_update_timestamp', this.lastUpdateTimestamp);
-    url.searchParams.append('only_comments', this.onlyCommentsValue.toString());
+    url.searchParams.append('filter', this.filterValue);
 
     const response = await fetch(
       url,
@@ -120,11 +120,15 @@ export default class IndexController extends Controller {
     }, this.pollingIntervalInMsValue);
   }
 
-  setOnlyComments() {
-    this.onlyCommentsValue = true;
+  setFilterToOnlyComments() {
+    this.filterValue = 'only_comments';
   }
 
-  unsetOnlyComments() {
-    this.onlyCommentsValue = false;
+  setFilterToOnlyChanges() {
+    this.filterValue = 'only_changes';
+  }
+
+  unsetFilter() {
+    this.filterValue = '';
   }
 }

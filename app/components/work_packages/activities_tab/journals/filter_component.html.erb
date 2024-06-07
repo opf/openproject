@@ -1,23 +1,43 @@
 <%=
   component_wrapper do
-    if journals_with_notes_present? 
-      render(Primer::Alpha::SegmentedControl.new(id: "only-comments-filter", "aria-label": "File view")) do |component|
-        component.with_item(
-          tag: :a,
-          href: filter_streams_work_package_activities_url(work_package),
-          label: t("activities.work_packages.activity_tab.label_activity_show_all"),
-          icon: :pulse,
-          selected: !only_comments,
-          data: { "turbo-stream": true, "action": "click->work-packages--activities-tab--index#unsetOnlyComments" }
-        )
-        component.with_item(
-          tag: :a,
-          href: filter_streams_work_package_activities_url(work_package, only_comments: true),
-          label: t("activities.work_packages.activity_tab.label_activity_show_only_comments"),
-          icon: :"comment-discussion", selected: only_comments,
-          data: { "turbo-stream": true, "action": "click->work-packages--activities-tab--index#setOnlyComments" }
-        )
+    render(Primer::Alpha::ActionMenu.new(select_variant: :single, dynamic_label: true, dynamic_label_prefix: t("activities.work_packages.activity_tab.label_activity_filter"))) do |menu|
+      menu.with_show_button do |button|
+        button.with_trailing_action_icon(icon: :"triangle-down")
+        t("activities.work_packages.activity_tab.label_activity_filter")
       end
+      menu.with_item(
+        label: t("activities.work_packages.activity_tab.label_activity_show_all"),
+        href: filter_streams_work_package_activities_url(work_package),
+        form_arguments: { 
+          method: :get 
+        },
+        content_arguments: {
+          data: { "turbo-stream": true, "action": "click->work-packages--activities-tab--index#unsetFilter" }
+        },
+        active: show_all?
+      )
+      menu.with_item(
+        label: t("activities.work_packages.activity_tab.label_activity_show_only_changes"),
+        href: filter_streams_work_package_activities_url(work_package, filter: :only_changes),
+        form_arguments: {
+          method: :get,
+        },
+        content_arguments: {
+          data: { "turbo-stream": true, "action": "click->work-packages--activities-tab--index#setFilterToOnlyChanges" }
+        },
+        active: show_only_changes?
+      )
+      menu.with_item(
+        label: t("activities.work_packages.activity_tab.label_activity_show_only_comments"),
+        href: filter_streams_work_package_activities_url(work_package, filter: :only_comments),
+        form_arguments: {
+          method: :get,
+        },
+        content_arguments: {
+          data: { "turbo-stream": true, "action": "click->work-packages--activities-tab--index#setFilterToOnlyComments" }
+        },
+        active: show_only_comments?
+      )
     end
   end
 %>

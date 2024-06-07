@@ -36,19 +36,31 @@ module WorkPackages
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
 
-        def initialize(work_package:, only_comments: false)
+        def initialize(work_package:, filter: :all)
           super
 
           @work_package = work_package
-          @only_comments = only_comments
+          @filter = filter
         end
 
         private
 
-        attr_reader :work_package, :only_comments
+        attr_reader :work_package, :filter
 
         def journals_with_notes_present?
           work_package.journals.where.not(notes: "").any?
+        end
+
+        def show_all?
+          filter == :all
+        end
+
+        def show_only_comments?
+          filter == :only_comments
+        end
+
+        def show_only_changes?
+          filter == :only_changes
         end
       end
     end

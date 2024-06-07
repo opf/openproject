@@ -5,30 +5,30 @@
         activties_tab_container.with_row(mb: 2) do
           render(
             WorkPackages::ActivitiesTab::Journals::FilterComponent.new(
-              work_package: work_package,
-              only_comments: only_comments
+              work_package:,
+              filter:
             )
           )
         end
-        if journal_sorting == "desc"
-          activties_tab_container.with_row do
-            render(
-              WorkPackages::ActivitiesTab::Journals::NewComponent.new(work_package:)
-            )
-          end
-        end
+        # if journal_sorting == "desc"
+        #   activties_tab_container.with_row do
+        #     render(
+        #       WorkPackages::ActivitiesTab::Journals::NewComponent.new(work_package:)
+        #     )
+        #   end
+        # end
         activties_tab_container.with_row do
           render(
-            WorkPackages::ActivitiesTab::Journals::IndexComponent.new(work_package:, only_comments:)
+            WorkPackages::ActivitiesTab::Journals::IndexComponent.new(work_package:, filter:)
           )
         end
-        if journal_sorting == "asc"
-          activties_tab_container.with_row do
-            render(
-              WorkPackages::ActivitiesTab::Journals::NewComponent.new(work_package:)
-            )
-          end
-        end
+        # if journal_sorting == "asc"
+        #   activties_tab_container.with_row do
+        #     render(
+        #       WorkPackages::ActivitiesTab::Journals::NewComponent.new(work_package:)
+        #     )
+        #   end
+        # end
       end
     end
   end

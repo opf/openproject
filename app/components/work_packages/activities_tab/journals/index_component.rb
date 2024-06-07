@@ -36,16 +36,16 @@ module WorkPackages
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
 
-        def initialize(work_package:, only_comments: false)
+        def initialize(work_package:, filter: :all)
           super
 
           @work_package = work_package
-          @only_comments = only_comments
+          @filter = filter
         end
 
         private
 
-        attr_reader :work_package, :only_comments
+        attr_reader :work_package, :filter
 
         def insert_target_modified?
           true
@@ -62,7 +62,8 @@ module WorkPackages
         def journals
           result = work_package.journals.includes(:user, :notifications).reorder(version: journal_sorting)
 
-          result = result.where.not(notes: "") if only_comments
+          result = result.where.not(notes: "") if filter == :only_comments
+          result = result.where(notes: "") if filter == :only_changes
 
           result
         end
