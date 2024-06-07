@@ -62,15 +62,6 @@ class SearchController < ApplicationController
     end
   end
 
-  def find_optional_project
-    return true unless params[:project_id]
-
-    @project = Project.find(params[:project_id])
-    check_project_privacy
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
   def limit_results_first_page
     @pagination_previous_date = @results[0].event_datetime if offset && @results[0]
 

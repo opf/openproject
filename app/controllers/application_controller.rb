@@ -458,23 +458,6 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
-  # Make sure that the user is a member of the project (or admin) if project is private
-  # used as a before_action for actions that do not require any particular permission
-  # on the project.
-  def check_project_privacy
-    if @project && @project.active?
-      if @project.public? || User.current.member_of?(@project) || User.current.admin?
-        true
-      else
-        User.current.logged? ? render_403 : require_login
-      end
-    else
-      @project = nil
-      render_404
-      false
-    end
-  end
-
   def back_url
     params[:back_url] || request.env["HTTP_REFERER"]
   end

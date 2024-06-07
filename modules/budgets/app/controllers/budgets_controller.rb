@@ -219,12 +219,6 @@ class BudgetsController < ApplicationController
     render_404
   end
 
-  def find_project
-    @project = Project.find(params[:project_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
   def find_optional_project
     @project = Project.find(params[:project_id]) if params[:project_id].present?
   rescue ActiveRecord::RecordNotFound

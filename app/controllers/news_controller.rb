@@ -112,13 +112,4 @@ class NewsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-
-  def find_optional_project
-    return true unless params[:project_id]
-
-    @project = Project.find(params[:project_id])
-    authorize
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
 end

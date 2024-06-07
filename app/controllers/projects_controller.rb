@@ -104,15 +104,6 @@ class ProjectsController < ApplicationController
     project.project_storages.any?(&:project_folder_automatic?)
   end
 
-  def find_optional_project
-    return true unless params[:id]
-
-    @project = Project.find(params[:id])
-    authorize
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
   def hide_project_in_layout
     @project = nil
   end
