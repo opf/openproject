@@ -60,7 +60,7 @@ be:
       meeting_agenda_item: "Agenda item"
       meeting_agenda: "Agenda"
       meeting_minutes: "Minutes"
-      meeting_section: "Section"
+      meeting_section: "Раздзел"
   activity:
     filter:
       meeting: "Meetings"

@@ -24,7 +24,7 @@ pt-BR:
   label_deploy_target: Deploy target
   label_deploy_target_new: New deploy target
   label_deploy_target_plural: Deploy targets
-  label_github_integration: GitHub Integration
+  label_github_integration: Integração com o GitHub
   notice_deploy_target_created: Deploy target created
   notice_deploy_target_destroyed: Deploy target deleted
   plugin_openproject_github_integration:
@@ -34,6 +34,6 @@ pt-BR:
   permission_show_github_content: "Exibir conteúdo GitHub"
   permission_introspection: Read running OpenProject core version and build SHA
   text_deploy_target_type_info: >
-    So far we only support OpenProject itself.
+    No momento, oferecemos suporte apenas ao próprio OpenProject
   text_deploy_target_api_key_info: >
-    An OpenProject [API key](docs_url) belonging to a user who has the global introspection permission.
+    Uma [API key](docs_url) do OpenProject pertencente a um usuário que tenha permissões globais de introspecção.

@@ -430,7 +430,7 @@ ms:
     upsale:
       title: Pengguna placeholder
       description: >
-        Placeholder ialah satu cara untuk memperuntukkan pakej kerja kepada pengguna yang bukan sebahagian daripada projek anda. Ianya berguna dalam pelbagai senario; contohnya, jika anda perlu menjejaki tugas untuk sumber yang masih belum dinamakan atau disediakan, atau jika anda tidak ingin memberikan seseorang akses ke OpenProject, tetapi masih hendak menjejaki tugas yang telah diperuntukkan ke mereka.
+        Pengguna placeholder ialah satu cara untuk memperuntukkan pakej kerja kepada pengguna yang bukan sebahagian daripada projek anda. Ianya berguna dalam pelbagai senario; contohnya, jika anda perlu menjejaki tugas untuk sumber yang masih belum dinamakan atau disediakan, atau jika anda tidak ingin memberikan akses kepada seseorang di OpenProject, tetapi masih hendak menjejaki tugas yang telah diperuntukkan ke mereka.
   prioritiies:
     edit:
       priority_color_text: |
@@ -722,7 +722,7 @@ ms:
         begin_insertion: "Permulaan kemasukan"
         begin_deletion: "Permulaan pemadaman"
         children: "Subelemen"
-        derived_done_ratio: "Jumlah % disiapkan"
+        derived_done_ratio: "Jumlah % selesai"
         derived_remaining_hours: "Jumlah kerja berbaki"
         derived_remaining_time: "Jumlah kerja berbaki"
         done_ratio: "% Selesai"
@@ -1030,6 +1030,7 @@ ms:
               only_same_project_categories_allowed: "Kategori pakej kerja mesti dalam projek yang sama dengan pakej kerja."
               does_not_exist: "Kategori yang ditentukan tidak wujud."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Tidak boleh lebih rendah daripada kerja yang Berbaki."
               must_be_set_when_remaining_work_is_set: "Diperlukan apabila kerja yang Berbaki ditetapkan."
               only_values_greater_or_equal_zeroes_allowed: "Perlu >= 0."
@@ -1493,7 +1494,7 @@ ms:
         add_groups: "Tambah kumpulan atribut baharu"
         rename_groups: "Nama semula kumpulan atribut"
       project_filters:
-        description_html: "Menyaring dan menyusun ruang tersuai ialah tambahan edisi Enterprise."
+        description_html: "Menyaring dan menyusun ruang tersuai adalah tambahan edisi Enterprise."
   enumeration_activities: "Aktiviti penjejakan masa"
   enumeration_work_package_priorities: "Keutamaan pakej kerja"
   enumeration_reported_project_statuses: "Status projek yang dilaporkan"
@@ -1679,7 +1680,7 @@ ms:
     admin:
       mail_notification: "Pemberitahuan e-mel"
       mails_and_notifications: "E-mel dan pemberitahuan"
-      aggregation: "Pengagregatan"
+      aggregation: "Pengumpulan"
       api_and_webhooks: "API dan webhooks"
     quick_add:
       label: "Buka menu tambah cepat"
@@ -3109,7 +3110,7 @@ ms:
   text_custom_field_hint_activate_per_project_and_type: >
     Ruang tersuai perlu diaktifkan untuk setiap jenis pakej kerja dan setiap projek.
   text_wp_status_read_only_html: >
-    Edisi Enterprise akan menambahkan segala tambahan ke ruang status pakej kerja: <br> <ul> <li><b>Benarkan untuk menandakan pakej kerja untuk baca sahaja pada status tertentu </b></li> </ul>
+    Edisi Enterprise akan menambahkan segala tambahan ke ruang status pakej kerja: <br> <ul> <li><b>Benarkan untuk menandakan pakej kerja untuk baca-sahaja pada status tertentu </b></li> </ul>
   text_project_custom_field_html: >
     Edisi Enterprise akan menambahkan segala jenis tambahan ke ruang tersuai projek: <br> <ul> <li><b> Tambah ruang tersuai ke projek ke senarai Projek anda untuk ciptakan paparan portfolio project </b></li> </ul>
   text_custom_logo_instructions: >
@@ -3301,7 +3302,7 @@ ms:
     https_mismatch:
       title: "Mod penyediaan HTTPS tidak sepadan"
       text_html: >
-        Aplikasi anda sedang berjalan dengan mod HTTPS ditetapkan kepada <code>%{set_protocol}</code>, tetapi permintaannya ialah permintaan <code>%{actual_protocol}</code>. Ini akan mengakibatkan ralat! Anda perlu menetapkan nilai konfigurasi seperti yang berikut: <code>%{setting_value}</code>. Sila lihat <a href="%{more_info_path}">dokumentasi pemasangan</a> atas cara-cara untuk menetapkan konfigurasi ini.
+        Aplikasi anda sedang berjalan dengan mod HTTPS ditetapkan kepada <code>%{set_protocol}</code>, tetapi permintaannya adalah permintaan <code>%{actual_protocol}</code>. Ini akan mengakibatkan ralat! Anda perlu menetapkan nilai konfigurasi seperti yang berikut: <code>%{setting_value}</code>. Sila lihat <a href="%{more_info_path}">dokumentasi pemasangan</a> atas cara-cara untuk menetapkan konfigurasi ini.
     hostname_mismatch:
       title: "Tetapan nama hos tidak sepadan"
       text_html: >

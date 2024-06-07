@@ -1050,6 +1050,7 @@ lt:
               only_same_project_categories_allowed: "Darbų paketo kategorija turi būti tame pačiame projekte kaip ir darbų paketas."
               does_not_exist: "Nurodyta kategorija neegzistuoja."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Negali būti mažesnis už likusį darbą."
               must_be_set_when_remaining_work_is_set: "Privaloma, kai nustatytas likęs darbas."
               only_values_greater_or_equal_zeroes_allowed: "Turi būti >= 0."

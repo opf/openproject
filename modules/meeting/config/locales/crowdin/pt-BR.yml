@@ -58,7 +58,7 @@ pt-BR:
       meeting_agenda_item: "Item da agenda"
       meeting_agenda: "Agenda"
       meeting_minutes: "Atas"
-      meeting_section: "Section"
+      meeting_section: "Seção"
   activity:
     filter:
       meeting: "Reuniões"
