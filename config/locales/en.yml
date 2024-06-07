@@ -36,10 +36,11 @@ en:
       activity_tab:
         no_results_title_text: Nothing to display
         no_results_description_text: "Try to update your filter to see more."
-        label_activity_filter: "Show"
-        label_activity_show_all: "everything"
-        label_activity_show_only_comments: "comments only"
-        label_activity_show_only_changes: "changes only"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Oldest on top"
+        label_sort_desc: "Newest on top"
 
 
   admin:

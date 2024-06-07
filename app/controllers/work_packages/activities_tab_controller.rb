@@ -46,11 +46,11 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     )
   end
 
-  def filter_streams
+  def update_filter
     filter = params[:filter]&.to_sym || :all
 
     update_via_turbo_stream(
-      component: WorkPackages::ActivitiesTab::Journals::FilterComponent.new(
+      component: WorkPackages::ActivitiesTab::Journals::FilterAndSortingComponent.new(
         work_package: @work_package,
         filter:
       )
@@ -146,6 +146,34 @@ class WorkPackages::ActivitiesTabController < ApplicationController
       )
     end
     # TODO: handle errors
+
+    respond_with_turbo_streams
+  end
+
+  def update_sorting
+    filter = params[:filter]&.to_sym || :all
+
+    # User.current.preference.update!(comments_sorting: params[:sorting])
+
+    call = Users::UpdateService.new(user: User.current, model: User.current).call(
+      pref: { comments_sorting: params[:sorting] }
+    )
+
+    if call.success?
+      update_via_turbo_stream(
+        component: WorkPackages::ActivitiesTab::Journals::FilterAndSortingComponent.new(
+          work_package: @work_package,
+          filter:
+        )
+      )
+
+      update_via_turbo_stream(
+        component: WorkPackages::ActivitiesTab::Journals::IndexComponent.new(
+          work_package: @work_package,
+          filter:
+        )
+      )
+    end
 
     respond_with_turbo_streams
   end

@@ -31,7 +31,7 @@
 module WorkPackages
   module ActivitiesTab
     module Journals
-      class FilterComponent < ApplicationComponent
+      class FilterAndSortingComponent < ApplicationComponent
         include ApplicationHelper
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
@@ -47,10 +47,6 @@ module WorkPackages
 
         attr_reader :work_package, :filter
 
-        def journals_with_notes_present?
-          work_package.journals.where.not(notes: "").any?
-        end
-
         def show_all?
           filter == :all
         end
@@ -61,6 +57,18 @@ module WorkPackages
 
         def show_only_changes?
           filter == :only_changes
+        end
+
+        def journal_sorting
+          User.current.preference&.comments_sorting || "desc"
+        end
+
+        def desc_sorting?
+          journal_sorting == "desc"
+        end
+
+        def asc_sorting?
+          journal_sorting == "asc"
         end
       end
     end
