@@ -182,7 +182,7 @@ gem "i18n-js", "~> 4.2.3"
 gem "rails-i18n", "~> 7.0.0"
 
 gem "sprockets", "~> 3.7.2" # lock sprockets below 4.0
-gem "sprockets-rails", "~> 3.4.2"
+gem "sprockets-rails", "~> 3.5.1"
 
 gem "puma", "~> 6.4"
 gem "puma-plugin-statsd", "~> 2.0"
