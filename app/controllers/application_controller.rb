@@ -47,6 +47,7 @@ class ApplicationController < ActionController::Base
   include ErrorsHelper
   include Accounts::CurrentUser
   include Accounts::UserLogin
+  include Accounts::Authorization
   include ::OpenProject::Authentication::SessionExpiry
   include AdditionalUrlHelpers
   include OpenProjectErrorHelper
@@ -130,7 +131,8 @@ class ApplicationController < ActionController::Base
                payload: ::OpenProject::Logging::ThreadPoolContextBuilder.build!
   end
 
-  before_action :user_setup,
+  before_action :authorization_check_required,
+                :user_setup,
                 :set_localization,
                 :tag_request,
                 :check_if_login_required,
@@ -359,17 +361,12 @@ class ApplicationController < ActionController::Base
 
   # Find a project based on params[:project_id]
   # TODO: some subclasses override this, see about merging their logic
-  def find_optional_project
-    find_optional_project_and_raise_error
+  def authorize_in_optional_project
+    @project = Project.find(params[:project_id]) if params[:project_id].present?
+
+    do_authorize({ controller: params[:controller], action: params[:action] }, global: params[:project_id].blank?)
   rescue ActiveRecord::RecordNotFound
     render_404
-  end
-
-  def find_optional_project_and_raise_error
-    @project = Project.find(params[:project_id]) if params[:project_id].present?
-    allowed = User.current.allowed_based_on_permission_context?({ controller: params[:controller], action: params[:action] },
-                                                                project: @project)
-    allowed ? true : deny_access
   end
 
   # Finds and sets @project based on @object.project
