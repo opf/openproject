@@ -5,8 +5,10 @@
         border_grid.with_row { render(Storages::Admin::Sidebar::ConnectionValidationComponent.new(storage: @storage)) }
       end
 
-      border_grid.with_row { render(Storages::Admin::Sidebar::HealthStatusComponent.new(storage: @storage)) }
-      border_grid.with_row { render(Storages::Admin::Sidebar::HealthNotificationsComponent.new(storage: @storage)) }
+      if @storage.automatic_management_enabled?
+        border_grid.with_row { render(Storages::Admin::Sidebar::HealthStatusComponent.new(storage: @storage)) }
+        border_grid.with_row { render(Storages::Admin::Sidebar::HealthNotificationsComponent.new(storage: @storage)) }
+      end
     end
   end
 %>

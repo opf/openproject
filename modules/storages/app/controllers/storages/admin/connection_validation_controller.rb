@@ -44,6 +44,7 @@ module Storages
 
       before_action :find_model_object, only: %i[validate_connection]
 
+      # rubocop:disable Metrics/AbcSize
       def validate_connection
         @result = maybe_is_not_configured
                     .or { drive_id_wrong }
@@ -51,6 +52,7 @@ module Storages
                     .or { client_id_wrong }
                     .or { client_secret_wrong }
                     .or { request_failed_with_unknown_error }
+                    .or { drive_with_unexpected_content }
                     .value_or(ConnectionValidation.new(icon: "check-circle",
                                                        scheme: :success,
                                                        description: I18n.t("storages.connection_validation.success")))
@@ -59,6 +61,8 @@ module Storages
           format.turbo_stream
         end
       end
+
+      # rubocop:enable Metrics/AbcSize
 
       private
 
@@ -119,6 +123,25 @@ module Storages
                                       scheme: :danger,
                                       description: I18n.t("storages.connection_validation.client_secret_wrong")))
       end
+
+      # rubocop:disable Metrics/AbcSize
+      def drive_with_unexpected_content
+        return None() if query.failure?
+        return None() unless @storage.automatic_management_enabled?
+
+        expected_folder_ids = @storage.project_storages
+                                      .where(project_folder_mode: "automatic")
+                                      .map(&:project_folder_id)
+
+        unexpected_files = query.result.files.reject { |file| expected_folder_ids.include?(file.id) }
+        return None() if unexpected_files.empty?
+
+        Some(ConnectionValidation.new(icon: :alert,
+                                      scheme: :warning,
+                                      description: I18n.t("storages.connection_validation.unexpected_content")))
+      end
+
+      # rubocop:enable Metrics/AbcSize
 
       def request_failed_with_unknown_error
         return None() if query.success?
