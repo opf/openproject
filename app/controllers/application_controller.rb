@@ -241,77 +241,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def authorize_in_project(ctrl = params[:controller], action = params[:action])
-    authorization_project = @project || @projects
-    allowed = User.current.allowed_in_project?({ controller: ctrl, action: }, authorization_project)
-
-    unless allowed
-      if @project&.archived?
-        render_403 message: :notice_not_authorized_archived_project
-      else
-        deny_access
-      end
-    end
-
-    allowed
-  end
-
-  def authorize_globally(ctrl = params[:controller], action = params[:action])
-    allowed = User.current.allowed_globally?({ controller: ctrl, action: })
-
-    deny_access unless allowed
-
-    allowed
-  end
-
-  def authorize_in_any_project(ctrl = params[:controller], action = params[:action])
-    allowed = User.current.allowed_in_any_project?({ controller: ctrl, action: })
-
-    deny_access unless allowed
-
-    allowed
-  end
-
-  def authorize_in_model(ctrl = params[:controller], action = params[:action])
-    model = instance_variable_get(:"@#{model_object.to_s.underscore}")
-
-    allowed = User.current.allowed_in_entity?({ controller: ctrl, action: }, model, model_object)
-
-    unless allowed
-      if model.respond_to?(:project) && model.project&.archived?
-        render_403 message: :notice_not_authorized_archived_project
-      else
-        deny_access
-      end
-    end
-
-    allowed
-  end
-
-  def authorize_in_any_model(ctrl = params[:controller], action = params[:action])
-    allowed = if @project
-                User.current.allowed_in_any_entity?({ controller: ctrl, action: }, model_object, in_project: @project)
-              else
-                User.current.allowed_in_any_entity?({ controller: ctrl, action: }, model_object)
-              end
-
-    deny_access unless allowed
-
-    allowed
-  end
-
   # Authorize the user for the requested controller action.
   # To be used in before_action hooks
   def authorize(ctrl = params[:controller], action = params[:action])
-    # OpenProject::Deprecation.deprecate_method(ApplicationController, :authorize)
     do_authorize({ controller: ctrl, action: }, global: false)
   end
 
   # Authorize the user for the requested controller action outside a project
   # To be used in before_action hooks
   def authorize_global
-    # OpenProject::Deprecation.deprecate_method(ApplicationController, :authorize_global)
-
     action = { controller: params[:controller], action: params[:action] }
     do_authorize(action, global: true)
   end
@@ -322,10 +260,6 @@ class ApplicationController < ActionController::Base
   # * a parameter-like Hash (eg. { controller: '/projects', action: 'edit' })
   # * a permission Symbol (eg. :edit_project)
   def do_authorize(action, global: false) # rubocop:disable Metrics/PerceivedComplexity
-    # OpenProject::Deprecation.deprecate_method(ApplicationController, :do_authorize)
-    # context = @project || @projects
-    # old_authorized = User.current.allowed_to?(action, context, global:)
-
     is_authorized = if global
                       User.current.allowed_based_on_permission_context?(action)
                     else
