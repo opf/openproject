@@ -222,8 +222,8 @@ class ApplicationController < ActionController::Base
   end
 
   def set_localization
-    # 1. Use completely autheticated user
-    # 2. Use user with some authenticated stages not compelted.
+    # 1. Use completely authenticated user
+    # 2. Use user with some authenticated stages not completed.
     #    In this case user is not considered logged in, but identified.
     #    It covers localization for extra authentication stages(like :consent, for example)
     # 3. Use anonymous instance.
