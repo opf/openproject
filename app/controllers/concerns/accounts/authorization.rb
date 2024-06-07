@@ -43,11 +43,7 @@ module Accounts::Authorization
                     }
   end
 
-  def require_admin
-    return unless require_login
-
-    render_403 unless current_user.admin?
-  end
+  private
 
   def authorization_check_required
     unless authorization_is_ensured?(params[:action])
@@ -66,7 +62,57 @@ module Accounts::Authorization
     end
   end
 
-  private
+  # Authorize the user for the requested controller action.
+  # To be used in before_action hooks
+  def authorize(ctrl = params[:controller], action = params[:action])
+    do_authorize({ controller: ctrl, action: }, global: false)
+  end
+
+  # Authorize the user for the requested controller action outside a project
+  # To be used in before_action hooks
+  def authorize_global
+    action = { controller: params[:controller], action: params[:action] }
+    do_authorize(action, global: true)
+  end
+
+  # Find a project based on params[:project_id]
+  def authorize_in_optional_project
+    @project = Project.find(params[:project_id]) if params[:project_id].present?
+
+    do_authorize({ controller: params[:controller], action: params[:action] }, global: params[:project_id].blank?)
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
+  # Deny access if user is not allowed to do the specified action.
+  #
+  # Action can be:
+  # * a parameter-like Hash (eg. { controller: '/projects', action: 'edit' })
+  # * a permission Symbol (eg. :edit_project)
+  def do_authorize(action, global: false) # rubocop:disable Metrics/PerceivedComplexity
+    is_authorized = if global
+                      User.current.allowed_based_on_permission_context?(action)
+                    else
+                      User.current.allowed_based_on_permission_context?(action,
+                                                                        project: @project || @projects,
+                                                                        entity: @work_package || @work_packages)
+                    end
+
+    unless is_authorized
+      if @project&.archived?
+        render_403 message: :notice_not_authorized_archived_project
+      else
+        deny_access
+      end
+    end
+    is_authorized
+  end
+
+  def require_admin
+    return unless require_login
+
+    render_403 unless current_user.admin?
+  end
 
   def authorization_is_ensured?(action)
     return false if authorization_ensured.nil?

@@ -241,42 +241,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # Authorize the user for the requested controller action.
-  # To be used in before_action hooks
-  def authorize(ctrl = params[:controller], action = params[:action])
-    do_authorize({ controller: ctrl, action: }, global: false)
-  end
-
-  # Authorize the user for the requested controller action outside a project
-  # To be used in before_action hooks
-  def authorize_global
-    action = { controller: params[:controller], action: params[:action] }
-    do_authorize(action, global: true)
-  end
-
-  # Deny access if user is not allowed to do the specified action.
-  #
-  # Action can be:
-  # * a parameter-like Hash (eg. { controller: '/projects', action: 'edit' })
-  # * a permission Symbol (eg. :edit_project)
-  def do_authorize(action, global: false) # rubocop:disable Metrics/PerceivedComplexity
-    is_authorized = if global
-                      User.current.allowed_based_on_permission_context?(action)
-                    else
-                      User.current.allowed_based_on_permission_context?(action, project: @project || @projects,
-                                                                                entity: @work_package || @work_packages)
-                    end
-
-    unless is_authorized
-      if @project&.archived?
-        render_403 message: :notice_not_authorized_archived_project
-      else
-        deny_access
-      end
-    end
-    is_authorized
-  end
-
   # Find project of id params[:id]
   # Note: find() is Project.friendly.find()
   def find_project
@@ -289,16 +253,6 @@ class ApplicationController < ActionController::Base
   # Note: find() is Project.friendly.find()
   def find_project_by_project_id
     @project = Project.find(params[:project_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
-  # Find a project based on params[:project_id]
-  # TODO: some subclasses override this, see about merging their logic
-  def authorize_in_optional_project
-    @project = Project.find(params[:project_id]) if params[:project_id].present?
-
-    do_authorize({ controller: params[:controller], action: params[:action] }, global: params[:project_id].blank?)
   rescue ActiveRecord::RecordNotFound
     render_404
   end
