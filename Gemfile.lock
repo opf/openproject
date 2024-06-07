@@ -386,7 +386,7 @@ GEM
     brakeman (6.1.2)
       racc
     browser (6.0.0)
-    builder (3.2.4)
+    builder (3.3.0)
     byebug (11.1.3)
     capybara (3.40.0)
       addressable
@@ -775,7 +775,7 @@ GEM
       actionview
       openproject-octicons (= 19.14.0)
       railties
-    openproject-primer_view_components (0.33.1)
+    openproject-primer_view_components (0.33.2)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
       openproject-octicons (>= 19.12.0)
