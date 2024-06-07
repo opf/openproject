@@ -32,12 +32,14 @@ class WorkPackages::ProgressForm < ApplicationForm
   def initialize(work_package:,
                  mode: :work_based,
                  focused_field: :remaining_hours,
+                 format_durations: true,
                  touched_field_map: {})
     super()
 
     @work_package = work_package
     @mode = mode
     @focused_field = focused_field_by_selection(focused_field)
+    @format_durations = format_durations
     @touched_field_map = touched_field_map
     ensure_only_one_error_for_remaining_work_exceeding_work
   end
@@ -156,7 +158,7 @@ class WorkPackages::ProgressForm < ApplicationForm
     errors = @work_package.errors.where(name)
     if (user_value = errors.map { |error| error.options[:value] }.find { !_1.nil? })
       user_value
-    elsif name == :done_ratio
+    elsif name == :done_ratio || !@format_durations
       format_to_smallest_fractional_part(@work_package.public_send(name))
     else
       DurationConverter.output(@work_package.public_send(name))

@@ -48,13 +48,21 @@ module WorkPackages
       include OpPrimer::ComponentHelpers
       include OpenProject::StaticRouting::UrlHelpers
 
-      attr_reader :work_package, :mode, :focused_field, :touched_field_map
+      attr_reader :work_package,
+                  :mode,
+                  :focused_field,
+                  :format_durations,
+                  :touched_field_map
 
-      def initialize(work_package, focused_field: nil, touched_field_map: {})
+      def initialize(work_package,
+                     focused_field: nil,
+                     format_durations: true,
+                     touched_field_map: {})
         super()
 
         @work_package = work_package
         @focused_field = map_field(focused_field)
+        @format_durations = format_durations || false
         @touched_field_map = touched_field_map
       end
 

@@ -62,6 +62,7 @@ export default class PreviewProgressController extends Controller {
 
     this.progressInputTargets.forEach((target) => {
       target.addEventListener('input', this.debouncedPreview);
+      target.addEventListener('blur', this.debouncedPreview);
     });
 
     const turboFrame = this.formTarget.closest('turbo-frame') as HTMLFrameElement;
@@ -69,7 +70,10 @@ export default class PreviewProgressController extends Controller {
   }
 
   disconnect() {
-    this.progressInputTargets.forEach((target) => target.removeEventListener('input', this.debouncedPreview));
+    this.progressInputTargets.forEach((target) => {
+      target.removeEventListener('input', this.debouncedPreview);
+      target.removeEventListener('blur', this.debouncedPreview);
+    });
     const turboFrame = this.formTarget.closest('turbo-frame') as HTMLFrameElement;
     turboFrame.removeEventListener('turbo:before-frame-render', this.frameMorphRenderer);
   }
@@ -87,6 +91,7 @@ export default class PreviewProgressController extends Controller {
       ['work_package[remaining_hours_touched]', formParams.get('work_package[remaining_hours_touched]') || ''],
       ['work_package[estimated_hours_touched]', formParams.get('work_package[estimated_hours_touched]') || ''],
       ['work_package[status_id_touched]', formParams.get('work_package[status_id_touched]') || ''],
+      ['format_durations', event.type === 'blur' ? 'true' : 'false'],
     ];
 
     const wpPath = this.ensureValidPathname(form.action);
