@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,16 +28,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Token
-  class API < HashedToken
-    def name
-      data[:name]
-    end
-
-    private
-
-    def single_value?
-      false
+module My
+  module AccessToken
+    class NewAccessTokenForm < ApplicationForm
+      form do |f|
+        f.group(layout: :horizontal) do |f_group|
+          f_group.text_field(
+            name: :token_name,
+            label: I18n.t("my.access_token.new_access_token_dialog_text_field_label"),
+            placeholder: I18n.t("my.access_token.new_access_token_dialog_text_field_placeholder_text")
+          )
+        end
+      end
     end
   end
 end

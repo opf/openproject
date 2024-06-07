@@ -55,12 +55,12 @@ class MyController < ApplicationController
                              :revoke_api_key,
                              :revoke_ical_token
 
-  menu_item :account,             only: [:account]
-  menu_item :settings,            only: [:settings]
-  menu_item :password,            only: [:password]
-  menu_item :access_token,        only: [:access_token]
-  menu_item :notifications,       only: [:notifications]
-  menu_item :reminders,           only: [:reminders]
+  menu_item :account, only: [:account]
+  menu_item :settings, only: [:settings]
+  menu_item :password, only: [:password]
+  menu_item :access_token, only: [:access_token]
+  menu_item :notifications, only: [:notifications]
+  menu_item :reminders, only: [:reminders]
 
   def account; end
 
@@ -97,9 +97,9 @@ class MyController < ApplicationController
 
   def delete_storage_token
     token = OAuthClientToken
-      .preload(:oauth_client)
-      .joins(:oauth_client)
-      .where(user: @user, oauth_client: { integration_type: "Storages::Storage" }).find_by(id: params[:id])
+              .preload(:oauth_client)
+              .joins(:oauth_client)
+              .where(user: @user, oauth_client: { integration_type: "Storages::Storage" }).find_by(id: params[:id])
 
     if token&.destroy
       flash[:info] = I18n.t("my_account.access_tokens.storages.removed")
@@ -158,7 +158,7 @@ class MyController < ApplicationController
 
   # Create a new API key
   def generate_api_key
-    token = Token::API.create!(user: current_user)
+    token = Token::API.create!(user: current_user, data: { name: params[:token_name] })
     flash[:info] = [
       t("my.access_token.notice_reset_token", type: "API").html_safe,
       content_tag(:strong, token.plain_value),
@@ -213,8 +213,8 @@ class MyController < ApplicationController
 
   def write_settings
     result = Users::UpdateService
-             .new(user: current_user, model: current_user)
-             .call(user_params)
+               .new(user: current_user, model: current_user)
+               .call(user_params)
 
     if result&.success
       flash[:notice] = notice_account_updated
@@ -272,9 +272,9 @@ class MyController < ApplicationController
 
   def set_grouped_ical_tokens
     @ical_tokens_grouped_by_query = current_user.ical_tokens
-      .joins(ical_token_query_assignment: { query: :project })
-      .select("tokens.*, ical_token_query_assignments.query_id")
-      .group_by(&:query_id)
+                                                .joins(ical_token_query_assignment: { query: :project })
+                                                .select("tokens.*, ical_token_query_assignments.query_id")
+                                                .group_by(&:query_id)
   end
 
   def ical_destroy_info_message

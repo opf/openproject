@@ -428,6 +428,13 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
 
   my:
     access_token:
+      new_access_token_dialog_title: "Create new API token"
+      new_access_token_dialog_show_button_text: "API Token"
+      new_access_token_dialog_text_field_placeholder_text: "My API token"
+      new_access_token_dialog_text_field_label: "Name"
+      new_access_token_dialog_submit_button_text: "Create"
+      new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To generate a new API token please introduce a token name."
+      new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Failed to reset access token: %{error}"
       notice_reset_token: "A new %{type} token has been generated. Your access token is:"
       token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,16 +28,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Token
-  class API < HashedToken
-    def name
-      data[:name]
-    end
+module My
+  module AccessToken
+    class NewAccessTokenComponent < ApplicationComponent
+      include OpTurbo::Streamable
 
-    private
+      options dialog_id: "my--new-access-token-component",
+              dialog_body_id: "my--new-access-token-body-component"
 
-    def single_value?
-      false
+      private
+
+      def title
+        I18n.t("my.access_token.new_access_token_dialog_title")
+      end
+
+      def text
+        I18n.t("my.access_token.new_access_token_dialog_text")
+      end
+
+      def attention_text
+        I18n.t("my.access_token.new_access_token_dialog_attention_text")
+      end
+
+      def show_button_text
+        I18n.t("my.access_token.new_access_token_dialog_show_button_text")
+      end
+
+      def cancel_button_text
+        I18n.t("button_cancel")
+      end
+
+      def submit_button_text
+        I18n.t("my.access_token.new_access_token_dialog_submit_button_text")
+      end
     end
   end
 end
