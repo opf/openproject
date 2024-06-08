@@ -1036,6 +1036,7 @@ ms:
               only_values_greater_or_equal_zeroes_allowed: "Perlu >= 0."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "is not a valid duration."
               cant_exceed_work: "Tidak boleh lebih tinggi daripada Kerja."
               must_be_set_when_work_is_set: "Diperlukan apabila Kerja ditetapkan."
               format: "%{message}"

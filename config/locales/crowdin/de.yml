@@ -1040,6 +1040,7 @@ de:
               only_values_greater_or_equal_zeroes_allowed: "Muss >= 0 sein."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "is not a valid duration."
               cant_exceed_work: "Kann nicht größer als der Aufwand sein."
               must_be_set_when_work_is_set: "Ist erforderlich, wenn Aufwand gesetzt ist."
               format: "%{message}"
