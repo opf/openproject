@@ -447,7 +447,7 @@ cs:
       irreversible: "Tato akce je nevratná"
       confirmation: "Zadejte název zástupného uživatele %{name} pro potvrzení odstranění."
     upsale:
-      title: Placeholder uživatel
+      title: placeholder uživatel
       description: >
         Placeholder uživatelé jsou způsob, jak přiřadit pracovní balíčky uživatelům, kteří nejsou součástí vašeho projektu. Mohou být užiteční v řadě scénářů; například, pokud potřebujete sledovat úkoly u zdroje, který ještě nejsou pojmenovány nebo dostupné, nebo pokud nechcete této osobě umožnit přístup k OpenProject ale stále chcete sledovat úkoly, které jim byly přiděleny.
   prioritiies:
@@ -662,7 +662,7 @@ cs:
           false: "archivováno"
         identifier: "Identifikátor"
         latest_activity_at: "Poslední aktivita"
-        parent: "Nadřazený projekt"
+        parent: "Podprojekt"
         public_value:
           title: "Viditelnost"
           true: "veřejný"
@@ -759,7 +759,7 @@ cs:
           true: "zahrnuje nepracovní dny"
         notify: "Oznámit" #used in custom actions
         parent: "Nadřazený"
-        parent_issue: "Nadřazený"
+        parent_issue: "Rodič"
         parent_work_package: "Nadřazený"
         priority: "Priorita"
         progress: "% Dokončeno"
@@ -897,7 +897,7 @@ cs:
               blank: "je povinné. Zvolte prosím název."
               not_unique: " už bylo použito. Prosím vyberte jiný název."
         notifications:
-          at_least_one_channel: "Pro odesílání notifikací musí být specifikován alespoň jeden kanál"
+          at_least_one_channel: "Alespoň jeden kanál pro odesílání oznámení musí být specifikován."
           attributes:
             read_ian:
               read_on_creation: "nelze nastavit na pravdivé při vytváření oznámení "
@@ -1134,11 +1134,11 @@ cs:
       member: "Člen"
       news: "Novinky"
       notification:
-        one: "Notifikace"
-        few: "Notifikací"
-        many: "Notifikací"
-        other: "Notifikace"
-      placeholder_user: "Placeholder uživatel"
+        one: "Oznámení"
+        few: "Oznámení"
+        many: "Oznámení"
+        other: "Oznámení"
+      placeholder_user: "placeholder uživatel"
       project: "Projekt"
       query: "Vlastní dotaz"
       role:
@@ -1779,7 +1779,7 @@ cs:
   instructions_after_error: "Zkuste se znovu přihlásit kliknutím na %{signin}. Pokud chyba přetrvává, požádejte správce o pomoc."
   menus:
     admin:
-      mail_notification: "E-mailové notifikace"
+      mail_notification: "E-mailová upozornění"
       mails_and_notifications: "E-maily a oznámení"
       aggregation: "Agregace"
       api_and_webhooks: "API & Webhooky"
@@ -1826,7 +1826,7 @@ cs:
         failed: "Došlo k chybě a token nemohl být odstraněn. Opakujte akci později."
         unknown_storage: "Neznámé úložiště"
   notifications:
-    send_notifications: "Pro tuto akci odeslat notifikaci"
+    send_notifications: "Odeslat oznámení pro tuto akci"
     work_packages:
       subject:
         created: "Pracovní balíček byl vytvořen."
@@ -2210,9 +2210,9 @@ cs:
   label_permissions: "Práva"
   label_permissions_report: "Přehled oprávnění"
   label_personalize_page: "Přizpůsobit tuto stránku"
-  label_placeholder_user: "Placeholder uživatel"
+  label_placeholder_user: "placeholder uživatel"
   label_placeholder_user_new: ""
-  label_placeholder_user_plural: "Placeholder uživatelé"
+  label_placeholder_user_plural: "placeholder uživatelé"
   label_planning: "Plánování"
   label_please_login: "Přihlaste se prosím"
   label_plugins: "Pluginy"
@@ -2233,7 +2233,7 @@ cs:
   label_project_attribute_plural: "Atributy projektu"
   label_project_attribute_manage_link: "Správa atributů produktu"
   label_project_count: "Celkový počet projektů"
-  label_project_copy_notifications: "Během kopírování projektu odeslat notifikace e-mailem"
+  label_project_copy_notifications: "Během kopie projektu odeslat oznámení e-mailem"
   label_project_latest: "Nejnovější projekty"
   label_project_default_type: "Povolit prázdný typ"
   label_project_hierarchy: "Hierarchie projektu"
@@ -2371,7 +2371,7 @@ cs:
   label_users_settings: "Uživatelská nastavení"
   label_version_new: "Nová verze"
   label_version_plural: "Verze"
-  label_version_sharing_descendants: "S podprojekty"
+  label_version_sharing_descendants: "S Podprojekty"
   label_version_sharing_hierarchy: "S hierarchií projektu"
   label_version_sharing_none: "Není sdíleno"
   label_version_sharing_system: "Se všemi projekty"
@@ -2475,28 +2475,28 @@ cs:
     digests:
       including_mention_singular: "včetně zmínky"
       including_mention_plural: "včetně %{number_mentioned} zmínění"
-      unread_notification_singular: "1 nepřečtená notifikace"
-      unread_notification_plural: "%{number_unread} nepřečtených notifikací"
+      unread_notification_singular: "1 nepřečtené oznámení"
+      unread_notification_plural: "%{number_unread} nepřečtených oznámení"
       you_have: "Máte"
     logo_alt_text: "Logo"
     mention:
       subject: "%{user_name} vás zmínil v #%{id} - %{subject}"
     notification:
-      center: "Centrum notifikací"
+      center: "Centrum oznámení"
       see_in_center: "Zobrazit komentář v oznamovacím centru"
       settings: "Změnit nastavení e-mailu"
     salutation: "Ahoj %{user}!"
     salutation_full_name: "Jméno a příjmení"
     work_packages:
       created_at: "Vytvořeno v %{timestamp} uživatelem %{user} "
-      login_to_see_all: "Přihlaste se pro zobrazení všech notifikací."
+      login_to_see_all: "Přihlaste se pro zobrazení všech oznámení."
       mentioned: "Byli jste <b>zmíněni v komentáři</b>"
       mentioned_by: "%{user} vás zmínil v komentáři"
       more_to_see:
-        one: "Existuje ještě 1 pracovní balíček s notifikací."
-        few: "Existuje ještě %{count} pracovních balíčků s notifikacema."
-        many: "Existuje ještě %{count} pracovních balíčků s notifikacema."
-        other: "Existuje ještě %{count} pracovních balíčků s notifikacema."
+        one: "Existuje ještě 1 pracovní balíček s oznámeními."
+        few: "Existuje ještě  %{count}  pracovních balíčků s oznámeními."
+        many: "Existuje ještě  %{count}  pracovních balíčků s oznámeními."
+        other: "Existuje ještě  %{count}  pracovních balíčků s oznámeními."
       open_in_browser: "Otevřít v prohlížeči"
       reason:
         watched: "Sledováno"
@@ -2505,7 +2505,7 @@ cs:
         mentioned: "Zmíněné"
         shared: "Sdílené"
         subscribed: "vše"
-        prefix: "Obdrženo z důvodu nastavení notifikací: %{reason}"
+        prefix: "Obdrženo z důvodu nastavení oznámení: %{reason}"
         date_alert_start_date: "Upozornění na datum"
         date_alert_due_date: "Upozornění na datum"
       see_all: "Zobrazit vše"
@@ -2777,7 +2777,7 @@ cs:
   permission_move_work_packages: "Přesun pracovních balíčků"
   permission_protect_wiki_pages: "Ochrana stránky wiki"
   permission_rename_wiki_pages: "Přejmenovat stránky wiki"
-  permission_save_queries: "Uložit zobrazení"
+  permission_save_queries: "Uložit pohled"
   permission_search_project: "Hledat projekt"
   permission_select_custom_fields: "Vybrat vlastní pole"
   permission_select_project_custom_fields: "Select project attributes"
@@ -3153,7 +3153,7 @@ cs:
       enable_subscriptions_text_html: Umožňuje uživatelům s nezbytnými oprávněními přihlásit se do OpenProject kalendářů a získat přístup k informacím o pracovním balíčku prostřednictvím externího klienta kalendáře. <strong>Poznámka:</strong> Před povolením si prosím přečtěte <a href="%{link}" target="_blank">iCalendar předplatné</a>.
     language_name_being_default: "%{language_name} (výchozí)"
     notifications:
-      events_explanation: "Určuje, pro kterou událost je odeslán e-mail. Pracovní balíčky jsou z tohoto seznamu vyloučeny, protože notifikace pro ně mohou být nastavena speciálně pro každého uživatele."
+      events_explanation: "Určuje, pro kterou událost je odeslán e-mail. Pracovní balíčky jsou z tohoto seznamu vyloučeny, protože oznámení pro ně mohou být nastavena speciálně pro každého uživatele."
       delay_minutes_explanation: "Odesílání e-mailu může být pozdrženo, aby bylo uživatelům s nakonfigurovaným v oznámení aplikace před odesláním pošty potvrzeno oznámení. Uživatelé, kteří si přečtou oznámení v aplikaci, nedostanou e-mail pro již přečtené oznámení."
     other: "Ostatní"
     passwords: "Hesla"
@@ -3238,7 +3238,7 @@ cs:
   text_destroy_with_associated: "Existují další objekty, které jsou přiřazeny k pracovním balíčkům a které mají být odstraněny. Tyto objekty jsou následující typy:"
   text_destroy_what_to_do: "Co chcete udělat?"
   text_diff_truncated: "... Toto rozlišení bylo zkráceno, protože přesahuje maximální velikost, kterou lze zobrazit."
-  text_email_delivery_not_configured: "Doručení e-mailu není nakonfigurováno a notifikace jsou zakázány.\nNakonfigurujte váš SMTP server pro jejich povolení."
+  text_email_delivery_not_configured: "Doručení e-mailu není nakonfigurováno a oznámení jsou zakázána.\nNakonfigurujte váš SMTP server pro jejich povolení."
   text_enumeration_category_reassign_to: "Přiřadit je k této hodnotě:"
   text_enumeration_destroy_question: "%{count} objektů je přiřazeno k této hodnotě."
   text_file_repository_writable: "Do adresáře příloh lze zapisovat"

@@ -300,11 +300,11 @@ ms:
           heading: Diperlukan dalam semua projek
           description: Atribut projek ini telah diaktifkan dalam semua projek sejak pilihan "Diperlukan dalam semua projek" telah ditandakan. Ia tidak boleh dinyahaktifkan untuk projek individu.
         new_project_mapping_form:
-          add_projects: Add projects
-          include_sub_projects: Include sub-projects
+          add_projects: Tambah projek
+          include_sub_projects: Sertakan sub-projek
         project_mapping_filter:
-          label: Search project
-          placeholder: Filter by text
+          label: Cari projek
+          placeholder: Menyaring secara teks
       types:
         no_results_title_text: Tiada jenis yang tersedia buat masa ini.
         form:
@@ -966,13 +966,13 @@ ms:
               working_days_are_missing: "Sekurang-kurangnya sehari dalam seminggu perlu ditentukan sebagai hari bekerja."
               previous_working_day_changes_unprocessed: "Perubahan terdahulu pada konfigurasi hari bekerja belum dilaksanakan lagi."
               hours_per_day_are_missing: "Bilangan jam dalam sehari perlu ditentukan."
-              days_per_week_are_missing: "The number of days per week must be defined."
-              days_per_month_are_missing: "The number of days per month must be defined."
-              durations_are_not_positive_numbers: "The durations must be positive numbers."
-              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
-              days_per_week_is_out_of_bounds: "Days per week can't be more than 7"
-              days_per_month_is_out_of_bounds: "Days per month can't be more than 31"
-              days_per_week_and_days_per_month_are_inconsistent: "The number of days per week and the number of days per month must be consistent."
+              days_per_week_are_missing: "Bilangan hari setiap minggu mestilah ditakrifkan. "
+              days_per_month_are_missing: "Bilangan hari sebulan mestilah ditakrifkan."
+              durations_are_not_positive_numbers: "Jangka masa mestilah nombor positif."
+              hours_per_day_is_out_of_bounds: "Jam sehari tidak boleh melebihi 24"
+              days_per_week_is_out_of_bounds: "Hari seminggu tidak boleh melebihi 7"
+              days_per_month_is_out_of_bounds: "Hari sebulan tidak boleh melebihi 31"
+              days_per_week_and_days_per_month_are_inconsistent: "Bilangan hari seminggu dan bilangan hari sebulan mestilah konsisten."
         time_entry:
           attributes:
             hours:
@@ -1030,7 +1030,7 @@ ms:
               only_same_project_categories_allowed: "Kategori pakej kerja mesti dalam projek yang sama dengan pakej kerja."
               does_not_exist: "Kategori yang ditentukan tidak wujud."
             estimated_hours:
-              not_a_number: "is not a valid duration."
+              not_a_number: "bukan jangka masa yang sah."
               cant_be_inferior_to_remaining_work: "Tidak boleh lebih rendah daripada kerja yang Berbaki."
               must_be_set_when_remaining_work_is_set: "Diperlukan apabila kerja yang Berbaki ditetapkan."
               only_values_greater_or_equal_zeroes_allowed: "Perlu >= 0."
@@ -1583,11 +1583,11 @@ ms:
     image:
       omitted: "Imej tidak dieksport."
     macro:
-      error: "Macro error, %{message}"
-      attribute_not_found: "attribute not found: %{attribute}"
-      model_not_found: "invalid attribute model: %{model}"
-      resource_not_found: "resource not found: %{resource}"
-      rich_text_unsupported: "Rich text embedding currently not supported in export"
+      error: "Ralat makro,%{message}"
+      attribute_not_found: "atribut tidak ditemui: %{attribute}"
+      model_not_found: "model atribut tidak sah: %{model}"
+      resource_not_found: "sumber tidak ditemui: %{resource}"
+      rich_text_unsupported: "Penyematan teks kaya tidak disokong bagi eksport buat masa ini"
     units:
       hours: j
       days: h
@@ -1658,9 +1658,9 @@ ms:
           working: "%{date} kini hari bekerja"
           non_working: "%{date} kini bukan hari bekerja"
       progress_mode_changed_to_status_based: Mod pengiraan perkembangan ditetapkan kepada berasaskan status
-      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
-      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
-      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
+      status_excluded_from_totals_set_to_false_message: kini termasuk dalam jumlah hierarki
+      status_excluded_from_totals_set_to_true_message: kini dikeluarkan daripada jumlah hierarki
+      status_percent_complete_changed: "% selesai ditukar daripada %{old_value}% kepada %{new_value}%"
       system_update:
         file_links_journal: >
           Mulai sekarang, aktiviti berkaitan dengan pautan fail (fail-fail yang disimpan di storan luaran) akan muncul dalam tab Aktiviti. Yang berikut mewakili aktiviti berkenaan pautan yang sudah sedia ada:
@@ -2317,7 +2317,7 @@ ms:
   label_workflow: "Aliran kerja"
   label_workflow_plural: "Aliran kerja"
   label_workflow_summary: "Ringkasan"
-  label_working_days_and_hours: "Working days and hours"
+  label_working_days_and_hours: "Hari dan jam bekerja"
   label_x_closed_work_packages_abbr:
     one: "1 ditutup"
     other: "%{count} ditutup"
@@ -2913,9 +2913,9 @@ ms:
   setting_cross_project_work_package_relations: "Benarkan hubungan pakej kerja rentas projek"
   setting_first_week_of_year: "Minggu pertama dalam tahun mengandungi "
   setting_date_format: "Tarikh"
-  setting_days_per_month: "Days per month"
+  setting_days_per_month: "Hari sebulan"
   setting_days_per_month_explanation: >-
-    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
+    Ini akan takrifkan apa yang dianggap sebagai "bulan" apabila memaparkan jangka masa menggunakan cara yang lebih semula jadi (contonya, jika sebulan ialah 20 hari, 60 hari ialah 3 bulan).
   setting_default_language: "Bahasa default"
   setting_default_projects_modules: "Modul yang diaktifkan secara default untuk projek baharu"
   setting_default_projects_public: "Projek baharu adalah awam secara default"
@@ -2931,12 +2931,12 @@ ms:
   setting_feeds_limit: "Had kandungan feed "
   setting_file_max_size_displayed: "Saiz maksimum fail teks ditampilkan sebaris "
   setting_host_name: "Nama hos"
-  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day: "Jam sehari"
   setting_hours_per_day_explanation: >-
-    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
-  setting_days_per_week: "Days per week"
+    Ini akan takrifkan apa yang dianggap sebagai "hari" apabila memaparkan jangka masa menggunakan cara yang lebih semula jadi (contohnya, jika sehari ialah 8 jam, 32 jam ialah 4 hari).
+  setting_days_per_week: "Hari seminggu"
   setting_days_per_week_explanation: >-
-    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a week is 5 days, 15 days would be 3 weeks).
+    Ini akan takrifkan apa yang dianggap sebagai "minggu" apabila memaparkan jangka masa menggunakan cara yang lebih semula jadi (contohnya, jika seminggu ialah 5 hari, 15 hari ialah 3 minggu)
   setting_invitation_expiration_days: "Pengaktifan e-mel tamat tempoh selepas"
   setting_work_package_done_ratio: "Pengiraan perkembangan"
   setting_work_package_done_ratio_field: "Berasaskan kerja"

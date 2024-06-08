@@ -47,12 +47,12 @@ ms:
           name: Konflik
       global_queries:
         item_0:
-          name: 'Jadual yang telah disematkan: Kanak-kanak'
+          name: 'Jadual tersemat: Anak-anak'
       type_configuration:
         item_0:
           form_configuration:
             item_0:
-              group_name: Kanak-kanak
+              group_name: Anak-anak
       groups:
         item_0:
           name: Arkitek
