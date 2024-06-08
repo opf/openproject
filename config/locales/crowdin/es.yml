@@ -1042,6 +1042,7 @@ es:
               only_values_greater_or_equal_zeroes_allowed: "Debe ser >= 0."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "is not a valid duration."
               cant_exceed_work: "No puede ser superior a Trabajo."
               must_be_set_when_work_is_set: "Obligatorio cuando Trabajo está establecido."
               format: "%{message}"

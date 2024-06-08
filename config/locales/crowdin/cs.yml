@@ -1059,6 +1059,7 @@ cs:
               only_values_greater_or_equal_zeroes_allowed: "Musí být >= 0."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "is not a valid duration."
               cant_exceed_work: "Nemůže být vyšší než Práce."
               must_be_set_when_work_is_set: "Vyžadováno, když je nastavena práce."
               format: "%{message}"
