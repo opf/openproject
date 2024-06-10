@@ -300,6 +300,12 @@
         is_required_blank_slate:
           heading: Påkrevd i alle prosjekter
           description: Prosjektattributten er aktivert i alle prosjekter fordi "Påkrevd i alle prosjekter"-alternativet er valgt. Attributten kan ikke deaktiveres for hvert enkelt prosjekt.
+        new_project_mapping_form:
+          add_projects: Add projects
+          include_sub_projects: Include sub-projects
+        project_mapping_filter:
+          label: Search project
+          placeholder: Filter by text
       types:
         no_results_title_text: Det finnes ingen tilgjengelige typer.
         form:
@@ -1032,11 +1038,13 @@
               only_same_project_categories_allowed: "Kategorien for en arbeidpakke må være innenfor samme prosjekt som arbeidspakken."
               does_not_exist: "Den angitte kategorien finnes ikke."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Kan ikke være lavere enn gjenstående arbeid."
               must_be_set_when_remaining_work_is_set: "Påkrevd når gjenværende arbeid er satt."
               only_values_greater_or_equal_zeroes_allowed: "Må være >= 0."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "is not a valid duration."
               cant_exceed_work: "Kan ikke være høyere enn arbeidet."
               must_be_set_when_work_is_set: "Påkrevet når arbeidet settes."
               format: "%{message}"
@@ -1609,6 +1617,12 @@
       pdf_gantt: "PDF Gantt"
     image:
       omitted: "Bilde ikke eksportert."
+    macro:
+      error: "Macro error, %{message}"
+      attribute_not_found: "attribute not found: %{attribute}"
+      model_not_found: "invalid attribute model: %{model}"
+      resource_not_found: "resource not found: %{resource}"
+      rich_text_unsupported: "Rich text embedding currently not supported in export"
     units:
       hours: t
       days: d

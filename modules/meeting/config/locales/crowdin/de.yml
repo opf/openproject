@@ -58,7 +58,7 @@ de:
       meeting_agenda_item: "Tagesordnungspunkt"
       meeting_agenda: "Agenda"
       meeting_minutes: "Protokoll"
-      meeting_section: "Section"
+      meeting_section: "Abschnitt"
   activity:
     filter:
       meeting: "Besprechungen"

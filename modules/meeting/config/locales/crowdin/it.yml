@@ -58,7 +58,7 @@ it:
       meeting_agenda_item: "Attività"
       meeting_agenda: "Ordine del giorno"
       meeting_minutes: "Verbali"
-      meeting_section: "Section"
+      meeting_section: "Sezione"
   activity:
     filter:
       meeting: "Riunioni"

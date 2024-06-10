@@ -300,6 +300,12 @@ si:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+        new_project_mapping_form:
+          add_projects: Add projects
+          include_sub_projects: Include sub-projects
+        project_mapping_filter:
+          label: Search project
+          placeholder: Filter by text
       types:
         no_results_title_text: දැනට වර්ග නොමැත.
         form:
@@ -1033,11 +1039,13 @@ si:
               only_same_project_categories_allowed: "වැඩ පැකේජයක කාණ්ඩය වැඩ පැකේජයට සමාන ව්යාපෘතියක් විය යුතුය."
               does_not_exist: "නිශ්චිත කාණ්ඩය නොපවතී."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
               must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
               only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "is not a valid duration."
               cant_exceed_work: "Cannot be higher than Work."
               must_be_set_when_work_is_set: "Required when Work is set."
               format: "%{message}"
@@ -1610,6 +1618,12 @@ si:
       pdf_gantt: "PDF Gantt"
     image:
       omitted: "රූපය අපනයනය කර නැත."
+    macro:
+      error: "Macro error, %{message}"
+      attribute_not_found: "attribute not found: %{attribute}"
+      model_not_found: "invalid attribute model: %{model}"
+      resource_not_found: "resource not found: %{resource}"
+      rich_text_unsupported: "Rich text embedding currently not supported in export"
     units:
       hours: h
       days: d

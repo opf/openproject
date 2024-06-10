@@ -130,16 +130,7 @@ class WorkPackages::ProgressController < ApplicationController
 
   def work_package_params
     params.require(:work_package)
-          .permit(allowed_params).tap do |wp_params|
-      if wp_params["estimated_hours"].present?
-        wp_params["estimated_hours"] =
-          DurationConverter.parse(wp_params["estimated_hours"])
-      end
-      if wp_params["remaining_hours"].present?
-        wp_params["remaining_hours"] =
-          DurationConverter.parse(wp_params["remaining_hours"])
-      end
-    end
+          .permit(allowed_params)
   end
 
   def allowed_params

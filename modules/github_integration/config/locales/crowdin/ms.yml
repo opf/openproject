@@ -20,8 +20,20 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ms:
+  button_add_deploy_target: Tambah sasaran penyerahan
+  label_deploy_target: Sasaran penyerahan
+  label_deploy_target_new: Sasaran penyerahan baharu
+  label_deploy_target_plural: Sasaran penyerahan
+  label_github_integration: Integrasi GitHub
+  notice_deploy_target_created: Sasaran penyerahan dicipta
+  notice_deploy_target_destroyed: Sasaran penyerahan dipadam
   plugin_openproject_github_integration:
     name: "Integrasi GitHub OpenProject"
     description: "Mengintegrasikan OpenProject dan GitHub untuk aliran kerja yang lebih baik"
   project_module_github: "GitHub"
   permission_show_github_content: "Paparkan kandungan GitHub"
+  permission_introspection: Baca versi teras OpenProject yang aktif dan bangunkan SHA
+  text_deploy_target_type_info: >
+    Setakat ini kami hanya menyokong OpenProject sahaja.
+  text_deploy_target_api_key_info: >
+    [API key](docs_url) OpenProject yang dimiliki oleh pengguna yang mempunyai kebenaran intipan global.

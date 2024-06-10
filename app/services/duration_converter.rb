@@ -93,6 +93,7 @@ class DurationConverter
                        "hours"
                      end
 
+      ChronicDuration.raise_exceptions = true
       ChronicDuration.parse(duration_string,
                             keep_zero: true,
                             default_unit:,

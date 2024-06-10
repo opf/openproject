@@ -20,8 +20,20 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ru:
+  button_add_deploy_target: Добавить цель установки
+  label_deploy_target: Цель установки
+  label_deploy_target_new: Новая цель установки
+  label_deploy_target_plural: Цели установки
+  label_github_integration: Интеграция с GitHub
+  notice_deploy_target_created: Цель установки создана
+  notice_deploy_target_destroyed: Цель установки удалена
   plugin_openproject_github_integration:
     name: "Интеграция с OpenProject GitHub"
     description: "Интегрирует OpenProject и GitHub для лучшего рабочего процесса"
   project_module_github: "GitHub"
   permission_show_github_content: "Показать контент GitHub"
+  permission_introspection: Ознакомьтесь с версией ядра OpenProject и сборкой SHA
+  text_deploy_target_type_info: >
+    Пока что мы поддерживаем только сам OpenProject.
+  text_deploy_target_api_key_info: >
+    OpenProject [API key](docs_url), принадлежащий пользователю, имеющему глобальное разрешение на самоанализ.

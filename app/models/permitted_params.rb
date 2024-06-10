@@ -563,6 +563,7 @@ class PermittedParams
           project_id
           custom_field_id
           custom_field_section_id
+          include_sub_projects
         ),
         query: %i(
           name
