@@ -921,7 +921,7 @@ GEM
     rbtree3 (0.7.1)
     rdoc (6.7.0)
       psych (>= 4.0.0)
-    recaptcha (5.16.0)
+    recaptcha (5.17.0)
     redcarpet (3.6.0)
     redis (5.2.0)
       redis-client (>= 0.22.0)
