@@ -93,7 +93,7 @@ RSpec.describe "Projects copy", :js, :with_cuprite,
          manage_types
          view_work_packages
          select_custom_fields
-         manage_storages_in_project
+         manage_files_in_project
          manage_file_links
          work_package_assigned)
     end

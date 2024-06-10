@@ -35,7 +35,7 @@ require_module_spec_helper
 # objects.
 RSpec.describe "Delete ProjectStorage with FileLinks", :js, :with_cuprite, :webmock do
   let(:user) { create(:user) }
-  let(:role) { create(:project_role, permissions: [:manage_storages_in_project]) }
+  let(:role) { create(:project_role, permissions: [:manage_files_in_project]) }
   let(:project) do
     create(:project,
            name: "Project 1",

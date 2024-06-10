@@ -92,8 +92,11 @@ class ProjectsController < ApplicationController
   end
 
   def deactivate_work_package_attachments
-    @project.deactivate_work_package_attachments = params[:value] != "1"
-    @project.save
+    call = Projects::UpdateService
+             .new(user: current_user, model: @project)
+             .call(deactivate_work_package_attachments: params[:value] != "1")
+
+    render_403 if call.failure?
   end
 
   private

@@ -31,6 +31,9 @@ module Projects
     private
 
     def manage_permission
+      # Changes on attachment settings are only bound to the manage_files_in_project permission
+      return :manage_files_in_project if work_package_attachment_settings_changed?
+
       if changed_by_user == ["active"]
         :archive_project
       else
@@ -38,6 +41,10 @@ module Projects
         # checked in `Projects::BaseContract#validate_changing_active`
         :edit_project
       end
+    end
+
+    def work_package_attachment_settings_changed?
+      model.settings_change.any? { |setting| setting.key?("deactivate_work_package_attachments") }
     end
   end
 end
