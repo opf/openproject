@@ -50,11 +50,14 @@ PDF Table exports the work package table displaying work packages as single rows
 
 With PDF Reports you can export detailed up to date work plans for your project in a clean and practical format. It includes a title page, a table of contents (listing all of the work packages), followed by the description of single work packages in a block form. Table of contents is clickable and is linked to the respective pages within the report, making navigation much easier. 
 
-For each work package a table of attributes is included (attributes correspond to the columns in the work package table). Work package ID attribute is clickable and linked directly to the respective work package in OpenProject. Table of attributes is followed by the work package description, which supports [embedded work package attributes](../../wysiwyg/#attributes). 
+For each work package a table of attributes is included, within attributes correspond to the columns in the work package table. For a single work package export, attributes are displayed according to the work package form configuration.
 
+Table of attributes is followed by the work package description and if necessary custom long text fields, which support [embedded work package and project attributes](../../wysiwyg/#attributes).
 
+> **Note**: Embedding of rich text, e.g. descriptions of other work package, is currently not supported.
 
 ![OpenProject_pdf_report_export](openproject-pdf-export-work-plans.png)
+
 > **Note**: If ["display sums" is activated](../work-package-table-configuration/) in the work package table, then the sum table is included between table of contents and work packages description in an Overview section.
 
 ![OpenProject_work_package_table_sum](openproject_wp_table_total_sum.png)
