@@ -79,5 +79,10 @@ RSpec.describe DurationConverter do
       expect(described_class.output(2.23))
         .to eq("2.23h")
     end
+
+    it "deals well with floating point maths" do
+      expect(described_class.output(1.89))
+        .to eq("1.89h")
+    end
   end
 end

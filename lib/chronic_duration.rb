@@ -169,7 +169,7 @@ module ChronicDuration
       dividers[:days] = "d" if days > 0
       years = months = weeks = 0
 
-      hours += (((minutes * 60) + seconds) / 3600.0).round(2)
+      hours = (hours + (((minutes * 60) + seconds) / 3600.0)).round(2)
       hours_int = hours.to_i
       hours = hours_int if hours - hours_int == 0 # if hours end with .0
       minutes = seconds = 0
