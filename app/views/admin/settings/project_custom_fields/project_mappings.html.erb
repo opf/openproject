@@ -27,11 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% content_controller 'projects--settings--available-project-mappings-filter',
-                      dynamic: true
-%>
-
-
 <%=
   render(Settings::ProjectCustomFields::EditFormHeaderComponent.new(
     custom_field: @custom_field,
@@ -41,19 +36,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   render(Primer::OpenProject::SubHeader.new) do |component|
-    component.with_filter_input(
-      name: "available-project-mappings-filter",
-      label: I18n.t("projects.settings.project_custom_fields.project_mapping_filter.label"),
-      visually_hide_label: true,
-      placeholder: I18n.t("projects.settings.project_custom_fields.project_mapping_filter.placeholder"),
-      show_clear_button: true,
-      clear_button_id: "available-project-mappings-filter-clear-button",
-      data: {
-        action: "input->projects--settings--available-project-mappings-filter#filterLists",
-        "projects--settings--available-project-mappings-filter-target": "filter"
-      }
-    )
-
     component.with_action_component do
       render(Settings::ProjectCustomFields::ProjectCustomFieldMapping::NewProjectMappingComponent.new(
         project_mapping: @project_mapping,
