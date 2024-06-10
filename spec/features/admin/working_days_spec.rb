@@ -300,4 +300,15 @@ RSpec.describe "Working Days", :js, :with_cuprite do
       expect(page).to have_css("tr", text: non_working_days.last.date.strftime("%B %-d, %Y"))
     end
   end
+
+  it "doesn't open a confirmation dialog if no working/non-working days have been modified" do
+    create(:non_working_day, date: Date.new(Date.current.year, 6, 10))
+    create(:non_working_day, date: Date.new(Date.current.year, 8, 20))
+    create(:non_working_day, date: Date.new(Date.current.year, 9, 25))
+
+    click_on "Apply changes"
+
+    # No dialog and saved successfully
+    expect(page).to have_css(".op-toast.-success")
+  end
 end

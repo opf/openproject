@@ -70,6 +70,7 @@ module OpenProject::GithubIntegration::Services
                                     .fetch("repo")
                                     .fetch("html_url"),
         draft: payload.fetch("draft"),
+        merge_commit_sha: payload["merge_commit_sha"],
         merged: payload.fetch("merged"),
         merged_by: github_user_id(payload["merged_by"]),
         merged_at: payload["merged_at"],

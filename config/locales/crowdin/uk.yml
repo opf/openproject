@@ -295,6 +295,12 @@ uk:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+        new_project_mapping_form:
+          add_projects: Add projects
+          include_sub_projects: Include sub-projects
+        project_mapping_filter:
+          label: Search project
+          placeholder: Filter by text
       types:
         no_results_title_text: Наразі немає доступних типів.
         form:
@@ -1042,11 +1048,13 @@ uk:
               only_same_project_categories_allowed: "Категорія комплекс робіт повинен бути в межах одного проекту як комплексу робіт."
               does_not_exist: "Указана категорія не існує."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Має дорівнювати значенню «Залишок робіт» або перевищувати його."
               must_be_set_when_remaining_work_is_set: "Потрібно вказати, якщо визначено атрибут «Залишок робіт»."
               only_values_greater_or_equal_zeroes_allowed: "Має бути >= 0."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "is not a valid duration."
               cant_exceed_work: "Не може перевищувати значення «Робота»."
               must_be_set_when_work_is_set: "Потрібно вказати, якщо визначено атрибут «Робота»."
               format: "%{message}"
@@ -1671,6 +1679,12 @@ uk:
       pdf_gantt: "Діаграма Ґанта (PDF)"
     image:
       omitted: "Зображення не експортовано."
+    macro:
+      error: "Macro error, %{message}"
+      attribute_not_found: "attribute not found: %{attribute}"
+      model_not_found: "invalid attribute model: %{model}"
+      resource_not_found: "resource not found: %{resource}"
+      rich_text_unsupported: "Rich text embedding currently not supported in export"
     units:
       hours: г
       days: д

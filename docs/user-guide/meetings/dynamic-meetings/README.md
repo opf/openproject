@@ -30,7 +30,7 @@ Introduced in OpenProject 13.1, dynamic meetings offer easier meeting management
 
 ## Meetings in OpenProject
 
-By selecting **Meetings** in the project menu on the left, you get an overview of all the meetings within a specific project sorted by date. By clicking on a meeting name you can view further details of the meeting.
+By selecting **Meetings** in the project menu on the left, you get an overview of all the meetings you have been invited to within a specific project sorted by date. By clicking on a meeting name you can view further details of the meeting.
 
 To get an overview of the meetings across multiple projects, you can select **Meetings** in the [global modules menu](../../../user-guide/home/global-modules/).
 
@@ -52,7 +52,7 @@ To create a new meeting, click the green **+ Meeting** button in the upper right
 
 ![Create new meeting in OpenProject](openproject_userguide_create_new_meeting.png)
 
-Enter your meeting's title, type, location, start date and duration.
+Enter your meeting's title, type, location, start date and duration. You can also choose if you want to invite meeting participants via email after the meeting has been created (this option is activated by default). 
 
 If you are creating a meeting from a global module you will first need to select a project to which the meeting is attributed. After you have selected a project, the list of potential participants (project members) will appear for you to select who to invite. After the meeting you can note who attended the meeting.
 

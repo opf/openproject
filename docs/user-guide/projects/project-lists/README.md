@@ -118,9 +118,11 @@ Your saved project lists filter will appear on the left side under **My private 
 
 ![Name and save a private projects filter in OpenProject](private-project-filter-saved.png)
 
-You can always remove your private project lists by using the **Delete** option.
+You can always rename or remove your private project lists by using the respective option.
 
-![Delete a private projects filter in OpenProject](private-project-filter-delete.png)
+> **Note:** static lists and lists, that have been shared with other users cannot be renamed, so the option will not be displayed.
+
+![Delete a private projects filter in OpenProject](private-project-filter-rename-delete.png)
 
 ### Gantt chart view
 

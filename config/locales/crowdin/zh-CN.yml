@@ -297,6 +297,12 @@ zh-CN:
         is_required_blank_slate:
           heading: 所有项目中需要
           description: 此项目属性已在所有项目中激活，因为选中了“所有项目中需要”的选项。它在单个项目中不能被停用。
+        new_project_mapping_form:
+          add_projects: Add projects
+          include_sub_projects: Include sub-projects
+        project_mapping_filter:
+          label: Search project
+          placeholder: Filter by text
       types:
         no_results_title_text: 目前有可用的类型。
         form:
@@ -440,7 +446,8 @@ zh-CN:
         <br/>
         <strong>注</strong>：继承值（例如，来自子级或关系的值）仍然适用。
       status_excluded_from_totals_text: |-
-        选中此选项可将具有此状态的工作包在层级结构中从“总工时”，“剩余工作”，以及“完成百分比”中排除。
+        选中此选项可将具有此状态的工作包排除在层次结构中的 "工时"、"
+        剩余工时 "和 "完成百分比 "总数之外。
       status_color_text: |
         单击可以分配或更改此状态的颜色。
         颜色显示在状态按钮中，可用于突出显示表中的工作包。
@@ -1021,11 +1028,13 @@ zh-CN:
               only_same_project_categories_allowed: "工作包的类别必须包含在相同的项目工作包中。"
               does_not_exist: "指定的类别不存在。"
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "不能低于剩余工时。"
               must_be_set_when_remaining_work_is_set: "必须在设置 \"剩余工时 \"时设置。"
               only_values_greater_or_equal_zeroes_allowed: "必须 > = 0。"
               format: "%{message}"
             remaining_hours:
+              not_a_number: "is not a valid duration."
               cant_exceed_work: "不能高于工时。"
               must_be_set_when_work_is_set: "当设置工时需要。"
               format: "%{message}"
@@ -1572,6 +1581,12 @@ zh-CN:
       pdf_gantt: "PDF 甘特图"
     image:
       omitted: "图像未导出。"
+    macro:
+      error: "Macro error, %{message}"
+      attribute_not_found: "attribute not found: %{attribute}"
+      model_not_found: "invalid attribute model: %{model}"
+      resource_not_found: "resource not found: %{resource}"
+      rich_text_unsupported: "Rich text embedding currently not supported in export"
     units:
       hours: 时
       days: 天
@@ -2895,7 +2910,7 @@ zh-CN:
   setting_date_format: "日期"
   setting_days_per_month: "每月天数"
   setting_days_per_month_explanation: >-
-    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
+    这将以更自然的方式在显示持续时间时定义什么是 "一个月"（例如，如果一个月是20天，60天就是3个月）。
   setting_default_language: "默认语言"
   setting_default_projects_modules: "新项目的默认启用模块"
   setting_default_projects_public: "新项目默认公开"
@@ -2911,7 +2926,7 @@ zh-CN:
   setting_feeds_limit: "Feed 内容限制"
   setting_file_max_size_displayed: "内联显示的文本文件的最大大小"
   setting_host_name: "主机名"
-  setting_hours_per_day: "每日小时数"
+  setting_hours_per_day: "每天小时数"
   setting_hours_per_day_explanation: >-
     这将以更自然的方式在显示持续时间时定义什么是 "一天"（例如，如果一天是8小时，32小时就是4天）。
   setting_days_per_week: "每周天数"

@@ -60,7 +60,7 @@ uk:
       meeting_agenda_item: "Порядок денний"
       meeting_agenda: "Порядок денний"
       meeting_minutes: "Хвилини"
-      meeting_section: "Section"
+      meeting_section: "Розділ"
   activity:
     filter:
       meeting: "Наради"

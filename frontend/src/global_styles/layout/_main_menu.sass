@@ -26,6 +26,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+@import "app/spot/styles/sass/common/icon"
+
 $menu-item-line-height: 30px
 $arrow-left-width: 40px
 
@@ -64,7 +66,8 @@ $arrow-left-width: 40px
       height: 100%
 
     .main-menu--children
-      height: calc(100% - (var(--main-menu-item-height) + 10px)) // 10px spacing
+      // 10px spacing
+      height: calc(100% - (var(--main-menu-item-height) + 10px))
       overflow: auto
       @include styled-scroll-bar
 
@@ -97,9 +100,11 @@ $arrow-left-width: 40px
       // work around due to dom manipulation on document: ready:
       // this isn't scoped to .main-item-wrapper to avoid flickering
       padding-left: 12px
+
       &.toggler
         // explicitly reset to zero to avoid selector precedence problems
         padding-left: 0
+
     .main-menu--children li a
       // children have no icon so we need to push them right.
       padding-left: 24px
@@ -115,6 +120,7 @@ $arrow-left-width: 40px
     font-size: var(--main-menu-font-size)
     font-style: normal
     padding: 0 12px
+
     &:hover
       text-decoration: none
 
@@ -139,16 +145,17 @@ $arrow-left-width: 40px
 
   a
     border: 1px solid transparent
+
     &.selected, &.selected + a
       @include main-menu-selected
 
       &:hover
         @include main-menu-hover
 
-    &:hover, &:focus , &:active
+    &:hover, &:focus, &:active
       @include main-menu-hover
 
-      &~ .toggler
+      & ~ .toggler
         @include main-menu-hover
 
   a:not(.toggler)
@@ -163,8 +170,10 @@ $arrow-left-width: 40px
   display: none
   padding: 10px 0
   width: 100%
+
   &.unattached
     border-top: 1px solid #ddd
+
   li
     &:hover
       // simultaneously hover all menu item anchor tags
@@ -174,7 +183,8 @@ $arrow-left-width: 40px
     > a
       &.selected, &.selected
         @include main-menu-selected
-      &:hover, &:focus , &:active
+
+      &:hover, &:focus, &:active
         @include main-menu-hover
 
 .main-menu--children-menu-header
@@ -189,6 +199,7 @@ $arrow-left-width: 40px
   padding-left: 14px
   padding-right: 14px
   border: 1px solid transparent
+
   &:hover, &:focus, &:active
     @include main-menu-hover
 
@@ -203,6 +214,7 @@ a.main-menu--parent-node
   line-height: var(--main-menu-item-height)
   border-radius: 3px
   color: var(--main-menu-font-color)
+
   &:hover, &:focus, &:active
     @include main-menu-hover
 
@@ -212,6 +224,7 @@ a.main-menu--parent-node
     &.closed
       li
         display: none
+
       > li.open
         display: list-item
 
@@ -226,11 +239,14 @@ a.main-menu--parent-node
 
         .main-menu--children
           display: block
+
           li
             display: list-item
+
     &.open
       > li
         display: list-item
+
         .main-menu--children-menu-header
           display: none
 
@@ -238,6 +254,7 @@ a.main-menu--parent-node
   .main-menu
     width: var(--main-menu-folded-width)
     min-width: var(--main-menu-folded-width)
+
     ul
       &.menu_root
         > li
@@ -249,6 +266,7 @@ a.main-menu--parent-node
             text-overflow: clip
             -o-text-overflow: clip
             -ms-text-overflow: clip
+
           .toggler
             display: none
 
@@ -285,8 +303,10 @@ a.main-menu--parent-node
   ul
     border: none
     overflow-x: hidden
+
     li
       border: none
+
     li a
       padding: 0
 
@@ -299,13 +319,17 @@ a.main-menu--parent-node
 #main-menu ul ul.main-menu--children ul.pages-hierarchy
   .tree-menu--hierarchy-indicator
     color: var(--main-menu-font-color)
+
   .tree-menu--item
     &.-selected
       background: var(--main-menu-bg-selected-background)
+
       .tree-menu--title
         color: var(--main-menu-selected-font-color)
+
     &:hover
       background: var(--main-menu-bg-hover-background)
+
       .tree-menu--title
         color: var(--main-menu-hover-font-color)
         text-decoration: none
@@ -313,50 +337,46 @@ a.main-menu--parent-node
 // Resizer & toggle styles
 .main-menu--resizer
   background: none
-  height: 100vh
-  width: 18px
+  height: 100%
+  width: 1rem
   position: fixed
-  top: 0
-  border-left-width: 2px
-  border-left-style: solid
-  border-left-color: transparent
-  left: calc(var(--main-menu-width) - 2px)
-  vertical-align: middle
+  display: flex
+  align-items: center
+  left: calc(var(--main-menu-width) - 1rem)
   z-index: 1
   cursor: col-resize
-  &:hover
-    border-left-color: var(--main-menu-resizer-color)
-    i:before
-      color: var(--main-menu-resizer-color)
-  &.show
-    left: var(--main-menu-folded-width)
 
-.resizer-toggle-container
-  margin-top: 50vh
-  margin-left: -12px
-  display: inline-block
   .main-menu--navigation-toggler
+    position: relative
     cursor: pointer
-    &:before
-      @include icon-common
-      font-size: 11px
-      font-weight: 400
-    &:not(.open):before
-      @include icon-mixin-arrow-right2
-      position: absolute
-      right: 0
+    color: var(--main-menu-font-color)
+
+    > .collapse-menu,
+    > .expand-menu
+      display: none
+
+    &.open:hover
+      > .resize-handle
+        display: none
+
+      > .collapse-menu
+        display: block
+
+    &:not(.open)
+      left: 1rem
+      color: var(--accent-color)
+
+      > .resize-handle
+        display: none
+
+      > .expand-menu
+        display: block
+
   &:hover
-    color: var(--main-menu-resizer-color)
+    border-right: 0.125rem solid var(--main-menu-border-color)
+
     .main-menu--navigation-toggler
-      background-color: var(--main-menu-bg-color)
-      &.open:before
-        @include icon-mixin-arrow-left2
-  i
-    display: inline-block
-    width: 12px
-    &:before
-      vertical-align: middle
-      color: var(--light-gray)
+      color: var(--main-menu-border-color)
 
 // Badges for menu items such as "EXPERIMENTAL" or "BETA"
 $badge_offset: 4px

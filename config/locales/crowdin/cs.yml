@@ -290,16 +290,22 @@ cs:
           title: "Atributy projektu"
           description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
         filter:
-          label: "Search project attribute"
+          label: "Hledat atribut projektu"
         actions:
           label_enable_single: "Aktivní v tomto projektu, kliknutím vypnete"
           label_disable_single: "Neaktivní v tomto projektu, klikněte pro povolení"
-          deactivate_for_project: "Deactivate for this project"
+          deactivate_for_project: "Deaktivovat pro tento projekt"
           label_enable_all: "Povolit vše"
           label_disable_all: "Zakázat vše"
         is_required_blank_slate:
-          heading: Required in all projects
+          heading: Povinné u všech projektů
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+        new_project_mapping_form:
+          add_projects: Přidat projekty
+          include_sub_projects: Zahrnout všechny podprojekty
+        project_mapping_filter:
+          label: Hledat projekt
+          placeholder:
       types:
         no_results_title_text: V současné době nejsou k dispozici žádné typy.
         form:
@@ -311,13 +317,13 @@ cs:
         no_results_title_text: Neexistuje žádné další diskové místo využívané tímto projektem.
   lists:
     create:
-      success: "The modified list has been saved as a new list"
-      failure: "The modified list cannot be saved: %{errors}"
+      success: "Upravený seznam byl uložen jako nový seznam."
+      failure: "Upravený seznam nelze uložit: %{errors}"
     update:
       success: "The modified list has been saved"
       failure: "The modified list cannot be saved: %{errors}"
     publish:
-      success: "The list has been made public"
+      success: "Seznam byl zveřejněn"
       failure: "The list cannot be made public: %{errors}"
     unpublish:
       success: "The list has been made private"
@@ -357,7 +363,7 @@ cs:
         other: "However, %{shared_work_packages_link} have also been shared with this group."
       remove_work_packages_shared_with_user_too: "A user that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
       remove_work_packages_shared_with_group_too: "A group that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
-      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
+      will_not_affect_inherited_shares: "(To nemá vliv na pracovní balíčky sdílené s jejich skupinou)."
       can_remove_direct_but_not_shared_roles: "You can remove this user as a direct project member but a group they are in is also a member of this project, so they will continue being a member via the group."
       also_work_packages_shared_with_user_html:
         one: "Also, %{shared_work_packages_link} has been shared with this user."
@@ -470,9 +476,9 @@ cs:
       no_results_title_text: Momentálně zde nejsou žádné stavy pracovního balíčku.
       no_results_content_text: Přidat nový stav
       headers:
-        is_default: "Default"
-        is_closed: "Closed"
-        is_readonly: "Read-only"
+        is_default: "Výchozí"
+        is_closed: "Uzavřeno"
+        is_readonly: "Pouze pro čtení"
         excluded_from_totals: "Excluded from totals"
   themes:
     light: "Světlý"
@@ -786,7 +792,7 @@ cs:
         before_or_equal_to: "musí být před nebo rovno %{date}."
         blank: "nemůže být prázdné."
         blank_nested: "musí mít nastavenou vlastnost '%{property}'."
-        cannot_delete_mapping: "is required. Cannot be deleted."
+        cannot_delete_mapping: "je povinné. Nelze odstranit."
         cant_link_a_work_package_with_a_descendant: "Pracovní balíček nemůže být propojen s jedním z jeho podúkolů."
         circular_dependency: "Tento vztah by vytvořil kruhovou závislost."
         confirmation: "neshoduje se s %{attribute}."
@@ -947,7 +953,7 @@ cs:
               nonexistent: "Sloupec '%{column}' neexistuje."
               format: "%{message}"
           group_by_hierarchies_exclusive: "je vzájemně exkluzivní se skupinou od '%{group_by}'. Nelze aktivovat obojí."
-          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          can_only_be_modified_by_owner: "Dotaz může být upraven pouze jeho vlastníkem."
           need_permission_to_modify_public_query: "Veřejný dotaz nelze upravit."
           filters:
             custom_fields:
@@ -982,14 +988,14 @@ cs:
             base:
               working_days_are_missing: "Nejméně jeden den v týdnu musí být definován jako pracovní den."
               previous_working_day_changes_unprocessed: "Předchozí změny nastavení pracovních dnů ještě nebyly použity."
-              hours_per_day_are_missing: "The number of hours per day must be defined."
-              days_per_week_are_missing: "The number of days per week must be defined."
-              days_per_month_are_missing: "The number of days per month must be defined."
-              durations_are_not_positive_numbers: "The durations must be positive numbers."
-              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
-              days_per_week_is_out_of_bounds: "Days per week can't be more than 7"
-              days_per_month_is_out_of_bounds: "Days per month can't be more than 31"
-              days_per_week_and_days_per_month_are_inconsistent: "The number of days per week and the number of days per month must be consistent."
+              hours_per_day_are_missing: "Musí být stanoven počet hodin denně."
+              days_per_week_are_missing: "Musí být stanoven počet dnů v týdnu."
+              days_per_month_are_missing: "Musí být stanoven počet dnů v měsíci."
+              durations_are_not_positive_numbers: "Doba trvání musí být kladná čísla."
+              hours_per_day_is_out_of_bounds: "Počet hodin za den nesmí být více než 24."
+              days_per_week_is_out_of_bounds: "Počet dní v týdnu nesmí být vyšší než 7."
+              days_per_month_is_out_of_bounds: "Počet dní v měsíci nesmí být vyšší než 31."
+              days_per_week_and_days_per_month_are_inconsistent: "Počet dnů v týdnu a počet dnů v měsíci musí být konzistentní."
         time_entry:
           attributes:
             hours:
@@ -1047,13 +1053,15 @@ cs:
               only_same_project_categories_allowed: "Kategorie pracovního balíčku musí být v rámci stejného projektu jako pracovního balíčku."
               does_not_exist: "Zadaná kategorie neexistuje."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
               must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
               only_values_greater_or_equal_zeroes_allowed: "Musí být >= 0."
               format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "Cannot be higher than Work."
-              must_be_set_when_work_is_set: "Required when Work is set."
+              not_a_number: "is not a valid duration."
+              cant_exceed_work: "Nemůže být vyšší než Práce."
+              must_be_set_when_work_is_set: "Vyžadováno, když je nastavena práce."
               format: "%{message}"
           readonly_status: "Pracovní balíček je ve stavu jen pro čtení, takže jeho atributy nelze změnit."
         type:
@@ -1173,8 +1181,8 @@ cs:
       deleted_by_on: "deleted by %{user} on %{datetime}"
       added_on: "added on %{datetime}"
       added_by_on: "added by %{user} on %{datetime}"
-      removed_on: "removed on %{datetime}"
-      removed_by_on: "removed by %{user} on %{datetime}"
+      removed_on: "odstraněno %{datetime}"
+      removed_by_on: "odstranil/a %{user} %{datetime}"
       parent_without_of: "Podprojekt"
       parent_no_longer: "Již není podprojekt projektu"
       time_entry:
@@ -1366,10 +1374,10 @@ cs:
   button_remove_member_and_shares: "Remove member and shares"
   button_revoke_work_package_shares: "Revoke work package shares"
   button_revoke_access: "Odebrat přístup"
-  button_revoke_all: "Revoke all"
+  button_revoke_all: "Zrušit vše"
   button_revoke_only: "Revoke only %{shared_role_name}"
-  button_publish: "Make public"
-  button_unpublish: "Make private"
+  button_publish: "Zveřejnit"
+  button_unpublish: "Nastavit jako soukromé"
   consent:
     checkbox_label: Zaznamenal(a) jsem a souhlasím s výše uvedeným.
     failure_message: Souhlas se nezdařil, nelze pokračovat.
@@ -1676,6 +1684,12 @@ cs:
       pdf_gantt: "PDF Gantt"
     image:
       omitted: "Obrázek nebyl exportován."
+    macro:
+      error: "Macro error, %{message}"
+      attribute_not_found: "attribute not found: %{attribute}"
+      model_not_found: "invalid attribute model: %{model}"
+      resource_not_found: "resource not found: %{resource}"
+      rich_text_unsupported: "Rich text embedding currently not supported in export"
     units:
       hours: h
       days: d
@@ -1873,7 +1887,7 @@ cs:
   label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Ověření"
   label_available_global_roles: "Dostupné globální role"
-  label_available_project_attributes: "Available project attributes"
+  label_available_project_attributes: "Dostupné atributy projektu"
   label_available_project_forums: "Dostupná fóra"
   label_available_project_repositories: "Dostupné repozitáře"
   label_available_project_versions: "Dostupné verze"
@@ -2003,7 +2017,7 @@ cs:
   label_enterprise_support: "Podpora pro Enterprise edici"
   label_enterprise_addon: "Doplňky Enterprise Edice"
   label_environment: "Prostředí"
-  label_estimates_and_progress: "Estimates and progress"
+  label_estimates_and_progress: "Odhady a posup"
   label_equals: "je"
   label_everywhere: "všude"
   label_example: "Příklad"
@@ -2230,7 +2244,7 @@ cs:
   label_project_attributes_plural: "Atributy projektu"
   label_project_custom_field_plural: "Atributy projektu"
   label_project_settings: "Nastavení projektu"
-  label_project_attributes_settings: "Project attributes settings"
+  label_project_attributes_settings: ""
   label_project_storage_plural: "Úložiště souborů"
   label_project_storage_project_folder: "Úložiště souborů: Složky projektů"
   label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
@@ -2405,7 +2419,7 @@ cs:
   label_workflow: "Pracovní postup"
   label_workflow_plural: "Pracovní postupy"
   label_workflow_summary: "Souhrn"
-  label_working_days_and_hours: "Working days and hours"
+  label_working_days_and_hours: "Pracovní dny a hodiny"
   label_x_closed_work_packages_abbr:
     one: "1 uzavřeno"
     other: "%{count} uzavřených"
@@ -2512,7 +2526,7 @@ cs:
         plaintext:
           storage: "Úložiště"
           healthy:
-            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
+            summary: "Dobré zprávy! Stav vašeho úložiště, %{storage_name}, se aktuálně zobrazuje jako \"Zdravý\"."
             error-solved-on: "Vyřešeno"
             recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
             details: "For more details or to make any necessary amendments, you can visit your storage configuration"
@@ -2527,10 +2541,10 @@ cs:
         see_storage_settings: "Zobrazit nastavení úložiště"
         healthy:
           subject: "Storage \"%{name}\" is now healthy!"
-          solved_at: "solved at"
+          solved_at: "vyřešeno v"
           summary: "The problem with your %{storage_name} storage integration is now solved"
         unhealthy:
-          subject: "Storage \"%{name}\" is unhealthy!"
+          subject: "Úložiště \"%{name}\" je nezdravé!"
           since: "od"
           summary: "There is a problem with your %{storage_name} storage integration"
           troubleshooting:
@@ -3008,7 +3022,7 @@ cs:
   setting_cross_project_work_package_relations: "Povolit vztahy mezi projekty a pracovními balíčky"
   setting_first_week_of_year: "První týden v roce obsahuje"
   setting_date_format: "Datum"
-  setting_days_per_month: "Days per month"
+  setting_days_per_month: "Dny za měsíc"
   setting_days_per_month_explanation: >-
     This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Výchozí jazyk"
@@ -3029,7 +3043,7 @@ cs:
   setting_hours_per_day: "Hours per day"
   setting_hours_per_day_explanation: >-
     This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
-  setting_days_per_week: "Days per week"
+  setting_days_per_week: "Dnů týdně"
   setting_days_per_week_explanation: >-
     This will define what is considered a "week" when displaying duration in a more natural way (for example, if a week is 5 days, 15 days would be 3 weeks).
   setting_invitation_expiration_days: "Platnost aktivačního e-mailu vyprší po"
@@ -3149,7 +3163,7 @@ cs:
       label_new_attribute: "Atribut projektu"
       label_new_section: "Sekce"
       label_edit_section: "Upravit název"
-      label_section_actions: "Section actions"
+      label_section_actions: "Akce v sekci"
       heading_description: "These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level."
       label_project_custom_field_actions: "Project attribute actions"
       label_no_project_custom_fields: "No project attributes defined in this section"

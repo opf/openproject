@@ -300,6 +300,12 @@ fr:
         is_required_blank_slate:
           heading: Required in all projects
           description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+        new_project_mapping_form:
+          add_projects: Add projects
+          include_sub_projects: Include sub-projects
+        project_mapping_filter:
+          label: Search project
+          placeholder: Filter by text
       types:
         no_results_title_text: Il n'y a actuellement aucun type disponible.
         form:
@@ -1033,11 +1039,13 @@ fr:
               only_same_project_categories_allowed: "La catégorie du lot de travaux doit faire partie du même projet que le lot de travaux."
               does_not_exist: "La catégorie spécifiée n'existe pas."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Ne peut être inférieur au Travail restant."
               must_be_set_when_remaining_work_is_set: "Requis lorsque le Travail restant est défini."
               only_values_greater_or_equal_zeroes_allowed: "Doit être >= 0."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "is not a valid duration."
               cant_exceed_work: "Ne peut être supérieur au Travail."
               must_be_set_when_work_is_set: "Requis lorsque le Travail est défini."
               format: "%{message}"
@@ -1610,6 +1618,12 @@ fr:
       pdf_gantt: "PDF Gantt"
     image:
       omitted: "Image non exportée."
+    macro:
+      error: "Macro error, %{message}"
+      attribute_not_found: "attribute not found: %{attribute}"
+      model_not_found: "invalid attribute model: %{model}"
+      resource_not_found: "resource not found: %{resource}"
+      rich_text_unsupported: "Rich text embedding currently not supported in export"
     units:
       hours: h
       days: j
