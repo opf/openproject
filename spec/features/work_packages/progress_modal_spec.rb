@@ -349,9 +349,15 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
           percent_complete_edit_field = ProgressEditField.new(work_package_row, :percentageDone)
 
           work_edit_field.activate!
-
-          work_edit_field.expect_modal_field_value("1d 2h")
+          page.driver.wait_for_network_idle
+          work_edit_field.expect_modal_field_in_focus
+          work_edit_field.expect_modal_field_value("10") # Currently in focused so un-formatted
           remaining_work_edit_field.expect_modal_field_value("2h 7m")
+
+          remaining_work_edit_field.input_element.native.node.focus
+          page.driver.wait_for_network_idle
+          remaining_work_edit_field.expect_modal_field_in_focus
+          work_edit_field.expect_modal_field_value("1d 2h")
           percent_complete_edit_field.expect_modal_field_value("78", readonly: true)
         end
       end
@@ -384,8 +390,13 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
           # work should be displayed as "2h 34m" ("2h 33m 36s" rounded to minutes),
           # and remaining work as "17m" ("16m 48s" rounded to minutes)
           work_edit_field.activate!
-          work_edit_field.expect_modal_field_value("2h 34m")
+          page.driver.wait_for_network_idle
+          work_edit_field.expect_modal_field_value("2.56")
           remaining_work_edit_field.expect_modal_field_value("17m")
+          remaining_work_edit_field.input_element.native.node.focus
+          page.driver.wait_for_network_idle
+          remaining_work_edit_field.expect_modal_field_in_focus
+          work_edit_field.expect_modal_field_value("2h 34m")
         end
       end
 

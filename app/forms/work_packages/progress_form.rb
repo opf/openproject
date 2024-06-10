@@ -158,9 +158,10 @@ class WorkPackages::ProgressForm < ApplicationForm
     errors = @work_package.errors.where(name)
     if (user_value = errors.map { |error| error.options[:value] }.find { !_1.nil? })
       user_value
-    elsif name == :done_ratio || !@format_durations
+    elsif [:done_ratio, @focused_field].include?(name)
       format_to_smallest_fractional_part(@work_package.public_send(name))
     else
+      # Format unfocused values as chronic durations
       DurationConverter.output(@work_package.public_send(name))
     end
   end
@@ -177,7 +178,8 @@ class WorkPackages::ProgressForm < ApplicationForm
              action: "input->work-packages--progress--touched-field-marker#markFieldAsTouched" }
 
     if @focused_field == name
-      data[:"work-packages--progress--focus-field-target"] = "fieldToFocus"
+      data[:"application-target"] = "dynamic"
+      data[:controller] = "work-packages--progress--focus-field"
     end
     { data: }
   end
