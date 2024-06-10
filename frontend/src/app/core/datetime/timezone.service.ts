@@ -149,7 +149,7 @@ export class TimezoneService {
   }
 
   public formattedChronicDuration(durationString:string, opts = {
-    format: 'short',
+    format: 'daysAndHours',
     hoursPerDay: this.configurationService.hoursPerDay(),
     // daysPerWeek is solely a convenience unit for the user's comprehension.
     // It's not an accepted unit by chronicDuration. daysPerMonth is the value

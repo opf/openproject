@@ -62,16 +62,22 @@ RSpec.describe DurationConverter do
       expect(described_class.output(0)).to eq("0h")
     end
 
-    it "works with ChronicDuration defaults otherwise in :short format" do
+    it "works with ChronicDuration defaults otherwise in :days_and_hours format" do
       expect(described_class.output(5.75))
-        .to eq("5h 45m")
+        .to eq("5.75h")
+      expect(described_class.output(5.754321))
+        .to eq("5.75h")
+      expect(described_class.output(8))
+        .to eq("1d 0h")
+      expect(described_class.output(804))
+        .to eq("100d 4h")
     end
 
-    it "ignores seconds and keep the nearest minute" do
+    it "ignores seconds and keep the nearest minute, displayed as hours" do
       expect(described_class.output(0.28))
-        .to eq("17m")
+        .to eq("0.28h")
       expect(described_class.output(2.23))
-        .to eq("2h 14m")
+        .to eq("2.23h")
     end
   end
 end

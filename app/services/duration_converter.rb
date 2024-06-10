@@ -109,22 +109,10 @@ class DurationConverter
       seconds_overflow = seconds % 60
       seconds_to_the_nearest_minute = seconds - seconds_overflow
 
-      # return "0 h" if parsing 0.
-      # ChronicDuration returns nil when parsing 0.
-      # By default, its unit is seconds and if we were
-      # keeping zeroes, we'd format this as "0 secs".
-      #
-      # We want to override this behavior.
-      if ChronicDuration.output(seconds_to_the_nearest_minute,
-                                default_unit: "hours",
-                                **duration_length_options).nil?
-        "0h"
-      else
-        ChronicDuration.output(seconds_to_the_nearest_minute,
-                               default_unit: "hours",
-                               format: :short,
-                               **duration_length_options)
-      end
+      # :days_and_hours format return "0h" when parsing 0.
+      ChronicDuration.output(seconds_to_the_nearest_minute,
+                             format: :days_and_hours,
+                             **duration_length_options)
     end
 
     private

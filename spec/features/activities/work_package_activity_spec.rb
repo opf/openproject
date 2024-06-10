@@ -52,7 +52,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite do
     before do
       wp_page = Pages::FullWorkPackage.new(parent)
       wp_page.visit!
-      wp_page.update_attributes estimatedTime: "10" # rubocop:disable Rails/ActiveRecordAliases
+      wp_page.update_attributes estimatedTime: "100" # rubocop:disable Rails/ActiveRecordAliases
       wp_page.expect_and_dismiss_toaster(message: "Successful update.")
       wp_page.update_attributes remainingTime: "5" # rubocop:disable Rails/ActiveRecordAliases
       wp_page.expect_and_dismiss_toaster(message: "Successful update.")
@@ -60,12 +60,12 @@ RSpec.describe "Work package activity", :js, :with_cuprite do
 
     it "displays changed attributes in the activity tab", :aggregate_failures do
       within("activity-entry", text: admin.name) do
-        expect(page).to have_list_item(text: "% Complete set to 50%")
-        expect(page).to have_list_item(text: "Work set to 1d 2h")
+        expect(page).to have_list_item(text: "% Complete set to 95%")
+        expect(page).to have_list_item(text: "Work set to 12d 4h")
         expect(page).to have_list_item(text: "Remaining work set to 5h")
-        expect(page).to have_list_item(text: "Total work set to 2d 4h")
-        expect(page).to have_list_item(text: "Total remaining work set to 1d")
-        expect(page).to have_list_item(text: "Total % complete set to 60%")
+        expect(page).to have_list_item(text: "Total work set to 13d 6h")
+        expect(page).to have_list_item(text: "Total remaining work set to 1d 0h")
+        expect(page).to have_list_item(text: "Total % complete set to 93%")
       end
     end
   end
