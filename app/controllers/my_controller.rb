@@ -50,12 +50,6 @@ class MyController < ApplicationController
 
   def update_account
     write_settings
-
-    # If mail changed, expire all other sessions
-    if @user.previous_changes['mail'] && ::Sessions::DropOtherSessionsService.call(@user, session)
-      flash[:info] = "#{flash[:notice]} #{t(:notice_account_other_session_expired)}"
-      flash.delete :notice
-    end
   end
 
   def settings; end
@@ -203,6 +197,7 @@ class MyController < ApplicationController
 
     if result&.success
       flash[:notice] = notice_account_updated
+      handle_email_changes
     else
       flash[:error] = error_account_update_failed(result)
     end
@@ -211,6 +206,17 @@ class MyController < ApplicationController
   end
 
   helper_method :has_tokens?
+
+  def handle_email_changes
+    # If mail changed, expire all other sessions
+    if @user.previous_changes['mail']
+      Users::DropTokensService.new(current_user: @user).call!
+      Sessions::DropOtherSessionsService.call!(@user, session)
+
+      flash[:info] = "#{flash[:notice]} #{t(:notice_account_other_session_expired)}"
+      flash.delete :notice
+    end
+  end
 
   def has_tokens?
     Setting.feeds_enabled? || Setting.rest_api_enabled? || current_user.ical_tokens.any?

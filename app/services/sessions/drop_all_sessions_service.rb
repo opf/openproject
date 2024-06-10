@@ -30,12 +30,10 @@ module Sessions
     class << self
       ##
       # Drop all sessions for the given user
-      def call(user)
+      def call!(user)
         ::Sessions::UserSession
           .for_user(user)
           .delete_all
-
-        true
       end
     end
   end
