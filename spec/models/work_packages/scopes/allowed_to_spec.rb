@@ -106,6 +106,16 @@ RSpec.describe WorkPackage, ".allowed_to" do
         expect(subject).to be_empty
       end
     end
+
+    context "when the module the permission belongs to is disabled" do
+      before do
+        private_project.enabled_module_names = private_project.enabled_module_names - ["work_package_tracking"]
+      end
+
+      it "excludes work packages where the module is disabled in" do
+        expect(subject).to contain_exactly(work_package_in_public_project)
+      end
+    end
   end
 
   context "when the user has the permission directly on the work package" do
