@@ -2,7 +2,7 @@
              method: :get,
              class: "op-filters-form op-filters-form_top-margin #{show_filters_section? ? "-expanded" : ""}",
              data: {
-               'filters-target': 'filterForm',
+               'filters-formtarget': 'filterForm',
                action: 'submit->filters#sendForm:prevent'
              }) do %>
   <% operators_without_values = %w[* !* t w] %>
@@ -34,8 +34,8 @@
                            class: 'advanced-filters--select',
                            data: {
                              action: 'change->filters#setValueVisibility',
-                             'filters-filter-name-param': filter.name,
-                             'filters-target': 'operator',
+                             'filters-formfilter-name-param': filter.name,
+                             'filters-formtarget': 'operator',
                              'filter-name': filter.name
                            } %>
           <% end %>
@@ -104,7 +104,7 @@
                          focus: "false",
                          'aria-invalid': "false",
                          data: {
-                           'filters-target': 'addFilterSelect',
+                           'filters-formtarget': 'addFilterSelect',
                            action: 'change->filters#addFilter:prevent'
                          } %>
         </div>
