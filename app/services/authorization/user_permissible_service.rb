@@ -59,25 +59,7 @@ module Authorization
 
     def cached_permissions(context)
       @cached_permissions ||= Hash.new do |hash, context_key|
-        hash[context_key] = if user.admin?
-                              permissible_key = case context_key
-                                                when WorkPackage
-                                                  :work_package
-                                                when Project
-                                                  :project
-                                                when nil
-                                                  :global
-                                                else
-                                                  raise "Unknown context key: #{context_key}"
-                                                end
-
-                              OpenProject::AccessControl
-                                .permissions
-                                .select { |p| p.permissible_on?(permissible_key) && p.grant_to_admin? }
-                                .map(&:name)
-                            else
-                              user.all_permissions_for(context_key)
-                            end
+        hash[context_key] = user.all_permissions_for(context_key)
       end
 
       @cached_permissions[context]
