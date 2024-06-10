@@ -33,6 +33,8 @@ module Cron
     priority_number :low
 
     def perform
+      return unless OpenProject::FeatureDecisions.deploy_targets_active?
+
       deploy_targets.find_each do |deploy_target|
         sha = openproject_core_sha deploy_target.host, deploy_target.api_key
 
