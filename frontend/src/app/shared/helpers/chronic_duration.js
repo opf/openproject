@@ -349,8 +349,6 @@ export function outputChronicDuration(seconds, opts = {}) {
 
       units.hours += (((units.minutes * 60) + units.seconds) / 3600.0)
       units.hours = parseFloat(Math.round(units.hours * 100)) / 100;
-      const hoursDecimalPlaces =
-        units.hours % 1 !== 0 ? Math.min(2, units.hours.toString().split('.').reverse()[0].length) : null;
 
       break
     case 'chrono':
