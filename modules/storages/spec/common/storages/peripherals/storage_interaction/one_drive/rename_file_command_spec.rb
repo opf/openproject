@@ -31,13 +31,14 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::RenameFileCommand, :webmock,
-               skip: "TODO: disabled because it's flaky on dev currently. Needs to be reenabled before merging" do
+RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::RenameFileCommand, :webmock do
   let(:storage) { create(:sharepoint_dev_drive_storage) }
+  let(:userless_strategy) { Storages::Peripherals::Registry.resolve("one_drive.authentication.userless").call }
   let(:folder) do
     Storages::Peripherals::Registry
                    .resolve("one_drive.commands.create_folder")
-                   .call(storage:, folder_path: "Wrong Name")
+                   .call(auth_strategy: userless_strategy, storage:, folder_name: "Wrong Name",
+                         parent_location: Storages::Peripherals::ParentFolder.new("/"))
   end
 
   subject(:command) { described_class.new(storage) }
@@ -72,6 +73,6 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::RenameFileCo
   def delete_folder(folder_id)
     Storages::Peripherals::Registry
       .resolve("one_drive.commands.delete_folder")
-      .call(storage:, location: folder_id)
+      .call(auth_strategy: userless_strategy, storage:, location: folder_id)
   end
 end

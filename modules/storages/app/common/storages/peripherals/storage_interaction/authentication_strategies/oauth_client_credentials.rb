@@ -59,12 +59,14 @@ module Storages
 
             http = http_result.result
 
-            if access_token.nil?
+            operation_result = yield http
+
+            if access_token.nil? && operation_result.success?
               token = http.instance_variable_get(:@options).oauth_session.access_token
               Rails.cache.write("storage.#{storage.id}.httpx_access_token", token, expires_in: 50.minutes)
             end
 
-            yield http
+            operation_result
           end
 
           # rubocop:enable Metrics/AbcSize
