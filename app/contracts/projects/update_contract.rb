@@ -44,7 +44,9 @@ module Projects
     end
 
     def work_package_attachment_settings_changed?
-      model.settings_change.any? { |setting| setting.key?("deactivate_work_package_attachments") }
+      model.settings_changed? && model.settings_change.any? do |setting|
+        setting.key?("deactivate_work_package_attachments")
+      end
     end
   end
 end
