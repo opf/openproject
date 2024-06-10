@@ -78,6 +78,8 @@ module Cron
     # PRs are ever checked for their deployment status.
     def update_deploy_status(pull_request, deploy_target)
       host = deploy_target.host
+      pr_link = "[#{pull_request.repository}##{pull_request.number}](#{pull_request.github_html_url})"
+      deploy_target_link = "[#{host}](https://#{host})"
 
       ActiveRecord::Base.transaction do
         delete_status_check pull_request, deploy_target
@@ -86,7 +88,7 @@ module Cron
         comment_on_referenced_work_packages(
           pull_request.work_packages,
           comment_user,
-          "[#{pull_request.repository}##{pull_request.number}](#{pull_request.github_html_url}) deployed to [#{host}](https://#{host})"
+          I18n.t("text_pull_request_deployed_to", pr_link:, deploy_target_link:)
         )
       end
     end
@@ -102,10 +104,16 @@ module Cron
     end
 
     ##
-    # Ideally this would be the github user, but we don't really have a way
-    # to identify it outside of the webhook request cycle.
+    # We don't have a proper way to identify it outside of the webhook request cycle.
+    # So, we added this optional setting (which is lacking a UI) as a workaround for now.
     def comment_user
-      User.system
+      user_id = plugin_settings[:github_user_id].presence
+
+      user_id ? User.find(user_id) : User.system
+    end
+
+    def plugin_settings
+      Hash(Setting.plugin_openproject_github_integration).with_indifferent_access
     end
 
     def deploy_status_check(deploy_target, pull_request)
