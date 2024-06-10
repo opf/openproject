@@ -30,8 +30,9 @@ See COPYRIGHT and LICENSE files for more details.
   <%= call_hook :users_show_head %>
 <% end %>
 <% local_assigns[:additional_breadcrumb] = @user.name %>
-<% html_title t(:label_administration), t(:label_user_plural) -%>
-<%= breadcrumb_toolbar "#{avatar @user} #{h(@user.name)}".html_safe do %>
+<% html_title t(:label_user_plural) -%>
+
+<%= breadcrumb_toolbar  do %>
   <% if User.current.allowed_globally?(:manage_user) %>
     <li class="toolbar-item">
       <%= link_to edit_user_path(@user), class: 'button', accesskey: accesskey(:edit) do %>
