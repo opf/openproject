@@ -134,7 +134,7 @@ module OpenProject::GithubIntegration
       # the cron job. So if you want this feature, enable it
       # at start-time.
       if OpenProject::FeatureDecisions.deploy_targets_active?
-        jobs["Cron::CheckDeployStatusJob"] = {
+        jobs[:"Cron::CheckDeployStatusJob"] = {
           cron: "15,45 * * * *", # runs every half hour
           class: ::Cron::CheckDeployStatusJob.name
         }
