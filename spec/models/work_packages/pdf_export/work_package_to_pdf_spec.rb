@@ -39,19 +39,20 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   let(:parent_project) do
     create(:project, name: "Parent project")
   end
-  let(:project_custom_field_bool) { create(:project_custom_field, :boolean,
-                                           name: "Boolean project custom field") }
-  let(:project_custom_field_string) {
+  let(:project_custom_field_bool) do
+    create(:project_custom_field, :boolean,
+           name: "Boolean project custom field")
+  end
+  let(:project_custom_field_string) do
     create(:project_custom_field, :string,
            name: "Secret string", default_value: "admin eyes only",
            visible: false)
-  }
-  let(:project_custom_field_long_text) {
+  end
+  let(:project_custom_field_long_text) do
     create(:project_custom_field, :text,
            name: "Rich text project custom field",
-           default_value: "rich text field value"
-    )
-  }
+           default_value: "rich text field value")
+  end
   let(:project) do
     create(:project,
            name: "Foo Bla. Report No. 4/2021 with/for Case 42",
@@ -62,7 +63,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
            parent: parent_project,
            custom_field_values: {
              project_custom_field_bool.id => true,
-             project_custom_field_long_text.id => "foo",
+             project_custom_field_long_text.id => "foo"
            },
            work_package_custom_fields: [cf_long_text, cf_disabled_in_project, cf_global_bool],
            work_package_custom_field_ids: [cf_long_text.id, cf_global_bool.id]) # cf_disabled_in_project.id is disabled
@@ -96,8 +97,10 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   let(:image_attachment) { Attachment.new author: user, file: File.open(image_path) }
   let(:attachments) { [image_attachment] }
   let(:cf_long_text_description) { "" }
-  let(:cf_long_text) { create(:issue_custom_field, :text,
-                              name: "Work Package Custom Field Long Text") }
+  let(:cf_long_text) do
+    create(:issue_custom_field, :text,
+           name: "Work Package Custom Field Long Text")
+  end
   let!(:cf_disabled_in_project) do
     # NOT enabled by project.work_package_custom_field_ids => NOT in PDF
     create(:float_wp_custom_field, name: "DisabledCustomField")
@@ -173,12 +176,12 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
            created_at: export_time,
            updated_at: export_time,
            author: another_user,
-           assigned_to: another_user
-    ).tap do |wp|
-      allow(wp)
-        .to receive(:attachments)
-              .and_return attachments
-    end
+           assigned_to: another_user)
+      .tap do |wp|
+        allow(wp)
+          .to receive(:attachments)
+                .and_return attachments
+      end
   end
   let(:options) { {} }
   let(:exporter) do
@@ -221,6 +224,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   describe "with a request for a PDF" do
     describe "with rich text and images" do
       let(:cf_long_text_description) { "foo" }
+
       it "contains correct data" do
         result = pdf[:strings]
         expected_result = [
@@ -248,12 +252,12 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           ["category", category.name],
           ["createdAt", export_time_formatted],
           ["updatedAt", export_time_formatted],
-          ["estimatedTime", "10.0 h"],
-          ["remainingTime", "9.0 h"],
+          ["estimatedTime", "1d 2h"],
+          ["remainingTime", "1d 1h"],
           ["version", version.name],
           ["responsible", user.name],
           ["dueDate", "05/30/2024"],
-          ["spentTime", "0.0 h"],
+          ["spentTime", "0h"],
           ["startDate", "05/30/2024"],
           ["parent", "#{type.name} ##{parent_work_package.id}: #{parent_work_package.name}"],
           ["priority", priority.name],
@@ -298,6 +302,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
             workPackageValue:#{forbidden_work_package.id}:assignee
         DESCRIPTION
       end
+
       it "contains resolved attributes and labels" do
         result = pdf[:strings]
         expected_result = [
@@ -317,7 +322,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           "workPackageValue:3:assignee", "workPackageLabel:assignee",
           "Work package not found:  ",
           "[#{I18n.t('export.macro.error', message:
-            I18n.t('export.macro.resource_not_found', resource: "WorkPackage 1234567890"))}]  ",
+            I18n.t('export.macro.resource_not_found', resource: 'WorkPackage 1234567890'))}]  ",
           "Access denied:  ",
           "[#{I18n.t('export.macro.error', message:
             I18n.t('export.macro.resource_not_found', resource: "WorkPackage #{forbidden_work_package.id}"))}]",
@@ -382,6 +387,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
             projectValue:"#{forbidden_project.identifier}":active
         DESCRIPTION
       end
+
       it "contains resolved attributes and labels" do
         result = pdf[:strings]
         expected_result = [
@@ -406,13 +412,13 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           "Project by identifier:", " ", I18n.t(:general_text_Yes),
           "Project not found:  ",
           "[#{I18n.t('export.macro.error', message:
-            I18n.t('export.macro.resource_not_found', resource: "Project 1234567890"))}]  ",
+            I18n.t('export.macro.resource_not_found', resource: 'Project 1234567890'))}]  ",
           "Access denied:  ",
           "[#{I18n.t('export.macro.error', message:
             I18n.t('export.macro.resource_not_found', resource: "Project #{forbidden_project.id}"))}]  ",
           "Access denied by identifier:", " ", "[Macro error, resource not found: Project", "forbidden-project]",
 
-          "2", export_time_formatted, project.name,
+          "2", export_time_formatted, project.name
         ].flatten
         expect(result.join(" ")).to eq(expected_result.join(" "))
       end

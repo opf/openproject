@@ -27,13 +27,30 @@
 #++
 module WorkPackage::Exports
   module Formatters
-    class Hours < ::Exports::Formatters::Default
-      def self.apply?(name, export_format)
-        name.to_sym == :spent_hours && export_format == :pdf
+    class CompoundHours < ::Exports::Formatters::Default
+      def self.apply?(name, _export_format)
+        name.to_sym == key
       end
 
-      def format_value(value, _options)
+      def format(work_package, **)
+        hours = format_value(work_package.public_send(attribute))
+        derived_hours = total_prefix(format_value(work_package.public_send(:"derived_#{attribute}")))
+
+        [hours, derived_hours].compact.join(" ").presence
+      end
+
+      def format_value(value, _options = nil)
         DurationConverter.output(value)
+      end
+
+      private
+
+      def attribute
+        self.class.key
+      end
+
+      def total_prefix(value)
+        value && "· Σ #{value}"
       end
     end
   end

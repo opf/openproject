@@ -27,14 +27,7 @@
 #++
 module WorkPackage::Exports
   module Formatters
-    class Hours < ::Exports::Formatters::Default
-      def self.apply?(name, export_format)
-        name.to_sym == :spent_hours && export_format == :pdf
-      end
-
-      def format_value(value, _options)
-        DurationConverter.output(value)
-      end
+    class RemainingHours < ::WorkPackage::Exports::Formatters::CompoundHours
     end
   end
 end
