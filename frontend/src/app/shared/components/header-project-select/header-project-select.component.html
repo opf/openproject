@@ -29,6 +29,7 @@
       ></h1>
 
       <spot-toggle
+        *ngIf="this.currentUserService.isLoggedIn"
         [options]="displayModeOptions"
         [(ngModel)]="displayMode"
       ></spot-toggle>
