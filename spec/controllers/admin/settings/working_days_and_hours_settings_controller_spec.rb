@@ -39,10 +39,8 @@ RSpec.describe Admin::Settings::WorkingDaysAndHoursSettingsController do
     let(:working_days) { [*"1".."7"] }
     let(:non_working_days_attributes) { {} }
     let(:hours_per_day) { 4 }
-    let(:days_per_week) { 5 }
-    let(:days_per_month) { 20 }
     let(:params) do
-      { settings: { working_days:, non_working_days_attributes:, hours_per_day:, days_per_week:, days_per_month: } }
+      { settings: { working_days:, non_working_days_attributes:, hours_per_day: } }
     end
 
     subject { patch "update", params: }

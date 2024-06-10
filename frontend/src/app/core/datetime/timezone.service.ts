@@ -151,11 +151,7 @@ export class TimezoneService {
   public formattedChronicDuration(durationString:string, opts = {
     format: 'daysAndHours',
     hoursPerDay: this.configurationService.hoursPerDay(),
-    // daysPerWeek is solely a convenience unit for the user's comprehension.
-    // It's not an accepted unit by chronicDuration. daysPerMonth is the value
-    // we provide it.
     daysPerMonth: this.configurationService.daysPerMonth(),
-    weeks: true,
   }):string {
     // Keep in sync with app/services/duration_converter#output
     const seconds = this.toSeconds(durationString) + 30;
