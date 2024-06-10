@@ -750,7 +750,7 @@ GEM
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     numerizer (0.2.0)
-    oj (3.16.3)
+    oj (3.16.4)
       bigdecimal (>= 3.0)
     okcomputer (1.18.5)
     omniauth-saml (1.10.3)
