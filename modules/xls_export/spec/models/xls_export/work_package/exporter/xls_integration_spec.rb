@@ -337,7 +337,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
              estimated_hours: 0.0,
              derived_estimated_hours: 15.0,
              remaining_hours: 0.0,
-             derived_remaining_hours: 1225.89,
+             derived_remaining_hours: 8,
              type: project.types.first)
     end
     let(:work_packages) { [work_package] }
