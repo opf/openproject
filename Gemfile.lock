@@ -1057,9 +1057,9 @@ GEM
       base64
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
-    sprockets-rails (3.4.2)
-      actionpack (>= 5.2)
-      activesupport (>= 5.2)
+    sprockets-rails (3.5.1)
+      actionpack (>= 6.1)
+      activesupport (>= 6.1)
       sprockets (>= 3.0.0)
     ssrf_filter (1.0.8)
     stackprof (0.2.26)
@@ -1335,7 +1335,7 @@ DEPENDENCIES
   spring-commands-rspec
   spring-commands-rubocop
   sprockets (~> 3.7.2)
-  sprockets-rails (~> 3.4.2)
+  sprockets-rails (~> 3.5.1)
   stackprof
   store_attribute (~> 1.0)
   stringex (~> 2.8.5)
