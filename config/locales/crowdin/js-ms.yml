@@ -102,7 +102,7 @@ ms:
     button_save: "Simpan"
     button_settings: "Tetapan"
     button_uncheck_all: "Nyahtandakan semua"
-    button_update: "Kemaskini"
+    button_update: "Kemas kini"
     button_export-pdf: "Muat turun PDF"
     button_export-atom: "Muat Turun Atom"
     button_create: "Cipta"
@@ -276,9 +276,9 @@ ms:
           Adakah anda pasti anda ingin teruskan?
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+          Mengubah mod pengiraan perkembangan daripada berdasarkan-status kepada berdasarkan-kerja akan menjadikan <i>% Selesai</i> ruang yang tidak boleh diedit yang nilainya diperoleh daripada <i>Kerja</i> dan <i>Kerja yang berbaki</i>. Nilai yang sedia ada bagi <i>% Selesai</i> dikekalkan. Jika nilai <i>Kerja</i> dan <i>Kerja yang berbaki</i> tiada, nilai tersebut akan diperlukan untuk mengubah <i>% Selesai</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
-          Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
+          Mengubah mod pengiraan perkembangan daripada berasaskan-kerja kepada berasaskan-status akan menjadikan semua nilai <i>% Selesai</i> yang sedia ada hilang dan digantikan dengan nilai yang berkaitan dengan setiap status. Nilai sedia ada bagi <i>Kerja yang berbaki</i> juga akan dikira semula untuk menggambarkan perubahan ini. Tindakan ini tidak boleh dipulihkan.
     custom_actions:
       date:
         specific: "pada"
