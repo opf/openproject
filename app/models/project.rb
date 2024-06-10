@@ -252,6 +252,13 @@ class Project < ApplicationRecord
     enabled_modules.map(&:name)
   end
 
+  def reload(*)
+    @allowed_permissions = nil
+    @allowed_actions = nil
+
+    super
+  end
+
   def allowed_permissions
     @allowed_permissions ||=
       begin
