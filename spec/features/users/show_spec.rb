@@ -64,7 +64,7 @@ RSpec.describe "index users", :js, :with_cuprite do
 
     it "does not show the group" do
       visit user_path(user)
-      expect(page).not_to have_text group.name
+      expect(page).to have_no_text group.name
     end
   end
 end

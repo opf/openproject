@@ -1,0 +1,37 @@
+<%=
+  component_wrapper do
+    flex_layout(mt: 3) do |details_container|
+      details_container.with_row do
+        flex_layout(align_items: :center, justify_content: :space_between) do |heading|
+          heading.with_column(flex: 1) do
+            render(Primer::Beta::Heading.new(tag: :h4)) { t(:label_information) }
+          end
+
+          if User.current.admin?
+            heading.with_column do
+              render(Primer::Beta::Link.new(
+                href: edit_user_path(@user),
+                scheme: :secondary
+              )) { t(:label_manage) }
+            end
+          end
+        end
+      end
+
+      details_container.with_row(mt: 2) do
+        if @user.pref.can_expose_mail?
+          concat "#{User.human_attribute_name(:mail)}: "
+          concat mail_to(escape_javascript(@user.mail), nil, encode: 'javascript')
+        end
+      end
+
+      @user.visible_custom_field_values.each do |custom_value|
+        if custom_value.value.present?
+          details_container.with_row do
+            "#{custom_value.custom_field.name}: #{custom_value.formatted_value}"
+          end
+        end
+      end
+    end
+  end
+%>

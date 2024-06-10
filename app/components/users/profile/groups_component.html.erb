@@ -1,0 +1,32 @@
+<%=
+  component_wrapper do
+    flex_layout(mt: 3) do |details_container|
+      details_container.with_row do
+        flex_layout(align_items: :center, justify_content: :space_between) do |heading|
+          heading.with_column(flex: 1) do
+            render(Primer::Beta::Heading.new(tag: :h4)) { t(:label_group_plural) }
+          end
+
+          if User.current.admin?
+            heading.with_column do
+              render(Primer::Beta::Link.new(
+                href: edit_user_path(@user, tab: :groups),
+                scheme: :secondary
+              )) { t(:label_manage) }
+            end
+          end
+        end
+      end
+
+      details_container.with_row(mt: 2) do
+        render(OpPrimer::ExpandableListComponent.new(cutoff_limit: 5)) do |list|
+          @groups.each do |group|
+            list.with_element do
+              helpers.avatar(group, size: :mini, hide_name: false)
+            end
+          end
+        end
+      end
+    end
+  end
+%>

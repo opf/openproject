@@ -125,10 +125,6 @@ module UsersHelper
     end
   end
 
-  def visible_user_information?(user)
-    user.pref.can_expose_mail? || user.visible_custom_field_values.any? { _1.value.present? }
-  end
-
   def user_name(user)
     user ? user.name : I18n.t("user.deleted")
   end
