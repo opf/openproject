@@ -120,6 +120,26 @@ RSpec.describe ApplicationController, "enforcement of authorization" do # ruboco
     it_behaves_like "succeeds"
   end
 
+  context "with authorization checked via prepend_before_action" do
+    controller do
+      prepend_before_action :authorize
+
+      include controller_setup
+    end
+
+    it_behaves_like "succeeds"
+  end
+
+  context "with authorization checked via append_before_action" do
+    controller do
+      append_before_action :authorize
+
+      include controller_setup
+    end
+
+    it_behaves_like "succeeds"
+  end
+
   context "with another before action specified" do
     controller do
       before_action :other_before_action

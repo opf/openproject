@@ -124,12 +124,28 @@ module Accounts::Authorization
   class_methods do
     # Overriding before_action of rails to check if any authorization method is by now defined.
     def before_action(*names, &)
-      if METHODS_ENFORCING_AUTHORIZATION.intersect?(names)
-        no_authorization_required!(only: names.last.is_a?(Hash) ? Array(names.last[:only]) : [],
-                                   except: names.last.is_a?(Hash) ? Array(names.last[:except]) : [])
-      end
+      set_authorization_checked_if_covered(*names)
 
       super
+    end
+
+    def prepend_before_action(*names, &)
+      set_authorization_checked_if_covered(*names)
+
+      super
+    end
+
+    def append_before_action(*names, &)
+      set_authorization_checked_if_covered(*names)
+
+      super
+    end
+
+    def set_authorization_checked_if_covered(*names)
+      return unless METHODS_ENFORCING_AUTHORIZATION.intersect?(names)
+
+      authorization_checked!(only: names.last.is_a?(Hash) ? Array(names.last[:only]) : [],
+                             except: names.last.is_a?(Hash) ? Array(names.last[:except]) : [])
     end
 
     def no_authorization_required!(only: [], except: [])
