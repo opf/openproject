@@ -103,14 +103,10 @@ class DurationConverter
     def output(duration_in_hours)
       return duration_in_hours if duration_in_hours.nil?
 
-      # Prevents rounding errors when including seconds by chopping
-      # off the overflow seconds and keeping the nearest minute.
-      seconds = ((duration_in_hours * 3600) + 30).to_i
-      seconds_overflow = seconds % 60
-      seconds_to_the_nearest_minute = seconds - seconds_overflow
+      seconds = (duration_in_hours * 3600).to_i
 
       # :days_and_hours format return "0h" when parsing 0.
-      ChronicDuration.output(seconds_to_the_nearest_minute,
+      ChronicDuration.output(seconds,
                              format: :days_and_hours,
                              **duration_length_options)
     end
