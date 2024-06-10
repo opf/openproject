@@ -4,9 +4,16 @@ module ::TwoFactorAuthentication
       # Ensure user is logged in
       before_action :require_login
       before_action :set_user_variables
-      # Authorization is not handled explictly but as the user on which changes can be done is only the current user
+      # Authorization is not handled explicitly but as the user on which changes can be done is only the current user
       # (and that user needs to be logged in), no action harmful to other users can be done.
-      no_authorization_required!
+      no_authorization_required! only: %i[new
+                                          index
+                                          create
+                                          register
+                                          confirm
+                                          destroy
+                                          make_default
+                                          webauthn_challenge]
 
       before_action :find_device, except: %i[new index register webauthn_challenge]
 

@@ -3,7 +3,7 @@ module ::Avatars
     before_action :ensure_enabled
     before_action :find_avatar
 
-    no_authorization_required!
+    no_authorization_required! only: %i[show]
 
     def show
       send_file @avatar.diskfile,
