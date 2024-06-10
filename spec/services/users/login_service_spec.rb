@@ -203,10 +203,10 @@ RSpec.describe Users::LoginService, type: :model do
     let!(:invitation_token) { create(:invitation_token, user: input_user) }
     let!(:recovery_token) { create(:recovery_token, user: input_user) }
 
-    it "removes those token on successful login" do
+    it "removes only the recovery token on successful login" do
       subject
 
-      expect(Token::Invitation.exists?(invitation_token.id)).to be false
+      expect(Token::Invitation.exists?(invitation_token.id)).to be true
       expect(Token::Recovery.exists?(recovery_token.id)).to be false
     end
   end

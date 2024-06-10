@@ -38,9 +38,9 @@ module Users
       @user = current_user
     end
 
-    def call!
+    def call!(clear_invitation_tokens: true)
       invalidate_recovery_tokens
-      invalidate_invitation_tokens
+      invalidate_invitation_tokens if clear_invitation_tokens
     end
 
     private
