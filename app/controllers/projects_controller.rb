@@ -96,7 +96,11 @@ class ProjectsController < ApplicationController
              .new(user: current_user, model: @project)
              .call(deactivate_work_package_attachments: params[:value] != "1")
 
-    render_403 if call.failure?
+    if call.failure?
+      return render_403 if call.errors.map(&:type).include?(:error_unauthorized)
+
+      render_error({ message: call.errors.full_messages.join("\n") })
+    end
   end
 
   private
