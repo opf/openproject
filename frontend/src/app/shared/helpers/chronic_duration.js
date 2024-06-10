@@ -42,6 +42,9 @@ export class DurationParseError extends Error {
 // On average, there's a little over 4 weeks in month.
 const FULL_WEEKS_PER_MONTH = 4;
 
+// 365.25 days in a year.
+const SECONDS_PER_YEAR = 31557600;
+
 const HOURS_PER_DAY = 24;
 const DAYS_PER_MONTH = 30;
 
@@ -102,7 +105,7 @@ function durationUnitsSecondsMultiplier(unit, opts) {
 
   switch (unit) {
     case 'years':
-      return 31557600;
+      return SECONDS_PER_YEAR;
     case 'months':
       return 3600 * hoursPerDay * daysPerMonth;
     case 'weeks':
@@ -193,12 +196,6 @@ function filterThroughWhiteList(string, opts) {
 
 function cleanup(string, opts) {
   let res = string.toLowerCase();
-  /*
-   * TODO The Ruby implementation of this algorithm uses the Numerizer module,
-   * which converts strings like "forty two" to "42", but there is no
-   * JavaScript equivalent of Numerizer. Skip it for now until Numerizer is
-   * ported to JavaScript.
-   */
   res = filterByType(res);
   res = res
     .replace(FLOAT_MATCHER, (n) => ` ${n} `)
@@ -209,6 +206,9 @@ function cleanup(string, opts) {
 
 function humanizeTimeUnit(number, unit, pluralize, keepZero) {
   if (number === '0' && !keepZero) {
+    return null;
+  }
+  if (unit === undefined) {
     return null;
   }
   let res = number + unit;
@@ -251,9 +251,9 @@ export function outputChronicDuration(seconds, opts = {}) {
   const hour = 60 * minute;
   const day = hoursPerDay * hour;
   const month = daysPerMonth * day;
-  const year = 31557600;
+  const year = SECONDS_PER_YEAR;
 
-  if (units.seconds >= 31557600 && units.seconds % year < units.seconds % month) {
+  if (units.seconds >= SECONDS_PER_YEAR && units.seconds % year < units.seconds % month) {
     units.years = Math.trunc(units.seconds / year);
     units.months = Math.trunc((units.seconds % year) / month);
     units.days = Math.trunc(((units.seconds % year) % month) / day);
@@ -330,6 +330,29 @@ export function outputChronicDuration(seconds, opts = {}) {
         pluralize: true,
       };
       break;
+    case 'daysAndHours':
+      dividers = {
+        // days: 'd',
+        hours: 'h',
+        keepZero: true,
+      };
+
+      units.days += units.weeks * daysPerWeek
+      units.weeks = 0
+      units.days += units.months * daysPerMonth
+      units.months = 0
+      units.days += Math.floor(units.years * SECONDS_PER_YEAR / 3600 / 24)
+      units.years = 0
+      if (units.days > 0) {
+        dividers.days = 'd';
+      }
+
+      units.hours += (((units.minutes * 60) + units.seconds) / 3600.0)
+      units.hours = parseFloat(Math.round(units.hours * 100)) / 100;
+      const hoursDecimalPlaces =
+        units.hours % 1 !== 0 ? Math.min(2, units.hours.toString().split('.').reverse()[0].length) : null;
+
+      break
     case 'chrono':
       dividers = {
         years: ':',

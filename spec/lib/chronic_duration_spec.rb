@@ -203,6 +203,14 @@ RSpec.describe ChronicDuration do
           days_and_hours: "1096d 0h",
           chrono: "3:00:01:00:00:00"
         },
+      ((6 * 365.25 * 24 * 3600) + (3 * 3600)).to_i => {
+        micro: "6y3h",
+        short: "6y 3h",
+        default: "6 yrs 3 hrs",
+        long: "6 years 3 hours",
+        days_and_hours: "2191d 3h",
+        chrono: "6:00:00:03:00:00"
+      },
       (3600 * 24 * 30 * 18) =>
         {
           micro: "18mo",

@@ -39,6 +39,9 @@ module ChronicDuration
   # On average, there's a little over 4 weeks in month.
   FULL_WEEKS_PER_MONTH = 4
 
+  # 365.25 days in a year.
+  SECONDS_PER_YEAR = 31_557_600
+
   @@raise_exceptions = false
   @@hours_per_day = 24
   @@days_per_month = 30
@@ -88,7 +91,6 @@ module ChronicDuration
     hours_per_day = opts[:hours_per_day] || ChronicDuration.hours_per_day
     days_per_month = opts[:days_per_month] || ChronicDuration.days_per_month
     days_per_week = days_per_month / FULL_WEEKS_PER_MONTH
-    seconds_per_year = 31_557_600
 
     years = months = weeks = days = hours = minutes = 0
 
@@ -98,9 +100,9 @@ module ChronicDuration
     hour = 60 * minute
     day = hours_per_day * hour
     month = days_per_month * day
-    year = seconds_per_year
+    year = SECONDS_PER_YEAR
 
-    if seconds >= seconds_per_year && seconds % year < seconds % month
+    if seconds >= SECONDS_PER_YEAR && seconds % year < seconds % month
       years = seconds / year
       months = seconds % year / month
       days = seconds % year % month / day
@@ -163,7 +165,7 @@ module ChronicDuration
 
       days += weeks * days_per_week
       days += months * days_per_month
-      days += years * seconds_per_year / 3600 / 24
+      days += years * SECONDS_PER_YEAR / 3600 / 24
       dividers[:days] = "d" if days > 0
       years = months = weeks = 0
 
@@ -191,7 +193,6 @@ module ChronicDuration
 
     result = %i[years months weeks days hours minutes seconds].map do |t|
       next if t == :weeks && !opts[:weeks]
-      next unless dividers[t]
 
       num = eval(t.to_s) # rubocop:disable Security/Eval
       num = ("%.#{decimal_places}f" % num) if num.is_a?(Float) && t == :seconds
@@ -214,6 +215,7 @@ module ChronicDuration
 
   def humanize_time_unit(number, unit, pluralize, keep_zero)
     return nil if number == 0 && !keep_zero
+    return unless unit
 
     res = "#{number}#{unit}"
     # A poor man's pluralizer
