@@ -65,15 +65,14 @@ module Accounts::Authorization
 
   # Authorize the user for the requested controller action.
   # To be used in before_action hooks
-  def authorize(ctrl = params[:controller], action = params[:action])
-    do_authorize({ controller: ctrl, action: }, global: false)
+  def authorize
+    do_authorize({ controller: params[:controller], action: params[:action] }, global: false)
   end
 
   # Authorize the user for the requested controller action outside a project
   # To be used in before_action hooks
   def authorize_global
-    action = { controller: params[:controller], action: params[:action] }
-    do_authorize(action, global: true)
+    do_authorize({ controller: params[:controller], action: params[:action] }, global: true)
   end
 
   # Find a project based on params[:project_id]
