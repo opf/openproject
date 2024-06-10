@@ -2,7 +2,7 @@ module ::TeamPlanner
   class TeamPlannerController < BaseController
     include EnterpriseTrialHelper
     include Layout
-    before_action :authorize_in_optional_project
+    before_action :load_and_authorize_in_optional_project
     before_action :build_plan_view, only: %i[new]
     before_action :require_ee_token, except: %i[upsale]
     before_action :find_plan_view, only: %i[destroy]

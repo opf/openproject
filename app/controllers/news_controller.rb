@@ -36,7 +36,7 @@ class NewsController < ApplicationController
   before_action :find_project_from_association, except: %i[new create index]
   before_action :find_project, only: %i[new create]
   before_action :authorize, except: [:index]
-  before_action :authorize_in_optional_project, only: [:index]
+  before_action :load_and_authorize_in_optional_project, only: [:index]
   accept_key_auth :index
 
   def index

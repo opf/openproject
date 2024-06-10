@@ -29,7 +29,7 @@
 class SearchController < ApplicationController
   include Layout
 
-  before_action :authorize_in_optional_project,
+  before_action :load_and_authorize_in_optional_project,
                 :prepare_tokens
 
   LIMIT = 10

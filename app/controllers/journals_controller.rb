@@ -29,7 +29,7 @@
 #++
 
 class JournalsController < ApplicationController
-  before_action :authorize_in_optional_project, only: [:index]
+  before_action :load_and_authorize_in_optional_project, only: [:index]
   before_action :find_journal,
                 :ensure_permitted,
                 only: [:diff]

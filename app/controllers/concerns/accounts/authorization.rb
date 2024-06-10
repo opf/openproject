@@ -31,7 +31,7 @@
 module Accounts::Authorization
   extend ActiveSupport::Concern
 
-  METHODS_ENFORCING_AUTHORIZATION = %i[require_admin authorize authorize_global authorize_in_optional_project].freeze
+  METHODS_ENFORCING_AUTHORIZATION = %i[require_admin authorize authorize_global load_and_authorize_in_optional_project].freeze
 
   included do
     class_attribute :authorization_ensured,
@@ -77,7 +77,7 @@ module Accounts::Authorization
   end
 
   # Find a project based on params[:project_id]
-  def authorize_in_optional_project
+  def load_and_authorize_in_optional_project
     @project = Project.find(params[:project_id]) if params[:project_id].present?
 
     do_authorize({ controller: params[:controller], action: params[:action] }, global: params[:project_id].blank?)

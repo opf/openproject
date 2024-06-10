@@ -28,7 +28,7 @@
 
 module ::Calendar
   class CalendarsController < ApplicationController
-    before_action :authorize_in_optional_project
+    before_action :load_and_authorize_in_optional_project
     before_action :build_calendar_view, only: %i[new]
     before_action :authorize, except: %i[index new create]
     before_action :authorize_global, only: %i[index new create]

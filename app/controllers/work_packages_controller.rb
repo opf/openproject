@@ -36,7 +36,7 @@ class WorkPackagesController < ApplicationController
 
   before_action :authorize_on_work_package,
                 :project, only: :show
-  before_action :authorize_in_optional_project,
+  before_action :load_and_authorize_in_optional_project,
                 :check_allowed_export,
                 :protect_from_unauthorized_export, only: :index
   authorization_checked! only: %i[index show]

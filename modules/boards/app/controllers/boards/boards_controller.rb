@@ -2,7 +2,7 @@ module ::Boards
   class BoardsController < BaseController
     include Layout
 
-    before_action :authorize_in_optional_project
+    before_action :load_and_authorize_in_optional_project
 
     # The boards permission alone does not suffice
     # to view work packages

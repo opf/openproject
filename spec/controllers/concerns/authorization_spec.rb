@@ -46,7 +46,7 @@ RSpec.describe ApplicationController, "enforcement of authorization" do # ruboco
 
       def authorize; end
 
-      def authorize_in_optional_project; end
+      def load_and_authorize_in_optional_project; end
 
       def other_before_action; end
     end
@@ -110,9 +110,9 @@ RSpec.describe ApplicationController, "enforcement of authorization" do # ruboco
     it_behaves_like "succeeds"
   end
 
-  context "with authorization checked with authorize_in_optional_project" do
+  context "with authorization checked with load_and_authorize_in_optional_project" do
     controller do
-      before_action :authorize_in_optional_project
+      before_action :load_and_authorize_in_optional_project
 
       include controller_setup
     end
