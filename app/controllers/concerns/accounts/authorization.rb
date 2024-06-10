@@ -51,8 +51,9 @@ module Accounts::Authorization
         raise <<-MESSAGE
           Authorization check required for #{params[:action]} in #{self.class.name}.
 
-          Use any method of 'authorize', 'authorize_global', 'authorize_in_optional_project'
-          or 'require_admin' to ensure authorization. If authorization is checked by any other means,
+          Use any method of
+            #{METHODS_ENFORCING_AUTHORIZATION.join(', ')}
+          to ensure authorization. If authorization is checked by any other means,
           affirm the same by calling 'authorization_checked!' in the controller. If the authorization does
           not need to be checked for this action, affirm the same by calling 'no_authorization_required!'
         MESSAGE
