@@ -46,6 +46,7 @@ RSpec.describe "users/show" do
     assign(:user, user)
     assign(:memberships, user.memberships)
     assign(:events, [])
+    assign(:groups, [])
   end
 
   it "renders the visible custom values" do
