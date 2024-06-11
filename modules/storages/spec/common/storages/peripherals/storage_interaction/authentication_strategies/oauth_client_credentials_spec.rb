@@ -67,6 +67,18 @@ RSpec.describe Storages::Peripherals::StorageInteraction::AuthenticationStrategi
       expect(result).to be_failure
       expect(result.result).to eq("It failed")
     end
+
+    it "clears an already existing token" do
+      Rails.cache.write("storage.#{storage.id}.httpx_access_token", "BORKED_TOKEN")
+
+      strategy.call(storage:) do |http|
+        http.get("https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root").raise_for_status
+      rescue HTTPX::Error
+        ServiceResult.failure(result: :forbidden)
+      end
+
+      expect(Rails.cache.fetch("storage.#{storage.id}.httpx_access_token")).to be_nil
+    end
   end
 
   context "when the attempted request works" do
