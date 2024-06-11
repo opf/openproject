@@ -64,6 +64,8 @@ module Storages
             if access_token.nil? && operation_result.success?
               token = http.instance_variable_get(:@options).oauth_session.access_token
               Rails.cache.write("storage.#{storage.id}.httpx_access_token", token, expires_in: 50.minutes)
+            elsif operation_result.failure? && operation_result.result == :forbidden
+              Rails.cache.delete("storage.#{storage.id}.httpx_access_token")
             end
 
             operation_result
