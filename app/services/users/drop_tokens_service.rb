@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -25,18 +27,30 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module Sessions
-  class DropOtherSessionsService
-    class << self
-      ##
-      # Drop all other sessions for the current user.
-      # This can only be done when active record sessions are used.
-      def call!(user, session)
-        ::Sessions::UserSession
-          .for_user(user)
-          .where.not(session_id: session.id.private_id)
-          .delete_all
-      end
+
+module Users
+  ##
+  # Remove all recovery and invitation tokens for the user
+  class DropTokensService
+    attr_accessor :user
+
+    def initialize(current_user:)
+      @user = current_user
+    end
+
+    def call!(clear_invitation_tokens: true)
+      invalidate_recovery_tokens
+      invalidate_invitation_tokens if clear_invitation_tokens
+    end
+
+    private
+
+    def invalidate_recovery_tokens
+      Token::Recovery.where(user: user).delete_all
+    end
+
+    def invalidate_invitation_tokens
+      Token::Invitation.where(user: user).delete_all
     end
   end
 end
