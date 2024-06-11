@@ -302,9 +302,6 @@ ru:
         new_project_mapping_form:
           add_projects: Добавить проекты
           include_sub_projects: Включить подпроекты
-        project_mapping_filter:
-          label: Поиск проекта
-          placeholder: Фильтр по тексту
       types:
         no_results_title_text: На данный момент доступных типов нет.
         form:

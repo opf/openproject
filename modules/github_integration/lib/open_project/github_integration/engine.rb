@@ -35,6 +35,14 @@ module OpenProject::GithubIntegration
 
     include OpenProject::Plugins::ActsAsOpEngine
 
+    def self.settings
+      {
+        default: {
+          "github_user_id" => nil
+        }
+      }
+    end
+
     initializer "github.feature_decisions" do
       OpenProject::FeatureDecisions.add :deploy_targets
     end
@@ -42,7 +50,8 @@ module OpenProject::GithubIntegration
     register(
       "openproject-github_integration",
       author_url: "https://www.openproject.org/",
-      bundled: true
+      bundled: true,
+      settings:
     ) do
       ::Redmine::MenuManager.map(:admin_menu) do |menu|
         menu.push :admin_github_integration,
