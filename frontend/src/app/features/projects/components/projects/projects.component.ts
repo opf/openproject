@@ -6,7 +6,6 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 @Component({
-  selector: 'app-projects',
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss'],
 })
