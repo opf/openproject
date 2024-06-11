@@ -149,20 +149,14 @@ export class TimezoneService {
   }
 
   public formattedChronicDuration(durationString:string, opts = {
-    format: 'short',
+    format: 'daysAndHours',
     hoursPerDay: this.configurationService.hoursPerDay(),
-    // daysPerWeek is solely a convenience unit for the user's comprehension.
-    // It's not an accepted unit by chronicDuration. daysPerMonth is the value
-    // we provide it.
     daysPerMonth: this.configurationService.daysPerMonth(),
-    weeks: true,
   }):string {
     // Keep in sync with app/services/duration_converter#output
-    const seconds = this.toSeconds(durationString) + 30;
-    const secondsOverflow = seconds % 60;
-    const secondsToTheNearestMinute = seconds - secondsOverflow;
+    const seconds = this.toSeconds(durationString);
 
-    return outputChronicDuration(secondsToTheNearestMinute, opts) || '0h';
+    return outputChronicDuration(seconds, opts) || '0h';
   }
 
   public formattedISODate(date:any):string {

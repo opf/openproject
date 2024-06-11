@@ -27,25 +27,30 @@
 #++
 module WorkPackage::Exports
   module Formatters
-    class DerivedRemainingHours < ::Exports::Formatters::Default
+    class CompoundHours < ::Exports::Formatters::Default
       def self.apply?(name, _export_format)
-        %i[derived_remaining_time derived_remaining_hours].include?(name.to_sym)
+        name.to_sym == key
       end
 
       def format(work_package, **)
-        formatted_derived_hours(work_package)
+        hours = format_value(work_package.public_send(attribute))
+        derived_hours = total_prefix(format_value(work_package.public_send(:"derived_#{attribute}")))
+
+        [hours, derived_hours].compact.join(" ").presence
+      end
+
+      def format_value(value, _options = nil)
+        DurationConverter.output(value)
       end
 
       private
 
-      def formatted_hours(value)
-        value.nil? ? nil : "#{value} #{I18n.t('export.units.hours')}"
+      def attribute
+        self.class.key
       end
 
-      def formatted_derived_hours(work_package)
-        if (derived_estimated_value = work_package.derived_estimated_hours)
-          formatted_hours(derived_estimated_value)
-        end
+      def total_prefix(value)
+        value && "· Σ #{value}"
       end
     end
   end

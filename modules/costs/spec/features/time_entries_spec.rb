@@ -73,8 +73,8 @@ RSpec.describe "Work Package table cost entries", :js do
     parent_row = wp_table.row(parent)
     wp_row = wp_table.row(work_package)
 
-    expect(parent_row).to have_css(".inline-edit--container.spentTime", text: "1d 4h 30m")
-    expect(wp_row).to have_css(".inline-edit--container.spentTime", text: "2h 30m")
+    expect(parent_row).to have_css(".inline-edit--container.spentTime", text: "1d 4.5h")
+    expect(wp_row).to have_css(".inline-edit--container.spentTime", text: "2.5h")
   end
 
   it "creates an activity" do

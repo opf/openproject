@@ -28,4 +28,7 @@
  * ++
  */
 
-export function outputChronicDuration(duration:number, opts = {}):string|null;
+export declare function outputChronicDuration(duration:number, opts = {}):string|null;
+export declare function parseChronicDuration(string:string|null, opts = {}):number;
+export declare class DurationParseError extends Error {
+}
