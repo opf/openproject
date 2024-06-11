@@ -29,7 +29,7 @@
 class AngularController < ApplicationController
   before_action :require_login
 
-  no_authorization_required! only: %i[empty_layout notifications_layout]
+  no_authorization_required! :empty_layout, :notifications_layout
 
   def empty_layout
     # Frontend will handle rendering

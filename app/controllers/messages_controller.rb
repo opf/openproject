@@ -33,7 +33,7 @@ class MessagesController < ApplicationController
   before_action :find_object_and_scope
   before_action :authorize, except: %i[edit update destroy]
   # Checked inside the method.
-  no_authorization_required! only: %i[edit update destroy]
+  no_authorization_required! :edit, :update, :destroy
 
   include AttachmentsHelper
   include PaginationHelper

@@ -32,7 +32,8 @@ class WatchersController < ApplicationController
                 :require_login,
                 :deny_access_unless_visible
 
-  authorization_checked! only: %i[watch unwatch]
+  authorization_checked! :watch,
+                         :unwatch
 
   def watch
     set_watcher(User.current, true)

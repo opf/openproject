@@ -29,7 +29,7 @@
 class FavoritesController < ApplicationController
   before_action :find_favored_by_object
   before_action :require_login
-  no_authorization_required! only: %i[favorite unfavorite]
+  no_authorization_required! :favorite, :unfavorite
 
   def favorite
     if @favored.visible?(User.current)

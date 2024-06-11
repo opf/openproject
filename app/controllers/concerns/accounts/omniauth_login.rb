@@ -44,7 +44,7 @@ module Accounts::OmniauthLogin
       check_session_lifetime
     ]
       .each { |key| skip_before_action key, only: [:omniauth_login] }
-    no_authorization_required! only: %i[omniauth_login omniauth_failure]
+    no_authorization_required! :omniauth_login, :omniauth_failure
 
     helper :omniauth
   end

@@ -3,7 +3,7 @@ module ::TwoFactorAuthentication
     class BackupCodesController < ::ApplicationController
       # Ensure user is logged in
       before_action :require_login
-      no_authorization_required! only: %i[show create]
+      no_authorization_required! :show, :create
 
       # Password confirmation helpers and actions
       include PasswordConfirmation

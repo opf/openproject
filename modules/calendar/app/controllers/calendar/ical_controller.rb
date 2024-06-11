@@ -30,7 +30,7 @@ module ::Calendar
   class ICalController < ApplicationController
     # Authentication and authorization is handled within the service.
     skip_before_action :check_if_login_required
-    no_authorization_required! only: :show
+    no_authorization_required! :show
 
     def show
       begin

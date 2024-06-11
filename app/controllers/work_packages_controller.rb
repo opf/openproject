@@ -39,7 +39,7 @@ class WorkPackagesController < ApplicationController
   before_action :load_and_authorize_in_optional_project,
                 :check_allowed_export,
                 :protect_from_unauthorized_export, only: :index
-  authorization_checked! only: %i[index show]
+  authorization_checked! :index, :show
 
   before_action :load_and_validate_query, only: :index, unless: -> { request.format.html? }
   before_action :load_work_packages, only: :index, if: -> { request.format.atom? }

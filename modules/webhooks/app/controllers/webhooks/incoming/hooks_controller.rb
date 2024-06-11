@@ -37,7 +37,7 @@ module Webhooks
       skip_before_action :verify_authenticity_token
       # Authorization cannot be applied since authentication is skipped.
       # It is then to be ensured when handling the hook.
-      no_authorization_required! only: [:handle_hook]
+      no_authorization_required! :handle_hook
 
       # Wrap the JSON body as 'payload' param
       # making it available as params[:payload]

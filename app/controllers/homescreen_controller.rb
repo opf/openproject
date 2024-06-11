@@ -28,7 +28,7 @@
 
 class HomescreenController < ApplicationController
   skip_before_action :check_if_login_required, only: [:robots]
-  no_authorization_required! only: %i[index robots]
+  no_authorization_required! :index, :robots
 
   layout "global"
 

@@ -39,21 +39,21 @@ class MyController < ApplicationController
   before_action :set_grouped_ical_tokens, only: %i[access_token]
   before_action :set_ical_token, only: %i[revoke_ical_token]
 
-  no_authorization_required! only: %i[account
-                                      update_account
-                                      settings
-                                      update_settings
-                                      password
-                                      change_password
-                                      access_token
-                                      delete_storage_token
-                                      notifications
-                                      reminders
-                                      generate_rss_key
-                                      revoke_rss_key
-                                      generate_api_key
-                                      revoke_api_key
-                                      revoke_ical_token]
+  no_authorization_required! :account,
+                             :update_account,
+                             :settings,
+                             :update_settings,
+                             :password,
+                             :change_password,
+                             :access_token,
+                             :delete_storage_token,
+                             :notifications,
+                             :reminders,
+                             :generate_rss_key,
+                             :revoke_rss_key,
+                             :generate_api_key,
+                             :revoke_api_key,
+                             :revoke_ical_token
 
   menu_item :account,             only: [:account]
   menu_item :settings,            only: [:settings]

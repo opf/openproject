@@ -30,7 +30,7 @@ require "rack/utils"
 
 class WorkPackages::AutoCompletesController < ApplicationController
   # Authorization is checked by the query.
-  no_authorization_required! only: :index
+  no_authorization_required! :index
 
   def index
     @work_packages = work_packages_matching_query_prop

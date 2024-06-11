@@ -40,7 +40,9 @@ class HourlyRatesController < ApplicationController
 
   # #show, #edit and #update have their own authorization
   before_action :authorize, except: %i[show edit update]
-  no_authorization_required! only: %i[show edit update]
+  no_authorization_required! :show,
+                             :edit,
+                             :update
 
   # TODO: this should be an index
   def show

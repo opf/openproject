@@ -33,7 +33,7 @@ RSpec.describe ApplicationController do
 
   # Fake controller to test calling an action
   controller do
-    no_authorization_required!
+    no_authorization_required! :index
 
     def index
       # just do anything that doesn't require an extra template
@@ -154,7 +154,7 @@ RSpec.describe ApplicationController do
     controller do
       include OpenProjectErrorHelper
 
-      no_authorization_required!
+      no_authorization_required! :index
 
       def index
         op_handle_error "fail"

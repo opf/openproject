@@ -27,7 +27,7 @@
 #++
 
 class OnboardingController < ApplicationController
-  no_authorization_required! only: %i[user_settings]
+  no_authorization_required! :user_settings
 
   def user_settings
     @user = User.current

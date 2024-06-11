@@ -28,7 +28,7 @@
 
 class ColorsController < ApplicationController
   before_action :require_admin_unless_readonly_api_request
-  authorization_checked! only: %i[index show new edit create update confirm_destroy destroy]
+  authorization_checked! :index, :show, :new, :edit, :create, :update, :confirm_destroy, :destroy
 
   layout "admin"
 

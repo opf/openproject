@@ -31,7 +31,7 @@ class GroupsController < ApplicationController
   layout "admin"
 
   before_action :require_admin, except: %i[show]
-  no_authorization_required! only: %i[show]
+  no_authorization_required! :show
 
   before_action :find_group, only: %i[destroy update show create_memberships destroy_membership
                                       edit_membership add_users]

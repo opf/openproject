@@ -6,12 +6,12 @@ module ::TwoFactorAuthentication
 
       # Skip default login
       skip_before_action :check_if_login_required
-      no_authorization_required! only: %i[register
-                                          new
-                                          confirm
-                                          web_authn
-                                          make_default
-                                          destroy]
+      no_authorization_required! :register,
+                                 :new,
+                                 :confirm,
+                                 :web_authn,
+                                 :make_default,
+                                 :destroy
 
       before_action :find_device, only: [:confirm]
 

@@ -42,7 +42,8 @@ class BudgetsController < ApplicationController
     :update_material_budget_item,
     :update_labor_budget_item
   ]
-  no_authorization_required! only: %i[update_material_budget_item update_labor_budget_item]
+  no_authorization_required! :update_material_budget_item,
+                             :update_labor_budget_item
 
   helper :sort
   include SortHelper

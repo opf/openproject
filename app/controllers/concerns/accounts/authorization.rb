@@ -144,14 +144,19 @@ module Accounts::Authorization
     def set_authorization_checked_if_covered(*names)
       return unless METHODS_ENFORCING_AUTHORIZATION.intersect?(names)
 
-      authorization_checked!(only: names.last.is_a?(Hash) ? Array(names.last[:only]) : [],
-                             except: names.last.is_a?(Hash) ? Array(names.last[:except]) : [])
+      authorization_checked_by_default_action(only: names.last.is_a?(Hash) ? Array(names.last[:only]) : [],
+                                              except: names.last.is_a?(Hash) ? Array(names.last[:except]) : [])
     end
 
-    def no_authorization_required!(only: [], except: [])
-      only = Array(only)
-      except = Array(except)
+    def no_authorization_required!(*actions)
+      raise ArgumentError, "no_authorization_required! needs to have actions specified" unless actions.any?
 
+      authorization_checked_by_default_action(only: actions)
+    end
+
+    alias :authorization_checked! :no_authorization_required!
+
+    def authorization_checked_by_default_action(only: [], except: [])
       # A class_attribute is used so that inheritance works also for defined only/except actions.
       # But since the only/accept arrays are only modified in place, the same object would be used from the
       # ApplicationController downwards. So whenever it is detected that the controller the authorization_ensured
@@ -165,19 +170,17 @@ module Accounts::Authorization
       end
     end
 
-    alias :authorization_checked! :no_authorization_required!
-
     def update_authorization_ensured_on_actions(only: [], except: [])
       update_authorization_ensured_on_action_only(only)
       update_authorization_ensured_on_action_except(only, except)
     end
 
     def update_authorization_ensured_on_action_only(only)
-      authorization_ensured[:generally_allowed] = true if only.empty?
-
       if only.any?
         authorization_ensured[:only] += only
         authorization_ensured[:only].uniq!
+      else
+        update_authorization_ensured_on_all
       end
     end
 

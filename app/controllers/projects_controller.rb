@@ -36,7 +36,7 @@ class ProjectsController < ApplicationController
   before_action :authorize_global, only: %i[new]
   before_action :require_admin, only: %i[destroy destroy_info]
 
-  no_authorization_required! only: %i[index]
+  no_authorization_required! :index
 
   include SortHelper
   include PaginationHelper

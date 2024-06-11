@@ -6,7 +6,7 @@ module ::TwoFactorAuthentication
 
       # Ensure user is logged in
       before_action :require_login
-      no_authorization_required! only: :destroy
+      no_authorization_required! :destroy
 
       layout "my"
       menu_item :two_factor_authentication

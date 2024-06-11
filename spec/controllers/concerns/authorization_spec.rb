@@ -150,26 +150,6 @@ RSpec.describe ApplicationController, "enforcement of authorization" do # ruboco
     it_behaves_like "is prevented"
   end
 
-  context "when forfeiting authorization checks" do
-    controller do
-      no_authorization_required!
-
-      include controller_setup
-    end
-
-    it_behaves_like "succeeds"
-  end
-
-  context "when stating that authorization has been checked" do
-    controller do
-      authorization_checked!
-
-      include controller_setup
-    end
-
-    it_behaves_like "succeeds"
-  end
-
   context "with authorization check in the superclass" do
     controller(described_class) do
       before_action :require_admin
@@ -182,9 +162,19 @@ RSpec.describe ApplicationController, "enforcement of authorization" do # ruboco
     it_behaves_like "succeeds"
   end
 
+  context "when forfeiting authorization checks on this specific action" do
+    controller do
+      no_authorization_required! :index
+
+      include controller_setup
+    end
+
+    it_behaves_like "succeeds"
+  end
+
   context "when stating that authorization has been checked in the superclass" do
     controller(described_class) do
-      authorization_checked!
+      authorization_checked! :index
     end
 
     controller(controller_class) do
@@ -196,7 +186,7 @@ RSpec.describe ApplicationController, "enforcement of authorization" do # ruboco
 
   context "when forfeiting authorization checks in the superclass" do
     controller(described_class) do
-      no_authorization_required!
+      no_authorization_required! :index
     end
 
     controller(controller_class) do
@@ -206,39 +196,9 @@ RSpec.describe ApplicationController, "enforcement of authorization" do # ruboco
     it_behaves_like "succeeds"
   end
 
-  context "when forfeiting authorization checks on this specific action with only" do
+  context "when forfeiting authorization checks on another action" do
     controller do
-      no_authorization_required! only: %i[index]
-
-      include controller_setup
-    end
-
-    it_behaves_like "succeeds"
-  end
-
-  context "when forfeiting authorization checks on another action with only" do
-    controller do
-      no_authorization_required! only: %i[some_other_action]
-
-      include controller_setup
-    end
-
-    it_behaves_like "is prevented"
-  end
-
-  context "when forfeiting authorization checks on all but another action with except" do
-    controller do
-      no_authorization_required! except: %i[some_other_action]
-
-      include controller_setup
-    end
-
-    it_behaves_like "succeeds"
-  end
-
-  context "when forfeiting authorization on all other actions with except" do
-    controller do
-      no_authorization_required! except: %i[index]
+      no_authorization_required! :some_other_action
 
       include controller_setup
     end

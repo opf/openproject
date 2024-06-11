@@ -42,7 +42,7 @@ class CustomStylesController < ApplicationController
                 except: UNGUARDED_ACTIONS + %i[upsale]
   skip_before_action :check_if_login_required,
                      only: UNGUARDED_ACTIONS
-  no_authorization_required! only: UNGUARDED_ACTIONS
+  no_authorization_required! *UNGUARDED_ACTIONS
 
   def show
     @custom_style = CustomStyle.current || CustomStyle.new

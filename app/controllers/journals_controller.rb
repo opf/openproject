@@ -33,7 +33,7 @@ class JournalsController < ApplicationController
   before_action :find_journal,
                 :ensure_permitted,
                 only: [:diff]
-  authorization_checked! only: %i[diff]
+  authorization_checked! :diff
 
   accept_key_auth :index
   menu_item :issues
