@@ -52,7 +52,7 @@ module ProjectCustomFieldProjectMappings
       if @user.allowed_in_project?(:select_project_custom_fields, incoming_projects)
         ServiceResult.success
       else
-        ServiceResult.failure(errors: { base: :error_unauthorized })
+        ServiceResult.failure(errors: I18n.t("activerecord.errors.messages.error_unauthorized"))
       end
     end
 

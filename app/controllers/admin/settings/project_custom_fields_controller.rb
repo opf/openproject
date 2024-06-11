@@ -83,7 +83,7 @@ module Admin::Settings
 
       create_service.on_failure do
         update_flash_message_via_turbo_stream(
-          message: join_flash_messages(create_service.errors.full_messages),
+          message: join_flash_messages(create_service.errors),
           full: true, dismiss_scheme: :hide, scheme: :danger
         )
       end
