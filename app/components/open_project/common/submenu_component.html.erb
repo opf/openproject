@@ -1,10 +1,28 @@
-<div class="op-sidebar">
+<div class="op-sidebar" data-controller="filter--filter-list" data-application-target="dynamic">
+  <% if @searchable %>
+    <div class="op-sidebar--search">
+      <%= render Primer::Alpha::TextField.new(name: "search",
+                                              label: I18n.t("label_search"),
+                                              leading_visual: { icon: :search },
+                                              visually_hide_label: true,
+                                              classes: "op-sidebar--search-input",
+                                              data: {
+                                                action: "input->filter--filter-list#filterLists",
+                                                "filter--filter-list-target": "filter"
+                                              })  %>
+
+      <%= render Primer::Beta::Text.new(display: :none, classes: "op-sidebar--search-no-results-container") do
+        I18n.t("js.autocompleter.notFoundText")
+      end %>
+    </div>
+  <% end %>
+
   <div class="op-sidebar--body">
     <% if top_level_sidebar_menu_items.any? %>
       <div class="op-sidemenu">
         <ul class="op-sidemenu--items">
           <% top_level_sidebar_menu_items.first.children.each do |menu_item| %>
-            <li class="op-sidemenu--item">
+            <li class="op-sidemenu--item" data-filter--filter-list-target="searchItem">
               <% selected = menu_item.selected ? 'selected' : '' %>
               <a class="op-sidemenu--item-action <%= selected %>" href="<%= menu_item.href %>">
                 <span class="op-sidemenu--item-title"><%= menu_item.title %></span>
@@ -33,7 +51,7 @@
         <ul class="op-sidemenu--items"
             data-menus--expandable-sidemenu-target="container">
           <% menu_item.children.each do |child_item| %>
-            <li class="op-sidemenu--item">
+            <li class="op-sidemenu--item" data-filter--filter-list-target="searchItem">
               <% selected = child_item.selected ? 'selected' : '' %>
               <a class="op-sidemenu--item-action <%= selected %>" href="<%= child_item.href %>">
                 <span class="op-sidemenu--item-title"><%= child_item.title %></span>
