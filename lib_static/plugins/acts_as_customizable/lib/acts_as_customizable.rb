@@ -72,6 +72,10 @@ module Redmine
           self.class.available_custom_fields(self)
         end
 
+        def all_available_custom_fields
+          available_custom_fields
+        end
+
         # Sets the values of the object's custom fields
         # values is an array like [{'id' => 1, 'value' => 'foo'}, {'id' => 2, 'value' => 'bar'}]
         def custom_fields=(values)
@@ -333,7 +337,7 @@ module Redmine
         def for_custom_field_accessor(method_symbol)
           match = /\Acustom_field_(?<id>\d+)=?\z/.match(method_symbol.to_s)
           if match
-            custom_field = available_custom_fields.find { |cf| cf.id.to_s == match[:id] }
+            custom_field = all_available_custom_fields.find { |cf| cf.id.to_s == match[:id] }
             if custom_field
               yield custom_field
             end
