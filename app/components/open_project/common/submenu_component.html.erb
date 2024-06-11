@@ -8,10 +8,16 @@
                                               classes: "op-sidebar--search-input",
                                               data: {
                                                 action: "input->filter--filter-list#filterLists",
-                                                "filter--filter-list-target": "filter"
-                                              })  %>
+                                                "filter--filter-list-target": "filter",
+                                                "test-selector": "op-sidebar--search-input"
+                                              },)  %>
 
-      <%= render Primer::Beta::Text.new(display: :none, classes: "op-sidebar--search-no-results-container") do
+      <%= render Primer::Beta::Text.new(display: :none,
+                                        classes: "op-sidebar--search-no-results-container",
+                                        data: {
+                                          "test-selector": "op-sidebar--search-no-results",
+                                          "filter--filter-list-target": "noResultsText",
+                                        }) do
         I18n.t("js.autocompleter.notFoundText")
       end %>
     </div>

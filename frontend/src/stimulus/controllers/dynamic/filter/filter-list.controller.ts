@@ -34,6 +34,7 @@ export default class FilterListController extends Controller {
   static targets = [
     'filter',
     'searchItem',
+    'noResultsText',
   ];
 
   static values = {
@@ -41,6 +42,7 @@ export default class FilterListController extends Controller {
   };
 
   declare readonly filterTarget:HTMLInputElement;
+  declare readonly noResultsTextTarget:HTMLInputElement;
   declare readonly searchItemTargets:HTMLInputElement[];
   declare readonly clearButtonIdValue:string;
 
@@ -58,16 +60,24 @@ export default class FilterListController extends Controller {
 
   filterLists() {
     const query = this.filterTarget.value.toLowerCase();
+    let showNoResultsText = true;
 
     this.searchItemTargets.forEach((item) => {
       const text = item.textContent?.toLowerCase();
 
       if (text?.includes(query)) {
         (item as HTMLElement).classList.remove('d-none');
+        showNoResultsText = false;
       } else {
         (item as HTMLElement).classList.add('d-none');
       }
     });
+
+    if (showNoResultsText) {
+      this.noResultsTextTarget?.classList.remove('d-none');
+    } else {
+      this.noResultsTextTarget?.classList.add('d-none');
+    }
   }
 
   resetFilterViaClearButton() {
