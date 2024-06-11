@@ -25,18 +25,37 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module Sessions
-  class DropOtherSessionsService
-    class << self
-      ##
-      # Drop all other sessions for the current user.
-      # This can only be done when active record sessions are used.
-      def call!(user, session)
-        ::Sessions::UserSession
-          .for_user(user)
-          .where.not(session_id: session.id.private_id)
-          .delete_all
-      end
+
+require "spec_helper"
+
+RSpec.describe Users::DropTokensService, type: :model do
+  shared_let(:input_user) { create(:user) }
+  shared_let(:other_user) { create(:user) }
+
+  let(:instance) { described_class.new(current_user: input_user) }
+  subject { instance.call! }
+
+  describe "Invitation token" do
+    let!(:invitation_token) { create(:invitation_token, user: input_user) }
+    let!(:other_invitation_token) { create(:invitation_token, user: other_user) }
+
+    it "removes only the tokens from that user" do
+      subject
+
+      expect(Token::Invitation.exists?(invitation_token.id)).to be false
+      expect(Token::Invitation.exists?(other_invitation_token.id)).to be true
+    end
+  end
+
+  describe "Password reset token" do
+    let!(:reset_token) { create(:recovery_token, user: input_user) }
+    let!(:other_reset_token) { create(:recovery_token, user: other_user) }
+
+    it "removes only the tokens from that user" do
+      subject
+
+      expect(Token::Recovery.exists?(reset_token.id)).to be false
+      expect(Token::Recovery.exists?(other_reset_token.id)).to be true
     end
   end
 end
