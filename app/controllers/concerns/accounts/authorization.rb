@@ -47,19 +47,15 @@ module Accounts::Authorization
 
   def authorization_check_required
     unless authorization_is_ensured?(params[:action])
-      if Rails.env.development?
-        raise <<-MESSAGE
-          Authorization check required for #{params[:action]} in #{self.class.name}.
+      raise <<-MESSAGE
+        Authorization check required for #{self.class.name}##{params[:action]}.
 
-          Use any method of
-            #{METHODS_ENFORCING_AUTHORIZATION.join(', ')}
-          to ensure authorization. If authorization is checked by any other means,
-          affirm the same by calling 'authorization_checked!' in the controller. If the authorization does
-          not need to be checked for this action, affirm the same by calling 'no_authorization_required!'
-        MESSAGE
-      else
-        render_403
-      end
+        Use any method of
+          #{METHODS_ENFORCING_AUTHORIZATION.join(', ')}
+        to ensure authorization. If authorization is checked by any other means,
+        affirm the same by calling 'authorization_checked!' in the controller. If the authorization does
+        not need to be checked for this action, affirm the same by calling 'no_authorization_required!'
+      MESSAGE
     end
   end
 

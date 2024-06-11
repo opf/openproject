@@ -64,11 +64,9 @@ RSpec.describe ApplicationController, "enforcement of authorization" do # ruboco
   end
 
   shared_examples "is prevented" do
-    it "fails with a 403" do
-      get :index
-
-      expect(response)
-        .to have_http_status :forbidden
+    it "fails with a RuntimeError" do
+      expect { get :index }
+        .to raise_error RuntimeError
     end
   end
 
