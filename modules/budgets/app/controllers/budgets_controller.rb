@@ -32,16 +32,18 @@ class BudgetsController < ApplicationController
   before_action :find_budget, only: %i[show edit update copy destroy_info]
   before_action :find_budgets, only: :destroy
   before_action :check_and_update_belonging_work_packages, only: :destroy
-  before_action :find_project, only: %i[new create update_material_budget_item update_labor_budget_item]
+  before_action :find_project_by_project_id, only: %i[new create update_material_budget_item update_labor_budget_item]
   before_action :find_optional_project, only: :index
 
   before_action :authorize_global, only: :index
   before_action :authorize, except: [
-    # unrestricted actions
     :index,
+    # unrestricted actions
     :update_material_budget_item,
     :update_labor_budget_item
   ]
+  no_authorization_required! :update_material_budget_item,
+                             :update_labor_budget_item
 
   helper :sort
   include SortHelper
@@ -214,12 +216,6 @@ class BudgetsController < ApplicationController
       # TODO: let users bulk edit/move/destroy budgets from different projects
       render_error "Can not bulk edit/move/destroy cost objects from different projects" and return false
     end
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
-  def find_project
-    @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end
