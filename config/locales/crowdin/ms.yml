@@ -302,9 +302,6 @@ ms:
         new_project_mapping_form:
           add_projects: Tambah projek
           include_sub_projects: Sertakan sub-projek
-        project_mapping_filter:
-          label: Cari projek
-          placeholder: Menyaring secara teks
       types:
         no_results_title_text: Tiada jenis yang tersedia buat masa ini.
         form:

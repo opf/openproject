@@ -40,7 +40,7 @@ module OpenProject::Documents
            { controller: "/documents", action: "index" },
            caption: :label_document_plural,
            before: :members,
-           icon: "notes"
+           icon: "note"
 
       project_module :documents do |_map|
         permission :view_documents,

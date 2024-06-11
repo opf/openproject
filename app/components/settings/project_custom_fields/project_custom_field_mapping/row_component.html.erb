@@ -27,14 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%
-  wrapper_data_attributes = {
-    turbo: true,
-    "projects--settings--available-project-mappings-filter-target": "searchItem"
-  }
-%>
-
-<%= component_wrapper(tag: "tr", class: row_css_class, data: wrapper_data_attributes) do %>
+<%= component_wrapper(tag: "tr", class: row_css_class, data: { turbo: true }) do %>
   <% columns.each do |column| %>
     <td class="<%= column_css_class(column) %>">
       <%= column_value(column) %>

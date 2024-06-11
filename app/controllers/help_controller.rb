@@ -27,6 +27,8 @@
 #++
 
 class HelpController < ApplicationController
+  no_authorization_required! :keyboard_shortcuts, :text_formatting
+
   def keyboard_shortcuts
     redirect_to OpenProject::Static::Links[:shortcuts][:href]
   end
