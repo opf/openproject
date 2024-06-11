@@ -110,4 +110,15 @@ RSpec.describe ProjectCustomFieldProjectMappings::BulkCreateService do
       expect(instance.call).to be_failure
     end
   end
+
+  context "with empty projects" do
+    let(:user) { create(:admin) }
+    let(:instance) { described_class.new(user:, projects: [], project_custom_field:) }
+
+    it "does not create the mappings" do
+      service_result = instance.call
+      expect(service_result).to be_failure
+      expect(service_result.errors).to eq("not found")
+    end
+  end
 end

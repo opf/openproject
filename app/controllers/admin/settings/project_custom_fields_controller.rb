@@ -196,7 +196,7 @@ module Admin::Settings
     end
 
     def find_custom_field_projects_to_link
-      @projects = Project.where(id: permitted_params.project_custom_field_project_mapping[:project_ids])
+      @projects = Project.find(params.to_unsafe_h[:project_custom_field_project_mapping][:project_ids])
     rescue ActiveRecord::RecordNotFound
       update_flash_message_via_turbo_stream(
         message: t(:notice_file_not_found), full: true, dismiss_scheme: :hide, scheme: :danger
@@ -220,7 +220,7 @@ module Admin::Settings
     end
 
     def include_sub_projects?
-      ActiveRecord::Type::Boolean.new.cast(permitted_params.project_custom_field_project_mapping[:include_sub_projects])
+      ActiveRecord::Type::Boolean.new.cast(params.to_unsafe_h[:project_custom_field_project_mapping][:include_sub_projects])
     end
   end
 end

@@ -49,6 +49,8 @@ module ProjectCustomFieldProjectMappings
     private
 
     def validate_permissions
+      return ServiceResult.failure(errors: I18n.t(:label_not_found)) if incoming_projects.empty?
+
       if @user.allowed_in_project?(:select_project_custom_fields, incoming_projects)
         ServiceResult.success
       else
