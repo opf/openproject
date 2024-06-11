@@ -74,7 +74,9 @@ module ProjectCustomFieldProjectMappings
     end
 
     def perform_bulk_create(service_call)
-      ProjectCustomFieldProjectMapping.import(service_call.result, validate: false)
+      ProjectCustomFieldProjectMapping.insert_all(
+        service_call.result.map { |model| model.attributes.slice("project_id", "custom_field_id") }
+      )
 
       service_call
     end
@@ -85,12 +87,12 @@ module ProjectCustomFieldProjectMappings
     end
 
     def incoming_projects
-      @projects.each_with_object([]) do |project, projects_array|
+      @projects.each_with_object(Set.new) do |project, projects_set|
         next unless project.active?
 
-        projects_array << project
-        projects_array.concat(project.active_subprojects.to_a) if @include_sub_projects
-      end
+        projects_set << project
+        projects_set.merge(project.active_subprojects.to_a) if @include_sub_projects
+      end.to_a
     end
 
     def existing_project_mappings(project_ids)

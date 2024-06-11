@@ -65,6 +65,23 @@ RSpec.describe ProjectCustomFieldProjectMappings::BulkCreateService do
         end
       end
     end
+
+    context "with multiple projects including subprojects" do
+      let(:project) { create(:project) }
+      let!(:subproject) { create(:project, parent: project) }
+
+      it "creates the mappings for the project and sub-projects" do
+        create_service = described_class.new(user:, projects: [project.reload, subproject], project_custom_field:,
+                                             include_sub_projects: true)
+
+        expect { create_service.call }.to change(ProjectCustomFieldProjectMapping, :count).by(2)
+
+        aggregate_failures "creates the mapping for the correct project and custom field" do
+          expect(ProjectCustomFieldProjectMapping.where(project_custom_field:).pluck(:project_id))
+            .to contain_exactly(project.id, subproject.id)
+        end
+      end
+    end
   end
 
   context "with non-admin but sufficient permissions" do
