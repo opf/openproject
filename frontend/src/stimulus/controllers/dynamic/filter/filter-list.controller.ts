@@ -28,41 +28,50 @@
  * ++
  */
 
-import FilterListController from '../../filter/filter-list.controller';
+import { Controller } from '@hotwired/stimulus';
 
-export default class extends FilterListController {
+export default class FilterListController extends Controller {
   static targets = [
-    'bulkActionContainer',
+    'filter',
+    'searchItem',
   ];
 
-  declare readonly bulkActionContainerTargets:HTMLInputElement[];
+  static values = {
+    clearButtonId: String,
+  };
+
+  declare readonly filterTarget:HTMLInputElement;
+  declare readonly searchItemTargets:HTMLInputElement[];
+  declare readonly clearButtonIdValue:string;
+
+  connect():void {
+   document.getElementById(this.clearButtonIdValue)?.addEventListener('click', () => {
+      this.resetFilterViaClearButton();
+    });
+  }
+
+  disconnect():void {
+    document.getElementById(this.clearButtonIdValue)?.removeEventListener('click', () => {
+      this.resetFilterViaClearButton();
+    });
+  }
 
   filterLists() {
     const query = this.filterTarget.value.toLowerCase();
 
-    if (query.length > 0) {
-      this.hideBulkActionContainers();
-    } else {
-      this.showBulkActionContainers();
-    }
+    this.searchItemTargets.forEach((item) => {
+      const text = item.textContent?.toLowerCase();
 
-    super.filterLists();
-  }
-
-  resetFilterViaClearButton() {
-    this.showBulkActionContainers();
-
-    super.resetFilterViaClearButton();
-  }
-
-  hideBulkActionContainers() {
-    this.bulkActionContainerTargets.forEach((item) => {
-      (item as HTMLElement).classList.add('d-none');
+      if (text?.includes(query)) {
+        (item as HTMLElement).classList.remove('d-none');
+      } else {
+        (item as HTMLElement).classList.add('d-none');
+      }
     });
   }
 
-  showBulkActionContainers() {
-    this.bulkActionContainerTargets.forEach((item) => {
+  resetFilterViaClearButton() {
+    this.searchItemTargets.forEach((item) => {
       (item as HTMLElement).classList.remove('d-none');
     });
   }
