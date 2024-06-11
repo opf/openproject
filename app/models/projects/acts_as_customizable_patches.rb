@@ -39,17 +39,20 @@ module Projects::ActsAsCustomizablePatches
                                                      dependent: :destroy, inverse_of: :project
     has_many :project_custom_fields, through: :project_custom_field_project_mappings, class_name: "ProjectCustomField"
 
-    def available_custom_fields
-      all_available_custom_fields
-        .visible
-        .where(id: project_custom_field_project_mappings.select(:custom_field_id))
-        .or(ProjectCustomField.required)
-    end
-
-    def all_available_custom_fields
-      ProjectCustomField
+    def available_custom_fields(active: false)
+      available_custom_fields = ProjectCustomField
         .includes(:project_custom_field_section)
         .order("custom_field_sections.position", :position_in_custom_field_section)
+
+      if active
+        available_custom_fields =
+          available_custom_fields
+            .visible
+            .where(id: project_custom_field_project_mappings.select(:custom_field_id))
+            .or(ProjectCustomField.required)
+      end
+
+      available_custom_fields
     end
 
     def custom_field_values_to_validate
