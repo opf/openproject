@@ -32,20 +32,23 @@ module WorkPackages::ActivitiesTab::Journals
         name: :notes,
         label: nil,
         rich_text_options: {
-          resource:,
           showAttachments: false,
-          macros: "none"
+          macros: "none",
+          resource:,
+          editorType: "constrained"
         }
       )
+    end
+
+    def initialize(journal:)
+      @journal = journal
     end
 
     private
 
     def resource
-      return unless object&.journal
-
-      API::V3::Journals::JournalRepresenter
-        .new(object.journal, current_user: User.current, embed_links: false)
+      API::V3::Activities::ActivityRepresenter
+        .new(@journal, current_user: User.current, embed_links: false)
     end
   end
 end

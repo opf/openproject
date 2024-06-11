@@ -28,26 +28,117 @@
  * ++
  */
 
+import * as Turbo from '@hotwired/turbo';
 import { Controller } from '@hotwired/stimulus';
 
 export default class NewController extends Controller {
-  static targets = ['button', 'form'];
-  declare readonly buttonTarget:HTMLInputElement;
-  declare readonly formTarget:HTMLInputElement;
+  static values = {
+    sorting: String,
+  };
 
-  showForm() {
-    this.buttonTarget.classList.add('d-none');
-    this.formTarget.classList.remove('d-none');
-    setTimeout(() => {
-      const ckEditorElement = this.formTarget.querySelectorAll('.document-editor__editable')[0] as HTMLElement;
-      if (ckEditorElement) {
-        ckEditorElement.focus();
-      }
-    }, 10);
+  static targets = ['buttonRow', 'formRow', 'form'];
+
+  declare readonly buttonRowTarget:HTMLInputElement;
+  declare readonly formRowTarget:HTMLInputElement;
+  declare readonly formTarget:HTMLFormElement;
+
+  declare sortingValue:string;
+
+  getCkEditorElement() {
+    return this.formRowTarget.querySelectorAll('.document-editor__editable')[0] as HTMLElement;
   }
 
-  hideForm() {
-    this.buttonTarget.classList.remove('d-none');
-    this.formTarget.classList.add('d-none');
+  addEventListenerToCkEditorElement(ckEditorElement:HTMLElement) {
+    ckEditorElement.addEventListener('keydown', (event) => {
+      this.onCtrlEnter(event);
+    });
+  }
+
+  onCtrlEnter(event:KeyboardEvent) {
+    if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
+      this.onSubmit(event);
+    }
+  }
+
+  getJournalsContainer() {
+    return document.querySelector('#work-packages-activities-tab-index-component #journals-container') as HTMLElement;
+  }
+
+  scrollJournalContainerToBottom(journalsContainer:HTMLElement) {
+    const scrollableContainer = jQuery(journalsContainer).scrollParent()[0];
+    if (scrollableContainer) {
+        scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
+    }
+  }
+
+  scrollJournalContainerToTop(journalsContainer:HTMLElement) {
+    const scrollableContainer = jQuery(journalsContainer).scrollParent()[0];
+    if (scrollableContainer) {
+        scrollableContainer.scrollTop = 0;
+    }
+  }
+
+  showForm() {
+    this.buttonRowTarget.classList.add('d-none');
+    this.formRowTarget.classList.remove('d-none');
+
+    const journalsContainer = this.getJournalsContainer();
+    if (journalsContainer) {
+      journalsContainer.classList.add('with-input-compensation');
+      if (this.sortingValue === 'asc') {
+        this.scrollJournalContainerToBottom(journalsContainer);
+      } else {
+        // this.scrollJournalContainerToTop(journalsContainer);
+      }
+    }
+
+    const ckEditorElement = this.getCkEditorElement();
+    if (ckEditorElement) {
+      this.addEventListenerToCkEditorElement(ckEditorElement);
+
+      setTimeout(() => {
+        if (ckEditorElement) {
+          ckEditorElement.focus();
+        }
+      }, 10);
+    }
+  }
+
+  async onSubmit(event:Event) {
+    event.preventDefault(); // Prevent the native form submission
+
+    const form = this.formTarget;
+    const formData = new FormData(form);
+    const action = form.action;
+
+    const response = await fetch(
+      action,
+      {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-CSRF-Token': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement).content,
+          Accept: 'text/vnd.turbo-stream.html',
+        },
+        credentials: 'same-origin',
+      },
+    );
+
+    if (response.ok) {
+      const text = await response.text();
+      Turbo.renderStreamMessage(text);
+
+      const journalsContainer = this.getJournalsContainer();
+      if (journalsContainer) {
+        setTimeout(() => {
+          journalsContainer.classList.remove('with-input-compensation');
+          if (this.sortingValue === 'asc') {
+            this.scrollJournalContainerToBottom(journalsContainer);
+          } else {
+            this.scrollJournalContainerToTop(journalsContainer);
+          }
+        }, 100);
+      }
+    }
   }
 }

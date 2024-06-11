@@ -10,25 +10,16 @@
             )
           )
         end
-        # if journal_sorting == "desc"
-        #   activties_tab_container.with_row do
-        #     render(
-        #       WorkPackages::ActivitiesTab::Journals::NewComponent.new(work_package:)
-        #     )
-        #   end
-        # end
-        activties_tab_container.with_row do
+        activties_tab_container.with_row(id: "journals-container") do
           render(
             WorkPackages::ActivitiesTab::Journals::IndexComponent.new(work_package:, filter:)
           )
         end
-        # if journal_sorting == "asc"
-        #   activties_tab_container.with_row do
-        #     render(
-        #       WorkPackages::ActivitiesTab::Journals::NewComponent.new(work_package:)
-        #     )
-        #   end
-        # end
+        activties_tab_container.with_row(id: "input-container", mt: 3, pt: 3, pb: 3, pl: 3, pr: 2, border: :top, bg: :subtle) do
+          render(
+            WorkPackages::ActivitiesTab::Journals::NewComponent.new(work_package:)
+          )
+        end
       end
     end
   end

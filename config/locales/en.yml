@@ -41,6 +41,7 @@ en:
         label_activity_show_only_changes: "Show changes only"
         label_sort_asc: "Oldest on top"
         label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
 
 
   admin:
