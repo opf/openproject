@@ -303,9 +303,6 @@ fr:
         new_project_mapping_form:
           add_projects: Add projects
           include_sub_projects: Include sub-projects
-        project_mapping_filter:
-          label: Search project
-          placeholder: Filter by text
       types:
         no_results_title_text: Il n'y a actuellement aucun type disponible.
         form:

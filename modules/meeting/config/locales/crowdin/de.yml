@@ -65,8 +65,8 @@ de:
     item:
       meeting_agenda_item:
         duration:
-          added: "auf %{value} eingestellt"
-          added_html: "auf <i>%{value}</i> eingestellt"
+          added: "auf %{value} setzen"
+          added_html: "auf <i>%{value}</i> setzen"
           removed: "entfernt"
           updated: "von %{old_value} zu %{value} geändert"
           updated_html: "von <i>%{old_value}</i> zu <i>%{value}</i> geändert"
@@ -121,8 +121,8 @@ de:
       agenda: "Tagesordnung kopieren"
       agenda_text: "Tagesordnung der alten Besprechung kopieren"
     email:
-      send_emails: "Send emails"
-      send_invitation_emails: "Send out invitation emails upon creation"
+      send_emails: "E-Mails senden"
+      send_invitation_emails: "Einladungs-E-Mails bei Erstellung versenden"
       open_meeting_link: "Besprechung öffnen"
       invited:
         summary: "%{actor} hat Ihnen eine Einladung für die folgende Besprechung gesendet: %{title}"

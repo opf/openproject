@@ -303,9 +303,6 @@ cs:
         new_project_mapping_form:
           add_projects: Přidat projekty
           include_sub_projects: Zahrnout všechny podprojekty
-        project_mapping_filter:
-          label: Hledat projekt
-          placeholder:
       types:
         no_results_title_text: V současné době nejsou k dispozici žádné typy.
         form:
