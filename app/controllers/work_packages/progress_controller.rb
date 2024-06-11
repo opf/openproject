@@ -37,6 +37,7 @@ class WorkPackages::ProgressController < ApplicationController
   layout false
   before_action :set_work_package
   before_action :extract_persisted_progress_attributes, only: %i[edit create update]
+  authorization_checked! :new, :edit, :create, :update
 
   helper_method :modal_class
 

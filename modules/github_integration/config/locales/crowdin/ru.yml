@@ -37,3 +37,4 @@ ru:
     Пока что мы поддерживаем только сам OpenProject.
   text_deploy_target_api_key_info: >
     OpenProject [API key](docs_url), принадлежащий пользователю, имеющему глобальное разрешение на самоанализ.
+  text_pull_request_deployed_to: "%{pr_link} deployed to %{deploy_target_link}"

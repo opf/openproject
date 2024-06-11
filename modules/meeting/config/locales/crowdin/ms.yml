@@ -127,11 +127,11 @@ ms:
         summary: "%{actor} telah menghantar anda jemputan ke mesyuarat %{title}"
       rescheduled:
         header: "Mesyuarat %{title} telah dijadualkan semula"
-        summary: "Mesyuarat %{title} telah dijadual semula oleh %{actor}"
-        body: "Mesyuarat %{title} telah dijadual semula oleh %{actor}"
+        summary: "Mesyuarat %{title} telah dijadualkan semula oleh %{actor}"
+        body: "Mesyuarat %{title} telah dijadualkan semula oleh %{actor}"
         old_date_time: "Tarikh/masa lama"
         new_date_time: "Tarikh/masa baharu"
-    label_mail_all_participants: "Hantar e-mel ke semua peserta"
+    label_mail_all_participants: "Hantar e-mel kepada semua peserta"
     types:
       classic: "Klasik"
       classic_text: "Aturkan mesyuarat anda dalam agenda teks yang boleh diformat dan diprotokol."

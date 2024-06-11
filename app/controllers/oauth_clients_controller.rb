@@ -38,6 +38,8 @@ class OAuthClientsController < ApplicationController
   before_action :set_code, only: [:callback]
   before_action :set_connection_manager, only: [:callback]
 
+  no_authorization_required! :callback, :ensure_connection
+
   after_action :clear_oauth_state_cookie, only: [:callback]
 
   # Provide the OAuth2 "callback" endpoint.

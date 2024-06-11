@@ -8,13 +8,13 @@ GIT
 
 GIT
   remote: https://github.com/opf/md-to-pdf
-  revision: 8f14736a88ad0064d2a97be108fe7061ffbcee91
-  ref: 8f14736a88ad0064d2a97be108fe7061ffbcee91
+  revision: 8772c791a21819751c0d111be903b3b44ef7d862
+  ref: 8772c791a21819751c0d111be903b3b44ef7d862
   specs:
-    md_to_pdf (0.0.26)
+    md_to_pdf (0.0.27)
       color_conversion (~> 0.1)
       front_matter_parser (~> 1.0)
-      json-schema (~> 4.1)
+      json-schema (~> 4.3)
       markly (~> 0.10)
       matrix (~> 0.4)
       nokogiri (~> 1.1)
@@ -341,7 +341,7 @@ GEM
       activerecord (>= 4.0.0, < 7.2)
     awrence (1.2.1)
     aws-eventstream (1.3.0)
-    aws-partitions (1.940.0)
+    aws-partitions (1.942.0)
     aws-sdk-core (3.197.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.651.0)
@@ -350,7 +350,7 @@ GEM
     aws-sdk-kms (1.83.0)
       aws-sdk-core (~> 3, >= 3.197.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.152.0)
+    aws-sdk-s3 (1.152.1)
       aws-sdk-core (~> 3, >= 3.197.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.8)
@@ -1057,9 +1057,9 @@ GEM
       base64
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
-    sprockets-rails (3.4.2)
-      actionpack (>= 5.2)
-      activesupport (>= 5.2)
+    sprockets-rails (3.5.1)
+      actionpack (>= 6.1)
+      activesupport (>= 6.1)
       sprockets (>= 3.0.0)
     ssrf_filter (1.0.8)
     stackprof (0.2.26)
@@ -1146,7 +1146,7 @@ GEM
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    will_paginate (4.0.0)
+    will_paginate (4.0.1)
     with_advisory_lock (5.1.0)
       activerecord (>= 6.1)
       zeitwerk (>= 2.6)
@@ -1335,7 +1335,7 @@ DEPENDENCIES
   spring-commands-rspec
   spring-commands-rubocop
   sprockets (~> 3.7.2)
-  sprockets-rails (~> 3.4.2)
+  sprockets-rails (~> 3.5.1)
   stackprof
   store_attribute (~> 1.0)
   stringex (~> 2.8.5)

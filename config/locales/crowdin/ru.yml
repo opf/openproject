@@ -302,9 +302,6 @@ ru:
         new_project_mapping_form:
           add_projects: Добавить проекты
           include_sub_projects: Включить подпроекты
-        project_mapping_filter:
-          label: Поиск проекта
-          placeholder: Фильтр по тексту
       types:
         no_results_title_text: На данный момент доступных типов нет.
         form:
@@ -1058,7 +1055,7 @@ ru:
               only_values_greater_or_equal_zeroes_allowed: "Должно быть >= 0."
               format: "%{message}"
             remaining_hours:
-              not_a_number: "is not a valid duration."
+              not_a_number: "не является допустимой продолжительностью."
               cant_exceed_work: "Не может быть выше Работы."
               must_be_set_when_work_is_set: "Требуется, если установлен параметр «Работа»."
               format: "%{message}"

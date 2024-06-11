@@ -44,7 +44,7 @@ module OpenProject::Boards
            { controller: "/boards/boards", action: :index },
            caption: :"boards.label_boards",
            after: :work_packages,
-           icon: "boards"
+           icon: "op-boards"
 
       menu :project_menu,
            :board_menu,
@@ -66,7 +66,7 @@ module OpenProject::Boards
            caption: :project_module_board_view,
            before: :news,
            after: :team_planners,
-           icon: "boards",
+           icon: "op-boards",
            if: should_render_global_menu_item
 
       menu :global_menu,
@@ -75,7 +75,7 @@ module OpenProject::Boards
            caption: :project_module_board_view,
            before: :news,
            after: :team_planners,
-           icon: "boards",
+           icon: "op-boards",
            if: should_render_global_menu_item
     end
 
