@@ -75,9 +75,6 @@ module ProjectCustomFieldProjectMappings
       ProjectCustomFieldProjectMapping.import(service_call.result, validate: false)
 
       service_call
-    rescue StandardError => e
-      service_call.success = false
-      service_call.errors = e.message
     end
 
     def incoming_mapping_ids
