@@ -54,9 +54,7 @@ module Projects::ActsAsCustomizablePatches
       # overrides acts_as_customizable
       # in contrast to acts_as_customizable, custom_fields are enabled per project
       # thus we need to check the project_custom_field_project_mappings
-      custom_fields = ProjectCustomField
-        .includes(:project_custom_field_section)
-        .order("custom_field_sections.position", :position_in_custom_field_section)
+      custom_fields = all_available_custom_fields
 
       # Do not hide the invisble fields when accessing via the _query_available_custom_fields_on_global_level
       # flag. Due to the internal working of the acts_as_customizable plugin, when a project admin updates
@@ -87,7 +85,9 @@ module Projects::ActsAsCustomizablePatches
     end
 
     def all_available_custom_fields
-      with_all_available_custom_fields { available_custom_fields }
+      ProjectCustomField
+        .includes(:project_custom_field_section)
+        .order("custom_field_sections.position", :position_in_custom_field_section)
     end
 
     def custom_field_values_to_validate
@@ -104,15 +104,6 @@ module Projects::ActsAsCustomizablePatches
     # we need to query the available custom fields on a global level when updating custom field values
     # in order to support implicit activation of custom fields when values are provided during an update
     def custom_field_values=(values)
-      with_all_available_custom_fields { super }
-    end
-
-    # We need to query the available custom fields on a global level when
-    # trying to set a custom field which is not enabled via the API e.g. custom_field_123="foo"
-    # This implies implicit activation of the disabled custom fields via the API. As a side effect,
-    # we will have empty CustomValue objects created for each custom field, regardless of its
-    # enabled/disabled state in the project.
-    def for_custom_field_accessor(method_symbol)
       with_all_available_custom_fields { super }
     end
   end
