@@ -28,9 +28,9 @@
 
 module Projects::CustomFields
   class CustomFieldMappingForm < ApplicationForm
-    form do |f|
-      f.group(layout: :horizontal) do |f_group|
-        f_group.project_autocompleter(
+    form do |form|
+      form.group(layout: :horizontal) do |group|
+        group.project_autocompleter(
           name: :id,
           label: Project.model_name.human,
           visually_hide_label: true,
@@ -43,11 +43,12 @@ module Projects::CustomFields
           }
         )
 
-        f_group.check_box(
+        group.check_box(
           name: :include_sub_projects,
           label: I18n.t("projects.settings.project_custom_fields.new_project_mapping_form.include_sub_projects"),
           checked: false,
-          label_arguments: { class: "no-wrap" }
+          class: "my-sm-2",
+          label_arguments: { class: "no-wrap my-sm-2" }
         )
       end
     end
