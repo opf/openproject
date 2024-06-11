@@ -27,17 +27,25 @@
 #++
 
 module Projects
-  class UpdateContract < BaseContract
+  class SettingsContract < ::BaseContract
+    attribute :settings
+
+    validate :validate_settings
+
+    protected
+
+    def validate_settings
+      unauthorized_settings_change =
+        has_changed_setting?("deactivate_work_package_attachments") &&
+          !user.allowed_in_project?(:manage_files_in_project, model)
+
+      errors.add :base, :error_unauthorized if unauthorized_settings_change
+    end
+
     private
 
-    def manage_permission
-      if changed_by_user == ["active"]
-        :archive_project
-      else
-        # if "active" is changed, :archive_project permission will also be
-        # checked in `Projects::BaseContract#validate_changing_active`
-        :edit_project
-      end
+    def has_changed_setting?(key)
+      model.settings_changed? && model.settings_change.any? { |setting| setting.key?(key) }
     end
   end
 end

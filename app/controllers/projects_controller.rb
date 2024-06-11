@@ -93,7 +93,7 @@ class ProjectsController < ApplicationController
 
   def deactivate_work_package_attachments
     call = Projects::UpdateService
-             .new(user: current_user, model: @project)
+             .new(user: current_user, model: @project, contract_class: Projects::SettingsContract)
              .call(deactivate_work_package_attachments: params[:value] != "1")
 
     if call.failure?

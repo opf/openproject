@@ -26,18 +26,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects
-  class UpdateContract < BaseContract
-    private
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
-    def manage_permission
-      if changed_by_user == ["active"]
-        :archive_project
-      else
-        # if "active" is changed, :archive_project permission will also be
-        # checked in `Projects::BaseContract#validate_changing_active`
-        :edit_project
-      end
+RSpec.describe Projects::SettingsContract do
+  include_context "ModelContract shared context"
+
+  let(:project) { build_stubbed(:project) }
+  let(:contract) { described_class.new(project, current_user) }
+  let(:current_user) { build_stubbed(:user) }
+  let(:permissions) { [:manage_files_in_project] }
+
+  before do
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project(*permissions, project:) # any project
+    end
+  end
+
+  it_behaves_like "contract is valid"
+
+  context "if setting 'deactivate_work_package_attachments' is changed" do
+    before do
+      project.deactivate_work_package_attachments = true
+    end
+
+    context "if user is not allowed to manage files in project" do
+      let(:permissions) { [] }
+
+      it_behaves_like "contract is invalid"
+    end
+
+    context "if user is allowed to manage files in project" do
+      it_behaves_like "contract is valid"
     end
   end
 end
