@@ -7,7 +7,8 @@
   }
   /* Override Primer variable to ensure compatibility with currently
      configured design outside of high contrast mode  */
-  [data-color-mode]:not([data-light-theme=light_high_contrast]) {
+  [data-color-mode]:not([data-light-theme=light_high_contrast],
+  [data-dark-theme=dark]) {
     --fgColor-accent: var(--accent-color) !important;
     --fgColor-link: var(--accent-color) !important;
     --control-checked-bgColor-rest: var(--control-checked-color) !important;
@@ -42,9 +43,7 @@
     --primary-button-color: var(--button-primary-bgColor-rest);
     --status-selector-border-color: var(--button-default-borderColor-rest);
     --grid-background-color: var(--bgColor-inset);
-    --link-text-decoration: underline;
-    /* Todo: Only when color is not bright enough */
-    --accent-color: var(--accent-color--minor2);
+
   }
 
   /* For accessibility themes we are also overriding the header and the sidebar */
@@ -68,10 +67,13 @@
       --main-menu-fieldset-header-color: var(--fgColor-muted) !important;
       --main-menu-border-width: 1px;
       --accent-color: var(--fgColor-accent);
+    --link-text-decoration: underline;
   }
 
   [data-dark-theme=dark] {
     --task-board-header-background-color: var(--header-bgColor) !important;
     --link-text-decoration: none;
+    --accent-color: var(--fgColor-accent);
+    --content-icon-color: var(--fgColor-accent);
   }
 </style>
