@@ -80,7 +80,7 @@ class WorkPackages::ProgressForm < ApplicationForm
       else
         render_text_field(group, name: :estimated_hours, label: I18n.t(:label_work))
         render_text_field(group, name: :remaining_hours, label: I18n.t(:label_remaining_work),
-                                 disabled: disabled_remaining_work_field?)
+                          disabled: disabled_remaining_work_field?)
         render_readonly_text_field(group, name: :done_ratio, label: I18n.t(:label_percent_complete))
 
         group.hidden(name: :estimated_hours_touched,
@@ -111,11 +111,7 @@ class WorkPackages::ProgressForm < ApplicationForm
   end
 
   def focused_field_by_selection(field)
-    if field == :remaining_hours && @work_package.estimated_hours.nil?
-      :estimated_hours
-    else
-      field
-    end
+    field
   end
 
   def render_text_field(group,

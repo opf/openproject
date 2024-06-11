@@ -40,7 +40,8 @@ module WorkPackages
         "remainingTime" => :remaining_hours,
         "work_package[remaining_hours]" => :remaining_hours,
         "work_package[status_id]" => :status_id,
-        "statusId" => :status_id
+        "statusId" => :status_id,
+        "" => :no_field
       }.freeze
 
       include ApplicationHelper
