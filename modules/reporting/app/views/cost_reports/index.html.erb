@@ -27,6 +27,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
+<% content_for :header_tags do %>
+  <%= frontend_stylesheet_link_tag "reporting.css" %>
+<% end %>
+
 <% if @custom_errors.present? %>
   <% @custom_errors.each do |err| %>
     <div class="flash error"><%= err %></div>

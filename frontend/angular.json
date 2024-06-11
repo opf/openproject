@@ -56,6 +56,10 @@
                 "input": "src/backlogs.scss",
                 "bundleName": "backlogs"
               },
+              {
+                "input": "src/reporting.scss",
+                "bundleName": "reporting"
+              },
               "src/styles.scss",
               "node_modules/codemirror/lib/codemirror.css",
               "node_modules/jquery-ui/themes/base/core.css",
