@@ -69,7 +69,7 @@
 
 #rb
   #backlogs_container .backlog .header
-    background-color: #eee
+    background-color: var(--bgColor-muted)
     height: 30px
     position: relative
     width: 100%
@@ -94,7 +94,7 @@
           display: block
     .items
       display: none
-      background-color: #EEEEEE
+      background-color: var(--overlay-bgColor)
       border: 1px solid var(--borderColor-default)
       position: absolute
       top: 30px
@@ -209,9 +209,9 @@
       position: relative
       width: 100%
       &.odd
-        background-color: #F6F7F8
+        background-color: var(--bgColor-neutral-muted)
       &.even
-        background-color: #FFF
+        background-color: var(--body-background)
       &.error.icon-bug
         background: none
         text-align: center
@@ -220,7 +220,7 @@
           color: red
           pointer-events: none
       &.hover, &:hover
-        background-color: rgb(254, 248, 168)
+        background-color: var(--highlight-neutral-bgColor)
       &.closed
         text-decoration: line-through
       .id

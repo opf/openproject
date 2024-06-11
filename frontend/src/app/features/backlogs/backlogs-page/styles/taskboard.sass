@@ -27,7 +27,7 @@
  */
 
 @mixin story-header
-  background-color: #FFFFFF
+  background-color: var(--task-board-header-background-color)
   font-size: 1rem - rem-calc(5px)
   opacity: 0.8
   filter: alpha(opacity = 80)
@@ -87,7 +87,7 @@
         width: 241px
 
   .board
-    background-color: #FCFCFC
+    background-color: var(--overlay-bgColor)
     border: 1px solid var(--borderColor-default)
     border-top: none
     margin-right: 10px
@@ -96,7 +96,7 @@
     border-collapse: collapse
     empty-cells: show
     tr:hover
-      background-color: #ffffff
+      background-color: var(--control-transparent-bgColor-hover)
     td
       border-right: 1px dotted #CFCFCF
       border-bottom: 1px dotted #CFCFCF
@@ -116,9 +116,10 @@
       width: 30px
       &.clickable:hover
         cursor: pointer
-        background-color: #ffffcc
+        background-color: var(--highlight-neutral-bgColor)
   .story, .label_sprint_impediments
-    background-color: #F8F6A5
+    background-color: var(--color-scale-yellow-0)
+    color: var(--fgColor-muted)
     border: none
     display: block
     min-height: 100px
@@ -138,6 +139,7 @@
       text-decoration: line-through
   .work_package, .placeholder
     background-color: #AFAFAF
+    color: var(--color-scale-black)
     border: none
     cursor: move
     display: block
