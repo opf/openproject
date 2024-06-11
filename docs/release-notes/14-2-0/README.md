@@ -10,14 +10,41 @@ release_date: 2024-06-07
 
 Release date: 2024-06-19
 
-We released [OpenProject 14.2.0](https://community.openproject.org/versions/2040).
-The release contains several bug fixes and we recommend updating to the newest version.
+We released [OpenProject 14.2.0](https://community.openproject.org/versions/2040). 
+The release contains several bug fixes and we recommend updating to the newest version. In these Release Notes, we will give an overview of  important feature changes. At the end, you will find a complete list of  all changes and bug fixes.
 
-## Important updates and breaking changes
+## Important feature changes
 
-<!-- Remove this section if empty, add to it in pull requests linking to tickets and provide information -->
+### Display Work and Remaining work in days and hours
 
-<!--more-->
+For more information, see [#50954](https://community.openproject.org/wp/50954). 
+
+https://community.openproject.org/wp/50954/
+
+### Exclude by status some work packages from the calculation of totals for % Complete and work estimates
+
+https://community.openproject.org/wp/49409/
+
+### Warn admins about potential data loss when changing progress calculation modes
+https://community.openproject.org/wp/55467/
+
+### Configure which projects are activated for a project attribute
+
+https://community.openproject.org/wp/54455/
+
+### Avoid redundant emails in case of @mentions and email reminder
+https://community.openproject.org/wp/50140
+
+### Allow renaming persisted project lists
+https://community.openproject.org/wp/51673/
+
+### Allow meeting invite to be sent out when creating meetings
+https://community.openproject.org/wp/54469/
+
+Also the default view for meetings module was changed to display the upcoming invitations (https://community.openproject.org/wp/53669/)
+
+### Embedded work package attributes in PDF export
+https://community.openproject.org/wp/54377/
 
 ## Bug fixes and changes
 
@@ -62,8 +89,15 @@ The release contains several bug fixes and we recommend updating to the newest v
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
 #### Contributions
-A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
+A very special thank you goes to our sponsors for features and improvements of this release:
 
-Special thanks for reporting and finding bugs go to
+- German Federal Ministry of the Interior and Home Affairs (BMI) for sponsoring the features on progress reporting
+- City of Cologne for sponsoring features on project attributes
+
+Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding  bugs go to:
 
 Ricardo Brenner, Sven Kunze
+
+Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to highlight user [aniessalam](https://crowdin.com/profile/aniessalam) who has done an outstanding number of translations for the Malay language in recent weeks.
+
+Would you like to help out with translations yourself? Then take a look at our [translation guide](https://www.openproject.org/docs/development/translate-openproject) and find out exactly how you can contribute. It is very much appreciated!
