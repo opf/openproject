@@ -1,11 +1,11 @@
 @import "helpers"
 
-$ian-bg-color: #FFFFFF
-$ian-bg-hover-color: var(--gray-light)
-$ian-bg-read-color: #F3F3F3
-$ian-bg-read-hover-color: darken($ian-bg-read-color, 2)
-$ian-bg-selected-color: #D1E5F5
-$ian-bg-selected-hover-color: darken($ian-bg-selected-color, 2)
+$ian-bg-color: var(--overlay-bgColor)
+$ian-bg-hover-color: var(--control-transparent-bgColor-hover)
+$ian-bg-read-color: var(--bgColor-inset)
+$ian-bg-read-hover-color: hsl(from $ian-bg-read-color h s calc(l - 3))
+$ian-bg-selected-color: var(--selection-bgColor)
+$ian-bg-selected-hover-color: hsl(from $ian-bg-selected-color h s calc(l - 3))
 // This needs to be set in the itemSize of
 // the virtual scroller
 $ian-height: 100px
