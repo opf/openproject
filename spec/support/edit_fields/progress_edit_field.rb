@@ -72,7 +72,6 @@ class ProgressEditField < EditField
   end
 
   def set_value(value)
-    sleep 1 # I don't like this, but couldn't find another way in Selenium contexts
     page.fill_in field_name, with: value
     sleep 1
   end

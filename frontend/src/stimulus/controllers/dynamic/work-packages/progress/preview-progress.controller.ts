@@ -37,71 +37,48 @@ interface TurboBeforeFrameRenderEventDetail {
 }
 
 export default class PreviewProgressController extends Controller {
-  static targets = ['form', 'progressInput'];
+  static targets = [
+    'form', 'progressInput',
+  ];
 
   declare readonly progressInputTargets:HTMLInputElement[];
   declare readonly formTarget:HTMLFormElement;
 
   private debouncedPreview:(event:Event) => void;
   private frameMorphRenderer:(event:CustomEvent<TurboBeforeFrameRenderEventDetail>) => void;
-  private activeElement:HTMLInputElement|null = null;
-  private initialMorphDone:boolean = false;
 
   connect() {
     this.debouncedPreview = debounce((event:Event) => { void this.preview(event); }, 100);
+    // TODO: Ideally morphing in this single controller should not be necessary.
+    // Turbo supports morphing, by adding the <turbo-frame refresh="morph"> attribute.
+    // However, it has a bug, and it doesn't morphs when reloading the frame via javascript.
+    // See https://github.com/hotwired/turbo/issues/1161 . Once the issue is solved, we can remove
+    // this code and just use <turbo-frame refresh="morph"> instead.
     this.frameMorphRenderer = (event:CustomEvent<TurboBeforeFrameRenderEventDetail>) => {
       event.detail.render = (currentElement:HTMLElement, newElement:HTMLElement) => {
-        Idiomorph.morph(currentElement, newElement, { ignoreActiveValue: this.initialMorphDone });
+        Idiomorph.morph(currentElement, newElement, { ignoreActiveValue: true });
       };
     };
 
     this.progressInputTargets.forEach((target) => {
-      target.addEventListener('blur', this.handleBlur.bind(this));
-      target.addEventListener('focus', this.handleFocus.bind(this));
       target.addEventListener('input', this.debouncedPreview);
+      target.addEventListener('blur', this.debouncedPreview);
     });
 
     const turboFrame = this.formTarget.closest('turbo-frame') as HTMLFrameElement;
     turboFrame.addEventListener('turbo:before-frame-render', this.frameMorphRenderer);
-    this.checkInitialFocus();
   }
 
   disconnect() {
     this.progressInputTargets.forEach((target) => {
-      target.removeEventListener('blur', this.handleBlur.bind(this));
-      target.removeEventListener('focus', this.handleFocus.bind(this));
       target.removeEventListener('input', this.debouncedPreview);
+      target.removeEventListener('blur', this.debouncedPreview);
     });
     const turboFrame = this.formTarget.closest('turbo-frame') as HTMLFrameElement;
     turboFrame.removeEventListener('turbo:before-frame-render', this.frameMorphRenderer);
   }
 
-  handleFocus(event:Event) {
-    this.activeElement = event.target as HTMLInputElement;
-    this.initialMorphDone = false;
-    void this.preview(event);
-  }
-
-  handleBlur(event:Event) {
-    this.activeElement = null;
-    this.initialMorphDone = true;
-    void this.preview(event);
-  }
-
-  checkInitialFocus() {
-    const initiallyFocusedElement = this.progressInputTargets.find((target) => target === document.activeElement);
-    if (initiallyFocusedElement) {
-      this.activeElement = initiallyFocusedElement;
-      this.initialMorphDone = false;
-      this.activeElement.focus();
-    }
-  }
-
   async preview(event:Event) {
-    if (event.type === 'input') {
-      this.initialMorphDone = true;
-    }
-
     const field = event.target as HTMLInputElement;
     const form = this.formTarget;
     const formData = new FormData(form) as unknown as undefined;
@@ -110,11 +87,11 @@ export default class PreviewProgressController extends Controller {
       ['work_package[remaining_hours]', formParams.get('work_package[remaining_hours]') || ''],
       ['work_package[estimated_hours]', formParams.get('work_package[estimated_hours]') || ''],
       ['work_package[status_id]', formParams.get('work_package[status_id]') || ''],
-      ['field', (event.type === 'blur' ? '' : field.name ?? 'estimatedTime')],
+      ['field', field.name ?? 'estimatedTime'],
       ['work_package[remaining_hours_touched]', formParams.get('work_package[remaining_hours_touched]') || ''],
       ['work_package[estimated_hours_touched]', formParams.get('work_package[estimated_hours_touched]') || ''],
       ['work_package[status_id_touched]', formParams.get('work_package[status_id_touched]') || ''],
-      ['format_durations', 'true'],
+      ['format_durations', event.type === 'blur' ? 'true' : 'false'],
     ];
 
     const wpPath = this.ensureValidPathname(form.action);
@@ -127,10 +104,13 @@ export default class PreviewProgressController extends Controller {
     }
   }
 
+  // Ensures that on create forms, there is an "id" for the un-persisted
+  // work package when sending requests to the edit action for previews.
   private ensureValidPathname(formAction:string):string {
     const wpPath = new URL(formAction);
 
     if (wpPath.pathname.endsWith('/work_packages/progress')) {
+      // Replace /work_packages/progress with /work_packages/new/progress
       wpPath.pathname = wpPath.pathname.replace('/work_packages/progress', '/work_packages/new/progress');
     }
 

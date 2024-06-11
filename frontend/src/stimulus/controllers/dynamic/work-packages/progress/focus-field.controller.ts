@@ -30,16 +30,24 @@
 
 import { Controller } from '@hotwired/stimulus';
 
-export default class FocusFieldController extends Controller<HTMLInputElement> {
+export default class FocusFieldController extends Controller {
+  static targets = [
+    'fieldToFocus',
+  ];
+
+  declare readonly fieldToFocusTarget:HTMLInputElement;
+
   connect() {
-    this.element.focus();
-    this.setCursorPositionToEndOfInput();
+    if (this.fieldToFocusTarget) {
+      this.fieldToFocusTarget.focus();
+      this.setCursorPositionToEndOfInput();
+    }
   }
 
   private setCursorPositionToEndOfInput() {
-    this.element.setSelectionRange(
-      this.element.value.length,
-      this.element.value.length,
+    this.fieldToFocusTarget.setSelectionRange(
+      this.fieldToFocusTarget.value.length,
+      this.fieldToFocusTarget.value.length,
     );
   }
 }
