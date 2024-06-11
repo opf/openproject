@@ -30,6 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% content_for :header_tags do %>
   <%= frontend_stylesheet_link_tag "reporting.css" %>
 <% end %>
+<% content_controller 'reporting', dynamic: true %>
 
 <% if @custom_errors.present? %>
   <% @custom_errors.each do |err| %>
