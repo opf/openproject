@@ -76,7 +76,6 @@ class UsersController < ApplicationController
 
     @groups = @user.groups.visible
 
-
     if can_show_user?
       @events = events
       render layout: (can_manage_or_create_users? ? "admin" : "no_menu")
