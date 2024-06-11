@@ -69,7 +69,11 @@ module Redmine
         end
 
         def available_custom_fields
-          self.class.available_custom_fields(self)
+          @available_custom_fields ||= self.class.available_custom_fields(self)
+        end
+
+        def all_available_custom_fields
+          @all_available_custom_fields ||= available_custom_fields
         end
 
         # Sets the values of the object's custom fields
@@ -94,7 +98,7 @@ module Redmine
           return unless values.is_a?(Hash) && values.any?
 
           values.with_indifferent_access.each do |custom_field_id, val|
-            existing_cv_by_value = custom_values_for_custom_field(id: custom_field_id)
+            existing_cv_by_value = custom_values_for_custom_field(id: custom_field_id, all: true)
                                      .group_by(&:value)
                                      .transform_values(&:first)
             new_values = Array(val).map { |v| v.respond_to?(:id) ? v.id.to_s : v.to_s }
@@ -107,21 +111,27 @@ module Redmine
           end
         end
 
-        def custom_values_for_custom_field(id:)
-          custom_field_values.select { |cv| cv.custom_field_id == id.to_i }
+        def custom_values_for_custom_field(id:, all: false)
+          custom_field_values(all:).select { |cv| cv.custom_field_id == id.to_i }
         end
 
-        def custom_field_values
-          custom_field_values_cache[custom_field_cache_key] ||=
-            available_custom_fields.flat_map do |custom_field|
-              existing_cvs = custom_values.select { |v| v.custom_field_id == custom_field.id }
+        def custom_field_values(all: false)
+          custom_field_values_cache[custom_field_cache_key] ||= build_custom_values_cache
+          custom_fields_source = all ? all_available_custom_fields : available_custom_fields
+          custom_fields_source_ids = custom_fields_source.pluck(:id)
+          custom_field_values_cache[custom_field_cache_key].select { |v| v.custom_field_id.in?(custom_fields_source_ids) }
+        end
 
-              if existing_cvs.empty?
-                build_default_custom_values(custom_field)
-              else
-                existing_cvs
-              end
+        def build_custom_values_cache
+          all_available_custom_fields.flat_map do |custom_field|
+            existing_cvs = custom_values.select { |v| v.custom_field_id == custom_field.id }
+
+            if existing_cvs.empty?
+              build_default_custom_values(custom_field)
+            else
+              existing_cvs
             end
+          end
         end
 
         # Returns the cache key for caching @custom_field_values_cache.
@@ -333,7 +343,7 @@ module Redmine
         def for_custom_field_accessor(method_symbol)
           match = /\Acustom_field_(?<id>\d+)=?\z/.match(method_symbol.to_s)
           if match
-            custom_field = available_custom_fields.find { |cf| cf.id.to_s == match[:id] }
+            custom_field = all_available_custom_fields.find { |cf| cf.id.to_s == match[:id] }
             if custom_field
               yield custom_field
             end
