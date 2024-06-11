@@ -151,9 +151,10 @@ import {
 import {
   AttributeHelpTextComponent,
 } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.component';
-import {
-  OpExclusionInfoComponent,
-} from 'core-app/shared/components/fields/display/info/op-exclusion-info.component';
+import { OpExclusionInfoComponent } from 'core-app/shared/components/fields/display/info/op-exclusion-info.component';
+import { NewProjectComponent } from 'core-app/features/projects/components/new-project/new-project.component';
+import { CopyProjectComponent } from 'core-app/features/projects/components/copy-project/copy-project.component';
+import { ProjectsComponent } from 'core-app/features/projects/components/projects/projects.component';
 
 export function initializeServices(injector:Injector) {
   return () => {
@@ -338,5 +339,8 @@ export class OpenProjectModule {
     registerCustomElement('opce-draggable-autocompleter', DraggableAutocompleteComponent, { injector });
     registerCustomElement('opce-attribute-help-text', AttributeHelpTextComponent, { injector });
     registerCustomElement('opce-exclusion-info', OpExclusionInfoComponent, { injector });
+    registerCustomElement('opce-new-project', NewProjectComponent, { injector });
+    registerCustomElement('opce-project-settings', ProjectsComponent, { injector });
+    registerCustomElement('opce-copy-project', CopyProjectComponent, { injector });
   }
 }

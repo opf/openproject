@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { StateService, UIRouterGlobals } from '@uirouter/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { IDynamicFieldGroupConfig, IOPFormlyFieldSettings } from 'core-app/shared/components/dynamic-forms/typings';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -22,7 +21,6 @@ export interface ProjectTemplateOption {
 }
 
 @Component({
-  selector: 'op-new-project',
   templateUrl: './new-project.component.html',
   styleUrls: ['./new-project.component.sass'],
 })
@@ -79,10 +77,8 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
 
   constructor(
     private apiV3Service:ApiV3Service,
-    private uIRouterGlobals:UIRouterGlobals,
     private pathHelperService:PathHelperService,
     private modalService:OpModalService,
-    private $state:StateService,
     private I18n:I18nService,
   ) {
     super();
@@ -103,8 +99,10 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
       fieldsFilter: (field:IOPFormlyFieldSettings) => this.isMeta(field.templateOptions?.property),
     }];
 
-    if (this.uIRouterGlobals.params.parent_id) {
-      this.setParentAsPayload(this.uIRouterGlobals.params.parent_id);
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if (urlParams.has('parent_id')) {
+      this.setParentAsPayload(urlParams.get('parent_id') as string);
     }
   }
 
