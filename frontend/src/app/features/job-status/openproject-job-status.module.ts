@@ -31,10 +31,12 @@ import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { DisplayJobPageComponent } from 'core-app/features/job-status/display-job-page/display-job-page.component';
 import { JobStatusModalComponent } from 'core-app/features/job-status/job-status-modal/job-status.modal';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   imports: [
     // Commons
+    CommonModule,
     OpSharedModule,
     OpenprojectModalModule,
   ],

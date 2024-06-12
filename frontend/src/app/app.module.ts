@@ -156,6 +156,7 @@ import { NewProjectComponent } from 'core-app/features/projects/components/new-p
 import { CopyProjectComponent } from 'core-app/features/projects/components/copy-project/copy-project.component';
 import { ProjectsComponent } from 'core-app/features/projects/components/projects/projects.component';
 import { DisplayJobPageComponent } from 'core-app/features/job-status/display-job-page/display-job-page.component';
+import { OpenProjectJobStatusModule } from 'core-app/features/job-status/openproject-job-status.module';
 
 export function initializeServices(injector:Injector) {
   return () => {
@@ -191,6 +192,7 @@ export function initializeServices(injector:Injector) {
     OpenprojectRouterModule,
     // Hal Module
     OpenprojectHalModule,
+    OpenProjectJobStatusModule,
 
     // CKEditor
     OpenprojectEditorModule,
