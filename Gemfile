@@ -333,7 +333,7 @@ group :development, :test do
   gem "rubocop-inflector", require: false
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
-  gem "rubocop-rspec", require: false
+  gem "rubocop-rspec", "~> 2.31", require: false # rubocop-inflector 0.2.1 not ready for 3.0
 
   # erb linting
   gem "erb_lint", require: false
