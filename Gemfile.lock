@@ -940,7 +940,7 @@ GEM
       actionpack (>= 5.2)
       railties (>= 5.2)
     retriable (3.1.2)
-    rexml (3.2.9)
+    rexml (3.3.0)
       strscan
     rinku (2.0.6)
     roar (1.2.0)
@@ -985,12 +985,8 @@ GEM
       parser (>= 3.3.1.0)
     rubocop-capybara (2.21.0)
       rubocop (~> 1.41)
-    rubocop-factory_bot (2.26.0)
-      rubocop (~> 1.41)
-    rubocop-inflector (0.2.1)
-      activesupport
-      rubocop
-      rubocop-rspec
+    rubocop-factory_bot (2.26.1)
+      rubocop (~> 1.61)
     rubocop-performance (1.21.0)
       rubocop (>= 1.48.1, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
@@ -999,13 +995,11 @@ GEM
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
-    rubocop-rspec (2.31.0)
-      rubocop (~> 1.40)
-      rubocop-capybara (~> 2.17)
-      rubocop-factory_bot (~> 2.22)
-      rubocop-rspec_rails (~> 2.28)
-    rubocop-rspec_rails (2.29.0)
-      rubocop (~> 1.40)
+    rubocop-rspec (3.0.1)
+      rubocop (~> 1.61)
+    rubocop-rspec_rails (2.30.0)
+      rubocop (~> 1.61)
+      rubocop-rspec (~> 3, >= 3.0.1)
     ruby-duration (3.2.3)
       activesupport (>= 3.0.0)
       i18n
@@ -1316,10 +1310,12 @@ DEPENDENCIES
   rspec-rails (~> 6.1.0)
   rspec-retry (~> 0.6.1)
   rubocop
-  rubocop-inflector
+  rubocop-capybara
+  rubocop-factory_bot
   rubocop-performance
   rubocop-rails
   rubocop-rspec
+  rubocop-rspec_rails
   ruby-duration (~> 3.2.0)
   ruby-prof
   ruby-progressbar (~> 1.13.0)
