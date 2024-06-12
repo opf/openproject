@@ -30,10 +30,10 @@
 
 module ProjectCustomFieldProjectMappings
   class BulkCreateService < ::BaseServices::BaseCallable
-    def initialize(user:, project:, project_custom_field:, include_sub_projects: false)
+    def initialize(user:, projects:, project_custom_field:, include_sub_projects: false)
       super()
       @user = user
-      @project = project
+      @projects = projects
       @project_custom_field = project_custom_field
       @include_sub_projects = include_sub_projects
     end
@@ -49,10 +49,12 @@ module ProjectCustomFieldProjectMappings
     private
 
     def validate_permissions
-      if @user.allowed_in_project?(:select_project_custom_fields, projects)
+      return ServiceResult.failure(errors: I18n.t(:label_not_found)) if incoming_projects.empty?
+
+      if @user.allowed_in_project?(:select_project_custom_fields, incoming_projects)
         ServiceResult.success
       else
-        ServiceResult.failure(errors: { base: :error_unauthorized })
+        ServiceResult.failure(errors: I18n.t("activerecord.errors.messages.error_unauthorized"))
       end
     end
 
@@ -72,23 +74,25 @@ module ProjectCustomFieldProjectMappings
     end
 
     def perform_bulk_create(service_call)
-      ProjectCustomFieldProjectMapping.import(service_call.result, validate: false)
+      ProjectCustomFieldProjectMapping.insert_all(
+        service_call.result.map { |model| model.attributes.slice("project_id", "custom_field_id") }
+      )
 
       service_call
-    rescue StandardError => e
-      service_call.success = false
-      service_call.errors = e.message
     end
 
     def incoming_mapping_ids
-      project_ids = projects.pluck(:id)
+      project_ids = incoming_projects.pluck(:id)
       project_ids - existing_project_mappings(project_ids)
     end
 
-    def projects
-      [@project].tap do |projects_array|
-        projects_array.concat(@project.active_subprojects.to_a) if @include_sub_projects
-      end
+    def incoming_projects
+      @projects.each_with_object(Set.new) do |project, projects_set|
+        next unless project.active?
+
+        projects_set << project
+        projects_set.merge(project.active_subprojects.to_a) if @include_sub_projects
+      end.to_a
     end
 
     def existing_project_mappings(project_ids)
