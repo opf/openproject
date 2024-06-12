@@ -47,8 +47,8 @@ module Projects::CustomFields
           name: :include_sub_projects,
           label: I18n.t("projects.settings.project_custom_fields.new_project_mapping_form.include_sub_projects"),
           checked: false,
-          class: "my-sm-2",
-          label_arguments: { class: "no-wrap my-sm-2" }
+          my: [0, 2],
+          label_arguments: { class: "no-wrap", my: [0, 2] }
         )
       end
     end
