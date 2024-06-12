@@ -41,6 +41,8 @@ module WorkPackages
         "work_package[remaining_hours]" => :remaining_hours,
         "work_package[status_id]" => :status_id,
         "statusId" => :status_id,
+        "work_package[done_ratio]" => :done_ratio,
+        "percentageDone" => :done_ratio,
         "" => :no_field
       }.freeze
 
