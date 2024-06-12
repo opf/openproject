@@ -138,4 +138,21 @@ RSpec.describe ProjectCustomFieldProjectMappings::BulkCreateService do
       expect(service_result.errors).to eq("not found")
     end
   end
+
+  context "with archived projects" do
+    let(:user) { create(:admin) }
+    let(:archived_project) { create(:project, active: false) }
+    let(:active_project) { create(:project) }
+
+    let(:instance) { described_class.new(user:, projects: [archived_project, active_project], project_custom_field:) }
+
+    it "only creates mappins for the active project" do
+      expect { instance.call }.to change(ProjectCustomFieldProjectMapping, :count).by(1)
+
+      aggregate_failures "creates the mapping for the correct project and custom field" do
+        expect(ProjectCustomFieldProjectMapping.where(project_custom_field:).pluck(:project_id))
+          .to contain_exactly(active_project.id)
+      end
+    end
+  end
 end
