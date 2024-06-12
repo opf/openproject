@@ -27,7 +27,7 @@
       ) do |form|
         concat(render(Primer::Alpha::Dialog::Body.new(
           id: dialog_body_id, test_selector: dialog_body_id, aria: { label: title },
-          classes: "FormControl-horizontalGroup--sm-vertical",
+          classes: "FormControl-horizontalGroup--sm-vertical FormControl-horizontalGroup--center-aligned",
           style: "min-height: 300px"
         )) do
           render(Projects::CustomFields::CustomFieldMappingForm.new(form, project_custom_field: @project_custom_field))
