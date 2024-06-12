@@ -28,11 +28,17 @@
 
 module Token
   class API < HashedToken
+    validate :token_name_exist
+
     def name
       data[:name]
     end
 
     private
+
+    def token_name_exist
+      errors.add(:token_name, I18n.t("activerecord.errors.messages.blank")) if data.blank? || data[:name].blank?
+    end
 
     def single_value?
       false

@@ -436,6 +436,8 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
       new_access_token_dialog_text: "This token will allow third-party applications to communicate with your instance. To generate a new API token please introduce a token name."
       new_access_token_dialog_attention_text: "Treat API tokens like passwords. Anyone with this link will have access to information from this instance, share it only with trusted users."
       failed_to_reset_token: "Failed to reset access token: %{error}"
+      failed_to_create_token: "Failed to create access token: %{error}"
+      failed_to_revoke_token: "Failed to revoke access token: %{error}"
       notice_reset_token: "A new %{type} token has been generated. Your access token is:"
       token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
       no_results_title_text: There are currently no access tokens available.

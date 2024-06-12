@@ -30,6 +30,7 @@ class MyController < ApplicationController
   include PasswordConfirmation
   include Accounts::UserPasswordChange
   include ActionView::Helpers::TagHelper
+  include OpTurbo::ComponentStream
 
   layout "my"
 
@@ -165,8 +166,8 @@ class MyController < ApplicationController
       t("my.access_token.token_value_warning")
     ]
   rescue StandardError => e
-    Rails.logger.error "Failed to reset user ##{current_user.id} API key: #{e}"
-    flash[:error] = t("my.access_token.failed_to_reset_token", error: e.message)
+    Rails.logger.error "Failed to create API key for user ##{current_user.id}: #{e}"
+    flash[:error] = t("my.access_token.failed_to_create_token", error: e.message)
   ensure
     redirect_to action: "access_token"
   end
@@ -176,7 +177,7 @@ class MyController < ApplicationController
     flash[:info] = t("my.access_token.notice_api_token_revoked")
   rescue StandardError => e
     Rails.logger.error "Failed to revoke api token ##{current_user.id}: #{e}"
-    flash[:error] = t("my.access_token.failed_to_reset_token", error: e.message)
+    flash[:error] = t("my.access_token.failed_to_revoke_token", error: e.message)
   ensure
     redirect_to action: "access_token"
   end
