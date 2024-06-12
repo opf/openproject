@@ -30,7 +30,15 @@
 
 module My
   module AccessToken
-    class NewAccessTokenComponent < ApplicationComponent
+    class NewAccessTokenFormComponent < ApplicationComponent
+      include OpTurbo::Streamable
+      include OpPrimer::ComponentHelpers
+
+      def initialize(token:)
+        super
+
+        @token = token
+      end
     end
   end
 end

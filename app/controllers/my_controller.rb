@@ -159,17 +159,24 @@ class MyController < ApplicationController
 
   # Create a new API key
   def generate_api_key
-    token = Token::API.create!(user: current_user, data: { name: params[:token_name] })
-    flash[:info] = [
-      t("my.access_token.notice_reset_token", type: "API").html_safe,
-      content_tag(:strong, token.plain_value),
-      t("my.access_token.token_value_warning")
-    ]
-  rescue StandardError => e
-    Rails.logger.error "Failed to create API key for user ##{current_user.id}: #{e}"
-    flash[:error] = t("my.access_token.failed_to_create_token", error: e.message)
-  ensure
-    redirect_to action: "access_token"
+    token = Token::API.create(user: current_user, data: { name: params[:token_api][:token_name] })
+
+    if token.valid?
+      flash[:info] = [
+        t("my.access_token.notice_reset_token", type: "API").html_safe,
+        content_tag(:strong, token.plain_value),
+        t("my.access_token.token_value_warning")
+      ]
+
+      redirect_to action: "access_token"
+    else
+      update_via_turbo_stream(
+        component: My::AccessToken::NewAccessTokenFormComponent.new(token:),
+        status: :bad_request
+      )
+
+      respond_with_turbo_streams
+    end
   end
 
   def revoke_api_key

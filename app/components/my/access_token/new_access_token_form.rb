@@ -31,14 +31,14 @@
 module My
   module AccessToken
     class NewAccessTokenForm < ApplicationForm
-      form do |f|
-        f.group(layout: :horizontal) do |f_group|
-          f_group.text_field(
-            name: :token_name,
-            label: I18n.t("my.access_token.new_access_token_dialog_text_field_label"),
-            placeholder: I18n.t("my.access_token.new_access_token_dialog_text_field_placeholder_text")
-          )
-        end
+      form do |new_access_token_form|
+        new_access_token_form.text_field(
+          name: :token_name,
+          label: I18n.t("my.access_token.new_access_token_dialog_text_field_label"),
+          placeholder: I18n.t("my.access_token.new_access_token_dialog_text_field_placeholder_text"),
+          visually_hide_label: false,
+          required: true
+        )
       end
     end
   end

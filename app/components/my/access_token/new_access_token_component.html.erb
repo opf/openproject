@@ -28,18 +28,17 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  component_wrapper do
     render(
       Primer::Alpha::Dialog.new(
-        id: dialog_id,
-        title:,
-        test_selector: dialog_id,
+        id: "new-access-token-dialog",
+        title: I18n.t("my.access_token.new_access_token_dialog_title"),
+        test_selector: "new-access-token-dialog",
         size: :large
       )
     ) do |dialog|
       dialog.with_show_button(scheme: :primary, mt: 3) do |button|
         button.with_leading_visual_icon(icon: :plus)
-        show_button_text
+        I18n.t("my.access_token.new_access_token_dialog_show_button_text")
       end
 
       dialog.with_header(
@@ -47,24 +46,6 @@ See COPYRIGHT and LICENSE files for more details.
         visually_hide_title: false
       )
 
-      primer_form_with(
-        url: my_generate_api_key_path,
-        data: { turbo: true },
-        method: :post
-      ) do |form|
-        concat(render(Primer::Alpha::Dialog::Body.new(
-          id: dialog_body_id, test_selector: dialog_body_id, aria: { label: title }
-        )) do
-          concat(render(Primer::Alpha::Banner.new(scheme: :warning, mt: 3)) { attention_text })
-          concat(render(Primer::Beta::Text.new(tag: :p, mt: 3, mb: 3)) { text })
-          concat(render(My::AccessToken::NewAccessTokenForm.new(form)))
-        end)
-
-        concat(render(Primer::Alpha::Dialog::Footer.new(show_divider: false)) do
-          concat(render(Primer::ButtonComponent.new(data: { 'close-dialog-id': dialog_id })) { cancel_button_text })
-          concat(render(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) { submit_button_text })
-        end)
-      end
+      render(My::AccessToken::NewAccessTokenFormComponent.new(token: Token::API.new))
     end
-  end
 %>
