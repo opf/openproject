@@ -21,7 +21,9 @@ For more information, see [#50954](https://community.openproject.org/wp/50954).
 
 https://community.openproject.org/wp/50954/
 
-### Exclude by status some work packages from the calculation of totals for % Complete and work estimates
+### Exclude by status some work packages from the calculation of totals for % Complete and work estimates 
+
+https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-settings/
 
 https://community.openproject.org/wp/49409/
 
