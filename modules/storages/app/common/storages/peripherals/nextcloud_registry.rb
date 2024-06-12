@@ -63,7 +63,7 @@ module Storages
       end
 
       namespace("models") do
-        register(:managed_folder_identifier, ManagedFolderIdentifier::Nextcloud)
+        register(:managed_folder_identifier, Adapters::Nextcloud::ManagedFolderIdentifier)
       end
 
       namespace("authentication") do

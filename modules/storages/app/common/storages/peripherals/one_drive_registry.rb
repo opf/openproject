@@ -56,7 +56,7 @@ module Storages
       end
 
       namespace("models") do
-        register(:managed_folder_identifier, ManagedFolderIdentifier::OneDrive)
+        register(:managed_folder_identifier, Adapters::OneDrive::ManagedFolderIdentifier)
       end
 
       namespace("authentication") do
