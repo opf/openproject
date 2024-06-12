@@ -37,3 +37,4 @@ ms:
     Setakat ini kami hanya menyokong OpenProject sahaja.
   text_deploy_target_api_key_info: >
     [API key](docs_url) OpenProject yang dimiliki oleh pengguna yang mempunyai kebenaran intipan global.
+  text_pull_request_deployed_to: "%{pr_link} deployed to %{deploy_target_link}"

@@ -398,7 +398,8 @@ class MeetingsController < ApplicationController
   def copy_attributes
     {
       copy_agenda: params[:copy_agenda] == "1",
-      copy_attachments: params[:copy_attachments] == "1"
+      copy_attachments: params[:copy_attachments] == "1",
+      send_notifications: params[:send_notifications] == "1"
     }
   end
 end

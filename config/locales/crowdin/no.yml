@@ -303,9 +303,6 @@
         new_project_mapping_form:
           add_projects: Add projects
           include_sub_projects: Include sub-projects
-        project_mapping_filter:
-          label: Search project
-          placeholder: Filter by text
       types:
         no_results_title_text: Det finnes ingen tilgjengelige typer.
         form:
@@ -974,13 +971,8 @@
               working_days_are_missing: "Minst en ukedag må defineres som en virkedag."
               previous_working_day_changes_unprocessed: "De tidligere endringene i konfigurasjonen av arbeidsdager har ikke blitt brukt ennå."
               hours_per_day_are_missing: "Antall timer per dag må defineres."
-              days_per_week_are_missing: "Antall dager per uke må være definert."
-              days_per_month_are_missing: "Antall dager per måned må defineres."
               durations_are_not_positive_numbers: "Varigheten må være positive tall."
               hours_per_day_is_out_of_bounds: "Timer per dag kan ikke være mer enn 24"
-              days_per_week_is_out_of_bounds: "Dager per uke kan ikke være mer enn 7"
-              days_per_month_is_out_of_bounds: "Dager per måned kan ikke være mer enn 31"
-              days_per_week_and_days_per_month_are_inconsistent: "Antall dager per uke og antall dager per måned må være konsekvent."
         time_entry:
           attributes:
             hours:
@@ -2952,9 +2944,6 @@
   setting_cross_project_work_package_relations: "Tillat relasjoner mellom arbeidspakker i ulike prosjekter"
   setting_first_week_of_year: "Første uke i år inneholder"
   setting_date_format: "Dato"
-  setting_days_per_month: "Dager per måned"
-  setting_days_per_month_explanation: >-
-    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Standardspråk"
   setting_default_projects_modules: "Standardaktiverte moduler for nye prosjekter"
   setting_default_projects_public: "Nye prosjekter er offentlige som standard"
@@ -2973,9 +2962,6 @@
   setting_hours_per_day: "Timer per dag"
   setting_hours_per_day_explanation: >-
     Dette vil definere hva som anses som en "dag" når varigheten vises på en mer naturlig måte (for eksempel hvis dagen er 8 timer, vil 32 timer være 4 dager).
-  setting_days_per_week: "Dager per uke"
-  setting_days_per_week_explanation: >-
-    Denne vil definere hva som regnes som en "uke" når varigheten vises på en mer naturlig måte (for eksempel hvis en uke er på 5 dager, er 15 dager 3 uker).
   setting_invitation_expiration_days: "Aktiverings e-post utløper etter"
   setting_work_package_done_ratio: "Beregning av fremdrift"
   setting_work_package_done_ratio_field: "Arbeidsbasert"

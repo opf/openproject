@@ -302,9 +302,6 @@ ms:
         new_project_mapping_form:
           add_projects: Tambah projek
           include_sub_projects: Sertakan sub-projek
-        project_mapping_filter:
-          label: Cari projek
-          placeholder: Menyaring secara teks
       types:
         no_results_title_text: Tiada jenis yang tersedia buat masa ini.
         form:
@@ -966,13 +963,8 @@ ms:
               working_days_are_missing: "Sekurang-kurangnya sehari dalam seminggu perlu ditentukan sebagai hari bekerja."
               previous_working_day_changes_unprocessed: "Perubahan terdahulu pada konfigurasi hari bekerja belum dilaksanakan lagi."
               hours_per_day_are_missing: "Bilangan jam dalam sehari perlu ditentukan."
-              days_per_week_are_missing: "Bilangan hari setiap minggu mestilah ditakrifkan. "
-              days_per_month_are_missing: "Bilangan hari sebulan mestilah ditakrifkan."
               durations_are_not_positive_numbers: "Jangka masa mestilah nombor positif."
               hours_per_day_is_out_of_bounds: "Jam sehari tidak boleh melebihi 24"
-              days_per_week_is_out_of_bounds: "Hari seminggu tidak boleh melebihi 7"
-              days_per_month_is_out_of_bounds: "Hari sebulan tidak boleh melebihi 31"
-              days_per_week_and_days_per_month_are_inconsistent: "Bilangan hari seminggu dan bilangan hari sebulan mestilah konsisten."
         time_entry:
           attributes:
             hours:
@@ -2914,9 +2906,6 @@ ms:
   setting_cross_project_work_package_relations: "Benarkan hubungan pakej kerja rentas projek"
   setting_first_week_of_year: "Minggu pertama dalam tahun mengandungi "
   setting_date_format: "Tarikh"
-  setting_days_per_month: "Hari sebulan"
-  setting_days_per_month_explanation: >-
-    Ini akan takrifkan apa yang dianggap sebagai "bulan" apabila memaparkan jangka masa menggunakan cara yang lebih semula jadi (contonya, jika sebulan ialah 20 hari, 60 hari ialah 3 bulan).
   setting_default_language: "Bahasa default"
   setting_default_projects_modules: "Modul yang diaktifkan secara default untuk projek baharu"
   setting_default_projects_public: "Projek baharu adalah awam secara default"
@@ -2935,9 +2924,6 @@ ms:
   setting_hours_per_day: "Jam sehari"
   setting_hours_per_day_explanation: >-
     Ini akan takrifkan apa yang dianggap sebagai "hari" apabila memaparkan jangka masa menggunakan cara yang lebih semula jadi (contohnya, jika sehari ialah 8 jam, 32 jam ialah 4 hari).
-  setting_days_per_week: "Hari seminggu"
-  setting_days_per_week_explanation: >-
-    Ini akan takrifkan apa yang dianggap sebagai "minggu" apabila memaparkan jangka masa menggunakan cara yang lebih semula jadi (contohnya, jika seminggu ialah 5 hari, 15 hari ialah 3 minggu)
   setting_invitation_expiration_days: "Pengaktifan e-mel tamat tempoh selepas"
   setting_work_package_done_ratio: "Pengiraan perkembangan"
   setting_work_package_done_ratio_field: "Berasaskan kerja"

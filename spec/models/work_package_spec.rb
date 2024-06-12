@@ -799,7 +799,7 @@ RSpec.describe WorkPackage do
       expect(work_package.remaining_hours).to eq(1.4)
     end
 
-    it "allows hours like '3d 1h 30m'" do
+    it "allows hours like '3d 1.5h 30m'" do
       work_package.remaining_hours = "3d 1h 30m"
       expect(work_package).to be_valid
       expect(work_package.remaining_hours).to eq((3 * 8) + 1.5)

@@ -200,10 +200,10 @@ module ::TwoFactorAuthentication
     def logout_other_sessions
       if current_user == target_user
         Rails.logger.info { "First 2FA device registered for #{target_user}, terminating other logged in sessions." }
-        ::Sessions::DropOtherSessionsService.call(target_user, session)
+        ::Sessions::DropOtherSessionsService.call!(target_user, session)
       else
         Rails.logger.info { "First 2FA device registered for #{target_user}, terminating logged in sessions." }
-        ::Sessions::DropAllSessionsService.call(target_user)
+        ::Sessions::DropAllSessionsService.call!(target_user)
       end
     end
 

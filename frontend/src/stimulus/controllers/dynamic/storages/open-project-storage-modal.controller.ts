@@ -40,16 +40,16 @@ export default class OpenProjectStorageModalController extends Controller<HTMLDi
 
   loadingInterval:number;
   timeoutInterval:number;
-  networkErrorHappend:boolean;
+  networkErrorHappened:boolean;
   projectStorageOpenUrlValue:string;
   redirectUrlValue:string;
 
   connect() {
     this.element.showModal();
     this.loadingInterval = 0;
-    this.networkErrorHappend = false;
+    this.networkErrorHappened = false;
     this.load();
-    this.timeoutInterval = setTimeout(
+    this.timeoutInterval = window.setTimeout(
       () => {
         clearInterval(this.loadingInterval);
         this.setTimeoutMessage();
@@ -66,7 +66,7 @@ export default class OpenProjectStorageModalController extends Controller<HTMLDi
   }
 
   load() {
-    this.loadingInterval = setTimeout(
+    this.loadingInterval = window.setTimeout(
       async () => {
         try {
           const response = await fetch(
@@ -85,15 +85,15 @@ export default class OpenProjectStorageModalController extends Controller<HTMLDi
               2000,
             );
           } else {
-            if (this.networkErrorHappend === true) {
-              this.setNetworkErrorHappend(false);
+            if (this.networkErrorHappened === true) {
+              this.setNetworkErrorHappened(false);
             }
             this.load();
           }
         } catch (error:unknown) {
           console.error('Error: ', error);
-          if (this.networkErrorHappend === false) {
-            this.setNetworkErrorHappend(true);
+          if (this.networkErrorHappened === false) {
+            this.setNetworkErrorHappened(true);
           }
           setTimeout(() => this.load(), 3000);
         }
@@ -102,14 +102,14 @@ export default class OpenProjectStorageModalController extends Controller<HTMLDi
     );
   }
 
-  private setNetworkErrorHappend(value:boolean) {
+  private setNetworkErrorHappened(value:boolean) {
     const waitingSubtitle = document.getElementById('waiting_subtitle');
     if (waitingSubtitle) {
       waitingSubtitle.innerText = I18n.t(
         `js.open_project_storage_modal.waiting_subtitle.network_${value ? 'off' : 'on'}`,
       );
     }
-    this.networkErrorHappend = value;
+    this.networkErrorHappened = value;
   }
 
   private setTimeoutMessage() {

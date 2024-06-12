@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -25,28 +27,30 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module WorkPackage::Exports
-  module Formatters
-    class DerivedRemainingHours < ::Exports::Formatters::Default
-      def self.apply?(name, _export_format)
-        %i[derived_remaining_time derived_remaining_hours].include?(name.to_sym)
-      end
 
-      def format(work_package, **)
-        formatted_derived_hours(work_package)
-      end
+module Users
+  ##
+  # Remove all recovery and invitation tokens for the user
+  class DropTokensService
+    attr_accessor :user
 
-      private
+    def initialize(current_user:)
+      @user = current_user
+    end
 
-      def formatted_hours(value)
-        value.nil? ? nil : "#{value} #{I18n.t('export.units.hours')}"
-      end
+    def call!(clear_invitation_tokens: true)
+      invalidate_recovery_tokens
+      invalidate_invitation_tokens if clear_invitation_tokens
+    end
 
-      def formatted_derived_hours(work_package)
-        if (derived_estimated_value = work_package.derived_estimated_hours)
-          formatted_hours(derived_estimated_value)
-        end
-      end
+    private
+
+    def invalidate_recovery_tokens
+      Token::Recovery.where(user: user).delete_all
+    end
+
+    def invalidate_invitation_tokens
+      Token::Invitation.where(user: user).delete_all
     end
   end
 end

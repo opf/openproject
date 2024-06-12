@@ -157,13 +157,19 @@ RSpec.describe MyController do
   describe "settings" do
     describe "PATCH" do
       let(:language) { "en" }
+      let(:params) do
+        {
+          user: { language: },
+          pref: { auto_hide_popups: 0 }
+        }
+      end
 
       before do
         as_logged_in_user user do
           user.pref.comments_sorting = "desc"
           user.pref.auto_hide_popups = true
 
-          patch :update_settings, params: { user: { language: }, pref: { auto_hide_popups: 0 } }
+          patch :update_settings, params:
         end
       end
 
@@ -197,6 +203,28 @@ RSpec.describe MyController do
           expect(flash[:notice]).to eq(I18n.t(:notice_account_updated, locale: language))
         end
       end
+    end
+  end
+
+  describe "changing changing mail" do
+    let!(:recovery_token) { create(:recovery_token, user:) }
+    let!(:plain_session) { create(:user_session, user:, session_id: "internal_foobar") }
+    let!(:user_session) { Sessions::UserSession.find_by(session_id: "internal_foobar") }
+
+    let(:params) do
+      { user: { mail: "foo@example.org"} }
+    end
+
+    it "clears other sessions and removes tokens" do
+      as_logged_in_user user do
+        patch :update_settings, params:
+      end
+
+      expect(flash[:info]).to include(I18n.t(:notice_account_updated))
+      expect(flash[:info]).to include(I18n.t(:notice_account_other_session_expired))
+
+      expect(Token::Recovery.where(user:)).to be_empty
+      expect { user_session.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 

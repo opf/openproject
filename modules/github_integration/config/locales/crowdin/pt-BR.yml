@@ -37,3 +37,4 @@ pt-BR:
     No momento, oferecemos suporte apenas ao próprio OpenProject
   text_deploy_target_api_key_info: >
     Uma [API key](docs_url) do OpenProject pertencente a um usuário que tenha permissões globais de introspecção.
+  text_pull_request_deployed_to: "%{pr_link} deployed to %{deploy_target_link}"

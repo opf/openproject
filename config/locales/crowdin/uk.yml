@@ -298,9 +298,6 @@ uk:
         new_project_mapping_form:
           add_projects: Add projects
           include_sub_projects: Include sub-projects
-        project_mapping_filter:
-          label: Search project
-          placeholder: Filter by text
       types:
         no_results_title_text: Наразі немає доступних типів.
         form:
@@ -984,13 +981,8 @@ uk:
               working_days_are_missing: "Принаймні один день тижня має бути визначено як робочий."
               previous_working_day_changes_unprocessed: "Попередні зміни конфігурації робочих днів ще не застосовано."
               hours_per_day_are_missing: "The number of hours per day must be defined."
-              days_per_week_are_missing: "The number of days per week must be defined."
-              days_per_month_are_missing: "The number of days per month must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
-              days_per_week_is_out_of_bounds: "Days per week can't be more than 7"
-              days_per_month_is_out_of_bounds: "Days per month can't be more than 31"
-              days_per_week_and_days_per_month_are_inconsistent: "The number of days per week and the number of days per month must be consistent."
         time_entry:
           attributes:
             hours:
@@ -3015,9 +3007,6 @@ uk:
   setting_cross_project_work_package_relations: "Дозволити взаємозв'язок між робочими пакетами і проектами"
   setting_first_week_of_year: "Перший тиждень у році містить"
   setting_date_format: "Дата"
-  setting_days_per_month: "Days per month"
-  setting_days_per_month_explanation: >-
-    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Мова за замовчуванням"
   setting_default_projects_modules: "Включені по замовчуванню модулі для нових проектів"
   setting_default_projects_public: "Нові проекти є загальнодоступними"
@@ -3036,9 +3025,6 @@ uk:
   setting_hours_per_day: "Hours per day"
   setting_hours_per_day_explanation: >-
     This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
-  setting_days_per_week: "Days per week"
-  setting_days_per_week_explanation: >-
-    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a week is 5 days, 15 days would be 3 weeks).
   setting_invitation_expiration_days: "Повідомлення про активацію закінчується"
   setting_work_package_done_ratio: "Обчислення прогресу"
   setting_work_package_done_ratio_field: "На основі роботи"

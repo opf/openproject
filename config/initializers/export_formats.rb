@@ -7,7 +7,7 @@ Rails.application.configure do |application|
       single WorkPackage, WorkPackage::PDFExport::WorkPackageToPdf
 
       formatter WorkPackage, WorkPackage::Exports::Formatters::EstimatedHours
-      formatter WorkPackage, WorkPackage::Exports::Formatters::DerivedRemainingHours
+      formatter WorkPackage, WorkPackage::Exports::Formatters::RemainingHours
       formatter WorkPackage, WorkPackage::Exports::Formatters::SpentUnits
       formatter WorkPackage, WorkPackage::Exports::Formatters::Hours
       formatter WorkPackage, WorkPackage::Exports::Formatters::Days

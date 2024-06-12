@@ -298,11 +298,8 @@ zh-CN:
           heading: 所有项目中需要
           description: 此项目属性已在所有项目中激活，因为选中了“所有项目中需要”的选项。它在单个项目中不能被停用。
         new_project_mapping_form:
-          add_projects: Add projects
-          include_sub_projects: Include sub-projects
-        project_mapping_filter:
-          label: Search project
-          placeholder: Filter by text
+          add_projects: 添加项目
+          include_sub_projects: 包含子项目
       types:
         no_results_title_text: 目前有可用的类型。
         form:
@@ -964,13 +961,8 @@ zh-CN:
               working_days_are_missing: "每周必须至少有一天定义为工作日。"
               previous_working_day_changes_unprocessed: "先前对工作日配置的更改尚未应用。"
               hours_per_day_are_missing: "必须定义每天的小时数"
-              days_per_week_are_missing: "必须定义每周的天数"
-              days_per_month_are_missing: "必须定义每月的天数"
               durations_are_not_positive_numbers: "持续时间必须是正数"
               hours_per_day_is_out_of_bounds: "每天小时数不能超过24"
-              days_per_week_is_out_of_bounds: "每周天数不能超过7"
-              days_per_month_is_out_of_bounds: "每月天数不能超过31"
-              days_per_week_and_days_per_month_are_inconsistent: "每周天数及每月天数必须保持一致"
         time_entry:
           attributes:
             hours:
@@ -1028,13 +1020,13 @@ zh-CN:
               only_same_project_categories_allowed: "工作包的类别必须包含在相同的项目工作包中。"
               does_not_exist: "指定的类别不存在。"
             estimated_hours:
-              not_a_number: "is not a valid duration."
+              not_a_number: "不是有效的持续时间。"
               cant_be_inferior_to_remaining_work: "不能低于剩余工时。"
               must_be_set_when_remaining_work_is_set: "必须在设置 \"剩余工时 \"时设置。"
               only_values_greater_or_equal_zeroes_allowed: "必须 > = 0。"
               format: "%{message}"
             remaining_hours:
-              not_a_number: "is not a valid duration."
+              not_a_number: "不是有效的持续时间。"
               cant_exceed_work: "不能高于工时。"
               must_be_set_when_work_is_set: "当设置工时需要。"
               format: "%{message}"
@@ -1582,11 +1574,11 @@ zh-CN:
     image:
       omitted: "图像未导出。"
     macro:
-      error: "Macro error, %{message}"
-      attribute_not_found: "attribute not found: %{attribute}"
-      model_not_found: "invalid attribute model: %{model}"
-      resource_not_found: "resource not found: %{resource}"
-      rich_text_unsupported: "Rich text embedding currently not supported in export"
+      error: "宏错误， %{message}"
+      attribute_not_found: "属性未找到： %{attribute}"
+      model_not_found: "属性模型无效： %{model}"
+      resource_not_found: "未找到资源： %{resource}"
+      rich_text_unsupported: "导出时不支持富文本嵌入功能"
     units:
       hours: 时
       days: 天
@@ -2908,9 +2900,6 @@ zh-CN:
   setting_cross_project_work_package_relations: "允许跨项目工作包关系"
   setting_first_week_of_year: "全年首周包含"
   setting_date_format: "日期"
-  setting_days_per_month: "每月天数"
-  setting_days_per_month_explanation: >-
-    这将以更自然的方式在显示持续时间时定义什么是 "一个月"（例如，如果一个月是20天，60天就是3个月）。
   setting_default_language: "默认语言"
   setting_default_projects_modules: "新项目的默认启用模块"
   setting_default_projects_public: "新项目默认公开"
@@ -2929,9 +2918,6 @@ zh-CN:
   setting_hours_per_day: "每天小时数"
   setting_hours_per_day_explanation: >-
     这将以更自然的方式在显示持续时间时定义什么是 "一天"（例如，如果一天是8小时，32小时就是4天）。
-  setting_days_per_week: "每周天数"
-  setting_days_per_week_explanation: >-
-    这将以更自然的方式在显示持续时间时定义什么是 "一周"（例如，如果一周是5天，15天就是3周）。
   setting_invitation_expiration_days: "激活电子邮件将在此时间后过期"
   setting_work_package_done_ratio: "进度计算"
   setting_work_package_done_ratio_field: "基于工时"
