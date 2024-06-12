@@ -26,18 +26,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import {
-  filter,
-  map,
-} from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { StateService } from '@uirouter/angular';
 import { UIRouterGlobals } from '@uirouter/core';
 import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
@@ -51,7 +42,6 @@ import { IanBellService } from 'core-app/features/in-app-notifications/bell/stat
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 
 @Component({
-  selector: 'op-in-app-notification-center',
   templateUrl: './in-app-notification-center.component.html',
   styleUrls: ['./in-app-notification-center.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,0 +1,24 @@
+<%= render(Primer::OpenProject::PageHeader.new) do |header|
+  header.with_title { page_title }
+  header.with_breadcrumbs(breadcrumb_items)
+
+  header.with_action_button(tag: :a,
+                            mobile_icon: :'op-read-all',
+                            mobile_label: I18n.t("js.notifications.center.mark_all_read"),
+                            href: notifications_path,
+                            size: :medium,
+                            aria: { label: I18n.t("js.notifications.center.mark_all_read") }) do |button|
+    button.with_leading_visual_icon(icon: :'op-read-all')
+    I18n.t("js.notifications.center.mark_all_read")
+  end
+
+  header.with_action_button(tag: :a,
+                            mobile_icon: :gear,
+                            mobile_label: I18n.t("js.notifications.settings.title"),
+                            href: notifications_path,
+                            size: :medium,
+                            aria: { label: I18n.t("js.notifications.settings.title") }) do |button|
+    button.with_leading_visual_icon(icon: :gear)
+    I18n.t("js.notifications.settings.title")
+  end
+end %>

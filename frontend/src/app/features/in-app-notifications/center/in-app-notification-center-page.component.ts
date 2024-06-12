@@ -1,36 +1,28 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Injector,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import {
   ToolbarButtonComponentDefinition,
   ViewPartitionState,
 } from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component';
-import {
-  StateService,
-  TransitionService,
-} from '@uirouter/core';
+import { StateService, TransitionService } from '@uirouter/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { NotificationSettingsButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/settings/notification-settings-button.component';
-import { ActivateFacetButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/facet/activate-facet-button.component';
-import { MarkAllAsReadButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/mark-all-as-read/mark-all-as-read-button.component';
+import {
+  NotificationSettingsButtonComponent,
+} from 'core-app/features/in-app-notifications/center/toolbar/settings/notification-settings-button.component';
+import {
+  ActivateFacetButtonComponent,
+} from 'core-app/features/in-app-notifications/center/toolbar/facet/activate-facet-button.component';
+import {
+  MarkAllAsReadButtonComponent,
+} from 'core-app/features/in-app-notifications/center/toolbar/mark-all-as-read/mark-all-as-read-button.component';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
-import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
 import { OpTitleService } from 'core-app/core/html/op-title.service';
 
 @Component({
   templateUrl: '../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
   styleUrls: [
     '../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass',
-  ],
-  providers: [
-    IanCenterService,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

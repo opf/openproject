@@ -699,9 +699,22 @@ Rails.application.routes.draw do
 
   root to: "account#login"
 
+  concern :with_split_view do |options|
+    get "details/:id(/:tab)", on: :collection, action: options.fetch(:action, :index)
+  end
+
+  resources :notifications, only: :index do
+    concerns :with_split_view
+
+    collection do
+      resource :menu, module: :notifications, only: %i[show], as: :notifications_menu
+    end
+  end
+
   namespace :notifications do
     resource :menu, only: %i[show]
   end
+
   scope :notifications do
     get "/share_upsale" => "angular#notifications_layout", as: "notifications_share_upsale"
     get "/date_alerts" => "angular#notifications_layout", as: "notifications_date_alert_upsale"
