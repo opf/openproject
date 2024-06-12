@@ -28,22 +28,23 @@
 
 module Projects::CustomFields
   class CustomFieldMappingForm < ApplicationForm
-    form do |f|
-      f.group(layout: :horizontal) do |f_group|
-        f_group.project_autocompleter(
+    form do |form|
+      form.group(layout: :horizontal) do |group|
+        group.project_autocompleter(
           name: :id,
           label: Project.model_name.human,
           visually_hide_label: true,
           autocomplete_options: {
             openDirectly: false,
             focusDirectly: false,
+            multiple: true,
             dropdownPosition: "bottom",
             disabledProjects: projects_with_custom_field_mapping,
-            inputName: "project_custom_field_project_mapping[project_id]"
+            inputName: "project_custom_field_project_mapping[project_ids]"
           }
         )
 
-        f_group.check_box(
+        group.check_box(
           name: :include_sub_projects,
           label: I18n.t("projects.settings.project_custom_fields.new_project_mapping_form.include_sub_projects"),
           checked: false,

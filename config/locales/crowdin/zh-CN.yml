@@ -961,13 +961,8 @@ zh-CN:
               working_days_are_missing: "每周必须至少有一天定义为工作日。"
               previous_working_day_changes_unprocessed: "先前对工作日配置的更改尚未应用。"
               hours_per_day_are_missing: "必须定义每天的小时数"
-              days_per_week_are_missing: "必须定义每周的天数"
-              days_per_month_are_missing: "必须定义每月的天数"
               durations_are_not_positive_numbers: "持续时间必须是正数"
               hours_per_day_is_out_of_bounds: "每天小时数不能超过24"
-              days_per_week_is_out_of_bounds: "每周天数不能超过7"
-              days_per_month_is_out_of_bounds: "每月天数不能超过31"
-              days_per_week_and_days_per_month_are_inconsistent: "每周天数及每月天数必须保持一致"
         time_entry:
           attributes:
             hours:
@@ -2905,9 +2900,6 @@ zh-CN:
   setting_cross_project_work_package_relations: "允许跨项目工作包关系"
   setting_first_week_of_year: "全年首周包含"
   setting_date_format: "日期"
-  setting_days_per_month: "每月天数"
-  setting_days_per_month_explanation: >-
-    这将以更自然的方式在显示持续时间时定义什么是 "一个月"（例如，如果一个月是20天，60天就是3个月）。
   setting_default_language: "默认语言"
   setting_default_projects_modules: "新项目的默认启用模块"
   setting_default_projects_public: "新项目默认公开"
@@ -2926,9 +2918,6 @@ zh-CN:
   setting_hours_per_day: "每天小时数"
   setting_hours_per_day_explanation: >-
     这将以更自然的方式在显示持续时间时定义什么是 "一天"（例如，如果一天是8小时，32小时就是4天）。
-  setting_days_per_week: "每周天数"
-  setting_days_per_week_explanation: >-
-    这将以更自然的方式在显示持续时间时定义什么是 "一周"（例如，如果一周是5天，15天就是3周）。
   setting_invitation_expiration_days: "激活电子邮件将在此时间后过期"
   setting_work_package_done_ratio: "进度计算"
   setting_work_package_done_ratio_field: "基于工时"

@@ -79,9 +79,6 @@ module API
         property :hours_per_day,
                  render_nil: true
 
-        property :days_per_week,
-                 render_nil: true
-
         property :days_per_month,
                  render_nil: true
 

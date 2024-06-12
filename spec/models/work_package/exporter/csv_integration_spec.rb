@@ -75,6 +75,6 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
     expect(data.last).to include(work_package.description)
     expect(data.last).to include(current_user.name)
     expect(data.last).to include(work_package.updated_at.localtime.strftime("%m/%d/%Y %I:%M %p"))
-    expect(data.last).to include("· Σ 15.0 h")
+    expect(data.last).to include("· Σ 1d 7h")
   end
 end

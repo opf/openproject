@@ -556,8 +556,6 @@ GEM
     fuubar (2.5.1)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
-    gitlab_chronic_duration (0.12.0)
-      numerizer (~> 0.2)
     glob (0.4.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
@@ -1208,7 +1206,6 @@ DEPENDENCIES
   fog-aws
   friendly_id (~> 5.5.0)
   fuubar (~> 2.5.0)
-  gitlab_chronic_duration
   gon (~> 6.4.0)
   good_job (= 3.26.2)
   google-apis-gmail_v1

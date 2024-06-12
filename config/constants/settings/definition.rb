@@ -533,12 +533,6 @@ module Settings
         default: 8,
         format: :integer
       },
-      days_per_week: {
-        description: "This will define what is considered a “week” when displaying duration in a more natural way " \
-                     "(for example, if a week is 5 days, 15 days would be 3 weeks).",
-        default: 5,
-        format: :integer
-      },
       # Health check configuration
       health_checks_authentication_password: {
         description: "Add an authentication challenge for the /health_check endpoint",

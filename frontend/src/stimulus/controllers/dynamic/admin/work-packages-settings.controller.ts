@@ -30,9 +30,6 @@
 
 import { Controller } from '@hotwired/stimulus';
 
-/*
-  * Helps keep daysPerWeek and daysPerMonth in-line with each other
- */
 export default class WorkPackagesSettingsController extends Controller {
   static targets = [
     'progressCalculationModeSelect',

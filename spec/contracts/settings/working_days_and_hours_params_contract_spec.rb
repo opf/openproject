@@ -33,16 +33,16 @@ RSpec.describe Settings::WorkingDaysAndHoursParamsContract do
   include_context "ModelContract shared context"
   shared_let(:current_user) { create(:admin) }
   let(:setting) { Setting }
-  let(:params) { { working_days: [1], hours_per_day: 8, days_per_week: 5, days_per_month: 20 } }
+  let(:params) { { working_days: [1], hours_per_day: 8 } }
   let(:contract) do
     described_class.new(setting, current_user, params:)
   end
 
   it_behaves_like "contract is valid for active admins and invalid for regular users"
 
-  %i[working_days hours_per_day days_per_week days_per_month].each do |attribute|
+  %i[working_days hours_per_day].each do |attribute|
     context "without #{attribute}" do
-      let(:params) { { working_days: [1], hours_per_day: 8, days_per_week: 5, days_per_month: 20 }.except(attribute) }
+      let(:params) { { working_days: [1], hours_per_day: 8 }.except(attribute) }
 
       include_examples "contract is invalid", base: :"#{attribute}_are_missing"
     end
@@ -50,7 +50,7 @@ RSpec.describe Settings::WorkingDaysAndHoursParamsContract do
 
   context "with an ApplyWorkingDaysChangeJob already existing",
           with_good_job: WorkPackages::ApplyWorkingDaysChangeJob do
-    let(:params) { { working_days: [1, 2, 3], hours_per_day: 8, days_per_week: 5, days_per_month: 20 } }
+    let(:params) { { working_days: [1, 2, 3], hours_per_day: 8 } }
 
     before do
       WorkPackages::ApplyWorkingDaysChangeJob
@@ -63,58 +63,31 @@ RSpec.describe Settings::WorkingDaysAndHoursParamsContract do
     include_examples "contract is invalid", base: :previous_working_day_changes_unprocessed
   end
 
-  context "when days_per_week and days_per_month aren't consistent with each other" do
-    # There are 4 weeks per month on average, so 10 days per month in non-sensical given 5 days per week
-    let(:params) { { working_days: [1], hours_per_day: 8, days_per_week: 5, days_per_month: 10 } }
-
-    include_examples "contract is invalid", base: :days_per_week_and_days_per_month_are_inconsistent
-  end
-
   describe "0 durations" do
     context "when hours_per_day is 0" do
-      let(:params) { { working_days: [1], hours_per_day: 0, days_per_week: 5, days_per_month: 20 } }
-
-      include_examples "contract is invalid", base: :durations_are_not_positive_numbers
-    end
-
-    # These two are correlated. Making only one of them 0 will also
-    # add the "incosistent" error tested for above.
-    context "when days_per_week or days_per_month is 0" do
-      let(:params) { { working_days: [1], hours_per_day: 8, days_per_week: 0, days_per_month: 0 } }
-
-      include_examples "contract is invalid", base: :durations_are_not_positive_numbers
-    end
-
-    context "when all durations are 0" do
-      let(:params) { { working_days: [1], hours_per_day: 0, days_per_week: 0, days_per_month: 0 } }
+      let(:params) { { working_days: [1], hours_per_day: 0 } }
 
       include_examples "contract is invalid", base: :durations_are_not_positive_numbers
     end
   end
 
   describe "Text durations" do
-    let(:params) { { working_days: [1], hours_per_day: "blah", days_per_week: "5", days_per_month: "20" } }
+    let(:params) { { working_days: [1], hours_per_day: "blah" } }
 
     include_examples "contract is invalid", base: :durations_are_not_positive_numbers
   end
 
   describe "Negative durations" do
-    let(:params) { { working_days: [1], hours_per_day: -2, days_per_week: -5, days_per_month: -20 } }
+    let(:params) { { working_days: [1], hours_per_day: -2 } }
 
     include_examples "contract is invalid", base: :durations_are_not_positive_numbers
   end
 
   describe "Out-of-bounds durations" do
     context "when hours_per_day is greater than 24" do
-      let(:params) { { working_days: [1], hours_per_day: 25, days_per_week: 5, days_per_month: 20 } }
+      let(:params) { { working_days: [1], hours_per_day: 25 } }
 
       include_examples "contract is invalid", base: :hours_per_day_is_out_of_bounds
-    end
-
-    context "when days_per_week is greater than 7 and days_per_month is greater than 31" do
-      let(:params) { { working_days: [1], hours_per_day: 8, days_per_week: 8, days_per_month: 32 } }
-
-      include_examples "contract is invalid", base: %i[days_per_week_is_out_of_bounds days_per_month_is_out_of_bounds]
     end
   end
 end
