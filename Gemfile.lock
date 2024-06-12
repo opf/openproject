@@ -331,7 +331,7 @@ GEM
     airbrake-ruby (6.2.2)
       rbtree3 (~> 0.6)
     android_key_attestation (0.3.0)
-    appsignal (3.7.5)
+    appsignal (3.7.6)
       rack
     ast (2.4.2)
     attr_required (1.0.2)
