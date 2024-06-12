@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,35 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages
-  module Admin
-    class ConnectionValidationController < ApplicationController
-      include OpTurbo::ComponentStream
+require "spec_helper"
 
-      layout "admin"
+RSpec.describe "connection validation", :skip_csrf do
+  describe "POST /admin/settings/storages/:id/connection_validation/validate_connection" do
+    let(:storage) { create(:one_drive_storage) }
+    let(:user) { create(:admin) }
+    let(:validator) do
+      double = instance_double(Storages::Peripherals::OneDriveConnectionValidator)
+      allow(double).to receive_messages(validate: validation_result)
+      double
+    end
+    let(:validation_result) do
+      Storages::ConnectionValidation.new(icon: "check-circle", scheme: :default, description: "Successful!")
+    end
 
-      before_action :require_admin
+    current_user { user }
 
-      model_object OneDriveStorage
+    before do
+      allow(Storages::Peripherals::OneDriveConnectionValidator).to receive(:new).and_return(validator)
+    end
 
-      before_action :find_model_object, only: %i[validate_connection]
+    it "returns a connection validation result" do
+      response = post validate_connection_admin_settings_storage_connection_validation_path(storage.id, format: :turbo_stream)
+      expect(response.status).to eq(200)
 
-      def validate_connection
-        @result = Peripherals::OneDriveConnectionValidator
-                    .new(storage: @storage)
-                    .validate
-
-        respond_to do |format|
-          format.turbo_stream
-        end
-      end
-
-      private
-
-      def find_model_object(object_id = :storage_id)
-        super
-        @storage = @object
-      end
+      doc = Nokogiri::HTML(response.body)
     end
   end
 end
