@@ -298,8 +298,8 @@ zh-CN:
           heading: 所有项目中需要
           description: 此项目属性已在所有项目中激活，因为选中了“所有项目中需要”的选项。它在单个项目中不能被停用。
         new_project_mapping_form:
-          add_projects: Add projects
-          include_sub_projects: Include sub-projects
+          add_projects: 添加项目
+          include_sub_projects: 包含子项目
       types:
         no_results_title_text: 目前有可用的类型。
         form:
@@ -1025,13 +1025,13 @@ zh-CN:
               only_same_project_categories_allowed: "工作包的类别必须包含在相同的项目工作包中。"
               does_not_exist: "指定的类别不存在。"
             estimated_hours:
-              not_a_number: "is not a valid duration."
+              not_a_number: "不是有效的持续时间。"
               cant_be_inferior_to_remaining_work: "不能低于剩余工时。"
               must_be_set_when_remaining_work_is_set: "必须在设置 \"剩余工时 \"时设置。"
               only_values_greater_or_equal_zeroes_allowed: "必须 > = 0。"
               format: "%{message}"
             remaining_hours:
-              not_a_number: "is not a valid duration."
+              not_a_number: "不是有效的持续时间。"
               cant_exceed_work: "不能高于工时。"
               must_be_set_when_work_is_set: "当设置工时需要。"
               format: "%{message}"
@@ -1579,11 +1579,11 @@ zh-CN:
     image:
       omitted: "图像未导出。"
     macro:
-      error: "Macro error, %{message}"
-      attribute_not_found: "attribute not found: %{attribute}"
-      model_not_found: "invalid attribute model: %{model}"
-      resource_not_found: "resource not found: %{resource}"
-      rich_text_unsupported: "Rich text embedding currently not supported in export"
+      error: "宏错误， %{message}"
+      attribute_not_found: "属性未找到： %{attribute}"
+      model_not_found: "属性模型无效： %{model}"
+      resource_not_found: "未找到资源： %{resource}"
+      rich_text_unsupported: "导出时不支持富文本嵌入功能"
     units:
       hours: 时
       days: 天
