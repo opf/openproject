@@ -44,7 +44,7 @@ module Storages
       end
 
       namespace("commands") do
-        register(:copy_template_folder, StorageInteraction::OneDrive::CopyTemplateFolderCommand)
+        register(:copy_template_folder, Adapters::OneDrive::Commands::CopyTemplateFolder)
         register(:create_folder, StorageInteraction::OneDrive::CreateFolderCommand)
         register(:delete_folder, StorageInteraction::OneDrive::DeleteFolderCommand)
         register(:rename_file, StorageInteraction::OneDrive::RenameFileCommand)

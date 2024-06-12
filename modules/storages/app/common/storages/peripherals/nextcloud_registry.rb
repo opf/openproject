@@ -49,7 +49,7 @@ module Storages
 
       namespace("commands") do
         register(:add_user_to_group, StorageInteraction::Nextcloud::AddUserToGroupCommand)
-        register(:copy_template_folder, StorageInteraction::Nextcloud::CopyTemplateFolderCommand)
+        register(:copy_template_folder, Adapters::Nextcloud::Commands::CopyTemplateFolder)
         register(:create_folder, StorageInteraction::Nextcloud::CreateFolderCommand)
         register(:delete_entity, StorageInteraction::Nextcloud::Internal::DeleteEntityCommand)
         register(:delete_folder, StorageInteraction::Nextcloud::DeleteFolderCommand)

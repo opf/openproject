@@ -31,7 +31,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplateFolderCommand, :webmock do
+RSpec.describe Storages::Adapters::OneDrive::Commands::CopyTemplateFolder, :webmock do
   shared_let(:storage) { create(:sharepoint_dev_drive_storage) }
 
   shared_let(:original_folders) do
