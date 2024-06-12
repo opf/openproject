@@ -26,11 +26,10 @@ A new window will open, where you will be able to specify the following:
 3. Define if the new work package status closes a work package (e.g. relevant when filtering for closed for packages), e.g. a work package status "rejected" will set a work package technically on closed and it will not appear in the default work package table with Open Work packages.
 4. Define if this status is set as default value when creating new work packages. BEWARE: If you decide to set the new status as default it will impact all work packages, existing and future ones. See more below.
 5. Check if this status sets a **work package in read-only mode**. This means no work package attributes can be changed except the status.
-6. Set a **color** for the work package status. The color appears in the status button of the work packages or in the work package table.
-<!--
-7. Check **Exclude from calculation of totals in hierarchy** if you do not want work packages with this status to *not* be included in the calculation of sums in a hierarchy. This is useful for statuses like *closed* or *rejected*.
--->
-Save the new status by clicking **Create**.
+6. Check **Exclude from calculation of totals in hierarchy** if you do not want work packages with this status to *not* be included in the calculation of sums in a hierarchy. This is useful for statuses like *closed* or *rejected*.
+7. Set a **color** for the work package status. The color appears in the status button of the work packages or in the work package table.
+  
+  Save the new status by clicking **Create**.
 
 ![Create a new work package status in OpenProject administration](openproject_system_guide_create_new_wp_status.png)
 
