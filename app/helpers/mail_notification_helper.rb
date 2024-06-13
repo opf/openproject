@@ -35,10 +35,6 @@ module MailNotificationHelper
       .uniq
   end
 
-  def notifications_path(id)
-    details_notifications_path(id)
-  end
-
   def type_color(type, default_fallback)
     color_id = selected_color(type)
     if color_id
