@@ -7,9 +7,9 @@ import { InAppNotificationEntryComponent } from 'core-app/features/in-app-notifi
 import { OpenprojectPrincipalRenderingModule } from 'core-app/shared/components/principal/principal-rendering.module';
 import { UIRouterModule } from '@uirouter/angular';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { IAN_ROUTES } from 'core-app/features/in-app-notifications/in-app-notifications.routes';
-import { InAppNotificationCenterComponent } from 'core-app/features/in-app-notifications/center/in-app-notification-center.component';
-import { InAppNotificationCenterPageComponent } from 'core-app/features/in-app-notifications/center/in-app-notification-center-page.component';
+import {
+  InAppNotificationCenterComponent,
+} from 'core-app/features/in-app-notifications/center/in-app-notification-center.component';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
 import { DynamicModule } from 'ng-dynamic-component';
 import { InAppNotificationStatusComponent } from './entry/status/in-app-notification-status.component';
@@ -25,9 +25,7 @@ import { InAppNotificationsDateAlertsUpsaleComponent } from 'core-app/features/i
     InAppNotificationBellComponent,
     InAppNotificationCenterComponent,
     InAppNotificationEntryComponent,
-    InAppNotificationCenterPageComponent,
     InAppNotificationStatusComponent,
-    IanMenuComponent,
     EmptyStateComponent,
     InAppNotificationActorsLineComponent,
     InAppNotificationDateAlertComponent,
