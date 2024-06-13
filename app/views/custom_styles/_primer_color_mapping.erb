@@ -14,6 +14,10 @@
     --control-checked-bgColor-active: var(--control-checked-color) !important;
     --control-checked-bgColor-hover: var(--control-checked-color--major1) !important;
     --controlKnob-borderColor-checked: var(--control-checked-color) !important;
+    --button-primary-bgColor-rest: var(--button--primary-background-color) !important;
+    --button-primary-bgColor-hover: var(--button--primary-background-hover-color) !important;
+    --button-primary-bgColor-disabled: var(--button--primary-background-disabled-color) !important;
+    --button-primary-borderColor-disabled: var(--button--primary-border-disabled-color) !important;
   }
 
   /* Generic color mapping for content variables */
@@ -36,17 +40,8 @@
     --table-border-color: var(--borderColor-default);
     --toolbar-item--bg-color: var(--button-default-bgColor-rest);
     --toolbar-item--border-color: var(--borderColor-default);
-    --button--primary-font-color:  var(--button-primary-fgColor-rest);
-    --button--primary-background-hover-color: var(--button-primary-bgColor-hover);
-    --button--primary-background-color: var(--button-primary-bgColor-rest);
-    --button--active-border-color: var(--button-default-borderColor-rest);
-    --button--font-color: var(--button-default-fgColor-rest);
-    --button--background-hover-color: var(--button-default-bgColor-hover);
-    --button--background-color: var(--button-default-bgColor-rest);
-    --primary-button-color: var(--button-primary-bgColor-rest);
     --status-selector-border-color: var(--button-default-borderColor-rest);
     --grid-background-color: var(--bgColor-inset);
-
   }
 
   /* For accessibility themes we are also overriding the header and the sidebar */
@@ -71,6 +66,14 @@
       --main-menu-border-width: 1px;
       --accent-color: var(--fgColor-accent);
       --link-text-decoration: underline;
+      --button--primary-font-color:  var(--button-primary-fgColor-rest);
+      --button--primary-background-hover-color: var(--button-primary-bgColor-hover);
+      --button--primary-background-color: var(--button-primary-bgColor-rest);
+      --button--active-border-color: var(--button-default-borderColor-rest);
+      --button--font-color: var(--button-default-fgColor-rest);
+      --button--background-hover-color: var(--button-default-bgColor-hover);
+      --button--background-color: var(--button-default-bgColor-rest);
+      --primary-button-color: var(--button-primary-bgColor-rest);
   }
 
   [data-dark-theme=dark] {
