@@ -43,7 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
         selected: project_custom_field_project_mappings_selected?,
         href: project_mappings_admin_settings_project_custom_field_path(@custom_field)
       ) do |tab|
-        tab.with_text { I18n.t(:label_project_plural) }
+        tab.with_text { I18n.t("projects.settings.project_custom_fields.project_mappings.header") }
       end
     end
   end

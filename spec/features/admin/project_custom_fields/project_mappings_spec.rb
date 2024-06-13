@@ -70,7 +70,7 @@ RSpec.describe "Project Custom Field Mappings", :js do
       aggregate_failures "shows tab navigation" do
         within_test_selector("project_attribute_detail_header") do
           expect(page).to have_link("Details")
-          expect(page).to have_link("Projects")
+          expect(page).to have_link("Enabled in projects")
         end
       end
 
