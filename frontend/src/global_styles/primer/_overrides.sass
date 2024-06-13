@@ -74,6 +74,7 @@ page-header
       flex-direction: column
       row-gap: 1rem
 
-.FormControl-horizontalGroup--center-aligned
+.FormControl-horizontalGroup--non-mobile-center-aligned
   .FormControl-horizontalGroup
-    align-items: center
+    @media screen and (min-width: $breakpoint-sm)
+      align-items: center
