@@ -74,8 +74,8 @@ import { ApiV3ListFilter, ApiV3ListParameters } from 'core-app/core/apiv3/paths/
 import { FrameElement } from '@hotwired/turbo';
 
 export interface INotificationPageQueryParameters {
-  filter?:string;
-  name?:string;
+  filter?:string|null;
+  name?:string|null;
 }
 
 @Injectable({ providedIn: 'root' })

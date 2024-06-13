@@ -30,7 +30,6 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnIn
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { filter, map } from 'rxjs/operators';
 import { StateService } from '@uirouter/angular';
-import { UIRouterGlobals } from '@uirouter/core';
 import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
 import {
   INotification,
@@ -40,6 +39,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
+import { UrlParamsService } from 'core-app/core/url-params/url-params.service';
 
 @Component({
   templateUrl: './in-app-notification-center.component.html',
@@ -99,7 +99,7 @@ export class InAppNotificationCenterComponent implements OnInit {
     },
   ];
 
-  selectedFilter = this.reasonMenuItems.find((item) => item.key === this.uiRouterGlobals.params.name)?.title;
+  selectedFilter = this.reasonMenuItems.find((item) => item.key === this.urlParams.get('name'))?.title;
 
   image = {
     no_notification: imagePath('notification-center/empty-state-no-notification.svg'),
@@ -137,7 +137,7 @@ export class InAppNotificationCenterComponent implements OnInit {
     readonly I18n:I18nService,
     readonly storeService:IanCenterService,
     readonly bellService:IanBellService,
-    readonly uiRouterGlobals:UIRouterGlobals,
+    readonly urlParams:UrlParamsService,
     readonly state:StateService,
     readonly apiV3:ApiV3Service,
     readonly pathService:PathHelperService,
@@ -147,8 +147,8 @@ export class InAppNotificationCenterComponent implements OnInit {
   ngOnInit():void {
     this.storeService.setFacet('unread');
     this.storeService.setFilters({
-      filter: this.uiRouterGlobals.params.filter, // eslint-disable-line @typescript-eslint/no-unsafe-assignment
-      name: this.uiRouterGlobals.params.name, // eslint-disable-line @typescript-eslint/no-unsafe-assignment
+      filter: this.urlParams.get('filter'),
+      name: this.urlParams.get('name'),
     });
   }
 
@@ -156,6 +156,6 @@ export class InAppNotificationCenterComponent implements OnInit {
     if (!hasNotifications) {
       return this.text.no_notification;
     }
-    return (this.uiRouterGlobals.params.filter === 'project' ? this.text.no_notification_with_current_filter_project : this.text.no_notification_with_current_filter);
+    return (this.urlParams.get('filter') ? this.text.no_notification_with_current_filter_project : this.text.no_notification_with_current_filter);
   }
 }
