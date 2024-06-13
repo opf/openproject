@@ -7,8 +7,7 @@
   }
   /* Override Primer variable to ensure compatibility with currently
      configured design outside of high contrast mode  */
-  [data-color-mode]:not([data-light-theme=light_high_contrast],
-  [data-dark-theme=dark]) {
+  [data-color-mode]:not([data-light-theme=light_high_contrast]) {
     --fgColor-accent: var(--accent-color) !important;
     --fgColor-link: var(--accent-color) !important;
     --control-checked-bgColor-rest: var(--control-checked-color) !important;
@@ -77,7 +76,5 @@
   [data-dark-theme=dark] {
     --task-board-header-background-color: var(--header-bgColor) !important;
     --link-text-decoration: none;
-    --accent-color: var(--fgColor-accent);
-    --content-icon-color: var(--fgColor-accent);
   }
 </style>
