@@ -28,15 +28,19 @@
 
 module Menus
   class Notifications
+    ENTERPRISE_REASONS = %w[shared date_alert].freeze
+
     include Rails.application.routes.url_helpers
 
-    attr_reader :controller_path, :params, :current_user
+    attr_reader :controller_path, :params, :current_user,
+                :query, :unread_by_reasons, :unread_by_projects
 
     def initialize(controller_path:, params:, current_user:)
       # rubocop:disable Rails/HelperInstanceVariable
       @controller_path = controller_path
       @params = params
       @current_user = current_user
+      @unread_by_reasons = filter_unread_by_reason
       # rubocop:enable Rails/HelperInstanceVariable
     end
 
@@ -44,17 +48,29 @@ module Menus
       [
         OpenProject::Menu::MenuGroup.new(header: nil,
                                          children: [inbox_menu]),
-        OpenProject::Menu::MenuGroup.new(header: I18n.t("js.notifications.menu.by_reason"),
+        OpenProject::Menu::MenuGroup.new(header: I18n.t("notifications.menu.by_reason"),
                                          children: reason_filters),
-        OpenProject::Menu::MenuGroup.new(header: I18n.t("js.notifications.menu.by_project"),
+        OpenProject::Menu::MenuGroup.new(header: I18n.t("notifications.menu.by_project"),
                                          children: project_filters),
       ]
     end
 
     private
 
+    def filter_unread_by_reason
+      query = Queries::Notifications::NotificationQuery.new(user: current_user)
+      query.where(:read_ian, "=", "f")
+      query.group(:reason)
+      counts = query.group_values
+
+      # combine start and due alerts
+      counts["date_alert"] = [counts["date_alert_start_date"], counts["date_alert_due_date"]].sum(&:to_i)
+
+      counts
+    end
+
     def inbox_menu
-      OpenProject::Menu::MenuItem.new(title: I18n.t("js.notifications.menu.inbox"),
+      OpenProject::Menu::MenuItem.new(title: I18n.t("notifications.menu.inbox"),
                                       icon: :inbox,
                                       href: notifications_path,
                                       selected: !(params[:name] && params[:filter]))
@@ -65,32 +81,14 @@ module Menus
     end
 
     def reason_filters
-      [
-        OpenProject::Menu::MenuItem.new(title: I18n.t('js.notifications.menu.mentioned'),
-                                        icon: :mention,
-                                        href: notifications_path(filter: 'reason', name: 'mentioned'),
-                                        selected: selected?('reason', 'mentioned')),
-        OpenProject::Menu::MenuItem.new(title: I18n.t('js.label_assignee'),
-                                        icon: :assigned,
-                                        href: notifications_path(filter: 'reason', name: 'assigned'),
-                                        selected: selected?('reason', 'assigned')),
-        OpenProject::Menu::MenuItem.new(title: I18n.t('js.notifications.menu.accountable'),
-                                        icon: :accountable,
-                                        href: notifications_path(filter: 'reason', name: 'responsible'),
-                                        selected: selected?('reason', 'responsible')),
-        OpenProject::Menu::MenuItem.new(title: I18n.t('js.notifications.menu.watched'),
-                                        icon: :watching,
-                                        href: notifications_path(filter: 'reason', name: 'watched'),
-                                        selected: selected?('reason', 'watched')),
-        OpenProject::Menu::MenuItem.new(title: I18n.t('js.notifications.menu.date_alert'),
-                                        icon: :"date-alert", # TODO ee icon
-                                        href: notifications_path(filter: 'reason', name: 'dateAlert'),
-                                        selected: selected?('reason', 'dateAlert')),
-        OpenProject::Menu::MenuItem.new(title: I18n.t('js.notifications.menu.shared'),
-                                        icon: :share, # TODO ee icon
-                                        href: notifications_path(filter: 'reason', name: 'shared'),
-                                        selected: selected?('reason', 'shared')),
-      ]
+      %w[mentioned assigned responsible watched date_alert shared].map do |reason|
+        count = unread_by_reasons[reason]
+        OpenProject::Menu::MenuItem.new(title: I18n.t("mail.work_packages.reason.#{reason}"),
+                                        icon: icon_map.fetch(reason, reason),
+                                        href: notifications_path(filter: "reason", name: reason),
+                                        count: count == 0 ? nil : count,
+                                        selected: selected?("reason", reason))
+      end
     end
 
     def project_filters
@@ -98,5 +96,14 @@ module Menus
       []
     end
 
+    def icon_map
+      {
+        "mentioned" => :mention,
+        "responsible" => :accountable,
+        "watched" => :watching,
+        "shared" => :share,
+        "date_alert" => :"date-alert"
+      }
+    end
   end
 end
