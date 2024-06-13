@@ -35,6 +35,14 @@ FactoryBot.define do
 
   factory :api_token, class: "::Token::API" do
     user
+
+    transient do
+      name { "Default Token Name" }
+    end
+
+    after(:build) do |token, evaluator|
+      token.data = { name: evaluator.name }
+    end
   end
 
   factory :rss_token, class: "::Token::RSS" do

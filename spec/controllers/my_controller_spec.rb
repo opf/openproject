@@ -305,7 +305,7 @@ RSpec.describe MyController do
         it "creates a key" do
           expect(user.api_tokens).to be_empty
 
-          post :generate_api_key
+          post :generate_api_key, params: { token_api: { token_name: "One heck of a token" } }
           new_token = user.reload.api_tokens.last
           expect(new_token).to be_present
 
@@ -317,12 +317,12 @@ RSpec.describe MyController do
       end
 
       context "with existing key" do
-        let!(:key) { Token::API.create user: }
+        let!(:key) { Token::API.create(user:, data: { name: "One heck of a token" }) }
 
         it "must add the new key" do
           expect(user.reload.api_tokens.last).to eq(key)
 
-          post :generate_api_key
+          post :generate_api_key, params: { token_api: { token_name: "Two heck of a token" } }
 
           new_token = user.reload.api_tokens.last
           expect(new_token).not_to eq(key)
@@ -353,18 +353,18 @@ RSpec.describe MyController do
 
         it "revoke specific ical tokens" do
           expect(user.ical_tokens).to contain_exactly(
-            ical_token_for_query, another_ical_token_for_query, ical_token_for_another_query
-          )
+                                        ical_token_for_query, another_ical_token_for_query, ical_token_for_another_query
+                                      )
 
           delete :revoke_ical_token, params: { id: another_ical_token_for_query.id }
 
           expect(user.ical_tokens.reload).to contain_exactly(
-            ical_token_for_query, ical_token_for_another_query
-          )
+                                               ical_token_for_query, ical_token_for_another_query
+                                             )
 
           expect(user.ical_tokens.reload).not_to contain_exactly(
-            ical_token_for_another_query
-          )
+                                                   ical_token_for_another_query
+                                                 )
 
           expect(flash[:info]).to be_present
           expect(flash[:error]).not_to be_present
