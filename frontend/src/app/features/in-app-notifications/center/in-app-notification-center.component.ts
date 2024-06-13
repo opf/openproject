@@ -114,7 +114,7 @@ export class InAppNotificationCenterComponent implements OnInit {
   text = {
     no_notification: this.I18n.t('js.notifications.center.empty_state.no_notification'),
     no_notification_with_current_filter_project: this.I18n.t('js.notifications.center.empty_state.no_notification_with_current_project_filter'),
-    no_notification_with_current_filter: this.I18n.t('js.notifications.center.empty_state.no_notification_with_current_filter', { filter: this.selectedFilter }),
+    no_notification_with_current_filter: this.I18n.t('js.notifications.center.empty_state.no_notification_with_current_filter'),
     no_selection: this.I18n.t('js.notifications.center.empty_state.no_selection'),
     change_notification_settings: this.I18n.t(
       'js.notifications.settings.change_notification_settings',
@@ -157,6 +157,11 @@ export class InAppNotificationCenterComponent implements OnInit {
     if (!hasNotifications) {
       return this.text.no_notification;
     }
-    return (this.urlParams.get('filter') ? this.text.no_notification_with_current_filter_project : this.text.no_notification_with_current_filter);
+
+    if (this.urlParams.get('filter') === 'project') {
+      return this.text.no_notification_with_current_filter_project;
+    }
+
+    return this.text.no_notification_with_current_filter;
   }
 }

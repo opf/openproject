@@ -36,7 +36,7 @@ module MailNotificationHelper
   end
 
   def notifications_path(id)
-    notifications_center_url(["details", id, "activity"])
+    details_notifications_path(id)
   end
 
   def type_color(type, default_fallback)

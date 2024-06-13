@@ -32,12 +32,14 @@ module Notifications
   class IndexPageHeaderComponent < ApplicationComponent
     include ApplicationHelper
 
-    attr_reader :facet
+    attr_reader :facet, :filter_type, :filter_name
 
-    def initialize(project: nil, facet: nil)
+    def initialize(project: nil, facet: nil, filter_type: nil, filter_name: nil)
       super
       @project = project
       @facet = facet
+      @filter_type = filter_type
+      @filter_name = filter_name
     end
 
     def page_title

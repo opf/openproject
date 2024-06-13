@@ -28,11 +28,39 @@
 
 class NotificationsController < ApplicationController
   before_action :require_login
-  no_authorization_required! :index
+  before_action :filtered_query, only: :mark_all_read
+  no_authorization_required! :index, :mark_all_read
 
   def index
     # Frontend will handle rendering
     # but we will need to render with notification specific layout
     render layout: "angular/notifications"
+  end
+
+  def mark_all_read
+    if filtered_query.valid?
+      filtered_query.results.update_all(read_ian: true, updated_at: Time.zone.now)
+    else
+      flash[:error] = filtered_query.errors.full_messages.join(", ")
+    end
+
+    redirect_back fallback_location: notifications_path
+  end
+
+  private
+
+  def filtered_query
+    query = Queries::Notifications::NotificationQuery.new(user: current_user)
+    query.where(:read_ian, "=", "f")
+
+    case params[:filter]
+    when "project"
+      id = params[:name].to_i
+      query.where(:project, "=", [id])
+    when "reason"
+      query.where(:reason, "=", [params[:name]])
+    end
+
+    @filtered_query = query
   end
 end

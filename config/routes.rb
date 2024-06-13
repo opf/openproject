@@ -700,13 +700,14 @@ Rails.application.routes.draw do
   root to: "account#login"
 
   concern :with_split_view do |options|
-    get "details/:id(/:tab)", on: :collection, action: options.fetch(:action, :index)
+    get "details/:id(/:tab)", on: :collection, action: options.fetch(:action, :index), as: :details
   end
 
   resources :notifications, only: :index do
     concerns :with_split_view
 
     collection do
+      post :mark_all_read
       resource :menu, module: :notifications, only: %i[show], as: :notifications_menu
     end
   end

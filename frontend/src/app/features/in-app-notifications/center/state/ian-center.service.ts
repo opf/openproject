@@ -261,17 +261,6 @@ export class IanCenterService extends UntilDestroyedMixin {
     );
   }
 
-  markAllAsRead():void {
-    const filters = this.params.filters;
-    if (filters === undefined) {
-      return;
-    }
-
-    this.actions$.dispatch(
-      markNotificationsAsReadByFilters({ origin: this.id, filters }),
-    );
-  }
-
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   openSplitScreen(workPackageId:string|null, tabIdentifier:string = 'activity'):void {
     void this.state.go(

@@ -18,7 +18,8 @@
   header.with_action_button(tag: :a,
                             mobile_icon: :'op-read-all',
                             mobile_label: I18n.t("js.notifications.center.mark_all_read"),
-                            href: notifications_path,
+                            href: mark_all_read_notifications_path({ filter: @filter_type, name: @filter_name }.compact),
+                            data: { method: :post },
                             size: :medium,
                             aria: { label: I18n.t("js.notifications.center.mark_all_read") }) do |button|
     button.with_leading_visual_icon(icon: :'op-read-all')
