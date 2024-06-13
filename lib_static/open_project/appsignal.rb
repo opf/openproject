@@ -34,6 +34,10 @@ module OpenProject
       ENV["APPSIGNAL_ENABLED"] == "true"
     end
 
+    def logging_enabled?
+      enabled? && ENV["APPSIGNAL_SEND_APPLICATION_LOGS"] == "true"
+    end
+
     def exception_handler(message, log_context = {})
       if (exception = log_context[:exception])
         if ::Appsignal::Transaction.current?
