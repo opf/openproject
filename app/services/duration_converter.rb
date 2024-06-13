@@ -103,28 +103,12 @@ class DurationConverter
     def output(duration_in_hours)
       return duration_in_hours if duration_in_hours.nil?
 
-      # Prevents rounding errors when including seconds by chopping
-      # off the overflow seconds and keeping the nearest minute.
-      seconds = ((duration_in_hours * 3600) + 30).to_i
-      seconds_overflow = seconds % 60
-      seconds_to_the_nearest_minute = seconds - seconds_overflow
+      seconds = (duration_in_hours * 3600).to_i
 
-      # return "0 h" if parsing 0.
-      # ChronicDuration returns nil when parsing 0.
-      # By default, its unit is seconds and if we were
-      # keeping zeroes, we'd format this as "0 secs".
-      #
-      # We want to override this behavior.
-      if ChronicDuration.output(seconds_to_the_nearest_minute,
-                                default_unit: "hours",
-                                **duration_length_options).nil?
-        "0h"
-      else
-        ChronicDuration.output(seconds_to_the_nearest_minute,
-                               default_unit: "hours",
-                               format: :short,
-                               **duration_length_options)
-      end
+      # :days_and_hours format return "0h" when parsing 0.
+      ChronicDuration.output(seconds,
+                             format: :days_and_hours,
+                             **duration_length_options)
     end
 
     private
@@ -135,8 +119,7 @@ class DurationConverter
 
     def duration_length_options
       { hours_per_day: Setting.hours_per_day,
-        days_per_month: Setting.days_per_month,
-        weeks: true }
+        days_per_month: Setting.days_per_month }
     end
   end
 end

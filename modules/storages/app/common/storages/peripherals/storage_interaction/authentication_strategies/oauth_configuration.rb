@@ -48,6 +48,10 @@ module Storages
             @issuer = issuer
             @scope = scope
           end
+
+          def to_h
+            { issuer:, client_id:, client_secret:, scope: }
+          end
         end
       end
     end

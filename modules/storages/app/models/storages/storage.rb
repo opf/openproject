@@ -66,7 +66,7 @@ module Storages
     validates_uniqueness_of :name
 
     scope :visible, ->(user = User.current) do
-      if user.allowed_in_any_project?(:manage_storages_in_project)
+      if user.allowed_in_any_project?(:manage_files_in_project)
         all
       else
         where(

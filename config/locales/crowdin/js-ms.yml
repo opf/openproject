@@ -365,10 +365,10 @@ ms:
           learn_about: "Ketahui lebih lanjut mengenai fitur-fitur baharu."
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_1":
+          "14_2":
             standard:
               new_features_html: >
-                Keluaran tersebut mengandungi pelbagai fitur baharu dan penambahbaikan: <br> <ul class="%{list_styling_class}"> <li> eksport PDF paparan Gantt, cth. untuk mencetak (tambahan Enterprise)</li> <li>Projek kegemaran</li> <li>Bahagian dalam Mesyuarat</li> <li>Paparkan mesyuarat di Halaman Saya dan halaman gambaran keseluruhan projek</li> <li>Kemungkinan untuk sembunyikan lampiran dalam tab Fail</li> <li>Ruang tersuai jenis Pautan (URL)</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
     ical_sharing_modal:
       title: "Langgan kalendar"
       inital_setup_error_message: "Ralat berlaku ketika sedang mengambil data."

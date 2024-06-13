@@ -276,9 +276,9 @@ it:
           Vuoi davvero continuare?
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          Changing progress calculation mode from status-based to work-based will make <i>% Complete</i> a non-editable field whose value is derived from <i>Work</i> and <i>Remaining work</i>. Existing values for <i>% Complete</i> are preserved. If values for <i>Work</i> and <i>Remaining work</i> were not present, they will be required in order to change <i>% Complete</i>.
+          Cambiare la modalità di calcolo dell'avanzamento da basata sullo stato a basata su lavoro renderà <i>% Completa</i> un campo non modificabile il cui valore è derivato da <i>Lavoro</i> e <i>Lavoro rimanente</i>. I valori esistenti per <i>% Complete</i> sono conservati. Se i valori per <i>Lavoro</i> e <i>Lavoro rimanente</i> non erano presenti, saranno necessari per modificare <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
-          Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
+          Cambiando la modalità di calcolo dell'avanzamento da basata sul lavoro a basata sullo stato porvocherà la perdita di tutti i valori <i>% Complete</i> esistenti e saranno sostituiti con i valori associati ad ogni stato. I valori esistenti per il lavoro <i>rimanente</i> potrebbero anche essere ricalcolati per riflettere questo cambiamento. Questa azione non è reversibile.
     custom_actions:
       date:
         specific: "il"
@@ -365,10 +365,10 @@ it:
           learn_about: "Scopri di più sulle nuove funzionalità"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_1":
+          "14_2":
             standard:
               new_features_html: >
-                Questa versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Esportazione PDF della vista Gantt, ad es. per la stampa (componente aggiuntivo Enterprise)</li> <li>Progetti preferiti</li> <li>Sezioni nelle riunioni</li> <li>Visualizzazione delle riunioni nelle pagine La mia pagina e Panoramica del progetto</li> <li>Possibilità di nascondere gli allegati nella scheda File</li> <li>Campi personalizzati di tipo Link (URL)</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
     ical_sharing_modal:
       title: "Iscriviti al calendario"
       inital_setup_error_message: "Si è verificato un errore recuperando i dati."
@@ -1289,9 +1289,9 @@ it:
         next_button: "Continua"
     exclusion_info:
       modal:
-        title: "Status excluded from hierarchy totals"
+        title: "Stato escluso dai totali della gerarchia"
         content: >-
-          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
+          Lo stato '%{status_name}' è stato configurato per essere escluso dai totali delle gerarchie di Lavoro, Lavoro Rimanente e % Completamento. I totali non tengono conto di questo valore.
     favorite_projects:
       no_results: "Non hai progetti preferiti"
       no_results_subtext: "Aggiungi uno o più progetti come preferiti dalla rispettiva panoramica o da una lista di progetti."
@@ -1352,7 +1352,7 @@ it:
         remove: "Rimuovi"
       drop_modal:
         focus_grab: "Questo è un punto focale per i modali. Premere MAIUSC+TAB per tornare all'elemento scatenante modale."
-        close: "Close modal"
+        close: "Chiusura modale"
     open_project_storage_modal:
       waiting_title:
         timeout: "Timeout"

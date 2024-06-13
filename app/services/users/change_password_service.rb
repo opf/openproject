@@ -45,13 +45,12 @@ module Users
         current_user.activate if current_user.invited?
 
         if current_user.save
-          invalidate_recovery_tokens
-          invalidate_invitation_tokens
-
+          invalidate_tokens
+          invalidate_other_sessions
           log_success
           ::ServiceResult.new success: true,
                               result: current_user,
-                              **invalidate_session_result
+                              **update_message
         else
           log_failure
           ::ServiceResult.new success: false,
@@ -64,23 +63,20 @@ module Users
 
     private
 
-    def invalidate_recovery_tokens
-      Token::Recovery.where(user: current_user).delete_all
+    def invalidate_tokens
+      ::Users::DropTokensService
+        .new(current_user: current_user)
+        .call!
     end
 
-    def invalidate_invitation_tokens
-      Token::Invitation.where(user: current_user).delete_all
+    def invalidate_other_sessions
+      ::Sessions::DropOtherSessionsService.call!(current_user, session)
     end
 
-    def invalidate_session_result
+    def update_message
       update_message = I18n.t(:notice_account_password_updated)
-
-      if ::Sessions::DropOtherSessionsService.call(current_user, session)
-        expiry_message = I18n.t(:notice_account_other_session_expired)
-        { message_type: :info, message: "#{update_message} #{expiry_message}" }
-      else
-        { message: update_message }
-      end
+      expiry_message = I18n.t(:notice_account_other_session_expired)
+      { message_type: :info, message: "#{update_message} #{expiry_message}" }
     end
 
     def log_success

@@ -184,7 +184,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       return this.pathHelperService.fileLinksPath();
     }
 
-    return (this.resource.$links as unknown&{ addFileLink:IHalResourceLink }).addFileLink.href;
+    return (this.resource.$links as { addFileLink:IHalResourceLink }).addFileLink.href;
   }
 
   private onGlobalDragLeave:(_event:DragEvent) => void = (_event) => {
@@ -311,6 +311,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
           collectionKey,
           fileLinks,
         };
+
         this.opModalService.show<FilePickerModalComponent>(FilePickerModalComponent, 'global', locals);
       });
   }
@@ -500,7 +501,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   }
 
   private uploadResourceLink(storage:IStorage, fileName:string, location:string):IPrepareUploadLink {
-    const project = (this.resource.project as unknown&{ id:string }).id;
+    const project = (this.resource.project as { id:string }).id;
     const link = storage._links.prepareUpload.filter((value) => project === value.payload.projectId.toString());
     if (link.length === 0) {
       throw new Error('Cannot upload to this storage. Missing permissions in project.');
@@ -532,7 +533,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   }
 
   private fileLinkSelfLink(storage:IStorage):string {
-    const fileLinks = this.resource.fileLinks as unknown&{ href:string };
+    const fileLinks = this.resource.fileLinks as { href:string };
     return `${fileLinks.href}?filters=[{"storage":{"operator":"=","values":["${storage.id}"]}}]`;
   }
 

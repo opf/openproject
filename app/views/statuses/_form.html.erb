@@ -34,7 +34,7 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="form--field">
     <%= f.select :default_done_ratio,
                  (0..100).step(10).map { |r| ["#{r} %", r] },
-                 { container_class: "-xslim" },
+                 container_class: "-xslim",
                  label: WorkPackage.human_attribute_name(:done_ratio) %>
   </div>
   <div class="form--field"><%= f.check_box "is_closed" %></div>

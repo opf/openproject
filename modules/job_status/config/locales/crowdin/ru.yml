@@ -1,4 +1,5 @@
 ru:
+  label_job_status_plural: "Job statuses"
   plugin_openproject_job_status:
     name: "Состояние задания OpenProject"
     description: "Список и статус фоновых заданий."

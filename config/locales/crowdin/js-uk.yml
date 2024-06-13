@@ -365,10 +365,10 @@ uk:
           learn_about: "Дізнатися більше про нові функції"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_1":
+          "14_2":
             standard:
               new_features_html: >
-                Цей випуск містить кілька нових і поліпшених функцій. <br> <ul class="%{list_styling_class}"> <li>Експорт діаграми Ґанта у форматі PDF, наприклад для друку (доповнення версії Enterprise)</li> <li>Обрані проєкти</li> <li>Розділи на сторінці «Наради»</li> <li>Показ нарад на Моїй сторінці й сторінках огляду проєкту</li> <li>Можливість приховувати вкладення на вкладці «Файли»</li> <li>Користувацькі поля типу «Посилання (URL)</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
     ical_sharing_modal:
       title: "Підписатися на календар"
       inital_setup_error_message: "Під час отримання даних сталася помилка."

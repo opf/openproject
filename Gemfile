@@ -230,8 +230,6 @@ gem "turbo-rails", "~> 2.0.0"
 
 gem "httpx"
 
-gem "gitlab_chronic_duration"
-
 group :test do
   gem "launchy", "~> 3.0.0"
   gem "rack-test", "~> 2.1.0"
@@ -330,10 +328,12 @@ group :development, :test do
 
   # ruby linting
   gem "rubocop", require: false
-  gem "rubocop-inflector", require: false
+  gem "rubocop-capybara", require: false
+  gem "rubocop-factory_bot", require: false
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
+  gem "rubocop-rspec_rails", require: false
 
   # erb linting
   gem "erb_lint", require: false
@@ -390,4 +390,4 @@ end
 
 gem "openproject-octicons", "~>19.14.0"
 gem "openproject-octicons_helper", "~>19.14.0"
-gem "openproject-primer_view_components", "~>0.33.1"
+gem "openproject-primer_view_components", "~>0.34.0"

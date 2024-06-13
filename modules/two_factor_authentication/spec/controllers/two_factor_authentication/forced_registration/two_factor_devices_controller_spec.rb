@@ -187,7 +187,7 @@ RSpec.describe TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesCont
 
           it "activates the device when entered correctly and logs out the user" do
             allow(Sessions::DropAllSessionsService)
-              .to receive(:call)
+              .to receive(:call!)
 
             # rubocop:disable RSpec/AnyInstance
             allow_any_instance_of(TwoFactorAuthentication::TokenService)
@@ -204,7 +204,7 @@ RSpec.describe TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesCont
             expect(device.default).to be true
 
             expect(Sessions::DropAllSessionsService)
-              .to have_received(:call).with(user)
+              .to have_received(:call!).with(user)
           end
         end
       end

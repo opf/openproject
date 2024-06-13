@@ -300,9 +300,6 @@ de:
         new_project_mapping_form:
           add_projects: Projekte erstellen
           include_sub_projects: Andere Projekte einbeziehen
-        project_mapping_filter:
-          label: Projekt suchen
-          placeholder: Nach Text filtern
       types:
         no_results_title_text: Derzeit stehen keine Typen zur Verfügung.
         form:
@@ -451,8 +448,7 @@ de:
         <br/>
         <strong>Hinweis</strong>: Vererbte Attribute (z.B. von Kinderelementen oder Relationen) werden auch auf Arbeitspakete in diesen Status angewandt.
       status_excluded_from_totals_text: |-
-        Check this option to exclude work packages with this status from totals of Work,
-        Remaining work, and % Complete in a hierarchy.
+        Aktivieren Sie diese Option, um Arbeitspakete mit diesem Status aus den Summen von Aufwand, Verbleibender Aufwand und % Abgeschlossen in Hierarchien auszuschließen.
       status_color_text: |
         Klicken zum Zuweisen einer Farbe für diesen Status. Diese wird für die Hervorhebung von Arbeitspaketen in Tabellen verwendet.
     index:
@@ -462,7 +458,7 @@ de:
         is_default: "Standard"
         is_closed: "Erledigt"
         is_readonly: "Schreibgeschützt"
-        excluded_from_totals: "Excluded from totals"
+        excluded_from_totals: "Von Gesamtsumme auschließen"
   themes:
     light: "Hell"
     light_high_contrast: "Hell (hoher Kontrast)"
@@ -970,13 +966,8 @@ de:
               working_days_are_missing: "Mindestens ein Wochentag muss als Arbeitstag definiert werden."
               previous_working_day_changes_unprocessed: "Die vorherigen Änderungen an der Konfiguration der Arbeitstage wurden noch nicht angewendet."
               hours_per_day_are_missing: "Die Anzahl der Stunden pro Tag muss festgelegt werden."
-              days_per_week_are_missing: "Die Anzahl der Tage pro Woche muss festgelegt werden."
-              days_per_month_are_missing: "Die Anzahl der Tage pro Monat muss festgelegt werden."
               durations_are_not_positive_numbers: "Die Dauer muss positiv sein"
               hours_per_day_is_out_of_bounds: "Die Anzahl der Stunden pro Tag darf 24 nicht überschreiten."
-              days_per_week_is_out_of_bounds: "Die Anzahl der Tage pro Woche darf nicht mehr als 7 betragen."
-              days_per_month_is_out_of_bounds: "Die Anzahl der Tage pro Monat darf nicht mehr als 31 betragen."
-              days_per_week_and_days_per_month_are_inconsistent: "Die Anzahl der Tage pro Woche und die Anzahl der Tage pro Monat müssen einheitlich sein."
         time_entry:
           attributes:
             hours:
@@ -1034,13 +1025,13 @@ de:
               only_same_project_categories_allowed: "Ein Arbeitpaket und seine Kategorie müssen im selben Projekt sein."
               does_not_exist: "Die angegebene Kategorie existiert nicht."
             estimated_hours:
-              not_a_number: "is not a valid duration."
+              not_a_number: "ist keine gültige Dauer."
               cant_be_inferior_to_remaining_work: "Kann nicht niedriger sein als Verbleibender Aufwand."
               must_be_set_when_remaining_work_is_set: "Ist erforderlich, wenn Verbleibender Aufwand gesetzt ist."
               only_values_greater_or_equal_zeroes_allowed: "Muss >= 0 sein."
               format: "%{message}"
             remaining_hours:
-              not_a_number: "is not a valid duration."
+              not_a_number: "ist keine gültige Dauer."
               cant_exceed_work: "Kann nicht größer als der Aufwand sein."
               must_be_set_when_work_is_set: "Ist erforderlich, wenn Aufwand gesetzt ist."
               format: "%{message}"
@@ -2948,9 +2939,6 @@ de:
   setting_cross_project_work_package_relations: "Arbeitspaket-Beziehungen zwischen Projekten erlauben"
   setting_first_week_of_year: "Die erste Woche im Jahr enthält"
   setting_date_format: "Datum"
-  setting_days_per_month: "Tage pro Monat"
-  setting_days_per_month_explanation: >-
-    Dies legt fest, was als "Monat" angesehen wird, wenn die Dauer auf gleichmäßige Weise angezeigt wird (zum Beispiel wenn die Länge eines Monats 20 Tage beträgt, wären 60 Tage 3 Monate).
   setting_default_language: "Standard-Sprache"
   setting_default_projects_modules: "Standardmäßig aktivierte Module für neue Projekte"
   setting_default_projects_public: "Neue Projekte sind standardmäßig öffentlich"
@@ -2969,15 +2957,12 @@ de:
   setting_hours_per_day: "Stunden pro Tag"
   setting_hours_per_day_explanation: >-
     Dies legt fest, was als "Tag" angesehen wird, wenn die Dauer auf gleichmäßige Weise angezeigt wird (zum Beispiel wenn die Länge eines Tags 8 Stunden beträgt, wären 32 Stunden 4 Tage).
-  setting_days_per_week: "Tage pro Woche"
-  setting_days_per_week_explanation: >-
-    Dies legt fest, was als "Woche" angesehen wird, wenn die Dauer auf gleichmäßige Weise angezeigt wird (zum Beispiel wenn die Länge einer Woche 5 Tage beträgt, wären 15 Tage 3 Wochen).
   setting_invitation_expiration_days: "Aktivierungs-Mail läuft ab nach"
   setting_work_package_done_ratio: "Fortschrittsberechnung"
   setting_work_package_done_ratio_field: "Arbeitsbezogen"
   setting_work_package_done_ratio_status: "Statusbezogen"
   setting_work_package_done_ratio_explanation_html: >
-    Im <b>aufwandsbezogenen</b> Modus wird % Abgeschlossen durch das Verhältnis zu, Gesamtaufwand berechnet. Im <b>statusbasierten</b> Modus ist mit jedem Status ein fester Wert für % Abgeschlossen verbunden. Wenn Sie den Status ändern, ändert sich dadurch auch das % Abgeschlossen Attribut.
+    Im <b>aufwandsbezogenen</b> Modus wird % Abgeschlossen durch das Verhältnis zu, Gesamtaufwand berechnet. Im <b>statusbezogenen</b> Modus ist mit jedem Status ein fester Wert für % Abgeschlossen verbunden. Wenn Sie den Status ändern, ändert sich dadurch auch das % Abgeschlossen Attribut.
   setting_work_package_properties: "Arbeitspaket-Eigenschaften"
   setting_work_package_startdate_is_adddate: "Neue Arbeitspakete haben \"Heute\" als Anfangsdatum"
   setting_work_packages_projects_export_limit: "Arbeitspakete / Exportlimit für Projekte"
@@ -3412,12 +3397,12 @@ de:
         additional_privileges_project_or_group: "hat möglicherweise zusätzliche Berechtigungen (als Projekt- oder Gruppenmitglied)"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
+      Tage, die nicht ausgewählt sind, werden bei der Planung von Arbeitspaketen übersprungen (und bei der Tageszählung nicht berücksichtigt). Diese können auf Arbeitspaket-Ebene überschrieben werden.
     instance_wide_info: >
       Daten, die der Liste unten hinzugefügt werden, gelten als arbeitsfrei und werden bei der Planung von Arbeitspaketen übersprungen.
     change_button: "Arbeitstage ändern"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
+      Die Änderung der Wochentage, die als Arbeitstage oder arbeitsfreie Tage gelten, kann sich in diesem Fall auf die Start- und Endtage aller Arbeitspakete in allen Projekten auswirken.
     journal_note:
       changed: _**Arbeitstage** geändert (%{changes})._
       days:

@@ -25,28 +25,11 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module WorkPackage::Exports
-  module Formatters
-    class DerivedRemainingHours < ::Exports::Formatters::Default
-      def self.apply?(name, _export_format)
-        %i[derived_remaining_time derived_remaining_hours].include?(name.to_sym)
-      end
 
-      def format(work_package, **)
-        formatted_derived_hours(work_package)
-      end
+class JobStatusesController < ApplicationController
+  no_authorization_required! :show
 
-      private
-
-      def formatted_hours(value)
-        value.nil? ? nil : "#{value} #{I18n.t('export.units.hours')}"
-      end
-
-      def formatted_derived_hours(work_package)
-        if (derived_estimated_value = work_package.derived_estimated_hours)
-          formatted_hours(derived_estimated_value)
-        end
-      end
-    end
+  def show
+    render layout: "angular/angular"
   end
 end
