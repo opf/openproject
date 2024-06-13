@@ -1,8 +1,8 @@
 <%=
-  component_wrapper(data: wrapper_data_attributes) do
+  component_wrapper do
     flex_layout(my: 2) do |new_form_container|
       new_form_container.with_row(data: { 
-          "work-packages--activities-tab--new-target": "buttonRow"
+          "work-packages--activities-tab--index-target": "buttonRow"
         }) do
         flex_layout(justify_content: :space_between) do |button_row|
           button_row.with_column(id: "input-trigger-column", mr: 2) do
@@ -12,7 +12,7 @@
                 size: :medium,
                 block: true,
                 data: {
-                  "action": "click->work-packages--activities-tab--new#showForm"
+                  "action": "click->work-packages--activities-tab--index#showForm"
                 }
               )) do
               render(Primer::Beta::Text.new(color: :muted, font_weight: :normal)) { t("activities.work_packages.activity_tab.label_type_to_comment") }
@@ -30,13 +30,13 @@
       end
       new_form_container.with_row(
         display: :none,
-        data: { "work-packages--activities-tab--new-target": "formRow" }
+        data: { "work-packages--activities-tab--index-target": "formRow" }
       ) do
         primer_form_with(
           id: "work-package-journal-form",
           model: journal,
           method: :post,
-          data: { turbo: true, turbo_stream: true, "work-packages--activities-tab--new-target": "form", action: "submit->work-packages--activities-tab--new#onSubmit" },
+          data: { turbo: true, turbo_stream: true, "work-packages--activities-tab--index-target": "form", action: "submit->work-packages--activities-tab--index#onSubmit" },
           url: work_package_activities_path(work_package_id: work_package.id),
         ) do |f|
           flex_layout(justify_content: :space_between, align_items: :flex_end) do |form_container|

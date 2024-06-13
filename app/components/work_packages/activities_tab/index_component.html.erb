@@ -10,7 +10,7 @@
             )
           )
         end
-        activties_tab_container.with_row(id: "journals-container") do
+        activties_tab_container.with_row(id: "journals-container", data: { "work-packages--activities-tab--index-target": "journalsContainer" }) do
           render(
             WorkPackages::ActivitiesTab::Journals::IndexComponent.new(work_package:, filter:)
           )

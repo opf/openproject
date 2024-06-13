@@ -45,18 +45,6 @@ module WorkPackages
         def journal
           Journal.new(journable: work_package)
         end
-
-        def wrapper_data_attributes
-          {
-            controller: "work-packages--activities-tab--new",
-            "work-packages--activities-tab--new-sorting-value": journal_sorting,
-            "application-target": "dynamic"
-          }
-        end
-
-        def journal_sorting
-          User.current.preference&.comments_sorting || "desc"
-        end
       end
     end
   end

@@ -66,31 +66,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   end
 
   def update_streams
-    journals = @work_package.journals
-
-    if params[:filter] == "only_comments"
-      journals = journals.where.not(notes: "")
-    end
-
-    if params[:filter] == "only_changes"
-      journals = journals.where(notes: "")
-    end
-
-    # TODO: prototypical implementation
-    journals.where("updated_at > ?", params[:last_update_timestamp]).find_each do |journal|
-      update_via_turbo_stream(
-        # only use the show component in order not to loose an edit state
-        component: WorkPackages::ActivitiesTab::Journals::ItemComponent::Show.new(
-          journal:
-        )
-      )
-    end
-
-    latest_journal_visible_for_user = journals.where(created_at: ..params[:last_update_timestamp]).last
-
-    journals.where("created_at > ?", params[:last_update_timestamp]).find_each do |journal|
-      append_or_prepend_latest_journal_via_turbo_stream(journal, latest_journal_visible_for_user)
-    end
+    generate_time_based_update_streams(params[:last_update_timestamp], params[:filter])
 
     respond_with_turbo_streams
   end
@@ -119,14 +95,12 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   end
 
   def create
-    latest_journal = @work_package.journals.last
-
     call = Journals::CreateService.new(@work_package, User.current).call(
       notes: journal_params[:notes]
     )
 
     if call.success? && call.result
-      after_create_turbo_stream(call, latest_journal)
+      generate_time_based_update_streams(params[:last_update_timestamp], params[:filter])
     end
 
     clear_form_via_turbo_stream
@@ -154,8 +128,6 @@ class WorkPackages::ActivitiesTabController < ApplicationController
 
   def update_sorting
     filter = params[:filter]&.to_sym || :all
-
-    # User.current.preference.update!(comments_sorting: params[:sorting])
 
     call = Users::UpdateService.new(user: User.current, model: User.current).call(
       pref: { comments_sorting: params[:sorting] }
@@ -202,13 +174,31 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     params.require(:journal).permit(:notes)
   end
 
-  def after_create_turbo_stream(call, latest_journal)
-    # journals might get merged in some cases,
-    # thus we need to check if the journal is already present and update it rather then ap/prepending it
-    if latest_journal.nil? || (latest_journal.present? && latest_journal.version < call.result.version)
-      append_or_prepend_latest_journal_via_turbo_stream(call.result, latest_journal)
-    else
-      update_journal_via_turbo_stream(call.result)
+  def generate_time_based_update_streams(last_update_timestamp, filter)
+    # TODO: prototypical implementation
+    journals = @work_package.journals
+
+    if filter == "only_comments"
+      journals = journals.where.not(notes: "")
+    end
+
+    if filter == "only_changes"
+      journals = journals.where(notes: "")
+    end
+
+    journals.where("updated_at > ?", last_update_timestamp).find_each do |journal|
+      update_via_turbo_stream(
+        # only use the show component in order not to loose an edit state
+        component: WorkPackages::ActivitiesTab::Journals::ItemComponent::Show.new(
+          journal:
+        )
+      )
+    end
+
+    latest_journal_visible_for_user = journals.where(created_at: ..last_update_timestamp).last
+
+    journals.where("created_at > ?", last_update_timestamp).find_each do |journal|
+      append_or_prepend_latest_journal_via_turbo_stream(journal, latest_journal_visible_for_user)
     end
   end
 

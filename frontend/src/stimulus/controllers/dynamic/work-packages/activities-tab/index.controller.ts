@@ -39,6 +39,13 @@ export default class IndexController extends Controller {
     filter: String,
   };
 
+  static targets = ['journalsContainer', 'buttonRow', 'formRow', 'form'];
+
+  declare readonly journalsContainerTarget:HTMLElement;
+  declare readonly buttonRowTarget:HTMLInputElement;
+  declare readonly formRowTarget:HTMLElement;
+  declare readonly formTarget:HTMLFormElement;
+
   declare updateStreamsUrlValue:string;
   declare sortingValue:string;
   declare lastUpdateTimestamp:string;
@@ -47,7 +54,7 @@ export default class IndexController extends Controller {
   declare filterValue:string;
 
   connect() {
-    this.lastUpdateTimestamp = new Date().toISOString();
+    this.setLastUpdateTimestamp();
     this.handleWorkPackageUpdate = this.handleWorkPackageUpdate.bind(this);
     document.addEventListener('work-package-updated', this.handleWorkPackageUpdate);
 
@@ -109,7 +116,7 @@ export default class IndexController extends Controller {
     if (response.ok) {
       const text = await response.text();
       Turbo.renderStreamMessage(text);
-      this.lastUpdateTimestamp = new Date().toISOString();
+      this.setLastUpdateTimestamp();
     }
   }
 
@@ -130,5 +137,105 @@ export default class IndexController extends Controller {
 
   unsetFilter() {
     this.filterValue = '';
+  }
+
+  getCkEditorElement() {
+    return this.formRowTarget.querySelectorAll('.document-editor__editable')[0] as HTMLElement;
+  }
+
+  addEventListenerToCkEditorElement(ckEditorElement:HTMLElement) {
+    ckEditorElement.addEventListener('keydown', (event) => {
+      this.onCtrlEnter(event);
+    });
+  }
+
+  onCtrlEnter(event:KeyboardEvent) {
+    if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
+      this.onSubmit(event);
+    }
+  }
+
+  scrollJournalContainerToBottom(journalsContainer:HTMLElement) {
+    const scrollableContainer = jQuery(journalsContainer).scrollParent()[0];
+    if (scrollableContainer) {
+        scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
+    }
+  }
+
+  scrollJournalContainerToTop(journalsContainer:HTMLElement) {
+    const scrollableContainer = jQuery(journalsContainer).scrollParent()[0];
+    if (scrollableContainer) {
+        scrollableContainer.scrollTop = 0;
+    }
+  }
+
+  showForm() {
+    this.buttonRowTarget.classList.add('d-none');
+    this.formRowTarget.classList.remove('d-none');
+
+    if (this.journalsContainerTarget) {
+      this.journalsContainerTarget.classList.add('with-input-compensation');
+      if (this.sortingValue === 'asc') {
+        this.scrollJournalContainerToBottom(this.journalsContainerTarget);
+      } else {
+        // this.scrollJournalContainerToTop(this.journalsContainerTarget);
+      }
+    }
+
+    const ckEditorElement = this.getCkEditorElement();
+    if (ckEditorElement) {
+      this.addEventListenerToCkEditorElement(ckEditorElement);
+
+      setTimeout(() => {
+        if (ckEditorElement) {
+          ckEditorElement.focus();
+        }
+      }, 10);
+    }
+  }
+
+  async onSubmit(event:Event) {
+    event.preventDefault(); // Prevent the native form submission
+
+    const form = this.formTarget;
+    const formData = new FormData(form);
+    formData.append('last_update_timestamp', this.lastUpdateTimestamp);
+    formData.append('filter', this.filterValue);
+
+    const action = form.action;
+
+    const response = await fetch(
+      action,
+      {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-CSRF-Token': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement).content,
+          Accept: 'text/vnd.turbo-stream.html',
+        },
+        credentials: 'same-origin',
+      },
+    );
+
+    if (response.ok) {
+      this.setLastUpdateTimestamp();
+      const text = await response.text();
+      Turbo.renderStreamMessage(text);
+
+      if (this.journalsContainerTarget) {
+        setTimeout(() => {
+          this.journalsContainerTarget.classList.remove('with-input-compensation');
+          if (this.sortingValue === 'asc') {
+            this.scrollJournalContainerToBottom(this.journalsContainerTarget);
+          } else {
+            this.scrollJournalContainerToTop(this.journalsContainerTarget);
+          }
+        }, 100);
+      }
+    }
+  }
+
+  setLastUpdateTimestamp() {
+    this.lastUpdateTimestamp = new Date().toISOString();
   }
 }
