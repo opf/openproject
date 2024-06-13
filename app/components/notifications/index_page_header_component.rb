@@ -47,7 +47,12 @@ module Notifications
     end
 
     def breadcrumb_items
-      [page_title]
+      [parent_element,
+       page_title]
+    end
+
+    def parent_element
+      { href: home_path, text: I18n.t(:label_home) }
     end
   end
 end
