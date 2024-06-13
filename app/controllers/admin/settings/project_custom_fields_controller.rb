@@ -167,6 +167,7 @@ module Admin::Settings
         name: "project-custom-field-mappings-#{@custom_field.id}"
       ) do |query|
         query.where(:available_project_attributes, "=", [@custom_field.id])
+        query.where("active", "=", OpenProject::Database::DB_VALUE_TRUE)
         query.select(:name)
         query.order("lft" => "asc")
       end

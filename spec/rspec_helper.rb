@@ -91,6 +91,7 @@ RSpec.configure do |config|
   else
     # Otherwise, use the Fuubar formatter if we're not on the CI
     unless ENV["TEST_ENV_NUMBER"] || ENV["CI"]
+      require "fuubar"
       config.default_formatter = Fuubar
     end
   end

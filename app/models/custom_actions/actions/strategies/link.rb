@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,20 +24,29 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module WorkPackages
-  module Progress
-    module StatusBased
-      class ModalBodyComponent < BaseModalComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-        def initialize(work_package,
-                       focused_field: nil,
-                       touched_field_map: {})
-          super
+module CustomActions::Actions::Strategies::Link
+  include CustomActions::Actions::Strategies::ValuesToString
 
-          @mode = :status_based
-        end
-      end
+  def type
+    :link_property
+  end
+
+  def validate(errors)
+    if values.first.present?
+      validate_link_value(errors, values.first)
+    end
+    super
+  end
+
+  private
+
+  def validate_link_value(errors, value)
+    strategy = CustomValue::LinkStrategy.new(CustomValue.new(custom_field:, value:))
+    validation_error = strategy.validate_type_of_value
+    if validation_error
+      errors.add human_name, validation_error
     end
   end
 end

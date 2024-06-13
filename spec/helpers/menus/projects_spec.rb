@@ -59,6 +59,26 @@ RSpec.describe Menus::Projects do
   describe "children items" do
     subject(:children_menu_items) { first_level_menu_items.flat_map(&:children) }
 
+    context "when the current user is an admin" do
+      before do
+        allow(current_user).to receive(:admin?).and_return(true)
+      end
+
+      it "has an archived projects item" do
+        expect(children_menu_items).to include(have_attributes(title: I18n.t("projects.lists.archived")))
+      end
+    end
+
+    context "when the current user is not an admin" do
+      before do
+        allow(current_user).to receive(:admin?).and_return(false)
+      end
+
+      it "has an archived projects item" do
+        expect(children_menu_items).not_to include(have_attributes(title: I18n.t("projects.lists.archived")))
+      end
+    end
+
     it "contains menu items" do
       expect(children_menu_items).to all(be_a(OpenProject::Menu::MenuItem))
     end
