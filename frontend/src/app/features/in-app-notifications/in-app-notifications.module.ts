@@ -13,9 +13,6 @@ import { InAppNotificationCenterPageComponent } from 'core-app/features/in-app-n
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
 import { DynamicModule } from 'ng-dynamic-component';
 import { InAppNotificationStatusComponent } from './entry/status/in-app-notification-status.component';
-import { NotificationSettingsButtonComponent } from './center/toolbar/settings/notification-settings-button.component';
-import { ActivateFacetButtonComponent } from './center/toolbar/facet/activate-facet-button.component';
-import { MarkAllAsReadButtonComponent } from './center/toolbar/mark-all-as-read/mark-all-as-read-button.component';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 import { EmptyStateComponent } from './center/empty-state/empty-state.component';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
@@ -30,9 +27,7 @@ import { InAppNotificationsDateAlertsUpsaleComponent } from 'core-app/features/i
     InAppNotificationEntryComponent,
     InAppNotificationCenterPageComponent,
     InAppNotificationStatusComponent,
-    NotificationSettingsButtonComponent,
-    ActivateFacetButtonComponent,
-    MarkAllAsReadButtonComponent,
+    IanMenuComponent,
     EmptyStateComponent,
     InAppNotificationActorsLineComponent,
     InAppNotificationDateAlertComponent,
@@ -40,10 +35,6 @@ import { InAppNotificationsDateAlertsUpsaleComponent } from 'core-app/features/i
   ],
   imports: [
     OpSharedModule,
-    // Routes for /backlogs
-    UIRouterModule.forChild({
-      states: IAN_ROUTES,
-    }),
     DynamicModule,
     CommonModule,
     IconModule,
@@ -54,6 +45,7 @@ import { InAppNotificationsDateAlertsUpsaleComponent } from 'core-app/features/i
   ],
   providers: [
     IanBellService,
+    IanCenterService,
   ],
 })
 export class OpenProjectInAppNotificationsModule {
