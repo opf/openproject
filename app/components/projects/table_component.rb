@@ -104,7 +104,7 @@ module Projects
     end
 
     def sortable_column?(select)
-      query.known_order?(select.attribute)
+      sortable? && query.known_order?(select.attribute)
     end
 
     def columns
