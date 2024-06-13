@@ -35,6 +35,10 @@ module Settings
         def columns
           @columns ||= query.selects.reject { |select| select.is_a?(Queries::Selects::NotExistingSelect) }
         end
+
+        def sortable?
+          false
+        end
       end
     end
   end
