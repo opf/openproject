@@ -60,8 +60,8 @@ module Menus
         ::Queries::Projects::Factory::STATIC_ACTIVE,
         ::Queries::Projects::Factory::STATIC_MY,
         ::Queries::Projects::Factory::STATIC_FAVORED,
-        ::Queries::Projects::Factory::STATIC_ARCHIVED
-      ]
+        current_user.admin? ? ::Queries::Projects::Factory::STATIC_ARCHIVED : nil
+      ].compact
     end
 
     def status_static_filters
