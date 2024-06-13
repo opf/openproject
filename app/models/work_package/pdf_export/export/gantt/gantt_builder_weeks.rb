@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackage::PDFExport::Gantt
+module WorkPackage::PDFExport::Export::Gantt
   class GanttBuilderWeeks < GanttBuilder
     def build_column_dates_range(range)
       range

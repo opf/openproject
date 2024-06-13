@@ -40,16 +40,20 @@
 require "open3"
 
 class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::QueryExporter
-  include WorkPackage::PDFExport::Common
-  include WorkPackage::PDFExport::Attachments
-  include WorkPackage::PDFExport::OverviewTable
-  include WorkPackage::PDFExport::SumsTable
-  include WorkPackage::PDFExport::WorkPackageDetail
-  include WorkPackage::PDFExport::TableOfContents
-  include WorkPackage::PDFExport::Page
-  include WorkPackage::PDFExport::Gantt
-  include WorkPackage::PDFExport::Style
-  include WorkPackage::PDFExport::Cover
+  include WorkPackage::PDFExport::Common::Common
+  include WorkPackage::PDFExport::Common::Logo
+  include WorkPackage::PDFExport::Common::Attachments
+  include WorkPackage::PDFExport::Export::ExportCommon
+  include WorkPackage::PDFExport::Export::WorkPackageDetail
+  include WorkPackage::PDFExport::Export::Page
+  include WorkPackage::PDFExport::Export::Style
+  include WorkPackage::PDFExport::Export::OverviewTable
+  include WorkPackage::PDFExport::Export::SumsTable
+  include WorkPackage::PDFExport::Export::WorkPackageDetail
+  include WorkPackage::PDFExport::Export::TableOfContents
+  include WorkPackage::PDFExport::Export::Style
+  include WorkPackage::PDFExport::Export::Cover
+  include WorkPackage::PDFExport::Export::Gantt
 
   attr_accessor :pdf,
                 :options

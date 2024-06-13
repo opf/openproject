@@ -28,8 +28,8 @@
 
 require "md_to_pdf/core"
 
-module WorkPackage::PDFExport::Markdown
-  class MD2PDF
+module WorkPackage::PDFExport::Export::Markdown
+  class MD2PDFExport
     include MarkdownToPDF::Core
     include MarkdownToPDF::Parser
 
@@ -95,25 +95,10 @@ module WorkPackage::PDFExport::Markdown
     end
   end
 
-  def write_markdown!(work_package, markdown)
-    md2pdf = MD2PDF.new(styles.wp_markdown_styling_yml)
+  def write_markdown!(work_package, markdown, styling_yml)
+    md2pdf = MD2PDFExport.new(styling_yml)
     md2pdf.draw_markdown(markdown, pdf, ->(src) {
       with_images? ? attachment_image_filepath(work_package, src) : nil
     })
-  end
-
-  private
-
-  def attachment_image_filepath(work_package, src)
-    # images are embedded into markup with the api-path as img.src
-    attachment = attachment_by_api_content_src(work_package, src)
-    return nil if attachment.nil? || attachment.file.local_file.nil? || !pdf_embeddable?(attachment.content_type)
-
-    resize_image(attachment.file.local_file.path)
-  end
-
-  def attachment_by_api_content_src(work_package, src)
-    # find attachment by api-path
-    work_package.attachments.detect { |a| api_url_helpers.attachment_content(a.id) == src }
   end
 end

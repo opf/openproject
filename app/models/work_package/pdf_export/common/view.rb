@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackage::PDFExport::View
+class WorkPackage::PDFExport::Common::View
   include Prawn::View
   include Redmine::I18n
 
@@ -61,6 +61,7 @@ class WorkPackage::PDFExport::View
   def register_fonts!(document)
     register_font!("NotoSans", noto_font_base_path, document)
     register_font!("SpaceMono", spacemono_font_base_path, document)
+    register_font!("OpenSans", opensans_font_base_path, document)
   end
 
   def register_font!(family, font_path, document)
@@ -111,5 +112,8 @@ class WorkPackage::PDFExport::View
 
   def spacemono_font_base_path
     Rails.public_path.join("fonts/spacemono")
+  end
+  def opensans_font_base_path
+    Rails.public_path.join("fonts/opensans")
   end
 end

@@ -26,35 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackage::PDFExport::Gantt
-  class GanttBuilderDays < GanttBuilder
-    def build_column_dates_range(range)
-      range.to_a
-    end
+module WorkPackage::PDFExport::Export::MarkdownField
+  include WorkPackage::PDFExport::Export::Markdown
+  include WorkPackage::PDFExport::Common::Macro
 
-    def header_row_parts
-      %i[years months days]
-    end
+  def write_markdown_field!(work_package, markdown, label)
+    return if markdown.blank?
 
-    def work_packages_on_date(date, work_packages)
-      work_packages.select { |work_package| wp_on_day?(work_package, date) }
-    end
+    write_optional_page_break
+    write_markdown_field_label(label)
+    write_markdown_field_value(work_package, markdown)
+  end
 
-    def calc_start_offset(_work_package, _date)
-      0.0
-    end
+  private
 
-    def calc_end_offset(_work_package, _date)
-      0.0
+  def write_markdown_field_label(label)
+    with_margin(styles.wp_markdown_label_margins) do
+      pdf.formatted_text([styles.wp_markdown_label.merge({ text: label })])
     end
+  end
 
-    def milestone_position_centered?
-      true
-    end
-
-    def wp_on_day?(work_package, date)
-      start_date, end_date = wp_dates(work_package)
-      (start_date..end_date).cover?(date)
+  def write_markdown_field_value(work_package, markdown)
+    with_margin(styles.wp_markdown_margins) do
+      write_markdown!(
+        work_package,
+        apply_markdown_field_macros(markdown, work_package),
+        styles.wp_markdown_styling_yml
+      )
     end
   end
 end

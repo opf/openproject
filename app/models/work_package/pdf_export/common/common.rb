@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackage::PDFExport::Common
+module WorkPackage::PDFExport::Common::Common
   include Redmine::I18n
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::NumberHelper
@@ -36,7 +36,7 @@ module WorkPackage::PDFExport::Common
   private
 
   def get_pdf(_language)
-    ::WorkPackage::PDFExport::View.new(current_language)
+    ::WorkPackage::PDFExport::Common::View.new(current_language)
   end
 
   def field_value(work_package, attribute)
@@ -76,24 +76,9 @@ module WorkPackage::PDFExport::Common
     pdf.move_down(opts[:bottom_margin]) if opts.key?(:bottom_margin)
   end
 
-  def write_optional_page_break
-    space_from_bottom = pdf.y - pdf.bounds.bottom
-    if space_from_bottom < styles.page_break_threshold
-      pdf.start_new_page
-    end
-  end
-
   def get_column_value(work_package, column_name)
     formatter = formatter_for(column_name, :pdf)
     formatter.format(work_package)
-  end
-
-  def get_column_value_cell(work_package, column_name)
-    value = get_column_value(work_package, column_name)
-    return get_id_column_cell(work_package, value) if column_name == :id
-    return get_subject_column_cell(work_package, value) if wants_report? && column_name == :subject
-
-    escape_tags(value)
   end
 
   def get_formatted_value(value, column_name)
@@ -106,19 +91,6 @@ module WorkPackage::PDFExport::Common
   def escape_tags(value)
     # only disable html tags, but do not replace html entities
     value.to_s.gsub("<", "&lt;").gsub(">", "&gt;")
-  end
-
-  def get_id_column_cell(work_package, value)
-    href = url_helpers.work_package_url(work_package)
-    make_link_href_cell(href, value)
-  end
-
-  def get_subject_column_cell(work_package, value)
-    make_link_anchor(work_package.id, escape_tags(value))
-  end
-
-  def make_link_href_cell(href, caption)
-    "<color rgb='#{styles.link_color}'><link href='#{href}'>#{caption}</link></color>"
   end
 
   def make_link_anchor(anchor, caption)
@@ -308,6 +280,10 @@ module WorkPackage::PDFExport::Common
 
   def title_datetime
     DateTime.now.strftime("%Y-%m-%d_%H-%M")
+  end
+
+  def footer_date
+    format_time(Time.zone.now, true)
   end
 
   def current_page_nr

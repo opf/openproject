@@ -27,11 +27,13 @@
 #++
 
 class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
-  include WorkPackage::PDFExport::Common
-  include WorkPackage::PDFExport::Attachments
-  include WorkPackage::PDFExport::WorkPackageDetail
-  include WorkPackage::PDFExport::Page
-  include WorkPackage::PDFExport::Style
+  include WorkPackage::PDFExport::Common::Common
+  include WorkPackage::PDFExport::Common::Logo
+  include WorkPackage::PDFExport::Common::Attachments
+  include WorkPackage::PDFExport::Export::ExportCommon
+  include WorkPackage::PDFExport::Export::WorkPackageDetail
+  include WorkPackage::PDFExport::Export::Page
+  include WorkPackage::PDFExport::Export::Style
 
   attr_accessor :pdf, :columns
 
@@ -54,7 +56,7 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
     render_work_package
     success(pdf.render)
   rescue StandardError => e
-    Rails.logger.error { "Failed to generated PDF export: #{e} #{e.message}}." }
+    Rails.logger.error { "Failed to generate PDF export: #{e} #{e.message}}." }
     error(I18n.t(:error_pdf_failed_to_export, error: e.message))
   end
 

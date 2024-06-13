@@ -26,53 +26,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackage::PDFExport::Gantt
-  class GanttBuilderQuarters < GanttBuilder
+module WorkPackage::PDFExport::Export::Gantt
+  class GanttBuilderDays < GanttBuilder
     def build_column_dates_range(range)
-      range
-        .map { |d| [d.year, d.quarter] }
-        .uniq
-        .map { |year, quarter| Date.new(year, quarter * 3, -1) }
+      range.to_a
     end
 
     def header_row_parts
-      %i[years quarters]
+      %i[years months days]
     end
 
     def work_packages_on_date(date, work_packages)
-      work_packages.select { |work_package| wp_on_quarter?(work_package, date) }
+      work_packages.select { |work_package| wp_on_day?(work_package, date) }
     end
 
-    def calc_start_offset(work_package, date)
-      start_date = work_package.start_date || work_package.due_date
-      return 0 if start_date <= date.beginning_of_quarter
-
-      width_per_day = @column_width.to_f / days_of_quarter(date)
-      day_in_quarter = day_in_quarter(start_date) - 1
-      day_in_quarter * width_per_day
+    def calc_start_offset(_work_package, _date)
+      0.0
     end
 
-    def calc_end_offset(work_package, date)
-      end_date = work_package.due_date || work_package.start_date
-      return 0 if end_date >= date.end_of_quarter
-
-      width_per_day = @column_width.to_f / days_of_quarter(date)
-      day_in_quarter = day_in_quarter(end_date)
-      @column_width - (day_in_quarter * width_per_day)
+    def calc_end_offset(_work_package, _date)
+      0.0
     end
 
-    def day_in_quarter(date)
-      date.yday - date.beginning_of_quarter.yday + 1
+    def milestone_position_centered?
+      true
     end
 
-    def days_of_quarter(date)
-      (1..3).sum { |q| Date.new(date.year, (date.quarter * 3) - 3 + q, -1).day }
-    end
-
-    def wp_on_quarter?(work_package, date)
+    def wp_on_day?(work_package, date)
       start_date, end_date = wp_dates(work_package)
-      (start_date.beginning_of_quarter..end_date.end_of_quarter)
-        .cover?(date)
+      (start_date..end_date).cover?(date)
     end
   end
 end

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackage::PDFExport::SumsTable
+module WorkPackage::PDFExport::Export::SumsTable
   def write_work_packages_sums!(_work_packages)
     return unless has_summable_column?
 

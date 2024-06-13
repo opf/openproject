@@ -26,29 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "mini_magick"
-
-module WorkPackage::PDFExport::Attachments
-  def resize_image(file_path)
-    tmp_file = Tempfile.new(["temp_image", File.extname(file_path)])
-    @resized_images = [] if @resized_images.nil?
-
-    @resized_images << tmp_file
-    resized_file_path = tmp_file.path
-
-    image = MiniMagick::Image.open(file_path)
-    image.resize("x800>")
-    image.write(resized_file_path)
-
-    resized_file_path
+module WorkPackage::PDFExport::Export::ExportCommon
+  def write_optional_page_break
+    space_from_bottom = pdf.y - pdf.bounds.bottom
+    if space_from_bottom < styles.page_break_threshold
+      pdf.start_new_page
+    end
   end
 
-  def pdf_embeddable?(content_type)
-    %w[image/jpeg image/png].include?(content_type)
+  def make_link_href_cell(href, caption)
+    "<color rgb='#{styles.link_color}'><link href='#{href}'>#{caption}</link></color>"
   end
 
-  def delete_all_resized_images
-    @resized_images&.each(&:close!)
-    @resized_images = []
+  def get_column_value_cell(work_package, column_name)
+    value = get_column_value(work_package, column_name)
+    return get_id_column_cell(work_package, value) if column_name == :id
+    return get_subject_column_cell(work_package, value) if wants_report? && column_name == :subject
+
+    escape_tags(value)
+  end
+
+  def get_id_column_cell(work_package, value)
+    href = url_helpers.work_package_url(work_package)
+    make_link_href_cell(href, value)
+  end
+
+  def get_subject_column_cell(work_package, value)
+    make_link_anchor(work_package.id, escape_tags(value))
   end
 end

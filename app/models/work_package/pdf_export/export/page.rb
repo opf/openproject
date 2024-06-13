@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackage::PDFExport::Page
+module WorkPackage::PDFExport::Export::Page
   MAX_NR_OF_PDF_FOOTER_LINES = 3
 
   def configure_page_size!(layout)
@@ -68,24 +68,6 @@ module WorkPackage::PDFExport::Page
     [image_obj, image_info, scale]
   end
 
-  def logo_image
-    image_file = custom_logo_image
-    image_file = Rails.root.join("app/assets/images/logo_openproject.png") if image_file.nil?
-    image_obj, image_info = pdf.build_image_object(image_file)
-    [image_obj, image_info]
-  end
-
-  def custom_logo_image
-    return unless CustomStyle.current.present? &&
-      CustomStyle.current.export_logo.present? && CustomStyle.current.export_logo.local_file.present?
-
-    image_file = CustomStyle.current.export_logo.local_file.path
-    content_type = OpenProject::ContentTypeDetector.new(image_file).detect
-    return unless pdf_embeddable?(content_type)
-
-    image_file
-  end
-
   def write_title!
     pdf.title = heading
     with_margin(styles.page_heading_margins) do
@@ -124,10 +106,6 @@ module WorkPackage::PDFExport::Page
 
   def footer_page_nr
     current_page_nr.to_s + total_page_nr_text
-  end
-
-  def footer_date
-    format_time(Time.zone.now, true)
   end
 
   def total_page_nr_text

@@ -7,7 +7,7 @@ require "yaml"
 require "json"
 
 root = File.expand_path("../../", __dir__)
-schema_file = File.join(root, "app", "models", "work_package", "pdf_export", "schema.json")
+schema_file = File.join(root, "app", "models", "work_package", "pdf_export", "export", "schema.json")
 schema = JSON::load_file(schema_file)
 generator = MarkdownToPDF::StyleSchemaDocsGenerator.new(schema)
 markdown = generator.generate_markdown
