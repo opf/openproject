@@ -34,6 +34,10 @@ export class UrlParamsService {
     return this.searchParams.get(key);
   }
 
+  public pathMatching(key:RegExp):string|null {
+    return window.location.pathname.match(key)?.[0] || null;
+  }
+
   public has(key:string):boolean {
     return this.searchParams.has(key);
   }

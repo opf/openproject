@@ -120,6 +120,10 @@ export class PathHelperService {
     return `${this.staticBase}/notifications`;
   }
 
+  public notificationsDetailsPath(workPackageId:string, tab?:string):string {
+    return `${this.notificationsPath()}/details/${workPackageId}${tab ? `/${tab}` : ''}`;
+  }
+
   public loginPath() {
     return `${this.staticBase}/login`;
   }
@@ -260,8 +264,16 @@ export class PathHelperService {
     return `${this.workPackagePath(workPackageId)}/copy`;
   }
 
+  public workPackageDetailsPath(projectIdentifier:string, workPackageId:string|number, tab?:string) {
+    if (tab) {
+      return `${this.projectWorkPackagePath(projectIdentifier, workPackageId)}/details/${tab}`;
+    }
+
+    return `${this.projectWorkPackagesPath(projectIdentifier)}/details/${workPackageId}`;
+  }
+
   public workPackageDetailsCopyPath(projectIdentifier:string, workPackageId:string|number) {
-    return `${this.projectWorkPackagesPath(projectIdentifier)}/details/${workPackageId}/copy`;
+    return this.workPackageDetailsPath(projectIdentifier, workPackageId, 'copy');
   }
 
   public workPackageSharePath(workPackageId:string|number) {
