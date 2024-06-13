@@ -37,7 +37,7 @@ RSpec.describe "network errors for storage interaction", :webmock do
 
   let(:user) { create(:user) }
   let(:storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user) }
-  let(:fields) { Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery::FIELDS }
+  let(:fields) { Storages::Adapters::OneDrive::Queries::Files::FIELDS }
   let(:request_url) { "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root/children#{fields}" }
   let(:folder) { Storages::Peripherals::ParentFolder.new("/") }
   let(:auth_strategy) do
@@ -49,11 +49,11 @@ RSpec.describe "network errors for storage interaction", :webmock do
       # Test network error handling specifically with the files query.
       # Other queries and commands should implement the network error handling in the same way.
       stub_request(:get, request_url).to_timeout
-      result = Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery.call(storage:, auth_strategy:, folder:)
+      result = Storages::Adapters::OneDrive::Queries::Files.call(storage:, auth_strategy:, folder:)
 
       expect(result).to be_failure
       expect(result.result).to eq(:error)
-      expect(result.error_source).to be(Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery)
+      expect(result.error_source).to be(Storages::Adapters::OneDrive::Queries::Files)
       expect(result.error_payload).to be_a(HTTPX::ErrorResponse)
     end
   end

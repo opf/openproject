@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -27,10 +29,13 @@
 #++
 
 module Storages
-  module Peripherals
-    module StorageInteraction
-      module Nextcloud
-        class FilesQuery
+  module Adapters
+    module Nextcloud
+      module Queries
+        class Files
+          Auth = Peripherals::StorageInteraction::Authentication
+          Util = Peripherals::StorageInteraction::Nextcloud::Util
+
           def self.call(storage:, auth_strategy:, folder:)
             new(storage).call(auth_strategy:, folder:)
           end
@@ -57,13 +62,13 @@ module Storages
           def make_request(auth_strategy:, folder:, user:)
             origin_user = origin_user_id(user)
 
-            Authentication[auth_strategy].call(storage: @storage,
-                                               http_options: Util.webdav_request_with_depth(1)) do |http|
+            Auth[auth_strategy].call(storage: @storage,
+                                     http_options: Util.webdav_request_with_depth(1)) do |http|
               response = http.request("PROPFIND",
-                                      UrlBuilder.url(@storage.uri,
-                                                     "remote.php/dav/files",
-                                                     origin_user,
-                                                     folder.path),
+                                      Util.join_uri_path(@storage.uri,
+                                                         "remote.php/dav/files",
+                                                         CGI.escapeURIComponent(origin_user),
+                                                         requested_folder(folder)),
                                       xml: requested_properties)
               handle_response(response)
             end
@@ -86,6 +91,12 @@ module Storages
 
           def origin_user_id(user)
             OAuthClientToken.find_by(user_id: user, oauth_client_id: @storage.oauth_client.id)&.origin_user_id || ""
+          end
+
+          def requested_folder(folder)
+            return "" if folder.root?
+
+            Util.escape_path(folder.path)
           end
 
           # rubocop:disable Metrics/AbcSize
@@ -112,11 +123,11 @@ module Storages
           def storage_files(response)
             response.map do |xml|
               parent, *files = Nokogiri::XML(xml)
-                                 .xpath("//d:response")
-                                 .to_a
-                                 .map { |file_element| storage_file(file_element) }
+                .xpath("//d:response")
+                .to_a
+                .map { |file_element| storage_file(file_element) }
 
-              StorageFiles.new(files, parent, ancestors(parent.location))
+              ::Storages::StorageFiles.new(files, parent, ancestors(parent.location))
             end
           end
 
@@ -135,7 +146,7 @@ module Storages
           # The ancestors are simply derived objects from the parents location string. Until we have real information
           # from the nextcloud API about the path to the parent, we need to derive name, location and forge an ID.
           def forge_ancestor(location)
-            StorageFile.new(id: Digest::SHA256.hexdigest(location), name: name(location), location:)
+            ::Storages::StorageFile.new(id: Digest::SHA256.hexdigest(location), name: name(location), location:)
           end
 
           def name(location)
@@ -145,7 +156,7 @@ module Storages
           def storage_file(file_element)
             location = location(file_element)
 
-            StorageFile.new(
+            ::Storages::StorageFile.new(
               id: id(file_element),
               name: name(location),
               size: size(file_element),
@@ -167,8 +178,8 @@ module Storages
 
           def location(element)
             texts = element
-                      .xpath("d:href")
-                      .map(&:inner_text)
+              .xpath("d:href")
+              .map(&:inner_text)
 
             return nil if texts.empty?
 

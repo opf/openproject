@@ -31,7 +31,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery, :vcr, :webmock do
+RSpec.describe Storages::Adapters::Nextcloud::Queries::Files, :vcr, :webmock do
   using Storages::Peripherals::ServiceResultRefinements
 
   let(:user) { create(:user) }

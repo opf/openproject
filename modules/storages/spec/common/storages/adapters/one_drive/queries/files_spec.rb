@@ -31,7 +31,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, :webmock do
+RSpec.describe Storages::Adapters::OneDrive::Queries::Files, :webmock do
   using Storages::Peripherals::ServiceResultRefinements
 
   let(:user) { create(:user) }

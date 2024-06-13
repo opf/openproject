@@ -34,7 +34,7 @@ module Storages
       namespace("queries") do
         register(:auth_check, StorageInteraction::OneDrive::AuthCheckQuery)
         register(:download_link, StorageInteraction::OneDrive::DownloadLinkQuery)
-        register(:files, StorageInteraction::OneDrive::FilesQuery)
+        register(:files, Adapters::OneDrive::Queries::Files)
         register(:file_info, StorageInteraction::OneDrive::FileInfoQuery)
         register(:files_info, StorageInteraction::OneDrive::FilesInfoQuery)
         register(:open_file_link, StorageInteraction::OneDrive::OpenFileLinkQuery)
