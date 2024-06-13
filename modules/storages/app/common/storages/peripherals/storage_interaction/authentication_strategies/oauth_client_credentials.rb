@@ -37,56 +37,57 @@ module Storages
             Strategy.new(:oauth_client_credentials)
           end
 
-          # rubocop:disable Metrics/AbcSize
           def call(storage:, http_options: {})
             config = storage.oauth_configuration.to_httpx_oauth_config
-
             return build_failure(storage) unless config.valid?
 
-            access_token = Rails.cache.read("storage.#{storage.id}.httpx_access_token")
+            token_cache_key = cache_key(storage)
+            access_token = Rails.cache.read(token_cache_key)
 
-            http_result = if access_token.present?
-                            http_with_current_token(access_token:, http_options:)
-                          else
-                            http_with_new_token(issuer: config.issuer,
-                                                client_id: config.client_id,
-                                                client_secret: config.client_secret,
-                                                scope: config.scope,
-                                                http_options:)
-                          end
-
-            return http_result if http_result.failure?
-
-            http = http_result.result
+            # In ruby 3.4 this can become `return it`
+            http = build_http_session(access_token, config, http_options).on_failure { return _1 }.result
 
             operation_result = yield http
 
-            if access_token.nil? && operation_result.success?
-              token = http.instance_variable_get(:@options).oauth_session.access_token
-              Rails.cache.write("storage.#{storage.id}.httpx_access_token", token, expires_in: 50.minutes)
-            elsif operation_result.failure? && operation_result.result == :forbidden
-              Rails.cache.delete("storage.#{storage.id}.httpx_access_token")
+            case operation_result
+            in success: true
+              write_cache(token_cache_key, http) if access_token.blank?
+            in failure: true, result: :forbidden
+              clear_cache(token_cache_key)
+            else
+              return operation_result
             end
 
             operation_result
           end
 
-          # rubocop:enable Metrics/AbcSize
-
           private
+
+          def write_cache(key, httpx_session)
+            access_token = httpx_session.instance_variable_get(:@options).oauth_session.access_token
+            Rails.cache.write(key, access_token, expires_in: 50.minutes)
+          end
+
+          def clear_cache(key) = Rails.cache.delete(key)
+
+          def build_http_session(access_token, config, http_options)
+            if access_token.present?
+              http_with_current_token(access_token:, http_options:)
+            else
+              http_with_new_token(config:, http_options:)
+            end
+          end
+
+          def cache_key(storage) = "storage.#{storage.id}.httpx_access_token"
 
           def http_with_current_token(access_token:, http_options:)
             opts = http_options.deep_merge({ headers: { "Authorization" => "Bearer #{access_token}" } })
             ServiceResult.success(result: OpenProject.httpx.with(opts))
           end
 
-          def http_with_new_token(issuer:, client_id:, client_secret:, scope:, http_options:)
+          def http_with_new_token(config:, http_options:)
             http = OpenProject.httpx
-                              .oauth_auth(issuer:,
-                                          client_id:,
-                                          client_secret:,
-                                          scope:,
-                                          token_endpoint_auth_method: "client_secret_post")
+                              .oauth_auth(**config.to_h, token_endpoint_auth_method: "client_secret_post")
                               .with_access_token
                               .with(http_options)
             ServiceResult.success(result: http)

@@ -33,6 +33,7 @@ require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials, :webmock do
   let(:storage) { create(:sharepoint_dev_drive_storage) }
+  let(:cache_key) { "storage.#{storage.id}.httpx_access_token" }
 
   subject(:strategy) { described_class.new }
 
@@ -46,7 +47,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::AuthenticationStrategi
     end
 
     it "does not cache the result" do
-      expect(Rails.cache.fetch("storage.#{storage.id}.httpx_access_token")).to be_nil
+      expect(Rails.cache.fetch(cache_key)).to be_nil
 
       strategy.call(storage:) do |http|
         http.get("https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root").raise_for_status
@@ -54,7 +55,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::AuthenticationStrategi
         ServiceResult.failure
       end
 
-      expect(Rails.cache.fetch("storage.#{storage.id}.httpx_access_token")).to be_nil
+      expect(Rails.cache.fetch(cache_key)).to be_nil
     end
 
     it "returns the result of the operation" do
@@ -69,7 +70,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::AuthenticationStrategi
     end
 
     it "clears an already existing token" do
-      Rails.cache.write("storage.#{storage.id}.httpx_access_token", "BORKED_TOKEN")
+      Rails.cache.write(cache_key, "BORKED_TOKEN")
 
       strategy.call(storage:) do |http|
         http.get("https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root").raise_for_status
@@ -77,7 +78,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::AuthenticationStrategi
         ServiceResult.failure(result: :forbidden)
       end
 
-      expect(Rails.cache.fetch("storage.#{storage.id}.httpx_access_token")).to be_nil
+      expect(Rails.cache.fetch(cache_key)).to be_nil
     end
   end
 
@@ -93,14 +94,14 @@ RSpec.describe Storages::Peripherals::StorageInteraction::AuthenticationStrategi
     end
 
     it "caches the generated token" do
-      expect(Rails.cache.fetch("storage.#{storage.id}.httpx_access_token")).to be_nil
+      expect(Rails.cache.fetch(cache_key)).to be_nil
 
       strategy.call(storage:) do |http|
         http.get("https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root").raise_for_status
         ServiceResult.success
       end
 
-      expect(Rails.cache.fetch("storage.#{storage.id}.httpx_access_token")).to eq("TOTALLY_VALID_TOKEN")
+      expect(Rails.cache.fetch(cache_key)).to eq("TOTALLY_VALID_TOKEN")
     end
 
     it "returns the result of the operation" do
