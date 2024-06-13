@@ -188,7 +188,6 @@ class WorkPackages::ProgressForm < ApplicationForm
              action: "input->work-packages--progress--touched-field-marker#markFieldAsTouched" }
 
     if @focused_field == name
-      # binding.pry if name == :done_ratio
       data[:"work-packages--progress--focus-field-target"] = "fieldToFocus"
     end
     { data: }
