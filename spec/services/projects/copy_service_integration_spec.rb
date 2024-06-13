@@ -75,7 +75,7 @@ RSpec.describe(
            permissions: %i[copy_projects
                            view_work_packages
                            work_package_assigned
-                           manage_storages_in_project
+                           manage_files_in_project
                            manage_file_links])
   end
   shared_let(:new_project_role) { create(:project_role, permissions: %i[]) }

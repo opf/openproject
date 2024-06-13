@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -29,14 +27,37 @@
 #++
 
 require "spec_helper"
-require_module_spec_helper
+require "contracts/shared/model_contract_shared_context"
 
-# rubocop:disable RSpec/EmptyExampleGroup
-RSpec.describe Storages::Admin::ProjectStoragesController, "manage_storage_in_project permission", type: :controller do
-  include PermissionSpecs
+RSpec.describe Projects::SettingsContract do
+  include_context "ModelContract shared context"
 
-  controller_actions.each do |action|
-    check_permission_required_for("#{described_class.controller_path}##{action}", :manage_files_in_project)
+  let(:project) { build_stubbed(:project) }
+  let(:contract) { described_class.new(project, current_user) }
+  let(:current_user) { build_stubbed(:user) }
+  let(:permissions) { [:manage_files_in_project] }
+
+  before do
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project(*permissions, project:) # any project
+    end
+  end
+
+  it_behaves_like "contract is valid"
+
+  context "if setting 'deactivate_work_package_attachments' is changed" do
+    before do
+      project.deactivate_work_package_attachments = true
+    end
+
+    context "if user is not allowed to manage files in project" do
+      let(:permissions) { [] }
+
+      it_behaves_like "contract is invalid"
+    end
+
+    context "if user is allowed to manage files in project" do
+      it_behaves_like "contract is valid"
+    end
   end
 end
-# rubocop:enable RSpec/EmptyExampleGroup

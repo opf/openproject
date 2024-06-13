@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,15 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
-require_module_spec_helper
+module Projects
+  class SettingsContract < ::BaseContract
+    attribute :settings
 
-# rubocop:disable RSpec/EmptyExampleGroup
-RSpec.describe Storages::Admin::ProjectStoragesController, "manage_storage_in_project permission", type: :controller do
-  include PermissionSpecs
+    validate :validate_settings
 
-  controller_actions.each do |action|
-    check_permission_required_for("#{described_class.controller_path}##{action}", :manage_files_in_project)
+    protected
+
+    def validate_settings
+      unauthorized_settings_change =
+        has_changed_setting?("deactivate_work_package_attachments") &&
+          !user.allowed_in_project?(:manage_files_in_project, model)
+
+      errors.add :base, :error_unauthorized if unauthorized_settings_change
+    end
+
+    private
+
+    def has_changed_setting?(key)
+      model.settings_changed? && model.settings_change.any? { |setting| setting.key?(key) }
+    end
   end
 end
-# rubocop:enable RSpec/EmptyExampleGroup
