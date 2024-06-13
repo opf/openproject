@@ -364,10 +364,10 @@ zh-CN:
           learn_about: "详细了解新功能"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_1":
+          "14_2":
             standard:
               new_features_html: >
-                该版本包含各种新功能和改进： <br> <ul class="%{list_styling_class}"> <li>甘特视图的 PDF 导出，例如用于打印（企业插件）</li> <li>收藏项目</li> <li>会议中的章节</li> <li>在 "我的 "页面和项目概览页面显示会议</li> <li>在 "文件 "选项卡中隐藏附件的可能性</li> <li>链接（URL）类型的自定义字段</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"

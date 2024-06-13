@@ -1,4 +1,5 @@
 pt-PT:
+  label_job_status_plural: "Job statuses"
   plugin_openproject_job_status:
     name: "Estado do trabalho OpenProject"
     description: "Listagem e estado dos trabalhos em segundo plano."

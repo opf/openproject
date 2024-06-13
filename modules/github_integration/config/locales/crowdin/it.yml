@@ -20,21 +20,21 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 it:
-  button_add_deploy_target: Add deploy target
-  label_deploy_target: Deploy target
-  label_deploy_target_new: New deploy target
-  label_deploy_target_plural: Deploy targets
-  label_github_integration: GitHub Integration
-  notice_deploy_target_created: Deploy target created
-  notice_deploy_target_destroyed: Deploy target deleted
+  button_add_deploy_target: Aggiungi destinazione di installazione
+  label_deploy_target: Destinazione di installazione
+  label_deploy_target_new: Nuova destinazione di installazione
+  label_deploy_target_plural: Destinazioni di installazione
+  label_github_integration: Integrazione GitHub
+  notice_deploy_target_created: Destinazione di installazione creata
+  notice_deploy_target_destroyed: Destinazione di installazione rilevata
   plugin_openproject_github_integration:
     name: "Integrazione OpenProject GitHub"
     description: "Integra OpenProject e GitHub per un migliore flusso di lavoro"
   project_module_github: "GitHub"
   permission_show_github_content: "Mostra il contenuto di GitHub"
-  permission_introspection: Read running OpenProject core version and build SHA
+  permission_introspection: Leggi la versione core di OpenProject e crea SHA
   text_deploy_target_type_info: >
-    So far we only support OpenProject itself.
+    Per il momento supportiamo solo OpenProject.
   text_deploy_target_api_key_info: >
-    An OpenProject [API key](docs_url) belonging to a user who has the global introspection permission.
-  text_pull_request_deployed_to: "%{pr_link} deployed to %{deploy_target_link}"
+    Un OpenProject [API key](docs_url) appartenente a un utente che ha il permesso di introspezione globale.
+  text_pull_request_deployed_to: "%{pr_link} scaricato in %{deploy_target_link}"
