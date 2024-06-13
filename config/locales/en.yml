@@ -1719,7 +1719,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
     units:
       hours: h
       days: d
-
+    page_nr_footer: "Page %{page} of %{total}"
   extraction:
     available:
       pdftotext: "Pdftotext available (optional)"

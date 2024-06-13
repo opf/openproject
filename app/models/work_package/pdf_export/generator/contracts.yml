@@ -1,0 +1,187 @@
+page:
+  font: 'OpenSans'
+  size: 11
+  character-spacing: 0
+  styles: []
+  color: '000000'
+  page-size: 'A4'
+  page-layout: 'portrait'
+  margin-left: 20mm
+  margin-right: 20mm
+  margin-top: 40mm
+  margin-bottom: 35mm
+  leading: 6
+
+page-footer:
+  filter-pages: [ ]
+  align: "left"
+  offset: -51
+  size: 8
+
+page-footer-2:
+  filter-pages: [ ]
+  align: "center"
+  offset: -51
+  size: 8
+
+page-footer-3:
+  filter-pages: [ ]
+  align: "right"
+  offset: -51
+  size: 8
+
+page-header:
+  filter-pages: [ ]
+  align: "right"
+  offset: 0
+  size: 8
+  leading: 4
+
+page-logo:
+  filter-pages: [ ]
+  align: "left"
+  max-width: 40mm
+  offset: -70
+
+paragraph:
+  align: 'justify'
+  padding-bottom: 3mm
+
+link:
+  color: '1b69b6'
+
+unordered-list:
+  spacing: 3mm
+  padding-bottom: 3mm
+
+unordered-list-point:
+  sign: "•"
+  spacing: 0.75mm
+
+ordered-list:
+  spacing: 3mm
+  padding-bottom: 3mm
+
+ordered-list-point:
+  spanning: true
+
+ordered-list-point-1:
+  template: '(<number>)'
+
+ordered-list-point-2:
+  template: '<number>)'
+  alphabetical: true
+
+hrule:
+  margin-top: 2mm
+  margin-bottom: 4mm
+  line-width: 1
+
+header:
+  styles: [ 'bold' ]
+  padding-top: 2mm
+  padding-bottom: 2mm
+
+header-1:
+  size: 18
+  padding-top: 6mm
+header-2:
+  size: 14
+  padding-top: 5mm
+header-3:
+  size: 12
+  padding-top: 4mm
+header-4:
+  size: 11
+  padding-top: 3mm
+header-5:
+  size: 10
+header-6:
+  size: 10
+header-7:
+  size: 10
+header-8:
+  size: 10
+
+table:
+  margin-top: 2mm
+  margin-bottom: 4mm
+  header:
+    styles: [ 'bold' ]
+    background-color: 'F0F0F0'
+    size: 10
+  cell:
+    no-border: true
+    padding: 1mm
+    size: 9
+
+headless-table:
+  margin-top: 2mm
+  margin-bottom: 4mm
+  cell:
+    no-border: true
+    padding: 1mm
+    size: 9
+
+blockquote:
+  background-color: 'f4f9ff'
+  size: 11
+  styles: [ 'italic' ]
+  color: '0f3b66'
+  border-color: 'b8d6f4'
+  border-width: 1
+  no-border-right: true
+  no-border-left: false
+  no-border-bottom: true
+  no-border-top: true
+  padding: 8mm
+  padding-left: 4mm
+  padding-right: 4mm
+  margin-top: 2mm
+  margin-bottom: 2mm
+
+code:
+  font: 'SpaceMono'
+  color: '880000'
+
+codeblock:
+  background-color: 'F5F5F5'
+  font: 'SpaceMono'
+  size: 8
+  color: '880000'
+  padding: 3mm
+  margin-top: 2mm
+  margin-bottom: 2mm
+
+image:
+  max-width: 50mm
+  margin: 2mm
+  margin-bottom: 3mm
+  align: "center"
+
+image-classes:
+  small:
+    max-width: 10mm
+  left:
+    margin: 0
+    align: "left"
+  center:
+    margin: 0
+    align: "center"
+  right:
+    margin: 0
+    align: "right"
+
+footnote-definition:
+  point:
+    size: 13
+    styles: [ 'superscript' ]
+    color: '000000'
+
+footnote-reference:
+  size: 13
+  styles: [ 'superscript' ]
+  color: '000088'
+
+fields-default:
+  pdf_hyphenation: true

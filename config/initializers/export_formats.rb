@@ -1,10 +1,13 @@
 Rails.application.configure do |application|
   application.config.to_prepare do
+    Mime::Type.register("application/pdf", :generate_pdf)
+
     Exports::Register.register do
       list WorkPackage, WorkPackage::Exports::CSV
       list WorkPackage, WorkPackage::PDFExport::WorkPackageListToPdf
 
       single WorkPackage, WorkPackage::PDFExport::WorkPackageToPdf
+      single WorkPackage, WorkPackage::PDFExport::DocumentGenerator
 
       formatter WorkPackage, WorkPackage::Exports::Formatters::EstimatedHours
       formatter WorkPackage, WorkPackage::Exports::Formatters::RemainingHours
