@@ -1,11 +1,11 @@
 <%=
   component_wrapper do
     flex_layout(id: insert_target_modifier_id) do |journals_index_container|
-      if journals.any?
-        journals.each do |journal|
+      if journals_grouped_by_day.any?
+        journals_grouped_by_day.each do |day, journals|
           journals_index_container.with_row do
             render(
-              WorkPackages::ActivitiesTab::Journals::ItemComponent.new(journal:)
+              WorkPackages::ActivitiesTab::Journals::DayComponent.new(day_as_date: day, journals:, work_package:)
             )
           end
         end

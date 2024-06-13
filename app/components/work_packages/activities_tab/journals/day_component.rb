@@ -31,41 +31,29 @@
 module WorkPackages
   module ActivitiesTab
     module Journals
-      class IndexComponent < ApplicationComponent
+      class DayComponent < ApplicationComponent
         include ApplicationHelper
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
 
-        def initialize(work_package:, filter: :all)
+        def initialize(day_as_date:, journals:, work_package:)
           super
 
           @work_package = work_package
-          @filter = filter
+          @day_as_date = day_as_date
+          @journals = journals
         end
 
         private
 
-        attr_reader :work_package, :filter
+        attr_reader :work_package, :day_as_date, :journals
 
         def insert_target_modified?
           true
         end
 
         def insert_target_modifier_id
-          "work-package-journal-days"
-        end
-
-        def journal_sorting
-          User.current.preference&.comments_sorting || "desc"
-        end
-
-        def journals_grouped_by_day
-          result = work_package.journals.includes(:user, :notifications).reorder(version: journal_sorting)
-
-          result = result.where.not(notes: "") if filter == :only_comments
-          result = result.where(notes: "") if filter == :only_changes
-
-          result.group_by { |journal| journal.created_at.in_time_zone(User.current.time_zone).to_date }
+          "work-package-journals-day-#{day_as_date}"
         end
       end
     end

@@ -86,8 +86,10 @@ class WorkPackages::ActivitiesTabController < ApplicationController
       )
     end
 
+    latest_journal_visible_for_user = journals.where(created_at: ..params[:last_update_timestamp]).last
+
     journals.where("created_at > ?", params[:last_update_timestamp]).find_each do |journal|
-      append_or_prepend_latest_journal_via_turbo_stream(journal)
+      append_or_prepend_latest_journal_via_turbo_stream(journal, latest_journal_visible_for_user)
     end
 
     respond_with_turbo_streams
@@ -117,14 +119,14 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   end
 
   def create
-    latest_journal_version = @work_package.journals.last.try(:version) || 0
+    latest_journal = @work_package.journals.last
 
     call = Journals::CreateService.new(@work_package, User.current).call(
       notes: journal_params[:notes]
     )
 
     if call.success? && call.result
-      after_create_turbo_stream(call, latest_journal_version)
+      after_create_turbo_stream(call, latest_journal)
     end
 
     clear_form_via_turbo_stream
@@ -200,24 +202,39 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     params.require(:journal).permit(:notes)
   end
 
-  def after_create_turbo_stream(call, latest_journal_version)
+  def after_create_turbo_stream(call, latest_journal)
     # journals might get merged in some cases,
     # thus we need to check if the journal is already present and update it rather then ap/prepending it
-    if latest_journal_version < call.result.version
-      append_or_prepend_latest_journal_via_turbo_stream(call.result)
+    if latest_journal.nil? || (latest_journal.present? && latest_journal.version < call.result.version)
+      append_or_prepend_latest_journal_via_turbo_stream(call.result, latest_journal)
     else
       update_journal_via_turbo_stream(call.result)
     end
   end
 
-  def append_or_prepend_latest_journal_via_turbo_stream(journal)
-    stream_config = {
-      target_component: WorkPackages::ActivitiesTab::Journals::IndexComponent.new(
-        work_package: @work_package
-      ),
-      component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
+  def append_or_prepend_latest_journal_via_turbo_stream(journal, latest_journal)
+    if latest_journal.created_at.to_date == journal.created_at.to_date
+      target_component = WorkPackages::ActivitiesTab::Journals::DayComponent.new(
+        work_package: @work_package,
+        day_as_date: journal.created_at.to_date,
+        journals: [journal] # we don't need to pass all actual journals of this day as we do not really render this component
+      )
+      component = WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
         journal:
       )
+    else
+      target_component = WorkPackages::ActivitiesTab::Journals::IndexComponent.new(
+        work_package: @work_package
+      )
+      component = WorkPackages::ActivitiesTab::Journals::DayComponent.new(
+        work_package: @work_package,
+        day_as_date: journal.created_at.to_date,
+        journals: [journal]
+      )
+    end
+    stream_config = {
+      target_component:,
+      component:
     }
 
     # Append or prepend the new journal depending on the sorting
