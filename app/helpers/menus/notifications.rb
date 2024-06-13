@@ -33,14 +33,15 @@ module Menus
     include Rails.application.routes.url_helpers
 
     attr_reader :controller_path, :params, :current_user,
-                :query, :unread_by_reasons, :unread_by_projects
+                :query, :unread_by_reason, :unread_by_project
 
     def initialize(controller_path:, params:, current_user:)
       # rubocop:disable Rails/HelperInstanceVariable
       @controller_path = controller_path
       @params = params
       @current_user = current_user
-      @unread_by_reasons = filter_unread_by_reason
+      @unread_by_reason = filter_unread_by_reason
+      @unread_by_project = filter_unread_by_project
       # rubocop:enable Rails/HelperInstanceVariable
     end
 
@@ -51,7 +52,7 @@ module Menus
         OpenProject::Menu::MenuGroup.new(header: I18n.t("notifications.menu.by_reason"),
                                          children: reason_filters),
         OpenProject::Menu::MenuGroup.new(header: I18n.t("notifications.menu.by_project"),
-                                         children: project_filters),
+                                         children: project_filters)
       ]
     end
 
@@ -61,12 +62,14 @@ module Menus
       query = Queries::Notifications::NotificationQuery.new(user: current_user)
       query.where(:read_ian, "=", "f")
       query.group(:reason)
-      counts = query.group_values
+      query.group_values
+    end
 
-      # combine start and due alerts
-      counts["date_alert"] = [counts["date_alert_start_date"], counts["date_alert_due_date"]].sum(&:to_i)
-
-      counts
+    def filter_unread_by_project
+      query = Queries::Notifications::NotificationQuery.new(user: current_user)
+      query.where(:read_ian, "=", "f")
+      query.group(:project)
+      query.group_values
     end
 
     def inbox_menu
@@ -82,7 +85,7 @@ module Menus
 
     def reason_filters
       %w[mentioned assigned responsible watched date_alert shared].map do |reason|
-        count = unread_by_reasons[reason]
+        count = unread_by_reason[reason]
         OpenProject::Menu::MenuItem.new(title: I18n.t("mail.work_packages.reason.#{reason}"),
                                         icon: icon_map.fetch(reason, reason),
                                         href: notifications_path(filter: "reason", name: reason),
@@ -92,8 +95,12 @@ module Menus
     end
 
     def project_filters
-      # TODO
-      []
+      unread_by_project.map do |project, count|
+        OpenProject::Menu::MenuItem.new(title: project.name,
+                                        href: notifications_path(filter: "project", name: project.id),
+                                        count: count,
+                                        selected: selected?("project", project.id))
+      end
     end
 
     def icon_map
