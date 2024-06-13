@@ -35,7 +35,6 @@ module WorkPackages
       class ModalBodyComponent < BaseModalComponent
         def initialize(work_package,
                        focused_field: nil,
-                       format_durations: true,
                        touched_field_map: {})
           super
 

@@ -53,7 +53,6 @@ class WorkPackages::ProgressController < ApplicationController
 
     render modal_class.new(@work_package,
                            focused_field: params[:field],
-                           format_durations: (params[:format_durations] || "true").to_bool,
                            touched_field_map:)
   end
 

@@ -34,7 +34,6 @@ module WorkPackages
       class ModalBodyComponent < BaseModalComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
         def initialize(work_package,
                        focused_field: nil,
-                       format_durations: true,
                        touched_field_map: {})
           super
 

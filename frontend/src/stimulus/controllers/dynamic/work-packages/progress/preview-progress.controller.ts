@@ -98,7 +98,6 @@ export default class PreviewProgressController extends Controller {
       ['work_package[remaining_hours_touched]', formParams.get('work_package[remaining_hours_touched]') || ''],
       ['work_package[estimated_hours_touched]', formParams.get('work_package[estimated_hours_touched]') || ''],
       ['work_package[status_id_touched]', formParams.get('work_package[status_id_touched]') || ''],
-      ['format_durations', 'true'],
     ];
 
     const wpPath = this.ensureValidPathname(form.action);
