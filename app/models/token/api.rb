@@ -37,7 +37,7 @@ module Token
     private
 
     def token_name_exist
-      errors.add(:token_name, I18n.t("activerecord.errors.messages.blank")) if data.blank? || data[:name].blank?
+      errors.add(:token_name, I18n.t("my.access_token.errors.token_name_blank")) if data.blank? || data[:name].blank?
     end
 
     def single_value?

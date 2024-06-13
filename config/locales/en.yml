@@ -428,6 +428,8 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
 
   my:
     access_token:
+      errors:
+        token_name_blank: "Please provide an API token name"
       new_access_token_dialog_title: "Create new API token"
       new_access_token_dialog_show_button_text: "API Token"
       new_access_token_dialog_text_field_placeholder_text: "My API token"
@@ -1189,6 +1191,10 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
         status:
           readonly_default_exlusive: "can not be activated for statuses that are marked default."
+        token/api:
+          attributes:
+            token_name:
+              format: "%{message}"
       template:
         body: "Please check the following fields:"
         header:
