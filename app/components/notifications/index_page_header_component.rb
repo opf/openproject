@@ -32,9 +32,12 @@ module Notifications
   class IndexPageHeaderComponent < ApplicationComponent
     include ApplicationHelper
 
-    def initialize(project: nil)
+    attr_reader :facet
+
+    def initialize(project: nil, facet: nil)
       super
       @project = project
+      @facet = facet
     end
 
     def page_title

@@ -698,11 +698,6 @@ en:
         upsale:
           title: "Date alerts"
           description: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
-      facets:
-        unread: "Unread"
-        unread_title: "Show unread"
-        all: "All"
-        all_title: "Show all"
       center:
         label_actor_and: "and"
         and_more_users:

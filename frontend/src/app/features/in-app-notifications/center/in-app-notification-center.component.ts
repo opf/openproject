@@ -145,7 +145,8 @@ export class InAppNotificationCenterComponent implements OnInit {
   }
 
   ngOnInit():void {
-    this.storeService.setFacet('unread');
+    const facet = this.urlParams.get('facet') || 'unread';
+    this.storeService.setFacet(facet as 'unread'|'all');
     this.storeService.setFilters({
       filter: this.urlParams.get('filter'),
       name: this.urlParams.get('name'),
