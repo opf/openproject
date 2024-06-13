@@ -507,6 +507,32 @@ RSpec.describe "Persisted lists on projects index page",
       expect(page)
         .to have_text("You are not authorized to access this page.")
     end
+
+    it "can search for a query in the sidebar" do
+      # Go to the persisted query
+      visit projects_path(query_id: my_projects_list.id)
+      projects_page.expect_sidebar_filter("My projects list", selected: true)
+
+      # In the sidebar, search for a substring
+      projects_page.search_for_sidebar_filter("My proj")
+
+      # Only matches are still shown and the selection state is kept
+      projects_page.expect_sidebar_filter("My projects list", selected: true, visible: true)
+      projects_page.expect_sidebar_filter("My projects", selected: false, visible: true)
+
+      projects_page.expect_sidebar_filter("Active projects", selected: false, visible: false)
+      projects_page.expect_sidebar_filter("Archived projects", selected: false, visible: false)
+
+      # In the sidebar, search for another substring
+      projects_page.search_for_sidebar_filter("DO NOT MATCH")
+
+      projects_page.expect_sidebar_filter("My projects list", selected: true, visible: false)
+      projects_page.expect_sidebar_filter("My projects", selected: false, visible: false)
+      projects_page.expect_sidebar_filter("Active projects", selected: false, visible: false)
+      projects_page.expect_sidebar_filter("Archived projects", selected: false, visible: false)
+
+      projects_page.expect_no_search_results_in_sidebar
+    end
   end
 
   describe "persisted query access on invalid query" do

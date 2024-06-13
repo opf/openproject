@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,34 +26,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects
-  module Settings
-    module ProjectCustomFieldSections
-      class IndexComponent < ApplicationComponent
-        include ApplicationHelper
-        include OpPrimer::ComponentHelpers
-        include OpTurbo::Streamable
+module Components
+  class Submenu
+    include Capybara::DSL
+    include Capybara::RSpecMatchers
+    include RSpec::Matchers
 
-        def initialize(project:, project_custom_field_sections:)
-          super
+    def expect_item(name, selected: false, visible: true)
+      within "#main-menu" do
+        selected_specifier = selected ? ".selected" : ":not(.selected)"
 
-          @project = project
-          @project_custom_field_sections = project_custom_field_sections
-        end
+        expect(page).to have_css(".op-sidemenu--item-action#{selected_specifier}", text: name, visible:)
+      end
+    end
 
-        private
+    def expect_no_item(name)
+      within "#main-menu" do
+        expect(page).to have_no_css(".op-sidemenu--item-action", text: name)
+      end
+    end
 
-        def wrapper_data_attributes
-          {
-            controller: "projects--settings--project-custom-fields-mapping-filter",
-            "application-target": "dynamic",
-            "projects--settings--project-custom-fields-mapping-filter-clear-button-id-value": clear_button_id
-          }
-        end
+    def click_item(name)
+      within "#main-menu" do
+        click_on text: name
+      end
+    end
 
-        def clear_button_id
-          "project-custom-fields-mapping-filter-clear-button"
-        end
+    def search_for_item(name)
+      within "#main-menu" do
+        page.find_test_selector("op-sidebar--search-input").set(name)
+      end
+    end
+
+    def expect_no_results_text
+      within "#main-menu" do
+        expect(page).to have_test_selector("op-sidebar--search-no-results", text: "No items found")
       end
     end
   end

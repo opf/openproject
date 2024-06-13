@@ -37,7 +37,7 @@ interface InternalFilterValue {
   value:string[];
 }
 
-export default class FiltersController extends Controller {
+export default class FiltersFormController extends Controller {
   static paramsToCopy = ['sortBy', 'columns', 'query_id', 'per_page'];
 
   static targets = [
@@ -207,7 +207,7 @@ export default class FiltersController extends Controller {
     params.append('filters', this.buildFiltersParam(this.parseFilters()));
 
     const currentParams = new URLSearchParams(window.location.search);
-    FiltersController.paramsToCopy.forEach((name) => {
+    FiltersFormController.paramsToCopy.forEach((name) => {
       if (currentParams.has(name)) {
         params.append(name, currentParams.get(name) as string);
       }

@@ -28,41 +28,60 @@
  * ++
  */
 
-import FilterListController from '../../filter/filter-list.controller';
+import { Controller } from '@hotwired/stimulus';
 
-export default class extends FilterListController {
+export default class FilterListController extends Controller {
   static targets = [
-    'bulkActionContainer',
+    'filter',
+    'searchItem',
+    'noResultsText',
   ];
 
-  declare readonly bulkActionContainerTargets:HTMLInputElement[];
+  static values = {
+    clearButtonId: String,
+  };
 
-  filterLists() {
-    const query = this.filterTarget.value.toLowerCase();
+  declare readonly filterTarget:HTMLInputElement;
+  declare readonly noResultsTextTarget:HTMLInputElement;
+  declare readonly searchItemTargets:HTMLInputElement[];
+  declare readonly clearButtonIdValue:string;
 
-    if (query.length > 0) {
-      this.hideBulkActionContainers();
-    } else {
-      this.showBulkActionContainers();
-    }
-
-    super.filterLists();
-  }
-
-  resetFilterViaClearButton() {
-    this.showBulkActionContainers();
-
-    super.resetFilterViaClearButton();
-  }
-
-  hideBulkActionContainers() {
-    this.bulkActionContainerTargets.forEach((item) => {
-      (item as HTMLElement).classList.add('d-none');
+  connect():void {
+   document.getElementById(this.clearButtonIdValue)?.addEventListener('click', () => {
+      this.resetFilterViaClearButton();
     });
   }
 
-  showBulkActionContainers() {
-    this.bulkActionContainerTargets.forEach((item) => {
+  disconnect():void {
+    document.getElementById(this.clearButtonIdValue)?.removeEventListener('click', () => {
+      this.resetFilterViaClearButton();
+    });
+  }
+
+  filterLists() {
+    const query = this.filterTarget.value.toLowerCase();
+    let showNoResultsText = true;
+
+    this.searchItemTargets.forEach((item) => {
+      const text = item.textContent?.toLowerCase();
+
+      if (text?.includes(query)) {
+        (item as HTMLElement).classList.remove('d-none');
+        showNoResultsText = false;
+      } else {
+        (item as HTMLElement).classList.add('d-none');
+      }
+    });
+
+    if (showNoResultsText) {
+      this.noResultsTextTarget?.classList.remove('d-none');
+    } else {
+      this.noResultsTextTarget?.classList.add('d-none');
+    }
+  }
+
+  resetFilterViaClearButton() {
+    this.searchItemTargets.forEach((item) => {
       (item as HTMLElement).classList.remove('d-none');
     });
   }
