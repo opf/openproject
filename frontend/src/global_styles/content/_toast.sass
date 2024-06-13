@@ -36,22 +36,23 @@ $nm-border-radius: rem-calc(2px)
 $nm-box-padding: rem-calc(10px 35px 10px 35px)
 $nm-toaster-width: rem-calc(550)
 
+$nm-color-error-background: #fedada
 
-$nm-color-success-border: var(--borderColor-success-muted)
-$nm-color-success-icon: var(--fgColor-success)
-$nm-color-success-background: var(--bgColor-success-muted)
+$nm-color-success-border: #35c53f
+$nm-color-success-icon: #35c53f
+$nm-color-success-background: #d8fdd1
 
-$nm-color-warning-border: var(--borderColor-attention-muted)
-$nm-color-warning-icon: var(--fgColor-attention)
-$nm-color-warning-background: var(--bgColor-attention-muted)
+$nm-color-warning-border: #ef9e56
+$nm-color-warning-icon: #ef9e56
+$nm-color-warning-background: #ffe6c6
 
-$nm-color-error-icon: var(--fgColor-danger)
-$nm-color-error-background: var(--bgColor-danger-muted)
-$nm-color-error-border: var(--borderColor-danger-muted)
+$nm-color-text: #333333
+$nm-color-info-icon: #155282
+$nm-color-error-icon: var(--content-form-danger-zone-bg-color)
 
-$nm-color-info-icon: var(--fgColor-accent)
-$nm-color-border: var(--borderColor-accent-muted)
-$nm-color-background: var(--bgColor-accent-muted)
+$nm-color-border: #8fc0db
+$nm-color-background: #e3f5ff
+$nm-padding-box: rem-calc(10px)
 
 $nm-padding-box: rem-calc(10px)
 $nm-pb-border-color: $nm-color-border
@@ -80,7 +81,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 
 %error-placeholder
   background-color: $nm-color-error-background
-  border-color: $nm-color-error-border
+  border-color: var(--content-form-danger-zone-bg-color)
 
 %success-placeholder
   background-color: $nm-color-success-background
@@ -263,7 +264,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     > div,
     > p
       margin-bottom: 0
-      color: var(--body-font-color)
+      color: $nm-color-text
 
       &.-with-inline-links
         display: flex
