@@ -460,7 +460,7 @@ sv:
       no_results_title_text: Det finns för närvarande inga statusar för arbetspaket.
       no_results_content_text: Lägg till ny status
       headers:
-        is_default: "Default"
+        is_default: "Standard"
         is_closed: "Closed"
         is_readonly: "Read-only"
         excluded_from_totals: "Excluded from totals"
@@ -2957,7 +2957,7 @@ sv:
   setting_feeds_limit: "Innehållsbegränsning på Flöden"
   setting_file_max_size_displayed: "Maxstorlek på textfiler som visas inline"
   setting_host_name: "Värdnamn"
-  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day: "Timmar per dag"
   setting_hours_per_day_explanation: >-
     This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Aktiveringsmail upphör efter"
