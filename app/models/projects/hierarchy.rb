@@ -29,12 +29,95 @@
 module Projects::Hierarchy
   extend ActiveSupport::Concern
 
+  class_methods do
+    # builds up a project hierarchy helper structure for use with #project_tree_from_hierarchy
+    #
+    # it expects a simple list of projects with a #lft column (awesome_nested_set)
+    # and returns a hierarchy based on #lft
+    #
+    # the result is a nested list of root level projects that contain their child projects
+    # but, each entry is actually a ruby hash wrapping the project and child projects
+    # the keys are :project and :children where :children is in the same format again
+    #
+    #   result = [ root_level_project_info_1, root_level_project_info_2, ... ]
+    #
+    # where each entry has the form
+    #
+    #   project_info = { project: the_project, children: [ child_info_1, child_info_2, ... ] }
+    #
+    # if a project has no children the :children array is just empty
+    #
+    def build_projects_hierarchy(projects) # rubocop:disable Metrics/AbcSize
+      ancestors = []
+      result = []
+
+      projects.sort_by(&:lft).each do |project|
+        while ancestors.any? && !project.is_descendant_of?(ancestors.last[:project])
+          # before we pop back one level, we sort the child projects by name
+          ancestors.last[:children] = sort_by_name(ancestors.last[:children])
+          ancestors.pop
+        end
+
+        current_hierarchy = { project:, children: [] }
+        current_tree = ancestors.any? ? ancestors.last[:children] : result
+
+        current_tree << current_hierarchy
+        ancestors << current_hierarchy
+      end
+
+      # When the last project is deeply nested, we need to sort
+      # all layers we are in.
+      ancestors.each do |level|
+        level[:children] = sort_by_name(level[:children])
+      end
+      # we need one extra element to ensure sorting at the end
+      # at the end the root level must be sorted as well
+      sort_by_name(result)
+    end
+
+    def project_tree_from_hierarchy(projects_hierarchy, level, &)
+      projects_hierarchy.each do |hierarchy|
+        project = hierarchy[:project]
+        children = hierarchy[:children]
+        yield project, level
+        # recursively show children
+        project_tree_from_hierarchy(children, level + 1, &) if children.any?
+      end
+    end
+
+    # Yields the given block for each project with its level in the tree
+    def project_tree(projects, &)
+      projects_hierarchy = build_projects_hierarchy(projects)
+      project_tree_from_hierarchy(projects_hierarchy, 0, &)
+    end
+
+    private
+
+    def sort_by_name(project_hashes)
+      project_hashes.sort_by { |h| h[:project].name&.downcase }
+    end
+  end
+
   included do
     acts_as_nested_set order_column: :lft, dependent: :destroy
 
     # Keep the siblings sorted after naming changes to ensure lft sort includes name sorting
     before_save :remember_reorder
     after_save :reorder_by_name, if: -> { @reorder_nested_set }
+
+    # Returns an array of projects that are in this project's hierarchy
+    #
+    # Example: parents, children, siblings
+    def hierarchy
+      parents = project.self_and_ancestors || []
+      descendants = project.descendants || []
+      parents | descendants # Set union
+    end
+
+    # Returns an array of active subprojects.
+    def active_subprojects
+      project.descendants.where(active: true)
+    end
 
     def reorder_by_name
       @reorder_nested_set = nil
