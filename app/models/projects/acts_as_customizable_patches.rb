@@ -29,7 +29,7 @@
 module Projects::ActsAsCustomizablePatches
   extend ActiveSupport::Concern
 
-  attr_accessor :_limit_custom_fields_validation_to_section_id, :_query_available_custom_fields_on_global_level
+  attr_accessor :_limit_custom_fields_validation_to_section_id
 
   # attr_accessor :_limit_custom_fields_validation_to_field_id
   # not needed for now, but might be relevant if we want to have edit dialogs just for one custom field
@@ -39,43 +39,13 @@ module Projects::ActsAsCustomizablePatches
                                                      dependent: :destroy, inverse_of: :project
     has_many :project_custom_fields, through: :project_custom_field_project_mappings, class_name: "ProjectCustomField"
 
-    def with_all_available_custom_fields
-      # query the available custom fields on a global level when updating custom field values
-      # in order to support implicit activation of custom fields when values are provided during an update
-      self._query_available_custom_fields_on_global_level = true
-      result = yield
-      self._query_available_custom_fields_on_global_level = nil
-
-      result
-    end
-
     def available_custom_fields
-      # TODO: Add caching here.
       # overrides acts_as_customizable
       # in contrast to acts_as_customizable, custom_fields are enabled per project
       # thus we need to check the project_custom_field_project_mappings
-      custom_fields = all_available_custom_fields
+      custom_fields = all_available_custom_fields.visible
 
-      # Do not hide the invisble fields when accessing via the _query_available_custom_fields_on_global_level
-      # flag. Due to the internal working of the acts_as_customizable plugin, when a project admin updates
-      # the custom fields, it will clear out all the hidden fields that are not visible for them.
-      # This happens because the `#ensure_custom_values_complete` will gather all the `custom_field_values`
-      # and assigns them to the custom_fields association. If the `custom_field_values` do not contain the
-      # hidden fields, they will be cleared from the association. The `custom_field_values` will contain the
-      # hidden fields, only if they are returned from this method. Hence we should not hide them,
-      # when accessed with the _query_available_custom_fields_on_global_level flag on.
-      unless _query_available_custom_fields_on_global_level
-        custom_fields = custom_fields.visible
-      end
-
-      # available_custom_fields is called from within the acts_as_customizable module
-      # we don't want to adjust these calls, but need a way to query the available custom fields on a global level in some cases
-      # thus we pass in this parameter as an instance flag implicitly here,
-      # which is not nice but helps us to touch acts_as_customizable as little as possible
-      #
-      # additionally we provide the `global` parameter to allow querying the available custom fields on a global level
-      # when we have explicit control over the call of `available_custom_fields`
-      unless new_record? || _query_available_custom_fields_on_global_level
+      unless new_record?
         custom_fields = custom_fields
           .where(id: project_custom_field_project_mappings.select(:custom_field_id))
           .or(ProjectCustomField.required)
