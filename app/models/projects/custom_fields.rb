@@ -26,13 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::ActsAsCustomizablePatches
+module Projects::CustomFields
   extend ActiveSupport::Concern
 
   attr_accessor :_limit_custom_fields_validation_to_section_id
-
-  # attr_accessor :_limit_custom_fields_validation_to_field_id
-  # not needed for now, but might be relevant if we want to have edit dialogs just for one custom field
 
   included do
     has_many :project_custom_field_project_mappings, class_name: "ProjectCustomFieldProjectMapping", foreign_key: :project_id,
