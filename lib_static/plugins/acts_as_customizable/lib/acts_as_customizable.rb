@@ -167,7 +167,7 @@ module Redmine
 
         def custom_value_for(c)
           field_id = (c.is_a?(CustomField) ? c.id : c.to_i)
-          values = custom_field_values.select { |v| v.custom_field_id == field_id && v.value.present? }
+          values = custom_field_values.select { |v| v.custom_field_id == field_id }
           if values.size > 1
             values.sort_by { |v| v.id.to_i } # need to cope with nil
           else
