@@ -52,7 +52,7 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
   end
 
   let(:polling_url) { "https://polling.url.de/cool/subresources" }
-  let(:copy_result) { Storages::Peripherals::StorageInteraction::ResultData::CopyTemplateFolder.new(nil, nil, false) }
+  let(:copy_result) { Storages::Adapters::ResultData::CopyTemplateFolder.new(nil, nil, false) }
 
   let(:target_deep_file_ids) do
     source_file_links.each_with_object({}) do |fl, hash|

@@ -33,6 +33,8 @@ module Storages
     module OneDrive
       module Commands
         class CopyTemplateFolder
+          Util = Peripherals::StorageInteraction::OneDrive::Util
+
           def self.call(auth_strategy:, storage:, source_path:, destination_path:)
             if source_path.blank? || destination_path.blank?
               return ServiceResult.failure(

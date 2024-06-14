@@ -35,7 +35,7 @@ RSpec.describe Storages::ProjectStorages::CopyProjectFoldersService, :webmock do
   let(:storage) { create(:nextcloud_storage, :as_automatically_managed) }
   let(:target) { create(:project_storage, storage:) }
   let(:system_user) { create(:system) }
-  let(:result_data) { Storages::Peripherals::StorageInteraction::ResultData::CopyTemplateFolder.new(nil, nil, false) }
+  let(:result_data) { Storages::Adapters::ResultData::CopyTemplateFolder.new(nil, nil, false) }
 
   subject(:service) { described_class }
 

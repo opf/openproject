@@ -36,7 +36,7 @@ module Storages
       end
 
       def initialize
-        @data = Peripherals::StorageInteraction::ResultData::CopyTemplateFolder
+        @data = Adapters::ResultData::CopyTemplateFolder
           .new(id: nil, polling_url: nil, requires_polling: false)
       end
 

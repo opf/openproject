@@ -34,7 +34,9 @@ module Storages
       module Commands
         class CopyTemplateFolder
           using Peripherals::ServiceResultRefinements
+
           Util = Peripherals::StorageInteraction::Nextcloud::Util
+          Auth = Peripherals::StorageInteraction::Authentication
 
           def self.call(auth_strategy:, storage:, source_path:, destination_path:)
             new(storage).call(auth_strategy:, source_path:, destination_path:)
@@ -44,7 +46,7 @@ module Storages
             @storage = storage
             @data = ResultData::CopyTemplateFolder.new(id: nil, polling_url: nil, requires_polling: false)
           end
-          # rubocop:disable Metrics/AbcSize
+
           def call(auth_strategy:, source_path:, destination_path:)
             valid_input_result = validate_inputs(source_path, destination_path).on_failure { |failure| return failure }
 
@@ -58,7 +60,6 @@ module Storages
 
             get_folder_id(valid_input_result.result[:destination_path])
           end
-          # rubocop:enable Metrics/AbcSize
 
           private
 
@@ -78,7 +79,7 @@ module Storages
           end
 
           def ensure_remote_folder_does_not_exist(auth_strategy, destination_url)
-            response = Authentication[auth_strategy].call(storage: @storage) { |http| http.head(destination_url) }
+            response = Auth[auth_strategy].call(storage: @storage) { |http| http.head(destination_url) }
 
             case response
             in { status: 200..299 }
@@ -99,7 +100,7 @@ module Storages
           end
 
           def copy_folder(auth_strategy, source_url:, destination_url:)
-            response = Authentication[auth_strategy].call(storage: @storage) do |http|
+            response = Auth[auth_strategy].call(storage: @storage) do |http|
               http.request("COPY", source_url, headers: { "Destination" => destination_url, "Depth" => "infinity" })
             end
 

@@ -79,7 +79,7 @@ module Storages
         polling_info[:polling_state] = :completed
         batch.save
 
-        result = Peripherals::StorageInteraction::ResultData::CopyTemplateFolder.new(response[:resourceId], nil, false)
+        result = Adapters::ResultData::CopyTemplateFolder.new(response[:resourceId], nil, false)
         ServiceResult.success(result:)
       else
         raise(Errors::PollingRequired, "#{job_id} Polling not completed yet")
