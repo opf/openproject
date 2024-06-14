@@ -31,7 +31,14 @@ Project managers can now exclude rejected or duplicate work packages from the ca
 Learn more in our [documentation about work package settings](https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-settings/).
 
 ### Warn admins about potential data loss when changing progress calculation modes
-https://community.openproject.org/wp/55467/
+
+To avoid loosing data when switching from Work- to Status-based progress calculation, OpenProject will now show you a warning banner if you select a different mode than the current. If you switch from Work- to Status-based progress calculation, please note that:
+
+* Existing % Complete values are overwritten by status (or set to 0 when a corresponding value does not exist).
+
+* Remaining work is automatically updated.
+
+![Warning banner when changing progress reporting from work-based to status-based](openproject-14-2-changing-work-based-status-based-progress-reporting.png)
 
 ### Configure which projects are activated for a project attribute
 
