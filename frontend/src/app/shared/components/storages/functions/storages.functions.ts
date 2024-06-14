@@ -56,7 +56,7 @@ export function getIconForStorageType(storageType?:string):string {
 }
 
 export function makeFilesCollectionLink(storageLink:IHalResourceLink, location:string):IHalResourceLink {
-  const query = location !== '/' ? `?parent=${encodeURIComponent(location)}` : '';
+  const query = location !== '/' ? `?parent=${location}` : '';
 
   return {
     href: `${storageLink.href}/files${query}`,
