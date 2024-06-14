@@ -52,6 +52,7 @@ module Redmine
           validate :validate_custom_values
           send :include, Redmine::Acts::Customizable::InstanceMethods
 
+          before_save :ensure_custom_values_complete
           after_save :touch_customizable,
                      :reset_custom_values_change_tracker
         end
@@ -111,25 +112,18 @@ module Redmine
         end
 
         def custom_values_for_custom_field(id:)
-          custom_field_values(all: true).select { |cv| cv.custom_field_id == id.to_i }
+          custom_field_values.select { |cv| cv.custom_field_id == id.to_i }
         end
 
-        def custom_field_values(all: false)
-          build_custom_field_values
-          available_custom_field_ids = (all ? all_available_custom_fields : available_custom_fields).map(&:id)
-          custom_values.select do |v|
-            !v.marked_for_destruction? &&
-            v.custom_field_id.in?(available_custom_field_ids)
-          end
-        end
-
-        def build_custom_field_values
+        def custom_field_values
           custom_field_ids_with_values = custom_values.to_set(&:custom_field_id)
-          all_available_custom_fields.each do |custom_field|
+          available_custom_fields.select do |custom_field|
             next if custom_field.id.in?(custom_field_ids_with_values)
 
             build_default_custom_values(custom_field)
           end
+
+          custom_values.reject(&:marked_for_destruction?)
         end
 
         # Returns the cache key for caching @custom_field_values_cache.
@@ -167,7 +161,8 @@ module Redmine
 
         def custom_value_for(c)
           field_id = (c.is_a?(CustomField) ? c.id : c.to_i)
-          values = custom_field_values.select { |v| v.custom_field_id == field_id && v.value.present? }
+          values = custom_field_values.select { |v| v.custom_field_id == field_id }
+
           if values.size > 1
             values.sort_by { |v| v.id.to_i } # need to cope with nil
           else
@@ -199,6 +194,12 @@ module Redmine
           else
             cvs
           end
+        end
+
+        def ensure_custom_values_complete
+          return unless custom_values.loaded? && (custom_values.any?(&:changed?) || custom_value_destroyed)
+
+          self.custom_values = custom_field_values
         end
 
         def reload(*args)
@@ -249,7 +250,7 @@ module Redmine
         # Build the changes hash similar to ActiveRecord::Base#changes,
         # but for the custom field values that have been changed.
         def custom_field_changes
-          custom_field_values(all: true).reduce({}) do |cfv_changes, cfv|
+          custom_field_values.reduce({}) do |cfv_changes, cfv|
             next cfv_changes unless cfv.changed?
 
             # In order to construct a valid changes hash, we need to find the old value if it exists.
