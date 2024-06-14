@@ -26,16 +26,20 @@ For more information, see [#50954](https://community.openproject.org/wp/50954).
 
 ### Exclude by status some work packages from the calculation of totals for % Complete and work estimates 
 
-https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-settings/
+Project managers can now exclude rejected or duplicate work packages from the calculation of total Work, total Remaining work and total % Complete for the parent / ancestors work packages. This allows them to clean up estimates and progress when rejecting child work packages or marking them as duplicates.
 
-https://community.openproject.org/wp/49409/
+Learn more in our [documentation about work package settings](https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-settings/).
 
 ### Warn admins about potential data loss when changing progress calculation modes
 https://community.openproject.org/wp/55467/
 
 ### Configure which projects are activated for a project attribute
 
-https://community.openproject.org/wp/54455/
+With OpenProject 14.2, administrators can now save time by enabling or disabling project attributes across multiple projects simultaneously. For instance, if you want to adjust the 'Due date' attribute for all projects, the setting looks like this: 
+
+![Configure which projects are activated for a project attribute](openproject-14-2-project-attributes-settings-highlighted.png)
+
+In the screenshot, the three-dot menu on the right is selected. With one click, you can deactivate the attribute for the entire project and its subprojects.
 
 ### Avoid redundant emails in case of @mentions and email reminder
 https://community.openproject.org/wp/50140
