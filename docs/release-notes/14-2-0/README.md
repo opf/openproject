@@ -69,6 +69,9 @@ The Meeting module has been further improved with OpenProject 14.2: When users c
 In addition to this feature, the default view for meetings module was changed to display the upcoming invitations.
 
 ### Embedded work package attributes in PDF export
+
+With OpenProject 14.2, embedded attributes within a work package description are displayed correctly in the PDF export. This means that in the exported PDF, the work package description may contain custom text fields, which now support [embedded work package and project attributes](https://www.openproject.com/docs/user-guide/wysiwyg/#embedding-of-work-package-attributes-and-project-attributes/docs/user-guide/wysiwyg/#embedding-of-work-package-attributes-and-project-attributes).
+
 https://community.openproject.org/wp/54377/
 
 ## Bug fixes and changes
