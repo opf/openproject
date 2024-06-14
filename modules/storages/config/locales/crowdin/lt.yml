@@ -46,7 +46,7 @@ lt:
   permission_delete_files_explanation: Šis teisė galima tik Nextcloud saugykloms
   permission_header_for_project_module_storages: Automatiškai valdomi projekto aplankai
   permission_manage_file_links: Tvarkyti failo nuorodas
-  permission_manage_storages_in_project: Tvarkyti failų saugyklas projekte
+  permission_manage_files_in_project: Manage files in project
   permission_read_files: 'Automatiškai valdomi projekto aplankai: Skaityti failus'
   permission_share_files: 'Automatiškai valdomi projekto aplankai: Bendrinti failus'
   permission_share_files_explanation: Ši teisė galima tik Nextcloud saugykloms

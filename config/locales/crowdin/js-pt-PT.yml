@@ -1360,4 +1360,4 @@ pt-PT:
         network_off: "Há um problema de rede."
         network_on: "A rede está de volta. Estamos a tentar."
         timeout: >
-          O OpenProject não pôde fornecer acesso à pasta do projeto dentro do período esperado de tempo. Por favor, tente novamente.<br><br> Se esse problema persistir, por favor, entre em contato com o administrador do OpenProject para verificar o <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">status de saúde da configuração de armazenamento de arquivos</a>.
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

@@ -303,6 +303,8 @@ ko:
         new_project_mapping_form:
           add_projects: Add projects
           include_sub_projects: Include sub-projects
+        project_mappings:
+          header: Enabled in projects
       types:
         no_results_title_text: 사용 가능한 타입이 없습니다.
         form:

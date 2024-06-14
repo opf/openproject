@@ -46,7 +46,7 @@ ms:
   permission_delete_files_explanation: Kebenaran ini hanya tersedia untuk storan Nextcloud
   permission_header_for_project_module_storages: Folder projek yang dikendalikan secara automatik
   permission_manage_file_links: Urus pautan fail
-  permission_manage_storages_in_project: Urus storan fail dalam projek
+  permission_manage_files_in_project: Manage files in project
   permission_read_files: 'Folder projek yang dikendalikan secara automatik: Baca fail'
   permission_share_files: 'Folder projek yang dikendalikan secara automatik: Kongsi fail'
   permission_share_files_explanation: Kebenaran ini hanya tersedia untuk storan Nextcloud
