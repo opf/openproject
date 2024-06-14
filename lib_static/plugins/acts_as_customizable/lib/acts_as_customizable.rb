@@ -96,6 +96,7 @@ module Redmine
         # instead of a single value you'd pass an array.
         def custom_field_values=(values)
           return unless values.is_a?(Hash) && values.any?
+
           values.with_indifferent_access.each do |custom_field_id, val|
             existing_cv_by_value = custom_values_for_custom_field(id: custom_field_id)
                                      .group_by(&:value)
@@ -115,18 +116,17 @@ module Redmine
         end
 
         def custom_field_values(all: false)
-          current_custom_fields = all ? all_available_custom_fields : available_custom_fields
-          build_custom_field_values(current_custom_fields)
-          current_custom_field_ids = current_custom_fields.map(&:id)
+          build_custom_field_values
+          available_custom_field_ids = (all ? all_available_custom_fields : available_custom_fields).map(&:id)
           custom_values.select do |v|
             !v.marked_for_destruction? &&
-            v.custom_field_id.in?(current_custom_field_ids)
+            v.custom_field_id.in?(available_custom_field_ids)
           end
         end
 
-        def build_custom_field_values(current_custom_fields)
+        def build_custom_field_values
           custom_field_ids_with_values = custom_values.to_set(&:custom_field_id)
-          current_custom_fields.each do |custom_field|
+          all_available_custom_fields.each do |custom_field|
             next if custom_field.id.in?(custom_field_ids_with_values)
 
             build_default_custom_values(custom_field)
@@ -420,11 +420,7 @@ module Redmine
         def remove_custom_value(custom_value)
           return unless custom_value
 
-          if custom_value.persisted?
-            custom_value.mark_for_destruction
-          else
-            custom_values.delete custom_value
-          end
+          custom_value.mark_for_destruction
           self.custom_value_destroyed = true
         end
 
