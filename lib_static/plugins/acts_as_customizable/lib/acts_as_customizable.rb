@@ -116,14 +116,16 @@ module Redmine
         end
 
         def custom_field_values
-          available_custom_fields.flat_map do |custom_field|
-            existing_cvs = custom_values.select { |v| v.custom_field_id == custom_field.id }
-            if existing_cvs.empty?
-              build_default_custom_values(custom_field)
-            else
-              existing_cvs
+          custom_field_values_cache[custom_field_cache_key] ||=
+            available_custom_fields.flat_map do |custom_field|
+              existing_cvs = custom_values.select { |v| v.custom_field_id == custom_field.id }
+
+              if existing_cvs.empty?
+                build_default_custom_values(custom_field)
+              else
+                existing_cvs
+              end
             end
-          end
         end
 
         # Returns the cache key for caching @custom_field_values_cache.
