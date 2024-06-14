@@ -42,10 +42,16 @@ With OpenProject 14.2, administrators can now save time by enabling or disabling
 In the screenshot, the three-dot menu on the right is selected. With one click, you can deactivate the attribute for the entire project and its subprojects.
 
 ### Avoid redundant emails in case of @mentions and email reminder
+
+With the release of OpenProject 14.2, we avoid sending redundand emails: Users who are @mentioned in a work package will still receive immediate emails based on their email reminder settings. But if an email has already been sent for an @mention (assuming the user has activated the option ‘Immediately when someone @mentions me’ in the email notifications), subsequent notifications with mentions as the primary reason will not be included in the email reminder.
+
 https://community.openproject.org/wp/50140
 
 ### Allow renaming persisted project lists
-https://community.openproject.org/wp/51673/
+
+Regarding project portfolio management, users can now not only create and save a private custom project list, but also rename it. This saves time since previously, you would have had to create a new project list to change the name.
+
+![Rename private persisted project lists](openproject-14-2-rename-persisted-lists.png)
 
 ### Allow meeting invite to be sent out when creating meetings
 https://community.openproject.org/wp/54469/
