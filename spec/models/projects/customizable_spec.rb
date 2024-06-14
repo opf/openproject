@@ -88,8 +88,8 @@ RSpec.describe Project, "customizable" do
         end
 
         it "#custom_field_values returns an empty hash" do
-          expect(project.custom_field_values.pluck(:value))
-            .to all be_nil
+          expect(project.custom_field_values)
+            .to be_empty
         end
       end
 
