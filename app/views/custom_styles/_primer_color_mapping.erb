@@ -75,4 +75,10 @@
       --button--primary-background-color: var(--button-primary-bgColor-rest);
       --primary-button-color: var(--button-primary-bgColor-rest);
   }
+
+  /* For dark themes we are using a lighter version of the accent and primary color. Otherwise they will not be seen */
+  [data-dark-theme=dark] {
+      --accent-color: var(--accent-color--dark-mode);
+      --primary-button-color: var(--primary-button-color--dark-mode);
+  }
 </style>
