@@ -33,9 +33,10 @@ class Project < ApplicationRecord
   include Projects::Activity
   include Projects::Hierarchy
   include Projects::AncestorsFromRoot
+  include Projects::CustomFields
+  include Projects::WorkPackageCustomFields
   include ::Scopes::Scoped
 
-  include Projects::ActsAsCustomizablePatches
 
   # Maximum length for project identifiers
   IDENTIFIER_MAX_LENGTH = 100
@@ -79,11 +80,6 @@ class Project < ApplicationRecord
   has_one :repository, dependent: :destroy
   has_many :changesets, through: :repository
   has_one :wiki, dependent: :destroy
-  # Custom field for the project's work_packages
-  has_and_belongs_to_many :work_package_custom_fields,
-                          -> { order("#{CustomField.table_name}.position") },
-                          join_table: :custom_fields_projects,
-                          association_foreign_key: "custom_field_id"
   has_many :budgets, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
   has_many :project_storages, dependent: :destroy, class_name: "Storages::ProjectStorage"
@@ -93,8 +89,8 @@ class Project < ApplicationRecord
 
   acts_as_favorable
 
-  acts_as_customizable # partially overridden via Projects::ActsAsCustomizablePatches in order to support sections and
-  # project-leval activation of custom fields
+  acts_as_customizable # extended in Projects::CustomFields in order to support sections
+  # and project-level activation of custom fields
 
   acts_as_searchable columns: %W(#{table_name}.name #{table_name}.identifier #{table_name}.description),
                      date_column: "#{table_name}.created_at",
@@ -280,14 +276,6 @@ class Project < ApplicationRecord
     else
       @assignable_versions_including_non_open ||= shared_versions.references(:project).order_by_semver_name.to_a
     end
-  end
-
-  # Returns an AR scope of all custom fields enabled for project's work packages
-  # (explicitly associated custom fields and custom fields enabled for all projects)
-  def all_work_package_custom_fields
-    WorkPackageCustomField
-      .for_all
-      .or(WorkPackageCustomField.where(id: work_package_custom_fields))
   end
 
   def project
