@@ -54,9 +54,12 @@ Regarding project portfolio management, users can now not only create and save a
 ![Rename private persisted project lists](openproject-14-2-rename-persisted-lists.png)
 
 ### Allow meeting invite to be sent out when creating meetings
-https://community.openproject.org/wp/54469/
 
-Also the default view for meetings module was changed to display the upcoming invitations (https://community.openproject.org/wp/53669/)
+The Meeting module has been further improved with OpenProject 14.2: When users create a new meeting in OpenProject, they will now see a checkbox allowing them to choose whether to email the invited users. If checked, OpenProject will send invitation emails to all new participants.
+
+![Checkbox on OpenProject's Meetings module to send emails upon creating a new meeting](openproject-14-2meeting-invitation-mail-highlighted.png)
+
+In addition to this feature, the default view for meetings module was changed to display the upcoming invitations.
 
 ### Embedded work package attributes in PDF export
 https://community.openproject.org/wp/54377/
