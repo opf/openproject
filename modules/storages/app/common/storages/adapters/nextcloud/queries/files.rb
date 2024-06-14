@@ -42,12 +42,12 @@ module Storages
 
           def initialize(storage)
             @storage = storage
+            @error_data = ResultData::ErrorData.new(source: self.class)
           end
 
           def call(auth_strategy:, folder:)
             if auth_strategy.user.nil?
-              error_data = StorageErrorData.new(source: self)
-              return Util.error(:error, "Cannot execute query without user context.", error_data)
+              return Util.error(:error, "Cannot execute query without user context.", @error_data)
             end
 
             origin_user = origin_user_id(auth_strategy.user)
@@ -75,7 +75,7 @@ module Storages
           end
 
           def handle_response(response)
-            error_data = StorageErrorData.new(source: self.class, payload: response)
+            error_data = @error_data.with(payload: response)
 
             case response
             in { status: 200..299 }
@@ -127,7 +127,7 @@ module Storages
                 .to_a
                 .map { |file_element| storage_file(file_element) }
 
-              ::Storages::StorageFiles.new(files, parent, ancestors(parent.location))
+              ResultData::FolderContents.new(files, parent, ancestors(parent.location))
             end
           end
 
@@ -146,7 +146,7 @@ module Storages
           # The ancestors are simply derived objects from the parents location string. Until we have real information
           # from the nextcloud API about the path to the parent, we need to derive name, location and forge an ID.
           def forge_ancestor(location)
-            ::Storages::StorageFile.new(id: Digest::SHA256.hexdigest(location), name: name(location), location:)
+            ResultData::File.new(id: Digest::SHA256.hexdigest(location), name: name(location), location:)
           end
 
           def name(location)
@@ -156,7 +156,7 @@ module Storages
           def storage_file(file_element)
             location = location(file_element)
 
-            ::Storages::StorageFile.new(
+            ResultData::File.new(
               id: id(file_element),
               name: name(location),
               size: size(file_element),

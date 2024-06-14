@@ -56,10 +56,10 @@ RSpec.describe Storages::Adapters::Nextcloud::Queries::Files, :vcr, :webmock do
     context "with outbound requests successful" do
       context "with parent folder being root", vcr: "nextcloud/files_query_root" do
         # rubocop:disable RSpec/ExampleLength
-        it "returns a StorageFiles object for root" do
+        it "returns a FolderContents object for root" do
           storage_files = described_class.call(storage:, auth_strategy:, folder:).result
 
-          expect(storage_files).to be_a(Storages::StorageFiles)
+          expect(storage_files).to be_a(Storages::Adapters::ResultData::FolderContents)
           expect(storage_files.ancestors).to be_empty
           expect(storage_files.parent.name).to eq("Root")
 
@@ -180,11 +180,11 @@ RSpec.describe Storages::Adapters::Nextcloud::Queries::Files, :vcr, :webmock do
       context "with parent folder being empty", vcr: "nextcloud/files_query_empty_folder" do
         let(:folder) { Storages::Peripherals::ParentFolder.new("/Folder/empty") }
 
-        it "returns an empty StorageFiles object with parent and ancestors" do
+        it "returns an empty FolderContents object with parent and ancestors" do
           storage_files = described_class.call(storage:, auth_strategy:, folder:).result
 
-          expect(storage_files).to be_a(Storages::StorageFiles)
-          expect(storage_files.files).to be_empty
+          expect(storage_files).to be_a(Storages::Adapters::ResultData::FolderContents)
+          expect(storage_files).to be_empty
           expect(storage_files.parent.id).to eq("174")
           expect(storage_files.ancestors.map(&:name)).to eq(%w[Root Folder])
         end

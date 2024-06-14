@@ -79,8 +79,8 @@ module Storages
               ServiceResult.failure(result: :unauthorized,
                                     errors: Util.storage_error(response:, code: :unauthorized, source: self.class))
             else
-              data = StorageErrorData.new(source: self.class, payload: response)
-              ServiceResult.failure(result: :error, errors: StorageError.new(code: :error, data:))
+              data = ResultData::ErrorData.new(source: self.class, payload: response)
+              ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error, data:))
             end
           end
 
@@ -90,7 +90,7 @@ module Storages
             files = json_files.map { |json| Util.storage_file_from_json(json) }
 
             parent_reference = json_files.first[:parentReference]
-            StorageFiles.new(files, parent(parent_reference), forge_ancestors(parent_reference))
+            ResultData::FolderContents.new(files, parent(parent_reference), forge_ancestors(parent_reference))
           end
 
           def empty_response(http, folder)
@@ -100,15 +100,15 @@ module Storages
           end
 
           def empty_storage_files(path, parent_id)
-            StorageFiles.new(
-              [],
-              StorageFile.new(
+            ResultData::FolderContents.new(
+              files: [],
+              parent: ResultData::File.new(
                 id: parent_id,
                 name: path.split("/").last,
                 location: path,
                 permissions: %i[readable writeable]
               ),
-              forge_ancestors(path:)
+              ancestors: forge_ancestors(path:)
             )
           end
 
@@ -118,7 +118,7 @@ module Storages
             if name.empty?
               root(parent_reference[:id])
             else
-              StorageFile.new(
+              ResultData::File.new(
                 id: parent_reference[:id],
                 name:,
                 location: Util.extract_location(parent_reference),
@@ -133,20 +133,11 @@ module Storages
             path_elements[0..-2].map do |component|
               next root(Digest::SHA256.hexdigest("i_am_root")) if component.blank?
 
-              StorageFile.new(
-                id: Digest::SHA256.hexdigest(component),
-                name: component,
-                location: "/#{component}"
-              )
+              ResultData::File.new(id: Digest::SHA256.hexdigest(component), name: component, location: "/#{component}")
             end
           end
 
-          def root(id)
-            StorageFile.new(name: "Root",
-                            location: "/",
-                            id:,
-                            permissions: %i[readable writeable])
-          end
+          def root(id) = ResultData::File.new(name: "Root", location: "/", id:, permissions: %i[readable writeable])
 
           def children_url_for(folder)
             base_uri = Util.drive_base_uri(@storage)

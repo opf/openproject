@@ -51,10 +51,10 @@ RSpec.describe Storages::Adapters::OneDrive::Queries::Files, :webmock do
 
     context "with outbound requests successful" do
       context "with parent folder being root", vcr: "one_drive/files_query_root" do
-        it "returns a StorageFiles object for root" do
+        it "returns a FolderContents object for root" do
           storage_files = described_class.call(storage:, auth_strategy:, folder:).result
 
-          expect(storage_files).to be_a(Storages::StorageFiles)
+          expect(storage_files).to be_a(Storages::Adapters::ResultData::FolderContents)
           expect(storage_files.ancestors).to be_empty
           expect(storage_files.parent.name).to eq("Root")
           expect(storage_files.files.count).to eq(3)
@@ -135,10 +135,10 @@ RSpec.describe Storages::Adapters::OneDrive::Queries::Files, :webmock do
       context "with parent folder being empty", vcr: "one_drive/files_query_empty_folder" do
         let(:folder) { Storages::Peripherals::ParentFolder.new("/Folder with spaces/very empty folder") }
 
-        it "returns an empty StorageFiles object with parent and ancestors" do
+        it "returns an empty FolderContents object with parent and ancestors" do
           storage_files = described_class.call(storage:, auth_strategy:, folder:).result
 
-          expect(storage_files).to be_a(Storages::StorageFiles)
+          expect(storage_files).to be_a(Storages::Adapters::ResultData::FolderContents)
           expect(storage_files.files).to be_empty
 
           # in an empty folder the parent id cannot be retrieved, hence the parent id will get forged
@@ -149,10 +149,10 @@ RSpec.describe Storages::Adapters::OneDrive::Queries::Files, :webmock do
       context "with a path full of umlauts", vcr: "one_drive/files_query_umlauts" do
         let(:folder) { Storages::Peripherals::ParentFolder.new("/Folder/Ümlæûts") }
 
-        it "returns the correct StorageFiles object" do
+        it "returns the correct FolderContents object" do
           storage_files = described_class.call(storage:, auth_strategy:, folder:).result
 
-          expect(storage_files).to be_a(Storages::StorageFiles)
+          expect(storage_files).to be_a(Storages::Adapters::ResultData::FolderContents)
           expect(storage_files.parent.id).to eq("01AZJL5PNQYF5NM3KWYNA3RJHJIB2XMMMB")
           expect(storage_files.parent.name).to eq("Ümlæûts")
           expect(storage_files.parent.location).to eq("/Folder/Ümlæûts")
