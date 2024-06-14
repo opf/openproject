@@ -3,7 +3,7 @@ title: OpenProject 14.2.0
 sidebar_navigation:
     title: 14.2.0
 release_version: 14.2.0
-release_date: 2024-06-07
+release_date: 2024-06-19
 ---
 
 # OpenProject 14.2.0
@@ -106,7 +106,7 @@ https://community.openproject.org/wp/54377/
 <!-- END AUTOMATED SECTION -->
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
-#### Contributions
+## Contributions
 A very special thank you goes to our sponsors for features and improvements of this release:
 
 - German Federal Ministry of the Interior and Home Affairs (BMI) for sponsoring the features on progress reporting
