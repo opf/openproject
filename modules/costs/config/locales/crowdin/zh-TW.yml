@@ -22,7 +22,7 @@
 zh-TW:
   plugin_costs:
     name: "時間與費用"
-    description: "This module adds features for planning and tracking costs of projects."
+    description: "此模組增加了規劃和追蹤專案成本的功能。"
   activerecord:
     attributes:
       cost_entry:

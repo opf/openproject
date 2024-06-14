@@ -39,7 +39,7 @@ zh-TW:
   api_v3:
     errors:
       too_many_elements_created_at_once: 一次創建的元素過多。最多應為 %{max} 個，實際為 %{actual} 個。
-  external_file_storages: External file storages
+  external_file_storages: 外部存儲空間
   permission_create_files: 'Automatically managed project folders: Create files'
   permission_create_files_explanation: This permission is only available for Nextcloud storages
   permission_delete_files: 'Automatically managed project folders: Delete files'
@@ -52,7 +52,7 @@ zh-TW:
   permission_share_files_explanation: This permission is only available for Nextcloud storages
   permission_view_file_links: 查看文件鏈接
   permission_write_files: 'Automatically managed project folders: Write files'
-  project_module_storages: Files
+  project_module_storages: 檔案
   storages:
     buttons:
       complete_without_setup: 排除它完成
@@ -76,29 +76,29 @@ zh-TW:
       project_storage: '您確定要從此項目中刪除 %{file_storage} 嗎？ 若要確認此操作，請在下面的欄位中輸入儲存名稱，這將：'
       project_storage_delete_result_1: 刪除從此項目的工作包到該儲存的檔案和資料夾的所有連結。
       project_storage_delete_result_2: 如果此儲存空間具有自動管理的專案資料夾，則該資料夾及其檔案將永久刪除。
-      storage: 'Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:'
+      storage: '您確定要從此項目中刪除 %{file_storage} 嗎？ 若要確認此操作，請在下面的欄位中輸入儲存名稱，這將：'
       storage_delete_result_1: 刪除使用此儲存的所有項目的所有儲存設定。
-      storage_delete_result_2: Remove all links from work packages of all projects to files and folders of that storage.
-      storage_delete_result_3: In case this storage has automatically managed project folders, those and their contained files will be deleted forever.
+      storage_delete_result_2: 刪除從此項目的工作包到該儲存的檔案和資料夾的所有連結。
+      storage_delete_result_3: 如果此儲存空間具有自動管理的專案資料夾，則該資料夾及其檔案將永久刪除。
     error_invalid_provider_type: 請選擇有效的儲存空間提供者。
     file_storage_view:
       access_management:
         automatic_management: 自動管理的專案文件夾
-        automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
+        automatic_management_description: 讓 OpenProject 自動為每個專案建立資料夾並管理其使用者存取權限。建議這樣做，因為它可以確保每個團隊成員始終擁有正確的存取權限。
         description: 選擇使用者存取和資料夾建立的管理類型。 我們建議使用自動管理存取以獲得更有組織的結構並保證對所有相關使用者的存取。
         manual_management: 手動管理的存取和資料夾
         manual_management_description: 您自己手動建立和管理每個專案的資料夾。 您需要手動確保相關使用者俱有存取權限。
         setup_incomplete: 選擇使用者存取和資料夾建立的管理類型。
         subtitle: 存取管理
-        title: Access and project folders
+        title: 存取和專案資料夾
       automatically_managed_folders: 自動管理文件夾
       general_information: 基本資訊
       nextcloud_oauth: NextCloud 開放授權 (OAuth)
-      oauth_applications: Oauth 應用程式
+      oauth_applications: OAuth 應用程式
       one_drive_oauth: Azure OAuth
       openproject_oauth: OpenProject 開放授權 (OAuth)
       project_folders: 專案資料夾
-      redirect_uri: 轉址 uri
+      redirect_uri: 重新導向 URI
       storage_provider: 儲存空間提供者
     health:
       checked: 上次檢查時間：%{datetime}
@@ -130,20 +130,20 @@ zh-TW:
       nextcloud:
         application_link_text: 應用程式 “Integration OpenProject”
         integration: Nextcloud 管理 / OpenProject
-        oauth_configuration: Copy these values from %{application_link_text}.
-        provider_configuration: Please make sure you have administration privileges in your Nextcloud instance and the %{application_link_text} is installed before doing the setup.
+        oauth_configuration: 從 %{application_link_text} 複製這些值。
+        provider_configuration: 在進行設定之前，請確保您在 Nextcloud 實例中擁有管理權限並且已安裝 %{application_link_text}。
       no_specific_folder: 預設情況下，每個使用者上傳檔案時都會從自己的主資料夾開始。
       no_storage_set_up: 尚未設定檔案儲存區
-      not_logged_into_storage: To select a project folder, please first login
-      oauth_application_details: The client secret value will not be accessible again after you close this window. Please copy these values into the %{oauth_application_details_link}.
+      not_logged_into_storage: 若要選擇項目資料夾，請先登入
+      oauth_application_details: 關閉此視窗後，將無法再次存取客戶端密鑰值。請將這些值複製到 %{oauth_application_details_link} 中。
       oauth_application_details_link_text: Nextcloud OpenProject整合設定
       one_drive:
         application_link_text: Azure portal
-        copy_redirect_uri: Copy redirect URI
+        copy_redirect_uri: 複製重新導向 URI
         documentation_link_text: OneDrive/SharePoint 文件
         drive_id: Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}.
         integration: OneDrive/SharePoint
-        missing_client_id_for_redirect_uri: Please fill the OAuth values to generate a URI
+        missing_client_id_for_redirect_uri: 請填寫 OAuth 值以產生 URI
         oauth_client_redirect_uri: Please copy this value to a new Web redirect URI under Redirect URIs.
         oauth_client_secret: In case there is no application client secret under Client credentials, please create a new one.
         oauth_configuration: Copy these values from the desired application in the %{application_link_text}.
@@ -185,7 +185,7 @@ zh-TW:
     label_openproject_oauth_application_secret: OpenProject OAuth Client Secret
     label_project_folder: 專案資料夾
     label_provider: 供應商
-    label_redirect_uri: 轉址 uri
+    label_redirect_uri: 重新導向 URI
     label_show_storage_redirect_uri: Show redirect URI
     label_status: 狀態
     label_storage: 儲存空間
