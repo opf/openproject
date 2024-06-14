@@ -52,7 +52,6 @@ module Redmine
           validate :validate_custom_values
           send :include, Redmine::Acts::Customizable::InstanceMethods
 
-          before_save :ensure_custom_values_complete
           after_save :touch_customizable,
                      :reset_custom_values_change_tracker
         end
@@ -200,12 +199,6 @@ module Redmine
           else
             cvs
           end
-        end
-
-        def ensure_custom_values_complete
-          return unless custom_values.loaded? && (custom_values.any?(&:changed?) || custom_value_destroyed)
-
-          self.custom_values = custom_field_values(all: true)
         end
 
         def reload(*args)
