@@ -57,7 +57,7 @@ RSpec.describe "Project Custom Field Mappings", :js do
       visit project_mappings_admin_settings_project_custom_field_path(project_custom_field)
     end
 
-    it "renders the project custom field mappings page" do
+    it "renders a list of projects linked to the custom field" do
       aggregate_failures "shows a correct breadcrumb menu" do
         within ".PageHeader-breadcrumbs" do
           expect(page).to have_link("Administration")
@@ -80,15 +80,9 @@ RSpec.describe "Project Custom Field Mappings", :js do
           expect(page).to have_no_text(archived_project.name)
         end
       end
-
-      aggregate_failures "allows to unlinking a project" do
-        project_custom_field_mappings_page.click_menu_item_of("Deactivate for this project", project)
-
-        expect(page).to have_no_text(project.name)
-      end
     end
 
-    it "allows to link a project" do
+    it "allows linking a project to a custom field" do
       project = create(:project)
       subproject = create(:project, parent: project)
       click_on "Add projects"
@@ -107,6 +101,41 @@ RSpec.describe "Project Custom Field Mappings", :js do
 
       expect(page).to have_text(project.name)
       expect(page).to have_text(subproject.name)
+
+      aggregate_failures "pagination links maintain the correct url" do
+        within ".op-pagination" do
+          pagination_links = page.all(".op-pagination--item-link")
+          expect(pagination_links.size).to be_positive
+
+          pagination_links.each do |pagination_link|
+            uri = URI.parse(pagination_link["href"])
+            expect(uri.path).to eq(project_mappings_admin_settings_project_custom_field_path(project_custom_field))
+          end
+        end
+      end
+    end
+
+    it "allows unlinking a project from a custom field" do
+      project = create(:project)
+      create(:project_custom_field_project_mapping, project_custom_field:, project:)
+
+      visit project_mappings_admin_settings_project_custom_field_path(project_custom_field)
+
+      project_custom_field_mappings_page.click_menu_item_of("Deactivate for this project", project)
+
+      expect(page).to have_no_text(project.name)
+
+      aggregate_failures "pagination links maintain the correct url after unlinking is done" do
+        within ".op-pagination" do
+          pagination_links = page.all(".op-pagination--item-link")
+          expect(pagination_links.size).to be_positive
+
+          pagination_links.each do |pagination_link|
+            uri = URI.parse(pagination_link["href"])
+            expect(uri.path).to eq(project_mappings_admin_settings_project_custom_field_path(project_custom_field))
+          end
+        end
+      end
     end
 
     context "and the project custom field is required" do

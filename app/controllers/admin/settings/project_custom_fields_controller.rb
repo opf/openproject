@@ -79,7 +79,7 @@ module Admin::Settings
                               include_sub_projects: include_sub_projects?)
                          .call
 
-      create_service.on_success { render_project_list }
+      create_service.on_success { render_project_list(url_for_action: :project_mappings) }
 
       create_service.on_failure do
         update_flash_message_via_turbo_stream(
@@ -96,7 +96,7 @@ module Admin::Settings
                          .new(user: current_user, model: @project_custom_field_mapping)
                          .call
 
-      delete_service.on_success { render_project_list }
+      delete_service.on_success { render_project_list(url_for_action: :project_mappings) }
 
       delete_service.on_failure do
         update_flash_message_via_turbo_stream(
@@ -147,7 +147,7 @@ module Admin::Settings
 
     private
 
-    def render_project_list
+    def render_project_list(url_for_action: action_name)
       update_via_turbo_stream(
         component: Settings::ProjectCustomFields::ProjectCustomFieldMapping::NewProjectMappingComponent.new(
           project_mapping: ProjectCustomFieldProjectMapping.new(project_custom_field: @custom_field),
@@ -157,7 +157,7 @@ module Admin::Settings
       update_via_turbo_stream(
         component: Settings::ProjectCustomFields::ProjectCustomFieldMapping::TableComponent.new(
           query: project_custom_field_mappings_query,
-          params: { custom_field: @custom_field }
+          params: { custom_field: @custom_field, url_for_action: }
         )
       )
     end
