@@ -116,14 +116,14 @@ module Redmine
         end
 
         def custom_field_values
-          custom_field_ids_with_values = custom_values.to_set(&:custom_field_id)
-          available_custom_fields.select do |custom_field|
-            next if custom_field.id.in?(custom_field_ids_with_values)
-
-            build_default_custom_values(custom_field)
+          available_custom_fields.flat_map do |custom_field|
+            existing_cvs = custom_values.select { |v| v.custom_field_id == custom_field.id }
+            if existing_cvs.empty?
+              build_default_custom_values(custom_field)
+            else
+              existing_cvs
+            end
           end
-
-          custom_values.reject(&:marked_for_destruction?)
         end
 
         # Returns the cache key for caching @custom_field_values_cache.
@@ -409,12 +409,15 @@ module Redmine
           new_custom_value = custom_values.build(customized: self,
                                                  custom_field_id:,
                                                  value:)
+
+          custom_field_values.push(new_custom_value)
         end
 
         def remove_custom_value(custom_value)
           return unless custom_value
 
           custom_value.mark_for_destruction
+          custom_field_values.delete custom_value
           self.custom_value_destroyed = true
         end
 
