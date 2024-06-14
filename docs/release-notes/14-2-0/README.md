@@ -10,16 +10,19 @@ release_date: 2024-06-07
 
 Release date: 2024-06-19
 
-We released [OpenProject 14.2.0](https://community.openproject.org/versions/2040). 
-The release contains several bug fixes and we recommend updating to the newest version. In these Release Notes, we will give an overview of  important feature changes. At the end, you will find a complete list of  all changes and bug fixes.
+We released [OpenProject 14.2.0](https://community.openproject.org/versions/2040). The release contains several bug fixes and we recommend updating to the newest version. In these Release Notes, we will give an overview of  important feature changes. At the end, you will find a complete list of  all changes and bug fixes.
 
 ## Important feature changes
 
 ### Display Work and Remaining work in days and hours
 
-For more information, see [#50954](https://community.openproject.org/wp/50954). 
+With OpenProject 14.2, we enhanced the accuracy of progress reporting. Previously, time for Work, Remaining work, and spent time could only be specified in hours. Now, it is also possible to specify these units in days. Administrators of the instance can set the number of hours that constitute a day under administration/calendars-and-dates.
 
-https://community.openproject.org/wp/50954/
+A work package table displaying Work and Remaining work might now look like this:
+
+![Work package table showing Work and Remaining work in days and hours](openproject-14-2-progress-reporting-work-package-table-highlighted.png)
+
+For more information, see [#50954](https://community.openproject.org/wp/50954).
 
 ### Exclude by status some work packages from the calculation of totals for % Complete and work estimates 
 
@@ -96,9 +99,7 @@ A very special thank you goes to our sponsors for features and improvements of t
 - German Federal Ministry of the Interior and Home Affairs (BMI) for sponsoring the features on progress reporting
 - City of Cologne for sponsoring features on project attributes
 
-Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding  bugs go to:
-
-Ricardo Brenner, Sven Kunze
+Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding  bugs go to Ricardo Brenner and Sven Kunze.
 
 Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to highlight user [aniessalam](https://crowdin.com/profile/aniessalam) who has done an outstanding number of translations for the Malay language in recent weeks.
 
