@@ -130,11 +130,11 @@ module Redmine
           end
         end
 
-        # Returns the cache key for caching @custom_field_values_cache.
+        # Override to extend the cache key for caching @custom_field_values_cache.
         #
-        # In certain cases, the implementing models have a changing list of custom field values
-        # depending on certain attributes. By overriding this method, we can include the
-        # dependent attributes in the cache key, providing a more flexible key caching mechanism.
+        # In some cases, the implementing class has a changing list of custom field values
+        # depending on certain attributes. When those attributes are changed, the cache can
+        # be kept up to date by including them in the overriden custom_field_cache_key method.
         #
         # i.e.: The work package custom field values are changing based on the project_id and type_id.
         # The only way to keep the cache updated is to include those ids in the cache key.
