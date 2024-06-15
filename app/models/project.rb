@@ -34,7 +34,10 @@ class Project < ApplicationRecord
   include Projects::CustomFields
   include Projects::Hierarchy
   include Projects::Storage
+  include Projects::Types
+  include Projects::Versions
   include Projects::WorkPackageCustomFields
+
   include ::Scopes::Scoped
 
 
@@ -200,63 +203,6 @@ class Project < ApplicationRecord
 
   def self.selectable_projects
     Project.visible.select { |p| User.current.member_of? p }.sort_by(&:to_s)
-  end
-
-  def types_used_by_work_packages
-    ::Type.where(id: WorkPackage.where(project_id: project.id)
-                                .select(:type_id)
-                                .distinct)
-  end
-
-  # Returns a scope of the types used by the project and its active sub projects
-  def rolled_up_types
-    ::Type
-      .joins(:projects)
-      .select("DISTINCT #{::Type.table_name}.*")
-      .where(projects: { id: self_and_descendants.select(:id) })
-      .merge(Project.active)
-      .order("#{::Type.table_name}.position")
-  end
-
-  # Closes open and locked project versions that are completed
-  def close_completed_versions
-    Version.transaction do
-      versions.where(status: %w(open locked)).find_each do |version|
-        if version.completed?
-          version.update_attribute(:status, "closed")
-        end
-      end
-    end
-  end
-
-  # Returns a scope of the Versions on subprojects
-  def rolled_up_versions
-    Version.rolled_up(self)
-  end
-
-  # Returns a scope of the Versions used by the project
-  def shared_versions
-    Version.shared_with(self)
-  end
-
-  # Returns all versions a work package can be assigned to.  Opposed to
-  # #shared_versions this returns an array of Versions, not a scope.
-  #
-  # The main benefit is in scenarios where work packages' projects are eager
-  # loaded.  Because eager loading the project e.g. via
-  # WorkPackage.includes(:project).where(type: 5) will assign the same instance
-  # (same object_id) for every work package having the same project this will
-  # reduce the number of db queries when performing operations including the
-  # project's versions.
-  #
-  # For custom fields configured with "Allow non-open versions" this can be called
-  # with only_open: false, in which case locked and closed versions are returned as well.
-  def assignable_versions(only_open: true)
-    if only_open
-      @assignable_versions ||= shared_versions.references(:project).with_status_open.order_by_semver_name.to_a
-    else
-      @assignable_versions_including_non_open ||= shared_versions.references(:project).order_by_semver_name.to_a
-    end
   end
 
   def project
