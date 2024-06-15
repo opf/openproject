@@ -37,9 +37,6 @@ module Projects::CustomFields
     has_many :project_custom_fields, through: :project_custom_field_project_mappings, class_name: "ProjectCustomField"
 
     def available_custom_fields
-      # overrides acts_as_customizable
-      # in contrast to acts_as_customizable, custom_fields are enabled per project
-      # thus we need to check the project_custom_field_project_mappings
       visible_fields = all_available_custom_fields.visible
       return visible_fields if new_record?
 
@@ -47,6 +44,15 @@ module Projects::CustomFields
                     .or(ProjectCustomField.required)
     end
 
+    # Note:
+    #
+    # The UI allows the enabled attributes only via the project_custom_field_project_mappings.
+    # The API still provides the old behaviour where all the custom fields are available regardless
+    # of the enabled mapping. Once the api behaviour is aligned to the UI behaviour, this method
+    # can be removed in favour of the available_custom_fields.
+    # As a future improvement a flag `via_api=true` can be set on the project when the
+    # modification happens via the api, then set the available_custom_fields accordingly. This allows
+    # the extension to be completely removed from the acts_as_customizable plugin.
     def all_available_custom_fields
       @all_available_custom_fields ||= ProjectCustomField
         .includes(:project_custom_field_section)
