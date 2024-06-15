@@ -303,7 +303,7 @@ ru:
           add_projects: Добавить проекты
           include_sub_projects: Включить подпроекты
         project_mappings:
-          header: Enabled in projects
+          header: Включено в проектах
       types:
         no_results_title_text: На данный момент доступных типов нет.
         form:
