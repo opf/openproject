@@ -29,11 +29,11 @@
 class Project < ApplicationRecord
   extend FriendlyId
 
-  include Projects::Storage
   include Projects::Activity
-  include Projects::Hierarchy
   include Projects::AncestorsFromRoot
   include Projects::CustomFields
+  include Projects::Hierarchy
+  include Projects::Storage
   include Projects::WorkPackageCustomFields
   include ::Scopes::Scoped
 
@@ -200,25 +200,6 @@ class Project < ApplicationRecord
 
   def self.selectable_projects
     Project.visible.select { |p| User.current.member_of? p }.sort_by(&:to_s)
-  end
-
-  # Returns a :conditions SQL string that can be used to find the issues associated with this project.
-  #
-  # Examples:
-  #   project.project_condition(true)  => "(projects.id = 1 OR (projects.lft > 1 AND projects.rgt < 10))"
-  #   project.project_condition(false) => "projects.id = 1"
-  def project_condition(with_subprojects)
-    projects_table = Project.arel_table
-
-    stmt = projects_table[:id].eq(id)
-    if with_subprojects && has_subprojects?
-      stmt = stmt.or(projects_table[:lft].gt(lft).and(projects_table[:rgt].lt(rgt)))
-    end
-    stmt
-  end
-
-  def has_subprojects?
-    !leaf?
   end
 
   def types_used_by_work_packages
