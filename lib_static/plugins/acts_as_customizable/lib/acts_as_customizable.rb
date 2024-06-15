@@ -73,7 +73,7 @@ module Redmine
         end
 
         def all_available_custom_fields
-          available_custom_fields
+          @all_available_custom_fields ||= available_custom_fields
         end
 
         # Sets the values of the object's custom fields
@@ -214,6 +214,7 @@ module Redmine
 
         def reset_custom_values_change_tracker
           @custom_field_values_cache = nil
+          @all_available_custom_fields = nil
           self.custom_value_destroyed = false
         end
 

@@ -40,19 +40,15 @@ module Projects::CustomFields
       # overrides acts_as_customizable
       # in contrast to acts_as_customizable, custom_fields are enabled per project
       # thus we need to check the project_custom_field_project_mappings
-      custom_fields = all_available_custom_fields.visible
+      visible_fields = all_available_custom_fields.visible
+      return visible_fields if new_record?
 
-      unless new_record?
-        custom_fields = custom_fields
-          .where(id: project_custom_field_project_mappings.select(:custom_field_id))
-          .or(ProjectCustomField.required)
-      end
-
-      custom_fields
+      visible_fields.where(id: project_custom_field_project_mappings.select(:custom_field_id))
+                    .or(ProjectCustomField.required)
     end
 
     def all_available_custom_fields
-      ProjectCustomField
+      @all_available_custom_fields ||= ProjectCustomField
         .includes(:project_custom_field_section)
         .order("custom_field_sections.position", :position_in_custom_field_section)
     end
