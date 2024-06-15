@@ -77,7 +77,11 @@ RSpec.describe "Project Custom Field Mappings", :js do
       aggregate_failures "shows the correct project mappings" do
         within "#project-table" do
           expect(page).to have_text(project.name)
-          expect(page).to have_no_text(archived_project.name)
+          expect(page).to have_text(archived_project.name)
+
+          within("tr#settings-project-custom-fields-project-custom-field-mapping-row-component-project-#{archived_project.id}") do
+            expect(page.find(".buttons")).not_to have_test_selector("project-list-row--action-menu")
+          end
         end
       end
 
