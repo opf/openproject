@@ -114,6 +114,10 @@ module Projects::Hierarchy
       parents | descendants # Set union
     end
 
+    def has_subprojects?
+      !leaf?
+    end
+
     # Returns an array of active subprojects.
     def active_subprojects
       project.descendants.where(active: true)
@@ -149,6 +153,21 @@ module Projects::Hierarchy
     # and that clear new_record? as well as previous_new_record?
     def remember_reorder
       @reorder_nested_set = new_record? || name_changed?
+    end
+
+    # Returns a :conditions SQL string that can be used to find the issues associated with this project.
+    #
+    # Examples:
+    #   project.with_subprojects(true)  => "(projects.id = 1 OR (projects.lft > 1 AND projects.rgt < 10))"
+    #   project.with_subprojects(false) => "projects.id = 1"
+    def with_subprojects(with_subprojects)
+      projects_table = Project.arel_table
+
+      stmt = projects_table[:id].eq(id)
+      if with_subprojects && has_subprojects?
+        stmt = stmt.or(projects_table[:lft].gt(lft).and(projects_table[:rgt].lt(rgt)))
+      end
+      stmt
     end
   end
 end
