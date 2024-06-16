@@ -590,13 +590,12 @@ GEM
       multi_json (~> 1.11)
       os (>= 0.9, < 2.0)
       signet (>= 0.16, < 2.a)
-    grape (2.0.0)
-      activesupport (>= 5)
-      builder
+    grape (2.1.0)
+      activesupport (>= 6)
       dry-types (>= 1.1)
-      mustermann-grape (~> 1.0.0)
-      rack (>= 1.3.0)
-      rack-accept
+      mustermann-grape (~> 1.1.0)
+      rack (>= 2)
+      zeitwerk
     grape_logging (1.8.4)
       grape
       rack
@@ -728,7 +727,7 @@ GEM
     multi_json (1.15.0)
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
-    mustermann-grape (1.0.2)
+    mustermann-grape (1.1.0)
       mustermann (>= 1.0.0)
     mutex_m (0.2.0)
     net-http (0.4.1)
@@ -844,8 +843,6 @@ GEM
     raabro (1.4.0)
     racc (1.8.0)
     rack (2.2.9)
-    rack-accept (0.4.5)
-      rack (>= 0.4)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-cors (2.0.2)
@@ -984,7 +981,7 @@ GEM
       rubocop (~> 1.41)
     rubocop-factory_bot (2.26.1)
       rubocop (~> 1.61)
-    rubocop-performance (1.21.0)
+    rubocop-performance (1.21.1)
       rubocop (>= 1.48.1, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
     rubocop-rails (2.25.0)
@@ -1209,7 +1206,7 @@ DEPENDENCIES
   good_job (= 3.26.2)
   google-apis-gmail_v1
   googleauth
-  grape (~> 2.0.0)
+  grape (~> 2.1.0)
   grape_logging (~> 1.8.4)
   grids!
   html-pipeline (~> 2.14.0)
