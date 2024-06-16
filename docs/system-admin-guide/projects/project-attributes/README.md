@@ -72,6 +72,30 @@ You can also use the drag handles to the left of each project attribute to drag 
 
 >**Note**: Project admins can chose to enable or disable a project attribute from their project, but they cannot change the order. The order set in this page is the order in which they will appear in all projects.
 
+
+
+## Enable project attributes
+
+Under **Administration settings** → **Projects** → **Project attributes** select the *More* menu and select *Edit* or simply clicking on the name of the project attribute. This will open a detailed view of the project attribute you selected. 
+
+The *Details* tab will allow you to edit the name, section and visibility. 
+
+![OpenProject project attribute details editing](open_project_system_admin_guide_project_attributes_details.png)
+
+The *Enabled in projects* tab will show a list of all the projects this project attributes was activated in. 
+
+![Project attributes enabled in projects list in OpenProject administration](open_project_system_admin_guide_project_attributes_enabled_in_projects.png)
+
+You can remove a project attribute from a specific project by selecting the **More** menu at the end of the line and clicking the *Deactivate for this project* option.
+
+![Deactivate a project attribute for a project in OpenProject administration](open_project_system_admin_guide_project_attributes_deactivate_for_project.png)
+
+To add this project attribute to a specific project click the **+Add projects** button. A modal will appear allowing you to search for projects to add this project attribute into. Please note, that the projects, in which the project attribute is already activated will not be included in that selection. You can include subprojects. 
+
+![ Configure which projects are activated for a project attribute in OpenProject administration](open_project_system_admin_guide_project_attributes_add.png)
+
+> **Note**: please note, that it is not possible to add or remove a project attribute, if a project attribute is set to be required.
+
 ## Sections
 
 You can group project attributes into sections to better organize them.
