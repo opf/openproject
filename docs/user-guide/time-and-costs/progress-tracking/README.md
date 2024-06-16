@@ -24,6 +24,26 @@ OpenProject lets you track and monitor the progress of your work packages.
 
 >**Note**: You will still find the new attributes if you search using their older names (in the list of filters, for example).
 
+## Units of measurement
+
+[OpenProject 14.2](../../../release-notes/14-2-0/) transformed the measurement units of Work and Remaining Work from hours to **days and hours**. This allows you to input values for Work and Remaining work in different units. See the example below:
+
+- Valid inputs for 2 hours and 30 minutes:
+
+  - "2.5"
+  - "2.5h"
+  - "2h 30m"
+  - "2 hours 30 minutes"
+
+- Valid inputs for 6 days:
+
+  - "48"
+  - "48 hour"
+  - "6d 0h"
+  - "6 days"
+
+The default setting is set to be 8 hours per day. Your administrator can change [how many hours are considered a day](../../../system-admin-guide/calendars-and-dates/#working-days-and-hours). 
+
 ## Progress reporting modes
 
 OpenProject offers two modes for reporting progress:
@@ -41,7 +61,7 @@ OpenProject offers two modes for reporting progress:
 
 This means that for a work package to have a value for %&nbsp;Complete, both Work and Remaining work are required to be set. To make this link clear and transparent, clicking on *Work* or *Remaining work* to modify them will display the following pop-over:
 
-![Work estimates and progress pop-over with work-based progress reporting](progress-popover-work-based.png)
+![Work estimates and progress pop-over with work-based progress reporting](progress-popover-work-based-days.png)
 
 This allows you to edit Work or Remaining work and get a preview of the updated %&nbsp;Complete value before saving changes. Changing any one field will automatically update the other two.
 
@@ -61,7 +81,7 @@ Unlike in work-based progress reporting mode, in status-based mode, Remaining wo
 
 >**Remaining work** is **Work** times **(100% - %&nbsp;Complete)**, expressed in hours. For example, if the %&nbsp;Complete for a selected status is 50% and Work is 10h, Remaining work is automatically set to 5h.
 
-![Work estimates and progress pop-over with status-based progress reporting](progress-popover-status-based.png)
+![Work estimates and progress pop-over with status-based progress reporting](progress-popover-status-based-days.png)
 
 In Status-based progress reporting mode, Work is not a required value. However, if Work is set, Remaining work is automatically calculated. To make this link clear and transparent, clicking on the value for Work will display the following pop-over:
 
@@ -73,19 +93,17 @@ This allows you to edit %&nbsp;Complete (by changing status) or Work and get a p
 
 OpenProject will automatically show totals for Work, Remaining work and % Complete in a work package hierarchy (any parent with children). These appear in a work package table as a number with a Σ sign next to it, indicating that it is a total of the values of the parent _and_ children.
 
-![Hierarchy totals for Work, Remaining work and % Complete](hierarchy-totals.png)
+![Hierarchy totals for Work, Remaining work and % Complete](hierarchy-totals-days.png)
 
 > **Note**: The total %&nbsp;Complete value of a hierarchy is a weighted average tied to Work. For example, a feature with Work set to 50h that is 30% done will influence the total of %&nbsp;Complete of the parent more than a feature with Work set to 5h that is 70% done.
 
-<!--
 ### Excluding certain work packages from totals
 
-In some cases, you might want to exclude certain work packages (like those with status *rejected*) from total calculations of the parent. Administrators can define these exclusions by going to the [Administration settings for any status] and check a new option called "Exclude from calculation of totals in hierarchy". All work packages with this status will then be excluded when calculating the total value for the parent (for all fields: Work, Remaining work and %&nbsp;Complete).
+In some cases, you might want to exclude certain work packages (like those with status *rejected*) from total calculations of the parent. Administrators can define these exclusions by going to the [Administration settings for any status](../../../system-admin-guide/manage-work-packages/work-package-settings/) and check a new option called "Exclude from calculation of totals in hierarchy". All work packages with this status will then be excluded when calculating the total value for the parent (for all fields: Work, Remaining work and %&nbsp;Complete).
 
 A small info icon will appear next to excluded values to remind you of this fact:
 
-![Warning that a work package type is excluded from hierarchy totals](progress-work-estimates-excludedFromParent.png)
--->
+![Warning that a work package type is excluded from hierarchy totals](progress-work-estimates-excludedFromParent-days.png)
 
 ## Changing modes
 
