@@ -75,7 +75,7 @@ module API
             log.call(original_exception)
           end
 
-          error_response status: e.code, message: representer.to_json, headers: resp_headers
+          error! representer.to_json, e.code, resp_headers
         }
       end
     end
