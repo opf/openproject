@@ -34,7 +34,6 @@ module Storages
       module OneDrive
         class FilesQuery
           FIELDS = "?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference"
-          Auth = ::Storages::Peripherals::StorageInteraction::Authentication
 
           using ServiceResultRefinements
 
@@ -48,7 +47,7 @@ module Storages
           end
 
           def call(auth_strategy:, folder:)
-            Auth[auth_strategy].call(storage: @storage, http_options: { headers: { "OCS-APIRequest" => "true" } }) do |http|
+            Auth[auth_strategy].call(storage: @storage) do |http|
               call = http.get(Util.join_uri_path(@uri, children_uri_path_for(folder) + FIELDS))
               response = handle_response(call, :value)
 
@@ -73,8 +72,8 @@ module Storages
               ServiceResult.failure(result: :unauthorized,
                                     errors: Util.storage_error(response:, code: :unauthorized, source: self))
             else
-              data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
-              ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error, data:))
+              data = StorageErrorData.new(source: self.class, payload: response)
+              ServiceResult.failure(result: :error, errors: StorageError.new(code: :error, data:))
             end
           end
 
@@ -95,7 +94,7 @@ module Storages
               last_modified_at: Time.zone.parse(json_file.dig(:fileSystemInfo, :lastModifiedDateTime)),
               created_by_name: json_file.dig(:createdBy, :user, :displayName),
               last_modified_by_name: json_file.dig(:lastModifiedBy, :user, :displayName),
-              location: Util.extract_location(json_file[:parentReference], json_file[:name]),
+              location: Util.escape_path(Util.extract_location(json_file[:parentReference], json_file[:name])),
               permissions: %i[readable writeable]
             )
           end

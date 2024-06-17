@@ -46,13 +46,8 @@ module Storages
           end
 
           def call(auth_strategy:, file_id:)
-            if file_id.nil?
-              return ServiceResult.failure(
-                result: :error,
-                errors: StorageError.new(code: :error,
-                                         data: @error_data, log_message: "File ID can not be nil")
-              )
-            end
+            validation = validate_input(file_id)
+            return validation if validation.failure?
 
             requested_result = Authentication[auth_strategy].call(storage: @storage) do |http|
               @drive_item_query.call(http:, drive_item_id: file_id, fields: FIELDS)
@@ -80,6 +75,18 @@ module Storages
             end
           end
 
+          def validate_input(file_id)
+            if file_id.nil?
+              ServiceResult.failure(
+                result: :error,
+                errors: StorageError.new(code: :error,
+                                         data: @error_data, log_message: "File ID can not be nil")
+              )
+            else
+              ServiceResult.success
+            end
+          end
+
           def userless_strategy = Registry.resolve("one_drive.authentication.userless").call
 
           def storage_file_infos(json, status: "ok", status_code: 200) # rubocop:disable Metrics/AbcSize
@@ -92,7 +99,6 @@ module Storages
               size: json[:size],
               owner_name: json.dig(:createdBy, :user, :displayName),
               owner_id: json.dig(:createdBy, :user, :id),
-              trashed: false,
               permissions: nil,
               location: Util.escape_path(Util.extract_location(json[:parentReference], json[:name])),
               last_modified_at: Time.zone.parse(json.dig(:fileSystemInfo, :lastModifiedDateTime)),

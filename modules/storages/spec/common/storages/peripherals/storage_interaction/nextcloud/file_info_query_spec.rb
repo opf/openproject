@@ -31,59 +31,60 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuery, :vcr, :webmock do
+RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FileInfoQuery, :vcr, :webmock do
   let(:user) { create(:user) }
-  let(:storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user) }
-
+  let(:storage) do
+    create(:nextcloud_storage_with_local_connection, :as_not_automatically_managed, oauth_client_token_user: user)
+  end
   let(:auth_strategy) do
-    Storages::Peripherals::Registry["one_drive.authentication.userbound"].call(user:)
+    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken.strategy.with_user(user)
   end
 
   it_behaves_like "file_info_query: basic query setup"
 
   it_behaves_like "file_info_query: validating input data"
 
-  context "with a file id requested", vcr: "one_drive/file_info_query_success_file" do
-    let(:file_id) { "01AZJL5PNCQCEBFI3N7JGZSX5AOX32Z3LA" }
+  context "with a file id requested", vcr: "nextcloud/file_info_query_success_file" do
+    let(:file_id) { "267" }
     let(:file_info) do
       Storages::StorageFileInfo.new(
         id: file_id,
         status: "ok",
         status_code: 200,
-        name: "NextcloudHub.md",
-        size: 1095,
-        mime_type: "application/octet-stream",
-        created_at: Time.parse("2023-09-26T14:45:25Z"),
-        last_modified_at: Time.parse("2023-09-26T14:46:13Z"),
-        owner_name: "Eric Schubert",
-        owner_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
-        last_modified_by_name: "Eric Schubert",
-        last_modified_by_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
-        permissions: nil,
-        location: "/Folder/Subfolder/NextcloudHub.md"
+        name: "android-studio-linux.tar.gz",
+        size: 982713473,
+        mime_type: "application/gzip",
+        created_at: Time.parse("1970-01-01T00:00:00Z"),
+        last_modified_at: Time.parse("2022-12-01T07:43:36Z"),
+        owner_name: "admin",
+        owner_id: "admin",
+        last_modified_by_name: nil,
+        last_modified_by_id: nil,
+        permissions: "RGDNVW",
+        location: "/Folder/android-studio-linux.tar.gz"
       )
     end
 
     it_behaves_like "file_info_query: successful file/folder response"
   end
 
-  context "with a folder id requested", vcr: "one_drive/file_info_query_success_folder" do
-    let(:file_id) { "01AZJL5PNQYF5NM3KWYNA3RJHJIB2XMMMB" }
+  context "with a folder id requested", vcr: "nextcloud/file_info_query_success_folder" do
+    let(:file_id) { "350" }
     let(:file_info) do
       Storages::StorageFileInfo.new(
         id: file_id,
         status: "ok",
         status_code: 200,
         name: "Ümlæûts",
-        size: 20789,
+        size: 19720,
         mime_type: "application/x-op-directory",
-        created_at: Time.parse("2023-10-09T15:26:32Z"),
-        last_modified_at: Time.parse("2023-10-09T15:26:32Z"),
-        owner_name: "Eric Schubert",
-        owner_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
-        last_modified_by_name: "Eric Schubert",
-        last_modified_by_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
-        permissions: nil,
+        created_at: Time.parse("1970-01-01T00:00:00Z"),
+        last_modified_at: Time.parse("2024-04-29T09:21:03Z"),
+        owner_name: "admin",
+        owner_id: "admin",
+        last_modified_by_name: nil,
+        last_modified_by_id: nil,
+        permissions: "RGDNVCK",
         location: "/Folder/%C3%9Cml%C3%A6%C3%BBts"
       )
     end
@@ -92,33 +93,33 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
   end
 
   context "with a file with special characters in the path",
-          vcr: "one_drive/file_info_query_success_special_characters" do
-    let(:file_id) { "01AZJL5PITB4FWUTEDCZGLV3WXG5TJX5A2" }
+          vcr: "nextcloud/file_info_query_success_special_characters" do
+    let(:file_id) { "361" }
     let(:file_info) do
       Storages::StorageFileInfo.new(
         id: file_id,
         status: "ok",
         status_code: 200,
-        name: "what_have_you_done.png",
-        size: 226985,
-        mime_type: "image/png",
-        created_at: Time.parse("2024-06-17T09:37:58Z"),
-        last_modified_at: Time.parse("2024-06-17T09:38:15Z"),
-        owner_name: "Eric Schubert",
-        owner_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
-        last_modified_by_name: "Eric Schubert",
-        last_modified_by_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
-        permissions: nil,
-        location: "/Folder%20with%20spaces/%C3%9Cml%C3%A4uts%20%26%20spe%C2%A2i%C3%A6l%20characters/what_have_you_done.png"
+        name: "what_have_you_done.md",
+        size: 0,
+        mime_type: "text/markdown",
+        created_at: Time.parse("1970-01-01T00:00:00Z"),
+        last_modified_at: Time.parse("2024-06-17T09:51:59Z"),
+        owner_name: "admin",
+        owner_id: "admin",
+        last_modified_by_name: nil,
+        last_modified_by_id: nil,
+        permissions: "RGDNVW",
+        location: "/Folder%20with%20spaces/%C3%9Cml%C3%A4uts%20%26%20spe%C2%A2i%C3%A6l%20characters/what_have_you_done.md"
       )
     end
 
     it_behaves_like "file_info_query: successful file/folder response"
   end
 
-  context "with a not existing file id", vcr: "one_drive/file_info_query_not_found" do
+  context "with a not existing file id", vcr: "nextcloud/file_info_query_not_found" do
     let(:file_id) { "not_existent" }
-    let(:error_source) { Storages::Peripherals::StorageInteraction::OneDrive::Internal::DriveItemQuery }
+    let(:error_source) { described_class }
 
     it_behaves_like "file_info_query: not found"
   end

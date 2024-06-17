@@ -166,7 +166,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
                        created_by_name: "Eric Schubert",
                        last_modified_at: "2023-10-09T15:27:25Z",
                        last_modified_by_name: "Eric Schubert",
-                       location: "/Folder/Ümlæûts/Anrüchiges deutsches Dokument.docx",
+                       location: "/Folder/%C3%9Cml%C3%A6%C3%BBts/Anr%C3%BCchiges%20deutsches%20Dokument.docx",
                        mime_type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                        permissions: %i[readable writeable]
                      }
