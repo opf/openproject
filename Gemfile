@@ -215,7 +215,7 @@ gem "dry-container"
 gem "store_attribute", "~> 1.0"
 
 # Appsignal integration
-gem "appsignal", "~> 3.0", require: false
+gem "appsignal", "~> 3.8.1", require: false
 
 gem "view_component"
 # Lookbook
