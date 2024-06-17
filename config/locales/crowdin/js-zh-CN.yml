@@ -367,7 +367,7 @@ zh-CN:
           "14_2":
             standard:
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
+                该版本包含各种新功能和改进： <br> <ul class="%{list_styling_class}"> <li>为工作、剩余工时和工作时间设置更多单位</li> <li>为项目属性配置激活哪些项目</li> <li>重命名私人项目列表</li> <li>在出现 @mentions 的情况下避免多余的电子邮件提醒</li> <li>通过电子邮件邀请会议与会者</li> <li>在 PDF 导出中显示嵌入的工作包属性</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"
@@ -1356,4 +1356,4 @@ zh-CN:
         network_off: "网络有问题。"
         network_on: "网络已恢复。我们正在努力。"
         timeout: >
-          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.
+          OpenProject 无法让您在预期时间内访问项目文件夹。请再试一次。<br><br> 如果问题仍然存在，请联系 OpenProject 管理员检查<a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">文件存储设置的健康状态</a>。
