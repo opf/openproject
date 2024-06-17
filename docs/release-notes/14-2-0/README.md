@@ -52,8 +52,6 @@ In the screenshot, the three-dot menu on the right is selected. With one click, 
 
 With the release of OpenProject 14.2, we avoid sending redundand emails: Users who are @mentioned in a work package will still receive immediate emails based on their email reminder settings. But if an email has already been sent for an @mention (assuming the user has activated the option ‘Immediately when someone @mentions me’ in the email notifications), subsequent notifications with mentions as the primary reason will not be included in the email reminder.
 
-https://community.openproject.org/wp/50140
-
 ### Allow renaming persisted project lists
 
 Regarding project portfolio management, users can now not only create and save a private custom project list, but also rename it. This saves time since previously, you would have had to create a new project list to change the name.
@@ -70,9 +68,7 @@ In addition to this feature, the default view for meetings module was changed to
 
 ### Embedded work package attributes in PDF export
 
-With OpenProject 14.2, embedded attributes within a work package description are displayed correctly in the PDF export. This means that in the exported PDF, the work package description may contain custom text fields, which now support [embedded work package and project attributes](https://www.openproject.org/docs/user-guide/wysiwyg/#embedding-of-work-package-attributes-and-project-attributes).
-
-https://community.openproject.org/wp/54377/
+With OpenProject 14.2, [embedded attributes within a work package description](https://www.openproject.org/docs/user-guide/wysiwyg/#embedding-of-work-package-attributes-and-project-attributes) (and long text custom fields) are displayed in the PDF export as on OpenProject. This means you can reference values from work packages with placeholders, and on export these are replaced by their actual value of a project or work package attributes.
 
 ## Bug fixes and changes
 
