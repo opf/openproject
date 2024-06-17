@@ -32,8 +32,13 @@ RSpec.describe "Project Custom Field Mappings", :js do
   shared_let(:admin) { create(:admin) }
   shared_let(:non_admin) { create(:user) }
   shared_let(:project) { create(:project) }
+  shared_let(:archived_project) { create(:project, active: false) }
   shared_let(:project_custom_field) { create(:project_custom_field) }
   shared_let(:project_custom_field_mapping) { create(:project_custom_field_project_mapping, project_custom_field:, project:) }
+
+  shared_let(:archived_project_custom_field_mapping) do
+    create(:project_custom_field_project_mapping, project_custom_field:, project: archived_project)
+  end
 
   let(:project_custom_field_mappings_page) { Pages::Admin::Settings::ProjectCustomFields::ProjectCustomFieldMappingsIndex.new }
 
@@ -65,13 +70,18 @@ RSpec.describe "Project Custom Field Mappings", :js do
       aggregate_failures "shows tab navigation" do
         within_test_selector("project_attribute_detail_header") do
           expect(page).to have_link("Details")
-          expect(page).to have_link("Projects")
+          expect(page).to have_link("Enabled in projects")
         end
       end
 
       aggregate_failures "shows the correct project mappings" do
         within "#project-table" do
           expect(page).to have_text(project.name)
+          expect(page).to have_text(archived_project.name)
+
+          within("tr#settings-project-custom-fields-project-custom-field-mapping-row-component-project-#{archived_project.id}") do
+            expect(page.find(".buttons")).not_to have_test_selector("project-list-row--action-menu")
+          end
         end
       end
 
@@ -90,6 +100,9 @@ RSpec.describe "Project Custom Field Mappings", :js do
       within_test_selector("settings--new-project-custom-field-mapping-component") do
         autocompleter = page.find(".op-project-autocompleter")
         autocompleter.fill_in with: project.name
+
+        expect(page).to have_no_text(archived_project.name)
+
         find(".ng-option-label", text: project.name).click
         check "Include sub-projects"
 

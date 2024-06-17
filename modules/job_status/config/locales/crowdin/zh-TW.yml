@@ -1,5 +1,5 @@
 zh-TW:
-  label_job_status_plural: "Job statuses"
+  label_job_status_plural: "工作狀態"
   plugin_openproject_job_status:
     name: "OpenProject Job status"
     description: "Listing and status of background jobs."

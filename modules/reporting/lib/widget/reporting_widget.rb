@@ -31,6 +31,7 @@ class Widget::ReportingWidget < ActionView::Base
   include ActionView::Helpers::AssetTagHelper
   include ActionView::Helpers::FormTagHelper
   include ActionView::Helpers::JavaScriptHelper
+  include ActionView::Helpers::OutputSafetyHelper
   include Rails.application.routes.url_helpers
   include ApplicationHelper
   include ReportingHelper

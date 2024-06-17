@@ -300,6 +300,8 @@ de:
         new_project_mapping_form:
           add_projects: Projekte erstellen
           include_sub_projects: Andere Projekte einbeziehen
+        project_mappings:
+          header: Enabled in projects
       types:
         no_results_title_text: Derzeit stehen keine Typen zur Verfügung.
         form:

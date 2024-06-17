@@ -46,7 +46,7 @@ pt-PT:
   permission_delete_files_explanation: Esta permissão só está disponível para os armazenamentos Nextcloud
   permission_header_for_project_module_storages: Pastas do projeto geridas automaticamente
   permission_manage_file_links: Gerir hiperligações de ficheiro
-  permission_manage_storages_in_project: Gerir armazenamentos de ficheiros no projeto
+  permission_manage_files_in_project: Manage files in project
   permission_read_files: 'Pastas do projeto geridas automaticamente: Ler ficheiros'
   permission_share_files: 'Pastas do projeto geridas automaticamente: Partilhar ficheiros'
   permission_share_files_explanation: Esta permissão só está disponível para os armazenamentos Nextcloud

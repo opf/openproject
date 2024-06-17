@@ -303,6 +303,8 @@ ckb-IR:
         new_project_mapping_form:
           add_projects: Add projects
           include_sub_projects: Include sub-projects
+        project_mappings:
+          header: Enabled in projects
       types:
         no_results_title_text: There are currently no types available.
         form:

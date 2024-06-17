@@ -120,7 +120,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
                    last_modified_by_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
                    permissions: nil,
                    trashed: false,
-                   location: "/Folder/Ümlæûts"
+                   location: "/Folder/%C3%9Cml%C3%A6%C3%BBts"
                  })
       end
     end
