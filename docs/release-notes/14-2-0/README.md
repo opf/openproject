@@ -70,6 +70,8 @@ In addition to this feature, the default view for meetings module was changed to
 
 With OpenProject 14.2, [embedded attributes within a work package description](https://www.openproject.org/docs/user-guide/wysiwyg/#embedding-of-work-package-attributes-and-project-attributes) (and long text custom fields) are displayed in the PDF export as on OpenProject. This means you can reference values from work packages with placeholders, and on export these are replaced by their actual value of a project or work package attributes.
 
+![Two screenshos, one showing embedded work package attributes and the other the exported PDF](openproject-14-2-pdf-export-attributes.png)
+
 ## Bug fixes and changes
 
 <!-- Warning: Anything within the below lines will be automatically removed by the release script -->
