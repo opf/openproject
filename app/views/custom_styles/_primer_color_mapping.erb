@@ -52,12 +52,9 @@
     --header-item-bg-hover-color: var(--control-transparent-bgColor-hover);
     --header-item-font-hover-color: var(--fgColor-default);
     --header-border-bottom-color: var(--borderColor-muted) !important;
-    --main-menu-bg-color: var(--page-header-bgColor);
     --main-menu-hover-font-color: var(--fgColor-default);
     --main-menu-bg-selected-background: var(--control-transparent-bgColor-hover);
     --main-menu-bg-hover-background: var(--control-transparent-bgColor-hover);
-    --main-menu-font-color: var(--fgColor-default);
-    --main-menu-selected-font-color: var(--fgColor-default);
     --main-menu-border-color: var(--borderColor-muted);
     --main-menu-resizer-color: var(--borderColor-muted);
     --main-menu-fieldset-header-color: var(--fgColor-muted) !important;
@@ -68,6 +65,9 @@
   [data-light-theme=light_high_contrast] {
     --main-menu-hover-border-color: var(--fgColor-default) !important;
     --main-menu-bg-selected-border: var(--fgColor-default);
+    --main-menu-bg-color: var(--page-header-bgColor);
+    --main-menu-font-color: var(--fgColor-default);
+    --main-menu-selected-font-color: var(--fgColor-default);
     --accent-color: var(--fgColor-accent);
     --link-text-decoration: underline;
     --button--primary-font-color:  var(--button-primary-fgColor-rest);
@@ -80,5 +80,6 @@
   [data-dark-theme=dark] {
       --accent-color: var(--accent-color--dark-mode);
       --primary-button-color: var(--primary-button-color--dark-mode);
+      --main-menu-bg-color: var(--overlay-bgColor);
   }
 </style>
