@@ -13,13 +13,13 @@ Navigate to **Administration → Calendar and dates**.
 
 | Topic                                             | Content                                                      |
 | ------------------------------------------------- | ------------------------------------------------------------ |
-| [Working days](#working-days)                     | Define which days of the week are considered working days for scheduling and calculation of duration. |
+| [Working days](#working-days-and-hours)           | Define which days of the week are considered working days for scheduling and calculation of duration. |
 | [Date format](#date-format)                       | Change time and date formats.                                |
 | [Calendar subscriptions](#calendar-subscriptions) | Allow users to subscribe to calendars.                       |
 
 ## Working days and hours
 
-Administrators are able to define how many hours are conidered a day and  which days of the week are considered working days at an instance level. In other words, this setting defines what OpenProject should consider to be a normal work week when scheduling work packages.
+Administrators are able to define how many hours are considered a day and which days of the week are considered working days at an instance level. In other words, this setting defines what OpenProject should consider to be a normal work week when scheduling work packages.
 
 To change this setting, navigate to **Working days** inside of the **Calendar and dates** settings.
 
