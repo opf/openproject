@@ -59,6 +59,8 @@ module Storages
               ServiceResult.success
             in { status: 401 }
               ServiceResult.failure(result: :unauthorized, errors: ::Storages::StorageError.new(code: :unauthorized))
+            in { status: 403 }
+              ServiceResult.failure(result: :forbidden, errors: ::Storages::StorageError.new(code: :forbidden))
             else
               data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
               ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error, data:))

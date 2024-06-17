@@ -181,7 +181,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
       it "must return not found" do
         result = described_class.call(storage:, auth_strategy:, folder:)
         expect(result).to be_failure
-        expect(result.error_source).to be_a(described_class)
+        expect(result.error_source).to eq(described_class)
 
         result.match(
           on_failure: ->(error) { expect(error.code).to eq(:not_found) },
