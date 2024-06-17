@@ -302,6 +302,8 @@ ru:
         new_project_mapping_form:
           add_projects: Добавить проекты
           include_sub_projects: Включить подпроекты
+        project_mappings:
+          header: Включено в проектах
       types:
         no_results_title_text: На данный момент доступных типов нет.
         form:

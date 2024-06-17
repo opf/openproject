@@ -26,39 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Widget::Filters::MultiChoice < Widget::Filters::Base
-  # rubocop:disable Metrics/AbcSize
-  def render
-    filter_name = filter_class.underscore_name
-    result = content_tag :div, id: "#{filter_name}_arg_1", class: "advanced-filters--filter-value" do
-      choices = filter_class.available_values.each_with_index.map do |(label, value), i|
-        opts = {
-          type: "radio",
-          name: "values[#{filter_name}][]",
-          id: "#{filter_name}_radio_option_#{i}",
-          value:
-        }
-        opts[:checked] = "checked" if filter.values == [value].flatten
-        radio_button = tag :input, opts
-        content_tag :label, radio_button + translate(label),
-                    for: "#{filter_name}_radio_option_#{i}",
-                    "data-filter-name": filter_class.underscore_name,
-                    class: "#{filter_name}_radio_option filter_radio_option"
-      end
-      content_tag :div, safe_join(choices),
-                  id: "#{filter_class.underscore_name}_arg_1_val"
-    end
-    write result
+module CustomActions::Actions::Strategies::Link
+  include CustomActions::Actions::Strategies::ValuesToString
+
+  def type
+    :link_property
   end
-  # rubocop:enable Metrics/AbcSize
+
+  def validate(errors)
+    if values.first.present?
+      validate_link_value(errors, values.first)
+    end
+    super
+  end
 
   private
 
-  def translate(label)
-    if label.is_a?(Symbol)
-      ::I18n.t(label)
-    else
-      label
+  def validate_link_value(errors, value)
+    strategy = CustomValue::LinkStrategy.new(CustomValue.new(custom_field:, value:))
+    validation_error = strategy.validate_type_of_value
+    if validation_error
+      errors.add human_name, validation_error
     end
   end
 end

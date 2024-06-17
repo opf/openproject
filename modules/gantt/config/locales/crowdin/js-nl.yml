@@ -2,5 +2,5 @@ nl:
   js:
     queries:
       all_open: 'Alles open'
-      timeline: 'Timeline'
+      timeline: 'Tijdlijn'
       milestones: 'Mijlpalen'

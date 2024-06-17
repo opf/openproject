@@ -1360,4 +1360,4 @@
         network_off: "Det er et nettverksproblem."
         network_on: "Nettverket er tilbake. Vi prøver igjen."
         timeout: >
-          OpenProject kunne ikke gi deg tilgang til prosjektmappen i løpet av den forventede tiden. Vennligst prøv igjen.<br><br> Hvis dette problemet vedvarer, kontakt din OpenProject-administrator for å sjekke <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">statusen på fillagringsoppsettet</a>.
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

@@ -57,6 +57,12 @@ RSpec.describe ChronicDuration do
     }
 
     context "when string can't be parsed" do
+      let(:raise_exception) { false }
+
+      before do
+        allow(described_class).to receive(:raise_exceptions).and_return(raise_exception)
+      end
+
       it "returns nil" do
         expect(described_class.parse("gobblygoo")).to be_nil
       end
@@ -66,10 +72,10 @@ RSpec.describe ChronicDuration do
       end
 
       context "when @@raise_exceptions set to true" do
+        let(:raise_exception) { true }
+
         it "raises with ChronicDuration::DurationParseError" do
-          described_class.raise_exceptions = true
           expect { described_class.parse("23 gobblygoos") }.to raise_error(ChronicDuration::DurationParseError)
-          described_class.raise_exceptions = false
         end
       end
     end

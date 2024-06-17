@@ -101,7 +101,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           result: ::Storages::StorageFileInfo.new(
             status: data.status,
             status_code: data.statuscode,
-            id: data.id,
+            id: data.id.to_s,
             name: data.name,
             last_modified_at: Time.zone.at(data.mtime),
             created_at: Time.zone.at(data.ctime),

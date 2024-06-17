@@ -46,7 +46,7 @@ ru:
   permission_delete_files_explanation: Это разрешение доступно только для хранилищ Nextcloud
   permission_header_for_project_module_storages: Автоматически управляемые папки проектов
   permission_manage_file_links: Управление ссылками файлов
-  permission_manage_storages_in_project: Управление файловыми хранилищами в проекте
+  permission_manage_files_in_project: Управление файлами в проекте
   permission_read_files: 'Автоматически управляемые папки проекта: Чтение файлов'
   permission_share_files: 'Автоматически управляемые папки проекта: Делиться файлами'
   permission_share_files_explanation: Это разрешение доступно только для хранилищ Nextcloud
