@@ -301,7 +301,7 @@ zh-CN:
           add_projects: 添加项目
           include_sub_projects: 包含子项目
         project_mappings:
-          header: Enabled in projects
+          header: 已在项目中启用
       types:
         no_results_title_text: 目前有可用的类型。
         form:

@@ -46,7 +46,7 @@ zh-CN:
   permission_delete_files_explanation: 此权限仅适用于 Nextcloud 存储器
   permission_header_for_project_module_storages: 自动托管项目文件夹
   permission_manage_file_links: 管理文件链接
-  permission_manage_files_in_project: Manage files in project
+  permission_manage_files_in_project: 管理项目中的文件存储
   permission_read_files: '自动管理项目文件夹：读取文件'
   permission_share_files: '自动管理项目文件夹：共享文件'
   permission_share_files_explanation: 此权限仅适用于 Nextcloud 存储器
