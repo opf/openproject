@@ -53,7 +53,7 @@ module Storages
               @drive_item_query.call(http:, drive_item_id: file_id, fields: FIELDS)
             end
 
-            requested_result.on_success { |sr| return ServiceResult.success(result: storage_file_infos(sr.result)) }
+            requested_result.on_success { |sr| return ServiceResult.success(result: storage_file_info(sr.result)) }
             requested_result.on_failure do |sr|
               return sr unless sr.result == :not_found && auth_strategy.user.present?
 
@@ -70,7 +70,7 @@ module Storages
 
             admin_result.on_success do |admin_query|
               return ServiceResult.success(
-                result: storage_file_infos(admin_query.result, status: "forbidden", status_code: 403)
+                result: storage_file_info(admin_query.result, status: "forbidden", status_code: 403)
               )
             end
           end
@@ -89,7 +89,7 @@ module Storages
 
           def userless_strategy = Registry.resolve("one_drive.authentication.userless").call
 
-          def storage_file_infos(json, status: "ok", status_code: 200) # rubocop:disable Metrics/AbcSize
+          def storage_file_info(json, status: "ok", status_code: 200) # rubocop:disable Metrics/AbcSize
             StorageFileInfo.new(
               status:,
               status_code:,

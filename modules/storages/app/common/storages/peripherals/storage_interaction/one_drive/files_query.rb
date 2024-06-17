@@ -47,7 +47,7 @@ module Storages
           end
 
           def call(auth_strategy:, folder:)
-            Auth[auth_strategy].call(storage: @storage) do |http|
+            Authentication[auth_strategy].call(storage: @storage) do |http|
               call = http.get(Util.join_uri_path(@uri, children_uri_path_for(folder) + FIELDS))
               response = handle_response(call, :value)
 
