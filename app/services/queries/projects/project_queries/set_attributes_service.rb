@@ -81,6 +81,9 @@ class Queries::Projects::ProjectQueries::SetAttributesService < BaseServices::Se
     return unless orders
 
     model.orders.clear
+    if has_latest_activity_at?(orders)
+      model.set_model(Project.with_latest_activity)
+    end
     model.order(orders.to_h { |o| [o[:attribute], o[:direction]] })
   end
 
@@ -93,5 +96,9 @@ class Queries::Projects::ProjectQueries::SetAttributesService < BaseServices::Se
 
   def default_columns
     (["favored", "name"] + Setting.enabled_projects_columns).uniq
+  end
+
+  def has_latest_activity_at?(orders)
+    orders.any? { |order| order[:attribute] == "latest_activity_at" }
   end
 end

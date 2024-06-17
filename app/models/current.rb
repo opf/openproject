@@ -26,45 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::ProjectQuery < ApplicationRecord
-  include Queries::BaseQuery
-  include Queries::Serialization::Hash
-
-  belongs_to :user
-
-  serialize :filters, coder: Queries::Serialization::Filters.new(self)
-  serialize :orders, coder: Queries::Serialization::Orders.new(self)
-  serialize :selects, coder: Queries::Serialization::Selects.new(self)
-
-  scope :public_lists, -> { where(public: true) }
-  scope :private_lists, ->(user: User.current) { where(public: false, user:) }
-
-  scope :visible, ->(user = User.current) {
-                    public_lists.or(private_lists(user:))
-                  }
-
-  def visible?(user = User.current)
-    public? || user == self.user
-  end
-
-  def self.model
-    Current.project_model ||= Project
-  end
-
-  def set_model(model)
-    Current.project_model = model
-  end
-
-  def default_scope
-    # Cannot simply use .visible here as it would
-    # filter out archived projects for everybody.
-    if User.current.admin?
-      super
-    else
-      # Directly appending the .visible scope adds a
-      # distinct which then requires every column used e.g. for ordering
-      # to be in select.
-      super.where(id: Project.visible)
-    end
-  end
+class Current < ActiveSupport::CurrentAttributes
+  attribute :project_model
 end
