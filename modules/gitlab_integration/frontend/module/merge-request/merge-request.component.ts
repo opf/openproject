@@ -72,4 +72,11 @@ export class MergeRequestComponent {
     labelsElement.style.display = labelsElement.style.display === 'none' ? 'block' : 'none';
   }
 
+  get pipelineIconClass():string {
+    return this.mergeRequest.pipelines ? 'op-merge-request--pipeline-icon_' + this.mergeRequest.pipelines[0].status : '';
+  }
+
+  isCurrentPipelinestate(status:string):boolean {
+    return !!this.mergeRequest.pipelines && this.mergeRequest.pipelines[0].status === status;
+  }
 }
