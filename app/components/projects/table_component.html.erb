@@ -104,5 +104,5 @@ See COPYRIGHT and LICENSE files for more details.
 </div>
 
 <% if paginated? %>
-  <%= helpers.pagination_links_full model, allowed_params: %i[query_id filters columns sortBy] %>
+  <%= helpers.pagination_links_full model, pagination_options %>
 <% end %>
