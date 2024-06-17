@@ -37,117 +37,114 @@ class Widget::Table::ReportTable < Widget::Table
     end
   end
 
+  # rubocop:disable Metrics/AbcSize
   def configure_walker
     @walker ||= @subject.walker
     @walker.for_final_row do |row, cells|
-      html = "<th scope='row' class='normal inner left -break-word'>#{show_row row}#{debug_fields(row)}</th>"
-      html << cells.join
-      html << "<td class='normal inner right'>#{show_result(row)}#{debug_fields(row)}</th>"
-      html.html_safe
+      content_tag(:th, class: "normal inner left -break-word", scope: "row") do
+        concat show_row(row)
+        concat safe_join(cells)
+        concat content_tag(:td, show_result(row), class: "normal inner right")
+      end
     end
 
     @walker.for_row do |row, subrows|
       subrows.flatten!
       unless row.fields.empty?
-        subrows[0] = %{
-            <th class='top left -break-word' rowspan='#{subrows.size}'>#{show_row row}#{debug_fields(row)}</th>
-              #{subrows[0].gsub("class='normal", "class='top")}
-            <th class='top right' rowspan='#{subrows.size}'>#{show_result(row)}#{debug_fields(row)}</th>
-          }.html_safe
+        subrows[0] = capture do
+          concat content_tag(:th, show_row(row), class: "top left -breakword", rowspan: subrows.size)
+          concat html_safe_gsub(subrows[0], "class='normal", "class='top")
+          concat content_tag(:th, show_result(row), class: "top right", rowspan: subrows.size)
+        end
       end
-      subrows.last.gsub!("class='normal", "class='bottom")
-      subrows.last.gsub!("class='top", "class='bottom top")
+      subrows[-1] = html_safe_gsub(subrows.last, "class='normal", "class='bottom")
+      subrows[-1] = html_safe_gsub(subrows.last, "class='top", "class='bottom top")
+
       subrows
     end
 
     @walker.for_empty_cell { "<td class='normal empty'>&nbsp;</td>".html_safe }
 
     @walker.for_cell do |result|
-      write(" ".html_safe) # XXX: This keeps the Apache from timing out on us. Keep-Alive byte!
-      "<td class='normal right'>#{show_result result}#{debug_fields(result)}</td>".html_safe
+      content_tag(:td, show_result(result), class: "normal right")
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   def render
     configure_query
     configure_walker
-    write "<table class='report'>"
+    write "<table class='report'>".html_safe
     render_thead
     render_tfoot
     render_tbody
-    write "</table>"
+    write "</table>".html_safe
   end
 
   def render_tbody
-    write "<tbody>"
+    write "<tbody>".html_safe
     first = true
     odd = true
     walker.body do |line|
       if first
-        line.gsub!("class='normal", "class='top")
+        line = html_safe_gsub(line, "class='normal", "class='top")
         first = false
       end
-      mark_penultimate_column! line
-      write "<tr class='#{odd ? 'odd' : 'even'}'>#{line}</tr>"
+      line = mark_penultimate_column(line)
+      write content_tag(:tr, line, class: odd ? "odd" : "even")
       odd = !odd
     end
-    write "</tbody>"
+    write "</tbody>".html_safe
   end
 
-  def mark_penultimate_column!(line)
-    line.gsub! /(<td class='([^']+)'[^<]+<\/td>)[^<]*<th .+/ do |m|
+  def mark_penultimate_column(line)
+    html_safe_gsub(line, /(<td class='([^']+)'[^<]+<\/td>)[^<]*<th .+/) do |m|
       m.sub /class='([^']+)'/, 'class=\'\1 penultimate\''
     end
   end
 
+  # rubocop:disable Metrics/AbcSize
   def render_thead
-    return if (walker.headers || true) and walker.headers_empty?
+    walker.headers
+    return if walker.headers_empty?
 
-    write "<thead>"
+    write "<thead>".html_safe
     walker.headers do |list, first, first_in_col, last_in_col|
-      write "<tr>" if first_in_col
+      write "<tr>".html_safe if first_in_col
       if first
-        write(content_tag(:th, rowspan: @subject.depth_of(:column), colspan: @subject.depth_of(:row)) do
-          ""
-        end)
+        write(content_tag(:th, "", rowspan: @subject.depth_of(:column), colspan: @subject.depth_of(:row)))
       end
       list.each do |column|
         opts = { colspan: column.final_number(:column) }
-        opts.merge!(class: "inner") if column.final?(:column)
+        opts[:class] = "inner" if column.final?(:column)
         write(content_tag(:th, opts) do
           show_row column
         end)
       end
       if first
-        write(content_tag(:th, rowspan: @subject.depth_of(:column), colspan: @subject.depth_of(:row)) do
-          ""
-        end)
+        write(content_tag(:th, "", rowspan: @subject.depth_of(:column), colspan: @subject.depth_of(:row)))
       end
-      write "</tr>" if last_in_col
+      write "</tr>".html_safe if last_in_col
     end
-    write "</thead>"
+    write "</thead>".html_safe
   end
 
   def render_tfoot
     return if walker.headers_empty?
 
-    write "<tfoot>"
+    write "<tfoot>".html_safe
     walker.reverse_headers do |list, first, first_in_col, last_in_col|
       if first_in_col
-        write "<tr>"
+        write "<tr>".html_safe
         if first
-          write(content_tag(:th, rowspan: @subject.depth_of(:column), colspan: @subject.depth_of(:row), class: "top") do
-            " "
-          end)
+          write(content_tag(:th, " ", rowspan: @subject.depth_of(:column), colspan: @subject.depth_of(:row), class: "top"))
         end
       end
 
       list.each do |column|
         opts = { colspan: column.final_number(:column) }
-        opts.merge!(class: "inner") if first
-        write(content_tag(:th, opts) do
-          show_result(column) # {debug_fields(column)}
-        end)
+        opts[:class] = "inner" if first
+        write(content_tag(:th, show_result(column), opts))
       end
       if last_in_col
         if first
@@ -158,32 +155,10 @@ class Widget::Table::ReportTable < Widget::Table
                   show_result @subject
                 end)
         end
-        write "</tr>"
+        write "</tr>".html_safe
       end
     end
-    write "</tfoot>"
+    write "</tfoot>".html_safe
   end
-
-  def debug_content
-    content_tag :pre do
-      debug_pre_content = "[ Query ]" +
-                          @subject.chain.each do |child|
-                            "#{h child.class.inspect}, #{h child.type}"
-                          end
-
-      debug_pre_content += "[ RESULT ]"
-      @subject.result.recursive_each_with_level do |level, result|
-        debug_pre_content += ">>> " * (level + 1)
-        debug_pre_content += h(result.inspect)
-        debug_pre_content += "   " * (level + 1)
-        debug_pre_content += h(result.type.inspect)
-        debug_pre_content += "   " * (level + 1)
-        debug_pre_content += h(result.fields.inspect)
-      end
-      debug_pre_content += "[ HEADER STACK ]"
-      debug_pre_content += walker.header_stack.each do |l|
-        ">>> #{l.inspect}"
-      end
-    end
-  end
+  # rubocop:enable Metrics/AbcSize
 end
