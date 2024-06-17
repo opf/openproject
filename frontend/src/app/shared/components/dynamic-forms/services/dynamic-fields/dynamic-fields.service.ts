@@ -34,6 +34,15 @@ export class DynamicFieldsService {
     },
     {
       config: {
+        type: 'textInput',
+        templateOptions: {
+          type: 'text',
+        },
+      },
+      useForFields: ['Link'],
+    },
+    {
+      config: {
         type: 'integerInput',
         templateOptions: {
           type: 'number',

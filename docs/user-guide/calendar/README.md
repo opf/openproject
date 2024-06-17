@@ -11,7 +11,7 @@ keywords: calendar, ical, month, week, view
 
 The Calendar module gives you an overview of work packages scheduled in a particular month or week. This makes it easier to track and follow multiple parallel tasks and get a sense of how a project will evolve (or has evolved) over time.
 
-You must first enable the Calendar module in your [project settings](../projects/project-settings/ "Link to documentation on project settings") to use it.
+You must first enable the Calendar module in your [project settings](../projects/project-settings/modules) to use it.
 
 | Topic                                               | Content                                                      |
 | --------------------------------------------------- | ------------------------------------------------------------ |
