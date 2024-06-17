@@ -82,7 +82,7 @@ module Storages
 
           def userless_strategy = Registry.resolve("one_drive.authentication.userless").call
 
-          def storage_file_infos(json, status: "ok", status_code: 200)
+          def storage_file_infos(json, status: "ok", status_code: 200) # rubocop:disable Metrics/AbcSize
             StorageFileInfo.new(
               status:,
               status_code:,
@@ -94,7 +94,7 @@ module Storages
               owner_id: json.dig(:createdBy, :user, :id),
               trashed: false,
               permissions: nil,
-              location: Util.extract_location(json[:parentReference], json[:name]),
+              location: Util.escape_path(Util.extract_location(json[:parentReference], json[:name])),
               last_modified_at: Time.zone.parse(json.dig(:fileSystemInfo, :lastModifiedDateTime)),
               created_at: Time.zone.parse(json.dig(:fileSystemInfo, :createdDateTime)),
               last_modified_by_name: json.dig(:lastModifiedBy, :user, :displayName),
