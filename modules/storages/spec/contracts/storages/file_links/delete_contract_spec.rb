@@ -45,11 +45,11 @@ RSpec.describe Storages::FileLinks::DeleteContract do
   end
 
   # Default test setup should be valid ("happy test setup").
-  # This tests works with manage_storages_in_project permissions for current_user.
+  # This tests works with manage_files_in_project permissions for current_user.
   it_behaves_like "contract is valid"
 
   # Now we remove the permissions from the user by creating a role without special perms.
-  context "without manage_storages_in_project permission for project" do
+  context "without manage_files_in_project permission for project" do
     let(:role) { create(:project_role) }
 
     it_behaves_like "contract is invalid"

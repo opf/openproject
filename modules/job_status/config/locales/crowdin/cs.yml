@@ -1,4 +1,5 @@
 cs:
+  label_job_status_plural: "Job statuses"
   plugin_openproject_job_status:
     name: "Stav úlohy OpenProject"
     description: "Seznam a stav úkolů na pozadí."

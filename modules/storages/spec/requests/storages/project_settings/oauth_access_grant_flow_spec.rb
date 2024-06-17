@@ -33,7 +33,7 @@ RSpec.describe "GET /projects/:project_id/settings/project_storages/:id/oauth_ac
   shared_let(:user) { create(:user, preferences: { time_zone: "Etc/UTC" }) }
 
   shared_let(:role) do
-    create(:project_role, permissions: %i[manage_storages_in_project
+    create(:project_role, permissions: %i[manage_files_in_project
                                           oauth_access_grant
                                           select_project_modules
                                           edit_project])

@@ -46,7 +46,7 @@ es:
   permission_delete_files_explanation: Este permiso solo está disponible para los almacenamientos Nextcloud
   permission_header_for_project_module_storages: Carpetas de proyecto gestionadas automáticamente
   permission_manage_file_links: Administrar enlaces de archivos
-  permission_manage_storages_in_project: Administrar almacenes de archivos en el proyecto
+  permission_manage_files_in_project: Manage files in project
   permission_read_files: 'Carpetas de proyecto gestionadas automáticamente: Ver archivos'
   permission_share_files: 'Carpetas de proyecto gestionadas automáticamente: Compartir archivos'
   permission_share_files_explanation: Este permiso solo está disponible para los almacenamientos Nextcloud

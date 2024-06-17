@@ -128,7 +128,7 @@ module OpenProject::Storages
       # Permissions documentation: https://www.openproject.org/docs/development/concepts/permissions/#definition-of-permissions
       # Independent of storages module (Disabling storages module does not revoke enabled permissions).
       project_module nil, order: 100 do
-        permission :manage_storages_in_project,
+        permission :manage_files_in_project,
                    { "storages/admin/project_storages": %i[external_file_storages
                                                            attachments
                                                            members
@@ -141,6 +141,7 @@ module OpenProject::Storages
                                                            destroy
                                                            destroy_info
                                                            set_permissions],
+                     projects: %i[deactivate_work_package_attachments],
                      "storages/project_settings/project_storage_members": %i[index] },
                    permissible_on: :project,
                    dependencies: %i[]
@@ -168,7 +169,7 @@ module OpenProject::Storages
            { controller: "/storages/admin/storages", action: :index },
            if: Proc.new { User.current.admin? },
            caption: :project_module_storages,
-           icon: "hosting"
+           icon: "file-directory"
 
       menu :admin_menu,
            :external_file_storages,
@@ -187,7 +188,7 @@ module OpenProject::Storages
       menu :project_menu,
            :settings_project_storages,
            { controller: "/storages/admin/project_storages", action: "external_file_storages" },
-           if: lambda { |project| User.current.allowed_in_project?(:manage_storages_in_project, project) },
+           if: lambda { |project| User.current.allowed_in_project?(:manage_files_in_project, project) },
            caption: :project_module_storages,
            parent: :settings
 
@@ -203,14 +204,14 @@ module OpenProject::Storages
                              (prj_storage.project_folder_automatic? && !u.allowed_in_project?(:read_files, prj))
             next if hide_from_menu
 
-            icon = storage.provider_type_nextcloud? ? "nextcloud-circle" : "hosting"
+            icon = storage.provider_type_nextcloud? ? "op-mark-nextcloud" : "file-directory"
             menu.push(
               :"storage_#{storage.id}",
               prj_storage.open_with_connection_ensured,
               caption: storage.name,
               before: :members,
               icon:,
-              icon_after: "external-link",
+              icon_after: "link-external",
               skip_permissions_check: true
             )
           end

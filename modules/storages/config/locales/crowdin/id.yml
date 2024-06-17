@@ -46,7 +46,7 @@ id:
   permission_delete_files_explanation: This permission is only available for Nextcloud storages
   permission_header_for_project_module_storages: Automatically managed project folders
   permission_manage_file_links: Kelola tautan berkas
-  permission_manage_storages_in_project: Kelola penyimpanan berkas di proyek
+  permission_manage_files_in_project: Manage files in project
   permission_read_files: 'Automatically managed project folders: Read files'
   permission_share_files: 'Automatically managed project folders: Share files'
   permission_share_files_explanation: This permission is only available for Nextcloud storages

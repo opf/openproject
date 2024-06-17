@@ -27,7 +27,7 @@
 # ++
 module Gantt
   class MenusController < ApplicationController
-    before_action :find_optional_project
+    before_action :load_and_authorize_in_optional_project
 
     def show
       @sidebar_menu_items = menu_items

@@ -40,7 +40,7 @@ class CostReportsController < ApplicationController
 
   before_action :check_cache
   before_action :load_all
-  before_action :find_optional_project
+  before_action :load_and_authorize_in_optional_project
   before_action :find_optional_user
 
   include Layout

@@ -95,7 +95,6 @@ Rails.application.reloader.to_prepare do
                      {
                        "projects/settings/general": %i[show],
                        "projects/settings/storage": %i[show],
-                       projects: %i[deactivate_work_package_attachments],
                        "projects/templated": %i[create destroy],
                        "projects/identifier": %i[show update]
                      },

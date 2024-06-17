@@ -34,19 +34,19 @@ RSpec.describe Storages::ProjectStorages::DeleteContract do
   include_context "ModelContract shared context"
 
   let(:current_user) { create(:user) }
-  let(:role) { create(:project_role, permissions: [:manage_storages_in_project]) }
+  let(:role) { create(:project_role, permissions: [:manage_files_in_project]) }
   let(:project) { create(:project, members: { current_user => role }) }
   let(:project_storage) { create(:project_storage, project:) }
   let(:contract) { described_class.new(project_storage, current_user) }
 
   # Default test setup should be valid ("happy test setup").
   # The example below was included above from "ModelContract shared context".
-  # This tests works with manage_storages_in_project permissions for current_user.
+  # This tests works with manage_files_in_project permissions for current_user.
   it_behaves_like "contract is valid"
 
   # Now we remove the permissions from the user by creating a role without special perms.
-  context "without manage_storages_in_project permission for project" do
-    # existing_role is a role _without_ the :manage_storages_in_project permission
+  context "without manage_files_in_project permission for project" do
+    # existing_role is a role _without_ the :manage_files_in_project permission
     let(:role) { create(:project_role) }
 
     it_behaves_like "contract is invalid"

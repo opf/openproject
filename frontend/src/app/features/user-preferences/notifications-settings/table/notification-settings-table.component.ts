@@ -1,18 +1,13 @@
 // noinspection ES6UnusedImports
 
-import {
-  Component,
-  ChangeDetectionStrategy,
-  Input,
-  OnInit,
-} from '@angular/core';
-import { UntypedFormArray, UntypedFormGroup, UntypedFormControl } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { UntypedFormArray, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
-import { OVERDUE_REMINDER_AVAILABLE_TIMEFRAMES, REMINDER_AVAILABLE_TIMEFRAMES } from '../overdue-reminder-available-times';
+import { overDueReminderTimes, reminderAvailableTimeframes } from '../overdue-reminder-available-times';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 @Component({
@@ -33,7 +28,7 @@ export class NotificationSettingsTableComponent implements OnInit {
       value: null,
       title: this.I18n.t('js.notifications.settings.reminders.no_notification'),
     },
-    ...REMINDER_AVAILABLE_TIMEFRAMES,
+    ...reminderAvailableTimeframes(),
   ];
 
   public availableTimesOverdue = [
@@ -41,7 +36,7 @@ export class NotificationSettingsTableComponent implements OnInit {
       value: null,
       title: this.I18n.t('js.notifications.settings.reminders.no_notification'),
     },
-    ...OVERDUE_REMINDER_AVAILABLE_TIMEFRAMES,
+    ...overDueReminderTimes(),
   ];
 
   text = {

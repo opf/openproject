@@ -36,6 +36,7 @@ class Storages::ProjectStoragesController < ApplicationController
   before_action :find_model_object
   before_action :find_project_by_project_id
   before_action :render_403, unless: -> { User.current.allowed_in_project?(:view_file_links, @project) }
+  no_authorization_required! :open
 
   # rubocop:disable Metrics/AbcSize
   def open

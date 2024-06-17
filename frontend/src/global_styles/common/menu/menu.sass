@@ -13,8 +13,7 @@
       align-items: center
 
     &-action
-      display: flex
-      align-items: center
+      display: block
       height: 32px
       line-height: 32px
       text-decoration: none
@@ -23,12 +22,8 @@
       color: var(--context-menu-unselected-font-color)
       border: 1px solid transparent
 
-      .spot-icon
-        &.trailing-icon
-          margin-left: auto
-
-        &:first-child
-          margin-right: 0.75rem
+      .trailing-icon
+        margin-left: auto
 
       &:focus
         background-color: #f0f0f0

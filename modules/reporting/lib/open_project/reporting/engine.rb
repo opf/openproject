@@ -75,7 +75,7 @@ module OpenProject::Reporting
            :cost_reports_global,
            { controller: "/cost_reports", action: "index", project_id: nil },
            caption: :cost_reports_title,
-           icon: "cost-reports",
+           icon: "op-cost-reports",
            if: should_render
 
       menu :global_menu,
@@ -83,7 +83,7 @@ module OpenProject::Reporting
            { controller: "/cost_reports", action: "index", project_id: nil },
            after: :news,
            caption: :cost_reports_title,
-           icon: "cost-reports",
+           icon: "op-cost-reports",
            if: should_render
 
       menu :global_menu,
@@ -99,7 +99,7 @@ module OpenProject::Reporting
            after: :news,
            caption: :cost_reports_title,
            if: Proc.new { |project| project.module_enabled?(:costs) },
-           icon: "cost-reports"
+           icon: "op-cost-reports"
 
       menu :project_menu,
            :costs_menu,
