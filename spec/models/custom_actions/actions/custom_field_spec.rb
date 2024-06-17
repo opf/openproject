@@ -61,6 +61,9 @@ RSpec.describe CustomActions::Actions::CustomField do
   let(:string_custom_field) do
     build_stubbed(:string_wp_custom_field)
   end
+  let(:link_custom_field) do
+    build_stubbed(:link_wp_custom_field)
+  end
   let(:date_custom_field) do
     build_stubbed(:date_wp_custom_field)
   end
@@ -77,6 +80,7 @@ RSpec.describe CustomActions::Actions::CustomField do
      float_custom_field,
      text_custom_field,
      string_custom_field,
+     link_custom_field,
      date_custom_field]
   end
   let(:klass) do
@@ -164,6 +168,12 @@ RSpec.describe CustomActions::Actions::CustomField do
       it_behaves_like "string values transformation"
     end
 
+    context "for a link custom field" do
+      let(:custom_field) { link_custom_field }
+
+      it_behaves_like "string values transformation"
+    end
+
     context "for a text custom field" do
       let(:custom_field) { text_custom_field }
 
@@ -216,6 +226,15 @@ RSpec.describe CustomActions::Actions::CustomField do
       it "is :string_property" do
         expect(instance.type)
           .to be(:string_property)
+      end
+    end
+
+    context "for a link custom field" do
+      let(:custom_field) { link_custom_field }
+
+      it "is :link_property" do
+        expect(instance.type)
+          .to be(:link_property)
       end
     end
 
@@ -564,6 +583,12 @@ RSpec.describe CustomActions::Actions::CustomField do
       let(:custom_field) { string_custom_field }
 
       it_behaves_like "string custom action validations"
+    end
+
+    context "for a link custom field" do
+      let(:custom_field) { link_custom_field }
+
+      it_behaves_like "link custom action validations"
     end
 
     context "for a date custom field" do

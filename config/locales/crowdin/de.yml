@@ -263,7 +263,7 @@ de:
       my: "Meine Projekte"
       favored: "Favorisierte Projekte"
       archived: "Archivierte Projekte"
-      public: "Public project lists"
+      public: "Öffentliche Projekte"
       my_private: "Meine privaten Projektlisten"
       new:
         placeholder: "Neue Projektliste"
@@ -291,18 +291,17 @@ de:
         actions:
           label_enable_single: "In diesem Projekt aktiv, zum Deaktivieren anklicken"
           label_disable_single: "In diesem Projekt inaktiv, zum Aktivieren anklicken"
-          deactivate_for_project: "Deactivate for this project"
+          deactivate_for_project: "Für dieses Projekt deaktivieren"
           label_enable_all: "Alles aktivieren"
           label_disable_all: "Alles deaktivieren"
         is_required_blank_slate:
-          heading: Required in all projects
-          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+          heading: In allen Projekten erforderlich
+          description: Dieses Projekt-Attribut ist in allen Projekten aktiviert, da die Option "Benötigt in allen Projekten" aktiviert ist. Es kann nicht für einzelne Projekte deaktiviert werden.
         new_project_mapping_form:
-          add_projects: Add projects
-          include_sub_projects: Include sub-projects
-        project_mapping_filter:
-          label: Search project
-          placeholder: Filter by text
+          add_projects: Projekte erstellen
+          include_sub_projects: Andere Projekte einbeziehen
+        project_mappings:
+          header: Enabled in projects
       types:
         no_results_title_text: Derzeit stehen keine Typen zur Verfügung.
         form:
@@ -320,11 +319,11 @@ de:
       success: "Die geänderte Liste wurde gespeichert"
       failure: "Die geänderte Liste kann nicht gespeichert werden: %{errors}"
     publish:
-      success: "The list has been made public"
-      failure: "The list cannot be made public: %{errors}"
+      success: "Die Liste wurde veröffentlicht"
+      failure: "Die Liste kann nicht veröffentlicht werden: %{errors}"
     unpublish:
-      success: "The list has been made private"
-      failure: "The list cannot be made private: %{errors}"
+      success: "Diese Liste wurde auf privat gestellt"
+      failure: "Die Liste kann nicht auf privat gestellt werden: %{errors}"
     can_be_saved: "Liste geändert:"
     can_be_saved_as: "Die Änderungen können nur in einer neuen Liste gespeichert werden:"
   members:
@@ -451,18 +450,17 @@ de:
         <br/>
         <strong>Hinweis</strong>: Vererbte Attribute (z.B. von Kinderelementen oder Relationen) werden auch auf Arbeitspakete in diesen Status angewandt.
       status_excluded_from_totals_text: |-
-        Check this option to exclude work packages with this status from totals of Work,
-        Remaining work, and % Complete in a hierarchy.
+        Aktivieren Sie diese Option, um Arbeitspakete mit diesem Status aus den Summen von Aufwand, Verbleibender Aufwand und % Abgeschlossen in Hierarchien auszuschließen.
       status_color_text: |
         Klicken zum Zuweisen einer Farbe für diesen Status. Diese wird für die Hervorhebung von Arbeitspaketen in Tabellen verwendet.
     index:
       no_results_title_text: Derzeit gibt es keine Arbeitspaket-Status.
       no_results_content_text: Neuen Status hinzufügen
       headers:
-        is_default: "Default"
-        is_closed: "Closed"
-        is_readonly: "Read-only"
-        excluded_from_totals: "Excluded from totals"
+        is_default: "Standard"
+        is_closed: "Erledigt"
+        is_readonly: "Schreibgeschützt"
+        excluded_from_totals: "Von Gesamtsumme auschließen"
   themes:
     light: "Hell"
     light_high_contrast: "Hell (hoher Kontrast)"
@@ -632,7 +630,7 @@ de:
       status:
         is_closed: "Arbeitspaket geschlossen"
         is_readonly: "Arbeitspakete schreibgeschützt"
-        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
+        excluded_from_totals: "Von der Berechnung der Gesamtsumme in der Hierarchie ausschließen"
       journal:
         notes: "Kommentare"
       member:
@@ -773,7 +771,7 @@ de:
         before_or_equal_to: "muss vor oder gleich %{date} sein."
         blank: "muss ausgefüllt werden."
         blank_nested: "muss die Eigenschaft '%{property}' gesetzt haben."
-        cannot_delete_mapping: "is required. Cannot be deleted."
+        cannot_delete_mapping: "ist erforderlich. Kann nicht gelöscht werden."
         cant_link_a_work_package_with_a_descendant: "Ein Arbeitspaket kann nicht mit einer seiner Unteraufgaben verlinkt werden."
         circular_dependency: "Diese Beziehung würde eine zyklische Abhängigkeit erzeugen."
         confirmation: "stimmt nicht mit %{attribute} überein."
@@ -934,8 +932,8 @@ de:
               nonexistent: "Die Spalte ‚%{column}‘ existiert nicht."
               format: "%{message}"
           group_by_hierarchies_exclusive: "schließt sich gegenseitig mit der Gruppierung nach \"%{group_by}\" aus. Beide können nicht zeitgleich aktiv sein."
-          can_only_be_modified_by_owner: "The query can only be modified by its owner."
-          need_permission_to_modify_public_query: "You cannot modify a public query."
+          can_only_be_modified_by_owner: "Die Abfrage kann nur vom Besitzer geändert werden"
+          need_permission_to_modify_public_query: "Du kannst eine öffentliche Abfrage nicht ändern."
           filters:
             custom_fields:
               inexistent: "Es existiert kein benutzerdefiniertes Feld für diesen Filter."
@@ -969,14 +967,9 @@ de:
             base:
               working_days_are_missing: "Mindestens ein Wochentag muss als Arbeitstag definiert werden."
               previous_working_day_changes_unprocessed: "Die vorherigen Änderungen an der Konfiguration der Arbeitstage wurden noch nicht angewendet."
-              hours_per_day_are_missing: "The number of hours per day must be defined."
-              days_per_week_are_missing: "The number of days per week must be defined."
-              days_per_month_are_missing: "The number of days per month must be defined."
-              durations_are_not_positive_numbers: "The durations must be positive numbers."
-              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
-              days_per_week_is_out_of_bounds: "Days per week can't be more than 7"
-              days_per_month_is_out_of_bounds: "Days per month can't be more than 31"
-              days_per_week_and_days_per_month_are_inconsistent: "The number of days per week and the number of days per month must be consistent."
+              hours_per_day_are_missing: "Die Anzahl der Stunden pro Tag muss festgelegt werden."
+              durations_are_not_positive_numbers: "Die Dauer muss positiv sein"
+              hours_per_day_is_out_of_bounds: "Die Anzahl der Stunden pro Tag darf 24 nicht überschreiten."
         time_entry:
           attributes:
             hours:
@@ -1034,13 +1027,13 @@ de:
               only_same_project_categories_allowed: "Ein Arbeitpaket und seine Kategorie müssen im selben Projekt sein."
               does_not_exist: "Die angegebene Kategorie existiert nicht."
             estimated_hours:
-              not_a_number: "is not a valid duration."
+              not_a_number: "ist keine gültige Dauer."
               cant_be_inferior_to_remaining_work: "Kann nicht niedriger sein als Verbleibender Aufwand."
               must_be_set_when_remaining_work_is_set: "Ist erforderlich, wenn Verbleibender Aufwand gesetzt ist."
               only_values_greater_or_equal_zeroes_allowed: "Muss >= 0 sein."
               format: "%{message}"
             remaining_hours:
-              not_a_number: "is not a valid duration."
+              not_a_number: "ist keine gültige Dauer."
               cant_exceed_work: "Kann nicht größer als der Aufwand sein."
               must_be_set_when_work_is_set: "Ist erforderlich, wenn Aufwand gesetzt ist."
               format: "%{message}"
@@ -1341,8 +1334,8 @@ de:
   button_revoke_access: "Zugang widerrufen"
   button_revoke_all: "Alles widerrufen"
   button_revoke_only: "Nur %{shared_role_name} widerrufen"
-  button_publish: "Make public"
-  button_unpublish: "Make private"
+  button_publish: "Veröffentlichen"
+  button_unpublish: "Als Privat festlegen"
   consent:
     checkbox_label: Ich habe die obigen Angaben zur Kenntnis genommen und erkläre mich einverstanden.
     failure_message: Einwilligung fehlgeschlagen, kann nicht fortfahren.
@@ -1614,11 +1607,11 @@ de:
     image:
       omitted: "Bild nicht exportiert."
     macro:
-      error: "Macro error, %{message}"
-      attribute_not_found: "attribute not found: %{attribute}"
-      model_not_found: "invalid attribute model: %{model}"
-      resource_not_found: "resource not found: %{resource}"
-      rich_text_unsupported: "Rich text embedding currently not supported in export"
+      error: "Makrofehler, %{message}"
+      attribute_not_found: "Attribut nicht gefunden: %{attribute}"
+      model_not_found: "ungültiges Attributmodell: %{model}"
+      resource_not_found: "Ressource nicht gefunden: %{resource}"
+      rich_text_unsupported: "Rich-Text-Einbettung wird derzeit beim Export nicht unterstützt"
     units:
       hours: h
       days: d
@@ -1688,10 +1681,10 @@ de:
         dates:
           working: "%{date} ist jetzt ein Arbeitstag"
           non_working: "%{date} ist jetzt ein arbeitsfreier Tag"
-      progress_mode_changed_to_status_based: Fortschrittberechnung wurde auf Status-basiert gesetzt
-      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
-      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
-      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
+      progress_mode_changed_to_status_based: Fortschrittberechnung wurde auf Status-bezogen gesetzt
+      status_excluded_from_totals_set_to_false_message: jetzt in den Gesamtwerten der Hierarchie enthalten
+      status_excluded_from_totals_set_to_true_message: jetzt von den Hierarchie-Gesamtwerten ausgeschlossen
+      status_percent_complete_changed: "% vollständig von %{old_value}% auf %{new_value} % geändert"
       system_update:
         file_links_journal: >
           Ab sofort erscheinen hier Aktivitäten, die sich auf Datei-Links beziehen (Dateien in externen Speichermedien) auf der Registerkarte Aktivität. Folgende Aktivitäten betreffen bereits existierende Links:
@@ -2348,7 +2341,7 @@ de:
   label_workflow: "Workflow"
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Zusammenfassung"
-  label_working_days_and_hours: "Working days and hours"
+  label_working_days_and_hours: "Arbeitstage und -stunden"
   label_x_closed_work_packages_abbr:
     one: "1 geschlossen"
     other: "%{count} geschlossen"
@@ -2732,7 +2725,7 @@ de:
   permission_save_bcf_queries: "BCF-Abfragen speichern"
   permission_manage_public_bcf_queries: "Öffentliche BCF-Abfragen verwalten"
   permission_edit_attribute_help_texts: "Attribut-Hilfetxt bearbeiten"
-  permission_manage_public_project_queries: "Manage public project lists"
+  permission_manage_public_project_queries: "Öffentliche Projektlisten verwalten"
   placeholders:
     default: "-"
   project:
@@ -2948,9 +2941,6 @@ de:
   setting_cross_project_work_package_relations: "Arbeitspaket-Beziehungen zwischen Projekten erlauben"
   setting_first_week_of_year: "Die erste Woche im Jahr enthält"
   setting_date_format: "Datum"
-  setting_days_per_month: "Days per month"
-  setting_days_per_month_explanation: >-
-    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Standard-Sprache"
   setting_default_projects_modules: "Standardmäßig aktivierte Module für neue Projekte"
   setting_default_projects_public: "Neue Projekte sind standardmäßig öffentlich"
@@ -2966,18 +2956,15 @@ de:
   setting_feeds_limit: "Max. Anzahl Einträge pro Atom-Feed"
   setting_file_max_size_displayed: "Maximale Größe inline angezeigter Textdateien"
   setting_host_name: "Hostname"
-  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day: "Stunden pro Tag"
   setting_hours_per_day_explanation: >-
-    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
-  setting_days_per_week: "Days per week"
-  setting_days_per_week_explanation: >-
-    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a week is 5 days, 15 days would be 3 weeks).
+    Dies legt fest, was als "Tag" angesehen wird, wenn die Dauer auf gleichmäßige Weise angezeigt wird (zum Beispiel wenn die Länge eines Tags 8 Stunden beträgt, wären 32 Stunden 4 Tage).
   setting_invitation_expiration_days: "Aktivierungs-Mail läuft ab nach"
   setting_work_package_done_ratio: "Fortschrittsberechnung"
   setting_work_package_done_ratio_field: "Arbeitsbezogen"
   setting_work_package_done_ratio_status: "Statusbezogen"
   setting_work_package_done_ratio_explanation_html: >
-    Im <b>aufwandsbezogenen</b> Modus wird % Abgeschlossen durch das Verhältnis zu, Gesamtaufwand berechnet. Im <b>statusbasierten</b> Modus ist mit jedem Status ein fester Wert für % Abgeschlossen verbunden. Wenn Sie den Status ändern, ändert sich dadurch auch das % Abgeschlossen Attribut.
+    Im <b>aufwandsbezogenen</b> Modus wird % Abgeschlossen durch das Verhältnis zu, Gesamtaufwand berechnet. Im <b>statusbezogenen</b> Modus ist mit jedem Status ein fester Wert für % Abgeschlossen verbunden. Wenn Sie den Status ändern, ändert sich dadurch auch das % Abgeschlossen Attribut.
   setting_work_package_properties: "Arbeitspaket-Eigenschaften"
   setting_work_package_startdate_is_adddate: "Neue Arbeitspakete haben \"Heute\" als Anfangsdatum"
   setting_work_packages_projects_export_limit: "Arbeitspakete / Exportlimit für Projekte"
@@ -3412,12 +3399,12 @@ de:
         additional_privileges_project_or_group: "hat möglicherweise zusätzliche Berechtigungen (als Projekt- oder Gruppenmitglied)"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
+      Tage, die nicht ausgewählt sind, werden bei der Planung von Arbeitspaketen übersprungen (und bei der Tageszählung nicht berücksichtigt). Diese können auf Arbeitspaket-Ebene überschrieben werden.
     instance_wide_info: >
       Daten, die der Liste unten hinzugefügt werden, gelten als arbeitsfrei und werden bei der Planung von Arbeitspaketen übersprungen.
     change_button: "Arbeitstage ändern"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
+      Die Änderung der Wochentage, die als Arbeitstage oder arbeitsfreie Tage gelten, kann sich in diesem Fall auf die Start- und Endtage aller Arbeitspakete in allen Projekten auswirken.
     journal_note:
       changed: _**Arbeitstage** geändert (%{changes})._
       days:

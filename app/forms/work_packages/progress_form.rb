@@ -27,6 +27,23 @@
 # ++
 
 class WorkPackages::ProgressForm < ApplicationForm
+  ##
+  # Primer::Forms::BaseComponent or ApplicationForm will always autofocus the
+  # first input field with an error present on it. Despite this behavior being
+  # a11y-friendly, it breaks the modal's UX when an invalid input field
+  # is rendered.
+  #
+  # The reason for this is since we're implementing a "format on blur", when
+  # we make a request to the server that will set an input field in an invalid
+  # state and it is returned as such, any time we blur this autofocused field,
+  # we'll perform another request that will still have the input in an invalid
+  # state causing it to autofocus again and preventing us from leaving this
+  # "limbo state".
+  ##
+  def before_render
+    # no-op
+  end
+
   attr_reader :work_package
 
   def initialize(work_package:,
@@ -109,11 +126,7 @@ class WorkPackages::ProgressForm < ApplicationForm
   end
 
   def focused_field_by_selection(field)
-    if field == :remaining_hours && @work_package.estimated_hours.nil?
-      :estimated_hours
-    else
-      field
-    end
+    field
   end
 
   def render_text_field(group,

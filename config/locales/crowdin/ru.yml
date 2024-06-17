@@ -302,9 +302,8 @@ ru:
         new_project_mapping_form:
           add_projects: Добавить проекты
           include_sub_projects: Включить подпроекты
-        project_mapping_filter:
-          label: Поиск проекта
-          placeholder: Фильтр по тексту
+        project_mappings:
+          header: Включено в проектах
       types:
         no_results_title_text: На данный момент доступных типов нет.
         form:
@@ -988,13 +987,8 @@ ru:
               working_days_are_missing: "По крайней мере, один день недели должен быть определен как рабочий."
               previous_working_day_changes_unprocessed: "Предыдущие изменения конфигурации рабочих дней еще не были применены."
               hours_per_day_are_missing: "Необходимо указать количество часов в день."
-              days_per_week_are_missing: "Необходимо указать количество дней в неделю."
-              days_per_month_are_missing: "Необходимо указать количество дней в месяце."
               durations_are_not_positive_numbers: "Длительность должна быть положительным числом."
               hours_per_day_is_out_of_bounds: "Количество часов в день не может быть больше 24"
-              days_per_week_is_out_of_bounds: "Количество дней в неделю не может быть больше 7"
-              days_per_month_is_out_of_bounds: "Количество дней в месяце не может быть больше 31"
-              days_per_week_and_days_per_month_are_inconsistent: "Количество дней в неделю и количество дней в месяц должны быть постоянными."
         time_entry:
           attributes:
             hours:
@@ -1058,7 +1052,7 @@ ru:
               only_values_greater_or_equal_zeroes_allowed: "Должно быть >= 0."
               format: "%{message}"
             remaining_hours:
-              not_a_number: "is not a valid duration."
+              not_a_number: "не является допустимой продолжительностью."
               cant_exceed_work: "Не может быть выше Работы."
               must_be_set_when_work_is_set: "Требуется, если установлен параметр «Работа»."
               format: "%{message}"
@@ -3019,9 +3013,6 @@ ru:
   setting_cross_project_work_package_relations: "Разрешить перектестные связи пакетов работ проекта"
   setting_first_week_of_year: "Первая неделя в году содержит"
   setting_date_format: "Дата"
-  setting_days_per_month: "Количество дней в месяце"
-  setting_days_per_month_explanation: >-
-    Это определяет, что считается "месяцем" при более естественном отображении продолжительности (например, если месяц 20 дней, то 60 дней будет 3 месяца).
   setting_default_language: "Язык по умолчанию"
   setting_default_projects_modules: "По умолчанию доступные в новых проектах модули"
   setting_default_projects_public: "По умолчанию новые проекты видимы всем"
@@ -3040,9 +3031,6 @@ ru:
   setting_hours_per_day: "Количество часов в день"
   setting_hours_per_day_explanation: >-
     Это определяет, что считается "днем" при более естественном отображении продолжительности (например, если день 8 часов, то 32 часа будет 4 дня).
-  setting_days_per_week: "Количество дней в неделю"
-  setting_days_per_week_explanation: >-
-    Это определяет, что считается "неделей" при более естественном отображении продолжительности (например, если в неделю 5 дней, то 15 дней будет 3 недели).
   setting_invitation_expiration_days: "Действие письма активации истекает после"
   setting_work_package_done_ratio: "Режим расчета прогресса"
   setting_work_package_done_ratio_field: "На основе трудозатрат"

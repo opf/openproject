@@ -67,7 +67,7 @@ zh-TW:
         text: "您確定要刪除當前使用的企業版權杖(Token)嗎？"
         title: "刪除權杖(Token)"
       replace_token: "替換當前權杖(Token)"
-      order: "訂購本地部署版的 Enterprise edition"
+      order: "升級至地端企業版"
       paste: "貼上您的企業版所需的權杖(Token)"
       required_for_feature: "此功能僅限具啟用中的企業版所需權杖(Token)的訂閱者使用。"
       enterprise_link: "如需了解詳細信息，請點擊此處。"
@@ -147,8 +147,8 @@ zh-TW:
     encryption_details: "LDAPS / STARTTLS 選項"
     system_account: "系統帳戶"
     system_account_legend: |
-      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
-      Please specify the bind credentials for that system user in the following section.
+      OpenProject 需要透過系統帳戶進行唯讀存取才能在 LDAP 樹中尋找使用者和群組。
+      請在下一節中指定該系統使用者的綁定憑證。
     ldap_details: "LDAP 詳細資料"
     user_settings: "屬性對應"
     user_settings_legend: |
@@ -302,9 +302,8 @@ zh-TW:
         new_project_mapping_form:
           add_projects: Add projects
           include_sub_projects: Include sub-projects
-        project_mapping_filter:
-          label: Search project
-          placeholder: Filter by text
+        project_mappings:
+          header: Enabled in projects
       types:
         no_results_title_text: 目前沒有可用的類型
         form:
@@ -967,13 +966,8 @@ zh-TW:
               working_days_are_missing: "At least one day of the week must be defined as a working day."
               previous_working_day_changes_unprocessed: "The previous changes to the working days configuration have not been applied yet."
               hours_per_day_are_missing: "The number of hours per day must be defined."
-              days_per_week_are_missing: "The number of days per week must be defined."
-              days_per_month_are_missing: "The number of days per month must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
-              days_per_week_is_out_of_bounds: "Days per week can't be more than 7"
-              days_per_month_is_out_of_bounds: "Days per month can't be more than 31"
-              days_per_week_and_days_per_month_are_inconsistent: "The number of days per week and the number of days per month must be consistent."
         time_entry:
           attributes:
             hours:
@@ -2181,7 +2175,7 @@ zh-TW:
   label_repository_root: "版本庫根目錄"
   label_repository_plural: "Repositories"
   label_required: "必要"
-  label_requires: "要求"
+  label_requires: "需要"
   label_result_plural: "結果"
   label_reverse_chronological_order: "由新排列至舊"
   label_revision: "修訂"
@@ -2916,9 +2910,6 @@ zh-TW:
   setting_cross_project_work_package_relations: "允許跨專案的工作項目關聯"
   setting_first_week_of_year: "一年的第一週從哪一天開始"
   setting_date_format: "日期"
-  setting_days_per_month: "Days per month"
-  setting_days_per_month_explanation: >-
-    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "預設語言"
   setting_default_projects_modules: "新專案預設啟用的模組"
   setting_default_projects_public: "新專案預設為公開"
@@ -2937,9 +2928,6 @@ zh-TW:
   setting_hours_per_day: "Hours per day"
   setting_hours_per_day_explanation: >-
     This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
-  setting_days_per_week: "Days per week"
-  setting_days_per_week_explanation: >-
-    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a week is 5 days, 15 days would be 3 weeks).
   setting_invitation_expiration_days: "啟動信件在......天後過期"
   setting_work_package_done_ratio: "進度計算"
   setting_work_package_done_ratio_field: "Work-based"
@@ -3486,7 +3474,7 @@ zh-TW:
         revoke:
           unauthorized: "您無權撤銷此裝置。"
         forbidden_token:
-          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
+          missing_scope: '存取此資源需要範圍“%{oauth_scopes}”。'
   unsupported_browser:
     title: "您的瀏覽器已過時且不再支援。"
     message: "您可能會在此頁面上遇到錯誤和降級的體驗。"

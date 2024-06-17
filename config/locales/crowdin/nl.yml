@@ -300,9 +300,8 @@ nl:
         new_project_mapping_form:
           add_projects: Add projects
           include_sub_projects: Include sub-projects
-        project_mapping_filter:
-          label: Search project
-          placeholder: Filter by text
+        project_mappings:
+          header: Enabled in projects
       types:
         no_results_title_text: Er zijn momenteel geen types beschikbaar.
         form:
@@ -728,9 +727,9 @@ nl:
         begin_insertion: "Begin van het invoegen"
         begin_deletion: "Begin van de verwijdering"
         children: "Subelementen"
-        derived_done_ratio: "Total % complete"
-        derived_remaining_hours: "Total remaining work"
-        derived_remaining_time: "Total remaining work"
+        derived_done_ratio: "Totaal % compleet"
+        derived_remaining_hours: "Totaal resterend werk"
+        derived_remaining_time: "Totaal resterend werk"
         done_ratio: "% Complete"
         duration: "Tijdsduur"
         end_insertion: "Einde van het invoegen"
@@ -972,13 +971,8 @@ nl:
               working_days_are_missing: "Ten minste één dag van de week moet worden gedefinieerd als een werkdag."
               previous_working_day_changes_unprocessed: "De vorige wijzigingen in de configuratie van de werkdagen zijn nog niet toegepast."
               hours_per_day_are_missing: "The number of hours per day must be defined."
-              days_per_week_are_missing: "The number of days per week must be defined."
-              days_per_month_are_missing: "The number of days per month must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
-              days_per_week_is_out_of_bounds: "Days per week can't be more than 7"
-              days_per_month_is_out_of_bounds: "Days per month can't be more than 31"
-              days_per_week_and_days_per_month_are_inconsistent: "The number of days per week and the number of days per month must be consistent."
         time_entry:
           attributes:
             hours:
@@ -1036,13 +1030,13 @@ nl:
               only_same_project_categories_allowed: "De categorie van het werkpakket  moet binnen hetzelfde project bestaan als het werkpakket."
               does_not_exist: "De gekozen categorie bestaat niet."
             estimated_hours:
-              not_a_number: "is not a valid duration."
+              not_a_number: "is geen geldige duur."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
               must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
               only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
               format: "%{message}"
             remaining_hours:
-              not_a_number: "is not a valid duration."
+              not_a_number: "is geen geldige duur."
               cant_exceed_work: "Cannot be higher than Work."
               must_be_set_when_work_is_set: "Required when Work is set."
               format: "%{message}"
@@ -1109,7 +1103,7 @@ nl:
       custom_field: "Aangepast veld"
       "doorkeeper/application": "OAuth-authenticatie"
       forum: "Forum"
-      global_role: "Global role"
+      global_role: "Algemene rol"
       group: "Groep"
       member: "Deelnemer"
       news: "Nieuws"
@@ -1195,7 +1189,7 @@ nl:
     default_columns: "Standaardkolommen"
     description: "Omschrijving"
     derived_due_date: "Afgeleide einddatum"
-    derived_estimated_hours: "Total work"
+    derived_estimated_hours: "Totaal werk"
     derived_start_date: "Afgeleide startdatum"
     display_sums: "Bedragen weergeven"
     due_date: "Einddatum"
@@ -2378,8 +2372,8 @@ nl:
   label_yesterday: "gisteren"
   label_zen_mode: "Zen mode"
   label_role_type: "Type"
-  label_member_role: "Project role"
-  label_global_role: "Global role"
+  label_member_role: "Projectrol"
+  label_global_role: "Algemene rol"
   label_not_changeable: "(niet wijzigbaar)"
   label_global: "Globaal"
   label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
@@ -2493,7 +2487,7 @@ nl:
   mail_body_incoming_email_error_logs: "Logboeken"
   mail_body_lost_password: "Om uw wachtwoord te wijzigen, klikt u op op de volgende link:"
   mail_password_change_not_possible:
-    title: "Password change not possible"
+    title: "Wachtwoord wijzigen niet mogelijk"
     body: "Your account at %{app_title} is connected to an external authentication provider (%{name})."
     subtext: "Passwords for external account cannot be changed in the application. Please use the lost password functionality of your authentication provider."
   mail_body_register: "Welkom bij %{app_title}. Activeer uw account door op deze link te klikken:"
@@ -2646,7 +2640,7 @@ nl:
   permission_add_work_package_notes: "Notities toevoegen"
   permission_add_work_packages: "Werkpakketten toevoegen"
   permission_add_messages: "Berichten posten"
-  permission_add_project: "Create projects"
+  permission_add_project: "Projecten aanmaken"
   permission_add_work_package_attachments: "Bijlagen toevoegen"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Project archiveren"
@@ -2664,7 +2658,7 @@ nl:
   permission_commit_access: "Lees/schrijf toegang tot opslagplaats (bevestig)"
   permission_copy_projects: "Kopiëren van projecten"
   permission_copy_work_packages: "Werkpakketten kopiëren"
-  permission_create_backup: "Create backups"
+  permission_create_backup: "Back-ups maken"
   permission_delete_work_package_watchers: "Kijkers verwijderen"
   permission_delete_work_packages: "Werkpakketten verwijderen"
   permission_delete_messages: "Berichten verwijderen"
@@ -2780,7 +2774,7 @@ nl:
     member_of_group: "Werknemer's groep"
     name_or_identifier: "Naam of id"
     only_subproject_id: "Alleen subproject"
-    shared_with_user: "Shared with users"
+    shared_with_user: "Gedeeld met gebruikers"
     shared_with_me: "Shared with me"
     subproject_id: "Inclusief subproject"
   repositories:
@@ -2949,9 +2943,6 @@ nl:
   setting_cross_project_work_package_relations: "Sta werkpakketten over meerdere projecten toe"
   setting_first_week_of_year: "De eerste week in het jaar bevat"
   setting_date_format: "Datum"
-  setting_days_per_month: "Days per month"
-  setting_days_per_month_explanation: >-
-    This will define what is considered a "month" when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
   setting_default_language: "Standaard taal"
   setting_default_projects_modules: "Standaard actieve modules voor nieuwe projecten"
   setting_default_projects_public: "Nieuwe projecten zijn standaard publiek"
@@ -2970,9 +2961,6 @@ nl:
   setting_hours_per_day: "Hours per day"
   setting_hours_per_day_explanation: >-
     This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
-  setting_days_per_week: "Days per week"
-  setting_days_per_week_explanation: >-
-    This will define what is considered a "week" when displaying duration in a more natural way (for example, if a week is 5 days, 15 days would be 3 weeks).
   setting_invitation_expiration_days: "Activatie e-mail verloopt na"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"

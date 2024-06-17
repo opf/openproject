@@ -43,7 +43,7 @@ module Admin::Settings
     before_action :prepare_custom_option_position, only: %i(update create)
     before_action :find_custom_option, only: :delete_option
     before_action :project_custom_field_mappings_query, only: %i[project_mappings unlink]
-    before_action :find_link_project_custom_field_mapping, only: :link
+    before_action :find_custom_field_projects_to_link, only: :link
     before_action :find_unlink_project_custom_field_mapping, only: :unlink
     # rubocop:enable Rails/LexicallyScopedActionFilter
 
@@ -75,15 +75,15 @@ module Admin::Settings
 
     def link
       create_service = ProjectCustomFieldProjectMappings::BulkCreateService
-                         .new(user: current_user, project: @project, project_custom_field: @custom_field,
+                         .new(user: current_user, projects: @projects, project_custom_field: @custom_field,
                               include_sub_projects: include_sub_projects?)
                          .call
 
-      create_service.on_success { render_project_list }
+      create_service.on_success { render_project_list(url_for_action: :project_mappings) }
 
       create_service.on_failure do
         update_flash_message_via_turbo_stream(
-          message: join_flash_messages(create_service.errors.full_messages),
+          message: join_flash_messages(create_service.errors),
           full: true, dismiss_scheme: :hide, scheme: :danger
         )
       end
@@ -96,7 +96,7 @@ module Admin::Settings
                          .new(user: current_user, model: @project_custom_field_mapping)
                          .call
 
-      delete_service.on_success { render_project_list }
+      delete_service.on_success { render_project_list(url_for_action: :project_mappings) }
 
       delete_service.on_failure do
         update_flash_message_via_turbo_stream(
@@ -147,7 +147,7 @@ module Admin::Settings
 
     private
 
-    def render_project_list
+    def render_project_list(url_for_action: action_name)
       update_via_turbo_stream(
         component: Settings::ProjectCustomFields::ProjectCustomFieldMapping::NewProjectMappingComponent.new(
           project_mapping: ProjectCustomFieldProjectMapping.new(project_custom_field: @custom_field),
@@ -157,7 +157,7 @@ module Admin::Settings
       update_via_turbo_stream(
         component: Settings::ProjectCustomFields::ProjectCustomFieldMapping::TableComponent.new(
           query: project_custom_field_mappings_query,
-          params: { custom_field: @custom_field }
+          params: { custom_field: @custom_field, url_for_action: }
         )
       )
     end
@@ -195,8 +195,8 @@ module Admin::Settings
       respond_with_turbo_streams
     end
 
-    def find_link_project_custom_field_mapping
-      @project = Project.find(permitted_params.project_custom_field_project_mapping[:project_id])
+    def find_custom_field_projects_to_link
+      @projects = Project.find(params.to_unsafe_h[:project_custom_field_project_mapping][:project_ids])
     rescue ActiveRecord::RecordNotFound
       update_flash_message_via_turbo_stream(
         message: t(:notice_file_not_found), full: true, dismiss_scheme: :hide, scheme: :danger
@@ -220,7 +220,7 @@ module Admin::Settings
     end
 
     def include_sub_projects?
-      ActiveRecord::Type::Boolean.new.cast(permitted_params.project_custom_field_project_mapping[:include_sub_projects])
+      ActiveRecord::Type::Boolean.new.cast(params.to_unsafe_h[:project_custom_field_project_mapping][:include_sub_projects])
     end
   end
 end

@@ -365,10 +365,10 @@
           learn_about: "Lær mer om de nye funksjonene"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_1":
+          "14_2":
             standard:
               new_features_html: >
-                Utgivelsen inneholder ulike nye funksjoner og forbedringer: <br> <ul class="%{list_styling_class}"> <li>PDF eksport av Gantt visning, f.eks for utskrift (Enterprise add-on)</li> <li>Favorittprosjekter</li> <li>Avsnitt i Møter</li> <li>Viser møter på Min side og i prosjektoversikten</li> <li>Mulighet for å skjule vedlegg i Filer-fanen</li> <li>Egendefinerte felter av typen lenke (URL)</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Set more units for work, remaining work and working time</li> <li>Configure which projects are activated for project attributes</li> <li>Rename private project lists</li> <li>Avoid redundant email reminders in case of @mentions</li> <li>Invite meeting attendees via email</li> <li>Display embedded work package attributes in PDF exports</li> </ul>
     ical_sharing_modal:
       title: "Abonner på kalender"
       inital_setup_error_message: "En feil oppstod under henting av data."
@@ -1360,4 +1360,4 @@
         network_off: "Det er et nettverksproblem."
         network_on: "Nettverket er tilbake. Vi prøver igjen."
         timeout: >
-          OpenProject kunne ikke gi deg tilgang til prosjektmappen i løpet av den forventede tiden. Vennligst prøv igjen.<br><br> Hvis dette problemet vedvarer, kontakt din OpenProject-administrator for å sjekke <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">statusen på fillagringsoppsettet</a>.
+          OpenProject could not provide you access to the project folder within the expected period of time. Please, try once again.<br><br> If that problem persists please contact your OpenProject administrator to check the <a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">health status of the file storage setup</a>.

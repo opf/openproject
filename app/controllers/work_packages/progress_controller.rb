@@ -117,9 +117,12 @@ class WorkPackages::ProgressController < ApplicationController
   end
 
   def touched_field_map
-    params.require(:work_package).permit("estimated_hours_touched",
-                                         "remaining_hours_touched",
-                                         "status_id_touched").to_h
+    params.require(:work_package)
+          .slice("estimated_hours_touched",
+                 "remaining_hours_touched",
+                 "status_id_touched")
+          .transform_values { _1 == "true" }
+          .permit!
   end
 
   def extract_persisted_progress_attributes
@@ -130,7 +133,12 @@ class WorkPackages::ProgressController < ApplicationController
 
   def work_package_params
     params.require(:work_package)
-          .permit(allowed_params)
+          .slice(*allowed_touched_params)
+          .permit!
+  end
+
+  def allowed_touched_params
+    allowed_params.filter { touched?(_1) }
   end
 
   def allowed_params
@@ -141,24 +149,8 @@ class WorkPackages::ProgressController < ApplicationController
     end
   end
 
-  def filtered_work_package_params
-    {}.tap do |filtered_params|
-      filtered_params[:estimated_hours] = work_package_params["estimated_hours"] if estimated_hours_touched?
-      filtered_params[:remaining_hours] = work_package_params["remaining_hours"] if remaining_hours_touched?
-      filtered_params[:status_id] = work_package_params["status_id"] if status_id_touched?
-    end
-  end
-
-  def estimated_hours_touched?
-    params.require(:work_package)[:estimated_hours_touched] == "true"
-  end
-
-  def remaining_hours_touched?
-    params.require(:work_package)[:remaining_hours_touched] == "true"
-  end
-
-  def status_id_touched?
-    params.require(:work_package)[:status_id_touched] == "true"
+  def touched?(field)
+    touched_field_map[:"#{field}_touched"]
   end
 
   def build_up_work_package
@@ -166,7 +158,7 @@ class WorkPackages::ProgressController < ApplicationController
       .new(user: current_user,
            model: @work_package,
            contract_class: WorkPackages::CreateContract)
-      .call(filtered_work_package_params)
+      .call(work_package_params)
   end
 
   def build_up_brand_new_work_package

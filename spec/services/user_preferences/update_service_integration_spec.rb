@@ -126,7 +126,8 @@ RSpec.describe UserPreferences::UpdateService, "integration", type: :model do
           NotificationSetting::OVERDUE => nil,
           NotificationSetting::ASSIGNEE => true,
           NotificationSetting::RESPONSIBLE => true,
-          NotificationSetting::WATCHED => true
+          NotificationSetting::WATCHED => true,
+          NotificationSetting::SHARED => true
         }
 
         NotificationSetting.all_settings.each do |key|

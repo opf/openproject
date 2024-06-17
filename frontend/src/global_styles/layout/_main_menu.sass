@@ -338,17 +338,18 @@ a.main-menu--parent-node
 .main-menu--resizer
   background: none
   height: 100%
-  width: 1rem
+  width: 0.25rem
   position: fixed
   display: flex
   align-items: center
-  left: calc(var(--main-menu-width) - 1rem)
+  left: calc(var(--main-menu-width) - 0.25rem)
   z-index: 1
   cursor: col-resize
 
   .main-menu--navigation-toggler
     position: relative
     cursor: pointer
+    margin-left: -0.75rem
     color: var(--main-menu-font-color)
 
     > .collapse-menu,
@@ -375,7 +376,7 @@ a.main-menu--parent-node
   &:hover
     border-right: 0.125rem solid var(--main-menu-border-color)
 
-    .main-menu--navigation-toggler
+    .main-menu--navigation-toggler.open
       color: var(--main-menu-border-color)
 
 // Badges for menu items such as "EXPERIMENTAL" or "BETA"
