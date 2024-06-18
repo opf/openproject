@@ -28,12 +28,15 @@
 
 module Projects::CustomFields
   class CustomFieldMappingForm < ApplicationForm
+    include OpPrimer::ComponentHelpers
+
     form do |form|
       form.group(layout: :horizontal) do |group|
         group.project_autocompleter(
           name: :id,
           label: Project.model_name.human,
           visually_hide_label: true,
+          validation_message: project_ids_error_message,
           autocomplete_options: {
             openDirectly: false,
             focusDirectly: false,
@@ -53,16 +56,24 @@ module Projects::CustomFields
       end
     end
 
-    def initialize(project_custom_field:)
+    def initialize(project_mapping:)
       super()
-      @project_custom_field = project_custom_field
+      @project_mapping = project_mapping
     end
 
     private
 
+    def project_ids_error_message
+      @project_mapping
+        .errors
+        .messages_for(:project_ids)
+        .to_sentence
+        .presence
+    end
+
     def projects_with_custom_field_mapping
       ProjectCustomFieldProjectMapping
-        .where(project_custom_field: @project_custom_field)
+        .where(custom_field_id: @project_mapping.custom_field_id)
         .pluck(:project_id)
         .to_h { |id| [id, id] }
     end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,17 +29,30 @@
 module Settings
   module ProjectCustomFields
     module ProjectCustomFieldMapping
-      class NewProjectMappingComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+      class NewProjectMappingFormComponent < ApplicationComponent
         include OpTurbo::Streamable
 
-        def initialize(project_mapping:, project_custom_field:, **)
+        DIALOG_ID = "settings--new-project-custom-field-mapping-component"
+        DIALOG_BODY_ID = "settings--new-project-custom-field-mapping-body-component"
+
+        def initialize(project_mapping:, project_custom_field: )
+          super
           @project_mapping = project_mapping
           @project_custom_field = project_custom_field
-          super(@project_mapping, **)
         end
 
-        def render?
-          !@project_custom_field.required?
+        private
+
+        def title
+          I18n.t("projects.settings.project_custom_fields.new_project_mapping_form.add_projects")
+        end
+
+        def cancel_button_text
+          I18n.t("button_cancel")
+        end
+
+        def submit_button_text
+          I18n.t("button_add")
         end
       end
     end
