@@ -52,7 +52,7 @@
     top: 1px
     width: 100px
   #backlogs_container .backlog
-    border: 1px solid var(--borderColor-muted)
+    border: 1px solid var(--borderColor-default)
     display: block
     margin: 0 0 10px 0
     width: 100%
@@ -69,12 +69,12 @@
 
 #rb
   #backlogs_container .backlog .header
-    background-color: #eee
+    background-color: var(--bgColor-muted)
     height: 30px
     position: relative
     width: 100%
   .backlog .header .backlog-menu
-    border-right: 1px solid var(--borderColor-muted)
+    border-right: 1px solid var(--borderColor-default)
     cursor: pointer
     height: 30px
     overflow: visible
@@ -94,8 +94,8 @@
           display: block
     .items
       display: none
-      background-color: #EEEEEE
-      border: 1px solid var(--borderColor-muted)
+      background-color: var(--overlay-bgColor)
+      border: 1px solid var(--borderColor-default)
       position: absolute
       top: 30px
       right: -2px
@@ -209,9 +209,9 @@
       position: relative
       width: 100%
       &.odd
-        background-color: #F6F7F8
+        background-color: var(--bgColor-neutral-muted)
       &.even
-        background-color: #FFF
+        background-color: var(--body-background)
       &.error.icon-bug
         background: none
         text-align: center
@@ -220,7 +220,7 @@
           color: red
           pointer-events: none
       &.hover, &:hover
-        background-color: rgb(254, 248, 168)
+        background-color: var(--highlight-neutral-bgColor)
       &.closed
         text-decoration: line-through
       .id

@@ -517,6 +517,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
         excluded_from_totals: "Excluded from totals"
 
   themes:
+    dark: "Dark"
     light: "Light"
     light_high_contrast: "Light high contrast"
 
