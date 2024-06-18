@@ -25,22 +25,10 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module Standard
-  class BasicDataSeeder < ::BasicDataSeeder
-    def data_seeder_classes
-      [
-        ::BasicData::BuiltinUsersSeeder,
-        ::BasicData::ProjectRoleSeeder,
-        ::BasicData::WorkPackageRoleSeeder,
-        ::BasicData::ProjectQueryRoleSeeder,
-        ::BasicData::GlobalRoleSeeder,
-        ::BasicData::TimeEntryActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::BasicData::WorkflowSeeder,
-        ::BasicData::PrioritySeeder,
-        ::BasicData::SettingSeeder
-      ]
-    end
+module BasicData
+  class ProjectQueryRoleSeeder < BaseRoleSeeder
+    self.model_class = ProjectQueryRole
+    self.seed_data_model_key = "project_query_roles"
+    self.attribute_names_for_lookups = %i[builtin]
   end
 end

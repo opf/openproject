@@ -114,6 +114,10 @@ module OpenProject
         @work_package_permissions ||= permissions.select(&:work_package?)
       end
 
+      def project_query_permissions
+        @project_query_permissions ||= permissions.select(&:project_query?)
+      end
+
       def project_permissions
         @project_permissions ||= permissions.select(&:project?)
       end

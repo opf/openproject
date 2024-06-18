@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -25,22 +27,25 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module Standard
-  class BasicDataSeeder < ::BasicDataSeeder
-    def data_seeder_classes
-      [
-        ::BasicData::BuiltinUsersSeeder,
-        ::BasicData::ProjectRoleSeeder,
-        ::BasicData::WorkPackageRoleSeeder,
-        ::BasicData::ProjectQueryRoleSeeder,
-        ::BasicData::GlobalRoleSeeder,
-        ::BasicData::TimeEntryActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::BasicData::WorkflowSeeder,
-        ::BasicData::PrioritySeeder,
-        ::BasicData::SettingSeeder
-      ]
+
+FactoryBot.define do
+  factory :project_query_role do
+    sequence(:name) { |n| "ProjectQuery Role #{n}" }
+  end
+
+  factory :view_project_query_role, parent: :project_query_role do
+    name { "Project Query view" }
+    builtin { Role::BUILTIN_PROJECT_QUERY_VIEW }
+    permissions do
+      %i(view_project_query)
+    end
+  end
+
+  factory :edit_project_query_role, parent: :project_query_role do
+    name { "Project Query edit" }
+    builtin { Role::BUILTIN_PROJECT_QUERY_EDIT }
+    permissions do
+      %i(view_project_query edit_project_query)
     end
   end
 end

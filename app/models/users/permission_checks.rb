@@ -33,8 +33,8 @@ module Users::PermissionChecks
     # Some Ruby magic. Create methods for each entity we can have memberships on automatically
     # i.e. allowed_in_work_package? and allowed_in_any_work_package?
     Member::ALLOWED_ENTITIES.each do |entity_model_name|
-      entity_name_underscored = entity_model_name.underscore
       entity_class = entity_model_name.constantize
+      entity_name_underscored = entity_class.model_name.element
 
       define_method :"allowed_in_#{entity_name_underscored}?" do |permission, entity|
         allowed_in_entity?(permission, entity, entity_class)

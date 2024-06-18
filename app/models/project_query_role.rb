@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+#
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -25,22 +28,14 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module Standard
-  class BasicDataSeeder < ::BasicDataSeeder
-    def data_seeder_classes
-      [
-        ::BasicData::BuiltinUsersSeeder,
-        ::BasicData::ProjectRoleSeeder,
-        ::BasicData::WorkPackageRoleSeeder,
-        ::BasicData::ProjectQueryRoleSeeder,
-        ::BasicData::GlobalRoleSeeder,
-        ::BasicData::TimeEntryActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::BasicData::WorkflowSeeder,
-        ::BasicData::PrioritySeeder,
-        ::BasicData::SettingSeeder
-      ]
-    end
+
+class ProjectQueryRole < Role
+  def self.givable
+    super
+      .where(type: "ProjectQueryRole")
+  end
+
+  def member?
+    true
   end
 end

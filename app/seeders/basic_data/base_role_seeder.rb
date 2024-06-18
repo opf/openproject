@@ -52,6 +52,8 @@ module BasicData
       when :work_package_editor then Role::BUILTIN_WORK_PACKAGE_EDITOR
       when :work_package_commenter then Role::BUILTIN_WORK_PACKAGE_COMMENTER
       when :work_package_viewer then Role::BUILTIN_WORK_PACKAGE_VIEWER
+      when :project_query_view then Role::BUILTIN_PROJECT_QUERY_VIEW
+      when :project_query_edit then Role::BUILTIN_PROJECT_QUERY_EDIT
       else Role::NON_BUILTIN
       end
     end

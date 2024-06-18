@@ -43,24 +43,20 @@ module Authorization
       entities = Array(entities_to_check)
 
       entities.all? do |entity|
-        allowed_in_single_entity?(perms, entity)
+        allowed_in_single_entity?(perms, entity, entity_class)
       end
     end
 
-    def allowed_in_any_entity?(permission, entity_class, in_project: nil) # rubocop:disable Metrics/PerceivedComplexity
+    def allowed_in_any_entity?(permission, entity_class, in_project: nil)
       perms = contextual_permissions(permission, context_name(entity_class))
       return false unless authorizable_user?
       return false if in_project && !(in_project.active? || in_project.being_archived?)
       return true if admin_and_all_granted_to_admin?(perms)
 
-      # entity_class.allowed_to will also check whether the user has the permission via a membership in the project.
-      # ^-- still a problem in some cases
-      allowed_scope = entity_class.allowed_to(user, perms)
-
-      if in_project
-        allowed_in_single_project?(perms, in_project) || allowed_scope.exists?(project: in_project)
+      if entity_is_project_scoped?(entity_class)
+        allowed_in_any_project_scoped_entity?(perms, entity_class, in_project:)
       else
-        allowed_in_any_project?(perms) || allowed_scope.exists?
+        allowed_in_any_standalone_entity?(perms, entity_class)
       end
     end
 
@@ -94,7 +90,15 @@ module Authorization
       cached_permissions(project).intersect?(permissions_filtered_for_project)
     end
 
-    def allowed_in_single_entity?(permissions, entity)
+    def allowed_in_single_entity?(permissions, entity, entity_class)
+      if entity_is_project_scoped?(entity_class)
+        allowed_in_single_project_scoped_entity?(permissions, entity)
+      else
+        allowed_in_single_standalone_entity?(permissions, entity)
+      end
+    end
+
+    def allowed_in_single_project_scoped_entity?(permissions, entity)
       return false if entity.nil?
       return false if entity.project.nil?
       return false unless entity.project.active? || entity.project.being_archived?
@@ -109,6 +113,29 @@ module Authorization
       # Because this way, all permissions for that context are fetched and cached.
       allowed_in_single_project?(permissions, entity.project) ||
         cached_permissions(entity).intersect?(permissions_filtered_for_project)
+    end
+
+    def allowed_in_single_standalone_entity?(permissions, entity)
+      return false if entity.nil?
+      return true if admin_and_all_granted_to_admin?(permissions)
+
+      cached_permissions(entity).intersect?(permissions)
+    end
+
+    def allowed_in_any_project_scoped_entity?(permissions, entity_class, in_project:)
+      # entity_class.allowed_to will also check whether the user has the permission via a membership in the project.
+      # ^-- still a problem in some cases
+      allowed_scope = entity_class.allowed_to(user, permissions)
+
+      if in_project
+        allowed_in_single_project?(permissions, in_project) || allowed_scope.exists?(project: in_project)
+      else
+        allowed_in_any_project?(permissions) || allowed_scope.exists?
+      end
+    end
+
+    def allowed_in_any_standalone_entity?(permissions, entity_class)
+      entity_class.allowed_to(user, permissions).exists?
     end
 
     def admin_and_all_granted_to_admin?(permissions)
@@ -132,6 +159,10 @@ module Authorization
 
     def context_name(entity_class)
       entity_class.model_name.element.to_sym
+    end
+
+    def entity_is_project_scoped?(entity_class)
+      entity_class.reflect_on_association(:project).present?
     end
   end
 end
