@@ -58,9 +58,23 @@
       meeting_agenda_item: "Dagsorden element"
       meeting_agenda: "Saksliste"
       meeting_minutes: "Referat"
+      meeting_section: "Section"
   activity:
     filter:
       meeting: "Møter"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "satt til %{value}"
+          added_html: "satt til <i>%{value}</i>"
+          removed: "fjernet"
+          updated: "endret fra %{old_value} til %{value}"
+          updated_html: "endret fra <i>%{old_value}</i> til <i>%{value}</i>"
+        position:
+          updated: "omsortert"
+        work_package:
+          updated: "endret fra %{old_value} til %{value}"
+          updated_html: "endret fra <i>%{old_value}</i> til <i>%{value}</i>"
   description_attended: "deltok"
   description_invite: "invitert"
   events:

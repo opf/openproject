@@ -1,0 +1,6 @@
+<div class="main-menu"> <!-- Meant to be rendered inside the left-handed sidebar and is currently depending on that -->
+  <%= render OpenProject::Common::SubmenuComponent.new(
+    sidebar_menu_items: sidebar_menu_items,
+    searchable: searchable)
+  %>
+</div>

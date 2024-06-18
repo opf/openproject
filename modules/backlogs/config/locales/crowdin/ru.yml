@@ -27,7 +27,7 @@ ru:
     attributes:
       work_package:
         position: "Позиция"
-        story_points: "Исторические точки"
+        story_points: "Баллы Истории"
         backlogs_work_package_type: "Тип невыполненной работы"
     errors:
       models:

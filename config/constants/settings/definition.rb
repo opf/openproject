@@ -303,6 +303,12 @@ module Settings
           "%B %d, %Y"
         ].freeze
       },
+      days_per_month: {
+        description: "This will define what is considered a “month” when displaying duration in a more natural way " \
+                     "(for example, if a month is 20 days, 60 days would be 3 months.",
+        default: 20,
+        format: :integer
+      },
       default_auto_hide_popups: {
         description: "Whether to automatically hide success notifications by default",
         default: true
@@ -521,6 +527,12 @@ module Settings
       host_name: {
         default: "localhost:3000"
       },
+      hours_per_day: {
+        description: "This will define what is considered a “day” when displaying duration in a more natural way " \
+                     "(for example, if a day is 8 hours, 32 hours would be 4 days).",
+        default: 8,
+        format: :integer
+      },
       # Health check configuration
       health_checks_authentication_password: {
         description: "Add an authentication challenge for the /health_check endpoint",
@@ -728,7 +740,7 @@ module Settings
         writable: false
       },
       rails_cache_store: {
-        description: "Set cache store implemenation to use with OpenProject",
+        description: "Set cache store implementation to use with OpenProject",
         format: :symbol,
         default: :file_store,
         writable: false,

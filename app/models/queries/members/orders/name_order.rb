@@ -39,7 +39,7 @@ class Queries::Members::Orders::NameOrder < Queries::Orders::Base
 
   protected
 
-  def order
-    model.merge Principal.ordered_by_name(desc: direction == :desc)
+  def order(scope)
+    scope.merge Principal.ordered_by_name(desc: direction == :desc)
   end
 end

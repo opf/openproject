@@ -1,4 +1,4 @@
-require 'open_project/plugins'
+require "open_project/plugins"
 
 module OpenProject::OpenIDConnect
   class Engine < ::Rails::Engine
@@ -7,16 +7,16 @@ module OpenProject::OpenIDConnect
     include OpenProject::Plugins::ActsAsOpEngine
     extend OpenProject::Plugins::AuthPlugin
 
-    register 'openproject-openid_connect',
-             author_url: 'https://www.openproject.org',
+    register "openproject-openid_connect",
+             author_url: "https://www.openproject.org",
              bundled: true,
-             settings: { 'default' => { 'providers' => {} } } do
+             settings: { "default" => { "providers" => {} } } do
       menu :admin_menu,
            :plugin_openid_connect,
            :openid_connect_providers_path,
            parent: :authentication,
-           caption: ->(*) { I18n.t('openid_connect.menu_title') },
-           enterprise_feature: 'openid_providers'
+           caption: ->(*) { I18n.t("openid_connect.menu_title") },
+           enterprise_feature: "openid_providers"
     end
 
     assets %w(
@@ -25,7 +25,7 @@ module OpenProject::OpenIDConnect
       openid_connect/auth_provider-heroku.png
     )
 
-    class_inflection_override('openid_connect' => 'OpenIDConnect')
+    class_inflection_override("openid_connect" => "OpenIDConnect")
 
     register_auth_providers do
       OmniAuth::OpenIDConnect::Providers.configure custom_options: %i[
@@ -60,11 +60,11 @@ module OpenProject::OpenIDConnect
       )
     end
 
-    initializer 'openid_connect.form_post_method' do
+    initializer "openid_connect.form_post_method" do
       # If response_mode 'form_post' is chosen,
       # the IP sends a POST to the callback. Only if
       # the sameSite flag is not set on the session cookie, is the cookie send along with the request.
-      if OpenProject::Configuration['openid_connect']&.any? { |_, v| v['response_mode']&.to_s == 'form_post' }
+      if OpenProject::Configuration["openid_connect"]&.any? { |_, v| v["response_mode"]&.to_s == "form_post" }
         SecureHeaders::Configuration.default.cookies[:samesite][:lax] = false
         # Need to reload the secure_headers config to
         # avoid having set defaults (e.g. https) when changing the cookie values

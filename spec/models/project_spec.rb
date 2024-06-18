@@ -411,4 +411,33 @@ RSpec.describe Project do
     let(:model_instance) { project }
     let(:custom_field) { create(:string_project_custom_field) }
   end
+
+  describe "url identifier" do
+    let(:reserved) do
+      Rails.application.routes.routes
+        .map { |route| route.path.spec.to_s }
+        .filter_map { |path| path[%r{^/projects/(\w+)\(\.:format\)$}, 1] }
+        .uniq
+    end
+
+    it "is set from name" do
+      project = described_class.new(name: "foo")
+
+      project.validate
+
+      expect(project.identifier).to eq("foo")
+    end
+
+    it "is not allowed to clash with projects routing" do
+      expect(reserved).not_to be_empty
+
+      reserved.each do |word|
+        project = described_class.new(name: word)
+
+        project.validate
+
+        expect(project.identifier).not_to eq(word)
+      end
+    end
+  end
 end

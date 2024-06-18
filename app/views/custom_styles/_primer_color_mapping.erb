@@ -9,6 +9,7 @@
      configured design outside of high contrast mode  */
   [data-color-mode]:not([data-light-theme=light_high_contrast]) {
     --fgColor-accent: var(--accent-color) !important;
+    --fgColor-link: var(--accent-color) !important;
     --control-checked-bgColor-rest: var(--control-checked-color) !important;
     --control-checked-bgColor-active: var(--control-checked-color) !important;
     --control-checked-bgColor-hover: var(--control-checked-color--major1) !important;
@@ -18,43 +19,67 @@
     --button-primary-bgColor-disabled: var(--button--primary-background-disabled-color) !important;
     --button-primary-borderColor-disabled: var(--button--primary-border-disabled-color) !important;
   }
-  [data-light-theme=light_high_contrast]{
+
+  /* Generic color mapping for content variables */
+  [data-light-theme=light_high_contrast],
+  [data-dark-theme=dark] {
     --avatar-border-color: var(--avatar-borderColor);
     --list-item-hover--border-color: var(--control-transparent-borderColor-hover);
     --list-item-hover--color: var(--fgColor-default);
     --inplace-edit--border-color: var(--borderColor-default);
     --ck-color-toolbar-border: var(--borderColor-default);
+    --ck-color-list-background: var(--overlay-bgColor);
     --ck-color-base-border: var(--borderColor-default);
+    --ck-color-button-default-hover-background: var(--button-default-bgColor-hover);
+    --ck-color-toolbar-background: var(--body-background);
+    --ck-color-text: var(--body-font-color);
+    --ck-color-dropdown-panel-background: var(--overlay-bgColor);
+    --ck-color-list-button-hover-background: var(--control-transparent-bgColor-hover);
+    --ck-color-panel-background: var(--overlay-bgColor);
+    --ck-color-input-background: var(--overlay-bgColor);
     --table-border-color: var(--borderColor-default);
     --toolbar-item--bg-color: var(--button-default-bgColor-rest);
     --toolbar-item--border-color: var(--borderColor-default);
+    --status-selector-border-color: var(--button-default-borderColor-rest);
+    --grid-background-color: var(--bgColor-inset);
+    --button--active-border-color: var(--button-default-borderColor-rest);
+    --button--font-color: var(--button-default-fgColor-rest);
+    --button--background-hover-color: var(--button-default-bgColor-hover);
+    --button--background-color: var(--button-default-bgColor-rest);
     --header-border-bottom-width: 1px;
     --header-bg-color: var(--page-header-bgColor);
     --header-item-font-color: var(--fgColor-default);
     --header-item-bg-hover-color: var(--control-transparent-bgColor-hover);
     --header-item-font-hover-color: var(--fgColor-default);
     --header-border-bottom-color: var(--borderColor-muted) !important;
-    --main-menu-bg-color: var(--page-header-bgColor);
     --main-menu-hover-font-color: var(--fgColor-default);
     --main-menu-bg-selected-background: var(--control-transparent-bgColor-hover);
     --main-menu-bg-hover-background: var(--control-transparent-bgColor-hover);
-    --main-menu-font-color: var(--fgColor-default);
-    --main-menu-selected-font-color: var(--fgColor-default);
     --main-menu-border-color: var(--borderColor-muted);
     --main-menu-resizer-color: var(--borderColor-muted);
-    --main-menu-bg-selected-border: var(--borderColor-muted);
-    --main-menu-hover-border-color: var(--fgColor-default) !important;
     --main-menu-fieldset-header-color: var(--fgColor-muted) !important;
     --main-menu-border-width: 1px;
-    --button-default-borderColor-rest: var(--borderColor-default);
+  }
+
+  /* For accessibility themes we are also overriding the header and the sidebar */
+  [data-light-theme=light_high_contrast] {
+    --main-menu-hover-border-color: var(--fgColor-default) !important;
+    --main-menu-bg-selected-border: var(--fgColor-default);
+    --main-menu-bg-color: var(--page-header-bgColor);
+    --main-menu-font-color: var(--fgColor-default);
+    --main-menu-selected-font-color: var(--fgColor-default);
+    --accent-color: var(--fgColor-accent);
+    --link-text-decoration: underline;
+    --button--primary-font-color:  var(--button-primary-fgColor-rest);
     --button--primary-background-hover-color: var(--button-primary-bgColor-hover);
     --button--primary-background-color: var(--button-primary-bgColor-rest);
-    --button--active-border-color: var(--borderColor-default);
-    --button--background-hover-color: var(--button-default-bgColor-hover);
-    --button--background-color: var(--button-default-bgColor-rest);
-    --accent-color: var(--fgColor-accent);
     --primary-button-color: var(--button-primary-bgColor-rest);
-    --status-selector-border-color: var(--button-default-borderColor-rest);
-    --link-text-decoration: underline;
+  }
+
+  /* For dark themes we are using a lighter version of the accent and primary color. Otherwise they will not be seen */
+  [data-dark-theme=dark] {
+      --accent-color: var(--accent-color--dark-mode);
+      --primary-button-color: var(--primary-button-color--dark-mode);
+      --main-menu-bg-color: var(--overlay-bgColor);
   }
 </style>

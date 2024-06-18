@@ -98,13 +98,6 @@ RSpec.describe "OpenID Connect", :skip_2fa_stage, # Prevent redirects to 2FA sta
       expect(response).to have_http_status :found
       expect(response.location).to match /\/\?first_time_user=true$/
 
-      # after_login requires the optional third context parameter
-      # remove this guard once we are on v4.1
-      if OpenProject::OmniAuth::Authorization.method(:after_login!).arity.abs > 2
-        # check that cookie is stored in the access token
-        expect(response.cookies["_open_project_session_access_token"]).to eq "foo bar baz"
-      end
-
       user = User.find_by(mail: user_info[:email])
 
       expect(user).not_to be_nil

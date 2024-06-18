@@ -29,8 +29,6 @@
 require "spec_helper"
 
 RSpec.describe "Activity page navigation", :js, :with_cuprite do
-  include ActiveSupport::Testing::TimeHelpers
-
   shared_let(:project) { create(:project, enabled_module_names: Setting.default_projects_modules + ["activity"]) }
   shared_let(:subproject) do
     create(:project, parent: project, enabled_module_names: Setting.default_projects_modules + ["activity"])

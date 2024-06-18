@@ -79,9 +79,9 @@ module API
 
         def _type
           if represented.noop? || represented.notes.present?
-            'Activity::Comment'
+            "Activity::Comment"
           else
-            'Activity'
+            "Activity"
           end
         end
 

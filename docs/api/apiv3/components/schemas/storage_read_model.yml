@@ -43,7 +43,7 @@ properties:
     type: string
     format: date-time
     description: Time of the most recent change to the storage
-  complete:
+  configured:
     type: boolean
     description: Indication, if the storage is fully configured
   _embedded:

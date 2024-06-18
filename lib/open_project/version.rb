@@ -32,7 +32,7 @@ require "open3"
 module OpenProject
   module VERSION # :nodoc:
     MAJOR = 14
-    MINOR = 2
+    MINOR = 3
     PATCH = 0
 
     class << self
@@ -138,7 +138,7 @@ module OpenProject
       def read_optional(file)
         path = Rails.root.join(file)
         if File.exist? path
-          File.read(path)
+          String(File.read(path)).strip
         end
       end
 

@@ -64,8 +64,8 @@ RSpec.describe AnnouncementMailer do
       let(:recipient) { build_stubbed(:user, status: Principal.statuses[:locked]) }
 
       it "does not send an email" do
-        expect(mail.subject).to be nil
-        expect(mail.to).to be nil
+        expect(mail.subject).to be_nil
+        expect(mail.to).to be_nil
       end
     end
   end

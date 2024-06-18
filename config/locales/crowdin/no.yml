@@ -214,7 +214,7 @@
       is_required: "Marker det egendefinerte feltet som påkrevd. Dette vil gjøre det obligatorisk å fylle ut feltet når du oppretter nye eller oppdaterer eksisterende ressurser."
       is_for_all: "Merk egendefinert felt som tilgjengelig for alle eksisterende og nye prosjekter."
       searchable: "Inkluder feltverdier ved bruk av den globale søkefunksjonaliteten."
-      editable: "La feltet være redigerbar av brukere selv."
+      editable: "La feltet være redigerbart av brukere selv."
       visible: "Feltet synlig for alle brukere (ikke-administratorer) i prosjektoversikten og vises i prosjektdetalj-widgeten i Prosjektoversikten."
       is_filter: >
         Tillat at egendefinert felt brukes i filter i arbeidspakkevisninger. Merk at med 'For alle prosjekter' som er valgt, vil egendefinert felt vises i globale visninger.
@@ -266,6 +266,7 @@
       my: "Mine prosjekter"
       favored: "Favorittprosjekter"
       archived: "Arkiverte prosjekter"
+      public: "Offentlige prosjektlister"
       my_private: "Mine private prosjektlister"
       new:
         placeholder: "Ny prosjektliste"
@@ -293,8 +294,17 @@
         actions:
           label_enable_single: "Aktivert i dette prosjektet, klikk for å deaktivere"
           label_disable_single: "Deaktivert i dette prosjektet, klikk for å aktivere"
+          deactivate_for_project: "Deaktiver for dette prosjektet"
           label_enable_all: "Aktiver alle"
           label_disable_all: "Deaktiver alle"
+        is_required_blank_slate:
+          heading: Påkrevd i alle prosjekter
+          description: Prosjektattributten er aktivert i alle prosjekter fordi "Påkrevd i alle prosjekter"-alternativet er valgt. Attributten kan ikke deaktiveres for hvert enkelt prosjekt.
+        new_project_mapping_form:
+          add_projects: Add projects
+          include_sub_projects: Include sub-projects
+        project_mappings:
+          header: Enabled in projects
       types:
         no_results_title_text: Det finnes ingen tilgjengelige typer.
         form:
@@ -311,6 +321,12 @@
     update:
       success: "Den endrede listen er lagret"
       failure: "Den endrede listen kan ikke lagres: %{errors}"
+    publish:
+      success: "Listen er blitt offentliggjort"
+      failure: "Listen kan ikke offentliggjøres: %{errors}"
+    unpublish:
+      success: "Listen er blitt gjort privat"
+      failure: "Listen kan ikke gjøres privat: %{errors}"
     can_be_saved: "Listen endret:"
     can_be_saved_as: "Endringene kan bare lagres i en ny liste."
   members:
@@ -414,7 +430,7 @@
     deletion_info:
       heading: "Slett plassholderbruker %{name}"
       data_consequences: >
-        Alle forekomster av plassholderbrukeren (f.eks. som deltaker, ansvarlig eller andre brukerverdier) blir tilordnet på nytt til en konto kalt "Slettet bruker". Siden dataene for hver slettede konto blir tilordnet denne kontoen vil det ikke være mulig å skille dataene brukeren har opprettet fra data for en annen slettet konto.
+        Alle forekomster av plassholderbrukeren (f.eks. som utførende, ansvarlig eller andre brukerverdier) blir tilordnet på nytt til en konto kalt "Slettet bruker". Siden dataene for hver slettede konto blir tilordnet denne kontoen vil det ikke være mulig å skille dataene brukeren har opprettet fra data for en annen slettet konto.
       irreversible: "Du kan ikke angre denne handlingen"
       confirmation: "Skriv inn plassholderbrukernavnet %{name} for å bekrefte slettingen."
     upsale:
@@ -437,12 +453,19 @@
         Ingen attributter kan endres med unntak av status.
         <br/>
         <strong>Merknad</strong>: Arvede verdier (for eksempel fra barn eller relasjoner) vil fortsatt gjelde.
+      status_excluded_from_totals_text: |-
+        Velg denne innstillingen for å utelukke arbeidspakker med denne statusen fra oppsummeringer for Arbeid, Gjenstående arbeid og % Ferdig i et hierarki.
       status_color_text: |
         Klikk for å tilknytte eller endre fargen på denne statusen.
         Den vises i statusknappen og kan brukes til å fremheve arbeidspakker i tabellen.
     index:
       no_results_title_text: Det er for tiden ingen status for arbeidspakken.
       no_results_content_text: Legg til en ny status
+      headers:
+        is_default: "Standard"
+        is_closed: "Lukket"
+        is_readonly: "Kun lesetilgang"
+        excluded_from_totals: "Unntatt fra totaler"
   themes:
     light: "Lyst"
     light_high_contrast: "Lys høy kontrast"
@@ -612,6 +635,7 @@
       status:
         is_closed: "Arbeidspakke lukket"
         is_readonly: "Arbeidspakken er skrivebeskyttet"
+        excluded_from_totals: "Unnta fra beregning av totaler i hierarki"
       journal:
         notes: "Notater"
       member:
@@ -752,6 +776,7 @@
         before_or_equal_to: "må være før eller lik %{date}."
         blank: "kan ikke være blank."
         blank_nested: "må ha egenskapen '%{property}' aktivert."
+        cannot_delete_mapping: "er påkrevd. Kan ikke slettes."
         cant_link_a_work_package_with_a_descendant: "En arbeidspakke kan ikke knyttes til en av sine deloppgaver."
         circular_dependency: "En slik relasjon ville lage en sirkulær avhengighet."
         confirmation: "samsvarer ikke med %{attribute}."
@@ -912,6 +937,8 @@
               nonexistent: "Kolonnen '%{column}' eksisterer ikke."
               format: "%{message}"
           group_by_hierarchies_exclusive: "er gjensidig eksklusiv med grupper med '%{group_by}'. Du kan ikke aktivere begge."
+          can_only_be_modified_by_owner: "Spørringen kan bare endres av sin eier."
+          need_permission_to_modify_public_query: "Du kan ikke endre på et offentlig søk."
           filters:
             custom_fields:
               inexistent: "Det er ikke noe egendefinert felt for filteret."
@@ -945,6 +972,9 @@
             base:
               working_days_are_missing: "Minst en ukedag må defineres som en virkedag."
               previous_working_day_changes_unprocessed: "De tidligere endringene i konfigurasjonen av arbeidsdager har ikke blitt brukt ennå."
+              hours_per_day_are_missing: "Antall timer per dag må defineres."
+              durations_are_not_positive_numbers: "Varigheten må være positive tall."
+              hours_per_day_is_out_of_bounds: "Timer per dag kan ikke være mer enn 24"
         time_entry:
           attributes:
             hours:
@@ -1002,11 +1032,13 @@
               only_same_project_categories_allowed: "Kategorien for en arbeidpakke må være innenfor samme prosjekt som arbeidspakken."
               does_not_exist: "Den angitte kategorien finnes ikke."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Kan ikke være lavere enn gjenstående arbeid."
               must_be_set_when_remaining_work_is_set: "Påkrevd når gjenværende arbeid er satt."
               only_values_greater_or_equal_zeroes_allowed: "Må være >= 0."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "is not a valid duration."
               cant_exceed_work: "Kan ikke være høyere enn arbeidet."
               must_be_set_when_work_is_set: "Påkrevet når arbeidet settes."
               format: "%{message}"
@@ -1129,18 +1161,6 @@
           other: "<i>%{count} timer</i>"
         updated: "endret fra %{old_value} til %{value}"
         logged_for: "Logget for"
-      meeting_agenda_item:
-        duration:
-          added: "satt til %{value}"
-          added_html: "satt til <i>%{value}</i>"
-          removed: "fjernet"
-          updated: "endret fra %{old_value} til %{value}"
-          updated_html: "endret fra <i>%{old_value}</i> til <i>%{value}</i>"
-        position:
-          updated: "omsortert"
-        work_package:
-          updated: "endret fra %{old_value} til %{value}"
-          updated_html: "endret fra <i>%{old_value}</i> til <i>%{value}</i>"
     filter:
       changeset: "Changesets"
       message: "Forum"
@@ -1154,7 +1174,7 @@
   attributes:
     active: "Aktiv"
     assigned_to: "Deltaker"
-    assignee: "Deltaker"
+    assignee: "Utførende"
     attachments: "Vedlegg"
     author: "Forfatter"
     base: "Generell feil:"
@@ -1319,6 +1339,8 @@
   button_revoke_access: "Fjern tilgang"
   button_revoke_all: "Fjern alle"
   button_revoke_only: "Fjern kun %{shared_role_name}"
+  button_publish: "Offentliggjør"
+  button_unpublish: "Gjør privat"
   consent:
     checkbox_label: Jeg har merket meg og samtykker til det ovenfor.
     failure_message: Samtykke mislyktes, kan ikke fortsette.
@@ -1589,6 +1611,12 @@
       pdf_gantt: "PDF Gantt"
     image:
       omitted: "Bilde ikke eksportert."
+    macro:
+      error: "Macro error, %{message}"
+      attribute_not_found: "attribute not found: %{attribute}"
+      model_not_found: "invalid attribute model: %{model}"
+      resource_not_found: "resource not found: %{resource}"
+      rich_text_unsupported: "Rich text embedding currently not supported in export"
     units:
       hours: t
       days: d
@@ -1642,7 +1670,7 @@
       dates_changed: "Datoer endret"
       default_attribute_written: "Skrivebeskyttet attributter skrevet"
       progress_mode_changed_to_status_based: "Fremdriftsberegning oppdatert"
-      status_p_complete_changed: "Status % ferdig endret"
+      status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system oppdatering:"
     cause_descriptions:
       work_package_predecessor_changed_times: etter endringer i forgjenger %{link}
@@ -1659,8 +1687,9 @@
           working: "%{date} er nå arbeidsdag"
           non_working: "%{date} er nå arbeidsfri"
       progress_mode_changed_to_status_based: Framdriftsmodus satt til statusbasert
-      status_p_complete_changed: >-
-        % ferdigstilt verdi for status '%{status_name}' endret fra %{old_value}% til %{new_value}%
+      status_excluded_from_totals_set_to_false_message: nå inkludert i hierarkiske summer
+      status_excluded_from_totals_set_to_true_message: nå ekskludert fra hierarkiske summer
+      status_percent_complete_changed: "% ferdig endret fra %{old_value}% til %{new_value}%"
       system_update:
         file_links_journal: >
           Fra nå av vil aktivitet knyttet til linker (filer lagret i eksterne lagringer) vises her i aktivitetsfanen. Følgende representerer aktivitet med lenker som allerede eksisterer:
@@ -2317,7 +2346,7 @@
   label_workflow: "Arbeidsflyt"
   label_workflow_plural: "Arbeidsflyt"
   label_workflow_summary: "Sammendrag"
-  label_working_days: "Arbeidsdager"
+  label_working_days_and_hours: "Arbeidsdager og timer"
   label_x_closed_work_packages_abbr:
     one: "1 lukket"
     other: "%{count} stengt"
@@ -2701,6 +2730,7 @@
   permission_save_bcf_queries: "Lagre BCF-spørringer"
   permission_manage_public_bcf_queries: "Administrere offentlige BCF-spørringer"
   permission_edit_attribute_help_texts: "Rediger hjelpetekster for egenskap"
+  permission_manage_public_project_queries: "Administrere offentlige prosjektlister"
   placeholders:
     default: "-"
   project:
@@ -2743,7 +2773,7 @@
   query_fields:
     active_or_archived: "Aktiv eller arkivert"
     assigned_to_role: "Deltakers rolle"
-    assignee_or_group: "Tildelt eller tilhørende gruppe"
+    assignee_or_group: "Utførende eller tilhørende gruppe"
     member_of_group: "Deltakers gruppe"
     name_or_identifier: "Navn eller identifikator"
     only_subproject_id: "Bare underprosjekt"
@@ -2931,6 +2961,9 @@
   setting_feeds_limit: "Innholdsgrense for Feed"
   setting_file_max_size_displayed: "Maks størrelse på tekstfiler som vises inline"
   setting_host_name: "Vertsnavn"
+  setting_hours_per_day: "Timer per dag"
+  setting_hours_per_day_explanation: >-
+    Dette vil definere hva som anses som en "dag" når varigheten vises på en mer naturlig måte (for eksempel hvis dagen er 8 timer, vil 32 timer være 4 dager).
   setting_invitation_expiration_days: "Aktiverings e-post utløper etter"
   setting_work_package_done_ratio: "Beregning av fremdrift"
   setting_work_package_done_ratio_field: "Arbeidsbasert"
@@ -3372,12 +3405,12 @@
         additional_privileges_project_or_group: "Kan ha flere privilegier (som prosjekt- eller gruppemedlem)"
   working_days:
     info: >
-      Hoppet over dager som ikke er valgt, ved planlegging av arbeidspakker (og ikke inkludert i antall dager). Disse kan overstyres på et arbeidspakkenivå.
+      Hoppet over dager som ikke er valgt ved planlegging av arbeidspakker (og ikke inkludert i antall dager). Disse kan overstyres på arbeidspakkenivå.
     instance_wide_info: >
       Datoer som er lagt til i listen nedenfor regnes som arbeidsfrie og hoppet over når arbeidspakker planlegges.
     change_button: "Endre arbeidsdager"
     warning: >
-      Endring av hvilke ukedager som regnes som arbeidsdager eller arbeidsfrie dager kan påvirke start- og sluttdager for alle arbeidspakker i alle prosjekter i denne forekomsten. <br/> Vær oppmerksom på at endringer kun brukes etter at du har klikket på knappen Bruk endringer.
+      Endring av hvilke ukedager som regnes som arbeidsdager eller arbeidsfrie dager kan påvirke start- og sluttdager for alle arbeidspakker i alle prosjekter i denne forekomsten.
     journal_note:
       changed: _**Arbeidsdager** endret (%{changes})._
       days:

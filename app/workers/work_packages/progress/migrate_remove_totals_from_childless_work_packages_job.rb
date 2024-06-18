@@ -27,6 +27,8 @@
 #++
 
 class WorkPackages::Progress::MigrateRemoveTotalsFromChildlessWorkPackagesJob < WorkPackages::Progress::Job
+  include WorkPackages::Progress::SqlCommandsForMigration
+
   def perform
     updated_work_package_ids = remove_totals_from_childless_work_packages
     create_journals_for_updated_work_packages(updated_work_package_ids, cause: journal_cause)

@@ -45,7 +45,7 @@ RSpec.describe Queries::Projects::Filters::AvailableProjectAttributesFilter do
     end
     let(:name) { "Available project attributes" }
 
-    describe "#scope" do
+    describe "#apply_to" do
       let(:values) { valid_values }
 
       let(:project_custom_field_project_mapping_handwritten_sql_subquery) do
@@ -66,7 +66,7 @@ RSpec.describe Queries::Projects::Filters::AvailableProjectAttributesFilter do
               WHERE "projects"."id" IN (#{project_custom_field_project_mapping_handwritten_sql_subquery})
           SQL
 
-          expect(instance.scope.to_sql).to eql handwritten_scope_sql
+          expect(instance.apply_to(Project).to_sql).to eql handwritten_scope_sql
         end
       end
 
@@ -79,7 +79,7 @@ RSpec.describe Queries::Projects::Filters::AvailableProjectAttributesFilter do
               WHERE "projects"."id" NOT IN (#{project_custom_field_project_mapping_handwritten_sql_subquery})
           SQL
 
-          expect(instance.scope.to_sql).to eql handwritten_scope_sql
+          expect(instance.apply_to(Project).to_sql).to eql handwritten_scope_sql
         end
       end
 
@@ -87,7 +87,7 @@ RSpec.describe Queries::Projects::Filters::AvailableProjectAttributesFilter do
         let(:operator) { "!=" }
 
         it "raises an error" do
-          expect { instance.scope }.to raise_error("unsupported operator")
+          expect { instance.apply_to(Project) }.to raise_error("unsupported operator")
         end
       end
     end

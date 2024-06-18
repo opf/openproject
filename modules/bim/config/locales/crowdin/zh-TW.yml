@@ -1,8 +1,8 @@
 #English strings go here for Rails i18n
 zh-TW:
   plugin_openproject_bim:
-    name: "OpenProject BIM and BCF functionality"
-    description: "This OpenProject plugin introduces BIM and BCF functionality."
+    name: "OpenProject BIM 和 BCF 功能"
+    description: "該 OpenProject 插件引入了 BIM 和 BCF 功能。"
   bim:
     label_bim: 'BIM'
   bcf:

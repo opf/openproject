@@ -60,9 +60,23 @@ lt:
       meeting_agenda_item: "Darbotvarkės punktas"
       meeting_agenda: "Dienotvarkė"
       meeting_minutes: "Minutės"
+      meeting_section: "Section"
   activity:
     filter:
       meeting: "Susitikimai"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "nustatyti %{value}"
+          added_html: "nustatyti <i>%{value}</i>"
+          removed: "išimta"
+          updated: "pakeitė iš %{old_value} į %{value}"
+          updated_html: "pakeista iš <i>%{old_value}</i> į <i>%{value}</i>"
+        position:
+          updated: "perrikiuota"
+        work_package:
+          updated: "pakeista iš %{old_value} į %{value}"
+          updated_html: "pakeista iš <i>%{old_value}</i> į <i>%{value}</i>"
   description_attended: "būtinai dalyvavo"
   description_invite: "pakviesta"
   events:

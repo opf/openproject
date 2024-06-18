@@ -80,6 +80,6 @@ nl:
         tooltip:
           not_logged_in: "Please log in to the storage to access this file."
           view_not_allowed: "U heeft geen toestemming om dit bestand te bekijken."
-          not_found: "This file cannot be found."
+          not_found: "Dit bestand kan niet worden gevonden."
         already_linked_file: "Dit bestand is al gekoppeld aan dit werkpakket."
         already_linked_directory: "Deze map is al gekoppeld aan dit werkpakket."

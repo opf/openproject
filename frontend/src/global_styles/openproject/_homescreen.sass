@@ -31,12 +31,12 @@
 .controller-homescreen #content-wrapper
   .widget-box
     box-shadow: none
-    border: 1px solid var(--borderColor-muted)
+    border: 1px solid var(--borderColor-default)
 
     &.upsale
-      background: $spot-color-feedback-info-light
+      background: var(--bgColor-accent-muted)
       flex-basis: 100%
-      border-color: $spot-color-feedback-info-dark
+      border-color: var(--borderColor-accent-muted)
 
 .controller-homescreen #breadcrumb
   display: none
@@ -55,13 +55,13 @@
     flex: 1
     display: block
     text-align: center
-    color: var(--content-icon-link-color)
+    color: var(--control-iconColor-rest)
 
     i::before
       display: block
       margin-bottom: 10px
       font-size: 3rem
-      color: var(--content-icon-link-color)
+      color: var(--control-iconColor-rest)
 
     &:hover,
     &:hover span

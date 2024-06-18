@@ -40,4 +40,6 @@ require_relative "../../lib_static/open_project/feature_decisions"
 #   end
 #
 OpenProject::FeatureDecisions.add :primerized_work_package_activities
+OpenProject::FeatureDecisions.add :favorite_projects
+OpenProject::FeatureDecisions.add :dark_mode
 OpenProject::FeatureDecisions.add :project_list_sharing

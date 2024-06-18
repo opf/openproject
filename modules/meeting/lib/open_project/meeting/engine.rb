@@ -115,7 +115,7 @@ module OpenProject::Meeting
            caption: :project_module_meetings,
            after: :wiki,
            before: :members,
-           icon: "meetings"
+           icon: "comment-discussion"
 
       menu :project_menu,
            :meetings_query_select, { controller: "/meetings", action: "index" },
@@ -132,14 +132,14 @@ module OpenProject::Meeting
            context: :modules,
            caption: :label_meeting_plural,
            last: true,
-           icon: "meetings",
+           icon: "comment-discussion",
            if: should_render_global_menu_item
 
       menu :global_menu,
            :meetings, { controller: "/meetings", action: "index", project_id: nil },
            caption: :label_meeting_plural,
            last: true,
-           icon: "meetings",
+           icon: "comment-discussion",
            if: should_render_global_menu_item
 
       menu :global_menu,

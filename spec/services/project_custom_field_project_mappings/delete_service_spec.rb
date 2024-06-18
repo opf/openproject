@@ -32,5 +32,8 @@ require "services/base_services/behaves_like_delete_service"
 RSpec.describe ProjectCustomFieldProjectMappings::DeleteService do
   it_behaves_like "BaseServices delete service" do
     let(:factory) { :project_custom_field_project_mapping }
+    let(:contract_class) do
+      "#{namespace}::UpdateContract".constantize
+    end
   end
 end

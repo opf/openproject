@@ -212,7 +212,7 @@ Click on the Filter tab in order to configure the work packages to be displayed,
 
 ![filter work package graph widget](openproject_user_guide_project_overview_filter_criteria_widget.png)
 
-Click the green**Apply** button to save your changes.
+Click the green **Apply** button to save your changes.
 
 If you want to replicate the widgets shown in the example in the screen-shot above:
 

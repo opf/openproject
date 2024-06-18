@@ -266,6 +266,7 @@ ro:
       my: "Proiectele mele"
       favored: "Favorite projects"
       archived: "Archived projects"
+      public: "Public project lists"
       my_private: "My private project lists"
       new:
         placeholder: "New project list"
@@ -293,8 +294,17 @@ ro:
         actions:
           label_enable_single: "Active in this project, click to disable"
           label_disable_single: "Inactive in this project, click to enable"
+          deactivate_for_project: "Deactivate for this project"
           label_enable_all: "Enable all"
           label_disable_all: "Disable all"
+        is_required_blank_slate:
+          heading: Required in all projects
+          description: This project attribute is activated in all projects since the "Required in all projects" option is checked. It cannot be deactivated for individual projects.
+        new_project_mapping_form:
+          add_projects: Add projects
+          include_sub_projects: Include sub-projects
+        project_mappings:
+          header: Enabled in projects
       types:
         no_results_title_text: În acest moment nu există tipuri disponibile.
         form:
@@ -311,6 +321,12 @@ ro:
     update:
       success: "The modified list has been saved"
       failure: "The modified list cannot be saved: %{errors}"
+    publish:
+      success: "The list has been made public"
+      failure: "The list cannot be made public: %{errors}"
+    unpublish:
+      success: "The list has been made private"
+      failure: "The list cannot be made private: %{errors}"
     can_be_saved: "List modified:"
     can_be_saved_as: "The modifications can only be saved in a new list:"
   members:
@@ -443,12 +459,20 @@ ro:
         Nu se poate modifica niciun atribut, cu excepția statutului.
         <br/>
         <strong>Notă</strong>: Valorile moștenite (de exemplu, de la copii sau relații) se vor aplica în continuare.
+      status_excluded_from_totals_text: |-
+        Check this option to exclude work packages with this status from totals of Work,
+        Remaining work, and % Complete in a hierarchy.
       status_color_text: |
         Faceți click pentru a desemna sau schimba culoarea pentru acest flux de lucru.
         Acesta este afișat în butonul de statut și poate fi folosit pentru a evidenția pachetele de lucru din tabel.
     index:
       no_results_title_text: În acest moment nu există stări pentru pachetele de lucru.
       no_results_content_text: Adăugare stare nouă
+      headers:
+        is_default: "Default"
+        is_closed: "Closed"
+        is_readonly: "Read-only"
+        excluded_from_totals: "Excluded from totals"
   themes:
     light: "Light"
     light_high_contrast: "Light high contrast"
@@ -619,6 +643,7 @@ ro:
       status:
         is_closed: "Pachet de lucru închis"
         is_readonly: "Pachet de lucru numai pentru citire"
+        excluded_from_totals: "Exclude from calculation of totals in hierarchy"
       journal:
         notes: "Mențiuni"
       member:
@@ -759,6 +784,7 @@ ro:
         before_or_equal_to: "trebuie să fie înainte sau în %{date}."
         blank: "nu poate fi gol."
         blank_nested: "trebuie să aibă setul '%{property}' al proprietății."
+        cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "Un pachet de lucru nu poate fi legat de una din sub-activitățile sale."
         circular_dependency: "Această relație ar crea o dependință circulară."
         confirmation: "nu se potrivește cu %{attribute}."
@@ -919,6 +945,8 @@ ro:
               nonexistent: "The column '%{column}' does not exist."
               format: "%{message}"
           group_by_hierarchies_exclusive: "se exclude reciproc cu grupul de \"%{group_by}\". Nu le puteți activa pe amândouă."
+          can_only_be_modified_by_owner: "The query can only be modified by its owner."
+          need_permission_to_modify_public_query: "You cannot modify a public query."
           filters:
             custom_fields:
               inexistent: "Nu există un câmp personalizat pentru filtru."
@@ -952,6 +980,9 @@ ro:
             base:
               working_days_are_missing: "Cel puțin o zi a săptămânii trebuie să fie definită ca zi lucrătoare."
               previous_working_day_changes_unprocessed: "Modificările anterioare la configurația din zilele lucrătoare nu au fost încă aplicate."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
+              durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
         time_entry:
           attributes:
             hours:
@@ -1009,11 +1040,13 @@ ro:
               only_same_project_categories_allowed: "Categoria unui pachet de lucru trebuie să fie în cadrul aceluiaşi proiect ca pachetul de lucru."
               does_not_exist: "Categoria specificată nu există."
             estimated_hours:
+              not_a_number: "is not a valid duration."
               cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
               must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
               only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "is not a valid duration."
               cant_exceed_work: "Cannot be higher than Work."
               must_be_set_when_work_is_set: "Required when Work is set."
               format: "%{message}"
@@ -1144,18 +1177,6 @@ ro:
           other: "<i>%{count} hours</i>"
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
-      meeting_agenda_item:
-        duration:
-          added: "set to %{value}"
-          added_html: "set to <i>%{value}</i>"
-          removed: "removed"
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
-        position:
-          updated: "reordered"
-        work_package:
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
       changeset: "Seturi de modificări"
       message: "Forumuri"
@@ -1334,6 +1355,8 @@ ro:
   button_revoke_access: "Revoke access"
   button_revoke_all: "Revoke all"
   button_revoke_only: "Revoke only %{shared_role_name}"
+  button_publish: "Make public"
+  button_unpublish: "Make private"
   consent:
     checkbox_label: Am luat la cunoștință și consimt la cele de mai sus.
     failure_message: Consimţământul a eșuat, nu putem continua.
@@ -1622,6 +1645,12 @@ ro:
       pdf_gantt: "PDF Gantt"
     image:
       omitted: "Imaginea nu a fost exportată."
+    macro:
+      error: "Macro error, %{message}"
+      attribute_not_found: "attribute not found: %{attribute}"
+      model_not_found: "invalid attribute model: %{model}"
+      resource_not_found: "resource not found: %{resource}"
+      rich_text_unsupported: "Rich text embedding currently not supported in export"
     units:
       hours: h
       days: d
@@ -1675,7 +1704,7 @@ ro:
       dates_changed: "Dates changed"
       default_attribute_written: "Read-only attributes written"
       progress_mode_changed_to_status_based: "Progress calculation updated"
-      status_p_complete_changed: "Status % Complete changed"
+      status_changed: "Status '%{status_name}'"
       system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
@@ -1692,8 +1721,9 @@ ro:
           working: "%{date} este acum în funcțiune"
           non_working: "%{date} este acum nefuncțională"
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
-      status_p_complete_changed: >-
-        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
+      status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
+      status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
+      status_percent_complete_changed: "% complete changed from %{old_value}% to %{new_value}%"
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
@@ -2350,7 +2380,7 @@ ro:
   label_workflow: "Flux de lucru"
   label_workflow_plural: "Fluxuri de lucru"
   label_workflow_summary: "Descriere"
-  label_working_days: "Zile lucrătoare"
+  label_working_days_and_hours: "Working days and hours"
   label_x_closed_work_packages_abbr:
     one: "unul închis"
     other: "%{count} închise"
@@ -2735,6 +2765,7 @@ ro:
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_manage_public_project_queries: "Manage public project lists"
   placeholders:
     default: "-"
   project:
@@ -2965,6 +2996,9 @@ ro:
   setting_feeds_limit: "Limită conținut flux"
   setting_file_max_size_displayed: "Numărul maxim de linii afișat în text"
   setting_host_name: "Numele serverului"
+  setting_hours_per_day: "Hours per day"
+  setting_hours_per_day_explanation: >-
+    This will define what is considered a "day" when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "E-mailul de activare expiră după"
   setting_work_package_done_ratio: "Progress calculation"
   setting_work_package_done_ratio_field: "Work-based"
@@ -3407,12 +3441,12 @@ ro:
         additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overridden at a work-package level.
     instance_wide_info: >
       Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Modificarea zilelor lucrătoare"
     warning: >
-      În acest caz, modificarea zilelor săptămânii care sunt considerate zile lucrătoare sau nelucrătoare poate afecta zilele de început și de sfârșit ale tuturor pachetelor de lucru din toate proiectele. <br/> Vă rugăm să rețineți că modificările sunt aplicate numai după ce faceți clic pe butonul de aplicare a modificărilor.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
       changed: _**Zile lucrătoare** schimbate (%{changes})._
       days:

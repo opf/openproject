@@ -33,7 +33,7 @@ ru:
       color_theme_custom: "(Пользовательская)"
       colors:
         primary-button-color: "Основная кнопка"
-        accent-color: "Акцент"
+        accent-color: "Оттенок"
         header-bg-color: "Фон заголовка"
         header-item-bg-hover-color: "Фон заголовка при наведении курсора"
         header-item-font-color: "Шрифт заголовка"
@@ -265,6 +265,7 @@ ru:
       my: "Мои проекты"
       favored: "Избранные проекты"
       archived: "Архивные проекты"
+      public: "Списки общедоступных проектов"
       my_private: "Списки моих личных проектов"
       new:
         placeholder: "Список новых проектов"
@@ -292,8 +293,17 @@ ru:
         actions:
           label_enable_single: "Активно в этом проекте, нажмите для отключения"
           label_disable_single: "Неактивно в этом проекте, нажмите для включения"
+          deactivate_for_project: "Деактивировать для этого проекта"
           label_enable_all: "Включить всё"
           label_disable_all: "Выключить всё"
+        is_required_blank_slate:
+          heading: Требуется во всех проектах
+          description: Этот атрибут проекта активирован во всех проектах, поскольку установлен флажок «Требуется во всех проектах». Его нельзя отключить для отдельных проектов.
+        new_project_mapping_form:
+          add_projects: Добавить проекты
+          include_sub_projects: Включить подпроекты
+        project_mappings:
+          header: Включено в проектах
       types:
         no_results_title_text: На данный момент доступных типов нет.
         form:
@@ -310,6 +320,12 @@ ru:
     update:
       success: "Измененный список был сохранен"
       failure: "Измененный список не может быть сохранен: %{errors}"
+    publish:
+      success: "Список был сделан общедоступным"
+      failure: "Список не может быть сделан общедоступным: %{errors}"
+    unpublish:
+      success: "Список был сделан приватным"
+      failure: "Список не может быть сделан приватным: %{errors}"
     can_be_saved: "Список изменён:"
     can_be_saved_as: "Изменения могут быть сохранены только в новом списке:"
   members:
@@ -325,7 +341,7 @@ ru:
     menu:
       all: "Все"
       invited: "Приглашённые"
-      locked: "Заблокировано"
+      locked: "Заблокированные"
       project_roles: "Роли проекта"
       wp_shares: "Пакеты работ используемые совместно"
       groups: "Группы"
@@ -343,21 +359,21 @@ ru:
         few: "However, %{shared_work_packages_link} have also been shared with this group."
         many: "However, %{shared_work_packages_link} have also been shared with this group."
         other: "Однако, %{shared_work_packages_link} также был предоставлен этой группе."
-      remove_work_packages_shared_with_user_too: "Пользователь, который был удален как участник по-прежнему может получить доступ к общим пакетам работ. Вы хотели бы также удалить эти ресурсы?"
-      remove_work_packages_shared_with_group_too: "Группа, которая была удалена как участник, все еще может получить доступ к общим пакетам работ. Вы хотели бы также удалить эти ресурсы?"
-      will_not_affect_inherited_shares: "(Это не повлияет на пакеты работ, разделенные с их группой)."
+      remove_work_packages_shared_with_user_too: "Пользователь, который был удален как участник по-прежнему может получить доступ к общим пакетам работ. Вы хотели бы также удалить эти доступы?"
+      remove_work_packages_shared_with_group_too: "Группа, которая была удалена как участник, все еще может получить доступ к общим пакетам работ. Вы хотели бы также удалить эти доступы?"
+      will_not_affect_inherited_shares: "(Это не повлияет на рабочие пакеты, которыми они делятся со своей группой)."
       can_remove_direct_but_not_shared_roles: "Вы можете удалить этого пользователя как непосредственного участника проекта, но группа, в которой он состоит, также является участником этого проекта, поэтому он будет продолжать оставаться участником через группу."
       also_work_packages_shared_with_user_html:
         one: "Также, %{shared_work_packages_link} был предоставлен этому пользователю."
         few: "Also, %{shared_work_packages_link} have been shared with this user."
         many: "Also, %{shared_work_packages_link} have been shared with this user."
         other: "Также, %{shared_work_packages_link} был предоставлен этому пользователю."
-      remove_project_membership_or_work_package_shares_too: "Вы хотите удалить только пользователя как непосредственного члена (и сохранить ресурсы) или также удалить пакет работ?"
-      will_remove_all_user_access_priveleges: "Удаление этого участника удалит все права доступа пользователя к проекту. Пользователь по-прежнему будет существовать как часть экземпляра."
-      will_remove_all_group_access_priveleges: "Удаление этого участника удалит все права доступа группы к проекту. Группа по-прежнему будет существовать как часть экземпляра."
+      remove_project_membership_or_work_package_shares_too: "Вы хотите удалить только пользователя как непосредственного участника (и сохранить общие ресурсы) или также удалить общие ресурсы рабочего пакета?"
+      will_remove_all_user_access_priveleges: "Удаление этого участника удалит все права доступа пользователя к проекту. Пользователь по-прежнему будет существовать как часть системы."
+      will_remove_all_group_access_priveleges: "Удаление этого участника удалит все права доступа группы к проекту. Группа по-прежнему будет существовать как часть системы."
       cannot_delete_inherited_membership: "Вы не можете удалить этого участника, потому что он принадлежит к группе, которая сама является участником этого проекта."
-      cannot_delete_inherited_membership_note_admin_html: "Вы можете либо удалить группу как члена проекта, либо удалить этого конкретного члена из группы на странице %{administration_settings_link}."
-      cannot_delete_inherited_membership_note_non_admin: "Вы можете либо удалить группу в качестве члена проекта, либо связаться с администратором, чтобы удалить этого конкретного участника из группы."
+      cannot_delete_inherited_membership_note_admin_html: "Вы можете либо удалить группу как участника проекта, либо удалить этого конкретного сотрудника из группы на странице %{administration_settings_link}."
+      cannot_delete_inherited_membership_note_non_admin: "Вы можете либо удалить группу в качестве участника проекта, либо связаться с администратором, чтобы удалить этого конкретного участника из группы."
     delete_work_package_shares_dialog:
       title: "Отменить общий доступ к пакету работ"
       shared_with_this_user_html:
@@ -378,7 +394,7 @@ ru:
       revoke_all_or_with_role: "Хотите ли Вы отменить доступ ко всем общим пакетам работ или только к тем, которые имеют разрешения %{shared_role_name}?"
       will_not_affect_inherited_shares: "(Это не повлияет на пакеты работ, разделенные с их группой)."
       cannot_remove_inherited: "Общие пакеты работ, к которым предоставлен общий доступ через группы, не могут быть удалены."
-      cannot_remove_inherited_with_role: "Общие пакеты работ с ролью %{shared_role_name} доступны через группы и не могут быть удалены.\n\n\n\n"
+      cannot_remove_inherited_with_role: "Рабочие пакеты, совместно используемые с ролью %{shared_role_name} , передаются через группы и не могут быть удалены."
       cannot_remove_inherited_note_admin_html: "Вы можете либо отозвать общий доступ к группе, либо удалить этого конкретного участника из группы в %{administration_settings_link}."
       cannot_remove_inherited_note_non_admin: "Вы можете либо отозвать общий доступ к группе, либо обратиться к администратору, чтобы удалить этого конкретного участника из группы."
       will_revoke_directly_granted_access: "Это действие лишит их доступа ко всем пакетам работ, кроме тех, которыми поделились с группой."
@@ -400,8 +416,8 @@ ru:
     autologins:
       prompt: "Оставаться в системе %{num_days}"
     sessions:
-      remembered_devices: "Запомненные устройства"
-      remembered_devices_caption: "Список всех устройств, которые вошли в эту учетную запись, используя опцию «Оставаться в системе»."
+      remembered_devices: "Сохраненные устройства"
+      remembered_devices_caption: "Список всех устройств, через которые вошли в эту учетную запись, используя опцию «Оставаться в системе»."
       session_name: "%{browser_name} %{browser_version} на %{os_name}"
       browser: "Браузер"
       device: "Устройство / ОС"
@@ -448,12 +464,20 @@ ru:
         Никакие атрибуты не могут быть изменены за исключением статуса.
         <br/>
         <strong>Примечание</ strong>: Будут применены унаследованные значения (например, элементов предков или потомков).
+      status_excluded_from_totals_text: |-
+        Отметьте эту опцию, чтобы исключить пакеты работ с этим статусом из итогов Работы,
+        Оставшейся работы и % Завершения в иерархии.
       status_color_text: |
         Щелкните, чтобы задать или изменить цвет этого статуса.
         Этот цвет отображается на кнопке статуса и может использоваться для выделения пакетов работ в таблице.
     index:
       no_results_title_text: В данный момент статусы пакетов работ отсутствуют.
       no_results_content_text: Добавить новый статус
+      headers:
+        is_default: "По умолчанию"
+        is_closed: "Закрыт"
+        is_readonly: "Только для чтения"
+        excluded_from_totals: "Исключен из итогов"
   themes:
     light: "Светлая"
     light_high_contrast: "Светлый высокий контраст"
@@ -476,7 +500,7 @@ ru:
         в диаграммах Ганта или таблицах пакетов работ. Поэтому рекомендуется использовать насыщенный цвет.
   versions:
     overview:
-      work_packages_in_archived_projects: "Версия предоставляется совместно с архивированными проектами, которым все еще назначены рабочие пакеты для этой версии. Они учитываются, но не отображаются в связанных представлениях."
+      work_packages_in_archived_projects: "Эта версия используется совместно с архивными проектами, в которых все еще есть рабочие пакеты, назначенные на эту версию. Они учитываются, но не отображаются в связанных представлениях."
       no_results_title_text: В настоящее время пакетов работ для этой версии нет.
   wiki:
     page_not_editable_index: Запрошенная страница (пока) не существует. Вы были перенаправлены на индекс всех вики-страниц.
@@ -625,6 +649,7 @@ ru:
       status:
         is_closed: "Пакет работ закрыт"
         is_readonly: "Пакет работ только для просмотра"
+        excluded_from_totals: "Исключить из расчета итогов в иерархии"
       journal:
         notes: "Примечания"
       member:
@@ -765,6 +790,7 @@ ru:
         before_or_equal_to: "должны быть до или ровно %{date}."
         blank: "не может быть пустым."
         blank_nested: "должно быть установлено свойство '%{property}'."
+        cannot_delete_mapping: "требуется. Невозможно удалить."
         cant_link_a_work_package_with_a_descendant: "Пакет работ не может быть связан с одной из своих подзадач."
         circular_dependency: "Это отношение создаст циклическую зависимость."
         confirmation: "не совпадает со значением поля %{attribute}."
@@ -925,6 +951,8 @@ ru:
               nonexistent: "Столбец '%{column}' не существует."
               format: "%{message}"
           group_by_hierarchies_exclusive: "является взаимоисключающим при группировке «%{group_by}». Вы не можете активировать оба."
+          can_only_be_modified_by_owner: "Запрос может быть изменен только его владельцем."
+          need_permission_to_modify_public_query: "Вы не можете изменить общедоступный запрос."
           filters:
             custom_fields:
               inexistent: "Для этого фильтра нет настраиваемого поля."
@@ -958,6 +986,9 @@ ru:
             base:
               working_days_are_missing: "По крайней мере, один день недели должен быть определен как рабочий."
               previous_working_day_changes_unprocessed: "Предыдущие изменения конфигурации рабочих дней еще не были применены."
+              hours_per_day_are_missing: "Необходимо указать количество часов в день."
+              durations_are_not_positive_numbers: "Длительность должна быть положительным числом."
+              hours_per_day_is_out_of_bounds: "Количество часов в день не может быть больше 24"
         time_entry:
           attributes:
             hours:
@@ -1015,11 +1046,13 @@ ru:
               only_same_project_categories_allowed: "Категория пакета работ должна быть в рамках того же проекта, что и пакет работ."
               does_not_exist: "Указанная категория не существует."
             estimated_hours:
+              not_a_number: "не является допустимой продолжительностью."
               cant_be_inferior_to_remaining_work: "Не может быть меньше, чем Оставшаяся работа."
               must_be_set_when_remaining_work_is_set: "Требуется, если установлен параметр Оставшаяся работа."
               only_values_greater_or_equal_zeroes_allowed: "Должно быть >= 0."
               format: "%{message}"
             remaining_hours:
+              not_a_number: "не является допустимой продолжительностью."
               cant_exceed_work: "Не может быть выше Работы."
               must_be_set_when_work_is_set: "Требуется, если установлен параметр «Работа»."
               format: "%{message}"
@@ -1119,13 +1152,13 @@ ru:
     header_invalid_fields:
       one: "Возникла проблема со следующим полем:"
       few: "Возникли проблемы со следующими полями:"
-      many: "Проблемы возникли со следующими полями:"
-      other: "Проблемы со следующими полями:"
+      many: "Возникли проблемы со следующими полями:"
+      other: "Возникли проблемы со следующими полями:"
     header_additional_invalid_fields:
       one: "Кроме того, возникла проблема со следующим полем:"
-      few: "Кроме того, были проблемы со следующими полями:"
-      many: "Кроме того, были проблемы со следующими полями:"
-      other: "Кроме того, были проблемы с полями:"
+      few: "Кроме того, возникли проблемы со следующими полями:"
+      many: "Кроме того, возникли проблемы со следующими полями:"
+      other: "Кроме того, возникли проблемы с полями:"
     field_erroneous_label: "Значение этого поля неверно: %{full_errors}. Пожалуйста, введите верное значение."
   activity:
     item:
@@ -1134,9 +1167,9 @@ ru:
       created_on: "создано %{datetime}"
       created_on_time_entry: "время входа в систему %{datetime}"
       updated_by_on: "обновлено %{user} %{datetime}"
-      updated_by_on_time_entry: "зарегистрированное время, обновленное %{user} в %{datetime}"
+      updated_by_on_time_entry: "зарегистрированное время, обновленно %{user} в %{datetime}"
       updated_on: "обновлено %{datetime}"
-      updated_on_time_entry: "зарегистрированное время обновлено в %{datetime}"
+      updated_on_time_entry: "зарегистрированное время обновлено %{datetime}"
       deleted_on: "удалено %{datetime}"
       deleted_by_on: "удалено %{user} %{datetime}"
       added_on: "добавлено %{datetime}"
@@ -1158,18 +1191,6 @@ ru:
           other: "<i>%{count} часов</i>"
         updated: "изменено с %{old_value} на %{value}"
         logged_for: "Зарегистрирован для"
-      meeting_agenda_item:
-        duration:
-          added: "установлено в %{value}"
-          added_html: "установлено в <i>%{value}</i>"
-          removed: "удалено"
-          updated: "изменено с %{old_value} на %{value}"
-          updated_html: "изменено с <i>%{old_value}</i> на <i>%{value}</i>"
-        position:
-          updated: "переупорядочено"
-        work_package:
-          updated: "изменено с %{old_value} на %{value}"
-          updated_html: "изменено с <i>%{old_value}</i> на <i>%{value}</i>"
     filter:
       changeset: "Наборы изменений"
       message: "Форумы"
@@ -1223,7 +1244,7 @@ ru:
     password: "Пароль"
     priority: "Приоритет"
     project: "Проект"
-    responsible: "Подотчетный"
+    responsible: "Ответственный"
     role: "Роль"
     roles: "Роли"
     start_date: "Дата начала"
@@ -1348,6 +1369,8 @@ ru:
   button_revoke_access: "Отменить доступ"
   button_revoke_all: "Отменить всё"
   button_revoke_only: "Отменить только %{shared_role_name}"
+  button_publish: "Сделать общедоступным"
+  button_unpublish: "Сделать приватным"
   consent:
     checkbox_label: Принимаю к сведению и соглашаюсь с вышеизложенным.
     failure_message: Согласие не получено, продолжение невозможно.
@@ -1494,13 +1517,13 @@ ru:
         other: "%{count} часов"
       x_hours_abbreviated:
         one: "1 час"
-        few: "%{count} hrs"
-        many: "%{count} hrs"
+        few: "%{count} часов"
+        many: "%{count} часов"
         other: "%{count} часов"
       x_weeks:
         one: "1 неделя"
-        few: "%{count} weeks"
-        many: "%{count} weeks"
+        few: "%{count} недель"
+        many: "%{count} недель"
         other: "%{count} недель"
       x_months:
         one: "1 месяц"
@@ -1519,8 +1542,8 @@ ru:
         other: "%{count} секунды"
       x_seconds_abbreviated:
         one: "1 секунда"
-        few: "%{count} s"
-        many: "%{count} s"
+        few: "%{count} секунд"
+        many: "%{count} секунд"
         other: "%{count} секунд"
     units:
       hour:
@@ -1654,6 +1677,12 @@ ru:
       pdf_gantt: "Диаграмма Гантта в PDF"
     image:
       omitted: "Изображение не экспортировано."
+    macro:
+      error: "Ошибка макроса, %{message}"
+      attribute_not_found: "атрибут не найден: %{attribute}"
+      model_not_found: "неверная модель атрибута: %{model}"
+      resource_not_found: "ресурс не найден: %{resource}"
+      rich_text_unsupported: "Встраивание форматированного текста в настоящее время не поддерживается при экспорте."
     units:
       hours: ч
       days: д
@@ -1707,7 +1736,7 @@ ru:
       dates_changed: "Даты изменены"
       default_attribute_written: "Запись атрибутов со свойством \"только для чтения\""
       progress_mode_changed_to_status_based: "Расчет прогресса обновлен"
-      status_p_complete_changed: "Статус \"% завершения\" изменен"
+      status_changed: "Статус '%{status_name}'"
       system_update: "Обновление системы OpenProject:"
     cause_descriptions:
       work_package_predecessor_changed_times: внесением изменений в предшественника %{link}
@@ -1724,8 +1753,9 @@ ru:
           working: "%{date} сейчас рабочий"
           non_working: "%{date} теперь нерабочий"
       progress_mode_changed_to_status_based: Расчет прогресса установлен в режим "На основе статуса"
-      status_p_complete_changed: >-
-        "% завершения" для статуса '%{status_name}' изменено с %{old_value}% на %{new_value}%
+      status_excluded_from_totals_set_to_false_message: теперь включено в иерархию итогов
+      status_excluded_from_totals_set_to_true_message: теперь исключено из иерархии итогов
+      status_percent_complete_changed: "% завершения изменен с %{old_value}% на %{new_value}%"
       system_update:
         file_links_journal: >
           Теперь на вкладке Активность появится активность, связанная со ссылками файлов (файлы, хранящиеся во внешних хранилищах). Ниже описывается деятельность по уже существующим ссылкам:
@@ -2382,7 +2412,7 @@ ru:
   label_workflow: "Рабочий поток"
   label_workflow_plural: "Рабочие потоки"
   label_workflow_summary: "Сводка"
-  label_working_days: "Рабочие дни"
+  label_working_days_and_hours: "Рабочие дни и часы"
   label_x_closed_work_packages_abbr:
     one: "1 закрыто"
     other: "%{count} закрыто"
@@ -2465,7 +2495,7 @@ ru:
       reason:
         watched: "Просмотрено"
         assigned: "Назначено"
-        responsible: "Подотчетный"
+        responsible: "Ответственный"
         mentioned: "Упомянутые"
         shared: "Общий доступ"
         subscribed: "все"
@@ -2769,6 +2799,7 @@ ru:
   permission_save_bcf_queries: "Сохранить запросы BCF"
   permission_manage_public_bcf_queries: "Управление публичными BCF запросами"
   permission_edit_attribute_help_texts: "Редактировать атрибут справки"
+  permission_manage_public_project_queries: "Управление списками общедоступных проектов"
   placeholders:
     default: "-"
   project:
@@ -2816,7 +2847,7 @@ ru:
     name_or_identifier: "Имя или идентификатор"
     only_subproject_id: "Только подпроект"
     shared_with_user: "Доступно пользователям"
-    shared_with_me: "В общем доступе с"
+    shared_with_me: "Поделились со мной"
     subproject_id: "Включая подпроект"
   repositories:
     at_identifier: "в %{identifier}"
@@ -2997,6 +3028,9 @@ ru:
   setting_feeds_limit: "Предел содержимого новостной ленты"
   setting_file_max_size_displayed: "Максимальная длина  строки текстовых файлов"
   setting_host_name: "Имя компьютера в сети"
+  setting_hours_per_day: "Количество часов в день"
+  setting_hours_per_day_explanation: >-
+    Это определяет, что считается "днем" при более естественном отображении продолжительности (например, если день 8 часов, то 32 часа будет 4 дня).
   setting_invitation_expiration_days: "Действие письма активации истекает после"
   setting_work_package_done_ratio: "Режим расчета прогресса"
   setting_work_package_done_ratio_field: "На основе трудозатрат"
@@ -3444,7 +3478,7 @@ ru:
       Даты, добавленные в список ниже, считаются нерабочими и пропускаются при планировании пакетов работ.
     change_button: "Изменить рабочие дни"
     warning: >
-      Изменение того, какие дни недели считаются рабочими или нерабочими, может повлиять на дни начала и окончания всех рабочих пакетов во всех проектах в данной системе. <br/> Пожалуйста, обратите внимание, что изменения вступят в силу после того, как вы нажмете на кнопку применить.
+      Изменение дней недели, считающихся рабочими или нерабочими днями, может повлиять на начало и завершение всех пакетов работ во всех проектах.
     journal_note:
       changed: _**Рабочие дни** изменены (%{changes})._
       days:

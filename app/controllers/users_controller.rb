@@ -44,6 +44,9 @@ class UsersController < ApplicationController
   before_action :authorize_for_user, only: [:destroy]
   before_action :check_if_deletion_allowed, only: %i[deletion_info
                                                      destroy]
+  no_authorization_required! :show
+  authorization_checked! :destroy, :deletion_info
+
   before_action :set_current_activity_page, only: [:show]
 
   # Password confirmation helpers and actions
@@ -73,6 +76,8 @@ class UsersController < ApplicationController
     @memberships = @user.memberships
                         .where.not(project_id: nil)
                         .where(id: Member.visible(current_user))
+
+    @groups = @user.groups.visible
 
     if can_show_user?
       @events = events

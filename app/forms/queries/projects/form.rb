@@ -51,14 +51,13 @@ class Queries::Projects::Form < ApplicationForm
         scheme: :secondary,
         label: I18n.t(:button_cancel),
         tag: :a,
-        data: { "params-from-query-target": "anchor" },
-        href: projects_path(query_id: @query)
+        href: @cancel_url
       )
     end
   end
 
-  def initialize(query:)
+  def initialize(cancel_url:)
     super()
-    @query = query
+    @cancel_url = cancel_url
   end
 end

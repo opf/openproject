@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
 RSpec.describe API::V3::Activities::ActivitiesByWorkPackageAPI do
   include API::V3::Utilities::PathHelper
 
-  describe 'activities' do
+  describe "activities" do
     let(:project) { work_package.project }
     let(:work_package) { create(:work_package) }
-    let(:comment) { 'This is a test comment!' }
+    let(:comment) { "This is a test comment!" }
     let(:current_user) do
       create(:user, member_with_roles: { project => role })
     end
@@ -46,28 +46,28 @@ RSpec.describe API::V3::Activities::ActivitiesByWorkPackageAPI do
       allow(User).to receive(:current).and_return(current_user)
     end
 
-    describe 'GET /api/v3/work_packages/:id/activities' do
+    describe "GET /api/v3/work_packages/:id/activities" do
       before do
         get api_v3_paths.work_package_activities work_package.id
       end
 
-      it 'succeeds' do
+      it "succeeds" do
         expect(last_response.status).to be 200
       end
 
-      context 'not allowed to see work package' do
+      context "not allowed to see work package" do
         let(:current_user) { create(:user) }
 
-        it 'fails with HTTP Not Found' do
+        it "fails with HTTP Not Found" do
           expect(last_response.status).to be 404
         end
       end
     end
 
-    describe 'POST /api/v3/work_packages/:id/activities' do
+    describe "POST /api/v3/work_packages/:id/activities" do
       let(:work_package) { create(:work_package) }
 
-      shared_context 'create activity' do
+      shared_context "create activity" do
         before do
           header "Content-Type", "application/json"
           post api_v3_paths.work_package_activities(work_package.id),
@@ -75,34 +75,34 @@ RSpec.describe API::V3::Activities::ActivitiesByWorkPackageAPI do
         end
       end
 
-      it_behaves_like 'safeguarded API' do
+      it_behaves_like "safeguarded API" do
         let(:permissions) { %i(view_work_packages) }
 
-        include_context 'create activity'
+        include_context "create activity"
       end
 
-      it_behaves_like 'valid activity request' do
+      it_behaves_like "valid activity request" do
         let(:status_code) { 201 }
 
-        include_context 'create activity'
+        include_context "create activity"
       end
 
-      context 'with an erroneous work package' do
+      context "with an erroneous work package" do
         before do
-          work_package.subject = ''
+          work_package.subject = ""
           work_package.save!(validate: false)
         end
 
-        include_context 'create activity'
+        include_context "create activity"
 
-        it 'responds with error' do
+        it "responds with error" do
           expect(last_response.status).to be 422
         end
 
-        it 'notes the error' do
+        it "notes the error" do
           expect(last_response.body)
             .to be_json_eql("Subject can't be blank.".to_json)
-            .at_path('message')
+            .at_path("message")
         end
       end
     end

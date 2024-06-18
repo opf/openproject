@@ -77,9 +77,9 @@ module API
           Representable::Binding::Map.new(super.select { |bind| rendered_properties.include?(bind.name) })
         end
 
-        def compile_links_for(configs, *args)
+        def compile_links_for(configs, *)
           super(configs.select { |config| rendered_properties_for_links.include?(config.first[:rel]) },
-                *args)
+                *)
         end
 
         def rendered_properties

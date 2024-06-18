@@ -199,6 +199,8 @@ module Projects
         "project--hierarchy #{project.archived? ? 'archived' : ''}"
       elsif %i[status_explanation description].include?(column.attribute)
         "project-long-text-container"
+      elsif column.attribute == :favored
+        "-w-abs-45"
       elsif custom_field_column?(column)
         cf = column.custom_field
         formattable = cf.field_format == "text" ? " project-long-text-container" : ""
@@ -227,7 +229,7 @@ module Projects
                          label:,
                          test_selector: "project-list-row--action-menu-item",
                          content_arguments: button_options) do |item|
-            item.with_leading_visual_icon(icon:)
+            item.with_leading_visual_icon(icon:) if icon
           end
         end
       end

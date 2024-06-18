@@ -117,9 +117,11 @@ RSpec.describe SortHelper do
   end
 
   describe "#sort_header_tag" do
-    let(:output) do
-      helper.sort_header_tag("id")
+    subject(:output) do
+      helper.sort_header_tag("id", **options)
     end
+
+    let(:options) { {} }
     let(:sort_key) { "" }
     let(:sort_asc) { true }
     let(:sort_criteria) do
@@ -140,7 +142,7 @@ RSpec.describe SortHelper do
     end
 
     it "renders a th with a sort link" do
-      expect(output).to be_html_eql(%{
+      expect(output).to be_html_eql(<<-HTML)
         <th title="Sort by &quot;Id&quot;">
           <div class="generic-table--sort-header-outer">
             <div class="generic-table--sort-header">
@@ -151,14 +153,14 @@ RSpec.describe SortHelper do
             </div>
           </div>
         </th>
-      })
+      HTML
     end
 
     context "when sorting by the column" do
       let(:sort_key) { "id" }
 
       it "adds the sort class" do
-        expect(output).to be_html_eql(%{
+        expect(output).to be_html_eql(<<-HTML)
           <th title="Ascending sorted by &quot;Id&quot;">
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
@@ -169,7 +171,7 @@ RSpec.describe SortHelper do
               </div>
             </div>
           </th>
-        })
+        HTML
       end
     end
 
@@ -178,7 +180,7 @@ RSpec.describe SortHelper do
       let(:sort_asc) { false }
 
       it "adds the sort class" do
-        expect(output).to be_html_eql(%{
+        expect(output).to be_html_eql(<<-HTML)
           <th title="Descending sorted by &quot;Id&quot;">
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
@@ -189,7 +191,57 @@ RSpec.describe SortHelper do
               </div>
             </div>
           </th>
-        })
+        HTML
+      end
+    end
+
+    describe "copying parameters" do
+      before do
+        controller.params = ActionController::Parameters.new(
+          filters: "xyz",
+          per_page: "42",
+          expand: "nope",
+          columns: "a,b,c",
+          foo: "bar",
+          bar: "baz",
+          baz: "foo"
+        )
+      end
+
+      context "when not given allowed parameters" do
+        it "copies default ones to the link" do
+          expect(output).to be_html_eql(<<-HTML)
+            <th title="Sort by &quot;Id&quot;">
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <a href="/work_packages?columns=a%2Cb%2Cc&amp;expand=nope&amp;filters=xyz&amp;per_page=42&amp;sort=sort_criteria_params"
+                       title="Sort by &quot;Id&quot;">Id</a>
+                  </span>
+                </div>
+              </div>
+            </th>
+          HTML
+        end
+      end
+
+      context "when given allowed parameters" do
+        let(:options) { { allowed_params: %w[foo baz lol] } }
+
+        it "copies them to the link" do
+          expect(output).to be_html_eql(<<-HTML)
+            <th title="Sort by &quot;Id&quot;">
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <a href="/work_packages?baz=foo&amp;foo=bar&amp;sort=sort_criteria_params"
+                       title="Sort by &quot;Id&quot;">Id</a>
+                  </span>
+                </div>
+              </div>
+            </th>
+          HTML
+        end
       end
     end
   end

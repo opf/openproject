@@ -28,30 +28,14 @@
  * ++
  */
 
-import { Controller } from '@hotwired/stimulus';
+import FilterListController from '../../filter/filter-list.controller';
 
-export default class ProjectCustomFieldsMappingFilterController extends Controller {
+export default class extends FilterListController {
   static targets = [
-    'filter',
-    'searchItem',
     'bulkActionContainer',
   ];
 
-  declare readonly filterTarget:HTMLInputElement;
-  declare readonly searchItemTargets:HTMLInputElement[];
   declare readonly bulkActionContainerTargets:HTMLInputElement[];
-
-  connect():void {
-    this.element.querySelector('#project-custom-fields-mapping-filter-clear-button')?.addEventListener('click', () => {
-      this.resetFilterViaClearButton();
-    });
-  }
-
-  disconnect():void {
-    this.element.querySelector('#project-custom-fields-mapping-filter-clear-button')?.removeEventListener('click', () => {
-      this.resetFilterViaClearButton();
-    });
-  }
 
   filterLists() {
     const query = this.filterTarget.value.toLowerCase();
@@ -62,34 +46,24 @@ export default class ProjectCustomFieldsMappingFilterController extends Controll
       this.showBulkActionContainers();
     }
 
-    this.searchItemTargets.forEach((item) => {
-      const text = item.textContent?.toLowerCase();
-
-      if (text?.includes(query)) {
-        (item as HTMLElement).classList.remove('hidden-by-filter');
-      } else {
-        (item as HTMLElement).classList.add('hidden-by-filter');
-      }
-    });
+    super.filterLists();
   }
 
   resetFilterViaClearButton() {
     this.showBulkActionContainers();
 
-    this.searchItemTargets.forEach((item) => {
-      (item as HTMLElement).classList.remove('hidden-by-filter');
-    });
+    super.resetFilterViaClearButton();
   }
 
   hideBulkActionContainers() {
     this.bulkActionContainerTargets.forEach((item) => {
-      (item as HTMLElement).classList.add('hidden-by-filter');
+      (item as HTMLElement).classList.add('d-none');
     });
   }
 
   showBulkActionContainers() {
     this.bulkActionContainerTargets.forEach((item) => {
-      (item as HTMLElement).classList.remove('hidden-by-filter');
+      (item as HTMLElement).classList.remove('d-none');
     });
   }
 }

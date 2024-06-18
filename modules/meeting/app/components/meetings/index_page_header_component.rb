@@ -30,36 +30,11 @@
 
 module Meetings
   class IndexPageHeaderComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
     include ApplicationHelper
 
     def initialize(project: nil)
       super
       @project = project
-    end
-
-    def render_create_button?
-      if @project
-        User.current.allowed_in_project?(:create_meetings, @project)
-      else
-        User.current.allowed_in_any_project?(:create_meetings)
-      end
-    end
-
-    def dynamic_path
-      polymorphic_path([:new, @project, :meeting])
-    end
-
-    def id
-      "add-meeting-button"
-    end
-
-    def accessibility_label_text
-      I18n.t(:label_meeting_new)
-    end
-
-    def label_text
-      I18n.t(:label_meeting)
     end
 
     def page_title

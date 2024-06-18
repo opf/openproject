@@ -31,6 +31,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import * as moment from 'moment-timezone';
 import { Moment } from 'moment';
+import { outputChronicDuration } from '../../shared/helpers/chronic_duration';
 
 @Injectable({ providedIn: 'root' })
 export class TimezoneService {
@@ -115,6 +116,10 @@ export class TimezoneService {
     ];
   }
 
+  public toSeconds(durationString:string):number {
+    return Number(moment.duration(durationString).asSeconds().toFixed(2));
+  }
+
   public toHours(durationString:string):number {
     return Number(moment.duration(durationString).asHours().toFixed(2));
   }
@@ -130,13 +135,28 @@ export class TimezoneService {
   public formattedDuration(durationString:string, unit:'hour'|'days' = 'hour'):string {
     switch (unit) {
       case 'hour':
-        return this.I18n.t('js.units.hour', { count: this.toHours(durationString) });
+        return this.I18n.t('js.units.hour', {
+          count: this.toHours(durationString),
+        });
       case 'days':
-        return this.I18n.t('js.units.day', { count: this.toDays(durationString) });
+        return this.I18n.t('js.units.day', {
+          count: this.toDays(durationString),
+        });
       default:
         // Case fallthrough for eslint
         return '';
     }
+  }
+
+  public formattedChronicDuration(durationString:string, opts = {
+    format: 'daysAndHours',
+    hoursPerDay: this.configurationService.hoursPerDay(),
+    daysPerMonth: this.configurationService.daysPerMonth(),
+  }):string {
+    // Keep in sync with app/services/duration_converter#output
+    const seconds = this.toSeconds(durationString);
+
+    return outputChronicDuration(seconds, opts) || '0h';
   }
 
   public formattedISODate(date:any):string {

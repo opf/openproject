@@ -50,8 +50,8 @@ RSpec.describe "Admin Create a new file storage",
 
       expect(page).to be_axe_clean.within "#content"
 
-      within(".PageHeader-titleBar") do
-        click_on("Storage")
+      within(".SubHeader") do
+        page.find_test_selector("storages-create-new-provider-button").click
         within_test_selector("storages-select-provider-action-menu") { click_on("Nextcloud") }
       end
 
@@ -193,8 +193,8 @@ RSpec.describe "Admin Create a new file storage",
     it "renders enterprise icon and redirects to upsale", :webmock do
       visit admin_settings_storages_path
 
-      within(".PageHeader-titleBar") do
-        click_on("Storage")
+      within(".SubHeader") do
+        page.find_test_selector("storages-create-new-provider-button").click
 
         within_test_selector("storages-select-provider-action-menu") do
           expect(page).to have_css(".octicon-op-enterprise-addons")
@@ -213,9 +213,8 @@ RSpec.describe "Admin Create a new file storage",
 
       expect(page).to be_axe_clean.within "#content"
 
-      within(".PageHeader-titleBar") do
-        click_on("Storage")
-
+      within(".SubHeader") do
+        page.find_test_selector("storages-create-new-provider-button").click
         within_test_selector("storages-select-provider-action-menu") { click_on("OneDrive/SharePoint") }
       end
 

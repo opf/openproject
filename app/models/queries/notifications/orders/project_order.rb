@@ -39,10 +39,10 @@ class Queries::Notifications::Orders::ProjectOrder < Queries::Orders::Base
 
   protected
 
-  def order
+  def order(scope)
     order_string = "projects.name"
     order_string += " DESC" if direction == :desc
 
-    model.order(order_string)
+    scope.order(order_string)
   end
 end

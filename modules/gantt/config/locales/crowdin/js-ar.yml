@@ -1,6 +1,6 @@
 ar:
   js:
     queries:
-      all_open: 'All open'
-      timeline: 'Timeline'
-      milestones: 'Milestones'
+      all_open: 'كل المفتوح'
+      timeline: 'الخط الزمني'
+      milestones: 'الأحداث الرئيسية'

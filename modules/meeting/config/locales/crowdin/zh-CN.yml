@@ -57,9 +57,23 @@ zh-CN:
       meeting_agenda_item: "议程项目"
       meeting_agenda: "议程"
       meeting_minutes: "会议记录"
+      meeting_section: "节"
   activity:
     filter:
       meeting: "会议"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "设为 %{value}"
+          added_html: "设为 <i>%{value}</i>"
+          removed: "已删除"
+          updated: "从 %{old_value} 更改为 %{value}"
+          updated_html: "从 <i>%{old_value}</i>改为 <i>%{value}</i>"
+        position:
+          updated: "重新排序"
+        work_package:
+          updated: "从 %{old_value} 更改为 %{value}"
+          updated_html: "从 <i>%{old_value}</i>改为 <i>%{value}</i>"
   description_attended: "已出席"
   description_invite: "已邀请"
   events:

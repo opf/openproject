@@ -48,7 +48,7 @@ class Notifications::CreateFromModelService
      MENTION_GROUP_TAG_ID_PATTERN,
      MENTION_GROUP_HASH_ID_PATTERN]
       .map { |pattern| "(?:#{pattern})" }
-      .join('|').freeze
+      .join("|").freeze
 
   # Skip looking for mentions in quoted lines completely.
   # We need to allow an optional single white space before the ">", because the `#text_for_mentions`
@@ -111,9 +111,9 @@ class Notifications::CreateFromModelService
       journal:,
       actor: user_with_fallback,
       reason:,
-      read_ian: strategy.supports_ian? ? false : nil,
-      mail_reminder_sent: strategy.supports_mail_digest? ? false : nil,
-      mail_alert_sent: strategy.supports_mail? ? false : nil
+      read_ian: strategy.supports_ian?(reason) ? false : nil,
+      mail_reminder_sent: strategy.supports_mail_digest?(reason) ? false : nil,
+      mail_alert_sent: strategy.supports_mail?(reason) ? false : nil
     }
 
     Notifications::CreateService
@@ -129,7 +129,7 @@ class Notifications::CreateFromModelService
 
     Notifications::UpdateService
       .new(model: existing_notification, user:, contract_class: EmptyContract)
-      .call(read_ian: strategy.supports_ian? ? false : nil,
+      .call(read_ian: strategy.supports_ian?(reason) ? false : nil,
             reason:)
   end
 
@@ -264,7 +264,7 @@ class Notifications::CreateFromModelService
       end
     end
 
-    potential_text.gsub(QUOTED_LINES_PATTERN, '')
+    potential_text.gsub(QUOTED_LINES_PATTERN, "")
   end
 
   def mentioned_ids
@@ -288,24 +288,26 @@ class Notifications::CreateFromModelService
   end
 
   def mention_matches
-    text = text_for_mentions
+    @mention_matches ||= begin
+      text = text_for_mentions
 
-    user_ids_tag_after,
-      user_ids_tag_before,
-      user_ids_hash,
-      user_login_names,
-      group_ids_tag_after,
-      group_ids_tag_before,
-      group_ids_hash = text
-                         .scan(MENTION_PATTERN)
-                         .transpose
-                         .each(&:compact!)
+      user_ids_tag_after,
+        user_ids_tag_before,
+        user_ids_hash,
+        user_login_names,
+        group_ids_tag_after,
+        group_ids_tag_before,
+        group_ids_hash = text
+                           .scan(MENTION_PATTERN)
+                           .transpose
+                           .each(&:compact!)
 
-    {
-      user_ids: [user_ids_tag_after, user_ids_tag_before, user_ids_hash].flatten.compact,
-      user_login_names: [user_login_names].flatten.compact,
-      group_ids: [group_ids_tag_after, group_ids_tag_before, group_ids_hash].flatten.compact
-    }
+      {
+        user_ids: [user_ids_tag_after, user_ids_tag_before, user_ids_hash].flatten.compact,
+        user_login_names: [user_login_names].flatten.compact,
+        group_ids: [group_ids_tag_after, group_ids_tag_before, group_ids_hash].flatten.compact
+      }
+    end
   end
 
   def abort_sending?
@@ -328,10 +330,16 @@ class Notifications::CreateFromModelService
     end
   end
 
+  def user_not_mentioned_or_mentioned_indirectly(self_reason)
+    self_reason != NotificationSetting::MENTIONED ||
+    (mention_matches[:user_ids].exclude?(user_with_fallback.id) &&
+     mention_matches[:user_login_names].exclude?(user_with_fallback.login))
+  end
+
   def remove_self_recipient(receivers)
     if receivers.key?(user_with_fallback.id)
       self_reasons = receivers[user_with_fallback.id]
-      self_reasons.delete_if { |item| item != NotificationSetting::MENTIONED }
+      self_reasons.delete_if { |reason| user_not_mentioned_or_mentioned_indirectly(reason) }
       if self_reasons.empty?
         receivers.delete(user_with_fallback.id)
       end

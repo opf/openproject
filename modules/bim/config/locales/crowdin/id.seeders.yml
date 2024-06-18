@@ -13,7 +13,7 @@ id:
         item_2:
           name: High
         item_3:
-          name: Critical
+          name: Kritik
       statuses:
         item_0:
           name: Baru
@@ -42,7 +42,7 @@ id:
         item_4:
           name: Remark
         item_5:
-          name: Request
+          name: Permintaan
         item_6:
           name: Clash
       global_queries:
@@ -694,7 +694,7 @@ id:
             item_5:
               name: Tahapan pencapaian
             item_6:
-              name: Tasks
+              name: Tugas
             item_7:
               name: Rencana tim
           boards:
@@ -704,7 +704,7 @@ id:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Selamat datang
               item_1:
                 options:
                   name: Getting started

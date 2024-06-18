@@ -47,7 +47,7 @@ RSpec.describe("Activation of storages in projects",
   # to provide the user with the edit_project permission in the role.
   let(:role) do
     create(:project_role,
-           permissions: %i[manage_storages_in_project
+           permissions: %i[manage_files_in_project
                            select_project_modules
                            edit_project])
   end

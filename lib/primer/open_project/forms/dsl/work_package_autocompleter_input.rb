@@ -9,7 +9,7 @@ module Primer
             options.reverse_merge(
               component: "opce-autocompleter",
               resource: "work_packages",
-              searchKey: "subjectOrId",
+              searchKey: "subjectOrId"
             )
           end
         end

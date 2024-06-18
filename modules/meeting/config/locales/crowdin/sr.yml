@@ -59,9 +59,23 @@ sr:
       meeting_agenda_item: "Agenda item"
       meeting_agenda: "Agenda"
       meeting_minutes: "Minutes"
+      meeting_section: "Section"
   activity:
     filter:
       meeting: "Meetings"
+    item:
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value}"
+          added_html: "set to <i>%{value}</i>"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+        position:
+          updated: "reordered"
+        work_package:
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
   description_attended: "attended"
   description_invite: "invited"
   events:

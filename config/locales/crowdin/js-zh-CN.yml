@@ -273,6 +273,11 @@ zh-CN:
         change_description: "更改一周中哪些天被视为工作日或非工作日可能会影响此实例中所有项目中所有工作包的开始和结束日期。"
         warning: >
           更改可能需要一些时间才能生效。当更新完所有相关工作包时，您将收到通知。
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_status_to_field_html: >-
+          将进度计算模式从基于状态改为基于工作，将使<i>完成百分比</i>成为不可编辑字段，其值来自<i>工作</i>和<i>剩余工时</i>。<i>完成百分比</i>的现有值将保留。如果没有 "<i>工时</i>"和 "剩余<i>工作</i>"的值，则需要这些值才能更改 "完成<i>百分比</i>"。
+        warning_progress_calculation_mode_change_from_field_to_status_html: >-
+          将进度计算模式从基于工时的方式改为基于状态，将会导致所有现有的 <i>%完整的</i> 值丢失，并被与每个状态相关的值所替代。 <i>剩余工时</i> 的现有值也可能被重新计算，以反映这种变化。此操作不可逆转。
     custom_actions:
       date:
         specific: "于"
@@ -359,10 +364,10 @@ zh-CN:
           learn_about: "详细了解新功能"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_1":
+          "14_2":
             standard:
               new_features_html: >
-                该版本包含各种新功能和改进： <br> <ul class="%{list_styling_class}"> <li>甘特视图的 PDF 导出，例如用于打印（企业插件）</li> <li>收藏项目</li> <li>会议中的章节</li> <li>在 "我的 "页面和项目概览页面显示会议</li> <li>在 "文件 "选项卡中隐藏附件的可能性</li> <li>链接（URL）类型的自定义字段</li> </ul>
+                该版本包含各种新功能和改进： <br> <ul class="%{list_styling_class}"> <li>为工作、剩余工时和工作时间设置更多单位</li> <li>为项目属性配置激活哪些项目</li> <li>重命名私人项目列表</li> <li>在出现 @mentions 的情况下避免多余的电子邮件提醒</li> <li>通过电子邮件邀请会议与会者</li> <li>在 PDF 导出中显示嵌入的工作包属性</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"
@@ -1278,6 +1283,11 @@ zh-CN:
           placeholder: "现在可以在 %{project} 中使用占位符。同时，您已经可以与该用户一起制定计划并分配工作包等。"
           group: "该组现已加入 %{project}。同时，您已经可以与该组一起制定计划并分配工作包等。"
         next_button: "继续"
+    exclusion_info:
+      modal:
+        title: "从层次结构总计中排除的状态"
+        content: >-
+          状态 "%{status_name}"已被配置为排除在 "工时"、"剩余工时 "和 "完成百分比 "的层次结构总计中。总计不考虑该值。
     favorite_projects:
       no_results: "您没有收藏的项目"
       no_results_subtext: "通过项目概览或项目列表添加一个或多个项目作为收藏夹。"
@@ -1338,8 +1348,12 @@ zh-CN:
         remove: "移除"
       drop_modal:
         focus_grab: "该信息是模态框的焦点锚点。按 Shift+Tab 可以返回到模态框的触发元素。"
-        Close: "关闭"
+        close: "关闭模式"
     open_project_storage_modal:
+      waiting_title:
+        timeout: "超时"
       waiting_subtitle:
         network_off: "网络有问题。"
         network_on: "网络已恢复。我们正在努力。"
+        timeout: >
+          OpenProject 无法让您在预期时间内访问项目文件夹。请再试一次。<br><br> 如果问题仍然存在，请联系 OpenProject 管理员检查<a href="https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/file-storage-troubleshooting/">文件存储设置的健康状态</a>。

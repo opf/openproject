@@ -42,27 +42,24 @@ class Queries::Principals::Filters::AccessToAnythingInProjectFilter < Queries::P
     :access_to_anything_in_project
   end
 
-  def scope
+  def apply_to(query_scope)
     case operator
     when "="
-      visible_scope.in_anything_in_project(values)
+      query_scope.visible.in_anything_in_project(values)
     when "!"
-      visible_scope.not_in_anything_in_project(values)
+      query_scope.visible.not_in_anything_in_project(values)
     when "*"
-      member_included_scope.where.not(members: { id: nil })
+      member_included_scope(query_scope).where.not(members: { id: nil })
     when "!*"
-      member_included_scope.where.not(id: Member.distinct(:user_id).select(:user_id))
+      member_included_scope(query_scope).where.not(id: Member.distinct(:user_id).select(:user_id))
     end
   end
 
   private
 
-  def visible_scope
-    Principal.visible(User.current)
-  end
-
-  def member_included_scope
-    visible_scope
+  def member_included_scope(scope)
+    scope
+      .visible
       .includes(:members)
       .merge(Member.where.not(project: nil))
   end

@@ -27,7 +27,7 @@
 # ++
 module Gantt
   class MenusController < ApplicationController
-    before_action :find_optional_project
+    before_action :load_and_authorize_in_optional_project
 
     def show
       @sidebar_menu_items = menu_items
@@ -60,7 +60,7 @@ module Gantt
 
         menu_item(
           params,
-          I18n.t("js.queries.#{query_key.to_s}"),
+          I18n.t("js.queries.#{query_key}")
         )
       end
     end

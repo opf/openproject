@@ -46,7 +46,7 @@
   permission_delete_files_explanation: Denne tillatelsen er bare tilgjengelig for Nextcloud lagre
   permission_header_for_project_module_storages: Automatisk administrerte prosjektmapper
   permission_manage_file_links: Administrer fil-linker
-  permission_manage_storages_in_project: Administrer fillagring i prosjektet
+  permission_manage_files_in_project: Manage files in project
   permission_read_files: 'Automatisk administrerte prosjektmapper: Les filer'
   permission_share_files: 'Automatisk administrerte prosjektmapper: Del filer'
   permission_share_files_explanation: Denne tillatelsen er bare tilgjengelig for Nextcloud lagre

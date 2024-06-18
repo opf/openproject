@@ -85,7 +85,7 @@ RSpec.describe "Logging time within the work package view", :js do
       end.to change(TimeEntry, :count).by(1)
 
       # the value is updated automatically
-      spent_time_field.expect_display_value "1 h"
+      spent_time_field.expect_display_value "1h"
 
       TimeEntry.last.tap do |te|
         expect(te.work_package).to eq(work_package)
@@ -112,7 +112,7 @@ RSpec.describe "Logging time within the work package view", :js do
         log_time_via_modal log_for_user: other_user
 
         # the value is updated automatically
-        spent_time_field.expect_display_value "1 h"
+        spent_time_field.expect_display_value "1h"
 
         time_entry = TimeEntry.last
         expect(time_entry.user).to eq other_user
@@ -128,7 +128,7 @@ RSpec.describe "Logging time within the work package view", :js do
       log_time_via_modal
 
       # the value is updated automatically
-      spent_time_field.expect_display_value "1 h"
+      spent_time_field.expect_display_value "1h"
     end
 
     context "with a user with non-one unit numbers", with_settings: { available_languages: %w[en ja] } do
@@ -145,7 +145,7 @@ RSpec.describe "Logging time within the work package view", :js do
         log_time_via_modal
 
         # the value is updated automatically
-        spent_time_field.expect_display_value "1 h"
+        spent_time_field.expect_display_value "1h"
       end
     end
   end
@@ -164,7 +164,7 @@ RSpec.describe "Logging time within the work package view", :js do
 
     it "shows no logging button within the display field" do
       spent_time_field.time_log_icon_visible false
-      spent_time_field.expect_display_value "0 h"
+      spent_time_field.expect_display_value "0h"
     end
   end
 
@@ -188,7 +188,7 @@ RSpec.describe "Logging time within the work package view", :js do
       log_time_via_modal user_field_visible: false
 
       # the value is updated automatically
-      spent_time_field.expect_display_value "1 h"
+      spent_time_field.expect_display_value "1h"
     end
   end
 
@@ -213,8 +213,8 @@ RSpec.describe "Logging time within the work package view", :js do
 
       log_time_via_modal
 
-      expect(page).to have_css("tr:nth-of-type(1) .wp-table--cell-td.spentTime", text: "1 h")
-      expect(page).to have_css("tr:nth-of-type(2) .wp-table--cell-td.spentTime", text: "0 h")
+      expect(page).to have_css("tr:nth-of-type(1) .wp-table--cell-td.spentTime", text: "1h")
+      expect(page).to have_css("tr:nth-of-type(2) .wp-table--cell-td.spentTime", text: "0h")
     end
   end
 end

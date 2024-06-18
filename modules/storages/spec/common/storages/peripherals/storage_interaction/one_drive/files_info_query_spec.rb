@@ -105,8 +105,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
                            last_modified_by_name: "Eric Schubert",
                            last_modified_by_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
                            permissions: nil,
-                           trashed: false,
-                           location: "/Folder with spaces"
+                           location: "/Folder%20with%20spaces"
                          },
                          {
                            status: "ok",
@@ -122,7 +121,6 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
                            last_modified_by_name: "Eric Schubert",
                            last_modified_by_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
                            permissions: nil,
-                           trashed: false,
                            location: "/Folder/Document.docx"
                          },
                          {
@@ -139,7 +137,6 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
                            last_modified_by_name: "Eric Schubert",
                            last_modified_by_id: "0a0d38a9-a59b-4245-93fa-0d2cf727f17a",
                            permissions: nil,
-                           trashed: false,
                            location: "/Folder/Subfolder/NextcloudHub.md"
                          }
                        ])

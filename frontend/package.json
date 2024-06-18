@@ -93,19 +93,18 @@
     "@hotwired/turbo": "^8.0.4",
     "@hotwired/turbo-rails": "^8.0.4",
     "@kolkov/ngx-gallery": "^2.0.1",
-    "@ng-select/ng-option-highlight": "12.0.6",
-    "@ng-select/ng-select": "^12.0.7",
+    "@ng-select/ng-option-highlight": "13.2.0",
+    "@ng-select/ng-select": "^13.2.0",
     "@ngneat/content-loader": "^7.0.0",
     "@ngx-formly/core": "^6.1.4",
-    "@openproject/octicons-angular": "^19.12.0",
-    "@openproject/primer-view-components": "^0.31.0",
+    "@openproject/octicons-angular": "^19.14.1",
+    "@openproject/primer-view-components": "^0.34.0",
     "@openproject/reactivestates": "^3.0.1",
     "@primer/css": "^21.2.2",
     "@types/hotwired__turbo": "^8.0.1",
     "@uirouter/angular": "^13.0.0",
     "@uirouter/core": "^6.1.0",
     "@uirouter/rx": "^1.0.0",
-    "@vusion/webfonts-generator": "^0.8.0",
     "@w11k/ngx-componentdestroyed": "^5.0.2",
     "@xeokit/xeokit-bim-viewer": "2.5.1-beta-28",
     "autoprefixer": "^10.4.19",
@@ -166,7 +165,6 @@
     "build": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --configuration production --named-chunks --source-map",
     "build:watch": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --watch --named-chunks",
     "tokens:generate": "theo src/app/spot/styles/tokens/tokens.yml --transform web --format sass,json --dest src/app/spot/styles/tokens/dist",
-    "icon-font:generate": "node ./src/app/spot/icon-font/generate.js ./src/app/spot/icon-font",
     "serve": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0 --public-host http://${PROXY_HOSTNAME:-localhost}:4200",
     "serve:test": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0 --disable-host-check --public-host http://frontend-test:4200",
     "test": "ng test --watch=false",
@@ -177,6 +175,6 @@
     "generate-typings": "tsc -d -p src/tsconfig.app.json"
   },
   "overrides": {
-    "@primer/view-components": "npm:@openproject/primer-view-components@^0.31.0"
+    "@primer/view-components": "npm:@openproject/primer-view-components@^0.33.1"
   }
 }

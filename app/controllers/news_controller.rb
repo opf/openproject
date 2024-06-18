@@ -36,7 +36,7 @@ class NewsController < ApplicationController
   before_action :find_project_from_association, except: %i[new create index]
   before_action :find_project, only: %i[new create]
   before_action :authorize, except: [:index]
-  before_action :find_optional_project, only: [:index]
+  before_action :load_and_authorize_in_optional_project, only: [:index]
   accept_key_auth :index
 
   def index
@@ -109,15 +109,6 @@ class NewsController < ApplicationController
 
   def find_project
     @project = Project.find(params[:project_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
-  def find_optional_project
-    return true unless params[:project_id]
-
-    @project = Project.find(params[:project_id])
-    authorize
   rescue ActiveRecord::RecordNotFound
     render_404
   end

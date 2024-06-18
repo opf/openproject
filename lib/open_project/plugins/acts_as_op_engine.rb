@@ -293,9 +293,9 @@ module OpenProject::Plugins
         OpenProject::Activity.register(event_type, options)
       end
 
-      def add_cron_jobs(&block)
+      def add_cron_jobs
         config.to_prepare do
-          Rails.application.config.good_job.cron.merge!(block.call)
+          Rails.application.config.good_job.cron.merge!(yield)
         end
       end
 

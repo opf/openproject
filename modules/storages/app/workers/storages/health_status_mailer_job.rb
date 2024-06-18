@@ -50,7 +50,7 @@ module Storages
       return if storage.health_healthy?
 
       admin_users.each do |admin|
-        ::Storages::StoragesMailer.notify_unhealthy(admin, storage).deliver_later
+        StoragesMailer.notify_unhealthy(admin, storage).deliver_later
       end
 
       HealthStatusMailerJob.schedule(storage:)

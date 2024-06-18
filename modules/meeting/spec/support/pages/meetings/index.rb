@@ -73,9 +73,7 @@ module Pages::Meetings
     end
 
     def set_sidebar_filter(filter_name)
-      within "#main-menu" do
-        click_on text: filter_name
-      end
+      submenu.click_item(filter_name)
     end
 
     def expect_no_meetings_listed
@@ -174,6 +172,10 @@ module Pages::Meetings
 
     def row_for(meeting)
       find("td.title", text: meeting.title).ancestor("tr")
+    end
+
+    def submenu
+      Components::Submenu.new
     end
   end
 end
