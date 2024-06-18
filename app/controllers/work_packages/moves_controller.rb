@@ -60,7 +60,7 @@ class WorkPackages::MovesController < ApplicationController
   # rubocop:disable Metrics/AbcSize
   def perform_in_frontend
     call = job_class
-      .perform_now(**job_args)
+             .perform_now(**job_args)
 
     if call.success? && @work_packages.any?
       flash[:notice] = call.message
@@ -70,6 +70,7 @@ class WorkPackages::MovesController < ApplicationController
       redirect_back_or_default(project_work_packages_path(@project))
     end
   end
+
   # rubocop:enable Metrics/AbcSize
 
   def perform_in_background
@@ -114,8 +115,9 @@ class WorkPackages::MovesController < ApplicationController
     @allowed_projects = WorkPackage.allowed_target_projects_on_move(current_user)
     @target_project = @allowed_projects.detect { |p| p.id.to_s == params[:new_project_id].to_s } if params[:new_project_id]
     @target_project ||= @project
-    @types = @target_project.types
+    @types = @target_project.types.order(:position)
     @target_type = @types.find { |t| t.id.to_s == params[:new_type_id].to_s }
+    @unavailable_type_in_target_project = @types.exclude?(@target_type)
     @available_versions = @target_project.assignable_versions
     @available_statuses = Workflow.available_statuses(@project)
     @notes = params[:notes] || ""
