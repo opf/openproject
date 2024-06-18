@@ -1,9 +1,10 @@
 #work-packages-activities-tab-index-component
     #journals-container
         overflow-y: auto
-        margin-bottom: 90px // initial margin-bottom, will be increased by stimulus when opening ckeditor
+        &.with-initial-input-compensation
+            margin-bottom: 75px // initial margin-bottom, will be increased by stimulus when opening ckeditor
         &.with-input-compensation
-            margin-bottom: 340px
+            margin-bottom: 190px
     #input-container
         position: absolute
         min-height: 60px

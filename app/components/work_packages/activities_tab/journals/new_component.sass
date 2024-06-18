@@ -8,6 +8,8 @@
                 display: block
     #ck-editor-column
         width: 100%
+        @media screen and (max-width: $breakpoint-md)
+            width: calc(100% - 40px)
     // prototypical primer style adoptions
     .ck-toolbar
         border-radius: var(--borderRadius-medium) var(--borderRadius-medium) 0px 0px
@@ -16,7 +18,7 @@
         border-radius: 0px 0px var(--borderRadius-medium) var(--borderRadius-medium)
     .ck-content
         background: var(--color-scale-white)
-        height: 235px
+        max-height: 40vh
         overflow-y: auto
         border-radius: var(--borderRadius-medium)
         margin: 5px

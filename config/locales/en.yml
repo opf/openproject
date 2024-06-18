@@ -42,6 +42,7 @@ en:
         label_sort_asc: "Oldest on top"
         label_sort_desc: "Newest on top"
         label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
 
 
   admin:

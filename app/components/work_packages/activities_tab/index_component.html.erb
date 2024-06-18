@@ -10,12 +10,12 @@
             )
           )
         end
-        activties_tab_container.with_row(id: "journals-container", data: { "work-packages--activities-tab--index-target": "journalsContainer" }) do
+        activties_tab_container.with_row(id: "journals-container", classes: "with-initial-input-compensation", data: { "work-packages--activities-tab--index-target": "journalsContainer" }) do
           render(
             WorkPackages::ActivitiesTab::Journals::IndexComponent.new(work_package:, filter:)
           )
         end
-        activties_tab_container.with_row(id: "input-container", mt: 3, pt: 3, pb: 3, pl: 3, pr: 2, border: :top, bg: :subtle) do
+        activties_tab_container.with_row(id: "input-container", mt: 3, pt: 2, pb: 2, pl: 3, pr: 2, border: :top, bg: :subtle) do
           render(
             WorkPackages::ActivitiesTab::Journals::NewComponent.new(work_package:)
           )

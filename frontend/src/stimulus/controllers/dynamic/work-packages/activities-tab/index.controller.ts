@@ -147,6 +147,13 @@ export default class IndexController extends Controller {
     ckEditorElement.addEventListener('keydown', (event) => {
       this.onCtrlEnter(event);
     });
+    ckEditorElement.addEventListener('keyup', () => {
+      this.adjustJournalContainerMargin();
+    });
+  }
+
+  adjustJournalContainerMargin() {
+    this.journalsContainerTarget.style.marginBottom = `${this.formRowTarget.clientHeight + 40}px`;
   }
 
   onCtrlEnter(event:KeyboardEvent) {
@@ -175,11 +182,6 @@ export default class IndexController extends Controller {
 
     if (this.journalsContainerTarget) {
       this.journalsContainerTarget.classList.add('with-input-compensation');
-      if (this.sortingValue === 'asc') {
-        this.scrollJournalContainerToBottom(this.journalsContainerTarget);
-      } else {
-        // this.scrollJournalContainerToTop(this.journalsContainerTarget);
-      }
     }
 
     const ckEditorElement = this.getCkEditorElement();
@@ -224,6 +226,8 @@ export default class IndexController extends Controller {
 
       if (this.journalsContainerTarget) {
         setTimeout(() => {
+          this.journalsContainerTarget.style.marginBottom = '';
+          this.journalsContainerTarget.classList.add('with-initial-input-compensation');
           this.journalsContainerTarget.classList.remove('with-input-compensation');
           if (this.sortingValue === 'asc') {
             this.scrollJournalContainerToBottom(this.journalsContainerTarget);
