@@ -35,7 +35,7 @@ export class UrlParamsService {
   }
 
   public pathMatching(key:RegExp):string|null {
-    return window.location.pathname.match(key)?.[0] || null;
+    return window.location.pathname.match(key)?.[1] || null;
   }
 
   public has(key:string):boolean {

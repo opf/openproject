@@ -30,15 +30,16 @@
             [customBackMethod]="backToList.bind(this)"
           ></op-back-button>
 
-          <wp-subject class="subject-header"></wp-subject>
+          <wp-subject [workPackage]="workPackage" class="subject-header"></wp-subject>
         </div>
       </div>
 
       <div
         class="work-package-details-tab"
         data-notification-selector='notification-scroll-container'
-        ui-view
-      ></div>
+      >
+        <wp-overview-tab [workPackage]="workPackage"></wp-overview-tab>
+      </div>
     </edit-form>
   </div>
 

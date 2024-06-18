@@ -168,6 +168,9 @@ import { OpAttachmentsComponent } from 'core-app/shared/components/attachments/a
 import {
   InAppNotificationCenterComponent,
 } from 'core-app/features/in-app-notifications/center/in-app-notification-center.component';
+import {
+  WorkPackageSplitViewEntryComponent,
+} from 'core-app/features/work-packages/routing/wp-split-view/wp-split-view-entry.component';
 
 export function initializeServices(injector:Injector) {
   return () => {
@@ -366,5 +369,6 @@ export class OpenProjectModule {
     registerCustomElement('opce-notification-settings', NotificationsSettingsPageComponent, { injector });
     registerCustomElement('opce-reminder-settings', ReminderSettingsPageComponent, { injector });
     registerCustomElement('opce-notification-center', InAppNotificationCenterComponent, { injector });
+    registerCustomElement('opce-wp-split-view', WorkPackageSplitViewEntryComponent, { injector });
   }
 }

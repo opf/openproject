@@ -1,12 +1,15 @@
+import { ChangeDetectionStrategy, Component, Injector, Input, OnInit } from '@angular/core';
 import {
-  ChangeDetectionStrategy, Component, Injector, Input, OnInit,
-} from '@angular/core';
-import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
+  KeepTabService,
+} from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { StateService, UIRouterGlobals } from '@uirouter/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
-import { WorkPackageTabsService } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
+import {
+  WorkPackageTabsService,
+} from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 @Component({
   selector: 'op-wp-tabs',
@@ -39,6 +42,7 @@ export class WpTabsComponent implements OnInit {
     readonly $state:StateService,
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly keepTab:KeepTabService,
+    readonly pathHelper:PathHelperService,
   ) {
   }
 
@@ -54,8 +58,7 @@ export class WpTabsComponent implements OnInit {
       .getDisplayableTabs(this.workPackage)
       .map((tab) => ({
         ...tab,
-        route: `${this.uiSrefBase}.tabs`,
-        routeParams: { workPackageId: this.workPackage.id, tabIdentifier: tab.id },
+        path: this.pathHelper.workPackageDetailsPath(this.workPackage.id as string, tab.id),
       }));
   }
 

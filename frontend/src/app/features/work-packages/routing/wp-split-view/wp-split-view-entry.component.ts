@@ -26,42 +26,31 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, Input, OnInit } from '@angular/core';
-import { StateService } from '@uirouter/core';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { Component, ElementRef, Input } from '@angular/core';
+import {
+  WorkPackageIsolatedQuerySpaceDirective,
+} from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
+
+/**
+ * An entry component to be rendered by Rails which opens an isolated query space
+ * for the work package split view
+ */
 @Component({
-  templateUrl: './overview-tab.html',
-  selector: 'wp-overview-tab',
+  hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
+  template: `
+    <op-wp-split-view
+      [workPackageId]="workPackageId"
+      [activeTab]="activeTab"
+    ></op-wp-split-view>
+  `,
 })
-export class WorkPackageOverviewTabComponent extends UntilDestroyedMixin implements OnInit {
-  @Input() public workPackage:WorkPackageResource;
+export class WorkPackageSplitViewEntryComponent {
+  @Input() workPackageId:string;
+  @Input() activeTab:string;
 
-  public workPackageId:string;
-
-  public tabName = this.I18n.t('js.label_latest_activity');
-
-  public constructor(readonly I18n:I18nService,
-    readonly $state:StateService,
-    readonly apiV3Service:ApiV3Service) {
-    super();
-
-  }
-
-  ngOnInit() {
-    this.workPackageId = this.workPackage?.id || this.$state.params.workPackageId;
-
-    this
-      .apiV3Service
-      .work_packages
-      .id(this.workPackageId)
-      .requireAndStream()
-      .pipe(
-        this.untilDestroyed(),
-      )
-      .subscribe((wp) => this.workPackage = wp);
+  constructor(readonly elementRef:ElementRef) {
+    populateInputsFromDataset(this);
   }
 }

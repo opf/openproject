@@ -26,9 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnInit,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnInit } from '@angular/core';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { TransitionService } from '@uirouter/core';
 import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
@@ -88,6 +86,10 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
     // to still work in case an element is duplicated by Angular.
     const elements = document.getElementsByClassName(this.elementClass);
     this.resizingElement = <HTMLElement>elements[elements.length - 1];
+
+    if (!this.resizingElement) {
+      return;
+    }
 
     // Get initial width from local storage and apply
     const localStorageValue = this.parseLocalStorageValue();

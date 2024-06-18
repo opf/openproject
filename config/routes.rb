@@ -700,7 +700,7 @@ Rails.application.routes.draw do
   root to: "account#login"
 
   concern :with_split_view do |options|
-    get "details/:id(/:tab)", on: :collection, action: options.fetch(:action, :index), as: :details
+    get "details/:work_package_id(/:tab)", on: :collection, action: options.fetch(:action, :index), as: :details
   end
 
   resources :notifications, only: :index do
