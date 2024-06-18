@@ -35,10 +35,24 @@ class Queries::Projects::Orders::RequiredDiskSpaceOrder < Queries::Orders::Base
 
   private
 
+  def joins
+    <<~SQL.squish
+      LEFT JOIN (#{Project.wiki_storage_sql}) wiki_for_sort ON projects.id = wiki_for_sort.project_id
+      LEFT JOIN (#{Project.work_package_sql}) wp_for_sort ON projects.id = wp_for_sort.project_id
+      LEFT JOIN #{Repository.table_name} repos_for_sort ON repos_for_sort.project_id = projects.id
+    SQL
+  end
+
   def order(scope)
     with_raise_on_invalid do
-      attribute = Project.required_disk_space_sum
-      scope.order(Arel.sql(attribute).send(direction))
+      attribute = Arel.sql(<<~SQL.squish)
+        (
+          COALESCE(wiki_for_sort.filesize, 0) +
+          COALESCE(wp_for_sort.filesize, 0) +
+          COALESCE(repos_for_sort.required_storage_bytes, 0)
+        )
+      SQL
+      scope.order(attribute.send(direction))
     end
   end
 end
