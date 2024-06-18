@@ -36,7 +36,10 @@ class Queries::Projects::Orders::LatestActivityAtOrder < Queries::Orders::Base
   private
 
   def joins
-    "LEFT JOIN (#{Project.latest_activity_sql}) activity ON projects.id = activity.project_id"
+    Project
+      .with_latest_activity
+      .arel
+      .join_sources
   end
 
   def order(scope)
