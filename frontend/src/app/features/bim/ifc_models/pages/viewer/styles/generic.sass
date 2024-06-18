@@ -15,6 +15,11 @@
 .controller-bim\/ifc_models\/ifc_viewer
   overflow: hidden
 
+  // Do not remove this, without checking the BCF module.
+  // The container of the xeokit viewer needs a fixed height. Otherwise it will grow without end.
+  #content-body
+    height: calc(100vh - #{var(--header-height)})
+
   // Override default behavior to let the viewer be at the top of the table/cards
   @media only screen and (max-width: $breakpoint-sm)
     @include extended-content--right
