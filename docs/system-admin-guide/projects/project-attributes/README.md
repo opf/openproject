@@ -90,7 +90,7 @@ You can remove a project attribute from a specific project by selecting the **Mo
 
 ![Deactivate a project attribute for a project in OpenProject administration](open_project_system_admin_guide_project_attributes_deactivate_for_project.png)
 
-To add this project attribute to a specific project click the **+Add projects** button. A modal will appear allowing you to search for projects to add this project attribute into. Please note, that the projects, in which the project attribute is already activated will not be included in that selection. You can include subprojects. 
+To add this project attribute to a specific project click the **+Add projects** button. A modal will appear allowing you to search for projects to add this project attribute into. Please note, that the projects, in which the project attribute is already activated will be shown disabled in that selection. You can include subprojects. 
 
 ![ Configure which projects are activated for a project attribute in OpenProject administration](open_project_system_admin_guide_project_attributes_add.png)
 
