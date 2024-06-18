@@ -68,10 +68,13 @@ module Storages
               ServiceResult.success(result: response.json(symbolize_keys: true).fetch(map_value))
             in { status: 404 }
               ServiceResult.failure(result: :not_found,
-                                    errors: Util.storage_error(response:, code: :not_found, source: self))
+                                    errors: Util.storage_error(response:, code: :not_found, source: self.class))
+            in { status: 403 }
+              ServiceResult.failure(result: :forbidden,
+                                    errors: Util.storage_error(response:, code: :forbidden, source: self.class))
             in { status: 401 }
               ServiceResult.failure(result: :unauthorized,
-                                    errors: Util.storage_error(response:, code: :unauthorized, source: self))
+                                    errors: Util.storage_error(response:, code: :unauthorized, source: self.class))
             else
               data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
               ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error, data:))
