@@ -109,6 +109,17 @@ Rails.application.reloader.to_prepare do
                      permissible_on: :project,
                      require: :member
 
+      map.permission :view_project_attributes,
+                     {},
+                     permissible_on: :project,
+                     require: :member
+
+      map.permission :edit_project_attributes,
+                     {},
+                     permissible_on: :project,
+                     require: :member,
+                     contract_actions: { projects: %i[update] }
+
       map.permission :select_project_custom_fields,
                      {
                        "projects/settings/project_custom_fields": %i[show toggle enable_all_of_section disable_all_of_section]
