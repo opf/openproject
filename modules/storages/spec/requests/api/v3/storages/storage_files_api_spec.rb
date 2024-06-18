@@ -177,7 +177,6 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
           size: 1108864,
           owner_name: "Darth Vader",
           owner_id: "darthvader",
-          trashed: false,
           last_modified_by_name: "Darth Sidious",
           last_modified_by_id: "palpatine",
           permissions: "RGDNVCK",
