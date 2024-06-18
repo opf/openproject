@@ -38,7 +38,7 @@ class Queries::Projects::Orders::RequiredDiskSpaceOrder < Queries::Orders::Base
   def joins
     <<~SQL.squish
       LEFT JOIN (#{Project.wiki_storage_sql}) wiki_for_sort ON projects.id = wiki_for_sort.project_id
-      LEFT JOIN (#{Project.work_package_sql}) wp_for_sort ON projects.id = wp_for_sort.project_id
+      LEFT JOIN (#{Project.work_package_storage_sql}) wp_for_sort ON projects.id = wp_for_sort.project_id
       LEFT JOIN #{Repository.table_name} repos_for_sort ON repos_for_sort.project_id = projects.id
     SQL
   end

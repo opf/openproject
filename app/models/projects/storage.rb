@@ -65,7 +65,7 @@ module Projects::Storage
       Project
         .from("#{Project.table_name} projects")
         .joins("LEFT JOIN (#{wiki_storage_sql}) wiki ON projects.id = wiki.project_id")
-        .joins("LEFT JOIN (#{work_package_sql}) wp ON projects.id = wp.project_id")
+        .joins("LEFT JOIN (#{work_package_storage_sql}) wp ON projects.id = wp.project_id")
         .joins("LEFT JOIN #{Repository.table_name} repos ON repos.project_id = projects.id")
         .select("projects.*")
         .select("wiki.filesize AS wiki_required_space")
@@ -98,7 +98,7 @@ module Projects::Storage
       SQL
     end
 
-    def work_package_sql
+    def work_package_storage_sql
       <<~SQL.squish
         SELECT wp.project_id, SUM(wp_attached.filesize) AS filesize
         FROM #{WorkPackage.table_name} wp
