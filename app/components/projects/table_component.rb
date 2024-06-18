@@ -34,8 +34,8 @@ module Projects
     options :current_user # adds this option to those of the base class
     options :query
 
-    def initialize(**options)
-      super(rows: [], **options)
+    def initialize(**)
+      super(rows: [], **)
     end
 
     def before_render
@@ -80,6 +80,18 @@ module Projects
 
     def paginated?
       true
+    end
+
+    def pagination_options
+      default_pagination_options.merge(optional_pagination_options)
+    end
+
+    def default_pagination_options
+      { allowed_params: %i[query_id filters columns sortBy] }
+    end
+
+    def optional_pagination_options
+      {}
     end
 
     def deactivate_class_on_lft_sort

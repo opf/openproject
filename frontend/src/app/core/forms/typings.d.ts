@@ -105,7 +105,7 @@ interface IOPAllowedValue {
 
 type OPFieldType = 'String' | 'Integer' | 'Float' | 'Boolean' | 'Date' | 'DateTime' | 'Formattable' |
 'Priority' | 'Status' | 'Type' | 'User' | 'Version' | 'TimeEntriesActivity' | 'Category' |
-'CustomOption' | 'Project' | 'ProjectStatus' | 'Password';
+'CustomOption' | 'Project' | 'ProjectStatus' | 'Password' | 'Link';
 
 interface IOPFormError {
   errorIdentifier:string;

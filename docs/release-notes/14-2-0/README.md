@@ -3,21 +3,74 @@ title: OpenProject 14.2.0
 sidebar_navigation:
     title: 14.2.0
 release_version: 14.2.0
-release_date: 2024-06-07
+release_date: 2024-06-19
 ---
 
 # OpenProject 14.2.0
 
 Release date: 2024-06-19
 
-We released [OpenProject 14.2.0](https://community.openproject.org/versions/2040).
-The release contains several bug fixes and we recommend updating to the newest version.
+We released [OpenProject 14.2.0](https://community.openproject.org/versions/2040). The release contains several bug fixes and we recommend updating to the newest version. In these Release Notes, we will give an overview of  important feature changes. At the end, you will find a complete list of  all changes and bug fixes.
 
-## Important updates and breaking changes
+## Important feature changes
 
-<!-- Remove this section if empty, add to it in pull requests linking to tickets and provide information -->
+### Display Work and Remaining work in days and hours
 
-<!--more-->
+With OpenProject 14.2, we enhanced the accuracy of progress reporting. Previously, time for Work, Remaining work, and spent time could only be specified in hours. Now, it is also possible to specify these units in days. Administrators of the instance can set the number of hours that constitute a day under administration/calendars-and-dates.
+
+A work package table displaying Work and Remaining work might now look like this:
+
+![Work package table showing Work and Remaining work in days and hours](openproject-14-2-progress-reporting-work-package-table-highlighted.png)
+
+For more information, see [#50954](https://community.openproject.org/wp/50954).
+
+### Exclude by status some work packages from the calculation of totals for % Complete and work estimates 
+
+Project managers can now exclude rejected or duplicate work packages from the calculation of total Work, total Remaining work and total % Complete for the parent / ancestors work packages. This allows them to clean up estimates and progress when rejecting child work packages or marking them as duplicates.
+
+Learn more in our [documentation about work package settings](https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-settings/).
+
+### Warn admins about potential data loss when changing progress calculation modes
+
+To avoid loosing data when switching from Work- to Status-based progress calculation, OpenProject will now show you a warning banner if you select a different mode than the current. If you switch from Work- to Status-based progress calculation, please note that:
+
+* Existing % Complete values are overwritten by status (or set to 0 when a corresponding value does not exist).
+
+* Remaining work is automatically updated.
+
+![Warning banner when changing progress reporting from work-based to status-based](openproject-14-2-changing-work-based-status-based-progress-reporting.png)
+
+### Configure which projects are activated for a project attribute
+
+With OpenProject 14.2, administrators can now save time by enabling or disabling project attributes across multiple projects simultaneously. For instance, if you want to adjust the 'Due date' attribute for all projects, the setting looks like this: 
+
+![Configure which projects are activated for a project attribute](openproject-14-2-project-attributes-settings-highlighted.png)
+
+In the screenshot, the three-dot menu on the right is selected. With one click, you can deactivate the attribute for the entire project and its subprojects.
+
+### Avoid redundant emails in case of @mentions and email reminder
+
+With the release of OpenProject 14.2, we avoid sending redundand emails: Users who are @mentioned in a work package will still receive immediate emails based on their email reminder settings. But if an email has already been sent for an @mention (assuming the user has activated the option ‘Immediately when someone @mentions me’ in the email notifications), subsequent notifications with mentions as the primary reason will not be included in the email reminder.
+
+### Allow renaming persisted project lists
+
+Regarding project portfolio management, users can now not only create and save a private custom project list, but also rename it. This saves time since previously, you would have had to create a new project list to change the name.
+
+![Rename private persisted project lists](openproject-14-2-rename-persisted-lists.png)
+
+### Allow meeting invite to be sent out when creating meetings
+
+The Meeting module has been further improved with OpenProject 14.2: When users create a new meeting in OpenProject, they will now see a checkbox allowing them to choose whether to email the invited users. If checked, OpenProject will send invitation emails to all new participants.
+
+![Checkbox on OpenProject's Meetings module to send emails upon creating a new meeting](openproject-14-2meeting-invitation-mail-highlighted.png)
+
+In addition to this feature, the default view for meetings module was changed to display the upcoming invitations.
+
+### Embedded work package attributes in PDF export
+
+With OpenProject 14.2, [embedded attributes within a work package description](https://www.openproject.org/docs/user-guide/wysiwyg/#embedding-of-work-package-attributes-and-project-attributes) (and long text custom fields) are displayed in the PDF export as on OpenProject. This means you can reference values from work packages with placeholders, and on export these are replaced by their actual value of a project or work package attributes.
+
+![Two screenshos, one showing embedded work package attributes and the other the exported PDF](openproject-14-2-pdf-export-attributes.png)
 
 ## Bug fixes and changes
 
@@ -61,9 +114,14 @@ The release contains several bug fixes and we recommend updating to the newest v
 <!-- END AUTOMATED SECTION -->
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
-#### Contributions
-A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
+## Contributions
+A very special thank you goes to our sponsors for features and improvements of this release:
 
-Special thanks for reporting and finding bugs go to
+- German Federal Ministry of the Interior and Home Affairs (BMI) for sponsoring the features on progress reporting
+- City of Cologne for sponsoring features on project attributes
 
-Ricardo Brenner, Sven Kunze
+Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding  bugs go to Ricardo Brenner and Sven Kunze.
+
+Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to highlight user [aniessalam](https://crowdin.com/profile/aniessalam) who has done an outstanding number of translations for the Malay language in recent weeks.
+
+Would you like to help out with translations yourself? Then take a look at our [translation guide](https://www.openproject.org/docs/development/translate-openproject) and find out exactly how you can contribute. It is very much appreciated!

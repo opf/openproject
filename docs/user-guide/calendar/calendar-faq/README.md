@@ -24,7 +24,7 @@ You can also use the meeting module in OpenProject to organize meetings and invi
 
 ## Are holidays considered in the calendar?
 
-Since the [12.3 release](../../../release-notes/12/12-3-0/) it is possible to specify  working and non-working days on an overall instance-level and consequently define a global work week. The default value for non-working days is set to Saturday and Sunday, but can be adjusted to your specific needs. Read more [here](../../../user-guide/work-packages/set-change-dates/#working-days).
+Since the [12.3 release](../../../release-notes/12/12-3-0/) it is possible to specify working and non-working days on an overall instance-level and consequently define a global work week. The default value for non-working days is set to Saturday and Sunday, but can be adjusted to your specific needs. Read more [here](../../../user-guide/work-packages/set-change-dates/#working-days).
 
 ## Is there a limit for the number of work packages displayed in the calendar?
 
