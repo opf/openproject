@@ -50,10 +50,6 @@ if OpenProject::Appsignal.enabled?
     # Send our logs to appsignal
     if OpenProject::Appsignal.logging_enabled?
       appsignal_logger = Appsignal::Logger.new("rails")
-      original_formatter = appsignal_logger.formatter || Logger::Formatter.new
-      appsignal_logger.formatter = proc { |severity, time, progname, msg|
-        original_formatter.call(severity, time, progname, msg.to_s)
-      }
       Rails.logger.broadcast_to(appsignal_logger)
     end
 
