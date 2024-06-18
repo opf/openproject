@@ -33,7 +33,7 @@ ru:
       color_theme_custom: "(Пользовательская)"
       colors:
         primary-button-color: "Основная кнопка"
-        accent-color: "Акцент"
+        accent-color: "Оттенок"
         header-bg-color: "Фон заголовка"
         header-item-bg-hover-color: "Фон заголовка при наведении курсора"
         header-item-font-color: "Шрифт заголовка"
@@ -341,7 +341,7 @@ ru:
     menu:
       all: "Все"
       invited: "Приглашённые"
-      locked: "Заблокировано"
+      locked: "Заблокированные"
       project_roles: "Роли проекта"
       wp_shares: "Пакеты работ используемые совместно"
       groups: "Группы"
@@ -359,21 +359,21 @@ ru:
         few: "However, %{shared_work_packages_link} have also been shared with this group."
         many: "However, %{shared_work_packages_link} have also been shared with this group."
         other: "Однако, %{shared_work_packages_link} также был предоставлен этой группе."
-      remove_work_packages_shared_with_user_too: "Пользователь, который был удален как участник по-прежнему может получить доступ к общим пакетам работ. Вы хотели бы также удалить эти ресурсы?"
-      remove_work_packages_shared_with_group_too: "Группа, которая была удалена как участник, все еще может получить доступ к общим пакетам работ. Вы хотели бы также удалить эти ресурсы?"
-      will_not_affect_inherited_shares: "(Это не повлияет на пакеты работ, разделенные с их группой)."
+      remove_work_packages_shared_with_user_too: "Пользователь, который был удален как участник по-прежнему может получить доступ к общим пакетам работ. Вы хотели бы также удалить эти доступы?"
+      remove_work_packages_shared_with_group_too: "Группа, которая была удалена как участник, все еще может получить доступ к общим пакетам работ. Вы хотели бы также удалить эти доступы?"
+      will_not_affect_inherited_shares: "(Это не повлияет на рабочие пакеты, которыми они делятся со своей группой)."
       can_remove_direct_but_not_shared_roles: "Вы можете удалить этого пользователя как непосредственного участника проекта, но группа, в которой он состоит, также является участником этого проекта, поэтому он будет продолжать оставаться участником через группу."
       also_work_packages_shared_with_user_html:
         one: "Также, %{shared_work_packages_link} был предоставлен этому пользователю."
         few: "Also, %{shared_work_packages_link} have been shared with this user."
         many: "Also, %{shared_work_packages_link} have been shared with this user."
         other: "Также, %{shared_work_packages_link} был предоставлен этому пользователю."
-      remove_project_membership_or_work_package_shares_too: "Вы хотите удалить только пользователя как непосредственного члена (и сохранить ресурсы) или также удалить пакет работ?"
-      will_remove_all_user_access_priveleges: "Удаление этого участника удалит все права доступа пользователя к проекту. Пользователь по-прежнему будет существовать как часть экземпляра."
-      will_remove_all_group_access_priveleges: "Удаление этого участника удалит все права доступа группы к проекту. Группа по-прежнему будет существовать как часть экземпляра."
+      remove_project_membership_or_work_package_shares_too: "Вы хотите удалить только пользователя как непосредственного участника (и сохранить общие ресурсы) или также удалить общие ресурсы рабочего пакета?"
+      will_remove_all_user_access_priveleges: "Удаление этого участника удалит все права доступа пользователя к проекту. Пользователь по-прежнему будет существовать как часть системы."
+      will_remove_all_group_access_priveleges: "Удаление этого участника удалит все права доступа группы к проекту. Группа по-прежнему будет существовать как часть системы."
       cannot_delete_inherited_membership: "Вы не можете удалить этого участника, потому что он принадлежит к группе, которая сама является участником этого проекта."
-      cannot_delete_inherited_membership_note_admin_html: "Вы можете либо удалить группу как члена проекта, либо удалить этого конкретного члена из группы на странице %{administration_settings_link}."
-      cannot_delete_inherited_membership_note_non_admin: "Вы можете либо удалить группу в качестве члена проекта, либо связаться с администратором, чтобы удалить этого конкретного участника из группы."
+      cannot_delete_inherited_membership_note_admin_html: "Вы можете либо удалить группу как участника проекта, либо удалить этого конкретного сотрудника из группы на странице %{administration_settings_link}."
+      cannot_delete_inherited_membership_note_non_admin: "Вы можете либо удалить группу в качестве участника проекта, либо связаться с администратором, чтобы удалить этого конкретного участника из группы."
     delete_work_package_shares_dialog:
       title: "Отменить общий доступ к пакету работ"
       shared_with_this_user_html:
@@ -394,7 +394,7 @@ ru:
       revoke_all_or_with_role: "Хотите ли Вы отменить доступ ко всем общим пакетам работ или только к тем, которые имеют разрешения %{shared_role_name}?"
       will_not_affect_inherited_shares: "(Это не повлияет на пакеты работ, разделенные с их группой)."
       cannot_remove_inherited: "Общие пакеты работ, к которым предоставлен общий доступ через группы, не могут быть удалены."
-      cannot_remove_inherited_with_role: "Общие пакеты работ с ролью %{shared_role_name} доступны через группы и не могут быть удалены.\n\n\n\n"
+      cannot_remove_inherited_with_role: "Рабочие пакеты, совместно используемые с ролью %{shared_role_name} , передаются через группы и не могут быть удалены."
       cannot_remove_inherited_note_admin_html: "Вы можете либо отозвать общий доступ к группе, либо удалить этого конкретного участника из группы в %{administration_settings_link}."
       cannot_remove_inherited_note_non_admin: "Вы можете либо отозвать общий доступ к группе, либо обратиться к администратору, чтобы удалить этого конкретного участника из группы."
       will_revoke_directly_granted_access: "Это действие лишит их доступа ко всем пакетам работ, кроме тех, которыми поделились с группой."
@@ -416,8 +416,8 @@ ru:
     autologins:
       prompt: "Оставаться в системе %{num_days}"
     sessions:
-      remembered_devices: "Запомненные устройства"
-      remembered_devices_caption: "Список всех устройств, которые вошли в эту учетную запись, используя опцию «Оставаться в системе»."
+      remembered_devices: "Сохраненные устройства"
+      remembered_devices_caption: "Список всех устройств, через которые вошли в эту учетную запись, используя опцию «Оставаться в системе»."
       session_name: "%{browser_name} %{browser_version} на %{os_name}"
       browser: "Браузер"
       device: "Устройство / ОС"
@@ -475,9 +475,9 @@ ru:
       no_results_content_text: Добавить новый статус
       headers:
         is_default: "По умолчанию"
-        is_closed: "Закрыто"
+        is_closed: "Закрыт"
         is_readonly: "Только для чтения"
-        excluded_from_totals: "Исключено из итогов"
+        excluded_from_totals: "Исключен из итогов"
   themes:
     light: "Светлая"
     light_high_contrast: "Светлый высокий контраст"
@@ -500,7 +500,7 @@ ru:
         в диаграммах Ганта или таблицах пакетов работ. Поэтому рекомендуется использовать насыщенный цвет.
   versions:
     overview:
-      work_packages_in_archived_projects: "Версия предоставляется совместно с архивированными проектами, которым все еще назначены рабочие пакеты для этой версии. Они учитываются, но не отображаются в связанных представлениях."
+      work_packages_in_archived_projects: "Эта версия используется совместно с архивными проектами, в которых все еще есть рабочие пакеты, назначенные на эту версию. Они учитываются, но не отображаются в связанных представлениях."
       no_results_title_text: В настоящее время пакетов работ для этой версии нет.
   wiki:
     page_not_editable_index: Запрошенная страница (пока) не существует. Вы были перенаправлены на индекс всех вики-страниц.
@@ -1152,13 +1152,13 @@ ru:
     header_invalid_fields:
       one: "Возникла проблема со следующим полем:"
       few: "Возникли проблемы со следующими полями:"
-      many: "Проблемы возникли со следующими полями:"
-      other: "Проблемы со следующими полями:"
+      many: "Возникли проблемы со следующими полями:"
+      other: "Возникли проблемы со следующими полями:"
     header_additional_invalid_fields:
       one: "Кроме того, возникла проблема со следующим полем:"
-      few: "Кроме того, были проблемы со следующими полями:"
-      many: "Кроме того, были проблемы со следующими полями:"
-      other: "Кроме того, были проблемы с полями:"
+      few: "Кроме того, возникли проблемы со следующими полями:"
+      many: "Кроме того, возникли проблемы со следующими полями:"
+      other: "Кроме того, возникли проблемы с полями:"
     field_erroneous_label: "Значение этого поля неверно: %{full_errors}. Пожалуйста, введите верное значение."
   activity:
     item:
@@ -1167,9 +1167,9 @@ ru:
       created_on: "создано %{datetime}"
       created_on_time_entry: "время входа в систему %{datetime}"
       updated_by_on: "обновлено %{user} %{datetime}"
-      updated_by_on_time_entry: "зарегистрированное время, обновленное %{user} в %{datetime}"
+      updated_by_on_time_entry: "зарегистрированное время, обновленно %{user} в %{datetime}"
       updated_on: "обновлено %{datetime}"
-      updated_on_time_entry: "зарегистрированное время обновлено в %{datetime}"
+      updated_on_time_entry: "зарегистрированное время обновлено %{datetime}"
       deleted_on: "удалено %{datetime}"
       deleted_by_on: "удалено %{user} %{datetime}"
       added_on: "добавлено %{datetime}"
@@ -1517,13 +1517,13 @@ ru:
         other: "%{count} часов"
       x_hours_abbreviated:
         one: "1 час"
-        few: "%{count} hrs"
-        many: "%{count} hrs"
+        few: "%{count} часов"
+        many: "%{count} часов"
         other: "%{count} часов"
       x_weeks:
         one: "1 неделя"
-        few: "%{count} weeks"
-        many: "%{count} weeks"
+        few: "%{count} недель"
+        many: "%{count} недель"
         other: "%{count} недель"
       x_months:
         one: "1 месяц"
@@ -1542,8 +1542,8 @@ ru:
         other: "%{count} секунды"
       x_seconds_abbreviated:
         one: "1 секунда"
-        few: "%{count} s"
-        many: "%{count} s"
+        few: "%{count} секунд"
+        many: "%{count} секунд"
         other: "%{count} секунд"
     units:
       hour:

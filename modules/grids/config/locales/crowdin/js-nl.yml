@@ -8,7 +8,7 @@ nl:
         text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
         link: 'Enterprise edition.'
       widgets:
-        missing_permission: "You don't have the necessary permissions to view this widget."
+        missing_permission: "U hebt niet de vereiste rechten om deze widget te bekijken."
         custom_text:
           title: 'Aangepaste tekst'
         documents:
@@ -43,8 +43,8 @@ nl:
           title: 'Subprojecten'
           no_results: 'Geen subprojecten.'
         project_favorites:
-          title: 'Favorite projects'
-          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
+          title: 'Favoriete projecten'
+          no_results: 'U hebt momenteel geen favoriete projecten. Klik op het sterpictogram in het projectdashboard om er een aan uw favorieten toe te voegen.'
         time_entries_current_user:
           title: 'Mijn bestede tijd'
           displayed_days: 'Dagen weergegeven in de widget:'
